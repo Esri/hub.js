@@ -1,0 +1,35 @@
+{
+  "name": "@esri/hub-common-types",
+  "version": "0.0.1",
+  "description": "Common TypeScript types for @esri/hub.js packages.",
+  "types": "dist/types/index.d.ts",
+  "author": "",
+  "license": "Apache-2.0",
+  "files": [
+    "dist/types/index.d.ts"
+  ],
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "npm run build:esm",
+    "build:esm": "tsc --module es2015 --outDir ./dist/esm --sourceMap --declaration --declarationDir ./dist/types",
+    "postbuild": "rimraf dist/esm"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArcGIS/hub.js.git"
+  },
+  "contributors": [
+    {
+      "name": "Patrick Arlt",
+      "email": "parlt@esri.com",
+      "url": "http://patrickarlt.com/"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/ArcGIS/hub.js/issues"
+  },
+  "homepage": "https://github.com/ArcGIS/hub.js#readme"
+}
