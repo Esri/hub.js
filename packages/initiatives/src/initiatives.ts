@@ -1,3 +1,6 @@
+/* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
+ * Apache-2.0 */
+
 import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-common-types";
 import { getItem, getItemData } from "@esri/arcgis-rest-items";
@@ -8,7 +11,7 @@ import { getItem, getItemData } from "@esri/arcgis-rest-items";
  * @param requestOptions - Request options that may have authentication manager
  * @returns A Promise that will resolve with the Initiative item
  */
-export function get(
+export function getInitiative(
   id: string,
   requestOptions?: IRequestOptions
 ): Promise<IItem> {
@@ -21,7 +24,7 @@ export function get(
  * @param requestOptions - Request options that may have authentication manager
  * @returns A Promise that will resolve with the Initiative item and data
  */
-export function getWithData(
+export function getInitiativeWithData(
   id: string,
   requestOptions?: IRequestOptions
 ): Promise<any> {

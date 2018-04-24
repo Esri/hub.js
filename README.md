@@ -31,14 +31,18 @@
 
 ### Example
 
+```bash
+npm install @esri/hub-initiatives
+```
+
 ```js
-import { helloHub } from '@esri/hub-request';
+import { getInitiative  } from '@esri/hub-initiatives';
 
-
-helloHub()
-    .then(response => {
-        console.log(response) // dummy data from a sample server
-    })
+// pass in an initiative id
+getInitiative("abc123")
+    .then(
+        response => // get back initiative metadata
+    );
 ```
 
 ### API Reference
@@ -64,30 +68,27 @@ Some useful commands include:
 
 ### Packages
 
-* [`@esri/hub-request`](./packages/request/) - Underpins other packages and supports making low-level requests to ArcGIS Online.
 * [`@esri/hub-common-types`](./packages/common-types) - Typescript typings we reuse.
 * [`@esri/hub-initiatives`](./packages/initiatives) - Helper functions for working with Initiatives.
 
 ### Design Philosophy
-Before you start using this library, it's worth noting that `hub.js` is designed to be a set of data manipulation functions, as opposed to persistent objects with behavior. You should not use `new` in conjunction with this library. You should include just the modules your application needs, and use them as lower-level abstractions to make API calls for hub related things. Your application should manage the state of the data you recieve from these methods.
 
-This project builds on various packages that are part of `arcgis-rest-js`, so if you want even lower-level access, you should use modules from that library directly.
+`hub.js` is designed as a set of data manipulation functions, not persistent objects with behavior. You should not use `new` in conjunction with this library. Just include the modules your application needs and use them to hide lower-level abstractions for making API calls for hub related things. Your application should manage the state of the data you receive from these methods.
+
+This project builds on the packages in [`arcgis-rest-js`](https://esri.github.io/arcgis-rest-js), so if you want even lower-level access, you can also use them directly.
 
 #### Why Not Objects?
 
-Persistent objects often introduce memory leaks in javascript applications. As soon as you `new` something, you need to consider it's lifespan. And if you happen to assign that object to something with a long-lifespan, or inside a closure, you can end up with references that can not be destroyed by the garbage collector. Creating clean separation between functions-that-fetch-or-manipulate-data and application-state-as-a-javascript-object helps avoid many of these issues.
+Persistent objects often introduce memory leaks in JavaScript applications. As soon as you instantiate a `new` object, you need to consider it's lifespan. If you happen to assign that object inside a closure or somewhere else long-lived, you might end up with references that can not be destroyed by the garbage collector. Creating clean separation between _functions-that-fetch-or-manipulate-data_ and _application-state-as-a-javascript-object_ helps to avoid this problem.
 
-Thus, this library does not attempt to mirror the `hub-py` project in API structure or capabilities.
+Thus, this library does _not_ attempt to mirror [`hub-py`](https://github.com/esridc/hub-py) in API structure or capabilities.
 
 [More about Javascript Memory Leaks](https://auth0.com/blog/four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them/)
-
 
 ### Frequently Asked Questions
 
 * [Is this a _supported_ Esri product?](docs/FAQ.md#is-this-a-supported-esri-product)
-* [How does this project compare with the ArcGIS API for JavaScript?](docs/FAQ.md#comparison-with-the-arcgis-api-for-javascript)
-* [Is this similar to the ArcGIS API for Python?](docs/FAQ.md#comparison-with-the-arcgis-api-for-python)
-* [Why TypeScript?](docs/FAQ.md#why-typescript) What if I prefer [VanillaJS](https://stackoverflow.com/questions/20435653/what-is-vanillajs)?
+* [Why TypeScript?](docs/FAQ.md#why-typescript) What if I prefer [Vanilla.js](https://stackoverflow.com/questions/20435653/what-is-vanillajs)?
 
 ### Issues
 

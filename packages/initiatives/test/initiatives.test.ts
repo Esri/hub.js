@@ -1,7 +1,7 @@
 import {
   getHubUrl,
-  get,
-  getWithData,
+  getInitiative,
+  getInitiativeWithData,
   lookupSiteUrlByInitiative
 } from "../src/index";
 import * as fetchMock from "fetch-mock";
@@ -53,7 +53,7 @@ describe("get()", () => {
       title: "Fake initiative",
       type: "Hub Initiative"
     });
-    get("5cd")
+    getInitiative("5cd")
       .then(item => {
         expect(item.id).toBe("5cd");
         const [url, options]: [string, RequestInit] = fetchMock.lastCall(
@@ -79,7 +79,7 @@ describe("get()", () => {
       values: {}
     });
 
-    getWithData("3ef")
+    getInitiativeWithData("3ef")
       .then(model => {
         expect(model.item).toBeDefined();
         expect(model.data).toBeDefined();
