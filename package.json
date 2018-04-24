@@ -116,9 +116,13 @@
   },
   "contributors": [
     {
-      "name": "Patrick Arlt",
-      "email": "parlt@esri.com",
-      "url": "http://patrickarlt.com/"
+      "name": "John Gravois",
+      "email": "john@esri.com"
+    },
+    {
+      "name": "Dave Bouwman",
+      "email": "dbouwman@esri.com",
+      "url": "http://davebouwman.com/"
     }
   ],
   "license": "Apache-2.0",

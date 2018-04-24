@@ -64,8 +64,23 @@ Some useful commands include:
 
 ### Packages
 
-* [`@esri/hub-request`](./packages/request/) - Underpins other packages and supports making low-level requests.
+* [`@esri/hub-request`](./packages/request/) - Underpins other packages and supports making low-level requests to ArcGIS Online.
 * [`@esri/hub-common-types`](./packages/common-types) - Typescript typings we reuse.
+* [`@esri/hub-initiatives`](./packages/initiatives) - Helper functions for working with Initiatives.
+
+### Design Philosophy
+Before you start using this library, it's worth noting that `hub.js` is designed to be a set of data manipulation functions, as opposed to persistent objects with behavior. You should not use `new` in conjunction with this library. You should include just the modules your application needs, and use them as lower-level abstractions to make API calls for hub related things. Your application should manage the state of the data you recieve from these methods.
+
+This project builds on various packages that are part of `arcgis-rest-js`, so if you want even lower-level access, you should use modules from that library directly.
+
+#### Why Not Objects?
+
+Persistent objects often introduce memory leaks in javascript applications. As soon as you `new` something, you need to consider it's lifespan. And if you happen to assign that object to something with a long-lifespan, or inside a closure, you can end up with references that can not be destroyed by the garbage collector. Creating clean separation between functions-that-fetch-or-manipulate-data and application-state-as-a-javascript-object helps avoid many of these issues.
+
+Thus, this library does not attempt to mirror the `hub-py` project in API structure or capabilities.
+
+[More about Javascript Memory Leaks](https://auth0.com/blog/four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them/)
+
 
 ### Frequently Asked Questions
 
