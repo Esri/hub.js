@@ -40,7 +40,7 @@ module.exports = function(config) {
               alias[`@esri/hub-${p}`] = `packages/${p}/src/index.ts`;
               return alias;
             }, {})
-        }
+          }
       }
     },
 
