@@ -5,10 +5,10 @@
 
 [npm-img]: https://img.shields.io/npm/v/@esri/hub.js.svg?style=flat-square
 [npm-url]: https://www.npmjs.com/package/@esri/hub.js
-[travis-img]: https://img.shields.io/travis/arcgis/hub.js/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/arcgis/hub.js
-[coverage-img]: https://coveralls.io/repos/github/arcgis/hub.js/badge.svg
-[coverage-url]: https://coveralls.io/github/arcgis/hub.js
+[travis-img]: https://img.shields.io/travis/Esri/hub.js/master.svg?style=flat-square
+[travis-url]: https://travis-ci.org/Esri/hub.js
+[coverage-img]: https://coveralls.io/repos/github/Esri/hub.js/badge.svg
+[coverage-url]: https://coveralls.io/github/Esri/hub.js
 [license-img]: https://img.shields.io/badge/license-Apache-green.svg?style=flat-square
 [license-url]: #license
 
@@ -47,7 +47,7 @@ getInitiative("abc123")
 
 ### API Reference
 
-The documentation is published at http://esri.github.io/arcgis-rest-js/ (source code [here](/docs/src)).
+coming soon!
 
 ### Instructions
 
@@ -108,7 +108,7 @@ Esri welcomes contributions from anyone and everyone. Please see our [guidelines
 
 ### License
 
-Copyright 2018 Esri
+Copyright &#169; 2018 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
