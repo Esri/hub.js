@@ -7,4 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- Initiatives package
+
 [Unreleased]: https://github.com/ArcGIS/hub.js/compare/v0.0.1...HEAD

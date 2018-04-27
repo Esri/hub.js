@@ -18,17 +18,18 @@ module.exports = function(config) {
     exclude: [],
 
     karmaTypescriptConfig: {
-      reports: {
-        lcovonly: "coverage",
-        html: "coverage",
-        text: ""
-      },
+      // reports: {
+      //   lcovonly: "coverage",
+      //   html: "coverage",
+      //   text: ""
+      // },
       compilerOptions: {
         module: "commonjs"
       },
       tsconfig: "./tsconfig.json",
       bundlerOptions: {
         transforms: [require("karma-typescript-es6-transform")()],
+        exclude: ["@esri/arcgis-rest-common-types"],
         resolve: {
           // karmas resolver cant figure out the symlinked deps from lerna
           // so we need to manually alias each package here.
@@ -36,17 +37,17 @@ module.exports = function(config) {
             .readdirSync("packages")
             .filter(p => p[0] !== ".")
             .reduce((alias, p) => {
-              alias[`@esri/${p}`] = `packages/${p}/src/index.ts`;
+              alias[`@esri/hub-${p}`] = `packages/${p}/src/index.ts`;
               return alias;
             }, {})
         }
       }
     },
 
-    coverageReporter: {
-      type: 'lcov',
-      dir: 'coverage/'
-    },
+    // coverageReporter: {
+    //   type: 'lcov',
+    //   dir: 'coverage/'
+    // },
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
@@ -57,7 +58,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["jasmine-diff", "dots", "karma-typescript", "coverage", "coveralls"],
+    reporters: ["jasmine-diff", "dots", "karma-typescript"/*, "coverage", "coveralls"*/],
 
     // web server port
     port: 9876,

@@ -1,22 +1,21 @@
-# @esri/hub-request
+# @esri/hub-initiatives
 
-> A module for making requests to ArcGIS Hub that runs in Node.js and modern browsers.
+> Module to interact with ArcGIS Hub Initiatives in Node.js and modern browsers.
 
 ### Example
 
 ```bash
-npm install @esri/hub-request
+npm install @esri/hub-initiatives
 ```
 
 ```js
-import { helloHub  } from '@esri/arcgis-hub-request';
+import { getInitiative  } from '@esri/hub-initiatives';
 
-const url = "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data";
-
-helloHub()
-    .then(response => {
-        console.log(response) // dummy data
-    });
+// pass in an initiative id
+getInitiative("abc123")
+    .then(
+        response => // get back initiative metadata
+    );
 ```
 
 ### Issues
@@ -51,4 +50,4 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-A copy of the license is available in the repository's [LICENSE](./LICENSE) file.
+A copy of the license is available in the repository's [LICENSE](../../LICENSE) file.

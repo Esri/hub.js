@@ -1,16 +1,19 @@
 {
-  "name": "@esri/hub-request",
+  "name": "@esri/hub-initiatives",
   "version": "0.0.1",
-  "description": "A module for making requests to ArcGIS Hub that runs in Node.js and modern browsers.",
+  "description": "Module to interact with ArcGIS Hub Initiatives in Node.js and modern browsers.",
   "main": "dist/node/index.js",
-  "browser": "dist/umd/hub-request.umd.js",
+  "browser": "dist/umd/hub-initiatives.umd.js",
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
   "license": "Apache-2.0",
   "dependencies": {
     "tslib": "^1.7.1",
-    "@esri/arcgis-rest-request": "^1.1.1"
+    "@esri/arcgis-rest-request": "^1.1.1",
+    "@esri/arcgis-rest-auth": "^1.1.1",
+    "@esri/arcgis-rest-items": "^1.1.1",
+    "@esri/arcgis-rest-common-types": "^1.1.1"
   },
   "files": [
     "dist/**"
@@ -31,9 +34,9 @@
   },
   "contributors": [
     {
-      "name": "Patrick Arlt",
-      "email": "parlt@esri.com",
-      "url": "http://patrickarlt.com/"
+      "name": "Dave Bouwman",
+      "email": "dbouwman@esri.com",
+      "url": "http://davebouwman.com/"
     }
   ],
   "bugs": {
