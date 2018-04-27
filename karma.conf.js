@@ -29,6 +29,7 @@ module.exports = function(config) {
       tsconfig: "./tsconfig.json",
       bundlerOptions: {
         transforms: [require("karma-typescript-es6-transform")()],
+        exclude: ["@esri/arcgis-rest-common-types"],
         resolve: {
           // karmas resolver cant figure out the symlinked deps from lerna
           // so we need to manually alias each package here.
@@ -39,7 +40,7 @@ module.exports = function(config) {
               alias[`@esri/${p}`] = `packages/${p}/src/index.ts`;
               return alias;
             }, {})
-        }
+          }
       }
     },
 
