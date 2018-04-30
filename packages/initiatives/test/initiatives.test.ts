@@ -1,7 +1,6 @@
 import {
   getHubUrl,
-  getInitiative,
-  getInitiativeWithData,
+  fetchInitiative,
   lookupSiteUrlByInitiative
 } from "../src/index";
 import * as fetchMock from "fetch-mock";
@@ -47,13 +46,15 @@ describe("getHubUrl()", () => {
 describe("get()", () => {
   const itemBaseUrl = "https://www.arcgis.com/sharing/rest/content/items";
   afterEach(fetchMock.restore);
-  it("should make an item request", done => {
+  it("should make an item request w/o fetching data", done => {
     fetchMock.once(`${itemBaseUrl}/5cd?f=json`, {
       id: "5cd",
       title: "Fake initiative",
       type: "Hub Initiative"
     });
-    getInitiative("5cd")
+    fetchInitiative("5cd", {
+      data: false
+    })
       .then(item => {
         expect(item.id).toBe("5cd");
         const [url, options]: [string, RequestInit] = fetchMock.lastCall(
@@ -79,7 +80,7 @@ describe("get()", () => {
       values: {}
     });
 
-    getInitiativeWithData("3ef")
+    fetchInitiative("3ef")
       .then(model => {
         expect(model.item).toBeDefined();
         expect(model.data).toBeDefined();
