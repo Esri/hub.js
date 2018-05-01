@@ -4,6 +4,7 @@
 import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-common-types";
 import { getItem, getItemData } from "@esri/arcgis-rest-items";
+import { IInitiative } from "@esri/hub-common-types";
 
 export interface IInitiativeRequestOptions extends IRequestOptions {
   /**
@@ -21,9 +22,13 @@ export interface IInitiativeRequestOptions extends IRequestOptions {
 export function fetchInitiative(
   id: string,
   requestOptions?: IInitiativeRequestOptions
-): Promise<any> {
+): Promise<IInitiative> {
   if (requestOptions && !requestOptions.data) {
-    return getItem(id, requestOptions);
+    return getItem(id, requestOptions).then(result => {
+      return {
+        item: result
+      };
+    });
   } else {
     return Promise.all([
       getItem(id, requestOptions),

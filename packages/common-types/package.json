@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-common-types",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Common TypeScript types for @esri/hub.js packages.",
   "types": "dist/types/index.d.ts",
   "author": "",

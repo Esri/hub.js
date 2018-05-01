@@ -55,8 +55,8 @@ describe("get()", () => {
     fetchInitiative("5cd", {
       data: false
     })
-      .then(item => {
-        expect(item.id).toBe("5cd");
+      .then(initiative => {
+        expect(initiative.item.id).toBe("5cd");
         const [url, options]: [string, RequestInit] = fetchMock.lastCall(
           `${itemBaseUrl}/5cd?f=json`
         );
