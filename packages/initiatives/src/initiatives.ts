@@ -4,11 +4,7 @@
 import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-common-types";
 import { getItem, getItemData } from "@esri/arcgis-rest-items";
-import {
-  IInitiative,
-  IInitiativeItem,
-  IInitiativeData
-} from "@esri/hub-common-types";
+import { IInitiative, IInitiativeItem } from "@esri/hub-common-types";
 
 export interface IInitiativeRequestOptions extends IRequestOptions {
   /**
@@ -41,7 +37,7 @@ export function fetchInitiative(
       // shape this into a model
       return {
         item: result[0] as IInitiativeItem,
-        data: result[1] as IInitiativeData
+        data: result[1]
       };
     });
   }
