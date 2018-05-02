@@ -1,7 +1,7 @@
 ---
-title: Using ArcGIS REST JS in Node.js
-navTitle: Node.js
-description: Learn how to integrate the ArcGIS REST JS library into a Node.js app.
+title: Using @esri/hub.js in Node
+navTitle: Node
+description: Learn how to integrate the @esri/hub.js library in a Node app.
 order: 60
 group: 1-get-started
 ---
