@@ -47,7 +47,8 @@ getInitiative("abc123")
 
 ### API Reference
 
-coming soon!
+The documentation is published at http://esri.github.io/hub.js/ (source code [here](/docs/src)).
+
 
 ### Instructions
 

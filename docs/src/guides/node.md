@@ -8,23 +8,21 @@ group: 1-get-started
 
 # Get Started with Node.js
 
-Make sure you have polyfills for [`fetch`](https://github.com/matthew-andrews/isomorphic-fetch) and [`FormData`](https://github.com/form-data/isomorphic-form-data) installed before using any ArcGIS REST JS library. You can find `npm install` commands for all packages in the [API reference](../api).
+Make sure you have polyfills for [`fetch`](https://github.com/matthew-andrews/isomorphic-fetch) and [`FormData`](https://github.com/form-data/isomorphic-form-data) installed before using @esri/hub.js. You can find `npm install` commands for all packages in the [API reference](../../api).
 
 ```bash
-npm install @esri/arcgis-rest-request isomorphic-fetch isomorphic-form-data
+npm install @esri/hub.js isomorphic-fetch isomorphic-form-data
 ```
 
-Require the `isomorphic-fetch` and `isomorphic-form-data` modules before using any of the ArcGIS REST JS methods.
+Require the `isomorphic-fetch` and `isomorphic-form-data` modules before using any of the @esri/hub.js methods.
 
 ```js
 require("isomorphic-fetch");
 require("isomorphic-form-data");
 
-const { request } = require("@esri/arcgis-rest-request");
+const { fetchInitiative } = require("@esri/hub-initiatives");
 
-request("https://www.arcgis.com/sharing/rest/info").then(response => {
-  console.log(response);
+fetchInitiative("abc123").then(response => {
+  console.log(response);  // Initiative item with data
 });
 ```
-
-[Demo express application](https://github.com/Esri/arcgis-rest-js/tree/master/demos/express)
