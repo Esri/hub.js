@@ -4,40 +4,43 @@
 import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-common-types";
 import { getItem, getItemData } from "@esri/arcgis-rest-items";
+import { IInitiative, IInitiativeItem } from "@esri/hub-common-types";
 
-/**
- * Get an initiative item
- * @param id - Initiative Item Id
- * @param requestOptions - Request options that may have authentication manager
- * @returns A Promise that will resolve with the Initiative item
- */
-export function getInitiative(
-  id: string,
-  requestOptions?: IRequestOptions
-): Promise<IItem> {
-  return getItem(id, requestOptions);
+export interface IInitiativeRequestOptions extends IRequestOptions {
+  /**
+   * Set this value to false to avoid making a web request to fetch the item's data.
+   */
+  data: boolean;
 }
 
 /**
  * Get the initiative item + data in one call
  * @param id - Initiative Item Id
- * @param requestOptions - Request options that may have authentication manager
+ * @param requestOptions - Initiative request options that may have authentication manager
  * @returns A Promise that will resolve with the Initiative item and data
  */
-export function getInitiativeWithData(
+export function fetchInitiative(
   id: string,
-  requestOptions?: IRequestOptions
-): Promise<any> {
-  return Promise.all([
-    getItem(id, requestOptions),
-    getItemData(id, requestOptions)
-  ]).then(result => {
-    // shape this into a model
-    return {
-      item: result[0],
-      data: result[1]
-    };
-  });
+  requestOptions?: IInitiativeRequestOptions
+): Promise<IInitiative> {
+  if (requestOptions && !requestOptions.data) {
+    return getItem(id, requestOptions).then(result => {
+      return {
+        item: result as IInitiativeItem
+      };
+    });
+  } else {
+    return Promise.all([
+      getItem(id, requestOptions),
+      getItemData(id, requestOptions)
+    ]).then(result => {
+      // shape this into a model
+      return {
+        item: result[0] as IInitiativeItem,
+        data: result[1]
+      };
+    });
+  }
 }
 
 /**
