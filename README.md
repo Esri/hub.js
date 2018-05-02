@@ -9,7 +9,7 @@
 [travis-url]: https://travis-ci.org/Esri/hub.js
 [coverage-img]: https://coveralls.io/repos/github/Esri/hub.js/badge.svg
 [coverage-url]: https://coveralls.io/github/Esri/hub.js
-[license-img]: https://img.shields.io/badge/license-Apache-green.svg?style=flat-square
+[license-img]: https://img.shields.io/badge/license-Apache%202.0-orange.svg?style=flat-square
 [license-url]: #license
 
 # @esri/hub.js
@@ -81,7 +81,7 @@ This project builds on the packages in [`arcgis-rest-js`](https://esri.github.io
 
 Persistent objects often introduce memory leaks in JavaScript applications. As soon as you instantiate a `new` object, you need to consider it's lifespan. If you happen to assign that object inside a closure or somewhere else long-lived, you might end up with references that can not be destroyed by the garbage collector. Creating clean separation between _functions-that-fetch-or-manipulate-data_ and _application-state-as-a-javascript-object_ helps to avoid this problem.
 
-Thus, this library does _not_ attempt to mirror [`hub-py`](https://github.com/esridc/hub-py) in API structure or capabilities.
+We are aiming for _functional_ equivalence to [`hub-py`](https://github.com/esridc/hub-py) so that the objects and capabilities are familiar, not necessarily to make the APIs _identical_.
 
 [More about Javascript Memory Leaks](https://auth0.com/blog/four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them/)
 
