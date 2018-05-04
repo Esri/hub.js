@@ -5,6 +5,7 @@ import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-common-types";
 import { getItem, getItemData } from "@esri/arcgis-rest-items";
 import { IInitiative, IInitiativeItem } from "@esri/hub-common-types";
+import { fetchDomain } from "@esri/hub-sites";
 
 export interface IInitiativeRequestOptions extends IRequestOptions {
   /**
@@ -57,22 +58,14 @@ export function lookupSiteUrlByInitiative(
 ): Promise<string> {
   return getItem(id, requestOptions).then(initiative => {
     if (initiative.properties.siteId) {
-      const apiUrl = getHubUrl(requestOptions);
-      const url = `${apiUrl}/utilities/domains?siteId=${
-        initiative.properties.siteId
-      }`;
-
-      return fetch(url)
-        .then(response => {
-          return response.json();
-        })
-        .then(response => {
+      return fetchDomain(initiative.properties.siteId, requestOptions).then(
+        response => {
           // the response may be an array or a naked object...
           if (response.length > 1) {
             // ok - in this case, it's likely that we have a default domain and a custom domain...
             // we want the one that's custom... i.e. does not contain arcgis.com
             const customEntry = response.reduce((acc: any, entry: any) => {
-              if (entry.domain.indexOf("arcgis.com") === -1) {
+              if (!entry.domain.includes("arcgis.com")) {
                 acc = entry;
               }
               return acc;
@@ -86,7 +79,8 @@ export function lookupSiteUrlByInitiative(
           } else {
             return response[0].domain;
           }
-        });
+        }
+      );
     } else {
       // reject
       return Promise.reject(
@@ -107,10 +101,10 @@ export function getHubUrl(requestOptions?: IRequestOptions): string {
     // get the portalUrl...
     const portal = requestOptions.authentication.portal;
     // check for devext and qaext in the portal url
-    if (portal.indexOf("mapsdevext") > -1) {
+    if (portal.includes("mapsdevext")) {
       url = "https://hubdev.arcgis.com";
     }
-    if (portal.indexOf("mapsqaext") > -1) {
+    if (portal.includes("mapsqaext")) {
       url = "https://hubqa.arcgis.com";
     }
   }

@@ -1,9 +1,9 @@
 {
-  "name": "@esri/hub-initiatives",
+  "name": "@esri/hub-sites",
   "version": "1.0.0",
-  "description": "Module to interact with ArcGIS Hub Initiatives in Node.js and modern browsers.",
+  "description": "Module to interact with ArcGIS Hub Sites in Node.js and modern browsers.",
   "main": "dist/node/index.js",
-  "browser": "dist/umd/hub-initiatives.umd.js",
+  "browser": "dist/umd/hub-sites.umd.js",
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -17,11 +17,11 @@
   },
   "peerDependencies": {
     "@esri/hub-common-types": "^1.0.0",
-    "@esri/hub-sites": "^1.0.0"
+    "@esri/hub-initiatives": "^1.0.0"
   },
   "devDependencies": {
     "@esri/hub-common-types": "^1.0.0",
-    "@esri/hub-sites": "^1.0.0"
+    "@esri/hub-initiatives": "^1.0.0"
   },
   "files": [
     "dist/**"
@@ -42,9 +42,12 @@
   },
   "contributors": [
     {
-      "name": "Dave Bouwman",
-      "email": "dbouwman@esri.com",
-      "url": "http://davebouwman.com/"
+      "name": "John Gravois",
+      "email": "john@esri.com"
+    },
+    {
+      "name": "Tom Wayson",
+      "email": "twayson@esri.com"
     }
   ],
   "bugs": {
