@@ -137,8 +137,7 @@ const md = new MarkdownIt();
        * and `titleSegments` to each page which are used in the template for SEO.
        */
       return declarations.map(declaration => {
-        const abbreviatedPackageName = declaration.package.replace("arcgis-rest-", "")
-        const src = `api/${abbreviatedPackageName}/${declaration.name}.html`;
+        const src = `api/${declaration.package}/${declaration.name}.html`;
         let children;
 
         if (declaration.children) {

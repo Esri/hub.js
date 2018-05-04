@@ -1,15 +1,15 @@
 [![npm version][npm-img]][npm-url]
 [![build status][travis-img]][travis-url]
-[![apache licensed](https://img.shields.io/badge/license-Apache-green.svg?style=flat-square)](https://raw.githubusercontent.com/Esri/arcgis-rest-js/master/LICENSE)
+[![apache licensed](https://img.shields.io/badge/license-Apache-green.svg?style=flat-square)](https://raw.githubusercontent.com/Esri/hub.js/master/LICENSE)
 
 [npm-img]: https://img.shields.io/npm/v/@esri/hub-common-types.svg?style=flat-square
 [npm-url]: https://www.npmjs.com/package/@esri/hub-common-types
-[travis-img]: https://img.shields.io/travis/ArcGIS/hub.js/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/ArcGIS/hub.js
+[travis-img]: https://img.shields.io/travis/Esri/hub.js/master.svg?style=flat-square
+[travis-url]: https://travis-ci.org/Esri/hub.js
 
 # @esri/hub-common-types
 
-> Common TypeScript types for [`@esri/hub.js`](https://github.com/ArcGIS/hub.js) packages.
+> Common TypeScript types for [`@esri/hub.js`](https://github.com/Esri/hub.js) packages.
 
 ### Example
 
@@ -18,21 +18,25 @@ npm install @esri/hub-common-types
 ```
 
 ```ts
-import { IHasZM } from '@esri/hub-common-types';
+import { IIInitiative } from '@esri/hub-common-types';
 
-const myGeometry = { hasZ: false } as IHasZM
-
+const myInitiative = {
+  item: {
+    id: "abc123",
+    owner: "c@sey"
+  } as IItem
+} as IInitiative
 ```
 
 ### Issues
 
-If something isn't working the way you expected, please take a look at [previously logged issues](https://github.com/ArcGIS/hub.js/issues) first.  Have you found a new bug?  Want to request a new feature?  We'd [**love**](https://github.com/ArcGIS/hub.js/issues/new) to hear from you.
+If something isn't working the way you expected, please take a look at [previously logged issues](https://github.com/Esri/hub.js/issues) first.  Have you found a new bug?  Want to request a new feature?  We'd [**love**](https://github.com/Esri/hub.js/issues/new) to hear from you.
 
 If you're looking for help you can also post issues on [GIS Stackexchange](http://gis.stackexchange.com/questions/ask?tags=esri-oss).
 
 ### Versioning
 
-For transparency into the release cycle and in striving to maintain backward compatibility, @esri/arcgis-rest-js is maintained under Semantic Versioning guidelines and will adhere to these rules whenever possible.
+For transparency into the release cycle and in striving to maintain backward compatibility, @esri/hub.js is maintained under Semantic Versioning guidelines and will adhere to these rules whenever possible.
 
 For more information on SemVer, please visit <http://semver.org/>.
 
@@ -42,7 +46,7 @@ Esri welcomes contributions from anyone and everyone. Please see our [guidelines
 
 ### License
 
-Copyright 2018 Esri
+Copyright &copy; 2018 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

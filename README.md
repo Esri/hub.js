@@ -36,10 +36,10 @@ npm install @esri/hub-initiatives
 ```
 
 ```js
-import { getInitiative  } from '@esri/hub-initiatives';
+import { fetchInitiative  } from '@esri/hub-initiatives';
 
 // pass in an initiative id
-getInitiative("abc123")
+fetchInitiative("abc123")
     .then(
         response => // get back initiative metadata
     );
@@ -93,13 +93,13 @@ We are aiming for _functional_ equivalence to [`hub-py`](https://github.com/esri
 
 ### Issues
 
-If something isn't working the way you expected, please take a look at [previously logged issues](https://github.com/Esri/arcgis-rest-js/issues) first.  Have you found a new bug?  Want to request a new feature?  We'd [**love**](https://github.com/Esri/arcgis-rest-js/issues/new) to hear from you.
+If something isn't working the way you expected, please take a look at [previously logged issues](https://github.com/Esri/hub.js/issues) first.  Have you found a new bug?  Want to request a new feature?  We'd [**love**](https://github.com/Esri/hub.js/issues/new) to hear from you.
 
 If you're looking for help you can also post issues on [GIS Stackexchange](http://gis.stackexchange.com/questions/ask?tags=esri-oss).
 
 ### Versioning
 
-For transparency into the release cycle and in striving to maintain backward compatibility, @esri/arcgis-rest-js is maintained under Semantic Versioning guidelines and will adhere to these rules whenever possible.
+For transparency into the release cycle and in striving to maintain backward compatibility, @esri/hub.js is maintained under Semantic Versioning guidelines and will adhere to these rules whenever possible.
 
 For more information on SemVer, please visit <http://semver.org/>.
 
@@ -109,7 +109,7 @@ Esri welcomes contributions from anyone and everyone. Please see our [guidelines
 
 ### License
 
-Copyright &#169; 2018 Esri
+Copyright &copy; 2018 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
