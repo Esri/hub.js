@@ -78,6 +78,3 @@ packages/*/debug/
 
 # no idea
 /packages/*/.rpt2_cache
-
-# packages in development
-packages/arcgis-rest-portal/

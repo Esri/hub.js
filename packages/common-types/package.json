@@ -22,17 +22,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ArcGIS/hub.js.git"
+    "url": "git+https://github.com/Esri/hub.js.git"
   },
   "contributors": [
     {
-      "name": "Patrick Arlt",
-      "email": "parlt@esri.com",
-      "url": "http://patrickarlt.com/"
+      "name": "John Gravois",
+      "email": "john@esri.com"
+    },
+    {
+      "name": "Tom Wayson",
+      "email": "twayson@esri.com"
     }
   ],
   "bugs": {
-    "url": "https://github.com/ArcGIS/hub.js/issues"
+    "url": "https://github.com/Esri/hub.js/issues"
   },
-  "homepage": "https://github.com/ArcGIS/hub.js#readme"
+  "homepage": "https://github.com/Esri/hub.js#readme"
 }
