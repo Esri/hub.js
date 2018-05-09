@@ -62,8 +62,8 @@ const globals = packageNames.reduce((globals, p) => {
 export default {
   input: "./src/index.ts",
   output: {
-    file: `./dist/umd/${name}.umd.js`,
-    sourcemap: `./dist/umd/${name}.umd.js.map`,
+    file: `./dist/umd/${name.replace("@esri/", "")}.umd.js`,
+    sourcemap: `./dist/umd/${name.replace("@esri/", "")}.umd.js.map`,
     banner: copyright,
     format: "umd",
     name: moduleName,
