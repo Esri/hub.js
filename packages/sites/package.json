@@ -16,12 +16,10 @@
     "@esri/arcgis-rest-common-types": "^1.1.1"
   },
   "peerDependencies": {
-    "@esri/hub-common-types": "^1.0.0",
-    "@esri/hub-initiatives": "^1.0.0"
+    "@esri/hub-common-types": "^1.0.0"
   },
   "devDependencies": {
-    "@esri/hub-common-types": "^1.0.0",
-    "@esri/hub-initiatives": "^1.0.0"
+    "@esri/hub-common-types": "^1.0.0"
   },
   "files": [
     "dist/**"
