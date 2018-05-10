@@ -18,13 +18,12 @@ module.exports = function(config) {
     exclude: [],
 
     karmaTypescriptConfig: {
-      // terminal display would come from this one.
-      // commenting out for now to see if thats why we were getting duplicate bot comments in our PRs
-      // reports: {
-      //   lcovonly: "coverage",
-      //   html: "coverage",
-      //   text: ""
-      // },
+      // coverage report in terminal comes from this one.
+      reports: {
+        lcovonly: "coverage",
+        html: "coverage",
+        text: ""
+      },
       compilerOptions: {
         module: "commonjs"
       },
@@ -46,7 +45,7 @@ module.exports = function(config) {
       }
     },
 
-    // coveralls uses this one. 
+    // coveralls uses this one.
     coverageReporter: {
       type: 'lcov',
       dir: 'coverage/'
