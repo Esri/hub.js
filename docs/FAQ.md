@@ -1,8 +1,6 @@
 ## Is this a _supported_ Esri product?
 
-It is not. We offer no guarantees, SLAs, nor a product lifecycle to support planning.
-
-This project is an open source collaboration between developers from a variety of teams at Esri that was initially developed to scratch an itch of our own. That said, we are actively recruiting outside contributors and fully expect that the tools here will be useful to a subset of our customers.
+No, it is an open source project that was initially developed to scratch an itch of our own. That said, we are actively recruiting outside contributors and fully expect that the tools here will be useful to a subset of our customers.
 
 ## Why TypeScript
 
