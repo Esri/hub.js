@@ -10,6 +10,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "tslib": "^1.7.1",
+    "@esri/arcgis-rest-request": "^1.1.1",
     "@esri/arcgis-rest-auth": "^1.1.1"
   },
   "peerDependencies": {},
