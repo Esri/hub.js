@@ -3,8 +3,8 @@
 [![Coverage Status][coverage-img]][coverage-url]
 [![apache licensed][license-img]][license-url]
 
-[npm-img]: https://img.shields.io/npm/v/@esri/hub.js.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/@esri/hub.js
+[npm-img]: https://img.shields.io/npm/v/@esri/hub-common-types.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/@esri/hub-common-types
 [travis-img]: https://img.shields.io/travis/Esri/hub.js/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/Esri/hub.js
 [coverage-img]: https://coveralls.io/repos/github/Esri/hub.js/badge.svg
@@ -73,6 +73,7 @@ Some useful commands include:
 * [`@esri/hub-initiatives`](./packages/initiatives) - Helper functions for working with [Initiatives](http://doc.arcgis.com/en/hub/initiatives/initiatives-overview.htm).
 * [`@esri/hub-annotations`](./packages/annotations) - Helper functions for working with Annotations.
 * [`@esri/hub-sites`](./packages/sites) - Helper functions for working with [Sites](http://doc.arcgis.com/en/hub/sites/create-a-hub-site.htm).
+* [`@esri/hub-auth`](./packages/auth) - Helper functions for authentication.
 
 ### Design Philosophy
 

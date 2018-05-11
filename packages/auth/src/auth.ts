@@ -1,0 +1,46 @@
+/* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
+ * Apache-2.0 */
+
+import { request } from "@esri/arcgis-rest-request";
+import { UserSession, IOauth2Options } from "@esri/arcgis-rest-auth";
+
+/**
+ * start the thing.
+ */
+export function beginAuth(options: IOauth2Options) {
+  return UserSession.beginOAuth2(options);
+}
+
+/**
+ * you get the idea.
+ */
+export function finishAuth(
+  options: IOauth2Options,
+  win: any = window
+): Promise<UserSession> {
+  const match = win.location.href.match(/access_token=(.+)&username=([^&]+)/);
+
+  const token = match[1];
+  const user = decodeURIComponent(match[2]);
+  const baseUrl = `https://www.arcgis.com/sharing/rest/community/users/${user}`;
+
+  return request(baseUrl, {
+    params: { token },
+    httpMethod: "GET"
+  }).then(response => {
+    if (Date.now() - response.created < 5000) {
+      // to do: sniff out community orgId and pass that through instead.
+      return request(`${baseUrl}/update`, {
+        params: {
+          token,
+          tags: ["hubRole:participant", "org:123"],
+          access: "public"
+        }
+      }).then(() => {
+        return UserSession.completeOAuth2(options);
+      });
+    } else {
+      return UserSession.completeOAuth2(options);
+    }
+  });
+}
