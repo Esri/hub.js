@@ -3,20 +3,18 @@
 
 import { UserSession } from "@esri/arcgis-rest-auth";
 
-// not an ES6 module, 900B, no dependencies
-// i'd have to figure out how to get Rollup to bundle it
-// const Cookies = require("js-cookie");
-// https://www.npmjs.com/package/js-cookie
-
-/*
-i modified the jasmine.json to skip running auth tests in Node.js.
-it'd probably be (much) smarter to just mock document/window
-*/
-
 /**
- * @browserOnly (sic)
- * Checks cookies/localStorage to see if the user is already signed in.
- * @returns just the token for now
+ * Checks cookies/localStorage for existing sign-in information (Browser only).
+ *
+ * ```js
+ * import { checkSignInStatus } from '@esri/hub-auth';
+ *
+ * checkSignInStatus()
+ *   .then(session => session); // ready to go!
+ *   .catch() // time to initiate login
+ * ```
+ *
+ * @returns UserSession
  */
 export function checkSignInStatus(): Promise<UserSession> {
   let auth: string;
@@ -48,7 +46,6 @@ export function checkSignInStatus(): Promise<UserSession> {
   // since we're isolating synchronous logic, is it even helpful to return a promise?
   return new Promise((resolve, reject) => {
     if (session) resolve(session);
-    // if nothing is found, abort
     else reject("No evidence of authentication found.");
   });
 }

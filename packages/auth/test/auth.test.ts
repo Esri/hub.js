@@ -16,6 +16,11 @@ const oldauth = {
   customBaseUrl: "maps.arcgis.com"
 };
 
+/*
+  right now jasmine isn't running these tests in Node.js.
+  it'd probably be (much) smarter to just mock document/window
+*/
+
 describe("login", () => {
   it("should return an informative message when no evidence of previous login can be found", done => {
     checkSignInStatus().catch(error => {

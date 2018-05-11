@@ -7,7 +7,7 @@
 [travis-img]: https://img.shields.io/travis/Esri/hub.js/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/Esri/hub.js
 
-# @esri/hub-sites
+# @esri/hub-auth
 
 > Module to help the [community](https://doc.arcgis.com/en/hub/community/community-overview.htm) authenticate and interact with ArcGIS Hub.
 
@@ -18,11 +18,11 @@ npm install @esri/hub-auth
 ```
 
 ```js
-import { authenticate  } from '@esri/hub-auth';
+import { checkSignInStatus  } from '@esri/hub-auth';
 
-authenticate()
+checkSignInStatus()
     .then(
-        response => // credentials from a cookie
+        session => // credentials from a cookie or localStorage
     );
 ```
 
