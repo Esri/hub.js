@@ -20,10 +20,8 @@ npm install @esri/hub-auth
 ```js
 import { checkSignInStatus  } from '@esri/hub-auth';
 
-checkSignInStatus()
-    .then(
-        session => // credentials from a cookie or localStorage
-    );
+const session = checkSignInStatus()
+if (session)  // user is already logged in!
 ```
 
 ### Issues

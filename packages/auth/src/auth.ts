@@ -9,43 +9,51 @@ import { UserSession } from "@esri/arcgis-rest-auth";
  * ```js
  * import { checkSignInStatus } from '@esri/hub-auth';
  *
- * checkSignInStatus()
- *   .then(session => session); // ready to go!
- *   .catch() // time to initiate login
+ * const session = checkSignInStatus()
+ * if (session) // user is already logged in!
  * ```
  *
  * @returns UserSession
  */
-export function checkSignInStatus(): Promise<UserSession> {
-  let auth: string;
-  let session: UserSession;
+export function checkSignInStatus(): UserSession {
+  /* istanbul ignore else */
+  if (typeof window !== "undefined" && typeof document !== "undefined") {
+    let auth: string;
+    let session: UserSession;
 
-  // first check for an esri_auth cookie
-  // https://stackoverflow.com/questions/10730362/get-cookie-by-name
-  const value = "; " + document.cookie;
-  const parts = value.split("; " + "esri_auth=");
-  if (parts.length === 2) {
-    auth = parts
-      .pop()
-      .split(";")
-      .shift();
-  }
+    // first check for an esri_auth cookie
+    // https://stackoverflow.com/questions/10730362/get-cookie-by-name
+    const value = "; " + document.cookie;
+    const parts = value.split("; " + "esri_auth=");
+    if (parts.length === 2) {
+      auth = parts
+        .pop()
+        .split(";")
+        .shift();
+    }
 
-  if (!auth) {
-    // next try local storage
-    auth = window.localStorage.getItem("torii-provider-arcgis");
-  }
-  if (auth) {
-    const authJson = JSON.parse(decodeURIComponent(auth));
-    session = new UserSession({
-      token: authJson.token,
-      tokenExpires: new Date(authJson.expires)
-    });
-  }
+    if (!auth) {
+      // next try local storage
+      auth = window.localStorage.getItem("torii-provider-arcgis");
+    }
+    if (auth) {
+      const authJson = JSON.parse(decodeURIComponent(auth));
 
-  // since we're isolating synchronous logic, is it even helpful to return a promise?
-  return new Promise((resolve, reject) => {
-    if (session) resolve(session);
-    else reject("No evidence of authentication found.");
-  });
+      // don't create a session from a stale token
+      if (authJson.expires > Date.now()) {
+        session = new UserSession({
+          token: authJson.token,
+          tokenExpires: new Date(authJson.expires)
+        });
+
+        return session;
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  } else {
+    return null;
+  }
 }
