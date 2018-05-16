@@ -80,7 +80,7 @@ This project builds on the packages in [`arcgis-rest-js`](https://esri.github.io
 
 #### Why Not Objects?
 
-Persistent objects often introduce memory leaks in JavaScript applications. As soon as you instantiate a `new` object, you need to consider it's lifespan. If you happen to assign that object inside a closure or somewhere else long-lived, you might end up with references that can not be destroyed by the garbage collector. Creating clean separation between _functions-that-fetch-or-manipulate-data_ and _application-state-as-a-javascript-object_ helps to avoid this problem.
+Persistent objects often introduce memory leaks in JavaScript applications. As soon as you instantiate a `new` object, you need to consider its lifespan. If you happen to assign that object inside a closure or somewhere else long-lived, you might end up with references that cannot be destroyed by the garbage collector. Creating clean separation between _functions-that-fetch-or-manipulate-data_ and _application-state-as-a-javascript-object_ helps to avoid this problem.
 
 We are aiming for _functional_ equivalence to [`hub-py`](https://github.com/esridc/hub-py) so that the objects and capabilities are familiar, not necessarily to make the APIs _identical_.
 
