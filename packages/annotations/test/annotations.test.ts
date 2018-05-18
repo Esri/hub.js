@@ -14,7 +14,9 @@ describe("getAnnotationServiceUrl", () => {
     getAnnotationServiceUrl("5bc").then(response => {
       const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
       expect(options.method).toBe("GET");
-      expect(url).toContain("q=hubAnnotationLayer%20AND%20orgid%3A5bc");
+      expect(url).toContain(
+        "q=typekeywords%3AhubAnnotationLayer%20AND%20orgid%3A5bc"
+      );
       expect(response).toBe(annoSearchResponse.results[0].url);
       done();
     });
@@ -26,7 +28,9 @@ describe("getAnnotationServiceUrl", () => {
     getAnnotationServiceUrl("v8b").catch(error => {
       const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
       expect(options.method).toBe("GET");
-      expect(url).toContain("q=hubAnnotationLayer%20AND%20orgid%3Av8b");
+      expect(url).toContain(
+        "q=typekeywords%3AhubAnnotationLayer%20AND%20orgid%3Av8b"
+      );
       expect(error).toBe(
         "No annotation service found. Commenting is likely not enabled."
       );

@@ -30,9 +30,7 @@ export function getAnnotationServiceUrl(
   requestOptions?: IRequestOptions
 ): Promise<string> {
   return searchItems({
-    // NOT typekeyword: hubAnnotationLayer
-    // see: http://doc.arcgis.com/en/arcgis-online/reference/search.htm#ESRI_SECTION1_18FD99A1020547BA864FCEBECBE267F3
-    searchForm: { q: `hubAnnotationLayer AND orgid:${orgId}` },
+    searchForm: { q: `typekeywords:hubAnnotationLayer AND orgid:${orgId}` },
     // mixin requestOptions (if present)
     ...requestOptions
   }).then(response => {
