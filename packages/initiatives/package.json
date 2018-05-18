@@ -3,17 +3,17 @@
   "version": "1.0.0",
   "description": "Module to interact with ArcGIS Hub Initiatives in Node.js and modern browsers.",
   "main": "dist/node/index.js",
-  "browser": "dist/umd/hub-initiatives.umd.js",
+  "browser": "dist/umd/initiatives.umd.js",
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
   "license": "Apache-2.0",
   "dependencies": {
     "tslib": "^1.7.1",
-    "@esri/arcgis-rest-request": "^1.1.1",
-    "@esri/arcgis-rest-auth": "^1.1.1",
-    "@esri/arcgis-rest-items": "^1.1.1",
-    "@esri/arcgis-rest-common-types": "^1.1.1"
+    "@esri/arcgis-rest-request": "^1.2.1",
+    "@esri/arcgis-rest-auth": "^1.2.1",
+    "@esri/arcgis-rest-items": "^1.2.1",
+    "@esri/arcgis-rest-common-types": "^1.2.1"
   },
   "peerDependencies": {
     "@esri/hub-common-types": "^1.0.0",
