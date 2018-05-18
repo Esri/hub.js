@@ -2,28 +2,28 @@
 [![build status][travis-img]][travis-url]
 [![apache licensed](https://img.shields.io/badge/license-Apache-green.svg?style=flat-square)](https://raw.githubusercontent.com/Esri/hub.js/master/LICENSE)
 
-[npm-img]: https://img.shields.io/npm/v/@esri/hub-sites.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/@esri/hub-sites
+[npm-img]: https://img.shields.io/npm/v/@esri/hub-annotations.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/@esri/hub-annotations
 [travis-img]: https://img.shields.io/travis/Esri/hub.js/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/Esri/hub.js
 
-# @esri/hub-sites
+# @esri/hub-annotations
 
-> Module to interact with ArcGIS Hub Sites in Node.js and modern browsers.
+> Module to interact with ArcGIS Hub Annotations in Node.js and modern browsers.
 
 ### Example
 
 ```bash
-npm install @esri/hub-sites
+npm install @esri/hub-annotations
 ```
 
 ```js
-import { fetchDomain  } from '@esri/hub-sites';
+import { getAnnotationServiceUrl  } from '@esri/hub-annotations';
 
-// pass in a site id
-fetchDomain("abc123")
+// pass in an organization id
+getAnnotationServiceUrl("abc123")
     .then(
-        response => // get back initiative metadata
+        response => // https://services.arcgis.com/abc123/arcgis/rest/services/Hub Annotations/FeatureServer
     );
 ```
 
