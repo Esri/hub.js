@@ -46,16 +46,11 @@ export function getAnnotationServiceUrl(
       let url = annoResponse.results[0].url;
       // force https
       url = url.replace(/^http:/gi, "https:");
-
-      return new Promise<string>((resolve, reject) => {
-        resolve(url);
-      });
+      return url;
     } else {
-      return new Promise<string>((resolve, reject) => {
-        reject(
-          "No annotation service found. Commenting is likely not enabled."
-        );
-      });
+      throw Error(
+        "No annotation service found. Commenting is likely not enabled."
+      );
     }
   });
 }

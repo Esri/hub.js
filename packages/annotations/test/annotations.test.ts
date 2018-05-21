@@ -12,12 +12,13 @@ describe("getAnnotationServiceUrl", () => {
   afterEach(fetchMock.restore);
 
   it("should return an annotation service url", done => {
-    // i'd prefer to mock the specific request, but thats not working
-    // https://www.arcgis.com/sharing/rest/search?f=json&q=hubAnnotationLayer%20AND%20orgid%3A5bc
-    fetchMock.once("*", annoSearchResponse);
+    fetchMock.once(
+      "begin:https://www.arcgis.com/sharing/rest/search",
+      annoSearchResponse
+    );
 
     getAnnotationServiceUrl("5bc").then(response => {
-      const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+      const [url, options]: [string, RequestInit] = fetchMock.lastCall();
       expect(options.method).toBe("GET");
       expect(url).toContain(
         "q=typekeywords%3AhubAnnotationLayer%20AND%20orgid%3A5bc"
@@ -28,15 +29,18 @@ describe("getAnnotationServiceUrl", () => {
   });
 
   it("should throw if no annotation layer is found", done => {
-    fetchMock.once("*", emptyAnnoSearchResponse);
+    fetchMock.once(
+      "begin:https://www.arcgis.com/sharing/rest/search",
+      emptyAnnoSearchResponse
+    );
 
     getAnnotationServiceUrl("v8b").catch(error => {
-      const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+      const [url, options]: [string, RequestInit] = fetchMock.lastCall();
       expect(options.method).toBe("GET");
       expect(url).toContain(
         "q=typekeywords%3AhubAnnotationLayer%20AND%20orgid%3Av8b"
       );
-      expect(error).toBe(
+      expect(error.message).toBe(
         "No annotation service found. Commenting is likely not enabled."
       );
       done();
@@ -48,12 +52,15 @@ describe("searchAnnotations", () => {
   afterEach(fetchMock.restore);
 
   it("should query for annotations when no parameters are passed", done => {
-    fetchMock.once("*", annoQueryResponse);
+    fetchMock.once(
+      "begin:https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/Hub Annotations/FeatureServer/0/query",
+      annoQueryResponse
+    );
 
     searchAnnotations({
-      url: annoSearchResponse.results[0].url
+      url: annoSearchResponse.results[0].url + "/0"
     }).then(response => {
-      const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+      const [url, options]: [string, RequestInit] = fetchMock.lastCall();
       expect(options.method).toBe("GET");
       expect(url).toContain("f=json&where=1%3D1&outFields=*");
       expect(response).toEqual(annoQueryResponse as IQueryFeaturesResponse);
