@@ -1,7 +1,12 @@
-import { getAnnotationServiceUrl } from "../src/index";
-import { annoSearchResponse, emptyAnnoSearchResponse } from "./mocks/search";
+import { getAnnotationServiceUrl, searchAnnotations } from "../src/index";
+import {
+  annoSearchResponse,
+  emptyAnnoSearchResponse
+} from "./mocks/ago_search";
+import { annoQueryResponse } from "./mocks/anno_search";
 
 import * as fetchMock from "fetch-mock";
+import { IQueryFeaturesResponse } from "@esri/arcgis-rest-feature-service";
 
 describe("getAnnotationServiceUrl", () => {
   afterEach(fetchMock.restore);
@@ -34,6 +39,24 @@ describe("getAnnotationServiceUrl", () => {
       expect(error).toBe(
         "No annotation service found. Commenting is likely not enabled."
       );
+      done();
+    });
+  });
+});
+
+describe("searchAnnotations", () => {
+  afterEach(fetchMock.restore);
+
+  it("should query for annotations when no parameters are passed", done => {
+    fetchMock.once("*", annoQueryResponse);
+
+    searchAnnotations({
+      url: annoSearchResponse.results[0].url
+    }).then(response => {
+      const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+      expect(options.method).toBe("GET");
+      expect(url).toContain("f=json&where=1%3D1&outFields=*");
+      expect(response).toEqual(annoQueryResponse as IQueryFeaturesResponse);
       done();
     });
   });

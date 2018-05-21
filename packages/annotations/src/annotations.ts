@@ -6,16 +6,22 @@ import {
   IRequestOptions,
   getPortalUrl
 } from "@esri/arcgis-rest-request";
+
+import {
+  IQueryFeaturesRequestOptions,
+  queryFeatures,
+  IQueryFeaturesResponse
+} from "@esri/arcgis-rest-feature-service";
+
 import { IItem } from "@esri/arcgis-rest-common-types";
 import { searchItems, ISearchResult } from "@esri/arcgis-rest-items";
-import { IQueryFeaturesRequestOptions } from "@esri/arcgis-rest-feature-service";
 
 export interface IAnnoSearchResult extends ISearchResult {
   results: IAnnoItem[];
 }
 
 export interface IAnnoItem extends IItem {
-  // safe to expect a url
+  // overrides url?: string
   url: string;
 }
 
@@ -52,4 +58,16 @@ export function getAnnotationServiceUrl(
       });
     }
   });
+}
+
+/**
+ * Query for annotations from ArcGIS Hub.
+ * @param requestOptions - request options that may include authentication
+ * @returns A Promise that will resolve with features from the annotation service for a Hub enabled ArcGIS Online organization.
+ */
+
+export function searchAnnotations(
+  requestOptions: IQueryFeaturesRequestOptions
+): Promise<IQueryFeaturesResponse> {
+  return queryFeatures(requestOptions);
 }
