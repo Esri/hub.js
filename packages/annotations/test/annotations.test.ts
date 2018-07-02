@@ -3,7 +3,14 @@ import {
   annoSearchResponse,
   emptyAnnoSearchResponse
 } from "./mocks/ago_search";
-import { annoQueryResponse } from "./mocks/anno_search";
+import {
+  annoQueryResponse,
+  annoQueryResponseEmpty,
+  annoResponse,
+  annoResponseEmpty,
+  userResponseCasey,
+  userResponseJones
+} from "./mocks/anno_search";
 
 import * as fetchMock from "fetch-mock";
 import { IQueryFeaturesResponse } from "@esri/arcgis-rest-feature-service";
@@ -57,13 +64,45 @@ describe("searchAnnotations", () => {
       annoQueryResponse
     );
 
+    fetchMock.once(
+      "begin:http://www.arcgis.com/sharing/rest/community/users/casey?f=json",
+      userResponseCasey
+    );
+
+    fetchMock.once(
+      "begin:http://www.arcgis.com/sharing/rest/community/users/jones?f=json",
+      userResponseJones
+    );
+
     searchAnnotations({
       url: annoSearchResponse.results[0].url + "/0"
     }).then(response => {
-      const [url, options]: [string, RequestInit] = fetchMock.lastCall();
+      const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+        "begin:https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/Hub Annotations/FeatureServer/0/query"
+      );
       expect(options.method).toBe("GET");
       expect(url).toContain("f=json&where=1%3D1&outFields=*");
-      expect(response).toEqual(annoQueryResponse as IQueryFeaturesResponse);
+      expect(response).toEqual(annoResponse);
+      done();
+    });
+  });
+
+  it("should not fetch user info if no features are returned from search", done => {
+    fetchMock.once(
+      "begin:https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/Hub Annotations/FeatureServer/0/query",
+      annoQueryResponseEmpty
+    );
+
+    searchAnnotations({
+      url: annoSearchResponse.results[0].url + "/0",
+      where: "1=0"
+    }).then(response => {
+      const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+        "begin:https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/Hub Annotations/FeatureServer/0/query"
+      );
+      expect(options.method).toBe("GET");
+      expect(url).toContain("f=json&where=1%3D0&outFields=*");
+      expect(response).toEqual(annoResponseEmpty);
       done();
     });
   });
