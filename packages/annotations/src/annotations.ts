@@ -65,25 +65,38 @@ export function searchAnnotations(
   return queryFeatures(requestOptions).then(response => {
     const users: string[] = [];
 
-    if (response.features && response.features.length > 0) {
-      response.features.forEach(function(comment) {
-        if (users.indexOf(comment.attributes.author) === -1) {
-          users.push(comment.attributes.author);
-        }
-      });
-    }
+    // use .reduce()?
+    response.features.forEach(function(comment) {
+      if (users.indexOf(comment.attributes.author) === -1) {
+        users.push(comment.attributes.author);
+      }
+    });
 
     const getUserInfo = users.map(name => getUser(name));
+    const data = response.features;
+    const meta = response;
+    // only pass through the actual features from the query response once
+    delete meta.features;
 
-    return Promise.all(getUserInfo).then(values => {
-      return { users: values, features: response.features };
+    return Promise.all(getUserInfo).then(userInfo => {
+      const included: any[] = [];
+      userInfo.forEach(attributes => {
+        included.push({ id: attributes.username, type: `user`, attributes });
+      });
+
+      return { included, data, meta };
     });
 
     /*
       {
-        features: [],
-        users: [] // guaranteed to be unique
+        meta: {}, query response (without the features)
+        data: [], // features from response
+        included: [{ // an array of (unique) users that made comments
+          id: username,
+          type: 'user',
+          attributes: { user metadata }
+        }]
       }
-      */
+    */
   });
 }

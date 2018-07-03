@@ -1,16 +1,19 @@
-export const annoQueryResponseEmpty = {
+const annoQueryResponseEmptyFeatureless = {
   objectIdFieldName: "OBJECTID",
   globalIdFieldName: "",
   geometryType: "esriGeometryPolygon",
   spatialReference: {
     wkid: 4326,
     latestWkid: 4326
-  },
-  // fields: [],
+  }
+};
+
+export const annoQueryResponseEmpty = {
+  ...annoQueryResponseEmptyFeatureless,
   features: [] as any
 };
 
-const features = [
+const data = [
   {
     attributes: {
       OBJECTID: 1,
@@ -55,7 +58,7 @@ export const annoQueryResponse = {
     latestWkid: 4326
   },
   // fields: [],
-  features
+  features: data
 };
 
 export const userResponseCasey = {
@@ -103,11 +106,24 @@ export const userResponseJones = {
 };
 
 export const annoResponseEmpty = {
-  features: [] as any,
-  users: [] as any
+  data: [] as any,
+  included: [] as any,
+  meta: annoQueryResponseEmptyFeatureless
 };
 
 export const annoResponse = {
-  features,
-  users: [userResponseCasey, userResponseJones]
+  data,
+  meta: annoQueryResponseEmptyFeatureless,
+  included: [
+    {
+      id: userResponseCasey.username,
+      type: "user",
+      attributes: userResponseCasey
+    },
+    {
+      id: userResponseJones.username,
+      type: "user",
+      attributes: userResponseJones
+    }
+  ]
 };
