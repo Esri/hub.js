@@ -10,7 +10,7 @@ import {
 /**
  * Delete an annotation from ArcGIS Hub.
  * @param requestOptions - request options that may include authentication
- * @returns A Promise that will resolve with the response from the server.
+ * @returns A Promise that will resolve with response from the service after attempting to delete annotations.
  */
 
 export function deleteAnnotations(
