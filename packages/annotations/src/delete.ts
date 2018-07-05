@@ -13,7 +13,7 @@ import {
  * @returns A Promise that will resolve with the response from the server.
  */
 
-export function deleteAnnotation(
+export function deleteAnnotations(
   requestOptions: IDeleteFeaturesRequestOptions
 ): Promise<IDeleteFeaturesResult> {
   return deleteFeatures(requestOptions);

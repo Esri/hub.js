@@ -13,7 +13,7 @@ import {
  * @returns A Promise that will resolve with the response from the server.
  */
 
-export function updateAnnotation(
+export function updateAnnotations(
   requestOptions: IUpdateFeaturesRequestOptions
 ): Promise<IUpdateFeaturesResult> {
   return updateFeatures(requestOptions);

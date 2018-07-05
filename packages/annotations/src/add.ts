@@ -12,7 +12,7 @@ import {
  * @returns A Promise that will resolve with decorated features from the annotation service for a Hub enabled ArcGIS Online organization.
  */
 
-export function addAnnotation(
+export function addAnnotations(
   requestOptions: any
 ): Promise<IAddFeaturesResult> {
   return addFeatures(requestOptions);
