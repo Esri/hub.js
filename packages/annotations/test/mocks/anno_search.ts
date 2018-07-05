@@ -18,33 +18,39 @@ const data = [
     attributes: {
       OBJECTID: 1,
       author: "casey",
-      data: "this is where the comments go",
+      source: null as any,
+      status: "pending",
+      target: null as any,
+      description: "this is where the comments go",
       created_at: 1349395200000,
-      dataset_id: "sgj432",
-      Shape__Area: 1,
-      Shape__Length: 1
+      updated_at: null,
+      dataset_id: "sgj432"
     }
   },
   {
     attributes: {
-      OBJECTID: 1,
+      OBJECTID: 2,
       author: "jones",
-      data: "this is where the comments go",
+      source: null as any,
+      status: "pending",
+      target: null as any,
+      description: "this is where the comments go",
       created_at: 1349395200001,
-      dataset_id: "xds466",
-      Shape__Area: 1,
-      Shape__Length: 1
+      updated_at: null as any,
+      dataset_id: "xds466"
     }
   },
   {
     attributes: {
-      OBJECTID: 1,
+      OBJECTID: 3,
       author: "casey",
+      source: null as any,
+      status: "pending",
+      target: null as any,
       data: "i like to hear myself talk",
       created_at: 1349395200002,
-      dataset_id: "xds466",
-      Shape__Area: 1,
-      Shape__Length: 1
+      updated_at: null as any,
+      dataset_id: "xds466"
     }
   }
 ];
@@ -107,13 +113,11 @@ export const userResponseJones = {
 
 export const annoResponseEmpty = {
   data: [] as any,
-  included: [] as any,
-  meta: annoQueryResponseEmptyFeatureless
+  included: [] as any
 };
 
 export const annoResponse = {
   data,
-  meta: annoQueryResponseEmptyFeatureless,
   included: [
     {
       id: userResponseCasey.username,

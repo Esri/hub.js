@@ -81,7 +81,11 @@ describe("searchAnnotations", () => {
         "begin:https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/Hub Annotations/FeatureServer/0/query"
       );
       expect(options.method).toBe("GET");
-      expect(url).toContain("f=json&where=1%3D1&outFields=*");
+      expect(url).toContain("f=json");
+      expect(url).toContain("where=1%3D1");
+      expect(url).toContain(
+        "outFields=OBJECTID%2Cauthor%2Cdescription%2Csource%2Cstatus%2Ctarget%2Cdataset_id%2Ccreated_at%2Cupdated_at"
+      );
       expect(response).toEqual(annoResponse);
       done();
     });
@@ -101,8 +105,44 @@ describe("searchAnnotations", () => {
         "begin:https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/Hub Annotations/FeatureServer/0/query"
       );
       expect(options.method).toBe("GET");
-      expect(url).toContain("f=json&where=1%3D0&outFields=*");
+      expect(url).toContain("f=json");
+      expect(url).toContain("where=1%3D0");
+      expect(url).toContain(
+        "outFields=OBJECTID%2Cauthor%2Cdescription%2Csource%2Cstatus%2Ctarget%2Cdataset_id%2Ccreated_at%2Cupdated_at"
+      );
       expect(response).toEqual(annoResponseEmpty);
+      done();
+    });
+  });
+
+  it("should not fetch user info if no features are returned from search", done => {
+    fetchMock.once(
+      "begin:https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/Hub Annotations/FeatureServer/0/query",
+      annoQueryResponse
+    );
+
+    fetchMock.once(
+      "begin:http://www.arcgis.com/sharing/rest/community/users/casey?f=json",
+      userResponseCasey
+    );
+
+    fetchMock.once(
+      "begin:http://www.arcgis.com/sharing/rest/community/users/jones?f=json",
+      userResponseJones
+    );
+
+    searchAnnotations({
+      url: annoSearchResponse.results[0].url + "/0",
+      outFields: ["*"]
+    }).then(response => {
+      const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+        "begin:https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/Hub Annotations/FeatureServer/0/query"
+      );
+      expect(options.method).toBe("GET");
+      expect(url).toContain("f=json");
+      expect(url).toContain("where=1%3D1");
+      expect(url).toContain("outFields=*");
+      expect(response).toEqual(annoResponse);
       done();
     });
   });

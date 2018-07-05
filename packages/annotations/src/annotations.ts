@@ -62,6 +62,20 @@ export function getAnnotationServiceUrl(
 export function searchAnnotations(
   requestOptions: IQueryFeaturesRequestOptions
 ): Promise<any /* make it a type */> {
+  if (!requestOptions.outFields) {
+    requestOptions.outFields = [
+      "OBJECTID",
+      "author",
+      "description",
+      "source",
+      "status",
+      "target",
+      "dataset_id",
+      "created_at",
+      "updated_at"
+    ];
+  }
+
   return queryFeatures(requestOptions).then(response => {
     const users: string[] = [];
 
@@ -74,9 +88,6 @@ export function searchAnnotations(
 
     const getUserInfo = users.map(name => getUser(name));
     const data = response.features;
-    const meta = response;
-    // only pass through the actual features from the query response once
-    delete meta.features;
 
     return Promise.all(getUserInfo).then(userInfo => {
       const included: any[] = [];
@@ -84,7 +95,7 @@ export function searchAnnotations(
         included.push({ id: attributes.username, type: `user`, attributes });
       });
 
-      return { included, data, meta };
+      return { included, data };
     });
 
     /*
