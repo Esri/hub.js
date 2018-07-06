@@ -6,8 +6,12 @@ import {
 
 import { UserSession } from "@esri/arcgis-rest-auth";
 
-// import { addFeatures } from "@esri/arcgis-rest-feature-service";
+import * as featureService from "@esri/arcgis-rest-feature-service";
 
+import { IAddFeaturesRequestOptions } from "@esri/arcgis-rest-feature-service";
+import { IFeature } from "../node_modules/@esri/arcgis-rest-common-types";
+
+// TODO: remove this after switching all tests to spies
 import * as fetchMock from "fetch-mock";
 
 export const addFeaturesResponse = {
@@ -54,14 +58,16 @@ const annoUrl =
   "https://services.arcgis.com/xyz/arcgis/rest/services/Hub%20Annotations/FeatureServer/0";
 
 describe("add/update/deleteAnnotations", () => {
+  // TODO: remove this after switching all tests to spies
   afterEach(fetchMock.restore);
 
   it("should add an annotation and append a few helpful default parameters", done => {
-    fetchMock.once("*", addFeaturesResponse);
-
-    // stubbing addFeatures would be better than the current duplicative tests
-    // let paramsSpy: jasmine.spy;
-    // paramsSpy = spyOn(?, addFeatures).and.callThrough();
+    // stub add features
+    const paramsSpy = spyOn(featureService, "addFeatures").and.returnValue(
+      new Promise(resolve => {
+        resolve(addFeaturesResponse);
+      })
+    );
 
     addAnnotations({
       url: annoUrl,
@@ -75,33 +81,24 @@ describe("add/update/deleteAnnotations", () => {
         }
       ]
     }).then(response => {
-      // expect(paramsSpy).toHaveBeenCalled();
-      const [url, options]: [string, RequestInit] = fetchMock.lastCall();
-
-      expect(url).toEqual(`${annoUrl}/addFeatures`);
-      expect(options.method).toBe("POST");
-      expect(options.body).toContain("f=json");
-      expect(options.body).toContain(
-        "features=" + encodeURIComponent('[{"attributes":{"')
+      expect(paramsSpy.calls.count()).toEqual(1);
+      const opts = paramsSpy.calls.argsFor(0)[0] as IAddFeaturesRequestOptions;
+      expect(opts.url).toEqual(annoUrl);
+      const anno = opts.adds[0] as IFeature;
+      expect(anno.attributes.description).toEqual(
+        "what do we want? bike lanes! when do we want them? now!"
       );
-      expect(options.body).toContain(encodeURIComponent(`"author":"casey"`));
-      expect(options.body).toContain(
-        encodeURIComponent(
-          `"description":"what do we want? bike lanes! when do we want them? now!"`
-        )
-      );
-      expect(options.body).toContain(encodeURIComponent(`"status":"pending"`));
-      expect(options.body).toContain(encodeURIComponent(`"source":"hub.js"`));
-      // needs to be flexible ~10ms
-      // expect(options.body).toContain(
-      //   encodeURIComponent(`"created_at":`) + new Date().getTime()
-      // );
-      expect(response.addResults[0].success).toEqual(true);
+      expect(anno.attributes.status).toEqual("pending");
+      expect(anno.attributes.author).toEqual("casey");
+      expect(anno.attributes.source).toEqual("hub.js");
+      // TODO: created_at needs to be flexible ~10ms
+      // expect(anno.attributes.created_at).toEqual(new Date().getTime());
       done();
     });
   });
 
   it("should add an annotation when no authentication is passed", done => {
+    // TODO: spyify
     fetchMock.once("*", addFeaturesResponse);
 
     addAnnotations({
@@ -137,6 +134,7 @@ describe("add/update/deleteAnnotations", () => {
   });
 
   it("should preserve developer supplied attributes when adding an annotation", done => {
+    // TODO: spyify
     fetchMock.once("*", addFeaturesResponse);
 
     addAnnotations({
@@ -176,6 +174,7 @@ describe("add/update/deleteAnnotations", () => {
   });
 
   it("should update an annotation", done => {
+    // TODO: spyify
     fetchMock.once("*", updateFeaturesResponse);
 
     updateAnnotations({
@@ -212,6 +211,7 @@ describe("add/update/deleteAnnotations", () => {
   });
 
   it("should delete an annotation", done => {
+    // TODO: spyify
     fetchMock.once("*", deleteFeaturesResponse);
 
     deleteAnnotations({
