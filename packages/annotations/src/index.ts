@@ -2,3 +2,6 @@
  * Apache-2.0 */
 
 export * from "./annotations";
+export * from "./add";
+export * from "./update";
+export * from "./delete";
