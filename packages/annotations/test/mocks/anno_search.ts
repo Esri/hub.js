@@ -1,59 +1,15 @@
-const annoQueryResponseEmptyFeatureless = {
+import { IResourceObject } from "../../src/search";
+
+export const annoQueryResponseEmpty = {
   objectIdFieldName: "OBJECTID",
   globalIdFieldName: "",
   geometryType: "esriGeometryPolygon",
   spatialReference: {
     wkid: 4326,
     latestWkid: 4326
-  }
-};
-
-export const annoQueryResponseEmpty = {
-  ...annoQueryResponseEmptyFeatureless,
+  },
   features: [] as any
 };
-
-const data = [
-  {
-    attributes: {
-      OBJECTID: 1,
-      author: "casey",
-      source: null as any,
-      status: "pending",
-      target: null as any,
-      description: "this is where the comments go",
-      created_at: 1349395200000,
-      updated_at: null,
-      dataset_id: "sgj432"
-    }
-  },
-  {
-    attributes: {
-      OBJECTID: 2,
-      author: "jones",
-      source: null as any,
-      status: "pending",
-      target: null as any,
-      description: "this is where the comments go",
-      created_at: 1349395200001,
-      updated_at: null as any,
-      dataset_id: "xds466"
-    }
-  },
-  {
-    attributes: {
-      OBJECTID: 3,
-      author: "casey",
-      source: null as any,
-      status: "pending",
-      target: null as any,
-      data: "i like to hear myself talk",
-      created_at: 1349395200002,
-      updated_at: null as any,
-      dataset_id: "xds466"
-    }
-  }
-];
 
 export const annoQueryResponse = {
   objectIdFieldName: "OBJECTID",
@@ -64,7 +20,47 @@ export const annoQueryResponse = {
     latestWkid: 4326
   },
   // fields: [],
-  features: data
+  features: [
+    {
+      attributes: {
+        OBJECTID: 1,
+        author: "casey",
+        source: null as any,
+        status: "pending",
+        target: "something",
+        description: "this is where the comments go",
+        created_at: 1349395200000,
+        updated_at: null,
+        dataset_id: "sgj432"
+      }
+    },
+    {
+      attributes: {
+        OBJECTID: 2,
+        author: "jones",
+        source: null as any,
+        status: "pending",
+        target: "something",
+        description: "this is where the comments go",
+        created_at: 1349395200001,
+        updated_at: null as any,
+        dataset_id: "xds466"
+      }
+    },
+    {
+      attributes: {
+        OBJECTID: 3,
+        author: "casey",
+        source: null as any,
+        status: "pending",
+        target: "something",
+        data: "i like to hear myself talk",
+        created_at: 1349395200002,
+        updated_at: null as any,
+        dataset_id: "xds466"
+      }
+    }
+  ]
 };
 
 export const userResponseCasey = {
@@ -111,9 +107,59 @@ export const userResponseJones = {
   provider: "arcgis"
 };
 
+const data = [
+  {
+    id: "casey",
+    type: "annotations",
+    attributes: {
+      OBJECTID: 1,
+      author: "casey",
+      source: null as any,
+      status: "pending",
+      target: "something",
+      description: "this is where the comments go",
+      created_at: 1349395200000,
+      updated_at: null,
+      dataset_id: "sgj432"
+    }
+  },
+  {
+    id: "jones",
+    type: "annotations",
+    attributes: {
+      OBJECTID: 2,
+      author: "jones",
+      source: null as any,
+      status: "pending",
+      target: "something",
+      description: "this is where the comments go",
+      created_at: 1349395200001,
+      updated_at: null as any,
+      dataset_id: "xds466"
+    }
+  },
+  {
+    id: "casey",
+    type: "annotations",
+    attributes: {
+      OBJECTID: 3,
+      author: "casey",
+      source: null as any,
+      status: "pending",
+      target: "something",
+      data: "i like to hear myself talk",
+      created_at: 1349395200002,
+      updated_at: null as any,
+      dataset_id: "xds466"
+    }
+  }
+] as IResourceObject[];
+
 export const annoResponseEmpty = {
-  data: [] as any,
-  included: [] as any
+  // data: [] as Array<IResourceObject>,
+  // included: [] as Array<IResourceObject>
+  data: [] as IResourceObject[],
+  included: [] as IResourceObject[]
 };
 
 export const annoResponse = {
@@ -121,13 +167,13 @@ export const annoResponse = {
   included: [
     {
       id: userResponseCasey.username,
-      type: "user",
+      type: "users",
       attributes: userResponseCasey
     },
     {
       id: userResponseJones.username,
-      type: "user",
+      type: "users",
       attributes: userResponseJones
     }
-  ]
+  ] as IResourceObject[]
 };
