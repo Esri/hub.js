@@ -2,16 +2,8 @@
  * Apache-2.0 */
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-
-import {
-  IQueryFeaturesRequestOptions,
-  queryFeatures
-} from "@esri/arcgis-rest-feature-service";
-
 import { IItem } from "@esri/arcgis-rest-common-types";
 import { searchItems, ISearchResult } from "@esri/arcgis-rest-items";
-
-import { getUser } from "@esri/arcgis-rest-users";
 
 export interface IAnnoSearchResult extends ISearchResult {
   results: IAnnoItem[];
@@ -50,40 +42,5 @@ export function getAnnotationServiceUrl(
         "No annotation service found. Commenting is likely not enabled."
       );
     }
-  });
-}
-
-/**
- * Query for annotations from ArcGIS Hub.
- * @param requestOptions - request options that may include authentication
- * @returns A Promise that will resolve with decorated features from the annotation service for a Hub enabled ArcGIS Online organization.
- */
-
-export function searchAnnotations(
-  requestOptions: IQueryFeaturesRequestOptions
-): Promise<any /* make it a type */> {
-  return queryFeatures(requestOptions).then(response => {
-    const users: string[] = [];
-
-    if (response.features && response.features.length > 0) {
-      response.features.forEach(function(comment) {
-        if (users.indexOf(comment.attributes.author) === -1) {
-          users.push(comment.attributes.author);
-        }
-      });
-    }
-
-    const getUserInfo = users.map(name => getUser(name));
-
-    return Promise.all(getUserInfo).then(values => {
-      return { users: values, features: response.features };
-    });
-
-    /*
-      {
-        features: [],
-        users: [] // guaranteed to be unique
-      }
-      */
   });
 }

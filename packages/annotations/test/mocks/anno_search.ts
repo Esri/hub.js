@@ -1,3 +1,5 @@
+import { IResourceObject } from "../../src/search";
+
 export const annoQueryResponseEmpty = {
   objectIdFieldName: "OBJECTID",
   globalIdFieldName: "",
@@ -6,45 +8,8 @@ export const annoQueryResponseEmpty = {
     wkid: 4326,
     latestWkid: 4326
   },
-  // fields: [],
   features: [] as any
 };
-
-const features = [
-  {
-    attributes: {
-      OBJECTID: 1,
-      author: "casey",
-      data: "this is where the comments go",
-      created_at: 1349395200000,
-      dataset_id: "sgj432",
-      Shape__Area: 1,
-      Shape__Length: 1
-    }
-  },
-  {
-    attributes: {
-      OBJECTID: 1,
-      author: "jones",
-      data: "this is where the comments go",
-      created_at: 1349395200001,
-      dataset_id: "xds466",
-      Shape__Area: 1,
-      Shape__Length: 1
-    }
-  },
-  {
-    attributes: {
-      OBJECTID: 1,
-      author: "casey",
-      data: "i like to hear myself talk",
-      created_at: 1349395200002,
-      dataset_id: "xds466",
-      Shape__Area: 1,
-      Shape__Length: 1
-    }
-  }
-];
 
 export const annoQueryResponse = {
   objectIdFieldName: "OBJECTID",
@@ -55,7 +20,47 @@ export const annoQueryResponse = {
     latestWkid: 4326
   },
   // fields: [],
-  features
+  features: [
+    {
+      attributes: {
+        OBJECTID: 1,
+        author: "casey",
+        source: null as any,
+        status: "pending",
+        target: "something",
+        description: "this is where the comments go",
+        created_at: 1349395200000,
+        updated_at: null,
+        dataset_id: "sgj432"
+      }
+    },
+    {
+      attributes: {
+        OBJECTID: 2,
+        author: "jones",
+        source: null as any,
+        status: "pending",
+        target: "something",
+        description: "this is where the comments go",
+        created_at: 1349395200001,
+        updated_at: null as any,
+        dataset_id: "xds466"
+      }
+    },
+    {
+      attributes: {
+        OBJECTID: 3,
+        author: "casey",
+        source: null as any,
+        status: "pending",
+        target: "something",
+        data: "i like to hear myself talk",
+        created_at: 1349395200002,
+        updated_at: null as any,
+        dataset_id: "xds466"
+      }
+    }
+  ]
 };
 
 export const userResponseCasey = {
@@ -102,12 +107,73 @@ export const userResponseJones = {
   provider: "arcgis"
 };
 
+const data = [
+  {
+    id: "casey",
+    type: "annotations",
+    attributes: {
+      OBJECTID: 1,
+      author: "casey",
+      source: null as any,
+      status: "pending",
+      target: "something",
+      description: "this is where the comments go",
+      created_at: 1349395200000,
+      updated_at: null,
+      dataset_id: "sgj432"
+    }
+  },
+  {
+    id: "jones",
+    type: "annotations",
+    attributes: {
+      OBJECTID: 2,
+      author: "jones",
+      source: null as any,
+      status: "pending",
+      target: "something",
+      description: "this is where the comments go",
+      created_at: 1349395200001,
+      updated_at: null as any,
+      dataset_id: "xds466"
+    }
+  },
+  {
+    id: "casey",
+    type: "annotations",
+    attributes: {
+      OBJECTID: 3,
+      author: "casey",
+      source: null as any,
+      status: "pending",
+      target: "something",
+      data: "i like to hear myself talk",
+      created_at: 1349395200002,
+      updated_at: null as any,
+      dataset_id: "xds466"
+    }
+  }
+] as IResourceObject[];
+
 export const annoResponseEmpty = {
-  features: [] as any,
-  users: [] as any
+  // data: [] as Array<IResourceObject>,
+  // included: [] as Array<IResourceObject>
+  data: [] as IResourceObject[],
+  included: [] as IResourceObject[]
 };
 
 export const annoResponse = {
-  features,
-  users: [userResponseCasey, userResponseJones]
+  data,
+  included: [
+    {
+      id: userResponseCasey.username,
+      type: "users",
+      attributes: userResponseCasey
+    },
+    {
+      id: userResponseJones.username,
+      type: "users",
+      attributes: userResponseJones
+    }
+  ] as IResourceObject[]
 };
