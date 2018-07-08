@@ -77,7 +77,9 @@ describe("add/update/deleteAnnotations", () => {
         {
           attributes: {
             description:
-              "what do we want? bike lanes! when do we want them? now!"
+              "what do we want? bike lanes! when do we want them? now!",
+            target:
+              "https://services.arcgis.com/xyz/arcgis/rest/services/CityX_bikeshare_locations/FeatureServer/0"
           }
         }
       ]
@@ -113,7 +115,9 @@ describe("add/update/deleteAnnotations", () => {
           attributes: {
             description:
               "what do we want? bike lanes! when do we want them? now!",
-            author: "casey"
+            author: "casey",
+            target:
+              "https://services.arcgis.com/xyz/arcgis/rest/services/CityX_bikeshare_locations/FeatureServer/0"
           }
         }
       ],
@@ -150,7 +154,9 @@ describe("add/update/deleteAnnotations", () => {
         {
           attributes: {
             description:
-              "what do we want? bike lanes! when do we want them? now!"
+              "what do we want? bike lanes! when do we want them? now!",
+            target:
+              "https://services.arcgis.com/xyz/arcgis/rest/services/CityX_bikeshare_locations/FeatureServer/0"
           }
         }
       ]
@@ -188,7 +194,9 @@ describe("add/update/deleteAnnotations", () => {
             description:
               "what do we want? bike lanes! when do we want them? now!",
             status: "URGENT!",
-            source: "somewhere else"
+            source: "somewhere else",
+            target:
+              "https://services.arcgis.com/xyz/arcgis/rest/services/CityX_bikeshare_locations/FeatureServer/0"
           }
         }
       ]
