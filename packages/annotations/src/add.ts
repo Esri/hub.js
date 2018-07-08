@@ -14,6 +14,7 @@ import { IFeature } from "@esri/arcgis-rest-common-types";
 export interface IAnnoFeature extends IFeature {
   attributes: {
     target: string;
+    description: string;
     [key: string]: any;
   };
 }
