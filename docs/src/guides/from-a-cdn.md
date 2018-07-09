@@ -29,7 +29,7 @@ group: 1-get-started
 
   <script>
     // when including @esri/hub.js all exports are available from an esriHub global
-    esriHub.fetchInitiative("acb123").then(response => {
+    arcgisHub.fetchInitiative("acb123").then(response => {
       console.log(response);
     });
   </script>

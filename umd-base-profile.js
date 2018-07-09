@@ -32,7 +32,7 @@ const copyright = `/* @preserve
  * The module name will be the name of the global variable used in UMD builds.
  * All exported members of each package will be attached to this global.
  */
-const moduleName = "esriHub";
+const moduleName = "arcgisHub";
 
 /**
  * Now we need to discover all the `@esri/hub-*` package names so we can create
