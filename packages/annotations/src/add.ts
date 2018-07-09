@@ -9,13 +9,26 @@ import {
   IAddFeaturesResult
 } from "@esri/arcgis-rest-feature-service";
 
+import { IFeature } from "@esri/arcgis-rest-common-types";
+
+export interface IAnnoFeature extends IFeature {
+  attributes: {
+    target: string;
+    description: string;
+    [key: string]: any;
+  };
+}
+export interface IAddAnnotationsRequestOptions
+  extends IAddFeaturesRequestOptions {
+  adds: IAnnoFeature[];
+}
 /**
  * Add an annotation to ArcGIS Hub. Uses authentication to derive authorship, appends a timestamp and sets a default status of "pending" to new comments by default.
  * @param requestOptions - request options that may include authentication
  * @returns A Promise that will resolve with response from the service after attempting to add one or more new annotations.
  */
 export function addAnnotations(
-  requestOptions: IAddFeaturesRequestOptions
+  requestOptions: IAddAnnotationsRequestOptions
 ): Promise<IAddFeaturesResult> {
   const session = requestOptions.authentication as UserSession;
   const author = session ? session.username : null;
