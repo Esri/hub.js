@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub.js",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "compact, modular JavaScript wrappers for ArcGIS Hub that run in Node.js and modern browsers.",
   "devDependencies": {
     "@types/es6-promise": "0.0.32",
@@ -111,7 +111,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/arcgis/hub.js.git"
+    "url": "git+https://github.com/Esri/hub.js.git"
   },
   "contributors": [
     {
@@ -126,9 +126,9 @@
   ],
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/Esri/arcgis/hub.js/issues"
+    "url": "https://github.com/Esri/hub.js/issues"
   },
-  "homepage": "https://github.com/Esri/arcgis/hub.js#readme",
+  "homepage": "https://github.com/Esri/hub.js#readme",
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-lerna-changelog"

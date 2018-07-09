@@ -4,7 +4,7 @@ ghpages.publish(
   "docs/build",
   {
     branch: "gh-pages",
-    repo: "https://github.com/ArcGIS/hub.js.git"
+    repo: "https://github.com/Esri/hub.js.git"
   },
   function(err) {
     if (err) {
