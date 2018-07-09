@@ -70,7 +70,9 @@ Some useful commands include:
 ### Packages
 
 * [`@esri/hub-common-types`](./packages/common-types) - Typescript typings we reuse.
-* [`@esri/hub-initiatives`](./packages/initiatives) - Helper functions for working with Initiatives.
+* [`@esri/hub-initiatives`](./packages/initiatives) - Helper functions for working with [Hub Initiatives](https://doc.arcgis.com/en/hub/initiatives/initiatives-overview.htm).
+* [`@esri/hub-sites`](./packages/sites) - Helper functions for working with [Hub Sites](https://doc.arcgis.com/en/hub/sites/create-a-hub-site.htm).
+* [`@esri/hub-auth`](./packages/auth) - Helper functions for authentication.
 
 ### Design Philosophy
 
