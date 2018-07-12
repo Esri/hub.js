@@ -24,6 +24,10 @@ group: 1-get-started
   <!-- require polyfills for fetch and Promise from https://polyfill.io -->
   <script src="https://cdn.polyfill.io/v2/polyfill.js?features=es5,Promise,fetch"></script>
 
+  <!-- hub.js has external dependencies on @esri/arcgis-rest-js packages -->
+  <script src="https://unpkg.com/@esri/arcgis-rest-request"></script>
+  <script src="https://unpkg.com/@esri/arcgis-rest-items"></script>
+
   <!-- require @esri/hub.js libraries from https://unpkg.com -->
   <script src="{% cdnUrl data.typedoc | findPackage('@esri/hub-initiatives') %}"></script>
 

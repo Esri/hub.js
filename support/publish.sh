@@ -32,7 +32,7 @@ zip -r $TEMP_FOLDER.zip $TEMP_FOLDER
 rm -rf $TEMP_FOLDER
 
 # Run gh-release to create a new release with our changelog changes and ZIP archive
-gh-release --t v$VERSION --repo hub.js --owner ArcGIS -a $TEMP_FOLDER.zip
+gh-release --t v$VERSION --repo hub.js --owner Esri -a $TEMP_FOLDER.zip
 
 # Delete the ZIP archive
 rm $TEMP_FOLDER.zip
