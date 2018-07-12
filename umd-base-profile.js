@@ -33,6 +33,7 @@ const copyright = `/* @preserve
  * All exported members of each package will be attached to this global.
  */
 const moduleName = "arcgisHub";
+const arcgisRestModuleName = 'arcgisRest'
 
 /**
  * Now we need to discover all the `@esri/hub-*` package names so we can create
@@ -46,15 +47,30 @@ const packageNames = fs
   }, {});
 
 /**
+ * Now we need to discover all the `@esri/arcgis-rest-*` package names so we can create
+ * the `globals` and `externals` to pass to Rollup.
+ */
+const arcgisRestJsPackageNames = Object.keys(pkg.dependencies)
+  .filter(key => /@esri\/arcgis-rest/.test(key));
+
+/**
  * Rollup will use this map to determine where to lookup modules on the global
  * window object when neither AMD or CommonJS is being used. This configuration
  * will cause Rollup to lookup all imports from our packages on a single global
- * `arcgisRest` object.
+ * `arcgisHub` object.
  */
 const globals = packageNames.reduce((globals, p) => {
   globals[p] = moduleName;
   return globals;
 }, {});
+/**
+* now we tell Rollup to lookup all imports from arcgis-rest-js on a single global
+* `arcgisRest` object.
+*/
+arcgisRestJsPackageNames.reduce((globals, p) => {
+  globals[p] = arcgisRestModuleName;
+  return globals;
+}, globals);
 
 /**
  * Now we can export the Rollup config!
@@ -71,7 +87,7 @@ export default {
     extend: true // causes this module to extend the global specified by `moduleName`
   },
   context: "window",
-  external: packageNames,
+  external: packageNames.concat(arcgisRestJsPackageNames),
   plugins: [
     typescript(),
     json(),

@@ -9,7 +9,7 @@
     "dist/types/index.d.ts"
   ],
   "dependencies": {
-    "@esri/arcgis-rest-common-types": "^1.2.1"
+    "@esri/arcgis-rest-common-types": "^1.5.1"
   },
   "scripts": {
     "prepare": "npm run build",
