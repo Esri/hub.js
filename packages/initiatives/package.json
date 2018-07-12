@@ -10,10 +10,10 @@
   "license": "Apache-2.0",
   "dependencies": {
     "tslib": "^1.7.1",
-    "@esri/arcgis-rest-request": "^1.2.1",
-    "@esri/arcgis-rest-auth": "^1.2.1",
-    "@esri/arcgis-rest-items": "^1.2.1",
-    "@esri/arcgis-rest-common-types": "^1.2.1"
+    "@esri/arcgis-rest-request": "^1.5.1",
+    "@esri/arcgis-rest-auth": "^1.5.1",
+    "@esri/arcgis-rest-items": "^1.5.1",
+    "@esri/arcgis-rest-common-types": "^1.5.1"
   },
   "peerDependencies": {
     "@esri/hub-common-types": "^1.0.0",
