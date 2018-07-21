@@ -4,73 +4,39 @@
     <meta charset="utf-8">
     <title>Hub.js OAuth2</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="http://esri.github.io/calcite-bootstrap/styles/calcite-bootstrap.min.css">
+    
     <link rel="stylesheet" href="./style.css">
     <script src="https://cdn.polyfill.io/v2/polyfill.js?features=es5,Promise,fetch"></script>
   </head>
   <body>
-    <div id="app-wrapper">
-      <div class="jumbotron">
-        <div class="container">
-          <div id="page-header" class="row">
-            <div id="logo-container" class="col-sm-3">
-              <img id="logo" src="./logo.svg">
-            </div>
-            <div class="col-sm-9">
-              <h2>
-                Hub.js OAuth2
-              </h2>
-              <p>
-                Browser-based community login.
-              </p>
-            </div>
-          </div>
-        </div>
+    <h3>A Hub community account allows you to:</h3>
+      <ul>
+        <li>Follow Hub initiatives to stay up to date and informed</li>
+        <li>Register for Hub events to engage with the Hub</li>
+        <li>Create analyses and narratives to tell your own stories with Hub data</li>
+      </ul>
+      <hr />
+      <h3>Sign In/Sign Up</h3>
+      <div>
+        <button className="btn btn-block btn-social btn-facebook" id="loginFacebook">
+          <img src="//d1iq7pbacwn5rb.cloudfront.net/opendata-ui/assets/assets/images/facebook_btn-cece4e56a57496bc2da4c62d8fbd691d.png" alt="" /> Using Facebook
+        </button>
+        <button className="btn btn-block btn-social btn-google" id="loginGoogle">
+          <img src="//d1iq7pbacwn5rb.cloudfront.net/opendata-ui/assets/assets/images/google_btn-8b7e21aaa900e1cb388760f964bb0b5b.png" alt="" style="height:32px; width: 32px;"/> Sign in with Google
+        </button>
+        <button className="btn btn-block btn-social btn-ago" id="loginEnterprise">
+          <img src="//d1iq7pbacwn5rb.cloudfront.net/opendata-ui/assets/assets/images/bank-34bcd4a0cb3cf2f66d6161f95a3be3d0.png" alt="" style="height:32px; width: 32px;"/> Sign in with Organization
+        </button>
       </div>
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-12">
-            <p class="help-block">
-              You can generate your own <code>clientid</code> by creating an application on the
-              <a target='_blank' href='https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/browser-based-user-logins/'>
-                ArcGIS for Developers
-              </a>
-              website. Be sure to add
-              <code id="redirect_uri">
-                <!-- Redirect URI will be injected here. -->
-              </code>
-              as a redirect uri for your application.
-            </p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-xs-3"></div>
-            <div class="col-xs-6 text-center">
-            <!-- Event listeners will be added to these buttons. -->
-            <button class="btn btn-primary btn-block" id='withPopupButton'>Sign In</button>
-          </div>
-          <div class="col-xs-3"></div>
-        </div>
-
-        <div class="row">
-          <div class="col-xs-12 text-center">
-            <p id="sessionInfo" class="info-panel">
-              <!-- Information will be injected here. -->
-            </p>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-xs-3">
-          </div>
-          <div class="col-xs-6 text-center">
-            <!-- Event listeners will be added to these buttons. -->
-            <button class="btn btn-primary btn-block btn-warning" id='signOutButton'>Sign Out</button>
-          </div>
-          <div class="col-xs-3">
-          </div>
-        </div>
-      </div>
-    </div>
+      <hr />
+      <h4><a role="button" data-toggle="collapse" aria-expanded="false" aria-controls="" className="signin-faq"><span className="glyphicon glyphicon-triangle-right"></span> FAQ</a></h4>
+      <dl>
+        <dt>"Why can't I login with my public account?"</dt>
+        <dd>Your public account does not give you access to Hub features. You need a community account.</dd>
+        <dt>"Why can't I sign up with an email other than Google or Facebook?"</dt>
+        <dd>Email signups need manual admin approval and by using these alternatives, we can get you signed in immediately.</dd>
+      </dl>
 
     <!-- pull clientid from config.js if present -->
     <script src="config.js"></script>
@@ -82,12 +48,10 @@
       let session = null;
 
       // Define the variable used for the redirect uri.
-      const redirect_uri = window.location.origin + window.location.pathname;
-      // Inject that value into the page text.
-      document.getElementById('redirect_uri').innerHTML = redirect_uri;
+      const redirect_uri = window.location.origin + window.location.pathname + "authenticate.html";
 
-      if (!clientId) {
-        console.warn("take a look at the README.md")
+      if (!config.clientId) {
+        console.warn("the README.md provides instructions to get started.")
       }
 
       // Check to see if there is a serialized session in local storage.
@@ -99,50 +63,44 @@
         parsed.tokenExpires = new Date(parsed.tokenExpires);
         // Create the new session object.
         session = new arcgisRest.UserSession(parsed);
-        // console.log(session);
-        // Update the UI.
         // Clear the previous session.
         localStorage.removeItem('__ARCGIS_REST_USER_SESSION__');
       }
 
-      // Function to update the UI with session info.
-      function updateSessionInfo(session) {
-        let sessionInfo = document.getElementById('sessionInfo')
-        if (session) {
-          sessionInfo.classList.remove('bg-info');
-          sessionInfo.classList.add('bg-success');
-          sessionInfo.innerHTML = 'Logged in as ' +  session.username;
-          localStorage.setItem('__ARCGIS_REST_USER_SESSION__', session.serialize());
-        } else {
-          sessionInfo.classList.remove('bg-success');
-          sessionInfo.classList.add('bg-info');
-          sessionInfo.innerHTML = 'Log in using one of the methods above to start a session.';
-        }
-      }
-
-      // Call the function on page load to set current state.
-      updateSessionInfo(session);
-
-      // Attach a listener to the sign in buttons.
-      document.getElementById('withPopupButton').addEventListener('click', function (event) {
+      document.getElementById("loginFacebook").addEventListener("click", function (event) {
         event.preventDefault();
 
-        // Begin an OAuth2 login using a popup.
         arcgisHub.beginAuth({
-          clientId: clientId,
-          redirectUri: redirect_uri + 'authenticate.html',
-          popup: false
+          clientId: config.clientId,
+          redirectUri,
+          popup: true,
+          provider: "facebook",
+          portal: config.communityOrg
         })
       });
 
-      // Attach a listener to the sign in buttons.
-      document.getElementById('signOutButton').addEventListener('click', function (event) {
+      document.getElementById("loginGoogle").addEventListener("click", function (event) {
         event.preventDefault();
 
-        // Clear the previous session.
-        session = null;
-        localStorage.removeItem('__ARCGIS_REST_USER_SESSION__');
-        updateSessionInfo();
+        arcgisHub.beginAuth({
+          clientId: config.clientId,
+          redirectUri,
+          popup: true,
+          provider: "google",
+          portal: config.communityOrg
+        })
+      });
+
+      // could/should we hide social media login buttons?
+      document.getElementById("loginEnterprise").addEventListener("click", function (event) {
+        event.preventDefault();
+
+        arcgisHub.beginAuth({
+          clientId: config.clientId,
+          redirectUri,
+          popup: true,
+          portal: config.enterpriseOrg
+        })
       });
     </script>
   </body>
