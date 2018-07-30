@@ -29,11 +29,10 @@ export function finishAuth(
     httpMethod: "GET"
   }).then(response => {
     if (Date.now() - response.created < 5000) {
-      // to do: sniff out community orgId and pass that through instead.
       return request(`${baseUrl}/update`, {
         params: {
           token,
-          tags: ["hubRole:participant", "org:123"],
+          tags: ["hubRole:participant", `org:${response.orgId}`],
           access: "public"
         }
       }).then(() => {
