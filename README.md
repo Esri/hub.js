@@ -3,8 +3,8 @@
 [![Coverage Status][coverage-img]][coverage-url]
 [![apache licensed][license-img]][license-url]
 
-[npm-img]: https://img.shields.io/npm/v/@esri/hub.js.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/@esri/hub.js
+[npm-img]: https://img.shields.io/npm/v/@esri/hub-initiatives.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/@esri/hub-initiatives
 [travis-img]: https://img.shields.io/travis/Esri/hub.js/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/Esri/hub.js
 [coverage-img]: https://coveralls.io/repos/github/Esri/hub.js/badge.svg
