@@ -2,7 +2,6 @@ const path = require("path");
 const fs = require("fs");
 const { inspect } = require("util");
 const _ = require("lodash");
-const slug = require("slug");
 
 const IS_DEV = process.env.ENV !== "prod";
 const BASE_URL = process.env.ENV === "prod" ? "/hub.js" : "";
