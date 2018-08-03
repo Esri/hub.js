@@ -28,6 +28,8 @@ describe("auth", () => {
       }
     };
 
+    done();
+
     // do i need to mock the supplemental call responses?
 
     // finishOAuth2(
