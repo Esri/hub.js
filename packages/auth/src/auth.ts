@@ -5,16 +5,9 @@ import { request } from "@esri/arcgis-rest-request";
 import { UserSession, IOauth2Options } from "@esri/arcgis-rest-auth";
 
 /**
- * start the thing.
+ * to do.
  */
-export function beginAuth(options: IOauth2Options) {
-  return UserSession.beginOAuth2(options);
-}
-
-/**
- * you get the idea.
- */
-export function finishAuth(
+export function finishOAuth2(
   options: IOauth2Options,
   win: any = window
 ): Promise<UserSession> {

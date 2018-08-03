@@ -69,39 +69,29 @@
 
       document.getElementById("loginFacebook").addEventListener("click", function (event) {
         event.preventDefault();
-
-        arcgisHub.beginAuth({
-          clientId: config.clientId,
-          redirectUri,
-          popup: true,
-          provider: "facebook",
-          portal: config.communityOrg
-        })
+        launchAuth("facebook");
       });
 
       document.getElementById("loginGoogle").addEventListener("click", function (event) {
         event.preventDefault();
-
-        arcgisHub.beginAuth({
-          clientId: config.clientId,
-          redirectUri,
-          popup: true,
-          provider: "google",
-          portal: config.communityOrg
-        })
+        launchAuth("google");
       });
 
       // could/should we hide social media login buttons?
       document.getElementById("loginEnterprise").addEventListener("click", function (event) {
         event.preventDefault();
+        launchAuth("arcgis");
+      });
 
-        arcgisHub.beginAuth({
+      function launchAuth (provider) {
+        arcgisRest.UserSession.beginOAuth2({
           clientId: config.clientId,
           redirectUri,
           popup: false,
-          portal: config.enterpriseOrg
+          portal: config.enterpriseOrg,
+          provider,
         })
-      });
+      }
     </script>
   </body>
 </html>
