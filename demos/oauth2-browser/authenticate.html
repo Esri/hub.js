@@ -17,7 +17,7 @@
       );
       const clientId = match[1];
 
-      arcgisHub.finishAuth({
+      arcgisHub.finishOAuth2({
         clientId,
       })
         .then(newSession => {
