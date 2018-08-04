@@ -1,31 +1,20 @@
 {
-  "name": "@esri/hub-initiatives",
+  "name": "@esri/hub-common",
   "version": "1.0.1",
-  "description": "Module to interact with ArcGIS Hub Initiatives in Node.js and modern browsers.",
+  "description": "Common TypeScript types and utility functions for @esri/hub.js.",
   "main": "dist/node/index.js",
-  "browser": "dist/umd/initiatives.umd.js",
+  "browser": "dist/umd/common.umd.js",
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
-  "types": "dist/esm/index.d.ts",
+  "types": "dist/types/index.d.ts",
+  "author": "",
   "license": "Apache-2.0",
-  "dependencies": {
-    "@esri/arcgis-rest-auth": "^1.5.1",
-    "@esri/arcgis-rest-common-types": "^1.5.1",
-    "@esri/arcgis-rest-items": "^1.5.1",
-    "@esri/arcgis-rest-request": "^1.5.1",
-    "tslib": "^1.7.1"
-  },
-  "peerDependencies": {
-    "@esri/hub-common": "^1.0.0",
-    "@esri/hub-sites": "^1.0.0"
-  },
-  "devDependencies": {
-    "@esri/hub-common": "^1.0.1",
-    "@esri/hub-sites": "^1.0.1"
-  },
   "files": [
     "dist/**"
   ],
+  "dependencies": {
+    "@esri/arcgis-rest-common-types": "^1.5.1"
+  },
   "scripts": {
     "prepare": "npm run build",
     "build": "npm run build:node && npm run build:umd && npm run build:esm",
@@ -36,15 +25,19 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Esri/hub.js.git"
-  },
+  "repository": "github:/Esri/hub.js",
   "contributors": [
     {
       "name": "Dave Bouwman",
-      "email": "dbouwman@esri.com",
-      "url": "http://davebouwman.com/"
+      "email": "dbouwman@esri.com"
+    },
+    {
+      "name": "John Gravois",
+      "email": "john@esri.com"
+    },
+    {
+      "name": "Tom Wayson",
+      "email": "twayson@esri.com"
     }
   ],
   "bugs": {

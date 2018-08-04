@@ -2,19 +2,19 @@
 [![build status][travis-img]][travis-url]
 [![apache licensed](https://img.shields.io/badge/license-Apache-green.svg?style=flat-square)](https://raw.githubusercontent.com/Esri/hub.js/master/LICENSE)
 
-[npm-img]: https://img.shields.io/npm/v/@esri/hub-common-types.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/@esri/hub-common-types
+[npm-img]: https://img.shields.io/npm/v/@esri/hub-common.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/@esri/hub-common
 [travis-img]: https://img.shields.io/travis/Esri/hub.js/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/Esri/hub.js
 
-# @esri/hub-common-types
+# @esri/hub-common
 
-> Common TypeScript types for [`@esri/hub.js`](https://github.com/Esri/hub.js) packages.
+> Common TypeScript types and utility functions for [`@esri/hub.js`](https://github.com/Esri/hub.js).
 
 ### Example
 
 ```bash
-npm install @esri/hub-common-types
+npm install @esri/hub-common
 ```
 
 ```ts

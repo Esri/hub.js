@@ -16,10 +16,10 @@
     "tslib": "^1.7.1"
   },
   "peerDependencies": {
-    "@esri/hub-common-types": "^1.0.0"
+    "@esri/hub-common": "^1.0.0"
   },
   "devDependencies": {
-    "@esri/hub-common-types": "^1.0.1"
+    "@esri/hub-common": "^1.0.1"
   },
   "files": [
     "dist/**"
