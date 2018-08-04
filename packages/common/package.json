@@ -6,7 +6,7 @@
   "browser": "dist/umd/common.umd.js",
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "types": "dist/esm/index.d.ts",
   "author": "",
   "license": "Apache-2.0",
   "files": [
