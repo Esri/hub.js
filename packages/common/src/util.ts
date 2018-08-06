@@ -13,9 +13,9 @@ export function cloneObject(obj: any) {
     for (const i in obj) {
       if (obj[i] != null && typeof obj[i] === "object") {
         clone[i] = cloneObject(obj[i]);
-      } else if (Array.isArray(obj[i])) {
+      } /* else if (Array.isArray(obj[i])) {
         clone[i] = obj[i].map(cloneObject);
-      } else {
+      }*/ else {
         clone[i] = obj[i];
       }
     }
@@ -31,6 +31,7 @@ export function cloneObject(obj: any) {
  */
 export function getProp(obj: any, path: string) {
   return path.split(".").reduce(function(prev, curr) {
+    /* istanbul ignore next no need to test undefined scenario */
     return prev ? prev[curr] : undefined;
   }, obj);
 }
@@ -78,7 +79,9 @@ export function findBy(arr: any[], prop: any, value: any) {
 /**
  * Compose
  * adapted from: https://github.com/stoeffel/compose-function/blob/master/module/index.js
+ *
+ * declaring type Function[] seems preferable, but apparently thats frowned upon.
  */
 export const compose = (...fns: any[]) => {
-  fns.reduce((f, g) => (...args: any[]) => f(g(...args)));
+  return fns.reduce((f, g) => (...args: any[]) => f(g(...args)));
 };

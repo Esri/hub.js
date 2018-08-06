@@ -223,4 +223,18 @@ describe("util functions", () => {
     expect(c).toBeDefined();
     expect(c).toEqual(data[1]);
   });
+
+  it("findBy returns null when nothing is passed", () => {
+    const c = findBy(null, "id", "red");
+    expect(c).toBeNull();
+  });
+
+  it("compose can run", () => {
+    const sqr = (x: number) => x * x;
+    const inc = (x: number) => x + 1;
+
+    expect(typeof compose).toEqual("function");
+    expect(compose(sqr, inc)(2)).toEqual(sqr(inc(2)));
+    expect(null).toBeNull();
+  });
 });
