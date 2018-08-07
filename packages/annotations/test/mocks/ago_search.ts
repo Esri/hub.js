@@ -1,6 +1,6 @@
 import { ISearchResult } from "@esri/arcgis-rest-items";
 
-export const annoSearchResponse: ISearchResult = {
+export const annoSearchResponse: any = {
   query: "hubAnnotationLayer AND orgid:5bc",
   total: 1,
   start: 1,
