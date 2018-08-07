@@ -4,8 +4,8 @@
 /**
  * Make a deep clone, including arrays. Does not handle functions!
  */
-export function cloneObject(obj: any) {
-  let clone = {} as any;
+export function cloneObject(obj: { [index: string]: any }) {
+  let clone: { [index: string]: any } = {};
   // first check array
   if (Array.isArray(obj)) {
     clone = obj.map(cloneObject);
@@ -29,7 +29,7 @@ export function cloneObject(obj: any) {
  * Get a property out of a deeply nested object
  * Does not handle anything but nested object graph
  */
-export function getProp(obj: any, path: string) {
+export function getProp(obj: { [index: string]: any }, path: string) {
   return path.split(".").reduce(function(prev, curr) {
     /* istanbul ignore next no need to test undefined scenario */
     return prev ? prev[curr] : undefined;
@@ -40,7 +40,7 @@ export function getProp(obj: any, path: string) {
  * Given an array of objects, convert into an object, with each
  * entry assigned the key via the keyprop
  */
-export function arrayToObject(arr: any[], key: any) {
+export function arrayToObject(arr: any[], key: string) {
   return arr.reduce((hash, entry) => {
     hash[getProp(entry, key)] = entry;
     return hash;
@@ -51,7 +51,7 @@ export function arrayToObject(arr: any[], key: any) {
  * Given an object, convert into an array, with each
  * something or other
  */
-export function objectToArray(obj: any, keyProp = "id") {
+export function objectToArray(obj: { [index: string]: any }, keyProp = "id") {
   const arr = Object.keys(obj).reduce((acc, prop) => {
     obj[prop][keyProp] = prop;
     acc.push(cloneObject(obj[prop]));
@@ -63,7 +63,7 @@ export function objectToArray(obj: any, keyProp = "id") {
 /**
  * Return an entry from an array by a property name
  */
-export function findBy(arr: any[], prop: any, value: any) {
+export function findBy(arr: any[], prop: string, value: any) {
   if (!arr) {
     return null;
   }
