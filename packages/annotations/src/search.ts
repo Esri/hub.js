@@ -3,7 +3,8 @@
 
 import {
   IQueryFeaturesRequestOptions,
-  queryFeatures
+  queryFeatures,
+  IQueryFeaturesResponse
 } from "@esri/arcgis-rest-feature-service";
 
 import { getUser } from "@esri/arcgis-rest-users";
@@ -43,7 +44,7 @@ export function searchAnnotations(
     const data: IResourceObject[] = [];
 
     // use .reduce()?
-    response.features.forEach(function(comment) {
+    (response as IQueryFeaturesResponse).features.forEach(function(comment) {
       const attributes = comment.attributes;
       data.push({
         id: attributes.author,
