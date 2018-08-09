@@ -18,10 +18,10 @@ npm install @esri/hub-auth
 ```
 
 ```js
-import { checkSignInStatus  } from '@esri/hub-auth';
+import { completeOAuth2  } from '@esri/hub-auth';
 
-const session = checkSignInStatus()
-if (session)  // user is already logged in!
+// UserSession.completeOAuth2() with a little sugar poured on top
+completeOAuth2({ clientId })
 ```
 
 ### Issues
