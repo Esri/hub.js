@@ -1,0 +1,50 @@
+{
+  "name": "@esri/hub-auth",
+  "version": "1.0.1",
+  "description": "Module to help the community authenticate and interact with ArcGIS Hub.",
+  "main": "dist/node/index.js",
+  "browser": "dist/umd/hub-auth.umd.js",
+  "module": "dist/esm/index.js",
+  "js:next": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "tslib": "^1.7.1",
+    "@esri/arcgis-rest-request": "^1.5.1",
+    "@esri/arcgis-rest-auth": "^1.5.1",
+    "@esri/arcgis-rest-common-types": "^1.5.1"
+  },
+  "peerDependencies": {},
+  "devDependencies": {},
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "npm run build:node && npm run build:umd && npm run build:esm",
+    "build:esm": "tsc --module es2015 --outDir ./dist/esm --declaration",
+    "build:umd": "rollup -c ../../umd-base-profile.js && rollup -c ../../umd-production-profile.js",
+    "build:node": "tsc --module commonjs --outDir ./dist/node"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Esri/hub.js.git"
+  },
+  "contributors": [
+    {
+      "name": "John Gravois",
+      "email": "john@esri.com"
+    },
+    {
+      "name": "Tom Wayson",
+      "email": "twayson@esri.com"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/Esri/hub.js/issues"
+  },
+  "homepage": "https://github.com/Esri/hub.js#readme"
+}
