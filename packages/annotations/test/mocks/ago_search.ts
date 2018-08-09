@@ -59,7 +59,8 @@ export const annoSearchResponse: ISearchResult = {
       avgRating: 0,
       numViews: 2,
       scoreCompleteness: 51,
-      groupDesignations: null
+      groupDesignations: null,
+      protected: false
     }
   ]
 };
