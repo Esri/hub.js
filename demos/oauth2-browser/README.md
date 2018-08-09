@@ -1,10 +1,9 @@
-# ArcGIS Rest JS / Vanilla JS Demo
+# Hub.js OAuth2 Demo
 
-This demo uses Vanilla JS to implement OAuth2 using
-the `arcgis-rest-js` libraries.
+This demo implements OAuth2 using `arcgis-rest-js` and `hub.js`.
 
 ## Running this demo
-1. Like all the other demo apps, run `npm run bootstrap` in the root directory.
+1. Run `npm run bootstrap` in the root directory.
 1. Register a new application using [https://developers.arcgis.com](https://developers.arcgis.com).
 1. Add a redirect URL of `http://localhost:8080` to your new app.
 1. Copy the `config.js.template` file and rename it to `config.js` with your own `clientId`.

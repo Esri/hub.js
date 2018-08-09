@@ -1,33 +1,10 @@
-import { finishOAuth2 } from "../src/index";
-import { IUserSessionOptions, UserSession } from "@esri/arcgis-rest-auth";
-
+import { completeOAuth2 } from "../src/index";
+import { UserSession } from "@esri/arcgis-rest-auth";
 import * as fetchMock from "fetch-mock";
-
 describe("auth", () => {
   const username = "c@sey";
-  const userResponse = {
-    username,
-    created: 1533848710488,
-    orgId: "orgId"
-  };
+
   const MockWindow = {
-    // TODO: remove these props, they're not needed now that we stub UserSession.completeOAuth2
-    // parent: {
-    //   __ESRI_REST_AUTH_HANDLER_clientId(
-    //     errorString: string,
-    //     oauthInfoString: string
-    //   ) {
-    //     const oauthInfo = JSON.parse(oauthInfoString);
-    //     expect(oauthInfo.token).toBe("token");
-    //     expect(oauthInfo.username).toBe("c@sey");
-    //     expect(new Date(oauthInfo.expires).getTime()).toBeGreaterThan(
-    //       Date.now()
-    //     );
-    //   }
-    // },
-    // close() {
-    //   done();
-    // },
     location: {
       href:
         "https://example-app.com/redirect-uri#access_token=token&expires_in=1209600&username=c%40sey"
@@ -40,29 +17,58 @@ describe("auth", () => {
 
   afterEach(fetchMock.restore);
   beforeEach(() => {
-    // mock user response
-    fetchMock.once(
-      // TODO: remove %26expires_in%3D1209600
-      `https://www.arcgis.com/sharing/rest/community/users/${username}?f=json&token=token%26expires_in%3D1209600`,
-      userResponse
-    );
     // stub completeOAuth2 - we only care that it was called w/ the options
     spyOn(UserSession, "completeOAuth2").and.stub();
   });
 
-  describe("when the user was NOT just created", () => {
-    it("should fetch user and pass options to completeOAuth2", done => {
-      finishOAuth2(oauth2Options, MockWindow).then(() => {
-        expect(UserSession.completeOAuth2).toHaveBeenCalledWith(oauth2Options);
-        done();
-      });
+  it("should fetch old user metadata and pass options to completeOAuth2", done => {
+    const oldUserResponse = {
+      username,
+      created: 1533848710488,
+      orgId: "orgId"
+    };
+
+    fetchMock.once(
+      `https://www.arcgis.com/sharing/rest/community/users/${username}?f=json&token=token`,
+      oldUserResponse
+    );
+    completeOAuth2(oauth2Options, MockWindow).then(() => {
+      expect(UserSession.completeOAuth2).toHaveBeenCalledWith(oauth2Options);
+      done();
     });
   });
 
-  // TODO: also mock the update request and test this:
-  // describe('when the user was just created', () => {
-  //   it("should update user and pass options to completeOAuth2", done => {
-  //     done();
-  //   });
-  // });
+  it("should fetch old user metadata and pass options to completeOAuth2", done => {
+    const newUserResponse = {
+      username,
+      created: Date.now() - 500,
+      orgId: "orgId"
+    };
+
+    fetchMock.once(
+      `https://www.arcgis.com/sharing/rest/community/users/${username}?f=json&token=token`,
+      newUserResponse
+    );
+
+    fetchMock.once(
+      `https://www.arcgis.com/sharing/rest/community/users/${username}/update`,
+      {}
+    );
+
+    completeOAuth2(oauth2Options, MockWindow).then(() => {
+      expect(UserSession.completeOAuth2).toHaveBeenCalledWith(oauth2Options);
+
+      const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+        `https://www.arcgis.com/sharing/rest/community/users/${username}/update`
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain("f=json");
+      expect(options.body).toContain("token=token");
+      expect(options.body).toContain(
+        "tags=hubRole%3Aparticipant%2Corg%3AorgId"
+      );
+      expect(options.body).toContain("access=public");
+      done();
+    });
+  });
 });

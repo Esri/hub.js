@@ -5,8 +5,6 @@
     <title>Hub.js OAuth2</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="http://esri.github.io/calcite-bootstrap/styles/calcite-bootstrap.min.css">
-
-    <link rel="stylesheet" href="./style.css">
     <script src="https://cdn.polyfill.io/v2/polyfill.js?features=es5,Promise,fetch"></script>
   </head>
   <body>
@@ -69,26 +67,26 @@
 
       document.getElementById("loginFacebook").addEventListener("click", function (event) {
         event.preventDefault();
-        launchAuth("facebook");
+        launchAuth("facebook", "communityOrg");
       });
 
       document.getElementById("loginGoogle").addEventListener("click", function (event) {
         event.preventDefault();
-        launchAuth("google");
+        launchAuth("google", "communityOrg");
       });
 
       // could/should we hide social media login buttons?
       document.getElementById("loginEnterprise").addEventListener("click", function (event) {
         event.preventDefault();
-        launchAuth("arcgis");
+        launchAuth("arcgis", "enterpriseOrg");
       });
 
-      function launchAuth (provider) {
+      function launchAuth (provider, org) {
         arcgisRest.UserSession.beginOAuth2({
           clientId: config.clientId,
           redirectUri,
           popup: false,
-          portal: config.enterpriseOrg,
+          portal: config[org],
           provider,
         })
       }

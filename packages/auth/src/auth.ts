@@ -5,13 +5,16 @@ import { request } from "@esri/arcgis-rest-request";
 import { UserSession, IOauth2Options } from "@esri/arcgis-rest-auth";
 
 /**
- * to do.
+ * A thin wrapper around [`UserSession.completeOAuth2()`](https://esri.github.io/arcgis-rest-js/api/auth/UserSession/#completeOAuth2) that sets search tags and other relevant metadata for newly created community users.
  */
-export function finishOAuth2(
+/* istanbul ignore next */
+export function completeOAuth2(
   options: IOauth2Options,
   win: any = window
 ): Promise<UserSession> {
-  const match = win.location.href.match(/access_token=(.+)&username=([^&]+)/);
+  const match = win.location.href.match(
+    /access_token=(.+)&expires_in=.+&username=([^&]+)/
+  );
 
   const token = match[1];
   const user = decodeURIComponent(match[2]);
