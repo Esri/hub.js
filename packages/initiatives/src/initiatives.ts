@@ -4,7 +4,7 @@
 import { request, IRequestOptions, IParams } from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-common-types";
 import { getItem, getItemData } from "@esri/arcgis-rest-items";
-import { IInitiative, IInitiativeItem } from "@esri/hub-common-types";
+import { IInitiative, IInitiativeItem } from "@esri/hub-common";
 import { fetchDomain } from "@esri/hub-sites";
 
 export interface IInitiativeRequestOptions extends IRequestOptions {
