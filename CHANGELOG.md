@@ -7,6 +7,39 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.1.0] - August 10th 2018
+
+### @esri/hub-common
+
+* Breaking Changes
+   * package rename (from `@esri/hub-common-types` to `@esri/hub-common`)
+* New Features
+   * Functional utility methods for introspecting and manipulating objects and arrays. [#46](https://github.com/Esri/hub.js/pull/46)
+
+### @esri/hub-solutions
+
+* New Package!
+
+### @esri/hub-auth
+
+* New Package!
+
+* New Features
+   * wrapper method `arcgisHub.completeOAuth2` wraps the underlying `rest-js` call with additional logic to make newly created community users searchable. [#43](https://github.com/Esri/hub.js/pull/43)
+
+### @esri/hub-annotations
+
+* Bug Fixes
+   * **annotations**: fix type errors that prevent running bootstrap and tests [`301412f`](https://github.com/Esri/hub.js/commit/301412fda6706d913843e303a71301c203e78e89) [#47](https://github.com/Esri/hub.js/issues/47)
+
+### Other Changes
+
+* Documentation
+   * **cdn**: update cdn sample to show that deps are external [`87874dd`](https://github.com/Esri/hub.js/commit/87874dd26ebedb547afbdb96d7395b9ef27d956b)
+   * **cdn**: update cdn sample to show that deps are external [`3304466`](https://github.com/Esri/hub.js/commit/3304466dee59b167a584360d57beff3cef0ce020)
+* Bug Fixes
+   * **annotations**: fix type errors that prevent running bootstrap and … [`07a0dfc`](https://github.com/Esri/hub.js/commit/07a0dfc151f66c220a1dbfb23c786e9e33e01fe6)
+
 ## [1.0.1] - July 12th 2018
 
 ### @esri/hub-annotations
@@ -39,5 +72,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 Initial Release
 
 [1.0.0]: https://github.com/Esri/hub.js/compare/48be7ee38cd92cd342565215304f2a2979b1f822...v1.0.0 "v1.0.0"
-[1.0.1]: https://github.com/Esri/hub.js/compare/v1.0.0...1.0.1 "1.0.1"
-[HEAD]: https://github.com/Esri/hub.js/compare/1.0.1...HEAD "Unreleased Changes"
+[1.0.1]: https://github.com/Esri/hub.js/compare/v1.0.0...v1.0.1 "v1.0.1"
+[1.1.0]: https://github.com/Esri/hub.js/compare/v1.0.1...1.1.0 "1.1.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/1.1.0...HEAD "Unreleased Changes"
