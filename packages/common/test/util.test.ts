@@ -162,6 +162,12 @@ describe("util functions", () => {
     expect(c.length).toEqual(0);
   });
 
+  it("can convert empty object to empty array with a non-default key", () => {
+    const c = objectToArray({}, "notId");
+    expect(Array.isArray(c)).toBeTruthy();
+    expect(c.length).toEqual(0);
+  });
+
   it("can convert object to array", () => {
     const obj = {
       propa: {
