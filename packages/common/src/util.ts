@@ -68,7 +68,7 @@ export function findBy(arr: any[], prop: string, value: any) {
     return null;
   }
   const res = arr.reduce((acc, entry) => {
-    if (entry[prop] === value) {
+    if (getProp(entry, prop) === value) {
       acc = entry;
     }
     return acc;

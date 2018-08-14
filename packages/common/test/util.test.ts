@@ -235,6 +235,28 @@ describe("util functions", () => {
     expect(c).toBeNull();
   });
 
+  it("findBy can deep-dot into a structure", () => {
+    const data = [
+      {
+        id: "blue",
+        obj2: {
+          obj3: {
+            prop: "value"
+          }
+        }
+      },
+      {
+        id: "red"
+      },
+      {
+        id: "orange"
+      }
+    ];
+    const c = findBy(data, "obj2.obj3.prop", "value");
+    expect(c).toBeDefined();
+    expect(c).toEqual(data[0]); // 'should return the object, not a clone');
+  });
+
   it("compose can run", () => {
     const sqr = (x: number) => x * x;
     const inc = (x: number) => x + 1;
