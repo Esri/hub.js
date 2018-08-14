@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+### @esri/hub-common
+
+* New Features
+  * `findBy(arr, 'deep.path')` now supports deep-dotting into objects in the array.
+
+
 ## [1.1.0] - August 10th 2018
 
 ### @esri/hub-common

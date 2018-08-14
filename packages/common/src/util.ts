@@ -13,9 +13,7 @@ export function cloneObject(obj: { [index: string]: any }) {
     for (const i in obj) {
       if (obj[i] != null && typeof obj[i] === "object") {
         clone[i] = cloneObject(obj[i]);
-      } /* else if (Array.isArray(obj[i])) {
-        clone[i] = obj[i].map(cloneObject);
-      }*/ else {
+      } else {
         clone[i] = obj[i];
       }
     }
@@ -68,7 +66,7 @@ export function findBy(arr: any[], prop: string, value: any) {
     return null;
   }
   const res = arr.reduce((acc, entry) => {
-    if (entry[prop] === value) {
+    if (getProp(entry, prop) === value) {
       acc = entry;
     }
     return acc;
