@@ -51,6 +51,11 @@ describe("util functions", () => {
         type: "string"
       },
       names: ["steve", "james", "bob"],
+      deep: [
+        {
+          things: ["one", "two", "red", "blue"]
+        }
+      ],
       addresses: [
         {
           street: "123 main",
@@ -70,7 +75,8 @@ describe("util functions", () => {
     expect(c.field).not.toBe(obj.field);
     expect(c.names).not.toBe(obj.names);
     expect(c.names.length).toEqual(obj.names.length);
-
+    expect(Array.isArray(c.deep)).toBeTruthy();
+    expect(c.deep[0].things.length).toBe(4);
     ["color", "length"].map(prop => {
       expect(c[prop]).toEqual(obj[prop]);
     });
