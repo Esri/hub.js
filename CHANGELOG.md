@@ -7,10 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+
+## [1.1.1] - August 15th 2018
+
 ### @esri/hub-common
 
 * New Features
-  * `findBy(arr, 'deep.path')` now supports deep-dotting into objects in the array.
+  * `findBy(arr, deep.path)` now supports deep-dotting into objects inside an array.
 
 
 ## [1.1.0] - August 10th 2018
@@ -79,5 +82,6 @@ Initial Release
 
 [1.0.0]: https://github.com/Esri/hub.js/compare/48be7ee38cd92cd342565215304f2a2979b1f822...v1.0.0 "v1.0.0"
 [1.0.1]: https://github.com/Esri/hub.js/compare/v1.0.0...v1.0.1 "v1.0.1"
-[1.1.0]: https://github.com/Esri/hub.js/compare/v1.0.1...1.1.0 "1.1.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/1.1.0...HEAD "Unreleased Changes"
+[1.1.0]: https://github.com/Esri/hub.js/compare/v1.0.1...v1.1.0 "v1.1.0"
+[1.1.1]: https://github.com/Esri/hub.js/compare/v1.1.0...v1.1.1 "v1.1.1"
+[HEAD]: https://github.com/Esri/hub.js/compare/v1.1.1...HEAD "Unreleased Changes"

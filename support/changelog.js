@@ -76,13 +76,13 @@ function getCommitData(from, to) {
       if (stderr) return reject(stderr);
       const commits = JSON.parse("["+stdout.slice(0, -1).replace(/\\/g, "\\\\")+"]");
       const last = _.last(commits);
-      const date = last ? last.date : new Date();
+      const today = new Date();
       resolve({
         previousVersion: /v\d\.\d\.\d/.test(from)
           ? from.replace("v", "")
           : from,
         version: to === "HEAD" ? getPackageVersion() : to.replace("v", ""),
-        date: format(date, "MMMM Do YYYY"),
+        date: format(today, "MMMM Do YYYY"),
         commits
       });
     });
