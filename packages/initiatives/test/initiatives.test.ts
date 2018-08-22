@@ -7,35 +7,6 @@ describe("Initiatives :: ", () => {
     const itemBaseUrl = "https://www.arcgis.com/sharing/rest/content/items";
     afterEach(fetchMock.restore);
 
-    it("should make an item request w/o fetching data", done => {
-      fetchMock.once(`${itemBaseUrl}/5cd?f=json`, {
-        id: "5cd",
-        title: "Fake initiative 0",
-        type: "Hub Initiative"
-      });
-      Initiative.fetchInitiative("5cd")
-        .then(model => {
-          expect(model.item.id).toBe("5cd");
-          expect(model.data).not.toBeDefined("Should not return the model");
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-            `${itemBaseUrl}/5cd?f=json`
-          );
-          expect(url).toContain("f=json");
-          expect(url).toContain("items/5cd");
-          done();
-        })
-        .catch(e => {
-          fail(e);
-        });
-    });
-
-    // it('should spy on a method', done => {
-    //   let m = {} as IInitiativeModel;
-    //   let chk = Initiative.upgradeSchema(m, 'https://foo.com');
-    //   expect(upgradeSchemaSpy.calls.count()).toEqual(1);
-    //   done();
-    // })
-
     it("should make an item and data request", done => {
       const m = {
         item: {
@@ -53,7 +24,7 @@ describe("Initiatives :: ", () => {
       fetchMock.once(`${itemBaseUrl}/3ef?f=json`, m.item);
       fetchMock.once(`${itemBaseUrl}/3ef/data?f=json`, m.data);
 
-      Initiative.fetchInitiative("3ef", { data: true })
+      Initiative.fetchInitiative("3ef")
         .then(model => {
           expect(model.item).toBeDefined();
           expect(model.item.properties.schemaVersion).toEqual(2);
@@ -95,7 +66,7 @@ describe("Initiatives :: ", () => {
       };
       fetchMock.once(`${itemBaseUrl}/3ef?f=json`, m.item);
       fetchMock.once(`${itemBaseUrl}/3ef/data?f=json`, m.data);
-      Initiative.fetchInitiative("3ef", { data: true })
+      Initiative.fetchInitiative("3ef")
         .then(model => {
           expect(model.item).toBeDefined("model.item should be defined");
           expect(model.data).toBeDefined("model.data should be defined");
