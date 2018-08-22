@@ -22,7 +22,23 @@ export interface IInitiativeRequestOptions extends IRequestOptions {
 }
 
 /**
- * Get the initiative item + data in one call
+ * ```js
+ * // fetch initiative by id, along with the data
+ * fetchInitiative('3ef...', {data:true})
+ *  .then(initiativeModel => {
+ *    // work with the initiative model
+ *  })
+ * // fetch just the initiative
+ * fetchInitiative('3ef...')
+ *  .then(initiativeModel => {
+ *    // work with the initiative model
+ *    // Note: initiativeModel will be an empty hash
+ *  })
+ * ```
+ * Get the initiative item + data in one call. This will also apply schema upgrades
+ * if the data is fetched at the same time.
+ *
+ *
  * @param id - Initiative Item Id
  * @param requestOptions - Initiative request options that may have authentication manager
  * @returns A Promise that will resolve with the Initiative item and data
@@ -51,7 +67,8 @@ export function fetchInitiative(
     // otherwise, just get the item
     return getItem(id, requestOptions).then(result => {
       return {
-        item: result as IInitiativeItem
+        item: result as IInitiativeItem,
+        data: {}
       };
     });
   }

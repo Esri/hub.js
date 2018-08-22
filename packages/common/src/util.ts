@@ -77,8 +77,6 @@ export function findBy(arr: any[], prop: string, value: any) {
 /**
  * Compose
  * adapted from: https://github.com/stoeffel/compose-function/blob/master/module/index.js
- *
- * declaring type Function[] seems preferable, but apparently thats frowned upon.
  */
 export const compose = (...fns: any[]) => {
   return fns.reduce((f, g) => (...args: any[]) => f(g(...args)));

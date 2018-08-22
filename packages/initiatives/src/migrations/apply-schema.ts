@@ -1,9 +1,19 @@
-import { IInitiativeModel } from "@esri/hub-common";
-import { getProp, cloneObject } from "@esri/hub-common";
-
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { IInitiativeModel } from "@esri/hub-common";
+import { getProp, cloneObject } from "@esri/hub-common";
+/**
+ * Applies the initial version of the Initiaive schema to the model.
+ * If `model.item.properties.schemaVersion >= 1` the original object
+ * will be returned. Otherwise a new object with the updated schema
+ * is returned.
+ *
+ * @export
+ * @param {IInitiativeModel} model Initiative Model
+ * @param {string} [portalUrl] Url to the Portal. Defauls to `www.arcgis.com`
+ * @returns {IInitiativeModel}
+ */
 export function applyInitialSchema(
   model: IInitiativeModel,
   portalUrl?: string

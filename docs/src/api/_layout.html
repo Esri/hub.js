@@ -17,7 +17,10 @@
           {% link baseUrl + package.pageUrl, package.pkg.name, class="tsd-kind-icon" %}
           <ul class="api-package-content-list">
           {% for declaration in package.declarations %}
-            <li class="{{ declaration.icon }}">{% link baseUrl + declaration.pageUrl, declaration.name, class="tsd-kind-icon" %}</li>
+            {% if declaration.flags.isPrivate %}
+            {% else %}
+              <li class="{{ declaration.icon }}">{% link baseUrl + declaration.pageUrl, declaration.name, class="tsd-kind-icon" %}</li>
+            {% endif %}
           {% endfor %}
           </ul>
         </li>

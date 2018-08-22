@@ -4,7 +4,11 @@
 import { IItemAdd } from "@esri/arcgis-rest-common-types";
 
 /**
- * Generic Model, will be used for all type-specific api wrappers
+ * Generic Model, used with all items that have a json
+ * `/data` payload
+ *
+ * @export
+ * @interface IModel
  */
 export interface IModel {
   item: {
@@ -16,16 +20,28 @@ export interface IModel {
 }
 
 /**
- * One small step for Hub, one large leap for hubkind
+ * Defined the Initiative Item as having
+ * `type: "Hub Initiative"`
+ *
+ * @export
+ * @interface IInitiativeItem
+ * @extends {IItemAdd}
+ */
+export interface IInitiativeItem extends IItemAdd {
+  id?: string;
+  type: "Hub Initiative";
+}
+
+/**
+ * Initiative Model
+ *
+ * @export
+ * @interface IInitiativeModel
+ * @extends {IModel}
  */
 export interface IInitiativeModel extends IModel {
   item: IInitiativeItem;
   data?: {
     [propName: string]: any;
   };
-}
-
-export interface IInitiativeItem extends IItemAdd {
-  id?: string;
-  type: "Hub Initiative";
 }

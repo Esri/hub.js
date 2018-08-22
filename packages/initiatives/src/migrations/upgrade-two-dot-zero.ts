@@ -3,6 +3,14 @@
 import { getProp, cloneObject } from "@esri/hub-common";
 import { IInitiativeModel } from "@esri/hub-common";
 
+/**
+ * Apply the 1.1 --> 2.0 Migration to an Initiative Model
+ *
+ * @export
+ * @param {IInitiativeModel} model
+ * @param {string} [portalUrl]
+ * @returns {IInitiativeModel}
+ */
 export function upgradeToTwoDotZero(
   model: IInitiativeModel,
   portalUrl?: string
@@ -32,8 +40,9 @@ export function upgradeToTwoDotZero(
 /**
  * Given the Indicators entry from a CAS configurationSettings array,
  * convert to an indicators object in the new schema
+ * @private
  */
-export const convertIndicatorsToDefinitions = function(indicatorsHash: any) {
+export function convertIndicatorsToDefinitions(indicatorsHash: any) {
   // the incoming structure should have a .fields property, and what we want will be in there...
   if (!indicatorsHash.fields || !Array.isArray(indicatorsHash.fields)) {
     indicatorsHash.fields = [];
@@ -41,10 +50,11 @@ export const convertIndicatorsToDefinitions = function(indicatorsHash: any) {
   const defs = indicatorsHash.fields.map(convertIndicatorToDefinition);
   // now we need to create an object which has props for each def
   return defs;
-};
+}
 
 /**
  * Convert a CAS formatted indicator to the .definition in the new schama
+ * @private
  */
 export const convertIndicatorToDefinition = function(ind: any) {
   const def = {
@@ -64,7 +74,9 @@ export const convertIndicatorToDefinition = function(ind: any) {
 
 /**
  * Convert the CAS formatted "field" into the new schema
+ * @private
  */
+
 export const convertIndicatorField = function(field: any) {
   return {
     id: field.fieldName,
@@ -78,6 +90,7 @@ export const convertIndicatorField = function(field: any) {
 /**
  * Given the values hash that contains indicators, extract them
  * convert them, and return the indicators hash
+ * @private
  */
 export const convertInitiativeIndicators = function(values: any) {
   return extractIndicators(values).map(convertIndicator);
@@ -85,6 +98,7 @@ export const convertInitiativeIndicators = function(values: any) {
 
 /**
  * Convert the "source" information
+ * @private
  */
 export const convertIndicator = function(indicator: any) {
   const result = {
@@ -101,6 +115,7 @@ export const convertIndicator = function(indicator: any) {
 /**
  * Given the values hash, locate the properties that are Indicators
  * and return an array of cloned objects
+ * @private
  */
 export const extractIndicators = function(values: any) {
   return Object.keys(values).reduce((acc, prop) => {
@@ -117,6 +132,7 @@ export const extractIndicators = function(values: any) {
 
 /**
  * Given an object, conduct checks to see if it is an indicator
+ * @private
  */
 export const isIndicator = function(obj: any) {
   let result = false;
@@ -129,6 +145,7 @@ export const isIndicator = function(obj: any) {
 /**
  * Given the indicator value object (from the Initiative), extract
  * the properties to create the .source hash
+ * @private
  */
 export const convertIndicatorValueToSource = function(indicator: any) {
   return {
@@ -144,6 +161,7 @@ export const convertIndicatorValueToSource = function(indicator: any) {
 /**
  * CAS format had the field properties nested but
  * the new format is flattened
+ * @private
  */
 export const flattenField = function(field: any) {
   return {
@@ -157,6 +175,7 @@ export const flattenField = function(field: any) {
  * given the array of steps (prop names), construct an array
  * of the actual step objects while also falttening templates
  * and items arrays to just ids
+ * @private
  */
 export const convertSteps = function(steps: any, values: any) {
   if (steps && Array.isArray(steps)) {
@@ -171,6 +190,7 @@ export const convertSteps = function(steps: any, values: any) {
 /**
  * Given a Step object, return a new object with the
  * updated schema
+ * @private
  */
 export const convertStep = function(step: any) {
   // can't use object spread b/c there are props we don't want to carry forward
@@ -185,6 +205,13 @@ export const convertStep = function(step: any) {
   };
 };
 
-export const byId = function(entry: any) {
+/**
+ * Extract the id property from an entry
+ *
+ * @private
+ * @param {*} entry
+ * @returns
+ */
+export function byId(entry: any) {
   return entry.id;
-};
+}

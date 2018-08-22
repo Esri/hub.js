@@ -125,15 +125,27 @@ module.exports = function(acetate) {
       (e, contents) => {
         const typedoc = JSON.parse(contents.toString());
 
-        const declarationPages = typedoc.declarations.map(declaration => {
-          return createPage.fromTemplate(
-            declaration.src,
-            path.join(acetate.sourceDir, "api", "_declaration.html"),
-            Object.assign({}, declaration, {
-              layout: "api/_layout:content"
-            })
-          );
-        });
+        // const declarationPages = typedoc.declarations.map(declaration => {
+        //   return createPage.fromTemplate(
+        //     declaration.src,
+        //     path.join(acetate.sourceDir, "api", "_declaration.html"),
+        //     Object.assign({}, declaration, {
+        //       layout: "api/_layout:content"
+        //     })
+        //   );
+        // });
+        const declarationPages = typedoc.declarations.reduce((acc,declaration) => {
+          if (!declaration.flags.isProtected) {
+            acc.push(createPage.fromTemplate(
+              declaration.src,
+              path.join(acetate.sourceDir, "api", "_declaration.html"),
+              Object.assign({}, declaration, {
+                layout: "api/_layout:content"
+              })
+            ));
+          }
+          return acc;
+        }, []);
 
         const packagePages = typedoc.packages.map(package => {
           return createPage.fromTemplate(

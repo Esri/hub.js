@@ -8,9 +8,20 @@ import { upgradeToTwoDotZero } from "./migrations/upgrade-two-dot-zero";
 
 /**
  * Current Schema Version
+ * @private
  */
 export const CURRENT_SCHEMA_VERSION = 2;
 
+/**
+ * Handle Initiative Schema Migrations.
+ * If the model is on the current schema, the model object is returmed.
+ * If a schema migration is applied, a new object will be returned.
+ *
+ * @export
+ * @param {IInitiativeModelFoo} model
+ * @param {string} portalUrl
+ * @returns {IInitiativeModel}
+ */
 export function migrateSchema(
   model: IInitiativeModel,
   portalUrl: string

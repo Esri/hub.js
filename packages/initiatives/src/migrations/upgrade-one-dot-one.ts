@@ -3,6 +3,12 @@
 import { getProp, cloneObject } from "@esri/hub-common";
 import { IInitiativeModel, IInitiativeItem } from "@esri/hub-common";
 
+/**
+ * Apply the 1.0 --> 1.1 Migration to an Initiative Model
+ *
+ * @param model
+ * @param portalUrl
+ */
 export function upgradeToOneDotOne(
   model: IInitiativeModel,
   portalUrl?: string
@@ -13,7 +19,7 @@ export function upgradeToOneDotOne(
     // store the schemaVersion
     clone.item.properties.schemaVersion = 1.1;
     // add the assets...
-    _addDefaultResources(clone, portalUrl);
+    addDefaultResources(clone, portalUrl);
 
     if (!clone.data.values.bannerImage) {
       clone.data.values.bannerImage = {
@@ -30,7 +36,16 @@ export function upgradeToOneDotOne(
   }
 }
 
-export function _addDefaultResources(
+/**
+ * As part of the 1.1 migration, we add a set of default image
+ * resources into the hash.
+ *
+ * @private
+ * @param {IInitiativeModel} model
+ * @param {string} [portalUrl]
+ * @returns {IInitiativeModel}
+ */
+export function addDefaultResources(
   model: IInitiativeModel,
   portalUrl?: string
 ): IInitiativeModel {
@@ -77,6 +92,17 @@ export function _addDefaultResources(
   return model;
 }
 
+/**
+ * Construct the url for a resource. This is specific to the migration otherwise
+ * if would be hoised into a more generic module
+ *
+ * @private
+ * @param {string} itemId
+ * @param {string} resourceName
+ * @param {string} [portal]
+ * @param {string} [folder]
+ * @returns {string}
+ */
 export function getResourceUrl(
   itemId: string,
   resourceName: string,
