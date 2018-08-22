@@ -76,7 +76,6 @@
   "scripts": {
     "build": "lerna run build",
     "test": "npm run test:node && npm run test:chrome",
-    "test:headless": "nodemon --exec jasmine --config=jasmine.json",
     "test:chrome:debug": "karma start --auto-watch --no-single-run --browsers=Chrome",
     "test:chrome": "karma start --single-run --browsers=Chrome",
     "test:chrome:ci": "karma start --single-run --browsers ChromeHeadlessCI karma.conf.js",
