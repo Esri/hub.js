@@ -27,7 +27,6 @@ export function migrateSchema(
     model = applyInitialSchema(model, portalUrl);
     model = upgradeToOneDotOne(model, portalUrl);
     model = upgradeToTwoDotZero(model, portalUrl);
-    // model = this._upgradeToTwoDotZero(model);
     // etc
     return model;
   }

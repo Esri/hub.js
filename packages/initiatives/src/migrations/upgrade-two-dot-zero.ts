@@ -23,10 +23,7 @@ export function upgradeToTwoDotZero(
     }
     // convert the indicators
     clone.data.indicators = convertInitiativeIndicators(clone.data.values);
-    // remove data.values.<indicator> properties
-    Object.keys(clone.data.indicators).forEach(propName => {
-      delete clone.data.values[propName];
-    });
+    return clone;
   } else {
     return model;
   }
@@ -53,10 +50,10 @@ export const convertIndicatorToDefinition = function(ind: any) {
   const def = {
     id: ind.fieldName,
     type: "Data",
-    name: ind.label,
+    name: ind.label || ind.fieldName,
     optional: ind.optional || false,
     definition: {
-      description: ind.label || ind.name || "",
+      description: ind.label || ind.fieldName,
       supportedTypes: [...ind.layerOptions.supportedTypes],
       geometryTypes: [...ind.layerOptions.geometryTypes],
       fields: ind.fields.map(convertIndicatorField)
@@ -93,9 +90,9 @@ export const convertIndicator = function(indicator: any) {
   const result = {
     id: indicator.id,
     type: "Data",
-    name: indicator.name,
+    name: indicator.name || indicator.id,
     definition: {
-      description: indicator.label || indicator.name || ""
+      description: indicator.name || indicator.id
     },
     source: convertIndicatorValueToSource(indicator)
   };
@@ -139,7 +136,7 @@ export const convertIndicatorValueToSource = function(indicator: any) {
     url: indicator.url,
     itemId: indicator.itemId,
     layerId: indicator.layerId,
-    name: indicator.name || "",
+    name: indicator.name || indicator.id,
     mappings: indicator.fields.map(flattenField)
   };
 };

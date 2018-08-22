@@ -31,13 +31,8 @@ export function fetchInitiative(
   id: string,
   requestOptions?: IInitiativeRequestOptions
 ): Promise<IInitiativeModel> {
-  if (requestOptions && !requestOptions.data) {
-    return getItem(id, requestOptions).then(result => {
-      return {
-        item: result as IInitiativeItem
-      };
-    });
-  } else {
+  // if we have specifically requested the data...
+  if (requestOptions && requestOptions.data === true) {
     return Promise.all([
       getItem(id, requestOptions),
       getItemData(id, requestOptions)
@@ -52,6 +47,13 @@ export function fetchInitiative(
       .then(model => {
         return migrateSchema(model, getPortalUrl(requestOptions));
       });
+  } else {
+    // otherwise, just get the item
+    return getItem(id, requestOptions).then(result => {
+      return {
+        item: result as IInitiativeItem
+      };
+    });
   }
 }
 

@@ -39,18 +39,20 @@ export function applyInitialSchema(
       clone.item.properties.source = clone.data.source;
     }
     // convert configuratinSettings to steps array...
-    // this is only for 'templates', or Custom Initiatives
+    // NOTE: this is only for 'templates', or Custom Initiatives
     if (clone.data.configurationSettings) {
-      const config = clone.data.configurationSettings;
+      const config = cloneObject(clone.data.configurationSettings);
       delete clone.data.configurationSettings;
       // get the steps entry...
       const stepCategory = config.find((el: any) => {
         return el.category === "Steps";
       });
+
       // hoist step names into an array
       clone.data.values.steps = stepCategory.fields.map((entry: any) => {
         return entry.fieldName;
       });
+
       // move the label and tooltip to title and description, in the values.<fieldName> prop
       stepCategory.fields.forEach((entry: any) => {
         // ensure values prop exists...
