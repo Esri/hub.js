@@ -125,6 +125,34 @@ const md = new MarkdownIt();
        */
       return children.filter(c => c.flags && c.flags.isExported);
     })
+    .then(children => {
+      /** 
+       * Now we look at the arguments and reduce the private and/or protected 
+       * depending on the passed arguments
+       */
+      const minVisibility = process.argv[2];
+      
+      if (!minVisibility) {
+        return children;
+      } else {        
+        let filterFlags = [];
+        switch (minVisibility) {
+          case 'private':
+            filterFlags = ['isPrivate'];
+            break;
+          case 'protected':
+            filterFlags = ['isPrivate', 'isProtected'];
+            break;
+          default:
+            console.error(`Invalid commandline argument: ${minVisibility} should be either "private", "public" or not passed.`);
+        }
+        filterFlags.forEach(flagProp => {
+          children = children.filter(c => c.flags && !c.flags[flagProp]);
+        });
+
+        return children;
+      }
+    })
     .then(declarations => {
       /**
        * Now that we have a list of all declarations accross the entire project

@@ -1,47 +1,53 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, IRequestOptions, IParams } from "@esri/arcgis-rest-request";
+import {
+  request,
+  IRequestOptions,
+  IParams,
+  getPortalUrl
+} from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-common-types";
 import { getItem, getItemData } from "@esri/arcgis-rest-items";
-import { IInitiative, IInitiativeItem } from "@esri/hub-common";
+import { IInitiativeModel, IInitiativeItem } from "@esri/hub-common";
 import { fetchDomain } from "@esri/hub-sites";
-
-export interface IInitiativeRequestOptions extends IRequestOptions {
-  /**
-   * Set this value to false to avoid making a web request to fetch the item's data.
-   */
-  data: boolean;
-}
+import { getProp, cloneObject } from "@esri/hub-common";
+import { migrateSchema, CURRENT_SCHEMA_VERSION } from "./migrator";
 
 /**
- * Get the initiative item + data in one call
+ * ```js
+ * // fetch initiative by id, along with the data
+ * fetchInitiative('3ef...')
+ *  .then(initiativeModel => {
+ *    // work with the initiative model
+ *  })
+ * ```
+ * Get the initiative item + data in one call. This will also apply schema upgrades
+ *
+ *
  * @param id - Initiative Item Id
  * @param requestOptions - Initiative request options that may have authentication manager
  * @returns A Promise that will resolve with the Initiative item and data
  */
 export function fetchInitiative(
   id: string,
-  requestOptions?: IInitiativeRequestOptions
-): Promise<IInitiative> {
-  if (requestOptions && !requestOptions.data) {
-    return getItem(id, requestOptions).then(result => {
-      return {
-        item: result as IInitiativeItem
-      };
-    });
-  } else {
-    return Promise.all([
-      getItem(id, requestOptions),
-      getItemData(id, requestOptions)
-    ]).then(result => {
+  requestOptions?: IRequestOptions
+): Promise<IInitiativeModel> {
+  // if we have specifically requested the data...
+  return Promise.all([
+    getItem(id, requestOptions),
+    getItemData(id, requestOptions)
+  ])
+    .then(result => {
       // shape this into a model
       return {
         item: result[0] as IInitiativeItem,
         data: result[1]
       };
+    })
+    .then(model => {
+      return migrateSchema(model, getPortalUrl(requestOptions));
     });
-  }
 }
 
 /**

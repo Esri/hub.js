@@ -4,7 +4,6 @@
 import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-common-types";
 import { getItem, getItemData } from "@esri/arcgis-rest-items";
-import { IInitiative, IInitiativeItem } from "@esri/hub-common";
 
 /**
  * Fetch the domains associated with a Hub Site.

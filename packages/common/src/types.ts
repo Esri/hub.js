@@ -1,18 +1,47 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IItem } from "@esri/arcgis-rest-common-types";
+import { IItemAdd } from "@esri/arcgis-rest-common-types";
 
 /**
- * One small step for Hub, one large leap for hubkind
+ * Generic Model, used with all items that have a json
+ * `/data` payload
+ *
+ * @export
+ * @interface IModel
  */
-export interface IInitiative {
-  item: IInitiativeItem;
+export interface IModel {
+  item: {
+    [propName: string]: any;
+  };
   data?: {
     [propName: string]: any;
   };
 }
 
-export interface IInitiativeItem extends IItem {
+/**
+ * Defined the Initiative Item as having
+ * `type: "Hub Initiative"`
+ *
+ * @export
+ * @interface IInitiativeItem
+ * @extends {IItemAdd}
+ */
+export interface IInitiativeItem extends IItemAdd {
+  id?: string;
   type: "Hub Initiative";
+}
+
+/**
+ * Initiative Model
+ *
+ * @export
+ * @interface IInitiativeModel
+ * @extends {IModel}
+ */
+export interface IInitiativeModel extends IModel {
+  item: IInitiativeItem;
+  data?: {
+    [propName: string]: any;
+  };
 }
