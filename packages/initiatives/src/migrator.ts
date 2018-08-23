@@ -8,7 +8,7 @@ import { upgradeToTwoDotZero } from "./migrations/upgrade-two-dot-zero";
 
 /**
  * Current Schema Version
- * @private
+ * @protected
  */
 export const CURRENT_SCHEMA_VERSION = 2;
 

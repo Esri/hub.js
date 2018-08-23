@@ -40,7 +40,7 @@ export function upgradeToTwoDotZero(
 /**
  * Given the Indicators entry from a CAS configurationSettings array,
  * convert to an indicators object in the new schema
- * @private
+ * @protected
  */
 export function convertIndicatorsToDefinitions(indicatorsHash: any) {
   // the incoming structure should have a .fields property, and what we want will be in there...
@@ -54,7 +54,7 @@ export function convertIndicatorsToDefinitions(indicatorsHash: any) {
 
 /**
  * Convert a CAS formatted indicator to the .definition in the new schama
- * @private
+ * @protected
  */
 export const convertIndicatorToDefinition = function(ind: any) {
   const def = {
@@ -74,7 +74,7 @@ export const convertIndicatorToDefinition = function(ind: any) {
 
 /**
  * Convert the CAS formatted "field" into the new schema
- * @private
+ * @protected
  */
 
 export const convertIndicatorField = function(field: any) {
@@ -90,7 +90,7 @@ export const convertIndicatorField = function(field: any) {
 /**
  * Given the values hash that contains indicators, extract them
  * convert them, and return the indicators hash
- * @private
+ * @protected
  */
 export const convertInitiativeIndicators = function(values: any) {
   return extractIndicators(values).map(convertIndicator);
@@ -98,7 +98,7 @@ export const convertInitiativeIndicators = function(values: any) {
 
 /**
  * Convert the "source" information
- * @private
+ * @protected
  */
 export const convertIndicator = function(indicator: any) {
   const result = {
@@ -115,7 +115,7 @@ export const convertIndicator = function(indicator: any) {
 /**
  * Given the values hash, locate the properties that are Indicators
  * and return an array of cloned objects
- * @private
+ * @protected
  */
 export const extractIndicators = function(values: any) {
   return Object.keys(values).reduce((acc, prop) => {
@@ -132,7 +132,7 @@ export const extractIndicators = function(values: any) {
 
 /**
  * Given an object, conduct checks to see if it is an indicator
- * @private
+ * @protected
  */
 export const isIndicator = function(obj: any) {
   let result = false;
@@ -145,7 +145,7 @@ export const isIndicator = function(obj: any) {
 /**
  * Given the indicator value object (from the Initiative), extract
  * the properties to create the .source hash
- * @private
+ * @protected
  */
 export const convertIndicatorValueToSource = function(indicator: any) {
   return {
@@ -161,7 +161,7 @@ export const convertIndicatorValueToSource = function(indicator: any) {
 /**
  * CAS format had the field properties nested but
  * the new format is flattened
- * @private
+ * @protected
  */
 export const flattenField = function(field: any) {
   return {
@@ -175,7 +175,7 @@ export const flattenField = function(field: any) {
  * given the array of steps (prop names), construct an array
  * of the actual step objects while also falttening templates
  * and items arrays to just ids
- * @private
+ * @protected
  */
 export const convertSteps = function(steps: any, values: any) {
   if (steps && Array.isArray(steps)) {
@@ -190,7 +190,7 @@ export const convertSteps = function(steps: any, values: any) {
 /**
  * Given a Step object, return a new object with the
  * updated schema
- * @private
+ * @protected
  */
 export const convertStep = function(step: any) {
   // can't use object spread b/c there are props we don't want to carry forward
@@ -208,7 +208,7 @@ export const convertStep = function(step: any) {
 /**
  * Extract the id property from an entry
  *
- * @private
+ * @protected
  * @param {*} entry
  * @returns
  */

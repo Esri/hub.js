@@ -40,7 +40,7 @@ export function upgradeToOneDotOne(
  * As part of the 1.1 migration, we add a set of default image
  * resources into the hash.
  *
- * @private
+ * @protected
  * @param {IInitiativeModel} model
  * @param {string} [portalUrl]
  * @returns {IInitiativeModel}
@@ -96,7 +96,7 @@ export function addDefaultResources(
  * Construct the url for a resource. This is specific to the migration otherwise
  * if would be hoised into a more generic module
  *
- * @private
+ * @protected
  * @param {string} itemId
  * @param {string} resourceName
  * @param {string} [portal]

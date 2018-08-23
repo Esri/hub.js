@@ -15,10 +15,7 @@ layout: "api/_layout:content"
   <hr class="leader-half trailer-half">
   <ul class="list-plain package-contents">
   {% for declaration in package.declarations %}
-    {% if declaration.flags.isPrivate %}
-    {% else %}
-      <li class="{{declaration.icon}}">{% link baseUrl + declaration.pageUrl, declaration.name, class="tsd-kind-icon" %}</li>
-    {% endif %}
+    <li class="{{declaration.icon}}">{% link baseUrl + declaration.pageUrl, declaration.name, class="tsd-kind-icon" %}</li>
   {% endfor %}
   </ul>
 </section>

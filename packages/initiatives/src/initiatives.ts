@@ -17,7 +17,7 @@ import { migrateSchema, CURRENT_SCHEMA_VERSION } from "./migrator";
 /**
  * ```js
  * // fetch initiative by id, along with the data
- * fetchInitiative('3ef...', {data:true})
+ * fetchInitiative('3ef...')
  *  .then(initiativeModel => {
  *    // work with the initiative model
  *  })
