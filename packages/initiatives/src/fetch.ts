@@ -1,18 +1,11 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import {
-  request,
-  IRequestOptions,
-  IParams,
-  getPortalUrl
-} from "@esri/arcgis-rest-request";
-import { IItem } from "@esri/arcgis-rest-common-types";
+import { IRequestOptions, getPortalUrl } from "@esri/arcgis-rest-request";
 import { getItem, getItemData } from "@esri/arcgis-rest-items";
 import { IInitiativeModel, IInitiativeItem } from "@esri/hub-common";
-import { fetchDomain } from "@esri/hub-sites";
-import { getProp, cloneObject } from "@esri/hub-common";
-import { migrateSchema, CURRENT_SCHEMA_VERSION } from "./migrator";
+import { fetchSiteDomain } from "@esri/hub-sites";
+import { migrateSchema } from "./migrator";
 
 /**
  * ```js
@@ -28,6 +21,7 @@ import { migrateSchema, CURRENT_SCHEMA_VERSION } from "./migrator";
  * @param id - Initiative Item Id
  * @param requestOptions - Initiative request options that may have authentication manager
  * @returns A Promise that will resolve with the Initiative item and data
+ * @protected
  */
 export function fetchInitiative(
   id: string,
@@ -57,6 +51,7 @@ export function fetchInitiative(
  * @param id - Initiative Item Id
  * @param requestOptions - Request options that may have authentication manager
  * @returns A Promise that will resolve with the Initiative site's domain. Consumer needs to add the protocol
+ * @protected
  */
 export function lookupSiteUrlByInitiative(
   id: string,
@@ -64,7 +59,7 @@ export function lookupSiteUrlByInitiative(
 ): Promise<string> {
   return getItem(id, requestOptions).then(initiative => {
     if (initiative.properties.siteId) {
-      return fetchDomain(initiative.properties.siteId, requestOptions);
+      return fetchSiteDomain(initiative.properties.siteId, requestOptions);
     } else {
       // reject
       return Promise.reject(

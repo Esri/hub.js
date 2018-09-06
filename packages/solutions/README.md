@@ -17,10 +17,71 @@
 npm install @esri/hub-solutions
 ```
 
-```js
-import { comingSoon  } from '@esri/hub-solutions';
+## Coarse Grained API
+The `@esri/hub-solutions` exposes both  coarse and fine grained APIs. If your application simply needs to create a Solution from a template, then the coarse grained API is for you. If your application is more focused on defining Indicators, working with multiple Solutions, in conjunction with an Initiative (i.e. the Hub), then the fine-grained api is likely a better fit.
 
-comingSoon()
+## Get a Solution Model by Id
+
+```js
+import { getSolution  } from '@esri/hub-solutions';
+
+getSolution("solution-item-id", requestOptions)
+    .then(
+      solutionItemModel => // get back "model" {item:{...}, data:{...}}
+    );
+```
+
+## Get a Solution Template Model by Id
+
+*TODO* Document the required permissions/privs required
+
+```js
+import { getSolutionTemplate  } from '@esri/hub-solutions';
+
+getSolutionTemplate("template-item-id", requestOptions)
+    .then(
+      templateItemModel => // get back "model" {item:{...}, data:{...}}
+    );
+```
+
+
+## Create a Solution as part of an Initiative 
+This assumes any required Indicators are already defined as part of the Initiative
+
+*TODO* Document the required permissions/privs required
+
+```js
+import { createInitiativeSolution  } from '@esri/hub-solutions';
+
+createInitiativeSolution("template-item-id", "initiative-item-id", requestOptions)
+    .then(
+      response => console.log()
+    );
+```
+
+## Create a Solution not associated with an Initiative 
+
+*TODO* Document the required permissions/privs required
+
+```js
+import { createSolution  } from '@esri/hub-solutions';
+
+createSolution("template-item-id", requestOptions)
+    .then(
+      response => console.log()
+    );
+```
+
+## Remove a Solution 
+This will remove the Solution item and all of it's child items.
+If the Solution is associated with an Initiative (`item.properties.initiativeId` exists), it will be removed from the Initiative model's relationship hashes.
+
+*TODO* Document the required permissions/privs required
+
+```js
+import { removeSolution  } from '@esri/hub-solutions';
+
+removeSolution("solution-item-id", requestOptions)
     .then(
       response => console.log()
     );

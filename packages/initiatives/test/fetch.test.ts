@@ -1,6 +1,7 @@
-import * as Initiative from "../src/index";
+/* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
+ * Apache-2.0 */
+import { fetchInitiative, lookupSiteUrlByInitiative } from "../src/fetch";
 import * as fetchMock from "fetch-mock";
-import { IInitiativeModel, cloneObject } from "@esri/hub-common";
 
 describe("Initiatives :: ", () => {
   describe("fetchInitiative :: ", () => {
@@ -24,7 +25,7 @@ describe("Initiatives :: ", () => {
       fetchMock.once(`${itemBaseUrl}/3ef?f=json`, m.item);
       fetchMock.once(`${itemBaseUrl}/3ef/data?f=json`, m.data);
 
-      Initiative.fetchInitiative("3ef")
+      fetchInitiative("3ef")
         .then(model => {
           expect(model.item).toBeDefined();
           expect(model.item.properties.schemaVersion).toEqual(2);
@@ -66,7 +67,7 @@ describe("Initiatives :: ", () => {
       };
       fetchMock.once(`${itemBaseUrl}/3ef?f=json`, m.item);
       fetchMock.once(`${itemBaseUrl}/3ef/data?f=json`, m.data);
-      Initiative.fetchInitiative("3ef")
+      fetchInitiative("3ef")
         .then(model => {
           expect(model.item).toBeDefined("model.item should be defined");
           expect(model.data).toBeDefined("model.data should be defined");
@@ -106,7 +107,7 @@ describe("Initiatives :: ", () => {
         properties: {}
       });
 
-      Initiative.lookupSiteUrlByInitiative("3ef").catch(ex => {
+      lookupSiteUrlByInitiative("3ef").catch(ex => {
         expect(ex.message).toBe("Initiative does not have an associated site");
         done();
       });
@@ -125,7 +126,7 @@ describe("Initiatives :: ", () => {
         `https://hub.arcgis.com/utilities/domains?f=json&siteId=5bc`,
         [{ domain: "data.foo.com" }, { domain: "org.hub.arcgis.com" }]
       );
-      Initiative.lookupSiteUrlByInitiative("3ef").then(domain => {
+      lookupSiteUrlByInitiative("3ef").then(domain => {
         expect(domain).toBe("data.foo.com");
         // ensure all mocks were used
         expect(fetchMock.done()).toBeTruthy();
@@ -160,7 +161,7 @@ describe("Initiatives :: ", () => {
           { domain: "org.hub.arcgis.com" }
         ]
       );
-      Initiative.lookupSiteUrlByInitiative("3ef").then(domain => {
+      lookupSiteUrlByInitiative("3ef").then(domain => {
         expect(domain).toBe("org-beta.hub.arcgis.com");
         // ensure all mocks were used
         expect(fetchMock.done()).toBeTruthy();

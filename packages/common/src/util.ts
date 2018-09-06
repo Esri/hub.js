@@ -75,6 +75,19 @@ export function findBy(arr: any[], prop: string, value: any) {
 }
 
 /**
+ * Return a new array without the specified value.
+ *
+ * @export
+ * @param {any[]} arr
+ * @param {*} val value or object to remove
+ * @returns {any[]} Array without the value
+ */
+export function without(arr: any[], value: any): any[] {
+  const res = arr.filter(entry => entry !== value);
+  return res;
+}
+
+/**
  * Compose
  * adapted from: https://github.com/stoeffel/compose-function/blob/master/module/index.js
  */
