@@ -18,11 +18,32 @@ npm install @esri/hub-initiatives
 ```
 
 
-
-
 ## Coarse Grained API
 The `@esri/hub-initiatives` exposes both  coarse and fine grained APIs. If your application simply needs to create an Initiative from a template, then the coarse grained API is for you. If your application is more focused on working with / editing / orchestrating solutions for Initiatives (i.e. the Hub), then the fine-grained api is likely a better fit.
 
+
+### Searching for Initiative Templates
+
+```js
+import { searchInitiativeTemplates  } from '@esri/hub-initiatives';
+
+// pass in an initiative id
+searchInitiativeTemplates("query", requestOptions)
+    .then(
+        response => // get back initiative item, not a model. To get the full model ({item:{...}, data:{...}}) use fetchInitiative
+    );
+```
+
+### Searching for Active Initiatives
+```js
+import { searchInitiatives  } from '@esri/hub-initiatives';
+
+// pass in an initiative id
+searchInitiatives("query", requestOptions)
+    .then(
+        response => // get back initiative item, not a model. To get the full model ({item:{...}, data:{...}}) use fetchInitiative
+    );
+```
 
 ### Get an Initiative by Id
 To get an Initiative Model (` {item:{...}, data:{...}}`) you can use this call. If you do not need the `data` you can use the [@esri/arcgis-rest-items::getItem(id)](https://esri.github.io/arcgis-rest-js/api/items/getItem/) call instead.
@@ -31,7 +52,7 @@ To get an Initiative Model (` {item:{...}, data:{...}}`) you can use this call. 
 import { fetchInitiative  } from '@esri/hub-initiatives';
 
 // pass in an initiative id
-fetchInitiative("abc123")
+fetchInitiative("abc123", requestOptions)
     .then(
         response => // get back initiative "model" {item:{...}, data:{...}}
     );
@@ -40,7 +61,7 @@ fetchInitiative("abc123")
 ### Create an Initiative
 Initiatives are created from Initiative Template Items. If your application simply has the ID of a template item, you can send that in along with the usual `IRequestOptions` information. The module will then do all the work of fetching the template item, creating the Initiative item, creating the various groups, sharing the Initiative to the correct groups, and at the end, it will return the Initiative model.
 
-Details documentation of the coarse-grained function calls is included in the [Hub.js Documentation](url-needed)
+Details documentation of the coarse-grained function calls is included in the [Hub.js Documentation](https://esri.github.io/hub.js)
 
 Note: Since you are delegating all this work into a single function call, your application will have no means of displaying status as the various steps are completed.
 
@@ -58,6 +79,17 @@ If your application has already fetched the template item model, that can be pas
 import { createInitiative  } from '@esri/hub-initiatives';
 // send the template item model aka {item:{...}, data:{...}}
 createInitiative(templateItemModel, "New Intiative Title", requestOptions)
+    .then((initiativeModel) => {
+        
+    })
+```
+
+### Update an Initiative
+
+```js
+import { updateInitiative  } from '@esri/hub-initiatives';
+// send the template item model aka {item:{...}, data:{...}}
+updateInitiative(initiativeModel, requestOptions)
     .then((initiativeModel) => {
         
     })

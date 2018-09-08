@@ -88,7 +88,7 @@ export function checkGroupExists(
   requestOptions: IRequestOptions
 ): Promise<any> {
   const searchForm = {
-    q: `${title} AND orgId: ${orgId}`
+    q: `${title} AND orgid: ${orgId}`
   };
   return searchGroups(searchForm, requestOptions).then((response: any) => {
     const result = {
@@ -99,6 +99,37 @@ export function checkGroupExists(
       result.group = response.results[0];
     }
     return result;
+  });
+}
+
+/**
+ * Group names must be unique within an organization
+ *
+ * @export
+ * @param {string} title
+ * @param {string} orgId
+ * @param {number} [step=0]
+ * @param {IRequestOptions} requestOptions
+ * @returns {Promise<string>}
+ */
+export function getUniqueGroupName(
+  title: string,
+  orgId: string,
+  step: number = 0,
+  requestOptions: IRequestOptions
+): Promise<string> {
+  let proposedName = title;
+  if (step) {
+    proposedName = `${title} - ${step}`;
+  }
+  return checkGroupExists(title, orgId, requestOptions).then(result => {
+    if (result.exists) {
+      // increment the step...
+      step = step + 1;
+      return getUniqueGroupName(title, orgId, step, requestOptions);
+    } else {
+      return proposedName;
+    }
   });
 }
 

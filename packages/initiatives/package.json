@@ -14,6 +14,7 @@
     "@esri/arcgis-rest-items": "^1.8.0",
     "@esri/arcgis-rest-request": "^1.8.0",
     "@esri/arcgis-rest-groups": "^1.8.0",
+    "@esri/arcgis-rest-sharing": "^1.8.0",
     "tslib": "^1.8.0"
   },
   "peerDependencies": {

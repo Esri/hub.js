@@ -27,7 +27,7 @@ export function copyImageResources(
   sourceItemId: string,
   targetItemId: string,
   owner: string,
-  assets: [string],
+  assets: string[],
   requestOptions: IRequestOptions
 ): Promise<boolean> {
   // force auth

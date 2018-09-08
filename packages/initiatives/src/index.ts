@@ -7,6 +7,7 @@ export * from "./groups";
 export * from "./templates";
 export * from "./update";
 export * from "./util";
+export * from "./activate";
 
 // TODO: Move to module in ArcGIS-REST-JS
 import geometryService from "./geometry";
