@@ -115,14 +115,14 @@ export function checkGroupExists(
 export function getUniqueGroupName(
   title: string,
   orgId: string,
-  step: number = 0,
+  step: number,
   requestOptions: IRequestOptions
 ): Promise<string> {
   let proposedName = title;
   if (step) {
     proposedName = `${title} - ${step}`;
   }
-  return checkGroupExists(title, orgId, requestOptions).then(result => {
+  return checkGroupExists(proposedName, orgId, requestOptions).then(result => {
     if (result.exists) {
       // increment the step...
       step = step + 1;

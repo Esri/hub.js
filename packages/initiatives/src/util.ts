@@ -30,14 +30,10 @@ export function copyImageResources(
   assets: string[],
   requestOptions: IRequestOptions
 ): Promise<boolean> {
-  // force auth
-  if (!requestOptions.authentication) {
-    throw new Error(`copyImageResources requires authentication.`);
-  }
-
   const itemResourceUrl = `${getPortalUrl(
     requestOptions
   )}/content/items/${sourceItemId}/resources`;
+  /* istanbul ignore next blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
   return requestOptions.authentication
     .getToken(itemResourceUrl)
     .then(token => {
@@ -108,10 +104,13 @@ export function addImageAsResource(
     // ensures behavior mimics XMLHttpRequest. needed to support sending IWA cookies
     credentials: "same-origin"
   };
+  /* istanbul ignore next blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
   return (
     fetch(url, fetchOptions)
       // we know it's a blob...
-      .then(x => x.blob())
+      .then(x => {
+        return x.blob();
+      })
       .then(blob => {
         // manually construct the fetch call...
         // again, I can't seem to get the AGRjs addResource method to work
@@ -128,7 +127,6 @@ export function addImageAsResource(
         options.body.append("filename", filename);
         options.body.append("token", token);
         options.body.append("f", "json");
-
         return fetch(targetItemResourceUrl, options)
           .then(x => x.json())
           .then(resp => {

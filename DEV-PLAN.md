@@ -54,3 +54,69 @@ As we work through this project, the intent is to migrate the Hub applications t
 ### Hub API in Node
 - Hub API will expose the coarse-grained calls via REST API
 - *TODO: they are long-running tasks, and we need to work out how best to return "status" information to the caller, perhaps via Web Sockets*
+
+
+## Status Callback Payloads
+
+The coarse-grained functions in hub.js orchestrate many, sometimes dozens of calls to the Portal API, and as such, can be quite long-running. In order to provide the user with incremental feedback, assuring them that things are working, the coarse grained methods accept a callback function.
+
+The callback will be called at minimum three times...
+
+### Process Initialization - Steps Payload
+At the start of the coarse-grained call, the `progressCallback` will be called with a payload listing the distinct steps along with the `processId`. The caller is responsible for displaying the status to the user, along with any required internationalization.
+
+```json
+{
+  "processId": "activation-bc432c",
+  "steps": [
+    {
+      "id": "createGroup",
+      "status": "not-started"
+    },
+    {
+      "id": "copyTemplate",
+      "status": "not-started"
+    },
+    {
+      "id": "createInitiative",
+      "status": "not-started"
+    },
+    {
+      "id": "shareInitiative",
+      "status": "not-started"
+    }
+  ]
+}
+
+```
+
+### Step Activation
+As each step is started, the `progressCallback` is called with a payload indicating the `activeStep`, along with the `processId`. 
+
+```json
+{ 
+  "processId": "activation-bc432c",
+  "status": "working",
+  "activeStepId": "createInitiative" 
+}
+```
+
+The assumtion here should be that all prior steps are now `complete`. For the example json shown, when this payload arrives, the calling application should conclude that the `createGroup` and `copyTemplate` tasks are complete, and the `createInitiative` step is being worked on. It is up to the calling application to determine how to convey this to the user.
+
+### Process Complete
+
+When the process is complete, a final call is made with `status` of `complete`.
+
+```json
+{ 
+  "processId": "activation-bc432c",
+  "status": "complete",
+  "duration": 4530
+}
+```
+
+### Process Failure
+
+In the event of a failure, the Promise returned from the coarse-grained call will reject, and the consuming application should take appropriate action.
+
+All intermediate products (items/groups etc) will be removed.

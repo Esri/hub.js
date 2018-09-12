@@ -16,6 +16,7 @@ export interface IInitiativeTemplateOptions {
   title: string;
   collaborationGroupId: string;
   openDataGroupId: string;
+  initiativeKey: string;
 }
 
 /**
@@ -73,6 +74,7 @@ export function createInitiativeModelFromTemplate(
       collaborationGroupId: options.collaborationGroupId,
       openDataGroupId: options.openDataGroupId,
       followerGroups: [],
+      initiativeKey: options.initiativeKey,
       bannerImage: cloneObject(template.data.values.bannerImage)
     }
   };

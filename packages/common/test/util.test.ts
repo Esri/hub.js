@@ -5,7 +5,9 @@ import {
   objectToArray,
   findBy,
   without,
-  compose
+  compose,
+  camelize,
+  createId
 } from "../src/util";
 
 describe("util functions", () => {
@@ -308,6 +310,33 @@ describe("util functions", () => {
       const chk = without(d, d[2]);
       expect(chk).not.toBe(d, "should return a new array");
       expect(chk.length).toEqual(2, "should have two entries");
+    });
+  });
+
+  describe("camelize", () => {
+    it("should camelCase strings", () => {
+      expect(camelize("boba fett")).toEqual("bobaFett");
+      expect(camelize("This Should Be Ok")).toEqual("thisShouldBeOk");
+      expect(camelize("This-Should-Be-Ok")).toEqual("thisShouldBeOk");
+      expect(camelize("-This-Should-Be-Ok")).toEqual("thisShouldBeOk");
+      expect(camelize("This-Should-Be-Ok-")).toEqual("thisShouldBeOk");
+      expect(camelize("This-{}-Should-&!@#^*!-Be-Ok-")).toEqual(
+        "thisShouldBeOk"
+      );
+      expect(camelize("131 DELETE ME")).toEqual("131DeleteMe");
+    });
+  });
+
+  describe("createId", () => {
+    it("should default a prefix to i", () => {
+      expect(createId().substr(0, 1)).toBe(
+        "i",
+        "should start with i by default"
+      );
+      expect(createId("other").substr(0, 5)).toBe(
+        "other",
+        "should append a prefix"
+      );
     });
   });
 });

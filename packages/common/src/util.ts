@@ -91,6 +91,45 @@ export function without(arr: any[], value: any): any[] {
  * Compose
  * adapted from: https://github.com/stoeffel/compose-function/blob/master/module/index.js
  */
-export const compose = (...fns: any[]) => {
+export function compose(...fns: any[]): any {
   return fns.reduce((f, g) => (...args: any[]) => f(g(...args)));
-};
+}
+
+/**
+ * Return a random number, prefixed with a string. Used for unique identifiers that do not require
+ * the rigor of a full UUID - i.e. node id's, process ids etc.
+ * @param prefix String to prefix the random number with so the result is a valid javascript property
+ */
+export function createId(prefix: string = "i"): string {
+  // prepend some char so it's always a valid dotable property name
+  // get a random number, convert to base 36 representation, then grab chars 2-8
+  return `${prefix}${Math.random()
+    .toString(36)
+    .substr(2, 8)}`;
+}
+
+/**
+ * Convert a string to camelCase
+ *
+ * @export
+ * @param {string} value
+ * @returns {string} camelCased string
+ */
+export function camelize(value: string): string {
+  // lower case the whole thing to start...
+  value = value.toLowerCase();
+  // strip out any/all special chars...
+  value = value.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, " ");
+  // Hoisted from EmberJS (MIT License)
+  // https://github.com/emberjs/ember.js/blob/v2.0.1/packages/ember-runtime/lib/system/string.js#L23-L27
+  const STRING_CAMELIZE_REGEXP_1 = /(\-|\_|\.|\s)+(.)?/g;
+  const STRING_CAMELIZE_REGEXP_2 = /(^|\/)([A-Z])/g;
+
+  return value
+    .replace(STRING_CAMELIZE_REGEXP_1, function(match, separator, chr) {
+      return chr ? chr.toUpperCase() : "";
+    })
+    .replace(STRING_CAMELIZE_REGEXP_2, function(match, separator, chr) {
+      return match.toLowerCase();
+    });
+}

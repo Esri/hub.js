@@ -14,7 +14,8 @@ import { IGroup } from "@esri/arcgis-rest-common-types";
 import {
   checkGroupExists,
   isSharedEditingGroup,
-  createInitiativeGroup
+  createInitiativeGroup,
+  getUniqueGroupName
 } from "../src/groups";
 
 const fakeGroup = {
@@ -34,7 +35,7 @@ const fakeGroup = {
 } as IGroup;
 
 describe("Initiative Groups ::", () => {
-  describe("create initiaive group ::", () => {
+  describe("createInitiativeGroup ::", () => {
     it("should create and protect a generic group", done => {
       const createGroupSpy = spyOn(GroupApi, "createGroup").and.callFake(
         (opts: IGroupAddRequestOptions) => {
@@ -160,7 +161,7 @@ describe("Initiative Groups ::", () => {
     });
   });
 
-  describe("can check if a group exists ::", () => {
+  describe("checkGroupExists ::", () => {
     it("returns true and the group if it exists", done => {
       const searchSpy = spyOn(GroupApi, "searchGroups").and.callFake(
         (searchForm: IGroupSearchRequest, opts: IRequestOptions) => {
@@ -222,6 +223,73 @@ describe("Initiative Groups ::", () => {
       });
     });
   });
+
+  describe("getUniqueGroupName ::", () => {
+    it("return original name of no group exists", done => {
+      const searchSpy = spyOn(GroupApi, "searchGroups").and.callFake(
+        (searchForm: IGroupSearchRequest, opts: IRequestOptions) => {
+          const res = {
+            results: [],
+            query: searchForm.q,
+            total: 0,
+            start: 0,
+            num: 0,
+            nextStart: -1
+          } as IGroupSearchResult;
+          return Promise.resolve(res);
+        }
+      );
+      return getUniqueGroupName(
+        "foo bar baz",
+        "BZ7426",
+        0,
+        MOCK_REQUEST_OPTIONS
+      ).then((res: string) => {
+        expect(res).toBe("foo bar baz");
+        expect(searchSpy.calls.count()).toEqual(
+          1,
+          "should make one call to searchGroups"
+        );
+        done();
+      });
+    });
+    it("append a number to original name of group exists", done => {
+      const searchSpy = spyOn(GroupApi, "searchGroups").and.callFake(
+        (searchForm: IGroupSearchRequest, opts: IRequestOptions) => {
+          const res = {
+            results: [],
+            query: searchForm.q,
+            total: 0,
+            start: 0,
+            num: 0,
+            nextStart: -1
+          } as IGroupSearchResult;
+          // if this is the first call w/ a specific name
+          // we want to fake the response to show the group
+          // does exist
+          if (searchForm.q === "foo bar baz AND orgid: BZ7426") {
+            res.total = 1;
+            res.results.push({} as IGroup);
+          }
+          return Promise.resolve(res);
+        }
+      );
+      return getUniqueGroupName(
+        "foo bar baz",
+        "BZ7426",
+        0,
+        MOCK_REQUEST_OPTIONS
+      ).then((res: string) => {
+        expect(res).toBe("foo bar baz - 1");
+        expect(searchSpy.calls.count()).toEqual(
+          2,
+          "should make two call to searchGroups"
+        );
+        done();
+      });
+    });
+  });
+
   describe("helpers ::", () => {
     it("should check for sharedEditing correctly", () => {
       expect(

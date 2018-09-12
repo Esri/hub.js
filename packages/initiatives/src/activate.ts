@@ -1,22 +1,40 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import {
-  IRequestOptions,
-  getPortalUrl,
-  getSelf,
-  IPortal
-} from "@esri/arcgis-rest-request";
+import { IRequestOptions, getSelf } from "@esri/arcgis-rest-request";
 import { IInitiativeModel } from "@esri/hub-common";
 import { fetchInitiative } from "./fetch";
 import { getUniqueGroupName, createInitiativeGroup } from "./groups";
-import { createInitiativeModelFromTemplate } from "./templates";
+import {
+  createInitiativeModelFromTemplate,
+  IInitiativeTemplateOptions
+} from "./templates";
 import { addInitiative } from "./add";
 import { copyImageResources } from "./util";
+import { createId, camelize } from "@esri/hub-common";
 import {
   shareItemWithGroup,
   IGroupSharingRequestOptions
 } from "@esri/arcgis-rest-sharing";
+
+const steps = [
+  {
+    id: "createGroup",
+    status: "not-started"
+  },
+  {
+    id: "copyTemplate",
+    status: "not-started"
+  },
+  {
+    id: "createInitiative",
+    status: "not-started"
+  },
+  {
+    id: "shareInitiative",
+    status: "not-started"
+  }
+];
 
 export function activateInitiative(
   template: string | any,
@@ -28,39 +46,23 @@ export function activateInitiative(
 ): Promise<IInitiativeModel> {
   // make a copy of the request options so we can mutate things if needed...
   const ro = { ...requestOptions } as IRequestOptions;
-
+  const processId = createId("activation-");
+  const startTS = new Date().getTime();
   // send the setup to the progress callback
   progressCallback({
-    model: {
-      status: "working",
-      steps: [
-        {
-          id: "createGroup",
-          i18nKey: "initiatives.editor.activateModal.step1",
-          status: "not-started"
-        },
-        {
-          id: "copyTemplate",
-          i18nKey: "initiatives.editor.activateModal.step2",
-          status: "not-started"
-        },
-        {
-          id: "createInitiative",
-          i18nKey: "initiatives.editor.activateModal.step3",
-          status: "not-started"
-        },
-        {
-          id: "shareInitiative",
-          i18nKey: "initiatives.editor.activateModal.step4",
-          status: "not-started"
-        }
-      ]
-    }
+    processId,
+    steps
   });
-  progressCallback({ workingOn: "createGroup" });
+  progressCallback({
+    processId,
+    status: "working",
+    activeStep: "createGroup"
+  });
   // create a state container to hold things we accumulate thru the
   // various promises
-  const state = {} as any;
+  const state = {
+    initiativeKey: camelize(title)
+  } as any;
   // Steps
   // Get the portal to we have access to
   //  - orgId
@@ -85,7 +87,11 @@ export function activateInitiative(
       return Promise.all(uniqueNames);
     })
     .then((groupNames: any) => {
-      progressCallback({ workingOn: "copyTemplate" });
+      progressCallback({
+        processId,
+        status: "working",
+        activeStep: "copyTemplate"
+      });
       state.uniqueCollaborationGroupName = groupNames[0];
       state.uniqueDataGroupName = groupNames[1];
       const createGroups = [
@@ -105,15 +111,22 @@ export function activateInitiative(
       return Promise.all(createGroups);
     })
     .then((groupIds: any) => {
-      progressCallback({ workingOn: "createInitiative" });
+      progressCallback({
+        processId,
+        status: "working",
+        activeStep: "createInitiative"
+      });
       state.collaborationGroupId = groupIds[0];
       state.openDataGroupId = groupIds[1];
+      // construct the options...
       const options = {
         collaborationGroupId: state.collaborationGroupId,
         openDataGroupId: state.openDataGroupId,
         title,
-        description: title
-      };
+        description: title,
+        initiativeKey: state.initiativeKey
+      } as IInitiativeTemplateOptions;
+      // cook the template...
       state.initiativeModel = createInitiativeModelFromTemplate(
         state.template,
         options
@@ -136,7 +149,12 @@ export function activateInitiative(
     })
     .then(() => {
       // share to the collabGroup...
-
+      progressCallback({
+        processId,
+        status: "working",
+        activeStep: "shareInitiative"
+      });
+      // create the sharing options...
       const shareOptions = {
         id: state.initiativeModel.item.id,
         groupId: state.collaborationGroupId,
@@ -147,7 +165,13 @@ export function activateInitiative(
       return shareItemWithGroup(shareOptions);
     })
     .then(() => {
-      progressCallback({ complete: true });
+      // compute the duration...
+      const duration = new Date().getTime() - startTS;
+      progressCallback({
+        processId,
+        duration,
+        status: "complete"
+      });
       return state.initiativeModel;
     });
 }
