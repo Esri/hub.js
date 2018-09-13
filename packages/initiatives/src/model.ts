@@ -10,53 +10,6 @@ import {
   IItemAddRequestOptions
 } from "@esri/arcgis-rest-items";
 
-// export const modelApi = {
-//   /**
-//    * Save an IModel. Generic function that will be used across all
-//    * type-specific save functions
-//    *
-//    * @export
-//    * @param {IModel} "model" object (i.e. `{item:{...}, data:{...}}`)
-//    * @param {IRequestOptions} requestOptions
-//    * @returns {Promise<IModel>}
-//    */
-//   saveModel (
-//     model: IModel,
-//     requestOptions: IRequestOptions
-//   ): Promise<IModel> {
-//     const clone = cloneObject(model) as IModel;
-//     const opts = createRequestOptions(clone, requestOptions);
-//     return createItem(opts as IItemAddRequestOptions)
-//       .then((response) => {
-//         clone.item.id = response.id;
-//         return clone as IModel;
-//       });
-//   },
-//   /**
-//    * Update an IModel. Generic function that will be used across all
-//    * type-specific update functions
-//    *
-//    * @export
-//    * @param {IModel} "model" object (i.e. `{item:{...}, data:{...}}`)
-//    * @param {IRequestOptions} requestOptions
-//    * @returns {Promise<IModel>}
-//    */
-//   updateModel (
-//     model: IModel,
-//     requestOptions: IRequestOptions
-//   ): Promise<IModel> {
-//     const clone = cloneObject(model) as IModel;
-//     const opts = createRequestOptions(clone, requestOptions);
-
-//     return updateItem(opts as IItemUpdateRequestOptions)
-//       .then(() => {
-//         // return a new ref to the model that was passed in...
-//         return clone as IModel;
-//       });
-//   }
-
-// }
-
 /**
  * Save an IModel. Generic function that will be used across all
  * type-specific save functions

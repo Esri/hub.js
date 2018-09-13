@@ -5,6 +5,8 @@ import {
   createGroup,
   protectGroup,
   searchGroups,
+  removeGroup,
+  unprotectGroup,
   IGroupIdRequestOptions
 } from "@esri/arcgis-rest-groups";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
@@ -71,6 +73,38 @@ export function createInitiativeGroup(
     .then(() => {
       return groupId;
     });
+}
+
+/**
+ * Remove an Initiative group.
+ * This assumes the group is protected
+ *
+ * @export
+ * @param {string} id
+ * @param {IRequestOptions} requestOptions
+ * @returns {Promise<any>}
+ */
+export function removeInitiativeGroup(
+  id: string,
+  requestOptions: IRequestOptions
+): Promise<any> {
+  const opts = {
+    id,
+    ...requestOptions
+  } as IGroupIdRequestOptions;
+  return unprotectGroup(opts).then(
+    () => {
+      return removeGroup(opts);
+    },
+    ex => {
+      // check if the failure is b/c the group does not exist...
+      if (ex.messageCode === "COM_0003" && ex.code === 400) {
+        return Promise.resolve({ success: true });
+      } else {
+        throw ex;
+      }
+    }
+  );
 }
 
 /**

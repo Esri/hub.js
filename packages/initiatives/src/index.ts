@@ -8,7 +8,8 @@ export * from "./templates";
 export * from "./update";
 export * from "./util";
 export * from "./activate";
-
+export * from "./remove";
+export * from "./detach-site";
 // TODO: Move to module in ArcGIS-REST-JS
 import geometryService from "./geometry";
 export { geometryService };

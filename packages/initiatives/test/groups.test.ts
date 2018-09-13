@@ -15,7 +15,8 @@ import {
   checkGroupExists,
   isSharedEditingGroup,
   createInitiativeGroup,
-  getUniqueGroupName
+  getUniqueGroupName,
+  removeInitiativeGroup
 } from "../src/groups";
 
 const fakeGroup = {
@@ -35,18 +36,32 @@ const fakeGroup = {
 } as IGroup;
 
 describe("Initiative Groups ::", () => {
+  let createGroupSpy: any;
+  let protectGroupSpy: any;
+  beforeEach(() => {
+    createGroupSpy = spyOn(GroupApi, "createGroup").and.callFake(
+      (opts: IGroupAddRequestOptions) => {
+        return Promise.resolve({ success: true, group: { id: "3ef" } });
+      }
+    );
+    protectGroupSpy = spyOn(GroupApi, "protectGroup").and.callFake(
+      (opts: IGroupIdRequestOptions) => {
+        return Promise.resolve({ success: true, id: "3ef" });
+      }
+    );
+  });
   describe("createInitiativeGroup ::", () => {
     it("should create and protect a generic group", done => {
-      const createGroupSpy = spyOn(GroupApi, "createGroup").and.callFake(
-        (opts: IGroupAddRequestOptions) => {
-          return Promise.resolve({ success: true, group: { id: "3ef" } });
-        }
-      );
-      const protectGroupSpy = spyOn(GroupApi, "protectGroup").and.callFake(
-        (opts: IGroupIdRequestOptions) => {
-          return Promise.resolve({ success: true });
-        }
-      );
+      // const createGroupSpy = spyOn(GroupApi, "createGroup").and.callFake(
+      //   (opts: IGroupAddRequestOptions) => {
+      //     return Promise.resolve({ success: true, group: { id: "3ef" } });
+      //   }
+      // );
+      // const protectGroupSpy = spyOn(GroupApi, "protectGroup").and.callFake(
+      //   (opts: IGroupIdRequestOptions) => {
+      //     return Promise.resolve({ success: true });
+      //   }
+      // );
 
       return createInitiativeGroup(
         "generic group",
@@ -73,16 +88,6 @@ describe("Initiative Groups ::", () => {
       });
     });
     it("should create and protect an Open Data group", done => {
-      const createGroupSpy = spyOn(GroupApi, "createGroup").and.callFake(
-        (opts: IGroupAddRequestOptions) => {
-          return Promise.resolve({ success: true, group: { id: "3ef" } });
-        }
-      );
-      const protectGroupSpy = spyOn(GroupApi, "protectGroup").and.callFake(
-        (opts: IGroupIdRequestOptions) => {
-          return Promise.resolve({ success: true, id: "3ef" });
-        }
-      );
       return createInitiativeGroup(
         "od group",
         "od description",
@@ -112,16 +117,16 @@ describe("Initiative Groups ::", () => {
       });
     });
     it("should create and protect a collaboration group", done => {
-      const createGroupSpy = spyOn(GroupApi, "createGroup").and.callFake(
-        (opts: IGroupAddRequestOptions) => {
-          return Promise.resolve({ success: true, group: { id: "3ef" } });
-        }
-      );
-      const protectGroupSpy = spyOn(GroupApi, "protectGroup").and.callFake(
-        (opts: IGroupIdRequestOptions) => {
-          return Promise.resolve({ success: true, id: "3ef" });
-        }
-      );
+      // const createGroupSpy = spyOn(GroupApi, "createGroup").and.callFake(
+      //   (opts: IGroupAddRequestOptions) => {
+      //     return Promise.resolve({ success: true, group: { id: "3ef" } });
+      //   }
+      // );
+      // const protectGroupSpy = spyOn(GroupApi, "protectGroup").and.callFake(
+      //   (opts: IGroupIdRequestOptions) => {
+      //     return Promise.resolve({ success: true, id: "3ef" });
+      //   }
+      // );
       return createInitiativeGroup(
         "generic group",
         "generic description",
@@ -156,6 +161,59 @@ describe("Initiative Groups ::", () => {
           1,
           "should make one call to protectGroup"
         );
+        done();
+      });
+    });
+  });
+
+  describe("removeInitiativeGroup", () => {
+    let removeGroupSpy: any;
+    let unprotectGroupSpy: any;
+    beforeEach(() => {
+      removeGroupSpy = spyOn(GroupApi, "removeGroup").and.callFake(
+        (opts: IGroupAddRequestOptions) => {
+          return Promise.resolve({ success: true, group: { id: "3ef" } });
+        }
+      );
+    });
+    it("unprotects and removes the group", done => {
+      unprotectGroupSpy = spyOn(GroupApi, "unprotectGroup").and.callFake(
+        (opts: IGroupIdRequestOptions) => {
+          return Promise.resolve({ success: true, id: "3ef" });
+        }
+      );
+      return removeInitiativeGroup("BZ7426", MOCK_REQUEST_OPTIONS).then(
+        result => {
+          expect(result.success).toBeTruthy();
+          expect(unprotectGroupSpy.calls.count()).toEqual(1);
+          expect(removeGroupSpy.calls.count()).toEqual(1);
+          done();
+        }
+      );
+    });
+    it("returns success if group does not exist", done => {
+      unprotectGroupSpy = spyOn(GroupApi, "unprotectGroup").and.callFake(
+        (opts: IGroupIdRequestOptions) => {
+          return Promise.reject({ code: 400, messageCode: "COM_0003" });
+        }
+      );
+      return removeInitiativeGroup("BZ7426", MOCK_REQUEST_OPTIONS).then(
+        result => {
+          expect(result.success).toBeTruthy();
+          expect(unprotectGroupSpy.calls.count()).toEqual(1);
+          expect(removeGroupSpy.calls.count()).toEqual(0);
+          done();
+        }
+      );
+    });
+    it("throws on some other error", done => {
+      unprotectGroupSpy = spyOn(GroupApi, "unprotectGroup").and.callFake(
+        (opts: IGroupIdRequestOptions) => {
+          return Promise.reject({ code: 502, messageCode: "WAT" });
+        }
+      );
+      return removeInitiativeGroup("BZ7426", MOCK_REQUEST_OPTIONS).catch(ex => {
+        expect(ex.messageCode).toEqual("WAT");
         done();
       });
     });

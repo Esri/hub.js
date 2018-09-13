@@ -6,7 +6,9 @@ import { getItem, getItemData } from "@esri/arcgis-rest-items";
 import { IInitiativeModel, IInitiativeItem } from "@esri/hub-common";
 import { fetchSiteDomain } from "@esri/hub-sites";
 import { migrateSchema } from "./migrator";
-
+import { convertIndicatorsToDefinitions } from "./migrations/upgrade-two-dot-zero";
+// re-export this one helper function that's needed for solutions
+export { convertIndicatorsToDefinitions };
 /**
  * ```js
  * // fetch initiative by id, along with the data
