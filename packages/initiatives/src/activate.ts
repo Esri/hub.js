@@ -36,6 +36,19 @@ const steps = [
   }
 ];
 
+/**
+ * Activate an Initiative
+ * Creates an instance of an Initiative, based on an Initiative Template.
+ *
+ * @export
+ * @param {(string | any)} Initiative Template item or Id
+ * @param {string} title
+ * @param {string} collaborationGroupName
+ * @param {string} dataGroupName
+ * @param {(n: any) => any} progressCallback
+ * @param {IRequestOptions} requestOptions
+ * @returns {Promise<IInitiativeModel>}
+ */
 export function activateInitiative(
   template: string | any,
   title: string,

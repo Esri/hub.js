@@ -22,29 +22,6 @@ npm install @esri/hub-initiatives
 The `@esri/hub-initiatives` exposes both  coarse and fine grained APIs. If your application simply needs to create an Initiative from a template, then the coarse grained API is for you. If your application is more focused on working with / editing / orchestrating solutions for Initiatives (i.e. the Hub), then the fine-grained api is likely a better fit.
 
 
-### Searching for Initiative Templates
-
-```js
-import { searchInitiativeTemplates  } from '@esri/hub-initiatives';
-
-// pass in an initiative id
-searchInitiativeTemplates("query", requestOptions)
-    .then(
-        response => // get back initiative item, not a model. To get the full model ({item:{...}, data:{...}}) use fetchInitiative
-    );
-```
-
-### Searching for Active Initiatives
-```js
-import { searchInitiatives  } from '@esri/hub-initiatives';
-
-// pass in an initiative id
-searchInitiatives("query", requestOptions)
-    .then(
-        response => // get back initiative item, not a model. To get the full model ({item:{...}, data:{...}}) use fetchInitiative
-    );
-```
-
 ### Get an Initiative by Id
 To get an Initiative Model (` {item:{...}, data:{...}}`) you can use this call. If you do not need the `data` you can use the [@esri/arcgis-rest-items::getItem(id)](https://esri.github.io/arcgis-rest-js/api/items/getItem/) call instead.
 
@@ -66,20 +43,32 @@ Details documentation of the coarse-grained function calls is included in the [H
 Note: Since you are delegating all this work into a single function call, your application will have no means of displaying status as the various steps are completed.
 
 ```js
-import { createInitiative  } from '@esri/hub-initiatives';
+import { activateInitiative  } from '@esri/hub-initiatives';
 // send the template item id
-createInitiative("template-item-id", "New Intiative Title", requestOptions)
-    .then((initiativeModel) => {
+activateInitiative(
+    "template-item-id", 
+    "New Initiative Title", 
+    "Collaboration Group Title",
+    "Data Sharing Group Title", 
+    progressCallback, 
+    requestOptions
+    ).then((initiativeModel) => {
         
     })
 ```
 
 If your application has already fetched the template item model, that can be passed in.
 ```js
-import { createInitiative  } from '@esri/hub-initiatives';
+import { activateInitiative  } from '@esri/hub-initiatives';
 // send the template item model aka {item:{...}, data:{...}}
-createInitiative(templateItemModel, "New Intiative Title", requestOptions)
-    .then((initiativeModel) => {
+activateInitiative(
+    templateItemModel, 
+    "New Intiative Title",
+    "Collaboration Group Title",
+    "Data Sharing Group Title", 
+    progressCallback, 
+    requestOptions
+    ).then((initiativeModel) => {
         
     })
 ```
@@ -101,19 +90,42 @@ Removing an Initiative involves more then just deleting the item. The collaborat
 Note: This call can take 10 or more seconds, and if Solutions are being removed, it may take a minute or more.
 
 ```js
-import { deleteInitiative  } from '@esri/hub-initiatives';
+import { removeInitiative  } from '@esri/hub-initiatives';
 
-deleteInitiative(initiativeId, deleteSolutions, requestOptions)
+removeInitiative(initiativeId, progressCallback, requestOptions)
     .then((result) => {
         
     })
 ```
 
+
+### [NOT IMPLEMENTED YET] Searching for Initiative Templates
+
+```js
+import { searchInitiativeTemplates  } from '@esri/hub-initiatives';
+
+// pass in an initiative id
+searchInitiativeTemplates("query", requestOptions)
+    .then(
+        response => // get back initiative item, not a model. To get the full model ({item:{...}, data:{...}}) use fetchInitiative
+    );
+```
+
+### [NOT IMPLEMENTED YET] Searching for Active Initiatives
+```js
+import { searchInitiatives  } from '@esri/hub-initiatives';
+
+// pass in an initiative id
+searchInitiatives("query", requestOptions)
+    .then(
+        response => // get back initiative item, not a model. To get the full model ({item:{...}, data:{...}}) use fetchInitiative
+    );
+```
+
+
 ## Fine Grained API
 
-The fine grained API is composed of individual function calls which the Hub application uses when working with Initiatives through their entire life-cycle. These are documented in the [Hub.js Documentation](url-needed)
-
-
+The fine grained API is composed of individual function calls which the Hub application uses when working with Initiatives through their entire life-cycle. These are documented in the [Hub.js Documentation](https://esri.github.io/hub.js/api/)
 
 
 ### Issues
