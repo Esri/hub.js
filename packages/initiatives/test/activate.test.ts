@@ -5,7 +5,7 @@ import { cloneObject, createId } from "@esri/hub-common";
 import { activateInitiative } from "../src/activate";
 import * as RequestAPI from "@esri/arcgis-rest-request";
 import * as SharingAPI from "@esri/arcgis-rest-sharing";
-import * as InitiativeFetchAPI from "../src/fetch";
+import * as InitiativeFetchAPI from "../src/get";
 import * as AddInitiativeAPI from "../src/add";
 import * as InitiativeGroupsAPI from "../src/groups";
 import * as UtilAPI from "../src/util";
@@ -143,9 +143,9 @@ describe("Initiative Activation :: ", () => {
         });
       });
 
-      const fetchInitiativeSpy = spyOn(
+      const getInitiativeSpy = spyOn(
         InitiativeFetchAPI,
-        "fetchInitiative"
+        "getInitiative"
       ).and.callFake((id: string, ro: any): Promise<any> => {
         return Promise.resolve(InitiativeTemplate);
       });
@@ -226,7 +226,7 @@ describe("Initiative Activation :: ", () => {
           1,
           "should make one call to fetch the portal"
         );
-        expect(fetchInitiativeSpy.calls.count()).toEqual(
+        expect(getInitiativeSpy.calls.count()).toEqual(
           1,
           "should make one call to fetch the template"
         );

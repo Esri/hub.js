@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 export * from "./add";
-export * from "./fetch";
+export * from "./get";
 export * from "./groups";
 export * from "./templates";
 export * from "./update";

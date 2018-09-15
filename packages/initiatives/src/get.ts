@@ -12,7 +12,7 @@ export { convertIndicatorsToDefinitions };
 /**
  * ```js
  * // fetch initiative by id, along with the data
- * fetchInitiative('3ef...')
+ * getInitiative('3ef...')
  *  .then(initiativeModel => {
  *    // work with the initiative model
  *  })
@@ -25,7 +25,7 @@ export { convertIndicatorsToDefinitions };
  * @returns A Promise that will resolve with the Initiative item and data
  * @protected
  */
-export function fetchInitiative(
+export function getInitiative(
   id: string,
   requestOptions?: IRequestOptions
 ): Promise<IInitiativeModel> {

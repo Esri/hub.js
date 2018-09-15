@@ -3,7 +3,7 @@
 import { IRequestOptions, getPortalUrl } from "@esri/arcgis-rest-request";
 
 /**
- *
+ *  Copy an set of image resources from one item to another
  *
  * @export
  * @param {string} sourceItemId

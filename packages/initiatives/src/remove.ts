@@ -2,7 +2,7 @@
  * Apache-2.0 */
 import { IRequestOptions, getSelf } from "@esri/arcgis-rest-request";
 import { removeInitiativeGroup } from "./groups";
-import { fetchInitiative } from "./fetch";
+import { getInitiative } from "./get";
 import { detachSiteFromInitiative } from "./detach-site";
 import {
   removeItem,
@@ -61,7 +61,7 @@ export function removeInitiative(
   // and the Portal because w need the org's default
   // collaboration group id
   return Promise.all([
-    fetchInitiative(id, requestOptions),
+    getInitiative(id, requestOptions),
     getSelf(requestOptions)
   ])
     .then(results => {

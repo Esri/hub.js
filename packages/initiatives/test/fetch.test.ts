@@ -1,10 +1,10 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-import { fetchInitiative, lookupSiteUrlByInitiative } from "../src/fetch";
+import { getInitiative, lookupSiteUrlByInitiative } from "../src/get";
 import * as fetchMock from "fetch-mock";
 
 describe("Initiatives :: ", () => {
-  describe("fetchInitiative :: ", () => {
+  describe("getInitiative :: ", () => {
     const itemBaseUrl = "https://www.arcgis.com/sharing/rest/content/items";
     afterEach(fetchMock.restore);
 
@@ -25,7 +25,7 @@ describe("Initiatives :: ", () => {
       fetchMock.once(`${itemBaseUrl}/3ef?f=json`, m.item);
       fetchMock.once(`${itemBaseUrl}/3ef/data?f=json`, m.data);
 
-      fetchInitiative("3ef")
+      getInitiative("3ef")
         .then(model => {
           expect(model.item).toBeDefined();
           expect(model.item.properties.schemaVersion).toEqual(2);
@@ -67,7 +67,7 @@ describe("Initiatives :: ", () => {
       };
       fetchMock.once(`${itemBaseUrl}/3ef?f=json`, m.item);
       fetchMock.once(`${itemBaseUrl}/3ef/data?f=json`, m.data);
-      fetchInitiative("3ef")
+      getInitiative("3ef")
         .then(model => {
           expect(model.item).toBeDefined("model.item should be defined");
           expect(model.data).toBeDefined("model.data should be defined");

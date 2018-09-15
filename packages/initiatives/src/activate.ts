@@ -3,7 +3,7 @@
 
 import { IRequestOptions, getSelf } from "@esri/arcgis-rest-request";
 import { IInitiativeModel } from "@esri/hub-common";
-import { fetchInitiative } from "./fetch";
+import { getInitiative } from "./get";
 import { getUniqueGroupName, createInitiativeGroup } from "./groups";
 import {
   createInitiativeModelFromTemplate,
@@ -86,7 +86,7 @@ export function activateInitiative(
       state.portal = portal;
       // we may be handed a template...
       if (typeof template === "string") {
-        return fetchInitiative(template, ro);
+        return getInitiative(template, ro);
       } else {
         return Promise.resolve(template);
       }
