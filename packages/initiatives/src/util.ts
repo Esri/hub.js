@@ -1,6 +1,10 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-import { IRequestOptions, getPortalUrl } from "@esri/arcgis-rest-request";
+import {
+  IRequestOptions,
+  getPortalUrl,
+  request
+} from "@esri/arcgis-rest-request";
 
 /**
  *  Copy an set of image resources from one item to another
@@ -94,8 +98,20 @@ export function addImageAsResource(
     // ensures behavior mimics XMLHttpRequest. needed to support sending IWA cookies
     credentials: "same-origin"
   };
+  // -------------------------------------------------
+  // @jgravois -- I'm not clear on how to make request work w/
+  // const opts = {
+  //   f: 'somevaluesowecannullitbelow',
+  //   ...requestOptions
+  // };
+  // opts.f = null;
+  // -------------------------------------------------
   /* istanbul ignore next blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
   return (
+    // -------------------------------------------------
+    // request(url, opts)
+    // -------------------------------------------------
+
     fetch(url, fetchOptions)
       // we know it's a blob...
       .then(x => {
