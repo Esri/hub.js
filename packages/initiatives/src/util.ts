@@ -49,22 +49,6 @@ export function copyImageResources(
 }
 
 /**
- * Given a filename of an image. return the mime-type
- *
- * @export
- * @param {string} fileName
- * @returns {string}
- */
-export function getImageMimeTypeFromFileName(fileName: string): string {
-  let extension = fileName.split(".")[1];
-  // handle jpg
-  if (extension === "jpg") {
-    extension = "jpeg";
-  }
-  return `image/${extension}`;
-}
-
-/**
  * Load an image from a url, and store it as a resource on an existing item
  *
  * @export
