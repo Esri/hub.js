@@ -4,7 +4,10 @@ import {
   arrayToObject,
   objectToArray,
   findBy,
-  compose
+  without,
+  compose,
+  camelize,
+  createId
 } from "../src/util";
 
 describe("util functions", () => {
@@ -33,6 +36,28 @@ describe("util functions", () => {
     const c = cloneObject(obj);
     expect(c).not.toBe(obj);
     expect(c.field).not.toBe(obj.field);
+
+    ["color", "length"].map(prop => {
+      expect(c[prop]).toEqual(obj[prop]);
+    });
+    ["name", "type"].map(prop => {
+      expect(c.field[prop]).toEqual(obj.field[prop]);
+    });
+  });
+
+  it("does not stringify null", () => {
+    const obj = {
+      color: "red",
+      length: 12,
+      field: {
+        name: "origin",
+        type: null
+      }
+    } as any;
+    const c = cloneObject(obj);
+    expect(c).not.toBe(obj);
+    expect(c.field).not.toBe(obj.field);
+    expect(c.field.type).toBe(null);
 
     ["color", "length"].map(prop => {
       expect(c[prop]).toEqual(obj[prop]);
@@ -270,5 +295,48 @@ describe("util functions", () => {
     expect(typeof compose).toEqual("function");
     expect(compose(sqr, inc)(2)).toEqual(sqr(inc(2)));
     expect(null).toBeNull();
+  });
+  describe("without ::", () => {
+    it("returns array of strings without an entry", () => {
+      const d = ["one", "two", "three"];
+      const chk = without(d, "two");
+      expect(chk).not.toBe(d, "should return a new array");
+      expect(chk.length).toEqual(2, "should have two entries");
+      expect(chk.indexOf("one")).toBeGreaterThan(-1, 'should have "one"');
+      expect(chk.indexOf("three")).toBeGreaterThan(-1, 'should have "three"');
+    });
+    it("returns array without an object", () => {
+      const d = [{ name: "Vader" }, { name: "Luke" }, { name: "Leia" }];
+      const chk = without(d, d[2]);
+      expect(chk).not.toBe(d, "should return a new array");
+      expect(chk.length).toEqual(2, "should have two entries");
+    });
+  });
+
+  describe("camelize", () => {
+    it("should camelCase strings", () => {
+      expect(camelize("boba fett")).toEqual("bobaFett");
+      expect(camelize("This Should Be Ok")).toEqual("thisShouldBeOk");
+      expect(camelize("This-Should-Be-Ok")).toEqual("thisShouldBeOk");
+      expect(camelize("-This-Should-Be-Ok")).toEqual("thisShouldBeOk");
+      expect(camelize("This-Should-Be-Ok-")).toEqual("thisShouldBeOk");
+      expect(camelize("This-{}-Should-&!@#^*!-Be-Ok-")).toEqual(
+        "thisShouldBeOk"
+      );
+      expect(camelize("131 DELETE ME")).toEqual("131DeleteMe");
+    });
+  });
+
+  describe("createId", () => {
+    it("should default a prefix to i", () => {
+      expect(createId().substr(0, 1)).toBe(
+        "i",
+        "should start with i by default"
+      );
+      expect(createId("other").substr(0, 5)).toBe(
+        "other",
+        "should append a prefix"
+      );
+    });
   });
 });

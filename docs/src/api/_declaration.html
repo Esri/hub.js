@@ -466,6 +466,14 @@
       {{ @methodsTable(group, children) }}
     {% endif %}
 
+    {% if group.title == 'Functions' %}
+      {{ @methodsTable(group, children) }}
+    {% endif %}
+
+    {% if group.title == 'Variables' %}
+      {{ @methodsTable(group, children) }}
+    {% endif %}
+
   {% endfor %}
 {% endif %}
 

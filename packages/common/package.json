@@ -13,7 +13,7 @@
     "dist/**"
   ],
   "dependencies": {
-    "@esri/arcgis-rest-common-types": "^1.7.1"
+    "@esri/arcgis-rest-common-types": "^1.9.0"
   },
   "scripts": {
     "prepare": "npm run build",

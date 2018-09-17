@@ -1,23 +1,18 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import {
-  request,
-  IRequestOptions,
-  IParams,
-  getPortalUrl
-} from "@esri/arcgis-rest-request";
-import { IItem } from "@esri/arcgis-rest-common-types";
+import { IRequestOptions, getPortalUrl } from "@esri/arcgis-rest-request";
 import { getItem, getItemData } from "@esri/arcgis-rest-items";
 import { IInitiativeModel, IInitiativeItem } from "@esri/hub-common";
 import { fetchDomain } from "@esri/hub-sites";
-import { getProp, cloneObject } from "@esri/hub-common";
-import { migrateSchema, CURRENT_SCHEMA_VERSION } from "./migrator";
-
+import { migrateSchema } from "./migrator";
+import { convertIndicatorsToDefinitions } from "./migrations/upgrade-two-dot-zero";
+// re-export this one helper function that's needed for solutions
+export { convertIndicatorsToDefinitions };
 /**
  * ```js
  * // fetch initiative by id, along with the data
- * fetchInitiative('3ef...')
+ * getInitiative('3ef...')
  *  .then(initiativeModel => {
  *    // work with the initiative model
  *  })
@@ -28,8 +23,9 @@ import { migrateSchema, CURRENT_SCHEMA_VERSION } from "./migrator";
  * @param id - Initiative Item Id
  * @param requestOptions - Initiative request options that may have authentication manager
  * @returns A Promise that will resolve with the Initiative item and data
+ * @export
  */
-export function fetchInitiative(
+export function getInitiative(
   id: string,
   requestOptions?: IRequestOptions
 ): Promise<IInitiativeModel> {
@@ -51,12 +47,34 @@ export function fetchInitiative(
 }
 
 /**
+ * Deprecated. Please use getInitiative
+ *
+ * @protected
+ * @export
+ * @param {string} id
+ * @param {IRequestOptions} [requestOptions]
+ * @returns {Promise<IInitiativeModel>}
+ */
+/* istanbul ignore next no need to have coverage on deprecated functions */
+export function fetchInitiative(
+  id: string,
+  requestOptions?: IRequestOptions
+): Promise<IInitiativeModel> {
+  // tslint:disable-next-line
+  console.warn(
+    `fetchInitiative has been deprecated. Please use getInitiative instead.`
+  );
+  return getInitiative(id, requestOptions);
+}
+
+/**
  * Get site url for Initiative
  * Get the initiative item. If it has a site, it will have item.properties.siteId
  * From there, we can use the domain service to lookup the domain using the siteId
  * @param id - Initiative Item Id
  * @param requestOptions - Request options that may have authentication manager
  * @returns A Promise that will resolve with the Initiative site's domain. Consumer needs to add the protocol
+ * @public
  */
 export function lookupSiteUrlByInitiative(
   id: string,

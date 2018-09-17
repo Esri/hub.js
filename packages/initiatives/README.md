@@ -17,15 +17,15 @@
 npm install @esri/hub-initiatives
 ```
 
-```js
-import { fetchInitiative  } from '@esri/hub-initiatives';
+## Coarse Grained API
 
-// pass in an initiative id
-fetchInitiative("abc123")
-    .then(
-        response => // get back initiative metadata
-    );
-```
+Initiatives module exposes a coarse-grained API useful for orchestrating the creation or removal of an Initiative. This is documented in the [Guides](https://esri.github.io/hub.js/guides/coarse-grained-api)
+
+
+## Fine Grained API
+
+The fine grained API is composed of individual function calls which the Hub application uses when working with Initiatives through their entire life-cycle. These are documented in the [Hub.js Documentation](https://esri.github.io/hub.js/api/)
+
 
 ### Issues
 

@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-import { getProp, cloneObject } from "@esri/hub-common";
-import { IInitiativeModel, IInitiativeItem } from "@esri/hub-common";
+import { getProp } from "@esri/hub-common";
+import { IInitiativeModel } from "@esri/hub-common";
 import { applyInitialSchema } from "./migrations/apply-schema";
 import { upgradeToOneDotOne } from "./migrations/upgrade-one-dot-one";
 import { upgradeToTwoDotZero } from "./migrations/upgrade-two-dot-zero";

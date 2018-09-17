@@ -18,14 +18,14 @@ npm install @esri/hub-common
 ```
 
 ```ts
-import { IIInitiative } from '@esri/hub-common-types';
+import { IIInitiativeItem } from '@esri/hub-common-types';
 
 const myInitiative = {
   item: {
     id: "abc123",
     owner: "c@sey"
-  } as IItem
-} as IInitiative
+  }
+} as IInitiativeItem
 ```
 
 ### Issues

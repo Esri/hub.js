@@ -6,7 +6,7 @@ import { IInitiativeModel } from "@esri/hub-common";
 /**
  * Apply the 1.1 --> 2.0 Migration to an Initiative Model
  *
- * @export
+ * @protected
  * @param {IInitiativeModel} model
  * @param {string} [portalUrl]
  * @returns {IInitiativeModel}
