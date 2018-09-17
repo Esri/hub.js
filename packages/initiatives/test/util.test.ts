@@ -7,7 +7,6 @@ import {
 } from "../src/util";
 import { MOCK_REQUEST_OPTIONS } from "./mocks/fake-session";
 import * as fetchMock from "fetch-mock";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 const REST_URL = "https://www.arcgis.com/sharing/rest";
 
@@ -56,11 +55,9 @@ describe("Initiative Utilities ::", () => {
           "jeffvader",
           "main-image.png",
           `${REST_URL}/content/items/3ef/resources/fake-image.png`,
-          "image/png",
-          "FAKETOKEN",
           MOCK_REQUEST_OPTIONS
         ).then(resp => {
-          expect(resp).toBeTruthy();
+          expect(resp as boolean).toBeTruthy();
           // check that the mocks were called
           expect(fetchMock.done()).toBeTruthy();
           // inspect the POST call...

@@ -1,11 +1,9 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-import {
-  IRequestOptions,
-  getPortalUrl,
-  request
-} from "@esri/arcgis-rest-request";
+import { IRequestOptions, getPortalUrl } from "@esri/arcgis-rest-request";
 
+import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { addItemResource } from "@esri/arcgis-rest-items";
 /**
  *  Copy an set of image resources from one item to another
  *
@@ -32,16 +30,13 @@ export function copyImageResources(
     .getToken(itemResourceUrl)
     .then(token => {
       const assetPromises = assets.map(assetName => {
-        const mimeType = getImageMimeTypeFromFileName(assetName);
         const sourceUrl = `${itemResourceUrl}/${assetName}?token=${token}`;
         return addImageAsResource(
           targetItemId,
           owner,
           assetName,
           sourceUrl,
-          mimeType,
-          token,
-          requestOptions
+          requestOptions as IUserRequestOptions
         );
       });
       // This is really more of a fire-and-forget thing, as the Portal API
@@ -77,18 +72,15 @@ export function getImageMimeTypeFromFileName(fileName: string): string {
  * @param {string} owner
  * @param {string} filename
  * @param {string} url
- * @param {string} type
  * @param {IRequestOptions} requestOptions
  * @returns {Promise<boolean>}
  */
 export function addImageAsResource(
-  itemId: string,
+  id: string,
   owner: string,
-  filename: string,
+  name: string,
   url: string,
-  type: string,
-  token: string,
-  requestOptions: IRequestOptions
+  requestOptions: IUserRequestOptions
 ): Promise<boolean> {
   // We must use fetch directly here because AGSjs request determines how to parse
   // the response based on the `?f=<type>` param. But sending f=<anything-other-than-json>
@@ -98,46 +90,25 @@ export function addImageAsResource(
     // ensures behavior mimics XMLHttpRequest. needed to support sending IWA cookies
     credentials: "same-origin"
   };
-  // -------------------------------------------------
-  // @jgravois -- I'm not clear on how to make request work w/
-  // const opts = {
-  //   f: 'somevaluesowecannullitbelow',
-  //   ...requestOptions
-  // };
-  // opts.f = null;
-  // -------------------------------------------------
-  /* istanbul ignore next blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
   return (
     // -------------------------------------------------
     // request(url, opts)
     // -------------------------------------------------
 
     fetch(url, fetchOptions)
-      // we know it's a blob...
       .then(x => {
         return x.blob();
       })
       .then(blob => {
-        // manually construct the fetch call...
-        // again, I can't seem to get the AGRjs addResource method to work
-        // it does not seem to send the blob correctly, nor does it sent the
-        // token in the form
-        const options = {
-          body: new FormData(),
-          method: "POST"
-        };
-        const targetItemResourceUrl = `${getPortalUrl(
-          requestOptions
-        )}/content/users/${owner}/items/${itemId}/addResources`;
-        options.body.append("file", blob, filename);
-        options.body.append("filename", filename);
-        options.body.append("token", token);
-        options.body.append("f", "json");
-        return fetch(targetItemResourceUrl, options)
-          .then(x => x.json())
-          .then(resp => {
-            return resp.success;
-          });
+        return addItemResource({
+          id,
+          owner,
+          name,
+          resource: blob,
+          authentication: requestOptions.authentication
+        }).then(response => {
+          return response.success;
+        });
       })
   );
 }
