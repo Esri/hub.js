@@ -4,7 +4,7 @@
 import { IRequestOptions, getPortalUrl } from "@esri/arcgis-rest-request";
 import { getItem, getItemData } from "@esri/arcgis-rest-items";
 import { IInitiativeModel, IInitiativeItem } from "@esri/hub-common";
-import { fetchSiteDomain } from "@esri/hub-sites";
+import { fetchDomain } from "@esri/hub-sites";
 import { migrateSchema } from "./migrator";
 import { convertIndicatorsToDefinitions } from "./migrations/upgrade-two-dot-zero";
 // re-export this one helper function that's needed for solutions
@@ -61,7 +61,7 @@ export function lookupSiteUrlByInitiative(
 ): Promise<string> {
   return getItem(id, requestOptions).then(initiative => {
     if (initiative.properties.siteId) {
-      return fetchSiteDomain(initiative.properties.siteId, requestOptions);
+      return fetchDomain(initiative.properties.siteId, requestOptions);
     } else {
       // reject
       return Promise.reject(

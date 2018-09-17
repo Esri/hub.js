@@ -18,11 +18,11 @@ npm install @esri/hub-domains
 ```
 
 ```js
-import { comingSoon  } from '@esri/hub-domains';
+import { getHubUrl  } from '@esri/hub-domains';
 
-comingSoon()
+getHubUrl()
     .then(
-      response => console.log()
+      response => console.log() // https://hub.arcgis.com
     );
 ```
 

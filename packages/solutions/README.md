@@ -17,7 +17,7 @@
 npm install @esri/hub-solutions
 ```
 
-## Coarse Grained API
+## [NOT IMPLEMENTED] Coarse Grained API
 The `@esri/hub-solutions` exposes both  coarse and fine grained APIs. If your application simply needs to create a Solution from a template, then the coarse grained API is for you. If your application is more focused on defining Indicators, working with multiple Solutions, in conjunction with an Initiative (i.e. the Hub), then the fine-grained api is likely a better fit.
 
 ## Get a Solution Model by Id

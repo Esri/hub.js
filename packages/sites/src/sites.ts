@@ -10,7 +10,7 @@ import { getHubUrl } from "@esri/hub-domains";
  * @param requestOptions - request options that may include authentication
  * @returns A Promise that will resolve with the domains associated with the site.
  */
-export function fetchSiteDomains(
+export function fetchDomains(
   siteId: string,
   requestOptions?: IRequestOptions
 ): Promise<any> {
@@ -35,11 +35,11 @@ export function fetchSiteDomains(
  * @param requestOptions - request options that may include authentication
  * @returns A Promise that will resolve with the domains associated with the site.
  */
-export function fetchSiteDomain(
+export function fetchDomain(
   siteId: string,
   requestOptions?: IRequestOptions
 ): Promise<any> {
-  return fetchSiteDomains(siteId, requestOptions).then(response => {
+  return fetchDomains(siteId, requestOptions).then(response => {
     if (response.length > 1) {
       // ok - in this case, it's likely that we have a default domain and a custom domain...
       // we want the one that's custom... i.e. does not contain arcgis.com

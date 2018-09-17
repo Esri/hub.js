@@ -66,18 +66,16 @@ const geometryService = {
   ): Promise<any> {
     const url = `${serviceUrl}/project`;
 
-    const rOptions = {
-      httpMethod: "POST",
+    // we may be mutating this, so make a copy...
+    const opts = {
       ...requestOptions
     } as IRequestOptions;
 
-    const gparam = {
-      geometryType,
-      geometries
-    };
-
-    rOptions.params = {
-      geometries: JSON.stringify(gparam),
+    opts.params = {
+      geometries: {
+        geometryType,
+        geometries
+      },
       transformForward: false,
       transformation: "",
       inSR,
@@ -85,13 +83,13 @@ const geometryService = {
       f: "json"
     };
 
-    if (!this.shouldAddTokenToCall(url) && rOptions.authentication) {
+    if (!this.shouldAddTokenToCall(url) && opts.authentication) {
       // remove the authentication...
       // if the same rO is used thru multiple calls...
-      delete rOptions.authentication;
+      delete opts.authentication;
     }
 
-    return request(url, rOptions);
+    return request(url, opts);
   }
 };
 

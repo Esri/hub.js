@@ -9,6 +9,8 @@ description: Get started with @esri/hub.js.
 
 * [Using a CDN](./from-a-cdn/)
 * [Using Node.js](./node/)
+* [Using the Initiatives Coarse-Grained API](./coarse-grained-api/)
+
 
 ## Requirements
 
