@@ -7,6 +7,7 @@ import {
   IQueryFeaturesResponse
 } from "@esri/arcgis-rest-feature-service";
 
+import { IGeometry } from "@esri/arcgis-rest-common-types";
 import { getUser } from "@esri/arcgis-rest-users";
 
 export interface IResourceObject {
@@ -15,6 +16,7 @@ export interface IResourceObject {
   attributes: {
     [key: string]: any;
   };
+  geometry?: IGeometry;
 }
 
 /**
@@ -46,11 +48,16 @@ export function searchAnnotations(
     // use .reduce()?
     (response as IQueryFeaturesResponse).features.forEach(function(comment) {
       const attributes = comment.attributes;
-      data.push({
+      const record = {
         id: attributes.author,
         type: "annotations",
         attributes
-      });
+      } as IResourceObject;
+
+      if (comment.geometry) {
+        record.geometry = comment.geometry;
+      }
+      data.push(record);
 
       if (users.indexOf(comment.attributes.author) === -1) {
         users.push(attributes.author);

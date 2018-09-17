@@ -229,7 +229,7 @@ describe("add/update/deleteAnnotations", () => {
 
     updateAnnotations({
       url: annoUrl,
-      updates: [
+      annotations: [
         {
           attributes: {
             OBJECTID: 1001,
