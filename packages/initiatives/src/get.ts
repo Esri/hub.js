@@ -23,7 +23,7 @@ export { convertIndicatorsToDefinitions };
  * @param id - Initiative Item Id
  * @param requestOptions - Initiative request options that may have authentication manager
  * @returns A Promise that will resolve with the Initiative item and data
- * @protected
+ * @export
  */
 export function getInitiative(
   id: string,
@@ -47,13 +47,34 @@ export function getInitiative(
 }
 
 /**
+ * Deprecated. Please use getInitiative
+ *
+ * @protected
+ * @export
+ * @param {string} id
+ * @param {IRequestOptions} [requestOptions]
+ * @returns {Promise<IInitiativeModel>}
+ */
+/* istanbul ignore next no need to have coverage on deprecated functions */
+export function fetchInitiative(
+  id: string,
+  requestOptions?: IRequestOptions
+): Promise<IInitiativeModel> {
+  // tslint:disable-next-line
+  console.warn(
+    `fetchInitiative has been deprecated. Please use getInitiative instead.`
+  );
+  return getInitiative(id, requestOptions);
+}
+
+/**
  * Get site url for Initiative
  * Get the initiative item. If it has a site, it will have item.properties.siteId
  * From there, we can use the domain service to lookup the domain using the siteId
  * @param id - Initiative Item Id
  * @param requestOptions - Request options that may have authentication manager
  * @returns A Promise that will resolve with the Initiative site's domain. Consumer needs to add the protocol
- * @protected
+ * @public
  */
 export function lookupSiteUrlByInitiative(
   id: string,

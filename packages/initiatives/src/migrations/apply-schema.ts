@@ -9,7 +9,7 @@ import { getProp, cloneObject } from "@esri/hub-common";
  * will be returned. Otherwise a new object with the updated schema
  * is returned.
  *
- * @export
+ * @protected
  * @param {IInitiativeModel} model Initiative Model
  * @param {string} [portalUrl] Url to the Portal. Defauls to `www.arcgis.com`
  * @returns {IInitiativeModel}

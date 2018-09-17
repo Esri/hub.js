@@ -8,6 +8,7 @@ import { IInitiativeModel, IInitiativeItem } from "@esri/hub-common";
  *
  * @param model
  * @param portalUrl
+ * @protected
  */
 export function upgradeToOneDotOne(
   model: IInitiativeModel,
