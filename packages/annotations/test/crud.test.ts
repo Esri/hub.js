@@ -229,6 +229,41 @@ describe("add/update/deleteAnnotations", () => {
 
     updateAnnotations({
       url: annoUrl,
+      annotations: [
+        {
+          attributes: {
+            OBJECTID: 1001,
+            description: "i changed my mind, we can wait a lil while."
+          }
+        }
+      ]
+    }).then(() => {
+      expect(paramsSpy.calls.count()).toEqual(1);
+      const opts = paramsSpy.calls.argsFor(
+        0
+      )[0] as IUpdateFeaturesRequestOptions;
+
+      expect(opts.url).toEqual(annoUrl);
+      const anno = opts.updates[0] as IFeature;
+      expect(anno.attributes.description).toEqual(
+        "i changed my mind, we can wait a lil while."
+      );
+      // flexible ~100ms
+      expect(anno.attributes.updated_at).toBeCloseTo(new Date().getTime(), -1);
+      done();
+    });
+  });
+
+  it("should update an annotation the old way", done => {
+    // stub add features
+    const paramsSpy = spyOn(featureService, "updateFeatures").and.returnValue(
+      new Promise(resolve => {
+        resolve(updateFeaturesResponse);
+      })
+    );
+
+    updateAnnotations({
+      url: annoUrl,
       updates: [
         {
           attributes: {
