@@ -149,16 +149,10 @@ export function activateInitiative(
     })
     .then((newModel: IInitiativeModel) => {
       state.initiativeModel = newModel;
-      const { itemId, owner } = newModel.item;
+      const { id, owner } = newModel.item;
       const assets = ["detail-image.jpg", "icon-dark.png", "icon-light.png"];
       // now copy assets from the parent initiative...
-      return copyImageResources(
-        state.template.item.id,
-        itemId,
-        owner,
-        assets,
-        ro
-      );
+      return copyImageResources(state.template.item.id, id, owner, assets, ro);
     })
     .then(() => {
       // share to the collabGroup...
