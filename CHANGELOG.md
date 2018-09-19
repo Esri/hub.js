@@ -7,10 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.2.0] - September 19th 2018
+
 ## [1.2.0] - September 17th 2018
 
 * New Features
-  * Coarse-grained and fine-grained functions to create/remove Initiatives 
+  * Coarse-grained and fine-grained functions to create/remove Initiatives
 
 ## [1.1.1] - August 15th 2018
 
@@ -87,5 +89,6 @@ Initial Release
 [1.0.1]: https://github.com/Esri/hub.js/compare/v1.0.0...v1.0.1 "v1.0.1"
 [1.1.0]: https://github.com/Esri/hub.js/compare/v1.0.1...v1.1.0 "v1.1.0"
 [1.1.1]: https://github.com/Esri/hub.js/compare/v1.1.0...v1.1.1 "v1.1.1"
-[1.2.0]: https://github.com/Esri/hub.js/compare/v1.1.1...1.2.0 "1.2.0"
+[1.2.0]: https://github.com/Esri/hub.js/compare/v1.1.1...v1.2.0 "v1.2.0"
+[1.2.0]: https://github.com/Esri/hub.js/compare/v1.2.0...1.2.0 "1.2.0"
 [HEAD]: https://github.com/Esri/hub.js/compare/1.2.0...HEAD "Unreleased Changes"
