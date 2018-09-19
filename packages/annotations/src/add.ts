@@ -22,7 +22,22 @@ export interface IAddAnnotationsRequestOptions
   extends IAddFeaturesRequestOptions {
   adds: IAnnoFeature[];
 }
+
 /**
+ * ```js
+ * import { addAnnotations } from "@esri/hub-annotations";
+ * addAnnotations({
+ *   url: annotationsUrl + "/0",
+ *   adds: [{
+ *     attributes: {
+ *       author: "User1",
+ *       target: "http://...",
+ *       description: "A grand idea!"
+ *     }
+ *   }]
+ * })
+ *   .then(response);
+ * ```
  * Add an annotation to ArcGIS Hub. Uses authentication to derive authorship, appends a timestamp and sets a default status of "pending" to new comments by default.
  * @param requestOptions - request options that may include authentication
  * @returns A Promise that will resolve with response from the service after attempting to add one or more new annotations.

@@ -8,6 +8,16 @@ import {
 } from "@esri/arcgis-rest-feature-service";
 
 /**
+ * ```js
+ * import { deleteAnnotations } from "@esri/hub-annotations";
+ * deleteAnnotations({
+ *   url: annotationsUrl + "/0",
+ *   // an array of featureIds
+ *   deletes: [1]
+ * })
+ *   .then(response);
+ * ```
+ *
  * Delete an annotation from ArcGIS Hub.
  * @param requestOptions - request options that may include authentication
  * @returns A Promise that will resolve with response from the service after attempting to delete annotations.

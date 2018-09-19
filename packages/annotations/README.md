@@ -16,69 +16,29 @@
 ```bash
 npm install @esri/hub-annotations
 ```
-
 ```js
-import { getAnnotationServiceUrl  } from '@esri/hub-annotations';
+import { searchAnnotations } from "@esri/hub-annotations";
 
-// pass in an organization id
-getAnnotationServiceUrl("abc123")
-    .then(
-        response => // https://services.arcgis.com/abc123/arcgis/rest/services/Hub Annotations/FeatureServer
-    );
-```
-
-```js
-import { searchAnnotations  } from '@esri/hub-annotations';
-
-// pass in an organization id
-searchAnnotations({url: annotationsUrl + "/0"})
-    .then( response => {
-        {
-          data: [{
-            id: "User1",
-            type: "annotations",
-            attributes: {description: "Great place!", ...}
-          }],
-          included: [{
-            id: "User1",
-            type: "users",
-            attributes: { firstName: "User", lastName: "Name", ...}
-          }]
-        }
+searchAnnotations({
+  url: annotationsUrl + "/0"
+})
+  .then( response => {
+        // {
+        //   data: [{
+        //     id: "User1",
+        //     type: "annotations",
+        //     attributes: {description: "Great place!", ...}
+        //   }],
+        //   included: [{
+        //     id: "User1",
+        //     type: "users",
+        //     attributes: { firstName: "User", lastName: "Name", ...}
+        //   }]
+        // }
     });
 ```
 
-```js
-import { addAnnotations } from '@esri/hub-annotations';
-
-// pass in an organization id
-addAnnotations({url: annotationsUrl + "/0", adds: [
-        {attributes: {author: "User1", target: "http://...", description: "A grand idea!"}}
-    ]}).then( response => {
-        console.log("addAnnotations", response);
-    });
-```
-
-```js
-import { updateAnnotations } from '@esri/hub-annotations';
-
-// pass in an organization id
-updateAnnotations({url: annotationsUrl + "/0", updates: [
-        {attributes: {OBJECTID: 1, description: "A grander idea!!!!"}}
-    ]}).then( response => {
-        console.log("updateAnnotations", response);
-    });
-```
-
-```js
-import { deleteAnnotations  } from '@esri/hub-annotations';
-
-// pass in an organization id
-deleteAnnotations({url: annotationsUrl + "/0", deletes: [ 1 ] })
-    .then( response => {
-        console.log("deleteAnnotations", response);
-    });
-```
+## [API Reference](https://esri.github.io/hub.js/api/annotations/)
 
 ### Issues
 
