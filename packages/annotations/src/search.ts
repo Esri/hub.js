@@ -18,6 +18,26 @@ export interface IResourceObject {
 }
 
 /**
+ * ````js
+ * import { searchAnnotations } from "@esri/hub-annotations";
+ *
+ * // by default, all annotations will be retrieved
+ * searchAnnotations({ url: annotationsUrl + "/0" })
+ *   .then(response => {
+ *     // {
+ *     //   data: [{
+ *     //     id: "User1",
+ *     //     type: "annotations",
+ *     //     attributes: {description: "Great place!", ...}
+ *     //   }],
+ *     //   included: [{
+ *     //     id: "User1",
+ *     //     type: "users",
+ *     //     attributes: { firstName: "User", lastName: "Name", ...}
+ *     //   }]
+ *     // }
+ *   });
+ * ```
  * Query for annotations from ArcGIS Hub.
  * @param requestOptions - request options that may include authentication
  * @returns A Promise that will resolve with decorated features from the annotation service for a Hub enabled ArcGIS Online organization.
