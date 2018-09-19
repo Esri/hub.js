@@ -17,24 +17,29 @@
 npm install @esri/hub-annotations
 ```
 ```js
-import { searchAnnotations } from "@esri/hub-annotations";
+import { getAnnotationServiceUrl, searchAnnotations } from "@esri/hub-annotations";
 
-searchAnnotations({
-  url: annotationsUrl + "/0"
-})
-  .then( response => {
-        // {
-        //   data: [{
-        //     id: "User1",
-        //     type: "annotations",
-        //     attributes: {description: "Great place!", ...}
-        //   }],
-        //   included: [{
-        //     id: "User1",
-        //     type: "users",
-        //     attributes: { firstName: "User", lastName: "Name", ...}
-        //   }]
-        // }
+ // pass in an organization id
+getAnnotationServiceUrl("abc123")
+    .then(annotationsUrl => {
+      // https://services.arcgis.com/abc123/arcgis/rest/services/Hub Annotations/FeatureServer
+      searchAnnotations({
+        url: annotationsUrl + "/0"
+      })
+        .then( response => {
+              // {
+              //   data: [{
+              //     id: "User1",
+              //     type: "annotations",
+              //     attributes: {description: "Great place!", ...}
+              //   }],
+              //   included: [{
+              //     id: "User1",
+              //     type: "users",
+              //     attributes: { firstName: "User", lastName: "Name", ...}
+              //   }]
+              // }
+          });
     });
 ```
 
