@@ -45,6 +45,10 @@ describe("model functions ::", () => {
           "from-mock",
           "should add the id into the model"
         );
+        expect(result.item.owner).toEqual(
+          "vader",
+          "should set owner to the user who made the request"
+        );
         expect(fetchMock.done()).toBeTruthy();
         done();
       });

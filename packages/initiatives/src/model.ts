@@ -7,7 +7,8 @@ import {
   createItem,
   updateItem,
   IItemUpdateRequestOptions,
-  IItemAddRequestOptions
+  IItemAddRequestOptions,
+  determineOwner
 } from "@esri/arcgis-rest-items";
 
 /**
@@ -27,6 +28,7 @@ export function saveModel(
   const opts = createRequestOptions(clone, requestOptions);
   return createItem(opts as IItemAddRequestOptions).then(response => {
     clone.item.id = response.id;
+    clone.item.owner = determineOwner(requestOptions);
     return clone as IModel;
   });
 }
