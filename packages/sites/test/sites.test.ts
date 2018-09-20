@@ -1,7 +1,7 @@
-import { fetchDomain } from "../src/index";
+import { getDomain } from "../src/index";
 import * as fetchMock from "fetch-mock";
 
-describe("fetchDomain", () => {
+describe("getDomain", () => {
   afterEach(fetchMock.restore);
 
   it("should return a domain", done => {
@@ -10,7 +10,7 @@ describe("fetchDomain", () => {
       [{ domain: "data.foo.com" }]
     );
 
-    fetchDomain("5bc").then(response => {
+    getDomain("5bc").then(response => {
       const [url, options]: [string, RequestInit] = fetchMock.lastCall(
         "https://hub.arcgis.com/utilities/domains?f=json&siteId=5bc"
       );
@@ -26,7 +26,7 @@ describe("fetchDomain", () => {
       `https://hub.arcgis.com/utilities/domains?f=json&siteId=5bc`,
       [{ domain: "data.foo.com" }, { domain: "org.hub.arcgis.com" }]
     );
-    fetchDomain("5bc").then(domain => {
+    getDomain("5bc").then(domain => {
       expect(domain).toBe("data.foo.com");
       const [domainUrl, domainOptions]: [
         string,
@@ -43,7 +43,7 @@ describe("fetchDomain", () => {
       `https://hub.arcgis.com/utilities/domains?f=json&siteId=5bc`,
       [{ domain: "org-beta.hub.arcgis.com" }, { domain: "org.hub.arcgis.com" }]
     );
-    fetchDomain("5bc").then(domain => {
+    getDomain("5bc").then(domain => {
       expect(domain).toBe("org-beta.hub.arcgis.com");
       expect(fetchMock.done()).toBeTruthy();
       const [domainUrl, domainOptions]: [
