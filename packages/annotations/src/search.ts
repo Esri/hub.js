@@ -18,9 +18,8 @@ export interface IResourceObject {
 }
 
 /**
- * ````js
+ * ```js
  * import { searchAnnotations } from "@esri/hub-annotations";
- *
  * // by default, all annotations will be retrieved
  * searchAnnotations({ url: annotationsUrl + "/0" })
  *   .then(response => {
