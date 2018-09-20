@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.3.0] - September 20th 2018
+
+### @esri/hub-sites
+
+* Misc.
+   * **sites**: rename fetchDomain(s) to getDomain(s) [`69dc88e`](https://github.com/Esri/hub.js/commit/69dc88e99bbd186d683c51978eb8face23cb24ce) [#60](https://github.com/Esri/hub.js/issues/60)
+
+### Other Changes
+
+* Documentation
+   * **README**: replace package name/descriptoin of hub-common-types w/… [`4e21d75`](https://github.com/Esri/hub.js/commit/4e21d75be238d7a5c42e208e3f4acf4329a7e7ba)
+* Chore
+   * **all**: bump ArcGIS Rest Js [#66](https://github.com/Esri/hub.js/pull/66)
+
 ## [1.2.0] - September 17th 2018
 
 * New Features
@@ -88,4 +102,5 @@ Initial Release
 [1.1.0]: https://github.com/Esri/hub.js/compare/v1.0.1...v1.1.0 "v1.1.0"
 [1.1.1]: https://github.com/Esri/hub.js/compare/v1.1.0...v1.1.1 "v1.1.1"
 [1.2.0]: https://github.com/Esri/hub.js/compare/v1.1.1...v1.2.0 "v1.2.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/1.2.0...HEAD "Unreleased Changes"
+[1.3.0]: https://github.com/Esri/hub.js/compare/v1.2.0...1.3.0 "1.3.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/1.3.0...HEAD "Unreleased Changes"
