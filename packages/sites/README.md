@@ -18,10 +18,10 @@ npm install @esri/hub-sites
 ```
 
 ```js
-import { fetchDomain  } from '@esri/hub-sites';
+import { getDomain  } from '@esri/hub-sites';
 
 // pass in a site id
-fetchDomain("abc123")
+getDomain("abc123")
     .then(
         response => // get back initiative metadata
     );
