@@ -1,8 +1,8 @@
 ---
 title: Using @esri/hub.js in Node
-navTitle: Node
-description: Learn how to integrate the @esri/hub.js library in a Node app.
-order: 60
+navTitle: Node.js
+description: Learn how to integrate the @esri/hub.js library in a Node.js app.
+order: 30
 group: 1-get-started
 ---
 
@@ -22,7 +22,7 @@ require("isomorphic-form-data");
 
 const { fetchInitiative } = require("@esri/hub-initiatives");
 
-fetchInitiative("abc123").then(response => {
+getInitiative("abc123").then(response => {
   console.log(response);  // Initiative item with data
 });
 ```
