@@ -9,8 +9,8 @@ description: Get started with @esri/hub.js.
 
 * [Using a CDN](./from-a-cdn/)
 * [Using Node.js](./node/)
-* [Using the Initiatives Coarse-Grained API](./coarse-grained-api/)
-
+* [Create an initiative](./create-an-initiative/)
+<!-- * [Using ES6 modules](./using-es6/) -->
 
 ## Requirements
 
@@ -43,7 +43,7 @@ IE11 and older mobile browsers require polyfills.
 
 We recommend the ones below:
 
-* [`isomorphic-fetch`](https://www.npmjs.com/package/isomorphic-fetch) - to polyfill `Fetch`
-* [`isomorphic-form-data`](https://github.com/form-data/isomorphic-form-data) - to polyfill `FormData`
+* [`isomorphic-fetch`](https://www.npmjs.com/package/isomorphic-fetch) - to polyfill ['Fetch'](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
+* [`isomorphic-form-data`](https://github.com/form-data/isomorphic-form-data) - to polyfill ['FormData'](https://developer.mozilla.org/en-US/docs/Web/API/FormData)
 
 Other versions of Node.js may also work with appropriate polyfills but we cannot guarantee support.
