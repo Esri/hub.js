@@ -6,7 +6,7 @@ import { UserSession, AuthenticationProvider } from "@esri/arcgis-rest-auth";
 @Component({
   tag: 'arcgis-hub-login',
   styleUrl: 'arcgis-hub-login.css',
-  shadow: true
+  shadow: false
 })
 export class ArcGISHubLoginComponent {
 
@@ -16,12 +16,17 @@ export class ArcGISHubLoginComponent {
   @Prop({ mutable: true }) arcgisToken: string;
 
   // Component Events
-  @Event() eventAddAnnotation: EventEmitter;
+  @Event() eventFoo: EventEmitter;
+
+  // @Listen('add-annotation')
+  // handleEvent(e) {
+
+  // }
 
   render() {
     return (
-      <div>
-<h3>A Hub community account allows you to:</h3>
+    <div class="arcgis-hub-login-wrapper">
+      <h3>A Hub community account allows you to:</h3>
         <ul>
           <li>Follow Hub initiatives to stay up to date and informed</li>
           <li>Register for Hub events to engage with the Hub</li>
@@ -48,14 +53,13 @@ export class ArcGISHubLoginComponent {
             <dt>"Why can't I sign up with an email other than Google or Facebook?"</dt>
             <dd>Email signups need manual admin approval and by using these alternatives, we can get you signed in immediately.</dd>
           </dl>
-          {<button id="unique-arcgis-login-button" onClick={() => this.logToken()}>What is the token?</button>}
-      </div>
+    </div>
     );
   }
 
-  logToken() {
-    alert("token: " + this.arcgisToken);
-  }
+  // logToken() {
+  //   alert("token: " + this.arcgisToken);
+  // }
 
   launchAuth(provider:AuthenticationProvider, organization: string) {
     const authComponent = this;
@@ -66,12 +70,20 @@ export class ArcGISHubLoginComponent {
       provider
     })
       .then(function (authentication) {
+        // this works because we ARENT using ShadowDOM
+        document.querySelector(".arcgis-hub-login-wrapper").style.display = "none";
+        this.eventFoo.emit("foo");
         authComponent.arcgisToken = authentication.token;
         request("https://www.arcgis.com/sharing/rest/", { authentication })
           .then(response => console.log(response));
       });
   }
 
+  addEvent(event) {
+    event.preventDefault();
+  }
+
   // componentDidLoad() {
+  //   debugger;
   // }
 }
