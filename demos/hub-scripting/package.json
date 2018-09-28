@@ -1,0 +1,11 @@
+{
+  "name": "@esri/hub-scripting-demo",
+  "version": "1.3.0",
+  "private": true,
+  "description": "Hub Scripting demo",
+  "author": "Dave Bouwman <dbouwman@esri.com>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@esri/hub-scripting": "^1.3.0"
+  }
+}
