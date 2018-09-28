@@ -13,7 +13,8 @@ describe("my-component", () => {
       testWindow = new TestWindow();
       element = await testWindow.load({
         components: [ArcGISHubLoginComponent],
-        html: '<arcgis-hub-login clientid="123" communityorg="communityx"></arcgis-hub-login>'
+        html:
+          '<arcgis-hub-login clientid="123" communityorg="communityx"></arcgis-hub-login>'
       });
     });
 

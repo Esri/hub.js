@@ -3,14 +3,16 @@
  * It contains typing information for all components that exist in this project.
  */
 
-import '@stencil/core';
+import "@stencil/core";
 
 declare global {
   namespace JSX {
     interface Element {}
     export interface IntrinsicElements {}
   }
-  namespace JSXElements {}
+  namespace JSXElements {
+
+  }
 
   interface HTMLElement {
     componentOnReady?: () => Promise<this | null>;
@@ -25,46 +27,48 @@ declare global {
   interface HTMLAttributes {}
 }
 
-
 declare global {
-
   namespace StencilComponents {
     interface ArcgisHubLogin {
-      'arcgisToken': string;
-      'clientid': string;
-      'communityorg': string;
-      'enterpriseorg': string;
+      arcgisToken: string;
+      clientid: string;
+      communityorg: string;
+      enterpriseorg: string;
     }
   }
 
-  interface HTMLArcgisHubLoginElement extends StencilComponents.ArcgisHubLogin, HTMLStencilElement {}
+  interface HTMLArcgisHubLoginElement
+    extends StencilComponents.ArcgisHubLogin,
+      HTMLStencilElement {}
 
   var HTMLArcgisHubLoginElement: {
     prototype: HTMLArcgisHubLoginElement;
     new (): HTMLArcgisHubLoginElement;
   };
   interface HTMLElementTagNameMap {
-    'arcgis-hub-login': HTMLArcgisHubLoginElement;
+    "arcgis-hub-login": HTMLArcgisHubLoginElement;
   }
   interface ElementTagNameMap {
-    'arcgis-hub-login': HTMLArcgisHubLoginElement;
+    "arcgis-hub-login": HTMLArcgisHubLoginElement;
   }
   namespace JSX {
     interface IntrinsicElements {
-      'arcgis-hub-login': JSXElements.ArcgisHubLoginAttributes;
+      "arcgis-hub-login": JSXElements.ArcgisHubLoginAttributes;
     }
   }
   namespace JSXElements {
     export interface ArcgisHubLoginAttributes extends HTMLAttributes {
-      'arcgisToken'?: string;
-      'clientid'?: string;
-      'communityorg'?: string;
-      'enterpriseorg'?: string;
-      'onEventFoo'?: (event: CustomEvent) => void;
+      arcgisToken?: string;
+      clientid?: string;
+      communityorg?: string;
+      enterpriseorg?: string;
+      onEventFoo?: (event: CustomEvent) => void;
     }
   }
 }
 
-declare global { namespace JSX { interface StencilJSX {} } }
+declare global {
+  namespace JSX { interface StencilJSX {} }
+}
 
 export declare function defineCustomElements(window: any): void;
