@@ -13,7 +13,7 @@ export class ArcGISHubLoginComponent {
   @Prop() clientid: string;
   @Prop() communityorg: string;
   @Prop() enterpriseorg: string;
-  @Prop({ mutable: true }) arcgisToken: string;
+  @Prop({ mutable: true }) session: string;
 
   // Component Events
   @Event() eventFoo: EventEmitter;
@@ -72,10 +72,10 @@ export class ArcGISHubLoginComponent {
       .then(function (authentication) {
         // this works because we ARENT using ShadowDOM
         document.querySelector(".arcgis-hub-login-wrapper").style.display = "none";
-        this.eventFoo.emit("foo");
-        authComponent.arcgisToken = authentication.token;
+        authComponent.session = authentication.serialize();
+
         request("https://www.arcgis.com/sharing/rest/", { authentication })
-          .then(response => console.log(response));
+          .then(response => console.log(authComponent.session, response));
       });
   }
 
