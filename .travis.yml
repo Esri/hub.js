@@ -2,28 +2,32 @@ language: node_js
 sudo: false
 notifications:
   email: false
+  slack:
+    secure: n2KAxbdgqPkYewQEWmZpCbMD5xm2fSDO4Dhcu4YVyLax0Nj3ks0wg/FdroSGCFv1AHSh3287mHmXbQzMDxzu2Lh6h1BDGdv7kejSeKzmyCIUUmGzjn5Wr6sKWpiSLRT3aaU1oPnZEF1GH/ALcDb4YCH9QV7A+kZ7sx/JpTWcOH0wd5Vk9F5mjMLyvXQc7PZwhSofvWQjh/crxKQzkTOxQbLpvtnTJcUORFXAABUatCy+hhHehRHmpQ2ogSsDUBdZoA0MYZXfDhL5e//6XnRRnNG57/MW1s/68NlqqGrTLpffweWyphPAm1VkiobVLcGCCQiXbvOdLaHKIrGhD3YxRYygz8iWo8XA+CUCaS9UZ9pw7p3F/x61eBsJt7YVLuckpeTbQYpCBMrJgpEKYYP9dt/EzBP6EGlDop6omGXhTc/mZR0Q+DKX20hl4TJLFpqLfeCKSmb8do0KlkBvge6/NsueZBLZc4bDxCF/xA32N5CN/UnB7Ceu3sMpr7zRpi08yED2yVfeRm9jZAchkmccaAsc3WC03lgljKSEkWmjbg0PzcJ+5CeERvtWL/xcRrqzRetib3P6LyEiqp1Bc4uWdqDO/A9E14na3lTX28qE3RaqfbEtQnxeK/nfcE40ayQyqpNOEAt8kc1z0mrx3Fa4cD2yfDGJTV2bVKT2evOFs2w=
+    on_success: change
+    on_failure: always
 node_js:
-  - "8"
-  - "10"
+- '8'
+- '10'
 cache:
-  directories: # Cache dependencies
-    - node_modules
+  directories:
+  - node_modules
 before_script:
-  - npm run bootstrap
+- npm run bootstrap
 script:
-  - npm run test:ci
+- npm run test:ci
 deploy:
   provider: pages
   skip_cleanup: true
-  github_token: $GITHUB_TOKEN # Set in travis-ci.org dashboard
+  github_token: "$GITHUB_TOKEN"
   on:
     branch: master
   local-dir: docs/build
   target_branch: gh-pages
 before_deploy:
- - npm run docs:build
+- npm run docs:build
 env:
-  - MOZ_HEADLESS=1
+- MOZ_HEADLESS=1
 addons:
   chrome: stable
   firefox: latest
