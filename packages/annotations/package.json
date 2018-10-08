@@ -27,9 +27,8 @@
     "build:umd": "rollup -c ../../umd-base-profile.js && rollup -c ../../umd-production-profile.js",
     "build:node": "tsc --module commonjs --outDir ./dist/node",
     "dev:esm": "tsc -w --module es2015 --outDir ./dist/esm --declaration",
-    "dev:umd": "onchange 'src/**/*.ts' -- npm run rollup:dev",
-    "dev:node": "tsc -w --module commonjs --outDir ./dist/node",
-    "rollup:dev": "rollup -c ../../umd-base-profile.js"
+    "dev:umd": "rollup -w -c ../../umd-base-profile.js",
+    "dev:node": "tsc -w --module commonjs --outDir ./dist/node"
   },
   "publishConfig": {
     "access": "public"
