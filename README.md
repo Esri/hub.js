@@ -75,6 +75,7 @@ Some useful commands include:
 * [`@esri/hub-annotations`](./packages/annotations) - Helper functions for working with Annotations.
 * [`@esri/hub-sites`](./packages/sites) - Helper functions for working with [Sites](http://doc.arcgis.com/en/hub/sites/create-a-hub-site.htm).
 * [`@esri/hub-auth`](./packages/auth) - Helper functions for authentication.
+* [`@esri/hub-events`](./packages/events) - Helper functions for working with Events.
 
 ### Design Philosophy
 

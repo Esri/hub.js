@@ -38,7 +38,6 @@ export function getEventServiceUrl(
       } else if (eventResponse.results.length > 1) {
         // the user has access to the org view and/or the admin view
         // identify which is which
-        // TODO does this reduce need an await? switch this to forEach instead?
         const obj = eventResponse.results.reduce((acc: any, item: any) => {
           if (!item.typeKeywords.includes("View Service")) {
             acc.admin = item;
