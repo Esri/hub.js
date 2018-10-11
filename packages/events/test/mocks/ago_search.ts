@@ -8,7 +8,7 @@ export const adminEventSearchResponse: ISearchResult = {
   nextStart: -1,
   results: [
     {
-      id: "abc123",
+      id: "admin123",
       owner: "c@sey",
       created: 1526675011000,
       modified: 1526675614000,
@@ -63,7 +63,7 @@ export const adminEventSearchResponse: ISearchResult = {
       protected: false
     },
     {
-      id: "abc123",
+      id: "org123",
       owner: "c@sey",
       created: 1526675011000,
       modified: 1526675614000,
@@ -119,7 +119,7 @@ export const adminEventSearchResponse: ISearchResult = {
       protected: false
     },
     {
-      id: "xyz123",
+      id: "public123",
       owner: "c@sey",
       created: 1526675011000,
       modified: 1526675614000,
@@ -185,7 +185,7 @@ export const adminOnlyEventSearchResponse: ISearchResult = {
   nextStart: -1,
   results: [
     {
-      id: "abc123",
+      id: "admin123",
       owner: "c@sey",
       created: 1526675011000,
       modified: 1526675614000,
@@ -240,7 +240,7 @@ export const adminOnlyEventSearchResponse: ISearchResult = {
       protected: false
     },
     {
-      id: "xyz123",
+      id: "public123",
       owner: "c@sey",
       created: 1526675011000,
       modified: 1526675614000,
@@ -306,7 +306,7 @@ export const orgEventSearchResponse: ISearchResult = {
   nextStart: -1,
   results: [
     {
-      id: "abc123",
+      id: "org123",
       owner: "c@sey",
       created: 1526675011000,
       modified: 1526675614000,
@@ -362,7 +362,7 @@ export const orgEventSearchResponse: ISearchResult = {
       protected: false
     },
     {
-      id: "abc123",
+      id: "public123",
       owner: "c@sey",
       created: 1526675011000,
       modified: 1526675614000,
@@ -428,7 +428,7 @@ export const publicEventSearchResponse: ISearchResult = {
   nextStart: -1,
   results: [
     {
-      id: "abc123",
+      id: "public123",
       owner: "c@sey",
       created: 1526675011000,
       modified: 1526675614000,
