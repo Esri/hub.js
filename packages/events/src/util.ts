@@ -5,15 +5,6 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-common-types";
 import { searchItems, ISearchResult } from "@esri/arcgis-rest-items";
 
-export interface IEventSearchResult extends ISearchResult {
-  results: IEventItem[];
-}
-
-export interface IEventItem extends IItem {
-  // overrides url?: string
-  url: string;
-}
-
 /**
  * Fetch the events service associated with a Hub Site.
  * @param orgId - Identifier of the ArcGIS Online Organization
@@ -29,7 +20,7 @@ export function getEventServiceUrl(
     // mixin requestOptions (if present)
     ...requestOptions
   }).then(response => {
-    const eventResponse = response as IEventSearchResult;
+    const eventResponse = response as ISearchResult;
     if (eventResponse.results && eventResponse.results.length > 0) {
       let result;
       if (eventResponse.results.length === 1) {
@@ -38,6 +29,7 @@ export function getEventServiceUrl(
       } else if (eventResponse.results.length > 1) {
         // the user has access to the org view and/or the admin view
         // identify which is which
+        // TODO does this reduce need an await? switch this to forEach instead?
         const obj = eventResponse.results.reduce((acc: any, item: any) => {
           if (!item.typeKeywords.includes("View Service")) {
             acc.admin = item;
