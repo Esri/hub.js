@@ -26,10 +26,9 @@ export function getEventServiceUrl(
       if (eventResponse.results.length === 1) {
         // user only has access to the public view
         result = eventResponse.results[0];
-      } else if (eventResponse.results.length > 1) {
+      } /* istanbul ignore next */ else if (eventResponse.results.length > 1) {
         // the user has access to the org view and/or the admin view
         // identify which is which
-        // TODO does this reduce need an await? switch this to forEach instead?
         const obj = eventResponse.results.reduce((acc: any, item: any) => {
           if (!item.typeKeywords.includes("View Service")) {
             acc.admin = item;
@@ -43,7 +42,7 @@ export function getEventServiceUrl(
           return acc;
         }, {});
         // pick the highest access level that this user has access to
-        result = obj.admin || obj.org || obj.public;
+        result = obj.admin || obj.org /* istanbul ignore next */ || obj.public;
       }
       // single-layer service
       let url = `${result.url}/0`;
