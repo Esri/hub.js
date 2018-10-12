@@ -1,0 +1,56 @@
+{
+  "name": "@esri/hub-events",
+  "version": "1.3.0",
+  "description": "Module to interact with ArcGIS Hub Events in Node.js and modern browsers.",
+  "main": "dist/node/index.js",
+  "browser": "dist/umd/events.umd.js",
+  "module": "dist/esm/index.js",
+  "js:next": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@esri/arcgis-rest-auth": "^1.11.0",
+    "@esri/arcgis-rest-common-types": "^1.11.0",
+    "@esri/arcgis-rest-items": "^1.11.0",
+    "@esri/arcgis-rest-request": "^1.11.0",
+    "tslib": "^1.8.0"
+  },
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "npm run build:node && npm run build:umd && npm run build:esm",
+    "build:esm": "tsc --module es2015 --outDir ./dist/esm --declaration",
+    "build:umd": "rollup -c ../../umd-base-profile.js && rollup -c ../../umd-production-profile.js",
+    "build:node": "tsc --module commonjs --outDir ./dist/node",
+    "dev:esm": "tsc -w --module es2015 --outDir ./dist/esm --declaration",
+    "dev:umd": "rollup -w -c ../../umd-base-profile.js",
+    "dev:node": "tsc -w --module commonjs --outDir ./dist/node"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Esri/hub.js.git"
+  },
+  "contributors": [
+    {
+      "name": "John Gravois",
+      "email": "john@esri.com"
+    },
+    {
+      "name": "Tom Wayson",
+      "email": "twayson@esri.com"
+    },
+    {
+      "name": "Jaisudha Purushothaman",
+      "email": "jpurushothaman@esri.com"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/Esri/hub.js/issues"
+  },
+  "homepage": "https://github.com/Esri/hub.js#readme"
+}
