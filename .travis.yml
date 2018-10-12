@@ -13,7 +13,7 @@ cache:
 before_script:
 - npm run bootstrap
 script:
-- npm run test:ci
+- travis_retry npm run test:ci
 deploy:
   provider: pages
   skip_cleanup: true
