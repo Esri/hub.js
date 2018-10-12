@@ -1,16 +1,17 @@
 import { ISearchResult } from "@esri/arcgis-rest-items";
-
+/* For an admin user, there are usually three event items returned. 
+  One item consists of the hosted feature service, while the other
+  two are event view services at org and public access privileges */
 export const adminEventSearchResponse: any = {
-  query:
-    "typekeywords:hubEventsLayer AND orgid:5bc  NOT id:a6ae3d1aa19548b89546c7d3b0ed246f",
+  query: "typekeywords:hubEventsLayer AND orgid:5bc",
   total: 3,
   start: 1,
   num: 10,
   nextStart: -1,
   results: [
     {
-      id: "d545001102994aad860f2037d9796fec",
-      owner: "dcadminqa",
+      id: "xyz123",
+      owner: "admin_user",
       created: 1498571469000,
       modified: 1533053014000,
       guid: null,
@@ -65,8 +66,8 @@ export const adminEventSearchResponse: any = {
       groupDesignations: null
     },
     {
-      id: "d2c691f4847548fdad2fbcd4e3c42f36",
-      owner: "dcadminqa",
+      id: "xyz124",
+      owner: "admin_user",
       created: 1498571478000,
       modified: 1533053018000,
       guid: null,
@@ -122,8 +123,8 @@ export const adminEventSearchResponse: any = {
       groupDesignations: null
     },
     {
-      id: "04e475b83b8a4f0e885fc8bffacfa3b6",
-      owner: "dcadminqa",
+      id: "xyz125",
+      owner: "admin_user",
       created: 1498571489000,
       modified: 1533053016000,
       guid: null,
@@ -181,17 +182,19 @@ export const adminEventSearchResponse: any = {
   ]
 };
 
+/* For an org user, there are usually two event items returned. 
+ These items are view services at org and public access privileges
+ of the hosted event feature service */
 export const orgEventSearchResponse: any = {
-  query:
-    "typekeywords:hubEventsLayer AND orgid:5bc  NOT id:a6ae3d1aa19548b89546c7d3b0ed246f",
+  query: "typekeywords:hubEventsLayer AND orgid:5bc",
   total: 2,
   start: 1,
   num: 10,
   nextStart: -1,
   results: [
     {
-      id: "d2c691f4847548fdad2fbcd4e3c42f36",
-      owner: "dcadminqa",
+      id: "abc123",
+      owner: "admin_user",
       created: 1498571478000,
       modified: 1533053018000,
       guid: null,
@@ -247,8 +250,8 @@ export const orgEventSearchResponse: any = {
       groupDesignations: null
     },
     {
-      id: "04e475b83b8a4f0e885fc8bffacfa3b6",
-      owner: "dcadminqa",
+      id: "abc124",
+      owner: "admin_user",
       created: 1498571489000,
       modified: 1533053016000,
       guid: null,
@@ -306,17 +309,19 @@ export const orgEventSearchResponse: any = {
   ]
 };
 
+/* For a public user, there is usually one event item returned. 
+ This item is a view service with public access privileges
+ of the hosted event feature service */
 export const publicEventSearchResponse: any = {
-  query:
-    "typekeywords:hubEventsLayer AND orgid:5bc  NOT id:a6ae3d1aa19548b89546c7d3b0ed246f",
+  query: "typekeywords:hubEventsLayer AND orgid:5bc",
   total: 1,
   start: 1,
   num: 10,
   nextStart: -1,
   results: [
     {
-      id: "04e475b83b8a4f0e885fc8bffacfa3b6",
-      owner: "dcadminqa",
+      id: "abc124",
+      owner: "admin_user",
       created: 1498571489000,
       modified: 1533053016000,
       guid: null,
@@ -374,6 +379,7 @@ export const publicEventSearchResponse: any = {
   ]
 };
 
+/* When events have not been enabled, there are items returned */
 export const emptyEventSearchResponse: ISearchResult = {
   query: "hubEventsLayer AND orgid:h7c",
   total: 1,
