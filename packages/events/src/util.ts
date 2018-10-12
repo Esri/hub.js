@@ -23,10 +23,11 @@ export function getEventServiceUrl(
     const eventResponse = response as ISearchResult;
     if (eventResponse.results && eventResponse.results.length > 0) {
       let result;
+      /* istanbul ignore else  */
       if (eventResponse.results.length === 1) {
         // user only has access to the public view
         result = eventResponse.results[0];
-      } /* istanbul ignore next */ else if (eventResponse.results.length > 1) {
+      } else if (eventResponse.results.length > 1) {
         // the user has access to the org view and/or the admin view
         // identify which is which
         const obj = eventResponse.results.reduce((acc: any, item: any) => {
@@ -42,7 +43,7 @@ export function getEventServiceUrl(
           return acc;
         }, {});
         // pick the highest access level that this user has access to
-        result = obj.admin || obj.org /* istanbul ignore next */ || obj.public;
+        result = obj.admin || obj.org || /* istanbul ignore next */ obj.public;
       }
       // single-layer service
       let url = `${result.url}/0`;
