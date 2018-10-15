@@ -1,18 +1,17 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { UserSession, IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { ILayerDefinition, IExtent } from "@esri/arcgis-rest-common-types";
 import { setItemAccess } from "@esri/arcgis-rest-sharing";
-import { updateItem } from "@esri/arcgis-rest-items";
+import { searchItems, updateItem, protectItem } from "@esri/arcgis-rest-items";
 
 import {
   createFeatureService,
-  ICreateServiceRequestOptions,
   addToServiceDefinition,
   IAddToServiceDefinitionRequestOptions
 } from "@esri/arcgis-rest-feature-service-admin";
+import { ArcGISRequestError } from "@esri/arcgis-rest-request";
 
 const defaultExtent: IExtent = {
   xmin: -180,
@@ -270,71 +269,101 @@ export function createAnnotationService(
   requestOptions: ICreateAnnoRequestOptions
 ): Promise<any> {
   /*
-    to do: use orgid to determine whether an annotation service already exists
+    use orgid to determine whether an annotation service already exists
     if it doesnt, create from a template
+    after the item is created, update the layer definition using a template
+    make the item public
+    set the typeKeyword for search
     protect the item
-    then make the item public, set typeKeyword (and add group sharing??)
+
+    to do:
+    define response signature
+    (tweaked) url
+    more metadata?
+    indication of whether it was created or already existed?
   */
 
   const session = requestOptions.authentication as UserSession;
 
-  const description = `Feature service for Hub annotations. DO NOT DELETE THIS SERVICE. It stores the public annotations (comments) for all Hub items in your organization.`;
+  return searchItems({
+    searchForm: {
+      q: `typekeywords:hubAnnotationLayer AND orgid:${requestOptions.orgId}`
+    },
+    authentication: session
+  }).then(searchResponse => {
+    if (searchResponse.results.length > 0) {
+      // if the org already has a hosted annotations feature service, dont create another one
+      return new Promise(resolve => resolve(searchResponse.results[0]));
+    } else {
+      const description = `Feature service for Hub annotations. DO NOT DELETE THIS SERVICE. It stores the public annotations (comments) for all Hub items in your organization.`;
 
-  // !const options:ICreateServiceRequestOptions
-  const options = {
-    authentication: session,
-    item: {
-      name: "hub_annotations",
-      description,
-      serviceDescription: description,
-      copyrightText: "CC0",
-      capabilities: "Create,Delete,Query,Update,Editing",
-      spatialReference: defaultExtent.spatialReference,
-      xssPreventionInfo: {
-        xssPreventionEnabled: true,
-        xssPreventionRule: "InputOutput",
-        xssInputRule: "sanitizeInvalid"
-      },
-      maxRecordCount: 2000,
-      hasStaticData: false,
-      units: "meters",
-      editorTrackingInfo
-    }
-  };
-
-  return createFeatureService(options).then(response => {
-    return addToServiceDefinition(response.serviceurl, {
-      authentication: session,
-      layers: [annotationServiceDefinition]
-    } as IAddToServiceDefinitionRequestOptions).then(() => {
-      // sometimes TS likes session, sometimes it likes options.authentication
-      return updateItem({
+      // const options:ICreateServiceRequestOptions (no workee)
+      const options = {
         authentication: session,
         item: {
-          id: response.itemId,
-          typeKeywords: [
-            "ArcGIS Server",
-            "Data",
-            "Feature Access",
-            "Feature Service",
-            "Service",
-            "Singlelayer",
-            "Hosted Service",
-            "hubAnnotationLayer"
-          ],
-          title: "Hub Annotations",
-          snippet: options.item.serviceDescription
+          name: "hub_annotations",
+          description,
+          serviceDescription: description,
+          copyrightText: "CC0",
+          capabilities: "Create,Delete,Query,Update,Editing",
+          spatialReference: defaultExtent.spatialReference,
+          xssPreventionInfo: {
+            xssPreventionEnabled: true,
+            xssPreventionRule: "InputOutput",
+            xssInputRule: "sanitizeInvalid"
+          },
+          maxRecordCount: 2000,
+          hasStaticData: false,
+          units: "meters",
+          editorTrackingInfo
         }
-      }).then(() => {
-        return setItemAccess({
-          id: response.itemId,
-          access: "public",
-          authentication: session
-        });
-      });
-    });
+      };
 
-    // id have rather fired off all the requests at once, but the sharing isnt updated consistently
-    // return Promise.all([ ... ])
+      return createFeatureService(options).then(createResponse => {
+        if (!createResponse.success) {
+          throw new ArcGISRequestError(
+            `Failure to create service. One common cause is the presence of an existing hosted feature service that shares the same name.`
+          );
+        }
+        return addToServiceDefinition(createResponse.serviceurl, {
+          authentication: session,
+          layers: [annotationServiceDefinition]
+        } as IAddToServiceDefinitionRequestOptions).then(() => {
+          // sometimes TS likes session, sometimes it likes options.authentication
+          return updateItem({
+            authentication: session,
+            item: {
+              id: createResponse.itemId,
+              typeKeywords: [
+                "ArcGIS Server",
+                "Data",
+                "Feature Access",
+                "Feature Service",
+                "Service",
+                "Singlelayer",
+                "Hosted Service",
+                "hubAnnotationLayer"
+              ],
+              title: "Hub Annotations",
+              snippet: options.item.serviceDescription
+            }
+          }).then(() => {
+            return protectItem({
+              id: createResponse.itemId,
+              authentication: session
+            }).then(() => {
+              return setItemAccess({
+                id: createResponse.itemId,
+                access: "public",
+                authentication: session
+              });
+            });
+          });
+        });
+
+        // firing off  all the requests at once would be preferable, but the sharing isnt updated consistently when we do that
+        // return Promise.all([ ... ])
+      });
+    }
   });
 }
