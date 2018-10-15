@@ -17,6 +17,8 @@ const md = new MarkdownIt();
       [
         "-json",
         OUTPUT,
+        "--exclude",
+        "**/*test.ts",
         "--ignoreCompilerErrors",
         "--module",
         "common",
@@ -126,15 +128,15 @@ const md = new MarkdownIt();
       return children.filter(c => c.flags && c.flags.isExported);
     })
     .then(children => {
-      /** 
-       * Now we look at the arguments and reduce the private and/or protected 
+      /**
+       * Now we look at the arguments and reduce the private and/or protected
        * depending on the passed arguments
        */
       const minVisibility = process.argv[2];
-      
+
       if (!minVisibility) {
         return children;
-      } else {        
+      } else {
         let filterFlags = [];
         switch (minVisibility) {
           case 'private':
@@ -165,7 +167,7 @@ const md = new MarkdownIt();
        * and `titleSegments` to each page which are used in the template for SEO.
        */
       return declarations.map(declaration => {
-        const src = `api/${declaration.package}/${declaration.name}.html`;
+        const src = `hub.js/api/${declaration.package}/${declaration.name}.html`;
         let children;
 
         if (declaration.children) {
@@ -234,7 +236,7 @@ const md = new MarkdownIt();
           .uniq()
           .reduce((packages, package) => {
             const abbreviatedPackageName = package.replace("arcgis-rest-", "")
-            const src = `api/${abbreviatedPackageName}.html`;
+            const src = `hub.js/api/${abbreviatedPackageName}.html`;
             const pkg = require(`${process.cwd()}/packages/${package}/package.json`);
 
             packages.push({
