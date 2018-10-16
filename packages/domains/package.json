@@ -9,11 +9,11 @@
   "types": "dist/esm/index.d.ts",
   "license": "Apache-2.0",
   "dependencies": {
-    "@esri/arcgis-rest-request": "^1.12.0",
+    "@esri/arcgis-rest-request": "^1.13.1",
     "tslib": "^1.8.0"
   },
   "peerDependencies": {
-    "@esri/hub-common": "^1.1.1"
+    "@esri/hub-common": "^1.3.0"
   },
   "devDependencies": {
     "@esri/hub-common": "^1.3.0"
