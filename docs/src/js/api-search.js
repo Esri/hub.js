@@ -31,7 +31,6 @@ Vue.component("api-search", {
       searchTerm: ""
     };
   },
-  props: ['baseUrl'],
   methods: {
     highlightText: function(text, matches) {
       return matches
@@ -64,7 +63,7 @@ Vue.component("api-search", {
         return {
           title: this.highlightText(result.item.title, result.matches),
           icon: result.item.icon,
-          url: this.baseUrl + result.item.url
+          url: result.item.url
         };
       });
     },
@@ -98,7 +97,7 @@ Vue.component("api-search", {
     }
   },
   created: function() {
-    this.index = new Fuse(ESRI_REST_API_REF_INDEX, {
+    this.index = new Fuse(ESRI_HUB_JS_REF_INDEX, {
       shouldSort: true,
       threshold: 0.25,
       location: 0,
@@ -110,8 +109,4 @@ Vue.component("api-search", {
       keys: ["title"]
     });
   }
-});
-
-new Vue({
-  el: "#page"
 });

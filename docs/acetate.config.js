@@ -4,7 +4,6 @@ const { inspect } = require("util");
 const _ = require("lodash");
 
 const IS_DEV = process.env.ENV !== "prod";
-const BASE_URL = process.env.ENV === "prod" ? "/hub.js" : "";
 
 module.exports = function(acetate) {
   /**
@@ -12,20 +11,13 @@ module.exports = function(acetate) {
    * default layout.
    */
   acetate.load("**/*.+(html|md)", {
+    basePath: "hub.js",
     metadata: {
       layout: "_layout:main"
     }
   });
 
-  acetate.load("js/*", {
-    metadata: {
-      layout: false,
-      prettyUrl: false
-    }
-  });
-
   acetate.metadata("**/*", {
-    baseUrl: BASE_URL,
     isDev: IS_DEV
   });
 
@@ -109,6 +101,7 @@ module.exports = function(acetate) {
    * start looking for changes and we can listen for the events later.
    */
   acetate.load("typedoc.json", {
+    basePath: "hub.js",
     metadata: {
       layout: false,
       prettyUrl: false
@@ -117,7 +110,7 @@ module.exports = function(acetate) {
 
   /**
    * Use Acetates generate helper to generate a page for each `declaration`
-   * and `package` in the typedoc.json.
+   * and `package` in the typedoc.json and generate the search index file
    */
   acetate.generate((createPage, callback) => {
     fs.readFile(
@@ -157,9 +150,18 @@ module.exports = function(acetate) {
           );
         });
 
+        const searchIndex = createPage.fromTemplateString(
+          "hub.js/js/index.js",
+          `const ESRI_HUB_JS_REF_INDEX = ${JSON.stringify(
+            typedoc.quickSearchIndex
+          )}`,
+          path.join(acetate.sourceDir, "js", "index.js"),
+          { layout: false, prettyUrl: false }
+        );
+
         // once all the pages have been generated provide them to Acetate.
         Promise.all(declarationPages.concat(packagePages)).then(pages => {
-          callback(null, pages);
+          callback(null, pages.concat(searchIndex));
         });
       }
     );
@@ -212,6 +214,13 @@ module.exports = function(acetate) {
       package.name
     }@${package.version}/dist/umd/${package.name.replace("@esri/hub-", "")}.umd.js`;
   });
+
+  acetate.helper("scriptTag", function(context, package) {
+    return `&lt;script src="https://unpkg.com/${package.name}@${package.version}/dist/umd/${package.name.replace("@esri/hub-", "")}.umd.min.js"&gt;&lt;/script&gt;`;
+   return `&lt;script src="https://unpkg.com/${
+     package.name
+   }@${package.version}/dist/umd/${package.name.replace("@esri/hub-", "")}.umd.min.js"&gt;&lt;/script&gt;`;
+ });
 
   acetate.helper("npmInstallCmd", function(context, package) {
     const peers = package.peerDependencies
