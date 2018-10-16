@@ -110,7 +110,3 @@ Vue.component("api-search", {
     });
   }
 });
-
-new Vue({
-  el: "#page"
-});
