@@ -7,10 +7,13 @@ import {
   annoSearchResponse,
   emptyAnnoSearchResponse
 } from "./mocks/ago_search";
+import { portalResponse } from "./mocks/portal";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import * as items from "@esri/arcgis-rest-items";
 import * as sharing from "@esri/arcgis-rest-sharing";
+import * as request from "@esri/arcgis-rest-request";
 import * as featureServiceAdmin from "@esri/arcgis-rest-feature-service-admin";
+import { IExtent } from "@esri/arcgis-rest-common-types";
 import {
   ISearchRequestOptions,
   IItemUpdateRequestOptions,
@@ -36,11 +39,23 @@ const authentication = new UserSession({
   tokenExpires: TOMORROW
 });
 
+const clonedServiceDefinition = JSON.parse(
+  JSON.stringify(annotationServiceDefinition)
+);
+
+clonedServiceDefinition.extent = portalResponse.defaultExtent as IExtent;
+
 describe("createAnnotationService", () => {
   it("should create a new annotation service if one doesnt already exist", done => {
     const searchParamsSpy = spyOn(items, "searchItems").and.returnValue(
       new Promise(resolve => {
         resolve(emptyAnnoSearchResponse);
+      })
+    );
+
+    const portalParamsSpy = spyOn(request, "getPortal").and.returnValue(
+      new Promise(resolve => {
+        resolve(portalResponse);
       })
     );
 
@@ -148,7 +163,7 @@ describe("createAnnotationService", () => {
       const addToOpts = addToParamsSpy.calls.argsFor(
         0
       )[1] as IAddToServiceDefinitionRequestOptions;
-      expect(addToOpts.layers).toEqual([annotationServiceDefinition]);
+      expect(addToOpts.layers).toEqual([clonedServiceDefinition]);
       expect(addToOpts.authentication.token).toEqual("fake-token");
 
       const updateOpts = updateParamsSpy.calls.argsFor(
@@ -207,6 +222,12 @@ describe("createAnnotationService", () => {
     const searchParamsSpy = spyOn(items, "searchItems").and.returnValue(
       new Promise(resolve => {
         resolve(emptyAnnoSearchResponse);
+      })
+    );
+
+    const portalParamsSpy = spyOn(request, "getPortal").and.returnValue(
+      new Promise(resolve => {
+        resolve({ portalResponse });
       })
     );
 
