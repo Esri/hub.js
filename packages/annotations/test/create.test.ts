@@ -2,6 +2,7 @@ import {
   createAnnotationService,
   ICreateAnnoRequestOptions
 } from "../src/create";
+import { annotationServiceDefinition } from "../src/layer-definition";
 import {
   annoSearchResponse,
   emptyAnnoSearchResponse
@@ -10,8 +11,16 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import * as items from "@esri/arcgis-rest-items";
 import * as sharing from "@esri/arcgis-rest-sharing";
 import * as featureServiceAdmin from "@esri/arcgis-rest-feature-service-admin";
-import { ISearchRequestOptions } from "@esri/arcgis-rest-items";
-// import { MOCK_REQUEST_OPTIONS } from "../../initiatives/test/mocks/fake-session";
+import {
+  ISearchRequestOptions,
+  IItemUpdateRequestOptions,
+  IItemIdRequestOptions
+} from "@esri/arcgis-rest-items";
+import { ISetAccessRequestOptions } from "@esri/arcgis-rest-sharing";
+import {
+  ICreateServiceRequestOptions,
+  IAddToServiceDefinitionRequestOptions
+} from "@esri/arcgis-rest-feature-service-admin";
 
 const TOMORROW = (function() {
   const now = new Date();
@@ -92,23 +101,82 @@ describe("createAnnotationService", () => {
       })
     );
 
+    // MOCK_REQUEST_OPTIONS from "../../initiatives/test/mocks/fake-session" didnt work;
     const options = {
       orgId: "h7c",
       authentication
-      // ...MOCK_REQUEST_OPTIONS
     } as ICreateAnnoRequestOptions;
 
     createAnnotationService(options).then(() => {
       expect(searchParamsSpy.calls.count()).toEqual(1);
+      expect(createParamsSpy.calls.count()).toEqual(1);
       expect(shareParamsSpy.calls.count()).toEqual(1);
       expect(updateParamsSpy.calls.count()).toEqual(1);
       expect(addToParamsSpy.calls.count()).toEqual(1);
       expect(protectParamsSpy.calls.count()).toEqual(1);
 
-      const opts = searchParamsSpy.calls.argsFor(0)[0] as ISearchRequestOptions;
-      expect(opts.searchForm.q).toEqual(
+      const searchOpts = searchParamsSpy.calls.argsFor(
+        0
+      )[0] as ISearchRequestOptions;
+      expect(searchOpts.searchForm.q).toEqual(
         "typekeywords:hubAnnotationLayer AND orgid:h7c"
       );
+
+      const createOpts = createParamsSpy.calls.argsFor(
+        0
+      )[0] as ICreateServiceRequestOptions;
+      expect(createOpts.item.name).toEqual("hub_annotations");
+      expect(createOpts.item.capabilities).toEqual(
+        "Create,Delete,Query,Update,Editing"
+      );
+      expect(createOpts.item.maxRecordCount).toEqual(2000);
+      expect(createOpts.item.hasStaticData).toEqual(false);
+      expect(createOpts.item.editorTrackingInfo.allowAnonymousToUpdate).toEqual(
+        false
+      );
+      expect(createOpts.item.editorTrackingInfo.allowAnonymousToDelete).toEqual(
+        false
+      );
+      expect(createOpts.item.xssPreventionInfo.xssPreventionEnabled).toEqual(
+        true
+      );
+      expect(createOpts.authentication.token).toEqual("fake-token");
+
+      expect(addToParamsSpy.calls.argsFor(0)[0]).toEqual(
+        "https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/hub_annotations/FeatureServer"
+      );
+      const addToOpts = addToParamsSpy.calls.argsFor(
+        0
+      )[1] as IAddToServiceDefinitionRequestOptions;
+      expect(addToOpts.layers).toEqual([annotationServiceDefinition]);
+      expect(addToOpts.authentication.token).toEqual("fake-token");
+
+      const updateOpts = updateParamsSpy.calls.argsFor(
+        0
+      )[0] as IItemUpdateRequestOptions;
+      expect(updateOpts.item.id).toEqual("41a");
+      expect(updateOpts.item.title).toEqual("Hub Annotations");
+      expect(
+        updateOpts.item.typeKeywords.includes("hubAnnotationLayer")
+      ).toEqual(true);
+      expect(updateOpts.item.snippet).toEqual(
+        `Feature service for Hub annotations. DO NOT DELETE THIS SERVICE. It stores the public annotations (comments) for all Hub items in your organization.`
+      );
+      expect(updateOpts.authentication.token).toEqual("fake-token");
+
+      const protectOpts = protectParamsSpy.calls.argsFor(
+        0
+      )[0] as IItemIdRequestOptions;
+      expect(protectOpts.id).toEqual("41a");
+      expect(protectOpts.authentication.token).toEqual("fake-token");
+
+      const shareOpts = shareParamsSpy.calls.argsFor(
+        0
+      )[0] as ISetAccessRequestOptions;
+      expect(shareOpts.id).toEqual("41a");
+      expect(shareOpts.access).toEqual("public");
+      expect(shareOpts.authentication.token).toEqual("fake-token");
+
       done();
     });
   });
@@ -158,8 +226,12 @@ describe("createAnnotationService", () => {
 
     createAnnotationService(options).catch(err => {
       expect(searchParamsSpy.calls.count()).toEqual(1);
+      const opts = searchParamsSpy.calls.argsFor(0)[0] as ISearchRequestOptions;
+      expect(opts.searchForm.q).toEqual(
+        "typekeywords:hubAnnotationLayer AND orgid:h7c"
+      );
       expect(err.message).toEqual(
-        "Failure to create service. One common cause is the presence of an existing hosted feature service that shares the same name."
+        "Failure to create service. One common cause is the presence of an existing service that shares the same name."
       );
       done();
     });

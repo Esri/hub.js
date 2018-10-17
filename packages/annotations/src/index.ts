@@ -7,3 +7,5 @@ export * from "./create";
 export * from "./add";
 export * from "./update";
 export * from "./delete";
+// this is enough for the file to be omitted from the umd and esm, but it will still be in the cjs
+// export * from "./layer-definition";
