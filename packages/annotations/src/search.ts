@@ -48,13 +48,14 @@ export function searchAnnotations(
     requestOptions.outFields = [
       "OBJECTID",
       "author",
+      "updater",
+      "created_at",
+      "updated_at",
       "description",
       "source",
       "status",
       "target",
-      "dataset_id",
-      "created_at",
-      "updated_at"
+      "dataset_id"
     ];
   }
 

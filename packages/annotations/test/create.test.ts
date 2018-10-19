@@ -142,7 +142,7 @@ describe("createAnnotationService", () => {
       )[0] as ICreateServiceRequestOptions;
       expect(createOpts.item.name).toEqual("hub_annotations");
       expect(createOpts.item.capabilities).toEqual(
-        "Create,Delete,Query,Update,Editing"
+        annotationServiceDefinition.capabilities
       );
       expect(createOpts.item.maxRecordCount).toEqual(2000);
       expect(createOpts.item.hasStaticData).toEqual(false);
