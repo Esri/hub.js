@@ -11,6 +11,7 @@
   "dependencies": {
     "@esri/arcgis-rest-auth": "^1.11.0",
     "@esri/arcgis-rest-common-types": "^1.11.0",
+    "@esri/arcgis-rest-feature-service": "^1.11.0",
     "@esri/arcgis-rest-items": "^1.11.0",
     "@esri/arcgis-rest-request": "^1.11.0",
     "tslib": "^1.8.0"
