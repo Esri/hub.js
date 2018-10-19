@@ -15,6 +15,19 @@ import * as featureService from "@esri/arcgis-rest-feature-service";
 import * as user from "@esri/arcgis-rest-users";
 import { IQueryFeaturesRequestOptions } from "@esri/arcgis-rest-feature-service";
 
+const mockOutFields = [
+  "OBJECTID",
+  "author",
+  "updater",
+  "created_at",
+  "updated_at",
+  "description",
+  "source",
+  "status",
+  "target",
+  "dataset_id"
+];
+
 describe("searchAnnotations", () => {
   it("should query for annotations when no parameters are passed", done => {
     const queryParamsSpy = spyOn(
@@ -47,17 +60,7 @@ describe("searchAnnotations", () => {
       const jonesOpts = userParamsSpy.calls.argsFor(1)[0] as string;
 
       expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
-      expect(queryOpts.outFields).toEqual([
-        "OBJECTID",
-        "author",
-        "description",
-        "source",
-        "status",
-        "target",
-        "dataset_id",
-        "created_at",
-        "updated_at"
-      ]);
+      expect(queryOpts.outFields).toEqual(mockOutFields);
       expect(caseyOpts).toBe("casey");
       expect(jonesOpts).toBe("jones");
       expect(response).toEqual(annoResponse);
@@ -90,17 +93,7 @@ describe("searchAnnotations", () => {
 
       expect(opts.url).toBe(annoSearchResponse.results[0].url + "/0");
       expect(opts.where).toBe("1=0");
-      expect(opts.outFields).toEqual([
-        "OBJECTID",
-        "author",
-        "description",
-        "source",
-        "status",
-        "target",
-        "dataset_id",
-        "created_at",
-        "updated_at"
-      ]);
+      expect(opts.outFields).toEqual(mockOutFields);
       expect(response).toEqual(annoResponseEmpty);
       done();
     });

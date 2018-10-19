@@ -19,9 +19,10 @@ export const defaultExtent: IExtent = {
 export const editorTrackingInfo = {
   enableEditorTracking: true,
   enableOwnershipAccessControl: true,
+  allowOthersToQuery: true,
   allowOthersToUpdate: false,
   allowOthersToDelete: false,
-  allowOthersToQuery: true,
+  allowAnonymousToQuery: true,
   allowAnonymousToUpdate: false,
   allowAnonymousToDelete: false
 };
@@ -31,7 +32,7 @@ export const editorTrackingInfo = {
  */
 export const annotationServiceDefinition: ILayerDefinition = {
   allowGeometryUpdates: true,
-  capabilities: "Create,Delete,Query,Update,Editing",
+  capabilities: "Query,Editing,Create,Update",
   copyrightText: "",
   defaultVisibility: true,
   description: "",
@@ -65,12 +66,42 @@ export const annotationServiceDefinition: ILayerDefinition = {
       defaultValue: null
     },
     {
+      name: "created_at",
+      type: "esriFieldTypeDate",
+      alias: "created_at",
+      length: 8,
+      nullable: true,
+      editable: false,
+      domain: null,
+      defaultValue: null
+    },
+    {
       name: "author",
       type: "esriFieldTypeString",
       alias: "author",
-      length: 256,
-      nullable: false,
-      editable: true,
+      length: 128,
+      nullable: true,
+      editable: false,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "updated_at",
+      type: "esriFieldTypeDate",
+      alias: "updated_at",
+      length: 8,
+      nullable: true,
+      editable: false,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "updater",
+      type: "esriFieldTypeString",
+      alias: "updater",
+      length: 128,
+      nullable: true,
+      editable: false,
       domain: null,
       defaultValue: null
     },
@@ -120,26 +151,6 @@ export const annotationServiceDefinition: ILayerDefinition = {
       alias: "target",
       length: 2000,
       nullable: false,
-      editable: true,
-      domain: null,
-      defaultValue: null
-    },
-    {
-      name: "created_at",
-      type: "esriFieldTypeDate",
-      alias: "created_at",
-      length: 0,
-      nullable: false,
-      editable: true,
-      domain: null,
-      defaultValue: null
-    },
-    {
-      name: "updated_at",
-      type: "esriFieldTypeDate",
-      alias: "updated_at",
-      length: 0,
-      nullable: true,
       editable: true,
       domain: null,
       defaultValue: null
@@ -212,19 +223,9 @@ export const annotationServiceDefinition: ILayerDefinition = {
       drawingTool: "esriFeatureEditToolPolygon",
       prototype: {
         attributes: {
-          author: "",
-          data: null,
           description: "",
           status: "",
-          source: null,
-          target: "",
-          created_at: null,
-          updated_at: null,
-          edits: null,
-          parent_id: null,
-          dataset_id: null,
-          feature_id: null,
-          attribute: null
+          target: ""
         }
       }
     }
@@ -234,9 +235,9 @@ export const annotationServiceDefinition: ILayerDefinition = {
   types: [],
   timeInfo: {},
   editFieldsInfo: {
-    creationDateField: "",
-    creatorField: "",
-    editDateField: "",
-    editorField: ""
+    creationDateField: "created_at",
+    creatorField: "author",
+    editDateField: "updated_at",
+    editorField: "updater"
   }
 };

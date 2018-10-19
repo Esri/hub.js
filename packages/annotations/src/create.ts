@@ -73,7 +73,7 @@ export function createAnnotationService(
             description,
             serviceDescription: description,
             copyrightText: "",
-            capabilities: "Create,Delete,Query,Update,Editing",
+            capabilities: clonedServiceDefinition.capabilities,
             spatialReference: defaultExtent.spatialReference,
             xssPreventionInfo: {
               xssPreventionEnabled: true,
