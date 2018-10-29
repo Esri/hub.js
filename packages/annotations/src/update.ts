@@ -30,17 +30,5 @@ import {
 export function updateAnnotations(
   requestOptions: IUpdateFeaturesRequestOptions
 ): Promise<IUpdateFeaturesResult> {
-  requestOptions.updates.forEach(function(anno) {
-    const defaults = {
-      updated_at: new Date().getTime()
-    };
-
-    // mixin, giving precedence to what was passed to the method
-    anno.attributes = {
-      ...defaults,
-      ...anno.attributes
-    };
-  });
-
   return updateFeatures(requestOptions);
 }
