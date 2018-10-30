@@ -92,10 +92,7 @@ describe("add/update/deleteAnnotations", () => {
         "what do we want? bike lanes! when do we want them? now!"
       );
       expect(anno.attributes.status).toEqual("pending");
-      expect(anno.attributes.author).toEqual("casey");
       expect(anno.attributes.source).toEqual("hub.js");
-      // flexible ~100ms
-      expect(anno.attributes.created_at).toBeCloseTo(new Date().getTime(), -2);
       done();
     });
   });
@@ -134,8 +131,6 @@ describe("add/update/deleteAnnotations", () => {
       );
       expect(anno.attributes.status).toEqual("pending");
       expect(anno.attributes.source).toEqual("hub.js");
-      // flexible ~100ms
-      expect(anno.attributes.created_at).toBeCloseTo(new Date().getTime(), -1);
       done();
     });
   });
@@ -166,14 +161,11 @@ describe("add/update/deleteAnnotations", () => {
 
       expect(opts.url).toEqual(annoUrl);
       const anno = opts.adds[0] as IFeature;
-      expect(anno.attributes.author).toEqual(null);
       expect(anno.attributes.description).toEqual(
         "what do we want? bike lanes! when do we want them? now!"
       );
       expect(anno.attributes.status).toEqual("pending");
       expect(anno.attributes.source).toEqual("hub.js");
-      // flexible ~100ms
-      expect(anno.attributes.created_at).toBeCloseTo(new Date().getTime(), -2);
       done();
     });
   });
@@ -207,14 +199,11 @@ describe("add/update/deleteAnnotations", () => {
       expect(opts.url).toEqual(annoUrl);
       const anno = opts.adds[0] as IFeature;
 
-      expect(anno.attributes.author).toEqual(null);
       expect(anno.attributes.description).toEqual(
         "what do we want? bike lanes! when do we want them? now!"
       );
       expect(anno.attributes.status).toEqual("URGENT!");
       expect(anno.attributes.source).toEqual("somewhere else");
-      // flexible ~100ms
-      expect(anno.attributes.created_at).toBeCloseTo(new Date().getTime(), -2);
       done();
     });
   });
@@ -248,8 +237,6 @@ describe("add/update/deleteAnnotations", () => {
       expect(anno.attributes.description).toEqual(
         "i changed my mind, we can wait a lil while."
       );
-      // flexible ~100ms
-      expect(anno.attributes.updated_at).toBeCloseTo(new Date().getTime(), -1);
       done();
     });
   });

@@ -34,7 +34,7 @@ getPortal("http://custom.maps.arcgis.com")
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { createAnnotationService } from "@esri/hub-annotations";
 
-// this user will be the owner of the new annotation service
+// user with sufficient privileges to create a new hosted feature service
 const authentication = new UserSession({
   username: "joe",
   password: "shhhh"
