@@ -60,43 +60,43 @@ export function getEventServiceUrl(
 /**
  * Get the events query based on type.
  * @param type - string to indicate event type with the options `upcoming`, `past`, `cancelled` and `draft`
- * @param params - query features request options
- * @returns an IQueryFeaturesRequestOptions that has the same values as `params` but for the modified Where and OrderBy properties
+ * @param options - query features request options
+ * @returns an IQueryFeaturesRequestOptions that has the same values as `options` but for the modified Where and OrderBy properties
  */
 export function getEventQueryFromType(
-  type: string,
-  params: IQueryFeaturesRequestOptions
+  type: "upcoming" | "past" | "cancelled" | "draft",
+  options: IQueryFeaturesRequestOptions
 ): IQueryFeaturesRequestOptions {
   // this allows us to ask for type === upcoming | past | cancelled | draft
   // and get an appropriate `where` and `orderByFields`
   let typeWhere;
-  const newParams = Object.assign({}, params);
+  const newOptions = Object.assign({}, options);
   if (type === "cancelled") {
-    if (!params.orderByFields) {
+    if (!options.orderByFields) {
       // if orderByFields was passed in, use it, otherwise use appropriate one for cancelled
-      newParams.orderByFields = "EditDate DESC";
+      newOptions.orderByFields = "EditDate DESC";
     }
     typeWhere = `isCancelled=1 AND status<>'draft'`;
   } else if (type === "draft") {
-    if (!params.orderByFields) {
-      newParams.orderByFields = "EditDate DESC";
+    if (!options.orderByFields) {
+      newOptions.orderByFields = "EditDate DESC";
     }
-    const session = params.authentication as UserSession;
+    const session = options.authentication as UserSession;
     const user = session ? session.username : null;
     typeWhere = `Creator = '${user}' AND status = 'draft'`;
   } else {
-    if (!params.orderByFields) {
+    if (!options.orderByFields) {
       // if orderByFields was passed in, use it, otherwise use appropriate one for type
-      newParams.orderByFields =
+      newOptions.orderByFields =
         type === "upcoming" ? "startDate ASC" : "startDate DESC";
     }
     const operator = type === "upcoming" ? ">" : "<=";
     typeWhere = `endDate${operator}CURRENT_TIMESTAMP AND (isCancelled<>1 OR isCancelled IS NULL) AND status<>'draft'`;
   }
-  if (params.where) {
-    newParams.where = params.where + ` AND ${typeWhere}`;
+  if (options.where) {
+    newOptions.where = `${options.where} AND ${typeWhere}`;
   } else {
-    newParams.where = typeWhere;
+    newOptions.where = typeWhere;
   }
-  return newParams;
+  return newOptions;
 }
