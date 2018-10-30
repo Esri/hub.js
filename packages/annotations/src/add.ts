@@ -45,14 +45,9 @@ export interface IAddAnnotationsRequestOptions
 export function addAnnotations(
   requestOptions: IAddAnnotationsRequestOptions
 ): Promise<IAddFeaturesResult> {
-  const session = requestOptions.authentication as UserSession;
-  const author = session ? session.username : null;
-
   requestOptions.adds.forEach(function(anno) {
     const defaults = {
-      created_at: new Date().getTime(),
       status: "pending",
-      author,
       source: "hub.js"
     };
 
