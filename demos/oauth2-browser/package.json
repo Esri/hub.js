@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-oauth-demo",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "private": true,
   "description": "Hub.js browser demo",
   "author": "",
@@ -8,7 +8,7 @@
   "dependencies": {
     "@esri/arcgis-rest-auth": "^1.7.0",
     "@esri/arcgis-rest-request": "^1.7.0",
-    "@esri/hub-auth": "^1.3.0"
+    "@esri/hub-auth": "^1.4.0"
   },
   "devDependencies": {
     "http-server": "0.11.1"

@@ -74,7 +74,14 @@ function getCommitData(from, to) {
     exec(cmd, (err, stdout, stderr) => {
       if (err) return reject(err);
       if (stderr) return reject(stderr);
-      const commits = JSON.parse("["+stdout.slice(0, -1).replace(/\\/g, "\\\\")+"]");
+      /*
+       order commits from most recent to least recent
+
+       graveyard
+       .replace(/"returns"/g, "returns")
+       .replace(/\\/g, "\\\\")
+       */
+      const commits = JSON.parse("["+stdout.slice(0, -1).replace(/Revert "no bash script"/g, "Revert 'no bash script'")+"]");
       const last = _.last(commits);
       const today = new Date();
       resolve({

@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-auth",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Module to help the community authenticate and interact with ArcGIS Hub.",
   "main": "dist/node/index.js",
   "browser": "dist/umd/hub-auth.umd.js",
