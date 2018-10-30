@@ -101,7 +101,6 @@ describe("getEventQueryFromType", () => {
   const authentication = new UserSession({
     username: "vader"
   });
-  const authenticationOptions = { authentication };
 
   it("should return the event where clause for 'upcoming' type", () => {
     const requestOptions = {
@@ -161,6 +160,7 @@ describe("getEventQueryFromType", () => {
     expect(newRequestOptions.where).toContain(
       "AND endDate<=CURRENT_TIMESTAMP AND (isCancelled<>1 OR isCancelled IS NULL) AND status<>'draft'"
     );
+    expect(requestOptions.where).toEqual("1=1");
     expect(newRequestOptions.orderByFields).toEqual("startDate DESC");
   });
 
@@ -228,14 +228,22 @@ describe("getEventQueryFromType", () => {
     const requestOptions = {
       outFields: "*"
     } as IQueryFeaturesRequestOptions;
-    const newRequestOptions = getEventQueryFromType(
-      "draft",
-      requestOptions,
-      authenticationOptions
-    );
-    const user = authenticationOptions.authentication.username;
+    requestOptions.authentication = authentication;
+    const newRequestOptions = getEventQueryFromType("draft", requestOptions);
+    const user = (requestOptions.authentication as UserSession).username;
     expect(newRequestOptions.where).toEqual(
       `Creator = '${user}' AND status = 'draft'`
+    );
+    expect(newRequestOptions.orderByFields).toEqual("EditDate DESC");
+  });
+
+  it("should return the event where clause for 'draft' type when no user is set", () => {
+    const requestOptions = {
+      outFields: "*"
+    } as IQueryFeaturesRequestOptions;
+    const newRequestOptions = getEventQueryFromType("draft", requestOptions);
+    expect(newRequestOptions.where).toEqual(
+      `Creator = 'null' AND status = 'draft'`
     );
     expect(newRequestOptions.orderByFields).toEqual("EditDate DESC");
   });
@@ -245,12 +253,9 @@ describe("getEventQueryFromType", () => {
       where: "1=1",
       outFields: "*"
     } as IQueryFeaturesRequestOptions;
-    const newRequestOptions = getEventQueryFromType(
-      "draft",
-      requestOptions,
-      authenticationOptions
-    );
-    const user = authenticationOptions.authentication.username;
+    requestOptions.authentication = authentication;
+    const newRequestOptions = getEventQueryFromType("draft", requestOptions);
+    const user = (requestOptions.authentication as UserSession).username;
     expect(newRequestOptions.where).toContain(
       `AND Creator = '${user}' AND status = 'draft'`
     );
@@ -262,12 +267,9 @@ describe("getEventQueryFromType", () => {
       outFields: "*",
       orderByFields: "startDate ASC"
     } as IQueryFeaturesRequestOptions;
-    const newRequestOptions = getEventQueryFromType(
-      "draft",
-      requestOptions,
-      authenticationOptions
-    );
-    const user = authenticationOptions.authentication.username;
+    requestOptions.authentication = authentication;
+    const newRequestOptions = getEventQueryFromType("draft", requestOptions);
+    const user = (requestOptions.authentication as UserSession).username;
     expect(newRequestOptions.where).toEqual(
       `Creator = '${user}' AND status = 'draft'`
     );

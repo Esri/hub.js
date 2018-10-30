@@ -66,38 +66,38 @@ export function getEventServiceUrl(
  */
 export function getEventQueryFromType(
   type: string,
-  params: IQueryFeaturesRequestOptions,
-  requestOptions?: IRequestOptions
+  params: IQueryFeaturesRequestOptions
 ): IQueryFeaturesRequestOptions {
   // this allows us to ask for type === upcoming | past | cancelled | draft
   // and get an appropriate `where` and `orderByFields`
   let typeWhere;
+  const newParams = Object.assign({}, params);
   if (type === "cancelled") {
     if (!params.orderByFields) {
       // if orderByFields was passed in, use it, otherwise use appropriate one for cancelled
-      params.orderByFields = "EditDate DESC";
+      newParams.orderByFields = "EditDate DESC";
     }
     typeWhere = `isCancelled=1 AND status<>'draft'`;
   } else if (type === "draft") {
     if (!params.orderByFields) {
-      params.orderByFields = "EditDate DESC";
+      newParams.orderByFields = "EditDate DESC";
     }
-    const session = requestOptions.authentication as UserSession;
+    const session = params.authentication as UserSession;
     const user = session ? session.username : null;
     typeWhere = `Creator = '${user}' AND status = 'draft'`;
   } else {
     if (!params.orderByFields) {
       // if orderByFields was passed in, use it, otherwise use appropriate one for type
-      params.orderByFields =
+      newParams.orderByFields =
         type === "upcoming" ? "startDate ASC" : "startDate DESC";
     }
     const operator = type === "upcoming" ? ">" : "<=";
     typeWhere = `endDate${operator}CURRENT_TIMESTAMP AND (isCancelled<>1 OR isCancelled IS NULL) AND status<>'draft'`;
   }
   if (params.where) {
-    params.where = params.where + ` AND ${typeWhere}`;
+    newParams.where = params.where + ` AND ${typeWhere}`;
   } else {
-    params.where = typeWhere;
+    newParams.where = typeWhere;
   }
-  return params;
+  return newParams;
 }
