@@ -61,8 +61,7 @@ export function getEventServiceUrl(
  * Get the events query based on type.
  * @param type - string to indicate event type with the options `upcoming`, `past`, `cancelled` and `draft`
  * @param params - query features request options
- * @param requestOptions - request options that may include authentication
- * @returns an IQueryFeaturesRequestOptions with modified Where and OrderBy params
+ * @returns an IQueryFeaturesRequestOptions that has the same values as `params` but for the modified Where and OrderBy properties
  */
 export function getEventQueryFromType(
   type: string,
