@@ -30,9 +30,8 @@ export interface IAddAnnotationsRequestOptions
  *   url: annotationsUrl + "/0",
  *   adds: [{
  *     attributes: {
- *       author: "User1",
- *       target: "http://...",
- *       description: "A grand idea!"
+ *       target: "http://...", // required, explains what is being commented on
+ *       description: "A grand idea!" // also required. this is the actual comment
  *     }
  *   }]
  * })

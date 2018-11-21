@@ -8,6 +8,7 @@ import {
 } from "@esri/arcgis-rest-feature-service";
 
 import { getUser } from "@esri/arcgis-rest-users";
+import { IGeometry, IFeature } from "@esri/arcgis-rest-common-types";
 
 export interface IResourceObject {
   id: string;
@@ -15,12 +16,13 @@ export interface IResourceObject {
   attributes: {
     [key: string]: any;
   };
+  geometry?: IGeometry;
 }
 
 /**
  * ```js
  * import { searchAnnotations } from "@esri/hub-annotations";
- * // by default, all annotations will be retrieved
+ *
  * searchAnnotations({ url: annotationsUrl + "/0" })
  *   .then(response => {
  *     // {
@@ -64,20 +66,36 @@ export function searchAnnotations(
     const data: IResourceObject[] = [];
 
     // use .reduce()?
-    (response as IQueryFeaturesResponse).features.forEach(function(comment) {
-      const attributes = comment.attributes;
-      data.push({
-        id: attributes.author,
-        type: "annotations",
-        attributes
-      });
+    (response as IQueryFeaturesResponse).features.forEach(
+      (comment: IFeature, index: number) => {
+        const attributes = comment.attributes;
+        const geometry = comment.geometry;
 
-      if (users.indexOf(comment.attributes.author) === -1) {
-        users.push(attributes.author);
+        const resource: IResourceObject = {
+          id:
+            attributes.author === ""
+              ? `AnonymousUser_${index}`
+              : attributes.author,
+          type: "annotations",
+          attributes
+        };
+
+        if (geometry) {
+          resource["geometry"] = geometry;
+        }
+
+        data.push(resource);
+
+        // ensure we only fetch metadata about each user once
+        if (users.indexOf(attributes.author) === -1) {
+          users.push(attributes.author);
+        }
       }
-    });
+    );
 
-    const getUserInfo = users.map(name => getUser(name));
+    const getUserInfo = users
+      .filter(name => name !== "") // filter out anonymous comments
+      .map(name => getUser(name));
 
     return Promise.all(getUserInfo).then(userInfo => {
       const included: IResourceObject[] = [];
