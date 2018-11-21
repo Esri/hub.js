@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.5.0] - November 21st 2018
+
+### @esri/hub-events
+
+* New Features
+  * new `searchEvents()` method.
+
+### @esri/hub-annotations
+
+* Fixes
+  * `geometry` is now passed along by `searchAnnotations()`
+  * annotations from anonymous users are now handled correctly by search
+
 ## [1.4.0] - October 30th 2018
 
 ### @esri/hub-annotations
@@ -125,4 +138,5 @@ Initial Release
 [1.2.0]: https://github.com/Esri/hub.js/compare/v1.1.1...v1.2.0 "v1.2.0"
 [1.3.0]: https://github.com/Esri/hub.js/compare/v1.2.0...v1.3.0 "v1.3.0"
 [1.4.0]: https://github.com/Esri/hub.js/compare/v1.3.0...v1.4.0 "v1.4.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v1.4.0...HEAD "Unreleased Changes"
+[1.5.0]: https://github.com/Esri/hub.js/compare/v1.4.0...1.5.0 "1.5.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/1.5.0...HEAD "Unreleased Changes"
