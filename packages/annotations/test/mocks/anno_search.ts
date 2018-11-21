@@ -76,7 +76,7 @@ export const annoQueryResponse = {
     },
     {
       attributes: {
-        OBJECTID: 3,
+        OBJECTID: 4,
         author: "",
         source: null as string,
         status: "pending",
@@ -191,10 +191,10 @@ const data = [
     }
   },
   {
-    id: "",
+    id: "AnonymousUser_3",
     type: "annotations",
     attributes: {
-      OBJECTID: 3,
+      OBJECTID: 4,
       author: "",
       source: null as string,
       status: "pending",

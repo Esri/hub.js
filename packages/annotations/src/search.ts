@@ -8,7 +8,7 @@ import {
 } from "@esri/arcgis-rest-feature-service";
 
 import { getUser } from "@esri/arcgis-rest-users";
-import { IGeometry } from "@esri/arcgis-rest-common-types";
+import { IGeometry, IFeature } from "@esri/arcgis-rest-common-types";
 
 export interface IResourceObject {
   id: string;
@@ -66,27 +66,32 @@ export function searchAnnotations(
     const data: IResourceObject[] = [];
 
     // use .reduce()?
-    (response as IQueryFeaturesResponse).features.forEach(function(comment) {
-      const attributes = comment.attributes;
-      const geometry = comment.geometry;
+    (response as IQueryFeaturesResponse).features.forEach(
+      (comment: IFeature, index: number) => {
+        const attributes = comment.attributes;
+        const geometry = comment.geometry;
 
-      const resource: IResourceObject = {
-        id: attributes.author,
-        type: "annotations",
-        attributes
-      };
+        const resource: IResourceObject = {
+          id:
+            attributes.author === ""
+              ? `AnonymousUser_${index}`
+              : attributes.author,
+          type: "annotations",
+          attributes
+        };
 
-      if (geometry) {
-        resource["geometry"] = geometry;
+        if (geometry) {
+          resource["geometry"] = geometry;
+        }
+
+        data.push(resource);
+
+        // ensure we only fetch metadata about each user once
+        if (users.indexOf(attributes.author) === -1) {
+          users.push(attributes.author);
+        }
       }
-
-      data.push(resource);
-
-      // ensure we only fetch metadata about each user once
-      if (users.indexOf(attributes.author) === -1) {
-        users.push(attributes.author);
-      }
-    });
+    );
 
     const getUserInfo = users
       .filter(name => name !== "") // filter out anonymous comments
