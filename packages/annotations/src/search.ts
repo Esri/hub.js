@@ -8,6 +8,7 @@ import {
 } from "@esri/arcgis-rest-feature-service";
 
 import { getUser } from "@esri/arcgis-rest-users";
+import { IGeometry } from "@esri/arcgis-rest-common-types";
 
 export interface IResourceObject {
   id: string;
@@ -15,12 +16,13 @@ export interface IResourceObject {
   attributes: {
     [key: string]: any;
   };
+  geometry?: IGeometry;
 }
 
 /**
  * ```js
  * import { searchAnnotations } from "@esri/hub-annotations";
- * // by default, all annotations will be retrieved
+ *
  * searchAnnotations({ url: annotationsUrl + "/0" })
  *   .then(response => {
  *     // {
@@ -66,18 +68,29 @@ export function searchAnnotations(
     // use .reduce()?
     (response as IQueryFeaturesResponse).features.forEach(function(comment) {
       const attributes = comment.attributes;
-      data.push({
+      const geometry = comment.geometry;
+
+      const resource: IResourceObject = {
         id: attributes.author,
         type: "annotations",
         attributes
-      });
+      };
 
-      if (users.indexOf(comment.attributes.author) === -1) {
+      if (geometry) {
+        resource["geometry"] = geometry;
+      }
+
+      data.push(resource);
+
+      // ensure we only fetch metadata about each user once
+      if (users.indexOf(attributes.author) === -1) {
         users.push(attributes.author);
       }
     });
 
-    const getUserInfo = users.map(name => getUser(name));
+    const getUserInfo = users
+      .filter(name => name !== "") // filter out anonymous comments
+      .map(name => getUser(name));
 
     return Promise.all(getUserInfo).then(userInfo => {
       const included: IResourceObject[] = [];
