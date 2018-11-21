@@ -6,7 +6,7 @@ import {
   queryFeatures,
   IQueryFeaturesResponse
 } from "@esri/arcgis-rest-feature-service";
-import { IGeometry } from "@esri/arcgis-rest-common-types";
+import { IGeometry, IFeature } from "@esri/arcgis-rest-common-types";
 import { getItem } from "@esri/arcgis-rest-items";
 
 export interface IEventResourceObject {
@@ -23,13 +23,12 @@ export interface IEventResourceObject {
  * ```js
  * import { getEventQueryFromType, searchEvents } from "@esri/hub-events";
  *
- * const queryOptions: IQueryFeaturesRequestOptions = {
- *  ...eventUrlOptions,
- *  url: eventsUrl,
- * }
- * const eventType = "upcoming"; //| "past" | "cancelled" | "draft"; //(We never deal with other types in event list widget)
- * const eventOptions: IQueryFeaturesRequestOptions = getEventQueryFromType(eventType, queryOptions);
- * searchEvents({ url: eventsUrl })
+ * // event types are "upcoming" | "past" | "cancelled" | "draft"
+ * const searchOptions: IQueryFeaturesRequestOptions = getEventQueryFromType("upcoming", {
+ *   url: eventsUrl,
+ *   authentication
+ * });
+ * searchEvents(searchOptions)
  *   .then(response => {
  *     // {
  *     //   data: [{
@@ -49,74 +48,91 @@ export interface IEventResourceObject {
  *     // }
  *   });
  * ```
- * Query for annotations from ArcGIS Hub.
+ * Query for events from ArcGIS Hub.
  * @param requestOptions - request options that may include authentication
- * @returns A Promise that will resolve with decorated features from the annotation service for a Hub enabled ArcGIS Online organization.
+ * @returns A Promise that will resolve with decorated features from the event feature service for a Hub enabled ArcGIS Online organization.
  */
 export function searchEvents(
   requestOptions: IQueryFeaturesRequestOptions
 ): Promise<{ data: IEventResourceObject[]; included: IEventResourceObject[] }> {
-  if (requestOptions.returnGeometry !== false) {
-    requestOptions.returnGeometry = true;
-  }
-  return queryFeatures(requestOptions).then(response => {
-    const siteIds: string[] = [];
-    const data: IEventResourceObject[] = [];
-    const cacheBust = new Date().getTime();
-    return (
-      requestOptions.authentication
-        // TODO: what happens if there is no authentication? aka public view
-        // Will getToken fail safe in that scenario?
-        .getToken(requestOptions.url)
+  const queryOptions: IQueryFeaturesRequestOptions = {
+    returnGeometry: true,
+    ...requestOptions
+  };
+
+  return queryFeatures(queryOptions).then(response => {
+    // if authentication is passed, get a reference to the token to tack onto image urls
+    if (queryOptions.authentication) {
+      return queryOptions.authentication
+        .getToken(queryOptions.url)
         .then(token => {
-          (response as IQueryFeaturesResponse).features.forEach(function(
-            event
-          ) {
-            const attributes = event.attributes;
-            const geometry = event.geometry;
-            let imageUrl = null;
-            if (attributes.imageAttributes) {
-              const imageAttributes = JSON.parse(attributes.imageAttributes);
-              if (imageAttributes.crop) {
-                imageUrl = `${requestOptions.url}/${
-                  attributes.OBJECTID
-                }/attachments/${imageAttributes.crop}?v=${cacheBust}`;
-                // if (token) {
-                imageUrl += `&token=${token}`;
-                // }
-              }
-            }
-            data.push({
-              id: attributes.OBJECTID,
-              type: "events",
-              imageUrl,
-              attributes,
-              geometry
-            });
-            if (siteIds.indexOf(attributes.siteId) === -1) {
-              siteIds.push(attributes.siteId);
-            }
-          });
-          const getSiteInfo = siteIds.map(siteId => getItem(siteId));
+          return formatEventResponse(
+            (response as IQueryFeaturesResponse).features,
+            queryOptions.url,
+            token
+          );
+        });
+    } else {
+      return formatEventResponse(
+        (response as IQueryFeaturesResponse).features,
+        queryOptions.url
+      );
+    }
+  });
+}
 
-          return Promise.all(getSiteInfo).then(siteInfo => {
-            const included: IEventResourceObject[] = [];
+function formatEventResponse(
+  features: IFeature[],
+  url: string,
+  token?: string
+) {
+  const siteIds: string[] = [];
+  const data: IEventResourceObject[] = [];
+  const cacheBust = new Date().getTime();
 
-            siteInfo.forEach(siteItem => {
-              included.push({
-                id: siteItem.id,
-                type: `sites`,
-                // not passing all site item information since that's not necessary.
-                attributes: {
-                  id: siteItem.id,
-                  url: siteItem.url
-                }
-              });
-            });
+  features.forEach(function(event) {
+    const attributes = event.attributes;
+    const geometry = event.geometry;
+    let imageUrl = null;
+    if (attributes.imageAttributes) {
+      const imageAttributes = JSON.parse(attributes.imageAttributes);
+      if (imageAttributes.crop) {
+        imageUrl = `${url}/${attributes.OBJECTID}/attachments/${
+          imageAttributes.crop
+        }?v=${cacheBust}`;
+        if (token) {
+          imageUrl += `&token=${token}`;
+        }
+      }
+    }
+    data.push({
+      id: attributes.OBJECTID,
+      type: "events",
+      imageUrl,
+      attributes,
+      geometry
+    });
+    if (siteIds.indexOf(attributes.siteId) === -1) {
+      siteIds.push(attributes.siteId);
+    }
+  });
+  const getSiteInfo = siteIds.map(siteId => getItem(siteId));
 
-            return { included, data };
-          });
-        })
-    );
+  return Promise.all(getSiteInfo).then(siteInfo => {
+    const included: IEventResourceObject[] = [];
+
+    siteInfo.forEach(siteItem => {
+      included.push({
+        id: siteItem.id,
+        type: `sites`,
+        // passing along all the site item information would be overkill
+        attributes: {
+          id: siteItem.id,
+          url: siteItem.url
+        }
+      });
+    });
+
+    return { included, data };
   });
 }

@@ -136,4 +136,40 @@ describe("searchEvents", () => {
       done();
     });
   });
+
+  it("should allow users to fetch without passing authenication", done => {
+    const queryParamsSpy = spyOn(
+      featureService,
+      "queryFeatures"
+    ).and.returnValue(
+      new Promise(resolve => {
+        resolve(eventQueryResponse);
+      })
+    );
+
+    const siteParamsSpy = spyOn(item, "getItem").and.returnValues(
+      new Promise(resolve => {
+        resolve(siteResponse71a58);
+      }),
+      new Promise(resolve => {
+        resolve(siteResponse7c395);
+      })
+    );
+
+    searchEvents({
+      url: publicEventSearchResponse.results[0].url + "/0"
+    }).then(response => {
+      expect(queryParamsSpy.calls.count()).toEqual(1);
+      expect(siteParamsSpy.calls.count()).toEqual(2);
+      const queryOpts = queryParamsSpy.calls.argsFor(
+        0
+      )[0] as IQueryFeaturesRequestOptions;
+      expect(queryOpts.url).toBe(
+        publicEventSearchResponse.results[0].url + "/0"
+      );
+      expect(response.data.length).toBe(eventResponse.data.length);
+      expect(response.included).toEqual(eventResponse.included);
+      done();
+    });
+  });
 });
