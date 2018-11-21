@@ -141,14 +141,24 @@ const data = [
     attributes: {
       OBJECTID: 1,
       author: "casey",
-      source: null as any,
+      source: null as string,
       status: "pending",
       target: "something",
       description: "this is where the comments go",
       created_at: 1349395200000,
-      updated_at: null,
+      updated_at: 1349395200000,
       dataset_id: "sgj432"
-    }
+    },
+    geometry: {
+      rings: [
+        [
+          [-12694713.8080383, 5934781.92803049],
+          [-12691159.4862231, 5936119.57602548],
+          [-12691159.4862231, 5932527.03569609],
+          [-12694713.8080383, 5934781.92803049]
+        ]
+      ]
+    } as IGeometry
   },
   {
     id: "jones",
@@ -156,12 +166,12 @@ const data = [
     attributes: {
       OBJECTID: 2,
       author: "jones",
-      source: null as any,
+      source: null as string,
       status: "pending",
       target: "something",
       description: "this is where the comments go",
       created_at: 1349395200001,
-      updated_at: null as any,
+      updated_at: 1349395200001,
       dataset_id: "xds466"
     }
   },
@@ -171,12 +181,27 @@ const data = [
     attributes: {
       OBJECTID: 3,
       author: "casey",
-      source: null as any,
+      source: null as string,
       status: "pending",
       target: "something",
       data: "i like to hear myself talk",
       created_at: 1349395200002,
-      updated_at: null as any,
+      updated_at: 1349395200002,
+      dataset_id: "xds466"
+    }
+  },
+  {
+    id: "",
+    type: "annotations",
+    attributes: {
+      OBJECTID: 3,
+      author: "",
+      source: null as string,
+      status: "pending",
+      target: "something",
+      data: "i like to hear myself talk",
+      created_at: 1349395200002,
+      updated_at: 1349395200002,
       dataset_id: "xds466"
     }
   }
