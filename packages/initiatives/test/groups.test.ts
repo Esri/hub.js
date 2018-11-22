@@ -32,7 +32,8 @@ const fakeGroup = {
   isInvitationOnly: false,
   isFav: false,
   isViewOnly: false,
-  autoJoin: true
+  autoJoin: true,
+  access: "public"
 } as IGroup;
 
 describe("Initiative Groups ::", () => {
