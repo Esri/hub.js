@@ -13,7 +13,7 @@ import {
  * deleteAnnotations({
  *   url: annotationsUrl + "/0",
  *   // an array of featureIds
- *   deletes: [1]
+ *   objectIds: [1]
  * })
  *   .then(response);
  * ```
