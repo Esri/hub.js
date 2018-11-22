@@ -12,7 +12,7 @@ import {
  * import { updateAnnotations } from "@esri/hub-annotations";
  * updateAnnotations({
  *   url: annotationsUrl + "/0",
- *   updates: [{
+ *   features: [{
  *     attributes: {
  *       // an ID is necessary to determine which feature to update
  *       OBJECTID: 1,

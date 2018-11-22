@@ -1,8 +1,6 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { UserSession } from "@esri/arcgis-rest-auth";
-
 import {
   addFeatures,
   IAddFeaturesRequestOptions,
@@ -20,7 +18,11 @@ export interface IAnnoFeature extends IFeature {
 }
 export interface IAddAnnotationsRequestOptions
   extends IAddFeaturesRequestOptions {
-  adds: IAnnoFeature[];
+  features: IAnnoFeature[];
+  /**
+   * will be deprecated in v2.0.0 in favor of 'features'
+   */
+  adds?: IAnnoFeature[];
 }
 
 /**
@@ -28,7 +30,7 @@ export interface IAddAnnotationsRequestOptions
  * import { addAnnotations } from "@esri/hub-annotations";
  * addAnnotations({
  *   url: annotationsUrl + "/0",
- *   adds: [{
+ *   features: [{
  *     attributes: {
  *       target: "http://...", // required, explains what is being commented on
  *       description: "A grand idea!" // also required. this is the actual comment
@@ -44,18 +46,25 @@ export interface IAddAnnotationsRequestOptions
 export function addAnnotations(
   requestOptions: IAddAnnotationsRequestOptions
 ): Promise<IAddFeaturesResult> {
-  requestOptions.adds.forEach(function(anno) {
-    const defaults = {
-      status: "pending",
-      source: "hub.js"
-    };
+  requestOptions.features.forEach(anno => enrichAnnotation(anno));
 
-    // mixin, giving precedence to what was passed to the method
-    anno.attributes = {
-      ...defaults,
-      ...anno.attributes
-    };
-  });
+  // in v2 of rest-js 'adds' will be deprecated in favor of 'features'
+  if (requestOptions.adds && requestOptions.adds.length) {
+    requestOptions.adds.forEach(anno => enrichAnnotation(anno));
+  }
 
   return addFeatures(requestOptions);
+}
+
+function enrichAnnotation(annotation: IAnnoFeature) {
+  const defaults = {
+    status: "pending",
+    source: "hub.js"
+  };
+
+  // mixin, giving precedence to what was passed to the method
+  annotation.attributes = {
+    ...defaults,
+    ...annotation.attributes
+  };
 }
