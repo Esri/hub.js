@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.5.1] - November 21st 2018
+
+### @esri/hub-annotations
+
+* Fixes
+  * added support for a new `features` constructor option on addAnnotations() to keep in sync with rest-js.
+
+### Other Changes
+
+* Fixes
+  * fixed malformed SemVer version ranges in multiple packages.
+  
 ## [1.5.0] - November 21st 2018
 
 ### @esri/hub-events
@@ -138,5 +150,6 @@ Initial Release
 [1.2.0]: https://github.com/Esri/hub.js/compare/v1.1.1...v1.2.0 "v1.2.0"
 [1.3.0]: https://github.com/Esri/hub.js/compare/v1.2.0...v1.3.0 "v1.3.0"
 [1.4.0]: https://github.com/Esri/hub.js/compare/v1.3.0...v1.4.0 "v1.4.0"
-[1.5.0]: https://github.com/Esri/hub.js/compare/v1.4.0...1.5.0 "1.5.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/1.5.0...HEAD "Unreleased Changes"
+[1.5.0]: https://github.com/Esri/hub.js/compare/v1.4.0...v1.5.0 "v1.5.0"
+[1.5.1]: https://github.com/Esri/hub.js/compare/v1.5.0...1.5.1 "1.5.1"
+[HEAD]: https://github.com/Esri/hub.js/compare/1.5.1...HEAD "Unreleased Changes"

@@ -46,8 +46,10 @@ export interface IAddAnnotationsRequestOptions
 export function addAnnotations(
   requestOptions: IAddAnnotationsRequestOptions
 ): Promise<IAddFeaturesResult> {
-  requestOptions.features.forEach(anno => enrichAnnotation(anno));
-
+  if (requestOptions.features && requestOptions.features.length) {
+    requestOptions.features.forEach(anno => enrichAnnotation(anno));
+  }
+  
   // in v2 of rest-js 'adds' will be deprecated in favor of 'features'
   if (requestOptions.adds && requestOptions.adds.length) {
     requestOptions.adds.forEach(anno => enrichAnnotation(anno));
