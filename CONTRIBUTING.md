@@ -39,3 +39,23 @@ You can run _all_ the tests with `npm test`.
 We use TypeDoc and acetate to turn the inline documentation into a snazzy website.
 
 * `npm run docs:serve` > http://localhost:3000
+
+### Publishing a release
+
+The command below bumps the version in each individual package.json file and parses all `npm run c` invoked commit messages since the last release to update the changelog.
+
+```bash
+npm run release:prepare
+```
+
+You can display a diff to give you a sense of what will be committed to master when you actually publish.
+
+```bash
+npm run release:review
+```
+
+The last command increments the version in the root package.json, pushes the new tag to GitHub and publishes a release of each individual package on npm.
+
+```bash
+npm run release:publish
+```
