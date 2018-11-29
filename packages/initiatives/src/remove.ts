@@ -74,6 +74,7 @@ export function removeInitiative(
       const portal = results[1];
       state.hasSite = !!model.item.properties.siteId;
       state.siteId = model.item.properties.siteId;
+      state.initiativeOwner = model.item.owner;
       state.collaborationGroupId = getProp(
         portal,
         "properties.openData.settings.groupId"
@@ -106,6 +107,7 @@ export function removeInitiative(
       const prms = [];
       const opts = {
         id,
+        owner: state.initiativeOwner,
         ...requestOptions
       } as IItemIdRequestOptions;
       prms.push(removeItem(opts));
