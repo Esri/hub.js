@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+* Changes
+  * Use the owner's item url when deleting an initiative item
+
 ## [1.5.1] - November 21st 2018
 
 ### @esri/hub-annotations
