@@ -34,6 +34,12 @@ You can run _all_ the tests with `npm test`.
 * `npm run test:chrome:debug` runs the Karma tests in Chrome and watches for changes. In the opened Chrome window you can click "Debug" and refresh the page to enter the debugger for tests. Note that you will be debugging the compiled JS files until https://github.com/monounity/karma-typescript/issues/144 is resolved.
 * `npm run test:node:debug` run the node tests, automatically opening the Chrome debugger. This is great for debugging the tests while you are working. **REQUIRES CHROME 60+*. This also means you can do you really stupid things like run this in an infinite loop with `while :; do npm run test:node:debug; sleep 1; done` which will reopen the chrome debugger once the current one closes.
 
+### Formatting commit messsages
+
+Using [`npm run c`](https://github.com/Esri/hub.js/blob/4aeb8f23c3c91beaf44c05ac32278e5a22b5a69e/package.json#L112) (instead of `git commit`) creates commit messages that our handy [script](https://github.com/Esri/arcgis-rest-js/blob/master/support/changelog.js) can parse to categorize your bug fix, new feature or breaking change and associate it with relevant packages to update our [CHANGELOG](CHANGELOG.md) automatically the next time we :rocket: a release.
+
+This isn't mandatory, but it is pretty cool. :sparkles:
+
 ### Building the documentation site locally.
 
 We use TypeDoc and acetate to turn the inline documentation into a snazzy website.
