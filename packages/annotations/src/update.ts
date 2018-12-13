@@ -10,6 +10,7 @@ import {
 /**
  * ```js
  * import { updateAnnotations } from "@esri/hub-annotations";
+ * //
  * updateAnnotations({
  *   url: annotationsUrl + "/0",
  *   features: [{
@@ -24,7 +25,7 @@ import {
  * ```
  * Update an annotation in ArcGIS Hub.
  * @param requestOptions - request options that may include authentication
- * @returns A Promise that will resolve with response from the service after attempting to update one or more annotations.
+ * @returns A Promise that will resolve with the response from the service after attempting to update one or more annotations.
  */
 
 export function updateAnnotations(

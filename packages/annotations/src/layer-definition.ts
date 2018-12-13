@@ -202,6 +202,15 @@ export const annotationServiceDefinition: ILayerDefinition = {
       editable: true,
       domain: null,
       defaultValue: null
+    },
+    {
+      name: "value",
+      type: "esriFieldTypeInteger",
+      alias: "value",
+      nullable: true,
+      editable: true,
+      domain: null,
+      defaultValue: null
     }
   ],
   geometryType: "esriGeometryPolygon",

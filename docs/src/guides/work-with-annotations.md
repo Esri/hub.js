@@ -6,13 +6,13 @@ order: 40
 group: 1-get-started
 ---
 
-Annotations are geographic comments created by an Author for discussion of an Initiative, about an Events, or feedback of a Dataset. This feedback can also be submitted anonymously.
+Annotations are geographic comments created by an Author to discuss an Initiative or Event or give feedback on a Dataset. Feedback can be submitted by both known and anonymous users.
 
 Under the hood, the information is stored in an ArcGIS hosted feature service.
 
 ## Identify an existing annotation service.
 
-If an organization has already purchased ArcGIS Hub, then it's annotation service can be sniffed out using the technique below.
+If an organization has already purchased ArcGIS Hub, then the url of it's annotation service can be identified using the technique below.
 
 ```js
 import { getPortal } from "@esri/arcgis-rest-request";
@@ -23,12 +23,12 @@ getPortal("http://custom.maps.arcgis.com")
   .then(response => {
     const orgId = response.id;
     getAnnotationServiceUrl(orgId)
-      .then(response => ) // "https://services.arcgis.com/..."
+      .then(response) // "https://services.arcgis.com/..."
 ```
 
 ## Create a brand new annotation service.
 
-@esri/hub.js can be used to _create_ an ArcGIS Hub compatible annotation service in an organization too.
+@esri/hub.js can also be used to _create_ an ArcGIS Hub compatible annotation service in an ArcGIS Online Organization.
 
 ```js
 import { UserSession } from "@esri/arcgis-rest-auth";
@@ -44,7 +44,7 @@ createAnnotationService({
   orgId,
   authentication
 })
-  .then(response => // { success: true, itemId: "fe3" } );
+  .then(response) // { success: true, itemId: "fe3" }
 ```
 
 ## Submit anonymous comments
@@ -56,7 +56,7 @@ import { addAnnotations } from "@esri/hub-annotations";
 
 addAnnotations({
   url: annotationsUrl + "/0",
-  adds: [{
+  features: [{
     attributes: {
       target: "http://...", // the target of the comment
       description: "A grand idea!", // the actual comment
