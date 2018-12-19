@@ -1,16 +1,25 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+import {
+  ArcGISRequestError,
+  ArcGISAuthError,
+  IRequestOptions
+} from "@esri/arcgis-rest-request";
+
 import {
   addFeatures,
+  deleteFeatures,
+  queryFeatures,
   IAddFeaturesRequestOptions,
-  IAddFeaturesResult
+  IDeleteFeaturesRequestOptions,
+  IAddFeaturesResult,
+  IDeleteFeaturesResult,
+  IQueryFeaturesResponse
 } from "@esri/arcgis-rest-feature-service";
 
 import { IAnnoFeature } from "./add";
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { searchAnnotations } from "./search";
 
 export interface IVoteRequestOptions extends IRequestOptions {
   url: string;
@@ -19,6 +28,7 @@ export interface IVoteRequestOptions extends IRequestOptions {
    * Set to 'true' in order to vote another annotation down.
    */
   downVote?: boolean;
+  authentication: UserSession;
 }
 
 /**
@@ -38,32 +48,65 @@ export interface IVoteRequestOptions extends IRequestOptions {
  */
 export function voteOnAnnotation(
   requestOptions: IVoteRequestOptions
-): Promise<IAddFeaturesResult> {
+): Promise<IAddFeaturesResult | IDeleteFeaturesResult> {
   const annotation = requestOptions.annotation;
   const auth = requestOptions.authentication as UserSession;
   const url = requestOptions.url;
 
   if (!auth) {
-    throw Error(`Voting by anonymous users is not supported.`);
+    return new Promise((resolve, reject) => {
+      reject(
+        new ArcGISAuthError(`Voting by anonymous users is not supported.`)
+      );
+    });
   }
 
   if (annotation.attributes.author === auth.username) {
-    throw Error(`Users may not vote on their own comment/idea.`);
+    return new Promise((resolve, reject) => {
+      reject(
+        new ArcGISRequestError(`Users may not vote on their own comment/idea.`)
+      );
+    });
   }
 
-  return searchAnnotations({
+  // searchAnnotations() would make more xhrs for user metadata
+  return queryFeatures({
     url,
-    where: `parent_id = '${annotation.attributes.OBJECTID}' AND author = '${
+    where: `parent_id = ${annotation.attributes.OBJECTID} AND author = '${
       auth.username
     }'`
-  }).then(searchResponse => {
-    // dont let folks vote on an idea more than once
-    if (searchResponse.data.length > 0) {
-      throw Error(`Users may only vote on a comment/idea once.`);
-      // to do: allow a vote update
+  }).then((
+    queryResponse: any /* why can't i declare it as IQueryFeaturesResponse ? */
+  ) => {
+    if (queryResponse.features.length > 0) {
+      // if its a switch vote, call deleteFeatures() to remove the original
+      if (
+        (!requestOptions.downVote &&
+          queryResponse.features[0].attributes.value === -1) ||
+        (requestOptions.downVote &&
+          queryResponse.features[0].attributes.value === 1)
+      ) {
+        const deleteOptions: IDeleteFeaturesRequestOptions = {
+          url,
+          authentication: requestOptions.authentication,
+          objectIds: [queryResponse.features[0].attributes.OBJECTID]
+        };
+        return (
+          deleteFeatures(deleteOptions)
+            // i have NO idea why the union return type is being ignored
+            .then(() => {
+              return { addResults: [{ success: true }] } as IAddFeaturesResult;
+            })
+        );
+      } else {
+        throw new ArcGISRequestError(
+          `Users may only vote on a comment/idea once.`
+        );
+      }
     }
-    const options: IAddFeaturesRequestOptions = {
+    const addOptions: IAddFeaturesRequestOptions = {
       url,
+      authentication: requestOptions.authentication,
       features: [
         {
           attributes: {
@@ -75,9 +118,8 @@ export function voteOnAnnotation(
             source: annotation.attributes.source
           }
         }
-      ],
-      authentication: requestOptions.authentication
+      ]
     };
-    return addFeatures(options);
+    return addFeatures(addOptions);
   });
 }

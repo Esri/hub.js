@@ -90,6 +90,33 @@ export const annoQueryResponse = {
   ]
 };
 
+// search is specifically for previous votes on an annotation by the same user, so only one feature returned
+export const annoQueryVoteResponse = {
+  objectIdFieldName: "OBJECTID",
+  globalIdFieldName: "",
+  geometryType: "esriGeometryPolygon",
+  spatialReference: {
+    wkid: 4326,
+    latestWkid: 4326
+  },
+  features: [
+    {
+      attributes: {
+        OBJECTID: 2,
+        author: "casey",
+        source: "hub.js",
+        status: "approved",
+        target: "something",
+        description: null as string,
+        created_at: 1349395200001,
+        updated_at: 1349395200001,
+        dataset_id: "xds466",
+        value: -1
+      }
+    }
+  ]
+};
+
 export const userResponseCasey = {
   username: "casey",
   fullName: "Casey Shaft",

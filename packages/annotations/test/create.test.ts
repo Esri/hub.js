@@ -124,6 +124,7 @@ describe("createAnnotationService", () => {
 
     createAnnotationService(options).then(() => {
       expect(searchParamsSpy.calls.count()).toEqual(1);
+      expect(portalParamsSpy.calls.count()).toEqual(1);
       expect(createParamsSpy.calls.count()).toEqual(1);
       expect(shareParamsSpy.calls.count()).toEqual(1);
       expect(updateParamsSpy.calls.count()).toEqual(1);
