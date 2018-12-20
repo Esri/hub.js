@@ -22,7 +22,7 @@ export interface IResourceObject {
 /**
  * ```js
  * import { searchAnnotations } from "@esri/hub-annotations";
- *
+ * //
  * searchAnnotations({ url: annotationsUrl + "/0" })
  *   .then(response => {
  *     // {

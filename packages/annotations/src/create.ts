@@ -26,6 +26,7 @@ export interface ICreateAnnoRequestOptions extends IUserRequestOptions {
 /**
  * ```js
  * import { createAnnotationService } from "@esri/hub-annotations";
+ * //
  * createAnnotationService({
  *   orgId: "yb9",
  *   authentication
@@ -35,7 +36,7 @@ export interface ICreateAnnoRequestOptions extends IUserRequestOptions {
  *
  * Create a new hosted annotation feature service for an organization if ArcGIS Hub hasn't already been enabled.
  * @param requestOptions - request options that include authentication
- * @returns A Promise that will resolve with response from the service after attempting to create a new hosted annotation service.
+ * @returns A Promise that will resolve with the response from the service after attempting to create a new hosted annotation service.
  */
 export function createAnnotationService(
   requestOptions: ICreateAnnoRequestOptions
@@ -144,7 +145,7 @@ export function createAnnotationService(
         });
         /*
           firing off all the requests at once would be preferable, but in my own testing,
-          the sharing in particular wasn't updated consistently
+          the sharing wasn't updated consistently
 
           return Promise.all([ ... ])
         */
