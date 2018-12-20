@@ -25,7 +25,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Fixes
   * fixed malformed SemVer version ranges in multiple packages.
-  
+
 ## [1.5.0] - November 21st 2018
 
 ### @esri/hub-events
@@ -159,5 +159,5 @@ Initial Release
 [1.4.0]: https://github.com/Esri/hub.js/compare/v1.3.0...v1.4.0 "v1.4.0"
 [1.5.0]: https://github.com/Esri/hub.js/compare/v1.4.0...v1.5.0 "v1.5.0"
 [1.5.1]: https://github.com/Esri/hub.js/compare/v1.5.0...v1.5.1 "v1.5.1"
-[1.5.2]: https://github.com/Esri/hub.js/compare/v1.5.0...v1.5.2 "v1.5.2"
-[HEAD]: https://github.com/Esri/hub.js/compare/1.5.1...HEAD "Unreleased Changes"
+[1.5.2]: https://github.com/Esri/hub.js/compare/v1.5.1...v1.5.2 "v1.5.2"
+[HEAD]: https://github.com/Esri/hub.js/compare/v1.5.2...HEAD "Unreleased Changes"
