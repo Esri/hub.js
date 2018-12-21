@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.5.3] - December 20th 2018
+
+### @esri/hub-annotations
+
+* Changes
+  * Added `voteOnAnnotation()` to enable 👍 and 👎 on other user comments.
+
+### Other Changes
+
+* Fixes
+  * misc doc improvements for developers and contributors.
+
 ## [1.5.2] - November 29th 2018
 
 ### @esri/hub-initiatives
@@ -160,4 +172,5 @@ Initial Release
 [1.5.0]: https://github.com/Esri/hub.js/compare/v1.4.0...v1.5.0 "v1.5.0"
 [1.5.1]: https://github.com/Esri/hub.js/compare/v1.5.0...v1.5.1 "v1.5.1"
 [1.5.2]: https://github.com/Esri/hub.js/compare/v1.5.1...v1.5.2 "v1.5.2"
-[HEAD]: https://github.com/Esri/hub.js/compare/v1.5.2...HEAD "Unreleased Changes"
+[1.5.3]: https://github.com/Esri/hub.js/compare/v1.5.2...1.5.3 "1.5.3"
+[HEAD]: https://github.com/Esri/hub.js/compare/v1.5.3...HEAD "Unreleased Changes"

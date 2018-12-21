@@ -32,7 +32,7 @@ You don't _have to_ but we recommend installing TypeScript, TSLint, Prettier and
 You can run _all_ the tests with `npm test`.
 
 * `npm run test:chrome:debug` runs the Karma tests in Chrome and watches for changes. In the opened Chrome window you can click "Debug" and refresh the page to enter the debugger for tests. Note that you will be debugging the compiled JS files until https://github.com/monounity/karma-typescript/issues/144 is resolved.
-* `npm run test:node:debug` run the node tests, automatically opening the Chrome debugger. This is great for debugging the tests while you are working. **REQUIRES CHROME 60+*. This also means you can do you really stupid things like run this in an infinite loop with `while :; do npm run test:node:debug; sleep 1; done` which will reopen the chrome debugger once the current one closes.
+* `npm run test:node:debug` run the node tests, automatically opening the Chrome debugger. This is great for debugging the tests while you are working. **REQUIRES CHROME 60+**. This also means you can do you really stupid things like run this in an infinite loop with `while :; do npm run test:node:debug; sleep 1; done` which will reopen the chrome debugger once the current one closes.
 
 ### Formatting commit messsages
 
