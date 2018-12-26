@@ -7,6 +7,16 @@ import { IQueryFeaturesRequestOptions } from "@esri/arcgis-rest-feature-service"
 import { UserSession } from "@esri/arcgis-rest-auth";
 
 /**
+ * ```js
+ * import { request } from "@esri/arcgis-rest-request";
+ * import { getEventServiceUrl } from "@esri/hub-events";
+ * // org ids can be retrieved via a call to portals/self
+ * request("http://custom.maps.arcgis.com/sharing/rest/portals/self")
+ *   then(response => {
+ *     getEventServiceUrl(response.id)
+ *       .then(url)
+ *   })
+ * ```
  * Fetch the events service associated with a Hub Site.
  * @param orgId - Identifier of the ArcGIS Online Organization
  * @param requestOptions - request options that may include authentication

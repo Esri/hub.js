@@ -15,6 +15,16 @@ export interface IAnnoItem extends IItem {
 }
 
 /**
+ * ```js
+ * import { request } from "@esri/arcgis-rest-request";
+ * import { getAnnotationServiceUrl } from "@esri/hub-events";
+ * // org ids can be retrieved via a call to portals/self
+ * request("http://custom.maps.arcgis.com/sharing/rest/portals/self")
+ *   then(response => {
+ *     getAnnotationServiceUrl(response.id)
+ *       .then(url)
+ *   })
+ * ```
  * Fetch the annotations associated with a Hub Site.
  * @param orgId - Identifier of the ArcGIS Online Organization
  * @param requestOptions - request options that may include authentication

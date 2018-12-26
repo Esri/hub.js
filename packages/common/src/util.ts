@@ -2,6 +2,13 @@
  * Apache-2.0 */
 
 /**
+ * ```js
+ * import { cloneObject } from "@esri/hub-common";
+ * const original = { foo: "bar" }
+ * const copy = cloneObject(original)
+ * copy.foo // "bar"
+ * copy === original // false
+ * ```
  * Make a deep clone, including arrays. Does not handle functions!
  */
 export function cloneObject(obj: { [index: string]: any }) {
