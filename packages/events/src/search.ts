@@ -22,7 +22,6 @@ export interface IEventResourceObject {
 /**
  * ```js
  * import { getEventQueryFromType, searchEvents } from "@esri/hub-events";
- *
  * // event types are "upcoming" | "past" | "cancelled" | "draft"
  * const searchOptions: IQueryFeaturesRequestOptions = getEventQueryFromType("upcoming", {
  *   url: eventsUrl,
