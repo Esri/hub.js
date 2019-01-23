@@ -11,6 +11,7 @@ import {
 
 import { getUser } from "@esri/arcgis-rest-users";
 import { IGeometry, IFeature } from "@esri/arcgis-rest-common-types";
+import { IAnnoFeature } from "./add";
 
 export interface IResourceObject {
   id: string;
@@ -112,170 +113,79 @@ export function searchAnnotations(
 }
 
 export interface IVoteResourceObject {
-  parent_id: string;
-  value_sum?: number;
-  parent_id_up?: number;
-  parent_id_down?: number;
-}
-
-/**
- * ```js
- * import { searchNetVotes } from "@esri/hub-annotations";
- * //
- * searchNetVotes({ url: annotationsUrl + "/0",
- *                  where=dataset_id="initiative123"})
- *   .then(response => {
- *     //   [{
- *     //     parent_id: "comment1",
- *     //     value_sum: 3
- *     //   }]
- *     // }
- *   });
- * ```
- * Query for net votes per comment from ArcGIS Hub.
- * @param requestOptions - request options that may include authentication
- * @returns A Promise that will resolve with summary statistics from the annotation service for a Hub enabled ArcGIS Online organization.
- */
-export function searchNetVotes(
-  requestOptions: IQueryFeaturesRequestOptions
-): Promise<{ data: IVoteResourceObject[] }> {
-  requestOptions.groupByFieldsForStatistics = "parent_id";
-  const outStat: IStatisticDefinition = {
-    statisticType: "sum",
-    onStatisticField: "value",
-    outStatisticFieldName: "value_sum"
+  id: string;
+  type: "votes";
+  attributes: {
+    upVotes: number;
+    downVotes: number;
   };
-  requestOptions.outStatistics = [outStat];
-  // excluding the original comment
-  const commentExclusionClause = "value!=0";
-  requestOptions.where += requestOptions.where ? "+AND+" : "";
-  requestOptions.where += commentExclusionClause;
-
-  return queryFeatures(requestOptions).then(response => {
-    const data: IVoteResourceObject[] = [];
-
-    // use .reduce()?
-    (response as IQueryFeaturesResponse).features.forEach(
-      (statistic: IFeature) => {
-        const attributes = statistic.attributes;
-
-        const resource: IVoteResourceObject = {
-          parent_id: attributes.parent_id,
-          value_sum: attributes.value_sum
-        };
-
-        data.push(resource);
-      }
-    );
-
-    return { data };
-  });
 }
 
 /**
  * ```js
- * import { searchUpVotes } from "@esri/hub-annotations";
+ * import { searchAnnotationVotes } from "@esri/hub-annotations";
  * //
- * searchUpVotes({ url: annotationsUrl + "/0",
- *                  where=dataset_id="initiative123"})
+ * searchAnnotationVotes({ url: annotationsUrl + "/0",
+ *                         annotation: {
+ *                            id: "Annotation1",
+ *                            type: "annotations",
+ *                            attributes: {description: "Great place!", ...}
+ *                          }})
  *   .then(response => {
- *     //   [{
- *     //     parent_id: "comment1",
- *     //     parent_id_up: 6
+ *     //   data: [{
+ *     //     id,
+ *     //     type: "votes",
+ *     //     attributes: {
+ *     //       upVotes: 3,
+ *     //       downVotes: 0
+ *     //     }
  *     //   }]
- *     // }
- *   });
+ *    });
  * ```
- * Query for net votes per comment from ArcGIS Hub.
+ * Query for up and down votes on a comment from ArcGIS Hub.
  * @param requestOptions - request options that may include authentication
+ * @param annotation - the annotation for which votes need to be counted
  * @returns A Promise that will resolve with summary statistics from the annotation service for a Hub enabled ArcGIS Online organization.
  */
-export function searchUpVotes(
-  requestOptions: IQueryFeaturesRequestOptions
+export function searchAnnotationVotes(
+  requestOptions: IQueryFeaturesRequestOptions,
+  annotation: IAnnoFeature
 ): Promise<{ data: IVoteResourceObject[] }> {
-  requestOptions.groupByFieldsForStatistics = "parent_id";
+  requestOptions.groupByFieldsForStatistics = "value";
   const outStat: IStatisticDefinition = {
     statisticType: "count",
     onStatisticField: "value",
-    outStatisticFieldName: "parent_id_up"
+    outStatisticFieldName: "value_count"
   };
   requestOptions.outStatistics = [outStat];
-  // counting only the up votes
-  const upVotesClause = "value>0";
+  // filtering for the comment
+  const commentFilteringClause = "parent_id=" + annotation.attributes.id;
   requestOptions.where += requestOptions.where ? "+AND+" : "";
-  requestOptions.where += upVotesClause;
+  requestOptions.where += commentFilteringClause;
 
   return queryFeatures(requestOptions).then(response => {
     const data: IVoteResourceObject[] = [];
+    const resource: IVoteResourceObject = {
+      id: annotation.attributes.id,
+      type: "votes",
+      attributes: {
+        upVotes: 0,
+        downVotes: 0
+      }
+    };
 
     // use .reduce()?
     (response as IQueryFeaturesResponse).features.forEach(
       (statistic: IFeature) => {
         const attributes = statistic.attributes;
-
-        const resource: IVoteResourceObject = {
-          parent_id: attributes.parent_id,
-          parent_id_up: attributes.parent_id_up
-        };
-
-        data.push(resource);
+        if (statistic.attributes.value > 0) {
+          resource.attributes.upVotes += statistic.attributes.value_count;
+        } else if (statistic.attributes.value < 0) {
+          resource.attributes.upVotes += statistic.attributes.value_count;
+        }
       }
     );
-
-    return { data };
-  });
-}
-
-/**
- * ```js
- * import { searchDownVotes } from "@esri/hub-annotations";
- * //
- * searchDownVotes({ url: annotationsUrl + "/0",
- *                  where=dataset_id="initiative123"})
- *   .then(response => {
- *     //   [{
- *     //     parent_id: "comment1",
- *     //     parent_id_down: 3
- *     //   }]
- *     // }
- *   });
- * ```
- * Query for net votes per comment from ArcGIS Hub.
- * @param requestOptions - request options that may include authentication
- * @returns A Promise that will resolve with summary statistics from the annotation service for a Hub enabled ArcGIS Online organization.
- */
-export function searchDownVotes(
-  requestOptions: IQueryFeaturesRequestOptions
-): Promise<{ data: IVoteResourceObject[] }> {
-  requestOptions.groupByFieldsForStatistics = "parent_id";
-  const outStat: IStatisticDefinition = {
-    statisticType: "count",
-    onStatisticField: "value",
-    outStatisticFieldName: "parent_id_down"
-  };
-  requestOptions.outStatistics = [outStat];
-  // counting only the down votes
-  const downVotesClause = "value<0";
-  requestOptions.where += requestOptions.where ? "+AND+" : "";
-  requestOptions.where += downVotesClause;
-
-  return queryFeatures(requestOptions).then(response => {
-    const data: IVoteResourceObject[] = [];
-
-    // use .reduce()?
-    (response as IQueryFeaturesResponse).features.forEach(
-      (statistic: IFeature) => {
-        const attributes = statistic.attributes;
-
-        const resource: IVoteResourceObject = {
-          parent_id: attributes.parent_id,
-          parent_id_down: attributes.parent_id_down
-        };
-
-        data.push(resource);
-      }
-    );
-
+    data.push(resource);
     return { data };
   });
 }
