@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IResourceObject } from "../../src/search";
+import { IVoteResourceObject, IResourceObject } from "../../src/search";
 import { IGeometry, IFeature } from "@esri/arcgis-rest-common-types";
 
 export const annoQueryResponseEmpty = {
@@ -255,4 +255,132 @@ export const annoResponse = {
       attributes: userResponseJones
     }
   ] as IResourceObject[]
+};
+
+export const annoVoteQueryResponseEmpty = {
+  objectIdFieldName: "OBJECTID",
+  uniqueIdField: {
+    name: "OBJECTID",
+    isSystemMaintained: true
+  },
+  globalIdFieldName: "",
+  geometryType: "esriGeometryPolygon",
+  spatialReference: {
+    wkid: 4269,
+    latestWkid: 4269
+  },
+  fields: [
+    {
+      name: "value",
+      type: "esriFieldTypeDouble",
+      alias: "value",
+      sqlType: "sqlTypeFloat",
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "value_count",
+      type: "esriFieldTypeInteger",
+      alias: "value_count",
+      sqlType: "sqlTypeInteger",
+      domain: null,
+      defaultValue: null
+    }
+  ],
+  features: []
+};
+
+export const annoVoteQueryResponse = {
+  objectIdFieldName: "OBJECTID",
+  uniqueIdField: {
+    name: "OBJECTID",
+    isSystemMaintained: true
+  },
+  globalIdFieldName: "",
+  geometryType: "esriGeometryPolygon",
+  spatialReference: {
+    wkid: 4269,
+    latestWkid: 4269
+  },
+  fields: [
+    {
+      name: "value",
+      type: "esriFieldTypeDouble",
+      alias: "value",
+      sqlType: "sqlTypeFloat",
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "value_count",
+      type: "esriFieldTypeInteger",
+      alias: "value_count",
+      sqlType: "sqlTypeInteger",
+      domain: null,
+      defaultValue: null
+    }
+  ],
+  features: [
+    {
+      attributes: {
+        value: 1,
+        value_count: 6
+      }
+    },
+    {
+      attributes: {
+        value: -1,
+        value_count: 3
+      }
+    },
+    {
+      attributes: {
+        value: 0,
+        value_count: 1
+      }
+    }
+  ]
+};
+
+export const annoFeature = {
+  id: "jones",
+  type: "annotations",
+  attributes: {
+    OBJECTID: 1,
+    author: "jones",
+    source: null as string,
+    status: "pending",
+    target: "something",
+    description: "this is where the comments go",
+    created_at: 1349395200000,
+    updated_at: 1349395200000,
+    dataset_id: "sgj432"
+  },
+  geometry: {
+    rings: [
+      [
+        [-12694713.8080383, 5934781.92803049],
+        [-12691159.4862231, 5936119.57602548],
+        [-12691159.4862231, 5932527.03569609],
+        [-12694713.8080383, 5934781.92803049]
+      ]
+    ]
+  } as IGeometry
+};
+
+export const annoVoteResponseEmpty = {
+  data: [] as IVoteResourceObject[]
+};
+
+export const annoVoteResponse = {
+  data: [
+    {
+      id: "comment1",
+      type: "votes",
+      attributes: {
+        upVotes: 6,
+        downVotes: 3
+      }
+    }
+  ] as IVoteResourceObject[]
 };
