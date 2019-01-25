@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { IVoteResourceObject, IResourceObject } from "../../src/search";
-import { IGeometry, IFeature } from "@esri/arcgis-rest-common-types";
+import { IGeometry, IFeature, IField } from "@esri/arcgis-rest-common-types";
 
 export const annoQueryResponseEmpty = {
   objectIdFieldName: "OBJECTID",
@@ -274,7 +274,6 @@ export const annoVoteQueryResponseEmpty = {
       name: "value",
       type: "esriFieldTypeDouble",
       alias: "value",
-      sqlType: "sqlTypeFloat",
       domain: null,
       defaultValue: null
     },
@@ -282,12 +281,11 @@ export const annoVoteQueryResponseEmpty = {
       name: "value_count",
       type: "esriFieldTypeInteger",
       alias: "value_count",
-      sqlType: "sqlTypeInteger",
       domain: null,
       defaultValue: null
     }
-  ],
-  features: []
+  ] as IField[],
+  features: [] as IFeature[]
 };
 
 export const annoVoteQueryResponse = {
@@ -307,7 +305,6 @@ export const annoVoteQueryResponse = {
       name: "value",
       type: "esriFieldTypeDouble",
       alias: "value",
-      sqlType: "sqlTypeFloat",
       domain: null,
       defaultValue: null
     },
@@ -315,11 +312,10 @@ export const annoVoteQueryResponse = {
       name: "value_count",
       type: "esriFieldTypeInteger",
       alias: "value_count",
-      sqlType: "sqlTypeInteger",
       domain: null,
       defaultValue: null
     }
-  ],
+  ] as IField[],
   features: [
     {
       attributes: {
@@ -339,7 +335,7 @@ export const annoVoteQueryResponse = {
         value_count: 1
       }
     }
-  ]
+  ] as IFeature[]
 };
 
 export const annoFeature = {
