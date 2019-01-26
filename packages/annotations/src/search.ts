@@ -125,12 +125,12 @@ export interface IVoteResourceObject {
  * ```js
  * import { searchAnnotationVotes } from "@esri/hub-annotations";
  * //
- * searchAnnotationVotes({ url: annotationsUrl + "/0",
+ * searchAnnotationVotes({ url: annotationsUrl + "/0"},
  *                         annotation: {
  *                            id: "Annotation1",
  *                            type: "annotations",
  *                            attributes: {description: "Great place!", ...}
- *                          }})
+ *                          })
  *   .then(response => {
  *     //   data: [{
  *     //     id,
@@ -177,15 +177,94 @@ export function searchAnnotationVotes(
     // use .reduce()?
     (response as IQueryFeaturesResponse).features.forEach(
       (statistic: IFeature) => {
-        const attributes = statistic.attributes;
         if (statistic.attributes.value > 0) {
           resource.attributes.upVotes += statistic.attributes.value_count;
         } else if (statistic.attributes.value < 0) {
-          resource.attributes.upVotes += statistic.attributes.value_count;
+          resource.attributes.downVotes += statistic.attributes.value_count;
         }
       }
     );
     data.push(resource);
     return { data };
+  });
+}
+
+/**
+ * ```js
+ * import { searchAnnotationVotes } from "@esri/hub-annotations";
+ * //
+ * searchAnnotationVotes({ url: annotationsUrl + "/0"})
+ *   .then(response => {
+ *     //   data: [{
+ *     //     id,
+ *     //     type: "votes",
+ *     //     attributes: {
+ *     //       upVotes: 3,
+ *     //       downVotes: 0
+ *     //     }
+ *     //   }]
+ *    });
+ * ```
+ * Query for up and down votes on a comment from ArcGIS Hub.
+ * @param requestOptions - request options that may include authentication
+ * @returns A Promise that will resolve with summary statistics from the annotation service for a Hub enabled ArcGIS Online organization.
+ */
+export function searchAllAnnotationVotes(
+  requestOptions: IQueryFeaturesRequestOptions
+): Promise<{ data: IVoteResourceObject[] }> {
+  requestOptions.groupByFieldsForStatistics = "parent_id";
+  const votesStat: IStatisticDefinition = {
+    statisticType: "count",
+    onStatisticField: "value",
+    outStatisticFieldName: "count"
+  };
+  requestOptions.outStatistics = [votesStat];
+  // filtering for the comment
+  const upVoteClause = "value>0";
+  requestOptions.where += requestOptions.where ? "+AND+" : "";
+  requestOptions.where += upVoteClause;
+
+  return queryFeatures(requestOptions).then(upVotesResponse => {
+    const data: IVoteResourceObject[] = [];
+    // use .reduce()?
+    (upVotesResponse as IQueryFeaturesResponse).features.forEach(
+      (statistic: IFeature) => {
+        const resource: IVoteResourceObject = {
+          id: statistic.attributes.parent_id,
+          type: "votes",
+          attributes: {
+            upVotes: statistic.attributes.upVote,
+            downVotes: 0
+          }
+        };
+        data.push(resource);
+      }
+    );
+    requestOptions.where.replace("value>0", "value<0");
+    return queryFeatures(requestOptions).then(downVotesResponse => {
+      // use .reduce()?
+      (downVotesResponse as IQueryFeaturesResponse).features.forEach(
+        (statistic: IFeature) => {
+          const existingResource = data.find(
+            voteR => voteR.id === statistic.attributes.parent_id
+          );
+          if (existingResource) {
+            existingResource.attributes.downVotes =
+              statistic.attributes.downVote;
+          } else {
+            const resource: IVoteResourceObject = {
+              id: statistic.attributes.parent_id,
+              type: "votes",
+              attributes: {
+                upVotes: 0,
+                downVotes: statistic.attributes.downVotes
+              }
+            };
+            data.push(resource);
+          }
+        }
+      );
+      return { data };
+    });
   });
 }
