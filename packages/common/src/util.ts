@@ -34,7 +34,7 @@ export function cloneObject(obj: { [index: string]: any }) {
  * Get a property out of a deeply nested object
  * Does not handle anything but nested object graph
  */
-export function getProp(obj: { [index: string]: any }, path: string) {
+export function getProp(obj: { [index: string]: any }, path: string): any {
   return path.split(".").reduce(function(prev, curr) {
     /* istanbul ignore next no need to test undefined scenario */
     return prev ? prev[curr] : undefined;
@@ -45,7 +45,7 @@ export function getProp(obj: { [index: string]: any }, path: string) {
  * Given an array of objects, convert into an object, with each
  * entry assigned the key via the keyprop
  */
-export function arrayToObject(arr: any[], key: string) {
+export function arrayToObject(arr: any[], key: string): any {
   return arr.reduce((hash, entry) => {
     hash[getProp(entry, key)] = entry;
     return hash;
@@ -113,6 +113,46 @@ export function createId(prefix: string = "i"): string {
   return `${prefix}${Math.random()
     .toString(36)
     .substr(2, 8)}`;
+}
+
+/**
+ * If value is not null, push it into an array, or append as a property of an object
+ * Allows for code like:
+ * ```js
+ * const vals = maybeAdd([], getProp(obj, 'some.deep.path.thatMayBe.undefined'));
+ * ```
+ *
+ * or
+ *
+ * ```js
+ * let summary = {}
+ * ['item.title', 'item.description', 'item.snippet'].forEach((k) => {
+ *   summary = maybeAdd(summary, getProp(model, k));
+ * })
+ * ```
+ * @param objectOrArray
+ * @param val
+ * @param key
+ */
+export function maybeAdd(
+  objectOrArray: any,
+  val: any,
+  key: string = null
+): any {
+  // create a clone because mutation makes us sad...
+  const target = cloneObject(objectOrArray);
+  // see if we got something...
+  if (val !== null && val !== undefined) {
+    // is target an array?
+    if (Array.isArray(target)) {
+      // push it...
+      target.push(val);
+    } else {
+      // attach using the key
+      target[key] = val;
+    }
+  }
+  return target;
 }
 
 /**
