@@ -110,7 +110,7 @@ export function searchAnnotations(
 }
 
 export interface IVoteResourceObject {
-  id: string;
+  id: number;
   type: "votes";
   attributes: {
     upVotes: number;
@@ -156,7 +156,7 @@ export function searchAnnotationVotes(
   };
   requestOptions.outStatistics = [outStat];
   // filtering for the comment
-  const commentFilteringClause = "parent_id=" + annotation.attributes.id;
+  const commentFilteringClause = "parent_id=" + annotation.attributes.OBJECTID;
   requestOptions.where += requestOptions.where ? "+AND+" : "";
   requestOptions.where += commentFilteringClause;
 
@@ -230,7 +230,7 @@ export function searchAllAnnotationVotes(
           id: statistic.attributes.parent_id,
           type: "votes",
           attributes: {
-            upVotes: statistic.attributes.upVote,
+            upVotes: statistic.attributes.count,
             downVotes: 0
           }
         };
@@ -247,15 +247,14 @@ export function searchAllAnnotationVotes(
             voteR => voteR.id === statistic.attributes.parent_id
           );
           if (existingResource) {
-            existingResource.attributes.downVotes =
-              statistic.attributes.downVote;
+            existingResource.attributes.downVotes = statistic.attributes.count;
           } else {
             const resource: IVoteResourceObject = {
               id: statistic.attributes.parent_id,
               type: "votes",
               attributes: {
                 upVotes: 0,
-                downVotes: statistic.attributes.downVotes
+                downVotes: statistic.attributes.count
               }
             };
             data.push(resource);

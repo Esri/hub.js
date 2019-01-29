@@ -339,7 +339,7 @@ export const annoVoteQueryResponse = {
 };
 
 export const annoFeature = {
-  id: "comment1",
+  id: 1,
   type: "annotations",
   attributes: {
     OBJECTID: 1,
@@ -367,7 +367,7 @@ export const annoFeature = {
 export const annoVoteResponseEmpty = {
   data: [
     {
-      id: "comment1",
+      id: 1,
       type: "votes",
       attributes: {
         upVotes: 0,
@@ -380,11 +380,149 @@ export const annoVoteResponseEmpty = {
 export const annoVoteResponse = {
   data: [
     {
-      id: "comment1",
+      id: 1,
       type: "votes",
       attributes: {
         upVotes: 6,
         downVotes: 3
+      }
+    }
+  ] as IVoteResourceObject[]
+};
+
+export const allAnnoVoteQueryResponseEmpty = {
+  objectIdFieldName: "OBJECTID",
+  uniqueIdField: {
+    name: "OBJECTID",
+    isSystemMaintained: true
+  },
+  globalIdFieldName: "",
+  geometryType: "esriGeometryPolygon",
+  spatialReference: {
+    wkid: 4269,
+    latestWkid: 4269
+  },
+  fields: [
+    {
+      name: "parent_id",
+      type: "esriFieldTypeDouble",
+      alias: "parent_id",
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "count",
+      type: "esriFieldTypeInteger",
+      alias: "count",
+      domain: null,
+      defaultValue: null
+    }
+  ] as IField[],
+  features: [] as IFeature[]
+};
+
+export const allAnnoUpVoteQueryResponse = {
+  objectIdFieldName: "OBJECTID",
+  uniqueIdField: {
+    name: "OBJECTID",
+    isSystemMaintained: true
+  },
+  globalIdFieldName: "",
+  geometryType: "esriGeometryPolygon",
+  spatialReference: {
+    wkid: 4269,
+    latestWkid: 4269
+  },
+  fields: [
+    {
+      name: "parent_id",
+      type: "esriFieldTypeDouble",
+      alias: "parent_id",
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "count",
+      type: "esriFieldTypeInteger",
+      alias: "count",
+      domain: null,
+      defaultValue: null
+    }
+  ] as IField[],
+  features: [
+    {
+      attributes: {
+        parent_id: 1,
+        count: 6
+      }
+    }
+  ] as IFeature[]
+};
+
+export const allAnnoDownVoteQueryResponse = {
+  objectIdFieldName: "OBJECTID",
+  uniqueIdField: {
+    name: "OBJECTID",
+    isSystemMaintained: true
+  },
+  globalIdFieldName: "",
+  geometryType: "esriGeometryPolygon",
+  spatialReference: {
+    wkid: 4269,
+    latestWkid: 4269
+  },
+  fields: [
+    {
+      name: "parent_id",
+      type: "esriFieldTypeDouble",
+      alias: "parent_id",
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "count",
+      type: "esriFieldTypeInteger",
+      alias: "count",
+      domain: null,
+      defaultValue: null
+    }
+  ] as IField[],
+  features: [
+    {
+      attributes: {
+        parent_id: 1,
+        count: 3
+      }
+    },
+    {
+      attributes: {
+        parent_id: 2,
+        count: 1
+      }
+    }
+  ] as IFeature[]
+};
+
+export const allAnnoVoteResponseEmpty = {
+  data: [] as IVoteResourceObject[]
+};
+
+export const allAnnoVoteResponse = {
+  data: [
+    {
+      id: 1,
+      type: "votes",
+      attributes: {
+        upVotes: 6,
+        downVotes: 3
+      }
+    },
+    {
+      id: 2,
+      type: "votes",
+      attributes: {
+        upVotes: 0,
+        downVotes: 1
       }
     }
   ] as IVoteResourceObject[]
