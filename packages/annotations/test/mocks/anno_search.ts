@@ -163,7 +163,7 @@ export const userResponseJones = {
 
 const data = [
   {
-    id: "casey",
+    id: 1,
     type: "annotations",
     attributes: {
       OBJECTID: 1,
@@ -188,7 +188,7 @@ const data = [
     } as IGeometry
   },
   {
-    id: "jones",
+    id: 2,
     type: "annotations",
     attributes: {
       OBJECTID: 2,
@@ -203,7 +203,7 @@ const data = [
     }
   },
   {
-    id: "casey",
+    id: 3,
     type: "annotations",
     attributes: {
       OBJECTID: 3,
@@ -218,7 +218,7 @@ const data = [
     }
   },
   {
-    id: "AnonymousUser_3",
+    id: 4,
     type: "annotations",
     attributes: {
       OBJECTID: 4,
