@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-solutions",
-  "version": "1.5.3",
+  "version": "1.6.0",
   "description": "Module to interact with ArcGIS Hub Solutions in Node.js and modern browsers.",
   "main": "dist/node/index.js",
   "browser": "dist/umd/solutions.umd.js",
@@ -17,8 +17,8 @@
     "@esri/hub-domains": "^1.5.2"
   },
   "devDependencies": {
-    "@esri/hub-common": "^1.5.3",
-    "@esri/hub-domains": "^1.5.3"
+    "@esri/hub-common": "^1.6.0",
+    "@esri/hub-domains": "^1.6.0"
   },
   "files": [
     "dist/**"

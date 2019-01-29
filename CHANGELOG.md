@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.6.0] - January 29th 2019
+
+### @esri/hub-common
+
+* New Features
+   * **hub-common**: new `maybePush` function [`5094699`](https://github.com/Esri/hub.js/commit/50946990985db3583148fd521eec7adf4dc03989)
+   * **hub-common**: new `maybeAdd()` function [`cbc0a7d`](https://github.com/Esri/hub.js/commit/cbc0a7dab6c81ee9eec16799ac06c883c14481d7)
+
 ## [1.5.3] - December 20th 2018
 
 ### @esri/hub-annotations
@@ -171,6 +179,6 @@ Initial Release
 [1.4.0]: https://github.com/Esri/hub.js/compare/v1.3.0...v1.4.0 "v1.4.0"
 [1.5.0]: https://github.com/Esri/hub.js/compare/v1.4.0...v1.5.0 "v1.5.0"
 [1.5.1]: https://github.com/Esri/hub.js/compare/v1.5.0...v1.5.1 "v1.5.1"
-[1.5.2]: https://github.com/Esri/hub.js/compare/v1.5.1...v1.5.2 "v1.5.2"
-[1.5.3]: https://github.com/Esri/hub.js/compare/v1.5.2...1.5.3 "1.5.3"
-[HEAD]: https://github.com/Esri/hub.js/compare/v1.5.3...HEAD "Unreleased Changes"
+[1.5.3]: https://github.com/Esri/hub.js/compare/v1.5.1...v1.5.3 "v1.5.3"
+[1.6.0]: https://github.com/Esri/hub.js/compare/v1.5.3...v1.6.0 "v1.6.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v1.6.0...HEAD "Unreleased Changes"
