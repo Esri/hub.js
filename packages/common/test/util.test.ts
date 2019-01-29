@@ -426,5 +426,40 @@ describe("util functions", () => {
       expect(chk.prop).toBe("val", "should keep existing prop");
       expect(chk.arr).toBe(a, "should append in array");
     });
+
+    it("deep object test", () => {
+      const m = {
+        item: {
+          id: "bc3",
+          properties: {
+            source: {
+              itemId: "3ef"
+            },
+            fieldworker: {
+              itemId: "7fe"
+            }
+          }
+        },
+        data: {
+          values: {
+            webmap: "3c4"
+          }
+        }
+      };
+      const props = [
+        "item.id",
+        "item.properties.source.itemId",
+        "item.properties.fieldworker.itemId",
+        "item.properties.stakeholder.itemId",
+        "data.values.webmap"
+      ];
+      const ids = props.reduce((acc, key) => {
+        return maybeAdd(acc, getProp(m, key));
+      }, []);
+      expect(ids.length).toBe(4, "should have 4 entries");
+      ["bc3", "3ef", "7fe", "3c4"].forEach(k => {
+        expect(ids.indexOf(k)).toBeGreaterThan(-1, `should include ${k}`);
+      });
+    });
   });
 });
