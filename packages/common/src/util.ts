@@ -116,15 +116,15 @@ export function createId(prefix: string = "i"): string {
 }
 
 /**
- * If value is not null, push it into an array, or append as a property of an object.
- * This is a very useful companion to [getProp()](../getProp/). Note: the array or object
- * that is passed in is cloned before being appended to.
+ * Append or replace a value on an object, using a specified key, if the value is not null.
+ * This is a very useful companion to the [getProp()](../getProp/) utility.
+ *
+ * Note: object that is passed in is cloned before the property is appended.
  *
  * Allows for code like:
  *
  * ```js
- * // example object
- * let obj = {
+ * let model = {
  *  item: {
  *    title: 'some example object',
  *    description: 'this is some longer text',
@@ -141,16 +141,7 @@ export function createId(prefix: string = "i"): string {
  *  }
  * };
  *
- * // lets pluck some values and place them in an array...
- * let vals = maybeAdd([], getProp(obj, 'item.properties.sourceId'));
- * // vals => ['3ef]
- *
- * // try to get a value from a property that is missing...
- * vals = maybeAdd(vals, getProp(obj, 'item.properties.childId'));
- * // vals => []
- *
- * // Let's pluck some details into an object. This time we'll use an array
- * // of properties to pluck out of the source
+ * // Let's extract some details into an object.
  * const summary = [
  *  'item.title',
  *  'item.description',
@@ -158,7 +149,7 @@ export function createId(prefix: string = "i"): string {
  *  'data.parcelLayer.primaryField'].reduce((acc, prop) => {
  *   // create the property name... you could do this however...
  *   let propName = prop.split('.').reverse()[0];
- *   return maybeAdd(acc, getProp(obj, key), propName);
+ *   return maybeAdd(propName, getProp(model, key), acc);
  * }, {});
  *
  * // summary =>
@@ -168,27 +159,76 @@ export function createId(prefix: string = "i"): string {
  * //   primaryField: 'PIN'
  * // }
  * ```
- * @param objectOrArray - the object (or array) to update
+ * @param key - key to use when appending to the object
  * @param val - the possibly null value
- * @param key - optional key (used when appending to an object)
+ * @param target - the object to update
  */
-export function maybeAdd(
-  objectOrArray: any,
-  val: any,
-  key: string = null
-): any {
-  // create a clone because mutation makes us sad...
-  const target = cloneObject(objectOrArray);
+export function maybeAdd(key: string, val: any, target: any): any {
   // see if we got something...
   if (val !== null && val !== undefined) {
-    // is target an array?
-    if (Array.isArray(target)) {
-      // push it...
-      target.push(val);
-    } else {
-      // attach using the key
-      target[key] = val;
-    }
+    target = cloneObject(target);
+    // attach using the key
+    target[key] = val;
+  }
+  return target;
+}
+
+/**
+ * Append a value to an array, if the value is not null.
+ * This is a very useful companion to the [getProp()](../getProp/) utility.
+ *
+ * Note: the array that is passed in is cloned before being appended to.
+ *
+ * Allows for code like:
+ * ```js
+ *  // example object
+ * let model = {
+ *  item: {
+ *    id: 'c00',
+ *    title: 'some example object',
+ *    description: 'this is some longer text',
+ *    type: 'Web Map',
+ *    properties: {
+ *      sourceId: '3ef'
+ *    }
+ *  },
+ *  data: {
+ *    theme: 'orange',
+ *    parcelLayer: {
+ *      itemId: '7ca',
+ *      primaryField: 'PIN'
+ *    }
+ *  }
+ * };
+ * // lets pluck some id's into an array...
+ * let vals = maybeAdd(getProp(model, 'item.properties.sourceId'), []);
+ * // vals => ['3ef]
+ *
+ * // now try to get a value from a property that is missing...
+ * vals = maybeAdd(getProp(obj, 'item.properties.childId'), vals);
+ * // vals => ['3ef]
+ *
+ * // easily pluck values via property paths
+ * const summary = [
+ *  'item.id',
+ *  'item.properties.sourceId',
+ *  'item.properties.childId',
+ *  'data.parcelLayer.itemId'].reduce((acc, prop) => {
+ *   return maybeAdd(getProp(model, key), acc);
+ * }, []);
+ *
+ * // summary => ['c00', '3ef', '7ca']
+ *
+ * ```
+ *
+ * @param val - the possibly null value
+ * @param target - the array to add the value to
+ */
+export function maybePush(val: any, target: any[]): any[] {
+  if (val !== null && val !== undefined) {
+    // create a clone because mutation makes us sad...
+    target = cloneObject(target) as any[];
+    target.push(val);
   }
   return target;
 }

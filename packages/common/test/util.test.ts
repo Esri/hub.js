@@ -8,7 +8,8 @@ import {
   compose,
   camelize,
   createId,
-  maybeAdd
+  maybeAdd,
+  maybePush
 } from "../src/util";
 
 describe("util functions", () => {
@@ -346,9 +347,9 @@ describe("util functions", () => {
     });
   });
 
-  describe("maybeAdd utility", () => {
+  describe("maybePush utility", () => {
     it("should push a value into an array", () => {
-      const chk = maybeAdd(["one"], "two");
+      const chk = maybePush("two", ["one"]);
       expect(chk.length).toBe(2, "should add the value");
       expect(chk[0]).toBe("one", "should have the original value");
       expect(chk[1]).toBe("two", "should have the new value");
@@ -358,75 +359,23 @@ describe("util functions", () => {
       const o = {
         color: "red"
       };
-      const chk = maybeAdd([], o);
+      const chk = maybePush(o, []);
       expect(chk.length).toBe(1, "should add the value");
       expect(chk[0].color).toBe("red", "should add the value");
       expect(chk[0]).toBe(o, "should push the actual value in");
     });
 
     it("should not push null", () => {
-      const chk = maybeAdd(["one"], null);
+      const chk = maybePush(null, ["one"]);
       expect(chk.length).toBe(1, "should add the value");
       expect(chk[0]).toBe("one", "should have the original value");
     });
 
     it("should not push undefined", () => {
-      const chk = maybeAdd(["one"], undefined);
+      const chk = maybePush(undefined, ["one"]);
       expect(chk.length).toBe(1, "should add the value");
       expect(chk[0]).toBe("one", "should have the original value");
     });
-
-    it("should append key w value", () => {
-      const m = {
-        prop: "val"
-      };
-      const chk = maybeAdd(m, "skywalker", "lastName");
-      expect(chk.prop).toBe("val", "should have existing vals");
-      expect(chk.lastName).toBe("skywalker", "should add the new one");
-    });
-
-    it("should not append null or undefined key", () => {
-      const m = {
-        prop: "val"
-      };
-      const chk = maybeAdd(m, null, "lastName");
-      expect(chk.prop).toBe("val", "should have existing vals");
-      expect(chk.lastName).toBeUndefined("should not add");
-      const chk2 = maybeAdd(m, undefined, "lastName");
-      expect(chk2.prop).toBe("val", "should have existing vals");
-      expect(chk2.lastName).toBeUndefined("should not add");
-    });
-
-    it("should replace key w value", () => {
-      const m = {
-        prop: "val"
-      };
-      const chk = maybeAdd(m, "skywalker", "prop");
-      expect(chk.prop).toBe("skywalker", "should add the new one");
-    });
-
-    it("should replace key w obj", () => {
-      const m = {
-        prop: "val"
-      };
-      const o = {
-        color: "red"
-      };
-      const chk = maybeAdd(m, o, "properties");
-      expect(chk.prop).toBe("val", "should keep existing prop");
-      expect(chk.properties).toBe(o, "should append in object");
-    });
-
-    it("should attach array as prop", () => {
-      const m = {
-        prop: "val"
-      };
-      const a = ["this", "is", "arry"];
-      const chk = maybeAdd(m, a, "arr");
-      expect(chk.prop).toBe("val", "should keep existing prop");
-      expect(chk.arr).toBe(a, "should append in array");
-    });
-
     it("deep object test", () => {
       const m = {
         item: {
@@ -454,12 +403,65 @@ describe("util functions", () => {
         "data.values.webmap"
       ];
       const ids = props.reduce((acc, key) => {
-        return maybeAdd(acc, getProp(m, key));
+        return maybePush(getProp(m, key), acc);
       }, []);
       expect(ids.length).toBe(4, "should have 4 entries");
       ["bc3", "3ef", "7fe", "3c4"].forEach(k => {
         expect(ids.indexOf(k)).toBeGreaterThan(-1, `should include ${k}`);
       });
+    });
+  });
+
+  describe("maybeAdd utility", () => {
+    it("should append key w value", () => {
+      const m = {
+        prop: "val"
+      };
+      const chk = maybeAdd("lastName", "skywalker", m);
+      expect(chk.prop).toBe("val", "should have existing vals");
+      expect(chk.lastName).toBe("skywalker", "should add the new one");
+    });
+
+    it("should not append null or undefined key", () => {
+      const m = {
+        prop: "val"
+      };
+      const chk = maybeAdd("lastName", null, m);
+      expect(chk.prop).toBe("val", "should have existing vals");
+      expect(chk.lastName).toBeUndefined("should not add");
+      const chk2 = maybeAdd("lastName", undefined, m);
+      expect(chk2.prop).toBe("val", "should have existing vals");
+      expect(chk2.lastName).toBeUndefined("should not add");
+    });
+
+    it("should replace key w value", () => {
+      const m = {
+        prop: "val"
+      };
+      const chk = maybeAdd("prop", "skywalker", m);
+      expect(chk.prop).toBe("skywalker", "should add the new one");
+    });
+
+    it("should replace key w obj", () => {
+      const m = {
+        prop: "val"
+      };
+      const o = {
+        color: "red"
+      };
+      const chk = maybeAdd("properties", o, m);
+      expect(chk.prop).toBe("val", "should keep existing prop");
+      expect(chk.properties).toBe(o, "should append in object");
+    });
+
+    it("should attach array as prop", () => {
+      const m = {
+        prop: "val"
+      };
+      const a = ["this", "is", "arry"];
+      const chk = maybeAdd("arr", a, m);
+      expect(chk.prop).toBe("val", "should keep existing prop");
+      expect(chk.arr).toBe(a, "should append in array");
     });
 
     it("deep object into object test", () => {
@@ -487,7 +489,7 @@ describe("util functions", () => {
       ];
       const chk = props.reduce((acc, key) => {
         const propName = key.split(".").reverse()[0];
-        return maybeAdd(acc, getProp(m, key), propName);
+        return maybeAdd(propName, getProp(m, key), acc);
       }, {}) as any;
 
       expect(chk.title).toBe(m.item.title, "should have title");
