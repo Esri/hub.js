@@ -1,4 +1,4 @@
-/* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2018-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
 /**
@@ -117,7 +117,7 @@ export function createId(prefix: string = "i"): string {
 
 /**
  * If value is not null, push it into an array, or append as a property of an object.
- * This is a very useful companion to the getProp utility. Note: the array or object
+ * This is a very useful companion to [getProp()](../getProp/). Note: the array or object
  * that is passed in is cloned before being appended to.
  *
  * Allows for code like:
@@ -141,13 +141,13 @@ export function createId(prefix: string = "i"): string {
  *  }
  * };
  *
- * // lets pluck some id's into an array...
+ * // lets pluck some values and place them in an array...
  * let vals = maybeAdd([], getProp(obj, 'item.properties.sourceId'));
  * // vals => ['3ef]
  *
- * // now try to get a value from a property that is missing...
+ * // try to get a value from a property that is missing...
  * vals = maybeAdd(vals, getProp(obj, 'item.properties.childId'));
- * // vals => ['3ef]
+ * // vals => []
  *
  * // Let's pluck some details into an object. This time we'll use an array
  * // of properties to pluck out of the source
@@ -170,7 +170,7 @@ export function createId(prefix: string = "i"): string {
  * ```
  * @param objectOrArray - the object (or array) to update
  * @param val - the possibly null value
- * @param key - optional key (used when appending to an objeect)
+ * @param key - optional key (used when appending to an object)
  */
 export function maybeAdd(
   objectOrArray: any,
