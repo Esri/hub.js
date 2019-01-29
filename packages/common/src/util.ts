@@ -116,23 +116,61 @@ export function createId(prefix: string = "i"): string {
 }
 
 /**
- * If value is not null, push it into an array, or append as a property of an object
+ * If value is not null, push it into an array, or append as a property of an object.
+ * This is a very useful companion to the getProp utility. Note: the array or object
+ * that is passed in is cloned before being appended to.
+ *
  * Allows for code like:
- * ```js
- * const vals = maybeAdd([], getProp(obj, 'some.deep.path.thatMayBe.undefined'));
- * ```
- *
- * or
  *
  * ```js
- * let summary = {}
- * ['item.title', 'item.description', 'item.snippet'].forEach((k) => {
- *   summary = maybeAdd(summary, getProp(model, k));
- * })
+ * // example object
+ * let obj = {
+ *  item: {
+ *    title: 'some example object',
+ *    description: 'this is some longer text',
+ *    type: 'Web Map',
+ *    properties: {
+ *      sourceId: '3ef'
+ *    }
+ *  },
+ *  data: {
+ *    theme: 'orange',
+ *    parcelLayer: {
+ *      primaryField: 'PIN'
+ *    }
+ *  }
+ * };
+ *
+ * // lets pluck some id's into an array...
+ * let vals = maybeAdd([], getProp(obj, 'item.properties.sourceId'));
+ * // vals => ['3ef]
+ *
+ * // now try to get a value from a property that is missing...
+ * vals = maybeAdd(vals, getProp(obj, 'item.properties.childId'));
+ * // vals => ['3ef]
+ *
+ * // Let's pluck some details into an object. This time we'll use an array
+ * // of properties to pluck out of the source
+ * const summary = [
+ *  'item.title',
+ *  'item.description',
+ *  'item.missingProp',
+ *  'data.parcelLayer.primaryField'].reduce((acc, prop) => {
+ *   // create the property name... you could do this however...
+ *   let propName = prop.split('.').reverse()[0];
+ *   return maybeAdd(acc, getProp(obj, key), propName);
+ * }, {});
+ *
+ * // summary =>
+ * // {
+ * //   title: 'some example object',
+ * //   description: 'this is some longer text',
+ * //   primaryField: 'PIN'
+ * // }
  * ```
- * @param objectOrArray
- * @param val
- * @param key
+ * @param objectOrArray - the object (or array) to update
+ * @param val - the possibly null value
+ * @param key - optional key (used when appending to an objeect)
  */
 export function maybeAdd(
   objectOrArray: any,

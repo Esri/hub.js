@@ -417,7 +417,7 @@ describe("util functions", () => {
       expect(chk.properties).toBe(o, "should append in object");
     });
 
-    it("should replace key w obj", () => {
+    it("should attach array as prop", () => {
       const m = {
         prop: "val"
       };
@@ -460,6 +460,48 @@ describe("util functions", () => {
       ["bc3", "3ef", "7fe", "3c4"].forEach(k => {
         expect(ids.indexOf(k)).toBeGreaterThan(-1, `should include ${k}`);
       });
+    });
+
+    it("deep object into object test", () => {
+      const m = {
+        item: {
+          title: "some example object",
+          description: "this is some longer text",
+          type: "Web Map",
+          properties: {
+            sourceId: "3ef"
+          }
+        },
+        data: {
+          theme: "orange",
+          parcelLayer: {
+            primaryField: "PIN"
+          }
+        }
+      };
+      const props = [
+        "item.title",
+        "item.description",
+        "item.missingProp",
+        "data.parcelLayer.primaryField"
+      ];
+      const chk = props.reduce((acc, key) => {
+        const propName = key.split(".").reverse()[0];
+        return maybeAdd(acc, getProp(m, key), propName);
+      }, {}) as any;
+
+      expect(chk.title).toBe(m.item.title, "should have title");
+      expect(chk.description).toBe(
+        m.item.description,
+        "should have description"
+      );
+      expect(chk.primaryField).toBe(
+        m.data.parcelLayer.primaryField,
+        "should have primaryField"
+      );
+      expect(chk.missingProp).not.toBeDefined(
+        "missing prop should not be defined"
+      );
     });
   });
 });
