@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.6.1] - January 29th 2019
+
+### @esri/hub-annotations
+
+* Changes
+  * use `OBJECTID` as unique identifier for annotations instead of `author`.
+
 ## [1.6.0] - January 29th 2019
 
 ### @esri/hub-common
@@ -181,4 +188,5 @@ Initial Release
 [1.5.1]: https://github.com/Esri/hub.js/compare/v1.5.0...v1.5.1 "v1.5.1"
 [1.5.3]: https://github.com/Esri/hub.js/compare/v1.5.1...v1.5.3 "v1.5.3"
 [1.6.0]: https://github.com/Esri/hub.js/compare/v1.5.3...v1.6.0 "v1.6.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v1.6.0...HEAD "Unreleased Changes"
+[1.6.1]: https://github.com/Esri/hub.js/compare/v1.6.0...v1.6.1 "v1.6.1"
+[HEAD]: https://github.com/Esri/hub.js/compare/v1.6.1...HEAD "Unreleased Changes"
