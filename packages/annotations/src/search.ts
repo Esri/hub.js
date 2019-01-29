@@ -14,7 +14,7 @@ import { IGeometry, IFeature } from "@esri/arcgis-rest-common-types";
 import { IAnnoFeature } from "./add";
 
 export interface IResourceObject {
-  id: string;
+  id: number | string;
   type: "annotations" | "users";
   attributes: {
     [key: string]: any;
@@ -70,15 +70,12 @@ export function searchAnnotations(
 
     // use .reduce()?
     (response as IQueryFeaturesResponse).features.forEach(
-      (comment: IFeature, index: number) => {
+      (comment: IFeature) => {
         const attributes = comment.attributes;
         const geometry = comment.geometry;
 
         const resource: IResourceObject = {
-          id:
-            attributes.author === ""
-              ? `AnonymousUser_${index}`
-              : attributes.author,
+          id: attributes.OBJECTID,
           type: "annotations",
           attributes
         };

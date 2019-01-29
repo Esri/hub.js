@@ -7,7 +7,9 @@ import {
   without,
   compose,
   camelize,
-  createId
+  createId,
+  maybeAdd,
+  maybePush
 } from "../src/util";
 
 describe("util functions", () => {
@@ -293,7 +295,12 @@ describe("util functions", () => {
     const inc = (x: number) => x + 1;
 
     expect(typeof compose).toEqual("function");
-    expect(compose(sqr, inc)(2)).toEqual(sqr(inc(2)));
+    expect(
+      compose(
+        sqr,
+        inc
+      )(2)
+    ).toEqual(sqr(inc(2)));
     expect(null).toBeNull();
   });
   describe("without ::", () => {
@@ -336,6 +343,166 @@ describe("util functions", () => {
       expect(createId("other").substr(0, 5)).toBe(
         "other",
         "should append a prefix"
+      );
+    });
+  });
+
+  describe("maybePush utility", () => {
+    it("should push a value into an array", () => {
+      const chk = maybePush("two", ["one"]);
+      expect(chk.length).toBe(2, "should add the value");
+      expect(chk[0]).toBe("one", "should have the original value");
+      expect(chk[1]).toBe("two", "should have the new value");
+    });
+
+    it("should push an object into an array", () => {
+      const o = {
+        color: "red"
+      };
+      const chk = maybePush(o, []);
+      expect(chk.length).toBe(1, "should add the value");
+      expect(chk[0].color).toBe("red", "should add the value");
+      expect(chk[0]).toBe(o, "should push the actual value in");
+    });
+
+    it("should not push null", () => {
+      const chk = maybePush(null, ["one"]);
+      expect(chk.length).toBe(1, "should add the value");
+      expect(chk[0]).toBe("one", "should have the original value");
+    });
+
+    it("should not push undefined", () => {
+      const chk = maybePush(undefined, ["one"]);
+      expect(chk.length).toBe(1, "should add the value");
+      expect(chk[0]).toBe("one", "should have the original value");
+    });
+    it("deep object test", () => {
+      const m = {
+        item: {
+          id: "bc3",
+          properties: {
+            source: {
+              itemId: "3ef"
+            },
+            fieldworker: {
+              itemId: "7fe"
+            }
+          }
+        },
+        data: {
+          values: {
+            webmap: "3c4"
+          }
+        }
+      };
+      const props = [
+        "item.id",
+        "item.properties.source.itemId",
+        "item.properties.fieldworker.itemId",
+        "item.properties.stakeholder.itemId",
+        "data.values.webmap"
+      ];
+      const ids = props.reduce((acc, key) => {
+        return maybePush(getProp(m, key), acc);
+      }, []);
+      expect(ids.length).toBe(4, "should have 4 entries");
+      ["bc3", "3ef", "7fe", "3c4"].forEach(k => {
+        expect(ids.indexOf(k)).toBeGreaterThan(-1, `should include ${k}`);
+      });
+    });
+  });
+
+  describe("maybeAdd utility", () => {
+    it("should append key w value", () => {
+      const m = {
+        prop: "val"
+      };
+      const chk = maybeAdd("lastName", "skywalker", m);
+      expect(chk.prop).toBe("val", "should have existing vals");
+      expect(chk.lastName).toBe("skywalker", "should add the new one");
+    });
+
+    it("should not append null or undefined key", () => {
+      const m = {
+        prop: "val"
+      };
+      const chk = maybeAdd("lastName", null, m);
+      expect(chk.prop).toBe("val", "should have existing vals");
+      expect(chk.lastName).toBeUndefined("should not add");
+      const chk2 = maybeAdd("lastName", undefined, m);
+      expect(chk2.prop).toBe("val", "should have existing vals");
+      expect(chk2.lastName).toBeUndefined("should not add");
+    });
+
+    it("should replace key w value", () => {
+      const m = {
+        prop: "val"
+      };
+      const chk = maybeAdd("prop", "skywalker", m);
+      expect(chk.prop).toBe("skywalker", "should add the new one");
+    });
+
+    it("should replace key w obj", () => {
+      const m = {
+        prop: "val"
+      };
+      const o = {
+        color: "red"
+      };
+      const chk = maybeAdd("properties", o, m);
+      expect(chk.prop).toBe("val", "should keep existing prop");
+      expect(chk.properties).toBe(o, "should append in object");
+    });
+
+    it("should attach array as prop", () => {
+      const m = {
+        prop: "val"
+      };
+      const a = ["this", "is", "arry"];
+      const chk = maybeAdd("arr", a, m);
+      expect(chk.prop).toBe("val", "should keep existing prop");
+      expect(chk.arr).toBe(a, "should append in array");
+    });
+
+    it("deep object into object test", () => {
+      const m = {
+        item: {
+          title: "some example object",
+          description: "this is some longer text",
+          type: "Web Map",
+          properties: {
+            sourceId: "3ef"
+          }
+        },
+        data: {
+          theme: "orange",
+          parcelLayer: {
+            primaryField: "PIN"
+          }
+        }
+      };
+      const props = [
+        "item.title",
+        "item.description",
+        "item.missingProp",
+        "data.parcelLayer.primaryField"
+      ];
+      const chk = props.reduce((acc, key) => {
+        const propName = key.split(".").reverse()[0];
+        return maybeAdd(propName, getProp(m, key), acc);
+      }, {}) as any;
+
+      expect(chk.title).toBe(m.item.title, "should have title");
+      expect(chk.description).toBe(
+        m.item.description,
+        "should have description"
+      );
+      expect(chk.primaryField).toBe(
+        m.data.parcelLayer.primaryField,
+        "should have primaryField"
+      );
+      expect(chk.missingProp).not.toBeDefined(
+        "missing prop should not be defined"
       );
     });
   });
