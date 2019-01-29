@@ -145,7 +145,7 @@ export interface IVoteResourceObject {
  * Query for up and down votes on a comment from ArcGIS Hub.
  * @param requestOptions - request options that may include authentication
  * @param annotation - the annotation for which votes need to be counted
- * @returns A Promise that will resolve with summary statistics from the annotation service for a Hub enabled ArcGIS Online organization.
+ * @returns A Promise that will resolve with summary statistics for the specified annotation from the annotation service for a Hub enabled ArcGIS Online organization.
  */
 export function searchAnnotationVotes(
   requestOptions: IQueryFeaturesRequestOptions,
@@ -166,7 +166,7 @@ export function searchAnnotationVotes(
   return queryFeatures(requestOptions).then(response => {
     const data: IVoteResourceObject[] = [];
     const resource: IVoteResourceObject = {
-      id: annotation.attributes.id,
+      id: annotation.attributes.OBJECTID,
       type: "votes",
       attributes: {
         upVotes: 0,
@@ -193,7 +193,7 @@ export function searchAnnotationVotes(
  * ```js
  * import { searchAnnotationVotes } from "@esri/hub-annotations";
  * //
- * searchAnnotationVotes({ url: annotationsUrl + "/0"})
+ * searchAllAnnotationVotes({ url: annotationsUrl + "/0"})
  *   .then(response => {
  *     //   data: [{
  *     //     id,
@@ -219,7 +219,7 @@ export function searchAllAnnotationVotes(
     outStatisticFieldName: "count"
   };
   requestOptions.outStatistics = [votesStat];
-  // filtering for the comment
+  // filtering for up votes
   const upVoteClause = "value>0";
   requestOptions.where += requestOptions.where ? "+AND+" : "";
   requestOptions.where += upVoteClause;
@@ -240,6 +240,7 @@ export function searchAllAnnotationVotes(
         data.push(resource);
       }
     );
+    // filtering for down Votes
     requestOptions.where.replace("value>0", "value<0");
     return queryFeatures(requestOptions).then(downVotesResponse => {
       // use .reduce()?

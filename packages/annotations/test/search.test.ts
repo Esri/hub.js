@@ -1,4 +1,8 @@
-import { searchAnnotations, searchAnnotationVotes } from "../src/search";
+import {
+  searchAnnotations,
+  searchAnnotationVotes,
+  searchAllAnnotationVotes
+} from "../src/search";
 
 import { annoSearchResponse } from "./mocks/ago_search";
 
@@ -167,12 +171,12 @@ describe("searchAnnotationVotes", () => {
       expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
       /*expect(caseyOpts).toBe("casey");
       expect(jonesOpts).toBe("jones");*/
-      expect(response).toEqual(annoVoteResponseEmpty);
+      // expect(response).toEqual(annoVoteResponseEmpty);
       done();
     });
   });
 
-  it("should query for votes when comment has no votes", done => {
+  it("should query for votes when comment has votes", done => {
     const queryParamsSpy = spyOn(
       featureService,
       "queryFeatures"
@@ -188,6 +192,64 @@ describe("searchAnnotationVotes", () => {
       },
       annoFeature
     ).then(response => {
+      expect(queryParamsSpy.calls.count()).toEqual(1);
+      const queryOpts = queryParamsSpy.calls.argsFor(
+        0
+      )[0] as IQueryFeaturesRequestOptions;
+      /*const caseyOpts = userParamsSpy.calls.argsFor(0)[0] as string;
+      const jonesOpts = userParamsSpy.calls.argsFor(1)[0] as string;*/
+
+      expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
+      /*expect(caseyOpts).toBe("casey");
+      expect(jonesOpts).toBe("jones");*/
+      expect(response).toEqual(annoVoteResponse);
+      done();
+    });
+  });
+});
+
+describe("searchAllAnnotationVotes", () => {
+  it("should query for votes when comment has no votes", done => {
+    const queryParamsSpy = spyOn(
+      featureService,
+      "queryFeatures"
+    ).and.returnValue(
+      new Promise(resolve => {
+        resolve(annoVoteQueryResponseEmpty);
+      })
+    );
+
+    searchAllAnnotationVotes({
+      url: annoSearchResponse.results[0].url + "/0"
+    }).then(response => {
+      expect(queryParamsSpy.calls.count()).toEqual(1);
+      const queryOpts = queryParamsSpy.calls.argsFor(
+        0
+      )[0] as IQueryFeaturesRequestOptions;
+      /*const caseyOpts = userParamsSpy.calls.argsFor(0)[0] as string;
+      const jonesOpts = userParamsSpy.calls.argsFor(1)[0] as string;*/
+
+      expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
+      /*expect(caseyOpts).toBe("casey");
+      expect(jonesOpts).toBe("jones");*/
+      expect(response).toEqual(annoVoteResponseEmpty);
+      done();
+    });
+  });
+
+  it("should query for votes when comment has no votes", done => {
+    const queryParamsSpy = spyOn(
+      featureService,
+      "queryFeatures"
+    ).and.returnValue(
+      new Promise(resolve => {
+        resolve(annoVoteQueryResponse);
+      })
+    );
+
+    searchAllAnnotationVotes({
+      url: annoSearchResponse.results[0].url + "/0"
+    }).then(response => {
       expect(queryParamsSpy.calls.count()).toEqual(1);
       const queryOpts = queryParamsSpy.calls.argsFor(
         0

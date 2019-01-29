@@ -339,7 +339,7 @@ export const annoVoteQueryResponse = {
 };
 
 export const annoFeature = {
-  id: "jones",
+  id: "comment1",
   type: "annotations",
   attributes: {
     OBJECTID: 1,
@@ -365,7 +365,16 @@ export const annoFeature = {
 };
 
 export const annoVoteResponseEmpty = {
-  data: [] as IVoteResourceObject[]
+  data: [
+    {
+      id: "comment1",
+      type: "votes",
+      attributes: {
+        upVotes: 0,
+        downVotes: 0
+      }
+    }
+  ] as IVoteResourceObject[]
 };
 
 export const annoVoteResponse = {
