@@ -201,12 +201,12 @@ export function maybeAdd(key: string, val: any, target: any): any {
  *  }
  * };
  * // lets pluck some id's into an array...
- * let vals = maybeAdd(getProp(model, 'item.properties.sourceId'), []);
- * // vals => ['3ef]
+ * maybePush(getProp(model, 'item.properties.sourceId'), []);
+ * // > ['3ef']
  *
  * // now try to get a value from a property that is missing...
- * vals = maybeAdd(getProp(obj, 'item.properties.childId'), vals);
- * // vals => ['3ef]
+ * maybePush(getProp(obj, 'item.properties.childId'), []);
+ * // > []
  *
  * // easily pluck values via property paths
  * const summary = [
@@ -214,7 +214,7 @@ export function maybeAdd(key: string, val: any, target: any): any {
  *  'item.properties.sourceId',
  *  'item.properties.childId',
  *  'data.parcelLayer.itemId'].reduce((acc, prop) => {
- *   return maybeAdd(getProp(model, key), acc);
+ *   return maybePush(getProp(model, key), acc);
  * }, []);
  *
  * // summary => ['c00', '3ef', '7ca']
