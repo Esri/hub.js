@@ -364,6 +364,57 @@ export const annoFeature = {
   } as IGeometry
 };
 
+export const invalidIdAnnoFeature = {
+  id: -1,
+  type: "annotations",
+  attributes: {
+    OBJECTID: -1,
+    author: "jones",
+    source: null as string,
+    status: "pending",
+    target: "something",
+    description: "this is where the comments go",
+    created_at: 1349395200000,
+    updated_at: 1349395200000,
+    dataset_id: "sgj432"
+  },
+  geometry: {
+    rings: [
+      [
+        [-12694713.8080383, 5934781.92803049],
+        [-12691159.4862231, 5936119.57602548],
+        [-12691159.4862231, 5932527.03569609],
+        [-12694713.8080383, 5934781.92803049]
+      ]
+    ]
+  } as IGeometry
+};
+
+export const missingIdAnnoFeature = {
+  id: -1,
+  type: "annotations",
+  attributes: {
+    author: "jones",
+    source: null as string,
+    status: "pending",
+    target: "something",
+    description: "this is where the comments go",
+    created_at: 1349395200000,
+    updated_at: 1349395200000,
+    dataset_id: "sgj432"
+  },
+  geometry: {
+    rings: [
+      [
+        [-12694713.8080383, 5934781.92803049],
+        [-12691159.4862231, 5936119.57602548],
+        [-12691159.4862231, 5932527.03569609],
+        [-12694713.8080383, 5934781.92803049]
+      ]
+    ]
+  } as IGeometry
+};
+
 export const annoVoteResponseEmpty = {
   data: [
     {

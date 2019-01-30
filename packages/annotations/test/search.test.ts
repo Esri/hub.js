@@ -1,6 +1,6 @@
 import {
   searchAnnotations,
-  searchAnnotationVotes,
+  searchSingleAnnotationVotes,
   searchAllAnnotationVotes
 } from "../src/search";
 
@@ -22,7 +22,9 @@ import {
   allAnnoUpVoteQueryResponse,
   allAnnoDownVoteQueryResponse,
   allAnnoVoteResponseEmpty,
-  allAnnoVoteResponse
+  allAnnoVoteResponse,
+  invalidIdAnnoFeature,
+  missingIdAnnoFeature
 } from "./mocks/anno_search";
 
 import * as featureService from "@esri/arcgis-rest-feature-service";
@@ -149,7 +151,7 @@ describe("searchAnnotations", () => {
   });
 });
 
-describe("searchAnnotationVotes", () => {
+describe("searchSingleAnnotationVotes", () => {
   it("should query for votes when comment has no votes", done => {
     const queryParamsSpy = spyOn(
       featureService,
@@ -160,12 +162,10 @@ describe("searchAnnotationVotes", () => {
       })
     );
 
-    searchAnnotationVotes(
-      {
-        url: annoSearchResponse.results[0].url + "/0"
-      },
-      annoFeature
-    ).then(response => {
+    searchSingleAnnotationVotes({
+      url: annoSearchResponse.results[0].url + "/0",
+      annotation: annoFeature
+    }).then(response => {
       expect(queryParamsSpy.calls.count()).toEqual(1);
       const queryOpts = queryParamsSpy.calls.argsFor(
         0
@@ -187,12 +187,10 @@ describe("searchAnnotationVotes", () => {
       })
     );
 
-    searchAnnotationVotes(
-      {
-        url: annoSearchResponse.results[0].url + "/0"
-      },
-      annoFeature
-    ).then(response => {
+    searchSingleAnnotationVotes({
+      url: annoSearchResponse.results[0].url + "/0",
+      annotation: annoFeature
+    }).then(response => {
       expect(queryParamsSpy.calls.count()).toEqual(1);
       const queryOpts = queryParamsSpy.calls.argsFor(
         0
@@ -204,30 +202,52 @@ describe("searchAnnotationVotes", () => {
     });
   });
 
-  it("should query for votes when comment has votes and initiative set", done => {
+  it("should query for votes when comment is not valid", done => {
     const queryParamsSpy = spyOn(
       featureService,
       "queryFeatures"
     ).and.returnValue(
       new Promise(resolve => {
-        resolve(annoVoteQueryResponse);
+        resolve(annoVoteQueryResponseEmpty);
       })
     );
 
-    searchAnnotationVotes(
-      {
-        url: annoSearchResponse.results[0].url + "/0",
-        where: "dataset_id=initiative123"
-      },
-      annoFeature
-    ).then(response => {
-      expect(queryParamsSpy.calls.count()).toEqual(1);
+    searchSingleAnnotationVotes({
+      url: annoSearchResponse.results[0].url + "/0",
+      annotation: invalidIdAnnoFeature
+    }).then(response => {
+      expect(queryParamsSpy.calls.count()).toEqual(0);
       const queryOpts = queryParamsSpy.calls.argsFor(
         0
       )[0] as IQueryFeaturesRequestOptions;
 
       expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
-      expect(response).toEqual(annoVoteResponse);
+      expect(response).toEqual(annoVoteResponseEmpty);
+      done();
+    });
+  });
+
+  it("should query for votes when comment id is missing", done => {
+    const queryParamsSpy = spyOn(
+      featureService,
+      "queryFeatures"
+    ).and.returnValue(
+      new Promise(resolve => {
+        resolve(annoVoteQueryResponseEmpty);
+      })
+    );
+
+    searchSingleAnnotationVotes({
+      url: annoSearchResponse.results[0].url + "/0",
+      annotation: missingIdAnnoFeature
+    }).then(response => {
+      expect(queryParamsSpy.calls.count()).toEqual(0);
+      const queryOpts = queryParamsSpy.calls.argsFor(
+        0
+      )[0] as IQueryFeaturesRequestOptions;
+
+      expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
+      expect(response).toEqual(annoVoteResponseEmpty);
       done();
     });
   });

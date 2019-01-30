@@ -109,6 +109,12 @@ export function searchAnnotations(
   });
 }
 
+export interface ISearchAnnoRequestOptions
+  extends IQueryFeaturesRequestOptions {
+  url: string;
+  annotation: IAnnoFeature;
+}
+
 export interface IVoteResourceObject {
   id: number;
   type: "votes";
@@ -120,9 +126,9 @@ export interface IVoteResourceObject {
 
 /**
  * ```js
- * import { searchAnnotationVotes } from "@esri/hub-annotations";
+ * import { searchSingleAnnotationVotes } from "@esri/hub-annotations";
  * //
- * searchAnnotationVotes({ url: annotationsUrl + "/0"},
+ * searchSingleAnnotationVotes({ url: annotationsUrl + "/0",
  *                         annotation: {
  *                            id: "Annotation1",
  *                            type: "annotations",
@@ -144,46 +150,55 @@ export interface IVoteResourceObject {
  * @param annotation - the annotation for which votes need to be counted
  * @returns A Promise that will resolve with summary statistics for the specified annotation from the annotation service for a Hub enabled ArcGIS Online organization.
  */
-export function searchAnnotationVotes(
-  requestOptions: IQueryFeaturesRequestOptions,
-  annotation: IAnnoFeature
+export function searchSingleAnnotationVotes(
+  requestOptions: ISearchAnnoRequestOptions
 ): Promise<{ data: IVoteResourceObject[] }> {
-  requestOptions.groupByFieldsForStatistics = "value";
-  const outStat: IStatisticDefinition = {
-    statisticType: "count",
-    onStatisticField: "value",
-    outStatisticFieldName: "value_count"
-  };
-  requestOptions.outStatistics = [outStat];
-  // filtering for the comment
-  const commentFilteringClause = "parent_id=" + annotation.attributes.OBJECTID;
-  requestOptions.where += requestOptions.where ? "+AND+" : "";
-  requestOptions.where += commentFilteringClause;
-
-  return queryFeatures(requestOptions).then(response => {
-    const data: IVoteResourceObject[] = [];
-    const resource: IVoteResourceObject = {
-      id: annotation.attributes.OBJECTID,
-      type: "votes",
-      attributes: {
-        upVotes: 0,
-        downVotes: 0
-      }
+  const data: IVoteResourceObject[] = [];
+  if (
+    requestOptions.annotation.attributes.OBJECTID &&
+    requestOptions.annotation.attributes.OBJECTID > 0
+  ) {
+    requestOptions.groupByFieldsForStatistics = "value";
+    const outStat: IStatisticDefinition = {
+      statisticType: "count",
+      onStatisticField: "value",
+      outStatisticFieldName: "value_count"
     };
-
-    // use .reduce()?
-    (response as IQueryFeaturesResponse).features.forEach(
-      (statistic: IFeature) => {
-        if (statistic.attributes.value > 0) {
-          resource.attributes.upVotes += statistic.attributes.value_count;
-        } else if (statistic.attributes.value < 0) {
-          resource.attributes.downVotes += statistic.attributes.value_count;
+    requestOptions.outStatistics = [outStat];
+    const annotationId = requestOptions.annotation.attributes.OBJECTID;
+    // filtering for the comment
+    const commentFilteringClause = "parent_id=" + annotationId;
+    requestOptions.where += requestOptions.where ? "+AND+" : "";
+    requestOptions.where += commentFilteringClause;
+    const queryRequestOptions = requestOptions as IQueryFeaturesRequestOptions;
+    return queryFeatures(queryRequestOptions).then(response => {
+      const resource: IVoteResourceObject = {
+        id: annotationId.attributes.OBJECTID,
+        type: "votes",
+        attributes: {
+          upVotes: 0,
+          downVotes: 0
         }
-      }
-    );
-    data.push(resource);
-    return { data };
-  });
+      };
+
+      // use .reduce()?
+      (response as IQueryFeaturesResponse).features.forEach(
+        (statistic: IFeature) => {
+          if (statistic.attributes.value > 0) {
+            resource.attributes.upVotes += statistic.attributes.value_count;
+          } else if (statistic.attributes.value < 0) {
+            resource.attributes.downVotes += statistic.attributes.value_count;
+          }
+        }
+      );
+      data.push(resource);
+      return { data };
+    });
+  } else {
+    return new Promise(resolve => {
+      resolve({ data });
+    });
+  }
 }
 
 /**
