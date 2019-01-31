@@ -4,11 +4,14 @@
 import {
   IQueryFeaturesRequestOptions,
   queryFeatures,
-  IQueryFeaturesResponse
+  IQueryFeaturesResponse,
+  IStatisticDefinition,
+  IQueryResponse
 } from "@esri/arcgis-rest-feature-service";
 
 import { getUser } from "@esri/arcgis-rest-users";
 import { IGeometry, IFeature } from "@esri/arcgis-rest-common-types";
+import { IAnnoFeature } from "./add";
 
 export interface IResourceObject {
   id: number | string;
@@ -78,7 +81,7 @@ export function searchAnnotations(
         };
 
         if (geometry) {
-          resource["geometry"] = geometry;
+          resource.geometry = geometry;
         }
 
         data.push(resource);
@@ -102,6 +105,169 @@ export function searchAnnotations(
       });
 
       return { included, data };
+    });
+  });
+}
+
+export interface ISearchAnnoRequestOptions
+  extends IQueryFeaturesRequestOptions {
+  url: string;
+  annotation: IAnnoFeature;
+}
+
+export interface IVoteResourceObject {
+  id: number;
+  type: "votes";
+  attributes: {
+    upVotes: number;
+    downVotes: number;
+  };
+}
+
+/**
+ * ```js
+ * import { searchSingleAnnotationVotes } from "@esri/hub-annotations";
+ * //
+ * searchSingleAnnotationVotes({ url: annotationsUrl + "/0",
+ *   annotation: {
+ *     id: "Annotation1",
+ *     type: "annotations",
+ *     attributes: {description: "Great place!", ...}
+ *   }).then(response => {
+ *     //   data: [{
+ *     //     id,
+ *     //     type: "votes",
+ *     //     attributes: {
+ *     //       upVotes: 3,
+ *     //       downVotes: 0
+ *     //     }
+ *     //   }]
+ *    });
+ * ```
+ * Query for up and down votes on multiple comments from ArcGIS Hub.
+ * @param requestOptions - request options that may include authentication
+ * @param annotation - the annotation for which votes need to be counted
+ * @returns A Promise that will resolve with summary statistics for the specified annotation from the annotation service for a Hub enabled ArcGIS Online organization.
+ */
+export function searchSingleAnnotationVotes(
+  requestOptions: ISearchAnnoRequestOptions
+): Promise<{ data: IVoteResourceObject[] }> {
+  const data: IVoteResourceObject[] = [];
+  const annotationId = requestOptions.annotation.attributes.OBJECTID;
+  if (!annotationId || annotationId < 0) {
+    return Promise.resolve({ data });
+  }
+  requestOptions.groupByFieldsForStatistics = "value";
+  const outStat: IStatisticDefinition = {
+    statisticType: "count",
+    onStatisticField: "value",
+    outStatisticFieldName: "value_count"
+  };
+  requestOptions.outStatistics = [outStat];
+  // filtering for the comment
+  requestOptions.where = "parent_id=" + annotationId;
+  const queryRequestOptions = requestOptions as IQueryFeaturesRequestOptions;
+  return queryFeatures(queryRequestOptions).then(response => {
+    const resource: IVoteResourceObject = {
+      id: annotationId,
+      type: "votes",
+      attributes: {
+        upVotes: 0,
+        downVotes: 0
+      }
+    };
+
+    // use .reduce()?
+    (response as IQueryFeaturesResponse).features.forEach(
+      (statistic: IFeature) => {
+        if (statistic.attributes.value > 0) {
+          resource.attributes.upVotes += statistic.attributes.value_count;
+        } else if (statistic.attributes.value < 0) {
+          resource.attributes.downVotes += statistic.attributes.value_count;
+        }
+      }
+    );
+    data.push(resource);
+    return { data };
+  });
+}
+
+/**
+ * ```js
+ * import { searchAllAnnotationVotes } from "@esri/hub-annotations";
+ * //
+ * searchAllAnnotationVotes({ url: annotationsUrl + "/0"})
+ *   .then(response => {
+ *     //   data: [{
+ *     //     id,
+ *     //     type: "votes",
+ *     //     attributes: {
+ *     //       upVotes: 3,
+ *     //       downVotes: 0
+ *     //     }
+ *     //   }]
+ *    });
+ * ```
+ * Query for up and down votes on a comment from ArcGIS Hub.
+ * @param requestOptions - request options that may include authentication
+ * @returns A Promise that will resolve with summary statistics from the annotation service for a Hub enabled ArcGIS Online organization.
+ */
+export function searchAllAnnotationVotes(
+  requestOptions: IQueryFeaturesRequestOptions
+): Promise<{ data: IVoteResourceObject[] }> {
+  requestOptions.groupByFieldsForStatistics = "parent_id";
+  const votesStat: IStatisticDefinition = {
+    statisticType: "count",
+    onStatisticField: "value",
+    outStatisticFieldName: "count"
+  };
+  requestOptions.outStatistics = [votesStat];
+  // filtering for up votes
+  const upVoteClause = "value>0";
+  requestOptions.where += requestOptions.where ? "+AND+" : "";
+  requestOptions.where += upVoteClause;
+
+  return queryFeatures(requestOptions).then(upVotesResponse => {
+    const data: IVoteResourceObject[] = [];
+    // use .reduce()?
+    (upVotesResponse as IQueryFeaturesResponse).features.forEach(
+      (statistic: IFeature) => {
+        const resource: IVoteResourceObject = {
+          id: statistic.attributes.parent_id,
+          type: "votes",
+          attributes: {
+            upVotes: statistic.attributes.count,
+            downVotes: 0
+          }
+        };
+        data.push(resource);
+      }
+    );
+    // filtering for down Votes
+    requestOptions.where.replace("value>0", "value<0");
+    return queryFeatures(requestOptions).then(downVotesResponse => {
+      // use .reduce()?
+      (downVotesResponse as IQueryFeaturesResponse).features.forEach(
+        (statistic: IFeature) => {
+          const existingResource = data.find(
+            voteR => voteR.id === statistic.attributes.parent_id
+          );
+          if (existingResource) {
+            existingResource.attributes.downVotes = statistic.attributes.count;
+          } else {
+            const resource: IVoteResourceObject = {
+              id: statistic.attributes.parent_id,
+              type: "votes",
+              attributes: {
+                upVotes: 0,
+                downVotes: statistic.attributes.count
+              }
+            };
+            data.push(resource);
+          }
+        }
+      );
+      return { data };
     });
   });
 }

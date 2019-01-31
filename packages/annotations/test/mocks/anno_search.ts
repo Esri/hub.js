@@ -1,8 +1,8 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IResourceObject } from "../../src/search";
-import { IGeometry, IFeature } from "@esri/arcgis-rest-common-types";
+import { IVoteResourceObject, IResourceObject } from "../../src/search";
+import { IGeometry, IFeature, IField } from "@esri/arcgis-rest-common-types";
 
 export const annoQueryResponseEmpty = {
   objectIdFieldName: "OBJECTID",
@@ -255,4 +255,330 @@ export const annoResponse = {
       attributes: userResponseJones
     }
   ] as IResourceObject[]
+};
+
+export const annoVoteQueryResponseEmpty = {
+  objectIdFieldName: "OBJECTID",
+  uniqueIdField: {
+    name: "OBJECTID",
+    isSystemMaintained: true
+  },
+  globalIdFieldName: "",
+  geometryType: "esriGeometryPolygon",
+  spatialReference: {
+    wkid: 4269,
+    latestWkid: 4269
+  },
+  fields: [
+    {
+      name: "value",
+      type: "esriFieldTypeDouble",
+      alias: "value",
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "value_count",
+      type: "esriFieldTypeInteger",
+      alias: "value_count",
+      domain: null,
+      defaultValue: null
+    }
+  ] as IField[],
+  features: [] as IFeature[]
+};
+
+export const annoVoteQueryResponse = {
+  objectIdFieldName: "OBJECTID",
+  uniqueIdField: {
+    name: "OBJECTID",
+    isSystemMaintained: true
+  },
+  globalIdFieldName: "",
+  geometryType: "esriGeometryPolygon",
+  spatialReference: {
+    wkid: 4269,
+    latestWkid: 4269
+  },
+  fields: [
+    {
+      name: "value",
+      type: "esriFieldTypeDouble",
+      alias: "value",
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "value_count",
+      type: "esriFieldTypeInteger",
+      alias: "value_count",
+      domain: null,
+      defaultValue: null
+    }
+  ] as IField[],
+  features: [
+    {
+      attributes: {
+        value: 1,
+        value_count: 6
+      }
+    },
+    {
+      attributes: {
+        value: -1,
+        value_count: 3
+      }
+    },
+    {
+      attributes: {
+        value: 0,
+        value_count: 1
+      }
+    }
+  ] as IFeature[]
+};
+
+export const annoFeature = {
+  id: 1,
+  type: "annotations",
+  attributes: {
+    OBJECTID: 1,
+    author: "jones",
+    source: null as string,
+    status: "pending",
+    target: "something",
+    description: "this is where the comments go",
+    created_at: 1349395200000,
+    updated_at: 1349395200000,
+    dataset_id: "sgj432"
+  },
+  geometry: {
+    rings: [
+      [
+        [-12694713.8080383, 5934781.92803049],
+        [-12691159.4862231, 5936119.57602548],
+        [-12691159.4862231, 5932527.03569609],
+        [-12694713.8080383, 5934781.92803049]
+      ]
+    ]
+  } as IGeometry
+};
+
+export const invalidIdAnnoFeature = {
+  id: -1,
+  type: "annotations",
+  attributes: {
+    OBJECTID: -1,
+    author: "jones",
+    source: null as string,
+    status: "pending",
+    target: "something",
+    description: "this is where the comments go",
+    created_at: 1349395200000,
+    updated_at: 1349395200000,
+    dataset_id: "sgj432"
+  },
+  geometry: {
+    rings: [
+      [
+        [-12694713.8080383, 5934781.92803049],
+        [-12691159.4862231, 5936119.57602548],
+        [-12691159.4862231, 5932527.03569609],
+        [-12694713.8080383, 5934781.92803049]
+      ]
+    ]
+  } as IGeometry
+};
+
+export const missingIdAnnoFeature = {
+  id: -1,
+  type: "annotations",
+  attributes: {
+    author: "jones",
+    source: null as string,
+    status: "pending",
+    target: "something",
+    description: "this is where the comments go",
+    created_at: 1349395200000,
+    updated_at: 1349395200000,
+    dataset_id: "sgj432"
+  },
+  geometry: {
+    rings: [
+      [
+        [-12694713.8080383, 5934781.92803049],
+        [-12691159.4862231, 5936119.57602548],
+        [-12691159.4862231, 5932527.03569609],
+        [-12694713.8080383, 5934781.92803049]
+      ]
+    ]
+  } as IGeometry
+};
+
+export const annoVoteResponseEmpty = {
+  data: [
+    {
+      id: 1,
+      type: "votes",
+      attributes: {
+        upVotes: 0,
+        downVotes: 0
+      }
+    }
+  ] as IVoteResourceObject[]
+};
+
+export const annoVoteResponseInvalid = {
+  data: [] as IVoteResourceObject[]
+};
+
+export const annoVoteResponse = {
+  data: [
+    {
+      id: 1,
+      type: "votes",
+      attributes: {
+        upVotes: 6,
+        downVotes: 3
+      }
+    }
+  ] as IVoteResourceObject[]
+};
+
+export const allAnnoVoteQueryResponseEmpty = {
+  objectIdFieldName: "OBJECTID",
+  uniqueIdField: {
+    name: "OBJECTID",
+    isSystemMaintained: true
+  },
+  globalIdFieldName: "",
+  geometryType: "esriGeometryPolygon",
+  spatialReference: {
+    wkid: 4269,
+    latestWkid: 4269
+  },
+  fields: [
+    {
+      name: "parent_id",
+      type: "esriFieldTypeDouble",
+      alias: "parent_id",
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "count",
+      type: "esriFieldTypeInteger",
+      alias: "count",
+      domain: null,
+      defaultValue: null
+    }
+  ] as IField[],
+  features: [] as IFeature[]
+};
+
+export const allAnnoUpVoteQueryResponse = {
+  objectIdFieldName: "OBJECTID",
+  uniqueIdField: {
+    name: "OBJECTID",
+    isSystemMaintained: true
+  },
+  globalIdFieldName: "",
+  geometryType: "esriGeometryPolygon",
+  spatialReference: {
+    wkid: 4269,
+    latestWkid: 4269
+  },
+  fields: [
+    {
+      name: "parent_id",
+      type: "esriFieldTypeDouble",
+      alias: "parent_id",
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "count",
+      type: "esriFieldTypeInteger",
+      alias: "count",
+      domain: null,
+      defaultValue: null
+    }
+  ] as IField[],
+  features: [
+    {
+      attributes: {
+        parent_id: 1,
+        count: 6
+      }
+    }
+  ] as IFeature[]
+};
+
+export const allAnnoDownVoteQueryResponse = {
+  objectIdFieldName: "OBJECTID",
+  uniqueIdField: {
+    name: "OBJECTID",
+    isSystemMaintained: true
+  },
+  globalIdFieldName: "",
+  geometryType: "esriGeometryPolygon",
+  spatialReference: {
+    wkid: 4269,
+    latestWkid: 4269
+  },
+  fields: [
+    {
+      name: "parent_id",
+      type: "esriFieldTypeDouble",
+      alias: "parent_id",
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "count",
+      type: "esriFieldTypeInteger",
+      alias: "count",
+      domain: null,
+      defaultValue: null
+    }
+  ] as IField[],
+  features: [
+    {
+      attributes: {
+        parent_id: 1,
+        count: 3
+      }
+    },
+    {
+      attributes: {
+        parent_id: 2,
+        count: 1
+      }
+    }
+  ] as IFeature[]
+};
+
+export const allAnnoVoteResponseEmpty = {
+  data: [] as IVoteResourceObject[]
+};
+
+export const allAnnoVoteResponse = {
+  data: [
+    {
+      id: 1,
+      type: "votes",
+      attributes: {
+        upVotes: 6,
+        downVotes: 3
+      }
+    },
+    {
+      id: 2,
+      type: "votes",
+      attributes: {
+        upVotes: 0,
+        downVotes: 1
+      }
+    }
+  ] as IVoteResourceObject[]
 };
