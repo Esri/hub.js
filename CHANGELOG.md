@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [1.7.0] - January 30th 2019
 
+### @esri/hub-annotations
+
+* New Features
+  * adds functions to get the number of votes for annotations
+
+
 ## [1.6.1] - January 29th 2019
 
 ### @esri/hub-annotations
