@@ -154,51 +154,43 @@ export function searchSingleAnnotationVotes(
   requestOptions: ISearchAnnoRequestOptions
 ): Promise<{ data: IVoteResourceObject[] }> {
   const data: IVoteResourceObject[] = [];
-  if (
-    requestOptions.annotation.attributes.OBJECTID &&
-    requestOptions.annotation.attributes.OBJECTID > 0
-  ) {
-    requestOptions.groupByFieldsForStatistics = "value";
-    const outStat: IStatisticDefinition = {
-      statisticType: "count",
-      onStatisticField: "value",
-      outStatisticFieldName: "value_count"
-    };
-    requestOptions.outStatistics = [outStat];
-    const annotationId = requestOptions.annotation.attributes.OBJECTID;
-    // filtering for the comment
-    const commentFilteringClause = "parent_id=" + annotationId;
-    requestOptions.where += requestOptions.where ? "+AND+" : "";
-    requestOptions.where += commentFilteringClause;
-    const queryRequestOptions = requestOptions as IQueryFeaturesRequestOptions;
-    return queryFeatures(queryRequestOptions).then(response => {
-      const resource: IVoteResourceObject = {
-        id: annotationId.attributes.OBJECTID,
-        type: "votes",
-        attributes: {
-          upVotes: 0,
-          downVotes: 0
-        }
-      };
-
-      // use .reduce()?
-      (response as IQueryFeaturesResponse).features.forEach(
-        (statistic: IFeature) => {
-          if (statistic.attributes.value > 0) {
-            resource.attributes.upVotes += statistic.attributes.value_count;
-          } else if (statistic.attributes.value < 0) {
-            resource.attributes.downVotes += statistic.attributes.value_count;
-          }
-        }
-      );
-      data.push(resource);
-      return { data };
-    });
-  } else {
-    return new Promise(resolve => {
-      resolve({ data });
-    });
+  const annotationId = requestOptions.annotation.attributes.OBJECTID;
+  if (!annotationId || annotationId < 0) {
+    return Promise.resolve({ data });
   }
+  requestOptions.groupByFieldsForStatistics = "value";
+  const outStat: IStatisticDefinition = {
+    statisticType: "count",
+    onStatisticField: "value",
+    outStatisticFieldName: "value_count"
+  };
+  requestOptions.outStatistics = [outStat];
+  // filtering for the comment
+  requestOptions.where = "parent_id=" + annotationId;
+  const queryRequestOptions = requestOptions as IQueryFeaturesRequestOptions;
+  return queryFeatures(queryRequestOptions).then(response => {
+    const resource: IVoteResourceObject = {
+      id: annotationId,
+      type: "votes",
+      attributes: {
+        upVotes: 0,
+        downVotes: 0
+      }
+    };
+
+    // use .reduce()?
+    (response as IQueryFeaturesResponse).features.forEach(
+      (statistic: IFeature) => {
+        if (statistic.attributes.value > 0) {
+          resource.attributes.upVotes += statistic.attributes.value_count;
+        } else if (statistic.attributes.value < 0) {
+          resource.attributes.downVotes += statistic.attributes.value_count;
+        }
+      }
+    );
+    data.push(resource);
+    return { data };
+  });
 }
 
 /**

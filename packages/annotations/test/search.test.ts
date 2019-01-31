@@ -17,6 +17,7 @@ import {
   annoFeature,
   annoVoteQueryResponse,
   annoVoteResponseEmpty,
+  annoVoteResponseInvalid,
   annoVoteResponse,
   allAnnoVoteQueryResponseEmpty,
   allAnnoUpVoteQueryResponse,
@@ -203,51 +204,21 @@ describe("searchSingleAnnotationVotes", () => {
   });
 
   it("should query for votes when comment is not valid", done => {
-    const queryParamsSpy = spyOn(
-      featureService,
-      "queryFeatures"
-    ).and.returnValue(
-      new Promise(resolve => {
-        resolve(annoVoteQueryResponseEmpty);
-      })
-    );
-
     searchSingleAnnotationVotes({
       url: annoSearchResponse.results[0].url + "/0",
       annotation: invalidIdAnnoFeature
     }).then(response => {
-      expect(queryParamsSpy.calls.count()).toEqual(0);
-      const queryOpts = queryParamsSpy.calls.argsFor(
-        0
-      )[0] as IQueryFeaturesRequestOptions;
-
-      expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
-      expect(response).toEqual(annoVoteResponseEmpty);
+      expect(response).toEqual(annoVoteResponseInvalid);
       done();
     });
   });
 
   it("should query for votes when comment id is missing", done => {
-    const queryParamsSpy = spyOn(
-      featureService,
-      "queryFeatures"
-    ).and.returnValue(
-      new Promise(resolve => {
-        resolve(annoVoteQueryResponseEmpty);
-      })
-    );
-
     searchSingleAnnotationVotes({
       url: annoSearchResponse.results[0].url + "/0",
       annotation: missingIdAnnoFeature
     }).then(response => {
-      expect(queryParamsSpy.calls.count()).toEqual(0);
-      const queryOpts = queryParamsSpy.calls.argsFor(
-        0
-      )[0] as IQueryFeaturesRequestOptions;
-
-      expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
-      expect(response).toEqual(annoVoteResponseEmpty);
+      expect(response).toEqual(annoVoteResponseInvalid);
       done();
     });
   });

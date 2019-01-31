@@ -428,6 +428,10 @@ export const annoVoteResponseEmpty = {
   ] as IVoteResourceObject[]
 };
 
+export const annoVoteResponseInvalid = {
+  data: [] as IVoteResourceObject[]
+};
+
 export const annoVoteResponse = {
   data: [
     {
