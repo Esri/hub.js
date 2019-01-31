@@ -144,7 +144,7 @@ export interface IVoteResourceObject {
  *     //   }]
  *    });
  * ```
- * Query for up and down votes on multiple comments from ArcGIS Hub.
+ * Query for up and down votes on a comment from ArcGIS Hub.
  * @param requestOptions - request options that may include authentication
  * @param annotation - the annotation for which votes need to be counted
  * @returns A Promise that will resolve with summary statistics for the specified annotation from the annotation service for a Hub enabled ArcGIS Online organization.
@@ -208,7 +208,7 @@ export function searchSingleAnnotationVotes(
  *     //   }]
  *    });
  * ```
- * Query for up and down votes on a comment from ArcGIS Hub.
+ * Query for up and down votes on all comments (with or without additional filters) from ArcGIS Hub.
  * @param requestOptions - request options that may include authentication
  * @returns A Promise that will resolve with summary statistics from the annotation service for a Hub enabled ArcGIS Online organization.
  */
