@@ -129,12 +129,11 @@ export interface IVoteResourceObject {
  * import { searchSingleAnnotationVotes } from "@esri/hub-annotations";
  * //
  * searchSingleAnnotationVotes({ url: annotationsUrl + "/0",
- *                         annotation: {
- *                            id: "Annotation1",
- *                            type: "annotations",
- *                            attributes: {description: "Great place!", ...}
- *                          })
- *   .then(response => {
+ *   annotation: {
+ *     id: "Annotation1",
+ *     type: "annotations",
+ *     attributes: {description: "Great place!", ...}
+ *   }).then(response => {
  *     //   data: [{
  *     //     id,
  *     //     type: "votes",
@@ -145,7 +144,7 @@ export interface IVoteResourceObject {
  *     //   }]
  *    });
  * ```
- * Query for up and down votes on a comment from ArcGIS Hub.
+ * Query for up and down votes on multiple comments from ArcGIS Hub.
  * @param requestOptions - request options that may include authentication
  * @param annotation - the annotation for which votes need to be counted
  * @returns A Promise that will resolve with summary statistics for the specified annotation from the annotation service for a Hub enabled ArcGIS Online organization.
@@ -195,7 +194,7 @@ export function searchSingleAnnotationVotes(
 
 /**
  * ```js
- * import { searchAnnotationVotes } from "@esri/hub-annotations";
+ * import { searchAllAnnotationVotes } from "@esri/hub-annotations";
  * //
  * searchAllAnnotationVotes({ url: annotationsUrl + "/0"})
  *   .then(response => {
