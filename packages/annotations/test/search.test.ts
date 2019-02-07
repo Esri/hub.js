@@ -287,15 +287,17 @@ describe("searchAllAnnotationVotes", () => {
       })
     );
 
+    const initiativeWhereClause = "dataset_id=initiative123";
     searchAllAnnotationVotes({
       url: annoSearchResponse.results[0].url + "/0",
-      where: "dataset_id=initiative123"
+      where: initiativeWhereClause
     }).then(response => {
       expect(queryParamsSpy.calls.count()).toEqual(2);
       const queryOpts = queryParamsSpy.calls.argsFor(
         0
       )[0] as IQueryFeaturesRequestOptions;
       expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
+      expect(queryOpts.where).toContain(initiativeWhereClause + " AND value");
       expect(response).toEqual(allAnnoVoteResponse);
       done();
     });

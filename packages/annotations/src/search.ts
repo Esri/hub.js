@@ -224,7 +224,7 @@ export function searchAllAnnotationVotes(
   requestOptions.outStatistics = [votesStat];
   // filtering for up votes
   const upVoteClause = "value>0";
-  requestOptions.where += requestOptions.where ? "+AND+" : "";
+  requestOptions.where += requestOptions.where ? " AND " : "";
   requestOptions.where += upVoteClause;
 
   return queryFeatures(requestOptions).then(upVotesResponse => {
