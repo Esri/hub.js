@@ -1,8 +1,7 @@
 import { voteOnAnnotation } from "../src/vote";
 import {
   annoQueryVoteResponse,
-  annoQueryResponseEmpty,
-  userResponseJones
+  annoQueryResponseEmpty
 } from "./mocks/anno_search";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import {
@@ -11,7 +10,6 @@ import {
   IDeleteFeaturesRequestOptions
 } from "@esri/arcgis-rest-feature-service";
 import * as featureService from "@esri/arcgis-rest-feature-service";
-import * as user from "@esri/arcgis-rest-users";
 
 export const addFeaturesResponse = {
   addResults: [
@@ -97,7 +95,7 @@ describe("voteOnAnnotation", () => {
         expect(addOpts.features).toEqual([
           {
             attributes: {
-              value: 1,
+              vote: 1,
               parent_id: 123,
               target:
                 "https://services.arcgis.com/xyz/arcgis/rest/services/CityX_bikeshare_locations/FeatureServer/0",
@@ -164,7 +162,7 @@ describe("voteOnAnnotation", () => {
         expect(addOpts.features).toEqual([
           {
             attributes: {
-              value: -1,
+              vote: -1,
               parent_id: 123,
               target:
                 "https://services.arcgis.com/xyz/arcgis/rest/services/CityX_bikeshare_locations/FeatureServer/0",

@@ -1,4 +1,4 @@
-/* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2018-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
 import {
@@ -60,6 +60,9 @@ export function searchAnnotations(
       "dataset_id"
     ];
   }
+
+  // upvotes and downvotes should not be returned
+  requestOptions.where += " AND parent_id IS NULL";
 
   return queryFeatures(requestOptions).then(response => {
     const users: string[] = [];

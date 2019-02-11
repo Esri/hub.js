@@ -92,7 +92,7 @@ describe("searchAnnotations", () => {
       )[0] as IQueryFeaturesRequestOptions;
 
       expect(opts.url).toBe(annoSearchResponse.results[0].url + "/0");
-      expect(opts.where).toBe("1=0");
+      expect(opts.where).toBe("1=0 AND parent_id IS NULL");
       expect(opts.outFields).toEqual(mockOutFields);
       expect(response).toEqual(annoResponseEmpty);
       done();
