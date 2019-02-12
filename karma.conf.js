@@ -18,11 +18,22 @@ module.exports = function(config) {
     exclude: [],
 
     karmaTypescriptConfig: {
-      // coverage report in terminal comes from this one.
+      coverageOptions: {
+        threshold: {
+          global: {
+              statements: 100,
+              branches: 100,
+              functions: 100,
+              lines: 100
+          }
+        }
+      },
       reports: {
-        lcovonly: "coverage",
-        html: "coverage",
-        text: ""
+        "json": {
+          "directory": "coverage",
+          "filename": "coverage.json"
+        },
+        "html": "coverage"
       },
       compilerOptions: {
         module: "commonjs"
@@ -45,12 +56,6 @@ module.exports = function(config) {
       }
     },
 
-    // coveralls uses this one.
-    coverageReporter: {
-      type: 'lcov',
-      dir: 'coverage/'
-    },
-
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
@@ -60,7 +65,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["jasmine-diff", "dots", "karma-typescript", "coverage", "coveralls"],
+    reporters: ["jasmine-diff", "dots", "karma-typescript"],
 
     // web server port
     port: 9876,
