@@ -7,13 +7,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.7.1] - February 12th 2019
+
+### @esri/hub-annotations
+
+* Fixes
+  * fix incorrect `WHERE` clause construction [`36ea324`](https://github.com/Esri/hub.js/commit/36ea32466401f7a7692db4ac5d59b1a6e4944e92)
+  * ensure upvotes/downvotes arent returned by `searchAnnotations()` [`4b76141`](https://github.com/Esri/hub.js/commit/4b76141d0a4e6fa72616506ad1b32cdd19de0491)
+  * ensure users can delete their own upvote/downvotes [`4b76141`](https://github.com/Esri/hub.js/commit/4b76141d0a4e6fa72616506ad1b32cdd19de0491)
+  * use `vote` as an annotation fieldname (instead of `value`) [`4b76141`](https://github.com/Esri/hub.js/commit/4b76141d0a4e6fa72616506ad1b32cdd19de0491)
+
 ## [1.7.0] - January 30th 2019
 
 ### @esri/hub-annotations
 
 * New Features
   * adds functions to get the number of votes for annotations
-
 
 ## [1.6.1] - January 29th 2019
 
@@ -198,4 +207,5 @@ Initial Release
 [1.6.0]: https://github.com/Esri/hub.js/compare/v1.5.3...v1.6.0 "v1.6.0"
 [1.6.1]: https://github.com/Esri/hub.js/compare/v1.6.0...v1.6.1 "v1.6.1"
 [1.7.0]: https://github.com/Esri/hub.js/compare/v1.6.1...v1.7.0 "v1.7.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/1.7.0...HEAD "Unreleased Changes"
+[1.7.1]: https://github.com/Esri/hub.js/compare/v1.7.0...v1.7.1 "v1.7.1"
+[HEAD]: https://github.com/Esri/hub.js/compare/1.7.1...HEAD "Unreleased Changes"
