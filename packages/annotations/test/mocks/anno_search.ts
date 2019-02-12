@@ -111,7 +111,7 @@ export const annoQueryVoteResponse = {
         created_at: 1349395200001,
         updated_at: 1349395200001,
         dataset_id: "xds466",
-        value: -1
+        vote: -1
       }
     }
   ]

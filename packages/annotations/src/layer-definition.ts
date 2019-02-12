@@ -32,7 +32,7 @@ export const editorTrackingInfo = {
  */
 export const annotationServiceDefinition: ILayerDefinition = {
   allowGeometryUpdates: true,
-  capabilities: "Query,Editing,Create,Update",
+  capabilities: "Query,Editing,Create,Update,Delete",
   copyrightText: "",
   defaultVisibility: true,
   description: "",
@@ -204,9 +204,9 @@ export const annotationServiceDefinition: ILayerDefinition = {
       defaultValue: null
     },
     {
-      name: "value",
+      name: "vote",
       type: "esriFieldTypeInteger",
-      alias: "value",
+      alias: "vote",
       nullable: true,
       editable: true,
       domain: null,

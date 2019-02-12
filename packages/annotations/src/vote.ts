@@ -1,4 +1,4 @@
-/* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2018-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
 import {
@@ -14,8 +14,7 @@ import {
   IAddFeaturesRequestOptions,
   IDeleteFeaturesRequestOptions,
   IAddFeaturesResult,
-  IDeleteFeaturesResult,
-  IQueryFeaturesResponse
+  IDeleteFeaturesResult
 } from "@esri/arcgis-rest-feature-service";
 
 import { IAnnoFeature } from "./add";
@@ -54,19 +53,15 @@ export function voteOnAnnotation(
   const url = requestOptions.url;
 
   if (!auth) {
-    return new Promise((resolve, reject) => {
-      reject(
-        new ArcGISAuthError(`Voting by anonymous users is not supported.`)
-      );
-    });
+    return Promise.reject(
+      new ArcGISAuthError(`Voting by anonymous users is not supported.`)
+    );
   }
 
   if (annotation.attributes.author === auth.username) {
-    return new Promise((resolve, reject) => {
-      reject(
-        new ArcGISRequestError(`Users may not vote on their own comment/idea.`)
-      );
-    });
+    return Promise.reject(
+      new ArcGISRequestError(`Users may not vote on their own comment/idea.`)
+    );
   }
 
   // searchAnnotations() would make more xhrs for user metadata
@@ -82,9 +77,9 @@ export function voteOnAnnotation(
       // if its a switch vote, call deleteFeatures() to remove the original
       if (
         (!requestOptions.downVote &&
-          queryResponse.features[0].attributes.value === -1) ||
+          queryResponse.features[0].attributes.vote === -1) ||
         (requestOptions.downVote &&
-          queryResponse.features[0].attributes.value === 1)
+          queryResponse.features[0].attributes.vote === 1)
       ) {
         const deleteOptions: IDeleteFeaturesRequestOptions = {
           url,
@@ -110,7 +105,7 @@ export function voteOnAnnotation(
       features: [
         {
           attributes: {
-            value: requestOptions.downVote ? -1 : 1,
+            vote: requestOptions.downVote ? -1 : 1,
             parent_id: annotation.attributes.OBJECTID,
             target: annotation.attributes.target,
             description: "this is a vote.",
