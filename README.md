@@ -1,5 +1,6 @@
 [![npm version][npm-img]][npm-url]
 [![build status][travis-img]][travis-url]
+[![gzip bundle size][gzip-image]][npm-url]
 [![Coverage Status][coverage-img]][coverage-url]
 [![apache licensed][license-img]][license-url]
 
@@ -7,10 +8,11 @@
 [npm-url]: https://www.npmjs.com/package/@esri/hub-initiatives
 [travis-img]: https://img.shields.io/travis/Esri/hub.js/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/Esri/hub.js
-[coverage-img]: https://coveralls.io/repos/github/Esri/hub.js/badge.svg
-[coverage-url]: https://coveralls.io/github/Esri/hub.js
+[coverage-img]: https://codecov.io/gh/Esri/hub.js/branch/master/graph/badge.svg
+[coverage-url]: https://codecov.io/gh/Esri/hub.js
 [license-img]: https://img.shields.io/badge/license-Apache%202.0-orange.svg?style=flat-square
 [license-url]: #license
+[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/hub-common/dist/umd/common.umd.min.js?compression=gzip
 
 # @esri/hub.js
 

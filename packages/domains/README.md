@@ -1,11 +1,16 @@
 [![npm version][npm-img]][npm-url]
 [![build status][travis-img]][travis-url]
+[![gzip bundle size][gzip-image]][npm-url]
+[![Coverage Status][coverage-img]][coverage-url]
 [![apache licensed](https://img.shields.io/badge/license-Apache-green.svg?style=flat-square)](https://raw.githubusercontent.com/Esri/hub.js/master/LICENSE)
 
 [npm-img]: https://img.shields.io/npm/v/@esri/hub-domains.svg?style=flat-square
 [npm-url]: https://www.npmjs.com/package/@esri/hub-domains
 [travis-img]: https://img.shields.io/travis/Esri/hub.js/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/Esri/hub.js
+[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/hub-domains/dist/umd/domains.umd.min.js?compression=gzip
+[coverage-img]: https://codecov.io/gh/Esri/hub.js/branch/master/graph/badge.svg
+[coverage-url]: https://codecov.io/gh/Esri/hub.js
 
 # @esri/hub-domains
 

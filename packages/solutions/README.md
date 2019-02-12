@@ -1,11 +1,16 @@
 [![npm version][npm-img]][npm-url]
 [![build status][travis-img]][travis-url]
+[![gzip bundle size][gzip-image]][npm-url]
+[![Coverage Status][coverage-img]][coverage-url]
 [![apache licensed](https://img.shields.io/badge/license-Apache-green.svg?style=flat-square)](https://raw.githubusercontent.com/Esri/hub.js/master/LICENSE)
 
 [npm-img]: https://img.shields.io/npm/v/@esri/hub-solutions.svg?style=flat-square
 [npm-url]: https://www.npmjs.com/package/@esri/hub-solutions
 [travis-img]: https://img.shields.io/travis/Esri/hub.js/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/Esri/hub.js
+[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/hub-solutions/dist/umd/solutions.umd.min.js?compression=gzip
+[coverage-img]: https://codecov.io/gh/Esri/hub.js/branch/master/graph/badge.svg
+[coverage-url]: https://codecov.io/gh/Esri/hub.js
 
 # @esri/hub-solutions
 
@@ -45,7 +50,7 @@ getSolutionTemplate("template-item-id", requestOptions)
 ```
 
 
-## Create a Solution as part of an Initiative 
+## Create a Solution as part of an Initiative
 This assumes any required Indicators are already defined as part of the Initiative
 
 *TODO* Document the required permissions/privs required
@@ -59,7 +64,7 @@ createInitiativeSolution("template-item-id", "initiative-item-id", requestOption
     );
 ```
 
-## Create a Solution not associated with an Initiative 
+## Create a Solution not associated with an Initiative
 
 *TODO* Document the required permissions/privs required
 
@@ -72,7 +77,7 @@ createSolution("template-item-id", requestOptions)
     );
 ```
 
-## Remove a Solution 
+## Remove a Solution
 This will remove the Solution item and all of it's child items.
 If the Solution is associated with an Initiative (`item.properties.initiativeId` exists), it will be removed from the Initiative model's relationship hashes.
 
