@@ -271,16 +271,16 @@ export const annoVoteQueryResponseEmpty = {
   },
   fields: [
     {
-      name: "value",
+      name: "vote",
       type: "esriFieldTypeDouble",
-      alias: "value",
+      alias: "vote",
       domain: null,
       defaultValue: null
     },
     {
-      name: "value_count",
+      name: "vote_count",
       type: "esriFieldTypeInteger",
-      alias: "value_count",
+      alias: "vote_count",
       domain: null,
       defaultValue: null
     }
@@ -302,16 +302,16 @@ export const annoVoteQueryResponse = {
   },
   fields: [
     {
-      name: "value",
+      name: "vote",
       type: "esriFieldTypeDouble",
-      alias: "value",
+      alias: "vote",
       domain: null,
       defaultValue: null
     },
     {
-      name: "value_count",
+      name: "vote_count",
       type: "esriFieldTypeInteger",
-      alias: "value_count",
+      alias: "vote_count",
       domain: null,
       defaultValue: null
     }
@@ -319,20 +319,20 @@ export const annoVoteQueryResponse = {
   features: [
     {
       attributes: {
-        value: 1,
-        value_count: 6
+        vote: 1,
+        vote_count: 6
       }
     },
     {
       attributes: {
-        value: -1,
-        value_count: 3
+        vote: -1,
+        vote_count: 3
       }
     },
     {
       attributes: {
-        value: 0,
-        value_count: 1
+        vote: 0,
+        vote_count: 1
       }
     }
   ] as IFeature[]
