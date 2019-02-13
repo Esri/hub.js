@@ -135,7 +135,7 @@ export interface IVoteResourceObject {
  *   annotation: {
  *     id: "Annotation1",
  *     type: "annotations",
- *     attributes: {description: "Great place!", ...}
+ *     attributes: { description: "Great place!", ... }
  *   }).then(response => {
  *     //   data: [{
  *     //     id,
@@ -160,11 +160,11 @@ export function searchSingleAnnotationVotes(
   if (!annotationId || annotationId < 0) {
     return Promise.resolve({ data });
   }
-  requestOptions.groupByFieldsForStatistics = "value";
+  requestOptions.groupByFieldsForStatistics = "vote";
   const outStat: IStatisticDefinition = {
     statisticType: "count",
-    onStatisticField: "value",
-    outStatisticFieldName: "value_count"
+    onStatisticField: "vote",
+    outStatisticFieldName: "vote_count"
   };
   requestOptions.outStatistics = [outStat];
   // filtering for the comment
@@ -183,10 +183,10 @@ export function searchSingleAnnotationVotes(
     // use .reduce()?
     (response as IQueryFeaturesResponse).features.forEach(
       (statistic: IFeature) => {
-        if (statistic.attributes.value > 0) {
-          resource.attributes.upVotes += statistic.attributes.value_count;
-        } else if (statistic.attributes.value < 0) {
-          resource.attributes.downVotes += statistic.attributes.value_count;
+        if (statistic.attributes.vote > 0) {
+          resource.attributes.upVotes += statistic.attributes.vote_count;
+        } else if (statistic.attributes.vote < 0) {
+          resource.attributes.downVotes += statistic.attributes.vote_count;
         }
       }
     );
@@ -221,12 +221,12 @@ export function searchAllAnnotationVotes(
   requestOptions.groupByFieldsForStatistics = "parent_id";
   const votesStat: IStatisticDefinition = {
     statisticType: "count",
-    onStatisticField: "value",
+    onStatisticField: "vote",
     outStatisticFieldName: "count"
   };
   requestOptions.outStatistics = [votesStat];
   // filtering for up votes
-  const upVoteClause = "value>0";
+  const upVoteClause = "vote > 0";
   requestOptions.where += requestOptions.where ? " AND " : "";
   requestOptions.where += upVoteClause;
 
@@ -247,7 +247,7 @@ export function searchAllAnnotationVotes(
       }
     );
     // filtering for down Votes
-    requestOptions.where.replace("value>0", "value<0");
+    requestOptions.where.replace("vote > 0", "vote < 0");
     return queryFeatures(requestOptions).then(downVotesResponse => {
       // use .reduce()?
       (downVotesResponse as IQueryFeaturesResponse).features.forEach(

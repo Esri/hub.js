@@ -297,7 +297,7 @@ describe("searchAllAnnotationVotes", () => {
         0
       )[0] as IQueryFeaturesRequestOptions;
       expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
-      expect(queryOpts.where).toContain(initiativeWhereClause + " AND value");
+      expect(queryOpts.where).toContain(initiativeWhereClause + " AND vote");
       expect(response).toEqual(allAnnoVoteResponse);
       done();
     });
