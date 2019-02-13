@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.7.2] - February 13th 2019
+
+### @esri/hub-annotations
+
+* Fixes
+  * ensure that correct summary statistics are generated when searching for annotation votes [`169656a`](https://github.com/Esri/hub.js/commit/169656ac948ab898ee90bd5299f6b469de89fa3f)
+
 ## [1.7.1] - February 12th 2019
 
 ### @esri/hub-annotations
@@ -208,4 +215,5 @@ Initial Release
 [1.6.1]: https://github.com/Esri/hub.js/compare/v1.6.0...v1.6.1 "v1.6.1"
 [1.7.0]: https://github.com/Esri/hub.js/compare/v1.6.1...v1.7.0 "v1.7.0"
 [1.7.1]: https://github.com/Esri/hub.js/compare/v1.7.0...v1.7.1 "v1.7.1"
-[HEAD]: https://github.com/Esri/hub.js/compare/1.7.1...HEAD "Unreleased Changes"
+[1.7.2]: https://github.com/Esri/hub.js/compare/v1.7.1...v1.7.2 "v1.7.2"
+[HEAD]: https://github.com/Esri/hub.js/compare/1.7.2...HEAD "Unreleased Changes"
