@@ -32,10 +32,12 @@ describe("auth", () => {
       `https://www.arcgis.com/sharing/rest/community/users/${username}?f=json&token=token`,
       oldUserResponse
     );
-    completeOAuth2(oauth2Options, MockWindow).then(() => {
-      expect(UserSession.completeOAuth2).toHaveBeenCalledWith(oauth2Options);
-      done();
-    });
+    completeOAuth2(oauth2Options, MockWindow)
+      .then(() => {
+        expect(UserSession.completeOAuth2).toHaveBeenCalledWith(oauth2Options);
+        done();
+      })
+      .catch(() => fail());
   });
 
   it("should fetch old user metadata and pass options to completeOAuth2", done => {
@@ -55,20 +57,23 @@ describe("auth", () => {
       {}
     );
 
-    completeOAuth2(oauth2Options, MockWindow).then(() => {
-      expect(UserSession.completeOAuth2).toHaveBeenCalledWith(oauth2Options);
+    completeOAuth2(oauth2Options, MockWindow)
+      .then(() => {
+        expect(UserSession.completeOAuth2).toHaveBeenCalledWith(oauth2Options);
 
-      const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-        `https://www.arcgis.com/sharing/rest/community/users/${username}/update`
-      );
-      expect(options.method).toBe("POST");
-      expect(options.body).toContain("f=json");
-      expect(options.body).toContain("token=token");
-      expect(options.body).toContain(
-        "tags=hubRole%3Aparticipant%2Corg%3AorgId"
-      );
-      expect(options.body).toContain("access=public");
-      done();
-    });
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+          `https://www.arcgis.com/sharing/rest/community/users/${username}/update`
+        );
+        expect(url).toBe(url);
+        expect(options.method).toBe("POST");
+        expect(options.body).toContain("f=json");
+        expect(options.body).toContain("token=token");
+        expect(options.body).toContain(
+          "tags=hubRole%3Aparticipant%2Corg%3AorgId"
+        );
+        expect(options.body).toContain("access=public");
+        done();
+      })
+      .catch(() => fail());
   });
 });

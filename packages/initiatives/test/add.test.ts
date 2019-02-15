@@ -39,23 +39,25 @@ describe("Add Initiative ::", () => {
       }
     );
 
-    addInitiative(newInitiative, MOCK_REQUEST_OPTIONS).then(result => {
-      expect(result).not.toBe(newInitiative, "should return a clone");
-      expect(result.item.id).toBe(
-        "from-spy",
-        "should have the id from the spy result"
-      );
-      expect(result.item.url).toContain(`admin/initiatives/from-spy`);
-      expect(saveSpy.calls.count()).toEqual(
-        1,
-        "should make one call to model::saveModel"
-      );
-      expect(updateSpy.calls.count()).toEqual(
-        1,
-        "should make one call to model::updateModel"
-      );
-      done();
-    });
+    addInitiative(newInitiative, MOCK_REQUEST_OPTIONS)
+      .then(result => {
+        expect(result).not.toBe(newInitiative, "should return a clone");
+        expect(result.item.id).toBe(
+          "from-spy",
+          "should have the id from the spy result"
+        );
+        expect(result.item.url).toContain(`admin/initiatives/from-spy`);
+        expect(saveSpy.calls.count()).toEqual(
+          1,
+          "should make one call to model::saveModel"
+        );
+        expect(updateSpy.calls.count()).toEqual(
+          1,
+          "should make one call to model::updateModel"
+        );
+        done();
+      })
+      .catch(() => fail());
   });
 
   it("should return Initiative Url without requestOptions", () => {

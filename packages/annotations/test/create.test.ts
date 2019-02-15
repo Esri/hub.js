@@ -122,79 +122,81 @@ describe("createAnnotationService", () => {
       authentication
     } as ICreateAnnoRequestOptions;
 
-    createAnnotationService(options).then(() => {
-      expect(searchParamsSpy.calls.count()).toEqual(1);
-      expect(portalParamsSpy.calls.count()).toEqual(1);
-      expect(createParamsSpy.calls.count()).toEqual(1);
-      expect(shareParamsSpy.calls.count()).toEqual(1);
-      expect(updateParamsSpy.calls.count()).toEqual(1);
-      expect(addToParamsSpy.calls.count()).toEqual(1);
-      expect(protectParamsSpy.calls.count()).toEqual(1);
+    createAnnotationService(options)
+      .then(() => {
+        expect(searchParamsSpy.calls.count()).toEqual(1);
+        expect(portalParamsSpy.calls.count()).toEqual(1);
+        expect(createParamsSpy.calls.count()).toEqual(1);
+        expect(shareParamsSpy.calls.count()).toEqual(1);
+        expect(updateParamsSpy.calls.count()).toEqual(1);
+        expect(addToParamsSpy.calls.count()).toEqual(1);
+        expect(protectParamsSpy.calls.count()).toEqual(1);
 
-      const searchOpts = searchParamsSpy.calls.argsFor(
-        0
-      )[0] as ISearchRequestOptions;
-      expect(searchOpts.searchForm.q).toEqual(
-        "typekeywords:hubAnnotationLayer AND orgid:h7c"
-      );
+        const searchOpts = searchParamsSpy.calls.argsFor(
+          0
+        )[0] as ISearchRequestOptions;
+        expect(searchOpts.searchForm.q).toEqual(
+          "typekeywords:hubAnnotationLayer AND orgid:h7c"
+        );
 
-      const createOpts = createParamsSpy.calls.argsFor(
-        0
-      )[0] as ICreateServiceRequestOptions;
-      expect(createOpts.item.name).toEqual("hub_annotations");
-      expect(createOpts.item.capabilities).toEqual(
-        annotationServiceDefinition.capabilities
-      );
-      expect(createOpts.item.maxRecordCount).toEqual(2000);
-      expect(createOpts.item.hasStaticData).toEqual(false);
-      expect(createOpts.item.editorTrackingInfo.allowAnonymousToUpdate).toEqual(
-        false
-      );
-      expect(createOpts.item.editorTrackingInfo.allowAnonymousToDelete).toEqual(
-        false
-      );
-      expect(createOpts.item.xssPreventionInfo.xssPreventionEnabled).toEqual(
-        true
-      );
-      expect(createOpts.authentication.token).toEqual("fake-token");
+        const createOpts = createParamsSpy.calls.argsFor(
+          0
+        )[0] as ICreateServiceRequestOptions;
+        expect(createOpts.item.name).toEqual("hub_annotations");
+        expect(createOpts.item.capabilities).toEqual(
+          annotationServiceDefinition.capabilities
+        );
+        expect(createOpts.item.maxRecordCount).toEqual(2000);
+        expect(createOpts.item.hasStaticData).toEqual(false);
+        expect(
+          createOpts.item.editorTrackingInfo.allowAnonymousToUpdate
+        ).toEqual(false);
+        expect(
+          createOpts.item.editorTrackingInfo.allowAnonymousToDelete
+        ).toEqual(false);
+        expect(createOpts.item.xssPreventionInfo.xssPreventionEnabled).toEqual(
+          true
+        );
+        expect(createOpts.authentication.token).toEqual("fake-token");
 
-      expect(addToParamsSpy.calls.argsFor(0)[0]).toEqual(
-        "https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/hub_annotations/FeatureServer"
-      );
-      const addToOpts = addToParamsSpy.calls.argsFor(
-        0
-      )[1] as IAddToServiceDefinitionRequestOptions;
-      expect(addToOpts.layers).toEqual([clonedServiceDefinition]);
-      expect(addToOpts.authentication.token).toEqual("fake-token");
+        expect(addToParamsSpy.calls.argsFor(0)[0]).toEqual(
+          "https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/hub_annotations/FeatureServer"
+        );
+        const addToOpts = addToParamsSpy.calls.argsFor(
+          0
+        )[1] as IAddToServiceDefinitionRequestOptions;
+        expect(addToOpts.layers).toEqual([clonedServiceDefinition]);
+        expect(addToOpts.authentication.token).toEqual("fake-token");
 
-      const updateOpts = updateParamsSpy.calls.argsFor(
-        0
-      )[0] as IItemUpdateRequestOptions;
-      expect(updateOpts.item.id).toEqual("41a");
-      expect(updateOpts.item.title).toEqual("Hub Annotations");
-      expect(
-        updateOpts.item.typeKeywords.includes("hubAnnotationLayer")
-      ).toEqual(true);
-      expect(updateOpts.item.snippet).toEqual(
-        `Feature service for Hub annotations. DO NOT DELETE THIS SERVICE. It stores the public annotations (comments) for all Hub items in your organization.`
-      );
-      expect(updateOpts.authentication.token).toEqual("fake-token");
+        const updateOpts = updateParamsSpy.calls.argsFor(
+          0
+        )[0] as IItemUpdateRequestOptions;
+        expect(updateOpts.item.id).toEqual("41a");
+        expect(updateOpts.item.title).toEqual("Hub Annotations");
+        expect(
+          updateOpts.item.typeKeywords.includes("hubAnnotationLayer")
+        ).toEqual(true);
+        expect(updateOpts.item.snippet).toEqual(
+          `Feature service for Hub annotations. DO NOT DELETE THIS SERVICE. It stores the public annotations (comments) for all Hub items in your organization.`
+        );
+        expect(updateOpts.authentication.token).toEqual("fake-token");
 
-      const protectOpts = protectParamsSpy.calls.argsFor(
-        0
-      )[0] as IItemIdRequestOptions;
-      expect(protectOpts.id).toEqual("41a");
-      expect(protectOpts.authentication.token).toEqual("fake-token");
+        const protectOpts = protectParamsSpy.calls.argsFor(
+          0
+        )[0] as IItemIdRequestOptions;
+        expect(protectOpts.id).toEqual("41a");
+        expect(protectOpts.authentication.token).toEqual("fake-token");
 
-      const shareOpts = shareParamsSpy.calls.argsFor(
-        0
-      )[0] as ISetAccessRequestOptions;
-      expect(shareOpts.id).toEqual("41a");
-      expect(shareOpts.access).toEqual("public");
-      expect(shareOpts.authentication.token).toEqual("fake-token");
+        const shareOpts = shareParamsSpy.calls.argsFor(
+          0
+        )[0] as ISetAccessRequestOptions;
+        expect(shareOpts.id).toEqual("41a");
+        expect(shareOpts.access).toEqual("public");
+        expect(shareOpts.authentication.token).toEqual("fake-token");
 
-      done();
-    });
+        done();
+      })
+      .catch(() => fail());
   });
 
   it("should not create a new annotation service if one already exists", done => {
@@ -209,14 +211,18 @@ describe("createAnnotationService", () => {
       authentication
     } as ICreateAnnoRequestOptions;
 
-    createAnnotationService(options).then(() => {
-      expect(searchParamsSpy.calls.count()).toEqual(1);
-      const opts = searchParamsSpy.calls.argsFor(0)[0] as ISearchRequestOptions;
-      expect(opts.searchForm.q).toEqual(
-        "typekeywords:hubAnnotationLayer AND orgid:h7c"
-      );
-      done();
-    });
+    createAnnotationService(options)
+      .then(() => {
+        expect(searchParamsSpy.calls.count()).toEqual(1);
+        const opts = searchParamsSpy.calls.argsFor(
+          0
+        )[0] as ISearchRequestOptions;
+        expect(opts.searchForm.q).toEqual(
+          "typekeywords:hubAnnotationLayer AND orgid:h7c"
+        );
+        done();
+      })
+      .catch(() => fail());
   });
 
   it("should fail gracefully if an error is encountered creating the feature service", done => {
@@ -226,16 +232,13 @@ describe("createAnnotationService", () => {
       })
     );
 
-    const portalParamsSpy = spyOn(request, "getPortal").and.returnValue(
+    spyOn(request, "getPortal").and.returnValue(
       new Promise(resolve => {
         resolve({ portalResponse });
       })
     );
 
-    const createParamsSpy = spyOn(
-      featureServiceAdmin,
-      "createFeatureService"
-    ).and.returnValue(
+    spyOn(featureServiceAdmin, "createFeatureService").and.returnValue(
       new Promise(resolve => {
         resolve({ success: false });
       })

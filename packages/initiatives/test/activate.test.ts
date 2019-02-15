@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { cloneObject, createId } from "@esri/hub-common";
+import { cloneObject } from "@esri/hub-common";
 import { activateInitiative } from "../src/activate";
 import * as RequestAPI from "@esri/arcgis-rest-request";
 import * as SharingAPI from "@esri/arcgis-rest-sharing";

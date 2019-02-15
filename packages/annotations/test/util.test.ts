@@ -17,14 +17,16 @@ describe("getAnnotationServiceUrl", () => {
       })
     );
 
-    getAnnotationServiceUrl("5bc").then(() => {
-      expect(paramsSpy.calls.count()).toEqual(1);
-      const opts = paramsSpy.calls.argsFor(0)[0] as ISearchRequestOptions;
-      expect(opts.searchForm.q).toEqual(
-        "typekeywords:hubAnnotationLayer AND orgid:5bc"
-      );
-      done();
-    });
+    getAnnotationServiceUrl("5bc")
+      .then(() => {
+        expect(paramsSpy.calls.count()).toEqual(1);
+        const opts = paramsSpy.calls.argsFor(0)[0] as ISearchRequestOptions;
+        expect(opts.searchForm.q).toEqual(
+          "typekeywords:hubAnnotationLayer AND orgid:5bc"
+        );
+        done();
+      })
+      .catch(() => fail());
   });
 
   it("should throw if no annotation layer is found", done => {

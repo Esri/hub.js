@@ -67,22 +67,24 @@ describe("searchAnnotations", () => {
 
     searchAnnotations({
       url: annoSearchResponse.results[0].url + "/0"
-    }).then(response => {
-      expect(queryParamsSpy.calls.count()).toEqual(1);
-      expect(userParamsSpy.calls.count()).toEqual(2);
-      const queryOpts = queryParamsSpy.calls.argsFor(
-        0
-      )[0] as IQueryFeaturesRequestOptions;
-      const caseyOpts = userParamsSpy.calls.argsFor(0)[0] as string;
-      const jonesOpts = userParamsSpy.calls.argsFor(1)[0] as string;
+    })
+      .then(response => {
+        expect(queryParamsSpy.calls.count()).toEqual(1);
+        expect(userParamsSpy.calls.count()).toEqual(2);
+        const queryOpts = queryParamsSpy.calls.argsFor(
+          0
+        )[0] as IQueryFeaturesRequestOptions;
+        const caseyOpts = userParamsSpy.calls.argsFor(0)[0] as string;
+        const jonesOpts = userParamsSpy.calls.argsFor(1)[0] as string;
 
-      expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
-      expect(queryOpts.outFields).toEqual(mockOutFields);
-      expect(caseyOpts).toBe("casey");
-      expect(jonesOpts).toBe("jones");
-      expect(response).toEqual(annoResponse);
-      done();
-    });
+        expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
+        expect(queryOpts.outFields).toEqual(mockOutFields);
+        expect(caseyOpts).toBe("casey");
+        expect(jonesOpts).toBe("jones");
+        expect(response).toEqual(annoResponse);
+        done();
+      })
+      .catch(() => fail());
   });
 
   it("should not fetch user info if no features are returned from search", done => {
@@ -100,20 +102,22 @@ describe("searchAnnotations", () => {
     searchAnnotations({
       url: annoSearchResponse.results[0].url + "/0",
       where: "1=0"
-    }).then(response => {
-      expect(queryParamsSpy.calls.count()).toEqual(1);
-      expect(userParamsSpy.calls.count()).toEqual(0);
+    })
+      .then(response => {
+        expect(queryParamsSpy.calls.count()).toEqual(1);
+        expect(userParamsSpy.calls.count()).toEqual(0);
 
-      const opts = queryParamsSpy.calls.argsFor(
-        0
-      )[0] as IQueryFeaturesRequestOptions;
+        const opts = queryParamsSpy.calls.argsFor(
+          0
+        )[0] as IQueryFeaturesRequestOptions;
 
-      expect(opts.url).toBe(annoSearchResponse.results[0].url + "/0");
-      expect(opts.where).toBe("1=0 AND parent_id IS NULL");
-      expect(opts.outFields).toEqual(mockOutFields);
-      expect(response).toEqual(annoResponseEmpty);
-      done();
-    });
+        expect(opts.url).toBe(annoSearchResponse.results[0].url + "/0");
+        expect(opts.where).toBe("1=0 AND parent_id IS NULL");
+        expect(opts.outFields).toEqual(mockOutFields);
+        expect(response).toEqual(annoResponseEmpty);
+        done();
+      })
+      .catch(() => fail());
   });
 
   it("should allow users to fetch whatever fields they want", done => {
@@ -138,17 +142,19 @@ describe("searchAnnotations", () => {
     searchAnnotations({
       url: annoSearchResponse.results[0].url + "/0",
       outFields: ["*"]
-    }).then(response => {
-      expect(queryParamsSpy.calls.count()).toEqual(1);
-      expect(userParamsSpy.calls.count()).toEqual(2);
-      const queryOpts = queryParamsSpy.calls.argsFor(
-        0
-      )[0] as IQueryFeaturesRequestOptions;
-      expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
-      expect(queryOpts.outFields).toEqual(["*"]);
-      expect(response).toEqual(annoResponse);
-      done();
-    });
+    })
+      .then(response => {
+        expect(queryParamsSpy.calls.count()).toEqual(1);
+        expect(userParamsSpy.calls.count()).toEqual(2);
+        const queryOpts = queryParamsSpy.calls.argsFor(
+          0
+        )[0] as IQueryFeaturesRequestOptions;
+        expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
+        expect(queryOpts.outFields).toEqual(["*"]);
+        expect(response).toEqual(annoResponse);
+        done();
+      })
+      .catch(() => fail());
   });
 });
 
@@ -166,16 +172,18 @@ describe("searchSingleAnnotationVotes", () => {
     searchSingleAnnotationVotes({
       url: annoSearchResponse.results[0].url + "/0",
       annotation: annoFeature
-    }).then(response => {
-      expect(queryParamsSpy.calls.count()).toEqual(1);
-      const queryOpts = queryParamsSpy.calls.argsFor(
-        0
-      )[0] as IQueryFeaturesRequestOptions;
+    })
+      .then(response => {
+        expect(queryParamsSpy.calls.count()).toEqual(1);
+        const queryOpts = queryParamsSpy.calls.argsFor(
+          0
+        )[0] as IQueryFeaturesRequestOptions;
 
-      expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
-      expect(response).toEqual(annoVoteResponseEmpty);
-      done();
-    });
+        expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
+        expect(response).toEqual(annoVoteResponseEmpty);
+        done();
+      })
+      .catch(() => fail());
   });
 
   it("should query for votes when comment has votes", done => {
@@ -191,36 +199,42 @@ describe("searchSingleAnnotationVotes", () => {
     searchSingleAnnotationVotes({
       url: annoSearchResponse.results[0].url + "/0",
       annotation: annoFeature
-    }).then(response => {
-      expect(queryParamsSpy.calls.count()).toEqual(1);
-      const queryOpts = queryParamsSpy.calls.argsFor(
-        0
-      )[0] as IQueryFeaturesRequestOptions;
+    })
+      .then(response => {
+        expect(queryParamsSpy.calls.count()).toEqual(1);
+        const queryOpts = queryParamsSpy.calls.argsFor(
+          0
+        )[0] as IQueryFeaturesRequestOptions;
 
-      expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
-      expect(response).toEqual(annoVoteResponse);
-      done();
-    });
+        expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
+        expect(response).toEqual(annoVoteResponse);
+        done();
+      })
+      .catch(() => fail());
   });
 
   it("should query for votes when comment is not valid", done => {
     searchSingleAnnotationVotes({
       url: annoSearchResponse.results[0].url + "/0",
       annotation: invalidIdAnnoFeature
-    }).then(response => {
-      expect(response).toEqual(annoVoteResponseInvalid);
-      done();
-    });
+    })
+      .then(response => {
+        expect(response).toEqual(annoVoteResponseInvalid);
+        done();
+      })
+      .catch(() => fail());
   });
 
   it("should query for votes when comment id is missing", done => {
     searchSingleAnnotationVotes({
       url: annoSearchResponse.results[0].url + "/0",
       annotation: missingIdAnnoFeature
-    }).then(response => {
-      expect(response).toEqual(annoVoteResponseInvalid);
-      done();
-    });
+    })
+      .then(response => {
+        expect(response).toEqual(annoVoteResponseInvalid);
+        done();
+      })
+      .catch(() => fail());
   });
 });
 
@@ -237,15 +251,17 @@ describe("searchAllAnnotationVotes", () => {
 
     searchAllAnnotationVotes({
       url: annoSearchResponse.results[0].url + "/0"
-    }).then(response => {
-      expect(queryParamsSpy.calls.count()).toEqual(2);
-      const queryOpts = queryParamsSpy.calls.argsFor(
-        0
-      )[0] as IQueryFeaturesRequestOptions;
-      expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
-      expect(response).toEqual(allAnnoVoteResponseEmpty);
-      done();
-    });
+    })
+      .then(response => {
+        expect(queryParamsSpy.calls.count()).toEqual(2);
+        const queryOpts = queryParamsSpy.calls.argsFor(
+          0
+        )[0] as IQueryFeaturesRequestOptions;
+        expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
+        expect(response).toEqual(allAnnoVoteResponseEmpty);
+        done();
+      })
+      .catch(() => fail());
   });
 
   it("should query for votes when comment has no votes", done => {
@@ -263,15 +279,17 @@ describe("searchAllAnnotationVotes", () => {
 
     searchAllAnnotationVotes({
       url: annoSearchResponse.results[0].url + "/0"
-    }).then(response => {
-      expect(queryParamsSpy.calls.count()).toEqual(2);
-      const queryOpts = queryParamsSpy.calls.argsFor(
-        0
-      )[0] as IQueryFeaturesRequestOptions;
-      expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
-      expect(response).toEqual(allAnnoVoteResponse);
-      done();
-    });
+    })
+      .then(response => {
+        expect(queryParamsSpy.calls.count()).toEqual(2);
+        const queryOpts = queryParamsSpy.calls.argsFor(
+          0
+        )[0] as IQueryFeaturesRequestOptions;
+        expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
+        expect(response).toEqual(allAnnoVoteResponse);
+        done();
+      })
+      .catch(() => fail());
   });
 
   it("should query for votes when comment has no votes and initiative is set", done => {
@@ -291,15 +309,17 @@ describe("searchAllAnnotationVotes", () => {
     searchAllAnnotationVotes({
       url: annoSearchResponse.results[0].url + "/0",
       where: initiativeWhereClause
-    }).then(response => {
-      expect(queryParamsSpy.calls.count()).toEqual(2);
-      const queryOpts = queryParamsSpy.calls.argsFor(
-        0
-      )[0] as IQueryFeaturesRequestOptions;
-      expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
-      expect(queryOpts.where).toContain(initiativeWhereClause + " AND vote");
-      expect(response).toEqual(allAnnoVoteResponse);
-      done();
-    });
+    })
+      .then(response => {
+        expect(queryParamsSpy.calls.count()).toEqual(2);
+        const queryOpts = queryParamsSpy.calls.argsFor(
+          0
+        )[0] as IQueryFeaturesRequestOptions;
+        expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
+        expect(queryOpts.where).toContain(initiativeWhereClause + " AND vote");
+        expect(response).toEqual(allAnnoVoteResponse);
+        done();
+      })
+      .catch(() => fail());
   });
 });

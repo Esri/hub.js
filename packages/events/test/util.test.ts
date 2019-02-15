@@ -20,17 +20,19 @@ describe("getEventServiceUrl", () => {
       })
     );
 
-    getEventServiceUrl("5bc").then(result => {
-      expect(paramsSpy.calls.count()).toEqual(1);
-      const opts = paramsSpy.calls.argsFor(0)[0] as ISearchRequestOptions;
-      expect(opts.searchForm.q).toContain(
-        "typekeywords:hubEventsLayer AND orgid:5bc"
-      );
-      expect(result).toBe(
-        "https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/Hub Events/FeatureServer/0"
-      );
-      done();
-    });
+    getEventServiceUrl("5bc")
+      .then(result => {
+        expect(paramsSpy.calls.count()).toEqual(1);
+        const opts = paramsSpy.calls.argsFor(0)[0] as ISearchRequestOptions;
+        expect(opts.searchForm.q).toContain(
+          "typekeywords:hubEventsLayer AND orgid:5bc"
+        );
+        expect(result).toBe(
+          "https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/Hub Events/FeatureServer/0"
+        );
+        done();
+      })
+      .catch(() => fail());
   });
 
   it("should return org event service url", done => {
@@ -41,17 +43,19 @@ describe("getEventServiceUrl", () => {
       })
     );
 
-    getEventServiceUrl("5bc").then(result => {
-      expect(paramsSpy.calls.count()).toEqual(1);
-      const opts = paramsSpy.calls.argsFor(0)[0] as ISearchRequestOptions;
-      expect(opts.searchForm.q).toContain(
-        "typekeywords:hubEventsLayer AND orgid:5bc"
-      );
-      expect(result).toBe(
-        "https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/Hub Events (org)/FeatureServer/0"
-      );
-      done();
-    });
+    getEventServiceUrl("5bc")
+      .then(result => {
+        expect(paramsSpy.calls.count()).toEqual(1);
+        const opts = paramsSpy.calls.argsFor(0)[0] as ISearchRequestOptions;
+        expect(opts.searchForm.q).toContain(
+          "typekeywords:hubEventsLayer AND orgid:5bc"
+        );
+        expect(result).toBe(
+          "https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/Hub Events (org)/FeatureServer/0"
+        );
+        done();
+      })
+      .catch(() => fail());
   });
 
   it("should return the public event service url", done => {
@@ -62,17 +66,19 @@ describe("getEventServiceUrl", () => {
       })
     );
 
-    getEventServiceUrl("5bc").then(result => {
-      expect(paramsSpy.calls.count()).toEqual(1);
-      const opts = paramsSpy.calls.argsFor(0)[0] as ISearchRequestOptions;
-      expect(opts.searchForm.q).toContain(
-        "typekeywords:hubEventsLayer AND orgid:5bc"
-      );
-      expect(result).toBe(
-        "https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/Hub Events (public)/FeatureServer/0"
-      );
-      done();
-    });
+    getEventServiceUrl("5bc")
+      .then(result => {
+        expect(paramsSpy.calls.count()).toEqual(1);
+        const opts = paramsSpy.calls.argsFor(0)[0] as ISearchRequestOptions;
+        expect(opts.searchForm.q).toContain(
+          "typekeywords:hubEventsLayer AND orgid:5bc"
+        );
+        expect(result).toBe(
+          "https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/Hub Events (public)/FeatureServer/0"
+        );
+        done();
+      })
+      .catch(() => fail());
   });
 
   it("should throw if no event layer is found", done => {

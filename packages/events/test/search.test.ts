@@ -14,7 +14,6 @@ import {
 import * as featureService from "@esri/arcgis-rest-feature-service";
 import * as item from "@esri/arcgis-rest-items";
 import { IQueryFeaturesRequestOptions } from "@esri/arcgis-rest-feature-service";
-import * as token from "@esri/arcgis-rest-auth";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 describe("searchEvents", () => {
@@ -50,22 +49,24 @@ describe("searchEvents", () => {
     searchEvents({
       url: publicEventSearchResponse.results[0].url + "/0",
       ...ro
-    }).then(response => {
-      expect(queryParamsSpy.calls.count()).toEqual(1);
-      expect(siteParamsSpy.calls.count()).toEqual(2);
-      const queryOpts = queryParamsSpy.calls.argsFor(
-        0
-      )[0] as IQueryFeaturesRequestOptions;
-      const site1Opts = siteParamsSpy.calls.argsFor(0)[0] as string;
-      const site2Opts = siteParamsSpy.calls.argsFor(1)[0] as string;
+    })
+      .then(() => {
+        expect(queryParamsSpy.calls.count()).toEqual(1);
+        expect(siteParamsSpy.calls.count()).toEqual(2);
+        const queryOpts = queryParamsSpy.calls.argsFor(
+          0
+        )[0] as IQueryFeaturesRequestOptions;
+        const site1Opts = siteParamsSpy.calls.argsFor(0)[0] as string;
+        const site2Opts = siteParamsSpy.calls.argsFor(1)[0] as string;
 
-      expect(queryOpts.url).toBe(
-        publicEventSearchResponse.results[0].url + "/0"
-      );
-      expect(site1Opts).toBe("71a58");
-      expect(site2Opts).toBe("7c395");
-      done();
-    });
+        expect(queryOpts.url).toBe(
+          publicEventSearchResponse.results[0].url + "/0"
+        );
+        expect(site1Opts).toBe("71a58");
+        expect(site2Opts).toBe("7c395");
+        done();
+      })
+      .catch(() => fail());
   });
 
   it("should not fetch site info if no features are returned from search", done => {
@@ -83,20 +84,24 @@ describe("searchEvents", () => {
     searchEvents({
       url: publicEventSearchResponse.results[0].url + "/0",
       ...ro
-    }).then(response => {
-      expect(queryParamsSpy.calls.count()).toEqual(1);
-      expect(siteParamsSpy.calls.count()).toEqual(0);
+    })
+      .then(response => {
+        expect(queryParamsSpy.calls.count()).toEqual(1);
+        expect(siteParamsSpy.calls.count()).toEqual(0);
 
-      const opts = queryParamsSpy.calls.argsFor(
-        0
-      )[0] as IQueryFeaturesRequestOptions;
+        const opts = queryParamsSpy.calls.argsFor(
+          0
+        )[0] as IQueryFeaturesRequestOptions;
 
-      expect(opts.url).toBe(publicEventSearchResponse.results[0].url + "/0");
-      expect(response.data.length).toBe(eventResponseEmpty.data.length);
-      expect(response.data.length).toBe(eventResponseEmpty.data.length);
-      expect(response.included.length).toBe(eventResponseEmpty.included.length);
-      done();
-    });
+        expect(opts.url).toBe(publicEventSearchResponse.results[0].url + "/0");
+        expect(response.data.length).toBe(eventResponseEmpty.data.length);
+        expect(response.data.length).toBe(eventResponseEmpty.data.length);
+        expect(response.included.length).toBe(
+          eventResponseEmpty.included.length
+        );
+        done();
+      })
+      .catch(() => fail());
   });
 
   it("should allow users to fetch without geometry", done => {
@@ -122,19 +127,21 @@ describe("searchEvents", () => {
       url: publicEventSearchResponse.results[0].url + "/0",
       returnGeometry: false,
       ...ro
-    }).then(response => {
-      expect(queryParamsSpy.calls.count()).toEqual(1);
-      expect(siteParamsSpy.calls.count()).toEqual(2);
-      const queryOpts = queryParamsSpy.calls.argsFor(
-        0
-      )[0] as IQueryFeaturesRequestOptions;
-      expect(queryOpts.url).toBe(
-        publicEventSearchResponse.results[0].url + "/0"
-      );
-      expect(response.data.length).toBe(eventResponse.data.length);
-      expect(response.included).toEqual(eventResponse.included);
-      done();
-    });
+    })
+      .then(response => {
+        expect(queryParamsSpy.calls.count()).toEqual(1);
+        expect(siteParamsSpy.calls.count()).toEqual(2);
+        const queryOpts = queryParamsSpy.calls.argsFor(
+          0
+        )[0] as IQueryFeaturesRequestOptions;
+        expect(queryOpts.url).toBe(
+          publicEventSearchResponse.results[0].url + "/0"
+        );
+        expect(response.data.length).toBe(eventResponse.data.length);
+        expect(response.included).toEqual(eventResponse.included);
+        done();
+      })
+      .catch(() => fail());
   });
 
   it("should allow users to fetch without passing authenication", done => {
@@ -158,18 +165,20 @@ describe("searchEvents", () => {
 
     searchEvents({
       url: publicEventSearchResponse.results[0].url + "/0"
-    }).then(response => {
-      expect(queryParamsSpy.calls.count()).toEqual(1);
-      expect(siteParamsSpy.calls.count()).toEqual(2);
-      const queryOpts = queryParamsSpy.calls.argsFor(
-        0
-      )[0] as IQueryFeaturesRequestOptions;
-      expect(queryOpts.url).toBe(
-        publicEventSearchResponse.results[0].url + "/0"
-      );
-      expect(response.data.length).toBe(eventResponse.data.length);
-      expect(response.included).toEqual(eventResponse.included);
-      done();
-    });
+    })
+      .then(response => {
+        expect(queryParamsSpy.calls.count()).toEqual(1);
+        expect(siteParamsSpy.calls.count()).toEqual(2);
+        const queryOpts = queryParamsSpy.calls.argsFor(
+          0
+        )[0] as IQueryFeaturesRequestOptions;
+        expect(queryOpts.url).toBe(
+          publicEventSearchResponse.results[0].url + "/0"
+        );
+        expect(response.data.length).toBe(eventResponse.data.length);
+        expect(response.included).toEqual(eventResponse.included);
+        done();
+      })
+      .catch(() => fail());
   });
 });

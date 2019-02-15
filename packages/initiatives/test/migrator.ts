@@ -1,6 +1,6 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-import { IInitiativeModel, cloneObject } from "@esri/hub-common";
+import { IInitiativeModel } from "@esri/hub-common";
 import { migrateSchema, CURRENT_SCHEMA_VERSION } from "../src/migrator";
 
 describe("Initiative Schema Migration", () => {
