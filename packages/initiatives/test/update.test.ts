@@ -32,13 +32,15 @@ describe("Update Initiative ::", () => {
       }
     );
 
-    updateInitiative(m, MOCK_REQUEST_OPTIONS).then(result => {
-      expect(result).not.toBe(m, "should return a clone");
-      expect(updateSpy.calls.count()).toEqual(
-        1,
-        "should make one call to model::updateModel"
-      );
-      done();
-    });
+    updateInitiative(m, MOCK_REQUEST_OPTIONS)
+      .then(result => {
+        expect(result).not.toBe(m, "should return a clone");
+        expect(updateSpy.calls.count()).toEqual(
+          1,
+          "should make one call to model::updateModel"
+        );
+        done();
+      })
+      .catch(() => fail());
   });
 });

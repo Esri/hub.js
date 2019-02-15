@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 import { getProp, cloneObject } from "@esri/hub-common";
-import { IInitiativeModel, IInitiativeItem } from "@esri/hub-common";
+import { IInitiativeModel } from "@esri/hub-common";
 
 /**
  * Apply the 1.0 --> 1.1 Migration to an Initiative Model

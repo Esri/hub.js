@@ -5,8 +5,7 @@ import {
   IQueryFeaturesRequestOptions,
   queryFeatures,
   IQueryFeaturesResponse,
-  IStatisticDefinition,
-  IQueryResponse
+  IStatisticDefinition
 } from "@esri/arcgis-rest-feature-service";
 
 import { getUser } from "@esri/arcgis-rest-users";

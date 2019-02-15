@@ -4,10 +4,7 @@
 import { searchInitiatives, searchInitiativeTemplates } from "../src/search";
 import * as ItemsApi from "@esri/arcgis-rest-items";
 import { MOCK_REQUEST_OPTIONS } from "./mocks/fake-session";
-import {
-  InitiativeSearchResults,
-  InitiativeTemplateSearchResults
-} from "./mocks/search-results";
+import { InitiativeSearchResults } from "./mocks/search-results";
 
 describe("initiative search ::", () => {
   let itemSearchSpy: any;

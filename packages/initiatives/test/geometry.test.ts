@@ -2,7 +2,6 @@
  * Apache-2.0 */
 
 import * as fetchMock from "fetch-mock";
-import { MOCK_REQUEST_OPTIONS } from "./mocks/fake-session";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import geometryService from "../src/geometry";
 
@@ -92,7 +91,7 @@ describe("geometryService ::", () => {
 
       geometryService
         .project(url, 102100, 4326, "esriGeometryTypeEnvelope", [extent], ro)
-        .then(result => {
+        .then(() => {
           expect(fetchMock.done()).toBeTruthy();
           const [requestedUrl, options]: [
             string,
@@ -111,7 +110,8 @@ describe("geometryService ::", () => {
             "passed in request options should not be modified"
           );
           done();
-        });
+        })
+        .catch(() => fail());
     });
     it("should send a token to non-default server", done => {
       // expect a post...
@@ -130,7 +130,7 @@ describe("geometryService ::", () => {
 
       geometryService
         .project(svcUrl, 102100, 4326, "esriGeometryTypeEnvelope", [extent], ro)
-        .then(result => {
+        .then(() => {
           expect(fetchMock.done()).toBeTruthy();
           const [requestedUrl, options]: [
             string,
@@ -147,7 +147,8 @@ describe("geometryService ::", () => {
             "passed in request options should not be modified"
           );
           done();
-        });
+        })
+        .catch(() => fail());
     });
   });
 });

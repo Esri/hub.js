@@ -31,18 +31,16 @@ describe("Initiatives :: ", () => {
           expect(model.item.properties.schemaVersion).toEqual(2);
           expect(model.data).toBeDefined();
           expect(fetchMock.done()).toBeTruthy();
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+          const [url]: [string, RequestInit] = fetchMock.lastCall(
             `${itemBaseUrl}/3ef?f=json`
           );
           expect(url).toContain("f=json");
           expect(url).toContain("items/3ef");
-          const [dataUrl, dataOptions]: [
-            string,
-            RequestInit
-          ] = fetchMock.lastCall(`${itemBaseUrl}/3ef/data?f=json`);
+          const [dataUrl]: [string, RequestInit] = fetchMock.lastCall(
+            `${itemBaseUrl}/3ef/data?f=json`
+          );
           expect(dataUrl).toContain("f=json");
           expect(dataUrl).toContain("3ef/data");
-          // expect(upgradeSchemaSpy.calls.count()).toEqual(1);
           done();
         })
         .catch(e => {
@@ -77,15 +75,14 @@ describe("Initiatives :: ", () => {
             "schemaUpgrade should not be run"
           );
           expect(fetchMock.done()).toBeTruthy();
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+          const [url]: [string, RequestInit] = fetchMock.lastCall(
             `${itemBaseUrl}/3ef?f=json`
           );
           expect(url).toContain("f=json");
           expect(url).toContain("items/3ef");
-          const [dataUrl, dataOptions]: [
-            string,
-            RequestInit
-          ] = fetchMock.lastCall(`${itemBaseUrl}/3ef/data?f=json`);
+          const [dataUrl]: [string, RequestInit] = fetchMock.lastCall(
+            `${itemBaseUrl}/3ef/data?f=json`
+          );
           expect(dataUrl).toContain("f=json");
           expect(dataUrl).toContain("3ef/data");
           done();
@@ -126,24 +123,23 @@ describe("Initiatives :: ", () => {
         `https://hub.arcgis.com/utilities/domains?f=json&siteId=5bc`,
         [{ domain: "data.foo.com" }, { domain: "org.hub.arcgis.com" }]
       );
-      lookupSiteUrlByInitiative("3ef").then(domain => {
-        expect(domain).toBe("data.foo.com");
-        // ensure all mocks were used
-        expect(fetchMock.done()).toBeTruthy();
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-          `${itemBaseUrl}/3ef?f=json`
-        );
-        expect(url).toContain("f=json");
-        expect(url).toContain("items/3ef");
-        const [domainUrl, domainOptions]: [
-          string,
-          RequestInit
-        ] = fetchMock.lastCall(
-          "https://hub.arcgis.com/utilities/domains?f=json&siteId=5bc"
-        );
-        expect(domainUrl).toContain("siteId=5bc");
-        done();
-      });
+      lookupSiteUrlByInitiative("3ef")
+        .then(domain => {
+          expect(domain).toBe("data.foo.com");
+          // ensure all mocks were used
+          expect(fetchMock.done()).toBeTruthy();
+          const [url]: [string, RequestInit] = fetchMock.lastCall(
+            `${itemBaseUrl}/3ef?f=json`
+          );
+          expect(url).toContain("f=json");
+          expect(url).toContain("items/3ef");
+          const [domainUrl]: [string, RequestInit] = fetchMock.lastCall(
+            "https://hub.arcgis.com/utilities/domains?f=json&siteId=5bc"
+          );
+          expect(domainUrl).toContain("siteId=5bc");
+          done();
+        })
+        .catch(() => fail());
     });
     it("should return first if multiple non-custom entries exist", done => {
       fetchMock.once(`${itemBaseUrl}/3ef?f=json`, {
@@ -161,24 +157,23 @@ describe("Initiatives :: ", () => {
           { domain: "org.hub.arcgis.com" }
         ]
       );
-      lookupSiteUrlByInitiative("3ef").then(domain => {
-        expect(domain).toBe("org-beta.hub.arcgis.com");
-        // ensure all mocks were used
-        expect(fetchMock.done()).toBeTruthy();
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-          `${itemBaseUrl}/3ef?f=json`
-        );
-        expect(url).toContain("f=json");
-        expect(url).toContain("items/3ef");
-        const [domainUrl, domainOptions]: [
-          string,
-          RequestInit
-        ] = fetchMock.lastCall(
-          "https://hub.arcgis.com/utilities/domains?f=json&siteId=5bc"
-        );
-        expect(domainUrl).toContain("siteId=5bc");
-        done();
-      });
+      lookupSiteUrlByInitiative("3ef")
+        .then(domain => {
+          expect(domain).toBe("org-beta.hub.arcgis.com");
+          // ensure all mocks were used
+          expect(fetchMock.done()).toBeTruthy();
+          const [url]: [string, RequestInit] = fetchMock.lastCall(
+            `${itemBaseUrl}/3ef?f=json`
+          );
+          expect(url).toContain("f=json");
+          expect(url).toContain("items/3ef");
+          const [domainUrl]: [string, RequestInit] = fetchMock.lastCall(
+            "https://hub.arcgis.com/utilities/domains?f=json&siteId=5bc"
+          );
+          expect(domainUrl).toContain("siteId=5bc");
+          done();
+        })
+        .catch(() => fail());
     });
   });
 });

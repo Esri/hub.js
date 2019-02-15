@@ -4,7 +4,7 @@
 import { IInitiativeModel } from "@esri/hub-common";
 
 // Example Initiative used in unit tests
-export const InitiativeInstance: any = {
+export const InitiativeInstance: IInitiativeModel = {
   item: {
     id: "6c6a543a74674939a9352a3454e9efd3",
     owner: "dcadminqa",
@@ -33,7 +33,7 @@ export const InitiativeInstance: any = {
       [-76.89599999993504, 39.034999999966864]
     ],
     categories: [],
-    spatialReference: "null",
+    spatialReference: null,
     accessInformation: "Esri",
     licenseInfo: "null",
     culture: "en-us",
