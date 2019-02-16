@@ -3,7 +3,7 @@
   "version": "1.7.2",
   "description": "Module to interact with ArcGIS Hub Annotations in Node.js and modern browsers.",
   "main": "dist/node/index.js",
-  "browser": "dist/umd/annotations.umd.js",
+  "unpkg": "dist/umd/annotations.umd.js",
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
