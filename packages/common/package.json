@@ -3,7 +3,7 @@
   "version": "1.7.2",
   "description": "Common TypeScript types and utility functions for @esri/hub.js.",
   "main": "dist/node/index.js",
-  "browser": "dist/umd/common.umd.js",
+  "unpkg": "dist/umd/common.umd.js",
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
