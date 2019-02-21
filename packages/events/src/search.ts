@@ -7,7 +7,8 @@ import {
   IQueryFeaturesResponse
 } from "@esri/arcgis-rest-feature-service";
 import { IGeometry, IFeature } from "@esri/arcgis-rest-common-types";
-import { getItem } from "@esri/arcgis-rest-items";
+import { ISearchRequestOptions, searchItems } from "@esri/arcgis-rest-items";
+import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 export interface IEventResourceObject {
   id: number | string;
@@ -60,6 +61,12 @@ export function searchEvents(
   };
 
   return queryFeatures(queryOptions).then(response => {
+    if ((response as IQueryFeaturesResponse).features.length < 0) {
+      return {
+        data: [] as IEventResourceObject[],
+        included: [] as IEventResourceObject[]
+      };
+    }
     // if authentication is passed, get a reference to the token to tack onto image urls
     if (queryOptions.authentication) {
       return queryOptions.authentication
@@ -68,13 +75,15 @@ export function searchEvents(
           return formatEventResponse(
             (response as IQueryFeaturesResponse).features,
             queryOptions.url,
+            requestOptions as IRequestOptions,
             token
           );
         });
     } else {
       return formatEventResponse(
         (response as IQueryFeaturesResponse).features,
-        queryOptions.url
+        queryOptions.url,
+        requestOptions as IRequestOptions
       );
     }
   });
@@ -83,11 +92,13 @@ export function searchEvents(
 function formatEventResponse(
   features: IFeature[],
   url: string,
+  requestOptions: IRequestOptions,
   token?: string
 ) {
   const siteIds: string[] = [];
   const data: IEventResourceObject[] = [];
   const cacheBust = new Date().getTime();
+  let siteSearchQuery = "";
 
   features.forEach(function(event) {
     const attributes = event.attributes;
@@ -113,14 +124,19 @@ function formatEventResponse(
     });
     if (siteIds.indexOf(attributes.siteId) === -1) {
       siteIds.push(attributes.siteId);
+      siteSearchQuery += siteSearchQuery.length > 0 ? " OR id:" : "id:";
+      siteSearchQuery += attributes.siteId;
     }
   });
-  const getSiteInfo = siteIds.map(siteId => getItem(siteId));
 
-  return Promise.all(getSiteInfo).then(siteInfo => {
+  const searchRequestOptions = requestOptions as ISearchRequestOptions;
+  searchRequestOptions.searchForm = {
+    q: siteSearchQuery
+  };
+  return searchItems(searchRequestOptions).then(function(siteInfo) {
     const included: IEventResourceObject[] = [];
 
-    siteInfo.forEach(siteItem => {
+    siteInfo.results.forEach(siteItem => {
       included.push({
         id: siteItem.id,
         type: `sites`,

@@ -4,6 +4,7 @@
 import { IEventResourceObject } from "../../src/search";
 import { IGeometry, IItem, IField } from "@esri/arcgis-rest-common-types";
 import { IQueryFeaturesResponse } from "@esri/arcgis-rest-feature-service";
+import { ISearchResult } from "@esri/arcgis-rest-items";
 
 export const eventQueryResponseEmpty = {
   objectIdFieldName: "OBJECTID",
@@ -823,6 +824,15 @@ export const siteResponse7c395 = {
   scoreCompleteness: 73,
   groupDesignations: null
 } as IItem;
+
+export const siteSearchResponse = {
+  query: "",
+  total: 10795,
+  start: 1,
+  num: 1,
+  nextStart: 2,
+  results: [siteResponse71a58, siteResponse7c395]
+} as ISearchResult;
 
 const cacheBust = new Date().getTime();
 const data = [
