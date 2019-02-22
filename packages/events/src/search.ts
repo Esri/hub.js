@@ -97,6 +97,7 @@ function formatEventResponse(
 ) {
   const siteIds: string[] = [];
   const data: IEventResourceObject[] = [];
+  const included: IEventResourceObject[] = [];
   const cacheBust = new Date().getTime();
   let siteSearchQuery = "";
 
@@ -128,14 +129,15 @@ function formatEventResponse(
       siteSearchQuery += attributes.siteId;
     }
   });
-
+  if (siteIds.length === 0) {
+    return { included, data };
+  }
+  // search for site items and include those in the response
   const searchRequestOptions = requestOptions as ISearchRequestOptions;
   searchRequestOptions.searchForm = {
     q: siteSearchQuery
   };
   return searchItems(searchRequestOptions).then(function(siteInfo) {
-    const included: IEventResourceObject[] = [];
-
     siteInfo.results.forEach(siteItem => {
       included.push({
         id: siteItem.id,
