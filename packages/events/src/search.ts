@@ -61,7 +61,7 @@ export function searchEvents(
   };
 
   return queryFeatures(queryOptions).then(response => {
-    if ((response as IQueryFeaturesResponse).features.length < 0) {
+    if ((response as IQueryFeaturesResponse).features.length <= 0) {
       return {
         data: [] as IEventResourceObject[],
         included: [] as IEventResourceObject[]
@@ -72,7 +72,7 @@ export function searchEvents(
       return queryOptions.authentication
         .getToken(queryOptions.url)
         .then(token => {
-          return formatEventResponse(
+          return buildEventResponse(
             (response as IQueryFeaturesResponse).features,
             queryOptions.url,
             requestOptions as IRequestOptions,
@@ -80,7 +80,7 @@ export function searchEvents(
           );
         });
     } else {
-      return formatEventResponse(
+      return buildEventResponse(
         (response as IQueryFeaturesResponse).features,
         queryOptions.url,
         requestOptions as IRequestOptions
@@ -89,7 +89,7 @@ export function searchEvents(
   });
 }
 
-function formatEventResponse(
+function buildEventResponse(
   features: IFeature[],
   url: string,
   requestOptions: IRequestOptions,
@@ -123,10 +123,14 @@ function formatEventResponse(
       attributes,
       geometry
     });
-    if (siteIds.indexOf(attributes.siteId) === -1) {
-      siteIds.push(attributes.siteId);
+    const currentEventSiteId = attributes.siteId;
+    if (
+      currentEventSiteId != null &&
+      siteIds.indexOf(currentEventSiteId) === -1
+    ) {
+      siteIds.push(currentEventSiteId);
       siteSearchQuery += siteSearchQuery.length > 0 ? " OR id:" : "id:";
-      siteSearchQuery += attributes.siteId;
+      siteSearchQuery += currentEventSiteId;
     }
   });
   if (siteIds.length === 0) {

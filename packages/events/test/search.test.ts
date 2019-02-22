@@ -7,7 +7,9 @@ import {
   eventQueryResponseEmpty,
   eventResponse,
   eventResponseEmpty,
-  siteSearchResponse
+  siteSearchResponse,
+  eventQueryResponseWithoutSiteId,
+  eventResponseWithoutSiteId
 } from "./mocks/event_search";
 
 import * as featureService from "@esri/arcgis-rest-feature-service";
@@ -92,9 +94,44 @@ describe("searchEvents", () => {
 
         expect(opts.url).toBe(publicEventSearchResponse.results[0].url + "/0");
         expect(response.data.length).toBe(eventResponseEmpty.data.length);
-        expect(response.data.length).toBe(eventResponseEmpty.data.length);
         expect(response.included.length).toBe(
           eventResponseEmpty.included.length
+        );
+        done();
+      })
+      .catch(() => fail());
+  });
+
+  it("should not fetch site info if features don't have siteId set", done => {
+    const queryParamsSpy = spyOn(
+      featureService,
+      "queryFeatures"
+    ).and.returnValue(
+      new Promise(resolve => {
+        resolve(eventQueryResponseWithoutSiteId);
+      })
+    );
+
+    const siteParamsSpy = spyOn(item, "searchItems");
+
+    searchEvents({
+      url: publicEventSearchResponse.results[0].url + "/0",
+      ...ro
+    })
+      .then(response => {
+        expect(queryParamsSpy.calls.count()).toEqual(1);
+        expect(siteParamsSpy.calls.count()).toEqual(0);
+
+        const opts = queryParamsSpy.calls.argsFor(
+          0
+        )[0] as IQueryFeaturesRequestOptions;
+
+        expect(opts.url).toBe(publicEventSearchResponse.results[0].url + "/0");
+        expect(response.data.length).toBe(
+          eventResponseWithoutSiteId.data.length
+        );
+        expect(response.included.length).toBe(
+          eventResponseWithoutSiteId.included.length
         );
         done();
       })
