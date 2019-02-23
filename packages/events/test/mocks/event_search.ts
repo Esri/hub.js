@@ -4,6 +4,7 @@
 import { IEventResourceObject } from "../../src/search";
 import { IGeometry, IItem, IField } from "@esri/arcgis-rest-common-types";
 import { IQueryFeaturesResponse } from "@esri/arcgis-rest-feature-service";
+import { ISearchResult } from "@esri/arcgis-rest-items";
 
 export const eventQueryResponseEmpty = {
   objectIdFieldName: "OBJECTID",
@@ -716,6 +717,337 @@ export const eventQueryResponse: IQueryFeaturesResponse = {
   ]
 };
 
+export const eventQueryResponseWithoutSiteId: IQueryFeaturesResponse = {
+  objectIdFieldName: "OBJECTID",
+  globalIdFieldName: "",
+  geometryType: "esriGeometryPoint",
+  spatialReference: {
+    wkid: 4326,
+    latestWkid: 4326
+  },
+  fields: [
+    {
+      name: "OBJECTID",
+      type: "esriFieldTypeOID",
+      alias: "OBJECTID",
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "title",
+      type: "esriFieldTypeString",
+      alias: "title",
+      length: 256,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "location",
+      type: "esriFieldTypeString",
+      alias: "location",
+      length: 2000,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "description",
+      type: "esriFieldTypeString",
+      alias: "description",
+      length: 4000,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "startDate",
+      type: "esriFieldTypeDate",
+      alias: "startDate",
+      length: 0,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "endDate",
+      type: "esriFieldTypeDate",
+      alias: "endDate",
+      length: 0,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "organizerId",
+      type: "esriFieldTypeString",
+      alias: "organizerId",
+      length: 256,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "organizerName",
+      type: "esriFieldTypeString",
+      alias: "organizerName",
+      length: 256,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "organizerEmail",
+      type: "esriFieldTypeString",
+      alias: "organizerEmail",
+      length: 256,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "url",
+      type: "esriFieldTypeString",
+      alias: "url",
+      length: 2000,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "pageId",
+      type: "esriFieldTypeString",
+      alias: "pageId",
+      length: 256,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "capacity",
+      type: "esriFieldTypeInteger",
+      alias: "capacity",
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "attendance",
+      type: "esriFieldTypeInteger",
+      alias: "attendance",
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "status",
+      type: "esriFieldTypeString",
+      alias: "status",
+      length: 256,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "isCancelled",
+      type: "esriFieldTypeInteger",
+      alias: "isCancelled",
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "groupId",
+      type: "esriFieldTypeString",
+      alias: "groupId",
+      length: 256,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "siteId",
+      type: "esriFieldTypeString",
+      alias: "siteId",
+      length: 256,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "initiativeId",
+      type: "esriFieldTypeString",
+      alias: "initiativeId",
+      length: 256,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "surveyId",
+      type: "esriFieldTypeString",
+      alias: "surveyId",
+      length: 256,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "CreationDate",
+      type: "esriFieldTypeDate",
+      alias: "CreationDate",
+      length: 8,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "Creator",
+      type: "esriFieldTypeString",
+      alias: "Creator",
+      length: 50,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "EditDate",
+      type: "esriFieldTypeDate",
+      alias: "EditDate",
+      length: 8,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "Editor",
+      type: "esriFieldTypeString",
+      alias: "Editor",
+      length: 50,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "schemaVersion",
+      type: "esriFieldTypeDouble",
+      alias: "schemaVersion",
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "organizers",
+      type: "esriFieldTypeString",
+      alias: "organizers",
+      length: 4000,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "sponsors",
+      type: "esriFieldTypeString",
+      alias: "sponsors",
+      length: 4000,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "onlineLocation",
+      type: "esriFieldTypeString",
+      alias: "onlineLocation",
+      length: 2000,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "venue",
+      type: "esriFieldTypeString",
+      alias: "venue",
+      length: 256,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "address1",
+      type: "esriFieldTypeString",
+      alias: "address1",
+      length: 256,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "address2",
+      type: "esriFieldTypeString",
+      alias: "address2",
+      length: 256,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "isAllDay",
+      type: "esriFieldTypeInteger",
+      alias: "isAllDay",
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "timeZone",
+      type: "esriFieldTypeString",
+      alias: "timeZone",
+      length: 256,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "appIds",
+      type: "esriFieldTypeString",
+      alias: "appIds",
+      length: 256,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "imageAttributes",
+      type: "esriFieldTypeString",
+      alias: "imageAttributes",
+      length: 4000,
+      domain: null,
+      defaultValue: null
+    },
+    {
+      name: "videoUrl",
+      type: "esriFieldTypeString",
+      alias: "videoUrl",
+      length: 2000,
+      domain: null,
+      defaultValue: null
+    }
+  ],
+  features: [
+    {
+      attributes: {
+        OBJECTID: 5,
+        title: "Event 1",
+        location: "",
+        description: "this is my description",
+        startDate: 1543696200000,
+        endDate: 1543707000000,
+        organizerId: null,
+        organizerName: null,
+        organizerEmail: null,
+        url: "event-1",
+        pageId: null,
+        capacity: null,
+        attendance: null,
+        status: "public",
+        isCancelled: null,
+        groupId: "f0cd3",
+        siteId: null,
+        initiativeId: "515f9",
+        surveyId: null,
+        CreationDate: 1538678006635,
+        Creator: "admin",
+        EditDate: 1539694751580,
+        Editor: "admin",
+        schemaVersion: 2,
+        organizers: '[{"name":"The Organizer","contact":"organizers@org.com"}]',
+        sponsors: "[]",
+        onlineLocation: "",
+        venue: "Gotham City Clothing",
+        address1: "391 Millburn Ave, Millburn, New Jersey, 07041",
+        address2: "",
+        isAllDay: 0,
+        timeZone: null,
+        appIds: null,
+        imageAttributes: null,
+        videoUrl: null
+      },
+      geometry: {
+        x: -74.310680054965559,
+        y: 40.723010058860787
+      } as IGeometry
+    }
+  ]
+};
+
 export const siteResponse71a58 = {
   id: "71a58",
   owner: "john_smith",
@@ -824,6 +1156,15 @@ export const siteResponse7c395 = {
   groupDesignations: null
 } as IItem;
 
+export const siteSearchResponse = {
+  query: "",
+  total: 10795,
+  start: 1,
+  num: 1,
+  nextStart: 2,
+  results: [siteResponse71a58, siteResponse7c395]
+} as ISearchResult;
+
 const cacheBust = new Date().getTime();
 const data = [
   {
@@ -857,7 +1198,17 @@ const data = [
     geometry: eventQueryResponse.features[2].geometry
   }
 ] as IEventResourceObject[];
-
+const dataWithoutSiteId = [
+  {
+    id: 5,
+    type: "events",
+    attributes: {
+      imageUrl: null,
+      ...eventQueryResponseWithoutSiteId.features[0].attributes
+    },
+    geometry: eventQueryResponseWithoutSiteId.features[0].geometry
+  }
+] as IEventResourceObject[];
 export const eventResponseEmpty = {
   data: [] as IEventResourceObject[],
   included: [] as IEventResourceObject[]
@@ -883,4 +1234,9 @@ export const eventResponse = {
       }
     }
   ] as IEventResourceObject[]
+};
+
+export const eventResponseWithoutSiteId = {
+  data: dataWithoutSiteId,
+  included: [] as IEventResourceObject[]
 };

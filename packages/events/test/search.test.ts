@@ -7,14 +7,16 @@ import {
   eventQueryResponseEmpty,
   eventResponse,
   eventResponseEmpty,
-  siteResponse71a58,
-  siteResponse7c395
+  siteSearchResponse,
+  eventQueryResponseWithoutSiteId,
+  eventResponseWithoutSiteId
 } from "./mocks/event_search";
 
 import * as featureService from "@esri/arcgis-rest-feature-service";
 import * as item from "@esri/arcgis-rest-items";
 import { IQueryFeaturesRequestOptions } from "@esri/arcgis-rest-feature-service";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { ISearchRequestOptions } from "@esri/arcgis-rest-items";
 
 describe("searchEvents", () => {
   const ro = {
@@ -36,13 +38,10 @@ describe("searchEvents", () => {
       })
     );
 
-    // stub getItem
-    const siteParamsSpy = spyOn(item, "getItem").and.returnValues(
+    // stub searchItems
+    const siteParamsSpy = spyOn(item, "searchItems").and.returnValues(
       new Promise(resolve => {
-        resolve(siteResponse71a58);
-      }),
-      new Promise(resolve => {
-        resolve(siteResponse7c395);
+        resolve(siteSearchResponse);
       })
     );
 
@@ -52,18 +51,18 @@ describe("searchEvents", () => {
     })
       .then(() => {
         expect(queryParamsSpy.calls.count()).toEqual(1);
-        expect(siteParamsSpy.calls.count()).toEqual(2);
+        expect(siteParamsSpy.calls.count()).toEqual(1);
         const queryOpts = queryParamsSpy.calls.argsFor(
           0
         )[0] as IQueryFeaturesRequestOptions;
-        const site1Opts = siteParamsSpy.calls.argsFor(0)[0] as string;
-        const site2Opts = siteParamsSpy.calls.argsFor(1)[0] as string;
+        const siteOpts = siteParamsSpy.calls.argsFor(
+          0
+        )[0] as ISearchRequestOptions;
 
         expect(queryOpts.url).toBe(
           publicEventSearchResponse.results[0].url + "/0"
         );
-        expect(site1Opts).toBe("71a58");
-        expect(site2Opts).toBe("7c395");
+        expect(siteOpts.searchForm.q).toBe("id:71a58 OR id:7c395");
         done();
       })
       .catch(() => fail());
@@ -79,7 +78,7 @@ describe("searchEvents", () => {
       })
     );
 
-    const siteParamsSpy = spyOn(item, "getItem");
+    const siteParamsSpy = spyOn(item, "searchItems");
 
     searchEvents({
       url: publicEventSearchResponse.results[0].url + "/0",
@@ -95,9 +94,44 @@ describe("searchEvents", () => {
 
         expect(opts.url).toBe(publicEventSearchResponse.results[0].url + "/0");
         expect(response.data.length).toBe(eventResponseEmpty.data.length);
-        expect(response.data.length).toBe(eventResponseEmpty.data.length);
         expect(response.included.length).toBe(
           eventResponseEmpty.included.length
+        );
+        done();
+      })
+      .catch(() => fail());
+  });
+
+  it("should not fetch site info if features don't have siteId set", done => {
+    const queryParamsSpy = spyOn(
+      featureService,
+      "queryFeatures"
+    ).and.returnValue(
+      new Promise(resolve => {
+        resolve(eventQueryResponseWithoutSiteId);
+      })
+    );
+
+    const siteParamsSpy = spyOn(item, "searchItems");
+
+    searchEvents({
+      url: publicEventSearchResponse.results[0].url + "/0",
+      ...ro
+    })
+      .then(response => {
+        expect(queryParamsSpy.calls.count()).toEqual(1);
+        expect(siteParamsSpy.calls.count()).toEqual(0);
+
+        const opts = queryParamsSpy.calls.argsFor(
+          0
+        )[0] as IQueryFeaturesRequestOptions;
+
+        expect(opts.url).toBe(publicEventSearchResponse.results[0].url + "/0");
+        expect(response.data.length).toBe(
+          eventResponseWithoutSiteId.data.length
+        );
+        expect(response.included.length).toBe(
+          eventResponseWithoutSiteId.included.length
         );
         done();
       })
@@ -114,12 +148,9 @@ describe("searchEvents", () => {
       })
     );
 
-    const siteParamsSpy = spyOn(item, "getItem").and.returnValues(
+    const siteParamsSpy = spyOn(item, "searchItems").and.returnValues(
       new Promise(resolve => {
-        resolve(siteResponse71a58);
-      }),
-      new Promise(resolve => {
-        resolve(siteResponse7c395);
+        resolve(siteSearchResponse);
       })
     );
 
@@ -130,7 +161,7 @@ describe("searchEvents", () => {
     })
       .then(response => {
         expect(queryParamsSpy.calls.count()).toEqual(1);
-        expect(siteParamsSpy.calls.count()).toEqual(2);
+        expect(siteParamsSpy.calls.count()).toEqual(1);
         const queryOpts = queryParamsSpy.calls.argsFor(
           0
         )[0] as IQueryFeaturesRequestOptions;
@@ -154,12 +185,9 @@ describe("searchEvents", () => {
       })
     );
 
-    const siteParamsSpy = spyOn(item, "getItem").and.returnValues(
+    const siteParamsSpy = spyOn(item, "searchItems").and.returnValues(
       new Promise(resolve => {
-        resolve(siteResponse71a58);
-      }),
-      new Promise(resolve => {
-        resolve(siteResponse7c395);
+        resolve(siteSearchResponse);
       })
     );
 
@@ -168,7 +196,7 @@ describe("searchEvents", () => {
     })
       .then(response => {
         expect(queryParamsSpy.calls.count()).toEqual(1);
-        expect(siteParamsSpy.calls.count()).toEqual(2);
+        expect(siteParamsSpy.calls.count()).toEqual(1);
         const queryOpts = queryParamsSpy.calls.argsFor(
           0
         )[0] as IQueryFeaturesRequestOptions;
