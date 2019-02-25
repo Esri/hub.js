@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-common",
-  "version": "1.7.2",
+  "version": "1.8.0",
   "description": "Common TypeScript types and utility functions for @esri/hub.js.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/common.umd.js",
@@ -13,7 +13,7 @@
     "dist/**"
   ],
   "dependencies": {
-    "@esri/arcgis-rest-common-types": "^1.16.0"
+    "@esri/arcgis-rest-common-types": "^1.17.0"
   },
   "scripts": {
     "prepare": "npm run build",

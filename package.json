@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub.js",
-  "version": "1.7.2",
+  "version": "1.8.0",
   "description": "compact, modular JavaScript wrappers for ArcGIS Hub that run in Node.js and modern browsers.",
   "devDependencies": {
     "@types/es6-promise": "0.0.32",
@@ -8,7 +8,7 @@
     "@types/isomorphic-fetch": "0.0.34",
     "@types/jasmine": "^2.8.2",
     "@types/node": "^6.0.95",
-    "acetate": "^2.0.1",
+    "acetate": "^2.0.4",
     "acetate-cli": "^1.0.1",
     "changelog-parser": "^2.1.0",
     "cheerio": "^1.0.0-rc.2",
@@ -96,7 +96,7 @@
     "predocs:serve": "npm run docs:typedoc",
     "docs:serve": "rimraf docs/build && concurrently \"npm run docs:dev:js\" \"npm run docs:dev:images\" \"npm run docs:dev:acetate\" \"npm run docs:dev:sass\" \"npm run docs:dev:typedoc\"",
     "docs:dev:images": "cpx \"docs/src/**/*.{png,jpg,jpeg,gif,svg,webm,ogg}\" docs/build/hub.js -w",
-    "docs:dev:acetate": "acetate server --log=debug --config docs/acetate.config.js",
+    "docs:dev:acetate": "acetate server --log=debug --config docs/acetate.config.js --startPath hub.js/index.html",
     "predocs:dev:sass": "npm run docs:build:sass",
     "docs:dev:sass": "node-sass --watch --recursive --output docs/build/hub.js/css --source-map true --source-map-contents docs/src/sass",
     "docs:dev:js": "cpx \"docs/src/**/{api-search,nav-toggle}.js\" docs/build/hub.js -w",
