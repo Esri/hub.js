@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.8.1] - March 4th 2019
+
+### @esri/hub-auth
+
+* Fixes
+  * ensure pkg.unpkg filename/path is correct [`7fb1294`](https://github.com/Esri/hub.js/commit/7fb12944060f8ebcfdb262deddead16570becfd5)
+
 ## [1.8.0] - February 25th 2019
 
 ### @esri/hub-common
@@ -237,4 +244,5 @@ Initial Release
 [1.7.1]: https://github.com/Esri/hub.js/compare/v1.7.0...v1.7.1 "v1.7.1"
 [1.7.2]: https://github.com/Esri/hub.js/compare/v1.7.1...v1.7.2 "v1.7.2"
 [1.8.0]: https://github.com/Esri/hub.js/compare/v1.7.2...v1.8.0 "v1.8.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v1.8.0...HEAD "Unreleased Changes"
+[1.8.1]: https://github.com/Esri/hub.js/compare/v1.8.0...v1.8.1 "v1.8.1"
+[HEAD]: https://github.com/Esri/hub.js/compare/v1.8.1...HEAD "Unreleased Changes"
