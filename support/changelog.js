@@ -81,8 +81,7 @@ function getCommitData(from, to) {
        .replace(/"returns"/g, "returns")
        .replace(/\\/g, "\\\\")
        */
-      const commits = JSON.parse("["+stdout.slice(0, -1).replace(/Revert "no bash script"/g, "Revert 'no bash script'")+"]");
-      const last = _.last(commits);
+      const commits = JSON.parse("["+stdout.slice(0, -1)/*.replace()*/ +"]").reverse();
       const today = new Date();
       resolve({
         previousVersion: /v\d\.\d\.\d/.test(from)
@@ -363,7 +362,7 @@ getReleases()
   })
   .then(([pairs, changelog, newVersion]) => {
     const links = pairs.map(([from, to]) => {
-      to = to === "HEAD" ? getPackageVersion() : to;
+      to = to === "HEAD" ? "v" + getPackageVersion() : to;
       return {
         ref: to.replace("v", ""),
         title: to,
