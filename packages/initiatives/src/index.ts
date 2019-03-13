@@ -11,6 +11,7 @@ export * from "./activate";
 export * from "./remove";
 export * from "./detach-site";
 export * from "./search";
-// TODO: Move to module in ArcGIS-REST-JS
+export * from "./follow";
+// TODO: Move to module in ArcGIS REST JS
 import geometryService from "./geometry";
 export { geometryService };
