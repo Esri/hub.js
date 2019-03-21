@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.9.0] - March 21st 2019
+
+### @esri/hub-initiatives
+
+* New Features
+  * new methods for users to follow and unfollow initiatives [`aeef22e`](https://github.com/Esri/hub.js/commit/aeef22e9e645033bde8eff29cc3a1c01891b6db5)
+
+### Other Changes
+
+* Chores
+   * **changelog**: ensure that CHANGELOG script generates valid diff urls [`bbb82c1`](https://github.com/Esri/hub.js/commit/bbb82c19a4772f23505a9f155e644759d22bb2e1)
+
 ## [1.8.1] - March 4th 2019
 
 ### @esri/hub-auth
@@ -245,4 +257,5 @@ Initial Release
 [1.7.2]: https://github.com/Esri/hub.js/compare/v1.7.1...v1.7.2 "v1.7.2"
 [1.8.0]: https://github.com/Esri/hub.js/compare/v1.7.2...v1.8.0 "v1.8.0"
 [1.8.1]: https://github.com/Esri/hub.js/compare/v1.8.0...v1.8.1 "v1.8.1"
-[HEAD]: https://github.com/Esri/hub.js/compare/v1.8.1...HEAD "Unreleased Changes"
+[1.9.0]: https://github.com/Esri/hub.js/compare/v1.8.1...v1.9.0 "v1.9.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v1.9.0...HEAD "Unreleased Changes"
