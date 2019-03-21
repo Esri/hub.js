@@ -12,7 +12,7 @@ import {
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 /**
- * Create an initiative collaboration or ope data groups
+ * Create an initiative collaboration or open data group
  * Note: This does not ensure a group with the proposed name does not exist. Please use
  * `checkGroupExists
  *
