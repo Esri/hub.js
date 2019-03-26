@@ -12,7 +12,7 @@ import { UserSession } from "@esri/arcgis-rest-auth";
  * import { getEventServiceUrl } from "@esri/hub-events";
  * // org ids can be retrieved via a call to portals/self
  * request("http://custom.maps.arcgis.com/sharing/rest/portals/self")
- *   then(response => {
+ *   .then(response => {
  *     getEventServiceUrl(response.id)
  *       .then(url)
  *   })
