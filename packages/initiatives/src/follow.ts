@@ -1,8 +1,4 @@
-import {
-  request,
-  getPortalUrl,
-  IRequestOptions
-} from "@esri/arcgis-rest-request";
+import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 import { UserSession, getUserUrl } from "@esri/arcgis-rest-auth";
 import { IUser } from "@esri/arcgis-rest-common-types";
 
