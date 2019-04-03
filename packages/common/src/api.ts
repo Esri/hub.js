@@ -3,7 +3,7 @@ import { IRequestOptions, getPortalUrl } from "@esri/arcgis-rest-request";
 /**
  * @param requestOptions - request options that may include authentication
  */
-export function getHubRESTAPIBaseUrl(requestOptions: IRequestOptions): string {
+export function getHubAPIUrl(requestOptions: IRequestOptions): string {
   const portalUrl = getPortalUrl(requestOptions);
   if (portalUrl.match(/(qaext|\.mapsqa\.)/)) {
     return "https://hubqa.arcgis.com";
