@@ -1,11 +1,12 @@
 {
   "name": "@esri/hub-common",
-  "version": "1.9.0",
+  "version": "1.10.0",
   "description": "Common TypeScript types and utility functions for @esri/hub.js.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/common.umd.js",
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
+  "sideEffects": false,
   "types": "dist/esm/index.d.ts",
   "author": "",
   "license": "Apache-2.0",

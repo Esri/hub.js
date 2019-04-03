@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.10.0] - March 29th 2019
+
+### @esri/hub-*
+
+* New Features
+   * **tree**: advertise sideEffect free code to webpack [`47bcbae`](https://github.com/Esri/hub.js/commit/47bcbaee600daa92e14cc097219886158d59548e)
+
+### @esri/hub-events
+
+* New Features
+   * new `registerForEvent()` and `unregisterForEvent()` methods [`f4bd391`](https://github.com/Esri/hub.js/commit/f4bd391c67cc9711860ea3d49f83936d3c0bcb86)
+
 ## [1.9.0] - March 21st 2019
 
 ### @esri/hub-initiatives
@@ -258,4 +270,5 @@ Initial Release
 [1.8.0]: https://github.com/Esri/hub.js/compare/v1.7.2...v1.8.0 "v1.8.0"
 [1.8.1]: https://github.com/Esri/hub.js/compare/v1.8.0...v1.8.1 "v1.8.1"
 [1.9.0]: https://github.com/Esri/hub.js/compare/v1.8.1...v1.9.0 "v1.9.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v1.9.0...HEAD "Unreleased Changes"
+[1.10.0]: https://github.com/Esri/hub.js/compare/v1.9.0...v1.10.0 "v1.10.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v1.10.0...HEAD "Unreleased Changes"

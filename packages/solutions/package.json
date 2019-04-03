@@ -1,24 +1,25 @@
 {
   "name": "@esri/hub-solutions",
-  "version": "1.9.0",
+  "version": "1.10.0",
   "description": "Module to interact with ArcGIS Hub Solutions in Node.js and modern browsers.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/solutions.umd.js",
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
+  "sideEffects": false,
   "types": "dist/esm/index.d.ts",
   "license": "Apache-2.0",
   "dependencies": {
-    "@esri/arcgis-rest-request": "^1.17.0",
+    "@esri/arcgis-rest-request": "^1.19.0",
     "tslib": "^1.9.3"
   },
   "peerDependencies": {
-    "@esri/hub-common": "^1.8.0",
-    "@esri/hub-domains": "^1.8.0"
+    "@esri/hub-common": "^1.9.0",
+    "@esri/hub-domains": "^1.9.0"
   },
   "devDependencies": {
-    "@esri/hub-common": "^1.8.1",
-    "@esri/hub-domains": "^1.8.1"
+    "@esri/hub-common": "^1.10.0",
+    "@esri/hub-domains": "^1.10.0"
   },
   "files": [
     "dist/**"
