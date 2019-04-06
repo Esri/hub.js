@@ -21,6 +21,9 @@
   "peerDependencies": {
     "@esri/hub-domains": "^1.10.0"
   },
+  "devDependencies": {
+    "@esri/hub-domains": "^1.10.0"
+  },
   "files": [
     "dist/**"
   ],
