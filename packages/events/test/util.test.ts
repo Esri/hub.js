@@ -28,7 +28,7 @@ describe("getEventServiceUrl", () => {
           "typekeywords:hubEventsLayer AND orgid:5bc"
         );
         expect(result).toBe(
-          "https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/Hub Events/FeatureServer/0"
+          "https://hub.arcgis.com/api/v3/events/5bc/Hub Events/FeatureServer/0"
         );
         done();
       })
@@ -51,7 +51,7 @@ describe("getEventServiceUrl", () => {
           "typekeywords:hubEventsLayer AND orgid:5bc"
         );
         expect(result).toBe(
-          "https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/Hub Events (org)/FeatureServer/0"
+          "https://hub.arcgis.com/api/v3/events/5bc/Hub Events (org)/FeatureServer/0"
         );
         done();
       })
@@ -74,7 +74,7 @@ describe("getEventServiceUrl", () => {
           "typekeywords:hubEventsLayer AND orgid:5bc"
         );
         expect(result).toBe(
-          "https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/Hub Events (public)/FeatureServer/0"
+          "https://hub.arcgis.com/api/v3/events/5bc/Hub Events (public)/FeatureServer/0"
         );
         done();
       })

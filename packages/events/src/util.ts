@@ -68,9 +68,6 @@ export function getEventServiceUrl(
         if (view[1]) {
           return `${host}/api/v3/events/${orgId}/${view[1]}/FeatureServer/0`;
         }
-        return null;
-      } else {
-        return null;
       }
     } else {
       throw Error("No events service found. Events are likely not enabled.");
