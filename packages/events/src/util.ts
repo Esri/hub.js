@@ -65,9 +65,12 @@ export function getEventServiceUrl(
         const view = result.url.match(/services\/(.*?)\/FeatureServer/);
 
         // Generate a root url for the hub-indexer event routes
+        /* istanbul ignore next */
         if (view[1]) {
           return `${host}/api/v3/events/${orgId}/${view[1]}/FeatureServer/0`;
         }
+      } else {
+        return null;
       }
     } else {
       throw Error("No events service found. Events are likely not enabled.");
