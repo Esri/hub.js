@@ -1181,7 +1181,7 @@ const data = [
     type: "events",
     attributes: {
       imageUrl:
-        `https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/Hub Events (public)/FeatureServer/0/6/attachments/252?v=` +
+        `https://hub.arcgis.com/api/v3/events/5bc/Hub Events (public)/FeatureServer/0/6/attachments/252?v=` +
         { cacheBust } +
         `&token=FAKE-TOKEN`,
       ...eventQueryResponse.features[1].attributes
