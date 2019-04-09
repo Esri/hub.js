@@ -3,8 +3,7 @@ import {
   adminEventSearchResponse,
   orgEventSearchResponse,
   publicEventSearchResponse,
-  emptyEventSearchResponse,
-  noUrlEventSearchResponse
+  emptyEventSearchResponse
 } from "./mocks/ago_search";
 import * as items from "@esri/arcgis-rest-items";
 
@@ -101,27 +100,6 @@ describe("getEventServiceUrl", () => {
       );
       done();
     });
-  });
-
-  it("should retun null if if corrupt event item is found", done => {
-    // stub searchItems
-    const paramsSpy = spyOn(items, "searchItems").and.returnValue(
-      new Promise(resolve => {
-        resolve(noUrlEventSearchResponse);
-      })
-    );
-
-    getEventServiceUrl("v8b")
-      .then(result => {
-        expect(paramsSpy.calls.count()).toEqual(1);
-        const opts = paramsSpy.calls.argsFor(0)[0] as ISearchRequestOptions;
-        expect(opts.searchForm.q).toContain(
-          "typekeywords:hubEventsLayer AND orgid:v8b"
-        );
-        expect(result).toBe(null);
-        done();
-      })
-      .catch(() => fail());
   });
 });
 

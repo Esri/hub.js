@@ -57,20 +57,17 @@ export function getEventServiceUrl(
         // pick the highest access level that this user has access to
         result = obj.admin || obj.org || /* istanbul ignore next */ obj.public;
       }
-      if (result && result.url) {
-        const host = getHubUrl(requestOptions);
 
-        // Extract the Event service's view name; the view returned depends
-        // on permission level of request user
-        const view = result.url.match(/services\/(.*?)\/FeatureServer/);
+      const host = getHubUrl(requestOptions);
 
-        // Generate a root url for the hub-indexer event routes
-        /* istanbul ignore else */
-        if (view[1]) {
-          return `${host}/api/v3/events/${orgId}/${view[1]}/FeatureServer/0`;
-        }
-      } else {
-        return null;
+      // Extract the Event service's view name; the view returned depends
+      // on permission level of request user
+      const view = result.url.match(/services\/(.*?)\/FeatureServer/);
+
+      // Generate a root url for the hub-indexer event routes
+      /* istanbul ignore else */
+      if (view[1]) {
+        return `${host}/api/v3/events/${orgId}/${view[1]}/FeatureServer/0`;
       }
     } else {
       throw Error("No events service found. Events are likely not enabled.");
