@@ -214,7 +214,7 @@ export const publicEventSearchResponse: ISearchResult = {
   results: [publicItem]
 };
 
-/* When events have not been enabled, there are items returned */
+/* When events have not been enabled, there are no items returned */
 export const emptyEventSearchResponse: ISearchResult = {
   query: "typekeywords:hubEventsLayer AND orgid:h7c",
   total: 1,

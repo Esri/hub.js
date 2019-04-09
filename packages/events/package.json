@@ -18,6 +18,12 @@
     "@esri/arcgis-rest-request": "^1.19.0",
     "tslib": "^1.9.3"
   },
+  "peerDependencies": {
+    "@esri/hub-domains": "^1.10.0"
+  },
+  "devDependencies": {
+    "@esri/hub-domains": "^1.10.0"
+  },
   "files": [
     "dist/**"
   ],

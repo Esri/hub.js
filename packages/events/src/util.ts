@@ -5,6 +5,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { searchItems, ISearchResult } from "@esri/arcgis-rest-items";
 import { IQueryFeaturesRequestOptions } from "@esri/arcgis-rest-feature-service";
 import { UserSession } from "@esri/arcgis-rest-auth";
+import { getHubUrl } from "@esri/hub-domains";
 
 /**
  * ```js
@@ -56,11 +57,18 @@ export function getEventServiceUrl(
         // pick the highest access level that this user has access to
         result = obj.admin || obj.org || /* istanbul ignore next */ obj.public;
       }
-      // single-layer service
-      let url = `${result.url}/0`;
-      // force https
-      url = url.replace(/^http:/gi, "https:");
-      return url;
+
+      const host = getHubUrl(requestOptions);
+
+      // Extract the Event service's view name; the view returned depends
+      // on permission level of request user
+      const view = result.url.match(/services\/(.*?)\/FeatureServer/);
+
+      // Generate a root url for the hub-indexer event routes
+      /* istanbul ignore else */
+      if (view[1]) {
+        return `${host}/api/v3/events/${orgId}/${view[1]}/FeatureServer/0`;
+      }
     } else {
       throw Error("No events service found. Events are likely not enabled.");
     }
