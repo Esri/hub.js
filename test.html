@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>ArcGIS REST JS</title>
+</head>
+<body>
+  Open your console to see the demo.
+  <!-- <script src="/packages/arcgis-rest-request/dist/umd/request.umd.js"></script>
+  <script src="/packages/arcgis-rest-auth/dist/umd/auth.umd.js"></script>
+  <script src="/packages/arcgis-rest-feature-service/dist/umd/feature-service.umd.js"></script>
+  <script src="/packages/arcgis-rest-items/dist/umd/items.umd.js"></script>
+  <script src="/packages/arcgis-rest-groups/dist/umd/groups.umd.js"></script>
+  <script src="/packages/arcgis-rest-sharing/dist/umd/sharing.umd.js"></script>
+  <script src="/packages/arcgis-rest-geocoder/dist/umd/geocoder.umd.js"></script>
+  <script src="/packages/arcgis-rest-users/dist/umd/users.umd.js"></script>
+  <script src="/packages/arcgis-rest-items/dist/umd/items.umd.js"></script>
+  <script src="/packages/arcgis-rest-feature-service-admin/dist/umd/feature-service-admin.umd.js"></script>
+   -->
+  <script src="packages/search/node_modules/@esri/arcgis-rest-request/dist/umd/request.umd.js"></script>
+  <script src="packages/search/node_modules/@esri/arcgis-rest-auth/dist/umd/auth.umd.js"></script>
+  <script src="packages/search/node_modules/@esri/arcgis-rest-items/dist/umd/items.umd.js"></script>
+  <script src="packages/search/dist/umd/search.umd.js"></script>
+
+  <script>
+    const authentication = new arcgisRest.UserSession({
+      portal: 'https://qaext.arcgis.com/sharing/rest',
+      username: 'dcadminqa',
+      password: 'dcadminqa1'
+    })
+    const params = {
+      q: 'land'
+    }
+    console.log(' -- ', arcgisHub)
+    arcgisHub.ago(params, authentication).then(response => {
+      console.log(response)
+    })
+  </script>
+</body>
+</html>
