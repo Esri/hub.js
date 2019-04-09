@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+### @esri/hub-common
+
+* Fixes
+  * exposes `getTypes` and `getCategory` method
+
 ## [1.10.0] - March 29th 2019
 
 ### @esri/hub-*
