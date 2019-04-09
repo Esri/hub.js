@@ -27,11 +27,7 @@ export function getEventServiceUrl(
   orgId: string,
   requestOptions?: IRequestOptions
 ): Promise<string> {
-  return searchItems({
-    searchForm: { q: `typekeywords:hubEventsLayer AND orgid:${orgId}` },
-    // mixin requestOptions (if present)
-    ...requestOptions
-  }).then(response => {
+  return getEventServiceItems(orgId, requestOptions).then(response => {
     const eventResponse = response as ISearchResult;
     if (eventResponse.results && eventResponse.results.length > 0) {
       let result;
@@ -117,4 +113,33 @@ export function getEventQueryFromType(
     newOptions.where = typeWhere;
   }
   return newOptions;
+}
+
+/**
+ * ```js
+ * import { request } from "@esri/arcgis-rest-request";
+ * import { getEventServiceItems } from "@esri/hub-events";
+ * // org ids can be retrieved via a call to portals/self
+ * request("http://custom.maps.arcgis.com/sharing/rest/portals/self")
+ *   .then(response => {
+ *     getEventServiceItems(response.id)
+ *       .then(itemResponse)
+ *   })
+ * ```
+ * Fetch the events service associated with a Hub Site.
+ * @param orgId - Identifier of the ArcGIS Online Organization
+ * @param requestOptions - request options that may include authentication
+ * @returns A Promise that will resolve with an events url for a Hub enabled ArcGIS Online organization.
+ */
+export function getEventServiceItems(
+  orgId: string,
+  requestOptions?: IRequestOptions
+): Promise<ISearchResult> {
+  return searchItems({
+    searchForm: { q: `typekeywords:hubEventsLayer AND orgid:${orgId}` },
+    // mixin requestOptions (if present)
+    ...requestOptions
+  }).then(response => {
+    return response;
+  });
 }
