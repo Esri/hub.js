@@ -22,7 +22,7 @@ import { IItem } from "@esri/arcgis-rest-common-types";
  * Fetch the events service associated with a Hub Site.
  * @param orgId - Identifier of the ArcGIS Online Organization
  * @param requestOptions - request options that may include authentication
- * @returns A Promise that will resolve with an events url for a Hub enabled ArcGIS Online organization.
+ * @returns A Promise that will resolve with the events API url for a Hub enabled ArcGIS Online organization.
  */
 export function getEventServiceUrl(
   orgId: string,
@@ -40,6 +40,35 @@ export function getEventServiceUrl(
     if (view[1]) {
       return `${host}/api/v3/events/${orgId}/${view[1]}/FeatureServer/0`;
     }
+  });
+}
+
+/**
+ * ```js
+ * import { request } from "@esri/arcgis-rest-request";
+ * import { getEventServiceUrl } from "@esri/hub-events";
+ * // org ids can be retrieved via a call to portals/self
+ * request("http://custom.maps.arcgis.com/sharing/rest/portals/self")
+ *   .then(response => {
+ *     getEventServiceUrl(response.id)
+ *       .then(url)
+ *   })
+ * ```
+ * Fetch the events service associated with a Hub Site.
+ * @param orgId - Identifier of the ArcGIS Online Organization
+ * @param requestOptions - request options that may include authentication
+ * @returns A Promise that will resolve with the events feature service url for a Hub enabled ArcGIS Online organization.
+ */
+export function getEventFeatureServiceUrl(
+  orgId: string,
+  requestOptions?: IRequestOptions
+): Promise<string> {
+  return getEventServiceItem(orgId, requestOptions).then(response => {
+    // single-layer service
+    let url = `${response.url}/0`;
+    // force https
+    url = url.replace(/^http:/gi, "https:");
+    return url;
   });
 }
 
