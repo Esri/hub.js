@@ -17,7 +17,7 @@ export interface IQueryObject {
 }
 
 /**
- * Create intermediate query object parsed from query parameters
+ * Create intermediate query object parsed from ISearchParams
  *
  * @export
  * @param {ISearchParams} params
@@ -35,36 +35,28 @@ export function createQueryObject(params: ISearchParams): IQueryObject {
   // sort parameters starting with '-' are interpreted as descending order
   let sort = { sort: { field: "relevance", order: "desc" } };
   if (params.sort) {
-    sort =
-      params.sort && params.sort[0] === "-"
-        ? {
-            sort: {
-              field: params.sort.slice(1, params.sort.length),
-              order: "desc"
-            }
-          }
-        : { sort: { field: params.sort, order: "asc" } };
+    if (params.sort[0] === "-") {
+      sort = {
+        sort: { field: params.sort.slice(1, params.sort.length), order: "desc" }
+      };
+    } else {
+      sort = { sort: { field: params.sort, order: "asc" } };
+    }
   }
-
   if (params.q) {
     queryObject.q = params.q;
   }
-
   if (params.bbox) {
     queryObject.bbox = params.bbox;
   }
-
   if (params.locationName) {
     queryObject.locationName = params.locationName;
   }
-
   if (params.fields) {
     queryObject.fields = params.fields;
   }
-
   if (params.agg) {
     queryObject.agg = params.agg;
   }
-
   return Object.assign({}, queryObject, filter, page, sort);
 }

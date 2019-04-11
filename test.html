@@ -30,7 +30,8 @@
       password: 'dcadminqa1'
     })
     const params = {
-      q: 'land'
+      q: 'land',
+      sort: 'title'
     }
     console.log(' -- ', arcgisHub)
     arcgisHub.agoSearch(params, authentication).then(response => {
