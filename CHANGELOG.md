@@ -12,6 +12,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Fixes
   * exposes `getTypes` and `getCategory` method
 
+## [1.11.0] - April 11th 2019
+
+### @esri/hub-events
+
+* New Features
+   * new `getEventFeatureServiceUrl()` and `getEventServiceItem()` methods [`a7fc6be`](https://github.com/Esri/hub.js/commit/a7fc6be7613626246e4f53ce6f3e160b73b02864)
+   * `getEventServiceUrl` gets the REST API [`7c9836b`]((https://github.com/Esri/hub.js/commit/7c9836b1d44e4db1c1cd6b46020d19b419f70320)
+
+### @esri/hub-common
+
+* Bug Fixes
+   * export `getTypes` and `getCategories` methods [`0dfba00`](https://github.com/Esri/hub.js/commit/0dfba00e5cb75d95a89942f8ed0f6eae53c6d035)
+
 ## [1.10.0] - March 29th 2019
 
 ### @esri/hub-*
@@ -266,7 +279,8 @@ Initial Release
 [1.4.0]: https://github.com/Esri/hub.js/compare/v1.3.0...v1.4.0 "v1.4.0"
 [1.5.0]: https://github.com/Esri/hub.js/compare/v1.4.0...v1.5.0 "v1.5.0"
 [1.5.1]: https://github.com/Esri/hub.js/compare/v1.5.0...v1.5.1 "v1.5.1"
-[1.5.3]: https://github.com/Esri/hub.js/compare/v1.5.1...v1.5.3 "v1.5.3"
+[1.5.2]: https://github.com/Esri/hub.js/compare/v1.5.1...v1.5.2 "v1.5.2"
+[1.5.3]: https://github.com/Esri/hub.js/compare/v1.5.2...v1.5.3 "v1.5.3"
 [1.6.0]: https://github.com/Esri/hub.js/compare/v1.5.3...v1.6.0 "v1.6.0"
 [1.6.1]: https://github.com/Esri/hub.js/compare/v1.6.0...v1.6.1 "v1.6.1"
 [1.7.0]: https://github.com/Esri/hub.js/compare/v1.6.1...v1.7.0 "v1.7.0"
@@ -276,4 +290,5 @@ Initial Release
 [1.8.1]: https://github.com/Esri/hub.js/compare/v1.8.0...v1.8.1 "v1.8.1"
 [1.9.0]: https://github.com/Esri/hub.js/compare/v1.8.1...v1.9.0 "v1.9.0"
 [1.10.0]: https://github.com/Esri/hub.js/compare/v1.9.0...v1.10.0 "v1.10.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v1.10.0...HEAD "Unreleased Changes"
+[1.11.0]: https://github.com/Esri/hub.js/compare/v1.10.0...v1.11.0 "v1.11.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v1.11.0...HEAD "Unreleased Changes"
