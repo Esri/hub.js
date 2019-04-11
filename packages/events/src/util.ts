@@ -17,9 +17,10 @@ import { IItem } from "@esri/arcgis-rest-common-types";
  *   .then(response => {
  *     getEventServiceUrl(response.id)
  *       .then(url)
+ *          // "https://hub.arcgis.com/api/v3/events/<orgId>..."
  *   })
  * ```
- * Fetch the events service associated with a Hub Site.
+ * Get the Hub REST API endpoint to use for an organization's events
  * @param orgId - Identifier of the ArcGIS Online Organization
  * @param requestOptions - request options that may include authentication
  * @returns A Promise that will resolve with the events API url for a Hub enabled ArcGIS Online organization.
@@ -46,15 +47,16 @@ export function getEventServiceUrl(
 /**
  * ```js
  * import { request } from "@esri/arcgis-rest-request";
- * import { getEventServiceUrl } from "@esri/hub-events";
+ * import { getEventFeatureServiceUrl } from "@esri/hub-events";
  * // org ids can be retrieved via a call to portals/self
  * request("http://custom.maps.arcgis.com/sharing/rest/portals/self")
  *   .then(response => {
- *     getEventServiceUrl(response.id)
+ *     getEventFeatureServiceUrl(response.id)
  *       .then(url)
+ *         // "https://services.arcgis.com/<orgId>/arcgis/rest/services/..."
  *   })
  * ```
- * Fetch the events service associated with a Hub Site.
+ * Fetch the events feature service/view for the Hub organization and given authorization.
  * @param orgId - Identifier of the ArcGIS Online Organization
  * @param requestOptions - request options that may include authentication
  * @returns A Promise that will resolve with the events feature service url for a Hub enabled ArcGIS Online organization.
@@ -123,7 +125,7 @@ export function getEventQueryFromType(
  * // org ids can be retrieved via a call to portals/self
  * request("http://custom.maps.arcgis.com/sharing/rest/portals/self")
  *   .then(response => {
- *     getEventServiceItems(response.id)
+ *     getEventServiceItem(response.id)
  *       .then(itemResponse)
  *   })
  * ```
