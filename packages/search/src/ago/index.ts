@@ -2,3 +2,4 @@
  * Apache-2.0 */
 
 export * from "./search";
+export * from "./format-item-collection";
