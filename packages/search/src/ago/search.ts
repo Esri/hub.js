@@ -14,7 +14,7 @@ import { encodeAgoQuery } from "./encode-ago-query";
  * @param {IParams} searchRequestOptions
  * @returns {Promise<ISearchResult>}
  */
-export function search(
+export function agoSearch(
   params: ISearchParams,
   authentication: UserSession
 ): Promise<ISearchResult> {

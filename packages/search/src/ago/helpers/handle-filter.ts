@@ -13,7 +13,7 @@ const customFilters: any = {
 };
 
 function isCustomFilter(filter: any) {
-  return Object.keys(customFilters).includes(filter);
+  return Object.keys(customFilters).indexOf(filter) > -1;
 }
 
 export function handleFilter(queryFilters: any) {
