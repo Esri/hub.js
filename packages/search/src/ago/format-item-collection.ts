@@ -4,7 +4,7 @@ import { formatItem } from "./format-item";
 import { convertAgoPages } from "./ago-response-to-jsonapi-page";
 
 // This function is responsible for formatting results from the AGO API into the JSONAPI collection format
-export function formatItemCollection(
+export function agoFormatItemCollection(
   searchResults: ISearchResult,
   facets: any = {},
   params: ISearchParams

@@ -18,7 +18,7 @@ export function getSortField(field: string): string {
   if (field in hubSortFieldToAGOSortFieldMap) {
     return hubSortFieldToAGOSortFieldMap[field];
   }
-  if (!legalSortFields.includes(field)) {
+  if (legalSortFields.indexOf(field) === -1) {
     return;
   }
 }

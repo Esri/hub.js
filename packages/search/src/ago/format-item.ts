@@ -54,7 +54,10 @@ function formatItemAttributes(item: IItem) {
   });
 }
 
-function highlights(item: IItem, query: string) {
+function highlights(
+  item: IItem,
+  query: string
+): { name: string; searchDescription: string } {
   // calculate highlights based on AGO restricted item, hence use description field but return as `searchDescription`
   // because the search-result/component expects searchDescription
   return {

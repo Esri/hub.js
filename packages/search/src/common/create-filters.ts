@@ -4,7 +4,6 @@ import { paramSchema } from "./param-schema";
 /**
  * Create filters
  *
- * @export
  * @param {ISearchParams} params
  * @returns {Promise<any>}
  */

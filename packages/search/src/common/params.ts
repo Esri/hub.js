@@ -1,7 +1,9 @@
+import { IRequestOptions } from "@esri/arcgis-rest-request";
+
 /* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
 * Apache-2.0 */
 
-export interface ISearchParams {
+export interface ISearchParams extends IRequestOptions {
   access?: string;
   agg?: { fields: string[] };
   bbox?: string;
