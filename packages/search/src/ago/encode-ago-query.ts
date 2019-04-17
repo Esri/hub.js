@@ -1,4 +1,4 @@
-import { IQueryObject } from "./create-q";
+import { IQueryObject } from "./serialize";
 import { calcStart, handleFilter, getSortField } from "./helpers";
 
 export function encodeAgoQuery(queryObject: IQueryObject) {

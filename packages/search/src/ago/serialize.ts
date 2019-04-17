@@ -23,7 +23,7 @@ export interface IQueryObject {
  * @param {ISearchParams} params
  * @returns {Promise<IQueryObject>}
  */
-export function createQueryObject(params: ISearchParams): IQueryObject {
+export function serialize(params: ISearchParams): IQueryObject {
   const queryObject: IQueryObject = {};
   const filter = createFilters(params);
   const page = {

@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { searchItems, ISearchResult } from "@esri/arcgis-rest-items";
-import { IQueryObject, createQueryObject } from "./create-q";
+import { IQueryObject, serialize } from "./serialize";
 import { ISearchParams } from "../common/params";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { encodeAgoQuery } from "./encode-ago-query";
@@ -19,7 +19,7 @@ export function agoSearch(
   authentication: UserSession
 ): Promise<ISearchResult> {
   // console.log("Inside hubJS params = ", params);
-  const queryObj: IQueryObject = createQueryObject(params);
+  const queryObj: IQueryObject = serialize(params);
   // console.log("Inside hubJS queryObj = ", queryObj);
   const agoParams = encodeAgoQuery(queryObj);
   // console.log("Inside hubJS agoParams = ", agoParams);
