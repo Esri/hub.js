@@ -7,7 +7,7 @@ export interface ISearchParams extends IRequestOptions {
   access?: string;
   agg?: { fields: string[] };
   bbox?: string;
-  catalog?: { groupIds: string[]; pageIds: string[] };
+  catalog?: { groupIds: string[]; id: string[] };
   catalogToggle?: boolean;
   collection?: any;
   content?: any;
@@ -15,6 +15,7 @@ export interface ISearchParams extends IRequestOptions {
   groupIds?: string;
   hasApi?: boolean;
   hubType?: string;
+  isPortal?: boolean;
   location_name?: string;
   owner?: string;
   page?: number;

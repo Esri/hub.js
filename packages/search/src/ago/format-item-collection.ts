@@ -1,5 +1,5 @@
 import { ISearchResult } from "@esri/arcgis-rest-items";
-import { ISearchParams } from "../common/params";
+import { ISearchParams } from "./params";
 import { formatItem } from "./format-item";
 import { convertAgoPages } from "./ago-response-to-jsonapi-page";
 

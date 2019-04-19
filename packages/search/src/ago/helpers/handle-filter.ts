@@ -13,7 +13,7 @@ const customFilters: any = {
 };
 
 function isCustomFilter(filter: any) {
-  return Object.keys(customFilters).indexOf(filter) > -1;
+  return !!customFilters[filter];
 }
 
 export function handleFilter(queryFilters: any) {
@@ -32,7 +32,6 @@ export function handleFilter(queryFilters: any) {
       otherFilters.push(clause);
     }
   });
-
   if (catalogDefinition.length) {
     const catalogClause = `(${catalogDefinition.join(" OR ")})`;
     if (otherFilters.length) {

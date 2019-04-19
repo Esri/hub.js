@@ -1,6 +1,4 @@
-import { IQueryObject } from "../serialize";
-
-export function calcStart(queryObject: IQueryObject) {
+export function calcStart(queryObject: any) {
   const defaultPageObject: { [key: string]: number } = {};
   const pageObject = queryObject.page || defaultPageObject;
   const page = pageObject.number || 1;
