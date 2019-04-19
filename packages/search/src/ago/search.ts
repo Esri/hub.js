@@ -2,8 +2,7 @@
  * Apache-2.0 */
 
 import { searchItems, ISearchResult } from "@esri/arcgis-rest-items";
-import { IQueryObject, serialize } from "./serialize";
-import { ISearchParams } from "../common/params";
+import { ISearchParams } from "./params";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { encodeAgoQuery } from "./encode-ago-query";
 
@@ -11,18 +10,16 @@ import { encodeAgoQuery } from "./encode-ago-query";
  * Search for Items in ArcGIS
  *
  * @export
- * @param {IParams} searchRequestOptions
+ * @param {ISearchParams} params (query params from hub indexer)
+ * @param {UserSession} authentication
  * @returns {Promise<ISearchResult>}
  */
 export function agoSearch(
   params: ISearchParams,
   authentication: UserSession
 ): Promise<ISearchResult> {
-  // console.log("Inside hubJS params = ", params);
-  const queryObj: IQueryObject = serialize(params);
-  // console.log("Inside hubJS queryObj = ", queryObj);
-  const agoParams = encodeAgoQuery(queryObj);
-  // console.log("Inside hubJS agoParams = ", agoParams);
+  const agoParams = encodeAgoQuery(params);
+  // console.log('agoParams = ', agoParams);
   return searchItems({
     authentication,
     searchForm: agoParams

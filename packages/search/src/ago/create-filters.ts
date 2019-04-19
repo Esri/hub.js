@@ -2,31 +2,47 @@ import { ISearchParams } from "./params";
 import { paramSchema } from "./param-schema";
 
 /**
- * Create filters
+ * Create filters object based on raw params like tags=a,b or tags=any(a,b)
  *
  * @param {ISearchParams} params
- * @returns {Promise<any>}
+ * @returns {any}
  */
-export function createFilters(params: ISearchParams): any {
-  const queryParams = Object.assign({}, params);
-  const filter = Object.keys(queryParams).reduce((filters: any = {}, key) => {
+// return a standard filter object
+// given a query string that looks like this:
+//
+// ?tags=tag1,tag2&source=source1,source2
+//
+// This function will return a filter like:
+//
+// {
+//   filter: {
+//     tags: {
+//       fn: 'all',
+//       terms: [ 'tag1', 'tag2' ]
+//     },
+//     source: {
+//       fn: 'any',
+//       terms: [ 'source1', 'source2' ]
+//     }
+//   }
+// }
+export function createFilters(params: ISearchParams = {}): any {
+  const filter = Object.keys(params).reduce((filters: any = {}, key) => {
     const paramDefinition = paramSchema[key] || {};
     if (
-      !!queryParams[key] &&
+      params[key] &&
       paramDefinition.type === "filter" &&
       paramDefinition.dataType
     ) {
-      const values = queryParams[key];
+      const values = params[key];
       filters[key] = generateFilter(values, paramDefinition);
     }
     return filters;
   }, {});
-  // return an object with a filters key if any filters were generated
-  return Object.keys(filter).length > 0 ? { filter } : {};
+  return filter;
 }
 
 function generateFilter(values: string, paramDefinition: any) {
-  // user has passed in a query like any(foo,bar)
   const match = values.match(/(any|all)\((.+)\)/);
   if (match) {
     return {

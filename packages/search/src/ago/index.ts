@@ -5,3 +5,4 @@ export * from "./search";
 export * from "./format-item-collection";
 export * from "./encode-ago-query";
 export * from "./serialize";
+export * from "./compute-items-facet";

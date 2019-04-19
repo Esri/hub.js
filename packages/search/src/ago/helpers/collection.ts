@@ -1,4 +1,4 @@
-import { hubTypeExpansion } from "../../common/hub-type-map";
+import { hubTypeExpansion } from "../hub-type-map";
 
 export function collection(queryFilters: any) {
   const categories =

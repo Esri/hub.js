@@ -1,62 +1,45 @@
-import { ISearchParams } from "../common/params";
-import { createFilters } from "../common/create-filters";
+import { ISearchParams } from "./params";
+import { createFilters } from "./create-filters";
+import { paramSchema } from "./param-schema";
 
 /**
- * An intermediate query object parsed from query parameters
- */
-export interface IQueryObject {
-  page?: { size: number; number: number };
-  sort?: { field: string; order?: string };
-  q?: string;
-  bbox?: string;
-  locationName?: string;
-  fields?: string;
-  agg?: { fields: string[] };
-  filter?: any;
-  [key: string]: any;
-}
-
-/**
- * Create intermediate query object parsed from ISearchParams
+ * serialize raw query parameters into hub specific URI encoding
+ * Example:
+ * Input: { q: 'crime', tags: 'a,b,c', sort: 'name' }
+ * Output: 'q=crime&tags=all(a,b,c)&sort=name'
  *
  * @export
- * @param {ISearchParams} params
- * @returns {Promise<IQueryObject>}
+ * @param {ISearchParams} searchParams
+ * @returns {string}
  */
-export function serialize(params: ISearchParams): IQueryObject {
-  const queryObject: IQueryObject = {};
-  const filter = createFilters(params);
-  const page = {
-    page: {
-      size: typeof params.size === "number" ? params.size : 10,
-      number: params.page || 1
-    }
-  };
-  // sort parameters starting with '-' are interpreted as descending order
-  let sort = { sort: { field: "relevance", order: "desc" } };
-  if (params.sort) {
-    if (params.sort[0] === "-") {
-      sort = {
-        sort: { field: params.sort.slice(1, params.sort.length), order: "desc" }
-      };
-    } else {
-      sort = { sort: { field: params.sort, order: "asc" } };
-    }
-  }
-  if (params.q) {
-    queryObject.q = params.q;
-  }
-  if (params.bbox) {
-    queryObject.bbox = params.bbox;
-  }
-  if (params.locationName) {
-    queryObject.locationName = params.locationName;
-  }
-  if (params.fields) {
-    queryObject.fields = params.fields;
-  }
-  if (params.agg) {
-    queryObject.agg = params.agg;
-  }
-  return Object.assign({}, queryObject, filter, page, sort);
+export function serialize(searchParams: ISearchParams): string {
+  // encode non-filtereable keys first
+  const nonFilterableKeys = Object.keys(searchParams).filter(
+    name => !isFilterable(name)
+  );
+  const encodedNonFilters = nonFilterableKeys
+    .map(key => `${key}=${encodeURIComponent(searchParams[key])}`)
+    .join("&");
+  // in order to encode filters, first get a filters obj in terms of fn and terms
+  const filters = createFilters(searchParams);
+  const encodedFilters = encodeFilters(filters);
+  return [encodedNonFilters, encodedFilters].join("&");
+}
+
+export function isFilterable(field: string) {
+  return paramSchema[field] && paramSchema[field].type === "filter";
+}
+
+export function encodeFilters(filters: any = {}): string {
+  return Object.keys(filters)
+    .map(name => {
+      const attribute = filters[name];
+      const { fn, terms } = attribute;
+      // filters that are part of the catalog defenition are OR'd together then anded to the query
+      const type = attribute.catalogDefinition ? "catalog" : "filter";
+      const key = encodeURIComponent(`${type}[${name}]`);
+      const values = terms.map(encodeURIComponent).join(",");
+      return fn ? `${key}=${fn}(${values})` : `${key}=${values}`;
+    })
+    .join("&");
 }

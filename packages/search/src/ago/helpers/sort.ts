@@ -15,7 +15,9 @@ const hubSortFieldToAGOSortFieldMap: { [key: string]: string } = {
 };
 
 export function getSortField(field: string): string {
-  if (field in hubSortFieldToAGOSortFieldMap) {
+  if (legalSortFields.indexOf(field) >= 0) {
+    return field;
+  } else if (field in hubSortFieldToAGOSortFieldMap) {
     return hubSortFieldToAGOSortFieldMap[field];
   }
   if (legalSortFields.indexOf(field) === -1) {

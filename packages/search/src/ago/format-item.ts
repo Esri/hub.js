@@ -24,8 +24,8 @@
 //     }
 //   }
 // }
-import { hubTypeLookup } from "../common/hub-type-map";
-import { calcHighlights } from "../common/highlights";
+import { hubTypeLookup } from "./hub-type-map";
+import { calcHighlights } from "./highlights";
 import { IItem } from "@esri/arcgis-rest-common-types";
 
 export function formatItem(item: IItem, query: string) {
