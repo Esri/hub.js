@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>ArcGIS REST JS</title>
+  <title>Test html - ArcGIS Hub JS</title>
 </head>
 <body>
   Open your console to see the demo.
@@ -22,6 +22,7 @@
   <script src="packages/search/node_modules/@esri/arcgis-rest-auth/dist/umd/auth.umd.js"></script>
   <script src="packages/search/node_modules/@esri/arcgis-rest-items/dist/umd/items.umd.js"></script>
   <script src="packages/search/dist/umd/search.umd.js"></script>
+  <script src="node_modules/node-fetch/index.js"></script>
 
   <script>
     const authentication = new arcgisRest.UserSession({
@@ -30,13 +31,42 @@
       password: 'dcadminqa1'
     })
     const params = {
-      q: 'land',
-      sort: 'title'
+      q: '',
+      sort: 'name',
+      groupIds: 'd972f25c70f945d5b572d093dd37ac47,f511d0ce44f2470093d4693b293a2c2d,d5e03c8b9d9043b595a34cdd0597fae5,6f063f2d05824bd898ca0d5089d93614,76af326256114ccb9af0cabdf0e74392,633e6369aaec4f06bf9e0ed3ab8f5c21,a937fb653242438cbe523db5ae7c574e,80b8dd23093b4314a881eadf2668f72b,95be52166ad5458eb46ae69cfe579c2d,61b041e2ea744d588d9a37650cbe2da5',
+      id: '4dd789d0c75a4ebb8805b1314c1cc974,6e1ad7f1bbbf416793bfb02795ccc65f,1083139673d24a9ca7f7666ced6e49cb',
+      aggs: 'tags,collection,source,hasApi',
+      tags: 'test'
     }
-    console.log(' -- ', arcgisHub)
-    arcgisHub.agoSearch(params, authentication).then(response => {
-      console.log(response)
+    const serializedParams = arcgisHub.serialize(params)
+    console.log(serializedParams)
+    fetch(`http://localhost:1337/unifiedSearch?${serializedParams}`)
+    .then(X => {
+      return X.json()
+    }).then(Y => {
+      console.log(Y)
     })
+    
+    // console.log('arcgisHUB = ', arcgisHub)
+    // // 1. get search results
+    // let searchResults
+    // let facets
+    // arcgisHub.agoSearch(params, authentication).then(response => {
+    //   searchResults = response
+    //   return
+    // }).then(() => {
+    //   // 2. get facets on 100 items
+    //   const paramsCopy = Object.assign({}, params, { start: 1, num: 100 })
+    //   return arcgisHub.agoSearch(paramsCopy, authentication).then(response => {
+    //     facets = arcgisHub.computeItemsFacet(response, params.agg.fields)
+    //     return
+    //   })
+    // }).then(() => {
+    //   // 3. combine search results and facets into formatted item collection
+    //   const model = arcgisHub.agoFormatItemCollection(searchResults, facets)
+    //   console.log('####### MODEL ######')
+    //   console.log(model)
+    // })
   </script>
 </body>
 </html>
