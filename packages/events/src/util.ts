@@ -2,11 +2,10 @@
  * Apache-2.0 */
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { searchItems, ISearchResult } from "@esri/arcgis-rest-items";
-import { IQueryFeaturesRequestOptions } from "@esri/arcgis-rest-feature-service";
+import { searchItems, ISearchResult, IItem } from "@esri/arcgis-rest-portal";
+import { IQueryFeaturesOptions } from "@esri/arcgis-rest-feature-layer";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { getHubApiUrl } from "@esri/hub-common";
-import { IItem } from "@esri/arcgis-rest-common-types";
 
 /**
  * ```js
@@ -78,12 +77,12 @@ export function getEventFeatureServiceUrl(
  * Get the events query based on type.
  * @param type - string to indicate event type with the options `upcoming`, `past`, `cancelled` and `draft`
  * @param options - query features request options
- * @returns an IQueryFeaturesRequestOptions that has the same values as `options` but for the modified Where and OrderBy properties
+ * @returns an IQueryFeaturesOptions that has the same values as `options` but for the modified Where and OrderBy properties
  */
 export function getEventQueryFromType(
   type: "upcoming" | "past" | "cancelled" | "draft",
-  options: IQueryFeaturesRequestOptions
-): IQueryFeaturesRequestOptions {
+  options: IQueryFeaturesOptions
+): IQueryFeaturesOptions {
   // this allows us to ask for type === upcoming | past | cancelled | draft
   // and get an appropriate `where` and `orderByFields`
   let typeWhere;
@@ -139,11 +138,11 @@ export function getEventServiceItem(
   requestOptions?: IRequestOptions
 ): Promise<IItem> {
   return searchItems({
-    searchForm: { q: `typekeywords:hubEventsLayer AND orgid:${orgId}` },
+    q: `typekeywords:hubEventsLayer AND orgid:${orgId}`,
     // mixin requestOptions (if present)
     ...requestOptions
   }).then(response => {
-    const eventResponse = response as ISearchResult;
+    const eventResponse = response as ISearchResult<IItem>;
     if (eventResponse.results && eventResponse.results.length > 0) {
       let result;
       /* istanbul ignore else  */

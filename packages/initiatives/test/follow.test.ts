@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IUser } from "@esri/arcgis-rest-common-types";
+import { IUser } from "@esri/arcgis-rest-portal";
 import { followInitiative, unfollowInitiative } from "../src/follow";
 import { MOCK_REQUEST_OPTIONS } from "./mocks/fake-session";
 import * as fetchMock from "fetch-mock";
@@ -130,37 +130,41 @@ describe("follow/unfollowInitiative", () => {
     followInitiative({
       initiativeId: `fe8`,
       ...MOCK_REQUEST_OPTIONS
-    }).then(response => {
-      // check that the mocks were called
-      expect(fetchMock.done()).toBeTruthy();
-      // inspect the POST call...
-      const [metadataUrl, metadataOptions]: [
-        string,
-        RequestInit
-      ] = fetchMock.lastCall(
-        `https://www.arcgis.com/sharing/rest/community/users/vader`
-      );
-      expect(metadataUrl).toEqual(metadataUrl);
-      expect(metadataOptions.method).toBe("POST");
-      expect(metadataOptions.body).toContain("f=json");
-      expect(metadataOptions.body).toContain("token=fake-token");
+    })
+      .then(response => {
+        // check that the mocks were called
+        expect(fetchMock.done()).toBeTruthy();
+        // inspect the POST call...
+        const [metadataUrl, metadataOptions]: [
+          string,
+          RequestInit
+        ] = fetchMock.lastCall(
+          `https://www.arcgis.com/sharing/rest/community/users/vader`
+        );
+        expect(metadataUrl).toEqual(metadataUrl);
+        expect(metadataOptions.method).toBe("POST");
+        expect(metadataOptions.body).toContain("f=json");
+        expect(metadataOptions.body).toContain("token=fake-token");
 
-      const [updateUrl, updateOptions]: [
-        string,
-        RequestInit
-      ] = fetchMock.lastCall(
-        `https://www.arcgis.com/sharing/rest/community/users/vader/update`
-      );
-      expect(updateUrl).toEqual(updateUrl);
-      expect(updateOptions.method).toBe("POST");
-      expect(updateOptions.body).toContain("f=json");
-      expect(updateOptions.body).toContain("token=fake-token");
-      expect(updateOptions.body).toContain(
-        `tags=${encodeURIComponent("hubInitiativeId|fe8")}`
-      );
-      expect(response.success).toBe(true);
-      done();
-    });
+        const [updateUrl, updateOptions]: [
+          string,
+          RequestInit
+        ] = fetchMock.lastCall(
+          `https://www.arcgis.com/sharing/rest/community/users/vader/update`
+        );
+        expect(updateUrl).toEqual(updateUrl);
+        expect(updateOptions.method).toBe("POST");
+        expect(updateOptions.body).toContain("f=json");
+        expect(updateOptions.body).toContain("token=fake-token");
+        expect(updateOptions.body).toContain(
+          `tags=${encodeURIComponent("hubInitiativeId|fe8")}`
+        );
+        expect(response.success).toBe(true);
+        done();
+      })
+      .catch(() => {
+        fail();
+      });
   });
 
   it("should not add user tags if they are already following", done => {
@@ -209,35 +213,39 @@ describe("follow/unfollowInitiative", () => {
     unfollowInitiative({
       initiativeId: `fe8`,
       ...MOCK_REQUEST_OPTIONS
-    }).then(response => {
-      // check that the mocks were called
-      expect(fetchMock.done()).toBeTruthy();
-      // inspect the POST call...
-      const [metadataUrl, metadataOptions]: [
-        string,
-        RequestInit
-      ] = fetchMock.lastCall(
-        `https://www.arcgis.com/sharing/rest/community/users/vader`
-      );
-      expect(metadataUrl).toEqual(metadataUrl);
-      expect(metadataOptions.method).toBe("POST");
-      expect(metadataOptions.body).toContain("f=json");
-      expect(metadataOptions.body).toContain("token=fake-token");
+    })
+      .then(response => {
+        // check that the mocks were called
+        expect(fetchMock.done()).toBeTruthy();
+        // inspect the POST call...
+        const [metadataUrl, metadataOptions]: [
+          string,
+          RequestInit
+        ] = fetchMock.lastCall(
+          `https://www.arcgis.com/sharing/rest/community/users/vader`
+        );
+        expect(metadataUrl).toEqual(metadataUrl);
+        expect(metadataOptions.method).toBe("POST");
+        expect(metadataOptions.body).toContain("f=json");
+        expect(metadataOptions.body).toContain("token=fake-token");
 
-      const [updateUrl, updateOptions]: [
-        string,
-        RequestInit
-      ] = fetchMock.lastCall(
-        `https://www.arcgis.com/sharing/rest/community/users/vader/update`
-      );
-      expect(updateUrl).toEqual(updateUrl);
-      expect(updateOptions.method).toBe("POST");
-      expect(updateOptions.body).toContain("f=json");
-      expect(updateOptions.body).toContain("token=fake-token");
-      expect(updateOptions.body).toContain(`tags=${encodeURIComponent(",")}`);
-      expect(response.success).toBe(true);
-      done();
-    });
+        const [updateUrl, updateOptions]: [
+          string,
+          RequestInit
+        ] = fetchMock.lastCall(
+          `https://www.arcgis.com/sharing/rest/community/users/vader/update`
+        );
+        expect(updateUrl).toEqual(updateUrl);
+        expect(updateOptions.method).toBe("POST");
+        expect(updateOptions.body).toContain("f=json");
+        expect(updateOptions.body).toContain("token=fake-token");
+        expect(updateOptions.body).toContain(`tags=${encodeURIComponent(",")}`);
+        expect(response.success).toBe(true);
+        done();
+      })
+      .catch(() => {
+        fail();
+      });
   });
 
   it("should remove a tag if they are already following and other tags are present", done => {
@@ -260,37 +268,41 @@ describe("follow/unfollowInitiative", () => {
     unfollowInitiative({
       initiativeId: `fe8`,
       ...MOCK_REQUEST_OPTIONS
-    }).then(response => {
-      // check that the mocks were called
-      expect(fetchMock.done()).toBeTruthy();
-      // inspect the POST call...
-      const [metadataUrl, metadataOptions]: [
-        string,
-        RequestInit
-      ] = fetchMock.lastCall(
-        `https://www.arcgis.com/sharing/rest/community/users/vader`
-      );
-      expect(metadataUrl).toEqual(metadataUrl);
-      expect(metadataOptions.method).toBe("POST");
-      expect(metadataOptions.body).toContain("f=json");
-      expect(metadataOptions.body).toContain("token=fake-token");
+    })
+      .then(response => {
+        // check that the mocks were called
+        expect(fetchMock.done()).toBeTruthy();
+        // inspect the POST call...
+        const [metadataUrl, metadataOptions]: [
+          string,
+          RequestInit
+        ] = fetchMock.lastCall(
+          `https://www.arcgis.com/sharing/rest/community/users/vader`
+        );
+        expect(metadataUrl).toEqual(metadataUrl);
+        expect(metadataOptions.method).toBe("POST");
+        expect(metadataOptions.body).toContain("f=json");
+        expect(metadataOptions.body).toContain("token=fake-token");
 
-      const [updateUrl, updateOptions]: [
-        string,
-        RequestInit
-      ] = fetchMock.lastCall(
-        `https://www.arcgis.com/sharing/rest/community/users/vader/update`
-      );
-      expect(updateUrl).toEqual(updateUrl);
-      expect(updateOptions.method).toBe("POST");
-      expect(updateOptions.body).toContain("f=json");
-      expect(updateOptions.body).toContain("token=fake-token");
-      expect(updateOptions.body).toContain(
-        `tags=${encodeURIComponent("I drive a Dodge Stratus")}`
-      );
-      expect(response.success).toBe(true);
-      done();
-    });
+        const [updateUrl, updateOptions]: [
+          string,
+          RequestInit
+        ] = fetchMock.lastCall(
+          `https://www.arcgis.com/sharing/rest/community/users/vader/update`
+        );
+        expect(updateUrl).toEqual(updateUrl);
+        expect(updateOptions.method).toBe("POST");
+        expect(updateOptions.body).toContain("f=json");
+        expect(updateOptions.body).toContain("token=fake-token");
+        expect(updateOptions.body).toContain(
+          `tags=${encodeURIComponent("I drive a Dodge Stratus")}`
+        );
+        expect(response.success).toBe(true);
+        done();
+      })
+      .catch(() => {
+        fail();
+      });
   });
 
   it("should not add user tags if they are already following", done => {

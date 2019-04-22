@@ -5,13 +5,13 @@ import {
 } from "../src/index";
 
 import { UserSession, ApplicationSession } from "@esri/arcgis-rest-auth";
-import * as featureService from "@esri/arcgis-rest-feature-service";
+import * as featureService from "@esri/arcgis-rest-feature-layer";
 import {
-  IAddFeaturesRequestOptions,
-  IUpdateFeaturesRequestOptions,
-  IDeleteFeaturesRequestOptions
-} from "@esri/arcgis-rest-feature-service";
-import { IFeature } from "../node_modules/@esri/arcgis-rest-common-types";
+  IAddFeaturesOptions,
+  IUpdateFeaturesOptions,
+  IDeleteFeaturesOptions
+} from "@esri/arcgis-rest-feature-layer";
+import { IFeature } from "@esri/arcgis-rest-types";
 
 export const addFeaturesResponse = {
   addResults: [
@@ -86,51 +86,9 @@ describe("addAnnotations", () => {
     })
       .then(() => {
         expect(paramsSpy.calls.count()).toEqual(1);
-        const opts = paramsSpy.calls.argsFor(
-          0
-        )[0] as IAddFeaturesRequestOptions;
+        const opts = paramsSpy.calls.argsFor(0)[0] as IAddFeaturesOptions;
         expect(opts.url).toEqual(annoUrl);
         const anno = opts.features[0] as IFeature;
-        expect(anno.attributes.description).toEqual(
-          "what do we want? bike lanes! when do we want them? now!"
-        );
-        expect(anno.attributes.status).toEqual("pending");
-        expect(anno.attributes.source).toEqual("hub.js");
-        done();
-      })
-      .catch(() => fail());
-  });
-
-  it("should add an annotation using the old constructor option", done => {
-    // stub add features
-    const paramsSpy = spyOn(featureService, "addFeatures").and.returnValue(
-      new Promise(resolve => {
-        resolve(addFeaturesResponse);
-      })
-    );
-
-    addAnnotations({
-      url: annoUrl,
-      authentication: MOCK_USER_SESSION,
-      features: [],
-      adds: [
-        {
-          attributes: {
-            description:
-              "what do we want? bike lanes! when do we want them? now!",
-            target:
-              "https://services.arcgis.com/xyz/arcgis/rest/services/CityX_bikeshare_locations/FeatureServer/0"
-          }
-        }
-      ]
-    })
-      .then(() => {
-        expect(paramsSpy.calls.count()).toEqual(1);
-        const opts = paramsSpy.calls.argsFor(
-          0
-        )[0] as IAddFeaturesRequestOptions;
-        expect(opts.url).toEqual(annoUrl);
-        const anno = opts.adds[0] as IFeature;
         expect(anno.attributes.description).toEqual(
           "what do we want? bike lanes! when do we want them? now!"
         );
@@ -166,9 +124,7 @@ describe("addAnnotations", () => {
     })
       .then(() => {
         expect(paramsSpy.calls.count()).toEqual(1);
-        const opts = paramsSpy.calls.argsFor(
-          0
-        )[0] as IAddFeaturesRequestOptions;
+        const opts = paramsSpy.calls.argsFor(0)[0] as IAddFeaturesOptions;
 
         expect(opts.url).toEqual(annoUrl);
         const anno = opts.features[0] as IFeature;
@@ -206,9 +162,7 @@ describe("addAnnotations", () => {
     })
       .then(() => {
         expect(paramsSpy.calls.count()).toEqual(1);
-        const opts = paramsSpy.calls.argsFor(
-          0
-        )[0] as IAddFeaturesRequestOptions;
+        const opts = paramsSpy.calls.argsFor(0)[0] as IAddFeaturesOptions;
 
         expect(opts.url).toEqual(annoUrl);
         const anno = opts.features[0] as IFeature;
@@ -247,9 +201,7 @@ describe("addAnnotations", () => {
     })
       .then(() => {
         expect(paramsSpy.calls.count()).toEqual(1);
-        const opts = paramsSpy.calls.argsFor(
-          0
-        )[0] as IAddFeaturesRequestOptions;
+        const opts = paramsSpy.calls.argsFor(0)[0] as IAddFeaturesOptions;
 
         expect(opts.url).toEqual(annoUrl);
         const anno = opts.features[0] as IFeature;
@@ -287,9 +239,7 @@ describe("updateAnnotations", () => {
     })
       .then(() => {
         expect(paramsSpy.calls.count()).toEqual(1);
-        const opts = paramsSpy.calls.argsFor(
-          0
-        )[0] as IUpdateFeaturesRequestOptions;
+        const opts = paramsSpy.calls.argsFor(0)[0] as IUpdateFeaturesOptions;
 
         expect(opts.url).toEqual(annoUrl);
         const anno = opts.features[0] as IFeature;
@@ -316,9 +266,7 @@ describe("deleteAnnotations", () => {
     })
       .then(() => {
         expect(paramsSpy.calls.count()).toEqual(1);
-        const opts = paramsSpy.calls.argsFor(
-          0
-        )[0] as IDeleteFeaturesRequestOptions;
+        const opts = paramsSpy.calls.argsFor(0)[0] as IDeleteFeaturesOptions;
 
         expect(opts.url).toEqual(annoUrl);
         const anno = opts.objectIds[0] as number;

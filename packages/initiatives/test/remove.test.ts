@@ -4,8 +4,7 @@ import { removeInitiative } from "../src/remove";
 import { MOCK_REQUEST_OPTIONS } from "./mocks/fake-session";
 import { cloneObject } from "@esri/hub-common";
 import * as DetachSiteAPi from "../src/detach-site";
-import * as ItemsAPI from "@esri/arcgis-rest-items";
-import * as RequestAPI from "@esri/arcgis-rest-request";
+import * as PortalAPI from "@esri/arcgis-rest-portal";
 import * as GroupAPI from "../src/groups";
 import * as InitiativeFetchAPI from "../src/get";
 import { InitiativeInstance } from "./mocks/initiative-instance";
@@ -25,7 +24,7 @@ let detachSpy: any;
 
 describe("remove Initiative", () => {
   beforeEach(() => {
-    portalSelfSpy = spyOn(RequestAPI, "getSelf").and.callFake(() => {
+    portalSelfSpy = spyOn(PortalAPI, "getSelf").and.callFake(() => {
       return Promise.resolve({
         id: "FAKEPORTALID",
         properties: {
@@ -37,13 +36,13 @@ describe("remove Initiative", () => {
         }
       });
     });
-    unprotectItemSpy = spyOn(ItemsAPI, "unprotectItem").and.callFake(
+    unprotectItemSpy = spyOn(PortalAPI, "unprotectItem").and.callFake(
       (ro: any): Promise<any> => {
         return Promise.resolve({ success: true });
       }
     );
 
-    removeItemSpy = spyOn(ItemsAPI, "removeItem").and.callFake(
+    removeItemSpy = spyOn(PortalAPI, "removeItem").and.callFake(
       (ro: any): Promise<any> => {
         return Promise.resolve({ success: true });
       }

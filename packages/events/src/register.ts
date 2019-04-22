@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { joinGroup, leaveGroup } from "@esri/arcgis-rest-groups";
+import { joinGroup, leaveGroup } from "@esri/arcgis-rest-portal";
 
 export interface IEventRegisterRequestOptions extends IUserRequestOptions {
   /**

@@ -11,14 +11,14 @@ import {
   addFeatures,
   deleteFeatures,
   queryFeatures,
-  IAddFeaturesRequestOptions,
-  IDeleteFeaturesRequestOptions,
-  IAddFeaturesResult,
-  IDeleteFeaturesResult
-} from "@esri/arcgis-rest-feature-service";
+  IAddFeaturesOptions,
+  IDeleteFeaturesOptions,
+  IQueryFeaturesResponse
+} from "@esri/arcgis-rest-feature-layer";
 
 import { IAnnoFeature } from "./add";
 import { UserSession } from "@esri/arcgis-rest-auth";
+import { IEditFeatureResult } from "@esri/arcgis-rest-feature-layer/dist/esm/helpers";
 
 export interface IVoteRequestOptions extends IRequestOptions {
   url: string;
@@ -47,7 +47,10 @@ export interface IVoteRequestOptions extends IRequestOptions {
  */
 export function voteOnAnnotation(
   requestOptions: IVoteRequestOptions
-): Promise<IAddFeaturesResult | IDeleteFeaturesResult> {
+): Promise<
+  | { addResults?: IEditFeatureResult[] }
+  | { deleteResults?: IEditFeatureResult[] }
+> {
   const annotation = requestOptions.annotation;
   const auth = requestOptions.authentication as UserSession;
   const url = requestOptions.url;
@@ -70,9 +73,7 @@ export function voteOnAnnotation(
     where: `parent_id = ${annotation.attributes.OBJECTID} AND author = '${
       auth.username
     }'`
-  }).then((
-    queryResponse: any /* why can't i declare it as IQueryFeaturesResponse ? */
-  ) => {
+  }).then((queryResponse: any) => {
     if (queryResponse.features.length > 0) {
       // if its a switch vote, call deleteFeatures() to remove the original
       if (
@@ -81,7 +82,7 @@ export function voteOnAnnotation(
         (requestOptions.downVote &&
           queryResponse.features[0].attributes.vote === 1)
       ) {
-        const deleteOptions: IDeleteFeaturesRequestOptions = {
+        const deleteOptions: IDeleteFeaturesOptions = {
           url,
           authentication: requestOptions.authentication,
           objectIds: [queryResponse.features[0].attributes.OBJECTID]
@@ -90,7 +91,14 @@ export function voteOnAnnotation(
           deleteFeatures(deleteOptions)
             // i have NO idea why the union return type is being ignored
             .then(() => {
-              return { addResults: [{ success: true }] } as IAddFeaturesResult;
+              return {
+                addResults: [
+                  {
+                    success: true,
+                    objectId: queryResponse.features[0].attributes.OBJECTID
+                  }
+                ]
+              };
             })
         );
       } else {
@@ -99,7 +107,7 @@ export function voteOnAnnotation(
         );
       }
     }
-    const addOptions: IAddFeaturesRequestOptions = {
+    const addOptions: IAddFeaturesOptions = {
       url,
       authentication: requestOptions.authentication,
       features: [

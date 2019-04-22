@@ -2,10 +2,9 @@
  * Apache-2.0 */
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IItem } from "@esri/arcgis-rest-common-types";
-import { searchItems, ISearchResult } from "@esri/arcgis-rest-items";
+import { searchItems, ISearchResult, IItem } from "@esri/arcgis-rest-portal";
 
-export interface IAnnoSearchResult extends ISearchResult {
+export interface IAnnoSearchResult extends ISearchResult<IItem> {
   results: IAnnoItem[];
 }
 
@@ -35,10 +34,10 @@ export function getAnnotationServiceUrl(
   requestOptions?: IRequestOptions
 ): Promise<string> {
   return searchItems({
-    searchForm: { q: `typekeywords:hubAnnotationLayer AND orgid:${orgId}` },
+    q: `typekeywords:hubAnnotationLayer AND orgid:${orgId}`,
     // mixin requestOptions (if present)
     ...requestOptions
-  }).then(response => {
+  }).then((response: ISearchResult<IItem>) => {
     const annoResponse = response as IAnnoSearchResult;
     if (annoResponse.results && annoResponse.results.length > 0) {
       // this will need to be smarter if there is more than one service

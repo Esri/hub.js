@@ -1,8 +1,13 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IRequestOptions, getPortalUrl } from "@esri/arcgis-rest-request";
-import { getItem, getItemData } from "@esri/arcgis-rest-items";
+import { IRequestOptions } from "@esri/arcgis-rest-request";
+import {
+  getItem,
+  getItemData,
+  getPortalUrl,
+  IItem
+} from "@esri/arcgis-rest-portal";
 import { IInitiativeModel, IInitiativeItem } from "@esri/hub-common";
 import { getDomain } from "@esri/hub-sites";
 import { migrateSchema } from "./migrator";
@@ -80,7 +85,7 @@ export function lookupSiteUrlByInitiative(
   id: string,
   requestOptions?: IRequestOptions
 ): Promise<string> {
-  return getItem(id, requestOptions).then(initiative => {
+  return getItem(id, requestOptions).then((initiative: IItem) => {
     if (initiative.properties.siteId) {
       return getDomain(initiative.properties.siteId, requestOptions);
     } else {

@@ -2,12 +2,13 @@
  * Apache-2.0 */
 
 import {
-  IQueryFeaturesRequestOptions,
+  IQueryFeaturesOptions,
   queryFeatures,
   IQueryFeaturesResponse
-} from "@esri/arcgis-rest-feature-service";
-import { IGeometry, IFeature } from "@esri/arcgis-rest-common-types";
-import { ISearchRequestOptions, searchItems } from "@esri/arcgis-rest-items";
+} from "@esri/arcgis-rest-feature-layer";
+
+import { ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
+import { IGeometry, IFeature } from "@esri/arcgis-rest-types";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 export interface IEventResourceObject {
@@ -24,7 +25,7 @@ export interface IEventResourceObject {
  * ```js
  * import { getEventQueryFromType, searchEvents } from "@esri/hub-events";
  * // event types are "upcoming" | "past" | "cancelled" | "draft"
- * const searchOptions: IQueryFeaturesRequestOptions = getEventQueryFromType("upcoming", {
+ * const searchOptions: IQueryFeaturesOptions = getEventQueryFromType("upcoming", {
  *   url: eventsUrl,
  *   authentication
  * });
@@ -53,9 +54,9 @@ export interface IEventResourceObject {
  * @returns A Promise that will resolve with decorated features from the event feature service for a Hub enabled ArcGIS Online organization.
  */
 export function searchEvents(
-  requestOptions: IQueryFeaturesRequestOptions
+  requestOptions: IQueryFeaturesOptions
 ): Promise<{ data: IEventResourceObject[]; included: IEventResourceObject[] }> {
-  const queryOptions: IQueryFeaturesRequestOptions = {
+  const queryOptions: IQueryFeaturesOptions = {
     returnGeometry: true,
     ...requestOptions
   };
@@ -137,10 +138,8 @@ function buildEventResponse(
     return { included, data };
   }
   // search for site items and include those in the response
-  const searchRequestOptions = requestOptions as ISearchRequestOptions;
-  searchRequestOptions.searchForm = {
-    q: siteSearchQuery
-  };
+  const searchRequestOptions = requestOptions as ISearchOptions;
+  searchRequestOptions.q = siteSearchQuery;
   return searchItems(searchRequestOptions).then(function(siteInfo) {
     siteInfo.results.forEach(siteItem => {
       included.push({

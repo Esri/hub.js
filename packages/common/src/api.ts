@@ -1,5 +1,5 @@
-import { IRequestOptions, getPortalUrl } from "@esri/arcgis-rest-request";
-
+import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { getPortalUrl } from "@esri/arcgis-rest-portal";
 /**
  * ```js
  * import { getHubApiUrl() } from "@esri/hub-common";

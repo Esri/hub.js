@@ -3,10 +3,9 @@
 
 import {
   updateFeatures,
-  IUpdateFeaturesRequestOptions,
-  IUpdateFeaturesResult
-} from "@esri/arcgis-rest-feature-service";
-
+  IUpdateFeaturesOptions
+} from "@esri/arcgis-rest-feature-layer";
+import { IEditFeatureResult } from "@esri/arcgis-rest-feature-layer/dist/esm/helpers";
 /**
  * ```js
  * import { updateAnnotations } from "@esri/hub-annotations";
@@ -29,7 +28,7 @@ import {
  */
 
 export function updateAnnotations(
-  requestOptions: IUpdateFeaturesRequestOptions
-): Promise<IUpdateFeaturesResult> {
+  requestOptions: IUpdateFeaturesOptions
+): Promise<{ updateResults?: IEditFeatureResult[] }> {
   return updateFeatures(requestOptions);
 }

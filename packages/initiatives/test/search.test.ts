@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { searchInitiatives, searchInitiativeTemplates } from "../src/search";
-import * as ItemsApi from "@esri/arcgis-rest-items";
+import * as ItemsApi from "@esri/arcgis-rest-portal";
 import { MOCK_REQUEST_OPTIONS } from "./mocks/fake-session";
 import { InitiativeSearchResults } from "./mocks/search-results";
 
@@ -16,9 +16,7 @@ describe("initiative search ::", () => {
   describe("search initiatives ::", () => {
     it("should append the type", done => {
       const opts = {
-        searchForm: {
-          q: "water"
-        },
+        q: "water",
         ...MOCK_REQUEST_OPTIONS
       } as any;
       return searchInitiatives(opts).then(results => {
@@ -26,15 +24,13 @@ describe("initiative search ::", () => {
         expect(itemSearchSpy.calls.count()).toBe(1);
         const args = itemSearchSpy.calls.argsFor(0);
         const searchOpts = args[0];
-        expect(searchOpts.searchForm.q).toBe("water AND type: Hub Initiative");
+        expect(searchOpts.q).toBe("water AND type: Hub Initiative");
         done();
       });
     });
     it("should handle empty q", done => {
       const opts = {
-        searchForm: {
-          q: null
-        },
+        q: null,
         ...MOCK_REQUEST_OPTIONS
       } as any;
       return searchInitiatives(opts).then(results => {
@@ -42,7 +38,7 @@ describe("initiative search ::", () => {
         expect(itemSearchSpy.calls.count()).toBe(1);
         const args = itemSearchSpy.calls.argsFor(0);
         const searchOpts = args[0];
-        expect(searchOpts.searchForm.q).toBe("type: Hub Initiative");
+        expect(searchOpts.q).toBe("type: Hub Initiative");
         done();
       });
     });
@@ -51,9 +47,7 @@ describe("initiative search ::", () => {
   describe("search initiative templates ::", () => {
     it("should append the typekeyword", done => {
       const opts = {
-        searchForm: {
-          q: "water"
-        },
+        q: "water",
         ...MOCK_REQUEST_OPTIONS
       } as any;
       return searchInitiativeTemplates(opts).then(results => {
@@ -61,7 +55,7 @@ describe("initiative search ::", () => {
         expect(itemSearchSpy.calls.count()).toBe(1);
         const args = itemSearchSpy.calls.argsFor(0);
         const searchOpts = args[0];
-        expect(searchOpts.searchForm.q).toBe(
+        expect(searchOpts.q).toBe(
           "water AND type: Hub Initiative AND typekeywords:hubInitiativeTemplate"
         );
         done();
@@ -69,9 +63,7 @@ describe("initiative search ::", () => {
     });
     it("should handle null searches", done => {
       const opts = {
-        searchForm: {
-          q: null
-        },
+        q: null,
         ...MOCK_REQUEST_OPTIONS
       } as any;
       return searchInitiativeTemplates(opts).then(results => {
@@ -79,7 +71,7 @@ describe("initiative search ::", () => {
         expect(itemSearchSpy.calls.count()).toBe(1);
         const args = itemSearchSpy.calls.argsFor(0);
         const searchOpts = args[0];
-        expect(searchOpts.searchForm.q).toBe(
+        expect(searchOpts.q).toBe(
           "type: Hub Initiative AND typekeywords:hubInitiativeTemplate"
         );
         done();

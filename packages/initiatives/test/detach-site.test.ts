@@ -3,8 +3,8 @@
 import { detachSiteFromInitiative } from "../src/detach-site";
 import { MOCK_REQUEST_OPTIONS } from "./mocks/fake-session";
 import { cloneObject } from "@esri/hub-common";
-import * as ItemsAPI from "@esri/arcgis-rest-items";
-import * as SharingAPI from "@esri/arcgis-rest-sharing";
+import * as ItemsAPI from "@esri/arcgis-rest-portal";
+import * as SharingAPI from "@esri/arcgis-rest-portal";
 import { SiteItem } from "./mocks/site-item";
 
 describe("detaching a site from initiative", () => {

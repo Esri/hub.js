@@ -1,14 +1,15 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-import { IRequestOptions, getSelf } from "@esri/arcgis-rest-request";
+import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { removeInitiativeGroup } from "./groups";
 import { getInitiative } from "./get";
 import { detachSiteFromInitiative } from "./detach-site";
 import {
   removeItem,
   unprotectItem,
-  IItemIdRequestOptions
-} from "@esri/arcgis-rest-items";
+  getSelf,
+  IUserItemOptions
+} from "@esri/arcgis-rest-portal";
 import { getProp, createId } from "@esri/hub-common";
 
 const steps = [
@@ -93,7 +94,7 @@ export function removeInitiative(
         const opts = {
           id,
           ...requestOptions
-        } as IItemIdRequestOptions;
+        } as IUserItemOptions;
         prms.push(unprotectItem(opts));
       }
       return Promise.all(prms);
@@ -109,7 +110,7 @@ export function removeInitiative(
         id,
         owner: state.initiativeOwner,
         ...requestOptions
-      } as IItemIdRequestOptions;
+      } as IUserItemOptions;
       prms.push(removeItem(opts));
       // if we have a site, let's detach it from the initiative
       if (state.hasSite) {

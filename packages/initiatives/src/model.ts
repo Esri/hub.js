@@ -6,10 +6,11 @@ import geometryService from "./geometry";
 import {
   createItem,
   updateItem,
-  IItemUpdateRequestOptions,
-  IItemAddRequestOptions,
+  IUpdateItemOptions,
+  ICreateItemOptions,
+  ICreateItemResponse,
   determineOwner
-} from "@esri/arcgis-rest-items";
+} from "@esri/arcgis-rest-portal";
 
 /**
  * Save an IModel. Generic function that will be used across all
@@ -26,11 +27,13 @@ export function saveModel(
 ): Promise<IModel> {
   const clone = cloneObject(model) as IModel;
   const opts = createRequestOptions(clone, requestOptions);
-  return createItem(opts as IItemAddRequestOptions).then(response => {
-    clone.item.id = response.id;
-    clone.item.owner = determineOwner(requestOptions);
-    return clone as IModel;
-  });
+  return createItem(opts as ICreateItemOptions).then(
+    (response: ICreateItemResponse) => {
+      clone.item.id = response.id;
+      clone.item.owner = determineOwner(requestOptions);
+      return clone as IModel;
+    }
+  );
 }
 /**
  * Update an IModel. Generic function that will be used across all
@@ -48,7 +51,7 @@ export function updateModel(
   const clone = cloneObject(model) as IModel;
   const opts = createRequestOptions(clone, requestOptions);
 
-  return updateItem(opts as IItemUpdateRequestOptions).then(() => {
+  return updateItem(opts as IUpdateItemOptions).then(() => {
     // return a new ref to the model that was passed in...
     return clone as IModel;
   });

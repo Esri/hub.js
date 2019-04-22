@@ -2,9 +2,9 @@
  * Apache-2.0 */
 
 import { IEventResourceObject } from "../../src/search";
-import { IGeometry, IItem, IField } from "@esri/arcgis-rest-common-types";
-import { IQueryFeaturesResponse } from "@esri/arcgis-rest-feature-service";
-import { ISearchResult } from "@esri/arcgis-rest-items";
+import { IGeometry, IItem, IField } from "@esri/arcgis-rest-types";
+import { IQueryFeaturesResponse } from "@esri/arcgis-rest-feature-layer";
+import { ISearchResult } from "@esri/arcgis-rest-portal";
 
 export const eventQueryResponseEmpty = {
   objectIdFieldName: "OBJECTID",
@@ -1163,7 +1163,7 @@ export const siteSearchResponse = {
   num: 1,
   nextStart: 2,
   results: [siteResponse71a58, siteResponse7c395]
-} as ISearchResult;
+} as ISearchResult<IItem>;
 
 const cacheBust = new Date().getTime();
 const data = [

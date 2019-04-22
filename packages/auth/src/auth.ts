@@ -2,14 +2,14 @@
  * Apache-2.0 */
 
 import { request } from "@esri/arcgis-rest-request";
-import { UserSession, IOauth2Options } from "@esri/arcgis-rest-auth";
+import { UserSession, IOAuth2Options } from "@esri/arcgis-rest-auth";
 
 /**
  * A thin wrapper around [`UserSession.completeOAuth2()`](https://esri.github.io/arcgis-rest-js/api/auth/UserSession/#completeOAuth2) that sets search tags and other relevant metadata for newly created community users.
  */
 /* istanbul ignore next */
 export function completeOAuth2(
-  options: IOauth2Options,
+  options: IOAuth2Options,
   win: any = window
 ): Promise<UserSession> {
   const match = win.location.href.match(

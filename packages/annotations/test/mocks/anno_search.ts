@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { IVoteResourceObject, IResourceObject } from "../../src/search";
-import { IGeometry, IFeature, IField } from "@esri/arcgis-rest-common-types";
+import { IGeometry, IFeature, IField } from "@esri/arcgis-rest-types";
 
 export const annoQueryResponseEmpty = {
   objectIdFieldName: "OBJECTID",

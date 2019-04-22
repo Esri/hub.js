@@ -3,7 +3,7 @@
 
 import { registerForEvent, unregisterForEvent } from "../src/register";
 import { UserSession } from "@esri/arcgis-rest-auth";
-import * as groups from "@esri/arcgis-rest-groups";
+import * as groups from "@esri/arcgis-rest-portal";
 
 export const TOMORROW = (function() {
   const now = new Date();
@@ -39,7 +39,7 @@ describe("register/unregister methods", () => {
         expect(joinGroupParamsSpy.calls.count()).toEqual(1);
         const opts = joinGroupParamsSpy.calls.argsFor(
           0
-        )[0] as groups.IGroupIdRequestOptions;
+        )[0] as groups.IUserGroupOptions;
         expect(opts.id).toBe("5bc");
         expect(opts.authentication).toBe(MOCK_REQOPTS.authentication);
         done();
@@ -61,7 +61,7 @@ describe("register/unregister methods", () => {
         expect(leaveGroupParamsSpy.calls.count()).toEqual(1);
         const opts = leaveGroupParamsSpy.calls.argsFor(
           0
-        )[0] as groups.IGroupIdRequestOptions;
+        )[0] as groups.IUserGroupOptions;
         expect(opts.id).toBe("5bc");
         expect(opts.authentication).toBe(MOCK_REQOPTS.authentication);
         done();

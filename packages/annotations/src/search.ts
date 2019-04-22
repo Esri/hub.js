@@ -2,14 +2,14 @@
  * Apache-2.0 */
 
 import {
-  IQueryFeaturesRequestOptions,
+  IQueryFeaturesOptions,
   queryFeatures,
   IQueryFeaturesResponse,
   IStatisticDefinition
-} from "@esri/arcgis-rest-feature-service";
+} from "@esri/arcgis-rest-feature-layer";
 
-import { getUser } from "@esri/arcgis-rest-users";
-import { IGeometry, IFeature } from "@esri/arcgis-rest-common-types";
+import { getUser } from "@esri/arcgis-rest-portal";
+import { IGeometry, IFeature } from "@esri/arcgis-rest-types";
 import { IAnnoFeature } from "./add";
 
 export interface IResourceObject {
@@ -46,7 +46,7 @@ export interface IResourceObject {
  * @returns A Promise that will resolve with decorated features from the annotation service for a Hub enabled ArcGIS Online organization.
  */
 export function searchAnnotations(
-  requestOptions: IQueryFeaturesRequestOptions
+  requestOptions: IQueryFeaturesOptions
 ): Promise<{ data: IResourceObject[]; included: IResourceObject[] }> {
   if (!requestOptions.outFields) {
     requestOptions.outFields = [
@@ -111,8 +111,7 @@ export function searchAnnotations(
   });
 }
 
-export interface ISearchAnnoRequestOptions
-  extends IQueryFeaturesRequestOptions {
+export interface ISearchAnnoRequestOptions extends IQueryFeaturesOptions {
   url: string;
   annotation: IAnnoFeature;
 }
@@ -168,7 +167,7 @@ export function searchSingleAnnotationVotes(
   requestOptions.outStatistics = [outStat];
   // filtering for the comment
   requestOptions.where = "parent_id=" + annotationId;
-  const queryRequestOptions = requestOptions as IQueryFeaturesRequestOptions;
+  const queryRequestOptions = requestOptions as IQueryFeaturesOptions;
   return queryFeatures(queryRequestOptions).then(response => {
     const resource: IVoteResourceObject = {
       id: annotationId,
@@ -215,7 +214,7 @@ export function searchSingleAnnotationVotes(
  * @returns A Promise that will resolve with summary statistics from the annotation service for a Hub enabled ArcGIS Online organization.
  */
 export function searchAllAnnotationVotes(
-  requestOptions: IQueryFeaturesRequestOptions
+  requestOptions: IQueryFeaturesOptions
 ): Promise<{ data: IVoteResourceObject[] }> {
   requestOptions.groupByFieldsForStatistics = "parent_id";
   const votesStat: IStatisticDefinition = {
