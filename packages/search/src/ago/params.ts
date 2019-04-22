@@ -5,16 +5,15 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 export interface ISearchParams extends IRequestOptions {
   access?: string;
-  agg?: { fields: string[] };
+  aggs?: string;
   bbox?: string;
-  catalog?: { groupIds: string[]; id: string[] };
-  catalogToggle?: boolean;
   collection?: any;
   content?: any;
   downloadable?: boolean;
   groupIds?: string;
   hasApi?: boolean;
   hubType?: string;
+  id?: string;
   isPortal?: boolean;
   location_name?: string;
   owner?: string;
