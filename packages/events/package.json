@@ -19,10 +19,10 @@
     "tslib": "^1.9.3"
   },
   "peerDependencies": {
-    "@esri/hub-domains": "^1.10.0"
+    "@esri/hub-common": "^1.11.0"
   },
   "devDependencies": {
-    "@esri/hub-domains": "^1.11.0"
+    "@esri/hub-common": "^1.11.0"
   },
   "files": [
     "dist/**"

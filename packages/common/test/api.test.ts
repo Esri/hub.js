@@ -4,7 +4,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 describe("getHubApiUrl", () => {
   const ro = {
     authentication: {
-      portal: "https://www.some.portal.com/arcgis/sharing/rest",
+      portal: "https://some.portal.com/arcgis/sharing/rest",
       getToken() {
         return Promise.resolve("FAKE-TOKEN");
       }
