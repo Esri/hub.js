@@ -10,7 +10,7 @@ describe("getHubApiUrl", () => {
       }
     }
   } as IRequestOptions;
-  it("can retrieve undefined", () => {
+  it("returns undefined for non-AGO URLs", () => {
     expect(getHubApiUrl(ro)).toBe(undefined);
   });
 

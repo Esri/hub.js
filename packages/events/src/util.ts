@@ -5,7 +5,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { searchItems, ISearchResult } from "@esri/arcgis-rest-items";
 import { IQueryFeaturesRequestOptions } from "@esri/arcgis-rest-feature-service";
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { getHubUrl } from "@esri/hub-domains";
+import { getHubApiUrl } from "@esri/hub-common";
 import { IItem } from "@esri/arcgis-rest-common-types";
 
 /**
@@ -30,7 +30,7 @@ export function getEventServiceUrl(
   requestOptions?: IRequestOptions
 ): Promise<string> {
   return getEventServiceItem(orgId, requestOptions).then(response => {
-    const host = getHubUrl(requestOptions);
+    const host = getHubApiUrl(requestOptions);
 
     // Extract the Event service's view name; the view returned depends
     // on permission level of request user
