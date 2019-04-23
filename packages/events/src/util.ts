@@ -5,6 +5,8 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { searchItems, ISearchResult } from "@esri/arcgis-rest-items";
 import { IQueryFeaturesRequestOptions } from "@esri/arcgis-rest-feature-service";
 import { UserSession } from "@esri/arcgis-rest-auth";
+import { getHubUrl } from "@esri/hub-domains";
+import { IItem } from "@esri/arcgis-rest-common-types";
 
 /**
  * ```js
@@ -15,55 +17,60 @@ import { UserSession } from "@esri/arcgis-rest-auth";
  *   .then(response => {
  *     getEventServiceUrl(response.id)
  *       .then(url)
+ *          // "https://hub.arcgis.com/api/v3/events/<orgId>..."
  *   })
  * ```
- * Fetch the events service associated with a Hub Site.
+ * Get the Hub REST API endpoint to use for an organization's events
  * @param orgId - Identifier of the ArcGIS Online Organization
  * @param requestOptions - request options that may include authentication
- * @returns A Promise that will resolve with an events url for a Hub enabled ArcGIS Online organization.
+ * @returns A Promise that will resolve with the events API url for a Hub enabled ArcGIS Online organization.
  */
 export function getEventServiceUrl(
   orgId: string,
   requestOptions?: IRequestOptions
 ): Promise<string> {
-  return searchItems({
-    searchForm: { q: `typekeywords:hubEventsLayer AND orgid:${orgId}` },
-    // mixin requestOptions (if present)
-    ...requestOptions
-  }).then(response => {
-    const eventResponse = response as ISearchResult;
-    if (eventResponse.results && eventResponse.results.length > 0) {
-      let result;
-      /* istanbul ignore else  */
-      if (eventResponse.results.length === 1) {
-        // user only has access to the public view
-        result = eventResponse.results[0];
-      } else if (eventResponse.results.length > 1) {
-        // the user has access to the org view and/or the admin view
-        // identify which is which
-        const obj = eventResponse.results.reduce((acc: any, item: any) => {
-          if (!item.typeKeywords.includes("View Service")) {
-            acc.admin = item;
-          } else {
-            if (item.access === "public") {
-              acc.public = item;
-            } else {
-              acc.org = item;
-            }
-          }
-          return acc;
-        }, {});
-        // pick the highest access level that this user has access to
-        result = obj.admin || obj.org || /* istanbul ignore next */ obj.public;
-      }
-      // single-layer service
-      let url = `${result.url}/0`;
-      // force https
-      url = url.replace(/^http:/gi, "https:");
-      return url;
-    } else {
-      throw Error("No events service found. Events are likely not enabled.");
+  return getEventServiceItem(orgId, requestOptions).then(response => {
+    const host = getHubUrl(requestOptions);
+
+    // Extract the Event service's view name; the view returned depends
+    // on permission level of request user
+    const view = response.url.match(/services\/(.*?)\/FeatureServer/);
+
+    // Generate a root url for the hub-indexer event routes
+    /* istanbul ignore else */
+    if (view[1]) {
+      return `${host}/api/v3/events/${orgId}/${view[1]}/FeatureServer/0`;
     }
+  });
+}
+
+/**
+ * ```js
+ * import { request } from "@esri/arcgis-rest-request";
+ * import { getEventFeatureServiceUrl } from "@esri/hub-events";
+ * // org ids can be retrieved via a call to portals/self
+ * request("http://custom.maps.arcgis.com/sharing/rest/portals/self")
+ *   .then(response => {
+ *     getEventFeatureServiceUrl(response.id)
+ *       .then(url)
+ *         // "https://services.arcgis.com/<orgId>/arcgis/rest/services/..."
+ *   })
+ * ```
+ * Fetch the events feature service/view for the Hub organization and given authorization.
+ * @param orgId - Identifier of the ArcGIS Online Organization
+ * @param requestOptions - request options that may include authentication
+ * @returns A Promise that will resolve with the events feature service url for a Hub enabled ArcGIS Online organization.
+ */
+export function getEventFeatureServiceUrl(
+  orgId: string,
+  requestOptions?: IRequestOptions
+): Promise<string> {
+  return getEventServiceItem(orgId, requestOptions).then(response => {
+    // single-layer service
+    let url = `${response.url}/0`;
+    // force https
+    url = url.replace(/^http:/gi, "https:");
+    return url;
   });
 }
 
@@ -109,4 +116,61 @@ export function getEventQueryFromType(
     newOptions.where = typeWhere;
   }
   return newOptions;
+}
+
+/**
+ * ```js
+ * import { request } from "@esri/arcgis-rest-request";
+ * import { getEventServiceItem } from "@esri/hub-events";
+ * // org ids can be retrieved via a call to portals/self
+ * request("http://custom.maps.arcgis.com/sharing/rest/portals/self")
+ *   .then(response => {
+ *     getEventServiceItem(response.id)
+ *       .then(itemResponse)
+ *   })
+ * ```
+ * Fetch the events service associated with a Hub Site.
+ * @param orgId - Identifier of the ArcGIS Online Organization
+ * @param requestOptions - request options that may include authentication
+ * @returns A Promise that will resolve with the events item for a Hub enabled ArcGIS Online organization.
+ */
+export function getEventServiceItem(
+  orgId: string,
+  requestOptions?: IRequestOptions
+): Promise<IItem> {
+  return searchItems({
+    searchForm: { q: `typekeywords:hubEventsLayer AND orgid:${orgId}` },
+    // mixin requestOptions (if present)
+    ...requestOptions
+  }).then(response => {
+    const eventResponse = response as ISearchResult;
+    if (eventResponse.results && eventResponse.results.length > 0) {
+      let result;
+      /* istanbul ignore else  */
+      if (eventResponse.results.length === 1) {
+        // user only has access to the public view
+        result = eventResponse.results[0];
+      } else if (eventResponse.results.length > 1) {
+        // the user has access to the org view and/or the admin view
+        // identify which is which
+        const obj = eventResponse.results.reduce((acc: any, item: any) => {
+          if (!item.typeKeywords.includes("View Service")) {
+            acc.admin = item;
+          } else {
+            if (item.access === "public") {
+              acc.public = item;
+            } else {
+              acc.org = item;
+            }
+          }
+          return acc;
+        }, {});
+        // pick the highest access level that this user has access to
+        result = obj.admin || obj.org || /* istanbul ignore next */ obj.public;
+      }
+      return result;
+    } else {
+      throw Error("No events service found. Events are likely not enabled.");
+    }
+  });
 }
