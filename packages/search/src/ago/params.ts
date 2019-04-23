@@ -5,7 +5,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 export interface ISearchParams extends IRequestOptions {
   access?: string;
-  aggs?: string;
+  agg?: { fields?: string; size?: number; mode?: string };
   bbox?: string;
   collection?: any;
   content?: any;

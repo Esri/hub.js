@@ -1,5 +1,6 @@
 import { calcStart, handleFilter, getSortField } from "./helpers";
 import { createFilters } from "./create-filters";
+import { SearchQueryBuilder } from "@esri/arcgis-rest-portal";
 
 /**
  * Construct a query object with filters, and queryParams sent by hub indexer
