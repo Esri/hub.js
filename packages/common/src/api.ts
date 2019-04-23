@@ -13,11 +13,13 @@ import { IRequestOptions, getPortalUrl } from "@esri/arcgis-rest-request";
  */
 export function getHubApiUrl(requestOptions: IRequestOptions): string {
   const portalUrl = getPortalUrl(requestOptions);
-  if (portalUrl.match(/(qaext|\.mapsqa\.)/)) {
+  if (portalUrl.match(/(qaext|\.mapsqa)\.arcgis.com/)) {
     return "https://hubqa.arcgis.com";
-  } else if (portalUrl.match(/(devext|\.mapsdevext\.)/)) {
+  } else if (portalUrl.match(/(devext|\.mapsdevext)\.arcgis.com/)) {
     return "https://hubdev.arcgis.com";
-  } else if (portalUrl.match(/(www|\.maps\.)/)) {
+  } else if (portalUrl.match(/(www|\.maps)\.arcgis.com/)) {
     return "https://hub.arcgis.com";
-  } else return undefined;
+  } else {
+    return undefined;
+  }
 }
