@@ -7,10 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.11.1] - April 23rd 2019
+
 ### @esri/hub-common
 
 * Fixes
-  * exposes `getTypes` and `getCategory` method
+  * ensure that `undefined` is returned by `getHubApiUrl()` for non-arcgis.com urls.
+
+### @esri/hub-domains
+
+* Fixes
+  * centralize logic for returning hub urls.
 
 ## [1.11.0] - April 11th 2019
 
@@ -279,8 +286,7 @@ Initial Release
 [1.4.0]: https://github.com/Esri/hub.js/compare/v1.3.0...v1.4.0 "v1.4.0"
 [1.5.0]: https://github.com/Esri/hub.js/compare/v1.4.0...v1.5.0 "v1.5.0"
 [1.5.1]: https://github.com/Esri/hub.js/compare/v1.5.0...v1.5.1 "v1.5.1"
-[1.5.2]: https://github.com/Esri/hub.js/compare/v1.5.1...v1.5.2 "v1.5.2"
-[1.5.3]: https://github.com/Esri/hub.js/compare/v1.5.2...v1.5.3 "v1.5.3"
+[1.5.3]: https://github.com/Esri/hub.js/compare/v1.5.1...v1.5.3 "v1.5.3"
 [1.6.0]: https://github.com/Esri/hub.js/compare/v1.5.3...v1.6.0 "v1.6.0"
 [1.6.1]: https://github.com/Esri/hub.js/compare/v1.6.0...v1.6.1 "v1.6.1"
 [1.7.0]: https://github.com/Esri/hub.js/compare/v1.6.1...v1.7.0 "v1.7.0"
@@ -291,4 +297,5 @@ Initial Release
 [1.9.0]: https://github.com/Esri/hub.js/compare/v1.8.1...v1.9.0 "v1.9.0"
 [1.10.0]: https://github.com/Esri/hub.js/compare/v1.9.0...v1.10.0 "v1.10.0"
 [1.11.0]: https://github.com/Esri/hub.js/compare/v1.10.0...v1.11.0 "v1.11.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v1.11.0...HEAD "Unreleased Changes"
+[1.11.1]: https://github.com/Esri/hub.js/compare/v1.11.0...v1.11.1 "v1.11.1"
+[HEAD]: https://github.com/Esri/hub.js/compare/v1.11.1...HEAD "Unreleased Changes"
