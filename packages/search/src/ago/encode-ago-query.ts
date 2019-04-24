@@ -1,6 +1,5 @@
 import { calcStart, handleFilter, getSortField } from "./helpers";
 import { createFilters } from "./create-filters";
-import { SearchQueryBuilder } from "@esri/arcgis-rest-portal";
 
 /**
  * Construct a query object with filters, and queryParams sent by hub indexer
@@ -47,6 +46,10 @@ export function encodeAgoQuery(queryParams: any = {}) {
       query.sortField = sortField;
       query.sortOrder = sortOrder;
     }
+  }
+  if (queryParams.countFields) {
+    query.countFields = queryParams.countFields;
+    query.countSize = queryParams.countSize || 200;
   }
   return query;
 }

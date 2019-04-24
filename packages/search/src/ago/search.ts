@@ -17,7 +17,7 @@ import { encodeAgoQuery } from "./encode-ago-query";
 export function agoSearch(
   params: ISearchParams,
   authentication: UserSession
-): Promise<ISearchResult> {
+): Promise<any> {
   const agoParams = encodeAgoQuery(params);
   // console.log('agoParams = ', agoParams);
   return searchItems({
