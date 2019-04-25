@@ -6,6 +6,7 @@ describe("getHubApiUrl", () => {
   beforeEach(() => {
     ro = {
       authentication: {
+        portal: null,
         getToken() {
           return Promise.resolve("FAKE-TOKEN");
         }
