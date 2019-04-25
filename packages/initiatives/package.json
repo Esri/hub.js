@@ -10,19 +10,20 @@
   "types": "dist/esm/index.d.ts",
   "license": "Apache-2.0",
   "dependencies": {
-    "@esri/arcgis-rest-auth": "^2.0.0",
-    "@esri/arcgis-rest-portal": "^2.0.0",
-    "@esri/arcgis-rest-request": "^2.0.0",
     "tslib": "^1.9.3"
   },
   "peerDependencies": {
+    "@esri/arcgis-rest-auth": "^2.0.0",
+    "@esri/arcgis-rest-portal": "^2.0.0",
+    "@esri/arcgis-rest-request": "^2.0.0",
     "@esri/hub-common": "^1.9.0",
-    "@esri/hub-domains": "^1.9.0",
     "@esri/hub-sites": "^1.9.0"
   },
   "devDependencies": {
+    "@esri/arcgis-rest-auth": "^2.0.0",
+    "@esri/arcgis-rest-portal": "^2.0.0",
+    "@esri/arcgis-rest-request": "^2.0.0",
     "@esri/hub-common": "^1.11.1",
-    "@esri/hub-domains": "^1.11.1",
     "@esri/hub-sites": "^1.11.1",
     "blob": "0.0.4"
   },

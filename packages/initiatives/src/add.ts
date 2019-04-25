@@ -4,7 +4,7 @@
 import { IInitiativeModel } from "@esri/hub-common";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { saveModel, updateModel } from "./model";
-import { getHubUrl } from "@esri/hub-domains";
+import { getHubApiUrl } from "@esri/hub-common";
 
 export const INITIATIVE_TYPE_NAME = "Hub Initiative";
 
@@ -43,5 +43,5 @@ export function getInitiativeUrl(
   itemId: string,
   requestOptions?: IRequestOptions
 ): string {
-  return `${getHubUrl(requestOptions)}/admin/initiatives/${itemId}`;
+  return `${getHubApiUrl(requestOptions)}/admin/initiatives/${itemId}`;
 }

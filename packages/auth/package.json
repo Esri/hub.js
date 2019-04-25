@@ -10,9 +10,15 @@
   "types": "dist/esm/index.d.ts",
   "license": "Apache-2.0",
   "dependencies": {
-    "@esri/arcgis-rest-auth": "^2.0.0",
-    "@esri/arcgis-rest-request": "^2.0.0",
     "tslib": "^1.9.3"
+  },
+  "peerDependencies": {
+    "@esri/arcgis-rest-auth": "^2.0.0",
+    "@esri/arcgis-rest-request": "^2.0.0"
+  },
+  "devDependencies": {
+    "@esri/arcgis-rest-auth": "^2.0.0",
+    "@esri/arcgis-rest-request": "^2.0.0"
   },
   "files": [
     "dist/**"
