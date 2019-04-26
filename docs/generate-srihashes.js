@@ -10,8 +10,7 @@ const fs = require("fs");
 const path = require("path");
 
 /**
- * Now we need to discover all the `@esri/hub-*` package names so we can create
- * the `globals` and `externals` to pass to Rollup.
+ * discover all the `@esri/hub-*` package names
  */
 const packages = fs
   .readdirSync(path.join(__dirname, "../packages"))
