@@ -1,5 +1,6 @@
-import { calcStart, handleFilter, getSortField } from "./helpers";
-import { createFilters } from "./create-filters";
+import { getSortField } from "./helpers/sort";
+import { createFilters, handleFilter } from "./helpers/filters";
+import { createAggs } from "./helpers/aggs";
 
 /**
  * Construct a query object with filters, and queryParams sent by hub indexer
@@ -47,9 +48,10 @@ export function encodeAgoQuery(queryParams: any = {}) {
       query.sortOrder = sortOrder;
     }
   }
-  if (queryParams.countFields) {
-    query.countFields = queryParams.countFields;
-    query.countSize = queryParams.countSize || 200;
+  if (queryParams.agg && queryParams.agg.fields) {
+    const { countFields, countSize } = createAggs(queryParams.agg.fields);
+    query.countFields = countFields;
+    query.countSize = countSize;
   }
   return query;
 }

@@ -1,12 +1,8 @@
+import { getProp } from "@esri/hub-common";
+
 export function buildFilter(queryFilters: any, key: string) {
-  const terms =
-    queryFilters && queryFilters[key] && queryFilters[key].terms
-      ? queryFilters[key].terms
-      : [];
-  const joinType =
-    queryFilters && queryFilters[key] && queryFilters[key].fn
-      ? queryFilters[key].fn
-      : undefined;
+  const terms = getProp(queryFilters, `${key}.terms`) || [];
+  const joinType = getProp(queryFilters, `${key}.fn`);
   let filter = terms
     .map((term: string) => `${key}:"${term}"`)
     .join(agoJoin(joinType));

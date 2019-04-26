@@ -1,7 +1,6 @@
 import { ISearchResult } from "@esri/arcgis-rest-items";
 import { ISearchParams } from "./params";
-import { formatItem } from "./format-item";
-import { convertAgoPages } from "./ago-response-to-jsonapi-page";
+import { formatItem, convertAgoPages } from "./helpers/format";
 
 // This function is responsible for formatting results from the AGO API into the JSONAPI collection format
 export function agoFormatItemCollection(
@@ -9,7 +8,6 @@ export function agoFormatItemCollection(
   facets: any = {},
   params: ISearchParams
 ) {
-  // console.log('In hub.js => formatItemCollection');
   const queryParams = queryParameters(searchResults, params);
   return {
     data: searchResults.results.map(result => {

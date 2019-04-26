@@ -1,4 +1,4 @@
-import { ISearchParams } from "./params";
+import { ISearchParams } from "../../params";
 import { paramSchema } from "./param-schema";
 
 /**

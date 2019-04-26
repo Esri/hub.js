@@ -19,7 +19,6 @@ export function agoSearch(
   authentication: UserSession
 ): Promise<any> {
   const agoParams = encodeAgoQuery(params);
-  // console.log('agoParams = ', agoParams);
   return searchItems({
     authentication,
     searchForm: agoParams

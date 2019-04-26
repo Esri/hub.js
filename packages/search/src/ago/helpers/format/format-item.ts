@@ -24,7 +24,7 @@
 //     }
 //   }
 // }
-import { hubTypeLookup } from "./hub-type-map";
+import { getCategory } from "@esri/hub-common";
 import { calcHighlights } from "./highlights";
 import { IItem } from "@esri/arcgis-rest-common-types";
 
@@ -36,7 +36,7 @@ export function formatItem(item: IItem, query: string) {
   };
   if (query) {
     if (!item.meta) {
-      // create highlights since AGO deos not return them
+      // create highlights since AGO does not return them
       formattedItem.meta = {};
       formattedItem.meta.highlights = highlights(item, query);
     }
@@ -45,12 +45,12 @@ export function formatItem(item: IItem, query: string) {
 }
 
 function formatItemAttributes(item: IItem) {
-  const hubTypes = hubTypeLookup(item.type);
+  const hubType = getCategory(item.type);
   return Object.assign({}, item, {
-    /* computed or null attributes so items & datasets look the same */
+    // computed or null attributes so items & datasets look the same
     name: item.title,
     searchDescription: item.description,
-    hubType: hubTypes[0] || "Other"
+    hubType: hubType || "Other"
   });
 }
 

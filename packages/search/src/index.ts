@@ -5,5 +5,5 @@ export {
   agoSearch,
   agoFormatItemCollection,
   serialize,
-  computeItemsFacet
+  computeItemsFacets
 } from "./ago";
