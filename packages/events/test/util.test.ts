@@ -9,7 +9,7 @@ import {
   publicEventSearchResponse,
   emptyEventSearchResponse
 } from "./mocks/ago_search";
-import * as items from "@esri/arcgis-rest-portal";
+import * as portal from "@esri/arcgis-rest-portal";
 
 import { ISearchOptions } from "@esri/arcgis-rest-portal";
 import { IQueryFeaturesOptions } from "@esri/arcgis-rest-feature-layer";
@@ -18,7 +18,7 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 describe("getEventServiceUrl", () => {
   it("should return admin event service url", done => {
     // stub searchItems
-    const paramsSpy = spyOn(items, "searchItems").and.returnValue(
+    const paramsSpy = spyOn(portal, "searchItems").and.returnValue(
       new Promise(resolve => {
         resolve(adminEventSearchResponse);
       })
@@ -39,7 +39,7 @@ describe("getEventServiceUrl", () => {
 
   it("should return org event service url", done => {
     // stub searchItems
-    const paramsSpy = spyOn(items, "searchItems").and.returnValue(
+    const paramsSpy = spyOn(portal, "searchItems").and.returnValue(
       new Promise(resolve => {
         resolve(orgEventSearchResponse);
       })
@@ -60,7 +60,7 @@ describe("getEventServiceUrl", () => {
 
   it("should return the public event service url", done => {
     // stub searchItems
-    const paramsSpy = spyOn(items, "searchItems").and.returnValue(
+    const paramsSpy = spyOn(portal, "searchItems").and.returnValue(
       new Promise(resolve => {
         resolve(publicEventSearchResponse);
       })
@@ -81,7 +81,7 @@ describe("getEventServiceUrl", () => {
 
   it("should throw if no event layer is found", done => {
     // stub searchItems
-    const paramsSpy = spyOn(items, "searchItems").and.returnValue(
+    const paramsSpy = spyOn(portal, "searchItems").and.returnValue(
       new Promise(resolve => {
         resolve(emptyEventSearchResponse);
       })
@@ -102,7 +102,7 @@ describe("getEventServiceUrl", () => {
 describe("getEventFeatureServiceUrl", () => {
   it("should return admin event service url", done => {
     // stub searchItems
-    const paramsSpy = spyOn(items, "searchItems").and.returnValue(
+    const paramsSpy = spyOn(portal, "searchItems").and.returnValue(
       new Promise(resolve => {
         resolve(adminEventSearchResponse);
       })
@@ -123,7 +123,7 @@ describe("getEventFeatureServiceUrl", () => {
 
   it("should return org event service url", done => {
     // stub searchItems
-    const paramsSpy = spyOn(items, "searchItems").and.returnValue(
+    const paramsSpy = spyOn(portal, "searchItems").and.returnValue(
       new Promise(resolve => {
         resolve(orgEventSearchResponse);
       })
@@ -144,7 +144,7 @@ describe("getEventFeatureServiceUrl", () => {
 
   it("should return the public event service url", done => {
     // stub searchItems
-    const paramsSpy = spyOn(items, "searchItems").and.returnValue(
+    const paramsSpy = spyOn(portal, "searchItems").and.returnValue(
       new Promise(resolve => {
         resolve(publicEventSearchResponse);
       })
@@ -165,7 +165,7 @@ describe("getEventFeatureServiceUrl", () => {
 
   it("should throw if no event layer is found", done => {
     // stub searchItems
-    const paramsSpy = spyOn(items, "searchItems").and.returnValue(
+    const paramsSpy = spyOn(portal, "searchItems").and.returnValue(
       new Promise(resolve => {
         resolve(emptyEventSearchResponse);
       })

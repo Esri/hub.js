@@ -2,14 +2,14 @@
  * Apache-2.0 */
 
 import { searchInitiatives, searchInitiativeTemplates } from "../src/search";
-import * as ItemsApi from "@esri/arcgis-rest-portal";
+import * as portal from "@esri/arcgis-rest-portal";
 import { MOCK_REQUEST_OPTIONS } from "./mocks/fake-session";
 import { InitiativeSearchResults } from "./mocks/search-results";
 
 describe("initiative search ::", () => {
-  let itemSearchSpy: any;
+  let searchSpy: any;
   beforeEach(() => {
-    itemSearchSpy = spyOn(ItemsApi, "searchItems").and.callFake((opts: any) => {
+    searchSpy = spyOn(portal, "searchItems").and.callFake((opts: any) => {
       return Promise.resolve(InitiativeSearchResults);
     });
   });
@@ -21,8 +21,8 @@ describe("initiative search ::", () => {
       } as any;
       return searchInitiatives(opts).then(results => {
         // ensure the type was appended
-        expect(itemSearchSpy.calls.count()).toBe(1);
-        const args = itemSearchSpy.calls.argsFor(0);
+        expect(searchSpy.calls.count()).toBe(1);
+        const args = searchSpy.calls.argsFor(0);
         const searchOpts = args[0];
         expect(searchOpts.q).toBe("water AND type: Hub Initiative");
         done();
@@ -35,8 +35,8 @@ describe("initiative search ::", () => {
       } as any;
       return searchInitiatives(opts).then(results => {
         // ensure the type was appended
-        expect(itemSearchSpy.calls.count()).toBe(1);
-        const args = itemSearchSpy.calls.argsFor(0);
+        expect(searchSpy.calls.count()).toBe(1);
+        const args = searchSpy.calls.argsFor(0);
         const searchOpts = args[0];
         expect(searchOpts.q).toBe("type: Hub Initiative");
         done();
@@ -52,8 +52,8 @@ describe("initiative search ::", () => {
       } as any;
       return searchInitiativeTemplates(opts).then(results => {
         // ensure the type was appended
-        expect(itemSearchSpy.calls.count()).toBe(1);
-        const args = itemSearchSpy.calls.argsFor(0);
+        expect(searchSpy.calls.count()).toBe(1);
+        const args = searchSpy.calls.argsFor(0);
         const searchOpts = args[0];
         expect(searchOpts.q).toBe(
           "water AND type: Hub Initiative AND typekeywords:hubInitiativeTemplate"
@@ -68,8 +68,8 @@ describe("initiative search ::", () => {
       } as any;
       return searchInitiativeTemplates(opts).then(results => {
         // ensure the type was appended
-        expect(itemSearchSpy.calls.count()).toBe(1);
-        const args = itemSearchSpy.calls.argsFor(0);
+        expect(searchSpy.calls.count()).toBe(1);
+        const args = searchSpy.calls.argsFor(0);
         const searchOpts = args[0];
         expect(searchOpts.q).toBe(
           "type: Hub Initiative AND typekeywords:hubInitiativeTemplate"

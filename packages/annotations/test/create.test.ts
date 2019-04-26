@@ -6,8 +6,6 @@ import {
 } from "./mocks/ago_search";
 import { portalResponse } from "./mocks/portal";
 import { UserSession } from "@esri/arcgis-rest-auth";
-import * as items from "@esri/arcgis-rest-portal";
-import * as sharing from "@esri/arcgis-rest-portal";
 import * as request from "@esri/arcgis-rest-request";
 import * as portal from "@esri/arcgis-rest-portal";
 import * as featureServiceAdmin from "@esri/arcgis-rest-service-admin";
@@ -45,7 +43,7 @@ clonedServiceDefinition.extent = portalResponse.defaultExtent as IExtent;
 
 describe("createAnnotationService", () => {
   it("should create a new annotation service if one doesnt already exist", done => {
-    const searchParamsSpy = spyOn(items, "searchItems").and.returnValue(
+    const searchParamsSpy = spyOn(portal, "searchItems").and.returnValue(
       new Promise(resolve => {
         resolve(emptyAnnoSearchResponse);
       })
@@ -78,13 +76,13 @@ describe("createAnnotationService", () => {
       })
     );
 
-    const protectParamsSpy = spyOn(items, "protectItem").and.returnValue(
+    const protectParamsSpy = spyOn(portal, "protectItem").and.returnValue(
       new Promise(resolve => {
         resolve({ success: true });
       })
     );
 
-    const shareParamsSpy = spyOn(sharing, "setItemAccess").and.returnValue(
+    const shareParamsSpy = spyOn(portal, "setItemAccess").and.returnValue(
       new Promise(resolve => {
         resolve({
           notSharedWith: [],
@@ -93,7 +91,7 @@ describe("createAnnotationService", () => {
       })
     );
 
-    const updateParamsSpy = spyOn(items, "updateItem").and.returnValue(
+    const updateParamsSpy = spyOn(portal, "updateItem").and.returnValue(
       new Promise(resolve => {
         resolve({
           success: true,
@@ -198,7 +196,7 @@ describe("createAnnotationService", () => {
   });
 
   it("should not create a new annotation service if one already exists", done => {
-    const searchParamsSpy = spyOn(items, "searchItems").and.returnValue(
+    const searchParamsSpy = spyOn(portal, "searchItems").and.returnValue(
       new Promise(resolve => {
         resolve(annoSearchResponse);
       })
@@ -220,7 +218,7 @@ describe("createAnnotationService", () => {
   });
 
   it("should fail gracefully if an error is encountered creating the feature service", done => {
-    const searchParamsSpy = spyOn(items, "searchItems").and.returnValue(
+    const searchParamsSpy = spyOn(portal, "searchItems").and.returnValue(
       new Promise(resolve => {
         resolve(emptyAnnoSearchResponse);
       })

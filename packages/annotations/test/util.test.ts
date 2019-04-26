@@ -4,14 +4,14 @@ import {
   emptyAnnoSearchResponse
 } from "./mocks/ago_search";
 
-import * as items from "@esri/arcgis-rest-portal";
+import * as portal from "@esri/arcgis-rest-portal";
 
 import { ISearchOptions } from "@esri/arcgis-rest-portal";
 
 describe("getAnnotationServiceUrl", () => {
   it("should return an annotation service url", done => {
     // stub searchItems
-    const paramsSpy = spyOn(items, "searchItems").and.returnValue(
+    const paramsSpy = spyOn(portal, "searchItems").and.returnValue(
       new Promise(resolve => {
         resolve(annoSearchResponse);
       })
@@ -29,7 +29,7 @@ describe("getAnnotationServiceUrl", () => {
 
   it("should throw if no annotation layer is found", done => {
     // stub searchItems
-    const paramsSpy = spyOn(items, "searchItems").and.returnValue(
+    const paramsSpy = spyOn(portal, "searchItems").and.returnValue(
       new Promise(resolve => {
         resolve(emptyAnnoSearchResponse);
       })

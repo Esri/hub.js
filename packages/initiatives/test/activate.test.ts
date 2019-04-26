@@ -3,7 +3,7 @@
 
 import { cloneObject } from "@esri/hub-common";
 import { activateInitiative } from "../src/activate";
-import * as PortalAPI from "@esri/arcgis-rest-portal";
+import * as portal from "@esri/arcgis-rest-portal";
 import * as InitiativeFetchAPI from "../src/get";
 import * as AddInitiativeAPI from "../src/add";
 import * as InitiativeGroupsAPI from "../src/groups";
@@ -20,7 +20,7 @@ const CBWrapper = {
 describe("Initiative Activation :: ", () => {
   describe("activateInitiative() ::", () => {
     it("should accept an object as the template", done => {
-      const portalSelfSpy = spyOn(PortalAPI, "getSelf").and.callFake(() => {
+      const portalSelfSpy = spyOn(portal, "getSelf").and.callFake(() => {
         return Promise.resolve({
           id: "FAKEPORTALID"
         });
@@ -80,7 +80,7 @@ describe("Initiative Activation :: ", () => {
       );
 
       const shareInitiativeSpy = spyOn(
-        PortalAPI,
+        portal,
         "shareItemWithGroup"
       ).and.callFake((opts: any): Promise<any> => {
         return Promise.resolve({ success: true });
@@ -136,7 +136,7 @@ describe("Initiative Activation :: ", () => {
       });
     });
     it("should fetch an initiative if an id is passed", done => {
-      const portalSelfSpy = spyOn(PortalAPI, "getSelf").and.callFake(() => {
+      const portalSelfSpy = spyOn(portal, "getSelf").and.callFake(() => {
         return Promise.resolve({
           id: "FAKEPORTALID"
         });
@@ -203,7 +203,7 @@ describe("Initiative Activation :: ", () => {
       );
 
       const shareInitiativeSpy = spyOn(
-        PortalAPI,
+        portal,
         "shareItemWithGroup"
       ).and.callFake((opts: any): Promise<any> => {
         return Promise.resolve({ success: true });

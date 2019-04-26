@@ -13,7 +13,7 @@ import {
 } from "./mocks/event_search";
 
 import * as featureService from "@esri/arcgis-rest-feature-layer";
-import * as item from "@esri/arcgis-rest-portal";
+import * as portal from "@esri/arcgis-rest-portal";
 import { IQueryFeaturesOptions } from "@esri/arcgis-rest-feature-layer";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { ISearchOptions } from "@esri/arcgis-rest-portal";
@@ -39,7 +39,7 @@ describe("searchEvents", () => {
     );
 
     // stub searchItems
-    const siteParamsSpy = spyOn(item, "searchItems").and.returnValues(
+    const siteParamsSpy = spyOn(portal, "searchItems").and.returnValues(
       new Promise(resolve => {
         resolve(siteSearchResponse);
       })
@@ -76,7 +76,7 @@ describe("searchEvents", () => {
       })
     );
 
-    const siteParamsSpy = spyOn(item, "searchItems");
+    const siteParamsSpy = spyOn(portal, "searchItems");
 
     searchEvents({
       url: publicEventSearchResponse.results[0].url + "/0",
@@ -110,7 +110,7 @@ describe("searchEvents", () => {
       })
     );
 
-    const siteParamsSpy = spyOn(item, "searchItems");
+    const siteParamsSpy = spyOn(portal, "searchItems");
 
     searchEvents({
       url: publicEventSearchResponse.results[0].url + "/0",
@@ -146,7 +146,7 @@ describe("searchEvents", () => {
       })
     );
 
-    const siteParamsSpy = spyOn(item, "searchItems").and.returnValues(
+    const siteParamsSpy = spyOn(portal, "searchItems").and.returnValues(
       new Promise(resolve => {
         resolve(siteSearchResponse);
       })
@@ -173,7 +173,7 @@ describe("searchEvents", () => {
       .catch(() => fail());
   });
 
-  it("should allow users to fetch without passing authenication", done => {
+  it("should allow users to fetch without passing authentication", done => {
     const queryParamsSpy = spyOn(
       featureService,
       "queryFeatures"
@@ -183,7 +183,7 @@ describe("searchEvents", () => {
       })
     );
 
-    const siteParamsSpy = spyOn(item, "searchItems").and.returnValues(
+    const siteParamsSpy = spyOn(portal, "searchItems").and.returnValues(
       new Promise(resolve => {
         resolve(siteSearchResponse);
       })

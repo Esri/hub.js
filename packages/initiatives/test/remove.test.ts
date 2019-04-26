@@ -4,7 +4,7 @@ import { removeInitiative } from "../src/remove";
 import { MOCK_REQUEST_OPTIONS } from "./mocks/fake-session";
 import { cloneObject } from "@esri/hub-common";
 import * as DetachSiteAPi from "../src/detach-site";
-import * as PortalAPI from "@esri/arcgis-rest-portal";
+import * as portal from "@esri/arcgis-rest-portal";
 import * as GroupAPI from "../src/groups";
 import * as InitiativeFetchAPI from "../src/get";
 import { InitiativeInstance } from "./mocks/initiative-instance";
@@ -24,7 +24,7 @@ let detachSpy: any;
 
 describe("remove Initiative", () => {
   beforeEach(() => {
-    portalSelfSpy = spyOn(PortalAPI, "getSelf").and.callFake(() => {
+    portalSelfSpy = spyOn(portal, "getSelf").and.callFake(() => {
       return Promise.resolve({
         id: "FAKEPORTALID",
         properties: {
@@ -36,17 +36,17 @@ describe("remove Initiative", () => {
         }
       });
     });
-    unprotectItemSpy = spyOn(PortalAPI, "unprotectItem").and.callFake(
+    unprotectItemSpy = spyOn(portal, "unprotectItem").and.callFake(
       (ro: any): Promise<any> => {
         return Promise.resolve({ success: true });
       }
     );
 
-    removeItemSpy = spyOn(PortalAPI, "removeItem").and.callFake(
-      (ro: any): Promise<any> => {
-        return Promise.resolve({ success: true });
-      }
-    );
+    removeItemSpy = spyOn(portal, "removeItem").and.callFake((ro: any): Promise<
+      any
+    > => {
+      return Promise.resolve({ success: true });
+    });
 
     progressCallbackSpy = spyOn(CBWrapper, "updateProgress").and.callFake(
       (options: any): any => {
