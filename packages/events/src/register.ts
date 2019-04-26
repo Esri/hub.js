@@ -4,7 +4,7 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { joinGroup, leaveGroup } from "@esri/arcgis-rest-portal";
 
-export interface IEventRegisterRequestOptions extends IUserRequestOptions {
+export interface IEventRegisterOptions extends IUserRequestOptions {
   /**
    * Identifier for the group associated with the ArcGIS Hub event.
    */
@@ -25,7 +25,7 @@ export interface IEventRegisterRequestOptions extends IUserRequestOptions {
  * @returns A Promise that will resolve with the response from the service.
  */
 export function registerForEvent(
-  requestOptions: IEventRegisterRequestOptions
+  requestOptions: IEventRegisterOptions
 ): Promise<{ success: boolean; groupId: string }> {
   return joinGroup({
     id: requestOptions.groupId,
@@ -48,7 +48,7 @@ export function registerForEvent(
  * @returns A Promise that will resolve with the response from the service.
  */
 export function unregisterForEvent(
-  requestOptions: IEventRegisterRequestOptions
+  requestOptions: IEventRegisterOptions
 ): Promise<{ success: boolean; groupId: string }> {
   return leaveGroup({
     id: requestOptions.groupId,

@@ -11,7 +11,7 @@ group: 1-get-started
 Make sure you have polyfills for [`fetch`](https://github.com/matthew-andrews/isomorphic-fetch) and [`FormData`](https://github.com/form-data/isomorphic-form-data) installed before using @esri/hub.js. You can find `npm install` commands for all packages in the [API reference](../../api).
 
 ```bash
-npm install @esri/hub-initiatives @esri/arcgis-rest-request @esri/arcgis-rest-items isomorphic-fetch isomorphic-form-data
+npm install @esri/hub-initiatives @esri/arcgis-rest-request @esri/arcgis-rest-portal isomorphic-fetch isomorphic-form-data
 ```
 
 Require the `isomorphic-fetch` and `isomorphic-form-data` modules before using any of the @esri/hub.js methods.

@@ -1,10 +1,10 @@
 const spawn = require("cross-spawn");
-const { join, resolve } = require("path");
+const { join } = require("path");
 const { readFile, writeFile } = require("fs");
 const _ = require("lodash");
 const OUTPUT = join(process.cwd(), "docs", "src", `typedoc.json`);
 const { prettyifyUrl } = require("acetate/lib/utils.js");
-const slug = require("slugify");
+const slug = require("slug");
 const minimatch = require("minimatch");
 const cheerio = require("cheerio");
 const MarkdownIt = require("markdown-it");
@@ -23,7 +23,8 @@ const md = new MarkdownIt();
         "--module",
         "common",
         "--tsconfig",
-        "./tsconfig.json"
+        "./tsconfig.json",
+        "--excludePrivate"
       ],
       {
         stdio: "inherit"
@@ -49,8 +50,8 @@ const md = new MarkdownIt();
     .then(json => {
       /**
        * `json.children` will be a list of all TypeScript files in our project.
-       * We dont care about the files we need need all their children so reduce
-       * this to just a general list of everything in the entire project.
+       * We dont care about the files, we just need all their children so we reduce
+       * to a single list of everything in the entire project.
        */
       return json.children.reduce(
         (allChildren, fileChildren) => allChildren.concat(fileChildren),
@@ -107,12 +108,16 @@ const md = new MarkdownIt();
     })
     .then(children => {
       /**
-       * `children` is currently a list of all TypeScript soruce files in
+       * `children` is currently a list of all TypeScript source files in
        * `packages`. `children.children` is an array of all declarations in that
-       * source file. We need to concat all `children.children` arrays togather
+       * source file. We need to concat all `children.children` arrays together
        * into a giant array of all declarations in all packages.
        */
       return children.reduce((allChildren, child) => {
+        if (!child.children) {
+          console.log(child);
+          return allChildren;
+        }
         return allChildren.concat(
           child.children.map(c => {
             c.package = child.package;
@@ -121,53 +126,39 @@ const md = new MarkdownIt();
         );
       }, []);
     })
-    .then(children => {
+    .then(declarations => {
       /**
        * Next we remove all children that are not exported out of their files.
        */
-      return children.filter(c => c.flags && c.flags.isExported);
+      return declarations.filter(
+        declaration => declaration.flags && declaration.flags.isExported
+      );
     })
-    .then(children => {
+    .then(declarations => {
+      const blacklist = [];
       /**
-       * Now we look at the arguments and reduce the private and/or protected
-       * depending on the passed arguments
+       * Next we remove any declarations we want to blacklist from the API ref
        */
-      const minVisibility = process.argv[2];
-
-      if (!minVisibility) {
-        return children;
-      } else {
-        let filterFlags = [];
-        switch (minVisibility) {
-          case 'private':
-            filterFlags = ['isPrivate'];
-            break;
-          case 'protected':
-            filterFlags = ['isPrivate', 'isProtected'];
-            break;
-          default:
-            console.error(`Invalid commandline argument: ${minVisibility} should be either "private", "public" or not passed.`);
-        }
-        filterFlags.forEach(flagProp => {
-          children = children.filter(c => c.flags && !c.flags[flagProp]);
-        });
-
-        return children;
-      }
+      return declarations.filter(
+        declaration => !blacklist.includes(declaration.name)
+      );
     })
     .then(declarations => {
       /**
-       * Now that we have a list of all declarations accross the entire project
-       * we can begin to generate additonal information about each declaration.
-       * For example we can now determine the `src` of the page page that will
+       * Now that we have a list of all declarations across the entire project
+       * we can begin to generate additional information about each declaration.
+       * For example we can now determine the `src` of the page that will
        * be generated for this declaration. Each `declaration` will also have
-       * `children` which we can generate and `icon` property for. These
-       * additonal properties, `src`, `pageUrl`, `icon` and `children` are then
+       * `children` which we can generate and define an `icon` property for. These
+       * additional properties, `src`, `pageUrl`, `icon` and `children` are then
        * merged into the `declaration`. This also adds a `title`, `description`
        * and `titleSegments` to each page which are used in the template for SEO.
        */
       return declarations.map(declaration => {
-        const src = `hub.js/api/${declaration.package}/${declaration.name}.html`;
+        const abbreviatedPackageName = declaration.package;
+        const src = `hub.js/api/${abbreviatedPackageName}/${
+          declaration.name
+        }.html`;
         let children;
 
         if (declaration.children) {
@@ -235,7 +226,7 @@ const md = new MarkdownIt();
           .map(d => d.package)
           .uniq()
           .reduce((packages, package) => {
-            const abbreviatedPackageName = package.replace("arcgis-rest-", "")
+            const abbreviatedPackageName = package;
             const src = `hub.js/api/${abbreviatedPackageName}.html`;
             const pkg = require(`${process.cwd()}/packages/${package}/package.json`);
 
@@ -246,7 +237,30 @@ const md = new MarkdownIt();
               description: pkg.description,
               titleSegments: ["API Reference"],
               name: package,
-              declarations: declarations.filter(d => d.package === package),
+              declarations: declarations
+                .filter(d => d.package === package)
+                .sort((da, db) => {
+                  const types = [
+                    "Class",
+                    "Function",
+                    "Object literal",
+                    "Variable",
+                    "Enumeration",
+                    "Type alias",
+                    "Interface"
+                  ];
+
+                  const aIndex = types.findIndex(t => da.kindString === t);
+                  const bIndex = types.findIndex(t => db.kindString === t);
+
+                  if (aIndex > bIndex) {
+                    return 1;
+                  } else if (aIndex < bIndex) {
+                    return -1;
+                  } else {
+                    return 0;
+                  }
+                }),
               icon: "tsd-kind-module",
               src,
               pageUrl: prettyifyUrl(src)
@@ -258,7 +272,7 @@ const md = new MarkdownIt();
     .then(api => {
       /**
        * Since we generated the TypeDoc for the entire project at once each
-       * `declaration` has a unique numerical `id` property. We occassionally
+       * `declaration` has a unique numerical `id` property. We occasionally
        * need to lookup a declaration by its `id` so we can prebuild an index of
        * them here.
        */
@@ -303,6 +317,55 @@ const md = new MarkdownIt();
     })
     .then(api => {
       /**
+       * Next we can sort the children of each declaration to sort by required/optional/inherited
+       */
+      api.declarations = api.declarations.map(declaration => {
+        if (declaration.children) {
+          declaration.children.sort((ca, cb) => {
+            const aIndex = rankChild(ca);
+            const bIndex = rankChild(cb);
+
+            if (aIndex > bIndex) {
+              return 1; // sort a below b
+            } else if (aIndex < bIndex) {
+              return -1; // sort a above b
+            } else {
+              return 0;
+            }
+            return 0;
+          });
+        }
+
+        if (declaration.groups) {
+          declaration.groups.forEach(group => {
+            if (group.children) {
+              group.children.sort((ca, cb) => {
+                const childA = declaration.children.find(c => c.id === ca);
+                const childB = declaration.children.find(c => c.id === cb);
+
+                const aIndex = rankChild(childA);
+                const bIndex = rankChild(childB);
+
+                if (aIndex > bIndex) {
+                  return 1;
+                } else if (aIndex < bIndex) {
+                  return -1;
+                } else {
+                  return 0;
+                }
+                return 0;
+              });
+            }
+          });
+        }
+
+        return declaration;
+      });
+
+      return api;
+    })
+    .then(api => {
+      /**
        * Our final object looks like this:
        *
        * {
@@ -328,3 +391,27 @@ const md = new MarkdownIt();
       console.error(e);
     });
 })();
+
+function rankChild(child) {
+  const { isPrivate, isPublic, isOptional, isStatic } = child
+    ? child.flags
+    : {};
+
+  const isInherited = child.inheritedFrom ? true : false;
+
+  let score = 0;
+
+  if (isPrivate) {
+    score += 30;
+  }
+  if (isStatic) {
+    score -= 15;
+  }
+  if (!isInherited) {
+    score -= 5;
+  }
+  if (!isOptional) {
+    score -= 15;
+  }
+  return score;
+}
