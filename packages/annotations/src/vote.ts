@@ -12,15 +12,14 @@ import {
   deleteFeatures,
   queryFeatures,
   IAddFeaturesOptions,
-  IDeleteFeaturesOptions,
-  IQueryFeaturesResponse
+  IDeleteFeaturesOptions
 } from "@esri/arcgis-rest-feature-layer";
 
 import { IAnnoFeature } from "./add";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { IEditFeatureResult } from "@esri/arcgis-rest-feature-layer/dist/esm/helpers";
 
-export interface IVoteRequestOptions extends IRequestOptions {
+export interface IVoteOptions extends IRequestOptions {
   url: string;
   annotation: IAnnoFeature;
   /**
@@ -46,7 +45,7 @@ export interface IVoteRequestOptions extends IRequestOptions {
  * @returns A Promise that will resolve with the response from the service after attempting to vote on an annotation.
  */
 export function voteOnAnnotation(
-  requestOptions: IVoteRequestOptions
+  requestOptions: IVoteOptions
 ): Promise<
   | { addResults?: IEditFeatureResult[] }
   | { deleteResults?: IEditFeatureResult[] }

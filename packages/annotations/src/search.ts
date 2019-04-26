@@ -111,7 +111,7 @@ export function searchAnnotations(
   });
 }
 
-export interface ISearchAnnoRequestOptions extends IQueryFeaturesOptions {
+export interface ISearchAnnoOptions extends IQueryFeaturesOptions {
   url: string;
   annotation: IAnnoFeature;
 }
@@ -151,7 +151,7 @@ export interface IVoteResourceObject {
  * @returns A Promise that will resolve with summary statistics for the specified annotation from the annotation service for a Hub enabled ArcGIS Online organization.
  */
 export function searchSingleAnnotationVotes(
-  requestOptions: ISearchAnnoRequestOptions
+  requestOptions: ISearchAnnoOptions
 ): Promise<{ data: IVoteResourceObject[] }> {
   const data: IVoteResourceObject[] = [];
   const annotationId = requestOptions.annotation.attributes.OBJECTID;
