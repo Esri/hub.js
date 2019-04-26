@@ -11,7 +11,7 @@ group: 1-get-started
 The `@esri/hub-initiatives` module exposes both coarse and fine-grained APIs. If your application simply needs to create an initiative from a template, then the coarse-grained API is for you. If your application is more focused on working with / editing / orchestrating solutions for Initiatives (i.e. the Hub), then the fine-grained api is likely a better fit.
 
 ### Get an Initiative by Id
-To get an Initiative Model (` {item:{...}, data:{...}}`) you can use this call. If you do not need the `data` you can use the [@esri/arcgis-rest-items::getItem(id)](https://esri.github.io/arcgis-rest-js/api/items/getItem/) call instead.
+To get an Initiative Model (` {item:{...}, data:{...}}`) you can use this call. If you do not need the `data` you can use the [@esri/arcgis-rest-portal::getItem(id)](https://esri.github.io/arcgis-rest-js/api/portal/getItem/) call instead.
 
 ```js
 import { fetchInitiative  } from '@esri/hub-initiatives';

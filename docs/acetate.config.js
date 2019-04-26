@@ -7,6 +7,18 @@ const IS_DEV = process.env.ENV !== "prod";
 
 module.exports = function(acetate) {
   /**
+   * Load SRI hashes.
+   */
+  let srihashes;
+  fs.readFile("docs/src/srihashes.json", (err, data) => {
+    srihashes = err
+      ? {
+          packages: {}
+        }
+      : JSON.parse(data);
+  });
+
+  /**
    * Load all .html and markdown pages in the `src` folder, assigning them a
    * default layout.
    */
@@ -127,18 +139,6 @@ module.exports = function(acetate) {
             })
           );
         });
-        // const declarationPages = typedoc.declarations.reduce((acc,declaration) => {
-        //   if (!declaration.flags.isProtected) {
-        //     acc.push(createPage.fromTemplate(
-        //       declaration.src,
-        //       path.join(acetate.sourceDir, "api", "_declaration.html"),
-        //       Object.assign({}, declaration, {
-        //         layout: "api/_layout:content"
-        //       })
-        //     ));
-        //   }
-        //   return acc;
-        // }, []);
 
         const packagePages = typedoc.packages.map(package => {
           return createPage.fromTemplate(
@@ -188,7 +188,6 @@ module.exports = function(acetate) {
   });
 
   acetate.filter("findPackage", (typedoc, name) => {
-    console.log(typedoc.packages, name);
     return typedoc.packages.find(p => p.pkg.name === name).pkg;
   });
 
@@ -209,18 +208,41 @@ module.exports = function(acetate) {
     return inspect(obj, { depth: 3 });
   });
 
+  // without the '.js' on the end, for the benefit of the AMD sample
   acetate.helper("cdnUrl", function(context, package) {
     return `https://unpkg.com/${
       package.name
-    }@${package.version}/dist/umd/${package.name.replace("@esri/hub-", "")}.umd.js`;
+    }@${package.version}/dist/umd/${package.name.replace("@esri/hub-", "")}.umd`;
   });
 
+  // <code> friendly script tag string
   acetate.helper("scriptTag", function(context, package) {
-    return `&lt;script src="https://unpkg.com/${package.name}@${package.version}/dist/umd/${package.name.replace("@esri/hub-", "")}.umd.min.js"&gt;&lt;/script&gt;`;
-   return `&lt;script src="https://unpkg.com/${
-     package.name
-   }@${package.version}/dist/umd/${package.name.replace("@esri/hub-", "")}.umd.min.js"&gt;&lt;/script&gt;`;
- });
+    return acetate.nunjucks.renderString(
+      `{% highlight "html" %}<script src="https://unpkg.com/${package.name}@${
+        package.version
+      }/dist/umd/${package.name.replace(
+        "@esri/hub-",
+        ""
+      )}.umd.min.js"></script>{% endhighlight %}`
+    );
+  });
+
+  // CDN with SRI only if hash exists
+  acetate.helper("scriptTagSRI", function(context, package) {
+    const hash = srihashes.packages[package.name];
+    if (hash) {
+      return acetate.nunjucks.renderString(`
+        {%highlight "html" %}
+        <script src="https://unpkg.com/${package.name}@${
+        package.version
+      }/dist/umd/${package.name.replace(
+        "@esri/hub-",
+        ""
+      )}.umd.min.js" integrity="${hash}" crossorigin="anonymous"></script>{% endhighlight %}`);
+    } else {
+      return "";
+    }
+  });
 
   acetate.helper("npmInstallCmd", function(context, package) {
     const peers = package.peerDependencies
@@ -229,5 +251,12 @@ module.exports = function(acetate) {
         )
       : [];
     return `npm install ${package.name} ${peers.join(" ")}`;
+  });
+
+  acetate.filter("stripThisFromParams", function(params) {
+    if (!params || !params.length) {
+      return [];
+    }
+    return params.filter(p => p.name !== "this");
   });
 };
