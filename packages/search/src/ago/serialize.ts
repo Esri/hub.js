@@ -1,7 +1,5 @@
 import { ISearchParams } from "./params";
-import { createFilters } from "./create-filters";
-import { paramSchema } from "./param-schema";
-import { encodeFilters } from "./helpers/encode-filters";
+import { createFilters, encodeFilters, paramSchema } from "./helpers/filters";
 
 /**
  * serialize raw query parameters into hub specific URI encoding

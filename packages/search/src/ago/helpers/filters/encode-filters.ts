@@ -3,7 +3,7 @@ export function encodeFilters(filters: any = {}): string {
     .map(name => {
       const attribute = filters[name];
       const { fn, terms } = attribute;
-      // filters that are part of the catalog defenition are OR'd together then anded to the query
+      // filters that are part of the catalog definition are OR'd together then and-ed to the query
       const type = attribute.catalogDefinition ? "catalog" : "filter";
       const key = encodeURIComponent(`${type}[${name}]`);
       const values = terms.map(encodeURIComponent).join(",");
