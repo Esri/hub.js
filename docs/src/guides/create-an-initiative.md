@@ -92,9 +92,7 @@ removeInitiative(initiativeId, progressCallback, requestOptions)
 ```js
 import { searchInitiativeTemplates  } from '@esri/hub-initiatives';
 const opts = {
-  searchForm: {
-    q: "Vision Zero"
-  },
+  q: "Vision Zero",
   ...requestOptions
 } as ISearchRequestOptions;
 // pass in an initiative id
@@ -109,11 +107,9 @@ searchInitiativeTemplates(opts)
 import { searchInitiatives  } from '@esri/hub-initiatives';
 // search for Vision Zero related initiatives, ordered by last modified date
 const opts = {
-  searchForm: {
-    q: "Vision Zero",
-    sortField: "modified",
-    sortOrder: "desc"
-  },
+  q: "Vision Zero",
+  sortField: "modified",
+  sortOrder: "desc",
   ...requestOptions
 } as ISearchRequestOptions;
 // pass in an initiative id

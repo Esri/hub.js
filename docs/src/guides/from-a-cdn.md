@@ -37,7 +37,7 @@ group: 1-get-started
   <script>
     // all exports are available from an arcgisHub global
     arcgisHub.searchInitiatives({
-      searchForm: { q: "Share Open Data" }
+      q: "Share Open Data"
     })
       .then(response => {
         arcgisHub.getInitiative(response.results[0].id).then(response => {
