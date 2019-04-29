@@ -20,6 +20,11 @@ export function agoFormatItemCollection(
         aggs: facets,
         count: searchResults.results.length,
         totalCount: searchResults.total
+      },
+      page: {
+        start: searchResults.start,
+        num: searchResults.num,
+        nextStart: searchResults.nextStart
       }
     }
   };
