@@ -1,9 +1,8 @@
-import { ISearchResult } from "@esri/arcgis-rest-items";
-import { IItem } from "@esri/arcgis-rest-common-types";
+import { ISearchResult, IItem } from "@esri/arcgis-rest-portal";
 
 // implements the 'downloadable' facet from AGO results. V3 datasets have this property computed
 // during the harvesting process but AGO results need this result computed at runtime
-export function downloadable(response: ISearchResult): any {
+export function downloadable(response: ISearchResult<IItem>): any {
   // Get counts of true and false for downloadable facet
   // i.e. { true: 10, false: 15 }
   return response.results.reduce(

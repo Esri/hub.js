@@ -20,7 +20,6 @@
    -->
   <script src="packages/search/node_modules/@esri/arcgis-rest-request/dist/umd/request.umd.js"></script>
   <script src="packages/search/node_modules/@esri/arcgis-rest-auth/dist/umd/auth.umd.js"></script>
-  <script src="packages/search/node_modules/@esri/arcgis-rest-items/dist/umd/items.umd.js"></script>
   <script src="packages/search/dist/umd/search.umd.js"></script>
   <script src="node_modules/node-fetch/index.js"></script>
 
@@ -30,6 +29,7 @@
       username: 'dcadminqa',
       password: 'dcadminqa1'
     })
+    const portal = 'https://qaext.arcgis.com/sharing/rest'
     const params = {
       q: 'land',
       sort: 'name',
@@ -39,12 +39,17 @@
       start: 1,
       num: 10
     }
-    const serializedParams = arcgisHub.serialize(params)
-    console.log(serializedParams)
-    fetch(`http://localhost:1337/unifiedSearch?${serializedParams}`)
+    authentication.getToken(portal)
+    .then(token => {
+      const headers = { authorization: token, portal }
+      const serializedParams = arcgisHub.serialize(params)
+      console.log(serializedParams)
+      return fetch(`http://localhost:1337/unifiedSearch?${serializedParams}`, { headers })
+    })
     .then(X => {
       return X.json()
-    }).then(Y => {
+    })
+    .then(Y => {
       console.log(Y)
     })
     

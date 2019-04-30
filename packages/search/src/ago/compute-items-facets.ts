@@ -28,10 +28,11 @@ const customAggsFunctions: { [key: string]: any } = {
 export async function computeItemsFacets(
   agoAggregations: any = { counts: Array<any>() }, // aggregations from ago search that ago supports by default
   params: ISearchParams, // query params are needed to another search for custom facets
-  authentication: UserSession
+  token?: string,
+  portal?: string,
+  authentication?: UserSession
 ): Promise<any> {
   const aggs = (getProp(params, "agg.fields") || "").split(",");
-
   // 1. For custom aggregations like downloadable, which AGO does not support,
   // we need to fetch 100 results and calc aggs on them
   let customAggs = intersection(aggs, customAggsNotSupportedByAgo);
@@ -39,13 +40,12 @@ export async function computeItemsFacets(
   if (customAggs.length > 0) {
     const paramsCopy = Object.assign({}, params, { start: 1, num: 100 });
     paramsCopy.agg = {};
-    const response = await agoSearch(paramsCopy, authentication);
+    const response = await agoSearch(paramsCopy, token, portal, authentication);
     customAggs.forEach(customAgg => {
       const rawCounts = customAggsFunctions[customAgg](response);
       facets1 = Object.assign({}, facets1, format(rawCounts));
     });
   }
-
   // 2. for agoAggregations already provided which are sorted, just format them into v3 style
   const facets2 = agoAggregations.counts.reduce(
     (formattedAggs: any, agg: any) => {
@@ -59,7 +59,6 @@ export async function computeItemsFacets(
     },
     {}
   );
-
   // 3. for custom aggs that are based on some field included in ago aggs
   customAggs = intersection(aggs, customAggsSupportedByAgo);
   let facets3 = {};
@@ -72,7 +71,6 @@ export async function computeItemsFacets(
       facets3 = Object.assign({}, facets3, format(rawCounts));
     });
   }
-
   return Object.assign({}, facets1, facets2, facets3);
 }
 
