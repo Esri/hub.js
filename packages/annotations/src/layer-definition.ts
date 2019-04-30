@@ -1,4 +1,4 @@
-import { ILayerDefinition, IExtent } from "@esri/arcgis-rest-common-types";
+import { ILayerDefinition, IExtent } from "@esri/arcgis-rest-types";
 
 /**
  * @private

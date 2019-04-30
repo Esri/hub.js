@@ -3,28 +3,29 @@
 
 import {
   searchItems,
-  ISearchRequestOptions,
-  ISearchResult
-} from "@esri/arcgis-rest-items";
+  ISearchOptions,
+  ISearchResult,
+  IItem
+} from "@esri/arcgis-rest-portal";
 
 /**
  * Search for Initiatives
  *
  * @export
- * @param {ISearchRequestOptions} searchRequestOptions
+ * @param {ISearchOptions} searchRequestOptions
  * @returns {Promise<ISearchResult>}
  */
 export function searchInitiatives(
-  searchRequestOptions: ISearchRequestOptions
-): Promise<ISearchResult> {
+  searchRequestOptions: ISearchOptions
+): Promise<ISearchResult<IItem>> {
   // since we are mutating the q, make a copy first...
   const opts = { ...searchRequestOptions };
 
   //  inject the type...
-  if (opts.searchForm.q) {
-    opts.searchForm.q = `${opts.searchForm.q} AND type: Hub Initiative`;
+  if (opts.q) {
+    opts.q = `${opts.q} AND type: Hub Initiative`;
   } else {
-    opts.searchForm.q = `type: Hub Initiative`;
+    opts.q = `type: Hub Initiative`;
   }
 
   return searchItems(opts);
@@ -34,22 +35,22 @@ export function searchInitiatives(
  * Search for Initiative Templates
  *
  * @export
- * @param {ISearchRequestOptions} searchRequestOptions
+ * @param {ISearchOptions} searchRequestOptions
  * @returns {Promise<ISearchResult>}
  */
 export function searchInitiativeTemplates(
-  searchRequestOptions: ISearchRequestOptions
-): Promise<ISearchResult> {
+  searchRequestOptions: ISearchOptions
+): Promise<ISearchResult<IItem>> {
   // since we are mutating the q, make a copy first...
   const opts = { ...searchRequestOptions };
 
   // inject the type and typeKeywords
-  if (opts.searchForm.q) {
-    opts.searchForm.q = `${
-      opts.searchForm.q
+  if (opts.q) {
+    opts.q = `${
+      opts.q
     } AND type: Hub Initiative AND typekeywords:hubInitiativeTemplate`;
   } else {
-    opts.searchForm.q = `type: Hub Initiative AND typekeywords:hubInitiativeTemplate`;
+    opts.q = `type: Hub Initiative AND typekeywords:hubInitiativeTemplate`;
   }
 
   return searchItems(opts);

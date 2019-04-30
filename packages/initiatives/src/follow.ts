@@ -1,8 +1,8 @@
 import { request, IRequestOptions } from "@esri/arcgis-rest-request";
-import { UserSession, getUserUrl } from "@esri/arcgis-rest-auth";
-import { IUser } from "@esri/arcgis-rest-common-types";
+import { UserSession } from "@esri/arcgis-rest-auth";
+import { IUser, getUserUrl } from "@esri/arcgis-rest-portal";
 
-export interface IFollowInitiativeRequestOptions extends IRequestOptions {
+export interface IFollowInitiativeOptions extends IRequestOptions {
   initiativeId: string;
   authentication: UserSession;
 }
@@ -30,7 +30,7 @@ export const isUserFollowing = (user: IUser, initiativeId: string): boolean =>
  * Follow an initiative.
  */
 export function followInitiative(
-  requestOptions: IFollowInitiativeRequestOptions
+  requestOptions: IFollowInitiativeOptions
 ): Promise<{ success: boolean; username: string }> {
   // we dont call getUser() because the tags are cached and will be mutating
   return request(getUserUrl(requestOptions.authentication), {
@@ -64,7 +64,7 @@ export function followInitiative(
  * Follow an initiative.
  */
 export function unfollowInitiative(
-  requestOptions: IFollowInitiativeRequestOptions
+  requestOptions: IFollowInitiativeOptions
 ): Promise<{ success: boolean; username: string }> {
   // we dont call getUser() because the tags are cached and will be mutating
   return request(getUserUrl(requestOptions.authentication), {

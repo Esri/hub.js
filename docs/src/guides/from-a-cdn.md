@@ -27,19 +27,17 @@ group: 1-get-started
   <!-- hub.js has external dependencies on @esri/arcgis-rest-js packages -->
   <script src="https://unpkg.com/@esri/arcgis-rest-request"></script>
   <script src="https://unpkg.com/@esri/arcgis-rest-auth"></script>
-  <script src="https://unpkg.com/@esri/arcgis-rest-items"></script>
-  <script src="https://unpkg.com/@esri/arcgis-rest-sharing"></script>
+  <script src="https://unpkg.com/@esri/arcgis-rest-portal"></script>
 
   <!-- require @esri/hub.js libraries from https://unpkg.com too -->
   <script src="{% cdnUrl data.typedoc | findPackage('@esri/hub-common') %}"></script>
-  <script src="{% cdnUrl data.typedoc | findPackage('@esri/hub-domains') %}"></script>
   <script src="{% cdnUrl data.typedoc | findPackage('@esri/hub-sites') %}"></script>
   <script src="{% cdnUrl data.typedoc | findPackage('@esri/hub-initiatives') %}"></script>
 
   <script>
     // all exports are available from an arcgisHub global
     arcgisHub.searchInitiatives({
-      searchForm: { q: "Share Open Data" }
+      q: "Share Open Data"
     })
       .then(response => {
         arcgisHub.getInitiative(response.results[0].id).then(response => {

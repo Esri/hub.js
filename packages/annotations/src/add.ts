@@ -3,11 +3,11 @@
 
 import {
   addFeatures,
-  IAddFeaturesRequestOptions,
-  IAddFeaturesResult
-} from "@esri/arcgis-rest-feature-service";
+  IAddFeaturesOptions
+} from "@esri/arcgis-rest-feature-layer";
 
-import { IFeature } from "@esri/arcgis-rest-common-types";
+import { IFeature } from "@esri/arcgis-rest-types";
+import { IEditFeatureResult } from "@esri/arcgis-rest-feature-layer/dist/esm/helpers";
 
 export interface IAnnoFeature extends IFeature {
   attributes: {
@@ -17,13 +17,8 @@ export interface IAnnoFeature extends IFeature {
   };
 }
 
-export interface IAddAnnotationsRequestOptions
-  extends IAddFeaturesRequestOptions {
+export interface IAddAnnotationsOptions extends IAddFeaturesOptions {
   features: IAnnoFeature[];
-  /**
-   * will be deprecated in v2.0.0 in favor of 'features'
-   */
-  adds?: IAnnoFeature[];
 }
 
 /**
@@ -46,15 +41,13 @@ export interface IAddAnnotationsRequestOptions
  * @returns A Promise that will resolve with the response from the service after attempting to add one or more new annotations.
  */
 export function addAnnotations(
-  requestOptions: IAddAnnotationsRequestOptions
-): Promise<IAddFeaturesResult> {
+  requestOptions: IAddAnnotationsOptions
+): Promise<{
+  addResults?: IEditFeatureResult[];
+}> {
+  /* istanbul ignore else */
   if (requestOptions.features && requestOptions.features.length) {
     requestOptions.features.forEach(anno => enrichAnnotation(anno));
-  }
-
-  // in v2 of rest-js 'adds' will be deprecated in favor of 'features'
-  if (requestOptions.adds && requestOptions.adds.length) {
-    requestOptions.adds.forEach(anno => enrichAnnotation(anno));
   }
 
   return addFeatures(requestOptions);

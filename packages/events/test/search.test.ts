@@ -12,11 +12,11 @@ import {
   eventResponseWithoutSiteId
 } from "./mocks/event_search";
 
-import * as featureService from "@esri/arcgis-rest-feature-service";
-import * as item from "@esri/arcgis-rest-items";
-import { IQueryFeaturesRequestOptions } from "@esri/arcgis-rest-feature-service";
+import * as featureService from "@esri/arcgis-rest-feature-layer";
+import * as portal from "@esri/arcgis-rest-portal";
+import { IQueryFeaturesOptions } from "@esri/arcgis-rest-feature-layer";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { ISearchRequestOptions } from "@esri/arcgis-rest-items";
+import { ISearchOptions } from "@esri/arcgis-rest-portal";
 
 describe("searchEvents", () => {
   const ro = {
@@ -39,7 +39,7 @@ describe("searchEvents", () => {
     );
 
     // stub searchItems
-    const siteParamsSpy = spyOn(item, "searchItems").and.returnValues(
+    const siteParamsSpy = spyOn(portal, "searchItems").and.returnValues(
       new Promise(resolve => {
         resolve(siteSearchResponse);
       })
@@ -54,15 +54,13 @@ describe("searchEvents", () => {
         expect(siteParamsSpy.calls.count()).toEqual(1);
         const queryOpts = queryParamsSpy.calls.argsFor(
           0
-        )[0] as IQueryFeaturesRequestOptions;
-        const siteOpts = siteParamsSpy.calls.argsFor(
-          0
-        )[0] as ISearchRequestOptions;
+        )[0] as IQueryFeaturesOptions;
+        const siteOpts = siteParamsSpy.calls.argsFor(0)[0] as ISearchOptions;
 
         expect(queryOpts.url).toBe(
           publicEventSearchResponse.results[0].url + "/0"
         );
-        expect(siteOpts.searchForm.q).toBe("id:71a58 OR id:7c395");
+        expect(siteOpts.q).toBe("id:71a58 OR id:7c395");
         done();
       })
       .catch(() => fail());
@@ -78,7 +76,7 @@ describe("searchEvents", () => {
       })
     );
 
-    const siteParamsSpy = spyOn(item, "searchItems");
+    const siteParamsSpy = spyOn(portal, "searchItems");
 
     searchEvents({
       url: publicEventSearchResponse.results[0].url + "/0",
@@ -90,7 +88,7 @@ describe("searchEvents", () => {
 
         const opts = queryParamsSpy.calls.argsFor(
           0
-        )[0] as IQueryFeaturesRequestOptions;
+        )[0] as IQueryFeaturesOptions;
 
         expect(opts.url).toBe(publicEventSearchResponse.results[0].url + "/0");
         expect(response.data.length).toBe(eventResponseEmpty.data.length);
@@ -112,7 +110,7 @@ describe("searchEvents", () => {
       })
     );
 
-    const siteParamsSpy = spyOn(item, "searchItems");
+    const siteParamsSpy = spyOn(portal, "searchItems");
 
     searchEvents({
       url: publicEventSearchResponse.results[0].url + "/0",
@@ -124,7 +122,7 @@ describe("searchEvents", () => {
 
         const opts = queryParamsSpy.calls.argsFor(
           0
-        )[0] as IQueryFeaturesRequestOptions;
+        )[0] as IQueryFeaturesOptions;
 
         expect(opts.url).toBe(publicEventSearchResponse.results[0].url + "/0");
         expect(response.data.length).toBe(
@@ -148,7 +146,7 @@ describe("searchEvents", () => {
       })
     );
 
-    const siteParamsSpy = spyOn(item, "searchItems").and.returnValues(
+    const siteParamsSpy = spyOn(portal, "searchItems").and.returnValues(
       new Promise(resolve => {
         resolve(siteSearchResponse);
       })
@@ -164,7 +162,7 @@ describe("searchEvents", () => {
         expect(siteParamsSpy.calls.count()).toEqual(1);
         const queryOpts = queryParamsSpy.calls.argsFor(
           0
-        )[0] as IQueryFeaturesRequestOptions;
+        )[0] as IQueryFeaturesOptions;
         expect(queryOpts.url).toBe(
           publicEventSearchResponse.results[0].url + "/0"
         );
@@ -175,7 +173,7 @@ describe("searchEvents", () => {
       .catch(() => fail());
   });
 
-  it("should allow users to fetch without passing authenication", done => {
+  it("should allow users to fetch without passing authentication", done => {
     const queryParamsSpy = spyOn(
       featureService,
       "queryFeatures"
@@ -185,7 +183,7 @@ describe("searchEvents", () => {
       })
     );
 
-    const siteParamsSpy = spyOn(item, "searchItems").and.returnValues(
+    const siteParamsSpy = spyOn(portal, "searchItems").and.returnValues(
       new Promise(resolve => {
         resolve(siteSearchResponse);
       })
@@ -199,7 +197,7 @@ describe("searchEvents", () => {
         expect(siteParamsSpy.calls.count()).toEqual(1);
         const queryOpts = queryParamsSpy.calls.argsFor(
           0
-        )[0] as IQueryFeaturesRequestOptions;
+        )[0] as IQueryFeaturesOptions;
         expect(queryOpts.url).toBe(
           publicEventSearchResponse.results[0].url + "/0"
         );

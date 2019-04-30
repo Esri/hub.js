@@ -1,9 +1,9 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { ISearchResult } from "@esri/arcgis-rest-items";
+import { ISearchResult, IItem } from "@esri/arcgis-rest-portal";
 
-export const annoSearchResponse: ISearchResult = {
+export const annoSearchResponse: ISearchResult<IItem> = {
   query: "hubAnnotationLayer AND orgid:5bc",
   total: 1,
   start: 1,
@@ -68,7 +68,7 @@ export const annoSearchResponse: ISearchResult = {
   ]
 };
 
-export const emptyAnnoSearchResponse: ISearchResult = {
+export const emptyAnnoSearchResponse: ISearchResult<IItem> = {
   query: "hubAnnotationLayer AND orgid:h7c",
   total: 1,
   start: 1,

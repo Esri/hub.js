@@ -1,5 +1,4 @@
-import { ISearchResult } from "@esri/arcgis-rest-items";
-import { IItem } from "@esri/arcgis-rest-common-types";
+import { ISearchResult, IItem } from "@esri/arcgis-rest-portal";
 
 const adminItem: IItem = {
   id: "xyz123",
@@ -178,10 +177,10 @@ const publicItem: IItem = {
   protected: true
 };
 
-/* For an admin user, there are usually three event items returned. 
+/* For an admin user, there are usually three event items returned.
   One item consists of the hosted feature service, while the other
   two are event view services at org and public access privileges */
-export const adminEventSearchResponse: ISearchResult = {
+export const adminEventSearchResponse: ISearchResult<IItem> = {
   query: "typekeywords:hubEventsLayer AND orgid:5bc",
   total: 3,
   start: 1,
@@ -190,10 +189,10 @@ export const adminEventSearchResponse: ISearchResult = {
   results: [adminItem, orgItem, publicItem]
 };
 
-/* For an org user, there are usually two event items returned. 
+/* For an org user, there are usually two event items returned.
  These items are view services at org and public access privileges
  of the hosted event feature service */
-export const orgEventSearchResponse: ISearchResult = {
+export const orgEventSearchResponse: ISearchResult<IItem> = {
   query: "typekeywords:hubEventsLayer AND orgid:5bc",
   total: 2,
   start: 1,
@@ -202,10 +201,10 @@ export const orgEventSearchResponse: ISearchResult = {
   results: [orgItem, publicItem]
 };
 
-/* For a public user, there is usually one event item returned. 
+/* For a public user, there is usually one event item returned.
  This item is a view service with public access privileges
  of the hosted event feature service */
-export const publicEventSearchResponse: ISearchResult = {
+export const publicEventSearchResponse: ISearchResult<IItem> = {
   query: "typekeywords:hubEventsLayer AND orgid:5bc",
   total: 1,
   start: 1,
@@ -215,7 +214,7 @@ export const publicEventSearchResponse: ISearchResult = {
 };
 
 /* When events have not been enabled, there are no items returned */
-export const emptyEventSearchResponse: ISearchResult = {
+export const emptyEventSearchResponse: ISearchResult<IItem> = {
   query: "typekeywords:hubEventsLayer AND orgid:h7c",
   total: 1,
   start: 1,

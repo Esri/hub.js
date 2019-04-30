@@ -5,11 +5,11 @@ import {
 } from "./mocks/anno_search";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import {
-  IQueryFeaturesRequestOptions,
-  IAddFeaturesRequestOptions,
-  IDeleteFeaturesRequestOptions
-} from "@esri/arcgis-rest-feature-service";
-import * as featureService from "@esri/arcgis-rest-feature-service";
+  IQueryFeaturesOptions,
+  IAddFeaturesOptions,
+  IDeleteFeaturesOptions
+} from "@esri/arcgis-rest-feature-layer";
+import * as featureService from "@esri/arcgis-rest-feature-layer";
 
 export const addFeaturesResponse = {
   addResults: [
@@ -85,10 +85,8 @@ describe("voteOnAnnotation", () => {
         expect(addParamsSpy.calls.count()).toEqual(1);
         const queryOpts = queryParamsSpy.calls.argsFor(
           0
-        )[0] as IQueryFeaturesRequestOptions;
-        const addOpts = addParamsSpy.calls.argsFor(
-          0
-        )[0] as IAddFeaturesRequestOptions;
+        )[0] as IQueryFeaturesOptions;
+        const addOpts = addParamsSpy.calls.argsFor(0)[0] as IAddFeaturesOptions;
         expect(queryOpts.url).toBe(annoUrl);
         expect(queryOpts.where).toBe("parent_id = 123 AND author = 'casey'");
         expect(addOpts.url).toBe(annoUrl);
@@ -152,10 +150,8 @@ describe("voteOnAnnotation", () => {
         expect(addParamsSpy.calls.count()).toEqual(1);
         const queryOpts = queryParamsSpy.calls.argsFor(
           0
-        )[0] as IQueryFeaturesRequestOptions;
-        const addOpts = addParamsSpy.calls.argsFor(
-          0
-        )[0] as IAddFeaturesRequestOptions;
+        )[0] as IQueryFeaturesOptions;
+        const addOpts = addParamsSpy.calls.argsFor(0)[0] as IAddFeaturesOptions;
         expect(queryOpts.url).toBe(annoUrl);
         expect(queryOpts.where).toBe("parent_id = 123 AND author = 'casey'");
         expect(addOpts.url).toBe(annoUrl);
@@ -221,10 +217,10 @@ describe("voteOnAnnotation", () => {
         expect(deleteParamsSpy.calls.count()).toEqual(1);
         const queryOpts = queryParamsSpy.calls.argsFor(
           0
-        )[0] as IQueryFeaturesRequestOptions;
+        )[0] as IQueryFeaturesOptions;
         const deleteOpts = deleteParamsSpy.calls.argsFor(
           0
-        )[0] as IDeleteFeaturesRequestOptions;
+        )[0] as IDeleteFeaturesOptions;
         expect(queryOpts.url).toBe(annoUrl);
         expect(queryOpts.where).toBe("parent_id = 123 AND author = 'casey'");
         expect(deleteOpts.url).toBe(annoUrl);

@@ -1,17 +1,22 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IRequestOptions, getPortalUrl } from "@esri/arcgis-rest-request";
-import { getItem, getItemData } from "@esri/arcgis-rest-items";
+import { IRequestOptions } from "@esri/arcgis-rest-request";
+import {
+  getItem,
+  getItemData,
+  getPortalUrl,
+  IItem
+} from "@esri/arcgis-rest-portal";
 import { IInitiativeModel, IInitiativeItem } from "@esri/hub-common";
 import { getDomain } from "@esri/hub-sites";
+
 import { migrateSchema } from "./migrator";
 import { convertIndicatorsToDefinitions } from "./migrations/upgrade-two-dot-zero";
 // re-export this one helper function that's needed for solutions
 export { convertIndicatorsToDefinitions };
 /**
  * ```js
- * // fetch initiative by id, along with the data
  * getInitiative('3ef...')
  *  .then(initiativeModel => {
  *    // work with the initiative model
@@ -47,27 +52,6 @@ export function getInitiative(
 }
 
 /**
- * Deprecated. Please use getInitiative
- *
- * @protected
- * @export
- * @param {string} id
- * @param {IRequestOptions} [requestOptions]
- * @returns {Promise<IInitiativeModel>}
- */
-/* istanbul ignore next no need to have coverage on deprecated functions */
-export function fetchInitiative(
-  id: string,
-  requestOptions?: IRequestOptions
-): Promise<IInitiativeModel> {
-  // tslint:disable-next-line
-  console.warn(
-    `fetchInitiative has been deprecated. Please use getInitiative instead.`
-  );
-  return getInitiative(id, requestOptions);
-}
-
-/**
  * Get site url for Initiative
  * Get the initiative item. If it has a site, it will have item.properties.siteId
  * From there, we can use the domain service to lookup the domain using the siteId
@@ -80,7 +64,7 @@ export function lookupSiteUrlByInitiative(
   id: string,
   requestOptions?: IRequestOptions
 ): Promise<string> {
-  return getItem(id, requestOptions).then(initiative => {
+  return getItem(id, requestOptions).then((initiative: IItem) => {
     if (initiative.properties.siteId) {
       return getDomain(initiative.properties.siteId, requestOptions);
     } else {

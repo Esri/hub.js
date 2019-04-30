@@ -2,15 +2,20 @@ import { getHubApiUrl } from "../src/api";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 describe("getHubApiUrl", () => {
-  const ro = {
-    authentication: {
-      portal: "https://some.portal.com/arcgis/sharing/rest",
-      getToken() {
-        return Promise.resolve("FAKE-TOKEN");
+  let ro: IRequestOptions;
+  beforeEach(() => {
+    ro = {
+      authentication: {
+        portal: null,
+        getToken() {
+          return Promise.resolve("FAKE-TOKEN");
+        }
       }
-    }
-  } as IRequestOptions;
+    };
+  });
+
   it("returns undefined for non-AGO URLs", () => {
+    ro.authentication.portal = "https://some.portal.com/arcgis/sharing/rest";
     expect(getHubApiUrl(ro)).toBe(undefined);
   });
 

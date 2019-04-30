@@ -1,9 +1,12 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-import { IRequestOptions, getPortalUrl } from "@esri/arcgis-rest-request";
-
+import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { addItemResource } from "@esri/arcgis-rest-items";
+import {
+  getPortalUrl,
+  addItemResource,
+  IItemResourceResponse
+} from "@esri/arcgis-rest-portal";
 /**
  *  Copy an set of image resources from one item to another
  *
@@ -90,7 +93,7 @@ export function addImageAsResource(
           name,
           resource: blob,
           authentication: requestOptions.authentication
-        }).then(response => {
+        }).then((response: IItemResourceResponse) => {
           return response.success;
         });
       })

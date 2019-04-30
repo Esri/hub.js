@@ -11,6 +11,7 @@ description: Get started with @esri/hub.js.
 * [Using Node.js](./node/)
 * [Create an initiative](./create-an-initiative/)
 * [Work with an annotation service](./work-with-annotations/)
+* [What's New in `v2.0.0`?](./whats-new-v2-0/)
 
 <!-- * [Using ES6 modules](./using-es6/) -->
 

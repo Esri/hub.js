@@ -2,14 +2,13 @@
  * Apache-2.0 */
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import {
-  shareItemWithGroup,
-  IGroupSharingRequestOptions
-} from "@esri/arcgis-rest-sharing";
-import {
   getItem,
   updateItem,
-  IItemUpdateRequestOptions
-} from "@esri/arcgis-rest-items";
+  shareItemWithGroup,
+  IItem,
+  IUpdateItemOptions,
+  IGroupSharingOptions
+} from "@esri/arcgis-rest-portal";
 /**
  * Remove the linkage between a site and an Initiative
  * Share the site to the Org's default Collaboration Group
@@ -27,7 +26,7 @@ export function detachSiteFromInitiative(
 ): Promise<any> {
   // get the site item
   return getItem(siteId, requestOptions)
-    .then(site => {
+    .then((site: IItem) => {
       // remove the properties.parentInitiativeId property
       delete site.properties.parentInitiativeId;
       if (collaborationGroupId) {
@@ -39,7 +38,7 @@ export function detachSiteFromInitiative(
         item: site,
         ...requestOptions
       } as any;
-      return updateItem(opts as IItemUpdateRequestOptions);
+      return updateItem(opts as IUpdateItemOptions);
     })
     .then(() => {
       // share it with the group if we got a group...
@@ -48,7 +47,7 @@ export function detachSiteFromInitiative(
           id: siteId,
           groupId: collaborationGroupId,
           ...requestOptions
-        } as IGroupSharingRequestOptions;
+        } as IGroupSharingOptions;
         return shareItemWithGroup(opts) as Promise<any>;
       } else {
         return Promise.resolve({ success: true });

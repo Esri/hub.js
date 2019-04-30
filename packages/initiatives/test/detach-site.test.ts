@@ -3,8 +3,7 @@
 import { detachSiteFromInitiative } from "../src/detach-site";
 import { MOCK_REQUEST_OPTIONS } from "./mocks/fake-session";
 import { cloneObject } from "@esri/hub-common";
-import * as ItemsAPI from "@esri/arcgis-rest-items";
-import * as SharingAPI from "@esri/arcgis-rest-sharing";
+import * as portal from "@esri/arcgis-rest-portal";
 import { SiteItem } from "./mocks/site-item";
 
 describe("detaching a site from initiative", () => {
@@ -13,19 +12,19 @@ describe("detaching a site from initiative", () => {
   let sharingSpy: any;
   beforeEach(() => {
     // setup the spies
-    getItemSpy = spyOn(ItemsAPI, "getItem").and.callFake(
+    getItemSpy = spyOn(portal, "getItem").and.callFake(
       (id: string, opts: any): Promise<any> => {
         const clone = cloneObject(SiteItem);
         clone.item.id = id;
         return Promise.resolve(clone.item);
       }
     );
-    updateItemSpy = spyOn(ItemsAPI, "updateItem").and.callFake(
+    updateItemSpy = spyOn(portal, "updateItem").and.callFake(
       (opts: any): Promise<any> => {
         return Promise.resolve({ success: true });
       }
     );
-    sharingSpy = spyOn(SharingAPI, "shareItemWithGroup").and.callFake(
+    sharingSpy = spyOn(portal, "shareItemWithGroup").and.callFake(
       (opts: any): Promise<any> => {
         return Promise.resolve({ success: true });
       }

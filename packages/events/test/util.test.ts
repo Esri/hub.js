@@ -9,16 +9,16 @@ import {
   publicEventSearchResponse,
   emptyEventSearchResponse
 } from "./mocks/ago_search";
-import * as items from "@esri/arcgis-rest-items";
+import * as portal from "@esri/arcgis-rest-portal";
 
-import { ISearchRequestOptions } from "@esri/arcgis-rest-items";
-import { IQueryFeaturesRequestOptions } from "@esri/arcgis-rest-feature-service";
+import { ISearchOptions } from "@esri/arcgis-rest-portal";
+import { IQueryFeaturesOptions } from "@esri/arcgis-rest-feature-layer";
 import { UserSession } from "@esri/arcgis-rest-auth";
 
 describe("getEventServiceUrl", () => {
   it("should return admin event service url", done => {
     // stub searchItems
-    const paramsSpy = spyOn(items, "searchItems").and.returnValue(
+    const paramsSpy = spyOn(portal, "searchItems").and.returnValue(
       new Promise(resolve => {
         resolve(adminEventSearchResponse);
       })
@@ -27,10 +27,8 @@ describe("getEventServiceUrl", () => {
     getEventServiceUrl("5bc")
       .then(result => {
         expect(paramsSpy.calls.count()).toEqual(1);
-        const opts = paramsSpy.calls.argsFor(0)[0] as ISearchRequestOptions;
-        expect(opts.searchForm.q).toContain(
-          "typekeywords:hubEventsLayer AND orgid:5bc"
-        );
+        const opts = paramsSpy.calls.argsFor(0)[0] as ISearchOptions;
+        expect(opts.q).toContain("typekeywords:hubEventsLayer AND orgid:5bc");
         expect(result).toBe(
           "https://hub.arcgis.com/api/v3/events/5bc/Hub Events/FeatureServer/0"
         );
@@ -41,7 +39,7 @@ describe("getEventServiceUrl", () => {
 
   it("should return org event service url", done => {
     // stub searchItems
-    const paramsSpy = spyOn(items, "searchItems").and.returnValue(
+    const paramsSpy = spyOn(portal, "searchItems").and.returnValue(
       new Promise(resolve => {
         resolve(orgEventSearchResponse);
       })
@@ -50,10 +48,8 @@ describe("getEventServiceUrl", () => {
     getEventServiceUrl("5bc")
       .then(result => {
         expect(paramsSpy.calls.count()).toEqual(1);
-        const opts = paramsSpy.calls.argsFor(0)[0] as ISearchRequestOptions;
-        expect(opts.searchForm.q).toContain(
-          "typekeywords:hubEventsLayer AND orgid:5bc"
-        );
+        const opts = paramsSpy.calls.argsFor(0)[0] as ISearchOptions;
+        expect(opts.q).toContain("typekeywords:hubEventsLayer AND orgid:5bc");
         expect(result).toBe(
           "https://hub.arcgis.com/api/v3/events/5bc/Hub Events (org)/FeatureServer/0"
         );
@@ -64,7 +60,7 @@ describe("getEventServiceUrl", () => {
 
   it("should return the public event service url", done => {
     // stub searchItems
-    const paramsSpy = spyOn(items, "searchItems").and.returnValue(
+    const paramsSpy = spyOn(portal, "searchItems").and.returnValue(
       new Promise(resolve => {
         resolve(publicEventSearchResponse);
       })
@@ -73,10 +69,8 @@ describe("getEventServiceUrl", () => {
     getEventServiceUrl("5bc")
       .then(result => {
         expect(paramsSpy.calls.count()).toEqual(1);
-        const opts = paramsSpy.calls.argsFor(0)[0] as ISearchRequestOptions;
-        expect(opts.searchForm.q).toContain(
-          "typekeywords:hubEventsLayer AND orgid:5bc"
-        );
+        const opts = paramsSpy.calls.argsFor(0)[0] as ISearchOptions;
+        expect(opts.q).toContain("typekeywords:hubEventsLayer AND orgid:5bc");
         expect(result).toBe(
           "https://hub.arcgis.com/api/v3/events/5bc/Hub Events (public)/FeatureServer/0"
         );
@@ -87,7 +81,7 @@ describe("getEventServiceUrl", () => {
 
   it("should throw if no event layer is found", done => {
     // stub searchItems
-    const paramsSpy = spyOn(items, "searchItems").and.returnValue(
+    const paramsSpy = spyOn(portal, "searchItems").and.returnValue(
       new Promise(resolve => {
         resolve(emptyEventSearchResponse);
       })
@@ -95,10 +89,8 @@ describe("getEventServiceUrl", () => {
 
     getEventServiceUrl("v8b").catch(error => {
       expect(paramsSpy.calls.count()).toEqual(1);
-      const opts = paramsSpy.calls.argsFor(0)[0] as ISearchRequestOptions;
-      expect(opts.searchForm.q).toContain(
-        "typekeywords:hubEventsLayer AND orgid:v8b"
-      );
+      const opts = paramsSpy.calls.argsFor(0)[0] as ISearchOptions;
+      expect(opts.q).toContain("typekeywords:hubEventsLayer AND orgid:v8b");
       expect(error.message).toBe(
         "No events service found. Events are likely not enabled."
       );
@@ -110,7 +102,7 @@ describe("getEventServiceUrl", () => {
 describe("getEventFeatureServiceUrl", () => {
   it("should return admin event service url", done => {
     // stub searchItems
-    const paramsSpy = spyOn(items, "searchItems").and.returnValue(
+    const paramsSpy = spyOn(portal, "searchItems").and.returnValue(
       new Promise(resolve => {
         resolve(adminEventSearchResponse);
       })
@@ -119,10 +111,8 @@ describe("getEventFeatureServiceUrl", () => {
     getEventFeatureServiceUrl("5bc")
       .then(result => {
         expect(paramsSpy.calls.count()).toEqual(1);
-        const opts = paramsSpy.calls.argsFor(0)[0] as ISearchRequestOptions;
-        expect(opts.searchForm.q).toContain(
-          "typekeywords:hubEventsLayer AND orgid:5bc"
-        );
+        const opts = paramsSpy.calls.argsFor(0)[0] as ISearchOptions;
+        expect(opts.q).toContain("typekeywords:hubEventsLayer AND orgid:5bc");
         expect(result).toBe(
           "https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/Hub Events/FeatureServer/0"
         );
@@ -133,7 +123,7 @@ describe("getEventFeatureServiceUrl", () => {
 
   it("should return org event service url", done => {
     // stub searchItems
-    const paramsSpy = spyOn(items, "searchItems").and.returnValue(
+    const paramsSpy = spyOn(portal, "searchItems").and.returnValue(
       new Promise(resolve => {
         resolve(orgEventSearchResponse);
       })
@@ -142,10 +132,8 @@ describe("getEventFeatureServiceUrl", () => {
     getEventFeatureServiceUrl("5bc")
       .then(result => {
         expect(paramsSpy.calls.count()).toEqual(1);
-        const opts = paramsSpy.calls.argsFor(0)[0] as ISearchRequestOptions;
-        expect(opts.searchForm.q).toContain(
-          "typekeywords:hubEventsLayer AND orgid:5bc"
-        );
+        const opts = paramsSpy.calls.argsFor(0)[0] as ISearchOptions;
+        expect(opts.q).toContain("typekeywords:hubEventsLayer AND orgid:5bc");
         expect(result).toBe(
           "https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/Hub Events (org)/FeatureServer/0"
         );
@@ -156,7 +144,7 @@ describe("getEventFeatureServiceUrl", () => {
 
   it("should return the public event service url", done => {
     // stub searchItems
-    const paramsSpy = spyOn(items, "searchItems").and.returnValue(
+    const paramsSpy = spyOn(portal, "searchItems").and.returnValue(
       new Promise(resolve => {
         resolve(publicEventSearchResponse);
       })
@@ -165,10 +153,8 @@ describe("getEventFeatureServiceUrl", () => {
     getEventFeatureServiceUrl("5bc")
       .then(result => {
         expect(paramsSpy.calls.count()).toEqual(1);
-        const opts = paramsSpy.calls.argsFor(0)[0] as ISearchRequestOptions;
-        expect(opts.searchForm.q).toContain(
-          "typekeywords:hubEventsLayer AND orgid:5bc"
-        );
+        const opts = paramsSpy.calls.argsFor(0)[0] as ISearchOptions;
+        expect(opts.q).toContain("typekeywords:hubEventsLayer AND orgid:5bc");
         expect(result).toBe(
           "https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/Hub Events (public)/FeatureServer/0"
         );
@@ -179,7 +165,7 @@ describe("getEventFeatureServiceUrl", () => {
 
   it("should throw if no event layer is found", done => {
     // stub searchItems
-    const paramsSpy = spyOn(items, "searchItems").and.returnValue(
+    const paramsSpy = spyOn(portal, "searchItems").and.returnValue(
       new Promise(resolve => {
         resolve(emptyEventSearchResponse);
       })
@@ -187,10 +173,8 @@ describe("getEventFeatureServiceUrl", () => {
 
     getEventFeatureServiceUrl("v8b").catch(error => {
       expect(paramsSpy.calls.count()).toEqual(1);
-      const opts = paramsSpy.calls.argsFor(0)[0] as ISearchRequestOptions;
-      expect(opts.searchForm.q).toContain(
-        "typekeywords:hubEventsLayer AND orgid:v8b"
-      );
+      const opts = paramsSpy.calls.argsFor(0)[0] as ISearchOptions;
+      expect(opts.q).toContain("typekeywords:hubEventsLayer AND orgid:v8b");
       expect(error.message).toBe(
         "No events service found. Events are likely not enabled."
       );
@@ -207,7 +191,7 @@ describe("getEventQueryFromType", () => {
   it("should return the event where clause for 'upcoming' type", () => {
     const requestOptions = {
       outFields: "*"
-    } as IQueryFeaturesRequestOptions;
+    } as IQueryFeaturesOptions;
     const newRequestOptions = getEventQueryFromType("upcoming", requestOptions);
     expect(newRequestOptions.where).toEqual(
       "endDate>CURRENT_TIMESTAMP AND (isCancelled<>1 OR isCancelled IS NULL) AND status<>'draft'"
@@ -219,7 +203,7 @@ describe("getEventQueryFromType", () => {
     const requestOptions = {
       where: "1=1",
       outFields: "*"
-    } as IQueryFeaturesRequestOptions;
+    } as IQueryFeaturesOptions;
 
     const newRequestOptions = getEventQueryFromType("upcoming", requestOptions);
     expect(newRequestOptions.where).toContain(
@@ -232,7 +216,7 @@ describe("getEventQueryFromType", () => {
     const requestOptions = {
       outFields: "*",
       orderByFields: "startDate ASC"
-    } as IQueryFeaturesRequestOptions;
+    } as IQueryFeaturesOptions;
     const newRequestOptions = getEventQueryFromType("upcoming", requestOptions);
     expect(newRequestOptions.where).toEqual(
       "endDate>CURRENT_TIMESTAMP AND (isCancelled<>1 OR isCancelled IS NULL) AND status<>'draft'"
@@ -245,7 +229,7 @@ describe("getEventQueryFromType", () => {
   it("should return the event where clause for 'past' type", () => {
     const requestOptions = {
       outFields: "*"
-    } as IQueryFeaturesRequestOptions;
+    } as IQueryFeaturesOptions;
     const newRequestOptions = getEventQueryFromType("past", requestOptions);
     expect(newRequestOptions.where).toEqual(
       "endDate<=CURRENT_TIMESTAMP AND (isCancelled<>1 OR isCancelled IS NULL) AND status<>'draft'"
@@ -257,7 +241,7 @@ describe("getEventQueryFromType", () => {
     const requestOptions = {
       where: "1=1",
       outFields: "*"
-    } as IQueryFeaturesRequestOptions;
+    } as IQueryFeaturesOptions;
     const newRequestOptions = getEventQueryFromType("past", requestOptions);
     expect(newRequestOptions.where).toContain(
       "AND endDate<=CURRENT_TIMESTAMP AND (isCancelled<>1 OR isCancelled IS NULL) AND status<>'draft'"
@@ -270,7 +254,7 @@ describe("getEventQueryFromType", () => {
     const requestOptions = {
       outFields: "*",
       orderByFields: "startDate ASC"
-    } as IQueryFeaturesRequestOptions;
+    } as IQueryFeaturesOptions;
     const newRequestOptions = getEventQueryFromType("past", requestOptions);
     expect(newRequestOptions.where).toEqual(
       "endDate<=CURRENT_TIMESTAMP AND (isCancelled<>1 OR isCancelled IS NULL) AND status<>'draft'"
@@ -283,7 +267,7 @@ describe("getEventQueryFromType", () => {
   it("should return the event where clause for 'cancelled' type", () => {
     const requestOptions = {
       outFields: "*"
-    } as IQueryFeaturesRequestOptions;
+    } as IQueryFeaturesOptions;
     const newRequestOptions = getEventQueryFromType(
       "cancelled",
       requestOptions
@@ -298,7 +282,7 @@ describe("getEventQueryFromType", () => {
     const requestOptions = {
       where: "1=1",
       outFields: "*"
-    } as IQueryFeaturesRequestOptions;
+    } as IQueryFeaturesOptions;
     const newRequestOptions = getEventQueryFromType(
       "cancelled",
       requestOptions
@@ -313,7 +297,7 @@ describe("getEventQueryFromType", () => {
     const requestOptions = {
       outFields: "*",
       orderByFields: "startDate ASC"
-    } as IQueryFeaturesRequestOptions;
+    } as IQueryFeaturesOptions;
     const newRequestOptions = getEventQueryFromType(
       "cancelled",
       requestOptions
@@ -329,7 +313,7 @@ describe("getEventQueryFromType", () => {
   it("should return the event where clause for 'draft' type", () => {
     const requestOptions = {
       outFields: "*"
-    } as IQueryFeaturesRequestOptions;
+    } as IQueryFeaturesOptions;
     requestOptions.authentication = authentication;
     const newRequestOptions = getEventQueryFromType("draft", requestOptions);
     const user = (requestOptions.authentication as UserSession).username;
@@ -342,7 +326,7 @@ describe("getEventQueryFromType", () => {
   it("should return the event where clause for 'draft' type when no user is set", () => {
     const requestOptions = {
       outFields: "*"
-    } as IQueryFeaturesRequestOptions;
+    } as IQueryFeaturesOptions;
     const newRequestOptions = getEventQueryFromType("draft", requestOptions);
     expect(newRequestOptions.where).toEqual(
       `Creator = 'null' AND status = 'draft'`
@@ -354,7 +338,7 @@ describe("getEventQueryFromType", () => {
     const requestOptions = {
       where: "1=1",
       outFields: "*"
-    } as IQueryFeaturesRequestOptions;
+    } as IQueryFeaturesOptions;
     requestOptions.authentication = authentication;
     const newRequestOptions = getEventQueryFromType("draft", requestOptions);
     const user = (requestOptions.authentication as UserSession).username;
@@ -368,7 +352,7 @@ describe("getEventQueryFromType", () => {
     const requestOptions = {
       outFields: "*",
       orderByFields: "startDate ASC"
-    } as IQueryFeaturesRequestOptions;
+    } as IQueryFeaturesOptions;
     requestOptions.authentication = authentication;
     const newRequestOptions = getEventQueryFromType("draft", requestOptions);
     const user = (requestOptions.authentication as UserSession).username;

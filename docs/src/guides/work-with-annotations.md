@@ -15,7 +15,7 @@ Under the hood, the information is stored in an ArcGIS hosted feature service.
 If an organization has already purchased ArcGIS Hub, then the url of it's annotation service can be identified using the technique below.
 
 ```js
-import { getPortal } from "@esri/arcgis-rest-request";
+import { getPortal } from "@esri/arcgis-rest-portal";
 import { getAnnotationServiceUrl  } from '@esri/hub-annotations';
 
 // first, use the org url to determine its unique id

@@ -2,20 +2,7 @@
  * Apache-2.0 */
 
 import { request, IRequestOptions } from "@esri/arcgis-rest-request";
-import { getHubUrl } from "@esri/hub-domains";
-
-/**
- * Deprecated. Please use getDomains
- * @protected
- */
-/* istanbul ignore next no need to have coverage on deprecated functions */
-export function fetchDomains(siteId: string, requestOptions?: IRequestOptions) {
-  // tslint:disable-next-line
-  console.warn(
-    `fetchDomains has been deprecated. Please use getDomains instead.`
-  );
-  return getDomains(siteId, requestOptions);
-}
+import { getHubApiUrl } from "@esri/hub-common";
 
 /**
  * Get the domains associated with a Hub Site.
@@ -27,7 +14,7 @@ export function getDomains(
   siteId: string,
   requestOptions?: IRequestOptions
 ): Promise<any> {
-  const apiUrl = getHubUrl(requestOptions);
+  const apiUrl = getHubApiUrl(requestOptions);
   const url = `${apiUrl}/utilities/domains`;
 
   const options: IRequestOptions = {
@@ -37,19 +24,6 @@ export function getDomains(
   };
 
   return request(url, options);
-}
-
-/**
- * Deprecated. Please use getDomain
- * @protected
- */
-/* istanbul ignore next no need to have coverage on deprecated functions */
-export function fetchDomain(siteId: string, requestOptions?: IRequestOptions) {
-  // tslint:disable-next-line
-  console.warn(
-    `fetchDomain has been deprecated. Please use getDomain instead.`
-  );
-  return getDomain(siteId, requestOptions);
 }
 
 /**

@@ -28,9 +28,9 @@ import {
   missingIdAnnoFeature
 } from "./mocks/anno_search";
 
-import * as featureService from "@esri/arcgis-rest-feature-service";
-import * as user from "@esri/arcgis-rest-users";
-import { IQueryFeaturesRequestOptions } from "@esri/arcgis-rest-feature-service";
+import * as featureService from "@esri/arcgis-rest-feature-layer";
+import * as user from "@esri/arcgis-rest-portal";
+import { IQueryFeaturesOptions } from "@esri/arcgis-rest-feature-layer";
 
 const mockOutFields = [
   "OBJECTID",
@@ -73,7 +73,7 @@ describe("searchAnnotations", () => {
         expect(userParamsSpy.calls.count()).toEqual(2);
         const queryOpts = queryParamsSpy.calls.argsFor(
           0
-        )[0] as IQueryFeaturesRequestOptions;
+        )[0] as IQueryFeaturesOptions;
         const caseyOpts = userParamsSpy.calls.argsFor(0)[0] as string;
         const jonesOpts = userParamsSpy.calls.argsFor(1)[0] as string;
 
@@ -109,7 +109,7 @@ describe("searchAnnotations", () => {
 
         const opts = queryParamsSpy.calls.argsFor(
           0
-        )[0] as IQueryFeaturesRequestOptions;
+        )[0] as IQueryFeaturesOptions;
 
         expect(opts.url).toBe(annoSearchResponse.results[0].url + "/0");
         expect(opts.where).toBe("1=0 AND parent_id IS NULL");
@@ -148,7 +148,7 @@ describe("searchAnnotations", () => {
         expect(userParamsSpy.calls.count()).toEqual(2);
         const queryOpts = queryParamsSpy.calls.argsFor(
           0
-        )[0] as IQueryFeaturesRequestOptions;
+        )[0] as IQueryFeaturesOptions;
         expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
         expect(queryOpts.outFields).toEqual(["*"]);
         expect(response).toEqual(annoResponse);
@@ -177,7 +177,7 @@ describe("searchSingleAnnotationVotes", () => {
         expect(queryParamsSpy.calls.count()).toEqual(1);
         const queryOpts = queryParamsSpy.calls.argsFor(
           0
-        )[0] as IQueryFeaturesRequestOptions;
+        )[0] as IQueryFeaturesOptions;
 
         expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
         expect(response).toEqual(annoVoteResponseEmpty);
@@ -204,7 +204,7 @@ describe("searchSingleAnnotationVotes", () => {
         expect(queryParamsSpy.calls.count()).toEqual(1);
         const queryOpts = queryParamsSpy.calls.argsFor(
           0
-        )[0] as IQueryFeaturesRequestOptions;
+        )[0] as IQueryFeaturesOptions;
 
         expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
         expect(response).toEqual(annoVoteResponse);
@@ -256,7 +256,7 @@ describe("searchAllAnnotationVotes", () => {
         expect(queryParamsSpy.calls.count()).toEqual(2);
         const queryOpts = queryParamsSpy.calls.argsFor(
           0
-        )[0] as IQueryFeaturesRequestOptions;
+        )[0] as IQueryFeaturesOptions;
         expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
         expect(response).toEqual(allAnnoVoteResponseEmpty);
         done();
@@ -284,7 +284,7 @@ describe("searchAllAnnotationVotes", () => {
         expect(queryParamsSpy.calls.count()).toEqual(2);
         const queryOpts = queryParamsSpy.calls.argsFor(
           0
-        )[0] as IQueryFeaturesRequestOptions;
+        )[0] as IQueryFeaturesOptions;
         expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
         expect(response).toEqual(allAnnoVoteResponse);
         done();
@@ -314,7 +314,7 @@ describe("searchAllAnnotationVotes", () => {
         expect(queryParamsSpy.calls.count()).toEqual(2);
         const queryOpts = queryParamsSpy.calls.argsFor(
           0
-        )[0] as IQueryFeaturesRequestOptions;
+        )[0] as IQueryFeaturesOptions;
         expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
         expect(queryOpts.where).toContain(initiativeWhereClause + " AND vote");
         expect(response).toEqual(allAnnoVoteResponse);

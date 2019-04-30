@@ -7,8 +7,8 @@ import {
   searchGroups,
   removeGroup,
   unprotectGroup,
-  IGroupIdRequestOptions
-} from "@esri/arcgis-rest-groups";
+  IUserGroupOptions
+} from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 /**
@@ -67,7 +67,7 @@ export function createInitiativeGroup(
       const protectOpts = {
         id: groupId,
         ...requestOptions
-      } as IGroupIdRequestOptions;
+      } as IUserGroupOptions;
       return protectGroup(protectOpts);
     })
     .then(() => {
@@ -91,7 +91,7 @@ export function removeInitiativeGroup(
   const opts = {
     id,
     ...requestOptions
-  } as IGroupIdRequestOptions;
+  } as IUserGroupOptions;
   return unprotectGroup(opts).then(
     () => {
       return removeGroup(opts);
@@ -121,10 +121,12 @@ export function checkGroupExists(
   orgId: string,
   requestOptions: IRequestOptions
 ): Promise<any> {
-  const searchForm = {
-    q: `${title} AND orgid: ${orgId}`
+  const options = {
+    q: `${title} AND orgid: ${orgId}`,
+    ...requestOptions
   };
-  return searchGroups(searchForm, requestOptions).then((response: any) => {
+
+  return searchGroups(options).then((response: any) => {
     const result = {
       exists: false
     } as any;

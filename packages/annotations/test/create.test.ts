@@ -1,7 +1,4 @@
-import {
-  createAnnotationService,
-  ICreateAnnoRequestOptions
-} from "../src/create";
+import { createAnnotationService, ICreateAnnoOptions } from "../src/create";
 import { annotationServiceDefinition } from "../src/layer-definition";
 import {
   annoSearchResponse,
@@ -9,21 +6,20 @@ import {
 } from "./mocks/ago_search";
 import { portalResponse } from "./mocks/portal";
 import { UserSession } from "@esri/arcgis-rest-auth";
-import * as items from "@esri/arcgis-rest-items";
-import * as sharing from "@esri/arcgis-rest-sharing";
 import * as request from "@esri/arcgis-rest-request";
-import * as featureServiceAdmin from "@esri/arcgis-rest-feature-service-admin";
-import { IExtent } from "@esri/arcgis-rest-common-types";
+import * as portal from "@esri/arcgis-rest-portal";
+import * as featureServiceAdmin from "@esri/arcgis-rest-service-admin";
+import { IExtent } from "@esri/arcgis-rest-types";
 import {
-  ISearchRequestOptions,
-  IItemUpdateRequestOptions,
-  IItemIdRequestOptions
-} from "@esri/arcgis-rest-items";
-import { ISetAccessRequestOptions } from "@esri/arcgis-rest-sharing";
+  ISearchOptions,
+  IUpdateItemOptions,
+  IUserItemOptions
+} from "@esri/arcgis-rest-portal";
+import { ISetAccessOptions } from "@esri/arcgis-rest-portal";
 import {
-  ICreateServiceRequestOptions,
-  IAddToServiceDefinitionRequestOptions
-} from "@esri/arcgis-rest-feature-service-admin";
+  ICreateServiceOptions,
+  IAddToServiceDefinitionOptions
+} from "@esri/arcgis-rest-service-admin";
 
 const TOMORROW = (function() {
   const now = new Date();
@@ -47,13 +43,13 @@ clonedServiceDefinition.extent = portalResponse.defaultExtent as IExtent;
 
 describe("createAnnotationService", () => {
   it("should create a new annotation service if one doesnt already exist", done => {
-    const searchParamsSpy = spyOn(items, "searchItems").and.returnValue(
+    const searchParamsSpy = spyOn(portal, "searchItems").and.returnValue(
       new Promise(resolve => {
         resolve(emptyAnnoSearchResponse);
       })
     );
 
-    const portalParamsSpy = spyOn(request, "getPortal").and.returnValue(
+    const portalParamsSpy = spyOn(portal, "getPortal").and.returnValue(
       new Promise(resolve => {
         resolve(portalResponse);
       })
@@ -80,13 +76,13 @@ describe("createAnnotationService", () => {
       })
     );
 
-    const protectParamsSpy = spyOn(items, "protectItem").and.returnValue(
+    const protectParamsSpy = spyOn(portal, "protectItem").and.returnValue(
       new Promise(resolve => {
         resolve({ success: true });
       })
     );
 
-    const shareParamsSpy = spyOn(sharing, "setItemAccess").and.returnValue(
+    const shareParamsSpy = spyOn(portal, "setItemAccess").and.returnValue(
       new Promise(resolve => {
         resolve({
           notSharedWith: [],
@@ -95,7 +91,7 @@ describe("createAnnotationService", () => {
       })
     );
 
-    const updateParamsSpy = spyOn(items, "updateItem").and.returnValue(
+    const updateParamsSpy = spyOn(portal, "updateItem").and.returnValue(
       new Promise(resolve => {
         resolve({
           success: true,
@@ -120,7 +116,7 @@ describe("createAnnotationService", () => {
     const options = {
       orgId: "h7c",
       authentication
-    } as ICreateAnnoRequestOptions;
+    } as ICreateAnnoOptions;
 
     createAnnotationService(options)
       .then(() => {
@@ -134,14 +130,14 @@ describe("createAnnotationService", () => {
 
         const searchOpts = searchParamsSpy.calls.argsFor(
           0
-        )[0] as ISearchRequestOptions;
-        expect(searchOpts.searchForm.q).toEqual(
+        )[0] as ISearchOptions;
+        expect(searchOpts.q).toEqual(
           "typekeywords:hubAnnotationLayer AND orgid:h7c"
         );
 
         const createOpts = createParamsSpy.calls.argsFor(
           0
-        )[0] as ICreateServiceRequestOptions;
+        )[0] as ICreateServiceOptions;
         expect(createOpts.item.name).toEqual("hub_annotations");
         expect(createOpts.item.capabilities).toEqual(
           annotationServiceDefinition.capabilities
@@ -164,13 +160,13 @@ describe("createAnnotationService", () => {
         );
         const addToOpts = addToParamsSpy.calls.argsFor(
           0
-        )[1] as IAddToServiceDefinitionRequestOptions;
+        )[1] as IAddToServiceDefinitionOptions;
         expect(addToOpts.layers).toEqual([clonedServiceDefinition]);
         expect(addToOpts.authentication.token).toEqual("fake-token");
 
         const updateOpts = updateParamsSpy.calls.argsFor(
           0
-        )[0] as IItemUpdateRequestOptions;
+        )[0] as IUpdateItemOptions;
         expect(updateOpts.item.id).toEqual("41a");
         expect(updateOpts.item.title).toEqual("Hub Annotations");
         expect(
@@ -183,13 +179,13 @@ describe("createAnnotationService", () => {
 
         const protectOpts = protectParamsSpy.calls.argsFor(
           0
-        )[0] as IItemIdRequestOptions;
+        )[0] as IUserItemOptions;
         expect(protectOpts.id).toEqual("41a");
         expect(protectOpts.authentication.token).toEqual("fake-token");
 
         const shareOpts = shareParamsSpy.calls.argsFor(
           0
-        )[0] as ISetAccessRequestOptions;
+        )[0] as ISetAccessOptions;
         expect(shareOpts.id).toEqual("41a");
         expect(shareOpts.access).toEqual("public");
         expect(shareOpts.authentication.token).toEqual("fake-token");
@@ -200,7 +196,7 @@ describe("createAnnotationService", () => {
   });
 
   it("should not create a new annotation service if one already exists", done => {
-    const searchParamsSpy = spyOn(items, "searchItems").and.returnValue(
+    const searchParamsSpy = spyOn(portal, "searchItems").and.returnValue(
       new Promise(resolve => {
         resolve(annoSearchResponse);
       })
@@ -209,30 +205,26 @@ describe("createAnnotationService", () => {
     const options = {
       orgId: "h7c",
       authentication
-    } as ICreateAnnoRequestOptions;
+    } as ICreateAnnoOptions;
 
     createAnnotationService(options)
       .then(() => {
         expect(searchParamsSpy.calls.count()).toEqual(1);
-        const opts = searchParamsSpy.calls.argsFor(
-          0
-        )[0] as ISearchRequestOptions;
-        expect(opts.searchForm.q).toEqual(
-          "typekeywords:hubAnnotationLayer AND orgid:h7c"
-        );
+        const opts = searchParamsSpy.calls.argsFor(0)[0] as ISearchOptions;
+        expect(opts.q).toEqual("typekeywords:hubAnnotationLayer AND orgid:h7c");
         done();
       })
       .catch(() => fail());
   });
 
   it("should fail gracefully if an error is encountered creating the feature service", done => {
-    const searchParamsSpy = spyOn(items, "searchItems").and.returnValue(
+    const searchParamsSpy = spyOn(portal, "searchItems").and.returnValue(
       new Promise(resolve => {
         resolve(emptyAnnoSearchResponse);
       })
     );
 
-    spyOn(request, "getPortal").and.returnValue(
+    spyOn(portal, "getPortal").and.returnValue(
       new Promise(resolve => {
         resolve({ portalResponse });
       })
@@ -247,14 +239,12 @@ describe("createAnnotationService", () => {
     const options = {
       orgId: "h7c",
       authentication
-    } as ICreateAnnoRequestOptions;
+    } as ICreateAnnoOptions;
 
     createAnnotationService(options).catch(err => {
       expect(searchParamsSpy.calls.count()).toEqual(1);
-      const opts = searchParamsSpy.calls.argsFor(0)[0] as ISearchRequestOptions;
-      expect(opts.searchForm.q).toEqual(
-        "typekeywords:hubAnnotationLayer AND orgid:h7c"
-      );
+      const opts = searchParamsSpy.calls.argsFor(0)[0] as ISearchOptions;
+      expect(opts.q).toEqual("typekeywords:hubAnnotationLayer AND orgid:h7c");
       expect(err.message).toEqual(
         "Failure to create service. One common cause is the presence of an existing service that shares the same name."
       );

@@ -1,22 +1,27 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { ArcGISRequestError, getPortal } from "@esri/arcgis-rest-request";
+import { ArcGISRequestError } from "@esri/arcgis-rest-request";
 import { UserSession, IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { setItemAccess } from "@esri/arcgis-rest-sharing";
-import { searchItems, updateItem, protectItem } from "@esri/arcgis-rest-items";
+import {
+  setItemAccess,
+  getPortal,
+  searchItems,
+  updateItem,
+  protectItem
+} from "@esri/arcgis-rest-portal";
 import {
   createFeatureService,
   addToServiceDefinition,
-  IAddToServiceDefinitionRequestOptions
-} from "@esri/arcgis-rest-feature-service-admin";
+  IAddToServiceDefinitionOptions
+} from "@esri/arcgis-rest-service-admin";
 import {
   defaultExtent,
   editorTrackingInfo,
   annotationServiceDefinition
 } from "./layer-definition";
 
-export interface ICreateAnnoRequestOptions extends IUserRequestOptions {
+export interface ICreateAnnoOptions extends IUserRequestOptions {
   /**
    * The organization that will host the annotation service if it doesn't already exist.
    */
@@ -39,15 +44,13 @@ export interface ICreateAnnoRequestOptions extends IUserRequestOptions {
  * @returns A Promise that will resolve with the response from the service after attempting to create a new hosted annotation service.
  */
 export function createAnnotationService(
-  requestOptions: ICreateAnnoRequestOptions
+  requestOptions: ICreateAnnoOptions
 ): Promise<any> {
   const session = requestOptions.authentication as UserSession;
 
   // check to see if an annotation service has already been created in the organization
   return searchItems({
-    searchForm: {
-      q: `typekeywords:hubAnnotationLayer AND orgid:${requestOptions.orgId}`
-    },
+    q: `typekeywords:hubAnnotationLayer AND orgid:${requestOptions.orgId}`,
     authentication: session
   }).then(searchResponse => {
     if (searchResponse.results.length > 0) {
@@ -65,7 +68,7 @@ export function createAnnotationService(
 
         const description = `Feature service for Hub annotations. DO NOT DELETE THIS SERVICE. It stores the public annotations (comments) for all Hub items in your organization.`;
 
-        // const options:ICreateServiceRequestOptions (no workee)
+        // const options:ICreateServiceOptions (no workee)
         const options = {
           authentication: session,
           item: {
@@ -100,7 +103,7 @@ export function createAnnotationService(
           return addToServiceDefinition(createResponse.serviceurl, {
             authentication: session,
             layers: [clonedServiceDefinition]
-          } as IAddToServiceDefinitionRequestOptions).then(() => {
+          } as IAddToServiceDefinitionOptions).then(() => {
             // sometimes TS likes session, sometimes it likes options.authentication
             return updateItem({
               authentication: session,

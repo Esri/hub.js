@@ -3,10 +3,9 @@
 
 import {
   deleteFeatures,
-  IDeleteFeaturesRequestOptions,
-  IDeleteFeaturesResult
-} from "@esri/arcgis-rest-feature-service";
-
+  IDeleteFeaturesOptions
+} from "@esri/arcgis-rest-feature-layer";
+import { IEditFeatureResult } from "@esri/arcgis-rest-feature-layer/dist/esm/helpers";
 /**
  * ```js
  * import { deleteAnnotations } from "@esri/hub-annotations";
@@ -25,7 +24,7 @@ import {
  */
 
 export function deleteAnnotations(
-  requestOptions: IDeleteFeaturesRequestOptions
-): Promise<IDeleteFeaturesResult> {
+  requestOptions: IDeleteFeaturesOptions
+): Promise<{ deleteResults?: IEditFeatureResult[] }> {
   return deleteFeatures(requestOptions);
 }

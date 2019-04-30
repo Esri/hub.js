@@ -1,16 +1,16 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import * as GroupApi from "@esri/arcgis-rest-groups";
+import * as portal from "@esri/arcgis-rest-portal";
 import {
-  IGroupSearchRequest,
-  IGroupSearchResult,
-  IGroupAddRequestOptions,
-  IGroupIdRequestOptions
-} from "@esri/arcgis-rest-groups";
+  IGroup,
+  ISearchOptions,
+  ISearchResult,
+  ICreateGroupOptions,
+  IUserGroupOptions
+} from "@esri/arcgis-rest-portal";
 import { MOCK_REQUEST_OPTIONS } from "./mocks/fake-session";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IGroup } from "@esri/arcgis-rest-common-types";
 import {
   checkGroupExists,
   isSharedEditingGroup,
@@ -40,26 +40,26 @@ describe("Initiative Groups ::", () => {
   let createGroupSpy: any;
   let protectGroupSpy: any;
   beforeEach(() => {
-    createGroupSpy = spyOn(GroupApi, "createGroup").and.callFake(
-      (opts: IGroupAddRequestOptions) => {
+    createGroupSpy = spyOn(portal, "createGroup").and.callFake(
+      (opts: ICreateGroupOptions) => {
         return Promise.resolve({ success: true, group: { id: "3ef" } });
       }
     );
-    protectGroupSpy = spyOn(GroupApi, "protectGroup").and.callFake(
-      (opts: IGroupIdRequestOptions) => {
+    protectGroupSpy = spyOn(portal, "protectGroup").and.callFake(
+      (opts: IUserGroupOptions) => {
         return Promise.resolve({ success: true, id: "3ef" });
       }
     );
   });
   describe("createInitiativeGroup ::", () => {
     it("should create and protect a generic group", done => {
-      // const createGroupSpy = spyOn(GroupApi, "createGroup").and.callFake(
-      //   (opts: IGroupAddRequestOptions) => {
+      // const createGroupSpy = spyOn(portal, "createGroup").and.callFake(
+      //   (opts: ICreateGroupOptions) => {
       //     return Promise.resolve({ success: true, group: { id: "3ef" } });
       //   }
       // );
-      // const protectGroupSpy = spyOn(GroupApi, "protectGroup").and.callFake(
-      //   (opts: IGroupIdRequestOptions) => {
+      // const protectGroupSpy = spyOn(portal, "protectGroup").and.callFake(
+      //   (opts: IUserGroupOptions) => {
       //     return Promise.resolve({ success: true });
       //   }
       // );
@@ -74,7 +74,7 @@ describe("Initiative Groups ::", () => {
           1,
           "should make one call to createGroup"
         );
-        const createArgs = createGroupSpy.calls.argsFor(0); // as IGroupAddRequestOptions;
+        const createArgs = createGroupSpy.calls.argsFor(0); // as ICreateGroupOptions;
         const grp = createArgs[0].group;
         expect(grp.isOpenData).not.toBeDefined(
           "isOpenData should not be defined"
@@ -99,7 +99,7 @@ describe("Initiative Groups ::", () => {
           1,
           "should make one call to createGroup"
         );
-        const createArgs = createGroupSpy.calls.argsFor(0); // as IGroupAddRequestOptions;
+        const createArgs = createGroupSpy.calls.argsFor(0); // as ICreateGroupOptions;
         const grp = createArgs[0].group;
         expect(grp.tags.indexOf("Hub Initiative Group")).toBeGreaterThan(
           -1,
@@ -118,13 +118,13 @@ describe("Initiative Groups ::", () => {
       });
     });
     it("should create and protect a collaboration group", done => {
-      // const createGroupSpy = spyOn(GroupApi, "createGroup").and.callFake(
-      //   (opts: IGroupAddRequestOptions) => {
+      // const createGroupSpy = spyOn(portal, "createGroup").and.callFake(
+      //   (opts: ICreateGroupOptions) => {
       //     return Promise.resolve({ success: true, group: { id: "3ef" } });
       //   }
       // );
-      // const protectGroupSpy = spyOn(GroupApi, "protectGroup").and.callFake(
-      //   (opts: IGroupIdRequestOptions) => {
+      // const protectGroupSpy = spyOn(portal, "protectGroup").and.callFake(
+      //   (opts: IUserGroupOptions) => {
       //     return Promise.resolve({ success: true, id: "3ef" });
       //   }
       // );
@@ -138,7 +138,7 @@ describe("Initiative Groups ::", () => {
           1,
           "should make one call to createGroup"
         );
-        const createArgs = createGroupSpy.calls.argsFor(0); // as IGroupAddRequestOptions;
+        const createArgs = createGroupSpy.calls.argsFor(0); // as ICreateGroupOptions;
         const grp = createArgs[0].group;
         expect(grp.tags.indexOf("Hub Initiative Group")).toBeGreaterThan(
           -1,
@@ -171,15 +171,15 @@ describe("Initiative Groups ::", () => {
     let removeGroupSpy: any;
     let unprotectGroupSpy: any;
     beforeEach(() => {
-      removeGroupSpy = spyOn(GroupApi, "removeGroup").and.callFake(
-        (opts: IGroupAddRequestOptions) => {
+      removeGroupSpy = spyOn(portal, "removeGroup").and.callFake(
+        (opts: ICreateGroupOptions) => {
           return Promise.resolve({ success: true, group: { id: "3ef" } });
         }
       );
     });
     it("unprotects and removes the group", done => {
-      unprotectGroupSpy = spyOn(GroupApi, "unprotectGroup").and.callFake(
-        (opts: IGroupIdRequestOptions) => {
+      unprotectGroupSpy = spyOn(portal, "unprotectGroup").and.callFake(
+        (opts: IUserGroupOptions) => {
           return Promise.resolve({ success: true, id: "3ef" });
         }
       );
@@ -193,8 +193,8 @@ describe("Initiative Groups ::", () => {
       );
     });
     it("returns success if group does not exist", done => {
-      unprotectGroupSpy = spyOn(GroupApi, "unprotectGroup").and.callFake(
-        (opts: IGroupIdRequestOptions) => {
+      unprotectGroupSpy = spyOn(portal, "unprotectGroup").and.callFake(
+        (opts: IUserGroupOptions) => {
           return Promise.reject({ code: 400, messageCode: "COM_0003" });
         }
       );
@@ -208,8 +208,8 @@ describe("Initiative Groups ::", () => {
       );
     });
     it("throws on some other error", done => {
-      unprotectGroupSpy = spyOn(GroupApi, "unprotectGroup").and.callFake(
-        (opts: IGroupIdRequestOptions) => {
+      unprotectGroupSpy = spyOn(portal, "unprotectGroup").and.callFake(
+        (opts: IUserGroupOptions) => {
           return Promise.reject({ code: 502, messageCode: "WAT" });
         }
       );
@@ -222,16 +222,16 @@ describe("Initiative Groups ::", () => {
 
   describe("checkGroupExists ::", () => {
     it("returns true and the group if it exists", done => {
-      const searchSpy = spyOn(GroupApi, "searchGroups").and.callFake(
-        (searchForm: IGroupSearchRequest, opts: IRequestOptions) => {
+      const searchSpy = spyOn(portal, "searchGroups").and.callFake(
+        (opts: ISearchOptions) => {
           const res = {
             results: [fakeGroup],
-            query: searchForm.q,
+            query: opts.q,
             total: 1,
             start: 1,
             num: 1,
             nextStart: -1
-          } as IGroupSearchResult;
+          } as ISearchResult<IGroup>;
           return Promise.resolve(res);
         }
       );
@@ -254,16 +254,16 @@ describe("Initiative Groups ::", () => {
       });
     });
     it("returns false if group does not exist", done => {
-      const searchSpy = spyOn(GroupApi, "searchGroups").and.callFake(
-        (searchForm: IGroupSearchRequest, opts: IRequestOptions) => {
+      const searchSpy = spyOn(portal, "searchGroups").and.callFake(
+        (opts: ISearchOptions) => {
           const res = {
             results: [],
-            query: searchForm.q,
+            query: opts.q,
             total: 0,
             start: 0,
             num: 0,
             nextStart: -1
-          } as IGroupSearchResult;
+          } as ISearchResult<IGroup>;
           return Promise.resolve(res);
         }
       );
@@ -285,16 +285,16 @@ describe("Initiative Groups ::", () => {
 
   describe("getUniqueGroupName ::", () => {
     it("return original name of no group exists", done => {
-      const searchSpy = spyOn(GroupApi, "searchGroups").and.callFake(
-        (searchForm: IGroupSearchRequest, opts: IRequestOptions) => {
+      const searchSpy = spyOn(portal, "searchGroups").and.callFake(
+        (opts: ISearchOptions) => {
           const res = {
             results: [],
-            query: searchForm.q,
+            query: opts.q,
             total: 0,
             start: 0,
             num: 0,
             nextStart: -1
-          } as IGroupSearchResult;
+          } as ISearchResult<IGroup>;
           return Promise.resolve(res);
         }
       );
@@ -313,20 +313,20 @@ describe("Initiative Groups ::", () => {
       });
     });
     it("append a number to original name of group exists", done => {
-      const searchSpy = spyOn(GroupApi, "searchGroups").and.callFake(
-        (searchForm: IGroupSearchRequest, opts: IRequestOptions) => {
+      const searchSpy = spyOn(portal, "searchGroups").and.callFake(
+        (opts: ISearchOptions) => {
           const res = {
             results: [],
-            query: searchForm.q,
+            query: opts.q,
             total: 0,
             start: 0,
             num: 0,
             nextStart: -1
-          } as IGroupSearchResult;
+          } as ISearchResult<IGroup>;
           // if this is the first call w/ a specific name
           // we want to fake the response to show the group
           // does exist
-          if (searchForm.q === "foo bar baz AND orgid: BZ7426") {
+          if (opts.q === "foo bar baz AND orgid: BZ7426") {
             res.total = 1;
             res.results.push({} as IGroup);
           }

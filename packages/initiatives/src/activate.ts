@@ -1,8 +1,8 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IRequestOptions, getSelf } from "@esri/arcgis-rest-request";
-import { IInitiativeModel } from "@esri/hub-common";
+import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { IInitiativeModel, createId, camelize } from "@esri/hub-common";
 import { getInitiative } from "./get";
 import { getUniqueGroupName, createInitiativeGroup } from "./groups";
 import {
@@ -11,11 +11,12 @@ import {
 } from "./templates";
 import { addInitiative } from "./add";
 import { copyImageResources } from "./util";
-import { createId, camelize } from "@esri/hub-common";
 import {
   shareItemWithGroup,
-  IGroupSharingRequestOptions
-} from "@esri/arcgis-rest-sharing";
+  IGroupSharingOptions,
+  getSelf,
+  IPortal
+} from "@esri/arcgis-rest-portal";
 
 const steps = [
   {
@@ -82,7 +83,7 @@ export function activateInitiative(
   //  - org extent
   //  - geometryServiceUrl
   return getSelf(ro)
-    .then(portal => {
+    .then((portal: IPortal) => {
       state.portal = portal;
       // we may be handed a template...
       if (typeof template === "string") {
@@ -91,7 +92,7 @@ export function activateInitiative(
         return Promise.resolve(template);
       }
     })
-    .then(templateItemModel => {
+    .then((templateItemModel: any) => {
       state.template = templateItemModel;
       const uniqueNames = [
         getUniqueGroupName(collaborationGroupName, state.portal.id, 0, ro),
@@ -167,7 +168,7 @@ export function activateInitiative(
         groupId: state.collaborationGroupId,
         confirmItemControl: true,
         ...requestOptions
-      } as IGroupSharingRequestOptions;
+      } as IGroupSharingOptions;
 
       return shareItemWithGroup(shareOptions);
     })
