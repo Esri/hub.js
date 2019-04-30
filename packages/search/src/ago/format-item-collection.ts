@@ -1,10 +1,10 @@
-import { ISearchResult } from "@esri/arcgis-rest-items";
+import { ISearchResult, IItem } from "@esri/arcgis-rest-portal";
 import { ISearchParams } from "./params";
 import { formatItem, convertAgoPages } from "./helpers/format";
 
 // This function is responsible for formatting results from the AGO API into the JSONAPI collection format
 export function agoFormatItemCollection(
-  searchResults: ISearchResult,
+  searchResults: ISearchResult<IItem>,
   facets: any = {},
   params: ISearchParams
 ) {
@@ -30,7 +30,10 @@ export function agoFormatItemCollection(
   };
 }
 
-function queryParameters(searchResults: ISearchResult, params: ISearchParams) {
+function queryParameters(
+  searchResults: ISearchResult<IItem>,
+  params: ISearchParams
+) {
   const queryParams: any = {
     page: convertAgoPages(searchResults)
   };

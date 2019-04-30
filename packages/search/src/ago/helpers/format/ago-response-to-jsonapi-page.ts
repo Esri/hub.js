@@ -1,5 +1,3 @@
-import { ISearchRequest } from "@esri/arcgis-rest-items";
-
 /*
  * This util function take in a JSON object response from /sharing/rest/search
  * and return JSONAPI-format page parameters

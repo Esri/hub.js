@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { searchItems, ISearchResult } from "@esri/arcgis-rest-items";
+import { searchItems, ISearchResult, IItem } from "@esri/arcgis-rest-portal";
 import { ISearchParams } from "./params";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { encodeAgoQuery } from "./encode-ago-query";
@@ -16,11 +16,19 @@ import { encodeAgoQuery } from "./encode-ago-query";
  */
 export function agoSearch(
   params: ISearchParams,
-  authentication: UserSession
-): Promise<any> {
+  token?: string,
+  portal?: string,
+  authentication?: UserSession
+): Promise<ISearchResult<IItem>> {
   const agoParams = encodeAgoQuery(params);
   return searchItems({
-    authentication,
-    searchForm: agoParams
+    ...agoParams,
+    params: {
+      token,
+      countFields: agoParams.countFields,
+      countSize: agoParams.countSize
+    },
+    portal,
+    authentication
   });
 }

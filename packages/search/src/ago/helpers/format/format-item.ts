@@ -26,7 +26,7 @@
 // }
 import { getCategory } from "@esri/hub-common";
 import { calcHighlights } from "./highlights";
-import { IItem } from "@esri/arcgis-rest-common-types";
+import { IItem } from "@esri/arcgis-rest-portal";
 
 export function formatItem(item: IItem, query: string) {
   const formattedItem: any = {
