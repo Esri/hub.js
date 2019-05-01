@@ -2,11 +2,12 @@ import { ISearchParams } from "./params";
 import { createFilters, encodeFilters, paramSchema } from "./helpers/filters";
 
 /**
+ * ```
  * serialize raw query parameters into hub specific URI encoding
  * Example:
  * Input: { q: 'crime', tags: 'a,b,c', sort: 'name' }
  * Output: 'q=crime&tags=all(a,b,c)&sort=name'
- *
+ * ```
  * @export
  * @param {ISearchParams} searchParams
  * @returns {string}
