@@ -1,11 +1,16 @@
-import { getTypes } from "@esri/hub-common";
+import { getTypes, getProp } from "@esri/hub-common";
 
 export function collection(queryFilters: any) {
-  const categories =
-    queryFilters && queryFilters.collection && queryFilters.collection.terms
-      ? queryFilters.collection.terms
-      : [];
-  const types = categories.flatMap((c: any) => getTypes(c) || []);
-  const filter = types.map((type: string) => `type:"${type}"`).join(" OR ");
+  const categories = getProp(queryFilters, "collection.terms") || [];
+  const typesArr = categories.map((c: string) => getTypes(c) || []);
+  // flatten typesArr
+  const filter = typesArr
+    .reduce((singleArr: string[], types: string[]) => {
+      types.forEach(type => {
+        singleArr.push(`type:"${type}"`);
+      });
+      return singleArr;
+    }, [])
+    .join(" OR ");
   return `(${filter})`;
 }

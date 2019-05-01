@@ -31,10 +31,11 @@
     })
     const portal = 'https://qaext.arcgis.com/sharing/rest'
     const params = {
-      q: 'crime',
+      q: '',
       sort: 'name',
-      // groupIds: 'd972f25c70f945d5b572d093dd37ac47,f511d0ce44f2470093d4693b293a2c2d,d5e03c8b9d9043b595a34cdd0597fae5,6f063f2d05824bd898ca0d5089d93614,76af326256114ccb9af0cabdf0e74392,633e6369aaec4f06bf9e0ed3ab8f5c21,a937fb653242438cbe523db5ae7c574e,80b8dd23093b4314a881eadf2668f72b,95be52166ad5458eb46ae69cfe579c2d,61b041e2ea744d588d9a37650cbe2da5',
-      // id: '4dd789d0c75a4ebb8805b1314c1cc974,6e1ad7f1bbbf416793bfb02795ccc65f,1083139673d24a9ca7f7666ced6e49cb',
+      // collection: 'Dataset,Document',
+      groupIds: 'd972f25c70f945d5b572d093dd37ac47,f511d0ce44f2470093d4693b293a2c2d,d5e03c8b9d9043b595a34cdd0597fae5,6f063f2d05824bd898ca0d5089d93614,76af326256114ccb9af0cabdf0e74392,633e6369aaec4f06bf9e0ed3ab8f5c21,a937fb653242438cbe523db5ae7c574e,80b8dd23093b4314a881eadf2668f72b,95be52166ad5458eb46ae69cfe579c2d,61b041e2ea744d588d9a37650cbe2da5',
+      id: '4dd789d0c75a4ebb8805b1314c1cc974,6e1ad7f1bbbf416793bfb02795ccc65f,1083139673d24a9ca7f7666ced6e49cb',
       agg: { fields: 'tags,collection,owner,source,hasApi,downloadable' },
       start: 1,
       num: 10

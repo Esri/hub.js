@@ -26,7 +26,7 @@ import { paramSchema } from "./param-schema";
 //     }
 //   }
 // }
-export function createFilters(params: ISearchParams = {}): any {
+export function createFilters(params: ISearchParams): any {
   const filter = Object.keys(params).reduce((filters: any = {}, key) => {
     const paramDefinition = paramSchema[key] || {};
     if (
