@@ -1,5 +1,5 @@
 import { ISearchParams } from "./params";
-import { createFilters, encodeFilters, paramSchema } from "./helpers/filters";
+import { createFilters, encodeFilters, filterSchema } from "./helpers/filters";
 
 /**
  * ```
@@ -54,5 +54,5 @@ export function serialize(searchParams: ISearchParams): string {
 }
 
 export function isFilterable(field: string) {
-  return paramSchema[field] && paramSchema[field].type === "filter";
+  return filterSchema[field] && filterSchema[field].type === "filter";
 }

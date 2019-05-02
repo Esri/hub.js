@@ -1,4 +1,4 @@
 export * from "./create-filters";
 export * from "./encode-filters";
 export * from "./handle-filter";
-export * from "./param-schema";
+export * from "./filter-schema";

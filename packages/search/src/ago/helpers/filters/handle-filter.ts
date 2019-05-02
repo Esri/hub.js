@@ -16,6 +16,10 @@ function isCustomFilter(filter: any) {
   return !!customFilters[filter];
 }
 
+/**
+ * Convert filter object into AGO filter string
+ * @param queryFilters filter object created by create-filters like { tags: { fn: 'all', terms: ['a'] } }
+ */
 export function handleFilter(queryFilters: any) {
   const catalogDefinition: any = [];
   const otherFilters: any = [];

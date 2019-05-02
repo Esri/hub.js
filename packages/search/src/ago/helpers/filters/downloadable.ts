@@ -1,13 +1,11 @@
+import { getProp } from "@esri/hub-common";
+
 // builds the filter for the 'downloadable' facet
 export function downloadable(queryFilters: any) {
-  const downloadTrue = (queryFilters &&
-  queryFilters.downloadable &&
-  queryFilters.downloadable.terms
-    ? queryFilters.downloadable.terms
-    : [])[0];
+  const downloadTrue = (getProp(queryFilters, "downloadable.terms") || [])[0];
   let downloadFilter: string[];
   let typeKeywordFilter;
-  if (downloadTrue) {
+  if (downloadTrue === "true") {
     downloadFilter = downloadableTypes.map(type => {
       return `type:"${type}"`;
     });

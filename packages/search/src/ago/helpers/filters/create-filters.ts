@@ -1,5 +1,5 @@
 import { ISearchParams } from "../../params";
-import { paramSchema } from "./param-schema";
+import { filterSchema } from "./filter-schema";
 
 /**
  * Create filters object based on raw params like tags=a,b or tags=any(a,b)
@@ -28,33 +28,33 @@ import { paramSchema } from "./param-schema";
 // }
 export function createFilters(params: ISearchParams): any {
   const filter = Object.keys(params).reduce((filters: any = {}, key) => {
-    const paramDefinition = paramSchema[key] || {};
+    const filterDefinition = filterSchema[key] || {};
     if (
       params[key] &&
-      paramDefinition.type === "filter" &&
-      paramDefinition.dataType
+      filterDefinition.type === "filter" &&
+      filterDefinition.dataType
     ) {
       const values = params[key];
-      filters[key] = generateFilter(values, paramDefinition);
+      filters[key] = generateFilter(values, filterDefinition);
     }
     return filters;
   }, {});
   return filter;
 }
 
-function generateFilter(values: string, paramDefinition: any) {
+export function generateFilter(values: string, filterDefinition: any) {
   const match = values.match(/(any|all)\((.+)\)/);
   if (match) {
     return {
       fn: match[1],
       terms: match[2].split(","),
-      catalogDefinition: paramDefinition.catalogDefinition
+      catalogDefinition: filterDefinition.catalogDefinition
     };
   } else {
     return {
-      fn: paramDefinition.defaultOp || null,
+      fn: filterDefinition.defaultOp || null,
       terms: values.split(","),
-      catalogDefinition: paramDefinition.catalogDefinition
+      catalogDefinition: filterDefinition.catalogDefinition
     };
   }
 }
