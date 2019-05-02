@@ -9,12 +9,12 @@ export interface ISearchParams extends ISearchOptions {
   bbox?: string;
   collection?: any;
   content?: any;
-  downloadable?: boolean;
+  downloadable?: string;
   groupIds?: string;
-  hasApi?: boolean;
+  hasApi?: string;
   hubType?: string;
   id?: string;
-  isPortal?: boolean;
+  isPortal?: string;
   location_name?: string;
   owner?: string;
   page?: number;

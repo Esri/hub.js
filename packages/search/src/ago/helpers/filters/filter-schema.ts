@@ -1,4 +1,4 @@
-const paramSchema: any = {
+const filterSchema: any = {
   q: { type: "simple" },
   page: { type: "simple" },
   tags: {
@@ -76,4 +76,4 @@ const paramSchema: any = {
   }
 };
 
-export { paramSchema };
+export { filterSchema };
