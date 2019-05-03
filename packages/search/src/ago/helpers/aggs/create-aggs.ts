@@ -3,6 +3,11 @@ const aggsAlias: any = {
   collection: "type"
 };
 
+/**
+ * Get aggreations query object that AGO understands i.e. countFields and countSize
+ * only on fields supported by AGO
+ * @param facets comma separated list of aggregation fields
+ */
 export function createAggs(facets: string): any {
   // return aggs that are supported by AGO - tags, type, access
   const agoFacets = facets

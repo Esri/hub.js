@@ -1,7 +1,4 @@
-import {
-  formatItem,
-  formatItemAttributes
-} from "../../../../src/ago/helpers/format/format-item";
+import { formatItem } from "../../../../src/ago/helpers/format/format-item";
 import { IItem } from "@esri/arcgis-rest-portal";
 
 const itemProps = {

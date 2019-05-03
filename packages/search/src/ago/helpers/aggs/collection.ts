@@ -2,6 +2,10 @@ import { getCategory } from "@esri/hub-common";
 
 // implements the 'collection' facet from AGO results. V3 datasets have this property computed
 // during the harvesting process but AGO results need this result computed at runtime
+/**
+ * Calculate raw counts for collection based on AGO type aggregations
+ * @param agoAggregations aggregations from ago results
+ */
 export function collection(agoAggregations: any = {}): any {
   const typeAggs = agoAggregations.counts.filter(
     (agg: any) => agg.fieldName === "type"
@@ -24,7 +28,7 @@ export function collection(agoAggregations: any = {}): any {
       if (!(collectionType in formattedAggs.collection)) {
         formattedAggs.collection[collectionType] = 0; // initialize counter
       }
-      formattedAggs.collection[collectionType]++;
+      formattedAggs.collection[collectionType] += fieldVal.count;
       return formattedAggs;
     },
     { collection: {} }
