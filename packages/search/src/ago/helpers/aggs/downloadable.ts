@@ -8,7 +8,7 @@ export function downloadable(response: ISearchResult<IItem>): any {
   return response.results.reduce(
     (formattedAggs: any, result: IItem) => {
       if (
-        result.typeKeywords.indexOf("Data") > -1 ||
+        (result.typeKeywords || []).indexOf("Data") > -1 ||
         downloadableTypes.indexOf(result.type) > -1
       ) {
         formattedAggs.downloadable.true++;
