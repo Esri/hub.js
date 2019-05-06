@@ -7,6 +7,49 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [2.0.0] - May 6th 2019
+
+### @esri/hub-domains
+
+* Breaking Changes
+   * this package has been deprecated
+
+### @esri/hub-sites
+
+* Breaking Changes
+   * `fetchDomain()` has been renamed to `getDomain()`
+   * `fetchDomains()` has been renamed to `getDomains()`
+
+### @esri/hub-initiatives
+
+* Breaking Changes
+   * `fetchInitiative()` has been renamed to `getInitiative()`
+   * `IFollowInitiativeRequestOptions` has been renamed `IFollowInitiativeOptions`
+
+### @esri/hub-annotations
+
+* Breaking Changes
+   * addAnnotations and updateAnnotations now expect `features` (instead of `adds` or `updates`).
+   * `ISearchAnnoRequestOptions` has been renamed `ISearchAnnoOptions`
+   * `IVoteRequestOptions` has been renamed `IVoteOptions`
+
+* Bug Fixes
+   * it is now possible to call `createAnnotationService()` when working with a custom portal.
+
+### @esri/hub-events
+
+* Breaking Changes
+   * `IEventRegisterRequestOptions` has been renamed `IEventRegisterOptions`
+
+### Other Changes
+
+* Bug Fixes
+   * Hub.js now depends on ArcGIS REST JS v2.x
+   * ArcGIS REST JS packages are now listed as peerDependencies.
+
+* Documentation
+   * **book**: get doc in sync with rest-js v2.0.0 [`cc7c49d`](https://github.com/Esri/hub.js/commit/cc7c49d439c43130d3f9a6ead6c732056126b1ad)
+
 ## [1.11.1] - April 23rd 2019
 
 ### @esri/hub-common
@@ -298,4 +341,5 @@ Initial Release
 [1.10.0]: https://github.com/Esri/hub.js/compare/v1.9.0...v1.10.0 "v1.10.0"
 [1.11.0]: https://github.com/Esri/hub.js/compare/v1.10.0...v1.11.0 "v1.11.0"
 [1.11.1]: https://github.com/Esri/hub.js/compare/v1.11.0...v1.11.1 "v1.11.1"
-[HEAD]: https://github.com/Esri/hub.js/compare/v1.11.1...HEAD "Unreleased Changes"
+[2.0.0]: https://github.com/Esri/hub.js/compare/v1.11.1...v2.0.0 "v2.0.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v2.0.0...HEAD "Unreleased Changes"
