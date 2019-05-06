@@ -57,7 +57,9 @@ export function createAnnotationService(
       // if the org already has a hosted annotations service, dont create another one
       return searchResponse.results[0];
     } else {
-      return getPortal(requestOptions.orgId).then(portalResponse => {
+      return getPortal(requestOptions.orgId, {
+        authentication: requestOptions.authentication
+      }).then(portalResponse => {
         const clonedServiceDefinition = JSON.parse(
           JSON.stringify(annotationServiceDefinition)
         );
