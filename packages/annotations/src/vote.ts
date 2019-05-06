@@ -17,7 +17,7 @@ import {
 
 import { IAnnoFeature } from "./add";
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { IEditFeatureResult } from "@esri/arcgis-rest-feature-layer/dist/esm/helpers";
+import { IEditFeatureResult } from "@esri/arcgis-rest-feature-layer";
 
 export interface IVoteOptions extends IRequestOptions {
   url: string;

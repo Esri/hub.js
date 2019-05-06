@@ -7,7 +7,7 @@ import {
 } from "@esri/arcgis-rest-feature-layer";
 
 import { IFeature } from "@esri/arcgis-rest-types";
-import { IEditFeatureResult } from "@esri/arcgis-rest-feature-layer/dist/esm/helpers";
+import { IEditFeatureResult } from "@esri/arcgis-rest-feature-layer";
 
 export interface IAnnoFeature extends IFeature {
   attributes: {

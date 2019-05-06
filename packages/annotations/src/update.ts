@@ -5,7 +5,7 @@ import {
   updateFeatures,
   IUpdateFeaturesOptions
 } from "@esri/arcgis-rest-feature-layer";
-import { IEditFeatureResult } from "@esri/arcgis-rest-feature-layer/dist/esm/helpers";
+import { IEditFeatureResult } from "@esri/arcgis-rest-feature-layer";
 /**
  * ```js
  * import { updateAnnotations } from "@esri/hub-annotations";
