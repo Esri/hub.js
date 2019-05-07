@@ -35,11 +35,9 @@ export function formatItem(item: IItem, query: string) {
     attributes: formatItemAttributes(item)
   };
   if (query) {
-    if (!item.meta) {
-      // create highlights since AGO does not return them
-      formattedItem.meta = {};
-      formattedItem.meta.highlights = highlights(item, query);
-    }
+    // create highlights since AGO does not return them
+    formattedItem.meta = {};
+    formattedItem.meta.highlights = highlights(item, query);
   }
   return formattedItem;
 }

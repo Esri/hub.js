@@ -54,4 +54,24 @@ describe("highlights test", () => {
     };
     expect(actual).toEqual(expected);
   });
+
+  it("formats item into v3 style dataset when hubType is Other", () => {
+    const item: IItem = Object.assign({}, itemProps, { type: "unknown type" });
+    const query = "";
+    const actual = formatItem(item, query);
+    const expected = {
+      id: "1ef",
+      type: "item",
+      attributes: Object.assign(
+        itemProps,
+        { type: "unknown type" },
+        {
+          name: "fake item",
+          searchDescription: "fake description",
+          hubType: "Other"
+        }
+      )
+    };
+    expect(actual).toEqual(expected);
+  });
 });

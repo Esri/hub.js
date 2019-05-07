@@ -20,7 +20,4 @@ export function getSortField(field: string): string {
   } else if (field in hubSortFieldToAGOSortFieldMap) {
     return hubSortFieldToAGOSortFieldMap[field];
   }
-  if (legalSortFields.indexOf(field) === -1) {
-    return;
-  }
 }

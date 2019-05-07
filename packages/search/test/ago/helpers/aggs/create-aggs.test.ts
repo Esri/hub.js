@@ -7,4 +7,11 @@ describe("createAggs test", () => {
     const expected = { countFields: "tags,access,type", countSize: 200 };
     expect(actual).toEqual(expected);
   });
+
+  it("returns an object of countFields and countSize without aggs alias", () => {
+    const facets = "tags,access";
+    const actual = createAggs(facets);
+    const expected = { countFields: "tags,access", countSize: 200 };
+    expect(actual).toEqual(expected);
+  });
 });

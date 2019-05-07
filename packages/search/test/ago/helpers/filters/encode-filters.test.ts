@@ -26,4 +26,10 @@ describe("encodeFilters test", () => {
       "filter%5Btags%5D=all(a,b)&catalog%5BgroupIds%5D=any(1ef,2ef)&catalog%5Bid%5D=any(x,y)&filter%5BhasApi%5D=true";
     expect(actual).toBe(expected);
   });
+
+  it("should handle undefined filters correctly", () => {
+    const actual = encodeFilters();
+    const expected = "";
+    expect(actual).toBe(expected);
+  });
 });

@@ -13,9 +13,12 @@ export function createAggs(facets: string): any {
   const agoFacets = facets
     .split(",")
     .filter((facet: string) => agoSupportedAggs.indexOf(facet) > -1);
-  // if there `collection` in facets, then see if its alias has already been added
+  const aliases = facets
+    .split(",")
+    .filter((facet: string) => Object.keys(aggsAlias).indexOf(facet) > -1);
+  // if there is `collection` in facets, then check if its alias has already been added
   Object.keys(aggsAlias).forEach((key: string) => {
-    if (!(aggsAlias[key] in agoFacets)) {
+    if (aliases.indexOf(key) > -1 && !(aggsAlias[key] in agoFacets)) {
       agoFacets.push(aggsAlias[key]);
     }
   });
