@@ -19,7 +19,7 @@ export interface IAnnoItem extends IItem {
  * import { getAnnotationServiceUrl } from "@esri/hub-events";
  * // org ids can be retrieved via a call to portals/self
  * request("http://custom.maps.arcgis.com/sharing/rest/portals/self")
- *   then(response => {
+ *   .then(response => {
  *     getAnnotationServiceUrl(response.id)
  *       .then(url)
  *   })
