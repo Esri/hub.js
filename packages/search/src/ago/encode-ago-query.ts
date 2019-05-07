@@ -29,9 +29,7 @@ export function encodeAgoQuery(queryParams: any = {}) {
     // add each parsed filter object into ago query
     queryParts.push(handleFilter(filter));
   }
-  if (queryParts.length > 0) {
-    query.q = queryParts.join(" AND ");
-  }
+  query.q = queryParts.join(" AND ");
   if (queryParams.bbox) {
     query.bbox = queryParams.bbox;
   }

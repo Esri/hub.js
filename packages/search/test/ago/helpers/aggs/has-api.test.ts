@@ -14,13 +14,32 @@ describe("hasApi aggs test", () => {
             {
               value: "map service",
               count: 10
+            },
+            {
+              value: "xyz",
+              count: 12
             }
           ]
         }
       ]
     };
     const actual = hasApi(agoAggs);
-    const expected = { hasApi: { true: 22, false: 0 } };
+    const expected = { hasApi: { true: 22, false: 12 } };
+    expect(actual).toEqual(expected);
+  });
+
+  it("handles blank aggregations", () => {
+    const agoAggs: any = {
+      counts: []
+    };
+    const actual = hasApi(agoAggs);
+    const expected = { hasApi: {} };
+    expect(actual).toEqual(expected);
+  });
+
+  it("handles undefined aggregations", () => {
+    const actual = hasApi();
+    const expected = { hasApi: {} };
     expect(actual).toEqual(expected);
   });
 });

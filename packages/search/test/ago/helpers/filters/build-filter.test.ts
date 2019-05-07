@@ -34,4 +34,9 @@ describe("buildFilter test", () => {
       '(NOT source:"a" NOT source:"b")'
     );
   });
+
+  it("handles blank queryFilters", () => {
+    const queryFilters = {};
+    expect(buildFilter(queryFilters, "source")).toBe("()");
+  });
 });

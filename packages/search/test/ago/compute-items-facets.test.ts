@@ -110,4 +110,19 @@ describe("computeItemsFacets test", () => {
     expect(agoSearchSpy.calls.count()).toEqual(1);
     done();
   });
+
+  it("it should handle undefined agoAggregations and undefined agg params correctly", async done => {
+    const agoSearchSpy = spyOn(Search, "agoSearch").and.callFake(() => {
+      return Promise.resolve({});
+    });
+    const params = {
+      q: "blah"
+    };
+    const token = "secret";
+    const portal = "https://qaext.arcgis.com/sharing/rest";
+    const facets = await computeItemsFacets(undefined, params, token, portal);
+    expect(facets).toEqual({});
+    expect(agoSearchSpy.calls.count()).toEqual(0);
+    done();
+  });
 });

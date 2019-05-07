@@ -14,13 +14,29 @@ describe("collection aggs test", () => {
             {
               value: "PDF",
               count: 10
+            },
+            {
+              value: "unknown type",
+              count: 10
             }
           ]
         }
       ]
     };
     const actual = collection(agoAggs);
-    const expected = { collection: { Dataset: 12, Document: 10 } };
+    const expected = { collection: { Dataset: 12, Document: 10, Other: 10 } };
+    expect(actual).toEqual(expected);
+  });
+
+  it("should handle undefined agoAggregations", () => {
+    const actual = collection();
+    const expected = { collection: {} };
+    expect(actual).toEqual(expected);
+  });
+
+  it("should handle blank agoAggregations", () => {
+    const actual = collection({});
+    const expected = { collection: {} };
     expect(actual).toEqual(expected);
   });
 });

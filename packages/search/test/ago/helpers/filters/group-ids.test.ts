@@ -9,4 +9,8 @@ describe("groupIds filter test", () => {
     };
     expect(groupIds(queryFilters)).toBe('(group:"1ef" OR group:"2ef")');
   });
+
+  it("should handle blank queryFilters", () => {
+    expect(groupIds({})).toBe("()");
+  });
 });

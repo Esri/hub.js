@@ -32,7 +32,8 @@ export async function computeItemsFacets(
   portal?: string,
   authentication?: UserSession
 ): Promise<any> {
-  const aggs = (getProp(params, "agg.fields") || "").split(",");
+  const aggFields = getProp(params, "agg.fields");
+  const aggs = aggFields ? aggFields.split(",") : [];
   // 1. For custom aggregations like downloadable, which AGO does not support,
   // we need to fetch 100 results and calc aggs on them
   let customAggs = intersection(aggs, customAggsNotSupportedByAgo);

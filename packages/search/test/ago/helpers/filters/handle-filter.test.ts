@@ -78,4 +78,11 @@ describe("handleFilter test", () => {
     const actual = handleFilter(queryFilters);
     expect(actual).toBe(expected);
   });
+
+  it("handles blank filters correctly", () => {
+    const queryFilters: any = {};
+    const expected = "";
+    const actual = handleFilter(queryFilters);
+    expect(actual).toBe(expected);
+  });
 });

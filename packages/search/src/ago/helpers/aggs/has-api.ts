@@ -1,10 +1,12 @@
+import { getProp } from "@esri/hub-common";
+
 // implements the 'hasApi' facet from AGO results. V3 datasets have this property computed
 // during the harvesting process but AGO results need this result computed at runtime
 export function hasApi(agoAggregations: any = {}): any {
-  const typeAggs = agoAggregations.counts.filter(
+  const typeAggs = (getProp(agoAggregations, "counts") || []).filter(
     (agg: any) => agg.fieldName === "type"
   )[0];
-  if (!typeAggs) return;
+  if (!typeAggs) return { hasApi: {} };
   return typeAggs.fieldValues.reduce(
     (formattedAggs: any, fieldVal: any) => {
       if (apiTypes.indexOf(fieldVal.value) > -1) {

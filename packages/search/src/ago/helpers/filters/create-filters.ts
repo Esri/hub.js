@@ -27,7 +27,7 @@ import { filterSchema } from "./filter-schema";
 //   }
 // }
 export function createFilters(params: ISearchParams): any {
-  const filter = Object.keys(params).reduce((filters: any = {}, key) => {
+  const filter = Object.keys(params).reduce((filters: any, key) => {
     const filterDefinition = filterSchema[key] || {};
     if (
       params[key] &&
