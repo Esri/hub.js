@@ -159,6 +159,8 @@ const downloadableTypes: string[] = [
   "Workflow Manager Package"
 ];
 
+const downloadableTypeKeywords: string[] = ["Data"];
+
 export const categories: { [key: string]: string[] } = {
   app,
   dataset,
@@ -168,5 +170,6 @@ export const categories: { [key: string]: string[] } = {
   map,
   other,
   site,
-  downloadableTypes
+  downloadableTypes,
+  downloadableTypeKeywords
 };

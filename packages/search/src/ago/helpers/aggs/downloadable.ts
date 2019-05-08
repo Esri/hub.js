@@ -1,5 +1,5 @@
 import { ISearchResult, IItem } from "@esri/arcgis-rest-portal";
-import { downloadableTypes } from "@esri/hub-common";
+import { categories } from "@esri/hub-common";
 
 // implements the 'downloadable' facet from AGO results. V3 datasets have this property computed
 // during the harvesting process but AGO results need this result computed at runtime
@@ -10,7 +10,7 @@ export function downloadable(response: ISearchResult<IItem>): any {
     (formattedAggs: any, result: IItem) => {
       if (
         (result.typeKeywords || []).indexOf("Data") > -1 ||
-        downloadableTypes.indexOf(result.type) > -1
+        categories.downloadableTypes.indexOf(result.type) > -1
       ) {
         formattedAggs.downloadable.true++;
       } else {
