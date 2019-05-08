@@ -1,5 +1,6 @@
 import { ISearchParams } from "./params";
 import { createFilters, encodeFilters, filterSchema } from "./helpers/filters";
+import { getProp } from "@esri/hub-common";
 
 /**
  * ```
@@ -50,7 +51,13 @@ export function serialize(searchParams: ISearchParams): string {
     }
     encodedAgg = encodedAggParts.join("&");
   }
-  return [encodedNonFilters, encodedFilters, encodedAgg].join("&");
+  // 4. handle page
+  const start = getProp(searchParams, "page.start") || 1;
+  const size = getProp(searchParams, "page.size") || 10;
+  const encodedPage = `${encodeURIComponent(
+    "page[start]"
+  )}=${start}&${encodeURIComponent("page[size]")}=${size}`;
+  return [encodedNonFilters, encodedFilters, encodedAgg, encodedPage].join("&");
 }
 
 export function isFilterable(field: string) {

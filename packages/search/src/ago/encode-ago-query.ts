@@ -1,6 +1,7 @@
 import { getSortField } from "./helpers/sort";
 import { createFilters, handleFilter } from "./helpers/filters";
 import { createAggs } from "./helpers/aggs";
+import { getProp } from "@esri/hub-common";
 
 /**
  * Construct a query object with filters, and queryParams sent by hub indexer
@@ -9,8 +10,8 @@ import { createAggs } from "./helpers/aggs";
 export function encodeAgoQuery(queryParams: any = {}) {
   const query: any = {
     q: null,
-    start: queryParams.start || 1,
-    num: queryParams.num || 10
+    start: getProp(queryParams, "page.start") || 1,
+    num: getProp(queryParams, "page.size") || 10
   };
   // start with 'implicit' query filters
   const queryParts = ["-access:public", '-type:"code attachment"'];

@@ -17,7 +17,7 @@ export interface ISearchParams extends ISearchOptions {
   isPortal?: string;
   location_name?: string;
   owner?: string;
-  page?: number;
+  page?: { start?: number; size?: number };
   q: string;
   region?: string;
   sector?: string;
