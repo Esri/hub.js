@@ -1,4 +1,4 @@
-import { hasApi } from "../../../../src/ago/helpers/aggs/has-api";
+import { hasApiAgg } from "../../../../src/ago/helpers/aggs/has-api";
 
 describe("hasApi aggs test", () => {
   it("calculates hasApi raw aggs based on item type", () => {
@@ -23,7 +23,7 @@ describe("hasApi aggs test", () => {
         }
       ]
     };
-    const actual = hasApi(agoAggs);
+    const actual = hasApiAgg(agoAggs);
     const expected = { hasApi: { true: 22, false: 12 } };
     expect(actual).toEqual(expected);
   });
@@ -32,13 +32,13 @@ describe("hasApi aggs test", () => {
     const agoAggs: any = {
       counts: []
     };
-    const actual = hasApi(agoAggs);
+    const actual = hasApiAgg(agoAggs);
     const expected = { hasApi: {} };
     expect(actual).toEqual(expected);
   });
 
   it("handles undefined aggregations", () => {
-    const actual = hasApi();
+    const actual = hasApiAgg();
     const expected = { hasApi: {} };
     expect(actual).toEqual(expected);
   });

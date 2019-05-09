@@ -6,7 +6,7 @@ import { getCategory, getProp } from "@esri/hub-common";
  * Calculate raw counts for collection based on AGO type aggregations
  * @param agoAggregations aggregations from ago results
  */
-export function collection(agoAggregations: any = {}): any {
+export function collectionAgg(agoAggregations: any = {}): any {
   const typeAggs = (getProp(agoAggregations, "counts") || []).filter(
     (agg: any) => agg.fieldName === "type"
   )[0];

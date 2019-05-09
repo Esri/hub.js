@@ -1,6 +1,6 @@
 import { getProp, categories } from "@esri/hub-common";
 
-export function hasApi(queryFilters: any) {
+export function hasApiFilter(queryFilters: any) {
   const hasApiTrue = (getProp(queryFilters, "hasApi.terms") || [])[0];
   let apiFilter;
   if (hasApiTrue) {

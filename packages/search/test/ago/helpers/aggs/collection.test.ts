@@ -1,4 +1,4 @@
-import { collection } from "../../../../src/ago/helpers/aggs/collection";
+import { collectionAgg } from "../../../../src/ago/helpers/aggs/collection";
 
 describe("collection aggs test", () => {
   it("calculates collection raw aggs correctly", () => {
@@ -23,19 +23,19 @@ describe("collection aggs test", () => {
         }
       ]
     };
-    const actual = collection(agoAggs);
+    const actual = collectionAgg(agoAggs);
     const expected = { collection: { Dataset: 12, Document: 10, Other: 10 } };
     expect(actual).toEqual(expected);
   });
 
   it("should handle undefined agoAggregations", () => {
-    const actual = collection();
+    const actual = collectionAgg();
     const expected = { collection: {} };
     expect(actual).toEqual(expected);
   });
 
   it("should handle blank agoAggregations", () => {
-    const actual = collection({});
+    const actual = collectionAgg({});
     const expected = { collection: {} };
     expect(actual).toEqual(expected);
   });

@@ -1,7 +1,7 @@
 import { getProp, categories } from "@esri/hub-common";
 
 // builds the filter for the 'downloadable' facet
-export function downloadable(queryFilters: any) {
+export function downloadableFilter(queryFilters: any) {
   const download = (getProp(queryFilters, "downloadable.terms") || [])[0];
   let downloadFilter: string[];
   let typeKeywordFilter;

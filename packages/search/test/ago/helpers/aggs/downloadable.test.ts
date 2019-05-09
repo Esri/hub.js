@@ -1,4 +1,4 @@
-import { downloadable } from "../../../../src/ago/helpers/aggs/downloadable";
+import { downloadableAgg } from "../../../../src/ago/helpers/aggs/downloadable";
 import { ISearchResult, IItem } from "@esri/arcgis-rest-portal";
 
 const unImportaantFields = {
@@ -44,7 +44,7 @@ const response: ISearchResult<IItem> = {
 
 describe("downloadable aggs test", () => {
   it("calculates raw downloadable aggs correctly", () => {
-    const actual = downloadable(response);
+    const actual = downloadableAgg(response);
     const expected = { downloadable: { true: 3, false: 1 } };
     expect(actual).toEqual(expected);
   });

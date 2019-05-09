@@ -1,15 +1,15 @@
 import { buildFilter } from "./build-filter";
-import { downloadable } from "./downloadable";
-import { hasApi } from "./has-api";
+import { downloadableFilter } from "./downloadable";
+import { hasApiFilter } from "./has-api";
 import { groupIds } from "./group-ids";
-import { collection } from "./collection";
+import { collectionFilter } from "./collection";
 
 // custom filter functions
 const customFilters: any = {
-  downloadable,
-  hasApi,
+  downloadable: downloadableFilter,
+  hasApi: hasApiFilter,
   groupIds,
-  collection
+  collection: collectionFilter
 };
 
 function isCustomFilter(filter: any) {

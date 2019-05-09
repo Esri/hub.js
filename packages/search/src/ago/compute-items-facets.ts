@@ -2,7 +2,12 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { agoSearch } from "./search";
 import { ISearchParams } from "./params";
 import { getProp } from "@esri/hub-common";
-import { format, hasApi, collection, downloadable } from "./helpers/aggs";
+import {
+  format,
+  hasApiAgg,
+  collectionAgg,
+  downloadableAgg
+} from "./helpers/aggs";
 
 // these custom aggs are based on a field that are not supported by AGO aggregations
 const customAggsNotSupportedByAgo = ["downloadable"];
@@ -11,20 +16,21 @@ const customAggsNotSupportedByAgo = ["downloadable"];
 const customAggsSupportedByAgo = ["hasApi", "collection"];
 
 const customAggsFunctions: { [key: string]: any } = {
-  downloadable,
-  hasApi,
-  collection
+  downloadable: downloadableAgg,
+  hasApi: hasApiAgg,
+  collection: collectionAgg
 };
 
-/*
- * This Util function takes AGO results and formats them into an aggregations object
- * that looks like it came from the V3 API. Many facets can be fairly easily mocked
- * using a standardized approach (the 'else if' and 'else' branches) but a few facets
- * require more complex and customized logic. Those go in the `customFacets` hash,
- * where the name of the key is the name of the facet being computed and the custom function
- * is implemented below.
+/**
+ * Calculate item facets based on ago aggregations and/or compute custom aggregations not supported by AGO
+ *
+ * @param {any} agoAggregations aggregations from AGO
+ * @param {ISearchParams} params search params
+ * @param {String} token AGO token to make a search if calculating custom aggs like downloadable
+ * @param {String} portal AGO portal against which search is being done
+ * @param {UserSession} authentication UserSession object
+ * @returns {Promise<any>}
  */
-
 export async function computeItemsFacets(
   agoAggregations: any = { counts: Array<any>() }, // aggregations from ago search that ago supports by default
   params: ISearchParams, // query params are needed to another search for custom facets
