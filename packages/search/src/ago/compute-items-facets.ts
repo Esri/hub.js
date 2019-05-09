@@ -39,12 +39,12 @@ export async function computeItemsFacets(
   let customAggs = intersection(aggs, customAggsNotSupportedByAgo);
   let facets1 = {};
   if (customAggs.length > 0) {
-    const paramsCopy = Object.assign({}, params, { start: 1, num: 100 });
+    const paramsCopy = { ...params, ...{ start: 1, num: 100 } };
     paramsCopy.agg = {};
     const response = await agoSearch(paramsCopy, token, portal, authentication);
     customAggs.forEach(customAgg => {
       const rawCounts = customAggsFunctions[customAgg](response);
-      facets1 = Object.assign({}, facets1, format(rawCounts));
+      facets1 = { ...facets1, ...format(rawCounts) };
     });
   }
   // 2. for agoAggregations already provided which are sorted, just format them into v3 style
@@ -65,14 +65,11 @@ export async function computeItemsFacets(
   let facets3 = {};
   if (customAggs.length > 0) {
     customAggs.forEach(customAgg => {
-      const rawCounts = Object.assign(
-        {},
-        customAggsFunctions[customAgg](agoAggregations)
-      );
-      facets3 = Object.assign({}, facets3, format(rawCounts));
+      const rawCounts = { ...customAggsFunctions[customAgg](agoAggregations) };
+      facets3 = { ...facets3, ...format(rawCounts) };
     });
   }
-  return Object.assign({}, facets1, facets2, facets3);
+  return { ...facets1, ...facets2, ...facets3 };
 }
 
 function intersection(arr1: any[], arr2: any[]): any[] {

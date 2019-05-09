@@ -1,18 +1,17 @@
-import { getProp } from "@esri/hub-common";
-const apiTypes = ["Feature Service", "Map Service", "Image Service"];
+import { getProp, categories } from "@esri/hub-common";
 
 export function hasApi(queryFilters: any) {
   const hasApiTrue = (getProp(queryFilters, "hasApi.terms") || [])[0];
   let apiFilter;
   if (hasApiTrue) {
-    apiFilter = apiTypes
-      .map(type => {
+    apiFilter = categories.apiTypes
+      .map((type: string) => {
         return `type:"${type}"`;
       })
       .join(" OR ");
   } else {
-    apiFilter = apiTypes
-      .map(type => {
+    apiFilter = categories.apiTypes
+      .map((type: string) => {
         return `-type:"${type}"`;
       })
       .join(" OR ");

@@ -1,4 +1,6 @@
-import { getProp } from "@esri/hub-common";
+import { getProp, categories } from "@esri/hub-common";
+
+const apiTypes = categories.apiTypes.map((type: string) => type.toLowerCase());
 
 // implements the 'hasApi' facet from AGO results. V3 datasets have this property computed
 // during the harvesting process but AGO results need this result computed at runtime
@@ -19,6 +21,3 @@ export function hasApi(agoAggregations: any = {}): any {
     { hasApi: { true: 0, false: 0 } }
   );
 }
-
-// more types TBD
-const apiTypes = ["feature service", "map service", "image service"];

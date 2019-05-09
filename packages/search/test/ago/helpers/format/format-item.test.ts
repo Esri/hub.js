@@ -16,17 +16,18 @@ const itemProps = {
 
 describe("highlights test", () => {
   it("formats item into v3 style dataset", () => {
-    const item: IItem = Object.assign({}, itemProps);
+    const item: IItem = { ...itemProps };
     const query = "fake";
     const actual = formatItem(item, query);
     const expected = {
       id: "1ef",
       type: "item",
-      attributes: Object.assign(itemProps, {
+      attributes: {
+        ...itemProps,
         name: "fake item",
         searchDescription: "fake description",
         hubType: "dataset"
-      }),
+      },
       meta: {
         highlights: {
           name:
@@ -40,37 +41,36 @@ describe("highlights test", () => {
   });
 
   it("formats item into v3 style dataset without highlights when query is blank", () => {
-    const item: IItem = Object.assign({}, itemProps);
+    const item: IItem = { ...itemProps };
     const query = "";
     const actual = formatItem(item, query);
     const expected = {
       id: "1ef",
       type: "item",
-      attributes: Object.assign(itemProps, {
+      attributes: {
+        ...itemProps,
         name: "fake item",
         searchDescription: "fake description",
         hubType: "dataset"
-      })
+      }
     };
     expect(actual).toEqual(expected);
   });
 
   it("formats item into v3 style dataset when hubType is Other", () => {
-    const item: IItem = Object.assign({}, itemProps, { type: "unknown type" });
+    const item: IItem = { ...itemProps, type: "unknown type" };
     const query = "";
     const actual = formatItem(item, query);
     const expected = {
       id: "1ef",
       type: "item",
-      attributes: Object.assign(
-        itemProps,
-        { type: "unknown type" },
-        {
-          name: "fake item",
-          searchDescription: "fake description",
-          hubType: "Other"
-        }
-      )
+      attributes: {
+        ...itemProps,
+        type: "unknown type",
+        name: "fake item",
+        searchDescription: "fake description",
+        hubType: "Other"
+      }
     };
     expect(actual).toEqual(expected);
   });

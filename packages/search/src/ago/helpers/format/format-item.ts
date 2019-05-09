@@ -44,12 +44,13 @@ export function formatItem(item: IItem, query?: string) {
 
 function formatItemAttributes(item: IItem) {
   const hubType = getCategory(item.type);
-  return Object.assign({}, item, {
+  const additionalAttrs = {
     // computed or null attributes so items & datasets look the same
     name: item.title,
     searchDescription: item.description,
     hubType: hubType || "Other"
-  });
+  };
+  return { ...item, ...additionalAttrs };
 }
 
 function highlights(

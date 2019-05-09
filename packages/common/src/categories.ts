@@ -161,6 +161,8 @@ const downloadableTypes: string[] = [
 
 const downloadableTypeKeywords: string[] = ["Data"];
 
+const apiTypes: string[] = ["Feature Service", "Map Service", "Image Service"];
+
 export const categories: { [key: string]: string[] } = {
   app,
   dataset,
@@ -171,5 +173,6 @@ export const categories: { [key: string]: string[] } = {
   other,
   site,
   downloadableTypes,
-  downloadableTypeKeywords
+  downloadableTypeKeywords,
+  apiTypes
 };
