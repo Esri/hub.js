@@ -2,9 +2,11 @@
  * Apache-2.0 */
 
 import { searchItems, ISearchResult, IItem } from "@esri/arcgis-rest-portal";
-import { ISearchParams } from "./params";
+import { ISearchParams, IHubResults } from "./params";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { encodeAgoQuery } from "./encode-ago-query";
+import { computeItemsFacets } from "./compute-items-facets";
+import { agoFormatItemCollection } from "./format-item-collection";
 
 /**
  * Search for Items in ArcGIS
@@ -14,14 +16,14 @@ import { encodeAgoQuery } from "./encode-ago-query";
  * @param {UserSession} authentication
  * @returns {Promise<ISearchResult>}
  */
-export function agoSearch(
+export async function agoSearch(
   params: ISearchParams,
   token?: string,
   portal?: string,
   authentication?: UserSession
-): Promise<ISearchResult<IItem>> {
+): Promise<IHubResults> {
   const agoParams = encodeAgoQuery(params);
-  return searchItems({
+  const agoResults: ISearchResult<IItem> = await searchItems({
     ...agoParams,
     params: {
       token,
@@ -31,4 +33,12 @@ export function agoSearch(
     portal,
     authentication
   });
+  const facets = await computeItemsFacets(
+    agoResults.aggregations,
+    params,
+    token,
+    portal
+  );
+  const model = agoFormatItemCollection(agoResults, facets, params);
+  return model;
 }

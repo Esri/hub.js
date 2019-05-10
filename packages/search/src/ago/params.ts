@@ -27,3 +27,40 @@ export interface ISearchParams extends ISearchOptions {
   type?: string;
   [key: string]: any;
 }
+
+export interface IHubResult {
+  id?: string;
+  type?: string;
+  attributes?: {
+    id?: string;
+    name?: string;
+    type?: string;
+    hubType?: string;
+    description?: string;
+    tags?: string[];
+    created?: number;
+    [key: string]: any;
+  };
+}
+
+export interface IHubResults {
+  data?: IHubResult[];
+  meta?: {
+    queryParameters?: {
+      filter?: any;
+      agg?: any;
+      [key: string]: any;
+    };
+    stats?: {
+      totalCount?: number;
+      count?: number;
+      aggs?: any;
+      [key: string]: any;
+    };
+    page?: {
+      start?: number;
+      size?: number;
+      nextStart?: number;
+    };
+  };
+}

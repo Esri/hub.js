@@ -23,7 +23,7 @@ export function agoFormatItemCollection(
       },
       page: {
         start: searchResults.start,
-        num: searchResults.num,
+        size: searchResults.num,
         nextStart: searchResults.nextStart
       }
     }
