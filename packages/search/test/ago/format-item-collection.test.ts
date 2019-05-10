@@ -19,7 +19,7 @@ describe("agoFormatItemCollection test", () => {
     });
     expect(formatted.meta.queryParameters).toEqual(params);
     expect(formatted.meta.stats.aggs).toEqual(facets);
-    expect(formatted.meta.page).toEqual({ start: 1, num: 10, nextStart: 11 });
+    expect(formatted.meta.page).toEqual({ start: 1, size: 10, nextStart: 11 });
   });
 
   it("it format item collection correctly with undefined facets", () => {
@@ -38,6 +38,6 @@ describe("agoFormatItemCollection test", () => {
     });
     expect(formatted.meta.queryParameters).toEqual(params);
     expect(formatted.meta.stats.aggs).toEqual({});
-    expect(formatted.meta.page).toEqual({ start: 1, num: 10, nextStart: 11 });
+    expect(formatted.meta.page).toEqual({ start: 1, size: 10, nextStart: 11 });
   });
 });
