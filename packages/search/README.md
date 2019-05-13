@@ -22,7 +22,7 @@
 npm install @esri/hub-search
 ```
 
-# Use in frontend
+#### Use in frontend
 
 ```js
 import { serialize } from '@esri/hub-search';
@@ -43,7 +43,7 @@ const serializedParams = arcgisHub.serialize(params)
 fetch(`hub.arcgis.com/api/v3/search?${serializedParams}`, { headers })
 ```
 
-# Use in backend
+#### Use in backend
 
 ```js
 const { agoSearch } = require('@esri/hub-search')
