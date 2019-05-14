@@ -135,7 +135,11 @@ const md = new MarkdownIt();
       );
     })
     .then(declarations => {
-      const blacklist = [];
+      const blacklist = ['encodeAgoQuery', 'downloadableAgg', 'downloadableFilter', 'collectionAgg', 
+      'collectionFilter', 'createAggs', 'format', 'hasApiAgg', 'buildFilter', 'createFilters', 
+      'encodeFilters', 'groupIds', 'handleFilter', 'hasApiFilter', 'computeItemsFacets',
+      'formatItem', 'calcHighlights', 'getSortField', 'isFilterable', 'generateFilter',
+      'agoFormatItemCollection'];
       /**
        * Next we remove any declarations we want to blacklist from the API ref
        */
