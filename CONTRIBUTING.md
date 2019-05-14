@@ -72,6 +72,10 @@ The command below bumps the version in each individual package.json file and par
 npm run release:prepare
 ```
 
+I don't know _why_, but sometimes lerna fails to increment a new version number for individual packages (like `@esri/hub-auth`). When this happens, it is necessary to increment the version number in the package (and anything that depends on it) manually.
+
+You **should not** increment `peerDependency` version numbers manually. they should remain as loose as possible.
+
 You can display a diff to give you a sense of what will be committed to master when you actually publish.
 
 ```bash
