@@ -7,7 +7,7 @@ export function agoFormatItemCollection(
   searchResults: ISearchResult<IItem>,
   facets: any = {},
   params: ISearchParams
-) {
+): any {
   const queryParams = { ...params };
   return {
     data: searchResults.results.map(result => {
