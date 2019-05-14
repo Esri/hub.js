@@ -13,7 +13,7 @@ describe("agoFormatItemCollection test", () => {
     const facets = { a: 1 };
     const formatted = agoFormatItemCollection(searchResults, facets, params);
     expect(formatted.data.length).toBe(10);
-    formatted.data.forEach(result => {
+    formatted.data.forEach((result: any) => {
       expect(result.id).toBeDefined();
       expect(result.attributes).toBeDefined();
     });
@@ -32,7 +32,7 @@ describe("agoFormatItemCollection test", () => {
     };
     const formatted = agoFormatItemCollection(searchResults, undefined, params);
     expect(formatted.data.length).toBe(10);
-    formatted.data.forEach(result => {
+    formatted.data.forEach((result: any) => {
       expect(result.id).toBeDefined();
       expect(result.attributes).toBeDefined();
     });
