@@ -139,7 +139,7 @@ const md = new MarkdownIt();
       'collectionFilter', 'createAggs', 'format', 'hasApiAgg', 'buildFilter', 'createFilters', 
       'encodeFilters', 'groupIds', 'handleFilter', 'hasApiFilter', 'computeItemsFacets',
       'formatItem', 'calcHighlights', 'getSortField', 'isFilterable', 'generateFilter',
-      'agoFormatItemCollection'];
+      'agoFormatItemCollection', 'encodeParams', 'getPaths', 'getItems'];
       /**
        * Next we remove any declarations we want to blacklist from the API ref
        */

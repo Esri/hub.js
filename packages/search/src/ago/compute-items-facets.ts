@@ -1,5 +1,4 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { agoSearch } from "./search";
 import { ISearchParams } from "./params";
 import { getProp } from "@esri/hub-common";
 import {
@@ -8,6 +7,7 @@ import {
   collectionAgg,
   downloadableAgg
 } from "./helpers/aggs";
+import { getItems } from "./get-items";
 
 // these custom aggs are based on a field that are not supported by AGO aggregations
 const customAggsNotSupportedByAgo = ["downloadable"];
@@ -47,7 +47,7 @@ export async function computeItemsFacets(
   if (customAggs.length > 0) {
     const paramsCopy = { ...params, ...{ start: 1, num: 100 } };
     paramsCopy.agg = {};
-    const response = await agoSearch(paramsCopy, token, portal, authentication);
+    const response = await getItems(paramsCopy, token, portal, authentication);
     customAggs.forEach(customAgg => {
       const rawCounts = customAggsFunctions[customAgg](response);
       facets1 = { ...facets1, ...format(rawCounts) };
