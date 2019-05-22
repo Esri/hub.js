@@ -48,7 +48,7 @@
       // Define the variable used for the redirect uri.
       const redirectUri = window.location.origin + window.location.pathname + "authenticate.html";
 
-      if (!config.clientId) {
+      if (typeof config == "undefined") {
         console.warn("the README.md provides instructions to get started.")
       }
 
@@ -85,10 +85,17 @@
         arcgisRest.UserSession.beginOAuth2({
           clientId: config.clientId,
           redirectUri,
-          popup: false,
+          popup: true,
           portal: config[org],
           provider,
-        })
+        }).then(function (newSession) {
+
+            session = newSession;
+            console.log(session);
+            localStorage.setItem('__ARCGIS_REST_USER_SESSION__', session.serialize());
+          }).catch(function (error) {
+            console.log(error);
+          });
       }
     </script>
   </body>

@@ -10,23 +10,17 @@
     <script src="node_modules/@esri/arcgis-rest-auth/dist/umd/auth.umd.js"></script>
     <script src="node_modules/@esri/hub-auth/dist/umd/auth.umd.js"></script>
     <script>
-      let session;
       const match = window.location.href.match(
         /&state=(.+)/
       );
       const clientId = match[1];
 
       arcgisHub.completeOAuth2({
-        clientId,
-      })
-        .then(newSession => {
-          session = newSession;
-          localStorage.setItem('__ARCGIS_REST_USER_SESSION__', session.serialize());
-          window.location.href = '/';
+          clientId: clientId,
         })
-        .catch(err => {
-          debugger;
-        })
+          .then(() => {
+            window.location.href = './';
+          })
     </script>
   </body>
 </html>
