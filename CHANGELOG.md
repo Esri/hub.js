@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+### @esri/hub-search
+
+* Bug Fixes
+   * Fixed a bug wherein a blank string `""` didn't construct AGO query properly. Added a check in place for that
+   * Removed circular dependency in `computeItemsFacets` function
+* Chores
+   * Developed an algorithm to encode urls cleanly in `serialize` function
+
 ## [2.1.0] - May 14th 2019
 
 ### @esri/hub-search
