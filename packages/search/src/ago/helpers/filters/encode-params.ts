@@ -28,7 +28,7 @@ export function encodeParams(params: any = {}): string {
         str += `[${path[i]}]`;
       }
     }
-    const right = encodeURIComponent(getProp(params, path.join(".")));
+    const right = encodeURIComponent(getProp(params, path.join(".")) || "");
     const left = encodeURIComponent(str);
     if (right) {
       parts.push(`${left}=${right}`);
