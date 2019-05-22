@@ -1,5 +1,5 @@
 import { computeItemsFacets } from "../../src/ago/compute-items-facets";
-import * as Search from "../../src/ago/search";
+import * as GetItems from "../../src/ago/get-items";
 import { ISearchResult, IItem } from "@esri/arcgis-rest-portal";
 
 const item: IItem = {
@@ -43,7 +43,7 @@ const aggregations = {
 
 describe("computeItemsFacets test", () => {
   it("it should call ago searchItems if custom aggs are requested", async done => {
-    const agoSearchSpy = spyOn(Search, "agoSearch").and.callFake(() => {
+    const getItemsSpy = spyOn(GetItems, "getItems").and.callFake(() => {
       const response: ISearchResult<IItem> = {
         results: [item],
         query: "blah",
@@ -66,12 +66,12 @@ describe("computeItemsFacets test", () => {
       ]
     };
     expect(facets).toEqual(expected);
-    expect(agoSearchSpy.calls.count()).toEqual(1);
+    expect(getItemsSpy.calls.count()).toEqual(1);
     done();
   });
 
   it("it should compute facets from custom and ago-provided aggs correctly", async done => {
-    const agoSearchSpy = spyOn(Search, "agoSearch").and.callFake(() => {
+    const getItemsSpy = spyOn(GetItems, "getItems").and.callFake(() => {
       const response: ISearchResult<IItem> = {
         results: [item],
         query: "blah",
@@ -107,12 +107,12 @@ describe("computeItemsFacets test", () => {
       hasApi: [{ key: "true", docCount: 22 }, { key: "false", docCount: 0 }]
     };
     expect(facets).toEqual(expected);
-    expect(agoSearchSpy.calls.count()).toEqual(1);
+    expect(getItemsSpy.calls.count()).toEqual(1);
     done();
   });
 
   it("it should handle undefined agoAggregations and undefined agg params correctly", async done => {
-    const agoSearchSpy = spyOn(Search, "agoSearch").and.callFake(() => {
+    const getItemsSpy = spyOn(GetItems, "getItems").and.callFake(() => {
       return Promise.resolve({});
     });
     const params = {
@@ -122,7 +122,7 @@ describe("computeItemsFacets test", () => {
     const portal = "https://qaext.arcgis.com/sharing/rest";
     const facets = await computeItemsFacets(undefined, params, token, portal);
     expect(facets).toEqual({});
-    expect(agoSearchSpy.calls.count()).toEqual(0);
+    expect(getItemsSpy.calls.count()).toEqual(0);
     done();
   });
 });

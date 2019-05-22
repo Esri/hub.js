@@ -1,8 +1,7 @@
 import { agoSearch } from "../../src/ago/search";
-import * as EncodeAgoQuery from "../../src/ago/encode-ago-query";
+import * as GetItems from "../../src/ago/get-items";
 import * as ComputeItemsFacets from "../../src/ago/compute-items-facets";
 import * as FormatItemCollection from "../../src/ago/format-item-collection";
-import * as Portal from "@esri/arcgis-rest-portal";
 import { ISearchParams } from "../../src/ago/params";
 
 describe("agoSearch test", () => {
@@ -14,13 +13,7 @@ describe("agoSearch test", () => {
     } as any;
     const facets = { facet1: [{ key: "a", docCount: 5 }] };
     const formatted = { data: [], meta: { stats: {} } } as any;
-    const encodeAgoQuerySpy = spyOn(
-      EncodeAgoQuery,
-      "encodeAgoQuery"
-    ).and.callFake(() => {
-      return { q: "long ago query", start: 1, num: 10 };
-    });
-    const searchItemsSpy = spyOn(Portal, "searchItems").and.callFake(() => {
+    const getItemsSpy = spyOn(GetItems, "getItems").and.callFake(() => {
       return rawAgoResults;
     });
     const computeItemsFacetsSpy = spyOn(
@@ -48,14 +41,11 @@ describe("agoSearch test", () => {
     const formattedResults = await agoSearch(params, token, portal);
 
     // step 1: encode ago query
-    expect(encodeAgoQuerySpy.calls.count()).toEqual(1);
-    const actualArgsForEncodeAgoQuery = encodeAgoQuerySpy.calls.argsFor(0)[0];
+    expect(getItemsSpy.calls.count()).toEqual(1);
+    const actualArgsForEncodeAgoQuery = getItemsSpy.calls.argsFor(0)[0];
     expect(actualArgsForEncodeAgoQuery).toEqual(params);
 
-    // step 2: search items
-    expect(searchItemsSpy.calls.count()).toEqual(1);
-
-    // step 3: compute items facets
+    // step 2: compute items facets
     expect(computeItemsFacetsSpy.calls.count()).toBe(1);
     const [
       aggsForComputeFacets,

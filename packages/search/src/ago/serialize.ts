@@ -1,6 +1,10 @@
 import { ISearchParams } from "./params";
-import { createFilters, encodeFilters, filterSchema } from "./helpers/filters";
-import { getProp } from "@esri/hub-common";
+import {
+  createFilters,
+  encodeFilters,
+  filterSchema,
+  encodeParams
+} from "./helpers/filters";
 
 /**
  * ```
@@ -14,50 +18,24 @@ import { getProp } from "@esri/hub-common";
  * @returns {string}
  */
 export function serialize(searchParams: ISearchParams): string {
-  // 1. handle simple params like non-filters like q, sort etc which have <string: string> type.
-  const encodedNonFilters = Object.keys(searchParams)
-    .filter(
-      param => typeof searchParams[param] !== "object" && !isFilterable(param)
-    )
-    .map(param => `${param}=${encodeURIComponent(searchParams[param])}`)
-    .join("&");
-  // 2. handle other params like tags, source, hasApi, groupIds that can be filtered
+  // 1. handle filterable params like tags, source, hasApi, groupIds since they follow custom logic
   const filters = createFilters(searchParams);
   const encodedFilters = encodeFilters(filters);
-  // 3. handle agg
-  const encodedAggParts = [];
-  let encodedAgg = "";
-  if (searchParams.agg) {
-    if (searchParams.agg.fields) {
-      encodedAggParts.push(
-        `${encodeURIComponent("agg[fields]")}=${encodeURIComponent(
-          searchParams.agg.fields
-        )}`
-      );
-    }
-    if (searchParams.agg.size) {
-      encodedAggParts.push(
-        `${encodeURIComponent("agg[size]")}=${encodeURIComponent(
-          searchParams.agg.size.toString()
-        )}`
-      );
-    }
-    if (searchParams.agg.mode) {
-      encodedAggParts.push(
-        `${encodeURIComponent("agg[mode]")}=${encodeURIComponent(
-          searchParams.agg.mode
-        )}`
-      );
-    }
-    encodedAgg = encodedAggParts.join("&");
-  }
-  // 4. handle page
-  const start = getProp(searchParams, "page.start") || 1;
-  const size = getProp(searchParams, "page.size") || 10;
-  const encodedPage = `${encodeURIComponent(
-    "page[start]"
-  )}=${start}&${encodeURIComponent("page[size]")}=${size}`;
-  return [encodedNonFilters, encodedFilters, encodedAgg, encodedPage].join("&");
+  // 2. handle non-filters like q, sort etc which have <string: string> type and also nested types like page, agg.
+  // extract non-filterable fields from search params
+  const nonFilterKeys = Object.keys(searchParams).filter(
+    param => !isFilterable(param)
+  );
+  const nonFilterSearchParams: any = {};
+  nonFilterKeys.forEach(key => {
+    nonFilterSearchParams[key] = searchParams[key];
+  });
+  const encodedNonFilters = encodeParams(nonFilterSearchParams);
+  const parts = [];
+  // don't include blank strings in the URI encoding
+  if (encodedNonFilters) parts.push(encodedNonFilters);
+  if (encodedFilters) parts.push(encodedFilters);
+  return parts.join("&");
 }
 
 export function isFilterable(field: string) {

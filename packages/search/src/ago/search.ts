@@ -1,15 +1,14 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { searchItems, ISearchResult, IItem } from "@esri/arcgis-rest-portal";
 import { ISearchParams, IHubResults } from "./params";
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { encodeAgoQuery } from "./encode-ago-query";
 import { computeItemsFacets } from "./compute-items-facets";
 import { agoFormatItemCollection } from "./format-item-collection";
+import { getItems } from "./get-items";
 
 /**
- * Search for Items in ArcGIS
+ * Search for Items in ArcGIS, compute facets and format the response into V3 like datasets
  *
  * @export
  * @param {ISearchParams} params (query params from hub indexer)
@@ -22,23 +21,13 @@ export async function agoSearch(
   portal?: string,
   authentication?: UserSession
 ): Promise<IHubResults> {
-  const agoParams = encodeAgoQuery(params);
-  const agoResults: ISearchResult<IItem> = await searchItems({
-    ...agoParams,
-    params: {
-      token,
-      countFields: agoParams.countFields,
-      countSize: agoParams.countSize
-    },
-    portal,
-    authentication
-  });
+  const agoResponse = await getItems(params, token, portal, authentication);
   const facets = await computeItemsFacets(
-    agoResults.aggregations,
+    agoResponse.aggregations,
     params,
     token,
     portal
   );
-  const model = agoFormatItemCollection(agoResults, facets, params);
+  const model = agoFormatItemCollection(agoResponse, facets, params);
   return model;
 }

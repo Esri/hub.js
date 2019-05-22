@@ -14,7 +14,7 @@ export function encodeAgoQuery(queryParams: any = {}) {
     num: getProp(queryParams, "page.size") || 10
   };
   // start with 'implicit' query filters
-  const queryParts = ["-access:public", '-type:"code attachment"'];
+  let queryParts = ["-access:public", '-type:"code attachment"'];
   // Build the potentially enourmous 'q' parameter. In future use SearchQueryBuilder from arcgis-rest-js
   if (queryParams.q) {
     queryParts.push(queryParams.q);
@@ -30,6 +30,8 @@ export function encodeAgoQuery(queryParams: any = {}) {
     // add each parsed filter object into ago query
     queryParts.push(handleFilter(filter));
   }
+  // cleanse queryParts by removing blank strings
+  queryParts = queryParts.filter(qp => !!qp);
   query.q = queryParts.join(" AND ");
   if (queryParams.bbox) {
     query.bbox = queryParams.bbox;

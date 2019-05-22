@@ -14,13 +14,19 @@ describe("serialize test", () => {
         mode: "uniqueCount"
       },
       page: {
-        start: 1,
-        size: 10
+        hub: {
+          start: 1,
+          size: 10
+        },
+        ago: {
+          start: 1,
+          size: 10
+        }
       }
     };
     const actual = serialize(input);
     const expected =
-      "q=crime&sort=name&catalog%5BgroupIds%5D=any(1ef,2ab)&catalog%5Bid%5D=any(1qw)&agg%5Bfields%5D=tags%2Ccollection%2Cowner%2Csource%2ChasApi%2Cdownloadable&agg%5Bsize%5D=10&agg%5Bmode%5D=uniqueCount&page%5Bstart%5D=1&page%5Bsize%5D=10";
+      "q=crime&sort=name&agg%5Bfields%5D=tags%2Ccollection%2Cowner%2Csource%2ChasApi%2Cdownloadable&agg%5Bsize%5D=10&agg%5Bmode%5D=uniqueCount&page%5Bhub%5D%5Bstart%5D=1&page%5Bhub%5D%5Bsize%5D=10&page%5Bago%5D%5Bstart%5D=1&page%5Bago%5D%5Bsize%5D=10&catalog%5BgroupIds%5D=any(1ef,2ab)&catalog%5Bid%5D=any(1qw)";
     expect(actual).toBe(expected);
   });
 
@@ -31,11 +37,20 @@ describe("serialize test", () => {
       groupIds: "1ef,2ab",
       id: "1qw"
     };
-    const actual1 = serialize(input);
+    const actual = serialize(input);
     const expected =
-      "q=crime&sort=name&catalog%5BgroupIds%5D=any(1ef,2ab)&catalog%5Bid%5D=any(1qw)&&page%5Bstart%5D=1&page%5Bsize%5D=10";
-    expect(actual1).toBe(expected);
+      "q=crime&sort=name&catalog%5BgroupIds%5D=any(1ef,2ab)&catalog%5Bid%5D=any(1qw)";
+    expect(actual).toBe(expected);
     input.agg = {};
     expect(serialize(input)).toBe(expected);
+  });
+
+  it("serializes without nonFilters and filters", () => {
+    const input: ISearchParams = {
+      q: ""
+    };
+    const actual = serialize(input);
+    const expected = "";
+    expect(actual).toBe(expected);
   });
 });
