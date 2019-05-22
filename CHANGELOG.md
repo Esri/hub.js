@@ -7,10 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [2.1.1] - May 22nd 2019
+
 ### @esri/hub-search
 
 * Bug Fixes
-   * Fixed a bug wherein a blank string `""` didn't construct AGO query properly. Added a check in place for that
+   * Fixed a bug wherein a blank string `&quot;&quot;` didn&#39;t construct AGO query properly. Added a check in place for that
    * Removed circular dependency in `computeItemsFacets` function
 * Chores
    * Developed an algorithm to encode urls cleanly in `serialize` function
@@ -359,4 +361,5 @@ Initial Release
 [1.11.1]: https://github.com/Esri/hub.js/compare/v1.11.0...v1.11.1 "v1.11.1"
 [2.0.0]: https://github.com/Esri/hub.js/compare/v1.11.1...v2.0.0 "v2.0.0"
 [2.1.0]: https://github.com/Esri/hub.js/compare/v2.0.0...v2.1.0 "v2.1.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v2.1.0...HEAD "Unreleased Changes"
+[2.1.1]: https://github.com/Esri/hub.js/compare/v2.1.0...v2.1.1 "v2.1.1"
+[HEAD]: https://github.com/Esri/hub.js/compare/v2.1.1...HEAD "Unreleased Changes"
