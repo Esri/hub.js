@@ -17,8 +17,8 @@
     "@esri/arcgis-rest-request": "^2.0.0"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-auth": "^2.0.0",
-    "@esri/arcgis-rest-request": "^2.0.0"
+    "@esri/arcgis-rest-auth": "^2.0.2",
+    "@esri/arcgis-rest-request": "^2.0.2"
   },
   "files": [
     "dist/**"
