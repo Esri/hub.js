@@ -126,7 +126,7 @@ export function followInitiative(
  * })
  *   .then(response)
  * ```
- * Follow an initiative.
+ * Un-follow an initiative.
  */
 export function unfollowInitiative(
   requestOptions: IFollowInitiativeOptions
