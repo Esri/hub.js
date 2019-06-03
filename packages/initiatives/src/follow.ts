@@ -1,8 +1,13 @@
 import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { IUser, getUserUrl, joinGroup } from "@esri/arcgis-rest-portal";
-import { getProp, concat, unique } from "@esri/hub-common";
-import { IInitiativeModel, getInitiative } from "@esri/hub-initiatives";
+import {
+  IUser,
+  getUserUrl,
+  joinGroup,
+  leaveGroup
+} from "@esri/arcgis-rest-portal";
+import { IInitiativeModel, getProp, concat, unique } from "@esri/hub-common";
+import { getInitiative } from "./get";
 
 export interface IFollowInitiativeOptions extends IRequestOptions {
   initiativeId: string;
@@ -21,12 +26,15 @@ const getUpdateUrl = (session: UserSession) => `${getUserUrl(session)}/update`;
 const currentlyFollowedInitiativesByUserTag = (user: IUser): string[] =>
   user.tags.map(initiativeIdFromUserTag);
 
-const currentlyFollowedInitiativesByGroupMembership = (user: IUser): string[] =>
-  user.groups
+const currentlyFollowedInitiativesByGroupMembership = (
+  user: IUser
+): string[] => {
+  return user.groups
     .map(group => group.tags)
     .reduce(concat, [])
     .filter(tags => tags.indexOf("hubInitiativeFollowers|") === 0)
     .map(initiativeIdFromGroupTag);
+};
 
 export const currentlyFollowedInitiatives = (user: IUser): string[] => {
   const byUserTags = currentlyFollowedInitiativesByUserTag(user);
@@ -66,7 +74,11 @@ export function followInitiative(
     })
     .then(user => {
       return getInitiative(requestOptions.initiativeId).then(
-        (initiative: IInitiativeModel) => ({ user, initiative })
+        (initiative: IInitiativeModel) => ({
+          user,
+          initiative,
+          hasFollowersGroup: false
+        })
       );
     })
     .then(obj => {
@@ -80,22 +92,15 @@ export function followInitiative(
         return joinGroup({
           id: groupId,
           authentication: requestOptions.authentication
-        })
-          .then(groupJoinResponse => {
-            obj.hasFollowersGroup = groupJoinResponse.success;
-            return obj;
-          })
-          .catch(_ => {
-            return obj;
-          });
+        }).then(groupJoinResponse => {
+          obj.hasFollowersGroup = groupJoinResponse.success;
+          return obj;
+        });
       }
       return obj;
     })
     .then(obj => {
-      if (obj.hasFollowersGroup) {
-        // the initiative has a followers group and we successfully joined it
-        return { success: true, username: obj.user.username };
-      } else {
+      if (!obj.hasFollowersGroup) {
         // else add the tag to the user
         const tag = getUserTag(requestOptions.initiativeId);
         const tags = JSON.parse(JSON.stringify(obj.user.tags));
@@ -106,6 +111,8 @@ export function followInitiative(
           authentication: requestOptions.authentication
         });
       }
+      // the initiative has a followers group and we successfully joined it
+      return { success: true, username: obj.user.username };
     });
 }
 
@@ -129,9 +136,9 @@ export function unfollowInitiative(
     authentication: requestOptions.authentication
   })
     .then(user => {
-      // don't update if already following
-      if (isUserFollowing(user, requestOptions.initiativeId)) {
-        return Promise.reject(`user is already following this initiative.`);
+      // don't update if not already following
+      if (!isUserFollowing(user, requestOptions.initiativeId)) {
+        return Promise.reject(`user is not following this initiative.`);
       }
       // if not already following, pass the user on
       return user;
@@ -160,5 +167,26 @@ export function unfollowInitiative(
       return getInitiative(requestOptions.initiativeId).then(
         (initiative: IInitiativeModel) => ({ user, initiative })
       );
+    })
+    .then(obj => {
+      // if there is an initiative followers group and the user is a member, attempt to leave it
+      const groupId = getProp(
+        obj,
+        "initiative.item.properties.followersGroupId"
+      );
+      if (
+        groupId &&
+        currentlyFollowedInitiativesByGroupMembership(obj.user).indexOf(
+          requestOptions.initiativeId
+        ) > -1
+      ) {
+        return leaveGroup({
+          id: groupId,
+          authentication: requestOptions.authentication
+        }).then(groupLeaveResponse => {
+          return { success: true, username: obj.user.username };
+        });
+      }
+      return { success: true, username: obj.user.username };
     });
 }
