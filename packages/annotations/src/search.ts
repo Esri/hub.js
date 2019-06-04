@@ -8,7 +8,8 @@ import {
   IStatisticDefinition
 } from "@esri/arcgis-rest-feature-layer";
 
-import { getUser } from "@esri/arcgis-rest-portal";
+import { getUser, IGetUserOptions } from "@esri/arcgis-rest-portal";
+import { UserSession } from "@esri/arcgis-rest-auth";
 import { IGeometry, IFeature } from "@esri/arcgis-rest-types";
 import { IAnnoFeature } from "./add";
 
@@ -97,7 +98,12 @@ export function searchAnnotations(
 
     const getUserInfo = users
       .filter(name => name !== "") // filter out anonymous comments
-      .map(name => getUser(name));
+      .map(name =>
+        getUser({
+          username: name,
+          authentication: requestOptions.authentication as UserSession
+        })
+      );
 
     return Promise.all(getUserInfo).then(userInfo => {
       const included: IResourceObject[] = [];
@@ -196,7 +202,7 @@ export function searchSingleAnnotationVotes(
 /**
  * ```js
  * import { searchAllAnnotationVotes } from "@esri/hub-annotations";
- * //
+ * import { UserSession } from '@esri/arcgis-rest-auth';
  * searchAllAnnotationVotes({ url: annotationsUrl + "/0"})
  *   .then(response => {
  *     //   data: [{

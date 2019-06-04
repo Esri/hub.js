@@ -74,13 +74,23 @@ describe("searchAnnotations", () => {
         const queryOpts = queryParamsSpy.calls.argsFor(
           0
         )[0] as IQueryFeaturesOptions;
-        const caseyOpts = userParamsSpy.calls.argsFor(0)[0] as string;
-        const jonesOpts = userParamsSpy.calls.argsFor(1)[0] as string;
+        const caseyOpts = userParamsSpy.calls.argsFor(
+          0
+        )[0] as user.IGetUserOptions;
+        const jonesOpts = userParamsSpy.calls.argsFor(
+          1
+        )[0] as user.IGetUserOptions;
 
         expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
         expect(queryOpts.outFields).toEqual(mockOutFields);
-        expect(caseyOpts).toBe("casey");
-        expect(jonesOpts).toBe("jones");
+        expect(caseyOpts).toEqual({
+          username: "casey",
+          authentication: undefined
+        });
+        expect(jonesOpts).toEqual({
+          username: "jones",
+          authentication: undefined
+        });
         expect(response).toEqual(annoResponse);
         done();
       })
