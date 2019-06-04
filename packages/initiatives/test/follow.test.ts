@@ -135,11 +135,11 @@ describe("follow/unfollowInitiative", () => {
 
       // initiative fetch
       fetchMock.get(
-        "https://www.arcgis.com/sharing/rest/content/items/fe8?f=json",
+        "https://www.arcgis.com/sharing/rest/content/items/fe8?f=json&token=fake-token",
         INITIATIVE_ITEM
       );
       fetchMock.get(
-        "https://www.arcgis.com/sharing/rest/content/items/fe8/data?f=json",
+        "https://www.arcgis.com/sharing/rest/content/items/fe8/data?f=json&token=fake-token",
         {}
       );
 
@@ -202,11 +202,11 @@ describe("follow/unfollowInitiative", () => {
 
       // initiative fetch
       fetchMock.get(
-        "https://www.arcgis.com/sharing/rest/content/items/fe8?f=json",
+        "https://www.arcgis.com/sharing/rest/content/items/fe8?f=json&token=fake-token",
         INITIATIVE_ITEM
       );
       fetchMock.get(
-        "https://www.arcgis.com/sharing/rest/content/items/fe8/data?f=json",
+        "https://www.arcgis.com/sharing/rest/content/items/fe8/data?f=json&token=fake-token",
         {}
       );
 
@@ -238,11 +238,11 @@ describe("follow/unfollowInitiative", () => {
 
       // initiative fetch
       fetchMock.get(
-        "https://www.arcgis.com/sharing/rest/content/items/fe8?f=json",
+        "https://www.arcgis.com/sharing/rest/content/items/fe8?f=json&token=fake-token",
         INITIATIVE_ITEM
       );
       fetchMock.get(
-        "https://www.arcgis.com/sharing/rest/content/items/fe8/data?f=json",
+        "https://www.arcgis.com/sharing/rest/content/items/fe8/data?f=json&token=fake-token",
         {}
       );
 
@@ -305,11 +305,11 @@ describe("follow/unfollowInitiative", () => {
 
       // initiative fetch
       fetchMock.get(
-        "https://www.arcgis.com/sharing/rest/content/items/fe8?f=json",
+        "https://www.arcgis.com/sharing/rest/content/items/fe8?f=json&token=fake-token",
         INITIATIVE_ITEM
       );
       fetchMock.get(
-        "https://www.arcgis.com/sharing/rest/content/items/fe8/data?f=json",
+        "https://www.arcgis.com/sharing/rest/content/items/fe8/data?f=json&token=fake-token",
         {}
       );
 
@@ -372,11 +372,11 @@ describe("follow/unfollowInitiative", () => {
 
       // initiative fetch
       fetchMock.get(
-        "https://www.arcgis.com/sharing/rest/content/items/fe8?f=json",
+        "https://www.arcgis.com/sharing/rest/content/items/fe8?f=json&token=fake-token",
         INITIATIVE_ITEM
       );
       fetchMock.get(
-        "https://www.arcgis.com/sharing/rest/content/items/fe8/data?f=json",
+        "https://www.arcgis.com/sharing/rest/content/items/fe8/data?f=json&token=fake-token",
         {}
       );
 
@@ -551,11 +551,11 @@ describe("follow/unfollowInitiative", () => {
 
       // initiative fetch
       fetchMock.get(
-        "https://www.arcgis.com/sharing/rest/content/items/fe8?f=json",
+        "https://www.arcgis.com/sharing/rest/content/items/fe8?f=json&token=fake-token",
         INITIATIVE_ITEM
       );
       fetchMock.get(
-        "https://www.arcgis.com/sharing/rest/content/items/fe8/data?f=json",
+        "https://www.arcgis.com/sharing/rest/content/items/fe8/data?f=json&token=fake-token",
         {}
       );
 
@@ -600,11 +600,11 @@ describe("follow/unfollowInitiative", () => {
 
       // initiative fetch
       fetchMock.get(
-        "https://www.arcgis.com/sharing/rest/content/items/fe8?f=json",
+        "https://www.arcgis.com/sharing/rest/content/items/fe8?f=json&token=fake-token",
         INITIATIVE_ITEM
       );
       fetchMock.get(
-        "https://www.arcgis.com/sharing/rest/content/items/fe8/data?f=json",
+        "https://www.arcgis.com/sharing/rest/content/items/fe8/data?f=json&token=fake-token",
         {}
       );
 
@@ -627,11 +627,11 @@ describe("follow/unfollowInitiative", () => {
 
       // initiative fetch
       fetchMock.get(
-        "https://www.arcgis.com/sharing/rest/content/items/fe8?f=json",
+        "https://www.arcgis.com/sharing/rest/content/items/fe8?f=json&token=fake-token",
         INITIATIVE_ITEM
       );
       fetchMock.get(
-        "https://www.arcgis.com/sharing/rest/content/items/fe8/data?f=json",
+        "https://www.arcgis.com/sharing/rest/content/items/fe8/data?f=json&token=fake-token",
         {}
       );
 

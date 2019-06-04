@@ -73,7 +73,7 @@ export function followInitiative(
       return user;
     })
     .then(user => {
-      return getInitiative(requestOptions.initiativeId).then(
+      return getInitiative(requestOptions.initiativeId, requestOptions).then(
         (initiative: IInitiativeModel) => ({
           user,
           initiative,
@@ -164,7 +164,7 @@ export function unfollowInitiative(
       return user;
     })
     .then(user => {
-      return getInitiative(requestOptions.initiativeId).then(
+      return getInitiative(requestOptions.initiativeId, requestOptions).then(
         (initiative: IInitiativeModel) => ({ user, initiative })
       );
     })
