@@ -202,7 +202,7 @@ export function searchSingleAnnotationVotes(
 /**
  * ```js
  * import { searchAllAnnotationVotes } from "@esri/hub-annotations";
- * import { UserSession } from '@esri/arcgis-rest-auth';
+ * //
  * searchAllAnnotationVotes({ url: annotationsUrl + "/0"})
  *   .then(response => {
  *     //   data: [{
