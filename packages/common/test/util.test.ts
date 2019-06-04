@@ -10,8 +10,7 @@ import {
   createId,
   maybeAdd,
   maybePush,
-  unique,
-  concat
+  unique
 } from "../src/util";
 
 describe("util functions", () => {
@@ -517,24 +516,6 @@ describe("util functions", () => {
       expect(["foo"].filter(unique)).toEqual(["foo"]);
       expect(["foo", "bar", "foo"].filter(unique)).toEqual(["foo", "bar"]);
       expect([].filter(unique)).toEqual([]);
-    });
-  });
-
-  describe("concat", () => {
-    it("should concatenate arrays", () => {
-      const ary1 = [1, 2, 3];
-      const ary2 = ["luke", "rey"];
-
-      expect(concat(ary1, ary2)).toEqual([1, 2, 3, "luke", "rey"]);
-
-      expect(ary1).toEqual([1, 2, 3]);
-      expect(ary2).toEqual(["luke", "rey"]);
-
-      const ary3 = [[1, 2, 3], [3, 4, 5], [1]];
-      const flattened = ary3.reduce(concat, []);
-      expect(flattened).toEqual([1, 2, 3, 3, 4, 5, 1]);
-
-      expect([].reduce(concat, [])).toEqual([]);
     });
   });
 });

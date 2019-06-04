@@ -18,7 +18,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/hub-common
 
 * Added
-  * concat function for concatenating arrays (useful for flattening arrays)
   * unique function for identifying if a value is unique in an array (useful for getting unique values in an array)
 
 ### @esri/hub-initiatives

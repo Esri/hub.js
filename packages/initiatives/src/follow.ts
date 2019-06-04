@@ -6,7 +6,7 @@ import {
   joinGroup,
   leaveGroup
 } from "@esri/arcgis-rest-portal";
-import { IInitiativeModel, getProp, concat, unique } from "@esri/hub-common";
+import { IInitiativeModel, getProp, unique } from "@esri/hub-common";
 import { getInitiative } from "./get";
 
 export interface IFollowInitiativeOptions extends IRequestOptions {
@@ -31,7 +31,7 @@ const currentlyFollowedInitiativesByGroupMembership = (
 ): string[] => {
   return user.groups
     .map(group => group.tags)
-    .reduce(concat, [])
+    .reduce((acc, item) => acc.concat(item), [])
     .filter(tags => tags.indexOf("hubInitiativeFollowers|") === 0)
     .map(initiativeIdFromGroupTag);
 };
@@ -140,7 +140,7 @@ export function unfollowInitiative(
       if (!isUserFollowing(user, requestOptions.initiativeId)) {
         return Promise.reject(`user is not following this initiative.`);
       }
-      // if not already following, pass the user on
+      // if already following, pass the user on
       return user;
     })
     .then(user => {

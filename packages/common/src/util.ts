@@ -278,23 +278,3 @@ export function camelize(value: string): string {
 export function unique(value: any, index: number, ary: any[]): boolean {
   return ary.indexOf(value) === index;
 }
-
-/**
- * Concatenates two arrays
- * Allows for code like:
- *
- * ```js
- * // flatten an array
- * const ary = [ [ 1, 2, 3 ], [ 3, 4, 5] , [ 1 ] ];
- *
- * const result = ary.reduce(concat);
- *
- * result => [ 1, 2, 3, 3, 4, 5, 1 ]
- * ```
- * @param ary1 - an array to concatenate
- * @param ary2 - an array to concatenate
- * @returns {any[]} - a concatenated array
- */
-export function concat(ary1: any[], ary2: any[]): any[] {
-  return [...ary1, ...ary2];
-}
