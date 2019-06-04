@@ -15,6 +15,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Chores
    * Developed an algorithm to encode urls cleanly in `serialize` function
 
+### @esri/hub-common
+
+* Added
+  * unique function for identifying if a value is unique in an array (useful for getting unique values in an array)
+
+### @esri/hub-initiatives
+
+* Changed
+  * followInitiative & unfollowInitiative to account for initiative followers group
+
 ## [2.1.0] - May 14th 2019
 
 ### @esri/hub-search

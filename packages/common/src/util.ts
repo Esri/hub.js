@@ -258,3 +258,23 @@ export function camelize(value: string): string {
       return match.toLowerCase();
     });
 }
+
+/**
+ * Determines if a value is unique in an array
+ * Allows for code like:
+ *
+ * ```js
+ * const ary = [ 1, 2, 3, 3, 4, 5, 1 ];
+ *
+ * const result = ary.filter(unique);
+ *
+ * result => [ 1, 2, 3, 4, 5 ]
+ * ```
+ * @param value - the value to search for
+ * @param index - the index of the searched value
+ * @param ary - the array to search
+ * @returns {boolean} - indicating if the value is unique in the array
+ */
+export function unique(value: any, index: number, ary: any[]): boolean {
+  return ary.indexOf(value) === index;
+}

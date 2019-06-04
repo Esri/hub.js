@@ -9,7 +9,8 @@ import {
   camelize,
   createId,
   maybeAdd,
-  maybePush
+  maybePush,
+  unique
 } from "../src/util";
 
 describe("util functions", () => {
@@ -504,6 +505,17 @@ describe("util functions", () => {
       expect(chk.missingProp).not.toBeDefined(
         "missing prop should not be defined"
       );
+    });
+  });
+
+  describe("unique", () => {
+    it("should yield unique values", () => {
+      expect([1, 2, 2, 2, 3, 4, 5, 1].filter(unique)).toEqual([1, 2, 3, 4, 5]);
+      expect([1, 2, 3, 4, 5].filter(unique)).toEqual([1, 2, 3, 4, 5]);
+      expect(["foo", "foo", "foo"].filter(unique)).toEqual(["foo"]);
+      expect(["foo"].filter(unique)).toEqual(["foo"]);
+      expect(["foo", "bar", "foo"].filter(unique)).toEqual(["foo", "bar"]);
+      expect([].filter(unique)).toEqual([]);
     });
   });
 });
