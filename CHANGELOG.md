@@ -5,7 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-### [Unreleased][HEAD]
+## [Unreleased][HEAD]
+
+## [2.2.1] - June 5th 2019
+
+### @esri/hub-initiatives
+
+* Bug Fixes
+  * Follow/unfollow initiative sends authOptions when fetching the initiative
+
+## [2.2.0] - June 4th 2019
 
 ### @esri/hub-search
 
@@ -24,12 +33,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Changed
   * followInitiative &amp;amp; unfollowInitiative to account for initiative followers group
-
-## [2.2.1] - June 5th 2019
-
-## [2.2.0] - June 4th 2019
-
-
 
 ## [2.1.0] - May 14th 2019
 
