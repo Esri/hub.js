@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/hub-search
 
 * Bug Fixes
-   * Fixed a bug wherein a blank string `&quot;&quot;` didn&#39;t construct AGO query properly. Added a check in place for that
+   * Fixed a bug wherein a blank string `&amp;quot;&amp;quot;` didn&amp;#39;t construct AGO query properly. Added a check in place for that
    * Removed circular dependency in `computeItemsFacets` function
 * Chores
    * Developed an algorithm to encode urls cleanly in `serialize` function
@@ -23,9 +23,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/hub-initiatives
 
 * Changed
-  * followInitiative &amp; unfollowInitiative to account for initiative followers group
+  * followInitiative &amp;amp; unfollowInitiative to account for initiative followers group
+
+## [2.2.1] - June 5th 2019
 
 ## [2.2.0] - June 4th 2019
+
+
 
 ## [2.1.0] - May 14th 2019
 
@@ -356,8 +360,7 @@ Initial Release
 [1.4.0]: https://github.com/Esri/hub.js/compare/v1.3.0...v1.4.0 "v1.4.0"
 [1.5.0]: https://github.com/Esri/hub.js/compare/v1.4.0...v1.5.0 "v1.5.0"
 [1.5.1]: https://github.com/Esri/hub.js/compare/v1.5.0...v1.5.1 "v1.5.1"
-[1.5.2]: https://github.com/Esri/hub.js/compare/v1.5.1...v1.5.2 "v1.5.2"
-[1.5.3]: https://github.com/Esri/hub.js/compare/v1.5.2...v1.5.3 "v1.5.3"
+[1.5.3]: https://github.com/Esri/hub.js/compare/v1.5.1...v1.5.3 "v1.5.3"
 [1.6.0]: https://github.com/Esri/hub.js/compare/v1.5.3...v1.6.0 "v1.6.0"
 [1.6.1]: https://github.com/Esri/hub.js/compare/v1.6.0...v1.6.1 "v1.6.1"
 [1.7.0]: https://github.com/Esri/hub.js/compare/v1.6.1...v1.7.0 "v1.7.0"
@@ -372,4 +375,5 @@ Initial Release
 [2.0.0]: https://github.com/Esri/hub.js/compare/v1.11.1...v2.0.0 "v2.0.0"
 [2.1.0]: https://github.com/Esri/hub.js/compare/v2.0.0...v2.1.0 "v2.1.0"
 [2.2.0]: https://github.com/Esri/hub.js/compare/v2.1.0...v2.2.0 "v2.2.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v2.2.0...HEAD "Unreleased Changes"
+[2.2.1]: https://github.com/Esri/hub.js/compare/v2.2.0...v2.2.1 "v2.2.1"
+[HEAD]: https://github.com/Esri/hub.js/compare/v2.2.1...HEAD "Unreleased Changes"
