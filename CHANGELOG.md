@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [2.2.2] - June 7th 2019
 
+## [2.2.2] - June 7th 2019
+
+
+
 ## [Unreleased][HEAD]
 
 ### @esri/hub-initiatives
@@ -26,7 +30,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/hub-search
 
 * Bug Fixes
-   * Fixed a bug wherein a blank string `&amp;amp;quot;&amp;amp;quot;` didn&amp;amp;#39;t construct AGO query properly. Added a check in place for that
+   * Fixed a bug wherein a blank string `&amp;amp;amp;quot;&amp;amp;amp;quot;` didn&amp;amp;amp;#39;t construct AGO query properly. Added a check in place for that
    * Removed circular dependency in `computeItemsFacets` function
 * Chores
    * Developed an algorithm to encode urls cleanly in `serialize` function
@@ -39,7 +43,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/hub-initiatives
 
 * Changed
-  * followInitiative &amp;amp;amp; unfollowInitiative to account for initiative followers group
+  * followInitiative &amp;amp;amp;amp; unfollowInitiative to account for initiative followers group
 
 ## [2.1.0] - May 14th 2019
 
@@ -389,4 +393,5 @@ Initial Release
 [2.2.0]: https://github.com/Esri/hub.js/compare/v2.1.1...v2.2.0 "v2.2.0"
 [2.2.1]: https://github.com/Esri/hub.js/compare/v2.2.0...v2.2.1 "v2.2.1"
 [2.2.2]: https://github.com/Esri/hub.js/compare/v2.2.1...v2.2.2 "v2.2.2"
+[2.2.2]: https://github.com/Esri/hub.js/compare/v2.2.2...v2.2.2 "v2.2.2"
 [HEAD]: https://github.com/Esri/hub.js/compare/v2.2.2...HEAD "Unreleased Changes"
