@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
+### @esri/hub-initiatives
+
+* Bug Fixes
+  * removeInitiative removes initiative followers group
+
 ## [2.2.1] - June 5th 2019
 
 ### @esri/hub-initiatives

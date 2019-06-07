@@ -82,7 +82,7 @@ export function removeInitiative(
       );
       // remove the groups...
       const prms = [] as any[];
-      ["groupId", "openDataGroupId"].forEach(prop => {
+      ["groupId", "openDataGroupId", "followersGroupId"].forEach(prop => {
         if (model.item.properties[prop]) {
           prms.push(
             removeInitiativeGroup(model.item.properties[prop], requestOptions)
