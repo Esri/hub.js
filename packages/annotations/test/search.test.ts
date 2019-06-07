@@ -62,6 +62,9 @@ describe("searchAnnotations", () => {
       }),
       new Promise(resolve => {
         resolve(userResponseJones);
+      }),
+      new Promise((resolve, reject) => {
+        reject({ error: "not sure this matters" });
       })
     );
 
@@ -70,7 +73,7 @@ describe("searchAnnotations", () => {
     })
       .then(response => {
         expect(queryParamsSpy.calls.count()).toEqual(1);
-        expect(userParamsSpy.calls.count()).toEqual(2);
+        expect(userParamsSpy.calls.count()).toEqual(3);
         const queryOpts = queryParamsSpy.calls.argsFor(
           0
         )[0] as IQueryFeaturesOptions;
@@ -146,6 +149,9 @@ describe("searchAnnotations", () => {
       }),
       new Promise(resolve => {
         resolve(userResponseJones);
+      }),
+      new Promise((resolve, reject) => {
+        reject({ error: "not sure this matters" });
       })
     );
 
@@ -155,7 +161,7 @@ describe("searchAnnotations", () => {
     })
       .then(response => {
         expect(queryParamsSpy.calls.count()).toEqual(1);
-        expect(userParamsSpy.calls.count()).toEqual(2);
+        expect(userParamsSpy.calls.count()).toEqual(3);
         const queryOpts = queryParamsSpy.calls.argsFor(
           0
         )[0] as IQueryFeaturesOptions;

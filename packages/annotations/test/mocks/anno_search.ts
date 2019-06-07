@@ -86,6 +86,19 @@ export const annoQueryResponse = {
         updated_at: 1349395200002,
         dataset_id: "xds466"
       }
+    },
+    {
+      attributes: {
+        OBJECTID: 5,
+        author: "nolongerexists",
+        source: null as string,
+        status: "pending",
+        target: "something",
+        data: "somehow this user no longer exists",
+        created_at: 1349395200002,
+        updated_at: 1349395200002,
+        dataset_id: "xds466"
+      }
     }
   ]
 };
@@ -227,6 +240,21 @@ const data = [
       status: "pending",
       target: "something",
       data: "i like to hear myself talk",
+      created_at: 1349395200002,
+      updated_at: 1349395200002,
+      dataset_id: "xds466"
+    }
+  },
+  {
+    id: 5,
+    type: "annotations",
+    attributes: {
+      OBJECTID: 5,
+      author: "nolongerexists",
+      source: null as string,
+      status: "pending",
+      target: "something",
+      data: "somehow this user no longer exists",
       created_at: 1349395200002,
       updated_at: 1349395200002,
       dataset_id: "xds466"
