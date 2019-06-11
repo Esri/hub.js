@@ -9,6 +9,7 @@ import {
 } from "@esri/arcgis-rest-feature-layer";
 
 import { getUser } from "@esri/arcgis-rest-portal";
+import { UserSession } from "@esri/arcgis-rest-auth";
 import { IGeometry, IFeature } from "@esri/arcgis-rest-types";
 import { IAnnoFeature } from "./add";
 
@@ -97,12 +98,20 @@ export function searchAnnotations(
 
     const getUserInfo = users
       .filter(name => name !== "") // filter out anonymous comments
-      .map(name => getUser(name));
+      .map(name => {
+        return getUser({
+          username: name,
+          authentication: requestOptions.authentication as UserSession
+        }).catch(() => null);
+      });
 
     return Promise.all(getUserInfo).then(userInfo => {
       const included: IResourceObject[] = [];
 
       userInfo.forEach(attributes => {
+        if (!attributes) {
+          return;
+        }
         included.push({ id: attributes.username, type: `users`, attributes });
       });
 

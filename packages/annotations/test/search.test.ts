@@ -62,6 +62,9 @@ describe("searchAnnotations", () => {
       }),
       new Promise(resolve => {
         resolve(userResponseJones);
+      }),
+      new Promise((resolve, reject) => {
+        reject({ error: "not sure this matters" });
       })
     );
 
@@ -70,17 +73,27 @@ describe("searchAnnotations", () => {
     })
       .then(response => {
         expect(queryParamsSpy.calls.count()).toEqual(1);
-        expect(userParamsSpy.calls.count()).toEqual(2);
+        expect(userParamsSpy.calls.count()).toEqual(3);
         const queryOpts = queryParamsSpy.calls.argsFor(
           0
         )[0] as IQueryFeaturesOptions;
-        const caseyOpts = userParamsSpy.calls.argsFor(0)[0] as string;
-        const jonesOpts = userParamsSpy.calls.argsFor(1)[0] as string;
+        const caseyOpts = userParamsSpy.calls.argsFor(
+          0
+        )[0] as user.IGetUserOptions;
+        const jonesOpts = userParamsSpy.calls.argsFor(
+          1
+        )[0] as user.IGetUserOptions;
 
         expect(queryOpts.url).toBe(annoSearchResponse.results[0].url + "/0");
         expect(queryOpts.outFields).toEqual(mockOutFields);
-        expect(caseyOpts).toBe("casey");
-        expect(jonesOpts).toBe("jones");
+        expect(caseyOpts).toEqual({
+          username: "casey",
+          authentication: undefined
+        });
+        expect(jonesOpts).toEqual({
+          username: "jones",
+          authentication: undefined
+        });
         expect(response).toEqual(annoResponse);
         done();
       })
@@ -136,6 +149,9 @@ describe("searchAnnotations", () => {
       }),
       new Promise(resolve => {
         resolve(userResponseJones);
+      }),
+      new Promise((resolve, reject) => {
+        reject({ error: "not sure this matters" });
       })
     );
 
@@ -145,7 +161,7 @@ describe("searchAnnotations", () => {
     })
       .then(response => {
         expect(queryParamsSpy.calls.count()).toEqual(1);
-        expect(userParamsSpy.calls.count()).toEqual(2);
+        expect(userParamsSpy.calls.count()).toEqual(3);
         const queryOpts = queryParamsSpy.calls.argsFor(
           0
         )[0] as IQueryFeaturesOptions;
