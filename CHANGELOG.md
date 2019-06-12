@@ -5,9 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.2.2] - June 7th 2019
-
 ## [Unreleased][HEAD]
+
+## [2.2.3] - June 12th 2019
+
+### @esri/hub-annotations
+
+* Bug Fixes
+   * **annotation users**: pass auth when getting anno user; handle failed requests [`d8485d2`](https://github.com/Esri/hub.js/commit/d8485d20a4b2428ae9847f5ee9672df780c4a14f) [#40](https://github.com/Esri/hub.js/issues/40)
+
+## [2.2.2] - June 7th 2019
 
 ### @esri/hub-initiatives
 
@@ -26,7 +33,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/hub-search
 
 * Bug Fixes
-   * Fixed a bug wherein a blank string `&amp;amp;quot;&amp;amp;quot;` didn&amp;amp;#39;t construct AGO query properly. Added a check in place for that
+   * Fixed a bug wherein a blank string did not construct AGO query properly. Added a check in place for that
    * Removed circular dependency in `computeItemsFacets` function
 * Chores
    * Developed an algorithm to encode urls cleanly in `serialize` function
@@ -39,7 +46,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/hub-initiatives
 
 * Changed
-  * followInitiative &amp;amp;amp; unfollowInitiative to account for initiative followers group
+  * followInitiative and unfollowInitiative to account for initiative followers group
 
 ## [2.1.0] - May 14th 2019
 
@@ -370,8 +377,7 @@ Initial Release
 [1.4.0]: https://github.com/Esri/hub.js/compare/v1.3.0...v1.4.0 "v1.4.0"
 [1.5.0]: https://github.com/Esri/hub.js/compare/v1.4.0...v1.5.0 "v1.5.0"
 [1.5.1]: https://github.com/Esri/hub.js/compare/v1.5.0...v1.5.1 "v1.5.1"
-[1.5.2]: https://github.com/Esri/hub.js/compare/v1.5.1...v1.5.2 "v1.5.2"
-[1.5.3]: https://github.com/Esri/hub.js/compare/v1.5.2...v1.5.3 "v1.5.3"
+[1.5.3]: https://github.com/Esri/hub.js/compare/v1.5.1...v1.5.3 "v1.5.3"
 [1.6.0]: https://github.com/Esri/hub.js/compare/v1.5.3...v1.6.0 "v1.6.0"
 [1.6.1]: https://github.com/Esri/hub.js/compare/v1.6.0...v1.6.1 "v1.6.1"
 [1.7.0]: https://github.com/Esri/hub.js/compare/v1.6.1...v1.7.0 "v1.7.0"
@@ -385,8 +391,8 @@ Initial Release
 [1.11.1]: https://github.com/Esri/hub.js/compare/v1.11.0...v1.11.1 "v1.11.1"
 [2.0.0]: https://github.com/Esri/hub.js/compare/v1.11.1...v2.0.0 "v2.0.0"
 [2.1.0]: https://github.com/Esri/hub.js/compare/v2.0.0...v2.1.0 "v2.1.0"
-[2.1.1]: https://github.com/Esri/hub.js/compare/v2.1.0...v2.1.1 "v2.1.1"
-[2.2.0]: https://github.com/Esri/hub.js/compare/v2.1.1...v2.2.0 "v2.2.0"
+[2.2.0]: https://github.com/Esri/hub.js/compare/v2.1.0...v2.2.0 "v2.2.0"
 [2.2.1]: https://github.com/Esri/hub.js/compare/v2.2.0...v2.2.1 "v2.2.1"
 [2.2.2]: https://github.com/Esri/hub.js/compare/v2.2.1...v2.2.2 "v2.2.2"
-[HEAD]: https://github.com/Esri/hub.js/compare/v2.2.2...HEAD "Unreleased Changes"
+[2.2.3]: https://github.com/Esri/hub.js/compare/v2.2.2...v2.2.3 "v2.2.3"
+[HEAD]: https://github.com/Esri/hub.js/compare/v2.2.3...HEAD "Unreleased Changes"
