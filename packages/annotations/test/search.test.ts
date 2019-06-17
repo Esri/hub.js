@@ -88,11 +88,13 @@ describe("searchAnnotations", () => {
         expect(queryOpts.outFields).toEqual(mockOutFields);
         expect(caseyOpts).toEqual({
           username: "casey",
-          authentication: undefined
+          authentication: undefined,
+          portal: undefined
         });
         expect(jonesOpts).toEqual({
           username: "jones",
-          authentication: undefined
+          authentication: undefined,
+          portal: undefined
         });
         expect(response).toEqual(annoResponse);
         done();
