@@ -101,6 +101,7 @@ export function searchAnnotations(
       .map(name => {
         return getUser({
           username: name,
+          portal: requestOptions.portal,
           authentication: requestOptions.authentication as UserSession
         }).catch(() => null);
       });
