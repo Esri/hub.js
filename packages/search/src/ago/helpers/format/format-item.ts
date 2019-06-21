@@ -24,7 +24,7 @@
 //     }
 //   }
 // }
-import { getCategory } from "@esri/hub-common";
+import { getCategory, getTypeCategories } from "@esri/hub-common";
 import { calcHighlights } from "./highlights";
 import { IItem } from "@esri/arcgis-rest-portal";
 
@@ -48,7 +48,8 @@ function formatItemAttributes(item: IItem) {
     // computed or null attributes so items & datasets look the same
     name: item.title,
     searchDescription: item.description,
-    hubType: hubType || "Other"
+    hubType: hubType || "Other",
+    collection: getTypeCategories({}, item)
   };
   return { ...item, ...additionalAttrs };
 }
