@@ -38,7 +38,7 @@ const params = {
 const token = 'xxxYYY' // AGO token
 const portal = 'https://qaext.arcgis.com/sharing/rest'
 const headers = { authorization: token, portal }
-const serializedParams = arcgisHub.serialize(params)
+const serializedParams = serialize(params)
 // Query hub v3's new search endpoint
 fetch(`hub.arcgis.com/api/v3/search?${serializedParams}`, { headers })
 ```
