@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
+### @esri/hub-initiatives
+
+* Changed
+  * removeInitiative detaches and deletes site only if it exists in AGO
+  
 ## [2.2.3] - June 12th 2019
 
 ### @esri/hub-annotations
