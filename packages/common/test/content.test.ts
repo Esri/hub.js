@@ -29,29 +29,20 @@ describe("getTypes", () => {
 });
 
 describe("getType", () => {
-  it("can get type from layer", () => {
-    expect(getType({ type: "type from layer" })).toEqual("type from layer");
-  });
   it("can get type from item.type if typeKeywords is not defined", () => {
-    expect(getType({}, { type: "type from item" })).toEqual("type from item");
+    expect(getType({ type: "type from item" })).toEqual("type from item");
   });
   it("can get type from item.type without typeKeywords", () => {
-    expect(getType({}, { type: "Web Mapping Application" })).toEqual(
+    expect(getType({ type: "Web Mapping Application" })).toEqual(
       "Web Mapping Application"
     );
   });
   it("can get type from item.typeKeywords", () => {
     expect(
-      getType(
-        {},
-        { type: "Web Mapping Application", typeKeywords: ["hubSite"] }
-      )
+      getType({ type: "Web Mapping Application", typeKeywords: ["hubSite"] })
     ).toEqual("Hub Site Application");
     expect(
-      getType(
-        {},
-        { type: "Web Mapping Application", typeKeywords: ["hubPage"] }
-      )
+      getType({ type: "Web Mapping Application", typeKeywords: ["hubPage"] })
     ).toEqual("Hub Page");
   });
   it("can work with blank inputs", () => {
@@ -65,10 +56,10 @@ describe("getTypeCategories", () => {
   });
   it("should return correct typeCategory if category is defined", () => {
     expect(
-      getTypeCategories(
-        {},
-        { type: "Web Mapping Application", typeKeywords: ["hubSite"] }
-      )
+      getTypeCategories({
+        type: "Web Mapping Application",
+        typeKeywords: ["hubSite"]
+      })
     ).toEqual(["Site"]);
   });
   it("can work with blank inputs", () => {

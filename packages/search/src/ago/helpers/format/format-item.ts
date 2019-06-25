@@ -49,7 +49,7 @@ function formatItemAttributes(item: IItem) {
     name: item.title,
     searchDescription: item.description,
     hubType: hubType || "Other",
-    collection: getTypeCategories({}, item)
+    collection: getTypeCategories(item)
   };
   return { ...item, ...additionalAttrs };
 }

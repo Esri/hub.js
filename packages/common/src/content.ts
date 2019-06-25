@@ -53,16 +53,11 @@ export function getTypes(category: string = ""): string[] {
  * getType(item)
  * > [ 'Hub Site Application' ]
  * ```
- * To do.
- * @param layer Layer object.
  * @param item Item object.
- * @returns type of the input layer/item.
+ * @returns type of the input item.
  *
  */
-export function getType(layer: any = {}, item: any = {}): string {
-  if (layer.type) {
-    return layer.type;
-  }
+export function getType(item: any = {}): string {
   const typeKeywords = item.typeKeywords || [];
   if (item.type === "Web Mapping Application") {
     if (typeKeywords.includes("hubSite")) {
@@ -81,14 +76,12 @@ export function getType(layer: any = {}, item: any = {}): string {
  * getTypeCategories(item)
  * > [ 'Hub Site Application' ]
  * ```
- * To do.
- * @param layer Layer object.
  * @param item Item object.
- * @returns type of the input layer/item.
+ * @returns typeCategory of the input item.
  *
  */
-export function getTypeCategories(layer: any = {}, item: any = {}): string[] {
-  const type: string = getType(layer, item);
+export function getTypeCategories(item: any = {}): string[] {
+  const type: string = getType(item);
   const category: string = getCategory(type);
   if (category) {
     // upper case first letter and return as element in array for backwards compatibility
