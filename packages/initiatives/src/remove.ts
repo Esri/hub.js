@@ -5,6 +5,7 @@ import { removeInitiativeGroup } from "./groups";
 import { getInitiative } from "./get";
 import { detachSiteFromInitiative } from "./detach-site";
 import {
+  getItem,
   removeItem,
   unprotectItem,
   getSelf,
@@ -65,7 +66,7 @@ export function removeInitiative(
     getInitiative(id, requestOptions),
     getSelf(requestOptions)
   ])
-    .then(results => {
+    .then(async results => {
       progressCallback({
         processId,
         status: "working",
@@ -73,8 +74,18 @@ export function removeInitiative(
       });
       const model = results[0];
       const portal = results[1];
-      state.hasSite = !!model.item.properties.siteId;
-      state.siteId = model.item.properties.siteId;
+      const siteId = model.item.properties.siteId;
+      if (siteId) {
+        try {
+          await getItem(siteId, requestOptions);
+          state.hasSite = true;
+          state.siteId = siteId;
+        } catch (e) {
+          state.hasSite = false;
+        }
+      } else {
+        state.hasSite = false;
+      }
       state.initiativeOwner = model.item.owner;
       state.collaborationGroupId = getProp(
         portal,
