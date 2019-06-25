@@ -18,6 +18,7 @@ const CBWrapper = {
 let portalSelfSpy: any;
 let unprotectItemSpy: any;
 let removeItemSpy: any;
+let getItemSpy: any;
 let progressCallbackSpy: any;
 let removeGroupSpy: any;
 let detachSpy: any;
@@ -42,11 +43,17 @@ describe("remove Initiative", () => {
       }
     );
 
-    removeItemSpy = spyOn(portal, "removeItem").and.callFake((ro: any): Promise<
-      any
-    > => {
-      return Promise.resolve({ success: true });
-    });
+    getItemSpy = spyOn(portal, "getItem").and.callFake(
+      (siteId: string, ro: any): Promise<any> => {
+        return Promise.resolve({ success: true });
+      }
+    );
+
+    removeItemSpy = spyOn(portal, "removeItem").and.callFake(
+      (ro: any): Promise<any> => {
+        return Promise.resolve({ success: true });
+      }
+    );
 
     progressCallbackSpy = spyOn(CBWrapper, "updateProgress").and.callFake(
       (options: any): any => {
@@ -66,15 +73,17 @@ describe("remove Initiative", () => {
       }
     );
   });
-  it("should orchestrate the removal of the intiative", done => {
+  it("should orchestrate the removal of the initiative", done => {
     const getInitiativeSpy = spyOn(
       InitiativeFetchAPI,
       "getInitiative"
-    ).and.callFake((id: string, ro: any): Promise<IInitiativeModel> => {
-      const clone = cloneObject(InitiativeInstance);
-      clone.item.id = id;
-      return Promise.resolve(clone as IInitiativeModel);
-    });
+    ).and.callFake(
+      (id: string, ro: any): Promise<IInitiativeModel> => {
+        const clone = cloneObject(InitiativeInstance);
+        clone.item.id = id;
+        return Promise.resolve(clone as IInitiativeModel);
+      }
+    );
 
     return removeInitiative(
       "bc3",
@@ -100,12 +109,14 @@ describe("remove Initiative", () => {
     const getInitiativeSpy = spyOn(
       InitiativeFetchAPI,
       "getInitiative"
-    ).and.callFake((id: string, ro: any): Promise<IInitiativeModel> => {
-      const clone = cloneObject(InitiativeInstance);
-      clone.item.id = id;
-      clone.item.protected = true;
-      return Promise.resolve(clone as IInitiativeModel);
-    });
+    ).and.callFake(
+      (id: string, ro: any): Promise<IInitiativeModel> => {
+        const clone = cloneObject(InitiativeInstance);
+        clone.item.id = id;
+        clone.item.protected = true;
+        return Promise.resolve(clone as IInitiativeModel);
+      }
+    );
 
     return removeInitiative(
       "bc3",
@@ -117,6 +128,7 @@ describe("remove Initiative", () => {
         expect(getInitiativeSpy.calls.count()).toEqual(1);
         expect(unprotectItemSpy.calls.count()).toEqual(1);
         expect(removeGroupSpy.calls.count()).toEqual(2);
+        expect(getItemSpy.calls.count()).toEqual(1);
         expect(detachSpy.calls.count()).toEqual(1);
         expect(removeItemSpy.calls.count()).toEqual(1);
         expect(progressCallbackSpy.calls.count()).toEqual(5);
@@ -127,18 +139,20 @@ describe("remove Initiative", () => {
       });
   });
 
-  it("should handle no site and no OD group", done => {
+  it("should handle no site id and no OD group", done => {
     const getInitiativeSpy = spyOn(
       InitiativeFetchAPI,
       "getInitiative"
-    ).and.callFake((id: string, ro: any): Promise<IInitiativeModel> => {
-      const clone = cloneObject(InitiativeInstance);
-      clone.item.id = id;
-      clone.item.protected = true;
-      delete clone.item.properties.siteId;
-      delete clone.item.properties.openDataGroupId;
-      return Promise.resolve(clone as IInitiativeModel);
-    });
+    ).and.callFake(
+      (id: string, ro: any): Promise<IInitiativeModel> => {
+        const clone = cloneObject(InitiativeInstance);
+        clone.item.id = id;
+        clone.item.protected = true;
+        delete clone.item.properties.siteId;
+        delete clone.item.properties.openDataGroupId;
+        return Promise.resolve(clone as IInitiativeModel);
+      }
+    );
 
     return removeInitiative(
       "bc3",
@@ -150,6 +164,45 @@ describe("remove Initiative", () => {
         expect(getInitiativeSpy.calls.count()).toEqual(1);
         expect(unprotectItemSpy.calls.count()).toEqual(1);
         expect(removeGroupSpy.calls.count()).toEqual(1);
+        expect(getItemSpy.calls.count()).toEqual(0);
+        expect(detachSpy.calls.count()).toEqual(0);
+        expect(removeItemSpy.calls.count()).toEqual(1);
+        expect(progressCallbackSpy.calls.count()).toEqual(5);
+        done();
+      })
+      .catch(ex => {
+        fail();
+      });
+  });
+
+  it("should handle nonexistent site", done => {
+    const getInitiativeSpy = spyOn(
+      InitiativeFetchAPI,
+      "getInitiative"
+    ).and.callFake(
+      (id: string, ro: any): Promise<IInitiativeModel> => {
+        const clone = cloneObject(InitiativeInstance);
+        clone.item.id = id;
+        clone.item.protected = true;
+        return Promise.resolve(clone as IInitiativeModel);
+      }
+    );
+    getItemSpy.and.callFake(
+      (siteId: string, ro: any): Promise<any> => {
+        return Promise.reject();
+      }
+    );
+    return removeInitiative(
+      "bc3",
+      CBWrapper.updateProgress,
+      MOCK_REQUEST_OPTIONS
+    )
+      .then(response => {
+        expect(portalSelfSpy.calls.count()).toEqual(1);
+        expect(getInitiativeSpy.calls.count()).toEqual(1);
+        expect(unprotectItemSpy.calls.count()).toEqual(1);
+        expect(removeGroupSpy.calls.count()).toEqual(2);
+        expect(getItemSpy.calls.count()).toEqual(1);
         expect(detachSpy.calls.count()).toEqual(0);
         expect(removeItemSpy.calls.count()).toEqual(1);
         expect(progressCallbackSpy.calls.count()).toEqual(5);
