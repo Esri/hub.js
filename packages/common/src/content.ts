@@ -45,3 +45,50 @@ export function getCategory(itemType: string = ""): string {
 export function getTypes(category: string = ""): string[] {
   return categories[category.toLowerCase()];
 }
+
+/**
+ * ```js
+ * import { getType } from "@esri/hub-common";
+ * //
+ * getType(item)
+ * > [ 'Hub Site Application' ]
+ * ```
+ * @param item Item object.
+ * @returns type of the input item.
+ *
+ */
+export function getType(item: any = {}): string {
+  const typeKeywords = item.typeKeywords || [];
+  if (item.type === "Web Mapping Application") {
+    if (typeKeywords.includes("hubSite")) {
+      return "Hub Site Application";
+    } else if (typeKeywords.includes("hubPage")) {
+      return "Hub Page";
+    }
+  }
+  return item.type;
+}
+
+/**
+ * ```js
+ * import { getTypeCategories } from "@esri/hub-common";
+ * //
+ * getTypeCategories(item)
+ * > [ 'Hub Site Application' ]
+ * ```
+ * @param item Item object.
+ * @returns typeCategory of the input item.
+ *
+ */
+export function getTypeCategories(item: any = {}): string[] {
+  const type: string = getType(item);
+  const category: string = getCategory(type);
+  if (category) {
+    // upper case first letter and return as element in array for backwards compatibility
+    const chars = Array.from(category);
+    chars[0] = chars[0].toUpperCase();
+    return [chars.join("")];
+  } else {
+    return ["Other"];
+  }
+}

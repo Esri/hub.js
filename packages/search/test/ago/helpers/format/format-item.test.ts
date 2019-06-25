@@ -26,7 +26,8 @@ describe("highlights test", () => {
         ...itemProps,
         name: "fake item",
         searchDescription: "fake description",
-        hubType: "dataset"
+        hubType: "dataset",
+        collection: ["Dataset"]
       },
       meta: {
         highlights: {
@@ -51,7 +52,8 @@ describe("highlights test", () => {
         ...itemProps,
         name: "fake item",
         searchDescription: "fake description",
-        hubType: "dataset"
+        hubType: "dataset",
+        collection: ["Dataset"]
       }
     };
     expect(actual).toEqual(expected);
@@ -69,7 +71,8 @@ describe("highlights test", () => {
         type: "unknown type",
         name: "fake item",
         searchDescription: "fake description",
-        hubType: "Other"
+        hubType: "Other",
+        collection: ["Other"]
       }
     };
     expect(actual).toEqual(expected);
