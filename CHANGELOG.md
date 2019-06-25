@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
+## [2.3.0] - June 25th 2019
+
+### @esri/hub-common
+
+* Added
+  * getType and getTypeCategories of an item
+
 ## [2.2.5] - June 25th 2019
 
 ### @esri/hub-initiatives
@@ -411,4 +418,5 @@ Initial Release
 [2.2.3]: https://github.com/Esri/hub.js/compare/v2.2.2...v2.2.3 "v2.2.3"
 [2.2.4]: https://github.com/Esri/hub.js/compare/v2.2.3...v2.2.4 "v2.2.4"
 [2.2.5]: https://github.com/Esri/hub.js/compare/v2.2.4...v2.2.5 "v2.2.5"
-[HEAD]: https://github.com/Esri/hub.js/compare/v2.2.5...HEAD "Unreleased Changes"
+[2.3.0]: https://github.com/Esri/hub.js/compare/v2.2.5...v2.3.0 "v2.3.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v2.3.0...HEAD "Unreleased Changes"
