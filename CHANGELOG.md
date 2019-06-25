@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
+## [2.2.5] - June 25th 2019
+
+### @esri/hub-initiatives
+
+* Bug Fixes
+   * **initiatives**: removeInitiative detaches and deletes site only if it exists in AGO [`2f53e4e`](https://github.com/Esri/hub.js/commit/2f53e4e9d59dc2b103e6928a24670a62b159b200)
+
 ## [2.2.4] - June 18th 2019
 
 ### @esri/hub-annotations
@@ -403,4 +410,5 @@ Initial Release
 [2.2.2]: https://github.com/Esri/hub.js/compare/v2.2.1...v2.2.2 "v2.2.2"
 [2.2.3]: https://github.com/Esri/hub.js/compare/v2.2.2...v2.2.3 "v2.2.3"
 [2.2.4]: https://github.com/Esri/hub.js/compare/v2.2.3...v2.2.4 "v2.2.4"
-[HEAD]: https://github.com/Esri/hub.js/compare/v2.2.4...HEAD "Unreleased Changes"
+[2.2.5]: https://github.com/Esri/hub.js/compare/v2.2.4...v2.2.5 "v2.2.5"
+[HEAD]: https://github.com/Esri/hub.js/compare/v2.2.5...HEAD "Unreleased Changes"
