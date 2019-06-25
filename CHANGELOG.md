@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
+## [2.2.4] - June 18th 2019
+
+### @esri/hub-annotations
+
+* Bug Fixes
+   * **annotation users**: pass portal when getting annotation user [`458cb21`](https://github.com/Esri/hub.js/commit/458cb218ff148bab73216ddb93b8c6a9e506e7f1)
+
 ## [2.2.3] - June 12th 2019
 
 ### @esri/hub-annotations
@@ -395,4 +402,5 @@ Initial Release
 [2.2.1]: https://github.com/Esri/hub.js/compare/v2.2.0...v2.2.1 "v2.2.1"
 [2.2.2]: https://github.com/Esri/hub.js/compare/v2.2.1...v2.2.2 "v2.2.2"
 [2.2.3]: https://github.com/Esri/hub.js/compare/v2.2.2...v2.2.3 "v2.2.3"
-[HEAD]: https://github.com/Esri/hub.js/compare/v2.2.3...HEAD "Unreleased Changes"
+[2.2.4]: https://github.com/Esri/hub.js/compare/v2.2.3...v2.2.4 "v2.2.4"
+[HEAD]: https://github.com/Esri/hub.js/compare/v2.2.4...HEAD "Unreleased Changes"
