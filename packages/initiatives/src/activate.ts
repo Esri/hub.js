@@ -118,7 +118,7 @@ export function activateInitiative(
         createInitiativeGroup(
           state.uniqueDataGroupName,
           state.uniqueDataGroupName,
-          { isOpenData: true },
+          {},
           ro
         )
       ];
