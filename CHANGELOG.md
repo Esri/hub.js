@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
+## [2.3.1] - July 3rd 2019
+
+### @esri/hub-initiatives
+
+* Bug Fixes
+   * **initiatives**: do not create an open-data group when activating an initiative [`914f9ac`](https://github.com/Esri/hub.js/commit/914f9ac60437674d758e235b15b361f01e79f841)
+
 ## [2.3.0] - June 25th 2019
 
 ### @esri/hub-common
@@ -419,4 +426,5 @@ Initial Release
 [2.2.4]: https://github.com/Esri/hub.js/compare/v2.2.3...v2.2.4 "v2.2.4"
 [2.2.5]: https://github.com/Esri/hub.js/compare/v2.2.4...v2.2.5 "v2.2.5"
 [2.3.0]: https://github.com/Esri/hub.js/compare/v2.2.5...v2.3.0 "v2.3.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v2.3.0...HEAD "Unreleased Changes"
+[2.3.1]: https://github.com/Esri/hub.js/compare/v2.3.0...v2.3.1 "v2.3.1"
+[HEAD]: https://github.com/Esri/hub.js/compare/v2.3.1...HEAD "Unreleased Changes"
