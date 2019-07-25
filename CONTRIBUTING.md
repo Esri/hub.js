@@ -74,7 +74,9 @@ npm run release:prepare
 
 I don't know _why_, but sometimes lerna fails to increment a new version number for individual packages (like `@esri/hub-auth`). When this happens, it is necessary to increment the version number in the package (and anything that depends on it) manually.
 
-You **should not** increment `peerDependency` version numbers manually. they should remain as loose as possible.
+You **should not** increment `peerDependency` version numbers manually. they should remain as loose as possible. **Unless** you know that your new version of the package needs to use the updated peer dependency.
+
+For some reason, in CHANGELOG.md, the `unreleased` section appears below this release. So please move it to the top.
 
 You can display a diff to give you a sense of what will be committed to master when you actually publish.
 
