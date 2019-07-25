@@ -1,4 +1,9 @@
 const filterSchema: any = {
+  orgId: {
+    type: "filter",
+    dataType: "string",
+    catalogDefinition: true
+  },
   q: { type: "simple" },
   page: { type: "simple" },
   tags: {
@@ -73,6 +78,12 @@ const filterSchema: any = {
     type: "filter",
     dataType: "string",
     defaultOp: "any"
+  },
+  initiativeId: {
+    type: "filter",
+    dataType: "string",
+    defaultOp: "any",
+    catalogDefinition: true
   }
 };
 

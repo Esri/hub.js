@@ -33,7 +33,10 @@ const params = {
   sort: 'name',
   agg: { fields: 'tags,collection,owner,source,hasApi,downloadable' },
   start: 1,
-  num: 10
+  num: 10,
+  groupIds: '1ef,2ef',
+  orgId: '3ef',
+  initiativeId: '4ef'
 }
 const token = 'xxxYYY' // AGO token
 const portal = 'https://qaext.arcgis.com/sharing/rest'
