@@ -39,4 +39,17 @@ describe("buildFilter test", () => {
     const queryFilters = {};
     expect(buildFilter(queryFilters, "source")).toBe("()");
   });
+
+  it("builds filter by lowercasing key of AGO params", () => {
+    const queryFilters = {
+      orgId: {
+        fn: "any",
+        terms: ["MNF5ypRINzAAlFbv"],
+        catalogDefinition: true
+      }
+    };
+    expect(buildFilter(queryFilters, "orgId")).toBe(
+      '(orgid:"MNF5ypRINzAAlFbv")'
+    );
+  });
 });
