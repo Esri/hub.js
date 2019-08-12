@@ -3,8 +3,12 @@ import { getProp } from "@esri/hub-common";
 export function buildFilter(queryFilters: any, key: string) {
   const terms = getProp(queryFilters, `${key}.terms`) || [];
   const joinType = getProp(queryFilters, `${key}.fn`);
+  // all params to AGO queries MUST be lower case, so we're going to force
+  // lowerCase here because we use `orgId` for Hub index, and need it as `orgid`
+  // for AGO. This will allow us to use whatever casing for Hub and still
+  // adhere to AGO requirements
   let filter = terms
-    .map((term: string) => `${key}:"${term}"`)
+    .map((term: string) => `${key.toLowerCase()}:"${term}"`)
     .join(agoJoin(joinType));
   if (joinType === "not") {
     // "not" filter means everything but not those given terms

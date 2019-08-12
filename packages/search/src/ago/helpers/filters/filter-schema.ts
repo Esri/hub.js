@@ -2,6 +2,7 @@ const filterSchema: any = {
   orgId: {
     type: "filter",
     dataType: "string",
+    defaultOp: "any",
     catalogDefinition: true
   },
   q: { type: "simple" },
