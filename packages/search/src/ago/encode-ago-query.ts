@@ -14,7 +14,10 @@ export function encodeAgoQuery(queryParams: any = {}) {
     num: getProp(queryParams, "page.size") || 10
   };
   // start with 'implicit' query filters
-  let queryParts = ["-access:public", '-type:"code attachment"'];
+  let queryParts = ['-type:"code attachment"'];
+  if (queryParams.restricted) {
+    queryParts.push("-access:public");
+  }
   // Build the potentially enourmous 'q' parameter. In future use SearchQueryBuilder from arcgis-rest-js
   if (queryParams.q) {
     queryParts.push(queryParams.q);
