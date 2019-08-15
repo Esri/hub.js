@@ -8,13 +8,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased][HEAD]
 
 
+## [2.5.0] - August 15th 2019
+
+### Other Changes
+
+* New Features
+   * **search**: use restricted option to scope search [`ce5c823`](https://github.com/Esri/hub.js/commit/ce5c823beea49553a1d8f8b35c0f66d05867693a)
+   * **search**: use restricted option to scope search [`d3b699f`](https://github.com/Esri/hub.js/commit/d3b699f35fcc9962390a2f81b8883daf110bd7fd)
+
+
 ## [2.4.1] - August 12th 2019
 
 ### @esri/hub-search
 
 * Bug Fixes
    * **lowercase ago param keys**: lowercase ago param keys [`708fa9f`](https://github.com/Esri/hub.js/commit/708fa9fb300620c1fb8a4c9a9a1dfc168f5a03dc)
-
 
 ## [2.4.0] - July 25th 2019
 
@@ -447,4 +455,5 @@ Initial Release
 [2.3.1]: https://github.com/Esri/hub.js/compare/v2.3.0...v2.3.1 "v2.3.1"
 [2.4.0]: https://github.com/Esri/hub.js/compare/v2.3.1...v2.4.0 "v2.4.0"
 [2.4.1]: https://github.com/Esri/hub.js/compare/v2.4.0...v2.4.1 "v2.4.1"
-[HEAD]: https://github.com/Esri/hub.js/compare/v2.4.1...HEAD "Unreleased Changes"
+[2.5.0]: https://github.com/Esri/hub.js/compare/v2.4.1...v2.5.0 "v2.5.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v2.5.0...HEAD "Unreleased Changes"
