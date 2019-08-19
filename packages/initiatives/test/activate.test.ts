@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { cloneObject, createId } from "@esri/hub-common";
+import { cloneObject } from "@esri/hub-common";
 import { activateInitiative } from "../src/activate";
 import * as portal from "@esri/arcgis-rest-portal";
 import * as InitiativeFetchAPI from "../src/get";
@@ -202,7 +202,22 @@ describe("Initiative Activation :: ", () => {
         expect(progressCallbackSpy.calls.argsFor(0)[0].steps).toEqual(
           ActivateInitiativeAPI.steps
         );
-
+        expect(response.item.properties.groupId).toEqual(
+          "3ef",
+          "has collab group"
+        );
+        expect(response.data.values.collaborationGroupId).toEqual(
+          "3ef",
+          "has collab group"
+        );
+        expect(response.item.properties.openDataGroupId).toEqual(
+          "2ef",
+          "has data group"
+        );
+        expect(response.data.values.openDataGroupId).toEqual(
+          "2ef",
+          "has data group"
+        );
         done();
       });
     });

@@ -13,7 +13,17 @@ import {
 } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
-// doc
+/**
+ * Create all of the groups needed for activating an initiative, provided the user has the
+ * correct privs; simply does not create a group if the proper priv not present (rather than
+ * throwing an error)
+ *
+ * @export
+ * @param {string} collaborationGroupName name of the collaboration group to be created
+ * @param {string} dataGroupName name of the content group to be created
+ * @param {IRequestOptions} ro
+ * @returns {Promise<any>} object containing the groupIds
+ */
 export function createInitiativeGroups(
   collaborationGroupName: string,
   dataGroupName: string,
@@ -27,7 +37,7 @@ export function createInitiativeGroups(
       );
       state.canCreateContentGroup = portal.user.privileges.includes(
         "opendata:user:designateGroup"
-      ); // TODO remove this guard when hyu fixes things
+      ); // TODO remove this guard when no longer creating open data groups
       const namePromises: any[] = [];
       if (state.canCreateCollabGroup) {
         namePromises.push(

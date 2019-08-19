@@ -92,7 +92,7 @@ export function activateInitiative(
       state.template = templateItemModel;
       return createInitiativeGroups(collaborationGroupName, dataGroupName, ro);
     })
-    .then((groupIds: any) => {
+    .then(groupIds => {
       progressCallback({
         processId,
         status: "working",
