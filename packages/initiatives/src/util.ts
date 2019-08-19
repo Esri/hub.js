@@ -52,6 +52,47 @@ export function copyImageResources(
 }
 
 /**
+ *  Copy an set of embedded resources to an item
+ *
+ * @export
+ * @param {string} id destination item id
+ * @param {string} owner destination item owner
+ * @param {any[]} assets list of assets to copy
+ * @param {IRequestOptions} requestOptions
+ * @returns {Promise<boolean>}
+ */
+export function copyEmbeddedImageResources(
+  targetItemId: string,
+  owner: string,
+  assets: any[],
+  requestOptions: IRequestOptions
+): Promise<boolean> {
+  // need to move resources from embedded template into AGO
+  const promises = assets.map((asset: any) => {
+    // // first, generate a URL to each asset in the model
+    // const entry = newModel.data.assets.findBy('id', asset.id);
+    // entry.url = `${ro.authentication.portal}/content/items/${newModel.item.id}/resources/${asset.name}`;
+    // then, upload the actual asset
+    return addImageAsResource(
+      targetItemId,
+      owner,
+      asset.name,
+      asset.url,
+      requestOptions as IUserRequestOptions
+    )
+      .then(() => {
+        return true;
+      })
+      .catch(() => {
+        return true; // swallow the error
+      });
+  });
+  return Promise.all(promises).then(() => {
+    return true;
+  });
+}
+
+/**
  * Load an image from a url, and store it as a resource on an existing item
  *
  * @export

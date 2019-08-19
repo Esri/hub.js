@@ -7,9 +7,80 @@ import {
   searchGroups,
   removeGroup,
   unprotectGroup,
-  IUserGroupOptions
+  getSelf,
+  IUserGroupOptions,
+  IPortal
 } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
+
+// doc
+export function createInitiativeGroups(
+  collaborationGroupName: string,
+  dataGroupName: string,
+  ro: IRequestOptions
+): Promise<any> {
+  const state = {} as any;
+  return getSelf(ro)
+    .then((portal: IPortal) => {
+      state.canCreateCollabGroup = portal.user.privileges.includes(
+        "portal:admin:createUpdateCapableGroup"
+      );
+      state.canCreateContentGroup = portal.user.privileges.includes(
+        "opendata:user:designateGroup"
+      ); // TODO remove this guard when hyu fixes things
+      const namePromises: any[] = [];
+      if (state.canCreateCollabGroup) {
+        namePromises.push(
+          getUniqueGroupName(collaborationGroupName, portal.id, 0, ro).then(
+            name => {
+              state.collabGroupName = name;
+            }
+          )
+        );
+      }
+      if (state.canCreateContentGroup) {
+        namePromises.push(
+          getUniqueGroupName(dataGroupName, portal.id, 0, ro).then(name => {
+            state.dataGroupName = name;
+          })
+        );
+      }
+      return Promise.all(namePromises).then(() => {
+        return true;
+      });
+    })
+    .then(() => {
+      const createPromises = [];
+      const result: any = {};
+      if (state.collabGroupName) {
+        createPromises.push(
+          createInitiativeGroup(
+            state.collabGroupName,
+            state.collabGroupName,
+            { isSharedEditing: true },
+            ro
+          ).then(groupId => {
+            result.collabGroupId = groupId;
+          })
+        );
+      }
+      if (state.dataGroupName) {
+        createPromises.push(
+          createInitiativeGroup(
+            state.dataGroupName,
+            state.dataGroupName,
+            { isOpenData: true }, // TODO remove this
+            ro
+          ).then(groupId => {
+            result.dataGroupId = groupId;
+          })
+        );
+      }
+      return Promise.all(createPromises).then(() => {
+        return result;
+      });
+    });
+}
 
 /**
  * Create an initiative collaboration or open data group

@@ -4,21 +4,20 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IInitiativeModel, createId, camelize } from "@esri/hub-common";
 import { getInitiative } from "./get";
-import { getUniqueGroupName, createInitiativeGroup } from "./groups";
+import { createInitiativeGroups } from "./groups";
 import {
   createInitiativeModelFromTemplate,
   IInitiativeTemplateOptions
 } from "./templates";
 import { addInitiative } from "./add";
-import { copyImageResources } from "./util";
+import { copyImageResources, copyEmbeddedImageResources } from "./util";
 import {
   shareItemWithGroup,
-  IGroupSharingOptions,
-  getSelf,
-  IPortal
+  IGroupSharingOptions
 } from "@esri/arcgis-rest-portal";
+import { getProp } from "@esri/hub-common";
 
-const steps = [
+export const steps = [
   {
     id: "createGroup",
     status: "not-started"
@@ -42,7 +41,7 @@ const steps = [
  * Creates an instance of an Initiative, based on an Initiative Template.
  *
  * @export
- * @param {(string | any)} Initiative Template item or Id
+ * @param {string | any} template Initiative Template item or Id
  * @param {string} title
  * @param {string} collaborationGroupName
  * @param {string} dataGroupName
@@ -77,52 +76,21 @@ export function activateInitiative(
   const state = {
     initiativeKey: camelize(title)
   } as any;
-  // Steps
-  // Get the portal to we have access to
-  //  - orgId
-  //  - org extent
-  //  - geometryServiceUrl
-  return getSelf(ro)
-    .then((portal: IPortal) => {
-      state.portal = portal;
-      // we may be handed a template...
-      if (typeof template === "string") {
-        return getInitiative(template, ro);
-      } else {
-        return Promise.resolve(template);
-      }
-    })
-    .then((templateItemModel: any) => {
-      state.template = templateItemModel;
-      const uniqueNames = [
-        getUniqueGroupName(collaborationGroupName, state.portal.id, 0, ro),
-        getUniqueGroupName(dataGroupName, state.portal.id, 0, ro)
-      ];
-      return Promise.all(uniqueNames);
-    })
-    .then((groupNames: any) => {
+  let promise;
+  if (typeof template === "string") {
+    promise = getInitiative(template, ro);
+  } else {
+    promise = Promise.resolve(template);
+  }
+  return promise
+    .then(async (templateItemModel: any) => {
       progressCallback({
         processId,
         status: "working",
         activeStep: "copyTemplate"
       });
-      state.uniqueCollaborationGroupName = groupNames[0];
-      state.uniqueDataGroupName = groupNames[1];
-      const createGroups = [
-        createInitiativeGroup(
-          state.uniqueCollaborationGroupName,
-          state.uniqueCollaborationGroupName,
-          { isSharedEditing: true },
-          ro
-        ),
-        createInitiativeGroup(
-          state.uniqueDataGroupName,
-          state.uniqueDataGroupName,
-          {},
-          ro
-        )
-      ];
-      return Promise.all(createGroups);
+      state.template = templateItemModel;
+      return createInitiativeGroups(collaborationGroupName, dataGroupName, ro);
     })
     .then((groupIds: any) => {
       progressCallback({
@@ -130,12 +98,12 @@ export function activateInitiative(
         status: "working",
         activeStep: "createInitiative"
       });
-      state.collaborationGroupId = groupIds[0];
-      state.openDataGroupId = groupIds[1];
+      state.collaborationGroupId = groupIds.collabGroupId;
+      state.dataGroupId = groupIds.dataGroupId;
       // construct the options...
       const options = {
         collaborationGroupId: state.collaborationGroupId,
-        openDataGroupId: state.openDataGroupId,
+        dataGroupId: state.dataGroupId,
         title,
         description: title,
         initiativeKey: state.initiativeKey
@@ -150,28 +118,53 @@ export function activateInitiative(
     })
     .then((newModel: IInitiativeModel) => {
       state.initiativeModel = newModel;
-      const { id, owner } = newModel.item;
-      const assets = ["detail-image.jpg", "icon-dark.png", "icon-light.png"];
-      // now copy assets from the parent initiative...
-      return copyImageResources(state.template.item.id, id, owner, assets, ro);
+      const assets = getProp(state, "template.assets");
+      if (assets) {
+        return copyEmbeddedImageResources(
+          newModel.item.id,
+          newModel.item.owner,
+          assets,
+          ro
+        );
+      } else {
+        const { id, owner } = newModel.item;
+        const wellKnownAssets = [
+          "detail-image.jpg",
+          "icon-dark.png",
+          "icon-light.png"
+        ];
+        // now copy assets from the parent initiative...
+        return copyImageResources(
+          state.template.item.id,
+          id,
+          owner,
+          wellKnownAssets,
+          ro
+        );
+      }
     })
-    .then(() => {
-      // share to the collabGroup...
-      progressCallback({
-        processId,
-        status: "working",
-        activeStep: "shareInitiative"
-      });
-      // create the sharing options...
-      const shareOptions = {
-        id: state.initiativeModel.item.id,
-        groupId: state.collaborationGroupId,
-        confirmItemControl: true,
-        ...requestOptions
-      } as IGroupSharingOptions;
-
-      return shareItemWithGroup(shareOptions);
-    })
+    .then(
+      (): Promise<any> => {
+        progressCallback({
+          processId,
+          status: "working",
+          activeStep: "shareInitiative"
+        });
+        if (state.collaborationGroupId) {
+          // share to the collabGroup...
+          // create the sharing options...
+          const shareOptions = {
+            id: state.initiativeModel.item.id,
+            groupId: state.collaborationGroupId,
+            confirmItemControl: true,
+            ...requestOptions
+          } as IGroupSharingOptions;
+          return shareItemWithGroup(shareOptions);
+        } else {
+          return Promise.resolve({ success: true });
+        }
+      }
+    )
     .then(() => {
       // compute the duration...
       const duration = new Date().getTime() - startTS;
