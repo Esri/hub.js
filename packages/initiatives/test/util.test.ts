@@ -1,9 +1,12 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-import { copyImageResources, addImageAsResource } from "../src/util";
+import {
+  copyImageResources,
+  copyEmbeddedImageResources,
+  addImageAsResource
+} from "../src/util";
 import { MOCK_REQUEST_OPTIONS } from "./mocks/fake-session";
 import * as fetchMock from "fetch-mock";
-
 const REST_URL = "https://www.arcgis.com/sharing/rest";
 
 describe("Initiative Utilities ::", () => {
@@ -118,6 +121,103 @@ describe("Initiative Utilities ::", () => {
           );
           expect(options.method).toBe("POST");
           expect(options.body instanceof FormData).toBeTruthy();
+          done();
+        });
+      }
+    });
+  });
+  describe("copyEmbeddedImageResources ::", () => {
+    // -----------------------------------------------------------------------
+    // NOTE
+    // blob responses are difficult to make cross platform we will just have
+    // to trust the isomorphic fetch will do its job
+    // -----------------------------------------------------------------------
+    afterEach(() => {
+      fetchMock.restore();
+    });
+
+    it("should make multiple calls to addImageAsResource", done => {
+      if (typeof Blob === "undefined") {
+        // we are in node, so just skip this
+        expect(true).toBeTruthy();
+        done();
+      } else {
+        const fakeResponse = {
+          body: new Blob(),
+          sendAsJson: false
+        };
+        // mock two fetch calls...
+        // first is a GET that should return a blob...
+        fetchMock.get("foo.com", fakeResponse);
+        fetchMock.get("bar.com", fakeResponse);
+
+        // second is a POST that will contain a blob and return json
+        fetchMock.post(`${REST_URL}/content/users/bz7/items/3ef/addResources`, {
+          success: true
+        });
+        const assets = [
+          {
+            name: "foo",
+            url: "foo.com"
+          },
+          {
+            name: "bar",
+            url: "bar.com"
+          }
+        ];
+        // we are in a browser, so we can actually run this...
+        return copyEmbeddedImageResources(
+          "3ef",
+          "bz7",
+          assets,
+          MOCK_REQUEST_OPTIONS
+        ).then(resp => {
+          expect(resp).toBeTruthy();
+          // check that the mocks were called
+          expect(fetchMock.done()).toBeTruthy();
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+            `${REST_URL}/content/users/bz7/items/3ef/addResources`
+          );
+          expect(url).toBe(
+            `${REST_URL}/content/users/bz7/items/3ef/addResources`
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body instanceof FormData).toBeTruthy();
+          done();
+        });
+      }
+    });
+    it("should fail silently", done => {
+      if (typeof Blob === "undefined") {
+        // we are in node, so just skip this
+        expect(true).toBeTruthy();
+        done();
+      } else {
+        // mock two fetch calls...
+        // first is a GET that should return a blob...
+        fetchMock.get("foo.com", {
+          body: new Blob(),
+          sendAsJson: false
+        });
+        // second is a POST that will contain a blob and return json
+        fetchMock.post(`${REST_URL}/content/users/bz7/items/3ef/addResources`, {
+          success: false,
+          code: 403
+        });
+        const assets = [
+          {
+            name: "foo",
+            url: "foo.com"
+          }
+        ];
+        // we are in a browser, so we can actually run this...
+        return copyEmbeddedImageResources(
+          "3ef",
+          "bz7",
+          assets,
+          MOCK_REQUEST_OPTIONS
+        ).then(resp => {
+          expect(resp).toBeTruthy();
           done();
         });
       }

@@ -10,10 +10,10 @@ import {
   IUserGroupOptions
 } from "@esri/arcgis-rest-portal";
 import { MOCK_REQUEST_OPTIONS } from "./mocks/fake-session";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
 import {
   checkGroupExists,
   isSharedEditingGroup,
+  createInitiativeGroups,
   createInitiativeGroup,
   getUniqueGroupName,
   removeInitiativeGroup
@@ -51,19 +51,123 @@ describe("Initiative Groups ::", () => {
       }
     );
   });
+
+  describe("createInitiativeGroups ::", () => {
+    it("should create and protect a data and collab group", done => {
+      const portalSelfSpy = spyOn(portal, "getSelf").and.callFake(() => {
+        return Promise.resolve({
+          id: "FAKEPORTALID",
+          user: {
+            privileges: [
+              "portal:admin:createUpdateCapableGroup",
+              "opendata:user:designateGroup"
+            ]
+          }
+        });
+      });
+      const searchSpy = spyOn(portal, "searchGroups").and.callFake(
+        (opts: ISearchOptions) => {
+          const res = {
+            results: [],
+            query: opts.q,
+            total: 0,
+            start: 0,
+            num: 0,
+            nextStart: -1
+          } as ISearchResult<IGroup>;
+          return Promise.resolve(res);
+        }
+      );
+
+      return createInitiativeGroups(
+        "a collab group",
+        "a data group",
+        MOCK_REQUEST_OPTIONS
+      ).then(groupIds => {
+        expect(portalSelfSpy.calls.count()).toEqual(
+          1,
+          "should make 1 call to getSelf"
+        );
+        expect(searchSpy.calls.count()).toEqual(
+          2,
+          "should make 2 calls to search for getting unique name"
+        );
+        expect(createGroupSpy.calls.count()).toEqual(
+          2,
+          "should make 2 calls to createGroup"
+        );
+        expect(protectGroupSpy.calls.count()).toEqual(
+          2,
+          "should make 2 calls to protectGroup"
+        );
+        const createCollabGroupArgs = createGroupSpy.calls.argsFor(0);
+        expect(createCollabGroupArgs[0].group.capabilities).toEqual(
+          "updateitemcontrol",
+          "isSharedEditing should be true"
+        );
+        const createDataGroupArgs = createGroupSpy.calls.argsFor(1);
+        expect(createDataGroupArgs[0].group.isOpenData).toBeTruthy(
+          "isOpenData should be true"
+        );
+        expect(groupIds.dataGroupId).toBeTruthy();
+        expect(groupIds.collabGroupId).toBeTruthy();
+        done();
+      });
+    });
+
+    it("should not create groups without correct privs", done => {
+      const portalSelfSpy = spyOn(portal, "getSelf").and.callFake(() => {
+        return Promise.resolve({
+          id: "FAKEPORTALID",
+          user: {
+            privileges: []
+          }
+        });
+      });
+      const searchSpy = spyOn(portal, "searchGroups").and.callFake(
+        (opts: ISearchOptions) => {
+          const res = {
+            results: [],
+            query: opts.q,
+            total: 0,
+            start: 0,
+            num: 0,
+            nextStart: -1
+          } as ISearchResult<IGroup>;
+          return Promise.resolve(res);
+        }
+      );
+
+      return createInitiativeGroups(
+        "a collab group",
+        "a data group",
+        MOCK_REQUEST_OPTIONS
+      ).then(groupIds => {
+        expect(portalSelfSpy.calls.count()).toEqual(
+          1,
+          "should make 1 call to getSelf"
+        );
+        expect(searchSpy.calls.count()).toEqual(
+          0,
+          "should make 0 calls to search for getting unique name"
+        );
+        expect(createGroupSpy.calls.count()).toEqual(
+          0,
+          "should make 0 calls to createGroup"
+        );
+        expect(protectGroupSpy.calls.count()).toEqual(
+          0,
+          "should make 0 calls to protectGroup"
+        );
+        expect(groupIds.dataGroupId).toBeUndefined();
+        expect(groupIds.collabGroupId).toBeUndefined();
+        done();
+      });
+    });
+  });
+
   describe("createInitiativeGroup ::", () => {
     it("should create and protect a generic group", done => {
-      // const createGroupSpy = spyOn(portal, "createGroup").and.callFake(
-      //   (opts: ICreateGroupOptions) => {
-      //     return Promise.resolve({ success: true, group: { id: "3ef" } });
-      //   }
-      // );
-      // const protectGroupSpy = spyOn(portal, "protectGroup").and.callFake(
-      //   (opts: IUserGroupOptions) => {
-      //     return Promise.resolve({ success: true });
-      //   }
-      // );
-
       return createInitiativeGroup(
         "generic group",
         "generic description",
@@ -118,16 +222,6 @@ describe("Initiative Groups ::", () => {
       });
     });
     it("should create and protect a collaboration group", done => {
-      // const createGroupSpy = spyOn(portal, "createGroup").and.callFake(
-      //   (opts: ICreateGroupOptions) => {
-      //     return Promise.resolve({ success: true, group: { id: "3ef" } });
-      //   }
-      // );
-      // const protectGroupSpy = spyOn(portal, "protectGroup").and.callFake(
-      //   (opts: IUserGroupOptions) => {
-      //     return Promise.resolve({ success: true, id: "3ef" });
-      //   }
-      // );
       return createInitiativeGroup(
         "generic group",
         "generic description",

@@ -14,8 +14,8 @@ import { INITIATIVE_TYPE_NAME } from "./add";
  */
 export interface IInitiativeTemplateOptions {
   title: string;
-  collaborationGroupId: string;
-  openDataGroupId: string;
+  collaborationGroupId?: string;
+  dataGroupId?: string;
   initiativeKey: string;
 }
 
@@ -51,19 +51,22 @@ export function createInitiativeModelFromTemplate(
   );
   model.item.typeKeywords.push("hubInitiative");
 
-  // remove things that are irrelvant or are set server-side
+  // remove things that are irrelevant or are set server-side
   ["id", "owner", "created_at", "modified_at"].forEach(
     prop => delete model.item[prop]
   );
-
   // we store a bunch of Ids in here so we can avoid fetching /data for common interactions
   model.item.properties = {
     source: template.item.id,
-    groupId: options.collaborationGroupId,
-    openDataGroupId: options.openDataGroupId,
     schemaVersion: CURRENT_SCHEMA_VERSION,
     initialParent: template.item.id
   };
+  if (options.collaborationGroupId) {
+    model.item.properties.groupId = options.collaborationGroupId;
+  }
+  if (options.dataGroupId) {
+    model.item.properties.openDataGroupId = options.dataGroupId;
+  }
   // we create a new .data node so we're cleaning rogue properties as we go
   model.data = {
     assets: cloneObject(template.data.assets),
@@ -71,14 +74,17 @@ export function createInitiativeModelFromTemplate(
     indicators: [],
     source: template.item.id,
     values: {
-      collaborationGroupId: options.collaborationGroupId,
-      openDataGroupId: options.openDataGroupId,
       followerGroups: [],
       initiativeKey: options.initiativeKey,
       bannerImage: cloneObject(template.data.values.bannerImage)
     }
   };
-
+  if (options.collaborationGroupId) {
+    model.data.values.collaborationGroupId = options.collaborationGroupId;
+  }
+  if (options.dataGroupId) {
+    model.data.values.openDataGroupId = options.dataGroupId;
+  }
   // just in case the template does not have a banner image defined...
   if (!model.data.values.bannerImage) {
     model.data.values.bannerImage = {
@@ -88,6 +94,5 @@ export function createInitiativeModelFromTemplate(
       }
     };
   }
-
   return model;
 }
