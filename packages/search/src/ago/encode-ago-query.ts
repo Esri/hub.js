@@ -26,12 +26,16 @@ export function encodeAgoQuery(queryParams: any = {}) {
     const filter = createFilters(queryParams.catalog);
     queryParts.push(handleFilter(filter));
   }
-  if (queryParams.filter) {
-    // queryParams filter is an obj with key<string>: value<string> where value is serialized as 'all(a,b)'
-    // so parse each filter string into fn and terms
-    const filter = createFilters(queryParams.filter);
+
+  const implicitFilters = createFilters(queryParams);
+  // queryParams filter is an obj with key<string>: value<string> where value is serialized as 'all(a,b)'
+  // so parse each filter string into fn and terms
+  const explicitFilters = createFilters(queryParams.filter);
+  const filters = { ...implicitFilters, ...explicitFilters };
+
+  if (Object.keys(filters).length) {
     // add each parsed filter object into ago query
-    queryParts.push(handleFilter(filter));
+    queryParts.push(handleFilter(filters));
   }
   // cleanse queryParts by removing blank strings
   queryParts = queryParts.filter(qp => !!qp);
