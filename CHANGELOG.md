@@ -5,10 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.6.0] - August 20th 2019
-
 ## [Unreleased][HEAD]
 
+## [2.7.0] - August 29th 2019
+
+* New Features
+   * **search**: support filters specified implicitly
+
+## [2.6.0] - August 20th 2019
 
 
 ## [2.5.0] - August 15th 2019
@@ -458,5 +462,5 @@ Initial Release
 [2.4.0]: https://github.com/Esri/hub.js/compare/v2.3.1...v2.4.0 "v2.4.0"
 [2.4.1]: https://github.com/Esri/hub.js/compare/v2.4.0...v2.4.1 "v2.4.1"
 [2.5.0]: https://github.com/Esri/hub.js/compare/v2.4.1...v2.5.0 "v2.5.0"
-[2.6.0]: https://github.com/Esri/hub.js/compare/v2.5.0...v2.6.0 "v2.6.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v2.6.0...HEAD "Unreleased Changes"
+[2.7.0]: https://github.com/Esri/hub.js/compare/v2.5.0...v2.7.0 "v2.7.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v2.7.0...HEAD "Unreleased Changes"
