@@ -39,7 +39,7 @@ export function handleFilter(queryFilters: any) {
   if (catalogDefinition.length) {
     const catalogClause = `(${catalogDefinition.join(" OR ")})`;
     if (otherFilters.length) {
-      return `${catalogClause} AND (${otherFilters.join(" OR ")})`;
+      return `${catalogClause} AND (${otherFilters.join(" AND ")})`;
     } else {
       return catalogClause;
     }

@@ -58,6 +58,31 @@ describe("encodeAgoQuery test", () => {
     expect(actual).toEqual(expected);
   });
 
+  it("handles a joint collection and type query correctly", () => {
+    const params: any = {
+      q: "",
+      groupIds: "6f063f2d05824bd898ca0d5089d93614",
+      type: "hub page",
+      collection: "Document",
+      sort: "relevance",
+      agg: {
+        fields: "downloadable,hasApi,source,tags,type,access"
+      },
+      id: "4dd789d0c75a4ebb8805b1314c1cc974",
+      initiativeId: ""
+    };
+    const actual = encodeAgoQuery(params);
+    const expected = {
+      q:
+        '-type:"code attachment" AND ((group:"6f063f2d05824bd898ca0d5089d93614") OR (id:"4dd789d0c75a4ebb8805b1314c1cc974")) AND ((type:"hub page") AND (type:"CAD Drawing" OR type:"Document Link" OR type:"Hub Page" OR type:"Image" OR type:"iWork Keynote" OR type:"iWork Numbers" OR type:"iWork Pages" OR type:"Microsoft Powerpoint" OR type:"Microsoft Visio" OR type:"Microsoft Word" OR type:"PDF" OR type:"Pro Map" OR type:"Report Template"))',
+      start: 1,
+      num: 10,
+      countFields: "tags,type,access",
+      countSize: 200
+    };
+    expect(actual).toEqual(expected);
+  });
+
   it("encodes ago query undefined query params", () => {
     const actual = encodeAgoQuery();
     const expected = {
