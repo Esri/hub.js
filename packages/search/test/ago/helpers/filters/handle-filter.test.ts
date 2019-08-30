@@ -74,7 +74,7 @@ describe("handleFilter test", () => {
       }
     };
     const expected =
-      '((group:"a" OR group:"b") OR (id:"x" OR id:"y")) AND ((tags:"a" AND tags:"b") OR (type:"Feature Service" OR type:"Map Service" OR type:"Image Service"))';
+      '((group:"a" OR group:"b") OR (id:"x" OR id:"y")) AND ((tags:"a" AND tags:"b") AND (type:"Feature Service" OR type:"Map Service" OR type:"Image Service"))';
     const actual = handleFilter(queryFilters);
     expect(actual).toBe(expected);
   });
