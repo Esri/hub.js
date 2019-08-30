@@ -7,12 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
+## [2.7.1] - August 30th 2019
+
+### Other Changes
+
+* Bug Fixes
+   * **search**: multiple filters should be ANDed together [`aeeecbc`](https://github.com/Esri/hub.js/commit/aeeecbcaa3b37e054eff0449e77dfcee07701859)
+   * **search**: multiple filters should be ANDed together [`b458eae`](https://github.com/Esri/hub.js/commit/b458eae66cf8181ddc8c839cede6da36db93158d)
+
 ## [2.7.0] - August 29th 2019
 
 * New Features
    * **search**: support filters specified implicitly
 
 ## [2.6.0] - August 20th 2019
+
 
 
 ## [2.5.0] - August 15th 2019
@@ -463,4 +472,5 @@ Initial Release
 [2.4.1]: https://github.com/Esri/hub.js/compare/v2.4.0...v2.4.1 "v2.4.1"
 [2.5.0]: https://github.com/Esri/hub.js/compare/v2.4.1...v2.5.0 "v2.5.0"
 [2.7.0]: https://github.com/Esri/hub.js/compare/v2.5.0...v2.7.0 "v2.7.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v2.7.0...HEAD "Unreleased Changes"
+[2.7.1]: https://github.com/Esri/hub.js/compare/v2.7.0...v2.7.1 "v2.7.1"
+[HEAD]: https://github.com/Esri/hub.js/compare/v2.7.1...HEAD "Unreleased Changes"

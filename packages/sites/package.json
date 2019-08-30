@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-sites",
-  "version": "2.7.0",
+  "version": "2.7.1",
   "description": "Module to interact with ArcGIS Hub Sites in Node.js and modern browsers.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/sites.umd.js",
