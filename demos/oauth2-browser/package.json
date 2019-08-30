@@ -8,7 +8,7 @@
   "dependencies": {
     "@esri/arcgis-rest-auth": "^1.16.0",
     "@esri/arcgis-rest-request": "^1.16.0",
-    "@esri/hub-auth": "^2.7.0"
+    "@esri/hub-auth": "^2.7.1"
   },
   "devDependencies": {
     "http-server": "0.11.1"
