@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
+## [3.0.0] - September 4th 2019
+
+* Changed
+   * Migrate to new initiative schema where groupId is now stored as collaborationGroupId
+   * Remove `progressCallback` from activate and remove initiative processes
+   * Change `activateInitiative` and `createInitiativeModelFromTemplate` to expect a hash of groupIds corresponding to existing groups for the new initiative model
+
 ## [2.7.1] - August 30th 2019
 
 ### Other Changes
