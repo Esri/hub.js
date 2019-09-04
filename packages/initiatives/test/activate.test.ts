@@ -6,17 +6,9 @@ import { activateInitiative } from "../src/activate";
 import * as portal from "@esri/arcgis-rest-portal";
 import * as InitiativeFetchAPI from "../src/get";
 import * as AddInitiativeAPI from "../src/add";
-import * as ActivateInitiativeAPI from "../src/activate";
-import * as InitiativeGroupsAPI from "../src/groups";
 import * as UtilAPI from "../src/util";
 import { InitiativeTemplate } from "./mocks/initiative-template";
 import { MOCK_REQUEST_OPTIONS } from "./mocks/fake-session";
-
-const CBWrapper = {
-  updateProgress(options: any): any {
-    return;
-  }
-};
 
 describe("Initiative Activation :: ", () => {
   let addInitiativeSpy: any;

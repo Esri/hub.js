@@ -6,6 +6,7 @@ import { IInitiativeModel, camelize } from "@esri/hub-common";
 import { getInitiative } from "./get";
 import {
   createInitiativeModelFromTemplate,
+  IInitiativeGroupIds,
   IInitiativeTemplateOptions
 } from "./templates";
 import { addInitiative } from "./add";
@@ -30,7 +31,7 @@ import { getProp } from "@esri/hub-common";
 export function activateInitiative(
   template: string | any,
   title: string,
-  groupIds: any,
+  groupIds: IInitiativeGroupIds,
   requestOptions: IRequestOptions
 ): Promise<IInitiativeModel> {
   // make a copy of the request options so we can mutate things if needed...
@@ -92,11 +93,15 @@ export function activateInitiative(
     })
     .then(
       (): Promise<any> => {
-        if (groupIds.collaborationGroupId) {
+        const collaborationGroupId = getProp(
+          state,
+          "initiativeModel.item.properties.collaborationGroupId"
+        );
+        if (collaborationGroupId) {
           // create sharing options and share to the core team
           const shareOptions = {
             id: state.initiativeModel.item.id,
-            groupId: groupIds.collaborationGroupId,
+            groupId: collaborationGroupId,
             confirmItemControl: true,
             ...requestOptions
           } as IGroupSharingOptions;

@@ -15,7 +15,18 @@ import { INITIATIVE_TYPE_NAME } from "./add";
 export interface IInitiativeTemplateOptions {
   title: string;
   initiativeKey: string;
-  groupIds?: any;
+  groupIds?: IInitiativeGroupIds;
+}
+
+/**
+ * Hash for passing groupIds corresponding to newly created initiative
+ * groups into the new initiative model
+ *
+ * @export
+ * @interface IInitiativeGroupIds
+ */
+export interface IInitiativeGroupIds {
+  [s: string]: string;
 }
 
 /**

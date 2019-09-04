@@ -61,8 +61,8 @@ describe("Initiative Templates ::", () => {
       );
       expect(chk.data.values.collaborationGroupId).toBe(
         opts.groupIds.collaborationGroupId
-      );
-      expect(chk.data.values.contentGroupId).toBe(opts.groupIds.contentGroupId);
+      ); // TODO remove
+      expect(chk.data.values.contentGroupId).toBe(opts.groupIds.contentGroupId); // TODO remove
       expect(chk.item.properties.initialParent).toBe(defaultTemplate.item.id);
 
       expect(chk.item.tags).toContain("Hub Initiative");
@@ -86,7 +86,7 @@ describe("Initiative Templates ::", () => {
 
       expect(chk.item.properties.collaborationGroupId).toBeUndefined();
       expect(chk.item.properties.contentGroupId).toBeUndefined();
-      expect(chk.data.values.collaborationGroupId).toBeUndefined();
+      expect(chk.data.values.collaborationGroupId).toBeUndefined(); // TODO remove this and next 4 lines
       expect(chk.data.values.contentGroupId).toBeUndefined();
       expect(chk.data.values.collaborationGroupId).toBeUndefined();
       expect(chk.data.values.contentGroupId).toBeUndefined();
