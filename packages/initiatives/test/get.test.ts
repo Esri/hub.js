@@ -28,7 +28,7 @@ describe("Initiatives :: ", () => {
       getInitiative("3ef")
         .then(model => {
           expect(model.item).toBeDefined();
-          expect(model.item.properties.schemaVersion).toEqual(2);
+          expect(model.item.properties.schemaVersion).toEqual(2.1);
           expect(model.data).toBeDefined();
           expect(fetchMock.done()).toBeTruthy();
           const [url]: [string, RequestInit] = fetchMock.lastCall(

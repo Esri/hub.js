@@ -2,7 +2,12 @@
  * Apache-2.0 */
 import { IInitiativeModel, IInitiativeItem } from "@esri/hub-common";
 
-export const initiativeVersionZero: IInitiativeModel = {
-  item: {} as IInitiativeItem,
+export const initiativeVersionTwo: IInitiativeModel = {
+  item: {
+    properties: {
+      schemaVersion: 2,
+      groupId: "4ef"
+    }
+  } as IInitiativeItem,
   data: {}
 };

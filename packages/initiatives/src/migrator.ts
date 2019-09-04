@@ -5,6 +5,7 @@ import { IInitiativeModel } from "@esri/hub-common";
 import { applyInitialSchema } from "./migrations/apply-schema";
 import { upgradeToOneDotOne } from "./migrations/upgrade-one-dot-one";
 import { upgradeToTwoDotZero } from "./migrations/upgrade-two-dot-zero";
+import { upgradeToTwoDotOne } from "./migrations/upgrade-two-dot-one";
 
 /**
  * Current Schema Version
@@ -38,6 +39,7 @@ export function migrateSchema(
     model = applyInitialSchema(model, portalUrl);
     model = upgradeToOneDotOne(model, portalUrl);
     model = upgradeToTwoDotZero(model, portalUrl);
+    model = upgradeToTwoDotOne(model);
     // etc
     return model;
   }
