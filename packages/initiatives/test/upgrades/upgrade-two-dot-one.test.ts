@@ -4,7 +4,7 @@ import { IInitiativeModel, cloneObject } from "@esri/hub-common";
 import { upgradeToTwoDotOne } from "../../src/migrations/upgrade-two-dot-one";
 import { initiativeVersionTwo } from "../mocks/initiative-versionTwo";
 
-describe("Applying v1.1 Initiative Schema ::", () => {
+describe("Applying v2.1 Initiative Schema ::", () => {
   const model = cloneObject(initiativeVersionTwo) as IInitiativeModel;
 
   describe("Upgrade Instance ::", () => {
@@ -15,7 +15,7 @@ describe("Applying v1.1 Initiative Schema ::", () => {
       expect(chk).toBe(instance, "should return the same object");
       done();
     });
-    it("should add the schema version and assets", done => {
+    it("should change groupId to collaborationGroupId", done => {
       const instance = cloneObject(model) as IInitiativeModel;
       expect(instance.item.properties.groupId).toBeDefined(
         "groupId is defined"
