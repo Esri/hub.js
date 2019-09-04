@@ -14,9 +14,19 @@ import { INITIATIVE_TYPE_NAME } from "./add";
  */
 export interface IInitiativeTemplateOptions {
   title: string;
-  collaborationGroupId?: string;
-  dataGroupId?: string;
   initiativeKey: string;
+  groupIds?: IInitiativeGroupIds;
+}
+
+/**
+ * Hash for passing groupIds corresponding to newly created initiative
+ * groups into the new initiative model
+ *
+ * @export
+ * @interface IInitiativeGroupIds
+ */
+export interface IInitiativeGroupIds {
+  [s: string]: string;
 }
 
 /**
@@ -61,12 +71,7 @@ export function createInitiativeModelFromTemplate(
     schemaVersion: CURRENT_SCHEMA_VERSION,
     initialParent: template.item.id
   };
-  if (options.collaborationGroupId) {
-    model.item.properties.groupId = options.collaborationGroupId;
-  }
-  if (options.dataGroupId) {
-    model.item.properties.openDataGroupId = options.dataGroupId;
-  }
+  Object.assign(model.item.properties, options.groupIds); // add the groupIds
   // we create a new .data node so we're cleaning rogue properties as we go
   model.data = {
     assets: cloneObject(template.data.assets),
@@ -74,17 +79,11 @@ export function createInitiativeModelFromTemplate(
     indicators: [],
     source: template.item.id,
     values: {
-      followerGroups: [],
       initiativeKey: options.initiativeKey,
       bannerImage: cloneObject(template.data.values.bannerImage)
     }
   };
-  if (options.collaborationGroupId) {
-    model.data.values.collaborationGroupId = options.collaborationGroupId;
-  }
-  if (options.dataGroupId) {
-    model.data.values.openDataGroupId = options.dataGroupId;
-  }
+  Object.assign(model.data.values, options.groupIds); // add the groupIds, TODO stop storing groupIds in data.values
   // just in case the template does not have a banner image defined...
   if (!model.data.values.bannerImage) {
     model.data.values.bannerImage = {

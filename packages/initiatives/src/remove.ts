@@ -13,34 +13,17 @@ import {
 } from "@esri/arcgis-rest-portal";
 import { getProp, createId } from "@esri/hub-common";
 
-const steps = [
-  {
-    id: "unshareContent",
-    status: "not-started"
-  },
-  {
-    id: "deleteGroup",
-    status: "not-started"
-  },
-  {
-    id: "removeInitiative",
-    status: "not-started"
-  }
-];
-
 /**
- * Remove an Initiative, and it's associated groups.
+ * Remove an Initiative, and its associated groups.
  * If the initiative has a site, it will be shared to
  * the organization's main collaboration group
  * @export
  * @param {string} id
- * @param {(n: any) => any} progressCallback
  * @param {IRequestOptions} requestOptions
  * @returns {Promise<any>}
  */
 export function removeInitiative(
   id: string,
-  progressCallback: (n: any) => any,
   requestOptions: IRequestOptions
 ): Promise<any> {
   const state = {
@@ -48,16 +31,6 @@ export function removeInitiative(
   } as any;
   const processId = createId("remove-");
   const startTS = new Date().getTime();
-  // send the setup to the progress callback
-  progressCallback({
-    processId,
-    steps
-  });
-  progressCallback({
-    processId,
-    status: "working",
-    activeStep: "unshareContent"
-  });
   // first get the item, because we need to also remove the
   // collaboration and open data groups...
   // and the Portal because w need the org's default
@@ -67,11 +40,6 @@ export function removeInitiative(
     getSelf(requestOptions)
   ])
     .then(async results => {
-      progressCallback({
-        processId,
-        status: "working",
-        activeStep: "deleteGroup"
-      });
       const model = results[0];
       const portal = results[1];
       const siteId = model.item.properties.siteId;
@@ -93,13 +61,15 @@ export function removeInitiative(
       );
       // remove the groups...
       const prms = [] as any[];
-      ["groupId", "openDataGroupId", "followersGroupId"].forEach(prop => {
-        if (model.item.properties[prop]) {
-          prms.push(
-            removeInitiativeGroup(model.item.properties[prop], requestOptions)
-          );
+      ["collaborationGroupId", "contentGroupId", "followersGroupId"].forEach(
+        prop => {
+          if (model.item.properties[prop]) {
+            prms.push(
+              removeInitiativeGroup(model.item.properties[prop], requestOptions)
+            );
+          }
         }
-      });
+      );
       // if the item is protected, un-protect it...
       if (model.item.protected) {
         const opts = {
@@ -111,11 +81,6 @@ export function removeInitiative(
       return Promise.all(prms);
     })
     .then(() => {
-      progressCallback({
-        processId,
-        status: "working",
-        activeStep: "removeInitiative"
-      });
       const prms = [];
       const opts = {
         id,
@@ -136,12 +101,6 @@ export function removeInitiative(
       return Promise.all(prms);
     })
     .then(() => {
-      const duration = new Date().getTime() - startTS;
-      progressCallback({
-        processId,
-        duration,
-        status: "complete"
-      });
       return { success: true };
     });
 }

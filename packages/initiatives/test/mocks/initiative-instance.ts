@@ -38,9 +38,10 @@ export const InitiativeInstance: IInitiativeModel = {
     licenseInfo: "null",
     culture: "en-us",
     properties: {
-      groupId: "3dde61efbdcd464eacabe5a7a917c8d4",
-      openDataGroupId: "f6742867e3ee41beb964d9f5d9cec5ae",
-      schemaVersion: 2,
+      collaborationGroupId: "3dde61efbdcd464eacabe5a7a917c8d4",
+      contentGroupId: "f6742867e3ee41beb964d9f5d9cec5ae",
+      followersGroupId: "q736g4f8q76g487f6qg38476gq83746g",
+      schemaVersion: 2.1,
       initialParent: "b746772712ef4c68a53d0e268e3c8f49",
       siteId: "d6f7dcd57d9c4fecb70bbf547ff4613b"
     },
@@ -219,9 +220,6 @@ export const InitiativeInstance: IInitiativeModel = {
       }
     ],
     values: {
-      collaborationGroupId: "3dde61efbdcd464eacabe5a7a917c8d4",
-      openDataGroupId: "f6742867e3ee41beb964d9f5d9cec5ae",
-      followerGroups: [],
       bannerImage: {
         source: "bannerImage",
         display: {

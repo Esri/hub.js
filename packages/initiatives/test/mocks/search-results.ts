@@ -93,8 +93,8 @@ export const InitiativeSearchResults: any = {
       culture: "en-us",
       properties: {
         source: "94bbbf2bf2364e7981d396d2474f4b1c",
-        groupId: "10dcdbf74f314d74b23741e9d790f4ad",
-        openDataGroupId: "b8ce4867a0f94d719cc64514bf4430b4",
+        collaborationGroupId: "10dcdbf74f314d74b23741e9d790f4ad",
+        contentGroupId: "b8ce4867a0f94d719cc64514bf4430b4",
         schemaVersion: 2,
         initialParent: "94bbbf2bf2364e7981d396d2474f4b1c"
       },

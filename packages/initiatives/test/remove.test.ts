@@ -10,16 +10,10 @@ import * as InitiativeFetchAPI from "../src/get";
 import { InitiativeInstance } from "./mocks/initiative-instance";
 import { IInitiativeModel } from "@esri/hub-common";
 
-const CBWrapper = {
-  updateProgress(options: any): any {
-    return;
-  }
-};
 let portalSelfSpy: any;
 let unprotectItemSpy: any;
 let removeItemSpy: any;
 let getItemSpy: any;
-let progressCallbackSpy: any;
 let removeGroupSpy: any;
 let detachSpy: any;
 
@@ -55,12 +49,6 @@ describe("remove Initiative", () => {
       }
     );
 
-    progressCallbackSpy = spyOn(CBWrapper, "updateProgress").and.callFake(
-      (options: any): any => {
-        return;
-      }
-    );
-
     removeGroupSpy = spyOn(GroupAPI, "removeInitiativeGroup").and.callFake(
       (id: string, ro: any): Promise<any> => {
         return Promise.resolve({ success: true });
@@ -85,19 +73,14 @@ describe("remove Initiative", () => {
       }
     );
 
-    return removeInitiative(
-      "bc3",
-      CBWrapper.updateProgress,
-      MOCK_REQUEST_OPTIONS
-    )
+    return removeInitiative("bc3", MOCK_REQUEST_OPTIONS)
       .then(response => {
         expect(portalSelfSpy.calls.count()).toEqual(1);
         expect(getInitiativeSpy.calls.count()).toEqual(1);
         expect(unprotectItemSpy.calls.count()).toEqual(0);
-        expect(removeGroupSpy.calls.count()).toEqual(2);
+        expect(removeGroupSpy.calls.count()).toEqual(3);
         expect(detachSpy.calls.count()).toEqual(1);
         expect(removeItemSpy.calls.count()).toEqual(1);
-        expect(progressCallbackSpy.calls.count()).toEqual(5);
         done();
       })
       .catch(ex => {
@@ -118,20 +101,15 @@ describe("remove Initiative", () => {
       }
     );
 
-    return removeInitiative(
-      "bc3",
-      CBWrapper.updateProgress,
-      MOCK_REQUEST_OPTIONS
-    )
+    return removeInitiative("bc3", MOCK_REQUEST_OPTIONS)
       .then(response => {
         expect(portalSelfSpy.calls.count()).toEqual(1);
         expect(getInitiativeSpy.calls.count()).toEqual(1);
         expect(unprotectItemSpy.calls.count()).toEqual(1);
-        expect(removeGroupSpy.calls.count()).toEqual(2);
+        expect(removeGroupSpy.calls.count()).toEqual(3);
         expect(getItemSpy.calls.count()).toEqual(1);
         expect(detachSpy.calls.count()).toEqual(1);
         expect(removeItemSpy.calls.count()).toEqual(1);
-        expect(progressCallbackSpy.calls.count()).toEqual(5);
         done();
       })
       .catch(ex => {
@@ -149,25 +127,20 @@ describe("remove Initiative", () => {
         clone.item.id = id;
         clone.item.protected = true;
         delete clone.item.properties.siteId;
-        delete clone.item.properties.openDataGroupId;
+        delete clone.item.properties.contentGroupId;
         return Promise.resolve(clone as IInitiativeModel);
       }
     );
 
-    return removeInitiative(
-      "bc3",
-      CBWrapper.updateProgress,
-      MOCK_REQUEST_OPTIONS
-    )
+    return removeInitiative("bc3", MOCK_REQUEST_OPTIONS)
       .then(response => {
         expect(portalSelfSpy.calls.count()).toEqual(1);
         expect(getInitiativeSpy.calls.count()).toEqual(1);
         expect(unprotectItemSpy.calls.count()).toEqual(1);
-        expect(removeGroupSpy.calls.count()).toEqual(1);
+        expect(removeGroupSpy.calls.count()).toEqual(2);
         expect(getItemSpy.calls.count()).toEqual(0);
         expect(detachSpy.calls.count()).toEqual(0);
         expect(removeItemSpy.calls.count()).toEqual(1);
-        expect(progressCallbackSpy.calls.count()).toEqual(5);
         done();
       })
       .catch(ex => {
@@ -192,20 +165,15 @@ describe("remove Initiative", () => {
         return Promise.reject();
       }
     );
-    return removeInitiative(
-      "bc3",
-      CBWrapper.updateProgress,
-      MOCK_REQUEST_OPTIONS
-    )
+    return removeInitiative("bc3", MOCK_REQUEST_OPTIONS)
       .then(response => {
         expect(portalSelfSpy.calls.count()).toEqual(1);
         expect(getInitiativeSpy.calls.count()).toEqual(1);
         expect(unprotectItemSpy.calls.count()).toEqual(1);
-        expect(removeGroupSpy.calls.count()).toEqual(2);
+        expect(removeGroupSpy.calls.count()).toEqual(3);
         expect(getItemSpy.calls.count()).toEqual(1);
         expect(detachSpy.calls.count()).toEqual(0);
         expect(removeItemSpy.calls.count()).toEqual(1);
-        expect(progressCallbackSpy.calls.count()).toEqual(5);
         done();
       })
       .catch(ex => {
