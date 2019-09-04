@@ -2,9 +2,8 @@
  * Apache-2.0 */
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IInitiativeModel, createId, camelize } from "@esri/hub-common";
+import { IInitiativeModel, camelize } from "@esri/hub-common";
 import { getInitiative } from "./get";
-import { createInitiativeGroups } from "./groups";
 import {
   createInitiativeModelFromTemplate,
   IInitiativeTemplateOptions
@@ -17,25 +16,6 @@ import {
 } from "@esri/arcgis-rest-portal";
 import { getProp } from "@esri/hub-common";
 
-export const steps = [
-  {
-    id: "createGroup",
-    status: "not-started"
-  },
-  {
-    id: "copyTemplate",
-    status: "not-started"
-  },
-  {
-    id: "createInitiative",
-    status: "not-started"
-  },
-  {
-    id: "shareInitiative",
-    status: "not-started"
-  }
-];
-
 /**
  * Activate an Initiative
  * Creates an instance of an Initiative, based on an Initiative Template.
@@ -43,36 +23,19 @@ export const steps = [
  * @export
  * @param {string | any} template Initiative Template item or Id
  * @param {string} title
- * @param {string} collaborationGroupName
- * @param {string} dataGroupName
- * @param {(n: any) => any} progressCallback
+ * @param {any} groupIds hash of group props and ids
  * @param {IRequestOptions} requestOptions
  * @returns {Promise<IInitiativeModel>}
  */
 export function activateInitiative(
   template: string | any,
   title: string,
-  collaborationGroupName: string,
-  dataGroupName: string,
-  progressCallback: (n: any) => any,
+  groupIds: any,
   requestOptions: IRequestOptions
 ): Promise<IInitiativeModel> {
   // make a copy of the request options so we can mutate things if needed...
   const ro = { ...requestOptions } as IRequestOptions;
-  const processId = createId("activation-");
-  const startTS = new Date().getTime();
-  // send the setup to the progress callback
-  progressCallback({
-    processId,
-    steps
-  });
-  progressCallback({
-    processId,
-    status: "working",
-    activeStep: "createGroup"
-  });
-  // create a state container to hold things we accumulate thru the
-  // various promises
+  // create a state container to hold things we accumulate through the various promises
   const state = {
     initiativeKey: camelize(title)
   } as any;
@@ -84,29 +47,13 @@ export function activateInitiative(
   }
   return promise
     .then(async (templateItemModel: any) => {
-      progressCallback({
-        processId,
-        status: "working",
-        activeStep: "copyTemplate"
-      });
       state.template = templateItemModel;
-      return createInitiativeGroups(collaborationGroupName, dataGroupName, ro);
-    })
-    .then(groupIds => {
-      progressCallback({
-        processId,
-        status: "working",
-        activeStep: "createInitiative"
-      });
-      state.collaborationGroupId = groupIds.collabGroupId;
-      state.dataGroupId = groupIds.dataGroupId;
       // construct the options...
       const options = {
-        collaborationGroupId: state.collaborationGroupId,
-        dataGroupId: state.dataGroupId,
         title,
         description: title,
-        initiativeKey: state.initiativeKey
+        initiativeKey: state.initiativeKey,
+        groupIds
       } as IInitiativeTemplateOptions;
       // cook the template...
       state.initiativeModel = createInitiativeModelFromTemplate(
@@ -145,17 +92,11 @@ export function activateInitiative(
     })
     .then(
       (): Promise<any> => {
-        progressCallback({
-          processId,
-          status: "working",
-          activeStep: "shareInitiative"
-        });
-        if (state.collaborationGroupId) {
-          // share to the collabGroup...
-          // create the sharing options...
+        if (groupIds.collaborationGroupId) {
+          // create sharing options and share to the core team
           const shareOptions = {
             id: state.initiativeModel.item.id,
-            groupId: state.collaborationGroupId,
+            groupId: groupIds.collaborationGroupId,
             confirmItemControl: true,
             ...requestOptions
           } as IGroupSharingOptions;
@@ -166,13 +107,6 @@ export function activateInitiative(
       }
     )
     .then(() => {
-      // compute the duration...
-      const duration = new Date().getTime() - startTS;
-      progressCallback({
-        processId,
-        duration,
-        status: "complete"
-      });
       return state.initiativeModel;
     });
 }

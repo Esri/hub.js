@@ -35,9 +35,11 @@ describe("Initiative Templates ::", () => {
       const tmpl = cloneObject(defaultTemplate) as IInitiativeModel;
       const opts = {
         title: "Death Star Initiative",
-        collaborationGroupId: "bc45251",
-        dataGroupId: "bc45251",
-        initiativeKey: "deathStarInitiative"
+        initiativeKey: "deathStarInitiative",
+        groupIds: {
+          collaborationGroupId: "bc45251",
+          contentGroupId: "bc45252"
+        }
       };
       const chk = createInitiativeModelFromTemplate(tmpl, opts);
 
@@ -51,8 +53,16 @@ describe("Initiative Templates ::", () => {
         defaultTemplate.item.id,
         "templateId should be source"
       );
-      expect(chk.item.properties.groupId).toBe(opts.collaborationGroupId);
-      expect(chk.item.properties.openDataGroupId).toBe(opts.dataGroupId);
+      expect(chk.item.properties.collaborationGroupId).toBe(
+        opts.groupIds.collaborationGroupId
+      );
+      expect(chk.item.properties.contentGroupId).toBe(
+        opts.groupIds.contentGroupId
+      );
+      expect(chk.data.values.collaborationGroupId).toBe(
+        opts.groupIds.collaborationGroupId
+      );
+      expect(chk.data.values.contentGroupId).toBe(opts.groupIds.contentGroupId);
       expect(chk.item.properties.initialParent).toBe(defaultTemplate.item.id);
 
       expect(chk.item.tags).toContain("Hub Initiative");
@@ -64,10 +74,6 @@ describe("Initiative Templates ::", () => {
         );
       });
       expect(chk.data.indicators).toBeDefined();
-      expect(chk.data.values.collaborationGroupId).toBe(
-        opts.collaborationGroupId
-      );
-      expect(chk.data.values.openDataGroupId).toBe(opts.dataGroupId);
       expect(chk.data.values.initiativeKey).toBe(opts.initiativeKey);
     });
     it("should return a new model with groupIds excluded", () => {
@@ -78,18 +84,18 @@ describe("Initiative Templates ::", () => {
       };
       const chk = createInitiativeModelFromTemplate(tmpl, opts);
 
-      expect(chk.item.properties.groupId).toBeUndefined();
-      expect(chk.item.properties.openDataGroupId).toBeUndefined();
+      expect(chk.item.properties.collaborationGroupId).toBeUndefined();
+      expect(chk.item.properties.contentGroupId).toBeUndefined();
       expect(chk.data.values.collaborationGroupId).toBeUndefined();
-      expect(chk.data.values.openDataGroupId).toBeUndefined();
+      expect(chk.data.values.contentGroupId).toBeUndefined();
+      expect(chk.data.values.collaborationGroupId).toBeUndefined();
+      expect(chk.data.values.contentGroupId).toBeUndefined();
     });
     it("should inject a default banner image", () => {
       const tmpl = cloneObject(defaultTemplate) as IInitiativeModel;
       delete tmpl.data.values.bannerImage;
       const opts = {
         title: "Death Star Initiative",
-        collaborationGroupId: "bc45251",
-        dataGroupId: "bc45251",
         initiativeKey: "deathStarInitiative"
       };
       const chk = createInitiativeModelFromTemplate(tmpl, opts);
