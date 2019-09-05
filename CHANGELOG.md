@@ -5,7 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [3.0.1] - September 5th 2019
+
+### @esri/hub-initiatives
+
+* Bug Fixes
+   * **swallow group delete failures on initiative deletion**: swallow group delete failures on initiative deletion [`e11e83d`](https://github.com/Esri/hub.js/commit/e11e83de14a464462bb81ccb9c3de5f1e81be8b1)
+
 ## [Unreleased][HEAD]
+
+
 
 ## [3.0.0] - September 4th 2019
 
@@ -478,6 +487,9 @@ Initial Release
 [2.4.0]: https://github.com/Esri/hub.js/compare/v2.3.1...v2.4.0 "v2.4.0"
 [2.4.1]: https://github.com/Esri/hub.js/compare/v2.4.0...v2.4.1 "v2.4.1"
 [2.5.0]: https://github.com/Esri/hub.js/compare/v2.4.1...v2.5.0 "v2.5.0"
-[2.7.0]: https://github.com/Esri/hub.js/compare/v2.5.0...v2.7.0 "v2.7.0"
+[2.6.0]: https://github.com/Esri/hub.js/compare/v2.5.0...v2.6.0 "v2.6.0"
+[2.7.0]: https://github.com/Esri/hub.js/compare/v2.6.0...v2.7.0 "v2.7.0"
 [2.7.1]: https://github.com/Esri/hub.js/compare/v2.7.0...v2.7.1 "v2.7.1"
-[HEAD]: https://github.com/Esri/hub.js/compare/v2.7.1...HEAD "Unreleased Changes"
+[3.0.0]: https://github.com/Esri/hub.js/compare/v2.7.1...v3.0.0 "v3.0.0"
+[3.0.1]: https://github.com/Esri/hub.js/compare/v3.0.0...v3.0.1 "v3.0.1"
+[HEAD]: https://github.com/Esri/hub.js/compare/v3.0.1...HEAD "Unreleased Changes"
