@@ -65,7 +65,10 @@ export function removeInitiative(
         prop => {
           if (model.item.properties[prop]) {
             prms.push(
-              removeInitiativeGroup(model.item.properties[prop], requestOptions)
+              removeInitiativeGroup(
+                model.item.properties[prop],
+                requestOptions
+              ).catch(() => Promise.resolve(true)) // swallow group delete failures
             );
           }
         }
