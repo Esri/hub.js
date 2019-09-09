@@ -11,7 +11,8 @@ const itemProps = {
   created: 12345678,
   type: "feature layer",
   numViews: 1000,
-  size: 1
+  size: 1,
+  extent: [[1, 2], [3, 4]]
 };
 
 describe("highlights test", () => {
@@ -27,7 +28,11 @@ describe("highlights test", () => {
         name: "fake item",
         searchDescription: "fake description",
         hubType: "dataset",
-        collection: ["Dataset"]
+        collection: ["Dataset"],
+        extent: {
+          coordinates: [[1, 2], [3, 4]],
+          type: "envelope"
+        }
       },
       meta: {
         highlights: {
@@ -53,7 +58,11 @@ describe("highlights test", () => {
         name: "fake item",
         searchDescription: "fake description",
         hubType: "dataset",
-        collection: ["Dataset"]
+        collection: ["Dataset"],
+        extent: {
+          coordinates: [[1, 2], [3, 4]],
+          type: "envelope"
+        }
       }
     };
     expect(actual).toEqual(expected);
@@ -72,7 +81,11 @@ describe("highlights test", () => {
         name: "fake item",
         searchDescription: "fake description",
         hubType: "Other",
-        collection: ["Other"]
+        collection: ["Other"],
+        extent: {
+          coordinates: [[1, 2], [3, 4]],
+          type: "envelope"
+        }
       }
     };
     expect(actual).toEqual(expected);
