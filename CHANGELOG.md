@@ -9,11 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.1.0] - September 9th 2019
 
-### @esri/hub-initiatives
-
-* Bug Fixes
-   * **swallow group delete failures on initiative deletion**: swalloe group delete failures on initiati [`e11e83d`](https://github.com/Esri/hub.js/commit/e11e83de14a464462bb81ccb9c3de5f1e81be8b1)
-
 ### Other Changes
 
 * Bug Fixes
