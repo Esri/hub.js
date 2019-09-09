@@ -12,7 +12,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Other Changes
 
 * Bug Fixes
-   * **search**: format item extent properly [`1192006`](https://github.com/Esri/hub.js/commit/119200619cd59facecff1ffbd00e9e7eb97d4aba)
    * **search**: format item extent properly [`163250e`](https://github.com/Esri/hub.js/commit/163250e0bf6589b75f95ba775cc62ab5757418c4)
 
 ## [3.0.1] - September 5th 2019
