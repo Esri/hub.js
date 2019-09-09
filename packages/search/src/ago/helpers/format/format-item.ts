@@ -49,9 +49,19 @@ function formatItemAttributes(item: IItem) {
     name: item.title,
     searchDescription: item.description,
     hubType: hubType || "Other",
-    collection: getTypeCategories(item)
+    collection: getTypeCategories(item),
+    extent: formatExtent(item.extent)
   };
   return { ...item, ...additionalAttrs };
+}
+
+function formatExtent(
+  extent: number[][]
+): { coordinates: number[][]; type: string } {
+  return {
+    coordinates: extent,
+    type: "envelope"
+  };
 }
 
 function highlights(
