@@ -7,8 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
+### @esri/hub-common
+
 * New Features
    * **extend**: implement extend in `hub-common` [`5e0ff68`](https://github.com/Esri/hub.js/commit/5e0ff68571203ec8460c69f6d57debd2eb3a4fe7)
+
+## [3.1.0] - September 9th 2019
+
+### Other Changes
+
+* Bug Fixes
+   * **search**: format item extent properly [`163250e`](https://github.com/Esri/hub.js/commit/163250e0bf6589b75f95ba775cc62ab5757418c4)
 
 ## [3.0.1] - September 5th 2019
 
@@ -488,9 +497,8 @@ Initial Release
 [2.4.0]: https://github.com/Esri/hub.js/compare/v2.3.1...v2.4.0 "v2.4.0"
 [2.4.1]: https://github.com/Esri/hub.js/compare/v2.4.0...v2.4.1 "v2.4.1"
 [2.5.0]: https://github.com/Esri/hub.js/compare/v2.4.1...v2.5.0 "v2.5.0"
-[2.6.0]: https://github.com/Esri/hub.js/compare/v2.5.0...v2.6.0 "v2.6.0"
-[2.7.0]: https://github.com/Esri/hub.js/compare/v2.6.0...v2.7.0 "v2.7.0"
+[2.7.0]: https://github.com/Esri/hub.js/compare/v2.5.0...v2.7.0 "v2.7.0"
 [2.7.1]: https://github.com/Esri/hub.js/compare/v2.7.0...v2.7.1 "v2.7.1"
 [3.0.0]: https://github.com/Esri/hub.js/compare/v2.7.1...v3.0.0 "v3.0.0"
-[3.0.1]: https://github.com/Esri/hub.js/compare/v3.0.0...v3.0.1 "v3.0.1"
-[HEAD]: https://github.com/Esri/hub.js/compare/v3.0.1...HEAD "Unreleased Changes"
+[3.1.0]: https://github.com/Esri/hub.js/compare/v3.0.0...v3.1.0 "v3.1.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v3.1.0...HEAD "Unreleased Changes"

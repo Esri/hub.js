@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-common",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "description": "Common TypeScript types and utility functions for @esri/hub.js.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/common.umd.js",
