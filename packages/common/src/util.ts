@@ -278,3 +278,34 @@ export function camelize(value: string): string {
 export function unique(value: any, index: number, ary: any[]): boolean {
   return ary.indexOf(value) === index;
 }
+
+/**
+ * Extends the target object with props from the source object, overwriting identically named
+ * props in target with those from source, ignoring null and undefined values; similar to $.extend.
+ * Performs a deep extend by default, unless deep = false is passed as the third arg.
+ *
+ * @param target - the object that will take props from source
+ * @param source - the object from which to take props
+ * @param deep - whether or not to perform a deep (recursive) extend of source
+ */
+export function extend(
+  target: { [index: string]: any },
+  source: { [index: string]: any },
+  deep: boolean = true
+): { [index: string]: any } {
+  const extended: { [index: string]: any } = cloneObject(target);
+  return Object.keys(source).reduce((obj, prop) => {
+    if (source[prop] !== null && source[prop] !== undefined) {
+      const value = cloneObject(source[prop]);
+      if (Array.isArray(value)) {
+        // check for arrays, since array is type object
+        obj[prop] = value;
+      } else if (deep && typeof value === "object") {
+        obj[prop] = extend(obj[prop] || {}, value, deep);
+      } else {
+        obj[prop] = value;
+      }
+    }
+    return obj;
+  }, extended);
+}
