@@ -560,7 +560,7 @@ describe("util functions", () => {
           d: 5
         }
       };
-      const result = extend(target, source);
+      const result = extend(target, source, false);
       expect(result).toEqual({ a: "foo", b: { d: 5 } });
     });
     it("should deep extend a deep object", () => {
@@ -576,7 +576,7 @@ describe("util functions", () => {
           d: 5
         }
       };
-      const result = extend(target, source, true);
+      const result = extend(target, source);
       expect(result).toEqual({ a: "foo", b: { c: 3, d: 5 } });
     });
     it("should shallow extend an object with an array", () => {
@@ -592,7 +592,7 @@ describe("util functions", () => {
           d: [6, 7, 8]
         }
       };
-      const result = extend(target, source);
+      const result = extend(target, source, false);
       expect(result).toEqual({ a: [4, 5, 6], b: { d: [6, 7, 8] } });
     });
     it("should return a new instance", () => {
@@ -658,7 +658,7 @@ describe("util functions", () => {
         },
         k: 58
       };
-      const result = extend(target, source, true);
+      const result = extend(target, source);
       expect(result).toEqual(expected);
     });
   });
