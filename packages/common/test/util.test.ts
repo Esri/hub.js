@@ -10,7 +10,8 @@ import {
   createId,
   maybeAdd,
   maybePush,
-  unique
+  unique,
+  extend
 } from "../src/util";
 
 describe("util functions", () => {
@@ -516,6 +517,149 @@ describe("util functions", () => {
       expect(["foo"].filter(unique)).toEqual(["foo"]);
       expect(["foo", "bar", "foo"].filter(unique)).toEqual(["foo", "bar"]);
       expect([].filter(unique)).toEqual([]);
+    });
+  });
+
+  /* tslint:disable */
+  describe("extend", () => {
+    it("should extend an object", () => {
+      const target = {
+        a: 1
+      };
+      const source = {
+        a: "foo",
+        b: "bar"
+      };
+      const result = extend(target, source);
+      expect(result).toEqual({ a: "foo", b: "bar" });
+    });
+    it("should ignore null and undefined values", () => {
+      const target = {
+        a: 1,
+        b: 2,
+        c: 3
+      };
+      const source: any = {
+        a: undefined,
+        b: null,
+        c: 58
+      };
+      const result = extend(target, source);
+      expect(result).toEqual({ a: 1, b: 2, c: 58 });
+    });
+    it("should shallow extend a deep object", () => {
+      const target = {
+        a: 1,
+        b: {
+          c: 3
+        }
+      };
+      const source = {
+        a: "foo",
+        b: {
+          d: 5
+        }
+      };
+      const result = extend(target, source);
+      expect(result).toEqual({ a: "foo", b: { d: 5 } });
+    });
+    it("should deep extend a deep object", () => {
+      const target = {
+        a: 1,
+        b: {
+          c: 3
+        }
+      };
+      const source = {
+        a: "foo",
+        b: {
+          d: 5
+        }
+      };
+      const result = extend(target, source, true);
+      expect(result).toEqual({ a: "foo", b: { c: 3, d: 5 } });
+    });
+    it("should shallow extend an object with an array", () => {
+      const target = {
+        a: [1, 2, 3],
+        b: {
+          c: 3
+        }
+      };
+      const source = {
+        a: [4, 5, 6],
+        b: {
+          d: [6, 7, 8]
+        }
+      };
+      const result = extend(target, source);
+      expect(result).toEqual({ a: [4, 5, 6], b: { d: [6, 7, 8] } });
+    });
+    it("should return a new instance", () => {
+      const target = {
+        a: 1
+      };
+      const source = {
+        a: 3
+      };
+      const result = extend(target, source);
+      expect(result == target).toBeFalsy();
+      expect(result == source).toBeFalsy();
+    });
+    it("should deep extend a complex object", () => {
+      const fun = function() {};
+      const target = {
+        a: 1,
+        b: [2, 3],
+        c: {
+          d: 4,
+          e: [5, 6],
+          f: {
+            g: 7,
+            h: function() {},
+            i: [9, 10]
+          }
+        },
+        k: 58
+      };
+      const source: any = {
+        a: "1",
+        c: {
+          d: "4",
+          e: [12, 13],
+          f: {
+            g: ["11", "12"],
+            h: 8,
+            i: [9, 10],
+            j: fun,
+            l: null
+          },
+          r: {
+            o: 3
+          }
+        },
+        k: undefined
+      };
+      const expected = {
+        a: "1",
+        b: [2, 3],
+        c: {
+          d: "4",
+          e: [12, 13],
+          f: {
+            g: ["11", "12"],
+            h: 8,
+            i: [9, 10],
+            j: fun
+          },
+          r: {
+            o: 3
+          }
+        },
+        k: 58
+      };
+      const result = extend(target, source, true);
+      expect(result).toEqual(expected);
     });
   });
 });
