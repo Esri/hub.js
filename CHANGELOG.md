@@ -5,16 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased][HEAD]
+
+* New Features
+   * **extend**: implement extend in `hub-common` [`5e0ff68`](https://github.com/Esri/hub.js/commit/5e0ff68571203ec8460c69f6d57debd2eb3a4fe7)
+
 ## [3.0.1] - September 5th 2019
 
 ### @esri/hub-initiatives
 
 * Bug Fixes
    * **swallow group delete failures on initiative deletion**: swallow group delete failures on initiative deletion [`e11e83d`](https://github.com/Esri/hub.js/commit/e11e83de14a464462bb81ccb9c3de5f1e81be8b1)
-
-## [Unreleased][HEAD]
-
-
 
 ## [3.0.0] - September 4th 2019
 
