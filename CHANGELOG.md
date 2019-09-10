@@ -5,19 +5,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [3.2.0] - September 10th 2019
-
-### @esri/hub-common
-
-* New Features
-   * **implement extend in hub-common**: implement extend [`5e0ff68`](https://github.com/Esri/hub.js/commit/5e0ff68571203ec8460c69f6d57debd2eb3a4fe7)
-
-### Other Changes
-
-* New Features
-   * **implement extend in hub-common**: implement extend [`e1f2825`](https://github.com/Esri/hub.js/commit/e1f28251cc9d4287022bce3b3f09124d733bfcc7)
-
 ## [Unreleased][HEAD]
+
+## [3.2.0] - September 10th 2019
 
 ### @esri/hub-common
 
