@@ -281,7 +281,8 @@ export function unique(value: any, index: number, ary: any[]): boolean {
 
 /**
  * Extends the target object with props from the source object, overwriting identically named
- * props in target with those from source, ignoring null and undefined values; similar to $.extend
+ * props in target with those from source, ignoring null and undefined values; similar to $.extend.
+ * Performs a deep extend by default, unless deep = false is passed as the third arg.
  *
  * @param target - the object that will take props from source
  * @param source - the object from which to take props
