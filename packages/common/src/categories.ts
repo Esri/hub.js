@@ -32,6 +32,7 @@ const document: string[] = [
   "CAD Drawing",
   "Document Link",
   "Hub Page",
+  "Site Page",
   "Image",
   "iWork Keynote",
   "iWork Numbers",
