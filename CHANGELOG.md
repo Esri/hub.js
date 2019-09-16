@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
+* Bug Fixes
+   * **common**: add `Site Page` to the type list of the `Document` category
+
 ## [3.2.0] - September 10th 2019
 
 ### @esri/hub-common
