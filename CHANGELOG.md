@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
+## [3.2.1] - September 17th 2019
+
 * Bug Fixes
    * **common**: add `Site Page` to the type list of the `Document` category
 
@@ -509,4 +511,5 @@ Initial Release
 [3.0.1]: https://github.com/Esri/hub.js/compare/v3.0.0...v3.0.1 "v3.0.1"
 [3.1.0]: https://github.com/Esri/hub.js/compare/v3.0.1...v3.1.0 "v3.1.0"
 [3.2.0]: https://github.com/Esri/hub.js/compare/v3.1.0...v3.2.0 "v3.2.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v3.2.0...HEAD "Unreleased Changes"
+[3.2.1]: https://github.com/Esri/hub.js/compare/v3.2.0...v3.2.1 "v3.2.1"
+[HEAD]: https://github.com/Esri/hub.js/compare/v3.2.1...HEAD "Unreleased Changes"
