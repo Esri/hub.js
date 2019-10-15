@@ -11,11 +11,11 @@ import { upgradeToTwoDotOne } from "./migrations/upgrade-two-dot-one";
  * Current Schema Version
  * @protected
  */
-export const CURRENT_SCHEMA_VERSION = 2;
+export const CURRENT_SCHEMA_VERSION = 2.1;
 
 /**
  * Handle Initiative Schema Migrations.
- * If the model is on the current schema, the model object is returmed.
+ * If the model is on the current schema, the model object is returned.
  * If a schema migration is applied, a new object will be returned.
  *
  * @export
