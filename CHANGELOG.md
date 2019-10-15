@@ -14,11 +14,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Bug Fixes
    * **bump initiative schema version**: bump initiative schema version [`cb2c267`](https://github.com/Esri/hub.js/commit/cb2c267150451bb4695c82c385471b7f4ac76d62)
 
-### Other Changes
-
-* Bug Fixes
-   * **bump initiative schema version**: bump initiative schema version [`5dcdc2f`](https://github.com/Esri/hub.js/commit/5dcdc2f04fb7bdba8f3c16ea588e929d48c0845b)
-
 ## [3.2.1] - September 17th 2019
 
 * Bug Fixes
