@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
+## [3.2.2] - October 15th 2019
+
+### @esri/hub-initiatives
+
+* Bug Fixes
+   * **bump initiative schema version**: bump initiative schema version [`cb2c267`](https://github.com/Esri/hub.js/commit/cb2c267150451bb4695c82c385471b7f4ac76d62)
+
+### Other Changes
+
+* Bug Fixes
+   * **bump initiative schema version**: bump initiative schema version [`5dcdc2f`](https://github.com/Esri/hub.js/commit/5dcdc2f04fb7bdba8f3c16ea588e929d48c0845b)
+
 ## [3.2.1] - September 17th 2019
 
 * Bug Fixes
@@ -511,5 +523,5 @@ Initial Release
 [3.0.1]: https://github.com/Esri/hub.js/compare/v3.0.0...v3.0.1 "v3.0.1"
 [3.1.0]: https://github.com/Esri/hub.js/compare/v3.0.1...v3.1.0 "v3.1.0"
 [3.2.0]: https://github.com/Esri/hub.js/compare/v3.1.0...v3.2.0 "v3.2.0"
-[3.2.1]: https://github.com/Esri/hub.js/compare/v3.2.0...v3.2.1 "v3.2.1"
-[HEAD]: https://github.com/Esri/hub.js/compare/v3.2.1...HEAD "Unreleased Changes"
+[3.2.2]: https://github.com/Esri/hub.js/compare/v3.2.0...v3.2.2 "v3.2.2"
+[HEAD]: https://github.com/Esri/hub.js/compare/v3.2.2...HEAD "Unreleased Changes"
