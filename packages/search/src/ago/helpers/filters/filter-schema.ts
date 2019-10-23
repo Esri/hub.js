@@ -85,6 +85,16 @@ const filterSchema: any = {
     dataType: "string",
     defaultOp: "any",
     catalogDefinition: true
+  },
+  categories: {
+    type: "filter",
+    dataType: "string",
+    defaultOp: "any"
+  },
+  license: {
+    type: "filter",
+    dataType: "string",
+    defaultOp: "any"
   }
 };
 
