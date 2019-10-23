@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
+## [3.3.0] - October 23rd 2019
+
+### @esri/hub-search
+
+* New Features
+   * **support categories and license filter**: support categories and license filter [`9126679`](https://github.com/Esri/hub.js/commit/9126679426e5648bc527f76850b678f72bd3952b)
+
 ## [3.2.2] - October 15th 2019
 
 ### @esri/hub-initiatives
