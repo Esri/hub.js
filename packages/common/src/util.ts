@@ -316,7 +316,7 @@ export function extend(
  * @export
  * @param {string} date
  * @param {number} numOfDays
- * @returns {number} unix timestamp with numOfDays added to the given date
+ * @returns {string} date string with numOfDays added to the given date
  */
 export function addDays(date: string, numOfDays: number): string {
   const given = new Date(date);
