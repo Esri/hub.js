@@ -309,3 +309,19 @@ export function extend(
     return obj;
   }, extended);
 }
+
+/**
+ * Add number of days to a given date
+ *
+ * @export
+ * @param {string} date
+ * @param {number} numOfDays
+ * @returns {number} unix timestamp with numOfDays added to the given date
+ */
+export function addDays(date: string, numOfDays: number): string {
+  const given = new Date(date);
+  const dateString = new Date(
+    given.setDate(given.getDate() + numOfDays)
+  ).toISOString();
+  return dateString.split("T")[0];
+}

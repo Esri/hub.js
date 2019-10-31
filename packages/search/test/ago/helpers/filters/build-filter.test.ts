@@ -52,4 +52,30 @@ describe("buildFilter test", () => {
       '(orgid:"MNF5ypRINzAAlFbv")'
     );
   });
+
+  it("builds filter with join type between - different dates", () => {
+    const queryFilters = {
+      modified: {
+        fn: "between",
+        terms: ["2019/10/30", "2019/10/31"],
+        catalogDefinition: false
+      }
+    };
+    expect(buildFilter(queryFilters, "modified")).toBe(
+      "(modified: [1572408000000 TO 1572494400000])"
+    );
+  });
+
+  it("builds filter with join type between - same dates", () => {
+    const queryFilters = {
+      modified: {
+        fn: "between",
+        terms: ["2019/10/30", "2019/10/30"],
+        catalogDefinition: false
+      }
+    };
+    expect(buildFilter(queryFilters, "modified")).toBe(
+      "(modified: [1572408000000 TO 1572480000000])"
+    );
+  });
 });

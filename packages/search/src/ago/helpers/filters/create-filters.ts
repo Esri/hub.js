@@ -46,7 +46,7 @@ export function createFilters(params: ISearchParams): any {
 }
 
 export function generateFilter(values: string, filterDefinition: any) {
-  const match = values.match(/(any|all)\((.+)\)/);
+  const match = values.match(/(any|all|between)\((.+)\)/);
   if (match) {
     return {
       fn: match[1],

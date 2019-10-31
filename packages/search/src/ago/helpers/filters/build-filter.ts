@@ -1,4 +1,4 @@
-import { getProp } from "@esri/hub-common";
+import { getProp, addDays } from "@esri/hub-common";
 
 export function buildFilter(queryFilters: any, key: string) {
   const terms = getProp(queryFilters, `${key}.terms`) || [];
@@ -7,9 +7,23 @@ export function buildFilter(queryFilters: any, key: string) {
   // lowerCase here because we use `orgId` for Hub index, and need it as `orgid`
   // for AGO. This will allow us to use whatever casing for Hub and still
   // adhere to AGO requirements
-  let filter = terms
-    .map((term: string) => `${key.toLowerCase()}:"${term}"`)
-    .join(agoJoin(joinType));
+  let filter;
+  if (joinType === "between") {
+    const startDate = terms[0];
+    let endDate = terms[1];
+    if (startDate === endDate) {
+      // add 1 day
+      endDate = addDays(startDate, 1);
+    }
+    const timestamps = [startDate, endDate].map((term: string) =>
+      new Date(term).getTime()
+    );
+    filter = `${key.toLowerCase()}: [${timestamps.join(agoJoin(joinType))}]`;
+  } else {
+    filter = terms
+      .map((term: string) => `${key.toLowerCase()}:"${term}"`)
+      .join(agoJoin(joinType));
+  }
   if (joinType === "not") {
     // "not" filter means everything but not those given terms
     filter = `NOT ${filter}`;
@@ -32,7 +46,8 @@ function agoJoin(joinType: string) {
   const joinMap: { [key: string]: string } = {
     any: " OR ",
     all: " AND ",
-    not: " NOT "
+    not: " NOT ",
+    between: " TO "
   };
   return joinMap[key];
 }
