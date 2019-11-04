@@ -319,9 +319,13 @@ export function extend(
  * @returns {string} date string with numOfDays added to the given date
  */
 export function addDays(date: string, numOfDays: number): string {
-  const given = new Date(date);
-  const dateString = new Date(
-    given.setDate(given.getDate() + numOfDays)
-  ).toISOString();
-  return dateString.split("T")[0];
+  try {
+    const given = new Date(date);
+    const dateString = new Date(
+      given.setDate(given.getDate() + numOfDays)
+    ).toISOString();
+    return dateString.split("T")[0];
+  } catch (e) {
+    throw new Error("Invalid Date");
+  }
 }
