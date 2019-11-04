@@ -11,7 +11,8 @@ import {
   maybeAdd,
   maybePush,
   unique,
-  extend
+  extend,
+  addDays
 } from "../src/util";
 
 describe("util functions", () => {
@@ -660,6 +661,20 @@ describe("util functions", () => {
       };
       const result = extend(target, source);
       expect(result).toEqual(expected);
+    });
+  });
+
+  describe("addDays", () => {
+    it("should add days to the given date", () => {
+      expect(addDays("2019-10-30", 1)).toBe("2019-10-31");
+      expect(addDays("2019-12-31", 1)).toBe("2020-01-01");
+    });
+    it("should throw error if date is invalid", () => {
+      try {
+        addDays("hello", 1);
+      } catch (e) {
+        expect(e.message).toBe("Invalid Date");
+      }
     });
   });
 });

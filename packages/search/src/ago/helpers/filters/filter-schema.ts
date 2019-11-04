@@ -95,6 +95,11 @@ const filterSchema: any = {
     type: "filter",
     dataType: "string",
     defaultOp: "any"
+  },
+  modified: {
+    type: "filter",
+    dataType: "string",
+    defaultOp: "between"
   }
 };
 
