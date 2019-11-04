@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
+## [3.4.0] - November 4th 2019
+
+### @esri/hub-common
+
+* New Features
+   * **filter-between-dates**: filter AGO items by modified date [`a6291f0`](https://github.com/Esri/hub.js/commit/a6291f0be3a6ae1bf97ee459291dd7cb282304d1)
+
+### @esri/hub-search
+
+* New Features
+   * **filter-between-dates**: filter AGO items by modified date [`a6291f0`](https://github.com/Esri/hub.js/commit/a6291f0be3a6ae1bf97ee459291dd7cb282304d1)
+
 ## [3.3.0] - October 23rd 2019
 
 ### @esri/hub-search
@@ -518,12 +530,11 @@ Initial Release
 [2.4.0]: https://github.com/Esri/hub.js/compare/v2.3.1...v2.4.0 "v2.4.0"
 [2.4.1]: https://github.com/Esri/hub.js/compare/v2.4.0...v2.4.1 "v2.4.1"
 [2.5.0]: https://github.com/Esri/hub.js/compare/v2.4.1...v2.5.0 "v2.5.0"
-[2.6.0]: https://github.com/Esri/hub.js/compare/v2.5.0...v2.6.0 "v2.6.0"
-[2.7.0]: https://github.com/Esri/hub.js/compare/v2.6.0...v2.7.0 "v2.7.0"
+[2.7.0]: https://github.com/Esri/hub.js/compare/v2.5.0...v2.7.0 "v2.7.0"
 [2.7.1]: https://github.com/Esri/hub.js/compare/v2.7.0...v2.7.1 "v2.7.1"
 [3.0.0]: https://github.com/Esri/hub.js/compare/v2.7.1...v3.0.0 "v3.0.0"
-[3.0.1]: https://github.com/Esri/hub.js/compare/v3.0.0...v3.0.1 "v3.0.1"
-[3.1.0]: https://github.com/Esri/hub.js/compare/v3.0.1...v3.1.0 "v3.1.0"
+[3.1.0]: https://github.com/Esri/hub.js/compare/v3.0.0...v3.1.0 "v3.1.0"
 [3.2.0]: https://github.com/Esri/hub.js/compare/v3.1.0...v3.2.0 "v3.2.0"
-[3.2.2]: https://github.com/Esri/hub.js/compare/v3.2.0...v3.2.2 "v3.2.2"
-[HEAD]: https://github.com/Esri/hub.js/compare/v3.2.2...HEAD "Unreleased Changes"
+[3.3.0]: https://github.com/Esri/hub.js/compare/v3.2.0...v3.3.0 "v3.3.0"
+[3.4.0]: https://github.com/Esri/hub.js/compare/v3.3.0...v3.4.0 "v3.4.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v3.4.0...HEAD "Unreleased Changes"
