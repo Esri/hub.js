@@ -57,12 +57,12 @@ describe("buildFilter test", () => {
     const queryFilters = {
       modified: {
         fn: "between",
-        terms: ["2019/10/30", "2019/10/31"],
+        terms: ["2019-10-30", "2019-10-31"],
         catalogDefinition: false
       }
     };
     expect(buildFilter(queryFilters, "modified")).toBe(
-      "(modified: [1572408000000 TO 1572494400000])"
+      "(modified: [1572393600000 TO 1572480000000])"
     );
   });
 
@@ -70,12 +70,12 @@ describe("buildFilter test", () => {
     const queryFilters = {
       modified: {
         fn: "between",
-        terms: ["2019/10/30", "2019/10/30"],
+        terms: ["2019-10-30", "2019-10-30"],
         catalogDefinition: false
       }
     };
     expect(buildFilter(queryFilters, "modified")).toBe(
-      "(modified: [1572408000000 TO 1572480000000])"
+      "(modified: [1572393600000 TO 1572480000000])"
     );
   });
 });
