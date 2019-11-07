@@ -1,4 +1,4 @@
-const agoSupportedAggs = ["tags", "type", "access"];
+const agoSupportedAggs = ["tags", "type", "access", "categories"];
 const aggsAlias: any = {
   collection: "type"
 };

@@ -125,4 +125,34 @@ describe("computeItemsFacets test", () => {
     expect(getItemsSpy.calls.count()).toEqual(0);
     done();
   });
+
+  it("it should flatten categories facet if present", async done => {
+    spyOn(GetItems, "getItems").and.callFake(() => {
+      return Promise.resolve({});
+    });
+    const agoAggs: any = {
+      counts: [
+        {
+          fieldName: "categories",
+          fieldValues: [
+            { value: "/categories", count: 5 },
+            { value: "/categories/economy", count: 5 },
+            { value: "/categories/economy/business", count: 5 }
+          ]
+        }
+      ]
+    };
+    const params = { q: "blah", agg: { fields: "categories" } };
+    const token = "secret";
+    const portal = "https://qaext.arcgis.com/sharing/rest";
+    const facets = await computeItemsFacets(agoAggs, params, token, portal);
+    const expected = {
+      categories: [
+        { key: "economy", docCount: 10 },
+        { key: "business", docCount: 5 }
+      ]
+    };
+    expect(facets).toEqual(expected);
+    done();
+  });
 });

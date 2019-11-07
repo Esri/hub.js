@@ -5,7 +5,8 @@ import {
   format,
   hasApiAgg,
   collectionAgg,
-  downloadableAgg
+  downloadableAgg,
+  flattenCategories
 } from "./helpers/aggs";
 import { getItems } from "./get-items";
 
@@ -75,7 +76,12 @@ export async function computeItemsFacets(
       facets3 = { ...facets3, ...format(rawCounts) };
     });
   }
-  return { ...facets1, ...facets2, ...facets3 };
+  const computedFacets = { ...facets1, ...facets2, ...facets3 };
+  // 4. format categories facet
+  if (computedFacets.categories) {
+    computedFacets.categories = flattenCategories(computedFacets.categories);
+  }
+  return computedFacets;
 }
 
 function intersection(arr1: any[], arr2: any[]): any[] {
