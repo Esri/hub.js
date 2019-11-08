@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
+## [3.5.0] - November 8th 2019
+
+### @esri/hub-search
+
+* New Features
+   * **categories**: filter and aggregate by categories [`e8eb882`](https://github.com/Esri/hub.js/commit/e8eb88291b711ca55edc1edfeedc7489315dc7ef)
+
+
 ## [3.4.0] - November 4th 2019
 
 ### @esri/hub-common
@@ -537,4 +545,5 @@ Initial Release
 [3.2.0]: https://github.com/Esri/hub.js/compare/v3.1.0...v3.2.0 "v3.2.0"
 [3.3.0]: https://github.com/Esri/hub.js/compare/v3.2.0...v3.3.0 "v3.3.0"
 [3.4.0]: https://github.com/Esri/hub.js/compare/v3.3.0...v3.4.0 "v3.4.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v3.4.0...HEAD "Unreleased Changes"
+[3.5.0]: https://github.com/Esri/hub.js/compare/v3.4.0...v3.5.0 "v3.5.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v3.5.0...HEAD "Unreleased Changes"
