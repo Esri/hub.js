@@ -12,7 +12,8 @@ import {
   maybePush,
   unique,
   extend,
-  addDays
+  addDays,
+  chunkArray
 } from "../src/util";
 
 describe("util functions", () => {
@@ -675,6 +676,13 @@ describe("util functions", () => {
       } catch (e) {
         expect(e.message).toBe("Invalid Date");
       }
+    });
+  });
+
+  describe("chunkArray", () => {
+    it("should chunk array based on size", () => {
+      expect(chunkArray([1, 2, 3, 4, 5], 3)).toEqual([[1, 2, 3], [4, 5]]);
+      expect(chunkArray([], 3)).toEqual([]);
     });
   });
 });

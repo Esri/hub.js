@@ -329,3 +329,17 @@ export function addDays(date: string, numOfDays: number): string {
     throw new Error("Invalid Date");
   }
 }
+
+/**
+ * Returns an array with arrays of the given size.
+ *
+ * @param arr Array to split
+ * @param size Size of every group
+ */
+export function chunkArray(arr: any[], size: number) {
+  const results = [];
+  while (arr.length) {
+    results.push(arr.splice(0, size));
+  }
+  return results;
+}
