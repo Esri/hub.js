@@ -4,6 +4,8 @@ import { ISearchResult, IItem, searchItems } from "@esri/arcgis-rest-portal";
 import { encodeAgoQuery } from "./encode-ago-query";
 import { getProp, chunkArray } from "@esri/hub-common";
 
+const MAX_COUNTFIELDS = 3;
+
 // Search for Items in ArcGIS and return raw ago response
 export async function getItems(
   params: ISearchParams,
@@ -13,22 +15,12 @@ export async function getItems(
 ): Promise<ISearchResult<IItem>> {
   const agoParams = encodeAgoQuery(params);
   if (agoParams.countFields) {
-    // if countFields are defined
-    // AGO allows only 3 countFields at max
     const chunkedCountFields = chunkArray(
       agoParams.countFields.split(","),
-      3
+      MAX_COUNTFIELDS
     ).map(fieldArrayChunk => fieldArrayChunk.join(","));
-    let allCounts: Array<{
-      fieldName: string;
-      fieldValues: Array<{
-        value: any;
-        count: number;
-      }>;
-    }> = [];
-    let results;
-    for (const chunk of chunkedCountFields) {
-      results = await searchItems({
+    const promises = chunkedCountFields.map(chunk => {
+      return searchItems({
         ...agoParams,
         params: {
           token,
@@ -38,9 +30,20 @@ export async function getItems(
         portal,
         authentication
       });
-      const counts = getProp(results, "aggregations.counts") || [];
+    });
+    const responses = await Promise.all(promises);
+    let allCounts: Array<{
+      fieldName: string;
+      fieldValues: Array<{
+        value: any;
+        count: number;
+      }>;
+    }> = [];
+    for (const response of responses) {
+      const counts = getProp(response, "aggregations.counts") || [];
       allCounts = allCounts.concat(counts);
     }
+    const results = responses[0]; // the results are the same for all requests except the counts
     results.aggregations.counts = allCounts;
     return results;
   } else {

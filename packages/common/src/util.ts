@@ -338,8 +338,10 @@ export function addDays(date: string, numOfDays: number): string {
  */
 export function chunkArray(arr: any[], size: number) {
   const results = [];
-  while (arr.length) {
-    results.push(arr.splice(0, size));
+  let index = 0;
+  while (index < arr.length) {
+    results.push(arr.slice(index, index + size));
+    index += size;
   }
   return results;
 }
