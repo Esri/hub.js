@@ -291,7 +291,7 @@ describe("Initiative Groups ::", () => {
         done();
       });
     });
-    it("append a number to original name of group exists", done => {
+    it("append a number to original name if group exists", done => {
       const searchSpy = spyOn(portal, "searchGroups").and.callFake(
         (opts: ISearchOptions) => {
           const res = {
@@ -305,7 +305,7 @@ describe("Initiative Groups ::", () => {
           // if this is the first call w/ a specific name
           // we want to fake the response to show the group
           // does exist
-          if (opts.q === "foo bar baz AND orgid: BZ7426") {
+          if (opts.q === '("foo bar baz") AND orgid: BZ7426') {
             res.total = 1;
             res.results.push({} as IGroup);
           }
