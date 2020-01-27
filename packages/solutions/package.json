@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-solutions",
-  "version": "3.6.2",
+  "version": "3.6.3",
   "description": "Module to interact with ArcGIS Hub Solutions in Node.js and modern browsers.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/solutions.umd.js",
@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "@esri/arcgis-rest-request": "^2.0.0",
-    "@esri/hub-common": "^3.6.2"
+    "@esri/hub-common": "^3.6.3"
   },
   "files": [
     "dist/**"
