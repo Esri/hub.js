@@ -223,4 +223,100 @@ describe("getItems test", () => {
     expect(results.aggregations.counts.length).toEqual(4);
     done();
   });
+
+  it("first raw AGO results w/o aggregations should initialize with full results", async done => {
+    const rawAgoResults1 = {
+      results: [],
+      total: 0
+    } as any;
+    const rawAgoResults2 = {
+      results: [],
+      total: 0,
+      aggregations: {
+        counts: [
+          {
+            fieldName: "c",
+            fieldValues: [{ value: "pdf", count: 5 }]
+          },
+          {
+            fieldName: "d",
+            fieldValues: [{ value: "business/store", count: 5 }]
+          }
+        ]
+      }
+    } as any;
+    const rawAgoResults = [rawAgoResults1, rawAgoResults2];
+
+    const encodeAgoQuerySpy = spyOn(
+      EncodeAgoQuery,
+      "encodeAgoQuery"
+    ).and.callFake(() => {
+      return {
+        q: "long ago query",
+        start: 1,
+        num: 10,
+        countFields: "a,b,c,d",
+        countSize: 10
+      };
+    });
+
+    const searchItemsSpy = spyOn(Portal, "searchItems").and.callFake(() => {
+      return rawAgoResults.shift();
+    });
+
+    const params: ISearchParams = {
+      q: "land",
+      sort: "name",
+      groupIds: "1ef",
+      start: 1,
+      num: 10,
+      agg: { fields: "a,b,c,d" }
+    };
+    const token = "token";
+    const portal = "https://test.com";
+
+    const results = await getItems(params, token, portal);
+
+    // step 1: encode ago query
+    expect(encodeAgoQuerySpy.calls.count()).toEqual(1);
+    const [expectedParams] = encodeAgoQuerySpy.calls.argsFor(0);
+    expect(expectedParams).toEqual(params);
+
+    // step 2: verify how searchItems gets called
+    expect(searchItemsSpy.calls.count()).toEqual(2);
+    const expectedArgsForSearchItems1: any = [
+      {
+        q: "long ago query",
+        start: 1,
+        num: 10,
+        params: { token, countFields: "a,b,c", countSize: 10 },
+        portal,
+        authentication: undefined,
+        countFields: "a,b,c,d",
+        countSize: 10
+      }
+    ];
+    expect(expectedArgsForSearchItems1).toEqual(
+      searchItemsSpy.calls.argsFor(0)
+    );
+    const expectedArgsForSearchItems2: any = [
+      {
+        q: "long ago query",
+        start: 1,
+        num: 10,
+        params: { token, countFields: "d", countSize: 10 },
+        portal,
+        authentication: undefined,
+        countFields: "a,b,c,d",
+        countSize: 10
+      }
+    ];
+    expect(expectedArgsForSearchItems2).toEqual(
+      searchItemsSpy.calls.argsFor(1)
+    );
+
+    // step 3. verify actual results' aggregations
+    expect(results.aggregations.counts.length).toEqual(2);
+    done();
+  });
 });

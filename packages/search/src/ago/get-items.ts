@@ -39,13 +39,17 @@ export async function getItems(
         count: number;
       }>;
     }> = [];
+
     for (const response of responses) {
       const counts = getProp(response, "aggregations.counts") || [];
       allCounts = allCounts.concat(counts);
     }
-    const results = responses[0]; // the results are the same for all requests except the counts
-    results.aggregations.counts = allCounts;
-    return results;
+
+    responses[0].aggregations = {
+      counts: allCounts
+    };
+
+    return responses[0];
   } else {
     return searchItems({
       ...agoParams,
