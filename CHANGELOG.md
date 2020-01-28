@@ -5,10 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [3.6.3] - January 27th 2020
-
 ## [Unreleased][HEAD]
+## [3.6.4] - January 28th 2020
+* Bug Fixes
+    * **search**: filter out falsey type arrays. Fixes an issue where an unsupported collection is filtered on, resulting in an undefined array of types to iterate over.
 
+## [3.6.3] - January 27th 2020
 
 
 ## [3.6.2] - January 2nd 2020
@@ -568,4 +570,5 @@ Initial Release
 [3.6.0]: https://github.com/Esri/hub.js/compare/v3.5.0...v3.6.0 "v3.6.0"
 [3.6.2]: https://github.com/Esri/hub.js/compare/v3.6.0...v3.6.2 "v3.6.2"
 [3.6.3]: https://github.com/Esri/hub.js/compare/v3.6.2...v3.6.3 "v3.6.3"
-[HEAD]: https://github.com/Esri/hub.js/compare/v3.6.3...HEAD "Unreleased Changes"
+[3.6.4]: https://github.com/Esri/hub.js/compare/v3.6.3...v3.6.4 "v3.6.4"
+[HEAD]: https://github.com/Esri/hub.js/compare/v3.6.4...HEAD "Unreleased Changes"
