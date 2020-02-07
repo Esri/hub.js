@@ -50,7 +50,7 @@ describe("createFilters test", () => {
     const actual = createFilters(params);
     const expected: any = {
       tags: {
-        fn: "all",
+        fn: "any",
         terms: ["a", "b", "c"],
         catalogDefinition: undefined
       },
