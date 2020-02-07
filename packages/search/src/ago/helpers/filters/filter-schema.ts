@@ -10,7 +10,7 @@ const filterSchema: any = {
   tags: {
     type: "filter",
     dataType: "string",
-    defaultOp: "all"
+    defaultOp: "any"
   },
   source: {
     type: "filter",

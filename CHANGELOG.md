@@ -8,7 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [3.6.5] - January 28th 2020
 
 ## [Unreleased][HEAD]
-
+* Bug Fixes
+   * **search**: all filters should be consistent and default to "any"
 
 
 ## [3.6.4] - January 28th 2020
