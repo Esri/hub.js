@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-search",
-  "version": "3.6.5",
+  "version": "3.6.6",
   "description": "Module to search for ArcGIS items and format them for display in ArcGIS Hub.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/search.umd.js",
