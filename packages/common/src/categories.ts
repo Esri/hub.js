@@ -6,7 +6,8 @@ const app: string[] = [
   "Insights Workbook",
   "Operation View",
   "Web Mapping Application",
-  "StoryMap"
+  "StoryMap",
+  "Web Experience"
 ];
 
 const dataset: string[] = [
