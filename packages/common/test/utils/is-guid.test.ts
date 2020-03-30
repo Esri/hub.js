@@ -1,4 +1,4 @@
-import { isGuid } from "../src/is-guid";
+import { isGuid } from "../../src/utils/is-guid";
 
 describe("isGuid", () => {
   it("works", () => {

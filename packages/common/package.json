@@ -14,7 +14,7 @@
     "dist/**"
   ],
   "dependencies": {
-    "tslib": "^1.9.3"
+    "tslib": "^1.11.1"
   },
   "peerDependencies": {
     "@esri/arcgis-rest-auth": "^2.0.0",
