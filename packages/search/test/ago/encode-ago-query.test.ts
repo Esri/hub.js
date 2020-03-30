@@ -124,4 +124,58 @@ describe("encodeAgoQuery test", () => {
     };
     expect(actual).toEqual(expected);
   });
+
+  it("encodes ago query correctly when aggregations are supplied with array, rather than comma-separated string", () => {
+    const paramsOne: any = {
+      q: "crime",
+      catalog: {
+        groupIds: "any(1ef)"
+      },
+      filter: {
+        tags: "all(test)"
+      },
+      sort: "name",
+      agg: { fields: ["tags"] },
+      bbox: "1,2,3,4"
+    };
+    const expectedOne = {
+      q:
+        '-type:"code attachment" AND crime AND ((group:"1ef")) AND (tags:"test")',
+      start: 1,
+      num: 10,
+      sortField: "title",
+      sortOrder: "asc",
+      countFields: "tags",
+      countSize: 200,
+      bbox: "1,2,3,4"
+    };
+    const actualOne = encodeAgoQuery(paramsOne);
+    expect(actualOne).toEqual(expectedOne);
+
+    const paramsTwo: any = {
+      q: "crime",
+      catalog: {
+        groupIds: "any(1ef)"
+      },
+      filter: {
+        tags: "all(test)"
+      },
+      sort: "name",
+      agg: { fields: ["tags", "type"] },
+      bbox: "1,2,3,4"
+    };
+    const expectedTwo = {
+      q:
+        '-type:"code attachment" AND crime AND ((group:"1ef")) AND (tags:"test")',
+      start: 1,
+      num: 10,
+      sortField: "title",
+      sortOrder: "asc",
+      countFields: "tags,type",
+      countSize: 200,
+      bbox: "1,2,3,4"
+    };
+    const actualTwo = encodeAgoQuery(paramsTwo);
+    expect(actualTwo).toEqual(expectedTwo);
+  });
 });

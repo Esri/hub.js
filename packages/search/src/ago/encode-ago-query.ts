@@ -2,7 +2,7 @@ import { getSortField } from "./helpers/sort";
 import { createFilters, handleFilter } from "./helpers/filters";
 import { createAggs } from "./helpers/aggs";
 import { getProp } from "@esri/hub-common";
-
+import * as _ from "lodash";
 /**
  * Construct a query object with filters, and queryParams sent by hub indexer
  * @param queryObject any
@@ -57,7 +57,15 @@ export function encodeAgoQuery(queryParams: any = {}) {
     }
   }
   if (queryParams.agg && queryParams.agg.fields) {
-    const { countFields, countSize } = createAggs(queryParams.agg.fields);
+    // fields may be passed as array of fields, rather than comma-separated string
+    // if so join fields to string, else leave as is
+    let fields;
+    if (_.isArray(queryParams.agg.fields)) {
+      fields = queryParams.agg.fields.join(",");
+    } else {
+      fields = queryParams.agg.fields;
+    }
+    const { countFields, countSize } = createAggs(fields);
     query.countFields = countFields;
     query.countSize = countSize;
   }
