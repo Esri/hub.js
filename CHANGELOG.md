@@ -7,12 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
+## [3.6.8] - April 13th 2020
+### @esri/hub-initiatives
+
+* Bug Fixes
+  * **udpateModel** Drop use of rest-js internal fn `determineOwner`
+
 ## [3.6.7] - March 30th 2020
+
 ### @esri/hub-initiatives
 
 * Chores
-   * Ensure that data.recommendedTemplates will be taken from the template and applied to the resulting model 
-
+   * Ensure that data.recommendedTemplates will be taken from the template and applied to the resulting model
 
 ## [3.6.6] - February 27th 2020
 
@@ -26,7 +32,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/hub-search
 
 * Bug Fixes
-   * **search**: all filters should be consistent and default to &quot;any&quot;
+   * **search**: all filters should be consistent and default to &amp;quot;any&amp;quot;
 
 ## [3.6.4] - January 28th 2020
 
@@ -604,4 +610,5 @@ Initial Release
 [3.6.5]: https://github.com/Esri/hub.js/compare/v3.6.4...v3.6.5 "v3.6.5"
 [3.6.6]: https://github.com/Esri/hub.js/compare/v3.6.5...v3.6.6 "v3.6.6"
 [3.6.7]: https://github.com/Esri/hub.js/compare/v3.6.6...v3.6.7 "v3.6.7"
-[HEAD]: https://github.com/Esri/hub.js/compare/v3.6.7...HEAD "Unreleased Changes"
+[3.6.8]: https://github.com/Esri/hub.js/compare/v3.6.7...v3.6.8 "v3.6.8"
+[HEAD]: https://github.com/Esri/hub.js/compare/v3.6.8...HEAD "Unreleased Changes"
