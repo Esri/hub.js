@@ -3,7 +3,7 @@
 
 import { IInitiativeModel, IModel } from "@esri/hub-common";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { saveModel, updateModel } from "./model";
+import { saveModel } from "./model";
 import { getHubApiUrl } from "@esri/hub-common";
 
 export const INITIATIVE_TYPE_NAME = "Hub Initiative";
