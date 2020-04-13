@@ -8,8 +8,7 @@ import {
   updateItem,
   IUpdateItemOptions,
   ICreateItemOptions,
-  ICreateItemResponse,
-  determineOwner
+  ICreateItemResponse
 } from "@esri/arcgis-rest-portal";
 
 /**
@@ -30,7 +29,6 @@ export function saveModel(
   return createItem(opts as ICreateItemOptions).then(
     (response: ICreateItemResponse) => {
       clone.item.id = response.id;
-      clone.item.owner = determineOwner(requestOptions);
       return clone as IModel;
     }
   );

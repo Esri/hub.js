@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IInitiativeModel } from "@esri/hub-common";
+import { IInitiativeModel, IModel } from "@esri/hub-common";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { saveModel, updateModel } from "./model";
 import { getHubApiUrl } from "@esri/hub-common";
@@ -21,13 +21,9 @@ export const INITIATIVE_TYPE_NAME = "Hub Initiative";
 export function addInitiative(
   model: IInitiativeModel,
   requestOptions: IRequestOptions
-): Promise<IInitiativeModel> {
+): Promise<IModel> {
   // delegate to model to do the save...
-  return saveModel(model, requestOptions).then(newModel => {
-    // ensure ew have a url to the iniative item...
-    newModel.item.url = getInitiativeUrl(newModel.item.id, requestOptions);
-    return updateModel(newModel, requestOptions) as Promise<IInitiativeModel>;
-  });
+  return saveModel(model, requestOptions);
 }
 
 /**
