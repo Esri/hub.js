@@ -1,4 +1,4 @@
-import * as Blob from "cross-blob";
+import { Blob } from "../../src/resources/_which-blob/";
 import { stringToBlob } from "../../src/resources";
 
 describe("stringToBlob", () => {

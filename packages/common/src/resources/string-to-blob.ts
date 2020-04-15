@@ -1,4 +1,4 @@
-import * as Blob from "cross-blob";
+import { Blob } from "./_which-blob/";
 
 /**
  * Given a string, return it as a blob

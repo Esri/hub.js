@@ -9,5 +9,4 @@ export * from "./categories";
 export * from "./get-hub-product";
 export * from "./utils/is-guid";
 export * from "./objects/index";
-export * from "./items/index";
 export * from "./utils/index";
