@@ -14,7 +14,8 @@ const newInitiative = {
     title: "Fake Initiative",
     owner: "vader",
     type: "Hub Initiative",
-    tags: ["test webmap"]
+    tags: ["test webmap"],
+    url: "https://some-site.com"
   },
   data: {
     some: {
@@ -46,14 +47,14 @@ describe("Add Initiative ::", () => {
           "from-spy",
           "should have the id from the spy result"
         );
-        expect(result.item.url).toContain(`admin/initiatives/from-spy`);
+        expect(result.item.url).toContain(`some-site.com`);
         expect(saveSpy.calls.count()).toEqual(
           1,
           "should make one call to model::saveModel"
         );
         expect(updateSpy.calls.count()).toEqual(
-          1,
-          "should make one call to model::updateModel"
+          0,
+          "should make not call to model::updateModel"
         );
         done();
       })

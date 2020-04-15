@@ -78,6 +78,8 @@ You **should not** increment `peerDependency` version numbers manually. they sho
 
 For some reason, in CHANGELOG.md, the `unreleased` section appears below this release. So please move it to the top.
 
+Also - ensure that the section for your release (i.e. `## [3.6.7] - March 30th 2020`) has some content in it, otherwise the `gh-release` command will fail and we will get a much more limited release in github. 
+
 You can display a diff to give you a sense of what will be committed to master when you actually publish.
 
 ```bash
@@ -89,3 +91,5 @@ The last command increments the version in the root package.json, pushes the new
 ```bash
 npm run release:publish
 ```
+
+Note: If you get an error like `Error: missing required options: body`, then the `CHANGELOG.md` file is likely missing content in the section for this release. 
