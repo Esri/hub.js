@@ -1,6 +1,5 @@
 import {
   cloneObject,
-  getProp,
   arrayToObject,
   objectToArray,
   findBy,
@@ -15,6 +14,8 @@ import {
   addDays,
   chunkArray
 } from "../src/util";
+
+import { getProp } from "../src/objects";
 
 describe("util functions", () => {
   it("can clone a shallow object", () => {
