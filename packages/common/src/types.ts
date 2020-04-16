@@ -25,8 +25,8 @@ export interface IModel {
  * @interface IInitiativeItem
  * @extends {IItemAdd}
  */
-export interface IInitiativeItem extends IItemAdd {
-  id?: string;
+export interface IInitiativeItem extends IItem {
+  id: string;
   type: "Hub Initiative";
 }
 
