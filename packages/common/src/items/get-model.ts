@@ -1,5 +1,6 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getItem, getItemData, IItem } from "@esri/arcgis-rest-portal";
+import { IModel } from "../types";
 
 /**
  * Gets the full item/data model for an item
@@ -9,7 +10,7 @@ import { getItem, getItemData, IItem } from "@esri/arcgis-rest-portal";
 export function getModel(
   id: string,
   requestOptions: IRequestOptions
-): Promise<{ item: IItem; data: any }> {
+): Promise<IModel> {
   return Promise.all([
     getItem(id, requestOptions),
     getItemData(id, requestOptions)
