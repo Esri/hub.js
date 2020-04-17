@@ -44,4 +44,9 @@ export interface IInitiativeModel extends IModel {
   };
 }
 
+// TODO fine-tune this with sensible constraints
+export interface IItemTemplate {
+  [prop: string]: any;
+}
+
 export type GenericAsyncFunc = (...args: any) => Promise<any>;
