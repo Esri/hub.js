@@ -1,22 +1,8 @@
 import { unshareItemFromGroups } from "../../src";
-import { UserSession } from "@esri/arcgis-rest-auth";
-
 import * as portal from "@esri/arcgis-rest-portal";
+import { mockUserSession } from "../test-helpers/fake-user-session";
 
 describe("unshareItemFromGroups", function() {
-  const TOMORROW = (function() {
-    const now = new Date();
-    now.setDate(now.getDate() + 1);
-    return now;
-  })();
-
-  const authentication = new UserSession({
-    username: "vader",
-    password: "123456",
-    token: "fake-token",
-    tokenExpires: TOMORROW
-  });
-
   it("delegates to arcgis-rest-js", async function() {
     const unshareItemSpy = spyOn(portal, "unshareItemWithGroup").and.callFake(
       (itemId: string) =>
@@ -27,7 +13,7 @@ describe("unshareItemFromGroups", function() {
     );
 
     const responses = await unshareItemFromGroups("item-id", ["grp1", "grp2"], {
-      authentication
+      authentication: mockUserSession
     });
 
     expect(unshareItemSpy.calls.count()).toEqual(2);
