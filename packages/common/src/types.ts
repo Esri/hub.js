@@ -43,3 +43,5 @@ export interface IInitiativeModel extends IModel {
     [propName: string]: any;
   };
 }
+
+export type GenericAsyncFunc = (...args: any) => Promise<any>;
