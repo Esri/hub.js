@@ -13,4 +13,3 @@ export * from "./types";
 export * from "./urls";
 export * from "./util";
 export * from "./utils";
-export * from "./utils/is-guid";
