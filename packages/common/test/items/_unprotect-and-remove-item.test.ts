@@ -4,8 +4,12 @@ import { mockUserSession } from "../test-helpers/fake-user-session";
 
 describe("_unprotectAndRemoveItem", function() {
   it("unprotects and removes a group", async function() {
-    const unprotectItemSpy = spyOn(portal, "unprotectItem").and.callThrough();
-    const removeItemSpy = spyOn(portal, "removeItem").and.callThrough();
+    const unprotectItemSpy = spyOn(portal, "unprotectItem").and.returnValue(
+      Promise.resolve({ success: true })
+    );
+    const removeItemSpy = spyOn(portal, "removeItem").and.returnValue(
+      Promise.resolve({ success: true })
+    );
 
     const res = await _unprotectAndRemoveItem({
       id: "foo-baz",
