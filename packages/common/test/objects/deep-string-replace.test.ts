@@ -1,4 +1,4 @@
-import deepStringReplace from "../../src/objects/deep-string-replace";
+import { deepStringReplace } from "../../src";
 
 describe("deepStringReplace", function() {
   it("works with a string", function() {
