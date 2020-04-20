@@ -12,7 +12,7 @@ import { getProp } from "./objects/get-prop";
  * ```
  * Make a deep clone, including arrays. Does not handle functions!
  */
-export function cloneObject(obj: { [index: string]: any }) {
+export function cloneObject<T>(obj: T): T {
   let clone: { [index: string]: any } = {};
   // first check array
   if (Array.isArray(obj)) {
@@ -28,7 +28,7 @@ export function cloneObject(obj: { [index: string]: any }) {
   } else {
     clone = obj;
   }
-  return clone;
+  return clone as T;
 }
 
 /**
