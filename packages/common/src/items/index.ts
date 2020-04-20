@@ -1,6 +1,7 @@
 export * from "./_unprotect-and-remove-item";
 export * from "./fail-safe-update";
 export * from "./get-model";
+export * from "./get-model-from-options";
 export * from "./normalize-solution-template-item";
 export * from "./serialize-model";
 export * from "./share-item-to-groups";
