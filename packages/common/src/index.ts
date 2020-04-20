@@ -13,3 +13,4 @@ export * from "./types";
 export * from "./urls";
 export * from "./util";
 export * from "./utils";
+export * from "./i18n";

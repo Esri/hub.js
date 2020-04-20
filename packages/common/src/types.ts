@@ -54,7 +54,7 @@ export interface IItemTemplate {
 export type GenericAsyncFunc = (...args: any) => Promise<any>;
 
 interface IHubRequestOptionsPortalSelf extends IPortal {
-  user: IUser;
+  user?: IUser;
 }
 
 export interface IHubRequestOptions extends IRequestOptions {
