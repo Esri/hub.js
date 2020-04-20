@@ -62,3 +62,5 @@ export interface IHubRequestOptions extends IRequestOptions {
   hubApiUrl: string;
   portalSelf?: IHubRequestOptionsPortalSelf;
 }
+
+export type IBBox = number[][];
