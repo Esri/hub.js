@@ -4,7 +4,6 @@
 export * from "./api";
 export * from "./categories";
 export * from "./content";
-export * from "./get-hub-product";
 export * from "./groups";
 export * from "./items";
 export * from "./objects";
