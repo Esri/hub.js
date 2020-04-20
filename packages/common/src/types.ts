@@ -1,7 +1,9 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IItemAdd, IItem } from "@esri/arcgis-rest-types";
+import { IItem, IUser } from "@esri/arcgis-rest-types";
+import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { IPortal } from "@esri/arcgis-rest-portal";
 
 /**
  * Generic Model, used with all items that have a json
@@ -50,3 +52,13 @@ export interface IItemTemplate {
 }
 
 export type GenericAsyncFunc = (...args: any) => Promise<any>;
+
+interface IHubRequestOptionsPortalSelf extends IPortal {
+  user: IUser;
+}
+
+export interface IHubRequestOptions extends IRequestOptions {
+  isPortal: boolean;
+  hubApiUrl: string;
+  portalSelf?: IHubRequestOptionsPortalSelf;
+}

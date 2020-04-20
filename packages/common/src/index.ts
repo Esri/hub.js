@@ -4,6 +4,7 @@
 export * from "./api";
 export * from "./categories";
 export * from "./content";
+export * from "./extent";
 export * from "./groups";
 export * from "./items";
 export * from "./objects";
