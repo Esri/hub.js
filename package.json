@@ -4,7 +4,7 @@
   "description": "compact, modular JavaScript wrappers for ArcGIS Hub that run in Node.js and modern browsers.",
   "devDependencies": {
     "@types/es6-promise": "0.0.32",
-    "@types/fetch-mock": "^5.12.2",
+    "@types/fetch-mock": "^7.3.2",
     "@types/isomorphic-fetch": "0.0.34",
     "@types/jasmine": "^2.8.2",
     "@types/node": "^6.0.95",
@@ -19,7 +19,7 @@
     "cross-spawn": "^5.1.0",
     "cz-lerna-changelog": "github:patrickarlt/cz-lerna-changelog#3fe7650a2e2e624b1f46e5031c96119759698288",
     "date-fns": "^1.29.0",
-    "fetch-mock": "^5.13.1",
+    "fetch-mock": "^9.4.0",
     "gh-pages": "^1.2.0",
     "gh-release": "^3.4.0",
     "husky": "^0.14.3",

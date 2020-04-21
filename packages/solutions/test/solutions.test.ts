@@ -7,7 +7,7 @@ describe("what's currently here, which aint much", () => {
     fetchMock.once("*", { the: "goods" });
     comingSoon()
       .then(response => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.calls()[0];
         expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
         expect(options.body).toContain("f=json");
         expect(response.the).toEqual("goods");
