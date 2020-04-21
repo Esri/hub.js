@@ -1,3 +1,5 @@
+import { cloneObject } from "../util";
+
 /**
  * Deep set function. Like Ember.set, but smarter as it will create the path
  * @param {Object} target Object we want to set the property on
@@ -21,7 +23,11 @@ export function deepSet(
         worker[p] = {};
       }
     } else if (idx === lastIdx) {
-      worker[p] = value;
+      if (typeof worker[p] === "object" && !Array.isArray(worker[p])) {
+        worker[p] = Object.assign(worker[p], cloneObject(value));
+      } else {
+        worker[p] = value;
+      }
     }
     worker = worker[p];
   });

@@ -44,6 +44,6 @@ export function normalizeSolutionTemplateItem(item: IItem): IItemTemplate {
   });
 
   // set a bunch of things we do want
-  template.extent = "{{initiative.extent}}";
+  template.extent = "{{organization.defaultExtentBBox}}";
   return template;
 }

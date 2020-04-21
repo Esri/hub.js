@@ -71,6 +71,9 @@ describe("normalizeSolutionTemplateItem", function() {
     itemPropsNotInTemplates.forEach(prop => {
       expect(template[prop]).toBeUndefined(`${prop} was deleted`);
     });
-    expect(template.extent).toBe("{{initiative.extent}}", "templatizes extent");
+    expect(template.extent).toBe(
+      "{{organization.defaultExtentBBox}}",
+      "templatizes extent"
+    );
   });
 });
