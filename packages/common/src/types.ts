@@ -47,8 +47,32 @@ export interface IInitiativeModel extends IModel {
 }
 
 // TODO fine-tune this with sensible constraints
-export interface IItemTemplate {
-  [prop: string]: any;
+export type IItemTemplate = Record<string, any>;
+
+export interface ITemplateAsset {
+  mimeType?: "image/png" | "image/jpg" | "image/jpeg";
+  name: string;
+  url?: string;
+  type?: string;
+}
+
+export interface IModelTemplate {
+  itemId: string;
+  item: IItemTemplate;
+  data: { [propName: string]: any };
+  properties?: { [propName: string]: any };
+  type: string;
+  key: string;
+  dependencies?: any[];
+  resources?: string[];
+  assets?: ITemplateAsset[];
+  [propName: string]: any;
+}
+
+export interface ISolutionTemplate extends IModel {
+  data: {
+    templates: IModelTemplate[];
+  };
 }
 
 export type GenericAsyncFunc = (...args: any) => Promise<any>;
