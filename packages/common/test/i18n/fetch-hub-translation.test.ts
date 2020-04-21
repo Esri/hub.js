@@ -1,4 +1,4 @@
-import { fetchHubTranslation, getProp } from "../../src";
+import { fetchHubTranslation } from "../../src/i18n/fetch-hub-translation";
 import { IPortal } from "@esri/arcgis-rest-portal";
 import * as fetchMock from "fetch-mock";
 
@@ -20,7 +20,7 @@ describe("fetchHubTranslation", function() {
     expect(fetchMock.done()).toBeTruthy(
       "fetch called the expected number of times"
     );
-    expect(getProp(translation, "foo.bar")).toEqual(
+    expect(translation.foo.bar).toEqual(
       "baz",
       "translation fetched successfully"
     );

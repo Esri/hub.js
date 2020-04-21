@@ -31,12 +31,10 @@ describe("Initiatives :: ", () => {
           expect(model.item.properties.schemaVersion).toEqual(2.1);
           expect(model.data).toBeDefined();
           expect(fetchMock.done()).toBeTruthy();
-          const [url]: [string, RequestInit] = fetchMock.lastCall(
-            `${itemBaseUrl}/3ef?f=json`
-          );
+          const [url] = fetchMock.lastCall(`${itemBaseUrl}/3ef?f=json`);
           expect(url).toContain("f=json");
           expect(url).toContain("items/3ef");
-          const [dataUrl]: [string, RequestInit] = fetchMock.lastCall(
+          const [dataUrl] = fetchMock.lastCall(
             `${itemBaseUrl}/3ef/data?f=json`
           );
           expect(dataUrl).toContain("f=json");
@@ -75,12 +73,10 @@ describe("Initiatives :: ", () => {
             "schemaUpgrade should not be run"
           );
           expect(fetchMock.done()).toBeTruthy();
-          const [url]: [string, RequestInit] = fetchMock.lastCall(
-            `${itemBaseUrl}/3ef?f=json`
-          );
+          const [url] = fetchMock.lastCall(`${itemBaseUrl}/3ef?f=json`);
           expect(url).toContain("f=json");
           expect(url).toContain("items/3ef");
-          const [dataUrl]: [string, RequestInit] = fetchMock.lastCall(
+          const [dataUrl] = fetchMock.lastCall(
             `${itemBaseUrl}/3ef/data?f=json`
           );
           expect(dataUrl).toContain("f=json");
@@ -128,12 +124,10 @@ describe("Initiatives :: ", () => {
           expect(domain).toBe("data.foo.com");
           // ensure all mocks were used
           expect(fetchMock.done()).toBeTruthy();
-          const [url]: [string, RequestInit] = fetchMock.lastCall(
-            `${itemBaseUrl}/3ef?f=json`
-          );
+          const [url] = fetchMock.lastCall(`${itemBaseUrl}/3ef?f=json`);
           expect(url).toContain("f=json");
           expect(url).toContain("items/3ef");
-          const [domainUrl]: [string, RequestInit] = fetchMock.lastCall(
+          const [domainUrl] = fetchMock.lastCall(
             "https://hub.arcgis.com/utilities/domains?f=json&siteId=5bc"
           );
           expect(domainUrl).toContain("siteId=5bc");
@@ -162,12 +156,10 @@ describe("Initiatives :: ", () => {
           expect(domain).toBe("org-beta.hub.arcgis.com");
           // ensure all mocks were used
           expect(fetchMock.done()).toBeTruthy();
-          const [url]: [string, RequestInit] = fetchMock.lastCall(
-            `${itemBaseUrl}/3ef?f=json`
-          );
+          const [url] = fetchMock.lastCall(`${itemBaseUrl}/3ef?f=json`);
           expect(url).toContain("f=json");
           expect(url).toContain("items/3ef");
-          const [domainUrl]: [string, RequestInit] = fetchMock.lastCall(
+          const [domainUrl] = fetchMock.lastCall(
             "https://hub.arcgis.com/utilities/domains?f=json&siteId=5bc"
           );
           expect(domainUrl).toContain("siteId=5bc");

@@ -61,7 +61,7 @@ describe("auth", () => {
       .then(() => {
         expect(UserSession.completeOAuth2).toHaveBeenCalledWith(oauth2Options);
 
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+        const [url, options] = fetchMock.lastCall(
           `https://www.arcgis.com/sharing/rest/community/users/${username}/update`
         );
         expect(url).toBe(url);

@@ -93,10 +93,7 @@ describe("geometryService ::", () => {
         .project(url, 102100, 4326, "esriGeometryTypeEnvelope", [extent], ro)
         .then(() => {
           expect(fetchMock.done()).toBeTruthy();
-          const [requestedUrl, options]: [
-            string,
-            RequestInit
-          ] = fetchMock.lastCall(
+          const [requestedUrl, options] = fetchMock.lastCall(
             `${geometryService.AGO_GEOMETRY_SERVICE}/project`
           );
           expect(requestedUrl).toEqual(
@@ -132,10 +129,9 @@ describe("geometryService ::", () => {
         .project(svcUrl, 102100, 4326, "esriGeometryTypeEnvelope", [extent], ro)
         .then(() => {
           expect(fetchMock.done()).toBeTruthy();
-          const [requestedUrl, options]: [
-            string,
-            RequestInit
-          ] = fetchMock.lastCall(`${svcUrl}/project`);
+          const [requestedUrl, options] = fetchMock.lastCall(
+            `${svcUrl}/project`
+          );
           expect(requestedUrl).toEqual(
             `${svcUrl}/project`,
             "should add /project"

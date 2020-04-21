@@ -53,7 +53,7 @@ describe("Initiative Utilities ::", () => {
           // check that the mocks were called
           expect(fetchMock.done()).toBeTruthy();
           // inspect the POST call...
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+          const [url, options] = fetchMock.lastCall(
             `${REST_URL}/content/users/jeffvader/items/bz7/addResources`
           );
           expect(url).toBe(
@@ -113,7 +113,7 @@ describe("Initiative Utilities ::", () => {
           expect(resp).toBeTruthy();
           // check that the mocks were called
           expect(fetchMock.done()).toBeTruthy();
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+          const [url, options] = fetchMock.lastCall(
             `${REST_URL}/content/users/wadewatts/items/bz7/addResources`
           );
           expect(url).toBe(
@@ -175,7 +175,7 @@ describe("Initiative Utilities ::", () => {
           expect(resp).toBeTruthy();
           // check that the mocks were called
           expect(fetchMock.done()).toBeTruthy();
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+          const [url, options] = fetchMock.lastCall(
             `${REST_URL}/content/users/bz7/items/3ef/addResources`
           );
           expect(url).toBe(

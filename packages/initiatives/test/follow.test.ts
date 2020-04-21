@@ -151,10 +151,7 @@ describe("follow/unfollowInitiative", () => {
           // check that the mocks were called
           expect(fetchMock.done()).toBeTruthy();
           // inspect the POST call...
-          const [metadataUrl, metadataOptions]: [
-            string,
-            RequestInit
-          ] = fetchMock.lastCall(
+          const [metadataUrl, metadataOptions] = fetchMock.lastCall(
             `https://www.arcgis.com/sharing/rest/community/users/vader`
           );
           expect(metadataUrl).toEqual(metadataUrl);
@@ -162,10 +159,7 @@ describe("follow/unfollowInitiative", () => {
           expect(metadataOptions.body).toContain("f=json");
           expect(metadataOptions.body).toContain("token=fake-token");
 
-          const [updateUrl, updateOptions]: [
-            string,
-            RequestInit
-          ] = fetchMock.lastCall(
+          const [updateUrl, updateOptions] = fetchMock.lastCall(
             `https://www.arcgis.com/sharing/rest/community/users/vader/update`
           );
           expect(updateUrl).toEqual(updateUrl);
@@ -254,10 +248,7 @@ describe("follow/unfollowInitiative", () => {
           // check that the mocks were called
           expect(fetchMock.done()).toBeTruthy();
           // inspect the POST call...
-          const [metadataUrl, metadataOptions]: [
-            string,
-            RequestInit
-          ] = fetchMock.lastCall(
+          const [metadataUrl, metadataOptions] = fetchMock.lastCall(
             `https://www.arcgis.com/sharing/rest/community/users/vader`
           );
           expect(metadataUrl).toEqual(metadataUrl);
@@ -265,10 +256,7 @@ describe("follow/unfollowInitiative", () => {
           expect(metadataOptions.body).toContain("f=json");
           expect(metadataOptions.body).toContain("token=fake-token");
 
-          const [updateUrl, updateOptions]: [
-            string,
-            RequestInit
-          ] = fetchMock.lastCall(
+          const [updateUrl, updateOptions] = fetchMock.lastCall(
             `https://www.arcgis.com/sharing/rest/community/users/vader/update`
           );
           expect(updateUrl).toEqual(updateUrl);
@@ -321,10 +309,7 @@ describe("follow/unfollowInitiative", () => {
           // check that the mocks were called
           expect(fetchMock.done()).toBeTruthy();
           // inspect the POST call...
-          const [metadataUrl, metadataOptions]: [
-            string,
-            RequestInit
-          ] = fetchMock.lastCall(
+          const [metadataUrl, metadataOptions] = fetchMock.lastCall(
             `https://www.arcgis.com/sharing/rest/community/users/vader`
           );
           expect(metadataUrl).toEqual(metadataUrl);
@@ -332,10 +317,7 @@ describe("follow/unfollowInitiative", () => {
           expect(metadataOptions.body).toContain("f=json");
           expect(metadataOptions.body).toContain("token=fake-token");
 
-          const [updateUrl, updateOptions]: [
-            string,
-            RequestInit
-          ] = fetchMock.lastCall(
+          const [updateUrl, updateOptions] = fetchMock.lastCall(
             `https://www.arcgis.com/sharing/rest/community/users/vader/update`
           );
           expect(updateUrl).toEqual(updateUrl);
@@ -572,10 +554,7 @@ describe("follow/unfollowInitiative", () => {
         ...MOCK_REQUEST_OPTIONS
       })
         .then(response => {
-          const [updateUrl, updateOptions]: [
-            string,
-            RequestInit
-          ] = fetchMock.lastCall(
+          const [updateUrl, updateOptions] = fetchMock.lastCall(
             `https://www.arcgis.com/sharing/rest/community/groups/ghi789/join`
           );
           expect(updateUrl).toEqual(updateUrl);
@@ -649,10 +628,7 @@ describe("follow/unfollowInitiative", () => {
       })
         .then(response => {
           // check that the mocks were called
-          const [updateUrl, updateOptions]: [
-            string,
-            RequestInit
-          ] = fetchMock.lastCall(
+          const [updateUrl, updateOptions] = fetchMock.lastCall(
             `https://www.arcgis.com/sharing/rest/community/groups/ghi789/leave`
           );
           expect(updateOptions.method).toBe("POST");
