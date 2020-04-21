@@ -3,7 +3,7 @@
 import { IInitiativeModel, IInitiativeItem } from "@esri/hub-common";
 
 export const initiativeVersionOne: IInitiativeModel = {
-  item: {
+  item: ({
     id: "4b73483961964193a9a4195fc35dd53f",
     owner: "dbouwman_dc",
     title: "goldie assets - dbouwman",
@@ -31,7 +31,7 @@ export const initiativeVersionOne: IInitiativeModel = {
     url:
       "https://hubqa.arcgis.com/admin/initiatives/4b73483961964193a9a4195fc35dd53f",
     access: "shared"
-  } as IInitiativeItem,
+  } as unknown) as IInitiativeItem,
   data: {
     source: "b746772712ef4c68a53d0e268e3c8f49",
     values: {

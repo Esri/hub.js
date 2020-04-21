@@ -46,6 +46,13 @@ export interface IInitiativeModel extends IModel {
   };
 }
 
+export interface IInitiativeModelTemplate {
+  item: Partial<IInitiativeItem>;
+  data: {
+    [propName: string]: any;
+  };
+}
+
 // TODO fine-tune this with sensible constraints
 export type IItemTemplate = Record<string, any>;
 
