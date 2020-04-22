@@ -25,4 +25,25 @@ describe("fetchHubTranslation", function() {
       "translation fetched successfully"
     );
   });
+
+  it("throws an error when it fails", async function() {
+    const portal: IPortal = {
+      name: "My Portal",
+      id: "portal-id",
+      isPortal: false,
+      portalHostname: "devext.foo.bar"
+    };
+
+    const locale = "es";
+
+    fetchMock.get(`end:/locales/${locale}.json`, { status: 400 });
+
+    try {
+      await fetchHubTranslation("es", portal);
+      fail(Error("translation fetch should not have succeeded"));
+    } catch (err) {
+      expect(err).toBeDefined("threw error");
+      expect(err.message).toContain("Attempt to fetch locale");
+    }
+  });
 });
