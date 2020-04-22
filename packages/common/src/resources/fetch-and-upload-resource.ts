@@ -1,4 +1,7 @@
-import { addItemResource } from "@esri/arcgis-rest-portal";
+import {
+  addItemResource,
+  IItemResourceResponse
+} from "@esri/arcgis-rest-portal";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { fetchImageAsBlob } from "./fetch-image-as-blob";
 
@@ -12,7 +15,7 @@ export function fetchAndUploadResource(options: {
   fileName: string;
   url: string;
   authentication: UserSession;
-}) {
+}): Promise<IItemResourceResponse> {
   // first fetch it as a blob...
   return fetchImageAsBlob(options.url).then((file: any) => {
     // upload it to the item...

@@ -4,3 +4,4 @@ export * from "./fetch-image-as-blob";
 export * from "./get-item-assets";
 export * from "./get-item-thumbnail-url";
 export * from "./string-to-blob";
+export * from "./upload-resources-from-url";
