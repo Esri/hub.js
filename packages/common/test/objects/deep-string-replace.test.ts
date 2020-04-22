@@ -7,7 +7,8 @@ describe("deepStringReplace", function() {
         bar: "replace"
       },
       baz: [{ value: "replace" }, { value: "replace" }, { value: "replace" }],
-      beep: "replace"
+      beep: "replace",
+      number: 123
     };
 
     const after = deepStringReplace(before, "replace", "replaced");
@@ -22,7 +23,8 @@ describe("deepStringReplace", function() {
           { value: "replaced" },
           { value: "replaced" }
         ],
-        beep: "replaced"
+        beep: "replaced",
+        number: 123
       },
       "replaced deep strings"
     );
@@ -34,7 +36,8 @@ describe("deepStringReplace", function() {
         bar: "replace"
       },
       baz: [{ value: "replace" }, { value: "replace" }, { value: "replace" }],
-      beep: "replace"
+      beep: "replace",
+      number: 123
     };
 
     const after = deepStringReplace(before, /replace/, "replaced");
@@ -49,7 +52,8 @@ describe("deepStringReplace", function() {
           { value: "replaced" },
           { value: "replaced" }
         ],
-        beep: "replaced"
+        beep: "replaced",
+        number: 123
       },
       "replaced deep strings"
     );
