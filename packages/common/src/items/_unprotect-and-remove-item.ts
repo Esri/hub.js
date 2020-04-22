@@ -15,11 +15,7 @@ import { failSafe } from "../utils";
 export function _unprotectAndRemoveItem(userItemOptions: IUserItemOptions) {
   const failSafeUnprotect = failSafe(unprotectItem, { success: true });
   const failSafeRemove = failSafe(removeItem, { success: true });
-  return failSafeUnprotect(userItemOptions)
-    .then(() => {
-      return failSafeRemove(userItemOptions);
-    })
-    .catch(err => {
-      throw Error(`_unprotectAndRemoveItem: Error removing item: ${err}`);
-    });
+  return failSafeUnprotect(userItemOptions).then(() => {
+    return failSafeRemove(userItemOptions);
+  });
 }

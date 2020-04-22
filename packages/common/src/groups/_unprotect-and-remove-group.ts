@@ -15,11 +15,7 @@ import {
 export function _unprotectAndRemoveGroup(userGroupOptions: IUserGroupOptions) {
   const failSafeUnprotect = failSafe(unprotectGroup, { success: true });
   const failSafeRemove = failSafe(removeGroup, { success: true });
-  return failSafeUnprotect(userGroupOptions)
-    .then(() => {
-      return failSafeRemove(userGroupOptions);
-    })
-    .catch((err: Error) => {
-      throw Error(`unprotectAndRemoveGroup: Error removing Group: ${err}`);
-    });
+  return failSafeUnprotect(userGroupOptions).then(() => {
+    return failSafeRemove(userGroupOptions);
+  });
 }
