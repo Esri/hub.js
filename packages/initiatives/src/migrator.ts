@@ -12,7 +12,7 @@ import { upgradeToTwoDotTwo } from "./migrations/upgrade-two-dot-two";
  * Current Schema Version
  * @protected
  */
-export const CURRENT_SCHEMA_VERSION = 2.1;
+export const CURRENT_SCHEMA_VERSION = 2.2;
 
 /**
  * Handle Initiative Schema Migrations.
