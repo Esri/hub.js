@@ -16,4 +16,8 @@ describe("convertToWellKnownLocale", function() {
     const unsupportedLocale = "foo-bar";
     expect(convertToWellKnownLocale(unsupportedLocale)).toBe("en");
   });
+
+  it('defaults to "en" if no locale specified', function() {
+    expect(convertToWellKnownLocale()).toBe("en");
+  });
 });
