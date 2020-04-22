@@ -158,4 +158,36 @@ describe("getGeographicOrgExtent", function() {
     expect(requestSpy.calls.count()).toBe(0, "request not called");
     expect(result2).toEqual(GLOBAL_EXTENT, "resolved to global extent");
   });
+
+  it("returns global extent when network call fails", async function() {
+    const optsWithoutOrgExtent: IHubRequestOptions = {
+      portalSelf: {
+        user: {},
+        id: "123",
+        isPortal: false,
+        name: "some-portal",
+        defaultExtent: {
+          spatialReference: {
+            wkid: 1234
+          }
+        },
+        helperServices: {
+          geometry: {
+            url: "some-url"
+          }
+        }
+      },
+      isPortal: false,
+      hubApiUrl: "some-url"
+    };
+
+    const requestSpy = spyOn(request, "request").and.returnValue(
+      Promise.reject(Error("network request failed"))
+    );
+
+    const result = await getGeographicOrgExtent(optsWithoutOrgExtent);
+
+    expect(requestSpy.calls.count()).toBe(1, "request called");
+    expect(result).toEqual(GLOBAL_EXTENT, "resolved to global extent");
+  });
 });
