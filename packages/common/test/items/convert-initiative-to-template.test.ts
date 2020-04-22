@@ -172,6 +172,26 @@ describe("convertInitiativeToTemplate", function() {
     expect(tmpl.data.steps).toBeDefined("data.steps not removed from template");
   });
 
+  it("deals with steps without template ids", async function() {
+    // mock the resources call
+    spyOn(portal, "getItemResources").and.returnValue(
+      Promise.resolve({ resources: [] })
+    );
+
+    const model = cloneObject(defaultModel);
+
+    // kill the recommendedTemplates
+    delete model.data.recommendedTemplates;
+    delete model.data.steps[0].templateIds;
+
+    const tmpl = await convertInitiativeToTemplate(model, ro);
+
+    expect(getProp(tmpl, "data.recommendedTemplates.length")).toBe(
+      defaultModel.data.recommendedTemplates.length - 1,
+      "should have correct rec tmpls entries"
+    );
+  });
+
   it("keeps recommended", async function() {
     // mock the resources call
     spyOn(portal, "getItemResources").and.returnValue(
