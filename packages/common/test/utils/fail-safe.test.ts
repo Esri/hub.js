@@ -16,4 +16,20 @@ describe("failSafe", function() {
 
     expect(res).toBe("my result", "resolved to mocked result");
   });
+
+  it("resolves with empty object by default", async function() {
+    const rejects = () => {
+      return Promise.reject(Error("rejected"));
+    };
+    const failSafed = failSafe(rejects);
+
+    let res;
+    try {
+      res = await failSafed();
+    } catch {
+      fail(Error("failsafed function rejected"));
+    }
+
+    expect(res).toEqual({}, "resolved to mocked result");
+  });
 });

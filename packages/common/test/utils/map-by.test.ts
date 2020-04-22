@@ -6,4 +6,9 @@ describe("mapBy", function() {
     const res = mapBy("foo", arr);
     expect(res).toEqual(["bar", "baz"]);
   });
+
+  it("defaults to empty array", function() {
+    const res = mapBy("foo");
+    expect(res).toEqual([]);
+  });
 });
