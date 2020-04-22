@@ -1,34 +1,42 @@
-import { uploadResourcesFromUrl, IHubRequestOptions, IModel } from "../../src";
+import {
+  uploadResourcesFromUrl,
+  IHubRequestOptions,
+  IModel,
+  cloneObject
+} from "../../src";
 import * as fetchAndUploadResourceModule from "../../src/resources/fetch-and-upload-resource";
 import { IItemResourceResponse } from "@esri/arcgis-rest-portal";
 
 describe("uploadResourcesFromUrl", function() {
-  it("uploads resources", async function() {
-    const requestOpts: IHubRequestOptions = {
-      portalSelf: {
-        user: {},
-        id: "123",
-        isPortal: false,
-        name: "some-portal"
-      },
+  const requestOpts: IHubRequestOptions = {
+    portalSelf: {
+      user: {},
+      id: "123",
       isPortal: false,
-      hubApiUrl: "some-url"
-    };
-    const model: IModel = {
-      item: {
-        id: "someId",
-        protected: false,
-        owner: "owner",
-        created: 123,
-        modified: 123,
-        tags: [],
-        numViews: 3,
-        size: 3,
-        title: "title",
-        type: "Hub Site Application"
-      },
-      data: { foo: "bar", baz: { boop: "beep" } }
-    };
+      name: "some-portal"
+    },
+    isPortal: false,
+    hubApiUrl: "some-url"
+  };
+
+  const defaultModel: IModel = {
+    item: {
+      id: "someId",
+      protected: false,
+      owner: "owner",
+      created: 123,
+      modified: 123,
+      tags: [],
+      numViews: 3,
+      size: 3,
+      title: "title",
+      type: "Hub Site Application"
+    },
+    data: { foo: "bar", baz: { boop: "beep" } }
+  };
+
+  it("uploads resources", async function() {
+    const model = cloneObject(defaultModel);
 
     const resources = [
       {
@@ -41,6 +49,10 @@ describe("uploadResourcesFromUrl", function() {
       },
       {
         url: "url3",
+        name: "name3"
+      },
+      {
+        url: null,
         name: "name3"
       }
     ];
@@ -59,7 +71,10 @@ describe("uploadResourcesFromUrl", function() {
 
     await uploadResourcesFromUrl(model, resources, requestOpts);
 
-    expect(fetchAndUploadResourceSpy.calls.count()).toBe(3);
+    expect(fetchAndUploadResourceSpy.calls.count()).toBe(
+      3,
+      "4th resource without URL ignored"
+    );
     expect(fetchAndUploadResourceSpy.calls.argsFor(0)[0].url).toBe("url1");
     expect(fetchAndUploadResourceSpy.calls.argsFor(0)[0].fileName).toBe(
       "name1"
@@ -75,31 +90,7 @@ describe("uploadResourcesFromUrl", function() {
   });
 
   it("resolves when resources not an array", async function() {
-    const requestOpts: IHubRequestOptions = {
-      portalSelf: {
-        user: {},
-        id: "123",
-        isPortal: false,
-        name: "some-portal"
-      },
-      isPortal: false,
-      hubApiUrl: "some-url"
-    };
-    const model: IModel = {
-      item: {
-        id: "someId",
-        protected: false,
-        owner: "owner",
-        created: 123,
-        modified: 123,
-        tags: [],
-        numViews: 3,
-        size: 3,
-        title: "title",
-        type: "Hub Site Application"
-      },
-      data: { foo: "bar", baz: { boop: "beep" } }
-    };
+    const model = cloneObject(defaultModel);
 
     const resources: any = null;
 
