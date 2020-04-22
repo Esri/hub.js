@@ -9,6 +9,22 @@ describe("fetchImageAsBlob", function() {
       sendAsJson: false
     });
 
+    const res = await fetchImageAsBlob("image-url", { credentials: "omit" });
+
+    expect(fetchMock.done()).toBeTruthy();
+    expect(fetchMock.lastCall()[1].credentials).toBe(
+      "omit",
+      "called with specified credential"
+    );
+    expect(res.size).toBeGreaterThan(0);
+  });
+
+  it("has sensible defaults", async function() {
+    fetchMock.getOnce("image-url", {
+      body: new Blob(["a"], { type: "image/png" }),
+      sendAsJson: false
+    });
+
     const res = await fetchImageAsBlob("image-url");
 
     expect(fetchMock.done()).toBeTruthy();
