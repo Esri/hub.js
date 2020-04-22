@@ -48,4 +48,20 @@ describe("getModelFromOptions", function() {
     expect(getModelSpy.calls.count()).toBe(1, "getModel called");
     expect(result.item.id).toBe(itemIdFromApi, "correct model returned");
   });
+
+  it("throws when neither id nor model provided", async function() {
+    const options = {};
+
+    const getModelSpy = spyOn(getModelModule, "getModel").and.returnValue(
+      Promise.resolve({
+        item: {
+          id: itemIdFromApi
+        },
+        data: {}
+      })
+    );
+
+    expect(() => getModelFromOptions("item", options)).toThrowError();
+    expect(getModelSpy.calls.count()).toBe(0, "getModel NOT called");
+  });
 });
