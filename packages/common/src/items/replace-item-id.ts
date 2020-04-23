@@ -1,5 +1,4 @@
-import { IItem } from "@esri/arcgis-rest-types";
-import { IItemTemplate } from "../types";
+import { IModel } from "../types";
 import { cloneObject } from "../util";
 import { deepStringReplace } from "../objects";
 
@@ -9,7 +8,7 @@ import { deepStringReplace } from "../objects";
  * @param {string} itemId id to replace with `{{appid}}`
  */
 export function replaceItemId(
-  obj: IItem | IItemTemplate,
+  obj: IModel | Record<string, any>,
   itemId: string,
   replacement = "{{appid}}"
 ) {
