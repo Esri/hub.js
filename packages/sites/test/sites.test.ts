@@ -12,7 +12,7 @@ describe("getDomain", () => {
 
     getDomain("5bc")
       .then(response => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+        const [url, options] = fetchMock.lastCall(
           "https://hub.arcgis.com/utilities/domains?f=json&siteId=5bc"
         );
         expect(options.method).toBe("GET");
@@ -31,7 +31,7 @@ describe("getDomain", () => {
     getDomain("5bc")
       .then(domain => {
         expect(domain).toBe("data.foo.com");
-        const [domainUrl]: [string, RequestInit] = fetchMock.lastCall(
+        const [domainUrl] = fetchMock.lastCall(
           "https://hub.arcgis.com/utilities/domains?f=json&siteId=5bc"
         );
         expect(domainUrl).toContain("siteId=5bc");
@@ -48,7 +48,7 @@ describe("getDomain", () => {
       .then(domain => {
         expect(domain).toBe("org-beta.hub.arcgis.com");
         expect(fetchMock.done()).toBeTruthy();
-        const [domainUrl]: [string, RequestInit] = fetchMock.lastCall(
+        const [domainUrl] = fetchMock.lastCall(
           "https://hub.arcgis.com/utilities/domains?f=json&siteId=5bc"
         );
         expect(domainUrl).toContain("siteId=5bc");

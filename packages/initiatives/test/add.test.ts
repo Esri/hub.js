@@ -9,7 +9,7 @@ import { IInitiativeModel } from "@esri/hub-common";
 import { MOCK_REQUEST_OPTIONS } from "./mocks/fake-session";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
-const newInitiative = {
+const newInitiative = ({
   item: {
     title: "Fake Initiative",
     owner: "vader",
@@ -22,7 +22,7 @@ const newInitiative = {
       content: "nested deep"
     }
   }
-} as IInitiativeModel;
+} as any) as IInitiativeModel;
 
 describe("Add Initiative ::", () => {
   it("should add the url and update", done => {

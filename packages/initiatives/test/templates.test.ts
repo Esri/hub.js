@@ -3,7 +3,7 @@
 import { cloneObject, IInitiativeModel } from "@esri/hub-common";
 import { createInitiativeModelFromTemplate } from "../src/templates";
 
-const defaultTemplate = {
+const defaultTemplate = ({
   item: {
     id: "3ef-the-template-id",
     title: "template title",
@@ -28,7 +28,7 @@ const defaultTemplate = {
       bannerImage: { should: "also be cloned" }
     }
   }
-} as IInitiativeModel;
+} as any) as IInitiativeModel;
 
 describe("Initiative Templates ::", () => {
   describe("createInitiativeModelFromTemplate", () => {

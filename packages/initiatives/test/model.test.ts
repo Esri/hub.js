@@ -9,6 +9,7 @@ import {
 import * as fetchMock from "fetch-mock";
 import { MOCK_REQUEST_OPTIONS } from "./mocks/fake-session";
 import geometryService from "../src/geometry";
+import { IModel } from "@esri/hub-common/src";
 
 const REST_URL = "https://www.arcgis.com/sharing/rest";
 
@@ -19,7 +20,7 @@ describe("model functions ::", () => {
 
   describe("saving a model item ::", () => {
     it("should convert data to .text, attach the id", done => {
-      const m = {
+      const m = ({
         item: {
           owner: "vader",
           type: "Web Map",
@@ -30,7 +31,7 @@ describe("model functions ::", () => {
             content: "nested deep"
           }
         }
-      };
+      } as any) as IModel;
 
       // expect a fetch...
       fetchMock.post(`${REST_URL}/content/users/vader/addItem`, {
@@ -59,7 +60,7 @@ describe("model functions ::", () => {
 
   describe("updating a model item ::", () => {
     it("should post", done => {
-      const m = {
+      const m = ({
         item: {
           id: "bc7",
           owner: "vader",
@@ -71,7 +72,7 @@ describe("model functions ::", () => {
             content: "nested deep"
           }
         }
-      };
+      } as any) as IModel;
 
       // expect a fetch...
       fetchMock.post(`${REST_URL}/content/users/vader/items/bc7/update`, {
