@@ -7,7 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
+## [3.6.9] - April 23rd 2020
+
+### @esri/hub-initiatives
+
+* Bug Fixes
+   * **Fixes current initiative schema to be 2.2 so that the 2.2 migration runs**: set correct current i [`bce256c`](https://github.com/Esri/hub.js/commit/bce256cb89de5d91fbecec35b5ffb6b63e6adf3e)
+
 ## [3.6.8] - April 13th 2020
+
 ### @esri/hub-initiatives
 
 * Bug Fixes
@@ -32,7 +40,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/hub-search
 
 * Bug Fixes
-   * **search**: all filters should be consistent and default to &amp;quot;any&amp;quot;
+   * **search**: all filters should be consistent and default to &amp;amp;quot;any&amp;amp;quot;
 
 ## [3.6.4] - January 28th 2020
 
@@ -597,18 +605,17 @@ Initial Release
 [3.0.1]: https://github.com/Esri/hub.js/compare/v3.0.0...v3.0.1 "v3.0.1"
 [3.1.0]: https://github.com/Esri/hub.js/compare/v3.0.1...v3.1.0 "v3.1.0"
 [3.2.0]: https://github.com/Esri/hub.js/compare/v3.1.0...v3.2.0 "v3.2.0"
-[3.2.1]: https://github.com/Esri/hub.js/compare/v3.2.0...v3.2.1 "v3.2.1"
-[3.2.2]: https://github.com/Esri/hub.js/compare/v3.2.1...v3.2.2 "v3.2.2"
+[3.2.2]: https://github.com/Esri/hub.js/compare/v3.2.0...v3.2.2 "v3.2.2"
 [3.3.0]: https://github.com/Esri/hub.js/compare/v3.2.2...v3.3.0 "v3.3.0"
 [3.4.0]: https://github.com/Esri/hub.js/compare/v3.3.0...v3.4.0 "v3.4.0"
 [3.5.0]: https://github.com/Esri/hub.js/compare/v3.4.0...v3.5.0 "v3.5.0"
 [3.6.0]: https://github.com/Esri/hub.js/compare/v3.5.0...v3.6.0 "v3.6.0"
-[3.6.1]: https://github.com/Esri/hub.js/compare/v3.6.0...v3.6.1 "v3.6.1"
-[3.6.2]: https://github.com/Esri/hub.js/compare/v3.6.1...v3.6.2 "v3.6.2"
+[3.6.2]: https://github.com/Esri/hub.js/compare/v3.6.0...v3.6.2 "v3.6.2"
 [3.6.3]: https://github.com/Esri/hub.js/compare/v3.6.2...v3.6.3 "v3.6.3"
 [3.6.4]: https://github.com/Esri/hub.js/compare/v3.6.3...v3.6.4 "v3.6.4"
 [3.6.5]: https://github.com/Esri/hub.js/compare/v3.6.4...v3.6.5 "v3.6.5"
 [3.6.6]: https://github.com/Esri/hub.js/compare/v3.6.5...v3.6.6 "v3.6.6"
 [3.6.7]: https://github.com/Esri/hub.js/compare/v3.6.6...v3.6.7 "v3.6.7"
 [3.6.8]: https://github.com/Esri/hub.js/compare/v3.6.7...v3.6.8 "v3.6.8"
-[HEAD]: https://github.com/Esri/hub.js/compare/v3.6.8...HEAD "Unreleased Changes"
+[3.6.9]: https://github.com/Esri/hub.js/compare/v3.6.8...v3.6.9 "v3.6.9"
+[HEAD]: https://github.com/Esri/hub.js/compare/v3.6.9...HEAD "Unreleased Changes"

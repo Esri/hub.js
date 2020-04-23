@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-events",
-  "version": "3.6.8",
+  "version": "3.6.9",
   "description": "Module to interact with ArcGIS Hub Events in Node.js and modern browsers.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/events.umd.js",
