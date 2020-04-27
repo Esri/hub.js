@@ -1,3 +1,4 @@
+export * from "./_add-token-to-resource-url";
 export * from "./convert-solution-template-resources-to-assets";
 export * from "./fetch-and-upload-resource";
 export * from "./fetch-image-as-blob";
