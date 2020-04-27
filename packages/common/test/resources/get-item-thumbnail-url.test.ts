@@ -1,6 +1,7 @@
 import { getItemThumbnailUrl, IHubRequestOptions } from "../../src";
 import * as urlsModule from "../../src/urls";
 import { IItem } from "@esri/arcgis-rest-types";
+import { mockUserSession } from "../test-helpers/fake-user-session";
 
 describe("getItemThumbnailUrl", function() {
   it("computes url when item.thumbnail", function() {
@@ -11,7 +12,8 @@ describe("getItemThumbnailUrl", function() {
         id: "",
         name: "",
         isPortal: false
-      }
+      },
+      authentication: mockUserSession
     };
 
     const item: IItem = {
@@ -49,7 +51,8 @@ describe("getItemThumbnailUrl", function() {
         id: "",
         name: "",
         isPortal: false
-      }
+      },
+      authentication: mockUserSession
     };
 
     const item: IItem = {

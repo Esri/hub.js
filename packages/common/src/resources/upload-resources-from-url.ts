@@ -22,7 +22,7 @@ export function uploadResourcesFromUrl(
           fileName: resource.name,
           url: resource.url,
           // TODO actually figure out this typing instead of casting
-          authentication: requestOptions.authentication as UserSession
+          authentication: requestOptions.authentication
         };
         acc.push(fetchAndUploadResource(opts));
       }

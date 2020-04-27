@@ -8,7 +8,7 @@ import * as fetchAndUploadResourceModule from "../../src/resources/fetch-and-upl
 import { IItemResourceResponse } from "@esri/arcgis-rest-portal";
 
 describe("uploadResourcesFromUrl", function() {
-  const requestOpts: IHubRequestOptions = {
+  const requestOpts = {
     portalSelf: {
       user: {},
       id: "123",
@@ -17,7 +17,7 @@ describe("uploadResourcesFromUrl", function() {
     },
     isPortal: false,
     hubApiUrl: "some-url"
-  };
+  } as IHubRequestOptions;
 
   const defaultModel: IModel = {
     item: {
