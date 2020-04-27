@@ -2,9 +2,11 @@ import {
   uploadResourcesFromUrl,
   IHubRequestOptions,
   IModel,
-  cloneObject
+  cloneObject,
+  IItemResource
 } from "../../src";
 import * as fetchAndUploadResourceModule from "../../src/resources/fetch-and-upload-resource";
+import * as fetchAndUploadThumbnailModule from "../../src/resources/fetch-and-upload-thumbnail";
 import { IItemResourceResponse } from "@esri/arcgis-rest-portal";
 
 describe("uploadResourcesFromUrl", function() {
@@ -35,10 +37,19 @@ describe("uploadResourcesFromUrl", function() {
     data: { foo: "bar", baz: { boop: "beep" } }
   };
 
+  function resourceResponse(options: any): Promise<IItemResourceResponse> {
+    return Promise.resolve({
+      success: true,
+      itemId: options.id,
+      owner: options.owner,
+      folder: null
+    });
+  }
+
   it("uploads resources", async function() {
     const model = cloneObject(defaultModel);
 
-    const resources = [
+    const resources: IItemResource[] = [
       {
         url: "url1",
         name: "name1"
@@ -52,22 +63,25 @@ describe("uploadResourcesFromUrl", function() {
         name: "name3"
       },
       {
+        type: "thumbnail",
+        url: "thumbnail-url",
+        name: "thumbnail-name"
+      },
+      {
         url: null,
-        name: "name3"
+        name: "name5"
       }
     ];
 
     const fetchAndUploadResourceSpy = spyOn(
       fetchAndUploadResourceModule,
       "fetchAndUploadResource"
-    ).and.callFake(function(options: any): Promise<IItemResourceResponse> {
-      return Promise.resolve({
-        success: true,
-        itemId: options.id,
-        owner: options.owner,
-        folder: null
-      });
-    });
+    ).and.callFake(resourceResponse);
+
+    const fetchAndUploadThumbnailSpy = spyOn(
+      fetchAndUploadThumbnailModule,
+      "fetchAndUploadThumbnail"
+    ).and.callFake(resourceResponse);
 
     await uploadResourcesFromUrl(model, resources, requestOpts);
 
@@ -87,6 +101,17 @@ describe("uploadResourcesFromUrl", function() {
     expect(fetchAndUploadResourceSpy.calls.argsFor(2)[0].fileName).toBe(
       "name3"
     );
+
+    expect(fetchAndUploadThumbnailSpy.calls.count()).toEqual(
+      1,
+      "thumbnail got uploaded"
+    );
+    expect(fetchAndUploadThumbnailSpy.calls.argsFor(0)[0].url).toBe(
+      "thumbnail-url"
+    );
+    expect(fetchAndUploadThumbnailSpy.calls.argsFor(0)[0].fileName).toBe(
+      "thumbnail-name"
+    );
   });
 
   it("resolves when resources not an array", async function() {
@@ -97,14 +122,12 @@ describe("uploadResourcesFromUrl", function() {
     const fetchAndUploadResourceSpy = spyOn(
       fetchAndUploadResourceModule,
       "fetchAndUploadResource"
-    ).and.callFake(function(options: any): Promise<IItemResourceResponse> {
-      return Promise.resolve({
-        success: true,
-        itemId: options.id,
-        owner: options.owner,
-        folder: null
-      });
-    });
+    ).and.callFake(resourceResponse);
+
+    const fetchAndUploadThumbnailSpy = spyOn(
+      fetchAndUploadThumbnailModule,
+      "fetchAndUploadThumbnail"
+    ).and.callFake(resourceResponse);
 
     const res = await uploadResourcesFromUrl(model, resources, requestOpts);
 
@@ -115,6 +138,10 @@ describe("uploadResourcesFromUrl", function() {
     expect(fetchAndUploadResourceSpy.calls.count()).toBe(
       0,
       "fetchAndUploadSpy not called"
+    );
+    expect(fetchAndUploadThumbnailSpy.calls.count()).toBe(
+      0,
+      "fetchAndUploadThumbnailSpy not called"
     );
   });
 });

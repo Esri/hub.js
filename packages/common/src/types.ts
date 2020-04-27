@@ -94,4 +94,10 @@ export interface IHubRequestOptions extends IUserRequestOptions {
   portalSelf?: IHubRequestOptionsPortalSelf;
 }
 
+export interface IItemResource {
+  type?: string;
+  url: string;
+  name: string;
+}
+
 export type IBBox = number[][];
