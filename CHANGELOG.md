@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
+## [3.7.1] - April 28th 2020
+
 ## [3.7.0] - April 28th 2020
 
 ### @esri/hub-common
@@ -52,7 +54,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/hub-search
 
 * Bug Fixes
-   * **search**: all filters should be consistent and default to &amp;amp;amp;quot;any&amp;amp;amp;quot;
+   * **search**: all filters should be consistent and default to &amp;amp;amp;amp;quot;any&amp;amp;amp;amp;quot;
 
 ## [3.6.4] - January 28th 2020
 
@@ -631,4 +633,5 @@ Initial Release
 [3.6.7]: https://github.com/Esri/hub.js/compare/v3.6.5...v3.6.7 "v3.6.7"
 [3.6.8]: https://github.com/Esri/hub.js/compare/v3.6.7...v3.6.8 "v3.6.8"
 [3.7.0]: https://github.com/Esri/hub.js/compare/v3.6.8...v3.7.0 "v3.7.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v3.7.0...HEAD "Unreleased Changes"
+[3.7.1]: https://github.com/Esri/hub.js/compare/v3.7.0...v3.7.1 "v3.7.1"
+[HEAD]: https://github.com/Esri/hub.js/compare/v3.7.1...HEAD "Unreleased Changes"
