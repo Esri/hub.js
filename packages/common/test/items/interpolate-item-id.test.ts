@@ -1,4 +1,4 @@
-import { interpolateItemId, IModel, IModelTemplate } from "../../src";
+import { interpolateItemId } from "../../src";
 import { IItem } from "@esri/arcgis-rest-types";
 
 describe("interpolateItemId", function() {
@@ -14,7 +14,7 @@ describe("interpolateItemId", function() {
         bar: {
           baz: toReplace
         },
-        beep: "{{123:toISO}}"
+        boop: "{{prop.no.exist:toISO}}"
       }
     };
 
@@ -22,6 +22,5 @@ describe("interpolateItemId", function() {
 
     expect(interpolated.data.foo).toBe(itemId);
     expect(interpolated.data.bar.baz).toBe(itemId);
-    expect(interpolated.data.beep).toEqual(jasmine.any(Date));
   });
 });

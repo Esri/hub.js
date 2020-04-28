@@ -12,7 +12,7 @@ export function interpolateItemId(
   const settings = { item: { id: model.item.id }, appid: model.item.id };
   const transforms = {
     toISO(_: string, v: any) {
-      return v ? new Date(v).toISOString() : v;
+      return v;
     }
   };
   return adlib(model, settings, transforms);
