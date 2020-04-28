@@ -9,6 +9,7 @@ export * from "./update";
 export * from "./util";
 export * from "./activate";
 export * from "./remove";
+export * from "./convert-initiative-to-template";
 export * from "./detach-site";
 export * from "./search";
 export * from "./follow";
