@@ -2,8 +2,8 @@
  * Apache-2.0 */
 
 import { IItem, IUser } from "@esri/arcgis-rest-types";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IPortal } from "@esri/arcgis-rest-portal";
+import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 /**
  * Generic Model, used with all items that have a json
@@ -88,10 +88,16 @@ interface IHubRequestOptionsPortalSelf extends IPortal {
   user?: IUser;
 }
 
-export interface IHubRequestOptions extends IRequestOptions {
+export interface IHubRequestOptions extends IUserRequestOptions {
   isPortal: boolean;
   hubApiUrl: string;
   portalSelf?: IHubRequestOptionsPortalSelf;
+}
+
+export interface IItemResource {
+  type?: string;
+  url: string;
+  name: string;
 }
 
 export type IBBox = number[][];

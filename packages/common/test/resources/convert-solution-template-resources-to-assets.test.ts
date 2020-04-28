@@ -3,6 +3,7 @@ import {
   IHubRequestOptions,
   convertSolutionTemplateResourcesToAssets
 } from "../../src";
+import { mockUserSession } from "../test-helpers/fake-user-session";
 
 describe("convertSolutionTemplateResourceToAsset", function() {
   it("converts the resources to assets", function() {
@@ -24,7 +25,8 @@ describe("convertSolutionTemplateResourceToAsset", function() {
         name: "",
         isPortal: true,
         portalHostname: "portal-hostname"
-      }
+      },
+      authentication: mockUserSession
     };
 
     const assets = convertSolutionTemplateResourcesToAssets(template, ro);
@@ -58,7 +60,8 @@ describe("convertSolutionTemplateResourceToAsset", function() {
 
     const ro: IHubRequestOptions = {
       isPortal: false,
-      hubApiUrl: ""
+      hubApiUrl: "",
+      authentication: mockUserSession
     };
 
     const assets = convertSolutionTemplateResourcesToAssets(

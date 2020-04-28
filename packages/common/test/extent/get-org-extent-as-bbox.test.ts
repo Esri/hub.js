@@ -1,5 +1,6 @@
 import { IHubRequestOptions, getOrgExtentAsBBox } from "../../src";
 import * as getOrgExtent from "../../src/extent/get-geographic-org-extent";
+import { mockUserSession } from "../test-helpers/fake-user-session";
 
 describe("getOrgExtentAsBBox", function() {
   it("gets the extent as a BBox", async function() {
@@ -11,7 +12,8 @@ describe("getOrgExtentAsBBox", function() {
         name: "some-portal"
       },
       isPortal: false,
-      hubApiUrl: "some-url"
+      hubApiUrl: "some-url",
+      authentication: mockUserSession
     };
 
     spyOn(getOrgExtent, "getGeographicOrgExtent").and.returnValue(

@@ -178,7 +178,8 @@ describe("getGeographicOrgExtent", function() {
         }
       },
       isPortal: false,
-      hubApiUrl: "some-url"
+      hubApiUrl: "some-url",
+      authentication: null
     };
 
     const requestSpy = spyOn(request, "request").and.returnValue(

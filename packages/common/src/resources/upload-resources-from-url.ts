@@ -1,6 +1,6 @@
-import { IModel, IHubRequestOptions } from "../types";
+import { IModel, IHubRequestOptions, IItemResource } from "../types";
 import { fetchAndUploadResource } from "./fetch-and-upload-resource";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { fetchAndUploadThumbnail } from "./fetch-and-upload-thumbnail";
 
 /**
  * Given an Item and an array of resources, upload them
@@ -10,7 +10,7 @@ import { UserSession } from "@esri/arcgis-rest-auth";
  */
 export function uploadResourcesFromUrl(
   itemModel: IModel,
-  resources: Array<{ url: string; name: string }>,
+  resources: IItemResource[],
   requestOptions: IHubRequestOptions
 ) {
   if (Array.isArray(resources)) {
@@ -21,10 +21,14 @@ export function uploadResourcesFromUrl(
           owner: itemModel.item.owner,
           fileName: resource.name,
           url: resource.url,
-          // TODO actually figure out this typing instead of casting
-          authentication: requestOptions.authentication as UserSession
+          authentication: requestOptions.authentication
         };
-        acc.push(fetchAndUploadResource(opts));
+        if (resource.type === "thumbnail") {
+          acc.push(fetchAndUploadThumbnail(opts));
+        } else {
+          // treat as a resource
+          acc.push(fetchAndUploadResource(opts));
+        }
       }
       return acc;
     }, []);

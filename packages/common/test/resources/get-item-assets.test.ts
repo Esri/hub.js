@@ -1,6 +1,7 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions, getItemAssets } from "../../src";
 import { cloneObject } from "../../src";
+import { mockUserSession } from "../test-helpers/fake-user-session";
 
 describe("getItemAssets", function() {
   const item: portalModule.IItem = {
@@ -24,7 +25,8 @@ describe("getItemAssets", function() {
       name: "",
       isPortal: true,
       portalHostname: "portal-hostname"
-    }
+    },
+    authentication: mockUserSession
   };
 
   it("gets the assets", async function() {

@@ -1,10 +1,12 @@
 import { getCulture, IHubRequestOptions } from "../../src";
+import { mockUserSession } from "../test-helpers/fake-user-session";
 
 describe("getCulture", function() {
   it("gets the culture from hub request options with proper defaults", function() {
     const ro: IHubRequestOptions = {
       isPortal: false,
-      hubApiUrl: ""
+      hubApiUrl: "",
+      authentication: mockUserSession
     };
     expect(getCulture(ro)).toBe(
       "en-us",
