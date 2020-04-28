@@ -2,13 +2,13 @@ import {
   IInitiativeModel,
   IHubRequestOptions,
   IModelTemplate,
-  IInitiativeItem,
-  IItemTemplate
-} from "../types";
-import { cloneObject, createId, without } from "../util";
-import { normalizeSolutionTemplateItem } from "./normalize-solution-template-item";
-import { propifyString } from "../utils";
-import { getProp } from "../objects";
+  cloneObject,
+  createId,
+  without,
+  normalizeSolutionTemplateItem,
+  propifyString,
+  getProp
+} from "@esri/hub-common";
 import { getItemResources } from "@esri/arcgis-rest-portal";
 
 /**

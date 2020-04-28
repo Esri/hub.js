@@ -1,5 +1,4 @@
 export * from "./_unprotect-and-remove-item";
-export * from "./convert-initiative-to-template";
 export * from "./fail-safe-update";
 export * from "./get-model";
 export * from "./get-model-from-options";

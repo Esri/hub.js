@@ -1,11 +1,12 @@
 import * as portal from "@esri/arcgis-rest-portal";
 import {
   cloneObject,
-  convertInitiativeToTemplate,
   IInitiativeModel,
-  IHubRequestOptions
-} from "../../src";
-import { getProp } from "../../src";
+  IHubRequestOptions,
+  getProp
+} from "@esri/hub-common";
+
+import { convertInitiativeToTemplate } from "../src/convert-initiative-to-template";
 
 describe("convertInitiativeToTemplate", function() {
   const defaultModel = {
