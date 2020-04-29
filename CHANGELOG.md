@@ -5,13 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased][HEAD]
+
 ## [3.7.3] - April 29th 2020
+* New Features
+   * **common**: add deleteProp [`494415b`](https://github.com/Esri/hub.js/commit/494415bf4621605b215bed646722ea3116e351c1)
 
 ## [3.7.2] - April 28th 2020
-
-
-
-## [Unreleased][HEAD]
 
 ### @esri/hub-common
 
