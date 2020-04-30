@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub.js",
-  "version": "3.7.4",
+  "version": "3.7.5",
   "description": "compact, modular JavaScript wrappers for ArcGIS Hub that run in Node.js and modern browsers.",
   "devDependencies": {
     "@types/es6-promise": "0.0.32",
@@ -48,7 +48,7 @@
     "rollup-plugin-filesize": "^4.0.1",
     "rollup-plugin-json": "^2.3.0",
     "rollup-plugin-node-resolve": "^3.0.3",
-    "rollup-plugin-typescript2": "^0.21.0",
+    "rollup-plugin-typescript2": "^0.24.0",
     "rollup-plugin-uglify": "^3.0.0",
     "shelljs": "^0.7.8",
     "slug": "^0.9.1",
