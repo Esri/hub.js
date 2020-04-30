@@ -26,6 +26,27 @@ describe("fetchHubTranslation", function() {
     );
   });
 
+  it("allows you to set mode", async function() {
+    const portal: IPortal = {
+      name: "My Portal",
+      id: "portal-id",
+      isPortal: false,
+      portalHostname: "devext.foo.bar"
+    };
+
+    const locale = "es";
+
+    fetchMock.get(`end:/locales/${locale}.json`, { foo: { bar: "baz" } });
+
+    const translation = await fetchHubTranslation("es", portal, "same-origin");
+
+    expect(fetchMock.calls()[0][1].mode).toBe("same-origin");
+    expect(translation.foo.bar).toEqual(
+      "baz",
+      "translation fetched successfully"
+    );
+  });
+
   it("throws an error when it fails", async function() {
     const portal: IPortal = {
       name: "My Portal",

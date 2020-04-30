@@ -9,7 +9,8 @@ import { getHubLocaleAssetUrl } from "..";
  */
 export function fetchHubTranslation(
   locale: string,
-  portal: IPortal
+  portal: IPortal,
+  mode: RequestMode = "cors"
 ): Promise<any> {
   const assetBase = getHubLocaleAssetUrl(portal);
   const url = `${assetBase}/locales/${locale}.json`.toLocaleLowerCase();
@@ -17,7 +18,7 @@ export function fetchHubTranslation(
   const options: RequestInit = {
     method: "GET",
     credentials: "same-origin",
-    mode: "no-cors"
+    mode
   };
   return fetch(url, options)
     .then(response => response.json())
