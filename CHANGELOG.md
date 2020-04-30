@@ -9,9 +9,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased][HEAD]
 
 ## [3.7.5] - April 30th 2020
-* Bug Fixes
-   * **fix hub-initiatives UMD build** [`6a38816`](https://github.com/Esri/hub.js/commit/6a388166b5da8fc2d76f7c81d9084cf6e665fc60)
-   * **fix adlib import on IE** [`964febf`](https://github.com/Esri/hub.js/commit/964febf1dbae482c2a892e8392f164a0e80026ef)
+
+### @esri/hub-initiatives
+   * Bug Fixes
+      * **fix hub-initiatives UMD build** [`6a38816`](https://github.com/Esri/hub.js/commit/6a388166b5da8fc2d76f7c81d9084cf6e665fc60)
+
+### @esri/hub-common
+   * Bug Fixes
+      * **fix adlib import on IE** [`964febf`](https://github.com/Esri/hub.js/commit/964febf1dbae482c2a892e8392f164a0e80026ef)
 
 ## [3.7.4] - April 30th 2020
 
