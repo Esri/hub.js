@@ -71,7 +71,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/hub-search
 
 * Bug Fixes
-   * **search**: all filters should be consistent and default to &amp;amp;amp;amp;amp;amp;amp;amp;quot;any&amp;amp;amp;amp;amp;amp;amp;amp;quot;
+   * **search**: all filters should be consistent and default to "any"
 
 ## [3.6.4] - January 28th 2020
 
