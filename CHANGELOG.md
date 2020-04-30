@@ -5,7 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [3.7.5] - April 30th 2020
+
 ## [3.7.4] - April 30th 2020
+
+
 
 ## [Unreleased][HEAD]
 
@@ -67,7 +71,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/hub-search
 
 * Bug Fixes
-   * **search**: all filters should be consistent and default to &amp;amp;amp;amp;amp;amp;amp;quot;any&amp;amp;amp;amp;amp;amp;amp;quot;
+   * **search**: all filters should be consistent and default to &amp;amp;amp;amp;amp;amp;amp;amp;quot;any&amp;amp;amp;amp;amp;amp;amp;amp;quot;
 
 ## [3.6.4] - January 28th 2020
 
@@ -650,4 +654,5 @@ Initial Release
 [3.7.2]: https://github.com/Esri/hub.js/compare/v3.7.1...v3.7.2 "v3.7.2"
 [3.7.3]: https://github.com/Esri/hub.js/compare/v3.7.2...v3.7.3 "v3.7.3"
 [3.7.4]: https://github.com/Esri/hub.js/compare/v3.7.3...v3.7.4 "v3.7.4"
-[HEAD]: https://github.com/Esri/hub.js/compare/v3.7.4...HEAD "Unreleased Changes"
+[3.7.5]: https://github.com/Esri/hub.js/compare/v3.7.4...v3.7.5 "v3.7.5"
+[HEAD]: https://github.com/Esri/hub.js/compare/v3.7.5...HEAD "Unreleased Changes"
