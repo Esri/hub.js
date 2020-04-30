@@ -5,9 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [3.7.4] - April 30th 2020
+
 ## [Unreleased][HEAD]
 
+
+
 ## [3.7.3] - April 29th 2020
+
 * New Features
    * **common**: add deleteProp [`494415b`](https://github.com/Esri/hub.js/commit/494415bf4621605b215bed646722ea3116e351c1)
 
@@ -62,7 +67,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/hub-search
 
 * Bug Fixes
-   * **search**: all filters should be consistent and default to &amp;amp;amp;amp;amp;amp;quot;any&amp;amp;amp;amp;amp;amp;quot;
+   * **search**: all filters should be consistent and default to &amp;amp;amp;amp;amp;amp;amp;quot;any&amp;amp;amp;amp;amp;amp;amp;quot;
 
 ## [3.6.4] - January 28th 2020
 
@@ -644,4 +649,5 @@ Initial Release
 [3.7.1]: https://github.com/Esri/hub.js/compare/v3.7.0...v3.7.1 "v3.7.1"
 [3.7.2]: https://github.com/Esri/hub.js/compare/v3.7.1...v3.7.2 "v3.7.2"
 [3.7.3]: https://github.com/Esri/hub.js/compare/v3.7.2...v3.7.3 "v3.7.3"
-[HEAD]: https://github.com/Esri/hub.js/compare/v3.7.3...HEAD "Unreleased Changes"
+[3.7.4]: https://github.com/Esri/hub.js/compare/v3.7.3...v3.7.4 "v3.7.4"
+[HEAD]: https://github.com/Esri/hub.js/compare/v3.7.4...HEAD "Unreleased Changes"
