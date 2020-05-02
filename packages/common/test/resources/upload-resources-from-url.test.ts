@@ -7,6 +7,7 @@ import {
 } from "../../src";
 import * as fetchAndUploadResourceModule from "../../src/resources/fetch-and-upload-resource";
 import * as fetchAndUploadThumbnailModule from "../../src/resources/fetch-and-upload-thumbnail";
+import { mockUserSession } from "../test-helpers/fake-user-session";
 import { IItemResourceResponse } from "@esri/arcgis-rest-portal";
 
 describe("uploadResourcesFromUrl", function() {
@@ -18,7 +19,8 @@ describe("uploadResourcesFromUrl", function() {
       name: "some-portal"
     },
     isPortal: false,
-    hubApiUrl: "some-url"
+    hubApiUrl: "some-url",
+    authentication: mockUserSession
   } as IHubRequestOptions;
 
   const defaultModel: IModel = {
@@ -48,14 +50,14 @@ describe("uploadResourcesFromUrl", function() {
 
   it("uploads resources", async function() {
     const model = cloneObject(defaultModel);
-
+    const portalUrl = requestOpts.authentication.portal;
     const resources: IItemResource[] = [
       {
         url: "url1",
         name: "name1"
       },
       {
-        url: "url2",
+        url: `${portalUrl}/url2`,
         name: "name2"
       },
       {
@@ -93,7 +95,9 @@ describe("uploadResourcesFromUrl", function() {
     expect(fetchAndUploadResourceSpy.calls.argsFor(0)[0].fileName).toBe(
       "name1"
     );
-    expect(fetchAndUploadResourceSpy.calls.argsFor(1)[0].url).toBe("url2");
+    expect(fetchAndUploadResourceSpy.calls.argsFor(1)[0].url).toBe(
+      `${portalUrl}/url2?token=fake-token`
+    );
     expect(fetchAndUploadResourceSpy.calls.argsFor(1)[0].fileName).toBe(
       "name2"
     );
