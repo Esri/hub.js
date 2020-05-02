@@ -5,5 +5,6 @@ export const mockUserSession = new UserSession({
   username: "vader",
   password: "123456",
   token: "fake-token",
-  tokenExpires: TOMORROW
+  tokenExpires: TOMORROW,
+  portal: "https://vader.maps.arcgis.com/sharing/rest"
 });
