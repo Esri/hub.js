@@ -1,5 +1,5 @@
 import { IModelTemplate } from "../types";
-import { adlib } from "adlib";
+import { interpolate } from "./interpolate";
 
 /**
  * Interpolate the item id back into any  {{appid}} instances
@@ -15,5 +15,5 @@ export function interpolateItemId(
       return v;
     }
   };
-  return adlib(model, settings, transforms);
+  return interpolate(model, settings, transforms);
 }
