@@ -3,6 +3,7 @@ export * from "./delete-prop";
 export * from "./fail-safe-update";
 export * from "./get-model";
 export * from "./get-model-from-options";
+export * from "./interpolate";
 export * from "./interpolate-item-id";
 export * from "./normalize-solution-template-item";
 export * from "./replace-item-id";
