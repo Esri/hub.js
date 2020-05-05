@@ -18,7 +18,7 @@ describe("updateDomain", function() {
     sslOnly: true
   };
 
-  it("throws error on portal", async function() {
+  it("updates domain", async function() {
     const ro = { isPortal: false } as IHubRequestOptions;
 
     spyOn(

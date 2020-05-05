@@ -6,7 +6,7 @@ import * as _checkStatusAndParseJsonModule from "../../src/domains/_check-status
 describe("removeDomain", function() {
   const domainId = "146663";
 
-  it("throws error on portal", async function() {
+  it("removes domain", async function() {
     const ro = { isPortal: false } as IHubRequestOptions;
 
     spyOn(

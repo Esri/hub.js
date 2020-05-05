@@ -3,6 +3,7 @@ export * from "./_get-auth-header";
 export * from "./_lookup-portal";
 export * from "./_check-status-and-parse-json";
 export * from "./add-domain";
+export * from "./lookup-domain";
 export * from "./update-domain";
 export * from "./remove-domain";
 export * from "./types";
