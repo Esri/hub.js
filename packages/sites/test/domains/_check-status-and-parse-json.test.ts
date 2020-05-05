@@ -21,20 +21,19 @@ describe("_checkStatusAndParseJson", function() {
   });
 
   it("rejects with error when fail", async function() {
+    let jsonRes: any = {         error: {
+      title: "title",
+      detail: "an error"
+    }
+  };
+
     const res = {
       status: 404,
       json: () => {
         const foo = 1;
       }
     } as Response;
-    const jsonSpy = spyOn(res, "json").and.returnValue(
-      Promise.resolve({
-        error: {
-          title: "title",
-          detail: "an error"
-        }
-      })
-    );
+    spyOn(res, "json").and.callFake(() => Promise.resolve(jsonRes));
 
     try {
       await _checkStatusAndParseJson(res);
@@ -49,8 +48,8 @@ describe("_checkStatusAndParseJson", function() {
         const foo = 1;
       }
     } as Response;
-    jsonSpy.and.returnValue(Promise.resolve({}));
 
+    jsonRes = {};
     try {
       await _checkStatusAndParseJson(resWithoutError);
       fail("should reject");
