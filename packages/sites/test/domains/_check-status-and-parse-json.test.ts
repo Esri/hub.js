@@ -20,12 +20,13 @@ describe("_checkStatusAndParseJson", function() {
     }
   });
 
-  it("rejects with error when fail", async function() {
-    let jsonRes: any = {         error: {
-      title: "title",
-      detail: "an error"
-    }
-  };
+  it("rejects with error when fail with message", async function() {
+    const jsonRes: any = {
+      error: {
+        title: "title",
+        detail: "an error"
+      }
+    };
 
     const res = {
       status: 404,
@@ -41,20 +42,24 @@ describe("_checkStatusAndParseJson", function() {
     } catch (err) {
       expect(err.message).toBe("title :: an error :: 404");
     }
+  });
 
-    const resWithoutError = {
+  it("rejects with error when fail", async function() {
+    const jsonRes: any = {};
+
+    const res = {
       status: 404,
       json: () => {
         const foo = 1;
       }
     } as Response;
+    spyOn(res, "json").and.callFake(() => Promise.resolve(jsonRes));
 
-    jsonRes = {};
     try {
-      await _checkStatusAndParseJson(resWithoutError);
+      await _checkStatusAndParseJson(res);
       fail("should reject");
     } catch (err) {
-      expect(err).toBeDefined();
+      expect(err).toBeDefined("threw generic error");
     }
   });
 });
