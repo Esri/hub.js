@@ -7,9 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
-## [3.8.0] - May 4th 2020
+
+## [3.9.0] - May 6th 2020
+
+### @esri/hub-sites && @esri/hub-common
+
 * New Features
    * **common**: add `interpolate` [`1f3156d`](https://github.com/Esri/hub.js/commit/1f3156d18934b16d69173753ef3236a638aa0331)
+
+## [3.8.0] - May 4th 2020
+
+* New Features
+   * domain utils [5d2cf85](https://github.com/Esri/hub.js/commit/5d2cf85455cdc1b5966e385fd01d4a6a51f58926)
 
 ### @esri/hub-common
 
@@ -671,14 +680,15 @@ Initial Release
 [3.6.3]: https://github.com/Esri/hub.js/compare/v3.6.2...v3.6.3 "v3.6.3"
 [3.6.4]: https://github.com/Esri/hub.js/compare/v3.6.3...v3.6.4 "v3.6.4"
 [3.6.5]: https://github.com/Esri/hub.js/compare/v3.6.4...v3.6.5 "v3.6.5"
-[3.6.6]: https://github.com/Esri/hub.js/compare/v3.6.5...v3.6.6 "v3.6.6"
-[3.6.7]: https://github.com/Esri/hub.js/compare/v3.6.6...v3.6.7 "v3.6.7"
+[3.6.7]: https://github.com/Esri/hub.js/compare/v3.6.5...v3.6.7 "v3.6.7"
 [3.6.8]: https://github.com/Esri/hub.js/compare/v3.6.7...v3.6.8 "v3.6.8"
 [3.7.0]: https://github.com/Esri/hub.js/compare/v3.6.8...v3.7.0 "v3.7.0"
 [3.7.1]: https://github.com/Esri/hub.js/compare/v3.7.0...v3.7.1 "v3.7.1"
 [3.7.2]: https://github.com/Esri/hub.js/compare/v3.7.1...v3.7.2 "v3.7.2"
 [3.7.3]: https://github.com/Esri/hub.js/compare/v3.7.2...v3.7.3 "v3.7.3"
 [3.7.4]: https://github.com/Esri/hub.js/compare/v3.7.3...v3.7.4 "v3.7.4"
-[3.7.6]: https://github.com/Esri/hub.js/compare/v3.7.4...v3.7.6 "v3.7.6"
+[3.7.5]: https://github.com/Esri/hub.js/compare/v3.7.4...v3.7.5 "v3.7.5"
+[3.7.6]: https://github.com/Esri/hub.js/compare/v3.7.5...v3.7.6 "v3.7.6"
 [3.8.0]: https://github.com/Esri/hub.js/compare/v3.7.6...v3.8.0 "v3.8.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v3.8.0...HEAD "Unreleased Changes"
+[3.9.0]: https://github.com/Esri/hub.js/compare/v3.8.0...v3.9.0 "v3.9.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v3.9.0...HEAD "Unreleased Changes"
