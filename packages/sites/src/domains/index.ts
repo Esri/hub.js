@@ -5,6 +5,7 @@ export * from "./_check-status-and-parse-json";
 export * from "./add-domain";
 export * from "./domain-exists";
 export * from "./domain-exists-portal";
+export * from "./is-domain-for-legacy-site";
 export * from "./is-domain-used-elsewhere";
 export * from "./is-valid-domain";
 export * from "./get-domains-for-site";
