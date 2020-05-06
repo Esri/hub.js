@@ -2,7 +2,7 @@ import { IHubRequestOptions } from "@esri/hub-common";
 import { domainExists } from "../../src/domains";
 import * as fetchMock from "fetch-mock";
 
-describe("removeDomain", function() {
+describe("domainExists", function() {
   const domainId = "146663";
 
   it("returns false and true correctly", async function() {
