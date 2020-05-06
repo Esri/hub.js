@@ -1,9 +1,9 @@
 import * as fetchMock from "fetch-mock";
-import { getDomainsForSite } from "../../src/domains";
+import { getDomainsForSite, IDomainEntry } from "../../src/domains";
 import { IHubRequestOptions } from "@esri/hub-common";
 
 describe("getDomainsForSite", function() {
-  const domains = [{ some: "domain" }];
+  const domains = ([{ some: "domain" }] as unknown) as IDomainEntry[];
   it("resolves with the domain entries for a site", async function() {
     const siteId = "siteId";
     const responseConfig = { body: JSON.stringify(domains), status: 200 };

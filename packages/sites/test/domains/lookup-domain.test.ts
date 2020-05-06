@@ -1,5 +1,5 @@
 import { IHubRequestOptions } from "@esri/hub-common";
-import { lookupDomain } from "../../src/domains";
+import { lookupDomain, IDomainEntry } from "../../src/domains";
 import * as fetchMock from "fetch-mock";
 import * as _checkStatusAndParseJsonModule from "../../src/domains/_check-status-and-parse-json";
 import * as _lookupPortalModule from "../../src/domains/_lookup-portal";
@@ -37,7 +37,7 @@ describe("lookupDomain", function() {
 
     fetchMock.get(`end:utilities/domains/${domainId}`, {});
 
-    const res = await lookupDomain(domainId, ro);
+    const res = (await lookupDomain(domainId, ro)) as IDomainEntry;
 
     expect(fetchMock.done()).toBeTruthy("fetch should have been called");
     expect(fetchMock.calls()[0][1].mode).toBe(

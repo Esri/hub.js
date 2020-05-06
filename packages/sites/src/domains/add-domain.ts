@@ -12,7 +12,7 @@ import { IDomainEntry } from "./types";
 export function addDomain(
   domainEntry: IDomainEntry,
   hubRequestOptions: IHubRequestOptions
-): Promise<any> {
+) {
   if (hubRequestOptions.isPortal) {
     throw new Error(
       `addDomain is not available in ArcGIS Enterprise. Instead, edit the hubdomain typekeyword on the item`

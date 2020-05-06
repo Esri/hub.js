@@ -3,6 +3,7 @@ import { _lookupPortal } from "./_lookup-portal";
 import { _getDomainServiceUrl } from "./_get-domain-service-url";
 import { _getAuthHeader } from "./_get-auth-header";
 import { _checkStatusAndParseJson } from "./_check-status-and-parse-json";
+import { IDomainEntry } from "./types";
 
 /**
  * Fetch a the information about a domain.
@@ -13,7 +14,7 @@ import { _checkStatusAndParseJson } from "./_check-status-and-parse-json";
 export function lookupDomain(
   domain: string,
   hubRequestOptions: IHubRequestOptions
-) {
+): Promise<IDomainEntry | { hostname: string; siteId: string }> {
   if (hubRequestOptions.isPortal) {
     return _lookupPortal(domain, hubRequestOptions);
   } else {

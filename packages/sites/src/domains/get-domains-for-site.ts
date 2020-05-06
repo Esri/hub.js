@@ -2,6 +2,7 @@ import { IHubRequestOptions } from "@esri/hub-common";
 import { _getDomainServiceUrl } from "./_get-domain-service-url";
 import { _getAuthHeader } from "./_get-auth-header";
 import { _checkStatusAndParseJson } from "./_check-status-and-parse-json";
+import { IDomainEntry } from "./types";
 
 /**
  * Get a list
@@ -11,7 +12,7 @@ import { _checkStatusAndParseJson } from "./_check-status-and-parse-json";
 export function getDomainsForSite(
   siteId: string,
   hubRequestOptions: IHubRequestOptions
-) {
+): Promise<IDomainEntry[]> {
   if (hubRequestOptions.isPortal) {
     return Promise.resolve([]);
   }
