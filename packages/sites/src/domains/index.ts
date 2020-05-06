@@ -4,6 +4,7 @@ export * from "./_lookup-portal";
 export * from "./_check-status-and-parse-json";
 export * from "./add-domain";
 export * from "./domain-exists";
+export * from "./get-unique-domain-name";
 export * from "./lookup-domain";
 export * from "./update-domain";
 export * from "./remove-domain";
