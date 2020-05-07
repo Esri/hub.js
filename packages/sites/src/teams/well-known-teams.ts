@@ -1,3 +1,5 @@
+import { IGroupTemplate } from "./types";
+
 /**
  * Hash of the team group templates.
  * This hash is used to determin what teams can be created in what products
@@ -7,7 +9,7 @@
  * This allows us to add/remove/edit groups by simply modifying this hash
  * instead of spreading complex construction logic all over the application
  */
-export const WELLKNOWNTEAMS = [
+export const WELLKNOWNTEAMS: IGroupTemplate[] = [
   {
     config: {
       groupType: "Hub Collaboration Group",
