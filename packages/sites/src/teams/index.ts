@@ -3,6 +3,7 @@ export * from "./can-user-create-team";
 export * from "./get-allowed-group-access";
 export * from "./get-team-properties-map-for-product";
 export * from "./get-team-template";
+export * from "./get-teams-for-product";
 export * from "./get-teams-available-in-product";
 export * from "./get-user-creatable-teams";
 export * from "./group-access-privs";
