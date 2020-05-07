@@ -3,3 +3,4 @@
 
 export * from "./domains";
 export * from "./sites";
+export * from "./teams";
