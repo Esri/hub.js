@@ -16,7 +16,7 @@ describe("Name of the group", () => {
     const spy = spyOn(
       getUserCreatableTeamsModule,
       "getUserCreatableTeams"
-    ).and.returnValue([{ config: { type: "someteamtype" } }]);
+    ).and.returnValue([{ config: { type: "core" } }]);
 
     const user = {
       groups: new Array(600).fill("grp")
@@ -38,11 +38,11 @@ describe("Name of the group", () => {
     const spy = spyOn(
       getUserCreatableTeamsModule,
       "getUserCreatableTeams"
-    ).and.returnValue([{ config: { type: "someteamtype" } }]);
+    ).and.returnValue([{ config: { type: "core" } }]);
 
     const user = {} as IUser;
 
-    expect(canUserCreateTeam(user, "someteamtype", ro)).toBeTruthy();
+    expect(canUserCreateTeam(user, "core", ro)).toBeTruthy();
     expect(spy).toHaveBeenCalled();
   });
 });

@@ -1,14 +1,15 @@
-import { getTeamTemplate, HubProduct } from "../../src";
+import { getTeamTemplate, HubProduct, HubTeamType } from "../../src";
 
 describe("getTeamTemplate", () => {
   it("it returns nothing for invalid product or team", function() {
-    expect(getTeamTemplate("fake", "basic")).toBeUndefined(
+    expect(getTeamTemplate("fake" as HubTeamType, "basic")).toBeUndefined(
       "should return undefined if invalid team"
     );
     expect(getTeamTemplate("core", "foo" as HubProduct)).toBeUndefined(
       "should return undefined if invalid product"
     );
   });
+
   it("it returns the correct template", function() {
     const chk = getTeamTemplate("content", "portal");
     expect(chk.config.groupType).toBe(
