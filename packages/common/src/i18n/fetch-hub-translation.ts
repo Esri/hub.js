@@ -1,5 +1,5 @@
 import { IPortal } from "@esri/arcgis-rest-portal";
-import { getHubLocaleAssetUrl } from "..";
+import { getHubLocaleAssetUrl } from "../urls";
 
 /**
  * Fetch the Hub translation file for a given locale

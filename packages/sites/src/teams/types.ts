@@ -12,7 +12,7 @@ export type HubTeamType = typeof TEAMTYPES[number];
 export interface IGroupTemplate extends Partial<IGroup> {
   config: {
     groupType: string;
-    type: string;
+    type: HubTeamType;
     availableIn: HubProduct[];
     propertyName?: string;
     requiredPrivs: string[];
