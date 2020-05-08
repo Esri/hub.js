@@ -13,4 +13,4 @@ export * from "./get-card-dependencies";
 export * from "./get-layout-dependencies";
 export * from "./get-row-dependencies";
 export * from "./get-section-dependencies";
-export * from "./remove-unused-dependencies";
+export * from "./remove-unused-resources";

@@ -6,7 +6,7 @@ describe("convertCard", function() {
       component: {
         name: 'event-list-card',
         settings: {
-          initiativeIds: 'original initiativeIds value'
+          initiativeIds: ['original initiativeIds value']
         }
       }
     }
@@ -27,7 +27,7 @@ describe("convertCard", function() {
       component: {
         name: 'event-list-card',
         settings: {
-          initiativeIds: 'original initiativeIds value'
+          initiativeIds: ['original initiativeIds value']
         }
       }
     })
@@ -57,7 +57,7 @@ describe("convertCard", function() {
 
     expect(card).toEqual({
       component: {
-        name: 'follow-list-card',
+        name: 'follow-initiative-card',
         settings: {
           initiativeId: 'original initiativeId value'
         }
@@ -72,7 +72,12 @@ describe("convertCard", function() {
         name: 'items/gallery-card',
         settings: {
           version: 3,
-          groups: 'original settings.groups value'
+          groups: [
+            { 
+              id: 'id value', 
+              title: 'title value' 
+            }
+          ]
         }
       }
     }
@@ -80,6 +85,7 @@ describe("convertCard", function() {
     expect(convertCard(card)).toEqual({
       card: {
         component: {
+          name: 'items/gallery-card',
           settings: {
             version: 3,
             groups: [
@@ -103,7 +109,12 @@ describe("convertCard", function() {
         name: 'items/gallery-card',
         settings: {
           version: 3,
-          groups: 'original settings.groups value'
+          groups: [
+            { 
+              id: 'id value', 
+              title: 'title value' 
+            }
+          ]
         }
       }
     });
@@ -130,7 +141,7 @@ describe("convertCard", function() {
           }
         }
       },
-      assets: ['cropSrc value', 'fileSrc value']
+      assets: ['fileSrc value', 'cropSrc value']
     });
 
     expect(card).toEqual({
@@ -165,7 +176,7 @@ describe("convertCard", function() {
           }
         }
       },
-      assets: ['cropSrc value', 'fileSrc value']
+      assets: ['fileSrc value', 'cropSrc value']
     });
 
     expect(card).toEqual({
@@ -184,7 +195,7 @@ describe("convertCard", function() {
       component: {
         name: 'unknown-card-name',
         settings: {
-          initiativeIds: 'original initiativeIds value'
+          initiativeIds: ['original initiativeIds value']
         }
       }
     }
@@ -194,7 +205,7 @@ describe("convertCard", function() {
         component: {
           name: 'unknown-card-name',
           settings: {
-            initiativeIds: 'original initiativeIds value'
+            initiativeIds: ['original initiativeIds value']
           }
         }
       },
@@ -205,10 +216,9 @@ describe("convertCard", function() {
       component: {
         name: 'unknown-card-name',
         settings: {
-          initiativeIds: 'original initiativeIds value'
+          initiativeIds: ['original initiativeIds value']
         }
       }
     });
   });
-
 });

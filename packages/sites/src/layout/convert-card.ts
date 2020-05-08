@@ -7,23 +7,28 @@ import { convertImageCard } from "./convert-image-card";
 import { convertJumbotronCard } from "./convert-jumbotron-card";
 import { ICard, ITemplatizedCard } from "./types";
 
+const converters: { [char: string]: Function } = {
+  'event-list-card': convertEventListCard,
+  'follow-initiative-card': convertFollowCard,
+  'items/gallery-card': convertItemGalleryCard,
+  'image-card': convertImageCard,
+  'jumbotron-card': convertJumbotronCard
+}
+
 /**
  * Convert a card to a templatized version of itself
  */
 export const convertCard = function convertCard (card: ICard) : ITemplatizedCard {
   const clone = cloneObject(card) as ICard;
-  switch (clone.component.name) {
-    case 'event-list-card':
-      return convertEventListCard(clone);
-    case 'follow-initiative-card':
-      return convertFollowCard(clone);
-    case 'items/gallery-card':
-      return convertItemGalleryCard(clone);
-    case 'image-card':
-      return convertImageCard(clone);
-    case 'jumbotron-card':
-      return convertJumbotronCard(clone);
-    default:
-      return { card: clone, assets: [] };
+
+  const converter = converters[clone.component.name];
+
+  if (converter) {
+    return converter(clone)
+  }
+
+  return {
+    card: clone, 
+    assets: []
   }
 };

@@ -2,33 +2,37 @@ import { getProp } from '@esri/hub-common';
 
 import { ICard } from "./types";
 
-export const getCardDependencies = function getCardDependencies (card : ICard) {
-  let paths : string[] = [];
-  const componentName = getProp(card, 'component.name');
+function getPaths (componentName: string) {
   switch (componentName) {
-    // case 'chart-card':
-    //   paths = ['component.settings.itemId'];
-    //   break;
-    // case 'summary-statistic-card':
-    //   paths = ['component.settings.itemId'];
-    //   break;
     case 'webmap-card':
-      paths = ['component.settings.webmap'];
-      break;
+      return ['component.settings.webmap'];
     case 'items/gallery-card':
-      paths = ['component.settings.ids'];
-      break;
+      return ['component.settings.ids'];
+    default: 
+      return []
   }
-  let deps = paths.reduce((a, p) => {
-    let v = getProp(card, p);
-    if (v) {
-      if (Array.isArray(v)) {
-        a = a.concat(v);
-      } else {
-        a.push(v);
-      }
-    }
-    return a;
-  }, []);
-  return deps;
+}
+
+export const getCardDependencies = function getCardDependencies (card : ICard) {
+  const componentName = getProp(card, 'component.name');
+
+  const paths = getPaths(componentName)
+
+  return paths.reduce(collectAndFlattenPropertyValues(card), []);
 };
+
+function collectAndFlattenPropertyValues (card: ICard) {
+  return (acc : string[], path: string) => {
+    const propertyValue = getProp(card, path);
+
+    if (!propertyValue) {
+      return acc
+    }
+
+    if (Array.isArray(propertyValue)) {
+      return acc.concat(propertyValue);
+    } else {
+      return acc.concat([propertyValue]);
+    }
+  }
+}

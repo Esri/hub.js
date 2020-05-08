@@ -60,7 +60,7 @@ describe("_getImageCropIdsFromLayout", function() {
                 {
                   component: {
                     name: "image-card",
-                    setting: {
+                    settings: {
                       cropId: "section 1 row 2 card 1 image-card cropId"
                     }
                   }
@@ -68,7 +68,7 @@ describe("_getImageCropIdsFromLayout", function() {
                 {
                   component: {
                     name: "jumbotron-card",
-                    setting: {
+                    settings: {
                       cropId: "section 1 row 2 card 2 jumbotron-card cropId"
                     }
                   }
@@ -90,7 +90,7 @@ describe("_getImageCropIdsFromLayout", function() {
                 {
                   component: {
                     name: "image-card",
-                    setting: {
+                    settings: {
                       cropId: "section 2 row 1 card 1 image-card cropId"
                     }
                   }
@@ -102,7 +102,7 @@ describe("_getImageCropIdsFromLayout", function() {
                 {
                   component: {
                     name: "image-card",
-                    setting: {
+                    settings: {
                       cropId: "section 2 row 2 card 1 image-card cropId"
                     }
                   }

@@ -3,34 +3,40 @@ import { cloneObject, getProp } from '@esri/hub-common';
 import { convertRow } from "./convert-row";
 import { extractAssets } from "./extract-assets";
 
-import { ISection } from "./types";
+import { ISection, IRow } from "./types";
 
 /**
  * Convert a section, collecting assets along the way...
  */
 export const convertSection = function convertSection (section : ISection) {
-  const clone = cloneObject(section);
   // if the section has a background image, and it has a url, we should
   // add that to the asset hash so it can be downloaded and added to the template item
   // and also cook some unique asset name so we can inject a placeholder
-  const rowResult = section.rows.reduce((acc, row) => {
-    const result = convertRow(row);
-    // concat in the assets...
-    acc.assets = acc.assets.concat(result.assets);
-    acc.rows.push({ cards: result.cards });
-    return acc;
-  }, { assets: [], rows: [] });
+  const { rows, assets } = section.rows.reduce(toTemplatizedRows, { assets: [], rows: [] });
 
-  clone.rows = rowResult.rows;
-  let result = {
-    section: clone,
-    assets: rowResult.assets
+  const result = {
+    section: cloneObject(section) as ISection,
+    assets
   };
-  // check for assets...
-  if (getProp(clone, 'style.background.fileSrc')) {
-    const sectionAssets = extractAssets(clone.style.background);
-    result.assets = result.assets.concat(sectionAssets);
+
+  result.section.rows = rows
+
+  if (sectionHasBackgroundFile(section)) {
+    result.assets.push(...extractAssets(section.style.background))
   }
-  // return the section and assets...
+
   return result;
 };
+
+function toTemplatizedRows (acc: any, row: IRow) {
+  const { assets, cards } = convertRow(row);
+
+  acc.assets.push(...assets)
+  acc.rows.push({ cards });
+
+  return acc;
+}
+
+function sectionHasBackgroundFile (clonedSection: ISection) {
+  return getProp(clonedSection, 'style.background.fileSrc')
+}

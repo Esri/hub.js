@@ -4,6 +4,7 @@ describe("convertJumbotronCard", function() {
   it("component.settings with neither fileSrc nor cropSrc should return assets as an empty array", function () {
     const card = {
       component: {
+        name: 'card name',
         settings: {}
       }
     }
@@ -11,6 +12,7 @@ describe("convertJumbotronCard", function() {
     expect(convertJumbotronCard (card)).toEqual({
       card: {
         component: {
+          name: 'card name',
           settings: {}
         }
       },
@@ -21,6 +23,7 @@ describe("convertJumbotronCard", function() {
   it("component.settings with only fileSrc should return its value in assets", function () {
     const card = {
       component: {
+        name: 'card name',
         settings: {
           fileSrc: 'fileSrc value'
         }
@@ -30,6 +33,7 @@ describe("convertJumbotronCard", function() {
     expect(convertJumbotronCard (card)).toEqual({
       card: {
         component: {
+          name: 'card name',
           settings: {
             fileSrc: 'fileSrc value'
           }
@@ -42,6 +46,7 @@ describe("convertJumbotronCard", function() {
   it("component.settings with only cropSrc should return its value in assets", function () {
     const card = {
       component: {
+        name: 'card name',
         settings: {
           cropSrc: 'cropSrc value'
         }
@@ -51,6 +56,7 @@ describe("convertJumbotronCard", function() {
     expect(convertJumbotronCard (card)).toEqual({
       card: {
         component: {
+          name: 'card name',
           settings: {
             cropSrc: 'cropSrc value'
           }
@@ -63,6 +69,7 @@ describe("convertJumbotronCard", function() {
   it("component.settings with both fileSrc and cropSrc should return both values in assets", function () {
     const card = {
       component: {
+        name: 'card name',
         settings: {
           cropSrc: 'cropSrc value',
           fileSrc: 'fileSrc value'
@@ -73,13 +80,14 @@ describe("convertJumbotronCard", function() {
     expect(convertJumbotronCard (card)).toEqual({
       card: {
         component: {
+          name: 'card name',
           settings: {
             cropSrc: 'cropSrc value',
             fileSrc: 'fileSrc value'
           }
         }
       },
-      assets: ['cropSrc value', 'fileSrc value']
+      assets: ['fileSrc value', 'cropSrc value']
     });
   });
 });

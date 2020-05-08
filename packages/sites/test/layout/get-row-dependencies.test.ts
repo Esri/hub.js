@@ -1,5 +1,7 @@
 import { getRowDependencies } from "../../src/layout";
 
+import { ICard } from "../../src/layout/types";
+
 describe("getRowDependencies", function() {
   it("all cards in row should should have dependencies extracted", function () {
     const row = {
@@ -39,7 +41,7 @@ describe("getRowDependencies", function() {
 
   it("empty row.cards should return an empty array", function () {
     const row = {
-      cards: []
+      cards: [] as ICard[]
     }
 
     expect(getRowDependencies(row)).toEqual([])

@@ -1,33 +1,54 @@
 import { getProp } from "@esri/hub-common";
 
-import { ISection, ISettings, IEntry } from "./types";
+import { ISection, ISettings, IEntry, ICard, IRow } from "./types";
 
 export function _getImageCropIdsFromLayout (layout: Object) : string[] {
-  let imgAssets = [] as IEntry[] | ISettings[];
-  let headerLogo = getProp(layout, 'header.component.settings.logo');
+  const imgAssets = [] as IEntry[] | ISettings[];
+
+  const headerLogo = getProp(layout, 'header.component.settings.logo');
+
   if (headerLogo && headerLogo.cropId) {
     imgAssets.push(headerLogo);
   }
-  let cardNames = ['image-card', 'jumbotron-card'];
-  let sections = getProp(layout, 'sections') || [];
-  let result = sections.reduce((assets : IEntry[], section: ISection ) => {
-    // retain crop info if image background on section
-    if (getProp(section, 'style.background.cropSrc')) {
-      assets.push(section.style.background);
-    }
-    // yank out any jumbotron or image card settings
-    section.rows.forEach(row => {
-      row.cards.filter(card => cardNames.includes(card.component.name)).forEach(card => {
-        assets.push(card.component.settings);
-      });
-    });
-    return assets;
-  }, imgAssets)
-  .reduce((acc: Array<String>, entry: IEntry) => {
-    if (entry.cropId) {
-      acc.push(entry.cropId);
-    }
-    return acc;
-  }, []);
-  return result;
+
+  const sections = getProp(layout, 'sections') || [];
+
+  return sections
+    .reduce(collectSectionAssets, imgAssets)
+    .filter(hasCropId)
+    .map(extractCropId)
+}
+
+function collectSectionAssets (assets : IEntry[], section: ISection) {
+  const sectionAssets = section.rows
+    .reduce(collectCards, [])
+    .filter(isImageOrJumbotronCard)
+    .map(extractSettingsProperty)
+
+  // retain crop info if section has an image background
+  if (getProp(section, 'style.background.cropSrc')) {
+    sectionAssets.unshift(section.style.background);
+  }
+
+  return assets.concat(sectionAssets);
+}
+
+function collectCards (acc: ICard[], row: IRow) {
+  return acc.concat(row.cards)
+}
+
+function isImageOrJumbotronCard (card: ICard) {
+  return ['image-card', 'jumbotron-card'].includes(card.component.name)
+}
+
+function extractSettingsProperty (card: ICard) {
+  return card.component.settings
+} 
+
+function hasCropId (entry: IEntry) {
+  return !!entry.cropId
+}
+
+function extractCropId (entry: IEntry) {
+  return entry.cropId
 }

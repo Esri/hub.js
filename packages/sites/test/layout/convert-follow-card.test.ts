@@ -4,6 +4,7 @@ describe("convertFollowCard", function() {
   it("card.component.settings.initiativeId should be overwritten by templatized string", function () {
     const card = {
       component: {
+        name: 'card name',
         settings: {
           initiativeId: 'original initiativeIds value'
         }
@@ -13,6 +14,7 @@ describe("convertFollowCard", function() {
     expect(convertFollowCard(card)).toEqual({
       card: {
         component: {
+          name: 'card name',
           settings: {
             initiativeId: '{{initiative.item.id}}'
           }

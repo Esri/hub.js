@@ -5,7 +5,7 @@ import { ICard, ITemplatizedCard } from "./types";
 export const convertImageCard = function convertImageCard (card: ICard) : ITemplatizedCard {
   const result = {
     card,
-    assets: []
+    assets: [] as string[]
   };
   if (getProp(card, 'component.settings.fileSrc')) {
     result.assets.push(card.component.settings.fileSrc);

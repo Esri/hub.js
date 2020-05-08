@@ -4,8 +4,9 @@ describe("convertEventListCard", function() {
   it("card.component.settings.initiativeIds should be overwritten by templatized array", function () {
     const card = {
       component: {
+        name: 'card name',
         settings: {
-          initiativeIds: 'original initiativeIds value'
+          initiativeIds: ['original initiativeIds value']
         }
       }
     }
@@ -13,6 +14,7 @@ describe("convertEventListCard", function() {
     expect(convertEventListCard(card)).toEqual({
       card: {
         component: {
+          name: 'card name',
           settings: {
             initiativeIds: ['{{initiative.item.id}}']
           }

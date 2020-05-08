@@ -1,12 +1,17 @@
 import { convertRow } from "../../src/layout";
 
+import { ICard } from "../../src/layout/types";
+
 describe("convertRow", function() {
   it("empty row.cards should return an object with empty assets and cards", function () {
     const row = {
-      cards: []
+      cards: [] as ICard[]
     }
 
-    expect(convertRow(row)).toEqual([]);
+    expect(convertRow(row)).toEqual({
+      assets: [],
+      cards: []
+    });
   });
 
   it("assets and cards should be collected from converted row.cards", function () {
@@ -25,7 +30,7 @@ describe("convertRow", function() {
           component: {
             name: 'event-list-card',
             settings: {
-              initiativeIds: 'original initiativeIds value'
+              initiativeIds: ['original initiativeIds value']
             }
           }
         },
@@ -43,10 +48,10 @@ describe("convertRow", function() {
 
     expect(convertRow(row)).toEqual({
       assets: [
-        'image-card cropSrc value',
         'image-card fileSrc value',
-        'jumbotron-card cropSrc value',
-        'jumbotron-card fileSrc value'
+        'image-card cropSrc value',
+        'jumbotron-card fileSrc value',
+        'jumbotron-card cropSrc value'
       ],
       cards: [
         {
@@ -62,7 +67,7 @@ describe("convertRow", function() {
           component: {
             name: 'event-list-card',
             settings: {
-              initiativeIds: 'original initiativeIds value'
+              initiativeIds: ['{{initiative.item.id}}']
             }
           }
         },
