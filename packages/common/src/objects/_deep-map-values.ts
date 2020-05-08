@@ -1,4 +1,3 @@
-import { isObject, isDate, isRegExp, isFunction } from "util";
 import { _mapValues } from "./_map-values";
 
 /**
@@ -31,4 +30,20 @@ export function _deepMapValues(
     const valuePath = "" + (propertyPath ? propertyPath + "." + key : key);
     return _deepMapValues(value, callback, valuePath);
   }
+}
+
+function isDate (v:any):boolean {
+  return v instanceof Date;
+}
+
+function isFunction (v:any):boolean {
+  return typeof v === 'function';
+}
+
+function isObject (v:any):boolean {
+  return typeof v === 'object';
+}
+
+function isRegExp (v:any):boolean {
+  return v instanceof RegExp;
 }
