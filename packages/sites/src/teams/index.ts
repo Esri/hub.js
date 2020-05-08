@@ -1,3 +1,4 @@
+export * from "./_create-team-group";
 export * from "./can-user-create-team-in-product";
 export * from "./can-user-create-team";
 export * from "./does-group-exist";
