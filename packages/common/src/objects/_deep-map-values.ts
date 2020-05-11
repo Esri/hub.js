@@ -32,22 +32,25 @@ export function _deepMapValues(
   }
 }
 
-export function _isString (v:any):boolean {
-  return (typeof v === 'string' || v instanceof String);
+// Simple "good-enough" type checks for the tree traversal functions
+// these are not bullet-proof and should not be public/docd
+
+export function _isString(v: any): boolean {
+  return typeof v === "string" || v instanceof String;
 }
 
-export function _isDate (v:any):boolean {
+export function _isDate(v: any): boolean {
   return v instanceof Date;
 }
 
-export function _isFunction (v:any):boolean {
-  return typeof v === 'function';
+export function _isFunction(v: any): boolean {
+  return typeof v === "function";
 }
 
-export function _isObject (v:any):boolean {
-  return typeof v === 'object';
+export function _isObject(v: any): boolean {
+  return typeof v === "object";
 }
 
-export function _isRegExp (v:any):boolean {
+export function _isRegExp(v: any): boolean {
   return v instanceof RegExp;
 }
