@@ -2,6 +2,7 @@ import { IGroupTemplate } from "./types";
 import { IHubRequestOptions } from "@esri/hub-common";
 import { _translateTeamTemplate } from "./_translate-team-template";
 import { _createTeamGroup } from "./_create-team-group";
+import { IGroup } from "@esri/arcgis-rest-types";
 
 /**
  * Internal: Actually create the team groups
@@ -14,7 +15,7 @@ export function _createTeamGroups(
   groupTemplates: IGroupTemplate[],
   translations: Record<string, any>,
   hubRequestOptions: IHubRequestOptions
-) {
+): Promise<{ props: any; groups: IGroup[] }> {
   // now translate the templates...
   const translatedTemplates = groupTemplates.map(tmpl => {
     return _translateTeamTemplate(tmpl, title, translations);
@@ -50,7 +51,7 @@ export function _createTeamGroups(
       // groups: the array of groups that were created
       return {
         props,
-        groups
+        groups: groups as IGroup[]
       };
     })
     .catch(ex => {

@@ -4,6 +4,7 @@ export * from "./_translate-team-template";
 export * from "./can-user-create-team-in-product";
 export * from "./can-user-create-team";
 export * from "./create-hub-team";
+export * from "./create-hub-teams";
 export * from "./does-group-exist";
 export * from "./get-allowed-group-access";
 export * from "./get-team-properties-map-for-product";
