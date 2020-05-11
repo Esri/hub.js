@@ -16,10 +16,10 @@ export function _deepMapValues(
     return object.map(deepMapValuesIteratee);
   } else if (
     object &&
-    isObject(object) &&
-    !isDate(object) &&
-    !isRegExp(object) &&
-    !isFunction(object)
+    _isObject(object) &&
+    !_isDate(object) &&
+    !_isRegExp(object) &&
+    !_isFunction(object)
   ) {
     return Object.assign({}, object, _mapValues(object, deepMapValuesIteratee));
   } else {
@@ -32,18 +32,22 @@ export function _deepMapValues(
   }
 }
 
-function isDate (v:any):boolean {
+export function _isString (v:any):boolean {
+  return (typeof v === 'string' || v instanceof String);
+}
+
+export function _isDate (v:any):boolean {
   return v instanceof Date;
 }
 
-function isFunction (v:any):boolean {
+export function _isFunction (v:any):boolean {
   return typeof v === 'function';
 }
 
-function isObject (v:any):boolean {
+export function _isObject (v:any):boolean {
   return typeof v === 'object';
 }
 
-function isRegExp (v:any):boolean {
+export function _isRegExp (v:any):boolean {
   return v instanceof RegExp;
 }

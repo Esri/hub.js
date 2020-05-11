@@ -1,5 +1,5 @@
-import { isString, isRegExp } from "util";
-import { _deepMapValues } from "./_deep-map-values";
+
+import { _deepMapValues, _isString, _isRegExp  } from "./_deep-map-values";
 
 /**
  * Iterate over an object graph, and for all string properties, search for a string,
@@ -12,11 +12,11 @@ export function deepStringReplace(
 ): Record<string, any> {
   const replacedObject = _deepMapValues(obj, function(value: any) {
     // Only string templates
-    if (!isString(value)) {
+    if (!_isString(value)) {
       return value;
     }
     let re;
-    if (isRegExp(stringOrRegex)) {
+    if (_isRegExp(stringOrRegex)) {
       re = stringOrRegex;
     } else {
       re = new RegExp(stringOrRegex, "g");
