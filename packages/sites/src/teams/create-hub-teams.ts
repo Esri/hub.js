@@ -8,6 +8,7 @@ import {
 import { getUserCreatableTeams } from "./get-user-creatable-teams";
 import { _createTeamGroups } from "./_create-team-groups";
 import { HubTeamType } from "./types";
+import { IGroup } from "@esri/arcgis-rest-types";
 
 /**
  * Create all the groups (aka Teams) required for a Site or Initiative
@@ -21,7 +22,7 @@ export function createHubTeams(opts: {
   title: string;
   types: HubTeamType[];
   hubRequestOptions: IHubRequestOptions;
-}) {
+}): Promise<{ props: any; groups: IGroup[] }> {
   const { title, types, hubRequestOptions } = opts;
   const product = getHubProduct(hubRequestOptions.portalSelf);
   // get all the groups that this user can create in this environment
