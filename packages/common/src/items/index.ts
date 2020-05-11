@@ -1,4 +1,5 @@
 export * from "./_unprotect-and-remove-item";
+export * from "./apply-properties-to-items";
 export * from "./delete-prop";
 export * from "./fail-safe-update";
 export * from "./get-model";
