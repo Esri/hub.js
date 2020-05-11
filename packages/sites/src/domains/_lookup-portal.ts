@@ -1,5 +1,5 @@
 import { searchItems } from "@esri/arcgis-rest-portal";
-import { IHubRequestOptions } from "@esri/hub-common";
+import { IHubRequestOptions, includes } from "@esri/hub-common";
 
 /**
  * Lookup a domain in Portal
@@ -29,7 +29,7 @@ export function _lookupPortal(
       // since the search api stems the terms, we need to verify
       // by looking at the results
       return res.results.filter(r => {
-        return r.typeKeywords.includes(queryTerm);
+        return includes(r.typeKeywords, queryTerm);
       })[0];
     })
     .then(site => {
