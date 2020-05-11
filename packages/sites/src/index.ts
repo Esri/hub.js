@@ -2,5 +2,5 @@
  * Apache-2.0 */
 
 export * from "./domains";
-export * from "./sites";
+export * from "./get-domain";
 export * from "./teams";
