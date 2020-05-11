@@ -38,7 +38,7 @@ function collectCards (acc: ICard[], row: IRow) {
 }
 
 function isImageOrJumbotronCard (card: ICard) {
-  return ['image-card', 'jumbotron-card'].includes(card.component.name)
+  return ['image-card', 'jumbotron-card'].indexOf(card.component.name) > -1
 }
 
 function extractSettingsProperty (card: ICard) {
