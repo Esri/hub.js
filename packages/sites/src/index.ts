@@ -15,3 +15,4 @@ export * from "./get-site-item-type";
 export * from "./_add-site-domains";
 export * from "./_merge-local-changes";
 export * from "./_ensure-portal-domain-keyword";
+export * from "./get-edit-url";

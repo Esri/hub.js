@@ -18,4 +18,11 @@ describe("_ensurePortalDomainKeyword", () => {
       "leaves it alone"
     );
   });
+
+  it("defaults typekeywords to an empty array", () => {
+    expect(_ensurePortalDomainKeyword("foobarbaz")).toEqual(
+      ["hubsubdomain|foobarbaz"],
+      "leaves it alone"
+    );
+  });
 });
