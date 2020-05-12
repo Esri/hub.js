@@ -12,3 +12,4 @@ export * from "./_get-portal-domain-type-keyword";
 export * from "./_ensure-optional-groups-templating";
 export * from "./_ensure-type-and-tags";
 export * from "./get-site-item-type";
+export * from "./_add-site-domains";

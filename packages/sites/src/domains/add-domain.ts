@@ -10,7 +10,7 @@ import { IDomainEntry } from "./types";
  * @param {IHubRequestOptions} hubRequestOptions
  */
 export function addDomain(
-  domainEntry: IDomainEntry,
+  domainEntry: Partial<IDomainEntry>,
   hubRequestOptions: IHubRequestOptions
 ) {
   if (hubRequestOptions.isPortal) {

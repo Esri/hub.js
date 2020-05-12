@@ -1,7 +1,7 @@
 import { {{title}} } from '../src';
 
 describe('{{title}}', () => {
-  it('', () => {
+  it('', async () => {
 
   })
 });
