@@ -5,7 +5,6 @@ var Generator = require('yeoman-generator');
 module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
-    this.conflicter.force = true;
 
     this.argument("package", { type: String, required: true });
     this.argument("funcpath", { type: String, required: true });
@@ -40,11 +39,14 @@ module.exports = class extends Generator {
     // update index file
     const indexFilePath = path.join(this._getRelativeDestPath(subdir), 'index.ts');
     const entry = `export * from "./${dasherize(this._pathParts.name)}";`
+
     if (this.fs.exists(indexFilePath)) {
       this.fs.append(indexFilePath, entry)
     } else {
       this.fs.write(indexFilePath, entry)
     }
+    // No conflict resolution here. We know what we're doing.
+    this.env.sharedFs.get(indexFilePath).conflicter = 'force';
   }
 
   createTest () {
