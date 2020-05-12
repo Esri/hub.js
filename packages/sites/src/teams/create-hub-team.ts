@@ -9,6 +9,7 @@ import {
 import { TEAMTYPES } from "./team-types";
 import { getUserCreatableTeams } from "./get-user-creatable-teams";
 import { _createTeamGroups } from "./_create-team-groups";
+import { IGroup } from "@esri/arcgis-rest-types";
 
 /**
  * Create a single Team, using the same logic as creating multiple Teams.
@@ -22,7 +23,7 @@ export function createHubTeam(opts: {
   type: HubTeamType;
   props: any;
   hubRequestOptions: IHubRequestOptions;
-}) {
+}): Promise<{ props: any; groups: IGroup[] }> {
   const { title, type, props, hubRequestOptions } = opts;
   // validate that the type is valid...
   if (TEAMTYPES.indexOf(type) === -1) {
