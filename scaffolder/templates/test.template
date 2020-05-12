@@ -1,4 +1,4 @@
-import { {{title}} } from '../../src';
+import { {{title}} } from '../src';
 
 describe('{{title}}', () => {
   it('', () => {

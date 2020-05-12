@@ -5,3 +5,4 @@ export * from "./domains";
 export * from "./get-domain";
 export * from "./teams";
 export * from "./_remove-site-groups";
+export * from "./_remove-parent-initiative";
