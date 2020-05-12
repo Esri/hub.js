@@ -1,3 +1,5 @@
+import { IGroup } from "@esri/arcgis-rest-portal";
+
 export interface ILayout {
   sections: ISection[],
   header ?: Object,
@@ -52,21 +54,11 @@ export interface ISettings extends IEntry {
   fileSrc ?: string,
   cropSrc ?: string,
   groups ?: IGroup[],
-  query ?: IQuery,
+  query ?: Record<string,any>,
   orgId ?: string,
   siteId ?: string,
   webmap ?: string | string[],
   ids ?: string | string[]
-}
-
-interface IGroup {
-  id: string,
-  title: string
-}
-
-interface IQuery {
-  groups ?: IGroup[] | string[],
-  orgId ?: string
 }
 
 export interface IEntry {
