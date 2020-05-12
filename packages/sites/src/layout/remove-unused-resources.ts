@@ -34,9 +34,6 @@ export function removeUnusedResources (id: string, layout: ILayout, hubRequestOp
     const itemResourcesToRemove = getUnusedItemCrops(layoutImageCropIds, imageItemResourcesOnAGO)
 
     return removeUnusedResourcesFromAGO(id, itemResourcesToRemove, hubRequestOptions.authentication)
-  }).catch((err : Error) => {
-    console.error(`removeUnusedResources: Error removing resources: ${err}`);
-    throw err;
   })
 }
 

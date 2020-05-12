@@ -233,10 +233,7 @@ describe("removeUnusedResources", function() {
       sections: [] as ISection[]
     }
 
-    try {
-      await removeUnusedResources('id value', layout, hubRequestOptions)
-    } catch (err) {
-      expect(err).toEqual(new Error('getItemResources threw an error for some reason'))
-    }
+    expect(() => removeUnusedResources('id value', layout, hubRequestOptions))
+      .toThrowError('getItemResources threw an error for some reason')
   });
 });
