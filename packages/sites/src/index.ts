@@ -7,3 +7,4 @@ export * from "./teams";
 export * from "./_remove-site-groups";
 export * from "./_remove-parent-initiative";
 export * from "./_remove-site-from-index";
+export * from "./_remove-site-domains";
