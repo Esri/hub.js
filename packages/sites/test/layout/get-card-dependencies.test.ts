@@ -50,6 +50,17 @@ describe("extractAssets", function() {
     ])
   });
 
+  it("webmap-card: no values at component.settings.webmap should return empty array", function () {
+    const card = {
+      component: {
+        name: 'webmap-card',
+        settings: {}
+      }
+    }
+
+    expect(getCardDependencies(card)).toEqual([])
+  });
+
   it("items/gallery-card: array component.settings.ids value should return all", function () {
     const card = {
       component: {
@@ -68,4 +79,36 @@ describe("extractAssets", function() {
       'component.settings.ids value 2',
     ])
   });
+
+  it("items/gallery-card: no values at component.settings.ids should return empty array", function () {
+    const card = {
+      component: {
+        name: 'items/gallery-card',
+        settings: {}
+      }
+    }
+
+    expect(getCardDependencies(card)).toEqual([])
+  });
+
+  it("unsupported card name should return empty array", function () {
+    const card = {
+      component: {
+        name: 'unsupported card name',
+        settings: {
+          ids: [
+            'component.settings.ids value 1',
+            'component.settings.ids value 2',
+          ],
+          webmap: [
+            'component.settings.webmap value 1',
+            'component.settings.webmap value 2',
+          ]
+        }
+      }
+    };
+
+    expect(getCardDependencies(card)).toEqual([]);
+  })
+
 });

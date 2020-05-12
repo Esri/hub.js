@@ -84,6 +84,53 @@ describe("removeUnusedResources", function() {
     ]);
   });
 
+  it("layout with 0 cropIds should remove all ", async function () {
+    spyOn(
+      _getImageCropIdsFromLayout,
+      "_getImageCropIdsFromLayout"
+    ).and.returnValue([])
+
+    const getItemResourcesSpy = spyOn(
+      portalModule,
+      "getItemResources"
+    ).and.returnValue(Promise.resolve({
+      resources: [
+        {
+          resource: 'hub-image-card-crop-cropId 1.png'
+        },
+        {
+          resource: 'hub-image-card-crop-cropId 2.png'
+        },
+        {
+          resource: 'hub-image-card-crop-cropId 3.png'
+        }
+      ]
+    }));
+
+    const removeItemResourceSpy = spyOn(portalModule, "removeItemResource")
+      .and.returnValues(
+        Promise.resolve('removed hub-image-card-crop-cropId 1.png'),
+        Promise.resolve('removed hub-image-card-crop-cropId 2.png'),
+        Promise.resolve('removed hub-image-card-crop-cropId 3.png')
+      )
+
+    const layout = {
+      sections: [] as ISection[]
+    }
+  
+    const res = await removeUnusedResources('id value', layout, hubRequestOptions)
+
+    expect(getItemResourcesSpy).toHaveBeenCalledTimes(1)
+
+    expect(removeItemResourceSpy).toHaveBeenCalledTimes(3)
+
+    expect(res).toEqual([
+      'removed hub-image-card-crop-cropId 1.png',
+      'removed hub-image-card-crop-cropId 2.png',
+      'removed hub-image-card-crop-cropId 3.png'
+    ]);
+  });
+
   it("layout containing 0 imageCropIds should remove all resources that start with 'hub-image-card-crop-'", async function () {
     spyOn(
       _getImageCropIdsFromLayout,
