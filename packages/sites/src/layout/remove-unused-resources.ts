@@ -20,30 +20,24 @@ import { ILayout, IEntry } from "./types";
  * @param {Object} layout Layout
  * @param {IHubRequestOptions} hubRequestOptions
  */
-export async function removeUnusedResources (id: string, layout: ILayout, hubRequestOptions : IHubRequestOptions) {
+export function removeUnusedResources (id: string, layout: ILayout, hubRequestOptions : IHubRequestOptions) {
   const layoutImageCropIds = _getImageCropIdsFromLayout(layout);
- 
-  try {
-    const imageResourcesOnAGO = await getItemImageSourcesFromAGO(id, hubRequestOptions)
+
+  return getItemResources(id, hubRequestOptions).then(response => {
+    const itemResourcesOnAGO = (response.resources || []).map(extractResourceProperty)
+
+    const imageItemResourcesOnAGO = itemResourcesOnAGO.filter(resourceStartsWithImageSource)
 
     // getItemResources mutates the options, adding a params hash
     delete hubRequestOptions.params;
 
-    const itemResourcesToRemove = getUnusedItemCrops(layoutImageCropIds, imageResourcesOnAGO)
+    const itemResourcesToRemove = getUnusedItemCrops(layoutImageCropIds, imageItemResourcesOnAGO)
 
     return removeUnusedResourcesFromAGO(id, itemResourcesToRemove, hubRequestOptions.authentication)
-  } catch (err) {
+  }).catch((err : Error) => {
     console.error(`removeUnusedResources: Error removing resources: ${err}`);
     throw err;
-  }
-}
-
-async function getItemImageSourcesFromAGO (id: string, hubRequestOptions: IHubRequestOptions) {
-  const response = await getItemResources(id, hubRequestOptions)
-
-  const itemResources = (response.resources || []).map(extractResourceProperty)
-
-  return itemResources.filter(resourceStartsWithImageSource)
+  })
 }
 
 function extractResourceProperty (entry: IEntry) {
