@@ -10,3 +10,5 @@ export * from "./_remove-site-from-index";
 export * from "./_remove-site-domains";
 export * from "./_get-portal-domain-type-keyword";
 export * from "./_ensure-optional-groups-templating";
+export * from "./_ensure-type-and-tags";
+export * from "./get-site-item-type";
