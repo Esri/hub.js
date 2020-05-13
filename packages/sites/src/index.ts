@@ -18,3 +18,5 @@ export * from "./_ensure-portal-domain-keyword";
 export * from "./get-edit-url";
 export * from "./update-site-application-uris";
 export * from "./update-app-redirect-uris";
+export * from "./register-site-as-application";
+export * from "./register-browser-app";
