@@ -26,3 +26,4 @@ export * from "./unlink-page-from-site-item";
 export * from "./unlink-page-from-site";
 export * from "./link-page-to-site-item";
 export * from "./link-page-to-site";
+export * from "./unlink-pages-from-site";
