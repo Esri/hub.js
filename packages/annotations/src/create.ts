@@ -48,11 +48,15 @@ export function createAnnotationService(
 ): Promise<any> {
   const session = requestOptions.authentication;
 
-  // check to see if an annotation service has already been created in the organization
-  return searchItems({
+  const clonedServiceDefinition = cloneObject(annotationServiceDefinition);
+
+  const searchItemsOptions = {
     q: `typekeywords:hubAnnotationLayer AND orgid:${requestOptions.orgId}`,
     authentication: session
-  }).then(searchResponse => {
+  }
+
+  // check to see if an annotation service has already been created in the organization
+  return searchItems(searchItemsOptions).then(searchResponse => {
     if (searchResponse.results.length > 0) {
       // if the org already has a hosted annotations service, dont create another one
       return searchResponse.results[0];
@@ -61,8 +65,6 @@ export function createAnnotationService(
     return getPortal(requestOptions.orgId, {
       authentication: requestOptions.authentication
     }).then(portalResponse => {
-      const clonedServiceDefinition = cloneObject(annotationServiceDefinition);
-
       // use the default extent of the organization for the new service
       if (portalResponse.defaultExtent) {
         clonedServiceDefinition.extent = portalResponse.defaultExtent;
@@ -72,9 +74,7 @@ export function createAnnotationService(
       return initializeFeatureService(session, clonedServiceDefinition.capabilities).then((createResponse: any) => {
         const itemId = createResponse.itemId
 
-        // next, update the layer definition (using a template)
         return addLayersToService(session, createResponse.serviceurl, clonedServiceDefinition).then(() => {
-          // sometimes TS likes session, sometimes it likes options.authentication
           return updateItemDefinition(session, itemId).then(() => {
             return preventAccidentalDeletion(session, itemId).then(() => {
               return makeItemPublic(session, itemId).then(success(itemId));
@@ -94,8 +94,7 @@ function cloneObject (obj: any) {
 function initializeFeatureService (session: UserSession, capabilities: any) {
   const description = 'Feature service for Hub annotations. DO NOT DELETE THIS SERVICE. It stores the public annotations (comments) for all Hub items in your organization.';
 
-  // const options:ICreateServiceOptions (no workee)
-  const options = {
+  const featureServiceOptions = {
     authentication: session,
     item: {
       // NOTE: this will also be the item title (until we update it in a few seconds)
@@ -118,9 +117,8 @@ function initializeFeatureService (session: UserSession, capabilities: any) {
     }
   };
 
-
   return new Promise((resolve, reject) => {
-    createFeatureService(options).then(createResponse => {
+    createFeatureService(featureServiceOptions).then(createResponse => {
       if (!createResponse.success) {
         return reject(new ArcGISRequestError(
           `Failure to create service. One common cause is the presence of an existing service that shares the same name.`
@@ -175,7 +173,6 @@ function preventAccidentalDeletion (session: UserSession, id: string) {
 }
 
 function makeItemPublic (session: UserSession, id: string) {
-  // share the item publically
   return setItemAccess({
     id,
     access: "public",
