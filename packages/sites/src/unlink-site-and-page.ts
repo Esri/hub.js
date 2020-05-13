@@ -27,7 +27,7 @@ export function unlinkSiteAndPage(unlinkRequestOptions: {
   pageModel?: IModel;
   pageId?: string;
   authentication: UserSession;
-}) {
+}): Promise<{ siteModel: IModel; pageModel: IModel }> {
   let unshareGroups: string[] = [];
   const promises: Array<Promise<any>> = [];
   let pageModel: IModel;

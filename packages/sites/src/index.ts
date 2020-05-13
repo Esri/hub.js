@@ -21,3 +21,4 @@ export * from "./update-app-redirect-uris";
 export * from "./register-site-as-application";
 export * from "./register-browser-app";
 export * from "./unlink-site-and-page";
+export * from "./link-site-and-page";
