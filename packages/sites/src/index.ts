@@ -22,3 +22,7 @@ export * from "./register-site-as-application";
 export * from "./register-browser-app";
 export * from "./unlink-site-and-page";
 export * from "./link-site-and-page";
+export * from "./unlink-page-from-site-item";
+export * from "./unlink-page-from-site";
+export * from "./link-page-to-site-item";
+export * from "./link-page-to-site";
