@@ -21,6 +21,14 @@ describe("getRowDependencies", function() {
           component: {
             name: 'items/gallery-card',
             settings: {
+              ids: []
+            }
+          }
+        },
+        {
+          component: {
+            name: 'items/gallery-card',
+            settings: {
               ids: [
                 'component.settings.ids value 1',
                 'component.settings.ids value 2',

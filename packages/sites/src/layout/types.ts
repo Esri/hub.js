@@ -53,7 +53,7 @@ export interface ISettings extends IEntry {
   initiativeIds ?: string[],
   fileSrc ?: string,
   cropSrc ?: string,
-  groups ?: IGroup[],
+  groups ?: Record<string,any>[],
   query ?: Record<string,any>,
   orgId ?: string,
   siteId ?: string,
