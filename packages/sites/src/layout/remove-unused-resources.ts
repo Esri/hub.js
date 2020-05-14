@@ -56,7 +56,7 @@ function layoutContainsImageCards (layoutImageCropIds: string[]) {
 }
 
 function resourceStartsWithImageSource (agoResource: string) {
-  return agoResource.startsWith('hub-image-card-crop-')
+  return agoResource.indexOf('hub-image-card-crop-') === 0
 }
 
 function isNotACurrentImageCropId (imageCropIds: string[]) {
