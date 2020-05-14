@@ -12,6 +12,7 @@ const converters: Record<string,Function> = {
 
 /**
  * Convert a card to a templatized version of itself
+ * @param {ICard} card the card to templatize
  */
 export const convertCard = function convertCard (card: ICard) : ITemplatizedCard {
   const clone = cloneObject(card) as ICard;

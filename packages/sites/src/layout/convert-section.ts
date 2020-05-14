@@ -7,6 +7,7 @@ import { ISection, IRow } from "./types";
 
 /**
  * Convert a section, collecting assets along the way...
+ * @param {ISection} section the section to templatize
  */
 export const convertSection = function convertSection (section : ISection) {
   // if the section has a background image, and it has a url, we should

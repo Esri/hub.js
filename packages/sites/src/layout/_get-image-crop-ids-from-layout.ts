@@ -2,6 +2,11 @@ import { getProp } from "@esri/hub-common";
 
 import { ISection, ISettings, IEntry, ICard, IRow } from "./types";
 
+/**
+ * Traverse the layout graph, locating any cards that may have image resources
+ * returning an array containing the resource information.
+ * @param {Object} layout the layout to extract image cropIds from
+ */
 export function _getImageCropIdsFromLayout (layout: Object) : string[] {
   const imgAssets = [] as IEntry[] | ISettings[];
 

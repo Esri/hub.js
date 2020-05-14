@@ -13,6 +13,11 @@ function getPaths (componentName: string) {
   }
 }
 
+/**
+ * Find all the paths dependencies for the given card
+ * 
+ * @param {ICard} card
+ */
 export const getCardDependencies = function getCardDependencies (card : ICard) {
   const componentName = getProp(card, 'component.name');
 

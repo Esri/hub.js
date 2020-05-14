@@ -1,10 +1,11 @@
 import { cloneObject } from '@esri/hub-common';
 
 import { convertSection } from "./convert-section";
-import { ILayout, ITemplatizedLayout, ITemplatizedRow } from "./types";
+import { ILayout, ITemplatizedLayout } from "./types";
 
 /**
- * Walk the tree and templatize the layout...
+ * Convert a layout to a templatized version of itself
+ * @param {ILayout} layout the layout to templatize
  */
 export const convertLayoutToTemplate = function convertLayoutToTemplate (layout : ILayout) : ITemplatizedLayout {
   if (!layout) {

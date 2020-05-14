@@ -1,14 +1,19 @@
 import { ISettings } from "./types";
 
-export const extractAssets = function extractAssets (obj : ISettings) : string[] {
+/**
+ * Extract the fileSrc and cropSrc assets from settings.  
+ * 
+ * @param {ISettings} settings
+ */
+export const extractAssets = function extractAssets (settings : ISettings) : string[] {
   const assets = [];
 
-  if (obj.fileSrc) {
-    assets.push(obj.fileSrc);
+  if (settings.fileSrc) {
+    assets.push(settings.fileSrc);
   }
 
-  if (obj.cropSrc) {
-    assets.push(obj.cropSrc);
+  if (settings.cropSrc) {
+    assets.push(settings.cropSrc);
   }
   
   return assets;

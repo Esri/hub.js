@@ -2,6 +2,10 @@ import { convertCard } from "./convert-card";
 
 import { IRow, ITemplatizedRow } from "./types";
 
+/**
+ * Convert a row, collecting assets along the way...
+ * @param {IRow} row the row to templatize
+ */
 export const convertRow = function convertRow (row : IRow) : ITemplatizedRow {
   // if the section has a background image, and it has a url, we should
   // add that to the asset hash so it can be downloaded and added to the template item

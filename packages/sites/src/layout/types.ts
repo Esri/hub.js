@@ -1,5 +1,3 @@
-import { IGroup } from "@esri/arcgis-rest-portal";
-
 export interface ILayout {
   sections: ISection[],
   header ?: Object,
