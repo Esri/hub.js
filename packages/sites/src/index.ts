@@ -30,3 +30,4 @@ export * from "./unlink-pages-from-site";
 export * from "./link-page-to-site-item";
 export * from "./link-page-to-site";
 export * from "./get-dependencies";
+export * from "./ensure-optional-groups-templating";
