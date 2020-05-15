@@ -1,5 +1,5 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
-* Apache-2.0 */
+ * Apache-2.0 */
 
 export * from "./domains";
 export * from "./teams";
@@ -26,6 +26,7 @@ export * from "./unlink-site-and-page";
 export * from "./link-site-and-page";
 export * from "./unlink-page-from-site-item";
 export * from "./unlink-page-from-site";
+export * from "./unlink-pages-from-site";
 export * from "./link-page-to-site-item";
 export * from "./link-page-to-site";
-export * from "./unlink-pages-from-site";
+export * from "./get-dependencies";
