@@ -35,3 +35,5 @@ export * from "./remove-site";
 export * from "./ensure-required-site-properties";
 export * from "./update-site";
 export * from "./create-site";
+export * from "./get-portal-site-url";
+export * from "./get-portal-site-hostname";

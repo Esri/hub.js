@@ -9,7 +9,7 @@ import {
 import { SITE_UI_VERSION } from "./site-ui-version";
 import { _ensurePortalDomainKeyword } from "./_ensure-portal-domain-keyword";
 import { _mergeLocalChanges } from "./_merge-local-changes";
-import { updateItem } from "@esri/arcgis-rest-portal";
+import { updateItem, IUpdateItemResponse } from "@esri/arcgis-rest-portal";
 import { removeUnusedResources } from "./layout";
 
 /**
@@ -27,7 +27,7 @@ export function updateSite(
   model: IModel,
   allowList: string[],
   hubRequestOptions: IHubRequestOptions
-) {
+): Promise<IUpdateItemResponse> {
   allowList = allowList || [];
 
   // apply any on-save site upgrades here...
