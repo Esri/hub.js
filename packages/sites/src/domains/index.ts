@@ -15,3 +15,4 @@ export * from "./lookup-domain";
 export * from "./remove-domain";
 export * from "./types";
 export * from "./update-domain";
+export * from "./_ensure-safe-domain-length";
