@@ -18,3 +18,4 @@ import geometryService from "./geometry";
 export { geometryService };
 export * from "./_fetch-and-convert-initiative-to-template";
 export * from "./get-default-initiative-template";
+export * from "./get-initiative-template";
