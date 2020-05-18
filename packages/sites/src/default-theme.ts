@@ -1,7 +1,9 @@
+import { IHubSiteTheme } from "./types";
+
 /**
  * Default Site Theme
  */
-export const DEFAULT_THEME = {
+export const DEFAULT_THEME: IHubSiteTheme = {
   header: {
     background: "#fff",
     text: "#4c4c4c"

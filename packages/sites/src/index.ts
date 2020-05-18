@@ -37,3 +37,5 @@ export * from "./update-site";
 export * from "./create-site";
 export * from "./get-portal-site-url";
 export * from "./get-portal-site-hostname";
+export * from "./get-theme";
+export * from "./default-theme";
