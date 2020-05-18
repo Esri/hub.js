@@ -33,3 +33,4 @@ export * from "./get-dependencies";
 export * from "./ensure-optional-groups-templating";
 export * from "./remove-site";
 export * from "./ensure-required-site-properties";
+export * from "./update-site";
