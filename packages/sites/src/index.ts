@@ -39,3 +39,4 @@ export * from "./get-portal-site-url";
 export * from "./get-portal-site-hostname";
 export * from "./get-theme";
 export * from "./default-theme";
+export * from "./_create-site-initiative";

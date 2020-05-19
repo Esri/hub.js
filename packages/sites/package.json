@@ -16,12 +16,14 @@
     "@esri/arcgis-rest-auth": "^2.0.0",
     "@esri/arcgis-rest-portal": "^2.0.0",
     "@esri/arcgis-rest-request": "^2.0.0",
+    "@esri/hub-initiatives": "^3.0.0",
     "@esri/hub-common": "^3.0.0"
   },
   "devDependencies": {
     "@esri/arcgis-rest-auth": "^2.0.0",
     "@esri/arcgis-rest-portal": "^2.0.0",
     "@esri/arcgis-rest-request": "^2.0.0",
+    "@esri/hub-initiatives": "^3.9.3",
     "@esri/hub-common": "^3.9.3"
   },
   "files": [
