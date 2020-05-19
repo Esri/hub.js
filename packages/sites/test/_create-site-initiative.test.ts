@@ -66,7 +66,7 @@ describe("_createSiteInitiative", () => {
   });
 
   it("creates an initiative for a site", async () => {
-    const created = await _createSiteInitiative(tmpl, settings, transforms, ro);
+    const created = await _createSiteInitiative(cloneObject(tmpl), cloneObject(settings), transforms, ro);
 
     expect(created.item.url).toBe(settings.solution.url);
     expect(created.item.title).toBe(settings.solution.title);
@@ -91,7 +91,7 @@ describe("_createSiteInitiative", () => {
     localSettings.teams = {};
 
     const created = await _createSiteInitiative(
-      tmpl,
+      cloneObject(tmpl),
       localSettings,
       transforms,
       ro
@@ -106,7 +106,7 @@ describe("_createSiteInitiative", () => {
     addSpy.and.returnValue(Promise.reject());
 
     try {
-      await _createSiteInitiative(tmpl, settings, transforms, ro);
+      await _createSiteInitiative(cloneObject(tmpl), cloneObject(settings), transforms, ro);
       fail("should reject");
     } catch (err) {
       expect(err).toBeDefined();
