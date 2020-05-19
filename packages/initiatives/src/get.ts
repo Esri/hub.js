@@ -50,28 +50,3 @@ export function getInitiative(
       return migrateSchema(model, getPortalUrl(requestOptions));
     });
 }
-
-/**
- * Get site url for Initiative
- * Get the initiative item. If it has a site, it will have item.properties.siteId
- * From there, we can use the domain service to lookup the domain using the siteId
- * @param id - Initiative Item Id
- * @param requestOptions - Request options that may have authentication manager
- * @returns A Promise that will resolve with the Initiative site's domain. Consumer needs to add the protocol
- * @public
- */
-export function lookupSiteUrlByInitiative(
-  id: string,
-  requestOptions?: IRequestOptions
-): Promise<string> {
-  return getItem(id, requestOptions).then((initiative: IItem) => {
-    if (initiative.properties.siteId) {
-      return getDomain(initiative.properties.siteId, requestOptions);
-    } else {
-      // reject
-      return Promise.reject(
-        new Error("Initiative does not have an associated site")
-      );
-    }
-  });
-}
