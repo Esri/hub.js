@@ -1,6 +1,7 @@
 import { _createSiteInitiative } from "../src";
 import * as initiativeModule from "@esri/hub-initiatives";
 import * as portalModule from "@esri/arcgis-rest-portal";
+
 import {
   IHubRequestOptions,
   IModelTemplate,
@@ -53,8 +54,9 @@ describe("_createSiteInitiative", () => {
   beforeEach(() => {
     addSpy = spyOn(initiativeModule, "addInitiative").and.callFake(
       (model: IInitiativeModel) => {
-        model.item.id = itemId;
-        return Promise.resolve(model);
+        const ret = cloneObject(model);
+        ret.item.id = itemId;
+        return Promise.resolve(ret);
       }
     );
 
