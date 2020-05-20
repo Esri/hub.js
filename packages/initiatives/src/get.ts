@@ -5,8 +5,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import {
   getItem,
   getItemData,
-  getPortalUrl,
-  IItem
+  getPortalUrl
 } from "@esri/arcgis-rest-portal";
 import { IInitiativeModel, IInitiativeItem } from "@esri/hub-common";
 
