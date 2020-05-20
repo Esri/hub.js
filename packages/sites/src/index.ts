@@ -47,3 +47,4 @@ export * from "./_purge-non-guids-from-catalog";
 export * from "./_ensure-catalog";
 export * from "./_enforce-lowercase-domains";
 export * from "./_apply-site-schema";
+export * from "./upgrade-site-schema";
