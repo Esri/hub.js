@@ -111,6 +111,7 @@
     "lint": "tslint --project tsconfig.json",
     "y:publish": "lerna run y:publish",
     "y:push": "lerna run y:push",
+    "tsc:v": "lerna run tsc:v",
     "lint:fix": "tslint --project tsconfig.json --fix",
     "gen-util": "yo ./scaffolder/index.js",
     "precommit": "lint-staged",

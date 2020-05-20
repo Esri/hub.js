@@ -38,6 +38,7 @@
     "dev:esm": "tsc -w --module es2015 --outDir ./dist/esm --declaration",
     "dev:umd": "rollup -w -c ../../umd-base-profile.js",
     "dev:node": "tsc -w --module commonjs --outDir ./dist/node",
+    "tsc:v": "tsc -v",
     "y:publish": "yalc publish",
     "y:push": "yalc push"
   },
