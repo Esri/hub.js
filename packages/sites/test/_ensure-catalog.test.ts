@@ -31,7 +31,7 @@ describe("_ensureCatalog", () => {
       item: {
         id: "3ef",
         properties: {
-          schemaVersion: "1.2"
+          schemaVersion: 1
         }
       },
       data: {
