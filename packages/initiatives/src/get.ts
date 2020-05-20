@@ -9,7 +9,6 @@ import {
   IItem
 } from "@esri/arcgis-rest-portal";
 import { IInitiativeModel, IInitiativeItem } from "@esri/hub-common";
-import { getDomain } from "@esri/hub-sites";
 
 import { migrateSchema } from "./migrator";
 import { convertIndicatorsToDefinitions } from "./migrations/upgrade-two-dot-zero";
