@@ -7,7 +7,7 @@ import { IModel, getProp, interpolate, IModelTemplate } from "@esri/hub-common";
  * @param {object} pageModel Page Model
  */
 export function _secondPassAdlibPages(
-  siteModel: IModelTemplate,
+  siteModel: IModel,
   pageModel: IModelTemplate
 ) {
   // construct a hash of teams that were created and attached to the site

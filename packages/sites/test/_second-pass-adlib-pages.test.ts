@@ -1,5 +1,5 @@
 import { _secondPassAdlibPages } from "../src";
-import { IModelTemplate } from "@esri/hub-common";
+import { IModelTemplate, IModel } from "@esri/hub-common";
 
 describe("_secondPassAdlibPages", () => {
   it("_secondPassAdlibPages adlibs Page", function() {
@@ -17,7 +17,7 @@ describe("_secondPassAdlibPages", () => {
       },
       key: "bleep-boop",
       data: {}
-    } as unknown) as IModelTemplate;
+    } as unknown) as IModel;
     const page = ({
       item: { id: "ef1", type: "Hub Page" },
       data: {
@@ -61,7 +61,7 @@ describe("_secondPassAdlibPages", () => {
       },
       key: "bleep-boop",
       data: {}
-    } as unknown) as IModelTemplate;
+    } as unknown) as IModel;
     const page = ({
       item: { id: "ef1", type: "Hub Page" },
       data: {

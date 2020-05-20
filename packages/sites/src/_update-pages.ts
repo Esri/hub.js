@@ -18,7 +18,7 @@ import { _secondPassAdlibPages } from "./_second-pass-adlib-pages";
  * @param {IHubRequestOptions} hubRequestOptions
  */
 export function _updatePages(
-  siteModel: IModelTemplate,
+  siteModel: IModel,
   solutionModels: IModelTemplate[],
   hubRequestOptions: IHubRequestOptions
 ): Promise<IUpdateItemResponse[]> {

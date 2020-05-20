@@ -1,7 +1,7 @@
 import { _updatePages } from "../src";
 import * as fetchMock from "fetch-mock";
 import { MOCK_HUB_REQOPTS } from "./test-helpers.test";
-import { IModelTemplate } from "@esri/hub-common";
+import { IModelTemplate, IModel } from "@esri/hub-common";
 
 describe("_updatePages", () => {
   it("updates Page items", async () => {
@@ -22,7 +22,7 @@ describe("_updatePages", () => {
       },
       key: "bleep-boop",
       data: {}
-    } as unknown) as IModelTemplate;
+    } as unknown) as IModel;
     const models = ([
       {
         item: { id: "ef1", type: "Hub Page" },
@@ -47,7 +47,7 @@ describe("_updatePages", () => {
       },
       key: "bleep-boop",
       data: {}
-    } as unknown) as IModelTemplate;
+    } as unknown) as IModel;
     const models = ([
       { item: { id: "ef1", type: "Web Map" }, data: { values: { sites: [] } } },
       {
