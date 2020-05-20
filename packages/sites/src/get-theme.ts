@@ -1,4 +1,4 @@
-import { IPortal } from "@esri/hub-common/node_modules/@esri/arcgis-rest-portal";
+import { IPortal } from "@esri/arcgis-rest-portal";
 import { DEFAULT_THEME } from "./default-theme";
 import {
   cloneObject,

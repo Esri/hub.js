@@ -1,6 +1,6 @@
 import { getPortalSiteHostname } from "../src";
 import * as commonModule from "@esri/hub-common";
-import { IPortal } from "@esri/hub-common/node_modules/@esri/arcgis-rest-portal";
+import { IPortal } from "@esri/arcgis-rest-portal";
 
 describe("getPortalSiteHostname", () => {
   it("gets the ", async () => {

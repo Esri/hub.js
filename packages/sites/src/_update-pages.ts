@@ -5,10 +5,7 @@ import {
   serializeModel,
   IModelTemplate
 } from "@esri/hub-common";
-import {
-  updateItem,
-  IUpdateItemResponse
-} from "@esri/hub-common/node_modules/@esri/arcgis-rest-portal";
+import { updateItem, IUpdateItemResponse } from "@esri/arcgis-rest-portal";
 import { _secondPassAdlibPages } from "./_second-pass-adlib-pages";
 
 /**
