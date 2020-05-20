@@ -1,5 +1,5 @@
 import { IHubRequestOptions, stripProtocol } from "@esri/hub-common";
-import { getUniqueDomainNamePortal } from "..";
+import { getUniqueDomainNamePortal } from "./get-unique-domain-name-portal";
 import { getUniqueDomainName } from "./get-unique-domain-name";
 import { _ensureSafeDomainLength } from "./_ensure-safe-domain-length";
 
