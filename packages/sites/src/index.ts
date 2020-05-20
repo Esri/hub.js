@@ -41,3 +41,4 @@ export * from "./get-theme";
 export * from "./default-theme";
 export * from "./_create-site-initiative";
 export * from "./_update-team-tags";
+export * from "./create-site-model-from-template";
