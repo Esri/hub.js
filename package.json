@@ -109,6 +109,8 @@
     "docs:dev:js": "cpx \"docs/src/**/{api-search,nav-toggle}.js\" docs/build/hub.js -w",
     "docs:srihash": "node docs/generate-srihashes.js",
     "lint": "tslint --project tsconfig.json",
+    "y:publish": "lerna run y:publish",
+    "y:push": "lerna run y:push",
     "lint:fix": "tslint --project tsconfig.json --fix",
     "gen-util": "yo ./scaffolder/index.js",
     "precommit": "lint-staged",
