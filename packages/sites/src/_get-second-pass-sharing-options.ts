@@ -5,7 +5,9 @@ import { IModel, getProp } from "@esri/hub-common";
  * Both, one or neither of these groups may exist
  * @param {object} siteModel Site Model
  */
-export function _getSecondPassSharingOptions(siteModel: IModel) {
+export function _getSecondPassSharingOptions(
+  siteModel: IModel
+): Array<{ id: string; confirmItemControl: boolean }> {
   return [
     { prop: "item.properties.contentGroupId", itemControl: false },
     { prop: "item.properties.collaborationGroupId", itemControl: true }
