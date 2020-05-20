@@ -14,6 +14,10 @@ describe("addSolutionResourceUrlToAssets", () => {
           mimeType: "image/png",
           name: "thumbnail.png",
           type: "thumbnail"
+        },
+        {
+          mimeType: "image/png",
+          name: "kitten.png",
         }
       ]
     } as unknown) as IModelTemplate;
@@ -33,7 +37,8 @@ describe("addSolutionResourceUrlToAssets", () => {
         type: "thumbnail",
         url:
           "https://foo-bar/sharing/rest/content/items/123/resources/item-id-thumbnail.png"
-      }
+      },
+      { name: 'kitten.png', type: 'resource', url: 'https://foo-bar/sharing/rest/content/items/123/resources/item-id-kitten.png' }
     ]);
   });
 
