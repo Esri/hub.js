@@ -1,5 +1,6 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getPortalUrl } from "@esri/arcgis-rest-portal";
+import { _getHubUrlFromPortalHostname } from './urls/_get-hub-url-from-portal-hostname';
 /**
  * ```js
  * import { getHubApiUrl() } from "@esri/hub-common";
@@ -12,14 +13,8 @@ import { getPortalUrl } from "@esri/arcgis-rest-portal";
  * @returns the associated Hub API Url as a string.
  */
 export function getHubApiUrl(requestOptions: IRequestOptions): string {
-  const portalUrl = getPortalUrl(requestOptions);
-  if (portalUrl.match(/(qaext|\.mapsqa)\.arcgis.com/)) {
-    return "https://hubqa.arcgis.com";
-  } else if (portalUrl.match(/(devext|\.mapsdevext)\.arcgis.com/)) {
-    return "https://hubdev.arcgis.com";
-  } else if (portalUrl.match(/(www|\.maps)\.arcgis.com/)) {
-    return "https://hub.arcgis.com";
-  } else {
-    return undefined;
-  }
+  return _getHubUrlFromPortalHostname(getPortalUrl(requestOptions));
+  
 }
+
+

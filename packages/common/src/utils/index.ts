@@ -8,3 +8,4 @@ export * from "./map-by";
 export * from "./slugify";
 export * from "./without-by-prop";
 export * from "./propify-string";
+export * from "./increment-string";

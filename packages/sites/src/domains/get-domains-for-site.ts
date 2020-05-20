@@ -21,9 +21,6 @@ export function getDomainsForSite(
 
   return fetch(url, { method: "GET", headers, mode: "cors" })
     .then(_checkStatusAndParseJson)
-    .then(resp => {
-      return resp;
-    })
     .catch(err => {
       throw Error(`Error in getDomainsForSite ${err}`);
     });

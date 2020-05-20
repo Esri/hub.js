@@ -7,3 +7,4 @@ export * from "./get-item-assets";
 export * from "./get-item-thumbnail-url";
 export * from "./string-to-blob";
 export * from "./upload-resources-from-url";
+export * from "./add-solution-resource-url-to-assets";

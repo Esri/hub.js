@@ -10,6 +10,7 @@
     "@types/node": "^6.0.95",
     "acetate": "^2.1.0",
     "acetate-cli": "^1.0.1",
+    "babel-plugin-istanbul": "^6.0.0",
     "changelog-parser": "^2.1.0",
     "cheerio": "^1.0.0-rc.2",
     "codecov": "^3.1.0",
@@ -18,6 +19,7 @@
     "cpx": "^1.5.0",
     "cross-spawn": "^5.1.0",
     "cz-lerna-changelog": "github:patrickarlt/cz-lerna-changelog#3fe7650a2e2e624b1f46e5031c96119759698288",
+    "dasherize": "^2.0.0",
     "date-fns": "^1.29.0",
     "fetch-mock": "^7.0.0",
     "gh-pages": "^1.2.0",
@@ -58,7 +60,8 @@
     "tslint-config-prettier": "^1.6.0",
     "tslint-config-standard": "^6.0.1",
     "typedoc": "^0.14.2",
-    "typescript": "^3.8.1"
+    "typescript": "^3.8.1",
+    "yo": "^3.1.1"
   },
   "dependencies": {
     "@types/adlib": "^3.0.1",
@@ -106,7 +109,11 @@
     "docs:dev:js": "cpx \"docs/src/**/{api-search,nav-toggle}.js\" docs/build/hub.js -w",
     "docs:srihash": "node docs/generate-srihashes.js",
     "lint": "tslint --project tsconfig.json",
+    "y:publish": "lerna run y:publish",
+    "y:push": "lerna run y:push",
+    "tsc:v": "lerna run tsc:v",
     "lint:fix": "tslint --project tsconfig.json --fix",
+    "gen-util": "yo ./scaffolder/index.js",
     "precommit": "lint-staged",
     "bootstrap": "lerna bootstrap",
     "postinstall": "npm run bootstrap",

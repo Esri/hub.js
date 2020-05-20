@@ -17,6 +17,7 @@ export interface IModel {
   data?: {
     [propName: string]: any;
   };
+  [key: string]: any;
 }
 
 /**
