@@ -44,3 +44,4 @@ export * from "./_update-team-tags";
 export * from "./create-site-model-from-template";
 export * from "./convert-site-to-template";
 export * from "./_purge-non-guids-from-catalog";
+export * from "./_ensure-catalog";
