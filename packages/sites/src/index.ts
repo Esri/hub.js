@@ -4,6 +4,7 @@
 export * from "./domains";
 export * from "./teams";
 export * from "./layout";
+export * from "./pages";
 
 export * from "./get-domain";
 export * from "./_remove-site-groups";
