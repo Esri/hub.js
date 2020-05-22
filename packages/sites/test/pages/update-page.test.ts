@@ -1,6 +1,6 @@
 import { updatePage } from "../../src";
 import * as portalModule from "@esri/arcgis-rest-portal";
-import * as layoutModule from "../../src/layout";
+import * as removeResourcesModule from "../../src/layout/remove-unused-resources";
 import { IModel, IHubRequestOptions, cloneObject } from "@esri/hub-common";
 
 describe("updatePage", () => {
@@ -30,7 +30,7 @@ describe("updatePage", () => {
     );
 
     removeResourcesSpy = spyOn(
-      layoutModule,
+      removeResourcesModule,
       "removeUnusedResources"
     ).and.returnValue(Promise.resolve({ success: true }));
   });
