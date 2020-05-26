@@ -10,3 +10,4 @@ export * from "./page-template-keyword";
 export * from "./page-type-keyword";
 export * from "./create-page";
 export * from "./convert-page-to-template";
+export * from "./create-page-model-from-template";
