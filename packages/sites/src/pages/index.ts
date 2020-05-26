@@ -8,3 +8,4 @@ export * from "./get-page-item-type";
 export * from "./get-page-dependencies";
 export * from "./page-template-keyword";
 export * from "./page-type-keyword";
+export * from "./create-page";

@@ -1,4 +1,4 @@
-import { cloneObject, IModelTemplate } from "@esri/hub-common";
+import { cloneObject, IModelTemplate, IModel } from "@esri/hub-common";
 import { getPageItemType } from "./get-page-item-type";
 import { PAGE_TYPE_KEYWORD } from "./page-type-keyword";
 
@@ -6,11 +6,11 @@ import { PAGE_TYPE_KEYWORD } from "./page-type-keyword";
  * Given a Page Model, ensure that it has all the requires properties set correctly
  * and return a new object
  * @param {Object} pageModel Page Model object
- * @param {Object} options {username, portalVersion, isPortal}
+ * @param {Object} options {username, isPortal}
  */
 export function ensureRequiredPageProperties(
   pageModel: IModelTemplate,
-  options: any
+  options: { username: string; isPortal: boolean }
 ) {
   // clone
   const result = cloneObject(pageModel);
@@ -35,5 +35,5 @@ export function ensureRequiredPageProperties(
   if (result.item.typeKeywords.indexOf(PAGE_TYPE_KEYWORD) === -1) {
     result.item.typeKeywords.push(PAGE_TYPE_KEYWORD);
   }
-  return result;
+  return (result as unknown) as IModel;
 }
