@@ -85,10 +85,6 @@ describe("createPageModelFromTemplate", () => {
 
   it("handles parentInitiativeId and sites", async () => {
     const localTemplate = cloneObject(template);
-    deepSet(localTemplate, "data.values.sites", [
-      { id: "template_key_12312" },
-      { id: "c9929fca0892406da79f38fe4efcc116" }
-    ]);
     deepSet(localTemplate, "item.properties.foo", "bar");
 
     const localSettings = cloneObject(settings);
@@ -101,10 +97,6 @@ describe("createPageModelFromTemplate", () => {
       ro
     );
 
-    // TODO CHANGE THIS
-    expect(chk.data.values.sites).toEqual([
-      { id: "c9929fca0892406da79f38fe4efcc116" }
-    ]);
     expect(chk.item.properties.parentInitiativeId).toBe("parent-init-id");
     expect(chk.item.properties.foo).toBe("bar", "preserved other properties");
   });

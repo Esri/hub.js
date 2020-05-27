@@ -46,12 +46,6 @@ export function createPageModelFromTemplate(
   }
   // put the slug into the hash so we can use it in following templates
   deepSet(pageModel, "data.values.slug", slugify(pageModel.item.title));
-  // strip out any non-templated linked sites since they will not be accessible
-  const linkedSites = getProp(template, "data.values.sites");
-  if (linkedSites && linkedSites.length) {
-    const nonTemplateSites = linkedSites.filter((site: any) => isGuid(site.id));
-    deepSet(pageModel, "data.values.sites", nonTemplateSites);
-  }
   // do any other work here...
   return Promise.resolve(pageModel as IModel);
 }
