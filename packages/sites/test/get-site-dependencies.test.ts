@@ -1,8 +1,8 @@
-import { getDependencies } from "../src";
+import { getSiteDependencies } from "../src";
 import * as layoutModule from "../src/layout";
 import { IModel } from "@esri/hub-common";
 
-describe("getDependencies", () => {
+describe("getSiteDependencies", () => {
   it("gets dependencies", async () => {
     const layoutDeps = ["123", "456", "789"];
 
@@ -23,7 +23,7 @@ describe("getDependencies", () => {
       }
     } as unknown) as IModel;
 
-    const dependencies = getDependencies(site);
+    const dependencies = getSiteDependencies(site);
 
     expect(dependencies).toEqual([
       "123",
@@ -48,7 +48,7 @@ describe("getDependencies", () => {
       }
     } as unknown) as IModel;
 
-    const dependencies = getDependencies(site);
+    const dependencies = getSiteDependencies(site);
 
     expect(dependencies).toEqual([]);
   });

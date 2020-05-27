@@ -6,6 +6,6 @@ import { IItem } from "@esri/arcgis-rest-types";
  * @param isPortal from appSettings.isPortal
  * @param siteUrl the url of the parent site
  */
-export function getEditUrl(item: IItem) {
+export function getSiteEditUrl(item: IItem) {
   return `${item.url}/edit`;
 }
