@@ -23,8 +23,8 @@
     "@esri/arcgis-rest-auth": "^2.0.0",
     "@esri/arcgis-rest-portal": "^2.0.0",
     "@esri/arcgis-rest-request": "^2.0.0",
-    "@esri/hub-common": "^4.0.0",
-    "@esri/hub-initiatives": "^4.1.0"
+    "@esri/hub-common": "^4.2.0",
+    "@esri/hub-initiatives": "^4.2.0"
   },
   "files": [
     "dist/**"
