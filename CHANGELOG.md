@@ -5,15 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased][HEAD]
+
+## [4.2.0] - May 27th 2020
+
+### @esri/hub-sites
+
+* New Features
+   * **hub-sites**: added page utils
+
 ## [4.1.0] - May 21st 2020
 
 ## [4.0.0] - May 20th 2020
-
-
-
-## [Unreleased][HEAD]
-
-
 
 ## [3.9.3] - May 14th 2020
 
@@ -52,11 +55,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.9.1] - May 6th 2020
 
-
-
 ## [3.9.0] - May 6th 2020
 
-### @esri/hub-sites &amp;amp;amp;amp;amp;&amp;amp;amp;amp;amp; @esri/hub-common
+### @esri/hub-sites and @esri/hub-common
 
 * New Features
    * **common**: add `interpolate` [`1f3156d`](https://github.com/Esri/hub.js/commit/1f3156d18934b16d69173753ef3236a638aa0331)
@@ -742,4 +743,5 @@ Initial Release
 [3.9.3]: https://github.com/Esri/hub.js/compare/v3.9.2...v3.9.3 "v3.9.3"
 [4.0.0]: https://github.com/Esri/hub.js/compare/v3.9.3...v4.0.0 "v4.0.0"
 [4.1.0]: https://github.com/Esri/hub.js/compare/v4.0.0...v4.1.0 "v4.1.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v4.1.0...HEAD "Unreleased Changes"
+[4.2.0]: https://github.com/Esri/hub.js/compare/v4.1.0...v4.2.0 "v4.2.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v4.2.0...HEAD "Unreleased Changes"
