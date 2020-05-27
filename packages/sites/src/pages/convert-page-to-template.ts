@@ -11,7 +11,7 @@ import {
 } from "@esri/hub-common";
 import { getPageItemType } from "./get-page-item-type";
 import { convertLayoutToTemplate } from "../layout";
-import { getDependencies } from "../get-dependencies";
+import { getSiteDependencies } from "../get-site-dependencies";
 import { IItem } from "@esri/arcgis-rest-types";
 
 /**
@@ -40,7 +40,7 @@ export function convertPageToTemplate(
   // the conversion can return an array of assets to convert, but for now, we are not using that...
   tmpl.data.values.layout = layoutConversion.layout;
 
-  tmpl.dependencies = getDependencies(model);
+  tmpl.dependencies = getSiteDependencies(model);
 
   // convert any internal references in /data to the item's id into `{{appId}}`
   tmpl.data = replaceItemId(tmpl.data, tmpl.itemId);

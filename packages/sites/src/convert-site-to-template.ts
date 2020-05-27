@@ -14,7 +14,7 @@ import { getSiteItemType } from "./get-site-item-type";
 import { IItem } from "@esri/arcgis-rest-types";
 import { SITE_SCHEMA_VERSION } from "./site-schema-version";
 import { convertLayoutToTemplate } from "./layout";
-import { getDependencies } from "./get-dependencies";
+import { getSiteDependencies } from "./get-site-dependencies";
 
 /**
  * Convert an existing site into the Solution template format
@@ -89,7 +89,7 @@ export function convertSiteToTemplate(
   // convert any internal references in /data to the item's id into `{{appId}}`
   tmpl.data = replaceItemId(tmpl.data, tmpl.itemId);
 
-  tmpl.dependencies = getDependencies(model);
+  tmpl.dependencies = getSiteDependencies(model);
   return getItemAssets(model.item, hubRequestOptions).then(assets => {
     tmpl.assets = assets;
     return tmpl;
