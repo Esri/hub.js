@@ -10,10 +10,20 @@ import {
   maybePush,
   failSafe,
   shareItemToGroups,
-  deepSet
+  deepSet,
+  getWithDefault
 } from "@esri/hub-common";
-import { updateItem } from "@esri/arcgis-rest-portal";
+import { updateItem, IItem } from "@esri/arcgis-rest-portal";
 import { UserSession } from "@esri/arcgis-rest-auth";
+
+function isSiteItem(item: IItem) {
+  const typeKeywords = getWithDefault(item, "typeKeywords", []);
+  return (
+    includes(["Hub Site Application", "Site Application"], item.type) ||
+    (item.type === "Web Mapping Application" &&
+      includes(typeKeywords, "hubSite"))
+  );
+}
 
 /**
  * Link a Page and a Site, or vice-versa
@@ -50,10 +60,7 @@ export function linkSiteAndPage(linkRequestOptions: {
       if (!siteModel.isMissing && !pageModel.isMissing) {
         // ensure we actually got a page and site
         if (
-          !includes(
-            ["Hub Site Application", "Site Application"],
-            siteModel.item.type
-          ) ||
+          !isSiteItem(siteModel.item) ||
           !includes(["Hub Page", "Site Page"], pageModel.item.type)
         ) {
           return Promise.resolve([]);
