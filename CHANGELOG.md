@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
+## [4.2.1] - June 1st 2020
+* Bug Fixes
+   * **hub-sites**: allow old site item type in linkSiteAndPage [`202c2c1`](https://github.com/Esri/hub.js/commit/202c2c1f57eee635f85af612f19d6fb576611a10)
+
 ## [4.2.0] - May 27th 2020
 
 ### @esri/hub-sites
@@ -16,7 +20,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [4.1.0] - May 21st 2020
 
+
+
 ## [4.0.0] - May 20th 2020
+
+
 
 ## [3.9.3] - May 14th 2020
 
@@ -54,6 +62,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
    * **peerDependencies**: fix invalid peerDependencies [`08fae37`](https://github.com/Esri/hub.js/commit/08fae37875aa3e68a82970a54eedcbe13ef001a8) [#251](https://github.com/Esri/hub.js/issues/251)
 
 ## [3.9.1] - May 6th 2020
+
+
 
 ## [3.9.0] - May 6th 2020
 
@@ -744,4 +754,5 @@ Initial Release
 [4.0.0]: https://github.com/Esri/hub.js/compare/v3.9.3...v4.0.0 "v4.0.0"
 [4.1.0]: https://github.com/Esri/hub.js/compare/v4.0.0...v4.1.0 "v4.1.0"
 [4.2.0]: https://github.com/Esri/hub.js/compare/v4.1.0...v4.2.0 "v4.2.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v4.2.0...HEAD "Unreleased Changes"
+[4.2.1]: https://github.com/Esri/hub.js/compare/v4.2.0...v4.2.1 "v4.2.1"
+[HEAD]: https://github.com/Esri/hub.js/compare/v4.2.1...HEAD "Unreleased Changes"
