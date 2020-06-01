@@ -34,8 +34,16 @@ export function getFromHubAPI(id:string, hubRequestOptions?: IHubRequestOptions)
     mode: "cors",
     headers
   } as RequestInit;
+
+  // TODO: handle Hub missing content by ID
   return fetch(url, opts)
-    .then(raw => raw.json())
+    .then(response => {
+      if (!response.ok) {
+        // TODO: handle passing up enumerated Hub API error codes
+        throw Error(response);
+      }
+      return response.json()
+    )
     .then(contentData => {
       return contentData;
     })

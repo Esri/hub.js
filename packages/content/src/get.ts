@@ -113,7 +113,15 @@ export function _getContentFromHub(
   hubRequestOptions?: IHubRequestOptions
 ): Promise<any> {
 
-  return getFromHubAPI(id, hubRequestOptions);
+  return getFromHubAPI(id, hubRequestOptions).then((hubResponse: any) => {
+    return new Promise((resolve) => {resolve(hubResponse)})
+  }).catch(err =>  {
+    // TODO: better enumeration / encapsultion of Hub API error handling
+    if(err.status == 403) {
+      // Hub API failed or item not found. Try Portal b/c not-public or not-yet-indexed
+      return _getContentFromPortal(id, hubRequestOptions);
+    }
+  })
 }
 
 /**
