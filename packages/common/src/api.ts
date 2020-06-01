@@ -1,6 +1,8 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getPortalUrl } from "@esri/arcgis-rest-portal";
 import { _getHubUrlFromPortalHostname } from './urls/_get-hub-url-from-portal-hostname';
+import { IHubRequestOptions } from "./types";
+
 /**
  * ```js
  * import { getHubApiUrl() } from "@esri/hub-common";
@@ -17,4 +19,29 @@ export function getHubApiUrl(requestOptions: IRequestOptions): string {
   
 }
 
+export function getFromHubAPI(id:string, hubRequestOptions?: IHubRequestOptions): Promise<any> {
+  let hubUrl = "https://hub.arcgis.com/api";
+  let headers:any = {};
 
+  if (hubRequestOptions !== undefined) {
+    hubUrl = hubRequestOptions.hubApiUrl;
+    headers['Authorization'] =  hubRequestOptions.authentication.token;
+  }
+  
+  const url = `${hubUrl}/v3/datasets/${id}`;
+  const opts = {
+    method: "GET",
+    mode: "cors",
+    headers
+  } as RequestInit;
+  return fetch(url, opts)
+    .then(raw => raw.json())
+    .then(contentData => {
+      return contentData;
+    })
+    .catch(err => {
+      throw Error(
+        `getFromHubAPI: Error requesting from Hub API: ${err}`
+      );
+    }); 
+}
