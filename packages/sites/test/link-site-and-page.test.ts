@@ -3,6 +3,7 @@ import * as commonModule from "@esri/hub-common";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import * as fetchMock from "fetch-mock";
+import { cloneObject } from "@esri/hub-common";
 
 function resetSpys(...args: jasmine.Spy[]) {
   args.forEach(spy => spy.calls.reset());
@@ -13,6 +14,7 @@ describe("linkSiteAndPage", () => {
     item: {
       id: "bazsite",
       type: "Hub Site Application",
+      typeKeywords: [],
       properties: {
         collaborationGroupId: "collab-id",
         contentGroupId: "content-id"
@@ -52,8 +54,8 @@ describe("linkSiteAndPage", () => {
 
   it("links site and page", async () => {
     await linkSiteAndPage({
-      siteModel,
-      pageModel,
+      siteModel: cloneObject(siteModel),
+      pageModel: cloneObject(pageModel),
       authentication: {} as UserSession
     });
 
@@ -82,6 +84,22 @@ describe("linkSiteAndPage", () => {
       ["collab-id", "content-id"],
       { authentication: {} }
     );
+  });
+
+  it("allows linking old site items", async () => {
+    // make an old site
+    const oldSite = commonModule.cloneObject(siteModel);
+    oldSite.item.type = "Web Mapping Application";
+    oldSite.item.typeKeywords.push("hubSite");
+
+    await linkSiteAndPage({
+      siteModel: oldSite,
+      pageModel: cloneObject(pageModel),
+      authentication: {} as UserSession
+    });
+
+    expect(updateSpy).toHaveBeenCalledTimes(2);
+    expect(shareSpy).toHaveBeenCalled();
   });
 
   it("doesnt blow up if arrays not present", async () => {
@@ -141,7 +159,7 @@ describe("linkSiteAndPage", () => {
     try {
       await linkSiteAndPage({
         siteId: "no-exist",
-        pageModel,
+        pageModel: cloneObject(pageModel),
         authentication: fakeSession
       });
       fail("should reject");
@@ -155,7 +173,7 @@ describe("linkSiteAndPage", () => {
     resetSpys(shareSpy, updateSpy);
     try {
       await linkSiteAndPage({
-        siteModel,
+        siteModel: cloneObject(siteModel),
         pageId: "no-exist",
         authentication: fakeSession
       });
@@ -188,7 +206,7 @@ describe("linkSiteAndPage", () => {
     notPage.item.type = "Not a Page";
 
     await linkSiteAndPage({
-      siteModel,
+      siteModel: cloneObject(siteModel),
       pageModel: notPage,
       authentication: {} as UserSession
     });
