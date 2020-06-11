@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
+## [4.2.2] - June 1st 2020
+
+* New Feature
+  * **hub-sites**: `updateSite` and `updatePage` send `clearEmptyFields: true` allowing item properties to be cleared [fb64477](https://github.com/Esri/hub.js/commit/fb64477ff528d770acc5a7caceb47aec2c1446e3) 
+
 ## [4.2.1] - June 1st 2020
 * Bug Fixes
    * **hub-sites**: allow old site item type in linkSiteAndPage [`202c2c1`](https://github.com/Esri/hub.js/commit/202c2c1f57eee635f85af612f19d6fb576611a10)
