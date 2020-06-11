@@ -83,7 +83,8 @@ export function updateSite(
       // send the update to ago
       return updateItem({
         item: serializeModel(model),
-        authentication: hubRequestOptions.authentication
+        authentication: hubRequestOptions.authentication,
+        params: { clearEmptyFields: true }
       });
     })
     .then(updateResponse => {
