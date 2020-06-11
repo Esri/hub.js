@@ -20,6 +20,7 @@ export function updatePage(
   model.item.url = "";
   // update it
   const opts = Object.assign({ item: serializeModel(model) }, requestOptions);
+  opts.params = { clearEmptyFields: true };
   return updateItem(opts).then(resp => {
     if (resp.success) {
       return removeUnusedResources(

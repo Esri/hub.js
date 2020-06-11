@@ -88,6 +88,8 @@ describe('update site', function () {
     expect(getModelSpy).not.toHaveBeenCalled();
     expect(updateSpy).toHaveBeenCalled();
     const updateItem = updateSpy.calls.argsFor(0)[0].item;
+    const updateParams = updateSpy.calls.argsFor(0)[0].params;
+    expect(updateParams.clearEmptyFields).toBe(true, 'it should pass clearEmptyFields parameter');
     // no allow list, so shouldn't update
     expect(updateItem.title).toBe(localSite.item.title);
     // no allow list, so should update
