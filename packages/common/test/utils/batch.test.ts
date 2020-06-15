@@ -24,7 +24,7 @@ describe("batch", function() {
     expect(transform.calls.argsFor(0)).toEqual(['one']);
     expect(transform.calls.argsFor(1)).toEqual(['two']);
     expect(transform.calls.argsFor(2)).toEqual(['three']);
-    expect(result).toEqual([3]);
+    expect(result).toEqual([1, 2, 3]);
   });
 
   it("should support promises/async", async function () {
@@ -36,7 +36,7 @@ describe("batch", function() {
     expect(transform.calls.argsFor(0)).toEqual(['one']);
     expect(transform.calls.argsFor(1)).toEqual(['two']);
     expect(transform.calls.argsFor(2)).toEqual(['three']);
-    expect(result).toEqual([3]);
+    expect(result).toEqual([1, 2, 3]);
   });
 
   it("should default to a batchSize of 5", async function () {
@@ -60,6 +60,6 @@ describe("batch", function() {
     expect(transform.calls.argsFor(3)).toEqual(['four']);
     expect(transform.calls.argsFor(4)).toEqual(['five']);
     expect(transform.calls.argsFor(5)).toEqual(['six']);
-    expect(result).toEqual([6]);
+    expect(result).toEqual([1, 2, 3, 4, 5, 6]);
   });
 });

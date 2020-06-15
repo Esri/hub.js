@@ -33,9 +33,10 @@ export function batch (
     promise: Promise<any>,
     batchOfValues: IBatch
   ): Promise<any> => {
-    const executeBatch = () => {
+    const executeBatch = (prevResults: any[]) => {
       const batchResults = batchOfValues.map(id => fn(id));
-      return Promise.all(batchResults);
+      return Promise.all(batchResults)
+        .then(results => prevResults.concat(results));
     };
     return promise.then(executeBatch);
   };
@@ -47,6 +48,6 @@ export function batch (
   // all calls within a batch are concurrent
   return batches.reduce(
     toSerialBatchChain,
-    Promise.resolve()
+    Promise.resolve([])
   );
 };
