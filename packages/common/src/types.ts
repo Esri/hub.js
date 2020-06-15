@@ -102,3 +102,7 @@ export interface IItemResource {
 }
 
 export type IBBox = number[][];
+
+export type IBatch = any[];
+
+export type IBatchTransform = (value: any) => any;

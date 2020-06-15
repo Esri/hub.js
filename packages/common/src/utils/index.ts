@@ -1,3 +1,4 @@
+export * from "./batch";
 export * from "./ensure-unique-string";
 export * from "./fail-safe";
 export * from "./generate-random-string";
