@@ -11,15 +11,12 @@ export function doesItemExistWithTitle (
 ) {
   // if options have multiple properties, put them into one string separated with 'AND'
   let optionsQuery = Object.keys(options).map(key => {
-    return `${key}:${options[key]}`;
+    return `${key}:"${options[key]}"`;
   }).join(' AND ');
   let opts = {
-    q: `title: "${itemTitle}"`,
+    q: `title:"${itemTitle}" AND ${optionsQuery}`,
     authentication: authMgr
   };
-  if (optionsQuery.length) {
-    opts.q = `${opts.q} AND ${optionsQuery}`;
-  }
   return searchItems(opts)
     .then(searchResponse => searchResponse.results.length > 0)
     .catch(e => {
