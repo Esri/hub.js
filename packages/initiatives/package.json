@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-initiatives",
-  "version": "4.2.2",
+  "version": "4.2.3",
   "description": "Module to interact with ArcGIS Hub Initiatives in Node.js and modern browsers.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/initiatives.umd.js",
@@ -22,7 +22,7 @@
     "@esri/arcgis-rest-auth": "^2.0.0",
     "@esri/arcgis-rest-portal": "^2.0.0",
     "@esri/arcgis-rest-request": "^2.0.0",
-    "@esri/hub-common": "^4.2.2",
+    "@esri/hub-common": "^4.2.3",
     "blob": "0.0.4"
   },
   "files": [

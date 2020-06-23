@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
+## [4.2.3] - June 23rd 2020
+### @esri/hub-common
+* New Feature
+  * **hub-common**: add `doesItemExistWithTitle` and `getUniqueItemTitle` [c8a869c](https://github.com/Esri/hub.js/commit/c8a869c23f69fcd89f33d390ee5339160f950481)
+
 ## [4.2.2] - June 1st 2020
 
 * New Feature
