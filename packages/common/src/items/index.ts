@@ -12,3 +12,5 @@ export * from "./serialize-model";
 export * from "./share-item-to-groups";
 export * from "./unprotect-model";
 export * from "./unshare-item-from-groups";
+export * from "./does-item-exist-with-title";
+export * from "./get-unique-item-title";
