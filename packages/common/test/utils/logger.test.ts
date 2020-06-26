@@ -1,46 +1,50 @@
-import { Logger } from "../../src/utils/logger";
 
-import * as moduleToMock from '../../src/utils/get-query-params';
+import { Logger, Level } from "../../src/utils/logger";
 
-enum Level {
-  log = 'log',
-  warn = 'warn',
-  info = 'info',
-  error = 'error'
-}
+fdescribe("Logger |", function() {
+    beforeEach(() => {
+      spyOn(console, 'log').and.stub().calls.reset();
+      spyOn(console, 'debug').and.stub().calls.reset();
+      spyOn(console, 'info').and.stub().calls.reset();
+      spyOn(console, 'warn').and.stub().calls.reset();
+      spyOn(console, 'error').and.stub().calls.reset();
+    });
 
-describe("Logger", function() {
-  const levels: Level[] = [Level.log, Level.warn, Level.info, Level.error]
-  levels.forEach((level: Level) => testLogLevel(level));
+    const levels: Level[] = [Level.all, Level.debug, Level.warn, Level.info, Level.error, Level.off];
+    levels.forEach((level: Level) => testLogLevel(level));
 });
 
-function testLogLevel(level: Level) {
-
-  it(`Doesn't log to ${level} when debug flag is non-existant`, () => {
-    spyOn(moduleToMock, "getQueryParams").and.callFake(() => ({}));
-    spyOn(console, level);
-    Logger[level](null, 'This should not log');
-    expect(console[level]).toHaveBeenCalledTimes(0)
-  });
-
-  it(`Log to ${level} when debug flag is truthy`, () => {
-    const flagValues = [true, 'true', 1];
-    const getQueryParamsSpy = spyOn(moduleToMock, "getQueryParams");
-    spyOn(console, level);
-    flagValues.forEach((flagValue) => {
-      getQueryParamsSpy.and.callFake(() => ({debug: flagValue}));
-      Logger[level](null, 'This should log');
+function testLogLevel(testLevel: Level) {
+  const isAvailable = (fnLevel: Level) => testLevel <= fnLevel; 
+  describe(`Test ${Level[testLevel]} Log Level |`, () => {
+    beforeEach(() => {
+      Logger.setLogLevel(testLevel);
     });
-    expect(console[level]).toHaveBeenCalledTimes(flagValues.length);
-    expect(console[level]).toHaveBeenCalledWith('This should log');
-    
-  });
+    it(`Logger.log ${isAvailable(Level.debug) ? 'does' : 'does not'} log when level set to ${Level[testLevel]}`, () => {
+      const numCalls = +isAvailable(Level.debug);
+      Logger.log("message");
+      expect(console.log).toHaveBeenCalledTimes(numCalls);  
+    });
+    it(`Logger.debug ${isAvailable(Level.debug) ? 'does' : 'does not'} log when level set to ${Level[testLevel]}`, () => {
+      const numCalls = +isAvailable(Level.debug);
+      Logger.debug("message");
+      expect(console.debug).toHaveBeenCalledTimes(numCalls);
+    });
+    it(`Logger.info ${isAvailable(Level.info) ? 'does' : 'does not'} log when level set to ${Level[testLevel]}`, () => {
+      const numCalls = +isAvailable(Level.info);
+      Logger.info("message");
+      expect(console.info).toHaveBeenCalledTimes(numCalls);
+    });
+    it(`Logger.warn ${isAvailable(Level.warn) ? 'does' : 'does not'} log when level set to ${Level[testLevel]}`, () => {
+      const numCalls = +isAvailable(Level.warn);
+      Logger.warn("message");
+      expect(console.warn).toHaveBeenCalledTimes(numCalls);
+    });
+    it(`Logger.error ${isAvailable(Level.error) ? 'does' : 'does not'} log when level set to ${Level[testLevel]}`, () => {
+      const numCalls = +isAvailable(Level.error);
+      Logger.error("message");
+      expect(console.error).toHaveBeenCalledTimes(numCalls);
+    });
 
-  it(`Log to ${level} with multiple arguments`, () => {
-    const obj = { name: 'test' };
-    spyOn(moduleToMock, "getQueryParams").and.callFake(() => ({debug: true}));
-    spyOn(console, level);
-    Logger[level](null, 'This should log', 1, obj);
-    expect(console[level]).toHaveBeenCalledWith('This should log', 1, obj);
-  });
+  })
 }

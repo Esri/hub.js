@@ -1,52 +1,108 @@
-import { getQueryParams } from './get-query-params';
 
+/**
+ * Enum for Logger Levels
+ */
+export enum Level {
+  all,
+  debug,
+  info,
+  warn,
+  error,
+  off,
+} 
+
+/**
+ * ```js
+ * import { Logger, Level } from '@esri/hub-common'
+ * ```
+ * Functions share the console interface
+ * ```js
+ * Logger.log('My Message');
+ * Logger.warn('Watch out!', { threat: 'Charizard' });
+ * // etc, etc
+ * ```
+ * Available logging levels are specified in the Level enum. The hierarchy is as follows:
+ * ```
+ * off > error > warn > info > debug > all
+ * ```
+ * Logger only sends messages whose level is greater than or equal to the global log level
+ * ```js
+ * // Global level is 'warn'
+ * Logger.info('This message won't log');
+ * Logger.error('But this one will!');
+ * ```
+ * Logger's default level is 'off', so set desired level before use
+ * ```js
+ * Logger.setLogLevel(Level.all);
+ * ```
+ */
 export class Logger {
 
-  private static _isDebugEnabled(winRef: Window) {
-    const debugParam = getQueryParams(winRef).debug;
-    return debugParam == true || debugParam === 'true';
+  private static logLevel = Level.off;
+
+  private static isLevelPermitted(level: Level) {
+    return this.logLevel <= level;
   }
 
   /**
- * Logs to console log level if url debug param is truthy (true, 1)
+ * Sets the global log level 
+ * @param {Level} level
+ */
+  public static setLogLevel(level: Level) {
+    this.logLevel = level;
+  }
+
+  /**
+ * Logs to debug if level is enabled
  * @param {string} message
  * @param {...*} objects additional objects to log (optional rest parameter)
  */
-  public static log(winRef: Window, message: string, ...objects: any[]) {
-    if (this._isDebugEnabled(winRef)) {
+  public static log(message: string, ...objects: any[]) {
+    if (this.isLevelPermitted(Level.debug)) {
       console.log(message, ...objects);
     }
   }
 
   /**
- * Logs to console info level if url debug param is truthy (true, 1)
+ * Logs to debug if level is enabled
+ * @param {string} message
+ * @param {...*} objects additional objects to log (optional rest parameter)
+ */
+  public static debug(message: string, ...objects: any[]) {
+    if (this.isLevelPermitted(Level.debug)) {
+      console.debug(message, ...objects);
+    }
+  }
+
+  /**
+ * Logs to info if level is enabled
  * @param {string} message
  * @param {...*} objects additional objects to log (optional rest parameter) 
  */
-  public static info(winRef: Window, message: string, ...objects: any[]) {
-    if (this._isDebugEnabled(winRef)) {
+  public static info(message: string, ...objects: any[]) {
+    if (this.isLevelPermitted(Level.info)) {
       console.info(message, ...objects);
     }
   }
 
   /**
- * Logs to console warn level if url debug param is truthy (true, 1)
+ * Logs to warn if level is enabled
  * @param {string} message
  * @param {...*} objects additional objects to log (optional rest parameter) 
  */
-  public static warn(winRef: Window, message: string, ...objects: any[]) {
-    if (this._isDebugEnabled(winRef)) {
+  public static warn(message: string, ...objects: any[]) {
+    if (this.isLevelPermitted(Level.warn)) {
       console.warn(message, ...objects);
     }
   }
 
   /**
- * Logs to console error level if url debug param is truthy (true, 1)
+ * Logs to error if level is enabled
  * @param {string} message
  * @param {...*} objects additional objects to log (optional rest parameter) 
  */
-  public static error(winRef: Window, message: string, ...objects: any[]) {
-    if (this._isDebugEnabled(winRef)) {
+  public static error(message: string, ...objects: any[]) {
+    if (this.isLevelPermitted(Level.error)) {
       console.error(message, ...objects);
     }
   }
