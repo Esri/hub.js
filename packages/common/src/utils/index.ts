@@ -11,4 +11,3 @@ export * from "./without-by-prop";
 export * from "./propify-string";
 export * from "./increment-string";
 export * from "./logger";
-export * from "./get-query-params";

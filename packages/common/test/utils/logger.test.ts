@@ -1,7 +1,7 @@
 
 import { Logger, Level } from "../../src/utils/logger";
 
-fdescribe("Logger |", function() {
+describe("Logger |", function() {
     beforeEach(() => {
       spyOn(console, 'log').and.stub().calls.reset();
       spyOn(console, 'debug').and.stub().calls.reset();

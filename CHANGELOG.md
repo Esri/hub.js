@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 * New Feature
-  * **hub-common**: Added a logger wrapper class that only logs when a truthy (true, 1) debug query param is included in the url. Also added a util to parse a window's query params into a hash [130847](https://esriarlington.tpondemand.com/entity/130847-add-a-hub-logger-wrapper-method)
+  * **hub-common**: Added a static logger wrapper class that logs based on the set level [130847](https://esriarlington.tpondemand.com/entity/130847-add-a-hub-logger-wrapper-method)
 
 ## [4.2.2] - June 1st 2020
 
