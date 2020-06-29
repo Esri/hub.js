@@ -22,6 +22,67 @@
 npm install @esri/hub-surveys
 ```
 
+```js
+import { setAccess } from "@esri/hub-surveys";
+
+// Sets a Survey Form, Feature Service & Fieldworker View (if it exists) access
+// Stakeholder View access is set separately
+setAccess(
+  formModel, // { item: { ... }, data?: { ... } }
+  "private", // "private", "public", or "org"
+  requestOptions // rest.js request options
+)
+  .then((results) => {
+    // results is an array containing the rest.js setAccess result for each
+    // survey item whose access we successfully changed
+  })
+  .catch((error) => {
+    // one or more rest.js setItemAccess calls failed. error is first
+    // encountered error. all successful setItemAccess calls have automatically
+    // been reverted at this point
+  });
+```
+
+```js
+import { shareWithGroup } from "@esri/hub-surveys";
+
+// Shares Survey items with the given group ID. Transactional in nature.
+shareWithGroup(
+  formModel, // { item: { ... }, data?: { ... } }
+  "9a2fea7edecc47eb9818b4f5a220ee71", // ID of group to share Survey items to
+  requestOptions // rest.js request options
+)
+  .then((results) => {
+    // all rest.js shareItemWithGroup calls succeeded. results is an array of
+    // rest.js shareItemWithGroup results.
+  })
+  .catch((error) => {
+    // one or more rest.js shareItemWithGroup calls failed. error is first
+    // encountered error. all successful shareItemWithGroup calls have automatically
+    // been reverted at this point
+  });
+```
+
+```js
+import { unshareWithGroup } from "@esri/hub-surveys";
+
+// Unshares Survey items with the given group ID. Transactional in nature.
+unshareWithGroup(
+  formModel, // { item: { ... }, data?: { ... } }
+  "9a2fea7edecc47eb9818b4f5a220ee71", // ID of group to share Survey items to
+  requestOptions // rest.js request options
+)
+  .then((results) => {
+    // all rest.js unshareItemWithGroup calls succeeded. results is an array of
+    // rest.js unshareItemWithGroup results.
+  })
+  .catch((error) => {
+    // one or more rest.js unshareItemWithGroup calls failed. error is first
+    // encountered error. all successful unshareItemWithGroup calls have automatically
+    // been reverted at this point
+  });
+```
+
 ## [API Reference](https://esri.github.io/hub.js/api/surveys/)
 
 ### Issues
