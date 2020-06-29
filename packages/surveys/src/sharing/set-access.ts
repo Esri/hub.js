@@ -14,7 +14,7 @@ import { setAccessRevertable } from "./set-access-revertable";
  * @param {IrequestOptions} requestOptions 
  * @returns {Promise<any[]>}
  */
-export const setAccess = async (
+export const setAccess = (
   formModel: IFormModel,
   access: "private" | "public" | "org",
   requestOptions: IRequestOptions
