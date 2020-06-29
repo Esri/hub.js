@@ -1,14 +1,14 @@
-import { IFeatureServiceItem } from "@esri/hub-common";
+import { IItem } from "@esri/arcgis-rest-types";
 
 /**
- * Determines if the provided IFeatureServiceItem is a
+ * Determines if the provided Feature Service item is a
  * Fieldworker View
- * @param {IFeatureServiceItem} featureServiceItem 
+ * @param {IItem} featureServiceItem 
  * @returns {boolean}
  */
-export const isFieldworkerView = (
-  featureServiceItem: IFeatureServiceItem
-): boolean => {
+export function isFieldworkerView (
+  featureServiceItem: IItem
+): boolean {
   const hasTypekeyword = (typeKeyword: string): boolean =>
     featureServiceItem.typeKeywords.indexOf(typeKeyword) > -1;
 

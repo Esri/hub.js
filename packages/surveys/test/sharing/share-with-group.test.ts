@@ -14,10 +14,10 @@ import * as shareWithGroupRevertable from "../../src/sharing/share-with-group-re
 import * as getGroupSharingDetails from "../../src/sharing/get-group-sharing-details";
 
 describe("shareWithGroup", function () {
-  let formModel: hubCommon.IFormModel;
-  let featureServiceModel: hubCommon.IFeatureServiceModel;
-  let fieldworkerModel: hubCommon.IFeatureServiceModel;
-  let stakeholderModel: hubCommon.IFeatureServiceModel;
+  let formModel: hubCommon.IModel;
+  let featureServiceModel: hubCommon.IModel;
+  let fieldworkerModel: hubCommon.IModel;
+  let stakeholderModel: hubCommon.IModel;
   let requestOptions: IRequestOptions;
   let getGroupSharingDetailsResults: hubCommon.IGetGroupSharingDetailsResults;
   let shareWithGroupRevertableResults: hubCommon.IRevertableTaskResult[];

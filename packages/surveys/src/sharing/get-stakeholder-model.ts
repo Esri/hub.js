@@ -3,7 +3,7 @@
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getRelatedItems } from "@esri/arcgis-rest-portal";
-import { IFeatureServiceItem, IFeatureServiceModel } from "@esri/hub-common";
+import { IModel } from "@esri/hub-common";
 import { isFieldworkerView } from "../utils/is-fieldworker-view";
 
 /**
@@ -16,7 +16,7 @@ import { isFieldworkerView } from "../utils/is-fieldworker-view";
 export const getStakeholderModel = (
   fieldworkerId: string,
   requestOptions: IRequestOptions
-): Promise<IFeatureServiceModel> => {
+): Promise<IModel> => {
   return getRelatedItems({
     id: fieldworkerId,
     relationshipType: "Service2Service",
@@ -25,12 +25,12 @@ export const getStakeholderModel = (
   })
     .then(({ relatedItems }) => {
       const [featureService] = relatedItems.filter(
-        service => !isFieldworkerView(service as IFeatureServiceItem)
+        service => !isFieldworkerView(service)
       );
       let model;
 
       if (featureService) {
-        model = { item: featureService as IFeatureServiceItem };
+        model = { item: featureService };
       }
 
       return model;

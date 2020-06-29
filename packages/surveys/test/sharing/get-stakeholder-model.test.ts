@@ -35,7 +35,7 @@ describe("getStakeholderModel", function () {
     expect(result).toBeUndefined();
   });
 
-  it("should resolve an IFeatureServiceModel when getRelatedItems returns a Fieldworker", async function () {
+  it("should resolve an IModel when getRelatedItems returns a Fieldworker", async function () {
     const getRelatedItemsSpy = spyOn(restPortal, "getRelatedItems").and.returnValue(Promise.resolve(getRelatedItemsResponse));
     const isFieldworkerViewSpy = spyOn(isFieldworkerView, "isFieldworkerView").and.returnValues(true, false);
     const result = await getStakeholderModel("123", mockUserSession);

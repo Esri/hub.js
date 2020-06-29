@@ -3,7 +3,7 @@
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getGroup } from "@esri/arcgis-rest-portal";
-import { IFormModel, IGetGroupSharingDetailsResults } from "@esri/hub-common";
+import { IModel, IGetGroupSharingDetailsResults } from "@esri/hub-common";
 import { getSurveyModels } from "./get-survey-models";
 import { isPublished } from "../utils/is-published";
 
@@ -13,13 +13,13 @@ import { isPublished } from "../utils/is-published";
  * Form & Fieldworker View are targeted for published surveys and
  * View groups. The Form, FeatureService, Fieldworker View & Stakeholder
  * View are targeted for published surveys Update groups.
- * @param {IFormModel} formModel A Form model
+ * @param {IModel} formModel A Form model
  * @param {string} groupId A Group ID
  * @param {IRequestOptions} requestOptions The request options
  * @returns {Promise<IGetGroupSharingDetailsResults>}
  */
 export const getGroupSharingDetails = (
-  formModel: IFormModel,
+  formModel: IModel,
   groupId: string,
   requestOptions: IRequestOptions
 ): Promise<IGetGroupSharingDetailsResults> => {

@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IFormModel, IFeatureServiceModel, cloneObject } from "@esri/hub-common";
+import { IModel } from "@esri/hub-common";
 import { mockUserSession } from "@esri/hub-common/test/test-helpers/fake-user-session";
 import { getSurveyModels } from "../../src/sharing/get-survey-models";
 import { FormItemPublished } from "../mocks/form-item-published";
@@ -14,10 +14,10 @@ import * as getSourceFeatureServiceModelFromFieldworker from "../../src/sharing/
 import * as getStakeholderModel from "../../src/sharing/get-stakeholder-model";
 
 describe("getSurveyModels", function () {
-  let formModel: IFormModel;
-  let featureServiceModel: IFeatureServiceModel;
-  let fieldworkerModel: IFeatureServiceModel;
-  let stakeholderModel: IFeatureServiceModel;
+  let formModel: IModel;
+  let featureServiceModel: IModel;
+  let fieldworkerModel: IModel;
+  let stakeholderModel: IModel;
 
   beforeEach(() => {
     formModel = { item: FormItemPublished };

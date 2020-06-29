@@ -3,7 +3,7 @@
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getRelatedItems } from "@esri/arcgis-rest-portal";
-import { IFeatureServiceItem, IFeatureServiceModel } from "@esri/hub-common";
+import { IModel } from "@esri/hub-common";
 
 /**
  * Gets the primary input Feature Service for the given
@@ -11,12 +11,12 @@ import { IFeatureServiceItem, IFeatureServiceModel } from "@esri/hub-common";
  * otherwise the source Feature Service.
  * @param {string} formId The Form ID
  * @param requestOptions The request options
- * @returns {Promise<IFeatureServiceModel>}
+ * @returns {Promise<IModel>}
  */
 export const getInputFeatureServiceModel = (
   formId: string,
   requestOptions: IRequestOptions
-): Promise<IFeatureServiceModel> => {
+): Promise<IModel> => {
   return getRelatedItems({
     id: formId,
     relationshipType: "Survey2Service",
@@ -26,7 +26,7 @@ export const getInputFeatureServiceModel = (
     .then(({ relatedItems: [featureService] }) => {
       let model;
       if (featureService) {
-        model = { item: featureService as IFeatureServiceItem };
+        model = { item: featureService };
       }
       return model;
     })

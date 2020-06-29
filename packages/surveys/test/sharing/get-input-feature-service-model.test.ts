@@ -30,7 +30,7 @@ describe("getInputFeatureServiceModel", function () {
     expect(result).toBeUndefined();
   });
 
-  it("should resolve an IFeatureServiceModel when getRelatedItems returns related items", async function () {
+  it("should resolve an IModel when getRelatedItems returns related items", async function () {
     const getRelatedItemsSpy = spyOn(restPortal, "getRelatedItems").and.returnValue(Promise.resolve(getRelatedItemsResponse));
     const result = await getInputFeatureServiceModel("123", mockUserSession);
     expect(getRelatedItemsSpy.calls.count()).toBe(1);

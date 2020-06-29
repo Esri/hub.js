@@ -2,24 +2,24 @@
  * Apache-2.0 */
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IFormModel, IGetSurveyModelsResponse, IFeatureServiceModel } from "@esri/hub-common";
+import { IModel, IGetSurveyModelsResponse } from "@esri/hub-common";
 import { getInputFeatureServiceModel } from "./get-input-feature-service-model";
 import { getSourceFeatureServiceModelFromFieldworker } from "./get-source-feature-service-model-from-fieldworker";
 import { getStakeholderModel } from "./get-stakeholder-model";
 import { isFieldworkerView } from "../utils/is-fieldworker-view";
 
 /**
- * Builds a dictionary of Survey items for the given IFormModel
- * @param {IFormModel} formModel The Form model of the survey
+ * Builds a dictionary of Survey items for the given Form model
+ * @param {IModel} formModel The Form model of the survey
  * @param {IRequestOptions} requestOptions The request options
  * @returns {Promise<IGetSurveyModelsResponse>}
  */
 export const getSurveyModels = (
-  formModel: IFormModel,
+  formModel: IModel,
   requestOptions: IRequestOptions
 ): Promise<IGetSurveyModelsResponse> => {
-  let featureService: IFeatureServiceModel;
-  let fieldworker: IFeatureServiceModel;
+  let featureService: IModel;
+  let fieldworker: IModel;
 
   // the primary input will be the fieldworker (if it exists), otherwise
   // the source feature service.

@@ -1,15 +1,15 @@
 /* Copyright (c) 2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IFormItem } from "@esri/hub-common";
+import { IItem } from "@esri/arcgis-rest-types";
 
 /**
- * Determines if a given IFormItem is a draft
- * @param {IFormItem} formItem A Form item 
+ * Determines if a given Form item is a draft
+ * @param {IItem} formItem A Form item 
  * @returns {boolean}
  */
-export const isDraft = function isDraft (
-  formItem: IFormItem
+export function isDraft (
+  formItem: IItem
 ): boolean {
   return formItem.typeKeywords.indexOf("Draft") > -1;
 };

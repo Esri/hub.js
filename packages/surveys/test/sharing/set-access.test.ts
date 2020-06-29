@@ -14,10 +14,10 @@ import * as getSurveyModels from "../../src/sharing/get-survey-models";
 import * as isPublished from "../../src/utils/is-published";
 
 describe("setAccess", function () {
-  let formModel: hubCommon.IFormModel;
-  let featureServiceModel: hubCommon.IFeatureServiceModel;
-  let fieldworkerModel: hubCommon.IFeatureServiceModel;
-  let stakeholderModel: hubCommon.IFeatureServiceModel;
+  let formModel: hubCommon.IModel;
+  let featureServiceModel: hubCommon.IModel;
+  let fieldworkerModel: hubCommon.IModel;
+  let stakeholderModel: hubCommon.IModel;
   let requestOptions: IRequestOptions;
   let getSurveyModelsResults: hubCommon.IGetSurveyModelsResponse;
   let setAccessRevertableResults: hubCommon.IRevertableTaskResult[];

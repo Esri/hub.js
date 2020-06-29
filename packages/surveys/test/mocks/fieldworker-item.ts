@@ -1,9 +1,9 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IFeatureServiceItem } from "@esri/hub-common";
+import { IItem } from "@esri/arcgis-rest-types";
 
-export const FieldworkerItem: IFeatureServiceItem = {
+export const FieldworkerItem: IItem = {
   "id": "03b5d608ae204177bb69acaf06fb2f98",
   "owner": "surveyownerqa",
   "created": 1591979735000,

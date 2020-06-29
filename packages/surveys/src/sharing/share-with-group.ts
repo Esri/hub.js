@@ -2,20 +2,20 @@
  * Apache-2.0 */
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IFormModel, processRevertableTasks } from "@esri/hub-common";
+import { IModel, processRevertableTasks } from "@esri/hub-common";
 import { getGroupSharingDetails } from "./get-group-sharing-details";
 import { shareWithGroupRevertable } from "./share-with-group-revertable";
 
 /**
- * Shares eligible Survey items for the provided IFormModel
+ * Shares eligible Survey items for the provided Form model
  * with the provided groupId
- * @param {IFormModel} formModel A Form model
+ * @param {IModel} formModel A Form model
  * @param {string} groupId A group ID
  * @param {IRequestOptions} requestOptions The request options
  * @returns {Promise<any[]>}
  */
 export const shareWithGroup = (
-  formModel: IFormModel,
+  formModel: IModel,
   groupId: string,
   requestOptions: IRequestOptions
 ): Promise<any[]> => {

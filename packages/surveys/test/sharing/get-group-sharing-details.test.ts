@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IGetSurveyModelsResponse, IFormModel, IFeatureServiceModel } from "@esri/hub-common";
+import { IGetSurveyModelsResponse, IModel } from "@esri/hub-common";
 import { getGroupSharingDetails } from "../../src/sharing/get-group-sharing-details";
 import { FormItemDraft } from "../mocks/form-item-draft";
 import { FormItemPublished } from "../mocks/form-item-published";
@@ -17,10 +17,10 @@ import * as isPublished from "../../src/utils/is-published";
 
 describe("getGroupSharingDetails", function () {
   let getSurveyModelsResult: IGetSurveyModelsResponse;
-  let formModel: IFormModel;
-  let featureServiceModel: IFeatureServiceModel;
-  let fieldworkerModel: IFeatureServiceModel;
-  let stakeholderModel: IFeatureServiceModel;
+  let formModel: IModel;
+  let featureServiceModel: IModel;
+  let fieldworkerModel: IModel;
+  let stakeholderModel: IModel;
   
   beforeEach(() => {
     formModel = { item: FormItemDraft };

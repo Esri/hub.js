@@ -1,9 +1,9 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IFormItem } from "@esri/hub-common";
+import { IItem } from "@esri/arcgis-rest-types";
 
-export const FormItemPublished: IFormItem = {
+export const FormItemPublished: IItem = {
   "id": "a5db32e043f14f6a9edfec7075288df6",
   "owner": "surveyownerqa",
   "created": 1591979700000,

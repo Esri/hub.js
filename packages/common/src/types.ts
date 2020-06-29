@@ -107,33 +107,11 @@ export type IBatch = any[];
 
 export type IBatchTransform = (value: any) => any;
 
-export interface IFormItem extends IItem {
-  type: "Form"
-};
-
-export interface IFormModel extends IModel {
-  item: IFormItem;
-  data?: {
-    [propName: string]: any;
-  }
-};
-
-export interface IFeatureServiceItem extends IItem {
-  type: "Feature Service"
-};
-
-export interface IFeatureServiceModel extends IModel {
-  item: IFeatureServiceItem;
-  data?: {
-    [propName: string]: any;
-  }
-};
-
 export interface IGetSurveyModelsResponse {
-  form: IFormModel,
-  featureService: IFeatureServiceModel,
-  fieldworker: IFeatureServiceModel,
-  stakeholder: IFeatureServiceModel
+  form: IModel,
+  featureService: IModel,
+  fieldworker: IModel,
+  stakeholder: IModel
 };
 
 export interface IGetGroupSharingDetailsResults {

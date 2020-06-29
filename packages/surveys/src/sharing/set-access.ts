@@ -2,20 +2,20 @@
  * Apache-2.0 */
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IFormModel, processRevertableTasks, IRevertableTaskResult, IModel } from "@esri/hub-common";
+import { processRevertableTasks, IRevertableTaskResult, IModel } from "@esri/hub-common";
 import { getSurveyModels } from "./get-survey-models";
 import { isPublished } from "../utils/is-published";
 import { setAccessRevertable } from "./set-access-revertable";
 
 /**
  * Sets eligible Survey items to the provided access
- * @param {IFormModel} formModel A Form model
+ * @param {IModel} formModel A Form model
  * @param {string} access The desired access
  * @param {IrequestOptions} requestOptions 
  * @returns {Promise<any[]>}
  */
 export const setAccess = (
-  formModel: IFormModel,
+  formModel: IModel,
   access: "private" | "public" | "org",
   requestOptions: IRequestOptions
 ): Promise<any[]> => {

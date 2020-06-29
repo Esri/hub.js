@@ -3,19 +3,19 @@
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getRelatedItems } from "@esri/arcgis-rest-portal";
-import { IFeatureServiceItem, IFeatureServiceModel } from "@esri/hub-common";
+import { IModel } from "@esri/hub-common";
 
 /**
  * Fetches a Survey's source Feature Service from a given
  * Fieldworker View ID
  * @param {string} fieldworkerId The Fieldworker View ID
  * @param {IRequestOptions} requestOptions The request options
- * @returns {Promise<IFeatureServiceModel>}
+ * @returns {Promise<IModel>}
  */
 export const getSourceFeatureServiceModelFromFieldworker = (
   fieldworkerId: string,
   requestOptions: IRequestOptions
-): Promise<IFeatureServiceModel> => {
+): Promise<IModel> => {
   return getRelatedItems({
     id: fieldworkerId,
     relationshipType: "Service2Data",
@@ -25,7 +25,7 @@ export const getSourceFeatureServiceModelFromFieldworker = (
     .then(({ relatedItems: [featureService] }) => {
       let model;
       if (featureService) {
-        model = { item: featureService as IFeatureServiceItem };
+        model = { item: featureService };
       }
       return model;
     });
