@@ -10,5 +10,5 @@ import { IGroup } from "@esri/arcgis-rest-types";
 export function isUpdateGroup (
   group: IGroup
 ): boolean {
-  return group.capabilities.indexOf("updateitemcontrol") > -1;
+  return group.capabilities.includes("updateitemcontrol");
 };
