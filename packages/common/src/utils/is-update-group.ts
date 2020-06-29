@@ -7,6 +7,8 @@ import { IGroup } from "@esri/arcgis-rest-types";
  * Determines if a given IGroup is an update group
  * @param {IGroup} group The group to evaluate
  */
-export const isUpdateGroup = (
+export function isUpdateGroup (
   group: IGroup
-): boolean => group.capabilities.indexOf("updateitemcontrol") > -1;
+): boolean {
+  return group.capabilities.indexOf("updateitemcontrol") > -1;
+};
