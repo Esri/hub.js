@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IItem, IUser } from "@esri/arcgis-rest-types";
+import { IItem, IUser, IGroup } from "@esri/arcgis-rest-types";
 import { IPortal } from "@esri/arcgis-rest-portal";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
@@ -106,3 +106,50 @@ export type IBBox = number[][];
 export type IBatch = any[];
 
 export type IBatchTransform = (value: any) => any;
+
+export interface IFormItem extends IItem {
+  type: "Form"
+};
+
+export interface IFormModel extends IModel {
+  item: IFormItem;
+  data?: {
+    [propName: string]: any;
+  }
+};
+
+export interface IFeatureServiceItem extends IItem {
+  type: "Feature Service"
+};
+
+export interface IFeatureServiceModel extends IModel {
+  item: IFeatureServiceItem;
+  data?: {
+    [propName: string]: any;
+  }
+};
+
+export interface IGetSurveyModelsResponse {
+  form: IFormModel,
+  featureService: IFeatureServiceModel,
+  fieldworker: IFeatureServiceModel,
+  stakeholder: IFeatureServiceModel
+};
+
+export interface IGetGroupSharingDetailsResults {
+  group: IGroup,
+  modelsToShare: IModel[]
+};
+
+export interface IRevertableTaskSuccess {
+  status: "fullfilled",
+  revert: (...args: any[]) => Promise<any>,
+  results: any
+};
+
+export interface IRevertableTaskFailed {
+  status: "rejected",
+  error: Error
+};
+
+export type IRevertableTaskResult = IRevertableTaskSuccess | IRevertableTaskFailed;
