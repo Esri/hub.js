@@ -1,9 +1,9 @@
 {
-  "name": "@esri/hub-sites",
+  "name": "@esri/hub-surveys",
   "version": "4.4.0",
-  "description": "Module to interact with ArcGIS Hub Sites in Node.js and modern browsers.",
+  "description": "Module to interact with ArcGIS Hub Surveys in Node.js and modern browsers.",
   "main": "dist/node/index.js",
-  "unpkg": "dist/umd/sites.umd.js",
+  "unpkg": "dist/umd/surveys.umd.js",
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
   "sideEffects": false,
@@ -13,18 +13,20 @@
     "tslib": "^1.11.1"
   },
   "peerDependencies": {
-    "@esri/arcgis-rest-auth": "^2.0.0",
-    "@esri/arcgis-rest-portal": "^2.0.0",
-    "@esri/arcgis-rest-request": "^2.0.0",
-    "@esri/hub-common": "^4.0.0",
-    "@esri/hub-initiatives": "^4.0.0"
+    "@esri/arcgis-rest-auth": "^2.0.1",
+    "@esri/arcgis-rest-feature-layer": "^2.0.1",
+    "@esri/arcgis-rest-portal": "^2.0.1",
+    "@esri/arcgis-rest-request": "^2.0.1",
+    "@esri/arcgis-rest-types": "^2.0.1",
+    "@esri/hub-common": "^4.0.0"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-auth": "^2.0.0",
-    "@esri/arcgis-rest-portal": "^2.0.0",
-    "@esri/arcgis-rest-request": "^2.0.0",
-    "@esri/hub-common": "^4.4.0",
-    "@esri/hub-initiatives": "^4.4.0"
+    "@esri/arcgis-rest-auth": "^2.0.1",
+    "@esri/arcgis-rest-feature-layer": "^2.0.1",
+    "@esri/arcgis-rest-portal": "^2.0.1",
+    "@esri/arcgis-rest-request": "^2.0.1",
+    "@esri/arcgis-rest-types": "^2.0.1",
+    "@esri/hub-common": "^4.4.0"
   },
   "files": [
     "dist/**"
@@ -37,10 +39,7 @@
     "build:node": "tsc --module commonjs --outDir ./dist/node",
     "dev:esm": "tsc -w --module es2015 --outDir ./dist/esm --declaration",
     "dev:umd": "rollup -w -c ../../umd-base-profile.js",
-    "dev:node": "tsc -w --module commonjs --outDir ./dist/node",
-    "tsc:v": "tsc -v",
-    "y:publish": "yalc publish",
-    "y:push": "yalc push"
+    "dev:node": "tsc -w --module commonjs --outDir ./dist/node"
   },
   "publishConfig": {
     "access": "public"
@@ -51,12 +50,8 @@
   },
   "contributors": [
     {
-      "name": "John Gravois",
-      "email": "john@esri.com"
-    },
-    {
-      "name": "Tom Wayson",
-      "email": "twayson@esri.com"
+      "name": "Randy Weber",
+      "email": "rweber@esri.com"
     }
   ],
   "bugs": {
