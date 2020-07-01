@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased][HEAD]
+* New Feature
+  * **hub-common**: Added a static logger wrapper class that logs based on the set level [130847](https://esriarlington.tpondemand.com/entity/130847-add-a-hub-logger-wrapper-method)
 
 ## [4.4.0] - June 30th 2020
 
