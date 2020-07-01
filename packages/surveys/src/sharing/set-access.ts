@@ -3,26 +3,26 @@
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { processRevertableTasks, IRevertableTaskResult, IModel } from "@esri/hub-common";
-import { getSurveyModels } from "./get-survey-models";
+import { getSurveyModels } from "../items/get-survey-models";
 import { isPublished } from "../utils/is-published";
 import { setAccessRevertable } from "./set-access-revertable";
 
 /**
  * Sets eligible Survey items to the provided access
- * @param {IModel} formModel A Form model
+ * @param {string} formId A Form ID
  * @param {string} access The desired access
  * @param {IrequestOptions} requestOptions 
  * @returns {Promise<any[]>}
  */
 export const setAccess = (
-  formModel: IModel,
+  formId: string,
   access: "private" | "public" | "org",
   requestOptions: IRequestOptions
 ): Promise<any[]> => {
-  return getSurveyModels(formModel, requestOptions)
+  return getSurveyModels(formId, requestOptions)
     .then(({ form, featureService, fieldworker }) => {
       const modelsToChangeAccess = [form, featureService];
-      if (isPublished(formModel.item)) {
+      if (isPublished(form.item)) {
         modelsToChangeAccess.push(fieldworker);
       }
       const toRevertablePromise = (memo: Promise<IRevertableTaskResult>[], model: IModel) => {
@@ -41,6 +41,6 @@ export const setAccess = (
       return processRevertableTasks(revertableTasks);
     })
     .catch(() => {
-      throw new Error(`Failed to set survey ${formModel.item.id} items access to ${access}`);
+      throw new Error(`Failed to set survey ${formId} items access to ${access}`);
     });
 };

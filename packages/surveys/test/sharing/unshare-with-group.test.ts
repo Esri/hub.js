@@ -61,12 +61,12 @@ describe("unshareWithGroup", function () {
     const unshareWithGroupRevertableSpy = spyOn(unshareWithGroupRevertable, "unshareWithGroupRevertable").and.returnValues(...unshareWithGroupRevertablePromiseResults);
     const processRevertableTasksSpy = spyOn(hubCommon, "processRevertableTasks").and.returnValue(Promise.resolve(processRevertableTasksResults));
     const results = await unshareWithGroup(
-      formModel,
+      formModel.item.id,
       ViewGroup.id,
       requestOptions
     );
     expect(getGroupSharingDetailsSpy.calls.count()).toBe(1);
-    expect(getGroupSharingDetailsSpy.calls.argsFor(0)).toEqual([formModel, ViewGroup.id, requestOptions]);
+    expect(getGroupSharingDetailsSpy.calls.argsFor(0)).toEqual([FormItemPublished.id, ViewGroup.id, requestOptions]);
     expect(unshareWithGroupRevertableSpy.calls.count()).toBe(3);
     expect(unshareWithGroupRevertableSpy.calls.argsFor(0)).toEqual([formModel, ViewGroup, requestOptions]);
     expect(unshareWithGroupRevertableSpy.calls.argsFor(1)).toEqual([featureServiceModel, ViewGroup, requestOptions]);
@@ -82,14 +82,14 @@ describe("unshareWithGroup", function () {
     const processRevertableTasksSpy = spyOn(hubCommon, "processRevertableTasks").and.returnValue(Promise.reject(new Error("fail")));
     try {
       await unshareWithGroup(
-        formModel,
+        formModel.item.id,
         ViewGroup.id,
         requestOptions
       );
       done.fail("Should have rejected");
     } catch (e) {
       expect(getGroupSharingDetailsSpy.calls.count()).toBe(1);
-      expect(getGroupSharingDetailsSpy.calls.argsFor(0)).toEqual([formModel, ViewGroup.id, requestOptions]);
+      expect(getGroupSharingDetailsSpy.calls.argsFor(0)).toEqual([FormItemPublished.id, ViewGroup.id, requestOptions]);
       expect(unshareWithGroupRevertableSpy.calls.count()).toBe(3);
       expect(unshareWithGroupRevertableSpy.calls.argsFor(0)).toEqual([formModel, ViewGroup, requestOptions]);
       expect(unshareWithGroupRevertableSpy.calls.argsFor(1)).toEqual([featureServiceModel, ViewGroup, requestOptions]);

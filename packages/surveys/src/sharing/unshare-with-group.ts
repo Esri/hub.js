@@ -7,19 +7,19 @@ import { getGroupSharingDetails } from "./get-group-sharing-details";
 import { unshareWithGroupRevertable } from "./unshare-with-group-revertable";
 
 /**
- * Unshares eligible Survey items for the provided Form model
+ * Unshares eligible Survey items for the provided Form ID
  * from the provided groupId
- * @param {IModel} formModel A Form model
+ * @param {string} formId A Form ID
  * @param {string} groupId A group ID
  * @param {IRequestOptions} requestOptions The request options
  * @returns {Promise<any[]>}
  */
 export const unshareWithGroup = (
-  formModel: IModel,
+  formId: string,
   groupId: string,
   requestOptions: IRequestOptions
 ): Promise<any[]> => {
-  return getGroupSharingDetails(formModel, groupId, requestOptions)
+  return getGroupSharingDetails(formId, groupId, requestOptions)
     .then(({ modelsToShare, group }) => {
       const revertableTasks = modelsToShare.map(
         (model) => unshareWithGroupRevertable(
@@ -31,6 +31,6 @@ export const unshareWithGroup = (
       return processRevertableTasks(revertableTasks);
     })
     .catch(() => {
-      throw new Error(`Failed to unshare survey ${formModel.item.id} items with group ${groupId}`);
+      throw new Error(`Failed to unshare survey ${formId} items with group ${groupId}`);
     });
 };

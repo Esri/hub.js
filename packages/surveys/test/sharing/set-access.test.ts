@@ -10,7 +10,7 @@ import { FieldworkerItem } from "../mocks/fieldworker-item";
 import { StakeholderItem } from "../mocks/stakeholder-item";
 import { setAccess } from "../../src/sharing/set-access";
 import * as setAccessRevertable from "../../src/sharing/set-access-revertable";
-import * as getSurveyModels from "../../src/sharing/get-survey-models";
+import * as getSurveyModels from "../../src/items/get-survey-models";
 import * as isPublished from "../../src/utils/is-published";
 
 describe("setAccess", function () {
@@ -67,12 +67,12 @@ describe("setAccess", function () {
     const setAccessRevertableSpy = spyOn(setAccessRevertable, "setAccessRevertable").and.returnValues(...setAccessRevertablePromiseResults);
     const processRevertableTasksSpy = spyOn(hubCommon, "processRevertableTasks").and.returnValue(Promise.resolve(processRevertableTasksResults));
     const results = await setAccess(
-      formModel,
+      formModel.item.id,
       "public",
       requestOptions
     );
     expect(getSurveyModelsSpy.calls.count()).toBe(1);
-    expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([formModel, requestOptions]);
+    expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([FormItemPublished.id, requestOptions]);
     expect(isPublishedSpy.calls.count()).toBe(1);
     expect(isPublishedSpy.calls.argsFor(0)).toEqual([formModel.item]);
     expect(setAccessRevertableSpy.calls.count()).toBe(3);
@@ -93,12 +93,12 @@ describe("setAccess", function () {
     const setAccessRevertableSpy = spyOn(setAccessRevertable, "setAccessRevertable").and.returnValues(...setAccessRevertablePromiseResults);
     const processRevertableTasksSpy = spyOn(hubCommon, "processRevertableTasks").and.returnValue(Promise.resolve(processRevertableTasksResults));
     const results = await setAccess(
-      formModel,
+      formModel.item.id,
       "public",
       requestOptions
     );
     expect(getSurveyModelsSpy.calls.count()).toBe(1);
-    expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([formModel, requestOptions]);
+    expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([FormItemPublished.id, requestOptions]);
     expect(isPublishedSpy.calls.count()).toBe(1);
     expect(isPublishedSpy.calls.argsFor(0)).toEqual([formModel.item]);
     expect(setAccessRevertableSpy.calls.count()).toBe(2);
@@ -123,12 +123,12 @@ describe("setAccess", function () {
     const setAccessRevertableSpy = spyOn(setAccessRevertable, "setAccessRevertable").and.returnValues(...setAccessRevertablePromiseResults);
     const processRevertableTasksSpy = spyOn(hubCommon, "processRevertableTasks").and.returnValue(Promise.resolve(processRevertableTasksResults));
     const results = await setAccess(
-      formModel,
+      formModel.item.id,
       "public",
       requestOptions
     );
     expect(getSurveyModelsSpy.calls.count()).toBe(1);
-    expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([formModel, requestOptions]);
+    expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([FormItemPublished.id, requestOptions]);
     expect(isPublishedSpy.calls.count()).toBe(1);
     expect(isPublishedSpy.calls.argsFor(0)).toEqual([formModel.item]);
     expect(setAccessRevertableSpy.calls.count()).toBe(2);
@@ -146,14 +146,14 @@ describe("setAccess", function () {
     const processRevertableTasksSpy = spyOn(hubCommon, "processRevertableTasks").and.returnValue(Promise.reject(new Error("fail")));
     try {
       await setAccess(
-        formModel,
+        formModel.item.id,
         "public",
         requestOptions
       );
       done.fail("Should have rejected");
     } catch (e) {
       expect(getSurveyModelsSpy.calls.count()).toBe(1);
-      expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([formModel, requestOptions]);
+      expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([FormItemPublished.id, requestOptions]);
       expect(isPublishedSpy.calls.count()).toBe(1);
       expect(isPublishedSpy.calls.argsFor(0)).toEqual([formModel.item]);
       expect(setAccessRevertableSpy.calls.count()).toBe(3);
