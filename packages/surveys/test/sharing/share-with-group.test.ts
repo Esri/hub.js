@@ -69,12 +69,12 @@ describe("shareWithGroup", function () {
     const shareWithGroupRevertableSpy = spyOn(shareWithGroupRevertable, "shareWithGroupRevertable").and.returnValues(...shareWithGroupRevertablePromiseResults);
     const processRevertableTasksSpy = spyOn(hubCommon, "processRevertableTasks").and.returnValue(Promise.resolve(processRevertableTasksResults));
     const results = await shareWithGroup(
-      formModel,
+      formModel.item.id,
       ViewGroup.id,
       requestOptions
     );
     expect(getGroupSharingDetailsSpy.calls.count()).toBe(1);
-    expect(getGroupSharingDetailsSpy.calls.argsFor(0)).toEqual([formModel, ViewGroup.id, requestOptions]);
+    expect(getGroupSharingDetailsSpy.calls.argsFor(0)).toEqual([FormItemPublished.id, ViewGroup.id, requestOptions]);
     expect(shareWithGroupRevertableSpy.calls.count()).toBe(4);
     expect(shareWithGroupRevertableSpy.calls.argsFor(0)).toEqual([formModel, ViewGroup, requestOptions]);
     expect(shareWithGroupRevertableSpy.calls.argsFor(1)).toEqual([featureServiceModel, ViewGroup, requestOptions]);
@@ -91,14 +91,14 @@ describe("shareWithGroup", function () {
     const processRevertableTasksSpy = spyOn(hubCommon, "processRevertableTasks").and.returnValue(Promise.reject(new Error("fail")));
     try {
       await shareWithGroup(
-        formModel,
+        formModel.item.id,
         ViewGroup.id,
         requestOptions
       );
       done.fail("Should have rejected");
     } catch (e) {
       expect(getGroupSharingDetailsSpy.calls.count()).toBe(1);
-      expect(getGroupSharingDetailsSpy.calls.argsFor(0)).toEqual([formModel, ViewGroup.id, requestOptions]);
+      expect(getGroupSharingDetailsSpy.calls.argsFor(0)).toEqual([FormItemPublished.id, ViewGroup.id, requestOptions]);
       expect(shareWithGroupRevertableSpy.calls.count()).toBe(4);
       expect(shareWithGroupRevertableSpy.calls.argsFor(0)).toEqual([formModel, ViewGroup, requestOptions]);
       expect(shareWithGroupRevertableSpy.calls.argsFor(1)).toEqual([featureServiceModel, ViewGroup, requestOptions]);
