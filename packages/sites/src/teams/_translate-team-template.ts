@@ -6,6 +6,7 @@ import { getProp } from "@esri/hub-common";
  * @param {object} template Json Template for the Group
  * @param {string} title Group Title
  * @param {object} translation Translation json
+ * @private
  */
 export function _translateTeamTemplate(
   template: IGroupTemplate,

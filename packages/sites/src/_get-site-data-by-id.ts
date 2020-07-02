@@ -6,6 +6,7 @@ import { getItemData } from "@esri/arcgis-rest-portal";
  * No schema upgrades are applied.
  * @param {String} id Item Id of the site
  * @param {IHubRequestOptions} hubRequestOptions
+ * @private
  */
 export function _getSiteDataById(
   id: string,

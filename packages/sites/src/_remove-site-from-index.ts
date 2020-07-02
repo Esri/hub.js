@@ -4,6 +4,7 @@ import { IModel, IHubRequestOptions } from "@esri/hub-common";
  * Remove a Site from the Hub Index system
  * @param {Object} siteModel Site Model
  * @param {IHubRequestOptions} hubRequestOptions
+ * @private
  */
 export function _removeSiteFromIndex(
   siteModel: IModel,

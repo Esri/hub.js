@@ -8,6 +8,7 @@ interface IHeaders {
 /**
  * Construct the auth header from a hub request options
  * @param {IHubRequestOptions} hubRequestOptions
+ * @private
  */
 export function _getAuthHeader(
   hubRequestOptions: IHubRequestOptions

@@ -6,6 +6,7 @@ import { includes } from "@esri/hub-common";
  * typeKeyword array. Will also remove any other domain entries,
  * @param {String} subdomain Subdomain name
  * @param {Array} typeKeywords Array of typekeywords
+ * @private
  */
 export function _ensurePortalDomainKeyword(
   subdomain: string,

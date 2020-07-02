@@ -6,6 +6,7 @@ import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
  * Failsafe
  * @param {Object} siteModel Site Model
  * @param {IRequestOptions} requestOptions
+ * @private
  */
 export function _removeParentInitiative(
   siteModel: IModel,

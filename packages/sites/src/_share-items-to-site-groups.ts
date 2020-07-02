@@ -8,6 +8,7 @@ import { _getSecondPassSharingOptions } from "./_get-second-pass-sharing-options
  * @param {object} siteModel Site Model
  * @param {Array} solutionModels Array of all models created by the Solution
  * @param {IHubRequestOptions} hubRequestOptions
+ * @private
  */
 export function _shareItemsToSiteGroups(
   siteModel: IModel,

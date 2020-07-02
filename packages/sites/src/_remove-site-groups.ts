@@ -12,6 +12,7 @@ import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
  * but the groups may not be deleted
  * @param {Object} siteModel Site Model
  * @param {IRequestOptions} requestOptions
+ * @private
  */
 export function _removeSiteGroups(
   siteModel: IModel,
