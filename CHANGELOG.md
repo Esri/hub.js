@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
+## [4.5.1] - July 2nd 2020
+
+* Documentation
+  * **hub-surveys**: Updated README. [136998](https://esriarlington.tpondemand.com/entity/136998-chore-hoist-all-sharing-logic-into)
+
 ## [4.5.0] - July 2nd 2020
 
 * New Feature
@@ -15,7 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Changed
   * **hub-surveys**: Changed `getStakeholderModel` to search by `Survey2Data` relationship for `formId`. [136998](https://esriarlington.tpondemand.com/entity/136998-chore-hoist-all-sharing-logic-into)
   * **hub-surveys**: Improved `getSurveyModels` performance by parallelizing `getStakeholderModel` and `getInputFeatureServiceModel` calls. [136998](https://esriarlington.tpondemand.com/entity/136998-chore-hoist-all-sharing-logic-into)
-  * **hub-surveys**: Changed `getSurveyModels`, `getGroupSharingDetails`, `setAccess`, `shareWithGroup` & `unshareWithGroup` signatures to accept `formId`: `string` vs `formModel`: `IForm`. [136998](https://esriarlington.tpondemand.com/entity/136998-chore-hoist-all-sharing-logic-into)
+  * **hub-surveys**: Changed `getSurveyModels`, `getGroupSharingDetails`, `setAccess`, `shareWithGroup` &amp; `unshareWithGroup` signatures to accept `formId`: `string` vs `formModel`: `IForm`. [136998](https://esriarlington.tpondemand.com/entity/136998-chore-hoist-all-sharing-logic-into)
   * **hub-surveys**: Moved `get-*` methods from `sharing` dir into `items` dir. [136998](https://esriarlington.tpondemand.com/entity/136998-chore-hoist-all-sharing-logic-into)
 
 ## [4.4.0] - June 30th 2020
@@ -27,7 +32,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/hub-surveys
 * New Package
    * Created `hub-surveys` package [136998](https://esriarlington.tpondemand.com/entity/136998-chore-hoist-all-sharing-logic-into)
-   * Added `setAccess`, `shareWithGroup` &amp; `unshareWithGroup` methods [136998](https://esriarlington.tpondemand.com/entity/136998-chore-hoist-all-sharing-logic-into)
+   * Added `setAccess`, `shareWithGroup` &amp;amp; `unshareWithGroup` methods [136998](https://esriarlington.tpondemand.com/entity/136998-chore-hoist-all-sharing-logic-into)
 
 ## [4.3.0] - June 25th 2020
 
@@ -797,4 +802,5 @@ Initial Release
 [4.3.0]: https://github.com/Esri/hub.js/compare/v4.2.3...v4.3.0 "v4.3.0"
 [4.4.0]: https://github.com/Esri/hub.js/compare/v4.3.0...v4.4.0 "v4.4.0"
 [4.5.0]: https://github.com/Esri/hub.js/compare/v4.4.0...v4.5.0 "v4.5.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v4.5.0...HEAD "Unreleased Changes"
+[4.5.1]: https://github.com/Esri/hub.js/compare/v4.5.0...v4.5.1 "v4.5.1"
+[HEAD]: https://github.com/Esri/hub.js/compare/v4.5.1...HEAD "Unreleased Changes"
