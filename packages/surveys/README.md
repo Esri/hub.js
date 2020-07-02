@@ -28,7 +28,7 @@ import { setAccess } from "@esri/hub-surveys";
 // Sets a Survey Form, Feature Service & Fieldworker View (if it exists) access
 // Stakeholder View access is set separately
 setAccess(
-  formModel, // { item: { ... }, data?: { ... } }
+  "8a2fea7edecc47eb9818b4f5a220ee72", // ID of Survey Form item
   "private", // "private", "public", or "org"
   requestOptions // rest.js request options
 )
@@ -46,9 +46,9 @@ setAccess(
 ```js
 import { shareWithGroup } from "@esri/hub-surveys";
 
-// Shares Survey items with the given group ID. Transactional in nature.
+// Shares Survey items with the given Survey Form ID & group ID. Transactional in nature.
 shareWithGroup(
-  formModel, // { item: { ... }, data?: { ... } }
+  "8a2fea7edecc47eb9818b4f5a220ee72", // ID of Survey Form item
   "9a2fea7edecc47eb9818b4f5a220ee71", // ID of group to share Survey items to
   requestOptions // rest.js request options
 )
@@ -66,9 +66,9 @@ shareWithGroup(
 ```js
 import { unshareWithGroup } from "@esri/hub-surveys";
 
-// Unshares Survey items with the given group ID. Transactional in nature.
+// Unshares Survey items for the given Survey Form ID & group ID. Transactional in nature.
 unshareWithGroup(
-  formModel, // { item: { ... }, data?: { ... } }
+  "8a2fea7edecc47eb9818b4f5a220ee72", // ID of Survey Form item
   "9a2fea7edecc47eb9818b4f5a220ee71", // ID of group to share Survey items to
   requestOptions // rest.js request options
 )
@@ -80,6 +80,24 @@ unshareWithGroup(
     // one or more rest.js unshareItemWithGroup calls failed. error is first
     // encountered error. all successful unshareItemWithGroup calls have automatically
     // been reverted at this point
+  });
+```
+
+```js
+import { getSurveyModels } from "@esri/hub-surveys";
+
+// Retrieves a dictionary of Survey models for a given Survey Form item ID
+getSurveyModels(
+  "8a2fea7edecc47eb9818b4f5a220ee72", // ID of Survey Form item
+  requestOptions // rest.js request options
+)
+  .then((results) => {
+    // results => {
+    //   form: { item: { ... } },
+    //   featuresService: { item: { ... } },
+    //   fieldworker: { item: { ... } },
+    //   stakeholder: { item: { ... } },
+    // };
   });
 ```
 
