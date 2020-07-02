@@ -4,35 +4,29 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getRelatedItems } from "@esri/arcgis-rest-portal";
 import { IModel } from "@esri/hub-common";
-import { isFieldworkerView } from "../utils/is-fieldworker-view";
 
 /**
  * Fetches a Survey's Stakeholder View for a given
- * Fieldworker View ID
- * @param {string} fieldworkerId The Fieldworker View ID
+ * Form ID
+ * @param {string} formId A Form ID
  * @param {IRequestOptions} requestOptions The request options
- * @returns {Promise<IFeatureServiceModel>}
+ * @returns {Promise<IModel>}
  */
 export const getStakeholderModel = (
-  fieldworkerId: string,
+  formId: string,
   requestOptions: IRequestOptions
 ): Promise<IModel> => {
   return getRelatedItems({
-    id: fieldworkerId,
-    relationshipType: "Service2Service",
+    id: formId,
+    relationshipType: "Survey2Data",
     direction: "forward",
     ...requestOptions
   })
-    .then(({ relatedItems }) => {
-      const [featureService] = relatedItems.filter(
-        service => !isFieldworkerView(service)
-      );
+    .then(({ relatedItems: [stakeholderView] }) => {
       let model;
-
-      if (featureService) {
-        model = { item: featureService };
+      if (stakeholderView) {
+        model = { item: stakeholderView } as IModel;
       }
-
       return model;
     });
 };

@@ -12,8 +12,9 @@ import { UpdateGroup } from "../mocks/update-group";
 import { ViewGroup } from "../mocks/view-group";
 import * as restPortal from "@esri/arcgis-rest-portal";
 import { mockUserSession } from "@esri/hub-common/test/test-helpers/fake-user-session";
-import * as getSurveyModels from "../../src/sharing/get-survey-models";
+import * as getSurveyModels from "../../src/items/get-survey-models";
 import * as isPublished from "../../src/utils/is-published";
+import { IRequestOptions } from "@esri/hub-common/node_modules/@esri/arcgis-rest-request";
 
 describe("getGroupSharingDetails", function () {
   let getSurveyModelsResult: IGetSurveyModelsResponse;
@@ -21,6 +22,7 @@ describe("getGroupSharingDetails", function () {
   let featureServiceModel: IModel;
   let fieldworkerModel: IModel;
   let stakeholderModel: IModel;
+  let requestOptions: IRequestOptions;
   
   beforeEach(() => {
     formModel = { item: FormItemDraft };
@@ -33,6 +35,7 @@ describe("getGroupSharingDetails", function () {
       fieldworker: fieldworkerModel,
       stakeholder: stakeholderModel
     };
+    requestOptions = { authentication: mockUserSession };
   });
 
   it("should resolve with the form & feature service models when a draft and an update group", async function () {
@@ -40,14 +43,14 @@ describe("getGroupSharingDetails", function () {
     const getSurveyModelsSpy = spyOn(getSurveyModels, "getSurveyModels").and.returnValue(Promise.resolve(getSurveyModelsResult));
     const isPublishedSpy = spyOn(isPublished, "isPublished").and.returnValue(false);
     const result = await getGroupSharingDetails(
-      formModel,
+      formModel.item.id,
       "123",
-      mockUserSession
+      requestOptions
     );
     expect(getGroupSpy.calls.count()).toBe(1);
-    expect(getGroupSpy.calls.argsFor(0)).toEqual(["123", mockUserSession]);
+    expect(getGroupSpy.calls.argsFor(0)).toEqual(["123", requestOptions]);
     expect(getSurveyModelsSpy.calls.count()).toBe(1);
-    expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([formModel, mockUserSession]);
+    expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([formModel.item.id, requestOptions]);
     expect(isPublishedSpy.calls.count()).toBe(1);
     expect(isPublishedSpy.calls.argsFor(0)).toEqual([formModel.item]);
     expect(result).toEqual({
@@ -61,14 +64,14 @@ describe("getGroupSharingDetails", function () {
     const getSurveyModelsSpy = spyOn(getSurveyModels, "getSurveyModels").and.returnValue(Promise.resolve(getSurveyModelsResult));
     const isPublishedSpy = spyOn(isPublished, "isPublished").and.returnValue(false);
     const result = await getGroupSharingDetails(
-      formModel,
+      formModel.item.id,
       "123",
-      mockUserSession
+      requestOptions
     );
     expect(getGroupSpy.calls.count()).toBe(1);
-    expect(getGroupSpy.calls.argsFor(0)).toEqual(["123", mockUserSession]);
+    expect(getGroupSpy.calls.argsFor(0)).toEqual(["123", requestOptions]);
     expect(getSurveyModelsSpy.calls.count()).toBe(1);
-    expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([formModel, mockUserSession]);
+    expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([formModel.item.id, requestOptions]);
     expect(isPublishedSpy.calls.count()).toBe(1);
     expect(isPublishedSpy.calls.argsFor(0)).toEqual([formModel.item]);
     expect(result).toEqual({
@@ -84,14 +87,14 @@ describe("getGroupSharingDetails", function () {
     const getSurveyModelsSpy = spyOn(getSurveyModels, "getSurveyModels").and.returnValue(Promise.resolve(getSurveyModelsResult));
     const isPublishedSpy = spyOn(isPublished, "isPublished").and.returnValue(true);
     const result = await getGroupSharingDetails(
-      formModel,
+      formModel.item.id,
       "123",
-      mockUserSession
+      requestOptions
     );
     expect(getGroupSpy.calls.count()).toBe(1);
-    expect(getGroupSpy.calls.argsFor(0)).toEqual(["123", mockUserSession]);
+    expect(getGroupSpy.calls.argsFor(0)).toEqual(["123", requestOptions]);
     expect(getSurveyModelsSpy.calls.count()).toBe(1);
-    expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([formModel, mockUserSession]);
+    expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([formModel.item.id, requestOptions]);
     expect(isPublishedSpy.calls.count()).toBe(1);
     expect(isPublishedSpy.calls.argsFor(0)).toEqual([formModel.item]);
     expect(result).toEqual({
@@ -107,14 +110,14 @@ describe("getGroupSharingDetails", function () {
     const getSurveyModelsSpy = spyOn(getSurveyModels, "getSurveyModels").and.returnValue(Promise.resolve(getSurveyModelsResult));
     const isPublishedSpy = spyOn(isPublished, "isPublished").and.returnValue(true);
     const result = await getGroupSharingDetails(
-      formModel,
+      formModel.item.id,
       "123",
-      mockUserSession
+      requestOptions
     );
     expect(getGroupSpy.calls.count()).toBe(1);
-    expect(getGroupSpy.calls.argsFor(0)).toEqual(["123", mockUserSession]);
+    expect(getGroupSpy.calls.argsFor(0)).toEqual(["123", requestOptions]);
     expect(getSurveyModelsSpy.calls.count()).toBe(1);
-    expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([formModel, mockUserSession]);
+    expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([formModel.item.id, requestOptions]);
     expect(isPublishedSpy.calls.count()).toBe(1);
     expect(isPublishedSpy.calls.argsFor(0)).toEqual([formModel.item]);
     expect(result).toEqual({
@@ -131,14 +134,14 @@ describe("getGroupSharingDetails", function () {
     const getSurveyModelsSpy = spyOn(getSurveyModels, "getSurveyModels").and.returnValue(Promise.resolve(getSurveyModelsResult));
     const isPublishedSpy = spyOn(isPublished, "isPublished").and.returnValue(true);
     const result = await getGroupSharingDetails(
-      formModel,
+      formModel.item.id,
       "123",
-      mockUserSession
+      requestOptions
     );
     expect(getGroupSpy.calls.count()).toBe(1);
-    expect(getGroupSpy.calls.argsFor(0)).toEqual(["123", mockUserSession]);
+    expect(getGroupSpy.calls.argsFor(0)).toEqual(["123", requestOptions]);
     expect(getSurveyModelsSpy.calls.count()).toBe(1);
-    expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([formModel, mockUserSession]);
+    expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([formModel.item.id, requestOptions]);
     expect(isPublishedSpy.calls.count()).toBe(1);
     expect(isPublishedSpy.calls.argsFor(0)).toEqual([formModel.item]);
     expect(result).toEqual({
