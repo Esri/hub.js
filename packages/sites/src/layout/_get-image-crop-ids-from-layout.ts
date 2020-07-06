@@ -6,54 +6,55 @@ import { ISection, ISettings, IEntry, ICard, IRow } from "./types";
  * Traverse the layout graph, locating any cards that may have image resources
  * returning an array containing the resource information.
  * @param {Object} layout the layout to extract image cropIds from
+ * @private
  */
-export function _getImageCropIdsFromLayout (layout: Object) : string[] {
+export function _getImageCropIdsFromLayout(layout: object): string[] {
   const imgAssets = [] as IEntry[] | ISettings[];
 
-  const headerLogo = getProp(layout, 'header.component.settings.logo');
+  const headerLogo = getProp(layout, "header.component.settings.logo");
 
   if (headerLogo && headerLogo.cropId) {
     imgAssets.push(headerLogo);
   }
 
-  const sections = getProp(layout, 'sections') || [];
+  const sections = getProp(layout, "sections") || [];
 
   return sections
     .reduce(collectSectionAssets, imgAssets)
     .filter(hasCropId)
-    .map(extractCropId)
+    .map(extractCropId);
 }
 
-function collectSectionAssets (assets : IEntry[], section: ISection) {
+function collectSectionAssets(assets: IEntry[], section: ISection) {
   const sectionAssets = section.rows
     .reduce(collectCards, [])
     .filter(isImageOrJumbotronCard)
-    .map(extractSettingsProperty)
+    .map(extractSettingsProperty);
 
   // retain crop info if section has an image background
-  if (getProp(section, 'style.background.cropSrc')) {
+  if (getProp(section, "style.background.cropSrc")) {
     sectionAssets.unshift(section.style.background);
   }
 
   return assets.concat(sectionAssets);
 }
 
-function collectCards (acc: ICard[], row: IRow) {
-  return acc.concat(row.cards)
+function collectCards(acc: ICard[], row: IRow) {
+  return acc.concat(row.cards);
 }
 
-function isImageOrJumbotronCard (card: ICard) {
-  return ['image-card', 'jumbotron-card'].indexOf(card.component.name) > -1
+function isImageOrJumbotronCard(card: ICard) {
+  return ["image-card", "jumbotron-card"].indexOf(card.component.name) > -1;
 }
 
-function extractSettingsProperty (card: ICard) {
-  return card.component.settings
-} 
-
-function hasCropId (entry: IEntry) {
-  return !!entry.cropId
+function extractSettingsProperty(card: ICard) {
+  return card.component.settings;
 }
 
-function extractCropId (entry: IEntry) {
-  return entry.cropId
+function hasCropId(entry: IEntry) {
+  return !!entry.cropId;
+}
+
+function extractCropId(entry: IEntry) {
+  return entry.cropId;
 }

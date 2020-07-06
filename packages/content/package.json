@@ -1,9 +1,9 @@
 {
-  "name": "@esri/hub-solutions",
+  "name": "@esri/hub-content",
   "version": "4.5.1",
-  "description": "Module to interact with ArcGIS Hub Solutions in Node.js and modern browsers.",
+  "description": "Module to interact with ArcGIS Hub Content in Node.js and modern browsers.",
   "main": "dist/node/index.js",
-  "unpkg": "dist/umd/solutions.umd.js",
+  "unpkg": "dist/umd/content.umd.js",
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
   "sideEffects": false,
@@ -40,8 +40,7 @@
   "contributors": [
     {
       "name": "Dave Bouwman",
-      "email": "dbouwman@esri.com",
-      "url": "http://davebouwman.com/"
+      "email": "dbouwman@esri.com"
     }
   ],
   "bugs": {

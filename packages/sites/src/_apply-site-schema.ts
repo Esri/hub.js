@@ -3,6 +3,7 @@ import { IModel, getProp, cloneObject } from "@esri/hub-common";
 /**
  * Apply the first schema version to the item
  * @param {Object} model Site Model
+ * @private
  */
 export function _applySiteSchema(model: IModel) {
   // if this has already been thru this step... skip it...

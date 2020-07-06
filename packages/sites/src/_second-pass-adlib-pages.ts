@@ -5,6 +5,7 @@ import { IModel, getProp, interpolate, IModelTemplate } from "@esri/hub-common";
  * not have existed when the Page item itself was created
  * @param {object} siteModel Site Model
  * @param {object} pageModel Page Model
+ * @private
  */
 export function _secondPassAdlibPages(
   siteModel: IModel,

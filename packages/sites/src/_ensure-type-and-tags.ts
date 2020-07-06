@@ -7,6 +7,7 @@ import { getSiteItemType } from "./get-site-item-type";
  * @param {Object} model Site Model
  * @param {Object} currentUser Current User
  * @param {Boolean} isPortal Is this running in ArcGIS Enterprise
+ * @private
  */
 export function _ensureTypeAndTags(model: IModel, isPortal: boolean) {
   model = cloneObject(model);

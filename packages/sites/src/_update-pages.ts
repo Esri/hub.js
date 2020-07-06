@@ -13,6 +13,7 @@ import { _secondPassAdlibPages } from "./_second-pass-adlib-pages";
  * @param {object} siteModel Site Model
  * @param {Array} solutionModels Array of all models created by the Solution
  * @param {IHubRequestOptions} hubRequestOptions
+ * @private
  */
 export function _updatePages(
   siteModel: IModel,

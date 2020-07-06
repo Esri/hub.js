@@ -9,6 +9,7 @@ import { IGroup } from "@esri/arcgis-rest-types";
  * @param {String} title Title for the Team group
  * @param {Array} groupTemplates Array of group definitions to create the groups
  * @param {IHubRequestOptions} hubRequestOptions
+ * @private
  */
 export function _createTeamGroups(
   title: string,

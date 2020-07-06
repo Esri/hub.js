@@ -11,6 +11,7 @@ import { failSafe } from "../utils";
  * unprotect and remove the item. Underlying calls are failsafe
  * so a failure to unprotect or temove the item will not reject.
  * @param {IUserItemOptions} userItemOptions id and authentication
+ * @private
  */
 export function _unprotectAndRemoveItem(userItemOptions: IUserItemOptions) {
   const failSafeUnprotect = failSafe(unprotectItem, { success: true });

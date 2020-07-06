@@ -2,6 +2,7 @@
  * Maps over the values of an object (one level deep)
  * @param obj
  * @param fn
+ * @private
  */
 export function _mapValues(
   obj: Record<string, any>,

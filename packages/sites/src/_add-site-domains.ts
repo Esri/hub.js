@@ -6,6 +6,7 @@ import { addDomain } from "./domains";
  * This should only be called as part of the `createSite` flow
  * @param {Object} model site model
  * @param {IHubRequestOptions} hubRequestOptions
+ * @private
  */
 export function _addSiteDomains(
   model: IModel,

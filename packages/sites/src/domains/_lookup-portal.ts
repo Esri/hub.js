@@ -5,6 +5,7 @@ import { IHubRequestOptions, includes } from "@esri/hub-common";
  * Lookup a domain in Portal
  * @param {string} domain Domain to locate the site for
  * @param {IHubRequestOptions} hubRequestOptions
+ * @private
  */
 export function _lookupPortal(
   domain: string,

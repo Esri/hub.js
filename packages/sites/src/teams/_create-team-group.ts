@@ -11,6 +11,7 @@ import { IGroupTemplate } from "./types";
  * @param {Object} user Current User
  * @param {Object} group Group to create
  * @param {IHubRequestOptions} hubRequestOptions
+ * @private
  */
 export function _createTeamGroup(
   user: IUser,

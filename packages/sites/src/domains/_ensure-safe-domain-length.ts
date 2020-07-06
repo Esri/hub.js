@@ -9,6 +9,7 @@ import { cloneObject, generateRandomString } from "@esri/hub-common";
  * This was an actual reported bug.
  * @param {String} subdomain Proposed subdomain
  * @param {String} urlKey Org url key
+ * @private
  */
 export function _ensureSafeDomainLength(subdomain: string, urlKey?: string) {
   let result = cloneObject(subdomain);

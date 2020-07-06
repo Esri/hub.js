@@ -6,6 +6,7 @@ import { IModel, getProp, deepSet } from "@esri/hub-common";
  * @param {Object} localModel The local model with changes
  * @param {Object} upstreamModel The model just fetched from API
  * @param {Array} allowList Array of property paths
+ * @private
  */
 export function _mergeLocalChanges(
   localModel: IModel,

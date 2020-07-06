@@ -3,6 +3,7 @@ import { IModel, getProp, cloneObject, isGuid } from "@esri/hub-common";
 /**
  * Remove any non-guid entries from the data catalog groups array
  * @param {object} model Site Model
+ * @private
  */
 export function _purgeNonGuidsFromCatalog(model: IModel) {
   if (getProp(model, "item.properties.schemaVersion") >= 1.3) return model;
