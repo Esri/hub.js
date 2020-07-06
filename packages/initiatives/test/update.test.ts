@@ -10,7 +10,7 @@ import { IInitiativeModel } from "@esri/hub-common";
 
 describe("Update Initiative ::", () => {
   it("should just update the item", done => {
-    const m = {
+    const m = ({
       item: {
         id: "bc7",
         title: "Fake Initiative",
@@ -24,7 +24,7 @@ describe("Update Initiative ::", () => {
           content: "nested deep"
         }
       }
-    } as IInitiativeModel;
+    } as any) as IInitiativeModel;
 
     const updateSpy = spyOn(ModelSpy, "updateModel").and.callFake(
       (model: IModel) => {

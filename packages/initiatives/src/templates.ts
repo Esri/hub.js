@@ -1,6 +1,6 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-import { cloneObject, without } from "@esri/hub-common";
+import { cloneObject, without, getProp } from "@esri/hub-common";
 import { IInitiativeModel, IInitiativeItem } from "@esri/hub-common";
 
 import { CURRENT_SCHEMA_VERSION } from "./migrator";
@@ -83,6 +83,10 @@ export function createInitiativeModelFromTemplate(
       bannerImage: cloneObject(template.data.values.bannerImage)
     }
   };
+  // if recommended exists, copy it over
+  if (getProp(template, "data.recommendedTemplates")) {
+    model.data.recommendedTemplates = template.data.recommendedTemplates;
+  }
   Object.assign(model.data.values, options.groupIds); // add the groupIds, TODO stop storing groupIds in data.values
   // just in case the template does not have a banner image defined...
   if (!model.data.values.bannerImage) {

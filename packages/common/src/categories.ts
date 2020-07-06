@@ -6,7 +6,8 @@ const app: string[] = [
   "Insights Workbook",
   "Operation View",
   "Web Mapping Application",
-  "StoryMap"
+  "StoryMap",
+  "Web Experience"
 ];
 
 const dataset: string[] = [
@@ -113,7 +114,7 @@ const other: string[] = [
   "Workflow Manager Package"
 ];
 
-const site: string[] = ["Hub Site Application"];
+const site: string[] = ["Hub Site Application", "Site Application"];
 
 // eligible types are listed here: http://doc.arcgis.com/en/arcgis-online/reference/supported-items.htm
 const downloadableTypes: string[] = [

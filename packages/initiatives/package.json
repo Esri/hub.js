@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-initiatives",
-  "version": "3.6.3",
+  "version": "4.5.1",
   "description": "Module to interact with ArcGIS Hub Initiatives in Node.js and modern browsers.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/initiatives.umd.js",
@@ -10,21 +10,19 @@
   "types": "dist/esm/index.d.ts",
   "license": "Apache-2.0",
   "dependencies": {
-    "tslib": "^1.9.3"
+    "tslib": "^1.11.1"
   },
   "peerDependencies": {
     "@esri/arcgis-rest-auth": "^2.0.0",
     "@esri/arcgis-rest-portal": "^2.0.0",
     "@esri/arcgis-rest-request": "^2.0.0",
-    "@esri/hub-common": "^2.0.0",
-    "@esri/hub-sites": "^2.0.0"
+    "@esri/hub-common": "^4.0.0"
   },
   "devDependencies": {
     "@esri/arcgis-rest-auth": "^2.0.0",
     "@esri/arcgis-rest-portal": "^2.0.0",
     "@esri/arcgis-rest-request": "^2.0.0",
-    "@esri/hub-common": "^3.6.3",
-    "@esri/hub-sites": "^3.6.3",
+    "@esri/hub-common": "^4.5.1",
     "blob": "0.0.4"
   },
   "files": [
@@ -38,7 +36,9 @@
     "build:node": "tsc --module commonjs --outDir ./dist/node",
     "dev:esm": "tsc -w --module es2015 --outDir ./dist/esm --declaration",
     "dev:umd": "rollup -w -c ../../umd-base-profile.js",
-    "dev:node": "tsc -w --module commonjs --outDir ./dist/node"
+    "dev:node": "tsc -w --module commonjs --outDir ./dist/node",
+    "y:publish": "yalc publish",
+    "y:push": "yalc push"
   },
   "publishConfig": {
     "access": "public"

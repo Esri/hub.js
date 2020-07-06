@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-common",
-  "version": "3.6.3",
+  "version": "4.5.1",
   "description": "Common TypeScript types and utility functions for @esri/hub.js.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/common.umd.js",
@@ -14,7 +14,8 @@
     "dist/**"
   ],
   "dependencies": {
-    "tslib": "^1.9.3"
+    "adlib": "3.0.5",
+    "tslib": "^1.11.1"
   },
   "peerDependencies": {
     "@esri/arcgis-rest-auth": "^2.0.0",
@@ -36,7 +37,9 @@
     "build:node": "tsc --module commonjs --outDir ./dist/node",
     "dev:esm": "tsc -w --module es2015 --outDir ./dist/esm --declaration",
     "dev:umd": "rollup -w -c ../../umd-base-profile.js",
-    "dev:node": "tsc -w --module commonjs --outDir ./dist/node"
+    "dev:node": "tsc -w --module commonjs --outDir ./dist/node",
+    "y:publish": "yalc publish",
+    "y:push": "yalc push"
   },
   "publishConfig": {
     "access": "public"

@@ -11,6 +11,7 @@ const MarkdownIt = require("markdown-it");
 const md = new MarkdownIt();
 
 (function generateTypeDoc() {
+  
   return new Promise((resolve, reject) => {
     const typedoc = spawn(
       "typedoc",
@@ -135,6 +136,19 @@ const md = new MarkdownIt();
       );
     })
     .then(declarations => {
+      /**
+       * Next we remove all marked @private.
+       */
+      return declarations.filter(declaration => {
+        // verbose b/c we want to filter things where isPrivate is true
+        let result = true;
+        if (declaration.flags && declaration.flags.isPrivate) {
+          result = false;
+        }
+        return result;
+      });
+    })
+    .then(declarations => {
       const blacklist = ['encodeAgoQuery', 'downloadableAgg', 'downloadableFilter', 'collectionAgg', 
       'collectionFilter', 'createAggs', 'format', 'hasApiAgg', 'buildFilter', 'createFilters', 
       'encodeFilters', 'groupIds', 'handleFilter', 'hasApiFilter', 'computeItemsFacets',
@@ -244,9 +258,18 @@ const md = new MarkdownIt();
               declarations: declarations
                 .filter(d => d.package === package)
                 .sort((da, db) => {
+                  if (da.name.toLowerCase() < db.name.toLowerCase()) {
+                    return -1;
+                  }
+                  if (da.name.toLowerCase() > db.name.toLowerCase()) {
+                    return 1;
+                  }
+                  return 0;
+                })
+                .sort((da, db) => {
                   const types = [
-                    "Class",
                     "Function",
+                    "Class",
                     "Object literal",
                     "Variable",
                     "Enumeration",
@@ -265,6 +288,7 @@ const md = new MarkdownIt();
                     return 0;
                   }
                 }),
+                
               icon: "tsd-kind-module",
               src,
               pageUrl: prettyifyUrl(src)

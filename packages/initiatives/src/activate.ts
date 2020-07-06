@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IInitiativeModel, camelize } from "@esri/hub-common";
+import { IInitiativeModel, camelize, IModel } from "@esri/hub-common";
 import { getInitiative } from "./get";
 import {
   createInitiativeModelFromTemplate,
@@ -64,7 +64,7 @@ export function activateInitiative(
       // now save it...
       return addInitiative(state.initiativeModel, ro);
     })
-    .then((newModel: IInitiativeModel) => {
+    .then((newModel: IModel) => {
       state.initiativeModel = newModel;
       const assets = getProp(state, "template.assets");
       if (assets) {

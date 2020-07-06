@@ -9,19 +9,20 @@ import { IInitiativeModel } from "@esri/hub-common";
 import { MOCK_REQUEST_OPTIONS } from "./mocks/fake-session";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
-const newInitiative = {
+const newInitiative = ({
   item: {
     title: "Fake Initiative",
     owner: "vader",
     type: "Hub Initiative",
-    tags: ["test webmap"]
+    tags: ["test webmap"],
+    url: "https://some-site.com"
   },
   data: {
     some: {
       content: "nested deep"
     }
   }
-} as IInitiativeModel;
+} as any) as IInitiativeModel;
 
 describe("Add Initiative ::", () => {
   it("should add the url and update", done => {
@@ -46,14 +47,14 @@ describe("Add Initiative ::", () => {
           "from-spy",
           "should have the id from the spy result"
         );
-        expect(result.item.url).toContain(`admin/initiatives/from-spy`);
+        expect(result.item.url).toContain(`some-site.com`);
         expect(saveSpy.calls.count()).toEqual(
           1,
           "should make one call to model::saveModel"
         );
         expect(updateSpy.calls.count()).toEqual(
-          1,
-          "should make one call to model::updateModel"
+          0,
+          "should make not call to model::updateModel"
         );
         done();
       })

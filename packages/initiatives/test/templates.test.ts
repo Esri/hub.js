@@ -3,7 +3,7 @@
 import { cloneObject, IInitiativeModel } from "@esri/hub-common";
 import { createInitiativeModelFromTemplate } from "../src/templates";
 
-const defaultTemplate = {
+const defaultTemplate = ({
   item: {
     id: "3ef-the-template-id",
     title: "template title",
@@ -23,11 +23,12 @@ const defaultTemplate = {
   data: {
     assets: ["things", "that should be cloned forward"],
     steps: ["steps", "should be cloned"],
+    recommendedTemplates: ["bc3", "cc4"],
     values: {
       bannerImage: { should: "also be cloned" }
     }
   }
-} as IInitiativeModel;
+} as any) as IInitiativeModel;
 
 describe("Initiative Templates ::", () => {
   describe("createInitiativeModelFromTemplate", () => {
@@ -64,7 +65,7 @@ describe("Initiative Templates ::", () => {
       ); // TODO remove
       expect(chk.data.values.contentGroupId).toBe(opts.groupIds.contentGroupId); // TODO remove
       expect(chk.item.properties.initialParent).toBe(defaultTemplate.item.id);
-
+      expect(chk.data.recommendedTemplates.length).toEqual(2);
       expect(chk.item.tags).toContain("Hub Initiative");
       expect(chk.item.typeKeywords).toContain("hubInitiative");
       expect(chk.item.typeKeywords).not.toContain("hubInitiativeTemplate");

@@ -24,7 +24,10 @@ describe("getTypes", () => {
     expect(getTypes()).toBe(undefined);
   });
   it("can get a list of types for a category", () => {
-    expect(getTypes("site")).toEqual(["Hub Site Application"]);
+    expect(getTypes("site")).toEqual([
+      "Hub Site Application",
+      "Site Application"
+    ]);
   });
 });
 

@@ -6,12 +6,13 @@ import { applyInitialSchema } from "./migrations/apply-schema";
 import { upgradeToOneDotOne } from "./migrations/upgrade-one-dot-one";
 import { upgradeToTwoDotZero } from "./migrations/upgrade-two-dot-zero";
 import { upgradeToTwoDotOne } from "./migrations/upgrade-two-dot-one";
+import { upgradeToTwoDotTwo } from "./migrations/upgrade-two-dot-two";
 
 /**
  * Current Schema Version
  * @protected
  */
-export const CURRENT_SCHEMA_VERSION = 2.1;
+export const CURRENT_SCHEMA_VERSION = 2.2;
 
 /**
  * Handle Initiative Schema Migrations.
@@ -40,6 +41,7 @@ export function migrateSchema(
     model = upgradeToOneDotOne(model, portalUrl);
     model = upgradeToTwoDotZero(model, portalUrl);
     model = upgradeToTwoDotOne(model);
+    model = upgradeToTwoDotTwo(model);
     // etc
     return model;
   }

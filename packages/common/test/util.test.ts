@@ -1,6 +1,5 @@
 import {
   cloneObject,
-  getProp,
   arrayToObject,
   objectToArray,
   findBy,
@@ -15,6 +14,8 @@ import {
   addDays,
   chunkArray
 } from "../src/util";
+
+import { getProp } from "../src/objects";
 
 describe("util functions", () => {
   it("can clone a shallow object", () => {
@@ -177,20 +178,6 @@ describe("util functions", () => {
     expect(c.bc23).toBeDefined();
     expect(c.bc23.v).toBe("orange");
     expect(c.bc23.x).toBe(453);
-  });
-
-  it("can get a deep property", () => {
-    const obj = {
-      b: {
-        c: {
-          d: "peekaboo"
-        },
-        color: "orange"
-      },
-      size: "small"
-    } as any;
-    const c = getProp(obj, "b.c.d");
-    expect(c).toBe("peekaboo");
   });
 
   it("can convert empty object to empty array", () => {

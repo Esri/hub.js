@@ -3,7 +3,7 @@
 const fs = require("fs");
 
 module.exports = function(config) {
-  config.set({
+  const configObj = {
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: "",
 
@@ -103,5 +103,12 @@ module.exports = function(config) {
         flags: ['--no-sandbox']
       }
     },
-  });
+  };
+
+  if (process.env.COVERAGE) {
+    // send coverage report to terminal
+    configObj.karmaTypescriptConfig.reports.text = null;
+  }
+
+  config.set(configObj);
 };

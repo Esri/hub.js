@@ -30,4 +30,23 @@ describe("highlights test", () => {
     const actual = calcHighlights(input, query, property);
     expect(actual).toBe(expected);
   });
+
+  it("query not parseable as RegExp should return undefined", () => {
+    const input = "input value";
+    const query = "[";
+    const property = "name";
+
+    const actual = calcHighlights(input, query, property);
+    expect(actual).toBeUndefined();
+  });
+
+  it("wildcard should return undefined", () => {
+    // this is redundant but useful for the general case
+    const input = "input value";
+    const query = "*";
+    const property = "name";
+
+    const actual = calcHighlights(input, query, property);
+    expect(actual).toBeUndefined();
+  });
 });

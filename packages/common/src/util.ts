@@ -1,5 +1,6 @@
 /* Copyright (c) 2018-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
+import { getProp } from "./objects/get-prop";
 
 /**
  * ```js
@@ -11,7 +12,7 @@
  * ```
  * Make a deep clone, including arrays. Does not handle functions!
  */
-export function cloneObject(obj: { [index: string]: any }) {
+export function cloneObject<T>(obj: T): T {
   let clone: { [index: string]: any } = {};
   // first check array
   if (Array.isArray(obj)) {
@@ -27,18 +28,7 @@ export function cloneObject(obj: { [index: string]: any }) {
   } else {
     clone = obj;
   }
-  return clone;
-}
-
-/**
- * Get a property out of a deeply nested object
- * Does not handle anything but nested object graph
- */
-export function getProp(obj: { [index: string]: any }, path: string): any {
-  return path.split(".").reduce(function(prev, curr) {
-    /* istanbul ignore next no need to test undefined scenario */
-    return prev ? prev[curr] : undefined;
-  }, obj);
+  return clone as T;
 }
 
 /**

@@ -1,6 +1,10 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-import { IInitiativeModel, IInitiativeItem } from "@esri/hub-common";
+import {
+  IInitiativeModel,
+  IInitiativeModelTemplate,
+  IInitiativeItem
+} from "@esri/hub-common";
 
 export const initiativeVersionZero: IInitiativeModel = {
   item: {
@@ -83,7 +87,7 @@ export const initiativeVersionZero: IInitiativeModel = {
   }
 };
 
-export const initiativeVersionZeroTemplate: IInitiativeModel = {
+export const initiativeVersionZeroTemplate: IInitiativeModelTemplate = {
   item: {
     id: "5f49a84495844c3e9c4ab6836e6c16a9",
     owner: "dcadminqa",
@@ -105,7 +109,7 @@ export const initiativeVersionZeroTemplate: IInitiativeModel = {
     culture: "en-us",
     properties: {},
     access: "private"
-  } as IInitiativeItem,
+  },
   data: {
     configurationSettings: [
       {
@@ -173,7 +177,7 @@ export const initiativeVersionZeroTemplate: IInitiativeModel = {
   }
 };
 
-export const customInitiative: IInitiativeModel = {
+export const customInitiative: IInitiativeModelTemplate = {
   item: {
     id: "6f49a84495844c3e9c4ab6836e6c16a9",
     owner: "dcadminqa",
@@ -195,7 +199,7 @@ export const customInitiative: IInitiativeModel = {
     culture: "en-us",
     properties: {},
     access: "private"
-  } as IInitiativeItem,
+  },
   data: {
     configurationSettings: [
       {
