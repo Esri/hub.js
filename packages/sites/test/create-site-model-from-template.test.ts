@@ -1,6 +1,6 @@
 import { createSiteModelFromTemplate } from "../src";
 import * as commonModule from "@esri/hub-common";
-import * as teamsModule from "../src/teams";
+import * as teamsModule from "@esri/hub-teams";
 import * as domainModule from "../src/domains";
 import * as createSiteModule from "../src/_create-site-initiative";
 import * as updateTagsModule from "../src/_update-team-tags";
