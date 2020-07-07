@@ -21,6 +21,9 @@ const md = new MarkdownIt();
         "--exclude",
         "**/*test.ts",
         "--ignoreCompilerErrors",
+        // Updating to typedoc 0.17.x requires the following
+        // "--mode",
+        // "modules",
         "--module",
         "common",
         "--tsconfig",
