@@ -6,6 +6,10 @@ function getPaths(componentName: string) {
   switch (componentName) {
     case "webmap-card":
       return ["component.settings.webmap"];
+    case "survey-card":
+      return ["component.settings.surveyId"];
+    case "app-card":
+      return ["component.settings.itemId"];
     case "items/gallery-card":
       return ["component.settings.ids"];
     default:
