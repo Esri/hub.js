@@ -11,7 +11,7 @@ describe("convertCard", function() {
           }
         }
       }
-  
+
       expect(convertCard(card)).toEqual({
         card: {
           component: {
@@ -36,7 +36,7 @@ describe("convertCard", function() {
           }
         }
       }
-  
+
       expect(convertCard(card)).toEqual({
         card: {
           component: {
@@ -48,7 +48,7 @@ describe("convertCard", function() {
         },
         assets: []
       });
-    });  
+    });
   })
 
   describe("items/gallery-card", function () {
@@ -59,18 +59,18 @@ describe("convertCard", function() {
           settings: {}
         }
       }
-  
+
       expect(convertCard(card)).toEqual({
         card: {
           component: {
             name: 'items/gallery-card',
             settings: {}
-          }  
+          }
         },
         assets: []
       });
     });
-  
+
     it("settings with groups property AND version < 4 should replace settings.groups with string template array", function () {
       const card = {
         component: {
@@ -86,7 +86,7 @@ describe("convertCard", function() {
           }
         }
       }
-  
+
       expect(convertCard(card)).toEqual({
         card: {
           component: {
@@ -96,12 +96,8 @@ describe("convertCard", function() {
               groups: [
                 {
                   title: '{{solution.title}}',
-                  id: '{{teams.collaborationGroupId}}'
-                },
-                {
-                  title: '{{solution.title}}',
                   id: '{{teams.contentGroupId}}'
-                }        
+                }
               ]
             }
           }
@@ -109,7 +105,7 @@ describe("convertCard", function() {
         assets: []
       });
     });
-  
+
     it("settings with groups property AND version >= 4 should NOT replace settings.groups with anything", function () {
       const card = {
         component: {
@@ -125,7 +121,7 @@ describe("convertCard", function() {
           }
         }
       }
-  
+
       expect(convertCard(card)).toEqual({
         card: {
           component: {
@@ -144,7 +140,7 @@ describe("convertCard", function() {
         assets: []
       });
     });
-  
+
     it("settings without groups property should NOT add settings.groups", function () {
       const card = {
         component: {
@@ -154,7 +150,7 @@ describe("convertCard", function() {
           }
         }
       }
-  
+
       expect(convertCard(card)).toEqual({
         card: {
           component: {
@@ -166,9 +162,9 @@ describe("convertCard", function() {
         },
         assets: []
       });
-  
+
     });
-  
+
     it("settings with query.groups property AND version >= 4 should replace settings.query.groups with string template array", function () {
       const card = {
         component: {
@@ -186,7 +182,7 @@ describe("convertCard", function() {
           }
         }
       }
-  
+
       expect(convertCard(card)).toEqual({
         card: {
           component: {
@@ -195,7 +191,6 @@ describe("convertCard", function() {
               version: 4,
               query: {
                 groups: [
-                  '{{teams.collaborationGroupId}}',
                   '{{teams.contentGroupId}}'
                 ]
               }
@@ -205,7 +200,7 @@ describe("convertCard", function() {
         assets: []
       });
     });
-  
+
     it("settings with query.groups property AND version < 4 should replace settings.query.groups with object template array", function () {
       const card = {
         component: {
@@ -223,7 +218,7 @@ describe("convertCard", function() {
           }
         }
       }
-  
+
       expect(convertCard(card)).toEqual({
         card: {
           component: {
@@ -232,10 +227,6 @@ describe("convertCard", function() {
               version: 3,
               query: {
                 groups: [
-                  {
-                    title: '{{solution.title}}',
-                    id: '{{teams.collaborationGroupId}}'
-                  },
                   {
                     title: '{{solution.title}}',
                     id: '{{teams.contentGroupId}}'
@@ -248,7 +239,7 @@ describe("convertCard", function() {
         assets: []
       });
     });
-  
+
     it("settings without query.groups property should not add settings.query.groups property", function () {
       const card = {
         component: {
@@ -259,7 +250,7 @@ describe("convertCard", function() {
           }
         }
       }
-  
+
       expect(convertCard(card)).toEqual({
         card: {
           component: {
@@ -273,7 +264,7 @@ describe("convertCard", function() {
         assets: []
       });
     });
-  
+
     it("settings with query.orgId property should replace settings.query.orgId with a string template", function () {
       const card = {
         component: {
@@ -285,7 +276,7 @@ describe("convertCard", function() {
           }
         }
       }
-  
+
       expect(convertCard(card)).toEqual({
         card: {
           component: {
@@ -300,7 +291,7 @@ describe("convertCard", function() {
         assets: []
       });
     });
-  
+
     it("settings with orgId property should replace settings.orgId with a string template", function () {
       const card = {
         component: {
@@ -310,7 +301,7 @@ describe("convertCard", function() {
           }
         }
       }
-  
+
       expect(convertCard(card)).toEqual({
         card: {
           component: {
@@ -323,7 +314,7 @@ describe("convertCard", function() {
         assets: []
       });
     });
-  
+
     it("settings with siteId property should replace settings.siteId with a string template", function () {
       const card = {
         component: {
@@ -333,7 +324,7 @@ describe("convertCard", function() {
           }
         }
       }
-  
+
       expect(convertCard(card)).toEqual({
         card: {
           component: {
@@ -345,7 +336,7 @@ describe("convertCard", function() {
         },
         assets: []
       });
-    });  
+    });
   })
 
   describe("image-card", function () {
@@ -356,7 +347,7 @@ describe("convertCard", function() {
           settings: {}
         }
       }
-  
+
       expect(convertCard (card)).toEqual({
         card: {
           component: {
@@ -367,7 +358,7 @@ describe("convertCard", function() {
         assets: []
       });
     });
-  
+
     it("component.settings with only fileSrc should return its value in assets", function () {
       const card = {
         component: {
@@ -377,7 +368,7 @@ describe("convertCard", function() {
           }
         }
       }
-  
+
       expect(convertCard (card)).toEqual({
         card: {
           component: {
@@ -390,7 +381,7 @@ describe("convertCard", function() {
         assets: ['fileSrc value']
       });
     });
-  
+
     it("component.settings with only cropSrc should return its value in assets", function () {
       const card = {
         component: {
@@ -400,7 +391,7 @@ describe("convertCard", function() {
           }
         }
       }
-  
+
       expect(convertCard(card)).toEqual({
         card: {
           component: {
@@ -413,7 +404,7 @@ describe("convertCard", function() {
         assets: ['cropSrc value']
       });
     });
-  
+
     it("component.settings with both fileSrc and cropSrc should return both values in assets", function () {
       const card = {
         component: {
@@ -424,7 +415,7 @@ describe("convertCard", function() {
           }
         }
       }
-  
+
       expect(convertCard(card)).toEqual({
         card: {
           component: {
@@ -437,7 +428,7 @@ describe("convertCard", function() {
         },
         assets: ['fileSrc value', 'cropSrc value']
       });
-    });  
+    });
   })
 
   describe("jumbotron-card", function () {
@@ -448,7 +439,7 @@ describe("convertCard", function() {
           settings: {}
         }
       }
-  
+
       expect(convertCard (card)).toEqual({
         card: {
           component: {
@@ -459,7 +450,7 @@ describe("convertCard", function() {
         assets: []
       });
     });
-  
+
     it("component.settings with only fileSrc should return its value in assets", function () {
       const card = {
         component: {
@@ -469,7 +460,7 @@ describe("convertCard", function() {
           }
         }
       }
-  
+
       expect(convertCard (card)).toEqual({
         card: {
           component: {
@@ -482,7 +473,7 @@ describe("convertCard", function() {
         assets: ['fileSrc value']
       });
     });
-  
+
     it("component.settings with only cropSrc should return its value in assets", function () {
       const card = {
         component: {
@@ -492,7 +483,7 @@ describe("convertCard", function() {
           }
         }
       }
-  
+
       expect(convertCard (card)).toEqual({
         card: {
           component: {
@@ -505,7 +496,7 @@ describe("convertCard", function() {
         assets: ['cropSrc value']
       });
     });
-  
+
     it("component.settings with both fileSrc and cropSrc should return both values in assets", function () {
       const card = {
         component: {
@@ -516,7 +507,7 @@ describe("convertCard", function() {
           }
         }
       }
-  
+
       expect(convertCard (card)).toEqual({
         card: {
           component: {
