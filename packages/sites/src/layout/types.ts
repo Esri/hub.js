@@ -55,6 +55,8 @@ export interface ISettings extends IEntry {
   query ?: Record<string,any>,
   orgId ?: string,
   siteId ?: string,
+  surveyId ?: string,
+  itemId ?: string;
   webmap ?: string | string[],
   ids ?: string | string[]
 }

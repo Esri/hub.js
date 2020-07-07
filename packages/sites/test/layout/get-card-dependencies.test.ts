@@ -35,6 +35,36 @@ describe("extractAssets", function() {
     ])
   });
 
+  it("survey-card: should get survey id", function () {
+    const card = {
+      component: {
+        name: 'survey-card',
+        settings: {
+          surveyId: 'the-survey-id'
+        }
+      }
+    }
+
+    expect(getCardDependencies(card)).toEqual([
+      'the-survey-id'
+    ])
+  });
+
+  it("app-card: should get app id", function () {
+    const card = {
+      component: {
+        name: 'app-card',
+        settings: {
+          itemId: 'the-app-id'
+        }
+      }
+    }
+
+    expect(getCardDependencies(card)).toEqual([
+      'the-app-id'
+    ])
+  });
+
   it("items/gallery-card: scalar component.settings.ids value should return it as an array", function () {
     const card = {
       component: {
