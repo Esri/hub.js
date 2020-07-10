@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-types",
-  "version": "4.5.1",
+  "version": "5.0.0",
   "description": "Shared Typescript types for @esri/hub.js",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/types.umd.js",
