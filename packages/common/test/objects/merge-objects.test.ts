@@ -1,9 +1,8 @@
-import { _mergeLocalChanges } from "../src";
-import { IModel } from "@esri/hub-common";
+import { mergeObjects } from "../../src/objects/merge-objects";
 
-describe("_mergeLocalChanges", () => {
+describe("mergeObjects", () => {
   it("only applies the extant allow-list props to upstream", async () => {
-    const local = ({
+    const local = {
       item: {
         bleep: "blop"
       },
@@ -11,23 +10,23 @@ describe("_mergeLocalChanges", () => {
         foo: "bar",
         baz: "boop"
       }
-    } as unknown) as IModel;
+    };
 
     const upstream = {
       item: {},
       data: {}
-    } as IModel;
+    }
 
     const allowList = ["data.foo", "item.bleep", "item.noexist"];
 
-    expect(_mergeLocalChanges(local, upstream, allowList)).toEqual(({
+    expect(mergeObjects(local, upstream, allowList)).toEqual({
       item: {
         bleep: "blop"
       },
       data: {
         foo: "bar"
       }
-    } as unknown) as IModel);
+    });
   });
 
   it("returns local copy if no allow list", async () => {
@@ -39,15 +38,15 @@ describe("_mergeLocalChanges", () => {
         foo: "bar",
         baz: "boop"
       }
-    } as unknown) as IModel;
+    } as unknown)
 
     const upstream = {
       item: {},
       data: {}
-    } as IModel;
+    }
 
     const allowList: string[] = null;
 
-    expect(_mergeLocalChanges(local, upstream, allowList)).toEqual(local);
+    expect(mergeObjects(local, upstream, allowList)).toEqual(local);
   });
 });

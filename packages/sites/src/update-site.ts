@@ -4,11 +4,11 @@ import {
   deepSet,
   getProp,
   getModel,
+  mergeObjects,
   serializeModel
 } from "@esri/hub-common";
 import { SITE_UI_VERSION } from "./site-ui-version";
 import { _ensurePortalDomainKeyword } from "./_ensure-portal-domain-keyword";
-import { _mergeLocalChanges } from "./_merge-local-changes";
 import { updateItem, IUpdateItemResponse } from "@esri/arcgis-rest-portal";
 import { removeUnusedResources } from "./layout";
 
@@ -78,7 +78,7 @@ export function updateSite(
       // if the model from ago has a newer modified timestamp
       if (agoModel.item.modified > model.item.modified) {
         // merge the props in the allow list into the model from AGO
-        model = _mergeLocalChanges(model, agoModel, allowList);
+        model = mergeObjects(model, agoModel, allowList);
       }
       // send the update to ago
       return updateItem({
