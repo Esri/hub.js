@@ -21,6 +21,9 @@ const md = new MarkdownIt();
         "--exclude",
         "**/*test.ts",
         "--ignoreCompilerErrors",
+        // Updating to typedoc 0.17.x requires the following
+        // "--mode",
+        // "modules",
         "--module",
         "common",
         "--tsconfig",
@@ -149,16 +152,16 @@ const md = new MarkdownIt();
       });
     })
     .then(declarations => {
-      const blacklist = ['encodeAgoQuery', 'downloadableAgg', 'downloadableFilter', 'collectionAgg', 
+      const excludeList = ['encodeAgoQuery', 'downloadableAgg', 'downloadableFilter', 'collectionAgg', 
       'collectionFilter', 'createAggs', 'format', 'hasApiAgg', 'buildFilter', 'createFilters', 
       'encodeFilters', 'groupIds', 'handleFilter', 'hasApiFilter', 'computeItemsFacets',
       'formatItem', 'calcHighlights', 'getSortField', 'isFilterable', 'generateFilter',
       'agoFormatItemCollection', 'encodeParams', 'getPaths', 'getItems'];
       /**
-       * Next we remove any declarations we want to blacklist from the API ref
+       * Next we remove any declarations we want to excludeList from the API ref
        */
       return declarations.filter(
-        declaration => !blacklist.includes(declaration.name)
+        declaration => !excludeList.includes(declaration.name)
       );
     })
     .then(declarations => {

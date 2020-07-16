@@ -4,9 +4,9 @@
 import {
   IQueryFeaturesOptions,
   queryFeatures,
-  IQueryFeaturesResponse,
-  IStatisticDefinition
+  IQueryFeaturesResponse
 } from "@esri/arcgis-rest-feature-layer";
+import { IStatisticDefinition } from "@esri/arcgis-rest-types";
 
 import { getUser } from "@esri/arcgis-rest-portal";
 import { UserSession } from "@esri/arcgis-rest-auth";

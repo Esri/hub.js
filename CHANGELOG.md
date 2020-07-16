@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
+## [5.0.0] - July 10th 2020
+* Changed
+  * **hub-teams**: created teams package
+
+* Bug Fixes
+  * **hub-sites**: fetching app and survey card items as dependencies during templating process
+  * **hub-sites**: not including core team in templated gallery cards (https://github.com/Esri/solution.js/issues/392)
+
+
 ## [4.5.1] - July 2nd 2020
 
 * Documentation

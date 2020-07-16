@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-members",
-  "version": "4.5.1",
+  "version": "5.0.0",
   "description": "Module to interact with ArcGIS Hub members in Node.js and modern browsers.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/members.umd.js",
@@ -13,12 +13,12 @@
     "tslib": "^1.11.1"
   },
   "peerDependencies": {
-    "@esri/arcgis-rest-request": "^2.0.0",
+    "@esri/arcgis-rest-request": "^2.13.0",
     "@esri/hub-common": "^4.0.0"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-request": "^2.0.0",
-    "@esri/hub-common": "^4.5.1"
+    "@esri/arcgis-rest-request": "^2.13.0",
+    "@esri/hub-common": "^5.0.0"
   },
   "files": [
     "dist/**"

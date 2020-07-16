@@ -24,7 +24,7 @@ export const convertCard = function convertCard (card: ICard) : ITemplatizedCard
   }
 
   return {
-    card: clone, 
+    card: clone,
     assets: []
   }
 };
@@ -60,10 +60,6 @@ function convertItemGalleryCard (card: ICard): ITemplatizedCard {
     settings.groups = [
       {
         title: '{{solution.title}}',
-        id: '{{teams.collaborationGroupId}}'
-      },
-      {
-        title: '{{solution.title}}',
         id: '{{teams.contentGroupId}}'
       }
     ];
@@ -72,15 +68,10 @@ function convertItemGalleryCard (card: ICard): ITemplatizedCard {
   if (getProp(settings, 'query.groups')) {
     if (version >= 4) {
       settings.query.groups = [
-        '{{teams.collaborationGroupId}}',
         '{{teams.contentGroupId}}'
       ];
     } else {
       settings.query.groups = [
-        {
-          title: '{{solution.title}}',
-          id: '{{teams.collaborationGroupId}}'
-        },
         {
           title: '{{solution.title}}',
           id: '{{teams.contentGroupId}}'
