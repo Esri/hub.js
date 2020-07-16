@@ -1,6 +1,6 @@
 {
     "extends": "../../tsconfig.json",
     "include": [
-        "src/**/*.ts", "../teams/src/create-hub-team.ts"
+        "src/**/*.ts"
     ]
 }
