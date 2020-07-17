@@ -44,11 +44,6 @@ describe("setAccess", function () {
       },
       {
         status: "fullfilled",
-        revert: () => Promise.resolve("featureService"),
-        results: { notSharedWith: [], itemId: featureServiceModel.item.id }
-      },
-      {
-        status: "fullfilled",
         revert: () => Promise.resolve("fieldworker"),
         results: { notSharedWith: [], itemId: fieldworkerModel.item.id }
       }
@@ -75,10 +70,9 @@ describe("setAccess", function () {
     expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([FormItemPublished.id, requestOptions]);
     expect(isPublishedSpy.calls.count()).toBe(1);
     expect(isPublishedSpy.calls.argsFor(0)).toEqual([formModel.item]);
-    expect(setAccessRevertableSpy.calls.count()).toBe(3);
+    expect(setAccessRevertableSpy.calls.count()).toBe(2);
     expect(setAccessRevertableSpy.calls.argsFor(0)).toEqual([formModel, "public", requestOptions]);
-    expect(setAccessRevertableSpy.calls.argsFor(1)).toEqual([featureServiceModel, "public", requestOptions]);
-    expect(setAccessRevertableSpy.calls.argsFor(2)).toEqual([fieldworkerModel, "public", requestOptions]);
+    expect(setAccessRevertableSpy.calls.argsFor(1)).toEqual([fieldworkerModel, "public", requestOptions]);
     expect(processRevertableTasksSpy.calls.count()).toBe(1);
     expect(processRevertableTasksSpy.calls.argsFor(0)).toEqual([setAccessRevertablePromiseResults]);
     expect(results).toEqual(processRevertableTasksResults);
@@ -101,9 +95,8 @@ describe("setAccess", function () {
     expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([FormItemPublished.id, requestOptions]);
     expect(isPublishedSpy.calls.count()).toBe(1);
     expect(isPublishedSpy.calls.argsFor(0)).toEqual([formModel.item]);
-    expect(setAccessRevertableSpy.calls.count()).toBe(2);
+    expect(setAccessRevertableSpy.calls.count()).toBe(1);
     expect(setAccessRevertableSpy.calls.argsFor(0)).toEqual([formModel, "public", requestOptions]);
-    expect(setAccessRevertableSpy.calls.argsFor(1)).toEqual([featureServiceModel, "public", requestOptions]);
     expect(processRevertableTasksSpy.calls.count()).toBe(1);
     expect(processRevertableTasksSpy.calls.argsFor(0)).toEqual([setAccessRevertablePromiseResults]);
     expect(results).toEqual(processRevertableTasksResults);
@@ -131,9 +124,8 @@ describe("setAccess", function () {
     expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([FormItemPublished.id, requestOptions]);
     expect(isPublishedSpy.calls.count()).toBe(1);
     expect(isPublishedSpy.calls.argsFor(0)).toEqual([formModel.item]);
-    expect(setAccessRevertableSpy.calls.count()).toBe(2);
+    expect(setAccessRevertableSpy.calls.count()).toBe(1);
     expect(setAccessRevertableSpy.calls.argsFor(0)).toEqual([formModel, "public", requestOptions]);
-    expect(setAccessRevertableSpy.calls.argsFor(1)).toEqual([featureServiceModel, "public", requestOptions]);
     expect(processRevertableTasksSpy.calls.count()).toBe(1);
     expect(processRevertableTasksSpy.calls.argsFor(0)).toEqual([setAccessRevertablePromiseResults]);
     expect(results).toEqual(processRevertableTasksResults);
@@ -156,10 +148,9 @@ describe("setAccess", function () {
       expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([FormItemPublished.id, requestOptions]);
       expect(isPublishedSpy.calls.count()).toBe(1);
       expect(isPublishedSpy.calls.argsFor(0)).toEqual([formModel.item]);
-      expect(setAccessRevertableSpy.calls.count()).toBe(3);
+      expect(setAccessRevertableSpy.calls.count()).toBe(2);
       expect(setAccessRevertableSpy.calls.argsFor(0)).toEqual([formModel, "public", requestOptions]);
-      expect(setAccessRevertableSpy.calls.argsFor(1)).toEqual([featureServiceModel, "public", requestOptions]);
-      expect(setAccessRevertableSpy.calls.argsFor(2)).toEqual([fieldworkerModel, "public", requestOptions]);
+      expect(setAccessRevertableSpy.calls.argsFor(1)).toEqual([fieldworkerModel, "public", requestOptions]);
       expect(processRevertableTasksSpy.calls.count()).toBe(1);
       expect(processRevertableTasksSpy.calls.argsFor(0)).toEqual([setAccessRevertablePromiseResults]);
       expect(e).toEqual(new Error(`Failed to set survey ${formModel.item.id} items access to public`));
