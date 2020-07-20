@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
+## [6.0.1] - July 20th 2020
+
+* Changed
+  * **hub-surveys**: Changed `setAccess` to only change access to survey Form & Fieldworker. [138621](https://esriarlington.tpondemand.com/entity/138621-owneradmin-can-set-sharing-level-for)
+
 ## [6.0.0] - July 16th 2020
 
 ### @esri/hub-sites
@@ -36,7 +41,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Changed
   * **hub-surveys**: Changed `getStakeholderModel` to search by `Survey2Data` relationship for `formId`. [136998](https://esriarlington.tpondemand.com/entity/136998-chore-hoist-all-sharing-logic-into)
   * **hub-surveys**: Improved `getSurveyModels` performance by parallelizing `getStakeholderModel` and `getInputFeatureServiceModel` calls. [136998](https://esriarlington.tpondemand.com/entity/136998-chore-hoist-all-sharing-logic-into)
-  * **hub-surveys**: Changed `getSurveyModels`, `getGroupSharingDetails`, `setAccess`, `shareWithGroup` &amp;amp; `unshareWithGroup` signatures to accept `formId`: `string` vs `formModel`: `IForm`. [136998](https://esriarlington.tpondemand.com/entity/136998-chore-hoist-all-sharing-logic-into)
+  * **hub-surveys**: Changed `getSurveyModels`, `getGroupSharingDetails`, `setAccess`, `shareWithGroup` and `unshareWithGroup` signatures to accept `formId`: `string` vs `formModel`: `IForm`. [136998](https://esriarlington.tpondemand.com/entity/136998-chore-hoist-all-sharing-logic-into)
   * **hub-surveys**: Moved `get-*` methods from `sharing` dir into `items` dir. [136998](https://esriarlington.tpondemand.com/entity/136998-chore-hoist-all-sharing-logic-into)
 
 ## [4.4.0] - June 30th 2020
@@ -48,7 +53,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/hub-surveys
 * New Package
    * Created `hub-surveys` package [136998](https://esriarlington.tpondemand.com/entity/136998-chore-hoist-all-sharing-logic-into)
-   * Added `setAccess`, `shareWithGroup` &amp;amp;amp; `unshareWithGroup` methods [136998](https://esriarlington.tpondemand.com/entity/136998-chore-hoist-all-sharing-logic-into)
+   * Added `setAccess`, `shareWithGroup` and `unshareWithGroup` methods [136998](https://esriarlington.tpondemand.com/entity/136998-chore-hoist-all-sharing-logic-into)
 
 ## [4.3.0] - June 25th 2020
 
@@ -821,4 +826,5 @@ Initial Release
 [4.5.1]: https://github.com/Esri/hub.js/compare/v4.5.0...v4.5.1 "v4.5.1"
 [5.0.0]: https://github.com/Esri/hub.js/compare/v4.5.1...v5.0.0 "v5.0.0"
 [6.0.0]: https://github.com/Esri/hub.js/compare/v5.0.0...v6.0.0 "v6.0.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v6.0.0...HEAD "Unreleased Changes"
+[6.0.1]: https://github.com/Esri/hub.js/compare/v6.0.0...v6.0.1 "v6.0.1"
+[HEAD]: https://github.com/Esri/hub.js/compare/v6.0.1...HEAD "Unreleased Changes"
