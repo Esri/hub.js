@@ -20,8 +20,8 @@ export const setAccess = (
   requestOptions: IRequestOptions
 ): Promise<any[]> => {
   return getSurveyModels(formId, requestOptions)
-    .then(({ form, featureService, fieldworker }) => {
-      const modelsToChangeAccess = [form, featureService];
+    .then(({ form, fieldworker }) => {
+      const modelsToChangeAccess = [form];
       if (isPublished(form.item)) {
         modelsToChangeAccess.push(fieldworker);
       }
