@@ -32,7 +32,6 @@ export function hubPollDownloadMetadata (params:IHubDownloadMetadataPollParamete
         hubPollDownloadMetadata(params);
       }, pollingInterval);
     }).catch(error => {
-      console.log(error.message)
       return eventEmitter.emit(`${downloadId}PollingError`, { detail: { error } });
     });
 }
