@@ -4,24 +4,23 @@ import { getLayer } from "@esri/arcgis-rest-feature-layer";
 import { DownloadFormat } from "../download-format";
 import { urlBuilder, composeDownloadId } from "../utils"
 
+/**
+ * @private
+ */
 export interface IPortalDownloadMetadataRequestParams {
   datasetId: string;
   format: DownloadFormat;
   authentication: UserSession;
-  spatialRefId?: string; 
 }
 
 /**
- * Fetch metadata for an Enterprise download.
- * @param params - parameters that define the download
- * @returns A Promise that will resolve with download metadata.
+ * @private
  */
 export function portalRequestDownloadMetadata(
   params: IPortalDownloadMetadataRequestParams
 ): Promise<any> {
   const {
     datasetId,
-    spatialRefId,
     authentication,
     format
   } = params;
@@ -39,7 +38,7 @@ export function portalRequestDownloadMetadata(
   }).then((result: number) => {
     serviceLastEditDate = result;
     return searchItems({
-      q: `type:"${format}" AND typekeywords:"export:${datasetId},spatialRefId:${spatialRefId},exportFormat:${format}"`,
+      q: `type:"${format}" AND typekeywords:"export:${datasetId},exportFormat:${format}"`,
       num: 1,
       sortField: 'modified',
       sortOrder: 'DESC',

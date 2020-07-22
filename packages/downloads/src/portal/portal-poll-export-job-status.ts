@@ -24,16 +24,8 @@ class ExportCompletionError extends Error {
 }
 
 /**
- * Poll Portal API for status of a dataset export until the download is ready
- * or export/polling fails. Emits `<downloadId>ExportComplete` event with 
- * download link when polling loop receives completion status. Emits 
- * `<downloadId>ExportError` event with error when the export fails. 
- * Emits `<downloadId>PollingError` event when polling fails.
- * @param params - parameters that define the download
- * @param eventEmitter an Event Emitter
- * @param pollingInterval number of milliseconds for the polling interval
+ * @private
  */
-
 export interface IPortalPollExportJobStatusParams {
   downloadId: string,
   datasetId: string;
@@ -43,11 +35,13 @@ export interface IPortalPollExportJobStatusParams {
   exportCreated: number;
   eventEmitter: EventEmitter;
   pollingInterval: number;
-  spatialRefId?: string;
   geometry?: string;
   where?: string;
 }
 
+/**
+ * @private
+ */
 export function portalPollExportJobStatus (params:IPortalPollExportJobStatusParams): void {
   const {
     downloadId,
@@ -56,7 +50,6 @@ export function portalPollExportJobStatus (params:IPortalPollExportJobStatusPara
     jobId,
     authentication,
     exportCreated,
-    spatialRefId,
     eventEmitter,
     pollingInterval
   } = params;
@@ -70,7 +63,6 @@ export function portalPollExportJobStatus (params:IPortalPollExportJobStatusPara
           authentication,
           downloadId,
           exportCreated,
-          spatialRefId,
           eventEmitter
         })
       }
@@ -113,7 +105,7 @@ function completedHandler (params: any): Promise<any> {
   return updateItem({
     item: {
       id: downloadId,
-      typeKeywords: `export:${datasetId},modified:${exportCreated},exportFormat:${format},spatialRefId:${spatialRefId}`
+      typeKeywords: `export:${datasetId},modified:${exportCreated},exportFormat:${format}`
     },
     authentication
   }).then(() => {

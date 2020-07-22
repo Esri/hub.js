@@ -2,6 +2,9 @@ interface IQueryParams {
   [key: string]: string;
 }
 
+/**
+ * @private
+ */
 export function urlBuilder (params: { host: string, route: string, query?: IQueryParams }): string {
   const { host, route, query } = params;
   const baseUrl = host.endsWith('/') ? host : `${host}/`
@@ -20,6 +23,9 @@ function buildQueryString (params: IQueryParams = {}): string {
   return (new URLSearchParams(queryParams)).toString()
 }
 
+/**
+ * @private
+ */
 export interface IDownloadIdParams {
   datasetId: string;
   format: string;
@@ -28,6 +34,9 @@ export interface IDownloadIdParams {
   where?: string;
 }
 
+/**
+ * @private
+ */
 export function composeDownloadId (params: IDownloadIdParams): string {
   const {
     datasetId,

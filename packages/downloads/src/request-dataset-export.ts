@@ -6,21 +6,21 @@ import { DownloadFormat } from "./download-format";
 export interface IDatasetExportRequestParams {
   /* API target for downloads: 'hub' (default) or 'portal' */
   target?: string;
-  /* Hub API host name. Not required for Portal API downloads (stored in the authentication object) */
+  /* Hub API host name. Required for Hub API exports (stored in the authentication object) */
   host?: string;
   /* ID for the downloads source dataset; e.g. "abcdef0123456789abcdef0123456789_0" */
   datasetId: string;
   /* Download format/file-type. */
   format: DownloadFormat;
-  /* Spatial reference well-known ID (WKID) for the download data.  Must be "4326" (WGS) or the WKID for the spatial reference of the service */
+  /* Spatial reference well-known ID (WKID) for the download data. Required for Hub API exports only. Must be "4326" (WGS) or the WKID for the spatial reference of the service */
   spatialRefId?: string;
-  /* A geometry envelope for filtering the data */
+  /* A geometry envelope for filtering the data. Applicable to Hub API exports only. */
   geometry?: string;
-  /* A SQL-style WHERE filter for attribute values */
+  /* A SQL-style WHERE filter for attribute values.  Applicable to Hub API exports only. */
   where?: string;
-  /* Portal downloads only. */
+  /* Required Portal downloads only. */
   authentication?: UserSession;
-  /* A title/filename for the download. Portal downloads only. */
+  /* A title/filename for the download. Applicable to Portal API exports only. */
   title?: string;
 }
 

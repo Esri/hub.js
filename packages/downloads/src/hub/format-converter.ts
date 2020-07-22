@@ -8,6 +8,9 @@ const HUB_FORMAT_LOOKUP: any = {
   'KML': 'kml'
 }
 
+/**
+ * @private
+ */
 export function convertToHubFormat(format: DownloadFormat ): string {
   if (!HUB_FORMAT_LOOKUP[format]) {
     throw new Error (`Unsupported Hub download format: ${format}`)

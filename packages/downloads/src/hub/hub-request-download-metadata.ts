@@ -3,6 +3,9 @@ import { urlBuilder, composeDownloadId } from "../utils";
 import { DownloadFormat } from "../download-format"
 import { convertToHubFormat } from "./format-converter";
 
+/**
+ * @private
+ */
 export interface IHubDownloadMetadataRequestParams {
   host: string;
   datasetId: string;
@@ -13,30 +16,7 @@ export interface IHubDownloadMetadataRequestParams {
 }
 
 /**
- * ```js
- * import { hubRequestDownloadMetadata } from "@esri/hub-downloads";
- * const params = {
- *   host: 'https://hub.arcgis.com,
- *   datasetId: 'abcdef0123456789abcdef0123456789_0',
- *   format: 'CSV'
- * };
- * hubRequestDownloadMetadata(params)
- *   .then(response => {
- *     // {
- *     //   downloadId: 'abcdef0123456789abcdef0123456789_0::csv',
- *     //   contentLastModified: '2020-06-17T01:16:01.933Z',
- *     //   lastEditDate: '2020-06-18T01:17:31.492Z',
- *     //   lastModified: '2020-06-17T13:04:28.000Z',
- *     //   status: 'stale',
- *     //   downloadUrl: 'https://dev-hub-indexer.s3.amazonaws.com/files/dd4580c810204019a7b8eb3e0b329dd6/0/full/4326/dd4580c810204019a7b8eb3e0b329dd6_0_full_4326.csv',
- *     //   contentLength: 1391454,
- *     //   cacheTime: 13121
- *     // }
- *   });
- * ```
- * Fetch metadata for a Hub download.
- * @param params - parameters that define the download
- * @returns A Promise that will resolve with download metadata.
+ * @private
  */
 export function hubRequestDownloadMetadata(
   params: IHubDownloadMetadataRequestParams

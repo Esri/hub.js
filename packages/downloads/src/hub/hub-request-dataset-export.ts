@@ -3,34 +3,20 @@ import { composeDownloadId } from '../utils';
 import { DownloadFormat } from "../download-format";
 import { convertToHubFormat } from "./format-converter";
 
+/**
+ * @private
+ */
 export interface IHubDatasetExportRequestParams {
   host: string;
   datasetId: string;
   format: DownloadFormat;
-  spatialRefId?: string;
-  spatialRefWkt?: string;
+  spatialRefId: string;
   geometry?: string;
   where?: string;
 }
 
 /**
- * ```js
- * import { hubRequestDatasetExport } from "@esri/hub-downloads";
- * 
- * const params = {
- *   host: 'https://hub.arcgis.com,
- *   datasetId: 'abcdef0123456789abcdef0123456789_0',
- *   format: 'CSV'
- * };
- * hubRequestDatasetExport(params)
- *   .then(response => {
- *     // {
- *     //   downloadId: 'abcdef0123456789abcdef0123456789_0::csv',
- *     // }
- *   });
- * ```
- * Request an export of a dataset to a particular file format.
- * @param params - parameters defining a dataset export job
+ * @private
  */
 export function hubRequestDatasetExport (params: IHubDatasetExportRequestParams) {
   const {

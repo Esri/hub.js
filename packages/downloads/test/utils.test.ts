@@ -1,4 +1,4 @@
-import { urlBuilder } from "../src/utils";
+import { urlBuilder, composeDownloadId } from "../src/utils";
 
 describe("utils", () => {
   describe("urlBuilder", () => {
@@ -20,4 +20,27 @@ describe("utils", () => {
       done();
     });
   });
+
+  describe("composeDownloadId", () => {
+    it('should compose download ID with all parameters defined', done => {
+      const result = composeDownloadId({
+        datasetId: 'abc',
+        format: 'efg',
+        spatialRefId: '1234',
+        geometry: 'geom-envelope',
+        where: '1=1'
+      });
+      expect(result).toEqual('abc:efg:1234:geom-envelope:1=1');
+      done();
+    })
+
+    it('should compose download ID with optional parameters undefined', done => {
+      const result = composeDownloadId({
+        datasetId: 'abc',
+        format: 'efg',
+      });
+      expect(result).toEqual('abc:efg:undefined:undefined:undefined');
+      done();
+    })
+  })
 })

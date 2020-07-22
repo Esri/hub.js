@@ -85,7 +85,6 @@ describe("pollDownloadMetadata", () => {
         format: 'CSV',
         eventEmitter: mockEventEmitter,
         pollingInterval: 10,
-        spatialRefId: '4326',
         authentication,
         exportCreated: 1000,
         geometry: undefined,

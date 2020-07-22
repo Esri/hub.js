@@ -1,6 +1,9 @@
 import { exportItem } from "@esri/arcgis-rest-portal";
 import { DownloadFormat } from "../download-format";
 
+/**
+ * @private
+ */
 export interface IPortalDatasetExportRequestParams {
   datasetId: string;
   format: DownloadFormat;
@@ -9,8 +12,7 @@ export interface IPortalDatasetExportRequestParams {
 }
 
 /**
- * Request a portal export of a dataset to a particular file format.
- * @param params - parameters defining a dataset export job
+ * @private
  */
 export function portalRequestDatasetExport (params: IPortalDatasetExportRequestParams): Promise<any> {
   const {
