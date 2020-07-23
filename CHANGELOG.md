@@ -5,12 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+
 ## [Unreleased][HEAD]
+
+
+## [6.1.0] - July 23rd 2020
+
+* New Feature
+  * **hub-downloads**: adds method for
+    * getting metadata for a particular dataset download file from Hub API or Portal API (private/enterprise datasets)
+    * requesting the export of a dataset to a particular download file format from Hub API or Portal API (private/enterprise datasets)
+    * polling the status of download export from Hub API or Portal API (private/enterprise datasets)
+
+* Changed
+  * **hub-search** Pages moved from "Document" to "Site" Types
 
 ## [6.0.1] - July 20th 2020
 
 * Changed
-  * **hub-surveys**: Changed `setAccess` to only change access to survey Form & Fieldworker. [138621](https://esriarlington.tpondemand.com/entity/138621-owneradmin-can-set-sharing-level-for)
+  * **hub-surveys**: Changed `setAccess` to only change access to survey Form &amp; Fieldworker. [138621](https://esriarlington.tpondemand.com/entity/138621-owneradmin-can-set-sharing-level-for)
 
 ## [6.0.0] - July 16th 2020
 
@@ -827,4 +840,5 @@ Initial Release
 [5.0.0]: https://github.com/Esri/hub.js/compare/v4.5.1...v5.0.0 "v5.0.0"
 [6.0.0]: https://github.com/Esri/hub.js/compare/v5.0.0...v6.0.0 "v6.0.0"
 [6.0.1]: https://github.com/Esri/hub.js/compare/v6.0.0...v6.0.1 "v6.0.1"
-[HEAD]: https://github.com/Esri/hub.js/compare/v6.0.1...HEAD "Unreleased Changes"
+[6.1.0]: https://github.com/Esri/hub.js/compare/v6.0.1...v6.1.0 "v6.1.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v6.1.0...HEAD "Unreleased Changes"
