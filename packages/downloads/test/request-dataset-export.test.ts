@@ -67,7 +67,8 @@ describe("requestDownloadMetadata", () => {
         format: 'CSV',
         authentication,
         title: 'test-export',
-        target: 'portal'
+        target: 'portal',
+        spatialRefId: '2227'
       });
 
       expect(portalExport.portalRequestDatasetExport).toHaveBeenCalledTimes(1)
@@ -75,7 +76,8 @@ describe("requestDownloadMetadata", () => {
         datasetId: 'abcdef0123456789abcdef0123456789_0',
         format: 'CSV',
         title: 'test-export',
-        authentication
+        authentication,
+        spatialRefId: '2227'
       }])
       expect(result).toBeDefined();
       expect(result.downloadId).toEqual('abcdef');

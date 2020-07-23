@@ -35,6 +35,7 @@ export interface IPortalPollExportJobStatusParams {
   exportCreated: number;
   eventEmitter: EventEmitter;
   pollingInterval: number;
+  spatialRefId?: string;
   geometry?: string;
   where?: string;
 }
@@ -47,6 +48,7 @@ export function portalPollExportJobStatus (params:IPortalPollExportJobStatusPara
     downloadId,
     datasetId,
     format,
+    spatialRefId,
     jobId,
     authentication,
     exportCreated,
@@ -62,6 +64,7 @@ export function portalPollExportJobStatus (params:IPortalPollExportJobStatusPara
           format,
           authentication,
           downloadId,
+          spatialRefId,
           exportCreated,
           eventEmitter
         })
@@ -105,7 +108,7 @@ function completedHandler (params: any): Promise<any> {
   return updateItem({
     item: {
       id: downloadId,
-      typeKeywords: `export:${datasetId},modified:${exportCreated},exportFormat:${format}`
+      typeKeywords: `export:${datasetId},modified:${exportCreated},exportFormat:${format},spatialRefId:${spatialRefId}`
     },
     authentication
   }).then(() => {

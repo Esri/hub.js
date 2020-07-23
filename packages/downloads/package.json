@@ -10,15 +10,15 @@
   "types": "dist/esm/index.d.ts",
   "license": "Apache-2.0",
   "dependencies": {
-    "@esri/arcgis-rest-feature-layer": "^2.14.0",
-    "@esri/arcgis-rest-portal": "^2.14.0",
-    "@esri/arcgis-rest-request": "^2.14.0",
+    "@esri/arcgis-rest-feature-layer": "^2.14.1",
+    "@esri/arcgis-rest-portal": "^2.14.1",
+    "@esri/arcgis-rest-request": "^2.14.1",
     "eventemitter3": "^4.0.4",
     "tslib": "^1.11.1"
   },
   "peerDependencies": {},
   "devDependencies": {
-    "@esri/arcgis-rest-auth": "^2.14.0"
+    "@esri/arcgis-rest-auth": "^2.14.1"
   },
   "files": [
     "dist/**"

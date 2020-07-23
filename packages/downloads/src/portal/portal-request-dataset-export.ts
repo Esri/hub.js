@@ -9,6 +9,7 @@ export interface IPortalDatasetExportRequestParams {
   format: DownloadFormat;
   authentication: any;
   title?: string;
+  spatialRefId?: string;
 }
 
 /**
@@ -19,13 +20,14 @@ export function portalRequestDatasetExport (params: IPortalDatasetExportRequestP
     datasetId,
     title,
     format,
-    authentication
+    authentication,
+    spatialRefId
   } = params;
-  const [itemId, layerId = 0] = datasetId.split('_');
+  const [itemId] = datasetId.split('_');
   return exportItem({
     id: itemId,
     exportFormat: format,
-    exportParameters: { layers: [{ id: Number(layerId) }]},
+    exportParameters: composeExportParameters(params),
     title,
     authentication
   }).then((resp: any) => {
@@ -42,4 +44,19 @@ export function portalRequestDatasetExport (params: IPortalDatasetExportRequestP
       exportCreated: Date.now()
     };
   })
+}
+
+function composeExportParameters (params: any) {
+  const {
+    datasetId,
+    spatialRefId
+  } = params;
+  const layerId = datasetId.split('_')[1] || 0;
+  const layers = [{ id: Number(layerId) }];
+  return spatialRefId ? {
+    layers,
+    targetSR: {
+      wkid: Number(spatialRefId)
+    }
+  } : { layers };
 }

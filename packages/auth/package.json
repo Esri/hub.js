@@ -13,12 +13,12 @@
     "tslib": "^1.11.1"
   },
   "peerDependencies": {
-    "@esri/arcgis-rest-auth": "^2.14.0",
-    "@esri/arcgis-rest-request": "^2.14.0"
+    "@esri/arcgis-rest-auth": "^2.14.1",
+    "@esri/arcgis-rest-request": "^2.14.1"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-auth": "^2.14.0",
-    "@esri/arcgis-rest-request": "^2.14.0"
+    "@esri/arcgis-rest-auth": "^2.14.1",
+    "@esri/arcgis-rest-request": "^2.14.1"
   },
   "files": [
     "dist/**"

@@ -83,6 +83,7 @@ describe("pollDownloadMetadata", () => {
         datasetId: 'abcdef0123456789abcdef0123456789_0',
         jobId: 'job-id',
         format: 'CSV',
+        spatialRefId: '4326',
         eventEmitter: mockEventEmitter,
         pollingInterval: 10,
         authentication,

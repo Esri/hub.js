@@ -62,6 +62,7 @@ export function pollDownloadMetadata (params: IPollDownloadMetadataRequestParams
       authentication,
       exportCreated,
       format,
+      spatialRefId,
       eventEmitter,
       pollingInterval,
       geometry,

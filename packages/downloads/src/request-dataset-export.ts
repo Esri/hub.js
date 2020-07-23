@@ -55,7 +55,7 @@ export function requestDatasetExport (params: IDatasetExportRequestParams): Prom
   } = params;
 
   if (target === 'portal') {
-      return portalRequestDatasetExport({ datasetId, format, title, authentication });
+      return portalRequestDatasetExport({ datasetId, format, title, authentication, spatialRefId });
   }
 
   return hubRequestDatasetExport({

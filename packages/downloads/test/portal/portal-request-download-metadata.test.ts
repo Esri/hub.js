@@ -238,7 +238,7 @@ describe("portalRequestDownloadMetadata", () => {
           {
             authentication,
             num: 1,
-            q: 'type:"CSV" AND typekeywords:"export:abcdef0123456789abcdef0123456789,exportFormat:CSV"',
+            q: 'type:"CSV" AND typekeywords:"export:abcdef0123456789abcdef0123456789,exportFormat:CSV,spatialRefId:undefined"',
             sortField: 'modified',
             sortOrder: 'DESC'
           }
@@ -305,7 +305,7 @@ describe("portalRequestDownloadMetadata", () => {
           {
             authentication,
             num: 1,
-            q: 'type:"CSV" AND typekeywords:"export:abcdef0123456789abcdef0123456789_0,exportFormat:CSV"',
+            q: 'type:"CSV" AND typekeywords:"export:abcdef0123456789abcdef0123456789_0,exportFormat:CSV,spatialRefId:undefined"',
             sortField: 'modified',
             sortOrder: 'DESC'
           }
@@ -378,7 +378,7 @@ describe("portalRequestDownloadMetadata", () => {
           {
             authentication,
             num: 1,
-            q: 'type:"CSV" AND typekeywords:"export:abcdef0123456789abcdef0123456789,exportFormat:CSV"',
+            q: 'type:"CSV" AND typekeywords:"export:abcdef0123456789abcdef0123456789,exportFormat:CSV,spatialRefId:undefined"',
             sortField: 'modified',
             sortOrder: 'DESC'
           }
@@ -455,7 +455,7 @@ describe("portalRequestDownloadMetadata", () => {
           {
             authentication,
             num: 1,
-            q: 'type:"CSV" AND typekeywords:"export:abcdef0123456789abcdef0123456789_0,exportFormat:CSV"',
+            q: 'type:"CSV" AND typekeywords:"export:abcdef0123456789abcdef0123456789_0,exportFormat:CSV,spatialRefId:undefined"',
             sortField: 'modified',
             sortOrder: 'DESC'
           }
@@ -532,7 +532,7 @@ describe("portalRequestDownloadMetadata", () => {
           {
             authentication,
             num: 1,
-            q: 'type:"CSV" AND typekeywords:"export:abcdef0123456789abcdef0123456789_0,exportFormat:CSV"',
+            q: 'type:"CSV" AND typekeywords:"export:abcdef0123456789abcdef0123456789_0,exportFormat:CSV,spatialRefId:undefined"',
             sortField: 'modified',
             sortOrder: 'DESC'
           }
@@ -544,4 +544,60 @@ describe("portalRequestDownloadMetadata", () => {
       }
     });
   })
+
+  it('with spatialRefId', async done => {
+    try {
+      spyOn(portal, 'getItem').and.returnValue(
+        new Promise(resolve => {
+          resolve({
+            type: 'CSV',
+            modified: (new Date(1593450876000)).getTime()
+          });
+        })
+      );
+
+      spyOn(portal, 'searchItems').and.returnValue(
+        new Promise(resolve => {
+          resolve({ results: [{
+            id: 'abcdef',
+            created: (new Date(1583450876000)).getTime()
+          }] });
+        })
+      );
+
+      const result = await portalRequestDownloadMetadata({
+        datasetId: 'abcdef0123456789abcdef0123456789_0',
+        format: 'CSV',
+        spatialRefId: '4326',
+        authentication
+      });
+
+      expect(result).toEqual({
+        downloadId: 'abcdef',
+        lastEditDate: '2020-06-29T17:14:36.000Z',
+        status: 'stale',
+        contentLastModified: '2020-03-05T23:27:56.000Z',
+        lastModified: '2020-03-05T23:27:56.000Z',
+        downloadUrl: 'http://portal.com/sharing/rest/content/items/abcdef/data?token=123'
+      });
+
+      expect(portal.getItem).toHaveBeenCalledTimes(1);
+      expect((portal.getItem as any).calls.first().args).toEqual(['abcdef0123456789abcdef0123456789', {
+        authentication
+      }]);
+
+      expect(portal.searchItems).toHaveBeenCalledTimes(1);
+      expect((portal.searchItems as any).calls.first().args).toEqual([{
+        q: 'type:"CSV" AND typekeywords:"export:abcdef0123456789abcdef0123456789_0,exportFormat:CSV,spatialRefId:4326"',
+        num: 1,
+        sortField: 'modified',
+        sortOrder: 'DESC',
+        authentication
+      }]);
+    } catch (err) {
+      expect(err).toEqual(undefined);
+    } finally {
+      done();
+    }
+  });
 });

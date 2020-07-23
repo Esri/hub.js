@@ -93,7 +93,8 @@ export function requestDownloadMetadata(
     return portalRequestDownloadMetadata({
       datasetId,
       format,
-      authentication
+      authentication,
+      spatialRefId
     });
   }
 

@@ -159,7 +159,7 @@ describe('portalPollExportJobStatus', () => {
           {
             item: {
               id: 'download-id',
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,exportFormat:CSV`
+              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,exportFormat:CSV,spatialRefId:undefined`
             },
             authentication
           }
@@ -236,7 +236,7 @@ describe('portalPollExportJobStatus', () => {
           {
             item: {
               id: 'download-id',
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,exportFormat:CSV`
+              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,exportFormat:CSV,spatialRefId:undefined`
             },
             authentication
           }
@@ -327,7 +327,7 @@ describe('portalPollExportJobStatus', () => {
           {
             item: {
               id: 'download-id',
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,exportFormat:CSV`
+              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,exportFormat:CSV,spatialRefId:undefined`
             },
             authentication
           }
@@ -426,7 +426,7 @@ describe('portalPollExportJobStatus', () => {
           {
             item: {
               id: 'download-id',
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,exportFormat:CSV`
+              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,exportFormat:CSV,spatialRefId:undefined`
             },
             authentication
           }
@@ -538,7 +538,7 @@ describe('portalPollExportJobStatus', () => {
           {
             item: {
               id: 'download-id',
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,exportFormat:CSV`
+              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,exportFormat:CSV,spatialRefId:undefined`
             },
             authentication
           }
@@ -665,7 +665,7 @@ describe('portalPollExportJobStatus', () => {
           {
             item: {
               id: 'download-id',
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,exportFormat:CSV`
+              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,exportFormat:CSV,spatialRefId:undefined`
             },
             authentication
           }
@@ -720,7 +720,7 @@ describe('portalPollExportJobStatus', () => {
       }
     });
 
-    it('succeeds without exist exports folder', async (done) => {
+    it('succeeds with existing exports folder', async (done) => {
       try {
         spyOn(portal, 'getItemStatus').and.returnValues(
           new Promise((resolve, reject) => {
@@ -792,7 +792,7 @@ describe('portalPollExportJobStatus', () => {
           {
             item: {
               id: 'download-id',
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,exportFormat:CSV`
+              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,exportFormat:CSV,spatialRefId:undefined`
             },
             authentication
           }
@@ -909,7 +909,7 @@ describe('portalPollExportJobStatus', () => {
           {
             item: {
               id: 'download-id',
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,exportFormat:CSV`
+              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,exportFormat:CSV,spatialRefId:undefined`
             },
             authentication
           }
@@ -940,6 +940,135 @@ describe('portalPollExportJobStatus', () => {
           }
         ]);
         expect(portal.removeItem).toHaveBeenCalledTimes(0)
+        expect(mockEventEmitter.emit as any).toHaveBeenCalledTimes(1);
+        expect((mockEventEmitter.emit as any).calls.first().args[0]).toEqual('download-idExportComplete');
+        const {
+          detail: {
+            metadata: {
+              downloadId,
+              status,
+              downloadUrl,
+              lastModified
+            }
+          }
+        } = (mockEventEmitter.emit as any).calls.first().args[1]
+        expect(downloadId).toEqual('download-id');
+        expect(status).toEqual('ready');
+        expect(downloadUrl).toEqual('http://portal.com/sharing/rest/content/items/download-id/data?token=123');
+        expect(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z$/.test(lastModified)).toEqual(true);
+      } catch (err) {
+        expect(err).toEqual(undefined);
+      } finally {
+        done();
+      }
+    });
+
+    it('succeeds with spatialRefId', async (done) => {
+      try {
+        spyOn(portal, 'getItemStatus').and.returnValues(
+          new Promise((resolve, reject) => {
+            resolve({
+              status: 'progress'
+            });
+          }),
+          new Promise((resolve, reject) => {
+            resolve({
+              status: 'completed'
+            });
+          }),
+        );
+  
+        spyOn(portal, 'updateItem').and.returnValue(
+          new Promise((resolve, reject) => {
+            resolve();
+          })
+        );
+  
+        spyOn(portal, 'setItemAccess').and.returnValue(
+          new Promise((resolve, reject) => {
+            resolve();
+          })
+        );
+
+        spyOn(portal, 'getUserContent').and.returnValue(
+          new Promise((resolve, reject) => {
+            resolve({ folders: [] });
+          })
+        );
+
+        spyOn(portal, 'createFolder').and.returnValue(
+          new Promise((resolve, reject) => {
+            resolve({ folder: { id: 'export-folder-id' } });
+          })
+        );
+
+        spyOn(portal, 'moveItem').and.returnValue(
+          new Promise((resolve, reject) => {
+            resolve();
+          })
+        );
+
+        spyOn(portal, 'removeItem').and.returnValue(
+          new Promise((resolve, reject) => {
+            resolve();
+          })
+        );
+        const mockEventEmitter = new EventEmitter();
+        spyOn(mockEventEmitter, 'emit');
+        portalPollExportJobStatus({
+          downloadId: 'download-id',
+          jobId: 'test-id',
+          datasetId: 'abcdef0123456789abcdef0123456789_0',
+          format: 'CSV',
+          spatialRefId: '4326',
+          authentication,
+          exportCreated: 1000,
+          pollingInterval: 10,
+          eventEmitter: mockEventEmitter
+        });
+  
+        await delay(100);
+        expect(portal.getItemStatus).toHaveBeenCalledTimes(2);
+        expect((portal.getItemStatus as any).calls.first().args).toEqual([
+          { id: 'download-id', jobId: 'test-id', jobType: 'export', authentication }
+        ]);
+        expect(portal.updateItem).toHaveBeenCalledTimes(1);
+        expect((portal.updateItem as any).calls.first().args).toEqual([
+          {
+            item: {
+              id: 'download-id',
+              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,exportFormat:CSV,spatialRefId:4326`
+            },
+            authentication
+          }
+        ]);
+        expect(portal.setItemAccess).toHaveBeenCalledTimes(1);
+        expect((portal.setItemAccess as any).calls.first().args).toEqual([
+          {
+            id: 'download-id',
+            authentication,
+            access: 'private'
+          }
+        ]);
+        expect(portal.getUserContent).toHaveBeenCalledTimes(1);
+        expect((portal.getUserContent as any).calls.first().args).toEqual([{ authentication }]);
+        expect(portal.createFolder).toHaveBeenCalledTimes(1);
+        expect((portal.createFolder as any).calls.first().args).toEqual([
+          {
+            title: 'item-exports',
+            authentication
+          }
+        ]);
+        expect(portal.moveItem).toHaveBeenCalledTimes(1);
+        expect((portal.moveItem as any).calls.first().args).toEqual([
+          {
+            itemId: 'download-id',
+            folderId: 'export-folder-id',
+            authentication
+          }
+        ]);
+        expect(portal.removeItem).toHaveBeenCalledTimes(0)
+
         expect(mockEventEmitter.emit as any).toHaveBeenCalledTimes(1);
         expect((mockEventEmitter.emit as any).calls.first().args[0]).toEqual('download-idExportComplete');
         const {

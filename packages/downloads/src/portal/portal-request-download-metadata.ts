@@ -11,6 +11,7 @@ export interface IPortalDownloadMetadataRequestParams {
   datasetId: string;
   format: DownloadFormat;
   authentication: UserSession;
+  spatialRefId?: string;
 }
 
 /**
@@ -22,7 +23,8 @@ export function portalRequestDownloadMetadata(
   const {
     datasetId,
     authentication,
-    format
+    format,
+    spatialRefId
   } = params;
 
   const [itemId] = datasetId.split('_');
@@ -38,7 +40,7 @@ export function portalRequestDownloadMetadata(
   }).then((result: number) => {
     serviceLastEditDate = result;
     return searchItems({
-      q: `type:"${format}" AND typekeywords:"export:${datasetId},exportFormat:${format}"`,
+      q: `type:"${format}" AND typekeywords:"export:${datasetId},exportFormat:${format},spatialRefId:${spatialRefId}"`,
       num: 1,
       sortField: 'modified',
       sortOrder: 'DESC',
@@ -49,6 +51,7 @@ export function portalRequestDownloadMetadata(
       cachedDownload: searchResponse.results[0],
       datasetId,
       format,
+      spatialRefId,
       serviceLastEditDate,
       itemModifiedDate,
       itemType,
