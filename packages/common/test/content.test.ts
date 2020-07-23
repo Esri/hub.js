@@ -26,7 +26,9 @@ describe("getTypes", () => {
   it("can get a list of types for a category", () => {
     expect(getTypes("site")).toEqual([
       "Hub Site Application",
-      "Site Application"
+      "Site Application",
+      "Hub Page", 
+      "Site Page"
     ]);
   });
 });
