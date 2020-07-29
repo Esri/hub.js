@@ -15,7 +15,7 @@ import * as getSourceFeatureServiceModelFromFieldworker from "../../src/items/ge
 import * as getStakeholderModel from "../../src/items/get-stakeholder-model";
 import { IRequestOptions } from "@esri/hub-common/node_modules/@esri/arcgis-rest-request";
 
-fdescribe("getSurveyModels", function () {
+describe("getSurveyModels", function () {
   let formModel: IModel;
   let featureServiceModel: IModel;
   let fieldworkerModel: IModel;
