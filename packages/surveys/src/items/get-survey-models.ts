@@ -41,7 +41,7 @@ export const getSurveyModels = (
         .then(([featureServiceOrFieldworkerModelResult, stakeholderResult]) => {
           stakeholder = stakeholderResult;
 
-          if (isFieldworkerView(featureServiceOrFieldworkerModelResult.item)) {
+          if (featureServiceOrFieldworkerModelResult && isFieldworkerView(featureServiceOrFieldworkerModelResult.item)) {
             fieldworker = featureServiceOrFieldworkerModelResult;
             // if the primary input is the fieldworker, fetch
             // the source feature service
