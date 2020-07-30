@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-surveys",
-  "version": "6.1.1",
+  "version": "6.1.0",
   "description": "Module to interact with ArcGIS Hub Surveys in Node.js and modern browsers.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/surveys.umd.js",
