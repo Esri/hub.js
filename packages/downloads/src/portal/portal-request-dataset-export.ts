@@ -23,6 +23,7 @@ export function portalRequestDatasetExport (params: IPortalDatasetExportRequestP
     authentication,
     spatialRefId
   } = params;
+  // TODO: parseItemId()
   const [itemId] = datasetId.split('_');
   return exportItem({
     id: itemId,
