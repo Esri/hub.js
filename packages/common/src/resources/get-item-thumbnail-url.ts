@@ -11,14 +11,17 @@ import { getPortalApiUrl } from "../urls";
  */
 export function getItemThumbnailUrl(
   item: IItem,
-  hubRequestOptions: IHubRequestOptions
+  portalApiUrlOrHubRequestOptions: string | IHubRequestOptions
 ): string | null {
-  if (item.thumbnail) {
-    const portalRestUrl = getPortalApiUrl(hubRequestOptions.portalSelf);
-    const itemUrl = `${portalRestUrl}/content/items/${item.id}`;
-    const url = `${itemUrl}/info/${item.thumbnail}`;
-    return url;
-  } else {
+  if (!item || !item.thumbnail) {
     return null;
   }
+  const portalRestUrl =
+    typeof portalApiUrlOrHubRequestOptions === "string"
+      ? portalApiUrlOrHubRequestOptions
+      : getPortalApiUrl(portalApiUrlOrHubRequestOptions.portalSelf);
+  const itemRestUrl = `${portalRestUrl}/content/items/${item.id}`;
+  // TODO: handle image types by returning the image itself?
+  const url = `${itemRestUrl}/info/${item.thumbnail}`;
+  return url;
 }
