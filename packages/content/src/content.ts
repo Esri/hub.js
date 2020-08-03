@@ -2,27 +2,33 @@
  * Apache-2.0 */
 
 import { ISpatialReference, IExtent } from "@esri/arcgis-rest-types";
-import { IItem, getItem } from "@esri/arcgis-rest-portal";
+import { IItem, getItem, IPortal } from "@esri/arcgis-rest-portal";
 import { request } from "@esri/arcgis-rest-request";
 import {
-  HubType, IHubContent, IHubGeography, IHubRequestOptions, IBBox,
-  getType, getCategory, getItemThumbnailUrl, getPortalApiUrl
+  HubType,
+  IHubContent,
+  IHubGeography,
+  IHubRequestOptions,
+  IBBox,
+  getType,
+  getCategory,
+  getItemThumbnailUrl
 } from "@esri/hub-common";
 
-function buildUrl (base: string, path: string): string {
-  const baseUrl = base.endsWith('/') ? base : `${base}/`;
+function buildUrl(base: string, path: string): string {
+  const baseUrl = base.endsWith("/") ? base : `${base}/`;
   const url = new URL(path, baseUrl);
   return url.toString();
 }
 
 // TODO: make this real; use request() under the hood?
-export function hubRequest (url: string, requestOptions?: IHubRequestOptions) {
+export function hubRequest(url: string, requestOptions?: IHubRequestOptions) {
   return fetch(url, {
-    method: 'POST', // TODO: get from requestOptions?
+    method: "POST", // TODO: get from requestOptions?
     headers: {
       // TODO: base on request requestOptions?
-      'Content-Type': 'application/json'
-    },
+      "Content-Type": "application/json"
+    }
     // TODO: base on requestOptions.params?
     // body: JSON.stringify(body)
   }).then(resp => {
@@ -34,27 +40,34 @@ export function hubRequest (url: string, requestOptions?: IHubRequestOptions) {
   });
 }
 
-function parseDatasetId(datasetId: string): { itemId: string, layerId: string } {
-  const [itemId, layerId] = datasetId ? datasetId.split('_') : [];
-  return { itemId, layerId }
+function parseDatasetId(
+  datasetId: string
+): { itemId: string; layerId: string } {
+  const [itemId, layerId] = datasetId ? datasetId.split("_") : [];
+  return { itemId, layerId };
 }
 
-function getContentFromHub(id: string, requestOptions?: IHubRequestOptions): Promise<IHubContent> {
-  const url = buildUrl(requestOptions && requestOptions.hubApiUrl, `/datasets/${id}`);
-  return hubRequest(url, requestOptions)
-  .then(resp => {
+function getContentFromHub(
+  id: string,
+  requestOptions?: IHubRequestOptions
+): Promise<IHubContent> {
+  const url = buildUrl(
+    requestOptions && requestOptions.hubApiUrl,
+    `/datasets/${id}`
+  );
+  return hubRequest(url, requestOptions).then(resp => {
     const dataset = resp && resp.data && resp.data[0];
-    const portalApiUrl = getPortalApiUrl(requestOptions && requestOptions.portalSelf);
-    return datasetToContent(dataset, portalApiUrl);
+    return datasetToContent(dataset, requestOptions.portalSelf);
   });
 }
 
-function getContentFromAgo(id: string, requestOptions?: IHubRequestOptions): Promise<IHubContent> {
+function getContentFromAgo(
+  id: string,
+  requestOptions?: IHubRequestOptions
+): Promise<IHubContent> {
   const { itemId } = parseDatasetId(id);
-  return getItem(itemId, requestOptions)
-  .then(item => {
-    const portalApiUrl = getPortalApiUrl(requestOptions && requestOptions.portalSelf);
-    const content = itemToContent(item, portalApiUrl);
+  return getItem(itemId, requestOptions).then(item => {
+    const content = itemToContent(item, requestOptions.portalSelf);
     // TODO: fetch remaining content properties (i.e. recordCount, etc) based on hubType. Examples:
     // - if hubType is 'dataset', then fetch recordCount
     // - if hubType is 'document', do nothing?
@@ -64,18 +77,23 @@ function getContentFromAgo(id: string, requestOptions?: IHubRequestOptions): Pro
 
 /**
  * get the HubType for a given item or item type
- * 
+ *
  * @param itemOrType an item or item.type
  */
 function getItemHubType(itemOrType: IItem | string): HubType {
-  const itemType = typeof itemOrType === 'string'
-    ? itemOrType
-    : getType(itemOrType);
+  const itemType =
+    typeof itemOrType === "string" ? itemOrType : getType(itemOrType);
   // TODO: not all categories are Hub types, may need to validate
   return getCategory(itemType) as HubType;
 }
 
-function createExtent (xmin: number, ymin: number, xmax: number, ymax: number, wkid?: number): IExtent {
+function createExtent(
+  xmin: number,
+  ymin: number,
+  xmax: number,
+  ymax: number,
+  wkid?: number
+): IExtent {
   return {
     xmin,
     ymin,
@@ -88,22 +106,27 @@ function createExtent (xmin: number, ymin: number, xmax: number, ymax: number, w
   };
 }
 
-function itemExtentToBoundary (extent: IBBox): IHubGeography {
+function itemExtentToBoundary(extent: IBBox): IHubGeography {
   if (!extent) {
     return;
   }
   return {
     // size?
     // center?
-    geometry: createExtent(extent[0][0], extent[0][1], extent[1][0], extent[1][1])
+    geometry: createExtent(
+      extent[0][0],
+      extent[0][1],
+      extent[1][0],
+      extent[1][1]
+    )
   };
 }
 
-function itemToContent (item: IItem, portalApiUrl: string): IHubContent {
+function itemToContent(item: IItem, portal?: IPortal): IHubContent {
   const createdDate = new Date(item.created);
-  const createdDateSource = 'item.created';
+  const createdDateSource = "item.created";
   const properties = item.properties;
-  return Object.assign({}, item, {
+  const content = Object.assign({}, item, {
     name: item.title || item.name, // should the latter only be for file types?
     hubType: getItemHubType(item),
     // can we strip HTML from description, and do we need to trim it to a X chars?
@@ -112,9 +135,9 @@ function itemToContent (item: IItem, portalApiUrl: string): IHubContent {
       name: item.owner,
       username: item.owner
     },
-    permissions: { 
+    permissions: {
       visibility: item.access,
-      permission: item.itemControl || 'view'
+      permission: item.itemControl || "view"
     },
     // Hub configuration metadata from item properties
     actionLinks: properties && properties.links,
@@ -122,20 +145,24 @@ function itemToContent (item: IItem, portalApiUrl: string): IHubContent {
     metrics: properties && properties.metrics,
     // default boundary from item.extent
     boundary: itemExtentToBoundary(item.extent),
-    license: { name: 'Custom License', description: item.accessInformation },
-    thumbnailUrl: getItemThumbnailUrl(item, portalApiUrl),
+    license: { name: "Custom License", description: item.accessInformation },
     // dates and sources
     createdDate,
     createdDateSource,
     publishedDate: createdDate,
     publishedDateSource: createdDateSource,
     updatedDate: new Date(item.modified),
-    updatedDateSource: 'item.modified'
+    updatedDateSource: "item.modified"
   });
+  if (portal) {
+    // add properties that depend on portal
+    content.thumbnailUrl = getItemThumbnailUrl(item, portal);
+  }
+  return content;
 }
 
 /**
- * Convert a Hub v3 Dataset to Hub Content 
+ * Convert a Hub v3 Dataset to Hub Content
  * TODO: Change to use mdJSON translation for configurable metadata
  *
  * @param {IModel} item Hub Item
@@ -145,7 +172,7 @@ function itemToContent (item: IItem, portalApiUrl: string): IHubContent {
 function datasetToContent(
   // TODO: IDataset
   dataset: any,
-  portalApiUrl: string
+  portal?: IPortal
 ): IHubContent {
   if (!dataset) {
     return;
@@ -153,7 +180,7 @@ function datasetToContent(
 
   // extract item from dataset and create content
   const item = datasetToItem(dataset);
-  const content = itemToContent(item, portalApiUrl);
+  const content = itemToContent(item, portal);
 
   // overwrite or add enrichments from Hub API
   const attributes = dataset.attributes;
@@ -173,14 +200,14 @@ function datasetToContent(
   // type-specific enrichments
   // TODO: should we return a different subtype of IHubContent for this?
   // TODO: should this be based on existence of attributes instead of hubType?
-  if (content.hubType === 'dataset') {
+  if (content.hubType === "dataset") {
     content.recordCount = recordCount;
-  }  
+  }
   // TODO: any remaining enrichments
   return content;
 }
 
-function datasetToItem (dataset:any):IItem {
+function datasetToItem(dataset: any): IItem {
   const { id, attributes = {} } = dataset;
 
   // parse item id
@@ -212,7 +239,7 @@ function datasetToItem (dataset:any):IItem {
   } = attributes;
 
   // get spatialReference from server properties
-  const spatialReference:ISpatialReference = server && server.spatialReference;
+  const spatialReference: ISpatialReference = server && server.spatialReference;
 
   // build and return an item from properties
   return {
@@ -221,7 +248,7 @@ function datasetToItem (dataset:any):IItem {
     orgId,
     created,
     modified,
-    // what is guid? it was returned in 
+    // what is guid? it was returned in
     // https://www.arcgis.com/sharing/rest/content/items/7a153563b0c74f7eb2b3eae8a66f2fbb?f=json
     // but I don't see it here:
     // https://developers.arcgis.com/rest/users-groups-and-items/item.htm
@@ -267,9 +294,9 @@ function datasetToItem (dataset:any):IItem {
     // numRatings: 0,
     // avgRating: 0,
     // we need this one though or TS will complain
-    numViews: 0,
+    numViews: 0
     // scoreCompleteness: 0,
-    // groupDesignations: null  
+    // groupDesignations: null
   };
 }
 
@@ -278,7 +305,10 @@ function datasetToItem (dataset:any):IItem {
  * @param id - content (item) id
  * @param requestOptions - request options that may include authentication
  */
-export function getContent(id: string, requestOptions?: IHubRequestOptions): Promise<IHubContent> {
+export function getContent(
+  id: string,
+  requestOptions?: IHubRequestOptions
+): Promise<IHubContent> {
   if (requestOptions && requestOptions.isPortal) {
     return getContentFromAgo(id, requestOptions);
   } else {
