@@ -15,6 +15,7 @@ import {
   getCategory,
   getItemThumbnailUrl
 } from "@esri/hub-common";
+import { parseDatasetId } from "./util";
 
 // TODO: make this real; use request() under the hood?
 export function hubRequest(url: string, requestOptions?: IHubRequestOptions) {
@@ -33,13 +34,6 @@ export function hubRequest(url: string, requestOptions?: IHubRequestOptions) {
       throw resp.statusText;
     }
   });
-}
-
-function parseDatasetId(
-  datasetId: string
-): { itemId: string; layerId: string } {
-  const [itemId, layerId] = datasetId ? datasetId.split("_") : [];
-  return { itemId, layerId };
 }
 
 function getContentFromHub(
