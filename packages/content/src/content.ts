@@ -10,16 +10,11 @@ import {
   IHubGeography,
   IHubRequestOptions,
   IBBox,
+  buildUrl,
   getType,
   getCategory,
   getItemThumbnailUrl
 } from "@esri/hub-common";
-
-function buildUrl(base: string, path: string): string {
-  const baseUrl = base.endsWith("/") ? base : `${base}/`;
-  const url = new URL(path, baseUrl);
-  return url.toString();
-}
 
 // TODO: make this real; use request() under the hood?
 export function hubRequest(url: string, requestOptions?: IHubRequestOptions) {
@@ -51,10 +46,12 @@ function getContentFromHub(
   id: string,
   requestOptions?: IHubRequestOptions
 ): Promise<IHubContent> {
-  const url = buildUrl(
-    requestOptions && requestOptions.hubApiUrl,
-    `/datasets/${id}`
-  );
+  const host = requestOptions && requestOptions.hubApiUrl;
+  // TODO: what if no host? reject?
+  const url = buildUrl({
+    host,
+    path: `/datasets/${id}`
+  });
   return hubRequest(url, requestOptions).then(resp => {
     const dataset = resp && resp.data && resp.data[0];
     return datasetToContent(dataset, requestOptions.portalSelf);
