@@ -1,5 +1,5 @@
-import { RemoteServerError } from '../remote-server-error';
-import { composeDownloadId } from '../utils';
+import { RemoteServerError } from "../remote-server-error";
+import { composeDownloadId, urlBuilder } from "../utils";
 import { DownloadFormat } from "../download-format";
 import { convertToHubFormat } from "./format-converter";
 
@@ -18,14 +18,10 @@ export interface IHubDatasetExportRequestParams {
 /**
  * @private
  */
-export function hubRequestDatasetExport (params: IHubDatasetExportRequestParams) {
-  const {
-    host,
-    datasetId,
-    spatialRefId,
-    geometry,
-    where
-  } = params;
+export function hubRequestDatasetExport(
+  params: IHubDatasetExportRequestParams
+) {
+  const { host, datasetId, spatialRefId, geometry, where } = params;
 
   const body = {
     spatialRefId,
@@ -34,27 +30,26 @@ export function hubRequestDatasetExport (params: IHubDatasetExportRequestParams)
     where
   };
 
-  const url = requestBuilder(host, `/api/v3/datasets/${datasetId}/downloads`)
+  const url = urlBuilder({
+    host,
+    route: `/api/v3/datasets/${datasetId}/downloads`
+  });
 
   return fetch(url, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json"
     },
     body: JSON.stringify(body)
-  }).then(resp => {
-    const { ok, status, statusText } = resp;
-    if (!ok) {
-      throw new RemoteServerError(statusText, url, status);
-    }
-    return
-  }).then(() => {
-    return { downloadId: composeDownloadId(params) };
-  });
-}
-
-function requestBuilder (host: string, route: string): string {
-  const baseUrl = host.endsWith('/') ? host : `${host}/`
-  const url = new URL(route, baseUrl)
-  return url.toString()
+  })
+    .then(resp => {
+      const { ok, status, statusText } = resp;
+      if (!ok) {
+        throw new RemoteServerError(statusText, url, status);
+      }
+      return;
+    })
+    .then(() => {
+      return { downloadId: composeDownloadId(params) };
+    });
 }
