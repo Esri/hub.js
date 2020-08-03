@@ -32,6 +32,8 @@ const dataset: string[] = [
 const document: string[] = [
   "CAD Drawing",
   "Document Link",
+  "Hub Page",
+  "Site Page",
   "Image",
   "iWork Keynote",
   "iWork Numbers",
@@ -112,7 +114,7 @@ const other: string[] = [
   "Workflow Manager Package"
 ];
 
-const site: string[] = ["Hub Site Application", "Site Application", "Hub Page", "Site Page"];
+const site: string[] = ["Hub Site Application", "Site Application"];
 
 // eligible types are listed here: http://doc.arcgis.com/en/arcgis-online/reference/supported-items.htm
 const downloadableTypes: string[] = [
