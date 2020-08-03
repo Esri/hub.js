@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { ISpatialReference, IExtent } from "@esri/arcgis-rest-types";
+import { ISpatialReference } from "@esri/arcgis-rest-types";
 import { IItem, getItem, IPortal } from "@esri/arcgis-rest-portal";
 import { request } from "@esri/arcgis-rest-request";
 import {
@@ -11,6 +11,7 @@ import {
   IHubRequestOptions,
   IBBox,
   buildUrl,
+  createExtent,
   getType,
   getCategory,
   getItemThumbnailUrl
@@ -76,25 +77,6 @@ function getItemHubType(itemOrType: IItem | string): HubType {
     typeof itemOrType === "string" ? itemOrType : getType(itemOrType);
   // TODO: not all categories are Hub types, may need to validate
   return getCategory(itemType) as HubType;
-}
-
-function createExtent(
-  xmin: number,
-  ymin: number,
-  xmax: number,
-  ymax: number,
-  wkid?: number
-): IExtent {
-  return {
-    xmin,
-    ymin,
-    xmax,
-    ymax,
-    // type: 'extent',
-    spatialReference: {
-      wkid: wkid || 4326
-    }
-  };
 }
 
 function itemExtentToBoundary(extent: IBBox): IHubGeography {
