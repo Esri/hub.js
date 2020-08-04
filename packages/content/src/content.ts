@@ -53,7 +53,7 @@ function getContentFromHub(
   });
 }
 
-function getContentFromAgo(
+function getContentFromPortal(
   id: string,
   requestOptions?: IHubRequestOptions
 ): Promise<IHubContent> {
@@ -79,12 +79,8 @@ function getItemHubType(itemOrType: IItem | string): HubType {
   return getCategory(itemType) as HubType;
 }
 
-function itemExtentToBoundary(extent: IBBox): IHubGeography {
-  if (!extent) {
-    return;
-  }
+export function itemExtentToBoundary(extent: IBBox): IHubGeography {
   return {
-    // size?
     // center?
     geometry: createExtent(
       extent[0][0],
@@ -117,7 +113,7 @@ function itemToContent(item: IItem, portal?: IPortal): IHubContent {
     hubActions: properties && properties.actions,
     metrics: properties && properties.metrics,
     // default boundary from item.extent
-    boundary: itemExtentToBoundary(item.extent),
+    boundary: item.extent && itemExtentToBoundary(item.extent),
     license: { name: "Custom License", description: item.accessInformation },
     // dates and sources
     createdDate,
@@ -283,7 +279,7 @@ export function getContent(
   requestOptions?: IHubRequestOptions
 ): Promise<IHubContent> {
   if (requestOptions && requestOptions.isPortal) {
-    return getContentFromAgo(id, requestOptions);
+    return getContentFromPortal(id, requestOptions);
   } else {
     return getContentFromHub(id, requestOptions);
   }

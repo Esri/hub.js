@@ -155,7 +155,6 @@ export type ControlOptions = "view" | "edit" | "admin";
 // TW: basing this on https://opendata.arcgis.com/api/v3/datasets/7a153563b0c74f7eb2b3eae8a66f2fbb_0/
 // but that may not be accurate
 export interface IHubGeography {
-  size?: number; // what is this?
   center?: [number, number];
   geometry?: IGeometry;
 }
