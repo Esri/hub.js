@@ -1,0 +1,1096 @@
+{
+  "data": {
+    "id": "7a153563b0c74f7eb2b3eae8a66f2fbb_0",
+    "type": "dataset",
+    "attributes": {
+      "errors": [],
+      "access": "public",
+      "additionalResources": [],
+      "advancedQueryCapabilities": {
+        "supportsStatistics": true,
+        "supportsReturningQueryExtent": true,
+        "supportsTrueCurve": true,
+        "supportsOrderBy": true,
+        "useStandardizedQueries": true,
+        "supportsQueryWithDistance": true,
+        "supportsPagination": true,
+        "supportsDistinct": true
+      },
+      "collection": ["Dataset"],
+      "categories": [],
+      "commentsEnabled": true,
+      "composeStatus": {
+        "retries": 0,
+        "pass": true,
+        "lastRetriedAt": 1592566418452
+      },
+      "composedAt": 1592566418451,
+      "content": "Map Service",
+      "contentSecurityPolicy": null,
+      "created": 1474641823000,
+      "currentVersion": 10.41,
+      "description": "<span style='line-height: 115%; font-family: &quot;Calibri&quot;,&quot;sans-serif&quot;; font-size: 11pt; mso-ansi-language: EN-GB; mso-ascii-theme-font: minor-latin; mso-fareast-font-family: Calibri; mso-fareast-theme-font: minor-latin; mso-hansi-theme-font: minor-latin; mso-bidi-font-family: &quot;Times New Roman&quot;; mso-bidi-theme-font: minor-bidi; mso-fareast-language: EN-US; mso-bidi-language: AR-SA;'><font color='#000000'>Percentage\nof working age population claiming out of work benefits in Wigan, shown in LSOA and Places boundaries</font> </span>",
+      "displayField": "AREA_NAME",
+      "downloadable": true,
+      "enrichCoverage": "local",
+      "enrichQuality": 86,
+      "extent": {
+        "coordinates": [[-2.7292, 53.4452], [-2.4155, 53.6093]],
+        "type": "envelope"
+      },
+      "fieldNames": [
+        "OBJECTID",
+        "LOWERSOA",
+        "HOUSEHOLDS",
+        "POPULATION",
+        "AREA_NAME",
+        "TOWN",
+        "TOWNSHIP",
+        "WARD",
+        "RATE",
+        "SHAPE",
+        "Shape"
+      ],
+      "fields": [
+        {
+          "domain": null,
+          "name": "OBJECTID",
+          "alias": "OBJECTID",
+          "type": "esriFieldTypeOID"
+        },
+        {
+          "domain": null,
+          "name": "LOWERSOA",
+          "length": 15,
+          "alias": "LOWERSOA",
+          "type": "esriFieldTypeString"
+        },
+        {
+          "domain": null,
+          "name": "HOUSEHOLDS",
+          "alias": "HOUSEHOLDS",
+          "type": "esriFieldTypeDouble"
+        },
+        {
+          "domain": null,
+          "name": "POPULATION",
+          "alias": "POPULATION",
+          "type": "esriFieldTypeDouble"
+        },
+        {
+          "domain": null,
+          "name": "AREA_NAME",
+          "length": 75,
+          "alias": "AREA_NAME",
+          "type": "esriFieldTypeString"
+        },
+        {
+          "domain": null,
+          "name": "TOWN",
+          "length": 75,
+          "alias": "TOWN",
+          "type": "esriFieldTypeString"
+        },
+        {
+          "domain": null,
+          "name": "TOWNSHIP",
+          "length": 50,
+          "alias": "TOWNSHIP",
+          "type": "esriFieldTypeString"
+        },
+        {
+          "domain": null,
+          "name": "WARD",
+          "length": 100,
+          "alias": "WARD",
+          "type": "esriFieldTypeString"
+        },
+        {
+          "domain": null,
+          "name": "RATE",
+          "alias": "RATE",
+          "type": "esriFieldTypeDouble"
+        },
+        {
+          "domain": null,
+          "name": "SHAPE",
+          "alias": "Shape",
+          "type": "esriFieldTypeGeometry"
+        }
+      ],
+      "geometryType": "esriGeometryPolygon",
+      "groupIds": ["b7cf49b99c664755bdb7c2bf433af10d"],
+      "hasApi": true,
+      "hubType": "Feature Layer",
+      "id": "7a153563b0c74f7eb2b3eae8a66f2fbb_0",
+      "itemModified": 1479739491000,
+      "layer": {
+        "extent": {
+          "ymin": 394518.8128999993,
+          "xmin": 351662.3474000003,
+          "ymax": 412603.03079999983,
+          "xmax": 372606.0003000004,
+          "spatialReference": { "latestWkid": 27700, "wkid": 27700 }
+        },
+        "useStandardizedQueries": true,
+        "maxRecordCount": 1000,
+        "description": "Out of Work Benefit claims within LSOA",
+        "ownershipBasedAccessControlForFeatures": {
+          "allowOthersToQuery": true
+        },
+        "type": "Feature Layer",
+        "canModifyLayer": false,
+        "relationships": [],
+        "htmlPopupType": "esriServerHTMLPopupTypeAsHTMLText",
+        "id": 0,
+        "minScale": 250000,
+        "hasAttachments": false,
+        "advancedQueryCapabilities": {
+          "supportsStatistics": true,
+          "supportsReturningQueryExtent": true,
+          "supportsTrueCurve": true,
+          "supportsOrderBy": true,
+          "useStandardizedQueries": true,
+          "supportsQueryWithDistance": true,
+          "supportsPagination": true,
+          "supportsDistinct": true
+        },
+        "supportsStatistics": true,
+        "capabilities": "Map,Query,Data",
+        "maxScale": 0,
+        "isDataVersioned": true,
+        "supportsAdvancedQueries": true,
+        "parentLayer": null,
+        "defaultVisibility": true,
+        "subLayers": [],
+        "currentVersion": 10.41,
+        "typeIdField": null,
+        "canScaleSymbols": false,
+        "supportedQueryFormats": "JSON, AMF, geoJSON",
+        "name": "Out of work benefit claims within LSOA",
+        "hasLabels": false,
+        "drawingInfo": {
+          "renderer": {
+            "minValue": 2.22222222,
+            "field": "RATE",
+            "classBreakInfos": [
+              {
+                "symbol": {
+                  "outline": {
+                    "color": [110, 110, 110, 255],
+                    "width": 0.4,
+                    "style": "esriSLSSolid",
+                    "type": "esriSLS"
+                  },
+                  "color": [56, 168, 0, 255],
+                  "style": "esriSFSSolid",
+                  "type": "esriSFS"
+                },
+                "classMaxValue": 5,
+                "description": "",
+                "label": "0 - 5%"
+              },
+              {
+                "symbol": {
+                  "outline": {
+                    "color": [110, 110, 110, 255],
+                    "width": 0.4,
+                    "style": "esriSLSSolid",
+                    "type": "esriSLS"
+                  },
+                  "color": [139, 209, 0, 255],
+                  "style": "esriSFSSolid",
+                  "type": "esriSFS"
+                },
+                "classMaxValue": 10,
+                "description": "",
+                "label": "5.1 - 10%"
+              },
+              {
+                "symbol": {
+                  "outline": {
+                    "color": [110, 110, 110, 255],
+                    "width": 0.4,
+                    "style": "esriSLSSolid",
+                    "type": "esriSLS"
+                  },
+                  "color": [255, 255, 0, 255],
+                  "style": "esriSFSSolid",
+                  "type": "esriSFS"
+                },
+                "classMaxValue": 15,
+                "description": "",
+                "label": "10.1 - 15%"
+              },
+              {
+                "symbol": {
+                  "outline": {
+                    "color": [110, 110, 110, 255],
+                    "width": 0.4,
+                    "style": "esriSLSSolid",
+                    "type": "esriSLS"
+                  },
+                  "color": [255, 128, 0, 255],
+                  "style": "esriSFSSolid",
+                  "type": "esriSFS"
+                },
+                "classMaxValue": 20,
+                "description": "",
+                "label": "15.1 - 20%"
+              },
+              {
+                "symbol": {
+                  "outline": {
+                    "color": [110, 110, 110, 255],
+                    "width": 0.4,
+                    "style": "esriSLSSolid",
+                    "type": "esriSLS"
+                  },
+                  "color": [255, 0, 0, 255],
+                  "style": "esriSFSSolid",
+                  "type": "esriSFS"
+                },
+                "classMaxValue": 40,
+                "description": "",
+                "label": "20.1 - 40%"
+              }
+            ],
+            "type": "classBreaks",
+            "classificationMethod": "esriClassifyManual"
+          },
+          "transparency": 20,
+          "labelingInfo": null
+        },
+        "displayField": "AREA_NAME",
+        "copyrightText": "",
+        "fields": [
+          {
+            "domain": null,
+            "name": "OBJECTID",
+            "alias": "OBJECTID",
+            "type": "esriFieldTypeOID"
+          },
+          {
+            "domain": null,
+            "name": "LOWERSOA",
+            "length": 15,
+            "alias": "LOWERSOA",
+            "type": "esriFieldTypeString"
+          },
+          {
+            "domain": null,
+            "name": "HOUSEHOLDS",
+            "alias": "HOUSEHOLDS",
+            "type": "esriFieldTypeDouble"
+          },
+          {
+            "domain": null,
+            "name": "POPULATION",
+            "alias": "POPULATION",
+            "type": "esriFieldTypeDouble"
+          },
+          {
+            "domain": null,
+            "name": "AREA_NAME",
+            "length": 75,
+            "alias": "AREA_NAME",
+            "type": "esriFieldTypeString"
+          },
+          {
+            "domain": null,
+            "name": "TOWN",
+            "length": 75,
+            "alias": "TOWN",
+            "type": "esriFieldTypeString"
+          },
+          {
+            "domain": null,
+            "name": "TOWNSHIP",
+            "length": 50,
+            "alias": "TOWNSHIP",
+            "type": "esriFieldTypeString"
+          },
+          {
+            "domain": null,
+            "name": "WARD",
+            "length": 100,
+            "alias": "WARD",
+            "type": "esriFieldTypeString"
+          },
+          {
+            "domain": null,
+            "name": "RATE",
+            "alias": "RATE",
+            "type": "esriFieldTypeDouble"
+          },
+          {
+            "domain": null,
+            "name": "SHAPE",
+            "alias": "Shape",
+            "type": "esriFieldTypeGeometry"
+          }
+        ],
+        "geometryType": "esriGeometryPolygon",
+        "indexes": [
+          {
+            "name": "S193_idx",
+            "isUnique": true,
+            "description": "",
+            "fields": "SHAPE",
+            "isAscending": true
+          }
+        ]
+      },
+      "layers": [
+        {
+          "extent": {
+            "ymin": 394518.8128999993,
+            "xmin": 351662.3474000003,
+            "ymax": 412603.03079999983,
+            "xmax": 372606.0003000004,
+            "spatialReference": { "latestWkid": 27700, "wkid": 27700 }
+          },
+          "useStandardizedQueries": true,
+          "maxRecordCount": 1000,
+          "description": "Out of Work Benefit claims within LSOA",
+          "ownershipBasedAccessControlForFeatures": {
+            "allowOthersToQuery": true
+          },
+          "type": "Feature Layer",
+          "canModifyLayer": false,
+          "relationships": [],
+          "indexes": [
+            {
+              "name": "S193_idx",
+              "isUnique": true,
+              "description": "",
+              "fields": "SHAPE",
+              "isAscending": true
+            }
+          ],
+          "htmlPopupType": "esriServerHTMLPopupTypeAsHTMLText",
+          "id": 0,
+          "minScale": 250000,
+          "hasAttachments": false,
+          "advancedQueryCapabilities": {
+            "supportsStatistics": true,
+            "supportsReturningQueryExtent": true,
+            "supportsTrueCurve": true,
+            "supportsOrderBy": true,
+            "useStandardizedQueries": true,
+            "supportsQueryWithDistance": true,
+            "supportsPagination": true,
+            "supportsDistinct": true
+          },
+          "supportsStatistics": true,
+          "capabilities": "Map,Query,Data",
+          "maxScale": 0,
+          "supportsAdvancedQueries": true,
+          "parentLayer": null,
+          "defaultVisibility": true,
+          "subLayers": [],
+          "currentVersion": 10.41,
+          "typeIdField": null,
+          "canScaleSymbols": false,
+          "supportedQueryFormats": "JSON, AMF, geoJSON",
+          "name": "Out of work benefit claims within LSOA",
+          "hasLabels": false,
+          "drawingInfo": {
+            "renderer": {
+              "minValue": 2.22222222,
+              "field": "RATE",
+              "classBreakInfos": [
+                {
+                  "symbol": {
+                    "outline": {
+                      "color": [110, 110, 110, 255],
+                      "width": 0.4,
+                      "style": "esriSLSSolid",
+                      "type": "esriSLS"
+                    },
+                    "color": [56, 168, 0, 255],
+                    "style": "esriSFSSolid",
+                    "type": "esriSFS"
+                  },
+                  "classMaxValue": 5,
+                  "description": "",
+                  "label": "0 - 5%"
+                },
+                {
+                  "symbol": {
+                    "outline": {
+                      "color": [110, 110, 110, 255],
+                      "width": 0.4,
+                      "style": "esriSLSSolid",
+                      "type": "esriSLS"
+                    },
+                    "color": [139, 209, 0, 255],
+                    "style": "esriSFSSolid",
+                    "type": "esriSFS"
+                  },
+                  "classMaxValue": 10,
+                  "description": "",
+                  "label": "5.1 - 10%"
+                },
+                {
+                  "symbol": {
+                    "outline": {
+                      "color": [110, 110, 110, 255],
+                      "width": 0.4,
+                      "style": "esriSLSSolid",
+                      "type": "esriSLS"
+                    },
+                    "color": [255, 255, 0, 255],
+                    "style": "esriSFSSolid",
+                    "type": "esriSFS"
+                  },
+                  "classMaxValue": 15,
+                  "description": "",
+                  "label": "10.1 - 15%"
+                },
+                {
+                  "symbol": {
+                    "outline": {
+                      "color": [110, 110, 110, 255],
+                      "width": 0.4,
+                      "style": "esriSLSSolid",
+                      "type": "esriSLS"
+                    },
+                    "color": [255, 128, 0, 255],
+                    "style": "esriSFSSolid",
+                    "type": "esriSFS"
+                  },
+                  "classMaxValue": 20,
+                  "description": "",
+                  "label": "15.1 - 20%"
+                },
+                {
+                  "symbol": {
+                    "outline": {
+                      "color": [110, 110, 110, 255],
+                      "width": 0.4,
+                      "style": "esriSLSSolid",
+                      "type": "esriSLS"
+                    },
+                    "color": [255, 0, 0, 255],
+                    "style": "esriSFSSolid",
+                    "type": "esriSFS"
+                  },
+                  "classMaxValue": 40,
+                  "description": "",
+                  "label": "20.1 - 40%"
+                }
+              ],
+              "type": "classBreaks",
+              "classificationMethod": "esriClassifyManual"
+            },
+            "transparency": 20,
+            "labelingInfo": null
+          },
+          "displayField": "AREA_NAME",
+          "copyrightText": "",
+          "fields": [
+            {
+              "domain": null,
+              "name": "OBJECTID",
+              "alias": "OBJECTID",
+              "type": "esriFieldTypeOID"
+            },
+            {
+              "domain": null,
+              "name": "LOWERSOA",
+              "length": 15,
+              "alias": "LOWERSOA",
+              "type": "esriFieldTypeString"
+            },
+            {
+              "domain": null,
+              "name": "HOUSEHOLDS",
+              "alias": "HOUSEHOLDS",
+              "type": "esriFieldTypeDouble"
+            },
+            {
+              "domain": null,
+              "name": "POPULATION",
+              "alias": "POPULATION",
+              "type": "esriFieldTypeDouble"
+            },
+            {
+              "domain": null,
+              "name": "AREA_NAME",
+              "length": 75,
+              "alias": "AREA_NAME",
+              "type": "esriFieldTypeString"
+            },
+            {
+              "domain": null,
+              "name": "TOWN",
+              "length": 75,
+              "alias": "TOWN",
+              "type": "esriFieldTypeString"
+            },
+            {
+              "domain": null,
+              "name": "TOWNSHIP",
+              "length": 50,
+              "alias": "TOWNSHIP",
+              "type": "esriFieldTypeString"
+            },
+            {
+              "domain": null,
+              "name": "WARD",
+              "length": 100,
+              "alias": "WARD",
+              "type": "esriFieldTypeString"
+            },
+            {
+              "domain": null,
+              "name": "RATE",
+              "alias": "RATE",
+              "type": "esriFieldTypeDouble"
+            },
+            {
+              "domain": null,
+              "name": "SHAPE",
+              "alias": "Shape",
+              "type": "esriFieldTypeGeometry"
+            }
+          ],
+          "geometryType": "esriGeometryPolygon"
+        }
+      ],
+      "licenseInfo": "<p>Open Government Licence</p><p><font color='#000000' size='3'>  </font></p><p style='margin: 0in 0in 0pt;'><span><a href='http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/'><font color='#0000ff' face='Arial' size='3'>http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/</font></a></span></p><p><font color='#000000' size='3'>  </font></p>",
+      "maxRecordCount": 1000,
+      "modified": 1479739491000,
+      "modifiedProvenance": "item.modified",
+      "name": "Out Of Work Benefit Claims",
+      "objectIdField": "OBJECTID",
+      "openData": true,
+      "orgId": "JtnQeuyCu9jAVmWl",
+      "orgName": "Wigan Council",
+      "organization": "Wigan Council",
+      "owner": "CaroleQ_1",
+      "recordCount": 200,
+      "region": "WO",
+      "searchDescription": "Percentage\nof working age population claiming out of work benefits in Wigan, shown in LSOA and Places boundaries ",
+      "server": {
+        "documentInfo": {
+          "Category": "",
+          "Keywords": "LSOA,out of work,benefit,claims",
+          "Comments": "",
+          "AntialiasingMode": "None",
+          "Title": "",
+          "Author": "",
+          "TextAntialiasingMode": "Force",
+          "Subject": ""
+        },
+        "maxImageWidth": 4096,
+        "maxRecordCount": 1000,
+        "description": "",
+        "units": "esriMeters",
+        "supportedImageFormatTypes": "PNG32,PNG24,PNG,JPG,DIB,TIFF,EMF,PS,PDF,GIF,SVG,SVGZ,BMP",
+        "exportTilesAllowed": false,
+        "maxImageHeight": 4096,
+        "tables": [],
+        "hasVersionedData": true,
+        "layers": [
+          {
+            "subLayerIds": null,
+            "maxScale": 0,
+            "name": "Out of work benefit claims within LSOA",
+            "defaultVisibility": true,
+            "id": 0,
+            "minScale": 250000,
+            "parentLayerId": -1
+          }
+        ],
+        "mapName": "Layers",
+        "minScale": 250000,
+        "spatialReference": { "latestWkid": 27700, "wkid": 27700 },
+        "fullExtent": {
+          "ymin": 394518.8128999993,
+          "xmin": 351662.3474000003,
+          "ymax": 412603.03079999983,
+          "xmax": 372606.0003000004,
+          "spatialReference": { "latestWkid": 27700, "wkid": 27700 }
+        },
+        "supportedExtensions": "WMSServer",
+        "capabilities": "Map,Query,Data",
+        "supportsDynamicLayers": false,
+        "maxScale": 0,
+        "singleFusedMapCache": false,
+        "currentVersion": 10.41,
+        "supportedQueryFormats": "JSON, AMF, geoJSON",
+        "initialExtent": {
+          "ymin": 393284.1973366084,
+          "xmin": 346263.3565028227,
+          "ymax": 412835.0390937916,
+          "xmax": 382380.0047372462,
+          "spatialReference": { "latestWkid": 27700, "wkid": 27700 }
+        },
+        "serviceDescription": "Percentage of claimants for out of work benefit",
+        "copyrightText": ""
+      },
+      "serverCapabilities": "Map,Query,Data",
+      "serviceSpatialReference": { "latestWkid": 27700, "wkid": 27700 },
+      "size": 88,
+      "slug": "Wigan::out-of-work-benefit-claims",
+      "source": "Wigan Council",
+      "sourceProvenance": "org.name",
+      "statistics": {
+        "string": {
+          "area_name": {
+            "meta": { "pass": true, "missingStats": [], "error": null },
+            "statistics": {
+              "duration": 771.7573269996792,
+              "values": [
+                { "count": 2, "value": "Bolton Road" },
+                { "count": 2, "value": "Liverpool Road" },
+                { "count": 1, "value": "Appley Bridge" },
+                { "count": 1, "value": "Ashbourne Avenue/Whelley" },
+                { "count": 1, "value": "Ashfield" },
+                { "count": 1, "value": "Ashton Centre" },
+                { "count": 1, "value": "Ashton Heath" },
+                { "count": 1, "value": "Atherton Centre" },
+                { "count": 1, "value": "Atherton East" },
+                { "count": 1, "value": "Atherton Road" },
+                { "count": 1, "value": "Atherton West" },
+                { "count": 1, "value": "Bedford" },
+                { "count": 1, "value": "Beech Hill East" },
+                { "count": 1, "value": "Beech Hill West" },
+                { "count": 1, "value": "Beech Hill/Giants Hall Road" },
+                { "count": 1, "value": "Belle Green/Higher Ince" },
+                { "count": 1, "value": "Ben Johnson" },
+                { "count": 1, "value": "Bickershaw" },
+                { "count": 1, "value": "Blackmoor/Gin Pit" },
+                { "count": 1, "value": "Bodmin Road" },
+                { "count": 1, "value": "Bottling Wood" },
+                { "count": 1, "value": "Bradley Hall" },
+                { "count": 1, "value": "Bradwell Road Estate" },
+                { "count": 1, "value": "Braithwaite Road" },
+                { "count": 1, "value": "Broxton Avenue Estate" },
+                { "count": 1, "value": "Castle Hill" },
+                { "count": 1, "value": "Cavendish" },
+                { "count": 1, "value": "Central Ashton" },
+                { "count": 1, "value": "Chaddock Lane/Astley Green" },
+                { "count": 1, "value": "Chapel Fields Estate North" },
+                { "count": 1, "value": "Chapel Fields Estate South" },
+                { "count": 1, "value": "Chapel Street" },
+                { "count": 1, "value": "Chapel Street/Guest Street" },
+                { "count": 1, "value": "Chorley Road" },
+                { "count": 1, "value": "Cleworth Hall/North Stour" },
+                { "count": 1, "value": "Conway Road Estate" },
+                { "count": 1, "value": "Dangerous Corner" },
+                { "count": 1, "value": "Darlington Street East" },
+                { "count": 1, "value": "Derby Road Estate East" },
+                { "count": 1, "value": "Derby Road Estate West" },
+                { "count": 1, "value": "Downall Green" },
+                { "count": 1, "value": "Eskdale" },
+                { "count": 1, "value": "Etherstone/Diamond Street" },
+                { "count": 1, "value": "Far Moor" },
+                { "count": 1, "value": "Farm Moor/Higher End" },
+                { "count": 1, "value": "Gathurst" },
+                { "count": 1, "value": "Gidlow" },
+                { "count": 1, "value": "Gidlow North" },
+                { "count": 1, "value": "Golborne East" },
+                { "count": 1, "value": "Golborne North" }
+              ],
+              "count": 200,
+              "uniqueCount": 198
+            }
+          },
+          "town": {
+            "meta": { "pass": true, "missingStats": [], "error": null },
+            "statistics": {
+              "duration": 726.1643040012568,
+              "values": [
+                { "count": 55, "value": "Wigan" },
+                { "count": 31, "value": "Leigh" },
+                { "count": 12, "value": "Tyldesley" },
+                { "count": 11, "value": "Ashton" },
+                { "count": 11, "value": "Atherton" },
+                { "count": 10, "value": "Standish" },
+                { "count": 9, "value": "Hindley" },
+                { "count": 9, "value": "Lowton" },
+                { "count": 6, "value": "Golborne" },
+                { "count": 6, "value": "Ince" },
+                { "count": 6, "value": "Orrell" },
+                { "count": 5, "value": "Hindley Green" },
+                { "count": 4, "value": "Astley" },
+                { "count": 4, "value": "Bryn" },
+                { "count": 4, "value": "Platt Bridge" },
+                { "count": 4, "value": "Shevington" },
+                { "count": 3, "value": "Abram" },
+                { "count": 3, "value": "Aspull" },
+                { "count": 2, "value": "Appley Bridge" },
+                { "count": 1, "value": "Atherton/Tyldesley" },
+                { "count": 1, "value": "Bickershaw" },
+                { "count": 1, "value": "Haigh" },
+                { "count": 1, "value": "Longshaw/North Ashton" },
+                { "count": 1, "value": "Spring View" }
+              ],
+              "count": 200,
+              "uniqueCount": 24
+            }
+          },
+          "ward": {
+            "meta": { "pass": true, "missingStats": [], "error": null },
+            "statistics": {
+              "duration": 5437.548426000401,
+              "values": [
+                { "count": 9, "value": "Abram" },
+                { "count": 9, "value": "Pemberton" },
+                { "count": 8, "value": "Aspull New Springs Whelley" },
+                { "count": 8, "value": "Atherton" },
+                { "count": 8, "value": "Ince" },
+                { "count": 8, "value": "Leigh South" },
+                { "count": 8, "value": "Lowton East" },
+                { "count": 8, "value": "Shevington with Lower Ground" },
+                { "count": 8, "value": "Standish with Langtree" },
+                { "count": 8, "value": "Worsley Mesnes" },
+                { "count": 7, "value": "Astley Mosley Common" },
+                { "count": 7, "value": "Douglas" },
+                { "count": 7, "value": "Hindley" },
+                { "count": 7, "value": "Leigh West" },
+                { "count": 7, "value": "Tyldesley" },
+                { "count": 7, "value": "Wigan West" },
+                { "count": 7, "value": "Winstanley" },
+                { "count": 6, "value": "Ashton" },
+                { "count": 6, "value": "Bryn" },
+                { "count": 6, "value": "Golborne and Lowton West" },
+                { "count": 6, "value": "Hindley Green" },
+                { "count": 6, "value": "Leigh East" },
+                { "count": 6, "value": "Orrell" },
+                { "count": 5, "value": "Wigan Central" },
+                { "count": 4, "value": "Atherleigh" },
+                { "count": 2, "value": "Astley Mosley Common/Tyldesley" },
+                { "count": 2, "value": "Bryn/Ashton" },
+                { "count": 2, "value": "Leigh West/Atherleigh" },
+                {
+                  "count": 2,
+                  "value": "Wigan Central/Aspull New Springs Whelley"
+                },
+                { "count": 1, "value": "Ashton/Golborne and Lowton West" },
+                { "count": 1, "value": "Atherleigh/Atherton" },
+                { "count": 1, "value": "Atherleigh/Leigh East" },
+                { "count": 1, "value": "Atherton/Atherleigh" },
+                { "count": 1, "value": "Douglas/Pemberton" },
+                { "count": 1, "value": "Golborne and Lowton West/Lowton East" },
+                { "count": 1, "value": "Hindley Abram" },
+                { "count": 1, "value": "Hindley Green/Atherleigh" },
+                { "count": 1, "value": "Leigh East/Leigh South" },
+                { "count": 1, "value": "Leigh South/Leigh East" },
+                { "count": 1, "value": "Leigh West/Hindley Green" },
+                { "count": 1, "value": "Leigh West/Leigh East" },
+                { "count": 1, "value": "Orrell/Bryn" },
+                { "count": 1, "value": "Wigan Central/Ince" },
+                {
+                  "count": 1,
+                  "value": "Wigan West/Shevington With Lower Ground"
+                },
+                { "count": 1, "value": "Wigan West/Wigan Central" }
+              ],
+              "count": 200,
+              "uniqueCount": 45
+            }
+          },
+          "lowersoa": {
+            "meta": { "pass": true, "missingStats": [], "error": null },
+            "statistics": {
+              "duration": 510.03604399971664,
+              "values": [
+                { "count": 1, "value": "E01006212" },
+                { "count": 1, "value": "E01006213" },
+                { "count": 1, "value": "E01006214" },
+                { "count": 1, "value": "E01006215" },
+                { "count": 1, "value": "E01006216" },
+                { "count": 1, "value": "E01006217" },
+                { "count": 1, "value": "E01006218" },
+                { "count": 1, "value": "E01006219" },
+                { "count": 1, "value": "E01006220" },
+                { "count": 1, "value": "E01006221" },
+                { "count": 1, "value": "E01006222" },
+                { "count": 1, "value": "E01006223" },
+                { "count": 1, "value": "E01006224" },
+                { "count": 1, "value": "E01006225" },
+                { "count": 1, "value": "E01006226" },
+                { "count": 1, "value": "E01006227" },
+                { "count": 1, "value": "E01006228" },
+                { "count": 1, "value": "E01006229" },
+                { "count": 1, "value": "E01006230" },
+                { "count": 1, "value": "E01006231" },
+                { "count": 1, "value": "E01006232" },
+                { "count": 1, "value": "E01006233" },
+                { "count": 1, "value": "E01006234" },
+                { "count": 1, "value": "E01006235" },
+                { "count": 1, "value": "E01006236" },
+                { "count": 1, "value": "E01006237" },
+                { "count": 1, "value": "E01006238" },
+                { "count": 1, "value": "E01006239" },
+                { "count": 1, "value": "E01006240" },
+                { "count": 1, "value": "E01006241" },
+                { "count": 1, "value": "E01006242" },
+                { "count": 1, "value": "E01006243" },
+                { "count": 1, "value": "E01006244" },
+                { "count": 1, "value": "E01006245" },
+                { "count": 1, "value": "E01006246" },
+                { "count": 1, "value": "E01006247" },
+                { "count": 1, "value": "E01006248" },
+                { "count": 1, "value": "E01006249" },
+                { "count": 1, "value": "E01006250" },
+                { "count": 1, "value": "E01006251" },
+                { "count": 1, "value": "E01006252" },
+                { "count": 1, "value": "E01006253" },
+                { "count": 1, "value": "E01006254" },
+                { "count": 1, "value": "E01006255" },
+                { "count": 1, "value": "E01006256" },
+                { "count": 1, "value": "E01006257" },
+                { "count": 1, "value": "E01006258" },
+                { "count": 1, "value": "E01006259" },
+                { "count": 1, "value": "E01006260" },
+                { "count": 1, "value": "E01006261" }
+              ],
+              "count": 200,
+              "uniqueCount": 200
+            }
+          },
+          "township": {
+            "meta": { "pass": true, "missingStats": [], "error": null },
+            "statistics": {
+              "duration": 705.1868520006537,
+              "values": [
+                { "count": 29, "value": "Leigh" },
+                { "count": 25, "value": "Wigan North" },
+                { "count": 25, "value": "Wigan South" },
+                { "count": 24, "value": "Hindley Abram" },
+                { "count": 23, "value": "Standish Aspull Shevington" },
+                { "count": 15, "value": "Ashton Bryn" },
+                { "count": 15, "value": "Tyldesley Astley" },
+                { "count": 14, "value": "Golborne Lowton" },
+                { "count": 14, "value": "Orrell Billinge Winstanley" },
+                { "count": 12, "value": "Atherton" },
+                { "count": 1, "value": "Atherton/Tyldesley Astley" },
+                { "count": 1, "value": "Golborne  Lowton" },
+                { "count": 1, "value": "Hindley" },
+                { "count": 1, "value": "Shevington Standish and Aspull" }
+              ],
+              "count": 200,
+              "uniqueCount": 14
+            }
+          }
+        },
+        "numeric": {
+          "rate": {
+            "meta": {
+              "pass": false,
+              "missingStats": [
+                "sum",
+                "avg",
+                "count",
+                "min",
+                "max",
+                "stddev",
+                "var"
+              ],
+              "error": "Unable to complete operation."
+            },
+            "statistics": {
+              "duration": 409.29066499881446,
+              "values": {
+                "avg": 11.38636936,
+                "min": 2.22222222,
+                "max": 30.65326633,
+                "var": 45.77832842808334,
+                "count": 200,
+                "sum": 2277.27387369,
+                "stddev": 6.765968402829217
+              }
+            }
+          },
+          "households": {
+            "meta": {
+              "pass": false,
+              "missingStats": [
+                "sum",
+                "avg",
+                "count",
+                "min",
+                "max",
+                "stddev",
+                "var"
+              ],
+              "error": "Unable to complete operation."
+            },
+            "statistics": {
+              "duration": 409.29066499881446,
+              "values": {
+                "avg": 625.48,
+                "min": 447,
+                "max": 905,
+                "var": 5214.371457286441,
+                "count": 200,
+                "sum": 125096,
+                "stddev": 72.21060488104528
+              }
+            }
+          },
+          "population": {
+            "meta": {
+              "pass": false,
+              "missingStats": [
+                "sum",
+                "avg",
+                "count",
+                "min",
+                "max",
+                "stddev",
+                "var"
+              ],
+              "error": "Unable to complete operation."
+            },
+            "statistics": {
+              "duration": 409.29066499881446,
+              "values": {
+                "avg": 1507.075,
+                "min": 1067,
+                "max": 1778,
+                "var": 11498.01947236181,
+                "count": 200,
+                "sum": 301415,
+                "stddev": 107.22881829229402
+              }
+            }
+          },
+          "shape.starea()": {
+            "meta": {
+              "pass": false,
+              "missingStats": [
+                "sum",
+                "avg",
+                "count",
+                "min",
+                "max",
+                "stddev",
+                "var"
+              ],
+              "error": "Unable to complete operation."
+            },
+            "statistics": { "duration": 409.29066499881446 }
+          },
+          "shape.stlength()": {
+            "meta": {
+              "pass": false,
+              "missingStats": [
+                "sum",
+                "avg",
+                "count",
+                "min",
+                "max",
+                "stddev",
+                "var"
+              ],
+              "error": "Unable to complete operation."
+            },
+            "statistics": { "duration": 409.29066499881446 }
+          }
+        },
+        "objectid": {
+          "objectid": {
+            "meta": { "pass": true, "missingStats": [], "error": null },
+            "statistics": {
+              "duration": 2924.2956380005926,
+              "values": {
+                "avg": 100,
+                "min": 1,
+                "max": 200,
+                "count": 200,
+                "sum": 20100
+              }
+            }
+          }
+        }
+      },
+      "structuredLicense": {
+        "text": "Open Government Licence  <a href=\"http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/\">http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/</a>  ",
+        "type": "custom"
+      },
+      "license": "custom",
+      "supportedExtensions": "WMSServer",
+      "supportedQueryFormats": "JSON, AMF, geoJSON",
+      "supportsAdvancedQueries": true,
+      "tags": [
+        "LSOA",
+        "out of work",
+        "benefit",
+        "claims",
+        "working age population",
+        "claiming out of work benefit",
+        "Wigan",
+        "Census Information"
+      ],
+      "thumbnail": "thumbnail/census.JPG",
+      "thumbnailUrl": "thumbnail/census.JPG",
+      "type": "Feature Layer",
+      "typeCategories": ["Dataset"],
+      "typeKeywords": [
+        "ArcGIS Server",
+        "Data",
+        "Dynamic",
+        "Map Service",
+        "Multilayer",
+        "Service"
+      ],
+      "url": "https://maps.wigan.gov.uk/arcgis/rest/services/OpenData/OutOfWorkBenefitClaims/MapServer/0",
+      "useStandardizedQueries": true,
+      "validExtent": true,
+      "xFrameOptions": null,
+      "boundary": {
+        "size": 530,
+        "center": [-2.6151278260869573, 53.5382347826087],
+        "geometry": {
+          "rings": [
+            ["-2.69889", "53.5020"],
+            ["-2.73052", "53.5206"],
+            ["-2.71922", "53.5761"],
+            ["-2.71917", "53.5762"],
+            ["-2.71910", "53.5763"],
+            ["-2.71896", "53.5765"],
+            ["-2.71437", "53.5817"],
+            ["-2.68991", "53.6038"],
+            ["-2.68931", "53.6043"],
+            ["-2.68900", "53.6044"],
+            ["-2.63616", "53.6083"],
+            ["-2.63459", "53.6083"],
+            ["-2.63210", "53.6073"],
+            ["-2.42372", "53.5206"],
+            ["-2.41458", "53.5149"],
+            ["-2.41460", "53.5147"],
+            ["-2.41530", "53.5120"],
+            ["-2.43452", "53.4651"],
+            ["-2.57674", "53.4461"],
+            ["-2.58227", "53.4481"],
+            ["-2.58252", "53.4482"],
+            ["-2.61350", "53.4619"],
+            ["-2.69889", "53.5020"]
+          ],
+          "type": "polygon",
+          "spatialReference": { "wkid": 4326 }
+        }
+      },
+      "snippet": "Percentage claimants of out of work benefit",
+      "culture": "en-us"
+    },
+    "links": {
+      "self": "http://opendata.arcgis.com/api/v3/datasets/7a153563b0c74f7eb2b3eae8a66f2fbb_0",
+      "rawEs": "http://opendata.arcgis.com/api/es/datasets/7a153563b0c74f7eb2b3eae8a66f2fbb_0",
+      "itemPage": "https://www.arcgis.com/home/item.html?id=7a153563b0c74f7eb2b3eae8a66f2fbb",
+      "esriRest": "https://www.arcgis.com/sharing/content/items/7a153563b0c74f7eb2b3eae8a66f2fbb?f=json"
+    },
+    "meta": { "highlights": {}, "matchedFields": [] }
+  },
+  "meta": {
+    "apiRoot": "http://opendata.arcgis.com/api/v3/",
+    "resourceRoot": "http://opendata.arcgis.com/api/v3/datasets",
+    "request": "http://opendata.arcgis.com/api/v3/datasets/7a153563b0c74f7eb2b3eae8a66f2fbb_0/"
+  }
+}

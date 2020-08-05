@@ -1,6 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { ResourceObject } from 'jsonapi-typescript';
 import { ISpatialReference } from "@esri/arcgis-rest-types";
 import { IItem, getItem, IPortal } from "@esri/arcgis-rest-portal";
 import { request } from "@esri/arcgis-rest-request";
@@ -18,9 +19,25 @@ import {
 } from "@esri/hub-common";
 import { parseDatasetId } from "./util";
 
+export type DatasetResource = ResourceObject<'dataset', {
+  // TODO: actually define the attributes?
+  // what is the syntax? adding the following causes errors
+  // owner: string;
+  [k: string]: any;
+}>
+
 // TODO: make this real; use request() under the hood?
 export function hubRequest(url: string, requestOptions?: IHubRequestOptions) {
-  return fetch(url, {
+  // requestOptions.params.f = null;
+  // return request(url, requestOptions);
+  // TODO: cast to JSONAPI document?
+  // .then(response => {
+  //   const { data, meta } = response;
+  //   return { data, meta } as Document;
+  // });
+  // TODO: base on requestOptions
+  const fetchFn = /* requestOptions.fetch || */ fetch;
+  return fetchFn(url, {
     method: "POST", // TODO: get from requestOptions?
     headers: {
       // TODO: base on request requestOptions?
@@ -29,11 +46,11 @@ export function hubRequest(url: string, requestOptions?: IHubRequestOptions) {
     // TODO: base on requestOptions.params?
     // body: JSON.stringify(body)
   }).then(resp => {
-    if (resp.ok) {
+    // if (resp.ok) {
       return resp.json();
-    } else {
-      throw resp.statusText;
-    }
+    // } else {
+    //   throw new Error(resp.statusText);
+    // }
   });
 }
 
@@ -48,8 +65,8 @@ function getContentFromHub(
     path: `/datasets/${id}`
   });
   return hubRequest(url, requestOptions).then(resp => {
-    const dataset = resp && resp.data && resp.data[0];
-    return datasetToContent(dataset, requestOptions.portalSelf);
+    const dataset = resp && resp.data;
+    return dataset && datasetToContent(dataset, requestOptions.portalSelf);
   });
 }
 
@@ -72,7 +89,7 @@ function getContentFromPortal(
  *
  * @param itemOrType an item or item.type
  */
-function getItemHubType(itemOrType: IItem | string): HubType {
+export function getItemHubType(itemOrType: IItem | string): HubType {
   const itemType =
     typeof itemOrType === "string" ? itemOrType : getType(itemOrType);
   // TODO: not all categories are Hub types, may need to validate
@@ -81,7 +98,7 @@ function getItemHubType(itemOrType: IItem | string): HubType {
 
 export function itemExtentToBoundary(extent: IBBox): IHubGeography {
   return {
-    // center?
+    // TODO: center?
     geometry: createExtent(
       extent[0][0],
       extent[0][1],
@@ -91,7 +108,7 @@ export function itemExtentToBoundary(extent: IBBox): IHubGeography {
   };
 }
 
-function itemToContent(item: IItem, portal?: IPortal): IHubContent {
+export function itemToContent(item: IItem, portal?: IPortal): IHubContent {
   const createdDate = new Date(item.created);
   const createdDateSource = "item.created";
   const properties = item.properties;
@@ -106,7 +123,7 @@ function itemToContent(item: IItem, portal?: IPortal): IHubContent {
     },
     permissions: {
       visibility: item.access,
-      permission: item.itemControl || "view"
+      control: item.itemControl || "view"
     },
     // Hub configuration metadata from item properties
     actionLinks: properties && properties.links,
@@ -123,10 +140,8 @@ function itemToContent(item: IItem, portal?: IPortal): IHubContent {
     updatedDate: new Date(item.modified),
     updatedDateSource: "item.modified"
   });
-  if (portal) {
-    // add properties that depend on portal
-    content.thumbnailUrl = getItemThumbnailUrl(item, portal);
-  }
+  // add properties that depend on portal
+  content.thumbnailUrl = portal && getItemThumbnailUrl(item, portal);
   return content;
 }
 
@@ -139,23 +154,15 @@ function itemToContent(item: IItem, portal?: IPortal): IHubContent {
  * @export
  */
 function datasetToContent(
-  // TODO: IDataset
-  dataset: any,
+  dataset: DatasetResource,
   portal?: IPortal
 ): IHubContent {
-  if (!dataset) {
-    return;
-  }
-
   // extract item from dataset and create content
   const item = datasetToItem(dataset);
   const content = itemToContent(item, portal);
 
   // overwrite or add enrichments from Hub API
   const attributes = dataset.attributes;
-  if (!attributes) {
-    return content;
-  }
   const {
     // common enrichments
     boundary,
@@ -176,8 +183,14 @@ function datasetToContent(
   return content;
 }
 
-function datasetToItem(dataset: any): IItem {
-  const { id, attributes = {} } = dataset;
+export function datasetToItem(dataset: DatasetResource): IItem {
+  if (!dataset) {
+    return;
+  }
+  const { id, attributes } = dataset;
+  if (!attributes) {
+    return;
+  }
 
   // parse item id
   const { itemId } = parseDatasetId(id);
@@ -213,10 +226,10 @@ function datasetToItem(dataset: any): IItem {
   // build and return an item from properties
   return {
     id: itemId,
-    owner,
+    owner: owner as string,
     orgId,
-    created,
-    modified,
+    created: created as number,
+    modified: modified as number,
     // what is guid? it was returned in
     // https://www.arcgis.com/sharing/rest/content/items/7a153563b0c74f7eb2b3eae8a66f2fbb?f=json
     // but I don't see it here:
@@ -224,7 +237,7 @@ function datasetToItem(dataset: any): IItem {
     // guid: null,
     // TODO: The file name of the item for file types. Read-only.
     // name: null,
-    title: name,
+    title: name as string,
     type,
     typeKeywords,
     description,
