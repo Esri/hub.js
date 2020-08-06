@@ -2,7 +2,14 @@ import * as fetchMock from "fetch-mock";
 import { IItem } from "@esri/arcgis-rest-portal";
 import { IEnvelope } from "@esri/arcgis-rest-types";
 import { IHubRequestOptions, cloneObject } from "@esri/hub-common";
-import { DatasetResource, comingSoon, getContent, itemToContent, datasetToItem, getItemHubType } from "../src/index";
+import {
+  DatasetResource,
+  comingSoon,
+  getContent,
+  itemToContent,
+  datasetToItem,
+  getItemHubType
+} from "../src/index";
 import * as itemJson from "./mocks/item.json";
 import * as datasetJson from "./mocks/dataset.json";
 import { mockUserSession } from "./test-helpers/fake-user-session";
@@ -12,7 +19,7 @@ describe("dataset to item", () => {
     expect(datasetToItem(null)).toBeUndefined();
   });
   it("handles no dataset attributes", () => {
-    expect(datasetToItem({ id: 'foo', type: 'dataset' })).toBeUndefined();
+    expect(datasetToItem({ id: "foo", type: "dataset" })).toBeUndefined();
   });
   it("returns snippet when no searchDescription", () => {
     const dataset = cloneObject(datasetJson.data) as DatasetResource;
@@ -26,7 +33,11 @@ describe("item to content", () => {
   let item: IItem;
   beforeEach(() => {
     item = cloneObject(itemJson) as IItem;
-  })
+  });
+  it("doesn't set thumbnailUrl w/o portal", () => {
+    const content = itemToContent(item);
+    expect(content.thumbnailUrl).toBeUndefined();
+  });
   it("gets name from name when no title", () => {
     item.title = null;
     item.name = "name";
@@ -46,13 +57,14 @@ describe("item to content", () => {
   describe("when item has properties", () => {
     it("should set actionLinks to links", () => {
       item.properties = {
-        links: [{ url: "https://foo.com"}],
-      }
+        links: [{ url: "https://foo.com" }]
+      };
       const content = itemToContent(item);
       expect(content.actionLinks).toEqual(item.properties.links);
-    })
-  })
-  // NOTE: other use cases are covered by getContent() tests
+    });
+  });
+  // NOTE: other use cases (including when a portal is passed)
+  // are covered by getContent() tests
 });
 describe("get item hub type", () => {
   // NOTE: case where an item is passed an item is covered by getContent() tests
@@ -73,7 +85,7 @@ describe("get content", () => {
       isPortal: true,
       hubApiUrl: "https://some.url.com/",
       authentication: mockUserSession
-    }
+    };
   });
   afterEach(fetchMock.restore);
   describe("from hub", () => {
@@ -114,9 +126,14 @@ describe("get content", () => {
           expect(content[key]).toEqual(attributes[key]);
         });
         // should include derived properties
+        expect(content.spatialReference).toEqual(
+          attributes.server.spatialReference
+        );
         expect(content.extent).toEqual(attributes.extent.coordinates);
         expect(content.hubType).toBe("dataset");
-        expect(content.summary).toBe(attributes.searchDescription || attributes.snippet);
+        expect(content.summary).toBe(
+          attributes.searchDescription || attributes.snippet
+        );
         expect(content.publisher).toEqual({
           name: attributes.owner,
           username: attributes.owner
@@ -142,9 +159,9 @@ describe("get content", () => {
         expect(content.publishedDateSource).toEqual("item.created");
         expect(content.updatedDate).toEqual(new Date(attributes.modified));
         expect(content.updatedDateSource).toEqual("item.modified");
-        expect(typeof content.thumbnailUrl).toBe('string');
-        // dataset specific properties
-        expect(content.recordCount).toBe(attributes.recordCount);
+        expect(typeof content.thumbnailUrl).toBe("string");
+        // TODO: content type specific properties
+        // expect(content.recordCount).toBe(attributes.recordCount);
         done();
       });
     });
@@ -205,7 +222,7 @@ describe("get content", () => {
         expect(content.publishedDateSource).toEqual("item.created");
         expect(content.updatedDate).toEqual(new Date(item.modified));
         expect(content.updatedDateSource).toEqual("item.modified");
-        expect(typeof content.thumbnailUrl).toBe('string');
+        expect(typeof content.thumbnailUrl).toBe("string");
         done();
       });
     });

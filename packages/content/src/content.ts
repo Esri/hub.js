@@ -116,8 +116,10 @@ export function itemToContent(item: IItem, portal?: IPortal): IHubContent {
     updatedDate: new Date(item.modified),
     updatedDateSource: "item.modified"
   });
-  // add properties that depend on portal
-  content.thumbnailUrl = portal && getItemThumbnailUrl(item, portal);
+  if (portal) {
+    // add properties that depend on portal
+    content.thumbnailUrl = getItemThumbnailUrl(item, portal);
+  }
   return content;
 }
 
@@ -147,14 +149,14 @@ function datasetToContent(
     recordCount
     // TODO: server, etc
   } = attributes;
-  content.boundary = boundary && boundary;
-  content.updatedDateSource = modifiedProvenance && modifiedProvenance;
+  content.boundary = boundary;
+  content.updatedDateSource = modifiedProvenance;
   // type-specific enrichments
   // TODO: should we return a different subtype of IHubContent for this?
   // TODO: should this be based on existence of attributes instead of hubType?
-  if (content.hubType === "dataset") {
-    content.recordCount = recordCount;
-  }
+  // if (content.hubType === "dataset") {
+  //   content.recordCount = recordCount;
+  // }
   // TODO: any remaining enrichments
   return content;
 }
