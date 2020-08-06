@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { ResourceObject } from 'jsonapi-typescript';
+import { ResourceObject } from "jsonapi-typescript";
 import { ISpatialReference } from "@esri/arcgis-rest-types";
 import { IItem, getItem, IPortal } from "@esri/arcgis-rest-portal";
 import { request } from "@esri/arcgis-rest-request";
@@ -15,44 +15,20 @@ import {
   createExtent,
   getType,
   getCategory,
-  getItemThumbnailUrl
+  getItemThumbnailUrl,
+  hubRequest
 } from "@esri/hub-common";
 import { parseDatasetId } from "./util";
 
-export type DatasetResource = ResourceObject<'dataset', {
-  // TODO: actually define the attributes?
-  // what is the syntax? adding the following causes errors
-  // owner: string;
-  [k: string]: any;
-}>
-
-// TODO: make this real; use request() under the hood?
-export function hubRequest(url: string, requestOptions?: IHubRequestOptions) {
-  // requestOptions.params.f = null;
-  // return request(url, requestOptions);
-  // TODO: cast to JSONAPI document?
-  // .then(response => {
-  //   const { data, meta } = response;
-  //   return { data, meta } as Document;
-  // });
-  // TODO: base on requestOptions
-  const fetchFn = /* requestOptions.fetch || */ fetch;
-  return fetchFn(url, {
-    method: "POST", // TODO: get from requestOptions?
-    headers: {
-      // TODO: base on request requestOptions?
-      "Content-Type": "application/json"
-    }
-    // TODO: base on requestOptions.params?
-    // body: JSON.stringify(body)
-  }).then(resp => {
-    // if (resp.ok) {
-      return resp.json();
-    // } else {
-    //   throw new Error(resp.statusText);
-    // }
-  });
-}
+export type DatasetResource = ResourceObject<
+  "dataset",
+  {
+    // TODO: actually define the attributes?
+    // what is the syntax? adding the following causes errors
+    // owner: string;
+    [k: string]: any;
+  }
+>;
 
 function getContentFromHub(
   id: string,

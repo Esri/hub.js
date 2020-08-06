@@ -30,11 +30,15 @@ export function hubRequestDatasetExport(
     where
   };
 
+  // TODO: add @esri/hub-common as a peer dependency  next breaking change
+  // and use buildUrl() for the following:
   const url = urlBuilder({
     host,
     route: `/api/v3/datasets/${datasetId}/downloads`
   });
 
+  // TODO: add @esri/hub-common as a peer dependency  next breaking change
+  // and use hubRequest() for the following:
   return fetch(url, {
     method: "POST",
     headers: {
