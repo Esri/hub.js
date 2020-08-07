@@ -135,7 +135,7 @@ export type IRevertableTaskResult =
   | IRevertableTaskFailed;
 
 /**
- * Hub Types
+ * Types of Hub resources
  */
 export type HubType =
   | "member"
@@ -149,36 +149,53 @@ export type HubType =
   | "initiative"
   | "template"
   | "organization";
-export type VisibilityOptions = "private" | "org" | "public";
-export type ControlOptions = "view" | "edit" | "admin";
 
-// TW: basing this on https://opendata.arcgis.com/api/v3/datasets/7a153563b0c74f7eb2b3eae8a66f2fbb_0/
-// but that may not be accurate
+/**
+ * Visibility levels of a Hub resource
+ */
+export type Visibility = "private" | "org" | "public";
+
+/**
+ * User's access level to a Hub resource
+ */
+export type AccessControl = "view" | "edit" | "admin";
+
+/**
+ * Location of a Hub resource
+ *
+ * @export
+ * @interface IHubGeography
+ */
 export interface IHubGeography {
   center?: [number, number];
   geometry?: IGeometry;
 }
 
+/**
+ * Properties that are common to Hub content, community, members, etc
+ *
+ * @export
+ * @interface IHubResource
+ */
 export interface IHubResource {
-  name: string; // Generic term for the primary label (title, fullname, username, etc.)
-  summary?: string; // snippet or other summary
-  // publisher: IHubOwner // TODO: better name? item.owner with more user metadata
-
+  /** Generic term for the primary label (title, fullname, username, etc.) */
+  name: string;
+  /** Content snippet or other summary */
+  summary?: string;
+  // TODO: publisher: IHubOwner // TODO: better name? item.owner with more user metadata
   // Derived metadata
+  /** Type of Hub resource */
   hubType: HubType;
-  // TW: why is this on IHubResource instead of IHubContent?
-  permissions: {
-    // overrides item.access with more attributes. could flatten.
-    visibility: VisibilityOptions; // item.access
-    control?: ControlOptions; // itemControl
-    groups?: IGroup[]; // item.sharing.groups via content/users/:username/items/:id
-  };
 
   // Explicit data information since this is a common confusion + bug report
   createdDate: Date; // formal metadata || new Date(item.created)
-  createdDateSource?: string; // description of what was used for this attribute
+  // description of what was used for this attribute
+  // the item key, e.g. `item.created` or `item.metadata.created_date`
+  createdDateSource?: string;
   updatedDate: Date; // formal metadata || new Date(item.modified)
-  updatedDateSource?: string; // description of what was used for this attribute
+  // description of what was used for this attribute
+  // the item key, e.g. `item.modified` or `item.metadata.modified_date`
+  updatedDateSource?: string;
   thumbnailUrl?: string; // Full URL. item.thumbnail with host + path
 
   // boundary will default to the item extent
@@ -191,54 +208,57 @@ export interface IHubResource {
   // Unique or additional formal metadata that will be displayed in sidebar
 }
 
+/**
+ * Properties that are common to all Hub content types (dataset, map, document, etc)
+ *
+ * @export
+ * @interface IHubContent
+ * @extends {IHubResource,IItem}
+ */
 export interface IHubContent extends IHubResource, IItem {
-  // license: IHubLicense // [Future] item.licenseInfo
-
-  publishedDate: Date; // formal metadata || new Date(item.created)
-  publishedDateSource?: string; // description of what was used for this attribute
-
-  // Hub configuration metadata
-  actionLinks?: IActionLink[]; // item.properties.links
-  hubActions?: object; // item.properties.actions - enable/disable standard actions like `createWebmap` or `createStorymap`
-
-  metrics?: {
-    // Set visibility for telemetry metrics. Nested object future-proofing, but could flatten.
-    visibility: VisibilityOptions | "updateGroups"; // item.properties.metrics
+  /**
+   * The content's ID for use with the Hub API
+   */
+  hubId: string;
+  // NOTE: we may want to elevate this to IHubResource if it's needed for other subtypes
+  /**
+   * Content visibility and access control, including groups
+   */
+  permissions: {
+    /** Visibility of the content */
+    visibility: Visibility;
+    /** Current user's control over the content */
+    control?: AccessControl;
+    /** The groups that have access to the item (as far as you know) */
+    groups?: IGroup[]; // TODO: item.sharing.groups via content/users/:username/items/:id
   };
 
-  // TW: not sure about contentUrl - why not just use item.url???
-  // contentUrl: string // Link to the raw content. item.url in most (but not all) item types
+  // TODO: license: IHubLicense // [Future] item.licenseInfo
 
-  // potential future props
-  // contentDisplay?: 'thumbnail' | 'map' // [Future] View configuration options such as cartography, charts, table, etc.
-  // source: IHubCommunity // [Future] each of these has common metadata like `title`, `thumbnail` , and `link`
+  /**
+   * Date the content was published (formal metadata),
+   * defaults to the date the content was created
+   */
+  publishedDate: Date;
+  /** Description of the source of the published date */
+  publishedDateSource?: string;
 
-  // Content specific values. Combination of relevant item.data, layer info, enrichments, configuration settings
-  // could use values instead - which is common within item.data.values
-  // TW: why not just add these on the sub types? Examples:
-  // - IHubDocument has .format but not .fields or .recordNumebr, etc
-  // - IHubDataset has .fields, .recordNumber, but not .basemap, etc
-  // attributes?: {
-  //     // Dataset, e.g.
-  //     fields?: [IField]
-  //     recordNumber?: number
-  //     // Map, e.g.
-  //     layers?: []
-  //     basemap?: string
-  //     // Document
-  //     format?: 'link' | 'PDF' | 'MS Word' | 'MS Excel' | 'Text'
-  //     // Initiative
-  //     stage?: string
-  //     followersNumber?: number
-  //     coreTeamId?: string
-  //     contentTeamId?: string
-  //     supportingTeamsNumber?: number
-  // }
+  // Hub configuration metadata
+  /** Optional links to show in the Hub application for this content */
+  actionLinks?: IActionLink[];
+  /** Configure which Hub application actions (i.e. create web map) are available for this content */
+  hubActions?: object;
+  metrics?: {
+    /** Visibility of the metrics for this content in the Hub application */
+    visibility: Visibility | "updateGroups";
+  };
+  /** The content's unique URL slug in the Hub app */
+  slug?: string;
 }
 
-// Optional configured app links that replace "Create StoryMap" with links to specific apps/sites
-// per https://esriarlington.tpondemand.com/entity/96316-content-viewer-sees-associated-app-links
-export interface IActionLink {
+interface IActionLink {
+  /** Link title */
   title: string;
+  /** Link URL */
   url: string;
 }

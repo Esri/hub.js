@@ -89,7 +89,12 @@ export function itemToContent(item: IItem, portal?: IPortal): IHubContent {
   const createdDateSource = "item.created";
   const properties = item.properties;
   const content = Object.assign({}, item, {
-    name: item.title || item.name, // should the latter only be for file types?
+    // NOTE: this will overwrite any existing item.name, which is
+    // The file name of the item for file types. Read-only.
+    // presumably there to use as the default file name when downloading
+    // we don't store item.name in the Hub API and we use name for title
+    name: item.title,
+    hubId: item.id,
     hubType: getItemHubType(item),
     // can we strip HTML from description, and do we need to trim it to a X chars?
     summary: item.snippet || item.description,
@@ -118,6 +123,11 @@ export function itemToContent(item: IItem, portal?: IPortal): IHubContent {
   });
   if (portal) {
     // add properties that depend on portal
+    // TODO: the URL to the item's page in the portal's home app
+    // content.itemHomeUrl = getItemHomeUrl(content.id, portalUrl);
+    // TODO: the URL of the item's data API end point
+    // content.itemDataUrl = getItemDataUrl(content, portalUrl, token);
+    // the full URL of the thumbnail
     content.thumbnailUrl = getItemThumbnailUrl(item, portal);
   }
   return content;
@@ -139,23 +149,33 @@ function datasetToContent(
   const item = datasetToItem(dataset);
   const content = itemToContent(item, portal);
 
+  // overwrite hubId
+  content.hubId = dataset.id;
   // overwrite or add enrichments from Hub API
   const attributes = dataset.attributes;
   const {
     // common enrichments
     boundary,
     modifiedProvenance,
+    slug,
+    searchDescription
     // dataset enrichments
-    recordCount
-    // TODO: server, etc
+    // recordCount
+    // TODO: fields, geometryType, layer?, server?, as needed
   } = attributes;
   content.boundary = boundary;
   content.updatedDateSource = modifiedProvenance;
+  content.slug = slug;
+  // TODO: if (searchDescription) {
+  // overwrite default summary (from snippet) w/ search description
+  content.summary = searchDescription;
+  // }
   // type-specific enrichments
-  // TODO: should we return a different subtype of IHubContent for this?
   // TODO: should this be based on existence of attributes instead of hubType?
+  // TODO: if the latter, should we return a different subtype of IHubContent for this?
   // if (content.hubType === "dataset") {
   //   content.recordCount = recordCount;
+  //   // TODO: fields, geometryType, etc
   // }
   // TODO: any remaining enrichments
   return content;
@@ -174,89 +194,113 @@ export function datasetToItem(dataset: DatasetResource): IItem {
   const { itemId } = parseDatasetId(id);
 
   // read item properties from attributes
+  // NOTE: we attempt to read all item properties
+  // even though some may not be currently returned
   const {
+    // start w/ item properties from
+    // https://developers.arcgis.com/rest/users-groups-and-items/item.htm
     owner,
     orgId,
     created,
     modified,
+    // NOTE: we use attributes.name to store the title or the service/layer name
+    // but in Portal name is only used for file types to store the file name (read only)
     name,
+    title,
+    type,
+    typeKeywords,
+    description,
+    snippet,
+    tags,
+    thumbnail,
+    extent,
+    categories,
+    // the Hub API doesn't currently return spatialReference
+    spatialReference,
+    // the Hub API doesn't currently return accessInformation
+    accessInformation,
+    licenseInfo,
+    culture,
+    url,
+    access,
+    // the Hub API doesn't currently return proxyFilter
+    proxyFilter,
+    properties,
+    // the Hub API doesn't currently return appCategories, industries,
+    // languages, largeThumbnail, banner, screenshots, listed, ownerFolder
+    appCategories,
+    industries,
+    languages,
+    largeThumbnail,
+    banner,
+    screenshots,
+    listed,
+    ownerFolder,
+    size,
+    // the Hub API doesn't currently return protected
+    protected: isProtected,
+    commentsEnabled,
+    // the Hub API doesn't currently return numComments, numRatings,
+    // avgRating, numViews, itemControl, scoreCompleteness
+    numComments,
+    numRatings,
+    avgRating,
+    numViews,
+    itemControl,
+    scoreCompleteness,
+    // additional attributes we'll need as fallbacks
+    createdAt,
+    updatedAt,
+    serviceSpatialReference
+  } = attributes;
+
+  // build and return an item from properties
+  // NOTE: we currently do NOT provide default values
+  // (i.e. null for scalar attributes, [] for arrays, etc)
+  // for attributes that are not returned by the Hub API
+  // this helps distinguish an item that comes from the API
+  // but forces all consumers to do handle missing properties
+  return {
+    id: itemId,
+    owner: owner as string,
+    orgId,
+    created: (created || createdAt) as number,
+    modified: (modified || updatedAt) as number,
+    title: (title || name) as string,
     type,
     typeKeywords,
     description,
     tags,
     snippet,
-    searchDescription,
     thumbnail,
-    extent: { coordinates },
+    // we store item.extent in attributes.extent.coordinates
+    extent: extent.coordinates,
     categories,
-    server,
+    spatialReference: spatialReference || serviceSpatialReference,
+    accessInformation,
     licenseInfo,
     culture,
     url,
     access,
     size,
-    commentsEnabled
-  } = attributes;
-
-  // get spatialReference from server properties
-  const spatialReference: ISpatialReference = server && server.spatialReference;
-
-  // build and return an item from properties
-  return {
-    id: itemId,
-    owner: owner as string,
-    orgId,
-    created: created as number,
-    modified: modified as number,
-    // what is guid? it was returned in
-    // https://www.arcgis.com/sharing/rest/content/items/7a153563b0c74f7eb2b3eae8a66f2fbb?f=json
-    // but I don't see it here:
-    // https://developers.arcgis.com/rest/users-groups-and-items/item.htm
-    // guid: null,
-    // TODO: The file name of the item for file types. Read-only.
-    // name: null,
-    title: name as string,
-    type,
-    typeKeywords,
-    description,
-    tags,
-    // TODO: snippet || searchDescription?
-    snippet: searchDescription || snippet,
-    thumbnail,
-    // the Hub API doesn't return documentation
-    // documentation: null,
-    extent: coordinates,
-    categories,
-    spatialReference,
-    // the Hub API doesn't return accessInformation
-    // accessInformation: null,
-    licenseInfo,
-    culture,
-    // the Hub API doesn't return properties
-    // properties: null,
-    url,
-    // the Hub API doesn't return proxyFilter
-    // proxyFilter: null,
-    access,
-    size,
-    // the Hub API doesn't return appCategories, industries, languages,
-    // largeThumbnail, banner, screenshots, or listed
-    // appCategories: [],
-    // industries: [],
-    // languages: [],
-    // largeThumbnail: null,
-    // banner: null,
-    // screenshots: [],
-    // listed: false,
+    protected: isProtected,
+    proxyFilter,
+    properties,
+    appCategories,
+    industries,
+    languages,
+    largeThumbnail,
+    banner,
+    screenshots,
+    listed,
+    ownerFolder,
     commentsEnabled,
-    // the Hub API doesn't return any of these remaining props
-    // numComments: 0,
-    // numRatings: 0,
-    // avgRating: 0,
-    // we need this one though or TS will complain
-    numViews: 0
-    // scoreCompleteness: 0,
-    // groupDesignations: null
+    numComments,
+    numRatings,
+    avgRating,
+    numViews,
+    itemControl,
+    scoreCompleteness
   };
 }
 
@@ -266,6 +310,7 @@ export function datasetToItem(dataset: DatasetResource): IItem {
  * @param requestOptions - request options that may include authentication
  */
 export function getContent(
+  // TODO: this should take a slug as well
   id: string,
   requestOptions?: IHubRequestOptions
 ): Promise<IHubContent> {

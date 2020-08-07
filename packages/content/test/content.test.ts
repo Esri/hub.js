@@ -10,8 +10,8 @@ import {
   datasetToItem,
   getItemHubType
 } from "../src/index";
-import * as itemJson from "./mocks/item.json";
-import * as datasetJson from "./mocks/dataset.json";
+import * as itemJson from "./mocks/items/map-service.json";
+import * as datasetJson from "./mocks/datasets/feature-layer.json";
 import { mockUserSession } from "./test-helpers/fake-user-session";
 
 describe("dataset to item", () => {
@@ -27,6 +27,17 @@ describe("dataset to item", () => {
     const item = datasetToItem(dataset);
     expect(item.snippet).toBe(dataset.attributes.snippet);
   });
+  it("falls back to createdAt/updatedAt when no created/modified", () => {
+    const dataset = cloneObject(datasetJson.data) as DatasetResource;
+    const attributes = dataset.attributes;
+    attributes.createdAt = attributes.created;
+    attributes.updatedAt = attributes.modified;
+    delete attributes.created;
+    delete attributes.modified;
+    const item = datasetToItem(dataset);
+    expect(item.created).toBe(attributes.createdAt);
+    expect(item.modified).toBe(attributes.updatedAt);
+  });
   // NOTE: other use cases are covered by getContent() tests
 });
 describe("item to content", () => {
@@ -36,13 +47,7 @@ describe("item to content", () => {
   });
   it("doesn't set thumbnailUrl w/o portal", () => {
     const content = itemToContent(item);
-    expect(content.thumbnailUrl).toBeUndefined();
-  });
-  it("gets name from name when no title", () => {
-    item.title = null;
-    item.name = "name";
-    const content = itemToContent(item);
-    expect(content.name).toBe(item.name);
+    expect(content.thumbnailUrl).toBeUndefined("");
   });
   it("gets summary from description when no snippet", () => {
     item.snippet = null;
@@ -102,15 +107,16 @@ describe("get content", () => {
           "https://some.url.com/datasets/7a153563b0c74f7eb2b3eae8a66f2fbb_0"
         );
         // should have copied these attributes directly
-        const attributeKeys = [
-          "name",
+        const itemProperties = [
           "owner",
           "orgId",
           "created",
           "modified",
+          // NOTE: name is handled below
           "type",
           "typeKeywords",
           "description",
+          "snippet",
           "tags",
           "thumbnail",
           "categories",
@@ -120,14 +126,19 @@ describe("get content", () => {
           "access",
           "size",
           "commentsEnabled"
-          // TODO: others?
+          // TODO: what about the others that will be undefined?
         ];
-        attributeKeys.forEach(key => {
+        // should have set item properties
+        itemProperties.forEach(key => {
           expect(content[key]).toEqual(attributes[key]);
         });
+        // we use attributes.name for both name and title
+        expect(content.title).toBe(attributes.name);
+        expect(content.name).toBe(attributes.name);
         // should include derived properties
+        expect(content.hubId).toBe(id);
         expect(content.spatialReference).toEqual(
-          attributes.server.spatialReference
+          attributes.serviceSpatialReference
         );
         expect(content.extent).toEqual(attributes.extent.coordinates);
         expect(content.hubType).toBe("dataset");
@@ -147,6 +158,7 @@ describe("get content", () => {
         expect(content.actionLinks).toBeUndefined();
         expect(content.hubActions).toBeUndefined();
         expect(content.metrics).toBeUndefined();
+        expect(content.orgId).toBe(attributes.orgId);
         expect(content.boundary).toEqual(attributes.boundary);
         expect(content.license).toEqual({
           name: "Custom License",
@@ -185,9 +197,10 @@ describe("get content", () => {
           }
           expect(content[key]).toEqual(item[key]);
         });
-        // should include derived properties
-        // in this case, it's not a file type, so name should be title
+        // name should be title
         expect(content.name).toBe(item.title);
+        // should include derived properties
+        expect(content.hubId).toBe(id);
         expect(content.hubType).toBe("map");
         expect(content.summary).toBe(item.snippet);
         expect(content.publisher).toEqual({
