@@ -188,23 +188,36 @@ export interface IHubResource {
   hubType: HubType;
 
   // Explicit data information since this is a common confusion + bug report
-  createdDate: Date; // formal metadata || new Date(item.created)
-  // description of what was used for this attribute
-  // the item key, e.g. `item.created` or `item.metadata.created_date`
+  /** Date the item was created */
+  createdDate: Date;
+  /**
+   * description of what was used for this attribute
+   * the item key, e.g. `item.created` or `item.metadata.created_date`
+   */
   createdDateSource?: string;
-  updatedDate: Date; // formal metadata || new Date(item.modified)
-  // description of what was used for this attribute
-  // the item key, e.g. `item.modified` or `item.metadata.modified_date`
+  /** Date the item was last updated */
+  updatedDate: Date;
+  /**
+   * description of what was used for this attribute
+   * the item key, e.g. `item.modified` or `item.metadata.modified_date`
+   */
   updatedDateSource?: string;
+  /** URL of the item's page in the Portal Home application */
+  itemHomeUrl?: string;
+  /** URL of the Portal API endpoint for the item */
+  itemDataUrl?: string;
+  /** Fully qualified URL for the item's thumbnail, including current user's token if authenticated and required */
   thumbnailUrl?: string; // Full URL. item.thumbnail with host + path
 
-  // boundary will default to the item extent
-  // but can be overwritten by enrichments from the Hub API (inline)
-  // or fetched from a location such as /resources/boundary.json
+  /**
+   * boundary will default to the item extent
+   * but can be overwritten by enrichments from the Hub API (inline)
+   * or fetched from a location such as /resources/boundary.json
+   */
   boundary?: IHubGeography;
 
-  // Additional metadata from custom/formal elements
   // TODO: Change to use mdJSON translation for configurable metadata?
+  /** Additional metadata from custom/formal elements */
   metadata?: any;
   // Unique or additional formal metadata that will be displayed in sidebar
 }

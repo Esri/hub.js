@@ -15,9 +15,11 @@ describe("item to content", () => {
   beforeEach(() => {
     item = cloneObject(itemJson) as IItem;
   });
-  it("doesn't set thumbnailUrl w/o portal", () => {
+  it("doesn't set URLs w/o portal", () => {
     const content = itemToContent(item);
-    expect(content.thumbnailUrl).toBeUndefined("");
+    expect(content.itemHomeUrl).toBeUndefined();
+    expect(content.itemDataUrl).toBeUndefined();
+    expect(content.thumbnailUrl).toBeUndefined();
   });
   it("gets summary from description when no snippet", () => {
     item.snippet = null;
@@ -119,6 +121,8 @@ describe("get content from portal", () => {
       expect(content.publishedDateSource).toEqual("item.created");
       expect(content.updatedDate).toEqual(new Date(item.modified));
       expect(content.updatedDateSource).toEqual("item.modified");
+      expect(typeof content.itemHomeUrl).toBe("string");
+      // expect(typeof content.itemDataUrl).toBe('string')
       expect(typeof content.thumbnailUrl).toBe("string");
       done();
     });

@@ -11,7 +11,8 @@ import {
   createExtent,
   getType,
   getCategory,
-  getItemThumbnailUrl,
+  getItemHomeUrl,
+  getItemThumbnailUrl
 } from "@esri/hub-common";
 import { parseDatasetId } from "./hub";
 
@@ -66,8 +67,7 @@ export function itemToContent(item: IItem, portal?: IPortal): IHubContent {
   });
   if (portal) {
     // add properties that depend on portal
-    // TODO: the URL to the item's page in the portal's home app
-    // content.itemHomeUrl = getItemHomeUrl(content.id, portalUrl);
+    content.itemHomeUrl = getItemHomeUrl(content.id, portal);
     // TODO: the URL of the item's data API end point
     // content.itemDataUrl = getItemDataUrl(content, portalUrl, token);
     // the full URL of the thumbnail
