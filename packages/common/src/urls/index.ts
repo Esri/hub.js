@@ -9,3 +9,4 @@ export * from "./_get-location";
 export * from "./get-hub-api-url-from-portal";
 export * from "./get-hub-url-from-portal";
 export * from "./get-item-home-url";
+export * from "./get-item-data-url";
