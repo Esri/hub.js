@@ -204,6 +204,7 @@ export interface IHubResource {
   boundary?: IHubGeography;
 
   // Additional metadata from custom/formal elements
+  // TODO: Change to use mdJSON translation for configurable metadata?
   metadata?: any;
   // Unique or additional formal metadata that will be displayed in sidebar
 }
