@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IItem, getItem, IPortal } from "@esri/arcgis-rest-portal";
+import { IItem, getItem } from "@esri/arcgis-rest-portal";
 import {
   HubType,
   IHubContent,
@@ -12,7 +12,10 @@ import {
   getType,
   getCategory,
   getItemHomeUrl,
-  getItemThumbnailUrl
+  getItemApiUrl,
+  getItemDataUrl,
+  getItemThumbnailUrl,
+  cloneObject
 } from "@esri/hub-common";
 import { parseDatasetId } from "./hub";
 
@@ -28,7 +31,41 @@ function itemExtentToBoundary(extent: IBBox): IHubGeography {
   };
 }
 
-export function itemToContent(item: IItem, portal?: IPortal): IHubContent {
+/**
+ * Return a new content with portal URL (home, API, and data) properties
+ *
+ * @param content Hub content
+ * @param requestOptions Request options
+ * @returns Hub content
+ * @export
+ */
+export function withPortalUrls(
+  content: IHubContent,
+  requestOptions: IHubRequestOptions
+) {
+  const newContent = cloneObject(content);
+  const portal = requestOptions.portalSelf;
+  const authentication = requestOptions.authentication;
+  const token = authentication && authentication.token;
+  // add properties that depend on portal
+  newContent.portalHomeUrl = getItemHomeUrl(newContent.id, portal);
+  // the URL of the item's Portal API end point
+  newContent.portalApiUrl = getItemApiUrl(newContent, portal, token);
+  // the URL of the item's data API end point
+  newContent.portalDataUrl = getItemDataUrl(newContent, portal, token);
+  // the full URL of the thumbnail
+  newContent.thumbnailUrl = getItemThumbnailUrl(newContent, portal);
+  return newContent;
+}
+
+/**
+ * Convert a Portal item to Hub content
+ *
+ * @param item Portal Item
+ * @returns Hub content
+ * @export
+ */
+export function itemToContent(item: IItem): IHubContent {
   const createdDate = new Date(item.created);
   const createdDateSource = "item.created";
   const properties = item.properties;
@@ -65,14 +102,6 @@ export function itemToContent(item: IItem, portal?: IPortal): IHubContent {
     updatedDate: new Date(item.modified),
     updatedDateSource: "item.modified"
   });
-  if (portal) {
-    // add properties that depend on portal
-    content.itemHomeUrl = getItemHomeUrl(content.id, portal);
-    // TODO: the URL of the item's data API end point
-    // content.itemDataUrl = getItemDataUrl(content, portalUrl, token);
-    // the full URL of the thumbnail
-    content.thumbnailUrl = getItemThumbnailUrl(item, portal);
-  }
   return content;
 }
 
@@ -94,7 +123,7 @@ export function getContentFromPortal(
 ): Promise<IHubContent> {
   const { itemId } = parseDatasetId(id);
   return getItem(itemId, requestOptions).then(item => {
-    const content = itemToContent(item, requestOptions.portalSelf);
+    const content = withPortalUrls(itemToContent(item), requestOptions);
     // TODO: fetch remaining content properties (i.e. recordCount, etc) based on hubType. Examples:
     // - if hubType is 'dataset', then fetch recordCount
     // - if hubType is 'document', do nothing?

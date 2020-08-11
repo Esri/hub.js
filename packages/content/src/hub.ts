@@ -1,12 +1,12 @@
 import { ResourceObject } from "jsonapi-typescript";
-import { IItem, IPortal } from "@esri/arcgis-rest-portal";
+import { IItem } from "@esri/arcgis-rest-portal";
 import {
   IHubContent,
   IHubRequestOptions,
   buildUrl,
   hubRequest
 } from "@esri/hub-common";
-import { itemToContent } from "./portal";
+import { itemToContent, withPortalUrls } from "./portal";
 
 /**
  * Parse item ID and layer ID (if any) from dataset record ID
@@ -53,7 +53,7 @@ export function getContentFromHub(
   });
   return hubRequest(url, requestOptions).then(resp => {
     const dataset = resp && resp.data;
-    return dataset && datasetToContent(dataset, requestOptions.portalSelf);
+    return dataset && withPortalUrls(datasetToContent(dataset), requestOptions);
   });
 }
 
@@ -64,13 +64,10 @@ export function getContentFromHub(
  * @returns {IHubContent} Hub content object
  * @export
  */
-export function datasetToContent(
-  dataset: DatasetResource,
-  portal?: IPortal
-): IHubContent {
+export function datasetToContent(dataset: DatasetResource): IHubContent {
   // extract item from dataset and create content
   const item = datasetToItem(dataset);
-  const content = itemToContent(item, portal);
+  const content = itemToContent(item);
 
   // overwrite hubId
   content.hubId = dataset.id;

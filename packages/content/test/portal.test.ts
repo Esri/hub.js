@@ -17,8 +17,9 @@ describe("item to content", () => {
   });
   it("doesn't set URLs w/o portal", () => {
     const content = itemToContent(item);
-    expect(content.itemHomeUrl).toBeUndefined();
-    expect(content.itemDataUrl).toBeUndefined();
+    expect(content.portalHomeUrl).toBeUndefined();
+    expect(content.portalApiUrl).toBeUndefined();
+    expect(content.portalDataUrl).toBeUndefined();
     expect(content.thumbnailUrl).toBeUndefined();
   });
   it("gets summary from description when no snippet", () => {
@@ -121,8 +122,9 @@ describe("get content from portal", () => {
       expect(content.publishedDateSource).toEqual("item.created");
       expect(content.updatedDate).toEqual(new Date(item.modified));
       expect(content.updatedDateSource).toEqual("item.modified");
-      expect(typeof content.itemHomeUrl).toBe("string");
-      // expect(typeof content.itemDataUrl).toBe('string')
+      expect(typeof content.portalHomeUrl).toBe("string");
+      expect(typeof content.portalApiUrl).toBe("string");
+      expect(typeof content.portalDataUrl).toBe("string");
       expect(typeof content.thumbnailUrl).toBe("string");
       done();
     });

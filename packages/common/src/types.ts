@@ -202,10 +202,10 @@ export interface IHubResource {
    * the item key, e.g. `item.modified` or `item.metadata.modified_date`
    */
   updatedDateSource?: string;
-  /** URL of the item's page in the Portal Home application */
-  itemHomeUrl?: string;
-  /** URL of the Portal API endpoint for the item */
-  itemDataUrl?: string;
+  /** URL of the resource's page in the Portal Home application */
+  portalHomeUrl?: string;
+  /** URL of the Portal API endpoint for the resource */
+  portalApiUrl?: string;
   /** Fully qualified URL for the item's thumbnail, including current user's token if authenticated and required */
   thumbnailUrl?: string; // Full URL. item.thumbnail with host + path
 
@@ -268,6 +268,8 @@ export interface IHubContent extends IHubResource, IItem {
   };
   /** The content's unique URL slug in the Hub app */
   slug?: string;
+  /** URL of the Portal API data endpoint for the resource */
+  portalDataUrl?: string;
 }
 
 interface IActionLink {
