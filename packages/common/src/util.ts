@@ -22,9 +22,12 @@ export function cloneObject<T>(obj: T): T {
       /* istanbul ignore next no need to deal w/ other side of hasOwnProperty() */
       if (obj.hasOwnProperty(i)) {
         const value = obj[i];
-        const isDate = value instanceof Date;
-        if (value != null && typeof value === "object" && !isDate) {
-          clone[i] = cloneObject(value);
+        if (value != null && typeof value === "object") {
+          if (value instanceof Date) {
+            clone[i] = new Date(value.getTime())
+          } else {
+            clone[i] = cloneObject(value);
+          }
         } else {
           clone[i] = value;
         }
