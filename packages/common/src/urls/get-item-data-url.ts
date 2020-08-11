@@ -1,4 +1,4 @@
-import { getPortalUrl, buildUrl } from "../urls";
+import { getItemApiUrl } from "../urls";
 import { IItem, IPortal } from "@esri/arcgis-rest-portal";
 
 /**
@@ -12,20 +12,8 @@ export const getItemDataUrl = (
   portalOrUrl: string | IPortal,
   token?: string
 ) => {
-  const { id, access } = item;
-  const host =
-    typeof portalOrUrl === "string" ? portalOrUrl : getPortalUrl(portalOrUrl);
-  // TODO: handle case where Portal API url is passed in?
-  // const portalUrl = parsePortalUrl(portalRestUrl);
-  const path = `/sharing/rest/content/items/${id}/data`;
-  // TODO: append f param based on item.type?
-  let query;
-  if (access !== "public") {
-    query = { token };
-  }
-  return buildUrl({
-    host,
-    path,
-    query
-  });
+  const url = getItemApiUrl(item, portalOrUrl, token);
+  const segment = `/${item.id}`;
+  const regExp = new RegExp(segment);
+  return url && url.replace(regExp, `${segment}/data`);
 };
