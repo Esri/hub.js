@@ -19,10 +19,15 @@ export function cloneObject<T>(obj: T): T {
     clone = obj.map(cloneObject);
   } else if (typeof obj === "object") {
     for (const i in obj) {
-      if (obj[i] != null && typeof obj[i] === "object") {
-        clone[i] = cloneObject(obj[i]);
-      } else {
-        clone[i] = obj[i];
+      /* istanbul ignore next no need to deal w/ other side of hasOwnProperty() */
+      if (obj.hasOwnProperty(i)) {
+        const value = obj[i];
+        const isDate = value instanceof Date;
+        if (value != null && typeof value === "object" && !isDate) {
+          clone[i] = cloneObject(value);
+        } else {
+          clone[i] = value;
+        }
       }
     }
   } else {
