@@ -14,3 +14,4 @@ export * from "./urls";
 export * from "./util";
 export * from "./utils";
 export * from "./i18n";
+export * from "./request";

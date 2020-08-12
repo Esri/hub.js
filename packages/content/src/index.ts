@@ -2,3 +2,5 @@
  * Apache-2.0 */
 
 export * from "./content";
+export * from "./hub";
+export * from "./portal";
