@@ -6,9 +6,9 @@ import { mockUserSession } from "@esri/hub-common/test/test-helpers/fake-user-se
 import { getStakeholderModel } from "../../src/items/get-stakeholder-model";
 import { StakeholderItem } from "../mocks/stakeholder-item";
 
-describe("getStakeholderModel", function () {
+describe("getStakeholderModel", function() {
   let getRelatedItemsResponse: restPortal.IGetRelatedItemsResponse;
-  
+
   beforeEach(() => {
     getRelatedItemsResponse = {
       total: 2,
@@ -16,30 +16,40 @@ describe("getStakeholderModel", function () {
     };
   });
 
-  it("should resolve undefined when getRelatedItems returns no Stakeholder", async function () {
+  it("should resolve undefined when getRelatedItems returns no Stakeholder", async function() {
     getRelatedItemsResponse.relatedItems.pop();
-    const getRelatedItemsSpy = spyOn(restPortal, "getRelatedItems").and.returnValue(Promise.resolve(getRelatedItemsResponse));
+    const getRelatedItemsSpy = spyOn(
+      restPortal,
+      "getRelatedItems"
+    ).and.returnValue(Promise.resolve(getRelatedItemsResponse));
     const result = await getStakeholderModel("123", mockUserSession);
     expect(getRelatedItemsSpy.calls.count()).toBe(1);
-    expect(getRelatedItemsSpy.calls.argsFor(0)).toEqual([{
-      id: "123",
-      relationshipType: "Survey2Data",
-      direction: "forward",
-      ...mockUserSession
-    }]);
+    expect(getRelatedItemsSpy.calls.argsFor(0)).toEqual([
+      {
+        id: "123",
+        relationshipType: "Survey2Data",
+        direction: "forward",
+        ...mockUserSession
+      }
+    ]);
     expect(result).toBeUndefined();
   });
 
-  it("should resolve an IModel when getRelatedItems returns a Stakeholder", async function () {
-    const getRelatedItemsSpy = spyOn(restPortal, "getRelatedItems").and.returnValue(Promise.resolve(getRelatedItemsResponse));
+  it("should resolve an IModel when getRelatedItems returns a Stakeholder", async function() {
+    const getRelatedItemsSpy = spyOn(
+      restPortal,
+      "getRelatedItems"
+    ).and.returnValue(Promise.resolve(getRelatedItemsResponse));
     const result = await getStakeholderModel("123", mockUserSession);
     expect(getRelatedItemsSpy.calls.count()).toBe(1);
-    expect(getRelatedItemsSpy.calls.argsFor(0)).toEqual([{
-      id: "123",
-      relationshipType: "Survey2Data",
-      direction: "forward",
-      ...mockUserSession
-    }]);
+    expect(getRelatedItemsSpy.calls.argsFor(0)).toEqual([
+      {
+        id: "123",
+        relationshipType: "Survey2Data",
+        direction: "forward",
+        ...mockUserSession
+      }
+    ]);
     const expected = { item: StakeholderItem };
     expect(result).toEqual(expected);
   });

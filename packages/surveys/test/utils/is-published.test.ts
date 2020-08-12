@@ -6,8 +6,8 @@ import * as publishUtils from "../../src/utils/is-draft";
 import { FormItemDraft } from "../mocks/form-item-draft";
 import { FormItemPublished } from "../mocks/form-item-published";
 
-describe("isPublished", function () {
-  it("should return true when isDraft returns false", function () {
+describe("isPublished", function() {
+  it("should return true when isDraft returns false", function() {
     const isDraftStub = spyOn(publishUtils, "isDraft").and.returnValue(false);
     const result = isPublished(FormItemDraft);
     expect(isDraftStub.calls.count()).toBe(1);
@@ -15,7 +15,7 @@ describe("isPublished", function () {
     expect(result).toBe(true);
   });
 
-  it("should return false when isDraft returns true", function () {
+  it("should return false when isDraft returns true", function() {
     const isDraftStub = spyOn(publishUtils, "isDraft").and.returnValue(true);
     const result = isPublished(FormItemPublished);
     expect(isDraftStub.calls.count()).toBe(1);

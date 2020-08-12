@@ -7,12 +7,12 @@ import { FieldworkerItem } from "../mocks/fieldworker-item";
 import { FeatureServiceItem } from "../mocks/feature-service-item";
 import { StakeholderItem } from "../mocks/stakeholder-item";
 
-describe("isFieldworkerView", function () {
-  it("should return true for a Fieldworker", function () {
+describe("isFieldworkerView", function() {
+  it("should return true for a Fieldworker", function() {
     expect(isFieldworkerView(FieldworkerItem)).toBe(true);
   });
 
-  it("should support legacy Fieldworkers", function () {
+  it("should support legacy Fieldworkers", function() {
     const item = {
       ...cloneObject(FieldworkerItem),
       typeKeywords: ["Survey123", "Feature Service", "View Service"]
@@ -20,11 +20,11 @@ describe("isFieldworkerView", function () {
     expect(isFieldworkerView(item)).toBe(true);
   });
 
-  it("should return false for a Feature Service", function () {
+  it("should return false for a Feature Service", function() {
     expect(isFieldworkerView(FeatureServiceItem)).toBe(false);
   });
 
-  it("should return false for a Stakeholder", function () {
+  it("should return false for a Stakeholder", function() {
     expect(isFieldworkerView(StakeholderItem)).toBe(false);
   });
 });

@@ -1,5 +1,5 @@
-import { getProp } from './get-prop';
-import { deepSet } from './deep-set';
+import { getProp } from "./get-prop";
+import { deepSet } from "./deep-set";
 
 /**
  * Apply a specified set properties from a source object to a target object
@@ -8,11 +8,7 @@ import { deepSet } from './deep-set';
  * @param {Object} target The target object
  * @param {Array} allowList Array of property paths (if not provided, source returned)
  */
-export function mergeObjects(
-  source: any,
-  target: any,
-  allowList?: string[]
-) {
+export function mergeObjects(source: any, target: any, allowList?: string[]) {
   if (Array.isArray(allowList) && allowList.length) {
     // we iterate the allowList, applying changes to the target from source
     allowList.forEach(prop => {

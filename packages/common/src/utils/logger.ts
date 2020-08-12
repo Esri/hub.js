@@ -1,3 +1,4 @@
+/* tslint:disable no-console */
 
 /**
  * Enum for Logger Levels
@@ -8,8 +9,8 @@ export enum Level {
   info,
   warn,
   error,
-  off,
-} 
+  off
+}
 
 /**
  * ```js
@@ -37,26 +38,21 @@ export enum Level {
  * ```
  */
 export class Logger {
-
   private static logLevel = Level.off;
 
-  private static isLevelPermitted(level: Level) {
-    return this.logLevel <= level;
-  }
-
   /**
- * Sets the global log level 
- * @param {Level} level
- */
+   * Sets the global log level
+   * @param {Level} level
+   */
   public static setLogLevel(level: Level) {
     this.logLevel = level;
   }
 
   /**
- * Logs to debug if level is enabled
- * @param {string} message
- * @param {...*} objects additional objects to log (optional rest parameter)
- */
+   * Logs to debug if level is enabled
+   * @param {string} message
+   * @param {...*} objects additional objects to log (optional rest parameter)
+   */
   public static log(message: string, ...objects: any[]) {
     if (this.isLevelPermitted(Level.debug)) {
       console.log(message, ...objects);
@@ -64,10 +60,10 @@ export class Logger {
   }
 
   /**
- * Logs to debug if level is enabled
- * @param {string} message
- * @param {...*} objects additional objects to log (optional rest parameter)
- */
+   * Logs to debug if level is enabled
+   * @param {string} message
+   * @param {...*} objects additional objects to log (optional rest parameter)
+   */
   public static debug(message: string, ...objects: any[]) {
     if (this.isLevelPermitted(Level.debug)) {
       console.debug(message, ...objects);
@@ -75,10 +71,10 @@ export class Logger {
   }
 
   /**
- * Logs to info if level is enabled
- * @param {string} message
- * @param {...*} objects additional objects to log (optional rest parameter) 
- */
+   * Logs to info if level is enabled
+   * @param {string} message
+   * @param {...*} objects additional objects to log (optional rest parameter)
+   */
   public static info(message: string, ...objects: any[]) {
     if (this.isLevelPermitted(Level.info)) {
       console.info(message, ...objects);
@@ -86,10 +82,10 @@ export class Logger {
   }
 
   /**
- * Logs to warn if level is enabled
- * @param {string} message
- * @param {...*} objects additional objects to log (optional rest parameter) 
- */
+   * Logs to warn if level is enabled
+   * @param {string} message
+   * @param {...*} objects additional objects to log (optional rest parameter)
+   */
   public static warn(message: string, ...objects: any[]) {
     if (this.isLevelPermitted(Level.warn)) {
       console.warn(message, ...objects);
@@ -97,13 +93,17 @@ export class Logger {
   }
 
   /**
- * Logs to error if level is enabled
- * @param {string} message
- * @param {...*} objects additional objects to log (optional rest parameter) 
- */
+   * Logs to error if level is enabled
+   * @param {string} message
+   * @param {...*} objects additional objects to log (optional rest parameter)
+   */
   public static error(message: string, ...objects: any[]) {
     if (this.isLevelPermitted(Level.error)) {
       console.error(message, ...objects);
     }
+  }
+
+  private static isLevelPermitted(level: Level) {
+    return this.logLevel <= level;
   }
 }

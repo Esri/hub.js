@@ -6,14 +6,13 @@ import {
   moveItem,
   createFolder,
   IAddFolderResponse,
-  IFolder,
   setItemAccess,
   getUserContent
 } from "@esri/arcgis-rest-portal";
 import { DownloadFormat } from "../download-format";
-import * as EventEmitter from 'eventemitter3';
-import { urlBuilder } from '../utils';
-import { UserSession } from '@esri/arcgis-rest-auth';
+import * as EventEmitter from "eventemitter3";
+import { urlBuilder } from "../utils";
+import { UserSession } from "@esri/arcgis-rest-auth";
 
 class ExportCompletionError extends Error {
   constructor(message: string) {
@@ -27,7 +26,7 @@ class ExportCompletionError extends Error {
  * @private
  */
 export interface IPortalPollExportJobStatusParams {
-  downloadId: string,
+  downloadId: string;
   datasetId: string;
   format: DownloadFormat;
   authentication: UserSession;
@@ -43,7 +42,9 @@ export interface IPortalPollExportJobStatusParams {
 /**
  * @private
  */
-export function portalPollExportJobStatus (params:IPortalPollExportJobStatusParams): void {
+export function portalPollExportJobStatus(
+  params: IPortalPollExportJobStatusParams
+): void {
   const {
     downloadId,
     datasetId,
@@ -56,9 +57,9 @@ export function portalPollExportJobStatus (params:IPortalPollExportJobStatusPara
     pollingInterval
   } = params;
 
-  getItemStatus({ id: downloadId, jobId, jobType: 'export', authentication })
-    .then((metadata:IGetItemStatusResponse) => {
-      if (metadata.status === 'completed') {
+  getItemStatus({ id: downloadId, jobId, jobType: "export", authentication })
+    .then((metadata: IGetItemStatusResponse) => {
+      if (metadata.status === "completed") {
         return completedHandler({
           datasetId,
           format,
@@ -67,10 +68,10 @@ export function portalPollExportJobStatus (params:IPortalPollExportJobStatusPara
           spatialRefId,
           exportCreated,
           eventEmitter
-        })
+        });
       }
 
-      if (metadata.status === 'failed') {
+      if (metadata.status === "failed") {
         return eventEmitter.emit(`${downloadId}ExportError`, {
           detail: {
             metadata: {
@@ -83,18 +84,21 @@ export function portalPollExportJobStatus (params:IPortalPollExportJobStatusPara
       return setTimeout(() => {
         portalPollExportJobStatus(params);
       }, pollingInterval);
-    }).catch((error:any) => {
+    })
+    .catch((error: any) => {
       if (error instanceof ExportCompletionError) {
         return eventEmitter.emit(`${downloadId}ExportError`, {
           detail: { metadata: { errors: [error] } }
         });
       }
 
-      return eventEmitter.emit(`${downloadId}PollingError`, { detail: { error } });
+      return eventEmitter.emit(`${downloadId}PollingError`, {
+        detail: { error }
+      });
     });
 }
 
-function completedHandler (params: any): Promise<any> {
+function completedHandler(params: any): Promise<any> {
   const {
     downloadId,
     datasetId,
@@ -111,63 +115,67 @@ function completedHandler (params: any): Promise<any> {
       typeKeywords: `export:${datasetId},modified:${exportCreated},exportFormat:${format},spatialRefId:${spatialRefId}`
     },
     authentication
-  }).then(() => {
-    return setItemAccess({
-      id: downloadId,
-      authentication,
-      access: 'private'
-    })
-  }).then(() => {
-    return getExportsFolderId(authentication)
-  }).then(exportFolderId => {
-    return moveItem({
-      itemId: downloadId,
-      folderId: exportFolderId,
-      authentication
-    })
-  }).catch(err => {
-    if (err && err.code === 'CONT_0011') {
-      // Skipping file move, already exists in target folder
-      return;
-    }
-
-    removeItem({
-      id: downloadId,
-      authentication
-    })
-    throw new ExportCompletionError(err.message);
-
-  }).then(() => {
-    return eventEmitter.emit(`${downloadId}ExportComplete`, {
-      detail: {
-        metadata: {
-          downloadId,
-          status: 'ready',
-          lastModified: (new Date()).toISOString(),
-          downloadUrl: urlBuilder({
-            host: authentication.portal,
-            route: `content/items/${downloadId}/data`,
-            query: { token: authentication.token }
-          })
-        }
-      }
-    });
   })
+    .then(() => {
+      return setItemAccess({
+        id: downloadId,
+        authentication,
+        access: "private"
+      });
+    })
+    .then(() => {
+      return getExportsFolderId(authentication);
+    })
+    .then(exportFolderId => {
+      return moveItem({
+        itemId: downloadId,
+        folderId: exportFolderId,
+        authentication
+      });
+    })
+    .catch(err => {
+      if (err && err.code === "CONT_0011") {
+        // Skipping file move, already exists in target folder
+        return;
+      }
+
+      removeItem({
+        id: downloadId,
+        authentication
+      });
+      throw new ExportCompletionError(err.message);
+    })
+    .then(() => {
+      return eventEmitter.emit(`${downloadId}ExportComplete`, {
+        detail: {
+          metadata: {
+            downloadId,
+            status: "ready",
+            lastModified: new Date().toISOString(),
+            downloadUrl: urlBuilder({
+              host: authentication.portal,
+              route: `content/items/${downloadId}/data`,
+              query: { token: authentication.token }
+            })
+          }
+        }
+      });
+    });
 }
 
 function getExportsFolderId(authentication: UserSession): Promise<string> {
   return getUserContent({ authentication })
     .then((userContent: any) => {
       const exportFolder = userContent.folders.find((folder: any) => {
-        return folder.title === 'item-exports'
+        return folder.title === "item-exports";
       });
       if (exportFolder) {
         return { folder: exportFolder };
       }
-      return createFolder({ authentication, title: 'item-exports' });
-    }).then((response: unknown) => {
+      return createFolder({ authentication, title: "item-exports" });
+    })
+    .then((response: unknown) => {
       const { folder } = response as IAddFolderResponse;
       return folder.id;
-    })
+    });
 }
-

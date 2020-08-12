@@ -15,16 +15,12 @@ export interface IPortalDatasetExportRequestParams {
 /**
  * @private
  */
-export function portalRequestDatasetExport (params: IPortalDatasetExportRequestParams): Promise<any> {
-  const {
-    datasetId,
-    title,
-    format,
-    authentication,
-    spatialRefId
-  } = params;
+export function portalRequestDatasetExport(
+  params: IPortalDatasetExportRequestParams
+): Promise<any> {
+  const { datasetId, title, format, authentication, spatialRefId } = params;
   // TODO: parseItemId()
-  const [itemId] = datasetId.split('_');
+  const [itemId] = datasetId.split("_");
   return exportItem({
     id: itemId,
     exportFormat: format,
@@ -32,11 +28,7 @@ export function portalRequestDatasetExport (params: IPortalDatasetExportRequestP
     title,
     authentication
   }).then((resp: any) => {
-    const {
-      size,
-      jobId,
-      exportItemId,
-    } = resp;
+    const { size, jobId, exportItemId } = resp;
 
     return {
       downloadId: exportItemId,
@@ -44,20 +36,19 @@ export function portalRequestDatasetExport (params: IPortalDatasetExportRequestP
       size,
       exportCreated: Date.now()
     };
-  })
+  });
 }
 
-function composeExportParameters (params: any) {
-  const {
-    datasetId,
-    spatialRefId
-  } = params;
-  const layerId = datasetId.split('_')[1] || 0;
+function composeExportParameters(params: any) {
+  const { datasetId, spatialRefId } = params;
+  const layerId = datasetId.split("_")[1] || 0;
   const layers = [{ id: Number(layerId) }];
-  return spatialRefId ? {
-    layers,
-    targetSR: {
-      wkid: Number(spatialRefId)
-    }
-  } : { layers };
+  return spatialRefId
+    ? {
+        layers,
+        targetSR: {
+          wkid: Number(spatialRefId)
+        }
+      }
+    : { layers };
 }

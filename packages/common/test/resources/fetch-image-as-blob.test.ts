@@ -3,7 +3,7 @@ import * as fetchMock from "fetch-mock";
 
 describe("fetchImageAsBlob", function() {
   // These tests create a blob
-  if (typeof Blob !== 'undefined') {
+  if (typeof Blob !== "undefined") {
     it("fetches an image as a blob", async function() {
       fetchMock.getOnce("image-url", {
         body: new Blob(["a"], { type: "image/png" }),

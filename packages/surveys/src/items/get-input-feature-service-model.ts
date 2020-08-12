@@ -22,12 +22,11 @@ export const getInputFeatureServiceModel = (
     relationshipType: "Survey2Service",
     direction: "forward",
     ...requestOptions
-  })
-    .then(({ relatedItems: [featureService] }) => {
-      let model;
-      if (featureService) {
-        model = { item: featureService };
-      }
-      return model;
-    })
+  }).then(({ relatedItems: [featureService] }) => {
+    let model;
+    if (featureService) {
+      model = { item: featureService };
+    }
+    return model;
+  });
 };

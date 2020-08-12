@@ -4,7 +4,11 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { setItemAccess } from "@esri/arcgis-rest-portal";
-import { IModel, IRevertableTaskResult, runRevertableTask } from "@esri/hub-common";
+import {
+  IModel,
+  IRevertableTaskResult,
+  runRevertableTask
+} from "@esri/hub-common";
 
 /**
  * A revertable task for setting eligible Survey items access
@@ -22,24 +26,26 @@ export const setAccessRevertable = (
   const previousAccess = (itemAccess === "shared" && "private") || itemAccess;
   const authentication = requestOptions.authentication as UserSession;
   return runRevertableTask(
-    () => setItemAccess({
-      id,
-      owner,
-      access,
-      authentication
-    })
-      .then((result) => {
+    () =>
+      setItemAccess({
+        id,
+        owner,
+        access,
+        authentication
+      }).then(result => {
         if (result.notSharedWith.length) {
           throw new Error(`Failed to set item ${id} access to ${access}`);
         }
         return result;
       }),
-    () => setItemAccess({
-      id,
-      owner,
-      access: previousAccess,
-      authentication
-    })
-      .catch(() => {})
+    () =>
+      /* tslint:disable no-empty */
+      setItemAccess({
+        id,
+        owner,
+        access: previousAccess,
+        authentication
+      }).catch(() => {})
+    /* tslint:enable no-empty */
   );
 };

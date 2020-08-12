@@ -7,13 +7,12 @@ describe("stringToBlob", () => {
       const blob = stringToBlob(str);
       expect(blob).toEqual(jasmine.any(Blob), "Returned blob");
       expect(blob.size).toBeGreaterThan(0, "Returned blob not empty");
+    } catch (ex) {
+      if (typeof Blob === "undefined") {
+        expect(ex.message).toEqual(
+          "stringToBlob is not currently supported on Node"
+        );
+      }
     }
-    catch (ex) {
-      if (typeof Blob === 'undefined') {
-        expect(ex.message).toEqual('stringToBlob is not currently supported on Node');
-      } 
-    }
-    
-
   });
 });

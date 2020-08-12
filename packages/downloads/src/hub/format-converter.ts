@@ -1,19 +1,19 @@
-import { DownloadFormat } from "../download-format"
+import { DownloadFormat } from "../download-format";
 
 const HUB_FORMAT_LOOKUP: any = {
-  'Shapefile': 'shp',
-  'CSV': 'csv',
-  'File Geodatabase': 'fgdb',
-  'GeoJson': 'geojson',
-  'KML': 'kml'
-}
+  Shapefile: "shp",
+  CSV: "csv",
+  "File Geodatabase": "fgdb",
+  GeoJson: "geojson",
+  KML: "kml"
+};
 
 /**
  * @private
  */
-export function convertToHubFormat(format: DownloadFormat ): string {
+export function convertToHubFormat(format: DownloadFormat): string {
   if (!HUB_FORMAT_LOOKUP[format]) {
-    throw new Error (`Unsupported Hub download format: ${format}`)
+    throw new Error(`Unsupported Hub download format: ${format}`);
   }
   return HUB_FORMAT_LOOKUP[format];
 }
