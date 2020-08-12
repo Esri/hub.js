@@ -21,14 +21,17 @@ describe("util functions", () => {
   it("can clone a shallow object", () => {
     const obj = {
       color: "red",
-      length: 12
+      length: 12,
+      startDate: new Date()
     } as any;
     const c = cloneObject(obj);
     expect(c).not.toBe(obj);
 
-    ["color", "length"].map(prop => {
+    ["color", "length", "startDate"].map(prop => {
       expect(c[prop]).toEqual(obj[prop]);
     });
+    // should have created a new Date object
+    expect(c["startDate"]).not.toBe(obj["startDate"]);
   });
 
   it("can clone a deep object", () => {
