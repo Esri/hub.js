@@ -1,7 +1,4 @@
-import {
-  IBatch,
-  IBatchTransform
-} from "../types";
+import { IBatch, IBatchTransform } from "../types";
 
 /**
  * Helper to split a large number of calls into
@@ -11,22 +8,19 @@ import {
  * @param {number} [batchSize=5] The number of concurrent calls to fn, defaults to 5
  * @returns {Promise<IBatch[]>}
  */
-export function batch (
+export function batch(
   values: IBatch,
   fn: IBatchTransform,
   batchSize: number = 5
 ): Promise<any> {
-  const toBatches = (
-    batches: IBatch[],
-    value: any
-  ): IBatch[] => {
-    let batch = batches[batches.length - 1];
-    if (!batch || batch.length === batchSize) {
-      batch = [];
-      batches.push(batch);
+  const toBatches = (_batches: IBatch[], value: any): IBatch[] => {
+    let _batch = _batches[_batches.length - 1];
+    if (!_batch || _batch.length === batchSize) {
+      _batch = [];
+      _batches.push(_batch);
     }
-    batch.push(value);
-    return batches;
+    _batch.push(value);
+    return _batches;
   };
 
   const toSerialBatchChain = (
@@ -35,8 +29,9 @@ export function batch (
   ): Promise<any> => {
     const executeBatch = (prevResults: any[]) => {
       const batchResults = batchOfValues.map(id => fn(id));
-      return Promise.all(batchResults)
-        .then(results => prevResults.concat(results));
+      return Promise.all(batchResults).then(results =>
+        prevResults.concat(results)
+      );
     };
     return promise.then(executeBatch);
   };
@@ -46,8 +41,5 @@ export function batch (
 
   // batches are processed serially, however
   // all calls within a batch are concurrent
-  return batches.reduce(
-    toSerialBatchChain,
-    Promise.resolve([])
-  );
-};
+  return batches.reduce(toSerialBatchChain, Promise.resolve([]));
+}

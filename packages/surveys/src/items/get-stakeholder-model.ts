@@ -21,12 +21,11 @@ export const getStakeholderModel = (
     relationshipType: "Survey2Data",
     direction: "forward",
     ...requestOptions
-  })
-    .then(({ relatedItems: [stakeholderView] }) => {
-      let model;
-      if (stakeholderView) {
-        model = { item: stakeholderView } as IModel;
-      }
-      return model;
-    });
+  }).then(({ relatedItems: [stakeholderView] }) => {
+    let model;
+    if (stakeholderView) {
+      model = { item: stakeholderView } as IModel;
+    }
+    return model;
+  });
 };

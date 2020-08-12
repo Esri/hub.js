@@ -1,4 +1,4 @@
-import { updateSiteApplicationUris, getDomain } from "../src";
+import { updateSiteApplicationUris } from "../src";
 import * as updateRedirectModule from "../src/update-app-redirect-uris";
 import * as domainModule from "../src/domains";
 import { IModel, IHubRequestOptions } from "@esri/hub-common";

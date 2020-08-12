@@ -3,9 +3,17 @@
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { unshareItemWithGroup, shareItemWithGroup } from "@esri/arcgis-rest-portal";
+import {
+  unshareItemWithGroup,
+  shareItemWithGroup
+} from "@esri/arcgis-rest-portal";
 import { IGroup } from "@esri/arcgis-rest-types";
-import { IModel, IRevertableTaskResult, runRevertableTask, isUpdateGroup } from "@esri/hub-common";
+import {
+  IModel,
+  IRevertableTaskResult,
+  runRevertableTask,
+  isUpdateGroup
+} from "@esri/hub-common";
 
 /**
  * A revertable task for unsharing eligible Survey items
@@ -24,25 +32,27 @@ export const unshareWithGroupRevertable = (
   const { id: groupId } = group;
   const authentication = requestOptions.authentication as UserSession;
   return runRevertableTask(
-    () => unshareItemWithGroup({
-      id,
-      owner,
-      groupId,
-      authentication
-    })
-      .then((result) => {
+    () =>
+      unshareItemWithGroup({
+        id,
+        owner,
+        groupId,
+        authentication
+      }).then(result => {
         if (result.notUnsharedFrom.length) {
           throw new Error(`Failed to unshare item ${id} from group ${groupId}`);
         }
         return result;
       }),
-    () => shareItemWithGroup({
-      id,
-      owner,
-      groupId,
-      confirmItemControl: isUpdateGroup(group),
-      authentication
-    })
-      .catch(() => {})
+    () =>
+      /* tslint:disable no-empty */
+      shareItemWithGroup({
+        id,
+        owner,
+        groupId,
+        confirmItemControl: isUpdateGroup(group),
+        authentication
+      }).catch(() => {})
+    /* tslint:enable no-empty */
   );
 };

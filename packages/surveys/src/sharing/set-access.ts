@@ -2,7 +2,11 @@
  * Apache-2.0 */
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { processRevertableTasks, IRevertableTaskResult, IModel } from "@esri/hub-common";
+import {
+  processRevertableTasks,
+  IRevertableTaskResult,
+  IModel
+} from "@esri/hub-common";
 import { getSurveyModels } from "../items/get-survey-models";
 import { isPublished } from "../utils/is-published";
 import { setAccessRevertable } from "./set-access-revertable";
@@ -11,7 +15,7 @@ import { setAccessRevertable } from "./set-access-revertable";
  * Sets eligible Survey items to the provided access
  * @param {string} formId A Form ID
  * @param {string} access The desired access
- * @param {IrequestOptions} requestOptions 
+ * @param {IrequestOptions} requestOptions
  * @returns {Promise<any[]>}
  */
 export const setAccess = (
@@ -25,22 +29,24 @@ export const setAccess = (
       if (isPublished(form.item)) {
         modelsToChangeAccess.push(fieldworker);
       }
-      const toRevertablePromise = (memo: Promise<IRevertableTaskResult>[], model: IModel) => {
+      const toRevertablePromise = (
+        memo: Array<Promise<IRevertableTaskResult>>,
+        model: IModel
+      ) => {
         if (model) {
-          memo.push(
-            setAccessRevertable(
-              model,
-              access,
-              requestOptions
-            )
-          );
+          memo.push(setAccessRevertable(model, access, requestOptions));
         }
         return memo;
       };
-      const revertableTasks = modelsToChangeAccess.reduce(toRevertablePromise, []);
+      const revertableTasks = modelsToChangeAccess.reduce(
+        toRevertablePromise,
+        []
+      );
       return processRevertableTasks(revertableTasks);
     })
     .catch(() => {
-      throw new Error(`Failed to set survey ${formId} items access to ${access}`);
+      throw new Error(
+        `Failed to set survey ${formId} items access to ${access}`
+      );
     });
 };

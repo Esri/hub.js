@@ -21,16 +21,14 @@ export const shareWithGroup = (
 ): Promise<any[]> => {
   return getGroupSharingDetails(formId, groupId, requestOptions)
     .then(({ modelsToShare, group }) => {
-      const revertableTasks = modelsToShare.map(
-        (model) => shareWithGroupRevertable(
-          model,
-          group,
-          requestOptions
-        )
+      const revertableTasks = modelsToShare.map(model =>
+        shareWithGroupRevertable(model, group, requestOptions)
       );
-      return processRevertableTasks(revertableTasks);;
+      return processRevertableTasks(revertableTasks);
     })
     .catch(() => {
-      throw new Error(`Failed to share survey ${formId} items to group ${groupId}`);
+      throw new Error(
+        `Failed to share survey ${formId} items to group ${groupId}`
+      );
     });
 };

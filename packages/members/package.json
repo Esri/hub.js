@@ -31,7 +31,9 @@
     "build:node": "tsc --module commonjs --outDir ./dist/node",
     "dev:esm": "tsc -w --module es2015 --outDir ./dist/esm --declaration",
     "dev:umd": "rollup -w -c ../../umd-base-profile.js",
-    "dev:node": "tsc -w --module commonjs --outDir ./dist/node"
+    "dev:node": "tsc -w --module commonjs --outDir ./dist/node",
+    "format": "prettier --write ./{src,test}/**/*.ts",
+    "format:check": "prettier --check ./{src,test}/**/*.ts"
   },
   "publishConfig": {
     "access": "public"

@@ -9,8 +9,6 @@ import { isDraft } from "./is-draft";
  * @param {IItem} formItem A Form item
  * @returns {boolean}
  */
-export function isPublished (
-  formItem: IItem
-): boolean {
+export function isPublished(formItem: IItem): boolean {
   return !isDraft(formItem);
-};
+}

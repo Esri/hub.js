@@ -4,7 +4,6 @@ import {
   getProp,
   deepSet,
   slugify,
-  isGuid,
   IModelTemplate,
   IHubRequestOptions,
   IModel

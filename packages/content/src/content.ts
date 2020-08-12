@@ -2,12 +2,9 @@
  * Apache-2.0 */
 
 import { request } from "@esri/arcgis-rest-request";
-import {
-  IHubContent,
-  IHubRequestOptions,
-} from "@esri/hub-common";
-import { getContentFromHub } from './hub';
-import { getContentFromPortal } from './portal';
+import { IHubContent, IHubRequestOptions } from "@esri/hub-common";
+import { getContentFromHub } from "./hub";
+import { getContentFromPortal } from "./portal";
 
 /**
  * Fetch content using either the Hub API or the ArcGIS REST API
