@@ -72,6 +72,12 @@
     "node-fetch": "^2.0.1",
     "tslib": "^1.11.1"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run precommit",
+      "pre-push": "npm test"
+    }
+  },
   "lint-staged": {
     "*.ts": [
       "prettier --write --parser typescript --tab-width 2 --use-tabs false",
