@@ -108,7 +108,7 @@ function completedHandler (params: any): Promise<any> {
   return updateItem({
     item: {
       id: downloadId,
-      typeKeywords: `export:${datasetId},modified:${exportCreated},exportFormat:${format},spatialRefId:${spatialRefId}`
+      typeKeywords: `export:${datasetId},modified:${exportCreated},spatialRefId:${spatialRefId}`
     },
     authentication
   }).then(() => {
