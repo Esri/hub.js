@@ -1,4 +1,4 @@
-import { cloneObject, getProp } from '@esri/hub-common';
+import { cloneObject, getProp } from "@esri/hub-common";
 
 import { convertRow } from "./convert-row";
 import { extractAssets } from "./extract-assets";
@@ -9,35 +9,38 @@ import { ISection, IRow } from "./types";
  * Convert a section, collecting assets along the way...
  * @param {ISection} section the section to templatize
  */
-export const convertSection = function convertSection (section : ISection) {
+export function convertSection(section: ISection) {
   // if the section has a background image, and it has a url, we should
   // add that to the asset hash so it can be downloaded and added to the template item
   // and also cook some unique asset name so we can inject a placeholder
-  const { rows, assets } = section.rows.reduce(toTemplatizedRows, { assets: [], rows: [] });
+  const { rows, assets } = section.rows.reduce(toTemplatizedRows, {
+    assets: [],
+    rows: []
+  });
 
   const result = {
     section: cloneObject(section) as ISection,
     assets
   };
 
-  result.section.rows = rows
+  result.section.rows = rows;
 
   if (sectionHasBackgroundFile(section)) {
-    result.assets.push(...extractAssets(section.style.background))
+    result.assets.push(...extractAssets(section.style.background));
   }
 
   return result;
-};
+}
 
-function toTemplatizedRows (acc: any, row: IRow) {
+function toTemplatizedRows(acc: any, row: IRow) {
   const { assets, cards } = convertRow(row);
 
-  acc.assets.push(...assets)
+  acc.assets.push(...assets);
   acc.rows.push({ cards });
 
   return acc;
 }
 
-function sectionHasBackgroundFile (clonedSection: ISection) {
-  return getProp(clonedSection, 'style.background.fileSrc')
+function sectionHasBackgroundFile(clonedSection: ISection) {
+  return getProp(clonedSection, "style.background.fileSrc");
 }

@@ -3,7 +3,7 @@ import * as commonModule from "@esri/hub-common";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as unlinkSiteAndPageModule from "../../src/unlink-site-and-page";
 
-import { IModel, IHubRequestOptions, unprotectModel } from "@esri/hub-common";
+import { IModel, IHubRequestOptions } from "@esri/hub-common";
 
 function expectAllCalled(spys: jasmine.Spy[], expect: any) {
   spys.forEach(spy => expect(spy).toHaveBeenCalled());

@@ -3,12 +3,10 @@ import { IItem } from "@esri/arcgis-rest-types";
 /**
  * Determines if the provided Feature Service item is a
  * Fieldworker View
- * @param {IItem} featureServiceItem 
+ * @param {IItem} featureServiceItem
  * @returns {boolean}
  */
-export function isFieldworkerView (
-  featureServiceItem: IItem
-): boolean {
+export function isFieldworkerView(featureServiceItem: IItem): boolean {
   const hasTypekeyword = (typeKeyword: string): boolean =>
     featureServiceItem.typeKeywords.indexOf(typeKeyword) > -1;
 
@@ -17,9 +15,14 @@ export function isFieldworkerView (
 
   // we should support previously created fieldworkers too
   if (!isFieldworker) {
-    const hasExpectedTypeKeywords = ["Survey123", "Feature Service", "View Service"].every(hasTypekeyword);
-    isFieldworker = hasExpectedTypeKeywords && !hasTypekeyword("StakeholderView");
+    const hasExpectedTypeKeywords = [
+      "Survey123",
+      "Feature Service",
+      "View Service"
+    ].every(hasTypekeyword);
+    isFieldworker =
+      hasExpectedTypeKeywords && !hasTypekeyword("StakeholderView");
   }
 
   return isFieldworker;
-};
+}

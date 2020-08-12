@@ -21,12 +21,11 @@ export const getSourceFeatureServiceModelFromFieldworker = (
     relationshipType: "Service2Data",
     direction: "forward",
     ...requestOptions
-  })
-    .then(({ relatedItems: [featureService] }) => {
-      let model;
-      if (featureService) {
-        model = { item: featureService };
-      }
-      return model;
-    });
+  }).then(({ relatedItems: [featureService] }) => {
+    let model;
+    if (featureService) {
+      model = { item: featureService };
+    }
+    return model;
+  });
 };

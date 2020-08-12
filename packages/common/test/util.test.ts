@@ -31,7 +31,7 @@ describe("util functions", () => {
       expect(c[prop]).toEqual(obj[prop]);
     });
     // should have created a new Date object
-    expect(c["startDate"]).not.toBe(obj["startDate"]);
+    expect(c.startDate).not.toBe(obj.startDate);
   });
 
   it("can clone a deep object", () => {

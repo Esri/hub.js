@@ -23,27 +23,24 @@ export const getGroupSharingDetails = (
   groupId: string,
   requestOptions: IRequestOptions
 ): Promise<IGetGroupSharingDetailsResults> => {
-  const targetGroupPromise = getGroup(
-    groupId,
-    requestOptions
-  );
-  const surveyModelsPromise = getSurveyModels(
-    formId,
-    requestOptions
-  );
+  const targetGroupPromise = getGroup(groupId, requestOptions);
+  const surveyModelsPromise = getSurveyModels(formId, requestOptions);
 
-  return Promise.all([targetGroupPromise, surveyModelsPromise])
-    .then(([
-      group,
-      { form, featureService, fieldworker, stakeholder }
-    ]) => {
+  return Promise.all([targetGroupPromise, surveyModelsPromise]).then(
+    ([group, { form, featureService, fieldworker, stakeholder }]) => {
       let models = [];
       if (isPublished(form.item)) {
-        const isUpdateGroup = group.capabilities.indexOf("updateitemcontrol") > -1;
+        const isUpdateGroup =
+          group.capabilities.indexOf("updateitemcontrol") > -1;
         // published surveys have a form, feature service, fieldworker, and potentially a stakeholder
         // if a view group, only share the form & fieldworker
         // if an edit/update group, share form, feature service, fieldworker, and stakeholder (if it exists)
-        models = (isUpdateGroup && [form, featureService, fieldworker, stakeholder]) || [form, fieldworker];
+        models = (isUpdateGroup && [
+          form,
+          featureService,
+          fieldworker,
+          stakeholder
+        ]) || [form, fieldworker];
       } else {
         // drafts only have a form & feature service
         models = [form, featureService];
@@ -52,5 +49,6 @@ export const getGroupSharingDetails = (
       const modelsToShare = models.filter(_ => _);
 
       return { modelsToShare, group };
-    });
+    }
+  );
 };

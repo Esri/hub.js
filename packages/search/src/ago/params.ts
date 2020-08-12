@@ -1,5 +1,5 @@
 /* Copyright (c) 2019 Environmental Systems Research Institute, Inc.
-* Apache-2.0 */
+ * Apache-2.0 */
 
 import { ISearchOptions } from "@esri/arcgis-rest-portal";
 

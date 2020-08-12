@@ -15,7 +15,7 @@ describe("mergeObjects", () => {
     const upstream = {
       item: {},
       data: {}
-    }
+    };
 
     const allowList = ["data.foo", "item.bleep", "item.noexist"];
 
@@ -30,7 +30,7 @@ describe("mergeObjects", () => {
   });
 
   it("returns local copy if no allow list", async () => {
-    const local = ({
+    const local = {
       item: {
         bleep: "blop"
       },
@@ -38,12 +38,12 @@ describe("mergeObjects", () => {
         foo: "bar",
         baz: "boop"
       }
-    } as unknown)
+    } as unknown;
 
     const upstream = {
       item: {},
       data: {}
-    }
+    };
 
     const allowList: string[] = null;
 

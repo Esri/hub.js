@@ -114,6 +114,8 @@
     "docs:dev:sass": "node-sass --watch --recursive --output docs/build/hub.js/css --source-map true --source-map-contents docs/src/sass",
     "docs:dev:js": "cpx \"docs/src/**/{api-search,nav-toggle}.js\" docs/build/hub.js -w",
     "docs:srihash": "node docs/generate-srihashes.js",
+    "format": "lerna run format",
+    "format:check": "lerna run format:check",
     "lint": "tslint --project tsconfig.json",
     "y:publish": "lerna run y:publish",
     "y:push": "lerna run y:push",

@@ -16,14 +16,14 @@ import * as getSurveyModels from "../../src/items/get-survey-models";
 import * as isPublished from "../../src/utils/is-published";
 import { IRequestOptions } from "@esri/hub-common/node_modules/@esri/arcgis-rest-request";
 
-describe("getGroupSharingDetails", function () {
+describe("getGroupSharingDetails", function() {
   let getSurveyModelsResult: IGetSurveyModelsResponse;
   let formModel: IModel;
   let featureServiceModel: IModel;
   let fieldworkerModel: IModel;
   let stakeholderModel: IModel;
   let requestOptions: IRequestOptions;
-  
+
   beforeEach(() => {
     formModel = { item: FormItemDraft };
     featureServiceModel = { item: FeatureServiceItem };
@@ -38,10 +38,17 @@ describe("getGroupSharingDetails", function () {
     requestOptions = { authentication: mockUserSession };
   });
 
-  it("should resolve with the form & feature service models when a draft and an update group", async function () {
-    const getGroupSpy = spyOn(restPortal, "getGroup").and.returnValue(Promise.resolve(UpdateGroup));
-    const getSurveyModelsSpy = spyOn(getSurveyModels, "getSurveyModels").and.returnValue(Promise.resolve(getSurveyModelsResult));
-    const isPublishedSpy = spyOn(isPublished, "isPublished").and.returnValue(false);
+  it("should resolve with the form & feature service models when a draft and an update group", async function() {
+    const getGroupSpy = spyOn(restPortal, "getGroup").and.returnValue(
+      Promise.resolve(UpdateGroup)
+    );
+    const getSurveyModelsSpy = spyOn(
+      getSurveyModels,
+      "getSurveyModels"
+    ).and.returnValue(Promise.resolve(getSurveyModelsResult));
+    const isPublishedSpy = spyOn(isPublished, "isPublished").and.returnValue(
+      false
+    );
     const result = await getGroupSharingDetails(
       formModel.item.id,
       "123",
@@ -50,7 +57,10 @@ describe("getGroupSharingDetails", function () {
     expect(getGroupSpy.calls.count()).toBe(1);
     expect(getGroupSpy.calls.argsFor(0)).toEqual(["123", requestOptions]);
     expect(getSurveyModelsSpy.calls.count()).toBe(1);
-    expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([formModel.item.id, requestOptions]);
+    expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([
+      formModel.item.id,
+      requestOptions
+    ]);
     expect(isPublishedSpy.calls.count()).toBe(1);
     expect(isPublishedSpy.calls.argsFor(0)).toEqual([formModel.item]);
     expect(result).toEqual({
@@ -59,10 +69,17 @@ describe("getGroupSharingDetails", function () {
     });
   });
 
-  it("should resolve with the form & feature service models when a draft and a view group", async function () {
-    const getGroupSpy = spyOn(restPortal, "getGroup").and.returnValue(Promise.resolve(ViewGroup));
-    const getSurveyModelsSpy = spyOn(getSurveyModels, "getSurveyModels").and.returnValue(Promise.resolve(getSurveyModelsResult));
-    const isPublishedSpy = spyOn(isPublished, "isPublished").and.returnValue(false);
+  it("should resolve with the form & feature service models when a draft and a view group", async function() {
+    const getGroupSpy = spyOn(restPortal, "getGroup").and.returnValue(
+      Promise.resolve(ViewGroup)
+    );
+    const getSurveyModelsSpy = spyOn(
+      getSurveyModels,
+      "getSurveyModels"
+    ).and.returnValue(Promise.resolve(getSurveyModelsResult));
+    const isPublishedSpy = spyOn(isPublished, "isPublished").and.returnValue(
+      false
+    );
     const result = await getGroupSharingDetails(
       formModel.item.id,
       "123",
@@ -71,7 +88,10 @@ describe("getGroupSharingDetails", function () {
     expect(getGroupSpy.calls.count()).toBe(1);
     expect(getGroupSpy.calls.argsFor(0)).toEqual(["123", requestOptions]);
     expect(getSurveyModelsSpy.calls.count()).toBe(1);
-    expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([formModel.item.id, requestOptions]);
+    expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([
+      formModel.item.id,
+      requestOptions
+    ]);
     expect(isPublishedSpy.calls.count()).toBe(1);
     expect(isPublishedSpy.calls.argsFor(0)).toEqual([formModel.item]);
     expect(result).toEqual({
@@ -80,12 +100,19 @@ describe("getGroupSharingDetails", function () {
     });
   });
 
-  it("should resolve with the form, feature service, fieldworker & stakeholder models when published and an update group", async function () {
+  it("should resolve with the form, feature service, fieldworker & stakeholder models when published and an update group", async function() {
     formModel = { item: FormItemPublished };
     getSurveyModelsResult.form = formModel;
-    const getGroupSpy = spyOn(restPortal, "getGroup").and.returnValue(Promise.resolve(UpdateGroup));
-    const getSurveyModelsSpy = spyOn(getSurveyModels, "getSurveyModels").and.returnValue(Promise.resolve(getSurveyModelsResult));
-    const isPublishedSpy = spyOn(isPublished, "isPublished").and.returnValue(true);
+    const getGroupSpy = spyOn(restPortal, "getGroup").and.returnValue(
+      Promise.resolve(UpdateGroup)
+    );
+    const getSurveyModelsSpy = spyOn(
+      getSurveyModels,
+      "getSurveyModels"
+    ).and.returnValue(Promise.resolve(getSurveyModelsResult));
+    const isPublishedSpy = spyOn(isPublished, "isPublished").and.returnValue(
+      true
+    );
     const result = await getGroupSharingDetails(
       formModel.item.id,
       "123",
@@ -94,21 +121,36 @@ describe("getGroupSharingDetails", function () {
     expect(getGroupSpy.calls.count()).toBe(1);
     expect(getGroupSpy.calls.argsFor(0)).toEqual(["123", requestOptions]);
     expect(getSurveyModelsSpy.calls.count()).toBe(1);
-    expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([formModel.item.id, requestOptions]);
+    expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([
+      formModel.item.id,
+      requestOptions
+    ]);
     expect(isPublishedSpy.calls.count()).toBe(1);
     expect(isPublishedSpy.calls.argsFor(0)).toEqual([formModel.item]);
     expect(result).toEqual({
       group: UpdateGroup,
-      modelsToShare: [formModel, featureServiceModel, fieldworkerModel, stakeholderModel]
+      modelsToShare: [
+        formModel,
+        featureServiceModel,
+        fieldworkerModel,
+        stakeholderModel
+      ]
     });
   });
 
-  it("should resolve with the form & fieldworker models when published and a view group", async function () {
+  it("should resolve with the form & fieldworker models when published and a view group", async function() {
     formModel = { item: FormItemPublished };
     getSurveyModelsResult.form = formModel;
-    const getGroupSpy = spyOn(restPortal, "getGroup").and.returnValue(Promise.resolve(ViewGroup));
-    const getSurveyModelsSpy = spyOn(getSurveyModels, "getSurveyModels").and.returnValue(Promise.resolve(getSurveyModelsResult));
-    const isPublishedSpy = spyOn(isPublished, "isPublished").and.returnValue(true);
+    const getGroupSpy = spyOn(restPortal, "getGroup").and.returnValue(
+      Promise.resolve(ViewGroup)
+    );
+    const getSurveyModelsSpy = spyOn(
+      getSurveyModels,
+      "getSurveyModels"
+    ).and.returnValue(Promise.resolve(getSurveyModelsResult));
+    const isPublishedSpy = spyOn(isPublished, "isPublished").and.returnValue(
+      true
+    );
     const result = await getGroupSharingDetails(
       formModel.item.id,
       "123",
@@ -117,7 +159,10 @@ describe("getGroupSharingDetails", function () {
     expect(getGroupSpy.calls.count()).toBe(1);
     expect(getGroupSpy.calls.argsFor(0)).toEqual(["123", requestOptions]);
     expect(getSurveyModelsSpy.calls.count()).toBe(1);
-    expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([formModel.item.id, requestOptions]);
+    expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([
+      formModel.item.id,
+      requestOptions
+    ]);
     expect(isPublishedSpy.calls.count()).toBe(1);
     expect(isPublishedSpy.calls.argsFor(0)).toEqual([formModel.item]);
     expect(result).toEqual({
@@ -126,13 +171,20 @@ describe("getGroupSharingDetails", function () {
     });
   });
 
-  it("should filter out falsey models", async function () {
+  it("should filter out falsey models", async function() {
     formModel = { item: FormItemPublished };
     getSurveyModelsResult.form = formModel;
     delete getSurveyModelsResult.stakeholder;
-    const getGroupSpy = spyOn(restPortal, "getGroup").and.returnValue(Promise.resolve(UpdateGroup));
-    const getSurveyModelsSpy = spyOn(getSurveyModels, "getSurveyModels").and.returnValue(Promise.resolve(getSurveyModelsResult));
-    const isPublishedSpy = spyOn(isPublished, "isPublished").and.returnValue(true);
+    const getGroupSpy = spyOn(restPortal, "getGroup").and.returnValue(
+      Promise.resolve(UpdateGroup)
+    );
+    const getSurveyModelsSpy = spyOn(
+      getSurveyModels,
+      "getSurveyModels"
+    ).and.returnValue(Promise.resolve(getSurveyModelsResult));
+    const isPublishedSpy = spyOn(isPublished, "isPublished").and.returnValue(
+      true
+    );
     const result = await getGroupSharingDetails(
       formModel.item.id,
       "123",
@@ -141,7 +193,10 @@ describe("getGroupSharingDetails", function () {
     expect(getGroupSpy.calls.count()).toBe(1);
     expect(getGroupSpy.calls.argsFor(0)).toEqual(["123", requestOptions]);
     expect(getSurveyModelsSpy.calls.count()).toBe(1);
-    expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([formModel.item.id, requestOptions]);
+    expect(getSurveyModelsSpy.calls.argsFor(0)).toEqual([
+      formModel.item.id,
+      requestOptions
+    ]);
     expect(isPublishedSpy.calls.count()).toBe(1);
     expect(isPublishedSpy.calls.argsFor(0)).toEqual([formModel.item]);
     expect(result).toEqual({

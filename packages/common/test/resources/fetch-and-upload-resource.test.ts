@@ -1,4 +1,3 @@
-
 import { mockUserSession } from "../test-helpers/fake-user-session";
 import * as fetchImageAsBlobModule from "../../src/resources/fetch-image-as-blob";
 import * as portalModule from "@esri/arcgis-rest-portal";
@@ -11,7 +10,7 @@ import {
 
 describe("fetchAndUploadResource", function() {
   // These tests create a blob
-  if (typeof Blob !== 'undefined') {
+  if (typeof Blob !== "undefined") {
     it("fetches and uploads a resource", async function() {
       const owner = "andrew";
       const itemId = "some-id";
