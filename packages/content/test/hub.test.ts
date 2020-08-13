@@ -164,8 +164,9 @@ describe("hub", () => {
       const id = dataset.id;
       getContentFromHub(id, requestOpts).then(content => {
         // verify that we attempted to fetch from the portal API
-        const [url] = fetchMock.calls()[0];
+        const [url, opts] = fetchMock.calls()[0];
         expect(url).toBe(`https://some.url.com/datasets/${id}`);
+        expect(opts.method).toBe("GET");
         validateContentFromDataset(content, dataset, "dataset");
         // TODO: content type specific properties
         // expect(content.recordCount).toBe(attributes.recordCount);
