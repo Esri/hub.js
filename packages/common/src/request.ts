@@ -38,11 +38,12 @@ export function hubApiRequest(
   const options: IHubRequestOptions = {
     ...{
       hubApiUrl: "https://opendata.arcgis.com/api/v3/",
-      httpMethod: "POST",
-      fetch
+      httpMethod: "GET"
     },
     ...requestOptions
   };
+  // use fetch override if any
+  const _fetch = options.fetch || fetch;
   // merge in default headers
   const headers = {
     ...{ "Content-Type": "application/json" },
@@ -54,17 +55,15 @@ export function hubApiRequest(
     host: options.hubApiUrl,
     path: route
   });
-  return options
-    .fetch(url, {
-      method: options.httpMethod,
-      headers
-      // body: JSON.stringify(body)
-    })
-    .then(resp => {
-      if (resp.ok) {
-        return resp.json();
-      } else {
-        throw new RemoteServerError(resp.statusText, url, resp.status);
-      }
-    });
+  return _fetch(url, {
+    method: options.httpMethod,
+    headers
+    // body: JSON.stringify(body)
+  }).then(resp => {
+    if (resp.ok) {
+      return resp.json();
+    } else {
+      throw new RemoteServerError(resp.statusText, url, resp.status);
+    }
+  });
 }
