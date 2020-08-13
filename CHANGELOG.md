@@ -7,20 +7,51 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
+## [6.2.0] - August 13th 2020
+
+### @esri/hub-common
+
+* New Features
+   * **types**: add common Hub types needed for getContent() [`a1304061`](https://github.com/Esri/hub.js/commit/a1304061356bd96cb50e70ea84dda634a572c065)
+   * **thumbnail url**: getItemThumbnailUrl() can take the portal URL instead of request options [`fd403198`](https://github.com/Esri/hub.js/commit/fd4031981e2ee7c6ed4aad215b997c62256bf74c)
+   * **thumbnail url**: getItemThumbnailUrl() can take a portal object instead of request options [`1ccd5a30`](https://github.com/Esri/hub.js/commit/1ccd5a30fe14b05b23499b1565cf7481dc6a1c59)
+   * **url utils**: add a utility fn to build URLs from a host, path, and queryParams [`b3c33315`](https://github.com/Esri/hub.js/commit/b3c33315c0981573c29002e1929f83465916779d)
+   * **extent**: add function to create an extent from coordinates [`ee97f502`](https://github.com/Esri/hub.js/commit/ee97f502a3b3196245908fec612c704cc9bc1b2c)
+   * **item urls**: add fn to get the URL of an item page in the Portal home app [`de904dd0`](https://github.com/Esri/hub.js/commit/de904dd00f02fde81cfdc96874c16e8e24b47226)
+   * **item urls**: add a fn to get the portal rest api end point for an item data [`0b0f3af9`](https://github.com/Esri/hub.js/commit/0b0f3af9f3712c7825a824279b05fc09b82faaa6)
+   * **item urls**: add a fn to get the URL for an item portal API endpoint [`599ae794`](https://github.com/Esri/hub.js/commit/599ae794858f963854fc2d3a8a71bfd547c57796)
+   * **request**: add hubRequestApi() for making requests to the Hub API [`bfb9b698`](https://github.com/Esri/hub.js/commit/bfb9b6984da7d1e119fd57cde422571490921e7c)
+
+### @esri/hub-content
+
+* New Features
+   * **content utils**: add a function to parse item and layer ids from dataset id [`f321a40a`](https://github.com/Esri/hub.js/commit/f321a40a9c34d310b8fcf19a6dffbf15116bfcb5)
+   * **getContent**: add functions for fetching content from portal [`db56b8cd`](https://github.com/Esri/hub.js/commit/db56b8cd0b6f68940e22e715c282d925e7d61923)
+
+### @esri/hub-downloads
+
 * Bug Fixes
-   * **downloads**: fix broken search for previously cached download files with a format-name including whitespace. Keywords actually don't require inclusion of the export-format type, since the search already includes a "type" which refers to the export-format.
+   * **downloads**: fix broken search for previously cached download files with a format-name including whitespace. Keywords actually do not require inclusion of the export-format type, since the search already includes a `type`; which refers to the export-format.
+* Misc.
+   * **download metadata**: remove duplicate urlBuilder fn [`feec3220`](https://github.com/Esri/hub.js/commit/feec322072c49dfc9063bdaae3310acd3227581b)
+
+### Other Changes
+
+* Chores
+   * **linting**: configure husky to run lint-staged on ever commit [`f4e6cf24`](https://github.com/Esri/hub.js/commit/f4e6cf240036e67b8e9f52782422a6a6508094c8) [#308](https://github.com/Esri/hub.js/issues/308)
+   * **linting**: add and run scripts to format TS files in each package [`c50eff30`](https://github.com/Esri/hub.js/commit/c50eff30ebcc97e860d11b1d13e0e441e74e01d3)
 
 ## [6.1.3] - August 12th 2020
 
 ### @esri/hub-common
 
 * Bug Fixes
-   * **cloneObject**: fix cloneObject's handling of Date properties [`81e6b257`](https://github.com/Esri/hub.js/commit/81e6b2577b6c2bae18bddcde8b43a34180a585c1) [#309](https://github.com/Esri/hub.js/issues/309)
+   * **cloneObject**: fix cloneObject&#39;s handling of Date properties [`81e6b257`](https://github.com/Esri/hub.js/commit/81e6b2577b6c2bae18bddcde8b43a34180a585c1) [#309](https://github.com/Esri/hub.js/issues/309)
 
 ### Other Changes
 
 * Bug Fixes
-   * **search**: Revert "c/141567 changed Hub Page and Site Page types to Site types from Document" [`1b4732f8`](https://github.com/Esri/hub.js/commit/1b4732f88807fbc61a6c3ade6668d9f9a56e8c90)
+   * **search**: Revert &quot;c/141567 changed Hub Page and Site Page types to Site types from Document&quot; [`1b4732f8`](https://github.com/Esri/hub.js/commit/1b4732f88807fbc61a6c3ade6668d9f9a56e8c90)
 
 ## [6.1.2] - July 30th 2020
 
@@ -861,4 +892,5 @@ Initial Release
 [6.1.1]: https://github.com/Esri/hub.js/compare/v6.1.0...v6.1.1 "v6.1.1"
 [6.1.2]: https://github.com/Esri/hub.js/compare/v6.1.1...v6.1.2 "v6.1.2"
 [6.1.3]: https://github.com/Esri/hub.js/compare/v6.1.2...v6.1.3 "v6.1.3"
-[HEAD]: https://github.com/Esri/hub.js/compare/v6.1.3...HEAD "Unreleased Changes"
+[6.2.0]: https://github.com/Esri/hub.js/compare/v6.1.3...v6.2.0 "v6.2.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v6.2.0...HEAD "Unreleased Changes"
