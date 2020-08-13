@@ -1,17 +1,17 @@
 import * as fetchMock from "fetch-mock";
-import { hubRequest } from "../src/request";
+import { hubApiRequest } from "../src/request";
 
-describe("hubRequest", () => {
+describe("hubApiRequest", () => {
   it("handles a server error", done => {
     const status = 403;
-    const url = "badurl";
+    const route = "badurl";
     fetchMock.once("*", {
       status
     });
-    hubRequest(url).catch(e => {
+    hubApiRequest(route).catch(e => {
       expect(e.message).toBe("Forbidden");
       expect(e.status).toBe(status);
-      expect(e.url).toBe(url);
+      expect(e.url).toBe(`https://opendata.arcgis.com/api/v3/${route}`);
       done();
     });
   });

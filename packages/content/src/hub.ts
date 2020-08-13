@@ -3,8 +3,7 @@ import { IItem } from "@esri/arcgis-rest-portal";
 import {
   IHubContent,
   IHubRequestOptions,
-  buildUrl,
-  hubRequest
+  hubApiRequest
 } from "@esri/hub-common";
 import { itemToContent, withPortalUrls } from "./portal";
 
@@ -45,13 +44,7 @@ export function getContentFromHub(
   id: string,
   requestOptions?: IHubRequestOptions
 ): Promise<IHubContent> {
-  const host = requestOptions && requestOptions.hubApiUrl;
-  // TODO: what if no host? reject?
-  const url = buildUrl({
-    host,
-    path: `/datasets/${id}`
-  });
-  return hubRequest(url, requestOptions).then(resp => {
+  return hubApiRequest(`/datasets/${id}`, requestOptions).then(resp => {
     const dataset = resp && resp.data;
     return dataset && withPortalUrls(datasetToContent(dataset), requestOptions);
   });
