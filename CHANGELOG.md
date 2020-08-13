@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
+* Bug Fixes
+   * **downloads**: fix broken search for previously cached download files with a format-name including whitespace. Keywords actually don't require inclusion of the export-format type, since the search already includes a "type" which refers to the export-format.
+
 ## [6.1.3] - August 12th 2020
 
 ### @esri/hub-common

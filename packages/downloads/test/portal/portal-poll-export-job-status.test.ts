@@ -176,7 +176,7 @@ describe("portalPollExportJobStatus", () => {
           {
             item: {
               id: "download-id",
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,exportFormat:CSV,spatialRefId:undefined`
+              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:undefined`
             },
             authentication
           }
@@ -259,7 +259,7 @@ describe("portalPollExportJobStatus", () => {
           {
             item: {
               id: "download-id",
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,exportFormat:CSV,spatialRefId:undefined`
+              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:undefined`
             },
             authentication
           }
@@ -356,7 +356,7 @@ describe("portalPollExportJobStatus", () => {
           {
             item: {
               id: "download-id",
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,exportFormat:CSV,spatialRefId:undefined`
+              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:undefined`
             },
             authentication
           }
@@ -463,7 +463,7 @@ describe("portalPollExportJobStatus", () => {
           {
             item: {
               id: "download-id",
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,exportFormat:CSV,spatialRefId:undefined`
+              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:undefined`
             },
             authentication
           }
@@ -583,7 +583,7 @@ describe("portalPollExportJobStatus", () => {
           {
             item: {
               id: "download-id",
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,exportFormat:CSV,spatialRefId:undefined`
+              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:undefined`
             },
             authentication
           }
@@ -718,7 +718,7 @@ describe("portalPollExportJobStatus", () => {
           {
             item: {
               id: "download-id",
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,exportFormat:CSV,spatialRefId:undefined`
+              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:undefined`
             },
             authentication
           }
@@ -859,7 +859,7 @@ describe("portalPollExportJobStatus", () => {
           {
             item: {
               id: "download-id",
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,exportFormat:CSV,spatialRefId:undefined`
+              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:undefined`
             },
             authentication
           }
@@ -986,7 +986,7 @@ describe("portalPollExportJobStatus", () => {
           {
             item: {
               id: "download-id",
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,exportFormat:CSV,spatialRefId:undefined`
+              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:undefined`
             },
             authentication
           }
@@ -1124,7 +1124,7 @@ describe("portalPollExportJobStatus", () => {
           {
             item: {
               id: "download-id",
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,exportFormat:CSV,spatialRefId:4326`
+              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:4326`
             },
             authentication
           }

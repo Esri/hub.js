@@ -43,7 +43,7 @@ export function portalRequestDownloadMetadata(
     .then((result: number) => {
       serviceLastEditDate = result;
       return searchItems({
-        q: `type:"${format}" AND typekeywords:"export:${datasetId},exportFormat:${format},spatialRefId:${spatialRefId}"`,
+        q: `type:"${format}" AND typekeywords:"export:${datasetId},spatialRefId:${spatialRefId}"`,
         num: 1,
         sortField: "modified",
         sortOrder: "DESC",
