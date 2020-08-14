@@ -5,7 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.2.1] - August 14th 2020
+
 ## [Unreleased][HEAD]
+
+### @esri/hub-common
+
+* Bug Fixes
+   * **hubApiRequest**: url should include /api/v3 [`5ca01f39`](https://github.com/Esri/hub.js/commit/5ca01f39afd667d2beeab0df1d440aff09bf653a)
 
 ## [6.2.0] - August 13th 2020
 
@@ -46,12 +53,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/hub-common
 
 * Bug Fixes
-   * **cloneObject**: fix cloneObject&#39;s handling of Date properties [`81e6b257`](https://github.com/Esri/hub.js/commit/81e6b2577b6c2bae18bddcde8b43a34180a585c1) [#309](https://github.com/Esri/hub.js/issues/309)
+   * **cloneObject**: fix cloneObject&amp;#39;s handling of Date properties [`81e6b257`](https://github.com/Esri/hub.js/commit/81e6b2577b6c2bae18bddcde8b43a34180a585c1) [#309](https://github.com/Esri/hub.js/issues/309)
 
 ### Other Changes
 
 * Bug Fixes
-   * **search**: Revert &quot;c/141567 changed Hub Page and Site Page types to Site types from Document&quot; [`1b4732f8`](https://github.com/Esri/hub.js/commit/1b4732f88807fbc61a6c3ade6668d9f9a56e8c90)
+   * **search**: Revert &amp;quot;c/141567 changed Hub Page and Site Page types to Site types from Document&amp;quot; [`1b4732f8`](https://github.com/Esri/hub.js/commit/1b4732f88807fbc61a6c3ade6668d9f9a56e8c90)
 
 ## [6.1.2] - July 30th 2020
 
@@ -893,4 +900,5 @@ Initial Release
 [6.1.2]: https://github.com/Esri/hub.js/compare/v6.1.1...v6.1.2 "v6.1.2"
 [6.1.3]: https://github.com/Esri/hub.js/compare/v6.1.2...v6.1.3 "v6.1.3"
 [6.2.0]: https://github.com/Esri/hub.js/compare/v6.1.3...v6.2.0 "v6.2.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v6.2.0...HEAD "Unreleased Changes"
+[6.2.1]: https://github.com/Esri/hub.js/compare/v6.2.0...v6.2.1 "v6.2.1"
+[HEAD]: https://github.com/Esri/hub.js/compare/v6.2.1...HEAD "Unreleased Changes"
