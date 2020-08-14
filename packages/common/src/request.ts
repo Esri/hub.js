@@ -53,7 +53,7 @@ export function hubApiRequest(
   // build Hub API URL
   const url = buildUrl({
     host: options.hubApiUrl,
-    path: route
+    path: `/api/v3/${route}`.replace(/\/\//g, "/")
   });
   return _fetch(url, {
     method: options.httpMethod,
