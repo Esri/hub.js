@@ -2,7 +2,7 @@ import { IPortal } from "@esri/arcgis-rest-portal";
 import { getPortalUrl } from "../../src";
 
 describe("getPortalUrl", function() {
-  const portalSelfResponse: IPortal = {
+  const portalSelf: IPortal = {
     isPortal: true,
     id: "some-id",
     name: "Portal Name",
@@ -11,17 +11,29 @@ describe("getPortalUrl", function() {
     customBaseUrl: "custom-base-url.com"
   };
 
-  it("uses portalHostname when isPortal", function() {
-    portalSelfResponse.isPortal = true;
-    expect(getPortalUrl(portalSelfResponse)).toEqual(
-      `https://${portalSelfResponse.portalHostname}`
-    );
-  });
+  describe("when passed a portal", () => {
+    it("uses portalHostname when isPortal", function() {
+      portalSelf.isPortal = true;
+      expect(getPortalUrl(portalSelf)).toEqual(
+        `https://${portalSelf.portalHostname}`
+      );
+    });
 
-  it("constructs url when NOT isPortal", function() {
-    portalSelfResponse.isPortal = false;
-    expect(getPortalUrl(portalSelfResponse)).toEqual(
-      `https://${portalSelfResponse.urlKey}.${portalSelfResponse.customBaseUrl}`
-    );
+    it("constructs url when NOT isPortal", function() {
+      portalSelf.isPortal = false;
+      expect(getPortalUrl(portalSelf)).toEqual(
+        `https://${portalSelf.urlKey}.${portalSelf.customBaseUrl}`
+      );
+    });
+  });
+  describe("when passed a portal API URL", () => {
+    it("should strip /sharing/rest", () => {
+      const result = getPortalUrl("https://www.arcgis.com/sharing/rest");
+      expect(result).toBe("https://www.arcgis.com");
+    });
+    it("should strip /sharing/rest/", () => {
+      const result = getPortalUrl("https://www.arcgis.com/sharing/rest/");
+      expect(result).toBe("https://www.arcgis.com");
+    });
   });
 });
