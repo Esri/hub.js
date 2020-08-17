@@ -1,0 +1,54 @@
+{
+  "name": "@esri/hub-downloads",
+  "version": "6.2.1",
+  "description": "Service for Hub downloads",
+  "main": "dist/node/index.js",
+  "unpkg": "dist/umd/downloads.umd.js",
+  "module": "dist/esm/index.js",
+  "js:next": "dist/esm/index.js",
+  "sideEffects": false,
+  "types": "dist/esm/index.d.ts",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@esri/arcgis-rest-feature-layer": "^2.14.1",
+    "@esri/arcgis-rest-portal": "^2.14.1",
+    "@esri/arcgis-rest-request": "^2.14.1",
+    "eventemitter3": "^4.0.4",
+    "tslib": "^1.11.1"
+  },
+  "devDependencies": {
+    "@esri/arcgis-rest-auth": "^2.14.1"
+  },
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "npm run build:node && npm run build:umd && npm run build:esm",
+    "build:esm": "tsc --module es2015 --outDir ./dist/esm --declaration",
+    "build:umd": "rollup -c ../../umd-base-profile.js && rollup -c ../../umd-production-profile.js",
+    "build:node": "tsc --module commonjs --outDir ./dist/node",
+    "dev:esm": "tsc -w --module es2015 --outDir ./dist/esm --declaration",
+    "dev:umd": "rollup -w -c ../../umd-base-profile.js",
+    "dev:node": "tsc -w --module commonjs --outDir ./dist/node",
+    "format": "prettier --write ./{src,test}/**/*.ts",
+    "format:check": "prettier --check ./{src,test}/**/*.ts"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Esri/hub.js.git"
+  },
+  "contributors": [
+    {
+      "name": "Rich Gwozdz",
+      "email": "rgwozdz@esri.com"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/Esri/hub.js/issues"
+  },
+  "homepage": "https://github.com/Esri/hub.js#readme"
+}

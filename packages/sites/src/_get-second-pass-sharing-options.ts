@@ -4,6 +4,7 @@ import { IModel, getProp } from "@esri/hub-common";
  * Return a hash of settings for the groups, including the itemControl flag
  * Both, one or neither of these groups may exist
  * @param {object} siteModel Site Model
+ * @private
  */
 export function _getSecondPassSharingOptions(
   siteModel: IModel

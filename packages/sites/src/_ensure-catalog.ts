@@ -4,6 +4,7 @@ import { IModel, getProp, cloneObject } from "@esri/hub-common";
  * Move the data.values.groups array into the
  * data.catalog object
  * @param {Object} model Site Model
+ * @private
  */
 export function _ensureCatalog(model: IModel) {
   // early exit

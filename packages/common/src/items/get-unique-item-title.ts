@@ -1,5 +1,5 @@
 import { doesItemExistWithTitle } from "./does-item-exist-with-title";
-import { IAuthenticationManager } from '@esri/arcgis-rest-request';
+import { IAuthenticationManager } from "@esri/arcgis-rest-request";
 
 /**
  * Given a title, construct a site/page title that is unique
@@ -12,9 +12,9 @@ import { IAuthenticationManager } from '@esri/arcgis-rest-request';
  * @param {number} step Number to increment. Defaults to 0
  */
 
-export function getUniqueItemTitle (
+export function getUniqueItemTitle(
   title: string,
-  options: Record<string,string>,
+  options: Record<string, string>,
   authMgr: IAuthenticationManager,
   step = 0
 ): Promise<string> {
@@ -25,15 +25,15 @@ export function getUniqueItemTitle (
   }
 
   return doesItemExistWithTitle(combinedName, options, authMgr)
-  .then(result => {
-    if (result) {
-      step++;
-      return getUniqueItemTitle(title, options, authMgr, step);
-    } else {
-      return combinedName;
-    }
-  })
-  .catch(e => {
-    throw Error(`Error in getUniqueItemTitle ${e}`);
-  });
+    .then(result => {
+      if (result) {
+        step++;
+        return getUniqueItemTitle(title, options, authMgr, step);
+      } else {
+        return combinedName;
+      }
+    })
+    .catch(e => {
+      throw Error(`Error in getUniqueItemTitle ${e}`);
+    });
 }

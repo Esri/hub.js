@@ -18,6 +18,7 @@ import { shareItemWithGroup } from "@esri/arcgis-rest-portal";
  * @param {object} settings adlib interpolation hash
  * @param {object} transforms adlib transforms hash
  * @param {IHubRequestOptions}} hubRequestOptions
+ * @private
  */
 export function _createSiteInitiative(
   siteTemplate: IModelTemplate,

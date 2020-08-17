@@ -1,0 +1,77 @@
+{
+  "data": {
+    "id": "afcf88c4fb244973a59defde7f6d8dfb",
+    "type": "dataset",
+    "attributes": {
+      "errors": [],
+      "access": "public",
+      "additionalResources": [],
+      "collection": ["Document"],
+      "categories": ["Cartography"],
+      "commentsEnabled": true,
+      "composeStatus": {
+        "pass": true,
+        "retries": 0,
+        "lastRetriedAt": 1595002265921
+      },
+      "composedAt": 1595002265919,
+      "content": "PDF",
+      "created": 1571932237000,
+      "dailyViewTrendRate": 18391.020781379884,
+      "description": "<div><div style='font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px;'>Feature layer symbolizing UDO zoning districts in unincorporated Porter County, IN. Zoning districts governed by and described in the <a href='http://www.porterco.org/DocumentCenter/View/345' style='color:rgb(0, 121, 193); text-decoration-line:none; font-family:inherit;' target='_blank'>Porter County Unified Development Ordinance (UDO)</a> established June 15, 2007.  Questions concerning zoning must be directed to the <a href='http://www.porterco.org/index.aspx?nid=407' style='color:rgb(0, 121, 193); text-decoration-line:none; font-family:inherit;' target='_blank'>Porter County Plan Commission Office</a> located at 155 Indiana Ave. Ste. 311, Valparaiso, IN 46383. ph. (219)465-3540.</div><div style='font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px;'><br /></div><div style='font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px;'>The PDF map containing the zoning layer is intended for reference only. No warranty of completeness or accuracy is made and the map is offered  'as is' claiming no responsibility for loss incurred due to inaccuracies in the map. All zoning inquiries must be directed to and confirmed by the Porter County Plan Commission. </div></div><div><br /></div><div>Last updated October 24, 2019.</div>",
+      "downloadable": true,
+      "enrichCoverage": "unknown",
+      "enrichQuality": 92,
+      "groupIds": [
+        "00e00ae615f24b70a906aae372f978b8",
+        "0f03b5274a27418ca8c9272bd11217b5",
+        "2eeb75d741f445b49cd237b9a13ba422",
+        "5daa7af1b16847738a62eb3417c7451a"
+      ],
+      "hasApi": false,
+      "hubType": "PDF",
+      "id": "afcf88c4fb244973a59defde7f6d8dfb",
+      "itemModified": 1571933048000,
+      "layer": null,
+      "layers": null,
+      "licenseInfo": "<b>*DISCLAIMER*</b><div><div><span style='font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px;'>The PDF map containing the zoning layer is intended for reference only. No warranty of completeness or accuracy is made and the map is offered  'as is' claiming no responsibility for loss incurred due to inaccuracies in the map. All zoning inquiries must be directed to and confirmed by the </span><a href='http://www.porterco.org/index.aspx?nid=407' style='font-family: inherit; font-size: 16px; color: rgb(0, 121, 193); text-decoration-line: none;' target='_blank'>Porter County Plan Commission Office</a><span style='font-family: &quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size: 16px;'> located at 155 Indiana Ave. Ste. 311, Valparaiso, IN 46383. ph. (219)465-3540.</span><br /></div></div><div><span style='font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px;'><br /></span></div><div>This map item is openly available for public use.<span style='font-family:&quot;Avenir Next W01&quot;, &quot;Avenir Next W00&quot;, &quot;Avenir Next&quot;, Avenir, &quot;Helvetica Neue&quot;, sans-serif; font-size:16px;'><br /></span></div>",
+      "metadata": null,
+      "modified": 1571933048000,
+      "modifiedProvenance": "item.modified",
+      "name": "Zoning - UDO Zoning Districts",
+      "openData": true,
+      "owner": "cmiller.PorterCountyGov",
+      "searchDescription": "Feature layer symbolizing UDO zoning districts in unincorporated Porter County, IN. Zoning districts governed by and described in the Porter County Unified Development Ordinance (UDO) established June 15, 2007.  Questions concerning zoning must be directed to the Porter County Plan Commission Office located at 155 Indiana Ave. Ste. 311, Valparaiso, IN 46383. ph. (219)465-3540.The PDF map containing the zoning layer is intended for reference only. No warranty of completeness or accuracy is made and the map is offered  'as is' claiming no responsibility for loss incurred due to inaccuracies in the map. All zoning inquiries must be directed to and confirmed by the Porter County Plan Commission. Last updated October 24, 2019.",
+      "server": null,
+      "size": 2037097,
+      "source": "cmiller.PorterCountyGov",
+      "sourceProvenance": "item.owner",
+      "structuredLicense": {
+        "text": "*DISCLAIMER*The PDF map containing the zoning layer is intended for reference only. No warranty of completeness or accuracy is made and the map is offered  'as is' claiming no responsibility for loss incurred due to inaccuracies in the map. All zoning inquiries must be directed to and confirmed by the <a href=\"http://www.porterco.org/index.aspx?nid=407\" target=\"_blank\">Porter County Plan Commission Office</a> located at 155 Indiana Ave. Ste. 311, Valparaiso, IN 46383. ph. (219)465-3540.This map item is openly available for public use.",
+        "type": "custom"
+      },
+      "license": "custom",
+      "tags": ["UDO Zoning", "zoning", "zoning districts"],
+      "thumbnail": "thumbnail/thumbnail1571932538411.png",
+      "thumbnailUrl": "thumbnail/thumbnail1571932538411.png",
+      "type": "PDF",
+      "typeCategories": ["Document"],
+      "typeKeywords": ["Data", "Document", "PDF"],
+      "validExtent": true,
+      "snippet": "UDO - Zoning Districts in Porter County, IN\nAlong with zoning districts, map contains roads, municipal boundaries, townships, property parcels and water bodies.  Last updated October 24, 2019.",
+      "culture": "en-us"
+    },
+    "links": {
+      "self": "http://opendata.arcgis.com/api/v3/datasets/afcf88c4fb244973a59defde7f6d8dfb",
+      "rawEs": "http://opendata.arcgis.com/api/es/datasets/afcf88c4fb244973a59defde7f6d8dfb",
+      "itemPage": "https://www.arcgis.com/home/item.html?id=afcf88c4fb244973a59defde7f6d8dfb",
+      "esriRest": "https://www.arcgis.com/sharing/content/items/afcf88c4fb244973a59defde7f6d8dfb?f=json"
+    },
+    "meta": { "highlights": {}, "matchedFields": [] }
+  },
+  "meta": {
+    "apiRoot": "http://opendata.arcgis.com/api/v3/",
+    "resourceRoot": "http://opendata.arcgis.com/api/v3/datasets",
+    "request": "http://opendata.arcgis.com/api/v3/datasets/afcf88c4fb244973a59defde7f6d8dfb"
+  }
+}

@@ -1,4 +1,4 @@
-import { IModel, getProp, getWithDefault } from "@esri/hub-common";
+import { IModel, getWithDefault } from "@esri/hub-common";
 import { getLayoutDependencies } from "../layout/get-layout-dependencies";
 
 /**

@@ -75,10 +75,14 @@ Some useful commands include:
 * [`@esri/hub-common`](./packages/common) - Common TypeScript types and utility functions.
 * [`@esri/hub-initiatives`](./packages/initiatives) - Helper functions for working with [Initiatives](http://doc.arcgis.com/en/hub/initiatives/initiatives-overview.htm).
 * [`@esri/hub-annotations`](./packages/annotations) - Helper functions for working with Annotations.
-* [`@esri/hub-sites`](./packages/sites) - Helper functions for working with [Sites](http://doc.arcgis.com/en/hub/sites/create-a-hub-site.htm).
-* [`@esri/hub-auth`](./packages/auth) - Helper functions for authentication.
+* [`@esri/hub-sites`](./packages/sites) - Helper functions for working with [Sites](http://doc.arcgis.com/en/hub/sites/create-a-hub-site.htm), Pages and Domains.
+* [`@esri/hub-auth`](./packages/auth) - Helper functions for authentication for external applications.
 * [`@esri/hub-events`](./packages/events) - Helper functions for working with Events.
 * [`@esri/hub-search`](./packages/search) - Helper functions for search on ArcGIS Online.
+* [`@esri/hub-surveys`](./packages/surveys) - Helper functions for working with Surveys.
+* [`@esri/hub-teams`](./packages/teams) - Helper functions for working with Surveys.
+* [`@esri/hub-members`](./packages/members) - Helper functions for working with Hub Members.
+* [`@esri/hub-content`](./packages/content) - Helper functions for working with Hub Content.
 
 ### Design Philosophy
 

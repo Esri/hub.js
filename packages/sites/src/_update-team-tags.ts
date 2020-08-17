@@ -12,6 +12,7 @@ import { updateGroup } from "@esri/arcgis-rest-portal";
  * @param {object} initiativeModel Initiative Model
  * @param {object} teams hash of teams
  * @param {IHubRequestOptions} hubRequestOptions
+ * @private
  */
 export function _updateTeamTags(
   initiativeModel: IInitiativeModel,

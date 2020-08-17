@@ -1,5 +1,6 @@
 /**
  * Wrapper over window.location
+ * @private
  */
 /* istanbul ignore next */
 export function _getLocation() {

@@ -4,6 +4,7 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
+
     {
       "type": "node",
       "request": "launch",
@@ -14,11 +15,26 @@
       ]
     },
     {
+      "type": "node", 
+      "request": "launch", 
+      "name": "Debug Node Tests, Current File", 
+      "program": "${workspaceRoot}/node_modules/.bin/jasmine",
+      "args": ["--config=jasmine.json", "${file}"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
       "type": "node",
       "request": "launch",
       "name": "Debug Changelog Script",
       "program": "${workspaceRoot}/support/changelog.js",
       "args": ["--config=jasmine.json"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug typedoc build",
+      "program": "${workspaceRoot}/docs/build-typedoc.js",
     }
   ]
 }

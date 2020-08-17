@@ -1,5 +1,4 @@
-
-import { _deepMapValues, _isString, _isRegExp  } from "./_deep-map-values";
+import { _deepMapValues, _isString, _isRegExp } from "./_deep-map-values";
 
 /**
  * Iterate over an object graph, and for all string properties, search for a string,

@@ -3,6 +3,7 @@ import { IModel, getProp, cloneObject } from "@esri/hub-common";
 /**
  * Enforce lowercase domains
  * @param {Object} model Site Model
+ * @private
  */
 export function _enforceLowercaseDomains(model: IModel) {
   // exit if this has been applied...

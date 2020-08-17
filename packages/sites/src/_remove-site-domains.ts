@@ -5,6 +5,7 @@ import { getDomainsForSite, removeDomain } from "./domains";
  * Remove the Domain entries for a Site
  * @param {string} siteId Item Id of the site to remove the domain entries for
  * @param {IHubRequestOptions} hubRequestOptions
+ * @private
  */
 export function _removeSiteDomains(
   siteId: string,

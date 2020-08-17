@@ -1,5 +1,5 @@
 import { IPortal } from "@esri/arcgis-rest-portal";
-import { getHubUrlFromPortal } from './get-hub-url-from-portal';
+import { getHubUrlFromPortal } from "./get-hub-url-from-portal";
 
 /**
  * Return the Portal url based on the portal self
@@ -8,4 +8,3 @@ import { getHubUrlFromPortal } from './get-hub-url-from-portal';
 export function getHubApiUrlFromPortal(portal: IPortal): string {
   return `${getHubUrlFromPortal(portal)}/api/v3`;
 }
-

@@ -1,5 +1,5 @@
 import { ensureRequiredPageProperties, PAGE_TYPE_KEYWORD } from "../../src";
-import { IModel, IModelTemplate } from "@esri/hub-common";
+import { IModelTemplate } from "@esri/hub-common";
 
 describe("ensureRequiredPageProperties", () => {
   it("adds required props", async () => {

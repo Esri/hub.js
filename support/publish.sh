@@ -18,8 +18,8 @@ git commit -am "v$VERSION" --no-verify --amend
 git tag v$VERSION
 
 # push everything up to this point to master
-git push https://github.com/Esri/hub.js.git master
-git push --tags
+git push -f https://github.com/Esri/hub.js.git master
+git push -f --tags
 
 # publish each package on npm
 lerna publish --skip-git --yes --repo-version $VERSION --force-publish=*

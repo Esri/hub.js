@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-auth",
-  "version": "4.2.2",
+  "version": "6.2.1",
   "description": "Module to help the community authenticate and interact with ArcGIS Hub.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/auth.umd.js",
@@ -13,12 +13,12 @@
     "tslib": "^1.11.1"
   },
   "peerDependencies": {
-    "@esri/arcgis-rest-auth": "^2.0.0",
-    "@esri/arcgis-rest-request": "^2.0.0"
+    "@esri/arcgis-rest-auth": "^2.14.1",
+    "@esri/arcgis-rest-request": "^2.14.1"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-auth": "^2.0.0",
-    "@esri/arcgis-rest-request": "^2.0.0"
+    "@esri/arcgis-rest-auth": "^2.14.1",
+    "@esri/arcgis-rest-request": "^2.14.1"
   },
   "files": [
     "dist/**"
@@ -31,7 +31,9 @@
     "build:node": "tsc --module commonjs --outDir ./dist/node",
     "dev:esm": "tsc -w --module es2015 --outDir ./dist/esm --declaration",
     "dev:umd": "rollup -w -c ../../umd-base-profile.js",
-    "dev:node": "tsc -w --module commonjs --outDir ./dist/node"
+    "dev:node": "tsc -w --module commonjs --outDir ./dist/node",
+    "format": "prettier --write ./{src,test}/**/*.ts",
+    "format:check": "prettier --check ./{src,test}/**/*.ts"
   },
   "publishConfig": {
     "access": "public"

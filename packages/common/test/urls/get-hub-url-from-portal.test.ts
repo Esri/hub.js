@@ -1,21 +1,23 @@
-import { getHubUrlFromPortal } from '../../src/urls/get-hub-url-from-portal'
-import { IPortal } from '@esri/arcgis-rest-portal';
+import { getHubUrlFromPortal } from "../../src/urls/get-hub-url-from-portal";
+import { IPortal } from "@esri/arcgis-rest-portal";
 
 describe("getHubUrlFromPortal", () => {
   let portalSelf: IPortal;
   beforeEach(() => {
     portalSelf = {
-      id: 'fakeId',
-      name: 'fakeName',
+      id: "fakeId",
+      name: "fakeName",
       isPortal: false,
-      portalHostname: 'https://foo.com'
+      portalHostname: "https://foo.com"
     } as IPortal;
   });
 
   it("returns undefined for non-AGO URLs", () => {
     portalSelf.isPortal = true;
     portalSelf.portalHostname = "some.portal.com";
-    expect( () => { getHubUrlFromPortal(portalSelf) }).toThrow(new Error(`Hub Url is not available in ArcGIS Enterprise`));
+    expect(() => {
+      getHubUrlFromPortal(portalSelf);
+    }).toThrow(new Error(`Hub Url is not available in ArcGIS Enterprise`));
   });
 
   it("can retrieve prod base url", () => {

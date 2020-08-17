@@ -5,14 +5,144 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.2.1] - August 14th 2020
+
 ## [Unreleased][HEAD]
+
+### @esri/hub-common
+
+* Bug Fixes
+   * **hubApiRequest**: url should include /api/v3 [`5ca01f39`](https://github.com/Esri/hub.js/commit/5ca01f39afd667d2beeab0df1d440aff09bf653a)
+
+## [6.2.0] - August 13th 2020
+
+### @esri/hub-common
+
+* New Features
+   * **types**: add common Hub types needed for getContent() [`a1304061`](https://github.com/Esri/hub.js/commit/a1304061356bd96cb50e70ea84dda634a572c065)
+   * **thumbnail url**: getItemThumbnailUrl() can take the portal URL instead of request options [`fd403198`](https://github.com/Esri/hub.js/commit/fd4031981e2ee7c6ed4aad215b997c62256bf74c)
+   * **thumbnail url**: getItemThumbnailUrl() can take a portal object instead of request options [`1ccd5a30`](https://github.com/Esri/hub.js/commit/1ccd5a30fe14b05b23499b1565cf7481dc6a1c59)
+   * **url utils**: add a utility fn to build URLs from a host, path, and queryParams [`b3c33315`](https://github.com/Esri/hub.js/commit/b3c33315c0981573c29002e1929f83465916779d)
+   * **extent**: add function to create an extent from coordinates [`ee97f502`](https://github.com/Esri/hub.js/commit/ee97f502a3b3196245908fec612c704cc9bc1b2c)
+   * **item urls**: add fn to get the URL of an item page in the Portal home app [`de904dd0`](https://github.com/Esri/hub.js/commit/de904dd00f02fde81cfdc96874c16e8e24b47226)
+   * **item urls**: add a fn to get the portal rest api end point for an item data [`0b0f3af9`](https://github.com/Esri/hub.js/commit/0b0f3af9f3712c7825a824279b05fc09b82faaa6)
+   * **item urls**: add a fn to get the URL for an item portal API endpoint [`599ae794`](https://github.com/Esri/hub.js/commit/599ae794858f963854fc2d3a8a71bfd547c57796)
+   * **request**: add hubRequestApi() for making requests to the Hub API [`bfb9b698`](https://github.com/Esri/hub.js/commit/bfb9b6984da7d1e119fd57cde422571490921e7c)
+
+### @esri/hub-content
+
+* New Features
+   * **content utils**: add a function to parse item and layer ids from dataset id [`f321a40a`](https://github.com/Esri/hub.js/commit/f321a40a9c34d310b8fcf19a6dffbf15116bfcb5)
+   * **getContent**: add functions for fetching content from portal [`db56b8cd`](https://github.com/Esri/hub.js/commit/db56b8cd0b6f68940e22e715c282d925e7d61923)
+
+### @esri/hub-downloads
+
+* Bug Fixes
+   * **downloads**: fix broken search for previously cached download files with a format-name including whitespace. Keywords actually do not require inclusion of the export-format type, since the search already includes a `type`; which refers to the export-format.
+* Misc.
+   * **download metadata**: remove duplicate urlBuilder fn [`feec3220`](https://github.com/Esri/hub.js/commit/feec322072c49dfc9063bdaae3310acd3227581b)
+
+### Other Changes
+
+* Chores
+   * **linting**: configure husky to run lint-staged on ever commit [`f4e6cf24`](https://github.com/Esri/hub.js/commit/f4e6cf240036e67b8e9f52782422a6a6508094c8) [#308](https://github.com/Esri/hub.js/issues/308)
+   * **linting**: add and run scripts to format TS files in each package [`c50eff30`](https://github.com/Esri/hub.js/commit/c50eff30ebcc97e860d11b1d13e0e441e74e01d3)
+
+## [6.1.3] - August 12th 2020
+
+### @esri/hub-common
+
+* Bug Fixes
+   * **cloneObject**: fix cloneObject&amp;#39;s handling of Date properties [`81e6b257`](https://github.com/Esri/hub.js/commit/81e6b2577b6c2bae18bddcde8b43a34180a585c1) [#309](https://github.com/Esri/hub.js/issues/309)
+
+### Other Changes
+
+* Bug Fixes
+   * **search**: Revert &amp;quot;c/141567 changed Hub Page and Site Page types to Site types from Document&amp;quot; [`1b4732f8`](https://github.com/Esri/hub.js/commit/1b4732f88807fbc61a6c3ade6668d9f9a56e8c90)
+
+## [6.1.2] - July 30th 2020
+
+* Bug Fixes
+  * **hub-surveys**: Fixed error that could occur in `getSurveyModels` method when no Fieldworker or Feature Service are returned. [141783](https://esriarlington.tpondemand.com/entity/141783-collaborators-can-use-sharing-quick-actions)
+
+## [6.1.1] - July 30th 2020
+
+* Bug Fixes
+  * **hub-surveys**: Fixed error that could occur in `getSurveyModels` method when no Fieldworker or Feature Service are returned. [141783](https://esriarlington.tpondemand.com/entity/141783-collaborators-can-use-sharing-quick-actions)
+
+## [6.1.0] - July 23rd 2020
+
+* New Feature
+  * **hub-downloads**: adds method for
+    * getting metadata for a particular dataset download file from Hub API or Portal API (private/enterprise datasets)
+    * requesting the export of a dataset to a particular download file format from Hub API or Portal API (private/enterprise datasets)
+    * polling the status of download export from Hub API or Portal API (private/enterprise datasets)
+
+* Changed
+  * **hub-search** Pages moved from `Document` to `Site` Types
+
+## [6.0.1] - July 20th 2020
+
+* Changed
+  * **hub-surveys**: Changed `setAccess` to only change access to survey Form and Fieldworker. [138621](https://esriarlington.tpondemand.com/entity/138621-owneradmin-can-set-sharing-level-for)
+
+## [6.0.0] - July 16th 2020
+
+### @esri/hub-sites
+
+* Breaking Changes
+   * **sites**: remove deprecated functions [`3e7fb63`](https://github.com/Esri/hub.js/commit/3e7fb632b2a2387ff590c7d9148db7ab6d896274) [#269](https://github.com/Esri/hub.js/issues/269)
+
+## [5.0.0] - July 10th 2020
+
+* Changed
+  * **hub-teams**: created teams package
+
+* Bug Fixes
+  * **hub-sites**: fetching app and survey card items as dependencies during templating process
+  * **hub-sites**: not including core team in templated gallery cards (https://github.com/Esri/solution.js/issues/392)
+
+## [4.5.1] - July 2nd 2020
+
+* Documentation
+  * **hub-surveys**: Updated README. [136998](https://esriarlington.tpondemand.com/entity/136998-chore-hoist-all-sharing-logic-into)
+
+## [4.5.0] - July 2nd 2020
+
+* New Feature
+  * **hub-common**: Added a static logger wrapper class that logs based on the set level [130847](https://esriarlington.tpondemand.com/entity/130847-add-a-hub-logger-wrapper-method)
+
+* Changed
+  * **hub-surveys**: Changed `getStakeholderModel` to search by `Survey2Data` relationship for `formId`. [136998](https://esriarlington.tpondemand.com/entity/136998-chore-hoist-all-sharing-logic-into)
+  * **hub-surveys**: Improved `getSurveyModels` performance by parallelizing `getStakeholderModel` and `getInputFeatureServiceModel` calls. [136998](https://esriarlington.tpondemand.com/entity/136998-chore-hoist-all-sharing-logic-into)
+  * **hub-surveys**: Changed `getSurveyModels`, `getGroupSharingDetails`, `setAccess`, `shareWithGroup` and `unshareWithGroup` signatures to accept `formId`: `string` vs `formModel`: `IForm`. [136998](https://esriarlington.tpondemand.com/entity/136998-chore-hoist-all-sharing-logic-into)
+  * **hub-surveys**: Moved `get-*` methods from `sharing` dir into `items` dir. [136998](https://esriarlington.tpondemand.com/entity/136998-chore-hoist-all-sharing-logic-into)
+
+## [4.4.0] - June 30th 2020
+
+### @esri/hub-common
+* New Features
+  * added `isUpdateGroup`, `runRevertableTask`, and `processRevertableTasks` utility methods [136998](https://esriarlington.tpondemand.com/entity/136998-chore-hoist-all-sharing-logic-into)
+
+### @esri/hub-surveys
+* New Package
+   * Created `hub-surveys` package [136998](https://esriarlington.tpondemand.com/entity/136998-chore-hoist-all-sharing-logic-into)
+   * Added `setAccess`, `shareWithGroup` and `unshareWithGroup` methods [136998](https://esriarlington.tpondemand.com/entity/136998-chore-hoist-all-sharing-logic-into)
+
+## [4.3.0] - June 25th 2020
+
+### @esri/hub-common
+* New Feature
+  * **hub-common**: add `doesItemExistWithTitle` and `getUniqueItemTitle` [c8a869c](https://github.com/Esri/hub.js/commit/c8a869c23f69fcd89f33d390ee5339160f950481)
+  * **hub-common**: added `batch` utility method that allows for serial processing of batches of concurrent tasks [131321](https://esriarlington.tpondemand.com/entity/131321-purge-script-hasntisnt-purged-the-hub)
 
 ## [4.2.2] - June 1st 2020
 
 * New Feature
-  * **hub-sites**: `updateSite` and `updatePage` send `clearEmptyFields: true` allowing item properties to be cleared [fb64477](https://github.com/Esri/hub.js/commit/fb64477ff528d770acc5a7caceb47aec2c1446e3) 
+  * **hub-sites**: `updateSite` and `updatePage` send `clearEmptyFields: true` allowing item properties to be cleared [fb64477](https://github.com/Esri/hub.js/commit/fb64477ff528d770acc5a7caceb47aec2c1446e3)
 
 ## [4.2.1] - June 1st 2020
+
 * Bug Fixes
    * **hub-sites**: allow old site item type in linkSiteAndPage [`202c2c1`](https://github.com/Esri/hub.js/commit/202c2c1f57eee635f85af612f19d6fb576611a10)
 
@@ -742,22 +872,33 @@ Initial Release
 [3.6.3]: https://github.com/Esri/hub.js/compare/v3.6.2...v3.6.3 "v3.6.3"
 [3.6.4]: https://github.com/Esri/hub.js/compare/v3.6.3...v3.6.4 "v3.6.4"
 [3.6.5]: https://github.com/Esri/hub.js/compare/v3.6.4...v3.6.5 "v3.6.5"
-[3.6.7]: https://github.com/Esri/hub.js/compare/v3.6.5...v3.6.7 "v3.6.7"
+[3.6.6]: https://github.com/Esri/hub.js/compare/v3.6.5...v3.6.6 "v3.6.6"
+[3.6.7]: https://github.com/Esri/hub.js/compare/v3.6.6...v3.6.7 "v3.6.7"
 [3.6.8]: https://github.com/Esri/hub.js/compare/v3.6.7...v3.6.8 "v3.6.8"
 [3.7.0]: https://github.com/Esri/hub.js/compare/v3.6.8...v3.7.0 "v3.7.0"
 [3.7.1]: https://github.com/Esri/hub.js/compare/v3.7.0...v3.7.1 "v3.7.1"
 [3.7.2]: https://github.com/Esri/hub.js/compare/v3.7.1...v3.7.2 "v3.7.2"
 [3.7.3]: https://github.com/Esri/hub.js/compare/v3.7.2...v3.7.3 "v3.7.3"
 [3.7.4]: https://github.com/Esri/hub.js/compare/v3.7.3...v3.7.4 "v3.7.4"
-[3.7.5]: https://github.com/Esri/hub.js/compare/v3.7.4...v3.7.5 "v3.7.5"
-[3.7.6]: https://github.com/Esri/hub.js/compare/v3.7.5...v3.7.6 "v3.7.6"
+[3.7.6]: https://github.com/Esri/hub.js/compare/v3.7.4...v3.7.6 "v3.7.6"
 [3.8.0]: https://github.com/Esri/hub.js/compare/v3.7.6...v3.8.0 "v3.8.0"
-[3.9.0]: https://github.com/Esri/hub.js/compare/v3.8.0...v3.9.0 "v3.9.0"
-[3.9.1]: https://github.com/Esri/hub.js/compare/v3.9.0...v3.9.1 "v3.9.1"
+[3.9.1]: https://github.com/Esri/hub.js/compare/v3.8.0...v3.9.1 "v3.9.1"
 [3.9.2]: https://github.com/Esri/hub.js/compare/v3.9.1...v3.9.2 "v3.9.2"
-[3.9.3]: https://github.com/Esri/hub.js/compare/v3.9.2...v3.9.3 "v3.9.3"
-[4.0.0]: https://github.com/Esri/hub.js/compare/v3.9.3...v4.0.0 "v4.0.0"
+[4.0.0]: https://github.com/Esri/hub.js/compare/v3.9.2...v4.0.0 "v4.0.0"
 [4.1.0]: https://github.com/Esri/hub.js/compare/v4.0.0...v4.1.0 "v4.1.0"
 [4.2.0]: https://github.com/Esri/hub.js/compare/v4.1.0...v4.2.0 "v4.2.0"
 [4.2.1]: https://github.com/Esri/hub.js/compare/v4.2.0...v4.2.1 "v4.2.1"
-[HEAD]: https://github.com/Esri/hub.js/compare/v4.2.1...HEAD "Unreleased Changes"
+[4.2.2]: https://github.com/Esri/hub.js/compare/v4.2.1...v4.2.2 "v4.2.2"
+[4.4.0]: https://github.com/Esri/hub.js/compare/v4.2.2...v4.4.0 "v4.4.0"
+[4.5.0]: https://github.com/Esri/hub.js/compare/v4.4.0...v4.5.0 "v4.5.0"
+[4.5.1]: https://github.com/Esri/hub.js/compare/v4.5.0...v4.5.1 "v4.5.1"
+[5.0.0]: https://github.com/Esri/hub.js/compare/v4.5.1...v5.0.0 "v5.0.0"
+[6.0.0]: https://github.com/Esri/hub.js/compare/v5.0.0...v6.0.0 "v6.0.0"
+[6.0.1]: https://github.com/Esri/hub.js/compare/v6.0.0...v6.0.1 "v6.0.1"
+[6.1.0]: https://github.com/Esri/hub.js/compare/v6.0.1...v6.1.0 "v6.1.0"
+[6.1.1]: https://github.com/Esri/hub.js/compare/v6.1.0...v6.1.1 "v6.1.1"
+[6.1.2]: https://github.com/Esri/hub.js/compare/v6.1.1...v6.1.2 "v6.1.2"
+[6.1.3]: https://github.com/Esri/hub.js/compare/v6.1.2...v6.1.3 "v6.1.3"
+[6.2.0]: https://github.com/Esri/hub.js/compare/v6.1.3...v6.2.0 "v6.2.0"
+[6.2.1]: https://github.com/Esri/hub.js/compare/v6.2.0...v6.2.1 "v6.2.1"
+[HEAD]: https://github.com/Esri/hub.js/compare/v6.2.1...HEAD "Unreleased Changes"

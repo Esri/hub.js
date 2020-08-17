@@ -8,6 +8,7 @@ import { getDefaultInitiativeTemplate } from "./get-default-initiative-template"
  * If the fetch fails, it will return the default initiative template
  * @param {string} id Initiative Item Id
  * @param {IHubRequestOptions} hubRequestOptions
+ * @private
  */
 export function _fetchAndConvertInitiativeToTemplate(
   id: string,
