@@ -1,0 +1,85 @@
+import { emailOrgUsers, IEmail } from "../../src";
+import * as restPortalModule from "@esri/arcgis-rest-portal";
+import { UserSession } from "@esri/arcgis-rest-auth";
+
+const TOMORROW = (function() {
+  const now = new Date();
+  now.setDate(now.getDate() + 1);
+  return now;
+})();
+
+const MOCK_AUTH = new UserSession({
+  clientId: "clientId",
+  redirectUri: "https://example-app.com/redirect-uri",
+  token: "fake-token",
+  tokenExpires: TOMORROW,
+  refreshToken: "refreshToken",
+  refreshTokenExpires: TOMORROW,
+  refreshTokenTTL: 1440,
+  username: "casey",
+  password: "123456",
+  portal: "https://myorg.maps.arcgis.com/sharing/rest"
+});
+
+fdescribe("email-org-users", function() {
+  let notificationSpy: jasmine.Spy;
+  const users: restPortalModule.IUser[] = [
+    { username: "huey" },
+    { username: "dewey" },
+    { username: "louie" }
+  ];
+  const email: IEmail = {
+    subject: "subject",
+    body: "body"
+  };
+
+  beforeEach(() => {
+    notificationSpy = spyOn(restPortalModule, "createOrgNotification");
+  });
+  afterEach(() => {
+    notificationSpy.calls.reset();
+  });
+
+  it("Properly delegates to createOrgNotification", async () => {
+    notificationSpy.and.callFake(() => Promise.resolve({ success: true }));
+    const result = await emailOrgUsers(users, email, MOCK_AUTH, true);
+    expect(result).toEqual({ success: true });
+    expect(notificationSpy).toHaveBeenCalled();
+    const actualArgs = notificationSpy.calls.first().args;
+    const expectedArgs = [
+      {
+        authentication: MOCK_AUTH,
+        message: email.body,
+        subject: email.subject,
+        notificationChannelType: "email",
+        users: users.map(u => u.username)
+      }
+    ];
+    expect(actualArgs).toEqual(expectedArgs);
+  });
+
+  it("Sets a batch size of 1 when user is not an admin", async () => {
+    notificationSpy.and.callFake(() => Promise.resolve({ success: true }));
+    const result = await emailOrgUsers(users, email, MOCK_AUTH, false);
+    expect(result).toEqual({ success: true });
+    expect(notificationSpy).toHaveBeenCalled();
+    const actualArgs = notificationSpy.calls.first().args;
+    const expectedArgs = [
+      {
+        authentication: MOCK_AUTH,
+        message: email.body,
+        subject: email.subject,
+        notificationChannelType: "email",
+        users: users.map(u => u.username),
+        batchSize: 1
+      }
+    ];
+    expect(actualArgs).toEqual(expectedArgs);
+  });
+
+  it("Resolves to null when users array is empty", async () => {
+    const result = await emailOrgUsers([], email, MOCK_AUTH, false);
+    expect(result).toEqual(null);
+    expect(notificationSpy).not.toHaveBeenCalled();
+  });
+});
