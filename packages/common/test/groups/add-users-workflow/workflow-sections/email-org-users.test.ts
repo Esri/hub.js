@@ -1,27 +1,8 @@
-import { emailOrgUsers, IEmail } from "../../src";
 import * as restPortalModule from "@esri/arcgis-rest-portal";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { IEmail, emailOrgUsers } from "../../../../src";
+import { MOCK_AUTH } from "../fixtures";
 
-const TOMORROW = (function() {
-  const now = new Date();
-  now.setDate(now.getDate() + 1);
-  return now;
-})();
-
-const MOCK_AUTH = new UserSession({
-  clientId: "clientId",
-  redirectUri: "https://example-app.com/redirect-uri",
-  token: "fake-token",
-  tokenExpires: TOMORROW,
-  refreshToken: "refreshToken",
-  refreshTokenExpires: TOMORROW,
-  refreshTokenTTL: 1440,
-  username: "casey",
-  password: "123456",
-  portal: "https://myorg.maps.arcgis.com/sharing/rest"
-});
-
-fdescribe("email-org-users", function() {
+describe("email-org-users", function() {
   let notificationSpy: jasmine.Spy;
   const users: restPortalModule.IUser[] = [
     { username: "huey" },
