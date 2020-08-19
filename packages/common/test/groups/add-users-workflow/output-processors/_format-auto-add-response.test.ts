@@ -22,7 +22,6 @@ describe("_format-auto-add-esponse", () => {
   };
 
   it("Does not modify context if no raw response passed", () => {
-    // TODO: Switch object.assign to clonedeep
     const context = cloneObject(baseContext);
     const result = _formatAutoAddResponse(null, context);
     expect(result).toEqual(baseContext);

@@ -14,10 +14,10 @@ import {
  * @param {string} groupId
  * @param {IUser[]} usersToAdd
  * @param {IHubRequestOptions} primaryRO Info and authentication for the requesting user
- * @param {IEmail} email Email to be sent (if qualifying users are passed in)
- * @param {IHubRequestOptions} secondaryRO Info and authentication for emailing members of a secondary organization (typically a community org)
+ * @param {IEmail} [email] Email to be sent (if qualifying users are passed in)
+ * @param {IHubRequestOptions} [secondaryRO] Info and authentication for emailing members of a secondary organization (typically a community org)
  *
- * @returns {object} The operations attempted, whether they were successful and any errors
+ * @returns {IConsolidatedResult} The operations attempted, whether they were successful and any errors
  */
 export function addUsersToTeam(
   teamId: string,
