@@ -2,6 +2,9 @@ import { IUser } from "@esri/arcgis-rest-auth";
 
 /**
  * @private
+ *
+ * A user can be auto-added if they are part of the requesting user's e-org
+ * or c-org and the requesting user has the assignToGroups privilege
  */
 export function _getAutoAddUsers(
   users: IUser[],

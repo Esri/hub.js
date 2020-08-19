@@ -4,6 +4,9 @@ import { _getInviteUsers } from "./_get-invite-users";
 
 /**
  * @private
+ *
+ * A user can be emailed if they are invited (not auto-added)
+ * and the _canEmailUser condition is met
  */
 export function _getEmailUsers(
   users: IUser[],

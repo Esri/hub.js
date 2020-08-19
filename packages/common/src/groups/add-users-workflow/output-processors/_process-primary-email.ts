@@ -5,6 +5,9 @@ import { emailOrgUsers } from "../workflow-sections/email-org-users";
 
 /**
  * @private
+ *
+ * Send email notification if an email object is present and
+ * the previous invitation call was successful
  */
 export function _processPrimaryEmail(
   context: IAddMemberContext

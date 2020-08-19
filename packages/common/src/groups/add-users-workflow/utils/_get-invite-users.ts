@@ -3,6 +3,8 @@ import { _getAutoAddUsers } from "./_get-auto-add-users";
 
 /**
  * @private
+ *
+ * A user will be invited if they cannot be auto-added
  */
 export function _getInviteUsers(
   users: IUser[],
