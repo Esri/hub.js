@@ -4,3 +4,4 @@
 export * from "./util";
 export * from "./search";
 export * from "./register";
+export * from "./add-users-to-event";
