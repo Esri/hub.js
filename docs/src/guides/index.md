@@ -9,7 +9,6 @@ description: Get started with @esri/hub.js.
 
 * [Using a CDN](./from-a-cdn/)
 * [Using Node.js](./node/)
-* [Create an initiative](./create-an-initiative/)
 * [Work with an annotation service](./work-with-annotations/)
 * [What's New in `v2.0.0`?](./whats-new-v2-0/)
 

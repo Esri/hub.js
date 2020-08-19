@@ -241,11 +241,15 @@ const md = new MarkdownIt();
        * also adds a `title`, `description` and `titleSegments` to each page
        * which are used in the template for SEO.
        */
+      const packagesToExclude = ['members', 'initiatives'];
       return {
         declarations,
         packages: _(declarations)
           .map(d => d.package)
           .uniq()
+          .filter((pkg) => {
+            return !packagesToExclude.includes(pkg);
+          })
           .reduce((packages, package) => {
             const abbreviatedPackageName = package;
             const src = `hub.js/api/${abbreviatedPackageName}.html`;
