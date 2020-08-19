@@ -1,9 +1,9 @@
 ---
 title: Work with annotations.
-navTitle: Work with annotations
+navTitle: Map Annotations
 description: Learn how to work with an annotation service using @esri/hub.js.
-order: 40
-group: 1-get-started
+order: 50
+group:  2-concepts
 ---
 
 Annotations are geographic comments created by an Author to discuss an Initiative or Event or give feedback on a Dataset. Feedback can be submitted by both known and anonymous users.
