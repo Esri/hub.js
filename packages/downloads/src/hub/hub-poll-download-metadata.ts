@@ -3,7 +3,7 @@ import {
   IHubDownloadMetadataRequestParams
 } from "./hub-request-download-metadata";
 import * as EventEmitter from "eventemitter3";
-
+import { Poller } from "../poller";
 /**
  * @private
  */
@@ -19,21 +19,40 @@ export interface IHubDownloadMetadataPollParameters
  */
 export function hubPollDownloadMetadata(
   params: IHubDownloadMetadataPollParameters
-): void {
-  const { downloadId, eventEmitter, pollingInterval } = params;
+): Poller {
+  
+  const poller = new HubPoller()
+  poller.poll(params)
+  return poller;
+}
 
-  hubRequestDownloadMetadata(params)
+
+
+class HubPoller implements Poller {
+  cancelPolling: boolean = false;
+
+  poll (params: IHubDownloadMetadataPollParameters) {
+    const { downloadId, eventEmitter, pollingInterval } = params;
+
+    hubRequestDownloadMetadata(params)
     .then(metadata => {
+
+      if (this.cancelPolling) {
+        return;
+      }
+
       if (isUpToDate(metadata)) {
         return eventEmitter.emit(`${downloadId}ExportComplete`, {
           detail: { metadata }
         });
       }
+
       if (exportDatasetFailed(metadata)) {
         return eventEmitter.emit(`${downloadId}ExportError`, {
           detail: { metadata }
         });
       }
+
       return setTimeout(() => {
         hubPollDownloadMetadata(params);
       }, pollingInterval);
@@ -43,6 +62,11 @@ export function hubPollDownloadMetadata(
         detail: { error }
       });
     });
+  }
+
+  cancel () {
+    this.cancelPolling = true;
+  }
 }
 
 function isUpToDate(metadata: any) {
