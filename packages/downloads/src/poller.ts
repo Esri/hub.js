@@ -1,5 +1,4 @@
 export interface Poller {
-  cancelPolling: boolean;
-  cancel(): void;
-  poll(params:any): void;
+  disablePoll(): void;
+  activatePoll(params: any): void;
 }

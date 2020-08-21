@@ -19,54 +19,49 @@ export interface IHubDownloadMetadataPollParameters
  */
 export function hubPollDownloadMetadata(
   params: IHubDownloadMetadataPollParameters
-): Poller {
+): HubPoller {
   
   const poller = new HubPoller()
-  poller.poll(params)
+  poller.activatePoll(params)
   return poller;
 }
 
-
-
 class HubPoller implements Poller {
-  cancelPolling: boolean = false;
+  pollTimer: any;
 
-  poll (params: IHubDownloadMetadataPollParameters) {
+  disablePoll () {
+    clearInterval(this.pollTimer); 
+    this.pollTimer = null;
+  }
+
+  activatePoll (params: IHubDownloadMetadataPollParameters) {
     const { downloadId, eventEmitter, pollingInterval } = params;
-
-    hubRequestDownloadMetadata(params)
-    .then(metadata => {
-
-      if (this.cancelPolling) {
-        return;
-      }
-
-      if (isUpToDate(metadata)) {
-        return eventEmitter.emit(`${downloadId}ExportComplete`, {
-          detail: { metadata }
+    this.pollTimer = setInterval(() => {
+      hubRequestDownloadMetadata(params)
+      .then(metadata => {
+  
+        if (isUpToDate(metadata)) {
+          eventEmitter.emit(`${downloadId}ExportComplete`, {
+            detail: { metadata }
+          });
+          return this.disablePoll();
+        }
+  
+        if (exportDatasetFailed(metadata)) {
+          eventEmitter.emit(`${downloadId}ExportError`, {
+            detail: { metadata }
+          });
+          return this.disablePoll();
+        }
+      })
+      .catch(error => {
+        eventEmitter.emit(`${downloadId}PollingError`, {
+          detail: { error }
         });
-      }
-
-      if (exportDatasetFailed(metadata)) {
-        return eventEmitter.emit(`${downloadId}ExportError`, {
-          detail: { metadata }
-        });
-      }
-
-      return setTimeout(() => {
-        hubPollDownloadMetadata(params);
-      }, pollingInterval);
-    })
-    .catch(error => {
-      return eventEmitter.emit(`${downloadId}PollingError`, {
-        detail: { error }
+        return this.disablePoll();
       });
-    });
-  }
-
-  cancel () {
-    this.cancelPolling = true;
-  }
+    }, pollingInterval);
+  };
 }
 
 function isUpToDate(metadata: any) {

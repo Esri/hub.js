@@ -46,7 +46,7 @@ export interface IPortalPollExportJobStatusParams {
  */
 export function portalPollExportJobStatus (params:IPortalPollExportJobStatusParams): PortalPoller {
   const poller = new PortalPoller()
-  poller.poll(params)
+  poller.activatePoll(params)
   return poller
 }
 
@@ -128,13 +128,15 @@ function getExportsFolderId(authentication: UserSession): Promise<string> {
 }
 
 class PortalPoller implements Poller {
-  cancelPolling: boolean = false;
+  pollTimer: any;
 
-  cancel () {
-    this.cancelPolling = false;
+  disablePoll () {
+    clearInterval(this.pollTimer); 
+    this.pollTimer = null;
   }
 
-  poll (params: IPortalPollExportJobStatusParams) {
+
+  activatePoll (params: IPortalPollExportJobStatusParams) {
     const {
       downloadId,
       datasetId,
@@ -147,14 +149,12 @@ class PortalPoller implements Poller {
       pollingInterval
     } = params;
   
-    getItemStatus({ id: downloadId, jobId, jobType: 'export', authentication })
+    this.pollTimer = setInterval(() => {
+      getItemStatus({ id: downloadId, jobId, jobType: 'export', authentication })
       .then((metadata:IGetItemStatusResponse) => {
-        if (this.cancelPolling) {
-          return
-        }
 
         if (metadata.status === 'completed') {
-          return completedHandler({
+          completedHandler({
             datasetId,
             format,
             authentication,
@@ -163,29 +163,30 @@ class PortalPoller implements Poller {
             exportCreated,
             eventEmitter
           })
+          return this.disablePoll();
         }
   
         if (metadata.status === 'failed') {
-          return eventEmitter.emit(`${downloadId}ExportError`, {
+          eventEmitter.emit(`${downloadId}ExportError`, {
             detail: {
               metadata: {
                 errors: [new Error(metadata.statusMessage)]
               }
             }
           });
+          return this.disablePoll();
         }
   
-        return setTimeout(() => {
-          portalPollExportJobStatus(params);
-        }, pollingInterval);
       }).catch((error:any) => {
         if (error instanceof ExportCompletionError) {
-          return eventEmitter.emit(`${downloadId}ExportError`, {
+          eventEmitter.emit(`${downloadId}ExportError`, {
             detail: { metadata: { errors: [error] } }
           });
+        } else {
+          eventEmitter.emit(`${downloadId}PollingError`, { detail: { error } });
         }
-  
-        return eventEmitter.emit(`${downloadId}PollingError`, { detail: { error } });
+        return this.disablePoll();
       });
+    }, pollingInterval)
   }
 }
