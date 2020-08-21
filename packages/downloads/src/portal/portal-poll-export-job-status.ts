@@ -139,7 +139,6 @@ class PortalPoller implements Poller {
     this.pollTimer = null;
   }
 
-
   activatePoll (params: IPortalPollExportJobStatusParams) {
     const {
       downloadId,
@@ -158,7 +157,7 @@ class PortalPoller implements Poller {
       .then((metadata:IGetItemStatusResponse) => {
 
         if (metadata.status === 'completed') {
-          completedHandler({
+          return completedHandler({
             datasetId,
             format,
             authentication,
@@ -166,8 +165,9 @@ class PortalPoller implements Poller {
             spatialRefId,
             exportCreated,
             eventEmitter
+          }).then(() => {
+            this.disablePoll();
           })
-          return this.disablePoll();
         }
   
         if (metadata.status === 'failed') {
