@@ -72,7 +72,7 @@ describe("hubPollDownloadMetadata", () => {
       });
       const mockEventEmitter = new EventEmitter();
       spyOn(mockEventEmitter, 'emit');
-      hubPollDownloadMetadata({
+      const poller = hubPollDownloadMetadata({
         host: 'http://hub.com',
         datasetId: 'abcdef0123456789abcdef0123456789_0',
         downloadId: 'test-id',
@@ -81,11 +81,12 @@ describe("hubPollDownloadMetadata", () => {
         eventEmitter: mockEventEmitter,
         pollingInterval: 10
       });
-      await delay(0);
+      await delay(100);
       expect(mockEventEmitter.emit as any).toHaveBeenCalledTimes(1);
       expect((mockEventEmitter.emit as any).calls.first().args).toEqual([
         'test-idPollingError', { detail: { error: new Error('Bad Gateway') } }
-      ])
+      ]);
+      expect(poller.pollTimer).toEqual(null);
     } catch (err) {
       expect(err).toEqual(undefined);
     } finally {
@@ -101,7 +102,7 @@ describe("hubPollDownloadMetadata", () => {
       });
       const mockEventEmitter = new EventEmitter();
       spyOn(mockEventEmitter, 'emit');
-      hubPollDownloadMetadata({
+      const poller = hubPollDownloadMetadata({
         host: 'http://hub.com',
         datasetId: 'abcdef0123456789abcdef0123456789_0',
         downloadId: 'test-id',
@@ -124,6 +125,7 @@ describe("hubPollDownloadMetadata", () => {
         contentLength: undefined,
         cacheTime: undefined
       });
+      expect(poller.pollTimer).toEqual(null);
     } catch (err) {
       expect(err).toEqual(undefined);
     } finally {
@@ -139,7 +141,7 @@ describe("hubPollDownloadMetadata", () => {
       });
       const mockEventEmitter = new EventEmitter();
       spyOn(mockEventEmitter, 'emit');
-      hubPollDownloadMetadata({
+      const poller = hubPollDownloadMetadata({
         host: 'http://hub.com',
         datasetId: 'abcdef0123456789abcdef0123456789_0',
         downloadId: 'test-id',
@@ -162,6 +164,7 @@ describe("hubPollDownloadMetadata", () => {
         contentLength: 1391454,
         cacheTime: 13121
       });
+      expect(poller.pollTimer).toEqual(null);
     } catch (err) {
       expect(err).toEqual(undefined);
     } finally {
@@ -204,7 +207,7 @@ describe("hubPollDownloadMetadata", () => {
       });
       const mockEventEmitter = new EventEmitter();
       spyOn(mockEventEmitter, 'emit');
-      hubPollDownloadMetadata({
+      const poller = hubPollDownloadMetadata({
         host: 'http://hub.com',
         datasetId: 'abcdef0123456789abcdef0123456789_0',
         downloadId: 'test-id',
@@ -215,6 +218,7 @@ describe("hubPollDownloadMetadata", () => {
       });
       await delay(50);
       expect(mockEventEmitter.emit as any).toHaveBeenCalledTimes(0);
+      expect(poller.pollTimer !== null).toEqual(true);
     } catch (err) {
       expect(err).toEqual(undefined);
     } finally {

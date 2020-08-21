@@ -40,7 +40,7 @@ describe('portalPollExportJobStatus', () => {
 
       const mockEventEmitter = new EventEmitter();
       spyOn(mockEventEmitter, 'emit');
-      portalPollExportJobStatus({
+      const poller = portalPollExportJobStatus({
         downloadId: 'download-id',
         jobId: 'test-id',
         datasetId: 'abcdef0123456789abcdef0123456789_0',
@@ -50,8 +50,8 @@ describe('portalPollExportJobStatus', () => {
         pollingInterval: 10,
         eventEmitter: mockEventEmitter
       });
-
-      await delay(0);
+      expect(poller.pollTimer !== null).toEqual(true);
+      await delay(100);
       expect(portal.getItemStatus).toHaveBeenCalledTimes(1);
       expect((portal.getItemStatus as any).calls.first().args).toEqual([
         { id: 'download-id', jobId: 'test-id', jobType: 'export', authentication }
@@ -65,7 +65,8 @@ describe('portalPollExportJobStatus', () => {
             }
           }
         }
-      ])
+      ]);
+      expect(poller.pollTimer === null).toEqual(true);
     } catch (err) {
       expect(err).toEqual(undefined);
     } finally {
@@ -75,15 +76,13 @@ describe('portalPollExportJobStatus', () => {
 
   it('handle polling error', async (done) => {
     try {
-      spyOn(portal, 'getItemStatus').and.returnValue(
-        new Promise((resolve, reject) => {
-          reject(new Error('Not Found'));
-        })
-      );
+      spyOn(portal, 'getItemStatus').and.callFake(async () => {
+        return Promise.reject(new Error('Not Found'))
+      })
 
       const mockEventEmitter = new EventEmitter();
       spyOn(mockEventEmitter, 'emit');
-      portalPollExportJobStatus({
+      const poller = portalPollExportJobStatus({
         downloadId: 'download-id',
         jobId: 'test-id',
         datasetId: 'abcdef0123456789abcdef0123456789_0',
@@ -94,7 +93,8 @@ describe('portalPollExportJobStatus', () => {
         eventEmitter: mockEventEmitter
       });
 
-      await delay(0);
+      expect(poller.pollTimer !== null).toEqual(true);
+      await delay(100);
       expect(portal.getItemStatus).toHaveBeenCalledTimes(1);
       expect((portal.getItemStatus as any).calls.first().args).toEqual([
         { id: 'download-id', jobId: 'test-id', jobType: 'export', authentication }
@@ -107,6 +107,7 @@ describe('portalPollExportJobStatus', () => {
           }
         }
       ])
+      expect(poller.pollTimer === null).toEqual(true);
     } catch (err) {
       expect(err).toEqual(undefined);
     } finally {
@@ -117,28 +118,21 @@ describe('portalPollExportJobStatus', () => {
   describe('export-completed handling errors', () => {
     it('updateItem failure', async (done) => {
       try {
-        spyOn(portal, 'getItemStatus').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve({
-              status: 'completed'
-            });
-          })
-        );
+        spyOn(portal, 'getItemStatus').and.callFake( async () => {
+          return Promise.resolve({ status: 'completed' })
+        });
   
-        spyOn(portal, 'updateItem').and.returnValue(
-          new Promise((resolve, reject) => {
-            reject(new Error('5xx'));
-          })
-        );
+        spyOn(portal, 'updateItem').and.callFake( async () => {
+          return Promise.reject(new Error('5xx'))
+        });
 
-        spyOn(portal, 'removeItem').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve();
-          })
-        );
+        spyOn(portal, 'removeItem').and.callFake( async () => {
+          return Promise.resolve();
+        });
+
         const mockEventEmitter = new EventEmitter();
         spyOn(mockEventEmitter, 'emit');
-        portalPollExportJobStatus({
+        const poller = portalPollExportJobStatus({
           downloadId: 'download-id',
           jobId: 'test-id',
           datasetId: 'abcdef0123456789abcdef0123456789_0',
@@ -148,8 +142,8 @@ describe('portalPollExportJobStatus', () => {
           pollingInterval: 10,
           eventEmitter: mockEventEmitter
         });
-  
-        await delay(0);
+        expect(poller.pollTimer !== null).toEqual(true);
+        await delay(100);
         expect(portal.getItemStatus).toHaveBeenCalledTimes(1);
         expect((portal.getItemStatus as any).calls.first().args).toEqual([
           { id: 'download-id', jobId: 'test-id', jobType: 'export', authentication }
@@ -179,6 +173,7 @@ describe('portalPollExportJobStatus', () => {
             }
           }
         ])
+        expect(poller.pollTimer === null).toEqual(true);
       } catch (err) {
         expect(err).toEqual(undefined);
       } finally {
@@ -188,31 +183,22 @@ describe('portalPollExportJobStatus', () => {
 
     it('setItemAccess failure', async (done) => {
       try {
-        spyOn(portal, 'getItemStatus').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve({
-              status: 'completed'
-            });
-          })
-        );
+        spyOn(portal, 'getItemStatus').and.callFake(async () => {
+          return Promise.resolve({ status: 'completed' });
+        });
+
+        spyOn(portal, 'updateItem').and.callFake(async () => {
+          return Promise.resolve();
+        });
   
-        spyOn(portal, 'updateItem').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve();
-          })
-        );
+        spyOn(portal, 'setItemAccess').and.callFake(async () => {
+          return Promise.reject(new Error('5xx'));
+        });
   
-        spyOn(portal, 'setItemAccess').and.returnValue(
-          new Promise((resolve, reject) => {
-            reject(new Error('5xx'));
-          })
-        );
-  
-        spyOn(portal, 'removeItem').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve();
-          })
-        );
+        spyOn(portal, 'removeItem').and.callFake(async () => {
+          return Promise.resolve();
+        });
+        
         const mockEventEmitter = new EventEmitter();
         spyOn(mockEventEmitter, 'emit');
         portalPollExportJobStatus({
@@ -226,7 +212,7 @@ describe('portalPollExportJobStatus', () => {
           eventEmitter: mockEventEmitter
         });
   
-        await delay(0);
+        await delay(100);
         expect(portal.getItemStatus).toHaveBeenCalledTimes(1);
         expect((portal.getItemStatus as any).calls.first().args).toEqual([
           { id: 'download-id', jobId: 'test-id', jobType: 'export', authentication }
@@ -273,40 +259,29 @@ describe('portalPollExportJobStatus', () => {
 
     it('userContent failure', async (done) => {
       try {
-        spyOn(portal, 'getItemStatus').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve({
-              status: 'completed'
-            });
-          })
-        );
+        spyOn(portal, 'getItemStatus').and.callFake(async () => {
+          return Promise.resolve({ status: 'completed' });
+        });
   
-        spyOn(portal, 'updateItem').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve();
-          })
-        );
+        spyOn(portal, 'updateItem').and.callFake(async () => {
+          return Promise.resolve();
+        });
   
-        spyOn(portal, 'setItemAccess').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve();
-          })
-        );
+        spyOn(portal, 'setItemAccess').and.callFake(async () => {
+          return Promise.resolve();
+        });
   
-        spyOn(portal, 'getUserContent').and.returnValue(
-          new Promise((resolve, reject) => {
-            reject(new Error('5xx'));
-          })
-        );
+        spyOn(portal, 'getUserContent').and.callFake(async () => {
+          return Promise.reject(new Error('5xx'));
+        });
 
-        spyOn(portal, 'removeItem').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve();
-          })
-        );
+        spyOn(portal, 'removeItem').and.callFake(async () => {
+          return Promise.resolve();
+        });
+
         const mockEventEmitter = new EventEmitter();
         spyOn(mockEventEmitter, 'emit');
-        portalPollExportJobStatus({
+        const poller = portalPollExportJobStatus({
           downloadId: 'download-id',
           jobId: 'test-id',
           datasetId: 'abcdef0123456789abcdef0123456789_0',
@@ -316,8 +291,8 @@ describe('portalPollExportJobStatus', () => {
           pollingInterval: 10,
           eventEmitter: mockEventEmitter
         });
-  
-        await delay(0);
+        expect(poller.pollTimer !== null).toEqual(true);
+        await delay(100);
         expect(portal.getItemStatus).toHaveBeenCalledTimes(1);
         expect((portal.getItemStatus as any).calls.first().args).toEqual([
           { id: 'download-id', jobId: 'test-id', jobType: 'export', authentication }
@@ -356,7 +331,8 @@ describe('portalPollExportJobStatus', () => {
               metadata: { errors: [new Error('5xx')] }
             }
           }
-        ])
+        ]);
+        expect(poller.pollTimer === null).toEqual(true);
       } catch (err) {
         expect(err).toEqual(undefined);
       } finally {
@@ -366,46 +342,33 @@ describe('portalPollExportJobStatus', () => {
 
     it('createFolder failure', async (done) => {
       try {
-        spyOn(portal, 'getItemStatus').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve({
-              status: 'completed'
-            });
-          })
-        );
+        spyOn(portal, 'getItemStatus').and.callFake(async () => {
+          return Promise.resolve({ status: 'completed' });
+        });
   
-        spyOn(portal, 'updateItem').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve();
-          })
-        );
+        spyOn(portal, 'updateItem').and.callFake(async () => {
+          return Promise.resolve();
+        });
   
-        spyOn(portal, 'setItemAccess').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve();
-          })
-        );
+        spyOn(portal, 'setItemAccess').and.callFake(async () => {
+          return Promise.resolve();
+        });
   
-        spyOn(portal, 'getUserContent').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve({ folders: [] });
-          })
-        );
+        spyOn(portal, 'getUserContent').and.callFake(async () => {
+          return Promise.resolve({ folders: [] });
+        });
 
-        spyOn(portal, 'createFolder').and.returnValue(
-          new Promise((resolve, reject) => {
-            reject(new Error('5xx'));
-          })
-        );
+        spyOn(portal, 'createFolder').and.callFake(async () => {
+          return Promise.reject(new Error('5xx'));
+        });
 
-        spyOn(portal, 'removeItem').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve();
-          })
-        );
+        spyOn(portal, 'removeItem').and.callFake(async () => {
+          return Promise.resolve();
+        });
+
         const mockEventEmitter = new EventEmitter();
         spyOn(mockEventEmitter, 'emit');
-        portalPollExportJobStatus({
+        const poller = portalPollExportJobStatus({
           downloadId: 'download-id',
           jobId: 'test-id',
           datasetId: 'abcdef0123456789abcdef0123456789_0',
@@ -415,8 +378,8 @@ describe('portalPollExportJobStatus', () => {
           pollingInterval: 10,
           eventEmitter: mockEventEmitter
         });
-  
-        await delay(0);
+        expect(poller.pollTimer !== null).toEqual(true);
+        await delay(100);
         expect(portal.getItemStatus).toHaveBeenCalledTimes(1);
         expect((portal.getItemStatus as any).calls.first().args).toEqual([
           { id: 'download-id', jobId: 'test-id', jobType: 'export', authentication }
@@ -462,7 +425,8 @@ describe('portalPollExportJobStatus', () => {
               metadata: { errors: [new Error('5xx')] }
             }
           }
-        ])
+        ]);
+        expect(poller.pollTimer === null).toEqual(true);
       } catch (err) {
         expect(err).toEqual(undefined);
       } finally {
@@ -472,52 +436,39 @@ describe('portalPollExportJobStatus', () => {
 
     it('moveItem failure', async (done) => {
       try {
-        spyOn(portal, 'getItemStatus').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve({
-              status: 'completed'
-            });
-          })
-        );
+        spyOn(portal, 'getItemStatus').and.callFake(async () => {
+          return Promise.resolve({ status: 'completed' });
+        });
   
-        spyOn(portal, 'updateItem').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve();
-          })
-        );
-  
-        spyOn(portal, 'setItemAccess').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve();
-          })
-        );
+        spyOn(portal, 'updateItem').and.callFake(async () => {
+          return Promise.resolve();
+        });
 
-        spyOn(portal, 'getUserContent').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve({ folders: [] });
-          })
-        );
+        spyOn(portal, 'setItemAccess').and.callFake(async () => {
+          return Promise.resolve();
+        });
 
-        spyOn(portal, 'createFolder').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve({ folder: { id: 'export-folder-id' } });
-          })
-        );
+        spyOn(portal, 'getUserContent').and.callFake(async () => {
+          return Promise.resolve({ folders: [] });
+        });
 
-        spyOn(portal, 'moveItem').and.returnValue(
-          new Promise((resolve, reject) => {
-            reject(new Error('5xx'));
-          })
-        );
+        spyOn(portal, 'createFolder').and.callFake(async () => {
+          return Promise.resolve({ folder: { id: 'export-folder-id' } });
+        });
+;
 
-        spyOn(portal, 'removeItem').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve();
-          })
-        );
+        spyOn(portal, 'moveItem').and.callFake(async () => {
+          return Promise.reject(new Error('5xx'));
+        });
+
+
+        spyOn(portal, 'removeItem').and.callFake(async () => {
+          return Promise.resolve();
+        });
+
         const mockEventEmitter = new EventEmitter();
         spyOn(mockEventEmitter, 'emit');
-        portalPollExportJobStatus({
+        const poller = portalPollExportJobStatus({
           downloadId: 'download-id',
           jobId: 'test-id',
           datasetId: 'abcdef0123456789abcdef0123456789_0',
@@ -527,8 +478,8 @@ describe('portalPollExportJobStatus', () => {
           pollingInterval: 10,
           eventEmitter: mockEventEmitter
         });
-  
-        await delay(0);
+        expect(poller.pollTimer !== null).toEqual(true);
+        await delay(100);
         expect(portal.getItemStatus).toHaveBeenCalledTimes(1);
         expect((portal.getItemStatus as any).calls.first().args).toEqual([
           { id: 'download-id', jobId: 'test-id', jobType: 'export', authentication }
@@ -582,7 +533,8 @@ describe('portalPollExportJobStatus', () => {
               metadata: { errors: [new Error('5xx')] }
             }
           }
-        ])
+        ]);
+        expect(poller.pollTimer === null).toEqual(true);
       } catch (err) {
         expect(err).toEqual(undefined);
       } finally {
@@ -607,44 +559,32 @@ describe('portalPollExportJobStatus', () => {
           }),
         );
   
-        spyOn(portal, 'updateItem').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve();
-          })
-        );
+        spyOn(portal, 'updateItem').and.callFake(async () => {
+          return Promise.resolve();
+        });
   
-        spyOn(portal, 'setItemAccess').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve();
-          })
-        );
+        spyOn(portal, 'setItemAccess').and.callFake(async () => {
+          return Promise.resolve();
+        });
 
-        spyOn(portal, 'getUserContent').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve({ folders: [] });
-          })
-        );
+        spyOn(portal, 'getUserContent').and.callFake(async () => {
+          return Promise.resolve({ folders: [] });
+        });
 
-        spyOn(portal, 'createFolder').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve({ folder: { id: 'export-folder-id' } });
-          })
-        );
+        spyOn(portal, 'createFolder').and.callFake(async () => {
+          return Promise.resolve({ folder: { id: 'export-folder-id' } });
+        });;
 
-        spyOn(portal, 'moveItem').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve();
-          })
-        );
+        spyOn(portal, 'moveItem').and.callFake(async () => {
+          return Promise.resolve();
+        });
 
-        spyOn(portal, 'removeItem').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve();
-          })
-        );
+        spyOn(portal, 'removeItem').and.callFake(async () => {
+          return Promise.resolve();
+        });
         const mockEventEmitter = new EventEmitter();
         spyOn(mockEventEmitter, 'emit');
-        portalPollExportJobStatus({
+        const poller = portalPollExportJobStatus({
           downloadId: 'download-id',
           jobId: 'test-id',
           datasetId: 'abcdef0123456789abcdef0123456789_0',
@@ -654,7 +594,7 @@ describe('portalPollExportJobStatus', () => {
           pollingInterval: 10,
           eventEmitter: mockEventEmitter
         });
-  
+        expect(poller.pollTimer !== null).toEqual(true);
         await delay(100);
         expect(portal.getItemStatus).toHaveBeenCalledTimes(2);
         expect((portal.getItemStatus as any).calls.first().args).toEqual([
@@ -713,6 +653,7 @@ describe('portalPollExportJobStatus', () => {
         expect(status).toEqual('ready');
         expect(downloadUrl).toEqual('http://portal.com/sharing/rest/content/items/download-id/data?token=123');
         expect(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z$/.test(lastModified)).toEqual(true);
+        expect(poller.pollTimer === null).toEqual(true);
       } catch (err) {
         expect(err).toEqual(undefined);
       } finally {
@@ -771,7 +712,7 @@ describe('portalPollExportJobStatus', () => {
         );
         const mockEventEmitter = new EventEmitter();
         spyOn(mockEventEmitter, 'emit');
-        portalPollExportJobStatus({
+        const poller = portalPollExportJobStatus({
           downloadId: 'download-id',
           jobId: 'test-id',
           datasetId: 'abcdef0123456789abcdef0123456789_0',
@@ -781,7 +722,8 @@ describe('portalPollExportJobStatus', () => {
           pollingInterval: 10,
           eventEmitter: mockEventEmitter
         });
-  
+
+        expect(poller.pollTimer !== null).toEqual(true);
         await delay(100);
         expect(portal.getItemStatus).toHaveBeenCalledTimes(2);
         expect((portal.getItemStatus as any).calls.first().args).toEqual([
@@ -834,6 +776,7 @@ describe('portalPollExportJobStatus', () => {
         expect(status).toEqual('ready');
         expect(downloadUrl).toEqual('http://portal.com/sharing/rest/content/items/download-id/data?token=123');
         expect(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z$/.test(lastModified)).toEqual(true);
+        expect(poller.pollTimer === null).toEqual(true);
       } catch (err) {
         expect(err).toEqual(undefined);
       } finally {
@@ -843,52 +786,37 @@ describe('portalPollExportJobStatus', () => {
 
     it('succeeds without moving download', async (done) => {
       try {
-        spyOn(portal, 'getItemStatus').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve({
-              status: 'completed'
-            });
-          })
-        );
+        spyOn(portal, 'getItemStatus').and.callFake(async () => {
+          return Promise.resolve({ status: 'completed' });
+        });
   
-        spyOn(portal, 'updateItem').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve();
-          })
-        );
+        spyOn(portal, 'updateItem').and.callFake(async () => {
+          return Promise.resolve();
+        });
   
-        spyOn(portal, 'setItemAccess').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve();
-          })
-        );
+        spyOn(portal, 'setItemAccess').and.callFake(async () => {
+          return Promise.resolve();
+        });
 
-        spyOn(portal, 'getUserContent').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve({ folders: [] });
-          })
-        );
+        spyOn(portal, 'getUserContent').and.callFake(async () => {
+          return Promise.resolve({ folders: []});
+        });
 
-        spyOn(portal, 'createFolder').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve({ folder: { id: 'export-folder-id' } });
-          })
-        );
+        spyOn(portal, 'createFolder').and.callFake(async () => {
+          return Promise.resolve({ folder: { id: 'export-folder-id' } });
+        });
 
-        spyOn(portal, 'moveItem').and.returnValue(
-          new Promise((resolve, reject) => {
-            reject(new RestJsError('Already moved', 'CONT_0011'));
-          })
-        );
+        spyOn(portal, 'moveItem').and.callFake(async () => {
+          return Promise.reject(new RestJsError('Already moved', 'CONT_0011'));
+        });
 
-        spyOn(portal, 'removeItem').and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve();
-          })
-        );
+        spyOn(portal, 'removeItem').and.callFake(async () => {
+          return Promise.resolve();
+        });
+
         const mockEventEmitter = new EventEmitter();
         spyOn(mockEventEmitter, 'emit');
-        portalPollExportJobStatus({
+        const poller = portalPollExportJobStatus({
           downloadId: 'download-id',
           jobId: 'test-id',
           datasetId: 'abcdef0123456789abcdef0123456789_0',
@@ -899,7 +827,8 @@ describe('portalPollExportJobStatus', () => {
           eventEmitter: mockEventEmitter
         });
   
-        await delay(0);
+        expect(poller.pollTimer !== null).toEqual(true);
+        await delay(100);
         expect(portal.getItemStatus).toHaveBeenCalledTimes(1);
         expect((portal.getItemStatus as any).calls.first().args).toEqual([
           { id: 'download-id', jobId: 'test-id', jobType: 'export', authentication }
@@ -956,6 +885,7 @@ describe('portalPollExportJobStatus', () => {
         expect(status).toEqual('ready');
         expect(downloadUrl).toEqual('http://portal.com/sharing/rest/content/items/download-id/data?token=123');
         expect(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z$/.test(lastModified)).toEqual(true);
+        expect(poller.pollTimer === null).toEqual(true);
       } catch (err) {
         expect(err).toEqual(undefined);
       } finally {
@@ -1015,7 +945,7 @@ describe('portalPollExportJobStatus', () => {
         );
         const mockEventEmitter = new EventEmitter();
         spyOn(mockEventEmitter, 'emit');
-        portalPollExportJobStatus({
+        const poller = portalPollExportJobStatus({
           downloadId: 'download-id',
           jobId: 'test-id',
           datasetId: 'abcdef0123456789abcdef0123456789_0',
@@ -1027,6 +957,7 @@ describe('portalPollExportJobStatus', () => {
           eventEmitter: mockEventEmitter
         });
   
+        expect(poller.pollTimer !== null).toEqual(true);
         await delay(100);
         expect(portal.getItemStatus).toHaveBeenCalledTimes(2);
         expect((portal.getItemStatus as any).calls.first().args).toEqual([
@@ -1085,6 +1016,7 @@ describe('portalPollExportJobStatus', () => {
         expect(status).toEqual('ready');
         expect(downloadUrl).toEqual('http://portal.com/sharing/rest/content/items/download-id/data?token=123');
         expect(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z$/.test(lastModified)).toEqual(true);
+        expect(poller.pollTimer === null).toEqual(true);
       } catch (err) {
         expect(err).toEqual(undefined);
       } finally {
