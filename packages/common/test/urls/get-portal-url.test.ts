@@ -1,9 +1,10 @@
-import { IPortal } from "@esri/arcgis-rest-portal";
+import * as arcgisRestPortal from "@esri/arcgis-rest-portal";
 import { getPortalUrl, IHubRequestOptions } from "../../src";
+import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 describe("getPortalUrl", function() {
   const portalApiUrl = "https://www.arcgis.com/sharing/rest";
-  let portalSelf: IPortal;
+  let portalSelf: arcgisRestPortal.IPortal;
   beforeEach(() => {
     portalSelf = {
       isPortal: true,
@@ -40,25 +41,29 @@ describe("getPortalUrl", function() {
     });
   });
   describe("when passed request options", () => {
-    let requestOptions: IHubRequestOptions;
+    let requestOptions: IRequestOptions;
     beforeEach(() => {
       requestOptions = {
-        portal: portalApiUrl,
+        portal: portalApiUrl
+      };
+    });
+    it("prefers to build URL from portal self", () => {
+      const hubRequestOptions: IHubRequestOptions = {
+        ...requestOptions,
         isPortal: true,
         portalSelf,
         hubApiUrl: "hub-api-url,com",
-        // TODO: wh
         authentication: null
       };
+      const result = getPortalUrl(hubRequestOptions);
+      expect(result).toBe("https://portal-hostname.com");
     });
-    it("prefers portal API URL", () => {
+    it("falls back to portal (REST API URL) if no portal self", () => {
+      // TODO: for some reason this spy only works the first time this is run???
+      // const spy = spyOn(arcgisRestPortal, 'getPortalUrl').and.returnValue(portalApiUrl)
       const result = getPortalUrl(requestOptions);
       expect(result).toBe("https://www.arcgis.com");
-    });
-    it("uses portal self if API URL is not available", () => {
-      delete requestOptions.portal;
-      const result = getPortalUrl(requestOptions);
-      expect(result).toBe("https://portal-hostname.com");
+      // expect(spy.calls.argsFor(0)).toEqual([requestOptions])
     });
   });
 });
