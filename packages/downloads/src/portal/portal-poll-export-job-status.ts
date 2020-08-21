@@ -14,6 +14,7 @@ import { DownloadFormat } from "../download-format";
 import * as EventEmitter from 'eventemitter3';
 import { urlBuilder } from '../utils';
 import { UserSession } from '@esri/arcgis-rest-auth';
+import { Poller } from '../poller';
 
 class ExportCompletionError extends Error {
   constructor(message: string) {
@@ -43,55 +44,10 @@ export interface IPortalPollExportJobStatusParams {
 /**
  * @private
  */
-export function portalPollExportJobStatus (params:IPortalPollExportJobStatusParams): void {
-  const {
-    downloadId,
-    datasetId,
-    format,
-    spatialRefId,
-    jobId,
-    authentication,
-    exportCreated,
-    eventEmitter,
-    pollingInterval
-  } = params;
-
-  getItemStatus({ id: downloadId, jobId, jobType: 'export', authentication })
-    .then((metadata:IGetItemStatusResponse) => {
-      if (metadata.status === 'completed') {
-        return completedHandler({
-          datasetId,
-          format,
-          authentication,
-          downloadId,
-          spatialRefId,
-          exportCreated,
-          eventEmitter
-        })
-      }
-
-      if (metadata.status === 'failed') {
-        return eventEmitter.emit(`${downloadId}ExportError`, {
-          detail: {
-            metadata: {
-              errors: [new Error(metadata.statusMessage)]
-            }
-          }
-        });
-      }
-
-      return setTimeout(() => {
-        portalPollExportJobStatus(params);
-      }, pollingInterval);
-    }).catch((error:any) => {
-      if (error instanceof ExportCompletionError) {
-        return eventEmitter.emit(`${downloadId}ExportError`, {
-          detail: { metadata: { errors: [error] } }
-        });
-      }
-
-      return eventEmitter.emit(`${downloadId}PollingError`, { detail: { error } });
-    });
+export function portalPollExportJobStatus (params:IPortalPollExportJobStatusParams): PortalPoller {
+  const poller = new PortalPoller()
+  poller.poll(params)
+  return poller
 }
 
 function completedHandler (params: any): Promise<any> {
@@ -171,3 +127,65 @@ function getExportsFolderId(authentication: UserSession): Promise<string> {
     })
 }
 
+class PortalPoller implements Poller {
+  cancelPolling: boolean = false;
+
+  cancel () {
+    this.cancelPolling = false;
+  }
+
+  poll (params: IPortalPollExportJobStatusParams) {
+    const {
+      downloadId,
+      datasetId,
+      format,
+      spatialRefId,
+      jobId,
+      authentication,
+      exportCreated,
+      eventEmitter,
+      pollingInterval
+    } = params;
+  
+    getItemStatus({ id: downloadId, jobId, jobType: 'export', authentication })
+      .then((metadata:IGetItemStatusResponse) => {
+        if (this.cancelPolling) {
+          return
+        }
+
+        if (metadata.status === 'completed') {
+          return completedHandler({
+            datasetId,
+            format,
+            authentication,
+            downloadId,
+            spatialRefId,
+            exportCreated,
+            eventEmitter
+          })
+        }
+  
+        if (metadata.status === 'failed') {
+          return eventEmitter.emit(`${downloadId}ExportError`, {
+            detail: {
+              metadata: {
+                errors: [new Error(metadata.statusMessage)]
+              }
+            }
+          });
+        }
+  
+        return setTimeout(() => {
+          portalPollExportJobStatus(params);
+        }, pollingInterval);
+      }).catch((error:any) => {
+        if (error instanceof ExportCompletionError) {
+          return eventEmitter.emit(`${downloadId}ExportError`, {
+            detail: { metadata: { errors: [error] } }
+          });
+        }
+  
+        return eventEmitter.emit(`${downloadId}PollingError`, { detail: { error } });
+      });
+  }
+}

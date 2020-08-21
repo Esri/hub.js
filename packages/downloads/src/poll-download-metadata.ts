@@ -3,6 +3,7 @@ import { UserSession } from '@esri/arcgis-rest-auth';
 import { hubPollDownloadMetadata } from './hub/hub-poll-download-metadata';
 import { portalPollExportJobStatus } from './portal/portal-poll-export-job-status';
 import { DownloadFormat } from "./download-format";
+import { Poller } from "./poller"
 
 export interface IPollDownloadMetadataRequestParams {
   /* Identifier for the download.  Used to emit events for success or failure */
@@ -37,7 +38,7 @@ export interface IPollDownloadMetadataRequestParams {
  * (with download link) or failed (with error)
  * @param params - parameters defining a dataset export job
  */
-export function pollDownloadMetadata (params: IPollDownloadMetadataRequestParams): void {
+export function pollDownloadMetadata (params: IPollDownloadMetadataRequestParams): Poller {
   const {
     target,
     downloadId,
