@@ -1,4 +1,8 @@
 export interface Poller {
-  disablePoll(): void;
+  disablePoll(): void; 
+
+  /**
+   * @ignore
+   */
   activatePoll(params: any): void;
 }
