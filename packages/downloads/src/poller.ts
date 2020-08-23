@@ -1,5 +1,5 @@
-export interface Poller {
-  disablePoll(): void; 
+export interface IPoller {
+  disablePoll(): void;
 
   /**
    * @ignore

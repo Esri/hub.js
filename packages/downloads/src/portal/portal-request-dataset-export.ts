@@ -18,7 +18,7 @@ export interface IPortalDatasetExportRequestParams {
 export function portalRequestDatasetExport(
   params: IPortalDatasetExportRequestParams
 ): Promise<any> {
-  const { datasetId, title, format, authentication, spatialRefId } = params;
+  const { datasetId, title, format, authentication } = params;
   // TODO: parseItemId()
   const [itemId] = datasetId.split("_");
   return exportItem({

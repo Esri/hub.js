@@ -10,10 +10,10 @@ import {
   getUserContent
 } from "@esri/arcgis-rest-portal";
 import { DownloadFormat } from "../download-format";
-import * as EventEmitter from 'eventemitter3';
-import { urlBuilder } from '../utils';
-import { UserSession } from '@esri/arcgis-rest-auth';
-import { Poller } from '../poller';
+import * as EventEmitter from "eventemitter3";
+import { urlBuilder } from "../utils";
+import { UserSession } from "@esri/arcgis-rest-auth";
+import { IPoller } from "../poller";
 
 class ExportCompletionError extends Error {
   constructor(message: string) {
@@ -40,13 +40,86 @@ export interface IPortalPollExportJobStatusParams {
   where?: string;
 }
 
+/* tslint:disable:max-classes-per-file */
+class PortalPoller implements IPoller {
+  pollTimer: any;
+
+  disablePoll() {
+    clearInterval(this.pollTimer);
+    this.pollTimer = null;
+  }
+
+  activatePoll(params: IPortalPollExportJobStatusParams) {
+    const {
+      downloadId,
+      datasetId,
+      format,
+      spatialRefId,
+      jobId,
+      authentication,
+      exportCreated,
+      eventEmitter,
+      pollingInterval
+    } = params;
+
+    this.pollTimer = setInterval(() => {
+      getItemStatus({
+        id: downloadId,
+        jobId,
+        jobType: "export",
+        authentication
+      })
+        .then((metadata: IGetItemStatusResponse) => {
+          if (metadata.status === "completed") {
+            return completedHandler({
+              datasetId,
+              format,
+              authentication,
+              downloadId,
+              spatialRefId,
+              exportCreated,
+              eventEmitter
+            }).then(() => {
+              this.disablePoll();
+            });
+          }
+
+          if (metadata.status === "failed") {
+            eventEmitter.emit(`${downloadId}ExportError`, {
+              detail: {
+                metadata: {
+                  errors: [new Error(metadata.statusMessage)]
+                }
+              }
+            });
+            return this.disablePoll();
+          }
+        })
+        .catch((error: any) => {
+          if (error instanceof ExportCompletionError) {
+            eventEmitter.emit(`${downloadId}ExportError`, {
+              detail: { metadata: { errors: [error] } }
+            });
+          } else {
+            eventEmitter.emit(`${downloadId}PollingError`, {
+              detail: { error }
+            });
+          }
+          return this.disablePoll();
+        });
+    }, pollingInterval);
+  }
+}
+
 /**
  * @private
  */
-export function portalPollExportJobStatus (params:IPortalPollExportJobStatusParams): PortalPoller {
-  const poller = new PortalPoller()
-  poller.activatePoll(params)
-  return poller
+export function portalPollExportJobStatus(
+  params: IPortalPollExportJobStatusParams
+): PortalPoller {
+  const poller = new PortalPoller();
+  poller.activatePoll(params);
+  return poller;
 }
 
 function completedHandler(params: any): Promise<any> {
@@ -54,7 +127,6 @@ function completedHandler(params: any): Promise<any> {
     downloadId,
     datasetId,
     exportCreated,
-    format,
     spatialRefId,
     eventEmitter,
     authentication
@@ -129,68 +201,4 @@ function getExportsFolderId(authentication: UserSession): Promise<string> {
       const { folder } = response as IAddFolderResponse;
       return folder.id;
     });
-}
-
-class PortalPoller implements Poller {
-  pollTimer: any;
-
-  disablePoll () {
-    clearInterval(this.pollTimer); 
-    this.pollTimer = null;
-  }
-
-  activatePoll (params: IPortalPollExportJobStatusParams) {
-    const {
-      downloadId,
-      datasetId,
-      format,
-      spatialRefId,
-      jobId,
-      authentication,
-      exportCreated,
-      eventEmitter,
-      pollingInterval
-    } = params;
-  
-    this.pollTimer = setInterval(() => {
-      getItemStatus({ id: downloadId, jobId, jobType: 'export', authentication })
-      .then((metadata:IGetItemStatusResponse) => {
-
-        if (metadata.status === 'completed') {
-          return completedHandler({
-            datasetId,
-            format,
-            authentication,
-            downloadId,
-            spatialRefId,
-            exportCreated,
-            eventEmitter
-          }).then(() => {
-            this.disablePoll();
-          })
-        }
-  
-        if (metadata.status === 'failed') {
-          eventEmitter.emit(`${downloadId}ExportError`, {
-            detail: {
-              metadata: {
-                errors: [new Error(metadata.statusMessage)]
-              }
-            }
-          });
-          return this.disablePoll();
-        }
-  
-      }).catch((error:any) => {
-        if (error instanceof ExportCompletionError) {
-          eventEmitter.emit(`${downloadId}ExportError`, {
-            detail: { metadata: { errors: [error] } }
-          });
-        } else {
-          eventEmitter.emit(`${downloadId}PollingError`, { detail: { error } });
-        }
-        return this.disablePoll();
-      });
-    }, pollingInterval)
-  }
 }
