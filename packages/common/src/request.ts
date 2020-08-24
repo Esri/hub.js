@@ -1,4 +1,5 @@
-import { IHubRequestOptions, buildUrl } from "./index";
+import { IHubRequestOptions } from "./index";
+import { buildUrl } from "./urls/build-url";
 
 /**
  * remote server error
