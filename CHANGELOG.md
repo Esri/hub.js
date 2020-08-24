@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
+### General
+* ensure all projects use tslib ^1.13.0
+* updated rollup-* to latest to get latest iltorb
 
 ## [6.3.0] - August 19th 2020
 
