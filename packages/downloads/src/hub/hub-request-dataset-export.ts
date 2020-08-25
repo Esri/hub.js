@@ -51,7 +51,7 @@ export function hubRequestDatasetExport(
       if (!ok) {
         throw new RemoteServerError(statusText, url, status);
       }
-      return;
+      return undefined;
     })
     .then(() => {
       return { downloadId: composeDownloadId(params) };
