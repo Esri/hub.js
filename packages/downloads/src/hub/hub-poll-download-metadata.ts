@@ -3,7 +3,7 @@ import {
   IHubDownloadMetadataRequestParams
 } from "./hub-request-download-metadata";
 import * as EventEmitter from "eventemitter3";
-
+import { IPoller } from "../poller";
 /**
  * @private
  */
@@ -14,35 +14,52 @@ export interface IHubDownloadMetadataPollParameters
   pollingInterval: number;
 }
 
+class HubPoller implements IPoller {
+  pollTimer: any;
+
+  disablePoll() {
+    clearInterval(this.pollTimer);
+    this.pollTimer = null;
+  }
+
+  activatePoll(params: IHubDownloadMetadataPollParameters) {
+    const { downloadId, eventEmitter, pollingInterval } = params;
+    this.pollTimer = setInterval(() => {
+      hubRequestDownloadMetadata(params)
+        .then(metadata => {
+          if (isUpToDate(metadata)) {
+            eventEmitter.emit(`${downloadId}ExportComplete`, {
+              detail: { metadata }
+            });
+            return this.disablePoll();
+          }
+
+          if (exportDatasetFailed(metadata)) {
+            eventEmitter.emit(`${downloadId}ExportError`, {
+              detail: { metadata }
+            });
+            return this.disablePoll();
+          }
+        })
+        .catch(error => {
+          eventEmitter.emit(`${downloadId}PollingError`, {
+            detail: { error }
+          });
+          return this.disablePoll();
+        });
+    }, pollingInterval);
+  }
+}
+
 /**
  * @private
  */
 export function hubPollDownloadMetadata(
   params: IHubDownloadMetadataPollParameters
-): void {
-  const { downloadId, eventEmitter, pollingInterval } = params;
-
-  hubRequestDownloadMetadata(params)
-    .then(metadata => {
-      if (isUpToDate(metadata)) {
-        return eventEmitter.emit(`${downloadId}ExportComplete`, {
-          detail: { metadata }
-        });
-      }
-      if (exportDatasetFailed(metadata)) {
-        return eventEmitter.emit(`${downloadId}ExportError`, {
-          detail: { metadata }
-        });
-      }
-      return setTimeout(() => {
-        hubPollDownloadMetadata(params);
-      }, pollingInterval);
-    })
-    .catch(error => {
-      return eventEmitter.emit(`${downloadId}PollingError`, {
-        detail: { error }
-      });
-    });
+): HubPoller {
+  const poller = new HubPoller();
+  poller.activatePoll(params);
+  return poller;
 }
 
 function isUpToDate(metadata: any) {
