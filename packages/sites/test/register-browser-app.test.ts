@@ -12,6 +12,8 @@ describe("registerBrowserApp", () => {
     const uris = ["foo", "bar"];
     const itemId = "item-id";
 
+    // NOTE: this spy will work on the first test run when running test:chrome:debug
+    // but will subsequently fail if you modify this file or the file under test
     const requestSpy = spyOn(requestModule, "request").and.returnValue(
       Promise.resolve({})
     );

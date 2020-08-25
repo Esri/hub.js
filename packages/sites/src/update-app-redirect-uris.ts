@@ -1,6 +1,6 @@
 import { IHubRequestOptions } from "@esri/hub-common";
 import { request } from "@esri/arcgis-rest-request";
-import { getPortalUrl } from "@esri/arcgis-rest-portal";
+import { getPortalApiUrl } from "@esri/hub-common";
 
 /**
  * Update the redirect uri's that are valid for an existing app that's registered
@@ -14,7 +14,9 @@ export function updateAppRedirectUris(
   redirectUris: string[],
   requestOptions: IHubRequestOptions
 ) {
-  const url = `${getPortalUrl(requestOptions)}/oauth2/apps/${clientId}/update`;
+  const url = `${getPortalApiUrl(
+    requestOptions
+  )}/oauth2/apps/${clientId}/update`;
   const options = {
     method: "POST",
     authentication: requestOptions.authentication,

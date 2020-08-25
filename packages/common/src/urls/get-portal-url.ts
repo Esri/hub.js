@@ -6,14 +6,15 @@ import {
 import { IHubRequestOptions } from "../types";
 
 /**
- * Return the Portal url based on the portal self
- * @param urlOrObject a Portal API URL, request options object, or Portal self object
+ * Derive a portal's base URL from the portal's API URL, a portal object, or request options
+ * @param urlOrObject a portal API URL, a portal object, or request options containing either of those
+ * @returns The portal base URL, defaults to `https://www.arcgis.com`
  */
 export function getPortalUrl(
-  urlOrObject: IPortal | IHubRequestOptions | IRequestOptions | string
+  urlOrObject?: string | IPortal | IHubRequestOptions | IRequestOptions
 ): string {
   if (typeof urlOrObject === "string") {
-    // assume this is the URL of the Portal API
+    // assume this is the URL of the portal API
     // and strip the `/sharing/rest`
     return urlOrObject.replace(/\/sharing\/rest\/?$/, "");
   }

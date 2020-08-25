@@ -3,10 +3,10 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import {
-  getPortalUrl,
   addItemResource,
   IItemResourceResponse
 } from "@esri/arcgis-rest-portal";
+import { getPortalApiUrl } from "@esri/hub-common";
 /**
  *  Copy an set of image resources from one item to another
  *
@@ -25,7 +25,7 @@ export function copyImageResources(
   assets: string[],
   requestOptions: IRequestOptions
 ): Promise<boolean> {
-  const itemResourceUrl = `${getPortalUrl(
+  const itemResourceUrl = `${getPortalApiUrl(
     requestOptions
   )}/content/items/${sourceItemId}/resources`;
   /* istanbul ignore next blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */

@@ -2,12 +2,12 @@
  * Apache-2.0 */
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { getItem, getItemData } from "@esri/arcgis-rest-portal";
 import {
-  getItem,
-  getItemData,
-  getPortalUrl
-} from "@esri/arcgis-rest-portal";
-import { IInitiativeModel, IInitiativeItem } from "@esri/hub-common";
+  IInitiativeModel,
+  IInitiativeItem,
+  getPortalApiUrl
+} from "@esri/hub-common";
 
 import { migrateSchema } from "./migrator";
 import { convertIndicatorsToDefinitions } from "./migrations/upgrade-two-dot-zero";
@@ -45,6 +45,6 @@ export function getInitiative(
       };
     })
     .then(model => {
-      return migrateSchema(model, getPortalUrl(requestOptions));
+      return migrateSchema(model, getPortalApiUrl(requestOptions));
     });
 }
