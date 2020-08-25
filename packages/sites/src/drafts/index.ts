@@ -7,3 +7,6 @@ export * from "./has-unpublished-changes";
 export * from "./mark-published";
 export * from "./mark-unpublished";
 export * from "./save-published-status";
+export * from "./save-draft";
+export * from "./delete-draft";
+export * from "./_get-draft-resource-name";
