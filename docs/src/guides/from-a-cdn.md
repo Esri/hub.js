@@ -32,17 +32,16 @@ group: 1-get-started
   <!-- require @esri/hub.js libraries from https://unpkg.com too -->
   <script src="{% cdnUrl data.typedoc | findPackage('@esri/hub-common') %}"></script>
   <script src="{% cdnUrl data.typedoc | findPackage('@esri/hub-sites') %}"></script>
-  <script src="{% cdnUrl data.typedoc | findPackage('@esri/hub-initiatives') %}"></script>
+  
 
   <script>
     // all exports are available from an arcgisHub global
-    arcgisHub.searchInitiatives({
-      q: "Share Open Data"
-    })
-      .then(response => {
-        arcgisHub.getInitiative(response.results[0].id).then(response => {
-          console.log(response);
-        });
+    arcgisHub.lookupDomain('coronavirus-resources.esri.com', {isPortal: false})
+    .then(response => {
+      console.log(response);
+      arcgisHub.getSiteById(response.siteId).then(response => {
+        console.log(response);
       });
+    });
   </script>
 </html>
