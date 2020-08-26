@@ -1,7 +1,7 @@
 import {
   IModel,
   IHubRequestOptions,
-  stringToBlob,
+  objectToJsonBlob,
   getProp
 } from "@esri/hub-common";
 import { _includeListFromItemType } from "./_include-list-from-item-type";
@@ -25,9 +25,7 @@ export function saveDraft(
     hubRequestOptions.isPortal
   );
   const draft = buildDraft(siteOrPageModel, includeList);
-  const draftBlob = stringToBlob(JSON.stringify(draft), {
-    type: "application/json"
-  });
+  const draftBlob = objectToJsonBlob(draft);
   const draftName = `draft-${Date.now()}.json`;
   const itemId = getProp(siteOrPageModel, "item.id");
 

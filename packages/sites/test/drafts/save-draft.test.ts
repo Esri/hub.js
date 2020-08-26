@@ -201,7 +201,7 @@ describe("saveDraft", () => {
     const addSpy = spyOn(portalModule, "addItemResource").and.returnValue(
       Promise.resolve()
     );
-    const blobSpy = spyOn(commonModule, "stringToBlob").and.callThrough();
+    const blobSpy = spyOn(commonModule, "objectToJsonBlob").and.returnValue({});
 
     await saveDraft(siteModel, {} as IHubRequestOptions);
 
@@ -209,7 +209,7 @@ describe("saveDraft", () => {
     expect(deleteSpy).toHaveBeenCalled();
     expect(addSpy).toHaveBeenCalled();
 
-    const draftResource = JSON.parse(blobSpy.calls.argsFor(0)[0]);
+    const draftResource = blobSpy.calls.argsFor(0)[0];
     SITE_DRAFT_INCLUDE_LIST.forEach(path => {
       expect(getProp(draftResource, path)).toEqual(
         getProp(siteModel, path),
