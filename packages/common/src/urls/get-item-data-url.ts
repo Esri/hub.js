@@ -13,7 +13,9 @@ export const getItemDataUrl = (
   token?: string
 ) => {
   const url = getItemApiUrl(item, portalOrUrl, token);
-  const segment = `/${item.id}`;
-  const regExp = new RegExp(segment);
-  return url && url.replace(regExp, `${segment}/data`);
+  const pattern = `\\/${item.id}\\?f=json`;
+  const regExp = new RegExp(pattern);
+  return (
+    url && url.replace(regExp, `/${item.id}/data`).replace(/\&token/, "?token")
+  );
 };
