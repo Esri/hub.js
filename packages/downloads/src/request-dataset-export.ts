@@ -1,6 +1,6 @@
-import { UserSession } from '@esri/arcgis-rest-auth';
-import { hubRequestDatasetExport } from './hub/hub-request-dataset-export';
-import { portalRequestDatasetExport } from './portal/portal-request-dataset-export';
+import { UserSession } from "@esri/arcgis-rest-auth";
+import { hubRequestDatasetExport } from "./hub/hub-request-dataset-export";
+import { portalRequestDatasetExport } from "./portal/portal-request-dataset-export";
 import { DownloadFormat } from "./download-format";
 
 export interface IDatasetExportRequestParams {
@@ -16,7 +16,7 @@ export interface IDatasetExportRequestParams {
   spatialRefId?: string;
   /* A geometry envelope for filtering the data. Applicable to Hub API exports only. */
   geometry?: string;
-  /* A SQL-style WHERE filter for attribute values.  Applicable to Hub API exports only. */
+  /* A SQL-style WHERE filter for attribute values. */
   where?: string;
   /* Required Portal downloads only. */
   authentication?: UserSession;
@@ -41,7 +41,9 @@ export interface IDatasetExportResult {
  * Request an export of a dataset to a particular file format.
  * @param params - parameters defining a dataset export job
  */
-export function requestDatasetExport (params: IDatasetExportRequestParams): Promise<IDatasetExportResult> {
+export function requestDatasetExport(
+  params: IDatasetExportRequestParams
+): Promise<IDatasetExportResult> {
   const {
     host,
     datasetId,
@@ -54,8 +56,15 @@ export function requestDatasetExport (params: IDatasetExportRequestParams): Prom
     authentication
   } = params;
 
-  if (target === 'portal') {
-      return portalRequestDatasetExport({ datasetId, format, title, authentication, spatialRefId });
+  if (target === "portal") {
+    return portalRequestDatasetExport({
+      datasetId,
+      format,
+      title,
+      authentication,
+      spatialRefId,
+      where
+    });
   }
 
   return hubRequestDatasetExport({

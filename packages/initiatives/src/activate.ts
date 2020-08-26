@@ -27,6 +27,7 @@ import { getProp } from "@esri/hub-common";
  * @param {any} groupIds hash of group props and ids
  * @param {IRequestOptions} requestOptions
  * @returns {Promise<IInitiativeModel>}
+ * @private
  */
 export function activateInitiative(
   template: string | any,

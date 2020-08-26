@@ -1,14 +1,10 @@
-import { getItemThumbnailUrl, IHubRequestOptions } from "../../src";
-import { IPortal } from "@esri/arcgis-rest-portal";
-import * as urlsModule from "../../src/urls";
+import { getItemThumbnailUrl } from "../../src";
 import { IItem } from "@esri/arcgis-rest-types";
-import { mockUserSession } from "../test-helpers/fake-user-session";
 
 describe("getItemThumbnailUrl", function() {
-  const portalApiUrl = "https://portal-api-url";
+  const portalApiUrl = "https://portal-api-url/sharing/rest";
   let item: IItem;
-  let portalSelf: IPortal;
-  let getPortalApiSpy: jasmine.Spy;
+  let itemApiUrlBase: string;
 
   beforeEach(function() {
     item = {
@@ -23,44 +19,18 @@ describe("getItemThumbnailUrl", function() {
       title: "title",
       type: "CSV"
     };
-    portalSelf = {
-      id: "",
-      name: "",
-      isPortal: false
-    };
-    getPortalApiSpy = spyOn(urlsModule, "getPortalApiUrl").and.returnValue(
-      portalApiUrl
-    );
+    itemApiUrlBase = `${portalApiUrl}/content/items/${item.id}`;
   });
 
-  it("computes url when passed portal self", function() {
-    const url = getItemThumbnailUrl(item, portalSelf);
-    expect(getPortalApiSpy.calls.argsFor(0)).toEqual([portalSelf]);
-    expect(url).toBe(
-      `https://portal-api-url/content/items/abcitemid/info/thumbnail.png`
-    );
-  });
-
-  it("computes url when passed request options", function() {
-    const ro: IHubRequestOptions = {
-      isPortal: false,
-      hubApiUrl: "",
-      portalSelf,
-      authentication: mockUserSession
-    };
-    const url = getItemThumbnailUrl(item, ro);
-    expect(getPortalApiSpy.calls.argsFor(0)).toEqual([portalSelf]);
-    expect(url).toBe(
-      `https://portal-api-url/content/items/abcitemid/info/thumbnail.png`
-    );
-  });
-
-  it("computes url when passed portal api url", function() {
+  it("computes url without a token", function() {
     const url = getItemThumbnailUrl(item, portalApiUrl);
-    expect(getPortalApiSpy.calls.count()).toBe(0);
-    expect(url).toBe(
-      `https://portal-api-url/content/items/abcitemid/info/thumbnail.png`
-    );
+    expect(url).toBe(`${itemApiUrlBase}/info/thumbnail.png`);
+  });
+
+  it("computes url with a token", function() {
+    const token = "token";
+    const url = getItemThumbnailUrl(item, portalApiUrl, token);
+    expect(url).toBe(`${itemApiUrlBase}/info/thumbnail.png?token=${token}`);
   });
 
   it("returns null when no item.thumbnail", function() {
