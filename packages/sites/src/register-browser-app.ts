@@ -1,5 +1,5 @@
 import { IRequestOptions, request } from "@esri/arcgis-rest-request";
-import { getPortalUrl } from "@esri/arcgis-rest-portal";
+import { getPortalApiUrl } from "@esri/hub-common";
 
 /**
  * Register an Item as an application, enabling oAuth flows at custom
@@ -15,7 +15,7 @@ export function registerBrowserApp(
   redirectUris: string[],
   requestOptions: IRequestOptions
 ) {
-  const url = `${getPortalUrl(requestOptions)}/oauth2/registerApp`;
+  const url = `${getPortalApiUrl(requestOptions)}/oauth2/registerApp`;
   const options = {
     method: "POST",
     authentication: requestOptions.authentication,

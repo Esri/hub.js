@@ -2,6 +2,8 @@ import { IPortal } from "@esri/arcgis-rest-portal";
 import { getPortalUrl } from "./get-portal-url";
 import { HUB_CDN_URLMAP } from "./hub-cdn-urlmap";
 
+// TODO: should this take IHubRequestOptions as well as a portal?
+// if so, address when we tackle https://github.com/Esri/hub.js/issues/321
 /**
  * Given a Portal object, return the full Hub locale asset url
  * Used for fetching translations

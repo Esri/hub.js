@@ -44,17 +44,16 @@ export function withPortalUrls(
   requestOptions: IHubRequestOptions
 ) {
   const newContent = cloneObject(content);
-  const portal = requestOptions.portalSelf;
   const authentication = requestOptions.authentication;
   const token = authentication && authentication.token;
   // add properties that depend on portal
-  newContent.portalHomeUrl = getItemHomeUrl(newContent.id, portal);
+  newContent.portalHomeUrl = getItemHomeUrl(newContent.id, requestOptions);
   // the URL of the item's Portal API end point
-  newContent.portalApiUrl = getItemApiUrl(newContent, portal, token);
+  newContent.portalApiUrl = getItemApiUrl(newContent, requestOptions, token);
   // the URL of the item's data API end point
-  newContent.portalDataUrl = getItemDataUrl(newContent, portal, token);
+  newContent.portalDataUrl = getItemDataUrl(newContent, requestOptions, token);
   // the full URL of the thumbnail
-  newContent.thumbnailUrl = getItemThumbnailUrl(newContent, portal);
+  newContent.thumbnailUrl = getItemThumbnailUrl(newContent, requestOptions);
   return newContent;
 }
 
