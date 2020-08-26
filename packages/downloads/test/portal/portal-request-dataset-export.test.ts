@@ -35,7 +35,7 @@ describe("portalRequestDatasetExport", () => {
         {
           id: "abcdef0123456789abcdef0123456789",
           exportFormat: "CSV",
-          exportParameters: { layers: [Object({ id: 0 })] },
+          exportParameters: { layers: [Object({ id: 0, where: undefined })] },
           title: "test-export",
           authentication
         }
@@ -68,7 +68,7 @@ describe("portalRequestDatasetExport", () => {
         {
           id: "abcdef0123456789abcdef0123456789",
           exportFormat: "CSV",
-          exportParameters: { layers: [Object({ id: 0 })] },
+          exportParameters: { layers: [Object({ id: 0, where: undefined })] },
           title: "test-export",
           authentication
         }
@@ -108,7 +108,7 @@ describe("portalRequestDatasetExport", () => {
         {
           id: "abcdef0123456789abcdef0123456789",
           exportFormat: "CSV",
-          exportParameters: { layers: [Object({ id: 0 })] },
+          exportParameters: { layers: [Object({ id: 0, where: undefined })] },
           title: "test-export",
           authentication
         }
@@ -150,7 +150,52 @@ describe("portalRequestDatasetExport", () => {
           id: "abcdef0123456789abcdef0123456789",
           exportFormat: "CSV",
           exportParameters: {
-            layers: [Object({ id: 0 })],
+            layers: [Object({ id: 0, where: undefined })],
+            targetSR: { wkid: 4326 }
+          },
+          title: "test-export",
+          authentication
+        }
+      ]);
+      expect(result).toBeDefined();
+      expect(result.downloadId).toEqual("abcdef");
+      expect(result.jobId).toEqual("job-id");
+      expect(result.size).toEqual(1000);
+      expect(typeof result.exportCreated === "number").toEqual(true);
+    } catch (err) {
+      expect(err).toBeUndefined();
+    } finally {
+      done();
+    }
+  });
+
+  it("succeeds, uses where", async done => {
+    try {
+      spyOn(portal, "exportItem").and.returnValue(
+        new Promise((resolve, reject) => {
+          resolve({
+            size: 1000,
+            jobId: "job-id",
+            exportItemId: "abcdef"
+          });
+        })
+      );
+
+      const result = await portalRequestDatasetExport({
+        datasetId: "abcdef0123456789abcdef0123456789_0",
+        format: "CSV",
+        authentication,
+        spatialRefId: "4326",
+        title: "test-export",
+        where: "1=1"
+      });
+      expect(portal.exportItem).toHaveBeenCalledTimes(1);
+      expect((portal.exportItem as any).calls.first().args).toEqual([
+        {
+          id: "abcdef0123456789abcdef0123456789",
+          exportFormat: "CSV",
+          exportParameters: {
+            layers: [Object({ id: 0, where: "1=1" })],
             targetSR: { wkid: 4326 }
           },
           title: "test-export",
