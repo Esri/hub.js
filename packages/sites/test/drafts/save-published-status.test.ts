@@ -57,4 +57,10 @@ describe("savePublishedStatus", () => {
     );
     expect(updateSiteSpy).not.toHaveBeenCalled();
   });
+
+  it("throws when not site or page", async () => {
+    expect(() =>
+      savePublishedStatus({ item: { type: "Form" } } as IModel, ro)
+    ).toThrowError();
+  });
 });

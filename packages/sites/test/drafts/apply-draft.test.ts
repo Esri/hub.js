@@ -100,4 +100,9 @@ describe("applyDraft", () => {
       );
     });
   });
+
+  it("returns model if no draft", async () => {
+    const chk = applyDraft(pageModel, null, false);
+    expect(chk).toBe(pageModel);
+  });
 });
