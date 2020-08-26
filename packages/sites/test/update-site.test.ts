@@ -33,8 +33,6 @@ describe("update site", function() {
       item: commonModule.cloneObject(SITE_ITEM_RESPONSE),
       data: commonModule.cloneObject(SITE_DATA_RESPONSE)
     };
-    // ensure that the localItem is older than the upstream
-    localSite.item.modified = SITE_ITEM_RESPONSE.modified - 1;
     // and apply some changes to the local model
     localSite.item.properties.newProp = "red";
     // change a prop that's not in the allowList so we can ensure it's not sent
@@ -79,8 +77,6 @@ describe("update site", function() {
       item: commonModule.cloneObject(SITE_ITEM_RESPONSE),
       data: commonModule.cloneObject(SITE_DATA_RESPONSE)
     };
-    // ensure that the localItem is older than the upstream
-    localSite.item.modified = SITE_ITEM_RESPONSE.modified - 1;
     // and apply some changes to the local model
     localSite.item.properties.newProp = "red";
     // change a prop that's not in the allowList so we can ensure it's not sent
@@ -126,8 +122,6 @@ describe("update site", function() {
       item: commonModule.cloneObject(SITE_ITEM_RESPONSE),
       data: commonModule.cloneObject(SITE_DATA_RESPONSE)
     };
-    // ensure that the localItem is older than the upstream
-    localSite.item.modified = SITE_ITEM_RESPONSE.modified - 1;
 
     const subdomain = "foo-bar-baz";
     localSite.data.values.subdomain = subdomain;

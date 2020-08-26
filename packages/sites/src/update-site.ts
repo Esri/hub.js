@@ -13,22 +13,22 @@ import { updateItem, IUpdateItemResponse } from "@esri/arcgis-rest-portal";
 import { removeUnusedResources } from "./layout";
 
 /**
- * Update an existing Item
- * In order to reduce collisions with concurrent editing, this
- * function will fetch the current item from ago, and then apply
- * a subset of property changes to the model. The props to update
- * are passed in via allowList. If the list is empty, then
- * the entire site model is sent.
+ * Update an existing site item
+ * This function supports the equivalent of a PATCH REST operation
+ * It will fetch the current item from ago, and then apply
+ * a subset of property changes to the model if a patchList is included.
+ * The patchList can include any property paths on the item.
+ * If the list is empty, then the entire site model is overwritten.
  * @param {Object} model Site Model to update
- * @param {Array} allowList Array of property paths to update
+ * @param {Array} patchList Array of property paths to update
  * @param {IHubRequestOptions} hubRequestOptions
  */
 export function updateSite(
   model: IModel,
-  allowList: string[],
+  patchList: string[],
   hubRequestOptions: IHubRequestOptions
 ): Promise<IUpdateItemResponse> {
-  allowList = allowList || [];
+  patchList = patchList || [];
 
   // apply any on-save site upgrades here...
   deepSet(model, "data.values.uiVersion", SITE_UI_VERSION);
@@ -39,15 +39,15 @@ export function updateSite(
     hubRequestOptions.authentication.username
   );
 
-  // we only add these in if an allowList was passed in
-  if (allowList.length) {
-    allowList.push("data.values.updatedAt");
-    allowList.push("data.values.updatedBy");
-    allowList.push("data.values.uiVersion");
+  // we only add these in if an patchList was passed in
+  if (patchList.length) {
+    patchList.push("data.values.updatedAt");
+    patchList.push("data.values.updatedBy");
+    patchList.push("data.values.uiVersion");
     // any save needs to be able to update the schema version
     // which will have been bumped if a schema migration
     // occured during the load cycle
-    allowList.push("item.properties.schemaVersion");
+    patchList.push("item.properties.schemaVersion");
   }
 
   // PORTAL-ENV: no domain service so we encode the subdomain in a typeKeyword
@@ -57,28 +57,27 @@ export function updateSite(
       model.item.typeKeywords
     );
     // see above comment why ths is gated...
-    if (allowList.length) {
-      allowList.push("item.typeKeywords");
+    if (patchList.length) {
+      patchList.push("item.typeKeywords");
     }
   }
   // Actually start the update process...
 
   let agoModelPromise;
-  // if we have a allowList, refetch the site to check for changes...
-  if (allowList.length) {
+  // if we have a patchList, refetch the site to check for changes...
+  if (patchList.length) {
     agoModelPromise = getModel(model.item.id, hubRequestOptions);
   } else {
-    // if we dont have a allowList, just resolve with the model we have
+    // if we dont have a patchList, just resolve with the model we have
     agoModelPromise = Promise.resolve(model);
   }
 
   // Kick things off...
   return agoModelPromise
     .then(agoModel => {
-      // if the model from ago has a newer modified timestamp
-      if (agoModel.item.modified > model.item.modified) {
+      if (patchList.length) {
         // merge the props in the allow list into the model from AGO
-        model = mergeObjects(model, agoModel, allowList);
+        model = mergeObjects(model, agoModel, patchList);
       }
       // send the update to ago
       return updateItem({

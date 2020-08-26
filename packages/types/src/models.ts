@@ -17,3 +17,5 @@ export interface IModel {
   };
   [key: string]: any;
 }
+
+export type IDraft = Partial<IModel>;
