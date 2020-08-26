@@ -1,3 +1,7 @@
+/**
+ * This is the list of site model properties
+ * that are included in a site's draft
+ */
 export const SITE_DRAFT_INCLUDE_LIST = [
   "item.title",
   "item.snippet",

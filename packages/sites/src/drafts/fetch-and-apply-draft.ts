@@ -3,7 +3,13 @@ import { fetchDraft } from "./fetch-draft";
 import { applyDraft } from "./apply-draft";
 
 /**
- * Convenience function
+ * This function fetches and applies the draft
+ * to the site or page if the draft is available.
+ *
+ * It returns a completely new object with the draft applied
+ * if there is one, otherwise it just returns the site or
+ * page model argument.
+ *
  * @param {*} siteOrPageModel
  * @param {*} hubRequestOptions
  */

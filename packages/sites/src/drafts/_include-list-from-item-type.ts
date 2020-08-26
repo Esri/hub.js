@@ -7,6 +7,7 @@ import { PAGE_DRAFT_INCLUDE_LIST } from "./page-draft-include-list";
  * Returns the right include list for the item type.
  * @param siteOrPageModel - the site or page model
  * @param isPortal - if we're on portal or not
+ * @private
  */
 export function _includeListFromItemType(itemType: string, isPortal: boolean) {
   let includeList;

@@ -5,6 +5,7 @@ import { getItemResources } from "@esri/arcgis-rest-portal";
  * Gets the name of the resource for the current draft
  * @param siteOrPageId
  * @param hubRequestOptions
+ * @private
  */
 export function _getDraftResourceName(
   siteOrPageId: string,

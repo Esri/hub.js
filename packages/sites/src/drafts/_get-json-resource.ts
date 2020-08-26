@@ -1,12 +1,13 @@
-import { IHubRequestOptions } from "@esri/hub-common";
 import { getPortalUrl } from "@esri/arcgis-rest-portal";
 import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 
 /**
- * Dog-eared for rest-js
+ * Fetches a JSON resource and parses to an object
+ * TODO: move to rest-js
  * @param {*} itemId
  * @param {*} resourceName
  * @param {*} requestOptions
+ * @private
  */
 export function _getJsonResource(
   itemId: string,

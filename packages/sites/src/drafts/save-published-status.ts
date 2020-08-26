@@ -3,6 +3,13 @@ import { getSiteItemType } from "../get-site-item-type";
 import { updateSite } from "../update-site";
 import { getPageItemType, updatePage } from "../pages";
 
+/**
+ * Saves the published status of a site or page model
+ * leaving everything else on the model alone.
+ *
+ * @param siteOrPageModel
+ * @param hubRequestOptions
+ */
 export function savePublishedStatus(
   siteOrPageModel: IModel,
   hubRequestOptions: IHubRequestOptions
