@@ -16,6 +16,7 @@ import {
 } from "@esri/arcgis-rest-portal";
 import { registerSiteAsApplication } from "./register-site-as-application";
 import { _addSiteDomains } from "./_add-site-domains";
+import { updateInitiativeSiteId } from "@esri/hub-initiatives";
 
 /**
  * Create a New Site
@@ -75,11 +76,7 @@ export function createSite(
       if (dcatConfig) {
         model.data.values.dcatConfig = dcatConfig;
       }
-      // do a second-pass interpolation replacing self-referencing {{appid}}
 
-      // Note: Previously we'd upload the theme.json resource here
-      // as far as we know, this is not used anywhere, so we
-      // are no longer doing that.
       return updateItem({
         item: serializeModel(model),
         authentication: hubRequestOptions.authentication
@@ -114,6 +111,23 @@ export function createSite(
         });
       }
       return sharePrms;
+    })
+    .then(resp => {
+      // if we created an initiative, ensure we inject the site Id into it
+      const initiativeItemId = getProp(
+        model,
+        "item.properties.parentInitiativeId"
+      );
+      if (initiativeItemId) {
+        // get the item and update it
+        return updateInitiativeSiteId(
+          initiativeItemId,
+          model.item.id,
+          hubRequestOptions
+        );
+      } else {
+        return Promise.resolve(true);
+      }
     })
     .then(resp => {
       return model;
