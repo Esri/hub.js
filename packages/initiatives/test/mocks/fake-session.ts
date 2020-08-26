@@ -2,6 +2,7 @@
  * Apache-2.0 */
 
 import { UserSession } from "@esri/arcgis-rest-auth";
+import { IHubRequestOptions } from "@esri/hub-common";
 // Fake Session for use in tests...
 
 export const TOMORROW = (function() {
@@ -20,3 +21,14 @@ export const MOCK_USER_SESSION = new UserSession({
 export const MOCK_REQUEST_OPTIONS = {
   authentication: MOCK_USER_SESSION
 };
+
+export const MOCK_HUB_REQOPTS = ({
+  authentication: MOCK_USER_SESSION,
+  portalSelf: {
+    id: "orgIdFromPortalSelf",
+    name: "my spiffy org",
+    urlKey: "org"
+  },
+  isPortal: false,
+  hubApiUrl: "https://hubqa.arcgis.com"
+} as unknown) as IHubRequestOptions;

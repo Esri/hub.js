@@ -10,6 +10,7 @@ export interface IPortalDatasetExportRequestParams {
   authentication: any;
   title?: string;
   spatialRefId?: string;
+  where?: string;
 }
 
 /**
@@ -40,9 +41,9 @@ export function portalRequestDatasetExport(
 }
 
 function composeExportParameters(params: any) {
-  const { datasetId, spatialRefId } = params;
+  const { datasetId, spatialRefId, where } = params;
   const layerId = datasetId.split("_")[1] || 0;
-  const layers = [{ id: Number(layerId) }];
+  const layers = [{ id: Number(layerId), where }];
   return spatialRefId
     ? {
         layers,
