@@ -12,7 +12,7 @@ describe("stringToBlob", () => {
         "defaults to octet-stream"
       );
 
-      const customBlob = stringToBlob(str, { type: "application/json" });
+      const customBlob = stringToBlob(str, "application/json");
       expect(customBlob.type).toBe(
         "application/json",
         "Returned blob of custom type"

@@ -6,7 +6,7 @@
  */
 export function stringToBlob(
   s: string,
-  options: BlobPropertyBag = { type: "application/octet-stream" }
+  type: string = "application/octet-stream"
 ) {
   /* istanbul ignore next */
   if (typeof Blob !== "undefined") {
@@ -15,7 +15,7 @@ export function stringToBlob(
       bytes[i] = s.charCodeAt(i);
     }
     const encoded = new Uint8Array(bytes);
-    return new Blob([encoded], options);
+    return new Blob([encoded], { type });
   } else {
     throw new Error(`stringToBlob is not currently supported on Node`);
   }
