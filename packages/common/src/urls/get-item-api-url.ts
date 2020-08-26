@@ -18,15 +18,9 @@ export const getItemApiUrl = (
     typeof portalOrUrl === "string" ? portalOrUrl : getPortalUrl(portalOrUrl);
   // TODO: handle case where Portal API url is passed in?
   // const portalUrl = parsePortalUrl(portalRestUrl);
-  const path = `/sharing/rest/content/items/${id}`;
-  // TODO: append f param based on item.type?
-  let query;
+  let url = `${host}/sharing/rest/content/items/${id}?f=json`;
   if (access !== "public") {
-    query = { token };
+    url = `${url}&token=${token}`;
   }
-  return buildUrl({
-    host,
-    path,
-    query
-  });
+  return url;
 };
