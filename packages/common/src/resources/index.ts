@@ -8,3 +8,4 @@ export * from "./get-item-thumbnail-url";
 export * from "./string-to-blob";
 export * from "./upload-resources-from-url";
 export * from "./add-solution-resource-url-to-assets";
+export * from "./object-to-json-blob";
