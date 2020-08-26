@@ -44,7 +44,6 @@ export function withPortalUrls(
   requestOptions: IHubRequestOptions
 ) {
   const newContent = cloneObject(content);
-  // const portal = requestOptions.portalSelf;
   const authentication = requestOptions.authentication;
   const token = authentication && authentication.token;
   // add properties that depend on portal
