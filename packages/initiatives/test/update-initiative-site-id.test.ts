@@ -3,7 +3,7 @@
 
 import { updateInitiativeSiteId } from "../src/update-initiative-site-id";
 import { MOCK_HUB_REQOPTS } from "./mocks/fake-session";
-import * as fetchMock from "../../../docs/node_modules/fetch-mock";
+import * as fetchMock from "fetch-mock";
 import { IItem } from "@esri/arcgis-rest-portal";
 import { IModel } from "@esri/hub-common";
 const apiBaseUrl = "https://www.arcgis.com/sharing/rest";

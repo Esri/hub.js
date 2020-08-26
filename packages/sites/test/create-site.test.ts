@@ -4,6 +4,7 @@ import * as portalModule from "@esri/arcgis-rest-portal";
 import * as registerAsAppModule from "../src/register-site-as-application";
 import * as addDomainsModule from "../src/_add-site-domains";
 import { expectAllCalled, expectAll } from "./test-helpers.test";
+import * as initiativesModule from "@esri/hub-initiatives";
 import { IModel } from "@esri/hub-common";
 
 describe("create site :: ", function() {
@@ -95,6 +96,54 @@ describe("create site :: ", function() {
 
     // no collab group, so no sharing call
     expect(shareSpy).not.toHaveBeenCalled();
+    expectAllCalled(
+      [
+        createSpy,
+        protectSpy,
+        registerSpy,
+        updateSpy,
+        domainsSpy,
+        uploadResourcesSpy
+      ],
+      expect
+    );
+  });
+
+  it("updates initiative if created", async () => {
+    const site = ({
+      item: {
+        id: "3ef",
+        owner: "luke",
+        title: "Death Star with Initiative",
+        properties: {
+          parentInitiativeId: "bc7"
+        }
+      },
+      data: {
+        values: {
+          defaultHostname: "name-org.hub.arcgis.com",
+          customHostname: "my-site.com",
+          verifySecondPass: "this should be {{appid}} interpolated"
+        }
+      }
+    } as unknown) as commonModule.IModel;
+
+    const updateInitiativeSpy = spyOn(
+      initiativesModule,
+      "updateInitiativeSiteId"
+    ).and.returnValue(Promise.resolve({ success: true, id: "bc7" }));
+
+    const result = await createSite(site, {}, ro);
+
+    expect(result.item.id).toBe("3ef", "should attach id into returned model");
+    expect(updateInitiativeSpy.calls.count()).toBe(
+      1,
+      "should call update initiative"
+    );
+    const call = updateInitiativeSpy.calls.argsFor(0);
+
+    expect(call[0]).toBe("bc7", "should send the initiative id");
+    expect(call[1]).toBe("3ef", "should send the site id");
     expectAllCalled(
       [
         createSpy,
