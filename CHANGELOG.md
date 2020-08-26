@@ -7,9 +7,43 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
-### General
-* ensure all projects use tslib ^1.13.0
-* updated rollup-* to latest to get latest iltorb
+## [6.4.0] - August 26th 2020
+
+### @esri/hub-common
+
+* New Features
+   * **getPortalUrl**: take a Portal API URL and strip the /sharing/rest [`d962e050`](https://github.com/Esri/hub.js/commit/d962e05079e1a8c9352dff62ab6f7bbe8565e49e)
+   * **getPortalUrl**: add support for IHubRequestOptions [`5ea0fe86`](https://github.com/Esri/hub.js/commit/5ea0fe86ccebdae854526a8d3d20306711f7f40b)
+   * **getItem* functions**: update functions that use getPortalUrl to also accept IHubRequestOptions [`af8f2e01`](https://github.com/Esri/hub.js/commit/af8f2e0164adf3fa1d2ee8ed0730bc36c63ef19f)
+   * **getPortalUrl**: add support for IRequestOptions [`f302041a`](https://github.com/Esri/hub.js/commit/f302041aaa4e54558eec99ae109ee3d23b602528)
+   * **item url fns**: update functions that use getPortalUrl to also accept IRequestOptions [`0fbbc23a`](https://github.com/Esri/hub.js/commit/0fbbc23af9cc0ae546d3fe0d59964116234b5332)
+   * **getItemThumbnailUrl**: add token if needed and support for IRequestOptions [`5b07247d`](https://github.com/Esri/hub.js/commit/5b07247d00fb082e1c2658ecfe5081f338bde213)
+* Bug Fixes
+   * **getItemApiUrl**: fix missing ?f=json [`083ee028`](https://github.com/Esri/hub.js/commit/083ee0287dd7c5906c99607b5e4b2e6dd084fc5c) [#330](https://github.com/Esri/hub.js/issues/330)
+
+### @esri/hub-downloads
+
+* New Features
+   * **Added**: "where" filter to portal download requests [`0737df66`](https://github.com/Esri/hub.js/commit/0737df66ab9fd3c7b0d631082e3958314b77d21c)
+
+### @esri/hub-initiatives
+
+* New Features
+   * **item url fns**: update functions that use getPortalUrl to also accept IRequestOptions [`0fbbc23a`](https://github.com/Esri/hub.js/commit/0fbbc23af9cc0ae546d3fe0d59964116234b5332)
+
+### @esri/hub-sites
+
+* New Features
+   * **item url fns**: update functions that use getPortalUrl to also accept IRequestOptions [`0fbbc23a`](https://github.com/Esri/hub.js/commit/0fbbc23af9cc0ae546d3fe0d59964116234b5332)
+
+### Other Changes
+
+* Bug Fixes
+   * **getItemApiUrl**: fix missing ?f=json [`dea1dd42`](https://github.com/Esri/hub.js/commit/dea1dd42b77121842b1461717b5b5e0dd5958b10)
+
+* Chores
+   * ensure all projects use tslib ^1.13.0
+   * updated rollup-* to latest to get latest iltorb
 
 ## [6.3.0] - August 19th 2020
 
@@ -65,12 +99,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/hub-common
 
 * Bug Fixes
-   * **cloneObject**: fix cloneObject&amp;amp;#39;s handling of Date properties [`81e6b257`](https://github.com/Esri/hub.js/commit/81e6b2577b6c2bae18bddcde8b43a34180a585c1) [#309](https://github.com/Esri/hub.js/issues/309)
+   * **cloneObject**: fix cloneObject's handling of Date properties [`81e6b257`](https://github.com/Esri/hub.js/commit/81e6b2577b6c2bae18bddcde8b43a34180a585c1) [#309](https://github.com/Esri/hub.js/issues/309)
 
 ### Other Changes
 
 * Bug Fixes
-   * **search**: Revert &amp;amp;quot;c/141567 changed Hub Page and Site Page types to Site types from Document&amp;amp;quot; [`1b4732f8`](https://github.com/Esri/hub.js/commit/1b4732f88807fbc61a6c3ade6668d9f9a56e8c90)
+   * **search**: Revert c/141567 changed Hub Page and Site Page types to Site types from Document&amp;amp;amp;quot; [`1b4732f8`](https://github.com/Esri/hub.js/commit/1b4732f88807fbc61a6c3ade6668d9f9a56e8c90)
 
 ## [6.1.2] - July 30th 2020
 
@@ -887,27 +921,21 @@ Initial Release
 [3.6.6]: https://github.com/Esri/hub.js/compare/v3.6.5...v3.6.6 "v3.6.6"
 [3.6.7]: https://github.com/Esri/hub.js/compare/v3.6.6...v3.6.7 "v3.6.7"
 [3.6.8]: https://github.com/Esri/hub.js/compare/v3.6.7...v3.6.8 "v3.6.8"
-[3.6.9]: https://github.com/Esri/hub.js/compare/v3.6.8...v3.6.9 "v3.6.9"
-[3.7.0]: https://github.com/Esri/hub.js/compare/v3.6.9...v3.7.0 "v3.7.0"
+[3.7.0]: https://github.com/Esri/hub.js/compare/v3.6.8...v3.7.0 "v3.7.0"
 [3.7.1]: https://github.com/Esri/hub.js/compare/v3.7.0...v3.7.1 "v3.7.1"
 [3.7.2]: https://github.com/Esri/hub.js/compare/v3.7.1...v3.7.2 "v3.7.2"
 [3.7.3]: https://github.com/Esri/hub.js/compare/v3.7.2...v3.7.3 "v3.7.3"
 [3.7.4]: https://github.com/Esri/hub.js/compare/v3.7.3...v3.7.4 "v3.7.4"
-[3.7.5]: https://github.com/Esri/hub.js/compare/v3.7.4...v3.7.5 "v3.7.5"
-[3.7.6]: https://github.com/Esri/hub.js/compare/v3.7.5...v3.7.6 "v3.7.6"
+[3.7.6]: https://github.com/Esri/hub.js/compare/v3.7.4...v3.7.6 "v3.7.6"
 [3.8.0]: https://github.com/Esri/hub.js/compare/v3.7.6...v3.8.0 "v3.8.0"
-[3.9.0]: https://github.com/Esri/hub.js/compare/v3.8.0...v3.9.0 "v3.9.0"
-[3.9.1]: https://github.com/Esri/hub.js/compare/v3.9.0...v3.9.1 "v3.9.1"
+[3.9.1]: https://github.com/Esri/hub.js/compare/v3.8.0...v3.9.1 "v3.9.1"
 [3.9.2]: https://github.com/Esri/hub.js/compare/v3.9.1...v3.9.2 "v3.9.2"
-[3.9.3]: https://github.com/Esri/hub.js/compare/v3.9.2...v3.9.3 "v3.9.3"
-[4.0.0]: https://github.com/Esri/hub.js/compare/v3.9.3...v4.0.0 "v4.0.0"
+[4.0.0]: https://github.com/Esri/hub.js/compare/v3.9.2...v4.0.0 "v4.0.0"
 [4.1.0]: https://github.com/Esri/hub.js/compare/v4.0.0...v4.1.0 "v4.1.0"
 [4.2.0]: https://github.com/Esri/hub.js/compare/v4.1.0...v4.2.0 "v4.2.0"
 [4.2.1]: https://github.com/Esri/hub.js/compare/v4.2.0...v4.2.1 "v4.2.1"
 [4.2.2]: https://github.com/Esri/hub.js/compare/v4.2.1...v4.2.2 "v4.2.2"
-[4.2.3]: https://github.com/Esri/hub.js/compare/v4.2.2...v4.2.3 "v4.2.3"
-[4.3.0]: https://github.com/Esri/hub.js/compare/v4.2.3...v4.3.0 "v4.3.0"
-[4.4.0]: https://github.com/Esri/hub.js/compare/v4.3.0...v4.4.0 "v4.4.0"
+[4.4.0]: https://github.com/Esri/hub.js/compare/v4.2.2...v4.4.0 "v4.4.0"
 [4.5.0]: https://github.com/Esri/hub.js/compare/v4.4.0...v4.5.0 "v4.5.0"
 [4.5.1]: https://github.com/Esri/hub.js/compare/v4.5.0...v4.5.1 "v4.5.1"
 [5.0.0]: https://github.com/Esri/hub.js/compare/v4.5.1...v5.0.0 "v5.0.0"
@@ -920,4 +948,5 @@ Initial Release
 [6.2.0]: https://github.com/Esri/hub.js/compare/v6.1.3...v6.2.0 "v6.2.0"
 [6.2.1]: https://github.com/Esri/hub.js/compare/v6.2.0...v6.2.1 "v6.2.1"
 [6.3.0]: https://github.com/Esri/hub.js/compare/v6.2.1...v6.3.0 "v6.3.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v6.3.0...HEAD "Unreleased Changes"
+[6.4.0]: https://github.com/Esri/hub.js/compare/v6.3.0...v6.4.0 "v6.4.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v6.4.0...HEAD "Unreleased Changes"
