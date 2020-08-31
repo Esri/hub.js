@@ -20,7 +20,7 @@ describe("fetchAndApplyDraft", () => {
     const chk = await fetchAndApplyDraft(siteModel, ro);
 
     expect(fetchDraftSpy).toHaveBeenCalledWith("id", ro);
-    expect(applyDraftSpy).toHaveBeenCalledWith(siteModel, draftModel, false);
+    expect(applyDraftSpy).toHaveBeenCalledWith(siteModel, draftModel);
     expect(chk).toEqual(draftModel);
   });
 });
