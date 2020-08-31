@@ -1,7 +1,8 @@
-import { getSiteItemType } from "../get-site-item-type";
-import { getPageItemType } from "../pages";
 import { SITE_DRAFT_INCLUDE_LIST } from "./site-draft-include-list";
 import { PAGE_DRAFT_INCLUDE_LIST } from "./page-draft-include-list";
+import { isSite } from "../is-site";
+import { isPage } from "../pages";
+import { IItem } from "@esri/arcgis-rest-portal";
 
 /**
  * Returns the right include list for the item type.
@@ -9,19 +10,17 @@ import { PAGE_DRAFT_INCLUDE_LIST } from "./page-draft-include-list";
  * @param isPortal - if we're on portal or not
  * @private
  */
-export function _includeListFromItemType(itemType: string, isPortal: boolean) {
+export function _includeListFromItemType(siteOrPageItem: IItem) {
   let includeList;
-  switch (itemType) {
-    case getSiteItemType(isPortal):
-      includeList = SITE_DRAFT_INCLUDE_LIST;
-      break;
-    case getPageItemType(isPortal):
-      includeList = PAGE_DRAFT_INCLUDE_LIST;
-      break;
-    default:
-      throw TypeError(
-        "@esri/hub-sites: drafts only belong to a site or a page item model"
-      );
+  if (isSite(siteOrPageItem)) {
+    includeList = SITE_DRAFT_INCLUDE_LIST;
+  } else if (isPage(siteOrPageItem)) {
+    includeList = PAGE_DRAFT_INCLUDE_LIST;
+  } else {
+    throw TypeError(
+      "@esri/hub-sites: drafts only belong to a site or a page item model"
+    );
   }
+
   return includeList;
 }

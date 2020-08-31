@@ -20,7 +20,5 @@ export function fetchAndApplyDraft(
   return fetchDraft(
     getProp(siteOrPageModel, "item.id"),
     hubRequestOptions
-  ).then(draft =>
-    applyDraft(siteOrPageModel, draft, hubRequestOptions.isPortal)
-  );
+  ).then(draft => applyDraft(siteOrPageModel, draft));
 }

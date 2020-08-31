@@ -92,7 +92,7 @@ const pageDraft = ({
 
 describe("applyDraft", () => {
   it("applies a draft resource to a site or page model", async () => {
-    const chk = applyDraft(pageModel, pageDraft, false);
+    const chk = applyDraft(pageModel, pageDraft);
 
     PAGE_DRAFT_INCLUDE_LIST.forEach(path => {
       expect(getProp(chk, path)).toEqual(
@@ -103,7 +103,7 @@ describe("applyDraft", () => {
   });
 
   it("returns model if no draft", async () => {
-    const chk = applyDraft(pageModel, null, false);
+    const chk = applyDraft(pageModel, null);
     expect(chk).toBe(pageModel);
   });
 });

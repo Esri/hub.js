@@ -7,15 +7,8 @@ import { IDraft } from "@esri/hub-types";
  * @param {*} siteOrPageModel
  * @param {*} draft
  */
-export function applyDraft(
-  siteOrPageModel: IModel,
-  draft: IDraft,
-  isPortal: boolean
-) {
+export function applyDraft(siteOrPageModel: IModel, draft: IDraft) {
   if (!draft) return siteOrPageModel;
-  const includeList = _includeListFromItemType(
-    getProp(siteOrPageModel, "item.type"),
-    isPortal
-  );
+  const includeList = _includeListFromItemType(siteOrPageModel.item);
   return mergeObjects(draft, cloneObject(siteOrPageModel), includeList);
 }

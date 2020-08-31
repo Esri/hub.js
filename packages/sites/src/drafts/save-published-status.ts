@@ -1,7 +1,7 @@
-import { IModel, IHubRequestOptions, getProp } from "@esri/hub-common";
-import { getSiteItemType } from "../get-site-item-type";
+import { IModel, IHubRequestOptions } from "@esri/hub-common";
 import { updateSite } from "../update-site";
-import { getPageItemType, updatePage } from "../pages";
+import { updatePage, isPage } from "../pages";
+import { isSite } from "../is-site";
 
 /**
  * Saves the published status of a site or page model
@@ -15,19 +15,17 @@ export function savePublishedStatus(
   hubRequestOptions: IHubRequestOptions
 ) {
   const allowList = ["item.typeKeywords"]; // only want to save typeKeywords
+  const { item } = siteOrPageModel;
   let prms;
 
-  switch (getProp(siteOrPageModel, "item.type")) {
-    case getSiteItemType(hubRequestOptions.isPortal):
-      prms = updateSite(siteOrPageModel, allowList, hubRequestOptions);
-      break;
-    case getPageItemType(hubRequestOptions.isPortal):
-      prms = updatePage(siteOrPageModel, allowList, hubRequestOptions);
-      break;
-    default:
-      throw TypeError(
-        "@esri/hub-sites: only page or site models have a published state"
-      );
+  if (isSite(item)) {
+    prms = updateSite(siteOrPageModel, allowList, hubRequestOptions);
+  } else if (isPage(item)) {
+    prms = updatePage(siteOrPageModel, allowList, hubRequestOptions);
+  } else {
+    throw TypeError(
+      "@esri/hub-sites: only page or site models have a published state"
+    );
   }
 
   return prms;

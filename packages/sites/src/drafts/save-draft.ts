@@ -20,10 +20,7 @@ export function saveDraft(
   siteOrPageModel: IModel,
   hubRequestOptions: IHubRequestOptions
 ) {
-  const includeList = _includeListFromItemType(
-    getProp(siteOrPageModel, "item.type"),
-    hubRequestOptions.isPortal
-  );
+  const includeList = _includeListFromItemType(siteOrPageModel.item);
   const draft = buildDraft(siteOrPageModel, includeList);
   const draftBlob = objectToJsonBlob(draft);
   const draftName = `draft-${Date.now()}.json`;
