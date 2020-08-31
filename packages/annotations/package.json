@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-annotations",
-  "version": "6.4.0",
+  "version": "6.5.0",
   "description": "Module to interact with ArcGIS Hub Annotations in Node.js and modern browsers.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/annotations.umd.js",
