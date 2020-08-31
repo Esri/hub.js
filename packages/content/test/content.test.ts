@@ -1,10 +1,7 @@
 import * as fetchMock from "fetch-mock";
 import { IHubRequestOptions } from "@esri/hub-common";
-import {
-  comingSoon,
-  getContent,
-} from "../src/index";
-import * as portalModule from '../src/portal'
+import { comingSoon, getContent } from "../src/index";
+import * as portalModule from "../src/portal";
 import * as hubModule from "../src/hub";
 import { mockUserSession } from "./test-helpers/fake-user-session";
 
@@ -28,26 +25,62 @@ describe("get content", () => {
     it("should call getContentFromHub", done => {
       requestOpts.isPortal = false;
       requestOpts.portalSelf.isPortal = false;
-      const id = 'foo';
-      const getContentFromHubSpy = spyOn(hubModule, 'getContentFromHub').and.returnValue(Promise.resolve({}))
-      getContent(id, requestOpts)
-      .then(() => {
-        expect(getContentFromHubSpy.calls.count()).toBe(1)
-        expect(getContentFromHubSpy.calls.argsFor(0)).toEqual(['foo', requestOpts])
-        done()
-      })
+      const id = "foo";
+      const getContentFromHubSpy = spyOn(
+        hubModule,
+        "getContentFromHub"
+      ).and.returnValue(Promise.resolve({}));
+      getContent(id, requestOpts).then(() => {
+        expect(getContentFromHubSpy.calls.count()).toBe(1);
+        expect(getContentFromHubSpy.calls.argsFor(0)).toEqual([
+          id,
+          requestOpts
+        ]);
+        done();
+      });
+    });
+    it("handles private items", done => {
+      requestOpts.isPortal = false;
+      requestOpts.portalSelf.isPortal = false;
+      const id = "foo";
+      const getContentFromHubSpy = spyOn(
+        hubModule,
+        "getContentFromHub"
+      ).and.returnValue(Promise.reject({}));
+      const getContentFromPortalSpy = spyOn(
+        portalModule,
+        "getContentFromPortal"
+      ).and.returnValue(Promise.resolve({}));
+      getContent(id, requestOpts).then(() => {
+        expect(getContentFromHubSpy.calls.count()).toBe(1);
+        expect(getContentFromHubSpy.calls.argsFor(0)).toEqual([
+          id,
+          requestOpts
+        ]);
+        expect(getContentFromPortalSpy.calls.count()).toBe(1);
+        expect(getContentFromPortalSpy.calls.argsFor(0)).toEqual([
+          "foo",
+          requestOpts
+        ]);
+        done();
+      });
     });
   });
   describe("from portal", () => {
     it("should call getContentFromPortal", done => {
-      const id = 'foo';
-      const getContentFromPortalSpy = spyOn(portalModule, 'getContentFromPortal').and.returnValue(Promise.resolve({}))
-      getContent(id, requestOpts)
-      .then(() => {
-        expect(getContentFromPortalSpy.calls.count()).toBe(1)
-        expect(getContentFromPortalSpy.calls.argsFor(0)).toEqual(['foo', requestOpts])
-        done()
-      })
+      const id = "foo";
+      const getContentFromPortalSpy = spyOn(
+        portalModule,
+        "getContentFromPortal"
+      ).and.returnValue(Promise.resolve({}));
+      getContent(id, requestOpts).then(() => {
+        expect(getContentFromPortalSpy.calls.count()).toBe(1);
+        expect(getContentFromPortalSpy.calls.argsFor(0)).toEqual([
+          "foo",
+          requestOpts
+        ]);
+        done();
+      });
     });
   });
 });
