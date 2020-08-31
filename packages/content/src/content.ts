@@ -19,7 +19,12 @@ export function getContent(
   if (requestOptions && requestOptions.isPortal) {
     return getContentFromPortal(id, requestOptions);
   } else {
-    return getContentFromHub(id, requestOptions);
+    return getContentFromHub(id, requestOptions).catch(() => {
+      // TODO: inspect error?
+      // dataset is not in index (i.e. might be a private item)
+      // try fetching from portal instead
+      return getContentFromPortal(id, requestOptions);
+    });
   }
 }
 
