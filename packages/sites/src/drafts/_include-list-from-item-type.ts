@@ -7,7 +7,6 @@ import { IItem } from "@esri/arcgis-rest-portal";
 /**
  * Returns the right include list for the item type.
  * @param siteOrPageModel - the site or page model
- * @param isPortal - if we're on portal or not
  * @private
  */
 export function _includeListFromItemType(siteOrPageItem: IItem) {
