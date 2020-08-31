@@ -12,3 +12,4 @@ export * from "./create-page";
 export * from "./convert-page-to-template";
 export * from "./create-page-model-from-template";
 export * from "./ensure-page-has-site-entry";
+export * from "./is-page";
