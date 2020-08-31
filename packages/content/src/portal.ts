@@ -10,7 +10,7 @@ import {
   IBBox,
   createExtent,
   getType,
-  getCategory,
+  getCollection,
   getItemHomeUrl,
   getItemApiUrl,
   getItemDataUrl,
@@ -113,7 +113,7 @@ export function getItemHubType(itemOrType: IItem | string): HubType {
   const itemType =
     typeof itemOrType === "string" ? itemOrType : getType(itemOrType);
   // TODO: not all categories are Hub types, may need to validate
-  return getCategory(itemType) as HubType;
+  return getCollection(itemType) as HubType;
 }
 
 export function getContentFromPortal(
