@@ -1,21 +1,28 @@
 import {
   getCategory,
+  getCollection,
   getTypes,
   getTypeCategories,
   getType
 } from "../src/content";
 
-describe("getCategory", () => {
+describe("getCollection", () => {
   it("can abort", () => {
-    expect(getCategory()).toBe(undefined);
+    expect(getCollection()).toBe(undefined);
   });
 
   it("can retrieve a single category", () => {
-    expect(getCategory("Feature Layer")).toBe("dataset");
+    expect(getCollection("Feature Layer")).toBe("dataset");
   });
 
   it("can retrieve a single category (from cache)", () => {
-    expect(getCategory("Feature Layer")).toBe("dataset");
+    expect(getCollection("Feature Layer")).toBe("dataset");
+  });
+});
+
+describe("getCategory", () => {
+  it("returns 'app' for forms", () => {
+    expect(getCategory("Form")).toBe("app");
   });
 });
 
