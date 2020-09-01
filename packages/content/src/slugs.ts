@@ -34,3 +34,18 @@ export function addContextToSlug(slug: string, context: string): string {
     return `${context}::${slug}`;
   }
 }
+
+/**
+ * Remove context (prefix) from a slug
+ *
+ * @param slug Hub API slug with context
+ * @param context usually a portal's orgKey
+ * @returns slug without context
+ */
+export function removeContextFromSlug(slug: string, context: string): string {
+  if (context && slug.match(`${context}::`)) {
+    return slug.split(`${context}::`)[1];
+  } else {
+    return slug;
+  }
+}

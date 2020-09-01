@@ -1,6 +1,9 @@
-import { isSlug, addContextToSlug } from "../src/slugs";
+import { isSlug, addContextToSlug, removeContextFromSlug } from "../src/slugs";
 
 describe("slugs", () => {
+  const title = "foo-bar";
+  const orgKey = "org-key";
+  const slugWithContext = `${orgKey}::${title}`;
   describe("isSlug", function() {
     it("returns false when identifier is undefined", () => {
       const result = isSlug(undefined);
@@ -20,9 +23,6 @@ describe("slugs", () => {
     });
   });
   describe("addContextToSlug", () => {
-    const title = "foo-bar";
-    const orgKey = "org-key";
-    const slugWithContext = `${orgKey}::${title}`;
     it("appends the context to slug without context", () => {
       const slug = addContextToSlug(title, orgKey);
       expect(slug).toBe(slugWithContext);
@@ -32,7 +32,17 @@ describe("slugs", () => {
       expect(slug).toBe(slugWithContext);
     });
     it("returns the slug as is when it has a different context", () => {
-      const slug = addContextToSlug(slugWithContext, "another-org");
+      const slug = addContextToSlug(slugWithContext, "other-org");
+      expect(slug).toBe(slugWithContext);
+    });
+  });
+  describe("removeContextFromSlug", () => {
+    it("removes context when present", () => {
+      const slug = removeContextFromSlug(slugWithContext, orgKey);
+      expect(slug).toBe(title);
+    });
+    it("doesn't remove context when not present", () => {
+      const slug = removeContextFromSlug(slugWithContext, "other-org");
       expect(slug).toBe(slugWithContext);
     });
   });
