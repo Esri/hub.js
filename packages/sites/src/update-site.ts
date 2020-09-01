@@ -10,7 +10,6 @@ import {
 import { SITE_UI_VERSION } from "./site-ui-version";
 import { _ensurePortalDomainKeyword } from "./_ensure-portal-domain-keyword";
 import { updateItem, IUpdateItemResponse } from "@esri/arcgis-rest-portal";
-import { removeUnusedResources } from "./layout";
 
 /**
  * Update an existing site item
@@ -84,17 +83,6 @@ export function updateSite(
         item: serializeModel(model),
         authentication: hubRequestOptions.authentication,
         params: { clearEmptyFields: true }
-      });
-    })
-    .then(updateResponse => {
-      // clean up un-used crop images. The internals of this are failSafed as it's not critical
-      // and we return the udpateResponse object from the previous step
-      return removeUnusedResources(
-        model.item.id,
-        model.data.values.layout,
-        hubRequestOptions
-      ).then(_ => {
-        return updateResponse;
       });
     })
     .catch(err => {

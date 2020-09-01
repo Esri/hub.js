@@ -7,7 +7,6 @@ import * as portalModule from "@esri/arcgis-rest-portal";
 describe("update site", function() {
   let getModelSpy: jasmine.Spy;
   let updateSpy: jasmine.Spy;
-  let removeResourcesSpy: jasmine.Spy;
 
   beforeEach(() => {
     getModelSpy = spyOn(commonModule, "getModel").and.returnValue(
@@ -20,11 +19,6 @@ describe("update site", function() {
     updateSpy = spyOn(portalModule, "updateItem").and.returnValue(
       Promise.resolve({ success: true, id: "3ef" })
     );
-
-    removeResourcesSpy = spyOn(
-      layoutModule,
-      "removeUnusedResources"
-    ).and.returnValue(Promise.resolve());
   });
 
   it("ago with allowList and resources to remove", async function() {
@@ -63,12 +57,6 @@ describe("update site", function() {
     expect(updateItem.properties.newProp).toBe(
       localSite.item.properties.newProp
     );
-
-    const resourcesArgs = removeResourcesSpy.calls.argsFor(0);
-    expect([resourcesArgs[0], resourcesArgs[2]]).toEqual([
-      localSite.item.id,
-      ro
-    ]);
   });
 
   it("ago without allowList or resources to remove", async function() {
@@ -108,12 +96,6 @@ describe("update site", function() {
     expect(updateItem.properties.newProp).toBe(
       localSite.item.properties.newProp
     );
-
-    const resourcesArgs = removeResourcesSpy.calls.argsFor(0);
-    expect([resourcesArgs[0], resourcesArgs[2]]).toEqual([
-      localSite.item.id,
-      ro
-    ]);
   });
 
   it("portal", async function() {
