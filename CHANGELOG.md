@@ -5,7 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased][HEAD]
+## [6.6.0] - September 1st 2020
+
+### @esri/hub-common
+
+* New Features
+   * **getCollection**: add a function to return the Hub collection for a given item type [`017f2252`](https://github.com/Esri/hub.js/commit/017f225296d8fc2d545a0c7aa8b00318cbc01b92)
+
+### @esri/hub-content
+
+* Bug Fixes
+   * **getItemHubType**: return feedback for items of type Form [`53d845f6`](https://github.com/Esri/hub.js/commit/53d845f6524a1688a3ce431fb2afda75d1560bd6) [#336](https://github.com/Esri/hub.js/issues/336)
 
 ## [6.5.1] - August 31st 2020
 
@@ -40,7 +50,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/hub-downloads
 
 * New Features
-   * **Added**: &amp;quot;where&amp;quot; filter to portal download requests [`0737df66`](https://github.com/Esri/hub.js/commit/0737df66ab9fd3c7b0d631082e3958314b77d21c)
+   * **Added**: &amp;amp;quot;where&amp;amp;quot; filter to portal download requests [`0737df66`](https://github.com/Esri/hub.js/commit/0737df66ab9fd3c7b0d631082e3958314b77d21c)
 
 ### @esri/hub-initiatives
 
@@ -115,12 +125,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/hub-common
 
 * Bug Fixes
-   * **cloneObject**: fix cloneObject&amp;#39;s handling of Date properties [`81e6b257`](https://github.com/Esri/hub.js/commit/81e6b2577b6c2bae18bddcde8b43a34180a585c1) [#309](https://github.com/Esri/hub.js/issues/309)
+   * **cloneObject**: fix cloneObject&amp;amp;#39;s handling of Date properties [`81e6b257`](https://github.com/Esri/hub.js/commit/81e6b2577b6c2bae18bddcde8b43a34180a585c1) [#309](https://github.com/Esri/hub.js/issues/309)
 
 ### Other Changes
 
 * Bug Fixes
-   * **search**: Revert c/141567 changed Hub Page and Site Page types to Site types from Document&amp;amp;amp;amp;amp;quot; [`1b4732f8`](https://github.com/Esri/hub.js/commit/1b4732f88807fbc61a6c3ade6668d9f9a56e8c90)
+   * **search**: Revert c/141567 changed Hub Page and Site Page types to Site types from Document&amp;amp;amp;amp;amp;amp;quot; [`1b4732f8`](https://github.com/Esri/hub.js/commit/1b4732f88807fbc61a6c3ade6668d9f9a56e8c90)
 
 ## [6.1.2] - July 30th 2020
 
@@ -966,4 +976,5 @@ Initial Release
 [6.3.0]: https://github.com/Esri/hub.js/compare/v6.2.1...v6.3.0 "v6.3.0"
 [6.4.0]: https://github.com/Esri/hub.js/compare/v6.3.0...v6.4.0 "v6.4.0"
 [6.5.1]: https://github.com/Esri/hub.js/compare/v6.4.0...v6.5.1 "v6.5.1"
-[HEAD]: https://github.com/Esri/hub.js/compare/v6.5.1...HEAD "Unreleased Changes"
+[6.6.0]: https://github.com/Esri/hub.js/compare/v6.5.1...v6.6.0 "v6.6.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v6.6.0...HEAD "Unreleased Changes"
