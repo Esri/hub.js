@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.6.1] - September 1st 2020
+
+* Bug Fixes
+   * **updating sites and page**: no longer attempts to remove "unused" resources [d6fc827](https://github.com/Esri/hub.js/commit/d6fc8276bb5eb9dbeca21f3226ccd397a3f880e6) [5c31afe](https://github.com/Esri/hub.js/commit/5c31afe35c642b032a320665bc9eddba07c0152a)
+
 ## [6.6.0] - September 1st 2020
 
 ### @esri/hub-common
