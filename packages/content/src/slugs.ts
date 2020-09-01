@@ -17,3 +17,20 @@ export function isSlug(identifier: string): boolean {
   // otherwise assume it's a slug
   return true;
 }
+
+/**
+ * Add a context (prefix) to slug if it doesn't already have one
+ *
+ * @param slug Hub API slug (with or without context)
+ * @param context usually a portal's orgKey
+ * @returns slug with context ({context}::{slug})
+ */
+export function addContextToSlug(slug: string, context: string): string {
+  // the slug has an org key already e.g. dc::crime-incidents
+  if (/.+::.+/.test(slug)) {
+    return slug;
+    // the slug belongs to the org that owns the site e.g. crime-incidents
+  } else {
+    return `${context}::${slug}`;
+  }
+}

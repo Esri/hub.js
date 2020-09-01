@@ -1,4 +1,4 @@
-import { isSlug } from "../src/slugs";
+import { isSlug, addContextToSlug } from "../src/slugs";
 
 describe("slugs", () => {
   describe("isSlug", function() {
@@ -17,6 +17,23 @@ describe("slugs", () => {
     it("returns true when identifier is a slug w/ orgKey", () => {
       const result = isSlug("org-key::foo-bar");
       expect(result).toBe(true);
+    });
+  });
+  describe("addContextToSlug", () => {
+    const title = "foo-bar";
+    const orgKey = "org-key";
+    const slugWithContext = `${orgKey}::${title}`;
+    it("appends the context to slug without context", () => {
+      const slug = addContextToSlug(title, orgKey);
+      expect(slug).toBe(slugWithContext);
+    });
+    it("returns the slug as is when it already has context", () => {
+      const slug = addContextToSlug(slugWithContext, orgKey);
+      expect(slug).toBe(slugWithContext);
+    });
+    it("returns the slug as is when it has a different context", () => {
+      const slug = addContextToSlug(slugWithContext, "another-org");
+      expect(slug).toBe(slugWithContext);
     });
   });
 });
