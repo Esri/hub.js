@@ -45,18 +45,6 @@ export function updatePage(
     // update it
     const opts = Object.assign({ item: serializeModel(model) }, requestOptions);
     opts.params = { clearEmptyFields: true };
-    return updateItem(opts).then(resp => {
-      if (resp.success) {
-        return removeUnusedResources(
-          model.item.id,
-          model.data.values.layout,
-          requestOptions
-        ).then(_ => {
-          return resp;
-        });
-      } else {
-        return resp;
-      }
-    });
+    return updateItem(opts);
   });
 }

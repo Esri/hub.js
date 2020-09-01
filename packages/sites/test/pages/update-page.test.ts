@@ -1,6 +1,5 @@
 import { updatePage } from "../../src";
 import * as portalModule from "@esri/arcgis-rest-portal";
-import * as removeResourcesModule from "../../src/layout/remove-unused-resources";
 import * as commonModule from "@esri/hub-common";
 import { IModel, IHubRequestOptions, cloneObject } from "@esri/hub-common";
 
@@ -28,16 +27,10 @@ describe("updatePage", () => {
   } as IHubRequestOptions;
 
   let updateSpy: jasmine.Spy;
-  let removeResourcesSpy: jasmine.Spy;
   beforeEach(() => {
     updateSpy = spyOn(portalModule, "updateItem").and.returnValue(
       Promise.resolve({ success: true })
     );
-
-    removeResourcesSpy = spyOn(
-      removeResourcesModule,
-      "removeUnusedResources"
-    ).and.returnValue(Promise.resolve({ success: true }));
   });
 
   it("updates the page", async () => {
@@ -61,8 +54,6 @@ describe("updatePage", () => {
       "tate",
       "should replace updatedBy"
     );
-
-    expect(removeResourcesSpy).toHaveBeenCalled();
   });
 
   it("handles a patch-list", async () => {
@@ -99,8 +90,6 @@ describe("updatePage", () => {
       "old version",
       "other prop NOT updated"
     );
-
-    expect(removeResourcesSpy).toHaveBeenCalled();
   });
 
   it("doesnt remove unused resources if update failed", async () => {
@@ -109,6 +98,5 @@ describe("updatePage", () => {
     await updatePage(cloneObject(model), [], ro);
 
     expect(updateSpy).toHaveBeenCalled();
-    expect(removeResourcesSpy).not.toHaveBeenCalled();
   });
 });
