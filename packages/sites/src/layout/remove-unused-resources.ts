@@ -9,6 +9,10 @@ import { _getImageCropIdsFromLayout } from "./_get-image-crop-ids-from-layout";
 import { ILayout, IEntry } from "./types";
 
 /**
+ * THIS UTIL IS NO LONGER IN USE BUT MAY BE IN THE FUTURE - TATE
+ */
+
+/**
  * Removes any image "crop" versions that are no longer
  * used in the site layout.
  * TODO: Move to a module that is shared with Pages and then
