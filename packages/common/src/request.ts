@@ -50,16 +50,26 @@ export function hubApiRequest(
     ...{ "Content-Type": "application/json" },
     ...options.headers
   };
-  // TODO: build query params/body based on requestOptions.params?
+  // build query params/body based on requestOptions.params
+  let query;
+  let body;
+  if (options.httpMethod === "GET") {
+    // pass params in query string
+    query = options.params;
+  } else {
+    // pass params in request body
+    body = JSON.stringify(options.params);
+  }
   // build Hub API URL
   const url = buildUrl({
     host: options.hubApiUrl,
-    path: `/api/v3/${route}`.replace(/\/\//g, "/")
+    path: `/api/v3/${route}`.replace(/\/\//g, "/"),
+    query
   });
   return _fetch(url, {
     method: options.httpMethod,
-    headers
-    // body: JSON.stringify(body)
+    headers,
+    body
   }).then(resp => {
     if (resp.ok) {
       return resp.json();
