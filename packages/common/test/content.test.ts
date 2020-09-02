@@ -3,7 +3,7 @@ import {
   getCollection,
   getTypes,
   getTypeCategories,
-  getType
+  normalizeItemType
 } from "../src/content";
 
 describe("getCollection", () => {
@@ -38,25 +38,49 @@ describe("getTypes", () => {
   });
 });
 
-describe("getType", () => {
+describe("normalizeItemType", () => {
   it("can get type from item.type if typeKeywords is not defined", () => {
-    expect(getType({ type: "type from item" })).toEqual("type from item");
+    expect(normalizeItemType({ type: "type from item" })).toEqual(
+      "type from item"
+    );
   });
   it("can get type from item.type without typeKeywords", () => {
-    expect(getType({ type: "Web Mapping Application" })).toEqual(
+    expect(normalizeItemType({ type: "Web Mapping Application" })).toEqual(
       "Web Mapping Application"
     );
   });
-  it("can get type from item.typeKeywords", () => {
+  it("normalizes sites", () => {
     expect(
-      getType({ type: "Web Mapping Application", typeKeywords: ["hubSite"] })
+      normalizeItemType({
+        type: "Web Mapping Application",
+        typeKeywords: ["hubSite"]
+      })
     ).toEqual("Hub Site Application");
     expect(
-      getType({ type: "Web Mapping Application", typeKeywords: ["hubPage"] })
+      normalizeItemType({ type: "Site Application", typeKeywords: [] })
+    ).toEqual("Hub Site Application");
+  });
+  it("normalizes pages", () => {
+    expect(
+      normalizeItemType({
+        type: "Web Mapping Application",
+        typeKeywords: ["hubPage"]
+      })
+    ).toEqual("Hub Page");
+    expect(
+      normalizeItemType({ type: "Site Page", typeKeywords: ["hubPage"] })
     ).toEqual("Hub Page");
   });
+  it("normalizes initiative templates", () => {
+    expect(
+      normalizeItemType({
+        type: "Hub Initiative",
+        typeKeywords: ["hubInitiativeTemplate"]
+      })
+    ).toEqual("Hub Initiative Template");
+  });
   it("can work with blank inputs", () => {
-    expect(getType()).toBe(undefined);
+    expect(normalizeItemType()).toBe(undefined);
   });
 });
 

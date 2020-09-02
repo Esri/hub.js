@@ -3,6 +3,8 @@
 
 import { collections } from "./collections";
 import { categories } from "./categories";
+import { includes } from "./utils";
+import { getWithDefault } from "./objects";
 
 const cache: { [key: string]: string } = {};
 
@@ -48,23 +50,37 @@ export function getTypes(category: string = ""): string[] {
  * ```js
  * import { getType } from "@esri/hub-common";
  * //
- * getType(item)
+ * normalizeItemType(item)
  * > [ 'Hub Site Application' ]
  * ```
  * @param item Item object.
  * @returns type of the input item.
  *
  */
-export function getType(item: any = {}): string {
-  const typeKeywords = item.typeKeywords || [];
-  if (item.type === "Web Mapping Application") {
-    if (typeKeywords.includes("hubSite")) {
-      return "Hub Site Application";
-    } else if (typeKeywords.includes("hubPage")) {
-      return "Hub Page";
-    }
+export function normalizeItemType(item: any = {}): string {
+  let ret = item.type;
+  const typeKeywords = getWithDefault(item, "typeKeywords", []);
+  if (
+    item.type === "Site Application" ||
+    (item.type === "Web Mapping Application" &&
+      includes(typeKeywords, "hubSite"))
+  ) {
+    ret = "Hub Site Application";
   }
-  return item.type;
+  if (
+    item.type === "Site Page" ||
+    (item.type === "Web Mapping Application" &&
+      includes(typeKeywords, "hubPage"))
+  ) {
+    ret = "Hub Page";
+  }
+  if (
+    item.type === "Hub Initiative" &&
+    includes(typeKeywords, "hubInitiativeTemplate")
+  ) {
+    ret = "Hub Initiative Template";
+  }
+  return ret;
 }
 
 /**
@@ -79,7 +95,7 @@ export function getType(item: any = {}): string {
  *
  */
 export function getTypeCategories(item: any = {}): string[] {
-  const type: string = getType(item);
+  const type: string = normalizeItemType(item);
   const category: string = getCategory(type);
   if (category) {
     // upper case first letter and return as element in array for backwards compatibility

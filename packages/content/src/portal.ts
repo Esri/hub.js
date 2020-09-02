@@ -9,7 +9,7 @@ import {
   IHubRequestOptions,
   IBBox,
   createExtent,
-  getType,
+  normalizeItemType,
   getCollection,
   getItemHomeUrl,
   getItemApiUrl,
@@ -111,7 +111,7 @@ export function itemToContent(item: IItem): IHubContent {
  */
 export function getItemHubType(itemOrType: IItem | string): HubType {
   const itemType =
-    typeof itemOrType === "string" ? itemOrType : getType(itemOrType);
+    typeof itemOrType === "string" ? itemOrType : normalizeItemType(itemOrType);
   // TODO: not all categories are Hub types, may need to validate
   return getCollection(itemType) as HubType;
 }
