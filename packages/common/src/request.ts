@@ -37,17 +37,15 @@ export function hubApiRequest(
 ) {
   // merge in default request options
   const options: IHubRequestOptions = {
-    ...{
-      hubApiUrl: "https://opendata.arcgis.com/api/v3/",
-      httpMethod: "GET"
-    },
+    hubApiUrl: "https://opendata.arcgis.com/api/v3/",
+    httpMethod: "GET",
     ...requestOptions
   };
   // use fetch override if any
   const _fetch = options.fetch || fetch;
   // merge in default headers
   const headers = {
-    ...{ "Content-Type": "application/json" },
+    "Content-Type": "application/json",
     ...options.headers
   };
   // build query params/body based on requestOptions.params

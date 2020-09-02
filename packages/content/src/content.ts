@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { request } from "@esri/arcgis-rest-request";
-import { IHubContent, IHubRequestOptions } from "@esri/hub-common";
+import { IHubContent } from "@esri/hub-common";
 import { IGetContentOptions, getContentFromHub } from "./hub";
 import { getContentFromPortal } from "./portal";
 import { isSlug } from "./slugs";
