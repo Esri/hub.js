@@ -31,6 +31,10 @@ describe("slugs", () => {
       const slug = addContextToSlug(slugWithContext, orgKey);
       expect(slug).toBe(slugWithContext);
     });
+    it("returns the slug as is when no context is passed", () => {
+      const slug = addContextToSlug(slugWithContext, undefined);
+      expect(slug).toBe(slugWithContext);
+    });
     it("returns the slug as is when it has a different context", () => {
       const slug = addContextToSlug(slugWithContext, "other-org");
       expect(slug).toBe(slugWithContext);

@@ -6,8 +6,12 @@ import {
   hubApiRequest
 } from "@esri/hub-common";
 import { itemToContent, withPortalUrls } from "./portal";
-import { isSlug } from "./slugs";
+import { isSlug, addContextToSlug } from "./slugs";
 import { cloneObject } from "@esri/hub-common";
+
+export interface IGetContentOptions extends IHubRequestOptions {
+  siteOrgKey?: string;
+}
 
 /**
  * Parse item ID and layer ID (if any) from dataset record ID
@@ -40,24 +44,25 @@ export type DatasetResource = ResourceObject<
  *
  * @param identifier Hub API slug ({orgKey}::{title-as-slug} or {title-as-slug})
  * or record id ((itemId}_{layerId} or {itemId})
- * @param requestOptions - request options that may include authentication
+ * @param options - request options that may include authentication
  * @export
  */
 export function getContentFromHub(
   identifier: string,
-  requestOptions?: IHubRequestOptions
+  options?: IGetContentOptions
 ): Promise<IHubContent> {
   let request;
   if (isSlug(identifier)) {
-    const options = cloneObject(requestOptions);
-    options.params = { ...options.params, "filter[slug]": identifier };
-    request = hubApiRequest(`/datasets`, options);
+    const slug = addContextToSlug(identifier, options && options.siteOrgKey);
+    const opts = cloneObject(options);
+    opts.params = { ...opts.params, "filter[slug]": slug };
+    request = hubApiRequest(`/datasets`, opts);
   } else {
-    request = hubApiRequest(`/datasets/${identifier}`, requestOptions);
+    request = hubApiRequest(`/datasets/${identifier}`, options);
   }
   return request.then((resp: any) => {
     const dataset = resp && resp.data;
-    return dataset && withPortalUrls(datasetToContent(dataset), requestOptions);
+    return dataset && withPortalUrls(datasetToContent(dataset), options);
   });
 }
 
