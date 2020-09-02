@@ -5,10 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.7.0] - September 2nd 2020
+
+### @esri/hub-common
+
+* New Features
+   * **hubApiRequest**: add support for request.params [`2882c685`](https://github.com/Esri/hub.js/commit/2882c68502fb083af72c9433142310855a624a19)
+
+### @esri/hub-content
+
+* New Features
+   * **dataset slugs**: add isSlug() to determine if an identifier is a slug [`e6462675`](https://github.com/Esri/hub.js/commit/e64626756f7d136945f308c1f32fddc8a1847dce)
+   * **dataset slugs**: add addContextToSlug() to prefix slug with context (orgKey) [`0d326630`](https://github.com/Esri/hub.js/commit/0d3266303a5fa1643c089d4f5f8bf96e924654f1)
+   * **dataset slugs**: add removeContextFromSlug() to remove context (orgKey) from slugs [`88ba30c0`](https://github.com/Esri/hub.js/commit/88ba30c08d0bfcfd012f360da13095bc043615df)
+   * **getContent**: add support for slugs as well as ids [`c2e2623b`](https://github.com/Esri/hub.js/commit/c2e2623b7dd71735ea4e6572879d77e98af175ff) [#320](https://github.com/Esri/hub.js/issues/320)
+
+### @esri/hub-sites
+
+* Bug Fixes
+   * **updateSite**: updateSite no longer attempts to remove unused resources [`ee8d8e18`](https://github.com/Esri/hub.js/commit/ee8d8e184adde57fe9b93de0425c6ff7176718b7)
+
 ## [6.6.1] - September 1st 2020
 
 * Bug Fixes
-   * **updating sites and page**: no longer attempts to remove "unused" resources [d6fc827](https://github.com/Esri/hub.js/commit/d6fc8276bb5eb9dbeca21f3226ccd397a3f880e6) [5c31afe](https://github.com/Esri/hub.js/commit/5c31afe35c642b032a320665bc9eddba07c0152a)
+   * **updating sites and page**: no longer attempts to remove unused resources [d6fc827](https://github.com/Esri/hub.js/commit/d6fc8276bb5eb9dbeca21f3226ccd397a3f880e6) [5c31afe](https://github.com/Esri/hub.js/commit/5c31afe35c642b032a320665bc9eddba07c0152a)
 
 ## [6.6.0] - September 1st 2020
 
@@ -55,7 +75,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/hub-downloads
 
 * New Features
-   * **Added**: &amp;amp;quot;where&amp;amp;quot; filter to portal download requests [`0737df66`](https://github.com/Esri/hub.js/commit/0737df66ab9fd3c7b0d631082e3958314b77d21c)
+   * **Added**: where filter to portal download requests [`0737df66`](https://github.com/Esri/hub.js/commit/0737df66ab9fd3c7b0d631082e3958314b77d21c)
 
 ### @esri/hub-initiatives
 
@@ -130,12 +150,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/hub-common
 
 * Bug Fixes
-   * **cloneObject**: fix cloneObject&amp;amp;#39;s handling of Date properties [`81e6b257`](https://github.com/Esri/hub.js/commit/81e6b2577b6c2bae18bddcde8b43a34180a585c1) [#309](https://github.com/Esri/hub.js/issues/309)
+   * **cloneObject**: fix cloneObject handling of Date properties [`81e6b257`](https://github.com/Esri/hub.js/commit/81e6b2577b6c2bae18bddcde8b43a34180a585c1) [#309](https://github.com/Esri/hub.js/issues/309)
 
 ### Other Changes
 
 * Bug Fixes
-   * **search**: Revert c/141567 changed Hub Page and Site Page types to Site types from Document&amp;amp;amp;amp;amp;amp;quot; [`1b4732f8`](https://github.com/Esri/hub.js/commit/1b4732f88807fbc61a6c3ade6668d9f9a56e8c90)
+   * **search**: Revert c/141567 changed Hub Page and Site Page types to Site types from Document [`1b4732f8`](https://github.com/Esri/hub.js/commit/1b4732f88807fbc61a6c3ade6668d9f9a56e8c90)
 
 ## [6.1.2] - July 30th 2020
 
@@ -982,4 +1002,5 @@ Initial Release
 [6.4.0]: https://github.com/Esri/hub.js/compare/v6.3.0...v6.4.0 "v6.4.0"
 [6.5.1]: https://github.com/Esri/hub.js/compare/v6.4.0...v6.5.1 "v6.5.1"
 [6.6.0]: https://github.com/Esri/hub.js/compare/v6.5.1...v6.6.0 "v6.6.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v6.6.0...HEAD "Unreleased Changes"
+[6.7.0]: https://github.com/Esri/hub.js/compare/v6.6.0...v6.7.0 "v6.7.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v6.7.0...HEAD "Unreleased Changes"
