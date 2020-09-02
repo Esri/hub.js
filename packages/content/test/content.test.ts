@@ -22,47 +22,67 @@ describe("get content", () => {
   });
   afterEach(fetchMock.restore);
   describe("from hub", () => {
-    it("should call getContentFromHub", done => {
+    beforeEach(() => {
       requestOpts.isPortal = false;
       requestOpts.portalSelf.isPortal = false;
-      const id = "foo";
-      const getContentFromHubSpy = spyOn(
-        hubModule,
-        "getContentFromHub"
-      ).and.returnValue(Promise.resolve({}));
-      getContent(id, requestOpts).then(() => {
-        expect(getContentFromHubSpy.calls.count()).toBe(1);
-        expect(getContentFromHubSpy.calls.argsFor(0)).toEqual([
-          id,
-          requestOpts
-        ]);
-        done();
+    });
+    describe("with an id", () => {
+      const id = "7a153563b0c74f7eb2b3eae8a66f2fbb";
+      it("should call getContentFromHub", done => {
+        const getContentFromHubSpy = spyOn(
+          hubModule,
+          "getContentFromHub"
+        ).and.returnValue(Promise.resolve({}));
+        getContent(id, requestOpts).then(() => {
+          expect(getContentFromHubSpy.calls.count()).toBe(1);
+          expect(getContentFromHubSpy.calls.argsFor(0)).toEqual([
+            id,
+            requestOpts
+          ]);
+          done();
+        });
+      });
+      it("handles private items", done => {
+        const getContentFromHubSpy = spyOn(
+          hubModule,
+          "getContentFromHub"
+        ).and.returnValue(Promise.reject({}));
+        const getContentFromPortalSpy = spyOn(
+          portalModule,
+          "getContentFromPortal"
+        ).and.returnValue(Promise.resolve({}));
+        getContent(id, requestOpts).then(() => {
+          expect(getContentFromHubSpy.calls.count()).toBe(1);
+          expect(getContentFromHubSpy.calls.argsFor(0)).toEqual([
+            id,
+            requestOpts
+          ]);
+          expect(getContentFromPortalSpy.calls.count()).toBe(1);
+          expect(getContentFromPortalSpy.calls.argsFor(0)).toEqual([
+            id,
+            requestOpts
+          ]);
+          done();
+        });
       });
     });
-    it("handles private items", done => {
-      requestOpts.isPortal = false;
-      requestOpts.portalSelf.isPortal = false;
-      const id = "foo";
-      const getContentFromHubSpy = spyOn(
-        hubModule,
-        "getContentFromHub"
-      ).and.returnValue(Promise.reject({}));
-      const getContentFromPortalSpy = spyOn(
-        portalModule,
-        "getContentFromPortal"
-      ).and.returnValue(Promise.resolve({}));
-      getContent(id, requestOpts).then(() => {
-        expect(getContentFromHubSpy.calls.count()).toBe(1);
-        expect(getContentFromHubSpy.calls.argsFor(0)).toEqual([
-          id,
-          requestOpts
-        ]);
-        expect(getContentFromPortalSpy.calls.count()).toBe(1);
-        expect(getContentFromPortalSpy.calls.argsFor(0)).toEqual([
-          "foo",
-          requestOpts
-        ]);
-        done();
+    describe("with a slug", () => {
+      const slug = "foo";
+      it("rejects when not in the index", done => {
+        const err = new Error("test");
+        const getContentFromHubSpy = spyOn(
+          hubModule,
+          "getContentFromHub"
+        ).and.returnValue(Promise.reject(err));
+        getContent(slug, requestOpts).catch(e => {
+          expect(getContentFromHubSpy.calls.count()).toBe(1);
+          expect(getContentFromHubSpy.calls.argsFor(0)).toEqual([
+            slug,
+            requestOpts
+          ]);
+          expect(e).toEqual(err);
+          done();
+        });
       });
     });
   });
