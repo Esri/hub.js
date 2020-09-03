@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-sites",
-  "version": "6.7.1",
+  "version": "6.7.2",
   "description": "Module to interact with ArcGIS Hub Sites in Node.js and modern browsers.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/sites.umd.js",
@@ -23,12 +23,12 @@
   },
   "devDependencies": {
     "@esri/arcgis-rest-auth": "^2.14.1",
-    "@esri/arcgis-rest-portal": "^2.14.1",
+    "@esri/arcgis-rest-portal": "^2.17.0",
     "@esri/arcgis-rest-request": "^2.14.1",
-    "@esri/hub-common": "^6.7.1",
-    "@esri/hub-initiatives": "^6.7.1",
-    "@esri/hub-teams": "^6.7.1",
-    "@esri/hub-types": "^6.7.1"
+    "@esri/hub-common": "^6.7.2",
+    "@esri/hub-initiatives": "^6.7.2",
+    "@esri/hub-teams": "^6.7.2",
+    "@esri/hub-types": "^6.7.2"
   },
   "files": [
     "dist/**"

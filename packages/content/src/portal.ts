@@ -20,15 +20,18 @@ import {
 import { parseDatasetId } from "./hub";
 
 function itemExtentToBoundary(extent: IBBox): IHubGeography {
-  return {
-    // TODO: center?
-    geometry: createExtent(
-      extent[0][0],
-      extent[0][1],
-      extent[1][0],
-      extent[1][1]
-    )
-  };
+  return (
+    extent &&
+    extent.length && {
+      // TODO: center?
+      geometry: createExtent(
+        extent[0][0],
+        extent[0][1],
+        extent[1][0],
+        extent[1][1]
+      )
+    }
+  );
 }
 
 /**
@@ -91,7 +94,7 @@ export function itemToContent(item: IItem): IHubContent {
     hubActions: properties && properties.actions,
     metrics: properties && properties.metrics,
     // default boundary from item.extent
-    boundary: item.extent && itemExtentToBoundary(item.extent),
+    boundary: itemExtentToBoundary(item.extent),
     license: { name: "Custom License", description: item.accessInformation },
     // dates and sources
     createdDate,
