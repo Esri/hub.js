@@ -4,10 +4,10 @@ import {
   serializeModel,
   getModel,
   getProp,
-  mergeObjects
+  mergeObjects,
+  getWithDefault
 } from "@esri/hub-common";
 import { updateItem, IUpdateItemResponse } from "@esri/arcgis-rest-portal";
-import { removeUnusedResources } from "../layout/remove-unused-resources";
 
 /**
  * Update a Page item
@@ -23,9 +23,18 @@ import { removeUnusedResources } from "../layout/remove-unused-resources";
  */
 export function updatePage(
   model: IModel,
-  patchList: string[],
-  requestOptions: IHubRequestOptions
+  maybePatchList: string[] | Record<string, any>,
+  maybeRequestOptions?: IHubRequestOptions
 ): Promise<IUpdateItemResponse> {
+  let patchList = maybePatchList as string[];
+  let requestOptions = maybeRequestOptions;
+
+  // support old call signature
+  if (!Array.isArray(maybePatchList)) {
+    patchList = getWithDefault(maybePatchList, "patchList", []) as string[];
+    requestOptions = maybePatchList as IHubRequestOptions;
+  }
+
   // store info about last update and who did it
   model.data.values.updatedAt = new Date().toISOString();
   model.data.values.updatedBy = requestOptions.authentication.username;

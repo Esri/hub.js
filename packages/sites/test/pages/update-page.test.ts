@@ -92,6 +92,45 @@ describe("updatePage", () => {
     );
   });
 
+  it("handles old call signature", async () => {
+    const modelInAGO = {
+      item: {
+        url: "old url",
+        title: "old title",
+        someOtherProp: "old version",
+        id: "page-id"
+      },
+      data: {
+        values: {
+          layout: "old-layout",
+          updatedAt: "some-past-ISO",
+          updatedBy: "chewie"
+        }
+      }
+    };
+
+    const getModelSpy = spyOn(commonModule, "getModel").and.returnValue(
+      Promise.resolve(modelInAGO)
+    );
+
+    const requestOptions = ro as Record<string, any>;
+    requestOptions.patchList = ["item.title"];
+
+    await updatePage(cloneObject(model), requestOptions);
+
+    // model fetched from ago when patchList not empty
+    expect(getModelSpy).toHaveBeenCalledWith("page-id", ro);
+    expect(updateSpy).toHaveBeenCalled();
+
+    const savedItem = updateSpy.calls.argsFor(0)[0].item;
+    expect(savedItem.title).toBe("new title", "title updated");
+    expect(savedItem.url).toBe("old url", "url NOT updated");
+    expect(savedItem.someOtherProp).toBe(
+      "old version",
+      "other prop NOT updated"
+    );
+  });
+
   it("doesnt remove unused resources if update failed", async () => {
     updateSpy.and.returnValue(Promise.resolve({ success: false }));
 
