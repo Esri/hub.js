@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.7.1] - September 3rd 2020
+
+### @esri/hub-sites
+
+* Bug Fixes
+   * **updatePage**: updatePage now supports the old call signature [`1c17d461`](https://github.com/Esri/hub.js/commit/1c17d46177663b2a1051add2dce0fb9fe2032c4a)
+
 ## [6.7.0] - September 2nd 2020
 
 ### @esri/hub-common
@@ -1003,4 +1010,5 @@ Initial Release
 [6.5.1]: https://github.com/Esri/hub.js/compare/v6.4.0...v6.5.1 "v6.5.1"
 [6.6.0]: https://github.com/Esri/hub.js/compare/v6.5.1...v6.6.0 "v6.6.0"
 [6.7.0]: https://github.com/Esri/hub.js/compare/v6.6.0...v6.7.0 "v6.7.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v6.7.0...HEAD "Unreleased Changes"
+[6.7.1]: https://github.com/Esri/hub.js/compare/v6.7.0...v6.7.1 "v6.7.1"
+[HEAD]: https://github.com/Esri/hub.js/compare/v6.7.1...HEAD "Unreleased Changes"
