@@ -2,28 +2,31 @@
  * Apache-2.0 */
 
 import { request } from "@esri/arcgis-rest-request";
-import { IHubContent, IHubRequestOptions } from "@esri/hub-common";
-import { getContentFromHub } from "./hub";
+import { IHubContent } from "@esri/hub-common";
+import { IGetContentOptions, getContentFromHub } from "./hub";
 import { getContentFromPortal } from "./portal";
+import { isSlug } from "./slugs";
 
 /**
  * Fetch content using either the Hub API or the ArcGIS REST API
- * @param id - content (item) id
- * @param requestOptions - request options that may include authentication
+ * @param identifier Hub API slug ({orgKey}::{title-as-slug} or {title-as-slug})
+ * or record id ((itemId}_{layerId} or {itemId})
+ * @param options - request options that may include authentication
  */
 export function getContent(
-  // TODO: this should take a slug as well
-  id: string,
-  requestOptions?: IHubRequestOptions
+  identifier: string,
+  options?: IGetContentOptions
 ): Promise<IHubContent> {
-  if (requestOptions && requestOptions.isPortal) {
-    return getContentFromPortal(id, requestOptions);
+  if (options && options.isPortal) {
+    return getContentFromPortal(identifier, options);
   } else {
-    return getContentFromHub(id, requestOptions).catch(() => {
-      // TODO: inspect error?
+    return getContentFromHub(identifier, options).catch(e => {
       // dataset is not in index (i.e. might be a private item)
-      // try fetching from portal instead
-      return getContentFromPortal(id, requestOptions);
+      if (!isSlug(identifier)) {
+        // try fetching from portal instead
+        return getContentFromPortal(identifier, options);
+      }
+      return Promise.reject(e);
     });
   }
 }
