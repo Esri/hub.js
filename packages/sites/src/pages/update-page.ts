@@ -4,8 +4,7 @@ import {
   serializeModel,
   getModel,
   getProp,
-  mergeObjects,
-  getWithDefault
+  mergeObjects
 } from "@esri/hub-common";
 import { updateItem, IUpdateItemResponse } from "@esri/arcgis-rest-portal";
 
@@ -29,9 +28,9 @@ export function updatePage(
   let patchList = maybePatchList as string[];
   let requestOptions = maybeRequestOptions;
 
-  // support old call signature
+  // support old call signature for now
   if (!Array.isArray(maybePatchList)) {
-    patchList = getWithDefault(maybePatchList, "patchList", []) as string[];
+    patchList = [];
     requestOptions = maybePatchList as IHubRequestOptions;
   }
 
