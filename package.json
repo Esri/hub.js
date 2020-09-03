@@ -122,7 +122,7 @@
     "tsc:v": "lerna run tsc:v",
     "lint:fix": "tslint --project tsconfig.json --fix",
     "gen-util": "yo ./scaffolder/index.js",
-    "precommit": "./throw_if_no_staged.sh && lint-staged",
+    "precommit": "./stage_changes.sh && lint-staged",
     "bootstrap": "lerna bootstrap",
     "postinstall": "npm run bootstrap",
     "prerelease:prepare": "git fetch --all && npm run clean && lerna bootstrap && npm test",

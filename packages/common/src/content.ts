@@ -50,6 +50,24 @@ export function getTypes(category: string = ""): string[] {
  * ```js
  * import { getType } from "@esri/hub-common";
  * //
+ * getType(item)
+ * > [ 'Hub Site Application' ]
+ * ```
+ * @param item Item object.
+ * @returns type of the input item.
+ *
+ */
+export function getType(item: any = {}): string {
+  if (item.type === "Site Page" || item.type === "Site Application") {
+    return item.type;
+  }
+  return normalizeItemType(item);
+}
+
+/**
+ * ```js
+ * import { normalizeItemType } from "@esri/hub-common";
+ * //
  * normalizeItemType(item)
  * > [ 'Hub Site Application' ]
  * ```
@@ -59,7 +77,7 @@ export function getTypes(category: string = ""): string[] {
  */
 export function normalizeItemType(item: any = {}): string {
   let ret = item.type;
-  const typeKeywords = getWithDefault(item, "typeKeywords", []);
+  const typeKeywords = item.typeKeywords || [];
   if (
     item.type === "Site Application" ||
     (item.type === "Web Mapping Application" &&

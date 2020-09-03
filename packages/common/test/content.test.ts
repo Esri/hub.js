@@ -2,6 +2,7 @@ import {
   getCategory,
   getCollection,
   getTypes,
+  getType,
   getTypeCategories,
   normalizeItemType
 } from "../src/content";
@@ -35,6 +36,32 @@ describe("getTypes", () => {
       "Hub Site Application",
       "Site Application"
     ]);
+  });
+});
+
+describe("getType", () => {
+  it("can get type from item.type if typeKeywords is not defined", () => {
+    expect(getType({ type: "type from item" })).toEqual("type from item");
+  });
+  it("can get type from item.type without typeKeywords", () => {
+    expect(getType({ type: "Web Mapping Application" })).toEqual(
+      "Web Mapping Application"
+    );
+  });
+  it("can get type from item.typeKeywords", () => {
+    expect(
+      getType({ type: "Web Mapping Application", typeKeywords: ["hubSite"] })
+    ).toEqual("Hub Site Application");
+    expect(
+      getType({ type: "Web Mapping Application", typeKeywords: ["hubPage"] })
+    ).toEqual("Hub Page");
+  });
+  it("doesnt touch portal sites and pages", () => {
+    expect(getType({ type: "Site Application" })).toBe("Site Application");
+    expect(getType({ type: "Site Page" })).toBe("Site Page");
+  });
+  it("can work with blank inputs", () => {
+    expect(getType()).toBe(undefined);
   });
 });
 
