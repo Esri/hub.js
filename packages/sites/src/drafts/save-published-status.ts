@@ -2,6 +2,7 @@ import { IModel, IHubRequestOptions } from "@esri/hub-common";
 import { updateSite } from "../update-site";
 import { updatePage, isPage } from "../pages";
 import { isSite } from "../is-site";
+import { IUpdateItemResponse } from "@esri/arcgis-rest-portal";
 
 /**
  * Saves the published status of a site or page model
@@ -13,7 +14,7 @@ import { isSite } from "../is-site";
 export function savePublishedStatus(
   siteOrPageModel: IModel,
   hubRequestOptions: IHubRequestOptions
-) {
+): Promise<IUpdateItemResponse> {
   const allowList = ["item.typeKeywords"]; // only want to save typeKeywords
   const { item } = siteOrPageModel;
   let prms;
