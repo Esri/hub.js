@@ -15,6 +15,24 @@ describe("hubApiRequest", () => {
       done();
     });
   });
-  // NOTE: successful request cases are covered by tests
+  it("stringfies params in the body of POST", done => {
+    fetchMock.once("*", { the: "goods" });
+    hubApiRequest("datasets", {
+      isPortal: false,
+      hubApiUrl: "https://some.url.com/",
+      httpMethod: "POST",
+      authentication: null,
+      params: {
+        foo: "bar"
+      }
+    }).then(response => {
+      const [url, options] = fetchMock.calls()[0];
+      expect(url).toEqual("https://some.url.com/api/v3/datasets");
+      expect(options.body).toBe('{"foo":"bar"}');
+      expect(response.the).toEqual("goods");
+      done();
+    });
+  });
+  // NOTE: additional request cases are covered by tests
   // of functions in other packages that use hubRequest
 });

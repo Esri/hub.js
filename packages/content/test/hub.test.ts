@@ -158,7 +158,7 @@ describe("hub", () => {
       };
     });
     afterEach(fetchMock.restore);
-    it("should fetch a dataset record and return content", done => {
+    it("should fetch a dataset record by id and return content", done => {
       fetchMock.once("*", featureLayerJson);
       const dataset = featureLayerJson.data as DatasetResource;
       const id = dataset.id;
@@ -166,6 +166,25 @@ describe("hub", () => {
         // verify that we attempted to fetch from the portal API
         const [url, opts] = fetchMock.calls()[0];
         expect(url).toBe(`https://some.url.com/api/v3/datasets/${id}`);
+        expect(opts.method).toBe("GET");
+        validateContentFromDataset(content, dataset, "dataset");
+        // TODO: content type specific properties
+        // expect(content.recordCount).toBe(attributes.recordCount);
+        done();
+      });
+    });
+    it("should fetch a dataset record by slug and return content", done => {
+      fetchMock.once("*", featureLayerJson);
+      const dataset = featureLayerJson.data as DatasetResource;
+      const slug = "Wigan::out-of-work-benefit-claims";
+      getContentFromHub(slug, requestOpts).then(content => {
+        // verify that we attempted to fetch from the portal API
+        const [url, opts] = fetchMock.calls()[0];
+        expect(url).toBe(
+          `https://some.url.com/api/v3/datasets?${encodeURIComponent(
+            "filter[slug]"
+          )}=${encodeURIComponent(slug)}`
+        );
         expect(opts.method).toBe("GET");
         validateContentFromDataset(content, dataset, "dataset");
         // TODO: content type specific properties

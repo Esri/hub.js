@@ -92,6 +92,18 @@ describe("updatePage", () => {
     );
   });
 
+  it("handles old call signature", async () => {
+    const getModelSpy = spyOn(commonModule, "getModel").and.returnValue(
+      Promise.resolve({})
+    );
+
+    await updatePage(cloneObject(model), ro);
+
+    // model not fetched from ago when patchList empty
+    expect(getModelSpy).not.toHaveBeenCalled();
+    expect(updateSpy).toHaveBeenCalled();
+  });
+
   it("doesnt remove unused resources if update failed", async () => {
     updateSpy.and.returnValue(Promise.resolve({ success: false }));
 
