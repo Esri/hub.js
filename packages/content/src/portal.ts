@@ -109,7 +109,10 @@ export function itemToContent(item: IItem): IHubContent {
  *
  * @param itemOrType an item or item.type
  */
-export function getItemHubType(itemOrType: IItem): HubType {
+export function getItemHubType(itemOrType: IItem | string): HubType {
+  if (typeof itemOrType === "string") {
+    itemOrType = { type: itemOrType } as IItem;
+  }
   const itemType = normalizeItemType(itemOrType);
   // TODO: not all categories are Hub types, may need to validate
   return getCollection(itemType) as HubType;

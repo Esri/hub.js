@@ -53,6 +53,9 @@ describe("get item hub type", () => {
       } as IItem)
     ).toBe("template");
   });
+  it("works with just type", () => {
+    expect(getItemHubType("Form")).toBe("feedback");
+  });
 });
 describe("get content from portal", () => {
   let requestOpts: IHubRequestOptions;

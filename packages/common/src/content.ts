@@ -58,6 +58,9 @@ export function getTypes(category: string = ""): string[] {
  *
  */
 export function getType(item: any = {}): string {
+  /* tslint:disable no-console */
+  console.warn("DEPRECATED: Use normalizeItemType() instead");
+
   if (item.type === "Site Page" || item.type === "Site Application") {
     return item.type;
   }
