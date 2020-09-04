@@ -45,9 +45,16 @@ describe("item to content", () => {
   // are covered by getContentFromPortal() tests
 });
 describe("get item hub type", () => {
-  // NOTE: case where an item is passed an item is covered by getContentFromPortal() tests
-  it("handles item type as string", () => {
-    expect(getItemHubType("Feature Layer")).toBe("dataset");
+  it("normalizes item", () => {
+    expect(
+      getItemHubType({
+        type: "Hub Initiative",
+        typeKeywords: ["hubInitiativeTemplate"]
+      } as IItem)
+    ).toBe("template");
+  });
+  it("works with just type", () => {
+    expect(getItemHubType("Form")).toBe("feedback");
   });
 });
 describe("get content from portal", () => {

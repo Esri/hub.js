@@ -51,6 +51,8 @@ const feedback: string[] = ["Form"];
 
 const initiative: string[] = ["Hub Initiative"];
 
+const template: string[] = ["Hub Initiative Template", "Hub Solution Template"];
+
 const map: string[] = [
   "City Engine Web Scene",
   "CityEngine Web Scene",
@@ -124,6 +126,7 @@ export const collections: { [key: string]: string[] } = {
   event,
   feedback,
   initiative,
+  template,
   map,
   other,
   site
