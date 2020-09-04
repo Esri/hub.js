@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.8.0] - September 4th 2020
+
+### @esri/hub-common
+
+* New Features
+   * **getItemThumbnailUrl**: add support for specifying width of thumbnail [`9c71627b`](https://github.com/Esri/hub.js/commit/9c71627b2805f274cd8223cbdfb78625bedbad72)
+   * **normalizeItemType**: deprecates `getType` and adds support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
+   * **collections**: add template collection, getHubItemType only accepts items [`57b783a2`](https://github.com/Esri/hub.js/commit/57b783a242b7a2747db0dbc7fce57155c56ad93f) [#347](https://github.com/Esri/hub.js/issues/347) [#354](https://github.com/Esri/hub.js/issues/354)
+
+### @esri/hub-content
+
+* Bug Fixes
+   * **normalizeItemType**: getType =&amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
+   * **collections**: add template collection, getHubItemType only accepts items [`57b783a2`](https://github.com/Esri/hub.js/commit/57b783a242b7a2747db0dbc7fce57155c56ad93f) [#347](https://github.com/Esri/hub.js/issues/347) [#354](https://github.com/Esri/hub.js/issues/354)
+
+### @esri/hub-sites
+
+* Bug Fixes
+   * **normalizeItemType**: getType =&amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
+
+### Other Changes
+
+* New Features
+   * **committing**: npm run c will tell you if no staged changes immediately [`b3fe3db9`](https://github.com/Esri/hub.js/commit/b3fe3db969d9e516bfedb0109d610d197cb178fb)
+   * **getItemThumbnailUrl**: add support for specifying width of thumbnail [`5e27c7fd`](https://github.com/Esri/hub.js/commit/5e27c7fd781787a321040754cb6885cf455f74ef)
+
 ## [6.7.2] - September 3rd 2020
 
 ### @esri/hub-content
@@ -1020,4 +1046,5 @@ Initial Release
 [6.7.0]: https://github.com/Esri/hub.js/compare/v6.6.0...v6.7.0 "v6.7.0"
 [6.7.1]: https://github.com/Esri/hub.js/compare/v6.7.0...v6.7.1 "v6.7.1"
 [6.7.2]: https://github.com/Esri/hub.js/compare/v6.7.1...v6.7.2 "v6.7.2"
-[HEAD]: https://github.com/Esri/hub.js/compare/v6.7.2...HEAD "Unreleased Changes"
+[6.8.0]: https://github.com/Esri/hub.js/compare/v6.7.2...v6.8.0 "v6.8.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v6.8.0...HEAD "Unreleased Changes"
