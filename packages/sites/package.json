@@ -28,7 +28,7 @@
     "@esri/hub-common": "^6.8.0",
     "@esri/hub-initiatives": "^6.8.0",
     "@esri/hub-teams": "^6.8.0",
-    "@esri/hub-types": "^6.7.2"
+    "@esri/hub-types": "^6.8.0"
   },
   "files": [
     "dist/**"
