@@ -56,12 +56,15 @@ export function getContentFromHub(
     const slug = addContextToSlug(identifier, options && options.siteOrgKey);
     const opts = cloneObject(options);
     opts.params = { ...opts.params, "filter[slug]": slug };
-    request = hubApiRequest(`/datasets`, opts);
+    request = hubApiRequest(`/datasets`, opts).then(
+      resp => resp && resp.data[0]
+    );
   } else {
-    request = hubApiRequest(`/datasets/${identifier}`, options);
+    request = hubApiRequest(`/datasets/${identifier}`, options).then(
+      resp => resp && resp.data
+    );
   }
-  return request.then((resp: any) => {
-    const dataset = resp && resp.data;
+  return request.then((dataset: any) => {
     return dataset && withPortalUrls(datasetToContent(dataset), options);
   });
 }

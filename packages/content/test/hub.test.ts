@@ -174,8 +174,13 @@ describe("hub", () => {
       });
     });
     it("should fetch a dataset record by slug and return content", done => {
-      fetchMock.once("*", featureLayerJson);
-      const dataset = featureLayerJson.data as DatasetResource;
+      const featureLayersJson = {
+        // slug requests to datasets w/ filter which returns an array
+        data: [featureLayerJson.data],
+        meta: featureLayerJson.meta
+      };
+      fetchMock.once("*", featureLayersJson);
+      const dataset = featureLayersJson.data[0] as DatasetResource;
       const slug = "Wigan::out-of-work-benefit-claims";
       getContentFromHub(slug, requestOpts).then(content => {
         // verify that we attempted to fetch from the portal API
