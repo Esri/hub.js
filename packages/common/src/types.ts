@@ -253,7 +253,7 @@ export interface IHubContent extends IHubResource, IItem {
    * The normalized item type (we run normalizeItemType on
    * the item in order to compute this prop)
    */
-  normalizedType?: string;
+  normalizedType: string;
   /**
    * Date the content was published (formal metadata),
    * defaults to the date the content was created

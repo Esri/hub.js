@@ -17,11 +17,10 @@ export function getContent(
   identifier: string,
   options?: IGetContentOptions
 ): Promise<IHubContent> {
-  let ret: Promise<IHubContent>;
   if (options && options.isPortal) {
-    ret = getContentFromPortal(identifier, options);
+    return getContentFromPortal(identifier, options);
   } else {
-    ret = getContentFromHub(identifier, options).catch(e => {
+    return getContentFromHub(identifier, options).catch(e => {
       // dataset is not in index (i.e. might be a private item)
       if (!isSlug(identifier)) {
         // try fetching from portal instead
@@ -30,12 +29,6 @@ export function getContent(
       return Promise.reject(e);
     });
   }
-  return ret.then(content => applyNormalizedType(content));
-}
-
-function applyNormalizedType(content: IHubContent) {
-  content.normalizedType = normalizeItemType(content);
-  return content;
 }
 
 // TODO: remove this next breaking version
