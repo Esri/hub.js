@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { request } from "@esri/arcgis-rest-request";
-import { IHubContent } from "@esri/hub-common";
+import { IHubContent, normalizeItemType } from "@esri/hub-common";
 import { IGetContentOptions, getContentFromHub } from "./hub";
 import { getContentFromPortal } from "./portal";
 import { isSlug } from "./slugs";
@@ -17,10 +17,11 @@ export function getContent(
   identifier: string,
   options?: IGetContentOptions
 ): Promise<IHubContent> {
+  let ret: Promise<IHubContent>;
   if (options && options.isPortal) {
-    return getContentFromPortal(identifier, options);
+    ret = getContentFromPortal(identifier, options);
   } else {
-    return getContentFromHub(identifier, options).catch(e => {
+    ret = getContentFromHub(identifier, options).catch(e => {
       // dataset is not in index (i.e. might be a private item)
       if (!isSlug(identifier)) {
         // try fetching from portal instead
@@ -29,6 +30,12 @@ export function getContent(
       return Promise.reject(e);
     });
   }
+  return ret.then(content => applyNormalizedType(content));
+}
+
+function applyNormalizedType(content: IHubContent) {
+  content.normalizedType = normalizeItemType(content);
+  return content;
 }
 
 // TODO: remove this next breaking version

@@ -101,6 +101,12 @@ export function normalizeItemType(item: any = {}): string {
   ) {
     ret = "Hub Initiative Template";
   }
+  if (
+    item.type === "Web Mapping Application" &&
+    includes(typeKeywords, "hubSolutionTemplate")
+  ) {
+    ret = "Solution";
+  }
   return ret;
 }
 

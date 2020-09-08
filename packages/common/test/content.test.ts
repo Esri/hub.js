@@ -106,6 +106,14 @@ describe("normalizeItemType", () => {
       })
     ).toEqual("Hub Initiative Template");
   });
+  it("normalizes solution templates", () => {
+    expect(
+      normalizeItemType({
+        type: "Web Mapping Application",
+        typeKeywords: ["hubSolutionTemplate"]
+      })
+    ).toEqual("Solution");
+  });
   it("can work with blank inputs", () => {
     expect(normalizeItemType()).toBe(undefined);
   });
