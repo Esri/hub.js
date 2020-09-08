@@ -250,6 +250,11 @@ export interface IHubContent extends IHubResource, IItem {
   // TODO: license: IHubLicense // [Future] item.licenseInfo
 
   /**
+   * The normalized item type (we run normalizeItemType on
+   * the item in order to compute this prop)
+   */
+  normalizedType?: string;
+  /**
    * Date the content was published (formal metadata),
    * defaults to the date the content was created
    */
