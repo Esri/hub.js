@@ -8,7 +8,6 @@ import { mockUserSession } from "./test-helpers/fake-user-session";
 
 describe("get content", () => {
   let requestOpts: IHubRequestOptions;
-  let normalizeItemTypeSpy: jasmine.Spy;
   beforeEach(() => {
     requestOpts = {
       portalSelf: {
@@ -21,10 +20,6 @@ describe("get content", () => {
       hubApiUrl: "https://some.url.com/",
       authentication: mockUserSession
     };
-    normalizeItemTypeSpy = spyOn(
-      commonModule,
-      "normalizeItemType"
-    ).and.returnValue("Normalized");
   });
   afterEach(fetchMock.restore);
   describe("from hub", () => {
@@ -39,14 +34,12 @@ describe("get content", () => {
           hubModule,
           "getContentFromHub"
         ).and.returnValue(Promise.resolve({}));
-        getContent(id, requestOpts).then(content => {
+        getContent(id, requestOpts).then(() => {
           expect(getContentFromHubSpy.calls.count()).toBe(1);
           expect(getContentFromHubSpy.calls.argsFor(0)).toEqual([
             id,
             requestOpts
           ]);
-          expect(normalizeItemTypeSpy).toHaveBeenCalled();
-          expect(content.normalizedType).toEqual("Normalized");
           done();
         });
       });
@@ -101,14 +94,12 @@ describe("get content", () => {
         portalModule,
         "getContentFromPortal"
       ).and.returnValue(Promise.resolve({}));
-      getContent(id, requestOpts).then(content => {
+      getContent(id, requestOpts).then(() => {
         expect(getContentFromPortalSpy.calls.count()).toBe(1);
         expect(getContentFromPortalSpy.calls.argsFor(0)).toEqual([
           "foo",
           requestOpts
         ]);
-        expect(normalizeItemTypeSpy).toHaveBeenCalled();
-        expect(content.normalizedType).toEqual("Normalized");
         done();
       });
     });

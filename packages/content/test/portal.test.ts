@@ -2,6 +2,7 @@ import * as fetchMock from "fetch-mock";
 import { IItem } from "@esri/arcgis-rest-portal";
 import { IEnvelope } from "@esri/arcgis-rest-types";
 import { IHubRequestOptions, cloneObject } from "@esri/hub-common";
+import * as commonModule from "@esri/hub-common";
 import {
   getContentFromPortal,
   itemToContent,
@@ -31,6 +32,11 @@ describe("item to content", () => {
     item.itemControl = "update";
     const content = itemToContent(item);
     expect(content.permissions.control).toBe(item.itemControl);
+  });
+  it("attaches normalizedItemType", () => {
+    spyOn(commonModule, "normalizeItemType").and.returnValue("Normalized Type");
+    const content = itemToContent(item);
+    expect(content.normalizedType).toBe("Normalized Type");
   });
   describe("when item has properties", () => {
     it("should set actionLinks to links", () => {
