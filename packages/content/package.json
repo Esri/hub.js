@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-content",
-  "version": "6.9.0",
+  "version": "6.9.1",
   "description": "Module to interact with ArcGIS Hub Content in Node.js and modern browsers.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/content.umd.js",
