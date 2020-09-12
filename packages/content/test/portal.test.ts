@@ -16,13 +16,6 @@ describe("item to content", () => {
   beforeEach(() => {
     item = cloneObject(itemJson) as IItem;
   });
-  it("doesn't set URLs w/o portal", () => {
-    const content = itemToContent(item);
-    expect(content.portalHomeUrl).toBeUndefined();
-    expect(content.portalApiUrl).toBeUndefined();
-    expect(content.portalDataUrl).toBeUndefined();
-    expect(content.thumbnailUrl).toBeUndefined();
-  });
   it("gets summary from description when no snippet", () => {
     item.snippet = null;
     const content = itemToContent(item);
