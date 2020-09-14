@@ -18,6 +18,7 @@ import {
   cloneObject
 } from "@esri/hub-common";
 import { parseDatasetId } from "./hub";
+import { getContentMetadata } from "./metadata";
 
 function itemExtentToBoundary(extent: IBBox): IHubGeography {
   return (
@@ -129,9 +130,18 @@ export function getContentFromPortal(
   const { itemId } = parseDatasetId(id);
   return getItem(itemId, requestOptions).then(item => {
     const content = withPortalUrls(itemToContent(item), requestOptions);
-    // TODO: fetch remaining content properties (i.e. recordCount, etc) based on hubType. Examples:
-    // - if hubType is 'dataset', then fetch recordCount
-    // - if hubType is 'document', do nothing?
-    return content;
+    // TODO: provide some API to let consumers opt out of making these additional requests
+    return getContentMetadata(itemId, requestOptions)
+      .then(metadata => {
+        content.metadata = metadata;
+        // TODO: fetch remaining content properties (i.e. recordCount, etc) based on hubType. Examples:
+        // - if hubType is 'dataset', then fetch recordCount
+        // - if hubType is 'document', do nothing?
+        return content;
+      })
+      .catch(() => {
+        // TODO: update the content's errors
+        return content;
+      });
   });
 }
