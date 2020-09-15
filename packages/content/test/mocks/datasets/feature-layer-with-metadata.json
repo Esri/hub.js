@@ -1,0 +1,1541 @@
+{
+  "data": {
+    "id": "1ce4060e854747038b153c5c8f8c894d_0",
+    "type": "dataset",
+    "attributes": {
+      "errors": [],
+      "access": "public",
+      "additionalResources": [],
+      "advancedQueryCapabilities": {
+        "supportsSqlExpression": true,
+        "supportsQueryWithResultType": true,
+        "supportsQueryRelatedPagination": true,
+        "supportsQueryWithCacheHint": true,
+        "supportsQueryWithDatumTransformation": true,
+        "supportsOutFieldSQLExpression": true,
+        "supportsQueryWithLodSR": false,
+        "supportsPaginationOnAggregatedQueries": true,
+        "supportsPagination": true,
+        "supportsMaxRecordCountFactor": true,
+        "supportsStatistics": true,
+        "supportsOrderBy": true,
+        "supportsReturningGeometryProperties": true,
+        "supportsDisjointSpatialRel": true,
+        "supportsQueryWithDistance": true,
+        "supportsLod": true,
+        "supportsCountDistinct": true,
+        "supportedLodTypes": ["geohash"],
+        "supportsAdvancedQueryRelated": true,
+        "supportsReturningQueryExtent": true,
+        "supportsTopFeaturesQuery": true,
+        "supportsDistinct": true,
+        "supportsReturningGeometryCentroid": true,
+        "supportsPercentileStatistics": true,
+        "supportsHavingClause": true,
+        "supportsQueryAnalytic": true
+      },
+      "collection": ["Dataset"],
+      "categories": [],
+      "commentsEnabled": true,
+      "composeStatus": {
+        "retries": 0,
+        "pass": true,
+        "lastRetriedAt": 1592545365708
+      },
+      "composedAt": 1592545365708,
+      "content": "Feature Service",
+      "contentSecurityPolicy": null,
+      "created": 1587021217000,
+      "currentVersion": 10.81,
+      "description": "",
+      "displayField": "AREA_NAME_",
+      "downloadable": true,
+      "enrichCoverage": "regional",
+      "enrichQuality": 61,
+      "extent": {
+        "coordinates": [[55.0069, 24.7496], [56.3844, 25.9116]],
+        "type": "envelope"
+      },
+      "fieldNames": [
+        "OBJECTID",
+        "REMARKS",
+        "AREA_CODE",
+        "SUBURB_COD",
+        "AREA_NAME_",
+        "AREA_NAME1",
+        "POPULATION",
+        "CITY_CODE",
+        "GLOBALID",
+        "CREATED_USER",
+        "CREATED_DATE",
+        "LAST_EDITED_USER",
+        "LAST_EDITED_DATE",
+        "LOCAL_POPULATION",
+        "Local_Population",
+        "FOREIGN_POPULATION",
+        "Foreign_Population",
+        "POPULATION2016",
+        "Population2016",
+        "AREA_USE",
+        "Shape__Area",
+        "Shape__Length"
+      ],
+      "fields": [
+        {
+          "sqlType": "sqlTypeOther",
+          "nullable": false,
+          "editable": false,
+          "defaultValue": null,
+          "domain": null,
+          "name": "OBJECTID",
+          "alias": "OBJECTID",
+          "type": "esriFieldTypeOID"
+        },
+        {
+          "sqlType": "sqlTypeOther",
+          "nullable": true,
+          "editable": true,
+          "defaultValue": null,
+          "domain": null,
+          "name": "REMARKS",
+          "length": 254,
+          "alias": "REMARKS",
+          "type": "esriFieldTypeString"
+        },
+        {
+          "sqlType": "sqlTypeOther",
+          "nullable": true,
+          "editable": true,
+          "defaultValue": null,
+          "domain": null,
+          "name": "AREA_CODE",
+          "alias": "AREA_CODE",
+          "type": "esriFieldTypeDouble"
+        },
+        {
+          "sqlType": "sqlTypeOther",
+          "nullable": true,
+          "editable": true,
+          "defaultValue": null,
+          "domain": null,
+          "name": "SUBURB_COD",
+          "alias": "SUBURB_COD",
+          "type": "esriFieldTypeDouble"
+        },
+        {
+          "sqlType": "sqlTypeOther",
+          "nullable": true,
+          "editable": true,
+          "defaultValue": null,
+          "domain": null,
+          "name": "AREA_NAME_",
+          "length": 50,
+          "alias": "AREA_NAME_",
+          "type": "esriFieldTypeString"
+        },
+        {
+          "sqlType": "sqlTypeOther",
+          "nullable": true,
+          "editable": true,
+          "defaultValue": null,
+          "domain": null,
+          "name": "AREA_NAME1",
+          "length": 50,
+          "alias": "AREA_NAME1",
+          "type": "esriFieldTypeString"
+        },
+        {
+          "sqlType": "sqlTypeOther",
+          "nullable": true,
+          "editable": true,
+          "defaultValue": null,
+          "domain": null,
+          "name": "POPULATION",
+          "alias": "POPULATION",
+          "type": "esriFieldTypeDouble"
+        },
+        {
+          "sqlType": "sqlTypeOther",
+          "nullable": true,
+          "editable": true,
+          "defaultValue": null,
+          "domain": null,
+          "name": "CITY_CODE",
+          "alias": "CITY_CODE",
+          "type": "esriFieldTypeDouble"
+        },
+        {
+          "sqlType": "sqlTypeOther",
+          "nullable": false,
+          "editable": false,
+          "defaultValue": null,
+          "domain": null,
+          "name": "GLOBALID",
+          "length": 38,
+          "alias": "GLOBALID",
+          "type": "esriFieldTypeGlobalID"
+        },
+        {
+          "sqlType": "sqlTypeOther",
+          "nullable": true,
+          "editable": true,
+          "defaultValue": null,
+          "domain": null,
+          "name": "CREATED_USER",
+          "length": 255,
+          "alias": "CREATED_USER",
+          "type": "esriFieldTypeString"
+        },
+        {
+          "sqlType": "sqlTypeOther",
+          "nullable": true,
+          "editable": true,
+          "defaultValue": null,
+          "domain": null,
+          "name": "CREATED_DATE",
+          "length": 8,
+          "alias": "CREATED_DATE",
+          "type": "esriFieldTypeDate"
+        },
+        {
+          "sqlType": "sqlTypeOther",
+          "nullable": true,
+          "editable": true,
+          "defaultValue": null,
+          "domain": null,
+          "name": "LAST_EDITED_USER",
+          "length": 255,
+          "alias": "LAST_EDITED_USER",
+          "type": "esriFieldTypeString"
+        },
+        {
+          "sqlType": "sqlTypeOther",
+          "nullable": true,
+          "editable": true,
+          "defaultValue": null,
+          "domain": null,
+          "name": "LAST_EDITED_DATE",
+          "length": 8,
+          "alias": "LAST_EDITED_DATE",
+          "type": "esriFieldTypeDate"
+        },
+        {
+          "sqlType": "sqlTypeOther",
+          "nullable": true,
+          "editable": true,
+          "defaultValue": null,
+          "domain": null,
+          "name": "LOCAL_POPULATION",
+          "alias": "Local_Population",
+          "type": "esriFieldTypeInteger"
+        },
+        {
+          "sqlType": "sqlTypeOther",
+          "nullable": true,
+          "editable": true,
+          "defaultValue": null,
+          "domain": null,
+          "name": "FOREIGN_POPULATION",
+          "alias": "Foreign_Population",
+          "type": "esriFieldTypeInteger"
+        },
+        {
+          "sqlType": "sqlTypeOther",
+          "nullable": true,
+          "editable": true,
+          "defaultValue": null,
+          "domain": null,
+          "name": "POPULATION2016",
+          "alias": "Population2016",
+          "type": "esriFieldTypeInteger"
+        },
+        {
+          "sqlType": "sqlTypeOther",
+          "nullable": true,
+          "editable": true,
+          "defaultValue": null,
+          "domain": null,
+          "name": "AREA_USE",
+          "length": 1,
+          "alias": "AREA_USE",
+          "type": "esriFieldTypeString"
+        },
+        {
+          "sqlType": "sqlTypeDouble",
+          "nullable": true,
+          "editable": false,
+          "defaultValue": null,
+          "domain": null,
+          "name": "Shape__Area",
+          "alias": "Shape__Area",
+          "type": "esriFieldTypeDouble"
+        },
+        {
+          "sqlType": "sqlTypeDouble",
+          "nullable": true,
+          "editable": false,
+          "defaultValue": null,
+          "domain": null,
+          "name": "Shape__Length",
+          "alias": "Shape__Length",
+          "type": "esriFieldTypeDouble"
+        }
+      ],
+      "geometryType": "esriGeometryPolygon",
+      "groupIds": [],
+      "hasApi": true,
+      "hubType": "Feature Layer",
+      "id": "1ce4060e854747038b153c5c8f8c894d_0",
+      "itemModified": 1587021241000,
+      "layer": {
+        "extent": {
+          "ymin": 2845016.609199779,
+          "xmin": 6123337.734039529,
+          "ymax": 2988136.0640911935,
+          "xmax": 6276677.876361969,
+          "spatialReference": { "latestWkid": 3857, "wkid": 102100 }
+        },
+        "supportsApplyEditsWithGlobalIds": true,
+        "maxRecordCount": 2000,
+        "type": "Feature Layer",
+        "hasStaticData": false,
+        "editingInfo": { "lastEditDate": 1587021226699 },
+        "supportsAttachmentsByUploadId": true,
+        "relationships": [],
+        "supportsAttachmentsResizing": true,
+        "id": 0,
+        "supportsStatistics": true,
+        "standardMaxRecordCount": 4000,
+        "isDataVersioned": false,
+        "hasGeometryProperties": true,
+        "templates": [
+          {
+            "name": "SHJ_AREA",
+            "description": "",
+            "drawingTool": "esriFeatureEditToolPolygon",
+            "prototype": {
+              "attributes": {
+                "POPULATION": null,
+                "CITY_CODE": null,
+                "CREATED_DATE": null,
+                "LAST_EDITED_USER": null,
+                "AREA_NAME1": null,
+                "POPULATION2016": null,
+                "REMARKS": null,
+                "CREATED_USER": null,
+                "AREA_CODE": null,
+                "LAST_EDITED_DATE": null,
+                "FOREIGN_POPULATION": null,
+                "SUBURB_COD": null,
+                "LOCAL_POPULATION": null,
+                "AREA_USE": null,
+                "AREA_NAME_": null
+              }
+            }
+          }
+        ],
+        "supportsAdvancedQueries": true,
+        "currentVersion": 10.81,
+        "hasZ": false,
+        "supportsQuantizationEditMode": true,
+        "objectIdField": "OBJECTID",
+        "name": "SHJ_AREA",
+        "displayField": "AREA_NAME_",
+        "supportsCalculate": true,
+        "fields": [
+          {
+            "sqlType": "sqlTypeOther",
+            "nullable": false,
+            "editable": false,
+            "defaultValue": null,
+            "domain": null,
+            "name": "OBJECTID",
+            "alias": "OBJECTID",
+            "type": "esriFieldTypeOID"
+          },
+          {
+            "sqlType": "sqlTypeOther",
+            "nullable": true,
+            "editable": true,
+            "defaultValue": null,
+            "domain": null,
+            "name": "REMARKS",
+            "length": 254,
+            "alias": "REMARKS",
+            "type": "esriFieldTypeString"
+          },
+          {
+            "sqlType": "sqlTypeOther",
+            "nullable": true,
+            "editable": true,
+            "defaultValue": null,
+            "domain": null,
+            "name": "AREA_CODE",
+            "alias": "AREA_CODE",
+            "type": "esriFieldTypeDouble"
+          },
+          {
+            "sqlType": "sqlTypeOther",
+            "nullable": true,
+            "editable": true,
+            "defaultValue": null,
+            "domain": null,
+            "name": "SUBURB_COD",
+            "alias": "SUBURB_COD",
+            "type": "esriFieldTypeDouble"
+          },
+          {
+            "sqlType": "sqlTypeOther",
+            "nullable": true,
+            "editable": true,
+            "defaultValue": null,
+            "domain": null,
+            "name": "AREA_NAME_",
+            "length": 50,
+            "alias": "AREA_NAME_",
+            "type": "esriFieldTypeString"
+          },
+          {
+            "sqlType": "sqlTypeOther",
+            "nullable": true,
+            "editable": true,
+            "defaultValue": null,
+            "domain": null,
+            "name": "AREA_NAME1",
+            "length": 50,
+            "alias": "AREA_NAME1",
+            "type": "esriFieldTypeString"
+          },
+          {
+            "sqlType": "sqlTypeOther",
+            "nullable": true,
+            "editable": true,
+            "defaultValue": null,
+            "domain": null,
+            "name": "POPULATION",
+            "alias": "POPULATION",
+            "type": "esriFieldTypeDouble"
+          },
+          {
+            "sqlType": "sqlTypeOther",
+            "nullable": true,
+            "editable": true,
+            "defaultValue": null,
+            "domain": null,
+            "name": "CITY_CODE",
+            "alias": "CITY_CODE",
+            "type": "esriFieldTypeDouble"
+          },
+          {
+            "sqlType": "sqlTypeOther",
+            "nullable": false,
+            "editable": false,
+            "defaultValue": null,
+            "domain": null,
+            "name": "GLOBALID",
+            "length": 38,
+            "alias": "GLOBALID",
+            "type": "esriFieldTypeGlobalID"
+          },
+          {
+            "sqlType": "sqlTypeOther",
+            "nullable": true,
+            "editable": true,
+            "defaultValue": null,
+            "domain": null,
+            "name": "CREATED_USER",
+            "length": 255,
+            "alias": "CREATED_USER",
+            "type": "esriFieldTypeString"
+          },
+          {
+            "sqlType": "sqlTypeOther",
+            "nullable": true,
+            "editable": true,
+            "defaultValue": null,
+            "domain": null,
+            "name": "CREATED_DATE",
+            "length": 8,
+            "alias": "CREATED_DATE",
+            "type": "esriFieldTypeDate"
+          },
+          {
+            "sqlType": "sqlTypeOther",
+            "nullable": true,
+            "editable": true,
+            "defaultValue": null,
+            "domain": null,
+            "name": "LAST_EDITED_USER",
+            "length": 255,
+            "alias": "LAST_EDITED_USER",
+            "type": "esriFieldTypeString"
+          },
+          {
+            "sqlType": "sqlTypeOther",
+            "nullable": true,
+            "editable": true,
+            "defaultValue": null,
+            "domain": null,
+            "name": "LAST_EDITED_DATE",
+            "length": 8,
+            "alias": "LAST_EDITED_DATE",
+            "type": "esriFieldTypeDate"
+          },
+          {
+            "sqlType": "sqlTypeOther",
+            "nullable": true,
+            "editable": true,
+            "defaultValue": null,
+            "domain": null,
+            "name": "LOCAL_POPULATION",
+            "alias": "Local_Population",
+            "type": "esriFieldTypeInteger"
+          },
+          {
+            "sqlType": "sqlTypeOther",
+            "nullable": true,
+            "editable": true,
+            "defaultValue": null,
+            "domain": null,
+            "name": "FOREIGN_POPULATION",
+            "alias": "Foreign_Population",
+            "type": "esriFieldTypeInteger"
+          },
+          {
+            "sqlType": "sqlTypeOther",
+            "nullable": true,
+            "editable": true,
+            "defaultValue": null,
+            "domain": null,
+            "name": "POPULATION2016",
+            "alias": "Population2016",
+            "type": "esriFieldTypeInteger"
+          },
+          {
+            "sqlType": "sqlTypeOther",
+            "nullable": true,
+            "editable": true,
+            "defaultValue": null,
+            "domain": null,
+            "name": "AREA_USE",
+            "length": 1,
+            "alias": "AREA_USE",
+            "type": "esriFieldTypeString"
+          },
+          {
+            "sqlType": "sqlTypeDouble",
+            "nullable": true,
+            "editable": false,
+            "defaultValue": null,
+            "domain": null,
+            "name": "Shape__Area",
+            "alias": "Shape__Area",
+            "type": "esriFieldTypeDouble"
+          },
+          {
+            "sqlType": "sqlTypeDouble",
+            "nullable": true,
+            "editable": false,
+            "defaultValue": null,
+            "domain": null,
+            "name": "Shape__Length",
+            "alias": "Shape__Length",
+            "type": "esriFieldTypeDouble"
+          }
+        ],
+        "maxRecordCountFactor": 1,
+        "supportsFieldDescriptionProperty": true,
+        "hasM": false,
+        "allowGeometryUpdates": true,
+        "useStandardizedQueries": true,
+        "globalIdField": "GLOBALID",
+        "description": "SHJ_AREA",
+        "geometryProperties": {
+          "shapeAreaFieldName": "Shape__Area",
+          "shapeLengthFieldName": "Shape__Length"
+        },
+        "supportsRollbackOnFailureParameter": true,
+        "supportsTruncate": false,
+        "standardMaxRecordCountNoGeometry": 32000,
+        "indexes": [
+          {
+            "name": "PK__SHARJAH___F4B70D859A0C1D2A",
+            "isUnique": true,
+            "description": "",
+            "fields": "OBJECTID",
+            "isAscending": true
+          },
+          {
+            "name": "user_1573.SHARJAH_SELECTION_WFL1_SHJ_AREA_Shape_sidx",
+            "isUnique": false,
+            "description": "",
+            "fields": "SHAPE",
+            "isAscending": true
+          },
+          {
+            "name": "FDO_GLOBALID",
+            "isUnique": true,
+            "description": "",
+            "fields": "GLOBALID",
+            "isAscending": true
+          },
+          {
+            "name": "Shape__Area_Index",
+            "isUnique": false,
+            "description": "",
+            "fields": "Shape__Area",
+            "isAscending": true
+          },
+          {
+            "name": "Shape__Length_Index",
+            "isUnique": false,
+            "description": "",
+            "fields": "Shape__Length",
+            "isAscending": true
+          }
+        ],
+        "htmlPopupType": "esriServerHTMLPopupTypeAsHTMLText",
+        "supportsReturningQueryGeometry": true,
+        "minScale": 0,
+        "hasAttachments": false,
+        "advancedQueryCapabilities": {
+          "supportsSqlExpression": true,
+          "supportsQueryWithResultType": true,
+          "supportsQueryRelatedPagination": true,
+          "supportsQueryWithCacheHint": true,
+          "supportsQueryWithDatumTransformation": true,
+          "supportsOutFieldSQLExpression": true,
+          "supportsQueryWithLodSR": false,
+          "supportsPaginationOnAggregatedQueries": true,
+          "supportsPagination": true,
+          "supportsMaxRecordCountFactor": true,
+          "supportsStatistics": true,
+          "supportsOrderBy": true,
+          "supportsReturningGeometryProperties": true,
+          "supportsDisjointSpatialRel": true,
+          "supportsQueryWithDistance": true,
+          "supportsLod": true,
+          "supportsCountDistinct": true,
+          "supportedLodTypes": ["geohash"],
+          "supportsAdvancedQueryRelated": true,
+          "supportsReturningQueryExtent": true,
+          "supportsTopFeaturesQuery": true,
+          "supportsDistinct": true,
+          "supportsReturningGeometryCentroid": true,
+          "supportsPercentileStatistics": true,
+          "supportsHavingClause": true,
+          "supportsQueryAnalytic": true
+        },
+        "supportsValidateSql": true,
+        "supportsCoordinatesQuantization": true,
+        "types": [],
+        "capabilities": "Query",
+        "supportsAppend": true,
+        "maxScale": 0,
+        "supportsExceedsLimitStatistics": true,
+        "defaultVisibility": true,
+        "hasMetadata": true,
+        "uniqueIdField": { "isSystemMaintained": true, "name": "OBJECTID" },
+        "tileMaxRecordCount": 4000,
+        "typeIdField": "",
+        "supportsASyncCalculate": true,
+        "supportedQueryFormats": "JSON, geoJSON",
+        "supportsMultiScaleGeometry": true,
+        "drawingInfo": {
+          "renderer": {
+            "symbol": {
+              "outline": {
+                "color": [110, 110, 110, 255],
+                "width": 0.7,
+                "style": "esriSLSSolid",
+                "type": "esriSLS"
+              },
+              "color": [163, 255, 115, 255],
+              "style": "esriSFSSolid",
+              "type": "esriSFS"
+            },
+            "type": "simple"
+          },
+          "scaleSymbols": true,
+          "transparency": 0,
+          "labelingInfo": null
+        },
+        "copyrightText": "",
+        "geometryType": "esriGeometryPolygon"
+      },
+      "layers": [
+        {
+          "extent": {
+            "ymin": 2845016.609199779,
+            "xmin": 6123337.734039529,
+            "ymax": 2988136.0640911935,
+            "xmax": 6276677.876361969,
+            "spatialReference": { "latestWkid": 3857, "wkid": 102100 }
+          },
+          "supportsApplyEditsWithGlobalIds": true,
+          "maxRecordCount": 2000,
+          "type": "Feature Layer",
+          "hasStaticData": false,
+          "editingInfo": { "lastEditDate": 1587021226699 },
+          "supportsAttachmentsByUploadId": true,
+          "relationships": [],
+          "supportsAttachmentsResizing": true,
+          "id": 0,
+          "supportsStatistics": true,
+          "standardMaxRecordCount": 4000,
+          "isDataVersioned": false,
+          "hasGeometryProperties": true,
+          "templates": [
+            {
+              "name": "SHJ_AREA",
+              "description": "",
+              "drawingTool": "esriFeatureEditToolPolygon",
+              "prototype": {
+                "attributes": {
+                  "POPULATION": null,
+                  "CITY_CODE": null,
+                  "CREATED_DATE": null,
+                  "LAST_EDITED_USER": null,
+                  "AREA_NAME1": null,
+                  "POPULATION2016": null,
+                  "REMARKS": null,
+                  "CREATED_USER": null,
+                  "AREA_CODE": null,
+                  "LAST_EDITED_DATE": null,
+                  "FOREIGN_POPULATION": null,
+                  "SUBURB_COD": null,
+                  "LOCAL_POPULATION": null,
+                  "AREA_USE": null,
+                  "AREA_NAME_": null
+                }
+              }
+            }
+          ],
+          "supportsAdvancedQueries": true,
+          "currentVersion": 10.81,
+          "hasZ": false,
+          "supportsQuantizationEditMode": true,
+          "objectIdField": "OBJECTID",
+          "name": "SHJ_AREA",
+          "displayField": "AREA_NAME_",
+          "supportsCalculate": true,
+          "fields": [
+            {
+              "sqlType": "sqlTypeOther",
+              "nullable": false,
+              "editable": false,
+              "defaultValue": null,
+              "domain": null,
+              "name": "OBJECTID",
+              "alias": "OBJECTID",
+              "type": "esriFieldTypeOID"
+            },
+            {
+              "sqlType": "sqlTypeOther",
+              "nullable": true,
+              "editable": true,
+              "defaultValue": null,
+              "domain": null,
+              "name": "REMARKS",
+              "length": 254,
+              "alias": "REMARKS",
+              "type": "esriFieldTypeString"
+            },
+            {
+              "sqlType": "sqlTypeOther",
+              "nullable": true,
+              "editable": true,
+              "defaultValue": null,
+              "domain": null,
+              "name": "AREA_CODE",
+              "alias": "AREA_CODE",
+              "type": "esriFieldTypeDouble"
+            },
+            {
+              "sqlType": "sqlTypeOther",
+              "nullable": true,
+              "editable": true,
+              "defaultValue": null,
+              "domain": null,
+              "name": "SUBURB_COD",
+              "alias": "SUBURB_COD",
+              "type": "esriFieldTypeDouble"
+            },
+            {
+              "sqlType": "sqlTypeOther",
+              "nullable": true,
+              "editable": true,
+              "defaultValue": null,
+              "domain": null,
+              "name": "AREA_NAME_",
+              "length": 50,
+              "alias": "AREA_NAME_",
+              "type": "esriFieldTypeString"
+            },
+            {
+              "sqlType": "sqlTypeOther",
+              "nullable": true,
+              "editable": true,
+              "defaultValue": null,
+              "domain": null,
+              "name": "AREA_NAME1",
+              "length": 50,
+              "alias": "AREA_NAME1",
+              "type": "esriFieldTypeString"
+            },
+            {
+              "sqlType": "sqlTypeOther",
+              "nullable": true,
+              "editable": true,
+              "defaultValue": null,
+              "domain": null,
+              "name": "POPULATION",
+              "alias": "POPULATION",
+              "type": "esriFieldTypeDouble"
+            },
+            {
+              "sqlType": "sqlTypeOther",
+              "nullable": true,
+              "editable": true,
+              "defaultValue": null,
+              "domain": null,
+              "name": "CITY_CODE",
+              "alias": "CITY_CODE",
+              "type": "esriFieldTypeDouble"
+            },
+            {
+              "sqlType": "sqlTypeOther",
+              "nullable": false,
+              "editable": false,
+              "defaultValue": null,
+              "domain": null,
+              "name": "GLOBALID",
+              "length": 38,
+              "alias": "GLOBALID",
+              "type": "esriFieldTypeGlobalID"
+            },
+            {
+              "sqlType": "sqlTypeOther",
+              "nullable": true,
+              "editable": true,
+              "defaultValue": null,
+              "domain": null,
+              "name": "CREATED_USER",
+              "length": 255,
+              "alias": "CREATED_USER",
+              "type": "esriFieldTypeString"
+            },
+            {
+              "sqlType": "sqlTypeOther",
+              "nullable": true,
+              "editable": true,
+              "defaultValue": null,
+              "domain": null,
+              "name": "CREATED_DATE",
+              "length": 8,
+              "alias": "CREATED_DATE",
+              "type": "esriFieldTypeDate"
+            },
+            {
+              "sqlType": "sqlTypeOther",
+              "nullable": true,
+              "editable": true,
+              "defaultValue": null,
+              "domain": null,
+              "name": "LAST_EDITED_USER",
+              "length": 255,
+              "alias": "LAST_EDITED_USER",
+              "type": "esriFieldTypeString"
+            },
+            {
+              "sqlType": "sqlTypeOther",
+              "nullable": true,
+              "editable": true,
+              "defaultValue": null,
+              "domain": null,
+              "name": "LAST_EDITED_DATE",
+              "length": 8,
+              "alias": "LAST_EDITED_DATE",
+              "type": "esriFieldTypeDate"
+            },
+            {
+              "sqlType": "sqlTypeOther",
+              "nullable": true,
+              "editable": true,
+              "defaultValue": null,
+              "domain": null,
+              "name": "LOCAL_POPULATION",
+              "alias": "Local_Population",
+              "type": "esriFieldTypeInteger"
+            },
+            {
+              "sqlType": "sqlTypeOther",
+              "nullable": true,
+              "editable": true,
+              "defaultValue": null,
+              "domain": null,
+              "name": "FOREIGN_POPULATION",
+              "alias": "Foreign_Population",
+              "type": "esriFieldTypeInteger"
+            },
+            {
+              "sqlType": "sqlTypeOther",
+              "nullable": true,
+              "editable": true,
+              "defaultValue": null,
+              "domain": null,
+              "name": "POPULATION2016",
+              "alias": "Population2016",
+              "type": "esriFieldTypeInteger"
+            },
+            {
+              "sqlType": "sqlTypeOther",
+              "nullable": true,
+              "editable": true,
+              "defaultValue": null,
+              "domain": null,
+              "name": "AREA_USE",
+              "length": 1,
+              "alias": "AREA_USE",
+              "type": "esriFieldTypeString"
+            },
+            {
+              "sqlType": "sqlTypeDouble",
+              "nullable": true,
+              "editable": false,
+              "defaultValue": null,
+              "domain": null,
+              "name": "Shape__Area",
+              "alias": "Shape__Area",
+              "type": "esriFieldTypeDouble"
+            },
+            {
+              "sqlType": "sqlTypeDouble",
+              "nullable": true,
+              "editable": false,
+              "defaultValue": null,
+              "domain": null,
+              "name": "Shape__Length",
+              "alias": "Shape__Length",
+              "type": "esriFieldTypeDouble"
+            }
+          ],
+          "maxRecordCountFactor": 1,
+          "supportsFieldDescriptionProperty": true,
+          "hasM": false,
+          "allowGeometryUpdates": true,
+          "useStandardizedQueries": true,
+          "globalIdField": "GLOBALID",
+          "description": "SHJ_AREA",
+          "geometryProperties": {
+            "shapeAreaFieldName": "Shape__Area",
+            "shapeLengthFieldName": "Shape__Length"
+          },
+          "supportsRollbackOnFailureParameter": true,
+          "supportsTruncate": false,
+          "standardMaxRecordCountNoGeometry": 32000,
+          "indexes": [
+            {
+              "name": "PK__SHARJAH___F4B70D859A0C1D2A",
+              "isUnique": true,
+              "description": "",
+              "fields": "OBJECTID",
+              "isAscending": true
+            },
+            {
+              "name": "user_1573.SHARJAH_SELECTION_WFL1_SHJ_AREA_Shape_sidx",
+              "isUnique": false,
+              "description": "",
+              "fields": "SHAPE",
+              "isAscending": true
+            },
+            {
+              "name": "FDO_GLOBALID",
+              "isUnique": true,
+              "description": "",
+              "fields": "GLOBALID",
+              "isAscending": true
+            },
+            {
+              "name": "Shape__Area_Index",
+              "isUnique": false,
+              "description": "",
+              "fields": "Shape__Area",
+              "isAscending": true
+            },
+            {
+              "name": "Shape__Length_Index",
+              "isUnique": false,
+              "description": "",
+              "fields": "Shape__Length",
+              "isAscending": true
+            }
+          ],
+          "htmlPopupType": "esriServerHTMLPopupTypeAsHTMLText",
+          "supportsReturningQueryGeometry": true,
+          "minScale": 0,
+          "hasAttachments": false,
+          "advancedQueryCapabilities": {
+            "supportsSqlExpression": true,
+            "supportsQueryWithResultType": true,
+            "supportsQueryRelatedPagination": true,
+            "supportsQueryWithCacheHint": true,
+            "supportsQueryWithDatumTransformation": true,
+            "supportsOutFieldSQLExpression": true,
+            "supportsQueryWithLodSR": false,
+            "supportsPaginationOnAggregatedQueries": true,
+            "supportsPagination": true,
+            "supportsMaxRecordCountFactor": true,
+            "supportsStatistics": true,
+            "supportsOrderBy": true,
+            "supportsReturningGeometryProperties": true,
+            "supportsDisjointSpatialRel": true,
+            "supportsQueryWithDistance": true,
+            "supportsLod": true,
+            "supportsCountDistinct": true,
+            "supportedLodTypes": ["geohash"],
+            "supportsAdvancedQueryRelated": true,
+            "supportsReturningQueryExtent": true,
+            "supportsTopFeaturesQuery": true,
+            "supportsDistinct": true,
+            "supportsReturningGeometryCentroid": true,
+            "supportsQueryAnalytic": true,
+            "supportsPercentileStatistics": true,
+            "supportsHavingClause": true
+          },
+          "supportsValidateSql": true,
+          "supportsCoordinatesQuantization": true,
+          "types": [],
+          "capabilities": "Query",
+          "supportsAppend": true,
+          "maxScale": 0,
+          "supportsExceedsLimitStatistics": true,
+          "defaultVisibility": true,
+          "hasMetadata": true,
+          "uniqueIdField": { "isSystemMaintained": true, "name": "OBJECTID" },
+          "tileMaxRecordCount": 4000,
+          "typeIdField": "",
+          "supportsASyncCalculate": true,
+          "supportedQueryFormats": "JSON, geoJSON",
+          "supportsMultiScaleGeometry": true,
+          "drawingInfo": {
+            "renderer": {
+              "symbol": {
+                "outline": {
+                  "color": [110, 110, 110, 255],
+                  "width": 0.7,
+                  "style": "esriSLSSolid",
+                  "type": "esriSLS"
+                },
+                "color": [163, 255, 115, 255],
+                "style": "esriSFSSolid",
+                "type": "esriSFS"
+              },
+              "type": "simple"
+            },
+            "scaleSymbols": true,
+            "transparency": 0,
+            "labelingInfo": null
+          },
+          "copyrightText": "",
+          "geometryType": "esriGeometryPolygon"
+        }
+      ],
+      "licenseInfo": "",
+      "maxRecordCount": 2000,
+      "metadata": {
+        "metadata": {
+          "mdLang": {
+            "countryCode": { "@_Sync": "TRUE", "@_value": "USA" },
+            "languageCode": { "@_Sync": "TRUE", "@_value": "eng" }
+          },
+          "distInfo": {
+            "distFormat": {
+              "formatName": { "@_Sync": "FALSE", "#value": "Feature Class" }
+            }
+          },
+          "spatRepInfo": {
+            "VectSpatRep": {
+              "geometObjs": {
+                "geoObjCnt": { "@_Sync": "TRUE", "#value": 0 },
+                "geoObjTyp": {
+                  "GeoObjTypCd": { "@_Sync": "TRUE", "@_value": "002" }
+                }
+              },
+              "topLvl": { "TopoLevCd": { "@_Sync": "TRUE", "@_value": "001" } }
+            }
+          },
+          "mdDateSt": { "@_Sync": "TRUE", "#value": 20180711 },
+          "Esri": {
+            "ArcGISFormat": 1,
+            "CreaTime": 16302900,
+            "SyncDate": 20180711,
+            "DataProperties": {
+              "itemProps": {
+                "itemName": { "@_Sync": "TRUE", "#value": "SDE.ARCDATA_AREAS" },
+                "imsContentType": { "@_Sync": "TRUE", "#value": 2 },
+                "nativeExtBox": {
+                  "eastBL": { "@_Sync": "TRUE", "#value": 437765.674 },
+                  "southBL": { "@_Sync": "TRUE", "#value": 2742761.5728 },
+                  "exTypeCode": { "@_Sync": "TRUE", "#value": 1 },
+                  "northBL": { "@_Sync": "TRUE", "#value": 2834452.03 },
+                  "westBL": { "@_Sync": "TRUE", "#value": 333996.4937 }
+                }
+              },
+              "coordRef": {
+                "projcsn": {
+                  "@_Sync": "TRUE",
+                  "#value": "WGS_1984_UTM_Zone_40N"
+                },
+                "csUnits": {
+                  "@_Sync": "TRUE",
+                  "#value": "Linear Unit: Meter (1.000000)"
+                },
+                "peXml": {
+                  "@_Sync": "TRUE",
+                  "#value": "<ProjectedCoordinateSystem xsi:type='typens:ProjectedCoordinateSystem' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xs='http://www.w3.org/2001/XMLSchema' xmlns:typens='http://www.esri.com/schemas/ArcGIS/10.5'><WKT>PROJCS[&quot;WGS_1984_UTM_Zone_40N&quot;,GEOGCS[&quot;GCS_WGS_1984&quot;,DATUM[&quot;D_WGS_1984&quot;,SPHEROID[&quot;WGS_1984&quot;,6378137.0,298.257223563]],PRIMEM[&quot;Greenwich&quot;,0.0],UNIT[&quot;Degree&quot;,0.0174532925199433]],PROJECTION[&quot;Transverse_Mercator&quot;],PARAMETER[&quot;False_Easting&quot;,500000.0],PARAMETER[&quot;False_Northing&quot;,0.0],PARAMETER[&quot;Central_Meridian&quot;,57.0],PARAMETER[&quot;Scale_Factor&quot;,0.9996],PARAMETER[&quot;Latitude_Of_Origin&quot;,0.0],UNIT[&quot;Meter&quot;,1.0],AUTHORITY[&quot;EPSG&quot;,32640]]</WKT><XOrigin>-5120900</XOrigin><YOrigin>-9998100</YOrigin><XYScale>10000</XYScale><ZOrigin>0</ZOrigin><ZScale>1</ZScale><MOrigin>0</MOrigin><MScale>1</MScale><XYTolerance>0.001</XYTolerance><ZTolerance>0.001</ZTolerance><MTolerance>0.001</MTolerance><HighPrecision>true</HighPrecision><WKID>32640</WKID><LatestWKID>32640</LatestWKID></ProjectedCoordinateSystem>"
+                },
+                "type": { "@_Sync": "TRUE", "#value": "Projected" },
+                "geogcsn": { "@_Sync": "TRUE", "#value": "GCS_WGS_1984" }
+              }
+            },
+            "SyncTime": 8475400,
+            "ModDate": 20180711,
+            "CreaDate": 20200305,
+            "SyncOnce": "FALSE",
+            "ModTime": 8475400
+          },
+          "spdoinfo": {
+            "ptvctinf": {
+              "esriterm": {
+                "spindex": { "@_Sync": "TRUE", "#value": "TRUE" },
+                "esritopo": { "@_Sync": "TRUE", "#value": "FALSE" },
+                "linrefer": { "@_Sync": "TRUE", "#value": "FALSE" },
+                "efeageom": { "@_Sync": "TRUE", "@_code": "4" },
+                "efeacnt": { "@_Sync": "TRUE", "#value": 0 },
+                "efeatyp": { "@_Sync": "TRUE", "#value": "Simple" }
+              }
+            }
+          },
+          "mdHrLv": { "ScopeCd": { "@_Sync": "TRUE", "@_value": "005" } },
+          "mdHrLvName": { "@_Sync": "TRUE", "#value": "dataset" },
+          "dataIdInfo": {
+            "idAbs": "",
+            "idCredit": "",
+            "dataExt": {
+              "geoEle": {
+                "GeoBndBox": {
+                  "eastBL": { "@_Sync": "TRUE", "#value": 56.384276 },
+                  "exTypeCode": { "@_Sync": "TRUE", "#value": 1 },
+                  "southBL": { "@_Sync": "TRUE", "#value": 24.790622 },
+                  "northBL": { "@_Sync": "TRUE", "#value": 25.626358 },
+                  "westBL": { "@_Sync": "TRUE", "#value": 55.346704 }
+                }
+              }
+            },
+            "envirDesc": {
+              "@_Sync": "FALSE",
+              "#value": "Esri ArcGIS 10.5.0.6491"
+            },
+            "idCitation": {
+              "resTitle": { "@_Sync": "TRUE", "#value": "SDE.ARCDATA_AREAS" },
+              "presForm": {
+                "PresFormCd": { "@_Sync": "TRUE", "@_value": "005" }
+              }
+            },
+            "dataLang": {
+              "countryCode": { "@_Sync": "TRUE", "@_value": "USA" },
+              "languageCode": { "@_Sync": "TRUE", "@_value": "eng" }
+            },
+            "spatRpType": {
+              "SpatRepTypCd": { "@_Sync": "TRUE", "@_value": "001" }
+            },
+            "idPurp": "Sharjah_selection",
+            "searchKeys": { "keyword": "Sharjah_selection" },
+            "resConst": { "Consts": { "useLimit": "" } }
+          },
+          "refSysInfo": {
+            "RefSystem": {
+              "refSysID": {
+                "identCode": { "@_Sync": "TRUE", "@_code": "32640" },
+                "idCodeSpace": { "@_Sync": "TRUE", "#value": "EPSG" },
+                "idVersion": { "@_Sync": "TRUE", "#value": "2.1(3.0.1)" }
+              }
+            }
+          },
+          "eainfo": {
+            "detailed": {
+              "attr": [
+                {
+                  "attrlabl": { "@_Sync": "TRUE", "#value": "REMARKS" },
+                  "attwidth": { "@_Sync": "TRUE", "#value": 254 },
+                  "attscale": { "@_Sync": "TRUE", "#value": 0 },
+                  "atprecis": { "@_Sync": "TRUE", "#value": 0 },
+                  "attalias": { "@_Sync": "TRUE", "#value": "REMARKS" },
+                  "attrtype": { "@_Sync": "TRUE", "#value": "String" }
+                },
+                {
+                  "attrlabl": { "@_Sync": "TRUE", "#value": "AREA_CODE" },
+                  "attwidth": { "@_Sync": "TRUE", "#value": 8 },
+                  "attscale": { "@_Sync": "TRUE", "#value": 8 },
+                  "atprecis": { "@_Sync": "TRUE", "#value": 38 },
+                  "attalias": { "@_Sync": "TRUE", "#value": "AREA_CODE" },
+                  "attrtype": { "@_Sync": "TRUE", "#value": "Double" }
+                },
+                {
+                  "attrlabl": { "@_Sync": "TRUE", "#value": "SUBURB_COD" },
+                  "attwidth": { "@_Sync": "TRUE", "#value": 8 },
+                  "attscale": { "@_Sync": "TRUE", "#value": 8 },
+                  "atprecis": { "@_Sync": "TRUE", "#value": 38 },
+                  "attalias": { "@_Sync": "TRUE", "#value": "SUBURB_COD" },
+                  "attrtype": { "@_Sync": "TRUE", "#value": "Double" }
+                },
+                {
+                  "attrlabl": { "@_Sync": "TRUE", "#value": "AREA_NAME_" },
+                  "attwidth": { "@_Sync": "TRUE", "#value": 50 },
+                  "attscale": { "@_Sync": "TRUE", "#value": 0 },
+                  "atprecis": { "@_Sync": "TRUE", "#value": 0 },
+                  "attalias": { "@_Sync": "TRUE", "#value": "AREA_NAME_" },
+                  "attrtype": { "@_Sync": "TRUE", "#value": "String" }
+                },
+                {
+                  "attrlabl": { "@_Sync": "TRUE", "#value": "AREA_NAME1" },
+                  "attwidth": { "@_Sync": "TRUE", "#value": 50 },
+                  "attscale": { "@_Sync": "TRUE", "#value": 0 },
+                  "atprecis": { "@_Sync": "TRUE", "#value": 0 },
+                  "attalias": { "@_Sync": "TRUE", "#value": "AREA_NAME1" },
+                  "attrtype": { "@_Sync": "TRUE", "#value": "String" }
+                },
+                {
+                  "attrlabl": { "@_Sync": "TRUE", "#value": "POPULATION" },
+                  "attwidth": { "@_Sync": "TRUE", "#value": 8 },
+                  "attscale": { "@_Sync": "TRUE", "#value": 8 },
+                  "atprecis": { "@_Sync": "TRUE", "#value": 38 },
+                  "attalias": { "@_Sync": "TRUE", "#value": "POPULATION" },
+                  "attrtype": { "@_Sync": "TRUE", "#value": "Double" }
+                },
+                {
+                  "attrlabl": { "@_Sync": "TRUE", "#value": "CITY_CODE" },
+                  "attwidth": { "@_Sync": "TRUE", "#value": 8 },
+                  "attscale": { "@_Sync": "TRUE", "#value": 8 },
+                  "atprecis": { "@_Sync": "TRUE", "#value": 38 },
+                  "attalias": { "@_Sync": "TRUE", "#value": "CITY_CODE" },
+                  "attrtype": { "@_Sync": "TRUE", "#value": "Double" }
+                },
+                {
+                  "attrlabl": { "@_Sync": "TRUE", "#value": "OBJECTID" },
+                  "attwidth": { "@_Sync": "TRUE", "#value": 4 },
+                  "attrdef": {
+                    "@_Sync": "TRUE",
+                    "#value": "Internal feature number."
+                  },
+                  "attscale": { "@_Sync": "TRUE", "#value": 0 },
+                  "attrdefs": { "@_Sync": "TRUE", "#value": "Esri" },
+                  "atprecis": { "@_Sync": "TRUE", "#value": 10 },
+                  "attrdomv": {
+                    "udom": {
+                      "@_Sync": "TRUE",
+                      "#value": "Sequential unique whole numbers that are automatically generated."
+                    }
+                  },
+                  "attalias": { "@_Sync": "TRUE", "#value": "OBJECTID" },
+                  "attrtype": { "@_Sync": "TRUE", "#value": "OID" }
+                },
+                {
+                  "attrlabl": { "@_Sync": "TRUE", "#value": "SHAPE" },
+                  "attwidth": { "@_Sync": "TRUE", "#value": 4 },
+                  "attrdef": {
+                    "@_Sync": "TRUE",
+                    "#value": "Feature geometry."
+                  },
+                  "attscale": { "@_Sync": "TRUE", "#value": 0 },
+                  "attrdefs": { "@_Sync": "TRUE", "#value": "ESRI" },
+                  "atprecis": { "@_Sync": "TRUE", "#value": 0 },
+                  "attrdomv": {
+                    "udom": {
+                      "@_Sync": "TRUE",
+                      "#value": "Coordinates defining the features."
+                    }
+                  },
+                  "attalias": { "@_Sync": "TRUE", "#value": "SHAPE" },
+                  "attrtype": { "@_Sync": "TRUE", "#value": "Geometry" }
+                },
+                {
+                  "attrlabl": { "@_Sync": "TRUE", "#value": "GLOBALID" },
+                  "attwidth": { "@_Sync": "TRUE", "#value": 38 },
+                  "attscale": { "@_Sync": "TRUE", "#value": 0 },
+                  "atprecis": { "@_Sync": "TRUE", "#value": 0 },
+                  "attalias": { "@_Sync": "TRUE", "#value": "GLOBALID" },
+                  "attrtype": { "@_Sync": "TRUE", "#value": "GlobalID" }
+                },
+                {
+                  "attrlabl": { "@_Sync": "TRUE", "#value": "CREATED_USER" },
+                  "attwidth": { "@_Sync": "TRUE", "#value": 255 },
+                  "attscale": { "@_Sync": "TRUE", "#value": 0 },
+                  "atprecis": { "@_Sync": "TRUE", "#value": 0 },
+                  "attalias": { "@_Sync": "TRUE", "#value": "CREATED_USER" },
+                  "attrtype": { "@_Sync": "TRUE", "#value": "String" }
+                },
+                {
+                  "attrlabl": { "@_Sync": "TRUE", "#value": "CREATED_DATE" },
+                  "attwidth": { "@_Sync": "TRUE", "#value": 8 },
+                  "attscale": { "@_Sync": "TRUE", "#value": 0 },
+                  "atprecis": { "@_Sync": "TRUE", "#value": 0 },
+                  "attalias": { "@_Sync": "TRUE", "#value": "CREATED_DATE" },
+                  "attrtype": { "@_Sync": "TRUE", "#value": "Date" }
+                },
+                {
+                  "attrlabl": {
+                    "@_Sync": "TRUE",
+                    "#value": "LAST_EDITED_USER"
+                  },
+                  "attwidth": { "@_Sync": "TRUE", "#value": 255 },
+                  "attscale": { "@_Sync": "TRUE", "#value": 0 },
+                  "atprecis": { "@_Sync": "TRUE", "#value": 0 },
+                  "attalias": {
+                    "@_Sync": "TRUE",
+                    "#value": "LAST_EDITED_USER"
+                  },
+                  "attrtype": { "@_Sync": "TRUE", "#value": "String" }
+                },
+                {
+                  "attrlabl": {
+                    "@_Sync": "TRUE",
+                    "#value": "LAST_EDITED_DATE"
+                  },
+                  "attwidth": { "@_Sync": "TRUE", "#value": 8 },
+                  "attscale": { "@_Sync": "TRUE", "#value": 0 },
+                  "atprecis": { "@_Sync": "TRUE", "#value": 0 },
+                  "attalias": {
+                    "@_Sync": "TRUE",
+                    "#value": "LAST_EDITED_DATE"
+                  },
+                  "attrtype": { "@_Sync": "TRUE", "#value": "Date" }
+                },
+                {
+                  "attrlabl": {
+                    "@_Sync": "TRUE",
+                    "#value": "LOCAL_POPULATION"
+                  },
+                  "attwidth": { "@_Sync": "TRUE", "#value": 4 },
+                  "attscale": { "@_Sync": "TRUE", "#value": 0 },
+                  "atprecis": { "@_Sync": "TRUE", "#value": 10 },
+                  "attalias": {
+                    "@_Sync": "TRUE",
+                    "#value": "Local_Population"
+                  },
+                  "attrtype": { "@_Sync": "TRUE", "#value": "Integer" }
+                },
+                {
+                  "attrlabl": {
+                    "@_Sync": "TRUE",
+                    "#value": "FOREIGN_POPULATION"
+                  },
+                  "attwidth": { "@_Sync": "TRUE", "#value": 4 },
+                  "attscale": { "@_Sync": "TRUE", "#value": 0 },
+                  "atprecis": { "@_Sync": "TRUE", "#value": 10 },
+                  "attalias": {
+                    "@_Sync": "TRUE",
+                    "#value": "Foreign_Population"
+                  },
+                  "attrtype": { "@_Sync": "TRUE", "#value": "Integer" }
+                },
+                {
+                  "attrlabl": { "@_Sync": "TRUE", "#value": "POPULATION2016" },
+                  "attwidth": { "@_Sync": "TRUE", "#value": 4 },
+                  "attscale": { "@_Sync": "TRUE", "#value": 0 },
+                  "atprecis": { "@_Sync": "TRUE", "#value": 10 },
+                  "attalias": { "@_Sync": "TRUE", "#value": "Population2016" },
+                  "attrtype": { "@_Sync": "TRUE", "#value": "Integer" }
+                },
+                {
+                  "attrlabl": { "@_Sync": "TRUE", "#value": "AREA_USE" },
+                  "attwidth": { "@_Sync": "TRUE", "#value": 1 },
+                  "attscale": { "@_Sync": "TRUE", "#value": 0 },
+                  "atprecis": { "@_Sync": "TRUE", "#value": 0 },
+                  "attalias": { "@_Sync": "TRUE", "#value": "AREA_USE" },
+                  "attrtype": { "@_Sync": "TRUE", "#value": "String" }
+                },
+                {
+                  "attrlabl": { "@_Sync": "TRUE", "#value": "SHAPE.AREA" },
+                  "attwidth": { "@_Sync": "TRUE", "#value": 0 },
+                  "attscale": { "@_Sync": "TRUE", "#value": 0 },
+                  "atprecis": { "@_Sync": "TRUE", "#value": 0 },
+                  "attalias": { "@_Sync": "TRUE", "#value": "SHAPE.AREA" },
+                  "attrtype": { "@_Sync": "TRUE", "#value": "Double" }
+                },
+                {
+                  "attrlabl": { "@_Sync": "TRUE", "#value": "SHAPE.LEN" },
+                  "attwidth": { "@_Sync": "TRUE", "#value": 0 },
+                  "attscale": { "@_Sync": "TRUE", "#value": 0 },
+                  "atprecis": { "@_Sync": "TRUE", "#value": 0 },
+                  "attalias": { "@_Sync": "TRUE", "#value": "SHAPE.LEN" },
+                  "attrtype": { "@_Sync": "TRUE", "#value": "Double" }
+                }
+              ],
+              "enttyp": {
+                "enttypc": { "@_Sync": "TRUE", "#value": 0 },
+                "enttypt": { "@_Sync": "TRUE", "#value": "Feature Class" },
+                "enttypl": { "@_Sync": "TRUE", "#value": "SDE.ARCDATA_AREAS" }
+              }
+            }
+          }
+        }
+      },
+      "modified": 1587021226699,
+      "modifiedProvenance": "layer.editingInfo.lastEditDate",
+      "name": "Sharjah selection WFL1",
+      "objectIdField": "OBJECTID",
+      "openData": false,
+      "orgId": "Kq4xB498o2K1KK7t",
+      "orgName": "gistec",
+      "organization": "gistec",
+      "owner": "gistec_ind",
+      "recordCount": 334,
+      "region": "WAMEA",
+      "searchDescription": "",
+      "sector": "Professional Services Companies",
+      "server": {
+        "allowGeometryUpdates": true,
+        "supportsApplyEditsWithGlobalIds": true,
+        "maxRecordCount": 2000,
+        "description": "",
+        "units": "esriMeters",
+        "supportsSharedDomains": true,
+        "hasStaticData": false,
+        "syncEnabled": false,
+        "tables": [],
+        "hasVersionedData": false,
+        "layers": [
+          {
+            "subLayerIds": null,
+            "maxScale": 0,
+            "name": "SHJ_AREA",
+            "defaultVisibility": true,
+            "id": 0,
+            "minScale": 0,
+            "parentLayerId": -1,
+            "geometryType": "esriGeometryPolygon"
+          }
+        ],
+        "spatialReference": { "latestWkid": 3857, "wkid": 102100 },
+        "serviceItemId": "1ce4060e854747038b153c5c8f8c894d",
+        "fullExtent": {
+          "ymin": 2845016.609199779,
+          "xmin": 6123337.734039529,
+          "ymax": 2988136.0640911935,
+          "xmax": 6276677.876361969,
+          "spatialReference": { "latestWkid": 3857, "wkid": 102100 }
+        },
+        "capabilities": "Query",
+        "supportsAppend": true,
+        "xssPreventionInfo": {
+          "xssInputRule": "rejectInvalid",
+          "xssPreventionRule": "InputOnly",
+          "xssPreventionEnabled": true
+        },
+        "supportsDisconnectedEditing": false,
+        "supportsReturnDeleteResults": true,
+        "currentVersion": 10.81,
+        "hasSharedDomains": false,
+        "supportsVCSProjection": false,
+        "supportedQueryFormats": "JSON",
+        "size": 475136,
+        "initialExtent": {
+          "ymin": 2806726.024131263,
+          "xmin": 6060769.224903617,
+          "ymax": 2997688.3392875143,
+          "xmax": 6343676.358468434,
+          "spatialReference": { "latestWkid": 3857, "wkid": 102100 }
+        },
+        "serviceDescription": "Sharjah_selection",
+        "editorTrackingInfo": {
+          "allowAnonymousToQuery": true,
+          "allowOthersToUpdate": true,
+          "allowAnonymousToUpdate": true,
+          "enableEditorTracking": false,
+          "allowOthersToQuery": true,
+          "allowOthersToDelete": false,
+          "enableOwnershipAccessControl": false,
+          "allowAnonymousToDelete": true
+        },
+        "copyrightText": "",
+        "supportsWebHooks": true
+      },
+      "serverCapabilities": "Query",
+      "serviceSpatialReference": { "latestWkid": 3857, "wkid": 102100 },
+      "size": 475136,
+      "slug": "gistecgis::sharjah-selection-wfl1",
+      "source": "gistec",
+      "sourceProvenance": "org.name",
+      "structuredLicense": { "type": "none" },
+      "license": "none",
+      "supportedQueryFormats": "JSON, geoJSON",
+      "supportsAdvancedQueries": true,
+      "tags": ["Sharjah_selection"],
+      "thumbnail": "thumbnail/thumbnail.png",
+      "thumbnailUrl": "thumbnail/thumbnail.png",
+      "type": "Feature Layer",
+      "typeCategories": ["Dataset"],
+      "typeKeywords": [
+        "ArcGIS Server",
+        "Data",
+        "Feature Access",
+        "Feature Service",
+        "Metadata",
+        "Service",
+        "Singlelayer",
+        "Hosted Service"
+      ],
+      "url": "https://services1.arcgis.com/Kq4xB498o2K1KK7t/arcgis/rest/services/Sharjah_selection_WFL1/FeatureServer/0",
+      "useStandardizedQueries": true,
+      "validExtent": true,
+      "xFrameOptions": null,
+      "boundary": {
+        "size": 463,
+        "center": [55.74689999999999, 25.56247142857143],
+        "geometry": {
+          "rings": [
+            ["55.0095", "25.8717"],
+            ["55.0073", "25.8755"],
+            ["55.0073", "25.8759"],
+            ["55.0077", "25.8765"],
+            ["55.0131", "25.8832"],
+            ["55.0393", "25.8996"],
+            ["55.0395", "25.8997"],
+            ["56.2734", "25.6256"],
+            ["56.2802", "25.6239"],
+            ["56.2809", "25.6237"],
+            ["56.2813", "25.6234"],
+            ["56.2818", "25.6229"],
+            ["56.2839", "25.6195"],
+            ["56.3650", "25.4202"],
+            ["56.3811", "25.3354"],
+            ["56.3815", "25.3233"],
+            ["56.3750", "24.9805"],
+            ["56.2807", "24.8902"],
+            ["55.7371", "24.7573"],
+            ["55.3498", "25.3122"],
+            ["55.0095", "25.8717"]
+          ],
+          "type": "polygon",
+          "spatialReference": { "wkid": 4326 }
+        }
+      },
+      "snippet": "Sharjah_selection",
+      "culture": "en-us"
+    },
+    "links": {
+      "self": "http://hub.arcgis.com/api/v3/datasets/1ce4060e854747038b153c5c8f8c894d_0",
+      "rawEs": "http://hub.arcgis.com/api/es/datasets/1ce4060e854747038b153c5c8f8c894d_0",
+      "itemPage": "https://www.arcgis.com/home/item.html?id=1ce4060e854747038b153c5c8f8c894d",
+      "esriRest": "https://www.arcgis.com/sharing/content/items/1ce4060e854747038b153c5c8f8c894d?f=json"
+    },
+    "meta": { "highlights": {}, "matchedFields": [] }
+  },
+  "meta": {
+    "apiRoot": "http://hub.arcgis.com/api/v3/",
+    "resourceRoot": "http://hub.arcgis.com/api/v3/datasets",
+    "request": "http://hub.arcgis.com/api/v3/datasets/1ce4060e854747038b153c5c8f8c894d_0"
+  }
+}

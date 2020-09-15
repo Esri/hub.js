@@ -216,8 +216,12 @@ export interface IHubResource {
    */
   boundary?: IHubGeography;
 
-  // TODO: Change to use mdJSON translation for configurable metadata?
-  /** Additional metadata from custom/formal elements */
+  // TODO: should metadata be on IHubContent instead of IHubResource?
+  /**
+   * Additional metadata from a metadata document using a formal or custom schema.
+   * For example, [item metadata in ArcGIS Online](https://doc.arcgis.com/en/arcgis-online/manage-data/metadata.htm)
+   * Metadata stored in XML format is parsed into JSON.
+   */
   metadata?: any;
   // Unique or additional formal metadata that will be displayed in sidebar
 }
