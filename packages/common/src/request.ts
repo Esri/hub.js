@@ -1,4 +1,4 @@
-import { IHubRequestOptions } from "./index";
+import { IHubRequestOptions } from "./types";
 import { buildUrl } from "./urls/build-url";
 
 /**

@@ -8,22 +8,10 @@ import {
 import { itemToContent, withPortalUrls } from "./portal";
 import { isSlug, addContextToSlug } from "./slugs";
 import { cloneObject } from "@esri/hub-common";
+import { parseDatasetId } from "./slugs";
 
 export interface IGetContentOptions extends IHubRequestOptions {
   siteOrgKey?: string;
-}
-
-/**
- * Parse item ID and layer ID (if any) from dataset record ID
- *
- * @param datasetId Hub API dataset record id ({itemId}_{layerId} or {itemId})
- * @returns A hash with the `itemId` and `layerId` (if any)
- */
-export function parseDatasetId(
-  datasetId: string
-): { itemId: string; layerId?: string } {
-  const [itemId, layerId] = datasetId ? datasetId.split("_") : [];
-  return { itemId, layerId };
 }
 
 /**
