@@ -76,6 +76,7 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
   const {
     // common enrichments
     boundary,
+    metadata,
     modifiedProvenance,
     slug,
     searchDescription
@@ -84,6 +85,7 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
     // TODO: fields, geometryType, layer?, server?, as needed
   } = attributes;
   content.boundary = boundary;
+  content.metadata = metadata;
   content.slug = slug;
   //
   if (searchDescription) {

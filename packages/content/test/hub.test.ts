@@ -69,6 +69,7 @@ function validateContentFromDataset(
   expect(content.metrics).toBeUndefined();
   expect(content.orgId).toBe(attributes.orgId);
   expect(content.boundary).toEqual(attributes.boundary);
+  expect(content.metadata).toEqual(attributes.metadata);
   expect(content.license).toEqual({
     name: "Custom License",
     description: attributes.accessInformation
