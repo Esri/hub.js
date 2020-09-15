@@ -17,7 +17,7 @@ import {
   getItemThumbnailUrl,
   cloneObject
 } from "@esri/hub-common";
-import { parseDatasetId } from "./hub";
+import { parseDatasetId } from "./slugs";
 
 function itemExtentToBoundary(extent: IBBox): IHubGeography {
   return (

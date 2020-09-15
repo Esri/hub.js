@@ -4,3 +4,4 @@
 export * from "./content";
 export * from "./hub";
 export * from "./portal";
+export * from "./slugs";

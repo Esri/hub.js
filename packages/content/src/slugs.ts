@@ -1,5 +1,17 @@
 import { isGuid } from "@esri/hub-common";
-import { parseDatasetId } from "./hub";
+
+/**
+ * Parse item ID and layer ID (if any) from dataset record ID
+ *
+ * @param datasetId Hub API dataset record id ({itemId}_{layerId} or {itemId})
+ * @returns A hash with the `itemId` and `layerId` (if any)
+ */
+export function parseDatasetId(
+  datasetId: string
+): { itemId: string; layerId?: string } {
+  const [itemId, layerId] = datasetId ? datasetId.split("_") : [];
+  return { itemId, layerId };
+}
 
 /**
  * Determine if an identifier is a Hub API slug
