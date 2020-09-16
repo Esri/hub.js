@@ -19,7 +19,7 @@ export function getContent(
 ): Promise<IHubContent> {
   if (options && options.isPortal) {
     const { itemId } = parseDatasetId(identifier);
-    return getContentFromPortal(identifier, options);
+    return getContentFromPortal(itemId, options);
   } else {
     return getContentFromHub(identifier, options).catch(e => {
       // dataset is not in index (i.e. might be a private item)
