@@ -17,7 +17,6 @@ import {
   getItemThumbnailUrl,
   cloneObject
 } from "@esri/hub-common";
-import { parseDatasetId } from "./slugs";
 import { getContentMetadata } from "./metadata";
 
 function itemExtentToBoundary(extent: IBBox): IHubGeography {
@@ -123,11 +122,15 @@ export function getItemHubType(itemOrType: IItem | string): HubType {
   return getCollection(itemType) as HubType;
 }
 
+/**
+ * Fetch content using the ArcGIS REST API
+ * @param item id
+ * @param options - request options that may include authentication
+ */
 export function getContentFromPortal(
-  id: string,
+  itemId: string,
   requestOptions?: IHubRequestOptions
 ): Promise<IHubContent> {
-  const { itemId } = parseDatasetId(id);
   return getItem(itemId, requestOptions).then(item => {
     const content = withPortalUrls(itemToContent(item), requestOptions);
     // TODO: provide some API to let consumers opt out of making these additional requests
