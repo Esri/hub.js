@@ -2,10 +2,10 @@
  * Apache-2.0 */
 
 import { request } from "@esri/arcgis-rest-request";
-import { IHubContent, normalizeItemType } from "@esri/hub-common";
+import { IHubContent } from "@esri/hub-common";
 import { IGetContentOptions, getContentFromHub } from "./hub";
 import { getContentFromPortal } from "./portal";
-import { isSlug } from "./slugs";
+import { isSlug, parseDatasetId } from "./slugs";
 
 /**
  * Fetch content using either the Hub API or the ArcGIS REST API
@@ -18,7 +18,8 @@ export function getContent(
   options?: IGetContentOptions
 ): Promise<IHubContent> {
   if (options && options.isPortal) {
-    return getContentFromPortal(identifier, options);
+    const { itemId } = parseDatasetId(identifier);
+    return getContentFromPortal(itemId, options);
   } else {
     return getContentFromHub(identifier, options).catch(e => {
       // dataset is not in index (i.e. might be a private item)
