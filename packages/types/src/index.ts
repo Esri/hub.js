@@ -3,3 +3,4 @@
 
 export * from "./models";
 export * from "./team-types";
+export * from "./survey-types";

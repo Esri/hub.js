@@ -1,9 +1,9 @@
 import { getSurveyStatus, getDetailedSurveyStatus, getSurveyStatusFromSchedule } from "../../src/utils/status-utils";
-import { IGetSurveyFormJson, IGetSurveySchedule } from "@esri/hub-common";
+import { ISurveyFormJson, ISurveySchedule, ISurveyStatus } from "@esri/hub-types";
 
-const getFormJson = (status: string, start: string, end: string) => {
-  const schedule: IGetSurveySchedule = { start, end };
-  const form: IGetSurveyFormJson = {
+const getFormJson = (status: ISurveyStatus, start: string, end: string) => {
+  const schedule: ISurveySchedule = { start, end };
+  const form: ISurveyFormJson = {
     settings: {
       openStatusInfo: {
         status,

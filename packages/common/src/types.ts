@@ -114,21 +114,6 @@ export interface IGetSurveyModelsResponse {
   stakeholder: IModel;
 }
 
-export interface IGetSurveyFormJson {
-  settings: {
-    [propName: string]: any,
-    openStatusInfo: {
-      status: string,
-      schedule: IGetSurveySchedule
-    }
-  }
-}
-
-export interface IGetSurveySchedule {
-  start: string | null,
-  end: string | null
-}
-
 export interface IGetGroupSharingDetailsResults {
   group: IGroup;
   modelsToShare: IModel[];
