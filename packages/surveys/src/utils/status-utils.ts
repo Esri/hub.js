@@ -1,9 +1,26 @@
-import {
-  ISurveyFormJson,
-  ISurveySchedule,
-  ISurveyStatus,
-  IDetailedSurveyStatus
-} from "@esri/hub-types";
+export type ISurveyStatus = "open" | "closed" | "scheduled";
+
+type IDetailedSurveyStatus =
+  | "opening_today"
+  | "opening_future"
+  | "closing_today"
+  | "closing_future"
+  | ISurveyStatus;
+
+export interface ISurveyFormJson {
+  settings: {
+    [propName: string]: any,
+    openStatusInfo: {
+      status: ISurveyStatus,
+      schedule: ISurveySchedule
+    }
+  }
+}
+
+export interface ISurveySchedule {
+  start?: string | null,
+  end?: string | null
+}
 
 /**
  * Parses survey form item and form.json to determine if survey is draft, scheduled, open, or closed

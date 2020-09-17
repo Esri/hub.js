@@ -1,5 +1,11 @@
-import { getSurveyStatus, getDetailedSurveyStatus, getSurveyStatusFromSchedule } from "../../src/utils/status-utils";
-import { ISurveyFormJson, ISurveySchedule, ISurveyStatus } from "@esri/hub-types";
+import {
+  getSurveyStatus,
+  getDetailedSurveyStatus,
+  getSurveyStatusFromSchedule,
+  ISurveyFormJson,
+  ISurveySchedule,
+  ISurveyStatus
+} from "../../src/utils/status-utils";
 
 const getFormJson = (status: ISurveyStatus, start: string, end: string) => {
   const schedule: ISurveySchedule = { start, end };
