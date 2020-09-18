@@ -28,7 +28,15 @@
     "@esri/hub-common": "^6.10.0",
     "@esri/hub-initiatives": "^6.10.0",
     "@esri/hub-teams": "^6.10.0",
-    "@esri/hub-types": "^6.10.0"
+    "@esri/hub-types": "^6.10.0",
+    "@rollup/plugin-commonjs": "^15.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^9.0.0",
+    "rollup": "^2.26.5",
+    "rollup-plugin-filesize": "^9.0.2",
+    "rollup-plugin-typescript2": "^0.27.2",
+    "rollup-plugin-uglify": "^6.0.4",
+    "typescript": "^3.8.1"
   },
   "files": [
     "dist/**"

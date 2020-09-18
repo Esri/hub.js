@@ -16,7 +16,15 @@
     "@esri/arcgis-rest-types": "^2.13.0"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-types": "^2.14.1"
+    "@esri/arcgis-rest-types": "^2.14.1",
+    "@rollup/plugin-commonjs": "^15.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^9.0.0",
+    "rollup": "^2.26.5",
+    "rollup-plugin-filesize": "^9.0.2",
+    "rollup-plugin-typescript2": "^0.27.2",
+    "rollup-plugin-uglify": "^6.0.4",
+    "typescript": "^3.8.1"
   },
   "files": [
     "dist/**"
