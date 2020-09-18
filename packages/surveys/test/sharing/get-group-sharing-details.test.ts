@@ -14,7 +14,7 @@ import * as restPortal from "@esri/arcgis-rest-portal";
 import { mockUserSession } from "@esri/hub-common/test/test-helpers/fake-user-session";
 import * as getSurveyModels from "../../src/items/get-survey-models";
 import * as isPublished from "../../src/utils/is-published";
-import { IRequestOptions } from "@esri/hub-common/node_modules/@esri/arcgis-rest-request";
+import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 describe("getGroupSharingDetails", function() {
   let getSurveyModelsResult: IGetSurveyModelsResponse;
