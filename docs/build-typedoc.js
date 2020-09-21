@@ -105,7 +105,13 @@ const md = new MarkdownIt();
        * its name.
        */
       return children.map(child => {
-        child.name = _.first(child.name.split("/"));
+        const parts = child.name.split("/");
+        const first = _.first(parts);
+        // as of https://github.com/Esri/hub.js/pull/381/commits/19e8c603f5c3ea639166ff6a24394158e2dd3217
+        // the name seems to include "packages", as if it were run one folder up
+        child.name = first === "packages"
+          ? parts[1]
+          : first;
         child.package = child.name;
         return child;
       });

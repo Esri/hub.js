@@ -13,7 +13,7 @@ import * as isFieldworkerView from "../../src/utils/is-fieldworker-view";
 import * as getInputFeatureServiceModel from "../../src/items/get-input-feature-service-model";
 import * as getSourceFeatureServiceModelFromFieldworker from "../../src/items/get-source-feature-service-model-from-fieldworker";
 import * as getStakeholderModel from "../../src/items/get-stakeholder-model";
-import { IRequestOptions } from "@esri/hub-common/node_modules/@esri/arcgis-rest-request";
+import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 describe("getSurveyModels", function() {
   let formModel: IModel;
