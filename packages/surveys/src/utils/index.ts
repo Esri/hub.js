@@ -5,4 +5,4 @@ export * from "./is-draft";
 export * from "./is-published";
 export * from "./is-fieldworker-view";
 export * from "./status-utils";
-export * from "./results-availability";
+export * from "./results-availability/index";
