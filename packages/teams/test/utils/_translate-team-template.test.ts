@@ -1,4 +1,4 @@
-import { IGroupTemplate } from "@esri/hub-types";
+import { IGroupTemplate } from "../../src/types";
 import { _translateTeamTemplate } from "../../src/utils/_translate-team-template";
 
 describe("_translateTeamTemplate", () => {

@@ -1,5 +1,5 @@
 import * as _createTeamModule from "../../src/utils/_create-team-group";
-import { IGroupTemplate } from "@esri/hub-types";
+import { IGroupTemplate } from "../../src/types";
 import { _createTeamGroups } from "../../src/utils/_create-team-groups";
 import { IHubRequestOptions, cloneObject } from "@esri/hub-common";
 import { IUser } from "@esri/arcgis-rest-auth";

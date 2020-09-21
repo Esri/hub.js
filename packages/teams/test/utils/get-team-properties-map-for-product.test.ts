@@ -1,5 +1,5 @@
 import { getTeamPropertiesMapForProduct } from "../../src/utils/get-team-properties-map-for-product";
-import { HubProduct } from "@esri/hub-types";
+import { HubProduct } from "../../src/types";
 describe("getTeamPropertiesMapForProduct", () => {
   it("should always return content and core", () => {
     const products: HubProduct[] = ["basic", "premium", "portal"];

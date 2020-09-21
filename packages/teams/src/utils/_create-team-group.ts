@@ -3,7 +3,7 @@ import { IHubRequestOptions } from "@esri/hub-common";
 import { createGroup, protectGroup, IGroup } from "@esri/arcgis-rest-portal";
 import { getUniqueGroupTitle } from "./get-unique-group-title";
 import { getAllowedGroupAccess } from "./get-allowed-group-access";
-import { IGroupTemplate } from "@esri/hub-types";
+import { IGroupTemplate } from "../types";
 
 /**
  * Create a team group. Will ensure the team name is unique in the users org

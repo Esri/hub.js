@@ -1,4 +1,4 @@
-import { IGroupTemplate } from "@esri/hub-types";
+import { IGroupTemplate } from "../types";
 import { IHubRequestOptions } from "@esri/hub-common";
 import { _translateTeamTemplate } from "./_translate-team-template";
 import { _createTeamGroup } from "./_create-team-group";

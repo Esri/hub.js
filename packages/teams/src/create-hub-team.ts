@@ -1,4 +1,4 @@
-import { HubTeamType, TEAMTYPES } from "@esri/hub-types";
+import { HubTeamType, TEAMTYPES } from "./types";
 
 import {
   IHubRequestOptions,

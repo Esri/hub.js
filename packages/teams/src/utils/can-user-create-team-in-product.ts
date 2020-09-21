@@ -1,7 +1,7 @@
 import { IUser } from "@esri/arcgis-rest-auth";
 import { hasAllPrivileges } from "./has-all-privileges";
 import { HubProduct, includes } from "@esri/hub-common";
-import { IGroupTemplate } from "@esri/hub-types";
+import { IGroupTemplate } from "../types";
 
 /**
  * Predicate for filtering group templates based on product
