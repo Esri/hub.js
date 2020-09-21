@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IStakeholderItem } from "../../src/utils/results-availability";
+import { IStakeholderItem } from "../../src/types";
 
 export const StakeholderItem: IStakeholderItem = {
   id: "516a201f7bce425392733251163a0b32",

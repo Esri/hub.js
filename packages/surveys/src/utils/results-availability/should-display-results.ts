@@ -1,7 +1,7 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getProp } from "@esri/hub-common";
 import { hasUserResponded } from "./has-user-responded";
-import { IFormItem, IStakeholderItem } from "./types";
+import { IFormItem, IStakeholderItem } from "../../types";
 
 /**
  * check if Hub should link to results view of survey

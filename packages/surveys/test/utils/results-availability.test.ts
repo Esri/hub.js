@@ -1,11 +1,7 @@
 import { mockUserSession as authentication } from "@esri/hub-common/test/test-helpers/fake-user-session";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import {
-  shouldDisplayResults,
-  migrateFormPropertiesSettings,
-  IFormItem,
-  IFormItemProperties
-} from "../../src/utils/results-availability";
+import { shouldDisplayResults, migrateFormPropertiesSettings } from "../../src/utils/results-availability";
+import { IFormItem, IFormItemProperties } from "../../src/types"
 import * as resultsUtils from "../../src/utils/results-availability/has-user-responded";
 import { FormItemPublished } from "../mocks/form-item-published";
 import { FormItemDraft } from "../mocks/form-item-draft";

@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IFormItem } from "../../src/utils/results-availability";
+import { IFormItem } from "../../src/types";
 
 export const FormItemDraft: IFormItem = {
   id: "44ee78f044ed4dea9a1317c9fb7f56af",

@@ -1,6 +1,6 @@
 import { queryFeatures, IQueryResponse } from "@esri/arcgis-rest-feature-layer";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IStakeholderItem } from "./types";
+import { IStakeholderItem } from "../../types";
 
 /**
  * check is provided user has any survey submissions
