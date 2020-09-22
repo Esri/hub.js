@@ -20,6 +20,8 @@ export interface IModel {
   [key: string]: any;
 }
 
+export type IDraft = Partial<IModel>;
+
 /**
  * Defined the Initiative Item as having
  * `type: "Hub Initiative"`

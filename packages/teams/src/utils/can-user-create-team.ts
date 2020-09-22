@@ -1,6 +1,6 @@
 import { IUser } from "@esri/arcgis-rest-auth";
 import { IHubRequestOptions, getProp, getHubProduct } from "@esri/hub-common";
-import { HubTeamType } from "@esri/hub-types";
+import { HubTeamType } from "../types";
 import { getUserCreatableTeams } from "./get-user-creatable-teams";
 
 /**

@@ -1,7 +1,7 @@
 import { applyDraft } from "../../src/drafts/apply-draft";
 import { IModel, getProp } from "@esri/hub-common";
 import { PAGE_DRAFT_INCLUDE_LIST } from "../../src/drafts";
-import { IDraft } from "@esri/hub-types";
+import { IDraft } from "@esri/hub-common";
 
 const pageModel = ({
   item: {

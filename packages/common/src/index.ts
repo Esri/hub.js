@@ -3,6 +3,7 @@
 
 export * from "./access";
 export * from "./api";
+export * from "./auth";
 export * from "./categories";
 export * from "./content";
 export * from "./extent";

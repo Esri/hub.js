@@ -1,7 +1,7 @@
 import * as getUniqueTitleModule from "../../src/utils/get-unique-group-title";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions, cloneObject } from "@esri/hub-common";
-import { IGroupTemplate } from "@esri/hub-types";
+import { IGroupTemplate } from "../../src/types";
 import { _createTeamGroup } from "../../src/utils/_create-team-group";
 import { IUser } from "@esri/arcgis-rest-auth";
 

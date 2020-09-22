@@ -1,4 +1,4 @@
-import { HubProduct } from "@esri/hub-types";
+import { HubProduct } from "../types";
 
 export function getTeamsForProduct(product: HubProduct) {
   const teams = ["content", "core"];
