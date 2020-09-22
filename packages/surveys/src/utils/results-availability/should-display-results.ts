@@ -11,12 +11,12 @@ import { IFormItem, IStakeholderItem } from "../../types";
  * @param {IRequestOptions} requestOptions The request options
  * @returns {Promise<boolean>}
  */
-export const shouldDisplayResults = (
+export function shouldDisplayResults (
   formItem: IFormItem,
   stakeholderItem: IStakeholderItem | null,
   username: string,
   requestOptions: IRequestOptions
-): Promise<boolean> => {
+): Promise<boolean> {
   let res = Promise.resolve(false);
   if (stakeholderItem) {
     if (
