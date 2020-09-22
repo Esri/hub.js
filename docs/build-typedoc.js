@@ -11,7 +11,7 @@ const MarkdownIt = require("markdown-it");
 const md = new MarkdownIt();
 
 (function generateTypeDoc() {
-  
+
   return new Promise((resolve, reject) => {
     const typedoc = spawn(
       "typedoc",
@@ -158,8 +158,8 @@ const md = new MarkdownIt();
       });
     })
     .then(declarations => {
-      const excludeList = ['encodeAgoQuery', 'downloadableAgg', 'downloadableFilter', 'collectionAgg', 
-      'collectionFilter', 'createAggs', 'format', 'hasApiAgg', 'buildFilter', 'createFilters', 
+      const excludeList = ['encodeAgoQuery', 'downloadableAgg', 'downloadableFilter', 'collectionAgg',
+      'collectionFilter', 'createAggs', 'format', 'hasApiAgg', 'buildFilter', 'createFilters',
       'encodeFilters', 'groupIds', 'handleFilter', 'hasApiFilter', 'computeItemsFacets',
       'formatItem', 'calcHighlights', 'getSortField', 'isFilterable', 'generateFilter',
       'agoFormatItemCollection', 'encodeParams', 'getPaths', 'getItems'];
