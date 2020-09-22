@@ -16,9 +16,9 @@
     "@esri/arcgis-rest-auth": "^2.13.0",
     "@esri/arcgis-rest-portal": "^2.13.0",
     "@esri/arcgis-rest-request": "^2.13.0",
-    "@esri/hub-common": "^6.4.0",
+    "@esri/hub-common": "^6.11.0",
     "@esri/hub-initiatives": "^6.4.0",
-    "@esri/hub-teams": "5.x || 6.x"
+    "@esri/hub-teams": "^6.11.0"
   },
   "devDependencies": {
     "@esri/arcgis-rest-auth": "^2.14.1",
