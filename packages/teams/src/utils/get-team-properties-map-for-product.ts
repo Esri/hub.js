@@ -1,4 +1,4 @@
-import { HubProduct } from "@esri/hub-types";
+import { HubProduct } from "../types";
 
 interface ITeamPropMap {
   content: string;

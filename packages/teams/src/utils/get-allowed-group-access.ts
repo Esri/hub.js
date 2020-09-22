@@ -1,7 +1,7 @@
 import { IUser } from "@esri/arcgis-rest-auth";
 import { hasAllPrivileges } from "./has-all-privileges";
 import { GROUP_ACCESS_PRIVS } from "./group-access-privs";
-import { AGOAccess } from "@esri/hub-types";
+import { AGOAccess } from "../types";
 
 /**
  * Returns the allowed group access based on a user's privileges
