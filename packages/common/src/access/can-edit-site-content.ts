@@ -13,23 +13,25 @@ export const REQUIRED_PRIVS = [
 ];
 
 /**
- *
- * @param {IItem} model
- * @param {IUser} currentUser
+ * Checks if user has access to content library in Hub
+ * In Hub Home context, user access requires additional privileges
+ * In initiative context, check is delegated to canEditItem for the initiative site item
+ * @param {IItem} item
+ * @param {IUser} user
  * @returns {boolean}
  */
-export function canEditSiteContent(model: IItem, currentUser?: IUser): boolean {
+export function canEditSiteContent(item: IItem, user?: IUser): boolean {
   let res = false;
-  const isDefaultHubHome = getProp(model, "properties.isDefaultHubHome");
-  const hasPriv = hasBasePriv(currentUser);
+  const isDefaultHubHome = getProp(item, "properties.isDefaultHubHome");
+  const hasPriv = hasBasePriv(user);
   if (!isDefaultHubHome && hasPriv) {
-    res = canEditItem(model, currentUser);
+    res = canEditItem(item, user);
   } else if (hasPriv) {
-    const userOrgId = currentUser.orgId;
-    const modelOrgId = model.orgId;
-    const sameOrg = !!userOrgId && !!modelOrgId && userOrgId === modelOrgId;
+    const userOrgId = user.orgId;
+    const itemOrgId = item.orgId;
+    const sameOrg = !!userOrgId && !!itemOrgId && userOrgId === itemOrgId;
     if (sameOrg) {
-      const privileges = currentUser.privileges || [];
+      const privileges = user.privileges || [];
       res = REQUIRED_PRIVS.every(privilege => includes(privileges, privilege));
     }
   }

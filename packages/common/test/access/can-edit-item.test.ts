@@ -37,20 +37,13 @@ describe("canEditItem", function() {
   });
 
   it("returns true if user has priv and is itemOrgAdmin", function() {
-    let model = getModel({ isOrgItem: true });
-    let user = getUser({ role: "org_admin", roleId: null });
-    let result = canEditItem(model, user);
+    const orgId = "foo";
+    const model = getModel({ orgId });
+    const user = getUser({ orgId, role: "org_admin", roleId: null });
+    const result = canEditItem(model, user);
     expect(result).toBe(true);
     expect(hasBasePrivSpy.calls.count()).toBe(1);
     expect(hasBasePrivSpy.calls.argsFor(0)).toEqual([user]);
-
-    const orgId = "foo";
-    model = getModel({ orgId });
-    user = getUser({ orgId, role: "org_admin", roleId: null });
-    result = canEditItem(model, user);
-    expect(result).toBe(true);
-    expect(hasBasePrivSpy.calls.count()).toBe(2);
-    expect(hasBasePrivSpy.calls.argsFor(1)).toEqual([user]);
   });
 
   it("returns true if user has priv and belongs to any item update groups", function() {

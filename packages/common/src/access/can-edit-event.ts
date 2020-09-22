@@ -10,19 +10,19 @@ export interface IEventModel {
 }
 
 /**
- *
- * @param {IEventModel} model
- * @param {IUser} currentUser
+ * Checks if user has access to edit an event in Hub
+ * @param {IEventModel} model consolidated event model as consumed by Hub, contains the event feature, related initiative model, and attendees group
+ * @param {IUser} user
  * @returns {boolean}
  */
-export function canEditEvent(model: IEventModel, currentUser?: IUser): boolean {
+export function canEditEvent(model: IEventModel, user?: IUser): boolean {
   let res = false;
-  if (hasBasePriv(currentUser)) {
+  if (hasBasePriv(user)) {
     const coreTeamId = getProp(
       model,
       "initiative.item.properties.collaborationGroupId"
     );
-    const groups = currentUser.groups || [];
+    const groups = user.groups || [];
     res = !!coreTeamId && !!findBy(groups, "id", coreTeamId);
   }
   return res;

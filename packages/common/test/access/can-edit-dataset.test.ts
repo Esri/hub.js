@@ -7,7 +7,7 @@ describe("canEditDataset", function() {
   let hasBasePrivSpy: jasmine.Spy;
   let canEditItemSpy: jasmine.Spy;
   const model = {} as IItem;
-  const currentUser = {} as IUser;
+  const user = {} as IUser;
 
   beforeEach(() => {
     hasBasePrivSpy = spyOn(baseUtils, "hasBasePriv");
@@ -21,18 +21,18 @@ describe("canEditDataset", function() {
 
   it("calls canEditItem if user has base priv", function() {
     hasBasePrivSpy.and.returnValue(true);
-    canEditDataset(model, currentUser);
+    canEditDataset(model, user);
     expect(hasBasePrivSpy.calls.count()).toBe(1);
-    expect(hasBasePrivSpy.calls.argsFor(0)).toEqual([currentUser]);
+    expect(hasBasePrivSpy.calls.argsFor(0)).toEqual([user]);
     expect(canEditItemSpy.calls.count()).toBe(1);
-    expect(canEditItemSpy.calls.argsFor(0)).toEqual([model, currentUser]);
+    expect(canEditItemSpy.calls.argsFor(0)).toEqual([model, user]);
   });
 
   it("will not call canEditItem if user lacks base priv", function() {
     hasBasePrivSpy.and.returnValue(false);
-    canEditDataset(model, currentUser);
+    canEditDataset(model, user);
     expect(hasBasePrivSpy.calls.count()).toBe(1);
-    expect(hasBasePrivSpy.calls.argsFor(0)).toEqual([currentUser]);
+    expect(hasBasePrivSpy.calls.argsFor(0)).toEqual([user]);
     expect(canEditItemSpy.calls.count()).toBe(0);
   });
 });
