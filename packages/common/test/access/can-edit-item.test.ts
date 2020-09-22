@@ -75,11 +75,4 @@ describe("canEditItem", function() {
     expect(hasBasePrivSpy.calls.count()).toBe(1);
     expect(hasBasePrivSpy.calls.argsFor(0)).toEqual([user]);
   });
-
-  it("returns false if no user", function() {
-    const model = getModel({ itemControl: "admin" });
-    const result = canEditItem(model);
-    expect(result).toBe(false);
-    expect(hasBasePrivSpy.calls.count()).toBe(0);
-  });
 });

@@ -6,10 +6,7 @@ import { includes } from "../utils";
  * @param {IUser} user
  * @returns {boolean}
  */
-export function hasBasePriv(user?: IUser): boolean {
-  let res = false;
-  if (user) {
-    res = includes(user.privileges, "portal:user:createItem");
-  }
-  return res;
+export function hasBasePriv(user: IUser): boolean {
+  const { privileges = [] } = user;
+  return includes(privileges, "portal:user:createItem");
 }

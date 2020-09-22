@@ -20,7 +20,7 @@ export const REQUIRED_PRIVS = [
  * @param {IUser} user
  * @returns {boolean}
  */
-export function canEditSiteContent(item: IItem, user?: IUser): boolean {
+export function canEditSiteContent(item: IItem, user: IUser): boolean {
   let res = false;
   const isDefaultHubHome = getProp(item, "properties.isDefaultHubHome");
   const hasPriv = hasBasePriv(user);

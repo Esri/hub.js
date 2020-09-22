@@ -5,8 +5,8 @@ import { findBy } from "../util";
 import { hasBasePriv } from "./has-base-priv";
 
 export interface IEventModel {
-  [propName: string]: any;
   initiative: IInitiativeModel;
+  [propName: string]: any;
 }
 
 /**
@@ -15,14 +15,14 @@ export interface IEventModel {
  * @param {IUser} user
  * @returns {boolean}
  */
-export function canEditEvent(model: IEventModel, user?: IUser): boolean {
+export function canEditEvent(model: IEventModel, user: IUser): boolean {
   let res = false;
   if (hasBasePriv(user)) {
     const coreTeamId = getProp(
       model,
       "initiative.item.properties.collaborationGroupId"
     );
-    const groups = user.groups || [];
+    const { groups = [] } = user;
     res = !!coreTeamId && !!findBy(groups, "id", coreTeamId);
   }
   return res;

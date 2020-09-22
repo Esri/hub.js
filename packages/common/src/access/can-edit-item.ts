@@ -9,35 +9,27 @@ import { hasBasePriv } from "./has-base-priv";
  * @param {IUser} user
  * @returns {boolean}
  */
-export function canEditItem(item: IItem, user?: IUser): boolean {
+export function canEditItem(item: IItem, user: IUser): boolean {
   let res = false;
-  if (user) {
-    const itemControls = ["admin", "update"];
-    const { itemControl, owner, orgId: itemOrgId } = item;
-    const {
-      roleId,
-      role,
-      username,
-      groups: userGroups,
-      orgId: userOrgId
-    } = user;
-    const hasItemControl = includes(itemControls, itemControl);
-    const isOwner = !!owner && !!username && owner === username;
-    const isOrgItem = !!itemOrgId && !!userOrgId && itemOrgId === userOrgId;
-    const isItemOrgAdmin = !!isOrgItem && !roleId && role === "org_admin";
-    const hasPlatformControl = hasItemControl || isOwner || isItemOrgAdmin;
-    const hasPriv = hasBasePriv(user);
-    if (hasPriv && hasPlatformControl) {
-      res = true;
-    } else if (hasPriv) {
-      const itemGroups = [
-        ...(getProp(item, "groupIds") || []),
-        getProp(item, "properties.collaborationGroupId")
-      ];
-      const isGroupEditable = (group: IGroup): boolean =>
-        isUpdateGroup(group) && includes(itemGroups, group.id);
-      res = userGroups.some(isGroupEditable);
-    }
+  const itemControls = ["admin", "update"];
+  const { itemControl, owner, orgId: itemOrgId } = item;
+  const { roleId, role, username, groups: userGroups, orgId: userOrgId } = user;
+  const hasItemControl = includes(itemControls, itemControl);
+  const isOwner = !!owner && !!username && owner === username;
+  const isOrgItem = !!itemOrgId && !!userOrgId && itemOrgId === userOrgId;
+  const isItemOrgAdmin = !!isOrgItem && !roleId && role === "org_admin";
+  const hasPlatformControl = hasItemControl || isOwner || isItemOrgAdmin;
+  const hasPriv = hasBasePriv(user);
+  if (hasPriv && hasPlatformControl) {
+    res = true;
+  } else if (hasPriv) {
+    const itemGroups = [
+      ...(getProp(item, "groupIds") || []),
+      getProp(item, "properties.collaborationGroupId")
+    ];
+    const isGroupEditable = (group: IGroup): boolean =>
+      isUpdateGroup(group) && includes(itemGroups, group.id);
+    res = userGroups.some(isGroupEditable);
   }
   return res;
 }

@@ -8,12 +8,9 @@ describe("hasBasePriv", function() {
     } as IUser);
     expect(result).toBe(true);
   });
-  it("returns false no user supplied", function() {
-    const result = hasBasePriv();
-    expect(result).toBe(false);
-  });
+
   it("returns false if user does not have portal:user:createItem privilege", function() {
-    const result = hasBasePriv({ privileges: [] } as IUser);
+    const result = hasBasePriv({} as IUser);
     expect(result).toBe(false);
   });
 });
