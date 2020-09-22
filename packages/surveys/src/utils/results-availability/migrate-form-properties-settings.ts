@@ -15,9 +15,9 @@ import {
  * @param {IGetSurveyModelsResponse} models
  * @returns {IGetSurveyModelsResponse}
  */
-export const migrateFormPropertiesSettings = (
+export function migrateFormPropertiesSettings (
   models: IGetSurveyModelsResponse
-): IGetSurveyModelsResponse => {
+): IGetSurveyModelsResponse {
   const _models = cloneObject(models);
   if (!getProp(_models.form, "item.properties")) {
     _models.form.item.properties = {};
