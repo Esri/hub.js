@@ -20,7 +20,7 @@ export function hasUserResponded (
     where: `Creator = '${username}'`,
     returnCountOnly: true
   };
-  return queryFeatures(Object.assign({ url: _url, params }, requestOptions)).then(
+  return queryFeatures({ url: _url, params, ...requestOptions }).then(
     ({ count }: IQueryResponse) => count > 0
   );
 };

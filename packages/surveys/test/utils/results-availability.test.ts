@@ -147,17 +147,14 @@ describe("hasUserResponded", function() {
     expect(res).toBe(true);
     expect(queryFeaturesSpy.calls.count()).toBe(1);
     expect(queryFeaturesSpy.calls.argsFor(0)).toEqual([
-      Object.assign(
-        {},
-        {
-          url: `${url}/0`,
-          params: {
-            where: `Creator = '${username}'`,
-            returnCountOnly: true
-          }
+      {
+        url: `${url}/0`,
+        params: {
+          where: `Creator = '${username}'`,
+          returnCountOnly: true
         },
-        requestOptions
-      )
+        ...requestOptions
+      }
     ]);
   });
 
