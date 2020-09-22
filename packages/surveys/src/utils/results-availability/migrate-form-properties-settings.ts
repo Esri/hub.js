@@ -5,19 +5,28 @@ import {
 } from "@esri/hub-common";
 
 /**
- * Populate form item properties is missing
- * @param {IGetSurveyModelsResponse} _models
+ * Method used when fetching Feedback/Survey models in Hub;
+ * properties.settings.resultsAvailability is used in Hub to determine when it
+ * should render links to survey results
+ *
+ * Adds form item.properties hash if it is missing
+ * Adds item.properties.settings hash if it is missing
+ * Adds item.properties.settings.resultsAvailability property if missing
+ * @param {IGetSurveyModelsResponse} models
  * @returns {IGetSurveyModelsResponse}
  */
 export const migrateFormPropertiesSettings = (
-  _models: IGetSurveyModelsResponse
+  models: IGetSurveyModelsResponse
 ): IGetSurveyModelsResponse => {
-  const models = cloneObject(_models);
-  if (!getProp(models.form, "item.properties")) {
-    models.form.item.properties = {};
+  const _models = cloneObject(models);
+  if (!getProp(_models.form, "item.properties")) {
+    _models.form.item.properties = {};
   }
-  if (!getProp(models.form, "item.properties.settings")) {
-    models.form.item.properties.settings = { resultsAvailability: "always" };
+  if (!getProp(_models.form, "item.properties.settings")) {
+    _models.form.item.properties.settings = {};
   }
-  return models;
+  if (!getProp(_models.form, "item.properties.settings.resultsAvailability")) {
+    _models.form.item.properties.settings.resultsAvailability = "always";
+  }
+  return _models;
 };
