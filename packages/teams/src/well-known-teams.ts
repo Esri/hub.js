@@ -1,4 +1,4 @@
-import { IGroupTemplate } from "@esri/hub-types";
+import { IGroupTemplate } from "./types";
 
 /**
  * Hash of the team group templates.

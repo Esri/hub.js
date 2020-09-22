@@ -2,7 +2,7 @@ import { IUser } from "@esri/arcgis-rest-auth";
 import { cloneObject, HubProduct } from "@esri/hub-common";
 import { WELLKNOWNTEAMS } from "../well-known-teams";
 import { canUserCreateTeamInProduct } from "./can-user-create-team-in-product";
-import { IGroupTemplate } from "@esri/hub-types";
+import { IGroupTemplate } from "../types";
 
 /**
  * Return array of group templates that the current user has licensing

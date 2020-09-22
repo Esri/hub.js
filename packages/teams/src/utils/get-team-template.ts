@@ -1,4 +1,4 @@
-import { HubTeamType, HubProduct } from "@esri/hub-types";
+import { HubTeamType, HubProduct } from "../types";
 import { getTeamsAvailableInProduct } from "./get-teams-available-in-product";
 
 /**

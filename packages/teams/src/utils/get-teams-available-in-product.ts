@@ -1,4 +1,4 @@
-import { HubProduct, IGroupTemplate } from "@esri/hub-types";
+import { HubProduct, IGroupTemplate } from "../types";
 import { cloneObject } from "@esri/hub-common";
 import { WELLKNOWNTEAMS } from "../well-known-teams";
 

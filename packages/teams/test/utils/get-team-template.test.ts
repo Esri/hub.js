@@ -1,5 +1,5 @@
 import { getTeamTemplate } from "../../src/utils/get-team-template";
-import { HubProduct, HubTeamType } from "@esri/hub-types";
+import { HubProduct, HubTeamType } from "../../src/types";
 
 describe("getTeamTemplate", () => {
   it("it returns nothing for invalid product or team", function() {

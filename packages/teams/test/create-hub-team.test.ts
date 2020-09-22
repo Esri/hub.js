@@ -4,7 +4,7 @@ import { IHubRequestOptions } from "@esri/hub-common";
 import { UserSession } from "@esri/arcgis-rest-auth";
 
 import { createHubTeam } from "../src/create-hub-team";
-import { HubTeamType, IGroupTemplate } from "@esri/hub-types";
+import { HubTeamType, IGroupTemplate } from "../src/types";
 
 describe("createHubTeam", () => {
   const translations = {};
