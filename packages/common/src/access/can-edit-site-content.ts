@@ -29,7 +29,7 @@ export function canEditSiteContent(item: IItem, user: IUser): boolean {
   } else if (hasPriv) {
     const userOrgId = user.orgId;
     const itemOrgId = item.orgId;
-    const sameOrg = !!userOrgId && !!itemOrgId && userOrgId === itemOrgId;
+    const sameOrg = !!userOrgId && userOrgId === itemOrgId;
     if (sameOrg) {
       const privileges = user.privileges || [];
       res = REQUIRED_PRIVS.every(privilege => includes(privileges, privilege));

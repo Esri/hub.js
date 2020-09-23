@@ -15,8 +15,8 @@ export function canEditItem(item: IItem, user: IUser): boolean {
   const { itemControl, owner, orgId: itemOrgId } = item;
   const { roleId, role, username, groups: userGroups, orgId: userOrgId } = user;
   const hasItemControl = includes(itemControls, itemControl);
-  const isOwner = !!owner && !!username && owner === username;
-  const isOrgItem = !!itemOrgId && !!userOrgId && itemOrgId === userOrgId;
+  const isOwner = !!owner && owner === username;
+  const isOrgItem = !!itemOrgId && itemOrgId === userOrgId;
   const isItemOrgAdmin = !!isOrgItem && !roleId && role === "org_admin";
   const hasPlatformControl = hasItemControl || isOwner || isItemOrgAdmin;
   const hasPriv = hasBasePriv(user);
