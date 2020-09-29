@@ -82,6 +82,7 @@ export function itemToContent(item: IItem): IHubContent {
     hubType: getItemHubType(item),
     normalizedType: normalizeItemType(item),
     categories: parseItemCategories(item.categories),
+    itemCategories: item.categories,
     // can we strip HTML from description, and do we need to trim it to a X chars?
     summary: item.snippet || item.description,
     publisher: {
