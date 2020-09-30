@@ -13,4 +13,3 @@ export * from "./_get-draft-resource-name";
 export * from "./fetch-draft";
 export * from "./apply-draft";
 export * from "./fetch-and-apply-draft";
-export * from "./_get-json-resource";
