@@ -1,6 +1,6 @@
 import { IHubRequestOptions } from "@esri/hub-common";
 import { _getDraftResourceName } from "./_get-draft-resource-name";
-import { _getJsonResource } from "./_get-json-resource";
+import { getItemResource } from "@esri/arcgis-rest-portal";
 
 /**
  * Fetches the draft for a site or page if exists.
@@ -15,7 +15,9 @@ export function fetchDraft(
     draftResourceName => {
       let ret = null;
       if (draftResourceName) {
-        ret = _getJsonResource(siteOrPageId, draftResourceName, {
+        ret = getItemResource(siteOrPageId, {
+          fileName: draftResourceName,
+          readAs: "json",
           authentication: hubRequestOptions.authentication,
           portal: hubRequestOptions.portal
         });

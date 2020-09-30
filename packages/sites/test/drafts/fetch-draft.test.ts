@@ -1,6 +1,6 @@
 import { fetchDraft } from "../../src/drafts/fetch-draft";
 import * as _getDraftResourceNameModule from "../../src/drafts/_get-draft-resource-name";
-import * as _getJsonResourceModule from "../../src/drafts/_get-json-resource";
+import * as portalModule from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions } from "@esri/hub-common";
 
 describe("fetchDraft", () => {
@@ -17,15 +17,17 @@ describe("fetchDraft", () => {
       "_getDraftResourceName"
     ).and.returnValue(Promise.resolve(draftName));
     const getResourceSpy = spyOn(
-      _getJsonResourceModule,
-      "_getJsonResource"
+      portalModule,
+      "getItemResource"
     ).and.returnValue(Promise.resolve(draftModel));
 
     const chk = await fetchDraft("site-id", ro);
 
     expect(chk).toEqual(draftModel);
     expect(getDraftNameSpy).toHaveBeenCalledWith("site-id", ro);
-    expect(getResourceSpy).toHaveBeenCalledWith("site-id", draftName, {
+    expect(getResourceSpy).toHaveBeenCalledWith("site-id", {
+      fileName: draftName,
+      readAs: "json",
       authentication: ro.authentication,
       portal: ro.portal
     });
@@ -37,8 +39,8 @@ describe("fetchDraft", () => {
       "_getDraftResourceName"
     ).and.returnValue(Promise.resolve(""));
     const getResourceSpy = spyOn(
-      _getJsonResourceModule,
-      "_getJsonResource"
+      portalModule,
+      "getItemResource"
     ).and.returnValue(Promise.resolve(draftModel));
 
     const chk = await fetchDraft("site-id", ro);
