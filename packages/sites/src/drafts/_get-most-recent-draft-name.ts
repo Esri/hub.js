@@ -15,6 +15,6 @@ export function _getMostRecentDraftName(
   return (
     _getDraftResourceNames(siteOrPageId, hubRequestOptions)
       // Simple ascii sort works since timestamps are encoded into draft file names
-      .then(draftNames => draftNames.sort()[0])
+      .then(draftNames => !!draftNames.length && draftNames.sort()[0])
   );
 }

@@ -27,4 +27,13 @@ describe("_getMostRecentDraftName", () => {
     const chk = await _getMostRecentDraftName("1234", ro);
     expect(chk).toEqual("draft-111111111.json");
   });
+
+  it("doesn't blow up with empty array", async () => {
+    getDraftSpy.and.returnValue(Promise.resolve([]));
+    try {
+      await _getMostRecentDraftName("1234", ro);
+    } catch {
+      fail("shouldnt reject");
+    }
+  });
 });
