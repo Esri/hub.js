@@ -256,6 +256,11 @@ export interface IHubContent extends IHubResource, IItem {
   // TODO: license: IHubLicense // [Future] item.licenseInfo
 
   /**
+   * Item categories are the original, non-flattened item
+   * category strings.
+   */
+  itemCategories?: string[];
+  /**
    * The normalized item type (we run normalizeItemType on
    * the item in order to compute this prop)
    */

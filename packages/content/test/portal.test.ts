@@ -6,6 +6,7 @@ import * as commonModule from "@esri/hub-common";
 import {
   getContentFromPortal,
   itemToContent,
+  parseItemCategories,
   getItemHubType
 } from "../src/index";
 import * as metadataModule from "../src/metadata";
@@ -108,6 +109,24 @@ describe("get item hub type", () => {
   });
   it("works with just type", () => {
     expect(getItemHubType("Form")).toBe("feedback");
+  });
+});
+describe("parse item categories", () => {
+  it("parses the categories", () => {
+    const categories = [
+      "/Categories/Boundaries",
+      "/Categories/Planning and cadastre/Property records",
+      "/Categories/Structure"
+    ];
+    expect(parseItemCategories(categories)).toEqual([
+      "Boundaries",
+      "Planning and cadastre",
+      "Property records",
+      "Structure"
+    ]);
+  });
+  it("doesn't blow up with undefined", () => {
+    expect(() => parseItemCategories(undefined)).not.toThrow();
   });
 });
 describe("get content from portal", () => {

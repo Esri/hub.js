@@ -69,6 +69,10 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
   const item = datasetToItem(dataset);
   const content = itemToContent(item);
 
+  // We remove these becuase the indexer doesn't actually
+  // preserve the original item categories so this attribute is invalid
+  delete content.itemCategories;
+
   // overwrite hubId
   content.hubId = dataset.id;
   // overwrite or add enrichments from Hub API

@@ -15,7 +15,8 @@ import {
   getItemApiUrl,
   getItemDataUrl,
   getItemThumbnailUrl,
-  cloneObject
+  cloneObject,
+  includes
 } from "@esri/hub-common";
 import { getContentMetadata } from "./metadata";
 
@@ -80,6 +81,8 @@ export function itemToContent(item: IItem): IHubContent {
     hubId: item.id,
     hubType: getItemHubType(item),
     normalizedType: normalizeItemType(item),
+    categories: parseItemCategories(item.categories),
+    itemCategories: item.categories,
     // can we strip HTML from description, and do we need to trim it to a X chars?
     summary: item.snippet || item.description,
     publisher: {
@@ -120,6 +123,29 @@ export function getItemHubType(itemOrType: IItem | string): HubType {
   const itemType = normalizeItemType(itemOrType);
   // TODO: not all categories are Hub types, may need to validate
   return getCollection(itemType) as HubType;
+}
+
+/**
+ * Splits item category strings at slashes and discards the "Categories" keyword
+ *
+ * ```
+ * ["/Categories/Boundaries", "/Categories/Planning and cadastre/Property records", "/Categories/Structure"]
+ * ```
+ * Should end up being
+ * ```
+ * ["Boundaries", "Planning and cadastre", "Property records", "Structure"]
+ * ```
+ *
+ * @param categories - an array of strings
+ * @private
+ */
+export function parseItemCategories(categories: string[]) {
+  if (!categories) return categories;
+
+  const exclude = ["categories", ""];
+  const parsed = categories.map(cat => cat.split("/"));
+  const flattened = parsed.reduce((acc, arr, _) => [...acc, ...arr], []);
+  return flattened.filter(cat => !includes(exclude, cat.toLowerCase()));
 }
 
 /**
