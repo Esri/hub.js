@@ -1,6 +1,6 @@
 import { IModel, IHubRequestOptions } from "@esri/hub-common";
 import { removeItemResource } from "@esri/arcgis-rest-portal";
-import { _getDraftResourceName } from "./_get-draft-resource-name";
+import { _getDraftResourceNames } from "./_get-draft-resource-names";
 
 /**
  * Given an item id, removes the current draft resource if exists
@@ -14,17 +14,18 @@ export function deleteDraft(
   const {
     item: { id, owner }
   } = siteOrPageModel;
-  return _getDraftResourceName(id, hubRequestOptions).then(
-    (draftResourceName: string) => {
-      if (draftResourceName) {
-        return removeItemResource({
-          id,
-          owner,
-          resource: draftResourceName,
-          portal: hubRequestOptions.portal,
-          authentication: hubRequestOptions.authentication
-        });
-      }
-    }
+  return _getDraftResourceNames(id, hubRequestOptions).then(
+    draftResourceNames =>
+      Promise.all(
+        draftResourceNames.map(resourceName =>
+          removeItemResource({
+            id,
+            owner,
+            resource: resourceName,
+            portal: hubRequestOptions.portal,
+            authentication: hubRequestOptions.authentication
+          })
+        )
+      )
   );
 }

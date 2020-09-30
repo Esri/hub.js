@@ -1,6 +1,6 @@
 import { IHubRequestOptions } from "@esri/hub-common";
-import { _getDraftResourceName } from "./_get-draft-resource-name";
 import { getItemResource } from "@esri/arcgis-rest-portal";
+import { _getMostRecentDraftName } from "./_get-most-recent-draft-name";
 
 /**
  * Fetches the draft for a site or page if exists.
@@ -11,7 +11,7 @@ export function fetchDraft(
   siteOrPageId: string,
   hubRequestOptions: IHubRequestOptions
 ) {
-  return _getDraftResourceName(siteOrPageId, hubRequestOptions).then(
+  return _getMostRecentDraftName(siteOrPageId, hubRequestOptions).then(
     draftResourceName => {
       let ret = null;
       if (draftResourceName) {

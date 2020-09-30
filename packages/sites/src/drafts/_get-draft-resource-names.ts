@@ -2,15 +2,16 @@ import { IHubRequestOptions } from "@esri/hub-common";
 import { getItemResources } from "@esri/arcgis-rest-portal";
 
 /**
- * Gets the name of the resource for the current draft
+ * Gets the name of the resource for the current draft.
+ * NOTE: There _should_ only be one, but sometimes it gets messed up.
  * @param siteOrPageId
  * @param hubRequestOptions
  * @private
  */
-export function _getDraftResourceName(
+export function _getDraftResourceNames(
   siteOrPageId: string,
   hubRequestOptions: IHubRequestOptions
-): Promise<string> {
+): Promise<string[]> {
   const draftResourceRegex = /^draft-\d+.json$/;
 
   return getItemResources(siteOrPageId, {
@@ -22,10 +23,6 @@ export function _getDraftResourceName(
       .map(({ resource: name }: { resource: string }) => name)
       .filter((name: string) => name.search(draftResourceRegex) !== -1);
 
-    let draftResourceName = "";
-    if (draftResourceNames.length) {
-      draftResourceName = draftResourceNames[0];
-    }
-    return draftResourceName;
+    return draftResourceNames;
   });
 }

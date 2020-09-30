@@ -1,10 +1,10 @@
 import { deleteDraft } from "../../src/drafts";
-import * as getDraftNameModule from "../../src/drafts/_get-draft-resource-name";
+import * as getDraftNameModule from "../../src/drafts/_get-draft-resource-names";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions, IModel } from "@esri/hub-common";
 
 describe("deleteDraft", () => {
-  const draftResourceName = "draft-121231231.json";
+  const draftResourceNames = ["draft-111111111.json", "draft-222222222.json"];
   const model = {
     item: {
       owner: "owner",
@@ -21,8 +21,8 @@ describe("deleteDraft", () => {
   beforeEach(function() {
     getDraftSpy = spyOn(
       getDraftNameModule,
-      "_getDraftResourceName"
-    ).and.returnValue(Promise.resolve(draftResourceName));
+      "_getDraftResourceNames"
+    ).and.returnValue(Promise.resolve(draftResourceNames));
     removeResourceSpy = spyOn(
       portalModule,
       "removeItemResource"
@@ -36,14 +36,21 @@ describe("deleteDraft", () => {
     expect(removeResourceSpy).toHaveBeenCalledWith({
       id: "my-id",
       owner: "owner",
-      resource: draftResourceName,
+      resource: draftResourceNames[0],
+      portal: ro.portal,
+      authentication: ro.authentication
+    });
+    expect(removeResourceSpy).toHaveBeenCalledWith({
+      id: "my-id",
+      owner: "owner",
+      resource: draftResourceNames[1],
       portal: ro.portal,
       authentication: ro.authentication
     });
   });
 
   it("does nothing if no draft", async () => {
-    getDraftSpy.and.returnValue(Promise.resolve(""));
+    getDraftSpy.and.returnValue(Promise.resolve([]));
 
     await deleteDraft(model, ro);
 

@@ -1,5 +1,5 @@
 import { fetchDraft } from "../../src/drafts/fetch-draft";
-import * as _getDraftResourceNameModule from "../../src/drafts/_get-draft-resource-name";
+import * as _getDraftResourceNameModule from "../../src/drafts/_get-most-recent-draft-name";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions } from "@esri/hub-common";
 
@@ -14,7 +14,7 @@ describe("fetchDraft", () => {
   it("returns draft if exists", async () => {
     const getDraftNameSpy = spyOn(
       _getDraftResourceNameModule,
-      "_getDraftResourceName"
+      "_getMostRecentDraftName"
     ).and.returnValue(Promise.resolve(draftName));
     const getResourceSpy = spyOn(
       portalModule,
@@ -36,7 +36,7 @@ describe("fetchDraft", () => {
   it("returns null if not exists", async () => {
     const getDraftNameSpy = spyOn(
       _getDraftResourceNameModule,
-      "_getDraftResourceName"
+      "_getMostRecentDraftName"
     ).and.returnValue(Promise.resolve(""));
     const getResourceSpy = spyOn(
       portalModule,
