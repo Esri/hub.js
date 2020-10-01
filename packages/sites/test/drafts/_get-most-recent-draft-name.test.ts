@@ -5,10 +5,11 @@ import { IHubRequestOptions, IModel } from "@esri/hub-common";
 
 describe("_getMostRecentDraftName", () => {
   const draftResourceNames = [
-    "draft-444444444.json",
-    "draft-222222222.json",
-    "draft-111111111.json",
-    "draft-333333333.json"
+    "draft-1601501122.json",
+    "draft-1599773122.json",
+    "draft-968621122.json",
+    "draft-968621122.json",
+    "draft-1599773123.json"
   ];
   const ro = ({
     portal: "my-portal",
@@ -25,7 +26,7 @@ describe("_getMostRecentDraftName", () => {
 
   it("resolves to the most recent draft name", async () => {
     const chk = await _getMostRecentDraftName("1234", ro);
-    expect(chk).toEqual("draft-111111111.json");
+    expect(chk).toEqual("draft-1601501122.json");
   });
 
   it("doesn't blow up with empty array", async () => {

@@ -1,4 +1,5 @@
 import { IHubRequestOptions } from "@esri/hub-common";
+import { getDraftDate } from "./get-draft-date";
 import { _getDraftResourceNames } from "./_get-draft-resource-names";
 
 /**
@@ -12,9 +13,20 @@ export function _getMostRecentDraftName(
   siteOrPageId: string,
   hubRequestOptions: IHubRequestOptions
 ): Promise<string> {
-  return (
-    _getDraftResourceNames(siteOrPageId, hubRequestOptions)
-      // Simple ascii sort works since timestamps are encoded into draft file names
-      .then(draftNames => !!draftNames.length && draftNames.sort()[0])
+  return _getDraftResourceNames(siteOrPageId, hubRequestOptions).then(
+    draftNames => {
+      if (!draftNames.length) return null;
+      const dates = draftNames.map(name => [name, getDraftDate(name)]);
+      dates.sort(([_, dateA], [__, dateB]) => {
+        if (dateB > dateA) {
+          return 1;
+        } else if (dateA > dateB) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+      return dates[0][0] as string;
+    }
   );
 }

@@ -14,3 +14,4 @@ export * from "./_get-most-recent-draft-name";
 export * from "./fetch-draft";
 export * from "./apply-draft";
 export * from "./fetch-and-apply-draft";
+export * from "./get-draft-date";

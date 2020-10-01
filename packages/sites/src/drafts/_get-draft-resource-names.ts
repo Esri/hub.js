@@ -1,5 +1,6 @@
 import { IHubRequestOptions } from "@esri/hub-common";
 import { getItemResources } from "@esri/arcgis-rest-portal";
+import { DRAFT_RESOURCE_REGEX } from "./_draft-resource-regex";
 
 /**
  * Gets the name of the resource for the current draft.
@@ -12,8 +13,6 @@ export function _getDraftResourceNames(
   siteOrPageId: string,
   hubRequestOptions: IHubRequestOptions
 ): Promise<string[]> {
-  const draftResourceRegex = /^draft-\d+.json$/;
-
   return getItemResources(siteOrPageId, {
     portal: hubRequestOptions.portal,
     authentication: hubRequestOptions.authentication
@@ -21,7 +20,7 @@ export function _getDraftResourceNames(
     // search through the resources to find the draft
     const draftResourceNames = response.resources
       .map(({ resource: name }: { resource: string }) => name)
-      .filter((name: string) => name.search(draftResourceRegex) !== -1);
+      .filter((name: string) => name.search(DRAFT_RESOURCE_REGEX) !== -1);
 
     return draftResourceNames;
   });
