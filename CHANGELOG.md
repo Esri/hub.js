@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.12.0] - October 1st 2020
+
+   * New Features
+      * **getDraftDate**: added a util for extracting the created date from a draft resource name [`02bcf954`](https://github.com/Esri/hub.js/commit/02bcf9547e6cf64b84497a45a1be9649c1a189d7)
+   * Bug Fixes
+      * **getContent**: now parses categories for private data and stores originals on `content.itemCategories`. [`5298969`](https://github.com/Esri/hub.js/commit/529896996887506da4e47b3c977d6cda6f3239a3)
+      * **site/page drafts**: site and page drafts are now smart enough to guard against an unexpected multiple-draft-resource scenario [`02bcf954`](https://github.com/Esri/hub.js/commit/02bcf9547e6cf64b84497a45a1be9649c1a189d7)
+   * Chores
+      * **getDraftResource**: now uses `getItemResource` from `rest-portal` [`c41dd7f4`](https://github.com/Esri/hub.js/commit/c41dd7f4d25ac45c8b725e3552dd20e9e78d74af)
+
 ## [6.11.0] - September 22nd 2020
 
 ### @esri/hub-surveys
