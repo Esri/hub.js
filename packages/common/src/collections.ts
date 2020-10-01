@@ -131,3 +131,14 @@ export const collections: { [key: string]: string[] } = {
   other,
   site
 };
+
+export const collectionsMap: { [key: string]: string } = Object.keys(
+  collections
+).reduce(
+  (target, collection) => {
+    const categories = collections[collection].map(cat => cat.toLowerCase());
+    categories.forEach(cat => (target[cat] = cat));
+    return target;
+  },
+  {} as { [key: string]: string }
+);
