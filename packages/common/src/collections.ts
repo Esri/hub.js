@@ -1,12 +1,15 @@
 const app: string[] = [
   "Application",
+  "City Engine Web Scene",
+  "CityEngine Web Scene",
   "Dashboard",
   "Insights Page",
   "Insights Workbook",
   "Operation View",
   "Web Mapping Application",
   "StoryMap",
-  "Web Experience"
+  "Web Experience",
+  "Urban Model"
 ];
 
 const dataset: string[] = [
@@ -54,8 +57,6 @@ const initiative: string[] = ["Hub Initiative"];
 const template: string[] = ["Hub Initiative Template", "Hub Solution Template"];
 
 const map: string[] = [
-  "City Engine Web Scene",
-  "CityEngine Web Scene",
   "Image Collection",
   "Image Service",
   "Map Service Layer",
