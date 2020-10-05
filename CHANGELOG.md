@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.11.1] - October 5th 2020
+
+* Bug Fixes
+ * **getContent**: now parses categories for private data and stores originals on `content.itemCategories`. [`5298969`](https://github.com/Esri/hub.js/commit/529896996887506da4e47b3c977d6cda6f3239a3)
+* Chores
+ * **getDraftResource**: now uses `getItemResource` from `rest-portal` [`c41dd7f4`](https://github.com/Esri/hub.js/commit/c41dd7f4d25ac45c8b725e3552dd20e9e78d74af)
+
 ## [6.11.0] - September 22nd 2020
 
 ### @esri/hub-surveys
@@ -66,13 +73,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/hub-content
 
 * Bug Fixes
-   * **normalizeItemType**: getType =&amp;amp;amp;amp;amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
+   * **normalizeItemType**: getType =&amp;amp;amp;amp;amp;amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
    * **collections**: add template collection, getHubItemType only accepts items [`57b783a2`](https://github.com/Esri/hub.js/commit/57b783a242b7a2747db0dbc7fce57155c56ad93f) [#347](https://github.com/Esri/hub.js/issues/347) [#354](https://github.com/Esri/hub.js/issues/354)
 
 ### @esri/hub-sites
 
 * Bug Fixes
-   * **normalizeItemType**: getType =&amp;amp;amp;amp;amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
+   * **normalizeItemType**: getType =&amp;amp;amp;amp;amp;amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
 
 ### Other Changes
 
@@ -1100,4 +1107,6 @@ Initial Release
 [6.9.1]: https://github.com/Esri/hub.js/compare/v6.9.0...v6.9.1 "v6.9.1"
 [6.10.0]: https://github.com/Esri/hub.js/compare/v6.9.1...v6.10.0 "v6.10.0"
 [6.11.0]: https://github.com/Esri/hub.js/compare/v6.10.0...v6.11.0 "v6.11.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v6.11.0...HEAD "Unreleased Changes"
+[6.12.0]: https://github.com/Esri/hub.js/compare/v6.11.0...v6.12.0 "v6.12.0"
+[6.11.1]: https://github.com/Esri/hub.js/compare/v6.12.0...v6.11.1 "v6.11.1"
+[HEAD]: https://github.com/Esri/hub.js/compare/v6.11.1...HEAD "Unreleased Changes"
