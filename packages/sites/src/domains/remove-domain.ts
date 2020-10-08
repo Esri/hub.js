@@ -20,7 +20,9 @@ export function removeDomain(
   }
   const headers = _getAuthHeader(hubRequestOptions);
   headers["Content-Type"] = "application/json";
-  const url = `${_getDomainServiceUrl(hubRequestOptions)}/${domainId}`;
+  const url = `${_getDomainServiceUrl(
+    hubRequestOptions.hubApiUrl
+  )}/${domainId}`;
   return fetch(url, { method: "DELETE", headers, mode: "cors" }).then(
     _checkStatusAndParseJson
   );

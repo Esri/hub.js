@@ -26,7 +26,7 @@ describe("updateDomain", function() {
       "_checkStatusAndParseJson"
     ).and.returnValue(Promise.resolve({ success: true }));
 
-    fetchMock.put(`end:utilities/domains/${domainEntry.id}`, {});
+    fetchMock.put(`end:api/v3/domains/${domainEntry.id}`, {});
 
     const res = await updateDomain(domainEntry, ro);
     expect(fetchMock.done()).toBeTruthy("fetch should have been called once");
@@ -41,7 +41,7 @@ describe("updateDomain", function() {
       "_checkStatusAndParseJson"
     ).and.returnValue(Promise.resolve({ success: true }));
 
-    fetchMock.put(`end:utilities/domains/${domainEntry.id}`, {});
+    fetchMock.put(`end:api/v3/domains/${domainEntry.id}`, {});
 
     expect(() => updateDomain(domainEntry, ro)).toThrowError();
 

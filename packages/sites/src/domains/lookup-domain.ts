@@ -18,7 +18,9 @@ export function lookupDomain(
   if (hubRequestOptions.isPortal) {
     return _lookupPortal(domain, hubRequestOptions);
   } else {
-    const url = `${_getDomainServiceUrl(hubRequestOptions)}/${domain}`;
+    const url = `${_getDomainServiceUrl(
+      hubRequestOptions.hubApiUrl
+    )}/${domain}`;
     const headers = _getAuthHeader(hubRequestOptions);
     return fetch(url, { method: "GET", headers, mode: "cors" }).then(
       _checkStatusAndParseJson
