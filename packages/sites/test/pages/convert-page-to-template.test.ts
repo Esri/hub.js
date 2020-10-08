@@ -55,6 +55,7 @@ describe("convertPageToTemplate", () => {
     expect(chk.itemId).toBe("page-id");
     expect(chk.assets).toBe(assets);
     expect(chk.dependencies).toEqual([
+      "cc2",
       "cc3",
       "0ee0b0a435db49969bbd93a7064a321c",
       "eb173fb9d0084c4bbd19b40ee186965f",

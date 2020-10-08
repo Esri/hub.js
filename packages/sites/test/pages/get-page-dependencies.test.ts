@@ -19,7 +19,7 @@ describe("getPageDependencies", () => {
     expect(r).toEqual(
       [
         // 'cc1',
-        // 'cc2',
+        "cc2",
         "cc3",
         "0ee0b0a435db49969bbd93a7064a321c",
         "eb173fb9d0084c4bbd19b40ee186965f",
