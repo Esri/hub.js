@@ -2,7 +2,8 @@
  * Apache-2.0 */
 
 import { request, IRequestOptions } from "@esri/arcgis-rest-request";
-import { getHubApiUrl } from "@esri/hub-common";
+import { getHubApiUrl, IHubRequestOptions } from "@esri/hub-common";
+import { _getDomainServiceUrl } from "./domains";
 
 /**
  * Get the domains associated with a Hub Site.
@@ -12,10 +13,9 @@ import { getHubApiUrl } from "@esri/hub-common";
  */
 export function getDomains(
   siteId: string,
-  requestOptions?: IRequestOptions
+  requestOptions?: IRequestOptions | IHubRequestOptions
 ): Promise<any> {
-  const apiUrl = getHubApiUrl(requestOptions);
-  const url = `${apiUrl}/api/v3/domains`;
+  const url = _getDomainServiceUrl(getHubApiUrl(requestOptions));
 
   const options: IRequestOptions = {
     params: { siteId },

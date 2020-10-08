@@ -16,7 +16,9 @@ export function getDomainsForSite(
   if (hubRequestOptions.isPortal) {
     return Promise.resolve([]);
   }
-  const url = `${_getDomainServiceUrl(hubRequestOptions)}?siteId=${siteId}`;
+  const url = `${_getDomainServiceUrl(
+    hubRequestOptions.hubApiUrl
+  )}?siteId=${siteId}`;
   const headers = _getAuthHeader(hubRequestOptions);
 
   return fetch(url, { method: "GET", headers, mode: "cors" })

@@ -20,7 +20,9 @@ export function updateDomain(
   }
   const headers = _getAuthHeader(hubRequestOptions);
   headers["Content-Type"] = "application/json";
-  const url = `${_getDomainServiceUrl(hubRequestOptions)}/${domainEntry.id}`;
+  const url = `${_getDomainServiceUrl(hubRequestOptions.hubApiUrl)}/${
+    domainEntry.id
+  }`;
   return fetch(url, {
     method: "PUT",
     headers,

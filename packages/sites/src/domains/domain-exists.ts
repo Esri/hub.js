@@ -19,7 +19,7 @@ export function domainExists(
     throw new Error(`domainExists is not available in ArcGIS Enterprise.`);
   }
   domain = stripProtocol(domain);
-  const url = `${_getDomainServiceUrl(hubRequestOptions)}/${domain}`;
+  const url = `${_getDomainServiceUrl(hubRequestOptions.hubApiUrl)}/${domain}`;
   const headers = _getAuthHeader(hubRequestOptions);
   return fetch(url, { method: "GET", headers, mode: "cors" }).then(
     response => response.status !== 404
