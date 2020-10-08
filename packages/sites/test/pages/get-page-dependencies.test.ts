@@ -15,7 +15,7 @@ describe("getPageDependencies", () => {
     const r = getPageDependencies(m);
     expect(r).toBeTruthy("should return a value");
     expect(Array.isArray(r)).toBeTruthy("should be an array");
-    expect(r.length).toBe(5, "should have 5 entries");
+    expect(r.length).toBe(6, "should have 6 entries");
     expect(r).toEqual(
       [
         // 'cc1',
