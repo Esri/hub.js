@@ -18,7 +18,7 @@ describe("lookupDomain", function() {
       Promise.resolve(portalDomainEntry)
     );
 
-    fetchMock.get(`end:utilities/domains/${domainId}`, {});
+    fetchMock.get(`end:api/v3/domains/${domainId}`, {});
 
     const res = await lookupDomain(domainId, ro);
 
@@ -35,7 +35,7 @@ describe("lookupDomain", function() {
       "_checkStatusAndParseJson"
     ).and.returnValue(Promise.resolve({ id: "domain-record-id" }));
 
-    fetchMock.get(`end:utilities/domains/${domainId}`, {});
+    fetchMock.get(`end:api/v3/domains/${domainId}`, {});
 
     const res = (await lookupDomain(domainId, ro)) as IDomainEntry;
 

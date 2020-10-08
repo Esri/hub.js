@@ -14,7 +14,7 @@ describe("removeDomain", function() {
       "_checkStatusAndParseJson"
     ).and.returnValue(Promise.resolve({ success: true }));
 
-    fetchMock.delete(`end:utilities/domains/${domainId}`, {});
+    fetchMock.delete(`end:api/v3/domains/${domainId}`, {});
 
     const res = await removeDomain(domainId, ro);
     expect(fetchMock.done()).toBeTruthy("fetch should have been called once");
@@ -29,7 +29,7 @@ describe("removeDomain", function() {
       "_checkStatusAndParseJson"
     ).and.returnValue(Promise.resolve({ success: true }));
 
-    fetchMock.put(`end:utilities/domains/${domainId}`, {});
+    fetchMock.put(`end:api/v3/domains/${domainId}`, {});
 
     expect(() => removeDomain(domainId, ro)).toThrowError();
 

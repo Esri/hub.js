@@ -84,3 +84,6 @@ packages/*/debug/
 
 ## for john to poke at
 test.html
+
+.idea/
+.vscode/

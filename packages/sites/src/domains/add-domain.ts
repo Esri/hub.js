@@ -20,7 +20,7 @@ export function addDomain(
   }
   const headers = _getAuthHeader(hubRequestOptions);
   headers["Content-Type"] = "application/json";
-  const url = `${_getDomainServiceUrl(hubRequestOptions)}?force=true`; // Use the force...
+  const url = `${_getDomainServiceUrl(hubRequestOptions.hubApiUrl)}`;
   return fetch(url, {
     method: "POST",
     headers,

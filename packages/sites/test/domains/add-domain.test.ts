@@ -26,7 +26,7 @@ describe("addDomain", function() {
       "_checkStatusAndParseJson"
     ).and.returnValue(Promise.resolve({ success: true }));
 
-    fetchMock.post("end:utilities/domains?force=true", {});
+    fetchMock.post("end:api/v3/domains", {});
 
     const res = await addDomain(domainEntry, ro);
     expect(fetchMock.done()).toBeTruthy("fetch should have been called once");
@@ -41,7 +41,7 @@ describe("addDomain", function() {
       "_checkStatusAndParseJson"
     ).and.returnValue(Promise.resolve({ success: true }));
 
-    fetchMock.post("end:utilities/domains?force=true", {});
+    fetchMock.post("end:api/v3/domains", {});
 
     expect(() => addDomain(domainEntry, ro)).toThrowError();
 
