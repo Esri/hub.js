@@ -15,7 +15,7 @@ export function getDomains(
   requestOptions?: IRequestOptions
 ): Promise<any> {
   const apiUrl = getHubApiUrl(requestOptions);
-  const url = `${apiUrl}/utilities/domains`;
+  const url = `${apiUrl}/api/v3/domains`;
 
   const options: IRequestOptions = {
     params: { siteId },

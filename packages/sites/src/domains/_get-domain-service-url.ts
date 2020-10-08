@@ -7,5 +7,5 @@ import { IHubRequestOptions } from "@esri/hub-common";
  */
 export function _getDomainServiceUrl(hubRequestOptions: IHubRequestOptions) {
   const base = hubRequestOptions.hubApiUrl || "https://hub.arcgis.com";
-  return `${base}/utilities/domains`;
+  return `${base}/api/v3/domains`;
 }
