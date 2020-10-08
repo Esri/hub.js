@@ -8,7 +8,7 @@ describe("domainExists", function() {
   it("returns false and true correctly", async function() {
     const ro = { isPortal: false } as IHubRequestOptions;
 
-    fetchMock.get(`end:utilities/domains/${domainId}`, { status: 200 });
+    fetchMock.get(`end:api/v3/domains/${domainId}`, { status: 200 });
 
     const res = await domainExists(domainId, ro);
 
@@ -17,7 +17,7 @@ describe("domainExists", function() {
 
     fetchMock.resetHistory();
     fetchMock.get(
-      `end:utilities/domains/${domainId}`,
+      `end:api/v3/domains/${domainId}`,
       { status: 404 },
       { overwriteRoutes: true }
     );
@@ -31,7 +31,7 @@ describe("domainExists", function() {
   it("throws error on portal", async function() {
     const ro = { isPortal: true } as IHubRequestOptions;
 
-    fetchMock.get(`end:utilities/domains/${domainId}`, {});
+    fetchMock.get(`end:api/v3/domains/${domainId}`, {});
 
     expect(() => domainExists(domainId, ro)).toThrowError();
 
