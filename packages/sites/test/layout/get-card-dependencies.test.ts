@@ -74,6 +74,19 @@ describe("extractAssets", function() {
     expect(getCardDependencies(card)).toEqual(["component.settings.ids value"]);
   });
 
+  it("summary-statistic-card: should get feature service id", function() {
+    const card = {
+      component: {
+        name: "summary-statistic-card",
+        settings: {
+          itemId: "the-fs-id"
+        }
+      }
+    };
+
+    expect(getCardDependencies(card)).toEqual(["the-fs-id"]);
+  });
+
   it("webmap-card: no values at component.settings.webmap should return empty array", function() {
     const card = {
       component: {
