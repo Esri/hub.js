@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IItem, getItem } from "@esri/arcgis-rest-portal";
+import { IItem, getItem, getItemGroups } from "@esri/arcgis-rest-portal";
 import {
   HubType,
   IHubContent,
@@ -16,9 +16,60 @@ import {
   getItemDataUrl,
   getItemThumbnailUrl,
   cloneObject,
-  includes
+  includes,
+  failSafe
 } from "@esri/hub-common";
 import { getContentMetadata } from "./metadata";
+
+function getGroupIds(
+  itemId: string,
+  requestOptions: IHubRequestOptions
+): Promise<string[]> {
+  return getItemGroups(itemId, requestOptions).then(response => {
+    const { admin, member, other } = response;
+    return [...admin, ...member, ...other].map(group => group.id);
+  });
+}
+
+// simultaneously execute multiple async requests to populate content properties
+// returns a hash of all the resolved property values that also has
+// an array of property names for which the request failed
+// NOTE: assumes each request takes only the item id and request options
+function fetchProperties(
+  propertyRequests: {
+    [key: string]: (
+      itemId: string,
+      requestOptions: IHubRequestOptions
+    ) => Promise<unknown>;
+  },
+  itemId: string,
+  requestOptions: IHubRequestOptions
+): Promise<{ [key: string]: unknown }> {
+  const propertyNames = Object.keys(propertyRequests);
+  // ideally we'd be able to use hashSettled(), but that's not standard
+  // so instead return the property name to indicate that the request failed
+  const requests = propertyNames.map(propertyName =>
+    failSafe(propertyRequests[propertyName], propertyName)(
+      itemId,
+      requestOptions
+    )
+  );
+  return Promise.all(requests).then(values => {
+    return values.reduce(
+      (properties, value, i) => {
+        const propertyName = propertyNames[i];
+        if (value === propertyName) {
+          // capture that the request failed
+          properties.errors.push(propertyName);
+        } else {
+          properties[propertyName] = value;
+        }
+        return properties;
+      },
+      { errors: [] } as { [key: string]: unknown }
+    );
+  });
+}
 
 function itemExtentToBoundary(extent: IBBox): IHubGeography {
   return (
@@ -160,17 +211,15 @@ export function getContentFromPortal(
   return getItem(itemId, requestOptions).then(item => {
     const content = withPortalUrls(itemToContent(item), requestOptions);
     // TODO: provide some API to let consumers opt out of making these additional requests
-    return getContentMetadata(itemId, requestOptions)
-      .then(metadata => {
-        content.metadata = metadata;
-        // TODO: fetch remaining content properties (i.e. recordCount, etc) based on hubType. Examples:
-        // - if hubType is 'dataset', then fetch recordCount
-        // - if hubType is 'document', do nothing?
-        return content;
-      })
-      .catch(() => {
-        // TODO: update the content's errors
-        return content;
-      });
+    return fetchProperties(
+      {
+        groupIds: getGroupIds,
+        metadata: getContentMetadata
+      },
+      content.id,
+      requestOptions
+    ).then(properties => {
+      return { ...content, ...properties };
+    });
   });
 }

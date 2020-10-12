@@ -286,6 +286,8 @@ export interface IHubContent extends IHubResource, IItem {
   slug?: string;
   /** URL of the Portal API data endpoint for the resource */
   portalDataUrl?: string;
+  /** The ids of any groups that the item belongs to */
+  groupIds?: string[];
 }
 
 interface IActionLink {

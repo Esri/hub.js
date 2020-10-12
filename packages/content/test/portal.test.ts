@@ -1,4 +1,5 @@
 import * as fetchMock from "fetch-mock";
+import * as arcgisRestPortal from "@esri/arcgis-rest-portal";
 import { IItem } from "@esri/arcgis-rest-portal";
 import { IEnvelope } from "@esri/arcgis-rest-types";
 import { IHubRequestOptions, cloneObject, IHubContent } from "@esri/hub-common";
@@ -130,6 +131,13 @@ describe("parse item categories", () => {
   });
 });
 describe("get content from portal", () => {
+  // emulate the get groups response
+  const mockItemGroups: any = {
+    admin: [],
+    member: [{ id: "memberGroupId" }],
+    other: []
+  };
+  let getItemGroupsSpy: jasmine.Spy;
   let requestOpts: IHubRequestOptions;
   beforeEach(() => {
     requestOpts = {
@@ -147,6 +155,10 @@ describe("get content from portal", () => {
   afterEach(fetchMock.restore);
   it("should fetch a portal item and return content w/o metadata", done => {
     fetchMock.once("*", itemJson);
+    // emulate successful item groups response
+    getItemGroupsSpy = spyOn(arcgisRestPortal, "getItemGroups").and.returnValue(
+      Promise.resolve(mockItemGroups)
+    );
     // emulate no metadata exists for this item
     const getContentMetadataSpy = spyOn(
       metadataModule,
@@ -160,15 +172,24 @@ describe("get content from portal", () => {
       expect(url).toBe(
         "https://vader.maps.arcgis.com/sharing/rest/content/items/7a153563b0c74f7eb2b3eae8a66f2fbb?f=json&token=fake-token"
       );
-      // verify that we attempted to fetch the metadata
-      expect(getContentMetadataSpy.calls.argsFor(0)[0]).toBe(id);
+      // validate that the item properties were set
       validateContentFromPortal(content, item);
+      // verify that we successfully fetch the groupIds
+      expect(getItemGroupsSpy.calls.argsFor(0)[0]).toBe(id);
+      expect(content.groupIds).toEqual(["memberGroupId"]);
+      // verify that we failed to fetch the metadata
+      expect(getContentMetadataSpy.calls.argsFor(0)[0]).toBe(id);
+      expect(content.errors).toEqual(["metadata"]);
       done();
     });
   });
   it("should fetch a portal item and return content w/ metadata", done => {
     fetchMock.once("*", itemJson);
-    // emulate no metadata exists for this item
+    // emulate successful item groups response
+    getItemGroupsSpy = spyOn(arcgisRestPortal, "getItemGroups").and.returnValue(
+      Promise.resolve(mockItemGroups)
+    );
+    // emulate that metadata exists for this item
     const mockMetadata = { Esri: { CreaDate: 20200305 } };
     const getContentMetadataSpy = spyOn(
       metadataModule,
@@ -182,10 +203,15 @@ describe("get content from portal", () => {
       expect(url).toBe(
         "https://vader.maps.arcgis.com/sharing/rest/content/items/7a153563b0c74f7eb2b3eae8a66f2fbb?f=json&token=fake-token"
       );
-      // verify that we attempted to fetch the metadata
+      // validate that the item properties were set
+      validateContentFromPortal(content, item);
+      // verify that we successfully fetch the groupIds
+      expect(getItemGroupsSpy.calls.argsFor(0)[0]).toBe(id);
+      expect(content.groupIds).toEqual(["memberGroupId"]);
+      // verify that we successfully fetched the metadata
       expect(getContentMetadataSpy.calls.argsFor(0)[0]).toBe(id);
       expect(content.metadata).toEqual(mockMetadata);
-      validateContentFromPortal(content, item);
+      expect(content.errors).toEqual([]);
       done();
     });
   });
