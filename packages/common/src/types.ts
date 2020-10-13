@@ -229,6 +229,15 @@ export interface IHubResource {
 }
 
 /**
+ * Information about an error that occurred while indexing or composing content
+ */
+export interface IEnrichmentErrorInfo {
+  type: "HTTP" | "AGO" | "Other";
+  statusCode?: number;
+  message?: string;
+}
+
+/**
  * Properties that are common to all Hub content types (dataset, map, document, etc)
  *
  * @export
@@ -288,6 +297,11 @@ export interface IHubContent extends IHubResource, IItem {
   portalDataUrl?: string;
   /** The ids of any groups that the item belongs to */
   groupIds?: string[];
+  /**
+   * Any errors encountered when indexing or composing the content
+   * see https://github.com/ArcGIS/hub-indexer/blob/dc6146c3b7b4007b530f8e6357a9c36db59a6996/docs/errors.md#response-formatting-for-errors
+   */
+  errors?: IEnrichmentErrorInfo[];
 }
 
 interface IActionLink {

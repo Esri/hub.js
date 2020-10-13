@@ -4,6 +4,7 @@
 import { IItem, getItem, getItemGroups } from "@esri/arcgis-rest-portal";
 import {
   HubType,
+  IEnrichmentErrorInfo,
   IHubContent,
   IHubGeography,
   IHubRequestOptions,
@@ -16,8 +17,7 @@ import {
   getItemDataUrl,
   getItemThumbnailUrl,
   cloneObject,
-  includes,
-  failSafe
+  includes
 } from "@esri/hub-common";
 import { getContentMetadata } from "./metadata";
 
@@ -45,29 +45,34 @@ function fetchProperties(
   itemId: string,
   requestOptions: IHubRequestOptions
 ): Promise<{ [key: string]: unknown }> {
+  const errors: IEnrichmentErrorInfo[] = [];
   const propertyNames = Object.keys(propertyRequests);
-  // ideally we'd be able to use hashSettled(), but that's not standard
-  // so instead return the property name to indicate that the request failed
-  const requests = propertyNames.map(propertyName =>
-    failSafe(propertyRequests[propertyName], propertyName)(
-      itemId,
-      requestOptions
-    )
-  );
+  const requests = propertyNames.map(propertyName => {
+    // initiate the request and return the promise
+    const request = propertyRequests[propertyName];
+    return request(itemId, requestOptions).catch(e => {
+      // there was an error w/ the request, capture it
+      const message = (e && e.message) || e;
+      errors.push({
+        // NOTE: for now we just return the message and type "Other"
+        // but we could later introspect for HTTP or AGO errors
+        // and/or return the status code if available
+        type: "Other",
+        message
+      });
+      // and then set this property to null
+      return null;
+    });
+  });
   return Promise.all(requests).then(values => {
-    return values.reduce(
-      (properties, value, i) => {
-        const propertyName = propertyNames[i];
-        if (value === propertyName) {
-          // capture that the request failed
-          properties.errors.push(propertyName);
-        } else {
-          properties[propertyName] = value;
-        }
-        return properties;
-      },
-      { errors: [] } as { [key: string]: unknown }
-    );
+    // include any errors in the returned properties
+    const properties: { [key: string]: unknown } = { errors };
+    // populate the remaining property values
+    values.forEach((value, i) => {
+      const name = propertyNames[i];
+      properties[name] = value;
+    });
+    return properties;
   });
 }
 

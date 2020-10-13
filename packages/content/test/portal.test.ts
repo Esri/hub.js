@@ -160,10 +160,11 @@ describe("get content from portal", () => {
       Promise.resolve(mockItemGroups)
     );
     // emulate no metadata exists for this item
+    const message = "Some error";
     const getContentMetadataSpy = spyOn(
       metadataModule,
       "getContentMetadata"
-    ).and.returnValue(Promise.reject());
+    ).and.returnValue(Promise.reject(message));
     const item = itemJson as IItem;
     const id = item.id;
     getContentFromPortal(id, requestOpts).then(content => {
@@ -179,7 +180,7 @@ describe("get content from portal", () => {
       expect(content.groupIds).toEqual(["memberGroupId"]);
       // verify that we failed to fetch the metadata
       expect(getContentMetadataSpy.calls.argsFor(0)[0]).toBe(id);
-      expect(content.errors).toEqual(["metadata"]);
+      expect(content.errors).toEqual([{ type: "Other", message }]);
       done();
     });
   });
