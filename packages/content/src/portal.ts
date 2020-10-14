@@ -1,9 +1,10 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IItem, getItem } from "@esri/arcgis-rest-portal";
+import { IItem, getItem, getItemGroups } from "@esri/arcgis-rest-portal";
 import {
   HubType,
+  IEnrichmentErrorInfo,
   IHubContent,
   IHubGeography,
   IHubRequestOptions,
@@ -19,6 +20,61 @@ import {
   includes
 } from "@esri/hub-common";
 import { getContentMetadata } from "./metadata";
+
+function getGroupIds(
+  itemId: string,
+  requestOptions: IHubRequestOptions
+): Promise<string[]> {
+  return getItemGroups(itemId, requestOptions).then(response => {
+    const { admin, member, other } = response;
+    return [...admin, ...member, ...other].map(group => group.id);
+  });
+}
+
+// simultaneously execute multiple async requests to populate content properties
+// returns a hash of all the resolved property values that also has
+// an array of property names for which the request failed
+// NOTE: assumes each request takes only the item id and request options
+function fetchProperties(
+  propertyRequests: {
+    [key: string]: (
+      itemId: string,
+      requestOptions: IHubRequestOptions
+    ) => Promise<unknown>;
+  },
+  itemId: string,
+  requestOptions: IHubRequestOptions
+): Promise<{ [key: string]: unknown }> {
+  const errors: IEnrichmentErrorInfo[] = [];
+  const propertyNames = Object.keys(propertyRequests);
+  const requests = propertyNames.map(propertyName => {
+    // initiate the request and return the promise
+    const request = propertyRequests[propertyName];
+    return request(itemId, requestOptions).catch(e => {
+      // there was an error w/ the request, capture it
+      const message = (e && e.message) || e;
+      errors.push({
+        // NOTE: for now we just return the message and type "Other"
+        // but we could later introspect for HTTP or AGO errors
+        // and/or return the status code if available
+        type: "Other",
+        message
+      });
+      // and then set this property to null
+      return null;
+    });
+  });
+  return Promise.all(requests).then(values => {
+    // include any errors in the returned properties
+    const properties: { [key: string]: unknown } = { errors };
+    // populate the remaining property values
+    values.forEach((value, i) => {
+      const name = propertyNames[i];
+      properties[name] = value;
+    });
+    return properties;
+  });
+}
 
 function itemExtentToBoundary(extent: IBBox): IHubGeography {
   return (
@@ -160,17 +216,15 @@ export function getContentFromPortal(
   return getItem(itemId, requestOptions).then(item => {
     const content = withPortalUrls(itemToContent(item), requestOptions);
     // TODO: provide some API to let consumers opt out of making these additional requests
-    return getContentMetadata(itemId, requestOptions)
-      .then(metadata => {
-        content.metadata = metadata;
-        // TODO: fetch remaining content properties (i.e. recordCount, etc) based on hubType. Examples:
-        // - if hubType is 'dataset', then fetch recordCount
-        // - if hubType is 'document', do nothing?
-        return content;
-      })
-      .catch(() => {
-        // TODO: update the content's errors
-        return content;
-      });
+    return fetchProperties(
+      {
+        groupIds: getGroupIds,
+        metadata: getContentMetadata
+      },
+      content.id,
+      requestOptions
+    ).then(properties => {
+      return { ...content, ...properties };
+    });
   });
 }
