@@ -10,6 +10,8 @@ function getPaths(componentName: string) {
       return ["component.settings.surveyId"];
     case "app-card":
       return ["component.settings.itemId"];
+    case "summary-statistic-card":
+      return ["component.settings.itemId"];
     case "items/gallery-card":
       return ["component.settings.ids"];
     default:
