@@ -83,7 +83,8 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
     metadata,
     modifiedProvenance,
     slug,
-    searchDescription
+    searchDescription,
+    groupIds
     // dataset enrichments
     // recordCount
     // TODO: fields, geometryType, layer?, server?, as needed
@@ -91,6 +92,7 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
   content.boundary = boundary;
   content.metadata = metadata;
   content.slug = slug;
+  content.groupIds = groupIds;
   //
   if (searchDescription) {
     // overwrite default summary (from snippet) w/ search description
