@@ -299,9 +299,16 @@ export interface IHubContent extends IHubResource, IItem {
   groupIds?: string[];
   /**
    * Any errors encountered when indexing or composing the content
-   * see https://github.com/ArcGIS/hub-indexer/blob/dc6146c3b7b4007b530f8e6357a9c36db59a6996/docs/errors.md#response-formatting-for-errors
+   * see https://github.com/ArcGIS/hub-indexer/blob/master/docs/errors.md#response-formatting-for-errors
    */
   errors?: IEnrichmentErrorInfo[];
+  /**
+   * The item data associated w/ most types of content
+   * the format of the content depends on the item type
+   */
+  data?: {
+    [propName: string]: any;
+  };
 }
 
 interface IActionLink {
