@@ -3,7 +3,7 @@
 
 import { getItemData } from "@esri/arcgis-rest-portal";
 import { request } from "@esri/arcgis-rest-request";
-import { HubType, IHubContent } from "@esri/hub-common";
+import { HubType, IHubContent, includes } from "@esri/hub-common";
 import { IGetContentOptions, getContentFromHub } from "./hub";
 import {
   getContentFromPortal,
@@ -14,7 +14,7 @@ import { isSlug, parseDatasetId } from "./slugs";
 
 function shouldFetchData(hubType: HubType) {
   // TODO: we probably want to fetch data by default for other types of data
-  return hubType === "map";
+  return includes(['map', 'template'], hubType);
 }
 
 /**
