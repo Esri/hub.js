@@ -39,9 +39,9 @@ export interface IContentPropertyRequests {
 }
 
 /**
- * simultaneously execute multiple async requests to populate content properties
- * returns a hash of all the resolved property values that also has
- * an array of property names for which the request failed
+ * Simultaneously execute multiple async requests to fetch content properties
+ * returns a new content object with the resolved property values merged in.
+ * Any errors from failed requests will be included in the errors array
  * NOTE: assumes each request takes only the item id and request options
  * @private
  */

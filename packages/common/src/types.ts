@@ -304,7 +304,7 @@ export interface IHubContent extends IHubResource, IItem {
   errors?: IEnrichmentErrorInfo[];
   /**
    * The item data associated w/ most types of content
-   * the format of the content depends on the item type
+   * the format of the data depends on the item type
    */
   data?: {
     [propName: string]: any;
