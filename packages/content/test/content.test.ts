@@ -3,7 +3,6 @@ import { IHubRequestOptions } from "@esri/hub-common";
 import { comingSoon, getContent } from "../src/index";
 import * as portalModule from "../src/portal";
 import * as hubModule from "../src/hub";
-import * as commonModule from "@esri/hub-common";
 import { mockUserSession } from "./test-helpers/fake-user-session";
 
 describe("get content", () => {
@@ -30,16 +29,29 @@ describe("get content", () => {
     describe("with an id", () => {
       const id = "7a153563b0c74f7eb2b3eae8a66f2fbb";
       it("should call getContentFromHub", done => {
+        // emulating map content forces additional fetch for item data
+        const hubType = "map";
         const getContentFromHubSpy = spyOn(
           hubModule,
           "getContentFromHub"
-        ).and.returnValue(Promise.resolve({}));
+        ).and.returnValue(Promise.resolve({ id, hubType }));
+        const fetchContentPropertiesSpy = spyOn(
+          portalModule,
+          "fetchContentProperties"
+        ).and.returnValue(Promise.resolve({ id, hubType, data: {} }));
         getContent(id, requestOpts).then(() => {
           expect(getContentFromHubSpy.calls.count()).toBe(1);
           expect(getContentFromHubSpy.calls.argsFor(0)).toEqual([
             id,
             requestOpts
           ]);
+          expect(fetchContentPropertiesSpy.calls.count()).toBe(1);
+          const fetchContentPropertiesArgs = fetchContentPropertiesSpy.calls.argsFor(
+            0
+          );
+          expect(typeof fetchContentPropertiesArgs[0].data).toBe("function");
+          expect(fetchContentPropertiesArgs[1].id).toBe(id);
+          expect(fetchContentPropertiesArgs[2]).toBe(requestOpts);
           done();
         });
       });

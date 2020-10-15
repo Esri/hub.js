@@ -1,11 +1,21 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { getItemData } from "@esri/arcgis-rest-portal";
 import { request } from "@esri/arcgis-rest-request";
-import { IHubContent } from "@esri/hub-common";
+import { HubType, IHubContent } from "@esri/hub-common";
 import { IGetContentOptions, getContentFromHub } from "./hub";
-import { getContentFromPortal } from "./portal";
+import {
+  getContentFromPortal,
+  fetchContentProperties,
+  IContentPropertyRequests
+} from "./portal";
 import { isSlug, parseDatasetId } from "./slugs";
+
+function shouldFetchData(hubType: HubType) {
+  // TODO: we probably want to fetch data by default for other types of data
+  return hubType === "map";
+}
 
 /**
  * Fetch content using either the Hub API or the ArcGIS REST API
@@ -17,11 +27,13 @@ export function getContent(
   identifier: string,
   options?: IGetContentOptions
 ): Promise<IHubContent> {
+  // first fetch and format the content from the Hub or portal API
+  let getContentPromise: Promise<IHubContent>;
   if (options && options.isPortal) {
     const { itemId } = parseDatasetId(identifier);
-    return getContentFromPortal(itemId, options);
+    getContentPromise = getContentFromPortal(itemId, options);
   } else {
-    return getContentFromHub(identifier, options).catch(e => {
+    getContentPromise = getContentFromHub(identifier, options).catch(e => {
       // dataset is not in index (i.e. might be a private item)
       if (!isSlug(identifier)) {
         // try fetching from portal instead
@@ -30,6 +42,23 @@ export function getContent(
       return Promise.reject(e);
     });
   }
+  return getContentPromise.then(content => {
+    // fetch additional properties based on content type
+    const propertiesToFetch: IContentPropertyRequests = {};
+    if (shouldFetchData(content.hubType)) {
+      propertiesToFetch.data = getItemData;
+    }
+    if (Object.keys(propertiesToFetch).length === 0) {
+      return content;
+    }
+    return fetchContentProperties(
+      {
+        data: getItemData
+      },
+      content,
+      options
+    );
+  });
 }
 
 // TODO: remove this next breaking version

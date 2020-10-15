@@ -31,26 +31,31 @@ function getGroupIds(
   });
 }
 
-// simultaneously execute multiple async requests to populate content properties
-// returns a hash of all the resolved property values that also has
-// an array of property names for which the request failed
-// NOTE: assumes each request takes only the item id and request options
-function fetchProperties(
-  propertyRequests: {
-    [key: string]: (
-      itemId: string,
-      requestOptions: IHubRequestOptions
-    ) => Promise<unknown>;
-  },
-  itemId: string,
+export interface IContentPropertyRequests {
+  [key: string]: (
+    itemId: string,
+    requestOptions: IHubRequestOptions
+  ) => Promise<unknown>;
+}
+
+/**
+ * Simultaneously execute multiple async requests to fetch content properties
+ * returns a new content object with the resolved property values merged in.
+ * Any errors from failed requests will be included in the errors array
+ * NOTE: assumes each request takes only the item id and request options
+ * @private
+ */
+export function fetchContentProperties(
+  propertyRequests: IContentPropertyRequests,
+  content: IHubContent,
   requestOptions: IHubRequestOptions
-): Promise<{ [key: string]: unknown }> {
+): Promise<IHubContent> {
   const errors: IEnrichmentErrorInfo[] = [];
   const propertyNames = Object.keys(propertyRequests);
   const requests = propertyNames.map(propertyName => {
     // initiate the request and return the promise
     const request = propertyRequests[propertyName];
-    return request(itemId, requestOptions).catch(e => {
+    return request(content.id, requestOptions).catch(e => {
       // there was an error w/ the request, capture it
       const message = (e && e.message) || e;
       errors.push({
@@ -65,14 +70,18 @@ function fetchProperties(
     });
   });
   return Promise.all(requests).then(values => {
-    // include any errors in the returned properties
-    const properties: { [key: string]: unknown } = { errors };
-    // populate the remaining property values
+    // return a new content with properties and errors merged in
+    const properties: { [key: string]: unknown } = {};
     values.forEach((value, i) => {
       const name = propertyNames[i];
       properties[name] = value;
     });
-    return properties;
+    return {
+      ...content,
+      ...properties,
+      // include any previous errors (if any)
+      errors: [...errors, ...(content.errors || [])]
+    };
   });
 }
 
@@ -216,15 +225,13 @@ export function getContentFromPortal(
   return getItem(itemId, requestOptions).then(item => {
     const content = withPortalUrls(itemToContent(item), requestOptions);
     // TODO: provide some API to let consumers opt out of making these additional requests
-    return fetchProperties(
+    return fetchContentProperties(
       {
         groupIds: getGroupIds,
         metadata: getContentMetadata
       },
-      content.id,
+      content,
       requestOptions
-    ).then(properties => {
-      return { ...content, ...properties };
-    });
+    );
   });
 }
