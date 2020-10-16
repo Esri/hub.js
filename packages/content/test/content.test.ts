@@ -32,10 +32,9 @@ describe("get content", () => {
       it("should call getContentFromHub", done => {
         const contentFromHub = {
           id,
-          // emulating map content forces additional fetch for item data
-          hubType: "map",
           // emulating a hub created web map w/o orgId
           // will force additional fetch for owner's orgId
+          hubType: "map",
           type: "Web Map",
           typeKeywords: ["ArcGIS Hub"]
         };
@@ -43,11 +42,7 @@ describe("get content", () => {
           hubModule,
           "getContentFromHub"
         ).and.returnValue(Promise.resolve(contentFromHub));
-        const itemData = { foo: "bar" };
-        const getItemDataSpy = spyOn(
-          arcgisRestPortal,
-          "getItemData"
-        ).and.returnValue(Promise.resolve(itemData));
+        const getItemDataSpy = spyOn(arcgisRestPortal, "getItemData");
         const orgId = "ownerOrgId";
         const getUserSpy = spyOn(arcgisRestPortal, "getUser").and.returnValue(
           Promise.resolve({ orgId })
@@ -58,9 +53,8 @@ describe("get content", () => {
             id,
             requestOpts
           ]);
-          // expect it to have fetched and set the item data
-          expect(getItemDataSpy.calls.count()).toBe(1);
-          expect(content.data).toBe(itemData);
+          // expect it not to have fetched item data
+          expect(getItemDataSpy.calls.count()).toBe(0);
           // expect it to have fetched and set the orgId
           expect(getUserSpy.calls.count()).toBe(1);
           expect(content.orgId).toBe(orgId);
@@ -116,13 +110,8 @@ describe("get content", () => {
       const id = "foo";
       const contentFromPortal = {
         id,
-        // emulating map content forces additional fetch for item data
-        hubType: "map",
-        // emulating a hub created web map w/ an orgId
-        // will skip additional fetch for owner's orgId
-        orgId: "orgId",
-        type: "Web Map",
-        typeKeywords: ["ArcGIS Hub"]
+        // emulating template content forces additional fetch for item data
+        hubType: "template"
       };
       const itemData = { foo: "bar" };
       const getItemDataSpy = spyOn(
@@ -145,7 +134,6 @@ describe("get content", () => {
         expect(content.data).toBe(itemData);
         // expect it to not have fetched the orgId
         expect(getUserSpy.calls.count()).toBe(0);
-        expect(content.orgId).toBe(contentFromPortal.orgId);
         done();
       });
     });
