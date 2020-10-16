@@ -6,9 +6,8 @@ import {
   hubApiRequest
 } from "@esri/hub-common";
 import { itemToContent, withPortalUrls } from "./portal";
-import { isSlug, addContextToSlug } from "./slugs";
+import { isSlug, addContextToSlug, parseDatasetId } from "./slugs";
 import { cloneObject } from "@esri/hub-common";
-import { parseDatasetId } from "./slugs";
 
 export interface IGetContentOptions extends IHubRequestOptions {
   siteOrgKey?: string;

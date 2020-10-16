@@ -309,6 +309,11 @@ export interface IHubContent extends IHubResource, IItem {
   data?: {
     [propName: string]: any;
   };
+  // NOTE: this is usually(? always?) returned by the item endpoint
+  // but it's not on IItem, possibly b/c it's not listed here:
+  // https://developers.arcgis.com/rest/users-groups-and-items/item.htm
+  /** The owner's organization id */
+  orgId?: string;
 }
 
 interface IActionLink {

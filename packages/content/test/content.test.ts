@@ -1,4 +1,5 @@
 import * as fetchMock from "fetch-mock";
+import * as arcgisRestPortal from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions } from "@esri/hub-common";
 import { comingSoon, getContent } from "../src/index";
 import * as portalModule from "../src/portal";
@@ -29,29 +30,40 @@ describe("get content", () => {
     describe("with an id", () => {
       const id = "7a153563b0c74f7eb2b3eae8a66f2fbb";
       it("should call getContentFromHub", done => {
-        // emulating map content forces additional fetch for item data
-        const hubType = "map";
+        const contentFromHub = {
+          id,
+          // emulating map content forces additional fetch for item data
+          hubType: "map",
+          // emulating a hub created web map w/o orgId
+          // will force additional fetch for owner's orgId
+          type: "Web Map",
+          typeKeywords: ["ArcGIS Hub"]
+        };
         const getContentFromHubSpy = spyOn(
           hubModule,
           "getContentFromHub"
-        ).and.returnValue(Promise.resolve({ id, hubType }));
-        const fetchContentPropertiesSpy = spyOn(
-          portalModule,
-          "fetchContentProperties"
-        ).and.returnValue(Promise.resolve({ id, hubType, data: {} }));
-        getContent(id, requestOpts).then(() => {
+        ).and.returnValue(Promise.resolve(contentFromHub));
+        const itemData = { foo: "bar" };
+        const getItemDataSpy = spyOn(
+          arcgisRestPortal,
+          "getItemData"
+        ).and.returnValue(Promise.resolve(itemData));
+        const orgId = "ownerOrgId";
+        const getUserSpy = spyOn(arcgisRestPortal, "getUser").and.returnValue(
+          Promise.resolve({ orgId })
+        );
+        getContent(id, requestOpts).then(content => {
           expect(getContentFromHubSpy.calls.count()).toBe(1);
           expect(getContentFromHubSpy.calls.argsFor(0)).toEqual([
             id,
             requestOpts
           ]);
-          expect(fetchContentPropertiesSpy.calls.count()).toBe(1);
-          const fetchContentPropertiesArgs = fetchContentPropertiesSpy.calls.argsFor(
-            0
-          );
-          expect(typeof fetchContentPropertiesArgs[0].data).toBe("function");
-          expect(fetchContentPropertiesArgs[1].id).toBe(id);
-          expect(fetchContentPropertiesArgs[2]).toBe(requestOpts);
+          // expect it to have fetched and set the item data
+          expect(getItemDataSpy.calls.count()).toBe(1);
+          expect(content.data).toBe(itemData);
+          // expect it to have fetched and set the orgId
+          expect(getUserSpy.calls.count()).toBe(1);
+          expect(content.orgId).toBe(orgId);
           done();
         });
       });
@@ -102,16 +114,38 @@ describe("get content", () => {
   describe("from portal", () => {
     it("should call getContentFromPortal", done => {
       const id = "foo";
+      const contentFromPortal = {
+        id,
+        // emulating map content forces additional fetch for item data
+        hubType: "map",
+        // emulating a hub created web map w/ an orgId
+        // will skip additional fetch for owner's orgId
+        orgId: "orgId",
+        type: "Web Map",
+        typeKeywords: ["ArcGIS Hub"]
+      };
+      const itemData = { foo: "bar" };
+      const getItemDataSpy = spyOn(
+        arcgisRestPortal,
+        "getItemData"
+      ).and.returnValue(Promise.resolve(itemData));
+      const getUserSpy = spyOn(arcgisRestPortal, "getUser");
       const getContentFromPortalSpy = spyOn(
         portalModule,
         "getContentFromPortal"
-      ).and.returnValue(Promise.resolve({}));
-      getContent(id, requestOpts).then(() => {
+      ).and.returnValue(Promise.resolve(contentFromPortal));
+      getContent(id, requestOpts).then(content => {
         expect(getContentFromPortalSpy.calls.count()).toBe(1);
         expect(getContentFromPortalSpy.calls.argsFor(0)).toEqual([
           "foo",
           requestOpts
         ]);
+        // expect it to have fetched and set the item data
+        expect(getItemDataSpy.calls.count()).toBe(1);
+        expect(content.data).toBe(itemData);
+        // expect it to not have fetched the orgId
+        expect(getUserSpy.calls.count()).toBe(0);
+        expect(content.orgId).toBe(contentFromPortal.orgId);
         done();
       });
     });
