@@ -22,10 +22,10 @@ import {
 import { getContentMetadata } from "./metadata";
 
 function getGroupIds(
-  itemId: string,
+  content: IHubContent,
   requestOptions: IHubRequestOptions
 ): Promise<string[]> {
-  return getItemGroups(itemId, requestOptions).then(response => {
+  return getItemGroups(content.id, requestOptions).then(response => {
     const { admin, member, other } = response;
     return [...admin, ...member, ...other].map(group => group.id);
   });
@@ -33,7 +33,7 @@ function getGroupIds(
 
 export interface IContentPropertyRequests {
   [key: string]: (
-    itemId: string,
+    content: IHubContent,
     requestOptions: IHubRequestOptions
   ) => Promise<unknown>;
 }
@@ -42,10 +42,10 @@ export interface IContentPropertyRequests {
  * Simultaneously execute multiple async requests to fetch content properties
  * returns a new content object with the resolved property values merged in.
  * Any errors from failed requests will be included in the errors array
- * NOTE: assumes each request takes only the item id and request options
+ * NOTE: assumes each request takes only the content and request options
  * @private
  */
-export function fetchContentProperties(
+export function _fetchContentProperties(
   propertyRequests: IContentPropertyRequests,
   content: IHubContent,
   requestOptions: IHubRequestOptions
@@ -55,7 +55,7 @@ export function fetchContentProperties(
   const requests = propertyNames.map(propertyName => {
     // initiate the request and return the promise
     const request = propertyRequests[propertyName];
-    return request(content.id, requestOptions).catch(e => {
+    return request(content, requestOptions).catch(e => {
       // there was an error w/ the request, capture it
       const message = (e && e.message) || e;
       errors.push({
@@ -225,13 +225,10 @@ export function getContentFromPortal(
   return getItem(itemId, requestOptions).then(item => {
     const content = withPortalUrls(itemToContent(item), requestOptions);
     // TODO: provide some API to let consumers opt out of making these additional requests
-    return fetchContentProperties(
-      {
-        groupIds: getGroupIds,
-        metadata: getContentMetadata
-      },
-      content,
-      requestOptions
-    );
+    const propertiesToFetch: IContentPropertyRequests = {
+      groupIds: getGroupIds,
+      metadata: (c, opts) => getContentMetadata(c.id, opts)
+    };
+    return _fetchContentProperties(propertiesToFetch, content, requestOptions);
   });
 }
