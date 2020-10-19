@@ -54,7 +54,9 @@ const feedback: string[] = ["Form"];
 
 const initiative: string[] = ["Hub Initiative"];
 
-const template: string[] = ["Hub Initiative Template", "Hub Solution Template"];
+const solution: string[] = ["Solution"];
+
+const template: string[] = ["Hub Initiative Template"];
 
 const map: string[] = [
   "Image Collection",
