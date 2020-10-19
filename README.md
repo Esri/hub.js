@@ -81,7 +81,6 @@ Some useful commands include:
 * [`@esri/hub-search`](./packages/search) - Helper functions for search on ArcGIS Online.
 * [`@esri/hub-surveys`](./packages/surveys) - Helper functions for working with Surveys.
 * [`@esri/hub-teams`](./packages/teams) - Helper functions for working with ArcGIS Online groups in a Hub context.
-* [`@esri/hub-members`](./packages/members) - Helper functions for working with Hub Members.
 * [`@esri/hub-content`](./packages/content) - Helper functions for working with Hub Content.
 
 ### Design Philosophy
