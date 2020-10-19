@@ -23,7 +23,7 @@ import { isSlug, parseDatasetId } from "./slugs";
 
 function shouldFetchData(hubType: HubType) {
   // TODO: we probably want to fetch data by default for other types of data
-  return includes(["template"], hubType);
+  return includes(["template", "solution"], hubType);
 }
 
 function isHubCreatedContent(content: IHubContent) {
