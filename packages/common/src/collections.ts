@@ -130,6 +130,7 @@ export const collections: { [key: string]: string[] } = {
   feedback,
   initiative,
   template,
+  solution,
   map,
   other,
   site
