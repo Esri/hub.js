@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.13.1] - October 16th 2020
+
+### @esri/hub-common, @esri/hub-content
+
+* Bug Fixes
+   * `Solution` items moved into own collection, data still fetched in `getContent` [`d83d5857`](https://github.com/Esri/hub.js/commit/5208cfa869f0e7451fe92a75dbe3787fe3f67ce8)
+
 ## [6.13.0] - October 16th 2020
 
 ### Other Changes
