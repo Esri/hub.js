@@ -67,6 +67,7 @@ describe("ensureRequiredSiteProperties", () => {
     expect(Array.isArray(chk.data.values.capabilities)).toBeTruthy(
       "sets capabilities if not set"
     );
+    expect(chk.data.values.capabilities).toContain("socialSharing");
   });
 
   it("ensures properties - portal w url", function() {
@@ -106,5 +107,6 @@ describe("ensureRequiredSiteProperties", () => {
     expect(Array.isArray(chk.data.values.capabilities)).toBeTruthy(
       "sets capabilities if not set"
     );
+    expect(chk.data.values.capabilities).not.toContain("socialSharing");
   });
 });

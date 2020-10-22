@@ -67,6 +67,9 @@ export function ensureRequiredSiteProperties(
     "app_page",
     "globalNav"
   ];
+  if (!isPortal) {
+    caps.push("socialSharing");
+  }
   deepSet(model, "data.values.capabilities", caps);
   // return the clone
   return model;
