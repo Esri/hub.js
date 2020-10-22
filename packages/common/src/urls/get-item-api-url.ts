@@ -20,6 +20,7 @@ export const getItemApiUrl = (
   const { id, access } = item;
   const url = `${getPortalApiUrl(portalUrlOrObject)}/content/items/${id}`;
   const params = new URLSearchParams({ f: "json" });
+  // TODO: derive token from from requestOptions if passed in?
   if (access !== "public" && token) {
     params.append("token", token);
   }
