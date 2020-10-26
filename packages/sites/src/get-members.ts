@@ -64,7 +64,7 @@ function authenticatedGetMembers(
     };
   });
 
-  return batch(chunkedOptions, batchRequest).then(batchedMembers => {
+  return batch(chunkedOptions, batchMemberRequest).then(batchedMembers => {
     return batchedMembers.reduce((flat: IUser[], toFlatten: IUser[]) => {
       return flat.concat(toFlatten);
     }, []);
@@ -107,7 +107,7 @@ function unauthenticatedGetMembers(
   ).then(members => members.filter(Boolean));
 }
 
-interface IBatchRequestOptions {
+interface IBatchMemberRequestOptions {
   urlPath: "string";
   requestOptions: IHubRequestOptions;
 }
@@ -118,9 +118,11 @@ interface IBatchRequestOptions {
  * endpoint sets the maximum number of results to be included in the
  * result set response to 100
  *
- * @param options IBatchRequestOptions
+ * @param options IBatchMemberRequestOptions
  */
-function batchRequest(options: IBatchRequestOptions): Promise<IUser[][]> {
+function batchMemberRequest(
+  options: IBatchMemberRequestOptions
+): Promise<IUser[][]> {
   return request(options.urlPath, options.requestOptions)
     .then(response => response.results)
     .catch(e => {
