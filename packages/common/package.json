@@ -14,7 +14,7 @@
     "dist/**"
   ],
   "dependencies": {
-    "adlib": "3.0.5",
+    "adlib": "3.0.6",
     "tslib": "^1.13.0"
   },
   "peerDependencies": {
@@ -31,6 +31,7 @@
     "@rollup/plugin-commonjs": "^15.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
+    "@types/adlib": "^3.0.1",
     "rollup": "^2.26.5",
     "rollup-plugin-filesize": "^9.0.2",
     "rollup-plugin-typescript2": "^0.27.2",
