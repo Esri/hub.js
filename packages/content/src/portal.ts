@@ -17,7 +17,8 @@ import {
   getItemDataUrl,
   getItemThumbnailUrl,
   cloneObject,
-  includes
+  includes,
+  downloadableTypes
 } from "@esri/hub-common";
 import { getContentMetadata } from "./metadata";
 
@@ -175,7 +176,8 @@ export function itemToContent(item: IItem): IHubContent {
     publishedDate: createdDate,
     publishedDateSource: createdDateSource,
     updatedDate: new Date(item.modified),
-    updatedDateSource: "item.modified"
+    updatedDateSource: "item.modified",
+    isDownloadable: downloadableTypes.includes(item.type)
   });
   return content;
 }
