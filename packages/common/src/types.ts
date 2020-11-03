@@ -314,6 +314,8 @@ export interface IHubContent extends IHubResource, IItem {
   // https://developers.arcgis.com/rest/users-groups-and-items/item.htm
   /** The owner's organization id */
   orgId?: string;
+  /** Whether the content is downloadable in the Hub app */
+  isDownloadable: boolean;
 }
 
 interface IActionLink {

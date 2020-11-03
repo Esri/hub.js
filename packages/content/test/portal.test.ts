@@ -65,6 +65,7 @@ function validateContentFromPortal(content: IHubContent, item: IItem) {
   expect(typeof content.portalApiUrl).toBe("string");
   expect(typeof content.portalDataUrl).toBe("string");
   expect(typeof content.thumbnailUrl).toBe("string");
+  expect(content.isDownloadable).toBe(true);
 }
 
 describe("item to content", () => {

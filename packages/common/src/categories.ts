@@ -1,3 +1,4 @@
+import { IItem } from "@esri/arcgis-rest-types";
 import { collections } from "./collections";
 
 const {
@@ -12,9 +13,6 @@ const {
   site
 } = collections;
 
-// TODO: move downloadableTypes, downloadableTypeKeywords, and apiTypes
-// out of this module and into modules that expose functions like
-// eligible types are listed here: http://doc.arcgis.com/en/arcgis-online/reference/supported-items.htm
 const downloadableTypes: string[] = [
   "360 VR Experience",
   "Application",
@@ -79,3 +77,20 @@ export const categories: { [key: string]: string[] } = {
   downloadableTypeKeywords,
   apiTypes
 };
+
+// TODO: move this function and supporting arrays to another module
+/**
+ * Is the item type downloadable in the Hub app
+ * @param item ArcGIS item with type and type keywords
+ */
+export function isDownloadable(item: IItem) {
+  return (
+    downloadableTypes.indexOf(item.type) !== -1 ||
+    (item.typeKeywords &&
+      downloadableTypeKeywords.some(downloadableTypeKeyword =>
+        item.typeKeywords.some(
+          typeKeyword => typeKeyword === downloadableTypeKeyword
+        )
+      ))
+  );
+}
