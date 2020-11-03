@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.15.0] - November 3rd 2020
+
+### @esri/hub-common
+
+* New Features
+   * **common**: add IHubContent.isDownloadable and isDownloadable(content) [`d6f8c0b9`](https://github.com/Esri/hub.js/commit/d6f8c0b99241efccff26215bc02fb65f316fec8d)
+
+
+### @esri/hub-content
+
+* New Features
+   * **content**: getContent() populates content.isDownloadable [`d6f8c0b9`](https://github.com/Esri/hub.js/commit/d6f8c0b99241efccff26215bc02fb65f316fec8d)
+
 ## [6.14.0] - October 28th 2020
 
 ### Other Changes
@@ -160,13 +173,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/hub-content
 
 * Bug Fixes
-   * **normalizeItemType**: getType =&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
+   * **normalizeItemType**: getType =&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
    * **collections**: add template collection, getHubItemType only accepts items [`57b783a2`](https://github.com/Esri/hub.js/commit/57b783a242b7a2747db0dbc7fce57155c56ad93f) [#347](https://github.com/Esri/hub.js/issues/347) [#354](https://github.com/Esri/hub.js/issues/354)
 
 ### @esri/hub-sites
 
 * Bug Fixes
-   * **normalizeItemType**: getType =&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
+   * **normalizeItemType**: getType =&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
 
 ### Other Changes
 
@@ -1204,4 +1217,5 @@ Initial Release
 [6.13.2]: https://github.com/Esri/hub.js/compare/v6.13.1...v6.13.2 "v6.13.2"
 [6.13.3]: https://github.com/Esri/hub.js/compare/v6.13.2...v6.13.3 "v6.13.3"
 [6.14.0]: https://github.com/Esri/hub.js/compare/v6.13.3...v6.14.0 "v6.14.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v6.14.0...HEAD "Unreleased Changes"
+[6.15.0]: https://github.com/Esri/hub.js/compare/v6.14.0...v6.15.0 "v6.15.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v6.15.0...HEAD "Unreleased Changes"
