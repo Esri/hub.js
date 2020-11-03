@@ -18,7 +18,7 @@ import {
   getItemThumbnailUrl,
   cloneObject,
   includes,
-  downloadableTypes
+  isDownloadable
 } from "@esri/hub-common";
 import { getContentMetadata } from "./metadata";
 
@@ -163,10 +163,11 @@ export function itemToContent(item: IItem): IHubContent {
       visibility: item.access,
       control: item.itemControl || "view"
     },
-    // Hub configuration metadata from item properties
+    // Hub app configuration metadata from item properties
     actionLinks: properties && properties.links,
     hubActions: properties && properties.actions,
     metrics: properties && properties.metrics,
+    isDownloadable: isDownloadable(item),
     // default boundary from item.extent
     boundary: itemExtentToBoundary(item.extent),
     license: { name: "Custom License", description: item.accessInformation },
@@ -176,8 +177,7 @@ export function itemToContent(item: IItem): IHubContent {
     publishedDate: createdDate,
     publishedDateSource: createdDateSource,
     updatedDate: new Date(item.modified),
-    updatedDateSource: "item.modified",
-    isDownloadable: downloadableTypes.indexOf(item.type) !== -1
+    updatedDateSource: "item.modified"
   });
   return content;
 }
