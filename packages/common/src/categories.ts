@@ -1,4 +1,5 @@
 import { collections } from "./collections";
+import { downloadableTypes } from "./types";
 
 const {
   app,

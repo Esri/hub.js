@@ -177,7 +177,7 @@ export function itemToContent(item: IItem): IHubContent {
     publishedDateSource: createdDateSource,
     updatedDate: new Date(item.modified),
     updatedDateSource: "item.modified",
-    isDownloadable: downloadableTypes.includes(item.type)
+    isDownloadable: downloadableTypes.indexOf(item.type) !== -1
   });
   return content;
 }
