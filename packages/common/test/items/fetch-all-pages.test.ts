@@ -1,5 +1,4 @@
 import { fetchAllPages } from "../../src/items";
-// import * as batchModule from '../../src/utils/batch';
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { ISearchOptions } from "@esri/arcgis-rest-portal";
 
