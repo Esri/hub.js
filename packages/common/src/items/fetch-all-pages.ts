@@ -46,6 +46,7 @@ export function fetchAllPages(
       ]);
     })
     .then(responses => {
+      // merge all the search results into a single array
       const results = responses.reduce(
         (acc: SearchableType[], response: ISearchResult<SearchableType>) => [
           ...acc,
