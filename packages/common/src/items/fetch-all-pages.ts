@@ -11,23 +11,50 @@ const MAX_NUM = 100;
 export function fetchAllPages(
   searchFunc: SearchFunction,
   opts: ISearchOptions,
-  pageSize = MAX_NUM
+  limit = -1
 ): Promise<SearchableType[]> {
-  return searchFunc({ ...opts, num: 1 })
-    .then(({ total }) => {
+  const pageSize = opts.num || MAX_NUM;
+  const firstStart = opts.start || 1;
+
+  const promise =
+    limit === -1
+      ? searchFunc({ ...opts, num: pageSize, start: firstStart })
+      : Promise.resolve({
+          nextStart: firstStart,
+          total: limit,
+          results: [],
+          num: pageSize
+        });
+
+  return promise
+    .then(firstResponse => {
+      if (firstResponse.nextStart === -1) return [firstResponse];
       const starts = [];
-      for (let i = 1; i <= total; i += pageSize) starts.push(i);
+      for (
+        let i = firstResponse.nextStart;
+        i <= firstResponse.total;
+        i += pageSize
+      ) {
+        starts.push(i);
+      }
       const batchSearchFunc = (start: number) =>
         searchFunc({ ...opts, start, num: pageSize });
-      return batch(starts, batchSearchFunc);
+      return batch(starts, batchSearchFunc).then(responses => [
+        firstResponse,
+        ...responses
+      ]);
     })
     .then(responses => {
-      return responses.reduce(
+      const results = responses.reduce(
         (acc: SearchableType[], response: ISearchResult<SearchableType>) => [
           ...acc,
           ...response.results
         ],
         []
       );
+
+      // discard results beyond the limit if applicable
+      const clipLimit = limit === -1 ? results.length : limit;
+      return results.slice(0, clipLimit);
     });
 }
