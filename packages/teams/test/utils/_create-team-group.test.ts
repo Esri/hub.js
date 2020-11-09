@@ -4,6 +4,7 @@ import { IHubRequestOptions, cloneObject } from "@esri/hub-common";
 import { IGroupTemplate } from "../../src/types";
 import { _createTeamGroup } from "../../src/utils/_create-team-group";
 import { IUser } from "@esri/arcgis-rest-auth";
+import { IPortal } from "@esri/arcgis-rest-portal";
 
 describe("_createTeamGroup", () => {
   const user = {
@@ -11,7 +12,10 @@ describe("_createTeamGroup", () => {
     privileges: ["portal:user:createGroup"]
   } as IUser;
   const ro = {
-    authentication: { token: "foobar" }
+    authentication: { token: "foobar" },
+    portalSelf: ({
+      canSharePublic: true
+    } as unknown) as IPortal
   } as IHubRequestOptions;
 
   it("should create team group correctly", async () => {

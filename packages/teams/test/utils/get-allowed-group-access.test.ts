@@ -1,3 +1,4 @@
+import { IPortal } from "@esri/arcgis-rest-portal";
 import { getAllowedGroupAccess } from "../../src/utils/get-allowed-group-access";
 
 describe("getAllowedGroupAccess", () => {
@@ -5,7 +6,10 @@ describe("getAllowedGroupAccess", () => {
     const user = {
       privileges: ["portal:user:createGroup", "portal:user:shareGroupToPublic"]
     };
-    expect(getAllowedGroupAccess("public", user)).toBe(
+    const portal = ({
+      canSharePublic: true
+    } as unknown) as IPortal;
+    expect(getAllowedGroupAccess("public", user, portal)).toBe(
       "public",
       "should return public if all privs present"
     );
@@ -15,9 +19,29 @@ describe("getAllowedGroupAccess", () => {
     const user = {
       privileges: ["portal:user:createGroup", "portal:user:shareGroupToOrg"]
     };
-    expect(getAllowedGroupAccess("public", user)).toBe(
+    const portal = ({
+      canSharePublic: true
+    } as unknown) as IPortal;
+    expect(getAllowedGroupAccess("public", user, portal)).toBe(
       "org",
       "should downgrade to org if missing priv"
+    );
+  });
+
+  it("retuns org if org level public sharing is disabled", () => {
+    const user = {
+      privileges: [
+        "portal:user:createGroup",
+        "portal:user:shareGroupToPublic",
+        "portal:user:shareGroupToOrg"
+      ]
+    };
+    const portal = ({
+      canSharePublic: false
+    } as unknown) as IPortal;
+    expect(getAllowedGroupAccess("public", user, portal)).toBe(
+      "org",
+      "should downgrade to org if portal public sharing disabled"
     );
   });
 
@@ -25,7 +49,10 @@ describe("getAllowedGroupAccess", () => {
     const user = {
       privileges: ["portal:user:createGroup"]
     };
-    expect(getAllowedGroupAccess("public", user)).toBe(
+    const portal = ({
+      canSharePublic: true
+    } as unknown) as IPortal;
+    expect(getAllowedGroupAccess("public", user, portal)).toBe(
       "private",
       "should downgrade to private if missing priv"
     );
@@ -35,7 +62,10 @@ describe("getAllowedGroupAccess", () => {
     const user = {
       privileges: ["portal:user:createGroup"]
     };
-    expect(getAllowedGroupAccess("org", user)).toBe(
+    const portal = ({
+      canSharePublic: true
+    } as unknown) as IPortal;
+    expect(getAllowedGroupAccess("org", user, portal)).toBe(
       "private",
       "should downgrade to private if missing priv"
     );

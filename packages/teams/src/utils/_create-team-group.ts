@@ -18,7 +18,11 @@ export function _createTeamGroup(
   group: IGroupTemplate,
   hubRequestOptions: IHubRequestOptions
 ) {
-  group.access = getAllowedGroupAccess(group.access, user);
+  group.access = getAllowedGroupAccess(
+    group.access,
+    user,
+    hubRequestOptions.portalSelf
+  );
   return getUniqueGroupTitle(group.title, hubRequestOptions)
     .then(uniqueTitle => {
       group.title = uniqueTitle;
