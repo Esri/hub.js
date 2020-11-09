@@ -5,8 +5,11 @@ import { batch } from "../utils/batch";
 const MAX_NUM = 100;
 
 /**
- * Fetches all the pages
- * @param opts search options
+ * Fetches all the pages in a search request
+ * @param {SearchFunction} searchFunc
+ * @param {ISearchOptions} opts
+ * @param {number} limit
+ * @returns {Promise<SearchableType[]>}
  */
 export function fetchAllPages(
   searchFunc: SearchFunction,
