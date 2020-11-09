@@ -9,12 +9,14 @@ const MAX_NUM = 100;
  * @param {SearchFunction} searchFunc
  * @param {ISearchOptions} opts
  * @param {number} limit
+ * @param {batchSize} number of concurrent requests at a time
  * @returns {Promise<SearchableType[]>}
  */
 export function fetchAllPages(
   searchFunc: SearchFunction,
   opts: ISearchOptions,
-  limit = -1
+  limit = -1,
+  batchSize?: number
 ): Promise<SearchableType[]> {
   const pageSize = opts.num || MAX_NUM;
   const firstStart = opts.start || 1;
@@ -48,7 +50,7 @@ export function fetchAllPages(
       }
       const batchSearchFunc = (start: number) =>
         searchFunc({ ...opts, start, num: pageSize });
-      return batch(starts, batchSearchFunc).then(responses => [
+      return batch(starts, batchSearchFunc, batchSize).then(responses => [
         firstResponse,
         ...responses
       ]);
