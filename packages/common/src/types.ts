@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { IItem, IUser, IGroup, IGeometry } from "@esri/arcgis-rest-types";
-import { IPortal } from "@esri/arcgis-rest-portal";
+import { IPortal, ISearchResult } from "@esri/arcgis-rest-portal";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 /**
@@ -172,6 +172,11 @@ export interface IHubGeography {
   center?: [number, number];
   geometry?: IGeometry;
 }
+
+export type SearchableType = IItem | IGroup | IUser;
+export type SearchFunction = (
+  ...args: any[]
+) => Promise<ISearchResult<SearchableType>>;
 
 /**
  * Properties that are common to Hub content, community, members, etc
