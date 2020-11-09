@@ -2,13 +2,7 @@
  * Apache-2.0 */
 
 import { IItem, IUser, IGroup, IGeometry } from "@esri/arcgis-rest-types";
-import {
-  IPortal,
-  ISearchResult,
-  searchGroups,
-  searchItems,
-  searchUsers
-} from "@esri/arcgis-rest-portal";
+import { IPortal, ISearchResult } from "@esri/arcgis-rest-portal";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 /**
