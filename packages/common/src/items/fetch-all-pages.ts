@@ -28,6 +28,7 @@ export function fetchAllPages(
 
   return promise
     .then(firstResponse => {
+      // no more requests needed, return the first response
       if (firstResponse.nextStart === -1) return [firstResponse];
       const starts = [];
       for (
