@@ -9,6 +9,7 @@ const MAX_NUM = 100;
  * @param {SearchFunction} searchFunc
  * @param {ISearchOptions} opts
  * @param {number} limit
+ * @param {batchSize} number of concurrent requests at a time
  * @returns {Promise<SearchableType[]>}
  */
 export function fetchAllPages(
