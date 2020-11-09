@@ -175,7 +175,7 @@ export interface IHubGeography {
 
 export type SearchableType = IItem | IGroup | IUser;
 export type SearchFunction = (
-  ...args: any
+  ...args: any[]
 ) => Promise<ISearchResult<SearchableType>>;
 
 /**
