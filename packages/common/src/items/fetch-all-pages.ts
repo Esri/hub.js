@@ -16,6 +16,9 @@ export function fetchAllPages(
   const pageSize = opts.num || MAX_NUM;
   const firstStart = opts.start || 1;
 
+  // If a limit is provided, we don't have to use the first request to get the
+  // total count before sending things off to batch(). So instead we fake the first
+  // response just to set things up.
   const promise =
     limit === -1
       ? searchFunc({ ...opts, num: pageSize, start: firstStart })
@@ -30,6 +33,8 @@ export function fetchAllPages(
     .then(firstResponse => {
       // no more requests needed, return the first response
       if (firstResponse.nextStart === -1) return [firstResponse];
+
+      // generate batch requests for the remaining pages to fetch
       const starts = [];
       for (
         let i = firstResponse.nextStart;
