@@ -28,7 +28,7 @@ describe("getAllowedGroupAccess", () => {
     );
   });
 
-  it("retuns org if org level public sharing is disabled", () => {
+  it("retruns org if org level public sharing is disabled", () => {
     const user = {
       privileges: [
         "portal:user:createGroup",
@@ -40,6 +40,19 @@ describe("getAllowedGroupAccess", () => {
       canSharePublic: false
     } as unknown) as IPortal;
     expect(getAllowedGroupAccess("public", user, portal)).toBe(
+      "org",
+      "should downgrade to org if portal public sharing disabled"
+    );
+  });
+  it("retruns org if org level is portal not passed", () => {
+    const user = {
+      privileges: [
+        "portal:user:createGroup",
+        "portal:user:shareGroupToPublic",
+        "portal:user:shareGroupToOrg"
+      ]
+    };
+    expect(getAllowedGroupAccess("public", user)).toBe(
       "org",
       "should downgrade to org if portal public sharing disabled"
     );
