@@ -81,7 +81,7 @@ describe("portalPollExportJobStatus", () => {
     }
   });
 
-  fit("handle polling error", async done => {
+  it("handle polling error", async done => {
     try {
       spyOn(portal, "getItemStatus").and.callFake(async () => {
         return Promise.reject(new Error("Not Found"));
@@ -116,8 +116,10 @@ describe("portalPollExportJobStatus", () => {
         "download-idPollingError",
         {
           detail: {
-            error: new Error("Not Found"),
-            status: "error"
+            metadata: {
+              errors: [new Error("Not Found")],
+              status: "error"
+            }
           }
         }
       ]);
