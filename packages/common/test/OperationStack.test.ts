@@ -44,6 +44,20 @@ describe("OperationStack", () => {
     expect(output).toContain("and output {", "should toString stack");
   });
 
+  it("start, toString", () => {
+    const stack = new OperationStack();
+    stack.startOperation({
+      id: "get-bc3",
+      type: "getItem",
+      inputs: { id: "bc3", owner: "vader" }
+    });
+    const output = stack.toString();
+    expect(output).toContain(
+      "Operation get-bc3 started",
+      "should toString stack"
+    );
+  });
+
   it("finish works without options", () => {
     const stack = new OperationStack();
     stack.startOperation({
