@@ -87,9 +87,8 @@ class PortalPoller implements IPoller {
           if (metadata.status === "failed") {
             eventEmitter.emit(`${downloadId}ExportError`, {
               detail: {
-                metadata: {
-                  errors: [new Error(metadata.statusMessage)]
-                }
+                error: new Error(metadata.statusMessage),
+                metadata: { status: "error" }
               }
             });
             return this.disablePoll();
@@ -98,11 +97,11 @@ class PortalPoller implements IPoller {
         .catch((error: any) => {
           if (error instanceof ExportCompletionError) {
             eventEmitter.emit(`${downloadId}ExportError`, {
-              detail: { metadata: { errors: [error] } }
+              detail: { error, metadata: { status: "error" } }
             });
           } else {
             eventEmitter.emit(`${downloadId}PollingError`, {
-              detail: { error }
+              detail: { error, metadata: { status: "error" } }
             });
           }
           return this.disablePoll();

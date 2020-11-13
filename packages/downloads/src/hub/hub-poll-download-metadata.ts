@@ -35,15 +35,18 @@ class HubPoller implements IPoller {
           }
 
           if (exportDatasetFailed(metadata)) {
+            const {
+              errors: [error]
+            } = metadata;
             eventEmitter.emit(`${downloadId}ExportError`, {
-              detail: { metadata }
+              detail: { error, metadata }
             });
             return this.disablePoll();
           }
         })
         .catch(error => {
           eventEmitter.emit(`${downloadId}PollingError`, {
-            detail: { error }
+            detail: { error, metadata: { status: "error" } }
           });
           return this.disablePoll();
         });

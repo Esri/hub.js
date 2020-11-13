@@ -195,6 +195,7 @@ describe("hubRequestDownloadMetadata", () => {
         lastEditDate: "2020-06-18T01:17:31.492Z",
         lastModified: "2020-06-17T13:04:28.000Z",
         status: "stale",
+        errors: [],
         downloadUrl:
           "https://dev-hub-indexer.s3.amazonaws.com/files/dd4580c810204019a7b8eb3e0b329dd6/0/full/4326/dd4580c810204019a7b8eb3e0b329dd6_0_full_4326.csv",
         contentLength: 1391454,
@@ -231,6 +232,7 @@ describe("hubRequestDownloadMetadata", () => {
         lastEditDate: "2020-06-18T01:17:31.492Z",
         lastModified: "2020-06-17T13:04:28.000Z",
         status: "stale",
+        errors: [],
         downloadUrl:
           "https://dev-hub-indexer.s3.amazonaws.com/files/dd4580c810204019a7b8eb3e0b329dd6/0/full/4326/dd4580c810204019a7b8eb3e0b329dd6_0_full_4326.csv",
         contentLength: 1391454,
@@ -276,6 +278,7 @@ describe("hubRequestDownloadMetadata", () => {
         lastEditDate: "2020-06-18T01:17:31.492Z",
         lastModified: "2020-06-17T13:04:28.000Z",
         status: "stale",
+        errors: [],
         downloadUrl:
           "https://dev-hub-indexer.s3.amazonaws.com/files/dd4580c810204019a7b8eb3e0b329dd6/0/full/4326/dd4580c810204019a7b8eb3e0b329dd6_0_full_4326.csv",
         contentLength: 1391454,
