@@ -77,20 +77,21 @@ describe("hubPollDownloadMetadata", () => {
         }
       );
       const mockEventEmitter = new EventEmitter();
-      spyOn(mockEventEmitter, 'emit');
+      spyOn(mockEventEmitter, "emit");
       const poller = hubPollDownloadMetadata({
-        host: 'http://hub.com',
-        datasetId: 'abcdef0123456789abcdef0123456789_0',
-        downloadId: 'test-id',
-        spatialRefId: '4326',
-        format: 'CSV',
+        host: "http://hub.com",
+        datasetId: "abcdef0123456789abcdef0123456789_0",
+        downloadId: "test-id",
+        spatialRefId: "4326",
+        format: "CSV",
         eventEmitter: mockEventEmitter,
         pollingInterval: 10
       });
       await delay(100);
       expect(mockEventEmitter.emit as any).toHaveBeenCalledTimes(1);
       expect((mockEventEmitter.emit as any).calls.first().args).toEqual([
-        'test-idPollingError', { detail: { error: new Error('Bad Gateway') } }
+        "test-idPollingError",
+        { detail: { error: new Error("Bad Gateway"), status: "error" } }
       ]);
       expect(poller.pollTimer).toEqual(null);
     } catch (err) {
@@ -110,13 +111,13 @@ describe("hubPollDownloadMetadata", () => {
         }
       );
       const mockEventEmitter = new EventEmitter();
-      spyOn(mockEventEmitter, 'emit');
+      spyOn(mockEventEmitter, "emit");
       const poller = hubPollDownloadMetadata({
-        host: 'http://hub.com',
-        datasetId: 'abcdef0123456789abcdef0123456789_0',
-        downloadId: 'test-id',
-        spatialRefId: '4326',
-        format: 'CSV',
+        host: "http://hub.com",
+        datasetId: "abcdef0123456789abcdef0123456789_0",
+        downloadId: "test-id",
+        spatialRefId: "4326",
+        format: "CSV",
         eventEmitter: mockEventEmitter,
         pollingInterval: 10
       });
@@ -157,13 +158,13 @@ describe("hubPollDownloadMetadata", () => {
         }
       );
       const mockEventEmitter = new EventEmitter();
-      spyOn(mockEventEmitter, 'emit');
+      spyOn(mockEventEmitter, "emit");
       const poller = hubPollDownloadMetadata({
-        host: 'http://hub.com',
-        datasetId: 'abcdef0123456789abcdef0123456789_0',
-        downloadId: 'test-id',
-        spatialRefId: '4326',
-        format: 'CSV',
+        host: "http://hub.com",
+        datasetId: "abcdef0123456789abcdef0123456789_0",
+        downloadId: "test-id",
+        spatialRefId: "4326",
+        format: "CSV",
         eventEmitter: mockEventEmitter,
         pollingInterval: 10
       });
@@ -233,13 +234,13 @@ describe("hubPollDownloadMetadata", () => {
         }
       );
       const mockEventEmitter = new EventEmitter();
-      spyOn(mockEventEmitter, 'emit');
+      spyOn(mockEventEmitter, "emit");
       const poller = hubPollDownloadMetadata({
-        host: 'http://hub.com',
-        datasetId: 'abcdef0123456789abcdef0123456789_0',
-        downloadId: 'test-id',
-        spatialRefId: '4326',
-        format: 'CSV',
+        host: "http://hub.com",
+        datasetId: "abcdef0123456789abcdef0123456789_0",
+        downloadId: "test-id",
+        spatialRefId: "4326",
+        format: "CSV",
         eventEmitter: mockEventEmitter,
         pollingInterval: 10
       });

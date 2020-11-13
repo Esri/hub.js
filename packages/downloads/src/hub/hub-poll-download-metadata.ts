@@ -43,7 +43,7 @@ class HubPoller implements IPoller {
         })
         .catch(error => {
           eventEmitter.emit(`${downloadId}PollingError`, {
-            detail: { error }
+            detail: { error, status: "error" }
           });
           return this.disablePoll();
         });
