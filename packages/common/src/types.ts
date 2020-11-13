@@ -329,3 +329,44 @@ interface IActionLink {
   /** Link URL */
   url: string;
 }
+
+/**
+ * IOperation
+ * Represents some operation within the system.
+ *
+ * Used as a means to track the calls, inputs and outputs
+ * during complex processes
+ *
+ * @export
+ * @interface IOperation
+ */
+export interface IOperation {
+  /**
+   * Unique identifier:
+   * i.e `getItem-3fc`, `convertToTemplate-bc7`
+   */
+  id: string;
+  /**
+   * What type of operation is this
+   * i.e. getItem, convertToTemplate
+   */
+  type: string;
+  /**
+   * Inputs to the operation
+   */
+  inputs: Record<string, unknown>;
+  state?: string;
+  startedAt?: number;
+  duration?: number;
+  output?: Record<string, unknown>;
+}
+
+/**
+ * Serialized Operation Stack
+ *
+ * @export
+ * @interface SerializedOperationStack
+ */
+export interface ISerializedOperationStack {
+  operations: IOperation[];
+}
