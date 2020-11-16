@@ -39,12 +39,12 @@ describe("portalPollExportJobStatus", () => {
       );
 
       const mockEventEmitter = new EventEmitter();
-      spyOn(mockEventEmitter, 'emit');
+      spyOn(mockEventEmitter, "emit");
       const poller = portalPollExportJobStatus({
-        downloadId: 'download-id',
-        jobId: 'test-id',
-        datasetId: 'abcdef0123456789abcdef0123456789_0',
-        format: 'CSV',
+        downloadId: "download-id",
+        jobId: "test-id",
+        datasetId: "abcdef0123456789abcdef0123456789_0",
+        format: "CSV",
         authentication,
         exportCreated: 1000,
         pollingInterval: 10,
@@ -66,9 +66,8 @@ describe("portalPollExportJobStatus", () => {
         "download-idExportError",
         {
           detail: {
-            metadata: {
-              errors: [new Error("Export failed")]
-            }
+            error: new Error("Export failed"),
+            metadata: { status: "error", errors: [new Error("Export failed")] }
           }
         }
       ]);
@@ -82,17 +81,17 @@ describe("portalPollExportJobStatus", () => {
 
   it("handle polling error", async done => {
     try {
-      spyOn(portal, 'getItemStatus').and.callFake(async () => {
-        return Promise.reject(new Error('Not Found'))
-      })
+      spyOn(portal, "getItemStatus").and.callFake(async () => {
+        return Promise.reject(new Error("Not Found"));
+      });
 
       const mockEventEmitter = new EventEmitter();
-      spyOn(mockEventEmitter, 'emit');
+      spyOn(mockEventEmitter, "emit");
       const poller = portalPollExportJobStatus({
-        downloadId: 'download-id',
-        jobId: 'test-id',
-        datasetId: 'abcdef0123456789abcdef0123456789_0',
-        format: 'CSV',
+        downloadId: "download-id",
+        jobId: "test-id",
+        datasetId: "abcdef0123456789abcdef0123456789_0",
+        format: "CSV",
         authentication,
         exportCreated: 1000,
         pollingInterval: 10,
@@ -115,10 +114,11 @@ describe("portalPollExportJobStatus", () => {
         "download-idPollingError",
         {
           detail: {
-            error: new Error("Not Found")
+            error: new Error("Not Found"),
+            metadata: { status: "error" }
           }
         }
-      ])
+      ]);
       expect(poller.pollTimer === null).toEqual(true);
     } catch (err) {
       expect(err).toEqual(undefined);
@@ -130,25 +130,25 @@ describe("portalPollExportJobStatus", () => {
   describe("export-completed handling errors", () => {
     it("updateItem failure", async done => {
       try {
-        spyOn(portal, 'getItemStatus').and.callFake( async () => {
-          return Promise.resolve({ status: 'completed' })
-        });
-  
-        spyOn(portal, 'updateItem').and.callFake( async () => {
-          return Promise.reject(new Error('5xx'))
+        spyOn(portal, "getItemStatus").and.callFake(async () => {
+          return Promise.resolve({ status: "completed" });
         });
 
-        spyOn(portal, 'removeItem').and.callFake( async () => {
+        spyOn(portal, "updateItem").and.callFake(async () => {
+          return Promise.reject(new Error("5xx"));
+        });
+
+        spyOn(portal, "removeItem").and.callFake(async () => {
           return Promise.resolve();
         });
 
         const mockEventEmitter = new EventEmitter();
-        spyOn(mockEventEmitter, 'emit');
+        spyOn(mockEventEmitter, "emit");
         const poller = portalPollExportJobStatus({
-          downloadId: 'download-id',
-          jobId: 'test-id',
-          datasetId: 'abcdef0123456789abcdef0123456789_0',
-          format: 'CSV',
+          downloadId: "download-id",
+          jobId: "test-id",
+          datasetId: "abcdef0123456789abcdef0123456789_0",
+          format: "CSV",
           authentication,
           exportCreated: 1000,
           pollingInterval: 10,
@@ -187,10 +187,11 @@ describe("portalPollExportJobStatus", () => {
           "download-idExportError",
           {
             detail: {
-              metadata: { errors: [new Error("5xx")] }
+              error: new Error("5xx"),
+              metadata: { status: "error", errors: [new Error("5xx")] }
             }
           }
-        ])
+        ]);
         expect(poller.pollTimer === null).toEqual(true);
       } catch (err) {
         expect(err).toEqual(undefined);
@@ -201,22 +202,22 @@ describe("portalPollExportJobStatus", () => {
 
     it("setItemAccess failure", async done => {
       try {
-        spyOn(portal, 'getItemStatus').and.callFake(async () => {
-          return Promise.resolve({ status: 'completed' });
+        spyOn(portal, "getItemStatus").and.callFake(async () => {
+          return Promise.resolve({ status: "completed" });
         });
 
-        spyOn(portal, 'updateItem').and.callFake(async () => {
+        spyOn(portal, "updateItem").and.callFake(async () => {
           return Promise.resolve();
         });
-  
-        spyOn(portal, 'setItemAccess').and.callFake(async () => {
-          return Promise.reject(new Error('5xx'));
+
+        spyOn(portal, "setItemAccess").and.callFake(async () => {
+          return Promise.reject(new Error("5xx"));
         });
-  
-        spyOn(portal, 'removeItem').and.callFake(async () => {
+
+        spyOn(portal, "removeItem").and.callFake(async () => {
           return Promise.resolve();
         });
-        
+
         const mockEventEmitter = new EventEmitter();
         spyOn(mockEventEmitter, "emit");
         portalPollExportJobStatus({
@@ -229,7 +230,7 @@ describe("portalPollExportJobStatus", () => {
           pollingInterval: 10,
           eventEmitter: mockEventEmitter
         });
-  
+
         await delay(100);
         expect(portal.getItemStatus).toHaveBeenCalledTimes(1);
         expect((portal.getItemStatus as any).calls.first().args).toEqual([
@@ -270,7 +271,8 @@ describe("portalPollExportJobStatus", () => {
           "download-idExportError",
           {
             detail: {
-              metadata: { errors: [new Error("5xx")] }
+              error: new Error("5xx"),
+              metadata: { status: "error", errors: [new Error("5xx")] }
             }
           }
         ]);
@@ -283,33 +285,33 @@ describe("portalPollExportJobStatus", () => {
 
     it("userContent failure", async done => {
       try {
-        spyOn(portal, 'getItemStatus').and.callFake(async () => {
-          return Promise.resolve({ status: 'completed' });
-        });
-  
-        spyOn(portal, 'updateItem').and.callFake(async () => {
-          return Promise.resolve();
-        });
-  
-        spyOn(portal, 'setItemAccess').and.callFake(async () => {
-          return Promise.resolve();
-        });
-  
-        spyOn(portal, 'getUserContent').and.callFake(async () => {
-          return Promise.reject(new Error('5xx'));
+        spyOn(portal, "getItemStatus").and.callFake(async () => {
+          return Promise.resolve({ status: "completed" });
         });
 
-        spyOn(portal, 'removeItem').and.callFake(async () => {
+        spyOn(portal, "updateItem").and.callFake(async () => {
+          return Promise.resolve();
+        });
+
+        spyOn(portal, "setItemAccess").and.callFake(async () => {
+          return Promise.resolve();
+        });
+
+        spyOn(portal, "getUserContent").and.callFake(async () => {
+          return Promise.reject(new Error("5xx"));
+        });
+
+        spyOn(portal, "removeItem").and.callFake(async () => {
           return Promise.resolve();
         });
 
         const mockEventEmitter = new EventEmitter();
-        spyOn(mockEventEmitter, 'emit');
+        spyOn(mockEventEmitter, "emit");
         const poller = portalPollExportJobStatus({
-          downloadId: 'download-id',
-          jobId: 'test-id',
-          datasetId: 'abcdef0123456789abcdef0123456789_0',
-          format: 'CSV',
+          downloadId: "download-id",
+          jobId: "test-id",
+          datasetId: "abcdef0123456789abcdef0123456789_0",
+          format: "CSV",
           authentication,
           exportCreated: 1000,
           pollingInterval: 10,
@@ -360,7 +362,8 @@ describe("portalPollExportJobStatus", () => {
           "download-idExportError",
           {
             detail: {
-              metadata: { errors: [new Error("5xx")] }
+              error: new Error("5xx"),
+              metadata: { status: "error", errors: [new Error("5xx")] }
             }
           }
         ]);
@@ -374,37 +377,37 @@ describe("portalPollExportJobStatus", () => {
 
     it("createFolder failure", async done => {
       try {
-        spyOn(portal, 'getItemStatus').and.callFake(async () => {
-          return Promise.resolve({ status: 'completed' });
+        spyOn(portal, "getItemStatus").and.callFake(async () => {
+          return Promise.resolve({ status: "completed" });
         });
-  
-        spyOn(portal, 'updateItem').and.callFake(async () => {
+
+        spyOn(portal, "updateItem").and.callFake(async () => {
           return Promise.resolve();
         });
-  
-        spyOn(portal, 'setItemAccess').and.callFake(async () => {
+
+        spyOn(portal, "setItemAccess").and.callFake(async () => {
           return Promise.resolve();
         });
-  
-        spyOn(portal, 'getUserContent').and.callFake(async () => {
+
+        spyOn(portal, "getUserContent").and.callFake(async () => {
           return Promise.resolve({ folders: [] });
         });
 
-        spyOn(portal, 'createFolder').and.callFake(async () => {
-          return Promise.reject(new Error('5xx'));
+        spyOn(portal, "createFolder").and.callFake(async () => {
+          return Promise.reject(new Error("5xx"));
         });
 
-        spyOn(portal, 'removeItem').and.callFake(async () => {
+        spyOn(portal, "removeItem").and.callFake(async () => {
           return Promise.resolve();
         });
 
         const mockEventEmitter = new EventEmitter();
-        spyOn(mockEventEmitter, 'emit');
+        spyOn(mockEventEmitter, "emit");
         const poller = portalPollExportJobStatus({
-          downloadId: 'download-id',
-          jobId: 'test-id',
-          datasetId: 'abcdef0123456789abcdef0123456789_0',
-          format: 'CSV',
+          downloadId: "download-id",
+          jobId: "test-id",
+          datasetId: "abcdef0123456789abcdef0123456789_0",
+          format: "CSV",
           authentication,
           exportCreated: 1000,
           pollingInterval: 10,
@@ -462,7 +465,8 @@ describe("portalPollExportJobStatus", () => {
           "download-idExportError",
           {
             detail: {
-              metadata: { errors: [new Error("5xx")] }
+              error: new Error("5xx"),
+              metadata: { status: "error", errors: [new Error("5xx")] }
             }
           }
         ]);
@@ -476,43 +480,40 @@ describe("portalPollExportJobStatus", () => {
 
     it("moveItem failure", async done => {
       try {
-        spyOn(portal, 'getItemStatus').and.callFake(async () => {
-          return Promise.resolve({ status: 'completed' });
+        spyOn(portal, "getItemStatus").and.callFake(async () => {
+          return Promise.resolve({ status: "completed" });
         });
-  
-        spyOn(portal, 'updateItem').and.callFake(async () => {
+
+        spyOn(portal, "updateItem").and.callFake(async () => {
           return Promise.resolve();
         });
 
-        spyOn(portal, 'setItemAccess').and.callFake(async () => {
+        spyOn(portal, "setItemAccess").and.callFake(async () => {
           return Promise.resolve();
         });
 
-        spyOn(portal, 'getUserContent').and.callFake(async () => {
+        spyOn(portal, "getUserContent").and.callFake(async () => {
           return Promise.resolve({ folders: [] });
         });
 
-        spyOn(portal, 'createFolder').and.callFake(async () => {
-          return Promise.resolve({ folder: { id: 'export-folder-id' } });
+        spyOn(portal, "createFolder").and.callFake(async () => {
+          return Promise.resolve({ folder: { id: "export-folder-id" } });
         });
-;
-
-        spyOn(portal, 'moveItem').and.callFake(async () => {
-          return Promise.reject(new Error('5xx'));
+        spyOn(portal, "moveItem").and.callFake(async () => {
+          return Promise.reject(new Error("5xx"));
         });
 
-
-        spyOn(portal, 'removeItem').and.callFake(async () => {
+        spyOn(portal, "removeItem").and.callFake(async () => {
           return Promise.resolve();
         });
 
         const mockEventEmitter = new EventEmitter();
-        spyOn(mockEventEmitter, 'emit');
+        spyOn(mockEventEmitter, "emit");
         const poller = portalPollExportJobStatus({
-          downloadId: 'download-id',
-          jobId: 'test-id',
-          datasetId: 'abcdef0123456789abcdef0123456789_0',
-          format: 'CSV',
+          downloadId: "download-id",
+          jobId: "test-id",
+          datasetId: "abcdef0123456789abcdef0123456789_0",
+          format: "CSV",
           authentication,
           exportCreated: 1000,
           pollingInterval: 10,
@@ -578,7 +579,8 @@ describe("portalPollExportJobStatus", () => {
           "download-idExportError",
           {
             detail: {
-              metadata: { errors: [new Error("5xx")] }
+              error: new Error("5xx"),
+              metadata: { status: "error", errors: [new Error("5xx")] }
             }
           }
         ]);
@@ -606,37 +608,37 @@ describe("portalPollExportJobStatus", () => {
             });
           })
         );
-  
-        spyOn(portal, 'updateItem').and.callFake(async () => {
-          return Promise.resolve();
-        });
-  
-        spyOn(portal, 'setItemAccess').and.callFake(async () => {
+
+        spyOn(portal, "updateItem").and.callFake(async () => {
           return Promise.resolve();
         });
 
-        spyOn(portal, 'getUserContent').and.callFake(async () => {
+        spyOn(portal, "setItemAccess").and.callFake(async () => {
+          return Promise.resolve();
+        });
+
+        spyOn(portal, "getUserContent").and.callFake(async () => {
           return Promise.resolve({ folders: [] });
         });
 
-        spyOn(portal, 'createFolder').and.callFake(async () => {
-          return Promise.resolve({ folder: { id: 'export-folder-id' } });
-        });;
+        spyOn(portal, "createFolder").and.callFake(async () => {
+          return Promise.resolve({ folder: { id: "export-folder-id" } });
+        });
 
-        spyOn(portal, 'moveItem').and.callFake(async () => {
+        spyOn(portal, "moveItem").and.callFake(async () => {
           return Promise.resolve();
         });
 
-        spyOn(portal, 'removeItem').and.callFake(async () => {
+        spyOn(portal, "removeItem").and.callFake(async () => {
           return Promise.resolve();
         });
         const mockEventEmitter = new EventEmitter();
-        spyOn(mockEventEmitter, 'emit');
+        spyOn(mockEventEmitter, "emit");
         const poller = portalPollExportJobStatus({
-          downloadId: 'download-id',
-          jobId: 'test-id',
-          datasetId: 'abcdef0123456789abcdef0123456789_0',
-          format: 'CSV',
+          downloadId: "download-id",
+          jobId: "test-id",
+          datasetId: "abcdef0123456789abcdef0123456789_0",
+          format: "CSV",
           authentication,
           exportCreated: 1000,
           pollingInterval: 10,
@@ -700,11 +702,17 @@ describe("portalPollExportJobStatus", () => {
           detail: {
             metadata: { downloadId, status, downloadUrl, lastModified }
           }
-        } = (mockEventEmitter.emit as any).calls.first().args[1]
-        expect(downloadId).toEqual('download-id');
-        expect(status).toEqual('ready');
-        expect(downloadUrl).toEqual('http://portal.com/sharing/rest/content/items/download-id/data?token=123');
-        expect(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z$/.test(lastModified)).toEqual(true);
+        } = (mockEventEmitter.emit as any).calls.first().args[1];
+        expect(downloadId).toEqual("download-id");
+        expect(status).toEqual("ready");
+        expect(downloadUrl).toEqual(
+          "http://portal.com/sharing/rest/content/items/download-id/data?token=123"
+        );
+        expect(
+          /^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z$/.test(
+            lastModified
+          )
+        ).toEqual(true);
         expect(poller.pollTimer === null).toEqual(true);
       } catch (err) {
         expect(err).toEqual(undefined);
@@ -767,12 +775,12 @@ describe("portalPollExportJobStatus", () => {
           })
         );
         const mockEventEmitter = new EventEmitter();
-        spyOn(mockEventEmitter, 'emit');
+        spyOn(mockEventEmitter, "emit");
         const poller = portalPollExportJobStatus({
-          downloadId: 'download-id',
-          jobId: 'test-id',
-          datasetId: 'abcdef0123456789abcdef0123456789_0',
-          format: 'CSV',
+          downloadId: "download-id",
+          jobId: "test-id",
+          datasetId: "abcdef0123456789abcdef0123456789_0",
+          format: "CSV",
           authentication,
           exportCreated: 1000,
           pollingInterval: 10,
@@ -831,11 +839,17 @@ describe("portalPollExportJobStatus", () => {
           detail: {
             metadata: { downloadId, status, downloadUrl, lastModified }
           }
-        } = (mockEventEmitter.emit as any).calls.first().args[1]
-        expect(downloadId).toEqual('download-id');
-        expect(status).toEqual('ready');
-        expect(downloadUrl).toEqual('http://portal.com/sharing/rest/content/items/download-id/data?token=123');
-        expect(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z$/.test(lastModified)).toEqual(true);
+        } = (mockEventEmitter.emit as any).calls.first().args[1];
+        expect(downloadId).toEqual("download-id");
+        expect(status).toEqual("ready");
+        expect(downloadUrl).toEqual(
+          "http://portal.com/sharing/rest/content/items/download-id/data?token=123"
+        );
+        expect(
+          /^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z$/.test(
+            lastModified
+          )
+        ).toEqual(true);
         expect(poller.pollTimer === null).toEqual(true);
       } catch (err) {
         expect(err).toEqual(undefined);
@@ -846,47 +860,47 @@ describe("portalPollExportJobStatus", () => {
 
     it("succeeds without moving download", async done => {
       try {
-        spyOn(portal, 'getItemStatus').and.callFake(async () => {
-          return Promise.resolve({ status: 'completed' });
+        spyOn(portal, "getItemStatus").and.callFake(async () => {
+          return Promise.resolve({ status: "completed" });
         });
-  
-        spyOn(portal, 'updateItem').and.callFake(async () => {
-          return Promise.resolve();
-        });
-  
-        spyOn(portal, 'setItemAccess').and.callFake(async () => {
+
+        spyOn(portal, "updateItem").and.callFake(async () => {
           return Promise.resolve();
         });
 
-        spyOn(portal, 'getUserContent').and.callFake(async () => {
-          return Promise.resolve({ folders: []});
+        spyOn(portal, "setItemAccess").and.callFake(async () => {
+          return Promise.resolve();
         });
 
-        spyOn(portal, 'createFolder').and.callFake(async () => {
-          return Promise.resolve({ folder: { id: 'export-folder-id' } });
+        spyOn(portal, "getUserContent").and.callFake(async () => {
+          return Promise.resolve({ folders: [] });
         });
 
-        spyOn(portal, 'moveItem').and.callFake(async () => {
-          return Promise.reject(new RestJsError('Already moved', 'CONT_0011'));
+        spyOn(portal, "createFolder").and.callFake(async () => {
+          return Promise.resolve({ folder: { id: "export-folder-id" } });
         });
 
-        spyOn(portal, 'removeItem').and.callFake(async () => {
+        spyOn(portal, "moveItem").and.callFake(async () => {
+          return Promise.reject(new RestJsError("Already moved", "CONT_0011"));
+        });
+
+        spyOn(portal, "removeItem").and.callFake(async () => {
           return Promise.resolve();
         });
 
         const mockEventEmitter = new EventEmitter();
-        spyOn(mockEventEmitter, 'emit');
+        spyOn(mockEventEmitter, "emit");
         const poller = portalPollExportJobStatus({
-          downloadId: 'download-id',
-          jobId: 'test-id',
-          datasetId: 'abcdef0123456789abcdef0123456789_0',
-          format: 'CSV',
+          downloadId: "download-id",
+          jobId: "test-id",
+          datasetId: "abcdef0123456789abcdef0123456789_0",
+          format: "CSV",
           authentication,
           exportCreated: 1000,
           pollingInterval: 10,
           eventEmitter: mockEventEmitter
         });
-  
+
         expect(poller.pollTimer !== null).toEqual(true);
         await delay(100);
         expect(portal.getItemStatus).toHaveBeenCalledTimes(1);
@@ -944,11 +958,17 @@ describe("portalPollExportJobStatus", () => {
           detail: {
             metadata: { downloadId, status, downloadUrl, lastModified }
           }
-        } = (mockEventEmitter.emit as any).calls.first().args[1]
-        expect(downloadId).toEqual('download-id');
-        expect(status).toEqual('ready');
-        expect(downloadUrl).toEqual('http://portal.com/sharing/rest/content/items/download-id/data?token=123');
-        expect(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z$/.test(lastModified)).toEqual(true);
+        } = (mockEventEmitter.emit as any).calls.first().args[1];
+        expect(downloadId).toEqual("download-id");
+        expect(status).toEqual("ready");
+        expect(downloadUrl).toEqual(
+          "http://portal.com/sharing/rest/content/items/download-id/data?token=123"
+        );
+        expect(
+          /^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z$/.test(
+            lastModified
+          )
+        ).toEqual(true);
         expect(poller.pollTimer === null).toEqual(true);
       } catch (err) {
         expect(err).toEqual(undefined);
@@ -1008,19 +1028,19 @@ describe("portalPollExportJobStatus", () => {
           })
         );
         const mockEventEmitter = new EventEmitter();
-        spyOn(mockEventEmitter, 'emit');
+        spyOn(mockEventEmitter, "emit");
         const poller = portalPollExportJobStatus({
-          downloadId: 'download-id',
-          jobId: 'test-id',
-          datasetId: 'abcdef0123456789abcdef0123456789_0',
-          format: 'CSV',
-          spatialRefId: '4326',
+          downloadId: "download-id",
+          jobId: "test-id",
+          datasetId: "abcdef0123456789abcdef0123456789_0",
+          format: "CSV",
+          spatialRefId: "4326",
           authentication,
           exportCreated: 1000,
           pollingInterval: 10,
           eventEmitter: mockEventEmitter
         });
-  
+
         expect(poller.pollTimer !== null).toEqual(true);
         await delay(100);
         expect(portal.getItemStatus).toHaveBeenCalledTimes(2);
@@ -1079,11 +1099,17 @@ describe("portalPollExportJobStatus", () => {
           detail: {
             metadata: { downloadId, status, downloadUrl, lastModified }
           }
-        } = (mockEventEmitter.emit as any).calls.first().args[1]
-        expect(downloadId).toEqual('download-id');
-        expect(status).toEqual('ready');
-        expect(downloadUrl).toEqual('http://portal.com/sharing/rest/content/items/download-id/data?token=123');
-        expect(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z$/.test(lastModified)).toEqual(true);
+        } = (mockEventEmitter.emit as any).calls.first().args[1];
+        expect(downloadId).toEqual("download-id");
+        expect(status).toEqual("ready");
+        expect(downloadUrl).toEqual(
+          "http://portal.com/sharing/rest/content/items/download-id/data?token=123"
+        );
+        expect(
+          /^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z$/.test(
+            lastModified
+          )
+        ).toEqual(true);
         expect(poller.pollTimer === null).toEqual(true);
       } catch (err) {
         expect(err).toEqual(undefined);

@@ -15,6 +15,11 @@ import { urlBuilder } from "../utils";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { IPoller } from "../poller";
 
+enum DownloadStatus {
+  READY = "ready",
+  ERROR = "error"
+}
+
 class ExportCompletionError extends Error {
   constructor(message: string) {
     /* istanbul ignore next */
@@ -87,7 +92,9 @@ class PortalPoller implements IPoller {
           if (metadata.status === "failed") {
             eventEmitter.emit(`${downloadId}ExportError`, {
               detail: {
+                error: new Error(metadata.statusMessage),
                 metadata: {
+                  status: DownloadStatus.ERROR,
                   errors: [new Error(metadata.statusMessage)]
                 }
               }
@@ -98,11 +105,14 @@ class PortalPoller implements IPoller {
         .catch((error: any) => {
           if (error instanceof ExportCompletionError) {
             eventEmitter.emit(`${downloadId}ExportError`, {
-              detail: { metadata: { errors: [error] } }
+              detail: {
+                error,
+                metadata: { status: DownloadStatus.ERROR, errors: [error] }
+              }
             });
           } else {
             eventEmitter.emit(`${downloadId}PollingError`, {
-              detail: { error }
+              detail: { error, metadata: { status: DownloadStatus.ERROR } }
             });
           }
           return this.disablePoll();
@@ -173,7 +183,7 @@ function completedHandler(params: any): Promise<any> {
         detail: {
           metadata: {
             downloadId,
-            status: "ready",
+            status: DownloadStatus.READY,
             lastModified: new Date().toISOString(),
             downloadUrl: urlBuilder({
               host: authentication.portal,

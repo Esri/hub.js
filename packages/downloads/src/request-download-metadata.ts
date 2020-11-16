@@ -1,7 +1,8 @@
 import { portalRequestDownloadMetadata } from "./portal/portal-request-download-metadata";
-import { hubRequestDownloadMetadata } from "./hub/hub-request-download-metadata"
+import { hubRequestDownloadMetadata } from "./hub/hub-request-download-metadata";
 import { DownloadFormat } from "./download-format";
-import { UserSession } from '@esri/arcgis-rest-auth';
+import { DownloadStatus } from "./download-status";
+import { UserSession } from "@esri/arcgis-rest-auth";
 
 export interface IDownloadMetadataRequestParams {
   /* API target for downloads: 'hub' (default) or 'portal' */
@@ -24,28 +25,31 @@ export interface IDownloadMetadataRequestParams {
 
 export interface IDownloadMetadataResults {
   /* Identifier for the download */
-  downloadId: string,
+  downloadId: string;
 
-  /* ready, not_ready, creating, updating, failed*/
-  status: string,
+  /* ready, not_ready, creating, updating, failed */
+  status: DownloadStatus;
+
+  /* array of any errors related to exporting*/
+  errors?: Error[];
 
   /* ISO date of the service's last edit date */
-  lastEditDate?:string,
+  lastEditDate?: string;
 
   /* ISO date of the download file's data - the last edit date of the service when the download export started */
-  contentLastModified?: string,
+  contentLastModified?: string;
 
   /* File timestamp */
-  lastModified?: string,
+  lastModified?: string;
 
   /* URL for downloading the file */
-  downloadUrl?: string,
+  downloadUrl?: string;
 
   /* File size */
-  contentLength?: number,
+  contentLength?: number;
 
   /* Time (milliseconds) it took to export and cache the download file */
-  cacheTime?: number
+  cacheTime?: number;
 }
 
 /**
@@ -89,7 +93,7 @@ export function requestDownloadMetadata(
     authentication
   } = params;
 
-  if (target === 'portal') {
+  if (target === "portal") {
     return portalRequestDownloadMetadata({
       datasetId,
       format,

@@ -82,6 +82,7 @@ function formatApiResponse(json: any, downloadId: string) {
       contentLastModified,
       lastModified,
       status,
+      errors,
       contentLength,
       cacheTime,
       source: { lastEditDate }
@@ -95,6 +96,7 @@ function formatApiResponse(json: any, downloadId: string) {
     lastEditDate,
     lastModified,
     status,
+    errors: errors || [],
     downloadUrl,
     contentLength,
     cacheTime
