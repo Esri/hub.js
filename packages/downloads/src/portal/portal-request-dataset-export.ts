@@ -42,6 +42,8 @@ export function portalRequestDatasetExport(
 
 function composeExportParameters(params: any) {
   const { datasetId, spatialRefId, where } = params;
+
+  // TODO: move parseDatasetId() to hub-common and use that here
   const layerId = datasetId.split("_")[1];
 
   if (!layerId) {
