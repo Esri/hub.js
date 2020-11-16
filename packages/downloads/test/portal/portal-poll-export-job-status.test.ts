@@ -67,7 +67,7 @@ describe("portalPollExportJobStatus", () => {
         {
           detail: {
             error: new Error("Export failed"),
-            metadata: { status: "error" }
+            metadata: { status: "error", errors: [new Error("Export failed")] }
           }
         }
       ]);
@@ -188,7 +188,7 @@ describe("portalPollExportJobStatus", () => {
           {
             detail: {
               error: new Error("5xx"),
-              metadata: { status: "error" }
+              metadata: { status: "error", errors: [new Error("5xx")] }
             }
           }
         ]);
@@ -272,7 +272,7 @@ describe("portalPollExportJobStatus", () => {
           {
             detail: {
               error: new Error("5xx"),
-              metadata: { status: "error" }
+              metadata: { status: "error", errors: [new Error("5xx")] }
             }
           }
         ]);
@@ -363,7 +363,7 @@ describe("portalPollExportJobStatus", () => {
           {
             detail: {
               error: new Error("5xx"),
-              metadata: { status: "error" }
+              metadata: { status: "error", errors: [new Error("5xx")] }
             }
           }
         ]);
@@ -466,7 +466,7 @@ describe("portalPollExportJobStatus", () => {
           {
             detail: {
               error: new Error("5xx"),
-              metadata: { status: "error" }
+              metadata: { status: "error", errors: [new Error("5xx")] }
             }
           }
         ]);
@@ -580,7 +580,7 @@ describe("portalPollExportJobStatus", () => {
           {
             detail: {
               error: new Error("5xx"),
-              metadata: { status: "error" }
+              metadata: { status: "error", errors: [new Error("5xx")] }
             }
           }
         ]);
