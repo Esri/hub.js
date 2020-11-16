@@ -342,7 +342,7 @@ function getChangelogData() {
 function filterReleases(releases) {
   return releases.slice(-2);
 }
-
+console.info(`Starting changelog preparation...`);
 getReleases()
   .then(releases => filterReleases(releases))
   .then(releases => pairReleases(releases))
@@ -388,6 +388,7 @@ getReleases()
     });
 
     writeFile("CHANGELOG.md", rendered, function(e) {});
+    console.info(`Done changelog.`);
   })
   .catch(error => {
     console.error(error.stack);

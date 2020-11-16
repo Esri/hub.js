@@ -24,7 +24,7 @@ export function cloneObject<T>(obj: T): T {
         const value = obj[i];
         if (value != null && typeof value === "object") {
           if (value instanceof Date) {
-            clone[i] = new Date(value.getTime())
+            clone[i] = new Date(value.getTime());
           } else {
             clone[i] = cloneObject(value);
           }
@@ -275,6 +275,49 @@ export function camelize(value: string): string {
  */
 export function unique(value: any, index: number, ary: any[]): boolean {
   return ary.indexOf(value) === index;
+}
+
+/**
+ * Return array of unique objects, based on a deep property value
+ *  Note: Property you compare on should be a primative type
+ * @export
+ * @template T
+ * @param {T[]} arr
+ * @param {string} prop
+ * @return {*}  {T[]}
+ */
+export function uniqueBy<T>(arr: T[], prop: string): T[] {
+  return arr.reduce((acc, entry) => {
+    const nameMatches = (e: unknown) =>
+      getProp(e, prop) === getProp(entry, prop);
+    return maybePush(acc.find(nameMatches) ? null : entry, acc);
+  }, []);
+}
+
+/**
+ * Return last element of an array
+ *
+ * @export
+ * @template T
+ * @param {T[]} arr
+ * @return {*}  {T}
+ */
+export function last<T>(arr: T[]): T {
+  return arr[arr.length - 1];
+}
+
+/**
+ * Filter an array by a deep property value
+ *
+ * @export
+ * @template T
+ * @param {T[]} arr
+ * @param {string} prop
+ * @param {unknown} val
+ * @return {*}  {T[]}
+ */
+export function filterBy<T>(arr: T[], prop: string, val: unknown): T[] {
+  return arr.filter(entry => getProp(entry, prop) === val);
 }
 
 /**

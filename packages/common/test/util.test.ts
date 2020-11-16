@@ -12,7 +12,10 @@ import {
   unique,
   extend,
   addDays,
-  chunkArray
+  chunkArray,
+  uniqueBy,
+  last,
+  filterBy
 } from "../src/util";
 
 import { getProp } from "../src/objects";
@@ -673,6 +676,42 @@ describe("util functions", () => {
     it("should chunk array based on size", () => {
       expect(chunkArray([1, 2, 3, 4, 5], 3)).toEqual([[1, 2, 3], [4, 5]]);
       expect(chunkArray([], 3)).toEqual([]);
+    });
+  });
+  describe("last: ", () => {
+    it("returns last element of an array", () => {
+      expect(last([1, 2, 3])).toBe(3, "should return last entry");
+      const objArr = [{ id: 1 }, { id: 2 }, { id: 3 }];
+      expect(last(objArr)).toBe(objArr[2], "returns last object from an array");
+      expect(last([])).toBeUndefined();
+    });
+  });
+  describe("filterBy:", () => {
+    it("filters array by deep prop value", () => {
+      const arr = [
+        { item: { type: "Map", id: "map1" } },
+        { item: { type: "App", id: "app1" } },
+        { item: { type: "Map", id: "map2" } },
+        { item: { type: "App", id: "app2" } }
+      ];
+      const apps = filterBy(arr, "item.type", "App");
+      expect(apps.length).toBe(2, "should have two apps");
+      apps.forEach(app => {
+        expect(app.item.type).toBe("App");
+      });
+    });
+  });
+
+  describe("uniqueBy: ", () => {
+    it("returns uniqu entries by deep prop", () => {
+      const arr = [
+        { item: { type: "Map", id: "map1" } },
+        { item: { type: "App", id: "app1" } },
+        { item: { type: "Map", id: "map1" } },
+        { item: { type: "App", id: "app2" } }
+      ];
+      const chk = uniqueBy(arr, "item.id");
+      expect(chk.length).toBe(3);
     });
   });
 });
