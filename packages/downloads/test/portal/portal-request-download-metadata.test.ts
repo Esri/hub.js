@@ -414,6 +414,75 @@ describe("portalRequestDownloadMetadata", () => {
       }
     });
 
+    it("no layer id, no layers, not cached", async done => {
+      try {
+        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              type: "Feature Service",
+              modified: new Date(1593450876).getTime(),
+              url: "http://feature-service.com/FeatureServer"
+            });
+          })
+        );
+
+        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+          new Promise(resolve => {
+            resolve({});
+          })
+        );
+
+        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+          new Promise(resolve => {
+            resolve({ results: [] });
+          })
+        );
+
+        const result = await portalRequestDownloadMetadata({
+          datasetId: "abcdef0123456789abcdef0123456789",
+          format: "CSV",
+          authentication
+        });
+
+        expect(result).toEqual({
+          downloadId:
+            "abcdef0123456789abcdef0123456789:CSV:undefined:undefined:undefined",
+          lastEditDate: undefined,
+          status: "not_ready"
+        });
+
+        expect(getItemSpy.calls.count()).toEqual(1);
+        expect(getItemSpy.calls.argsFor(0)).toEqual([
+          "abcdef0123456789abcdef0123456789",
+          {
+            authentication
+          }
+        ]);
+        expect(getServiceSpy.calls.count()).toEqual(1);
+        expect(getServiceSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer",
+            authentication
+          }
+        ]);
+        expect(searchItemsSpy.calls.count()).toEqual(1);
+        expect(searchItemsSpy.calls.argsFor(0)).toEqual([
+          {
+            authentication,
+            num: 1,
+            q:
+              'type:"CSV" AND typekeywords:"export:abcdef0123456789abcdef0123456789,spatialRefId:undefined"',
+            sortField: "modified",
+            sortOrder: "DESC"
+          }
+        ]);
+      } catch (err) {
+        expect(err).toEqual(undefined);
+      } finally {
+        done();
+      }
+    });
+
     it("no layer id, multi-layer, no lastEditDate, not cached", async done => {
       try {
         const getItemSpy = spyOn(portal, "getItem").and.returnValue(
@@ -820,7 +889,7 @@ describe("portalRequestDownloadMetadata", () => {
     });
   });
 
-  describe("feature-service items, format KML", () => {
+  describe("feature-service items, format Shapefile", () => {
     it("no layer id, multi-layer, no lastEditDate, not cached", async done => {
       try {
         const getItemSpy = spyOn(portal, "getItem").and.returnValue(
@@ -881,6 +950,79 @@ describe("portalRequestDownloadMetadata", () => {
             num: 1,
             q:
               'type:"KML Collection" AND typekeywords:"export:abcdef0123456789abcdef0123456789,spatialRefId:undefined"',
+            sortField: "modified",
+            sortOrder: "DESC"
+          }
+        ]);
+      } catch (err) {
+        expect(err).toEqual(undefined);
+      } finally {
+        done();
+      }
+    });
+  });
+
+  describe("feature-service items, format KML", () => {
+    it("no layer id, multi-layer, no lastEditDate, not cached", async done => {
+      try {
+        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              type: "Feature Service",
+              modified: new Date(1593450876).getTime(),
+              url: "http://feature-service.com/FeatureServer"
+            });
+          })
+        );
+
+        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              layers: [{ id: 0 }, { id: 1 }]
+            });
+          })
+        );
+
+        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+          new Promise(resolve => {
+            resolve({ results: [] });
+          })
+        );
+
+        const result = await portalRequestDownloadMetadata({
+          datasetId: "abcdef0123456789abcdef0123456789",
+          format: "Shapefile",
+          authentication
+        });
+
+        expect(result).toEqual({
+          downloadId:
+            "abcdef0123456789abcdef0123456789:Shapefile:undefined:undefined:undefined",
+          lastEditDate: undefined,
+          status: "not_ready"
+        });
+
+        expect(getItemSpy.calls.count()).toEqual(1);
+        expect(getItemSpy.calls.argsFor(0)).toEqual([
+          "abcdef0123456789abcdef0123456789",
+          {
+            authentication
+          }
+        ]);
+        expect(getServiceSpy.calls.count()).toEqual(1);
+        expect(getServiceSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer",
+            authentication
+          }
+        ]);
+        expect(searchItemsSpy.calls.count()).toEqual(1);
+        expect(searchItemsSpy.calls.argsFor(0)).toEqual([
+          {
+            authentication,
+            num: 1,
+            q:
+              'type:"Shapefile" AND typekeywords:"export:abcdef0123456789abcdef0123456789,spatialRefId:undefined"',
             sortField: "modified",
             sortOrder: "DESC"
           }

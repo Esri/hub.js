@@ -1,13 +1,20 @@
 import { getItem, IItem, searchItems } from "@esri/arcgis-rest-portal";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import {
-  getLayer,
   getService,
   IFeatureServiceDefinition,
   ILayerDefinition
 } from "@esri/arcgis-rest-feature-layer";
 import { DownloadFormat } from "../download-format";
 import { urlBuilder, composeDownloadId } from "../utils";
+enum CollectionTypes {
+  CSV = "CSV",
+  KML = "KML"
+}
+enum ItemTypes {
+  FeatureService = "Feature Service",
+  MapService = "Map Service"
+}
 
 /**
  * @private
@@ -84,19 +91,19 @@ export function portalRequestDownloadMetadata(
 function fetchCacheSearchMetadata(params: any): Promise<ICacheSearchMetadata> {
   const { format, layerId, url, type, modified, authentication } = params;
 
-  if (type !== "Feature Service" && type !== "Map Service") {
+  if (type !== ItemTypes.FeatureService && type !== ItemTypes.MapService) {
     return Promise.resolve({
       modified,
-      format: getSearchFormat(format, false)
+      format
     });
   }
 
   return getService({ url, authentication }).then(
     (response: IFeatureServiceDefinition) => {
-      const layers: ILayerDefinition[] = response.layers;
+      const layers: ILayerDefinition[] = response.layers || [];
       const multilayer = isMultilayerRequest(layerId, layers);
       return {
-        format: getSearchFormat(format, multilayer),
+        format: multilayer ? getMultilayerSearchFormat(format) : format,
         modified: extractLastEditDate(layers)
       };
     }
@@ -122,8 +129,8 @@ function extractLastEditDate(layers: ILayerDefinition[]) {
   return result[0];
 }
 
-function getSearchFormat(format: DownloadFormat, multilayer: boolean) {
-  if (multilayer && (format === "CSV" || format === "KML")) {
+function getMultilayerSearchFormat(format: DownloadFormat) {
+  if (format === CollectionTypes.CSV || format === CollectionTypes.KML) {
     return `${format} Collection`;
   }
   return format;
