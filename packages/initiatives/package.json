@@ -19,9 +19,9 @@
     "@esri/hub-common": "^6.4.0"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-auth": "^2.14.1",
-    "@esri/arcgis-rest-portal": "^2.18.0",
-    "@esri/arcgis-rest-request": "^2.14.1",
+    "@esri/arcgis-rest-request": "^2.21.0",
+    "@esri/arcgis-rest-portal": "^2.21.0",
+    "@esri/arcgis-rest-auth": "^2.21.0",
     "@esri/hub-common": "^6.18.0",
     "@rollup/plugin-commonjs": "^15.0.0",
     "@rollup/plugin-json": "^4.1.0",

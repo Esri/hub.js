@@ -42,7 +42,14 @@ export function portalRequestDatasetExport(
 
 function composeExportParameters(params: any) {
   const { datasetId, spatialRefId, where } = params;
-  const layerId = datasetId.split("_")[1] || 0;
+
+  // TODO: move parseDatasetId() to hub-common and use that here
+  const layerId = datasetId.split("_")[1];
+
+  if (!layerId) {
+    return spatialRefId ? { targetSR: { wkid: Number(spatialRefId) } } : {};
+  }
+
   const layers = [{ id: Number(layerId), where }];
   return spatialRefId
     ? {
