@@ -13,6 +13,9 @@ enum ItemTypes {
   MapService = "Map Service"
 }
 
+const isCollectionType = (format: DownloadFormat) =>
+  format === DownloadFormats.CSV || format === DownloadFormats.KML;
+
 /**
  * @private
  */
@@ -127,10 +130,6 @@ function extractLastEditDate(layers: ILayerDefinition[]) {
       return b - a;
     });
   return result[0];
-}
-
-function isCollectionType(format: DownloadFormat) {
-  return format === DownloadFormats.CSV || format === DownloadFormats.KML;
 }
 
 function formatDownloadMetadata(params: any) {
