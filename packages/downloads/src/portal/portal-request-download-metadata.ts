@@ -5,12 +5,9 @@ import {
   IFeatureServiceDefinition,
   ILayerDefinition
 } from "@esri/arcgis-rest-feature-layer";
-import { DownloadFormat } from "../download-format";
+import { DownloadFormat, DownloadFormats } from "../download-format";
 import { urlBuilder, composeDownloadId } from "../utils";
-enum CollectionTypes {
-  CSV = "CSV",
-  KML = "KML"
-}
+
 enum ItemTypes {
   FeatureService = "Feature Service",
   MapService = "Map Service"
@@ -103,7 +100,10 @@ function fetchCacheSearchMetadata(params: any): Promise<ICacheSearchMetadata> {
       const layers: ILayerDefinition[] = response.layers || [];
       const multilayer = isMultilayerRequest(layerId, layers);
       return {
-        format: multilayer ? getMultilayerSearchFormat(format) : format,
+        format:
+          multilayer && isCollectionType(format)
+            ? `${format} Collection`
+            : format,
         modified: extractLastEditDate(layers)
       };
     }
@@ -129,11 +129,8 @@ function extractLastEditDate(layers: ILayerDefinition[]) {
   return result[0];
 }
 
-function getMultilayerSearchFormat(format: DownloadFormat) {
-  if (format === CollectionTypes.CSV || format === CollectionTypes.KML) {
-    return `${format} Collection`;
-  }
-  return format;
+function isCollectionType(format: DownloadFormat) {
+  return format === DownloadFormats.CSV || format === DownloadFormats.KML;
 }
 
 function formatDownloadMetadata(params: any) {
