@@ -96,13 +96,23 @@ describe("requestDownloadMetadata", () => {
         }
       );
 
-      fetchMock.post("https://feature-service.com/FeatureServer/0", {
+      fetchMock.post("https://feature-service.com/FeatureServer", {
         status: 200,
         body: {}
       });
 
       fetchMock.mock(
         "http://portal.com/sharing/rest/search?f=json&q=type%3A%22Shapefile%22%20AND%20typekeywords%3A%22export%3Aabcdef0123456789abcdef0123456789%2CspatialRefId%3A2227%22&num=1&sortField=modified&sortOrder=DESC&token=123",
+        {
+          status: 200,
+          body: {
+            results: []
+          }
+        }
+      );
+
+      fetchMock.mock(
+        "http://portal.com/sharing/rest/search?f=json&q=type%3A%22CSV%20Collection%22%20AND%20typekeywords%3A%22export%3Aabcdef0123456789abcdef0123456789%2CspatialRefId%3A2227%22&num=1&sortField=modified&sortOrder=DESC&token=123",
         {
           status: 200,
           body: {
