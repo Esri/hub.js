@@ -96,7 +96,7 @@ describe("requestDownloadMetadata", () => {
         }
       );
 
-      fetchMock.post("https://feature-service.com/FeatureServer/0", {
+      fetchMock.post("https://feature-service.com/FeatureServer", {
         status: 200,
         body: {}
       });
