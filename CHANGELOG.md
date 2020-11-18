@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.19.0] - November 18th 2020
+
+### @esri/hub-downloads
+- New Features
+  - **downloads** - support multilayer items in portal download metadata request
+- Bug Fixes
+  - **downloads** - for portal metadata, search for CSV Collection or KML collection if item is multilayer and format is CSV or KML
+
 ## [6.18.0] - November 13th 2020
 
 - New Features
@@ -193,13 +201,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/hub-content
 
 - Bug Fixes
-  - **normalizeItemType**: getType =&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
+  - **normalizeItemType**: getType =&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
   - **collections**: add template collection, getHubItemType only accepts items [`57b783a2`](https://github.com/Esri/hub.js/commit/57b783a242b7a2747db0dbc7fce57155c56ad93f) [#347](https://github.com/Esri/hub.js/issues/347) [#354](https://github.com/Esri/hub.js/issues/354)
 
 ### @esri/hub-sites
 
 - Bug Fixes
-  - **normalizeItemType**: getType =&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
+  - **normalizeItemType**: getType =&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
 
 ### Other Changes
 
@@ -476,7 +484,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [4.1.0] - May 21st 2020
 
+
+
 ## [4.0.0] - May 20th 2020
+
+
 
 ## [3.9.3] - May 14th 2020
 
@@ -514,6 +526,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - **peerDependencies**: fix invalid peerDependencies [`08fae37`](https://github.com/Esri/hub.js/commit/08fae37875aa3e68a82970a54eedcbe13ef001a8) [#251](https://github.com/Esri/hub.js/issues/251)
 
 ## [3.9.1] - May 6th 2020
+
+
 
 ## [3.9.0] - May 6th 2020
 
@@ -555,6 +569,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.7.4] - April 30th 2020
 
+
+
 ## [3.7.3] - April 29th 2020
 
 - New Features
@@ -565,6 +581,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/hub-common
 
 ## [3.7.1] - April 28th 2020
+
+
 
 ## [3.7.0] - April 28th 2020
 
@@ -620,7 +638,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.6.3] - January 27th 2020
 
+
+
 ## [3.6.2] - January 2nd 2020
+
+
 
 ## [3.6.0] - November 18th 2019
 
@@ -714,6 +736,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - **search**: support filters specified implicitly
 
 ## [2.6.0] - August 20th 2019
+
+
 
 ## [2.5.0] - August 15th 2019
 
@@ -1244,4 +1268,5 @@ Initial Release
 [6.16.0]: https://github.com/Esri/hub.js/compare/v6.15.0...v6.16.0 "v6.16.0"
 [6.17.0]: https://github.com/Esri/hub.js/compare/v6.16.0...v6.17.0 "v6.17.0"
 [6.18.0]: https://github.com/Esri/hub.js/compare/v6.17.0...v6.18.0 "v6.18.0"
-[head]: https://github.com/Esri/hub.js/compare/v6.18.0...HEAD "Unreleased Changes"
+[6.19.0]: https://github.com/Esri/hub.js/compare/v6.18.0...v6.19.0 "v6.19.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v6.19.0...HEAD "Unreleased Changes"
