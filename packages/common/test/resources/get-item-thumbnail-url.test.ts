@@ -41,7 +41,10 @@ describe("getItemThumbnailUrl", function() {
 
   it("computes url with options", function() {
     const token = "token";
-    const url = getItemThumbnailUrl(item, portalApiUrl, { token });
-    expect(url).toBe(`${itemApiUrlBase}/info/thumbnail.png?token=${token}`);
+    const width = 1200;
+    const url = getItemThumbnailUrl(item, portalApiUrl, { token, width });
+    expect(url).toBe(
+      `${itemApiUrlBase}/info/thumbnail.png?token=${token}&w=1200`
+    );
   });
 });
