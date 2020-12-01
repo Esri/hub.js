@@ -1,12 +1,8 @@
-import {
-  IRequestOptions,
-  ITokenRequestOptions
-} from "@esri/arcgis-rest-request";
+import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-types";
 import { IPortal } from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions } from "../types";
 import { getItemApiUrl } from "../urls/get-item-api-url";
-import { type } from "os";
 
 export interface IThumbnailOptions {
   token?: string;
