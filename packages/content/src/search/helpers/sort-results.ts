@@ -36,7 +36,7 @@ class ListMinHeap<T> {
   removeMin(): INode<T> | null {
     if (this.nodes.length <= 1) return null;
     this._swap(0, this.nodes.length - 1);
-    this.nodes.pop();
+    const min = this.nodes.pop();
 
     let nodeIndex = 0;
     let childIndexOne = nodeIndex * 2 + 1;
@@ -64,6 +64,8 @@ class ListMinHeap<T> {
       childIndexOne = nodeIndex * 2 + 1;
       childIndexTwo = nodeIndex * 2 + 2;
     }
+
+    return min;
   }
 
   _initialize(nodes?: Array<INode<T>>) {
