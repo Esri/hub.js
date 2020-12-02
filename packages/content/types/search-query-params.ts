@@ -1,19 +1,34 @@
-import { Visibility } from "@esri/hub-common";
+import { Visibility, IHubContent } from "@esri/hub-common";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IPagingParams } from "@esri/arcgis-rest-portal";
+import {
+  ISearchResult,
+  IPagingParams,
+  SearchQueryBuilder
+} from "@esri/arcgis-rest-portal";
 
 export type Access = "public" | "org" | "shared" | "private";
+
+export type SearchType = "content" | "group" | "user";
+
+/**
+ * Common Interface for Search Across Users, Groups, and Content
+ * For users, only search strings are currently supported. Groups and Content support search fields
+ * For further information, see Search Reference Page (https://developers.arcgis.com/rest/users-groups-and-items/search-reference.htm)
+ */
+export interface IBaseQueryParams {
+  q?: string | SearchQueryBuilder;
+}
 
 /**
  * Common Interface for Queries Across Content/Group Searches
  * For further information, see Search Reference Page (https://developers.arcgis.com/rest/users-groups-and-items/search-reference.htm)
  * Each is also mapped and searchable in Hub Index
  */
-export interface ISearchQueryParams {
+export interface ISearchQueryParams extends IBaseQueryParams {
   id?: string | string[];
   owner?: string | string[];
-  created?: [number, number] | Array<[number, number]>;
-  modified?: [number, number] | Array<[number, number]>;
+  created?: Array<[number, number]>;
+  modified?: Array<[number, number]>;
   title?: string | string[];
   typekeywords?: string | string[];
   description?: string | string[];
@@ -33,6 +48,8 @@ export interface IContentSearchQueryParams extends ISearchQueryParams {
   group?: string | string[];
   culture?: string | string[];
   categories?: string | string[];
+  eventLayerId?: string;
+  [key: string]: any;
 }
 
 /**
@@ -47,9 +64,37 @@ export interface IGroupSearchQueryParams extends ISearchQueryParams {
   isinvitationonly?: boolean;
 }
 
+export interface IBaseSearchParams extends IRequestOptions, IPagingParams {
+  queryParams: IBaseQueryParams;
+  sortField?: string;
+  sortOrder?: string;
+  aggregations?: string | string[];
+}
+
+export interface IContentSearchParams extends IBaseSearchParams {
+  queryParams: IContentSearchQueryParams;
+}
+
+export interface IGroupSearchParams extends IBaseSearchParams {
+  queryParams: IGroupSearchQueryParams;
+}
+
+export interface IUnifiedSearchResults<T> {
+  total: number;
+  num: number;
+  results: T[];
+  query?: string;
+  next?: string;
+  aggregations?: {
+    counts: Array<{
+      fieldName: string;
+      fieldValues: Array<{
+        value: any;
+        count: number;
+      }>;
+    }>;
+  };
+}
+
 // Other properties to consider
 // * snippet -> Searchable in Content but Not Mapped In Index
-
-export interface ISearchSiteContentParams {
-  siteId: string;
-}
