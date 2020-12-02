@@ -123,11 +123,9 @@ export function withPortalUrls(
   // the URL of the item's data API end point
   newContent.portalDataUrl = getItemDataUrl(newContent, requestOptions, token);
   // the full URL of the thumbnail
-  newContent.thumbnailUrl = getItemThumbnailUrl(
-    newContent,
-    requestOptions,
+  newContent.thumbnailUrl = getItemThumbnailUrl(newContent, requestOptions, {
     token
-  );
+  });
   return newContent;
 }
 

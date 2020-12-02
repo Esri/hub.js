@@ -1,7 +1,4 @@
-import {
-  IRequestOptions,
-  ITokenRequestOptions
-} from "@esri/arcgis-rest-request";
+import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-types";
 import { IPortal } from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions } from "../types";
@@ -9,6 +6,7 @@ import { getItemApiUrl } from "../urls/get-item-api-url";
 
 export interface IThumbnailOptions {
   token?: string;
+  width?: number;
 }
 
 /**
@@ -28,8 +26,8 @@ export function getItemThumbnailUrl(
     return null;
   }
   // tslint:disable-next-line prefer-const
-  let { token } = (optionsOrToken as IThumbnailOptions) || {};
-  // TODO: at the next breaking change drop support for passing options
+  let { token, width } = (optionsOrToken as IThumbnailOptions) || {};
+  // TODO: at the next breaking change drop support for passing token as string
   if (!token && typeof optionsOrToken === "string") {
     token = optionsOrToken;
   }
@@ -37,6 +35,9 @@ export function getItemThumbnailUrl(
   const [baseUrl, search] = itemApiUrl.split("?");
   const searchParams = new URLSearchParams(search);
   searchParams.delete("f");
+  if (width) {
+    searchParams.append("w", width + "");
+  }
   const newSearch = searchParams.toString();
   const url = `${baseUrl}/info/${item.thumbnail}`;
   return newSearch ? `${url}?${newSearch}` : url;
