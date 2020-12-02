@@ -107,7 +107,9 @@ export function kMerge<T>(
     currResultSize++;
 
     minNode.data = minNode.data.splice(0, 1);
-    heap.insert(minNode);
+    if (minNode.data.length) {
+      heap.insert(minNode);
+    }
 
     minNode = heap.removeMin();
   }
