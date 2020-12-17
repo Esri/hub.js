@@ -7,3 +7,5 @@ export {
   serialize,
   computeItemsFacets
 } from "./ago";
+
+export * from "./util";
