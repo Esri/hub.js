@@ -53,7 +53,7 @@ export function kMerge<T>(
 
 function kMergeDefault<T>(
   data: T[][],
-  resultLimit: number = 10
+  resultLimit: number
 ): { data: T[]; [key: string]: any } {
   const results: { data: T[]; [key: string]: any } = {
     data: [] as T[]
@@ -89,7 +89,7 @@ function kMergeSort<T>(
   data: T[][],
   cmptr: comparator<T[]>,
   direction: HeapDirection,
-  resultLimit: number = 10
+  resultLimit: number
 ): { data: T[]; [key: string]: any } {
   const nodes: Array<INode<T[]>> = data.map(
     (datum, index) => ({ data: datum, label: index.toString() } as INode<T[]>)
