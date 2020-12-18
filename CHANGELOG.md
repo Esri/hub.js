@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.21.0] - December 18th 2020
+
+### @esri/hub-content
+
+* Bug Fixes
+   * **content**: add structuredLicense to content from dataset [`ba8bb967`](https://github.com/Esri/hub.js/commit/ba8bb967f0fb91d280e9e8849517a44b73e0ad79)
+
 ## [6.20.1] - December 18th 2020
 
 ### @esri/hub-common
@@ -221,13 +228,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/hub-content
 
 - Bug Fixes
-  - **normalizeItemType**: getType =&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
+  - **normalizeItemType**: getType =&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
   - **collections**: add template collection, getHubItemType only accepts items [`57b783a2`](https://github.com/Esri/hub.js/commit/57b783a242b7a2747db0dbc7fce57155c56ad93f) [#347](https://github.com/Esri/hub.js/issues/347) [#354](https://github.com/Esri/hub.js/issues/354)
 
 ### @esri/hub-sites
 
 - Bug Fixes
-  - **normalizeItemType**: getType =&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
+  - **normalizeItemType**: getType =&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
 
 ### Other Changes
 
@@ -1284,4 +1291,5 @@ Initial Release
 [6.19.1]: https://github.com/Esri/hub.js/compare/v6.19.0...v6.19.1 "v6.19.1"
 [6.20.0]: https://github.com/Esri/hub.js/compare/v6.19.1...v6.20.0 "v6.20.0"
 [6.20.1]: https://github.com/Esri/hub.js/compare/v6.20.0...v6.20.1 "v6.20.1"
-[HEAD]: https://github.com/Esri/hub.js/compare/v6.20.1...HEAD "Unreleased Changes"
+[6.21.0]: https://github.com/Esri/hub.js/compare/v6.20.1...v6.21.0 "v6.21.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v6.21.0...HEAD "Unreleased Changes"
