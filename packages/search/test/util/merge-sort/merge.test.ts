@@ -141,7 +141,7 @@ describe("Min Binary Heap", () => {
     const sixth = { data: "k string ", label: "5" };
     const seventh = { data: "y string ", label: "6" };
     const eighth = { data: "i string ", label: "8" };
-    const nineth = { data: "d string ", label: "9" };
+    const ninth = { data: "d string ", label: "9" };
     const tenth = { data: "t string ", label: "10" };
 
     const lists = [
@@ -153,7 +153,7 @@ describe("Min Binary Heap", () => {
       sixth,
       seventh,
       eighth,
-      nineth,
+      ninth,
       tenth
     ];
 
@@ -173,7 +173,7 @@ describe("Min Binary Heap", () => {
       fifth,
       second,
       sixth,
-      nineth,
+      ninth,
       first,
       third,
       seventh,
@@ -189,7 +189,7 @@ describe("Min Binary Heap", () => {
       fifth,
       second,
       sixth,
-      nineth,
+      ninth,
       first,
       third,
       seventh,
@@ -205,7 +205,7 @@ describe("Min Binary Heap", () => {
       fifth,
       second,
       fifth,
-      nineth,
+      ninth,
       first,
       sixth,
       seventh,
@@ -227,7 +227,7 @@ describe("Min Binary Heap", () => {
     expect(removedThree).toEqual(second);
 
     const removedFour = minHeap.remove();
-    expect(removedFour).toEqual(nineth);
+    expect(removedFour).toEqual(ninth);
 
     const removedFive = minHeap.remove();
     expect(removedFive).toEqual(eighth);
@@ -422,7 +422,7 @@ describe("Max Binary Heap", () => {
     const sixth = { data: "k string ", label: "5" };
     const seventh = { data: "y string ", label: "6" };
     const eighth = { data: "i string ", label: "8" };
-    const nineth = { data: "d string ", label: "9" };
+    const ninth = { data: "d string ", label: "9" };
     const tenth = { data: "t string ", label: "10" };
 
     const lists = [
@@ -434,7 +434,7 @@ describe("Max Binary Heap", () => {
       sixth,
       seventh,
       eighth,
-      nineth,
+      ninth,
       tenth
     ];
 
@@ -463,7 +463,7 @@ describe("Max Binary Heap", () => {
       sixth,
       first,
       second,
-      nineth,
+      ninth,
       fifth
     ]);
 
@@ -479,7 +479,7 @@ describe("Max Binary Heap", () => {
       sixth,
       first,
       second,
-      nineth,
+      ninth,
       fifth,
       fourth
     ]);
@@ -495,7 +495,7 @@ describe("Max Binary Heap", () => {
       sixth,
       first,
       second,
-      nineth,
+      ninth,
       fifth,
       fourth,
       fifth
@@ -527,7 +527,7 @@ describe("Max Binary Heap", () => {
     expect(removedEigth).toEqual(eighth);
 
     const removedNine = maxHeap.remove();
-    expect(removedNine).toEqual(nineth);
+    expect(removedNine).toEqual(ninth);
 
     const removedTen = maxHeap.remove();
     expect(removedTen).toEqual(second);
