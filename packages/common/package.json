@@ -14,7 +14,7 @@
     "dist/**"
   ],
   "dependencies": {
-    "adlib": "3.0.6",
+    "adlib": "^3.0.7",
     "tslib": "^1.13.0"
   },
   "peerDependencies": {
