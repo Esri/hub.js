@@ -1,0 +1,39 @@
+name: gh-pages
+
+on: 
+  workflow_run:
+    workflows: [build-test]
+    branches: [master]
+    types:
+      - completed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false      
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-          
+      - run: npm install         
+      - run: npm run docs:build
+      - name: Deploy GH Pages 🚀
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.HUBJS_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: docs/build/hub.js
+          CLEAN: false
