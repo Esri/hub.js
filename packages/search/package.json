@@ -7,9 +7,12 @@
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
   "sideEffects": false,
-  "types": "dist/esm/index.d.ts",
+  "types": "dist/esm/i ndex.d.ts",
   "license": "Apache-2.0",
   "dependencies": {
+    "graphql": "^15.4.0",
+    "graphql-tag": "^2.11.0",
+    "graphql-request": "^3.4.0",
     "tslib": "^1.13.0"
   },
   "peerDependencies": {
@@ -49,7 +52,8 @@
     "dev:umd": "rollup -w -c ../../umd-base-profile.js",
     "dev:node": "tsc -w --module commonjs --outDir ./dist/node",
     "format": "prettier --write ./{src,test}/**/*.ts",
-    "format:check": "prettier --check ./{src,test}/**/*.ts"
+    "format:check": "prettier --check ./{src,test}/**/*.ts",
+    "test": "jasmine"
   },
   "publishConfig": {
     "access": "public"

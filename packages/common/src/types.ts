@@ -378,39 +378,3 @@ export interface ICursorSearchResults<T> {
   results: T[];
   next: () => Promise<ICursorSearchResults<T>>;
 }
-
-// export interface IUser {
-//   username: string;
-//   id: string;
-//   fullName: string;
-//   firstName: string;
-//   lastName: string;
-//   preferredView: string;
-//   description: string;
-//   email: string;
-//   ipUsername: string;
-//   favGroupId: string;
-//   lastLogin: number;
-//   mfaEnabled: boolean;
-//   access: string;
-//   orgId: string;
-//   role: string;
-//   privileges: string[];
-//   roleId: string;
-//   userLicenseTypeId: string;
-//   disabled: boolean;
-//   units: string;
-//   tags: string[];
-//   culture: string;
-//   cultureFormat: string;
-//   region: string;
-//   thumbnail: string;
-//   created: string[];
-//   modified: number;
-//   provider: string;
-//   // groups:
-//   availableCredits: number;
-//   assignedCredits: number;
-//   storageUsage: number;
-//   storageQuota: number;
-// }
