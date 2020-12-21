@@ -25,7 +25,7 @@ type HeapDirection = "ASC" | "DESC";
  * For example, if "data" represents an array of two result sets, with 3 and 5 results added to the final
  * result set, respectively, the returned object would be { data: [...], "0": 3, "1": 5 }
  *
- * @param data An array of of result sets, each an array of type T
+ * @param data An array of result sets, each an array of type T
  * @param resultLimit the maximum number of merged results to return, defaults to 10
  * @param cmptr comparator function that takes in two instances of type T and returns a negative number if a is less than b, a positive if a is greater than b, 0 if equal
  * @param direction specifies whether data should be ordered ascending or descending
