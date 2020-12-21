@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>What&#39;s New in v2.0.0 | Guide | @esri/hub.js</title>
+    
+    <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
+    
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css">
+    <link rel="stylesheet" href="/hub.js/css/style.css">
+    
+  </head>
+  <body>
+  <!-- Drawer -->
+    <div class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
+      <nav class="drawer-nav" role="navigation">
+        <aside class="side-nav">
+          <h2 class="side-nav-title">@esri/hub.js</h2>
+          <a href="/hub.js/guides/" class="is-active side-nav-link">Guides</a>
+          <a href="/hub.js/api/" class="side-nav-link">API Reference</a>
+        </aside>
+      </nav>
+    </div>
+
+    <div id="page" class="wrapper">
+      <!-- Sample HTML -->
+      <header class="top-nav">
+        <div class="grid-container">
+          <div class="column-24">
+            <!-- desktop sized navigation -->
+            <div class="tablet-hide">
+              <!-- logo / home -->
+              <a href="/hub.js/" class="top-nav-title">@esri/hub.js</a>
+              <!-- primary navigation sections -->
+              <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/guides/" class="is-active top-nav-link">Guides</a>
+                <a href="/hub.js/api/" class="top-nav-link">API Reference</a>
+              </nav>
+            </div>
+
+            <!-- tablet and mobile sized navigation -->
+            <div class="tablet-show top-nav-flex">
+              <!-- open primary navigation drawer -->
+              <nav class="top-nav-flex-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/" class="icon-ui-menu top-nav-link js-drawer-toggle" data-drawer="top-nav"><span class="phone-hide">Menu</span></a>
+              </nav>
+              <!-- logo / home -->
+              <header class="top-nav-flex-title">
+                <a href="/hub.js/" class="top-nav-link">@esri/hub.js</a>
+              </header>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+
+      <main id="#skip-to-content">
+        
+  <div class="grid-container trailer-1 leader-1">
+    <div class="column-6">
+      <ul class="list-plain">
+        
+          <li>Get Started</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/from-a-cdn/">From a CDN</a></li>
+            
+              <li><a href="/hub.js/guides/node/">Node.js</a></li>
+            
+              <li><a href="/hub.js/guides/using-es6/">Using ES6</a></li>
+            
+              <li><a href="/hub.js/guides/whats-new-v2-0/" class="is-active">What's New in v2.0.0</a></li>
+            
+          </ul>
+        
+          <li>Concepts</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/authentication/">Authentication</a></li>
+            
+              <li><a href="/hub.js/guides/sites-and-pages/">Sites and Pages</a></li>
+            
+              <li><a href="/hub.js/guides/teams/">Hub Teams</a></li>
+            
+              <li><a href="/hub.js/guides/work-with-annotations/">Map Annotations</a></li>
+            
+              <li><a href="/hub.js/guides/common/">Utilities</a></li>
+            
+              <li><a href="/hub.js/guides/operation-stack/">OperationStack</a></li>
+            
+          </ul>
+        
+      </ul>
+    </div>
+
+    <div class="column-18">
+      <div class="panel">
+        <h1>What's new in <code>v2.0.0?</code></h1>
+<p>We heard that ArcGIS REST JS had some new goodies in <a href="https://github.com/Esri/arcgis-rest-js/releases/v2.0.0"><code>v2.0.0</code></a>, so we decided to jump on the bandwagon too.</p>
+<p><em>Very</em> little has changed in @esri/hub.js v2.0.0, but there are a few breaking changes to be aware of.</p>
+<h4>ArcGIS REST JS packages are now <code>peerDependencies</code>.</h4>
+<p><code>@esri/arcgis-rest-request</code> and friends have never been bundled within our code, so now that we're relying on <code>v2.x</code>, we're doing the <a href="https://stackoverflow.com/questions/26737819/why-use-peer-dependencies-in-npm-for-plugins">right thing</a> and listing REST JS packages as <em>peerDependencies</em> in @esri/hub.js.</p>
+<pre><code class="json">{
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"@esri/hub-initiatives"</span>,
+  <span class="hljs-attr">"peerDependencies"</span>: {
+    <span class="hljs-attr">"@esri/arcgis-rest-request"</span>: <span class="hljs-string">"^2.0.0"</span>
+  }
+}
+</code></pre>
+<p>As a @esri/hub.js developer, you'll need to install pertinent ArcGIS REST JS packages yourself.</p>
+<pre><code class="json">{
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Your awesome project"</span>,
+  <span class="hljs-attr">"dependencies"</span>: {
+    <span class="hljs-attr">"@esri/arcgis-rest-request"</span>: <span class="hljs-string">"^2.0.0"</span>,
+    <span class="hljs-attr">"@esri/hub-initiatives"</span>: <span class="hljs-string">"^2.0.0"</span>,
+  }
+}
+</code></pre>
+<h4>Documentation</h4>
+<p>We 'borrowed' all the great new updates in the ArcGIS REST JS documentation.</p>
+<ul>
+<li><code>RequestOptions</code> details are now displayed inline on the page for their corresponding method.</li>
+<li><code>Required</code>, <code>optional</code> and <code>inherited</code> parameters are now appropriately sorted in tables.</li>
+<li><code>Methods</code>, <code>Constants</code>, <code>Types</code> and <code>Interfaces</code> are sorted in the Table of Contents too</li>
+<li>Text overflow is now handled more appropriately.</li>
+</ul>
+<h4>Say goodbye to <code>@esri/hub-domains</code></h4>
+<p>The sole utility function in our domains package proved so popular we moved it into <code>@esri/hub-common</code> and got rid of <code>@esri/hub-domains</code> entirely.</p>
+<table>
+<thead>
+<tr>
+<th>Old</th>
+<th>New</th>
+<th>Package</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><s><code>getHubUrl()</code></s></td>
+<td></td>
+<td><s><code>@esri/hub-domains</code></s></td>
+</tr>
+<tr>
+<td></td>
+<td><a href="../api/common/getHubApiUrl/"><code>getHubApiUrl</code></a></td>
+<td><code>@esri/hub-common</code></td>
+</tr>
+</tbody>
+</table>
+<h4><code>@esri/hub-sites</code></h4>
+<p>We renamed two methods inside <code>@esri/hub-sites</code> awhile back. In v2.0.0, we officially removed the old ones.</p>
+<table>
+<thead>
+<tr>
+<th>Old Method</th>
+<th>New Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><s><code>fetchDomain()</code></s></td>
+<td><code>getDomain()</code></td>
+</tr>
+<tr>
+<td><s><code>fetchDomains()</code></s></td>
+<td><code>getDomains()</code></td>
+</tr>
+</tbody>
+</table>
+<h4><code>@esri/hub-initiatives</code></h4>
+<p>We renamed one method inside <code>@esri/hub-initiatives</code> too.</p>
+<table>
+<thead>
+<tr>
+<th>Old Method</th>
+<th>New Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><s><code>fetchInitiative()</code></s></td>
+<td><code>getInitiative()</code></td>
+</tr>
+</tbody>
+</table>
+<h4><code>@esri/hub-annotations</code></h4>
+<p>When you're creating a new annotation, now you'll pass an array of <code>features</code> (instead of <code>adds</code>).</p>
+<pre><code class="js"><span class="hljs-comment">// old</span>
+addAnnotations({ <span class="hljs-attr">adds</span>: [] })
+
+<span class="hljs-comment">// new</span>
+addAnnotations({ <span class="hljs-attr">features</span>: [] })
+</code></pre>
+<h2>Breaking Changes for TypeScript developers</h2>
+<p>The table below lists interfaces and types that have been removed or renamed in the name of consistency and brevity. This also better aligns the names of options and response interfaces with their corresponding  function.</p>
+<table>
+<thead>
+<tr>
+<th>Old Interface</th>
+<th>New Interface</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><s><code>ISearchAnnoRequestOptions</code></s></td>
+<td><code>ISearchAnnoOptions</code></td>
+</tr>
+<tr>
+<td><s><code>IVoteRequestOptions</code></s></td>
+<td><code>IVoteOptions</code></td>
+</tr>
+<tr>
+<td><s><code>IEventRegisterRequestOptions</code></s></td>
+<td><code>IEventRegisterOptions</code></td>
+</tr>
+<tr>
+<td><s><code>IFollowInitiativeRequestOptions</code></s></td>
+<td><code>IFollowInitiativeOptions</code></td>
+</tr>
+</tbody>
+</table>
+<p>That's it! We didn't move much 🧀 because he heard those pesky ArcGIS REST JS maintainers renamed so many packages.</p>
+      </div>
+    </div>
+  </div>
+
+      </main>
+    </div>
+
+    <footer class="footer">
+      
+      <div class="panel panel-white">
+        <div class="grid-container">
+          <div class="column-24">
+            <a href="https://github.com/Esri/hub.js" class="font-size--2">Fork this project</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/js/calcite-web.min.js"></script>
+
+    <script>
+       calcite.init()
+    </script>
+
+    
+  </body>
+</html>

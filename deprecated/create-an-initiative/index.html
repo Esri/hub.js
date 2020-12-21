@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Create an initiative. | @esri/hub.js</title>
+    
+    <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
+    
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css">
+    <link rel="stylesheet" href="/hub.js/css/style.css">
+    
+  </head>
+  <body>
+  <!-- Drawer -->
+    <div class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
+      <nav class="drawer-nav" role="navigation">
+        <aside class="side-nav">
+          <h2 class="side-nav-title">@esri/hub.js</h2>
+          <a href="/hub.js/guides/" class="side-nav-link">Guides</a>
+          <a href="/hub.js/api/" class="side-nav-link">API Reference</a>
+        </aside>
+      </nav>
+    </div>
+
+    <div id="page" class="wrapper">
+      <!-- Sample HTML -->
+      <header class="top-nav">
+        <div class="grid-container">
+          <div class="column-24">
+            <!-- desktop sized navigation -->
+            <div class="tablet-hide">
+              <!-- logo / home -->
+              <a href="/hub.js/" class="top-nav-title">@esri/hub.js</a>
+              <!-- primary navigation sections -->
+              <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/guides/" class="top-nav-link">Guides</a>
+                <a href="/hub.js/api/" class="top-nav-link">API Reference</a>
+              </nav>
+            </div>
+
+            <!-- tablet and mobile sized navigation -->
+            <div class="tablet-show top-nav-flex">
+              <!-- open primary navigation drawer -->
+              <nav class="top-nav-flex-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/" class="icon-ui-menu top-nav-link js-drawer-toggle" data-drawer="top-nav"><span class="phone-hide">Menu</span></a>
+              </nav>
+              <!-- logo / home -->
+              <header class="top-nav-flex-title">
+                <a href="/hub.js/" class="top-nav-link">@esri/hub.js</a>
+              </header>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+
+      <main id="#skip-to-content">
+        <h2>Create an Initiative</h2>
+<p>The <code>@esri/hub-initiatives</code> module exposes both coarse and fine-grained APIs. If your application simply needs to create an initiative from a template, then the coarse-grained API is for you. If your application is more focused on working with / editing / orchestrating solutions for Initiatives (i.e. the Hub), then the fine-grained api is likely a better fit.</p>
+<h3>Get an Initiative by Id</h3>
+<p>To get an Initiative Model (<code>{item:{...}, data:{...}}</code>) you can use this call. If you do not need the <code>data</code> you can use the <a href="https://esri.github.io/arcgis-rest-js/api/portal/getItem/">@esri/arcgis-rest-portal::getItem(id)</a> call instead.</p>
+<pre><code class="js"><span class="hljs-keyword">import</span> { fetchInitiative  } <span class="hljs-keyword">from</span> <span class="hljs-string">'@esri/hub-initiatives'</span>;
+
+<span class="hljs-comment">// pass in an initiative id</span>
+getInitiative(<span class="hljs-string">"abc123"</span>, requestOptions)
+    .then(
+        <span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> <span class="hljs-comment">// get back initiative "model" {item:{...}, data:{...}}</span>
+    );
+</code></pre>
+<h3>Create an Initiative</h3>
+<p>Initiatives are created from Initiative Template Items. If your application simply has the ID of a template item, you can send that in along with the usual <code>IRequestOptions</code> information. The module will then do all the work of fetching the template item, creating the Initiative item, creating the various groups, sharing the Initiative to the correct groups, and at the end, it will return the Initiative model.</p>
+<p>Details documentation of the coarse-grained function calls is included in the <a href="https://esri.github.io/hub.js">Hub.js Documentation</a></p>
+<p>Note: Since you are delegating all this work into a single function call, your application will have no means of displaying status as the various steps are completed.</p>
+<pre><code class="js"><span class="hljs-keyword">import</span> { activateInitiative  } <span class="hljs-keyword">from</span> <span class="hljs-string">'@esri/hub-initiatives'</span>;
+<span class="hljs-comment">// send the template item id</span>
+activateInitiative(
+    <span class="hljs-string">"template-item-id"</span>,
+    <span class="hljs-string">"New Initiative Title"</span>,
+    <span class="hljs-string">"Collaboration Group Title"</span>,
+    <span class="hljs-string">"Data Sharing Group Title"</span>,
+    progressCallback,
+    requestOptions
+    ).then(<span class="hljs-function">(<span class="hljs-params">initiativeModel</span>) =&gt;</span> {
+
+    })
+</code></pre>
+<p>If your application has already fetched the template item model, that can be passed in.</p>
+<pre><code class="js"><span class="hljs-keyword">import</span> { activateInitiative  } <span class="hljs-keyword">from</span> <span class="hljs-string">'@esri/hub-initiatives'</span>;
+<span class="hljs-comment">// send the template item model aka {item:{...}, data:{...}}</span>
+activateInitiative(
+    templateItemModel,
+    <span class="hljs-string">"New Intiative Title"</span>,
+    <span class="hljs-string">"Collaboration Group Title"</span>,
+    <span class="hljs-string">"Data Sharing Group Title"</span>,
+    progressCallback,
+    requestOptions
+    ).then(<span class="hljs-function">(<span class="hljs-params">initiativeModel</span>) =&gt;</span> {
+
+    })
+</code></pre>
+<h3>Update an Initiative</h3>
+<pre><code class="js"><span class="hljs-keyword">import</span> { updateInitiative  } <span class="hljs-keyword">from</span> <span class="hljs-string">'@esri/hub-initiatives'</span>;
+<span class="hljs-comment">// send the template item model aka {item:{...}, data:{...}}</span>
+updateInitiative(initiativeModel, requestOptions)
+    .then(<span class="hljs-function">(<span class="hljs-params">initiativeModel</span>) =&gt;</span> {
+
+    })
+</code></pre>
+<h3>Delete an Initiative</h3>
+<p>Removing an Initiative involves more then just deleting the item. The collaboration and open data groups are also removed, and optionally, the solutions that were generated as part of the Initiative can also be removed.</p>
+<p>Note: This call can take 10 or more seconds, and if Solutions are being removed, it may take a minute or more.</p>
+<pre><code class="js"><span class="hljs-keyword">import</span> { removeInitiative  } <span class="hljs-keyword">from</span> <span class="hljs-string">'@esri/hub-initiatives'</span>;
+
+removeInitiative(initiativeId, progressCallback, requestOptions)
+    .then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+
+    })
+</code></pre>
+<h3>Searching for Initiative Templates</h3>
+<pre><code class="js"><span class="hljs-keyword">import</span> { searchInitiativeTemplates  } <span class="hljs-keyword">from</span> <span class="hljs-string">'@esri/hub-initiatives'</span>;
+<span class="hljs-keyword">const</span> opts = {
+  <span class="hljs-attr">q</span>: <span class="hljs-string">"Vision Zero"</span>,
+  ...requestOptions
+} <span class="hljs-keyword">as</span> ISearchRequestOptions;
+<span class="hljs-comment">// pass in an initiative id</span>
+searchInitiativeTemplates(opts)
+    .then(
+        <span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> <span class="hljs-comment">// get back initiative item, not a model. To get the full model ({item:{...}, data:{...}}) use fetchInitiative</span>
+    );
+</code></pre>
+<h3>Searching for Active Initiatives</h3>
+<pre><code class="js"><span class="hljs-keyword">import</span> { searchInitiatives  } <span class="hljs-keyword">from</span> <span class="hljs-string">'@esri/hub-initiatives'</span>;
+<span class="hljs-comment">// search for Vision Zero related initiatives, ordered by last modified date</span>
+<span class="hljs-keyword">const</span> opts = {
+  <span class="hljs-attr">q</span>: <span class="hljs-string">"Vision Zero"</span>,
+  <span class="hljs-attr">sortField</span>: <span class="hljs-string">"modified"</span>,
+  <span class="hljs-attr">sortOrder</span>: <span class="hljs-string">"desc"</span>,
+  ...requestOptions
+} <span class="hljs-keyword">as</span> ISearchRequestOptions;
+<span class="hljs-comment">// pass in an initiative id</span>
+searchInitiatives(opts)
+    .then(
+        <span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> <span class="hljs-comment">// get back initiative item, not a model. To get the full model ({item:{...}, data:{...}}) use fetchInitiative</span>
+    );
+</code></pre>
+      </main>
+    </div>
+
+    <footer class="footer">
+      
+      <div class="panel panel-white">
+        <div class="grid-container">
+          <div class="column-24">
+            <a href="https://github.com/Esri/hub.js" class="font-size--2">Fork this project</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/js/calcite-web.min.js"></script>
+
+    <script>
+       calcite.init()
+    </script>
+
+    
+  </body>
+</html>

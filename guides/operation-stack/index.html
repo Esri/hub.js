@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>OperationStack | Guide | @esri/hub.js</title>
+    
+    <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
+    
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css">
+    <link rel="stylesheet" href="/hub.js/css/style.css">
+    
+  </head>
+  <body>
+  <!-- Drawer -->
+    <div class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
+      <nav class="drawer-nav" role="navigation">
+        <aside class="side-nav">
+          <h2 class="side-nav-title">@esri/hub.js</h2>
+          <a href="/hub.js/guides/" class="is-active side-nav-link">Guides</a>
+          <a href="/hub.js/api/" class="side-nav-link">API Reference</a>
+        </aside>
+      </nav>
+    </div>
+
+    <div id="page" class="wrapper">
+      <!-- Sample HTML -->
+      <header class="top-nav">
+        <div class="grid-container">
+          <div class="column-24">
+            <!-- desktop sized navigation -->
+            <div class="tablet-hide">
+              <!-- logo / home -->
+              <a href="/hub.js/" class="top-nav-title">@esri/hub.js</a>
+              <!-- primary navigation sections -->
+              <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/guides/" class="is-active top-nav-link">Guides</a>
+                <a href="/hub.js/api/" class="top-nav-link">API Reference</a>
+              </nav>
+            </div>
+
+            <!-- tablet and mobile sized navigation -->
+            <div class="tablet-show top-nav-flex">
+              <!-- open primary navigation drawer -->
+              <nav class="top-nav-flex-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/" class="icon-ui-menu top-nav-link js-drawer-toggle" data-drawer="top-nav"><span class="phone-hide">Menu</span></a>
+              </nav>
+              <!-- logo / home -->
+              <header class="top-nav-flex-title">
+                <a href="/hub.js/" class="top-nav-link">@esri/hub.js</a>
+              </header>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+
+      <main id="#skip-to-content">
+        
+  <div class="grid-container trailer-1 leader-1">
+    <div class="column-6">
+      <ul class="list-plain">
+        
+          <li>Get Started</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/from-a-cdn/">From a CDN</a></li>
+            
+              <li><a href="/hub.js/guides/node/">Node.js</a></li>
+            
+              <li><a href="/hub.js/guides/using-es6/">Using ES6</a></li>
+            
+              <li><a href="/hub.js/guides/whats-new-v2-0/">What's New in v2.0.0</a></li>
+            
+          </ul>
+        
+          <li>Concepts</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/authentication/">Authentication</a></li>
+            
+              <li><a href="/hub.js/guides/sites-and-pages/">Sites and Pages</a></li>
+            
+              <li><a href="/hub.js/guides/teams/">Hub Teams</a></li>
+            
+              <li><a href="/hub.js/guides/work-with-annotations/">Map Annotations</a></li>
+            
+              <li><a href="/hub.js/guides/common/">Utilities</a></li>
+            
+              <li><a href="/hub.js/guides/operation-stack/" class="is-active">OperationStack</a></li>
+            
+          </ul>
+        
+      </ul>
+    </div>
+
+    <div class="column-18">
+      <div class="panel">
+        <h2>OperationStack</h2>
+<p>When processing data, it is common to have long running tasks that leverage recursive function, work on tree data structures and/or leverage chained asynchronous operations (i.e. http requests).</p>
+<p>Our work on the previous versions of Solution.js and it's Ember based precursor proved just how complex and time consuming it is to debug these sorts of systems by watching network requests in a browser, something that's not viable when running in node.</p>
+<p>Thus, when embaring on this version of Solution.js, we designed in a system to ease this pain right from the start: <a href="../../hub.js/api/common/OperationStack">OperationStack</a>.</p>
+<h2>What is an OperationStack?</h2>
+<p>Not as formal as an audit trail, but similar in concept, an <code>OperationStack</code> is used to track &quot;operations&quot; as they are started, and completed, attaching in useful debugging information along the way. Each substantial function in the process creates an instance of an <code>OperationStack</code>, adds operations to it, and returns a serialized stack along with it's usual payload, or in an exception should an error occur.</p>
+<p>With this in place, we have a clean means to see where in the process a failure occured.</p>
+<p>In addition, the OperationStack is very useful when you want to combine a set of atomic actions into a larger atomic transaction.</p>
+<p>i.e. a series of HTTP POST calls to create a number of inter-related entities, and if any of the calls fail, all of the already created entities should be removed.</p>
+<p>While <code>OperationStack</code> itself does not attempt to handle &quot;rollback&quot;, the information in the &quot;operations&quot; should provide enough information to write code that can perform the needed cleanup.</p>
+<p>Note: While this works well for &quot;creational&quot; workflows, however, for flows where you are destroying entities, typically there is no means to &quot;undo&quot; a HTTP DELETE operation, and typically API's do not allow a HTTP POST to create an entity and specify it's unique identifier, so re-constructing already deleted entities is typically not viable.</p>
+<p>In these scenarios, combining the OperationStack with Errors should provide deeper insights into why the operation did not succeed, as compared to a stack trace alone.</p>
+<h2>Usage Example</h2>
+<p>Let's use the example of creating a Hub Site Application item. There are a number of things that happen when a Site is created:</p>
+<ul>
+<li>create item</li>
+<li>create domain system entry</li>
+<li>register item as application w/ oauth</li>
+<li>create team groups (depending on licensing and user privs)</li>
+<li>create Hub Initiative item (depending on licensing)</li>
+</ul>
+<p>Let's use some psuedo code to show how this process can be orchestrated, and how we would use an OperationStack to keep track of things:</p>
+<pre><code class="js">import OperationStack from '@esri/hub-common`;
+// NOTE: the site related functions are fictional
+import { ... } from '@esri/hub-sites';
+
+
+export function createSite(siteModel, session) {
+  // create a name that's specific to the entity we are working with
+  // this will be used as part of the id in our operations
+  const name = siteModel.item.title.camelize();
+  const stack = new OperationStack();
+  // add an operation
+  stack.start({
+    id: `createSite-${name}`,
+    type: 'createSite',
+    inputs: {
+      url: siteModel.url,
+      owner: siteModel.owner
+      }
+    });
+  return createSiteItem(siteModel)
+  .then((newSiteId) =&gt; {
+    // finish the operation, and hold the id of the new item
+    stack.finish(`createSite-${name}`, {id: newSiteId});
+    siteModel.item.id = newSiteId
+    // start a new operation for registering the domain
+    stack.start({
+      id: `registerDomain-${name}`,
+      type: 'registerDomain',
+      inputs: {
+        url: siteModel.item.url,
+        org: session.orgId,
+        id: newSiteId
+      }
+    });
+    return registerDomain(siteModel, session);
+  })
+  .then((domainId) =&gt; {
+    stack.finish(`registerDomain-${name}`, {domainId});
+    stack.start({
+      id: `registerOAuth-${name}`,
+      type: 'registerOAuth',
+      inputs: {
+        id: siteModel.item.id,
+        redirectUris: [
+          siteModel.item.url,
+          siteModel.data.defaultHostname
+        ]
+      }
+    });
+    return registerSiteWithOAuth(siteModel, session);
+  })
+  .then((_) =&gt; {
+    stack.finish(`registerOAuth-${name}`);
+    stack.start({
+      id: `createSiteTeams-${name}`,
+      type: 'createSiteTeams',
+      inputs: {
+        id: siteModel.item.id,
+      }
+    });
+    // createSiteTeams is a complex multi-step process itself
+    // so it's response returns a serialized operation stack
+    return createSiteTeams(siteModel, session)
+  })
+  .then((teamsResponse) =&gt; {
+    // merge in the stack from createSiteTeams
+    stack.merge(teamsResponse.stack);
+    // then finish the operation started here
+    stack.finish(`createSiteTeams-${name}`, {
+      groups: mapBy(teamsResponse.teams, 'id')
+    });
+    stack.start({
+      id: `createInitiative-${name}`,
+      type: 'createInitiative',
+      inputs: {
+        id: siteModel.item.id,
+      }
+    })
+    return createInitiative(siteModel, teamsResponse.teams, session);
+  })
+  .then((initiative) =&gt; {
+    stack.finish(`createInitiative-${name}`, {id: initiative.item.id});
+    return {
+      siteModel,
+      stack: stack.serialize()
+    };
+  })
+  .catch((err) =&gt; {
+    // see if the err has a .operationStack property
+    // and if so, merge it into the current stack and return a new
+    // SolutionError
+    if (err.operationStack) {
+      stack.merge(err.operationStack);
+    }
+    // Set the message of the error to be the stringified stack
+    const msg = `${
+      err.message
+    } \n Operation Stack: \n ${stack.toString()}`;
+    // stack.toString() emits this format
+    // &lt;timestamp&gt; &lt;type&gt; &lt;id&gt; &lt;started|completed in {ms}&gt; with inputs &lt;JSON.stringify(inputs)&gt;
+    const solErr = new SolutionError('convertFromItemIds', msg, err);
+    solErr.operationStack = stack.serialize();
+    // the code that called this function will have access to the full stack
+    // and can thus conduct rollback operations as needed
+    return Promise.reject(solErr);
+  })
+
+}
+
+</code></pre>
+<p>For more details please see <a href="../../hub.js/api/common/OperationStack">OperationStack</a> documentation.</p>
+      </div>
+    </div>
+  </div>
+
+      </main>
+    </div>
+
+    <footer class="footer">
+      
+      <div class="panel panel-white">
+        <div class="grid-container">
+          <div class="column-24">
+            <a href="https://github.com/Esri/hub.js" class="font-size--2">Fork this project</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/js/calcite-web.min.js"></script>
+
+    <script>
+       calcite.init()
+    </script>
+
+    
+  </body>
+</html>

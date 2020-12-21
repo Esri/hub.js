@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Hub.js Utilities | Guide | @esri/hub.js</title>
+    
+    <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
+    
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css">
+    <link rel="stylesheet" href="/hub.js/css/style.css">
+    
+  </head>
+  <body>
+  <!-- Drawer -->
+    <div class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
+      <nav class="drawer-nav" role="navigation">
+        <aside class="side-nav">
+          <h2 class="side-nav-title">@esri/hub.js</h2>
+          <a href="/hub.js/guides/" class="is-active side-nav-link">Guides</a>
+          <a href="/hub.js/api/" class="side-nav-link">API Reference</a>
+        </aside>
+      </nav>
+    </div>
+
+    <div id="page" class="wrapper">
+      <!-- Sample HTML -->
+      <header class="top-nav">
+        <div class="grid-container">
+          <div class="column-24">
+            <!-- desktop sized navigation -->
+            <div class="tablet-hide">
+              <!-- logo / home -->
+              <a href="/hub.js/" class="top-nav-title">@esri/hub.js</a>
+              <!-- primary navigation sections -->
+              <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/guides/" class="is-active top-nav-link">Guides</a>
+                <a href="/hub.js/api/" class="top-nav-link">API Reference</a>
+              </nav>
+            </div>
+
+            <!-- tablet and mobile sized navigation -->
+            <div class="tablet-show top-nav-flex">
+              <!-- open primary navigation drawer -->
+              <nav class="top-nav-flex-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/" class="icon-ui-menu top-nav-link js-drawer-toggle" data-drawer="top-nav"><span class="phone-hide">Menu</span></a>
+              </nav>
+              <!-- logo / home -->
+              <header class="top-nav-flex-title">
+                <a href="/hub.js/" class="top-nav-link">@esri/hub.js</a>
+              </header>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+
+      <main id="#skip-to-content">
+        
+  <div class="grid-container trailer-1 leader-1">
+    <div class="column-6">
+      <ul class="list-plain">
+        
+          <li>Get Started</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/from-a-cdn/">From a CDN</a></li>
+            
+              <li><a href="/hub.js/guides/node/">Node.js</a></li>
+            
+              <li><a href="/hub.js/guides/using-es6/">Using ES6</a></li>
+            
+              <li><a href="/hub.js/guides/whats-new-v2-0/">What's New in v2.0.0</a></li>
+            
+          </ul>
+        
+          <li>Concepts</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/authentication/">Authentication</a></li>
+            
+              <li><a href="/hub.js/guides/sites-and-pages/">Sites and Pages</a></li>
+            
+              <li><a href="/hub.js/guides/teams/">Hub Teams</a></li>
+            
+              <li><a href="/hub.js/guides/work-with-annotations/">Map Annotations</a></li>
+            
+              <li><a href="/hub.js/guides/common/" class="is-active">Utilities</a></li>
+            
+              <li><a href="/hub.js/guides/operation-stack/">OperationStack</a></li>
+            
+          </ul>
+        
+      </ul>
+    </div>
+
+    <div class="column-18">
+      <div class="panel">
+        <h2>Hub Utilities</h2>
+<p>The <code>hub-common</code> module is a collection of utility functions that the Hub team has come to rely on across all the projects we work on.</p>
+<p>This page lists some of the more prominent functions, but there are dozens of others that are extremely useful and we invite you to explore them.</p>
+<h2>Working with Objects</h2>
+<p>The philosophy behing Hub.js (as well as ArcGIS Rest Js) is that the libraries are composed of functions that work with data.</p>
+<p>The output of the functions depends only on the data passed into them. Unless otherwise noted, the functions do not mutate the data passed into them - instead they return new copies of the data.</p>
+<h3>Getting Deeply Nested Properties</h3>
+<p>In Hub we frequently deal with deeply nested objects. For example, given an object like</p>
+<pre><code class="js"><span class="hljs-keyword">let</span> itm = {
+  <span class="hljs-attr">id</span>: <span class="hljs-string">'3ef'</span>,
+  <span class="hljs-attr">properties</span>: {
+    <span class="hljs-attr">parentId</span>: <span class="hljs-string">'bc7'</span>,
+    <span class="hljs-attr">children</span>: [<span class="hljs-string">'cc0'</span>, <span class="hljs-string">'02a'</span>]
+  }
+}
+</code></pre>
+<p>We can safely get the value of <code>itm.properties.parentId</code> because we know it's defined. But what if there is a possibility that the <code>properties</code> object itself was <code>undefined</code>? Typically we would have to write guard code like this:</p>
+<pre><code class="js"><span class="hljs-keyword">if</span> (itm.properties &amp;&amp; itm.properties.parentId) {
+  <span class="hljs-comment">// do something</span>
+}
+</code></pre>
+<p>Writing that sort of code for deeply nested property paths is cumbersome and error prone, so we created two helper functions <code>getProp</code>, and <code>getPropWithDefault</code>, which allow us to write code like</p>
+<pre><code class="js"><span class="hljs-keyword">if</span> (getProp(itm, <span class="hljs-string">'properties.parentId'</span>)) {
+  <span class="hljs-comment">// do something...</span>
+}
+
+<span class="hljs-keyword">if</span> (!getProp(itm, <span class="hljs-string">'values.settings.catalog'</span>)) {
+  <span class="hljs-comment">// setup that property</span>
+}
+
+<span class="hljs-comment">// get a property and if it's undefined, return </span>
+<span class="hljs-comment">// a value that will allow the code to proceed</span>
+<span class="hljs-keyword">const</span> childIds = getPropWithDefault(itm, <span class="hljs-string">'properties.children'</span>,[]).map(<span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> e.id);
+
+<span class="hljs-comment">// if properties.children is defined, `childIds` </span>
+<span class="hljs-comment">// will contain the id properties from each entry</span>
+<span class="hljs-comment">//</span>
+<span class="hljs-comment">// if properties.children is undefined, we will be </span>
+<span class="hljs-comment">// mapping over an empty array which will return an empty array</span>
+</code></pre>
+<h3>Avoid Mutating Shared State</h3>
+<p>One of the most complex problems we face as application developers is how to manage state in our applications. One prominent technique to simplify this is to write functions which do not mutate data that is passed in; rather they return new objects. This minimizes unexpected mutation of shared objects. In order to do this, we leverage <a href="https://esri.github.io/hub.js/api/common/cloneObject/">cloneObject</a>.</p>
+<p>We also make us of this extensively in our unit tests.</p>
+<p><strong>Note</strong>: <code>cloneObject</code> does not attempt to clone functions, and thus should not be used with instances of classes</p>
+<pre><code class="js"><span class="hljs-keyword">const</span> obj1 = {
+  <span class="hljs-attr">id</span>: <span class="hljs-string">'3ef'</span>,
+  <span class="hljs-attr">properties</span>: {
+    <span class="hljs-attr">parentId</span>: <span class="hljs-string">'bc7'</span>,
+    <span class="hljs-attr">children</span>: [<span class="hljs-string">'cc0'</span>, <span class="hljs-string">'02a'</span>]
+  }
+};
+
+<span class="hljs-keyword">const</span> clone = cloneObject(obj1);
+<span class="hljs-comment">// clone === obj1 -&gt; false</span>
+<span class="hljs-comment">// clone.properties === obj1.properties -&gt; false</span>
+</code></pre>
+<h2>Working with Arrays</h2>
+<p>Hub.js code relies heavily on manipulation of arrays, so we have created some convenience functions that provide syntax short-cuts</p>
+<pre><code class="js"><span class="hljs-comment">// Examples below assume this input</span>
+<span class="hljs-keyword">const</span> input = [
+  { <span class="hljs-attr">id</span>: <span class="hljs-string">'1bc'</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">'Fellowship of the Ring'</span>}
+  { <span class="hljs-attr">id</span>: <span class="hljs-string">'bc4'</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">'The Two Towers'</span>}
+  { <span class="hljs-attr">id</span>: <span class="hljs-string">'3ef'</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">'Return of the King'</span>}
+];
+</code></pre>
+<h3>Removing an Element</h3>
+<h4><code>without(arr, value)</code></h4>
+<pre><code class="js"><span class="hljs-keyword">const</span> toRemove = input[<span class="hljs-number">1</span>];
+<span class="hljs-keyword">const</span> result = without(input, toRemove); 
+<span class="hljs-comment">// result =&gt; [</span>
+<span class="hljs-comment">//   { id: '1bc', title: 'Fellowship of the Ring'}, </span>
+<span class="hljs-comment">//   { id: '3ef', title: 'Return of the King'} </span>
+<span class="hljs-comment">// ]</span>
+<span class="hljs-comment">// result !== input - a new array is returned</span>
+<span class="hljs-comment">// result[0] === input[0] - references are returned</span>
+</code></pre>
+<h3>Removing an Element basd on a (deep) property value</h3>
+<h4><code>without(propertyPath, value, arr)</code></h4>
+<p>If the property path has <code>undefined</code> at any depth, the match returns false, and the entry is included in the output</p>
+<pre><code class="js"><span class="hljs-keyword">const</span> left = without(<span class="hljs-string">'title'</span>, <span class="hljs-string">'The Two Towers'</span>, input); 
+<span class="hljs-comment">// result =&gt; [{ id: '1bc', title: 'Fellowship of the Ring'}, { id: '3ef', title: 'Return of the King'} ]</span>
+<span class="hljs-comment">// result !== input - a new array is returned</span>
+<span class="hljs-comment">// result[0] === input[0] - references are returned</span>
+</code></pre>
+<h3>Extracting a (deep) property value from all elements in the array</h3>
+<h4><code>mapBy(propertyPath, arr)</code></h4>
+<p>Property path can be deep (i.e. <code>data.values.settings.catalog</code>) but must exist on each entry.</p>
+<pre><code class="js"><span class="hljs-keyword">const</span> titles = mapBy(<span class="hljs-string">'title'</span>, input);
+<span class="hljs-comment">// titles = ['Fellowship of the Ring', 'The Two Towers', 'Return of the King']</span>
+</code></pre>
+<h3>Finding Elements based on a (deep) Property value</h3>
+<h4><code>findBy(arr, propertyPath, value)</code></h4>
+<pre><code class="js"><span class="hljs-keyword">const</span> entry = findBy(input, <span class="hljs-string">'title'</span>, <span class="hljs-string">'The Two Towers'</span>);
+<span class="hljs-comment">// entry =&gt; { id: 'bc4', title: 'The Two Towers'}</span>
+<span class="hljs-comment">// entry === input[1] - returns the instance in the array</span>
+</code></pre>
+<h2>Json Templates</h2>
+<p>Many of the objects the Hub works with are large, deep graphs - i.e. the Layout for a site/page can contain deeply nested sections &gt; rows &gt; cards. Manually constructing these graphs by building up objects in code is both error prone and difficult to manage. Instead, we employ JSON templates. Simple put this lets us define deep object graphs using the simplest possible notation, while still making it simple to inject custom values into any part of the graph.</p>
+<h3>Interpolating values into a Template object</h3>
+<p>While simple in concept, interpolating values into json templates results in a very powerful pattern. It allows us to manage complex object graphs as objects, while still injecting per-user/per-organization configuration at run-time.</p>
+<pre><code class="js"><span class="hljs-keyword">const</span> template: {
+  <span class="hljs-attr">value</span>: <span class="hljs-string">'{{instance.color}}'</span>
+};
+
+<span class="hljs-keyword">const</span> settings: {
+  <span class="hljs-attr">instance</span>: {
+    <span class="hljs-attr">color</span>: <span class="hljs-string">'red'</span>
+  }
+};
+
+<span class="hljs-keyword">const</span> result = interpolate(template, settings);
+<span class="hljs-comment">// &gt; { value: 'red' }</span>
+</code></pre>
+<p>More details can be found in the <a href="https://github.com/Esri/adlib">adlib</a> repository.</p>
+<h3>Replacing string values through an object graph</h3>
+<p>Sometimes there are scenarios where we need to take a deep object, and convert it into a template, at run-time. Alternatively we may need to swap tokens at run-time.</p>
+<pre><code class="js"><span class="hljs-keyword">const</span> itm = {
+  <span class="hljs-attr">item</span>: {
+    <span class="hljs-attr">id</span>: <span class="hljs-string">'3ef'</span>,
+    <span class="hljs-attr">properties</span>: {
+      <span class="hljs-attr">collaborationGroupId</span>: <span class="hljs-string">'bc7'</span>
+    }
+  },
+  <span class="hljs-attr">data</span>: {
+    <span class="hljs-attr">catalogGroups</span>: [<span class="hljs-string">'bc7'</span>]
+  }
+};
+<span class="hljs-comment">// define array of replacements</span>
+<span class="hljs-keyword">const</span> replacements = [
+  {<span class="hljs-attr">match</span>: <span class="hljs-string">'3ef'</span>, <span class="hljs-attr">replacement</span>: <span class="hljs-string">'{{outputItem.id}}'</span>},
+  {<span class="hljs-attr">match</span>: <span class="hljs-string">'bc7'</span>, <span class="hljs-attr">replacement</span>: <span class="hljs-string">'{{teams.collaborationId}}'</span>},
+];
+<span class="hljs-comment">// reduce over them, starting with the initial object</span>
+<span class="hljs-keyword">const</span> tmpl = replacements.reduce(<span class="hljs-function">(<span class="hljs-params">tmpl, entry</span>) =&gt;</span> {
+  <span class="hljs-keyword">return</span> deepStringReplace(itm, entry.match, entry.replacement);
+}, itm);
+
+<span class="hljs-comment">// tmpl = {</span>
+<span class="hljs-comment">//   item: {</span>
+<span class="hljs-comment">//     id: '{{outputItem.id}}',</span>
+<span class="hljs-comment">//     properties: {</span>
+<span class="hljs-comment">//       collaborationGroupId: '{{teams.collaborationId}}'</span>
+<span class="hljs-comment">//     }</span>
+<span class="hljs-comment">//   },</span>
+<span class="hljs-comment">//   data: {</span>
+<span class="hljs-comment">//     catalogGroups: ['{{teams.collaborationId}}']</span>
+<span class="hljs-comment">//   }</span>
+<span class="hljs-comment">// }</span>
+
+</code></pre>
+      </div>
+    </div>
+  </div>
+
+      </main>
+    </div>
+
+    <footer class="footer">
+      
+      <div class="panel panel-white">
+        <div class="grid-container">
+          <div class="column-24">
+            <a href="https://github.com/Esri/hub.js" class="font-size--2">Fork this project</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/js/calcite-web.min.js"></script>
+
+    <script>
+       calcite.init()
+    </script>
+
+    
+  </body>
+</html>
