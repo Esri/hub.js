@@ -231,12 +231,8 @@ describe("createSiteModelFromTemplate", () => {
     );
     expect(createdSite.data.values.subdomain).toBe(`unique-domain`);
 
-    expectAllCalled([createTeamsSpy, ensureDomainSpy], expect);
-    // create initiative stuff shouldnt be called on portal
-    expectAll(
-      [createInitiativeSpy, updateTeamTagsSpy],
-      "toHaveBeenCalled",
-      false,
+    expectAllCalled(
+      [createTeamsSpy, ensureDomainSpy, createInitiativeSpy, updateTeamTagsSpy],
       expect
     );
 

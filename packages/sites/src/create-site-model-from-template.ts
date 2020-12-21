@@ -108,7 +108,7 @@ export function createSiteModelFromTemplate(
       // create the initiative
       let handleInitiative = Promise.resolve(null);
 
-      if (product === "premium") {
+      if (product !== "portal") {
         handleInitiative = _createSiteInitiative(
           template,
           settings,
