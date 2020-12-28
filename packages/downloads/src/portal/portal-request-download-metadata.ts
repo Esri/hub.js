@@ -42,7 +42,7 @@ export function portalRequestDownloadMetadata(
 ): Promise<any> {
   const { datasetId, authentication, format, spatialRefId } = params;
 
-  const [itemId] = datasetId.split("_");
+  const [itemId, layerId] = datasetId.split("_");
   let serviceLastEditDate: number | undefined;
   let itemModifiedDate: number;
   let itemType: string;
@@ -57,7 +57,8 @@ export function portalRequestDownloadMetadata(
         authentication,
         type,
         modified,
-        format
+        format,
+        layerId
       });
     })
     .then((metadata: ICacheSearchMetadata) => {
