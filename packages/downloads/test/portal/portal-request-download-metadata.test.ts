@@ -554,7 +554,7 @@ describe("portalRequestDownloadMetadata", () => {
       }
     });
 
-    it("layer id, multi-layer, no cachehd", async done => {
+    it("layer id, multi-layer, no cached", async done => {
       try {
         const getItemSpy = spyOn(portal, "getItem").and.returnValue(
           new Promise(resolve => {
