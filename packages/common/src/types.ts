@@ -371,10 +371,10 @@ export interface ISerializedOperationStack {
   operations: IOperation[];
 }
 
-export interface ICursorSearchResults<T> {
-  total: number;
-  cursor: string;
-  hasNext: boolean;
-  results: T[];
-  next: () => Promise<ICursorSearchResults<T>>;
-}
+// export interface ICursorSearchResults<T> {
+//   total: number;
+//   // cursor: string;
+//   hasNextPage: boolean;
+//   results: T[];
+//   next?: () => Promise<ICursorSearchResults<T>>;
+// }

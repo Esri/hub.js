@@ -1,164 +1,169 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { getProp, ICursorSearchResults } from "@esri/hub-common";
-import { IUser, IGroup } from "@esri/arcgis-rest-types";
-// import gql from "graphql-tag";
-import {
-  graphql,
-  GraphQLSchema,
-  GraphQLObjectType,
-  GraphQLString,
-} from "graphql";
-import { GraphQLClient, gql } from 'graphql-request'
+import { getProp } from "@esri/hub-common";
+import { GraphQLClient, gql } from 'graphql-request';
+import * as https from "https";
+
+const SEARCH_RESPONSE_SCHEMA = gql`{
+  totalCount
+  edges {
+    node {
+      username
+      lastHubSession
+      groups {
+        id
+        memberType
+        title
+      }
+    }
+    cursor
+  }
+  pageInfo {
+    endCursor
+    hasNextPage
+  }
+}`;
+
+const SELF_RESPONSE_SCHEMA = gql`
+  {
+    self {
+      username
+      lastHubSession
+    }
+  }
+`;
+
+export enum SortableField {
+  USERNAME = "USERNAME",
+  LAST_HUB_SESSION = "LAST_HUB_SESSION"
+}
+
+export enum SortDirection {
+  ASC = "ASC",
+  DESC = "DESC"
+}
+
+export interface ISortingOption {
+  field?: SortableField,
+  sortDirection?: SortDirection
+}
+
 
 type iso8601Date = string;
+
+export interface User {
+  username: string
+  fullName?: string
+  firstName?: string
+  lastName?: string
+  email?: string
+  description?: string
+  lastLogin?: iso8601Date
+  orgId?: string
+  followedInitiatives?: any[]
+  groups?: any[]
+  teams?: any[]
+  registeredEvents?: any[]
+  lastHubSession?: iso8601Date
+  visitsLast30Days?: number
+  visitsLast60Days?: number
+}
 
 export interface DateRange {
   from: iso8601Date;
   to: iso8601Date;
 }
 
-export interface PagingOptions {
-  first: number;
-  after: string;
-}
-
-export interface UserFilter {
+export interface SearchUsersFilter {
   lastHubSession?: DateRange;
   group?: string,
   team?: string,
   followedInitiative?: string,
   registeredEvent?: string
-  pagingOptions?: PagingOptions
+}
+
+export interface PagingOptions {
+  first: number,
+  after?: string
+}
+
+export interface ICursorSearchResults<T> extends Iterator<() => Promise<ICursorSearchResults<T>>> {
+  total: number;
+  results: T[];
 }
 
 export class HubService {
   api: GraphQLClient;
-  // api: Client;
 
   static create(userSession: UserSession): HubService {
     return new HubService(userSession);
   }
 
   constructor(private userSession: UserSession) {
-    this.api = new GraphQLClient('http://localhost:3000/graphql', {
+    this.api = new GraphQLClient('https://afbc9443d4ebd4830afdc4793a3c191d-857540221.us-east-2.elb.amazonaws.com/graphql', {
       headers: {
         authorization: `Bearer ${userSession.token}`,
       },
+      fetch: (arg: any, more: any) => fetch(arg, {
+        agent: new https.Agent({
+          rejectUnauthorized: false
+        }),
+        ...more
+      } as any)
     })
-    // this.api = createClient({
-    //   url: 'http://localhost:3000/graphql',
-    //   fetchOptions: () => {
-    //     return {
-    //       headers: { authorization: `Bearer ${userSession.token}` },
-    //     };
-    //   },
-    // })
   }
 
-  async getSelf(): Promise<any> {
-    const selfQuery = gql`
-        {
-            self {
-                username
-                lastHubSession
-            }
-        }
-    `;
-    const res = await this.api.request(selfQuery);
-    return res;
+  async getSelf(): Promise<User> {
+    return this.api.request(SELF_RESPONSE_SCHEMA);
   }
 
-  async searchUsers(filter: UserFilter): Promise<ICursorSearchResults<any>> {
-
+  async searchUsers(
+    filter: SearchUsersFilter,
+    pagingOptions: PagingOptions = { first: 10 },
+    sortingOptions: ISortingOption[] = [{ field: SortableField.USERNAME, sortDirection: SortDirection.ASC }]
+  ): Promise<ICursorSearchResults<User>> {
     const searchQuery = gql`
-        query ($filter: SearchUsersFilter!) {
-            searchUsers (
-                filter: $filter
-            ) {
-                totalCount
-                edges {
-                    node {
-                        username
-                        lastHubSession
-                        groups {
-                            id
-                            memberType
-                            title
-                        }
-                    }
-                    cursor
-                }
-                pageInfo {
-                    endCursor
-                    hasNextPage
-                }
-            }
-        }
-      `;
+      query ($filter: SearchUsersFilter, $pagingOptions: PagingOptions, $sortingOptions: [SortingOption!]) {
+        searchUsers (
+          filter: $filter,
+          pagingOptions: $pagingOptions,
+          sortingOptions: $sortingOptions,
+        ) ${SEARCH_RESPONSE_SCHEMA}
+      }
+    `;
 
-//     const searchQuery = gql`
-//         {
-//             searchUsers (
-//                 filter:{
-//                     lastHubSession: {
-//                         from: "${filter.lastHubSession.from}",
-//                         to: "${filter.lastHubSession.to}"
-//                     }
-// #                    team: "1c99b7f29bb74e1bbecb82ea4409c797"
-//                 }
-//             ) {
-//                 totalCount
-//                 edges {
-//                     node {
-//                         username
-//                         lastHubSession
-//                         groups {
-//                             id
-//                             memberType
-//                             title
-//                         }
-//                     }
-//                     cursor
-//                 }
-//                 pageInfo {
-//                     endCursor
-//                     hasNextPage
-//                 }
-//             }
-//         }
-//     `;
-    const res = await this.api.request(searchQuery, {
-      filter
+    const response = await this.api.request(searchQuery, {
+      filter,
+      pagingOptions,
+      sortingOptions
     });
+
+    // console.log(JSON.stringify(response.searchUsers))
 
     const {
       totalCount,
-      hasNextPage,
-      edges,
-      pageInfo: {
-        first,
-        endCursor
-      }
-    } = getProp(res, 'searchUsers');
+      edges
+    } = getProp(response, 'searchUsers');
 
-    console.log(JSON.stringify(edges))
-
-    const nextFilter: UserFilter = {
-      ...filter,
-      pagingOptions: {
-        first,
-        after: endCursor
-      }
+    const result: ICursorSearchResults<User> = {
+      total: totalCount,
+      results: edges.map((e: any) => e.node), // pull user object out; will clean up types later
+      next: () => ({
+        done: true,
+        value: undefined
+      })
     }
 
-    const result: ICursorSearchResults<any> = {
-      total: totalCount,
-      cursor: endCursor,
-      hasNext: hasNextPage,
-      results: edges,
-      next: () => this.searchUsers(nextFilter)
+    if (getProp(response, 'searchUsers.pageInfo.hasNextPage')) {
+      result.next = () => ({
+        done: false,
+        value: () => this.searchUsers(filter, {
+          first: pagingOptions.first,
+          after: response.searchUsers.pageInfo.endCursor
+        } as PagingOptions)
+      })
     }
 
     return result;
   }
 }
+
