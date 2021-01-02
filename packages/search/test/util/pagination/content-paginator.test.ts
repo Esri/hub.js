@@ -7,7 +7,12 @@ describe("Page Content function", () => {
   it("can properly page current content search results when ago and hub results are returned with more remaining", () => {
     // Setup
     const start = { hub: 3, ago: 2 };
-    const page = { hubAdded: 7, agoAdded: 3, hubTotal: 15, agoTotal: 7 };
+    const page = {
+      hubRecordsAdded: 7,
+      agoRecordsAdded: 3,
+      hubRecordsTotal: 15,
+      agoRecordsTotal: 7
+    };
 
     // Test
     const nextPage: IPageResponse = pageContent(start, page);
@@ -22,22 +27,27 @@ describe("Page Content function", () => {
     // Setup
     const startOne = { hub: 3, ago: undefined as number };
     const pageOne = {
-      hubAdded: 7,
-      agoAdded: undefined as number,
-      hubTotal: 15,
-      agoTotal: undefined as number
+      hubRecordsAdded: 7,
+      agoRecordsAdded: undefined as number,
+      hubRecordsTotal: 15,
+      agoRecordsTotal: undefined as number
     };
 
     const startTwo = { hub: 3, ago: null as number };
     const pageTwo = {
-      hubAdded: 7,
-      agoAdded: null as number,
-      hubTotal: 15,
-      agoTotal: null as number
+      hubRecordsAdded: 7,
+      agoRecordsAdded: null as number,
+      hubRecordsTotal: 15,
+      agoRecordsTotal: null as number
     };
 
     const startThree = { hub: 3, ago: 0 };
-    const pageThree = { hubAdded: 7, agoAdded: 0, hubTotal: 15, agoTotal: 0 };
+    const pageThree = {
+      hubRecordsAdded: 7,
+      agoRecordsAdded: 0,
+      hubRecordsTotal: 15,
+      agoRecordsTotal: 0
+    };
 
     // Test
     const nextPageOne: IPageResponse = pageContent(startOne, pageOne);
@@ -62,22 +72,27 @@ describe("Page Content function", () => {
     // Setup
     const startOne = { hub: undefined as number, ago: 2 };
     const pageOne = {
-      hubAdded: undefined as number,
-      agoAdded: 3,
-      hubTotal: undefined as number,
-      agoTotal: 7
+      hubRecordsAdded: undefined as number,
+      agoRecordsAdded: 3,
+      hubRecordsTotal: undefined as number,
+      agoRecordsTotal: 7
     };
 
     const startTwo = { hub: null as number, ago: 2 };
     const pageTwo = {
-      hubAdded: null as number,
-      agoAdded: 3,
-      hubTotal: null as number,
-      agoTotal: 7
+      hubRecordsAdded: null as number,
+      agoRecordsAdded: 3,
+      hubRecordsTotal: null as number,
+      agoRecordsTotal: 7
     };
 
     const startThree = { hub: 0, ago: 2 };
-    const pageThree = { hubAdded: 0, agoAdded: 3, hubTotal: 0, agoTotal: 7 };
+    const pageThree = {
+      hubRecordsAdded: 0,
+      agoRecordsAdded: 3,
+      hubRecordsTotal: 0,
+      agoRecordsTotal: 7
+    };
 
     // Test
     const nextPageOne: IPageResponse = pageContent(startOne, pageOne);
@@ -102,31 +117,41 @@ describe("Page Content function", () => {
     // Setup
     const hubStart: number = random.number(50);
     const agoStart: number = random.number(100);
-    const hubAdded: number = random.number(10);
-    const agoAdded: number = 10 - hubAdded;
-    const hubTotal: number = hubStart * 2;
-    const agoTotal: number = agoStart * 2;
+    const hubRecordsAdded: number = random.number(10);
+    const agoRecordsAdded: number = 10 - hubRecordsAdded;
+    const hubRecordsTotal: number = hubStart * 2;
+    const agoRecordsTotal: number = agoStart * 2;
     const expectedCursor = JSON.stringify({
-      hub: hubStart + hubAdded,
-      ago: agoStart + agoAdded
+      hub: hubStart + hubRecordsAdded,
+      ago: agoStart + agoRecordsAdded
     });
 
     const start = { hub: hubStart, ago: agoStart };
-    const page = { hubAdded, agoAdded, hubTotal, agoTotal };
+    const page = {
+      hubRecordsAdded,
+      agoRecordsAdded,
+      hubRecordsTotal,
+      agoRecordsTotal
+    };
 
     // Test
     const nextPage: IPageResponse = pageContent(start, page);
 
     // Assertions
     expect(nextPage.cursor).toEqual(encode(expectedCursor));
-    expect(nextPage.total).toEqual(hubTotal + agoTotal);
+    expect(nextPage.total).toEqual(hubRecordsTotal + agoRecordsTotal);
     expect(nextPage.hasNextPage).toEqual(true);
   });
 
   it("can properly page current content search results when ago and hub results are returned with no more remaining", () => {
     // Setup
     const start = { hub: 3, ago: 2 };
-    const page = { hubAdded: 7, agoAdded: 3, hubTotal: 10, agoTotal: 5 };
+    const page = {
+      hubRecordsAdded: 7,
+      agoRecordsAdded: 3,
+      hubRecordsTotal: 10,
+      agoRecordsTotal: 5
+    };
 
     // Test
     const nextPage: IPageResponse = pageContent(start, page);
@@ -141,22 +166,27 @@ describe("Page Content function", () => {
     // Setup
     const startOne = { hub: 3, ago: undefined as number };
     const pageOne = {
-      hubAdded: 7,
-      agoAdded: undefined as number,
-      hubTotal: 10,
-      agoTotal: undefined as number
+      hubRecordsAdded: 7,
+      agoRecordsAdded: undefined as number,
+      hubRecordsTotal: 10,
+      agoRecordsTotal: undefined as number
     };
 
     const startTwo = { hub: 3, ago: null as number };
     const pageTwo = {
-      hubAdded: 7,
-      agoAdded: null as number,
-      hubTotal: 10,
-      agoTotal: null as number
+      hubRecordsAdded: 7,
+      agoRecordsAdded: null as number,
+      hubRecordsTotal: 10,
+      agoRecordsTotal: null as number
     };
 
     const startThree = { hub: 3, ago: 0 };
-    const pageThree = { hubAdded: 7, agoAdded: 0, hubTotal: 10, agoTotal: 0 };
+    const pageThree = {
+      hubRecordsAdded: 7,
+      agoRecordsAdded: 0,
+      hubRecordsTotal: 10,
+      agoRecordsTotal: 0
+    };
 
     // Test
     const nextPageOne: IPageResponse = pageContent(startOne, pageOne);
@@ -181,22 +211,27 @@ describe("Page Content function", () => {
     // Setup
     const startOne = { hub: undefined as number, ago: 2 };
     const pageOne = {
-      hubAdded: undefined as number,
-      agoAdded: 3,
-      hubTotal: undefined as number,
-      agoTotal: 5
+      hubRecordsAdded: undefined as number,
+      agoRecordsAdded: 3,
+      hubRecordsTotal: undefined as number,
+      agoRecordsTotal: 5
     };
 
     const startTwo = { hub: null as number, ago: 2 };
     const pageTwo = {
-      hubAdded: null as number,
-      agoAdded: 3,
-      hubTotal: null as number,
-      agoTotal: 5
+      hubRecordsAdded: null as number,
+      agoRecordsAdded: 3,
+      hubRecordsTotal: null as number,
+      agoRecordsTotal: 5
     };
 
     const startThree = { hub: 0, ago: 2 };
-    const pageThree = { hubAdded: 0, agoAdded: 3, hubTotal: 0, agoTotal: 5 };
+    const pageThree = {
+      hubRecordsAdded: 0,
+      agoRecordsAdded: 3,
+      hubRecordsTotal: 0,
+      agoRecordsTotal: 5
+    };
 
     // Test
     const nextPageOne: IPageResponse = pageContent(startOne, pageOne);
@@ -221,24 +256,29 @@ describe("Page Content function", () => {
     // Setup
     const hubStart: number = random.number(50);
     const agoStart: number = random.number(100);
-    const hubAdded: number = random.number(10);
-    const agoAdded: number = 10 - hubAdded;
-    const hubTotal: number = hubStart + hubAdded;
-    const agoTotal: number = agoStart + agoAdded;
+    const hubRecordsAdded: number = random.number(10);
+    const agoRecordsAdded: number = 10 - hubRecordsAdded;
+    const hubRecordsTotal: number = hubStart + hubRecordsAdded;
+    const agoRecordsTotal: number = agoStart + agoRecordsAdded;
     const expectedCursor = JSON.stringify({
-      hub: hubStart + hubAdded,
-      ago: agoStart + agoAdded
+      hub: hubStart + hubRecordsAdded,
+      ago: agoStart + agoRecordsAdded
     });
 
     const start = { hub: hubStart, ago: agoStart };
-    const page = { hubAdded, agoAdded, hubTotal, agoTotal };
+    const page = {
+      hubRecordsAdded,
+      agoRecordsAdded,
+      hubRecordsTotal,
+      agoRecordsTotal
+    };
 
     // Test
     const nextPage: IPageResponse = pageContent(start, page);
 
     // Assertions
     expect(nextPage.cursor).toEqual(encode(expectedCursor));
-    expect(nextPage.total).toEqual(hubTotal + agoTotal);
+    expect(nextPage.total).toEqual(hubRecordsTotal + agoRecordsTotal);
     expect(nextPage.hasNextPage).toEqual(false);
   });
 });

@@ -1,16 +1,33 @@
 import { encode } from "base-64";
 import { IPageResponse } from "./paginator";
 
+/**
+ * Interface for specifying the starting page for a particular content search
+ * in an AGO (non-Portal) environment, where AGO and Hub Indexer content results are combined
+ * as part of returning search results
+ *
+ * @param hub the starting point for Hub Index content
+ * @param ago the starting point for AGO (private) content
+ */
 interface IContentPageStart {
   hub: number;
   ago: number;
 }
 
+/**
+ * Interface for specifying the number of Hub Index (hub) and AGO (ago) items
+ * returned as part of the current page of search results.
+ *
+ * @param hubRecordsAdded the number of Hub Index records returned as part of results page
+ * @param agoRecordsAdded the number of AGO records returned as part of results page
+ * @param hubRecordsTotal the number of total Hub Index records to be returned as part of search
+ * @param agoRecordsTotal the number of total AGO records to be returned as part of search
+ */
 interface IContentPage {
-  hubAdded: number;
-  agoAdded: number;
-  hubTotal: number;
-  agoTotal: number;
+  hubRecordsAdded: number;
+  agoRecordsAdded: number;
+  hubRecordsTotal: number;
+  agoRecordsTotal: number;
 }
 
 /**
@@ -27,8 +44,8 @@ export function pageContent(
   start: IContentPageStart,
   page: IContentPage
 ): IPageResponse {
-  const hubNextStart: number = (start.hub || 0) + (page.hubAdded || 0);
-  const agoNextStart: number = (start.ago || 0) + (page.agoAdded || 0);
+  const hubNextStart: number = (start.hub || 0) + (page.hubRecordsAdded || 0);
+  const agoNextStart: number = (start.ago || 0) + (page.agoRecordsAdded || 0);
 
   const cursor = encode(
     JSON.stringify({
@@ -36,9 +53,9 @@ export function pageContent(
       ago: agoNextStart
     })
   );
-  const total = (page.hubTotal || 0) + (page.agoTotal || 0);
+  const total = (page.hubRecordsTotal || 0) + (page.agoRecordsTotal || 0);
   const hasNextPage =
-    hubNextStart < page.hubTotal || agoNextStart < page.agoTotal;
+    hubNextStart < page.hubRecordsTotal || agoNextStart < page.agoRecordsTotal;
 
   return {
     cursor,
