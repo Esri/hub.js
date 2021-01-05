@@ -12,12 +12,14 @@ describe("user indexing test",  () => {
   beforeEach(function () {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000000;
   })
-  fit("test", async () => {
+
+  const token = 'SLmpFv49xhL_A2nuzBfyAxlp46j-o-muVJKAfyZGB-zJ2AVg4qzCWcIGNvg7Jz7qQL0zWr8VDXmO9mT2zyiwgvRe-6B53aqAYV5vOYQLPqunLoY0w0C3lXamalLHBvNU-sKHAzcxQ9yr6dzLDrfFiM3C_9zNFsx2dQllsZQGj5EDyiqcuEQ_jH5rQREy_8GplJ8zP_51BBvESYQDTt_kak9WjIvjsBpaIds89KAmIbc.'
+  it("test", async () => {
     const session: UserSession = new UserSession({
-      token: '6tWbJAR1uvrTOR7xh4JtTnbxlJMAunTcEOofFSmIVqOVod1b9msGstvy-ynza4MXWEPpHzMIKKpd1Pd8hVV9oeSGBExbaoQBtdSVvitCdOETeo1lsgTOfx3GWtyu-evyvLyq1MsCPX2yVfYyTAw4p7e6idlgTRB376IURvdCJCWd9X3_CKg8ucxhYT635sNqDWpJMK9m6SkMPGzlie4i4RRCNoXujCfFhGh_17EKekM.'
+      token
     });
 
-    const service = HubService.create(session);
+    const service = HubService.create('https://devext.arcgis.com', 'https://afbc9443d4ebd4830afdc4793a3c191d-857540221.us-east-2.elb.amazonaws.com/graphql', session);
 
     const filter: SearchUsersFilter = {
       lastHubSession: {
@@ -46,5 +48,22 @@ describe("user indexing test",  () => {
     expect({}).toEqual({})
   });
 
+  fit("test2", async () => {
+    const session: UserSession = new UserSession({
+      token
+    });
+
+    const service = HubService.create('https://devext.arcgis.com', 'https://afbc9443d4ebd4830afdc4793a3c191d-857540221.us-east-2.elb.amazonaws.com/graphql', session);
+
+    await service.createSession();
+
+    const resp = await service.getSelf();
+
+    console.log(resp)
+
+    console.log('-----------------------------------------------')
+
+    expect({}).toEqual({})
+  });
 
 });

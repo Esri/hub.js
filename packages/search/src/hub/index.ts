@@ -93,15 +93,17 @@ export interface ICursorSearchResults<T> extends Iterator<() => Promise<ICursorS
 
 export class HubService {
   api: GraphQLClient;
+  portalUrl: string;
 
-  static create(userSession: UserSession): HubService {
-    return new HubService(userSession);
+  static create(portal: string, userIndexApi: string, authentication: UserSession): HubService {
+    return new HubService(portal, userIndexApi, authentication);
   }
 
-  constructor(private userSession: UserSession) {
-    this.api = new GraphQLClient('https://afbc9443d4ebd4830afdc4793a3c191d-857540221.us-east-2.elb.amazonaws.com/graphql', {
+  constructor(private portal: string, private userIndexApi: string, private authentication: UserSession) {
+    this.portalUrl = portal;
+    this.api = new GraphQLClient(userIndexApi, {
       headers: {
-        authorization: `Bearer ${userSession.token}`,
+        authorization: `Bearer ${authentication.token}`,
       },
       fetch: (arg: any, more: any) => fetch(arg, {
         agent: new https.Agent({
@@ -112,8 +114,33 @@ export class HubService {
     })
   }
 
-  async getSelf(): Promise<User> {
-    return this.api.request(SELF_RESPONSE_SCHEMA);
+  async createSession() { // todo--should this return anything?
+    const createMutation = gql`
+      mutation ($portalUrl: String!) {
+        createSession(
+          createSessionInput: {
+            url: $portalUrl,
+          }
+        ) {
+          username
+          url
+          ipAddress
+        }
+      }
+    `;
+    try {
+      await this.api.request(createMutation, {
+        portalUrl: this.portalUrl
+      });
+    } catch (e) {
+      console.log(JSON.stringify(e))
+      throw new Error('unable to create session')
+    }
+  }
+
+  async getSelf(): Promise<any> { // todo still trying to get this to catch errors properly
+    const { data, errors } = await this.api.request(SELF_RESPONSE_SCHEMA);
+    return data;
   }
 
   async searchUsers(
@@ -147,7 +174,7 @@ export class HubService {
     const result: ICursorSearchResults<User> = {
       total: totalCount,
       results: edges.map((e: any) => e.node), // pull user object out; will clean up types later
-      next: () => ({
+      next: () => ({ // to extend iterator this must be a function?
         done: true,
         value: undefined
       })
