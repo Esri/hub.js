@@ -1,4 +1,4 @@
-import { mergePages } from "../../../src/util/merge-paginations/merge";
+import { mergePages } from "../../../src/util/merge-pagination/merge";
 
 describe("Merge Paginations Function", () => {
   it("can properly merge pages from different sources, handling cases when nextStart is not specified", () => {
