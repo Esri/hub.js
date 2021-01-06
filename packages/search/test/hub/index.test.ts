@@ -2,8 +2,8 @@ import {
   HubService,
   ICursorSearchResults,
   SearchUsersFilter,
-  SortableField,
-  SortDirection,
+  UserSortableField,
+  UserSortDirection,
   User
 } from "../../src/hub/index";
 import { UserSession } from "@esri/arcgis-rest-auth";
@@ -14,7 +14,7 @@ describe("user indexing test",  () => {
   })
 
   const token = 'SLmpFv49xhL_A2nuzBfyAxlp46j-o-muVJKAfyZGB-zJ2AVg4qzCWcIGNvg7Jz7qQL0zWr8VDXmO9mT2zyiwgvRe-6B53aqAYV5vOYQLPqunLoY0w0C3lXamalLHBvNU-sKHAzcxQ9yr6dzLDrfFiM3C_9zNFsx2dQllsZQGj5EDyiqcuEQ_jH5rQREy_8GplJ8zP_51BBvESYQDTt_kak9WjIvjsBpaIds89KAmIbc.'
-  it("test", async () => {
+  fit("test", async () => {
     const session: UserSession = new UserSession({
       token
     });
@@ -32,14 +32,13 @@ describe("user indexing test",  () => {
     }
 
     // TODO seems like a bad way to specify a default pagingOptions (having to pass null)
-    const resp: ICursorSearchResults<User> = await service.searchUsers(filter, null, [{ field: SortableField.LAST_HUB_SESSION, sortDirection: SortDirection.ASC }]);
+    const resp: ICursorSearchResults<User> = await service.searchUsers(filter, undefined, [{ field: UserSortableField.LAST_HUB_SESSION, sortDirection: UserSortDirection.ASC }]);
 
     console.log(resp)
-    // console.log(resp.results.map(f => f.username))
 
-    if (resp.next().done) {
+    if (resp.hasNext) {
       console.log('got next')
-      const next = await resp.next().value(); // TODO this seems bad
+      const next = await resp.next();
       console.log(next)
     } else console.log('did not get next')
 
@@ -48,7 +47,7 @@ describe("user indexing test",  () => {
     expect({}).toEqual({})
   });
 
-  fit("test2", async () => {
+  it("test2", async () => {
     const session: UserSession = new UserSession({
       token
     });

@@ -32,19 +32,19 @@ const SELF_RESPONSE_SCHEMA = gql`
   }
 `;
 
-export enum SortableField {
+export enum UserSortableField {
   USERNAME = "USERNAME",
   LAST_HUB_SESSION = "LAST_HUB_SESSION"
 }
 
-export enum SortDirection {
+export enum UserSortDirection {
   ASC = "ASC",
   DESC = "DESC"
 }
 
 export interface ISortingOption {
-  field?: SortableField,
-  sortDirection?: SortDirection
+  field?: UserSortableField,
+  sortDirection?: UserSortDirection
 }
 
 
@@ -86,9 +86,11 @@ export interface PagingOptions {
   after?: string
 }
 
-export interface ICursorSearchResults<T> extends Iterator<() => Promise<ICursorSearchResults<T>>> {
+export interface ICursorSearchResults<T> {
   total: number;
   results: T[];
+  hasNext: boolean;
+  next: () => Promise<ICursorSearchResults<T>>;
 }
 
 export class HubService {
@@ -114,7 +116,7 @@ export class HubService {
     })
   }
 
-  async createSession() { // todo--should this return anything?
+  async createSession() {
     const createMutation = gql`
       mutation ($portalUrl: String!) {
         createSession(
@@ -129,24 +131,26 @@ export class HubService {
       }
     `;
     try {
-      await this.api.request(createMutation, {
+      return await this.api.request(createMutation, {
         portalUrl: this.portalUrl
       });
     } catch (e) {
-      console.log(JSON.stringify(e))
-      throw new Error('unable to create session')
+      throw new Error(e.response.errors[0].message)
     }
   }
 
-  async getSelf(): Promise<any> { // todo still trying to get this to catch errors properly
-    const { data, errors } = await this.api.request(SELF_RESPONSE_SCHEMA);
-    return data;
+  async getSelf(): Promise<any> {
+    try {
+      return await this.api.request(SELF_RESPONSE_SCHEMA);
+    } catch (e) {
+      throw new Error(e.response.errors[0].message)
+    }
   }
 
   async searchUsers(
     filter: SearchUsersFilter,
     pagingOptions: PagingOptions = { first: 10 },
-    sortingOptions: ISortingOption[] = [{ field: SortableField.USERNAME, sortDirection: SortDirection.ASC }]
+    sortingOptions: ISortingOption[] = [{ field: UserSortableField.USERNAME, sortDirection: UserSortDirection.ASC }]
   ): Promise<ICursorSearchResults<User>> {
     const searchQuery = gql`
       query ($filter: SearchUsersFilter, $pagingOptions: PagingOptions, $sortingOptions: [SortingOption!]) {
@@ -158,39 +162,32 @@ export class HubService {
       }
     `;
 
-    const response = await this.api.request(searchQuery, {
-      filter,
-      pagingOptions,
-      sortingOptions
-    });
+    try {
+      const response = await this.api.request(searchQuery, {
+        filter,
+        pagingOptions,
+        sortingOptions
+      });
 
-    // console.log(JSON.stringify(response.searchUsers))
+      const {
+        totalCount,
+        edges
+      } = getProp(response, 'searchUsers');
+      const hasNext = getProp(response, 'searchUsers.pageInfo.hasNextPage');
 
-    const {
-      totalCount,
-      edges
-    } = getProp(response, 'searchUsers');
-
-    const result: ICursorSearchResults<User> = {
-      total: totalCount,
-      results: edges.map((e: any) => e.node), // pull user object out; will clean up types later
-      next: () => ({ // to extend iterator this must be a function?
-        done: true,
-        value: undefined
-      })
-    }
-
-    if (getProp(response, 'searchUsers.pageInfo.hasNextPage')) {
-      result.next = () => ({
-        done: false,
-        value: () => this.searchUsers(filter, {
+      return {
+        total: totalCount,
+        results: edges.map((e: any) => e.node), // pull user object out; will clean up types later
+        hasNext,
+        next: hasNext ? () => this.searchUsers(filter, {
           first: pagingOptions.first,
           after: response.searchUsers.pageInfo.endCursor
-        } as PagingOptions)
-      })
-    }
+        } as PagingOptions) : null
+      }
 
-    return result;
+    } catch (e) {
+      throw new Error(e.response.errors[0].message)
+    }
   }
 }
 
