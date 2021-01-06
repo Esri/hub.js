@@ -19,7 +19,10 @@ describe("user indexing test",  () => {
       token
     });
 
-    const service = HubService.create('https://devext.arcgis.com', 'https://afbc9443d4ebd4830afdc4793a3c191d-857540221.us-east-2.elb.amazonaws.com/graphql', session);
+    const service = HubService.create(
+      'https://devext.arcgis.com',
+      'https://afbc9443d4ebd4830afdc4793a3c191d-857540221.us-east-2.elb.amazonaws.com/graphql',
+      session);
 
     const filter: SearchUsersFilter = {
       lastHubSession: {

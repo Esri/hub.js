@@ -179,7 +179,7 @@ export class HubService {
         total: totalCount,
         results: edges.map((e: any) => e.node), // pull user object out; will clean up types later
         hasNext,
-        next: hasNext ? () => this.searchUsers(filter, {
+        next: () => hasNext ? this.searchUsers(filter, {
           first: pagingOptions.first,
           after: response.searchUsers.pageInfo.endCursor
         } as PagingOptions) : null
