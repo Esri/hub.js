@@ -1689,9 +1689,14 @@
 
   <p>Convert a Site Template into a Site Model
 This will create Hub Teams and an Initiative, depending on licensing
-and privs.
-This returns the Model that still needs to be saved!</p>
+and privs.</p>
 
+
+  
+    <p>The subdomain for the site will be constructed from the <code>settings.solution.title</code>
+unless that contains unicode chars. In that case the initial subdomain will be <code>site</code>
+and <code>ensureUniqueDomainName</code> will increment it as necessary (i.e. site-1, site-2 etc)</p>
+<p>This returns the Model that still needs to be saved!</p>
 
   
 
@@ -1871,7 +1876,7 @@ This returns the Model that still needs to be saved!</p>
 
 
 
-<small class="font-size--2">Function defined in <a href="https://github.com/Esri/hub.js/blob/master/packages/packages/sites/src/create-site-model-from-template.ts#L32">packages/packages/sites/src/create-site-model-from-template.ts:32</a></small>
+<small class="font-size--2">Function defined in <a href="https://github.com/Esri/hub.js/blob/master/packages/packages/sites/src/create-site-model-from-template.ts#L37">packages/packages/sites/src/create-site-model-from-template.ts:37</a></small>
 
 
     </div>
