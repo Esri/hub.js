@@ -12,6 +12,7 @@ export interface IHubDownloadMetadataPollParameters
   downloadId: string;
   eventEmitter: EventEmitter;
   pollingInterval: number;
+  existingFileDate?: string;
 }
 
 class HubPoller implements IPoller {
@@ -23,11 +24,19 @@ class HubPoller implements IPoller {
   }
 
   activatePoll(params: IHubDownloadMetadataPollParameters) {
-    const { downloadId, eventEmitter, pollingInterval } = params;
+    const {
+      downloadId,
+      eventEmitter,
+      pollingInterval,
+      existingFileDate = new Date(0).toISOString()
+    } = params;
+
+    const existingFileTimestamp = new Date(existingFileDate).getTime();
+
     this.pollTimer = setInterval(() => {
       hubRequestDownloadMetadata(params)
         .then(metadata => {
-          if (isUpToDate(metadata)) {
+          if (isReady(metadata, existingFileTimestamp)) {
             eventEmitter.emit(`${downloadId}ExportComplete`, {
               detail: { metadata }
             });
@@ -65,8 +74,13 @@ export function hubPollDownloadMetadata(
   return poller;
 }
 
-function isUpToDate(metadata: any) {
-  return metadata && metadata.status === "ready";
+function isReady(metadata: any, preExportFileTimestamp: number) {
+  const { status, lastModified } = metadata;
+  const currentFileDate = new Date(lastModified).getTime();
+  return (
+    status === "ready" ||
+    (status === "ready_unknown" && currentFileDate > preExportFileTimestamp)
+  );
 }
 
 function exportDatasetFailed(metadata: any) {
