@@ -80,8 +80,15 @@ export function createSiteModelFromTemplate(
       if (getProp(teams, "props.contentGroupId")) {
         deepSet(template, "data.catalog.groups", [teams.props.contentGroupId]);
       }
-      // sites need unique names...
-      return ensureUniqueDomainName(slugify(title), hubRequestOptions);
+      // sites need unique domains names
+      // We derive this from the title, unless the title has unicode chars
+      // in which case we use `site`, and the `ensureUniqueDomainName` function
+      // will increment that as needed - i.e. `site-23`
+      let domainTitle = title;
+      if (hasUnicodeChars(domainTitle)) {
+        domainTitle = "site";
+      }
+      return ensureUniqueDomainName(slugify(domainTitle), hubRequestOptions);
     })
     .then(uniqueSubdomain => {
       const portal = hubRequestOptions.portalSelf;
@@ -151,4 +158,15 @@ export function createSiteModelFromTemplate(
     .catch(ex => {
       throw Error(`site-utils::createSiteModelFromTemplate Error ${ex}`);
     });
+}
+
+/**
+ * From Stackoverflow
+ * https://stackoverflow.com/questions/147824/how-to-find-whether-a-particular-string-has-unicode-characters-esp-double-byte
+ * This is the highest performance solution, combining three approaches
+ */
+const unicodeCharRegex = /[^\u0000-\u00ff]/;
+function hasUnicodeChars(value: string): boolean {
+  if (value.charCodeAt(0) > 255) return true;
+  return unicodeCharRegex.test(value);
 }
