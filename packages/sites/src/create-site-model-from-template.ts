@@ -23,6 +23,11 @@ import { ensureUniqueDomainName } from "./domains";
  * Convert a Site Template into a Site Model
  * This will create Hub Teams and an Initiative, depending on licensing
  * and privs.
+ *
+ * The subdomain for the site will be constructed from the `settings.solution.title`
+ * unless that contains unicode chars. In that case the initial subdomain will be `site`
+ * and `ensureUniqueDomainName` will increment it as necessary (i.e. site-1, site-2 etc)
+ *
  * This returns the Model that still needs to be saved!
  * @param {object} template Site Template
  * @param {object} settings Adlib interpolation hash
