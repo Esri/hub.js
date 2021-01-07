@@ -1,5 +1,5 @@
-import { IHubRequestOptions } from "@esri/hub-common";
-import { updateDomain } from "../../src/domains";
+import { getProp, IHubRequestOptions } from "@esri/hub-common";
+import { IDomainEntry, updateDomain } from "../../src/domains";
 import * as fetchMock from "fetch-mock";
 import * as _checkStatusAndParseJsonModule from "../../src/domains/_check-status-and-parse-json";
 
@@ -30,6 +30,40 @@ describe("updateDomain", function() {
 
     const res = await updateDomain(domainEntry, ro);
     expect(fetchMock.done()).toBeTruthy("fetch should have been called once");
+    expect(res.success).toBeTruthy("json parsed and response returned");
+  });
+
+  it("converts title to a string", async function() {
+    const entry = ({
+      clientKey: "hdlf3lCPRguoTFr6",
+      domain: "zebra-dc.hubqa.arcgis.com",
+      hostname: "zebra-dc.hubqa.arcgis.com",
+      id: "146663",
+      orgId: "97KLIFOSt5CxbiRI",
+      orgKey: "dc",
+      orgTitle: "Washington, DC R&D Center (QA)",
+      permanentRedirect: false,
+      siteId: "9697f67b6d6343fa823dcdbe2d172073",
+      siteTitle: 1234,
+      sslOnly: true
+    } as unknown) as IDomainEntry;
+    const ro = { isPortal: false } as IHubRequestOptions;
+
+    spyOn(
+      _checkStatusAndParseJsonModule,
+      "_checkStatusAndParseJson"
+    ).and.returnValue(Promise.resolve({ success: true }));
+
+    fetchMock.put(`end:api/v3/domains/${entry.id}`, {});
+
+    const res = await updateDomain(entry, ro);
+    expect(fetchMock.done()).toBeTruthy("fetch should have been called once");
+    const opts = fetchMock.lastOptions(`end:api/v3/domains/${entry.id}`);
+    const body = JSON.parse(opts.body as string);
+    expect(getProp(body, "siteTitle")).toBe(
+      "1234",
+      "should coerce numeric title to a string"
+    );
     expect(res.success).toBeTruthy("json parsed and response returned");
   });
 
