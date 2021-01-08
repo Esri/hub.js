@@ -1,3 +1,4 @@
+import { encode } from "base-64";
 import { InvalidPaginationInputError } from "./invalid-pagination-input";
 
 /**
@@ -37,5 +38,5 @@ export function mergePages(pages: IDataPageNextStart[]): string {
     {} as Record<string, number>
   );
 
-  return Buffer.from(JSON.stringify(mergedPages)).toString("base64");
+  return encode(JSON.stringify(mergedPages));
 }
