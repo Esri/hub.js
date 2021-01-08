@@ -73,13 +73,10 @@ function _combineMapAndResult(
   }
 
   aggResult.aggregations.forEach((agg: IAggregation) => {
-    if (!aggFieldMap[agg.label]) {
-      aggFieldMap[agg.label] = agg.aggValue;
-    } else {
-      aggFieldMap[agg.label] = mergeFunction(
-        aggFieldMap[agg.label],
-        agg.aggValue
-      );
+    if (agg.aggValue !== undefined && agg.aggValue !== null) {
+      aggFieldMap[agg.label] = aggFieldMap[agg.label]
+        ? mergeFunction(aggFieldMap[agg.label], agg.aggValue)
+        : agg.aggValue;
     }
   });
 
@@ -93,7 +90,9 @@ function _convertAggsToMap(aggregations: IAggregation[]): AggregationMap {
 
   return aggregations.reduce(
     (aggLabelValueMap: AggregationMap, agg: IAggregation) => {
-      aggLabelValueMap[agg.label] = agg.aggValue;
+      if (agg.aggValue !== undefined && agg.aggValue !== null) {
+        aggLabelValueMap[agg.label] = agg.aggValue;
+      }
       return aggLabelValueMap;
     },
     {} as AggregationMap

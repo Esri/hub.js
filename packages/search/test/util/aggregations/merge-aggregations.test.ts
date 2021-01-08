@@ -345,7 +345,7 @@ describe("Merge Aggregation Function", () => {
     expect(expectedMergedAggregations).toEqual(actualMergedAggregations);
   });
 
-  it("can properly ignore non-existent aggValues", () => {
+  it("can properly ignore falsey field aggValues when merging with truthy aggValues with the same label", () => {
     // Setup
     const aggregationsOne: IAggregationResult[] = [
       {
@@ -374,7 +374,7 @@ describe("Merge Aggregation Function", () => {
           },
           {
             label: "a_category",
-            aggValue: 10
+            aggValue: 4
           }
         ]
       }
@@ -429,8 +429,131 @@ describe("Merge Aggregation Function", () => {
             aggValue: 4
           },
           {
+            label: "private",
+            aggValue: 3
+          },
+          {
             label: "public",
             aggValue: 17
+          },
+          {
+            label: "shared",
+            aggValue: 5
+          }
+        ]
+      },
+      {
+        fieldName: "category",
+        aggregations: [
+          {
+            label: "0",
+            aggValue: 9
+          },
+          {
+            label: "1",
+            aggValue: 23
+          },
+          {
+            label: "a_category",
+            aggValue: 4
+          }
+        ]
+      }
+    ];
+
+    // Test
+    const actualMergedAggregations: IAggregationResult[] = mergeAggregations([
+      aggregationsOne,
+      aggregationsTwo,
+      aggregationsThree
+    ]);
+
+    // Assert
+    expect(expectedMergedAggregations).toEqual(actualMergedAggregations);
+  });
+
+  it("can ignore aggregations entirely when all field aggValues are falsey for a given label", () => {
+    // Setup
+    const aggregationsOne: IAggregationResult[] = [
+      {
+        fieldName: "access",
+        aggregations: [
+          {
+            label: "public",
+            aggValue: null
+          },
+          {
+            label: "private",
+            aggValue: 3
+          },
+          {
+            label: 0,
+            aggValue: 2
+          }
+        ]
+      },
+      {
+        fieldName: "category",
+        aggregations: [
+          {
+            label: 1,
+            aggValue: 23
+          },
+          {
+            label: "a_category",
+            aggValue: undefined
+          }
+        ]
+      }
+    ];
+
+    const aggregationsTwo: IAggregationResult[] = [
+      {
+        fieldName: "access",
+        aggregations: [
+          {
+            label: "public",
+            aggValue: undefined
+          },
+          {
+            label: "shared",
+            aggValue: 5
+          },
+          {
+            label: 1,
+            aggValue: 4
+          }
+        ]
+      }
+    ];
+
+    const aggregationsThree: IAggregationResult[] = [
+      {
+        fieldName: "category",
+        aggregations: [
+          {
+            label: "a_category",
+            aggValue: null
+          },
+          {
+            label: 0,
+            aggValue: 9
+          }
+        ]
+      }
+    ];
+
+    const expectedMergedAggregations: IAggregationResult[] = [
+      {
+        fieldName: "access",
+        aggregations: [
+          {
+            label: "0",
+            aggValue: 2
+          },
+          {
+            label: "1",
+            aggValue: 4
           },
           {
             label: "private",
@@ -452,10 +575,6 @@ describe("Merge Aggregation Function", () => {
           {
             label: "1",
             aggValue: 23
-          },
-          {
-            label: "a_category",
-            aggValue: 10
           }
         ]
       }
@@ -472,7 +591,7 @@ describe("Merge Aggregation Function", () => {
     expect(expectedMergedAggregations).toEqual(actualMergedAggregations);
   });
 
-  it("can properly default falsey or empty aggregations", () => {
+  it("can properly default falsey lists of aggregations to an empty array", () => {
     // Setup
     const aggregationsOne: IAggregationResult[] = [
       {
