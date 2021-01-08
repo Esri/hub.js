@@ -1,12 +1,12 @@
 import {
-  AggregationResult,
+  IAggregationResult,
   mergeAggregations
 } from "../../../src/util/aggregations/merge-aggregations";
 
 describe("Merge Aggregation Function", () => {
   it("can properly merge several lists of aggregations with a default merge function", () => {
     // Setup
-    const aggregationsOne: AggregationResult[] = [
+    const aggregationsOne: IAggregationResult[] = [
       {
         fieldName: "access",
         aggregations: [
@@ -39,7 +39,7 @@ describe("Merge Aggregation Function", () => {
       }
     ];
 
-    const aggregationsTwo: AggregationResult[] = [
+    const aggregationsTwo: IAggregationResult[] = [
       {
         fieldName: "access",
         aggregations: [
@@ -72,7 +72,7 @@ describe("Merge Aggregation Function", () => {
       }
     ];
 
-    const aggregationsThree: AggregationResult[] = [
+    const aggregationsThree: IAggregationResult[] = [
       {
         fieldName: "category",
         aggregations: [
@@ -101,7 +101,7 @@ describe("Merge Aggregation Function", () => {
       }
     ];
 
-    const expectedMergedAggregations: AggregationResult[] = [
+    const expectedMergedAggregations: IAggregationResult[] = [
       {
         fieldName: "access",
         aggregations: [
@@ -164,7 +164,7 @@ describe("Merge Aggregation Function", () => {
     ];
 
     // Test
-    const actualMergedAggregations: AggregationResult[] = mergeAggregations([
+    const actualMergedAggregations: IAggregationResult[] = mergeAggregations([
       aggregationsOne,
       aggregationsTwo,
       aggregationsThree
@@ -176,7 +176,7 @@ describe("Merge Aggregation Function", () => {
 
   it("can properly merge several lists of aggregations with a custom merge function", () => {
     // Setup
-    const aggregationsOne: AggregationResult[] = [
+    const aggregationsOne: IAggregationResult[] = [
       {
         fieldName: "access",
         aggregations: [
@@ -209,7 +209,7 @@ describe("Merge Aggregation Function", () => {
       }
     ];
 
-    const aggregationsTwo: AggregationResult[] = [
+    const aggregationsTwo: IAggregationResult[] = [
       {
         fieldName: "access",
         aggregations: [
@@ -242,7 +242,7 @@ describe("Merge Aggregation Function", () => {
       }
     ];
 
-    const aggregationsThree: AggregationResult[] = [
+    const aggregationsThree: IAggregationResult[] = [
       {
         fieldName: "category",
         aggregations: [
@@ -273,7 +273,7 @@ describe("Merge Aggregation Function", () => {
 
     const mergeFunc: any = (one: number, two: number) => Math.max(one, two);
 
-    const expectedMergedAggregations: AggregationResult[] = [
+    const expectedMergedAggregations: IAggregationResult[] = [
       {
         fieldName: "access",
         aggregations: [
@@ -336,7 +336,7 @@ describe("Merge Aggregation Function", () => {
     ];
 
     // Test
-    const actualMergedAggregations: AggregationResult[] = mergeAggregations(
+    const actualMergedAggregations: IAggregationResult[] = mergeAggregations(
       [aggregationsOne, aggregationsTwo, aggregationsThree],
       mergeFunc
     );
@@ -347,7 +347,7 @@ describe("Merge Aggregation Function", () => {
 
   it("can properly ignore non-existent aggValues", () => {
     // Setup
-    const aggregationsOne: AggregationResult[] = [
+    const aggregationsOne: IAggregationResult[] = [
       {
         fieldName: "access",
         aggregations: [
@@ -380,7 +380,7 @@ describe("Merge Aggregation Function", () => {
       }
     ];
 
-    const aggregationsTwo: AggregationResult[] = [
+    const aggregationsTwo: IAggregationResult[] = [
       {
         fieldName: "access",
         aggregations: [
@@ -400,7 +400,7 @@ describe("Merge Aggregation Function", () => {
       }
     ];
 
-    const aggregationsThree: AggregationResult[] = [
+    const aggregationsThree: IAggregationResult[] = [
       {
         fieldName: "category",
         aggregations: [
@@ -416,7 +416,7 @@ describe("Merge Aggregation Function", () => {
       }
     ];
 
-    const expectedMergedAggregations: AggregationResult[] = [
+    const expectedMergedAggregations: IAggregationResult[] = [
       {
         fieldName: "access",
         aggregations: [
@@ -462,7 +462,7 @@ describe("Merge Aggregation Function", () => {
     ];
 
     // Test
-    const actualMergedAggregations: AggregationResult[] = mergeAggregations([
+    const actualMergedAggregations: IAggregationResult[] = mergeAggregations([
       aggregationsOne,
       aggregationsTwo,
       aggregationsThree
@@ -474,7 +474,7 @@ describe("Merge Aggregation Function", () => {
 
   it("can properly default falsey or empty aggregations", () => {
     // Setup
-    const aggregationsOne: AggregationResult[] = [
+    const aggregationsOne: IAggregationResult[] = [
       {
         fieldName: "access",
         aggregations: [
@@ -502,7 +502,7 @@ describe("Merge Aggregation Function", () => {
       }
     ];
 
-    const aggregationsTwo: AggregationResult[] = [
+    const aggregationsTwo: IAggregationResult[] = [
       {
         fieldName: "access",
         aggregations: [
@@ -526,7 +526,7 @@ describe("Merge Aggregation Function", () => {
       }
     ];
 
-    const aggregationsThree: AggregationResult[] = [
+    const aggregationsThree: IAggregationResult[] = [
       {
         fieldName: "category",
         aggregations: [
@@ -542,7 +542,7 @@ describe("Merge Aggregation Function", () => {
       }
     ];
 
-    const expectedMergedAggregations: AggregationResult[] = [
+    const expectedMergedAggregations: IAggregationResult[] = [
       {
         fieldName: "access",
         aggregations: [
@@ -588,7 +588,7 @@ describe("Merge Aggregation Function", () => {
     ];
 
     // Test
-    const actualMergedAggregations: AggregationResult[] = mergeAggregations([
+    const actualMergedAggregations: IAggregationResult[] = mergeAggregations([
       aggregationsOne,
       aggregationsTwo,
       aggregationsThree
