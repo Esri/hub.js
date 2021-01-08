@@ -20,7 +20,7 @@ export function mergeAggregations(
   aggs: IAggregationResult[][] = [],
   mergeFunction: mergeFunc = defaultMergeFunc
 ): IAggregationResult[] {
-  if (!Array.isArray || aggs.length === 0) {
+  if (!Array.isArray(aggs) || aggs.length === 0) {
     return null;
   }
 

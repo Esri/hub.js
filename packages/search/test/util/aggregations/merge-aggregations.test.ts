@@ -597,4 +597,16 @@ describe("Merge Aggregation Function", () => {
     // Assert
     expect(expectedMergedAggregations).toEqual(actualMergedAggregations);
   });
+
+  it("returns null with falsey input", () => {
+    // Test
+    const one: any = mergeAggregations(null);
+    const two: any = mergeAggregations(undefined);
+    const three: any = mergeAggregations();
+
+    // Assert
+    expect(one).toBeNull();
+    expect(two).toBeNull();
+    expect(three).toBeNull();
+  });
 });
