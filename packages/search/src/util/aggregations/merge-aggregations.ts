@@ -13,8 +13,9 @@ type mergeFunc = (aggValueOne: number, aggValueTwo: number) => number;
 type AggregationMap = Record<string, number>;
 type AggregationResultMap = Record<string, AggregationMap>;
 
-const defaultMergeFunc = (aggValueOne: number, aggValueTwo: number) =>
-  (aggValueOne || 0) + (aggValueTwo || 0);
+const defaultMergeFunc = (aggValueOne: number, aggValueTwo: number) => {
+  return aggValueOne + aggValueTwo;
+};
 
 export function mergeAggregations(
   aggs: IAggregationResult[][] = [],
