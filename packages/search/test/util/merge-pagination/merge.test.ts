@@ -44,7 +44,7 @@ describe("Merge Paginations Function", () => {
       mergePages(pagesTwo);
     } catch (err) {
       expect(err.message).toEqual(
-        "Invalid Input Error. Must be array of IDataPageNextStart, received: null"
+        "Invalid Input Error. Must be array of IDataPageNextStart, received: object"
       );
     }
   });
@@ -59,7 +59,7 @@ describe("Merge Paginations Function", () => {
       mergePages(pagesOne);
     } catch (err) {
       expect(err.message).toEqual(
-        "Invalid Input Error. Must be array of IDataPageNextStart, received: undefined"
+        "Invalid Input Error. Must be array of IDataPageNextStart, received: function"
       );
     }
 
@@ -67,7 +67,7 @@ describe("Merge Paginations Function", () => {
       mergePages(pagesTwo);
     } catch (err) {
       expect(err.message).toEqual(
-        "Invalid Input Error. Must be array of IDataPageNextStart, received: {}"
+        "Invalid Input Error. Must be array of IDataPageNextStart, received: object"
       );
     }
   });

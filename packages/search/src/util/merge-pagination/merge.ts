@@ -23,9 +23,7 @@ interface IDataPageNextStart {
 export function mergePages(pages: IDataPageNextStart[]): string {
   if (!pages || !Array.isArray(pages)) {
     throw new InvalidPaginationInputError(
-      `Invalid Input Error. Must be array of IDataPageNextStart, received: ${JSON.stringify(
-        pages
-      )}`,
+      `Invalid Input Error. Must be array of IDataPageNextStart, received: ${typeof pages}`,
       pages
     );
   }
