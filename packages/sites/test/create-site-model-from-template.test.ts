@@ -418,6 +418,8 @@ describe("createSiteModelFromTemplate", () => {
     expect(createdSite.item.title).toBe(
       String(numericTitleSettings.solution.title)
     );
+    // ensure the deepSet does not bork things up
+    expect(numericTitleSettings.solution.snippet).toBe("site-snippet");
     expect(createdSite.data.values.title).toBe(
       String(numericTitleSettings.solution.title)
     );
