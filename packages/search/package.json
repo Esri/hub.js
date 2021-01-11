@@ -10,6 +10,7 @@
   "types": "dist/esm/index.d.ts",
   "license": "Apache-2.0",
   "dependencies": {
+    "base-64": "^1.0.0",
     "tslib": "^1.13.0"
   },
   "peerDependencies": {
@@ -31,6 +32,7 @@
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
     "@types/faker": "^5.1.5",
+    "@types/base-64": "^0.1.3",
     "faker": "^5.1.0",
     "rollup": "^2.26.5",
     "rollup-plugin-filesize": "^9.0.2",
