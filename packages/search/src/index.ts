@@ -11,6 +11,8 @@ export {
   computeItemsFacets
 } from "./ago";
 
+export * from "./util";
+
 export interface ISearchService<T> {
   search(params: unknown): Promise<ICursorSearchResults<T>> | ICursorSearchResults<T>
 }

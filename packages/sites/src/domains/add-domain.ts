@@ -21,6 +21,11 @@ export function addDomain(
   const headers = _getAuthHeader(hubRequestOptions);
   headers["Content-Type"] = "application/json";
   const url = `${_getDomainServiceUrl(hubRequestOptions.hubApiUrl)}`;
+  // handle case of siteTitle being numeric
+  const title = domainEntry.siteTitle as unknown;
+  if (typeof title === "number") {
+    domainEntry.siteTitle = title.toString();
+  }
   return fetch(url, {
     method: "POST",
     headers,

@@ -11,6 +11,7 @@ import {
   MOCK_PORTAL_REQOPTS,
   expectAll
 } from "./test-helpers.test";
+import { cloneObject } from "@esri/hub-common";
 
 const siteTemplate = {
   type: "Hub Site Application",
@@ -367,5 +368,35 @@ describe("createSiteModelFromTemplate", () => {
     } catch (err) {
       expect(err).toBeDefined();
     }
+  });
+
+  it("allows unicode in site title, but does not use in domain", async () => {
+    getProductSpy.and.returnValue("basic");
+    const unicodeSettings = cloneObject(settings);
+    unicodeSettings.solution.title = "テスト";
+    const createdSite = await createSiteModelFromTemplate(
+      commonModule.cloneObject(siteTemplate),
+      unicodeSettings,
+      {},
+      MOCK_HUB_REQOPTS
+    );
+
+    // Verify interpolation
+    expect(createdSite.item.title).toBe(unicodeSettings.solution.title);
+    expect(createdSite.data.values.title).toBe(unicodeSettings.solution.name);
+
+    expect(createdSite.item.url).toBe(
+      "https://unique-domain-org.hubqa.arcgis.com"
+    );
+    expect(createdSite.data.values.defaultHostname).toBe(
+      "unique-domain-org.hubqa.arcgis.com"
+    );
+    expect(createdSite.data.values.subdomain).toBe(`unique-domain`);
+
+    const passedDomain = ensureDomainSpy.calls.argsFor(0)[0];
+    expect(passedDomain).toBe(
+      "site",
+      "when unicode chars present, pass site as domain name"
+    );
   });
 });

@@ -30,6 +30,8 @@ export interface IPollDownloadMetadataRequestParams {
   jobId?: string;
   /* Time-stamp for export start. Required for Portal downloads only. */
   exportCreated?: number;
+  /* ISO string of existing export file date. Used to track export progress when lastEditDate is unknown. */
+  existingFileDate?: string;
 }
 
 /**
@@ -54,7 +56,8 @@ export function pollDownloadMetadata(
     spatialRefId,
     geometry,
     where,
-    host
+    host,
+    existingFileDate
   } = params;
 
   if (target === "portal") {
@@ -82,6 +85,7 @@ export function pollDownloadMetadata(
     pollingInterval,
     spatialRefId,
     geometry,
-    where
+    where,
+    existingFileDate
   });
 }
