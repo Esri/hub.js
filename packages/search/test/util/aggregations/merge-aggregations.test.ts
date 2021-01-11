@@ -19,7 +19,7 @@ describe("Merge Aggregation Function", () => {
             aggValue: 3
           },
           {
-            label: 0,
+            label: "0",
             aggValue: 2
           }
         ]
@@ -28,7 +28,7 @@ describe("Merge Aggregation Function", () => {
         fieldName: "category",
         aggregations: [
           {
-            label: 1,
+            label: "1",
             aggValue: 23
           },
           {
@@ -52,7 +52,7 @@ describe("Merge Aggregation Function", () => {
             aggValue: 5
           },
           {
-            label: 1,
+            label: "1",
             aggValue: 4
           }
         ]
@@ -61,11 +61,11 @@ describe("Merge Aggregation Function", () => {
         fieldName: "type",
         aggregations: [
           {
-            label: 1,
+            label: "1",
             aggValue: 12
           },
           {
-            label: "Feature Layer",
+            label: "feature layer",
             aggValue: 7
           }
         ]
@@ -81,7 +81,7 @@ describe("Merge Aggregation Function", () => {
             aggValue: 12
           },
           {
-            label: 0,
+            label: "0",
             aggValue: 9
           }
         ]
@@ -90,11 +90,11 @@ describe("Merge Aggregation Function", () => {
         fieldName: "type",
         aggregations: [
           {
-            label: 0,
+            label: "0",
             aggValue: 6
           },
           {
-            label: "Feature Layer",
+            label: "feature layer",
             aggValue: 2
           }
         ]
@@ -156,7 +156,7 @@ describe("Merge Aggregation Function", () => {
             aggValue: 12
           },
           {
-            label: "Feature Layer",
+            label: "feature layer",
             aggValue: 9
           }
         ]
@@ -189,7 +189,7 @@ describe("Merge Aggregation Function", () => {
             aggValue: 3
           },
           {
-            label: 0,
+            label: "0",
             aggValue: 2
           }
         ]
@@ -198,7 +198,7 @@ describe("Merge Aggregation Function", () => {
         fieldName: "category",
         aggregations: [
           {
-            label: 1,
+            label: "1",
             aggValue: 23
           },
           {
@@ -222,7 +222,7 @@ describe("Merge Aggregation Function", () => {
             aggValue: 5
           },
           {
-            label: 1,
+            label: "1",
             aggValue: 4
           }
         ]
@@ -231,11 +231,11 @@ describe("Merge Aggregation Function", () => {
         fieldName: "type",
         aggregations: [
           {
-            label: 1,
+            label: "1",
             aggValue: 12
           },
           {
-            label: "Feature Layer",
+            label: "feature layer",
             aggValue: 7
           }
         ]
@@ -251,7 +251,7 @@ describe("Merge Aggregation Function", () => {
             aggValue: 12
           },
           {
-            label: 0,
+            label: "0",
             aggValue: 9
           }
         ]
@@ -260,11 +260,11 @@ describe("Merge Aggregation Function", () => {
         fieldName: "type",
         aggregations: [
           {
-            label: 0,
+            label: "0",
             aggValue: 6
           },
           {
-            label: "Feature Layer",
+            label: "feature layer",
             aggValue: 2
           }
         ]
@@ -328,7 +328,7 @@ describe("Merge Aggregation Function", () => {
             aggValue: 12
           },
           {
-            label: "Feature Layer",
+            label: "feature layer",
             aggValue: 7
           }
         ]
@@ -360,7 +360,7 @@ describe("Merge Aggregation Function", () => {
             aggValue: 3
           },
           {
-            label: 0,
+            label: "0",
             aggValue: 2
           }
         ]
@@ -369,7 +369,7 @@ describe("Merge Aggregation Function", () => {
         fieldName: "category",
         aggregations: [
           {
-            label: 1,
+            label: "1",
             aggValue: 23
           },
           {
@@ -393,7 +393,7 @@ describe("Merge Aggregation Function", () => {
             aggValue: 5
           },
           {
-            label: 1,
+            label: "1",
             aggValue: 4
           }
         ]
@@ -409,7 +409,7 @@ describe("Merge Aggregation Function", () => {
             aggValue: undefined
           },
           {
-            label: 0,
+            label: "0",
             aggValue: 9
           }
         ]
@@ -487,7 +487,7 @@ describe("Merge Aggregation Function", () => {
             aggValue: 3
           },
           {
-            label: 0,
+            label: "0",
             aggValue: 2
           }
         ]
@@ -496,7 +496,7 @@ describe("Merge Aggregation Function", () => {
         fieldName: "category",
         aggregations: [
           {
-            label: 1,
+            label: "1",
             aggValue: 23
           },
           {
@@ -520,7 +520,7 @@ describe("Merge Aggregation Function", () => {
             aggValue: 5
           },
           {
-            label: 1,
+            label: "1",
             aggValue: 4
           }
         ]
@@ -536,7 +536,7 @@ describe("Merge Aggregation Function", () => {
             aggValue: null
           },
           {
-            label: 0,
+            label: "0",
             aggValue: 9
           }
         ]
@@ -606,7 +606,7 @@ describe("Merge Aggregation Function", () => {
             aggValue: 3
           },
           {
-            label: 0,
+            label: "0",
             aggValue: 2
           }
         ]
@@ -634,7 +634,7 @@ describe("Merge Aggregation Function", () => {
             aggValue: 5
           },
           {
-            label: 1,
+            label: "1",
             aggValue: 4
           }
         ]
@@ -654,7 +654,7 @@ describe("Merge Aggregation Function", () => {
             aggValue: 20
           },
           {
-            label: 0,
+            label: "0",
             aggValue: 9
           }
         ]
@@ -703,6 +703,176 @@ describe("Merge Aggregation Function", () => {
       {
         fieldName: "type",
         aggregations: []
+      }
+    ];
+
+    // Test
+    const actualMergedAggregations: IAggregationResult[] = mergeAggregations([
+      aggregationsOne,
+      aggregationsTwo,
+      aggregationsThree
+    ]);
+
+    // Assert
+    expect(expectedMergedAggregations).toEqual(actualMergedAggregations);
+  });
+
+  it("can properly merge several lists of aggregations with mixedCasings", () => {
+    // Setup
+    const aggregationsOne: IAggregationResult[] = [
+      {
+        fieldName: "access",
+        aggregations: [
+          {
+            label: "PUBLIC",
+            aggValue: 5
+          },
+          {
+            label: "private",
+            aggValue: 3
+          },
+          {
+            label: "0",
+            aggValue: 2
+          }
+        ]
+      },
+      {
+        fieldName: "CATEGORY",
+        aggregations: [
+          {
+            label: "1",
+            aggValue: 23
+          },
+          {
+            label: "a_Category",
+            aggValue: 10
+          }
+        ]
+      }
+    ];
+
+    const aggregationsTwo: IAggregationResult[] = [
+      {
+        fieldName: "ACCESS",
+        aggregations: [
+          {
+            label: "public",
+            aggValue: 17
+          },
+          {
+            label: "shared",
+            aggValue: 5
+          },
+          {
+            label: "1",
+            aggValue: 4
+          }
+        ]
+      },
+      {
+        fieldName: "type",
+        aggregations: [
+          {
+            label: "1",
+            aggValue: 12
+          },
+          {
+            label: "FeaTure laYer",
+            aggValue: 7
+          }
+        ]
+      }
+    ];
+
+    const aggregationsThree: IAggregationResult[] = [
+      {
+        fieldName: "category",
+        aggregations: [
+          {
+            label: "a_category",
+            aggValue: 12
+          },
+          {
+            label: "0",
+            aggValue: 9
+          }
+        ]
+      },
+      {
+        fieldName: "TYPE",
+        aggregations: [
+          {
+            label: "0",
+            aggValue: 6
+          },
+          {
+            label: "FeaturE LayeR",
+            aggValue: 2
+          }
+        ]
+      }
+    ];
+
+    const expectedMergedAggregations: IAggregationResult[] = [
+      {
+        fieldName: "access",
+        aggregations: [
+          {
+            label: "0",
+            aggValue: 2
+          },
+          {
+            label: "1",
+            aggValue: 4
+          },
+          {
+            label: "public",
+            aggValue: 22
+          },
+          {
+            label: "private",
+            aggValue: 3
+          },
+          {
+            label: "shared",
+            aggValue: 5
+          }
+        ]
+      },
+      {
+        fieldName: "category",
+        aggregations: [
+          {
+            label: "0",
+            aggValue: 9
+          },
+          {
+            label: "1",
+            aggValue: 23
+          },
+          {
+            label: "a_category",
+            aggValue: 22
+          }
+        ]
+      },
+      {
+        fieldName: "type",
+        aggregations: [
+          {
+            label: "0",
+            aggValue: 6
+          },
+          {
+            label: "1",
+            aggValue: 12
+          },
+          {
+            label: "feature layer",
+            aggValue: 9
+          }
+        ]
       }
     ];
 

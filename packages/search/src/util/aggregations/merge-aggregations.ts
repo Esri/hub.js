@@ -4,7 +4,7 @@
  * and aggValue is the aggregation value
  */
 interface IAggregation {
-  label: string | number;
+  label: string;
   aggValue: number;
 }
 
@@ -75,11 +75,12 @@ function _addAggResultsToMap(
   mergeFunction: mergeFunc
 ): AggregationResultMap {
   aggResultList.forEach((aggResult: IAggregationResult) => {
-    if (!mergedAggs[aggResult.fieldName]) {
+    const lowercasedFieldName = aggResult.fieldName.toLowerCase();
+    if (!mergedAggs[lowercasedFieldName]) {
       _addNewAggFieldToMap(mergedAggs, aggResult);
     } else {
       _combineMapAndResult(
-        mergedAggs[aggResult.fieldName],
+        mergedAggs[lowercasedFieldName],
         aggResult,
         mergeFunction
       );
@@ -93,7 +94,9 @@ function _addNewAggFieldToMap(
   mergedAggs: AggregationResultMap,
   aggResult: IAggregationResult
 ): AggregationResultMap {
-  mergedAggs[aggResult.fieldName] = _convertAggsToMap(aggResult.aggregations);
+  mergedAggs[aggResult.fieldName.toLowerCase()] = _convertAggsToMap(
+    aggResult.aggregations
+  );
   return mergedAggs;
 }
 
@@ -108,8 +111,9 @@ function _combineMapAndResult(
 
   aggResult.aggregations.forEach((agg: IAggregation) => {
     if (agg.aggValue !== undefined && agg.aggValue !== null) {
-      aggFieldMap[agg.label] = aggFieldMap[agg.label]
-        ? mergeFunction(aggFieldMap[agg.label], agg.aggValue)
+      const lowercasedLabel = agg.label.toLowerCase();
+      aggFieldMap[lowercasedLabel] = aggFieldMap[lowercasedLabel]
+        ? mergeFunction(aggFieldMap[lowercasedLabel], agg.aggValue)
         : agg.aggValue;
     }
   });
@@ -124,8 +128,9 @@ function _convertAggsToMap(aggregations: IAggregation[]): AggregationMap {
 
   return aggregations.reduce(
     (aggLabelValueMap: AggregationMap, agg: IAggregation) => {
+      const lowercasedLabel = agg.label.toLowerCase();
       if (agg.aggValue !== undefined && agg.aggValue !== null) {
-        aggLabelValueMap[agg.label] = agg.aggValue;
+        aggLabelValueMap[lowercasedLabel] = agg.aggValue;
       }
       return aggLabelValueMap;
     },
