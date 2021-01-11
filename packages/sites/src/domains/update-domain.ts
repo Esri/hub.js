@@ -23,6 +23,11 @@ export function updateDomain(
   const url = `${_getDomainServiceUrl(hubRequestOptions.hubApiUrl)}/${
     domainEntry.id
   }`;
+  // handle case of siteTitle being numeric
+  const title = domainEntry.siteTitle as unknown;
+  if (typeof title === "number") {
+    domainEntry.siteTitle = title.toString();
+  }
   return fetch(url, {
     method: "PUT",
     headers,
