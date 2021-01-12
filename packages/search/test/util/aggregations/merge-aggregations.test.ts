@@ -12,15 +12,15 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "public",
-            aggValue: 5
+            value: 5
           },
           {
             label: "private",
-            aggValue: 3
+            value: 3
           },
           {
             label: "0",
-            aggValue: 2
+            value: 2
           }
         ]
       },
@@ -29,11 +29,11 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "1",
-            aggValue: 23
+            value: 23
           },
           {
             label: "a_category",
-            aggValue: 10
+            value: 10
           }
         ]
       }
@@ -45,15 +45,15 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "public",
-            aggValue: 17
+            value: 17
           },
           {
             label: "shared",
-            aggValue: 5
+            value: 5
           },
           {
             label: "1",
-            aggValue: 4
+            value: 4
           }
         ]
       },
@@ -62,11 +62,11 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "1",
-            aggValue: 12
+            value: 12
           },
           {
             label: "feature layer",
-            aggValue: 7
+            value: 7
           }
         ]
       }
@@ -78,11 +78,11 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "a_category",
-            aggValue: 12
+            value: 12
           },
           {
             label: "0",
-            aggValue: 9
+            value: 9
           }
         ]
       },
@@ -91,11 +91,11 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "0",
-            aggValue: 6
+            value: 6
           },
           {
             label: "feature layer",
-            aggValue: 2
+            value: 2
           }
         ]
       }
@@ -107,23 +107,23 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "0",
-            aggValue: 2
+            value: 2
           },
           {
             label: "1",
-            aggValue: 4
+            value: 4
           },
           {
             label: "public",
-            aggValue: 22
+            value: 22
           },
           {
             label: "private",
-            aggValue: 3
+            value: 3
           },
           {
             label: "shared",
-            aggValue: 5
+            value: 5
           }
         ]
       },
@@ -132,15 +132,15 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "0",
-            aggValue: 9
+            value: 9
           },
           {
             label: "1",
-            aggValue: 23
+            value: 23
           },
           {
             label: "a_category",
-            aggValue: 22
+            value: 22
           }
         ]
       },
@@ -149,15 +149,15 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "0",
-            aggValue: 6
+            value: 6
           },
           {
             label: "1",
-            aggValue: 12
+            value: 12
           },
           {
             label: "feature layer",
-            aggValue: 9
+            value: 9
           }
         ]
       }
@@ -182,15 +182,15 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "public",
-            aggValue: 5
+            value: 5
           },
           {
             label: "private",
-            aggValue: 3
+            value: 3
           },
           {
             label: "0",
-            aggValue: 2
+            value: 2
           }
         ]
       },
@@ -199,11 +199,11 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "1",
-            aggValue: 23
+            value: 23
           },
           {
             label: "a_category",
-            aggValue: 10
+            value: 10
           }
         ]
       }
@@ -215,15 +215,15 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "public",
-            aggValue: 17
+            value: 17
           },
           {
             label: "shared",
-            aggValue: 5
+            value: 5
           },
           {
             label: "1",
-            aggValue: 4
+            value: 4
           }
         ]
       },
@@ -232,11 +232,11 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "1",
-            aggValue: 12
+            value: 12
           },
           {
             label: "feature layer",
-            aggValue: 7
+            value: 7
           }
         ]
       }
@@ -248,11 +248,11 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "a_category",
-            aggValue: 12
+            value: 12
           },
           {
             label: "0",
-            aggValue: 9
+            value: 9
           }
         ]
       },
@@ -261,11 +261,11 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "0",
-            aggValue: 6
+            value: 6
           },
           {
             label: "feature layer",
-            aggValue: 2
+            value: 2
           }
         ]
       }
@@ -279,23 +279,23 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "0",
-            aggValue: 2
+            value: 2
           },
           {
             label: "1",
-            aggValue: 4
+            value: 4
           },
           {
             label: "public",
-            aggValue: 17
+            value: 17
           },
           {
             label: "private",
-            aggValue: 3
+            value: 3
           },
           {
             label: "shared",
-            aggValue: 5
+            value: 5
           }
         ]
       },
@@ -304,15 +304,15 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "0",
-            aggValue: 9
+            value: 9
           },
           {
             label: "1",
-            aggValue: 23
+            value: 23
           },
           {
             label: "a_category",
-            aggValue: 12
+            value: 12
           }
         ]
       },
@@ -321,15 +321,15 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "0",
-            aggValue: 6
+            value: 6
           },
           {
             label: "1",
-            aggValue: 12
+            value: 12
           },
           {
             label: "feature layer",
-            aggValue: 7
+            value: 7
           }
         ]
       }
@@ -345,7 +345,7 @@ describe("Merge Aggregation Function", () => {
     expect(expectedMergedAggregations).toEqual(actualMergedAggregations);
   });
 
-  it("can properly ignore falsey field aggValues when merging with truthy aggValues with the same label", () => {
+  it("can properly ignore falsey field values when merging with truthy values with the same label", () => {
     // Setup
     const aggregationsOne: IAggregationResult[] = [
       {
@@ -353,15 +353,15 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "public",
-            aggValue: null
+            value: null
           },
           {
             label: "private",
-            aggValue: 3
+            value: 3
           },
           {
             label: "0",
-            aggValue: 2
+            value: 2
           }
         ]
       },
@@ -370,11 +370,11 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "1",
-            aggValue: 23
+            value: 23
           },
           {
             label: "a_category",
-            aggValue: 4
+            value: 4
           }
         ]
       }
@@ -386,15 +386,15 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "public",
-            aggValue: 17
+            value: 17
           },
           {
             label: "shared",
-            aggValue: 5
+            value: 5
           },
           {
             label: "1",
-            aggValue: 4
+            value: 4
           }
         ]
       }
@@ -406,11 +406,11 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "a_category",
-            aggValue: undefined
+            value: undefined
           },
           {
             label: "0",
-            aggValue: 9
+            value: 9
           }
         ]
       }
@@ -422,23 +422,23 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "0",
-            aggValue: 2
+            value: 2
           },
           {
             label: "1",
-            aggValue: 4
+            value: 4
           },
           {
             label: "private",
-            aggValue: 3
+            value: 3
           },
           {
             label: "public",
-            aggValue: 17
+            value: 17
           },
           {
             label: "shared",
-            aggValue: 5
+            value: 5
           }
         ]
       },
@@ -447,15 +447,15 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "0",
-            aggValue: 9
+            value: 9
           },
           {
             label: "1",
-            aggValue: 23
+            value: 23
           },
           {
             label: "a_category",
-            aggValue: 4
+            value: 4
           }
         ]
       }
@@ -472,7 +472,7 @@ describe("Merge Aggregation Function", () => {
     expect(expectedMergedAggregations).toEqual(actualMergedAggregations);
   });
 
-  it("can ignore aggregations entirely when all field aggValues are falsey for a given label", () => {
+  it("can ignore aggregations entirely when all field values are falsey for a given label", () => {
     // Setup
     const aggregationsOne: IAggregationResult[] = [
       {
@@ -480,15 +480,15 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "public",
-            aggValue: null
+            value: null
           },
           {
             label: "private",
-            aggValue: 3
+            value: 3
           },
           {
             label: "0",
-            aggValue: 2
+            value: 2
           }
         ]
       },
@@ -497,11 +497,11 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "1",
-            aggValue: 23
+            value: 23
           },
           {
             label: "a_category",
-            aggValue: undefined
+            value: undefined
           }
         ]
       }
@@ -513,15 +513,15 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "public",
-            aggValue: undefined
+            value: undefined
           },
           {
             label: "shared",
-            aggValue: 5
+            value: 5
           },
           {
             label: "1",
-            aggValue: 4
+            value: 4
           }
         ]
       }
@@ -533,11 +533,11 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "a_category",
-            aggValue: null
+            value: null
           },
           {
             label: "0",
-            aggValue: 9
+            value: 9
           }
         ]
       }
@@ -549,19 +549,19 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "0",
-            aggValue: 2
+            value: 2
           },
           {
             label: "1",
-            aggValue: 4
+            value: 4
           },
           {
             label: "private",
-            aggValue: 3
+            value: 3
           },
           {
             label: "shared",
-            aggValue: 5
+            value: 5
           }
         ]
       },
@@ -570,11 +570,11 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "0",
-            aggValue: 9
+            value: 9
           },
           {
             label: "1",
-            aggValue: 23
+            value: 23
           }
         ]
       }
@@ -591,7 +591,7 @@ describe("Merge Aggregation Function", () => {
     expect(expectedMergedAggregations).toEqual(actualMergedAggregations);
   });
 
-  it("can properly default falsey lists of aggregations to an empty array", () => {
+  it("can properly ignore field names with no aggregations", () => {
     // Setup
     const aggregationsOne: IAggregationResult[] = [
       {
@@ -599,15 +599,15 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "public",
-            aggValue: 5
+            value: 5
           },
           {
             label: "private",
-            aggValue: 3
+            value: 3
           },
           {
             label: "0",
-            aggValue: 2
+            value: 2
           }
         ]
       },
@@ -627,15 +627,15 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "public",
-            aggValue: undefined
+            value: undefined
           },
           {
             label: "shared",
-            aggValue: 5
+            value: 5
           },
           {
             label: "1",
-            aggValue: 4
+            value: 4
           }
         ]
       },
@@ -651,11 +651,11 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "a_category",
-            aggValue: 20
+            value: 20
           },
           {
             label: "0",
-            aggValue: 9
+            value: 9
           }
         ]
       }
@@ -667,23 +667,23 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "0",
-            aggValue: 2
+            value: 2
           },
           {
             label: "1",
-            aggValue: 4
+            value: 4
           },
           {
             label: "public",
-            aggValue: 5
+            value: 5
           },
           {
             label: "private",
-            aggValue: 3
+            value: 3
           },
           {
             label: "shared",
-            aggValue: 5
+            value: 5
           }
         ]
       },
@@ -692,17 +692,13 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "0",
-            aggValue: 9
+            value: 9
           },
           {
             label: "a_category",
-            aggValue: 20
+            value: 20
           }
         ]
-      },
-      {
-        fieldName: "type",
-        aggregations: []
       }
     ];
 
@@ -725,15 +721,15 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "PUBLIC",
-            aggValue: 5
+            value: 5
           },
           {
             label: "private",
-            aggValue: 3
+            value: 3
           },
           {
             label: "0",
-            aggValue: 2
+            value: 2
           }
         ]
       },
@@ -742,11 +738,11 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "1",
-            aggValue: 23
+            value: 23
           },
           {
             label: "a_Category",
-            aggValue: 10
+            value: 10
           }
         ]
       }
@@ -758,15 +754,15 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "public",
-            aggValue: 17
+            value: 17
           },
           {
             label: "shared",
-            aggValue: 5
+            value: 5
           },
           {
             label: "1",
-            aggValue: 4
+            value: 4
           }
         ]
       },
@@ -775,11 +771,11 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "1",
-            aggValue: 12
+            value: 12
           },
           {
             label: "FeaTure laYer",
-            aggValue: 7
+            value: 7
           }
         ]
       }
@@ -791,11 +787,11 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "a_category",
-            aggValue: 12
+            value: 12
           },
           {
             label: "0",
-            aggValue: 9
+            value: 9
           }
         ]
       },
@@ -804,11 +800,11 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "0",
-            aggValue: 6
+            value: 6
           },
           {
             label: "FeaturE LayeR",
-            aggValue: 2
+            value: 2
           }
         ]
       }
@@ -820,23 +816,23 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "0",
-            aggValue: 2
+            value: 2
           },
           {
             label: "1",
-            aggValue: 4
+            value: 4
           },
           {
             label: "public",
-            aggValue: 22
+            value: 22
           },
           {
             label: "private",
-            aggValue: 3
+            value: 3
           },
           {
             label: "shared",
-            aggValue: 5
+            value: 5
           }
         ]
       },
@@ -845,15 +841,15 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "0",
-            aggValue: 9
+            value: 9
           },
           {
             label: "1",
-            aggValue: 23
+            value: 23
           },
           {
             label: "a_category",
-            aggValue: 22
+            value: 22
           }
         ]
       },
@@ -862,15 +858,15 @@ describe("Merge Aggregation Function", () => {
         aggregations: [
           {
             label: "0",
-            aggValue: 6
+            value: 6
           },
           {
             label: "1",
-            aggValue: 12
+            value: 12
           },
           {
             label: "feature layer",
-            aggValue: 9
+            value: 9
           }
         ]
       }
