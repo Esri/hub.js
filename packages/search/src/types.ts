@@ -1,0 +1,20 @@
+export type base64 = string;
+
+export type iso8601Date = string;
+
+export interface DateRange {
+  from: iso8601Date;
+  to: iso8601Date;
+}
+
+export enum SortDirection {
+  ASC = "ASC",
+  DESC = "DESC"
+}
+
+export interface ICursorSearchResults<T> {
+  total: number;
+  results: T[];
+  hasNext: boolean;
+  next: () => Promise<ICursorSearchResults<T>>;
+}
