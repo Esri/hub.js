@@ -61,7 +61,12 @@ export function createSiteModelFromTemplate(
 
   const product = getHubProduct(hubRequestOptions.portalSelf);
 
-  const title = getProp(settings, "solution.title") || "New Site";
+  let title = getProp(settings, "solution.title") || "New Site";
+  // handle issue with titles that are just numbers
+  if (typeof title === "number") {
+    title = title.toString();
+    deepSet(settings, "solution.title", title);
+  }
 
   // We need to carry some state through the promise chains
   // so we initialize an object outside the chain
@@ -154,6 +159,11 @@ export function createSiteModelFromTemplate(
       const dcatConfig = cloneObject(template.data.values.dcatConfig);
       delete template.data.values.dcatConfig;
       const siteModel = interpolate(template, settings, transforms);
+      // Special logic for the site title
+      // if the title is a string, containing only numbers, then the interpolation will set it as
+      // a number, which causes some problems. So we stamp in the string value in few places it matters
+      siteModel.item.title = getProp(settings, "solution.title");
+      siteModel.data.values.title = getProp(settings, "solution.title");
       // re-attach dcat...
       if (dcatConfig) {
         siteModel.data.values.dcatConfig = dcatConfig;

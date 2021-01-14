@@ -1,5 +1,4 @@
 import { IPortal } from "@esri/arcgis-rest-portal";
-import { _getLocation } from "@esri/hub-common";
 
 /**
  * Return the correct route for the portal hosted site
@@ -13,9 +12,14 @@ export function getPortalSiteHostname(subdomain: string, portal: IPortal) {
   } else {
     port = portal.httpPort !== 80 ? `:${portal.httpPort}` : "";
   }
-  const curLocation = _getLocation();
-  const host = curLocation.hostname;
-  const basePath = curLocation.pathname.replace(/\/admin\//, "/");
+  // portalHostname will include the /<instance>
+  // i.e. `dev0016196.esri.com/portal`, but since we may need to
+  const host = portal.portalHostname.split("/")[0];
+  // wrangle the instance using customBaseUrl
+  let instance = "/";
+  if (portal.customBaseUrl) {
+    instance = `/${portal.customBaseUrl}/`;
+  }
 
-  return `${host}${port}${basePath}#/${subdomain}`;
+  return `${host}${port}${instance}apps/sites/#/${subdomain}`;
 }
