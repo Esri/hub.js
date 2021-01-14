@@ -21,8 +21,6 @@ import {
   ICursorSearchResults
 } from "../types";
 
-import * as https from "https"; // TODO remove
-
 export enum UserSortableField {
   USERNAME = "USERNAME",
   LAST_HUB_SESSION = "LAST_HUB_SESSION"
@@ -77,15 +75,7 @@ export class UserService {
     this.api = new GraphQLClient(userIndexApi, {
       headers: {
         authorization: `Bearer ${authentication.token}`
-      },
-      // TODO remove
-      fetch: (arg: any, more: any) =>
-        fetch(arg, {
-          agent: new https.Agent({
-            rejectUnauthorized: false
-          }),
-          ...more
-        } as any)
+      }
     });
   }
 
