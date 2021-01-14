@@ -1,3 +1,6 @@
+/* Copyright (c) 2021 Environmental Systems Research Institute, Inc.
+ * Apache-2.0 */
+
 export type base64 = string;
 
 export type iso8601Date = string;
