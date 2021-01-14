@@ -56,6 +56,6 @@ describe("getPaths test", () => {
       ["a", "e", "0"],
       ["a", "e", "1"]
     ];
-    expect(actual).toEqual(actual);
+    expect(actual).toEqual(expected);
   });
 });

@@ -2,7 +2,7 @@ export type base64 = string;
 
 export type iso8601Date = string;
 
-export interface DateRange {
+export interface IDateRange {
   from: iso8601Date;
   to: iso8601Date;
 }

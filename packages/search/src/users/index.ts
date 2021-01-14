@@ -13,7 +13,7 @@ import { IUser } from "@esri/arcgis-rest-types";
 import {
   base64,
   iso8601Date,
-  DateRange,
+  IDateRange,
   SortDirection,
   ICursorSearchResults
 } from "../types";
@@ -30,12 +30,12 @@ interface ISortingOption {
   sortDirection?: SortDirection;
 }
 
-interface Edge {
-  node: HubUser;
+interface IEdge {
+  node: IHubUser;
   cursor?: base64;
 }
 
-export interface HubUser extends IUser {
+export interface IHubUser extends IUser {
   followedInitiatives?: any[];
   groups?: any[];
   teams?: any[];
@@ -45,21 +45,21 @@ export interface HubUser extends IUser {
   visitsLast60Days?: number;
 }
 
-export interface SearchUsersFilter {
-  lastHubSession?: DateRange;
+export interface ISearchUsersFilter {
+  lastHubSession?: IDateRange;
   group?: string;
   team?: string;
   followedInitiative?: string;
   registeredEvent?: string;
 }
 
-export interface UserPagingOptions {
+export interface IUserPagingOptions {
   first: number;
   after?: string;
 }
 
-export interface UserSearchOptions {
-  pagingOptions?: UserPagingOptions;
+export interface IUserSearchOptions {
+  pagingOptions?: IUserPagingOptions;
   sortingOptions?: ISortingOption[];
 }
 
@@ -68,8 +68,8 @@ export class UserService {
 
   constructor(
     private portalUrl: string,
-    private userIndexApi: string,
-    private authentication: UserSession
+    userIndexApi: string,
+    authentication: UserSession
   ) {
     this.api = new GraphQLClient(userIndexApi, {
       headers: {
@@ -115,10 +115,10 @@ export class UserService {
   }
 
   async searchUsers(
-    filter: SearchUsersFilter,
-    options: UserSearchOptions
-  ): Promise<ICursorSearchResults<HubUser>> {
-    const pagingOptions: UserPagingOptions = options.pagingOptions || {
+    filter: ISearchUsersFilter,
+    options: IUserSearchOptions
+  ): Promise<ICursorSearchResults<IHubUser>> {
+    const pagingOptions: IUserPagingOptions = options.pagingOptions || {
       first: 10
     };
     const sortingOptions: ISortingOption[] = options.sortingOptions || [
@@ -141,7 +141,7 @@ export class UserService {
       return {
         total: totalCount,
         // pull user object out so that an array of users is returned
-        results: edges.map((e: Edge) => e.node),
+        results: edges.map((e: IEdge) => e.node),
         hasNext,
         next: () =>
           hasNext

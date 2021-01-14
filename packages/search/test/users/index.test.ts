@@ -1,8 +1,8 @@
 import {
   UserService,
-  SearchUsersFilter,
+  ISearchUsersFilter,
   UserSortableField,
-  HubUser
+  IHubUser
 } from "../../src/users";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { ICursorSearchResults, SortDirection } from "../../src/types";
@@ -25,7 +25,7 @@ describe("user indexing test", () => {
       session
     );
 
-    const filter: SearchUsersFilter = {
+    const filter: ISearchUsersFilter = {
       lastHubSession: {
         // from: '2020-11-12T12:00:00.000Z',
         // to: '2020-12-17T18:47:59.999Z'
@@ -36,7 +36,7 @@ describe("user indexing test", () => {
     };
 
     // TODO seems like a bad way to specify a default pagingOptions (having to pass null) options hash
-    const resp: ICursorSearchResults<HubUser> = await service.searchUsers(
+    const resp: ICursorSearchResults<IHubUser> = await service.searchUsers(
       filter,
       {
         pagingOptions: { first: 3 },
