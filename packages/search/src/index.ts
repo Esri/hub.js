@@ -7,6 +7,6 @@ export {
   serialize,
   computeItemsFacets
 } from "./ago";
-
 export * from "./users";
 export * from "./types";
+export * from "./util";

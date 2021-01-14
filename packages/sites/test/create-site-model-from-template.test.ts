@@ -11,6 +11,7 @@ import {
   MOCK_PORTAL_REQOPTS,
   expectAll
 } from "./test-helpers.test";
+import { cloneObject } from "@esri/hub-common";
 
 const siteTemplate = {
   type: "Hub Site Application",
@@ -176,7 +177,7 @@ describe("createSiteModelFromTemplate", () => {
     expect(createdSite.item.extent).toEqual(
       settings.organization.defaultExtentBBox
     );
-    expect(createdSite.data.values.title).toBe(settings.solution.name);
+    expect(createdSite.data.values.title).toBe(settings.solution.title);
 
     expect(createdSite.item.url).toBe(
       "https://unique-domain-org.hubqa.arcgis.com"
@@ -221,7 +222,7 @@ describe("createSiteModelFromTemplate", () => {
     expect(createdSite.item.extent).toEqual(
       settings.organization.defaultExtentBBox
     );
-    expect(createdSite.data.values.title).toBe(settings.solution.name);
+    expect(createdSite.data.values.title).toBe(settings.solution.title);
 
     expect(createdSite.item.url).toBe(
       "https://unique-domain-org.hubqa.arcgis.com"
@@ -271,7 +272,7 @@ describe("createSiteModelFromTemplate", () => {
     expect(createdSite.item.extent).toEqual(
       settings.organization.defaultExtentBBox
     );
-    expect(createdSite.data.values.title).toBe(settings.solution.name);
+    expect(createdSite.data.values.title).toBe(settings.solution.title);
 
     expect(createdSite.item.url).toBe("http://foobar-portal-baz.com");
     expect(createdSite.data.values.defaultHostname).toBe(portalSiteHostname);
@@ -367,5 +368,63 @@ describe("createSiteModelFromTemplate", () => {
     } catch (err) {
       expect(err).toBeDefined();
     }
+  });
+
+  it("allows unicode in site title, but does not use in domain", async () => {
+    getProductSpy.and.returnValue("basic");
+    const unicodeSettings = cloneObject(settings);
+    unicodeSettings.solution.title = "テスト";
+    const createdSite = await createSiteModelFromTemplate(
+      commonModule.cloneObject(siteTemplate),
+      unicodeSettings,
+      {},
+      MOCK_HUB_REQOPTS
+    );
+
+    // Verify interpolation
+    expect(createdSite.item.title).toBe(unicodeSettings.solution.title);
+    expect(createdSite.data.values.title).toBe(unicodeSettings.solution.title);
+
+    const passedDomain = ensureDomainSpy.calls.argsFor(0)[0];
+    expect(passedDomain).toBe(
+      "site",
+      "when unicode chars present, pass site as domain name"
+    );
+  });
+  it("handles numeric site title", async () => {
+    getProductSpy.and.returnValue("basic");
+    const numericTitleSettings = {
+      solution: {
+        title: 8888, // <-
+        snippet: "site-snippet",
+        name: "solution-name"
+      },
+      organization: {
+        defaultExtentBBox: [[67, 32], [1, 2]]
+      },
+      user: {
+        username: "tate",
+        culture: "no"
+      }
+    };
+    const createdSite = await createSiteModelFromTemplate(
+      commonModule.cloneObject(siteTemplate),
+      numericTitleSettings,
+      {},
+      MOCK_HUB_REQOPTS
+    );
+
+    // Verify interpolation
+    expect(createdSite.item.title).toBe(
+      String(numericTitleSettings.solution.title)
+    );
+    // ensure the deepSet does not bork things up
+    expect(numericTitleSettings.solution.snippet).toBe("site-snippet");
+    expect(createdSite.data.values.title).toBe(
+      String(numericTitleSettings.solution.title)
+    );
+
+    const passedDomain = ensureDomainSpy.calls.argsFor(0)[0];
+    expect(passedDomain).toBe("8888", "domain should be string using title");
   });
 });
