@@ -1,4 +1,4 @@
-/* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2021 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
 export {
@@ -7,3 +7,6 @@ export {
   serialize,
   computeItemsFacets
 } from "./ago";
+
+export * from "./users";
+export * from "./types";
