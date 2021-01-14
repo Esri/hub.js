@@ -14,19 +14,15 @@ export {
 export * from "./util";
 
 export interface ISearchService<T> {
-  search(params: unknown): Promise<ICursorSearchResults<T>> | ICursorSearchResults<T>
+  search(params: unknown): Promise<ICursorSearchResults<T>>;
 }
 
 export abstract class SearchService<T> implements ISearchService<T> {
-  private portalBaseUrl: string;
-  private userSession: UserSession;
-  private apiUrl: string;
+  constructor(
+    private portalBaseUrl: string,
+    private userSession: UserSession,
+    private apiUrl?: string
+  ) {}
 
-  constructor(portalBaseUrl: string, userSession: UserSession, apiUrl?: string) {
-    this.portalBaseUrl = portalBaseUrl;
-    this.userSession = userSession;
-    this.apiUrl = apiUrl;
-  }
-
-  abstract search(params: unknown): Promise<ICursorSearchResults<T>> | ICursorSearchResults<T>
+  abstract search(params: unknown): Promise<ICursorSearchResults<T>>;
 }
