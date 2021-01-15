@@ -1,3 +1,5 @@
+import { SortDirection } from "../../types";
+
 interface INode<T> {
   data: T;
   label: string;
@@ -9,8 +11,6 @@ interface IBinaryHeap<T> {
 }
 
 type comparator<T> = (one: T, two: T) => number;
-
-type HeapDirection = "ASC" | "DESC";
 
 /**
  * k-way merge implementation that merges (and potentially sorts) k individually sorted arrays
@@ -35,7 +35,7 @@ export function kMerge<T>(
   data: T[][],
   resultLimit: number = 10,
   cmptr?: comparator<T[]>,
-  direction?: HeapDirection
+  direction?: SortDirection
 ): { data: T[]; [key: string]: any } {
   const results = cmptr
     ? kMergeSort(data, cmptr, direction, resultLimit)
@@ -88,7 +88,7 @@ function kMergeDefault<T>(
 function kMergeSort<T>(
   data: T[][],
   cmptr: comparator<T[]>,
-  direction: HeapDirection,
+  direction: SortDirection,
   resultLimit: number
 ): { data: T[]; [key: string]: any } {
   const nodes: Array<INode<T[]>> = data.map(
@@ -143,12 +143,12 @@ function _canDataBeAdded(
 export class BinaryHeap<T> implements IBinaryHeap<T> {
   private _nodes: Array<INode<T>>;
   private readonly _comparator: comparator<T>;
-  private readonly _direction: HeapDirection;
+  private readonly _direction: SortDirection;
 
   constructor(
     nodes: Array<INode<T>>,
     cmptr: comparator<T>,
-    direction = "ASC" as HeapDirection
+    direction = "ASC" as SortDirection
   ) {
     this._validate({ cmptr, direction });
     this._comparator = cmptr;
