@@ -58,8 +58,6 @@ const arcgisRestJsPackageNames = Object.keys(pkg.dependencies)
  * `arcgisHub` object.
  */
 const globals = packageNames.reduce((globals, p) => {
-  // console.log(p);
-  // console.log(moduleName);
   globals[p] = moduleName;
   return globals;
 }, {
@@ -96,6 +94,6 @@ export default {
     typescript(),
     json(),
     resolve(),
-    commonjs(),
+    commonjs()
   ]
 };
