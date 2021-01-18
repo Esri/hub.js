@@ -2,10 +2,8 @@ import typescript from "rollup-plugin-typescript2";
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
-
 const path = require("path");
 const fs = require("fs");
-const _ = require("lodash");
 
 /**
  * Since Rollup runs inside each package we can just get the current
@@ -60,9 +58,15 @@ const arcgisRestJsPackageNames = Object.keys(pkg.dependencies)
  * `arcgisHub` object.
  */
 const globals = packageNames.reduce((globals, p) => {
+  // console.log(p);
+  // console.log(moduleName);
   globals[p] = moduleName;
   return globals;
-}, {});
+}, {
+  'cross-fetch': 'isomorphic-fetch',
+  'form-data': 'isomorphic-form-data'
+});
+
 /**
 * now we tell Rollup to lookup all imports from arcgis-rest-js on a single global
 * `arcgisRest` object.
@@ -87,11 +91,11 @@ export default {
     extend: true // causes this module to extend the global specified by `moduleName`
   },
   context: "window",
-  external: packageNames.concat(arcgisRestJsPackageNames),
+  external: [...packageNames.concat(arcgisRestJsPackageNames), 'cross-fetch', 'form-data'],
   plugins: [
     typescript(),
     json(),
     resolve(),
-    commonjs()
+    commonjs(),
   ]
 };
