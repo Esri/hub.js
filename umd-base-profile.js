@@ -62,7 +62,7 @@ const globals = packageNames.reduce((globals, p) => {
   return globals;
 }, {
   'cross-fetch': 'isomorphic-fetch',
-  'form-data': 'isomorphic-form-data'
+  'form-data': 'form-data'
 });
 
 /**
