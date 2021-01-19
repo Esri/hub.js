@@ -6,6 +6,8 @@ import {
   IUpdateFeaturesOptions
 } from "@esri/arcgis-rest-feature-layer";
 import { IEditFeatureResult } from "@esri/arcgis-rest-feature-layer";
+import { checkResults, IEditFeatureErrorResponse } from "./util";
+
 /**
  * ```js
  * import { updateAnnotations } from "@esri/hub-annotations";
@@ -29,6 +31,13 @@ import { IEditFeatureResult } from "@esri/arcgis-rest-feature-layer";
 
 export function updateAnnotations(
   requestOptions: IUpdateFeaturesOptions
-): Promise<{ updateResults?: IEditFeatureResult[] }> {
-  return updateFeatures(requestOptions);
+): Promise<{
+  updateResults?: Array<IEditFeatureErrorResponse | IEditFeatureResult>;
+}> {
+  return updateFeatures(requestOptions).then(response => {
+    return {
+      ...response,
+      updateResults: checkResults(response.updateResults)
+    };
+  });
 }
