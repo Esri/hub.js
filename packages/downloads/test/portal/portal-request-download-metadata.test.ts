@@ -220,6 +220,12 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
+        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+          new Promise(resolve => {
+            resolve({ id: 0 });
+          })
+        );
+
         const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
           new Promise(resolve => {
             resolve({ results: [] });
@@ -249,6 +255,13 @@ describe("portalRequestDownloadMetadata", () => {
         expect(getServiceSpy.calls.argsFor(0)).toEqual([
           {
             url: "http://feature-service.com/FeatureServer",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.count()).toEqual(1);
+        expect(getLayerSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/0",
             authentication
           }
         ]);
@@ -290,6 +303,12 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
+        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+          new Promise(resolve => {
+            resolve({ id: 0 });
+          })
+        );
+
         const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
           new Promise(resolve => {
             resolve({ results: [] });
@@ -323,6 +342,13 @@ describe("portalRequestDownloadMetadata", () => {
             authentication
           }
         ]);
+        expect(getLayerSpy.calls.count()).toEqual(1);
+        expect(getLayerSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/0",
+            authentication
+          }
+        ]);
         expect(searchItemsSpy.calls.count()).toEqual(1);
         expect(searchItemsSpy.calls.argsFor(0)).toEqual([
           {
@@ -342,6 +368,7 @@ describe("portalRequestDownloadMetadata", () => {
     });
 
     it("layer id, single-layer, has lastEditDate, not cached", async done => {
+      const elevenMinsAgo = new Date(new Date().getTime() - 11 * 60 * 1000);
       try {
         const getItemSpy = spyOn(portal, "getItem").and.returnValue(
           new Promise(resolve => {
@@ -356,9 +383,16 @@ describe("portalRequestDownloadMetadata", () => {
         const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
           new Promise(resolve => {
             resolve({
-              layers: [
-                { id: 0, editingInfo: { lastEditDate: new Date(0).getTime() } }
-              ]
+              layers: [{ id: 0 }]
+            });
+          })
+        );
+
+        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              id: 0,
+              editingInfo: { lastEditDate: elevenMinsAgo.getTime() }
             });
           })
         );
@@ -378,7 +412,7 @@ describe("portalRequestDownloadMetadata", () => {
         expect(result).toEqual({
           downloadId:
             "abcdef0123456789abcdef0123456789_0:CSV:undefined:undefined:undefined",
-          lastEditDate: new Date(0).toISOString(),
+          lastEditDate: elevenMinsAgo.toISOString(),
           status: "not_ready"
         });
 
@@ -393,6 +427,191 @@ describe("portalRequestDownloadMetadata", () => {
         expect(getServiceSpy.calls.argsFor(0)).toEqual([
           {
             url: "http://feature-service.com/FeatureServer",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.count()).toEqual(1);
+        expect(getLayerSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/0",
+            authentication
+          }
+        ]);
+        expect(searchItemsSpy.calls.count()).toEqual(1);
+        expect(searchItemsSpy.calls.argsFor(0)).toEqual([
+          {
+            authentication,
+            num: 1,
+            q:
+              'type:"CSV" AND typekeywords:"export:abcdef0123456789abcdef0123456789_0,spatialRefId:undefined"',
+            sortField: "modified",
+            sortOrder: "DESC"
+          }
+        ]);
+      } catch (err) {
+        expect(err).toEqual(undefined);
+      } finally {
+        done();
+      }
+    });
+
+    it("layer id, single-layer, has lastEditDate within last 10 mins, not cached", async done => {
+      const nineMinutesAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
+      try {
+        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              type: "Feature Service",
+              modified: new Date(1593450876).getTime(),
+              url: "http://feature-service.com/FeatureServer"
+            });
+          })
+        );
+
+        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              layers: [{ id: 0 }]
+            });
+          })
+        );
+
+        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              id: 0,
+              editingInfo: { lastEditDate: nineMinutesAgo.getTime() }
+            });
+          })
+        );
+
+        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+          new Promise(resolve => {
+            resolve({ results: [] });
+          })
+        );
+
+        const result = await portalRequestDownloadMetadata({
+          datasetId: "abcdef0123456789abcdef0123456789_0",
+          format: "CSV",
+          authentication,
+          target: "portal"
+        });
+
+        expect(result).toEqual({
+          downloadId:
+            "abcdef0123456789abcdef0123456789_0:CSV:undefined:undefined:undefined",
+          lastEditDate: nineMinutesAgo.toISOString(),
+          status: "locked"
+        });
+
+        expect(getItemSpy.calls.count()).toEqual(1);
+        expect(getItemSpy.calls.argsFor(0)).toEqual([
+          "abcdef0123456789abcdef0123456789",
+          {
+            authentication
+          }
+        ]);
+        expect(getServiceSpy.calls.count()).toEqual(1);
+        expect(getServiceSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.count()).toEqual(1);
+        expect(getLayerSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/0",
+            authentication
+          }
+        ]);
+        expect(searchItemsSpy.calls.count()).toEqual(1);
+        expect(searchItemsSpy.calls.argsFor(0)).toEqual([
+          {
+            authentication,
+            num: 1,
+            q:
+              'type:"CSV" AND typekeywords:"export:abcdef0123456789abcdef0123456789_0,spatialRefId:undefined"',
+            sortField: "modified",
+            sortOrder: "DESC"
+          }
+        ]);
+      } catch (err) {
+        expect(err).toEqual(undefined);
+      } finally {
+        done();
+      }
+    });
+
+    it("layer id, single-layer, has lastEditDate within last 10 mins, not cached, targets enterprise", async done => {
+      const nineMinutesAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
+      try {
+        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              type: "Feature Service",
+              modified: new Date(1593450876).getTime(),
+              url: "http://feature-service.com/FeatureServer"
+            });
+          })
+        );
+
+        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              layers: [{ id: 0 }]
+            });
+          })
+        );
+
+        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              id: 0,
+              editingInfo: { lastEditDate: nineMinutesAgo.getTime() }
+            });
+          })
+        );
+
+        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+          new Promise(resolve => {
+            resolve({ results: [] });
+          })
+        );
+
+        const result = await portalRequestDownloadMetadata({
+          datasetId: "abcdef0123456789abcdef0123456789_0",
+          format: "CSV",
+          authentication,
+          target: "enterprise"
+        });
+
+        expect(result).toEqual({
+          downloadId:
+            "abcdef0123456789abcdef0123456789_0:CSV:undefined:undefined:undefined",
+          lastEditDate: nineMinutesAgo.toISOString(),
+          status: "not_ready"
+        });
+
+        expect(getItemSpy.calls.count()).toEqual(1);
+        expect(getItemSpy.calls.argsFor(0)).toEqual([
+          "abcdef0123456789abcdef0123456789",
+          {
+            authentication
+          }
+        ]);
+        expect(getServiceSpy.calls.count()).toEqual(1);
+        expect(getServiceSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.count()).toEqual(1);
+        expect(getLayerSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/0",
             authentication
           }
         ]);
@@ -432,6 +651,12 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
+        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+          new Promise(resolve => {
+            resolve({});
+          })
+        );
+
         const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
           new Promise(resolve => {
             resolve({ results: [] });
@@ -465,6 +690,7 @@ describe("portalRequestDownloadMetadata", () => {
             authentication
           }
         ]);
+        expect(getLayerSpy.calls.count()).toEqual(0);
         expect(searchItemsSpy.calls.count()).toEqual(1);
         expect(searchItemsSpy.calls.argsFor(0)).toEqual([
           {
@@ -503,6 +729,15 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
+        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValues(
+          new Promise(resolve => {
+            resolve({ id: 0 });
+          }),
+          new Promise(resolve => {
+            resolve({ id: 1 });
+          })
+        );
+
         const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
           new Promise(resolve => {
             resolve({ results: [] });
@@ -533,6 +768,19 @@ describe("portalRequestDownloadMetadata", () => {
         expect(getServiceSpy.calls.argsFor(0)).toEqual([
           {
             url: "http://feature-service.com/FeatureServer",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.count()).toEqual(2);
+        expect(getLayerSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/0",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.argsFor(1)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/1",
             authentication
           }
         ]);
@@ -574,6 +822,15 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
+        const getLayer = spyOn(featureLayer, "getLayer").and.returnValues(
+          new Promise(resolve => {
+            resolve({ id: 0 });
+          }),
+          new Promise(resolve => {
+            resolve({ id: 1 });
+          })
+        );
+
         const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
           new Promise(resolve => {
             resolve({ results: [] });
@@ -607,6 +864,19 @@ describe("portalRequestDownloadMetadata", () => {
             authentication
           }
         ]);
+        expect(getLayer.calls.count()).toEqual(2);
+        expect(getLayer.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/0",
+            authentication
+          }
+        ]);
+        expect(getLayer.calls.argsFor(1)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/1",
+            authentication
+          }
+        ]);
         expect(searchItemsSpy.calls.count()).toEqual(1);
         expect(searchItemsSpy.calls.argsFor(0)).toEqual([
           {
@@ -626,6 +896,9 @@ describe("portalRequestDownloadMetadata", () => {
     });
 
     it("no layer id, multi-layer, has lastEditDate, not cached", async done => {
+      const twelveMinsAgo = new Date(new Date().getTime() - 12 * 60 * 1000);
+      const elevenMinsAgo = new Date(new Date().getTime() - 11 * 60 * 1000);
+
       try {
         const getItemSpy = spyOn(portal, "getItem").and.returnValue(
           new Promise(resolve => {
@@ -640,13 +913,22 @@ describe("portalRequestDownloadMetadata", () => {
         const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
           new Promise(resolve => {
             resolve({
-              layers: [
-                { id: 0, editingInfo: { lastEditDate: new Date(0).getTime() } },
-                {
-                  id: 1,
-                  editingInfo: { lastEditDate: new Date(100000000).getTime() }
-                }
-              ]
+              layers: [{ id: 0 }, { id: 1 }]
+            });
+          })
+        );
+
+        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValues(
+          new Promise(resolve => {
+            resolve({
+              id: 0,
+              editingInfo: { lastEditDate: twelveMinsAgo.getTime() }
+            });
+          }),
+          new Promise(resolve => {
+            resolve({
+              id: 1,
+              editingInfo: { lastEditDate: elevenMinsAgo.getTime() }
             });
           })
         );
@@ -666,7 +948,7 @@ describe("portalRequestDownloadMetadata", () => {
         expect(result).toEqual({
           downloadId:
             "abcdef0123456789abcdef0123456789:CSV:undefined:undefined:undefined",
-          lastEditDate: new Date(100000000).toISOString(),
+          lastEditDate: elevenMinsAgo.toISOString(),
           status: "not_ready"
         });
 
@@ -681,6 +963,225 @@ describe("portalRequestDownloadMetadata", () => {
         expect(getServiceSpy.calls.argsFor(0)).toEqual([
           {
             url: "http://feature-service.com/FeatureServer",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.count()).toEqual(2);
+        expect(getLayerSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/0",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.argsFor(1)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/1",
+            authentication
+          }
+        ]);
+        expect(searchItemsSpy.calls.count()).toEqual(1);
+        expect(searchItemsSpy.calls.argsFor(0)).toEqual([
+          {
+            authentication,
+            num: 1,
+            q:
+              'type:"CSV Collection" AND typekeywords:"export:abcdef0123456789abcdef0123456789,spatialRefId:undefined"',
+            sortField: "modified",
+            sortOrder: "DESC"
+          }
+        ]);
+      } catch (err) {
+        expect(err).toEqual(undefined);
+      } finally {
+        done();
+      }
+    });
+
+    it("no layer id, multi-layer, has lastEditDate within 10 mins, not cached", async done => {
+      const elevenMinsAgo = new Date(new Date().getTime() - 11 * 60 * 1000);
+      const nineMinsAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
+
+      try {
+        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              type: "Feature Service",
+              modified: new Date(1593450876).getTime(),
+              url: "http://feature-service.com/FeatureServer"
+            });
+          })
+        );
+
+        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              layers: [{ id: 0 }, { id: 1 }]
+            });
+          })
+        );
+
+        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValues(
+          new Promise(resolve => {
+            resolve({
+              id: 0,
+              editingInfo: { lastEditDate: elevenMinsAgo.getTime() }
+            });
+          }),
+          new Promise(resolve => {
+            resolve({
+              id: 1,
+              editingInfo: { lastEditDate: nineMinsAgo.getTime() }
+            });
+          })
+        );
+
+        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+          new Promise(resolve => {
+            resolve({ results: [] });
+          })
+        );
+
+        const result = await portalRequestDownloadMetadata({
+          datasetId: "abcdef0123456789abcdef0123456789",
+          format: "CSV",
+          authentication,
+          target: "portal"
+        });
+
+        expect(result).toEqual({
+          downloadId:
+            "abcdef0123456789abcdef0123456789:CSV:undefined:undefined:undefined",
+          lastEditDate: nineMinsAgo.toISOString(),
+          status: "locked"
+        });
+
+        expect(getItemSpy.calls.count()).toEqual(1);
+        expect(getItemSpy.calls.argsFor(0)).toEqual([
+          "abcdef0123456789abcdef0123456789",
+          {
+            authentication
+          }
+        ]);
+        expect(getServiceSpy.calls.count()).toEqual(1);
+        expect(getServiceSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.count()).toEqual(2);
+        expect(getLayerSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/0",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.argsFor(1)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/1",
+            authentication
+          }
+        ]);
+        expect(searchItemsSpy.calls.count()).toEqual(1);
+        expect(searchItemsSpy.calls.argsFor(0)).toEqual([
+          {
+            authentication,
+            num: 1,
+            q:
+              'type:"CSV Collection" AND typekeywords:"export:abcdef0123456789abcdef0123456789,spatialRefId:undefined"',
+            sortField: "modified",
+            sortOrder: "DESC"
+          }
+        ]);
+      } catch (err) {
+        expect(err).toEqual(undefined);
+      } finally {
+        done();
+      }
+    });
+
+    it("no layer id, multi-layer, has lastEditDate within 10 mins, not cached, targets enterprise", async done => {
+      const elevenMinsAgo = new Date(new Date().getTime() - 11 * 60 * 1000);
+      const nineMinsAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
+
+      try {
+        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              type: "Feature Service",
+              modified: new Date(1593450876).getTime(),
+              url: "http://feature-service.com/FeatureServer"
+            });
+          })
+        );
+
+        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              layers: [{ id: 0 }, { id: 1 }]
+            });
+          })
+        );
+
+        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValues(
+          new Promise(resolve => {
+            resolve({
+              id: 0,
+              editingInfo: { lastEditDate: elevenMinsAgo.getTime() }
+            });
+          }),
+          new Promise(resolve => {
+            resolve({
+              id: 1,
+              editingInfo: { lastEditDate: nineMinsAgo.getTime() }
+            });
+          })
+        );
+
+        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+          new Promise(resolve => {
+            resolve({ results: [] });
+          })
+        );
+
+        const result = await portalRequestDownloadMetadata({
+          datasetId: "abcdef0123456789abcdef0123456789",
+          format: "CSV",
+          authentication,
+          target: "enterprise"
+        });
+
+        expect(result).toEqual({
+          downloadId:
+            "abcdef0123456789abcdef0123456789:CSV:undefined:undefined:undefined",
+          lastEditDate: nineMinsAgo.toISOString(),
+          status: "not_ready"
+        });
+
+        expect(getItemSpy.calls.count()).toEqual(1);
+        expect(getItemSpy.calls.argsFor(0)).toEqual([
+          "abcdef0123456789abcdef0123456789",
+          {
+            authentication
+          }
+        ]);
+        expect(getServiceSpy.calls.count()).toEqual(1);
+        expect(getServiceSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.count()).toEqual(2);
+        expect(getLayerSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/0",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.argsFor(1)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/1",
             authentication
           }
         ]);
@@ -719,6 +1220,12 @@ describe("portalRequestDownloadMetadata", () => {
             resolve({
               layers: [{ id: 0 }]
             });
+          })
+        );
+
+        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+          new Promise(resolve => {
+            resolve({ id: 0 });
           })
         );
 
@@ -765,6 +1272,13 @@ describe("portalRequestDownloadMetadata", () => {
             authentication
           }
         ]);
+        expect(getLayerSpy.calls.count()).toEqual(1);
+        expect(getLayerSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/0",
+            authentication
+          }
+        ]);
         expect(searchItemsSpy.calls.count()).toEqual(1);
         expect(searchItemsSpy.calls.argsFor(0)).toEqual([
           {
@@ -800,12 +1314,20 @@ describe("portalRequestDownloadMetadata", () => {
             resolve({
               layers: [
                 {
-                  id: 0,
-                  editingInfo: {
-                    lastEditDate: new Date(1584450876000).getTime()
-                  }
+                  id: 0
                 }
               ]
+            });
+          })
+        );
+
+        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              id: 0,
+              editingInfo: {
+                lastEditDate: new Date(1584450876000).getTime()
+              }
             });
           })
         );
@@ -853,6 +1375,224 @@ describe("portalRequestDownloadMetadata", () => {
             authentication
           }
         ]);
+        expect(getLayerSpy.calls.count()).toEqual(1);
+        expect(getLayerSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/0",
+            authentication
+          }
+        ]);
+        expect(searchItemsSpy.calls.count()).toEqual(1);
+        expect(searchItemsSpy.calls.argsFor(0)).toEqual([
+          {
+            authentication,
+            num: 1,
+            q:
+              'type:"CSV" AND typekeywords:"export:abcdef0123456789abcdef0123456789_0,spatialRefId:undefined"',
+            sortField: "modified",
+            sortOrder: "DESC"
+          }
+        ]);
+      } catch (err) {
+        expect(err).toEqual(undefined);
+      } finally {
+        done();
+      }
+    });
+
+    it("has lastEditDate within last 10 mins, cached, ready", async done => {
+      const nineMinsAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
+
+      try {
+        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              type: "Feature Service",
+              modified: nineMinsAgo.getTime(),
+              url: "http://feature-service.com/FeatureServer"
+            });
+          })
+        );
+
+        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              layers: [
+                {
+                  id: 0
+                }
+              ]
+            });
+          })
+        );
+
+        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              id: 0,
+              editingInfo: {
+                lastEditDate: nineMinsAgo.getTime()
+              }
+            });
+          })
+        );
+
+        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              results: [
+                {
+                  id: "abcdef",
+                  created: nineMinsAgo.getTime()
+                }
+              ]
+            });
+          })
+        );
+
+        const result = await portalRequestDownloadMetadata({
+          datasetId: "abcdef0123456789abcdef0123456789_0",
+          format: "CSV",
+          authentication
+        });
+
+        expect(result).toEqual({
+          downloadId: "abcdef",
+          lastEditDate: nineMinsAgo.toISOString(),
+          status: "ready",
+          contentLastModified: nineMinsAgo.toISOString(),
+          lastModified: nineMinsAgo.toISOString(),
+          downloadUrl:
+            "http://portal.com/sharing/rest/content/items/abcdef/data?token=123"
+        });
+
+        expect(getItemSpy.calls.count()).toEqual(1);
+        expect(getItemSpy.calls.argsFor(0)).toEqual([
+          "abcdef0123456789abcdef0123456789",
+          {
+            authentication
+          }
+        ]);
+        expect(getServiceSpy.calls.count()).toEqual(1);
+        expect(getServiceSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.count()).toEqual(1);
+        expect(getLayerSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/0",
+            authentication
+          }
+        ]);
+        expect(searchItemsSpy.calls.count()).toEqual(1);
+        expect(searchItemsSpy.calls.argsFor(0)).toEqual([
+          {
+            authentication,
+            num: 1,
+            q:
+              'type:"CSV" AND typekeywords:"export:abcdef0123456789abcdef0123456789_0,spatialRefId:undefined"',
+            sortField: "modified",
+            sortOrder: "DESC"
+          }
+        ]);
+      } catch (err) {
+        expect(err).toEqual(undefined);
+      } finally {
+        done();
+      }
+    });
+
+    it("has lastEditDate within last 10 mins, cached, ready, targets enterprise", async done => {
+      const nineMinsAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
+
+      try {
+        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              type: "Feature Service",
+              modified: nineMinsAgo.getTime(),
+              url: "http://feature-service.com/FeatureServer"
+            });
+          })
+        );
+
+        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              layers: [
+                {
+                  id: 0
+                }
+              ]
+            });
+          })
+        );
+
+        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              id: 0,
+              editingInfo: {
+                lastEditDate: nineMinsAgo.getTime()
+              }
+            });
+          })
+        );
+
+        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              results: [
+                {
+                  id: "abcdef",
+                  created: nineMinsAgo.getTime()
+                }
+              ]
+            });
+          })
+        );
+
+        const result = await portalRequestDownloadMetadata({
+          datasetId: "abcdef0123456789abcdef0123456789_0",
+          format: "CSV",
+          authentication,
+          target: "enterprise"
+        });
+
+        expect(result).toEqual({
+          downloadId: "abcdef",
+          lastEditDate: nineMinsAgo.toISOString(),
+          status: "ready",
+          contentLastModified: nineMinsAgo.toISOString(),
+          lastModified: nineMinsAgo.toISOString(),
+          downloadUrl:
+            "http://portal.com/sharing/rest/content/items/abcdef/data?token=123"
+        });
+
+        expect(getItemSpy.calls.count()).toEqual(1);
+        expect(getItemSpy.calls.argsFor(0)).toEqual([
+          "abcdef0123456789abcdef0123456789",
+          {
+            authentication
+          }
+        ]);
+        expect(getServiceSpy.calls.count()).toEqual(1);
+        expect(getServiceSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.count()).toEqual(1);
+        expect(getLayerSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/0",
+            authentication
+          }
+        ]);
         expect(searchItemsSpy.calls.count()).toEqual(1);
         expect(searchItemsSpy.calls.argsFor(0)).toEqual([
           {
@@ -872,6 +1612,7 @@ describe("portalRequestDownloadMetadata", () => {
     });
 
     it("has lastEditDate, cached, stale", async done => {
+      const elevenMinsAgo = new Date(new Date().getTime() - 11 * 60 * 1000);
       try {
         const getItemSpy = spyOn(portal, "getItem").and.returnValue(
           new Promise(resolve => {
@@ -888,12 +1629,20 @@ describe("portalRequestDownloadMetadata", () => {
             resolve({
               layers: [
                 {
-                  id: 0,
-                  editingInfo: {
-                    lastEditDate: new Date(1584450876000).getTime()
-                  }
+                  id: 0
                 }
               ]
+            });
+          })
+        );
+
+        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              id: 0,
+              editingInfo: {
+                lastEditDate: elevenMinsAgo.getTime()
+              }
             });
           })
         );
@@ -919,7 +1668,7 @@ describe("portalRequestDownloadMetadata", () => {
 
         expect(result).toEqual({
           downloadId: "abcdef",
-          lastEditDate: "2020-03-17T13:14:36.000Z",
+          lastEditDate: elevenMinsAgo.toISOString(),
           status: "stale",
           contentLastModified: "2019-11-22T19:27:56.000Z",
           lastModified: "2019-11-22T19:27:56.000Z",
@@ -938,6 +1687,223 @@ describe("portalRequestDownloadMetadata", () => {
         expect(getServiceSpy.calls.argsFor(0)).toEqual([
           {
             url: "http://feature-service.com/FeatureServer",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.count()).toEqual(1);
+        expect(getLayerSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/0",
+            authentication
+          }
+        ]);
+        expect(searchItemsSpy.calls.count()).toEqual(1);
+        expect(searchItemsSpy.calls.argsFor(0)).toEqual([
+          {
+            authentication,
+            num: 1,
+            q:
+              'type:"CSV" AND typekeywords:"export:abcdef0123456789abcdef0123456789_0,spatialRefId:undefined"',
+            sortField: "modified",
+            sortOrder: "DESC"
+          }
+        ]);
+      } catch (err) {
+        expect(err).toEqual(undefined);
+      } finally {
+        done();
+      }
+    });
+
+    it("has lastEditDate within last 10 mins, cached, stale", async done => {
+      const nineMinsAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
+      try {
+        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              type: "Feature Service",
+              modified: new Date(1573450876).getTime(),
+              url: "http://feature-service.com/FeatureServer"
+            });
+          })
+        );
+
+        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              layers: [
+                {
+                  id: 0
+                }
+              ]
+            });
+          })
+        );
+
+        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              id: 0,
+              editingInfo: {
+                lastEditDate: nineMinsAgo.getTime()
+              }
+            });
+          })
+        );
+
+        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              results: [
+                {
+                  id: "abcdef",
+                  created: new Date(1574450876000).getTime()
+                }
+              ]
+            });
+          })
+        );
+
+        const result = await portalRequestDownloadMetadata({
+          datasetId: "abcdef0123456789abcdef0123456789_0",
+          format: "CSV",
+          authentication,
+          target: "portal"
+        });
+
+        expect(result).toEqual({
+          downloadId: "abcdef",
+          lastEditDate: nineMinsAgo.toISOString(),
+          status: "locked_stale",
+          contentLastModified: "2019-11-22T19:27:56.000Z",
+          lastModified: "2019-11-22T19:27:56.000Z",
+          downloadUrl:
+            "http://portal.com/sharing/rest/content/items/abcdef/data?token=123"
+        });
+
+        expect(getItemSpy.calls.count()).toEqual(1);
+        expect(getItemSpy.calls.argsFor(0)).toEqual([
+          "abcdef0123456789abcdef0123456789",
+          {
+            authentication
+          }
+        ]);
+        expect(getServiceSpy.calls.count()).toEqual(1);
+        expect(getServiceSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.count()).toEqual(1);
+        expect(getLayerSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/0",
+            authentication
+          }
+        ]);
+        expect(searchItemsSpy.calls.count()).toEqual(1);
+        expect(searchItemsSpy.calls.argsFor(0)).toEqual([
+          {
+            authentication,
+            num: 1,
+            q:
+              'type:"CSV" AND typekeywords:"export:abcdef0123456789abcdef0123456789_0,spatialRefId:undefined"',
+            sortField: "modified",
+            sortOrder: "DESC"
+          }
+        ]);
+      } catch (err) {
+        expect(err).toEqual(undefined);
+      } finally {
+        done();
+      }
+    });
+
+    it("has lastEditDate within last 10 mins, cached, stale, targets enterprise", async done => {
+      const nineMinsAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
+      try {
+        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              type: "Feature Service",
+              modified: new Date(1573450876).getTime(),
+              url: "http://feature-service.com/FeatureServer"
+            });
+          })
+        );
+
+        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              layers: [
+                {
+                  id: 0
+                }
+              ]
+            });
+          })
+        );
+
+        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              id: 0,
+              editingInfo: {
+                lastEditDate: nineMinsAgo.getTime()
+              }
+            });
+          })
+        );
+
+        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              results: [
+                {
+                  id: "abcdef",
+                  created: new Date(1574450876000).getTime()
+                }
+              ]
+            });
+          })
+        );
+
+        const result = await portalRequestDownloadMetadata({
+          datasetId: "abcdef0123456789abcdef0123456789_0",
+          format: "CSV",
+          authentication,
+          target: "enterprise"
+        });
+
+        expect(result).toEqual({
+          downloadId: "abcdef",
+          lastEditDate: nineMinsAgo.toISOString(),
+          status: "stale",
+          contentLastModified: "2019-11-22T19:27:56.000Z",
+          lastModified: "2019-11-22T19:27:56.000Z",
+          downloadUrl:
+            "http://portal.com/sharing/rest/content/items/abcdef/data?token=123"
+        });
+
+        expect(getItemSpy.calls.count()).toEqual(1);
+        expect(getItemSpy.calls.argsFor(0)).toEqual([
+          "abcdef0123456789abcdef0123456789",
+          {
+            authentication
+          }
+        ]);
+        expect(getServiceSpy.calls.count()).toEqual(1);
+        expect(getServiceSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.count()).toEqual(1);
+        expect(getLayerSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/0",
             authentication
           }
         ]);
@@ -981,6 +1947,19 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
+        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValues(
+          new Promise(resolve => {
+            resolve({
+              id: 0
+            });
+          }),
+          new Promise(resolve => {
+            resolve({
+              id: 1
+            });
+          })
+        );
+
         const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
           new Promise(resolve => {
             resolve({ results: [] });
@@ -1011,6 +1990,19 @@ describe("portalRequestDownloadMetadata", () => {
         expect(getServiceSpy.calls.argsFor(0)).toEqual([
           {
             url: "http://feature-service.com/FeatureServer",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.count()).toEqual(2);
+        expect(getLayerSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/0",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.argsFor(1)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/1",
             authentication
           }
         ]);
@@ -1054,6 +2046,19 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
+        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValues(
+          new Promise(resolve => {
+            resolve({
+              id: 0
+            });
+          }),
+          new Promise(resolve => {
+            resolve({
+              id: 1
+            });
+          })
+        );
+
         const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
           new Promise(resolve => {
             resolve({ results: [] });
@@ -1084,6 +2089,19 @@ describe("portalRequestDownloadMetadata", () => {
         expect(getServiceSpy.calls.argsFor(0)).toEqual([
           {
             url: "http://feature-service.com/FeatureServer",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.count()).toEqual(2);
+        expect(getLayerSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/0",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.argsFor(1)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/1",
             authentication
           }
         ]);

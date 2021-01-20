@@ -2,11 +2,13 @@ import { getItem, IItem, searchItems } from "@esri/arcgis-rest-portal";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import {
   getService,
+  getLayer,
   IFeatureServiceDefinition,
   ILayerDefinition
 } from "@esri/arcgis-rest-feature-layer";
 import { DownloadFormat, DownloadFormats } from "../download-format";
-import { urlBuilder, composeDownloadId } from "../utils";
+import { urlBuilder, composeDownloadId, isRecentlyUpdated } from "../utils";
+import { DownloadTarget } from "../download-target";
 
 enum ItemTypes {
   FeatureService = "Feature Service",
@@ -24,6 +26,7 @@ export interface IPortalDownloadMetadataRequestParams {
   format: DownloadFormat;
   authentication: UserSession;
   spatialRefId?: string;
+  target?: DownloadTarget;
 }
 
 /**
@@ -40,7 +43,7 @@ export interface ICacheSearchMetadata {
 export function portalRequestDownloadMetadata(
   params: IPortalDownloadMetadataRequestParams
 ): Promise<any> {
-  const { datasetId, authentication, format, spatialRefId } = params;
+  const { datasetId, authentication, format, spatialRefId, target } = params;
 
   const [itemId, layerId] = datasetId.split("_");
   let serviceLastEditDate: number | undefined;
@@ -81,7 +84,8 @@ export function portalRequestDownloadMetadata(
         serviceLastEditDate,
         itemModifiedDate,
         itemType,
-        authentication
+        authentication,
+        target
       });
     })
     .catch((err: any) => {
@@ -99,9 +103,16 @@ function fetchCacheSearchMetadata(params: any): Promise<ICacheSearchMetadata> {
     });
   }
 
-  return getService({ url, authentication }).then(
-    (response: IFeatureServiceDefinition) => {
+  return getService({ url, authentication })
+    .then((response: IFeatureServiceDefinition) => {
       const layers: ILayerDefinition[] = response.layers || [];
+      const promises: Array<Promise<ILayerDefinition>> = [];
+      layers.forEach(layer =>
+        promises.push(getLayer({ url: `${url}/${layer.id}`, authentication }))
+      );
+      return Promise.all(promises);
+    })
+    .then((layers: ILayerDefinition[]) => {
       const multilayer = isMultilayerRequest(layerId, layers);
       return {
         format:
@@ -110,8 +121,7 @@ function fetchCacheSearchMetadata(params: any): Promise<ICacheSearchMetadata> {
             : format,
         modified: extractLastEditDate(layers)
       };
-    }
-  );
+    });
 }
 
 function isMultilayerRequest(layerId: string, layers: ILayerDefinition[]) {
@@ -134,26 +144,44 @@ function extractLastEditDate(layers: ILayerDefinition[]) {
 }
 
 function formatDownloadMetadata(params: any) {
-  const { cachedDownload, serviceLastEditDate, authentication } = params;
+  const {
+    cachedDownload,
+    serviceLastEditDate,
+    authentication,
+    target
+  } = params;
 
   const lastEditDate =
     serviceLastEditDate !== undefined
       ? new Date(serviceLastEditDate).toISOString()
       : undefined;
 
+  const recentlyUpdated = isRecentlyUpdated(target, serviceLastEditDate);
+
   if (!cachedDownload) {
     return {
       downloadId: composeDownloadId(params),
-      status: "not_ready",
+      status: recentlyUpdated ? "locked" : "not_ready",
       lastEditDate
     };
   }
 
   const { created, id } = cachedDownload;
+
+  const outOfDate = serviceLastEditDate && serviceLastEditDate > created;
+
+  let status;
+  if (recentlyUpdated && outOfDate) {
+    status = "locked_stale";
+  } else if (outOfDate) {
+    status = "stale";
+  } else {
+    status = "ready";
+  }
+
   return {
     downloadId: id,
-    status:
-      serviceLastEditDate && serviceLastEditDate > created ? "stale" : "ready",
+    status,
     lastEditDate,
     contentLastModified: new Date(created).toISOString(),
     lastModified: new Date(created).toISOString(),

@@ -3,6 +3,8 @@ export type DownloadStatus =
   | "ready_unknown"
   | "stale"
   | "not_ready"
+  | "locked"
+  | "locked_stale"
   | "creating"
   | "updating"
   | "error_creating"

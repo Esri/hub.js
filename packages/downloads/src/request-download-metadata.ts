@@ -2,11 +2,12 @@ import { portalRequestDownloadMetadata } from "./portal/portal-request-download-
 import { hubRequestDownloadMetadata } from "./hub/hub-request-download-metadata";
 import { DownloadFormat } from "./download-format";
 import { DownloadStatus } from "./download-status";
+import { DownloadTarget } from "./download-target";
 import { UserSession } from "@esri/arcgis-rest-auth";
 
 export interface IDownloadMetadataRequestParams {
-  /* API target for downloads: 'hub' (default) or 'portal' */
-  target?: string;
+  /* API target for downloads: 'hub' (default), 'portal', 'enterprise' */
+  target?: DownloadTarget;
   /* Hub API host name. Not required for Portal API downloads (stored in the authentication object) */
   host?: string;
   /* ID for the downloads source dataset; e.g. "abcdef0123456789abcdef0123456789_0" */
@@ -93,21 +94,21 @@ export function requestDownloadMetadata(
     authentication
   } = params;
 
-  if (target === "portal") {
-    return portalRequestDownloadMetadata({
+  if (!target || target === "hub") {
+    return hubRequestDownloadMetadata({
+      host,
       datasetId,
       format,
-      authentication,
-      spatialRefId
+      spatialRefId,
+      geometry,
+      where
     });
   }
 
-  return hubRequestDownloadMetadata({
-    host,
+  return portalRequestDownloadMetadata({
     datasetId,
     format,
-    spatialRefId,
-    geometry,
-    where
+    authentication,
+    spatialRefId
   });
 }
