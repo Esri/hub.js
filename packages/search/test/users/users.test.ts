@@ -46,7 +46,7 @@ describe("user service", () => {
         expect(variables).toEqual({
           portalUrl
         });
-        return rawResponse;
+        return Promise.resolve(rawResponse);
       }
     );
 
@@ -87,7 +87,7 @@ describe("user service", () => {
       (query: any, variables: any) => {
         expect(query).toEqual(userSelfQuery);
         expect(variables).toBeUndefined();
-        return rawResponse;
+        return Promise.resolve(rawResponse);
       }
     );
 
@@ -166,7 +166,7 @@ describe("user service", () => {
           pagingOptions: defaultPagingOptions,
           sortingOptions: defaultSortingOptions
         });
-        return rawResponse;
+        return Promise.resolve(rawResponse);
       }
     );
 
@@ -237,7 +237,7 @@ describe("user service", () => {
           pagingOptions,
           sortingOptions
         });
-        return rawResponse;
+        return Promise.resolve(rawResponse);
       }
     );
 
@@ -312,9 +312,9 @@ describe("user service", () => {
     const spy = spyOn(api, "request").and.callFake(
       (query: any, variables: any) => {
         if (variables.pagingOptions.after === "first cursor") {
-          return secondRawResponse;
+          return Promise.resolve(secondRawResponse);
         }
-        return firstRawResponse;
+        return Promise.resolve(firstRawResponse);
       }
     );
 
