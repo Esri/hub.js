@@ -102,30 +102,32 @@ export class UserService {
       }
     ];
 
-    const response = await this.userIndex.request(userSearchQuery, {
-      filter,
-      pagingOptions,
-      sortingOptions
-    });
+    return this.userIndex
+      .request(userSearchQuery, {
+        filter,
+        pagingOptions,
+        sortingOptions
+      })
+      .then(response => {
+        const { totalCount, edges } = getProp(response, "searchUsers");
+        const hasNext = getProp(response, "searchUsers.pageInfo.hasNextPage");
 
-    const { totalCount, edges } = getProp(response, "searchUsers");
-    const hasNext = getProp(response, "searchUsers.pageInfo.hasNextPage");
-
-    return {
-      total: totalCount,
-      // pull user object out so that an array of users is returned
-      results: edges.map((e: IEdge) => e.node),
-      hasNext,
-      next: () =>
-        hasNext
-          ? this.searchUsers(filter, {
-              pagingOptions: {
-                first: pagingOptions.first,
-                after: response.searchUsers.pageInfo.endCursor
-              },
-              sortingOptions
-            })
-          : null
-    };
+        return {
+          total: totalCount,
+          // pull user object out so that an array of users is returned
+          results: edges.map((e: IEdge) => e.node),
+          hasNext,
+          next: () =>
+            hasNext
+              ? this.searchUsers(filter, {
+                  pagingOptions: {
+                    first: pagingOptions.first,
+                    after: response.searchUsers.pageInfo.endCursor
+                  },
+                  sortingOptions
+                })
+              : null
+        };
+      });
   }
 }
