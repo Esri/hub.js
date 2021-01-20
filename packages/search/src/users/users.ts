@@ -5,7 +5,6 @@ import { getProp } from "@esri/hub-common";
 import { UserSession } from "@esri/arcgis-rest-auth";
 
 import { GraphQLClient } from "graphql-request";
-import { GraphQLError } from "./errors";
 import {
   createSessionMutation,
   userSelfQuery,
@@ -79,24 +78,14 @@ export class UserService {
     return new UserService(portalUrl, api);
   }
 
-  async createSession() {
-    try {
-      // await here so that any errors are caught
-      return await this.userIndex.request(createSessionMutation, {
-        portalUrl: this.portalUrl
-      });
-    } catch (e) {
-      throw new GraphQLError(getProp(e, "response.errors"));
-    }
+  createSession() {
+    return this.userIndex.request(createSessionMutation, {
+      portalUrl: this.portalUrl
+    });
   }
 
-  async getSelf(): Promise<any> {
-    try {
-      // await here so that any errors are caught
-      return await this.userIndex.request(userSelfQuery);
-    } catch (e) {
-      throw new GraphQLError(e.response.errors);
-    }
+  getSelf(): Promise<any> {
+    return this.userIndex.request(userSelfQuery);
   }
 
   async searchUsers(
@@ -113,34 +102,30 @@ export class UserService {
       }
     ];
 
-    try {
-      const response = await this.userIndex.request(userSearchQuery, {
-        filter,
-        pagingOptions,
-        sortingOptions
-      });
+    const response = await this.userIndex.request(userSearchQuery, {
+      filter,
+      pagingOptions,
+      sortingOptions
+    });
 
-      const { totalCount, edges } = getProp(response, "searchUsers");
-      const hasNext = getProp(response, "searchUsers.pageInfo.hasNextPage");
+    const { totalCount, edges } = getProp(response, "searchUsers");
+    const hasNext = getProp(response, "searchUsers.pageInfo.hasNextPage");
 
-      return {
-        total: totalCount,
-        // pull user object out so that an array of users is returned
-        results: edges.map((e: IEdge) => e.node),
-        hasNext,
-        next: () =>
-          hasNext
-            ? this.searchUsers(filter, {
-                pagingOptions: {
-                  first: pagingOptions.first,
-                  after: response.searchUsers.pageInfo.endCursor
-                },
-                sortingOptions
-              })
-            : null
-      };
-    } catch (e) {
-      throw new GraphQLError(e.response.errors);
-    }
+    return {
+      total: totalCount,
+      // pull user object out so that an array of users is returned
+      results: edges.map((e: IEdge) => e.node),
+      hasNext,
+      next: () =>
+        hasNext
+          ? this.searchUsers(filter, {
+              pagingOptions: {
+                first: pagingOptions.first,
+                after: response.searchUsers.pageInfo.endCursor
+              },
+              sortingOptions
+            })
+          : null
+    };
   }
 }

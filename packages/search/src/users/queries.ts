@@ -38,7 +38,7 @@ const searchFieldsFragment = gql`
   ${pageInfoFieldsFragment}
 `;
 
-const createSessionMutation = gql`
+export const createSessionMutation = gql`
   mutation($portalUrl: String!) {
     createSession(createSessionInput: { url: $portalUrl }) {
       username
@@ -48,7 +48,7 @@ const createSessionMutation = gql`
   }
 `;
 
-const userSelfQuery = gql`
+export const userSelfQuery = gql`
   {
     self {
       ...userFields
@@ -57,7 +57,7 @@ const userSelfQuery = gql`
   ${userFieldsFragment}
 `;
 
-const userSearchQuery = gql`
+export const userSearchQuery = gql`
   query(
     $filter: SearchUsersFilter
     $pagingOptions: PagingOptions
@@ -74,4 +74,4 @@ const userSearchQuery = gql`
   ${searchFieldsFragment}
 `;
 
-export { createSessionMutation, userSelfQuery, userSearchQuery };
+// export { createSessionMutation, userSelfQuery, userSearchQuery };

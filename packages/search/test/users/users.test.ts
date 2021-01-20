@@ -6,8 +6,7 @@ import {
   UserService,
   ISearchUsersFilter,
   UserSortableField,
-  SortDirection,
-  GraphQLError
+  SortDirection
 } from "../../src";
 import {
   createSessionMutation,
@@ -60,15 +59,7 @@ describe("user service", () => {
   it("handles error when creating session", async () => {
     const api: GraphQLClient = new GraphQLClient("foo");
     const spy = spyOn(api, "request").and.callFake(() => {
-      throw {
-        response: {
-          errors: [
-            {
-              message: "oops"
-            }
-          ]
-        }
-      };
+      throw new Error("oops");
     });
 
     const service = new UserService(portalUrl, api);
@@ -76,7 +67,8 @@ describe("user service", () => {
       await service.createSession();
       fail();
     } catch (e) {
-      expect(e instanceof GraphQLError).toBeTruthy();
+      expect(e instanceof Error).toBeTruthy();
+      expect(e.message).toEqual("oops");
       expect(spy.calls.count()).toEqual(1);
     }
   });
@@ -108,15 +100,7 @@ describe("user service", () => {
   it("handles error when getting self", async () => {
     const api: GraphQLClient = new GraphQLClient("foo");
     const spy = spyOn(api, "request").and.callFake(() => {
-      throw {
-        response: {
-          errors: [
-            {
-              message: "oops"
-            }
-          ]
-        }
-      };
+      throw new Error("oops");
     });
 
     const service = new UserService(portalUrl, api);
@@ -124,7 +108,8 @@ describe("user service", () => {
       await service.getSelf();
       fail();
     } catch (e) {
-      expect(e instanceof GraphQLError).toBeTruthy();
+      expect(e instanceof Error).toBeTruthy();
+      expect(e.message).toEqual("oops");
       expect(spy.calls.count()).toEqual(1);
     }
   });
@@ -375,22 +360,15 @@ describe("user service", () => {
     };
 
     const spy = spyOn(api, "request").and.callFake(() => {
-      throw {
-        response: {
-          errors: [
-            {
-              message: "error"
-            }
-          ]
-        }
-      };
+      throw new Error("oops");
     });
 
     try {
       await service.searchUsers(filter);
       fail();
     } catch (e) {
-      expect(e instanceof GraphQLError).toBeTruthy();
+      expect(e instanceof Error).toBeTruthy();
+      expect(e.message).toEqual("oops");
       expect(spy.calls.count()).toEqual(1);
     }
   });
