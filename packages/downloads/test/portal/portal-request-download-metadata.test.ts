@@ -1774,7 +1774,7 @@ describe("portalRequestDownloadMetadata", () => {
         expect(result).toEqual({
           downloadId: "abcdef",
           lastEditDate: nineMinsAgo.toISOString(),
-          status: "locked_stale",
+          status: "stale_locked",
           contentLastModified: "2019-11-22T19:27:56.000Z",
           lastModified: "2019-11-22T19:27:56.000Z",
           downloadUrl:

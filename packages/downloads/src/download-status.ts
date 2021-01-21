@@ -4,7 +4,7 @@ export type DownloadStatus =
   | "stale"
   | "not_ready"
   | "locked"
-  | "locked_stale"
+  | "stale_locked"
   | "creating"
   | "updating"
   | "error_creating"

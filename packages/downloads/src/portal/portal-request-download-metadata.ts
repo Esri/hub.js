@@ -172,7 +172,7 @@ function formatDownloadMetadata(params: any) {
 
   let status;
   if (recentlyUpdated && outOfDate) {
-    status = "locked_stale";
+    status = "stale_locked";
   } else if (outOfDate) {
     status = "stale";
   } else {
