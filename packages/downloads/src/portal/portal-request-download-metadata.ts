@@ -161,7 +161,7 @@ function formatDownloadMetadata(params: any) {
   if (!cachedDownload) {
     return {
       downloadId: composeDownloadId(params),
-      status: recentlyUpdated ? "locked" : "not_ready",
+      status: determineStatus(cachedDownload, recentlyUpdated, false),
       lastEditDate
     };
   }
@@ -169,15 +169,7 @@ function formatDownloadMetadata(params: any) {
   const { created, id } = cachedDownload;
 
   const outOfDate = serviceLastEditDate && serviceLastEditDate > created;
-
-  let status;
-  if (recentlyUpdated && outOfDate) {
-    status = "stale_locked";
-  } else if (outOfDate) {
-    status = "stale";
-  } else {
-    status = "ready";
-  }
+  const status = determineStatus(cachedDownload, recentlyUpdated, outOfDate);
 
   return {
     downloadId: id,
@@ -191,4 +183,18 @@ function formatDownloadMetadata(params: any) {
       query: { token: authentication.token }
     })
   };
+}
+
+function determineStatus(
+  cachedDownload: any,
+  recentlyUpdated: boolean,
+  outOfDate: boolean
+): string {
+  if (!cachedDownload) {
+    return recentlyUpdated ? "locked" : "not_ready";
+  }
+  if (outOfDate) {
+    return recentlyUpdated ? "stale_locked" : "stale";
+  }
+  return "ready";
 }

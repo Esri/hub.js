@@ -1,5 +1,7 @@
 import { DownloadTarget } from "./download-target";
 
+const DOWNLOADS_LOCK_MS = 10 * 60 * 1000;
+
 interface IQueryParams {
   [key: string]: string;
 }
@@ -62,6 +64,6 @@ export function isRecentlyUpdated(
   return (
     target === "portal" &&
     lastEditDate &&
-    new Date().getTime() - lastEditDate <= 1000 * 60 * 10
+    new Date().getTime() - lastEditDate <= DOWNLOADS_LOCK_MS
   );
 }
