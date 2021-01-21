@@ -1,4 +1,4 @@
-import { getAnnotationServiceUrl } from "../src/util";
+import { getAnnotationServiceUrl, checkResults } from "../src/util";
 import {
   annoSearchResponse,
   emptyAnnoSearchResponse
@@ -44,5 +44,60 @@ describe("getAnnotationServiceUrl", () => {
       );
       done();
     });
+  });
+});
+
+describe("checkResults", () => {
+  it("should return original results when some are successful", () => {
+    const results = [
+      {
+        objectId: 617,
+        success: true
+      },
+      {
+        success: false,
+        error: {
+          code: -2147217395,
+          description: "Setting of Value for depth failed."
+        }
+      }
+    ];
+    const acutal = checkResults(results);
+    expect(acutal).toBe(results);
+  });
+  it("should throw specific error when all failed with same description", () => {
+    const description = "Setting of Value for depth failed.";
+    const results = [
+      {
+        success: false,
+        error: {
+          code: -2147217395,
+          description
+        }
+      }
+    ];
+    expect(() => checkResults(results)).toThrowError(description);
+  });
+  it("should throw default error when all failed w/ different descriptions", () => {
+    const description = "Setting of Value for depth failed.";
+    const results = [
+      {
+        success: false,
+        error: {
+          code: -2147217394,
+          description: "Another error."
+        }
+      },
+      {
+        success: false,
+        error: {
+          code: -2147217395,
+          description: "Setting of Value for depth failed."
+        }
+      }
+    ];
+    expect(() => checkResults(results)).toThrowError(
+      "All attempted edits failed"
+    );
   });
 });

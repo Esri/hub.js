@@ -8,6 +8,7 @@ import {
 
 import { IFeature } from "@esri/arcgis-rest-types";
 import { IEditFeatureResult } from "@esri/arcgis-rest-feature-layer";
+import { checkResults, IEditFeatureErrorResponse } from "./util";
 
 export interface IAnnoFeature extends IFeature {
   attributes: {
@@ -43,14 +44,19 @@ export interface IAddAnnotationsOptions extends IAddFeaturesOptions {
 export function addAnnotations(
   requestOptions: IAddAnnotationsOptions
 ): Promise<{
-  addResults?: IEditFeatureResult[];
+  addResults?: Array<IEditFeatureErrorResponse | IEditFeatureResult>;
 }> {
   /* istanbul ignore else */
   if (requestOptions.features && requestOptions.features.length) {
     requestOptions.features.forEach(anno => enrichAnnotation(anno));
   }
 
-  return addFeatures(requestOptions);
+  return addFeatures(requestOptions).then(response => {
+    return {
+      ...response,
+      addResults: checkResults(response.addResults)
+    };
+  });
 }
 
 function enrichAnnotation(annotation: IAnnoFeature) {

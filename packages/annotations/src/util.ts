@@ -3,6 +3,7 @@
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { searchItems, ISearchResult, IItem } from "@esri/arcgis-rest-portal";
+import { IEditFeatureResult } from "@esri/arcgis-rest-feature-layer";
 
 export interface IAnnoSearchResult extends ISearchResult<IItem> {
   results: IAnnoItem[];
@@ -52,4 +53,51 @@ export function getAnnotationServiceUrl(
       );
     }
   });
+}
+
+export interface IEditFeatureError {
+  code: string | number;
+  description: string;
+}
+
+export interface IEditFeatureErrorResponse {
+  success: boolean;
+  error: IEditFeatureError;
+}
+
+export class AllResultsError extends Error {
+  errors: IEditFeatureError[];
+
+  constructor(errors: IEditFeatureError[]) {
+    // Istanbul erroneously treats extended class constructors as an uncovered branch: https://github.com/gotwarlost/istanbul/issues/690
+    /* istanbul ignore next */
+    super("All attempted edits failed");
+    this.errors = errors;
+    const message = errors[0].description;
+    if (errors.every(error => error.description === message)) {
+      // all errors have the same message, use that instead
+      this.message = message;
+    }
+  }
+}
+
+/**
+ * If all results failed, throw an error
+ * otherwise return the results
+ * @param results
+ */
+export function checkResults(
+  results: Array<IEditFeatureErrorResponse | IEditFeatureResult>
+) {
+  const errors: IEditFeatureError[] = [];
+  results.reduce((acc, result) => {
+    if (!result.success) {
+      acc.push((result as IEditFeatureErrorResponse).error);
+    }
+    return acc;
+  }, errors);
+  if (errors.length === results.length) {
+    throw new AllResultsError(errors);
+  }
+  return results;
 }
