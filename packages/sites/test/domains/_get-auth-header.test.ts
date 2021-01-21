@@ -1,4 +1,4 @@
-import { _getAuthHeader } from "../../src/domains";
+import { _getAuthHeader } from "../../src";
 import { IHubRequestOptions } from "@esri/hub-common";
 
 describe("_getAuthHeader", function() {
