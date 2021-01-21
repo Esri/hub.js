@@ -109,6 +109,7 @@ export function requestDownloadMetadata(
     datasetId,
     format,
     authentication,
-    spatialRefId
+    spatialRefId,
+    target
   });
 }
