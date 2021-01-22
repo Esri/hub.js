@@ -1,6 +1,6 @@
 import * as fetchMock from "fetch-mock";
 import * as arcgisRestPortal from "@esri/arcgis-rest-portal";
-import { IHubRequestOptions } from "@esri/hub-common";
+import { IHubRequestOptions, IModel } from "@esri/hub-common";
 import { comingSoon, getContent } from "../src/index";
 import * as portalModule from "../src/portal";
 import * as hubModule from "../src/hub";
@@ -22,6 +22,81 @@ describe("get content", () => {
     };
   });
   afterEach(fetchMock.restore);
+  describe("from IModel", () => {
+    let getContentFromHubSpy: jasmine.Spy;
+    let getContentFromPortalSpy: jasmine.Spy;
+    let getDataSpy: jasmine.Spy;
+    beforeEach(() => {
+      getContentFromHubSpy = spyOn(
+        hubModule,
+        "getContentFromHub"
+      ).and.returnValue(Promise.resolve({}));
+      getContentFromPortalSpy = spyOn(
+        portalModule,
+        "getContentFromPortal"
+      ).and.callFake((item: any) => {
+        const { id } = item;
+        const content = {
+          id,
+          // important to flag as a type for which data is fetched
+          hubType: "solution"
+        };
+        return Promise.resolve(content);
+      });
+
+      getDataSpy = spyOn(arcgisRestPortal, "getItemData").and.returnValue(
+        Promise.resolve({ from: "api" })
+      );
+    });
+
+    it("works with just an item", async () => {
+      const modelWithItem = {
+        item: {
+          id: "3ef"
+        }
+      } as IModel;
+
+      const ro = {} as IHubRequestOptions;
+
+      const content = await getContent(modelWithItem, ro);
+
+      expect(content.data.from).toBe("api", "fetched data from API");
+
+      // should go straight to getContentFromPortal()
+      expect(getContentFromHubSpy).not.toHaveBeenCalled();
+      expect(getContentFromPortalSpy).toHaveBeenCalledWith(
+        modelWithItem.item,
+        ro
+      );
+
+      // should still load data
+      expect(getDataSpy).toHaveBeenCalledWith(modelWithItem.item.id, ro);
+    });
+    it("works with item and data", async () => {
+      const model = ({
+        item: {
+          id: "3ef"
+        },
+        data: { from: "arg" }
+      } as unknown) as IModel;
+
+      const ro = {} as IHubRequestOptions;
+
+      const content = await getContent(model, ro);
+
+      expect(content.data.from).toBe(
+        "arg",
+        "used data from the IModel argument"
+      );
+
+      // should go straight to getContentFromPortal()
+      expect(getContentFromHubSpy).not.toHaveBeenCalled();
+      expect(getContentFromPortalSpy).toHaveBeenCalledWith(model.item, ro);
+
+      // should not load data
+      expect(getDataSpy).not.toHaveBeenCalled();
+    });
+  });
   describe("from hub", () => {
     beforeEach(() => {
       requestOpts.isPortal = false;
