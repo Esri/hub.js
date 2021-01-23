@@ -29,11 +29,17 @@ interface ISortingOption {
   sortDirection?: SortDirection;
 }
 
+/**
+ * Follows Edge -> Node schema yielded by GraphQL requests
+ */
 interface IEdge {
   node: IHubUser;
   cursor?: base64;
 }
 
+/**
+ * Interface that derives directly from the User type in Hub Profiles API
+ */
 export interface IHubUser extends IUser {
   followedInitiatives?: any[];
   groups?: any[];
@@ -44,6 +50,10 @@ export interface IHubUser extends IUser {
   visitsLast60Days?: number;
 }
 
+/**
+ * Interface that derives directly from the SearchUsersFilter input for requests to the
+ * searchUser endpoint in Hub Profiles API
+ */
 export interface ISearchUsersFilter {
   lastHubSession?: IDateRange;
   group?: string;
@@ -62,9 +72,21 @@ export interface IUserSearchOptions {
   sortingOptions?: ISortingOption[];
 }
 
+/**
+ * Single service that, upon instantiation with proper authentication, exposes three endpoints
+ * for interfacing with the GraphQL API exposed by Hub Profiles API
+ */
 export class UserService {
   constructor(private portalUrl: string, private userIndex: GraphQLClient) {}
 
+  /**
+   * Static create function for instantiating an instance of the UserService
+   *
+   * @param portalUrl {string} - relevant portal URL of the desired portal environment
+   * @param userIndexApi {string} - endpoint URL for Hub Profiles API/user index
+   * @param authentication {UserSession} - UserSession created with a valid token for the portal environment
+   *                                       as defined by portalUrl
+   */
   static create(
     portalUrl: string,
     userIndexApi: string,
@@ -78,16 +100,32 @@ export class UserService {
     return new UserService(portalUrl, api);
   }
 
+  /**
+   * Create a user session in Hub Profiles API
+   */
   createSession() {
     return this.userIndex.request(createSessionMutation, {
       portalUrl: this.portalUrl
     });
   }
 
+  /**
+   * Get the current user tied to the token used to instantiate the UserService
+   */
   getSelf(): Promise<any> {
     return this.userIndex.request(userSelfQuery);
   }
 
+  /**
+   * Search for users based on a given filter; sort and page results based on the properties specified
+   * in the options hash
+   *
+   * @param filter {ISearchUsersFilter} - filter object describing which users should be returned
+   * @param options {IUserSearchOptions} - options hash optionally containing IUserPagingOptions for paging
+   *                                       or an array of ISortingOptions for sorting
+   * @returns ICursorSearchResults<IHubUser> that contains the specified page of results along with a next function
+   *          that returns the next page of results or null if there are no more results
+   */
   async searchUsers(
     filter: ISearchUsersFilter,
     options: IUserSearchOptions = {}

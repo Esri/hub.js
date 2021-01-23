@@ -35,12 +35,12 @@
     "@types/base-64": "^0.1.3",
     "@types/faker": "^5.1.5",
     "faker": "^5.1.0",
+    "graphql": "^15.4.0",
     "rollup": "^2.26.5",
     "rollup-plugin-filesize": "^9.0.2",
     "rollup-plugin-typescript2": "^0.27.2",
     "rollup-plugin-uglify": "^6.0.4",
-    "typescript": "^3.8.1",
-    "graphql": "^15.4.0"
+    "typescript": "^3.8.1"
   },
   "files": [
     "dist/**"

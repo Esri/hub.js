@@ -38,6 +38,9 @@ const searchFieldsFragment = gql`
   ${pageInfoFieldsFragment}
 `;
 
+/**
+ * GraphQL query for creating a sessiono
+ */
 export const createSessionMutation = gql`
   mutation($portalUrl: String!) {
     createSession(createSessionInput: { url: $portalUrl }) {
@@ -48,6 +51,9 @@ export const createSessionMutation = gql`
   }
 `;
 
+/**
+ * GraphQL query for getting self
+ */
 export const userSelfQuery = gql`
   {
     self {
@@ -57,6 +63,10 @@ export const userSelfQuery = gql`
   ${userFieldsFragment}
 `;
 
+/**
+ * GraphQL query for searching for users, passing the specified filter, pagingOptions,
+ * and sortingOptions
+ */
 export const userSearchQuery = gql`
   query(
     $filter: SearchUsersFilter
@@ -73,5 +83,3 @@ export const userSearchQuery = gql`
   }
   ${searchFieldsFragment}
 `;
-
-// export { createSessionMutation, userSelfQuery, userSearchQuery };
