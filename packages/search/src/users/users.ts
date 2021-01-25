@@ -3,21 +3,23 @@
 
 import { getProp } from "@esri/hub-common";
 import { UserSession } from "@esri/arcgis-rest-auth";
+import { IUser } from "@esri/arcgis-rest-types";
+import { GraphQLClient } from 'graphql-request';
 
-import { GraphQLClient } from "graphql-request";
 import {
   createSessionMutation,
   userSelfQuery,
   userSearchQuery
 } from "./queries";
 
-import { IUser } from "@esri/arcgis-rest-types";
 import {
   base64,
   IDateRange,
   SortDirection,
   ICursorSearchResults
 } from "../types";
+
+import { SearchService } from '..';
 
 export enum UserSortableField {
   USERNAME = "USERNAME",
@@ -72,12 +74,26 @@ export interface IUserSearchOptions {
   sortingOptions?: ISortingOption[];
 }
 
+export interface IUserSearchParams {
+  filter?: ISearchUsersFilter
+  options?: IUserSearchOptions
+}
+
 /**
  * Single service that, upon instantiation with proper authentication, exposes three endpoints
  * for interfacing with the GraphQL API exposed by Hub Profiles API
  */
-export class UserService {
-  constructor(private portalUrl: string, private userIndex: GraphQLClient) {}
+export class UserService extends SearchService<IUserSearchParams, IHubUser> {
+  private userIndex: GraphQLClient;
+
+  constructor(private portalUrl: string, authentication: UserSession, userIndexApi: string) {
+    super(portalUrl, authentication, userIndexApi);
+    this.userIndex = new GraphQLClient(userIndexApi, {
+      headers: {
+        authorization: `Bearer ${authentication.token}`
+      }
+    });  
+  }
 
   /**
    * Static create function for instantiating an instance of the UserService
@@ -92,12 +108,7 @@ export class UserService {
     userIndexApi: string,
     authentication: UserSession
   ): UserService {
-    const api: GraphQLClient = new GraphQLClient(userIndexApi, {
-      headers: {
-        authorization: `Bearer ${authentication.token}`
-      }
-    });
-    return new UserService(portalUrl, api);
+    return new UserService(portalUrl, authentication, userIndexApi);
   }
 
   /**
@@ -126,10 +137,8 @@ export class UserService {
    * @returns ICursorSearchResults<IHubUser> that contains the specified page of results along with a next function
    *          that returns the next page of results or null if there are no more results
    */
-  async searchUsers(
-    filter: ISearchUsersFilter,
-    options: IUserSearchOptions = {}
-  ): Promise<ICursorSearchResults<IHubUser>> {
+  async search(params: IUserSearchParams): Promise<ICursorSearchResults<IHubUser>> {
+    const { filter, options = {} } = params;
     const pagingOptions: IUserPagingOptions = options.pagingOptions || {
       first: 10
     };
@@ -146,7 +155,7 @@ export class UserService {
         pagingOptions,
         sortingOptions
       })
-      .then(response => {
+      .then((response: any) => {
         const { totalCount, edges } = getProp(response, "searchUsers");
         const hasNext = getProp(response, "searchUsers.pageInfo.hasNextPage");
 
@@ -157,12 +166,15 @@ export class UserService {
           hasNext,
           next: () =>
             hasNext
-              ? this.searchUsers(filter, {
-                  pagingOptions: {
-                    first: pagingOptions.first,
-                    after: response.searchUsers.pageInfo.endCursor
-                  },
-                  sortingOptions
+              ? this.search({
+                  filter, 
+                  options: {
+                    pagingOptions: {
+                      first: pagingOptions.first,
+                      after: response.searchUsers.pageInfo.endCursor
+                    },
+                    sortingOptions
+                  }
                 })
               : null
         };

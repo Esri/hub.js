@@ -14,16 +14,16 @@ export * from "./users";
 export * from "./types";
 export * from "./util";
 
-export interface ISearchService<T> {
-  search(params: unknown): Promise<ICursorSearchResults<T>>;
+export interface ISearchService<T, U> {
+  search(params: T): Promise<ICursorSearchResults<U>>;
 }
 
-export abstract class SearchService<T> implements ISearchService<T> {
+export abstract class SearchService<T, U> implements ISearchService<T, U> {
   constructor(
     private portalBaseUrl: string,
     private userSession: UserSession,
     private apiUrl?: string
   ) {}
 
-  abstract search(params: unknown): Promise<ICursorSearchResults<T>>;
+  abstract search(params: T): Promise<ICursorSearchResults<U>>;
 }
