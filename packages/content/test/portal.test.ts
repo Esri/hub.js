@@ -217,4 +217,38 @@ describe("get content from portal", () => {
       done();
     });
   });
+  it("should use item object if passed as arg", done => {
+    fetchMock.once("*", itemJson);
+    // emulate successful item groups response
+    getItemGroupsSpy = spyOn(arcgisRestPortal, "getItemGroups").and.returnValue(
+      Promise.resolve(mockItemGroups)
+    );
+    // emulate that metadata exists for this item
+    const mockMetadata = { Esri: { CreaDate: 20200305 } };
+    const getContentMetadataSpy = spyOn(
+      metadataModule,
+      "getContentMetadata"
+    ).and.returnValue(Promise.resolve(mockMetadata));
+    const item = itemJson as IItem;
+
+    // pass item object as arg
+    getContentFromPortal(item, requestOpts).then(content => {
+      // *************** make sure we did NOT fetch item from API******************
+      expect(fetchMock.called()).toBeFalsy(
+        "item should not be fetched from API"
+      );
+
+      // *************** make sure everything else looks good *********************
+      // validate that the item properties were set
+      validateContentFromPortal(content, item);
+      // verify that we successfully fetch the groupIds
+      expect(getItemGroupsSpy.calls.argsFor(0)[0]).toBe(item.id);
+      expect(content.groupIds).toEqual(["memberGroupId"]);
+      // verify that we successfully fetched the metadata
+      expect(getContentMetadataSpy.calls.argsFor(0)[0]).toBe(item.id);
+      expect(content.metadata).toEqual(mockMetadata);
+      expect(content.errors).toEqual([]);
+      done();
+    });
+  });
 });
