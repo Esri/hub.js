@@ -5,7 +5,6 @@ import { getProp } from "@esri/hub-common";
 import { UserSession } from "@esri/arcgis-rest-auth";
 
 import { GraphQLClient } from "graphql-request";
-import { GraphQLError } from "./errors";
 import {
   createSessionMutation,
   userSelfQuery,
@@ -15,13 +14,10 @@ import {
 import { IUser } from "@esri/arcgis-rest-types";
 import {
   base64,
-  iso8601Date,
   IDateRange,
   SortDirection,
   ICursorSearchResults
 } from "../types";
-
-import * as https from "https"; // TODO remove
 
 export enum UserSortableField {
   USERNAME = "USERNAME",
@@ -33,21 +29,31 @@ interface ISortingOption {
   sortDirection?: SortDirection;
 }
 
+/**
+ * Follows Edge -> Node schema yielded by GraphQL requests
+ */
 interface IEdge {
   node: IHubUser;
   cursor?: base64;
 }
 
+/**
+ * Interface that derives directly from the User type in Hub Profiles API
+ */
 export interface IHubUser extends IUser {
   followedInitiatives?: any[];
   groups?: any[];
   teams?: any[];
   registeredEvents?: any[];
-  lastHubSession?: iso8601Date;
+  lastHubSession?: number;
   visitsLast30Days?: number;
   visitsLast60Days?: number;
 }
 
+/**
+ * Interface that derives directly from the SearchUsersFilter input for requests to the
+ * searchUser endpoint in Hub Profiles API
+ */
 export interface ISearchUsersFilter {
   lastHubSession?: IDateRange;
   group?: string;
@@ -66,60 +72,63 @@ export interface IUserSearchOptions {
   sortingOptions?: ISortingOption[];
 }
 
+/**
+ * Single service that, upon instantiation with proper authentication, exposes three endpoints
+ * for interfacing with the GraphQL API exposed by Hub Profiles API
+ */
 export class UserService {
-  api: GraphQLClient;
+  constructor(private portalUrl: string, private userIndex: GraphQLClient) {}
 
-  constructor(
-    private portalUrl: string,
-    userIndexApi: string,
-    authentication: UserSession
-  ) {
-    this.api = new GraphQLClient(userIndexApi, {
-      headers: {
-        authorization: `Bearer ${authentication.token}`
-      },
-      // TODO remove
-      fetch: (arg: any, more: any) =>
-        fetch(arg, {
-          agent: new https.Agent({
-            rejectUnauthorized: false
-          }),
-          ...more
-        } as any)
-    });
-  }
-
+  /**
+   * Static create function for instantiating an instance of the UserService
+   *
+   * @param portalUrl {string} - relevant portal URL of the desired portal environment
+   * @param userIndexApi {string} - endpoint URL for Hub Profiles API/user index
+   * @param authentication {UserSession} - UserSession created with a valid token for the portal environment
+   *                                       as defined by portalUrl
+   */
   static create(
-    portal: string,
+    portalUrl: string,
     userIndexApi: string,
     authentication: UserSession
   ): UserService {
-    return new UserService(portal, userIndexApi, authentication);
+    const api: GraphQLClient = new GraphQLClient(userIndexApi, {
+      headers: {
+        authorization: `Bearer ${authentication.token}`
+      }
+    });
+    return new UserService(portalUrl, api);
   }
 
-  async createSession() {
-    try {
-      // await here so that any errors are caught
-      return await this.api.request(createSessionMutation, {
-        portalUrl: this.portalUrl
-      });
-    } catch (e) {
-      throw new GraphQLError(e.response.errors);
-    }
+  /**
+   * Create a user session in Hub Profiles API
+   */
+  createSession() {
+    return this.userIndex.request(createSessionMutation, {
+      portalUrl: this.portalUrl
+    });
   }
 
-  async getSelf(): Promise<any> {
-    try {
-      // await here so that any errors are caught
-      return await this.api.request(userSelfQuery);
-    } catch (e) {
-      throw new GraphQLError(e.response.errors);
-    }
+  /**
+   * Get the current user tied to the token used to instantiate the UserService
+   */
+  getSelf(): Promise<any> {
+    return this.userIndex.request(userSelfQuery);
   }
 
+  /**
+   * Search for users based on a given filter; sort and page results based on the properties specified
+   * in the options hash
+   *
+   * @param filter {ISearchUsersFilter} - filter object describing which users should be returned
+   * @param options {IUserSearchOptions} - options hash optionally containing IUserPagingOptions for paging
+   *                                       or an array of ISortingOptions for sorting
+   * @returns ICursorSearchResults<IHubUser> that contains the specified page of results along with a next function
+   *          that returns the next page of results or null if there are no more results
+   */
   async searchUsers(
     filter: ISearchUsersFilter,
-    options: IUserSearchOptions
+    options: IUserSearchOptions = {}
   ): Promise<ICursorSearchResults<IHubUser>> {
     const pagingOptions: IUserPagingOptions = options.pagingOptions || {
       first: 10
@@ -131,36 +140,32 @@ export class UserService {
       }
     ];
 
-    try {
-      const response = await this.api.request(userSearchQuery, {
+    return this.userIndex
+      .request(userSearchQuery, {
         filter,
         pagingOptions,
         sortingOptions
+      })
+      .then(response => {
+        const { totalCount, edges } = getProp(response, "searchUsers");
+        const hasNext = getProp(response, "searchUsers.pageInfo.hasNextPage");
+
+        return {
+          total: totalCount,
+          // pull user object out so that an array of users is returned
+          results: edges.map((e: IEdge) => e.node),
+          hasNext,
+          next: () =>
+            hasNext
+              ? this.searchUsers(filter, {
+                  pagingOptions: {
+                    first: pagingOptions.first,
+                    after: response.searchUsers.pageInfo.endCursor
+                  },
+                  sortingOptions
+                })
+              : null
+        };
       });
-
-      const { totalCount, edges } = getProp(response, "searchUsers");
-      const hasNext = getProp(response, "searchUsers.pageInfo.hasNextPage");
-
-      return {
-        total: totalCount,
-        // pull user object out so that an array of users is returned
-        results: edges.map((e: IEdge) => e.node),
-        hasNext,
-        next: () =>
-          hasNext
-            ? this.searchUsers(filter, {
-                pagingOptions: {
-                  first: pagingOptions.first,
-                  after: response.searchUsers.pageInfo.endCursor
-                },
-                sortingOptions
-              })
-            : null
-      };
-    } catch (e) {
-      throw getProp(e, "response.errors")
-        ? new GraphQLError(e.response.errors)
-        : e;
-    }
   }
 }

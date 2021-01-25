@@ -2,4 +2,3 @@
  * Apache-2.0 */
 
 export * from "./users";
-export * from "./errors";
