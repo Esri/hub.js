@@ -2,18 +2,10 @@ import * as portal from "@esri/arcgis-rest-portal";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { portalPollExportJobStatus } from "../../src/portal/portal-poll-export-job-status";
 import * as EventEmitter from "eventemitter3";
-
+import * as exportHelper from "../../src/portal/portal-export-success-handler";
+import ExportCompletionError from "../../src/portal/portal-export-completion-error";
 function delay(milliseconds: number) {
   return new Promise(resolve => setTimeout(resolve, milliseconds));
-}
-
-class RestJsError extends Error {
-  code: string;
-  constructor(message: string, code: string) {
-    super(message);
-    Object.setPrototypeOf(this, RestJsError.prototype);
-    this.code = code;
-  }
 }
 
 describe("portalPollExportJobStatus", () => {
@@ -29,14 +21,12 @@ describe("portalPollExportJobStatus", () => {
 
   it("handle export failure", async done => {
     try {
-      spyOn(portal, "getItemStatus").and.returnValue(
-        new Promise((resolve, reject) => {
-          resolve({
-            status: "failed",
-            statusMessage: "Export failed"
-          });
-        })
-      );
+      spyOn(portal, "getItemStatus").and.callFake(async () => {
+        return Promise.resolve({
+          status: "failed",
+          statusMessage: "Export failed"
+        });
+      });
 
       const mockEventEmitter = new EventEmitter();
       spyOn(mockEventEmitter, "emit");
@@ -115,7 +105,7 @@ describe("portalPollExportJobStatus", () => {
         {
           detail: {
             error: new Error("Not Found"),
-            metadata: { status: "error" }
+            metadata: { status: "error", errors: [new Error("Not Found")] }
           }
         }
       ]);
@@ -127,995 +117,223 @@ describe("portalPollExportJobStatus", () => {
     }
   });
 
-  describe("export-completed handling errors", () => {
-    it("updateItem failure", async done => {
-      try {
-        spyOn(portal, "getItemStatus").and.callFake(async () => {
-          return Promise.resolve({ status: "completed" });
-        });
+  it("handle job incomplete", async done => {
+    try {
+      spyOn(portal, "getItemStatus").and.callFake(async () => {
+        return Promise.resolve({ status: "in progress" });
+      });
 
-        spyOn(portal, "updateItem").and.callFake(async () => {
-          return Promise.reject(new Error("5xx"));
-        });
+      const mockEventEmitter = new EventEmitter();
+      spyOn(mockEventEmitter, "emit");
+      const poller = portalPollExportJobStatus({
+        downloadId: "download-id",
+        jobId: "test-id",
+        datasetId: "abcdef0123456789abcdef0123456789_0",
+        format: "CSV",
+        authentication,
+        exportCreated: 1000,
+        pollingInterval: 10,
+        eventEmitter: mockEventEmitter
+      });
 
-        spyOn(portal, "removeItem").and.callFake(async () => {
-          return Promise.resolve();
-        });
-
-        const mockEventEmitter = new EventEmitter();
-        spyOn(mockEventEmitter, "emit");
-        const poller = portalPollExportJobStatus({
-          downloadId: "download-id",
+      expect(poller.pollTimer !== null).toEqual(true);
+      await delay(100);
+      expect((portal.getItemStatus as any).calls.count()).toBeGreaterThan(1);
+      expect((portal.getItemStatus as any).calls.first().args).toEqual([
+        {
+          id: "download-id",
           jobId: "test-id",
-          datasetId: "abcdef0123456789abcdef0123456789_0",
-          format: "CSV",
-          authentication,
-          exportCreated: 1000,
-          pollingInterval: 10,
-          eventEmitter: mockEventEmitter
-        });
-        expect(poller.pollTimer !== null).toEqual(true);
-        await delay(100);
-        expect(portal.getItemStatus).toHaveBeenCalledTimes(1);
-        expect((portal.getItemStatus as any).calls.first().args).toEqual([
-          {
-            id: "download-id",
-            jobId: "test-id",
-            jobType: "export",
-            authentication
-          }
-        ]);
-        expect(portal.updateItem).toHaveBeenCalledTimes(1);
-        expect((portal.updateItem as any).calls.first().args).toEqual([
-          {
-            item: {
-              id: "download-id",
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:undefined`
-            },
-            authentication
-          }
-        ]);
-        expect(portal.removeItem).toHaveBeenCalledTimes(1);
-        expect((portal.removeItem as any).calls.first().args).toEqual([
-          {
-            id: "download-id",
-            authentication
-          }
-        ]);
-        expect(mockEventEmitter.emit as any).toHaveBeenCalledTimes(1);
-        expect((mockEventEmitter.emit as any).calls.first().args).toEqual([
-          "download-idExportError",
-          {
-            detail: {
-              error: new Error("5xx"),
-              metadata: { status: "error", errors: [new Error("5xx")] }
-            }
-          }
-        ]);
-        expect(poller.pollTimer === null).toEqual(true);
-      } catch (err) {
-        expect(err).toEqual(undefined);
-      } finally {
-        done();
-      }
-    });
-
-    it("setItemAccess failure", async done => {
-      try {
-        spyOn(portal, "getItemStatus").and.callFake(async () => {
-          return Promise.resolve({ status: "completed" });
-        });
-
-        spyOn(portal, "updateItem").and.callFake(async () => {
-          return Promise.resolve();
-        });
-
-        spyOn(portal, "setItemAccess").and.callFake(async () => {
-          return Promise.reject(new Error("5xx"));
-        });
-
-        spyOn(portal, "removeItem").and.callFake(async () => {
-          return Promise.resolve();
-        });
-
-        const mockEventEmitter = new EventEmitter();
-        spyOn(mockEventEmitter, "emit");
-        portalPollExportJobStatus({
-          downloadId: "download-id",
-          jobId: "test-id",
-          datasetId: "abcdef0123456789abcdef0123456789_0",
-          format: "CSV",
-          authentication,
-          exportCreated: 1000,
-          pollingInterval: 10,
-          eventEmitter: mockEventEmitter
-        });
-
-        await delay(100);
-        expect(portal.getItemStatus).toHaveBeenCalledTimes(1);
-        expect((portal.getItemStatus as any).calls.first().args).toEqual([
-          {
-            id: "download-id",
-            jobId: "test-id",
-            jobType: "export",
-            authentication
-          }
-        ]);
-        expect(portal.updateItem).toHaveBeenCalledTimes(1);
-        expect((portal.updateItem as any).calls.first().args).toEqual([
-          {
-            item: {
-              id: "download-id",
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:undefined`
-            },
-            authentication
-          }
-        ]);
-        expect(portal.setItemAccess).toHaveBeenCalledTimes(1);
-        expect((portal.setItemAccess as any).calls.first().args).toEqual([
-          {
-            id: "download-id",
-            authentication,
-            access: "private"
-          }
-        ]);
-        expect(portal.removeItem).toHaveBeenCalledTimes(1);
-        expect((portal.removeItem as any).calls.first().args).toEqual([
-          {
-            id: "download-id",
-            authentication
-          }
-        ]);
-        expect(mockEventEmitter.emit as any).toHaveBeenCalledTimes(1);
-        expect((mockEventEmitter.emit as any).calls.first().args).toEqual([
-          "download-idExportError",
-          {
-            detail: {
-              error: new Error("5xx"),
-              metadata: { status: "error", errors: [new Error("5xx")] }
-            }
-          }
-        ]);
-      } catch (err) {
-        expect(err).toEqual(undefined);
-      } finally {
-        done();
-      }
-    });
-
-    it("userContent failure", async done => {
-      try {
-        spyOn(portal, "getItemStatus").and.callFake(async () => {
-          return Promise.resolve({ status: "completed" });
-        });
-
-        spyOn(portal, "updateItem").and.callFake(async () => {
-          return Promise.resolve();
-        });
-
-        spyOn(portal, "setItemAccess").and.callFake(async () => {
-          return Promise.resolve();
-        });
-
-        spyOn(portal, "getUserContent").and.callFake(async () => {
-          return Promise.reject(new Error("5xx"));
-        });
-
-        spyOn(portal, "removeItem").and.callFake(async () => {
-          return Promise.resolve();
-        });
-
-        const mockEventEmitter = new EventEmitter();
-        spyOn(mockEventEmitter, "emit");
-        const poller = portalPollExportJobStatus({
-          downloadId: "download-id",
-          jobId: "test-id",
-          datasetId: "abcdef0123456789abcdef0123456789_0",
-          format: "CSV",
-          authentication,
-          exportCreated: 1000,
-          pollingInterval: 10,
-          eventEmitter: mockEventEmitter
-        });
-        expect(poller.pollTimer !== null).toEqual(true);
-        await delay(100);
-        expect(portal.getItemStatus).toHaveBeenCalledTimes(1);
-        expect((portal.getItemStatus as any).calls.first().args).toEqual([
-          {
-            id: "download-id",
-            jobId: "test-id",
-            jobType: "export",
-            authentication
-          }
-        ]);
-        expect(portal.updateItem).toHaveBeenCalledTimes(1);
-        expect((portal.updateItem as any).calls.first().args).toEqual([
-          {
-            item: {
-              id: "download-id",
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:undefined`
-            },
-            authentication
-          }
-        ]);
-        expect(portal.setItemAccess).toHaveBeenCalledTimes(1);
-        expect((portal.setItemAccess as any).calls.first().args).toEqual([
-          {
-            id: "download-id",
-            authentication,
-            access: "private"
-          }
-        ]);
-        expect(portal.getUserContent).toHaveBeenCalledTimes(1);
-        expect((portal.getUserContent as any).calls.first().args).toEqual([
-          { authentication }
-        ]);
-        expect(portal.removeItem).toHaveBeenCalledTimes(1);
-        expect((portal.removeItem as any).calls.first().args).toEqual([
-          {
-            id: "download-id",
-            authentication
-          }
-        ]);
-        expect(mockEventEmitter.emit as any).toHaveBeenCalledTimes(1);
-        expect((mockEventEmitter.emit as any).calls.first().args).toEqual([
-          "download-idExportError",
-          {
-            detail: {
-              error: new Error("5xx"),
-              metadata: { status: "error", errors: [new Error("5xx")] }
-            }
-          }
-        ]);
-        expect(poller.pollTimer === null).toEqual(true);
-      } catch (err) {
-        expect(err).toEqual(undefined);
-      } finally {
-        done();
-      }
-    });
-
-    it("createFolder failure", async done => {
-      try {
-        spyOn(portal, "getItemStatus").and.callFake(async () => {
-          return Promise.resolve({ status: "completed" });
-        });
-
-        spyOn(portal, "updateItem").and.callFake(async () => {
-          return Promise.resolve();
-        });
-
-        spyOn(portal, "setItemAccess").and.callFake(async () => {
-          return Promise.resolve();
-        });
-
-        spyOn(portal, "getUserContent").and.callFake(async () => {
-          return Promise.resolve({ folders: [] });
-        });
-
-        spyOn(portal, "createFolder").and.callFake(async () => {
-          return Promise.reject(new Error("5xx"));
-        });
-
-        spyOn(portal, "removeItem").and.callFake(async () => {
-          return Promise.resolve();
-        });
-
-        const mockEventEmitter = new EventEmitter();
-        spyOn(mockEventEmitter, "emit");
-        const poller = portalPollExportJobStatus({
-          downloadId: "download-id",
-          jobId: "test-id",
-          datasetId: "abcdef0123456789abcdef0123456789_0",
-          format: "CSV",
-          authentication,
-          exportCreated: 1000,
-          pollingInterval: 10,
-          eventEmitter: mockEventEmitter
-        });
-        expect(poller.pollTimer !== null).toEqual(true);
-        await delay(100);
-        expect(portal.getItemStatus).toHaveBeenCalledTimes(1);
-        expect((portal.getItemStatus as any).calls.first().args).toEqual([
-          {
-            id: "download-id",
-            jobId: "test-id",
-            jobType: "export",
-            authentication
-          }
-        ]);
-        expect(portal.updateItem).toHaveBeenCalledTimes(1);
-        expect((portal.updateItem as any).calls.first().args).toEqual([
-          {
-            item: {
-              id: "download-id",
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:undefined`
-            },
-            authentication
-          }
-        ]);
-        expect(portal.setItemAccess).toHaveBeenCalledTimes(1);
-        expect((portal.setItemAccess as any).calls.first().args).toEqual([
-          {
-            id: "download-id",
-            authentication,
-            access: "private"
-          }
-        ]);
-        expect(portal.getUserContent).toHaveBeenCalledTimes(1);
-        expect((portal.getUserContent as any).calls.first().args).toEqual([
-          { authentication }
-        ]);
-        expect(portal.createFolder).toHaveBeenCalledTimes(1);
-        expect((portal.createFolder as any).calls.first().args).toEqual([
-          {
-            title: "item-exports",
-            authentication
-          }
-        ]);
-        expect(portal.removeItem).toHaveBeenCalledTimes(1);
-        expect((portal.removeItem as any).calls.first().args).toEqual([
-          {
-            id: "download-id",
-            authentication
-          }
-        ]);
-        expect(mockEventEmitter.emit as any).toHaveBeenCalledTimes(1);
-        expect((mockEventEmitter.emit as any).calls.first().args).toEqual([
-          "download-idExportError",
-          {
-            detail: {
-              error: new Error("5xx"),
-              metadata: { status: "error", errors: [new Error("5xx")] }
-            }
-          }
-        ]);
-        expect(poller.pollTimer === null).toEqual(true);
-      } catch (err) {
-        expect(err).toEqual(undefined);
-      } finally {
-        done();
-      }
-    });
-
-    it("moveItem failure", async done => {
-      try {
-        spyOn(portal, "getItemStatus").and.callFake(async () => {
-          return Promise.resolve({ status: "completed" });
-        });
-
-        spyOn(portal, "updateItem").and.callFake(async () => {
-          return Promise.resolve();
-        });
-
-        spyOn(portal, "setItemAccess").and.callFake(async () => {
-          return Promise.resolve();
-        });
-
-        spyOn(portal, "getUserContent").and.callFake(async () => {
-          return Promise.resolve({ folders: [] });
-        });
-
-        spyOn(portal, "createFolder").and.callFake(async () => {
-          return Promise.resolve({ folder: { id: "export-folder-id" } });
-        });
-        spyOn(portal, "moveItem").and.callFake(async () => {
-          return Promise.reject(new Error("5xx"));
-        });
-
-        spyOn(portal, "removeItem").and.callFake(async () => {
-          return Promise.resolve();
-        });
-
-        const mockEventEmitter = new EventEmitter();
-        spyOn(mockEventEmitter, "emit");
-        const poller = portalPollExportJobStatus({
-          downloadId: "download-id",
-          jobId: "test-id",
-          datasetId: "abcdef0123456789abcdef0123456789_0",
-          format: "CSV",
-          authentication,
-          exportCreated: 1000,
-          pollingInterval: 10,
-          eventEmitter: mockEventEmitter
-        });
-        expect(poller.pollTimer !== null).toEqual(true);
-        await delay(100);
-        expect(portal.getItemStatus).toHaveBeenCalledTimes(1);
-        expect((portal.getItemStatus as any).calls.first().args).toEqual([
-          {
-            id: "download-id",
-            jobId: "test-id",
-            jobType: "export",
-            authentication
-          }
-        ]);
-        expect(portal.updateItem).toHaveBeenCalledTimes(1);
-        expect((portal.updateItem as any).calls.first().args).toEqual([
-          {
-            item: {
-              id: "download-id",
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:undefined`
-            },
-            authentication
-          }
-        ]);
-        expect(portal.setItemAccess).toHaveBeenCalledTimes(1);
-        expect((portal.setItemAccess as any).calls.first().args).toEqual([
-          {
-            id: "download-id",
-            authentication,
-            access: "private"
-          }
-        ]);
-        expect(portal.getUserContent).toHaveBeenCalledTimes(1);
-        expect((portal.getUserContent as any).calls.first().args).toEqual([
-          { authentication }
-        ]);
-        expect(portal.createFolder).toHaveBeenCalledTimes(1);
-        expect((portal.createFolder as any).calls.first().args).toEqual([
-          {
-            title: "item-exports",
-            authentication
-          }
-        ]);
-        expect(portal.moveItem).toHaveBeenCalledTimes(1);
-        expect((portal.moveItem as any).calls.first().args).toEqual([
-          {
-            itemId: "download-id",
-            folderId: "export-folder-id",
-            authentication
-          }
-        ]);
-        expect(portal.removeItem).toHaveBeenCalledTimes(1);
-        expect((portal.removeItem as any).calls.first().args).toEqual([
-          {
-            id: "download-id",
-            authentication
-          }
-        ]);
-        expect(mockEventEmitter.emit as any).toHaveBeenCalledTimes(1);
-        expect((mockEventEmitter.emit as any).calls.first().args).toEqual([
-          "download-idExportError",
-          {
-            detail: {
-              error: new Error("5xx"),
-              metadata: { status: "error", errors: [new Error("5xx")] }
-            }
-          }
-        ]);
-        expect(poller.pollTimer === null).toEqual(true);
-      } catch (err) {
-        expect(err).toEqual(undefined);
-      } finally {
-        done();
-      }
-    });
+          jobType: "export",
+          authentication
+        }
+      ]);
+      expect(mockEventEmitter.emit as any).toHaveBeenCalledTimes(0);
+      expect(poller.pollTimer === null).toEqual(false);
+      poller.disablePoll();
+    } catch (err) {
+      expect(err).toEqual(undefined);
+    } finally {
+      (portal.getItemStatus as any).calls.reset();
+      done();
+    }
   });
 
-  describe("exported-completed, successful handling", () => {
-    it("succeeds without existing exports folder", async done => {
-      try {
-        spyOn(portal, "getItemStatus").and.returnValues(
-          new Promise((resolve, reject) => {
-            resolve({
-              status: "progress"
-            });
-          }),
-          new Promise((resolve, reject) => {
-            resolve({
-              status: "completed"
-            });
-          })
-        );
+  it("exportSuccessHandler other failure", async done => {
+    try {
+      spyOn(portal, "getItemStatus").and.callFake(async () => {
+        return Promise.resolve({ status: "completed" });
+      });
 
-        spyOn(portal, "updateItem").and.callFake(async () => {
-          return Promise.resolve();
-        });
+      spyOn(exportHelper, "exportSuccessHandler").and.callFake(
+        async (params: any) => {
+          return Promise.reject(new ExportCompletionError("5xx"));
+        }
+      );
 
-        spyOn(portal, "setItemAccess").and.callFake(async () => {
-          return Promise.resolve();
-        });
-
-        spyOn(portal, "getUserContent").and.callFake(async () => {
-          return Promise.resolve({ folders: [] });
-        });
-
-        spyOn(portal, "createFolder").and.callFake(async () => {
-          return Promise.resolve({ folder: { id: "export-folder-id" } });
-        });
-
-        spyOn(portal, "moveItem").and.callFake(async () => {
-          return Promise.resolve();
-        });
-
-        spyOn(portal, "removeItem").and.callFake(async () => {
-          return Promise.resolve();
-        });
-        const mockEventEmitter = new EventEmitter();
-        spyOn(mockEventEmitter, "emit");
-        const poller = portalPollExportJobStatus({
-          downloadId: "download-id",
+      const mockEventEmitter = new EventEmitter();
+      spyOn(mockEventEmitter, "emit");
+      const poller = portalPollExportJobStatus({
+        downloadId: "download-id",
+        jobId: "test-id",
+        datasetId: "abcdef0123456789abcdef0123456789_0",
+        format: "CSV",
+        authentication,
+        exportCreated: 1000,
+        pollingInterval: 10,
+        eventEmitter: mockEventEmitter
+      });
+      expect(poller.pollTimer !== null).toEqual(true);
+      await delay(100);
+      expect(portal.getItemStatus).toHaveBeenCalledTimes(1);
+      expect((portal.getItemStatus as any).calls.first().args).toEqual([
+        {
+          id: "download-id",
           jobId: "test-id",
-          datasetId: "abcdef0123456789abcdef0123456789_0",
-          format: "CSV",
+          jobType: "export",
+          authentication
+        }
+      ]);
+      expect(exportHelper.exportSuccessHandler).toHaveBeenCalledTimes(1);
+      expect(
+        (exportHelper.exportSuccessHandler as any).calls.first().args
+      ).toEqual([
+        {
           authentication,
-          exportCreated: 1000,
-          pollingInterval: 10,
-          eventEmitter: mockEventEmitter
-        });
-        expect(poller.pollTimer !== null).toEqual(true);
-        await delay(100);
-        expect(portal.getItemStatus).toHaveBeenCalledTimes(2);
-        expect((portal.getItemStatus as any).calls.first().args).toEqual([
-          {
-            id: "download-id",
-            jobId: "test-id",
-            jobType: "export",
-            authentication
-          }
-        ]);
-        expect(portal.updateItem).toHaveBeenCalledTimes(1);
-        expect((portal.updateItem as any).calls.first().args).toEqual([
-          {
-            item: {
-              id: "download-id",
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:undefined`
-            },
-            authentication
-          }
-        ]);
-        expect(portal.setItemAccess).toHaveBeenCalledTimes(1);
-        expect((portal.setItemAccess as any).calls.first().args).toEqual([
-          {
-            id: "download-id",
-            authentication,
-            access: "private"
-          }
-        ]);
-        expect(portal.getUserContent).toHaveBeenCalledTimes(1);
-        expect((portal.getUserContent as any).calls.first().args).toEqual([
-          { authentication }
-        ]);
-        expect(portal.createFolder).toHaveBeenCalledTimes(1);
-        expect((portal.createFolder as any).calls.first().args).toEqual([
-          {
-            title: "item-exports",
-            authentication
-          }
-        ]);
-        expect(portal.moveItem).toHaveBeenCalledTimes(1);
-        expect((portal.moveItem as any).calls.first().args).toEqual([
-          {
-            itemId: "download-id",
-            folderId: "export-folder-id",
-            authentication
-          }
-        ]);
-        expect(portal.removeItem).toHaveBeenCalledTimes(0);
-
-        expect(mockEventEmitter.emit as any).toHaveBeenCalledTimes(1);
-        expect((mockEventEmitter.emit as any).calls.first().args[0]).toEqual(
-          "download-idExportComplete"
-        );
-        const {
-          detail: {
-            metadata: { downloadId, status, downloadUrl, lastModified }
-          }
-        } = (mockEventEmitter.emit as any).calls.first().args[1];
-        expect(downloadId).toEqual("download-id");
-        expect(status).toEqual("ready");
-        expect(downloadUrl).toEqual(
-          "http://portal.com/sharing/rest/content/items/download-id/data?token=123"
-        );
-        expect(
-          /^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z$/.test(
-            lastModified
-          )
-        ).toEqual(true);
-        expect(poller.pollTimer === null).toEqual(true);
-      } catch (err) {
-        expect(err).toEqual(undefined);
-      } finally {
-        done();
-      }
-    });
-
-    it("succeeds with existing exports folder", async done => {
-      try {
-        spyOn(portal, "getItemStatus").and.returnValues(
-          new Promise((resolve, reject) => {
-            resolve({
-              status: "progress"
-            });
-          }),
-          new Promise((resolve, reject) => {
-            resolve({
-              status: "completed"
-            });
-          })
-        );
-
-        spyOn(portal, "updateItem").and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve();
-          })
-        );
-
-        spyOn(portal, "setItemAccess").and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve();
-          })
-        );
-
-        spyOn(portal, "getUserContent").and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve({
-              folders: [
-                {
-                  id: "export-folder-id",
-                  title: "item-exports"
-                }
-              ]
-            });
-          })
-        );
-
-        spyOn(portal, "createFolder");
-
-        spyOn(portal, "moveItem").and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve();
-          })
-        );
-
-        spyOn(portal, "removeItem").and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve();
-          })
-        );
-        const mockEventEmitter = new EventEmitter();
-        spyOn(mockEventEmitter, "emit");
-        const poller = portalPollExportJobStatus({
           downloadId: "download-id",
-          jobId: "test-id",
           datasetId: "abcdef0123456789abcdef0123456789_0",
-          format: "CSV",
-          authentication,
           exportCreated: 1000,
-          pollingInterval: 10,
+          format: "CSV",
+          spatialRefId: undefined,
           eventEmitter: mockEventEmitter
-        });
+        }
+      ]);
 
-        expect(poller.pollTimer !== null).toEqual(true);
-        await delay(100);
-        expect(portal.getItemStatus).toHaveBeenCalledTimes(2);
-        expect((portal.getItemStatus as any).calls.first().args).toEqual([
-          {
-            id: "download-id",
-            jobId: "test-id",
-            jobType: "export",
-            authentication
-          }
-        ]);
-        expect(portal.updateItem).toHaveBeenCalledTimes(1);
-        expect((portal.updateItem as any).calls.first().args).toEqual([
-          {
-            item: {
-              id: "download-id",
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:undefined`
-            },
-            authentication
-          }
-        ]);
-        expect(portal.setItemAccess).toHaveBeenCalledTimes(1);
-        expect((portal.setItemAccess as any).calls.first().args).toEqual([
-          {
-            id: "download-id",
-            authentication,
-            access: "private"
-          }
-        ]);
-        expect(portal.getUserContent).toHaveBeenCalledTimes(1);
-        expect((portal.getUserContent as any).calls.first().args).toEqual([
-          { authentication }
-        ]);
-        expect(portal.createFolder).toHaveBeenCalledTimes(0);
-        expect(portal.moveItem).toHaveBeenCalledTimes(1);
-        expect((portal.moveItem as any).calls.first().args).toEqual([
-          {
-            itemId: "download-id",
-            folderId: "export-folder-id",
-            authentication
-          }
-        ]);
-        expect(portal.removeItem).toHaveBeenCalledTimes(0);
-
-        expect(mockEventEmitter.emit as any).toHaveBeenCalledTimes(1);
-        expect((mockEventEmitter.emit as any).calls.first().args[0]).toEqual(
-          "download-idExportComplete"
-        );
-        const {
+      expect(mockEventEmitter.emit as any).toHaveBeenCalledTimes(1);
+      expect((mockEventEmitter.emit as any).calls.first().args).toEqual([
+        "download-idExportError",
+        {
           detail: {
-            metadata: { downloadId, status, downloadUrl, lastModified }
+            error: new Error("5xx"),
+            metadata: { status: "error", errors: [new Error("5xx")] }
           }
-        } = (mockEventEmitter.emit as any).calls.first().args[1];
-        expect(downloadId).toEqual("download-id");
-        expect(status).toEqual("ready");
-        expect(downloadUrl).toEqual(
-          "http://portal.com/sharing/rest/content/items/download-id/data?token=123"
-        );
-        expect(
-          /^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z$/.test(
-            lastModified
-          )
-        ).toEqual(true);
-        expect(poller.pollTimer === null).toEqual(true);
-      } catch (err) {
-        expect(err).toEqual(undefined);
-      } finally {
-        done();
-      }
-    });
+        }
+      ]);
+      expect(poller.pollTimer === null).toEqual(true);
+    } catch (err) {
+      expect(err).toEqual(undefined);
+    } finally {
+      done();
+    }
+  });
 
-    it("succeeds without moving download", async done => {
-      try {
-        spyOn(portal, "getItemStatus").and.callFake(async () => {
-          return Promise.resolve({ status: "completed" });
-        });
+  it("exportSuccessHandler other failure", async done => {
+    try {
+      spyOn(portal, "getItemStatus").and.callFake(async () => {
+        return Promise.resolve({ status: "completed" });
+      });
 
-        spyOn(portal, "updateItem").and.callFake(async () => {
-          return Promise.resolve();
-        });
+      spyOn(exportHelper, "exportSuccessHandler").and.callFake(
+        async (params: any) => {
+          expect(portal.getItemStatus).toHaveBeenCalledTimes(1);
+          return Promise.reject(new Error("5xx"));
+        }
+      );
 
-        spyOn(portal, "setItemAccess").and.callFake(async () => {
-          return Promise.resolve();
-        });
-
-        spyOn(portal, "getUserContent").and.callFake(async () => {
-          return Promise.resolve({ folders: [] });
-        });
-
-        spyOn(portal, "createFolder").and.callFake(async () => {
-          return Promise.resolve({ folder: { id: "export-folder-id" } });
-        });
-
-        spyOn(portal, "moveItem").and.callFake(async () => {
-          return Promise.reject(new RestJsError("Already moved", "CONT_0011"));
-        });
-
-        spyOn(portal, "removeItem").and.callFake(async () => {
-          return Promise.resolve();
-        });
-
-        const mockEventEmitter = new EventEmitter();
-        spyOn(mockEventEmitter, "emit");
-        const poller = portalPollExportJobStatus({
+      const mockEventEmitter = new EventEmitter();
+      spyOn(mockEventEmitter, "emit");
+      const poller = portalPollExportJobStatus({
+        downloadId: "download-id",
+        jobId: "test-id",
+        datasetId: "abcdef0123456789abcdef0123456789_0",
+        format: "CSV",
+        authentication,
+        exportCreated: 1000,
+        pollingInterval: 10,
+        eventEmitter: mockEventEmitter
+      });
+      expect(poller.pollTimer !== null).toEqual(true);
+      await delay(100);
+      expect(portal.getItemStatus).toHaveBeenCalledTimes(1);
+      expect((portal.getItemStatus as any).calls.first().args).toEqual([
+        {
+          id: "download-id",
+          jobId: "test-id",
+          jobType: "export",
+          authentication
+        }
+      ]);
+      expect(exportHelper.exportSuccessHandler).toHaveBeenCalledTimes(1);
+      expect(
+        (exportHelper.exportSuccessHandler as any).calls.first().args
+      ).toEqual([
+        {
+          authentication,
           downloadId: "download-id",
-          jobId: "test-id",
           datasetId: "abcdef0123456789abcdef0123456789_0",
-          format: "CSV",
-          authentication,
           exportCreated: 1000,
-          pollingInterval: 10,
+          format: "CSV",
+          spatialRefId: undefined,
           eventEmitter: mockEventEmitter
-        });
-
-        expect(poller.pollTimer !== null).toEqual(true);
-        await delay(100);
-        expect(portal.getItemStatus).toHaveBeenCalledTimes(1);
-        expect((portal.getItemStatus as any).calls.first().args).toEqual([
-          {
-            id: "download-id",
-            jobId: "test-id",
-            jobType: "export",
-            authentication
-          }
-        ]);
-        expect(portal.updateItem).toHaveBeenCalledTimes(1);
-        expect((portal.updateItem as any).calls.first().args).toEqual([
-          {
-            item: {
-              id: "download-id",
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:undefined`
-            },
-            authentication
-          }
-        ]);
-        expect(portal.setItemAccess).toHaveBeenCalledTimes(1);
-        expect((portal.setItemAccess as any).calls.first().args).toEqual([
-          {
-            id: "download-id",
-            authentication,
-            access: "private"
-          }
-        ]);
-        expect(portal.getUserContent).toHaveBeenCalledTimes(1);
-        expect((portal.getUserContent as any).calls.first().args).toEqual([
-          { authentication }
-        ]);
-        expect(portal.createFolder).toHaveBeenCalledTimes(1);
-        expect((portal.createFolder as any).calls.first().args).toEqual([
-          {
-            title: "item-exports",
-            authentication
-          }
-        ]);
-        expect(portal.moveItem).toHaveBeenCalledTimes(1);
-        expect((portal.moveItem as any).calls.first().args).toEqual([
-          {
-            itemId: "download-id",
-            folderId: "export-folder-id",
-            authentication
-          }
-        ]);
-        expect(portal.removeItem).toHaveBeenCalledTimes(0);
-        expect(mockEventEmitter.emit as any).toHaveBeenCalledTimes(1);
-        expect((mockEventEmitter.emit as any).calls.first().args[0]).toEqual(
-          "download-idExportComplete"
-        );
-        const {
+        }
+      ]);
+      expect(mockEventEmitter.emit as any).toHaveBeenCalledTimes(1);
+      expect((mockEventEmitter.emit as any).calls.first().args).toEqual([
+        "download-idPollingError",
+        {
           detail: {
-            metadata: { downloadId, status, downloadUrl, lastModified }
+            error: new Error("5xx"),
+            metadata: { status: "error", errors: [new Error("5xx")] }
           }
-        } = (mockEventEmitter.emit as any).calls.first().args[1];
-        expect(downloadId).toEqual("download-id");
-        expect(status).toEqual("ready");
-        expect(downloadUrl).toEqual(
-          "http://portal.com/sharing/rest/content/items/download-id/data?token=123"
-        );
-        expect(
-          /^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z$/.test(
-            lastModified
-          )
-        ).toEqual(true);
-        expect(poller.pollTimer === null).toEqual(true);
-      } catch (err) {
-        expect(err).toEqual(undefined);
-      } finally {
-        done();
-      }
-    });
+        }
+      ]);
+      expect(poller.pollTimer === null).toEqual(true);
+    } catch (err) {
+      expect(err).toEqual(undefined);
+    } finally {
+      done();
+    }
+  });
 
-    it("succeeds with spatialRefId", async done => {
-      try {
-        spyOn(portal, "getItemStatus").and.returnValues(
-          new Promise((resolve, reject) => {
-            resolve({
-              status: "progress"
-            });
-          }),
-          new Promise((resolve, reject) => {
-            resolve({
-              status: "completed"
-            });
-          })
-        );
+  it("exportSuccessHandler success", async done => {
+    try {
+      spyOn(portal, "getItemStatus").and.callFake(async () => {
+        return Promise.resolve({ status: "completed" });
+      });
 
-        spyOn(portal, "updateItem").and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve();
-          })
-        );
+      const mockEventEmitter = new EventEmitter();
+      spyOn(mockEventEmitter, "emit");
+      spyOn(exportHelper, "exportSuccessHandler").and.callFake(async () => {
+        mockEventEmitter.emit(`download-idExportComplete`);
+        return Promise.resolve();
+      });
 
-        spyOn(portal, "setItemAccess").and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve();
-          })
-        );
-
-        spyOn(portal, "getUserContent").and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve({ folders: [] });
-          })
-        );
-
-        spyOn(portal, "createFolder").and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve({ folder: { id: "export-folder-id" } });
-          })
-        );
-
-        spyOn(portal, "moveItem").and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve();
-          })
-        );
-
-        spyOn(portal, "removeItem").and.returnValue(
-          new Promise((resolve, reject) => {
-            resolve();
-          })
-        );
-        const mockEventEmitter = new EventEmitter();
-        spyOn(mockEventEmitter, "emit");
-        const poller = portalPollExportJobStatus({
-          downloadId: "download-id",
+      const poller = portalPollExportJobStatus({
+        downloadId: "download-id",
+        jobId: "test-id",
+        datasetId: "abcdef0123456789abcdef0123456789_0",
+        format: "CSV",
+        authentication,
+        exportCreated: 1000,
+        pollingInterval: 10,
+        eventEmitter: mockEventEmitter
+      });
+      expect(poller.pollTimer !== null).toEqual(true);
+      await delay(100);
+      expect(portal.getItemStatus).toHaveBeenCalledTimes(1);
+      expect((portal.getItemStatus as any).calls.first().args).toEqual([
+        {
+          id: "download-id",
           jobId: "test-id",
-          datasetId: "abcdef0123456789abcdef0123456789_0",
-          format: "CSV",
-          spatialRefId: "4326",
-          authentication,
-          exportCreated: 1000,
-          pollingInterval: 10,
-          eventEmitter: mockEventEmitter
-        });
-
-        expect(poller.pollTimer !== null).toEqual(true);
-        await delay(100);
-        expect(portal.getItemStatus).toHaveBeenCalledTimes(2);
-        expect((portal.getItemStatus as any).calls.first().args).toEqual([
-          {
-            id: "download-id",
-            jobId: "test-id",
-            jobType: "export",
-            authentication
-          }
-        ]);
-        expect(portal.updateItem).toHaveBeenCalledTimes(1);
-        expect((portal.updateItem as any).calls.first().args).toEqual([
-          {
-            item: {
-              id: "download-id",
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:4326`
-            },
-            authentication
-          }
-        ]);
-        expect(portal.setItemAccess).toHaveBeenCalledTimes(1);
-        expect((portal.setItemAccess as any).calls.first().args).toEqual([
-          {
-            id: "download-id",
-            authentication,
-            access: "private"
-          }
-        ]);
-        expect(portal.getUserContent).toHaveBeenCalledTimes(1);
-        expect((portal.getUserContent as any).calls.first().args).toEqual([
-          { authentication }
-        ]);
-        expect(portal.createFolder).toHaveBeenCalledTimes(1);
-        expect((portal.createFolder as any).calls.first().args).toEqual([
-          {
-            title: "item-exports",
-            authentication
-          }
-        ]);
-        expect(portal.moveItem).toHaveBeenCalledTimes(1);
-        expect((portal.moveItem as any).calls.first().args).toEqual([
-          {
-            itemId: "download-id",
-            folderId: "export-folder-id",
-            authentication
-          }
-        ]);
-        expect(portal.removeItem).toHaveBeenCalledTimes(0);
-
-        expect(mockEventEmitter.emit as any).toHaveBeenCalledTimes(1);
-        expect((mockEventEmitter.emit as any).calls.first().args[0]).toEqual(
-          "download-idExportComplete"
-        );
-        const {
-          detail: {
-            metadata: { downloadId, status, downloadUrl, lastModified }
-          }
-        } = (mockEventEmitter.emit as any).calls.first().args[1];
-        expect(downloadId).toEqual("download-id");
-        expect(status).toEqual("ready");
-        expect(downloadUrl).toEqual(
-          "http://portal.com/sharing/rest/content/items/download-id/data?token=123"
-        );
-        expect(
-          /^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z$/.test(
-            lastModified
-          )
-        ).toEqual(true);
-        expect(poller.pollTimer === null).toEqual(true);
-      } catch (err) {
-        expect(err).toEqual(undefined);
-      } finally {
-        done();
-      }
-    });
+          jobType: "export",
+          authentication
+        }
+      ]);
+      expect(mockEventEmitter.emit as any).toHaveBeenCalledTimes(1);
+      expect(poller.pollTimer === null).toEqual(true);
+    } catch (err) {
+      expect(err).toEqual(undefined);
+    } finally {
+      done();
+    }
   });
 });
