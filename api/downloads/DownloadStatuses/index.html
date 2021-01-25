@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <title>checkGroupExists | API Reference | @esri/hub.js</title>
+    <title>DownloadStatuses | API Reference | @esri/hub.js</title>
     
     <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
     
@@ -872,7 +872,7 @@
               <path d="M7 4h5l12 12-12 12H7l12-12L7 4z" />
             </svg>
           </button>
-          <a href="/hub.js/api/downloads/" class="tsd-kind-icon">downloads</a>
+          <a href="/hub.js/api/downloads/" class="is-active tsd-kind-icon">downloads</a>
           <ul id="list4" class="api-package-content-list">
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -896,7 +896,7 @@
             </li>
             
             <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
-              <a href="/hub.js/api/downloads/DownloadStatuses/" class="tsd-kind-icon padding-right-1">DownloadStatuses</a>
+              <a href="/hub.js/api/downloads/DownloadStatuses/" class="is-active tsd-kind-icon padding-right-1">DownloadStatuses</a>
             </li>
             
             <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
@@ -1696,8 +1696,8 @@
 
 
 <div class="clearfix trailer-half">
-  <h1 class="left font-size-5 code-face trailer-0">checkGroupExists</h1>
-  <small class="tsd-kind-function font-size--2 right leader-half margin-right-half"><span class="tsd-kind-icon">Function</span></small>
+  <h1 class="left font-size-5 code-face trailer-0">DownloadStatuses</h1>
+  <small class="tsd-kind-type-alias font-size--2 right leader-half margin-right-half"><span class="tsd-kind-icon">Type alias</span></small>
 </div>
 
 
@@ -1709,186 +1709,21 @@
 
 
 
+  Value(s):
+  <pre style="display: inline;"><i><span class="text-green">"ready"</span><span class="text-light-gray"> | </span><span class="text-green">"ready_unknown"</span><span class="text-light-gray"> | </span><span class="text-green">"stale"</span><span class="text-light-gray"> | </span><span class="text-green">"not_ready"</span><span class="text-light-gray"> | </span><span class="text-green">"creating"</span><span class="text-light-gray"> | </span><span class="text-green">"updating"</span><span class="text-light-gray"> | </span><span class="text-green">"error_creating"</span><span class="text-light-gray"> | </span><span class="text-green">"error_updating"</span><span class="text-light-gray"> | </span><span class="text-green">"error"</span></i></pre>
 
 
 
 
 
-
-  <p>Check if a group with a specific title exists in an org
-If it does exist, and has the correct properties, we return the</p>
-
-
-  
-
-  <div class="panel padding-leader-half padding-trailer-half padding-right-quarter padding-left-half trailer-half">
-    <ul class="list-plain tsd-signatures tsd-kind-function trailer-0 leader-0">
-      
-        <li class="code-face tsd-signature tsd-kind-icon trailer-0 leader-0">checkGroupExists<span class="text-light-gray">(</span>title: <i class="text-purple">string</i>, orgId: <i class="text-purple">string</i>, requestOptions: <i>IRequestOptions</i><span class="text-light-gray">) : </span><i>Promise</i><i><span class="text-light-gray">&lt;</span><i class="text-purple">any</i><span class="text-light-gray">&gt;</span></i></li>
-      
-    </ul>
-  </div>
-
-  
-    <h2 class="font-size-1 trailer-half">Parameters</h2>
-    
-  <div class="overflow-auto trailer-1">
-    <table class="table">
-      <thead>
-        <tr>
-          <th class="font-size--2">Parameter</th>
-          <th class="font-size--2">Type</th>
-          <th class="font-size--2">Default</th>
-          <th class="font-size--2">Notes</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr id="checkGroupExists-title">
-            <td class="code-face">
-              <a href="#checkGroupExists-title" class="table-link">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon"><path d="M28.633 17.945l-4.118-4.426c.076 1.131-.034 2.262-.355 3.241l2.83 2.827a5.281 5.281 0 0 1 0 7.459 5.223 5.223 0 0 1-3.723 1.54 5.227 5.227 0 0 1-3.728-1.542l-5.459-5.459a5.276 5.276 0 0 1 0-7.452c.607-.609 1.361-1.048 2.1-1.229a1.833 1.833 0 0 0-.279-.414l-1.344-1.461c-.845.404-1.54.881-2.12 1.461a7.554 7.554 0 0 0-2.223 5.371c0 2.027.791 3.934 2.223 5.366l5.459 5.459a7.544 7.544 0 0 0 5.371 2.225 7.55 7.55 0 0 0 5.366-2.223c2.962-2.962 2.962-7.782 0-10.745zM8.711 3.497a5.23 5.23 0 0 1 3.726 1.54l5.459 5.457a5.279 5.279 0 0 1 0 7.454c-.605.605-1.356 1.043-2.105 1.222.086.154.166.301.287.421l1.422 1.422c.808-.394 1.476-.862 2.039-1.422 2.96-2.962 2.96-7.777 0-10.74L14.08 3.394c-1.434-1.435-3.342-2.225-5.369-2.225s-3.934.791-5.369 2.225C1.908 4.828 1.117 6.736 1.117 8.763s.791 3.934 2.225 5.369L7.46 18.56c-.076-1.131.034-2.262.355-3.239l-2.83-2.833c-.994-.991-1.542-2.316-1.542-3.726s.548-2.732 1.542-3.726a5.23 5.23 0 0 1 3.726-1.54z"/></svg>
-              </a>
-              <span class="code-face">title</span>
-              
-                
-  
-
-  
-
-  
-
-  
-  <span class="label">Required</span>
-  
-
-  
-
-              
-            </td>
-            <td class="code-face"><i class="text-purple">string</i></td>
-            <td class="code-face"></td>
-            <td class="body-face api-param-comment">
-              
-              
-            </td>
-          </tr><tr id="checkGroupExists-orgId">
-            <td class="code-face">
-              <a href="#checkGroupExists-orgId" class="table-link">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon"><path d="M28.633 17.945l-4.118-4.426c.076 1.131-.034 2.262-.355 3.241l2.83 2.827a5.281 5.281 0 0 1 0 7.459 5.223 5.223 0 0 1-3.723 1.54 5.227 5.227 0 0 1-3.728-1.542l-5.459-5.459a5.276 5.276 0 0 1 0-7.452c.607-.609 1.361-1.048 2.1-1.229a1.833 1.833 0 0 0-.279-.414l-1.344-1.461c-.845.404-1.54.881-2.12 1.461a7.554 7.554 0 0 0-2.223 5.371c0 2.027.791 3.934 2.223 5.366l5.459 5.459a7.544 7.544 0 0 0 5.371 2.225 7.55 7.55 0 0 0 5.366-2.223c2.962-2.962 2.962-7.782 0-10.745zM8.711 3.497a5.23 5.23 0 0 1 3.726 1.54l5.459 5.457a5.279 5.279 0 0 1 0 7.454c-.605.605-1.356 1.043-2.105 1.222.086.154.166.301.287.421l1.422 1.422c.808-.394 1.476-.862 2.039-1.422 2.96-2.962 2.96-7.777 0-10.74L14.08 3.394c-1.434-1.435-3.342-2.225-5.369-2.225s-3.934.791-5.369 2.225C1.908 4.828 1.117 6.736 1.117 8.763s.791 3.934 2.225 5.369L7.46 18.56c-.076-1.131.034-2.262.355-3.239l-2.83-2.833c-.994-.991-1.542-2.316-1.542-3.726s.548-2.732 1.542-3.726a5.23 5.23 0 0 1 3.726-1.54z"/></svg>
-              </a>
-              <span class="code-face">orgId</span>
-              
-                
-  
-
-  
-
-  
-
-  
-  <span class="label">Required</span>
-  
-
-  
-
-              
-            </td>
-            <td class="code-face"><i class="text-purple">string</i></td>
-            <td class="code-face"></td>
-            <td class="body-face api-param-comment">
-              
-              
-            </td>
-          </tr><tr id="checkGroupExists-requestOptions">
-            <td class="code-face">
-              <a href="#checkGroupExists-requestOptions" class="table-link">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon"><path d="M28.633 17.945l-4.118-4.426c.076 1.131-.034 2.262-.355 3.241l2.83 2.827a5.281 5.281 0 0 1 0 7.459 5.223 5.223 0 0 1-3.723 1.54 5.227 5.227 0 0 1-3.728-1.542l-5.459-5.459a5.276 5.276 0 0 1 0-7.452c.607-.609 1.361-1.048 2.1-1.229a1.833 1.833 0 0 0-.279-.414l-1.344-1.461c-.845.404-1.54.881-2.12 1.461a7.554 7.554 0 0 0-2.223 5.371c0 2.027.791 3.934 2.223 5.366l5.459 5.459a7.544 7.544 0 0 0 5.371 2.225 7.55 7.55 0 0 0 5.366-2.223c2.962-2.962 2.962-7.782 0-10.745zM8.711 3.497a5.23 5.23 0 0 1 3.726 1.54l5.459 5.457a5.279 5.279 0 0 1 0 7.454c-.605.605-1.356 1.043-2.105 1.222.086.154.166.301.287.421l1.422 1.422c.808-.394 1.476-.862 2.039-1.422 2.96-2.962 2.96-7.777 0-10.74L14.08 3.394c-1.434-1.435-3.342-2.225-5.369-2.225s-3.934.791-5.369 2.225C1.908 4.828 1.117 6.736 1.117 8.763s.791 3.934 2.225 5.369L7.46 18.56c-.076-1.131.034-2.262.355-3.239l-2.83-2.833c-.994-.991-1.542-2.316-1.542-3.726s.548-2.732 1.542-3.726a5.23 5.23 0 0 1 3.726-1.54z"/></svg>
-              </a>
-              <span class="code-face">requestOptions</span>
-              
-                
-  
-
-  
-
-  
-
-  
-  <span class="label">Required</span>
-  
-
-  
-
-              
-            </td>
-            <td class="code-face"><i>IRequestOptions</i></td>
-            <td class="code-face"></td>
-            <td class="body-face api-param-comment">
-              
-              
-            </td>
-          </tr>
-      </tbody>
-    </table>
-  </div>
-
-  
-
-  
-    
-
-    
-  
-    
-
-    
-  
-    
-      
-      
-  
-    <h2 class="font-size-1 trailer-half">Available <code>requestOptions</code></h2>
-  
-  <div class="overflow-auto trailer-1">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Property</th>
-          <th>Type</th>
-          <th>Notes</th>
-        </tr>
-      </thead>
-      <tbody>
-        
-
-      </tbody>
-    </table>
-  </div>
-
-    
-
-    
-  
-
-  <h2 class="font-size-1 trailer-half">Returns</h2>
-
-  <div class="fonts-size--1 panel padding-leader-half padding-trailer-half padding-right-half padding-left-half trailer-half">
-  <i>Promise</i><i><span class="text-light-gray">&lt;</span><i class="text-purple">any</i><span class="text-light-gray">&gt;</span></i>
-  </div>
-
-  
 
 
 
 <hr class="leader-half trailer-half">
 
 
-  
-    
-  
 
-
-<small class="font-size--2">Function defined in <a href="https://github.com/Esri/hub.js/blob/master/packages/packages/initiatives/src/groups.ts#L119">packages/packages/initiatives/src/groups.ts:119</a></small>
+<small class="font-size--2">Type alias defined in <a href="https://github.com/Esri/hub.js/blob/master/packages/packages/downloads/src/download-status.ts#L13">packages/packages/downloads/src/download-status.ts:13</a></small>
 
 
     </div>
