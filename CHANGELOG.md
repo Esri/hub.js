@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [6.23.0] - January 22nd 2021
+
+- New Features
+  - **getContent**: now accepts an `IModel` object [4e9b21e](https://github.com/Esri/hub.js/commit/4e9b21ec831113859919d55da58496a0532939e9)
+
 ## [6.22.3] - January 21st 2021
 
 ### Other Changes

@@ -9,6 +9,7 @@ import {
 import { DownloadFormat, DownloadFormats } from "../download-format";
 import { urlBuilder, composeDownloadId, isRecentlyUpdated } from "../utils";
 import { DownloadTarget } from "../download-target";
+import { DownloadStatus } from "../download-status";
 
 enum ItemTypes {
   FeatureService = "Feature Service",
@@ -106,22 +107,29 @@ function fetchCacheSearchMetadata(params: any): Promise<ICacheSearchMetadata> {
   return getService({ url, authentication })
     .then((response: IFeatureServiceDefinition) => {
       const layers: ILayerDefinition[] = response.layers || [];
-      const promises: Array<Promise<ILayerDefinition>> = [];
-      layers.forEach(layer =>
-        promises.push(getLayer({ url: `${url}/${layer.id}`, authentication }))
-      );
+      const promises: Array<Promise<ILayerDefinition>> = layers.map(layer => {
+        return getLayer({ url: `${url}/${layer.id}`, authentication });
+      });
       return Promise.all(promises);
     })
     .then((layers: ILayerDefinition[]) => {
-      const multilayer = isMultilayerRequest(layerId, layers);
       return {
-        format:
-          multilayer && isCollectionType(format)
-            ? `${format} Collection`
-            : format,
+        format: getPortalFormat({ format, layerId, layers }),
         modified: extractLastEditDate(layers)
       };
     });
+}
+
+function getPortalFormat(params: {
+  format: DownloadFormat;
+  layerId: string;
+  layers: ILayerDefinition[];
+}) {
+  const { format, layerId, layers } = params;
+  const multilayer = isMultilayerRequest(layerId, layers);
+  return multilayer && isCollectionType(format)
+    ? `${format} Collection`
+    : format;
 }
 
 function isMultilayerRequest(layerId: string, layers: ILayerDefinition[]) {
@@ -152,24 +160,22 @@ function formatDownloadMetadata(params: any) {
   } = params;
 
   const lastEditDate =
-    serviceLastEditDate !== undefined
-      ? new Date(serviceLastEditDate).toISOString()
-      : undefined;
+    serviceLastEditDate === undefined
+      ? undefined
+      : new Date(serviceLastEditDate).toISOString();
 
+  const { created, id } = cachedDownload || {};
   const recentlyUpdated = isRecentlyUpdated(target, serviceLastEditDate);
+
+  const status = determineStatus(serviceLastEditDate, created, recentlyUpdated);
 
   if (!cachedDownload) {
     return {
       downloadId: composeDownloadId(params),
-      status: determineStatus(cachedDownload, recentlyUpdated, false),
+      status,
       lastEditDate
     };
   }
-
-  const { created, id } = cachedDownload;
-
-  const outOfDate = serviceLastEditDate && serviceLastEditDate > created;
-  const status = determineStatus(cachedDownload, recentlyUpdated, outOfDate);
 
   return {
     downloadId: id,
@@ -186,15 +192,18 @@ function formatDownloadMetadata(params: any) {
 }
 
 function determineStatus(
-  cachedDownload: any,
-  recentlyUpdated: boolean,
-  outOfDate: boolean
-): string {
-  if (!cachedDownload) {
-    return recentlyUpdated ? "locked" : "not_ready";
+  serviceLastEditDate: Date,
+  exportCreatedDate: Date,
+  recentlyUpdated: boolean
+) {
+  if (!exportCreatedDate) {
+    return recentlyUpdated ? DownloadStatus.LOCKED : DownloadStatus.NOT_READY;
   }
-  if (outOfDate) {
-    return recentlyUpdated ? "stale_locked" : "stale";
+  if (!serviceLastEditDate) {
+    return DownloadStatus.READY_UNKNOWN;
   }
-  return "ready";
+  if (serviceLastEditDate > exportCreatedDate) {
+    return recentlyUpdated ? DownloadStatus.STALE_LOCKED : DownloadStatus.STALE;
+  }
+  return DownloadStatus.READY;
 }
