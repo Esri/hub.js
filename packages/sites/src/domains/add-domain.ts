@@ -6,13 +6,14 @@ import { IDomainEntry } from "./types";
 
 /**
  * Create an entry in the domain system
- * @param {IHubDomain} domainEntry Doman object to be stored
+ * @param {IHubDomain} domainEntry Domain hash to be stored
  * @param {IHubRequestOptions} hubRequestOptions
  */
 export function addDomain(
   domainEntry: Partial<IDomainEntry>,
   hubRequestOptions: IHubRequestOptions
 ) {
+  debugger;
   if (hubRequestOptions.isPortal) {
     throw new Error(
       `addDomain is not available in ArcGIS Enterprise. Instead, edit the hubdomain typekeyword on the item`
