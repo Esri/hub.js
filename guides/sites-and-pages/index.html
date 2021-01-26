@@ -116,7 +116,7 @@
 ...
 return lookupDomain(<span class="hljs-string">'data-myorg.hub.arcgis.com'</span>, hubRequestOptions)
 .then(<span class="hljs-function">(<span class="hljs-params">domainInfo</span>) =&gt;</span> {
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Domain <span class="hljs-subst">${domainInfo.domain}</span> belongs to org <span class="hljs-subst">${domainInfo.orgId}</span> and is backed by item <span class="hljs-subst">${domainInfo.itemId}</span>)
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Domain <span class="hljs-subst">${domainInfo.hostname}</span> belongs to org <span class="hljs-subst">${domainInfo.orgId}</span> and is backed by item <span class="hljs-subst">${domainInfo.itemId}</span>)
 })
 </span></code></pre>
 <p>For ArcGIS Enterprise, domains operate differently. At this time, Sites in ArcGIS Enterprise are hosted at <code>https://{your-portal-url}/{portal-instance}/apps/sites/#{site-domain}</code>.</p>
@@ -139,7 +139,7 @@ return lookupDomain(<span class="hljs-string">'data-myorg.hub.arcgis.com'</span>
     <span class="hljs-comment">// since sites can have multiple domains, let's find the one we want to change</span>
     <span class="hljs-keyword">const</span> domainToChange = domains.findBy(domains, <span class="hljs-string">'domain'</span>, currentDomain);
     <span class="hljs-comment">// update the domain property to the new domain</span>
-    domainToChange.domain = newDomain;
+    domainToChange.hostname = newDomain;
     <span class="hljs-comment">// save the change</span>
     <span class="hljs-keyword">return</span> updateDomain(domainToChange, hubRequestOptions)
   })
