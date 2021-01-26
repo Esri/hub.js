@@ -13,7 +13,6 @@ export function addDomain(
   domainEntry: Partial<IDomainEntry>,
   hubRequestOptions: IHubRequestOptions
 ) {
-  debugger;
   if (hubRequestOptions.isPortal) {
     throw new Error(
       `addDomain is not available in ArcGIS Enterprise. Instead, edit the hubdomain typekeyword on the item`
