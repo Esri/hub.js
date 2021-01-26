@@ -1,7 +1,6 @@
 export interface IDomainEntry {
   clientKey: string;
   createdAt?: string;
-  domain: string;
   hostname: string;
   id: string;
   orgId: string;

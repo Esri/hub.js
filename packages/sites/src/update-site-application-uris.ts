@@ -59,7 +59,6 @@ export function updateSiteApplicationUris(
               orgId: hubRequestOptions.portalSelf.id,
               orgTitle: hubRequestOptions.portalSelf.name,
               hostname: uri,
-              domain: uri,
               siteId: site.item.id,
               siteTitle: site.item.title,
               clientKey: site.data.values.clientId,

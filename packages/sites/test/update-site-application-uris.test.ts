@@ -75,7 +75,6 @@ describe("updateSiteApplicationUris", () => {
         orgId: ro.portalSelf.id,
         orgTitle: ro.portalSelf.name,
         hostname: "bar",
-        domain: "bar",
         siteId: site.item.id,
         siteTitle: site.item.title,
         clientKey: site.data.values.clientId,

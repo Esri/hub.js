@@ -8,19 +8,19 @@ import { IDomainEntry } from "./types";
 /**
  * Fetch a the information about a domain.
  * Different implementation for Portal vs AGO
- * @param {string} domain Domain record to locate
+ * @param {string} hostname of domain record to locate
  * @param {IHubRequestOptions} hubRequestOptions
  */
 export function lookupDomain(
-  domain: string,
+  hostname: string,
   hubRequestOptions: IHubRequestOptions
 ): Promise<IDomainEntry | { hostname: string; siteId: string }> {
   if (hubRequestOptions.isPortal) {
-    return _lookupPortal(domain, hubRequestOptions);
+    return _lookupPortal(hostname, hubRequestOptions);
   } else {
     const url = `${_getDomainServiceUrl(
       hubRequestOptions.hubApiUrl
-    )}/${domain}`;
+    )}/${hostname}`;
     const headers = _getAuthHeader(hubRequestOptions);
     return fetch(url, { method: "GET", headers, mode: "cors" }).then(
       _checkStatusAndParseJson

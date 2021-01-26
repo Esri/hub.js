@@ -3,19 +3,19 @@ import { IHubRequestOptions, includes } from "@esri/hub-common";
 
 /**
  * Lookup a domain in Portal
- * @param {string} domain Domain to locate the site for
+ * @param {string} hostname to locate the site for
  * @param {IHubRequestOptions} hubRequestOptions
  * @private
  */
 export function _lookupPortal(
-  domain: string,
+  hostname: string,
   hubRequestOptions: IHubRequestOptions
 ): Promise<{ hostname: string; siteId: string }> {
   // for portal we search for a site w/ `hubsubdomain|<domain>` type keyword
-  let subdomain = domain;
+  let subdomain = hostname;
   // if this subdomain has a hash in it, knock that off
-  if (domain.indexOf("#/") > -1) {
-    subdomain = domain.split("#/")[1];
+  if (hostname.indexOf("#/") > -1) {
+    subdomain = hostname.split("#/")[1];
   }
 
   const queryTerm = `hubsubdomain|${subdomain}`;
