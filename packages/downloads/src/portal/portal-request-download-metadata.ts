@@ -8,7 +8,9 @@ import {
 } from "@esri/arcgis-rest-feature-layer";
 import { DownloadFormat, DownloadFormats } from "../download-format";
 import { urlBuilder, composeDownloadId } from "../utils";
+import { DownloadTarget } from "../download-target";
 import { DownloadStatus } from "../download-status";
+import { isRecentlyUpdated } from "./utils";
 
 enum ItemTypes {
   FeatureService = "Feature Service",
@@ -26,6 +28,7 @@ export interface IPortalDownloadMetadataRequestParams {
   format: DownloadFormat;
   authentication: UserSession;
   spatialRefId?: string;
+  target?: DownloadTarget;
 }
 
 /**
@@ -42,7 +45,7 @@ export interface ICacheSearchMetadata {
 export function portalRequestDownloadMetadata(
   params: IPortalDownloadMetadataRequestParams
 ): Promise<any> {
-  const { datasetId, authentication, format, spatialRefId } = params;
+  const { datasetId, authentication, format, spatialRefId, target } = params;
 
   const [itemId, layerId] = datasetId.split("_");
   let serviceLastEditDate: number | undefined;
@@ -83,7 +86,8 @@ export function portalRequestDownloadMetadata(
         serviceLastEditDate,
         itemModifiedDate,
         itemType,
-        authentication
+        authentication,
+        target
       });
     })
     .catch((err: any) => {
@@ -149,7 +153,12 @@ function extractLastEditDate(layers: ILayerDefinition[]) {
 }
 
 function formatDownloadMetadata(params: any) {
-  const { cachedDownload, serviceLastEditDate, authentication } = params;
+  const {
+    cachedDownload,
+    serviceLastEditDate,
+    authentication,
+    target
+  } = params;
 
   const lastEditDate =
     serviceLastEditDate === undefined
@@ -157,8 +166,9 @@ function formatDownloadMetadata(params: any) {
       : new Date(serviceLastEditDate).toISOString();
 
   const { created, id } = cachedDownload || {};
+  const recentlyUpdated = isRecentlyUpdated(target, serviceLastEditDate);
 
-  const status = determineStatus(serviceLastEditDate, created);
+  const status = determineStatus(serviceLastEditDate, created, recentlyUpdated);
 
   if (!cachedDownload) {
     return {
@@ -182,15 +192,19 @@ function formatDownloadMetadata(params: any) {
   };
 }
 
-function determineStatus(serviceLastEditDate: Date, exportCreatedDate: Date) {
+function determineStatus(
+  serviceLastEditDate: Date,
+  exportCreatedDate: Date,
+  recentlyUpdated: boolean
+) {
   if (!exportCreatedDate) {
-    return DownloadStatus.NOT_READY;
+    return recentlyUpdated ? DownloadStatus.LOCKED : DownloadStatus.NOT_READY;
   }
   if (!serviceLastEditDate) {
     return DownloadStatus.READY_UNKNOWN;
   }
   if (serviceLastEditDate > exportCreatedDate) {
-    return DownloadStatus.STALE;
+    return recentlyUpdated ? DownloadStatus.STALE_LOCKED : DownloadStatus.STALE;
   }
   return DownloadStatus.READY;
 }
