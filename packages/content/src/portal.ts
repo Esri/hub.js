@@ -223,10 +223,15 @@ export function parseItemCategories(categories: string[]) {
  * @param options - request options that may include authentication
  */
 export function getContentFromPortal(
-  itemId: string,
+  idOrItem: string | IItem,
   requestOptions?: IHubRequestOptions
 ): Promise<IHubContent> {
-  return getItem(itemId, requestOptions).then(item => {
+  const getItemPromise: Promise<IItem> =
+    typeof idOrItem === "string"
+      ? getItem(idOrItem, requestOptions)
+      : Promise.resolve(idOrItem);
+
+  return getItemPromise.then(item => {
     const content = withPortalUrls(itemToContent(item), requestOptions);
     // TODO: provide some API to let consumers opt out of making these additional requests
     const propertiesToFetch: IContentPropertyRequests = {
