@@ -1,7 +1,3 @@
-import { DownloadTarget } from "./download-target";
-
-const DOWNLOADS_LOCK_MS = 10 * 60 * 1000;
-
 interface IQueryParams {
   [key: string]: string;
 }
@@ -52,18 +48,4 @@ export interface IDownloadIdParams {
 export function composeDownloadId(params: IDownloadIdParams): string {
   const { datasetId, format, spatialRefId, geometry, where } = params;
   return `${datasetId}:${format}:${spatialRefId}:${geometry}:${where}`;
-}
-
-/**
- * @private
- */
-export function isRecentlyUpdated(
-  target: DownloadTarget,
-  lastEditDate: number
-): boolean {
-  return (
-    target === "portal" &&
-    lastEditDate &&
-    new Date().getTime() - lastEditDate <= DOWNLOADS_LOCK_MS
-  );
 }

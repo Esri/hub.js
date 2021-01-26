@@ -7,9 +7,10 @@ import {
   ILayerDefinition
 } from "@esri/arcgis-rest-feature-layer";
 import { DownloadFormat, DownloadFormats } from "../download-format";
-import { urlBuilder, composeDownloadId, isRecentlyUpdated } from "../utils";
+import { urlBuilder, composeDownloadId } from "../utils";
 import { DownloadTarget } from "../download-target";
 import { DownloadStatus } from "../download-status";
+import { isRecentlyUpdated } from "./utils";
 
 enum ItemTypes {
   FeatureService = "Feature Service",
