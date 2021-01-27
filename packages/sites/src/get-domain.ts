@@ -44,21 +44,21 @@ export function getDomain(
       // ok - in this case, it's likely that we have a default domain and a custom domain...
       // we want the one that's custom... i.e. does not contain arcgis.com
       const customEntry = response.reduce((acc: any, entry: any) => {
-        if (!entry.domain.includes("arcgis.com")) {
+        if (!entry.hostname.includes("arcgis.com")) {
           acc = entry;
         }
         return acc;
       }, null);
       if (customEntry) {
         // return the custom domain
-        return customEntry.domain;
+        return customEntry.hostname;
       } else {
         // just pick the first one
-        return response[0].domain;
+        return response[0].hostname;
       }
     } else {
       // there is only 1, so return it
-      return response[0].domain;
+      return response[0].hostname;
     }
   });
 }

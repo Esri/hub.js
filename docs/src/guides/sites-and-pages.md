@@ -29,7 +29,7 @@ import { lookupDomain } from '@esri/hub-sites';
 ...
 return lookupDomain('data-myorg.hub.arcgis.com', hubRequestOptions)
 .then((domainInfo) => {
-  console.log(`Domain ${domainInfo.domain} belongs to org ${domainInfo.orgId} and is backed by item ${domainInfo.itemId})
+  console.log(`Domain ${domainInfo.hostname} belongs to org ${domainInfo.orgId} and is backed by item ${domainInfo.itemId})
 })
 ```
 
@@ -57,7 +57,7 @@ return getDomainsForSite(siteId, hubRequestOptions)
     // since sites can have multiple domains, let's find the one we want to change
     const domainToChange = domains.findBy(domains, 'domain', currentDomain);
     // update the domain property to the new domain
-    domainToChange.domain = newDomain;
+    domainToChange.hostname = newDomain;
     // save the change
     return updateDomain(domainToChange, hubRequestOptions)
   })
