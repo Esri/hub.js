@@ -1002,11 +1002,11 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
-              <a href="/hub.js/api/search/flattenCategories/" class="tsd-kind-icon padding-right-1">flattenCategories</a>
+              <a href="/hub.js/api/search/serialize/" class="tsd-kind-icon padding-right-1">serialize</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
-              <a href="/hub.js/api/search/kMerge/" class="tsd-kind-icon padding-right-1">kMerge</a>
+              <a href="/hub.js/api/search/flattenCategories/" class="tsd-kind-icon padding-right-1">flattenCategories</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -1014,7 +1014,11 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
-              <a href="/hub.js/api/search/serialize/" class="tsd-kind-icon padding-right-1">serialize</a>
+              <a href="/hub.js/api/search/mergeAggregations/" class="tsd-kind-icon padding-right-1">mergeAggregations</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/search/kMerge/" class="tsd-kind-icon padding-right-1">kMerge</a>
             </li>
             
             <li class="tsd-kind-class padding-right-1 visually-hidden api-list-item">
@@ -1026,7 +1030,7 @@
             </li>
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
-              <a href="/hub.js/api/search/IHubResult/" class="tsd-kind-icon padding-right-1">IHubResult</a>
+              <a href="/hub.js/api/search/ISearchParams/" class="tsd-kind-icon padding-right-1">ISearchParams</a>
             </li>
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
@@ -1034,7 +1038,11 @@
             </li>
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
-              <a href="/hub.js/api/search/ISearchParams/" class="tsd-kind-icon padding-right-1">ISearchParams</a>
+              <a href="/hub.js/api/search/IHubResult/" class="tsd-kind-icon padding-right-1">IHubResult</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/search/IAggregationResult/" class="tsd-kind-icon padding-right-1">IAggregationResult</a>
             </li>
             
           </ul>
@@ -1684,10 +1692,11 @@
 
 <pre><code class="js"><span class="hljs-keyword">import</span> {
   agoSearch,
-  flattenCategories,
-  kMerge,
-  mergePages,
   serialize,
+  flattenCategories,
+  mergePages,
+  mergeAggregations,
+  kMerge,
   BinaryHeap,
   InvalidPaginationInputError,
 } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/hub-search"</span>;</code></pre>
@@ -1704,11 +1713,11 @@
   </li>
   
   <li class="tsd-kind-function">
-    <a href="/hub.js/api/search/flattenCategories/" class="tsd-kind-icon">flattenCategories</a>
+    <a href="/hub.js/api/search/serialize/" class="tsd-kind-icon">serialize</a>
   </li>
   
   <li class="tsd-kind-function">
-    <a href="/hub.js/api/search/kMerge/" class="tsd-kind-icon">kMerge</a>
+    <a href="/hub.js/api/search/flattenCategories/" class="tsd-kind-icon">flattenCategories</a>
   </li>
   
   <li class="tsd-kind-function">
@@ -1716,7 +1725,11 @@
   </li>
   
   <li class="tsd-kind-function">
-    <a href="/hub.js/api/search/serialize/" class="tsd-kind-icon">serialize</a>
+    <a href="/hub.js/api/search/mergeAggregations/" class="tsd-kind-icon">mergeAggregations</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/search/kMerge/" class="tsd-kind-icon">kMerge</a>
   </li>
   
   <li class="tsd-kind-class">
@@ -1728,7 +1741,7 @@
   </li>
   
   <li class="tsd-kind-interface">
-    <a href="/hub.js/api/search/IHubResult/" class="tsd-kind-icon">IHubResult</a>
+    <a href="/hub.js/api/search/ISearchParams/" class="tsd-kind-icon">ISearchParams</a>
   </li>
   
   <li class="tsd-kind-interface">
@@ -1736,7 +1749,11 @@
   </li>
   
   <li class="tsd-kind-interface">
-    <a href="/hub.js/api/search/ISearchParams/" class="tsd-kind-icon">ISearchParams</a>
+    <a href="/hub.js/api/search/IHubResult/" class="tsd-kind-icon">IHubResult</a>
+  </li>
+  
+  <li class="tsd-kind-interface">
+    <a href="/hub.js/api/search/IAggregationResult/" class="tsd-kind-icon">IAggregationResult</a>
   </li>
   
 </ul>
