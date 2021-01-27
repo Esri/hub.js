@@ -6,6 +6,7 @@ import { domainExists } from "./domain-exists";
  * a subdomain
  * @param {String} subdomain Subdomain to ensure is unique
  * @param {String} baseHostname base hostname
+ * @param hubRequestOptions
  * @param {Number} step Step number
  */
 export function getUniqueDomainName(

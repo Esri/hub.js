@@ -3,11 +3,11 @@ import { IHubRequestOptions } from "@esri/hub-common";
 
 /**
  * Validate a custom domain
- * @param {string} domain Domain to validate
+ * @param {string} hostname to validate
  * @param {IHubRequestOptions} hubRequestOptions
  */
 export function isValidDomain(
-  domain: string,
+  hostname: string,
   hubRequestOptions: IHubRequestOptions
 ) {
   if (hubRequestOptions.isPortal) {
@@ -15,7 +15,7 @@ export function isValidDomain(
   }
   const url = `${
     hubRequestOptions.hubApiUrl
-  }/api/v3/domains/validate?hostname=${domain}`;
+  }/api/v3/domains/validate?hostname=${hostname}`;
   const headers = _getAuthHeader(hubRequestOptions);
 
   return fetch(url, { method: "GET", headers, mode: "cors" })
@@ -25,7 +25,7 @@ export function isValidDomain(
     .catch(e => {
       return {
         success: false,
-        input: domain,
+        input: hostname,
         error: {
           code: 400,
           detail: e,

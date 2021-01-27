@@ -11,6 +11,7 @@ import {
   HubType,
   IHubContent,
   IHubRequestOptions,
+  IModel,
   includes
 } from "@esri/hub-common";
 import { IGetContentOptions, getContentFromHub } from "./hub";
@@ -62,17 +63,35 @@ function getContentData(
 }
 
 /**
- * Fetch content using either the Hub API or the ArcGIS REST API
- * @param identifier Hub API slug ({orgKey}::{title-as-slug} or {title-as-slug})
+ * Adds extra goodies to the content.
+ * @param content - the IHubContent object
+ * @param options - request options that may include authentication
+ */
+function enrichContent(content: IHubContent, options?: IGetContentOptions) {
+  // see if there are additional properties to fetch based on content type
+  const propertiesToFetch: IContentPropertyRequests = {};
+  if (!content.data && shouldFetchData(content.hubType)) {
+    propertiesToFetch.data = getContentData;
+  }
+  if (shouldFetchOrgId(content)) {
+    propertiesToFetch.orgId = getOwnerOrgId;
+  }
+  if (Object.keys(propertiesToFetch).length === 0) {
+    // nothing more to fetch
+    return content;
+  }
+  return _fetchContentProperties(propertiesToFetch, content, options);
+}
+
+/**
+ * Fetch content by ID using either the Hub API or the ArcGIS REST API
+ * @param identifier - Hub API slug ({orgKey}::{title-as-slug} or {title-as-slug})
  * or record id ((itemId}_{layerId} or {itemId})
  * @param options - request options that may include authentication
  */
-export function getContent(
-  identifier: string,
-  options?: IGetContentOptions
-): Promise<IHubContent> {
-  // first fetch and format the content from the Hub or portal API
+function getContentById(identifier: string, options?: IGetContentOptions) {
   let getContentPromise: Promise<IHubContent>;
+  // first fetch and format the content from the Hub or portal API
   if (options && options.isPortal) {
     const { itemId } = parseDatasetId(identifier);
     getContentPromise = getContentFromPortal(itemId, options);
@@ -86,21 +105,31 @@ export function getContent(
       return Promise.reject(e);
     });
   }
-  return getContentPromise.then(content => {
-    // see if there are additional properties to fetch based on content type
-    const propertiesToFetch: IContentPropertyRequests = {};
-    if (shouldFetchData(content.hubType)) {
-      propertiesToFetch.data = getContentData;
-    }
-    if (shouldFetchOrgId(content)) {
-      propertiesToFetch.orgId = getOwnerOrgId;
-    }
-    if (Object.keys(propertiesToFetch).length === 0) {
-      // nothing more to fetch
-      return content;
-    }
-    return _fetchContentProperties(propertiesToFetch, content, options);
-  });
+  return getContentPromise.then(content => enrichContent(content, options));
+}
+
+/**
+ * Get content either from an IModel or an ID.
+ * @param idOrModel - An IModel (with our without data), or Hub API slug ({orgKey}::{title-as-slug} or {title-as-slug})
+ * or record id ((itemId}_{layerId} or {itemId})
+ * @param options - request options that may include authentication
+ */
+export function getContent(
+  idOrModel: string | IModel,
+  options?: IGetContentOptions
+): Promise<IHubContent> {
+  let getContentPromise: Promise<IHubContent>;
+
+  if (typeof idOrModel === "string") {
+    getContentPromise = getContentById(idOrModel, options);
+  } else {
+    const { item, data } = idOrModel;
+    getContentPromise = getContentFromPortal(item, options).then(content =>
+      enrichContent({ ...content, data }, options)
+    );
+  }
+
+  return getContentPromise;
 }
 
 // TODO: remove this next breaking version

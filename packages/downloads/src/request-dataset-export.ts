@@ -2,10 +2,11 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { hubRequestDatasetExport } from "./hub/hub-request-dataset-export";
 import { portalRequestDatasetExport } from "./portal/portal-request-dataset-export";
 import { DownloadFormat } from "./download-format";
+import { DownloadTarget } from "./download-target";
 
 export interface IDatasetExportRequestParams {
-  /* API target for downloads: 'hub' (default) or 'portal' */
-  target?: string;
+  /* API target for downloads: 'hub' (default), 'portal', or 'enterprise' */
+  target?: DownloadTarget;
   /* Hub API host name. Required for Hub API exports (stored in the authentication object) */
   host?: string;
   /* ID for the downloads source dataset; e.g. "abcdef0123456789abcdef0123456789_0" */
@@ -56,23 +57,23 @@ export function requestDatasetExport(
     authentication
   } = params;
 
-  if (target === "portal") {
-    return portalRequestDatasetExport({
+  if (!target || target === "hub") {
+    return hubRequestDatasetExport({
+      host,
       datasetId,
       format,
-      title,
-      authentication,
       spatialRefId,
+      geometry,
       where
     });
   }
 
-  return hubRequestDatasetExport({
-    host,
+  return portalRequestDatasetExport({
     datasetId,
     format,
+    title,
+    authentication,
     spatialRefId,
-    geometry,
     where
   });
 }

@@ -1,4 +1,4 @@
-import { getUniqueDomainNamePortal } from "../../src/domains";
+import { getUniqueDomainNamePortal } from "../../src";
 import { IHubRequestOptions } from "@esri/hub-common";
 import * as domainExistsModule from "../../src/domains/domain-exists-portal";
 

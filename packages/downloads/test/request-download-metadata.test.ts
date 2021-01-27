@@ -141,4 +141,75 @@ describe("requestDownloadMetadata", () => {
       done();
     }
   });
+
+  it("handle enterprise download", async done => {
+    const authentication = new UserSession({
+      username: "portal-user",
+      portal: `http://portal.com/sharing/rest`,
+      token: "123"
+    });
+    authentication.getToken = () =>
+      new Promise(resolve => {
+        resolve("123");
+      });
+
+    try {
+      fetchMock.mock(
+        "http://portal.com/sharing/rest/content/items/abcdef0123456789abcdef0123456789?f=json&token=123",
+        {
+          status: 200,
+          body: {
+            type: "Feature Service",
+            created: 1592360698651,
+            modified: 1592360698651,
+            url: "https://feature-service.com/FeatureServer"
+          }
+        }
+      );
+
+      fetchMock.post("https://feature-service.com/FeatureServer", {
+        status: 200,
+        body: {}
+      });
+
+      fetchMock.mock(
+        "http://portal.com/sharing/rest/search?f=json&q=type%3A%22Shapefile%22%20AND%20typekeywords%3A%22export%3Aabcdef0123456789abcdef0123456789%2CspatialRefId%3A2227%22&num=1&sortField=modified&sortOrder=DESC&token=123",
+        {
+          status: 200,
+          body: {
+            results: []
+          }
+        }
+      );
+
+      fetchMock.mock(
+        "http://portal.com/sharing/rest/search?f=json&q=type%3A%22CSV%20Collection%22%20AND%20typekeywords%3A%22export%3Aabcdef0123456789abcdef0123456789%2CspatialRefId%3A2227%22&num=1&sortField=modified&sortOrder=DESC&token=123",
+        {
+          status: 200,
+          body: {
+            results: []
+          }
+        }
+      );
+
+      const result = await requestDownloadMetadata({
+        datasetId: "abcdef0123456789abcdef0123456789",
+        format: "Shapefile",
+        authentication,
+        target: "enterprise",
+        spatialRefId: "2227"
+      });
+
+      expect(result).toEqual({
+        downloadId:
+          "abcdef0123456789abcdef0123456789:Shapefile:2227:undefined:undefined",
+        lastEditDate: undefined,
+        status: "not_ready"
+      });
+    } catch (err) {
+      expect(err).toEqual(undefined);
+    } finally {
+      done();
+    }
+  });
 });

@@ -1,5 +1,5 @@
 import * as lookupDomainModule from "../../src/domains/lookup-domain";
-import { isDomainUsedElsewhere } from "../../src/domains";
+import { isDomainUsedElsewhere } from "../../src";
 import { IHubRequestOptions } from "@esri/hub-common";
 
 describe("isDomainUsedElsewhere", function() {

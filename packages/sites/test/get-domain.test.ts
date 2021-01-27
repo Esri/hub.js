@@ -1,4 +1,4 @@
-import { getDomain } from "../src/index";
+import { getDomain } from "../src";
 import * as fetchMock from "fetch-mock";
 
 describe("getDomain", () => {
@@ -6,7 +6,7 @@ describe("getDomain", () => {
 
   it("should return a domain", done => {
     fetchMock.once("https://hub.arcgis.com/api/v3/domains?f=json&siteId=5bc", [
-      { domain: "data.foo.com" }
+      { hostname: "data.foo.com" }
     ]);
 
     getDomain("5bc")
@@ -24,12 +24,12 @@ describe("getDomain", () => {
 
   it("should return custom domain if multiple entries exist", done => {
     fetchMock.once(`https://hub.arcgis.com/api/v3/domains?f=json&siteId=5bc`, [
-      { domain: "data.foo.com" },
-      { domain: "org.hub.arcgis.com" }
+      { hostname: "data.foo.com" },
+      { hostname: "org.hub.arcgis.com" }
     ]);
     getDomain("5bc")
-      .then(domain => {
-        expect(domain).toBe("data.foo.com");
+      .then(hostname => {
+        expect(hostname).toBe("data.foo.com");
         const [domainUrl] = fetchMock.lastCall(
           "https://hub.arcgis.com/api/v3/domains?f=json&siteId=5bc"
         );
@@ -40,12 +40,12 @@ describe("getDomain", () => {
   });
   it("should return first if multiple non-custom entries exist", done => {
     fetchMock.once(`https://hub.arcgis.com/api/v3/domains?f=json&siteId=5bc`, [
-      { domain: "org-beta.hub.arcgis.com" },
-      { domain: "org.hub.arcgis.com" }
+      { hostname: "org-beta.hub.arcgis.com" },
+      { hostname: "org.hub.arcgis.com" }
     ]);
     getDomain("5bc")
-      .then(domain => {
-        expect(domain).toBe("org-beta.hub.arcgis.com");
+      .then(hostname => {
+        expect(hostname).toBe("org-beta.hub.arcgis.com");
         expect(fetchMock.done()).toBeTruthy();
         const [domainUrl] = fetchMock.lastCall(
           "https://hub.arcgis.com/api/v3/domains?f=json&siteId=5bc"

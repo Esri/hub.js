@@ -3,6 +3,7 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { hubPollDownloadMetadata } from "./hub/hub-poll-download-metadata";
 import { portalPollExportJobStatus } from "./portal/portal-poll-export-job-status";
 import { DownloadFormat } from "./download-format";
+import { DownloadTarget } from "./download-target";
 import { IPoller } from "./poller";
 
 export interface IPollDownloadMetadataRequestParams {
@@ -10,8 +11,8 @@ export interface IPollDownloadMetadataRequestParams {
   downloadId: string;
   eventEmitter: EventEmitter;
   pollingInterval: number;
-  /* API target for downloads: 'hub' (default) or 'portal' */
-  target?: string;
+  /* API target for downloads: 'hub' (default), 'portal' or 'enterprise' */
+  target?: DownloadTarget;
   /* Hub API host name. Not required for Portal API downloads (stored in the authentication object) */
   host?: string;
   /* ID for the downloads source dataset; e.g. "abcdef0123456789abcdef0123456789_0" */
@@ -60,32 +61,32 @@ export function pollDownloadMetadata(
     existingFileDate
   } = params;
 
-  if (target === "portal") {
-    return portalPollExportJobStatus({
+  if (!target || target === "hub") {
+    return hubPollDownloadMetadata({
+      host,
       downloadId,
       datasetId,
-      jobId,
-      authentication,
-      exportCreated,
       format,
-      spatialRefId,
       eventEmitter,
       pollingInterval,
+      spatialRefId,
       geometry,
-      where
+      where,
+      existingFileDate
     });
   }
 
-  return hubPollDownloadMetadata({
-    host,
+  return portalPollExportJobStatus({
     downloadId,
     datasetId,
+    jobId,
+    authentication,
+    exportCreated,
     format,
+    spatialRefId,
     eventEmitter,
     pollingInterval,
-    spatialRefId,
     geometry,
-    where,
-    existingFileDate
+    where
   });
 }

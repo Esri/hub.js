@@ -6,7 +6,7 @@ import { IDomainEntry } from "./types";
 
 /**
  * Create an entry in the domain system
- * @param {IHubDomain} domainEntry Doman object to be stored
+ * @param {IHubDomain} domainEntry Domain hash to be stored
  * @param {IHubRequestOptions} hubRequestOptions
  */
 export function addDomain(
