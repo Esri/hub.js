@@ -7,7 +7,27 @@ const userFieldsFragment = gql`
   fragment userFields on User {
     username
     lastHubSession
+    firstName
+    lastName
+    fullName
+    visitsLast30Days
+    visitsLast60Days
     groups {
+      id
+      memberType
+      title
+    }
+    followedInitiatives {
+      id
+      memberType
+      title
+    }
+    registeredEvents {
+      id
+      memberType
+      title
+    }
+    teams {
       id
       memberType
       title

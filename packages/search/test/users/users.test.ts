@@ -15,6 +15,45 @@ import {
 } from "../../src/users/queries";
 import { GraphQLClient } from "graphql-request";
 
+const userMock1 = {
+  username: "robadmin",
+  lastHubSession: 1610938045879,
+  firstName: "Robert",
+  lastName: "Steilberg",
+  visitsLast30Days: 20,
+  visitsLast60Days: 30,
+  groups: [{ id: 1, memberType: "admin", title: "foo" }],
+  followedInitiatives: [{ id: 2, memberType: "owner", title: "bar" }],
+  registeredEvents: [{ id: 3, memberType: "member", title: "baz" }],
+  teams: [{ id: 4, memberType: "nothing", title: "snap" }]
+};
+
+const userMock2 = {
+  username: "cpgruber",
+  lastHubSession: 1610391035879,
+  firstName: "Chase",
+  lastName: "Gruber",
+  visitsLast30Days: 30,
+  visitsLast60Days: 50,
+  groups: [{ id: 241, memberType: "admin", title: "foo" }],
+  followedInitiatives: [{ id: 12, memberType: "owner", title: "ok" }],
+  registeredEvents: [{ id: 33, memberType: "member", title: "baz" }],
+  teams: [{ id: 43, memberType: "nothing", title: "ok" }]
+};
+
+const userMock3 = {
+  username: "cory_pac",
+  lastHubSession: 1632199045879,
+  firstName: "Cory",
+  lastName: "In the House",
+  visitsLast30Days: 26,
+  visitsLast60Days: 70,
+  groups: [{ id: 1, memberType: "admin", title: "foo" }],
+  followedInitiatives: [{ id: 2, memberType: "owner", title: "bar" }],
+  registeredEvents: [{ id: 3, memberType: "owner", title: "baz" }],
+  teams: [{ id: 5, memberType: "member", title: "another" }]
+};
+
 describe("user service", () => {
   const portalUrl = "http://arcgis.com/sharing/rest";
 
@@ -35,7 +74,7 @@ describe("user service", () => {
       createSession: {
         username: "robadmin",
         url: portalUrl,
-        ipAddress: "10.0.1.163"
+        ipAddress: "0.0.0.0"
       }
     };
 
@@ -75,11 +114,7 @@ describe("user service", () => {
 
   it("gets self", async () => {
     const rawResponse = {
-      self: {
-        username: "robadmin",
-        lastHubSession: 1610938045879,
-        groups: ["3ef"]
-      }
+      self: userMock1
     };
 
     const api: GraphQLClient = new GraphQLClient("foo");
@@ -120,18 +155,13 @@ describe("user service", () => {
         totalCount: 2,
         edges: [
           {
-            node: {
-              username: "chasegruberdev",
-              lastHubSession: 1607758563256,
-              groups: ["3ef"]
-            }
+            node: userMock1
           },
           {
-            node: {
-              username: "cory_pac",
-              lastHubSession: 1607818445225,
-              groups: []
-            }
+            node: userMock2
+          },
+          {
+            node: userMock3
           }
         ],
         pageInfo: {
@@ -174,18 +204,7 @@ describe("user service", () => {
     expect(typeof next).toEqual("function");
     expect(props).toEqual({
       total: 2,
-      results: [
-        {
-          username: "chasegruberdev",
-          lastHubSession: 1607758563256,
-          groups: ["3ef"]
-        },
-        {
-          username: "cory_pac",
-          lastHubSession: 1607818445225,
-          groups: []
-        }
-      ],
+      results: [userMock1, userMock2, userMock3],
       hasNext: false
     });
     expect(spy.calls.count()).toEqual(1);
@@ -197,11 +216,7 @@ describe("user service", () => {
         totalCount: 1,
         edges: [
           {
-            node: {
-              username: "chasegruberdev",
-              lastHubSession: 1607758563256,
-              groups: ["3ef"]
-            }
+            node: userMock1
           }
         ],
         pageInfo: {
@@ -248,13 +263,7 @@ describe("user service", () => {
     expect(typeof next).toEqual("function");
     expect(props).toEqual({
       total: 1,
-      results: [
-        {
-          username: "chasegruberdev",
-          lastHubSession: 1607758563256,
-          groups: ["3ef"]
-        }
-      ],
+      results: [userMock1],
       hasNext: false
     });
     expect(spy.calls.count()).toEqual(1);
@@ -266,11 +275,7 @@ describe("user service", () => {
         totalCount: 2,
         edges: [
           {
-            node: {
-              username: "chasegruberdev",
-              lastHubSession: 1607758563256,
-              groups: ["3ef"]
-            }
+            node: userMock1
           }
         ],
         pageInfo: {
@@ -285,11 +290,7 @@ describe("user service", () => {
         totalCount: 2,
         edges: [
           {
-            node: {
-              username: "cory_pac",
-              lastHubSession: 1607818445225,
-              groups: ["4ef"]
-            }
+            node: userMock2
           }
         ],
         pageInfo: {
@@ -321,13 +322,7 @@ describe("user service", () => {
     const { next, ...props } = await service.searchUsers(filter);
     expect(props).toEqual({
       total: 2,
-      results: [
-        {
-          username: "chasegruberdev",
-          lastHubSession: 1607758563256,
-          groups: ["3ef"]
-        }
-      ],
+      results: [userMock1],
       hasNext: true
     });
 
@@ -335,13 +330,7 @@ describe("user service", () => {
     expect(await nextNext()).toBeNull();
     expect(nextProps).toEqual({
       total: 2,
-      results: [
-        {
-          username: "cory_pac",
-          lastHubSession: 1607818445225,
-          groups: ["4ef"]
-        }
-      ],
+      results: [userMock2],
       hasNext: false
     });
 
