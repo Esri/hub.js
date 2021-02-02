@@ -36,7 +36,8 @@ function validateContentFromDataset(
     "url",
     "access",
     "size",
-    "commentsEnabled"
+    "commentsEnabled",
+    "contentStatus"
     // TODO: what about the others that will be undefined?
   ];
   // should have set item properties
