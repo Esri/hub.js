@@ -155,6 +155,7 @@ export function datasetToItem(dataset: DatasetResource): IItem {
     thumbnail,
     extent,
     categories,
+    contentStatus,
     // the Hub API doesn't currently return spatialReference
     spatialReference,
     // the Hub API doesn't currently return accessInformation
@@ -216,6 +217,7 @@ export function datasetToItem(dataset: DatasetResource): IItem {
     // we store item.extent in attributes.extent.coordinates
     extent: extent && extent.coordinates,
     categories,
+    contentStatus,
     spatialReference: spatialReference || serviceSpatialReference,
     accessInformation,
     licenseInfo,
