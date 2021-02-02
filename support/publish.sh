@@ -22,7 +22,7 @@ git tag v$VERSION
 # git push -f --tags
 
 # publish each package on npm
-lerna publish --skip-git --yes --repo-version $VERSION --force-publish=*
+# lerna publish --skip-git --yes --repo-version $VERSION --force-publish=*
 
 # create a ZIP archive of the dist files
 TEMP_FOLDER=hub-js-v$VERSION;
