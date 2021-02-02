@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-downloads",
-  "version": "7.0.1",
+  "version": "7.0.2",
   "description": "Service for Hub downloads",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/downloads.umd.js",
