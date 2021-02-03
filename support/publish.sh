@@ -22,17 +22,17 @@ git push -f https://github.com/Esri/hub.js.git master
 git push -f --tags
 
 # publish each package on npm
-# lerna publish --skip-git --yes --repo-version $VERSION --force-publish=*
+lerna publish --skip-git --yes --repo-version $VERSION --force-publish=*
 
 # create a ZIP archive of the dist files
-# TEMP_FOLDER=hub-js-v$VERSION;
-# mkdir $TEMP_FOLDER
-# cp packages/*/dist/umd/* $TEMP_FOLDER
-# zip -r $TEMP_FOLDER.zip $TEMP_FOLDER
-# rm -rf $TEMP_FOLDER
+TEMP_FOLDER=hub-js-v$VERSION;
+mkdir $TEMP_FOLDER
+cp packages/*/dist/umd/* $TEMP_FOLDER
+zip -r $TEMP_FOLDER.zip $TEMP_FOLDER
+rm -rf $TEMP_FOLDER
 
 # # Run gh-release to create a new release with our changelog changes and ZIP archive
-# gh-release --t v$VERSION --repo hub.js --owner Esri -a $TEMP_FOLDER.zip
+gh-release --t v$VERSION --repo hub.js --owner Esri -a $TEMP_FOLDER.zip
 
 # # Delete the ZIP archive
-# rm $TEMP_FOLDER.zip
+rm $TEMP_FOLDER.zip
