@@ -1,6 +1,6 @@
 name: build-test
 
-on: 
+on:
   push:
     branches:
       - master
@@ -11,10 +11,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     strategy:
       matrix:
-        node-version: [10.x]
+        node-version: [12.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -30,8 +30,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
-            ${{ runner.os }}-          
-      - run: npm install         
+            ${{ runner.os }}-
+      - run: npm install
       - run: npm run bootstrap
       - run: npm run test:ci
         env:
