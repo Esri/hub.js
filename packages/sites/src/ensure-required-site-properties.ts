@@ -65,7 +65,8 @@ export function ensureRequiredSiteProperties(
     "document_iframes",
     "items_view",
     "app_page",
-    "globalNav"
+    "globalNav",
+    "downloadSidebar"
   ];
   if (!isPortal) {
     caps.push("socialSharing");
