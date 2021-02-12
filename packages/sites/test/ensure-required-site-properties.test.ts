@@ -109,4 +109,21 @@ describe("ensureRequiredSiteProperties", () => {
     );
     expect(chk.data.values.capabilities).not.toContain("socialSharing");
   });
+
+  it("ensures properties - default capabilities", function() {
+    const model = ({
+      item: {},
+      data: {
+        values: {
+          subdomain: "name-org",
+          defaultHostname: "name-org.hub.arcgis.com",
+          customHostname: "my-site.com",
+          pages: [{ id: "bc2", slug: "about" }]
+        }
+      }
+    } as unknown) as IModel;
+
+    const chk = ensureRequiredSiteProperties(model, "vader");
+    expect(chk.data.values.capabilities).toContain("downloadSidebar");
+  });
 });
