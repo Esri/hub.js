@@ -25,7 +25,7 @@ export function exportSuccessHandler(params: any): Promise<any> {
   return updateItem({
     item: {
       id: downloadId,
-      typeKeywords: `export:${datasetId},modified:${exportCreated},spatialRefId:${spatialRefId}`
+      typekeywords: `export:${datasetId},modified:${exportCreated},spatialRefId:${spatialRefId}`
     },
     authentication
   })
