@@ -56,7 +56,7 @@ describe("portalPollExportJobStatus", () => {
           {
             item: {
               id: "download-id",
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:undefined`
+              typekeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:undefined`
             },
             authentication
           }
@@ -103,7 +103,7 @@ describe("portalPollExportJobStatus", () => {
           {
             item: {
               id: "download-id",
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:undefined`
+              typekeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:undefined`
             },
             authentication
           }
@@ -163,7 +163,7 @@ describe("portalPollExportJobStatus", () => {
           {
             item: {
               id: "download-id",
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:undefined`
+              typekeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:undefined`
             },
             authentication
           }
@@ -231,7 +231,7 @@ describe("portalPollExportJobStatus", () => {
           {
             item: {
               id: "download-id",
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:undefined`
+              typekeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:undefined`
             },
             authentication
           }
@@ -308,7 +308,7 @@ describe("portalPollExportJobStatus", () => {
           {
             item: {
               id: "download-id",
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:undefined`
+              typekeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:undefined`
             },
             authentication
           }
@@ -411,7 +411,7 @@ describe("portalPollExportJobStatus", () => {
           {
             item: {
               id: "download-id",
-              typeKeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:undefined`
+              typekeywords: `export:abcdef0123456789abcdef0123456789_0,modified:1000,spatialRefId:undefined`
             },
             authentication
           }
