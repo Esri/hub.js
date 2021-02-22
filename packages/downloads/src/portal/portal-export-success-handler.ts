@@ -22,10 +22,15 @@ export function exportSuccessHandler(params: any): Promise<any> {
     authentication
   } = params;
 
+  const [itemId, layerId] = datasetId.split("_");
+  const exportKeyword = layerId
+    ? `exportItem:${itemId},exportLayer:${layerId}`
+    : `exportItem:${itemId},exportLayer:null`;
+
   return updateItem({
     item: {
       id: downloadId,
-      typekeywords: `export:${datasetId},modified:${exportCreated},spatialRefId:${spatialRefId}`
+      typekeywords: `${exportKeyword},modified:${exportCreated},spatialRefId:${spatialRefId}`
     },
     authentication
   })

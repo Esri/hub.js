@@ -48,6 +48,9 @@ export function portalRequestDownloadMetadata(
   const { datasetId, authentication, format, spatialRefId, target } = params;
 
   const [itemId, layerId] = datasetId.split("_");
+  const exportKeyword = layerId
+    ? `exportItem:${itemId},exportLayer:${layerId}`
+    : `exportItem:${itemId},exportLayer:null`;
   let serviceLastEditDate: number | undefined;
   let itemModifiedDate: number;
   let itemType: string;
@@ -70,7 +73,7 @@ export function portalRequestDownloadMetadata(
       const { modified, format: searchFormat } = metadata;
       serviceLastEditDate = modified;
       return searchItems({
-        q: `type:"${searchFormat}" AND typekeywords:"export:${datasetId},spatialRefId:${spatialRefId}"`,
+        q: `type:"${searchFormat}" AND typekeywords:"${exportKeyword},spatialRefId:${spatialRefId}"`,
         num: 1,
         sortField: "modified",
         sortOrder: "DESC",
