@@ -6,17 +6,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [7.0.8] - February 24th 2021
-* Bug Fixes
-   * **downloadss**: Alter `typekeywords` for item and layer index so that search queries don't fail for datasets with layer index `1` (#472) [`19da868`](https://github.com/Esri/hub.js/commit/19da86833a91dd007384ef1887081e17568c9e9e)
 
-## [7.0.7] - February 23rd 2021
+- Bug Fixes
+  - **downloadss**: Alter `typekeywords` for item and layer index so that search queries don't fail for datasets with layer index `1` (#472) [`19da868`](https://github.com/Esri/hub.js/commit/19da86833a91dd007384ef1887081e17568c9e9e)
+
+## [7.0.7] - February 22nd 2021
+
+- Bug Fixes
+  - **commmon**: Export `OperationStack` and `OperationError` which were added months ago, but just not exported
 
 ## [7.0.6] - February 18th 2021
 
 ### Other Changes
 
-* Bug Fixes
-   * **downloadss**: use key `typekeywords` in POSTs to Portal /update (#470) [`5c54d6d`](https://github.com/Esri/hub.js/commit/5c54d6d328e45e90cea34c622d4be7cb4ea5489f)
+- Bug Fixes
+  - **downloadss**: use key `typekeywords` in POSTs to Portal /update (#470) [`5c54d6d`](https://github.com/Esri/hub.js/commit/5c54d6d328e45e90cea34c622d4be7cb4ea5489f)
 
 ## [7.0.5] - February 3rd 2021
 
@@ -35,8 +39,8 @@ Attempt to address failed release
 
 ### Other Changes
 
-* Bug Fixes
-   * **sites**: remove download sidepanel capability from the site template (#461) [`c7b514ee`](https://github.com/Esri/hub.js/commit/c7b514eeecceb63c8abca1a012343c56f8d4b7e4)
+- Bug Fixes
+  - **sites**: remove download sidepanel capability from the site template (#461) [`c7b514ee`](https://github.com/Esri/hub.js/commit/c7b514eeecceb63c8abca1a012343c56f8d4b7e4)
 
 ## [7.0.1] - January 27th 2021
 
@@ -47,15 +51,15 @@ Attempt to address failed release
 
 ### Other Changes
 
-* Code Style
-   * **use hostname instead of domain prop on domain entry**: use hostname instead of domain prop on d [`d62e0002`](https://github.com/Esri/hub.js/commit/d62e00021a097051b6178a33ed64ef1cfb1c200e)
+- Code Style
+  - **use hostname instead of domain prop on domain entry**: use hostname instead of domain prop on d [`d62e0002`](https://github.com/Esri/hub.js/commit/d62e00021a097051b6178a33ed64ef1cfb1c200e)
 
 ## [6.24.0] - January 26th 2021
 
 - New Features
   - **downloads**: add support of ready_unknown status for portal (#458) [`4fe9f2914`](https://github.com/Esri/hub.js/commit/f4fe9f291446406e65282f2fdfbdc633cec85d75)
-  - **downloads**:  added target change to allow locking of private non-enterprise datasets [`6596ac96c`](https://github.com/Esri/hub.js/commit/6596ac96c1dda7464a573b03673cf19377abf681)
-  - **sites**: enable the new download sidebar capability by default (#460)  [`9441efc30`](https://github.com/Esri/hub.js/commit/9441efc301ad5e235f187707b96f0cefca23ef28)
+  - **downloads**: added target change to allow locking of private non-enterprise datasets [`6596ac96c`](https://github.com/Esri/hub.js/commit/6596ac96c1dda7464a573b03673cf19377abf681)
+  - **sites**: enable the new download sidebar capability by default (#460) [`9441efc30`](https://github.com/Esri/hub.js/commit/9441efc301ad5e235f187707b96f0cefca23ef28)
 
 ## [6.23.0] - January 22nd 2021
 
@@ -66,8 +70,8 @@ Attempt to address failed release
 
 ### Other Changes
 
-* Bug Fixes
-   * **annotations**: throw error when all adds or updates fail [`e1c08555`](https://github.com/Esri/hub.js/commit/e1c08555d43ace22ff423bf9456d824515563b2c) [#430](https://github.com/Esri/hub.js/issues/430)
+- Bug Fixes
+  - **annotations**: throw error when all adds or updates fail [`e1c08555`](https://github.com/Esri/hub.js/commit/e1c08555d43ace22ff423bf9456d824515563b2c) [#430](https://github.com/Esri/hub.js/issues/430)
 
 ## [6.22.2] - January 12th 2021
 
@@ -604,11 +608,7 @@ Attempt to address failed release
 
 ## [4.1.0] - May 21st 2020
 
-
-
 ## [4.0.0] - May 20th 2020
-
-
 
 ## [3.9.3] - May 14th 2020
 
@@ -646,8 +646,6 @@ Attempt to address failed release
   - **peerDependencies**: fix invalid peerDependencies [`08fae37`](https://github.com/Esri/hub.js/commit/08fae37875aa3e68a82970a54eedcbe13ef001a8) [#251](https://github.com/Esri/hub.js/issues/251)
 
 ## [3.9.1] - May 6th 2020
-
-
 
 ## [3.9.0] - May 6th 2020
 
@@ -689,8 +687,6 @@ Attempt to address failed release
 
 ## [3.7.4] - April 30th 2020
 
-
-
 ## [3.7.3] - April 29th 2020
 
 - New Features
@@ -701,8 +697,6 @@ Attempt to address failed release
 ### @esri/hub-common
 
 ## [3.7.1] - April 28th 2020
-
-
 
 ## [3.7.0] - April 28th 2020
 
@@ -758,11 +752,7 @@ Attempt to address failed release
 
 ## [3.6.3] - January 27th 2020
 
-
-
 ## [3.6.2] - January 2nd 2020
-
-
 
 ## [3.6.0] - November 18th 2019
 
@@ -856,8 +846,6 @@ Attempt to address failed release
   - **search**: support filters specified implicitly
 
 ## [2.6.0] - August 20th 2019
-
-
 
 ## [2.5.0] - August 15th 2019
 
@@ -1409,5 +1397,9 @@ Initial Release
 [7.0.5]: https://github.com/Esri/hub.js/compare/v7.0.4...v7.0.5 "v7.0.5"
 [7.0.6]: https://github.com/Esri/hub.js/compare/v7.0.5...v7.0.6 "v7.0.6"
 [7.0.7]: https://github.com/Esri/hub.js/compare/v7.0.6...v7.0.7 "v7.0.7"
+<<<<<<< HEAD
 [7.0.8]: https://github.com/Esri/hub.js/compare/v7.0.7...v7.0.8 "v7.0.7"
-[HEAD]: https://github.com/Esri/hub.js/compare/v7.0.7...HEAD "Unreleased Changes"
+=======
+
+> > > > > > > b939cf0e (v7.0.7)
+> > > > > > > [HEAD]: https://github.com/Esri/hub.js/compare/v7.0.7...HEAD "Unreleased Changes"
