@@ -3,7 +3,7 @@
  * where label is a value for a fieldname type for which aggregations were requested
  * and value is the aggregation value
  */
-interface IAggregation {
+export interface IAggregation {
   label: string;
   value: number;
 }

@@ -1,29 +1,35 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { getHubApiUrl } from "@esri/hub-common";
-import { ISearchOptions } from "@esri/arcgis-rest-portal";
+import { getHubApiUrl, getProp } from "@esri/hub-common";
+import { IItem, ISearchOptions, ISearchResult } from "@esri/arcgis-rest-portal";
 import { searchItems } from "@esri/arcgis-rest-portal";
-import { IContentSearchRequest } from "../types/content";
+import {
+  IContentSearchRequest,
+  IContentSearchResponse
+} from "../types/content";
 import { ISearchService, ISearchServiceParams } from "../types/search-service";
 import { convertToPortalParams } from "./helpers/convert-request-to-portal-params";
 import { convertToHubParams } from "./helpers/convert-request-to-hub-params";
 import { ISearchParams } from "../ago/params";
 import { hubApiRequest } from "@esri/hub-common";
+import { convertPortalResponse } from "./helpers/convert-portal-response";
+import { convertHubResponse } from "./helpers/convert-hub-response";
 
 export class ContentSearchService
-  implements ISearchService<IContentSearchRequest, any> {
-  private portalUrl: string;
+  implements
+    ISearchService<IContentSearchRequest, Promise<IContentSearchResponse>> {
+  private portalSharingUrl: string;
   private isPortal: boolean;
   private hubApiUrl: string;
   private session: UserSession;
 
   constructor(params: ISearchServiceParams) {
-    this.portalUrl = params.portalUrl;
+    this.portalSharingUrl = params.portalSharingUrl;
     this.isPortal = params.isPortal;
-    this.hubApiUrl = getHubApiUrl(this.portalUrl);
+    this.hubApiUrl = getHubApiUrl(this.portalSharingUrl);
     this.session = params.session;
   }
 
-  search(request: IContentSearchRequest): any {
+  search(request: IContentSearchRequest): Promise<IContentSearchResponse> {
     if (this.isPortal) {
       return this.enterpriseSearch(request);
     }
@@ -32,37 +38,35 @@ export class ContentSearchService
 
   private enterpriseSearch(
     request: IContentSearchRequest = { filter: {}, options: {} }
-  ): any {
-    const requestParams: ISearchOptions = convertToPortalParams(request);
-    requestParams.authentication =
-      request && request.options && request.options.session
-        ? request.options.session
-        : this.session;
-    requestParams.portalUrl =
-      request && request.options && request.options.portal
-        ? request.options.portal
-        : this.portalUrl;
-    requestParams.httpMethod = "POST";
-    return searchItems(requestParams);
+  ): Promise<IContentSearchResponse> {
+    const requestParams: ISearchOptions = convertToPortalParams(
+      request,
+      this.portalSharingUrl,
+      this.session
+    );
+    return searchItems(requestParams).then((response: ISearchResult<IItem>) =>
+      convertPortalResponse(requestParams, response)
+    );
   }
 
   private onlineSearch(
     request: IContentSearchRequest = { filter: {}, options: {} }
-  ): any {
+  ): Promise<IContentSearchResponse> {
     const requestParams: ISearchParams = convertToHubParams(request);
-    const authentication =
-      request && request.options && request.options.session
-        ? request.options.session
-        : this.session;
+    const authentication = getProp(request, "options.session") || this.session;
     return hubApiRequest("/search", {
       hubApiUrl: this.hubApiUrl,
       authentication,
-      isPortal: this.isPortal,
+      isPortal: false,
       headers: {
-        authentication: JSON.stringify(authentication)
+        authentication: authentication
+          ? JSON.stringify(authentication)
+          : undefined
       },
       httpMethod: "POST",
       params: requestParams
-    });
+    }).then((response: any) =>
+      convertHubResponse(requestParams, response, authentication)
+    );
   }
 }

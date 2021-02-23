@@ -337,4 +337,23 @@ describe("Convert Hub Params Function", () => {
     expect(hubParams.fields).toBeDefined();
     expect(hubParams.fields.datasets).toEqual("id,name,created,modified");
   });
+
+  it("can properly create a term only search", () => {
+    // Setup
+    const filters: IContentSearchFilter = {
+      terms: "water"
+    };
+
+    // Test
+    const hubParams = convertToHubParams({ filter: filters });
+
+    // Assert
+    expect(hubParams).toBeDefined();
+    expect(hubParams.q).toEqual("water");
+    expect(hubParams.filter).toBeUndefined();
+    expect(hubParams.catalog).toBeUndefined();
+    expect(hubParams.sort).toBeUndefined();
+    expect(hubParams.agg).toBeUndefined();
+    expect(hubParams.fields).toBeUndefined();
+  });
 });

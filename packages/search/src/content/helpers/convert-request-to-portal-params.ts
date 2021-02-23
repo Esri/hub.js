@@ -1,4 +1,5 @@
 import { IPagingParams, ISearchOptions } from "@esri/arcgis-rest-portal";
+import { UserSession } from "@esri/arcgis-rest-auth";
 import {
   IBooleanOperator,
   IContentSearchFilter,
@@ -8,10 +9,10 @@ import {
 } from "../../types/content";
 import { IDateRange } from "../../types/common";
 import {
-  decodePage,
   isFilterAnArray,
   isFilterAString,
-  isFilterFieldADateRange
+  isFilterFieldADateRange,
+  processPage
 } from "./common";
 
 const TERM_FIELD = "terms";
@@ -27,11 +28,19 @@ const STRING_ENCLOSED_FILTER_FIELDS = [
 ];
 
 export function convertToPortalParams(
-  request: IContentSearchRequest
+  request: IContentSearchRequest,
+  servicePortalSharingUrl?: string,
+  serviceSession?: UserSession
 ): ISearchOptions {
   const q: string = processFilter(request);
   const paging: IPagingParams = processPage(request);
-  return createSearchOptions(q, paging, request.options);
+  return createSearchOptions(
+    q,
+    paging,
+    request.options,
+    servicePortalSharingUrl,
+    serviceSession
+  );
 }
 
 function processFilter(request: IContentSearchRequest): string {
@@ -49,21 +58,12 @@ function processFilter(request: IContentSearchRequest): string {
   return filtersWithDefaults.join(" AND ").trim();
 }
 
-function processPage(request: IContentSearchRequest): IPagingParams {
-  const options: IContentSearchOptions = request.options || {};
-  const providedPage: IPagingParams | string = options.page || {
-    start: 1,
-    num: 10
-  };
-  return typeof providedPage === "string"
-    ? decodePage(providedPage)
-    : providedPage;
-}
-
 function createSearchOptions(
   q: string,
   page: IPagingParams,
-  options: IContentSearchOptions = {}
+  options: IContentSearchOptions = {},
+  servicePortalSharingUrl?: string,
+  serviceSession?: UserSession
 ): ISearchOptions {
   return {
     q,
@@ -73,7 +73,10 @@ function createSearchOptions(
     num: page.num,
     countFields: options.aggregations,
     countSize: options.aggregations ? 200 : undefined,
-    bbox: options.bbox
+    bbox: options.bbox,
+    portal: options.portalSharingUrl || servicePortalSharingUrl,
+    authentication: options.session || serviceSession,
+    httpMethod: "POST"
   };
 }
 

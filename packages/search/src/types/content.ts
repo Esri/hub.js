@@ -1,7 +1,12 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { IPagingParams } from "@esri/arcgis-rest-portal";
-import { IDateRange, SortDirection } from "./common";
-import { ISearchRequest } from "./request";
+import { IAggregationResult } from "../util/aggregations/merge-aggregations";
+import {
+  IDateRange,
+  SortDirection,
+  ISearchRequest,
+  ISearchResponse
+} from "./common";
 
 export enum IBooleanOperator {
   AND = "AND",
@@ -38,7 +43,7 @@ export interface IContentSearchFilter {
 
 export interface IContentSearchOptions {
   session?: UserSession;
-  portal?: string;
+  portalSharingUrl?: string;
   sortField?: string;
   sortOrder?: SortDirection;
   page?: string | IPagingParams;
@@ -49,3 +54,13 @@ export interface IContentSearchOptions {
 
 export interface IContentSearchRequest
   extends ISearchRequest<IContentSearchFilter, IContentSearchOptions> {}
+
+export interface IContentAggregations {
+  counts: IAggregationResult[];
+}
+
+export interface IContentSearchResponse extends ISearchResponse<any> {
+  query: string;
+  count: number;
+  aggregations?: IContentAggregations;
+}

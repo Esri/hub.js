@@ -172,12 +172,12 @@ function isFilterACatalogFilter(filterField: string) {
 }
 
 function createSort(sortField: string, sortOrder: string): string {
-  if (!sortField) {
+  if (!sortField || sortField.toLowerCase() === "relevance") {
     return undefined;
   }
-
+  const hubSortField = PROP_MAP[sortField] ? PROP_MAP[sortField] : sortField;
   const order = sortOrder && sortOrder.toLowerCase() === "desc" ? "-" : "";
-  return `${order}${sortField}`;
+  return `${order}${hubSortField}`;
 }
 
 function getAggregations(aggregations: string) {
