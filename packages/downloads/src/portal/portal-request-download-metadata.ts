@@ -48,8 +48,9 @@ export function portalRequestDownloadMetadata(
   const { datasetId, authentication, format, spatialRefId, target } = params;
 
   const [itemId, layerId] = datasetId.split("_");
+  // Layer Id's need to be padded with 0 so that /search results are predictable. Searches for exportLayer:1 don't work.
   const exportKeyword = layerId
-    ? `exportItem:${itemId},exportLayer:${layerId}`
+    ? `exportItem:${itemId},exportLayer:0${layerId}`
     : `exportItem:${itemId},exportLayer:null`;
   let serviceLastEditDate: number | undefined;
   let itemModifiedDate: number;

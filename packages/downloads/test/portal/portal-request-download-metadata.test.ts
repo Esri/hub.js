@@ -355,7 +355,7 @@ describe("portalRequestDownloadMetadata", () => {
             authentication,
             num: 1,
             q:
-              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:0,spatialRefId:undefined"',
+              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:00,spatialRefId:undefined"',
             sortField: "modified",
             sortOrder: "DESC"
           }
@@ -443,7 +443,7 @@ describe("portalRequestDownloadMetadata", () => {
             authentication,
             num: 1,
             q:
-              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:0,spatialRefId:undefined"',
+              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:00,spatialRefId:undefined"',
             sortField: "modified",
             sortOrder: "DESC"
           }
@@ -531,7 +531,7 @@ describe("portalRequestDownloadMetadata", () => {
             authentication,
             num: 1,
             q:
-              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:0,spatialRefId:undefined"',
+              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:00,spatialRefId:undefined"',
             sortField: "modified",
             sortOrder: "DESC"
           }
@@ -620,7 +620,7 @@ describe("portalRequestDownloadMetadata", () => {
             authentication,
             num: 1,
             q:
-              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:0,spatialRefId:undefined"',
+              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:00,spatialRefId:undefined"',
             sortField: "modified",
             sortOrder: "DESC"
           }
@@ -709,7 +709,7 @@ describe("portalRequestDownloadMetadata", () => {
             authentication,
             num: 1,
             q:
-              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:0,spatialRefId:undefined"',
+              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:00,spatialRefId:undefined"',
             sortField: "modified",
             sortOrder: "DESC"
           }
@@ -971,7 +971,7 @@ describe("portalRequestDownloadMetadata", () => {
             authentication,
             num: 1,
             q:
-              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:0,spatialRefId:undefined"',
+              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:00,spatialRefId:undefined"',
             sortField: "modified",
             sortOrder: "DESC"
           }
@@ -1578,7 +1578,7 @@ describe("portalRequestDownloadMetadata", () => {
             authentication,
             num: 1,
             q:
-              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:0,spatialRefId:undefined"',
+              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:00,spatialRefId:undefined"',
             sortField: "modified",
             sortOrder: "DESC"
           }
@@ -1683,7 +1683,7 @@ describe("portalRequestDownloadMetadata", () => {
             authentication,
             num: 1,
             q:
-              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:0,spatialRefId:undefined"',
+              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:00,spatialRefId:undefined"',
             sortField: "modified",
             sortOrder: "DESC"
           }
@@ -1789,7 +1789,7 @@ describe("portalRequestDownloadMetadata", () => {
             authentication,
             num: 1,
             q:
-              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:0,spatialRefId:undefined"',
+              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:00,spatialRefId:undefined"',
             sortField: "modified",
             sortOrder: "DESC"
           }
@@ -1895,7 +1895,7 @@ describe("portalRequestDownloadMetadata", () => {
             authentication,
             num: 1,
             q:
-              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:0,spatialRefId:undefined"',
+              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:00,spatialRefId:undefined"',
             sortField: "modified",
             sortOrder: "DESC"
           }
@@ -1999,7 +1999,7 @@ describe("portalRequestDownloadMetadata", () => {
             authentication,
             num: 1,
             q:
-              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:0,spatialRefId:undefined"',
+              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:00,spatialRefId:undefined"',
             sortField: "modified",
             sortOrder: "DESC"
           }
@@ -2103,7 +2103,7 @@ describe("portalRequestDownloadMetadata", () => {
             authentication,
             num: 1,
             q:
-              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:0,spatialRefId:undefined"',
+              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:00,spatialRefId:undefined"',
             sortField: "modified",
             sortOrder: "DESC"
           }
@@ -2208,7 +2208,7 @@ describe("portalRequestDownloadMetadata", () => {
             authentication,
             num: 1,
             q:
-              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:0,spatialRefId:undefined"',
+              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:00,spatialRefId:undefined"',
             sortField: "modified",
             sortOrder: "DESC"
           }
@@ -2313,7 +2313,7 @@ describe("portalRequestDownloadMetadata", () => {
             authentication,
             num: 1,
             q:
-              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:0,spatialRefId:undefined"',
+              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:00,spatialRefId:undefined"',
             sortField: "modified",
             sortOrder: "DESC"
           }
