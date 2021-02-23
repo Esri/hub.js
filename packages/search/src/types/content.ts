@@ -46,7 +46,7 @@ export interface IContentSearchOptions {
   portalSharingUrl?: string;
   sortField?: string;
   sortOrder?: SortDirection;
-  page?: string | IPagingParams;
+  page?: string;
   aggregations?: string;
   bbox?: string;
   fields?: string;

@@ -1,3 +1,5 @@
+import { decode } from "base-64";
+import { Logger } from "@esri/hub-common";
 import { IPagingParams, ISearchOptions } from "@esri/arcgis-rest-portal";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import {
@@ -11,8 +13,7 @@ import { IDateRange } from "../../types/common";
 import {
   isFilterAnArray,
   isFilterAString,
-  isFilterFieldADateRange,
-  processPage
+  isFilterFieldADateRange
 } from "./common";
 
 const TERM_FIELD = "terms";
@@ -56,6 +57,17 @@ function processFilter(request: IContentSearchRequest): string {
   );
   const filtersWithDefaults = addDefaultFilters(filters);
   return filtersWithDefaults.join(" AND ").trim();
+}
+
+export function processPage(request: IContentSearchRequest): IPagingParams {
+  const options: IContentSearchOptions = request.options || {};
+  const providedPage: IPagingParams | string = options.page || {
+    start: 1,
+    num: 10
+  };
+  return typeof providedPage === "string"
+    ? decodePage(providedPage)
+    : providedPage;
 }
 
 function createSearchOptions(
@@ -153,4 +165,19 @@ function stringifyFilterValue(
 
 function isValidFilterKey(request: IContentSearchFilter, filterField: string) {
   return request[filterField];
+}
+
+export function decodePage(page: string): IPagingParams {
+  try {
+    if (!page) {
+      return undefined;
+    }
+    const decodedPage: any = decode(page);
+    return JSON.parse(decodedPage);
+  } catch (err) {
+    Logger.error(
+      `error decoding and parsing the provided page: ${page}. Defaulting to starting page`
+    );
+    return undefined;
+  }
 }

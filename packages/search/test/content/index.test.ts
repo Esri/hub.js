@@ -331,4 +331,114 @@ describe("Content Search Service", () => {
       done();
     });
   });
+
+  it("can be perform a Hub API search without a session", done => {
+    // Setup
+    const filter: IContentSearchFilter = {
+      title: ["title 1", "title 2"]
+    };
+
+    const options: IContentSearchOptions = {
+      sortField: "title"
+    };
+
+    const request: IContentSearchRequest = {
+      filter,
+      options
+    };
+
+    const documentOne: Record<string, any> = {
+      attributes: {
+        id: "12345",
+        title: "title 1",
+        type: "Feature Layer",
+        owner: "me",
+        tags: ["tag 1", "tag 2"],
+        created: 1000,
+        modified: 2000,
+        numViews: 1,
+        size: 5
+      }
+    };
+
+    const documentTwo: Record<string, any> = {
+      attributes: {
+        id: "23456",
+        title: "title 2",
+        type: "Table",
+        owner: "you",
+        tags: ["tag 3"],
+        created: 2000,
+        modified: 3000,
+        numViews: 2,
+        size: 6
+      }
+    };
+
+    const mockedResponse: Record<string, any> = {
+      data: [documentOne, documentTwo],
+      meta: {
+        queryParameters: {
+          sort: "title",
+          filter: {
+            title: "any(title 1,title 2)"
+          }
+        },
+        stats: {
+          count: 2,
+          totalCount: 2
+        }
+      }
+    };
+
+    const service: ContentSearchService = new ContentSearchService({
+      portalSharingUrl: "https://qaext.arcgis.com/sharing/rest",
+      isPortal: false
+    });
+
+    // Mock
+    const hubRequestMock = spyOn(common, "hubApiRequest").and.returnValue(
+      Promise.resolve(mockedResponse)
+    );
+
+    // Test
+    service.search(request).then(response => {
+      expect(hubRequestMock.calls.count()).toEqual(1);
+      expect(hubRequestMock.calls.argsFor(0)).toEqual([
+        "/search",
+        {
+          hubApiUrl: "https://hubqa.arcgis.com",
+          authentication: undefined,
+          isPortal: false,
+          headers: {
+            authentication: undefined
+          },
+          httpMethod: "POST",
+          params: {
+            sort: "name",
+            filter: {
+              name: "any(title 1,title 2)"
+            },
+            agg: undefined,
+            catalog: undefined,
+            fields: undefined,
+            q: undefined
+          }
+        }
+      ]);
+      const mappedAttributes: Array<
+        Record<string, any>
+      > = mockedResponse.data.map((d: Record<string, any>) => d.attributes);
+      expect(response.results).toEqual(mappedAttributes);
+      expect(response.query).toEqual(
+        JSON.stringify(mockedResponse.meta.queryParameters)
+      );
+      expect(response.total).toEqual(mockedResponse.meta.stats.totalCount);
+      expect(response.count).toEqual(mockedResponse.meta.stats.count);
+      expect(response.hasNext).toEqual(false);
+      expect(response.aggregations).toBeUndefined();
+      expect(response.next).toBeDefined();
+      done();
+    });
+  });
 });

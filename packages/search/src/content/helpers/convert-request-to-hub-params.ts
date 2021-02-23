@@ -95,7 +95,7 @@ function processCatalog(
 
 function processPage(request: IContentSearchRequest): string {
   const options: IContentSearchOptions = request.options || {};
-  return typeof options.page === "string" ? options.page : undefined;
+  return options.page;
 }
 
 function createSearchOptions(params: Record<string, any>): ISearchParams {
