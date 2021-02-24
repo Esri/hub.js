@@ -10,6 +10,10 @@ import {
   IAggregationResult
 } from "../../util/aggregations/merge-aggregations";
 
+const PROP_MAP: Record<string, string> = {
+  title: "name"
+};
+
 export function convertHubResponse(
   request: ISearchParams,
   response: any = { data: [], meta: {} },
@@ -132,7 +136,11 @@ function getResponseMetadata(
 function getAttributes(data: Record<string, any>) {
   const attributes = getProp(data, "attributes");
   if (attributes) {
-    attributes.title = attributes.name;
+    Object.keys(PROP_MAP).map((key: string) => {
+      if (PROP_MAP[key]) {
+        attributes[key] = attributes[PROP_MAP[key]];
+      }
+    });
   }
   return attributes;
 }
