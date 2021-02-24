@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Bug Fixes
    * **downloadss**: Alter `typekeywords` for item and layer index so that search queries don't fail for datasets with layer index `1` (#472) [`19da868`](https://github.com/Esri/hub.js/commit/19da86833a91dd007384ef1887081e17568c9e9e)
 
+## [7.0.7] - February 23rd 2021
+
 ## [7.0.6] - February 18th 2021
 
 ### Other Changes
@@ -1407,5 +1409,5 @@ Initial Release
 [7.0.5]: https://github.com/Esri/hub.js/compare/v7.0.4...v7.0.5 "v7.0.5"
 [7.0.6]: https://github.com/Esri/hub.js/compare/v7.0.5...v7.0.6 "v7.0.6"
 [7.0.7]: https://github.com/Esri/hub.js/compare/v7.0.6...v7.0.7 "v7.0.7"
-[7.0.7]: https://github.com/Esri/hub.js/compare/v7.0.7...v7.0.7 "v7.0.7"
+[7.0.8]: https://github.com/Esri/hub.js/compare/v7.0.7...v7.0.8 "v7.0.7"
 [HEAD]: https://github.com/Esri/hub.js/compare/v7.0.7...HEAD "Unreleased Changes"
