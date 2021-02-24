@@ -15,8 +15,8 @@ export function convertHubResponse(
   response: any = { data: [], meta: {} },
   serviceSession?: UserSession
 ): IContentSearchResponse {
-  const results: any[] = response.data.map(
-    (d: Record<string, any>) => d.attributes
+  const results: any[] = response.data.map((d: Record<string, any>) =>
+    getAttributes(d)
   );
   const { count, total, hasNext, query, aggregations } = getResponseMetadata(
     response
@@ -127,4 +127,12 @@ function getResponseMetadata(
     query,
     aggregations
   };
+}
+
+function getAttributes(data: Record<string, any>) {
+  const attributes = getProp(data, "attributes");
+  if (attributes) {
+    attributes.title = attributes.name;
+  }
+  return attributes;
 }
