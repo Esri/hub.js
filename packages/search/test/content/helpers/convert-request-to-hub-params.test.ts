@@ -40,7 +40,7 @@ describe("Convert Hub Params Function", () => {
     expect(hubParams.filter.typeKeywords).toEqual("any(a type keyword)");
     expect(hubParams.filter.tags).toEqual("any(tag 1,tag 2,tag 3)");
     expect(hubParams.filter.type).toEqual("any(Feature Layer,Table,CSV)");
-    expect(hubParams.filter.access).toEqual("any(private)");
+    expect(hubParams.filter.access).toEqual("any(myself)");
     expect(hubParams.filter.culture).toEqual("any(en,de)");
     expect(hubParams.filter.categories).toEqual(
       "all(category one,category 2,category three)"
@@ -83,7 +83,7 @@ describe("Convert Hub Params Function", () => {
     expect(hubParams.filter.typeKeywords).toEqual("any(a type keyword)");
     expect(hubParams.filter.tags).toEqual("any(tag 1,tag 2,tag 3)");
     expect(hubParams.filter.type).toEqual("any(Feature Layer,Table,CSV)");
-    expect(hubParams.filter.access).toEqual("any(private)");
+    expect(hubParams.filter.access).toEqual("any(myself)");
     expect(hubParams.filter.culture).toEqual("any(en,de)");
     expect(hubParams.filter.categories).toEqual(
       "all(category one,category 2,category three)"
@@ -128,7 +128,7 @@ describe("Convert Hub Params Function", () => {
     expect(hubParams.filter.typeKeywords).toEqual("any(a type keyword)");
     expect(hubParams.filter.tags).toEqual("any(tag 1,tag 2,tag 3)");
     expect(hubParams.filter.type).toEqual("any(Feature Layer,Table,CSV)");
-    expect(hubParams.filter.access).toEqual("any(private)");
+    expect(hubParams.filter.access).toEqual("any(myself)");
     expect(hubParams.filter.culture).toEqual("any(en,de)");
     expect(hubParams.filter.categories).toEqual(
       "all(category one,category 2,category three)"
@@ -187,7 +187,7 @@ describe("Convert Hub Params Function", () => {
     expect(hubParams.filter.typeKeywords).toEqual("any(a type keyword)");
     expect(hubParams.filter.tags).toEqual("all(tag 1,tag 2,tag 3)");
     expect(hubParams.filter.type).toEqual("any(Feature Layer)");
-    expect(hubParams.filter.access).toEqual("any(private,org)");
+    expect(hubParams.filter.access).toEqual("any(myself,organization)");
     expect(hubParams.filter.culture).toEqual("any(en)");
     expect(hubParams.filter.categories).toEqual(
       "any(category one,category 2,category three)"
@@ -259,7 +259,7 @@ describe("Convert Hub Params Function", () => {
     expect(hubParamsOne.filter.typeKeywords).toEqual("any(a type keyword)");
     expect(hubParamsOne.filter.tags).toEqual("all(tag 1,tag 2,tag 3)");
     expect(hubParamsOne.filter.type).toEqual("any(Feature Layer)");
-    expect(hubParamsOne.filter.access).toEqual("any(private,org)");
+    expect(hubParamsOne.filter.access).toEqual("any(myself,organization)");
     expect(hubParamsOne.filter.culture).toEqual("any(en)");
     expect(hubParamsOne.filter.categories).toEqual(
       "any(category one,category 2,category three)"
@@ -287,7 +287,7 @@ describe("Convert Hub Params Function", () => {
     expect(hubParamsTwo.filter.typeKeywords).toEqual("any(a type keyword)");
     expect(hubParamsTwo.filter.tags).toEqual("all(tag 1,tag 2,tag 3)");
     expect(hubParamsTwo.filter.type).toEqual("any(Feature Layer)");
-    expect(hubParamsTwo.filter.access).toEqual("any(private,org)");
+    expect(hubParamsTwo.filter.access).toEqual("any(myself,organization)");
     expect(hubParamsTwo.filter.culture).toEqual("any(en)");
     expect(hubParamsTwo.filter.categories).toEqual(
       "any(category one,category 2,category three)"
@@ -315,7 +315,7 @@ describe("Convert Hub Params Function", () => {
     expect(hubParamsThree.filter.typeKeywords).toEqual("any(a type keyword)");
     expect(hubParamsThree.filter.tags).toEqual("all(tag 1,tag 2,tag 3)");
     expect(hubParamsThree.filter.type).toEqual("any(Feature Layer)");
-    expect(hubParamsThree.filter.access).toEqual("any(private,org)");
+    expect(hubParamsThree.filter.access).toEqual("any(myself,organization)");
     expect(hubParamsThree.filter.culture).toEqual("any(en)");
     expect(hubParamsThree.filter.categories).toEqual(
       "any(category one,category 2,category three)"
@@ -369,7 +369,7 @@ describe("Convert Hub Params Function", () => {
     expect(hubParams.filter.typeKeywords).toEqual("any(a type keyword)");
     expect(hubParams.filter.tags).toEqual("all(tag 1,tag 2,tag 3)");
     expect(hubParams.filter.type).toEqual("any(Feature Layer)");
-    expect(hubParams.filter.access).toEqual("any(private,org)");
+    expect(hubParams.filter.access).toEqual("any(myself,organization)");
     expect(hubParams.filter.culture).toEqual("any(en)");
     expect(hubParams.filter.categories).toEqual(
       "any(category one,category 2,category three)"
@@ -425,7 +425,7 @@ describe("Convert Hub Params Function", () => {
     expect(hubParams.filter.typeKeywords).toEqual("any(a type keyword)");
     expect(hubParams.filter.tags).toEqual("all(tag 1,tag 2,tag 3)");
     expect(hubParams.filter.type).toEqual("any(Feature Layer)");
-    expect(hubParams.filter.access).toEqual("any(private,org)");
+    expect(hubParams.filter.access).toEqual("any(myself,organization)");
     expect(hubParams.filter.culture).toEqual("any(en)");
     expect(hubParams.filter.categories).toEqual(
       "any(category one,category 2,category three)"

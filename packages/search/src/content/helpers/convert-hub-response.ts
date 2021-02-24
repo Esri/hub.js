@@ -48,13 +48,9 @@ export function convertHubResponse(
 function mapAggregations(
   aggregations: Record<string, any>
 ): IContentAggregations {
-  return Object.keys(aggregations).reduce(
-    (contentAggs: IContentAggregations, aggType: string) => {
-      contentAggs.counts = mapCountAggregations(aggregations);
-      return contentAggs;
-    },
-    {} as IContentAggregations
-  );
+  return {
+    counts: mapCountAggregations(aggregations)
+  };
 }
 
 function mapCountAggregations(
@@ -63,7 +59,7 @@ function mapCountAggregations(
   return Object.keys(countAggs).map((aggKey: string) => {
     const aggregations: IAggregation[] = countAggs[aggKey]
       ? countAggs[aggKey].map((agg: Record<string, any>) => ({
-          label: agg.key,
+          label: agg.key.toLowerCase(),
           value: agg.docCount
         }))
       : [];

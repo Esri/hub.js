@@ -561,11 +561,11 @@ describe("Convert Hub Response function", () => {
           fieldName: "type",
           aggregations: [
             {
-              label: "Feature Layer",
+              label: "feature layer",
               value: 1
             },
             {
-              label: "Table",
+              label: "table",
               value: 1
             }
           ]
@@ -609,11 +609,11 @@ describe("Convert Hub Response function", () => {
             fieldName: "type",
             aggregations: [
               {
-                label: "Feature Layer",
+                label: "feature layer",
                 value: 1
               },
               {
-                label: "Table",
+                label: "table",
                 value: 1
               }
             ]

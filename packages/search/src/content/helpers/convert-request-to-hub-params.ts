@@ -15,12 +15,23 @@ import {
 
 const TERM_FIELD = "terms";
 const VALID_CATALOG_PROPS = ["id", "orgid", "group", "initiativeid"];
+
+// Necessary to map Portal API-supported properties to Hub Indexer Search API properties
 const PROP_MAP: Record<string, string> = {
   group: "groupIds",
   title: "name",
   typekeywords: "typeKeywords",
   orgid: "orgId",
   initiativeid: "initiativeId"
+};
+
+// Necessary to map Portal API-supported values of properties to Hub Indexer Search API properties
+const VALUE_MAP: Record<string, Record<string, string>> = {
+  access: {
+    org: "organization",
+    shared: "team",
+    private: "myself"
+  }
 };
 
 export function convertToHubParams(
@@ -101,7 +112,7 @@ function createSearchOptions(params: Record<string, any>): ISearchParams {
   const fields = getFields(options.fields);
 
   return {
-    q: params.termField,
+    q: params.termField || undefined,
     sort,
     filter: params.filter,
     catalog: params.catalog,
@@ -117,17 +128,23 @@ function convertToHubFilterClause(
   if (!filterValue) {
     return undefined;
   } else if (isFilterAString(filterValue)) {
-    return processArrayFilter([filterValue as string]);
+    return processArrayFilter(filterField, [filterValue as string]);
   } else if (isFilterAnArray(filterValue)) {
-    return processArrayFilter(filterValue as string[]);
+    return processArrayFilter(filterField, filterValue as string[]);
   } else if (isFilterFieldADateRange(filterField)) {
     return processDateField(filterValue as IDateRange<number>);
   } else {
     return processFieldFilter(filterValue as IContentFieldFilter);
   }
 
-  function processArrayFilter(filterArray: string[]): string {
-    return `any(${filterArray.join(",")})`;
+  function processArrayFilter(field: string, filterArray: string[]): string {
+    const modifiedFilterValues = filterArray.map((filter: string) => {
+      if (VALUE_MAP[field] && VALUE_MAP[field][filter]) {
+        return VALUE_MAP[field][filter];
+      }
+      return filter;
+    });
+    return `any(${modifiedFilterValues.join(",")})`;
   }
 
   function processDateField(dateFilterValue: IDateRange<number>) {
