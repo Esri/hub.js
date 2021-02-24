@@ -50,6 +50,110 @@ describe("Convert Hub Params Function", () => {
     expect(hubParams.fields).toBeUndefined();
   });
 
+  it("can handle explicitly undefined filters", () => {
+    // Setup
+    const filters: IContentSearchFilter = {
+      terms: "water",
+      owner: ["me", "you"],
+      created: { from: 1609459200000, to: 1612137600000 },
+      modified: { from: 1609459200000, to: 1612137600000 },
+      title: undefined,
+      typekeywords: "a type keyword",
+      tags: ["tag 1", "tag 2", "tag 3"],
+      type: { value: ["Feature Layer", "Table", "CSV"] },
+      access: "private",
+      culture: ["en", "de"],
+      categories: {
+        value: ["category one", "category 2", "category three"],
+        bool: IBooleanOperator.AND
+      }
+    };
+
+    // Test
+    const hubParams = convertToHubParams({ filter: filters });
+
+    // Assert
+    expect(hubParams).toBeDefined();
+    expect(hubParams.q).toEqual("water");
+    expect(hubParams.filter).toBeDefined();
+    expect(hubParams.filter.owner).toEqual("any(me,you)");
+    expect(hubParams.filter.created).toEqual("between(2021-01-01,2021-02-01)");
+    expect(hubParams.filter.modified).toEqual("between(2021-01-01,2021-02-01)");
+    expect(hubParams.filter.name).toBeUndefined();
+    expect(hubParams.filter.typeKeywords).toEqual("any(a type keyword)");
+    expect(hubParams.filter.tags).toEqual("any(tag 1,tag 2,tag 3)");
+    expect(hubParams.filter.type).toEqual("any(Feature Layer,Table,CSV)");
+    expect(hubParams.filter.access).toEqual("any(private)");
+    expect(hubParams.filter.culture).toEqual("any(en,de)");
+    expect(hubParams.filter.categories).toEqual(
+      "all(category one,category 2,category three)"
+    );
+    expect(hubParams.sort).toBeUndefined();
+    expect(hubParams.agg).toBeUndefined();
+    expect(hubParams.fields).toBeUndefined();
+  });
+
+  it("can handle partially applied created/modified filters", () => {
+    // Setup
+    const filters: IContentSearchFilter = {
+      terms: "water",
+      owner: ["me", "you"],
+      created: { from: 1609459200000 },
+      modified: { to: 1612137600000 },
+      title: undefined,
+      typekeywords: "a type keyword",
+      tags: ["tag 1", "tag 2", "tag 3"],
+      type: { value: ["Feature Layer", "Table", "CSV"] },
+      access: "private",
+      culture: ["en", "de"],
+      categories: {
+        value: ["category one", "category 2", "category three"],
+        bool: IBooleanOperator.AND
+      }
+    };
+
+    // Test
+    const hubParams = convertToHubParams({ filter: filters });
+
+    // Assert
+    expect(hubParams).toBeDefined();
+    expect(hubParams.q).toEqual("water");
+    expect(hubParams.filter).toBeDefined();
+    expect(hubParams.filter.owner).toEqual("any(me,you)");
+    expect(
+      hubParams.filter.created.includes("between(2021-01-01,")
+    ).toBeTruthy();
+    expect(hubParams.filter.modified).toEqual("between(1970-01-01,2021-02-01)");
+    expect(hubParams.filter.name).toBeUndefined();
+    expect(hubParams.filter.typeKeywords).toEqual("any(a type keyword)");
+    expect(hubParams.filter.tags).toEqual("any(tag 1,tag 2,tag 3)");
+    expect(hubParams.filter.type).toEqual("any(Feature Layer,Table,CSV)");
+    expect(hubParams.filter.access).toEqual("any(private)");
+    expect(hubParams.filter.culture).toEqual("any(en,de)");
+    expect(hubParams.filter.categories).toEqual(
+      "all(category one,category 2,category three)"
+    );
+    expect(hubParams.sort).toBeUndefined();
+    expect(hubParams.agg).toBeUndefined();
+    expect(hubParams.fields).toBeUndefined();
+  });
+
+  it("can handle a falsey filter", () => {
+    // Setup
+    const filters: IContentSearchFilter = undefined;
+
+    // Test
+    const hubParams = convertToHubParams({ filter: filters });
+
+    // Assert
+    expect(hubParams).toBeDefined();
+    expect(hubParams.q).toBeUndefined();
+    expect(hubParams.filter).toBeUndefined();
+    expect(hubParams.sort).toBeUndefined();
+    expect(hubParams.agg).toBeUndefined();
+    expect(hubParams.fields).toBeUndefined();
+  });
+
   it("can separately convert filters and hub catalog-specific filters", () => {
     // Setup
     const filters: IContentSearchFilter = {

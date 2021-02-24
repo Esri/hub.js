@@ -47,10 +47,12 @@ export function convertPortalResponse(
 }
 
 function mapAggregations(
-  aggregations: Record<string, any> = {}
+  aggregations: Record<string, any>
 ): IContentAggregations {
   return Object.keys(aggregations).reduce(
     (contentAggs: IContentAggregations, aggType: string) => {
+      // Built in as a safety if Portal returns unsupported aggregations
+      /* istanbul ignore else */
       if (aggType.toLowerCase() === "counts") {
         contentAggs.counts = mapCountAggregations(aggregations[aggType]);
       }
@@ -84,7 +86,11 @@ function getNextFunction(
   total: number
 ): () => Promise<IContentSearchResponse> {
   const clonedRequest = cloneObject(request);
+
+  // Authentication not properly cloned
+  clonedRequest.authentication = request.authentication;
   clonedRequest.start = nextStart > -1 ? nextStart : total + 1;
+
   return (userSession?: UserSession) => {
     if (userSession) {
       clonedRequest.authentication = userSession;

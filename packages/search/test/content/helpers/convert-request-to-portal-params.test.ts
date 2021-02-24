@@ -47,6 +47,133 @@ describe("Convert Portal Params Function", () => {
     expect(portalParams.bbox).toBeUndefined();
   });
 
+  it("can handle partially applied created/modified filters", () => {
+    // Setup
+    const filters: IContentSearchFilter = {
+      terms: "water",
+      owner: ["me", "you"],
+      created: { from: 1609459200000 },
+      modified: { to: 1612137600000 },
+      title: { bool: IBooleanOperator.NOT, value: ["a title", "b title"] },
+      typekeywords: "a type keyword",
+      tags: ["tag 1", "tag 2", "tag 3"],
+      type: { value: ["Feature Layer", "Table", "CSV"] },
+      access: "private",
+      culture: ["en", "de"],
+      categories: {
+        value: ["category one", "category 2", "category three"],
+        bool: IBooleanOperator.AND
+      }
+    };
+
+    // Test
+    const portalParams = convertToPortalParams({ filter: filters });
+
+    // Assert
+    expect(portalParams).toBeDefined();
+    expect(portalParams.q).toBeDefined();
+    const q = portalParams.q as string;
+    expect(q.includes("created: [1609459200000 TO")).toBeTruthy();
+    expect(q.includes("modified: [0 TO 1612137600000]")).toBeTruthy();
+    expect(portalParams.sortOrder).toBeUndefined();
+    expect(portalParams.sortField).toBeUndefined();
+    expect(portalParams.start).toBeDefined();
+    expect(portalParams.start).toEqual(1);
+    expect(portalParams.num).toBeDefined();
+    expect(portalParams.num).toEqual(10);
+    expect(portalParams.countFields).toBeUndefined();
+    expect(portalParams.countSize).toBeUndefined();
+    expect(portalParams.bbox).toBeUndefined();
+  });
+
+  it("can convert content filters to Portal API filters with proper paging", () => {
+    // Setup
+    const filters: IContentSearchFilter = {
+      terms: "water",
+      owner: ["me", "you"],
+      created: { from: 1609459200000, to: 1612137600000 },
+      modified: { from: 1609459200000, to: 1612137600000 },
+      title: { bool: IBooleanOperator.NOT, value: ["a title", "b title"] },
+      typekeywords: "a type keyword",
+      tags: ["tag 1", "tag 2", "tag 3"],
+      type: { value: ["Feature Layer", "Table", "CSV"] },
+      access: "private",
+      culture: ["en", "de"],
+      categories: {
+        value: ["category one", "category 2", "category three"],
+        bool: IBooleanOperator.AND
+      }
+    };
+
+    const page: string = "eyJzdGFydCI6NSwibnVtIjoyMH0=";
+
+    // Test
+    const portalParams = convertToPortalParams({
+      filter: filters,
+      options: { page }
+    });
+
+    // Assert
+    expect(portalParams).toBeDefined();
+    expect(portalParams.q).toBeDefined();
+    expect(portalParams.q).toEqual(
+      `(water) AND (owner: me OR owner: you) AND (created: [1609459200000 TO 1612137600000]) AND (modified: [1609459200000 TO 1612137600000]) AND (-title: "a title" AND -title: "b title") AND (typekeywords: "a type keyword") AND (tags: "tag 1" OR tags: "tag 2" OR tags: "tag 3") AND (type: "Feature Layer" OR type: "Table" OR type: "CSV") AND (access: private) AND (culture: en OR culture: de) AND (categories: "category one" AND categories: "category 2" AND categories: "category three") AND (-type: "code attachment")`
+    );
+    expect(portalParams.sortOrder).toBeUndefined();
+    expect(portalParams.sortField).toBeUndefined();
+    expect(portalParams.start).toBeDefined();
+    expect(portalParams.start).toEqual(5);
+    expect(portalParams.num).toBeDefined();
+    expect(portalParams.num).toEqual(20);
+    expect(portalParams.countFields).toBeUndefined();
+    expect(portalParams.countSize).toBeUndefined();
+    expect(portalParams.bbox).toBeUndefined();
+  });
+
+  it("can handle an error occuring upon decoding a page", () => {
+    // Setup
+    const filters: IContentSearchFilter = {
+      terms: "water",
+      owner: ["me", "you"],
+      created: { from: 1609459200000, to: 1612137600000 },
+      modified: { from: 1609459200000, to: 1612137600000 },
+      title: { bool: IBooleanOperator.NOT, value: ["a title", "b title"] },
+      typekeywords: "a type keyword",
+      tags: ["tag 1", "tag 2", "tag 3"],
+      type: { value: ["Feature Layer", "Table", "CSV"] },
+      access: "private",
+      culture: ["en", "de"],
+      categories: {
+        value: ["category one", "category 2", "category three"],
+        bool: IBooleanOperator.AND
+      }
+    };
+
+    const page: string = "dummy";
+
+    // Test
+    const portalParams = convertToPortalParams({
+      filter: filters,
+      options: { page }
+    });
+
+    // Assert
+    expect(portalParams).toBeDefined();
+    expect(portalParams.q).toBeDefined();
+    expect(portalParams.q).toEqual(
+      `(water) AND (owner: me OR owner: you) AND (created: [1609459200000 TO 1612137600000]) AND (modified: [1609459200000 TO 1612137600000]) AND (-title: "a title" AND -title: "b title") AND (typekeywords: "a type keyword") AND (tags: "tag 1" OR tags: "tag 2" OR tags: "tag 3") AND (type: "Feature Layer" OR type: "Table" OR type: "CSV") AND (access: private) AND (culture: en OR culture: de) AND (categories: "category one" AND categories: "category 2" AND categories: "category three") AND (-type: "code attachment")`
+    );
+    expect(portalParams.sortOrder).toBeUndefined();
+    expect(portalParams.sortField).toBeUndefined();
+    expect(portalParams.start).toBeDefined();
+    expect(portalParams.start).toEqual(1);
+    expect(portalParams.num).toBeDefined();
+    expect(portalParams.num).toEqual(10);
+    expect(portalParams.countFields).toBeUndefined();
+    expect(portalParams.countSize).toBeUndefined();
+    expect(portalParams.bbox).toBeUndefined();
+  });
+
   it("can convert content filters to Portal API filters with proper sorting", () => {
     // Setup
     const filters: IContentSearchFilter = {
@@ -373,5 +500,24 @@ describe("Convert Portal Params Function", () => {
     expect(portalParams.bbox).toEqual("bbox");
     expect(portalParams.portal).toBeUndefined();
     expect(portalParams.authentication).toBeUndefined();
+  });
+
+  it("can handle a falsey filter object", () => {
+    // Test
+    const portalParams = convertToPortalParams({});
+
+    // Assert
+    expect(portalParams).toBeDefined();
+    expect(portalParams.q).toBeDefined();
+    expect(portalParams.q).toEqual(`(-type: "code attachment")`);
+    expect(portalParams.sortOrder).toBeUndefined();
+    expect(portalParams.sortField).toBeUndefined();
+    expect(portalParams.start).toBeDefined();
+    expect(portalParams.start).toEqual(1);
+    expect(portalParams.num).toBeDefined();
+    expect(portalParams.num).toEqual(10);
+    expect(portalParams.countFields).toBeUndefined();
+    expect(portalParams.countSize).toBeUndefined();
+    expect(portalParams.bbox).toBeUndefined();
   });
 });

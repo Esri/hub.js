@@ -53,7 +53,7 @@ function splitFilterTerms(request: IContentSearchRequest): Record<string, any> {
     (filterObj: Record<string, any>, key: string) => {
       const hubKey: string = PROP_MAP[key] ? PROP_MAP[key] : key;
       if (isFilterATerm(key)) {
-        filterObj.termField = filter[key] ? filter[key] : undefined;
+        filterObj.termField = filter[key];
       } else if (isFilterACatalogFilter(key)) {
         filterObj.catalogFields[hubKey] = filter[key];
       } else {
@@ -66,13 +66,11 @@ function splitFilterTerms(request: IContentSearchRequest): Record<string, any> {
 }
 
 function processFilter(
-  filterFields: Record<string, any> = {}
+  filterFields: Record<string, any>
 ): Record<string, string> {
   return Object.keys(filterFields).reduce(
     (filterObj: Record<string, string>, key: string) => {
-      if (filterFields[key]) {
-        filterObj[key] = convertToHubFilterClause(key, filterFields[key]);
-      }
+      filterObj[key] = convertToHubFilterClause(key, filterFields[key]);
       return filterObj;
     },
     {}
@@ -80,13 +78,11 @@ function processFilter(
 }
 
 function processCatalog(
-  catalogFields: Record<string, any> = {}
+  catalogFields: Record<string, any>
 ): Record<string, string> {
   return Object.keys(catalogFields).reduce(
     (catalogObj: Record<string, string>, key: string) => {
-      if (catalogFields[key]) {
-        catalogObj[key] = convertToHubFilterClause(key, catalogFields[key]);
-      }
+      catalogObj[key] = convertToHubFilterClause(key, catalogFields[key]);
       return catalogObj;
     },
     {}
@@ -118,7 +114,9 @@ function convertToHubFilterClause(
   filterField: string,
   filterValue: any
 ): string {
-  if (isFilterAString(filterValue)) {
+  if (!filterValue) {
+    return undefined;
+  } else if (isFilterAString(filterValue)) {
     return processArrayFilter([filterValue as string]);
   } else if (isFilterAnArray(filterValue)) {
     return processArrayFilter(filterValue as string[]);

@@ -91,7 +91,8 @@ describe("Convert Portal Response function", () => {
           num: 1,
           start: 2,
           sortField: "title",
-          sortOrder: "asc"
+          sortOrder: "asc",
+          authentication: undefined
         }
       ]);
       expect(contentResponse.results).toEqual(portalApiResultsTwo.results);
@@ -291,7 +292,8 @@ describe("Convert Portal Response function", () => {
           start: 2,
           sortField: "title",
           sortOrder: "asc",
-          aggregations: "type,access"
+          aggregations: "type,access",
+          authentication: undefined
         }
       ]);
       expect(contentResponse.results).toEqual(portalApiResultsTwo.results);

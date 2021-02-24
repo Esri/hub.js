@@ -1,6 +1,6 @@
 export interface IDateRange<T> {
-  from: T;
-  to: T;
+  from?: T;
+  to?: T;
 }
 
 export enum SortDirection {

@@ -34,7 +34,7 @@ export function convertToPortalParams(
   serviceSession?: UserSession
 ): ISearchOptions {
   const q: string = processFilter(request);
-  const paging: IPagingParams = processPage(request);
+  const paging: IPagingParams = processPage(request) || { start: 1, num: 10 };
   return createSearchOptions(
     q,
     paging,
@@ -48,7 +48,8 @@ function processFilter(request: IContentSearchRequest): string {
   const filter: IContentSearchFilter = request.filter || {};
   const filters: string[] = Object.keys(filter).reduce(
     (arr: string[], key: string) => {
-      if (isValidFilterKey(filter, key)) {
+      /* istanbul ignore else */
+      if (filter[key]) {
         arr.push(convertToPortalFilterClause(key, filter[key]));
       }
       return arr;
@@ -163,15 +164,8 @@ function stringifyFilterValue(
     : filterValue;
 }
 
-function isValidFilterKey(request: IContentSearchFilter, filterField: string) {
-  return request[filterField];
-}
-
 export function decodePage(page: string): IPagingParams {
   try {
-    if (!page) {
-      return undefined;
-    }
     const decodedPage: any = decode(page);
     return JSON.parse(decodedPage);
   } catch (err) {

@@ -46,7 +46,7 @@ export function convertHubResponse(
 }
 
 function mapAggregations(
-  aggregations: Record<string, any> = {}
+  aggregations: Record<string, any>
 ): IContentAggregations {
   return Object.keys(aggregations).reduce(
     (contentAggs: IContentAggregations, aggType: string) => {
@@ -58,7 +58,7 @@ function mapAggregations(
 }
 
 function mapCountAggregations(
-  countAggs: Record<string, any> = {}
+  countAggs: Record<string, any>
 ): IAggregationResult[] {
   return Object.keys(countAggs).map((aggKey: string) => {
     const aggregations: IAggregation[] = countAggs[aggKey]
@@ -93,7 +93,7 @@ function getNextFunction(
         headers
       })
         .then(res => res.json())
-        .then(res => convertHubResponse(request, res));
+        .then(res => convertHubResponse(request, res, serviceSession));
     }
     const metadata: Record<string, any> = getResponseMetadata(response);
     return Promise.resolve({
@@ -111,7 +111,7 @@ function getNextFunction(
 }
 
 function getResponseMetadata(
-  response: any = { data: [], meta: {} }
+  response: any
 ): {
   count?: number;
   total?: number;
@@ -135,8 +135,10 @@ function getResponseMetadata(
 
 function getAttributes(data: Record<string, any>) {
   const attributes = getProp(data, "attributes");
+  /* istanbul ignore else */
   if (attributes) {
     Object.keys(PROP_MAP).map((key: string) => {
+      /* istanbul ignore else */
       if (PROP_MAP[key]) {
         attributes[key] = attributes[PROP_MAP[key]];
       }
