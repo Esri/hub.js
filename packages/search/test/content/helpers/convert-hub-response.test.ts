@@ -25,6 +25,7 @@ describe("Convert Hub Response function", () => {
       attributes: {
         id: "12345",
         title: "TITLE ONE",
+        name: "TITLE ONE",
         type: "Feature Layer",
         owner: "me",
         tags: ["tag 1", "tag 2"],
@@ -39,6 +40,7 @@ describe("Convert Hub Response function", () => {
       attributes: {
         id: "23456",
         title: "TITLE TWO",
+        name: "TITLE TWO",
         type: "Table",
         owner: "you",
         tags: ["tag 3"],
@@ -141,6 +143,7 @@ describe("Convert Hub Response function", () => {
       attributes: {
         id: "12345",
         title: "TITLE ONE",
+        name: "TITLE ONE",
         type: "Feature Layer",
         owner: "me",
         tags: ["tag 1", "tag 2"],
@@ -155,6 +158,7 @@ describe("Convert Hub Response function", () => {
       attributes: {
         id: "23456",
         title: "TITLE TWO",
+        name: "TITLE TWO",
         type: "Table",
         owner: "you",
         tags: ["tag 3"],
