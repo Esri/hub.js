@@ -22,10 +22,17 @@ export function exportSuccessHandler(params: any): Promise<any> {
     authentication
   } = params;
 
+  const [itemId, layerId] = datasetId.split("_");
+
+  // Layer Id's need to be padded with 0 so that /search results are predictable. Searches for exportLayer:1 don't work.
+  const exportKeyword = layerId
+    ? `exportItem:${itemId},exportLayer:0${layerId}`
+    : `exportItem:${itemId},exportLayer:null`;
+
   return updateItem({
     item: {
       id: downloadId,
-      typekeywords: `export:${datasetId},modified:${exportCreated},spatialRefId:${spatialRefId}`
+      typekeywords: `${exportKeyword},modified:${exportCreated},spatialRefId:${spatialRefId}`
     },
     authentication
   })
