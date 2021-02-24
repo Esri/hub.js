@@ -78,16 +78,18 @@ describe("Content Search Service", () => {
         {
           q:
             '(title: "title 1" OR title: "title 2") AND (-type: "code attachment")',
-          num: 10,
-          start: 1,
+          params: {
+            num: 10,
+            start: 1,
+            countFields: undefined,
+            countSize: undefined
+          },
           sortField: "title",
           portal: "portal-sharing-url",
           authentication: session,
           httpMethod: "POST",
           sortOrder: undefined,
-          bbox: undefined,
-          countFields: undefined,
-          countSize: undefined
+          bbox: undefined
         }
       ]);
       expect(response.results).toEqual(mockedResponse.results);
@@ -157,16 +159,18 @@ describe("Content Search Service", () => {
       expect(searchItemsMock.calls.argsFor(0)).toEqual([
         {
           q: '(-type: "code attachment")',
-          num: 10,
-          start: 1,
+          params: {
+            num: 10,
+            start: 1,
+            countFields: undefined,
+            countSize: undefined
+          },
           portal: "portal-sharing-url",
           authentication: session,
           httpMethod: "POST",
           sortField: undefined,
           sortOrder: undefined,
-          bbox: undefined,
-          countFields: undefined,
-          countSize: undefined
+          bbox: undefined
         }
       ]);
       expect(response.results).toEqual(mockedResponse.results);

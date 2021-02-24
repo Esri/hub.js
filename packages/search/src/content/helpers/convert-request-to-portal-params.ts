@@ -82,10 +82,12 @@ function createSearchOptions(
     q,
     sortOrder: options.sortOrder,
     sortField: options.sortField,
-    start: page.start,
-    num: page.num,
-    countFields: options.aggregations,
-    countSize: options.aggregations ? 200 : undefined,
+    params: {
+      countFields: options.aggregations,
+      countSize: options.aggregations ? 200 : undefined,
+      start: page.start,
+      num: page.num
+    },
     bbox: options.bbox,
     portal: options.portalSharingUrl || servicePortalSharingUrl,
     authentication: options.session || serviceSession,
