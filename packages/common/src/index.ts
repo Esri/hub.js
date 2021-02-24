@@ -17,3 +17,8 @@ export * from "./util";
 export * from "./utils";
 export * from "./i18n";
 export * from "./request";
+
+import OperationStack from "./OperationStack";
+import OperationError from "./OperationError";
+// Re-exports
+export { OperationStack, OperationError };
