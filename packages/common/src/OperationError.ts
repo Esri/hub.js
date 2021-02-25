@@ -59,6 +59,6 @@ export default class OperationError extends Error {
     // message + call stack. If that's not an option, we create a new
     // stack... which is better than nothing, but it will look like
     // OperationError is the source of the error
-    this.stack = rootCause.stack || new Error().stack;
+    this.stack = getWithDefault(rootCause, "stack", new Error().stack);
   }
 }
