@@ -50,23 +50,21 @@ describe("Convert Hub Params Function", () => {
     expect(hubParams.fields).toBeUndefined();
   });
 
-  it("can handle explicitly undefined filters", () => {
+  it("can handle explicitly undefined filters, empty strings, empty arrays and malformed filters", () => {
     // Setup
     const filters: IContentSearchFilter = {
       terms: "water",
-      owner: ["me", "you"],
+      owner: [],
       created: { from: 1609459200000, to: 1612137600000 },
       modified: { from: 1609459200000, to: 1612137600000 },
       title: undefined,
-      typekeywords: "a type keyword",
+      typekeywords: "",
       tags: ["tag 1", "tag 2", "tag 3"],
-      type: { value: ["Feature Layer", "Table", "CSV"] },
-      access: "private",
-      culture: ["en", "de"],
-      categories: {
-        value: ["category one", "category 2", "category three"],
-        bool: IBooleanOperator.AND
-      }
+      type: { value: null },
+      access: "",
+      culture: [],
+      categories: null,
+      orgid: ""
     };
 
     // Test
@@ -76,18 +74,17 @@ describe("Convert Hub Params Function", () => {
     expect(hubParams).toBeDefined();
     expect(hubParams.q).toEqual("water");
     expect(hubParams.filter).toBeDefined();
-    expect(hubParams.filter.owner).toEqual("any(me,you)");
+    expect(hubParams.filter.owner).toBeUndefined();
     expect(hubParams.filter.created).toEqual("between(2021-01-01,2021-02-01)");
     expect(hubParams.filter.modified).toEqual("between(2021-01-01,2021-02-01)");
     expect(hubParams.filter.name).toBeUndefined();
-    expect(hubParams.filter.typeKeywords).toEqual("any(a type keyword)");
+    expect(hubParams.filter.typeKeywords).toBeUndefined();
     expect(hubParams.filter.tags).toEqual("any(tag 1,tag 2,tag 3)");
-    expect(hubParams.filter.type).toEqual("any(Feature Layer,Table,CSV)");
-    expect(hubParams.filter.access).toEqual("any(myself)");
-    expect(hubParams.filter.culture).toEqual("any(en,de)");
-    expect(hubParams.filter.categories).toEqual(
-      "all(category one,category 2,category three)"
-    );
+    expect(hubParams.filter.type).toBeUndefined();
+    expect(hubParams.filter.access).toBeUndefined();
+    expect(hubParams.filter.culture).toBeUndefined();
+    expect(hubParams.filter.categories).toBeUndefined();
+    expect(hubParams.catalog.orgId).toBeUndefined();
     expect(hubParams.sort).toBeUndefined();
     expect(hubParams.agg).toBeUndefined();
     expect(hubParams.fields).toBeUndefined();

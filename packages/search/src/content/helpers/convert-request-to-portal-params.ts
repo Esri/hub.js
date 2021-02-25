@@ -11,8 +11,8 @@ import {
 } from "../../types/content";
 import { IDateRange } from "../../types/common";
 import {
-  isFilterAnArray,
-  isFilterAString,
+  isFilterAnArrayWithData,
+  isFilterANonEmptyString,
   isFilterFieldADateRange
 } from "./common";
 
@@ -48,9 +48,9 @@ function processFilter(request: IContentSearchRequest): string {
   const filter: IContentSearchFilter = request.filter || {};
   const filters: string[] = Object.keys(filter).reduce(
     (arr: string[], key: string) => {
-      /* istanbul ignore else */
-      if (filter[key]) {
-        arr.push(convertToPortalFilterClause(key, filter[key]));
+      const clause = convertToPortalFilterClause(key, filter[key]);
+      if (clause) {
+        arr.push(clause);
       }
       return arr;
     },
@@ -99,11 +99,11 @@ function convertToPortalFilterClause(
   filterField: string,
   filterValue: any
 ): string {
-  if (isFilterAString(filterValue)) {
+  if (isFilterANonEmptyString(filterValue)) {
     return processStringFilter(filterField, filterValue as string);
-  } else if (isFilterAnArray(filterValue)) {
+  } else if (isFilterAnArrayWithData(filterValue)) {
     return processArrayFilter(filterField, filterValue as string[]);
-  } else if (isFilterFieldADateRange(filterField)) {
+  } else if (isFilterFieldADateRange(filterField, filterValue)) {
     return processDateField(filterField, filterValue as IDateRange<number>);
   } else {
     return processFieldFilter(filterField, filterValue as IContentFieldFilter);
@@ -143,6 +143,10 @@ function processFieldFilter(
   filterField: string,
   contentFilter: IContentFieldFilter
 ): string {
+  if (!contentFilter || !isFilterAnArrayWithData(contentFilter.value)) {
+    return undefined;
+  }
+
   const operator: IBooleanOperator = contentFilter.bool || IBooleanOperator.OR;
   const filters = contentFilter.value.map((filter: string) =>
     stringifyFilterValue(filterField, filter)

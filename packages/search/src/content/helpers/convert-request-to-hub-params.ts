@@ -8,8 +8,8 @@ import {
   IContentSearchRequest
 } from "../../types/content";
 import {
-  isFilterAnArray,
-  isFilterAString,
+  isFilterAnArrayWithData,
+  isFilterANonEmptyString,
   isFilterFieldADateRange
 } from "./common";
 
@@ -81,7 +81,10 @@ function processFilter(
 ): Record<string, string> {
   return Object.keys(filterFields).reduce(
     (filterObj: Record<string, string>, key: string) => {
-      filterObj[key] = convertToHubFilterClause(key, filterFields[key]);
+      const clause = convertToHubFilterClause(key, filterFields[key]);
+      if (clause) {
+        filterObj[key] = clause;
+      }
       return filterObj;
     },
     {}
@@ -93,7 +96,10 @@ function processCatalog(
 ): Record<string, string> {
   return Object.keys(catalogFields).reduce(
     (catalogObj: Record<string, string>, key: string) => {
-      catalogObj[key] = convertToHubFilterClause(key, catalogFields[key]);
+      const clause: string = convertToHubFilterClause(key, catalogFields[key]);
+      if (clause) {
+        catalogObj[key] = clause;
+      }
       return catalogObj;
     },
     {}
@@ -125,57 +131,58 @@ function convertToHubFilterClause(
   filterField: string,
   filterValue: any
 ): string {
-  if (!filterValue) {
-    return undefined;
-  } else if (isFilterAString(filterValue)) {
+  if (isFilterANonEmptyString(filterValue)) {
     return processArrayFilter(filterField, [filterValue as string]);
-  } else if (isFilterAnArray(filterValue)) {
+  } else if (isFilterAnArrayWithData(filterValue)) {
     return processArrayFilter(filterField, filterValue as string[]);
-  } else if (isFilterFieldADateRange(filterField)) {
+  } else if (isFilterFieldADateRange(filterField, filterValue)) {
     return processDateField(filterValue as IDateRange<number>);
   } else {
     return processFieldFilter(filterValue as IContentFieldFilter);
   }
+}
 
-  function processArrayFilter(field: string, filterArray: string[]): string {
-    const modifiedFilterValues = filterArray.map((filter: string) => {
-      if (VALUE_MAP[field] && VALUE_MAP[field][filter]) {
-        return VALUE_MAP[field][filter];
-      }
-      return filter;
-    });
-    return `any(${modifiedFilterValues.join(",")})`;
-  }
-
-  function processDateField(dateFilterValue: IDateRange<number>) {
-    const from = dateFilterValue.from || 0;
-    const to = dateFilterValue.to || new Date().getTime();
-    return `between(${convertDateEpochToString(
-      from
-    )},${convertDateEpochToString(to)})`;
-  }
-
-  function processFieldFilter(contentFilter: IContentFieldFilter): string {
-    const operator: IBooleanOperator =
-      contentFilter.bool || IBooleanOperator.OR;
-    const hubOperator: string = convertToHubOperator(operator);
-    const filters = contentFilter.value;
-    return `${hubOperator}(${filters.join(",")})`;
-  }
-
-  function convertDateEpochToString(epoch: number): string {
-    const date: string = new Date(epoch).toISOString();
-    return date.substring(0, 10);
-  }
-
-  function convertToHubOperator(operator: IBooleanOperator) {
-    if (operator === IBooleanOperator.NOT) {
-      return "not";
-    } else if (operator === IBooleanOperator.AND) {
-      return "all";
+function processArrayFilter(field: string, filterArray: string[]): string {
+  const modifiedFilterValues = filterArray.map((filter: string) => {
+    if (VALUE_MAP[field] && VALUE_MAP[field][filter]) {
+      return VALUE_MAP[field][filter];
     }
-    return "any";
+    return filter;
+  });
+  return `any(${modifiedFilterValues.join(",")})`;
+}
+
+function processDateField(dateFilterValue: IDateRange<number>) {
+  const from = dateFilterValue.from || 0;
+  const to = dateFilterValue.to || new Date().getTime();
+  return `between(${convertDateEpochToString(from)},${convertDateEpochToString(
+    to
+  )})`;
+}
+
+function processFieldFilter(contentFilter: IContentFieldFilter): string {
+  if (!contentFilter || !isFilterAnArrayWithData(contentFilter.value)) {
+    return undefined;
   }
+
+  const operator: IBooleanOperator = contentFilter.bool || IBooleanOperator.OR;
+  const hubOperator: string = convertToHubOperator(operator);
+  const filters = contentFilter.value;
+  return `${hubOperator}(${filters.join(",")})`;
+}
+
+function convertDateEpochToString(epoch: number): string {
+  const date: string = new Date(epoch).toISOString();
+  return date.substring(0, 10);
+}
+
+function convertToHubOperator(operator: IBooleanOperator) {
+  if (operator === IBooleanOperator.NOT) {
+    return "not";
+  } else if (operator === IBooleanOperator.AND) {
+    return "all";
+  }
+  return "any";
 }
 
 function isFilterATerm(filterField: string) {

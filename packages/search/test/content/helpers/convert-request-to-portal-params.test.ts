@@ -88,6 +88,43 @@ describe("Convert Portal Params Function", () => {
     expect(portalParams.bbox).toBeUndefined();
   });
 
+  it("can handle empty strings, empty arrays and malformed filters", () => {
+    // Setup
+    const filters: IContentSearchFilter = {
+      terms: "water",
+      owner: [],
+      created: { from: 1609459200000, to: 1612137600000 },
+      modified: { from: 1609459200000, to: 1612137600000 },
+      title: { bool: IBooleanOperator.NOT, value: [] },
+      typekeywords: "",
+      tags: ["tag 1", "tag 2", "tag 3"],
+      type: { value: null },
+      access: "",
+      culture: [],
+      categories: null
+    };
+
+    // Test
+    const portalParams = convertToPortalParams({ filter: filters });
+
+    // Assert
+    expect(portalParams).toBeDefined();
+    expect(portalParams.q).toBeDefined();
+    expect(portalParams.q).toEqual(
+      `(water) AND (created: [1609459200000 TO 1612137600000]) AND (modified: [1609459200000 TO 1612137600000]) AND (tags: "tag 1" OR tags: "tag 2" OR tags: "tag 3") AND (-type: "code attachment")`
+    );
+    expect(portalParams.sortOrder).toBeUndefined();
+    expect(portalParams.sortField).toBeUndefined();
+    expect(portalParams.params).toBeDefined();
+    expect(portalParams.params.start).toBeDefined();
+    expect(portalParams.params.start).toEqual(1);
+    expect(portalParams.params.num).toBeDefined();
+    expect(portalParams.params.num).toEqual(10);
+    expect(portalParams.params.countFields).toBeUndefined();
+    expect(portalParams.params.countSize).toBeUndefined();
+    expect(portalParams.bbox).toBeUndefined();
+  });
+
   it("can convert content filters to Portal API filters with proper paging", () => {
     // Setup
     const filters: IContentSearchFilter = {
