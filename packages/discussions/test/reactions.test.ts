@@ -24,7 +24,7 @@ describe("reactions", () => {
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
-        expect(url).toEqual(`/posts/${postId}`);
+        expect(url).toEqual(`/posts/${postId}/reactions`);
         expect(opts).toEqual({ ...options, method: "POST" });
         done();
       })

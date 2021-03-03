@@ -35,5 +35,5 @@ export function request(url: string, options: IRequestOptions) {
     }
   }
 
-  return fetch([apiBase, url].join("/"), opts);
+  return fetch([apiBase, url.replace(/^\//, "")].join("/"), opts);
 }
