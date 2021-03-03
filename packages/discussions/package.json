@@ -30,6 +30,7 @@
     "@rollup/plugin-commonjs": "^15.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
+    "@types/geojson": "^7946.0.7",
     "rollup": "^2.26.5",
     "rollup-plugin-filesize": "^9.0.2",
     "rollup-plugin-typescript2": "^0.27.2",
