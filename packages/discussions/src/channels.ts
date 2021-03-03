@@ -7,27 +7,27 @@ import {
   IDeleteChannelOptions
 } from "./types";
 
-export function seachChannels (options: IQueryChannelsOptions) {
-  options.method = 'GET';
+export function searchChannels(options: IQueryChannelsOptions) {
+  options.method = "GET";
   return request(`/channels`, options);
 }
 
-export function createChannel (options: ICreateChannelOptions) {
-  options.method = 'POST';
+export function createChannel(options: ICreateChannelOptions) {
+  options.method = "POST";
   return request(`/channels`, options);
 }
 
-export function findChannel (options: IFindChannelOptions) {
-  options.method = 'GET';
+export function findChannel(options: IFindChannelOptions) {
+  options.method = "GET";
   return request(`/channels/${options.params.channelId}`, options);
 }
 
-export function updateChannel (options: IUpdateChannelOptions) {
-  options.method = 'PATCH';
+export function updateChannel(options: IUpdateChannelOptions) {
+  options.method = "PATCH";
   return request(`/channels/${options.params.channelId}`, options);
 }
 
-export function deleteChannel (options: IDeleteChannelOptions) {
-  options.method = 'DELETE';
+export function deleteChannel(options: IDeleteChannelOptions) {
+  options.method = "DELETE";
   return request(`/channels/${options.params.channelId}`, options);
 }

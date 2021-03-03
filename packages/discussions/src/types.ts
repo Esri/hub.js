@@ -2,359 +2,357 @@ import { IAuthenticationManager } from "@esri/arcgis-rest-request";
 // import { Geometry } from 'geojson';
 
 export enum SortOrder {
-  ASC = 'ASC',
-  DESC = 'DESC'
-};
+  ASC = "ASC",
+  DESC = "DESC"
+}
 
 export enum PostReaction {
-  THUMBS_UP = 'thumbs_up',
-  THUMBS_DOWN = 'thumbs_down',
-  THINKING = 'thinking',
-  HEART = 'heart',
-  HUNDRED = '100',
-  SAD = 'sad',
-  LAUGH = 'laugh',
-  SURPRISED = 'surprised'
+  THUMBS_UP = "thumbs_up",
+  THUMBS_DOWN = "thumbs_down",
+  THINKING = "thinking",
+  HEART = "heart",
+  HUNDRED = "100",
+  SAD = "sad",
+  LAUGH = "laugh",
+  SURPRISED = "surprised"
 }
 
 export enum SharingAccess {
-  PUBLIC = 'public',
-  ORG = 'org',
-  PRIVATE = 'private'
+  PUBLIC = "public",
+  ORG = "org",
+  PRIVATE = "private"
 }
 
 export enum PostStatus {
-  PENDING = 'pending',
-  APPROVED = 'approved',
-  REJECTED = 'rejected',
-  DELETED = 'deleted',
-  HIDDEN = 'hidden'
+  PENDING = "pending",
+  APPROVED = "approved",
+  REJECTED = "rejected",
+  DELETED = "deleted",
+  HIDDEN = "hidden"
 }
 
 export enum DiscussionType {
-  DATASET = 'dataset',
-  ITEM = 'item',
-  GROUP = 'group'
+  DATASET = "dataset",
+  ITEM = "item",
+  GROUP = "group"
 }
 
 export enum DiscussionSource {
-  HUB = 'hub',
-  AGO = 'ago',
-  URBAN = 'urban'
+  HUB = "hub",
+  AGO = "ago",
+  URBAN = "urban"
 }
 
 export enum PostRelation {
-  REPLIES = 'replies',
-  REACTIONS = 'reactions',
-  PARENT = 'parent',
-  CHANNEL = 'channel'
+  REPLIES = "replies",
+  REACTIONS = "reactions",
+  PARENT = "parent",
+  CHANNEL = "channel"
 }
 
 export enum ChannelRelation {
-  SETTINGS = 'settings'
+  SETTINGS = "settings"
 }
 
 export enum ReactionRelation {
-  POST = 'post'
+  POST = "post"
 }
 
 // mixins
 
-export interface WithAuthor {
-  creator: string,
-  editor: string
+export interface IWithAuthor {
+  creator: string;
+  editor: string;
 }
 
-export interface WithPagination {
-  limit: number,
-  page: number
+export interface IWithPagination {
+  limit: number;
+  page: number;
 }
 
-export interface WithSettings {
-  allowReply: boolean,
-  allowAnonymous: boolean,
-  softDelete: boolean,
-  defaultPostStatus: PostStatus,
-  allowReaction: boolean,
-  allowedReactions: PostReaction[],
-  blockwords?: string[]
+export interface IWithSettings {
+  allowReply: boolean;
+  allowAnonymous: boolean;
+  softDelete: boolean;
+  defaultPostStatus: PostStatus;
+  allowReaction: boolean;
+  allowedReactions: PostReaction[];
+  blockwords?: string[];
 }
 
-export interface WithSharing {
-  access: SharingAccess,
-  groups?: string[],
-  orgs?: string[]
+export interface IWithSharing {
+  access: SharingAccess;
+  groups?: string[];
+  orgs?: string[];
 }
 
-export interface WithSorting {
-  sortBy: string,
-  sortOrder: SortOrder
+export interface IWithSorting {
+  sortBy: string;
+  sortOrder: SortOrder;
 }
 
-export interface WithTimeQueries {
-  createdBefore: Date,
-  createdAfter: Date,
-  updatedBefore: Date,
-  updatedAfter: Date
+export interface IWithTimeQueries {
+  createdBefore: Date;
+  createdAfter: Date;
+  updatedBefore: Date;
+  updatedAfter: Date;
 }
 
-export interface WithTimestamps {
-  createdAt: Date,
-  updatedAt: Date
+export interface IWithTimestamps {
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 // dto
 
 // // posts
 
-export interface CreateChannelPostDTO {
-  title?: string,
-  body: string,
-  discussion?: string,
-  geometry?: any // Geometry
+export interface ICreateChannelPostDTO {
+  title?: string;
+  body: string;
+  discussion?: string;
+  geometry?: any; // Geometry
 }
 
-export interface CreatePostDTO extends CreateChannelPostDTO, WithSharing {}
+export interface ICreatePostDTO extends ICreateChannelPostDTO, IWithSharing {}
 
-export interface FindPostDTO {
-  relations?: PostRelation[]
+export interface IFindPostDTO {
+  relations?: PostRelation[];
 }
 
-export interface QueryChannelPostsDTO extends 
-  Partial<WithAuthor>,
-  Partial<WithPagination>,
-  Partial<WithSorting>,
-  Partial<WithTimeQueries>
-{
-  title?: string,
-  body?: string,
-  discussion?: string,
-  parentId?: number,
-  status?: PostStatus[],
-  relations?: PostRelation[]
+export interface IQueryChannelPostsDTO
+  extends Partial<IWithAuthor>,
+    Partial<IWithPagination>,
+    Partial<IWithSorting>,
+    Partial<IWithTimeQueries> {
+  title?: string;
+  body?: string;
+  discussion?: string;
+  parentId?: number;
+  status?: PostStatus[];
+  relations?: PostRelation[];
 }
 
-export interface QueryPostsDTO extends QueryChannelPostsDTO {
-  groups?: string[],
-  access?: SharingAccess[]
+export interface IQueryPostsDTO extends IQueryChannelPostsDTO {
+  groups?: string[];
+  access?: SharingAccess[];
 }
 
-export interface UpdatePostSharingDTO extends Partial<WithSharing> {}
+export interface IUpdatePostSharingDTO extends Partial<IWithSharing> {}
 
-export interface UpdatePostStatusDTO {
-  status: PostStatus
+export interface IUpdatePostStatusDTO {
+  status: PostStatus;
 }
 
-export interface UpdatePostDTO {
-  title?: string,
-  body?: string
+export interface IUpdatePostDTO {
+  title?: string;
+  body?: string;
 }
 
 // // channels
 
-export interface CreateChannelDTO extends WithSettings, WithSharing {}
+export interface ICreateChannelDTO extends IWithSettings, IWithSharing {}
 
-export interface FindChannelDTO {
-  relations?: ChannelRelation[]
+export interface IFindChannelDTO {
+  relations?: ChannelRelation[];
 }
 
-export interface QueryChannelsDTO extends
-  Partial<WithPagination>,
-  Partial<WithSorting>,
-  Partial<WithTimeQueries>
-{
-  groups?: string[],
-  access?: SharingAccess[],
-  relations?: ChannelRelation[]
+export interface IQueryChannelsDTO
+  extends Partial<IWithPagination>,
+    Partial<IWithSorting>,
+    Partial<IWithTimeQueries> {
+  groups?: string[];
+  access?: SharingAccess[];
+  relations?: ChannelRelation[];
 }
 
-export interface UpdateChannelDTO extends Partial<WithSettings> {}
+export interface IUpdateChannelDTO extends Partial<IWithSettings> {}
 
 // // reactions
 
-export interface CreateReactionDTO {
+export interface ICreateReactionDTO {
   value: PostReaction;
 }
 
 // request options
 
-export interface RequestOptions extends RequestInit {
-  authentication?: IAuthenticationManager,
-  token?: string,
-  portalUrl?: string,
+export interface IRequestOptions extends RequestInit {
+  authentication?: IAuthenticationManager;
+  token?: string;
+  portalUrl?: string;
   params?: {
     query?: {
-      [key: string]: any
-    },
+      [key: string]: any;
+    };
     body?: {
-      [key: string]: any
-    },
-    [key: string]: any
-  }
+      [key: string]: any;
+    };
+    [key: string]: any;
+  };
 }
 
 // // posts
 
-export interface IQueryPostsOptions extends RequestOptions {
+export interface IQueryPostsOptions extends IRequestOptions {
   params: {
-    query: QueryPostsDTO
-  }
+    query: IQueryPostsDTO;
+  };
 }
 
-export interface IQueryChannelPostsOptions extends RequestOptions {
+export interface IQueryChannelPostsOptions extends IRequestOptions {
   params: {
-    query: QueryChannelPostsDTO,
-    channelId: number
-  }
+    query: IQueryChannelPostsDTO;
+    channelId: number;
+  };
 }
 
-export interface ICreatePostOptions extends RequestOptions {
+export interface ICreatePostOptions extends IRequestOptions {
   params: {
-    body: CreatePostDTO
-  }
+    body: ICreatePostDTO;
+  };
 }
 
-export interface ICreateChannelPostOptions extends RequestOptions {
+export interface ICreateChannelPostOptions extends IRequestOptions {
   params: {
-    body: CreateChannelPostDTO,
-    channelId: number
-  }
+    body: ICreateChannelPostDTO;
+    channelId: number;
+  };
 }
 
-export interface ICreateReplyOptions extends RequestOptions {
+export interface ICreateReplyOptions extends IRequestOptions {
   params: {
-    body: CreatePostDTO,
-    postId: number
-  }
+    body: ICreatePostDTO;
+    postId: number;
+  };
 }
 
-export interface ICreateChannelReplyOptions extends RequestOptions {
+export interface ICreateChannelReplyOptions extends IRequestOptions {
   params: {
-    body: CreateChannelPostDTO,
-    postId: number,
-    channelId: number
-  }
+    body: ICreateChannelPostDTO;
+    postId: number;
+    channelId: number;
+  };
 }
 
-export interface IFindPostOptions extends RequestOptions {
+export interface IFindPostOptions extends IRequestOptions {
   params: {
-    query: FindPostDTO,
-    postId: number
-  }
+    query?: IFindPostDTO;
+    postId: number;
+  };
 }
 
-export interface IFindChannelPostOptions extends RequestOptions {
+export interface IFindChannelPostOptions extends IRequestOptions {
   params: {
-    query: FindPostDTO,
-    postId: number,
-    channelId: number
-  }
+    query?: IFindPostDTO;
+    postId: number;
+    channelId: number;
+  };
 }
 
-export interface IUpdatePostOptions extends RequestOptions {
+export interface IUpdatePostOptions extends IRequestOptions {
   params: {
-    body: UpdatePostDTO,
-    postId: number
-  }
+    body: IUpdatePostDTO;
+    postId: number;
+  };
 }
 
-export interface IUpdateChannelPostOptions extends RequestOptions {
+export interface IUpdateChannelPostOptions extends IRequestOptions {
   params: {
-    body: UpdatePostDTO,
-    postId: number,
-    channelId: number
-  }
+    body: IUpdatePostDTO;
+    postId: number;
+    channelId: number;
+  };
 }
 
-export interface IUpdatePostSharingOptions extends RequestOptions {
+export interface IUpdatePostSharingOptions extends IRequestOptions {
   params: {
-    body: UpdatePostSharingDTO,
-    postId: number
-  }
+    body: IUpdatePostSharingDTO;
+    postId: number;
+  };
 }
 
-export interface IUpdateChannelPostSharingOptions extends RequestOptions {
+export interface IUpdateChannelPostSharingOptions extends IRequestOptions {
   params: {
-    body: UpdatePostSharingDTO,
-    postId: number,
-    channelId: number
-  }
+    body: IUpdatePostSharingDTO;
+    postId: number;
+    channelId: number;
+  };
 }
 
-export interface IUpdatePostStatusOptions extends RequestOptions {
+export interface IUpdatePostStatusOptions extends IRequestOptions {
   params: {
-    body: UpdatePostStatusDTO,
-    postId: number
-  }
+    body: IUpdatePostStatusDTO;
+    postId: number;
+  };
 }
 
-export interface IUpdateChannelPostStatusOptions extends RequestOptions {
+export interface IUpdateChannelPostStatusOptions extends IRequestOptions {
   params: {
-    body: UpdatePostStatusDTO,
-    postId: number,
-    channelId: number
-  }
+    body: IUpdatePostStatusDTO;
+    postId: number;
+    channelId: number;
+  };
 }
 
-export interface IDeletePostOptions extends RequestOptions {
+export interface IDeletePostOptions extends IRequestOptions {
   params: {
-    postId: number
-  }
+    postId: number;
+  };
 }
 
-export interface IDeleteChannelPostOptions extends RequestOptions {
+export interface IDeleteChannelPostOptions extends IRequestOptions {
   params: {
-    postId: number,
-    channelId: number
-  }
+    postId: number;
+    channelId: number;
+  };
 }
 
 // // channels
 
-export interface IQueryChannelsOptions extends RequestOptions {
+export interface IQueryChannelsOptions extends IRequestOptions {
   params: {
-    query: QueryChannelsDTO
-  }
+    query: IQueryChannelsDTO;
+  };
 }
 
-export interface ICreateChannelOptions extends RequestOptions {
+export interface ICreateChannelOptions extends IRequestOptions {
   params: {
-    body: CreateChannelDTO
-  }
+    body: ICreateChannelDTO;
+  };
 }
 
-export interface IFindChannelOptions extends RequestOptions {
+export interface IFindChannelOptions extends IRequestOptions {
   params: {
-    query: FindChannelDTO,
-    channelId: number
-  }
+    query?: IFindChannelDTO;
+    channelId: number;
+  };
 }
 
-export interface IUpdateChannelOptions extends RequestOptions {
+export interface IUpdateChannelOptions extends IRequestOptions {
   params: {
-    body: UpdateChannelDTO,
-    channelId: number
-  }
+    body: IUpdateChannelDTO;
+    channelId: number;
+  };
 }
 
-export interface IDeleteChannelOptions extends RequestOptions {
+export interface IDeleteChannelOptions extends IRequestOptions {
   params: {
-    channelId: number
-  }
+    channelId: number;
+  };
 }
 
 // // reactions
 
-export interface ICreateReactionOptions extends RequestOptions {
+export interface ICreateReactionOptions extends IRequestOptions {
   params: {
-    body: CreateReactionDTO,
-    postId: number
-  }
+    body: ICreateReactionDTO;
+    postId: number;
+  };
 }
 
-export interface IDeleteReactionOptions extends RequestOptions {
+export interface IDeleteReactionOptions extends IRequestOptions {
   params: {
-    postId: number,
-    reactionId: number
-  }
+    postId: number;
+    reactionId: number;
+  };
 }
