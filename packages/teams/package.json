@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-teams",
-  "version": "7.0.6",
+  "version": "7.0.9",
   "description": "Module to interact with ArcGIS Hub Teams in Node.js and modern browsers.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/teams.umd.js",
@@ -13,10 +13,10 @@
     "tslib": "^1.13.0"
   },
   "peerDependencies": {
-    "@esri/arcgis-rest-auth": "^2.13.0",
-    "@esri/arcgis-rest-portal": "^2.15.0",
-    "@esri/arcgis-rest-request": "^2.13.0",
-    "@esri/arcgis-rest-types": "^2.13.0",
+    "@esri/arcgis-rest-auth": "^2.13.0 || 3",
+    "@esri/arcgis-rest-portal": "^2.15.0 || 3",
+    "@esri/arcgis-rest-request": "^2.13.0 || 3",
+    "@esri/arcgis-rest-types": "^2.13.0 || 3",
     "@esri/hub-common": "^7.0.1"
   },
   "devDependencies": {
@@ -24,7 +24,7 @@
     "@esri/arcgis-rest-portal": "^2.21.0",
     "@esri/arcgis-rest-request": "^2.21.0",
     "@esri/arcgis-rest-types": "^2.15.0",
-    "@esri/hub-common": "^7.0.6",
+    "@esri/hub-common": "^7.0.9",
     "@rollup/plugin-commonjs": "^15.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
@@ -62,5 +62,6 @@
   "bugs": {
     "url": "https://github.com/Esri/hub.js/issues"
   },
-  "homepage": "https://github.com/Esri/hub.js#readme"
+  "homepage": "https://github.com/Esri/hub.js#readme",
+  "gitHead": "37f3a4e0e1c26399f6597697601d115d727540d9"
 }

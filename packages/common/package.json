@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-common",
-  "version": "7.0.6",
+  "version": "7.0.9",
   "description": "Common TypeScript types and utility functions for @esri/hub.js.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/common.umd.js",
@@ -73,5 +73,6 @@
   "bugs": {
     "url": "https://github.com/Esri/hub.js/issues"
   },
-  "homepage": "https://github.com/Esri/hub.js#readme"
+  "homepage": "https://github.com/Esri/hub.js#readme",
+  "gitHead": "37f3a4e0e1c26399f6597697601d115d727540d9"
 }
