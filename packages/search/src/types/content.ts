@@ -43,6 +43,7 @@ export interface IContentSearchFilter {
 export interface IContentSearchOptions {
   authentication?: UserSession;
   portal?: string;
+  isPortal?: boolean;
   sortField?: string;
   sortOrder?: SortDirection;
   page?: string;

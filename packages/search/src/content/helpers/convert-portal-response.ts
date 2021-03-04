@@ -28,7 +28,7 @@ export function convertPortalResponse(
     ? mapAggregations(response.aggregations)
     : undefined;
   const next: (
-    userSession?: UserSession
+    authentication?: UserSession
   ) => Promise<IContentSearchResponse> = getNextFunction(
     request,
     response.nextStart,
@@ -91,9 +91,9 @@ function getNextFunction(
   clonedRequest.authentication = request.authentication;
   clonedRequest.start = nextStart > -1 ? nextStart : total + 1;
 
-  return (userSession?: UserSession) => {
-    if (userSession) {
-      clonedRequest.authentication = userSession;
+  return (authentication?: UserSession) => {
+    if (authentication) {
+      clonedRequest.authentication = authentication;
     }
     return searchItems(clonedRequest).then((response: ISearchResult<IItem>) => {
       return convertPortalResponse(clonedRequest, response);

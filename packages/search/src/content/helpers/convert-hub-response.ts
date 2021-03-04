@@ -17,7 +17,7 @@ const PROP_MAP: Record<string, string> = {
 export function convertHubResponse(
   request: ISearchParams,
   response: any = { data: [], meta: {} },
-  serviceSession?: UserSession
+  defaultAuthentication?: UserSession
 ): IContentSearchResponse {
   const results: any[] = response.data.map((d: Record<string, any>) =>
     getAttributes(d)
@@ -26,12 +26,12 @@ export function convertHubResponse(
     response
   );
   const next: (
-    userSession?: UserSession
+    authentication?: UserSession
   ) => Promise<IContentSearchResponse> = getNextFunction(
     request,
     response,
     hasNext,
-    serviceSession
+    defaultAuthentication
   );
 
   return {
@@ -75,10 +75,10 @@ function getNextFunction(
   request: ISearchParams,
   response: any,
   hasNext: boolean,
-  serviceSession?: UserSession
+  defaultAuthentication?: UserSession
 ): () => Promise<IContentSearchResponse> {
-  return (userSession?: UserSession) => {
-    const authentication: UserSession = userSession || serviceSession;
+  return (auth?: UserSession) => {
+    const authentication: UserSession = auth || defaultAuthentication;
     const headers = authentication
       ? new Headers({ authentication: JSON.stringify(authentication) })
       : undefined;
@@ -89,7 +89,7 @@ function getNextFunction(
         headers
       })
         .then(res => res.json())
-        .then(res => convertHubResponse(request, res, serviceSession));
+        .then(res => convertHubResponse(request, res, defaultAuthentication));
     }
     const metadata: Record<string, any> = getResponseMetadata(response);
     return Promise.resolve({

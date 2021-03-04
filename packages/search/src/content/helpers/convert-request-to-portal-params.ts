@@ -30,8 +30,8 @@ const STRING_ENCLOSED_FILTER_FIELDS = [
 
 export function convertToPortalParams(
   request: IContentSearchRequest,
-  servicePortal?: string,
-  serviceAuthentication?: UserSession
+  defaultPortal?: string,
+  defaultAuthentication?: UserSession
 ): ISearchOptions {
   const q: string = processFilter(request);
   const paging: IPagingParams = processPage(request) || { start: 1, num: 10 };
@@ -39,8 +39,8 @@ export function convertToPortalParams(
     q,
     paging,
     request.options,
-    servicePortal,
-    serviceAuthentication
+    defaultPortal,
+    defaultAuthentication
   );
 }
 
@@ -75,8 +75,8 @@ function createSearchOptions(
   q: string,
   page: IPagingParams,
   options: IContentSearchOptions = {},
-  servicePortal?: string,
-  serviceAuthentication?: UserSession
+  defaultPortal?: string,
+  defaultAuthentication?: UserSession
 ): ISearchOptions {
   return {
     q,
@@ -89,8 +89,8 @@ function createSearchOptions(
       num: page.num
     },
     bbox: options.bbox,
-    portal: options.portal || servicePortal,
-    authentication: options.authentication || serviceAuthentication,
+    portal: options.portal || defaultPortal,
+    authentication: options.authentication || defaultAuthentication,
     httpMethod: "POST"
   };
 }

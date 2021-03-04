@@ -19,18 +19,17 @@ export class ContentSearchService
     ISearchService<IContentSearchRequest, Promise<IContentSearchResponse>> {
   private portal: string;
   private isPortal: boolean;
-  private hubApiUrl: string;
   private authentication: UserSession;
 
   constructor(params: ISearchServiceParams) {
     this.portal = params.portal;
     this.isPortal = params.isPortal;
-    this.hubApiUrl = getHubApiUrl(this.portal);
     this.authentication = params.authentication;
   }
 
   search(request: IContentSearchRequest): Promise<IContentSearchResponse> {
-    if (this.isPortal) {
+    const isPortal = getProp(request, "options.isPortal") || this.isPortal;
+    if (isPortal) {
       return this.enterpriseSearch(request);
     }
     return this.onlineSearch(request);
@@ -39,35 +38,68 @@ export class ContentSearchService
   private enterpriseSearch(
     request: IContentSearchRequest = { filter: {}, options: {} }
   ): Promise<IContentSearchResponse> {
-    const requestParams: ISearchOptions = convertToPortalParams(
+    return performEnterpriseContentSearch(
       request,
       this.portal,
       this.authentication
-    );
-    return searchItems(requestParams).then((response: ISearchResult<IItem>) =>
-      convertPortalResponse(requestParams, response)
     );
   }
 
   private onlineSearch(
     request: IContentSearchRequest = { filter: {}, options: {} }
   ): Promise<IContentSearchResponse> {
-    const requestParams: ISearchParams = convertToHubParams(request);
-    const authentication =
-      getProp(request, "options.authentication") || this.authentication;
-    return hubApiRequest("/search", {
-      hubApiUrl: this.hubApiUrl,
-      authentication,
-      isPortal: false,
-      headers: {
-        authentication: authentication
-          ? JSON.stringify(authentication)
-          : undefined
-      },
-      httpMethod: "POST",
-      params: requestParams
-    }).then((response: any) =>
-      convertHubResponse(requestParams, response, authentication)
-    );
+    return performHubContentSearch(request, this.portal, this.authentication);
   }
+}
+
+export function searchContent(
+  request: IContentSearchRequest = { filter: {}, options: {} }
+): Promise<IContentSearchResponse> {
+  if (getProp(request, "options.isPortal")) {
+    return performEnterpriseContentSearch(request);
+  }
+  return performHubContentSearch(request);
+}
+
+function performEnterpriseContentSearch(
+  request: IContentSearchRequest,
+  defaultPortal?: string,
+  defaultAuthentication?: UserSession
+): Promise<IContentSearchResponse> {
+  const requestParams: ISearchOptions = convertToPortalParams(
+    request,
+    defaultPortal,
+    defaultAuthentication
+  );
+  return searchItems(requestParams).then((response: ISearchResult<IItem>) =>
+    convertPortalResponse(requestParams, response)
+  );
+}
+
+function performHubContentSearch(
+  request: IContentSearchRequest,
+  defaultPortal?: string,
+  defaultAuthentication?: UserSession
+): Promise<IContentSearchResponse> {
+  const portal: string = getProp(request, "options.portal") || defaultPortal;
+  const authentication: UserSession =
+    getProp(request, "options.authentication") || defaultAuthentication;
+
+  const hubApiUrl: string = getHubApiUrl(portal);
+  const requestParams: ISearchParams = convertToHubParams(request);
+
+  return hubApiRequest("/search", {
+    hubApiUrl,
+    authentication,
+    isPortal: false,
+    headers: {
+      authentication: authentication
+        ? JSON.stringify(authentication)
+        : undefined
+    },
+    httpMethod: "POST",
+    params: requestParams
+  }).then((response: any) =>
+    convertHubResponse(requestParams, response, authentication)
+  );
 }
