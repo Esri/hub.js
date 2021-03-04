@@ -1,5 +1,5 @@
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
-import { Geometry } from "geojson";
+// import { Geometry } from "geojson";
 
 export enum SortOrder {
   ASC = "ASC",
@@ -11,7 +11,7 @@ export enum PostReaction {
   THUMBS_DOWN = "thumbs_down",
   THINKING = "thinking",
   HEART = "heart",
-  HUNDRED = "100",
+  ONE_HUNDRED = "one_hundred",
   SAD = "sad",
   LAUGH = "laugh",
   SURPRISED = "surprised"
@@ -111,7 +111,7 @@ export interface ICreateChannelPostDTO {
   title?: string;
   body: string;
   discussion?: string;
-  geometry?: Geometry;
+  geometry?: any; // Geometry;
 }
 
 export interface ICreatePostDTO extends ICreateChannelPostDTO, IWithSharing {}
