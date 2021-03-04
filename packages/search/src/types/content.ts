@@ -1,5 +1,4 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { IPagingParams } from "@esri/arcgis-rest-portal";
 import { IAggregationResult } from "../util/aggregations/merge-aggregations";
 import {
   IDateRange,
@@ -42,8 +41,8 @@ export interface IContentSearchFilter {
 }
 
 export interface IContentSearchOptions {
-  session?: UserSession;
-  portalSharingUrl?: string;
+  authentication?: UserSession;
+  portal?: string;
   sortField?: string;
   sortOrder?: SortDirection;
   page?: string;

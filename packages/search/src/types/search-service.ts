@@ -1,9 +1,9 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
 
 export interface ISearchServiceParams {
-  portalSharingUrl: string;
+  portal: string;
   isPortal: boolean;
-  session?: UserSession;
+  authentication?: UserSession;
 }
 
 export interface ISearchService<T, U> {

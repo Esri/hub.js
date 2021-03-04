@@ -390,8 +390,8 @@ describe("Convert Portal Params Function", () => {
       sortOrder: SortDirection.desc,
       aggregations: "categories,type,access",
       bbox: "bbox",
-      portalSharingUrl: "dummy-portal-sharing-one",
-      session: new UserSession({ portal: "dummy-portal-one" })
+      portal: "dummy-portal-sharing-one",
+      authentication: new UserSession({ portal: "dummy-portal-one" })
     };
 
     // Test

@@ -56,14 +56,14 @@ describe("Content Search Service", () => {
       results: [itemOne, itemTwo]
     };
 
-    const session: UserSession = new UserSession({
+    const authentication: UserSession = new UserSession({
       portal: "portal-sharing-url"
     });
 
     const service: ContentSearchService = new ContentSearchService({
-      portalSharingUrl: "portal-sharing-url",
+      portal: "portal-sharing-url",
       isPortal: true,
-      session
+      authentication
     });
 
     // Mock
@@ -86,7 +86,7 @@ describe("Content Search Service", () => {
           },
           sortField: "title",
           portal: "portal-sharing-url",
-          authentication: session,
+          authentication,
           httpMethod: "POST",
           sortOrder: undefined,
           bbox: undefined
@@ -138,14 +138,14 @@ describe("Content Search Service", () => {
       results: [itemOne, itemTwo]
     };
 
-    const session: UserSession = new UserSession({
+    const authentication: UserSession = new UserSession({
       portal: "portal-sharing-url"
     });
 
     const service: ContentSearchService = new ContentSearchService({
-      portalSharingUrl: "portal-sharing-url",
+      portal: "portal-sharing-url",
       isPortal: true,
-      session
+      authentication
     });
 
     // Mock
@@ -166,7 +166,7 @@ describe("Content Search Service", () => {
             countSize: undefined
           },
           portal: "portal-sharing-url",
-          authentication: session,
+          authentication,
           httpMethod: "POST",
           sortField: undefined,
           sortOrder: undefined,
@@ -241,14 +241,14 @@ describe("Content Search Service", () => {
       }
     };
 
-    const session: UserSession = new UserSession({
+    const authentication: UserSession = new UserSession({
       portal: "portal-sharing-url"
     });
 
     const service: ContentSearchService = new ContentSearchService({
-      portalSharingUrl: "https://qaext.arcgis.com/sharing/rest",
+      portal: "https://qaext.arcgis.com/sharing/rest",
       isPortal: false,
-      session
+      authentication
     });
 
     // Mock
@@ -263,10 +263,10 @@ describe("Content Search Service", () => {
         "/search",
         {
           hubApiUrl: "https://hubqa.arcgis.com",
-          authentication: session,
+          authentication,
           isPortal: false,
           headers: {
-            authentication: JSON.stringify(session)
+            authentication: JSON.stringify(authentication)
           },
           httpMethod: "POST",
           params: {
@@ -307,7 +307,7 @@ describe("Content Search Service", () => {
 
     const options: IContentSearchOptions = {
       sortField: "title",
-      session: sessionOne
+      authentication: sessionOne
     };
 
     const request: IContentSearchRequest = {
@@ -364,9 +364,9 @@ describe("Content Search Service", () => {
     });
 
     const service: ContentSearchService = new ContentSearchService({
-      portalSharingUrl: "https://qaext.arcgis.com/sharing/rest",
+      portal: "https://qaext.arcgis.com/sharing/rest",
       isPortal: false,
-      session: sessionTwo
+      authentication: sessionTwo
     });
 
     // Mock
@@ -475,7 +475,7 @@ describe("Content Search Service", () => {
     };
 
     const service: ContentSearchService = new ContentSearchService({
-      portalSharingUrl: "https://qaext.arcgis.com/sharing/rest",
+      portal: "https://qaext.arcgis.com/sharing/rest",
       isPortal: false
     });
 
@@ -572,7 +572,7 @@ describe("Content Search Service", () => {
     };
 
     const service: ContentSearchService = new ContentSearchService({
-      portalSharingUrl: "https://qaext.arcgis.com/sharing/rest",
+      portal: "https://qaext.arcgis.com/sharing/rest",
       isPortal: false
     });
 

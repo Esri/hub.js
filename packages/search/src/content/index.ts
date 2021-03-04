@@ -17,16 +17,16 @@ import { convertHubResponse } from "./helpers/convert-hub-response";
 export class ContentSearchService
   implements
     ISearchService<IContentSearchRequest, Promise<IContentSearchResponse>> {
-  private portalSharingUrl: string;
+  private portal: string;
   private isPortal: boolean;
   private hubApiUrl: string;
-  private session: UserSession;
+  private authentication: UserSession;
 
   constructor(params: ISearchServiceParams) {
-    this.portalSharingUrl = params.portalSharingUrl;
+    this.portal = params.portal;
     this.isPortal = params.isPortal;
-    this.hubApiUrl = getHubApiUrl(this.portalSharingUrl);
-    this.session = params.session;
+    this.hubApiUrl = getHubApiUrl(this.portal);
+    this.authentication = params.authentication;
   }
 
   search(request: IContentSearchRequest): Promise<IContentSearchResponse> {
@@ -41,8 +41,8 @@ export class ContentSearchService
   ): Promise<IContentSearchResponse> {
     const requestParams: ISearchOptions = convertToPortalParams(
       request,
-      this.portalSharingUrl,
-      this.session
+      this.portal,
+      this.authentication
     );
     return searchItems(requestParams).then((response: ISearchResult<IItem>) =>
       convertPortalResponse(requestParams, response)
@@ -53,7 +53,8 @@ export class ContentSearchService
     request: IContentSearchRequest = { filter: {}, options: {} }
   ): Promise<IContentSearchResponse> {
     const requestParams: ISearchParams = convertToHubParams(request);
-    const authentication = getProp(request, "options.session") || this.session;
+    const authentication =
+      getProp(request, "options.authentication") || this.authentication;
     return hubApiRequest("/search", {
       hubApiUrl: this.hubApiUrl,
       authentication,
