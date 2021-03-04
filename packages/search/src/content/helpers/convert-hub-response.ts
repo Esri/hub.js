@@ -14,6 +14,12 @@ const PROP_MAP: Record<string, string> = {
   title: "name"
 };
 
+/**
+ * Converts the response format returned by the Hub Indexer V3 API to a common format
+ * @param request - the ISearchParams instance used to invoke the request
+ * @param response - the JSON returned by the Hub Indexer V3 API
+ * @param defaultAuthentication - a default UserSession instance that can be used for the next() request if none provided
+ */
 export function convertHubResponse(
   request: ISearchParams,
   response: any = { data: [], meta: {} },

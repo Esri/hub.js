@@ -34,6 +34,10 @@ const VALUE_MAP: Record<string, Record<string, string>> = {
   }
 };
 
+/**
+ * Converts the common request format of contentSearch to a format specific to the Hub V3 Search API
+ * @param request - the IContentSearchRequest instance for searching
+ */
 export function convertToHubParams(
   request: IContentSearchRequest
 ): ISearchParams {

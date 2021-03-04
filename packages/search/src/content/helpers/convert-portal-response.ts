@@ -15,6 +15,11 @@ import {
 } from "../../util/aggregations/merge-aggregations";
 import { cloneObject } from "@esri/hub-common";
 
+/**
+ * Converts the response format returned by the Portal API to a common format
+ * @param request - the ISearchOptions instance used to invoke the request
+ * @param response - the ISearchResult JSON returned by the Portal API
+ */
 export function convertPortalResponse(
   request: ISearchOptions,
   response: ISearchResult<IItem>

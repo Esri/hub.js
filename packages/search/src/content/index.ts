@@ -14,6 +14,26 @@ import { hubApiRequest } from "@esri/hub-common";
 import { convertPortalResponse } from "./helpers/convert-portal-response";
 import { convertHubResponse } from "./helpers/convert-hub-response";
 
+/**
+ * A search service for searching content across the Portal API only or Portal API and the
+ * Hub Indexer V3 API. Has a single public method for searching.
+ *
+ * @param portal The Portal Sharing URL of the portal for which content should be searched
+ * @param isPortal Flag to determine if content searching should be limited to a Portal API
+ * @param authentication Optional User Session instance that can be used for authentication
+ *
+ * ```js
+ * import { ContentSearchService } from '@esri/hub-search'
+ *
+ * const service = new ContentSearchService({
+ *     portal: 'https://hub.arcgis.com/sharing/rest,
+ *     isPortal: false
+ *     session: new UserSession({ ... })
+ * });
+ *
+ * const searchResults = await service.search({ filters, options })
+ * ```
+ */
 export class ContentSearchService
   implements
     ISearchService<IContentSearchRequest, Promise<IContentSearchResponse>> {
@@ -27,6 +47,10 @@ export class ContentSearchService
     this.authentication = params.authentication;
   }
 
+  /**
+   * Entrypoint for Portal API-only or Portal API and Hub V3 API Search
+   * @param request - the IContentSearchRequest instance for searching
+   */
   search(request: IContentSearchRequest): Promise<IContentSearchResponse> {
     const isPortal = getProp(request, "options.isPortal") || this.isPortal;
     if (isPortal) {
@@ -52,6 +76,18 @@ export class ContentSearchService
   }
 }
 
+/**
+ * A standalone function for searching content across the Portal API only or Portal API and the
+ * Hub Indexer V3 API.
+ *
+ * @param request - the IContentSearchRequest instance for searching
+ *
+ * ```js
+ * import { searchContent } from '@esri/hub-search'
+ *
+ * const searchResults = searchContent({ filters, options })
+ * ```
+ */
 export function searchContent(
   request: IContentSearchRequest = { filter: {}, options: {} }
 ): Promise<IContentSearchResponse> {

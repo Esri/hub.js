@@ -28,6 +28,10 @@ const STRING_ENCLOSED_FILTER_FIELDS = [
   "categories"
 ];
 
+/**
+ * Converts the common request format of contentSearch to a format specific to the Portal API
+ * @param request - the IContentSearchRequest instance for searching
+ */
 export function convertToPortalParams(
   request: IContentSearchRequest,
   defaultPortal?: string,
