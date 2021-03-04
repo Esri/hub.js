@@ -1,13 +1,30 @@
 import { IRequestOptions } from "./types";
 
 export function request(url: string, options: IRequestOptions) {
+  const { token, authentication } = options;
+
+  let tokenPromise = () => {
+    return Promise.resolve(token);
+  };
+
+  if (authentication) {
+    tokenPromise = authentication.getToken.bind(
+      authentication,
+      authentication.portal
+    );
+  }
+
+  const callback = apiRequest.bind(null, url, options);
+  return tokenPromise().then(callback);
+}
+
+export function apiRequest(
+  url: string,
+  options: IRequestOptions,
+  token: string
+) {
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
-
-  const token = options.token;
-  // if (options.authentication) {
-  //   token = options.authentication.getToken();
-  // }
   if (token) {
     headers.append("Authorization", `Bearer ${token}`);
   }
