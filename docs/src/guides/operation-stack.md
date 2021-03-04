@@ -154,4 +154,87 @@ export function createSite(siteModel, session) {
 
 ```
 
+## Examples
+
+Example output of a large process
+
+```
+1614199528247 : Operation canDeployTemplates-ini44h96n took 167 ms with inputs {"username":"qa_bas_sol_admin"} and output n/a
+1614199528414 : Operation deploy-ini44h96n took 108163 ms with inputs {"username":"qa_bas_sol_admin","canDeploy":true} and output n/a
+1614199528414 : Operation createVars-i98pqph5s took 1100 ms with inputs {"username":"qa_bas_sol_admin"} and output n/a
+1614199529514 : Operation deployItemTemplates-i98pqph5s took 32099 ms with inputs {} and output n/a
+1614199529515 : Operation deployTemplate-Hub Page-d541623471414e2fb4200deb91a6f47d took 7217 ms with inputs {"sourceId":"d541623471414e2fb4200deb91a6f47d"} and output {"deployedItems":[{"id":"b89311d4d2f24d3dadc34c0645841085","type":"Hub Page"}]}
+1614199529515 : Operation deployHubPageProcessor-d541623471414e2fb4200deb91a6f47d took 7217 ms with inputs {"sourceId":"d541623471414e2fb4200deb91a6f47d","type":"Hub Page"} and output n/a
+1614199529515 : Operation createHubRO-d541623471414e2fb4200deb91a6f47d took 249 ms with inputs {"username":"qa_bas_sol_admin"} and output n/a
+1614199529764 : Operation createPageModel-d541623471414e2fb4200deb91a6f47d took 2 ms with inputs {"sourceId":"d541623471414e2fb4200deb91a6f47d"} and output n/a
+1614199529766 : Operation createPage-d541623471414e2fb4200deb91a6f47d took 1405 ms with inputs {"sourceId":"d541623471414e2fb4200deb91a6f47d"} and output n/a
+1614199531171 : Operation deployResources-d541623471414e2fb4200deb91a6f47d took 5561 ms with inputs {"sourceId":"d541623471414e2fb4200deb91a6f47d"} and output n/a
+1614199531171 : Operation fetchThumbnailResource-b89311d4d2f24d3dadc34c0645841085-abstract-architecture-black-building-277576.jpg took 3479 ms with inputs {"sourceUrl":"https://qa-bas-hub.mapsqa.arcgis.com/sharing/rest/content/items/d541623471414e2fb4200deb91a6f47d/resources/abstract-architecture-black-building-277576.jpg?token=4FLZcllB4c4nBuiucdVraRPh0lIq5Kl1QAJUkM2r-ydBGS9lEtjDVAmU_rxoOjZfOGejYUQ--IQE51509I2BphS__3pMOzScuKyORe4kjXLZS2dBW3kdU95O4Js6evr-yQbnRmkda_lQeW1eapMECn9Us5c-my2_RFak4uo_opN9YdcGlvae8KyYjtFKmG7Z"} and output n/a
+1614199531172 : Operation fetchThumbnailResource-b89311d4d2f24d3dadc34c0645841085-IMG_0420.jpg took 2470 ms with inputs {"sourceUrl":"https://qa-bas-hub.mapsqa.arcgis.com/sharing/rest/content/items/d541623471414e2fb4200deb91a6f47d/resources/IMG_0420.jpg?token=4FLZcllB4c4nBuiucdVraRPh0lIq5Kl1QAJUkM2r-ydBGS9lEtjDVAmU_rxoOjZfOGejYUQ--IQE51509I2BphS__3pMOzScuKyORe4kjXLZS2dBW3kdU95O4Js6evr-yQbnRmkda_lQeW1eapMECn9Us5c-my2_RFak4uo_opN9YdcGlvae8KyYjtFKmG7Z"} and output n/a
+1614199533642 : Operation addResource-b89311d4d2f24d3dadc34c0645841085-IMG_0420.jpg took 1186 ms with inputs {"targetItemId":"b89311d4d2f24d3dadc34c0645841085"} and output n/a
+1614199534650 : Operation addResource-b89311d4d2f24d3dadc34c0645841085-abstract-architecture-black-building-277576.jpg took 2081 ms with inputs {"targetItemId":"b89311d4d2f24d3dadc34c0645841085"} and output n/a
+1614199536732 : Operation movePage-b89311d4d2f24d3dadc34c0645841085 took 0 ms with inputs {"id":"b89311d4d2f24d3dadc34c0645841085"} and output n/a
+1614199536732 : Operation deployTemplate-Hub Site Application-79d2924052f4457995816e1554aa74bf took 24880 ms with inputs {"sourceId":"79d2924052f4457995816e1554aa74bf"} and output {"deployedItems":[{"id":"76852f77eca64b6eacea137f8f2a50b6","type":"Hub Site Application"}]}
+1614199536732 : Operation deployHubSiteProcessor-79d2924052f4457995816e1554aa74bf took 24880 ms with inputs {"sourceId":"79d2924052f4457995816e1554aa74bf","type":"Hub Site Application"} and output n/a
+1614199536732 : Operation createHubRO-79d2924052f4457995816e1554aa74bf took 2981 ms with inputs {"username":"qa_bas_sol_admin"} and output n/a
+1614199539713 : Operation createSiteModel-79d2924052f4457995816e1554aa74bf took 3338 ms with inputs {"sourceId":"79d2924052f4457995816e1554aa74bf"} and output n/a
+1614199543051 : Operation createSite-79d2924052f4457995816e1554aa74bf took 3771 ms with inputs {"sourceId":"79d2924052f4457995816e1554aa74bf"} and output n/a
+1614199546823 : Operation deployResources-79d2924052f4457995816e1554aa74bf took 14789 ms with inputs {"sourceId":"79d2924052f4457995816e1554aa74bf"} and output n/a
+1614199546823 : Operation fetchThumbnailResource-76852f77eca64b6eacea137f8f2a50b6-hub-image-card-crop-i10znomnn.png took 1085 ms with inputs {"sourceUrl":"https://qa-bas-hub.mapsqa.arcgis.com/sharing/rest/content/items/79d2924052f4457995816e1554aa74bf/resources/hub-image-card-crop-i10znomnn.png?token=4FLZcllB4c4nBuiucdVraRPh0lIq5Kl1QAJUkM2r-ydBGS9lEtjDVAmU_rxoOjZfOGejYUQ--IQE51509I2BphS__3pMOzScuKyORe4kjXLZS2dBW3kdU95O4Js6evr-yQbnRmkda_lQeW1eapMECn9Us5c-my2_RFak4uo_opN9YdcGlvae8KyYjtFKmG7Z"} and output n/a
+1614199546823 : Operation fetchThumbnailResource-76852f77eca64b6eacea137f8f2a50b6-hub-image-card-crop-izmjv7x98.png took 1686 ms with inputs {"sourceUrl":"https://qa-bas-hub.mapsqa.arcgis.com/sharing/rest/content/items/79d2924052f4457995816e1554aa74bf/resources/hub-image-card-crop-izmjv7x98.png?token=4FLZcllB4c4nBuiucdVraRPh0lIq5Kl1QAJUkM2r-ydBGS9lEtjDVAmU_rxoOjZfOGejYUQ--IQE51509I2BphS__3pMOzScuKyORe4kjXLZS2dBW3kdU95O4Js6evr-yQbnRmkda_lQeW1eapMECn9Us5c-my2_RFak4uo_opN9YdcGlvae8KyYjtFKmG7Z"} and output n/a
+1614199547908 : Operation addResource-76852f77eca64b6eacea137f8f2a50b6-hub-image-card-crop-i10znomnn.png took 1345 ms with inputs {"targetItemId":"76852f77eca64b6eacea137f8f2a50b6"} and output n/a
+1614199548509 : Operation addResource-76852f77eca64b6eacea137f8f2a50b6-hub-image-card-crop-izmjv7x98.png took 1672 ms with inputs {"targetItemId":"76852f77eca64b6eacea137f8f2a50b6"} and output n/a
+1614199550181 : Operation fetchThumbnailResource-76852f77eca64b6eacea137f8f2a50b6-IMG_0475.jpg took 431 ms with inputs {"sourceUrl":"https://qa-bas-hub.mapsqa.arcgis.com/sharing/rest/content/items/79d2924052f4457995816e1554aa74bf/resources/IMG_0475.jpg?token=4FLZcllB4c4nBuiucdVraRPh0lIq5Kl1QAJUkM2r-ydBGS9lEtjDVAmU_rxoOjZfOGejYUQ--IQE51509I2BphS__3pMOzScuKyORe4kjXLZS2dBW3kdU95O4Js6evr-yQbnRmkda_lQeW1eapMECn9Us5c-my2_RFak4uo_opN9YdcGlvae8KyYjtFKmG7Z"} and output n/a
+1614199550182 : Operation fetchThumbnailResource-76852f77eca64b6eacea137f8f2a50b6-IMG_0923.jpg took 557 ms with inputs {"sourceUrl":"https://qa-bas-hub.mapsqa.arcgis.com/sharing/rest/content/items/79d2924052f4457995816e1554aa74bf/resources/IMG_0923.jpg?token=4FLZcllB4c4nBuiucdVraRPh0lIq5Kl1QAJUkM2r-ydBGS9lEtjDVAmU_rxoOjZfOGejYUQ--IQE51509I2BphS__3pMOzScuKyORe4kjXLZS2dBW3kdU95O4Js6evr-yQbnRmkda_lQeW1eapMECn9Us5c-my2_RFak4uo_opN9YdcGlvae8KyYjtFKmG7Z"} and output n/a
+1614199550612 : Operation addResource-76852f77eca64b6eacea137f8f2a50b6-IMG_0475.jpg took 675 ms with inputs {"targetItemId":"76852f77eca64b6eacea137f8f2a50b6"} and output n/a
+1614199550739 : Operation addResource-76852f77eca64b6eacea137f8f2a50b6-IMG_0923.jpg took 1567 ms with inputs {"targetItemId":"76852f77eca64b6eacea137f8f2a50b6"} and output n/a
+1614199552306 : Operation fetchThumbnailResource-76852f77eca64b6eacea137f8f2a50b6-IMG_1871.JPG took 467 ms with inputs {"sourceUrl":"https://qa-bas-hub.mapsqa.arcgis.com/sharing/rest/content/items/79d2924052f4457995816e1554aa74bf/resources/IMG_1871.JPG?token=4FLZcllB4c4nBuiucdVraRPh0lIq5Kl1QAJUkM2r-ydBGS9lEtjDVAmU_rxoOjZfOGejYUQ--IQE51509I2BphS__3pMOzScuKyORe4kjXLZS2dBW3kdU95O4Js6evr-yQbnRmkda_lQeW1eapMECn9Us5c-my2_RFak4uo_opN9YdcGlvae8KyYjtFKmG7Z"} and output n/a
+1614199552306 : Operation fetchThumbnailResource-76852f77eca64b6eacea137f8f2a50b6-IMG_2051.JPG took 725 ms with inputs {"sourceUrl":"https://qa-bas-hub.mapsqa.arcgis.com/sharing/rest/content/items/79d2924052f4457995816e1554aa74bf/resources/IMG_2051.JPG?token=4FLZcllB4c4nBuiucdVraRPh0lIq5Kl1QAJUkM2r-ydBGS9lEtjDVAmU_rxoOjZfOGejYUQ--IQE51509I2BphS__3pMOzScuKyORe4kjXLZS2dBW3kdU95O4Js6evr-yQbnRmkda_lQeW1eapMECn9Us5c-my2_RFak4uo_opN9YdcGlvae8KyYjtFKmG7Z"} and output n/a
+1614199552773 : Operation addResource-76852f77eca64b6eacea137f8f2a50b6-IMG_1871.JPG took 1467 ms with inputs {"targetItemId":"76852f77eca64b6eacea137f8f2a50b6"} and output n/a
+1614199553031 : Operation addResource-76852f77eca64b6eacea137f8f2a50b6-IMG_2051.JPG took 2528 ms with inputs {"targetItemId":"76852f77eca64b6eacea137f8f2a50b6"} and output n/a
+1614199555559 : Operation fetchThumbnailResource-76852f77eca64b6eacea137f8f2a50b6-json-resource.json took 298 ms with inputs {"sourceUrl":"https://qa-bas-hub.mapsqa.arcgis.com/sharing/rest/content/items/79d2924052f4457995816e1554aa74bf/resources/json-resource.json?token=4FLZcllB4c4nBuiucdVraRPh0lIq5Kl1QAJUkM2r-ydBGS9lEtjDVAmU_rxoOjZfOGejYUQ--IQE51509I2BphS__3pMOzScuKyORe4kjXLZS2dBW3kdU95O4Js6evr-yQbnRmkda_lQeW1eapMECn9Us5c-my2_RFak4uo_opN9YdcGlvae8KyYjtFKmG7Z"} and output n/a
+1614199555560 : Operation fetchThumbnailResource-76852f77eca64b6eacea137f8f2a50b6-sep-13-beyond-the-clouds-nocal-2560x1440.jpg took 779 ms with inputs {"sourceUrl":"https://qa-bas-hub.mapsqa.arcgis.com/sharing/rest/content/items/79d2924052f4457995816e1554aa74bf/resources/sep-13-beyond-the-clouds-nocal-2560x1440.jpg?token=4FLZcllB4c4nBuiucdVraRPh0lIq5Kl1QAJUkM2r-ydBGS9lEtjDVAmU_rxoOjZfOGejYUQ--IQE51509I2BphS__3pMOzScuKyORe4kjXLZS2dBW3kdU95O4Js6evr-yQbnRmkda_lQeW1eapMECn9Us5c-my2_RFak4uo_opN9YdcGlvae8KyYjtFKmG7Z"} and output n/a
+1614199555857 : Operation addResource-76852f77eca64b6eacea137f8f2a50b6-json-resource.json took 484 ms with inputs {"targetItemId":"76852f77eca64b6eacea137f8f2a50b6"} and output n/a
+1614199556339 : Operation addResource-76852f77eca64b6eacea137f8f2a50b6-sep-13-beyond-the-clouds-nocal-2560x1440.jpg took 2798 ms with inputs {"targetItemId":"76852f77eca64b6eacea137f8f2a50b6"} and output n/a
+1614199559138 : Operation fetchThumbnailResource-76852f77eca64b6eacea137f8f2a50b6-text-resource.txt took 282 ms with inputs {"sourceUrl":"https://qa-bas-hub.mapsqa.arcgis.com/sharing/rest/content/items/79d2924052f4457995816e1554aa74bf/resources/text-resource.txt?token=4FLZcllB4c4nBuiucdVraRPh0lIq5Kl1QAJUkM2r-ydBGS9lEtjDVAmU_rxoOjZfOGejYUQ--IQE51509I2BphS__3pMOzScuKyORe4kjXLZS2dBW3kdU95O4Js6evr-yQbnRmkda_lQeW1eapMECn9Us5c-my2_RFak4uo_opN9YdcGlvae8KyYjtFKmG7Z"} and output n/a
+1614199559138 : Operation fetchThumbnailResource-76852f77eca64b6eacea137f8f2a50b6-zip-resource.zip took 623 ms with inputs {"sourceUrl":"https://qa-bas-hub.mapsqa.arcgis.com/sharing/rest/content/items/79d2924052f4457995816e1554aa74bf/resources/zip-resource.zip?token=4FLZcllB4c4nBuiucdVraRPh0lIq5Kl1QAJUkM2r-ydBGS9lEtjDVAmU_rxoOjZfOGejYUQ--IQE51509I2BphS__3pMOzScuKyORe4kjXLZS2dBW3kdU95O4Js6evr-yQbnRmkda_lQeW1eapMECn9Us5c-my2_RFak4uo_opN9YdcGlvae8KyYjtFKmG7Z"} and output n/a
+1614199559420 : Operation addResource-76852f77eca64b6eacea137f8f2a50b6-text-resource.txt took 395 ms with inputs {"targetItemId":"76852f77eca64b6eacea137f8f2a50b6"} and output n/a
+1614199559761 : Operation addResource-76852f77eca64b6eacea137f8f2a50b6-zip-resource.zip took 1851 ms with inputs {"targetItemId":"76852f77eca64b6eacea137f8f2a50b6"} and output n/a
+1614199561612 : Operation moveSite-76852f77eca64b6eacea137f8f2a50b6 took 0 ms with inputs {"id":"76852f77eca64b6eacea137f8f2a50b6"} and output n/a
+1614199561613 : Operation postProcess-i98pqph5s took 74964 ms with inputs {} and output n/a
+1614199571662 : Operation getDeployedItems took 38974 ms with inputs {"itemIds":["b89311d4d2f24d3dadc34c0645841085","76852f77eca64b6eacea137f8f2a50b6"]} and output n/a
+1614199610636 : Operation postProcessItems took 25941 ms with inputs {"itemIds":["b89311d4d2f24d3dadc34c0645841085","76852f77eca64b6eacea137f8f2a50b6"]} and output n/a
+1614199634145 : Operation createHubRO-76852f77eca64b6eacea137f8f2a50b6 took 183 ms with inputs {"username":"qa_bas_sol_admin"} and output n/a
+1614199634586 : Operation shareItemsToSiteGroups-76852f77eca64b6eacea137f8f2a50b6 took 612 ms with inputs {"siteId":"76852f77eca64b6eacea137f8f2a50b6","username":"qa_bas_sol_admin"} and output n/a
+1614199635198 : Operation linkPagesToSite-76852f77eca64b6eacea137f8f2a50b6 took 1377 ms with inputs {"siteId":"76852f77eca64b6eacea137f8f2a50b6","username":"qa_bas_sol_admin"} and output n/a
+```
+
+Example of the same process, but an error was thrown from deep in an external library that is not utilizing OperationStack
+
+```
+1614199713202 : Operation canDeployTemplates-iukwhlh6b took 157 ms with inputs {"username":"qa_bas_sol_admin"} and output n/a
+1614199713359 : Operation deploy-iukwhlh6b started with inputs {"username":"qa_bas_sol_admin","canDeploy":true} but was not completed
+1614199714452 : Operation deployTemplate-Hub Page-d541623471414e2fb4200deb91a6f47d took 6983 ms with inputs {"sourceId":"d541623471414e2fb4200deb91a6f47d"} and output {"deployedItems":[{"id":"85a595d6ccce4a55a4c061dc98e1a96b","type":"Hub Page"}]}
+1614199714452 : Operation deployHubPageProcessor-d541623471414e2fb4200deb91a6f47d took 6982 ms with inputs {"sourceId":"d541623471414e2fb4200deb91a6f47d","type":"Hub Page"} and output n/a
+1614199714453 : Operation createHubRO-d541623471414e2fb4200deb91a6f47d took 147 ms with inputs {"username":"qa_bas_sol_admin"} and output n/a
+1614199714600 : Operation createPageModel-d541623471414e2fb4200deb91a6f47d took 2 ms with inputs {"sourceId":"d541623471414e2fb4200deb91a6f47d"} and output n/a
+1614199714602 : Operation createPage-d541623471414e2fb4200deb91a6f47d took 1011 ms with inputs {"sourceId":"d541623471414e2fb4200deb91a6f47d"} and output n/a
+1614199715613 : Operation deployResources-d541623471414e2fb4200deb91a6f47d took 5821 ms with inputs {"sourceId":"d541623471414e2fb4200deb91a6f47d"} and output n/a
+1614199715614 : Operation fetchThumbnailResource-85a595d6ccce4a55a4c061dc98e1a96b-abstract-architecture-black-building-277576.jpg took 2887 ms with inputs {"sourceUrl":"https://qa-bas-hub.mapsqa.arcgis.com/sharing/rest/content/items/d541623471414e2fb4200deb91a6f47d/resources/abstract-architecture-black-building-277576.jpg?token=7Vu_Nao4GALcmLdUeh4b7w5qOIBMTLL6rb_zXxUGrQK5RZY1z5EOO6eeg_l2xDq2o2hsae7GHZ-pHUHfm0g3UNRoSLxeA0_MwZKU-kElQkI_addqJ80VhtPxRdyVfYI-8-is30ng1Q0F6-ABUwS8ZObZC4rZGFTpMt4HD9RIPyuatZORUDqe4-h1mwvb-IIs"} and output n/a
+1614199715614 : Operation fetchThumbnailResource-85a595d6ccce4a55a4c061dc98e1a96b-IMG_0420.jpg took 2209 ms with inputs {"sourceUrl":"https://qa-bas-hub.mapsqa.arcgis.com/sharing/rest/content/items/d541623471414e2fb4200deb91a6f47d/resources/IMG_0420.jpg?token=7Vu_Nao4GALcmLdUeh4b7w5qOIBMTLL6rb_zXxUGrQK5RZY1z5EOO6eeg_l2xDq2o2hsae7GHZ-pHUHfm0g3UNRoSLxeA0_MwZKU-kElQkI_addqJ80VhtPxRdyVfYI-8-is30ng1Q0F6-ABUwS8ZObZC4rZGFTpMt4HD9RIPyuatZORUDqe4-h1mwvb-IIs"} and output n/a
+1614199717823 : Operation addResource-85a595d6ccce4a55a4c061dc98e1a96b-IMG_0420.jpg took 1246 ms with inputs {"targetItemId":"85a595d6ccce4a55a4c061dc98e1a96b"} and output n/a
+1614199718501 : Operation addResource-85a595d6ccce4a55a4c061dc98e1a96b-abstract-architecture-black-building-277576.jpg took 2929 ms with inputs {"targetItemId":"85a595d6ccce4a55a4c061dc98e1a96b"} and output n/a
+1614199721434 : Operation movePage-85a595d6ccce4a55a4c061dc98e1a96b took 0 ms with inputs {"id":"85a595d6ccce4a55a4c061dc98e1a96b"} and output n/a
+1614199721435 : Operation deployTemplate-Hub Site Application-79d2924052f4457995816e1554aa74bf started with inputs {"sourceId":"79d2924052f4457995816e1554aa74bf"} but was not completed
+1614199721435 : Operation createHubRO-79d2924052f4457995816e1554aa74bf took 5988 ms with inputs {"username":"qa_bas_sol_admin"} and output n/a
+1614199727423 : Operation createSiteModel-79d2924052f4457995816e1554aa74bf started with inputs {"sourceId":"79d2924052f4457995816e1554aa74bf"} but was not completed
+```
+
+The returned OperationError has the stack trace from the original location that threw
+
+```
+Error: site-utils::createSiteModelFromTemplate Error TypeError: Cannot set property 'theme' of undefined
+    at karma-typescript-bundle--50366-eCa8QbhkgeR0-.js?8643af5618d2e22f36e172e229976bca65d27008:35563
+```
+
 For more details please see [OperationStack](../../hub.js/api/common/OperationStack) documentation.
