@@ -56,30 +56,34 @@ agoSearch(req.query, req.headers.authorization, req.headers.portal)
 ```
 
 ### Content Search
-The `ContentSearchService` provides an API to search for content from the Portal API only or from both ArcGIS Online and Hub Indexer's V3 Search API (hereafter known as `V3 Search API`), depending on how the service is configured.
+Unified Content Search can be performed in two different ways: the `searchContent` function and the `ContentSearchService` class. Both provide a mechanism to search for content from the Portal API only or from both ArcGIS Online and Hub Indexer's V3 Search API (hereafter known as `V3 Search API`), depending on how `searchContent` function is invoked, or how the `ContentSearchService` is configured. They use the same underlying search functions for consistency.
 
 #### Instantiating the Content Search Service
 The Content Search Service takes the following parameters to instantiate:
-  1. `portalSharingUrl`: a portal sharing url string
+  1. `portal`: a portal sharing url string
   2. `isPortal`: a boolean flag indicating whether service is being instantiated in enterprise environment
-  3. `session`: an optional `UserSession` object for authentication.
+  3. `authentication`: an optional `UserSession` object for authentication.
 
 Examples:
 ```
 const contentSearchService = new ContentSearchService({
-  portalSharingUrl: "https://qa-pre-hub.mapsqa.arcgis.com/sharing/rest",
-  isPortal: false
+  portal: "https://qa-pre-hub.mapsqa.arcgis.com/sharing/rest",
+  isPortal: false,
+  authentication: new UserSession(...)
 });
 ```
 
+By contrast, the standalone `searchContent` function takes these values from an `options` object provided to it (see below).
+
 #### Performing Content Searches
-The `search` method of the `Content Search Service` takes a parameters object with optional `filter` and `options` properties.
+Both the standalone `searchContent` function and the `search` method of the `ContentSearchService` take a parameters object with optional `filter` and `options` properties.
 
 ```
-const results = contentSearchService.search({ filter, options });
+const resultsOne = await searchContent({ filter, options });
+const resultsTwo = await contentSearchService.search({ filter, options });
 ```
 
-For content searching, the `filter` property is an instance of `IContentSearchFilter`. This interface explicitly defines several fields searchable by the Portal API. Each property, with the exception of date-related fields, can take:
+The `filter` property is an instance of `IContentSearchFilter`. This interface explicitly defines several fields searchable by the Portal API. Each property, with the exception of date-related fields, can take:
   - a string, OR
   - an array of strings, OR
   - an instance of the `IContentFieldFilter` interface
@@ -91,13 +95,13 @@ The `IContentFieldFilter` interface provides a more granular interface for const
 Examples:
 ```
 // corresponds to (tag: TAG_ONE OR tag: TAG_TWO)
-const filterOne = { bool: "OR", value: ["TAG_ONE", "TAG_TWO"] };
+const filterOne = { tag: { bool: "OR", value: ["TAG_ONE", "TAG_TWO"] } };
 
 // corresponds to (tag: TAG_ONE AND tag: TAG_TWO)
-const filterTwo = { bool: "AND", value: ["TAG_ONE", "TAG_TWO"] };
+const filterTwo = { tag: { bool: "AND", value: ["TAG_ONE", "TAG_TWO"] } };
 
 // corresponds to (-tag: TAG_ONE AND -tag: TAG_TWO)
-const filterThree = { bool: "NOT", value: ["TAG_ONE", "TAG_TWO"] };
+const filterThree = { tag: { bool: "NOT", value: ["TAG_ONE", "TAG_TWO"] } };
 ```
 
 Through these three options, large filters can be constructed. As a default, items of type `code attachment` are excluded from search.
@@ -124,7 +128,7 @@ const filters = {
 };
 ```
 
-The `options` property provides several familar options for sorting and paging data, as well as requesting aggregations. These are specified by the `IContentSearchOptions` interface. Importantly, a user can also provide an `UserSession` instance as part of the options for authenticated searches. This instance will be used over any instance provided to the service as part of instantiation.
+The `options` property provides several familar options for sorting and paging data, as well as requesting aggregations. These are specified by the `IContentSearchOptions` interface. Importantly, a user can also provide an `UserSession` instance as part of the options for authenticated searches. For the `searchContent` function, the client must provide the UserSession instance, `portal` sharing url, and `isPortal` flag, as needed, for each invocation. This is because it is a standalone function with no default options to reference. By contrast, the `ContentSearchService` will use the options it was configured with as a default if the relevant option is not provided.
 
 #### Content Search Results
 The results of a content search could include:
