@@ -72,6 +72,21 @@ interface IMetadataPaths {
   createDate: string;
 }
 
+export type UpdateFrequency =
+  | "continual"
+  | "daily"
+  | "weekly"
+  | "fortnightly"
+  | "monthly"
+  | "quarterly"
+  | "biannually"
+  | "annually"
+  | "as-needed"
+  | "irregular"
+  | "not-planned"
+  | "unknown"
+  | "semimonthly";
+
 function getMetadataPath(identifier: keyof IMetadataPaths) {
   // NOTE: i have verified that this will work regardless of the "Metadata Style" set on the org
   const metadataPaths: IMetadataPaths = {
@@ -124,7 +139,7 @@ export function _enrichDates(content: IHubContent): IHubContent {
       "011": "not-planned",
       "012": "unknown",
       "013": "semimonthly"
-    } as { [index: string]: string };
+    } as { [index: string]: UpdateFrequency };
 
     newContent.updateFrequency = updateFrequencyMap[updatedFrequencyValue];
   }
@@ -161,7 +176,10 @@ export function _enrichDates(content: IHubContent): IHubContent {
  * @param content - the IHubContent object
  * @param options - request options that may include authentication
  */
-function enrichContent(content: IHubContent, options?: IGetContentOptions) {
+function enrichContent(
+  content: IHubContent,
+  options?: IGetContentOptions
+): Promise<IHubContent> {
   // see if there are additional properties to fetch based on content type
   const propertiesToFetch: IContentPropertyRequests = {};
   if (!content.data && shouldFetchData(content.hubType)) {
@@ -185,7 +203,10 @@ function enrichContent(content: IHubContent, options?: IGetContentOptions) {
  * or record id ((itemId}_{layerId} or {itemId})
  * @param options - request options that may include authentication
  */
-function getContentById(identifier: string, options?: IGetContentOptions) {
+function getContentById(
+  identifier: string,
+  options?: IGetContentOptions
+): Promise<IHubContent> {
   let getContentPromise: Promise<IHubContent>;
   // first fetch and format the content from the Hub or portal API
   if (options && options.isPortal) {
