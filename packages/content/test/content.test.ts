@@ -236,7 +236,6 @@ describe("what's currently here, which aint much", () => {
 });
 
 describe("enrichDates", () => {
-  // TODO: tests for other metadata profiles
   describe("updateFrequency", () => {
     it("should return undefined when no metadata", () => {
       const result = _enrichDates({} as IHubContent);
