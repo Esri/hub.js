@@ -169,7 +169,7 @@ export function itemToContent(item: IItem): IHubContent {
     // default boundary from item.extent
     boundary: itemExtentToBoundary(item.extent),
     license: { name: "Custom License", description: item.accessInformation },
-    // dates and sources
+    // dates and sources we will enrich these later...
     createdDate,
     createdDateSource,
     publishedDate: createdDate,

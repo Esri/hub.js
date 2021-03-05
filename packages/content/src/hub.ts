@@ -84,7 +84,8 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
     slug,
     searchDescription,
     groupIds,
-    structuredLicense
+    structuredLicense,
+    layer
     // dataset enrichments
     // recordCount
     // TODO: fields, geometryType, layer?, server?, as needed
@@ -94,6 +95,7 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
   content.slug = slug;
   content.groupIds = groupIds;
   content.structuredLicense = structuredLicense;
+  content.layer = layer;
   //
   if (searchDescription) {
     // overwrite default summary (from snippet) w/ search description

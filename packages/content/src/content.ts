@@ -12,8 +12,12 @@ import {
   IHubContent,
   IHubRequestOptions,
   IModel,
-  includes
+  includes,
+  cloneObject,
+  getProp,
+  stringToBlob
 } from "@esri/hub-common";
+import { NodeStringDecoder } from "string_decoder";
 import { IGetContentOptions, getContentFromHub } from "./hub";
 import {
   getContentFromPortal,
@@ -62,6 +66,97 @@ function getContentData(
   return getItemData(content.id, requestOptions);
 }
 
+interface IMetadataPaths {
+  updateFrequency: string;
+  reviseDate: string;
+  pubDate: string;
+  createDate: string;
+}
+
+function getMetadataPath(identifier: keyof IMetadataPaths) {
+  // NOTE: i have verified that this will work regardless of the "Metadata Style" set on the org
+  const metadataPaths: IMetadataPaths = {
+    updateFrequency:
+      "metadata.metadata.dataIdInfo.resMaint.maintFreq.MaintFreqCd.@_value",
+    reviseDate: "metadata.metadata.dataIdInfo.idCitation.date.reviseDate",
+    pubDate: "metadata.metadata.dataIdInfo.idCitation.date.pubDate",
+    createDate: "metadata.metadata.dataIdInfo.idCitation.date.createDate"
+  };
+
+  return metadataPaths[identifier];
+}
+
+function getValueFromMetadata(
+  content: IHubContent,
+  identifier: keyof IMetadataPaths
+) {
+  const path = getMetadataPath(identifier);
+  return path && getProp(content, path);
+}
+
+/**
+ * Enriches the content with additional date-related information
+ * Note that this is exported to facilitate testing but it should be considered private
+ *
+ * @private
+ * @param {IHubContent} content - the IHubContent object
+ * @returns {IHubContent}
+ */
+export function _enrichDates(content: IHubContent): IHubContent {
+  const newContent = cloneObject(content);
+
+  // updateFrequency:
+  const updatedFrequencyValue = getValueFromMetadata(
+    newContent,
+    "updateFrequency"
+  );
+  if (updatedFrequencyValue) {
+    const updateFrequencyMap = {
+      "001": "continual",
+      "002": "daily",
+      "003": "weekly",
+      "004": "fortnightly",
+      "005": "monthly",
+      "006": "quarterly",
+      "007": "biannually",
+      "008": "annually",
+      "009": "as-needed",
+      "010": "irregular",
+      "011": "not-planned",
+      "012": "unknown",
+      "013": "semimonthly"
+    } as { [index: string]: string };
+
+    newContent.updateFrequency = updateFrequencyMap[updatedFrequencyValue];
+  }
+
+  // updatedDate & updatedDateSource:
+  // updatedDate is already set to item.modified, we will override that if we have reviseDate in metadata or lastEditDate
+  const reviseDate = getValueFromMetadata(newContent, "reviseDate");
+  const lastEditDate = getProp(newContent, "layer.editingInfo.lastEditDate");
+  if (reviseDate) {
+    newContent.updatedDate = new Date(reviseDate);
+    newContent.updatedDateSource = getMetadataPath("reviseDate");
+  } else if (lastEditDate) {
+    newContent.updatedDate = new Date(lastEditDate);
+    newContent.updatedDateSource = "layer.editingInfo.lastEditDate";
+  }
+
+  // publishedDate & publishedDateSource:
+  // publishedDate is already set to item.created, we will override that if we have pubDate or createdDate in metadata
+  const pubDate = getValueFromMetadata(newContent, "pubDate");
+  const createDate = getValueFromMetadata(newContent, "createDate");
+  if (pubDate) {
+    newContent.publishedDate = new Date(pubDate);
+    newContent.publishedDateSource = getMetadataPath("pubDate");
+  } else if (createDate) {
+    newContent.publishedDate = new Date(createDate);
+    newContent.publishedDateSource = getMetadataPath("createDate");
+  }
+
+  return newContent;
+}
+
 /**
  * Adds extra goodies to the content.
  * @param content - the IHubContent object
@@ -76,11 +171,13 @@ function enrichContent(content: IHubContent, options?: IGetContentOptions) {
   if (shouldFetchOrgId(content)) {
     propertiesToFetch.orgId = getOwnerOrgId;
   }
-  if (Object.keys(propertiesToFetch).length === 0) {
-    // nothing more to fetch
-    return content;
-  }
-  return _fetchContentProperties(propertiesToFetch, content, options);
+
+  const fetchContentPropertiesPromise: Promise<IHubContent> =
+    Object.keys(propertiesToFetch).length === 0
+      ? Promise.resolve(content)
+      : _fetchContentProperties(propertiesToFetch, content, options);
+
+  return fetchContentPropertiesPromise.then(_enrichDates);
 }
 
 /**

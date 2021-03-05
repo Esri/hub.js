@@ -1,10 +1,11 @@
 import * as fetchMock from "fetch-mock";
 import * as arcgisRestPortal from "@esri/arcgis-rest-portal";
-import { IHubRequestOptions, IModel } from "@esri/hub-common";
-import { comingSoon, getContent } from "../src/index";
+import { IHubRequestOptions, IModel, IHubContent } from "@esri/hub-common";
+import { comingSoon, getContent, _enrichDates } from "../src/index";
 import * as portalModule from "../src/portal";
 import * as hubModule from "../src/hub";
 import { mockUserSession } from "./test-helpers/fake-user-session";
+import { assert } from "console";
 
 describe("get content", () => {
   let requestOpts: IHubRequestOptions;
@@ -206,7 +207,7 @@ describe("get content", () => {
         ]);
         // expect it to have fetched and set the item data
         expect(getItemDataSpy.calls.count()).toBe(1);
-        expect(content.data).toBe(itemData);
+        expect(content.data).toEqual(itemData);
         // expect it to not have fetched the orgId
         expect(getUserSpy.calls.count()).toBe(0);
         done();
@@ -231,5 +232,195 @@ describe("what's currently here, which aint much", () => {
       .catch(e => {
         fail(e);
       });
+  });
+});
+
+describe("enrichDates", () => {
+  // TODO: tests for other metadata profiles
+  describe("updateFrequency", () => {
+    it("should return undefined when no metadata", () => {
+      const result = _enrichDates({} as IHubContent);
+      expect(result.updateFrequency).toEqual(undefined);
+    });
+    it("should return undefined when metadata present but unknown value", () => {
+      const content = {
+        metadata: {
+          metadata: {
+            Esri: {
+              ArcGISProfile: "ISO19139"
+            },
+            dataIdInfo: {
+              resMaint: {
+                maintFreq: {
+                  MaintFreqCd: {
+                    "@_value": "999"
+                  }
+                }
+              }
+            }
+          }
+        }
+      } as IHubContent;
+      const result = _enrichDates(content);
+      expect(result.updateFrequency).toEqual(undefined);
+    });
+    it("should return the correct value when metadata present", () => {
+      const content = {
+        metadata: {
+          metadata: {
+            Esri: {
+              ArcGISProfile: "ISO19139"
+            },
+            dataIdInfo: {
+              resMaint: {
+                maintFreq: {
+                  MaintFreqCd: {
+                    "@_value": "003"
+                  }
+                }
+              }
+            }
+          }
+        }
+      } as IHubContent;
+      const result = _enrichDates(content);
+      expect(result.updateFrequency).toEqual("weekly");
+    });
+  });
+
+  describe("updatedDate", () => {
+    it("should return the correct values when no metadata and no lastEditDate", () => {
+      // if it doesn't find metadata values it should just not mess with what is already there
+      const updatedDate = new Date();
+      const result = _enrichDates({
+        updatedDate,
+        updatedDateSource: "updated-date-source"
+      } as IHubContent);
+      expect(result.updatedDate).toEqual(updatedDate);
+      expect(result.updatedDateSource).toEqual("updated-date-source");
+    });
+    it("should return the correct values when lastEditDate but no metadata", () => {
+      // if it doesn't find metadata values it should just not mess with what is already there
+      const lastEditDate = new Date(3222000000);
+      const result = _enrichDates(({
+        updatedDate: new Date(),
+        updatedDateSource: "updated-date-source",
+        layer: { editingInfo: { lastEditDate: lastEditDate.valueOf() } }
+      } as unknown) as IHubContent);
+      expect(result.updatedDate).toEqual(lastEditDate);
+      expect(result.updatedDateSource).toEqual(
+        "layer.editingInfo.lastEditDate"
+      );
+    });
+    it("should return the correct value when reviseDate metadata present", () => {
+      const reviseDate = "1970-02-07T00:00:00.000Z";
+      const content = {
+        metadata: {
+          metadata: {
+            Esri: {
+              ArcGISProfile: "ISO19139"
+            },
+            dataIdInfo: {
+              idCitation: {
+                date: {
+                  reviseDate
+                }
+              }
+            }
+          }
+        }
+      } as IHubContent;
+      const result = _enrichDates(content);
+      expect(result.updatedDate).toEqual(new Date(reviseDate));
+      expect(result.updatedDateSource).toEqual(
+        "metadata.metadata.dataIdInfo.idCitation.date.reviseDate"
+      );
+    });
+  });
+
+  describe("publishedDate", () => {
+    it("should return the correct values when no metadata", () => {
+      // if it doesn't find metadata values it should just not mess with what is already there
+      const publishedDate = new Date();
+      const result = _enrichDates({
+        publishedDate,
+        publishedDateSource: "published-date-source"
+      } as IHubContent);
+      expect(result.publishedDate).toEqual(publishedDate);
+      expect(result.publishedDateSource).toEqual("published-date-source");
+    });
+    it("should return the correct value when pubDate metadata present", () => {
+      const pubDate = "1970-02-07T00:00:00.000Z";
+      const content = {
+        metadata: {
+          metadata: {
+            Esri: {
+              ArcGISProfile: "ISO19139"
+            },
+            dataIdInfo: {
+              idCitation: {
+                date: {
+                  pubDate
+                }
+              }
+            }
+          }
+        }
+      } as IHubContent;
+      const result = _enrichDates(content);
+      expect(result.publishedDate).toEqual(new Date(pubDate));
+      expect(result.publishedDateSource).toEqual(
+        "metadata.metadata.dataIdInfo.idCitation.date.pubDate"
+      );
+    });
+    it("should return the correct value when createDate metadata present", () => {
+      const createDate = "1970-02-07T00:00:00.000Z";
+      const content = {
+        metadata: {
+          metadata: {
+            Esri: {
+              ArcGISProfile: "ISO19139"
+            },
+            dataIdInfo: {
+              idCitation: {
+                date: {
+                  createDate
+                }
+              }
+            }
+          }
+        }
+      } as IHubContent;
+      const result = _enrichDates(content);
+      expect(result.publishedDate).toEqual(new Date(createDate));
+      expect(result.publishedDateSource).toEqual(
+        "metadata.metadata.dataIdInfo.idCitation.date.createDate"
+      );
+    });
+    it("should return the correct value when createDate & pubDate metadata present", () => {
+      const pubDate = "1970-02-07T00:00:00.000Z";
+      const content = {
+        metadata: {
+          metadata: {
+            Esri: {
+              ArcGISProfile: "ISO19139"
+            },
+            dataIdInfo: {
+              idCitation: {
+                date: {
+                  createDate: "1970-11-17T00:00:00.000Z",
+                  pubDate
+                }
+              }
+            }
+          }
+        }
+      } as IHubContent;
+      const result = _enrichDates(content);
+      expect(result.publishedDate).toEqual(new Date(pubDate));
+      expect(result.publishedDateSource).toEqual(
+        "metadata.metadata.dataIdInfo.idCitation.date.pubDate"
+      );
+    });
   });
 });
