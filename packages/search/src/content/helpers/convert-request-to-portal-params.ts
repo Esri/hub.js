@@ -64,6 +64,10 @@ function processFilter(request: IContentSearchRequest): string {
   return filtersWithDefaults.join(" AND ").trim();
 }
 
+/**
+ * Processes the paging parameters provided as part of a search request
+ * @param request content search request
+ */
 export function processPage(request: IContentSearchRequest): IPagingParams {
   const options: IContentSearchOptions = request.options || {};
   const providedPage: IPagingParams | string = options.page || {
@@ -174,7 +178,7 @@ function stringifyFilterValue(
     : filterValue;
 }
 
-export function decodePage(page: string): IPagingParams {
+function decodePage(page: string): IPagingParams {
   try {
     const decodedPage: any = decode(page);
     return JSON.parse(decodedPage);
