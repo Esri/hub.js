@@ -17,7 +17,6 @@ import {
   getProp,
   stringToBlob
 } from "@esri/hub-common";
-import { NodeStringDecoder } from "string_decoder";
 import { IGetContentOptions, getContentFromHub } from "./hub";
 import {
   getContentFromPortal,
