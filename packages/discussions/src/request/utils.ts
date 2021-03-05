@@ -1,6 +1,6 @@
-import { IRequestOptions } from "./types";
+import { IRequestOptions } from "../types";
 
-export function request(url: string, options: IRequestOptions) {
+export function authenticateRequest(options: IRequestOptions) {
   const { token, authentication } = options;
 
   let tokenPromise = () => {
@@ -14,14 +14,13 @@ export function request(url: string, options: IRequestOptions) {
     );
   }
 
-  const callback = apiRequest.bind(null, url, options);
-  return tokenPromise().then(callback);
+  return tokenPromise();
 }
 
 export function apiRequest(
   url: string,
   options: IRequestOptions,
-  token: string
+  token?: string
 ) {
   const headers = new Headers();
   headers.append("Content-Type", "application/json");

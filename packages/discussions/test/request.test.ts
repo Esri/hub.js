@@ -1,14 +1,74 @@
 import { request } from "../src/request";
+import * as utils from "../src/request/utils";
 import * as fetchMock from "fetch-mock";
+import { IAuthenticationManager } from "@esri/arcgis-rest-request";
 
 describe("request", () => {
+  const url = "foo";
+  const options = {};
+  it("resolves token before making api request", done => {
+    const token = "thisisatoken";
+    const authenticateRequestSpy = spyOn(
+      utils,
+      "authenticateRequest"
+    ).and.callFake(async () => token);
+    const apiRequestSpy = spyOn(utils, "apiRequest");
+
+    request(url, options)
+      .then(() => {
+        expect(authenticateRequestSpy).toHaveBeenCalledWith(options);
+        expect(apiRequestSpy).toHaveBeenCalledWith(url, options, token);
+        done();
+      })
+      .catch(() => fail());
+  });
+});
+
+describe("authenticateRequest", () => {
+  const portal = "https://foo.com";
+  const token = "thisisatoken";
+  const authentication: IAuthenticationManager = {
+    portal,
+    getToken() {
+      return Promise.resolve(token);
+    }
+  };
+
+  let getTokenSpy: any;
+  beforeEach(() => {
+    getTokenSpy = spyOn(authentication, "getToken").and.callThrough();
+  });
+
+  it("returns promise resolving token if token provided in request options", done => {
+    const options = { token };
+    utils
+      .authenticateRequest(options)
+      .then(() => {
+        expect(getTokenSpy).not.toHaveBeenCalled();
+        done();
+      })
+      .catch(() => fail());
+  });
+
+  it("resolves token from authentication", done => {
+    const options = { authentication };
+    utils
+      .authenticateRequest(options)
+      .then(() => {
+        expect(getTokenSpy).toHaveBeenCalledWith(portal);
+        done();
+      })
+      .catch(() => fail());
+  });
+});
+
+describe("apiRequest", () => {
   const response = { ok: true };
 
   const urlBase = "http://localhost/api/v1";
   const url = "foo";
 
   let expectedOpts: RequestInit;
-
   beforeEach(() => {
     fetchMock.mock("*", { status: 200, body: response });
 
@@ -26,7 +86,7 @@ describe("request", () => {
   afterEach(fetchMock.restore);
 
   it("appends headers to request options", async () => {
-    const result = await request(url, {});
+    const result = await utils.apiRequest(url, {});
 
     expect(result).toEqual(response);
 
@@ -39,7 +99,7 @@ describe("request", () => {
     const token = "bar";
     const options = { token };
 
-    const result = await request(url, options);
+    const result = await utils.apiRequest(url, {}, token);
 
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
@@ -59,7 +119,7 @@ describe("request", () => {
     };
     const options = { params: { query } };
 
-    const result = await request(url, options);
+    const result = await utils.apiRequest(url, options);
 
     expect(result).toEqual(response);
     const queryParams = new URLSearchParams(query).toString();
@@ -76,7 +136,7 @@ describe("request", () => {
     };
     const options = { params: { body } };
 
-    const result = await request(url, options);
+    const result = await utils.apiRequest(url, options);
 
     expectedOpts.body = JSON.stringify(body);
 
