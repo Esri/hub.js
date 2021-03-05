@@ -72,6 +72,11 @@ interface IMetadataPaths {
   createDate: string;
 }
 
+/**
+ * The possible values for updateFrequency
+ *
+ * @enum {string}
+ */
 export enum UpdateFrequency {
   Continual = "continual",
   Daily = "daily",
