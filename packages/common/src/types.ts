@@ -287,6 +287,8 @@ export interface IHubContent extends IHubResource, IItem {
   /** Description of the source of the published date */
   publishedDateSource?: string;
 
+  updateFrequency?: string;
+
   // Hub configuration metadata
   /** Optional links to show in the Hub application for this content */
   actionLinks?: IActionLink[];
