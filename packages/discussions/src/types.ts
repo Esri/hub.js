@@ -22,6 +22,11 @@ export enum SharingAccess {
   ORG = "org",
   PRIVATE = "private"
 }
+export interface IPlatformSharing {
+  groups: string[];
+  orgs: string[];
+  access: SharingAccess;
+}
 
 export enum PostStatus {
   PENDING = "pending",
@@ -41,6 +46,15 @@ export enum DiscussionSource {
   HUB = "hub",
   AGO = "ago",
   URBAN = "urban"
+}
+
+export interface IDiscussionParams {
+  source: string | null;
+  type: string | null;
+  id: string | null;
+  layer: string | null;
+  features: string[] | null;
+  attribute: string | null;
 }
 
 export enum PostRelation {
@@ -76,7 +90,7 @@ export interface IWithSettings {
   softDelete: boolean;
   defaultPostStatus: PostStatus;
   allowReaction: boolean;
-  allowedReactions: PostReaction[];
+  allowedReactions?: PostReaction[];
   blockwords?: string[];
 }
 
@@ -150,6 +164,13 @@ export interface IUpdatePostDTO {
 }
 
 // // channels
+export interface IChannelDTO
+  extends IWithSettings,
+    IWithSharing,
+    IWithAuthor,
+    IWithTimestamps {
+  id: number;
+}
 
 export interface ICreateChannelDTO extends IWithSettings, IWithSharing {}
 
@@ -169,6 +190,10 @@ export interface IQueryChannelsDTO
 export interface IUpdateChannelDTO extends Partial<IWithSettings> {}
 
 // // reactions
+
+export interface IReactionDTO extends IWithAuthor, IWithTimestamps {
+  id: number;
+}
 
 export interface ICreateReactionDTO {
   value: PostReaction;
