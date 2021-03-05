@@ -72,20 +72,21 @@ interface IMetadataPaths {
   createDate: string;
 }
 
-export type UpdateFrequency =
-  | "continual"
-  | "daily"
-  | "weekly"
-  | "fortnightly"
-  | "monthly"
-  | "quarterly"
-  | "biannually"
-  | "annually"
-  | "as-needed"
-  | "irregular"
-  | "not-planned"
-  | "unknown"
-  | "semimonthly";
+export enum UpdateFrequency {
+  Continual = "continual",
+  Daily = "daily",
+  Weekly = "weekly",
+  Fortnightly = "fortnightly",
+  Monthly = "monthly",
+  Quarterly = "quarterly",
+  Biannually = "biannually",
+  Annually = "annually",
+  AsNeeded = "as-needed",
+  Irregular = "irregular",
+  NotPlanned = "not-planned",
+  Unknown = "unknown",
+  Semimonthly = "semimonthly"
+}
 
 function getMetadataPath(identifier: keyof IMetadataPaths) {
   // NOTE: i have verified that this will work regardless of the "Metadata Style" set on the org
@@ -126,19 +127,19 @@ export function _enrichDates(content: IHubContent): IHubContent {
   );
   if (updatedFrequencyValue) {
     const updateFrequencyMap = {
-      "001": "continual",
-      "002": "daily",
-      "003": "weekly",
-      "004": "fortnightly",
-      "005": "monthly",
-      "006": "quarterly",
-      "007": "biannually",
-      "008": "annually",
-      "009": "as-needed",
-      "010": "irregular",
-      "011": "not-planned",
-      "012": "unknown",
-      "013": "semimonthly"
+      "001": UpdateFrequency.Continual,
+      "002": UpdateFrequency.Daily,
+      "003": UpdateFrequency.Weekly,
+      "004": UpdateFrequency.Fortnightly,
+      "005": UpdateFrequency.Monthly,
+      "006": UpdateFrequency.Quarterly,
+      "007": UpdateFrequency.Biannually,
+      "008": UpdateFrequency.Annually,
+      "009": UpdateFrequency.AsNeeded,
+      "010": UpdateFrequency.Irregular,
+      "011": UpdateFrequency.NotPlanned,
+      "012": UpdateFrequency.Unknown,
+      "013": UpdateFrequency.Semimonthly
     } as { [index: string]: UpdateFrequency };
 
     newContent.updateFrequency = updateFrequencyMap[updatedFrequencyValue];
