@@ -2,6 +2,7 @@ import { IGroup, IItem } from "@esri/arcgis-rest-portal";
 import { IDiscussionParams } from "../types";
 
 export const parseDiscussionURI = (discussion: string): IDiscussionParams => {
+  // NOTE: cannot use new URL(discussion) to parse uri bc difference in node and browser implementation
   const [, source = null] = discussion.match(/^(\w*):\/\//) || [];
   const [, type = null] = discussion.match(/^\w*:\/\/(\w*)\/?/) || [];
   const [, pathname = ""] = discussion.match(/^\w*:\/\/\w*\/(\w*)\??/) || [];
