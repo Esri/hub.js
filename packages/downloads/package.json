@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-downloads",
-  "version": "7.0.9",
+  "version": "7.1.0",
   "description": "Service for Hub downloads",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/downloads.umd.js",
@@ -64,5 +64,8 @@
     "url": "https://github.com/Esri/hub.js/issues"
   },
   "homepage": "https://github.com/Esri/hub.js#readme",
-  "gitHead": "37f3a4e0e1c26399f6597697601d115d727540d9"
+  "gitHead": "37f3a4e0e1c26399f6597697601d115d727540d9",
+  "volta": {
+    "extends": "../../package.json"
+  }
 }
