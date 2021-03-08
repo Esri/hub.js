@@ -1,6 +1,3 @@
-// import { Channel } from '../../channels/channel.entity';
-// import { PostReaction } from '@esri/hub-discussions';
-
 import { IChannelDTO, PostReaction } from "../types";
 
 export const canCreateReaction = (

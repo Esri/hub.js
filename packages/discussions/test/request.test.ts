@@ -1,5 +1,5 @@
 import { request } from "../src/request";
-import * as utils from "../src/request/utils";
+import * as utils from "../src/utils/request";
 import * as fetchMock from "fetch-mock";
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
 

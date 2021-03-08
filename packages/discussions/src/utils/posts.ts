@@ -2,8 +2,9 @@ import { IGroup, IItem } from "@esri/arcgis-rest-portal";
 import { IDiscussionParams } from "../types";
 
 export const parseDiscussionURI = (discussion: string): IDiscussionParams => {
-  const [, source = null, type = null, pathname = ""] =
-    discussion.match(/^(\w*):\/\/(\w*)\/(\w*)\/?\??/) || [];
+  const [, source = null] = discussion.match(/^(\w*):\/\//) || [];
+  const [, type = null] = discussion.match(/^\w*:\/\/(\w*)\/?/) || [];
+  const [, pathname = ""] = discussion.match(/^\w*:\/\/\w*\/(\w*)\??/) || [];
   const [id, layer = null] = pathname.split("_");
   const uri = new URL(discussion);
   const features =

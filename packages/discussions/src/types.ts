@@ -121,6 +121,22 @@ export interface IWithTimestamps {
 
 // // posts
 
+export interface IPostDTO extends IWithAuthor, IWithTimestamps {
+  id: number;
+  title?: string;
+  body: string;
+  discussion?: string;
+  status: PostStatus;
+  geometry?: any; // Geometry;
+  channelId?: number;
+  channel?: IChannelDTO;
+  parentId?: number;
+  parent?: IPostDTO;
+  replies?: IPostDTO[];
+  replyCount?: number;
+  reactions?: IReactionDTO[];
+  userReactions?: IReactionDTO[];
+}
 export interface ICreateChannelPostDTO {
   title?: string;
   body: string;
@@ -193,6 +209,9 @@ export interface IUpdateChannelDTO extends Partial<IWithSettings> {}
 
 export interface IReactionDTO extends IWithAuthor, IWithTimestamps {
   id: number;
+  value: PostReaction;
+  postId?: number;
+  post?: IPostDTO;
 }
 
 export interface ICreateReactionDTO {

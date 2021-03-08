@@ -1,5 +1,5 @@
-import { IRequestOptions } from "../types";
-import { apiRequest, authenticateRequest } from "./utils";
+import { IRequestOptions } from "./types";
+import { apiRequest, authenticateRequest } from "./utils/request";
 
 export function request(url: string, options: IRequestOptions) {
   return authenticateRequest(options).then(token => {
