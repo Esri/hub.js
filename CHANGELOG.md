@@ -5,25 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.1.1] - March 9th 2021
+
+### Other Changes
+
+- Bug Fixes
+  - **hub-sites**: ensure that we respect interpolation of site title [`188e88c6`](https://github.com/Esri/hub.js/commit/188e88c69086c06bbfaed28040667d1a102eb525)
+
 ## [7.1.0] - March 5th 2021
 
 ### Other Changes
 
-* New Features
-   * **common**: cleanly pass rootCause forward in OperationError, add docs [`386fff4b`](https://github.com/Esri/hub.js/commit/386fff4be21fb6c3def44012447644601513377d)
-   * **content**: add date enrichments to content [`2333c124`](https://github.com/Esri/hub.js/commit/2333c124d8f5d5142f3a63a3daee8d32da00f31c)
+- New Features
+  - **common**: cleanly pass rootCause forward in OperationError, add docs [`386fff4b`](https://github.com/Esri/hub.js/commit/386fff4be21fb6c3def44012447644601513377d)
+  - **content**: add date enrichments to content [`2333c124`](https://github.com/Esri/hub.js/commit/2333c124d8f5d5142f3a63a3daee8d32da00f31c)
 
 ## [7.0.9] - February 26th 2021
 
 ### Other Changes
 
-* Chores
-   * **everything**: adding rest-js 3 to peer dep ranges [`e3bd9012`](https://github.com/Esri/hub.js/commit/e3bd90121ff30fb54bcb44c6530a328aed154cae) [#473](https://github.com/Esri/hub.js/issues/473)
+- Chores
+  - **everything**: adding rest-js 3 to peer dep ranges [`e3bd9012`](https://github.com/Esri/hub.js/commit/e3bd90121ff30fb54bcb44c6530a328aed154cae) [#473](https://github.com/Esri/hub.js/issues/473)
 
 ## [7.0.8] - February 24th 2021
 
 - Bug Fixes
-  - **downloadss**: Alter `typekeywords` for item and layer index so that search queries don&amp;amp;#39;t fail for datasets with layer index `1` (#472) [`19da868`](https://github.com/Esri/hub.js/commit/19da86833a91dd007384ef1887081e17568c9e9e)
+  - **downloadss**: Alter `typekeywords` for item and layer index so that search queries don&amp;amp;amp;#39;t fail for datasets with layer index `1` (#472) [`19da868`](https://github.com/Esri/hub.js/commit/19da86833a91dd007384ef1887081e17568c9e9e)
 
 ## [7.0.7] - February 22nd 2021
 
@@ -340,13 +347,13 @@ Attempt to address failed release
 ### @esri/hub-content
 
 - Bug Fixes
-  - **normalizeItemType**: getType =&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
+  - **normalizeItemType**: getType =&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
   - **collections**: add template collection, getHubItemType only accepts items [`57b783a2`](https://github.com/Esri/hub.js/commit/57b783a242b7a2747db0dbc7fce57155c56ad93f) [#347](https://github.com/Esri/hub.js/issues/347) [#354](https://github.com/Esri/hub.js/issues/354)
 
 ### @esri/hub-sites
 
 - Bug Fixes
-  - **normalizeItemType**: getType =&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
+  - **normalizeItemType**: getType =&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
 
 ### Other Changes
 
@@ -623,11 +630,7 @@ Attempt to address failed release
 
 ## [4.1.0] - May 21st 2020
 
-
-
 ## [4.0.0] - May 20th 2020
-
-
 
 ## [3.9.3] - May 14th 2020
 
@@ -665,8 +668,6 @@ Attempt to address failed release
   - **peerDependencies**: fix invalid peerDependencies [`08fae37`](https://github.com/Esri/hub.js/commit/08fae37875aa3e68a82970a54eedcbe13ef001a8) [#251](https://github.com/Esri/hub.js/issues/251)
 
 ## [3.9.1] - May 6th 2020
-
-
 
 ## [3.9.0] - May 6th 2020
 
@@ -708,8 +709,6 @@ Attempt to address failed release
 
 ## [3.7.4] - April 30th 2020
 
-
-
 ## [3.7.3] - April 29th 2020
 
 - New Features
@@ -720,8 +719,6 @@ Attempt to address failed release
 ### @esri/hub-common
 
 ## [3.7.1] - April 28th 2020
-
-
 
 ## [3.7.0] - April 28th 2020
 
@@ -777,11 +774,7 @@ Attempt to address failed release
 
 ## [3.6.3] - January 27th 2020
 
-
-
 ## [3.6.2] - January 2nd 2020
-
-
 
 ## [3.6.0] - November 18th 2019
 
@@ -875,8 +868,6 @@ Attempt to address failed release
   - **search**: support filters specified implicitly
 
 ## [2.6.0] - August 20th 2019
-
-
 
 ## [2.5.0] - August 15th 2019
 
@@ -1290,10 +1281,10 @@ Attempt to address failed release
 
 Initial Release
 
-## &amp;amp;lt;&amp;amp;lt;&amp;amp;lt;&amp;amp;lt;&amp;amp;lt;&amp;amp;lt;&amp;amp;lt; HEAD
+## &amp;amp;amp;lt;&amp;amp;amp;lt;&amp;amp;amp;lt;&amp;amp;amp;lt;&amp;amp;amp;lt;&amp;amp;amp;lt;&amp;amp;amp;lt; HEAD
 
-&amp;amp;gt; &amp;amp;gt; &amp;amp;gt; &amp;amp;gt; &amp;amp;gt; &amp;amp;gt; &amp;amp;gt; b939cf0e (v7.0.7)
-&amp;amp;gt; &amp;amp;gt; &amp;amp;gt; &amp;amp;gt; &amp;amp;gt; &amp;amp;gt; &amp;amp;gt; [HEAD]: https://github.com/Esri/hub.js/compare/v7.0.7...HEAD &amp;amp;quot;Unreleased Changes&amp;amp;quot;
+&amp;amp;amp;gt; &amp;amp;amp;gt; &amp;amp;amp;gt; &amp;amp;amp;gt; &amp;amp;amp;gt; &amp;amp;amp;gt; &amp;amp;amp;gt; b939cf0e (v7.0.7)
+&amp;amp;amp;gt; &amp;amp;amp;gt; &amp;amp;amp;gt; &amp;amp;amp;gt; &amp;amp;amp;gt; &amp;amp;amp;gt; &amp;amp;amp;gt; [HEAD]: https://github.com/Esri/hub.js/compare/v7.0.7...HEAD &amp;amp;amp;quot;Unreleased Changes&amp;amp;amp;quot;
 
 []: https://github.com/Esri/hub.js/compare/48be7ee38cd92cd342565215304f2a2979b1f822...v "v"
 [1.0.0]: https://github.com/Esri/hub.js/compare/v...v1.0.0 "v1.0.0"
@@ -1436,4 +1427,5 @@ Initial Release
 [7.0.8]: https://github.com/Esri/hub.js/compare/v7.0.7...v7.0.8 "v7.0.8"
 [7.0.9]: https://github.com/Esri/hub.js/compare/v7.0.8...v7.0.9 "v7.0.9"
 [7.1.0]: https://github.com/Esri/hub.js/compare/v7.0.9...v7.1.0 "v7.1.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v7.1.0...HEAD "Unreleased Changes"
+[7.1.1]: https://github.com/Esri/hub.js/compare/v7.1.0...v7.1.1 "v7.1.1"
+[HEAD]: https://github.com/Esri/hub.js/compare/v7.1.1...HEAD "Unreleased Changes"
