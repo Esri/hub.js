@@ -3,10 +3,10 @@ import { GroupMembership } from "@esri/arcgis-rest-portal";
 import { IChannelDTO, IPlatformSharing } from "../types";
 import { isOrgAdmin, reduceByGroupMembership } from "./platform";
 
-const intersectGroups = (
+function intersectGroups(
   membershipTypes: GroupMembership[],
   strict?: boolean
-): ((arg0: IUser, arg1: IChannelDTO) => boolean) => {
+): (arg0: IUser, arg1: IChannelDTO) => boolean {
   return (user: IUser, channel: IChannelDTO): boolean => {
     const { groups: sharedGroups } = channel;
     const { groups: userGroups } = user;
@@ -19,21 +19,26 @@ const intersectGroups = (
       group => eligibleUserGroups.indexOf(group) > -1
     );
   };
-};
+}
 
-const isChannelOrgMember = (channel: IChannelDTO, user: IUser): boolean => {
+function isChannelOrgMember(channel: IChannelDTO, user: IUser): boolean {
   // orgs.length === 1 until cross-org comms is sussed out
   return channel.orgs.length === 1 && channel.orgs.indexOf(user.orgId) > -1;
-};
+}
 
-const isChannelOrgAdmin = (channel: IChannelDTO, user: IUser): boolean => {
+function isChannelOrgAdmin(channel: IChannelDTO, user: IUser): boolean {
   return isOrgAdmin(user) && channel.orgs.indexOf(user.orgId) > -1;
-};
+}
 
-export const canReadFromChannel = (
-  channel: IChannelDTO,
-  user: IUser
-): boolean => {
+/**
+ * Utility to determine whether User can view posts belonging to Channel
+ *
+ * @export
+ * @param {IChannelDTO} channel
+ * @param {IUser} user
+ * @return {*}  {boolean}
+ */
+export function canReadFromChannel(channel: IChannelDTO, user: IUser): boolean {
   if (channel.access === "private") {
     // ensure user is member of at least one group
     return intersectGroups(["member", "owner", "admin"])(user, channel);
@@ -41,12 +46,17 @@ export const canReadFromChannel = (
     return isChannelOrgMember(channel, user);
   }
   return true;
-};
+}
 
-export const canModifyChannel = (
-  channel: IChannelDTO,
-  user: IUser
-): boolean => {
+/**
+ * Utility to determine whether User can modify posts belonging to Channel
+ *
+ * @export
+ * @param {IChannelDTO} channel
+ * @param {IUser} user
+ * @return {*}  {boolean}
+ */
+export function canModifyChannel(channel: IChannelDTO, user: IUser): boolean {
   if (channel.access === "private") {
     // ensure user is owner/admin of at least one group
     return intersectGroups(["owner", "admin"])(user, channel);
@@ -54,24 +64,34 @@ export const canModifyChannel = (
     return isChannelOrgAdmin(channel, user);
   }
   return false;
-};
+}
 
-export const canCreateChannel = (
-  channel: IChannelDTO,
-  user: IUser
-): boolean => {
+/**
+ * Utility to determine whether User can create Channel of provided IChannelDTO properties
+ *
+ * @export
+ * @param {IChannelDTO} channel
+ * @param {IUser} user
+ * @return {*}  {boolean}
+ */
+export function canCreateChannel(channel: IChannelDTO, user: IUser): boolean {
   if (channel.access === "private") {
     // ensure user is member of all groups included
     return intersectGroups(["owner", "admin", "member"], true)(user, channel);
   }
   // if org or public channel, must be org admin
   return isChannelOrgAdmin(channel, user);
-};
+}
 
-export const canPostToChannel = (
-  channel: IChannelDTO,
-  user: IUser
-): boolean => {
+/**
+ * Utility to determine whether User can create posts to Channel
+ *
+ * @export
+ * @param {IChannelDTO} channel
+ * @param {IUser} user
+ * @return {*}  {boolean}
+ */
+export function canPostToChannel(channel: IChannelDTO, user: IUser): boolean {
   if (channel.access === "private") {
     // ensure user is member of at least one
     return intersectGroups(["owner", "admin", "member"])(user, channel);
@@ -81,12 +101,20 @@ export const canPostToChannel = (
     return channel.allowAnonymous;
   }
   return true;
-};
+}
 
-export const isChannelInclusive = (
+/**
+ * Utility to determine whether a Channel definition (inner) is encapsulated by another Channel's definition (outer)
+ *
+ * @export
+ * @param {IChannelDTO} outer -- access and groups that should contain inner access and groups
+ * @param {(IChannelDTO | IPlatformSharing)} inner -- access and groups that should be contained by outer access and groups
+ * @return {*}  {boolean}
+ */
+export function isChannelInclusive(
   outer: IChannelDTO,
   inner: IChannelDTO | IPlatformSharing
-): void => {
+): boolean {
   let valid: boolean;
   let err: string;
   if (outer.access === "private" && outer.groups.length === 1) {
@@ -115,4 +143,5 @@ export const isChannelInclusive = (
   if (err) {
     throw new Error(err);
   }
-};
+  return valid;
+}

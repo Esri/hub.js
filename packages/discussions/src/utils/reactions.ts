@@ -1,9 +1,17 @@
 import { IChannelDTO, PostReaction } from "../types";
 
-export const canCreateReaction = (
+/**
+ * Utility that determines whether a Channel allows a given PostReaction
+ *
+ * @export
+ * @param {IChannelDTO} channel
+ * @param {PostReaction} value
+ * @return {*}  {boolean}
+ */
+export function canCreateReaction(
   channel: IChannelDTO,
   value: PostReaction
-): boolean => {
+): boolean {
   const { allowReaction, allowedReactions } = channel;
   if (allowReaction) {
     if (allowedReactions) {
@@ -12,4 +20,4 @@ export const canCreateReaction = (
     return true;
   }
   return false;
-};
+}

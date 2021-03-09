@@ -15,12 +15,22 @@ import {
   IUpdatePostSharingOptions,
   IUpdateChannelPostSharingOptions,
   IUpdatePostStatusOptions,
-  IUpdateChannelPostStatusOptions
+  IUpdateChannelPostStatusOptions,
+  INestPagination,
+  IPostDTO,
+  INestDeleteResult
 } from "./types";
 
+/**
+ * search posts
+ *
+ * @export
+ * @param {(IQueryPostsOptions | IQueryChannelPostsOptions)} options
+ * @return {*}  {Promise<INestPagination<IPostDTO>>}
+ */
 export function searchPosts(
   options: IQueryPostsOptions | IQueryChannelPostsOptions
-) {
+): Promise<INestPagination<IPostDTO>> {
   let url = `/posts`;
   if (options.params.hasOwnProperty("channelId")) {
     const {
@@ -32,9 +42,16 @@ export function searchPosts(
   return request(url, options);
 }
 
+/**
+ * create post
+ *
+ * @export
+ * @param {(ICreatePostOptions | ICreateChannelPostOptions)} options
+ * @return {*}  {Promise<IPostDTO>}
+ */
 export function createPost(
   options: ICreatePostOptions | ICreateChannelPostOptions
-) {
+): Promise<IPostDTO> {
   let url = `/posts`;
   if (options.params.hasOwnProperty("channelId")) {
     const {
@@ -46,9 +63,16 @@ export function createPost(
   return request(url, options);
 }
 
+/**
+ * create reply to post
+ *
+ * @export
+ * @param {(ICreateReplyOptions | ICreateChannelReplyOptions)} options
+ * @return {*}  {Promise<IPostDTO>}
+ */
 export function createReply(
   options: ICreateReplyOptions | ICreateChannelReplyOptions
-) {
+): Promise<IPostDTO> {
   let url = `/posts/${options.params.postId}/reply`;
   if (options.params.hasOwnProperty("channelId")) {
     const {
@@ -60,7 +84,16 @@ export function createReply(
   return request(url, options);
 }
 
-export function findPost(options: IFindPostOptions | IFindChannelPostOptions) {
+/**
+ * find post
+ *
+ * @export
+ * @param {(IFindPostOptions | IFindChannelPostOptions)} options
+ * @return {*}  {Promise<IPostDTO>}
+ */
+export function findPost(
+  options: IFindPostOptions | IFindChannelPostOptions
+): Promise<IPostDTO> {
   let url = `/posts/${options.params.postId}`;
   if (options.params.hasOwnProperty("channelId")) {
     const {
@@ -72,9 +105,16 @@ export function findPost(options: IFindPostOptions | IFindChannelPostOptions) {
   return request(url, options);
 }
 
+/**
+ * delete post
+ *
+ * @export
+ * @param {(IDeletePostOptions | IDeleteChannelPostOptions)} options
+ * @return {*}  {Promise<INestDeleteResult>}
+ */
 export function deletePost(
   options: IDeletePostOptions | IDeleteChannelPostOptions
-) {
+): Promise<INestDeleteResult> {
   let url = `/posts/${options.params.postId}`;
   if (options.params.hasOwnProperty("channelId")) {
     const {
@@ -86,9 +126,17 @@ export function deletePost(
   return request(url, options);
 }
 
+/**
+ * update post
+ * NOTE: this method only updates a post's title and/or body
+ *
+ * @export
+ * @param {(IUpdatePostOptions | IUpdateChannelPostOptions)} options
+ * @return {*}  {Promise<IPostDTO>}
+ */
 export function updatePost(
   options: IUpdatePostOptions | IUpdateChannelPostOptions
-) {
+): Promise<IPostDTO> {
   let url = `/posts/${options.params.postId}`;
   if (options.params.hasOwnProperty("channelId")) {
     const {
@@ -100,9 +148,17 @@ export function updatePost(
   return request(url, options);
 }
 
+/**
+ * update post channel
+ * NOTE: this method will change the channel a post belongs to
+ *
+ * @export
+ * @param {(IUpdatePostSharingOptions | IUpdateChannelPostSharingOptions)} options
+ * @return {*}  {Promise<IPostDTO>}
+ */
 export function updatePostSharing(
   options: IUpdatePostSharingOptions | IUpdateChannelPostSharingOptions
-) {
+): Promise<IPostDTO> {
   let url = `/posts/${options.params.postId}`;
   if (options.params.hasOwnProperty("channelId")) {
     const {
@@ -114,9 +170,17 @@ export function updatePostSharing(
   return request(url, options);
 }
 
+/**
+ * update post status
+ * NOTE: this method will only update a post's status
+ *
+ * @export
+ * @param {(IUpdatePostStatusOptions | IUpdateChannelPostStatusOptions)} options
+ * @return {*}  {Promise<IPostDTO>}
+ */
 export function updatePostStatus(
   options: IUpdatePostStatusOptions | IUpdateChannelPostStatusOptions
-) {
+): Promise<IPostDTO> {
   let url = `/posts/${options.params.postId}`;
   if (options.params.hasOwnProperty("channelId")) {
     const {

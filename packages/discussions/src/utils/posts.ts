@@ -1,7 +1,14 @@
 import { IGroup, IItem } from "@esri/arcgis-rest-portal";
 import { IDiscussionParams } from "../types";
 
-export const parseDiscussionURI = (discussion: string): IDiscussionParams => {
+/**
+ * Utility that parses a discussion URI string into its component parts
+ *
+ * @export
+ * @param {string} discussion
+ * @return {*}  {IDiscussionParams}
+ */
+export function parseDiscussionURI(discussion: string): IDiscussionParams {
   // NOTE: cannot use new URL(discussion) to parse uri bc difference in node and browser implementation
   const [, source = null] = discussion.match(/^(\w*):\/\//) || [];
   const [, type = null] = discussion.match(/^\w*:\/\/(\w*)\/?/) || [];
@@ -22,14 +29,26 @@ export const parseDiscussionURI = (discussion: string): IDiscussionParams => {
     features,
     attribute
   };
-};
+}
 
-// TODO: this will inspect a group's properties to determine if it is discussable
-export const isGroupDiscussable = (group: IGroup): boolean => {
+/**
+ * NOT IMPLEMENTED: this will inspect a group's properties to determine if it is "discussable"
+ *
+ * @export
+ * @param {IGroup} group
+ * @return {*}  {boolean}
+ */
+export function isGroupDiscussable(group: IGroup): boolean {
   return true;
-};
+}
 
-// TODO: this will inspect an item's properties to determine if it is discussable
-export const isItemDiscussable = (item: IItem): boolean => {
+/**
+ * NOT IMPLEMENTED: this will inspect an item's properties to determine if it is "discussable"
+ *
+ * @export
+ * @param {IItem} item
+ * @return {*}  {boolean}
+ */
+export function isItemDiscussable(item: IItem): boolean {
   return true;
-};
+}

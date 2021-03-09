@@ -1,6 +1,13 @@
 import { IRequestOptions } from "../types";
 
-export function authenticateRequest(options: IRequestOptions) {
+/**
+ * returns Promise that resolves token to use in Discussions API requests
+ *
+ * @export
+ * @param {IRequestOptions} options
+ * @return {*}  {Promise<string>}
+ */
+export function authenticateRequest(options: IRequestOptions): Promise<string> {
   const { token, authentication } = options;
 
   let tokenPromise = () => {
@@ -17,11 +24,20 @@ export function authenticateRequest(options: IRequestOptions) {
   return tokenPromise();
 }
 
+/**
+ * parses IRequestOptions and makes request against Discussions API
+ *
+ * @export
+ * @param {string} url
+ * @param {IRequestOptions} options
+ * @param {string} [token]
+ * @return {*}  {Promise<any>}
+ */
 export function apiRequest(
   url: string,
   options: IRequestOptions,
   token?: string
-) {
+): Promise<any> {
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
   if (token) {

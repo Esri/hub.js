@@ -1,12 +1,35 @@
 import { request } from "./request";
-import { ICreateReactionOptions, IDeleteReactionOptions } from "./types";
+import {
+  ICreateReactionOptions,
+  IDeleteReactionOptions,
+  INestDeleteResult,
+  IReactionDTO
+} from "./types";
 
-export function createReaction(options: ICreateReactionOptions) {
+/**
+ * create reaction to post
+ *
+ * @export
+ * @param {ICreateReactionOptions} options
+ * @return {*}  {Promise<IReactionDTO>}
+ */
+export function createReaction(
+  options: ICreateReactionOptions
+): Promise<IReactionDTO> {
   options.method = "POST";
   return request(`/posts/${options.params.postId}/reactions`, options);
 }
 
-export function deleteReaction(options: IDeleteReactionOptions) {
+/**
+ * delete reaction
+ *
+ * @export
+ * @param {IDeleteReactionOptions} options
+ * @return {*}  {Promise<INestDeleteResult>}
+ */
+export function deleteReaction(
+  options: IDeleteReactionOptions
+): Promise<INestDeleteResult> {
   options.method = "DELETE";
   return request(
     `/posts/${options.params.postId}/reactions/${options.params.reactionId}`,
