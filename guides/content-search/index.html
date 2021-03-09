@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title> | Guide@esri/hub.js</title>
+    
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css">
+    <link rel="stylesheet" href="/hub.js/css/style.css">
+    
+  </head>
+  <body>
+  <!-- Drawer -->
+    <div class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
+      <nav class="drawer-nav" role="navigation">
+        <aside class="side-nav">
+          <h2 class="side-nav-title">@esri/hub.js</h2>
+          <a href="/hub.js/guides/" class="is-active side-nav-link">Guides</a>
+          <a href="/hub.js/api/" class="side-nav-link">API Reference</a>
+        </aside>
+      </nav>
+    </div>
+
+    <div id="page" class="wrapper">
+      <!-- Sample HTML -->
+      <header class="top-nav">
+        <div class="grid-container">
+          <div class="column-24">
+            <!-- desktop sized navigation -->
+            <div class="tablet-hide">
+              <!-- logo / home -->
+              <a href="/hub.js/" class="top-nav-title">@esri/hub.js</a>
+              <!-- primary navigation sections -->
+              <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/guides/" class="is-active top-nav-link">Guides</a>
+                <a href="/hub.js/api/" class="top-nav-link">API Reference</a>
+                <a href="https://github.com/Esri/hub.js" class="top-nav-link">GitHub</a>
+              </nav>
+            </div>
+
+            <!-- tablet and mobile sized navigation -->
+            <div class="tablet-show top-nav-flex">
+              <!-- open primary navigation drawer -->
+              <nav class="top-nav-flex-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/" class="icon-ui-menu top-nav-link js-drawer-toggle" data-drawer="top-nav"><span class="phone-hide">Menu</span></a>
+              </nav>
+              <!-- logo / home -->
+              <header class="top-nav-flex-title">
+                <a href="/hub.js/" class="top-nav-link">@esri/hub.js</a>
+              </header>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+
+      <main id="#skip-to-content">
+        
+  <div class="grid-container trailer-1 leader-1">
+    <div class="column-6">
+      <ul class="list-plain">
+        
+          <li>Get Started</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/from-a-cdn/">From a CDN</a></li>
+            
+              <li><a href="/hub.js/guides/node/">Node.js</a></li>
+            
+              <li><a href="/hub.js/guides/using-es6/">Using ES6</a></li>
+            
+              <li><a href="/hub.js/guides/whats-new-v2-0/">What's New in v2.0.0</a></li>
+            
+          </ul>
+        
+          <li>Concepts</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/authentication/">Authentication</a></li>
+            
+              <li><a href="/hub.js/guides/sites-and-pages/">Sites and Pages</a></li>
+            
+              <li><a href="/hub.js/guides/teams/">Hub Teams</a></li>
+            
+              <li><a href="/hub.js/guides/work-with-annotations/">Map Annotations</a></li>
+            
+              <li><a href="/hub.js/guides/common/">Utilities</a></li>
+            
+              <li><a href="/hub.js/guides/operation-stack/">OperationStack</a></li>
+            
+          </ul>
+        
+      </ul>
+    </div>
+
+    <div class="column-18">
+      <div class="panel">
+        <h2>Content Search</h2>
+<p>Unified Content Search can be performed in two different ways: the <code>searchContent</code> function and the <code>ContentSearchService</code> class. Both provide a mechanism to search for content from the Portal API only or from both ArcGIS Online and Hub Indexer's V3 Search API (hereafter known as <code>V3 Search API</code>), depending on how <code>searchContent</code> function is invoked, or how the <code>ContentSearchService</code> is configured. They use the same underlying search functions for consistency.</p>
+<h3>Instantiating the Content Search Service</h3>
+<p>The Content Search Service takes the following parameters to instantiate:</p>
+<ol>
+<li><code>portal</code>: a portal sharing url string</li>
+<li><code>isPortal</code>: a boolean flag indicating whether service is being instantiated in enterprise environment</li>
+<li><code>authentication</code>: an optional <code>UserSession</code> object for authentication.</li>
+</ol>
+<p>Examples:</p>
+<pre><code>const contentSearchService = <span class="hljs-literal">new</span> ContentSearchService({
+  <span class="hljs-keyword">portal</span>: <span class="hljs-string">"https://qa-pre-hub.mapsqa.arcgis.com/sharing/rest"</span>,
+  isPortal: <span class="hljs-literal">false</span>,
+  authentication: <span class="hljs-literal">new</span> UserSession(<span class="hljs-params">...</span>)
+});
+</code></pre>
+<p>By contrast, the standalone <code>searchContent</code> function takes these values from an <code>options</code> object provided to it (see below).</p>
+<h3>Performing Content Searches</h3>
+<p>Both the standalone <code>searchContent</code> function and the <code>search</code> method of the <code>ContentSearchService</code> take a parameters object with optional <code>filter</code> and <code>options</code> properties.</p>
+<pre><code>const resultsOne = await searchContent({ <span class="hljs-keyword">filter</span>, <span class="hljs-keyword">options</span> });
+const resultsTwo = await contentSearchService.<span class="hljs-keyword">search</span>({ <span class="hljs-keyword">filter</span>, <span class="hljs-keyword">options</span> });
+</code></pre>
+<p>The <code>filter</code> property is an instance of <code>IContentSearchFilter</code>. This interface explicitly defines several fields searchable by the Portal API. Each property, with the exception of date-related fields, can take:</p>
+<ul>
+<li>a string, OR</li>
+<li>an array of strings, OR</li>
+<li>an instance of the <code>IContentFieldFilter</code> interface</li>
+</ul>
+<p>Strings are interpreted as single values by which to filter. Arrays of strings are interpreted as a list of values <code>OR</code>'d together for a particular field.</p>
+<p>The <code>IContentFieldFilter</code> interface provides a more granular interface for constructing filters. It offers a <code>bool</code> property defining a boolean operation for joining provided values (defaulting to <code>OR</code>) and a <code>value</code> property representing an array of string values. These values are joined to gether by the boolean.</p>
+<p>Examples:</p>
+<pre><code>// corresponds to (<span class="hljs-keyword">tag</span>: TAG_ONE <span class="hljs-keyword">OR</span> <span class="hljs-keyword">tag</span>: TAG_TWO)
+const filterOne = { <span class="hljs-keyword">tag</span>: { bool: <span class="hljs-string">"OR"</span>, value: [<span class="hljs-string">"TAG_ONE"</span>, <span class="hljs-string">"TAG_TWO"</span>] } };
+
+// corresponds to (<span class="hljs-keyword">tag</span>: TAG_ONE <span class="hljs-keyword">AND</span> <span class="hljs-keyword">tag</span>: TAG_TWO)
+const filterTwo = { <span class="hljs-keyword">tag</span>: { bool: <span class="hljs-string">"AND"</span>, value: [<span class="hljs-string">"TAG_ONE"</span>, <span class="hljs-string">"TAG_TWO"</span>] } };
+
+// corresponds to (-<span class="hljs-keyword">tag</span>: TAG_ONE <span class="hljs-keyword">AND</span> -<span class="hljs-keyword">tag</span>: TAG_TWO)
+const filterThree = { <span class="hljs-keyword">tag</span>: { bool: <span class="hljs-string">"NOT"</span>, value: [<span class="hljs-string">"TAG_ONE"</span>, <span class="hljs-string">"TAG_TWO"</span>] } };
+</code></pre>
+<p>Through these three options, large filters can be constructed. As a default, items of type <code>code attachment</code> are excluded from search.</p>
+<p>Example:</p>
+<pre><code>// corresponds to `(water) <span class="hljs-keyword">AND</span> (owner: me <span class="hljs-keyword">OR</span> owner: you) <span class="hljs-keyword">AND</span> (created: [<span class="hljs-number">1609459200000</span> TO <span class="hljs-number">1612137600000</span>]) <span class="hljs-keyword">AND</span> (modified: [<span class="hljs-number">1609459200000</span> TO <span class="hljs-number">1612137600000</span>]) <span class="hljs-keyword">AND</span> (-title: <span class="hljs-string">"a title"</span> <span class="hljs-keyword">AND</span> -title: <span class="hljs-string">"b title"</span>) <span class="hljs-keyword">AND</span> (typekeywords: <span class="hljs-string">"a type keyword"</span>) <span class="hljs-keyword">AND</span> (tags: <span class="hljs-string">"tag 1"</span> <span class="hljs-keyword">OR</span> tags: <span class="hljs-string">"tag 2"</span> <span class="hljs-keyword">OR</span> tags: <span class="hljs-string">"tag 3"</span>) <span class="hljs-keyword">AND</span> (<span class="hljs-keyword">type</span>: <span class="hljs-string">"Feature Layer"</span> <span class="hljs-keyword">OR</span> <span class="hljs-keyword">type</span>: <span class="hljs-string">"Table"</span> <span class="hljs-keyword">OR</span> <span class="hljs-keyword">type</span>: <span class="hljs-string">"CSV"</span>) <span class="hljs-keyword">AND</span> (<span class="hljs-keyword">access</span>: <span class="hljs-keyword">private</span>) <span class="hljs-keyword">AND</span> (culture: en <span class="hljs-keyword">OR</span> culture: de) <span class="hljs-keyword">AND</span> (categories: <span class="hljs-string">"category one"</span> <span class="hljs-keyword">AND</span> categories: <span class="hljs-string">"category 2"</span> <span class="hljs-keyword">AND</span> categories: <span class="hljs-string">"category three"</span>) <span class="hljs-keyword">AND</span> (-<span class="hljs-keyword">type</span>: <span class="hljs-string">"code attachment"</span>)`
+
+const filters = {
+  terms: <span class="hljs-string">"water"</span>,
+  owner: [<span class="hljs-string">"me"</span>, <span class="hljs-string">"you"</span>],
+  created: { from: <span class="hljs-number">1609459200000</span>, to: <span class="hljs-number">1612137600000</span> },
+  modified: { from: <span class="hljs-number">1609459200000</span>, to: <span class="hljs-number">1612137600000</span> },
+  title: { bool: <span class="hljs-string">"NOT"</span>, value: [<span class="hljs-string">"a title"</span>, <span class="hljs-string">"b title"</span>] },
+  typekeywords: <span class="hljs-string">"a type keyword"</span>,
+  tags: [<span class="hljs-string">"tag 1"</span>, <span class="hljs-string">"tag 2"</span>, <span class="hljs-string">"tag 3"</span>],
+  <span class="hljs-keyword">type</span>: { value: [<span class="hljs-string">"Feature Layer"</span>, <span class="hljs-string">"Table"</span>, <span class="hljs-string">"CSV"</span>] },
+  <span class="hljs-keyword">access</span>: <span class="hljs-string">"private"</span>,
+  culture: [<span class="hljs-string">"en"</span>, <span class="hljs-string">"de"</span>],
+  categories: {
+    value: [<span class="hljs-string">"category one"</span>, <span class="hljs-string">"category 2"</span>, <span class="hljs-string">"category three"</span>],
+    bool: <span class="hljs-string">"AND"</span>
+  }
+};
+</code></pre>
+<p>The <code>options</code> property provides several familar options for sorting and paging data, as well as requesting aggregations. These are specified by the <code>IContentSearchOptions</code> interface. Importantly, a user can also provide an <code>UserSession</code> instance as part of the options for authenticated searches. For the <code>searchContent</code> function, the client must provide the UserSession instance, <code>portal</code> sharing url, and <code>isPortal</code> flag, as needed, for each invocation. This is because it is a standalone function with no default options to reference. By contrast, the <code>ContentSearchService</code> will use the options it was configured with as a default if the relevant option is not provided.</p>
+<h3>Content Search Results</h3>
+<p>The results of a content search could include:</p>
+<ul>
+<li><code>results</code>: a list of content returned from the search</li>
+<li><code>count</code>: the number of results returned from the request</li>
+<li><code>total</code>: the total number of results that will be returned from multiple paginated searches</li>
+<li><code>query</code>: the stringified query used to complete the search,</li>
+<li><code>aggregations</code>: any aggregations returned</li>
+<li><code>hasNext</code>: a boolean indicating if there are more pages of results</li>
+<li><code>next</code>: a function that, when invoked, will fetch the next page of results</li>
+</ul>
+<p>Importantly, one can optionally provide a UserSession instance to the <code>next</code> function invocation to be used for authenticated searches</p>
+<pre><code><span class="hljs-keyword">const</span> nextResponse = <span class="hljs-function">await firstResponse.<span class="hljs-title">next</span><span class="hljs-params">(userSession)</span></span>;
+</code></pre>
+<h3>Known caveats with the V3 Search API</h3>
+<p>There are a few caveats concerning the V3 Search API. If these are an issue, one still should be able to instantiate the <code>ContentSearchService</code> with <code>isPortal: true</code> to limit searching to the Portal API, or simply query the API directly.</p>
+<ol>
+<li>Multiple cross-field searching is not currently possible.
+Single cross-field searching is possible. For example, one can search for any public Feature Services.
+<code>(type: &quot;Feature Service&quot; AND access: public)</code></li>
+</ol>
+<p>However, multiple cross-field searching is not.
+<code>(type: &quot;Feature Service&quot; AND access: public) OR (type: &quot;Table&quot; AND access: private)</code></p>
+<ol start="2">
+<li>Fuzzy searching cannot be field-specific
+The Portal API allows fuzzy searching via a search term or on specific properties such as <code>title</code> and <code>description</code>. For example <code>(title: &quot;Brampton&quot;)</code> will perform a search for &quot;Brampton&quot; in the title. By contrast, V3 Search API only provides a search term that is used across many different properties such as <code>searchDescription</code>.</li>
+</ol>
+<p><strong>Importantly, this means that, when searching the V3 Search API, supplying filter values for these fields will be interpeted as an exact search, leading to very few results. Fuzzy searching should be done via the search term</strong></p>
+<ol start="3">
+<li>
+<p>NOTs cannot be combined with non-NOT operators on the same field
+<code>(tag: TAG_ONE AND NOT tag: TAG_TWO)</code></p>
+</li>
+<li>
+<p>Events that are <code>planned</code>, <code>cancelled</code> or in <code>draft</code> are not returned.</p>
+</li>
+</ol>
+      </div>
+    </div>
+  </div>
+
+      </main>
+    </div>
+
+    <footer class="footer">
+      
+      <div class="panel panel-white">
+        <div class="grid-container">
+          <div class="column-24">
+            <a href="https://github.com/Esri/hub.js" class="font-size--2">Fork this project</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/js/calcite-web.min.js"></script>
+
+    <script>
+       calcite.init()
+    </script>
+
+    
+  </body>
+</html>
