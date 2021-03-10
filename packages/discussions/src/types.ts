@@ -1,6 +1,6 @@
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
 import { IPagedResponse, IPagingParams } from "@esri/arcgis-rest-types";
-import { Geometry } from "../node_modules/@types/geojson";
+import { Geometry } from "geojson";
 
 /**
  * sort orders
