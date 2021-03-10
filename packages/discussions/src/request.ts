@@ -1,5 +1,5 @@
 import {
-  // IChannelDTO, INestDeleteResult, INestPagination, IPostDTO, IReactionDTO,
+  // IChannelDTO, INestDeleteResult, IPagedAPIResponse, IPostDTO, IReactionDTO,
   IRequestOptions
 } from "./types";
 import { apiRequest, authenticateRequest } from "./utils/request";
@@ -8,7 +8,7 @@ import { apiRequest, authenticateRequest } from "./utils/request";
 // type ReturnTypes = Promise<
 // IReactionDTO | IChannelDTO | IPostDTO |
 // INestDeleteResult |
-// INestPagination<IChannelDTO | IPostDTO>
+// IPagedAPIResponse<IChannelDTO | IPostDTO>
 // >
 
 /**

@@ -1,4 +1,5 @@
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
+import { IPagedResponse, IPagingParams } from "@esri/arcgis-rest-types";
 // import { Geometry } from "geojson";
 
 /**
@@ -155,17 +156,6 @@ export interface IWithAuthor {
 }
 
 /**
- * pagination properties
- *
- * @export
- * @interface IWithPagination
- */
-export interface IWithPagination {
-  limit: number;
-  page: number;
-}
-
-/**
  * channel settings properties
  *
  * @export
@@ -228,24 +218,8 @@ export interface IWithTimestamps {
   updatedAt: Date;
 }
 
-interface INestPaginationMeta {
-  itemCount: number;
-  totalItems: number;
-  itemsPerPage: number;
-  totalPages: number;
-  currentPage: number;
-}
-/**
- * copy-cat of nestjs-typeorm-paginate Pagination interface
- * TODO: update API pagination pattern to match existing pagination patterns
- *
- * @export
- * @interface INestPagination
- * @template PaginationObject
- */
-export interface INestPagination<PaginationObject> {
-  readonly items: PaginationObject[];
-  readonly meta: INestPaginationMeta;
+export interface IPagedAPIResponse<PaginationObject> extends IPagedResponse {
+  items: PaginationObject[];
 }
 
 /**
@@ -327,13 +301,13 @@ export interface IGetPostDTO {
  * @export
  * @interface IQueryChannelPostsDTO
  * @extends {Partial<IWithAuthor>}
- * @extends {Partial<IWithPagination>}
+ * @extends {Partial<IPagingParams>}
  * @extends {Partial<IWithSorting>}
  * @extends {Partial<IWithTimeQueries>}
  */
 export interface IQueryChannelPostsDTO
   extends Partial<IWithAuthor>,
-    Partial<IWithPagination>,
+    Partial<IPagingParams>,
     Partial<IWithSorting>,
     Partial<IWithTimeQueries> {
   title?: string;
@@ -430,12 +404,12 @@ export interface IGetChannelDTO {
  *
  * @export
  * @interface IQueryChannelsDTO
- * @extends {Partial<IWithPagination>}
+ * @extends {Partial<IPagingParams>}
  * @extends {Partial<IWithSorting>}
  * @extends {Partial<IWithTimeQueries>}
  */
 export interface IQueryChannelsDTO
-  extends Partial<IWithPagination>,
+  extends Partial<IPagingParams>,
     Partial<IWithSorting>,
     Partial<IWithTimeQueries> {
   groups?: string[];

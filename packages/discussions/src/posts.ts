@@ -16,7 +16,7 @@ import {
   IUpdateChannelPostSharingOptions,
   IUpdatePostStatusOptions,
   IUpdateChannelPostStatusOptions,
-  INestPagination,
+  IPagedAPIResponse,
   IPostDTO,
   INestDeleteResult
 } from "./types";
@@ -26,11 +26,11 @@ import {
  *
  * @export
  * @param {(IQueryPostsOptions | IQueryChannelPostsOptions)} options
- * @return {*}  {Promise<INestPagination<IPostDTO>>}
+ * @return {*}  {Promise<IPagedAPIResponse<IPostDTO>>}
  */
 export function searchPosts(
   options: IQueryPostsOptions | IQueryChannelPostsOptions
-): Promise<INestPagination<IPostDTO>> {
+): Promise<IPagedAPIResponse<IPostDTO>> {
   let url = `/posts`;
   if (options.params.hasOwnProperty("channelId")) {
     const {

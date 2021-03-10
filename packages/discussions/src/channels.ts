@@ -7,7 +7,7 @@ import {
   IUpdateChannelOptions,
   IDeleteChannelOptions,
   IChannelDTO,
-  INestPagination,
+  IPagedAPIResponse,
   INestDeleteResult
 } from "./types";
 
@@ -16,11 +16,11 @@ import {
  *
  * @export
  * @param {IQueryChannelsOptions} options
- * @return {*}  {Promise<INestPagination<IChannelDTO>>}
+ * @return {*}  {Promise<IPagedAPIResponse<IChannelDTO>>}
  */
 export function searchChannels(
   options: IQueryChannelsOptions
-): Promise<INestPagination<IChannelDTO>> {
+): Promise<IPagedAPIResponse<IChannelDTO>> {
   options.method = "GET";
   return request(`/channels`, options);
 }
