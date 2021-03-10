@@ -242,11 +242,11 @@ export interface INestDeleteResult {
  * representation of post entity
  *
  * @export
- * @interface IPostDTO
+ * @interface IPost
  * @extends {IWithAuthor}
  * @extends {IWithTimestamps}
  */
-export interface IPostDTO extends IWithAuthor, IWithTimestamps {
+export interface IPost extends IWithAuthor, IWithTimestamps {
   id: number;
   title?: string;
   body: string;
@@ -254,21 +254,21 @@ export interface IPostDTO extends IWithAuthor, IWithTimestamps {
   status: PostStatus;
   geometry?: any; // Geometry;
   channelId?: number;
-  channel?: IChannelDTO;
+  channel?: IChannel;
   parentId?: number;
-  parent?: IPostDTO;
-  replies?: IPostDTO[];
+  parent?: IPost;
+  replies?: IPost[];
   replyCount?: number;
-  reactions?: IReactionDTO[];
-  userReactions?: IReactionDTO[];
+  reactions?: IReaction[];
+  userReactions?: IReaction[];
 }
 /**
  * dto for creating a post in a known channel
  *
  * @export
- * @interface ICreateChannelPostDTO
+ * @interface ICreateChannelPost
  */
-export interface ICreateChannelPostDTO {
+export interface ICreateChannelPost {
   title?: string;
   body: string;
   discussion?: string;
@@ -279,19 +279,19 @@ export interface ICreateChannelPostDTO {
  * paramaters for creating a post in an unknown channel
  *
  * @export
- * @interface ICreatePostDTO
- * @extends {ICreateChannelPostDTO}
+ * @interface ICreatePost
+ * @extends {ICreateChannelPost}
  * @extends {IWithSharing}
  */
-export interface ICreatePostDTO extends ICreateChannelPostDTO, IWithSharing {}
+export interface ICreatePost extends ICreateChannelPost, IWithSharing {}
 
 /**
  * dto for decorating found post with relations
  *
  * @export
- * @interface IGetPostDTO
+ * @interface IGetPost
  */
-export interface IGetPostDTO {
+export interface IGetPost {
   relations?: PostRelation[];
 }
 
@@ -299,13 +299,13 @@ export interface IGetPostDTO {
  * dto for querying posts in a single channel
  *
  * @export
- * @interface IQueryChannelPostsDTO
+ * @interface IQueryChannelPosts
  * @extends {Partial<IWithAuthor>}
  * @extends {Partial<IPagingParams>}
  * @extends {Partial<IWithSorting>}
  * @extends {Partial<IWithTimeQueries>}
  */
-export interface IQueryChannelPostsDTO
+export interface IQueryChannelPosts
   extends Partial<IWithAuthor>,
     Partial<IPagingParams>,
     Partial<IWithSorting>,
@@ -322,10 +322,10 @@ export interface IQueryChannelPostsDTO
  * dto for querying posts in many channels
  *
  * @export
- * @interface IQueryPostsDTO
- * @extends {IQueryChannelPostsDTO}
+ * @interface IQueryPosts
+ * @extends {IQueryChannelPosts}
  */
-export interface IQueryPostsDTO extends IQueryChannelPostsDTO {
+export interface IQueryPosts extends IQueryChannelPosts {
   groups?: string[];
   access?: SharingAccess[];
 }
@@ -334,18 +334,18 @@ export interface IQueryPostsDTO extends IQueryChannelPostsDTO {
  * dto for updating a post's channel
  *
  * @export
- * @interface IUpdatePostSharingDTO
+ * @interface IUpdatePostSharing
  * @extends {Partial<IWithSharing>}
  */
-export interface IUpdatePostSharingDTO extends Partial<IWithSharing> {}
+export interface IUpdatePostSharing extends Partial<IWithSharing> {}
 
 /**
  * dto for updating a post's status
  *
  * @export
- * @interface IUpdatePostStatusDTO
+ * @interface IUpdatePostStatus
  */
-export interface IUpdatePostStatusDTO {
+export interface IUpdatePostStatus {
   status: PostStatus;
 }
 
@@ -353,9 +353,9 @@ export interface IUpdatePostStatusDTO {
  * dto for updating a post's content
  *
  * @export
- * @interface IUpdatePostDTO
+ * @interface IUpdatePost
  */
-export interface IUpdatePostDTO {
+export interface IUpdatePost {
   title?: string;
   body?: string;
 }
@@ -365,13 +365,13 @@ export interface IUpdatePostDTO {
  * representation of channel entity
  *
  * @export
- * @interface IChannelDTO
+ * @interface IChannel
  * @extends {IWithSettings}
  * @extends {IWithSharing}
  * @extends {IWithAuthor}
  * @extends {IWithTimestamps}
  */
-export interface IChannelDTO
+export interface IChannel
   extends IWithSettings,
     IWithSharing,
     IWithAuthor,
@@ -383,19 +383,19 @@ export interface IChannelDTO
  * dto for creating a channel
  *
  * @export
- * @interface ICreateChannelDTO
+ * @interface ICreateChannel
  * @extends {IWithSettings}
  * @extends {IWithSharing}
  */
-export interface ICreateChannelDTO extends IWithSettings, IWithSharing {}
+export interface ICreateChannel extends IWithSettings, IWithSharing {}
 
 /**
  * dto for decorating found channel with relations
  *
  * @export
- * @interface IGetChannelDTO
+ * @interface IGetChannel
  */
-export interface IGetChannelDTO {
+export interface IGetChannel {
   relations?: ChannelRelation[];
 }
 
@@ -403,12 +403,12 @@ export interface IGetChannelDTO {
  * dto for querying channels
  *
  * @export
- * @interface IQueryChannelsDTO
+ * @interface IQueryChannels
  * @extends {Partial<IPagingParams>}
  * @extends {Partial<IWithSorting>}
  * @extends {Partial<IWithTimeQueries>}
  */
-export interface IQueryChannelsDTO
+export interface IQueryChannels
   extends Partial<IPagingParams>,
     Partial<IWithSorting>,
     Partial<IWithTimeQueries> {
@@ -421,10 +421,10 @@ export interface IQueryChannelsDTO
  * dto for updating channel settings
  *
  * @export
- * @interface IUpdateChannelDTO
+ * @interface IUpdateChannel
  * @extends {Partial<IWithSettings>}
  */
-export interface IUpdateChannelDTO extends Partial<IWithSettings> {}
+export interface IUpdateChannel extends Partial<IWithSettings> {}
 
 // // reactions
 
@@ -432,24 +432,24 @@ export interface IUpdateChannelDTO extends Partial<IWithSettings> {}
  * representation of reaction entity
  *
  * @export
- * @interface IReactionDTO
+ * @interface IReaction
  * @extends {IWithAuthor}
  * @extends {IWithTimestamps}
  */
-export interface IReactionDTO extends IWithAuthor, IWithTimestamps {
+export interface IReaction extends IWithAuthor, IWithTimestamps {
   id: number;
   value: PostReaction;
   postId?: number;
-  post?: IPostDTO;
+  post?: IPost;
 }
 
 /**
  * dto for creating a reaction
  *
  * @export
- * @interface ICreateReactionDTO
+ * @interface ICreateReaction
  */
-export interface ICreateReactionDTO {
+export interface ICreateReaction {
   value: PostReaction;
 }
 
@@ -488,7 +488,7 @@ export interface IRequestOptions extends RequestInit {
  */
 export interface IQueryPostsOptions extends IRequestOptions {
   params: {
-    query: IQueryPostsDTO;
+    query: IQueryPosts;
   };
 }
 
@@ -501,7 +501,7 @@ export interface IQueryPostsOptions extends IRequestOptions {
  */
 export interface IQueryChannelPostsOptions extends IRequestOptions {
   params: {
-    query: IQueryChannelPostsDTO;
+    query: IQueryChannelPosts;
     channelId: number;
   };
 }
@@ -515,7 +515,7 @@ export interface IQueryChannelPostsOptions extends IRequestOptions {
  */
 export interface ICreatePostOptions extends IRequestOptions {
   params: {
-    body: ICreatePostDTO;
+    body: ICreatePost;
   };
 }
 
@@ -528,7 +528,7 @@ export interface ICreatePostOptions extends IRequestOptions {
  */
 export interface ICreateChannelPostOptions extends IRequestOptions {
   params: {
-    body: ICreateChannelPostDTO;
+    body: ICreateChannelPost;
     channelId: number;
   };
 }
@@ -542,7 +542,7 @@ export interface ICreateChannelPostOptions extends IRequestOptions {
  */
 export interface ICreateReplyOptions extends IRequestOptions {
   params: {
-    body: ICreatePostDTO;
+    body: ICreatePost;
     postId: number;
   };
 }
@@ -556,7 +556,7 @@ export interface ICreateReplyOptions extends IRequestOptions {
  */
 export interface ICreateChannelReplyOptions extends IRequestOptions {
   params: {
-    body: ICreateChannelPostDTO;
+    body: ICreateChannelPost;
     postId: number;
     channelId: number;
   };
@@ -571,7 +571,7 @@ export interface ICreateChannelReplyOptions extends IRequestOptions {
  */
 export interface IGetPostOptions extends IRequestOptions {
   params: {
-    query?: IGetPostDTO;
+    query?: IGetPost;
     postId: number;
   };
 }
@@ -585,7 +585,7 @@ export interface IGetPostOptions extends IRequestOptions {
  */
 export interface IGetChannelPostOptions extends IRequestOptions {
   params: {
-    query?: IGetPostDTO;
+    query?: IGetPost;
     postId: number;
     channelId: number;
   };
@@ -600,7 +600,7 @@ export interface IGetChannelPostOptions extends IRequestOptions {
  */
 export interface IUpdatePostOptions extends IRequestOptions {
   params: {
-    body: IUpdatePostDTO;
+    body: IUpdatePost;
     postId: number;
   };
 }
@@ -614,7 +614,7 @@ export interface IUpdatePostOptions extends IRequestOptions {
  */
 export interface IUpdateChannelPostOptions extends IRequestOptions {
   params: {
-    body: IUpdatePostDTO;
+    body: IUpdatePost;
     postId: number;
     channelId: number;
   };
@@ -629,7 +629,7 @@ export interface IUpdateChannelPostOptions extends IRequestOptions {
  */
 export interface IUpdatePostSharingOptions extends IRequestOptions {
   params: {
-    body: IUpdatePostSharingDTO;
+    body: IUpdatePostSharing;
     postId: number;
   };
 }
@@ -643,7 +643,7 @@ export interface IUpdatePostSharingOptions extends IRequestOptions {
  */
 export interface IUpdateChannelPostSharingOptions extends IRequestOptions {
   params: {
-    body: IUpdatePostSharingDTO;
+    body: IUpdatePostSharing;
     postId: number;
     channelId: number;
   };
@@ -658,7 +658,7 @@ export interface IUpdateChannelPostSharingOptions extends IRequestOptions {
  */
 export interface IUpdatePostStatusOptions extends IRequestOptions {
   params: {
-    body: IUpdatePostStatusDTO;
+    body: IUpdatePostStatus;
     postId: number;
   };
 }
@@ -672,7 +672,7 @@ export interface IUpdatePostStatusOptions extends IRequestOptions {
  */
 export interface IUpdateChannelPostStatusOptions extends IRequestOptions {
   params: {
-    body: IUpdatePostStatusDTO;
+    body: IUpdatePostStatus;
     postId: number;
     channelId: number;
   };
@@ -716,7 +716,7 @@ export interface IDeleteChannelPostOptions extends IRequestOptions {
  */
 export interface IQueryChannelsOptions extends IRequestOptions {
   params: {
-    query: IQueryChannelsDTO;
+    query: IQueryChannels;
   };
 }
 
@@ -729,7 +729,7 @@ export interface IQueryChannelsOptions extends IRequestOptions {
  */
 export interface ICreateChannelOptions extends IRequestOptions {
   params: {
-    body: ICreateChannelDTO;
+    body: ICreateChannel;
   };
 }
 
@@ -742,7 +742,7 @@ export interface ICreateChannelOptions extends IRequestOptions {
  */
 export interface IGetChannelOptions extends IRequestOptions {
   params: {
-    query?: IGetChannelDTO;
+    query?: IGetChannel;
     channelId: number;
   };
 }
@@ -756,7 +756,7 @@ export interface IGetChannelOptions extends IRequestOptions {
  */
 export interface IUpdateChannelOptions extends IRequestOptions {
   params: {
-    body: IUpdateChannelDTO;
+    body: IUpdateChannel;
     channelId: number;
   };
 }
@@ -785,7 +785,7 @@ export interface IDeleteChannelOptions extends IRequestOptions {
  */
 export interface ICreateReactionOptions extends IRequestOptions {
   params: {
-    body: ICreateReactionDTO;
+    body: ICreateReaction;
     postId: number;
   };
 }

@@ -3,7 +3,7 @@ import {
   ICreateReactionOptions,
   IDeleteReactionOptions,
   INestDeleteResult,
-  IReactionDTO
+  IReaction
 } from "./types";
 
 /**
@@ -11,11 +11,11 @@ import {
  *
  * @export
  * @param {ICreateReactionOptions} options
- * @return {*}  {Promise<IReactionDTO>}
+ * @return {*}  {Promise<IReaction>}
  */
 export function createReaction(
   options: ICreateReactionOptions
-): Promise<IReactionDTO> {
+): Promise<IReaction> {
   options.method = "POST";
   return request(`/posts/${options.params.postId}/reactions`, options);
 }

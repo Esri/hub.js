@@ -1,14 +1,14 @@
 import {
-  // IChannelDTO, INestDeleteResult, IPagedAPIResponse, IPostDTO, IReactionDTO,
+  // IChannel, INestDeleteResult, IPagedAPIResponse, IPost, IReaction,
   IRequestOptions
 } from "./types";
 import { apiRequest, authenticateRequest } from "./utils/request";
 
 // NOTE: why doesn't this work??
 // type ReturnTypes = Promise<
-// IReactionDTO | IChannelDTO | IPostDTO |
+// IReaction | IChannel | IPost |
 // INestDeleteResult |
-// IPagedAPIResponse<IChannelDTO | IPostDTO>
+// IPagedAPIResponse<IChannel | IPost>
 // >
 
 /**

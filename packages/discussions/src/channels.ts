@@ -6,7 +6,7 @@ import {
   IGetChannelOptions,
   IUpdateChannelOptions,
   IDeleteChannelOptions,
-  IChannelDTO,
+  IChannel,
   IPagedAPIResponse,
   INestDeleteResult
 } from "./types";
@@ -16,11 +16,11 @@ import {
  *
  * @export
  * @param {IQueryChannelsOptions} options
- * @return {*}  {Promise<IPagedAPIResponse<IChannelDTO>>}
+ * @return {*}  {Promise<IPagedAPIResponse<IChannel>>}
  */
 export function searchChannels(
   options: IQueryChannelsOptions
-): Promise<IPagedAPIResponse<IChannelDTO>> {
+): Promise<IPagedAPIResponse<IChannel>> {
   options.method = "GET";
   return request(`/channels`, options);
 }
@@ -30,11 +30,11 @@ export function searchChannels(
  *
  * @export
  * @param {ICreateChannelOptions} options
- * @return {*}  {Promise<IChannelDTO>}
+ * @return {*}  {Promise<IChannel>}
  */
 export function createChannel(
   options: ICreateChannelOptions
-): Promise<IChannelDTO> {
+): Promise<IChannel> {
   options.method = "POST";
   return request(`/channels`, options);
 }
@@ -44,9 +44,9 @@ export function createChannel(
  *
  * @export
  * @param {IGetChannelOptions} options
- * @return {*}  {Promise<IChannelDTO>}
+ * @return {*}  {Promise<IChannel>}
  */
-export function getChannel(options: IGetChannelOptions): Promise<IChannelDTO> {
+export function getChannel(options: IGetChannelOptions): Promise<IChannel> {
   options.method = "GET";
   return request(`/channels/${options.params.channelId}`, options);
 }
@@ -58,11 +58,11 @@ export function getChannel(options: IGetChannelOptions): Promise<IChannelDTO> {
  *
  * @export
  * @param {IUpdateChannelOptions} options
- * @return {*}  {Promise<IChannelDTO>}
+ * @return {*}  {Promise<IChannel>}
  */
 export function updateChannel(
   options: IUpdateChannelOptions
-): Promise<IChannelDTO> {
+): Promise<IChannel> {
   options.method = "PATCH";
   return request(`/channels/${options.params.channelId}`, options);
 }

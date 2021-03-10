@@ -1,13 +1,13 @@
 import { IUser } from "@esri/arcgis-rest-auth";
 import { GroupMembership } from "@esri/arcgis-rest-portal";
-import { IChannelDTO, IPlatformSharing } from "../types";
+import { IChannel, IPlatformSharing } from "../types";
 import { isOrgAdmin, reduceByGroupMembership } from "./platform";
 
 function intersectGroups(
   membershipTypes: GroupMembership[],
   strict?: boolean
-): (arg0: IUser, arg1: IChannelDTO) => boolean {
-  return (user: IUser, channel: IChannelDTO): boolean => {
+): (arg0: IUser, arg1: IChannel) => boolean {
+  return (user: IUser, channel: IChannel): boolean => {
     const { groups: sharedGroups } = channel;
     const { groups: userGroups } = user;
     const eligibleUserGroups = userGroups.reduce(
@@ -21,12 +21,12 @@ function intersectGroups(
   };
 }
 
-function isChannelOrgMember(channel: IChannelDTO, user: IUser): boolean {
+function isChannelOrgMember(channel: IChannel, user: IUser): boolean {
   // orgs.length === 1 until cross-org comms is sussed out
   return channel.orgs.length === 1 && channel.orgs.indexOf(user.orgId) > -1;
 }
 
-function isChannelOrgAdmin(channel: IChannelDTO, user: IUser): boolean {
+function isChannelOrgAdmin(channel: IChannel, user: IUser): boolean {
   return isOrgAdmin(user) && channel.orgs.indexOf(user.orgId) > -1;
 }
 
@@ -34,11 +34,11 @@ function isChannelOrgAdmin(channel: IChannelDTO, user: IUser): boolean {
  * Utility to determine whether User can view posts belonging to Channel
  *
  * @export
- * @param {IChannelDTO} channel
+ * @param {IChannel} channel
  * @param {IUser} user
  * @return {*}  {boolean}
  */
-export function canReadFromChannel(channel: IChannelDTO, user: IUser): boolean {
+export function canReadFromChannel(channel: IChannel, user: IUser): boolean {
   if (channel.access === "private") {
     // ensure user is member of at least one group
     return intersectGroups(["member", "owner", "admin"])(user, channel);
@@ -52,11 +52,11 @@ export function canReadFromChannel(channel: IChannelDTO, user: IUser): boolean {
  * Utility to determine whether User can modify posts belonging to Channel
  *
  * @export
- * @param {IChannelDTO} channel
+ * @param {IChannel} channel
  * @param {IUser} user
  * @return {*}  {boolean}
  */
-export function canModifyChannel(channel: IChannelDTO, user: IUser): boolean {
+export function canModifyChannel(channel: IChannel, user: IUser): boolean {
   if (channel.access === "private") {
     // ensure user is owner/admin of at least one group
     return intersectGroups(["owner", "admin"])(user, channel);
@@ -67,14 +67,14 @@ export function canModifyChannel(channel: IChannelDTO, user: IUser): boolean {
 }
 
 /**
- * Utility to determine whether User can create Channel of provided IChannelDTO properties
+ * Utility to determine whether User can create Channel of provided IChannel properties
  *
  * @export
- * @param {IChannelDTO} channel
+ * @param {IChannel} channel
  * @param {IUser} user
  * @return {*}  {boolean}
  */
-export function canCreateChannel(channel: IChannelDTO, user: IUser): boolean {
+export function canCreateChannel(channel: IChannel, user: IUser): boolean {
   if (channel.access === "private") {
     // ensure user is member of all groups included
     return intersectGroups(["owner", "admin", "member"], true)(user, channel);
@@ -87,11 +87,11 @@ export function canCreateChannel(channel: IChannelDTO, user: IUser): boolean {
  * Utility to determine whether User can create posts to Channel
  *
  * @export
- * @param {IChannelDTO} channel
+ * @param {IChannel} channel
  * @param {IUser} user
  * @return {*}  {boolean}
  */
-export function canPostToChannel(channel: IChannelDTO, user: IUser): boolean {
+export function canPostToChannel(channel: IChannel, user: IUser): boolean {
   if (channel.access === "private") {
     // ensure user is member of at least one
     return intersectGroups(["owner", "admin", "member"])(user, channel);
@@ -107,13 +107,13 @@ export function canPostToChannel(channel: IChannelDTO, user: IUser): boolean {
  * Utility to determine whether a Channel definition (inner) is encapsulated by another Channel's definition (outer)
  *
  * @export
- * @param {IChannelDTO} outer -- access and groups that should contain inner access and groups
- * @param {(IChannelDTO | IPlatformSharing)} inner -- access and groups that should be contained by outer access and groups
+ * @param {IChannel} outer -- access and groups that should contain inner access and groups
+ * @param {(IChannel | IPlatformSharing)} inner -- access and groups that should be contained by outer access and groups
  * @return {*}  {boolean}
  */
 export function isChannelInclusive(
-  outer: IChannelDTO,
-  inner: IChannelDTO | IPlatformSharing
+  outer: IChannel,
+  inner: IChannel | IPlatformSharing
 ): boolean {
   let valid: boolean;
   let err: string;
