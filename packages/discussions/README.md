@@ -22,30 +22,16 @@
 npm install @esri/hub-discussions
 ```
 ```js
-// import { getAnnotationServiceUrl, searchAnnotations } from "@esri/hub-discussions";
+import { searchPosts } from "@esri/hub-discussions";
 
-//  // pass in an organization id
-// getAnnotationServiceUrl("abc123")
-//     .then(annotationsUrl => {
-//       // https://services.arcgis.com/abc123/arcgis/rest/services/Hub Annotations/FeatureServer
-//       searchAnnotations({
-//         url: annotationsUrl + "/0"
-//       })
-//         .then( response => {
-//               // {
-//               //   data: [{
-//               //     id: "User1",
-//               //     type: "annotations",
-//               //     attributes: {description: "Great place!", ...}
-//               //   }],
-//               //   included: [{
-//               //     id: "User1",
-//               //     type: "users",
-//               //     attributes: { firstName: "User", lastName: "Name", ...}
-//               //   }]
-//               // }
-//           });
-//     });
+// get posts for org
+searchPosts({ access: ['org'], orgs: ['3ef']}).then(response => {
+  return response.items;
+  // [
+  //   IPostDTO{},
+  //   ...
+  // ]
+});
 ```
 
 ## [API Reference](https://esri.github.io/hub.js/api/annotations/)
