@@ -160,7 +160,7 @@ describe("posts", () => {
       .catch(() => fail());
   });
 
-  it("finds post [IFindPostOptions]", done => {
+  it("finds post [IGetPostOptions]", done => {
     const postId = 2;
 
     const options = { params: { postId } };
@@ -175,7 +175,7 @@ describe("posts", () => {
       .catch(() => fail());
   });
 
-  it("finds post [IFindChannelPostOptions]", done => {
+  it("finds post [IGetChannelPostOptions]", done => {
     const postId = 2;
     const channelId = 1;
 

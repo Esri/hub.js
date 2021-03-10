@@ -6,8 +6,8 @@ import {
   ICreateChannelPostOptions,
   ICreateReplyOptions,
   ICreateChannelReplyOptions,
-  IFindPostOptions,
-  IFindChannelPostOptions,
+  IGetPostOptions,
+  IGetChannelPostOptions,
   IDeletePostOptions,
   IDeleteChannelPostOptions,
   IUpdatePostOptions,
@@ -85,20 +85,20 @@ export function createReply(
 }
 
 /**
- * find post
+ * get post
  *
  * @export
- * @param {(IFindPostOptions | IFindChannelPostOptions)} options
+ * @param {(IGetPostOptions | IGetChannelPostOptions)} options
  * @return {*}  {Promise<IPostDTO>}
  */
-export function findPost(
-  options: IFindPostOptions | IFindChannelPostOptions
+export function getPost(
+  options: IGetPostOptions | IGetChannelPostOptions
 ): Promise<IPostDTO> {
   let url = `/posts/${options.params.postId}`;
   if (options.params.hasOwnProperty("channelId")) {
     const {
       params: { channelId }
-    } = options as IFindChannelPostOptions;
+    } = options as IGetChannelPostOptions;
     url = `/channels/${channelId}` + url;
   }
   options.method = "GET";

@@ -315,9 +315,9 @@ export interface ICreatePostDTO extends ICreateChannelPostDTO, IWithSharing {}
  * dto for decorating found post with relations
  *
  * @export
- * @interface IFindPostDTO
+ * @interface IGetPostDTO
  */
-export interface IFindPostDTO {
+export interface IGetPostDTO {
   relations?: PostRelation[];
 }
 
@@ -419,9 +419,9 @@ export interface ICreateChannelDTO extends IWithSettings, IWithSharing {}
  * dto for decorating found channel with relations
  *
  * @export
- * @interface IFindChannelDTO
+ * @interface IGetChannelDTO
  */
-export interface IFindChannelDTO {
+export interface IGetChannelDTO {
   relations?: ChannelRelation[];
 }
 
@@ -589,29 +589,29 @@ export interface ICreateChannelReplyOptions extends IRequestOptions {
 }
 
 /**
- * request options for finding post
+ * request options for getting post
  *
  * @export
- * @interface IFindPostOptions
+ * @interface IGetPostOptions
  * @extends {IRequestOptions}
  */
-export interface IFindPostOptions extends IRequestOptions {
+export interface IGetPostOptions extends IRequestOptions {
   params: {
-    query?: IFindPostDTO;
+    query?: IGetPostDTO;
     postId: number;
   };
 }
 
 /**
- * request options for finding post in known channel
+ * request options for getting post in known channel
  *
  * @export
- * @interface IFindChannelPostOptions
+ * @interface IGetChannelPostOptions
  * @extends {IRequestOptions}
  */
-export interface IFindChannelPostOptions extends IRequestOptions {
+export interface IGetChannelPostOptions extends IRequestOptions {
   params: {
-    query?: IFindPostDTO;
+    query?: IGetPostDTO;
     postId: number;
     channelId: number;
   };
@@ -760,15 +760,15 @@ export interface ICreateChannelOptions extends IRequestOptions {
 }
 
 /**
- * request options for finding a channel
+ * request options for getting a channel
  *
  * @export
- * @interface IFindChannelOptions
+ * @interface IGetChannelOptions
  * @extends {IRequestOptions}
  */
-export interface IFindChannelOptions extends IRequestOptions {
+export interface IGetChannelOptions extends IRequestOptions {
   params: {
-    query?: IFindChannelDTO;
+    query?: IGetChannelDTO;
     channelId: number;
   };
 }

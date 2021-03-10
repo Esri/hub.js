@@ -3,7 +3,7 @@ import { request } from "./request";
 import {
   IQueryChannelsOptions,
   ICreateChannelOptions,
-  IFindChannelOptions,
+  IGetChannelOptions,
   IUpdateChannelOptions,
   IDeleteChannelOptions,
   IChannelDTO,
@@ -40,15 +40,13 @@ export function createChannel(
 }
 
 /**
- * find channel
+ * get channel
  *
  * @export
- * @param {IFindChannelOptions} options
+ * @param {IGetChannelOptions} options
  * @return {*}  {Promise<IChannelDTO>}
  */
-export function findChannel(
-  options: IFindChannelOptions
-): Promise<IChannelDTO> {
+export function getChannel(options: IGetChannelOptions): Promise<IChannelDTO> {
   options.method = "GET";
   return request(`/channels/${options.params.channelId}`, options);
 }
