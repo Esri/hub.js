@@ -1,12 +1,12 @@
 import { canCreateReaction } from "../../src/utils/reactions";
-import { PostReaction, IChannelDTO } from "../../src/types";
+import { PostReaction, IChannel } from "../../src/types";
 
 describe("Util: canCreateReaction", () => {
   it("returns true if channel allows all reactions", () => {
     const channel = {
       allowReaction: true,
       allowedReactions: null
-    } as IChannelDTO;
+    } as IChannel;
     expect(canCreateReaction(channel, PostReaction.THUMBS_UP)).toBe(true);
   });
 
@@ -14,7 +14,7 @@ describe("Util: canCreateReaction", () => {
     const channel = {
       allowReaction: true,
       allowedReactions: ["thumbs_up"]
-    } as IChannelDTO;
+    } as IChannel;
     expect(canCreateReaction(channel, PostReaction.THUMBS_UP)).toBe(true);
   });
 
@@ -22,12 +22,12 @@ describe("Util: canCreateReaction", () => {
     const channel = {
       allowReaction: true,
       allowedReactions: ["thumbs_up"]
-    } as IChannelDTO;
+    } as IChannel;
     expect(canCreateReaction(channel, PostReaction.THUMBS_DOWN)).toBe(false);
   });
 
   it("returns false if channel does not allow reaction", () => {
-    const channel = { allowReaction: false } as IChannelDTO;
+    const channel = { allowReaction: false } as IChannel;
     expect(canCreateReaction(channel, PostReaction.THUMBS_DOWN)).toBe(false);
   });
 });

@@ -1,7 +1,6 @@
-// import { fakeChannel, fakeGroup, fakeUser } from '../../../test/mocks';
 import { IUser } from "@esri/arcgis-rest-auth";
 import { IGroup } from "@esri/arcgis-rest-types";
-import { SharingAccess, IChannelDTO, IPlatformSharing } from "../../src/types";
+import { SharingAccess, IChannel } from "../../src/types";
 import {
   canCreateChannel,
   canModifyChannel,
@@ -20,7 +19,7 @@ const fakeUser = (props: any = { username: "jdoe", orgId: "3ef" }) =>
   props as IUser;
 const fakeGroup = (id: string, memberType: string) =>
   ({ id, userMembership: { memberType } } as IGroup);
-const fakeChannel = (props: any) => props as IChannelDTO;
+const fakeChannel = (props: any) => props as IChannel;
 
 describe("Util: isChannelInclusive", () => {
   describe("outer visibility: team", () => {
