@@ -1,7 +1,7 @@
 import {
   createChannel,
   searchChannels,
-  findChannel,
+  getChannel,
   updateChannel,
   deleteChannel
 } from "../src/channels";
@@ -63,12 +63,12 @@ describe("channels", () => {
       .catch(() => fail());
   });
 
-  it("finds channel", done => {
+  it("gets channel", done => {
     const channelId = 1;
 
     const options = { params: { channelId } };
 
-    findChannel(options)
+    getChannel(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);

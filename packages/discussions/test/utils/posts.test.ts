@@ -8,7 +8,7 @@ import {
 } from "../../src/utils/posts";
 
 describe("Util: parseDiscussionURI", () => {
-  it("returns DiscussionParams for valid post discussion uri", () => {
+  it("returns DiscussionParams for valid discussion uri", () => {
     const discussion = "hub://dataset/1234_1/?id=1,2,3&attribute=foo";
     const expected = {
       source: "hub",
@@ -22,8 +22,8 @@ describe("Util: parseDiscussionURI", () => {
     expect(parseDiscussionURI(discussion)).toEqual(expected);
   });
 
-  it("returns DiscussionParams for invalid post discussion uri", () => {
-    const discussion = "hub://dataset/";
+  it("returns DiscussionParams for invalid discussion uri", () => {
+    const discussion = "hub://dataset";
     const expected = {
       source: "hub",
       type: "dataset",

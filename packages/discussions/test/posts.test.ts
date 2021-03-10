@@ -1,7 +1,7 @@
 import {
   createPost,
   searchPosts,
-  findPost,
+  getPost,
   updatePost,
   deletePost,
   createReply,
@@ -160,11 +160,11 @@ describe("posts", () => {
       .catch(() => fail());
   });
 
-  it("finds post [IGetPostOptions]", done => {
+  it("gets post [IGetPostOptions]", done => {
     const postId = 2;
 
     const options = { params: { postId } };
-    findPost(options)
+    getPost(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
@@ -175,12 +175,12 @@ describe("posts", () => {
       .catch(() => fail());
   });
 
-  it("finds post [IGetChannelPostOptions]", done => {
+  it("gets post [IGetChannelPostOptions]", done => {
     const postId = 2;
     const channelId = 1;
 
     const options = { params: { postId, channelId } };
-    findPost(options)
+    getPost(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);

@@ -1,5 +1,6 @@
 import { IGroup, IItem } from "@esri/arcgis-rest-portal";
 import { IDiscussionParams } from "../types";
+import * as UrlParse from "url-parse";
 
 /**
  * Utility that parses a discussion URI string into its component parts
@@ -9,18 +10,17 @@ import { IDiscussionParams } from "../types";
  * @return {*}  {IDiscussionParams}
  */
 export function parseDiscussionURI(discussion: string): IDiscussionParams {
-  // NOTE: cannot use new URL(discussion) to parse uri bc difference in node and browser implementation
-  const [, source = null] = discussion.match(/^(\w*):\/\//) || [];
-  const [, type = null] = discussion.match(/^\w*:\/\/(\w*)\/?/) || [];
-  const [, pathname = ""] = discussion.match(/^\w*:\/\/\w*\/(\w*)\??/) || [];
-  const [id, layer = null] = pathname.split("_");
-  const uri = new URL(discussion);
+  // pass it through browser/node URL to invalidate plain strings
+  const uri = new URL(discussion) && new UrlParse(discussion);
+  const source = uri.protocol.slice(0, -1); // removes ":"
+  const type = uri.hostname;
+  const [, identifier] = uri.pathname.split("/");
+  const [id, layer = null] = identifier.split("_");
+  const searchParams = new URLSearchParams(uri.query);
   const features =
-    (uri.searchParams.has("id") && uri.searchParams.get("id").split(",")) ||
-    null;
+    (searchParams.has("id") && searchParams.get("id").split(",")) || null;
   const attribute =
-    (uri.searchParams.has("attribute") && uri.searchParams.get("attribute")) ||
-    null;
+    (searchParams.has("attribute") && searchParams.get("attribute")) || null;
   return {
     source,
     type,

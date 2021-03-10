@@ -10,7 +10,8 @@
   "types": "dist/esm/index.d.ts",
   "license": "Apache-2.0",
   "dependencies": {
-    "tslib": "^1.13.0"
+    "tslib": "^1.13.0",
+    "url-parse": "^1.5.1"
   },
   "peerDependencies": {
     "@esri/arcgis-rest-auth": "^2.13.0",
@@ -24,6 +25,7 @@
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
     "@types/geojson": "^7946.0.7",
+    "@types/url-parse": "^1.4.3",
     "rollup": "^2.26.5",
     "rollup-plugin-filesize": "^9.0.2",
     "rollup-plugin-typescript2": "^0.27.2",
