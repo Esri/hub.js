@@ -1,4 +1,4 @@
-import typescript from "rollup-plugin-typescript2";
+import typescript from "@rollup/plugin-typescript";
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
@@ -89,7 +89,7 @@ export default {
   context: "window",
   external: packageNames.concat(arcgisRestJsPackageNames),
   plugins: [
-    typescript(),
+    typescript({ target: 'es5' }),
     json(),
     resolve(),
     commonjs()
