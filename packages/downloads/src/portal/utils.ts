@@ -1,17 +1,19 @@
-import { DownloadTarget } from "../download-target";
-
-const DOWNLOADS_LOCK_MS = 10 * 60 * 1000;
+import { IItem } from "@esri/arcgis-rest-types";
+import { getProp } from "@esri/hub-common";
+import { DownloadFormat } from "../download-format";
 
 /**
  * @private
  */
-export function isRecentlyUpdated(
-  target: DownloadTarget,
-  lastEditDate: number
+export function isDownloadEnabled(
+  item: IItem,
+  format: DownloadFormat
 ): boolean {
-  return (
-    target === "portal" &&
-    lastEditDate &&
-    new Date().getTime() - lastEditDate <= DOWNLOADS_LOCK_MS
-  );
+  const lowercasedFormat = format ? format.toLowerCase() : "";
+  const isItemLevelDownloadEnabled =
+    getProp(item, "properties.downloadsConfig.enabled") !== false;
+  const formats = getProp(item, "properties.downloadsConfig.formats") || {};
+  const isFormatDownloadEnabled =
+    !formats[lowercasedFormat] || formats[lowercasedFormat].enabled !== false;
+  return isItemLevelDownloadEnabled ? isFormatDownloadEnabled : false;
 }

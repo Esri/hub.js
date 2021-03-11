@@ -10,7 +10,7 @@ import { DownloadFormat, DownloadFormats } from "../download-format";
 import { urlBuilder, composeDownloadId } from "../utils";
 import { DownloadTarget } from "../download-target";
 import { DownloadStatus } from "../download-status";
-import { isRecentlyUpdated } from "./utils";
+import { isDownloadEnabled } from "./utils";
 
 enum ItemTypes {
   FeatureService = "Feature Service",
@@ -55,10 +55,12 @@ export function portalRequestDownloadMetadata(
   let serviceLastEditDate: number | undefined;
   let itemModifiedDate: number;
   let itemType: string;
+  let fetchedItem: IItem;
 
   return getItem(itemId, { authentication })
     .then((item: IItem) => {
       const { type, modified, url } = item;
+      fetchedItem = item;
       itemModifiedDate = modified;
       itemType = type;
       return fetchCacheSearchMetadata({
@@ -91,7 +93,8 @@ export function portalRequestDownloadMetadata(
         itemModifiedDate,
         itemType,
         authentication,
-        target
+        target,
+        item: fetchedItem
       });
     })
     .catch((err: any) => {
@@ -161,7 +164,8 @@ function formatDownloadMetadata(params: any) {
     cachedDownload,
     serviceLastEditDate,
     authentication,
-    target
+    item,
+    format
   } = params;
 
   const lastEditDate =
@@ -170,9 +174,11 @@ function formatDownloadMetadata(params: any) {
       : new Date(serviceLastEditDate).toISOString();
 
   const { created, id } = cachedDownload || {};
-  const recentlyUpdated = isRecentlyUpdated(target, serviceLastEditDate);
 
-  const status = determineStatus(serviceLastEditDate, created, recentlyUpdated);
+  const canDownload = isDownloadEnabled(item, format);
+  const status = canDownload
+    ? determineStatus(serviceLastEditDate, created)
+    : DownloadStatus.DISABLED;
 
   if (!cachedDownload) {
     return {
@@ -196,19 +202,15 @@ function formatDownloadMetadata(params: any) {
   };
 }
 
-function determineStatus(
-  serviceLastEditDate: Date,
-  exportCreatedDate: Date,
-  recentlyUpdated: boolean
-) {
+function determineStatus(serviceLastEditDate: Date, exportCreatedDate: Date) {
   if (!exportCreatedDate) {
-    return recentlyUpdated ? DownloadStatus.LOCKED : DownloadStatus.NOT_READY;
+    return DownloadStatus.NOT_READY;
   }
   if (!serviceLastEditDate) {
     return DownloadStatus.READY_UNKNOWN;
   }
   if (serviceLastEditDate > exportCreatedDate) {
-    return recentlyUpdated ? DownloadStatus.STALE_LOCKED : DownloadStatus.STALE;
+    return DownloadStatus.STALE;
   }
   return DownloadStatus.READY;
 }
