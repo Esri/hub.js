@@ -1,6 +1,6 @@
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
 import { IPagedResponse, IPagingParams } from "@esri/arcgis-rest-types";
-// import { Geometry } from "geojson";
+import { Geometry } from "geojson";
 
 /**
  * sort orders
@@ -252,7 +252,7 @@ export interface IPost extends IWithAuthor, IWithTimestamps {
   body: string;
   discussion?: string;
   status: PostStatus;
-  geometry?: any; // Geometry;
+  geometry?: Geometry;
   channelId?: number;
   channel?: IChannel;
   parentId?: number;
