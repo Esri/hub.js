@@ -405,4 +405,25 @@ describe("isDownloadEnabled", () => {
     ).toBeTruthy();
     done();
   });
+
+  it("false if item download is explicitly enabled and format resolves to empty string", done => {
+    const item: IItem = {
+      id: "id",
+      owner: "owner",
+      tags: ["tag"],
+      created: 1000,
+      modified: 2000,
+      numViews: 1,
+      size: 1,
+      title: "title",
+      type: "type",
+      properties: {
+        downloadsConfig: {
+          enabled: true
+        }
+      }
+    };
+    expect(isDownloadEnabled(item, null)).toBeTruthy();
+    done();
+  });
 });
