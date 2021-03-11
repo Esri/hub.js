@@ -9,8 +9,6 @@ export class RemoteServerError extends Error {
   url: string;
 
   constructor(message: string, url: string, status: number) {
-    // Istanbul erroneously treats extended class constructors as an uncovered branch: https://github.com/gotwarlost/istanbul/issues/690
-    /* istanbul ignore next */
     super(message);
     this.status = status;
     this.url = url;

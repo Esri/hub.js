@@ -45,11 +45,6 @@ export default class OperationError extends Error {
     message = message || "UNKNOWN_ERROR";
     // if the rootCause has a .rootCause, use that so we don't deeply nest
     rootCause = getWithDefault(rootCause, "rootCause", rootCause);
-    /* Skip coverage on super(...) as per: 
-       https://github.com/Microsoft/TypeScript/issues/13029
-       https://github.com/SitePen/remap-istanbul/issues/106 
-    */
-    /* istanbul ignore next */
     super(message);
     this.operation = operation;
     this.name = "OperationError";

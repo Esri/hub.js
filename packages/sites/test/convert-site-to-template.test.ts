@@ -8,7 +8,7 @@ import {
 import { MOCK_HUB_REQOPTS } from "./test-helpers.test";
 import * as fetchMock from "fetch-mock";
 
-describe("convertSiteToTemplate", async () => {
+describe("convertSiteToTemplate", () => {
   it("it processes the item", async () => {
     // construct a model
     const model = {
