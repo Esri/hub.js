@@ -69,8 +69,6 @@ export class AllResultsError extends Error {
   errors: IEditFeatureError[];
 
   constructor(errors: IEditFeatureError[]) {
-    // Istanbul erroneously treats extended class constructors as an uncovered branch: https://github.com/gotwarlost/istanbul/issues/690
-    /* istanbul ignore next */
     super("All attempted edits failed");
     this.errors = errors;
     const message = errors[0].description;
