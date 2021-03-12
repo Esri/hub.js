@@ -16,9 +16,9 @@ import {
   IUpdateChannelPostSharingOptions,
   IUpdatePostStatusOptions,
   IUpdateChannelPostStatusOptions,
-  IPagedAPIResponse,
+  IPagedResponse,
   IPost,
-  INestDeleteResult
+  IDeletePostResponse
 } from "./types";
 
 /**
@@ -26,11 +26,11 @@ import {
  *
  * @export
  * @param {(IQueryPostsOptions | IQueryChannelPostsOptions)} options
- * @return {*}  {Promise<IPagedAPIResponse<IPost>>}
+ * @return {*}  {Promise<IPagedResponse<IPost>>}
  */
 export function searchPosts(
   options: IQueryPostsOptions | IQueryChannelPostsOptions
-): Promise<IPagedAPIResponse<IPost>> {
+): Promise<IPagedResponse<IPost>> {
   let url = `/posts`;
   if (options.params.hasOwnProperty("channelId")) {
     const {
@@ -110,11 +110,11 @@ export function getPost(
  *
  * @export
  * @param {(IDeletePostOptions | IDeleteChannelPostOptions)} options
- * @return {*}  {Promise<INestDeleteResult>}
+ * @return {*}  {Promise<IDeletePostResponse>}
  */
 export function deletePost(
   options: IDeletePostOptions | IDeleteChannelPostOptions
-): Promise<INestDeleteResult> {
+): Promise<IDeletePostResponse> {
   let url = `/posts/${options.params.postId}`;
   if (options.params.hasOwnProperty("channelId")) {
     const {

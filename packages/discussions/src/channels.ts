@@ -1,4 +1,3 @@
-import { IPagedResponse } from "@esri/arcgis-rest-types";
 import { request } from "./request";
 import {
   IQueryChannelsOptions,
@@ -7,8 +6,8 @@ import {
   IUpdateChannelOptions,
   IDeleteChannelOptions,
   IChannel,
-  IPagedAPIResponse,
-  INestDeleteResult
+  IPagedResponse,
+  IDeleteChannelResponse
 } from "./types";
 
 /**
@@ -16,11 +15,11 @@ import {
  *
  * @export
  * @param {IQueryChannelsOptions} options
- * @return {*}  {Promise<IPagedAPIResponse<IChannel>>}
+ * @return {*}  {Promise<IPagedResponse<IChannel>>}
  */
 export function searchChannels(
   options: IQueryChannelsOptions
-): Promise<IPagedAPIResponse<IChannel>> {
+): Promise<IPagedResponse<IChannel>> {
   options.method = "GET";
   return request(`/channels`, options);
 }
@@ -76,7 +75,7 @@ export function updateChannel(
  */
 export function deleteChannel(
   options: IDeleteChannelOptions
-): Promise<INestDeleteResult> {
+): Promise<IDeleteChannelResponse> {
   options.method = "DELETE";
   return request(`/channels/${options.params.channelId}`, options);
 }

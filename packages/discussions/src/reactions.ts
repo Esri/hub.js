@@ -2,7 +2,7 @@ import { request } from "./request";
 import {
   ICreateReactionOptions,
   IDeleteReactionOptions,
-  INestDeleteResult,
+  IDeleteReactionResponse,
   IReaction
 } from "./types";
 
@@ -25,11 +25,11 @@ export function createReaction(
  *
  * @export
  * @param {IDeleteReactionOptions} options
- * @return {*}  {Promise<INestDeleteResult>}
+ * @return {*}  {Promise<IDeleteReactionResponse>}
  */
 export function deleteReaction(
   options: IDeleteReactionOptions
-): Promise<INestDeleteResult> {
+): Promise<IDeleteReactionResponse> {
   options.method = "DELETE";
   return request(
     `/posts/${options.params.postId}/reactions/${options.params.reactionId}`,

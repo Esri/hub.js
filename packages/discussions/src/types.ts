@@ -1,5 +1,8 @@
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
-import { IPagedResponse, IPagingParams } from "@esri/arcgis-rest-types";
+import {
+  IPagedResponse as IRestPagedResponse,
+  IPagingParams
+} from "@esri/arcgis-rest-types";
 import { Geometry } from "geojson";
 
 /**
@@ -218,20 +221,49 @@ export interface IWithTimestamps {
   updatedAt: Date;
 }
 
-export interface IPagedAPIResponse<PaginationObject> extends IPagedResponse {
+/**
+ * paginated response properties
+ *
+ * @export
+ * @interface IPagedResponse
+ * @extends {IRestPagedResponse}
+ * @template PaginationObject
+ */
+export interface IPagedResponse<PaginationObject> extends IRestPagedResponse {
   items: PaginationObject[];
 }
 
 /**
- * copy-cat of @nestjs/common DeleteResult interface
- * TODO: normalize this interface to look like platform delete, { success: boolean, id: number }
+ * delete post response properties
  *
  * @export
- * @interface INestDeleteResult
+ * @interface IDeletePostResponse
  */
-export interface INestDeleteResult {
-  raw: any;
-  affected?: number | null;
+export interface IDeletePostResponse {
+  success: boolean;
+  postId: number | string;
+}
+
+/**
+ * delete channel response properties
+ *
+ * @export
+ * @interface IDeleteChannelResponse
+ */
+export interface IDeleteChannelResponse {
+  success: boolean;
+  channelId: number | string;
+}
+
+/**
+ * delete reaction response properties
+ *
+ * @export
+ * @interface IDeleteReactionResponse
+ */
+export interface IDeleteReactionResponse {
+  success: boolean;
+  reactionId: number | string;
 }
 
 // dto
@@ -257,7 +289,7 @@ export interface IPost extends IWithAuthor, IWithTimestamps {
   channel?: IChannel;
   parentId?: number;
   parent?: IPost;
-  replies?: IPost[];
+  replies?: IPost[] | IPagedResponse<IPost>;
   replyCount?: number;
   reactions?: IReaction[];
   userReactions?: IReaction[];
