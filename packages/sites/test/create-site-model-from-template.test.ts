@@ -177,7 +177,7 @@ describe("createSiteModelFromTemplate", () => {
     expect(createdSite.item.extent).toEqual(
       settings.organization.defaultExtentBBox
     );
-    expect(createdSite.data.values.title).toBe(settings.solution.title);
+    expect(createdSite.data.values.title).toBe(settings.solution.name);
 
     expect(createdSite.item.url).toBe(
       "https://unique-domain-org.hubqa.arcgis.com"
@@ -222,7 +222,7 @@ describe("createSiteModelFromTemplate", () => {
     expect(createdSite.item.extent).toEqual(
       settings.organization.defaultExtentBBox
     );
-    expect(createdSite.data.values.title).toBe(settings.solution.title);
+    expect(createdSite.data.values.title).toBe(settings.solution.name);
 
     expect(createdSite.item.url).toBe(
       "https://unique-domain-org.hubqa.arcgis.com"
@@ -272,7 +272,7 @@ describe("createSiteModelFromTemplate", () => {
     expect(createdSite.item.extent).toEqual(
       settings.organization.defaultExtentBBox
     );
-    expect(createdSite.data.values.title).toBe(settings.solution.title);
+    expect(createdSite.data.values.title).toBe(settings.solution.name);
 
     expect(createdSite.item.url).toBe("http://foobar-portal-baz.com");
     expect(createdSite.data.values.defaultHostname).toBe(portalSiteHostname);
@@ -383,7 +383,7 @@ describe("createSiteModelFromTemplate", () => {
 
     // Verify interpolation
     expect(createdSite.item.title).toBe(unicodeSettings.solution.title);
-    expect(createdSite.data.values.title).toBe(unicodeSettings.solution.title);
+    expect(createdSite.data.values.title).toBe(unicodeSettings.solution.name);
 
     const passedDomain = ensureDomainSpy.calls.argsFor(0)[0];
     expect(passedDomain).toBe(
