@@ -95,9 +95,20 @@ describe("apiRequest", () => {
     expect(calledOpts).toEqual(expectedOpts);
   });
 
+  it("uses apiBaseUrl when supplied", async () => {
+    const apiBaseUrl = "https://someotherurl.com";
+
+    const result = await utils.apiRequest(url, { apiBaseUrl });
+
+    expect(result).toEqual(response);
+
+    const [calledUrl, calledOpts] = fetchMock.calls()[0];
+    expect(calledUrl).toEqual([apiBaseUrl, url].join("/"));
+    expect(calledOpts).toEqual(expectedOpts);
+  });
+
   it(`appends token header to request options if supplied`, async () => {
     const token = "bar";
-    const options = { token };
 
     const result = await utils.apiRequest(url, {}, token);
 

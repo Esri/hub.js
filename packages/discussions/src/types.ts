@@ -497,7 +497,7 @@ export interface ICreateReaction {
 export interface IRequestOptions extends RequestInit {
   authentication?: IAuthenticationManager;
   token?: string;
-  portalUrl?: string;
+  apiBaseUrl?: string;
   params?: {
     query?: {
       [key: string]: any;
