@@ -49,7 +49,7 @@ export function canReadFromChannel(channel: IChannel, user: IUser): boolean {
 }
 
 /**
- * Utility to determine whether User can modify posts belonging to Channel
+ * Utility to determine whether User can modify channel settings and posts belonging to Channel
  *
  * @export
  * @param {IChannel} channel
@@ -60,10 +60,9 @@ export function canModifyChannel(channel: IChannel, user: IUser): boolean {
   if (channel.access === "private") {
     // ensure user is owner/admin of at least one group
     return intersectGroups(["owner", "admin"])(user, channel);
-  } else if (channel.access === "org") {
-    return isChannelOrgAdmin(channel, user);
   }
-  return false;
+  // if org or public channel, must be org admin
+  return isChannelOrgAdmin(channel, user);
 }
 
 /**

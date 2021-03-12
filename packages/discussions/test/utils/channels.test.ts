@@ -222,6 +222,14 @@ describe("Util: Channel Access", () => {
       user.role = "org_admin";
       expect(canModifyChannel(channel, user)).toBeTruthy();
     });
+    it("returns true for org admins included within public channel access", () => {
+      const channel = fakeChannel({
+        access: SharingAccess.PUBLIC,
+        orgs: [orgId1]
+      });
+      user.role = "org_admin";
+      expect(canModifyChannel(channel, user)).toBeTruthy();
+    });
     it("returns false for non-admin org members included within org channel access", () => {
       const channel = fakeChannel({
         access: SharingAccess.ORG,
