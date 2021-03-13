@@ -6,7 +6,6 @@
     "@rollup/plugin-commonjs": "^15.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
-    "@rollup/plugin-typescript": "^8.2.0",
     "@types/es6-promise": "0.0.32",
     "@types/fetch-mock": "^7.0.0",
     "@types/isomorphic-fetch": "0.0.34",

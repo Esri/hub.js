@@ -36,7 +36,6 @@
     "faker": "^5.1.0",
     "rollup": "^2.26.5",
     "rollup-plugin-filesize": "^9.0.2",
-    "@rollup/plugin-typescript": "^8.2.0",
     "rollup-plugin-uglify": "^6.0.4",
     "typescript": "^3.8.1"
   },
@@ -45,7 +44,7 @@
   ],
   "scripts": {
     "prepare": "npm run build",
-    "build": "npm run build:node && npm run build:umd && npm run build:esm",
+    "build": "npm run build:node && npm run build:esm && npm run build:umd",
     "build:esm": "tsc --module es2015 --target es5 --outDir ./dist/esm --declaration",
     "build:umd": "rollup -c ../../umd-base-profile.js && rollup -c ../../umd-production-profile.js",
     "build:node": "tsc --module commonjs --outDir ./dist/node",
