@@ -3,6 +3,8 @@ export enum DownloadStatus {
   READY_UNKNOWN = "ready_unknown",
   STALE = "stale",
   NOT_READY = "not_ready",
+  LOCKED = "locked",
+  STALE_LOCKED = "stale_locked",
   DISABLED = "disabled",
   CREATING = "creating",
   UPDATING = "updating",
@@ -16,6 +18,8 @@ export type DownloadStatuses =
   | "ready_unknown"
   | "stale"
   | "not_ready"
+  | "locked"
+  | "stale_locked"
   | "disabled"
   | "creating"
   | "updating"

@@ -1,6 +1,23 @@
-import { IItem } from "@esri/arcgis-rest-types";
 import { getProp } from "@esri/hub-common";
 import { DownloadFormat } from "../download-format";
+import { DownloadTarget } from "../download-target";
+
+const DOWNLOADS_LOCK_MS = 10 * 60 * 1000;
+import { IItem } from "@esri/arcgis-rest-types";
+
+/**
+ * @private
+ */
+export function isRecentlyUpdated(
+  target: DownloadTarget,
+  lastEditDate: number
+): boolean {
+  return (
+    target === "portal" &&
+    lastEditDate &&
+    new Date().getTime() - lastEditDate <= DOWNLOADS_LOCK_MS
+  );
+}
 
 /**
  * @private

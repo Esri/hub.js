@@ -11,6 +11,7 @@ import { urlBuilder, composeDownloadId } from "../utils";
 import { DownloadTarget } from "../download-target";
 import { DownloadStatus } from "../download-status";
 import { isDownloadEnabled } from "./utils";
+import { isRecentlyUpdated } from "./utils";
 
 enum ItemTypes {
   FeatureService = "Feature Service",
@@ -164,6 +165,7 @@ function formatDownloadMetadata(params: any) {
     cachedDownload,
     serviceLastEditDate,
     authentication,
+    target,
     item,
     format
   } = params;
@@ -175,9 +177,11 @@ function formatDownloadMetadata(params: any) {
 
   const { created, id } = cachedDownload || {};
 
+  const recentlyUpdated = isRecentlyUpdated(target, serviceLastEditDate);
   const canDownload = isDownloadEnabled(item, format);
+
   const status = canDownload
-    ? determineStatus(serviceLastEditDate, created)
+    ? determineStatus(serviceLastEditDate, created, recentlyUpdated)
     : DownloadStatus.DISABLED;
 
   if (!cachedDownload) {
@@ -202,15 +206,19 @@ function formatDownloadMetadata(params: any) {
   };
 }
 
-function determineStatus(serviceLastEditDate: Date, exportCreatedDate: Date) {
+function determineStatus(
+  serviceLastEditDate: Date,
+  exportCreatedDate: Date,
+  recentlyUpdated: boolean
+) {
   if (!exportCreatedDate) {
-    return DownloadStatus.NOT_READY;
+    return recentlyUpdated ? DownloadStatus.LOCKED : DownloadStatus.NOT_READY;
   }
   if (!serviceLastEditDate) {
     return DownloadStatus.READY_UNKNOWN;
   }
   if (serviceLastEditDate > exportCreatedDate) {
-    return DownloadStatus.STALE;
+    return recentlyUpdated ? DownloadStatus.STALE_LOCKED : DownloadStatus.STALE;
   }
   return DownloadStatus.READY;
 }
