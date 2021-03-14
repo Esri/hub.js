@@ -44,8 +44,7 @@
     "build:esm": "tsc --module es2015 --target es5 --outDir ./dist/esm --declaration",
     "build:umd": "rollup -c ../../umd-base-profile.js && rollup -c ../../umd-production-profile.js",
     "build:node": "tsc --module commonjs --outDir ./dist/node",
-    "dev:esm": "tsc -w --module es2015 --outDir ./dist/esm --declaration",
-    "dev:umd": "rollup -w -c ../../umd-base-profile.js",
+    "dev:esm": "tsc -w --module es2015 --target es5 --outDir ./dist/esm --declaration",
     "dev:node": "tsc -w --module commonjs --outDir ./dist/node",
     "format": "prettier --write ./{src,test}/**/*.ts",
     "format:check": "prettier --check ./{src,test}/**/*.ts"
