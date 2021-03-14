@@ -83,7 +83,9 @@
     ]
   },
   "scripts": {
-    "build": "lerna run build",
+    "build": "npm run bootstrap && npm run build:umd && npm run build:es2017",
+    "build:es2017": "lerna run build:es2017",
+    "build:umd": "lerna run build:umd",
     "clean": "npm run clean:dist & npm run clean:deps",
     "clean:dist": "rm -rf packages/*/dist/",
     "clean:deps": "rm -rf node_modules && rm -rf packages/*/node_modules/",
@@ -123,7 +125,7 @@
     "gen-util": "yo ./scaffolder/index.js",
     "precommit": "node exit-if-no-staged.js && lint-staged",
     "bootstrap": "lerna bootstrap --hoist",
-    "prerelease:prepare": "git fetch --all && npm run clean:dist && npm run bootstrap && lerna run build:umd && npm test",
+    "prerelease:prepare": "git fetch --all && npm run clean:dist && npm run build && npm test",
     "release:prepare": "lerna publish --skip-git --skip-npm --yes && node ./support/changelog.js",
     "release:review": "git --no-pager diff --word-diff",
     "release:publish": "./support/publish.sh",
