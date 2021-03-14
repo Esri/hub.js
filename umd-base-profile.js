@@ -1,4 +1,3 @@
-import typescript from "@rollup/plugin-typescript";
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
@@ -76,7 +75,8 @@ arcgisRestJsPackageNames.reduce((globals, p) => {
  * Now we can export the Rollup config!
  */
 export default {
-  input: "./src/index.ts",
+  // NOTE: you must run the ESM build before running the UMD build
+  input: "./dist/esm/index.js",
   output: {
     file: `./dist/umd/${name.replace("@esri/hub-", "")}.umd.js`,
     sourcemap: true,
@@ -89,7 +89,6 @@ export default {
   context: "window",
   external: packageNames.concat(arcgisRestJsPackageNames),
   plugins: [
-    typescript({ target: 'es5' }),
     json(),
     resolve(),
     commonjs()
