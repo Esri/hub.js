@@ -10,6 +10,7 @@ import { DownloadFormat, DownloadFormats } from "../download-format";
 import { urlBuilder, composeDownloadId } from "../utils";
 import { DownloadTarget } from "../download-target";
 import { DownloadStatus } from "../download-status";
+import { isDownloadEnabled } from "./utils";
 import { isRecentlyUpdated } from "./utils";
 
 enum ItemTypes {
@@ -55,10 +56,12 @@ export function portalRequestDownloadMetadata(
   let serviceLastEditDate: number | undefined;
   let itemModifiedDate: number;
   let itemType: string;
+  let fetchedItem: IItem;
 
   return getItem(itemId, { authentication })
     .then((item: IItem) => {
       const { type, modified, url } = item;
+      fetchedItem = item;
       itemModifiedDate = modified;
       itemType = type;
       return fetchCacheSearchMetadata({
@@ -91,7 +94,8 @@ export function portalRequestDownloadMetadata(
         itemModifiedDate,
         itemType,
         authentication,
-        target
+        target,
+        item: fetchedItem
       });
     })
     .catch((err: any) => {
@@ -161,7 +165,9 @@ function formatDownloadMetadata(params: any) {
     cachedDownload,
     serviceLastEditDate,
     authentication,
-    target
+    target,
+    item,
+    format
   } = params;
 
   const lastEditDate =
@@ -170,9 +176,13 @@ function formatDownloadMetadata(params: any) {
       : new Date(serviceLastEditDate).toISOString();
 
   const { created, id } = cachedDownload || {};
-  const recentlyUpdated = isRecentlyUpdated(target, serviceLastEditDate);
 
-  const status = determineStatus(serviceLastEditDate, created, recentlyUpdated);
+  const recentlyUpdated = isRecentlyUpdated(target, serviceLastEditDate);
+  const canDownload = isDownloadEnabled(item, format);
+
+  const status = canDownload
+    ? determineStatus(serviceLastEditDate, created, recentlyUpdated)
+    : DownloadStatus.DISABLED;
 
   if (!cachedDownload) {
     return {

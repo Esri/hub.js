@@ -644,6 +644,96 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
+        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              layers: [{ id: 0 }]
+            });
+          })
+        );
+        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              id: 0,
+              editingInfo: { lastEditDate: nineMinutesAgo.getTime() }
+            });
+          })
+        );
+        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+          new Promise(resolve => {
+            resolve({ results: [] });
+          })
+        );
+        const result = await portalRequestDownloadMetadata({
+          datasetId: "abcdef0123456789abcdef0123456789_0",
+          format: "CSV",
+          authentication,
+          target: "enterprise"
+        });
+
+        expect(result).toEqual({
+          downloadId:
+            "abcdef0123456789abcdef0123456789_0:CSV:undefined:undefined:undefined",
+          lastEditDate: nineMinutesAgo.toISOString(),
+          status: "not_ready"
+        });
+
+        expect(getItemSpy.calls.count()).toEqual(1);
+        expect(getItemSpy.calls.argsFor(0)).toEqual([
+          "abcdef0123456789abcdef0123456789",
+          {
+            authentication
+          }
+        ]);
+        expect(getServiceSpy.calls.count()).toEqual(1);
+        expect(getServiceSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.count()).toEqual(1);
+        expect(getLayerSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/0",
+            authentication
+          }
+        ]);
+        expect(searchItemsSpy.calls.count()).toEqual(1);
+        expect(searchItemsSpy.calls.argsFor(0)).toEqual([
+          {
+            authentication,
+            num: 1,
+            q:
+              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:00,spatialRefId:undefined"',
+            sortField: "modified",
+            sortOrder: "DESC"
+          }
+        ]);
+      } catch (err) {
+        expect(err).toEqual(undefined);
+      } finally {
+        done();
+      }
+    });
+
+    it("layer id, single-layer, has recent lastEditDate, not cached, item download disabled", async done => {
+      const nineMinutesAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
+      try {
+        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              type: "Feature Service",
+              modified: new Date(1593450876).getTime(),
+              url: "http://feature-service.com/FeatureServer",
+              properties: {
+                downloadsConfig: {
+                  enabled: false
+                }
+              }
+            });
+          })
+        );
 
         const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
           new Promise(resolve => {
@@ -671,15 +761,112 @@ describe("portalRequestDownloadMetadata", () => {
         const result = await portalRequestDownloadMetadata({
           datasetId: "abcdef0123456789abcdef0123456789_0",
           format: "CSV",
-          authentication,
-          target: "enterprise"
+          authentication
         });
 
         expect(result).toEqual({
           downloadId:
             "abcdef0123456789abcdef0123456789_0:CSV:undefined:undefined:undefined",
           lastEditDate: nineMinutesAgo.toISOString(),
-          status: "not_ready"
+          status: "disabled"
+        });
+
+        expect(getItemSpy.calls.count()).toEqual(1);
+        expect(getItemSpy.calls.argsFor(0)).toEqual([
+          "abcdef0123456789abcdef0123456789",
+          {
+            authentication
+          }
+        ]);
+        expect(getServiceSpy.calls.count()).toEqual(1);
+        expect(getServiceSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.count()).toEqual(1);
+        expect(getLayerSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/0",
+            authentication
+          }
+        ]);
+        expect(searchItemsSpy.calls.count()).toEqual(1);
+        expect(searchItemsSpy.calls.argsFor(0)).toEqual([
+          {
+            authentication,
+            num: 1,
+            q:
+              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:00,spatialRefId:undefined"',
+            sortField: "modified",
+            sortOrder: "DESC"
+          }
+        ]);
+      } catch (err) {
+        expect(err).toEqual(undefined);
+      } finally {
+        done();
+      }
+    });
+
+    it("layer id, single-layer, has lastEditDate, not cached, format download disabled", async done => {
+      const nineMinutesAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
+      try {
+        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              type: "Feature Service",
+              modified: new Date(1593450876).getTime(),
+              url: "http://feature-service.com/FeatureServer",
+              properties: {
+                downloadsConfig: {
+                  enabled: true,
+                  formats: {
+                    csv: {
+                      enabled: false
+                    }
+                  }
+                }
+              }
+            });
+          })
+        );
+
+        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              layers: [{ id: 0 }]
+            });
+          })
+        );
+
+        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              id: 0,
+              editingInfo: { lastEditDate: nineMinutesAgo.getTime() }
+            });
+          })
+        );
+
+        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+          new Promise(resolve => {
+            resolve({ results: [] });
+          })
+        );
+
+        const result = await portalRequestDownloadMetadata({
+          datasetId: "abcdef0123456789abcdef0123456789_0",
+          format: "CSV",
+          authentication
+        });
+
+        expect(result).toEqual({
+          downloadId:
+            "abcdef0123456789abcdef0123456789_0:CSV:undefined:undefined:undefined",
+          lastEditDate: nineMinutesAgo.toISOString(),
+          status: "disabled"
         });
 
         expect(getItemSpy.calls.count()).toEqual(1);
@@ -1099,7 +1286,6 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
-
         const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
           new Promise(resolve => {
             resolve({
@@ -1107,7 +1293,6 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
-
         const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValues(
           new Promise(resolve => {
             resolve({
@@ -1122,19 +1307,16 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
-
         const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
           new Promise(resolve => {
             resolve({ results: [] });
           })
         );
-
         const result = await portalRequestDownloadMetadata({
           datasetId: "abcdef0123456789abcdef0123456789",
           format: "CSV",
           authentication
         });
-
         expect(result).toEqual({
           downloadId:
             "abcdef0123456789abcdef0123456789:CSV:undefined:undefined:undefined",
@@ -1304,6 +1486,110 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
+        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              layers: [{ id: 0 }, { id: 1 }]
+            });
+          })
+        );
+        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValues(
+          new Promise(resolve => {
+            resolve({
+              id: 0,
+              editingInfo: { lastEditDate: elevenMinsAgo.getTime() }
+            });
+          }),
+          new Promise(resolve => {
+            resolve({
+              id: 1,
+              editingInfo: { lastEditDate: nineMinsAgo.getTime() }
+            });
+          })
+        );
+        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+          new Promise(resolve => {
+            resolve({ results: [] });
+          })
+        );
+        const result = await portalRequestDownloadMetadata({
+          datasetId: "abcdef0123456789abcdef0123456789",
+          format: "CSV",
+          authentication,
+          target: "enterprise"
+        });
+
+        expect(result).toEqual({
+          downloadId:
+            "abcdef0123456789abcdef0123456789:CSV:undefined:undefined:undefined",
+          lastEditDate: nineMinsAgo.toISOString(),
+          status: "not_ready"
+        });
+
+        expect(getItemSpy.calls.count()).toEqual(1);
+        expect(getItemSpy.calls.argsFor(0)).toEqual([
+          "abcdef0123456789abcdef0123456789",
+          {
+            authentication
+          }
+        ]);
+        expect(getServiceSpy.calls.count()).toEqual(1);
+        expect(getServiceSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.count()).toEqual(2);
+        expect(getLayerSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/0",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.argsFor(1)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/1",
+            authentication
+          }
+        ]);
+        expect(searchItemsSpy.calls.count()).toEqual(1);
+        expect(searchItemsSpy.calls.argsFor(0)).toEqual([
+          {
+            authentication,
+            num: 1,
+            q:
+              'type:"CSV Collection" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:null,spatialRefId:undefined"',
+            sortField: "modified",
+            sortOrder: "DESC"
+          }
+        ]);
+      } catch (err) {
+        expect(err).toEqual(undefined);
+      } finally {
+        done();
+      }
+    });
+
+    it("no layer id, multi-layer, has lastEditDate, not cached, item download disabled", async done => {
+      const elevenMinsAgo = new Date(new Date().getTime() - 11 * 60 * 1000);
+      const nineMinsAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
+
+      try {
+        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              type: "Feature Service",
+              modified: new Date(1593450876).getTime(),
+              url: "http://feature-service.com/FeatureServer",
+              properties: {
+                downloadsConfig: {
+                  enabled: false
+                }
+              }
+            });
+          })
+        );
 
         const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
           new Promise(resolve => {
@@ -1337,15 +1623,125 @@ describe("portalRequestDownloadMetadata", () => {
         const result = await portalRequestDownloadMetadata({
           datasetId: "abcdef0123456789abcdef0123456789",
           format: "CSV",
-          authentication,
-          target: "enterprise"
+          authentication
         });
 
         expect(result).toEqual({
           downloadId:
             "abcdef0123456789abcdef0123456789:CSV:undefined:undefined:undefined",
           lastEditDate: nineMinsAgo.toISOString(),
-          status: "not_ready"
+          status: "disabled"
+        });
+
+        expect(getItemSpy.calls.count()).toEqual(1);
+        expect(getItemSpy.calls.argsFor(0)).toEqual([
+          "abcdef0123456789abcdef0123456789",
+          {
+            authentication
+          }
+        ]);
+        expect(getServiceSpy.calls.count()).toEqual(1);
+        expect(getServiceSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.count()).toEqual(2);
+        expect(getLayerSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/0",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.argsFor(1)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/1",
+            authentication
+          }
+        ]);
+        expect(searchItemsSpy.calls.count()).toEqual(1);
+        expect(searchItemsSpy.calls.argsFor(0)).toEqual([
+          {
+            authentication,
+            num: 1,
+            q:
+              'type:"CSV Collection" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:null,spatialRefId:undefined"',
+            sortField: "modified",
+            sortOrder: "DESC"
+          }
+        ]);
+      } catch (err) {
+        expect(err).toEqual(undefined);
+      } finally {
+        done();
+      }
+    });
+
+    it("no layer id, multi-layer, has lastEditDate, not cached, format download disabled", async done => {
+      const elevenMinsAgo = new Date(new Date().getTime() - 11 * 60 * 1000);
+      const nineMinsAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
+
+      try {
+        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              type: "Feature Service",
+              modified: new Date(1593450876).getTime(),
+              url: "http://feature-service.com/FeatureServer",
+              properties: {
+                downloadsConfig: {
+                  formats: {
+                    csv: {
+                      enabled: false
+                    }
+                  }
+                }
+              }
+            });
+          })
+        );
+
+        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              layers: [{ id: 0 }, { id: 1 }]
+            });
+          })
+        );
+
+        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValues(
+          new Promise(resolve => {
+            resolve({
+              id: 0,
+              editingInfo: { lastEditDate: elevenMinsAgo.getTime() }
+            });
+          }),
+          new Promise(resolve => {
+            resolve({
+              id: 1,
+              editingInfo: { lastEditDate: nineMinsAgo.getTime() }
+            });
+          })
+        );
+
+        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+          new Promise(resolve => {
+            resolve({ results: [] });
+          })
+        );
+
+        const result = await portalRequestDownloadMetadata({
+          datasetId: "abcdef0123456789abcdef0123456789",
+          format: "CSV",
+          authentication
+        });
+
+        expect(result).toEqual({
+          downloadId:
+            "abcdef0123456789abcdef0123456789:CSV:undefined:undefined:undefined",
+          lastEditDate: nineMinsAgo.toISOString(),
+          status: "disabled"
         });
 
         expect(getItemSpy.calls.count()).toEqual(1);
@@ -1603,7 +1999,6 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
-
         const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
           new Promise(resolve => {
             resolve({
@@ -1615,7 +2010,6 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
-
         const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
           new Promise(resolve => {
             resolve({
@@ -1626,7 +2020,6 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
-
         const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
           new Promise(resolve => {
             resolve({
@@ -1639,13 +2032,11 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
-
         const result = await portalRequestDownloadMetadata({
           datasetId: "abcdef0123456789abcdef0123456789_0",
           format: "CSV",
           authentication
         });
-
         expect(result).toEqual({
           downloadId: "abcdef",
           lastEditDate: nineMinsAgo.toISOString(),
@@ -1655,7 +2046,6 @@ describe("portalRequestDownloadMetadata", () => {
           downloadUrl:
             "http://portal.com/sharing/rest/content/items/abcdef/data?token=123"
         });
-
         expect(getItemSpy.calls.count()).toEqual(1);
         expect(getItemSpy.calls.argsFor(0)).toEqual([
           "abcdef0123456789abcdef0123456789",
@@ -1826,6 +2216,113 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
+        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              id: 0,
+              editingInfo: {
+                lastEditDate: nineMinsAgo.getTime()
+              }
+            });
+          })
+        );
+        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              results: [
+                {
+                  id: "abcdef",
+                  created: nineMinsAgo.getTime()
+                }
+              ]
+            });
+          })
+        );
+        const result = await portalRequestDownloadMetadata({
+          datasetId: "abcdef0123456789abcdef0123456789_0",
+          format: "CSV",
+          authentication,
+          target: "enterprise"
+        });
+
+        expect(result).toEqual({
+          downloadId: "abcdef",
+          lastEditDate: nineMinsAgo.toISOString(),
+          status: "ready",
+          contentLastModified: nineMinsAgo.toISOString(),
+          lastModified: nineMinsAgo.toISOString(),
+          downloadUrl:
+            "http://portal.com/sharing/rest/content/items/abcdef/data?token=123"
+        });
+        expect(getItemSpy.calls.count()).toEqual(1);
+        expect(getItemSpy.calls.argsFor(0)).toEqual([
+          "abcdef0123456789abcdef0123456789",
+          {
+            authentication
+          }
+        ]);
+        expect(getServiceSpy.calls.count()).toEqual(1);
+        expect(getServiceSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.count()).toEqual(1);
+        expect(getLayerSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/0",
+            authentication
+          }
+        ]);
+        expect(searchItemsSpy.calls.count()).toEqual(1);
+        expect(searchItemsSpy.calls.argsFor(0)).toEqual([
+          {
+            authentication,
+            num: 1,
+            q:
+              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:00,spatialRefId:undefined"',
+            sortField: "modified",
+            sortOrder: "DESC"
+          }
+        ]);
+      } catch (err) {
+        expect(err).toEqual(undefined);
+      } finally {
+        done();
+      }
+    });
+
+    it("has lastEditDate, cached, ready, item download disabled", async done => {
+      const nineMinsAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
+
+      try {
+        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              type: "Feature Service",
+              modified: nineMinsAgo.getTime(),
+              url: "http://feature-service.com/FeatureServer",
+              properties: {
+                downloadsConfig: {
+                  enabled: false
+                }
+              }
+            });
+          })
+        );
+
+        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              layers: [
+                {
+                  id: 0
+                }
+              ]
+            });
+          })
+        );
 
         const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
           new Promise(resolve => {
@@ -1854,14 +2351,127 @@ describe("portalRequestDownloadMetadata", () => {
         const result = await portalRequestDownloadMetadata({
           datasetId: "abcdef0123456789abcdef0123456789_0",
           format: "CSV",
-          authentication,
-          target: "enterprise"
+          authentication
         });
 
         expect(result).toEqual({
           downloadId: "abcdef",
           lastEditDate: nineMinsAgo.toISOString(),
-          status: "ready",
+          status: "disabled",
+          contentLastModified: nineMinsAgo.toISOString(),
+          lastModified: nineMinsAgo.toISOString(),
+          downloadUrl:
+            "http://portal.com/sharing/rest/content/items/abcdef/data?token=123"
+        });
+
+        expect(getItemSpy.calls.count()).toEqual(1);
+        expect(getItemSpy.calls.argsFor(0)).toEqual([
+          "abcdef0123456789abcdef0123456789",
+          {
+            authentication
+          }
+        ]);
+        expect(getServiceSpy.calls.count()).toEqual(1);
+        expect(getServiceSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.count()).toEqual(1);
+        expect(getLayerSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/0",
+            authentication
+          }
+        ]);
+        expect(searchItemsSpy.calls.count()).toEqual(1);
+        expect(searchItemsSpy.calls.argsFor(0)).toEqual([
+          {
+            authentication,
+            num: 1,
+            q:
+              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:00,spatialRefId:undefined"',
+            sortField: "modified",
+            sortOrder: "DESC"
+          }
+        ]);
+      } catch (err) {
+        expect(err).toEqual(undefined);
+      } finally {
+        done();
+      }
+    });
+
+    it("has lastEditDate, cached, ready, format download disabled", async done => {
+      const nineMinsAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
+
+      try {
+        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              type: "Feature Service",
+              modified: nineMinsAgo.getTime(),
+              url: "http://feature-service.com/FeatureServer",
+              properties: {
+                downloadsConfig: {
+                  formats: {
+                    csv: {
+                      enabled: false
+                    }
+                  }
+                }
+              }
+            });
+          })
+        );
+
+        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              layers: [
+                {
+                  id: 0
+                }
+              ]
+            });
+          })
+        );
+
+        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              id: 0,
+              editingInfo: {
+                lastEditDate: nineMinsAgo.getTime()
+              }
+            });
+          })
+        );
+
+        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              results: [
+                {
+                  id: "abcdef",
+                  created: nineMinsAgo.getTime()
+                }
+              ]
+            });
+          })
+        );
+
+        const result = await portalRequestDownloadMetadata({
+          datasetId: "abcdef0123456789abcdef0123456789_0",
+          format: "CSV",
+          authentication
+        });
+
+        expect(result).toEqual({
+          downloadId: "abcdef",
+          lastEditDate: nineMinsAgo.toISOString(),
+          status: "disabled",
           contentLastModified: nineMinsAgo.toISOString(),
           lastModified: nineMinsAgo.toISOString(),
           downloadUrl:
@@ -2023,7 +2633,6 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
-
         const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
           new Promise(resolve => {
             resolve({
@@ -2035,7 +2644,6 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
-
         const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
           new Promise(resolve => {
             resolve({
@@ -2046,7 +2654,6 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
-
         const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
           new Promise(resolve => {
             resolve({
@@ -2059,13 +2666,11 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
-
         const result = await portalRequestDownloadMetadata({
           datasetId: "abcdef0123456789abcdef0123456789_0",
           format: "CSV",
           authentication
         });
-
         expect(result).toEqual({
           downloadId: "abcdef",
           lastEditDate: nineMinutesAgo.toISOString(),
@@ -2075,7 +2680,6 @@ describe("portalRequestDownloadMetadata", () => {
           downloadUrl:
             "http://portal.com/sharing/rest/content/items/abcdef/data?token=123"
         });
-
         expect(getItemSpy.calls.count()).toEqual(1);
         expect(getItemSpy.calls.argsFor(0)).toEqual([
           "abcdef0123456789abcdef0123456789",
@@ -2244,6 +2848,112 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
+        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              id: 0,
+              editingInfo: {
+                lastEditDate: nineMinutesAgo.getTime()
+              }
+            });
+          })
+        );
+        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              results: [
+                {
+                  id: "abcdef",
+                  created: new Date(1574450876000).getTime()
+                }
+              ]
+            });
+          })
+        );
+        const result = await portalRequestDownloadMetadata({
+          datasetId: "abcdef0123456789abcdef0123456789_0",
+          format: "CSV",
+          authentication,
+          target: "enterprise"
+        });
+
+        expect(result).toEqual({
+          downloadId: "abcdef",
+          lastEditDate: nineMinutesAgo.toISOString(),
+          status: "stale",
+          contentLastModified: "2019-11-22T19:27:56.000Z",
+          lastModified: "2019-11-22T19:27:56.000Z",
+          downloadUrl:
+            "http://portal.com/sharing/rest/content/items/abcdef/data?token=123"
+        });
+        expect(getItemSpy.calls.count()).toEqual(1);
+        expect(getItemSpy.calls.argsFor(0)).toEqual([
+          "abcdef0123456789abcdef0123456789",
+          {
+            authentication
+          }
+        ]);
+        expect(getServiceSpy.calls.count()).toEqual(1);
+        expect(getServiceSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.count()).toEqual(1);
+        expect(getLayerSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/0",
+            authentication
+          }
+        ]);
+        expect(searchItemsSpy.calls.count()).toEqual(1);
+        expect(searchItemsSpy.calls.argsFor(0)).toEqual([
+          {
+            authentication,
+            num: 1,
+            q:
+              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:00,spatialRefId:undefined"',
+            sortField: "modified",
+            sortOrder: "DESC"
+          }
+        ]);
+      } catch (err) {
+        expect(err).toEqual(undefined);
+      } finally {
+        done();
+      }
+    });
+
+    it("has lastEditDate, cached, stale, item download disabled", async done => {
+      const nineMinutesAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
+      try {
+        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              type: "Feature Service",
+              modified: new Date(1573450876).getTime(),
+              url: "http://feature-service.com/FeatureServer",
+              properties: {
+                downloadConfig: {
+                  enabled: false
+                }
+              }
+            });
+          })
+        );
+
+        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              layers: [
+                {
+                  id: 0
+                }
+              ]
+            });
+          })
+        );
 
         const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
           new Promise(resolve => {
@@ -2272,8 +2982,120 @@ describe("portalRequestDownloadMetadata", () => {
         const result = await portalRequestDownloadMetadata({
           datasetId: "abcdef0123456789abcdef0123456789_0",
           format: "CSV",
-          authentication,
-          target: "enterprise"
+          authentication
+        });
+
+        expect(result).toEqual({
+          downloadId: "abcdef",
+          lastEditDate: nineMinutesAgo.toISOString(),
+          status: "stale",
+          contentLastModified: "2019-11-22T19:27:56.000Z",
+          lastModified: "2019-11-22T19:27:56.000Z",
+          downloadUrl:
+            "http://portal.com/sharing/rest/content/items/abcdef/data?token=123"
+        });
+
+        expect(getItemSpy.calls.count()).toEqual(1);
+        expect(getItemSpy.calls.argsFor(0)).toEqual([
+          "abcdef0123456789abcdef0123456789",
+          {
+            authentication
+          }
+        ]);
+        expect(getServiceSpy.calls.count()).toEqual(1);
+        expect(getServiceSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer",
+            authentication
+          }
+        ]);
+        expect(getLayerSpy.calls.count()).toEqual(1);
+        expect(getLayerSpy.calls.argsFor(0)).toEqual([
+          {
+            url: "http://feature-service.com/FeatureServer/0",
+            authentication
+          }
+        ]);
+        expect(searchItemsSpy.calls.count()).toEqual(1);
+        expect(searchItemsSpy.calls.argsFor(0)).toEqual([
+          {
+            authentication,
+            num: 1,
+            q:
+              'type:"CSV" AND typekeywords:"exportItem:abcdef0123456789abcdef0123456789,exportLayer:00,spatialRefId:undefined"',
+            sortField: "modified",
+            sortOrder: "DESC"
+          }
+        ]);
+      } catch (err) {
+        expect(err).toEqual(undefined);
+      } finally {
+        done();
+      }
+    });
+
+    it("has lastEditDate, cached, stale, format download disabled", async done => {
+      const nineMinutesAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
+      try {
+        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              type: "Feature Service",
+              modified: new Date(1573450876).getTime(),
+              url: "http://feature-service.com/FeatureServer",
+              properties: {
+                downloadConfig: {
+                  formats: {
+                    csv: {
+                      enabled: false
+                    }
+                  }
+                }
+              }
+            });
+          })
+        );
+
+        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              layers: [
+                {
+                  id: 0
+                }
+              ]
+            });
+          })
+        );
+
+        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              id: 0,
+              editingInfo: {
+                lastEditDate: nineMinutesAgo.getTime()
+              }
+            });
+          })
+        );
+
+        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+          new Promise(resolve => {
+            resolve({
+              results: [
+                {
+                  id: "abcdef",
+                  created: new Date(1574450876000).getTime()
+                }
+              ]
+            });
+          })
+        );
+
+        const result = await portalRequestDownloadMetadata({
+          datasetId: "abcdef0123456789abcdef0123456789_0",
+          format: "CSV",
+          authentication
         });
 
         expect(result).toEqual({
