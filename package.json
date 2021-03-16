@@ -1,12 +1,11 @@
 {
   "name": "@esri/hub.js",
-  "version": "7.1.1",
+  "version": "7.2.0",
   "description": "compact, modular JavaScript wrappers for ArcGIS Hub that run in Node.js and modern browsers.",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^15.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
-    "@rollup/plugin-typescript": "^8.2.0",
     "@types/es6-promise": "0.0.32",
     "@types/fetch-mock": "^7.0.0",
     "@types/isomorphic-fetch": "0.0.34",
@@ -84,7 +83,9 @@
     ]
   },
   "scripts": {
-    "build": "lerna run build",
+    "build": "npm run bootstrap && npm run build:umd && npm run build:es2017",
+    "build:es2017": "lerna run build:es2017",
+    "build:umd": "lerna run build:umd",
     "clean": "npm run clean:dist & npm run clean:deps",
     "clean:dist": "rm -rf packages/*/dist/",
     "clean:deps": "rm -rf node_modules && rm -rf packages/*/node_modules/",
@@ -124,8 +125,7 @@
     "gen-util": "yo ./scaffolder/index.js",
     "precommit": "node exit-if-no-staged.js && lint-staged",
     "bootstrap": "lerna bootstrap --hoist",
-    "postinstall": "npm run bootstrap",
-    "prerelease:prepare": "git fetch --all && npm run clean:dist && npm run bootstrap && npm test",
+    "prerelease:prepare": "git fetch --all && npm run clean:dist && npm run build && npm test",
     "release:prepare": "lerna publish --skip-git --skip-npm --yes && node ./support/changelog.js",
     "release:review": "git --no-pager diff --word-diff",
     "release:publish": "./support/publish.sh",
