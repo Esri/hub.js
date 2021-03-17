@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-downloads",
-  "version": "7.2.0",
+  "version": "7.3.0",
   "description": "Service for Hub downloads",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/downloads.umd.js",
@@ -19,10 +19,12 @@
   "peerDependencies": {
     "@esri/arcgis-rest-feature-layer": "^2.21.0",
     "@esri/arcgis-rest-portal": "^2.21.0",
-    "@esri/arcgis-rest-request": "^2.21.0"
+    "@esri/arcgis-rest-request": "^2.21.0",
+    "@esri/hub-common": "^7.1.1"
   },
   "devDependencies": {
     "@esri/arcgis-rest-auth": "^2.21.0",
+    "@esri/hub-common": "^7.3.0",
     "@rollup/plugin-commonjs": "^15.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
