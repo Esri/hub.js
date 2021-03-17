@@ -19,7 +19,7 @@
 ### Example
 
 ```bash
-npm install @esri/hub-discussions
+npm install @esri/hub-discussions @esri/arcgis-rest-auth @esri/arcgis-rest-request
 ```
 ```js
 import { searchPosts } from "@esri/hub-discussions";
@@ -34,7 +34,7 @@ searchPosts({ access: ['org'], orgs: ['3ef']}).then(response => {
 });
 ```
 
-## [API Reference](https://esri.github.io/hub.js/api/annotations/)
+## [API Reference](https://esri.github.io/hub.js/api/discussions/)
 
 ### Issues
 

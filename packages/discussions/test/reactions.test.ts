@@ -8,9 +8,7 @@ describe("reactions", () => {
 
   beforeEach(() => {
     requestSpy = spyOn(req, "request").and.returnValue(
-      new Promise(resolve => {
-        resolve(response);
-      })
+      Promise.resolve(response)
     );
   });
 
