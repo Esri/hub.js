@@ -2,6 +2,7 @@ import { request } from "../src/request";
 import * as utils from "../src/utils/request";
 import * as fetchMock from "fetch-mock";
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
+import { IRequestOptions } from "../src/types";
 
 describe("request", () => {
   const url = "foo";
@@ -65,10 +66,11 @@ describe("authenticateRequest", () => {
 describe("apiRequest", () => {
   const response = { ok: true };
 
-  const urlBase = "http://localhost/api/v1";
+  const apiBaseUrl = "http://localhost/api/v1";
   const url = "foo";
 
   let expectedOpts: RequestInit;
+  let opts: IRequestOptions;
   beforeEach(() => {
     fetchMock.mock("*", { status: 200, body: response });
 
@@ -81,24 +83,14 @@ describe("apiRequest", () => {
       cache: "no-cache",
       credentials: "include"
     } as RequestInit;
+
+    opts = { apiBaseUrl };
   });
 
   afterEach(fetchMock.restore);
 
   it("appends headers to request options", async () => {
-    const result = await utils.apiRequest(url, {});
-
-    expect(result).toEqual(response);
-
-    const [calledUrl, calledOpts] = fetchMock.calls()[0];
-    expect(calledUrl).toEqual([urlBase, url].join("/"));
-    expect(calledOpts).toEqual(expectedOpts);
-  });
-
-  it("uses apiBaseUrl when supplied", async () => {
-    const apiBaseUrl = "https://someotherurl.com";
-
-    const result = await utils.apiRequest(url, { apiBaseUrl });
+    const result = await utils.apiRequest(url, opts);
 
     expect(result).toEqual(response);
 
@@ -110,7 +102,7 @@ describe("apiRequest", () => {
   it(`appends token header to request options if supplied`, async () => {
     const token = "bar";
 
-    const result = await utils.apiRequest(url, {}, token);
+    const result = await utils.apiRequest(url, opts, token);
 
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
@@ -120,7 +112,7 @@ describe("apiRequest", () => {
     expect(result).toEqual(response);
 
     const [calledUrl, calledOpts] = fetchMock.calls()[0];
-    expect(calledUrl).toEqual([urlBase, url].join("/"));
+    expect(calledUrl).toEqual([apiBaseUrl, url].join("/"));
     expect(calledOpts).toEqual(expectedOpts);
   });
 
@@ -128,13 +120,13 @@ describe("apiRequest", () => {
     const query = {
       bar: "baz"
     };
-    const options = { params: { query } };
+    const options = { ...opts, params: { query } };
 
     const result = await utils.apiRequest(url, options);
 
     expect(result).toEqual(response);
     const queryParams = new URLSearchParams(query).toString();
-    const baseUrl = [urlBase, url].join("/");
+    const baseUrl = [apiBaseUrl, url].join("/");
 
     const [calledUrl, calledOpts] = fetchMock.calls()[0];
     expect(calledUrl).toEqual(baseUrl + `?${queryParams}`);
@@ -145,7 +137,7 @@ describe("apiRequest", () => {
     const body = {
       bar: "baz"
     };
-    const options = { params: { body } };
+    const options = { ...opts, params: { body } };
 
     const result = await utils.apiRequest(url, options);
 
@@ -154,7 +146,7 @@ describe("apiRequest", () => {
     expect(result).toEqual(response);
 
     const [calledUrl, calledOpts] = fetchMock.calls()[0];
-    expect(calledUrl).toEqual([urlBase, url].join("/"));
+    expect(calledUrl).toEqual([apiBaseUrl, url].join("/"));
     expect(calledOpts).toEqual(expectedOpts);
   });
 });

@@ -52,7 +52,7 @@ export function apiRequest(
     credentials: options.credentials || "include"
   };
 
-  const apiBase = options.apiBaseUrl || "http://localhost/api/v1";
+  const apiBase = options.apiBaseUrl;
 
   if (options.params) {
     const { query, body } = options.params;
