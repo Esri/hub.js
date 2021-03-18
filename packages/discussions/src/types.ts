@@ -389,10 +389,7 @@ export interface IUpdatePostStatus {
  * @export
  * @interface IUpdatePost
  */
-export interface IUpdatePost {
-  title?: string;
-  body?: string;
-}
+export interface IUpdatePost extends Partial<ICreateChannelPost> {}
 
 // // channels
 /**

@@ -128,7 +128,7 @@ export function deletePost(
 
 /**
  * update post
- * NOTE: this method only updates a post's title and/or body
+ * NOTE: this method currently only updates a post's title and/or body
  *
  * @export
  * @param {(IUpdatePostOptions | IUpdateChannelPostOptions)} options
