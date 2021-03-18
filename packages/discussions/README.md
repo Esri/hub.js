@@ -19,7 +19,7 @@
 ### Example
 
 ```bash
-npm install @esri/hub-discussions @esri/arcgis-rest-auth @esri/arcgis-rest-request
+npm install @esri/hub-discussions @esri/arcgis-rest-auth @esri/arcgis-rest-request @esri/hub-common
 ```
 ```js
 import { searchPosts } from "@esri/hub-discussions";
