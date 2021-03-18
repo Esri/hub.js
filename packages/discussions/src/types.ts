@@ -1,4 +1,4 @@
-import { IAuthenticationManager } from "@esri/arcgis-rest-request";
+import { IHubRequestOptions as _IHubRequestOptions } from "@esri/hub-common";
 import {
   IPagedResponse as IRestPagedResponse,
   IPagingParams
@@ -333,13 +333,13 @@ export interface IFetchPost {
  * dto for querying posts in a single channel
  *
  * @export
- * @interface IQueryChannelPosts
+ * @interface ISearchChannelPosts
  * @extends {Partial<IWithAuthor>}
  * @extends {Partial<IPagingParams>}
  * @extends {Partial<IWithSorting>}
  * @extends {Partial<IWithTimeQueries>}
  */
-export interface IQueryChannelPosts
+export interface ISearchChannelPosts
   extends Partial<IWithAuthor>,
     Partial<IPagingParams>,
     Partial<IWithSorting>,
@@ -356,10 +356,10 @@ export interface IQueryChannelPosts
  * dto for querying posts in many channels
  *
  * @export
- * @interface IQueryPosts
- * @extends {IQueryChannelPosts}
+ * @interface ISearchPosts
+ * @extends {ISearchChannelPosts}
  */
-export interface IQueryPosts extends IQueryChannelPosts {
+export interface ISearchPosts extends ISearchChannelPosts {
   groups?: string[];
   access?: SharingAccess[];
 }
@@ -434,12 +434,12 @@ export interface IFetchChannel {
  * dto for querying channels
  *
  * @export
- * @interface IQueryChannels
+ * @interface ISearchChannels
  * @extends {Partial<IPagingParams>}
  * @extends {Partial<IWithSorting>}
  * @extends {Partial<IWithTimeQueries>}
  */
-export interface IQueryChannels
+export interface ISearchChannels
   extends Partial<IPagingParams>,
     Partial<IWithSorting>,
     Partial<IWithTimeQueries> {
@@ -493,19 +493,12 @@ export interface ICreateReaction {
  * @interface IRequestOptions
  * @extends {RequestInit}
  */
-export interface IRequestOptions extends RequestInit {
-  authentication?: IAuthenticationManager;
+// NOTE: this is as close to implementing @esri/hub-common IHubRequestOptions as possible
+// only real exception is needing to extend httpMethod to include PATCH and DELETE
+export interface IHubRequestOptions
+  extends Omit<_IHubRequestOptions, "httpMethod"> {
+  httpMethod: "GET" | "POST" | "PATCH" | "DELETE";
   token?: string;
-  apiBaseUrl?: string;
-  params?: {
-    query?: {
-      [key: string]: any;
-    };
-    body?: {
-      [key: string]: any;
-    };
-    [key: string]: any;
-  };
 }
 
 // // posts
@@ -514,27 +507,23 @@ export interface IRequestOptions extends RequestInit {
  * request options for querying posts in many channels
  *
  * @export
- * @interface IQueryPostsOptions
- * @extends {IRequestOptions}
+ * @interface ISearchPostsOptions
+ * @extends {IHubRequestOptions}
  */
-export interface IQueryPostsOptions extends IRequestOptions {
-  params: {
-    query: IQueryPosts;
-  };
+export interface ISearchPostsOptions extends IHubRequestOptions {
+  params?: ISearchPosts;
 }
 
 /**
  * request options for querying posts in single channel
  *
  * @export
- * @interface IQueryChannelPostsOptions
- * @extends {IRequestOptions}
+ * @interface ISearchChannelPostsOptions
+ * @extends {IHubRequestOptions}
  */
-export interface IQueryChannelPostsOptions extends IRequestOptions {
-  params: {
-    query: IQueryChannelPosts;
-    channelId: number;
-  };
+export interface ISearchChannelPostsOptions extends IHubRequestOptions {
+  channelId: number;
+  params?: ISearchChannelPosts;
 }
 
 /**
@@ -542,12 +531,10 @@ export interface IQueryChannelPostsOptions extends IRequestOptions {
  *
  * @export
  * @interface ICreatePostOptions
- * @extends {IRequestOptions}
+ * @extends {IHubRequestOptions}
  */
-export interface ICreatePostOptions extends IRequestOptions {
-  params: {
-    body: ICreatePost;
-  };
+export interface ICreatePostOptions extends IHubRequestOptions {
+  params: ICreatePost;
 }
 
 /**
@@ -555,13 +542,11 @@ export interface ICreatePostOptions extends IRequestOptions {
  *
  * @export
  * @interface ICreateChannelPostOptions
- * @extends {IRequestOptions}
+ * @extends {IHubRequestOptions}
  */
-export interface ICreateChannelPostOptions extends IRequestOptions {
-  params: {
-    body: ICreateChannelPost;
-    channelId: number;
-  };
+export interface ICreateChannelPostOptions extends IHubRequestOptions {
+  channelId: number;
+  params: ICreateChannelPost;
 }
 
 /**
@@ -569,13 +554,11 @@ export interface ICreateChannelPostOptions extends IRequestOptions {
  *
  * @export
  * @interface ICreateReplyOptions
- * @extends {IRequestOptions}
+ * @extends {IHubRequestOptions}
  */
-export interface ICreateReplyOptions extends IRequestOptions {
-  params: {
-    body: ICreatePost;
-    postId: number;
-  };
+export interface ICreateReplyOptions extends IHubRequestOptions {
+  postId: number;
+  params: ICreatePost;
 }
 
 /**
@@ -583,14 +566,12 @@ export interface ICreateReplyOptions extends IRequestOptions {
  *
  * @export
  * @interface ICreateChannelReplyOptions
- * @extends {IRequestOptions}
+ * @extends {IHubRequestOptions}
  */
-export interface ICreateChannelReplyOptions extends IRequestOptions {
-  params: {
-    body: ICreateChannelPost;
-    postId: number;
-    channelId: number;
-  };
+export interface ICreateChannelReplyOptions extends IHubRequestOptions {
+  postId: number;
+  channelId: number;
+  params: ICreateChannelPost;
 }
 
 /**
@@ -598,13 +579,11 @@ export interface ICreateChannelReplyOptions extends IRequestOptions {
  *
  * @export
  * @interface IFetchPostOptions
- * @extends {IRequestOptions}
+ * @extends {IHubRequestOptions}
  */
-export interface IFetchPostOptions extends IRequestOptions {
-  params: {
-    query?: IFetchPost;
-    postId: number;
-  };
+export interface IFetchPostOptions extends IHubRequestOptions {
+  postId: number;
+  params?: IFetchPost;
 }
 
 /**
@@ -612,14 +591,12 @@ export interface IFetchPostOptions extends IRequestOptions {
  *
  * @export
  * @interface IFetchChannelPostOptions
- * @extends {IRequestOptions}
+ * @extends {IHubRequestOptions}
  */
-export interface IFetchChannelPostOptions extends IRequestOptions {
-  params: {
-    query?: IFetchPost;
-    postId: number;
-    channelId: number;
-  };
+export interface IFetchChannelPostOptions extends IHubRequestOptions {
+  postId: number;
+  channelId: number;
+  params?: IFetchPost;
 }
 
 /**
@@ -627,13 +604,11 @@ export interface IFetchChannelPostOptions extends IRequestOptions {
  *
  * @export
  * @interface IUpdatePostOptions
- * @extends {IRequestOptions}
+ * @extends {IHubRequestOptions}
  */
-export interface IUpdatePostOptions extends IRequestOptions {
-  params: {
-    body: IUpdatePost;
-    postId: number;
-  };
+export interface IUpdatePostOptions extends IHubRequestOptions {
+  postId: number;
+  params: IUpdatePost;
 }
 
 /**
@@ -641,14 +616,12 @@ export interface IUpdatePostOptions extends IRequestOptions {
  *
  * @export
  * @interface IUpdateChannelPostOptions
- * @extends {IRequestOptions}
+ * @extends {IHubRequestOptions}
  */
-export interface IUpdateChannelPostOptions extends IRequestOptions {
-  params: {
-    body: IUpdatePost;
-    postId: number;
-    channelId: number;
-  };
+export interface IUpdateChannelPostOptions extends IHubRequestOptions {
+  postId: number;
+  channelId: number;
+  params: IUpdatePost;
 }
 
 /**
@@ -656,13 +629,11 @@ export interface IUpdateChannelPostOptions extends IRequestOptions {
  *
  * @export
  * @interface IUpdatePostSharingOptions
- * @extends {IRequestOptions}
+ * @extends {IHubRequestOptions}
  */
-export interface IUpdatePostSharingOptions extends IRequestOptions {
-  params: {
-    body: IUpdatePostSharing;
-    postId: number;
-  };
+export interface IUpdatePostSharingOptions extends IHubRequestOptions {
+  postId: number;
+  params: IUpdatePostSharing;
 }
 
 /**
@@ -670,14 +641,12 @@ export interface IUpdatePostSharingOptions extends IRequestOptions {
  *
  * @export
  * @interface IUpdateChannelPostSharingOptions
- * @extends {IRequestOptions}
+ * @extends {IHubRequestOptions}
  */
-export interface IUpdateChannelPostSharingOptions extends IRequestOptions {
-  params: {
-    body: IUpdatePostSharing;
-    postId: number;
-    channelId: number;
-  };
+export interface IUpdateChannelPostSharingOptions extends IHubRequestOptions {
+  postId: number;
+  channelId: number;
+  params: IUpdatePostSharing;
 }
 
 /**
@@ -685,13 +654,11 @@ export interface IUpdateChannelPostSharingOptions extends IRequestOptions {
  *
  * @export
  * @interface IUpdatePostStatusOptions
- * @extends {IRequestOptions}
+ * @extends {IHubRequestOptions}
  */
-export interface IUpdatePostStatusOptions extends IRequestOptions {
-  params: {
-    body: IUpdatePostStatus;
-    postId: number;
-  };
+export interface IUpdatePostStatusOptions extends IHubRequestOptions {
+  postId: number;
+  params: IUpdatePostStatus;
 }
 
 /**
@@ -699,14 +666,12 @@ export interface IUpdatePostStatusOptions extends IRequestOptions {
  *
  * @export
  * @interface IUpdateChannelPostStatusOptions
- * @extends {IRequestOptions}
+ * @extends {IHubRequestOptions}
  */
-export interface IUpdateChannelPostStatusOptions extends IRequestOptions {
-  params: {
-    body: IUpdatePostStatus;
-    postId: number;
-    channelId: number;
-  };
+export interface IUpdateChannelPostStatusOptions extends IHubRequestOptions {
+  postId: number;
+  channelId: number;
+  params: IUpdatePostStatus;
 }
 
 /**
@@ -714,12 +679,10 @@ export interface IUpdateChannelPostStatusOptions extends IRequestOptions {
  *
  * @export
  * @interface IRemovePostOptions
- * @extends {IRequestOptions}
+ * @extends {IHubRequestOptions}
  */
-export interface IRemovePostOptions extends IRequestOptions {
-  params: {
-    postId: number;
-  };
+export interface IRemovePostOptions extends IHubRequestOptions {
+  postId: number;
 }
 
 /**
@@ -727,28 +690,24 @@ export interface IRemovePostOptions extends IRequestOptions {
  *
  * @export
  * @interface IRemoveChannelPostOptions
- * @extends {IRequestOptions}
+ * @extends {IHubRequestOptions}
  */
-export interface IRemoveChannelPostOptions extends IRequestOptions {
-  params: {
-    postId: number;
-    channelId: number;
-  };
+export interface IRemoveChannelPostOptions extends IHubRequestOptions {
+  postId: number;
+  channelId: number;
 }
 
 // // channels
 
 /**
- * request options for querying channels
+ * request options for searching channels
  *
  * @export
- * @interface IQueryChannelsOptions
- * @extends {IRequestOptions}
+ * @interface ISearchChannelsOptions
+ * @extends {IHubRequestOptions}
  */
-export interface IQueryChannelsOptions extends IRequestOptions {
-  params: {
-    query: IQueryChannels;
-  };
+export interface ISearchChannelsOptions extends IHubRequestOptions {
+  params?: ISearchChannels;
 }
 
 /**
@@ -756,12 +715,10 @@ export interface IQueryChannelsOptions extends IRequestOptions {
  *
  * @export
  * @interface ICreateChannelOptions
- * @extends {IRequestOptions}
+ * @extends {IHubRequestOptions}
  */
-export interface ICreateChannelOptions extends IRequestOptions {
-  params: {
-    body: ICreateChannel;
-  };
+export interface ICreateChannelOptions extends IHubRequestOptions {
+  params: ICreateChannel;
 }
 
 /**
@@ -769,13 +726,11 @@ export interface ICreateChannelOptions extends IRequestOptions {
  *
  * @export
  * @interface IFetchChannelOptions
- * @extends {IRequestOptions}
+ * @extends {IHubRequestOptions}
  */
-export interface IFetchChannelOptions extends IRequestOptions {
-  params: {
-    query?: IFetchChannel;
-    channelId: number;
-  };
+export interface IFetchChannelOptions extends IHubRequestOptions {
+  channelId: number;
+  params?: IFetchChannel;
 }
 
 /**
@@ -783,13 +738,11 @@ export interface IFetchChannelOptions extends IRequestOptions {
  *
  * @export
  * @interface IUpdateChannelOptions
- * @extends {IRequestOptions}
+ * @extends {IHubRequestOptions}
  */
-export interface IUpdateChannelOptions extends IRequestOptions {
-  params: {
-    body: IUpdateChannel;
-    channelId: number;
-  };
+export interface IUpdateChannelOptions extends IHubRequestOptions {
+  channelId: number;
+  params: IUpdateChannel;
 }
 
 /**
@@ -797,12 +750,10 @@ export interface IUpdateChannelOptions extends IRequestOptions {
  *
  * @export
  * @interface IRemoveChannelOptions
- * @extends {IRequestOptions}
+ * @extends {IHubRequestOptions}
  */
-export interface IRemoveChannelOptions extends IRequestOptions {
-  params: {
-    channelId: number;
-  };
+export interface IRemoveChannelOptions extends IHubRequestOptions {
+  channelId: number;
 }
 
 // // reactions
@@ -812,13 +763,11 @@ export interface IRemoveChannelOptions extends IRequestOptions {
  *
  * @export
  * @interface ICreateReactionOptions
- * @extends {IRequestOptions}
+ * @extends {IHubRequestOptions}
  */
-export interface ICreateReactionOptions extends IRequestOptions {
-  params: {
-    body: ICreateReaction;
-    postId: number;
-  };
+export interface ICreateReactionOptions extends IHubRequestOptions {
+  postId: number;
+  params: ICreateReaction;
 }
 
 /**
@@ -826,11 +775,9 @@ export interface ICreateReactionOptions extends IRequestOptions {
  *
  * @export
  * @interface IRemoveReactionOptions
- * @extends {IRequestOptions}
+ * @extends {IHubRequestOptions}
  */
-export interface IRemoveReactionOptions extends IRequestOptions {
-  params: {
-    postId: number;
-    reactionId: number;
-  };
+export interface IRemoveReactionOptions extends IHubRequestOptions {
+  postId: number;
+  reactionId: number;
 }

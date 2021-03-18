@@ -2,11 +2,11 @@ import { request } from "../src/request";
 import * as utils from "../src/utils/request";
 import * as fetchMock from "fetch-mock";
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
-import { IRequestOptions } from "../src/types";
+import { IHubRequestOptions } from "../src/types";
 
 describe("request", () => {
   const url = "foo";
-  const options = {};
+  const options = { params: { foo: "bar" } };
   it("resolves token before making api request", done => {
     const token = "thisisatoken";
     const authenticateRequestSpy = spyOn(
@@ -15,7 +15,7 @@ describe("request", () => {
     ).and.callFake(async () => token);
     const apiRequestSpy = spyOn(utils, "apiRequest");
 
-    request(url, options)
+    request(url, (options as unknown) as IHubRequestOptions)
       .then(() => {
         expect(authenticateRequestSpy).toHaveBeenCalledWith(options);
         expect(apiRequestSpy).toHaveBeenCalledWith(url, options, token);
@@ -43,7 +43,7 @@ describe("authenticateRequest", () => {
   it("returns promise resolving token if token provided in request options", done => {
     const options = { token };
     utils
-      .authenticateRequest(options)
+      .authenticateRequest(options as IHubRequestOptions)
       .then(() => {
         expect(getTokenSpy).not.toHaveBeenCalled();
         done();
@@ -54,7 +54,7 @@ describe("authenticateRequest", () => {
   it("resolves token from authentication", done => {
     const options = { authentication };
     utils
-      .authenticateRequest(options)
+      .authenticateRequest(options as IHubRequestOptions)
       .then(() => {
         expect(getTokenSpy).toHaveBeenCalledWith(portal);
         done();
@@ -66,11 +66,11 @@ describe("authenticateRequest", () => {
 describe("apiRequest", () => {
   const response = { ok: true };
 
-  const apiBaseUrl = "http://localhost/api/v1";
+  const hubApiUrl = "http://localhost/api/v1";
   const url = "foo";
 
   let expectedOpts: RequestInit;
-  let opts: IRequestOptions;
+  let opts: IHubRequestOptions;
   beforeEach(() => {
     fetchMock.mock("*", { status: 200, body: response });
 
@@ -84,7 +84,7 @@ describe("apiRequest", () => {
       credentials: "include"
     } as RequestInit;
 
-    opts = { apiBaseUrl };
+    opts = { hubApiUrl } as IHubRequestOptions;
   });
 
   afterEach(fetchMock.restore);
@@ -95,7 +95,7 @@ describe("apiRequest", () => {
     expect(result).toEqual(response);
 
     const [calledUrl, calledOpts] = fetchMock.calls()[0];
-    expect(calledUrl).toEqual([apiBaseUrl, url].join("/"));
+    expect(calledUrl).toEqual([hubApiUrl, url].join("/"));
     expect(calledOpts).toEqual(expectedOpts);
   });
 
@@ -112,41 +112,42 @@ describe("apiRequest", () => {
     expect(result).toEqual(response);
 
     const [calledUrl, calledOpts] = fetchMock.calls()[0];
-    expect(calledUrl).toEqual([apiBaseUrl, url].join("/"));
+    expect(calledUrl).toEqual([hubApiUrl, url].join("/"));
     expect(calledOpts).toEqual(expectedOpts);
   });
 
-  it(`appends query params to url if supplied`, async () => {
+  it(`appends query params to url if GET`, async () => {
     const query = {
       bar: "baz"
     };
-    const options = { ...opts, params: { query } };
+    const options = { ...opts, params: query, httpMethod: "GET" };
 
-    const result = await utils.apiRequest(url, options);
+    const result = await utils.apiRequest(url, options as IHubRequestOptions);
 
     expect(result).toEqual(response);
     const queryParams = new URLSearchParams(query).toString();
-    const baseUrl = [apiBaseUrl, url].join("/");
+    const baseUrl = [hubApiUrl, url].join("/");
 
     const [calledUrl, calledOpts] = fetchMock.calls()[0];
     expect(calledUrl).toEqual(baseUrl + `?${queryParams}`);
     expect(calledOpts).toEqual(expectedOpts);
   });
 
-  it(`stringifies and appends body to request options if supplied`, async () => {
+  it(`stringifies and appends body to request options !GET`, async () => {
     const body = {
       bar: "baz"
     };
-    const options = { ...opts, params: { body } };
+    const options = { ...opts, params: body, httpMethod: "POST" };
 
-    const result = await utils.apiRequest(url, options);
+    const result = await utils.apiRequest(url, options as IHubRequestOptions);
 
+    expectedOpts.method = "POST";
     expectedOpts.body = JSON.stringify(body);
 
     expect(result).toEqual(response);
 
     const [calledUrl, calledOpts] = fetchMock.calls()[0];
-    expect(calledUrl).toEqual([apiBaseUrl, url].join("/"));
+    expect(calledUrl).toEqual([hubApiUrl, url].join("/"));
     expect(calledOpts).toEqual(expectedOpts);
   });
 });

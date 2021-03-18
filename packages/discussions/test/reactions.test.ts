@@ -1,6 +1,10 @@
 import { createReaction, removeReaction } from "../src/reactions";
 import * as req from "../src/request";
-import { PostReaction } from "../src/types";
+import {
+  ICreateReactionOptions,
+  IRemoveReactionOptions,
+  PostReaction
+} from "../src/types";
 
 describe("reactions", () => {
   let requestSpy: any;
@@ -16,14 +20,14 @@ describe("reactions", () => {
     const postId = 1;
     const body = { value: PostReaction.THUMBS_UP };
 
-    const options = { params: { postId, body } };
+    const options = { postId, params: body };
 
-    createReaction(options)
+    createReaction(options as ICreateReactionOptions)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
         expect(url).toEqual(`/posts/${postId}/reactions`);
-        expect(opts).toEqual({ ...options, method: "POST" });
+        expect(opts).toEqual({ ...options, httpMethod: "POST" });
         done();
       })
       .catch(() => fail());
@@ -33,14 +37,14 @@ describe("reactions", () => {
     const postId = 1;
     const reactionId = 2;
 
-    const options = { params: { postId, reactionId } };
+    const options = { postId, reactionId };
 
-    removeReaction(options)
+    removeReaction(options as IRemoveReactionOptions)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
         expect(url).toEqual(`/posts/${postId}/reactions/${reactionId}`);
-        expect(opts).toEqual({ ...options, method: "DELETE" });
+        expect(opts).toEqual({ ...options, httpMethod: "DELETE" });
         done();
       })
       .catch(() => fail());

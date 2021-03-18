@@ -1,13 +1,15 @@
-import { IRequestOptions } from "../types";
+import { IHubRequestOptions } from "../types";
 
 /**
  * returns Promise that resolves token to use in Discussions API requests
  *
  * @export
- * @param {IRequestOptions} options
+ * @param {IHubRequestOptions} options
  * @return {*}  {Promise<string>}
  */
-export function authenticateRequest(options: IRequestOptions): Promise<string> {
+export function authenticateRequest(
+  options: IHubRequestOptions
+): Promise<string> {
   const { token, authentication } = options;
 
   let tokenPromise = () => {
@@ -25,17 +27,17 @@ export function authenticateRequest(options: IRequestOptions): Promise<string> {
 }
 
 /**
- * parses IRequestOptions and makes request against Discussions API
+ * parses IHubRequestOptions and makes request against Discussions API
  *
  * @export
  * @param {string} url
- * @param {IRequestOptions} options
+ * @param {IHubRequestOptions} options
  * @param {string} [token]
  * @return {*}  {Promise<any>}
  */
 export function apiRequest(
   url: string,
-  options: IRequestOptions,
+  options: IHubRequestOptions,
   token?: string
 ): Promise<any> {
   const headers = new Headers();
@@ -46,24 +48,20 @@ export function apiRequest(
 
   const opts: RequestInit = {
     headers,
-    method: options.method || "GET",
-    mode: options.mode || "cors",
-    cache: options.cache || "no-cache",
-    credentials: options.credentials || "include"
+    method: options.httpMethod || "GET",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "include"
   };
 
-  const apiBase = options.apiBaseUrl;
+  const apiBase = options.hubApiUrl;
 
   if (options.params) {
-    const { query, body } = options.params;
-
-    if (query) {
-      const queryParams = new URLSearchParams(query).toString();
+    if (options.httpMethod === "GET") {
+      const queryParams = new URLSearchParams(options.params).toString();
       url += `?${queryParams}`;
-    }
-
-    if (body) {
-      opts.body = JSON.stringify(body);
+    } else {
+      opts.body = JSON.stringify(options.params);
     }
   }
 

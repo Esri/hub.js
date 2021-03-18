@@ -6,7 +6,16 @@ import {
   removeChannel
 } from "../src/channels";
 import * as req from "../src/request";
-import { PostReaction, PostStatus, SharingAccess } from "../src/types";
+import {
+  ICreateChannelOptions,
+  IFetchChannelOptions,
+  IRemoveChannelOptions,
+  ISearchChannelsOptions,
+  IUpdateChannelOptions,
+  PostReaction,
+  PostStatus,
+  SharingAccess
+} from "../src/types";
 
 describe("channels", () => {
   let requestSpy: any;
@@ -14,9 +23,7 @@ describe("channels", () => {
 
   beforeEach(() => {
     requestSpy = spyOn(req, "request").and.returnValue(
-      new Promise(resolve => {
-        resolve(response);
-      })
+      Promise.resolve(response)
     );
   });
 
@@ -26,13 +33,13 @@ describe("channels", () => {
       groups: ["foo"]
     };
 
-    const options = { params: { query } };
-    searchChannels(options)
+    const options = { params: query };
+    searchChannels(options as ISearchChannelsOptions)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
         expect(url).toEqual(`/channels`);
-        expect(opts).toEqual({ ...options, method: "GET" });
+        expect(opts).toEqual({ ...options, httpMethod: "GET" });
         done();
       })
       .catch(() => fail());
@@ -50,14 +57,14 @@ describe("channels", () => {
       allowedReactions: [PostReaction.HEART]
     };
 
-    const options = { params: { body } };
+    const options = { params: body };
 
-    createChannel(options)
+    createChannel(options as ICreateChannelOptions)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
         expect(url).toEqual(`/channels`);
-        expect(opts).toEqual({ ...options, method: "POST" });
+        expect(opts).toEqual({ ...options, httpMethod: "POST" });
         done();
       })
       .catch(() => fail());
@@ -66,14 +73,14 @@ describe("channels", () => {
   it("gets channel", done => {
     const channelId = 1;
 
-    const options = { params: { channelId } };
+    const options = { channelId };
 
-    fetchChannel(options)
+    fetchChannel(options as IFetchChannelOptions)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
         expect(url).toEqual(`/channels/${channelId}`);
-        expect(opts).toEqual({ ...options, method: "GET" });
+        expect(opts).toEqual({ ...options, httpMethod: "GET" });
         done();
       })
       .catch(() => fail());
@@ -85,14 +92,14 @@ describe("channels", () => {
       allowReaction: false
     };
 
-    const options = { params: { channelId, body } };
+    const options = { channelId, params: body };
 
-    updateChannel(options)
+    updateChannel(options as IUpdateChannelOptions)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
         expect(url).toEqual(`/channels/${channelId}`);
-        expect(opts).toEqual({ ...options, method: "PATCH" });
+        expect(opts).toEqual({ ...options, httpMethod: "PATCH" });
         done();
       })
       .catch(() => fail());
@@ -101,14 +108,14 @@ describe("channels", () => {
   it("deletes channel", done => {
     const channelId = 1;
 
-    const options = { params: { channelId } };
+    const options = { channelId };
 
-    removeChannel(options)
+    removeChannel(options as IRemoveChannelOptions)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
         expect(url).toEqual(`/channels/${channelId}`);
-        expect(opts).toEqual({ ...options, method: "DELETE" });
+        expect(opts).toEqual({ ...options, httpMethod: "DELETE" });
         done();
       })
       .catch(() => fail());

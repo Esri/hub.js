@@ -1,6 +1,6 @@
 import { request } from "./request";
 import {
-  IQueryChannelsOptions,
+  ISearchChannelsOptions,
   ICreateChannelOptions,
   IFetchChannelOptions,
   IUpdateChannelOptions,
@@ -14,13 +14,13 @@ import {
  * search channels
  *
  * @export
- * @param {IQueryChannelsOptions} options
+ * @param {ISearchChannelsOptions} options
  * @return {*}  {Promise<IPagedResponse<IChannel>>}
  */
 export function searchChannels(
-  options: IQueryChannelsOptions
+  options: ISearchChannelsOptions
 ): Promise<IPagedResponse<IChannel>> {
-  options.method = "GET";
+  options.httpMethod = "GET";
   return request(`/channels`, options);
 }
 
@@ -34,7 +34,7 @@ export function searchChannels(
 export function createChannel(
   options: ICreateChannelOptions
 ): Promise<IChannel> {
-  options.method = "POST";
+  options.httpMethod = "POST";
   return request(`/channels`, options);
 }
 
@@ -46,8 +46,8 @@ export function createChannel(
  * @return {*}  {Promise<IChannel>}
  */
 export function fetchChannel(options: IFetchChannelOptions): Promise<IChannel> {
-  options.method = "GET";
-  return request(`/channels/${options.params.channelId}`, options);
+  options.httpMethod = "GET";
+  return request(`/channels/${options.channelId}`, options);
 }
 
 /**
@@ -62,8 +62,8 @@ export function fetchChannel(options: IFetchChannelOptions): Promise<IChannel> {
 export function updateChannel(
   options: IUpdateChannelOptions
 ): Promise<IChannel> {
-  options.method = "PATCH";
-  return request(`/channels/${options.params.channelId}`, options);
+  options.httpMethod = "PATCH";
+  return request(`/channels/${options.channelId}`, options);
 }
 
 /**
@@ -76,6 +76,6 @@ export function updateChannel(
 export function removeChannel(
   options: IRemoveChannelOptions
 ): Promise<IRemoveChannelResponse> {
-  options.method = "DELETE";
-  return request(`/channels/${options.params.channelId}`, options);
+  options.httpMethod = "DELETE";
+  return request(`/channels/${options.channelId}`, options);
 }
