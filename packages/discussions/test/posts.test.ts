@@ -267,7 +267,7 @@ describe("posts", () => {
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
-        expect(url).toEqual(`/posts/${postId}`);
+        expect(url).toEqual(`/posts/${postId}/sharing`);
         expect(opts).toEqual({ ...options, method: "PATCH" });
         done();
       })
@@ -285,7 +285,7 @@ describe("posts", () => {
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
-        expect(url).toEqual(`/channels/${channelId}/posts/${postId}`);
+        expect(url).toEqual(`/channels/${channelId}/posts/${postId}/sharing`);
         expect(opts).toEqual({ ...options, method: "PATCH" });
         done();
       })
@@ -302,7 +302,7 @@ describe("posts", () => {
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
-        expect(url).toEqual(`/posts/${postId}`);
+        expect(url).toEqual(`/posts/${postId}/status`);
         expect(opts).toEqual({ ...options, method: "PATCH" });
         done();
       })
@@ -320,7 +320,7 @@ describe("posts", () => {
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
-        expect(url).toEqual(`/channels/${channelId}/posts/${postId}`);
+        expect(url).toEqual(`/channels/${channelId}/posts/${postId}/status`);
         expect(opts).toEqual({ ...options, method: "PATCH" });
         done();
       })

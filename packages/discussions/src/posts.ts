@@ -159,7 +159,7 @@ export function updatePost(
 export function updatePostSharing(
   options: IUpdatePostSharingOptions | IUpdateChannelPostSharingOptions
 ): Promise<IPost> {
-  let url = `/posts/${options.params.postId}`;
+  let url = `/posts/${options.params.postId}/sharing`;
   if (options.params.hasOwnProperty("channelId")) {
     const {
       params: { channelId }
@@ -181,7 +181,7 @@ export function updatePostSharing(
 export function updatePostStatus(
   options: IUpdatePostStatusOptions | IUpdateChannelPostStatusOptions
 ): Promise<IPost> {
-  let url = `/posts/${options.params.postId}`;
+  let url = `/posts/${options.params.postId}/status`;
   if (options.params.hasOwnProperty("channelId")) {
     const {
       params: { channelId }
