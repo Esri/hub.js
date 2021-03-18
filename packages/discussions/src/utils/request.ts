@@ -30,16 +30,17 @@ export function authenticateRequest(
  * parses IHubRequestOptions and makes request against Discussions API
  *
  * @export
+ * @template T
  * @param {string} url
  * @param {IHubRequestOptions} options
  * @param {string} [token]
- * @return {*}  {Promise<any>}
+ * @return {*}  {Promise<T>}
  */
-export function apiRequest(
+export function apiRequest<T>(
   url: string,
   options: IHubRequestOptions,
   token?: string
-): Promise<any> {
+): Promise<T> {
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
   if (token) {
