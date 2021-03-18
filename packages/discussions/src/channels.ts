@@ -2,12 +2,12 @@ import { request } from "./request";
 import {
   IQueryChannelsOptions,
   ICreateChannelOptions,
-  IGetChannelOptions,
+  IFetchChannelOptions,
   IUpdateChannelOptions,
-  IDeleteChannelOptions,
+  IRemoveChannelOptions,
   IChannel,
   IPagedResponse,
-  IDeleteChannelResponse
+  IRemoveChannelResponse
 } from "./types";
 
 /**
@@ -39,13 +39,13 @@ export function createChannel(
 }
 
 /**
- * get channel
+ * fetch channel
  *
  * @export
- * @param {IGetChannelOptions} options
+ * @param {IFetchChannelOptions} options
  * @return {*}  {Promise<IChannel>}
  */
-export function getChannel(options: IGetChannelOptions): Promise<IChannel> {
+export function fetchChannel(options: IFetchChannelOptions): Promise<IChannel> {
   options.method = "GET";
   return request(`/channels/${options.params.channelId}`, options);
 }
@@ -67,15 +67,15 @@ export function updateChannel(
 }
 
 /**
- * delete channel
+ * remove channel
  *
  * @export
- * @param {IDeleteChannelOptions} options
+ * @param {IRemoveChannelOptions} options
  * @return {*}
  */
-export function deleteChannel(
-  options: IDeleteChannelOptions
-): Promise<IDeleteChannelResponse> {
+export function removeChannel(
+  options: IRemoveChannelOptions
+): Promise<IRemoveChannelResponse> {
   options.method = "DELETE";
   return request(`/channels/${options.params.channelId}`, options);
 }

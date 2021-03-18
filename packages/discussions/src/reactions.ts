@@ -1,8 +1,8 @@
 import { request } from "./request";
 import {
   ICreateReactionOptions,
-  IDeleteReactionOptions,
-  IDeleteReactionResponse,
+  IRemoveReactionOptions,
+  IRemoveReactionResponse,
   IReaction
 } from "./types";
 
@@ -21,15 +21,15 @@ export function createReaction(
 }
 
 /**
- * delete reaction
+ * remove reaction
  *
  * @export
- * @param {IDeleteReactionOptions} options
- * @return {*}  {Promise<IDeleteReactionResponse>}
+ * @param {IRemoveReactionOptions} options
+ * @return {*}  {Promise<IRemoveReactionResponse>}
  */
-export function deleteReaction(
-  options: IDeleteReactionOptions
-): Promise<IDeleteReactionResponse> {
+export function removeReaction(
+  options: IRemoveReactionOptions
+): Promise<IRemoveReactionResponse> {
   options.method = "DELETE";
   return request(
     `/posts/${options.params.postId}/reactions/${options.params.reactionId}`,

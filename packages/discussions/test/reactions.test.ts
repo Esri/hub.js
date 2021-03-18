@@ -1,4 +1,4 @@
-import { createReaction, deleteReaction } from "../src/reactions";
+import { createReaction, removeReaction } from "../src/reactions";
 import * as req from "../src/request";
 import { PostReaction } from "../src/types";
 
@@ -35,7 +35,7 @@ describe("reactions", () => {
 
     const options = { params: { postId, reactionId } };
 
-    deleteReaction(options)
+    removeReaction(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);

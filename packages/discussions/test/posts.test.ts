@@ -1,9 +1,9 @@
 import {
   createPost,
   searchPosts,
-  getPost,
+  fetchPost,
   updatePost,
-  deletePost,
+  removePost,
   createReply,
   updatePostSharing,
   updatePostStatus
@@ -164,7 +164,7 @@ describe("posts", () => {
     const postId = 2;
 
     const options = { params: { postId } };
-    getPost(options)
+    fetchPost(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
@@ -180,7 +180,7 @@ describe("posts", () => {
     const channelId = 1;
 
     const options = { params: { postId, channelId } };
-    getPost(options)
+    fetchPost(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
@@ -195,7 +195,7 @@ describe("posts", () => {
     const postId = 2;
 
     const options = { params: { postId } };
-    deletePost(options)
+    removePost(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
@@ -211,7 +211,7 @@ describe("posts", () => {
     const channelId = 1;
 
     const options = { params: { postId, channelId } };
-    deletePost(options)
+    removePost(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);

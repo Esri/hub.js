@@ -6,10 +6,10 @@ import {
   ICreateChannelPostOptions,
   ICreateReplyOptions,
   ICreateChannelReplyOptions,
-  IGetPostOptions,
-  IGetChannelPostOptions,
-  IDeletePostOptions,
-  IDeleteChannelPostOptions,
+  IFetchPostOptions,
+  IFetchChannelPostOptions,
+  IRemovePostOptions,
+  IRemoveChannelPostOptions,
   IUpdatePostOptions,
   IUpdateChannelPostOptions,
   IUpdatePostSharingOptions,
@@ -18,7 +18,7 @@ import {
   IUpdateChannelPostStatusOptions,
   IPagedResponse,
   IPost,
-  IDeletePostResponse
+  IRemovePostResponse
 } from "./types";
 
 /**
@@ -85,20 +85,20 @@ export function createReply(
 }
 
 /**
- * get post
+ * fetch post
  *
  * @export
- * @param {(IGetPostOptions | IGetChannelPostOptions)} options
+ * @param {(IFetchPostOptions | IFetchChannelPostOptions)} options
  * @return {*}  {Promise<IPost>}
  */
-export function getPost(
-  options: IGetPostOptions | IGetChannelPostOptions
+export function fetchPost(
+  options: IFetchPostOptions | IFetchChannelPostOptions
 ): Promise<IPost> {
   let url = `/posts/${options.params.postId}`;
   if (options.params.hasOwnProperty("channelId")) {
     const {
       params: { channelId }
-    } = options as IGetChannelPostOptions;
+    } = options as IFetchChannelPostOptions;
     url = `/channels/${channelId}` + url;
   }
   options.method = "GET";
@@ -106,20 +106,20 @@ export function getPost(
 }
 
 /**
- * delete post
+ * remove post
  *
  * @export
- * @param {(IDeletePostOptions | IDeleteChannelPostOptions)} options
- * @return {*}  {Promise<IDeletePostResponse>}
+ * @param {(IRemovePostOptions | IRemoveChannelPostOptions)} options
+ * @return {*}  {Promise<IRemovePostResponse>}
  */
-export function deletePost(
-  options: IDeletePostOptions | IDeleteChannelPostOptions
-): Promise<IDeletePostResponse> {
+export function removePost(
+  options: IRemovePostOptions | IRemoveChannelPostOptions
+): Promise<IRemovePostResponse> {
   let url = `/posts/${options.params.postId}`;
   if (options.params.hasOwnProperty("channelId")) {
     const {
       params: { channelId }
-    } = options as IDeleteChannelPostOptions;
+    } = options as IRemoveChannelPostOptions;
     url = `/channels/${channelId}` + url;
   }
   options.method = "DELETE";

@@ -1,9 +1,9 @@
 import {
   createChannel,
   searchChannels,
-  getChannel,
+  fetchChannel,
   updateChannel,
-  deleteChannel
+  removeChannel
 } from "../src/channels";
 import * as req from "../src/request";
 import { PostReaction, PostStatus, SharingAccess } from "../src/types";
@@ -68,7 +68,7 @@ describe("channels", () => {
 
     const options = { params: { channelId } };
 
-    getChannel(options)
+    fetchChannel(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
@@ -103,7 +103,7 @@ describe("channels", () => {
 
     const options = { params: { channelId } };
 
-    deleteChannel(options)
+    removeChannel(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);

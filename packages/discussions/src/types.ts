@@ -237,9 +237,9 @@ export interface IPagedResponse<PaginationObject> extends IRestPagedResponse {
  * delete post response properties
  *
  * @export
- * @interface IDeletePostResponse
+ * @interface IRemovePostResponse
  */
-export interface IDeletePostResponse {
+export interface IRemovePostResponse {
   success: boolean;
   postId: number | string;
 }
@@ -248,9 +248,9 @@ export interface IDeletePostResponse {
  * delete channel response properties
  *
  * @export
- * @interface IDeleteChannelResponse
+ * @interface IRemoveChannelResponse
  */
-export interface IDeleteChannelResponse {
+export interface IRemoveChannelResponse {
   success: boolean;
   channelId: number | string;
 }
@@ -259,9 +259,9 @@ export interface IDeleteChannelResponse {
  * delete reaction response properties
  *
  * @export
- * @interface IDeleteReactionResponse
+ * @interface IRemoveReactionResponse
  */
-export interface IDeleteReactionResponse {
+export interface IRemoveReactionResponse {
   success: boolean;
   reactionId: number | string;
 }
@@ -323,9 +323,9 @@ export interface ICreatePost extends ICreateChannelPost, IWithSharing {}
  * dto for decorating found post with relations
  *
  * @export
- * @interface IGetPost
+ * @interface IFetchPost
  */
-export interface IGetPost {
+export interface IFetchPost {
   relations?: PostRelation[];
 }
 
@@ -424,9 +424,9 @@ export interface ICreateChannel extends IWithSettings, IWithSharing {}
  * dto for decorating found channel with relations
  *
  * @export
- * @interface IGetChannel
+ * @interface IFetchChannel
  */
-export interface IGetChannel {
+export interface IFetchChannel {
   relations?: ChannelRelation[];
 }
 
@@ -597,12 +597,12 @@ export interface ICreateChannelReplyOptions extends IRequestOptions {
  * request options for getting post
  *
  * @export
- * @interface IGetPostOptions
+ * @interface IFetchPostOptions
  * @extends {IRequestOptions}
  */
-export interface IGetPostOptions extends IRequestOptions {
+export interface IFetchPostOptions extends IRequestOptions {
   params: {
-    query?: IGetPost;
+    query?: IFetchPost;
     postId: number;
   };
 }
@@ -611,12 +611,12 @@ export interface IGetPostOptions extends IRequestOptions {
  * request options for getting post in known channel
  *
  * @export
- * @interface IGetChannelPostOptions
+ * @interface IFetchChannelPostOptions
  * @extends {IRequestOptions}
  */
-export interface IGetChannelPostOptions extends IRequestOptions {
+export interface IFetchChannelPostOptions extends IRequestOptions {
   params: {
-    query?: IGetPost;
+    query?: IFetchPost;
     postId: number;
     channelId: number;
   };
@@ -713,10 +713,10 @@ export interface IUpdateChannelPostStatusOptions extends IRequestOptions {
  * request options for deleting a post
  *
  * @export
- * @interface IDeletePostOptions
+ * @interface IRemovePostOptions
  * @extends {IRequestOptions}
  */
-export interface IDeletePostOptions extends IRequestOptions {
+export interface IRemovePostOptions extends IRequestOptions {
   params: {
     postId: number;
   };
@@ -726,10 +726,10 @@ export interface IDeletePostOptions extends IRequestOptions {
  * request options for deleting a post from channel
  *
  * @export
- * @interface IDeleteChannelPostOptions
+ * @interface IRemoveChannelPostOptions
  * @extends {IRequestOptions}
  */
-export interface IDeleteChannelPostOptions extends IRequestOptions {
+export interface IRemoveChannelPostOptions extends IRequestOptions {
   params: {
     postId: number;
     channelId: number;
@@ -768,12 +768,12 @@ export interface ICreateChannelOptions extends IRequestOptions {
  * request options for getting a channel
  *
  * @export
- * @interface IGetChannelOptions
+ * @interface IFetchChannelOptions
  * @extends {IRequestOptions}
  */
-export interface IGetChannelOptions extends IRequestOptions {
+export interface IFetchChannelOptions extends IRequestOptions {
   params: {
-    query?: IGetChannel;
+    query?: IFetchChannel;
     channelId: number;
   };
 }
@@ -796,10 +796,10 @@ export interface IUpdateChannelOptions extends IRequestOptions {
  * request options for deleting a channel
  *
  * @export
- * @interface IDeleteChannelOptions
+ * @interface IRemoveChannelOptions
  * @extends {IRequestOptions}
  */
-export interface IDeleteChannelOptions extends IRequestOptions {
+export interface IRemoveChannelOptions extends IRequestOptions {
   params: {
     channelId: number;
   };
@@ -825,10 +825,10 @@ export interface ICreateReactionOptions extends IRequestOptions {
  * request options for deleting a reaction
  *
  * @export
- * @interface IDeleteReactionOptions
+ * @interface IRemoveReactionOptions
  * @extends {IRequestOptions}
  */
-export interface IDeleteReactionOptions extends IRequestOptions {
+export interface IRemoveReactionOptions extends IRequestOptions {
   params: {
     postId: number;
     reactionId: number;
