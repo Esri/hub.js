@@ -28,7 +28,7 @@ import { searchPosts } from "@esri/hub-discussions";
 searchPosts({ access: ['org'], orgs: ['3ef']}).then(response => {
   return response.items;
   // [
-  //   IPostDTO{},
+  //   IPost{},
   //   ...
   // ]
 });
