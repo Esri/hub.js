@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-discussions",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0-beta.4",
   "description": "Module to interact with ArcGIS Hub Discussions API in Node.js and modern browsers.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/discussions.umd.js",
@@ -39,7 +39,7 @@
   ],
   "scripts": {
     "prepare": "npm run build",
-    "build": "npm run build:node && npm run build:esm",
+    "build": "npm run build:node && npm run build:esm && npm run build:es2017 && npm run build:umd",
     "build:esm": "tsc --module es2015 --target es5 --outDir ./dist/esm --declaration --declarationDir ./dist/types",
     "build:es2017": "tsc --outDir ./dist/es2017",
     "build:umd": "rollup -c ../../umd-base-profile.js && rollup -c ../../umd-production-profile.js",
