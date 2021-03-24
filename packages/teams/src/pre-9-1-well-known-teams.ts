@@ -9,6 +9,7 @@ import { IGroupTemplate } from "./types";
  * This allows us to add/remove/edit groups by simply modifying this hash
  * instead of spreading complex construction logic all over the application
  */
+// TODO: remove after May 1st, 2021 as unneeded
 export const PRE_9_1_WELLKNOWNTEAMS: IGroupTemplate[] = [
   {
     config: {
