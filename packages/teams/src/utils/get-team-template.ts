@@ -7,13 +7,14 @@ import { getTeamsAvailableInProduct } from "./get-teams-available-in-product";
  * group, but in a context outside of the normal team-service functions.
  * @param {string} team core \ content | followers | team
  * @param {string} product basic | premium | portal
+ * @param {string} portalApiVersion portal version
  */
 export function getTeamTemplate(
   type: HubTeamType,
   product: HubProduct,
-  currentVersion: string
+  portalApiVersion: string
 ) {
-  return getTeamsAvailableInProduct(product, currentVersion).find(t => {
+  return getTeamsAvailableInProduct(product, portalApiVersion).find(t => {
     return t.config.type === type;
   });
 }

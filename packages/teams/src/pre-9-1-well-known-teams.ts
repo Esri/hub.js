@@ -9,7 +9,7 @@ import { IGroupTemplate } from "./types";
  * This allows us to add/remove/edit groups by simply modifying this hash
  * instead of spreading complex construction logic all over the application
  */
-export const OLDERWELLKNOWNTEAMS: IGroupTemplate[] = [
+export const PRE_9_1_WELLKNOWNTEAMS: IGroupTemplate[] = [
   {
     config: {
       groupType: "Hub Collaboration Group",

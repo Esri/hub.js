@@ -7,9 +7,9 @@ import { getTeamsAvailableInProduct } from "./get-teams-available-in-product";
  */
 export function getTeamTypesAvailableInProduct(
   product: HubProduct,
-  currentVersion: string
+  portalApiVersion: string
 ) {
-  return getTeamsAvailableInProduct(product, currentVersion).map(team => {
+  return getTeamsAvailableInProduct(product, portalApiVersion).map(team => {
     return team.config.type;
   });
 }
