@@ -13,6 +13,7 @@ describe("createHubTeams", () => {
       isPortal: false,
       id: "",
       name: "",
+      currentVersion: "8.4",
       portalProperties: {
         hub: {
           enabled: true
