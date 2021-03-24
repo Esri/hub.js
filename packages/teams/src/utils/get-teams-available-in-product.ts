@@ -11,7 +11,7 @@ export function getTeamsAvailableInProduct(
   product: HubProduct,
   portalApiVersion: string
 ) {
-  // TODO: remove this when needed
+  // TODO: remove this when needed (after may 1st 2021)
   // choosing the type of well known team based on the current portal version
   const teams =
     parseFloat(portalApiVersion) < 9.1
