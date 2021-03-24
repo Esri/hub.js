@@ -8,8 +8,12 @@ import { getTeamsAvailableInProduct } from "./get-teams-available-in-product";
  * @param {string} team core \ content | followers | team
  * @param {string} product basic | premium | portal
  */
-export function getTeamTemplate(type: HubTeamType, product: HubProduct) {
-  return getTeamsAvailableInProduct(product).find(t => {
+export function getTeamTemplate(
+  type: HubTeamType,
+  product: HubProduct,
+  currentVersion: string
+) {
+  return getTeamsAvailableInProduct(product, currentVersion).find(t => {
     return t.config.type === type;
   });
 }

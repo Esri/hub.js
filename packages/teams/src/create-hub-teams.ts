@@ -29,7 +29,8 @@ export function createHubTeams(opts: {
   // and filter just the team types requested
   const teamsToCreate = getUserCreatableTeams(
     hubRequestOptions.portalSelf.user,
-    product
+    product,
+    hubRequestOptions.portalSelf.currentVersion
   ).filter(g => {
     return types.indexOf(g.config.type) > -1;
   });

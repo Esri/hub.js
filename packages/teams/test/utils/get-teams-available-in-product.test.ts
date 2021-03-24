@@ -2,7 +2,7 @@ import { getTeamsAvailableInProduct } from "../../src/utils/get-teams-available-
 
 describe("getTeamsAvailableInProduct", () => {
   it("return teams for a specific product", () => {
-    const chk = getTeamsAvailableInProduct("basic");
+    const chk = getTeamsAvailableInProduct("basic", "8.4");
     expect(Array.isArray(chk)).toBeTruthy(
       "should return array of team templates"
     );

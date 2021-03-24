@@ -15,6 +15,6 @@ describe("getTeamTypesAvailableInProduct", () => {
       })
     );
 
-    expect(getTeamTypesAvailableInProduct("premium")).toEqual(teamTypes);
+    expect(getTeamTypesAvailableInProduct("premium", "8.4")).toEqual(teamTypes);
   });
 });
