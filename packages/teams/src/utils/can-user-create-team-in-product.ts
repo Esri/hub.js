@@ -20,7 +20,7 @@ export function canUserCreateTeamInProduct(
   const userGroups = getProp(user, "groups") || [];
   // can this be created in the current environment?
   if (
-    userGroups.length < 510 &&
+    userGroups.length < 507 &&
     includes(template.config.availableIn, product)
   ) {
     // and user has required privs...

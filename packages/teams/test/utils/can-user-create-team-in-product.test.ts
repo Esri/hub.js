@@ -33,14 +33,14 @@ describe("teams:utils:canUserCreateTeamInProduct:", () => {
     expect(result).toBeFalsy("Team not in product should not be creatable");
   });
 
-  it("returns false if user has 511 groups", () => {
+  it("returns false if user has 507 or more groups", () => {
     const user = {
       privileges: ["baz"],
-      groups: new Array(511)
+      groups: new Array(507)
     };
 
     const result = canUserCreateTeamInProduct(user, "basic", tmpl);
-    expect(result).toBeFalsy("User with > 510 groups can't create team");
+    expect(result).toBeFalsy("User with > 507 groups can't create team");
   });
 
   it("returns true if user has privs and less than 511 groups", () => {
