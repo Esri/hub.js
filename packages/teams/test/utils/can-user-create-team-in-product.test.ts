@@ -36,7 +36,7 @@ describe("teams:utils:canUserCreateTeamInProduct:", () => {
   it("returns false if user has 507 or more groups", () => {
     const user = {
       privileges: ["baz"],
-      groups: new Array(507)
+      groups: new Array(508)
     };
 
     const result = canUserCreateTeamInProduct(user, "basic", tmpl);
