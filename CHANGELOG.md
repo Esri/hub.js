@@ -5,27 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [7.3.2] - March 25th 2021
+
+### Other Changes
+
+- Bug Fixes
+  - **hub teams package**: ensure `canUserCreateTeamInProduct` checks if the current user has >507 groups, and returns false if they do. Since these checks will run before the teams are created, and the max anticipated teams that would be created in a single operation would be 5, and the max number of groups is 512, we chose 507 as the cut-off. [`e27fdb4`](https://github.com/Esri/hub.js/pull/495/commits/e27fdb442854b0aff5394bd84a9f3f89fd7d1435)
+
 ## [7.3.1] - March 24th 2021
 
 ### Other Changes
 
-* Bug Fixes
-   * **hub teams package**: update well known teams to account for 9.1 online changes around permissions [`2b686893`](https://github.com/Esri/hub.js/commit/2b686893a7fa42c1c7225c55c83e8e98fe83c1c3)
+- Bug Fixes
+  - **hub teams package**: update well known teams to account for 9.1 online changes around permissions [`2b686893`](https://github.com/Esri/hub.js/commit/2b686893a7fa42c1c7225c55c83e8e98fe83c1c3)
 
 ## [7.3.0] - March 16th 2021
 
 ### Other Changes
 
-* New Features
-  * **hub-downloads**: add disabled download state
-  [`2b4874a4`](https://github.com/Esri/hub.js/commit/2b4874a4b7a93836c803008ce14921324db38b30)
+- New Features
+  - **hub-downloads**: add disabled download state
+    [`2b4874a4`](https://github.com/Esri/hub.js/commit/2b4874a4b7a93836c803008ce14921324db38b30)
 
 ## [7.2.0] - March 15th 2021
 
 ### Other Changes
 
-* New Features
-   * **everything**: distribute es2017 build [`9755530a`](https://github.com/Esri/hub.js/commit/9755530a3fc3ed9b3578626eabfff6144f98115f) [#488](https://github.com/Esri/hub.js/issues/488)
+- New Features
+  - **everything**: distribute es2017 build [`9755530a`](https://github.com/Esri/hub.js/commit/9755530a3fc3ed9b3578626eabfff6144f98115f) [#488](https://github.com/Esri/hub.js/issues/488)
 
 ## [7.1.1] - March 9th 2021
 
@@ -652,11 +659,7 @@ Attempt to address failed release
 
 ## [4.1.0] - May 21st 2020
 
-
-
 ## [4.0.0] - May 20th 2020
-
-
 
 ## [3.9.3] - May 14th 2020
 
@@ -694,8 +697,6 @@ Attempt to address failed release
   - **peerDependencies**: fix invalid peerDependencies [`08fae37`](https://github.com/Esri/hub.js/commit/08fae37875aa3e68a82970a54eedcbe13ef001a8) [#251](https://github.com/Esri/hub.js/issues/251)
 
 ## [3.9.1] - May 6th 2020
-
-
 
 ## [3.9.0] - May 6th 2020
 
@@ -737,8 +738,6 @@ Attempt to address failed release
 
 ## [3.7.4] - April 30th 2020
 
-
-
 ## [3.7.3] - April 29th 2020
 
 - New Features
@@ -749,8 +748,6 @@ Attempt to address failed release
 ### @esri/hub-common
 
 ## [3.7.1] - April 28th 2020
-
-
 
 ## [3.7.0] - April 28th 2020
 
@@ -806,11 +803,7 @@ Attempt to address failed release
 
 ## [3.6.3] - January 27th 2020
 
-
-
 ## [3.6.2] - January 2nd 2020
-
-
 
 ## [3.6.0] - November 18th 2019
 
@@ -904,8 +897,6 @@ Attempt to address failed release
   - **search**: support filters specified implicitly
 
 ## [2.6.0] - August 20th 2019
-
-
 
 ## [2.5.0] - August 15th 2019
 
@@ -1318,11 +1309,6 @@ Attempt to address failed release
 ## [1.0.0] - July 9th 2018
 
 Initial Release
-
-## &amp;amp;amp;amp;amp;amp;lt;&amp;amp;amp;amp;amp;amp;lt;&amp;amp;amp;amp;amp;amp;lt;&amp;amp;amp;amp;amp;amp;lt;&amp;amp;amp;amp;amp;amp;lt;&amp;amp;amp;amp;amp;amp;lt;&amp;amp;amp;amp;amp;amp;lt; HEAD
-
-&amp;amp;amp;amp;amp;amp;gt; &amp;amp;amp;amp;amp;amp;gt; &amp;amp;amp;amp;amp;amp;gt; &amp;amp;amp;amp;amp;amp;gt; &amp;amp;amp;amp;amp;amp;gt; &amp;amp;amp;amp;amp;amp;gt; &amp;amp;amp;amp;amp;amp;gt; b939cf0e (v7.0.7)
-&amp;amp;amp;amp;amp;amp;gt; &amp;amp;amp;amp;amp;amp;gt; &amp;amp;amp;amp;amp;amp;gt; &amp;amp;amp;amp;amp;amp;gt; &amp;amp;amp;amp;amp;amp;gt; &amp;amp;amp;amp;amp;amp;gt; &amp;amp;amp;amp;amp;amp;gt; [HEAD]: https://github.com/Esri/hub.js/compare/v7.0.7...HEAD &amp;amp;amp;amp;amp;amp;quot;Unreleased Changes&amp;amp;amp;amp;amp;amp;quot;
 
 []: https://github.com/Esri/hub.js/compare/48be7ee38cd92cd342565215304f2a2979b1f822...v "v"
 [1.0.0]: https://github.com/Esri/hub.js/compare/v...v1.0.0 "v1.0.0"
