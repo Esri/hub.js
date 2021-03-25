@@ -496,8 +496,10 @@ export interface ICreateReaction {
 // NOTE: this is as close to implementing @esri/hub-common IHubRequestOptions as possible
 // only real exception is needing to extend httpMethod to include PATCH and DELETE
 // also making isPortal optional for convenience
+// picking fields from requestInit for development against local api
 export interface IHubRequestOptions
-  extends Omit<_IHubRequestOptions, "httpMethod" | "isPortal"> {
+  extends Omit<_IHubRequestOptions, "httpMethod" | "isPortal">,
+    Pick<RequestInit, "mode" | "cache" | "credentials"> {
   httpMethod?: "GET" | "POST" | "PATCH" | "DELETE";
   isPortal?: boolean;
   token?: string;

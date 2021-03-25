@@ -50,9 +50,9 @@ export function apiRequest<T>(
   const opts: RequestInit = {
     headers,
     method: options.httpMethod || "GET",
-    mode: "cors",
-    cache: "no-cache",
-    credentials: "include"
+    mode: options.mode,
+    cache: options.cache,
+    credentials: options.credentials
   };
 
   const apiBase = options.hubApiUrl;
