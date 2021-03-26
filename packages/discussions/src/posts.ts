@@ -1,3 +1,4 @@
+/* tslint:disable unified-signatures */
 import { request } from "./request";
 import {
   ISearchPostsOptions,
@@ -29,6 +30,12 @@ import {
  * @return {*}  {Promise<IPagedResponse<IPost>>}
  */
 export function searchPosts(
+  options: ISearchPostsOptions
+): Promise<IPagedResponse<IPost>>;
+export function searchPosts(
+  options: ISearchChannelPostsOptions
+): Promise<IPagedResponse<IPost>>;
+export function searchPosts(
   options: ISearchPostsOptions | ISearchChannelPostsOptions
 ): Promise<IPagedResponse<IPost>> {
   let url = `/posts`;
@@ -47,6 +54,8 @@ export function searchPosts(
  * @param {(ICreatePostOptions | ICreateChannelPostOptions)} options
  * @return {*}  {Promise<IPost>}
  */
+export function createPost(options: ICreatePostOptions): Promise<IPost>;
+export function createPost(options: ICreateChannelPostOptions): Promise<IPost>;
 export function createPost(
   options: ICreatePostOptions | ICreateChannelPostOptions
 ): Promise<IPost> {
@@ -66,6 +75,10 @@ export function createPost(
  * @param {(ICreateReplyOptions | ICreateChannelReplyOptions)} options
  * @return {*}  {Promise<IPost>}
  */
+export function createReply(options: ICreateReplyOptions): Promise<IPost>;
+export function createReply(
+  options: ICreateChannelReplyOptions
+): Promise<IPost>;
 export function createReply(
   options: ICreateReplyOptions | ICreateChannelReplyOptions
 ): Promise<IPost> {
@@ -85,6 +98,8 @@ export function createReply(
  * @param {(IFetchPostOptions | IFetchChannelPostOptions)} options
  * @return {*}  {Promise<IPost>}
  */
+export function fetchPost(options: IFetchPostOptions): Promise<IPost>;
+export function fetchPost(options: IFetchChannelPostOptions): Promise<IPost>;
 export function fetchPost(
   options: IFetchPostOptions | IFetchChannelPostOptions
 ): Promise<IPost> {
@@ -105,6 +120,12 @@ export function fetchPost(
  * @return {*}  {Promise<IRemovePostResponse>}
  */
 export function removePost(
+  options: IRemovePostOptions
+): Promise<IRemovePostResponse>;
+export function removePost(
+  options: IRemoveChannelPostOptions
+): Promise<IRemovePostResponse>;
+export function removePost(
   options: IRemovePostOptions | IRemoveChannelPostOptions
 ): Promise<IRemovePostResponse> {
   let url = `/posts/${options.postId}`;
@@ -124,6 +145,8 @@ export function removePost(
  * @param {(IUpdatePostOptions | IUpdateChannelPostOptions)} options
  * @return {*}  {Promise<IPost>}
  */
+export function updatePost(options: IUpdatePostOptions): Promise<IPost>;
+export function updatePost(options: IUpdateChannelPostOptions): Promise<IPost>;
 export function updatePost(
   options: IUpdatePostOptions | IUpdateChannelPostOptions
 ): Promise<IPost> {
@@ -145,6 +168,12 @@ export function updatePost(
  * @return {*}  {Promise<IPost>}
  */
 export function updatePostSharing(
+  options: IUpdatePostSharingOptions
+): Promise<IPost>;
+export function updatePostSharing(
+  options: IUpdateChannelPostSharingOptions
+): Promise<IPost>;
+export function updatePostSharing(
   options: IUpdatePostSharingOptions | IUpdateChannelPostSharingOptions
 ): Promise<IPost> {
   let url = `/posts/${options.postId}/sharing`;
@@ -164,6 +193,12 @@ export function updatePostSharing(
  * @param {(IUpdatePostStatusOptions | IUpdateChannelPostStatusOptions)} options
  * @return {*}  {Promise<IPost>}
  */
+export function updatePostStatus(
+  options: IUpdatePostStatusOptions
+): Promise<IPost>;
+export function updatePostStatus(
+  options: IUpdateChannelPostStatusOptions
+): Promise<IPost>;
 export function updatePostStatus(
   options: IUpdatePostStatusOptions | IUpdateChannelPostStatusOptions
 ): Promise<IPost> {
