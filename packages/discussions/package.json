@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-discussions",
-  "version": "1.0.0-beta.6",
+  "version": "1.0.0-beta.7",
   "description": "Module to interact with ArcGIS Hub Discussions API in Node.js and modern browsers.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/discussions.umd.js",
