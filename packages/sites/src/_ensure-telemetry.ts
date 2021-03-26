@@ -17,13 +17,12 @@ export function _ensureTelemetry(model: IModel) {
       policyURL: ""
     },
     customAnalytics: {
-      ga: [
-        {
+      ga: {
+        customerTracker: {
           enabled: Boolean(gacode),
-          id: gacode,
-          name: "customerTracker"
+          id: gacode
         }
-      ]
+      }
     }
   };
   deleteProp(clone, "data.values.gacode");

@@ -30,13 +30,12 @@ describe("_ensure-telemetry", () => {
         policyURL: ""
       },
       customAnalytics: {
-        ga: [
-          {
+        ga: {
+          customerTracker: {
             enabled: true,
-            id: "UA-123456-0",
-            name: "customerTracker"
+            id: "UA-123456-0"
           }
-        ]
+        }
       }
     };
     expected.item.properties.schemaVersion = 1.4;
@@ -55,13 +54,12 @@ describe("_ensure-telemetry", () => {
         policyURL: ""
       },
       customAnalytics: {
-        ga: [
-          {
+        ga: {
+          customerTracker: {
             enabled: false,
-            id: "",
-            name: "customerTracker"
+            id: ""
           }
-        ]
+        }
       }
     };
     expected.item.properties.schemaVersion = 1.4;
