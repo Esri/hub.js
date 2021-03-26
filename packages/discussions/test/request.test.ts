@@ -71,6 +71,7 @@ describe("apiRequest", () => {
 
   let expectedOpts: RequestInit;
   let opts: IHubRequestOptions;
+
   beforeEach(() => {
     fetchMock.mock("*", { status: 200, body: response });
 
@@ -79,9 +80,9 @@ describe("apiRequest", () => {
     expectedOpts = {
       headers,
       method: "GET",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "include"
+      mode: undefined,
+      cache: undefined,
+      credentials: undefined
     } as RequestInit;
 
     opts = { hubApiUrl } as IHubRequestOptions;
