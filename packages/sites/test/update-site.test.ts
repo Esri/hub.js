@@ -1,12 +1,12 @@
 import { updateSite } from "../src";
 import { SITE_ITEM_RESPONSE, SITE_DATA_RESPONSE } from "./site-responses.test";
-import * as layoutModule from "../src/layout";
 import * as commonModule from "@esri/hub-common";
 import * as portalModule from "@esri/arcgis-rest-portal";
 
 describe("update site", function() {
   let getModelSpy: jasmine.Spy;
   let updateSpy: jasmine.Spy;
+  let localSite: commonModule.IModel;
 
   beforeEach(() => {
     getModelSpy = spyOn(commonModule, "getModel").and.returnValue(
@@ -19,15 +19,19 @@ describe("update site", function() {
     updateSpy = spyOn(portalModule, "updateItem").and.returnValue(
       Promise.resolve({ success: true, id: "3ef" })
     );
-  });
 
-  it("ago with allowList and resources to remove", async function() {
-    // create a siteModel from the fixtures
-    const localSite = {
-      item: commonModule.cloneObject(SITE_ITEM_RESPONSE),
+    const siteItemClone = commonModule.cloneObject(SITE_ITEM_RESPONSE);
+    siteItemClone.properties.schemaVersion =
+      siteItemClone.properties.schemaVersion - 0.1;
+
+    localSite = {
+      item: siteItemClone,
       data: commonModule.cloneObject(SITE_DATA_RESPONSE)
     };
-    // and apply some changes to the local model
+  });
+
+  it("ago with allowList, resources to remove & updateVersions", async function() {
+    // apply some changes to the local model
     localSite.item.properties.newProp = "red";
     // change a prop that's not in the allowList so we can ensure it's not sent
     localSite.item.title = "WOOT I CHANGED THIS";
@@ -57,15 +61,52 @@ describe("update site", function() {
     expect(updateItem.properties.newProp).toBe(
       localSite.item.properties.newProp
     );
+    // versions updated
+    expect(updateItem.properties.schemaVersion).toEqual(
+      localSite.item.properties.schemaVersion
+    );
+  });
+
+  it("ago with allowList and not updateVersions", async function() {
+    // apply some changes to the local model
+    localSite.item.properties.newProp = "red";
+    // change a prop that's not in the allowList so we can ensure it's not sent
+    localSite.item.title = "WOOT I CHANGED THIS";
+    // remove the background image from the first section
+    delete localSite.data.values.layout.sections[0].style.background.fileSrc;
+    delete localSite.data.values.layout.sections[0].style.background.cropSrc;
+
+    const ro = {
+      authentication: {}
+    } as commonModule.IHubRequestOptions;
+
+    const result = await updateSite(
+      localSite,
+      ["item.properties", "data.layout"],
+      ro,
+      false
+    );
+
+    // Model should be fetched when allow-list is passed in
+    expect(getModelSpy).toHaveBeenCalledWith(localSite.item.id, ro);
+    expect(result.success).toBeTruthy("should return sucess");
+    expect(updateSpy).toHaveBeenCalled();
+
+    const updateItem = updateSpy.calls.argsFor(0)[0].item;
+    // title wasn't on allow list, so shouldn't update
+    expect(updateItem.title).not.toBe(localSite.item.title);
+    // newprop was on allow list, so should update
+    expect(updateItem.properties.newProp).toBe(
+      localSite.item.properties.newProp
+    );
+    // versions not updated
+    expect(updateItem.properties.schemaVersion).toEqual(
+      SITE_ITEM_RESPONSE.properties.schemaVersion
+    );
   });
 
   it("ago without allowList or resources to remove", async function() {
-    // create a siteModel from the fixtures
-    const localSite = {
-      item: commonModule.cloneObject(SITE_ITEM_RESPONSE),
-      data: commonModule.cloneObject(SITE_DATA_RESPONSE)
-    };
-    // and apply some changes to the local model
+    // apply some changes to the local model
     localSite.item.properties.newProp = "red";
     // change a prop that's not in the allowList so we can ensure it's not sent
     localSite.item.title = "WOOT I CHANGED THIS";
@@ -96,15 +137,13 @@ describe("update site", function() {
     expect(updateItem.properties.newProp).toBe(
       localSite.item.properties.newProp
     );
+    // versions updated
+    expect(updateItem.properties.schemaVersion).toEqual(
+      localSite.item.properties.schemaVersion
+    );
   });
 
   it("portal", async function() {
-    // create a siteModel from the fixtures
-    const localSite = {
-      item: commonModule.cloneObject(SITE_ITEM_RESPONSE),
-      data: commonModule.cloneObject(SITE_DATA_RESPONSE)
-    };
-
     const subdomain = "foo-bar-baz";
     localSite.data.values.subdomain = subdomain;
 
@@ -137,11 +176,6 @@ describe("update site", function() {
 
   it("rejects if fails", async function() {
     // create a siteModel from the fixtures
-    const localSite = {
-      item: commonModule.cloneObject(SITE_ITEM_RESPONSE),
-      data: commonModule.cloneObject(SITE_DATA_RESPONSE)
-    };
-
     const ro = {
       authentication: {}
     } as commonModule.IHubRequestOptions;

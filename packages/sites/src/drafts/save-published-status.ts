@@ -3,6 +3,7 @@ import { updateSite } from "../update-site";
 import { updatePage, isPage } from "../pages";
 import { isSite } from "../is-site";
 import { IUpdateItemResponse } from "@esri/arcgis-rest-portal";
+import { hasUnpublishedChanges } from "./has-unpublished-changes";
 
 /**
  * Saves the published status of a site or page model
@@ -20,7 +21,17 @@ export function savePublishedStatus(
   let prms;
 
   if (isSite(item)) {
-    prms = updateSite(siteOrPageModel, allowList, hubRequestOptions);
+    // when saving a draft site, we need to prevent the schemaVersion
+    // from being updated. if not, and the user refreshes the
+    // browser after saving the draft without first publishing,
+    // migration changes can be lost
+    const isUnpublished = hasUnpublishedChanges(siteOrPageModel);
+    prms = updateSite(
+      siteOrPageModel,
+      allowList,
+      hubRequestOptions,
+      !isUnpublished
+    );
   } else if (isPage(item)) {
     prms = updatePage(siteOrPageModel, allowList, hubRequestOptions);
   } else {

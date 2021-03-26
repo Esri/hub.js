@@ -21,11 +21,13 @@ import { updateItem, IUpdateItemResponse } from "@esri/arcgis-rest-portal";
  * @param {Object} model Site Model to update
  * @param {Array} patchList Array of property paths to update
  * @param {IHubRequestOptions} hubRequestOptions
+ * @param {boolean} [updateVersions=true] Optionally update the versions, defaults to true
  */
 export function updateSite(
   model: IModel,
   patchList: string[],
-  hubRequestOptions: IHubRequestOptions
+  hubRequestOptions: IHubRequestOptions,
+  updateVersions: boolean = true
 ): Promise<IUpdateItemResponse> {
   patchList = patchList || [];
 
@@ -42,11 +44,13 @@ export function updateSite(
   if (patchList.length) {
     patchList.push("data.values.updatedAt");
     patchList.push("data.values.updatedBy");
-    patchList.push("data.values.uiVersion");
-    // any save needs to be able to update the schema version
-    // which will have been bumped if a schema migration
-    // occured during the load cycle
-    patchList.push("item.properties.schemaVersion");
+    if (updateVersions) {
+      patchList.push("data.values.uiVersion");
+      // any save needs to be able to update the schema version
+      // which will have been bumped if a schema migration
+      // occured during the load cycle
+      patchList.push("item.properties.schemaVersion");
+    }
   }
 
   // PORTAL-ENV: no domain service so we encode the subdomain in a typeKeyword
