@@ -39,18 +39,18 @@ describe("update site", function() {
     delete localSite.data.values.layout.sections[0].style.background.fileSrc;
     delete localSite.data.values.layout.sections[0].style.background.cropSrc;
 
-    const ro = {
-      authentication: {}
-    } as commonModule.IHubRequestOptions;
+    const updateSiteOptions = {
+      authentication: {},
+      allowList: ["item.properties", "data.layout"]
+    } as commonModule.IUpdateSiteOptions;
 
-    const result = await updateSite(
-      localSite,
-      ["item.properties", "data.layout"],
-      ro
-    );
+    const result = await updateSite(localSite, updateSiteOptions);
 
     // Model should be fetched when allow-list is passed in
-    expect(getModelSpy).toHaveBeenCalledWith(localSite.item.id, ro);
+    expect(getModelSpy).toHaveBeenCalledWith(
+      localSite.item.id,
+      updateSiteOptions
+    );
     expect(result.success).toBeTruthy("should return sucess");
     expect(updateSpy).toHaveBeenCalled();
 
@@ -76,19 +76,19 @@ describe("update site", function() {
     delete localSite.data.values.layout.sections[0].style.background.fileSrc;
     delete localSite.data.values.layout.sections[0].style.background.cropSrc;
 
-    const ro = {
-      authentication: {}
-    } as commonModule.IHubRequestOptions;
+    const updateSiteOptions = {
+      authentication: {},
+      allowList: ["item.properties", "data.layout"],
+      updateVersions: false
+    } as commonModule.IUpdateSiteOptions;
 
-    const result = await updateSite(
-      localSite,
-      ["item.properties", "data.layout"],
-      ro,
-      false
-    );
+    const result = await updateSite(localSite, updateSiteOptions);
 
     // Model should be fetched when allow-list is passed in
-    expect(getModelSpy).toHaveBeenCalledWith(localSite.item.id, ro);
+    expect(getModelSpy).toHaveBeenCalledWith(
+      localSite.item.id,
+      updateSiteOptions
+    );
     expect(result.success).toBeTruthy("should return sucess");
     expect(updateSpy).toHaveBeenCalled();
 
@@ -118,7 +118,10 @@ describe("update site", function() {
       authentication: {}
     } as commonModule.IHubRequestOptions;
 
-    const result = await updateSite(localSite, null, ro);
+    const result = await updateSite(localSite, {
+      ...ro,
+      allowList: null
+    });
 
     expect(result.success).toBeTruthy("should return sucess");
 
@@ -153,7 +156,10 @@ describe("update site", function() {
     } as commonModule.IHubRequestOptions;
 
     // WITH ALLOW LIST
-    const result = await updateSite(localSite, ["item.properties"], ro);
+    const result = await updateSite(localSite, {
+      ...ro,
+      allowList: ["item.properties"]
+    });
 
     expect(result.success).toBeTruthy("should return success");
     // Model should NOT be fetched when allow-list is NOT passed in
@@ -164,7 +170,10 @@ describe("update site", function() {
 
     // WITH ALLOW LIST
     updateSpy.calls.reset();
-    const result2 = await updateSite(localSite, null, ro);
+    const result2 = await updateSite(localSite, {
+      ...ro,
+      allowList: null
+    });
 
     expect(result2.success).toBeTruthy("should return success");
     // Model should NOT be fetched when allow-list is NOT passed in
@@ -184,7 +193,10 @@ describe("update site", function() {
 
     // WITH ALLOW LIST
     try {
-      await updateSite(localSite, ["item.properties"], ro);
+      await updateSite(localSite, {
+        ...ro,
+        allowList: ["item.properties"]
+      });
       fail("should reject");
     } catch (err) {
       expect(err).toBeDefined();

@@ -38,12 +38,11 @@ describe("savePublishedStatus", () => {
 
   it("saves the draft status of a site", async () => {
     await savePublishedStatus(siteModel, ro);
-    expect(updateSiteSpy).toHaveBeenCalledWith(
-      siteModel,
-      ["item.typeKeywords"],
-      ro,
-      false
-    );
+    expect(updateSiteSpy).toHaveBeenCalledWith(siteModel, {
+      ...ro,
+      allowList: ["item.typeKeywords"],
+      updateVersions: false
+    });
     expect(updatePageSpy).not.toHaveBeenCalled();
   });
 
@@ -52,12 +51,11 @@ describe("savePublishedStatus", () => {
     cloned.item.typeKeywords = [];
     await savePublishedStatus(cloned, ro);
 
-    expect(updateSiteSpy).toHaveBeenCalledWith(
-      cloned,
-      ["item.typeKeywords"],
-      ro,
-      true
-    );
+    expect(updateSiteSpy).toHaveBeenCalledWith(cloned, {
+      ...ro,
+      allowList: ["item.typeKeywords"],
+      updateVersions: true
+    });
     expect(updatePageSpy).not.toHaveBeenCalled();
   });
 

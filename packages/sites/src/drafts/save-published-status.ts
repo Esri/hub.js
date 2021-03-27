@@ -26,12 +26,11 @@ export function savePublishedStatus(
     // browser after saving the draft without first publishing,
     // migration changes can be lost
     const isUnpublished = hasUnpublishedChanges(siteOrPageModel);
-    prms = updateSite(
-      siteOrPageModel,
+    prms = updateSite(siteOrPageModel, {
+      ...hubRequestOptions,
       allowList,
-      hubRequestOptions,
-      !isUnpublished
-    );
+      updateVersions: !isUnpublished
+    });
   } else if (isPage(item)) {
     prms = updatePage(siteOrPageModel, allowList, hubRequestOptions);
   } else {

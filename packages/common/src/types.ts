@@ -372,3 +372,16 @@ export interface IOperation {
 export interface ISerializedOperationStack {
   operations: IOperation[];
 }
+
+/**
+ * IUpdateSiteOptions
+ *
+ * Options for site updates
+ *
+ * @export
+ * @interface UpdateSiteOptions
+ */
+export interface IUpdateSiteOptions extends IHubRequestOptions {
+  updateVersions?: boolean;
+  allowList: string[];
+}
