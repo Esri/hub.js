@@ -4,7 +4,6 @@
 import { collections } from "./collections";
 import { categories } from "./categories";
 import { includes } from "./utils";
-import { getWithDefault } from "./objects";
 
 const cache: { [key: string]: string } = {};
 
@@ -44,27 +43,6 @@ export function getCategory(itemType: string = ""): string {
  */
 export function getTypes(category: string = ""): string[] {
   return categories[category.toLowerCase()];
-}
-
-/**
- * ```js
- * import { getType } from "@esri/hub-common";
- * //
- * getType(item)
- * > [ 'Hub Site Application' ]
- * ```
- * @param item Item object.
- * @returns type of the input item.
- *
- */
-export function getType(item: any = {}): string {
-  /* tslint:disable no-console */
-  console.warn("DEPRECATED: Use normalizeItemType() instead");
-
-  if (item.type === "Site Page" || item.type === "Site Application") {
-    return item.type;
-  }
-  return normalizeItemType(item);
 }
 
 /**
