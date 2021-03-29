@@ -1,6 +1,5 @@
 import {
   IModel,
-  IHubRequestOptions,
   IUpdateSiteOptions,
   deepSet,
   getProp,

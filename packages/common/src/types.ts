@@ -383,5 +383,5 @@ export interface ISerializedOperationStack {
  */
 export interface IUpdateSiteOptions extends IHubRequestOptions {
   updateVersions?: boolean;
-  allowList: string[];
+  allowList?: string[];
 }
