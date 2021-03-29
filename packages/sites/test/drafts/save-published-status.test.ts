@@ -62,11 +62,10 @@ describe("savePublishedStatus", () => {
   it("saves the published status of a page", async () => {
     await savePublishedStatus(pageModel, ro);
 
-    expect(updatePageSpy).toHaveBeenCalledWith(
-      pageModel,
-      ["item.typeKeywords"],
-      ro
-    );
+    expect(updatePageSpy).toHaveBeenCalledWith(pageModel, {
+      ...ro,
+      allowList: ["item.typeKeywords"]
+    });
     expect(updateSiteSpy).not.toHaveBeenCalled();
   });
 

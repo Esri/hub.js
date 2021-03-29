@@ -33,7 +33,10 @@ export function savePublishedStatus(
       updateVersions: !isUnpublished
     });
   } else if (isPage(item)) {
-    prms = updatePage(siteOrPageModel, allowList, hubRequestOptions);
+    prms = updatePage(siteOrPageModel, {
+      ...hubRequestOptions,
+      allowList
+    });
   } else {
     throw TypeError(
       "@esri/hub-sites: only page or site models have a published state"
