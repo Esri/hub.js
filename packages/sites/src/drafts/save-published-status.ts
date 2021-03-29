@@ -22,9 +22,10 @@ export function savePublishedStatus(
 
   if (isSite(item)) {
     // when saving a draft site, we need to prevent the schemaVersion
-    // from being updated. if not, and the user refreshes the
-    // browser after saving the draft without first publishing,
-    // migration changes can be lost
+    // from being updated. otherwise, if the user does not publish the draft,
+    // functionality potentially will be broken for all users because the item
+    // reflects the most recent schemaVersion without any of the actual schema
+    // changes
     const isUnpublished = hasUnpublishedChanges(siteOrPageModel);
     prms = updateSite(siteOrPageModel, {
       ...hubRequestOptions,
