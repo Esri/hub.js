@@ -3,6 +3,7 @@ import * as _applySiteSchemaModule from "../src/_apply-site-schema";
 import * as _enforceLowercaseDomainsModule from "../src/_enforce-lowercase-domains";
 import * as _ensureCatalogModule from "../src/_ensure-catalog";
 import * as _purgeNonGuidsFromCatalogModule from "../src/_purge-non-guids-from-catalog";
+import * as _ensureTelemetryModule from "../src/_ensure-telemetry";
 import { IModel } from "@esri/hub-common";
 import { SITE_SCHEMA_VERSION } from "../src/site-schema-version";
 import { expectAllCalled, expectAll } from "./test-helpers.test";
@@ -12,6 +13,7 @@ describe("upgradeSiteSchema", () => {
   let enforceLowercaseSpy: jasmine.Spy;
   let ensureCatalogSpy: jasmine.Spy;
   let purgeNonGuidsSpy: jasmine.Spy;
+  let ensureTelemetrySpy: jasmine.Spy;
   beforeEach(() => {
     applySpy = spyOn(_applySiteSchemaModule, "_applySiteSchema").and.callFake(
       (model: IModel) => model
@@ -28,6 +30,10 @@ describe("upgradeSiteSchema", () => {
       _purgeNonGuidsFromCatalogModule,
       "_purgeNonGuidsFromCatalog"
     ).and.callFake((model: IModel) => model);
+    ensureTelemetrySpy = spyOn(
+      _ensureTelemetryModule,
+      "_ensureTelemetry"
+    ).and.callFake((model: IModel) => model);
   });
 
   it("runs schema upgrades", async () => {
@@ -42,7 +48,13 @@ describe("upgradeSiteSchema", () => {
     upgradeSiteSchema(model);
 
     expectAllCalled(
-      [applySpy, enforceLowercaseSpy, ensureCatalogSpy, purgeNonGuidsSpy],
+      [
+        applySpy,
+        enforceLowercaseSpy,
+        ensureCatalogSpy,
+        purgeNonGuidsSpy,
+        ensureTelemetrySpy
+      ],
       expect
     );
   });

@@ -1,6 +1,6 @@
 import {
   IModel,
-  IHubRequestOptions,
+  IUpdateSiteOptions,
   deepSet,
   getProp,
   getModel,
@@ -15,73 +15,73 @@ import { updateItem, IUpdateItemResponse } from "@esri/arcgis-rest-portal";
  * Update an existing site item
  * This function supports the equivalent of a PATCH REST operation
  * It will fetch the current item from ago, and then apply
- * a subset of property changes to the model if a patchList is included.
- * The patchList can include any property paths on the item.
+ * a subset of property changes to the model if a allowList is included.
+ * The allowList can include any property paths on the item.
  * If the list is empty, then the entire site model is overwritten.
  * @param {Object} model Site Model to update
- * @param {Array} patchList Array of property paths to update
- * @param {IHubRequestOptions} hubRequestOptions
+ * @param {IUpdateSiteOptions} updateSiteOptions
  */
 export function updateSite(
   model: IModel,
-  patchList: string[],
-  hubRequestOptions: IHubRequestOptions
+  updateSiteOptions: IUpdateSiteOptions
 ): Promise<IUpdateItemResponse> {
-  patchList = patchList || [];
-
+  const allowList = updateSiteOptions.allowList || [];
+  const { updateVersions = true } = updateSiteOptions;
   // apply any on-save site upgrades here...
   deepSet(model, "data.values.uiVersion", SITE_UI_VERSION);
   deepSet(model, "data.values.updatedAt", new Date().toISOString());
   deepSet(
     model,
     "data.values.updatedBy",
-    hubRequestOptions.authentication.username
+    updateSiteOptions.authentication.username
   );
 
-  // we only add these in if an patchList was passed in
-  if (patchList.length) {
-    patchList.push("data.values.updatedAt");
-    patchList.push("data.values.updatedBy");
-    patchList.push("data.values.uiVersion");
-    // any save needs to be able to update the schema version
-    // which will have been bumped if a schema migration
-    // occured during the load cycle
-    patchList.push("item.properties.schemaVersion");
+  // we only add these in if an allowList was passed in
+  if (allowList.length) {
+    allowList.push("data.values.updatedAt");
+    allowList.push("data.values.updatedBy");
+    if (updateVersions) {
+      allowList.push("data.values.uiVersion");
+      // any save needs to be able to update the schema version
+      // which will have been bumped if a schema migration
+      // occured during the load cycle
+      allowList.push("item.properties.schemaVersion");
+    }
   }
 
   // PORTAL-ENV: no domain service so we encode the subdomain in a typeKeyword
-  if (hubRequestOptions.isPortal) {
+  if (updateSiteOptions.isPortal) {
     model.item.typeKeywords = _ensurePortalDomainKeyword(
       getProp(model, "data.values.subdomain"),
       model.item.typeKeywords
     );
     // see above comment why ths is gated...
-    if (patchList.length) {
-      patchList.push("item.typeKeywords");
+    if (allowList.length) {
+      allowList.push("item.typeKeywords");
     }
   }
   // Actually start the update process...
 
   let agoModelPromise;
-  // if we have a patchList, refetch the site to check for changes...
-  if (patchList.length) {
-    agoModelPromise = getModel(model.item.id, hubRequestOptions);
+  // if we have a allowList, refetch the site to check for changes...
+  if (allowList.length) {
+    agoModelPromise = getModel(model.item.id, updateSiteOptions);
   } else {
-    // if we dont have a patchList, just resolve with the model we have
+    // if we dont have a allowList, just resolve with the model we have
     agoModelPromise = Promise.resolve(model);
   }
 
   // Kick things off...
   return agoModelPromise
     .then(agoModel => {
-      if (patchList.length) {
+      if (allowList.length) {
         // merge the props in the allow list into the model from AGO
-        model = mergeObjects(model, agoModel, patchList);
+        model = mergeObjects(model, agoModel, allowList);
       }
       // send the update to ago
       return updateItem({
         item: serializeModel(model),
-        authentication: hubRequestOptions.authentication,
+        authentication: updateSiteOptions.authentication,
         params: { clearEmptyFields: true }
       });
     })

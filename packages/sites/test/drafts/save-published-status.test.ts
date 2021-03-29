@@ -2,7 +2,7 @@ import { savePublishedStatus, UNPUBLISHED_CHANGES_KW } from "../../src/drafts";
 import * as pagesModule from "../../src/pages";
 import * as updateSiteModule from "../../src/update-site";
 import { getSiteItemType, getPageItemType } from "../../src";
-import { IHubRequestOptions, IModel } from "@esri/hub-common";
+import { IHubRequestOptions, IModel, cloneObject } from "@esri/hub-common";
 
 describe("savePublishedStatus", () => {
   const ro = {
@@ -36,25 +36,36 @@ describe("savePublishedStatus", () => {
     );
   });
 
-  it("saves the published status of a site", async () => {
+  it("saves the draft status of a site", async () => {
     await savePublishedStatus(siteModel, ro);
+    expect(updateSiteSpy).toHaveBeenCalledWith(siteModel, {
+      ...ro,
+      allowList: ["item.typeKeywords"],
+      updateVersions: false
+    });
+    expect(updatePageSpy).not.toHaveBeenCalled();
+  });
 
-    expect(updateSiteSpy).toHaveBeenCalledWith(
-      siteModel,
-      ["item.typeKeywords"],
-      ro
-    );
+  it("saves the published status of a site", async () => {
+    const cloned = cloneObject(siteModel);
+    cloned.item.typeKeywords = [];
+    await savePublishedStatus(cloned, ro);
+
+    expect(updateSiteSpy).toHaveBeenCalledWith(cloned, {
+      ...ro,
+      allowList: ["item.typeKeywords"],
+      updateVersions: true
+    });
     expect(updatePageSpy).not.toHaveBeenCalled();
   });
 
   it("saves the published status of a page", async () => {
     await savePublishedStatus(pageModel, ro);
 
-    expect(updatePageSpy).toHaveBeenCalledWith(
-      pageModel,
-      ["item.typeKeywords"],
-      ro
-    );
+    expect(updatePageSpy).toHaveBeenCalledWith(pageModel, {
+      ...ro,
+      allowList: ["item.typeKeywords"]
+    });
     expect(updateSiteSpy).not.toHaveBeenCalled();
   });
 

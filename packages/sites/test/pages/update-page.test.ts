@@ -36,7 +36,12 @@ describe("updatePage", () => {
   it("updates the page", async () => {
     const getModelSpy = spyOn(commonModule, "getModel");
 
-    await updatePage(cloneObject(model), [], ro);
+    const updateSiteOptions = {
+      ...ro,
+      allowList: [] as string[]
+    };
+
+    await updatePage(cloneObject(model), updateSiteOptions);
 
     // model not fetched from ago when patchList empty
     expect(getModelSpy).not.toHaveBeenCalled();
@@ -77,10 +82,15 @@ describe("updatePage", () => {
       Promise.resolve(modelInAGO)
     );
 
-    await updatePage(cloneObject(model), ["item.title"], ro);
+    const updateSiteOptions = {
+      ...ro,
+      allowList: ["item.title"]
+    };
+
+    await updatePage(cloneObject(model), updateSiteOptions);
 
     // model fetched from ago when patchList not empty
-    expect(getModelSpy).toHaveBeenCalledWith("page-id", ro);
+    expect(getModelSpy).toHaveBeenCalledWith("page-id", updateSiteOptions);
     expect(updateSpy).toHaveBeenCalled();
 
     const savedItem = updateSpy.calls.argsFor(0)[0].item;
@@ -92,22 +102,10 @@ describe("updatePage", () => {
     );
   });
 
-  it("handles old call signature", async () => {
-    const getModelSpy = spyOn(commonModule, "getModel").and.returnValue(
-      Promise.resolve({})
-    );
-
-    await updatePage(cloneObject(model), ro);
-
-    // model not fetched from ago when patchList empty
-    expect(getModelSpy).not.toHaveBeenCalled();
-    expect(updateSpy).toHaveBeenCalled();
-  });
-
   it("doesnt remove unused resources if update failed", async () => {
     updateSpy.and.returnValue(Promise.resolve({ success: false }));
 
-    await updatePage(cloneObject(model), [], ro);
+    await updatePage(cloneObject(model), ro);
 
     expect(updateSpy).toHaveBeenCalled();
   });
