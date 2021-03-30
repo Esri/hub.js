@@ -254,12 +254,3 @@ export function getContent(
 
   return getContentPromise;
 }
-
-// TODO: remove this next breaking version
-/**
- * @returns not much
- * @restlink https://developers.arcgis.com/rest/
- */
-export function comingSoon(): Promise<any> {
-  return request("https://www.arcgis.com/sharing/rest/info");
-}
