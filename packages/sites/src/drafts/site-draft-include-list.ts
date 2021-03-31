@@ -5,6 +5,7 @@
 export const SITE_DRAFT_INCLUDE_LIST = [
   "item.title",
   "item.snippet",
+  "item.properties.schemaVersion",
   "data.values.layout",
   "data.values.theme",
   "data.values.headerCss",
