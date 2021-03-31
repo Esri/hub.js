@@ -9,7 +9,7 @@ describe("fetchDraft", () => {
   const draftName = "draft-12345678.json";
   const siteDraft = ({
     item: {},
-    data: { values: { capabilities: [] } }
+    data: { values: { capabilities: [], theme: {} } }
   } as unknown) as IDraft;
   const pageDraft = ({ item: {}, data: { values: {} } } as unknown) as IDraft;
 
