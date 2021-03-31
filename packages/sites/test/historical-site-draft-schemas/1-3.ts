@@ -1,6 +1,21 @@
-import { IDraft } from "@esri/hub-common";
+import { IDraft } from "@esri/hub-common/src";
 
-export const draftModelOneThree = {
+export const oneThreeSiteDraftIncludeList = [
+  "item.title",
+  "item.snippet",
+  "data.values.layout",
+  "data.values.theme",
+  "data.values.headerCss",
+  "data.values.headerSass",
+  "data.values.footerSass",
+  "data.values.footerCss",
+  "data.values.faviconUrl",
+  "data.values.gacode",
+  "data.values.map",
+  "data.values.capabilities"
+];
+
+export const draftModelOneThree: IDraft = {
   item: {
     title: "tate-test-5",
     snippet:
@@ -961,4 +976,4 @@ export const draftModelOneThree = {
       ]
     }
   }
-} as IDraft;
+};
