@@ -37,8 +37,7 @@ function validateContentFromDataset(
     "url",
     "access",
     "size",
-    "commentsEnabled",
-    "contentStatus"
+    "commentsEnabled"
     // TODO: what about the others that will be undefined?
   ];
   // should have set item properties
@@ -50,7 +49,6 @@ function validateContentFromDataset(
   expect(content.name).toBe(attributes.name);
   // should include derived properties
   expect(content.hubId).toBe(id);
-  expect(content.spatialReference).toEqual(attributes.serviceSpatialReference);
   const extent = attributes.extent;
   expect(content.extent).toEqual(extent && extent.coordinates);
   expect(content.hubType).toBe(expectedHubType);
@@ -73,10 +71,7 @@ function validateContentFromDataset(
   expect(content.boundary).toEqual(attributes.boundary);
   expect(content.groupIds).toEqual(attributes.groupIds);
   expect(content.metadata).toEqual(attributes.metadata);
-  expect(content.license).toEqual({
-    name: "Custom License",
-    description: attributes.accessInformation
-  });
+  expect(content.license.name).toEqual("Custom License");
   const createdDate = new Date(attributes.created);
   expect(content.createdDate).toEqual(createdDate);
   expect(content.createdDateSource).toEqual("item.created");
@@ -168,25 +163,33 @@ describe("hub", () => {
         featureLayerJson
       );
       fetchMock.once(
-        "https://vader.maps.arcgis.com/sharing/rest/content/items/7a153563b0c74f7eb2b3eae8a66f2fbb_0?f=json&token=fake-token",
+        "https://vader.maps.arcgis.com/sharing/rest/content/items/7a153563b0c74f7eb2b3eae8a66f2fbb?f=json&token=fake-token",
         itemJson
       );
       const dataset = featureLayerJson.data as DatasetResource;
-      const id = dataset.id;
-      getContentFromHub(id, requestOpts).then(content => {
+      const datasetId = dataset.id;
+      const itemId = parseDatasetId(datasetId).itemId;
+      getContentFromHub(datasetId, requestOpts).then(content => {
         // verify that we attempted to fetch from the portal API
         let [url, opts] = fetchMock.calls()[0];
-        expect(url).toBe(`https://some.url.com/api/v3/datasets/${id}`);
+        expect(url).toBe(`https://some.url.com/api/v3/datasets/${datasetId}`);
         expect(opts.method).toBe("GET");
 
         // verify that we attempted to fetch from the AGO API
         [url, opts] = fetchMock.calls()[1];
         expect(url).toBe(
-          `https://vader.maps.arcgis.com/sharing/rest/content/items/${id}?f=json&token=fake-token`
+          `https://vader.maps.arcgis.com/sharing/rest/content/items/${itemId}?f=json&token=fake-token`
         );
         expect(opts.method).toBe("GET");
 
         validateContentFromDataset(content, dataset, "dataset");
+
+        // since we are authed, we will fetch the item and get this stuff from it
+        expect(content.contentStatus).toEqual("org_authoritative");
+        expect(content.spatialReference as string).toEqual(
+          itemJson.spatialReference
+        );
+
         // TODO: content type specific properties
         // expect(content.recordCount).toBe(attributes.recordCount);
         done();
@@ -210,6 +213,13 @@ describe("hub", () => {
         expect(fetchMock.calls().length).toBe(1);
 
         validateContentFromDataset(content, dataset, "dataset");
+
+        // since we are not authed, we will get this stuff from the hub api response
+        expect(content.contentStatus).toEqual("public_authoritative");
+        expect(content.spatialReference).toEqual(
+          dataset.attributes.serviceSpatialReference
+        );
+
         // TODO: content type specific properties
         // expect(content.recordCount).toBe(attributes.recordCount);
         done();
@@ -226,11 +236,11 @@ describe("hub", () => {
         featureLayersJson
       );
       fetchMock.once(
-        "https://vader.maps.arcgis.com/sharing/rest/content/items/7a153563b0c74f7eb2b3eae8a66f2fbb_0?f=json&token=fake-token",
+        "https://vader.maps.arcgis.com/sharing/rest/content/items/7a153563b0c74f7eb2b3eae8a66f2fbb?f=json&token=fake-token",
         itemJson
       );
       const dataset = featureLayersJson.data[0] as DatasetResource;
-      const id = dataset.id;
+      const ItemId = parseDatasetId(dataset.id).itemId;
       const slug = "Wigan::out-of-work-benefit-claims";
       getContentFromHub(slug, requestOpts).then(content => {
         // verify that we attempted to fetch from the portal API
@@ -245,11 +255,18 @@ describe("hub", () => {
         // verify that we attempted to fetch from the AGO API
         [url, opts] = fetchMock.calls()[1];
         expect(url).toBe(
-          `https://vader.maps.arcgis.com/sharing/rest/content/items/${id}?f=json&token=fake-token`
+          `https://vader.maps.arcgis.com/sharing/rest/content/items/${ItemId}?f=json&token=fake-token`
         );
         expect(opts.method).toBe("GET");
 
         validateContentFromDataset(content, dataset, "dataset");
+
+        // since we are authed, we will fetch the item and get this stuff from it
+        expect(content.contentStatus).toEqual("org_authoritative");
+        expect(content.spatialReference as string).toEqual(
+          itemJson.spatialReference
+        );
+
         // TODO: content type specific properties
         // expect(content.recordCount).toBe(attributes.recordCount);
         done();

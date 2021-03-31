@@ -30,7 +30,16 @@
   "snippet": "Percentage claimants of out of work benefit",
   "thumbnail": "thumbnail/census.JPG",
   "documentation": null,
-  "extent": [[-2.732, 53.4452], [-2.4139, 53.6093]],
+  "extent": [
+    [
+      -2.732,
+      53.4452
+    ],
+    [
+      -2.4139,
+      53.6093
+    ]
+  ],
   "categories": [],
   "spatialReference": "27700",
   "accessInformation": null,
@@ -54,5 +63,6 @@
   "avgRating": 0,
   "numViews": 165,
   "scoreCompleteness": 91,
-  "groupDesignations": null
+  "groupDesignations": null,
+  "contentStatus": "org_authoritative"
 }

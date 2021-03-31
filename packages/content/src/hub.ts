@@ -27,6 +27,30 @@ export type DatasetResource = ResourceObject<
   }
 >;
 
+// properties to overwrite on the hub api response with the value from the ago api response
+const itemOverrides = [
+  "contentStatus",
+  "spatialReference",
+  "accessInformation",
+  "proxyFilter",
+  "appCategories",
+  "industries",
+  "languages",
+  "largeThumbnail",
+  "banner",
+  "screenshots",
+  "listed",
+  "ownerFolder",
+  "protected",
+  "commentsEnabled",
+  "numComments",
+  "numRatings",
+  "avgRating",
+  "numViews",
+  "itemControl",
+  "scoreCompleteness"
+];
+
 /**
  * Fetch a dataset resource with the given ID from the Hub API
  *
@@ -59,15 +83,16 @@ export function getContentFromHub(
         // we fetch the item - this is because if an item is contentStatus: org_authoritative
         // we do not get that info unless we are authed in the org
         // see https://devtopia.esri.com/dc/hub/issues/53#issuecomment-2769965
-        return getItem(dataset.id, options).then(item => {
-          const itemOverrides = ["contentStatus"];
-          dataset.attributes = mergeObjects(
-            item,
-            dataset.attributes,
-            itemOverrides
-          );
-          return dataset;
-        });
+        return getItem(parseDatasetId(dataset.id).itemId, options).then(
+          item => {
+            dataset.attributes = mergeObjects(
+              item,
+              dataset.attributes,
+              itemOverrides
+            );
+            return dataset;
+          }
+        );
       } else {
         return dataset;
       }
