@@ -1,9 +1,10 @@
 import { ResourceObject } from "jsonapi-typescript";
-import { IItem } from "@esri/arcgis-rest-portal";
+import { IItem, getItem } from "@esri/arcgis-rest-portal";
 import {
   IHubContent,
   IHubRequestOptions,
-  hubApiRequest
+  hubApiRequest,
+  mergeObjects
 } from "@esri/hub-common";
 import { itemToContent, withPortalUrls } from "./portal";
 import { isSlug, addContextToSlug, parseDatasetId } from "./slugs";
@@ -51,9 +52,29 @@ export function getContentFromHub(
       resp => resp && resp.data
     );
   }
-  return request.then((dataset: any) => {
-    return dataset && withPortalUrls(datasetToContent(dataset), options);
-  });
+  return request
+    .then((dataset: any) => {
+      // only if authed
+      if (dataset && options.authentication) {
+        // we fetch the item - this is because if an item is contentStatus: org_authoritative
+        // we do not get that info unless we are authed in the org
+        // see https://devtopia.esri.com/dc/hub/issues/53#issuecomment-2769965
+        return getItem(dataset.id, options).then(item => {
+          const itemOverrides = ["contentStatus"];
+          dataset.attributes = mergeObjects(
+            item,
+            dataset.attributes,
+            itemOverrides
+          );
+          return dataset;
+        });
+      } else {
+        return dataset;
+      }
+    })
+    .then((dataset: any) => {
+      return dataset && withPortalUrls(datasetToContent(dataset), options);
+    });
 }
 
 /**
