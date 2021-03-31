@@ -125,6 +125,7 @@
     "gen-util": "yo ./scaffolder/index.js",
     "precommit": "node exit-if-no-staged.js && lint-staged",
     "bootstrap": "lerna bootstrap --hoist",
+    "postinstall": "npm run bootstrap",
     "prerelease:prepare": "git fetch --all && npm run clean:dist && npm run build && npm test",
     "release:prepare": "lerna publish --skip-git --skip-npm --yes && node ./support/changelog.js",
     "release:review": "git --no-pager diff --word-diff",
