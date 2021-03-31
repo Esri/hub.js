@@ -2,6 +2,7 @@
   "name": "@esri/hub.js",
   "version": "7.3.2",
   "description": "compact, modular JavaScript wrappers for ArcGIS Hub that run in Node.js and modern browsers.",
+  "private": true,
   "devDependencies": {
     "@rollup/plugin-commonjs": "^15.0.0",
     "@rollup/plugin-json": "^4.1.0",
