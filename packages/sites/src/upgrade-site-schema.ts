@@ -19,7 +19,7 @@ export function upgradeSiteSchema(model: IModel) {
     model = _enforceLowercaseDomains(model);
     model = _ensureCatalog(model);
     model = _purgeNonGuidsFromCatalog(model);
-    model = _ensureTelemetry(model);
+    model = _ensureTelemetry<IModel>(model);
     return model;
   }
 }

@@ -71,7 +71,13 @@ describe("upgradeSiteSchema", () => {
     upgradeSiteSchema(model);
 
     expectAll(
-      [applySpy, enforceLowercaseSpy, ensureCatalogSpy, purgeNonGuidsSpy],
+      [
+        applySpy,
+        enforceLowercaseSpy,
+        ensureCatalogSpy,
+        purgeNonGuidsSpy,
+        ensureTelemetrySpy
+      ],
       "toHaveBeenCalled",
       false,
       expect

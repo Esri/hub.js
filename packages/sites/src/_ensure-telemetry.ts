@@ -1,4 +1,11 @@
-import { IModel, getProp, deleteProp, cloneObject } from "@esri/hub-common";
+import {
+  IModel,
+  getProp,
+  setProp,
+  deleteProp,
+  cloneObject,
+  IDraft
+} from "@esri/hub-common";
 
 /**
  * Add telemetry config object
@@ -6,7 +13,7 @@ import { IModel, getProp, deleteProp, cloneObject } from "@esri/hub-common";
  * @param {object} model Site Model
  * @returns {object}
  */
-export function _ensureTelemetry(model: IModel) {
+export function _ensureTelemetry<T extends IModel | IDraft>(model: T): T {
   if (getProp(model, "item.properties.schemaVersion") >= 1.4) return model;
   const clone = cloneObject(model);
   const gacode = getProp(clone, "data.values.gacode");
@@ -26,6 +33,7 @@ export function _ensureTelemetry(model: IModel) {
     }
   };
   deleteProp(clone, "data.values.gacode");
-  clone.item.properties.schemaVersion = 1.4;
+
+  setProp("item.properties.schemaVersion", 1.4, clone);
   return clone;
 }

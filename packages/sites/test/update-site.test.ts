@@ -1,15 +1,16 @@
-import { updateSite } from "../src";
+import * as getSiteByIdModule from "../src/get-site-by-id";
 import { SITE_ITEM_RESPONSE, SITE_DATA_RESPONSE } from "./site-responses.test";
 import * as commonModule from "@esri/hub-common";
 import * as portalModule from "@esri/arcgis-rest-portal";
+import { updateSite } from "../src";
 
 describe("update site", function() {
-  let getModelSpy: jasmine.Spy;
+  let getSiteByIdSpy: jasmine.Spy;
   let updateSpy: jasmine.Spy;
   let localSite: commonModule.IModel;
 
   beforeEach(() => {
-    getModelSpy = spyOn(commonModule, "getModel").and.returnValue(
+    getSiteByIdSpy = spyOn(getSiteByIdModule, "getSiteById").and.returnValue(
       Promise.resolve({
         item: SITE_ITEM_RESPONSE,
         data: SITE_DATA_RESPONSE
@@ -47,7 +48,7 @@ describe("update site", function() {
     const result = await updateSite(localSite, updateSiteOptions);
 
     // Model should be fetched when allow-list is passed in
-    expect(getModelSpy).toHaveBeenCalledWith(
+    expect(getSiteByIdSpy).toHaveBeenCalledWith(
       localSite.item.id,
       updateSiteOptions
     );
@@ -85,7 +86,7 @@ describe("update site", function() {
     const result = await updateSite(localSite, updateSiteOptions);
 
     // Model should be fetched when allow-list is passed in
-    expect(getModelSpy).toHaveBeenCalledWith(
+    expect(getSiteByIdSpy).toHaveBeenCalledWith(
       localSite.item.id,
       updateSiteOptions
     );
@@ -126,7 +127,7 @@ describe("update site", function() {
     expect(result.success).toBeTruthy("should return sucess");
 
     // Model should NOT be fetched when allow-list is NOT passed in
-    expect(getModelSpy).not.toHaveBeenCalled();
+    expect(getSiteByIdSpy).not.toHaveBeenCalled();
     expect(updateSpy).toHaveBeenCalled();
     const updateItem = updateSpy.calls.argsFor(0)[0].item;
     const updateParams = updateSpy.calls.argsFor(0)[0].params;

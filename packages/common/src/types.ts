@@ -20,7 +20,10 @@ export interface IModel {
   [key: string]: any;
 }
 
-export type IDraft = Partial<IModel>;
+export interface IDraft {
+  item: Partial<IItem>;
+  data: any;
+}
 
 /**
  * Defined the Initiative Item as having
