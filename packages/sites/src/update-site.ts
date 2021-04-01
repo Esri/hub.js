@@ -3,13 +3,13 @@ import {
   IUpdateSiteOptions,
   deepSet,
   getProp,
-  getModel,
   mergeObjects,
   serializeModel
 } from "@esri/hub-common";
 import { SITE_UI_VERSION } from "./site-ui-version";
 import { _ensurePortalDomainKeyword } from "./_ensure-portal-domain-keyword";
 import { updateItem, IUpdateItemResponse } from "@esri/arcgis-rest-portal";
+import { getSiteById } from "./get-site-by-id";
 
 /**
  * Update an existing site item
@@ -65,7 +65,7 @@ export function updateSite(
   let agoModelPromise;
   // if we have a allowList, refetch the site to check for changes...
   if (allowList.length) {
-    agoModelPromise = getModel(model.item.id, updateSiteOptions);
+    agoModelPromise = getSiteById(model.item.id, updateSiteOptions);
   } else {
     // if we dont have a allowList, just resolve with the model we have
     agoModelPromise = Promise.resolve(model);
