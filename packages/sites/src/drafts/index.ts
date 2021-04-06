@@ -15,3 +15,4 @@ export * from "./fetch-draft";
 export * from "./apply-draft";
 export * from "./fetch-and-apply-draft";
 export * from "./get-draft-date";
+export * from "./upgrade-draft-schema";

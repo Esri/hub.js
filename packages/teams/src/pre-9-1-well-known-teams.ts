@@ -9,17 +9,15 @@ import { IGroupTemplate } from "./types";
  * This allows us to add/remove/edit groups by simply modifying this hash
  * instead of spreading complex construction logic all over the application
  */
-export const WELLKNOWNTEAMS: IGroupTemplate[] = [
+// TODO: remove after May 1st, 2021 as unneeded
+export const PRE_9_1_WELLKNOWNTEAMS: IGroupTemplate[] = [
   {
     config: {
       groupType: "Hub Collaboration Group",
       type: "core",
       availableIn: ["premium"],
       propertyName: "collaborationGroupId",
-      requiredPrivs: [
-        "portal:admin:createUpdateCapableGroup",
-        "portal:user:addExternalMembersToGroup"
-      ],
+      requiredPrivs: ["portal:admin:createUpdateCapableGroup"],
       titleI18n: "collaborationTitle",
       descriptionI18n: "collaborationDesc",
       snippetI18n: "collaborationSnippet"
@@ -31,7 +29,6 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
     sortField: "modified",
     sortOrder: "desc",
     capabilities: "updateitemcontrol",
-    membershipAccess: "collaboration",
     _edit_privacy: "on",
     _edit_contributors: "on",
     tags: [
@@ -100,10 +97,7 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
       type: "content",
       availableIn: ["premium"],
       propertyName: "contentGroupId",
-      requiredPrivs: [
-        "portal:user:createGroup",
-        "portal:user:addExternalMembersToGroup"
-      ],
+      requiredPrivs: ["portal:user:createGroup"],
       titleI18n: "contentTitle",
       descriptionI18n: "contentDesc",
       snippetI18n: "contentSnippet"
@@ -114,7 +108,6 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
     isViewOnly: false,
     sortField: "modified",
     sortOrder: "desc",
-    membershipAccess: "collaboration",
     tags: [
       "Hub Group",
       "Hub Content Group",
@@ -167,10 +160,7 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
       type: "followers",
       availableIn: ["premium"],
       propertyName: "followersGroupId",
-      requiredPrivs: [
-        "portal:user:createGroup",
-        "portal:user:addExternalMembersToGroup"
-      ],
+      requiredPrivs: ["portal:user:createGroup"],
       titleI18n: "followersTitle",
       descriptionI18n: "followersDesc",
       snippetI18n: "followersSnippet"
@@ -182,7 +172,6 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
     notificationsEnabled: true,
     sortField: "title",
     sortOrder: "asc",
-    membershipAccess: "",
     tags: [
       "Hub Group",
       "Hub Initiative Followers Group",
@@ -212,10 +201,7 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
       groupType: "Generic AGO Initiative Team",
       type: "team",
       availableIn: ["premium"],
-      requiredPrivs: [
-        "portal:user:createGroup",
-        "portal:user:addExternalMembersToGroup"
-      ],
+      requiredPrivs: ["portal:user:createGroup"],
       titleI18n: "teamTitle",
       descriptionI18n: "teamDesc",
       snippetI18n: "teamSnippet"
@@ -226,7 +212,6 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
     isViewOnly: false,
     sortField: "modified",
     sortOrder: "desc",
-    membershipAccess: "",
     tags: ["Hub Team Group"]
   },
   {
@@ -252,10 +237,7 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
       groupType: "Generic Event Team",
       type: "event",
       availableIn: ["premium"],
-      requiredPrivs: [
-        "portal:user:createGroup",
-        "portal:user:addExternalMembersToGroup"
-      ],
+      requiredPrivs: ["portal:user:createGroup"],
       titleI18n: "eventTeamTitle",
       descriptionI18n: "eventTeamDesc",
       snippetI18n: "eventTeamSnippet"
@@ -266,7 +248,6 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
     isViewOnly: false,
     sortField: "title",
     sortOrder: "asc",
-    membershipAccess: "",
     tags: ["Hub Group", "Hub Event Group", "Hub Initiative Group"]
   }
 ];

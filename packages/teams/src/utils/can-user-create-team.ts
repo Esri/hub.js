@@ -20,8 +20,10 @@ export function canUserCreateTeam(
   } else {
     const product = getHubProduct(hubRequestOptions.portalSelf);
     // get all the groups the user can create in this product...
-    return getUserCreatableTeams(user, product).some(
-      t => t.config.type === hubTeamType
-    );
+    return getUserCreatableTeams(
+      user,
+      product,
+      hubRequestOptions.portalSelf.currentVersion
+    ).some(t => t.config.type === hubTeamType);
   }
 }

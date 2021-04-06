@@ -1,7 +1,8 @@
 {
   "name": "@esri/hub.js",
-  "version": "7.3.0",
+  "version": "8.2.0",
   "description": "compact, modular JavaScript wrappers for ArcGIS Hub that run in Node.js and modern browsers.",
+  "private": true,
   "devDependencies": {
     "@rollup/plugin-commonjs": "^15.0.0",
     "@rollup/plugin-json": "^4.1.0",
@@ -125,6 +126,7 @@
     "gen-util": "yo ./scaffolder/index.js",
     "precommit": "node exit-if-no-staged.js && lint-staged",
     "bootstrap": "lerna bootstrap --hoist",
+    "postinstall": "npm run bootstrap",
     "prerelease:prepare": "git fetch --all && npm run clean:dist && npm run build && npm test",
     "release:prepare": "lerna publish --skip-git --skip-npm --yes && node ./support/changelog.js",
     "release:review": "git --no-pager diff --word-diff",

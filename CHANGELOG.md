@@ -5,20 +5,65 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [7.3.0] - March 16th 2021
+## [8.2.0] - April 2nd 2021
 
 ### Other Changes
 
 * New Features
-  * **hub-downloads**: add disabled download state
-  [`2b4874a4`](https://github.com/Esri/hub.js/commit/2b4874a4b7a93836c803008ce14921324db38b30)
+   * **hub-common**: adds a setProp utility [`c6290e69`](https://github.com/Esri/hub.js/commit/c6290e690d4e1b6acc6e96293219f2a3d36a4d86)
+   * **site drafts**: site drafts will now contain a schema version [`963d11fd`](https://github.com/Esri/hub.js/commit/963d11fd62b2debe0d03fdc11f3a3c1acf5854e6)
+* Bug Fixes
+   * **site drafts**: applying schema migrations to site drafts [`aa4a03ae`](https://github.com/Esri/hub.js/commit/aa4a03ae9bc55d5358378cb29008c6a87be584a5) [#498](https://github.com/Esri/hub.js/issues/498)
+   * **update-site**: update site runs migrations on the site model before performing a &amp;quot;patch&amp;quot; [`08a57943`](https://github.com/Esri/hub.js/commit/08a579432adf77120fe00826b0f16046850716ef)
+
+## [8.1.0] - March 31st 2021
+
+### Other Changes
+
+* New Features
+   * **content**: getContent now always fetches the item from the AGO API when authenticated [`50c7f414`](https://github.com/Esri/hub.js/commit/50c7f41406601aed95e4cf52dc8c15353aedf8f7)
+
+## [8.0.0] - March 29th 2021
+
+### Other Changes
+
+* Breaking Changes
+   * **content**: remove comingSoon() [`4d435545`](https://github.com/Esri/hub.js/commit/4d4355453b06d3b8fd1afe700ee22ecaa835d9e2)
+   * **common**: remmove getType() [`66be1efa`](https://github.com/Esri/hub.js/commit/66be1efa611e2bcca1e21a35dbba421ad9847c3c)
+   * **sites**: remove no-op fns for un/linkig sites &amp;amp;amp; pages [`40e47c1a`](https://github.com/Esri/hub.js/commit/40e47c1aeb9b904c1ebbe847ad029c680d47d16b)
+   * **sites**: move `updateSite()`&#39;s `allowList` tp options [496](https://github.com/Esri/hub.js/pull/496)
+   * **sites**: move `updatePage()`&#39;s `maybePatchList` to `options.allowList` [496](https://github.com/Esri/hub.js/pull/496)
+* Bug Fixes
+   * **Site drafts and migrations**: do not update schemaVersion when updating publish status when creat [`19db57fc`](https://github.com/Esri/hub.js/commit/19db57fc6ae1bf295f5c040c6cadd1301a539083)
+
+## [7.3.2] - March 25th 2021
+
+### Other Changes
+
+- Bug Fixes
+  - **hub teams package**: ensure `canUserCreateTeamInProduct` checks if the current user has &amp;gt;507 groups, and returns false if they do. Since these checks will run before the teams are created, and the max anticipated teams that would be created in a single operation would be 5, and the max number of groups is 512, we chose 507 as the cut-off. [`e27fdb4`](https://github.com/Esri/hub.js/pull/495/commits/e27fdb442854b0aff5394bd84a9f3f89fd7d1435)
+
+## [7.3.1] - March 24th 2021
+
+### Other Changes
+
+- Bug Fixes
+  - **hub teams package**: update well known teams to account for 9.1 online changes around permissions [`2b686893`](https://github.com/Esri/hub.js/commit/2b686893a7fa42c1c7225c55c83e8e98fe83c1c3)
+
+## [7.3.0] - March 16th 2021
+
+### Other Changes
+
+- New Features
+  - **hub-downloads**: add disabled download state
+    [`2b4874a4`](https://github.com/Esri/hub.js/commit/2b4874a4b7a93836c803008ce14921324db38b30)
 
 ## [7.2.0] - March 15th 2021
 
 ### Other Changes
 
-* New Features
-   * **everything**: distribute es2017 build [`9755530a`](https://github.com/Esri/hub.js/commit/9755530a3fc3ed9b3578626eabfff6144f98115f) [#488](https://github.com/Esri/hub.js/issues/488)
+- New Features
+  - **everything**: distribute es2017 build [`9755530a`](https://github.com/Esri/hub.js/commit/9755530a3fc3ed9b3578626eabfff6144f98115f) [#488](https://github.com/Esri/hub.js/issues/488)
 
 ## [7.1.1] - March 9th 2021
 
@@ -45,7 +90,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [7.0.8] - February 24th 2021
 
 - Bug Fixes
-  - **downloadss**: Alter `typekeywords` for item and layer index so that search queries don&amp;amp;amp;amp;amp;#39;t fail for datasets with layer index `1` (#472) [`19da868`](https://github.com/Esri/hub.js/commit/19da86833a91dd007384ef1887081e17568c9e9e)
+  - **downloadss**: Alter `typekeywords` for item and layer index so that search queries don&amp;amp;amp;amp;amp;amp;amp;amp;#39;t fail for datasets with layer index `1` (#472) [`19da868`](https://github.com/Esri/hub.js/commit/19da86833a91dd007384ef1887081e17568c9e9e)
 
 ## [7.0.7] - February 22nd 2021
 
@@ -362,13 +407,13 @@ Attempt to address failed release
 ### @esri/hub-content
 
 - Bug Fixes
-  - **normalizeItemType**: getType =&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
+  - **normalizeItemType**: getType =&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
   - **collections**: add template collection, getHubItemType only accepts items [`57b783a2`](https://github.com/Esri/hub.js/commit/57b783a242b7a2747db0dbc7fce57155c56ad93f) [#347](https://github.com/Esri/hub.js/issues/347) [#354](https://github.com/Esri/hub.js/issues/354)
 
 ### @esri/hub-sites
 
 - Bug Fixes
-  - **normalizeItemType**: getType =&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
+  - **normalizeItemType**: getType =&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
 
 ### Other Changes
 
@@ -1312,11 +1357,6 @@ Attempt to address failed release
 
 Initial Release
 
-## &amp;amp;amp;amp;amp;lt;&amp;amp;amp;amp;amp;lt;&amp;amp;amp;amp;amp;lt;&amp;amp;amp;amp;amp;lt;&amp;amp;amp;amp;amp;lt;&amp;amp;amp;amp;amp;lt;&amp;amp;amp;amp;amp;lt; HEAD
-
-&amp;amp;amp;amp;amp;gt; &amp;amp;amp;amp;amp;gt; &amp;amp;amp;amp;amp;gt; &amp;amp;amp;amp;amp;gt; &amp;amp;amp;amp;amp;gt; &amp;amp;amp;amp;amp;gt; &amp;amp;amp;amp;amp;gt; b939cf0e (v7.0.7)
-&amp;amp;amp;amp;amp;gt; &amp;amp;amp;amp;amp;gt; &amp;amp;amp;amp;amp;gt; &amp;amp;amp;amp;amp;gt; &amp;amp;amp;amp;amp;gt; &amp;amp;amp;amp;amp;gt; &amp;amp;amp;amp;amp;gt; [HEAD]: https://github.com/Esri/hub.js/compare/v7.0.7...HEAD &amp;amp;amp;amp;amp;quot;Unreleased Changes&amp;amp;amp;amp;amp;quot;
-
 []: https://github.com/Esri/hub.js/compare/48be7ee38cd92cd342565215304f2a2979b1f822...v "v"
 [1.0.0]: https://github.com/Esri/hub.js/compare/v...v1.0.0 "v1.0.0"
 [1.0.1]: https://github.com/Esri/hub.js/compare/v1.0.0...v1.0.1 "v1.0.1"
@@ -1375,21 +1415,27 @@ Initial Release
 [3.6.6]: https://github.com/Esri/hub.js/compare/v3.6.5...v3.6.6 "v3.6.6"
 [3.6.7]: https://github.com/Esri/hub.js/compare/v3.6.6...v3.6.7 "v3.6.7"
 [3.6.8]: https://github.com/Esri/hub.js/compare/v3.6.7...v3.6.8 "v3.6.8"
-[3.7.0]: https://github.com/Esri/hub.js/compare/v3.6.8...v3.7.0 "v3.7.0"
+[3.6.9]: https://github.com/Esri/hub.js/compare/v3.6.8...v3.6.9 "v3.6.9"
+[3.7.0]: https://github.com/Esri/hub.js/compare/v3.6.9...v3.7.0 "v3.7.0"
 [3.7.1]: https://github.com/Esri/hub.js/compare/v3.7.0...v3.7.1 "v3.7.1"
 [3.7.2]: https://github.com/Esri/hub.js/compare/v3.7.1...v3.7.2 "v3.7.2"
 [3.7.3]: https://github.com/Esri/hub.js/compare/v3.7.2...v3.7.3 "v3.7.3"
 [3.7.4]: https://github.com/Esri/hub.js/compare/v3.7.3...v3.7.4 "v3.7.4"
-[3.7.6]: https://github.com/Esri/hub.js/compare/v3.7.4...v3.7.6 "v3.7.6"
+[3.7.5]: https://github.com/Esri/hub.js/compare/v3.7.4...v3.7.5 "v3.7.5"
+[3.7.6]: https://github.com/Esri/hub.js/compare/v3.7.5...v3.7.6 "v3.7.6"
 [3.8.0]: https://github.com/Esri/hub.js/compare/v3.7.6...v3.8.0 "v3.8.0"
-[3.9.1]: https://github.com/Esri/hub.js/compare/v3.8.0...v3.9.1 "v3.9.1"
+[3.9.0]: https://github.com/Esri/hub.js/compare/v3.8.0...v3.9.0 "v3.9.0"
+[3.9.1]: https://github.com/Esri/hub.js/compare/v3.9.0...v3.9.1 "v3.9.1"
 [3.9.2]: https://github.com/Esri/hub.js/compare/v3.9.1...v3.9.2 "v3.9.2"
-[4.0.0]: https://github.com/Esri/hub.js/compare/v3.9.2...v4.0.0 "v4.0.0"
+[3.9.3]: https://github.com/Esri/hub.js/compare/v3.9.2...v3.9.3 "v3.9.3"
+[4.0.0]: https://github.com/Esri/hub.js/compare/v3.9.3...v4.0.0 "v4.0.0"
 [4.1.0]: https://github.com/Esri/hub.js/compare/v4.0.0...v4.1.0 "v4.1.0"
 [4.2.0]: https://github.com/Esri/hub.js/compare/v4.1.0...v4.2.0 "v4.2.0"
 [4.2.1]: https://github.com/Esri/hub.js/compare/v4.2.0...v4.2.1 "v4.2.1"
 [4.2.2]: https://github.com/Esri/hub.js/compare/v4.2.1...v4.2.2 "v4.2.2"
-[4.4.0]: https://github.com/Esri/hub.js/compare/v4.2.2...v4.4.0 "v4.4.0"
+[4.2.3]: https://github.com/Esri/hub.js/compare/v4.2.2...v4.2.3 "v4.2.3"
+[4.3.0]: https://github.com/Esri/hub.js/compare/v4.2.3...v4.3.0 "v4.3.0"
+[4.4.0]: https://github.com/Esri/hub.js/compare/v4.3.0...v4.4.0 "v4.4.0"
 [4.5.0]: https://github.com/Esri/hub.js/compare/v4.4.0...v4.5.0 "v4.5.0"
 [4.5.1]: https://github.com/Esri/hub.js/compare/v4.5.0...v4.5.1 "v4.5.1"
 [5.0.0]: https://github.com/Esri/hub.js/compare/v4.5.1...v5.0.0 "v5.0.0"
@@ -1403,9 +1449,11 @@ Initial Release
 [6.2.1]: https://github.com/Esri/hub.js/compare/v6.2.0...v6.2.1 "v6.2.1"
 [6.3.0]: https://github.com/Esri/hub.js/compare/v6.2.1...v6.3.0 "v6.3.0"
 [6.4.0]: https://github.com/Esri/hub.js/compare/v6.3.0...v6.4.0 "v6.4.0"
-[6.5.1]: https://github.com/Esri/hub.js/compare/v6.4.0...v6.5.1 "v6.5.1"
+[6.5.0]: https://github.com/Esri/hub.js/compare/v6.4.0...v6.5.0 "v6.5.0"
+[6.5.1]: https://github.com/Esri/hub.js/compare/v6.5.0...v6.5.1 "v6.5.1"
 [6.6.0]: https://github.com/Esri/hub.js/compare/v6.5.1...v6.6.0 "v6.6.0"
-[6.7.0]: https://github.com/Esri/hub.js/compare/v6.6.0...v6.7.0 "v6.7.0"
+[6.6.1]: https://github.com/Esri/hub.js/compare/v6.6.0...v6.6.1 "v6.6.1"
+[6.7.0]: https://github.com/Esri/hub.js/compare/v6.6.1...v6.7.0 "v6.7.0"
 [6.7.1]: https://github.com/Esri/hub.js/compare/v6.7.0...v6.7.1 "v6.7.1"
 [6.7.2]: https://github.com/Esri/hub.js/compare/v6.7.1...v6.7.2 "v6.7.2"
 [6.8.0]: https://github.com/Esri/hub.js/compare/v6.7.2...v6.8.0 "v6.8.0"
@@ -1416,7 +1464,8 @@ Initial Release
 [6.11.1]: https://github.com/Esri/hub.js/compare/v6.11.0...v6.11.1 "v6.11.1"
 [6.11.2]: https://github.com/Esri/hub.js/compare/v6.11.1...v6.11.2 "v6.11.2"
 [6.11.3]: https://github.com/Esri/hub.js/compare/v6.11.2...v6.11.3 "v6.11.3"
-[6.12.1]: https://github.com/Esri/hub.js/compare/v6.11.3...v6.12.1 "v6.12.1"
+[6.12.0]: https://github.com/Esri/hub.js/compare/v6.11.3...v6.12.0 "v6.12.0"
+[6.12.1]: https://github.com/Esri/hub.js/compare/v6.12.0...v6.12.1 "v6.12.1"
 [6.13.0]: https://github.com/Esri/hub.js/compare/v6.12.1...v6.13.0 "v6.13.0"
 [6.13.1]: https://github.com/Esri/hub.js/compare/v6.13.0...v6.13.1 "v6.13.1"
 [6.13.2]: https://github.com/Esri/hub.js/compare/v6.13.1...v6.13.2 "v6.13.2"
@@ -1431,7 +1480,8 @@ Initial Release
 [6.20.0]: https://github.com/Esri/hub.js/compare/v6.19.1...v6.20.0 "v6.20.0"
 [6.20.1]: https://github.com/Esri/hub.js/compare/v6.20.0...v6.20.1 "v6.20.1"
 [6.21.0]: https://github.com/Esri/hub.js/compare/v6.20.1...v6.21.0 "v6.21.0"
-[6.22.0]: https://github.com/Esri/hub.js/compare/v6.21.0...v6.22.0 "v6.22.0"
+[6.21.1]: https://github.com/Esri/hub.js/compare/v6.21.0...v6.21.1 "v6.21.1"
+[6.22.0]: https://github.com/Esri/hub.js/compare/v6.21.1...v6.22.0 "v6.22.0"
 [6.22.1]: https://github.com/Esri/hub.js/compare/v6.22.0...v6.22.1 "v6.22.1"
 [6.22.2]: https://github.com/Esri/hub.js/compare/v6.22.1...v6.22.2 "v6.22.2"
 [6.22.3]: https://github.com/Esri/hub.js/compare/v6.22.2...v6.22.3 "v6.22.3"
@@ -1441,12 +1491,19 @@ Initial Release
 [7.0.1]: https://github.com/Esri/hub.js/compare/v7.0.0...v7.0.1 "v7.0.1"
 [7.0.2]: https://github.com/Esri/hub.js/compare/v7.0.1...v7.0.2 "v7.0.2"
 [7.0.3]: https://github.com/Esri/hub.js/compare/v7.0.2...v7.0.3 "v7.0.3"
-[7.0.5]: https://github.com/Esri/hub.js/compare/v7.0.3...v7.0.5 "v7.0.5"
+[7.0.4]: https://github.com/Esri/hub.js/compare/v7.0.3...v7.0.4 "v7.0.4"
+[7.0.5]: https://github.com/Esri/hub.js/compare/v7.0.4...v7.0.5 "v7.0.5"
 [7.0.6]: https://github.com/Esri/hub.js/compare/v7.0.5...v7.0.6 "v7.0.6"
-[7.0.8]: https://github.com/Esri/hub.js/compare/v7.0.6...v7.0.8 "v7.0.8"
+[7.0.7]: https://github.com/Esri/hub.js/compare/v7.0.6...v7.0.7 "v7.0.7"
+[7.0.8]: https://github.com/Esri/hub.js/compare/v7.0.7...v7.0.8 "v7.0.8"
 [7.0.9]: https://github.com/Esri/hub.js/compare/v7.0.8...v7.0.9 "v7.0.9"
 [7.1.0]: https://github.com/Esri/hub.js/compare/v7.0.9...v7.1.0 "v7.1.0"
 [7.1.1]: https://github.com/Esri/hub.js/compare/v7.1.0...v7.1.1 "v7.1.1"
 [7.2.0]: https://github.com/Esri/hub.js/compare/v7.1.1...v7.2.0 "v7.2.0"
 [7.3.0]: https://github.com/Esri/hub.js/compare/v7.2.0...v7.3.0 "v7.3.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v7.3.0...HEAD "Unreleased Changes"
+[7.3.1]: https://github.com/Esri/hub.js/compare/v7.3.0...v7.3.1 "v7.3.1"
+[7.3.2]: https://github.com/Esri/hub.js/compare/v7.3.1...v7.3.2 "v7.3.2"
+[8.0.0]: https://github.com/Esri/hub.js/compare/v7.3.2...v8.0.0 "v8.0.0"
+[8.1.0]: https://github.com/Esri/hub.js/compare/v8.0.0...v8.1.0 "v8.1.0"
+[8.2.0]: https://github.com/Esri/hub.js/compare/v8.1.0...v8.2.0 "v8.2.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v8.2.0...HEAD "Unreleased Changes"

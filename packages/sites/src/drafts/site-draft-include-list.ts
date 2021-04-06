@@ -5,6 +5,7 @@
 export const SITE_DRAFT_INCLUDE_LIST = [
   "item.title",
   "item.snippet",
+  "item.properties.schemaVersion",
   "data.values.layout",
   "data.values.theme",
   "data.values.headerCss",
@@ -12,7 +13,7 @@ export const SITE_DRAFT_INCLUDE_LIST = [
   "data.values.footerSass",
   "data.values.footerCss",
   "data.values.faviconUrl",
-  "data.values.gacode",
+  "data.values.telemetry",
   "data.values.map",
   "data.values.capabilities"
 ];

@@ -20,7 +20,10 @@ export interface IModel {
   [key: string]: any;
 }
 
-export type IDraft = Partial<IModel>;
+export interface IDraft {
+  item: Partial<IItem>;
+  data: any;
+}
 
 /**
  * Defined the Initiative Item as having
@@ -371,4 +374,29 @@ export interface IOperation {
  */
 export interface ISerializedOperationStack {
   operations: IOperation[];
+}
+
+/**
+ * IUpdateSiteOptions
+ *
+ * Options for site updates
+ *
+ * @export
+ * @interface UpdateSiteOptions
+ */
+export interface IUpdateSiteOptions extends IHubRequestOptions {
+  updateVersions?: boolean;
+  allowList?: string[];
+}
+
+/**
+ * IUpdatePageOptions
+ *
+ * Options for page updates
+ *
+ * @export
+ * @interface UpdatePageOptions
+ */
+export interface IUpdatePageOptions extends IHubRequestOptions {
+  allowList?: string[];
 }

@@ -1,6 +1,6 @@
 import {
   IModel,
-  IHubRequestOptions,
+  IUpdatePageOptions,
   serializeModel,
   getModel,
   getProp,
@@ -11,7 +11,7 @@ import { updateItem, IUpdateItemResponse } from "@esri/arcgis-rest-portal";
 /**
  * Update a Page item
  * @param {Object} model Page Model
- * @param {IRequestOptions} requestOptions
+ * @param {IUpdatePageOptions} updateSiteOptions
  *
  * This function supports the equivalent of a PATCH REST operation
  * It will fetch the current item from ago, and then apply
@@ -22,27 +22,21 @@ import { updateItem, IUpdateItemResponse } from "@esri/arcgis-rest-portal";
  */
 export function updatePage(
   model: IModel,
-  maybePatchList: string[] | Record<string, any>,
-  maybeRequestOptions?: IHubRequestOptions
+  updateSiteOptions: IUpdatePageOptions
 ): Promise<IUpdateItemResponse> {
-  let patchList = maybePatchList as string[];
-  let requestOptions = maybeRequestOptions;
-
-  // support old call signature for now
-  if (!Array.isArray(maybePatchList)) {
-    patchList = [];
-    requestOptions = maybePatchList as IHubRequestOptions;
-  }
+  const patchList = Array.isArray(updateSiteOptions.allowList)
+    ? updateSiteOptions.allowList
+    : [];
 
   // store info about last update and who did it
   model.data.values.updatedAt = new Date().toISOString();
-  model.data.values.updatedBy = requestOptions.authentication.username;
+  model.data.values.updatedBy = updateSiteOptions.authentication.username;
   // nuke out the url property just for good measure
   model.item.url = "";
 
   let prms = Promise.resolve(model);
   if (patchList.length) {
-    prms = getModel(getProp(model, "item.id"), requestOptions);
+    prms = getModel(getProp(model, "item.id"), updateSiteOptions);
   }
 
   return prms.then(modelFromAGO => {
@@ -51,7 +45,10 @@ export function updatePage(
       model = mergeObjects(model, modelFromAGO, patchList);
     }
     // update it
-    const opts = Object.assign({ item: serializeModel(model) }, requestOptions);
+    const opts = Object.assign(
+      { item: serializeModel(model) },
+      updateSiteOptions
+    );
     opts.params = { clearEmptyFields: true };
     return updateItem(opts);
   });

@@ -1,6 +1,6 @@
 import { IUser } from "@esri/arcgis-rest-auth";
 import { hasAllPrivileges } from "./has-all-privileges";
-import { HubProduct, includes } from "@esri/hub-common";
+import { getProp, HubProduct, includes } from "@esri/hub-common";
 import { IGroupTemplate } from "../types";
 
 /**
@@ -17,8 +17,12 @@ export function canUserCreateTeamInProduct(
   template: IGroupTemplate
 ) {
   let result = false;
+  const userGroups = getProp(user, "groups") || [];
   // can this be created in the current environment?
-  if (includes(template.config.availableIn, product)) {
+  if (
+    userGroups.length < 507 &&
+    includes(template.config.availableIn, product)
+  ) {
     // and user has required privs...
     result = hasAllPrivileges(user, template.config.requiredPrivs);
   }
