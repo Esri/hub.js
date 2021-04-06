@@ -14,8 +14,8 @@
     "url-parse": "^1.5.1"
   },
   "peerDependencies": {
-    "@esri/arcgis-rest-auth": "^2.13.0",
-    "@esri/arcgis-rest-request": "^2.13.0",
+    "@esri/arcgis-rest-auth": "^2.13.0 || 3",
+    "@esri/arcgis-rest-request": "^2.13.0 || 3",
     "@esri/hub-common": "^7.0.1"
   },
   "devDependencies": {
@@ -39,7 +39,7 @@
   ],
   "scripts": {
     "prepare": "npm run build",
-    "build": "npm run build:node && npm run build:esm && npm run build:es2017 && npm run build:umd",
+    "build": "npm run build:node && npm run build:esm",
     "build:esm": "tsc --module es2015 --target es5 --outDir ./dist/esm --declaration --declarationDir ./dist/types",
     "build:es2017": "tsc --outDir ./dist/es2017",
     "build:umd": "rollup -c ../../umd-base-profile.js && rollup -c ../../umd-production-profile.js",
@@ -66,5 +66,8 @@
     "url": "https://github.com/Esri/hub.js/issues"
   },
   "homepage": "https://github.com/Esri/hub.js#readme",
-  "gitHead": "37f3a4e0e1c26399f6597697601d115d727540d9"
+  "gitHead": "37f3a4e0e1c26399f6597697601d115d727540d9",
+  "volta": {
+    "extends": "../../package.json"
+  }
 }

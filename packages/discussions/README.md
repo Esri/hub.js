@@ -15,7 +15,7 @@
 # THIS PACKAGE IS ACTIVELY UNDER DEVELOPMENT AND IS NOT TO BE USED IN A PRODUCTION ENVIRONMENT
 # @esri/hub-discussions
 
-> Module to interact with ArcGIS Hub Annotations in Node.js and modern browsers.
+> Module to interact with ArcGIS Hub Discussions API in Node.js and modern browsers.
 
 ### Example
 

@@ -66,7 +66,7 @@ describe("authenticateRequest", () => {
 describe("apiRequest", () => {
   const response = { ok: true };
 
-  const hubApiUrl = "http://localhost/api/v1";
+  const hubApiUrl = "https://ingress.eks.qa.hub.geocloud.com/api/v1";
   const url = "foo";
 
   let expectedOpts: RequestInit;
@@ -144,6 +144,31 @@ describe("apiRequest", () => {
 
     expectedOpts.method = "POST";
     expectedOpts.body = JSON.stringify(body);
+
+    expect(result).toEqual(response);
+
+    const [calledUrl, calledOpts] = fetchMock.calls()[0];
+    expect(calledUrl).toEqual([hubApiUrl, url].join("/"));
+    expect(calledOpts).toEqual(expectedOpts);
+  });
+
+  it(`cleans up baseUrl and enpoint`, async () => {
+    const options = { ...opts, hubApiUrl: `${hubApiUrl}/` };
+    const result = await utils.apiRequest(
+      `/${url}`,
+      options as IHubRequestOptions
+    );
+
+    expect(result).toEqual(response);
+
+    const [calledUrl, calledOpts] = fetchMock.calls()[0];
+    expect(calledUrl).toEqual([hubApiUrl, url].join("/"));
+    expect(calledOpts).toEqual(expectedOpts);
+  });
+
+  it(`uses default hubApiUrl if none provided`, async () => {
+    const options = {};
+    const result = await utils.apiRequest(url, options as IHubRequestOptions);
 
     expect(result).toEqual(response);
 
