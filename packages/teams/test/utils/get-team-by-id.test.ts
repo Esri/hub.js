@@ -3,7 +3,7 @@ import { getTeamById } from "../../src/utils/get-team-by-id";
 import { IHubRequestOptions } from "@esri/hub-common";
 import { UserSession } from "@esri/arcgis-rest-auth";
 
-fdescribe("getTeamById", () => {
+describe("getTeamById", () => {
   const authentication = new UserSession({
     username: "portal-user",
     portal: "http://portal.com/sharing/rest",
