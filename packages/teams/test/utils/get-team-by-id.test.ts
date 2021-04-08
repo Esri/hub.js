@@ -1,15 +1,25 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { getTeamById } from "../../src/utils/get-team-by-id";
 import { IHubRequestOptions } from "@esri/hub-common";
+import { UserSession } from "@esri/arcgis-rest-auth";
 
-describe("getTeamById", () => {
+fdescribe("getTeamById", () => {
+  const authentication = new UserSession({
+    username: "portal-user",
+    portal: "http://portal.com/sharing/rest",
+    token: "123"
+  });
+  authentication.getToken = () =>
+    new Promise(resolve => {
+      resolve("123");
+    });
   const ro = {
-    authentication: { token: "foobar" }
+    authentication
   } as IHubRequestOptions;
 
   it("should call with the right group id", async () => {
     const groupId = "foobarbaz";
-    const getTeamSpy = spyOn(portalModule, "getGroup").and.returnValue(
+    const getGroupSpy = spyOn(portalModule, "getGroup").and.returnValue(
       Promise.resolve({})
     );
 
@@ -17,7 +27,7 @@ describe("getTeamById", () => {
 
     expect(res).toBeTruthy();
 
-    expect(getTeamSpy.calls.argsFor(0)[0]).toEqual(
+    expect(getGroupSpy.calls.argsFor(0)[0]).toEqual(
       groupId,
       "get team spy called with correct group id"
     );
