@@ -3,9 +3,9 @@ import { IGroup } from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions } from "@esri/hub-common";
 /**
  * Get a team by id
- * @param id team id
- * @param hubRequestOptions
- * @returns
+ * @param {string} id group id
+ * @param {IRequestOptions} hubRequestOptions
+ * @returns {Promise<IGroup>}
  */
 export function getTeamById(
   id: string,

@@ -6,9 +6,9 @@ import { IHubRequestOptions } from "@esri/hub-common";
 
 /**
  * Get the users(actual USER OBJECTS) that are members of the Group that backs the Team
- * @param id team id
- * @param hubRequestOptions
- * @returns
+ * @param {string} id group id
+ * @param {ISearchGroupUsersOptions} hubRequestOptions
+ * @returns {Promise<ISearchGroupUsersResult>}
  */
 export function searchTeamMembers(
   id: string,
