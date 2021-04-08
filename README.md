@@ -66,7 +66,7 @@ Some useful commands include:
 
 * `npm test` runs _all_ the tests and confirms the API is functioning as expected.
 * There is also a `Debug Node Tests` configuration in the `.vscode/launch.json` which will run the Node tests in the VS Code debugger.
-* `npm run test:chrome:debug` runs _all_ the tests as well. To run certain test suite, just change `describe` to `fdescribe` in that test suite. Tests will automatically rerun with any new changes made.  Note: tests that 'spy' on any rest.js calls, will only successfully fetch for the first time, so a restart is needed if there is any changes made.
+* `npm run test:chrome:debug` runs _all_ the tests as well. Tests will automatically rerun with any new changes made.  Note: tests that 'spy' on any rest.js calls, will only successfully fetch for the first time, so a restart is needed if there is any changes made.
 * `npm run docs:serve` will run the documentation site locally at http://localhost:3000
 * `npm run build` will created UMD bundles for _all_ the packages
 * `npm run dev -- <esm|node> <glob>` will re-run the specified build type any time the source code changes in the matched package(s). Example: `npm run dev -- esm @esri/hub-initiatives`
