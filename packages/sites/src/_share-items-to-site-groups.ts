@@ -2,6 +2,14 @@ import { IModel, IHubRequestOptions, failSafe } from "@esri/hub-common";
 import { shareItemWithGroup, ISharingResponse } from "@esri/arcgis-rest-portal";
 import { _getSecondPassSharingOptions } from "./_get-second-pass-sharing-options";
 
+// exporting so we can use it in solution-service
+export function shareItemsToSiteGroups(
+  siteModel: IModel,
+  solutionModels: IModel[],
+  hubRequestOptions: IHubRequestOptions
+) {
+  return _shareItemsToSiteGroups(siteModel, solutionModels, hubRequestOptions);
+}
 /**
  * Share all the other models to the Site's content and collaboration groups, if
  * those groups were created for the site (depends on user's privs)
