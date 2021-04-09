@@ -15,3 +15,7 @@ export * from "./get-user-creatable-teams";
 export * from "./group-access-privs";
 export * from "./has-all-privileges";
 export * from "./type-map";
+export * from "./get-team-by-id";
+export * from "./get-team-members";
+export * from "./search-team-members";
+export * from "./search-team-content";

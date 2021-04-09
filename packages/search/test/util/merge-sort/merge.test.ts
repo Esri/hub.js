@@ -1,4 +1,4 @@
-import { lorem, random, date } from "faker";
+import { lorem, random, date, datatype } from "faker";
 import { BinaryHeap, kMerge } from "../../../src/util/merge-sort/merge";
 
 describe("Binary Heap", () => {
@@ -291,7 +291,7 @@ describe("Min Binary Heap", () => {
       two: { data: number; label: string }
     ) => one.data - two.data;
     const randomizer = (_v: unknown, _i: number, _a: unknown[]) => ({
-      data: random.number(1000),
+      data: datatype.number(1000),
       label: lorem.word()
     });
 
@@ -580,7 +580,7 @@ describe("Max Binary Heap", () => {
       two: { data: number; label: string }
     ) => two.data - one.data;
     const randomizer = (_v: unknown, _i: number, _a: unknown[]) => ({
-      data: random.number(1000),
+      data: datatype.number(1000),
       label: lorem.word()
     });
 
@@ -669,7 +669,7 @@ describe("kMerge", () => {
     it("should be able to handle 1 results set with data and 2 without", () => {
       // Setup
       const fakeArray: number[] = Array.apply(null, Array(15)).map(() =>
-        random.number()
+        datatype.number()
       );
 
       const data: number[][] = [[], fakeArray, []];
@@ -686,10 +686,10 @@ describe("kMerge", () => {
     it("should be able to handle 2 results set with data and 1 without", () => {
       // Setup
       const arrOne: number[] = Array.apply(null, Array(4)).map(() =>
-        random.number()
+        datatype.number()
       );
       const arrTwo: number[] = Array.apply(null, Array(3)).map(() =>
-        random.number()
+        datatype.number()
       );
 
       const data: number[][] = [[], arrOne, arrTwo];
@@ -714,13 +714,13 @@ describe("kMerge", () => {
     it("should be able to handle 3 results set with data", () => {
       // Setup
       const arrOne: number[] = Array.apply(null, Array(4)).map(() =>
-        random.number()
+        datatype.number()
       );
       const arrTwo: number[] = Array.apply(null, Array(3)).map(() =>
-        random.number()
+        datatype.number()
       );
       const arrThree: number[] = Array.apply(null, Array(2)).map(() =>
-        random.number()
+        datatype.number()
       );
 
       const data: number[][] = [arrThree, arrOne, arrTwo];
@@ -747,13 +747,13 @@ describe("kMerge", () => {
     it("should be able to handle limiting the final results", () => {
       // Setup
       const arrOne: number[] = Array.apply(null, Array(4)).map(() =>
-        random.number()
+        datatype.number()
       );
       const arrTwo: number[] = Array.apply(null, Array(3)).map(() =>
-        random.number()
+        datatype.number()
       );
       const arrThree: number[] = Array.apply(null, Array(2)).map(() =>
-        random.number()
+        datatype.number()
       );
 
       const data: number[][] = [arrThree, arrOne, arrTwo];
@@ -776,13 +776,13 @@ describe("kMerge", () => {
     it("should be able to handle returning 0 when no data from a source is added", () => {
       // Setup
       const arrOne: number[] = Array.apply(null, Array(4)).map(() =>
-        random.number()
+        datatype.number()
       );
       const arrTwo: number[] = Array.apply(null, Array(3)).map(() =>
-        random.number()
+        datatype.number()
       );
       const arrThree: number[] = Array.apply(null, Array(2)).map(() =>
-        random.number()
+        datatype.number()
       );
 
       const data: number[][] = [arrThree, arrOne, arrTwo];
@@ -802,7 +802,7 @@ describe("kMerge", () => {
       // Setup
       const sortFunc = (a: number, b: number) => a - b;
       const fakeArray: number[] = Array.apply(null, Array(15))
-        .map(() => random.number())
+        .map(() => datatype.number())
         .sort(sortFunc);
 
       const data: number[][] = [[], fakeArray, []];
@@ -829,10 +829,10 @@ describe("kMerge", () => {
       // Setup
       const sortFunc = (a: number, b: number) => a - b;
       const arrOne: number[] = Array.apply(null, Array(4))
-        .map(() => random.number())
+        .map(() => datatype.number())
         .sort(sortFunc);
       const arrTwo: number[] = Array.apply(null, Array(3))
-        .map(() => random.number())
+        .map(() => datatype.number())
         .sort(sortFunc);
 
       const data: number[][] = [[], arrOne, arrTwo];
@@ -859,13 +859,13 @@ describe("kMerge", () => {
       // Setup
       const sortFunc = (a: number, b: number) => a - b;
       const arrOne: number[] = Array.apply(null, Array(4))
-        .map(() => random.number())
+        .map(() => datatype.number())
         .sort(sortFunc);
       const arrTwo: number[] = Array.apply(null, Array(3))
-        .map(() => random.number())
+        .map(() => datatype.number())
         .sort(sortFunc);
       const arrThree: number[] = Array.apply(null, Array(2))
-        .map(() => random.number())
+        .map(() => datatype.number())
         .sort(sortFunc);
 
       const data: number[][] = [arrThree, arrOne, arrTwo];
