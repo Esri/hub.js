@@ -2,13 +2,25 @@ import { IModel, IHubRequestOptions, failSafe } from "@esri/hub-common";
 import { shareItemWithGroup, ISharingResponse } from "@esri/arcgis-rest-portal";
 import { _getSecondPassSharingOptions } from "./_get-second-pass-sharing-options";
 
-// export the non private one so we can use it in solution-service
-export function shareItemsToSiteGroups(
+/**
+ * Share all the other models to the Site's content and collaboration groups, if
+ * those groups were created for the site (depends on user's privs)
+ * **DEPRECATED: Use shareItemsToSiteGroups() instead**
+ * @param {object} siteModel Site Model
+ * @param {Array} solutionModels Array of all models created by the Solution
+ * @param {IHubRequestOptions} hubRequestOptions
+ * @private
+ */
+export function _shareItemsToSiteGroups(
   siteModel: IModel,
   solutionModels: IModel[],
   hubRequestOptions: IHubRequestOptions
 ) {
-  return _shareItemsToSiteGroups(siteModel, solutionModels, hubRequestOptions);
+  /* tslint:disable no-console */
+  console.info(
+    `DEPRECATED: _shareItemsToSiteGroups will be removed at v9.0.0. Use shareItemsToSiteGroups instead.`
+  );
+  return shareItemsToSiteGroups(siteModel, solutionModels, hubRequestOptions);
 }
 /**
  * Share all the other models to the Site's content and collaboration groups, if
@@ -16,9 +28,9 @@ export function shareItemsToSiteGroups(
  * @param {object} siteModel Site Model
  * @param {Array} solutionModels Array of all models created by the Solution
  * @param {IHubRequestOptions} hubRequestOptions
- * @private
+ * @exported
  */
-export function _shareItemsToSiteGroups(
+export function shareItemsToSiteGroups(
   siteModel: IModel,
   solutionModels: IModel[],
   hubRequestOptions: IHubRequestOptions

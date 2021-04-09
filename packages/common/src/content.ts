@@ -22,7 +22,9 @@ const cache: { [key: string]: string } = {};
  */
 export function getCategory(itemType: string = ""): string {
   /* tslint:disable no-console */
-  console.warn("DEPRECATED: Use getCollection() instead");
+  console.warn(
+    "DEPRECATED: Use getCollection() instead. getCategory will be removed at v9.0.0"
+  );
   /* tslint:enable no-console */
   const collection = getCollection(itemType);
   // for backwards compatibility
