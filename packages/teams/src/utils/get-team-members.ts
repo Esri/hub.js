@@ -11,5 +11,7 @@ export function getTeamMembers(
   id: string,
   hubRequestOptions: IHubRequestOptions
 ): Promise<IGroupUsersResult> {
-  return getGroupUsers(id, hubRequestOptions);
+  return getGroupUsers(id, {
+    authentication: hubRequestOptions.authentication
+  });
 }

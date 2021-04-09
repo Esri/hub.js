@@ -18,7 +18,7 @@ describe("searchTeamMembers", () => {
   } as IHubRequestOptions;
 
   it("should call with the right group id", async () => {
-    const groupId = "foobarbaz";
+    const groupId = "3ef";
     const searchGroupUsersSpy = spyOn(
       portalModule,
       "searchGroupUsers"

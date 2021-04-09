@@ -6,11 +6,11 @@ import {
 import { IItem } from "@esri/arcgis-rest-types";
 /**
  * Get the content of a team
- * @param {ISearchGroupContentOptions} hubRequestOptions
+ * @param {ISearchGroupContentOptions} searchOptions
  * @returns {Promise<ISearchResult<IItem>>}
  */
 export function searchTeamContent(
-  hubRequestOptions: ISearchGroupContentOptions
+  searchOptions: ISearchGroupContentOptions
 ): Promise<ISearchResult<IItem>> {
-  return searchGroupContent(hubRequestOptions);
+  return searchGroupContent(searchOptions);
 }
