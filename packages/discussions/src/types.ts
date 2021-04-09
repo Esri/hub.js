@@ -418,7 +418,7 @@ export interface IChannel
  * @extends {IWithSettings}
  * @extends {IWithSharing}
  */
-export interface ICreateChannel extends IWithSettings, IWithSharing {}
+export interface ICreateChannel extends Partial<IWithSettings>, IWithSharing {}
 
 /**
  * dto for decorating found channel with relations
