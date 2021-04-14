@@ -60,6 +60,7 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
     sortField: "modified",
     sortOrder: "desc",
     capabilities: "updateitemcontrol",
+    membershipAccess: "org",
     _edit_privacy: "on",
     _edit_contributors: "on",
     tags: [
