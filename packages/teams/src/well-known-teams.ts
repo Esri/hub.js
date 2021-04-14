@@ -48,7 +48,10 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
       type: "core",
       availableIn: ["basic"],
       propertyName: "collaborationGroupId",
-      requiredPrivs: ["portal:admin:createUpdateCapableGroup"],
+      requiredPrivs: [
+        "portal:admin:createUpdateCapableGroup",
+        "portal:user:addExternalMembersToGroup"
+      ],
       titleI18n: "collaborationTitleBasic",
       descriptionI18n: "collaborationDescBasic",
       snippetI18n: "collaborationSnippetBasic"
@@ -60,6 +63,7 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
     sortField: "modified",
     sortOrder: "desc",
     capabilities: "updateitemcontrol",
+    membershipAccess: "collaboration",
     _edit_privacy: "on",
     _edit_contributors: "on",
     tags: [
