@@ -118,7 +118,7 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
     isViewOnly: false,
     sortField: "modified",
     sortOrder: "desc",
-    membershipAccess: "collaboration",
+    membershipAccess: "",
     tags: [
       "Hub Group",
       "Hub Content Group",
@@ -132,7 +132,10 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
       type: "content",
       availableIn: ["basic"],
       propertyName: "contentGroupId",
-      requiredPrivs: ["portal:user:createGroup"],
+      requiredPrivs: [
+        "portal:user:createGroup",
+        "portal:user:addExternalMembersToGroup"
+      ],
       titleI18n: "contentTitleBasic",
       descriptionI18n: "contentDescBasic",
       snippetI18n: "contentSnippetBasic"
@@ -143,6 +146,7 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
     isViewOnly: false,
     sortField: "modified",
     sortOrder: "desc",
+    membershipAccess: "",
     tags: ["Hub Group", "Hub Content Group", "Hub Site Group"]
   },
   {
