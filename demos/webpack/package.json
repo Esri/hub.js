@@ -1,0 +1,20 @@
+{
+  "name": "webpack-demo",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Hub.js webpack demo",
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Tom Wayson <tom@tomwayson.com>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@esri/hub-common": "^8.2.1"
+  },
+  "devDependencies": {
+    "webpack": "^4.46.0",
+    "webpack-cli": "^4.6.0"
+  }
+}
