@@ -32,5 +32,9 @@ describe("getTeamMembers", () => {
       groupId,
       "get group users spy called with correct group id"
     );
+    expect(getGroupUsersSpy.calls.argsFor(0)[1]).toEqual(
+      ro,
+      "passes whole hubRo forward"
+    );
   });
 });
