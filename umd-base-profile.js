@@ -75,8 +75,8 @@ arcgisRestJsPackageNames.reduce((globals, p) => {
  * Now we can export the Rollup config!
  */
 export default {
-  // NOTE: you must run the ESM build before running the UMD build
-  input: "./dist/esm/index.js",
+  // NOTE: you must run the ESM ES5 build before running the UMD build
+  input: "./dist/es5/index.js",
   output: {
     file: `./dist/umd/${name.replace("@esri/hub-", "")}.umd.js`,
     sourcemap: true,

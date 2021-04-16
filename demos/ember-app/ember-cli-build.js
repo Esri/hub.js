@@ -4,7 +4,16 @@ const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function (defaults) {
   let app = new EmberApp(defaults, {
-    // Add options here
+    // see the README for information on 
+    // how to configure this for additional Hub.js packages
+    autoImport: {
+      alias: {
+        // use the es2017 build of Hub.js packages
+        '@esri/hub-common': '@esri/hub-common/dist/esm'
+      },
+      // live reload on changes to these Hub.js packages
+      watchDependencies: ['@esri/hub-common']
+    }
   });
 
   // Use `app.import` to add additional libraries to the generated
