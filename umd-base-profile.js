@@ -76,7 +76,7 @@ arcgisRestJsPackageNames.reduce((globals, p) => {
  */
 export default {
   // NOTE: you must run the ESM ES5 build before running the UMD build
-  input: "./dist/es5/index.js",
+  input: "./dist/esm/index.js",
   output: {
     file: `./dist/umd/${name.replace("@esri/hub-", "")}.umd.js`,
     sourcemap: true,
