@@ -32,4 +32,25 @@ describe("getTeamById", () => {
       "get team spy called with correct group id"
     );
   });
+  it("should pass whole hubRequestOptions forward", async () => {
+    const groupId = "foobarbaz";
+    const getGroupSpy = spyOn(portalModule, "getGroup").and.returnValue(
+      Promise.resolve({})
+    );
+    const unAuthRo = {
+      portal: "https://foo.com"
+    } as IHubRequestOptions;
+    const res = await getTeamById(groupId, unAuthRo);
+
+    expect(res).toBeTruthy();
+
+    expect(getGroupSpy.calls.argsFor(0)[0]).toEqual(
+      groupId,
+      "get team spy called with correct group id"
+    );
+    expect(getGroupSpy.calls.argsFor(0)[1]).toEqual(
+      unAuthRo,
+      "passes through the RO even if not authd"
+    );
+  });
 });
