@@ -90,6 +90,21 @@ describe("apiRequest", () => {
 
   afterEach(fetchMock.restore);
 
+  it("handles failed requests", done => {
+    const status = 400;
+    const message = ["go do this", "go do that"];
+    fetchMock.reset();
+    fetchMock.mock("*", { status, body: { message } });
+
+    utils.apiRequest(url, opts).catch(e => {
+      expect(e.message).toBe("Bad Request");
+      expect(e.status).toBe(status);
+      expect(e.url).toBe(`${hubApiUrl}/${url}`);
+      expect(e.error).toBe(JSON.stringify(message));
+      done();
+    });
+  });
+
   it("appends headers to request options", async () => {
     const result = await utils.apiRequest(url, opts);
 

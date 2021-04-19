@@ -1,4 +1,14 @@
 import { IHubRequestOptions } from "../types";
+import { RemoteServerError as _RemoteServerError } from "@esri/hub-common";
+
+export class RemoteServerError extends _RemoteServerError {
+  error: string;
+
+  constructor(message: string, url: string, status: number, error: string) {
+    super(message, url, status);
+    this.error = error;
+  }
+}
 
 /**
  * returns Promise that resolves token to use in Discussions API requests
@@ -31,13 +41,13 @@ export function authenticateRequest(
  *
  * @export
  * @template T
- * @param {string} url
+ * @param {string} route
  * @param {IHubRequestOptions} options
  * @param {string} [token]
  * @return {*}  {Promise<T>}
  */
 export function apiRequest<T>(
-  url: string,
+  route: string,
   options: IHubRequestOptions,
   token?: string
 ): Promise<T> {
@@ -63,14 +73,26 @@ export function apiRequest<T>(
   if (options.params) {
     if (options.httpMethod === "GET") {
       const queryParams = new URLSearchParams(options.params).toString();
-      url += `?${queryParams}`;
+      route += `?${queryParams}`;
     } else {
       opts.body = JSON.stringify(options.params);
     }
   }
 
-  return fetch(
-    [apiBase.replace(/\/$/, ""), url.replace(/^\//, "")].join("/"),
-    opts
-  ).then(res => res.json());
+  const url = [apiBase.replace(/\/$/, ""), route.replace(/^\//, "")].join("/");
+  return fetch(url, opts).then(res => {
+    if (res.ok) {
+      return res.json();
+    } else {
+      const { statusText, status } = res;
+      return res.json().then(err => {
+        throw new RemoteServerError(
+          statusText,
+          url,
+          status,
+          JSON.stringify(err.message)
+        );
+      });
+    }
+  });
 }
