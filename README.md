@@ -51,7 +51,6 @@ fetchInitiative("abc123")
 
 The documentation is published at http://esri.github.io/hub.js/ (source code [here](/docs/src)).
 
-
 ### Instructions
 
 You can install dependencies (and bootstrap lerna) by cloning the repository and running:
@@ -64,24 +63,25 @@ Afterward, for a list of all available commands run `npm run`.
 
 Some useful commands include:
 
-* `npm test` runs _all_ the tests and confirms the API is functioning as expected.
-* There is also a `Debug Node Tests` configuration in the `.vscode/launch.json` which will run the Node tests in the VS Code debugger.
-* `npm run docs:serve` will run the documentation site locally at http://localhost:3000
-* `npm run build` will created UMD bundles for _all_ the packages
-* `npm run dev -- <esm|node> <glob>` will re-run the specified build type any time the source code changes in the matched package(s). Example: `npm run dev -- esm @esri/hub-initiatives`
+- `npm test` runs _all_ the tests and confirms the API is functioning as expected.
+- There is also a `Debug Node Tests` configuration in the `.vscode/launch.json` which will run the Node tests in the VS Code debugger.
+- `npm run test:chrome:debug` runs _all_ the tests in a browser, and will re-run when changes are made. Note: in some situations, spies/stubs will fail on subsequent test runs. We are not certain why this occurs, but the resolution is to stop/start the test runner.
+- `npm run docs:serve` will run the documentation site locally at http://localhost:3000
+- `npm run build` will created UMD bundles for _all_ the packages
+- `npm run dev -- <esm|node> <glob>` will re-run the specified build type any time the source code changes in the matched package(s). Example: `npm run dev -- esm @esri/hub-initiatives`
 
 ### Packages
 
-* [`@esri/hub-common`](./packages/common) - Common TypeScript types and utility functions.
-* [`@esri/hub-initiatives`](./packages/initiatives) - Helper functions for working with [Initiatives](http://doc.arcgis.com/en/hub/initiatives/initiatives-overview.htm).
-* [`@esri/hub-annotations`](./packages/annotations) - Helper functions for working with Annotations.
-* [`@esri/hub-sites`](./packages/sites) - Helper functions for working with [Sites](http://doc.arcgis.com/en/hub/sites/create-a-hub-site.htm), Pages and Domains.
-* [`@esri/hub-auth`](./packages/auth) - Helper functions for authentication for external applications.
-* [`@esri/hub-events`](./packages/events) - Helper functions for working with Events.
-* [`@esri/hub-search`](./packages/search) - Helper functions for search on ArcGIS Online.
-* [`@esri/hub-surveys`](./packages/surveys) - Helper functions for working with Surveys.
-* [`@esri/hub-teams`](./packages/teams) - Helper functions for working with ArcGIS Online groups in a Hub context.
-* [`@esri/hub-content`](./packages/content) - Helper functions for working with Hub Content.
+- [`@esri/hub-common`](./packages/common) - Common TypeScript types and utility functions.
+- [`@esri/hub-initiatives`](./packages/initiatives) - Helper functions for working with [Initiatives](http://doc.arcgis.com/en/hub/initiatives/initiatives-overview.htm).
+- [`@esri/hub-annotations`](./packages/annotations) - Helper functions for working with Annotations.
+- [`@esri/hub-sites`](./packages/sites) - Helper functions for working with [Sites](http://doc.arcgis.com/en/hub/sites/create-a-hub-site.htm), Pages and Domains.
+- [`@esri/hub-auth`](./packages/auth) - Helper functions for authentication for external applications.
+- [`@esri/hub-events`](./packages/events) - Helper functions for working with Events.
+- [`@esri/hub-search`](./packages/search) - Helper functions for search on ArcGIS Online.
+- [`@esri/hub-surveys`](./packages/surveys) - Helper functions for working with Surveys.
+- [`@esri/hub-teams`](./packages/teams) - Helper functions for working with ArcGIS Online groups in a Hub context.
+- [`@esri/hub-content`](./packages/content) - Helper functions for working with Hub Content.
 
 ### Design Philosophy
 
@@ -99,12 +99,12 @@ We are aiming for _functional_ equivalence to [`hub-py`](https://github.com/esri
 
 ### Frequently Asked Questions
 
-* [Is this a _supported_ Esri product?](docs/FAQ.md#is-this-a-supported-esri-product)
-* [Why TypeScript?](docs/FAQ.md#why-typescript) What if I prefer [Vanilla.js](https://stackoverflow.com/questions/20435653/what-is-vanillajs)?
+- [Is this a _supported_ Esri product?](docs/FAQ.md#is-this-a-supported-esri-product)
+- [Why TypeScript?](docs/FAQ.md#why-typescript) What if I prefer [Vanilla.js](https://stackoverflow.com/questions/20435653/what-is-vanillajs)?
 
 ### Issues
 
-If something isn't working the way you expected, please take a look at [previously logged issues](https://github.com/Esri/hub.js/issues) first.  Have you found a new bug?  Want to request a new feature?  We'd [**love**](https://github.com/Esri/hub.js/issues/new) to hear from you.
+If something isn't working the way you expected, please take a look at [previously logged issues](https://github.com/Esri/hub.js/issues) first. Have you found a new bug? Want to request a new feature? We'd [**love**](https://github.com/Esri/hub.js/issues/new) to hear from you.
 
 If you're looking for help you can also post issues on [GIS Stackexchange](http://gis.stackexchange.com/questions/ask?tags=esri-oss).
 

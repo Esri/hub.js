@@ -48,7 +48,10 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
       type: "core",
       availableIn: ["basic"],
       propertyName: "collaborationGroupId",
-      requiredPrivs: ["portal:admin:createUpdateCapableGroup"],
+      requiredPrivs: [
+        "portal:admin:createUpdateCapableGroup",
+        "portal:user:addExternalMembersToGroup"
+      ],
       titleI18n: "collaborationTitleBasic",
       descriptionI18n: "collaborationDescBasic",
       snippetI18n: "collaborationSnippetBasic"
@@ -60,6 +63,7 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
     sortField: "modified",
     sortOrder: "desc",
     capabilities: "updateitemcontrol",
+    membershipAccess: "collaboration",
     _edit_privacy: "on",
     _edit_contributors: "on",
     tags: [
@@ -114,7 +118,7 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
     isViewOnly: false,
     sortField: "modified",
     sortOrder: "desc",
-    membershipAccess: "collaboration",
+    membershipAccess: "",
     tags: [
       "Hub Group",
       "Hub Content Group",
@@ -128,7 +132,10 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
       type: "content",
       availableIn: ["basic"],
       propertyName: "contentGroupId",
-      requiredPrivs: ["portal:user:createGroup"],
+      requiredPrivs: [
+        "portal:user:createGroup",
+        "portal:user:addExternalMembersToGroup"
+      ],
       titleI18n: "contentTitleBasic",
       descriptionI18n: "contentDescBasic",
       snippetI18n: "contentSnippetBasic"
@@ -139,6 +146,7 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
     isViewOnly: false,
     sortField: "modified",
     sortOrder: "desc",
+    membershipAccess: "",
     tags: ["Hub Group", "Hub Content Group", "Hub Site Group"]
   },
   {
