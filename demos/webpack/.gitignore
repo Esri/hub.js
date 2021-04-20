@@ -1,0 +1,3 @@
+# override root .gitignore so dist/index.html is not ignored
+!dist
+dist/**/*.js
