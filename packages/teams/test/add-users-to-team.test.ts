@@ -1,5 +1,6 @@
 import { IUser } from "@esri/arcgis-rest-auth";
-import * as commonModule from "@esri/hub-common";
+// import * as teamsModule from "../src";
+import * as teamsModule from "../src/utils/_add-users-to-group/add-users-to-group";
 import { IHubRequestOptions } from "@esri/hub-common";
 
 import { addUsersToTeam } from "../src/add-users-to-team";
@@ -34,7 +35,7 @@ describe("addUsersToTeam", () => {
       }
     };
 
-    const groupSpy = spyOn(commonModule, "addUsersToGroup").and.callFake(() =>
+    const groupSpy = spyOn(teamsModule, "addUsersToGroup").and.callFake(() =>
       Promise.resolve(expected)
     );
 

@@ -1,18 +1,18 @@
-import * as consolidateResultsModule from "../../../src/utils/_add-users-to-group";
-import * as processAutoAddModule from "../../../src/utils/_add-users-to-group";
-import * as processInviteModule from "../../../src/utils/_add-users-to-group";
-import * as processPrimaryEmailModule from "../../../src/utils/_add-users-to-group";
-import * as processSecondaryEmailModule from "../../../src/utils/_add-users-to-group";
-import * as getAutoAddUsersModule from "../../../src/utils/_add-users-to-group";
-import * as getEmailUsersModule from "../../../src/utils/_add-users-to-group";
-import * as getInviteUsersModule from "../../../src/utils/_add-users-to-group";
+import * as consolidateResultsModule from "../../../src/utils/_add-users-to-group/_consolidate-results";
+import * as processAutoAddModule from "../../../src/utils/_add-users-to-group/_process-auto-add";
+import * as processInviteModule from "../../../src/utils/_add-users-to-group/_process-invite";
+import * as processPrimaryEmailModule from "../../../src/utils/_add-users-to-group/_process-primary-email";
+import * as processSecondaryEmailModule from "../../../src/utils/_add-users-to-group/_process-secondary-email";
+import * as getAutoAddUsersModule from "../../../src/utils/_add-users-to-group/_get-auto-add-users";
+import * as getEmailUsersModule from "../../../src/utils/_add-users-to-group/_get-email-users";
+import * as getInviteUsersModule from "../../../src/utils/_add-users-to-group/_get-invite-users";
 
-import { addUsersToGroup } from "../../../src/utils/_add-users-to-group";
+import { addUsersToGroup } from "../../../src/utils/_add-users-to-group/add-users-to-group";
 import {
   IAddMemberContext,
   IConsolidatedResult,
   IEmail
-} from "../../../src/utils/_add-users-to-group";
+} from "../../../src/utils/_add-users-to-group/interfaces";
 import { IUser } from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions, cloneObject } from "@esri/hub-common";
 import { MOCK_AUTH } from "./fixtures";

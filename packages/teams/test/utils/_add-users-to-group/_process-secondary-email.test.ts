@@ -3,9 +3,9 @@ import {
   IAddMemberContext,
   IEmail
 } from "../../../src/utils/_add-users-to-group";
-import { _processSecondaryEmail } from "../../../src/utils/_add-users-to-group";
-import * as emailModule from "../../../src/utils/_add-users-to-group";
-import * as isAdminModule from "../../../src/utils/_add-users-to-group";
+import { _processSecondaryEmail } from "../../../src/utils/_add-users-to-group/_process-secondary-email";
+import * as emailModule from "../../../src/utils/_add-users-to-group/email-org-users";
+import * as isAdminModule from "../../../src/utils/_add-users-to-group/_is-org-admin";
 import { IHubRequestOptions, cloneObject } from "@esri/hub-common";
 describe("_processSecondaryEmail", () => {
   const orgId = "Shermer High";

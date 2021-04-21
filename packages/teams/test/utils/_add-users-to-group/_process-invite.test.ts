@@ -2,8 +2,8 @@ import {
   IAddGroupUsersResult,
   IInviteGroupUsersResult
 } from "@esri/arcgis-rest-portal";
-import { IAddMemberContext } from "@esri/hub-common";
-import * as inviteModule from "../../../src/utils/_add-users-to-group";
+import { IAddMemberContext } from "../../../src/utils/_add-users-to-group/interfaces";
+import * as inviteModule from "../../../src/utils/_add-users-to-group/invite-users";
 import { _processInvite } from "../../../src/utils/_add-users-to-group";
 
 describe("_process_auto_add", () => {
