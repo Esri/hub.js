@@ -1,13 +1,12 @@
 import * as restPortalModule from "@esri/arcgis-rest-portal";
+import { cloneObject, IHubRequestOptions } from "@esri/hub-common";
 import {
-  cloneObject,
-  IAddMemberContext,
+  _processPrimaryEmail,
   IEmail,
-  IHubRequestOptions
-} from "../../../../src";
-import { _processPrimaryEmail } from "../../../../src/groups/add-users-workflow/output-processors/_process-primary-email";
-import * as emailModule from "../../../../src/groups/add-users-workflow/workflow-sections/email-org-users";
-import * as isAdminModule from "../../../../src/groups/add-users-workflow/utils/_is-org-admin";
+  IAddMemberContext
+} from "../../../src/utils/_add-users-to-group";
+import * as emailModule from "../../../src/utils/_add-users-to-group";
+import * as isAdminModule from "../../../src/utils/_add-users-to-group";
 describe("_processPrimaryEmail", () => {
   const orgId = "the_swamp";
   const groupId = "The Gang";

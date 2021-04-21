@@ -1,6 +1,6 @@
 import { IUser } from "@esri/arcgis-rest-portal";
-import * as _getInviteUsersModule from "../../../../src/groups/add-users-workflow/utils/_get-invite-users";
-import { _getEmailUsers } from "../../../../src/groups/add-users-workflow/utils/_get-email-users";
+import * as _getInviteUsersModule from "../../../src/utils/_add-users-to-group";
+import { _getEmailUsers } from "../../../src/utils/_add-users-to-group";
 
 describe("_get_email_users", () => {
   const requestingUser: IUser = {

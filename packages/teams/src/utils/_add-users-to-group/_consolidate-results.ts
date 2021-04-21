@@ -1,7 +1,7 @@
 import { ICreateOrgNotificationResult } from "@esri/arcgis-rest-portal";
 import { ArcGISRequestError } from "@esri/arcgis-rest-request";
-import { IAddMemberContext, IConsolidatedResult } from "../interfaces";
-import { getWithDefault } from "../../../objects/get-with-default";
+import { IAddMemberContext, IConsolidatedResult } from "./interfaces";
+import { getWithDefault } from "@esri/hub-common";
 
 /**
  * @private

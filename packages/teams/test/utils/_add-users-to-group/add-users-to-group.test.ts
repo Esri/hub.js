@@ -1,21 +1,20 @@
-import * as consolidateResultsModule from "../../../src/groups/add-users-workflow/output-processors/_consolidate-results";
-import * as processAutoAddModule from "../../../src/groups/add-users-workflow/output-processors/_process-auto-add";
-import * as processInviteModule from "../../../src/groups/add-users-workflow/output-processors/_process-invite";
-import * as processPrimaryEmailModule from "../../../src/groups/add-users-workflow/output-processors/_process-primary-email";
-import * as processSecondaryEmailModule from "../../../src/groups/add-users-workflow/output-processors/_process-secondary-email";
-import * as getAutoAddUsersModule from "../../../src/groups/add-users-workflow/utils/_get-auto-add-users";
-import * as getEmailUsersModule from "../../../src/groups/add-users-workflow/utils/_get-email-users";
-import * as getInviteUsersModule from "../../../src/groups/add-users-workflow/utils/_get-invite-users";
+import * as consolidateResultsModule from "../../../src/utils/_add-users-to-group";
+import * as processAutoAddModule from "../../../src/utils/_add-users-to-group";
+import * as processInviteModule from "../../../src/utils/_add-users-to-group";
+import * as processPrimaryEmailModule from "../../../src/utils/_add-users-to-group";
+import * as processSecondaryEmailModule from "../../../src/utils/_add-users-to-group";
+import * as getAutoAddUsersModule from "../../../src/utils/_add-users-to-group";
+import * as getEmailUsersModule from "../../../src/utils/_add-users-to-group";
+import * as getInviteUsersModule from "../../../src/utils/_add-users-to-group";
 
-import { addUsersToGroup } from "../../../src/groups/add-users-workflow/add-users-to-group";
+import { addUsersToGroup } from "../../../src/utils/_add-users-to-group";
 import {
   IAddMemberContext,
   IConsolidatedResult,
   IEmail
-} from "../../../src/groups/add-users-workflow/interfaces";
+} from "../../../src/utils/_add-users-to-group";
 import { IUser } from "@esri/arcgis-rest-portal";
-import { IHubRequestOptions } from "../../../src/types";
-import { cloneObject } from "../../../src/util";
+import { IHubRequestOptions, cloneObject } from "@esri/hub-common";
 import { MOCK_AUTH } from "./fixtures";
 
 describe("add-users-to-group", () => {

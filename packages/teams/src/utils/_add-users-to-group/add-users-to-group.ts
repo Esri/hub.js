@@ -1,17 +1,19 @@
 import { IUser } from "@esri/arcgis-rest-portal";
-import { getProp } from "../../objects/get-prop";
-import { getWithDefault } from "../../objects/get-with-default";
-import { IHubRequestOptions } from "../../types";
-import { cloneObject } from "../../util";
+import {
+  cloneObject,
+  getProp,
+  getWithDefault,
+  IHubRequestOptions
+} from "@esri/hub-common";
 import { IConsolidatedResult, IEmail } from "./interfaces";
-import { _consolidateResults } from "./output-processors/_consolidate-results";
-import { _processAutoAdd } from "./output-processors/_process-auto-add";
-import { _processInvite } from "./output-processors/_process-invite";
-import { _processPrimaryEmail } from "./output-processors/_process-primary-email";
-import { _processSecondaryEmail } from "./output-processors/_process-secondary-email";
-import { _getAutoAddUsers } from "./utils/_get-auto-add-users";
-import { _getEmailUsers } from "./utils/_get-email-users";
-import { _getInviteUsers } from "./utils/_get-invite-users";
+import { _consolidateResults } from "./_consolidate-results";
+import { _processAutoAdd } from "./_process-auto-add";
+import { _processInvite } from "./_process-invite";
+import { _processPrimaryEmail } from "./_process-primary-email";
+import { _processSecondaryEmail } from "./_process-secondary-email";
+import { _getAutoAddUsers } from "./_get-auto-add-users";
+import { _getEmailUsers } from "./_get-email-users";
+import { _getInviteUsers } from "./_get-invite-users";
 
 /**
  * Adds, invites or emails users about joining a group

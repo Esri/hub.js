@@ -1,5 +1,5 @@
 import { IUser } from "@esri/arcgis-rest-portal";
-import { _isOrgAdmin } from "../../../../src/groups/add-users-workflow/utils/_is-org-admin";
+import { _isOrgAdmin } from "../../../src/utils/_add-users-to-group/_is-org-admin";
 
 describe("_is_org_admin", () => {
   it("Returns false if user does not have org_admin role", () => {

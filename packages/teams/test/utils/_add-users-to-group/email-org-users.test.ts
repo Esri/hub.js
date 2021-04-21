@@ -1,6 +1,6 @@
 import * as restPortalModule from "@esri/arcgis-rest-portal";
-import { IEmail, emailOrgUsers } from "../../../../src";
-import { MOCK_AUTH } from "../fixtures";
+import { IEmail, emailOrgUsers } from "../../../src";
+import { MOCK_AUTH } from "./fixtures";
 
 describe("email-org-users", function() {
   let notificationSpy: jasmine.Spy;

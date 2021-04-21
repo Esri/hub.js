@@ -1,5 +1,5 @@
 import { IUser } from "@esri/arcgis-rest-portal";
-import { _canEmailUser } from "../../../../src/groups/add-users-workflow/utils";
+import { _canEmailUser } from "../../../src/utils/_add-users-to-group";
 
 describe("_can_email_user", () => {
   it("Returns true when users have the same orgId", () => {

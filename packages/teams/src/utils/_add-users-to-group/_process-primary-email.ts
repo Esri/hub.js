@@ -1,7 +1,7 @@
-import { getProp } from "../../../objects/get-prop";
-import { IAddMemberContext } from "../interfaces";
-import { _isOrgAdmin } from "../utils/_is-org-admin";
-import { emailOrgUsers } from "../workflow-sections/email-org-users";
+import { getProp } from "@esri/hub-common";
+import { IAddMemberContext } from "./interfaces";
+import { _isOrgAdmin } from "./_is-org-admin";
+import { emailOrgUsers } from "./email-org-users";
 
 /**
  * @private

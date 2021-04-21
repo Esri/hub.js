@@ -1,6 +1,6 @@
 import { IUser } from "@esri/arcgis-rest-portal";
-import * as _getAutoAddUsersModule from "../../../../src/groups/add-users-workflow/utils/_get-auto-add-users";
-import { _getInviteUsers } from "../../../../src/groups/add-users-workflow/utils/_get-invite-users";
+import * as _getAutoAddUsersModule from "../../../src/utils/_add-users-to-group";
+import { _getInviteUsers } from "../../../src/utils/_add-users-to-group";
 
 describe("_get_invite_users", () => {
   const requestingUser: IUser = {

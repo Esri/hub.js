@@ -1,10 +1,10 @@
 import { IUser } from "@esri/arcgis-rest-auth";
+import { IHubRequestOptions } from "@esri/hub-common";
+import { addUsersToGroup } from "./utils/_add-users-to-group/add-users-to-group";
 import {
-  addUsersToGroup,
   IConsolidatedResult,
-  IEmail,
-  IHubRequestOptions
-} from "@esri/hub-common";
+  IEmail
+} from "./utils/_add-users-to-group/interfaces";
 
 /**
  * Attempts to Add, Invite, or email users about joining

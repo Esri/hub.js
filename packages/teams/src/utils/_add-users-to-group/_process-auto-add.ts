@@ -1,6 +1,6 @@
-import { getProp } from "../../../objects/get-prop";
-import { IAddMemberContext } from "../interfaces";
-import { autoAddUsers } from "../workflow-sections/auto-add-users";
+import { getProp } from "@esri/hub-common";
+import { IAddMemberContext } from "./interfaces";
+import { autoAddUsers } from "./auto-add-users";
 import { _formatAutoAddResponse } from "./_format-auto-add-response";
 
 /**

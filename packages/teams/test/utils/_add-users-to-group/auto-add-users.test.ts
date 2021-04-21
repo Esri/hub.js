@@ -1,6 +1,6 @@
 import * as restPortalModule from "@esri/arcgis-rest-portal";
-import { autoAddUsers } from "../../../../src/groups/add-users-workflow/workflow-sections/auto-add-users";
-import { MOCK_AUTH } from "../fixtures";
+import { autoAddUsers } from "../../../src/utils/_add-users-to-group/auto-add-users";
+import { MOCK_AUTH } from "./fixtures";
 
 describe("auto-add-users", function() {
   let addSpy: jasmine.Spy;

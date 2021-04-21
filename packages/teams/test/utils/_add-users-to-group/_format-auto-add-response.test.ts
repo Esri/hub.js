@@ -1,7 +1,10 @@
 import { IAddGroupUsersResult, IUser } from "@esri/arcgis-rest-portal";
 import { ArcGISRequestError } from "@esri/arcgis-rest-request";
-import { cloneObject, IAddMemberContext } from "../../../../src";
-import { _formatAutoAddResponse } from "../../../../src/groups/add-users-workflow/output-processors/_format-auto-add-response";
+import { cloneObject } from "@esri/hub-common";
+import {
+  _formatAutoAddResponse,
+  IAddMemberContext
+} from "../../../src/utils/_add-users-to-group";
 describe("_format-auto-add-esponse", () => {
   const groupId = "fantastic-four";
   const users: IUser[] = [

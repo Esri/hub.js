@@ -1,9 +1,9 @@
 import { IUser } from "@esri/arcgis-rest-auth";
-import { _canEmailUser } from "../../add-users-workflow/utils/_can-email-user";
-import { _isOrgAdmin } from "../../add-users-workflow/utils/_is-org-admin";
-import { getProp, getWithDefault } from "../../../objects";
-import { IAddMemberContext } from "../interfaces";
-import { emailOrgUsers } from "../workflow-sections/email-org-users";
+import { _canEmailUser } from "./_can-email-user";
+import { _isOrgAdmin } from "./_is-org-admin";
+import { getProp, getWithDefault } from "@esri/hub-common";
+import { IAddMemberContext } from "./interfaces";
+import { emailOrgUsers } from "./email-org-users";
 
 /**
  * @private

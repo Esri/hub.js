@@ -4,7 +4,7 @@ import {
   IUser
 } from "@esri/arcgis-rest-portal";
 import { ArcGISRequestError } from "@esri/arcgis-rest-request";
-import { IHubRequestOptions } from "../../types";
+import { IHubRequestOptions } from "@esri/hub-common";
 
 export interface IEmail {
   subject?: string;

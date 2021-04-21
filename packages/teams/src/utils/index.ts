@@ -19,3 +19,4 @@ export * from "./get-team-by-id";
 export * from "./get-team-members";
 export * from "./search-team-members";
 export * from "./search-team-content";
+export * from "./_add-users-to-group";

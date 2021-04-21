@@ -1,12 +1,12 @@
 import { IUser } from "@esri/arcgis-rest-auth";
 import * as commonModule from "@esri/hub-common";
-import {
-  IConsolidatedResult,
-  IEmail,
-  IHubRequestOptions
-} from "@esri/hub-common";
+import { IHubRequestOptions } from "@esri/hub-common";
 
 import { addUsersToTeam } from "../src/add-users-to-team";
+import {
+  IConsolidatedResult,
+  IEmail
+} from "../src/utils/_add-users-to-group/interfaces";
 
 describe("addUsersToTeam", () => {
   it("Delegates to addUsersToGroup", async () => {

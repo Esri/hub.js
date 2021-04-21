@@ -1,6 +1,6 @@
-import { getProp } from "../../../objects/get-prop";
-import { IAddMemberContext } from "../interfaces";
-import { inviteUsers } from "../workflow-sections/invite-users";
+import { getProp } from "@esri/hub-common";
+import { IAddMemberContext } from "./interfaces";
+import { inviteUsers } from "./invite-users";
 
 /**
  * @private

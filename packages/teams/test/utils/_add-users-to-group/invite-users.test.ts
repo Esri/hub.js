@@ -1,6 +1,6 @@
 import * as restPortalModule from "@esri/arcgis-rest-portal";
-import { inviteUsers } from "../../../../src/groups/add-users-workflow/workflow-sections/invite-users";
-import { MOCK_AUTH } from "../fixtures";
+import { inviteUsers } from "../../../src/utils/_add-users-to-group/invite-users";
+import { MOCK_AUTH } from "./fixtures";
 
 describe("invite-users", function() {
   let invitationSpy: jasmine.Spy;

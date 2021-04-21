@@ -3,12 +3,12 @@ import {
   ICreateOrgNotificationResult
 } from "@esri/arcgis-rest-portal";
 import { ArcGISRequestError } from "@esri/arcgis-rest-request";
+import { cloneObject } from "@esri/hub-common";
 import {
-  cloneObject,
+  _consolidateResults,
   IAddMemberContext,
   IConsolidatedResult
-} from "../../../../src";
-import { _consolidateResults } from "../../../../src/groups/add-users-workflow/output-processors/_consolidate-results";
+} from "../../../src/utils/_add-users-to-group";
 
 describe("_consolidateResults", () => {
   const baseContext: IAddMemberContext = {

@@ -1,8 +1,7 @@
 import { IAddGroupUsersResult } from "@esri/arcgis-rest-portal";
 import { ArcGISRequestError } from "@esri/arcgis-rest-request";
-import { getProp } from "../../../objects/get-prop";
-import { includes } from "../../../utils";
-import { IAddMemberContext } from "../interfaces";
+import { getProp, includes } from "@esri/hub-common";
+import { IAddMemberContext } from "./interfaces";
 
 /**
  * @private
