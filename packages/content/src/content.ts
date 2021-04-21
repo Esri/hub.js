@@ -6,7 +6,6 @@ import {
   getUser,
   IGetUserOptions
 } from "@esri/arcgis-rest-portal";
-import { request } from "@esri/arcgis-rest-request";
 import {
   HubType,
   IHubContent,
@@ -14,8 +13,7 @@ import {
   IModel,
   includes,
   cloneObject,
-  getProp,
-  stringToBlob
+  getProp
 } from "@esri/hub-common";
 import { IGetContentOptions, getContentFromHub } from "./hub";
 import {
