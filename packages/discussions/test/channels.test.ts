@@ -71,7 +71,7 @@ describe("channels", () => {
   });
 
   it("gets channel", done => {
-    const channelId = 1;
+    const channelId = "channelId";
 
     const options = { channelId };
 
@@ -87,7 +87,7 @@ describe("channels", () => {
   });
 
   it("updates channel", done => {
-    const channelId = 1;
+    const channelId = "channelId";
     const body = {
       allowReaction: false
     };
@@ -106,7 +106,7 @@ describe("channels", () => {
   });
 
   it("deletes channel", done => {
-    const channelId = 1;
+    const channelId = "channelId";
 
     const options = { channelId };
 

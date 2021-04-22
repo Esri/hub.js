@@ -17,7 +17,7 @@ describe("reactions", () => {
   });
 
   it("creates a reaction to a post", done => {
-    const postId = 1;
+    const postId = "postId";
     const body = { value: PostReaction.THUMBS_UP };
 
     const options = { postId, params: body };
@@ -34,8 +34,8 @@ describe("reactions", () => {
   });
 
   it("deletes a reaction to a post", done => {
-    const postId = 1;
-    const reactionId = 2;
+    const postId = "postId";
+    const reactionId = "reactionId";
 
     const options = { postId, reactionId };
 

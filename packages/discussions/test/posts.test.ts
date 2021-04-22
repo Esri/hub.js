@@ -59,7 +59,7 @@ describe("posts", () => {
   });
 
   it("queries posts [ISearchChannelsPostsOptions]", done => {
-    const channelId = 1;
+    const channelId = "channelId";
     const query = {
       body: "foo"
     };
@@ -96,7 +96,7 @@ describe("posts", () => {
   });
 
   it("creates post [ICreateChannelPostOptions]", done => {
-    const channelId = 1;
+    const channelId = "channelId";
     const body = {
       access: SharingAccess.PUBLIC,
       groups: ["foo"],
@@ -116,7 +116,7 @@ describe("posts", () => {
   });
 
   it("creates reply [ICreateReplyOptions]", done => {
-    const postId = 2;
+    const postId = "postId";
     const body = {
       access: SharingAccess.PUBLIC,
       groups: ["foo"],
@@ -136,8 +136,8 @@ describe("posts", () => {
   });
 
   it("creates reply [ICreateChannelReplyOptions]", done => {
-    const postId = 2;
-    const channelId = 1;
+    const postId = "postId";
+    const channelId = "channelId";
     const body = {
       access: SharingAccess.PUBLIC,
       groups: ["foo"],
@@ -157,7 +157,7 @@ describe("posts", () => {
   });
 
   it("gets post [IGetPostOptions]", done => {
-    const postId = 2;
+    const postId = "postId";
 
     const options = { postId };
     fetchPost(options as IFetchPostOptions)
@@ -172,8 +172,8 @@ describe("posts", () => {
   });
 
   it("gets post [IGetChannelPostOptions]", done => {
-    const postId = 2;
-    const channelId = 1;
+    const postId = "postId";
+    const channelId = "channelId";
 
     const options = { postId, channelId };
     fetchPost(options as IFetchChannelPostOptions)
@@ -188,7 +188,7 @@ describe("posts", () => {
   });
 
   it("deletes post [IDeletePostOptions]", done => {
-    const postId = 2;
+    const postId = "postId";
 
     const options = { postId };
     removePost(options as IRemovePostOptions)
@@ -203,8 +203,8 @@ describe("posts", () => {
   });
 
   it("deletes post [IDeleteChannelPostOptions]", done => {
-    const postId = 2;
-    const channelId = 1;
+    const postId = "postId";
+    const channelId = "channelId";
 
     const options = { postId, channelId };
     removePost(options as IRemoveChannelPostOptions)
@@ -219,7 +219,7 @@ describe("posts", () => {
   });
 
   it("updates post body [IUpdatePostOptions]", done => {
-    const postId = 2;
+    const postId = "postId";
 
     const body = { body: "foo" };
 
@@ -236,8 +236,8 @@ describe("posts", () => {
   });
 
   it("updates post body [IUpdateChannelPostOptions]", done => {
-    const postId = 2;
-    const channelId = 1;
+    const postId = "postId";
+    const channelId = "channelId";
 
     const body = { body: "foo" };
 
@@ -254,7 +254,7 @@ describe("posts", () => {
   });
 
   it("updates post sharing [IUpdatePostSharingOptions]", done => {
-    const postId = 2;
+    const postId = "postId";
 
     const body = { access: SharingAccess.ORG };
 
@@ -271,8 +271,8 @@ describe("posts", () => {
   });
 
   it("updates post sharing [IUpdateChannelPostSharingOptions]", done => {
-    const postId = 2;
-    const channelId = 1;
+    const postId = "postId";
+    const channelId = "channelId";
 
     const body = { access: SharingAccess.ORG };
 
@@ -289,7 +289,7 @@ describe("posts", () => {
   });
 
   it("updates post status [IUpdatePostStatusOptions]", done => {
-    const postId = 2;
+    const postId = "postId";
 
     const body = { status: PostStatus.APPROVED };
 
@@ -306,8 +306,8 @@ describe("posts", () => {
   });
 
   it("updates post status [IUpdateChannelPostStatusOptions]", done => {
-    const postId = 2;
-    const channelId = 1;
+    const postId = "postId";
+    const channelId = "channelId";
 
     const body = { status: PostStatus.APPROVED };
 
