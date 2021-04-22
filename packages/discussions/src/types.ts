@@ -241,7 +241,7 @@ export interface IPagedResponse<PaginationObject> extends IRestPagedResponse {
  */
 export interface IRemovePostResponse {
   success: boolean;
-  postId: number | string;
+  postId: string;
 }
 
 /**
@@ -252,7 +252,7 @@ export interface IRemovePostResponse {
  */
 export interface IRemoveChannelResponse {
   success: boolean;
-  channelId: number | string;
+  channelId: string;
 }
 
 /**
@@ -263,7 +263,7 @@ export interface IRemoveChannelResponse {
  */
 export interface IRemoveReactionResponse {
   success: boolean;
-  reactionId: number | string;
+  reactionId: string;
 }
 
 // dto
@@ -279,16 +279,16 @@ export interface IRemoveReactionResponse {
  * @extends {IWithTimestamps}
  */
 export interface IPost extends IWithAuthor, IWithTimestamps {
-  id: number;
+  id: string;
   title?: string;
   body: string;
   discussion?: string;
   status: PostStatus;
   geometry?: Geometry;
   appInfo?: string; // this is a catch-all field for app-specific information about a post, added for Urban
-  channelId?: number;
+  channelId?: string;
   channel?: IChannel;
-  parentId?: number;
+  parentId?: string;
   parent?: IPost;
   replies?: IPost[] | IPagedResponse<IPost>;
   replyCount?: number;
@@ -347,7 +347,7 @@ export interface ISearchChannelPosts
   title?: string;
   body?: string;
   discussion?: string;
-  parentId?: number;
+  parentId?: string;
   status?: PostStatus[];
   relations?: PostRelation[];
 }
@@ -407,7 +407,7 @@ export interface IChannel
     IWithSharing,
     IWithAuthor,
     IWithTimestamps {
-  id: number;
+  id: string;
 }
 
 /**
@@ -468,9 +468,9 @@ export interface IUpdateChannel extends Partial<IWithSettings> {}
  * @extends {IWithTimestamps}
  */
 export interface IReaction extends IWithAuthor, IWithTimestamps {
-  id: number;
+  id: string;
   value: PostReaction;
-  postId?: number;
+  postId?: string;
   post?: IPost;
 }
 
@@ -526,7 +526,7 @@ export interface ISearchPostsOptions extends IHubRequestOptions {
  * @extends {IHubRequestOptions}
  */
 export interface ISearchChannelPostsOptions extends IHubRequestOptions {
-  channelId: number;
+  channelId: string;
   params?: ISearchChannelPosts;
 }
 
@@ -549,7 +549,7 @@ export interface ICreatePostOptions extends IHubRequestOptions {
  * @extends {IHubRequestOptions}
  */
 export interface ICreateChannelPostOptions extends IHubRequestOptions {
-  channelId: number;
+  channelId: string;
   params: ICreateChannelPost;
 }
 
@@ -561,7 +561,7 @@ export interface ICreateChannelPostOptions extends IHubRequestOptions {
  * @extends {IHubRequestOptions}
  */
 export interface ICreateReplyOptions extends IHubRequestOptions {
-  postId: number;
+  postId: string;
   params: ICreatePost;
 }
 
@@ -573,8 +573,8 @@ export interface ICreateReplyOptions extends IHubRequestOptions {
  * @extends {IHubRequestOptions}
  */
 export interface ICreateChannelReplyOptions extends IHubRequestOptions {
-  postId: number;
-  channelId: number;
+  postId: string;
+  channelId: string;
   params: ICreateChannelPost;
 }
 
@@ -586,7 +586,7 @@ export interface ICreateChannelReplyOptions extends IHubRequestOptions {
  * @extends {IHubRequestOptions}
  */
 export interface IFetchPostOptions extends IHubRequestOptions {
-  postId: number;
+  postId: string;
   params?: IFetchPost;
 }
 
@@ -598,8 +598,8 @@ export interface IFetchPostOptions extends IHubRequestOptions {
  * @extends {IHubRequestOptions}
  */
 export interface IFetchChannelPostOptions extends IHubRequestOptions {
-  postId: number;
-  channelId: number;
+  postId: string;
+  channelId: string;
   params?: IFetchPost;
 }
 
@@ -611,7 +611,7 @@ export interface IFetchChannelPostOptions extends IHubRequestOptions {
  * @extends {IHubRequestOptions}
  */
 export interface IUpdatePostOptions extends IHubRequestOptions {
-  postId: number;
+  postId: string;
   params: IUpdatePost;
 }
 
@@ -623,8 +623,8 @@ export interface IUpdatePostOptions extends IHubRequestOptions {
  * @extends {IHubRequestOptions}
  */
 export interface IUpdateChannelPostOptions extends IHubRequestOptions {
-  postId: number;
-  channelId: number;
+  postId: string;
+  channelId: string;
   params: IUpdatePost;
 }
 
@@ -636,7 +636,7 @@ export interface IUpdateChannelPostOptions extends IHubRequestOptions {
  * @extends {IHubRequestOptions}
  */
 export interface IUpdatePostSharingOptions extends IHubRequestOptions {
-  postId: number;
+  postId: string;
   params: IUpdatePostSharing;
 }
 
@@ -648,8 +648,8 @@ export interface IUpdatePostSharingOptions extends IHubRequestOptions {
  * @extends {IHubRequestOptions}
  */
 export interface IUpdateChannelPostSharingOptions extends IHubRequestOptions {
-  postId: number;
-  channelId: number;
+  postId: string;
+  channelId: string;
   params: IUpdatePostSharing;
 }
 
@@ -661,7 +661,7 @@ export interface IUpdateChannelPostSharingOptions extends IHubRequestOptions {
  * @extends {IHubRequestOptions}
  */
 export interface IUpdatePostStatusOptions extends IHubRequestOptions {
-  postId: number;
+  postId: string;
   params: IUpdatePostStatus;
 }
 
@@ -673,8 +673,8 @@ export interface IUpdatePostStatusOptions extends IHubRequestOptions {
  * @extends {IHubRequestOptions}
  */
 export interface IUpdateChannelPostStatusOptions extends IHubRequestOptions {
-  postId: number;
-  channelId: number;
+  postId: string;
+  channelId: string;
   params: IUpdatePostStatus;
 }
 
@@ -686,7 +686,7 @@ export interface IUpdateChannelPostStatusOptions extends IHubRequestOptions {
  * @extends {IHubRequestOptions}
  */
 export interface IRemovePostOptions extends IHubRequestOptions {
-  postId: number;
+  postId: string;
 }
 
 /**
@@ -697,8 +697,8 @@ export interface IRemovePostOptions extends IHubRequestOptions {
  * @extends {IHubRequestOptions}
  */
 export interface IRemoveChannelPostOptions extends IHubRequestOptions {
-  postId: number;
-  channelId: number;
+  postId: string;
+  channelId: string;
 }
 
 // // channels
@@ -733,7 +733,7 @@ export interface ICreateChannelOptions extends IHubRequestOptions {
  * @extends {IHubRequestOptions}
  */
 export interface IFetchChannelOptions extends IHubRequestOptions {
-  channelId: number;
+  channelId: string;
   params?: IFetchChannel;
 }
 
@@ -745,7 +745,7 @@ export interface IFetchChannelOptions extends IHubRequestOptions {
  * @extends {IHubRequestOptions}
  */
 export interface IUpdateChannelOptions extends IHubRequestOptions {
-  channelId: number;
+  channelId: string;
   params: IUpdateChannel;
 }
 
@@ -757,7 +757,7 @@ export interface IUpdateChannelOptions extends IHubRequestOptions {
  * @extends {IHubRequestOptions}
  */
 export interface IRemoveChannelOptions extends IHubRequestOptions {
-  channelId: number;
+  channelId: string;
 }
 
 // // reactions
@@ -770,7 +770,7 @@ export interface IRemoveChannelOptions extends IHubRequestOptions {
  * @extends {IHubRequestOptions}
  */
 export interface ICreateReactionOptions extends IHubRequestOptions {
-  postId: number;
+  postId: string;
   params: ICreateReaction;
 }
 
@@ -782,6 +782,6 @@ export interface ICreateReactionOptions extends IHubRequestOptions {
  * @extends {IHubRequestOptions}
  */
 export interface IRemoveReactionOptions extends IHubRequestOptions {
-  postId: number;
-  reactionId: number;
+  postId: string;
+  reactionId: string;
 }
