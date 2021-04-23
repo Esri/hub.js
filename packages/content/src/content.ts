@@ -68,6 +68,7 @@ function getContentData(
 interface IMetadataPaths {
   updateFrequency: string;
   metadataUpdateFrequency: string;
+  metadataUpdatedDate: string;
   reviseDate: string;
   pubDate: string;
   createDate: string;
@@ -96,18 +97,15 @@ export enum UpdateFrequency {
 
 function getMetadataPath(identifier: keyof IMetadataPaths) {
   // NOTE: i have verified that this will work regardless of the "Metadata Style" set on the org
-  /*
-    metadata "custom date": metadata.metadata.mdDateSt
-    resource "custom date": metadata.metadata.dataIdInfo.idCitation.date.reviseDate
-  */
   const metadataPaths = {
     updateFrequency:
       "metadata.metadata.dataIdInfo.resMaint.maintFreq.MaintFreqCd.@_value",
-    metadataUpdateFrequency:
-      "metadata.metadata.mdMaint.maintFreq.MaintFreqCd.@_value",
     reviseDate: "metadata.metadata.dataIdInfo.idCitation.date.reviseDate",
     pubDate: "metadata.metadata.dataIdInfo.idCitation.date.pubDate",
-    createDate: "metadata.metadata.dataIdInfo.idCitation.date.createDate"
+    createDate: "metadata.metadata.dataIdInfo.idCitation.date.createDate",
+    metadataUpdateFrequency:
+      "metadata.metadata.mdMaint.maintFreq.MaintFreqCd.@_value",
+    metadataUpdatedDate: "metadata.metadata.mdDateSt"
   };
   return metadataPaths[identifier];
 }
@@ -118,6 +116,24 @@ function getValueFromMetadata(
 ) {
   const path = getMetadataPath(identifier);
   return path && getProp(content, path);
+}
+
+function iso8601ToDate(dateString: string): Date {
+  // sometimes we get dates that are only the date portion of an iso8601 date so they will be off by a day in some time zones
+  let result = new Date(dateString);
+  if (!dateString.includes("T")) {
+    const dateParts: [number, number, number] = dateString
+      .split("-")
+      .map((x, idx) => {
+        let part = +x;
+        if (idx === 1) {
+          part -= 1;
+        }
+        return part;
+      }) as [number, number, number];
+    result = new Date(...dateParts);
+  }
+  return result;
 }
 
 /**
@@ -167,16 +183,36 @@ export function _enrichDates(content: IHubContent): IHubContent {
       updateFrequencyMap[metadataUpdateFrequencyValue];
   }
 
+  // metadataUpdatedDate & metadataUpdatedDateSource:
+  // updatedDate is set to item.modified
+  const metadataUpdatedDate = getValueFromMetadata(
+    newContent,
+    "metadataUpdatedDate"
+  );
+  if (metadataUpdatedDate) {
+    newContent.metadataUpdatedDate = iso8601ToDate(metadataUpdatedDate);
+    newContent.metadataUpdatedDateSource = getMetadataPath(
+      "metadataUpdatedDate"
+    );
+  } else {
+    newContent.metadataUpdatedDate = newContent.updatedDate;
+    newContent.metadataUpdatedDateSource = "item.modified";
+  }
+
   // updatedDate & updatedDateSource:
   // updatedDate is already set to item.modified, we will override that if we have reviseDate in metadata or lastEditDate
   const reviseDate = getValueFromMetadata(newContent, "reviseDate");
-  const lastEditDate = getProp(newContent, "layer.editingInfo.lastEditDate");
+  const lastEditDate = getProp(
+    newContent,
+    "server.changeTrackingInfo.lastSyncDate"
+  );
   if (reviseDate) {
-    newContent.updatedDate = new Date(reviseDate);
+    newContent.updatedDate = iso8601ToDate(reviseDate);
     newContent.updatedDateSource = getMetadataPath("reviseDate");
   } else if (lastEditDate) {
+    // we do not use iso8601ToDate because this will be a timestamp
     newContent.updatedDate = new Date(lastEditDate);
-    newContent.updatedDateSource = "layer.editingInfo.lastEditDate";
+    newContent.updatedDateSource = "server.changeTrackingInfo.lastSyncDate";
   }
 
   // publishedDate & publishedDateSource:
@@ -184,10 +220,10 @@ export function _enrichDates(content: IHubContent): IHubContent {
   const pubDate = getValueFromMetadata(newContent, "pubDate");
   const createDate = getValueFromMetadata(newContent, "createDate");
   if (pubDate) {
-    newContent.publishedDate = new Date(pubDate);
+    newContent.publishedDate = iso8601ToDate(pubDate);
     newContent.publishedDateSource = getMetadataPath("pubDate");
   } else if (createDate) {
-    newContent.publishedDate = new Date(createDate);
+    newContent.publishedDate = iso8601ToDate(createDate);
     newContent.publishedDateSource = getMetadataPath("createDate");
   }
 
