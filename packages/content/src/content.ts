@@ -67,6 +67,7 @@ function getContentData(
 
 interface IMetadataPaths {
   updateFrequency: string;
+  metadataUpdateFrequency: string;
   reviseDate: string;
   pubDate: string;
   createDate: string;
@@ -95,14 +96,19 @@ export enum UpdateFrequency {
 
 function getMetadataPath(identifier: keyof IMetadataPaths) {
   // NOTE: i have verified that this will work regardless of the "Metadata Style" set on the org
-  const metadataPaths: IMetadataPaths = {
+  /*
+    metadata "custom date": metadata.metadata.mdDateSt
+    resource "custom date": metadata.metadata.dataIdInfo.idCitation.date.reviseDate
+  */
+  const metadataPaths = {
     updateFrequency:
       "metadata.metadata.dataIdInfo.resMaint.maintFreq.MaintFreqCd.@_value",
+    metadataUpdateFrequency:
+      "metadata.metadata.mdMaint.maintFreq.MaintFreqCd.@_value",
     reviseDate: "metadata.metadata.dataIdInfo.idCitation.date.reviseDate",
     pubDate: "metadata.metadata.dataIdInfo.idCitation.date.pubDate",
     createDate: "metadata.metadata.dataIdInfo.idCitation.date.createDate"
   };
-
   return metadataPaths[identifier];
 }
 
@@ -125,29 +131,40 @@ function getValueFromMetadata(
 export function _enrichDates(content: IHubContent): IHubContent {
   const newContent = cloneObject(content);
 
+  const updateFrequencyMap = {
+    "001": UpdateFrequency.Continual,
+    "002": UpdateFrequency.Daily,
+    "003": UpdateFrequency.Weekly,
+    "004": UpdateFrequency.Fortnightly,
+    "005": UpdateFrequency.Monthly,
+    "006": UpdateFrequency.Quarterly,
+    "007": UpdateFrequency.Biannually,
+    "008": UpdateFrequency.Annually,
+    "009": UpdateFrequency.AsNeeded,
+    "010": UpdateFrequency.Irregular,
+    "011": UpdateFrequency.NotPlanned,
+    "012": UpdateFrequency.Unknown,
+    "013": UpdateFrequency.Semimonthly
+  } as { [index: string]: UpdateFrequency };
+
   // updateFrequency:
-  const updatedFrequencyValue = getValueFromMetadata(
+  const updateFrequencyValue = getValueFromMetadata(
     newContent,
     "updateFrequency"
   );
-  if (updatedFrequencyValue) {
-    const updateFrequencyMap = {
-      "001": UpdateFrequency.Continual,
-      "002": UpdateFrequency.Daily,
-      "003": UpdateFrequency.Weekly,
-      "004": UpdateFrequency.Fortnightly,
-      "005": UpdateFrequency.Monthly,
-      "006": UpdateFrequency.Quarterly,
-      "007": UpdateFrequency.Biannually,
-      "008": UpdateFrequency.Annually,
-      "009": UpdateFrequency.AsNeeded,
-      "010": UpdateFrequency.Irregular,
-      "011": UpdateFrequency.NotPlanned,
-      "012": UpdateFrequency.Unknown,
-      "013": UpdateFrequency.Semimonthly
-    } as { [index: string]: UpdateFrequency };
+  if (updateFrequencyValue) {
+    newContent.updateFrequency = updateFrequencyMap[updateFrequencyValue];
+  }
 
-    newContent.updateFrequency = updateFrequencyMap[updatedFrequencyValue];
+  // metadataUpdateFrequency
+  // updateFrequency:
+  const metadataUpdateFrequencyValue = getValueFromMetadata(
+    newContent,
+    "metadataUpdateFrequency"
+  );
+  if (metadataUpdateFrequencyValue) {
+    newContent.metadataUpdateFrequency =
+      updateFrequencyMap[metadataUpdateFrequencyValue];
   }
 
   // updatedDate & updatedDateSource:
