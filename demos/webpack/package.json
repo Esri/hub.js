@@ -1,7 +1,7 @@
 {
   "name": "webpack-demo",
   "private": true,
-  "version": "8.3.0",
+  "version": "8.3.1",
   "description": "Hub.js webpack demo",
   "scripts": {
     "build": "webpack --config webpack.config.js --mode=\"production\"",
@@ -12,11 +12,11 @@
   "author": "Tom Wayson <tom@tomwayson.com>",
   "license": "Apache-2.0",
   "dependencies": {
-    "@esri/hub-common": "^8.2.2",
-    "@esri/hub-content": "^8.2.2",
     "@esri/arcgis-rest-auth": "^2.21.0",
     "@esri/arcgis-rest-portal": "^2.21.0",
-    "@esri/arcgis-rest-request": "^2.21.0"
+    "@esri/arcgis-rest-request": "^2.21.0",
+    "@esri/hub-common": "^8.3.1",
+    "@esri/hub-content": "^8.3.1"
   },
   "devDependencies": {
     "webpack": "^4.46.0",
