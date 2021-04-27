@@ -173,7 +173,6 @@ export function _enrichDates(content: IHubContent): IHubContent {
   }
 
   // metadataUpdateFrequency
-  // updateFrequency:
   const metadataUpdateFrequencyValue = getValueFromMetadata(
     newContent,
     "metadataUpdateFrequency"
