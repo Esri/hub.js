@@ -131,8 +131,9 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
     searchDescription,
     groupIds,
     structuredLicense,
-    layer
+    layer,
     // dataset enrichments
+    isProxied
     // recordCount
     // TODO: fields, geometryType, layer?, server?, as needed
   } = attributes;
@@ -142,6 +143,7 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
   content.groupIds = groupIds;
   content.structuredLicense = structuredLicense;
   content.layer = layer;
+  content.isProxied = isProxied;
   //
   if (searchDescription) {
     // overwrite default summary (from snippet) w/ search description
