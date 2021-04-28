@@ -134,10 +134,12 @@ describe("hub", () => {
       const dataset = cloneObject(documentsJson.data) as DatasetResource;
       delete dataset.attributes.searchDescription;
       delete dataset.attributes.modifiedProvenance;
+      dataset.attributes.isProxied = false;
       const content = datasetToContent(dataset);
       expect(content.summary).toBe(dataset.attributes.snippet);
       expect(content.updatedDateSource).toBe("item.modified");
       expect(content.extent).toBeUndefined();
+      expect(content.isProxied).toBe(false);
     });
     // NOTE: other use cases are covered by getContent() tests
   });

@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub.js",
-  "version": "8.2.2",
+  "version": "8.3.1",
   "description": "compact, modular JavaScript wrappers for ArcGIS Hub that run in Node.js and modern browsers.",
   "private": true,
   "devDependencies": {
@@ -91,7 +91,7 @@
     "clean:dist": "rm -rf packages/*/dist/",
     "clean:deps": "rm -rf node_modules && rm -rf packages/*/node_modules/",
     "dev": "support/dev.sh",
-    "dev:ember": "npm run dev -- esm @esri/hub-common & lerna run dev --scope ember-app --parallel",
+    "dev:ember": "npm run dev -- esm \"@esri/hub-{common,content}\" & lerna run dev --scope ember-app --parallel",
     "test": "npm run test:node && npm run test:chrome",
     "test:chrome:debug": "karma start --auto-watch --no-single-run --browsers=Chrome",
     "test:chrome": "karma start --single-run --browsers=Chrome",
