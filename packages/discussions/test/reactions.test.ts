@@ -18,15 +18,15 @@ describe("reactions", () => {
 
   it("creates a reaction to a post", done => {
     const postId = "postId";
-    const body = { value: PostReaction.THUMBS_UP };
+    const body = { postId, value: PostReaction.THUMBS_UP };
 
-    const options = { ...baseOpts, postId, params: body };
+    const options = { ...baseOpts, params: body };
 
     createReaction(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
-        expect(url).toEqual(`/posts/${postId}/reactions`);
+        expect(url).toEqual(`/reactions`);
         expect(opts).toEqual({ ...options, httpMethod: "POST" });
         done();
       })
@@ -34,16 +34,15 @@ describe("reactions", () => {
   });
 
   it("deletes a reaction to a post", done => {
-    const postId = "postId";
     const reactionId = "reactionId";
 
-    const options = { ...baseOpts, postId, reactionId };
+    const options = { ...baseOpts, reactionId };
 
     removeReaction(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
-        expect(url).toEqual(`/posts/${postId}/reactions/${reactionId}`);
+        expect(url).toEqual(`/reactions/${reactionId}`);
         expect(opts).toEqual({ ...options, httpMethod: "DELETE" });
         done();
       })

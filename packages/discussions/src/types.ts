@@ -479,6 +479,7 @@ export interface IReaction extends IWithAuthor, IWithTimestamps {
  * @interface ICreateReaction
  */
 export interface ICreateReaction {
+  postId: string;
   value: PostReaction;
 }
 
@@ -666,7 +667,6 @@ export interface IRemoveChannelOptions extends IHubRequestOptions {
  * @extends {IHubRequestOptions}
  */
 export interface ICreateReactionOptions extends IHubRequestOptions {
-  postId: string;
   params: ICreateReaction;
 }
 
@@ -678,6 +678,5 @@ export interface ICreateReactionOptions extends IHubRequestOptions {
  * @extends {IHubRequestOptions}
  */
 export interface IRemoveReactionOptions extends IHubRequestOptions {
-  postId: string;
   reactionId: string;
 }

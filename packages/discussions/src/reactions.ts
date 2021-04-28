@@ -16,9 +16,8 @@ import {
 export function createReaction(
   options: ICreateReactionOptions
 ): Promise<IReaction> {
-  const { postId } = options;
   options.httpMethod = "POST";
-  return request(`/posts/${postId}/reactions`, options);
+  return request(`/reactions`, options);
 }
 
 /**
@@ -31,7 +30,7 @@ export function createReaction(
 export function removeReaction(
   options: IRemoveReactionOptions
 ): Promise<IRemoveReactionResponse> {
-  const { postId, reactionId } = options;
+  const { reactionId } = options;
   options.httpMethod = "DELETE";
-  return request(`/posts/${postId}/reactions/${reactionId}`, options);
+  return request(`/reactions/${reactionId}`, options);
 }
