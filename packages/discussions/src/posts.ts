@@ -2,21 +2,21 @@
 import { request } from "./request";
 import {
   ISearchPostsOptions,
-  ISearchChannelPostsOptions,
+  // ISearchChannelPostsOptions,
   ICreatePostOptions,
-  ICreateChannelPostOptions,
+  // ICreateChannelPostOptions,
   ICreateReplyOptions,
-  ICreateChannelReplyOptions,
+  // ICreateChannelReplyOptions,
   IFetchPostOptions,
-  IFetchChannelPostOptions,
+  // IFetchChannelPostOptions,
   IRemovePostOptions,
-  IRemoveChannelPostOptions,
+  // IRemoveChannelPostOptions,
   IUpdatePostOptions,
-  IUpdateChannelPostOptions,
+  // IUpdateChannelPostOptions,
   IUpdatePostSharingOptions,
-  IUpdateChannelPostSharingOptions,
+  // IUpdateChannelPostSharingOptions,
   IUpdatePostStatusOptions,
-  IUpdateChannelPostStatusOptions,
+  // IUpdateChannelPostStatusOptions,
   IPagedResponse,
   IPost,
   IRemovePostResponse
@@ -26,23 +26,13 @@ import {
  * search posts
  *
  * @export
- * @param {(ISearchPostsOptions | ISearchChannelPostsOptions)} options
+ * @param {ISearchPostsOptions} options
  * @return {*}  {Promise<IPagedResponse<IPost>>}
  */
 export function searchPosts(
   options: ISearchPostsOptions
-): Promise<IPagedResponse<IPost>>;
-export function searchPosts(
-  options: ISearchChannelPostsOptions
-): Promise<IPagedResponse<IPost>>;
-export function searchPosts(
-  options: ISearchPostsOptions | ISearchChannelPostsOptions
 ): Promise<IPagedResponse<IPost>> {
-  let url = `/posts`;
-  if (options.hasOwnProperty("channelId")) {
-    const { channelId } = options as ISearchChannelPostsOptions;
-    url = `/channels/${channelId}` + url;
-  }
+  const url = `/posts`;
   options.httpMethod = "GET";
   return request(url, options);
 }
@@ -51,19 +41,11 @@ export function searchPosts(
  * create post
  *
  * @export
- * @param {(ICreatePostOptions | ICreateChannelPostOptions)} options
+ * @param {ICreatePostOptions} options
  * @return {*}  {Promise<IPost>}
  */
-export function createPost(options: ICreatePostOptions): Promise<IPost>;
-export function createPost(options: ICreateChannelPostOptions): Promise<IPost>;
-export function createPost(
-  options: ICreatePostOptions | ICreateChannelPostOptions
-): Promise<IPost> {
-  let url = `/posts`;
-  if (options.hasOwnProperty("channelId")) {
-    const { channelId } = options as ICreateChannelPostOptions;
-    url = `/channels/${channelId}` + url;
-  }
+export function createPost(options: ICreatePostOptions): Promise<IPost> {
+  const url = `/posts`;
   options.httpMethod = "POST";
   return request(url, options);
 }
@@ -72,21 +54,11 @@ export function createPost(
  * create reply to post
  *
  * @export
- * @param {(ICreateReplyOptions | ICreateChannelReplyOptions)} options
+ * @param {ICreateReplyOptions} options
  * @return {*}  {Promise<IPost>}
  */
-export function createReply(options: ICreateReplyOptions): Promise<IPost>;
-export function createReply(
-  options: ICreateChannelReplyOptions
-): Promise<IPost>;
-export function createReply(
-  options: ICreateReplyOptions | ICreateChannelReplyOptions
-): Promise<IPost> {
-  let url = `/posts/${options.postId}/reply`;
-  if (options.hasOwnProperty("channelId")) {
-    const { channelId } = options as ICreateChannelReplyOptions;
-    url = `/channels/${channelId}` + url;
-  }
+export function createReply(options: ICreateReplyOptions): Promise<IPost> {
+  const url = `/posts/${options.postId}/reply`;
   options.httpMethod = "POST";
   return request(url, options);
 }
@@ -95,19 +67,11 @@ export function createReply(
  * fetch post
  *
  * @export
- * @param {(IFetchPostOptions | IFetchChannelPostOptions)} options
+ * @param {IFetchPostOptions} options
  * @return {*}  {Promise<IPost>}
  */
-export function fetchPost(options: IFetchPostOptions): Promise<IPost>;
-export function fetchPost(options: IFetchChannelPostOptions): Promise<IPost>;
-export function fetchPost(
-  options: IFetchPostOptions | IFetchChannelPostOptions
-): Promise<IPost> {
-  let url = `/posts/${options.postId}`;
-  if (options.hasOwnProperty("channelId")) {
-    const { channelId } = options as IFetchChannelPostOptions;
-    url = `/channels/${channelId}` + url;
-  }
+export function fetchPost(options: IFetchPostOptions): Promise<IPost> {
+  const url = `/posts/${options.postId}`;
   options.httpMethod = "GET";
   return request(url, options);
 }
@@ -116,23 +80,13 @@ export function fetchPost(
  * remove post
  *
  * @export
- * @param {(IRemovePostOptions | IRemoveChannelPostOptions)} options
+ * @param {IRemovePostOptions} options
  * @return {*}  {Promise<IRemovePostResponse>}
  */
 export function removePost(
   options: IRemovePostOptions
-): Promise<IRemovePostResponse>;
-export function removePost(
-  options: IRemoveChannelPostOptions
-): Promise<IRemovePostResponse>;
-export function removePost(
-  options: IRemovePostOptions | IRemoveChannelPostOptions
 ): Promise<IRemovePostResponse> {
-  let url = `/posts/${options.postId}`;
-  if (options.hasOwnProperty("channelId")) {
-    const { channelId } = options as IRemoveChannelPostOptions;
-    url = `/channels/${channelId}` + url;
-  }
+  const url = `/posts/${options.postId}`;
   options.httpMethod = "DELETE";
   return request(url, options);
 }
@@ -142,19 +96,11 @@ export function removePost(
  * NOTE: this method currently only updates a post's title and/or body
  *
  * @export
- * @param {(IUpdatePostOptions | IUpdateChannelPostOptions)} options
+ * @param {IUpdatePostOptions} options
  * @return {*}  {Promise<IPost>}
  */
-export function updatePost(options: IUpdatePostOptions): Promise<IPost>;
-export function updatePost(options: IUpdateChannelPostOptions): Promise<IPost>;
-export function updatePost(
-  options: IUpdatePostOptions | IUpdateChannelPostOptions
-): Promise<IPost> {
-  let url = `/posts/${options.postId}`;
-  if (options.hasOwnProperty("channelId")) {
-    const { channelId } = options as IUpdateChannelPostOptions;
-    url = `/channels/${channelId}` + url;
-  }
+export function updatePost(options: IUpdatePostOptions): Promise<IPost> {
+  const url = `/posts/${options.postId}`;
   options.httpMethod = "PATCH";
   return request(url, options);
 }
@@ -164,23 +110,13 @@ export function updatePost(
  * NOTE: this method will change the channel a post belongs to
  *
  * @export
- * @param {(IUpdatePostSharingOptions | IUpdateChannelPostSharingOptions)} options
+ * @param {IUpdatePostSharingOptions} options
  * @return {*}  {Promise<IPost>}
  */
 export function updatePostSharing(
   options: IUpdatePostSharingOptions
-): Promise<IPost>;
-export function updatePostSharing(
-  options: IUpdateChannelPostSharingOptions
-): Promise<IPost>;
-export function updatePostSharing(
-  options: IUpdatePostSharingOptions | IUpdateChannelPostSharingOptions
 ): Promise<IPost> {
-  let url = `/posts/${options.postId}/sharing`;
-  if (options.hasOwnProperty("channelId")) {
-    const { channelId } = options as IUpdateChannelPostSharingOptions;
-    url = `/channels/${channelId}` + url;
-  }
+  const url = `/posts/${options.postId}/sharing`;
   options.httpMethod = "PATCH";
   return request(url, options);
 }
@@ -190,23 +126,13 @@ export function updatePostSharing(
  * NOTE: this method will only update a post's status
  *
  * @export
- * @param {(IUpdatePostStatusOptions | IUpdateChannelPostStatusOptions)} options
+ * @param {IUpdatePostStatusOptions} options
  * @return {*}  {Promise<IPost>}
  */
 export function updatePostStatus(
   options: IUpdatePostStatusOptions
-): Promise<IPost>;
-export function updatePostStatus(
-  options: IUpdateChannelPostStatusOptions
-): Promise<IPost>;
-export function updatePostStatus(
-  options: IUpdatePostStatusOptions | IUpdateChannelPostStatusOptions
 ): Promise<IPost> {
-  let url = `/posts/${options.postId}/status`;
-  if (options.hasOwnProperty("channelId")) {
-    const { channelId } = options as IUpdateChannelPostStatusOptions;
-    url = `/channels/${channelId}` + url;
-  }
+  const url = `/posts/${options.postId}/status`;
   options.httpMethod = "PATCH";
   return request(url, options);
 }

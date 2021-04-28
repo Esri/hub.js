@@ -304,6 +304,7 @@ export interface IPost extends IWithAuthor, IWithTimestamps {
 export interface ICreateChannelPost {
   title?: string;
   body: string;
+  channelId: string;
   discussion?: string;
   geometry?: Geometry;
   appInfo?: string;
@@ -314,10 +315,12 @@ export interface ICreateChannelPost {
  *
  * @export
  * @interface ICreatePost
- * @extends {ICreateChannelPost}
+ * @extends {Omit<ICreateChannelPost, 'channelId'>}
  * @extends {IWithSharing}
  */
-export interface ICreatePost extends ICreateChannelPost, IWithSharing {}
+export interface ICreatePost
+  extends Omit<ICreateChannelPost, "channelId">,
+    IWithSharing {}
 
 /**
  * dto for decorating found post with relations
@@ -339,7 +342,7 @@ export interface IFetchPost {
  * @extends {Partial<IWithSorting>}
  * @extends {Partial<IWithTimeQueries>}
  */
-export interface ISearchChannelPosts
+export interface ISearchPosts
   extends Partial<IWithAuthor>,
     Partial<IPagingParams>,
     Partial<IWithSorting>,
@@ -347,21 +350,12 @@ export interface ISearchChannelPosts
   title?: string;
   body?: string;
   discussion?: string;
-  parentId?: string;
+  parents?: string[];
   status?: PostStatus[];
   relations?: PostRelation[];
-}
-
-/**
- * dto for querying posts in many channels
- *
- * @export
- * @interface ISearchPosts
- * @extends {ISearchChannelPosts}
- */
-export interface ISearchPosts extends ISearchChannelPosts {
   groups?: string[];
   access?: SharingAccess[];
+  channels?: string[];
 }
 
 /**
@@ -371,7 +365,9 @@ export interface ISearchPosts extends ISearchChannelPosts {
  * @interface IUpdatePostSharing
  * @extends {Partial<IWithSharing>}
  */
-export interface IUpdatePostSharing extends Partial<IWithSharing> {}
+export interface IUpdatePostSharing extends Partial<IWithSharing> {
+  channelId?: string;
+}
 
 /**
  * dto for updating a post's status
@@ -388,10 +384,12 @@ export interface IUpdatePostStatus {
  *
  * @export
  * @interface IUpdatePost
+ * @extends {Partial<Omit<ICreateChannelPost, 'channelId'>>}
  */
-export interface IUpdatePost extends Partial<ICreateChannelPost> {}
+export interface IUpdatePost
+  extends Partial<Omit<ICreateChannelPost, "channelId">> {}
 
-// // channels
+// channels
 /**
  * representation of channel entity
  *
@@ -508,7 +506,7 @@ export interface IHubRequestOptions
 // // posts
 
 /**
- * request options for querying posts in many channels
+ * request options for querying posts
  *
  * @export
  * @interface ISearchPostsOptions
@@ -519,63 +517,25 @@ export interface ISearchPostsOptions extends IHubRequestOptions {
 }
 
 /**
- * request options for querying posts in single channel
- *
- * @export
- * @interface ISearchChannelPostsOptions
- * @extends {IHubRequestOptions}
- */
-export interface ISearchChannelPostsOptions extends IHubRequestOptions {
-  channelId: string;
-  params?: ISearchChannelPosts;
-}
-
-/**
- * request options for creating post in unknown channel
+ * request options for creating post
  *
  * @export
  * @interface ICreatePostOptions
  * @extends {IHubRequestOptions}
  */
 export interface ICreatePostOptions extends IHubRequestOptions {
-  params: ICreatePost;
+  params: ICreatePost | ICreateChannelPost;
 }
 
 /**
- * request options for creating post in known channel
- *
- * @export
- * @interface ICreateChannelPostOptions
- * @extends {IHubRequestOptions}
- */
-export interface ICreateChannelPostOptions extends IHubRequestOptions {
-  channelId: string;
-  params: ICreateChannelPost;
-}
-
-/**
- * request options for creating reply to post in unknown channel
+ * request options for creating reply to post
  *
  * @export
  * @interface ICreateReplyOptions
- * @extends {IHubRequestOptions}
+ * @extends {ICreatePostOptions}
  */
-export interface ICreateReplyOptions extends IHubRequestOptions {
+export interface ICreateReplyOptions extends ICreatePostOptions {
   postId: string;
-  params: ICreatePost;
-}
-
-/**
- * request options for creating reply to post in known channel
- *
- * @export
- * @interface ICreateChannelReplyOptions
- * @extends {IHubRequestOptions}
- */
-export interface ICreateChannelReplyOptions extends IHubRequestOptions {
-  postId: string;
-  channelId: string;
-  params: ICreateChannelPost;
 }
 
 /**
@@ -587,19 +547,6 @@ export interface ICreateChannelReplyOptions extends IHubRequestOptions {
  */
 export interface IFetchPostOptions extends IHubRequestOptions {
   postId: string;
-  params?: IFetchPost;
-}
-
-/**
- * request options for getting post in known channel
- *
- * @export
- * @interface IFetchChannelPostOptions
- * @extends {IHubRequestOptions}
- */
-export interface IFetchChannelPostOptions extends IHubRequestOptions {
-  postId: string;
-  channelId: string;
   params?: IFetchPost;
 }
 
@@ -616,19 +563,6 @@ export interface IUpdatePostOptions extends IHubRequestOptions {
 }
 
 /**
- * request options for updating post in known channel
- *
- * @export
- * @interface IUpdateChannelPostOptions
- * @extends {IHubRequestOptions}
- */
-export interface IUpdateChannelPostOptions extends IHubRequestOptions {
-  postId: string;
-  channelId: string;
-  params: IUpdatePost;
-}
-
-/**
  * request options for updating a post's channel
  *
  * @export
@@ -637,19 +571,6 @@ export interface IUpdateChannelPostOptions extends IHubRequestOptions {
  */
 export interface IUpdatePostSharingOptions extends IHubRequestOptions {
   postId: string;
-  params: IUpdatePostSharing;
-}
-
-/**
- * request options for updating a post's channel from a known channel
- *
- * @export
- * @interface IUpdateChannelPostSharingOptions
- * @extends {IHubRequestOptions}
- */
-export interface IUpdateChannelPostSharingOptions extends IHubRequestOptions {
-  postId: string;
-  channelId: string;
   params: IUpdatePostSharing;
 }
 
@@ -666,19 +587,6 @@ export interface IUpdatePostStatusOptions extends IHubRequestOptions {
 }
 
 /**
- * request options for updating a post's status from a known channel
- *
- * @export
- * @interface IUpdateChannelPostStatusOptions
- * @extends {IHubRequestOptions}
- */
-export interface IUpdateChannelPostStatusOptions extends IHubRequestOptions {
-  postId: string;
-  channelId: string;
-  params: IUpdatePostStatus;
-}
-
-/**
  * request options for deleting a post
  *
  * @export
@@ -687,18 +595,6 @@ export interface IUpdateChannelPostStatusOptions extends IHubRequestOptions {
  */
 export interface IRemovePostOptions extends IHubRequestOptions {
   postId: string;
-}
-
-/**
- * request options for deleting a post from channel
- *
- * @export
- * @interface IRemoveChannelPostOptions
- * @extends {IHubRequestOptions}
- */
-export interface IRemoveChannelPostOptions extends IHubRequestOptions {
-  postId: string;
-  channelId: string;
 }
 
 // // channels

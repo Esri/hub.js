@@ -7,11 +7,8 @@ import {
 } from "../src/channels";
 import * as req from "../src/request";
 import {
-  ICreateChannelOptions,
   IFetchChannelOptions,
-  IRemoveChannelOptions,
-  ISearchChannelsOptions,
-  IUpdateChannelOptions,
+  IHubRequestOptions,
   PostReaction,
   PostStatus,
   SharingAccess
@@ -20,6 +17,10 @@ import {
 describe("channels", () => {
   let requestSpy: any;
   const response = new Response("ok", { status: 200 });
+  const baseOpts: IHubRequestOptions = {
+    hubApiUrl: "https://hub.arcgis.com/api",
+    authentication: null
+  };
 
   beforeEach(() => {
     requestSpy = spyOn(req, "request").and.returnValue(
@@ -33,8 +34,8 @@ describe("channels", () => {
       groups: ["foo"]
     };
 
-    const options = { params: query };
-    searchChannels(options as ISearchChannelsOptions)
+    const options = { ...baseOpts, params: query };
+    searchChannels(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
@@ -57,9 +58,9 @@ describe("channels", () => {
       allowedReactions: [PostReaction.HEART]
     };
 
-    const options = { params: body };
+    const options = { ...baseOpts, params: body };
 
-    createChannel(options as ICreateChannelOptions)
+    createChannel(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
@@ -73,7 +74,7 @@ describe("channels", () => {
   it("gets channel", done => {
     const channelId = "channelId";
 
-    const options = { channelId };
+    const options = { ...baseOpts, channelId };
 
     fetchChannel(options as IFetchChannelOptions)
       .then(() => {
@@ -92,9 +93,9 @@ describe("channels", () => {
       allowReaction: false
     };
 
-    const options = { channelId, params: body };
+    const options = { ...baseOpts, channelId, params: body };
 
-    updateChannel(options as IUpdateChannelOptions)
+    updateChannel(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
@@ -108,9 +109,9 @@ describe("channels", () => {
   it("deletes channel", done => {
     const channelId = "channelId";
 
-    const options = { channelId };
+    const options = { ...baseOpts, channelId };
 
-    removeChannel(options as IRemoveChannelOptions)
+    removeChannel(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);

@@ -1,14 +1,14 @@
 import { createReaction, removeReaction } from "../src/reactions";
 import * as req from "../src/request";
-import {
-  ICreateReactionOptions,
-  IRemoveReactionOptions,
-  PostReaction
-} from "../src/types";
+import { IHubRequestOptions, PostReaction } from "../src/types";
 
 describe("reactions", () => {
   let requestSpy: any;
   const response = new Response("ok", { status: 200 });
+  const baseOpts: IHubRequestOptions = {
+    hubApiUrl: "https://hub.arcgis.com/api",
+    authentication: null
+  };
 
   beforeEach(() => {
     requestSpy = spyOn(req, "request").and.returnValue(
@@ -20,9 +20,9 @@ describe("reactions", () => {
     const postId = "postId";
     const body = { value: PostReaction.THUMBS_UP };
 
-    const options = { postId, params: body };
+    const options = { ...baseOpts, postId, params: body };
 
-    createReaction(options as ICreateReactionOptions)
+    createReaction(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
@@ -37,9 +37,9 @@ describe("reactions", () => {
     const postId = "postId";
     const reactionId = "reactionId";
 
-    const options = { postId, reactionId };
+    const options = { ...baseOpts, postId, reactionId };
 
-    removeReaction(options as IRemoveReactionOptions)
+    removeReaction(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
