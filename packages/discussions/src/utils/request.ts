@@ -68,7 +68,8 @@ export function apiRequest<T>(
   // NOTE: this should default to the prod url once deployed and microservice root URLs
   // are normalized: https://github.com/Esri/hub.js/pull/479#discussion_r607866561
   const apiBase =
-    options.hubApiUrl || "https://ingress.eks.qa.hub.geocloud.com/api/v1";
+    options.hubApiUrl ||
+    "https://ingress.eks.qa.hub.geocloud.com/api/discussions/v1";
 
   if (options.params) {
     if (options.httpMethod === "GET") {
