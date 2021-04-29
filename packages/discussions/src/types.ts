@@ -350,7 +350,7 @@ export interface ISearchPosts
   title?: string;
   body?: string;
   discussion?: string;
-  parents?: string[];
+  parents?: Array<string | null>;
   status?: PostStatus[];
   relations?: PostRelation[];
   groups?: string[];
