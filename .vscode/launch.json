@@ -15,6 +15,15 @@
       ]
     },
     {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Node E2E Tests",
+      "program": "${workspaceRoot}/node_modules/.bin/jasmine",
+      "args": [
+        "--config=jasmine.e2e.json"
+      ]
+    },
+    {
       "type": "node", 
       "request": "launch", 
       "name": "Debug Node Tests, Current File", 
