@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>End-to-End Tests | Guide | @esri/hub.js</title>
+    
+    <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
+    
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css">
+    <link rel="stylesheet" href="/hub.js/css/style.css">
+    
+  </head>
+  <body>
+  <!-- Drawer -->
+    <div class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
+      <nav class="drawer-nav" role="navigation">
+        <aside class="side-nav">
+          <h2 class="side-nav-title">@esri/hub.js</h2>
+          <a href="/hub.js/guides/" class="is-active side-nav-link">Guides</a>
+          <a href="/hub.js/api/" class="side-nav-link">API Reference</a>
+        </aside>
+      </nav>
+    </div>
+
+    <div id="page" class="wrapper">
+      <!-- Sample HTML -->
+      <header class="top-nav">
+        <div class="grid-container">
+          <div class="column-24">
+            <!-- desktop sized navigation -->
+            <div class="tablet-hide">
+              <!-- logo / home -->
+              <a href="/hub.js/" class="top-nav-title">@esri/hub.js</a>
+              <!-- primary navigation sections -->
+              <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/guides/" class="is-active top-nav-link">Guides</a>
+                <a href="/hub.js/api/" class="top-nav-link">API Reference</a>
+                <a href="https://github.com/Esri/hub.js" class="top-nav-link">GitHub</a>
+              </nav>
+            </div>
+
+            <!-- tablet and mobile sized navigation -->
+            <div class="tablet-show top-nav-flex">
+              <!-- open primary navigation drawer -->
+              <nav class="top-nav-flex-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/" class="icon-ui-menu top-nav-link js-drawer-toggle" data-drawer="top-nav"><span class="phone-hide">Menu</span></a>
+              </nav>
+              <!-- logo / home -->
+              <header class="top-nav-flex-title">
+                <a href="/hub.js/" class="top-nav-link">@esri/hub.js</a>
+              </header>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+
+      <main id="#skip-to-content">
+        
+  <div class="grid-container trailer-1 leader-1">
+    <div class="column-6">
+      <ul class="list-plain">
+        
+          <li>Get Started</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/from-a-cdn/">From a CDN</a></li>
+            
+              <li><a href="/hub.js/guides/node/">Node.js</a></li>
+            
+              <li><a href="/hub.js/guides/using-es6/">Using ES6</a></li>
+            
+              <li><a href="/hub.js/guides/whats-new-v2-0/">What's New in v2.0.0</a></li>
+            
+          </ul>
+        
+          <li>Concepts</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/authentication/">Authentication</a></li>
+            
+              <li><a href="/hub.js/guides/sites-and-pages/">Sites and Pages</a></li>
+            
+              <li><a href="/hub.js/guides/teams/">Hub Teams</a></li>
+            
+              <li><a href="/hub.js/guides/work-with-annotations/">Map Annotations</a></li>
+            
+              <li><a href="/hub.js/guides/common/">Utilities</a></li>
+            
+              <li><a href="/hub.js/guides/operation-stack/">OperationStack</a></li>
+            
+              <li><a href="/hub.js/guides/e2e-tests/" class="is-active">E2E Testing</a></li>
+            
+          </ul>
+        
+      </ul>
+    </div>
+
+    <div class="column-18">
+      <div class="panel">
+        <h1>End-to-End Testing for Hub.js</h1>
+<p>Hub.js is intended to encapsulate Hub logic for many workflows or scenarios. Ideally we want the UI layer to collect inputs then delegate to Hub.js functions to do the actual &quot;work&quot;.</p>
+<p>While we require 100% code coverage in this repository, none of those tests actually make real API calls. This is where end-to-end testing comes into play.</p>
+<h2>General Ideas</h2>
+<p>E2e tests are not used to drive code-coverage. Coverage is only driven by the unit tests, and we expect developers to use Jasmine spies (<code>spyOn(...)</code> or Sinon stubs (<code>sinon.stub(...)</code>) or (worst case) <code>fetchMock</code> in those tests so we don't actually make requests to the backin APIs.</p>
+<p>E2e tests are not run in CI. Since they use real credentials, for a wide set of user types, in various org types, we don't want to have all that info in CI environments which are prone to breaches (ie. <a href="http://codecov.io">codecov.io</a> breach in early 2021). They exist to be run by a developer, from a local workstation.</p>
+<p>E2e tests are used to rapidly verify a complex set of permutations, which would be extremely time consuming to manually test or extremely slow for WebDriver based e2e tests - i.e. verifying all the permutations of user privs, org licensing and team configurations.</p>
+<h2>Configuring Identities</h2>
+<p>Create a <code>.env</code> file in the root of the repo, using the <code>.env-example</code> as an example. Get the passwords from the normal place.</p>
+<h2>Running Tests</h2>
+<p>From the root of the repo,</p>
+<ul>
+<li>run in chrome: <code>npm run e2e:chrome</code></li>
+<li>run via node: <code>npm run e2e:node</code></li>
+</ul>
+<h2>Debugging Tests</h2>
+<p>Debugging in Chrome is the simplest because you can inspect the network requests, but sometimes it's useful to debug in node.</p>
+<ul>
+<li>run in chrome: <code>npm run e2e:chrome:debug</code> will open chrome w/ DevTools open, and run the tests</li>
+<li>in VSCode, go to the Debug panel and select &quot;Debug Node E2E Tests&quot;</li>
+</ul>
+<h2>Writing Tests</h2>
+<p>The e2e tests use jasmine just like the unit tests, so the syntax will be the same. The main difference is that you'll be working with real sessions and real users.</p>
+<p>You'll need to import the <code>Artifactory</code> class and the <code>config</code> that powers it, along with <code>UserSession</code></p>
+<pre><code><span class="hljs-keyword">import</span> Artifactory <span class="hljs-keyword">from</span> <span class="hljs-string">"./helpers/Artifactory"</span>;
+<span class="hljs-keyword">import</span> config <span class="hljs-keyword">from</span> <span class="hljs-string">"./helpers/config"</span>;
+<span class="hljs-keyword">import</span> { UserSession } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/arcgis-rest-auth"</span>;
+
+describe(<span class="hljs-string">"Team Creation Validation:"</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-comment">// at the start, construct an artifactory and load it with the config</span>
+  <span class="hljs-comment">// we may streamline this more as we build things out</span>
+  <span class="hljs-keyword">let</span> factory: Artifactory;
+  beforeAll(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    factory = <span class="hljs-keyword">new</span> Artifactory(config);
+  });
+
+  <span class="hljs-comment">// Create a describe block for each env you want to test with</span>
+  describe(<span class="hljs-string">"Hub Basic:"</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    <span class="hljs-keyword">const</span> orgName = <span class="hljs-string">"hubBasic"</span>;
+    <span class="hljs-keyword">let</span> adminSession: UserSession;
+    <span class="hljs-comment">// then setup session objects for the various users you're going to work with</span>
+    beforeEach(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+      adminSession = factory.getSession(orgName, <span class="hljs-string">"admin"</span>);
+    });
+    <span class="hljs-comment">// now write tests that use those users</span>
+    it(<span class="hljs-string">"gets admin self"</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+      <span class="hljs-keyword">return</span> adminSession.getUser().then(<span class="hljs-function"><span class="hljs-params">user</span> =&gt;</span> {
+        expect(user.groups.length).toBeGreaterThan(
+          <span class="hljs-number">0</span>,
+          <span class="hljs-string">"user should have groups"</span>
+        );
+        expect(user.username).toBe(
+          config.envs.qaext.orgs.hubBasic.admin.username,
+          <span class="hljs-string">"should be basic admin"</span>
+        );
+      });
+    });
+  });
+});
+</code></pre>
+      </div>
+    </div>
+  </div>
+
+      </main>
+    </div>
+
+    <footer class="footer">
+      
+      <div class="panel panel-white">
+        <div class="grid-container">
+          <div class="column-24">
+            <a href="https://github.com/Esri/hub.js" class="font-size--2">Fork this project</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/js/calcite-web.min.js"></script>
+
+    <script>
+       calcite.init()
+    </script>
+
+    
+  </body>
+</html>
