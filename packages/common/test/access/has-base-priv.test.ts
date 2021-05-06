@@ -13,4 +13,9 @@ describe("hasBasePriv", function() {
     const result = hasBasePriv({} as IUser);
     expect(result).toBe(false);
   });
+
+  it("returns false if user is falsy", function() {
+    const result = hasBasePriv();
+    expect(result).toBe(false);
+  });
 });
