@@ -97,7 +97,7 @@ export enum UpdateFrequency {
 
 function getMetadataPath(identifier: keyof IMetadataPaths) {
   // NOTE: i have verified that this will work regardless of the "Metadata Style" set on the org
-  const metadataPaths = {
+  const metadataPaths: IMetadataPaths = {
     updateFrequency:
       "metadata.metadata.dataIdInfo.resMaint.maintFreq.MaintFreqCd.@_value",
     reviseDate: "metadata.metadata.dataIdInfo.idCitation.date.reviseDate",
@@ -120,18 +120,22 @@ function getValueFromMetadata(
 
 function iso8601ToDate(dateString: string): Date {
   // sometimes we get dates that are only the date portion of an iso8601 date so they will be off by a day in some time zones
-  let result = new Date(dateString);
-  if (!dateString.includes("T")) {
-    const dateParts: [number, number, number] = dateString
-      .split("-")
-      .map((x, idx) => {
-        let part = +x;
-        if (idx === 1) {
-          part -= 1;
-        }
-        return part;
-      }) as [number, number, number];
-    result = new Date(...dateParts);
+  let result;
+  // first check if what we got is parseable as a date
+  if (!Number.isNaN(Date.parse(dateString))) {
+    result = new Date(dateString);
+    if (!dateString.includes("T")) {
+      const dateParts: [number, number, number] = dateString
+        .split("-")
+        .map((x, idx) => {
+          let part = +x;
+          if (idx === 1) {
+            part -= 1;
+          }
+          return part;
+        }) as [number, number, number];
+      result = new Date(...dateParts);
+    }
   }
   return result;
 }
@@ -184,12 +188,11 @@ export function _enrichDates(content: IHubContent): IHubContent {
 
   // metadataUpdatedDate & metadataUpdatedDateSource:
   // updatedDate is set to item.modified
-  const metadataUpdatedDate = getValueFromMetadata(
-    newContent,
-    "metadataUpdatedDate"
+  const metadataUpdatedDate = iso8601ToDate(
+    getValueFromMetadata(newContent, "metadataUpdatedDate")
   );
   if (metadataUpdatedDate) {
-    newContent.metadataUpdatedDate = iso8601ToDate(metadataUpdatedDate);
+    newContent.metadataUpdatedDate = metadataUpdatedDate;
     newContent.metadataUpdatedDateSource = getMetadataPath(
       "metadataUpdatedDate"
     );
@@ -200,13 +203,15 @@ export function _enrichDates(content: IHubContent): IHubContent {
 
   // updatedDate & updatedDateSource:
   // updatedDate is already set to item.modified, we will override that if we have reviseDate in metadata or lastEditDate
-  const reviseDate = getValueFromMetadata(newContent, "reviseDate");
+  const reviseDate = iso8601ToDate(
+    getValueFromMetadata(newContent, "reviseDate")
+  );
   const lastEditDate = getProp(
     newContent,
     "server.changeTrackingInfo.lastSyncDate"
   );
   if (reviseDate) {
-    newContent.updatedDate = iso8601ToDate(reviseDate);
+    newContent.updatedDate = reviseDate;
     newContent.updatedDateSource = getMetadataPath("reviseDate");
   } else if (lastEditDate) {
     // we do not use iso8601ToDate because this will be a timestamp
@@ -216,13 +221,15 @@ export function _enrichDates(content: IHubContent): IHubContent {
 
   // publishedDate & publishedDateSource:
   // publishedDate is already set to item.created, we will override that if we have pubDate or createdDate in metadata
-  const pubDate = getValueFromMetadata(newContent, "pubDate");
-  const createDate = getValueFromMetadata(newContent, "createDate");
+  const pubDate = iso8601ToDate(getValueFromMetadata(newContent, "pubDate"));
+  const createDate = iso8601ToDate(
+    getValueFromMetadata(newContent, "createDate")
+  );
   if (pubDate) {
-    newContent.publishedDate = iso8601ToDate(pubDate);
+    newContent.publishedDate = pubDate;
     newContent.publishedDateSource = getMetadataPath("pubDate");
   } else if (createDate) {
-    newContent.publishedDate = iso8601ToDate(createDate);
+    newContent.publishedDate = createDate;
     newContent.publishedDateSource = getMetadataPath("createDate");
   }
 
