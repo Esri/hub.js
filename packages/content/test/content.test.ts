@@ -6,6 +6,19 @@ import * as portalModule from "../src/portal";
 import * as hubModule from "../src/hub";
 import { mockUserSession } from "./test-helpers/fake-user-session";
 
+function parsePartialDate(dateString: string) {
+  const dateParts: [number, number, number] = dateString
+    .split("-")
+    .map((x, idx) => {
+      let part = +x;
+      if (idx === 1) {
+        part -= 1;
+      }
+      return part;
+    }) as [number, number, number];
+  return new Date(...dateParts);
+}
+
 describe("get content", () => {
   let requestOpts: IHubRequestOptions;
   beforeEach(() => {
@@ -267,6 +280,86 @@ describe("enrichDates", () => {
     });
   });
 
+  describe("metadataUpdateFrequency", () => {
+    it("should return undefined when no metadata", () => {
+      const result = _enrichDates({} as IHubContent);
+      expect(result.metadataUpdateFrequency).toEqual(undefined);
+    });
+    it("should return undefined when metadata present but unknown value", () => {
+      const content = {
+        metadata: {
+          metadata: {
+            Esri: {
+              ArcGISProfile: "ISO19139"
+            },
+            mdMaint: {
+              maintFreq: {
+                MaintFreqCd: {
+                  "@_value": "999"
+                }
+              }
+            }
+          }
+        }
+      } as IHubContent;
+      const result = _enrichDates(content);
+      expect(result.metadataUpdateFrequency).toEqual(undefined);
+    });
+    it("should return the correct value when metadata present", () => {
+      const content = {
+        metadata: {
+          metadata: {
+            Esri: {
+              ArcGISProfile: "ISO19139"
+            },
+            mdMaint: {
+              maintFreq: {
+                MaintFreqCd: {
+                  "@_value": "003"
+                }
+              }
+            }
+          }
+        }
+      } as IHubContent;
+      const result = _enrichDates(content);
+      expect(result.metadataUpdateFrequency).toEqual("weekly");
+    });
+  });
+
+  describe("metadataUpdatedDate", () => {
+    it("should return the correct values when no metadata", () => {
+      // if it doesn't find metadata values it should fall back to the updated date on the content
+      const updatedDate = new Date();
+      const result = _enrichDates({
+        updatedDate,
+        updatedDateSource: "updated-date-source"
+      } as IHubContent);
+      expect(result.metadataUpdatedDate).toEqual(updatedDate);
+      expect(result.metadataUpdatedDateSource).toEqual("updated-date-source");
+    });
+    it("should return the correct value when metadataUpdatedDate metadata present", () => {
+      const metadataUpdatedDate = "1970-02-07";
+      const content = {
+        metadata: {
+          metadata: {
+            Esri: {
+              ArcGISProfile: "ISO19139"
+            },
+            mdDateSt: metadataUpdatedDate
+          }
+        }
+      } as IHubContent;
+      const result = _enrichDates(content);
+      expect(result.metadataUpdatedDate).toEqual(
+        parsePartialDate(metadataUpdatedDate)
+      );
+      expect(result.metadataUpdatedDateSource).toEqual(
+        "metadata.metadata.mdDateSt"
+      );
+    });
+  });
+
   describe("updatedDate", () => {
     it("should return the correct values when no metadata and no lastEditDate", () => {
       // if it doesn't find metadata values it should just not mess with what is already there
@@ -284,15 +377,16 @@ describe("enrichDates", () => {
       const result = _enrichDates(({
         updatedDate: new Date(),
         updatedDateSource: "updated-date-source",
-        layer: { editingInfo: { lastEditDate: lastEditDate.valueOf() } }
+        // server.changeTrackingInfo.lastSyncDate
+        server: { changeTrackingInfo: { lastSyncDate: lastEditDate.valueOf() } }
       } as unknown) as IHubContent);
       expect(result.updatedDate).toEqual(lastEditDate);
       expect(result.updatedDateSource).toEqual(
-        "layer.editingInfo.lastEditDate"
+        "server.changeTrackingInfo.lastSyncDate"
       );
     });
     it("should return the correct value when reviseDate metadata present", () => {
-      const reviseDate = "1970-02-07T00:00:00.000Z";
+      const reviseDate = "1970-02-07";
       const content = {
         metadata: {
           metadata: {
@@ -310,7 +404,7 @@ describe("enrichDates", () => {
         }
       } as IHubContent;
       const result = _enrichDates(content);
-      expect(result.updatedDate).toEqual(new Date(reviseDate));
+      expect(result.updatedDate).toEqual(parsePartialDate(reviseDate));
       expect(result.updatedDateSource).toEqual(
         "metadata.metadata.dataIdInfo.idCitation.date.reviseDate"
       );
@@ -329,7 +423,7 @@ describe("enrichDates", () => {
       expect(result.publishedDateSource).toEqual("published-date-source");
     });
     it("should return the correct value when pubDate metadata present", () => {
-      const pubDate = "1970-02-07T00:00:00.000Z";
+      const pubDate = "1970-02-07";
       const content = {
         metadata: {
           metadata: {
@@ -347,13 +441,13 @@ describe("enrichDates", () => {
         }
       } as IHubContent;
       const result = _enrichDates(content);
-      expect(result.publishedDate).toEqual(new Date(pubDate));
+      expect(result.publishedDate).toEqual(parsePartialDate(pubDate));
       expect(result.publishedDateSource).toEqual(
         "metadata.metadata.dataIdInfo.idCitation.date.pubDate"
       );
     });
     it("should return the correct value when createDate metadata present", () => {
-      const createDate = "1970-02-07T00:00:00.000Z";
+      const createDate = "1970-02-07";
       const content = {
         metadata: {
           metadata: {
@@ -371,13 +465,13 @@ describe("enrichDates", () => {
         }
       } as IHubContent;
       const result = _enrichDates(content);
-      expect(result.publishedDate).toEqual(new Date(createDate));
+      expect(result.publishedDate).toEqual(parsePartialDate(createDate));
       expect(result.publishedDateSource).toEqual(
         "metadata.metadata.dataIdInfo.idCitation.date.createDate"
       );
     });
     it("should return the correct value when createDate & pubDate metadata present", () => {
-      const pubDate = "1970-02-07T00:00:00.000Z";
+      const pubDate = "1970-02-07";
       const content = {
         metadata: {
           metadata: {
@@ -396,7 +490,7 @@ describe("enrichDates", () => {
         }
       } as IHubContent;
       const result = _enrichDates(content);
-      expect(result.publishedDate).toEqual(new Date(pubDate));
+      expect(result.publishedDate).toEqual(parsePartialDate(pubDate));
       expect(result.publishedDateSource).toEqual(
         "metadata.metadata.dataIdInfo.idCitation.date.pubDate"
       );

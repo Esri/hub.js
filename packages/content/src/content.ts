@@ -198,7 +198,7 @@ export function _enrichDates(content: IHubContent): IHubContent {
     );
   } else {
     newContent.metadataUpdatedDate = newContent.updatedDate;
-    newContent.metadataUpdatedDateSource = "item.modified";
+    newContent.metadataUpdatedDateSource = newContent.updatedDateSource;
   }
 
   // updatedDate & updatedDateSource:
