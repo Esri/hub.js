@@ -5,6 +5,7 @@ import {
   getProp,
   cloneObject,
   deepSet,
+  setProp,
   slugify,
   stripProtocol,
   interpolate,
@@ -159,6 +160,11 @@ export function createSiteModelFromTemplate(
       const dcatConfig = cloneObject(template.data.values.dcatConfig);
       delete template.data.values.dcatConfig;
       const siteModel = interpolate(template, settings, transforms);
+      setProp(
+        "properties.initiativeTemplate.item.id",
+        getProp(settings, "initiative.item.id"),
+        siteModel
+      ); // preserve the created initiative's id
       // Special logic for the site title
       // if the title is a string, containing only numbers, then the interpolation will set it as
       // a number, which causes some problems... in that case, we stomp it in as a string...
