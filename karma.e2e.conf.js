@@ -60,7 +60,7 @@ module.exports = function(config) {
         module: "commonjs",
         importHelpers: true
       },
-      tsconfig: "./tsconfig.json",
+      tsconfig: "./tsconfig.e2e.json",
       bundlerOptions: {
         // validateSyntax: false,
         transforms: [
@@ -74,7 +74,7 @@ module.exports = function(config) {
             .readdirSync("packages")
             .filter(p => p[0] !== ".")
             .reduce((alias, p) => {
-              alias[`@esri/templates-${p}`] = `packages/${p}/src/index.ts`;
+              alias[`@esri/hub-${p}`] = `packages/${p}/src/index.ts`;
               return alias;
             }, {})
         }
