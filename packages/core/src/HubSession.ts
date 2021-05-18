@@ -6,8 +6,19 @@ import {
   includes
 } from "@esri/hub-common";
 import { IUser, UserSession } from "@esri/arcgis-rest-auth";
-import { getSelf, IPortal } from "@esri/arcgis-rest-portal";
+import { getSelf, IGroup, IGroupAdd, IPortal } from "@esri/arcgis-rest-portal";
 
+/**
+ * HubSession contains information required for any Hub API function
+ * that requires `IHubRequestOptions`.
+ *
+ * If you need an instance of `IHubRequestOptions` but do not have
+ * a `UserSession`, use `getDefaultRequestOptions()`
+ *
+ * @export
+ * @class HubSession
+ * @implements {IHubRequestOptions}
+ */
 export class HubSession implements IHubRequestOptions {
   // Note: can't use a getter for this or we get failures
   // from inside rest-js where object.assign is used frequently
@@ -33,7 +44,7 @@ export class HubSession implements IHubRequestOptions {
    *
    * @static
    * @param {UserSession} userSession
-   * @return {*}
+   * @return {Promise<HubSession>}
    * @memberof HubSession
    */
   static build(userSession: UserSession) {
@@ -44,12 +55,11 @@ export class HubSession implements IHubRequestOptions {
    * Does the initialization work of fetching
    * - portalSelf
    * - userSelf
-   * -
-   *
-   * @return {*}
+   * - trustedOrgs (REST-JS needs to add a method)
+   * @return {Promise<HubSession>}
    * @memberof HubSession
    */
-  async init() {
+  init() {
     return Promise.all([
       getSelf({
         authentication: this.authentication
@@ -86,31 +96,87 @@ export class HubSession implements IHubRequestOptions {
       return this._hubApiUrl;
     }
   }
-
+  /**
+   * Get the number of groups the current user is a
+   * member of. Used to check if user can join
+   * or create additional groups.
+   *
+   * @readonly
+   * @memberof HubSession
+   */
   get userGroupCount() {
     return this._userSelf.groups.length;
   }
 
-  get canCreateUpdateGroup() {
-    const requiredPrivs = ["portal:admin:createUpdateCapableGroup"];
-    return this.canCreateGroup && this.hasAllPrivs(requiredPrivs);
+  /**
+   * Can the authenticated user join another group?
+   * Just checks that they are members of less then
+   * 511 groups
+   *
+   * @readonly
+   * @memberof HubSession
+   */
+  get canJoinGroup() {
+    return this.userGroupCount < 511;
   }
 
-  get canCreateGroup() {
+  /**
+   * Pass in the group parameters and
+   * centralize the logic for priv checks
+   *
+   * @param {IGroupAdd} group
+   * @return {*}  {boolean}
+   * @memberof HubSession
+   */
+  canCreateGroup(group: IGroup): boolean {
+    // TODO: move to a free function that is consumed here
     if (this.userGroupCount < 511) {
+      // Baseline priv to create a group
       const requiredPrivs = ["portal:user:createGroup"];
+      // -----------------
+      // UpdateItemControl (aka Shared Edit Groups)
+      // -----------------
+      let caps = [];
+      // depending on exactly when this is called
+      // capabilities may be a comma delimited string
+      if (typeof group.capabilities === "string") {
+        caps = group.capabilities.split(",");
+      }
+      // but it may also be an array
+      if (Array.isArray(group.capabilities)) {
+        caps = group.capabilities;
+      }
+      // we care if updateitemcontrol is in there
+      if (includes(caps, "updateitemcontrol")) {
+        requiredPrivs.push("portal:admin:createUpdateCapableGroup");
+      }
+      // -----------------
+      // Membership Access
+      // -----------------
+      // although there are other possible values this is
+      // the only one that requires additional privs
+      if (group.membershipAccess === "collaboration") {
+        requiredPrivs.push("portal:user:addExternalMembersToGroup");
+      }
+
+      // Does the user have all the privs
       return this.hasAllPrivs(requiredPrivs);
     } else {
       return false;
     }
   }
 
+  /**
+   * Does the current user have all the provided privileges?
+   *
+   * Used to streamline Group creation checks but is a useful
+   * helper method for other scenarios
+   *
+   * @param {string[]} privs
+   * @return {*}  {boolean}
+   * @memberof HubSession
+   */
   hasAllPrivs(privs: string[]): boolean {
-    return privs.reduce((acc: boolean, val) => {
-      if (acc) {
-        acc = includes(this._userSelf.privileges, val);
-      }
-      return acc;
-    }, true);
+    return privs.every(priv => includes(this._userSelf.privileges, priv));
   }
 }

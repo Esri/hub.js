@@ -9,6 +9,7 @@ import { getSiteById, lookupDomain, IDomainEntry } from "@esri/hub-sites";
 import { getDefaultRequestOptions } from "../src/utils/getDefaultRequestOptions";
 import { IModel } from "@esri/hub-common";
 import { buildHubSession } from "../src/factories";
+import { IGroup } from "@esri/arcgis-rest-portal";
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
@@ -142,11 +143,11 @@ fdescribe("HubSession Creation", () => {
         3,
         "should have more than three groups"
       );
-      expect(session.canCreateGroup).toBeTruthy("can create a group");
-      expect(session.canCreateUpdateGroup).toBeTruthy(
-        "can create a update group"
-      );
+      // TODO: Add more cases
+      const grp = ({} as unknown) as IGroup;
+      expect(session.canCreateGroup(grp)).toBeTruthy("can create a group");
       expect(session.hasAllPrivs(["foo", "bar"])).toBeFalsy();
+      expect(session.canJoinGroup).toBeTruthy("can join a group");
     });
   });
 });
