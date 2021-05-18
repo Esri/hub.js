@@ -206,7 +206,7 @@ export interface IHubResource {
    */
   createdDateSource?: string;
   /** Date the item was last updated */
-  updatedDate: Date;
+  updatedDate: Date | string;
   /**
    * description of what was used for this attribute
    * the item key, e.g. `item.modified` or `item.metadata.modified_date`
@@ -286,7 +286,7 @@ export interface IHubContent extends IHubResource, IItem {
    * Date the content was published (formal metadata),
    * defaults to the date the content was created
    */
-  publishedDate: Date;
+  publishedDate: Date | string;
   /** Description of the source of the published date */
   publishedDateSource?: string;
 
