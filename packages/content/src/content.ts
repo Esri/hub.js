@@ -118,26 +118,10 @@ function getValueFromMetadata(
   return path && getProp(content, path);
 }
 
-function iso8601ToDate(dateString: string): Date {
-  // sometimes we get dates that are only the date portion of an iso8601 date so they will be off by a day in some time zones
-  let result;
-  // first check if what we got is parseable as a date
-  if (!Number.isNaN(Date.parse(dateString))) {
-    result = new Date(dateString);
-    if (!dateString.includes("T")) {
-      const dateParts: [number, number, number] = dateString
-        .split("-")
-        .map((x, idx) => {
-          let part = +x;
-          if (idx === 1) {
-            part -= 1;
-          }
-          return part;
-        }) as [number, number, number];
-      result = new Date(...dateParts);
-    }
-  }
-  return result;
+function isValidDate(dateString: string): boolean {
+  // dates that come from metadata could be any string - there is no validation in the ui
+  const date = new Date(dateString);
+  return !Number.isNaN(date.getDate());
 }
 
 /**
@@ -188,10 +172,11 @@ export function _enrichDates(content: IHubContent): IHubContent {
 
   // metadataUpdatedDate & metadataUpdatedDateSource:
   // updatedDate is set to item.modified
-  const metadataUpdatedDate = iso8601ToDate(
-    getValueFromMetadata(newContent, "metadataUpdatedDate")
+  const metadataUpdatedDate = getValueFromMetadata(
+    newContent,
+    "metadataUpdatedDate"
   );
-  if (metadataUpdatedDate) {
+  if (isValidDate(metadataUpdatedDate)) {
     newContent.metadataUpdatedDate = metadataUpdatedDate;
     newContent.metadataUpdatedDateSource = getMetadataPath(
       "metadataUpdatedDate"
@@ -203,32 +188,27 @@ export function _enrichDates(content: IHubContent): IHubContent {
 
   // updatedDate & updatedDateSource:
   // updatedDate is already set to item.modified, we will override that if we have reviseDate in metadata or lastEditDate
-  const reviseDate = iso8601ToDate(
-    getValueFromMetadata(newContent, "reviseDate")
-  );
+  const reviseDate = getValueFromMetadata(newContent, "reviseDate");
   const lastEditDate = getProp(
     newContent,
     "server.changeTrackingInfo.lastSyncDate"
   );
-  if (reviseDate) {
+  if (isValidDate(reviseDate)) {
     newContent.updatedDate = reviseDate;
     newContent.updatedDateSource = getMetadataPath("reviseDate");
   } else if (lastEditDate) {
-    // we do not use iso8601ToDate because this will be a timestamp
     newContent.updatedDate = new Date(lastEditDate);
     newContent.updatedDateSource = "server.changeTrackingInfo.lastSyncDate";
   }
 
   // publishedDate & publishedDateSource:
   // publishedDate is already set to item.created, we will override that if we have pubDate or createdDate in metadata
-  const pubDate = iso8601ToDate(getValueFromMetadata(newContent, "pubDate"));
-  const createDate = iso8601ToDate(
-    getValueFromMetadata(newContent, "createDate")
-  );
-  if (pubDate) {
+  const pubDate = getValueFromMetadata(newContent, "pubDate");
+  const createDate = getValueFromMetadata(newContent, "createDate");
+  if (isValidDate(pubDate)) {
     newContent.publishedDate = pubDate;
     newContent.publishedDateSource = getMetadataPath("pubDate");
-  } else if (createDate) {
+  } else if (isValidDate(createDate)) {
     newContent.publishedDate = createDate;
     newContent.publishedDateSource = getMetadataPath("createDate");
   }
