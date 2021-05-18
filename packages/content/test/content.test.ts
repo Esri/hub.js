@@ -6,19 +6,6 @@ import * as portalModule from "../src/portal";
 import * as hubModule from "../src/hub";
 import { mockUserSession } from "./test-helpers/fake-user-session";
 
-function parsePartialDate(dateString: string) {
-  const dateParts: [number, number, number] = dateString
-    .split("-")
-    .map((x, idx) => {
-      let part = +x;
-      if (idx === 1) {
-        part -= 1;
-      }
-      return part;
-    }) as [number, number, number];
-  return new Date(...dateParts);
-}
-
 describe("get content", () => {
   let requestOpts: IHubRequestOptions;
   beforeEach(() => {
@@ -339,7 +326,7 @@ describe("enrichDates", () => {
       expect(result.metadataUpdatedDateSource).toEqual("updated-date-source");
     });
     it("should return the correct value when metadataUpdatedDate metadata present", () => {
-      const metadataUpdatedDate = "1970-02-07";
+      const metadataUpdatedDate = "1970";
       const content = {
         metadata: {
           metadata: {
@@ -351,9 +338,7 @@ describe("enrichDates", () => {
         }
       } as IHubContent;
       const result = _enrichDates(content);
-      expect(result.metadataUpdatedDate).toEqual(
-        parsePartialDate(metadataUpdatedDate)
-      );
+      expect(result.metadataUpdatedDate).toEqual(metadataUpdatedDate);
       expect(result.metadataUpdatedDateSource).toEqual(
         "metadata.metadata.mdDateSt"
       );
@@ -386,7 +371,7 @@ describe("enrichDates", () => {
       );
     });
     it("should return the correct value when reviseDate metadata present", () => {
-      const reviseDate = "1970-02-07";
+      const reviseDate = "1970-02";
       const content = {
         metadata: {
           metadata: {
@@ -404,7 +389,7 @@ describe("enrichDates", () => {
         }
       } as IHubContent;
       const result = _enrichDates(content);
-      expect(result.updatedDate).toEqual(parsePartialDate(reviseDate));
+      expect(result.updatedDate).toEqual(reviseDate);
       expect(result.updatedDateSource).toEqual(
         "metadata.metadata.dataIdInfo.idCitation.date.reviseDate"
       );
@@ -441,7 +426,7 @@ describe("enrichDates", () => {
         }
       } as IHubContent;
       const result = _enrichDates(content);
-      expect(result.publishedDate).toEqual(parsePartialDate(pubDate));
+      expect(result.publishedDate).toEqual(pubDate);
       expect(result.publishedDateSource).toEqual(
         "metadata.metadata.dataIdInfo.idCitation.date.pubDate"
       );
@@ -465,7 +450,7 @@ describe("enrichDates", () => {
         }
       } as IHubContent;
       const result = _enrichDates(content);
-      expect(result.publishedDate).toEqual(parsePartialDate(createDate));
+      expect(result.publishedDate).toEqual(createDate);
       expect(result.publishedDateSource).toEqual(
         "metadata.metadata.dataIdInfo.idCitation.date.createDate"
       );
@@ -490,7 +475,7 @@ describe("enrichDates", () => {
         }
       } as IHubContent;
       const result = _enrichDates(content);
-      expect(result.publishedDate).toEqual(parsePartialDate(pubDate));
+      expect(result.publishedDate).toEqual(pubDate);
       expect(result.publishedDateSource).toEqual(
         "metadata.metadata.dataIdInfo.idCitation.date.pubDate"
       );

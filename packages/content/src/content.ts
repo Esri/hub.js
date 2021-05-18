@@ -14,8 +14,7 @@ import {
   IModel,
   includes,
   cloneObject,
-  getProp,
-  stringToBlob
+  getProp
 } from "@esri/hub-common";
 import { IGetContentOptions, getContentFromHub } from "./hub";
 import {
