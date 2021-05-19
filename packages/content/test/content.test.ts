@@ -1,7 +1,7 @@
 import * as fetchMock from "fetch-mock";
 import * as arcgisRestPortal from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions, IModel, IHubContent } from "@esri/hub-common";
-import { getContent, _enrichDates } from "../src/index";
+import { getContent, _enrichDates, parseISODateString } from "../src/index";
 import * as portalModule from "../src/portal";
 import * as hubModule from "../src/hub";
 import { mockUserSession } from "./test-helpers/fake-user-session";
@@ -323,6 +323,7 @@ describe("enrichDates", () => {
         updatedDateSource: "updated-date-source"
       } as IHubContent);
       expect(result.metadataUpdatedDate).toEqual(updatedDate);
+      expect(result.metadataUpdatedDatePrecision).toEqual("day");
       expect(result.metadataUpdatedDateSource).toEqual("updated-date-source");
     });
     it("should return the correct value when metadataUpdatedDate metadata present", () => {
@@ -338,7 +339,10 @@ describe("enrichDates", () => {
         }
       } as IHubContent;
       const result = _enrichDates(content);
-      expect(result.metadataUpdatedDate).toEqual(metadataUpdatedDate);
+      expect(result.metadataUpdatedDate).toEqual(
+        new Date(+metadataUpdatedDate, 0, 1)
+      );
+      expect(result.metadataUpdatedDatePrecision).toEqual("year");
       expect(result.metadataUpdatedDateSource).toEqual(
         "metadata.metadata.mdDateSt"
       );
@@ -354,6 +358,7 @@ describe("enrichDates", () => {
         updatedDateSource: "updated-date-source"
       } as IHubContent);
       expect(result.updatedDate).toEqual(updatedDate);
+      expect(result.updatedDatePrecision).toEqual("day");
       expect(result.updatedDateSource).toEqual("updated-date-source");
     });
     it("should return the correct values when lastEditDate but no metadata", () => {
@@ -366,6 +371,7 @@ describe("enrichDates", () => {
         server: { changeTrackingInfo: { lastSyncDate: lastEditDate.valueOf() } }
       } as unknown) as IHubContent);
       expect(result.updatedDate).toEqual(lastEditDate);
+      expect(result.updatedDatePrecision).toEqual("day");
       expect(result.updatedDateSource).toEqual(
         "server.changeTrackingInfo.lastSyncDate"
       );
@@ -389,7 +395,11 @@ describe("enrichDates", () => {
         }
       } as IHubContent;
       const result = _enrichDates(content);
-      expect(result.updatedDate).toEqual(reviseDate);
+      const dateParts = reviseDate.split("-").map(part => +part);
+      expect(result.updatedDate).toEqual(
+        new Date(dateParts[0], dateParts[1] - 1, 1)
+      );
+      expect(result.updatedDatePrecision).toEqual("month");
       expect(result.updatedDateSource).toEqual(
         "metadata.metadata.dataIdInfo.idCitation.date.reviseDate"
       );
@@ -405,6 +415,7 @@ describe("enrichDates", () => {
         publishedDateSource: "published-date-source"
       } as IHubContent);
       expect(result.publishedDate).toEqual(publishedDate);
+      expect(result.publishedDatePrecision).toEqual("day");
       expect(result.publishedDateSource).toEqual("published-date-source");
     });
     it("should return the correct value when pubDate metadata present", () => {
@@ -426,7 +437,11 @@ describe("enrichDates", () => {
         }
       } as IHubContent;
       const result = _enrichDates(content);
-      expect(result.publishedDate).toEqual(pubDate);
+      const dateParts = pubDate.split("-").map(part => +part);
+      expect(result.publishedDate).toEqual(
+        new Date(dateParts[0], dateParts[1] - 1, dateParts[2])
+      );
+      expect(result.publishedDatePrecision).toEqual("day");
       expect(result.publishedDateSource).toEqual(
         "metadata.metadata.dataIdInfo.idCitation.date.pubDate"
       );
@@ -450,13 +465,17 @@ describe("enrichDates", () => {
         }
       } as IHubContent;
       const result = _enrichDates(content);
-      expect(result.publishedDate).toEqual(createDate);
+      const dateParts = createDate.split("-").map(part => +part);
+      expect(result.publishedDate).toEqual(
+        new Date(dateParts[0], dateParts[1] - 1, dateParts[2])
+      );
+      expect(result.publishedDatePrecision).toEqual("day");
       expect(result.publishedDateSource).toEqual(
         "metadata.metadata.dataIdInfo.idCitation.date.createDate"
       );
     });
     it("should return the correct value when createDate & pubDate metadata present", () => {
-      const pubDate = "1970-02-07";
+      const pubDate = "02/07/1970";
       const content = {
         metadata: {
           metadata: {
@@ -475,10 +494,48 @@ describe("enrichDates", () => {
         }
       } as IHubContent;
       const result = _enrichDates(content);
-      expect(result.publishedDate).toEqual(pubDate);
+      expect(result.publishedDate).toEqual(new Date(1970, 1, 7));
+      expect(result.publishedDatePrecision).toEqual("day");
       expect(result.publishedDateSource).toEqual(
         "metadata.metadata.dataIdInfo.idCitation.date.pubDate"
       );
+    });
+  });
+
+  describe("parseISODateString", () => {
+    it("should parse various date strings properly", () => {
+      const expectations = [
+        {
+          dateString: "2018",
+          result: { date: new Date(2018, 0, 1), precision: "year" }
+        },
+        {
+          dateString: "2018-02",
+          result: { date: new Date(2018, 1, 1), precision: "month" }
+        },
+        {
+          dateString: "2018-02-07",
+          result: { date: new Date(2018, 1, 7), precision: "day" }
+        },
+        {
+          dateString: "2018-02-07T16:30",
+          result: { date: new Date("2018-02-07T16:30"), precision: "time" }
+        },
+        {
+          dateString: "02/07/1970",
+          result: { date: new Date("02/07/1970"), precision: "day" }
+        }
+      ];
+      expectations.forEach(expectation => {
+        const result = parseISODateString(expectation.dateString);
+        expect(result.date).toEqual(expectation.result.date);
+        expect(result.precision).toEqual(expectation.result.precision);
+      });
+    });
+
+    it("should return undefined when provided an unsupported date format", () => {
+      const result = parseISODateString("2018-02-07T16");
+      expect(result).toBe(undefined);
     });
   });
 });

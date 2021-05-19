@@ -94,6 +94,13 @@ export enum UpdateFrequency {
   Semimonthly = "semimonthly"
 }
 
+enum DatePrecision {
+  Year = "year",
+  Month = "month",
+  Day = "day",
+  Time = "time"
+}
+
 function getMetadataPath(identifier: keyof IMetadataPaths) {
   // NOTE: i have verified that this will work regardless of the "Metadata Style" set on the org
   const metadataPaths: IMetadataPaths = {
@@ -116,11 +123,43 @@ function getValueFromMetadata(
   const path = getMetadataPath(identifier);
   return path && getProp(content, path);
 }
-
-function isValidDate(dateString: string): boolean {
-  // dates that come from metadata could be any string - there is no validation in the ui
-  const date = new Date(dateString);
-  return !Number.isNaN(date.getDate());
+/**
+ * Parses an ISO8601 date string into a date and a precision.
+ * This is because a) if somone entered 2018, we want to respect that and not treat it as the same as 2018-01-01
+ * and b) you cannot naively call new Date with an ISO 8601 string that does not include time information
+ * For example, when I, here in mountain time, do new Date('2018').getFullYear() I get "2017".
+ * This is because when you do not provide time or timezone info, UTC is assumed, so new Date('2018') is 2018-01-01T00:00:00 in UTC
+ * which is actually 7 hours earlier here in mountain time.
+ *
+ * @param {string} isoString
+ * @return { date: Date, precision: DatePrecision }
+ */
+export function parseISODateString(isoString: string) {
+  isoString = `${isoString}`;
+  let date;
+  let precision;
+  if (/^\d{4}$/.test(isoString)) {
+    // yyyy
+    date = new Date(+isoString, 0, 1);
+    precision = DatePrecision.Year;
+  } else if (/^\d{4}-\d{1,2}$/.test(isoString)) {
+    // yyyy-mm
+    const parts = isoString.split("-");
+    date = new Date(+parts[0], +parts[1] - 1, 1);
+    precision = DatePrecision.Month;
+  } else if (/^\d{4}-\d{1,2}-\d{1,2}$/.test(isoString)) {
+    // yyyy-mm-dd
+    const parts = isoString.split("-");
+    date = new Date(+parts[0], +parts[1] - 1, +parts[2]);
+    precision = DatePrecision.Day;
+  } else if (!Number.isNaN(Date.parse(isoString))) {
+    // any other string parsable to a valid date
+    date = new Date(isoString);
+    precision = isoString.includes("T")
+      ? DatePrecision.Time
+      : DatePrecision.Day;
+  }
+  return date && precision && { date, precision };
 }
 
 /**
@@ -171,29 +210,34 @@ export function _enrichDates(content: IHubContent): IHubContent {
 
   // metadataUpdatedDate & metadataUpdatedDateSource:
   // updatedDate is set to item.modified
-  const metadataUpdatedDate = getValueFromMetadata(
-    newContent,
-    "metadataUpdatedDate"
+  const metadataUpdatedDate = parseISODateString(
+    getValueFromMetadata(newContent, "metadataUpdatedDate")
   );
-  if (isValidDate(metadataUpdatedDate)) {
-    newContent.metadataUpdatedDate = metadataUpdatedDate;
+  if (metadataUpdatedDate) {
+    newContent.metadataUpdatedDate = metadataUpdatedDate.date;
+    newContent.metadataUpdatedDatePrecision = metadataUpdatedDate.precision;
     newContent.metadataUpdatedDateSource = getMetadataPath(
       "metadataUpdatedDate"
     );
   } else {
     newContent.metadataUpdatedDate = newContent.updatedDate;
+    newContent.metadataUpdatedDatePrecision = DatePrecision.Day;
     newContent.metadataUpdatedDateSource = newContent.updatedDateSource;
   }
 
   // updatedDate & updatedDateSource:
   // updatedDate is already set to item.modified, we will override that if we have reviseDate in metadata or lastEditDate
-  const reviseDate = getValueFromMetadata(newContent, "reviseDate");
+  const reviseDate = parseISODateString(
+    getValueFromMetadata(newContent, "reviseDate")
+  );
   const lastEditDate = getProp(
     newContent,
     "server.changeTrackingInfo.lastSyncDate"
   );
-  if (isValidDate(reviseDate)) {
-    newContent.updatedDate = reviseDate;
+  newContent.updatedDatePrecision = DatePrecision.Day;
+  if (reviseDate) {
+    newContent.updatedDate = reviseDate.date;
+    newContent.updatedDatePrecision = reviseDate.precision;
     newContent.updatedDateSource = getMetadataPath("reviseDate");
   } else if (lastEditDate) {
     newContent.updatedDate = new Date(lastEditDate);
@@ -202,13 +246,20 @@ export function _enrichDates(content: IHubContent): IHubContent {
 
   // publishedDate & publishedDateSource:
   // publishedDate is already set to item.created, we will override that if we have pubDate or createdDate in metadata
-  const pubDate = getValueFromMetadata(newContent, "pubDate");
-  const createDate = getValueFromMetadata(newContent, "createDate");
-  if (isValidDate(pubDate)) {
-    newContent.publishedDate = pubDate;
+  const pubDate = parseISODateString(
+    getValueFromMetadata(newContent, "pubDate")
+  );
+  const createDate = parseISODateString(
+    getValueFromMetadata(newContent, "createDate")
+  );
+  newContent.publishedDatePrecision = DatePrecision.Day;
+  if (pubDate) {
+    newContent.publishedDate = pubDate.date;
+    newContent.publishedDatePrecision = pubDate.precision;
     newContent.publishedDateSource = getMetadataPath("pubDate");
-  } else if (isValidDate(createDate)) {
-    newContent.publishedDate = createDate;
+  } else if (createDate) {
+    newContent.publishedDate = createDate.date;
+    newContent.publishedDatePrecision = createDate.precision;
     newContent.publishedDateSource = getMetadataPath("createDate");
   }
 
