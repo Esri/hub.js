@@ -40,13 +40,13 @@
   "scripts": {
     "prepare": "npm run build",
     "build": "npm run build:node && npm run build:esm",
-    "local_build": "npm run build:node && npm run build:esm && npm run build:es2017 && npm run build:umd",
-    "build:esm": "tsc --module es2015 --target es5 --outDir ./dist/esm --declaration --declarationDir ./dist/types",
-    "build:es2017": "tsc --outDir ./dist/es2017",
+    "local_build": "npm run build:node && npm run build:esm && npm run build:umd",
+    "build:esm": "tsc --outDir ./dist/es2017  --declaration --declarationDir ./dist/types",
+    "build:esm:es5": "tsc --module es2015 --target es5 --outDir ./dist/esm",
     "build:umd": "rollup -c ../../umd-base-profile.js && rollup -c ../../umd-production-profile.js",
     "build:node": "tsc --module commonjs --outDir ./dist/node",
-    "dev:esm": "tsc -w --module es2015 --target es5 --outDir ./dist/esm --declaration",
-    "dev:node": "tsc -w --module commonjs --outDir ./dist/node",
+    "dev:esm": "npm run build:esm -- -w",
+    "dev:node": "npm run build:node -- -w",
     "format": "prettier --write ./{src,test}/**/*.ts",
     "format:check": "prettier --check ./{src,test}/**/*.ts"
   },
