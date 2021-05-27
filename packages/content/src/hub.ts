@@ -132,6 +132,7 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
     groupIds,
     structuredLicense,
     layer,
+    server,
     // dataset enrichments
     isProxied
     // recordCount
@@ -143,6 +144,7 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
   content.groupIds = groupIds;
   content.structuredLicense = structuredLicense;
   content.layer = layer;
+  content.server = server;
   content.isProxied = isProxied;
   //
   if (searchDescription) {

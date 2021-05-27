@@ -1,9 +1,10 @@
 {
   "name": "@esri/hub.js",
-  "version": "8.3.1",
+  "version": "8.4.1",
   "description": "compact, modular JavaScript wrappers for ArcGIS Hub that run in Node.js and modern browsers.",
   "private": true,
   "devDependencies": {
+    "@chiragrupani/karma-chromium-edge-launcher": "^2.0.0",
     "@rollup/plugin-commonjs": "^15.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
@@ -25,6 +26,7 @@
     "cz-lerna-changelog": "^2.0.3",
     "dasherize": "^2.0.0",
     "date-fns": "^1.29.0",
+    "dotenv": "^8.2.0",
     "fetch-mock": "^7.0.0",
     "gh-pages": "^1.2.0",
     "gh-release": "^3.4.0",
@@ -34,11 +36,14 @@
     "jasmine-core": "^3.4.0",
     "karma": "^6.1.0",
     "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage": "^2.0.3",
+    "karma-env-preprocessor": "^0.1.1",
     "karma-firefox-launcher": "^1.1.0",
     "karma-ie-launcher": "^1.0.0",
     "karma-jasmine": "^1.1.1",
     "karma-jasmine-diff-reporter": "^1.1.1",
     "karma-safari-launcher": "^1.0.0",
+    "karma-spec-reporter": "^0.0.32",
     "karma-typescript": "^5.5.0",
     "karma-typescript-es6-transform": "^5.5.0",
     "lerna": "^3.22.1",
@@ -65,6 +70,7 @@
   },
   "dependencies": {
     "es6-promise": "^4.2.1",
+    "cross-fetch": "^3.0.6",
     "isomorphic-fetch": "^2.2.1",
     "isomorphic-form-data": "^1.0.0",
     "node-fetch": "^2.0.1",
@@ -92,6 +98,9 @@
     "clean:deps": "rm -rf node_modules && rm -rf packages/*/node_modules/",
     "dev": "support/dev.sh",
     "dev:ember": "npm run dev -- esm \"@esri/hub-{common,content}\" & lerna run dev --scope ember-app --parallel",
+    "e2e:chrome:debug": "karma start karma.e2e.conf --auto-watch --no-single-run --browsers ChromeDevTools",
+    "e2e:node": "jasmine --config=jasmine.e2e.json",
+    "e2e:node:debug": "node --inspect-brk jasmine --config=jasmine.e2e.json",
     "test": "npm run test:node && npm run test:chrome",
     "test:chrome:debug": "karma start --auto-watch --no-single-run --browsers=Chrome",
     "test:chrome": "karma start --single-run --browsers=Chrome",
@@ -160,6 +169,6 @@
     }
   },
   "volta": {
-    "node": "12.16.1"
+    "node": "14.16.0"
   }
 }
