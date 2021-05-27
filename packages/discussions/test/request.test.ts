@@ -66,8 +66,7 @@ describe("authenticateRequest", () => {
 describe("apiRequest", () => {
   const response = { ok: true };
 
-  const hubApiUrl =
-    "https://ingress.eks.qa.hub.geocloud.com/api/discussions/v1";
+  const hubApiUrl = "https://hubqa.arcgis.com/api/discussions/v1";
   const url = "foo";
 
   let expectedOpts: RequestInit;
