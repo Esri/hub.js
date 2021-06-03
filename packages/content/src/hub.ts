@@ -110,9 +110,10 @@ export function getContentFromHub(
  * @export
  */
 export function datasetToContent(dataset: DatasetResource): IHubContent {
-  // extract item from dataset and create content
+  // extract item from dataset, create content, & store a reference to the item
   const item = datasetToItem(dataset);
   const content = itemToContent(item);
+  content.item = item;
 
   // We remove these because the indexer doesn't actually
   // preserve the original item categories so this attribute is invalid
@@ -125,6 +126,7 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
   const {
     // common enrichments
     boundary,
+    extent,
     metadata,
     modifiedProvenance,
     slug,
@@ -146,7 +148,12 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
   content.layer = layer;
   content.server = server;
   content.isProxied = isProxied;
-  //
+  if (!item.extent.length && extent && extent.coordinates) {
+    // we fall back to the extent derived by the API
+    // which prefers layer or service extents and ultimately
+    // falls back to the org's extent
+    content.extent = extent.coordinates;
+  }
   if (searchDescription) {
     // overwrite default summary (from snippet) w/ search description
     content.summary = searchDescription;
@@ -205,7 +212,8 @@ export function datasetToItem(dataset: DatasetResource): IItem {
     snippet,
     tags,
     thumbnail,
-    extent,
+    // the Hub API returns item.extent in attributes.itemExtent
+    itemExtent,
     categories,
     contentStatus,
     // the Hub API doesn't currently return spatialReference
@@ -244,8 +252,7 @@ export function datasetToItem(dataset: DatasetResource): IItem {
     // additional attributes we'll need as fallbacks
     createdAt,
     updatedAt,
-    serviceSpatialReference,
-    itemExtent
+    serviceSpatialReference
   } = attributes;
 
   // build and return an item from properties
@@ -267,10 +274,9 @@ export function datasetToItem(dataset: DatasetResource): IItem {
     tags,
     snippet,
     thumbnail,
-    // the Hub API returns item.extent in attributes.itemExtent
-    // if that's missing, we fall back to attributes.extent.coordinates
-    // which may actually prefer the layer or service extents
-    extent: itemExtent || (extent && extent.coordinates),
+    extent:
+      itemExtent ||
+      /* istanbul ignore next: I _think_ the API returns [] by default, but I'm not _sure_ */ [],
     categories,
     contentStatus,
     spatialReference: spatialReference || serviceSpatialReference,

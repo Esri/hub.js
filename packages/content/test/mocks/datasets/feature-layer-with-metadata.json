@@ -286,6 +286,7 @@
       "hasApi": true,
       "hubType": "Feature Layer",
       "id": "1ce4060e854747038b153c5c8f8c894d_0",
+      "itemExtent": [[55.00687876313506,24.749573764658628],[56.38435669830817,25.911597786107645]],
       "itemModified": 1587021241000,
       "layer": {
         "extent": {
