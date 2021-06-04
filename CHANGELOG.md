@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [8.4.2] - May 31st 2021
+
+### Other Changes
+
+* Bug Fixes
+   * **content**: prefer item extent from dataset) [`8fac706e`](https://github.com/Esri/hub.js/commit/8fac706eb997003f94e70e36eb5c61744bca792f)
+
 ## [8.4.1] - May 22nd 2021
 
 ### @esri/hub-content
@@ -16,7 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Other Changes
 
 - New Features
-  - **content**: getContent now includes metadataUpdatedDate, metadataUpdatedDateSouce, metadataUpdatedDatePrecision, updatedDatePrecision, &amp; publishedDatePrecision
+  - **content**: getContent now includes metadataUpdatedDate, metadataUpdatedDateSouce, metadataUpdatedDatePrecision, updatedDatePrecision, &amp;amp; publishedDatePrecision
 
 ## [8.3.1] - April 27th 2021
 
@@ -60,7 +67,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - **site drafts**: site drafts will now contain a schema version [`963d11fd`](https://github.com/Esri/hub.js/commit/963d11fd62b2debe0d03fdc11f3a3c1acf5854e6)
 - Bug Fixes
   - **site drafts**: applying schema migrations to site drafts [`aa4a03ae`](https://github.com/Esri/hub.js/commit/aa4a03ae9bc55d5358378cb29008c6a87be584a5) [#498](https://github.com/Esri/hub.js/issues/498)
-  - **update-site**: update site runs migrations on the site model before performing a &amp;amp;amp;amp;amp;amp;amp;quot;patch&amp;amp;amp;amp;amp;amp;amp;quot; [`08a57943`](https://github.com/Esri/hub.js/commit/08a579432adf77120fe00826b0f16046850716ef)
+  - **update-site**: update site runs migrations on the site model before performing a &amp;amp;amp;amp;amp;amp;amp;amp;quot;patch&amp;amp;amp;amp;amp;amp;amp;amp;quot; [`08a57943`](https://github.com/Esri/hub.js/commit/08a579432adf77120fe00826b0f16046850716ef)
 
 ## [8.1.0] - March 31st 2021
 
@@ -76,9 +83,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Breaking Changes
   - **content**: remove comingSoon() [`4d435545`](https://github.com/Esri/hub.js/commit/4d4355453b06d3b8fd1afe700ee22ecaa835d9e2)
   - **common**: remmove getType() [`66be1efa`](https://github.com/Esri/hub.js/commit/66be1efa611e2bcca1e21a35dbba421ad9847c3c)
-  - **sites**: remove no-op fns for un/linkig sites &amp;amp;amp;amp;amp;amp;amp;amp;amp; pages [`40e47c1a`](https://github.com/Esri/hub.js/commit/40e47c1aeb9b904c1ebbe847ad029c680d47d16b)
-  - **sites**: move `updateSite()`&amp;amp;amp;amp;amp;amp;#39;s `allowList` tp options [496](https://github.com/Esri/hub.js/pull/496)
-  - **sites**: move `updatePage()`&amp;amp;amp;amp;amp;amp;#39;s `maybePatchList` to `options.allowList` [496](https://github.com/Esri/hub.js/pull/496)
+  - **sites**: remove no-op fns for un/linkig sites &amp;amp;amp;amp;amp;amp;amp;amp;amp;amp; pages [`40e47c1a`](https://github.com/Esri/hub.js/commit/40e47c1aeb9b904c1ebbe847ad029c680d47d16b)
+  - **sites**: move `updateSite()`&amp;amp;amp;amp;amp;amp;amp;#39;s `allowList` tp options [496](https://github.com/Esri/hub.js/pull/496)
+  - **sites**: move `updatePage()`&amp;amp;amp;amp;amp;amp;amp;#39;s `maybePatchList` to `options.allowList` [496](https://github.com/Esri/hub.js/pull/496)
 - Bug Fixes
   - **Site drafts and migrations**: do not update schemaVersion when updating publish status when creat [`19db57fc`](https://github.com/Esri/hub.js/commit/19db57fc6ae1bf295f5c040c6cadd1301a539083)
 
@@ -87,7 +94,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Other Changes
 
 - Bug Fixes
-  - **hub teams package**: ensure `canUserCreateTeamInProduct` checks if the current user has &amp;amp;amp;amp;amp;amp;amp;gt;507 groups, and returns false if they do. Since these checks will run before the teams are created, and the max anticipated teams that would be created in a single operation would be 5, and the max number of groups is 512, we chose 507 as the cut-off. [`e27fdb4`](https://github.com/Esri/hub.js/pull/495/commits/e27fdb442854b0aff5394bd84a9f3f89fd7d1435)
+  - **hub teams package**: ensure `canUserCreateTeamInProduct` checks if the current user has &amp;amp;amp;amp;amp;amp;amp;amp;gt;507 groups, and returns false if they do. Since these checks will run before the teams are created, and the max anticipated teams that would be created in a single operation would be 5, and the max number of groups is 512, we chose 507 as the cut-off. [`e27fdb4`](https://github.com/Esri/hub.js/pull/495/commits/e27fdb442854b0aff5394bd84a9f3f89fd7d1435)
 
 ## [7.3.1] - March 24th 2021
 
@@ -136,7 +143,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [7.0.8] - February 24th 2021
 
 - Bug Fixes
-  - **downloadss**: Alter `typekeywords` for item and layer index so that search queries don&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;#39;t fail for datasets with layer index `1` (#472) [`19da868`](https://github.com/Esri/hub.js/commit/19da86833a91dd007384ef1887081e17568c9e9e)
+  - **downloadss**: Alter `typekeywords` for item and layer index so that search queries don&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;#39;t fail for datasets with layer index `1` (#472) [`19da868`](https://github.com/Esri/hub.js/commit/19da86833a91dd007384ef1887081e17568c9e9e)
 
 ## [7.0.7] - February 22nd 2021
 
@@ -453,13 +460,13 @@ Attempt to address failed release
 ### @esri/hub-content
 
 - Bug Fixes
-  - **normalizeItemType**: getType =&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
+  - **normalizeItemType**: getType =&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
   - **collections**: add template collection, getHubItemType only accepts items [`57b783a2`](https://github.com/Esri/hub.js/commit/57b783a242b7a2747db0dbc7fce57155c56ad93f) [#347](https://github.com/Esri/hub.js/issues/347) [#354](https://github.com/Esri/hub.js/issues/354)
 
 ### @esri/hub-sites
 
 - Bug Fixes
-  - **normalizeItemType**: getType =&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
+  - **normalizeItemType**: getType =&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt; normalizeItemType, support for Hub Initiative Template types [`78a6fe0d`](https://github.com/Esri/hub.js/commit/78a6fe0d758e115c0b0ecc5f170ac913591153e2)
 
 ### Other Changes
 
@@ -1558,4 +1565,5 @@ Initial Release
 [8.3.1]: https://github.com/Esri/hub.js/compare/v8.3.0...v8.3.1 "v8.3.1"
 [8.4.0]: https://github.com/Esri/hub.js/compare/v8.3.1...v8.4.0 "v8.4.0"
 [8.4.1]: https://github.com/Esri/hub.js/compare/v8.4.0...v8.4.1 "v8.4.1"
-[HEAD]: https://github.com/Esri/hub.js/compare/v8.4.1...HEAD "Unreleased Changes"
+[8.4.2]: https://github.com/Esri/hub.js/compare/v8.4.1...v8.4.2 "v8.4.2"
+[HEAD]: https://github.com/Esri/hub.js/compare/v8.4.2...HEAD "Unreleased Changes"

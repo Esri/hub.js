@@ -114,7 +114,7 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
   const item = datasetToItem(dataset);
   const content = itemToContent(item);
 
-  // We remove these becuase the indexer doesn't actually
+  // We remove these because the indexer doesn't actually
   // preserve the original item categories so this attribute is invalid
   delete content.itemCategories;
 
@@ -244,7 +244,8 @@ export function datasetToItem(dataset: DatasetResource): IItem {
     // additional attributes we'll need as fallbacks
     createdAt,
     updatedAt,
-    serviceSpatialReference
+    serviceSpatialReference,
+    itemExtent
   } = attributes;
 
   // build and return an item from properties
@@ -266,8 +267,10 @@ export function datasetToItem(dataset: DatasetResource): IItem {
     tags,
     snippet,
     thumbnail,
-    // we store item.extent in attributes.extent.coordinates
-    extent: extent && extent.coordinates,
+    // the Hub API returns item.extent in attributes.itemExtent
+    // if that's missing, we fall back to attributes.extent.coordinates
+    // which may actually prefer the layer or service extents
+    extent: itemExtent || (extent && extent.coordinates),
     categories,
     contentStatus,
     spatialReference: spatialReference || serviceSpatialReference,
