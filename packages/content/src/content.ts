@@ -230,18 +230,25 @@ export function _enrichDates(content: IHubContent): IHubContent {
   const reviseDate = parseISODateString(
     getValueFromMetadata(newContent, "reviseDate")
   );
-  const lastEditDate = getProp(
+  const layerLastEditDate = getProp(
     newContent,
-    "server.changeTrackingInfo.lastSyncDate"
+    "layer.editingInfo.lastEditDate"
+  );
+  const serverLastEditDate = getProp(
+    newContent,
+    "server.editingInfo.lastEditDate"
   );
   newContent.updatedDatePrecision = DatePrecision.Day;
   if (reviseDate) {
     newContent.updatedDate = reviseDate.date;
     newContent.updatedDatePrecision = reviseDate.precision;
     newContent.updatedDateSource = getMetadataPath("reviseDate");
-  } else if (lastEditDate) {
-    newContent.updatedDate = new Date(lastEditDate);
-    newContent.updatedDateSource = "server.changeTrackingInfo.lastSyncDate";
+  } else if (layerLastEditDate) {
+    newContent.updatedDate = new Date(layerLastEditDate);
+    newContent.updatedDateSource = "layer.editingInfo.lastEditDate";
+  } else if (serverLastEditDate) {
+    newContent.updatedDate = new Date(serverLastEditDate);
+    newContent.updatedDateSource = "server.editingInfo.lastEditDate";
   }
 
   // publishedDate & publishedDateSource:

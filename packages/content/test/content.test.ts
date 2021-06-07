@@ -361,19 +361,34 @@ describe("enrichDates", () => {
       expect(result.updatedDatePrecision).toEqual("day");
       expect(result.updatedDateSource).toEqual("updated-date-source");
     });
-    it("should return the correct values when lastEditDate but no metadata", () => {
+    it("should return the correct values when layerLastEditDate but no metadata", () => {
       // if it doesn't find metadata values it should just not mess with what is already there
       const lastEditDate = new Date(3222000000);
       const result = _enrichDates(({
         updatedDate: new Date(),
         updatedDateSource: "updated-date-source",
-        // server.changeTrackingInfo.lastSyncDate
-        server: { changeTrackingInfo: { lastSyncDate: lastEditDate.valueOf() } }
+        // layer.editingInfo.lastEditDate
+        layer: { editingInfo: { lastEditDate: lastEditDate.valueOf() } }
       } as unknown) as IHubContent);
       expect(result.updatedDate).toEqual(lastEditDate);
       expect(result.updatedDatePrecision).toEqual("day");
       expect(result.updatedDateSource).toEqual(
-        "server.changeTrackingInfo.lastSyncDate"
+        "layer.editingInfo.lastEditDate"
+      );
+    });
+    it("should return the correct values when serverLastEditDate but no metadata", () => {
+      // if it doesn't find metadata values it should just not mess with what is already there
+      const lastEditDate = new Date(3222000000);
+      const result = _enrichDates(({
+        updatedDate: new Date(),
+        updatedDateSource: "updated-date-source",
+        // server.editingInfo.lastEditDate
+        server: { editingInfo: { lastEditDate: lastEditDate.valueOf() } }
+      } as unknown) as IHubContent);
+      expect(result.updatedDate).toEqual(lastEditDate);
+      expect(result.updatedDatePrecision).toEqual("day");
+      expect(result.updatedDateSource).toEqual(
+        "server.editingInfo.lastEditDate"
       );
     });
     it("should return the correct value when reviseDate metadata present", () => {
