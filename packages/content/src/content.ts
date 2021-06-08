@@ -46,7 +46,7 @@ function shouldFetchOrgId(content: IHubContent) {
   return !content.orgId && isHubCreatedContent(content);
 }
 
-function getOwnerOrgId(
+export function getOwnerOrgId(
   content: IHubContent,
   requestOptions: IHubRequestOptions
 ): Promise<string> {
