@@ -141,6 +141,8 @@ export function itemToContent(item: IItem): IHubContent {
   const createdDateSource = "item.created";
   const properties = item.properties;
   const content = Object.assign({}, item, {
+    // store a reference to the item
+    item,
     // NOTE: this will overwrite any existing item.name, which is
     // The file name of the item for file types. Read-only.
     // presumably there to use as the default file name when downloading

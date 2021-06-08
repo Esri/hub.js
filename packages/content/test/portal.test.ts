@@ -97,6 +97,10 @@ describe("item to content", () => {
       expect(content.actionLinks).toEqual(item.properties.links);
     });
   });
+  it("has a reference to the item", () => {
+    const content = itemToContent(item);
+    expect(content.item).toBe(item);
+  });
   // NOTE: other use cases (including when a portal is passed)
   // are covered by getContentFromPortal() tests
 });

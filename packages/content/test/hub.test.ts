@@ -138,8 +138,13 @@ describe("hub", () => {
       const content = datasetToContent(dataset);
       expect(content.summary).toBe(dataset.attributes.snippet);
       expect(content.updatedDateSource).toBe("item.modified");
-      expect(content.extent).toBeUndefined();
+      expect(content.extent).toEqual([]);
       expect(content.isProxied).toBe(false);
+    });
+    it("has a reference to the item", () => {
+      const dataset = cloneObject(documentsJson.data) as DatasetResource;
+      const content = datasetToContent(dataset);
+      expect(content.item).toEqual(datasetToItem(dataset));
     });
     // NOTE: other use cases are covered by getContent() tests
   });
