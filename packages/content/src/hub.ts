@@ -125,6 +125,7 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
   const attributes = dataset.attributes;
   const {
     // common enrichments
+    errors,
     boundary,
     extent,
     metadata,
@@ -140,6 +141,7 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
     // recordCount
     // TODO: fields, geometryType, layer?, server?, as needed
   } = attributes;
+  content.errors = errors;
   content.boundary = boundary;
   content.metadata = metadata;
   content.slug = slug;

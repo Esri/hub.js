@@ -141,6 +141,8 @@ export function itemToContent(item: IItem): IHubContent {
   const createdDateSource = "item.created";
   const properties = item.properties;
   const content = Object.assign({}, item, {
+    // no server errors when fetching the item directly
+    errors: [],
     // store a reference to the item
     item,
     // NOTE: this will overwrite any existing item.name, which is
@@ -148,6 +150,8 @@ export function itemToContent(item: IItem): IHubContent {
     // presumably there to use as the default file name when downloading
     // we don't store item.name in the Hub API and we use name for title
     name: item.title,
+    // TODO: should we alway be setting hubId here
+    // or only when we know the item exists in the index
     hubId: item.id,
     hubType: getItemHubType(item),
     normalizedType: normalizeItemType(item),
