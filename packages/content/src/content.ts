@@ -6,7 +6,6 @@ import {
   getUser,
   IGetUserOptions
 } from "@esri/arcgis-rest-portal";
-import { request } from "@esri/arcgis-rest-request";
 import {
   HubType,
   IHubContent,
