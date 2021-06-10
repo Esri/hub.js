@@ -8,7 +8,6 @@ import {
   enrichContent,
   IFetchEnrichmentOptions
 } from "../src/enrichments";
-import { getContentFromPortal } from "../src/portal";
 
 describe("fetchEnrichments", () => {
   it("fetches orgId for hub created web maps", async () => {

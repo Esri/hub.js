@@ -48,7 +48,7 @@ function itemExtentToBoundary(extent: IBBox): IHubGeography {
 export function withPortalUrls(
   content: IHubContent,
   requestOptions: IHubRequestOptions
-) {
+): IHubContent {
   /* tslint:disable no-console */
   console.warn(
     "DEPRECATED: Use getPortalUrls() instead. withPortalUrls will be removed at v9.0.0"
