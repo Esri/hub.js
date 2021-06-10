@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-annotations",
-  "version": "8.5.0",
+  "version": "8.5.1",
   "description": "Module to interact with ArcGIS Hub Annotations in Node.js and modern browsers.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/annotations.umd.js",
@@ -21,12 +21,12 @@
     "@esri/arcgis-rest-types": "^2.13.0 || 3"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-auth":  "^3.1.1",
-    "@esri/arcgis-rest-feature-layer":  "^3.1.1",
+    "@esri/arcgis-rest-auth": "^3.1.1",
+    "@esri/arcgis-rest-feature-layer": "^3.1.1",
     "@esri/arcgis-rest-portal": "^3.1.1",
-    "@esri/arcgis-rest-request":  "^3.1.1",
-    "@esri/arcgis-rest-service-admin":  "^3.1.1",
-    "@esri/arcgis-rest-types":  "^3.1.1",
+    "@esri/arcgis-rest-request": "^3.1.1",
+    "@esri/arcgis-rest-service-admin": "^3.1.1",
+    "@esri/arcgis-rest-types": "^3.1.1",
     "@rollup/plugin-commonjs": "^15.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
