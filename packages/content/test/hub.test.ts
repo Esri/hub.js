@@ -70,7 +70,10 @@ function validateContentFromDataset(
   expect(content.orgId).toBe(attributes.orgId);
   expect(content.boundary).toEqual(attributes.boundary);
   expect(content.groupIds).toEqual(attributes.groupIds);
-  expect(content.metadata).toEqual(attributes.metadata);
+  // we force undefined to null in order to not fetch metadata
+  expect(content.metadata).toEqual(
+    attributes.metadata === undefined ? null : attributes.metadata
+  );
   expect(content.license.name).toEqual("Custom License");
   const createdDate = new Date(attributes.created);
   expect(content.createdDate).toEqual(createdDate);
