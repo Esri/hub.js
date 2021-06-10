@@ -1,10 +1,9 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IItem, getItem, getItemGroups } from "@esri/arcgis-rest-portal";
+import { IItem, getItem } from "@esri/arcgis-rest-portal";
 import {
   HubType,
-  IEnrichmentErrorInfo,
   IHubContent,
   IHubGeography,
   IHubRequestOptions,
@@ -12,79 +11,14 @@ import {
   createExtent,
   normalizeItemType,
   getCollection,
-  getItemHomeUrl,
-  getItemApiUrl,
-  getItemDataUrl,
-  getItemThumbnailUrl,
-  cloneObject,
   includes,
   isDownloadable
 } from "@esri/hub-common";
-import { getContentMetadata } from "./metadata";
-
-function getGroupIds(
-  content: IHubContent,
-  requestOptions: IHubRequestOptions
-): Promise<string[]> {
-  return getItemGroups(content.id, requestOptions).then(response => {
-    const { admin, member, other } = response;
-    return [...admin, ...member, ...other].map(group => group.id);
-  });
-}
-
-export interface IContentPropertyRequests {
-  [key: string]: (
-    content: IHubContent,
-    requestOptions: IHubRequestOptions
-  ) => Promise<unknown>;
-}
-
-/**
- * Simultaneously execute multiple async requests to fetch content properties
- * returns a new content object with the resolved property values merged in.
- * Any errors from failed requests will be included in the errors array
- * NOTE: assumes each request takes only the content and request options
- * @private
- */
-export function _fetchContentProperties(
-  propertyRequests: IContentPropertyRequests,
-  content: IHubContent,
-  requestOptions: IHubRequestOptions
-): Promise<IHubContent> {
-  const errors: IEnrichmentErrorInfo[] = [];
-  const propertyNames = Object.keys(propertyRequests);
-  const requests = propertyNames.map(propertyName => {
-    // initiate the request and return the promise
-    const request = propertyRequests[propertyName];
-    return request(content, requestOptions).catch(e => {
-      // there was an error w/ the request, capture it
-      const message = (e && e.message) || e;
-      errors.push({
-        // NOTE: for now we just return the message and type "Other"
-        // but we could later introspect for HTTP or AGO errors
-        // and/or return the status code if available
-        type: "Other",
-        message
-      });
-      // and then set this property to null
-      return null;
-    });
-  });
-  return Promise.all(requests).then(values => {
-    // return a new content with properties and errors merged in
-    const properties: { [key: string]: unknown } = {};
-    values.forEach((value, i) => {
-      const name = propertyNames[i];
-      properties[name] = value;
-    });
-    return {
-      ...content,
-      ...properties,
-      // include any previous errors (if any)
-      errors: [...errors, ...(content.errors || [])]
-    };
-  });
-}
+import {
+  IFetchEnrichmentOptions,
+  enrichContent,
+  getPortalUrls
+} from "./enrichments";
 
 function itemExtentToBoundary(extent: IBBox): IHubGeography {
   return (
@@ -103,30 +37,24 @@ function itemExtentToBoundary(extent: IBBox): IHubGeography {
 
 /**
  * Return a new content with portal URL (home, API, and data) properties
+ * DEPRECATED: Use getPortalUrls() instead. withPortalUrls will be removed at v9.0.0
  *
  * @param content Hub content
  * @param requestOptions Request options
  * @returns Hub content
  * @export
  */
+/* istanbul ignore next */
 export function withPortalUrls(
   content: IHubContent,
   requestOptions: IHubRequestOptions
 ) {
-  const newContent = cloneObject(content);
-  const authentication = requestOptions.authentication;
-  const token = authentication && authentication.token;
-  // add properties that depend on portal
-  newContent.portalHomeUrl = getItemHomeUrl(newContent.id, requestOptions);
-  // the URL of the item's Portal API end point
-  newContent.portalApiUrl = getItemApiUrl(newContent, requestOptions, token);
-  // the URL of the item's data API end point
-  newContent.portalDataUrl = getItemDataUrl(newContent, requestOptions, token);
-  // the full URL of the thumbnail
-  newContent.thumbnailUrl = getItemThumbnailUrl(newContent, requestOptions, {
-    token
-  });
-  return newContent;
+  /* tslint:disable no-console */
+  console.warn(
+    "DEPRECATED: Use getPortalUrls() instead. withPortalUrls will be removed at v9.0.0"
+  );
+  const portalUrls = getPortalUrls(content, requestOptions);
+  return { ...content, ...portalUrls };
 }
 
 /**
@@ -230,7 +158,7 @@ export function parseItemCategories(categories: string[]) {
  */
 export function getContentFromPortal(
   idOrItem: string | IItem,
-  requestOptions?: IHubRequestOptions
+  requestOptions?: IFetchEnrichmentOptions
 ): Promise<IHubContent> {
   const getItemPromise: Promise<IItem> =
     typeof idOrItem === "string"
@@ -238,12 +166,6 @@ export function getContentFromPortal(
       : Promise.resolve(idOrItem);
 
   return getItemPromise.then(item => {
-    const content = withPortalUrls(itemToContent(item), requestOptions);
-    // TODO: provide some API to let consumers opt out of making these additional requests
-    const propertiesToFetch: IContentPropertyRequests = {
-      groupIds: getGroupIds,
-      metadata: (c, opts) => getContentMetadata(c.id, opts)
-    };
-    return _fetchContentProperties(propertiesToFetch, content, requestOptions);
+    return enrichContent(itemToContent(item), requestOptions);
   });
 }
