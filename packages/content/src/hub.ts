@@ -2,15 +2,15 @@ import { ResourceObject } from "jsonapi-typescript";
 import { IItem, getItem } from "@esri/arcgis-rest-portal";
 import {
   IHubContent,
-  IHubRequestOptions,
   hubApiRequest,
+  cloneObject,
   mergeObjects
 } from "@esri/hub-common";
-import { itemToContent, withPortalUrls } from "./portal";
+import { itemToContent } from "./portal";
 import { isSlug, addContextToSlug, parseDatasetId } from "./slugs";
-import { cloneObject } from "@esri/hub-common";
+import { enrichContent, IFetchEnrichmentOptions } from "./enrichments";
 
-export interface IGetContentOptions extends IHubRequestOptions {
+export interface IGetContentOptions extends IFetchEnrichmentOptions {
   siteOrgKey?: string;
 }
 
@@ -98,7 +98,8 @@ export function getContentFromHub(
       }
     })
     .then((dataset: any) => {
-      return dataset && withPortalUrls(datasetToContent(dataset), options);
+      const content = dataset && datasetToContent(dataset);
+      return content && enrichContent(content, options);
     });
 }
 
@@ -125,6 +126,7 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
   const attributes = dataset.attributes;
   const {
     // common enrichments
+    errors,
     boundary,
     extent,
     metadata,
@@ -140,8 +142,10 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
     // recordCount
     // TODO: fields, geometryType, layer?, server?, as needed
   } = attributes;
+  content.errors = errors;
   content.boundary = boundary;
-  content.metadata = metadata;
+  // setting this to null signals to enrichMetadata to skip this
+  content.metadata = metadata || null;
   content.slug = slug;
   content.groupIds = groupIds;
   content.structuredLicense = structuredLicense;
