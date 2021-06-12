@@ -50,7 +50,7 @@ const document: string[] = [
 
 const event: string[] = ["Hub Event"];
 
-const feedback: string[] = ["Form"];
+const feedback: string[] = ["Form", "Quick Capture Project"];
 
 const initiative: string[] = ["Hub Initiative"];
 
@@ -64,13 +64,15 @@ const map: string[] = [
   "Map Service Layer",
   "Map Service",
   "Scene Service",
+  "Scene Layer",
   "Vector Tile Service",
   "Web Map Service",
   "Web Map Tile Service",
   "Web Map",
   "Web Scene",
   "WFS",
-  "WMS"
+  "WMS",
+  "WMTS"
 ];
 
 const other: string[] = [

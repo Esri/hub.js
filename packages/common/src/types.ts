@@ -141,6 +141,7 @@ export type IRevertableTaskResult =
 
 /**
  * Types of Hub resources
+ * DEPRECATED: Use HubFamily instead
  */
 export type HubType =
   | "member"
@@ -154,6 +155,20 @@ export type HubType =
   | "initiative"
   | "template"
   | "organization";
+
+export type HubFamily =
+  | "people"
+  | "team"
+  | "event"
+  | "dataset"
+  | "document"
+  | "feedback"
+  | "map"
+  | "app"
+  | "site"
+  | "initiative"
+  | "template"
+  | "content";
 
 /**
  * Visibility levels of a Hub resource
@@ -269,6 +284,9 @@ export interface IHubContent extends IHubResource, IItem {
     /** The groups that have access to the item (as far as you know) */
     groups?: IGroup[]; // TODO: item.sharing.groups via content/users/:username/items/:id
   };
+
+  // TODO: make this required at next breaking release
+  family?: HubFamily;
 
   // TODO: license: IHubLicense // [Future] item.licenseInfo
 
