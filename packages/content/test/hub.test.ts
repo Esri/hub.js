@@ -137,12 +137,10 @@ describe("hub", () => {
       const dataset = cloneObject(documentsJson.data) as DatasetResource;
       delete dataset.attributes.searchDescription;
       delete dataset.attributes.modifiedProvenance;
-      dataset.attributes.isProxied = false;
       const content = datasetToContent(dataset);
       expect(content.summary).toBe(dataset.attributes.snippet);
       expect(content.updatedDateSource).toBe("item.modified");
       expect(content.extent).toEqual([]);
-      expect(content.isProxied).toBe(false);
     });
     it("has a reference to the item", () => {
       const dataset = cloneObject(documentsJson.data) as DatasetResource;

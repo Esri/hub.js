@@ -135,12 +135,12 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
     searchDescription,
     groupIds,
     structuredLicense,
-    layer,
+    // map and feature server enrichments
     server,
-    // dataset enrichments
-    isProxied
-    // recordCount
-    // TODO: fields, geometryType, layer?, server?, as needed
+    // TODO: layers, etc
+    // feature and raster layer enrichments
+    layer
+    // TODO: recordCount, fields, geometryType, etc
   } = attributes;
   content.errors = errors;
   content.boundary = boundary;
@@ -151,7 +151,6 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
   content.structuredLicense = structuredLicense;
   content.layer = layer;
   content.server = server;
-  content.isProxied = isProxied;
   if (!item.extent.length && extent && extent.coordinates) {
     // we fall back to the extent derived by the API
     // which prefers layer or service extents and ultimately
@@ -166,14 +165,7 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
     // overwrite default updated source
     content.updatedDateSource = modifiedProvenance;
   }
-  // type-specific enrichments
-  // TODO: should this be based on existence of attributes instead of hubType?
-  // TODO: if the latter, should we return a different subtype of IHubContent for this?
-  // if (content.hubType === "dataset") {
-  //   content.recordCount = recordCount;
-  //   // TODO: fields, geometryType, etc
-  // }
-  // TODO: any remaining enrichments
+  // TODO: any remaining enrichments?
   return content;
 }
 
