@@ -81,9 +81,6 @@ export function itemToContent(item: IItem): IHubContent {
     // we don't store item.name in the Hub API and we use name for title
     name: item.title,
     family: getFamily(normalizedType),
-    // TODO: should we alway be setting hubId here
-    // or only when we know the item exists in the index
-    hubId: item.id,
     hubType: getItemHubType(item),
     normalizedType,
     categories: parseItemCategories(item.categories),

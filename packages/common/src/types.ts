@@ -270,8 +270,12 @@ export interface IEnrichmentErrorInfo {
 export interface IHubContent extends IHubResource, IItem {
   /**
    * The content's ID for use with the Hub API
+   * For most content this will be the item's id
+   * For layers this will be `<itemId>_<layerId>`
+   * This will be undefined for private items and in enterprise
+   * because only public online items are included in the Hub API
    */
-  hubId: string;
+  hubId?: string;
   // NOTE: we may want to elevate this to IHubResource if it's needed for other subtypes
   /**
    * Content visibility and access control, including groups

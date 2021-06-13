@@ -26,8 +26,9 @@ function validateContentFromPortal(content: IHubContent, item: IItem) {
   });
   // name should be title
   expect(content.name).toBe(item.title);
+  // should not set hubId when in portal
+  expect(content.hubId).toBeUndefined();
   // should include derived properties
-  expect(content.hubId).toBe(item.id);
   expect(content.family).toBe("map");
   // DEPRECATED: remove hubType check
   expect(content.hubType).toBe("map");

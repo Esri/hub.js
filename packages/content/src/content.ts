@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IHubContent, IModel } from "@esri/hub-common";
+import { getItemHubId, IHubContent, IModel } from "@esri/hub-common";
 import { IGetContentOptions, getContentFromHub } from "./hub";
 import { getContentFromPortal, itemToContent } from "./portal";
 import { enrichContent } from "./enrichments";
@@ -50,9 +50,15 @@ export function getContent(
   if (typeof idOrModel === "string") {
     getContentPromise = getContentById(idOrModel, options);
   } else {
-    // no need to fetch item and maybe not data
+    // no need to fetch item
     const { item, data } = idOrModel;
     const content = itemToContent(item);
+    if (!options.isPortal) {
+      // try to get the id to use w/ the Hub API
+      // NOTE: this is only set if the item is public
+      content.hubId = getItemHubId(item);
+    }
+    // no need to fetch data if it was passed in
     content.data = data;
     // just fetch and add any missing or desired enrichments
     getContentPromise = enrichContent(content, options);

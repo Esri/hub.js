@@ -44,13 +44,17 @@ describe("get content", () => {
         }
       } as IModel;
 
-      const ro = {} as IHubRequestOptions;
+      // setting isPortal here for hubId check below
+      const ro = { isPortal: true } as IHubRequestOptions;
 
       const content = await getContent(modelWithItem, ro);
 
       // should not try to fetch content from hub or portal
       expect(getContentFromHubSpy).not.toHaveBeenCalled();
       expect(getContentFromPortalSpy).not.toHaveBeenCalled();
+
+      // should not have set the hubId
+      expect(content.hubId).toBeFalsy("don't set hubId in portal");
 
       // should still load data
       expect(getDataSpy).toHaveBeenCalledWith(modelWithItem.item.id, ro);
