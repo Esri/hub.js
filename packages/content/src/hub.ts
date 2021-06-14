@@ -130,6 +130,7 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
     boundary,
     extent,
     metadata,
+    modified,
     modifiedProvenance,
     slug,
     searchDescription,
@@ -161,8 +162,11 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
     // overwrite default summary (from snippet) w/ search description
     content.summary = searchDescription;
   }
-  if (modifiedProvenance) {
-    // overwrite default updated source
+  if (content.modified !== modified) {
+    // capture the enriched modified date
+    // NOTE: the item modified date is still available on content.item.modified
+    content.modified = modified;
+    content.updatedDate = new Date(modified);
     content.updatedDateSource = modifiedProvenance;
   }
   // TODO: any remaining enrichments?
@@ -197,6 +201,7 @@ export function datasetToItem(dataset: DatasetResource): IItem {
     owner,
     orgId,
     created,
+    // the Hub API returns item.modified in attributes.itemModified (below)
     modified,
     // NOTE: we use attributes.name to store the title or the service/layer name
     // but in Portal name is only used for file types to store the file name (read only)
@@ -208,8 +213,8 @@ export function datasetToItem(dataset: DatasetResource): IItem {
     snippet,
     tags,
     thumbnail,
-    // the Hub API returns item.extent in attributes.itemExtent
-    itemExtent,
+    // the Hub API returns item.extent in attributes.itemExtent (below)
+    // extent,
     categories,
     contentStatus,
     // the Hub API doesn't currently return spatialReference
@@ -245,9 +250,11 @@ export function datasetToItem(dataset: DatasetResource): IItem {
     numViews,
     itemControl,
     scoreCompleteness,
-    // additional attributes we'll need as fallbacks
-    createdAt,
-    updatedAt,
+    // additional attributes we'll need
+    // to derive the above values when missing
+    itemExtent,
+    itemModified,
+    modifiedProvenance,
     serviceSpatialReference
   } = attributes;
 
@@ -261,8 +268,13 @@ export function datasetToItem(dataset: DatasetResource): IItem {
     id: itemId,
     owner: owner as string,
     orgId,
-    created: (created || createdAt) as number,
-    modified: (modified || updatedAt) as number,
+    created: created as number,
+    // for feature layers, modified will usually come from the layer so
+    // we prefer itemModified, but fall back to modified if it came from the item
+    modified: (itemModified ||
+      (modifiedProvenance === "item.modified"
+        ? modified
+        : undefined)) as number,
     title: (title || name) as string,
     type,
     typeKeywords,
@@ -272,7 +284,7 @@ export function datasetToItem(dataset: DatasetResource): IItem {
     thumbnail,
     extent:
       itemExtent ||
-      /* istanbul ignore next: I _think_ the API returns [] by default, but I'm not _sure_ */ [],
+      /* istanbul ignore next: API should always return itemExtent, but we default to [] just in case */ [],
     categories,
     contentStatus,
     spatialReference: spatialReference || serviceSpatialReference,
