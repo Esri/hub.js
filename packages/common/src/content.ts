@@ -1,6 +1,6 @@
 /* Copyright (c) 2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-
+import { IItem } from "@esri/arcgis-rest-portal";
 import { collections } from "./collections";
 import { categories } from "./categories";
 import { includes } from "./utils";
@@ -138,3 +138,55 @@ export function getCollection(itemType: string = ""): string {
     }
   }
 }
+
+/**
+ * Case-insensitive check if the type is "Feature Service"
+ * @param {string} type - item's type
+ * @returns {boolean}
+ */
+export const isFeatureService = (type: string) => {
+  return type && type.toLowerCase() === "feature service";
+};
+
+/**
+ * parse layer id from a service URL
+ * @param {string} url
+ * @returns {string} layer id
+ */
+export const getLayerIdFromUrl = (url: string) => {
+  const endsWithNumberSegmentRegEx = /\/\d+$/;
+  const matched = url && url.match(endsWithNumberSegmentRegEx);
+  return matched && matched[0].slice(1);
+};
+
+/**
+ * return the layerId if we can tell that item is a single layer service
+ * @param {*} item from AGO
+ * @returns {string} layer id
+ */
+export const getItemLayerId = (item: IItem) => {
+  // try to parse it from the URL, but failing that we check for
+  // the Singlelayer typeKeyword, which I think is set when you create the item in AGO
+  // but have not verified that, nor that we should alway return '0' in that case
+  return (
+    getLayerIdFromUrl(item.url) ||
+    (isFeatureService(item.type) &&
+      includes(item.typeKeywords, "Singlelayer") &&
+      "0")
+  );
+};
+
+/**
+ * given an item, get the id to use w/ the Hub API
+ * @param item
+ * @returns Hub API id (hubId)
+ */
+export const getItemHubId = (item: IItem) => {
+  if (item.access !== "public") {
+    // the hub only indexes public items
+    return;
+  }
+  const id = item.id;
+  const layerId = getItemLayerId(item);
+  return layerId ? `${id}_${layerId}` : id;
+};

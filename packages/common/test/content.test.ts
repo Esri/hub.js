@@ -3,7 +3,11 @@ import {
   getCollection,
   getTypes,
   getTypeCategories,
-  normalizeItemType
+  normalizeItemType,
+  isFeatureService,
+  getLayerIdFromUrl,
+  getItemLayerId,
+  getItemHubId
 } from "../src/content";
 
 describe("getCollection", () => {
@@ -106,5 +110,80 @@ describe("getTypeCategories", () => {
   });
   it("can work with blank inputs", () => {
     expect(getTypeCategories()).toEqual(["Other"]);
+  });
+});
+
+describe("isFeatureService", () => {
+  it("returns true when the type is Feature Service", () => {
+    expect(isFeatureService("Feature Service")).toBe(true);
+    expect(isFeatureService("feature service")).toBe(true);
+  });
+  it("returns false when the type is not Feature Service", () => {
+    expect(isFeatureService("Map Service")).toBe(false);
+  });
+});
+
+describe("getLayerIdFromUrl", () => {
+  it("returns layerId when present", () => {
+    expect(
+      getLayerIdFromUrl(
+        "https://services9.arcgis.com/BH6j7VrWdIXhhNYw/arcgis/rest/services/Befolkning_efter_k%C3%B6n/FeatureServer/0"
+      )
+    ).toBe("0");
+  });
+  it("returns undefined when not present", () => {
+    expect(
+      getLayerIdFromUrl(
+        "https://services9.arcgis.com/BH6j7VrWdIXhhNYw/arcgis/rest/services/Befolkning_efter_k%C3%B6n/FeatureServer"
+      )
+    ).toBe(null);
+  });
+});
+
+describe("getLayerIdFromItem", () => {
+  it("returns '0' when typeKeywords includes 'Singlelayer'", () => {
+    const item: any = {
+      type: "Feature Service",
+      url:
+        "https://services9.arcgis.com/BH6j7VrWdIXhhNYw/arcgis/rest/services/Befolkning_efter_k%C3%B6n/FeatureServer",
+      typeKeywords: [
+        "ArcGIS Server",
+        "Data",
+        "Feature Access",
+        "Feature Service",
+        "Metadata",
+        "Service",
+        "Singlelayer",
+        "Hosted Service"
+      ]
+    };
+    expect(getItemLayerId(item)).toBe("0");
+  });
+});
+
+describe("getItemHubId", () => {
+  let layerItem: any;
+  beforeEach(() => {
+    layerItem = {
+      id: "4ef",
+      access: "shared",
+      type: "Feature Service",
+      url:
+        "https://services9.arcgis.com/BH6j7VrWdIXhhNYw/arcgis/rest/services/Befolkning_efter_k%C3%B6n/FeatureServer/42"
+    };
+  });
+  it("returns undefined when not public", () => {
+    expect(getItemHubId(layerItem)).toBeFalsy();
+  });
+  it("returns itemId_layerId when public layer", () => {
+    layerItem.access = "public";
+    expect(getItemHubId(layerItem)).toBe("4ef_42");
+  });
+  it("returns item id when public non-layer", () => {
+    const item: any = {
+      id: "3ec",
+      access: "public"
+    };
+    expect(getItemHubId(item)).toBe("3ec");
   });
 });
