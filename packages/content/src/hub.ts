@@ -138,30 +138,38 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
     structuredLicense,
     // map and feature server enrichments
     server,
-    // TODO: layers, etc
+    layers,
+    // NOTE: the Hub API also returns the following server properties
+    // but we should be able to get them from the above server object
+    // currentVersion, capabilities, tileInfo, serviceSpatialReference
+    // maxRecordCount, supportedQueryFormats, etc
     // feature and raster layer enrichments
-    layer
-    // TODO: recordCount, fields, geometryType, etc
+    layer,
+    recordCount,
+    statistics,
+    // NOTE: the Hub API also returns the following layer properties
+    // but we should be able to get them from the above layer object
+    // supportedQueryFormats, supportsAdvancedQueries, advancedQueryCapabilities, useStandardizedQueries
+    // geometryType, objectIdField, displayField, fields,
+    // org properties?
+    orgId,
+    orgName,
+    organization,
+    orgExtent
   } = attributes;
+  // NOTE: we could throw or return if there are errors
+  // to prevent type errors trying to read properties below
   content.errors = errors;
+  // common enrichments
   content.boundary = boundary;
-  // setting this to null signals to enrichMetadata to skip this
-  content.metadata = metadata || null;
-  content.slug = slug;
-  content.groupIds = groupIds;
-  content.structuredLicense = structuredLicense;
-  content.layer = layer;
-  content.server = server;
   if (!item.extent.length && extent && extent.coordinates) {
     // we fall back to the extent derived by the API
     // which prefers layer or service extents and ultimately
     // falls back to the org's extent
     content.extent = extent.coordinates;
   }
-  if (searchDescription) {
-    // overwrite default summary (from snippet) w/ search description
-    content.summary = searchDescription;
-  }
+  // setting this to null signals to enrichMetadata to skip this
+  content.metadata = metadata || null;
   if (content.modified !== modified) {
     // capture the enriched modified date
     // NOTE: the item modified date is still available on content.item.modified
@@ -169,7 +177,28 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
     content.updatedDate = new Date(modified);
     content.updatedDateSource = modifiedProvenance;
   }
-  // TODO: any remaining enrichments?
+  content.slug = slug;
+  if (searchDescription) {
+    // overwrite default summary (from snippet) w/ search description
+    content.summary = searchDescription;
+  }
+  content.groupIds = groupIds;
+  content.structuredLicense = structuredLicense;
+  // server enrichments
+  content.server = server;
+  content.layers = layers;
+  // layer enrichments
+  content.layer = layer;
+  content.recordCount = recordCount;
+  content.statistics = statistics;
+  // org enrichments
+  if (orgId) {
+    content.org = {
+      id: orgId,
+      name: orgName || organization,
+      extent: orgExtent
+    };
+  }
   return content;
 }
 

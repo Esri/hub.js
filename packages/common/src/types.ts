@@ -1,7 +1,14 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IItem, IUser, IGroup, IGeometry } from "@esri/arcgis-rest-types";
+import {
+  IItem,
+  IUser,
+  IGroup,
+  IGeometry,
+  IFeatureServiceDefinition,
+  ILayerDefinition
+} from "@esri/arcgis-rest-types";
 import { IPortal, ISearchResult } from "@esri/arcgis-rest-portal";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
@@ -341,11 +348,25 @@ export interface IHubContent extends IHubResource, IItem {
   data?: {
     [propName: string]: any;
   };
+  // service types: Feature Service, Map Service
+  /** service information (currentVersion, capabilities, maxRecordCount etc) */
+  server?: Partial<IFeatureServiceDefinition>;
+  /** layer information (geometryType, fields, etc) for related layers in the service */
+  layers?: Array<Partial<ILayerDefinition>>;
+  // layer types: Feature Layers, Raster Layers
+  /** layer information (geometryType, fields, etc) */
+  layer?: Partial<ILayerDefinition>;
+  recordCount?: number;
+  // TODO: statistics?: ???
   // NOTE: this is usually(? always?) returned by the item endpoint
   // but it's not on IItem, possibly b/c it's not listed here:
   // https://developers.arcgis.com/rest/users-groups-and-items/item.htm
   /** The owner's organization id */
   orgId?: string;
+  /**
+   * The owner's organization (portal) details (id, name, extent, etc)
+   */
+  org?: Partial<IPortal>;
   /** Whether the content is downloadable in the Hub app */
   isDownloadable: boolean;
 }

@@ -157,12 +157,34 @@ describe("hub", () => {
       expect(content.updatedDate).toEqual(new Date(attributes.modified));
       expect(content.updatedDateSource).toBe(attributes.modifiedProvenance);
     });
+    it("has org", () => {
+      const dataset = cloneObject(featureLayerJson.data) as DatasetResource;
+      const {
+        orgId: id,
+        orgExtent: extent,
+        orgName: name,
+        organization
+      } = dataset.attributes;
+      let content = datasetToContent(dataset);
+      expect(content.org).toEqual({ id, extent, name });
+      delete dataset.attributes.orgName;
+      content = datasetToContent(dataset);
+      expect(content.org).toEqual(
+        { id, extent, name: organization },
+        "name falls back to organization"
+      );
+    });
     it("only uses enrichment attributes when they exist", () => {
       const dataset = cloneObject(documentsJson.data) as DatasetResource;
+      // NOTE: I don't necessarily expect the API to return w/o these
+      // but our code depends on them, this test is mostly here for coverage
       delete dataset.attributes.searchDescription;
+      delete dataset.attributes.errors;
       const content = datasetToContent(dataset);
       expect(content.summary).toBe(dataset.attributes.snippet);
       expect(content.extent).toEqual([]);
+      // NOTE: the document JSON does not have org attributes
+      expect(content.org).toBeUndefined();
     });
     // NOTE: other use cases are covered by getContent() tests
   });
