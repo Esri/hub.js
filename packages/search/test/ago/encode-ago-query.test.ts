@@ -46,7 +46,7 @@ describe("encodeAgoQuery test", () => {
     const actual = encodeAgoQuery(params);
     const expected = {
       q:
-        '-type:"code attachment" AND crime AND ((group:"1ef")) AND (type:"Image Collection" OR type:"Image Service" OR type:"Map Service Layer" OR type:"Map Service" OR type:"Scene Service" OR type:"Vector Tile Service" OR type:"Web Map Service" OR type:"Web Map Tile Service" OR type:"Web Map" OR type:"Web Scene" OR type:"WFS" OR type:"WMS") AND (tags:"test")',
+        '-type:"code attachment" AND crime AND ((group:"1ef")) AND (type:"Image Collection" OR type:"Image Service" OR type:"Map Service Layer" OR type:"Map Service" OR type:"Scene Service" OR type:"Scene Layer" OR type:"Vector Tile Service" OR type:"Web Map Service" OR type:"Web Map Tile Service" OR type:"Web Map" OR type:"Web Scene" OR type:"WFS" OR type:"WMS" OR type:"WMTS") AND (tags:"test")',
       start: 1,
       num: 10,
       sortField: "title",

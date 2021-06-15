@@ -8,8 +8,9 @@ import {
   getContentFromPortal,
   itemToContent,
   parseItemCategories,
-  getItemHubType
-} from "../src/index";
+  getItemHubType,
+  getFamily
+} from "../src/portal";
 import * as metadataModule from "../src/metadata";
 import * as itemJson from "./mocks/items/map-service.json";
 import { mockUserSession } from "./test-helpers/fake-user-session";
@@ -25,8 +26,11 @@ function validateContentFromPortal(content: IHubContent, item: IItem) {
   });
   // name should be title
   expect(content.name).toBe(item.title);
+  // should not set hubId when in portal
+  expect(content.hubId).toBeUndefined();
   // should include derived properties
-  expect(content.hubId).toBe(item.id);
+  expect(content.family).toBe("map");
+  // DEPRECATED: remove hubType check
   expect(content.hubType).toBe("map");
   expect(content.summary).toBe(item.snippet);
   expect(content.publisher).toEqual({
@@ -103,6 +107,29 @@ describe("item to content", () => {
   });
   // NOTE: other use cases (including when a portal is passed)
   // are covered by getContentFromPortal() tests
+});
+describe("get item family", () => {
+  it("returns dataset for image service", () => {
+    expect(getFamily("Image Service")).toBe("dataset");
+  });
+  it("returns map for feature service and raster layer", () => {
+    expect(getFamily("Feature Service")).toBe("map");
+    expect(getFamily("Raster Layer")).toBe("map");
+  });
+  it("returns document for excel", () => {
+    expect(getFamily("Microsoft Excel")).toBe("document");
+  });
+  it("returns template for solution", () => {
+    expect(getFamily("Solution")).toBe("template");
+  });
+  it("returns content for other specific types", () => {
+    expect(getFamily("CAD Drawing")).toBe("content");
+    expect(getFamily("Feature Collection Template")).toBe("content");
+    expect(getFamily("Report Template")).toBe("content");
+  });
+  it("returns content for collection other", () => {
+    expect(getFamily("360 VR Experience")).toBe("content");
+  });
 });
 describe("get item hub type", () => {
   it("normalizes item", () => {

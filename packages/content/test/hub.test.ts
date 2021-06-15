@@ -119,35 +119,72 @@ describe("hub", () => {
       const item = datasetToItem(dataset);
       expect(item.snippet).toBe(dataset.attributes.snippet);
     });
-    it("falls back to createdAt/updatedAt when no created/modified", () => {
-      const dataset = cloneObject(documentsJson.data) as DatasetResource;
+    it("handles when no itemModified", () => {
+      // NOTE: I expect that the API always returns itemModified
+      // so I don't know if this ever happens
+      const dataset = cloneObject(featureLayerJson.data) as DatasetResource;
       const attributes = dataset.attributes;
-      attributes.createdAt = attributes.created;
-      attributes.updatedAt = attributes.modified;
-      delete attributes.created;
-      delete attributes.modified;
-      const item = datasetToItem(dataset);
-      expect(item.created).toBe(attributes.createdAt);
-      expect(item.modified).toBe(attributes.updatedAt);
+      attributes.modified = 1623232000295;
+      delete attributes.itemModified;
+      let item = datasetToItem(dataset);
+      expect(item.modified).toBe(
+        attributes.modified,
+        "returns modified when provenance is item"
+      );
+      attributes.modifiedProvenance = "layer.editingInfo.lastEditDate";
+      item = datasetToItem(dataset);
+      expect(item.modified).toBeFalsy(
+        "is undefined when provenance is layer.editingInfo"
+      );
     });
     // NOTE: other use cases are covered by getContent() tests
   });
   describe("dataset to content", () => {
-    it("only uses enrichment attributes when they exist", () => {
-      const dataset = cloneObject(documentsJson.data) as DatasetResource;
-      delete dataset.attributes.searchDescription;
-      delete dataset.attributes.modifiedProvenance;
-      dataset.attributes.isProxied = false;
-      const content = datasetToContent(dataset);
-      expect(content.summary).toBe(dataset.attributes.snippet);
-      expect(content.updatedDateSource).toBe("item.modified");
-      expect(content.extent).toEqual([]);
-      expect(content.isProxied).toBe(false);
-    });
     it("has a reference to the item", () => {
       const dataset = cloneObject(documentsJson.data) as DatasetResource;
       const content = datasetToContent(dataset);
       expect(content.item).toEqual(datasetToItem(dataset));
+    });
+    it("has enriched updatedDate", () => {
+      const dataset = cloneObject(featureLayerJson.data) as DatasetResource;
+      const attributes = dataset.attributes;
+      // simulate API returning date the layer was last modified
+      // instead of the date the item was last modified
+      attributes.modified = 1623232000295;
+      attributes.modifiedProvenance = "layer.editingInfo.lastEditDate";
+      const content = datasetToContent(dataset);
+      expect(content.modified).toBe(attributes.modified);
+      expect(content.updatedDate).toEqual(new Date(attributes.modified));
+      expect(content.updatedDateSource).toBe(attributes.modifiedProvenance);
+    });
+    it("has org", () => {
+      const dataset = cloneObject(featureLayerJson.data) as DatasetResource;
+      const {
+        orgId: id,
+        orgExtent: extent,
+        orgName: name,
+        organization
+      } = dataset.attributes;
+      let content = datasetToContent(dataset);
+      expect(content.org).toEqual({ id, extent, name });
+      delete dataset.attributes.orgName;
+      content = datasetToContent(dataset);
+      expect(content.org).toEqual(
+        { id, extent, name: organization },
+        "name falls back to organization"
+      );
+    });
+    it("only uses enrichment attributes when they exist", () => {
+      const dataset = cloneObject(documentsJson.data) as DatasetResource;
+      // NOTE: I don't necessarily expect the API to return w/o these
+      // but our code depends on them, this test is mostly here for coverage
+      delete dataset.attributes.searchDescription;
+      delete dataset.attributes.errors;
+      const content = datasetToContent(dataset);
+      expect(content.summary).toBe(dataset.attributes.snippet);
+      expect(content.extent).toEqual([]);
+      // NOTE: the document JSON does not have org attributes
+      expect(content.org).toBeUndefined();
     });
     // NOTE: other use cases are covered by getContent() tests
   });

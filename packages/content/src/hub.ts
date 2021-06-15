@@ -130,50 +130,75 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
     boundary,
     extent,
     metadata,
+    modified,
     modifiedProvenance,
     slug,
     searchDescription,
     groupIds,
     structuredLicense,
-    layer,
+    // map and feature server enrichments
     server,
-    // dataset enrichments
-    isProxied
-    // recordCount
-    // TODO: fields, geometryType, layer?, server?, as needed
+    layers,
+    // NOTE: the Hub API also returns the following server properties
+    // but we should be able to get them from the above server object
+    // currentVersion, capabilities, tileInfo, serviceSpatialReference
+    // maxRecordCount, supportedQueryFormats, etc
+    // feature and raster layer enrichments
+    layer,
+    recordCount,
+    statistics,
+    // NOTE: the Hub API also returns the following layer properties
+    // but we should be able to get them from the above layer object
+    // supportedQueryFormats, supportsAdvancedQueries, advancedQueryCapabilities, useStandardizedQueries
+    // geometryType, objectIdField, displayField, fields,
+    // org properties?
+    orgId,
+    orgName,
+    organization,
+    orgExtent
   } = attributes;
+  // NOTE: we could throw or return if there are errors
+  // to prevent type errors trying to read properties below
   content.errors = errors;
+  // common enrichments
   content.boundary = boundary;
-  // setting this to null signals to enrichMetadata to skip this
-  content.metadata = metadata || null;
-  content.slug = slug;
-  content.groupIds = groupIds;
-  content.structuredLicense = structuredLicense;
-  content.layer = layer;
-  content.server = server;
-  content.isProxied = isProxied;
   if (!item.extent.length && extent && extent.coordinates) {
     // we fall back to the extent derived by the API
     // which prefers layer or service extents and ultimately
     // falls back to the org's extent
     content.extent = extent.coordinates;
   }
+  // setting this to null signals to enrichMetadata to skip this
+  content.metadata = metadata || null;
+  if (content.modified !== modified) {
+    // capture the enriched modified date
+    // NOTE: the item modified date is still available on content.item.modified
+    content.modified = modified;
+    content.updatedDate = new Date(modified);
+    content.updatedDateSource = modifiedProvenance;
+  }
+  content.slug = slug;
   if (searchDescription) {
     // overwrite default summary (from snippet) w/ search description
     content.summary = searchDescription;
   }
-  if (modifiedProvenance) {
-    // overwrite default updated source
-    content.updatedDateSource = modifiedProvenance;
+  content.groupIds = groupIds;
+  content.structuredLicense = structuredLicense;
+  // server enrichments
+  content.server = server;
+  content.layers = layers;
+  // layer enrichments
+  content.layer = layer;
+  content.recordCount = recordCount;
+  content.statistics = statistics;
+  // org enrichments
+  if (orgId) {
+    content.org = {
+      id: orgId,
+      name: orgName || organization,
+      extent: orgExtent
+    };
   }
-  // type-specific enrichments
-  // TODO: should this be based on existence of attributes instead of hubType?
-  // TODO: if the latter, should we return a different subtype of IHubContent for this?
-  // if (content.hubType === "dataset") {
-  //   content.recordCount = recordCount;
-  //   // TODO: fields, geometryType, etc
-  // }
-  // TODO: any remaining enrichments
   return content;
 }
 
@@ -205,6 +230,7 @@ export function datasetToItem(dataset: DatasetResource): IItem {
     owner,
     orgId,
     created,
+    // the Hub API returns item.modified in attributes.itemModified (below)
     modified,
     // NOTE: we use attributes.name to store the title or the service/layer name
     // but in Portal name is only used for file types to store the file name (read only)
@@ -216,8 +242,8 @@ export function datasetToItem(dataset: DatasetResource): IItem {
     snippet,
     tags,
     thumbnail,
-    // the Hub API returns item.extent in attributes.itemExtent
-    itemExtent,
+    // the Hub API returns item.extent in attributes.itemExtent (below)
+    // extent,
     categories,
     contentStatus,
     // the Hub API doesn't currently return spatialReference
@@ -253,9 +279,11 @@ export function datasetToItem(dataset: DatasetResource): IItem {
     numViews,
     itemControl,
     scoreCompleteness,
-    // additional attributes we'll need as fallbacks
-    createdAt,
-    updatedAt,
+    // additional attributes we'll need
+    // to derive the above values when missing
+    itemExtent,
+    itemModified,
+    modifiedProvenance,
     serviceSpatialReference
   } = attributes;
 
@@ -269,8 +297,11 @@ export function datasetToItem(dataset: DatasetResource): IItem {
     id: itemId,
     owner: owner as string,
     orgId,
-    created: (created || createdAt) as number,
-    modified: (modified || updatedAt) as number,
+    created: created as number,
+    // for feature layers, modified will usually come from the layer so
+    // we prefer itemModified, but fall back to modified if it came from the item
+    modified: (itemModified ||
+      (modifiedProvenance === "item.modified" && modified)) as number,
     title: (title || name) as string,
     type,
     typeKeywords,
@@ -280,7 +311,7 @@ export function datasetToItem(dataset: DatasetResource): IItem {
     thumbnail,
     extent:
       itemExtent ||
-      /* istanbul ignore next: I _think_ the API returns [] by default, but I'm not _sure_ */ [],
+      /* istanbul ignore next: API should always return itemExtent, but we default to [] just in case */ [],
     categories,
     contentStatus,
     spatialReference: spatialReference || serviceSpatialReference,

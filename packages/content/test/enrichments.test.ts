@@ -38,7 +38,6 @@ describe("enrichContent", () => {
     const getItemGroupsSpy = spyOn(arcgisRestPortal, "getItemGroups");
     const getContentMetadataSpy = spyOn(metadataModule, "getContentMetadata");
     const content = {
-      errors: [],
       id: "3ae",
       // signature for a Hub created web map would trigger getUser
       type: "Web Map",

@@ -428,13 +428,14 @@ export const enrichContent = (
   // fetch any missing or requested enrichments
   return fetchEnrichments(content, requestOptions).then(
     (enrichments: Partial<IHubContent>) => {
+      const serverErrors = content.errors || [];
       // merge derived portal URLs & fetched enrichments into content
       const merged = {
         ...content,
         ...portalUrls,
         ...enrichments,
         // include any previous errors (if any)
-        errors: [...content.errors, ...enrichments.errors]
+        errors: [...serverErrors, ...enrichments.errors]
       };
       // return the content with enriched dates
       return _enrichDates(merged);
