@@ -133,7 +133,7 @@ describe("hub", () => {
       );
       attributes.modifiedProvenance = "layer.editingInfo.lastEditDate";
       item = datasetToItem(dataset);
-      expect(item.modified).toBeUndefined(
+      expect(item.modified).toBeFalsy(
         "is undefined when provenance is layer.editingInfo"
       );
     });

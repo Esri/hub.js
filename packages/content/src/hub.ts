@@ -301,9 +301,7 @@ export function datasetToItem(dataset: DatasetResource): IItem {
     // for feature layers, modified will usually come from the layer so
     // we prefer itemModified, but fall back to modified if it came from the item
     modified: (itemModified ||
-      (modifiedProvenance === "item.modified"
-        ? modified
-        : undefined)) as number,
+      (modifiedProvenance === "item.modified" && modified)) as number,
     title: (title || name) as string,
     type,
     typeKeywords,
