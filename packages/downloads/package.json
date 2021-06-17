@@ -11,13 +11,13 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@esri/arcgis-rest-feature-layer": "^3.1.1",
-    "@esri/arcgis-rest-portal": "^3.1.1",
+    "@esri/arcgis-rest-portal": "^3.1.2",
     "@esri/arcgis-rest-request": "^3.1.1",
     "eventemitter3": "^4.0.4",
     "tslib": "^1.13.0"
   },
   "peerDependencies": {
-    "@esri/hub-common": "^7.1.1"
+    "@esri/hub-common": "^8.0.0"
   },
   "devDependencies": {
     "@esri/arcgis-rest-auth": "^3.1.1",
