@@ -1,6 +1,6 @@
 import { canUserCreateTeam } from "../../src/utils/can-user-create-team";
 import { IHubRequestOptions } from "@esri/hub-common";
-import { IUser } from "@esri/arcgis-rest-auth";
+import { IUser, UserSession } from "@esri/arcgis-rest-auth";
 import * as getUserCreatableTeamsModule from "../../src/utils/get-user-creatable-teams";
 
 describe("Name of the group", () => {
@@ -28,11 +28,17 @@ describe("Name of the group", () => {
 
   it("delegates to getUserCreatableTeams otherwise", () => {
     const ro = {
+      isPortal: false,
+      hubApiUrl: "",
       portalSelf: {
         id: "some-id",
         isPortal: false,
-        name: "some name"
-      }
+        name: "some name",
+        subscriptionInfo: {
+          type: "In House"
+        }
+      },
+      authentication: {} as UserSession
     } as IHubRequestOptions;
 
     const spy = spyOn(

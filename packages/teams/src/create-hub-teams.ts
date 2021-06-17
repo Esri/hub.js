@@ -30,7 +30,8 @@ export function createHubTeams(opts: {
   const teamsToCreate = getUserCreatableTeams(
     hubRequestOptions.portalSelf.user,
     product,
-    hubRequestOptions.portalSelf.currentVersion
+    hubRequestOptions.portalSelf.currentVersion,
+    hubRequestOptions.portalSelf.subscriptionInfo.type
   ).filter(g => {
     return types.indexOf(g.config.type) > -1;
   });

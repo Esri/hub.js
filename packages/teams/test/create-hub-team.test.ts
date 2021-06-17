@@ -23,6 +23,9 @@ describe("createHubTeam", () => {
       },
       user: {
         privileges: ["portal:user:createGroup"]
+      },
+      subscriptionInfo: {
+        type: "In House"
       }
     },
     authentication: {} as UserSession
