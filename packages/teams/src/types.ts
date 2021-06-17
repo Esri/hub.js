@@ -28,7 +28,14 @@ export interface IGroupTemplate extends Partial<IGroup> {
     titleI18n: string;
     descriptionI18n: string;
     snippetI18n: string;
+    privPropValues?: IPrivPropValues[];
   };
+}
+
+export interface IPrivPropValues {
+  priv: string;
+  prop: string;
+  value: string;
 }
 
 /**

@@ -16,13 +16,17 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
       type: "core",
       availableIn: ["premium"],
       propertyName: "collaborationGroupId",
-      requiredPrivs: [
-        "portal:admin:createUpdateCapableGroup",
-        "portal:user:addExternalMembersToGroup"
-      ],
+      requiredPrivs: ["portal:admin:createUpdateCapableGroup"],
       titleI18n: "collaborationTitle",
       descriptionI18n: "collaborationDesc",
-      snippetI18n: "collaborationSnippet"
+      snippetI18n: "collaborationSnippet",
+      privPropValues: [
+        {
+          priv: "portal:user:addExternalMembersToGroup",
+          prop: "membershipAcess",
+          value: "collaboration"
+        }
+      ]
     },
     access: "org",
     autoJoin: false,
@@ -31,7 +35,7 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
     sortField: "modified",
     sortOrder: "desc",
     capabilities: "updateitemcontrol",
-    membershipAccess: "collaboration",
+    membershipAccess: "org",
     _edit_privacy: "on",
     _edit_contributors: "on",
     tags: [
@@ -48,13 +52,17 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
       type: "core",
       availableIn: ["basic"],
       propertyName: "collaborationGroupId",
-      requiredPrivs: [
-        "portal:admin:createUpdateCapableGroup",
-        "portal:user:addExternalMembersToGroup"
-      ],
+      requiredPrivs: ["portal:admin:createUpdateCapableGroup"],
       titleI18n: "collaborationTitleBasic",
       descriptionI18n: "collaborationDescBasic",
-      snippetI18n: "collaborationSnippetBasic"
+      snippetI18n: "collaborationSnippetBasic",
+      privPropValues: [
+        {
+          priv: "portal:user:addExternalMembersToGroup",
+          prop: "membershipAcess",
+          value: "collaboration"
+        }
+      ]
     },
     access: "org",
     autoJoin: false,
@@ -63,7 +71,7 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
     sortField: "modified",
     sortOrder: "desc",
     capabilities: "updateitemcontrol",
-    membershipAccess: "collaboration",
+    membershipAccess: "org",
     _edit_privacy: "on",
     _edit_contributors: "on",
     tags: [

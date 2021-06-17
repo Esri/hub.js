@@ -15,8 +15,8 @@ describe("getTeamsAvailableInProduct", () => {
     );
     expect(chk.length).toBe(5, "should return 5 of team templates for basic");
     expect(chk[0].membershipAccess).toBe(
-      "collaboration",
-      "core team should be set to collaboration"
+      "org",
+      "core team should be set to org" // it gets updated to collaboration via getUserCreatableTeams
     );
     expect(chk[4].membershipAccess).toBe(
       "",
