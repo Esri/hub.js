@@ -70,7 +70,6 @@ describe("getUserCreatableTeams", () => {
     expect(
       getUserCreatableTeams(user, "portal", "9.1", "In House").length
     ).toBe(3, "Portal, all privs, should be 3 creatable team types");
-
     // remove updateGroups...
     user.privileges = [
       "portal:user:createGroup",
@@ -80,9 +79,17 @@ describe("getUserCreatableTeams", () => {
     expect(
       getUserCreatableTeams(user, "premium", "9.1", "In House").length
     ).toBe(4, "Premium, all privs, should be 5 creatable team types");
+    expect(getUserCreatableTeams(user, "premium", "9.1").length).toBe(
+      0,
+      "Premium, all privs, when not passing in a subscription type"
+    );
     expect(getUserCreatableTeams(user, "basic", "9.1", "In House").length).toBe(
       2,
       "Basic, all privs, should be 3 creatable team types"
+    );
+    expect(getUserCreatableTeams(user, "basic", "9.1").length).toBe(
+      1,
+      "Basic, all privs, when not passing in a sub type"
     );
     expect(
       getUserCreatableTeams(user, "portal", "9.1", "In House").length

@@ -32,6 +32,11 @@ export interface IGroupTemplate extends Partial<IGroup> {
   };
 }
 
+/**
+ * privPropValues template
+ * Used if we want to conditionally change values
+ * in a template.
+ */
 export interface IPrivPropValues {
   priv: string;
   prop: string;

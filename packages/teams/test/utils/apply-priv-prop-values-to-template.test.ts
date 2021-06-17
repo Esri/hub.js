@@ -1,7 +1,7 @@
 import { IGroupTemplate } from "../../src/types";
-import { updateTemplateBasedOnPrivs } from "../../src/utils/update-template-based-on-privs";
+import { applyPrivPropValuesToTemplate } from "../../src/utils/apply-priv-prop-values-to-template";
 
-describe("updateTemplateBasedOnPrivs", () => {
+describe("applyPrivPropValuesToTemplate", () => {
   it("Correctly updates template", () => {
     const template = {
       membershipAccess: "org",
@@ -26,7 +26,7 @@ describe("updateTemplateBasedOnPrivs", () => {
     const user = {
       privileges: ["portal:user:addExternalMembersToGroup"]
     };
-    const result = updateTemplateBasedOnPrivs(user, template);
+    const result = applyPrivPropValuesToTemplate(user, template);
     expect(result.membershipAccess).toBe(
       "collaboration",
       "membershipAccess is properly updated"
@@ -49,7 +49,7 @@ describe("updateTemplateBasedOnPrivs", () => {
     const user = {
       privileges: ["portal:user:addExternalMembersToGroup"]
     };
-    const result = updateTemplateBasedOnPrivs(user, template);
+    const result = applyPrivPropValuesToTemplate(user, template);
     expect(result.membershipAccess).toBe(
       "org",
       "membershipAccess is properly updated"
@@ -73,7 +73,7 @@ describe("updateTemplateBasedOnPrivs", () => {
     const user = {
       privileges: ["portal:user:addExternalMembersToGroup"]
     };
-    const result = updateTemplateBasedOnPrivs(user, template);
+    const result = applyPrivPropValuesToTemplate(user, template);
     expect(result.membershipAccess).toBe(
       "org",
       "membershipAccess is properly updated"
@@ -97,7 +97,7 @@ describe("updateTemplateBasedOnPrivs", () => {
     const user = {
       privileges: ["portal:user:createGroup"]
     };
-    const result = updateTemplateBasedOnPrivs(user, template);
+    const result = applyPrivPropValuesToTemplate(user, template);
     expect(result.membershipAccess).toBe(
       "org",
       "membershipAccess is properly updated"

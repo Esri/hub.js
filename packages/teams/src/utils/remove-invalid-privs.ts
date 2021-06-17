@@ -14,6 +14,8 @@ const ALLOWED_SUBSCRIPTION_TYPES = [
 ];
 
 /**
+ * TODO: If/when AGO implements this logic or runs a script on their end we can remove
+ * this logic, or simply return passed in user.
  * Returns a cloned copy of the user object with updated privileges
  * based on whether or not the user has a subscription type not in the
  * allowed list
@@ -21,7 +23,7 @@ const ALLOWED_SUBSCRIPTION_TYPES = [
  * @param {string} subscriptionInfoType
  * @returns
  */
-export function filterUserPrivsBySubscriptionType(
+export function removeInvalidPrivs(
   user: IUser,
   subscriptionInfoType: string
 ): IUser {

@@ -1,6 +1,6 @@
-import { filterUserPrivsBySubscriptionType } from "../../src/utils/filter-user-privs-by-subscription-type";
+import { removeInvalidPrivs } from "../../src/utils/remove-invalid-privs";
 
-describe("filterUserPrivsBySubscriptionType", () => {
+describe("removeInvalidPrivs", () => {
   it("Correctly passes allowed types through", () => {
     const subTypes = [
       "Demo & Marketing",
@@ -20,9 +20,10 @@ describe("filterUserPrivsBySubscriptionType", () => {
           "portal:admin:assignToGroups"
         ]
       };
-      expect(
-        filterUserPrivsBySubscriptionType(user, type).privileges.length
-      ).toBe(2, "it did not remove addExternalMembersToGroup");
+      expect(removeInvalidPrivs(user, type).privileges.length).toBe(
+        2,
+        "it did not remove addExternalMembersToGroup"
+      );
     });
   });
   it("Correctly removes priv for non-allowed types", () => {
@@ -34,9 +35,10 @@ describe("filterUserPrivsBySubscriptionType", () => {
           "portal:admin:assignToGroups"
         ]
       };
-      expect(
-        filterUserPrivsBySubscriptionType(user, type).privileges.length
-      ).toBe(1, "it did remove addExternalMembersToGroup");
+      expect(removeInvalidPrivs(user, type).privileges.length).toBe(
+        1,
+        "it did remove addExternalMembersToGroup"
+      );
     });
   });
 });
