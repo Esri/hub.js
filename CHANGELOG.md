@@ -5,48 +5,58 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+## [8.6.1] - June 18th 2021
+
+- Bug Fixes
+  - **teams** resolve issue where we attempted to create teams with `membershipAccess: "collaboration"` for Trial type orgs [`8260603`](https://github.com/Esri/hub.js/commit/8260603a5d443126260b8caaec5665f9279920ea)
+
 ## [8.6.0] - June 15th 2021
 
 ### @esri/hub-common
-* New Features
-   * **common**: add isFeatureService, getLayerIdFromUrl, getItemLayerId, and getItemHubId [`cd81e8fd`](https://github.com/Esri/hub.js/commit/cd81e8fd68f84644e4c5bc93efdfb32d377b0af4)
-   * **common**: add server, layer, and org enrichments to IHubContent [`a689e1d5`](https://github.com/Esri/hub.js/commit/a689e1d552d5571b8888734d796c03582c1a7e0c)
+
+- New Features
+  - **common**: add isFeatureService, getLayerIdFromUrl, getItemLayerId, and getItemHubId [`cd81e8fd`](https://github.com/Esri/hub.js/commit/cd81e8fd68f84644e4c5bc93efdfb32d377b0af4)
+  - **common**: add server, layer, and org enrichments to IHubContent [`a689e1d5`](https://github.com/Esri/hub.js/commit/a689e1d552d5571b8888734d796c03582c1a7e0c)
+
 ### @esri/hub-content
 
-* New Features
-   * **content**: add getFamily() and populate content.family in itemToContent() [`a2558fac`](https://github.com/Esri/hub.js/commit/a2558fac4487fc2f79778ea5d0df4057e0222ca8) [#355](https://github.com/Esri/hub.js/issues/355)
-   * **content**: datasetToContent returns server, layer, and org enrichments [`a689e1d5`](https://github.com/Esri/hub.js/commit/a689e1d552d5571b8888734d796c03582c1a7e0c)
-* Bug Fixes
-   * **content**: should not set hubId when in portal [`a46924f8`](https://github.com/Esri/hub.js/commit/a46924f82bbaa9b844fdc28b55475c0561de2d61)
-   * **content**: datasetToContent should not return isProxied as that is not returned by the API [`c088bfd5`](https://github.com/Esri/hub.js/commit/c088bfd5f202b9dfafe5ef848dffb63b8e9733c3)
-   * **content**: fix how content.modified and content.item.modified are set [`8333f3c9`](https://github.com/Esri/hub.js/commit/8333f3c99dbb18a39de601cc49ca0fa9079ee7db)
+- New Features
+  - **content**: add getFamily() and populate content.family in itemToContent() [`a2558fac`](https://github.com/Esri/hub.js/commit/a2558fac4487fc2f79778ea5d0df4057e0222ca8) [#355](https://github.com/Esri/hub.js/issues/355)
+  - **content**: datasetToContent returns server, layer, and org enrichments [`a689e1d5`](https://github.com/Esri/hub.js/commit/a689e1d552d5571b8888734d796c03582c1a7e0c)
+- Bug Fixes
+  - **content**: should not set hubId when in portal [`a46924f8`](https://github.com/Esri/hub.js/commit/a46924f82bbaa9b844fdc28b55475c0561de2d61)
+  - **content**: datasetToContent should not return isProxied as that is not returned by the API [`c088bfd5`](https://github.com/Esri/hub.js/commit/c088bfd5f202b9dfafe5ef848dffb63b8e9733c3)
+  - **content**: fix how content.modified and content.item.modified are set [`8333f3c9`](https://github.com/Esri/hub.js/commit/8333f3c99dbb18a39de601cc49ca0fa9079ee7db)
 
 ## [8.5.1] - June 10th 2021
 
 ### Other Changes
 
-* Misc.
-   * **dependencies**: update peerDependencies for all packages to allow rest-js 3.x [`5afb7b81`](https://github.com/Esri/hub.js/commit/5afb7b8159042f86616a203d0045e5cee7a1c18d)
+- Misc.
+  - **dependencies**: update peerDependencies for all packages to allow rest-js 3.x [`5afb7b81`](https://github.com/Esri/hub.js/commit/5afb7b8159042f86616a203d0045e5cee7a1c18d)
 
 ## [8.5.0] - June 10th 2021
 
 ### @esri/hub-content
 
-* New Features
-   * **content**: add enrichContent(), fetchContent(), getPortalUrls() [`4455d8ef`](https://github.com/Esri/hub.js/commit/4455d8efd5f14a6bbacadafd824591c10de5c9db) [#538](https://github.com/Esri/hub.js/issues/538)
-* Bug Fixes
-   * **content**: always popuplate content.errors (default to []) [`6ce2459d`](https://github.com/Esri/hub.js/commit/6ce2459dbcad0a6a9954156b68312551e36f7b62)
+- New Features
+  - **content**: add enrichContent(), fetchContent(), getPortalUrls() [`4455d8ef`](https://github.com/Esri/hub.js/commit/4455d8efd5f14a6bbacadafd824591c10de5c9db) [#538](https://github.com/Esri/hub.js/issues/538)
+- Bug Fixes
+  - **content**: always popuplate content.errors (default to []) [`6ce2459d`](https://github.com/Esri/hub.js/commit/6ce2459dbcad0a6a9954156b68312551e36f7b62)
 
 ## [8.4.4] - June 8th 2021
 
 ### @esri/hub-content
 
-* Bug Fixes
-   * **content**: return content.item and handle when itemExtent is an empty array [`1e101708`](https://github.com/Esri/hub.js/commit/1e101708d6ec734df5f87efb7173f416ccf643e0)
+- Bug Fixes
+  - **content**: return content.item and handle when itemExtent is an empty array [`1e101708`](https://github.com/Esri/hub.js/commit/1e101708d6ec734df5f87efb7173f416ccf643e0)
 
 ## [8.4.3] - June 7th 2021
 
 ### @esri/hub-content
+
 - Bug Fixes
   - **content** updatedDate uses reviseDate from metadata, then layer.editingInfo.lastEditDate, then server.editingInfo.lastEditDate
 
@@ -54,12 +64,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Other Changes
 
-* Bug Fixes
-   * **content**: prefer item extent from dataset) [`8fac706e`](https://github.com/Esri/hub.js/commit/8fac706eb997003f94e70e36eb5c61744bca792f)
+- Bug Fixes
+  - **content**: prefer item extent from dataset) [`8fac706e`](https://github.com/Esri/hub.js/commit/8fac706eb997003f94e70e36eb5c61744bca792f)
 
 ## [8.4.1] - May 22nd 2021
 
 ### @esri/hub-content
+
 - Bug Fixes
   - **content** export `getContentMetadata()` from the root
 
@@ -74,12 +85,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Other Changes
 
-* Chores
-   * **demos**: add an Ember application demo [`a0eec085`](https://github.com/Esri/hub.js/commit/a0eec08540bc8641ed63bef965eea7c6b7c74476) [#506](https://github.com/Esri/hub.js/issues/506)
-   * **demos**: add a node demo [`8efca64a`](https://github.com/Esri/hub.js/commit/8efca64a86279d0eca661fee3777bc92d2b7c95f)
-   * **everything**: use es2017 as default ESM build; add Ember dev script [`f9ffcdf7`](https://github.com/Esri/hub.js/commit/f9ffcdf7f4f8b5f2d5aa26c2f83f4107b3f1dbcb)
-* Bug Fixes
-   * **content**: update datasetToContent method to add isProxied property to result [`c86968e9`](https://github.com/Esri/hub.js/commit/c86968e9f514fec04edd378b947ec181bbf1e803) [#https://devtopia.esri.com/dc/hub/issues/71](https://github.com/Esri/hub.js/issues/https://devtopia.esri.com/dc/hub/issues/71)
+- Chores
+  - **demos**: add an Ember application demo [`a0eec085`](https://github.com/Esri/hub.js/commit/a0eec08540bc8641ed63bef965eea7c6b7c74476) [#506](https://github.com/Esri/hub.js/issues/506)
+  - **demos**: add a node demo [`8efca64a`](https://github.com/Esri/hub.js/commit/8efca64a86279d0eca661fee3777bc92d2b7c95f)
+  - **everything**: use es2017 as default ESM build; add Ember dev script [`f9ffcdf7`](https://github.com/Esri/hub.js/commit/f9ffcdf7f4f8b5f2d5aa26c2f83f4107b3f1dbcb)
+- Bug Fixes
+  - **content**: update datasetToContent method to add isProxied property to result [`c86968e9`](https://github.com/Esri/hub.js/commit/c86968e9f514fec04edd378b947ec181bbf1e803) [#https://devtopia.esri.com/dc/hub/issues/71](https://github.com/Esri/hub.js/issues/https://devtopia.esri.com/dc/hub/issues/71)
 
 ## [8.3.0] - April 16th 2021
 
@@ -788,11 +799,7 @@ Attempt to address failed release
 
 ## [4.1.0] - May 21st 2020
 
-
-
 ## [4.0.0] - May 20th 2020
-
-
 
 ## [3.9.3] - May 14th 2020
 
@@ -830,8 +837,6 @@ Attempt to address failed release
   - **peerDependencies**: fix invalid peerDependencies [`08fae37`](https://github.com/Esri/hub.js/commit/08fae37875aa3e68a82970a54eedcbe13ef001a8) [#251](https://github.com/Esri/hub.js/issues/251)
 
 ## [3.9.1] - May 6th 2020
-
-
 
 ## [3.9.0] - May 6th 2020
 
@@ -873,8 +878,6 @@ Attempt to address failed release
 
 ## [3.7.4] - April 30th 2020
 
-
-
 ## [3.7.3] - April 29th 2020
 
 - New Features
@@ -885,8 +888,6 @@ Attempt to address failed release
 ### @esri/hub-common
 
 ## [3.7.1] - April 28th 2020
-
-
 
 ## [3.7.0] - April 28th 2020
 
@@ -942,11 +943,7 @@ Attempt to address failed release
 
 ## [3.6.3] - January 27th 2020
 
-
-
 ## [3.6.2] - January 2nd 2020
-
-
 
 ## [3.6.0] - November 18th 2019
 
@@ -1040,8 +1037,6 @@ Attempt to address failed release
   - **search**: support filters specified implicitly
 
 ## [2.6.0] - August 20th 2019
-
-
 
 ## [2.5.0] - August 15th 2019
 
@@ -1616,4 +1611,5 @@ Initial Release
 [8.5.0]: https://github.com/Esri/hub.js/compare/v8.4.4...v8.5.0 "v8.5.0"
 [8.5.1]: https://github.com/Esri/hub.js/compare/v8.5.0...v8.5.1 "v8.5.1"
 [8.6.0]: https://github.com/Esri/hub.js/compare/v8.5.1...v8.6.0 "v8.6.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v8.6.0...HEAD "Unreleased Changes"
+[8.6.1]: https://github.com/Esri/hub.js/compare/v8.6.0...v8.6.1 "v8.6.1"
+[HEAD]: https://github.com/Esri/hub.js/compare/v8.6.1...HEAD "Unreleased Changes"
