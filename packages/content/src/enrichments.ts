@@ -1,3 +1,4 @@
+import { IUser } from "@esri/arcgis-rest-portal";
 import {
   getItemData,
   getItemGroups,
@@ -242,21 +243,33 @@ const fetchMetadata = (
   requestOptions?: IHubRequestOptions
 ) => getContentMetadata(content.id, requestOptions);
 
-const fetchOwnerOrgId = (
+/**
+ * Fetch the owner IUser
+ */
+const fetchOwnerUser = (
   content: IHubContent,
   requestOptions?: IHubRequestOptions
-): Promise<string> => {
+): Promise<IUser> => {
   const options: IGetUserOptions = {
     username: content.owner,
     ...requestOptions
   };
-  return getUser(options).then(user => user.orgId);
+  return getUser(options);
 };
 
+/**
+ * Fetch the /data for the Item that backs the content
+ *
+ * @param {IHubContent} content
+ * @param {IHubRequestOptions} [requestOptions]
+ * @return {*}
+ */
 const fetchContentData = (
   content: IHubContent,
   requestOptions?: IHubRequestOptions
 ) => {
+  // TODO: Should we add type based guards here?
+  // i.e. for some item types /data is a zip file or actual data
   return getItemData(content.id, requestOptions);
 };
 
@@ -273,7 +286,8 @@ const enrichmentRequests: IEnrichmentRequests = {
   metadata: fetchMetadata,
   // both portal and hub
   data: fetchContentData,
-  orgId: fetchOwnerOrgId
+  // orgId: fetchOwnerOrgId
+  ownerUser: fetchOwnerUser
 };
 
 // TODO: use family instead
@@ -290,12 +304,12 @@ const isHubCreatedContent = (content: IHubContent) => {
   return (
     content.type === "Web Map" &&
     contentTypeKeywords.some(
-      typeKeyword => hubTypeKeywords.indexOf(typeKeyword) > -1
+      (typeKeyword: string) => hubTypeKeywords.indexOf(typeKeyword) > -1
     )
   );
 };
 
-const shouldFetchOrgId = (content: IHubContent) => {
+const shouldFetchOwner = (content: IHubContent) => {
   return !content.orgId && isHubCreatedContent(content);
 };
 
@@ -310,8 +324,8 @@ const getMissingEnrichments = (content: IHubContent) => {
     // the hub api returns null when there is no metadata
     enrichments.push("metadata");
   }
-  if (shouldFetchOrgId(content)) {
-    enrichments.push("orgId");
+  if (shouldFetchOwner(content)) {
+    enrichments.push("ownerUser");
   }
   if (shouldFetchData(content)) {
     enrichments.push("data");
