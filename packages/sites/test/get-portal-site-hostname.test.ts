@@ -20,7 +20,8 @@ describe("getPortalSiteHostname", () => {
     portal = ({
       allSSL: false,
       httpPort: 80,
-      portalHostname: "foobar.com/instance"
+      customBaseUrl: "other",
+      portalHostname: "foobar.com"
     } as unknown) as IPortal;
 
     expect(getPortalSiteHostname(subDomain, portal)).toBe(
@@ -29,7 +30,7 @@ describe("getPortalSiteHostname", () => {
 
     portal = ({
       allSSL: false,
-      httpPort: 23, // random, not 80
+      httpPort: 23,
       customBaseUrl: "instance",
       portalHostname: "foobar.com/instance"
     } as unknown) as IPortal;
@@ -41,8 +42,8 @@ describe("getPortalSiteHostname", () => {
 
     portal = ({
       allSSL: true,
-      httpsPort: 443, // random, not 80
-      customBaseUrl: "instance",
+      httpsPort: 443,
+      customBaseUrl: "other",
       portalHostname: "foobar.com/instance"
     } as unknown) as IPortal;
 
@@ -54,7 +55,7 @@ describe("getPortalSiteHostname", () => {
     portal = ({
       allSSL: true,
       httpsPort: 234, // random, not 80
-      customBaseUrl: "instance",
+      customBaseUrl: "other",
       portalHostname: "foobar.com/instance"
     } as unknown) as IPortal;
 
