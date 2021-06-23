@@ -7,10 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [8.6.2] - June 23rd 2021
+
+### Other Changes
+
+- Bug Fixes
+  - **hub-sites**: correctly generate site url [`fa57899c`](https://github.com/Esri/hub.js/commit/fa57899c1fee016014728d5c75eaa7a65e9652c2)
+
 ## [8.6.1] - June 18th 2021
 
 - Bug Fixes
-  - **teams** resolve issue where we attempted to create teams with `membershipAccess: "collaboration"` for Trial type orgs [`8260603`](https://github.com/Esri/hub.js/commit/8260603a5d443126260b8caaec5665f9279920ea)
+  - **teams** resolve issue where we attempted to create teams with `membershipAccess: &quot;collaboration&quot;` for Trial type orgs [`8260603`](https://github.com/Esri/hub.js/commit/8260603a5d443126260b8caaec5665f9279920ea)
 
 ## [8.6.0] - June 15th 2021
 
@@ -1612,4 +1619,5 @@ Initial Release
 [8.5.1]: https://github.com/Esri/hub.js/compare/v8.5.0...v8.5.1 "v8.5.1"
 [8.6.0]: https://github.com/Esri/hub.js/compare/v8.5.1...v8.6.0 "v8.6.0"
 [8.6.1]: https://github.com/Esri/hub.js/compare/v8.6.0...v8.6.1 "v8.6.1"
-[HEAD]: https://github.com/Esri/hub.js/compare/v8.6.1...HEAD "Unreleased Changes"
+[8.6.2]: https://github.com/Esri/hub.js/compare/v8.6.1...v8.6.2 "v8.6.2"
+[HEAD]: https://github.com/Esri/hub.js/compare/v8.6.2...HEAD "Unreleased Changes"
