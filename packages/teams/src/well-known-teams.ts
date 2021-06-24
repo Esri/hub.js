@@ -112,13 +112,17 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
       type: "content",
       availableIn: ["premium"],
       propertyName: "contentGroupId",
-      requiredPrivs: [
-        "portal:user:createGroup",
-        "portal:user:addExternalMembersToGroup"
-      ],
+      requiredPrivs: ["portal:user:createGroup"],
       titleI18n: "contentTitle",
       descriptionI18n: "contentDesc",
-      snippetI18n: "contentSnippet"
+      snippetI18n: "contentSnippet",
+      privPropValues: [
+        {
+          priv: "portal:user:addExternalMembersToGroup",
+          prop: "membershipAcess",
+          value: ""
+        }
+      ]
     },
     access: "public",
     autoJoin: false,
@@ -126,7 +130,7 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
     isViewOnly: false,
     sortField: "modified",
     sortOrder: "desc",
-    membershipAccess: "",
+    membershipAccess: "org",
     tags: [
       "Hub Group",
       "Hub Content Group",
@@ -140,13 +144,17 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
       type: "content",
       availableIn: ["basic"],
       propertyName: "contentGroupId",
-      requiredPrivs: [
-        "portal:user:createGroup",
-        "portal:user:addExternalMembersToGroup"
-      ],
+      requiredPrivs: ["portal:user:createGroup"],
       titleI18n: "contentTitleBasic",
       descriptionI18n: "contentDescBasic",
-      snippetI18n: "contentSnippetBasic"
+      snippetI18n: "contentSnippetBasic",
+      privPropValues: [
+        {
+          priv: "portal:user:addExternalMembersToGroup",
+          prop: "membershipAcess",
+          value: ""
+        }
+      ]
     },
     access: "public",
     autoJoin: false,
@@ -154,7 +162,7 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
     isViewOnly: false,
     sortField: "modified",
     sortOrder: "desc",
-    membershipAccess: "",
+    membershipAccess: "org",
     tags: ["Hub Group", "Hub Content Group", "Hub Site Group"]
   },
   {
@@ -183,13 +191,17 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
       type: "followers",
       availableIn: ["premium"],
       propertyName: "followersGroupId",
-      requiredPrivs: [
-        "portal:user:createGroup",
-        "portal:user:addExternalMembersToGroup"
-      ],
+      requiredPrivs: ["portal:user:createGroup"],
       titleI18n: "followersTitle",
       descriptionI18n: "followersDesc",
-      snippetI18n: "followersSnippet"
+      snippetI18n: "followersSnippet",
+      privPropValues: [
+        {
+          priv: "portal:user:addExternalMembersToGroup",
+          prop: "membershipAcess",
+          value: ""
+        }
+      ]
     },
     access: "public",
     autoJoin: true,
@@ -198,7 +210,7 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
     notificationsEnabled: true,
     sortField: "title",
     sortOrder: "asc",
-    membershipAccess: "",
+    membershipAccess: "org",
     tags: [
       "Hub Group",
       "Hub Initiative Followers Group",

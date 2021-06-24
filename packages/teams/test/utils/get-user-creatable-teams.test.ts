@@ -80,7 +80,7 @@ describe("getUserCreatableTeams", () => {
       getUserCreatableTeams(user, "premium", "9.1", "In House").length
     ).toBe(4, "Premium, all privs, should be 5 creatable team types");
     expect(getUserCreatableTeams(user, "premium", "9.1").length).toBe(
-      0,
+      2,
       "Premium, all privs, when not passing in a subscription type"
     );
     expect(getUserCreatableTeams(user, "basic", "9.1", "In House").length).toBe(
@@ -88,7 +88,7 @@ describe("getUserCreatableTeams", () => {
       "Basic, all privs, should be 3 creatable team types"
     );
     expect(getUserCreatableTeams(user, "basic", "9.1").length).toBe(
-      1,
+      2,
       "Basic, all privs, when not passing in a sub type"
     );
     expect(
