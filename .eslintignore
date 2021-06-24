@@ -1,0 +1,25 @@
+# don't ever lint node_modules
+node_modules
+
+# don't lint build output (make sure it's set to your correct build folder name)
+packages/**/dist
+packages/**/node_modules
+
+# don't lint coverage output or demos or docs
+coverage
+demos
+docs
+
+
+# Root folder files
+umd-base-profile.js
+umd-production-profile.js
+commitlint.config.js
+exit-if-no-staged.js
+
+# Templates
+templates/*
+
+# other tooling
+scripts
+support
