@@ -37,8 +37,8 @@
     "dist/**"
   ],
   "scripts": {
-    "prepare": "npm run build",
-    "build": "npm run build:node && npm run build:esm",
+    "prepare-skipped": "npm run build",
+    "build": "npm run build:node && npm run build:esm && npm run build:umd && npm run build:esm:es5",
     "build:esm": "tsc --outDir ./dist/es2017  --declaration --declarationDir ./dist/types",
     "build:esm:es5": "tsc --module es2015 --target es5 --outDir ./dist/esm",
     "build:node": "tsc --module commonjs --outDir ./dist/node",
