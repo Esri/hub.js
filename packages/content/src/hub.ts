@@ -9,7 +9,7 @@ import {
 import { itemToContent } from "./portal";
 import { isSlug, addContextToSlug, parseDatasetId } from "./slugs";
 import { enrichContent, IFetchEnrichmentOptions } from "./enrichments";
-import { isExtentCoordinateArray } from "../../common/src/extent";
+import { isExtentCoordinateArray } from "@esri/hub-common";
 
 export interface IGetContentOptions extends IFetchEnrichmentOptions {
   siteOrgKey?: string;
