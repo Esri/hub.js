@@ -136,7 +136,7 @@
 	},
 	"scripts": {
 		"build": "npm run bootstrap && npm run build:esm:es5 && npm run build:umd",
-    "build:all": "npm run bootstrap && npm run build:esm npm run build:node && &&npm run build:esm:es5 && npm run build:umd",
+		"build:all": "npm run bootstrap && npm run build:esm npm run build:node && &&npm run build:esm:es5 && npm run build:umd",
 		"build:tests": "npm run build:esm && npm run build:node",
 		"build:esm:es5": "lerna run build:esm:es5",
 		"build:esm": "lerna run build:esm",
