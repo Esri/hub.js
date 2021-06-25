@@ -9,6 +9,7 @@ import {
 import { itemToContent } from "./portal";
 import { isSlug, addContextToSlug, parseDatasetId } from "./slugs";
 import { enrichContent, IFetchEnrichmentOptions } from "./enrichments";
+import { isExtentCoordinateArray } from "@esri/hub-common";
 
 export interface IGetContentOptions extends IFetchEnrichmentOptions {
   siteOrgKey?: string;
@@ -162,7 +163,11 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
   content.errors = errors;
   // common enrichments
   content.boundary = boundary;
-  if (!item.extent.length && extent && extent.coordinates) {
+  if (
+    !isExtentCoordinateArray(item.extent) &&
+    extent &&
+    isExtentCoordinateArray(extent.coordinates)
+  ) {
     // we fall back to the extent derived by the API
     // which prefers layer or service extents and ultimately
     // falls back to the org's extent
