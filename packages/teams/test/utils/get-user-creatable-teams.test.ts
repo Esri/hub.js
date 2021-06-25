@@ -10,9 +10,11 @@ describe("getUserCreatableTeams", () => {
         "opendata:user:designateGroup"
       ]
     };
+
     expect(
       getUserCreatableTeams(user, "premium", "8.4", "In House").length
     ).toBe(5, "Premium, all privs, should be 5 creatable team types");
+
     expect(getUserCreatableTeams(user, "basic", "8.4", "In House").length).toBe(
       3,
       "Basic, all privs, should be 3 creatable team types"
