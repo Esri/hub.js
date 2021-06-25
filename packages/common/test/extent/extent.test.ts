@@ -7,13 +7,6 @@ describe("isValidExtent", function() {
     const result = isValidExtent(extent);
     expect(result).toBeTruthy();
   });
-  it("identifies valid extent envelope", function() {
-    const extent: object = {
-      coordinates: [[-122.68, 45.53], [-122.45, 45.6]]
-    };
-    const result = isValidExtent(extent);
-    expect(result).toBeTruthy();
-  });
   it("identifies valid extent JSON", function() {
     const extent: IExtent = {
       xmin: -122.68,
