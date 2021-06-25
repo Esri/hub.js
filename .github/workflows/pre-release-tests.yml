@@ -28,9 +28,6 @@ jobs:
       - name: Install and Build
         run: npm install
 
-      - name: Build ESM & Node
-        run: npm run build:tests
-
       - name: Test in Chrome
         run: npm run test:chrome:ci
 
