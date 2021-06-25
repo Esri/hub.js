@@ -84,7 +84,7 @@ describe("getUserCreatableTeams", () => {
 
     expect(
       getUserCreatableTeams(user, "premium", "9.1", "In House").length
-    ).toBe(4, "Premium, all privs, should be 5 creatable team types");
+    ).toBe(4, "Premium, all privs, should be 4 creatable team types");
 
     expect(getUserCreatableTeams(user, "premium", "9.1").length).toBe(
       2,
@@ -93,7 +93,7 @@ describe("getUserCreatableTeams", () => {
 
     expect(getUserCreatableTeams(user, "basic", "9.1", "In House").length).toBe(
       2,
-      "Basic, all privs, should be 3 creatable team types"
+      "Basic, all privs, should be 2 creatable team types"
     );
 
     expect(getUserCreatableTeams(user, "basic", "9.1").length).toBe(
@@ -103,7 +103,7 @@ describe("getUserCreatableTeams", () => {
 
     expect(
       getUserCreatableTeams(user, "portal", "9.1", "In House").length
-    ).toBe(2, "Portal, all privs, should be 3 creatable team types");
+    ).toBe(2, "Portal, all privs, should be 2 creatable team types");
 
     // clear all privs and we should not get any groups back...
     user.privileges = [];
