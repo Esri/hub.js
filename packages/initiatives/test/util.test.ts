@@ -3,7 +3,7 @@
 import {
   copyImageResources,
   copyEmbeddedImageResources,
-  addImageAsResource
+  addImageAsResource,
 } from "../src/util";
 import { MOCK_REQUEST_OPTIONS } from "./mocks/fake-session";
 import * as fetchMock from "fetch-mock";
@@ -19,7 +19,7 @@ describe("Initiative Utilities ::", () => {
     afterEach(() => {
       fetchMock.restore();
     });
-    it("should GET the image from the url and POST it to the item", done => {
+    it("should GET the image from the url and POST it to the item", (done) => {
       if (typeof Blob === "undefined") {
         // we are in node, so just skip this
         expect(true).toBeTruthy();
@@ -27,7 +27,7 @@ describe("Initiative Utilities ::", () => {
       } else {
         const fakeResponse = {
           body: new Blob(),
-          sendAsJson: false
+          sendAsJson: false,
         };
         // mock two fetch calls...
         // first is a GET that should return a blob...
@@ -48,7 +48,7 @@ describe("Initiative Utilities ::", () => {
           "main-image.png",
           `${REST_URL}/content/items/3ef/resources/fake-image.png`,
           MOCK_REQUEST_OPTIONS
-        ).then(resp => {
+        ).then((resp) => {
           expect(resp as boolean).toBeTruthy();
           // check that the mocks were called
           expect(fetchMock.done()).toBeTruthy();
@@ -76,7 +76,7 @@ describe("Initiative Utilities ::", () => {
       fetchMock.restore();
     });
 
-    it("should make multiple calls to addImageAsResource", done => {
+    it("should make multiple calls to addImageAsResource", (done) => {
       if (typeof Blob === "undefined") {
         // we are in node, so just skip this
         expect(true).toBeTruthy();
@@ -84,7 +84,7 @@ describe("Initiative Utilities ::", () => {
       } else {
         const fakeResponse = {
           body: new Blob(),
-          sendAsJson: false
+          sendAsJson: false,
         };
         // mock two fetch calls...
         // first is a GET that should return a blob...
@@ -109,7 +109,7 @@ describe("Initiative Utilities ::", () => {
           "wadewatts",
           ["one.png", "two.jpg"],
           MOCK_REQUEST_OPTIONS
-        ).then(resp => {
+        ).then((resp) => {
           expect(resp).toBeTruthy();
           // check that the mocks were called
           expect(fetchMock.done()).toBeTruthy();
@@ -136,7 +136,7 @@ describe("Initiative Utilities ::", () => {
       fetchMock.restore();
     });
 
-    it("should make multiple calls to addImageAsResource", done => {
+    it("should make multiple calls to addImageAsResource", (done) => {
       if (typeof Blob === "undefined") {
         // we are in node, so just skip this
         expect(true).toBeTruthy();
@@ -144,7 +144,7 @@ describe("Initiative Utilities ::", () => {
       } else {
         const fakeResponse = {
           body: new Blob(),
-          sendAsJson: false
+          sendAsJson: false,
         };
         // mock two fetch calls...
         // first is a GET that should return a blob...
@@ -153,17 +153,17 @@ describe("Initiative Utilities ::", () => {
 
         // second is a POST that will contain a blob and return json
         fetchMock.post(`${REST_URL}/content/users/bz7/items/3ef/addResources`, {
-          success: true
+          success: true,
         });
         const assets = [
           {
             name: "foo",
-            url: "foo.com"
+            url: "foo.com",
           },
           {
             name: "bar",
-            url: "bar.com"
-          }
+            url: "bar.com",
+          },
         ];
         // we are in a browser, so we can actually run this...
         return copyEmbeddedImageResources(
@@ -171,7 +171,7 @@ describe("Initiative Utilities ::", () => {
           "bz7",
           assets,
           MOCK_REQUEST_OPTIONS
-        ).then(resp => {
+        ).then((resp) => {
           expect(resp).toBeTruthy();
           // check that the mocks were called
           expect(fetchMock.done()).toBeTruthy();
@@ -187,7 +187,7 @@ describe("Initiative Utilities ::", () => {
         });
       }
     });
-    it("should fail silently", done => {
+    it("should fail silently", (done) => {
       if (typeof Blob === "undefined") {
         // we are in node, so just skip this
         expect(true).toBeTruthy();
@@ -197,18 +197,18 @@ describe("Initiative Utilities ::", () => {
         // first is a GET that should return a blob...
         fetchMock.get("foo.com", {
           body: new Blob(),
-          sendAsJson: false
+          sendAsJson: false,
         });
         // second is a POST that will contain a blob and return json
         fetchMock.post(`${REST_URL}/content/users/bz7/items/3ef/addResources`, {
           success: false,
-          code: 403
+          code: 403,
         });
         const assets = [
           {
             name: "foo",
-            url: "foo.com"
-          }
+            url: "foo.com",
+          },
         ];
         // we are in a browser, so we can actually run this...
         return copyEmbeddedImageResources(
@@ -216,7 +216,7 @@ describe("Initiative Utilities ::", () => {
           "bz7",
           assets,
           MOCK_REQUEST_OPTIONS
-        ).then(resp => {
+        ).then((resp) => {
           expect(resp).toBeTruthy();
           done();
         });
