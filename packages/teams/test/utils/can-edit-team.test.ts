@@ -48,7 +48,7 @@ describe("canEditTeam", function () {
     expect(result).toBe(false);
   });
 
-  it("returns false if the user does not belong to the team", function () {
+  it("returns false if user does not belong to the team", function () {
     const groupId = "foo";
     const group = getGroup({
       id: groupId,
