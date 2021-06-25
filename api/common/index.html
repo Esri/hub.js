@@ -179,6 +179,10 @@
           <ul id="list2" class="api-package-content-list">
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/addContextToSlug/" class="tsd-kind-icon padding-right-1">addContextToSlug</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/addDays/" class="tsd-kind-icon padding-right-1">addDays</a>
             </li>
             
@@ -343,6 +347,10 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/getContentIdentifier/" class="tsd-kind-icon padding-right-1">getContentIdentifier</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/getCulture/" class="tsd-kind-icon padding-right-1">getCulture</a>
             </li>
             
@@ -487,6 +495,10 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/isSlug/" class="tsd-kind-icon padding-right-1">isSlug</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/isUpdateGroup/" class="tsd-kind-icon padding-right-1">isUpdateGroup</a>
             </li>
             
@@ -527,11 +539,19 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/parseDatasetId/" class="tsd-kind-icon padding-right-1">parseDatasetId</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/processRevertableTasks/" class="tsd-kind-icon padding-right-1">processRevertableTasks</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/propifyString/" class="tsd-kind-icon padding-right-1">propifyString</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/removeContextFromSlug/" class="tsd-kind-icon padding-right-1">removeContextFromSlug</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -824,10 +844,6 @@
           <ul id="list3" class="api-package-content-list">
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
-              <a href="/hub.js/api/content/addContextToSlug/" class="tsd-kind-icon padding-right-1">addContextToSlug</a>
-            </li>
-            
-            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/content/datasetToContent/" class="tsd-kind-icon padding-right-1">datasetToContent</a>
             </li>
             
@@ -872,23 +888,11 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
-              <a href="/hub.js/api/content/isSlug/" class="tsd-kind-icon padding-right-1">isSlug</a>
-            </li>
-            
-            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/content/itemToContent/" class="tsd-kind-icon padding-right-1">itemToContent</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
-              <a href="/hub.js/api/content/parseDatasetId/" class="tsd-kind-icon padding-right-1">parseDatasetId</a>
-            </li>
-            
-            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/content/parseISODateString/" class="tsd-kind-icon padding-right-1">parseISODateString</a>
-            </li>
-            
-            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
-              <a href="/hub.js/api/content/removeContextFromSlug/" class="tsd-kind-icon padding-right-1">removeContextFromSlug</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -1864,6 +1868,7 @@
 <h2 class="font-size-0 trailer-quarter">Module Import:</h2>
 
 <pre><code class="js"><span class="hljs-keyword">import</span> {
+  addContextToSlug,
   addDays,
   addSolutionResourceUrlToAssets,
   addUsersToGroup,
@@ -1905,6 +1910,7 @@
   generateRandomString,
   getCategory,
   getCollection,
+  getContentIdentifier,
   getCulture,
   getGeographicOrgExtent,
   getHubApiUrl,
@@ -1941,6 +1947,7 @@
   isDownloadable,
   isFeatureService,
   isGuid,
+  isSlug,
   isUpdateGroup,
   last,
   mapBy,
@@ -1951,8 +1958,10 @@
   normalizeSolutionTemplateItem,
   objectToArray,
   objectToJsonBlob,
+  parseDatasetId,
   processRevertableTasks,
   propifyString,
+  removeContextFromSlug,
   removeEmptyProps,
   replaceItemId,
   runRevertableTask,
@@ -1981,6 +1990,10 @@
 
 <hr class="leader-half trailer-quarter" />
 <ul class="list-plain package-contents">
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/addContextToSlug/" class="tsd-kind-icon">addContextToSlug</a>
+  </li>
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/common/addDays/" class="tsd-kind-icon">addDays</a>
@@ -2147,6 +2160,10 @@
   </li>
   
   <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/getContentIdentifier/" class="tsd-kind-icon">getContentIdentifier</a>
+  </li>
+  
+  <li class="tsd-kind-function">
     <a href="/hub.js/api/common/getCulture/" class="tsd-kind-icon">getCulture</a>
   </li>
   
@@ -2291,6 +2308,10 @@
   </li>
   
   <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/isSlug/" class="tsd-kind-icon">isSlug</a>
+  </li>
+  
+  <li class="tsd-kind-function">
     <a href="/hub.js/api/common/isUpdateGroup/" class="tsd-kind-icon">isUpdateGroup</a>
   </li>
   
@@ -2331,11 +2352,19 @@
   </li>
   
   <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/parseDatasetId/" class="tsd-kind-icon">parseDatasetId</a>
+  </li>
+  
+  <li class="tsd-kind-function">
     <a href="/hub.js/api/common/processRevertableTasks/" class="tsd-kind-icon">processRevertableTasks</a>
   </li>
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/common/propifyString/" class="tsd-kind-icon">propifyString</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/removeContextFromSlug/" class="tsd-kind-icon">removeContextFromSlug</a>
   </li>
   
   <li class="tsd-kind-function">
