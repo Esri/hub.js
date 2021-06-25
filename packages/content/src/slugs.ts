@@ -2,7 +2,7 @@ import { isGuid } from "@esri/hub-common";
 
 /**
  * Parse item ID and layer ID (if any) from dataset record ID
- *
+ * **DEPRECATED: import from hub-common instead**
  * @param datasetId Hub API dataset record id ({itemId}_{layerId} or {itemId})
  * @returns A hash with the `itemId` and `layerId` (if any)
  */
@@ -15,7 +15,7 @@ export function parseDatasetId(
 
 /**
  * Determine if an identifier is a Hub API slug
- *
+ * **DEPRECATED: import from hub-common instead**
  * @param identifier Hub API slug ({orgKey}::{title-as-slug} or {title-as-slug})
  * or record id ((itemId}_{layerId} or {itemId})
  * @returns true if the identifier is valid _and_ is **not** a record id
@@ -32,7 +32,7 @@ export function isSlug(identifier: string): boolean {
 
 /**
  * Add a context (prefix) to slug if it doesn't already have one
- *
+ * **DEPRECATED: import from hub-common instead**
  * @param slug Hub API slug (with or without context)
  * @param context usually a portal's orgKey
  * @returns slug with context ({context}::{slug})
@@ -49,7 +49,7 @@ export function addContextToSlug(slug: string, context: string): string {
 
 /**
  * Remove context (prefix) from a slug
- *
+ * **DEPRECATED: import from hub-common instead**
  * @param slug Hub API slug with context
  * @param context usually a portal's orgKey
  * @returns slug without context

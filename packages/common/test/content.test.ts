@@ -7,8 +7,13 @@ import {
   isFeatureService,
   getLayerIdFromUrl,
   getItemLayerId,
-  getItemHubId
+  getItemHubId,
+  getContentIdentifier,
+  isSlug,
+  addContextToSlug,
+  removeContextFromSlug
 } from "../src/content";
+import { IHubContent } from "../src/types";
 
 describe("getCollection", () => {
   it("can abort", () => {
@@ -185,5 +190,232 @@ describe("getItemHubId", () => {
       access: "public"
     };
     expect(getItemHubId(item)).toBe("3ec");
+  });
+});
+
+describe("getContentIdentifier", () => {
+  it("returns content id when content family is 'template'", () => {
+    const template = {
+      id: "template_id",
+      family: "template"
+    } as IHubContent;
+
+    const result = getContentIdentifier(template);
+    expect(result).toBe("template_id");
+  });
+  it("returns content id when content family is 'feedback'", () => {
+    const survey = {
+      id: "survey_id",
+      family: "feedback"
+    } as IHubContent;
+
+    const result = getContentIdentifier(survey);
+    expect(result).toBe("survey_id");
+  });
+  it("returns content id when content type is 'Hub Page' and no site is provided", () => {
+    const page = {
+      id: "page_id",
+      type: "Hub Page"
+    } as IHubContent;
+
+    const result = getContentIdentifier(page);
+    expect(result).toBe("page_id");
+  });
+  it("returns content id when content type is 'Site Page' and no site is provided", () => {
+    const page = {
+      id: "page_id",
+      type: "Site Page"
+    } as IHubContent;
+
+    const result = getContentIdentifier(page);
+    expect(result).toBe("page_id");
+  });
+  it("returns content id when content is a page but the site has no pages", () => {
+    const page = {
+      id: "page_id",
+      type: "Site Page"
+    } as IHubContent;
+    const site: any = { data: { values: {} } };
+
+    const result = getContentIdentifier(page, site);
+    expect(result).toBe("page_id");
+  });
+  it("returns content id when content is a page but is not one of the site's pages", () => {
+    const page = {
+      id: "page_id",
+      type: "Site Page"
+    } as IHubContent;
+    const site: any = {
+      data: {
+        values: {
+          pages: [
+            {
+              id: "another_page_id"
+            }
+          ]
+        }
+      }
+    };
+
+    const result = getContentIdentifier(page, site);
+    expect(result).toBe("page_id");
+  });
+
+  it("returns the site's page slug when content is one of the site's pages", () => {
+    const page = {
+      id: "page_id",
+      type: "Site Page"
+    } as IHubContent;
+    const site: any = {
+      data: {
+        values: {
+          pages: [
+            {
+              id: "page_id",
+              slug: "page_slug"
+            }
+          ]
+        }
+      }
+    };
+
+    const result = getContentIdentifier(page, site);
+    expect(result).toBe("page_slug");
+  });
+
+  it("returns the full slug of other types of content when no site is passed in", () => {
+    const collection = {
+      id: "collection_id",
+      type: "Csv Collection",
+      slug: "full::slug"
+    } as IHubContent;
+
+    const result = getContentIdentifier(collection);
+    expect(result).toBe("full::slug");
+  });
+
+  it("returns the full slug of other types of content when umbrella site is passed in", () => {
+    const collection = {
+      id: "collection_id",
+      type: "Csv Collection",
+      slug: "full::slug"
+    } as IHubContent;
+    const site: any = {
+      data: {
+        values: {
+          isUmbrella: true
+        }
+      }
+    };
+
+    const result = getContentIdentifier(collection, site);
+    expect(result).toBe("full::slug");
+  });
+
+  it("returns the full slug of other types of content when site orgKey is different from the content's slug's prefix", () => {
+    const collection = {
+      id: "collection_id",
+      type: "Csv Collection",
+      slug: "full::slug"
+    } as IHubContent;
+    const site: any = {
+      data: { values: {} },
+      domainInfo: {
+        orgKey: "other"
+      }
+    };
+
+    const result = getContentIdentifier(collection, site);
+    expect(result).toBe("full::slug");
+  });
+
+  it("returns the shortened slug of other types of content when site orgKey is the same as the content's slug's prefix", () => {
+    const collection = {
+      id: "collection_id",
+      type: "Csv Collection",
+      slug: "full::slug"
+    } as IHubContent;
+    const site: any = {
+      data: { values: {} },
+      domainInfo: {
+        orgKey: "full"
+      }
+    };
+
+    const result = getContentIdentifier(collection, site);
+    expect(result).toBe("slug");
+  });
+
+  it("returns the hubId of other types of content when the content has no slug", () => {
+    const collection = {
+      id: "collection_id",
+      type: "Csv Collection",
+      hubId: "collection_hub_id"
+    } as IHubContent;
+
+    const result = getContentIdentifier(collection);
+    expect(result).toBe("collection_hub_id");
+  });
+
+  it("returns the id of other types of content when the content has no slug and no hubId", () => {
+    const webMap = {
+      id: "web_map_id",
+      type: "Web Map"
+    } as IHubContent;
+
+    const result = getContentIdentifier(webMap);
+    expect(result).toBe("web_map_id");
+  });
+});
+
+describe("Slug Helpers", () => {
+  const title = "foo-bar";
+  const orgKey = "org-key";
+  const slugWithContext = `${orgKey}::${title}`;
+  describe("isSlug", function() {
+    it("returns false when identifier is undefined", () => {
+      const result = isSlug(undefined);
+      expect(result).toBe(false);
+    });
+    it("returns false when identifier is an item id", () => {
+      const result = isSlug("7a153563b0c74f7eb2b3eae8a66f2fbb");
+      expect(result).toBe(false);
+    });
+    it("returns true when identifier is a slug w/o orgKey", () => {
+      const result = isSlug("foo-bar");
+      expect(result).toBe(true);
+    });
+    it("returns true when identifier is a slug w/ orgKey", () => {
+      const result = isSlug("org-key::foo-bar");
+      expect(result).toBe(true);
+    });
+  });
+  describe("addContextToSlug", () => {
+    it("appends the context to slug without context", () => {
+      const slug = addContextToSlug(title, orgKey);
+      expect(slug).toBe(slugWithContext);
+    });
+    it("returns the slug as is when it already has context", () => {
+      const slug = addContextToSlug(slugWithContext, orgKey);
+      expect(slug).toBe(slugWithContext);
+    });
+    it("returns the slug as is when no context is passed", () => {
+      const slug = addContextToSlug(slugWithContext, undefined);
+      expect(slug).toBe(slugWithContext);
+    });
+    it("returns the slug as is when it has a different context", () => {
+      const slug = addContextToSlug(slugWithContext, "other-org");
+      expect(slug).toBe(slugWithContext);
+    });
+  });
+  describe("removeContextFromSlug", () => {
+    it("removes context when present", () => {
+      const slug = removeContextFromSlug(slugWithContext, orgKey);
+      expect(slug).toBe(title);
+    });
+    it("doesn't remove context when not present", () => {
+      const slug = removeContextFromSlug(slugWithContext, "other-org");
+      expect(slug).toBe(slugWithContext);
+    });
   });
 });
