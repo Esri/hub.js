@@ -8,5 +8,8 @@ import { IGroup, IUser } from "@esri/arcgis-rest-types";
  */
 export function canEditTeam(group: IGroup, user: IUser): boolean {
   const memberType = group.userMembership.memberType;
-  return memberType === "owner" || memberType === "admin";
+  return (
+    group.userMembership.username === user.username &&
+    (memberType === "owner" || memberType === "admin")
+  );
 }
