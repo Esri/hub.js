@@ -1,7 +1,7 @@
 import { IGroup, IUser } from "@esri/arcgis-rest-types";
 
 /**
- * Checks if user has access to edit a team in Hub
+ * Checks if user has access to edit a team
  * @param {IGroup} group
  * @param {IUser} user
  * @returns {boolean}
