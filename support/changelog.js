@@ -115,58 +115,7 @@ function pairReleases(releases) {
 function processCommitMessages(releaseData) {
   return releaseData.map(release => {
     release.commits = _(release.commits)
-      .map(commit => {
-        const parsedCommit = parseCommit(
-          execSync(
-            `git log ${commit.hash} -n1 --pretty=format:'%B'`
-          ).toString(),
-          {
-            mergePattern: /^Merge pull request #(\d+) from (.*)$/,
-            mergeCorrespondence: ["id", "source"],
-            noteKeywords: [
-              "BREAKING CHANGE",
-              "ISSUES CLOSED",
-              "AFFECTS PACKAGES"
-            ]
-          }
-        );
-
-        if (!parsedCommit.type || !parsedCommit.scope) {
-          return;
-        }
-
-        Object.assign(commit, parsedCommit);
-
-        const breaking = commit.notes.findIndex(
-          n => n.title === "BREAKING CHANGE"
-        );
-
-        if (breaking >= 0) {
-          commit.breakingChanges = commit.notes[breaking].text;
-        }
-
-        const issues = commit.notes.findIndex(n => n.title === "ISSUES CLOSED");
-
-        if (issues >= 0) {
-          const issuesClosed = commit.notes[issues].text
-            .replace(/\n.*/gm, "")
-            .replace(/\s/g, "")
-            .split(",")
-            .map(i => i.replace("#", ""));
-
-          const issuesReferenced = commit.references.map(r => r.issue);
-
-          commit.relatedIssues = _.uniq(
-            issuesClosed.concat(issuesReferenced)
-          ).map(i => {
-            return {
-              issue: i,
-              url: `${repo}/issues/${i}`
-            };
-          });
-        }
-        return commit;
-      })
+      .map(processCommitMessage)
       .compact()
       .sortBy("type")
       .value();
@@ -174,6 +123,65 @@ function processCommitMessages(releaseData) {
     return release;
   });
 }
+
+const processCommitMessage = commit => {
+  const formatted = execSync(
+    `git log ${commit.hash} -n1 --pretty=format:'%B'`
+  ).toString();
+  let parsedCommit;
+  try {
+    parsedCommit = parseCommit(
+      formatted,
+      {
+        mergePattern: /^Merge pull request #(\d+) from (.*)$/,
+        mergeCorrespondence: ["id", "source"],
+        noteKeywords: [
+          "BREAKING CHANGE",
+          "ISSUES CLOSED",
+          "AFFECTS PACKAGES"
+        ]
+      }
+    );
+  } catch (e) {
+    console.warn(`Error parsing commit ${commit.hash}: ${e.message}`);
+    return;
+  }
+  if (!parsedCommit.type || !parsedCommit.scope) {
+    return;
+  }
+
+  Object.assign(commit, parsedCommit);
+
+  const breaking = commit.notes.findIndex(
+    n => n.title === "BREAKING CHANGE"
+  );
+
+  if (breaking >= 0) {
+    commit.breakingChanges = commit.notes[breaking].text;
+  }
+
+  const issues = commit.notes.findIndex(n => n.title === "ISSUES CLOSED");
+
+  if (issues >= 0) {
+    const issuesClosed = commit.notes[issues].text
+      .replace(/\n.*/gm, "")
+      .replace(/\s/g, "")
+      .split(",")
+      .map(i => i.replace("#", ""));
+
+    const issuesReferenced = commit.references.map(r => r.issue);
+
+    commit.relatedIssues = _.uniq(
+      issuesClosed.concat(issuesReferenced)
+    ).map(i => {
+      return {
+        issue: i,
+        url: `${repo}/issues/${i}`
+      };
+    });
+  }
+  return commit;
+};
 
 function getPackagesForCommit(commit) {
   const idx = commit.notes.findIndex(note => note.title === "AFFECTS PACKAGES");
