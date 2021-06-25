@@ -5,7 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [8.7.0] - June 25th 2021
+
+### @esri/hub-common
+
+* New Features
+   * **common**: add isValidExtent functions [`45c79e7c`](https://github.com/Esri/hub.js/commit/45c79e7c7264a47099587bedff11e808be59423f) [#1263](https://github.com/Esri/hub.js/issues/1263)
+   * **common**: add `getContentIdentifier()`
+
+### @esri/hub-teams
+
+* Bug Fixes
+   * **hub-teams**: update well-known teams [`8fc0a3cf`](https://github.com/Esri/hub.js/commit/8fc0a3cfc5dfe5c02adee91b581de4500e86fe1d)
+
+### Other Changes
+
+* Misc.
+   * **common**: update old code to use new functions [`79455a88`](https://github.com/Esri/hub.js/commit/79455a886871027829758f833d4de57dea5aa25c) [#1263](https://github.com/Esri/hub.js/issues/1263)
+   * **common**: compile extent directory into single file [`17ffeab8`](https://github.com/Esri/hub.js/commit/17ffeab8b36542329847cf136bd07b0ebaaccb88)
 
 ## [8.6.2] - June 23rd 2021
 
@@ -17,7 +34,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [8.6.1] - June 18th 2021
 
 - Bug Fixes
-  - **teams** resolve issue where we attempted to create teams with `membershipAccess: &quot;collaboration&quot;` for Trial type orgs [`8260603`](https://github.com/Esri/hub.js/commit/8260603a5d443126260b8caaec5665f9279920ea)
+  - **teams** resolve issue where we attempted to create teams with `membershipAccess: collaboration` for Trial type orgs [`8260603`](https://github.com/Esri/hub.js/commit/8260603a5d443126260b8caaec5665f9279920ea)
 
 ## [8.6.0] - June 15th 2021
 
@@ -806,7 +823,11 @@ Attempt to address failed release
 
 ## [4.1.0] - May 21st 2020
 
+
+
 ## [4.0.0] - May 20th 2020
+
+
 
 ## [3.9.3] - May 14th 2020
 
@@ -844,6 +865,8 @@ Attempt to address failed release
   - **peerDependencies**: fix invalid peerDependencies [`08fae37`](https://github.com/Esri/hub.js/commit/08fae37875aa3e68a82970a54eedcbe13ef001a8) [#251](https://github.com/Esri/hub.js/issues/251)
 
 ## [3.9.1] - May 6th 2020
+
+
 
 ## [3.9.0] - May 6th 2020
 
@@ -885,6 +908,8 @@ Attempt to address failed release
 
 ## [3.7.4] - April 30th 2020
 
+
+
 ## [3.7.3] - April 29th 2020
 
 - New Features
@@ -895,6 +920,8 @@ Attempt to address failed release
 ### @esri/hub-common
 
 ## [3.7.1] - April 28th 2020
+
+
 
 ## [3.7.0] - April 28th 2020
 
@@ -950,7 +977,11 @@ Attempt to address failed release
 
 ## [3.6.3] - January 27th 2020
 
+
+
 ## [3.6.2] - January 2nd 2020
+
+
 
 ## [3.6.0] - November 18th 2019
 
@@ -1044,6 +1075,8 @@ Attempt to address failed release
   - **search**: support filters specified implicitly
 
 ## [2.6.0] - August 20th 2019
+
+
 
 ## [2.5.0] - August 15th 2019
 
@@ -1620,4 +1653,5 @@ Initial Release
 [8.6.0]: https://github.com/Esri/hub.js/compare/v8.5.1...v8.6.0 "v8.6.0"
 [8.6.1]: https://github.com/Esri/hub.js/compare/v8.6.0...v8.6.1 "v8.6.1"
 [8.6.2]: https://github.com/Esri/hub.js/compare/v8.6.1...v8.6.2 "v8.6.2"
-[HEAD]: https://github.com/Esri/hub.js/compare/v8.6.2...HEAD "Unreleased Changes"
+[8.7.0]: https://github.com/Esri/hub.js/compare/v8.6.2...v8.7.0 "v8.7.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v8.7.0...HEAD "Unreleased Changes"
