@@ -1,5 +1,5 @@
 import { IHubRequestOptions, getOrgExtentAsBBox } from "../../src";
-import * as getOrgExtent from "../../src/extent/get-geographic-org-extent";
+import * as getOrgExtent from "../../src/extent";
 import { mockUserSession } from "../test-helpers/fake-user-session";
 
 describe("getOrgExtentAsBBox", function() {
