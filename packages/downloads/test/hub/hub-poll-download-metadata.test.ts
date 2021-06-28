@@ -92,7 +92,7 @@ const exportReadyUnknown = {
   ],
 };
 
-fdescribe("hubPollDownloadMetadata", () => {
+describe("hubPollDownloadMetadata", () => {
   afterEach(() => fetchMock.restore());
 
   it("handle remote server 502 error", async (done) => {
