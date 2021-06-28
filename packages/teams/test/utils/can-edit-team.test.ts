@@ -64,18 +64,4 @@ describe("canEditTeam", function () {
     const result = canEditTeam(group, user);
     expect(result).toBe(false);
   });
-
-  it("returns false if user is not auth'd", function () {
-    const groupId = "foo";
-    const group = getGroup({
-      id: groupId,
-      userMembership: {
-        memberType: "admin",
-        username: "scooby-doo",
-      },
-    });
-    const user = getUser({});
-    const result = canEditTeam(group, user);
-    expect(result).toBe(false);
-  });
 });
