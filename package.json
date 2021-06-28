@@ -1,6 +1,6 @@
 {
 	"name": "@esri/hub.js",
-	"version": "8.7.0",
+	"version": "8.8.0",
 	"description": "compact, modular JavaScript wrappers for ArcGIS Hub that run in Node.js and modern browsers.",
 	"private": true,
 	"devDependencies": {
@@ -155,7 +155,7 @@
 		"test:chrome:ci": "karma start --single-run --browsers ChromeHeadlessCI karma.conf.js",
 		"test:firefox": "karma start --single-run --browsers=Firefox",
 		"test:firefox:ci": "karma start --single-run --browsers=FirefoxHeadless",
-		"test:node": "jasmine --config=jasmine.json",
+		"test:node": "jasmine --config=jasmine.json ",
 		"test:node:debug": "inspect jasmine --config=jasmine.json",
 		"test:ci": "npm run test:node && npm run test:chrome:ci && npm run test:firefox",
 		"test:all": "npm run test:node && npm run test:firefox && npm run test:chrome",
