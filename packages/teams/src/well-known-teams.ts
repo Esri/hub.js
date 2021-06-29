@@ -23,10 +23,10 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
       privPropValues: [
         {
           priv: "portal:user:addExternalMembersToGroup",
-          prop: "membershipAcess",
-          value: "collaboration"
-        }
-      ]
+          prop: "membershipAccess",
+          value: "collaboration",
+        },
+      ],
     },
     access: "org",
     autoJoin: false,
@@ -43,8 +43,8 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
       "Hub Initiative Group",
       "Hub Site Group",
       "Hub Core Team Group",
-      "Hub Team Group"
-    ]
+      "Hub Team Group",
+    ],
   },
   {
     config: {
@@ -59,10 +59,10 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
       privPropValues: [
         {
           priv: "portal:user:addExternalMembersToGroup",
-          prop: "membershipAcess",
-          value: "collaboration"
-        }
-      ]
+          prop: "membershipAccess",
+          value: "collaboration",
+        },
+      ],
     },
     access: "org",
     autoJoin: false,
@@ -78,8 +78,8 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
       "Hub Group",
       "Hub Site Group",
       "Hub Core Team Group",
-      "Hub Team Group"
-    ]
+      "Hub Team Group",
+    ],
   },
   {
     config: {
@@ -89,11 +89,11 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
       propertyName: "collaborationGroupId",
       requiredPrivs: [
         "portal:user:createGroup",
-        "portal:admin:createUpdateCapableGroup"
+        "portal:admin:createUpdateCapableGroup",
       ],
       titleI18n: "collaborationTitlePortal",
       descriptionI18n: "collaborationDescPortal",
-      snippetI18n: "collaborationSnippetPortal"
+      snippetI18n: "collaborationSnippetPortal",
     },
     access: "org",
     autoJoin: false,
@@ -104,7 +104,7 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
     capabilities: "updateitemcontrol",
     _edit_privacy: "on",
     _edit_contributors: "on",
-    tags: ["Sites Group", "Sites Core Team Group"]
+    tags: ["Sites Group", "Sites Core Team Group"],
   },
   {
     config: {
@@ -119,10 +119,10 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
       privPropValues: [
         {
           priv: "portal:user:addExternalMembersToGroup",
-          prop: "membershipAcess",
-          value: ""
-        }
-      ]
+          prop: "membershipAccess",
+          value: "",
+        },
+      ],
     },
     access: "public",
     autoJoin: false,
@@ -135,8 +135,8 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
       "Hub Group",
       "Hub Content Group",
       "Hub Site Group",
-      "Hub Initiative Group"
-    ]
+      "Hub Initiative Group",
+    ],
   },
   {
     config: {
@@ -151,10 +151,10 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
       privPropValues: [
         {
           priv: "portal:user:addExternalMembersToGroup",
-          prop: "membershipAcess",
-          value: ""
-        }
-      ]
+          prop: "membershipAccess",
+          value: "",
+        },
+      ],
     },
     access: "public",
     autoJoin: false,
@@ -163,7 +163,7 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
     sortField: "modified",
     sortOrder: "desc",
     membershipAccess: "org",
-    tags: ["Hub Group", "Hub Content Group", "Hub Site Group"]
+    tags: ["Hub Group", "Hub Content Group", "Hub Site Group"],
   },
   {
     config: {
@@ -174,7 +174,7 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
       requiredPrivs: ["portal:user:createGroup"],
       titleI18n: "contentTitle",
       descriptionI18n: "contentDescPortal",
-      snippetI18n: "contentSnippetPortal"
+      snippetI18n: "contentSnippetPortal",
     },
     access: "org",
     autoJoin: false,
@@ -182,7 +182,7 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
     isViewOnly: false,
     sortField: "modified",
     sortOrder: "desc",
-    tags: ["Sites Group", "Sites Content Group"]
+    tags: ["Sites Group", "Sites Content Group"],
   },
   {
     // this is only ever created in AGO, so we don't have a second entry for followers
@@ -198,10 +198,10 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
       privPropValues: [
         {
           priv: "portal:user:addExternalMembersToGroup",
-          prop: "membershipAcess",
-          value: ""
-        }
-      ]
+          prop: "membershipAccess",
+          value: "",
+        },
+      ],
     },
     access: "public",
     autoJoin: true,
@@ -214,8 +214,8 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
     tags: [
       "Hub Group",
       "Hub Initiative Followers Group",
-      "Hub Initiative Group"
-    ]
+      "Hub Initiative Group",
+    ],
   },
   {
     config: {
@@ -225,7 +225,7 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
       requiredPrivs: ["portal:user:createGroup"],
       titleI18n: "teamTitle",
       descriptionI18n: "teamDesc",
-      snippetI18n: "teamSnippet"
+      snippetI18n: "teamSnippet",
     },
     access: "org",
     autoJoin: false,
@@ -233,7 +233,7 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
     isViewOnly: false,
     sortField: "modified",
     sortOrder: "desc",
-    tags: ["Site Team Group"]
+    tags: ["Site Team Group"],
   },
   {
     config: {
@@ -242,11 +242,11 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
       availableIn: ["premium"],
       requiredPrivs: [
         "portal:user:createGroup",
-        "portal:user:addExternalMembersToGroup"
+        "portal:user:addExternalMembersToGroup",
       ],
       titleI18n: "teamTitle",
       descriptionI18n: "teamDesc",
-      snippetI18n: "teamSnippet"
+      snippetI18n: "teamSnippet",
     },
     access: "org",
     autoJoin: false,
@@ -255,7 +255,7 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
     sortField: "modified",
     sortOrder: "desc",
     membershipAccess: "",
-    tags: ["Hub Team Group"]
+    tags: ["Hub Team Group"],
   },
   {
     config: {
@@ -265,7 +265,7 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
       requiredPrivs: ["portal:user:createGroup"],
       titleI18n: "teamTitle",
       descriptionI18n: "teamDesc",
-      snippetI18n: "teamSnippet"
+      snippetI18n: "teamSnippet",
     },
     access: "org",
     autoJoin: false,
@@ -273,7 +273,7 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
     isViewOnly: false,
     sortField: "modified",
     sortOrder: "desc",
-    tags: ["Site Team Group"]
+    tags: ["Site Team Group"],
   },
   {
     config: {
@@ -282,11 +282,11 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
       availableIn: ["premium"],
       requiredPrivs: [
         "portal:user:createGroup",
-        "portal:user:addExternalMembersToGroup"
+        "portal:user:addExternalMembersToGroup",
       ],
       titleI18n: "eventTeamTitle",
       descriptionI18n: "eventTeamDesc",
-      snippetI18n: "eventTeamSnippet"
+      snippetI18n: "eventTeamSnippet",
     },
     access: "public",
     autoJoin: true,
@@ -295,6 +295,6 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
     sortField: "title",
     sortOrder: "asc",
     membershipAccess: "",
-    tags: ["Hub Group", "Hub Event Group", "Hub Initiative Group"]
-  }
+    tags: ["Hub Group", "Hub Event Group", "Hub Initiative Group"],
+  },
 ];
