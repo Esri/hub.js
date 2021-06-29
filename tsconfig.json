@@ -1,4 +1,12 @@
 {
+  "ts-node": {
+    "transpileOnly": true,
+    "files":true,
+    "compilerOptions": {
+      // overrides for ts-node ONLY
+      "noImplicitAny": false
+    }
+  },
   "compilerOptions": {
     /* Basic Options */
     "target": "es2017",                          /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', or 'ESNEXT'. */
