@@ -22,7 +22,9 @@ export function getUserCreatableTeams(
   subscriptionInfoType: string = ""
 ): IGroupTemplate[] {
   /* tslint:disable no-console */
-  console.warn("portalApiVersion is deprecated and will be removed at v9.0.0");
+  console.warn(
+    "Hub.js::getUserCreatableTeams Deprecation warning portalApiVersion will be removed at v9.0.0"
+  );
   /* tslint:enable no-console */
   const teams = WELLKNOWNTEAMS;
   // Online is not properly respecting addExternalMembersToGroup for

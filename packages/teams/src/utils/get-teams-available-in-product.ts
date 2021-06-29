@@ -12,7 +12,9 @@ export function getTeamsAvailableInProduct(
   portalApiVersion: string // DEPRECATED
 ) {
   /* tslint:disable no-console */
-  console.warn("portalApiVersion is deprecated and will be removed at v9.0.0");
+  console.warn(
+    "Hub.js::getTeamsAvailableInProduct Deprecation warning portalApiVersion will be removed at v9.0.0"
+  );
   /* tslint:enable no-console */
   const teams = WELLKNOWNTEAMS;
   const filterFn = (tmpl: IGroupTemplate) => {
