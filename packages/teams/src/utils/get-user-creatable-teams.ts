@@ -30,11 +30,16 @@ export function getUserCreatableTeams(
   // Online is not properly respecting addExternalMembersToGroup for
   // certain subscription types known ones so far: Trial, personal use, developer, and evaluation
   const updatedUser = removeInvalidPrivs(user, subscriptionInfoType);
-  // create partially applied filter fn...
-  const filterFn = (tmpl: IGroupTemplate) => {
-    const copyTemplate = applyPrivPropValuesToTemplate(updatedUser, tmpl);
-    return canUserCreateTeamInProduct(updatedUser, environment, copyTemplate);
-  };
-  // get the templates current user can create in this environment...
-  return cloneObject(teams).filter(filterFn);
+
+  // Update templates and remove the ones that aren't applicable.
+  return cloneObject(teams).reduce((acc, teamTmpl) => {
+    // Update template based on privPropValue
+    const copyTemplate = applyPrivPropValuesToTemplate(updatedUser, teamTmpl);
+    // If the user can create the team....
+    if (canUserCreateTeamInProduct(updatedUser, environment, copyTemplate)) {
+      // Add the team to the accumulator
+      acc.push(copyTemplate);
+    }
+    return acc;
+  }, []);
 }
