@@ -15,20 +15,23 @@ describe("createHubTeam", () => {
       isPortal: false,
       id: "",
       name: "",
-      currentVersion: "8.4",
+      currentVersion: "9.1",
       portalProperties: {
         hub: {
-          enabled: true
-        }
+          enabled: true,
+        },
       },
       user: {
-        privileges: ["portal:user:createGroup"]
+        privileges: [
+          "portal:user:createGroup",
+          "portal:user:addExternalMembersToGroup",
+        ],
       },
       subscriptionInfo: {
-        type: "In House"
-      }
+        type: "In House",
+      },
     },
-    authentication: {} as UserSession
+    authentication: {} as UserSession,
   } as IHubRequestOptions;
 
   it("creates a hub team", async () => {
@@ -39,7 +42,7 @@ describe("createHubTeam", () => {
         translationHash: any,
         reqOpts: IHubRequestOptions
       ) => {
-        groups.forEach(group => {
+        groups.forEach((group) => {
           group.id = "some-id";
           delete group.config;
         });
@@ -47,8 +50,8 @@ describe("createHubTeam", () => {
         return Promise.resolve({
           groups,
           props: {
-            baz: "boop"
-          }
+            baz: "boop",
+          },
         });
       }
     );
@@ -62,7 +65,7 @@ describe("createHubTeam", () => {
       title: "foo team",
       type: "content" as const,
       props: { foo: "bar" },
-      hubRequestOptions: ro
+      hubRequestOptions: ro,
     };
 
     const res = await createHubTeam(createTeamOpts);
@@ -77,7 +80,7 @@ describe("createHubTeam", () => {
       title: "foo team",
       type: "team" as const,
       props: { foo: "bar" },
-      hubRequestOptions: ro
+      hubRequestOptions: ro,
     };
 
     const res2 = await createHubTeam(createTeamOpts2);
@@ -94,7 +97,7 @@ describe("createHubTeam", () => {
       title: "foo team",
       type: "foobar" as HubTeamType,
       props: { foo: "bar" },
-      hubRequestOptions: ro
+      hubRequestOptions: ro,
     };
 
     expect(() => createHubTeam(createTeamOpts)).toThrowError();
@@ -105,7 +108,7 @@ describe("createHubTeam", () => {
       title: "foo team",
       type: "team" as const,
       props: { foo: "bar" },
-      hubRequestOptions: ro
+      hubRequestOptions: ro,
     };
 
     spyOn(commonModule, "fetchHubTranslation").and.returnValue(
