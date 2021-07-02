@@ -4,7 +4,7 @@ import {
   parseDatasetId,
   datasetToItem,
   getContentFromHub,
-  datasetToContent
+  datasetToContent,
 } from "../src/index";
 import { IHubRequestOptions, cloneObject, IHubContent } from "@esri/hub-common";
 import * as documentsJson from "./mocks/datasets/document.json";
@@ -37,11 +37,11 @@ function validateContentFromDataset(
     "url",
     "access",
     "size",
-    "commentsEnabled"
+    "commentsEnabled",
     // TODO: what about the others that will be undefined?
   ];
   // should have set item properties
-  itemProperties.forEach(key => {
+  itemProperties.forEach((key) => {
     expect(content[key]).toEqual(attributes[key]);
   });
   // we use attributes.name for both name and title
@@ -57,7 +57,7 @@ function validateContentFromDataset(
   );
   expect(content.publisher).toEqual({
     name: attributes.owner,
-    username: attributes.owner
+    username: attributes.owner,
   });
   expect(content.permissions.visibility).toBe(attributes.access);
   // no itemControl returned w/ this item, expect default
@@ -70,7 +70,10 @@ function validateContentFromDataset(
   expect(content.orgId).toBe(attributes.orgId);
   expect(content.boundary).toEqual(attributes.boundary);
   expect(content.groupIds).toEqual(attributes.groupIds);
-  expect(content.metadata).toEqual(attributes.metadata);
+  // we force undefined to null in order to not fetch metadata
+  expect(content.metadata).toEqual(
+    attributes.metadata === undefined ? null : attributes.metadata
+  );
   expect(content.license.name).toEqual("Custom License");
   const createdDate = new Date(attributes.created);
   expect(content.createdDate).toEqual(createdDate);
@@ -83,7 +86,7 @@ function validateContentFromDataset(
 }
 
 describe("hub", () => {
-  describe("parseDatasetId", function() {
+  describe("parseDatasetId", function () {
     it("returns undefined", () => {
       const result = parseDatasetId(undefined);
       expect(result).toEqual({ itemId: undefined, layerId: undefined });
@@ -92,14 +95,14 @@ describe("hub", () => {
       const result = parseDatasetId("7a153563b0c74f7eb2b3eae8a66f2fbb");
       expect(result).toEqual({
         itemId: "7a153563b0c74f7eb2b3eae8a66f2fbb",
-        layerId: undefined
+        layerId: undefined,
       });
     });
     it("parse item id and layer id", () => {
       const result = parseDatasetId("7a153563b0c74f7eb2b3eae8a66f2fbb_0");
       expect(result).toEqual({
         itemId: "7a153563b0c74f7eb2b3eae8a66f2fbb",
-        layerId: "0"
+        layerId: "0",
       });
     });
   });
@@ -116,30 +119,72 @@ describe("hub", () => {
       const item = datasetToItem(dataset);
       expect(item.snippet).toBe(dataset.attributes.snippet);
     });
-    it("falls back to createdAt/updatedAt when no created/modified", () => {
-      const dataset = cloneObject(documentsJson.data) as DatasetResource;
+    it("handles when no itemModified", () => {
+      // NOTE: I expect that the API always returns itemModified
+      // so I don't know if this ever happens
+      const dataset = cloneObject(featureLayerJson.data) as DatasetResource;
       const attributes = dataset.attributes;
-      attributes.createdAt = attributes.created;
-      attributes.updatedAt = attributes.modified;
-      delete attributes.created;
-      delete attributes.modified;
-      const item = datasetToItem(dataset);
-      expect(item.created).toBe(attributes.createdAt);
-      expect(item.modified).toBe(attributes.updatedAt);
+      attributes.modified = 1623232000295;
+      delete attributes.itemModified;
+      let item = datasetToItem(dataset);
+      expect(item.modified).toBe(
+        attributes.modified,
+        "returns modified when provenance is item"
+      );
+      attributes.modifiedProvenance = "layer.editingInfo.lastEditDate";
+      item = datasetToItem(dataset);
+      expect(item.modified).toBeFalsy(
+        "is undefined when provenance is layer.editingInfo"
+      );
     });
     // NOTE: other use cases are covered by getContent() tests
   });
   describe("dataset to content", () => {
+    it("has a reference to the item", () => {
+      const dataset = cloneObject(documentsJson.data) as DatasetResource;
+      const content = datasetToContent(dataset);
+      expect(content.item).toEqual(datasetToItem(dataset));
+    });
+    it("has enriched updatedDate", () => {
+      const dataset = cloneObject(featureLayerJson.data) as DatasetResource;
+      const attributes = dataset.attributes;
+      // simulate API returning date the layer was last modified
+      // instead of the date the item was last modified
+      attributes.modified = 1623232000295;
+      attributes.modifiedProvenance = "layer.editingInfo.lastEditDate";
+      const content = datasetToContent(dataset);
+      expect(content.modified).toBe(attributes.modified);
+      expect(content.updatedDate).toEqual(new Date(attributes.modified));
+      expect(content.updatedDateSource).toBe(attributes.modifiedProvenance);
+    });
+    it("has org", () => {
+      const dataset = cloneObject(featureLayerJson.data) as DatasetResource;
+      const {
+        orgId: id,
+        orgExtent: extent,
+        orgName: name,
+        organization,
+      } = dataset.attributes;
+      let content = datasetToContent(dataset);
+      expect(content.org).toEqual({ id, extent, name });
+      delete dataset.attributes.orgName;
+      content = datasetToContent(dataset);
+      expect(content.org).toEqual(
+        { id, extent, name: organization },
+        "name falls back to organization"
+      );
+    });
     it("only uses enrichment attributes when they exist", () => {
       const dataset = cloneObject(documentsJson.data) as DatasetResource;
+      // NOTE: I don't necessarily expect the API to return w/o these
+      // but our code depends on them, this test is mostly here for coverage
       delete dataset.attributes.searchDescription;
-      delete dataset.attributes.modifiedProvenance;
-      dataset.attributes.isProxied = false;
+      delete dataset.attributes.errors;
       const content = datasetToContent(dataset);
       expect(content.summary).toBe(dataset.attributes.snippet);
-      expect(content.updatedDateSource).toBe("item.modified");
-      expect(content.extent).toBeUndefined();
-      expect(content.isProxied).toBe(false);
+      expect(content.extent).toEqual([]);
+      // NOTE: the document JSON does not have org attributes
+      expect(content.org).toBeUndefined();
     });
     // NOTE: other use cases are covered by getContent() tests
   });
@@ -151,15 +196,15 @@ describe("hub", () => {
           user: {},
           id: "123",
           isPortal: false,
-          name: "some-portal"
+          name: "some-portal",
         },
         isPortal: false,
         hubApiUrl: "https://some.url.com/",
-        authentication: mockUserSession
+        authentication: mockUserSession,
       };
     });
     afterEach(fetchMock.restore);
-    it("should fetch a dataset record by id and return content", done => {
+    it("should fetch a dataset record by id and return content", (done) => {
       fetchMock.once(
         "https://some.url.com/api/v3/datasets/7a153563b0c74f7eb2b3eae8a66f2fbb_0",
         featureLayerJson
@@ -171,7 +216,7 @@ describe("hub", () => {
       const dataset = featureLayerJson.data as DatasetResource;
       const datasetId = dataset.id;
       const itemId = parseDatasetId(datasetId).itemId;
-      getContentFromHub(datasetId, requestOpts).then(content => {
+      getContentFromHub(datasetId, requestOpts).then((content) => {
         // verify that we attempted to fetch from the portal API
         let [url, opts] = fetchMock.calls()[0];
         expect(url).toBe(`https://some.url.com/api/v3/datasets/${datasetId}`);
@@ -197,7 +242,7 @@ describe("hub", () => {
         done();
       });
     });
-    it("should fetch a dataset record by id when unauthenticated and return content", done => {
+    it("should fetch a dataset record by id when unauthenticated and return content", (done) => {
       fetchMock.once(
         "https://some.url.com/api/v3/datasets/7a153563b0c74f7eb2b3eae8a66f2fbb_0",
         featureLayerJson
@@ -205,7 +250,7 @@ describe("hub", () => {
       const dataset = featureLayerJson.data as DatasetResource;
       const id = dataset.id;
       delete requestOpts.authentication;
-      getContentFromHub(id, requestOpts).then(content => {
+      getContentFromHub(id, requestOpts).then((content) => {
         // verify that we attempted to fetch from the portal API
         const [url, opts] = fetchMock.calls()[0];
         expect(url).toBe(`https://some.url.com/api/v3/datasets/${id}`);
@@ -227,11 +272,11 @@ describe("hub", () => {
         done();
       });
     });
-    it("should fetch a dataset record by slug and return content", done => {
+    it("should fetch a dataset record by slug and return content", (done) => {
       const featureLayersJson = {
         // slug requests to datasets w/ filter which returns an array
         data: [featureLayerJson.data],
-        meta: featureLayerJson.meta
+        meta: featureLayerJson.meta,
       };
       fetchMock.once(
         "https://some.url.com/api/v3/datasets?filter%5Bslug%5D=Wigan%3A%3Aout-of-work-benefit-claims",
@@ -244,7 +289,7 @@ describe("hub", () => {
       const dataset = featureLayersJson.data[0] as DatasetResource;
       const ItemId = parseDatasetId(dataset.id).itemId;
       const slug = "Wigan::out-of-work-benefit-claims";
-      getContentFromHub(slug, requestOpts).then(content => {
+      getContentFromHub(slug, requestOpts).then((content) => {
         // verify that we attempted to fetch from the portal API
         let [url, opts] = fetchMock.calls()[0];
         expect(url).toBe(

@@ -1,7 +1,14 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IItem, IUser, IGroup, IGeometry } from "@esri/arcgis-rest-types";
+import {
+  IItem,
+  IUser,
+  IGroup,
+  IGeometry,
+  IFeatureServiceDefinition,
+  ILayerDefinition,
+} from "@esri/arcgis-rest-types";
 import { IPortal, ISearchResult } from "@esri/arcgis-rest-portal";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
@@ -141,6 +148,7 @@ export type IRevertableTaskResult =
 
 /**
  * Types of Hub resources
+ * DEPRECATED: Use HubFamily instead
  */
 export type HubType =
   | "member"
@@ -154,6 +162,20 @@ export type HubType =
   | "initiative"
   | "template"
   | "organization";
+
+export type HubFamily =
+  | "people"
+  | "team"
+  | "event"
+  | "dataset"
+  | "document"
+  | "feedback"
+  | "map"
+  | "app"
+  | "site"
+  | "initiative"
+  | "template"
+  | "content";
 
 /**
  * Visibility levels of a Hub resource
@@ -255,8 +277,12 @@ export interface IEnrichmentErrorInfo {
 export interface IHubContent extends IHubResource, IItem {
   /**
    * The content's ID for use with the Hub API
+   * For most content this will be the item's id
+   * For layers this will be `<itemId>_<layerId>`
+   * This will be undefined for private items and in enterprise
+   * because only public online items are included in the Hub API
    */
-  hubId: string;
+  hubId?: string;
   // NOTE: we may want to elevate this to IHubResource if it's needed for other subtypes
   /**
    * Content visibility and access control, including groups
@@ -269,6 +295,9 @@ export interface IHubContent extends IHubResource, IItem {
     /** The groups that have access to the item (as far as you know) */
     groups?: IGroup[]; // TODO: item.sharing.groups via content/users/:username/items/:id
   };
+
+  // TODO: make this required at next breaking release
+  family?: HubFamily;
 
   // TODO: license: IHubLicense // [Future] item.licenseInfo
 
@@ -319,11 +348,25 @@ export interface IHubContent extends IHubResource, IItem {
   data?: {
     [propName: string]: any;
   };
+  // service types: Feature Service, Map Service
+  /** service information (currentVersion, capabilities, maxRecordCount etc) */
+  server?: Partial<IFeatureServiceDefinition>;
+  /** layer information (geometryType, fields, etc) for related layers in the service */
+  layers?: Array<Partial<ILayerDefinition>>;
+  // layer types: Feature Layers, Raster Layers
+  /** layer information (geometryType, fields, etc) */
+  layer?: Partial<ILayerDefinition>;
+  recordCount?: number;
+  // TODO: statistics?: ???
   // NOTE: this is usually(? always?) returned by the item endpoint
   // but it's not on IItem, possibly b/c it's not listed here:
   // https://developers.arcgis.com/rest/users-groups-and-items/item.htm
   /** The owner's organization id */
   orgId?: string;
+  /**
+   * The owner's organization (portal) details (id, name, extent, etc)
+   */
+  org?: Partial<IPortal>;
   /** Whether the content is downloadable in the Hub app */
   isDownloadable: boolean;
 }

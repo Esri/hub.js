@@ -13,17 +13,23 @@ describe("createHubTeams", () => {
       isPortal: false,
       id: "",
       name: "",
-      currentVersion: "8.4",
+      currentVersion: "9.1",
       portalProperties: {
         hub: {
-          enabled: true
-        }
+          enabled: true,
+        },
       },
       user: {
-        privileges: ["portal:user:createGroup"]
-      }
+        privileges: [
+          "portal:user:createGroup",
+          "portal:user:addExternalMembersToGroup",
+        ],
+      },
+      subscriptionInfo: {
+        type: "In House",
+      },
     },
-    authentication: {} as UserSession
+    authentication: {} as UserSession,
   } as commonModule.IHubRequestOptions;
 
   it("creates the correct hub teams", async () => {
@@ -36,7 +42,7 @@ describe("createHubTeams", () => {
 
     const createTeamGroupsRes = {
       props: {},
-      groups: [{ id: "foo" }, { id: "bar" }]
+      groups: [{ id: "foo" }, { id: "bar" }],
     } as { props: any; groups: IGroup[] };
     const createGroupsSpy = spyOn(
       _createTeamGroupsModule,
@@ -48,7 +54,7 @@ describe("createHubTeams", () => {
     const createTeamsOpts = {
       title: "foo team",
       types,
-      hubRequestOptions: ro
+      hubRequestOptions: ro,
     };
 
     const res = await createHubTeams(createTeamsOpts);
@@ -66,7 +72,7 @@ describe("createHubTeams", () => {
     const createTeamOpts = {
       title: "foo team",
       types: ["team"] as HubTeamType[],
-      hubRequestOptions: ro
+      hubRequestOptions: ro,
     };
 
     spyOn(commonModule, "fetchHubTranslation").and.returnValue(

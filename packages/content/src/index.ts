@@ -6,3 +6,4 @@ export * from "./hub";
 export * from "./portal";
 export * from "./slugs";
 export * from "./metadata";
+export * from "./enrichments";

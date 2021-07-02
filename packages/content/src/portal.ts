@@ -1,10 +1,10 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IItem, getItem, getItemGroups } from "@esri/arcgis-rest-portal";
+import { IItem, getItem } from "@esri/arcgis-rest-portal";
 import {
   HubType,
-  IEnrichmentErrorInfo,
+  HubFamily,
   IHubContent,
   IHubGeography,
   IHubRequestOptions,
@@ -12,79 +12,14 @@ import {
   createExtent,
   normalizeItemType,
   getCollection,
-  getItemHomeUrl,
-  getItemApiUrl,
-  getItemDataUrl,
-  getItemThumbnailUrl,
-  cloneObject,
   includes,
-  isDownloadable
+  isDownloadable,
 } from "@esri/hub-common";
-import { getContentMetadata } from "./metadata";
-
-function getGroupIds(
-  content: IHubContent,
-  requestOptions: IHubRequestOptions
-): Promise<string[]> {
-  return getItemGroups(content.id, requestOptions).then(response => {
-    const { admin, member, other } = response;
-    return [...admin, ...member, ...other].map(group => group.id);
-  });
-}
-
-export interface IContentPropertyRequests {
-  [key: string]: (
-    content: IHubContent,
-    requestOptions: IHubRequestOptions
-  ) => Promise<unknown>;
-}
-
-/**
- * Simultaneously execute multiple async requests to fetch content properties
- * returns a new content object with the resolved property values merged in.
- * Any errors from failed requests will be included in the errors array
- * NOTE: assumes each request takes only the content and request options
- * @private
- */
-export function _fetchContentProperties(
-  propertyRequests: IContentPropertyRequests,
-  content: IHubContent,
-  requestOptions: IHubRequestOptions
-): Promise<IHubContent> {
-  const errors: IEnrichmentErrorInfo[] = [];
-  const propertyNames = Object.keys(propertyRequests);
-  const requests = propertyNames.map(propertyName => {
-    // initiate the request and return the promise
-    const request = propertyRequests[propertyName];
-    return request(content, requestOptions).catch(e => {
-      // there was an error w/ the request, capture it
-      const message = (e && e.message) || e;
-      errors.push({
-        // NOTE: for now we just return the message and type "Other"
-        // but we could later introspect for HTTP or AGO errors
-        // and/or return the status code if available
-        type: "Other",
-        message
-      });
-      // and then set this property to null
-      return null;
-    });
-  });
-  return Promise.all(requests).then(values => {
-    // return a new content with properties and errors merged in
-    const properties: { [key: string]: unknown } = {};
-    values.forEach((value, i) => {
-      const name = propertyNames[i];
-      properties[name] = value;
-    });
-    return {
-      ...content,
-      ...properties,
-      // include any previous errors (if any)
-      errors: [...errors, ...(content.errors || [])]
-    };
-  });
-}
+import {
+  IFetchEnrichmentOptions,
+  enrichContent,
+  getPortalUrls,
+} from "./enrichments";
 
 function itemExtentToBoundary(extent: IBBox): IHubGeography {
   return (
@@ -96,37 +31,31 @@ function itemExtentToBoundary(extent: IBBox): IHubGeography {
         extent[0][1],
         extent[1][0],
         extent[1][1]
-      )
+      ),
     }
   );
 }
 
 /**
  * Return a new content with portal URL (home, API, and data) properties
+ * DEPRECATED: Use getPortalUrls() instead. withPortalUrls will be removed at v9.0.0
  *
  * @param content Hub content
  * @param requestOptions Request options
  * @returns Hub content
  * @export
  */
+/* istanbul ignore next */
 export function withPortalUrls(
   content: IHubContent,
   requestOptions: IHubRequestOptions
-) {
-  const newContent = cloneObject(content);
-  const authentication = requestOptions.authentication;
-  const token = authentication && authentication.token;
-  // add properties that depend on portal
-  newContent.portalHomeUrl = getItemHomeUrl(newContent.id, requestOptions);
-  // the URL of the item's Portal API end point
-  newContent.portalApiUrl = getItemApiUrl(newContent, requestOptions, token);
-  // the URL of the item's data API end point
-  newContent.portalDataUrl = getItemDataUrl(newContent, requestOptions, token);
-  // the full URL of the thumbnail
-  newContent.thumbnailUrl = getItemThumbnailUrl(newContent, requestOptions, {
-    token
-  });
-  return newContent;
+): IHubContent {
+  /* tslint:disable no-console */
+  console.warn(
+    "DEPRECATED: Use getPortalUrls() instead. withPortalUrls will be removed at v9.0.0"
+  );
+  const portalUrls = getPortalUrls(content, requestOptions);
+  return { ...content, ...portalUrls };
 }
 
 /**
@@ -140,26 +69,31 @@ export function itemToContent(item: IItem): IHubContent {
   const createdDate = new Date(item.created);
   const createdDateSource = "item.created";
   const properties = item.properties;
+  const normalizedType = normalizeItemType(item);
   const content = Object.assign({}, item, {
+    // no server errors when fetching the item directly
+    errors: [],
+    // store a reference to the item
+    item,
     // NOTE: this will overwrite any existing item.name, which is
     // The file name of the item for file types. Read-only.
     // presumably there to use as the default file name when downloading
     // we don't store item.name in the Hub API and we use name for title
     name: item.title,
-    hubId: item.id,
+    family: getFamily(normalizedType),
     hubType: getItemHubType(item),
-    normalizedType: normalizeItemType(item),
+    normalizedType,
     categories: parseItemCategories(item.categories),
     itemCategories: item.categories,
     // can we strip HTML from description, and do we need to trim it to a X chars?
     summary: item.snippet || item.description,
     publisher: {
       name: item.owner,
-      username: item.owner
+      username: item.owner,
     },
     permissions: {
       visibility: item.access,
-      control: item.itemControl || "view"
+      control: item.itemControl || "view",
     },
     // Hub app configuration metadata from item properties
     actionLinks: properties && properties.links,
@@ -175,7 +109,7 @@ export function itemToContent(item: IItem): IHubContent {
     publishedDate: createdDate,
     publishedDateSource: createdDateSource,
     updatedDate: new Date(item.modified),
-    updatedDateSource: "item.modified"
+    updatedDateSource: "item.modified",
   });
   return content;
 }
@@ -192,6 +126,47 @@ export function getItemHubType(itemOrType: IItem | string): HubType {
   const itemType = normalizeItemType(itemOrType);
   // TODO: not all categories are Hub types, may need to validate
   return getCollection(itemType) as HubType;
+}
+
+function collectionToFamily(collection: string): string {
+  const overrides: any = {
+    other: "content",
+    solution: "template",
+  };
+  return overrides[collection] || collection;
+}
+
+/**
+ * return the Hub family given an item's type
+ * @param type item type
+ * @returns Hub family
+ */
+export function getFamily(type: string) {
+  let family;
+  // override default behavior for the rows that are highlighted in yellow here:
+  // https://esriis.sharepoint.com/:x:/r/sites/ArcGISHub/_layouts/15/Doc.aspx?sourcedoc=%7BADA1C9DC-4F6C-4DE4-92C6-693EF9571CFA%7D&file=Hub%20Routes.xlsx&nav=MTBfe0VENEREQzI4LUZFMDctNEI0Ri04NjcyLThCQUE2MTA0MEZGRn1fezIwMTIwMEJFLTA4MEQtNEExRC05QzA4LTE5MTAzOUQwMEE1RH0&action=default&mobileredirect=true&cid=df1c874b-c367-4cea-bc13-7bebfad3f2ac
+  switch ((type || "").toLowerCase()) {
+    case "image service":
+      family = "dataset";
+      break;
+    case "feature service":
+    case "raster layer":
+      // TODO: check if feature service has > 1 layer first?
+      family = "map";
+      break;
+    case "microsoft excel":
+      family = "document";
+      break;
+    case "cad drawing":
+    case "feature collection template":
+    case "report template":
+      family = "content";
+      break;
+    default:
+      // by default derive from collection
+      family = collectionToFamily(getCollection(type));
+  }
+  return family as HubFamily;
 }
 
 /**
@@ -212,9 +187,9 @@ export function parseItemCategories(categories: string[]) {
   if (!categories) return categories;
 
   const exclude = ["categories", ""];
-  const parsed = categories.map(cat => cat.split("/"));
+  const parsed = categories.map((cat) => cat.split("/"));
   const flattened = parsed.reduce((acc, arr, _) => [...acc, ...arr], []);
-  return flattened.filter(cat => !includes(exclude, cat.toLowerCase()));
+  return flattened.filter((cat) => !includes(exclude, cat.toLowerCase()));
 }
 
 /**
@@ -224,20 +199,14 @@ export function parseItemCategories(categories: string[]) {
  */
 export function getContentFromPortal(
   idOrItem: string | IItem,
-  requestOptions?: IHubRequestOptions
+  requestOptions?: IFetchEnrichmentOptions
 ): Promise<IHubContent> {
   const getItemPromise: Promise<IItem> =
     typeof idOrItem === "string"
       ? getItem(idOrItem, requestOptions)
       : Promise.resolve(idOrItem);
 
-  return getItemPromise.then(item => {
-    const content = withPortalUrls(itemToContent(item), requestOptions);
-    // TODO: provide some API to let consumers opt out of making these additional requests
-    const propertiesToFetch: IContentPropertyRequests = {
-      groupIds: getGroupIds,
-      metadata: (c, opts) => getContentMetadata(c.id, opts)
-    };
-    return _fetchContentProperties(propertiesToFetch, content, requestOptions);
+  return getItemPromise.then((item) => {
+    return enrichContent(itemToContent(item), requestOptions);
   });
 }

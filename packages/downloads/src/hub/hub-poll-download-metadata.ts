@@ -1,6 +1,6 @@
 import {
   hubRequestDownloadMetadata,
-  IHubDownloadMetadataRequestParams
+  IHubDownloadMetadataRequestParams,
 } from "./hub-request-download-metadata";
 import * as EventEmitter from "eventemitter3";
 import { IPoller } from "../poller";
@@ -15,6 +15,7 @@ export interface IHubDownloadMetadataPollParameters
   existingFileDate?: string;
 }
 
+/* istanbul ignore next */
 class HubPoller implements IPoller {
   pollTimer: any;
 
@@ -28,34 +29,34 @@ class HubPoller implements IPoller {
       downloadId,
       eventEmitter,
       pollingInterval,
-      existingFileDate = new Date(0).toISOString()
+      existingFileDate = new Date(0).toISOString(),
     } = params;
 
     const existingFileTimestamp = new Date(existingFileDate).getTime();
 
     this.pollTimer = setInterval(() => {
       hubRequestDownloadMetadata(params)
-        .then(metadata => {
+        .then((metadata) => {
           if (isReady(metadata, existingFileTimestamp)) {
             eventEmitter.emit(`${downloadId}ExportComplete`, {
-              detail: { metadata }
+              detail: { metadata },
             });
             return this.disablePoll();
           }
 
           if (exportDatasetFailed(metadata)) {
             const {
-              errors: [error]
+              errors: [error],
             } = metadata;
             eventEmitter.emit(`${downloadId}ExportError`, {
-              detail: { error, metadata }
+              detail: { error, metadata },
             });
             return this.disablePoll();
           }
         })
-        .catch(error => {
+        .catch((error) => {
           eventEmitter.emit(`${downloadId}PollingError`, {
-            detail: { error, metadata: { status: "error" } }
+            detail: { error, metadata: { status: "error" } },
           });
           return this.disablePoll();
         });
@@ -63,6 +64,7 @@ class HubPoller implements IPoller {
   }
 }
 
+/* istanbul ignore next */
 /**
  * @private
  */
@@ -73,7 +75,7 @@ export function hubPollDownloadMetadata(
   poller.activatePoll(params);
   return poller;
 }
-
+/* istanbul ignore next */
 function isReady(metadata: any, preExportFileTimestamp: number) {
   const { status, lastModified } = metadata;
   const currentFileDate = new Date(lastModified).getTime();
@@ -82,7 +84,7 @@ function isReady(metadata: any, preExportFileTimestamp: number) {
     (status === "ready_unknown" && currentFileDate > preExportFileTimestamp)
   );
 }
-
+/* istanbul ignore next */
 function exportDatasetFailed(metadata: any) {
   return (
     metadata &&

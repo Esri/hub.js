@@ -1,0 +1,7 @@
+This project uses the "conventional-changelog" standard for commit messages
+
+git commit -m '<type>(scope?): <your commit message>'
+
+type: build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test
+scope: optional, but should one or more package names
+

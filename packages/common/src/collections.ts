@@ -9,7 +9,7 @@ const app: string[] = [
   "Web Mapping Application",
   "StoryMap",
   "Web Experience",
-  "Urban Model"
+  "Urban Model",
 ];
 
 const dataset: string[] = [
@@ -28,7 +28,7 @@ const dataset: string[] = [
   "Raster Layer",
   "Shapefile",
   "Stream Service",
-  "Table"
+  "Table",
 ];
 
 const document: string[] = [
@@ -45,12 +45,12 @@ const document: string[] = [
   "Microsoft Word",
   "PDF",
   "Pro Map",
-  "Report Template"
+  "Report Template",
 ];
 
 const event: string[] = ["Hub Event"];
 
-const feedback: string[] = ["Form"];
+const feedback: string[] = ["Form", "Quick Capture Project"];
 
 const initiative: string[] = ["Hub Initiative"];
 
@@ -64,13 +64,15 @@ const map: string[] = [
   "Map Service Layer",
   "Map Service",
   "Scene Service",
+  "Scene Layer",
   "Vector Tile Service",
   "Web Map Service",
   "Web Map Tile Service",
   "Web Map",
   "Web Scene",
   "WFS",
-  "WMS"
+  "WMS",
+  "WMTS",
 ];
 
 const other: string[] = [
@@ -117,7 +119,7 @@ const other: string[] = [
   "Style",
   "Tile Package",
   "Vector Tile Package",
-  "Workflow Manager Package"
+  "Workflow Manager Package",
 ];
 
 const site: string[] = ["Hub Site Application", "Site Application"];
@@ -133,5 +135,5 @@ export const collections: { [key: string]: string[] } = {
   solution,
   map,
   other,
-  site
+  site,
 };
