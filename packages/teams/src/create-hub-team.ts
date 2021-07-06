@@ -5,7 +5,7 @@ import {
   getHubProduct,
   getCulture,
   convertToWellKnownLocale,
-  fetchHubTranslation,
+  fetchHubTranslation
 } from "@esri/hub-common";
 import { getUserCreatableTeams } from "./utils/get-user-creatable-teams";
 import { _createTeamGroups } from "./utils/_create-team-groups";
@@ -42,10 +42,10 @@ export function createHubTeam(opts: {
     hubRequestOptions.portalSelf.currentVersion,
     hubRequestOptions.portalSelf.subscriptionInfo.type
   )
-    .filter((g) => {
+    .filter(g => {
       return g.config.type === type;
     })
-    .map((grp) => {
+    .map(grp => {
       // If props are passed in, spread them over the group object, but only if type === `team`
       if (grp.config.type === "team") {
         return Object.assign({}, grp, props);
@@ -58,7 +58,7 @@ export function createHubTeam(opts: {
   const locale = convertToWellKnownLocale(culture);
   // Fire that off
   return fetchHubTranslation(locale, hubRequestOptions.portalSelf)
-    .then((translations) => {
+    .then(translations => {
       // delegate to createTeamGroups
       return _createTeamGroups(
         title,
@@ -67,7 +67,7 @@ export function createHubTeam(opts: {
         hubRequestOptions
       );
     })
-    .catch((ex) => {
+    .catch(ex => {
       throw Error(`Error in team-utils::createHubTeam ${ex}`);
     });
 }

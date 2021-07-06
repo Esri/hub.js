@@ -11,14 +11,14 @@ describe("removeInvalidPrivs", () => {
       "ELA",
       "Education Site License",
       "Education",
-      "HUP Online",
+      "HUP Online"
     ];
-    subTypes.forEach((type) => {
+    subTypes.forEach(type => {
       const user = {
         privileges: [
           "portal:user:addExternalMembersToGroup",
-          "portal:admin:assignToGroups",
-        ],
+          "portal:admin:assignToGroups"
+        ]
       };
       expect(removeInvalidPrivs(user, type).privileges.length).toBe(
         2,
@@ -28,12 +28,12 @@ describe("removeInvalidPrivs", () => {
   });
   it("Correctly removes priv for non-allowed types", () => {
     const subTypes = ["Trial", "Personal Use", "Developer", "Evaluation"];
-    subTypes.forEach((type) => {
+    subTypes.forEach(type => {
       const user = {
         privileges: [
           "portal:user:addExternalMembersToGroup",
-          "portal:admin:assignToGroups",
-        ],
+          "portal:admin:assignToGroups"
+        ]
       };
       expect(removeInvalidPrivs(user, type).privileges.length).toBe(
         1,

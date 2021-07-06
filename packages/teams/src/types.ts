@@ -51,5 +51,5 @@ export const TEAMTYPES = [
   "content",
   "followers",
   "team",
-  "event",
+  "event"
 ] as const;

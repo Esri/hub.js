@@ -18,13 +18,13 @@ describe("applyPrivPropValuesToTemplate", () => {
           {
             priv: "portal:user:addExternalMembersToGroup",
             prop: "membershipAccess",
-            value: "collaboration",
-          },
-        ],
-      },
+            value: "collaboration"
+          }
+        ]
+      }
     } as IGroupTemplate;
     const user = {
-      privileges: ["portal:user:addExternalMembersToGroup"],
+      privileges: ["portal:user:addExternalMembersToGroup"]
     };
     const result = applyPrivPropValuesToTemplate(user, template);
     expect(result.membershipAccess).toBe(
@@ -43,11 +43,11 @@ describe("applyPrivPropValuesToTemplate", () => {
         requiredPrivs: ["portal:admin:createUpdateCapableGroup"],
         titleI18n: "collaborationTitle",
         descriptionI18n: "collaborationDesc",
-        snippetI18n: "collaborationSnippet",
-      },
+        snippetI18n: "collaborationSnippet"
+      }
     } as IGroupTemplate;
     const user = {
-      privileges: ["portal:user:addExternalMembersToGroup"],
+      privileges: ["portal:user:addExternalMembersToGroup"]
     };
     const result = applyPrivPropValuesToTemplate(user, template);
     expect(result.membershipAccess).toBe(
@@ -67,11 +67,11 @@ describe("applyPrivPropValuesToTemplate", () => {
         titleI18n: "collaborationTitle",
         descriptionI18n: "collaborationDesc",
         snippetI18n: "collaborationSnippet",
-        privPropValues: [],
-      },
+        privPropValues: []
+      }
     } as IGroupTemplate;
     const user = {
-      privileges: ["portal:user:addExternalMembersToGroup"],
+      privileges: ["portal:user:addExternalMembersToGroup"]
     };
     const result = applyPrivPropValuesToTemplate(user, template);
     expect(result.membershipAccess).toBe(
@@ -91,11 +91,11 @@ describe("applyPrivPropValuesToTemplate", () => {
         titleI18n: "collaborationTitle",
         descriptionI18n: "collaborationDesc",
         snippetI18n: "collaborationSnippet",
-        privPropValues: [],
-      },
+        privPropValues: []
+      }
     } as IGroupTemplate;
     const user = {
-      privileges: ["portal:user:createGroup"],
+      privileges: ["portal:user:createGroup"]
     };
     const result = applyPrivPropValuesToTemplate(user, template);
     expect(result.membershipAccess).toBe(

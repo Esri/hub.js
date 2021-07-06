@@ -25,6 +25,6 @@ export function canUserCreateTeam(
       product,
       hubRequestOptions.portalSelf.currentVersion,
       hubRequestOptions.portalSelf.subscriptionInfo.type
-    ).some((t) => t.config.type === hubTeamType);
+    ).some(t => t.config.type === hubTeamType);
   }
 }
