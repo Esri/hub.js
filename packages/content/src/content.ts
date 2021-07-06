@@ -23,7 +23,7 @@ function getContentById(
     const { itemId } = parseDatasetId(identifier);
     getContentPromise = getContentFromPortal(itemId, options);
   } else {
-    getContentPromise = getContentFromHub(identifier, options).catch((e) => {
+    getContentPromise = getContentFromHub(identifier, options).catch(e => {
       // dataset is not in index (i.e. might be a private item)
       if (!isSlug(identifier)) {
         // try fetching from portal instead

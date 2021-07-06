@@ -7,7 +7,7 @@ import {
   IGroup,
   IGeometry,
   IFeatureServiceDefinition,
-  ILayerDefinition,
+  ILayerDefinition
 } from "@esri/arcgis-rest-types";
 import { IPortal, ISearchResult } from "@esri/arcgis-rest-portal";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";

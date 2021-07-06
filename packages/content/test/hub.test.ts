@@ -4,7 +4,7 @@ import {
   parseDatasetId,
   datasetToItem,
   getContentFromHub,
-  datasetToContent,
+  datasetToContent
 } from "../src/index";
 import { IHubRequestOptions, cloneObject, IHubContent } from "@esri/hub-common";
 import * as documentsJson from "./mocks/datasets/document.json";
@@ -37,11 +37,11 @@ function validateContentFromDataset(
     "url",
     "access",
     "size",
-    "commentsEnabled",
+    "commentsEnabled"
     // TODO: what about the others that will be undefined?
   ];
   // should have set item properties
-  itemProperties.forEach((key) => {
+  itemProperties.forEach(key => {
     expect(content[key]).toEqual(attributes[key]);
   });
   // we use attributes.name for both name and title
@@ -57,7 +57,7 @@ function validateContentFromDataset(
   );
   expect(content.publisher).toEqual({
     name: attributes.owner,
-    username: attributes.owner,
+    username: attributes.owner
   });
   expect(content.permissions.visibility).toBe(attributes.access);
   // no itemControl returned w/ this item, expect default
@@ -86,7 +86,7 @@ function validateContentFromDataset(
 }
 
 describe("hub", () => {
-  describe("parseDatasetId", function () {
+  describe("parseDatasetId", function() {
     it("returns undefined", () => {
       const result = parseDatasetId(undefined);
       expect(result).toEqual({ itemId: undefined, layerId: undefined });
@@ -95,14 +95,14 @@ describe("hub", () => {
       const result = parseDatasetId("7a153563b0c74f7eb2b3eae8a66f2fbb");
       expect(result).toEqual({
         itemId: "7a153563b0c74f7eb2b3eae8a66f2fbb",
-        layerId: undefined,
+        layerId: undefined
       });
     });
     it("parse item id and layer id", () => {
       const result = parseDatasetId("7a153563b0c74f7eb2b3eae8a66f2fbb_0");
       expect(result).toEqual({
         itemId: "7a153563b0c74f7eb2b3eae8a66f2fbb",
-        layerId: "0",
+        layerId: "0"
       });
     });
   });
@@ -163,7 +163,7 @@ describe("hub", () => {
         orgId: id,
         orgExtent: extent,
         orgName: name,
-        organization,
+        organization
       } = dataset.attributes;
       let content = datasetToContent(dataset);
       expect(content.org).toEqual({ id, extent, name });
@@ -196,15 +196,15 @@ describe("hub", () => {
           user: {},
           id: "123",
           isPortal: false,
-          name: "some-portal",
+          name: "some-portal"
         },
         isPortal: false,
         hubApiUrl: "https://some.url.com/",
-        authentication: mockUserSession,
+        authentication: mockUserSession
       };
     });
     afterEach(fetchMock.restore);
-    it("should fetch a dataset record by id and return content", (done) => {
+    it("should fetch a dataset record by id and return content", done => {
       fetchMock.once(
         "https://some.url.com/api/v3/datasets/7a153563b0c74f7eb2b3eae8a66f2fbb_0",
         featureLayerJson
@@ -216,7 +216,7 @@ describe("hub", () => {
       const dataset = featureLayerJson.data as DatasetResource;
       const datasetId = dataset.id;
       const itemId = parseDatasetId(datasetId).itemId;
-      getContentFromHub(datasetId, requestOpts).then((content) => {
+      getContentFromHub(datasetId, requestOpts).then(content => {
         // verify that we attempted to fetch from the portal API
         let [url, opts] = fetchMock.calls()[0];
         expect(url).toBe(`https://some.url.com/api/v3/datasets/${datasetId}`);
@@ -242,7 +242,7 @@ describe("hub", () => {
         done();
       });
     });
-    it("should fetch a dataset record by id when unauthenticated and return content", (done) => {
+    it("should fetch a dataset record by id when unauthenticated and return content", done => {
       fetchMock.once(
         "https://some.url.com/api/v3/datasets/7a153563b0c74f7eb2b3eae8a66f2fbb_0",
         featureLayerJson
@@ -250,7 +250,7 @@ describe("hub", () => {
       const dataset = featureLayerJson.data as DatasetResource;
       const id = dataset.id;
       delete requestOpts.authentication;
-      getContentFromHub(id, requestOpts).then((content) => {
+      getContentFromHub(id, requestOpts).then(content => {
         // verify that we attempted to fetch from the portal API
         const [url, opts] = fetchMock.calls()[0];
         expect(url).toBe(`https://some.url.com/api/v3/datasets/${id}`);
@@ -272,11 +272,11 @@ describe("hub", () => {
         done();
       });
     });
-    it("should fetch a dataset record by slug and return content", (done) => {
+    it("should fetch a dataset record by slug and return content", done => {
       const featureLayersJson = {
         // slug requests to datasets w/ filter which returns an array
         data: [featureLayerJson.data],
-        meta: featureLayerJson.meta,
+        meta: featureLayerJson.meta
       };
       fetchMock.once(
         "https://some.url.com/api/v3/datasets?filter%5Bslug%5D=Wigan%3A%3Aout-of-work-benefit-claims",
@@ -289,7 +289,7 @@ describe("hub", () => {
       const dataset = featureLayersJson.data[0] as DatasetResource;
       const ItemId = parseDatasetId(dataset.id).itemId;
       const slug = "Wigan::out-of-work-benefit-claims";
-      getContentFromHub(slug, requestOpts).then((content) => {
+      getContentFromHub(slug, requestOpts).then(content => {
         // verify that we attempted to fetch from the portal API
         let [url, opts] = fetchMock.calls()[0];
         expect(url).toBe(

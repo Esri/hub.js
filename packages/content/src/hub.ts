@@ -4,7 +4,7 @@ import {
   IHubContent,
   hubApiRequest,
   cloneObject,
-  mergeObjects,
+  mergeObjects
 } from "@esri/hub-common";
 import { itemToContent } from "./portal";
 import { isSlug, addContextToSlug, parseDatasetId } from "./slugs";
@@ -49,7 +49,7 @@ const itemOverrides = [
   "avgRating",
   "numViews",
   "itemControl",
-  "scoreCompleteness",
+  "scoreCompleteness"
 ];
 
 /**
@@ -70,11 +70,11 @@ export function getContentFromHub(
     const opts = cloneObject(options);
     opts.params = { ...opts.params, "filter[slug]": slug };
     request = hubApiRequest(`/datasets`, opts).then(
-      (resp) => resp && resp.data[0]
+      resp => resp && resp.data[0]
     );
   } else {
     request = hubApiRequest(`/datasets/${identifier}`, options).then(
-      (resp) => resp && resp.data
+      resp => resp && resp.data
     );
   }
   return request
@@ -85,7 +85,7 @@ export function getContentFromHub(
         // we do not get that info unless we are authed in the org
         // see https://devtopia.esri.com/dc/hub/issues/53#issuecomment-2769965
         return getItem(parseDatasetId(dataset.id).itemId, options).then(
-          (item) => {
+          item => {
             dataset.attributes = mergeObjects(
               item,
               dataset.attributes,
@@ -156,7 +156,7 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
     orgId,
     orgName,
     organization,
-    orgExtent,
+    orgExtent
   } = attributes;
   // NOTE: we could throw or return if there are errors
   // to prevent type errors trying to read properties below
@@ -201,7 +201,7 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
     content.org = {
       id: orgId,
       name: orgName || organization,
-      extent: orgExtent,
+      extent: orgExtent
     };
   }
   return content;
@@ -289,7 +289,7 @@ export function datasetToItem(dataset: DatasetResource): IItem {
     itemExtent,
     itemModified,
     modifiedProvenance,
-    serviceSpatialReference,
+    serviceSpatialReference
   } = attributes;
 
   // build and return an item from properties
@@ -343,6 +343,6 @@ export function datasetToItem(dataset: DatasetResource): IItem {
     avgRating,
     numViews,
     itemControl,
-    scoreCompleteness,
+    scoreCompleteness
   };
 }

@@ -14,11 +14,11 @@ describe("get content", () => {
         user: {},
         id: "123",
         isPortal: true,
-        name: "some-portal",
+        name: "some-portal"
       },
       isPortal: true,
       hubApiUrl: "https://some.url.com/",
-      authentication: mockUserSession,
+      authentication: mockUserSession
     };
   });
   afterEach(fetchMock.restore);
@@ -40,8 +40,8 @@ describe("get content", () => {
         item: {
           id: "3ef",
           // important to flag as a type for which data is fetched
-          type: "Solution",
-        },
+          type: "Solution"
+        }
       } as IModel;
 
       // setting isPortal here for hubId check below
@@ -61,12 +61,12 @@ describe("get content", () => {
       expect(content.data.from).toBe("api", "fetched data from API");
     });
     it("works with item and data", async () => {
-      const model = {
+      const model = ({
         item: {
-          id: "3ef",
+          id: "3ef"
         },
-        data: { from: "arg" },
-      } as unknown as IModel;
+        data: { from: "arg" }
+      } as unknown) as IModel;
 
       const ro = {} as IHubRequestOptions;
 
@@ -92,29 +92,29 @@ describe("get content", () => {
     });
     describe("with an id", () => {
       const id = "7a153563b0c74f7eb2b3eae8a66f2fbb";
-      it("should call getContentFromHub", (done) => {
+      it("should call getContentFromHub", done => {
         const contentFromHub = {
           id,
           // emulating a hub created web map w/o orgId
           // will force additional fetch for owner's orgId
           hubType: "map",
           type: "Web Map",
-          typeKeywords: ["ArcGIS Hub"],
+          typeKeywords: ["ArcGIS Hub"]
         };
         const getContentFromHubSpy = spyOn(
           hubModule,
           "getContentFromHub"
         ).and.returnValue(Promise.resolve(contentFromHub));
-        getContent(id, requestOpts).then((content) => {
+        getContent(id, requestOpts).then(content => {
           expect(getContentFromHubSpy.calls.count()).toBe(1);
           expect(getContentFromHubSpy.calls.argsFor(0)).toEqual([
             id,
-            requestOpts,
+            requestOpts
           ]);
           done();
         });
       });
-      it("handles private items", (done) => {
+      it("handles private items", done => {
         const getContentFromHubSpy = spyOn(
           hubModule,
           "getContentFromHub"
@@ -127,12 +127,12 @@ describe("get content", () => {
           expect(getContentFromHubSpy.calls.count()).toBe(1);
           expect(getContentFromHubSpy.calls.argsFor(0)).toEqual([
             id,
-            requestOpts,
+            requestOpts
           ]);
           expect(getContentFromPortalSpy.calls.count()).toBe(1);
           expect(getContentFromPortalSpy.calls.argsFor(0)).toEqual([
             id,
-            requestOpts,
+            requestOpts
           ]);
           done();
         });
@@ -140,17 +140,17 @@ describe("get content", () => {
     });
     describe("with a slug", () => {
       const slug = "foo";
-      it("rejects when not in the index", (done) => {
+      it("rejects when not in the index", done => {
         const err = new Error("test");
         const getContentFromHubSpy = spyOn(
           hubModule,
           "getContentFromHub"
         ).and.returnValue(Promise.reject(err));
-        getContent(slug, requestOpts).catch((e) => {
+        getContent(slug, requestOpts).catch(e => {
           expect(getContentFromHubSpy.calls.count()).toBe(1);
           expect(getContentFromHubSpy.calls.argsFor(0)).toEqual([
             slug,
-            requestOpts,
+            requestOpts
           ]);
           expect(e).toEqual(err);
           done();
@@ -159,20 +159,20 @@ describe("get content", () => {
     });
   });
   describe("from portal", () => {
-    it("should call getContentFromPortal", (done) => {
+    it("should call getContentFromPortal", done => {
       const id = "foo";
       const contentFromPortal = {
-        id,
+        id
       };
       const getContentFromPortalSpy = spyOn(
         portalModule,
         "getContentFromPortal"
       ).and.returnValue(Promise.resolve(contentFromPortal));
-      getContent(id, requestOpts).then((content) => {
+      getContent(id, requestOpts).then(content => {
         expect(getContentFromPortalSpy.calls.count()).toBe(1);
         expect(getContentFromPortalSpy.calls.argsFor(0)).toEqual([
           "foo",
-          requestOpts,
+          requestOpts
         ]);
         done();
       });

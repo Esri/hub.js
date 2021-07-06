@@ -13,12 +13,12 @@ import {
   normalizeItemType,
   getCollection,
   includes,
-  isDownloadable,
+  isDownloadable
 } from "@esri/hub-common";
 import {
   IFetchEnrichmentOptions,
   enrichContent,
-  getPortalUrls,
+  getPortalUrls
 } from "./enrichments";
 
 function itemExtentToBoundary(extent: IBBox): IHubGeography {
@@ -31,7 +31,7 @@ function itemExtentToBoundary(extent: IBBox): IHubGeography {
         extent[0][1],
         extent[1][0],
         extent[1][1]
-      ),
+      )
     }
   );
 }
@@ -89,11 +89,11 @@ export function itemToContent(item: IItem): IHubContent {
     summary: item.snippet || item.description,
     publisher: {
       name: item.owner,
-      username: item.owner,
+      username: item.owner
     },
     permissions: {
       visibility: item.access,
-      control: item.itemControl || "view",
+      control: item.itemControl || "view"
     },
     // Hub app configuration metadata from item properties
     actionLinks: properties && properties.links,
@@ -109,7 +109,7 @@ export function itemToContent(item: IItem): IHubContent {
     publishedDate: createdDate,
     publishedDateSource: createdDateSource,
     updatedDate: new Date(item.modified),
-    updatedDateSource: "item.modified",
+    updatedDateSource: "item.modified"
   });
   return content;
 }
@@ -131,7 +131,7 @@ export function getItemHubType(itemOrType: IItem | string): HubType {
 function collectionToFamily(collection: string): string {
   const overrides: any = {
     other: "content",
-    solution: "template",
+    solution: "template"
   };
   return overrides[collection] || collection;
 }
@@ -187,9 +187,9 @@ export function parseItemCategories(categories: string[]) {
   if (!categories) return categories;
 
   const exclude = ["categories", ""];
-  const parsed = categories.map((cat) => cat.split("/"));
+  const parsed = categories.map(cat => cat.split("/"));
   const flattened = parsed.reduce((acc, arr, _) => [...acc, ...arr], []);
-  return flattened.filter((cat) => !includes(exclude, cat.toLowerCase()));
+  return flattened.filter(cat => !includes(exclude, cat.toLowerCase()));
 }
 
 /**
@@ -206,7 +206,7 @@ export function getContentFromPortal(
       ? getItem(idOrItem, requestOptions)
       : Promise.resolve(idOrItem);
 
-  return getItemPromise.then((item) => {
+  return getItemPromise.then(item => {
     return enrichContent(itemToContent(item), requestOptions);
   });
 }

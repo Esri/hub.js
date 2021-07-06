@@ -2,7 +2,7 @@ import {
   getItemData,
   getItemGroups,
   getUser,
-  IGetUserOptions,
+  IGetUserOptions
 } from "@esri/arcgis-rest-portal";
 import {
   IHubContent,
@@ -14,7 +14,7 @@ import {
   getItemApiUrl,
   getItemDataUrl,
   getItemThumbnailUrl,
-  includes,
+  includes
 } from "@esri/hub-common";
 import { getContentMetadata } from "./metadata";
 
@@ -45,14 +45,14 @@ export enum UpdateFrequency {
   Irregular = "irregular",
   NotPlanned = "not-planned",
   Unknown = "unknown",
-  Semimonthly = "semimonthly",
+  Semimonthly = "semimonthly"
 }
 
 enum DatePrecision {
   Year = "year",
   Month = "month",
   Day = "day",
-  Time = "time",
+  Time = "time"
 }
 
 function getMetadataPath(identifier: keyof IMetadataPaths) {
@@ -65,7 +65,7 @@ function getMetadataPath(identifier: keyof IMetadataPaths) {
     createDate: "metadata.metadata.dataIdInfo.idCitation.date.createDate",
     metadataUpdateFrequency:
       "metadata.metadata.mdMaint.maintFreq.MaintFreqCd.@_value",
-    metadataUpdatedDate: "metadata.metadata.mdDateSt",
+    metadataUpdatedDate: "metadata.metadata.mdDateSt"
   };
   return metadataPaths[identifier];
 }
@@ -140,7 +140,7 @@ export function _enrichDates(content: IHubContent): IHubContent {
     "010": UpdateFrequency.Irregular,
     "011": UpdateFrequency.NotPlanned,
     "012": UpdateFrequency.Unknown,
-    "013": UpdateFrequency.Semimonthly,
+    "013": UpdateFrequency.Semimonthly
   } as { [index: string]: UpdateFrequency };
 
   // updateFrequency:
@@ -231,9 +231,9 @@ const fetchGroupIds = (
   content: IHubContent,
   requestOptions?: IHubRequestOptions
 ): Promise<string[]> => {
-  return getItemGroups(content.id, requestOptions).then((response) => {
+  return getItemGroups(content.id, requestOptions).then(response => {
     const { admin, member, other } = response;
-    return [...admin, ...member, ...other].map((group) => group.id);
+    return [...admin, ...member, ...other].map(group => group.id);
   });
 };
 
@@ -248,9 +248,9 @@ const fetchOwnerOrgId = (
 ): Promise<string> => {
   const options: IGetUserOptions = {
     username: content.owner,
-    ...requestOptions,
+    ...requestOptions
   };
-  return getUser(options).then((user) => user.orgId);
+  return getUser(options).then(user => user.orgId);
 };
 
 const fetchContentData = (
@@ -273,7 +273,7 @@ const enrichmentRequests: IEnrichmentRequests = {
   metadata: fetchMetadata,
   // both portal and hub
   data: fetchContentData,
-  orgId: fetchOwnerOrgId,
+  orgId: fetchOwnerOrgId
 };
 
 // TODO: use family instead
@@ -290,7 +290,7 @@ const isHubCreatedContent = (content: IHubContent) => {
   return (
     content.type === "Web Map" &&
     contentTypeKeywords.some(
-      (typeKeyword) => hubTypeKeywords.indexOf(typeKeyword) > -1
+      typeKeyword => hubTypeKeywords.indexOf(typeKeyword) > -1
     )
   );
 };
@@ -341,13 +341,13 @@ export const getPortalUrls = (
   const portalDataUrl = getItemDataUrl(content, requestOptions, token);
   // the full URL of the thumbnail
   const thumbnailUrl = getItemThumbnailUrl(content, requestOptions, {
-    token,
+    token
   });
   return {
     portalHomeUrl,
     portalApiUrl,
     portalDataUrl,
-    thumbnailUrl,
+    thumbnailUrl
   };
 };
 export interface IFetchEnrichmentOptions extends IHubRequestOptions {
@@ -377,13 +377,13 @@ export const fetchEnrichments = (
     getMissingEnrichments(content);
   // only include the enrichments that we know how to enrich
   const validEnrichments = enrichments.filter(
-    (name) => !!enrichmentRequests[name]
+    name => !!enrichmentRequests[name]
   );
   const errors: IEnrichmentErrorInfo[] = [];
-  const requests = validEnrichments.map((enrichment) => {
+  const requests = validEnrichments.map(enrichment => {
     // initiate the request and return the promise
     const request = enrichmentRequests[enrichment];
-    return request(content, requestOptions).catch((e) => {
+    return request(content, requestOptions).catch(e => {
       // there was an error w/ the request, capture it
       const message = (e && e.message) || e;
       errors.push({
@@ -391,13 +391,13 @@ export const fetchEnrichments = (
         // but we could later introspect for HTTP or AGO errors
         // and/or return the status code if available
         type: "Other",
-        message,
+        message
       });
       // and then set this property to null
       return null;
     });
   });
-  return Promise.all(requests).then((values) => {
+  return Promise.all(requests).then(values => {
     // return a hash of enrichment properties with the errors merged in
     const properties: { [key: string]: unknown } = {};
     values.forEach((value, i) => {
@@ -406,7 +406,7 @@ export const fetchEnrichments = (
     });
     return {
       ...properties,
-      errors,
+      errors
     };
   });
 };
@@ -435,7 +435,7 @@ export const enrichContent = (
         ...portalUrls,
         ...enrichments,
         // include any previous errors (if any)
-        errors: [...serverErrors, ...enrichments.errors],
+        errors: [...serverErrors, ...enrichments.errors]
       };
       // return the content with enriched dates
       return _enrichDates(merged);

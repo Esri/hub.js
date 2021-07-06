@@ -17,8 +17,8 @@ export function createExtent(
     ymax,
     // type: 'extent',
     spatialReference: {
-      wkid,
-    },
+      wkid
+    }
   };
 }
 
@@ -27,10 +27,7 @@ export function createExtent(
  * @param envelope extent
  */
 export function extentToBBox(envelope: IExtent): IBBox {
-  return [
-    [envelope.xmin, envelope.ymin],
-    [envelope.xmax, envelope.ymax],
-  ];
+  return [[envelope.xmin, envelope.ymin], [envelope.xmax, envelope.ymax]];
 }
 
 export const GLOBAL_EXTENT: IExtent = {
@@ -39,8 +36,8 @@ export const GLOBAL_EXTENT: IExtent = {
   xmax: 180,
   ymax: 90,
   spatialReference: {
-    wkid: 4326,
-  },
+    wkid: 4326
+  }
 };
 
 /**
@@ -64,7 +61,7 @@ export function getGeographicOrgExtent(
   // geometry params...
   const geometryParam = {
     geometryType: "esriGeometryEnvelope",
-    geometries: [orgExtent],
+    geometries: [orgExtent]
   };
   const options: IRequestOptions = {
     httpMethod: "POST",
@@ -74,15 +71,15 @@ export function getGeographicOrgExtent(
       transformation: "",
       inSR: orgExtent.spatialReference.wkid,
       outSR: 4326,
-      f: "json",
-    },
+      f: "json"
+    }
   };
   // add in auth if it's passed
   if (hubRequestOptions.authentication) {
     options.authentication = hubRequestOptions.authentication;
   }
   return request(url, options)
-    .then((response) => {
+    .then(response => {
       const geom = response.geometries[0];
       return {
         xmin: geom.xmin,
@@ -90,11 +87,11 @@ export function getGeographicOrgExtent(
         xmax: geom.xmax,
         ymax: geom.ymax,
         spatialReference: {
-          wkid: 4326,
-        },
+          wkid: 4326
+        }
       };
     })
-    .catch((ex) => {
+    .catch(ex => {
       return GLOBAL_EXTENT;
     });
 }
@@ -106,7 +103,7 @@ export function getGeographicOrgExtent(
 export function getOrgExtentAsBBox(
   hubRequestOptions: IHubRequestOptions
 ): Promise<IBBox> {
-  return getGeographicOrgExtent(hubRequestOptions).then((extent) =>
+  return getGeographicOrgExtent(hubRequestOptions).then(extent =>
     extentToBBox(extent)
   );
 }
@@ -121,7 +118,7 @@ export function isExtentCoordinateArray(extent: object) {
 
 function isExtentJSON(extent: any) {
   return ["xmin", "ymin", "xmax", "ymax"].every(
-    (key) => typeof extent[key] === "number"
+    key => typeof extent[key] === "number"
   );
 }
 
@@ -133,6 +130,6 @@ function isExtentJSON(extent: any) {
 export function isValidExtent(extent: object) {
   return (
     !!extent &&
-    [isExtentCoordinateArray, isExtentJSON].some((test) => test(extent))
+    [isExtentCoordinateArray, isExtentJSON].some(test => test(extent))
   );
 }
