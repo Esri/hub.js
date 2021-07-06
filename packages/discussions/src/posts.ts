@@ -2,21 +2,13 @@
 import { request } from "./request";
 import {
   ISearchPostsOptions,
-  // ISearchChannelPostsOptions,
   ICreatePostOptions,
-  // ICreateChannelPostOptions,
   ICreateReplyOptions,
-  // ICreateChannelReplyOptions,
   IFetchPostOptions,
-  // IFetchChannelPostOptions,
   IRemovePostOptions,
-  // IRemoveChannelPostOptions,
   IUpdatePostOptions,
-  // IUpdateChannelPostOptions,
   IUpdatePostSharingOptions,
-  // IUpdateChannelPostSharingOptions,
   IUpdatePostStatusOptions,
-  // IUpdateChannelPostStatusOptions,
   IPagedResponse,
   IPost,
   IRemovePostResponse
@@ -93,7 +85,7 @@ export function removePost(
 
 /**
  * update post
- * NOTE: this method currently only updates a post's title and/or body
+ * NOTE: this method currently only update post.title and post.body
  *
  * @export
  * @param {IUpdatePostOptions} options

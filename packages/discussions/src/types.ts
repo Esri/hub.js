@@ -96,9 +96,13 @@ export enum DiscussionSource {
 }
 
 /**
- * component parts of a parsed discussion uri, following this uri convention:
- * source://type/id_layer?features=<number>,<number>&attribute=<string>
- * minimal uri - source://type/id
+ * named parts of a discussion URI, follows this convention:
+ * ${source}://${type}/${id}_${layer}?features=${...features}&attribute=${attribute}
+ * 
+ * coarse-grained uri - hub://item/ab3 -- commenting from hub about item ab3
+ * --
+ * fine-grained uri - hub://dataset/3ef_0?features=10,32&attribute=species -- commenting from
+ * hub about species attribute of features id 10 & 32 in dataset 3ef layer 0
  *
  * @export
  * @interface IDiscussionParams
@@ -295,6 +299,7 @@ export interface IPost extends IWithAuthor, IWithTimestamps {
   reactions?: IReaction[];
   userReactions?: IReaction[];
 }
+
 /**
  * dto for creating a post in a known channel
  *

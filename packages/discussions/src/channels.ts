@@ -52,7 +52,7 @@ export function fetchChannel(options: IFetchChannelOptions): Promise<IChannel> {
 
 /**
  * update channel
- * NOTE: only updatable properies are channel setting properties. A Channel's
+ * NOTE: only updates channel settings properties (softDelete, allowedReactions, etc). A Channel's
  * access and groups cannot be updated.
  *
  * @export

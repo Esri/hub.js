@@ -22,7 +22,7 @@ function intersectGroups(
 }
 
 function isChannelOrgMember(channel: IChannel, user: IUser): boolean {
-  // orgs.length === 1 until cross-org comms is sussed out
+  // orgs.length = 1 until collaboration/discussion between many orgs is ideated
   return channel.orgs.length === 1 && channel.orgs.indexOf(user.orgId) > -1;
 }
 
