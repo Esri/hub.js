@@ -15,8 +15,6 @@
 # THIS PACKAGE IS ACTIVELY UNDER DEVELOPMENT AND IS NOT TO BE USED IN A PRODUCTION ENVIRONMENT
 # @esri/hub-discussions
 
-foo
-
 > Module to interact with ArcGIS Hub Discussions API in Node.js and modern browsers.
 
 ### Example
