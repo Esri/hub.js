@@ -1,4 +1,5 @@
 import * as arcgisRestPortal from "@esri/arcgis-rest-portal";
+import * as arcgisRestFeatureLayer from "@esri/arcgis-rest-feature-layer";
 import * as metadataModule from "../src/metadata";
 import { IHubContent } from "@esri/hub-common";
 import {
@@ -6,7 +7,7 @@ import {
   _enrichDates,
   parseISODateString,
   enrichContent,
-  IFetchEnrichmentOptions
+  IFetchEnrichmentOptions,
 } from "../src/enrichments";
 
 describe("fetchEnrichments", () => {
@@ -23,11 +24,36 @@ describe("fetchEnrichments", () => {
       // don't try to fetch the other enrichments:
       groupIds: [],
       data: {},
-      metadata: null
+      metadata: null,
     } as IHubContent;
     const props = await fetchEnrichments(content);
     expect(getUserSpy.calls.count()).toBe(1);
     expect(props).toEqual({ orgId, errors: [] });
+  });
+  it("fetches service and layers for map services", async () => {
+    const server = {
+      currentVersion: 10.71,
+      serviceDescription: "For demo purposes only.",
+    };
+    const getServiceSpy = spyOn(
+      arcgisRestFeatureLayer,
+      "getService"
+    ).and.returnValue(Promise.resolve(server));
+    const content = {
+      id: "3ae",
+      type: "Map Service",
+      url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Elevation/GlacierBay/MapServer/",
+      // don't try to fetch the other enrichments:
+      groupIds: [],
+      data: {},
+      // TODO: remove this and test that layers were fetched
+      // once https://github.com/Esri/arcgis-rest-js/issues/874 is resolved
+      layers: [],
+      metadata: null,
+    } as IHubContent;
+    const props = await fetchEnrichments(content);
+    expect(getServiceSpy.calls.count()).toBe(1);
+    expect(props).toEqual({ server, errors: [] });
   });
 });
 
@@ -41,14 +67,14 @@ describe("enrichContent", () => {
       id: "3ae",
       // signature for a Hub created web map would trigger getUser
       type: "Web Map",
-      typeKeywords: ["ArcGIS Hub"]
+      typeKeywords: ["ArcGIS Hub"],
       // missing groupIds, data, and metadata would trigger other fetches
     } as IHubContent;
     const requestOptions: IFetchEnrichmentOptions = {
       isPortal: false,
       enrichments: [],
       hubApiUrl: "https://some.url.com/",
-      authentication: null
+      authentication: null,
     };
     const enriched = await enrichContent(content, requestOptions);
     expect(getUserSpy).not.toHaveBeenCalled();
@@ -70,19 +96,19 @@ describe("enrichDates", () => {
         metadata: {
           metadata: {
             Esri: {
-              ArcGISProfile: "ISO19139"
+              ArcGISProfile: "ISO19139",
             },
             dataIdInfo: {
               resMaint: {
                 maintFreq: {
                   MaintFreqCd: {
-                    "@_value": "999"
-                  }
-                }
-              }
-            }
-          }
-        }
+                    "@_value": "999",
+                  },
+                },
+              },
+            },
+          },
+        },
       } as IHubContent;
       const result = _enrichDates(content);
       expect(result.updateFrequency).toEqual(undefined);
@@ -92,19 +118,19 @@ describe("enrichDates", () => {
         metadata: {
           metadata: {
             Esri: {
-              ArcGISProfile: "ISO19139"
+              ArcGISProfile: "ISO19139",
             },
             dataIdInfo: {
               resMaint: {
                 maintFreq: {
                   MaintFreqCd: {
-                    "@_value": "003"
-                  }
-                }
-              }
-            }
-          }
-        }
+                    "@_value": "003",
+                  },
+                },
+              },
+            },
+          },
+        },
       } as IHubContent;
       const result = _enrichDates(content);
       expect(result.updateFrequency).toEqual("weekly");
@@ -121,17 +147,17 @@ describe("enrichDates", () => {
         metadata: {
           metadata: {
             Esri: {
-              ArcGISProfile: "ISO19139"
+              ArcGISProfile: "ISO19139",
             },
             mdMaint: {
               maintFreq: {
                 MaintFreqCd: {
-                  "@_value": "999"
-                }
-              }
-            }
-          }
-        }
+                  "@_value": "999",
+                },
+              },
+            },
+          },
+        },
       } as IHubContent;
       const result = _enrichDates(content);
       expect(result.metadataUpdateFrequency).toEqual(undefined);
@@ -141,17 +167,17 @@ describe("enrichDates", () => {
         metadata: {
           metadata: {
             Esri: {
-              ArcGISProfile: "ISO19139"
+              ArcGISProfile: "ISO19139",
             },
             mdMaint: {
               maintFreq: {
                 MaintFreqCd: {
-                  "@_value": "003"
-                }
-              }
-            }
-          }
-        }
+                  "@_value": "003",
+                },
+              },
+            },
+          },
+        },
       } as IHubContent;
       const result = _enrichDates(content);
       expect(result.metadataUpdateFrequency).toEqual("weekly");
@@ -164,7 +190,7 @@ describe("enrichDates", () => {
       const updatedDate = new Date();
       const result = _enrichDates({
         updatedDate,
-        updatedDateSource: "updated-date-source"
+        updatedDateSource: "updated-date-source",
       } as IHubContent);
       expect(result.metadataUpdatedDate).toEqual(updatedDate);
       expect(result.metadataUpdatedDatePrecision).toEqual("day");
@@ -176,11 +202,11 @@ describe("enrichDates", () => {
         metadata: {
           metadata: {
             Esri: {
-              ArcGISProfile: "ISO19139"
+              ArcGISProfile: "ISO19139",
             },
-            mdDateSt: metadataUpdatedDate
-          }
-        }
+            mdDateSt: metadataUpdatedDate,
+          },
+        },
       } as IHubContent;
       const result = _enrichDates(content);
       expect(result.metadataUpdatedDate).toEqual(
@@ -199,7 +225,7 @@ describe("enrichDates", () => {
       const updatedDate = new Date();
       const result = _enrichDates({
         updatedDate,
-        updatedDateSource: "updated-date-source"
+        updatedDateSource: "updated-date-source",
       } as IHubContent);
       expect(result.updatedDate).toEqual(updatedDate);
       expect(result.updatedDatePrecision).toEqual("day");
@@ -208,12 +234,12 @@ describe("enrichDates", () => {
     it("should return the correct values when layerLastEditDate but no metadata", () => {
       // if it doesn't find metadata values it should just not mess with what is already there
       const lastEditDate = new Date(3222000000);
-      const result = _enrichDates(({
+      const result = _enrichDates({
         updatedDate: new Date(),
         updatedDateSource: "updated-date-source",
         // layer.editingInfo.lastEditDate
-        layer: { editingInfo: { lastEditDate: lastEditDate.valueOf() } }
-      } as unknown) as IHubContent);
+        layer: { editingInfo: { lastEditDate: lastEditDate.valueOf() } },
+      } as unknown as IHubContent);
       expect(result.updatedDate).toEqual(lastEditDate);
       expect(result.updatedDatePrecision).toEqual("day");
       expect(result.updatedDateSource).toEqual(
@@ -223,12 +249,12 @@ describe("enrichDates", () => {
     it("should return the correct values when serverLastEditDate but no metadata", () => {
       // if it doesn't find metadata values it should just not mess with what is already there
       const lastEditDate = new Date(3222000000);
-      const result = _enrichDates(({
+      const result = _enrichDates({
         updatedDate: new Date(),
         updatedDateSource: "updated-date-source",
         // server.editingInfo.lastEditDate
-        server: { editingInfo: { lastEditDate: lastEditDate.valueOf() } }
-      } as unknown) as IHubContent);
+        server: { editingInfo: { lastEditDate: lastEditDate.valueOf() } },
+      } as unknown as IHubContent);
       expect(result.updatedDate).toEqual(lastEditDate);
       expect(result.updatedDatePrecision).toEqual("day");
       expect(result.updatedDateSource).toEqual(
@@ -241,20 +267,20 @@ describe("enrichDates", () => {
         metadata: {
           metadata: {
             Esri: {
-              ArcGISProfile: "ISO19139"
+              ArcGISProfile: "ISO19139",
             },
             dataIdInfo: {
               idCitation: {
                 date: {
-                  reviseDate
-                }
-              }
-            }
-          }
-        }
+                  reviseDate,
+                },
+              },
+            },
+          },
+        },
       } as IHubContent;
       const result = _enrichDates(content);
-      const dateParts = reviseDate.split("-").map(part => +part);
+      const dateParts = reviseDate.split("-").map((part) => +part);
       expect(result.updatedDate).toEqual(
         new Date(dateParts[0], dateParts[1] - 1, 1)
       );
@@ -271,7 +297,7 @@ describe("enrichDates", () => {
       const publishedDate = new Date();
       const result = _enrichDates({
         publishedDate,
-        publishedDateSource: "published-date-source"
+        publishedDateSource: "published-date-source",
       } as IHubContent);
       expect(result.publishedDate).toEqual(publishedDate);
       expect(result.publishedDatePrecision).toEqual("day");
@@ -283,20 +309,20 @@ describe("enrichDates", () => {
         metadata: {
           metadata: {
             Esri: {
-              ArcGISProfile: "ISO19139"
+              ArcGISProfile: "ISO19139",
             },
             dataIdInfo: {
               idCitation: {
                 date: {
-                  pubDate
-                }
-              }
-            }
-          }
-        }
+                  pubDate,
+                },
+              },
+            },
+          },
+        },
       } as IHubContent;
       const result = _enrichDates(content);
-      const dateParts = pubDate.split("-").map(part => +part);
+      const dateParts = pubDate.split("-").map((part) => +part);
       expect(result.publishedDate).toEqual(
         new Date(dateParts[0], dateParts[1] - 1, dateParts[2])
       );
@@ -311,20 +337,20 @@ describe("enrichDates", () => {
         metadata: {
           metadata: {
             Esri: {
-              ArcGISProfile: "ISO19139"
+              ArcGISProfile: "ISO19139",
             },
             dataIdInfo: {
               idCitation: {
                 date: {
-                  createDate
-                }
-              }
-            }
-          }
-        }
+                  createDate,
+                },
+              },
+            },
+          },
+        },
       } as IHubContent;
       const result = _enrichDates(content);
-      const dateParts = createDate.split("-").map(part => +part);
+      const dateParts = createDate.split("-").map((part) => +part);
       expect(result.publishedDate).toEqual(
         new Date(dateParts[0], dateParts[1] - 1, dateParts[2])
       );
@@ -339,18 +365,18 @@ describe("enrichDates", () => {
         metadata: {
           metadata: {
             Esri: {
-              ArcGISProfile: "ISO19139"
+              ArcGISProfile: "ISO19139",
             },
             dataIdInfo: {
               idCitation: {
                 date: {
                   createDate: "1970-11-17T00:00:00.000Z",
-                  pubDate
-                }
-              }
-            }
-          }
-        }
+                  pubDate,
+                },
+              },
+            },
+          },
+        },
       } as IHubContent;
       const result = _enrichDates(content);
       expect(result.publishedDate).toEqual(new Date(1970, 1, 7));
@@ -366,26 +392,26 @@ describe("enrichDates", () => {
       const expectations = [
         {
           dateString: "2018",
-          result: { date: new Date(2018, 0, 1), precision: "year" }
+          result: { date: new Date(2018, 0, 1), precision: "year" },
         },
         {
           dateString: "2018-02",
-          result: { date: new Date(2018, 1, 1), precision: "month" }
+          result: { date: new Date(2018, 1, 1), precision: "month" },
         },
         {
           dateString: "2018-02-07",
-          result: { date: new Date(2018, 1, 7), precision: "day" }
+          result: { date: new Date(2018, 1, 7), precision: "day" },
         },
         {
           dateString: "2018-02-07T16:30",
-          result: { date: new Date("2018-02-07T16:30"), precision: "time" }
+          result: { date: new Date("2018-02-07T16:30"), precision: "time" },
         },
         {
           dateString: "02/07/1970",
-          result: { date: new Date("02/07/1970"), precision: "day" }
-        }
+          result: { date: new Date("02/07/1970"), precision: "day" },
+        },
       ];
-      expectations.forEach(expectation => {
+      expectations.forEach((expectation) => {
         const result = parseISODateString(expectation.dateString);
         expect(result.date).toEqual(expectation.result.date);
         expect(result.precision).toEqual(expectation.result.precision);

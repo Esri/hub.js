@@ -9,15 +9,16 @@ import {
   itemToContent,
   parseItemCategories,
   getItemHubType,
-  getFamily
+  getFamily,
 } from "../src/portal";
 import * as metadataModule from "../src/metadata";
-import * as itemJson from "./mocks/items/map-service.json";
+import * as documentItem from "./mocks/items/document.json";
+import * as mapServiceItem from "./mocks/items/map-service.json";
 import { mockUserSession } from "./test-helpers/fake-user-session";
 
 function validateContentFromPortal(content: IHubContent, item: IItem) {
   // should include all item properties
-  Object.keys(item).forEach(key => {
+  Object.keys(item).forEach((key) => {
     // we check name below
     if (key === "name") {
       return;
@@ -29,13 +30,13 @@ function validateContentFromPortal(content: IHubContent, item: IItem) {
   // should not set hubId when in portal
   expect(content.hubId).toBeUndefined();
   // should include derived properties
-  expect(content.family).toBe("map");
+  expect(content.family).toBe("document");
   // DEPRECATED: remove hubType check
-  expect(content.hubType).toBe("map");
+  expect(content.hubType).toBe("document");
   expect(content.summary).toBe(item.snippet);
   expect(content.publisher).toEqual({
     name: item.owner,
-    username: item.owner
+    username: item.owner,
   });
   expect(content.permissions.visibility).toBe(item.access);
   // no itemControl returned w/ this item, expect default
@@ -44,19 +45,9 @@ function validateContentFromPortal(content: IHubContent, item: IItem) {
   expect(content.actionLinks).toBeNull();
   expect(content.hubActions).toBeNull();
   expect(content.metrics).toBeNull();
-  const geometry: IEnvelope = {
-    xmin: -2.732,
-    ymin: 53.4452,
-    xmax: -2.4139,
-    ymax: 53.6093,
-    spatialReference: {
-      wkid: 4326
-    }
-  };
-  expect(content.boundary).toEqual({ geometry });
   expect(content.license).toEqual({
     name: "Custom License",
-    description: item.accessInformation
+    description: item.accessInformation,
   });
   const createdDate = new Date(item.created);
   expect(content.createdDate).toEqual(createdDate);
@@ -75,7 +66,7 @@ function validateContentFromPortal(content: IHubContent, item: IItem) {
 describe("item to content", () => {
   let item: IItem;
   beforeEach(() => {
-    item = cloneObject(itemJson) as IItem;
+    item = cloneObject(documentItem) as IItem;
   });
   it("gets summary from description when no snippet", () => {
     item.snippet = null;
@@ -95,7 +86,7 @@ describe("item to content", () => {
   describe("when item has properties", () => {
     it("should set actionLinks to links", () => {
       item.properties = {
-        links: [{ url: "https://foo.com" }]
+        links: [{ url: "https://foo.com" }],
       };
       const content = itemToContent(item);
       expect(content.actionLinks).toEqual(item.properties.links);
@@ -104,6 +95,20 @@ describe("item to content", () => {
   it("has a reference to the item", () => {
     const content = itemToContent(item);
     expect(content.item).toBe(item);
+  });
+  it("has a boundary when the item has a valid extent", () => {
+    item = cloneObject(mapServiceItem) as IItem;
+    const content = itemToContent(item);
+    const geometry: IEnvelope = {
+      xmin: -2.732,
+      ymin: 53.4452,
+      xmax: -2.4139,
+      ymax: 53.6093,
+      spatialReference: {
+        wkid: 4326,
+      },
+    };
+    expect(content.boundary).toEqual({ geometry });
   });
   // NOTE: other use cases (including when a portal is passed)
   // are covered by getContentFromPortal() tests
@@ -136,7 +141,7 @@ describe("get item hub type", () => {
     expect(
       getItemHubType({
         type: "Hub Initiative",
-        typeKeywords: ["hubInitiativeTemplate"]
+        typeKeywords: ["hubInitiativeTemplate"],
       } as IItem)
     ).toBe("template");
   });
@@ -149,13 +154,13 @@ describe("parse item categories", () => {
     const categories = [
       "/Categories/Boundaries",
       "/Categories/Planning and cadastre/Property records",
-      "/Categories/Structure"
+      "/Categories/Structure",
     ];
     expect(parseItemCategories(categories)).toEqual([
       "Boundaries",
       "Planning and cadastre",
       "Property records",
-      "Structure"
+      "Structure",
     ]);
   });
   it("doesn't blow up with undefined", () => {
@@ -167,7 +172,7 @@ describe("get content from portal", () => {
   const mockItemGroups: any = {
     admin: [],
     member: [{ id: "memberGroupId" }],
-    other: []
+    other: [],
   };
   let getItemGroupsSpy: jasmine.Spy;
   let requestOpts: IHubRequestOptions;
@@ -177,16 +182,16 @@ describe("get content from portal", () => {
         user: {},
         id: "123",
         isPortal: true,
-        name: "some-portal"
+        name: "some-portal",
       },
       isPortal: true,
       hubApiUrl: "https://some.url.com/",
-      authentication: mockUserSession
+      authentication: mockUserSession,
     };
   });
   afterEach(fetchMock.restore);
-  it("should fetch a portal item and return content w/o metadata", done => {
-    fetchMock.once("*", itemJson);
+  it("should fetch a portal item and return content w/o metadata", (done) => {
+    fetchMock.once("*", documentItem);
     // emulate successful item groups response
     getItemGroupsSpy = spyOn(arcgisRestPortal, "getItemGroups").and.returnValue(
       Promise.resolve(mockItemGroups)
@@ -197,13 +202,13 @@ describe("get content from portal", () => {
       metadataModule,
       "getContentMetadata"
     ).and.returnValue(Promise.reject(message));
-    const item = itemJson as IItem;
+    const item = documentItem as IItem;
     const id = item.id;
-    getContentFromPortal(id, requestOpts).then(content => {
+    getContentFromPortal(id, requestOpts).then((content) => {
       // verify that we attempted to fetch from the portal API
       const [url] = fetchMock.calls()[0];
       expect(url).toBe(
-        "https://vader.maps.arcgis.com/sharing/rest/content/items/7a153563b0c74f7eb2b3eae8a66f2fbb?f=json&token=fake-token"
+        "https://vader.maps.arcgis.com/sharing/rest/content/items/8d37647291dd42deab032cfb1b57509c?f=json&token=fake-token"
       );
       // validate that the item properties were set
       validateContentFromPortal(content, item);
@@ -216,8 +221,8 @@ describe("get content from portal", () => {
       done();
     });
   });
-  it("should fetch a portal item and return content w/ metadata", done => {
-    fetchMock.once("*", itemJson);
+  it("should fetch a portal item and return content w/ metadata", (done) => {
+    fetchMock.once("*", documentItem);
     // emulate successful item groups response
     getItemGroupsSpy = spyOn(arcgisRestPortal, "getItemGroups").and.returnValue(
       Promise.resolve(mockItemGroups)
@@ -228,13 +233,13 @@ describe("get content from portal", () => {
       metadataModule,
       "getContentMetadata"
     ).and.returnValue(Promise.resolve(mockMetadata));
-    const item = itemJson as IItem;
+    const item = documentItem as IItem;
     const id = item.id;
-    getContentFromPortal(id, requestOpts).then(content => {
+    getContentFromPortal(id, requestOpts).then((content) => {
       // verify that we attempted to fetch from the portal API
       const [url] = fetchMock.calls()[0];
       expect(url).toBe(
-        "https://vader.maps.arcgis.com/sharing/rest/content/items/7a153563b0c74f7eb2b3eae8a66f2fbb?f=json&token=fake-token"
+        "https://vader.maps.arcgis.com/sharing/rest/content/items/8d37647291dd42deab032cfb1b57509c?f=json&token=fake-token"
       );
       // validate that the item properties were set
       validateContentFromPortal(content, item);
@@ -248,8 +253,8 @@ describe("get content from portal", () => {
       done();
     });
   });
-  it("should use item object if passed as arg", done => {
-    fetchMock.once("*", itemJson);
+  it("should use item object if passed as arg", (done) => {
+    fetchMock.once("*", documentItem);
     // emulate successful item groups response
     getItemGroupsSpy = spyOn(arcgisRestPortal, "getItemGroups").and.returnValue(
       Promise.resolve(mockItemGroups)
@@ -260,10 +265,10 @@ describe("get content from portal", () => {
       metadataModule,
       "getContentMetadata"
     ).and.returnValue(Promise.resolve(mockMetadata));
-    const item = itemJson as IItem;
+    const item = documentItem as IItem;
 
     // pass item object as arg
-    getContentFromPortal(item, requestOpts).then(content => {
+    getContentFromPortal(item, requestOpts).then((content) => {
       // *************** make sure we did NOT fetch item from API******************
       expect(fetchMock.called()).toBeFalsy(
         "item should not be fetched from API"

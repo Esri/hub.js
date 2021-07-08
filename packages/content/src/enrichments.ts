@@ -1,9 +1,11 @@
+import { request as restRequest, cleanUrl } from "@esri/arcgis-rest-request";
 import {
   getItemData,
   getItemGroups,
   getUser,
-  IGetUserOptions
+  IGetUserOptions,
 } from "@esri/arcgis-rest-portal";
+import { IGetLayerOptions, getService } from "@esri/arcgis-rest-feature-layer";
 import {
   IHubContent,
   IHubRequestOptions,
@@ -14,9 +16,44 @@ import {
   getItemApiUrl,
   getItemDataUrl,
   getItemThumbnailUrl,
-  includes
+  includes,
 } from "@esri/hub-common";
 import { getContentMetadata } from "./metadata";
+
+/** begin move this to rest-js */
+/**
+ * Match the "service" part of the url
+ */
+const serviceRegex = new RegExp(/.+(?:map|feature|image)server/i);
+/**
+ * Return the service url. If not matched, returns what was passed in
+ */
+/* istanbul ignore next */
+export function parseServiceUrl(url: string) {
+  const match = url.match(serviceRegex);
+  if (match) {
+    return match[0];
+  } else {
+    return stripQueryString(url);
+  }
+}
+
+/* istanbul ignore next */
+function stripQueryString(url: string) {
+  const stripped = url.split("?")[0];
+  return cleanUrl(stripped);
+}
+
+// NOTE: we should this to arcgis-rest-feature-layer
+// if we want to add support for the other params, see:
+// https://developers.arcgis.com/rest/services-reference/all-layers-and-tables.htm
+/* istanbul ignore next */
+const getAllLayersAndTables = (options: IGetLayerOptions) => {
+  const { url, ...requestOptions } = options;
+  const layersUrl = `${parseServiceUrl(url)}/layers`;
+  return restRequest(layersUrl, requestOptions);
+};
+/** end move to rest-js */
 
 interface IMetadataPaths {
   updateFrequency: string;
@@ -45,14 +82,14 @@ export enum UpdateFrequency {
   Irregular = "irregular",
   NotPlanned = "not-planned",
   Unknown = "unknown",
-  Semimonthly = "semimonthly"
+  Semimonthly = "semimonthly",
 }
 
 enum DatePrecision {
   Year = "year",
   Month = "month",
   Day = "day",
-  Time = "time"
+  Time = "time",
 }
 
 function getMetadataPath(identifier: keyof IMetadataPaths) {
@@ -65,7 +102,7 @@ function getMetadataPath(identifier: keyof IMetadataPaths) {
     createDate: "metadata.metadata.dataIdInfo.idCitation.date.createDate",
     metadataUpdateFrequency:
       "metadata.metadata.mdMaint.maintFreq.MaintFreqCd.@_value",
-    metadataUpdatedDate: "metadata.metadata.mdDateSt"
+    metadataUpdatedDate: "metadata.metadata.mdDateSt",
   };
   return metadataPaths[identifier];
 }
@@ -140,7 +177,7 @@ export function _enrichDates(content: IHubContent): IHubContent {
     "010": UpdateFrequency.Irregular,
     "011": UpdateFrequency.NotPlanned,
     "012": UpdateFrequency.Unknown,
-    "013": UpdateFrequency.Semimonthly
+    "013": UpdateFrequency.Semimonthly,
   } as { [index: string]: UpdateFrequency };
 
   // updateFrequency:
@@ -231,9 +268,9 @@ const fetchGroupIds = (
   content: IHubContent,
   requestOptions?: IHubRequestOptions
 ): Promise<string[]> => {
-  return getItemGroups(content.id, requestOptions).then(response => {
+  return getItemGroups(content.id, requestOptions).then((response) => {
     const { admin, member, other } = response;
-    return [...admin, ...member, ...other].map(group => group.id);
+    return [...admin, ...member, ...other].map((group) => group.id);
   });
 };
 
@@ -248,9 +285,9 @@ const fetchOwnerOrgId = (
 ): Promise<string> => {
   const options: IGetUserOptions = {
     username: content.owner,
-    ...requestOptions
+    ...requestOptions,
   };
-  return getUser(options).then(user => user.orgId);
+  return getUser(options).then((user) => user.orgId);
 };
 
 const fetchContentData = (
@@ -258,6 +295,37 @@ const fetchContentData = (
   requestOptions?: IHubRequestOptions
 ) => {
   return getItemData(content.id, requestOptions);
+};
+
+const fetchService = (
+  content: IHubContent,
+  requestOptions?: IHubRequestOptions
+) => {
+  const url = content.url;
+  const options = {
+    ...requestOptions,
+    url,
+  };
+  return getService(options);
+};
+
+// TODO: remove this ignore once https://github.com/Esri/arcgis-rest-js/issues/874 is resolved
+/* istanbul ignore next */
+const fetchLayers = (
+  content: IHubContent,
+  requestOptions?: IHubRequestOptions
+) => {
+  const url = content.url;
+  const options = {
+    ...requestOptions,
+    url,
+  };
+  return (
+    getAllLayersAndTables(options)
+      // merge layers and tables into a single array
+      // TODO: filter out any group layers
+      .then((response) => [...response.layers, ...response.tables])
+  );
 };
 
 interface IEnrichmentRequests {
@@ -271,9 +339,11 @@ const enrichmentRequests: IEnrichmentRequests = {
   // portal only
   groupIds: fetchGroupIds,
   metadata: fetchMetadata,
+  server: fetchService,
+  layers: fetchLayers,
   // both portal and hub
   data: fetchContentData,
-  orgId: fetchOwnerOrgId
+  orgId: fetchOwnerOrgId,
 };
 
 // TODO: use family instead
@@ -290,13 +360,17 @@ const isHubCreatedContent = (content: IHubContent) => {
   return (
     content.type === "Web Map" &&
     contentTypeKeywords.some(
-      typeKeyword => hubTypeKeywords.indexOf(typeKeyword) > -1
+      (typeKeyword) => hubTypeKeywords.indexOf(typeKeyword) > -1
     )
   );
 };
 
 const shouldFetchOrgId = (content: IHubContent) => {
   return !content.orgId && isHubCreatedContent(content);
+};
+
+const isMapOrFeatureServerUrl = (url: string) => {
+  return /\/(map|feature)server/i.test(url);
 };
 
 // as this becomes more complicated, we'll probably want to
@@ -315,6 +389,17 @@ const getMissingEnrichments = (content: IHubContent) => {
   }
   if (shouldFetchData(content)) {
     enrichments.push("data");
+  }
+  if (isMapOrFeatureServerUrl(content.url)) {
+    if (!content.server) {
+      enrichments.push("server");
+    }
+    // TODO: remove this ignore once https://github.com/Esri/arcgis-rest-js/issues/874 is resolved
+    /* istanbul ignore next */
+    if (!content.layers) {
+      enrichments.push("layers");
+    }
+    // TODO: if layer...
   }
   return enrichments;
 };
@@ -341,13 +426,13 @@ export const getPortalUrls = (
   const portalDataUrl = getItemDataUrl(content, requestOptions, token);
   // the full URL of the thumbnail
   const thumbnailUrl = getItemThumbnailUrl(content, requestOptions, {
-    token
+    token,
   });
   return {
     portalHomeUrl,
     portalApiUrl,
     portalDataUrl,
-    thumbnailUrl
+    thumbnailUrl,
   };
 };
 export interface IFetchEnrichmentOptions extends IHubRequestOptions {
@@ -377,13 +462,13 @@ export const fetchEnrichments = (
     getMissingEnrichments(content);
   // only include the enrichments that we know how to enrich
   const validEnrichments = enrichments.filter(
-    name => !!enrichmentRequests[name]
+    (name) => !!enrichmentRequests[name]
   );
   const errors: IEnrichmentErrorInfo[] = [];
-  const requests = validEnrichments.map(enrichment => {
+  const requests = validEnrichments.map((enrichment) => {
     // initiate the request and return the promise
     const request = enrichmentRequests[enrichment];
-    return request(content, requestOptions).catch(e => {
+    return request(content, requestOptions).catch((e) => {
       // there was an error w/ the request, capture it
       const message = (e && e.message) || e;
       errors.push({
@@ -391,13 +476,13 @@ export const fetchEnrichments = (
         // but we could later introspect for HTTP or AGO errors
         // and/or return the status code if available
         type: "Other",
-        message
+        message,
       });
       // and then set this property to null
       return null;
     });
   });
-  return Promise.all(requests).then(values => {
+  return Promise.all(requests).then((values) => {
     // return a hash of enrichment properties with the errors merged in
     const properties: { [key: string]: unknown } = {};
     values.forEach((value, i) => {
@@ -406,7 +491,7 @@ export const fetchEnrichments = (
     });
     return {
       ...properties,
-      errors
+      errors,
     };
   });
 };
@@ -435,7 +520,7 @@ export const enrichContent = (
         ...portalUrls,
         ...enrichments,
         // include any previous errors (if any)
-        errors: [...serverErrors, ...enrichments.errors]
+        errors: [...serverErrors, ...enrichments.errors],
       };
       // return the content with enriched dates
       return _enrichDates(merged);
