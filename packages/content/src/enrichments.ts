@@ -2,8 +2,14 @@ import {
   getItemData,
   getItemGroups,
   getUser,
-  IGetUserOptions
+  IGetUserOptions,
 } from "@esri/arcgis-rest-portal";
+import {
+  getAllLayersAndTables,
+  getService,
+  parseServiceUrl,
+  ILayerDefinition,
+} from "@esri/arcgis-rest-feature-layer";
 import {
   IHubContent,
   IHubRequestOptions,
@@ -14,9 +20,38 @@ import {
   getItemApiUrl,
   getItemDataUrl,
   getItemThumbnailUrl,
-  includes
+  getLayerIdFromUrl,
+  includes,
+  isFeatureService,
+  isNil,
 } from "@esri/hub-common";
 import { getContentMetadata } from "./metadata";
+
+const getLayer = (content: IHubContent, layerId?: number) => {
+  const { url, layers } = content;
+  const idFromUrl = getLayerIdFromUrl(url);
+  // NOTE: if the URL points to the layer itself, we _always_ use that layer
+  const id = idFromUrl ? parseInt(idFromUrl, 10) : layerId;
+  return layers && !isNil(id)
+    ? layers.find((layer) => layer.id === id)
+    : // for feature servers with a single layer always show the layer
+      isFeatureService(content.type) && getOnlyQueryLayer(layers);
+};
+
+const getOnlyQueryLayer = (layers: ILayerDefinition[]) => {
+  const layer = layers.length === 1 && layers[0];
+  return layer && layer.capabilities.includes("Query") && layer;
+};
+
+const shouldUseLayerInfo = (content: IHubContent) => {
+  return (
+    content.layer &&
+    content.layers &&
+    content.layers.length > 1 &&
+    // we use item info instead of layer info for single layer items
+    !getLayerIdFromUrl(content.url)
+  );
+};
 
 interface IMetadataPaths {
   updateFrequency: string;
@@ -45,14 +80,14 @@ export enum UpdateFrequency {
   Irregular = "irregular",
   NotPlanned = "not-planned",
   Unknown = "unknown",
-  Semimonthly = "semimonthly"
+  Semimonthly = "semimonthly",
 }
 
 enum DatePrecision {
   Year = "year",
   Month = "month",
   Day = "day",
-  Time = "time"
+  Time = "time",
 }
 
 function getMetadataPath(identifier: keyof IMetadataPaths) {
@@ -65,7 +100,7 @@ function getMetadataPath(identifier: keyof IMetadataPaths) {
     createDate: "metadata.metadata.dataIdInfo.idCitation.date.createDate",
     metadataUpdateFrequency:
       "metadata.metadata.mdMaint.maintFreq.MaintFreqCd.@_value",
-    metadataUpdatedDate: "metadata.metadata.mdDateSt"
+    metadataUpdatedDate: "metadata.metadata.mdDateSt",
   };
   return metadataPaths[identifier];
 }
@@ -140,7 +175,7 @@ export function _enrichDates(content: IHubContent): IHubContent {
     "010": UpdateFrequency.Irregular,
     "011": UpdateFrequency.NotPlanned,
     "012": UpdateFrequency.Unknown,
-    "013": UpdateFrequency.Semimonthly
+    "013": UpdateFrequency.Semimonthly,
   } as { [index: string]: UpdateFrequency };
 
   // updateFrequency:
@@ -231,9 +266,9 @@ const fetchGroupIds = (
   content: IHubContent,
   requestOptions?: IHubRequestOptions
 ): Promise<string[]> => {
-  return getItemGroups(content.id, requestOptions).then(response => {
+  return getItemGroups(content.id, requestOptions).then((response) => {
     const { admin, member, other } = response;
-    return [...admin, ...member, ...other].map(group => group.id);
+    return [...admin, ...member, ...other].map((group) => group.id);
   });
 };
 
@@ -248,9 +283,9 @@ const fetchOwnerOrgId = (
 ): Promise<string> => {
   const options: IGetUserOptions = {
     username: content.owner,
-    ...requestOptions
+    ...requestOptions,
   };
-  return getUser(options).then(user => user.orgId);
+  return getUser(options).then((user) => user.orgId);
 };
 
 const fetchContentData = (
@@ -258,6 +293,40 @@ const fetchContentData = (
   requestOptions?: IHubRequestOptions
 ) => {
   return getItemData(content.id, requestOptions);
+};
+
+const fetchService = (
+  content: IHubContent,
+  requestOptions?: IHubRequestOptions
+) => {
+  const url = content.url;
+  const options = {
+    ...requestOptions,
+    url,
+  };
+  return getService(options);
+};
+
+const fetchLayers = (
+  content: IHubContent,
+  requestOptions?: IHubRequestOptions
+) => {
+  const url = content.url;
+  const options = {
+    ...requestOptions,
+    url,
+  };
+  return (
+    getAllLayersAndTables(options)
+      // merge layers and tables into a single array
+      // and filter out any group layers
+      .then((response) => {
+        const merged = [...response.layers, ...response.tables];
+        return merged.filter(
+          (layer) => (layer.type as string) !== "Group Layer"
+        );
+      })
+  );
 };
 
 interface IEnrichmentRequests {
@@ -271,9 +340,11 @@ const enrichmentRequests: IEnrichmentRequests = {
   // portal only
   groupIds: fetchGroupIds,
   metadata: fetchMetadata,
+  server: fetchService,
+  layers: fetchLayers,
   // both portal and hub
   data: fetchContentData,
-  orgId: fetchOwnerOrgId
+  orgId: fetchOwnerOrgId,
 };
 
 // TODO: use family instead
@@ -290,13 +361,17 @@ const isHubCreatedContent = (content: IHubContent) => {
   return (
     content.type === "Web Map" &&
     contentTypeKeywords.some(
-      typeKeyword => hubTypeKeywords.indexOf(typeKeyword) > -1
+      (typeKeyword) => hubTypeKeywords.indexOf(typeKeyword) > -1
     )
   );
 };
 
 const shouldFetchOrgId = (content: IHubContent) => {
   return !content.orgId && isHubCreatedContent(content);
+};
+
+const isMapOrFeatureServerUrl = (url: string) => {
+  return /\/(map|feature)server/i.test(url);
 };
 
 // as this becomes more complicated, we'll probably want to
@@ -315,6 +390,14 @@ const getMissingEnrichments = (content: IHubContent) => {
   }
   if (shouldFetchData(content)) {
     enrichments.push("data");
+  }
+  if (isMapOrFeatureServerUrl(content.url)) {
+    if (!content.server) {
+      enrichments.push("server");
+    }
+    if (!content.layers) {
+      enrichments.push("layers");
+    }
   }
   return enrichments;
 };
@@ -341,13 +424,13 @@ export const getPortalUrls = (
   const portalDataUrl = getItemDataUrl(content, requestOptions, token);
   // the full URL of the thumbnail
   const thumbnailUrl = getItemThumbnailUrl(content, requestOptions, {
-    token
+    token,
   });
   return {
     portalHomeUrl,
     portalApiUrl,
     portalDataUrl,
-    thumbnailUrl
+    thumbnailUrl,
   };
 };
 export interface IFetchEnrichmentOptions extends IHubRequestOptions {
@@ -359,6 +442,9 @@ export interface IFetchEnrichmentOptions extends IHubRequestOptions {
   enrichments?: string[];
 }
 
+export interface IEnrichContentOptions extends IFetchEnrichmentOptions {
+  layerId?: number;
+}
 /**
  * Fetch either the missing or specified enrichments for a given content.
  * Any errors from failed requests will be included in the errors array.
@@ -377,13 +463,13 @@ export const fetchEnrichments = (
     getMissingEnrichments(content);
   // only include the enrichments that we know how to enrich
   const validEnrichments = enrichments.filter(
-    name => !!enrichmentRequests[name]
+    (name) => !!enrichmentRequests[name]
   );
   const errors: IEnrichmentErrorInfo[] = [];
-  const requests = validEnrichments.map(enrichment => {
+  const requests = validEnrichments.map((enrichment) => {
     // initiate the request and return the promise
     const request = enrichmentRequests[enrichment];
-    return request(content, requestOptions).catch(e => {
+    return request(content, requestOptions).catch((e) => {
       // there was an error w/ the request, capture it
       const message = (e && e.message) || e;
       errors.push({
@@ -391,13 +477,13 @@ export const fetchEnrichments = (
         // but we could later introspect for HTTP or AGO errors
         // and/or return the status code if available
         type: "Other",
-        message
+        message,
       });
       // and then set this property to null
       return null;
     });
   });
-  return Promise.all(requests).then(values => {
+  return Promise.all(requests).then((values) => {
     // return a hash of enrichment properties with the errors merged in
     const properties: { [key: string]: unknown } = {};
     values.forEach((value, i) => {
@@ -406,7 +492,7 @@ export const fetchEnrichments = (
     });
     return {
       ...properties,
-      errors
+      errors,
     };
   });
 };
@@ -421,7 +507,7 @@ export const fetchEnrichments = (
  */
 export const enrichContent = (
   content: IHubContent,
-  requestOptions?: IFetchEnrichmentOptions
+  requestOptions?: IEnrichContentOptions
 ) => {
   // get enriched portal urls
   const portalUrls = getPortalUrls(content, requestOptions);
@@ -435,10 +521,45 @@ export const enrichContent = (
         ...portalUrls,
         ...enrichments,
         // include any previous errors (if any)
-        errors: [...serverErrors, ...enrichments.errors]
+        errors: [...serverErrors, ...enrichments.errors],
       };
-      // return the content with enriched dates
-      return _enrichDates(merged);
+      // enrich dates now that we have metadata (if any)
+      const enriched = _enrichDates(merged);
+      // if this is a layer (type: Feature Layer, Table, Raster Layer)
+      // or a feature or map service and caller has supplied a layer id
+      // we want the content to represent the layer instead of the service
+      return getLayerContent(enriched, requestOptions.layerId) || enriched;
     }
   );
+};
+
+/**
+ * create a new content with a layer
+ * that prefers the layer properties over item properties
+ * @param content service or layer content
+ * @param layerId id of the layer
+ * @returns a new content
+ */
+export const getLayerContent = (
+  content: IHubContent,
+  layerId?: number
+): IHubContent => {
+  const layer = getLayer(content, layerId);
+  if (!layer) {
+    return;
+  }
+  const { type, name, description } = layer;
+  const layerContent = { ...content, layer, type };
+  if (shouldUseLayerInfo(layerContent)) {
+    // NOTE: composer updated dataset name and description
+    // but b/c the layer enrichments now happen _after_ datasetToContent()
+    // we have to update the derived properties (title and summary) instead
+    layerContent.title = name;
+    if (description) {
+      layerContent.description = description;
+      layerContent.summary = description;
+    }
+    layerContent.url = `${parseServiceUrl(content.url)}/${layer.id}`;
+  }
+  return layerContent;
 };
