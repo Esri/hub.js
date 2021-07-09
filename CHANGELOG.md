@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [8.10.0] - July 9th 2021
+
+### Other Changes
+
+* New Features
+   * **hub-content**: enrich content with layer properties [`45398aa0`](https://github.com/Esri/hub.js/commit/45398aa093ae2f347da620b4b8e463fd24523799)
+   * **hub-content**: add isNil util to check for null or undefined [`7bf513ce`](https://github.com/Esri/hub.js/commit/7bf513cecf69c652807db364ed158e605fb542f1)
+   * **hub-common**: fetch server and layers enrichments for map and feature services [`b235cc41`](https://github.com/Esri/hub.js/commit/b235cc416dc8332c020d26120dcd70f8d173fe35)
+
 ## [8.9.0] - July 8th 2021
 
 ### Other Changes
@@ -44,7 +53,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - **hub-teams**: add canEditTeam [`d2c9fecf`](https://github.com/Esri/hub.js/commit/d2c9fecf0314e35ee5c1acb9583684f18740f0b1)
   - **hub-teams**: add username check [`36a8b792`](https://github.com/Esri/hub.js/commit/36a8b7924ef7cf11ac2f2e81abe0d9ca49e86ec7)
   - **hub-teams**: add canEditTeam tests [`d4d52c18`](https://github.com/Esri/hub.js/commit/d4d52c1879c01f44770c16de242822ce41ba2708)
-  - **hub-teams**: add case when user is not auth&amp;amp;#39;d [`295e04a7`](https://github.com/Esri/hub.js/commit/295e04a7189151c827a25dcf9222c76448df71f7)
+  - **hub-teams**: add case when user is not auth&amp;amp;amp;#39;d [`295e04a7`](https://github.com/Esri/hub.js/commit/295e04a7189151c827a25dcf9222c76448df71f7)
 
 ## [8.7.0] - June 25th 2021
 
@@ -1699,4 +1708,5 @@ Initial Release
 [8.8.1]: https://github.com/Esri/hub.js/compare/v8.8.0...v8.8.1 "v8.8.1"
 [8.8.2]: https://github.com/Esri/hub.js/compare/v8.8.1...v8.8.2 "v8.8.2"
 [8.9.0]: https://github.com/Esri/hub.js/compare/v8.8.2...v8.9.0 "v8.9.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v8.9.0...HEAD "Unreleased Changes"
+[8.10.0]: https://github.com/Esri/hub.js/compare/v8.9.0...v8.10.0 "v8.10.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v8.10.0...HEAD "Unreleased Changes"
