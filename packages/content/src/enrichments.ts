@@ -1,4 +1,3 @@
-import { request as restRequest, cleanUrl } from "@esri/arcgis-rest-request";
 import {
   getItemData,
   getItemGroups,
@@ -6,8 +5,9 @@ import {
   IGetUserOptions,
 } from "@esri/arcgis-rest-portal";
 import {
-  IGetLayerOptions,
+  getAllLayersAndTables,
   getService,
+  parseServiceUrl,
   ILayerDefinition,
 } from "@esri/arcgis-rest-feature-layer";
 import {
@@ -23,46 +23,9 @@ import {
   getLayerIdFromUrl,
   includes,
   isFeatureService,
+  isNil,
 } from "@esri/hub-common";
 import { getContentMetadata } from "./metadata";
-
-/** begin move this to rest-js */
-/**
- * Match the "service" part of the url
- */
-const serviceRegex = new RegExp(/.+(?:map|feature|image)server/i);
-/**
- * Return the service url. If not matched, returns what was passed in
- */
-/* istanbul ignore next */
-export function parseServiceUrl(url: string) {
-  const match = url.match(serviceRegex);
-  if (match) {
-    return match[0];
-  } else {
-    return stripQueryString(url);
-  }
-}
-
-/* istanbul ignore next */
-function stripQueryString(url: string) {
-  const stripped = url.split("?")[0];
-  return cleanUrl(stripped);
-}
-
-// NOTE: we should this to arcgis-rest-feature-layer
-// if we want to add support for the other params, see:
-// https://developers.arcgis.com/rest/services-reference/all-layers-and-tables.htm
-/* istanbul ignore next */
-const getAllLayersAndTables = (options: IGetLayerOptions) => {
-  const { url, ...requestOptions } = options;
-  const layersUrl = `${parseServiceUrl(url)}/layers`;
-  return restRequest(layersUrl, requestOptions);
-};
-/** end move to rest-js */
-
-// TODO: move to common/utils
-const isNil = (value: unknown) => value == null;
 
 const getLayer = (content: IHubContent, layerId?: number) => {
   const { url, layers } = content;
@@ -344,8 +307,6 @@ const fetchService = (
   return getService(options);
 };
 
-// TODO: remove this ignore once https://github.com/Esri/arcgis-rest-js/issues/874 is resolved
-/* istanbul ignore next */
 const fetchLayers = (
   content: IHubContent,
   requestOptions?: IHubRequestOptions
@@ -358,8 +319,13 @@ const fetchLayers = (
   return (
     getAllLayersAndTables(options)
       // merge layers and tables into a single array
-      // TODO: filter out any group layers ("type": "Group Layer")
-      .then((response) => [...response.layers, ...response.tables])
+      // and filter out any group layers
+      .then((response) => {
+        const merged = [...response.layers, ...response.tables];
+        return merged.filter(
+          (layer) => (layer.type as string) !== "Group Layer"
+        );
+      })
   );
 };
 
@@ -429,12 +395,9 @@ const getMissingEnrichments = (content: IHubContent) => {
     if (!content.server) {
       enrichments.push("server");
     }
-    // TODO: remove this ignore once https://github.com/Esri/arcgis-rest-js/issues/874 is resolved
-    /* istanbul ignore next */
     if (!content.layers) {
       enrichments.push("layers");
     }
-    // TODO: if layer...
   }
   return enrichments;
 };

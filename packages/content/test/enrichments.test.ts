@@ -7,7 +7,6 @@ import {
   _enrichDates,
   parseISODateString,
   enrichContent,
-  IFetchEnrichmentOptions,
   IEnrichContentOptions,
   getLayerContent,
 } from "../src/enrichments";
@@ -41,6 +40,17 @@ describe("fetchEnrichments", () => {
       arcgisRestFeatureLayer,
       "getService"
     ).and.returnValue(Promise.resolve(server));
+    const layer = { id: 0, name: "layer0 " };
+    const table = { id: 1, name: "table1 " };
+    const groupLayer = { id: 2, name: "layer1", type: "Group Layer" };
+    const allLayersAndTables = {
+      layers: [layer, groupLayer],
+      tables: [table],
+    };
+    const getAllLayersAndTablesSpy = spyOn(
+      arcgisRestFeatureLayer,
+      "getAllLayersAndTables"
+    ).and.returnValue(Promise.resolve(allLayersAndTables));
     const content = {
       id: "3ae",
       type: "Map Service",
@@ -48,14 +58,17 @@ describe("fetchEnrichments", () => {
       // don't try to fetch the other enrichments:
       groupIds: [],
       data: {},
-      // TODO: remove this and test that layers were fetched
-      // once https://github.com/Esri/arcgis-rest-js/issues/874 is resolved
-      layers: [],
       metadata: null,
     } as IHubContent;
     const props = await fetchEnrichments(content);
+    const layers = [layer, table];
     expect(getServiceSpy.calls.count()).toBe(1);
-    expect(props).toEqual({ server, errors: [] });
+    expect(getAllLayersAndTablesSpy.calls.count()).toBe(1);
+    expect(props).toEqual({
+      server,
+      layers,
+      errors: [],
+    });
   });
 });
 
