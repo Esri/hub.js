@@ -5,7 +5,11 @@ import {
   getUser,
   IGetUserOptions,
 } from "@esri/arcgis-rest-portal";
-import { IGetLayerOptions, getService } from "@esri/arcgis-rest-feature-layer";
+import {
+  IGetLayerOptions,
+  getService,
+  ILayerDefinition,
+} from "@esri/arcgis-rest-feature-layer";
 import {
   IHubContent,
   IHubRequestOptions,
@@ -16,7 +20,9 @@ import {
   getItemApiUrl,
   getItemDataUrl,
   getItemThumbnailUrl,
+  getLayerIdFromUrl,
   includes,
+  isFeatureService,
 } from "@esri/hub-common";
 import { getContentMetadata } from "./metadata";
 
@@ -54,6 +60,35 @@ const getAllLayersAndTables = (options: IGetLayerOptions) => {
   return restRequest(layersUrl, requestOptions);
 };
 /** end move to rest-js */
+
+// TODO: move to common/utils
+const isNil = (value: unknown) => value == null;
+
+const getLayer = (content: IHubContent, layerId?: number) => {
+  const { url, layers } = content;
+  const idFromUrl = getLayerIdFromUrl(url);
+  // NOTE: if the URL points to the layer itself, we _always_ use that layer
+  const id = idFromUrl ? parseInt(idFromUrl, 10) : layerId;
+  return layers && !isNil(id)
+    ? layers.find((layer) => layer.id === id)
+    : // for feature servers with a single layer always show the layer
+      isFeatureService(content.type) && getOnlyQueryLayer(layers);
+};
+
+const getOnlyQueryLayer = (layers: ILayerDefinition[]) => {
+  const layer = layers.length === 1 && layers[0];
+  return layer && layer.capabilities.includes("Query") && layer;
+};
+
+const shouldUseLayerInfo = (content: IHubContent) => {
+  return (
+    content.layer &&
+    content.layers &&
+    content.layers.length > 1 &&
+    // we use item info instead of layer info for single layer items
+    !getLayerIdFromUrl(content.url)
+  );
+};
 
 interface IMetadataPaths {
   updateFrequency: string;
@@ -323,7 +358,7 @@ const fetchLayers = (
   return (
     getAllLayersAndTables(options)
       // merge layers and tables into a single array
-      // TODO: filter out any group layers
+      // TODO: filter out any group layers ("type": "Group Layer")
       .then((response) => [...response.layers, ...response.tables])
   );
 };
@@ -444,6 +479,9 @@ export interface IFetchEnrichmentOptions extends IHubRequestOptions {
   enrichments?: string[];
 }
 
+export interface IEnrichContentOptions extends IFetchEnrichmentOptions {
+  layerId?: number;
+}
 /**
  * Fetch either the missing or specified enrichments for a given content.
  * Any errors from failed requests will be included in the errors array.
@@ -506,7 +544,7 @@ export const fetchEnrichments = (
  */
 export const enrichContent = (
   content: IHubContent,
-  requestOptions?: IFetchEnrichmentOptions
+  requestOptions?: IEnrichContentOptions
 ) => {
   // get enriched portal urls
   const portalUrls = getPortalUrls(content, requestOptions);
@@ -522,8 +560,43 @@ export const enrichContent = (
         // include any previous errors (if any)
         errors: [...serverErrors, ...enrichments.errors],
       };
-      // return the content with enriched dates
-      return _enrichDates(merged);
+      // enrich dates now that we have metadata (if any)
+      const enriched = _enrichDates(merged);
+      // if this is a layer (type: Feature Layer, Table, Raster Layer)
+      // or a feature or map service and caller has supplied a layer id
+      // we want the content to represent the layer instead of the service
+      return getLayerContent(enriched, requestOptions.layerId) || enriched;
     }
   );
+};
+
+/**
+ * create a new content with a layer
+ * that prefers the layer properties over item properties
+ * @param content service or layer content
+ * @param layerId id of the layer
+ * @returns a new content
+ */
+export const getLayerContent = (
+  content: IHubContent,
+  layerId?: number
+): IHubContent => {
+  const layer = getLayer(content, layerId);
+  if (!layer) {
+    return;
+  }
+  const { type, name, description } = layer;
+  const layerContent = { ...content, layer, type };
+  if (shouldUseLayerInfo(layerContent)) {
+    // NOTE: composer updated dataset name and description
+    // but b/c the layer enrichments now happen _after_ datasetToContent()
+    // we have to update the derived properties (title and summary) instead
+    layerContent.title = name;
+    if (description) {
+      layerContent.description = description;
+      layerContent.summary = description;
+    }
+    layerContent.url = `${parseServiceUrl(content.url)}/${layer.id}`;
+  }
+  return layerContent;
 };

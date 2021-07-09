@@ -8,6 +8,8 @@ import {
   parseISODateString,
   enrichContent,
   IFetchEnrichmentOptions,
+  IEnrichContentOptions,
+  getLayerContent,
 } from "../src/enrichments";
 
 describe("fetchEnrichments", () => {
@@ -70,7 +72,7 @@ describe("enrichContent", () => {
       typeKeywords: ["ArcGIS Hub"],
       // missing groupIds, data, and metadata would trigger other fetches
     } as IHubContent;
-    const requestOptions: IFetchEnrichmentOptions = {
+    const requestOptions: IEnrichContentOptions = {
       isPortal: false,
       enrichments: [],
       hubApiUrl: "https://some.url.com/",
@@ -82,6 +84,99 @@ describe("enrichContent", () => {
     expect(getItemGroupsSpy).not.toHaveBeenCalled();
     expect(getContentMetadataSpy).not.toHaveBeenCalled();
     expect(enriched.errors).toEqual([]);
+  });
+});
+
+describe("getLayerContent", () => {
+  const layers = [
+    {
+      id: 0,
+      name: "layer0",
+      type: "Feature Layer",
+      description: "Layer description",
+      capabilities: "Query",
+    },
+    {
+      id: 1,
+      name: "layer1",
+      type: "Feature Layer",
+      description: "",
+      capabilities: "Query",
+    },
+    {
+      id: 2,
+      name: "table2",
+      type: "Table",
+      description: "",
+      capabilities: "Query",
+    },
+  ] as Array<Partial<arcgisRestFeatureLayer.ILayerDefinition>>;
+  it("multi-layer feature service w/ layerId", () => {
+    const content = {
+      id: "3ae",
+      type: "Feature Service",
+      title: "Item Title",
+      description: "Item description",
+      summary: "Item snippet",
+      layers,
+      url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/LocalGovernment/Recreation/FeatureServer",
+    } as IHubContent;
+    let layerId = 0;
+    let layerContent = getLayerContent(content, layerId);
+    let layer = layers[0];
+    expect(layerContent.layer).toEqual(layer, "should set layer");
+    expect(layerContent.title).toEqual(layer.name, "should set title");
+    expect(layerContent.description).toEqual(
+      layer.description,
+      "should set description"
+    );
+    expect(layerContent.summary).toEqual(
+      layer.description,
+      "should set summary"
+    );
+    expect(layerContent.url).toEqual(
+      `${content.url}/${layerId}`,
+      "should set url"
+    );
+    // layer w/ no description
+    layerId = 1;
+    layerContent = getLayerContent(content, layerId);
+    layer = layers[1];
+    expect(layerContent.layer).toEqual(layer, "should set layer");
+    expect(layerContent.title).toEqual(layer.name, "should set title");
+    expect(layerContent.description).toEqual(
+      content.description,
+      "should set description"
+    );
+    expect(layerContent.summary).toEqual(content.summary, "should set summary");
+    expect(layerContent.url).toEqual(
+      `${content.url}/${layerId}`,
+      "should set url"
+    );
+  });
+  it("single-layer feature service w/o layerId", () => {
+    const layer = layers[0];
+    const content = {
+      id: "3ae",
+      type: "Feature Service",
+      title: "Item Title",
+      description: "Item description",
+      summary: "Item snippet",
+      layers: [layer],
+      url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/LocalGovernment/Recreation/FeatureServer",
+    } as IHubContent;
+    const layerContent = getLayerContent(content);
+    expect(layerContent.layer).toEqual(layer, "should set layer");
+    expect(layerContent.title).toEqual(content.title, "should not set title");
+    expect(layerContent.description).toEqual(
+      content.description,
+      "should not set description"
+    );
+    expect(layerContent.summary).toEqual(
+      content.summary,
+      "should not set summary"
+    );
+    expect(layerContent.url).toEqual(content.url, "should not set url");
   });
 });
 
