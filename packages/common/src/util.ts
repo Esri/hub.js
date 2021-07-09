@@ -88,7 +88,7 @@ export function findBy(arr: any[], prop: string, value: any) {
  * @returns {any[]} Array without the value
  */
 export function without(arr: any[], value: any): any[] {
-  const res = arr.filter(entry => entry !== value);
+  const res = arr.filter((entry) => entry !== value);
   return res;
 }
 
@@ -97,7 +97,11 @@ export function without(arr: any[], value: any): any[] {
  * adapted from: https://github.com/stoeffel/compose-function/blob/master/module/index.js
  */
 export function compose(...fns: any[]): any {
-  return fns.reduce((f, g) => (...args: any[]) => f(g(...args)));
+  return fns.reduce(
+    (f, g) =>
+      (...args: any[]) =>
+        f(g(...args))
+  );
 }
 
 /**
@@ -108,9 +112,7 @@ export function compose(...fns: any[]): any {
 export function createId(prefix: string = "i"): string {
   // prepend some char so it's always a valid dotable property name
   // get a random number, convert to base 36 representation, then grab chars 2-8
-  return `${prefix}${Math.random()
-    .toString(36)
-    .substr(2, 8)}`;
+  return `${prefix}${Math.random().toString(36).substr(2, 8)}`;
 }
 
 /**
@@ -249,10 +251,10 @@ export function camelize(value: string): string {
   const STRING_CAMELIZE_REGEXP_2 = /(^|\/)([A-Z])/g;
 
   return value
-    .replace(STRING_CAMELIZE_REGEXP_1, function(match, separator, chr) {
+    .replace(STRING_CAMELIZE_REGEXP_1, function (match, separator, chr) {
       return chr ? chr.toUpperCase() : "";
     })
-    .replace(STRING_CAMELIZE_REGEXP_2, function(match, separator, chr) {
+    .replace(STRING_CAMELIZE_REGEXP_2, function (match, separator, chr) {
       return match.toLowerCase();
     });
 }
@@ -317,7 +319,7 @@ export function last<T>(arr: T[]): T {
  * @return {*}  {T[]}
  */
 export function filterBy<T>(arr: T[], prop: string, val: unknown): T[] {
-  return arr.filter(entry => getProp(entry, prop) === val);
+  return arr.filter((entry) => getProp(entry, prop) === val);
 }
 
 /**
@@ -386,3 +388,10 @@ export function chunkArray(arr: any[], size: number) {
   }
   return results;
 }
+
+/**
+ * Determine if a value is null or undefined
+ * @param value anything
+ * @returns
+ */
+export const isNil = (value: unknown) => value == null;
