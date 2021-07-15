@@ -5,7 +5,7 @@ Guide for Hub team on how to work with Hub.js
 We want to extract business logic from the Ember app, and move it into a strongly typed, highly-tested set of packages so we are able to...
 
 - streamline the logic in the app itself
-  - single hub.js call, vs orchestrating a dozen rest-js calls
+  - single Hub.js call, vs orchestrating a dozen rest-js calls
 - provide a set of libraries for "automating" hub
 - leverage the same logic in Hub Stencil components that can be used outside of the application
 - encapsulate the same logic in a REST API (long-term)
@@ -23,9 +23,9 @@ This should be the dominant workflow from July 2021 forward.
 - add util to the `hub-components` repo, where you write function in typescript
 - use Storybook to verify the function and the component work as you want them to
 - add the function to the appropritate package in Hub.js and add tests
-- open Hub.hs PR, get it approved & merged
+- open Hub.js PR, get it approved & merged
 - cut a release (see Releasing section below)
-- bump hub.js version in `hub-components` and install
+- bump Hub.js version in `hub-components` and install
 - re-verify component operates as expected
 - PR to `hub-components`, merge, release, consume component in Hub Ember app
 
@@ -39,9 +39,9 @@ This is the pre-July 2021 workflow [More details here](https://github.com/ArcGIS
 - get it working the way you need it to
 - PR feature into Hub app repo
 - add the function to the appropritate package in Hub.js and add tests
-- open Hub.hs PR, get it approved & merged
+- open Hub.js PR, get it approved & merged
 - cut a release (see Releasing section below)
-- bump hub.js version in Hub App and install
+- bump Hub.js version in Hub App and install
 - remove utility function(s)
 - import functions from Hub.js package
 - re-verify component/route/controller operates as expected
@@ -49,12 +49,12 @@ This is the pre-July 2021 workflow [More details here](https://github.com/ArcGIS
 
 ## Small changes to a Function in Hub.js
 
-The easiest thing to do is edit the function in the hub.js package, under `node_modules`. You can then verify it within the ember app, and when its working...
+The easiest thing to do is edit the function in the Hub.js package, under `node_modules`. You can then verify it within the ember app, and when its working...
 
 - add/update the function to the appropritate package in Hub.js and add tests
 - open Hub.hs PR, get it approved & merged
 - cut a release (see Releasing section below)
-- bump hub.js version in Hub App and `yarn` to install
+- bump Hub.js version in Hub App and `yarn` to install
 - verify things work
 - PR to Hub App to bump Hub.js package version
 
