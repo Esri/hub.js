@@ -39,7 +39,7 @@ This is the pre-July 2021 workflow [More details here](https://github.com/ArcGIS
 - get it working the way you need it to
 - PR feature into Hub app repo
 - add the function to the appropritate package in Hub.js and add tests
-- open Hub.hs PR, get it approved & merged
+- open Hub.js PR, get it approved & merged
 - cut a release (see Releasing section below)
 - bump Hub.js version in Hub App and install
 - remove utility function(s)
