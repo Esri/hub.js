@@ -42,7 +42,7 @@ export async function processAutoAddUsers(
   if (shouldEmail) {
     emailResponse = await processEmailUsers(context);
     // merge errors in to overall errors array to keep things flat
-    if (emailResponse.errors) {
+    if (emailResponse.errors && emailResponse.errors.length > 0) {
       errors = errors.concat(emailResponse.errors);
     }
   }
