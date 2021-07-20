@@ -62,7 +62,7 @@ export function apiRequest<T>(
     method: options.httpMethod || "GET",
     mode: options.mode,
     cache: options.cache,
-    credentials: options.credentials,
+    credentials: options.credentials
   };
 
   // NOTE: this should default to the prod url once deployed and microservice root URLs
@@ -80,12 +80,12 @@ export function apiRequest<T>(
   }
 
   const url = [apiBase.replace(/\/$/, ""), route.replace(/^\//, "")].join("/");
-  return fetch(url, opts).then((res) => {
+  return fetch(url, opts).then(res => {
     if (res.ok) {
       return res.json();
     } else {
       const { statusText, status } = res;
-      return res.json().then((err) => {
+      return res.json().then(err => {
         throw new RemoteServerError(
           statusText,
           url,
