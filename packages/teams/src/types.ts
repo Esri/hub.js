@@ -1,4 +1,9 @@
-import { IGroup } from "@esri/arcgis-rest-types";
+import {
+  ArcGISRequestError,
+  IAuthenticationManager,
+} from "@esri/arcgis-rest-request";
+import { IGroup, IUser } from "@esri/arcgis-rest-types";
+import { IEmail } from "@esri/hub-common";
 
 export type AGOAccess = "public" | "org" | "private";
 
@@ -43,6 +48,64 @@ export interface IPrivPropValues {
   value: string;
 }
 
+export interface ITeamStatus {
+  id: string;
+  isOk: boolean;
+  isMissing: boolean;
+  isBroken: boolean;
+  canFix: boolean;
+  isMember: boolean;
+}
+
+export interface ITeamsStatus {
+  core: ITeamStatus;
+  content: ITeamStatus;
+  followers: ITeamStatus;
+}
+
+export interface IUserModalObject extends IUser {
+  modelType?: string;
+}
+
+export interface IUserOrgRelationship {
+  world: IUserModalObject[];
+  org: IUserModalObject[];
+  community: IUserModalObject[];
+  // partnered: IUserModalObject[]
+}
+
+export interface IAddOrInviteResponse {
+  users: string[];
+  errors: ArcGISRequestError[];
+  notAdded: string[];
+  notInvited: string[];
+  notEmailed: string[];
+}
+
+export interface IAddOrInviteEmail {
+  message: IEmail;
+  auth: IAuthenticationManager;
+}
+
+export interface IAddOrInviteContext extends IUserOrgRelationship {
+  groupId: string;
+  primaryRO: IAuthenticationManager;
+  allUsers: IUserModalObject[];
+  canAutoAddUser: boolean;
+  asAdmin: boolean;
+  email: IAddOrInviteEmail;
+}
+
+export interface IAddOrInviteToTeamResult {
+  errors: ArcGISRequestError[];
+  notAdded: string[];
+  notInvited: string[];
+  notEmailed: string[];
+  community: IAddOrInviteResponse;
+  org: IAddOrInviteResponse;
+  world: IAddOrInviteResponse;
+}
+
 /**
  * Enum of the types of teams that the teams service supports
  */
@@ -51,5 +114,5 @@ export const TEAMTYPES = [
   "content",
   "followers",
   "team",
-  "event"
+  "event",
 ] as const;
