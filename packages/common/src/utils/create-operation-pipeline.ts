@@ -36,7 +36,6 @@ export type PipelineFn<T> = (value: IPipeable<T>) => Promise<IPipeable<T>>;
 export const createOperationPipeline =
   <T>(fns: Array<PipelineFn<T>>) =>
   (input: IPipeable<T>): Promise<IPipeable<T>> => {
-    const stack = input.stack;
     return fns.reduce((chain, func) => {
       return chain.then(func).catch((err) => {
         // if it's an OperationError we can just reject with it...
