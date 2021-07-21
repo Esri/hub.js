@@ -5,6 +5,16 @@ import {
 } from "@esri/arcgis-rest-portal";
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
 
+/**
+ * @private
+ * Auto add N users to a single group, with users added as admins
+ *
+ * @export
+ * @param {string} id Group ID
+ * @param {IUser[]} admins array of users to add to group as admin
+ * @param {IAuthenticationManager} authentication authentication manager
+ * @return {IAddGroupUsersResult} Result of the transaction (null if no users are passed in)
+ */
 export function autoAddUsersAsAdmins(
   id: string,
   admins: IUser[],

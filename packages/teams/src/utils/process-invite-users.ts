@@ -3,10 +3,20 @@ import { IUser } from "@esri/arcgis-rest-types";
 import { getProp, inviteUsers } from "@esri/hub-common";
 import { IAddOrInviteContext, IAddOrInviteResponse } from "../types";
 
+/**
+ * @private
+ * Process invite of users
+ *
+ * @export
+ * @param {IAddOrInviteContext} context context object
+ * @param {string} userType what type of user is it: org | world | community
+ * @return {IAddOrInviteResponse} response object
+ */
 export async function processInviteUsers(
   context: IAddOrInviteContext,
   userType: string
 ): Promise<IAddOrInviteResponse> {
+  // Fetch users out of context based on userType
   const users: IUser[] = getProp(context, userType);
   const notInvited: string[] = [];
   let errors: ArcGISRequestError[] = [];
@@ -14,6 +24,7 @@ export async function processInviteUsers(
   // batch invites will only respond with success: true/false
   // and if there is an error then it gets priority even though successes do still go through
   for (const user of users) {
+    // Invite users call
     const inviteResponse = await inviteUsers(
       getProp(context, "groupId"),
       [user],
@@ -31,6 +42,9 @@ export async function processInviteUsers(
       }
     }
   }
+  // if you leave out any of the props
+  // from the final object and you are concatting together arrays you can concat
+  // an undeifined inside an array which will throw off array lengths.
   return {
     users: users.map((u) => u.username),
     notInvited,

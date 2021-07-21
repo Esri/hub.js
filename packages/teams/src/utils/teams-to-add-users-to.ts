@@ -15,6 +15,7 @@ export function teamsToAddUsersTo(
 ): string[] {
   // If it's a core team && we have the teamsStatus
   if (isCoreTeam && teamsStatus) {
+    // Array<keyof etc is needed due to bracket notation to prevent TS from throwing a wobbly
     (["content", "followers"] as Array<keyof ITeamsStatus>).forEach(
       (teamProp) => {
         if (teamsStatus[teamProp] && teamsStatus[teamProp].isOk) {

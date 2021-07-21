@@ -3,9 +3,19 @@ import { IUser } from "@esri/arcgis-rest-types";
 import { getProp, emailOrgUsers } from "@esri/hub-common";
 import { IAddOrInviteContext, IAddOrInviteResponse } from "../types";
 
+/**
+ * @private
+ * Processes the emailing of users
+ *
+ * @export
+ * @param {IAddOrInviteContext} context context object
+ * @return {IAddOrInviteResponse} response object
+ */
 export async function processEmailUsers(
   context: IAddOrInviteContext
 ): Promise<IAddOrInviteResponse> {
+  // Fetch users out of context. We only email community users so we are
+  // explicit about that
   const users: IUser[] = getProp(context, "community");
   const notEmailed: string[] = [];
   let errors: ArcGISRequestError[] = [];
@@ -13,6 +23,7 @@ export async function processEmailUsers(
   // batch email will only respond with success: true/false
   // and if there is an error then it gets priority even though successes do still go through
   for (const user of users) {
+    // Make email call...
     const emailResponse = await emailOrgUsers(
       [user],
       getProp(context, "email.message"),
@@ -31,6 +42,9 @@ export async function processEmailUsers(
       }
     }
   }
+  // if you leave out any of the props
+  // from the final object and you are concatting together arrays you can concat
+  // an undeifined inside an array which will throw off array lengths.
   return {
     users: users.map((u) => u.username),
     notEmailed,

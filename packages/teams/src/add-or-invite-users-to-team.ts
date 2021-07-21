@@ -13,24 +13,36 @@ import {
   groupUsersByOrgRelationship,
 } from "./utils";
 
+/**
+ * Add or invite N users to a single team
+ *
+ * @export
+ * @param {string} groupId Group we are adding users to
+ * @param {IUserModalObject[]} users array of users to add
+ * @param {IAuthenticationManager} primaryRO primary requestOptions
+ * @param {boolean} canAutoAddUser Can we automatically add a user to the team?
+ * @param {boolean} addUserAsGroupAdmin Should the user be added as a group administrator
+ * @param {IAddOrInviteEmail} email Email object
+ * @return {IAddOrInviteToTeamResult} Result object
+ */
 export async function addOrInviteUsersToTeam(
   groupId: string,
   users: IUserModalObject[],
   primaryRO: IAuthenticationManager,
   canAutoAddUser: boolean,
-  asAdmin: boolean,
+  addUserAsGroupAdmin: boolean,
   email: IAddOrInviteEmail
 ): Promise<IAddOrInviteToTeamResult> {
   // Group users by their org relationship
   const parsedUsers: IUserOrgRelationship = groupUsersByOrgRelationship(users);
-  // build up params
+  // build up params for the context
   const inputParams = {
-    groupId, // needed for all the things
-    primaryRO, // also needed for all the requests
-    allUsers: users, // all users
-    canAutoAddUser, // can the user be auto added rather than invited
-    asAdmin, // Should they be elevated to admin...
-    email, // either email message / auth obj or undefined
+    groupId, // The group ID that the users shall be added/invited to.
+    primaryRO, // requestOptions required to auth for all the various add/invite logic except email
+    allUsers: users, // All users.
+    canAutoAddUser, // can the user be automatically added to the group rather than just invited?
+    addUserAsGroupAdmin, // Should they be added to the group as a group Admin vs a normal group member
+    email, // Either undefined or an object that contains both message/subject of the email and the auth for the email request
   };
   // create context from params and parsed users
   const context: IAddOrInviteContext = Object.assign(inputParams, parsedUsers);

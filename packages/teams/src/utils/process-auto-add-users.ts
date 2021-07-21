@@ -1,32 +1,46 @@
 import { ArcGISRequestError } from "@esri/arcgis-rest-request";
+import { IUser } from "@esri/arcgis-rest-types";
 import { autoAddUsers, getProp } from "@esri/hub-common";
 import { IAddOrInviteContext, IAddOrInviteResponse } from "../types";
 import { autoAddUsersAsAdmins } from "./auto-add-users-as-admins";
 import { processEmailUsers } from "./process-email-users";
 
+/**
+ * @private
+ * Processing automatically adding users logic
+ *
+ * @export
+ * @param {IAddOrInviteContext} context context object
+ * @param {string} userType what type of user is it: org | world | community
+ * @param {boolean} [shouldEmail=false] should the user be emailed?
+ * @return {IAddOrInviteResponse} response object
+ */
 export async function processAutoAddUsers(
   context: IAddOrInviteContext,
   userType: string,
   shouldEmail: boolean = false
 ): Promise<IAddOrInviteResponse> {
+  // fetch users out of context object
+  const users: IUser[] = getProp(context, userType);
   let autoAddResponse;
   let emailResponse;
   let notAdded: string[] = [];
   let errors: ArcGISRequestError[] = [];
-  const { asAdmin } = context;
+  // fetch addUserAsGroupAdmin out of context
+  const { addUserAsGroupAdmin } = context;
 
-  if (asAdmin) {
+  if (addUserAsGroupAdmin) {
     // if is core team we elevate user to admin
     autoAddResponse = await autoAddUsersAsAdmins(
       getProp(context, "groupId"),
-      getProp(context, userType),
+      users,
       getProp(context, "primaryRO")
     );
   } else {
     // if not then we are just auto adding them
     autoAddResponse = await autoAddUsers(
       getProp(context, "groupId"),
-      getProp(context, userType),
+      users,
       getProp(context, "primaryRO")
     );
   }
@@ -46,8 +60,11 @@ export async function processAutoAddUsers(
       errors = errors.concat(emailResponse.errors);
     }
   }
+  // if you leave out any of the props
+  // from the final object and you are concatting together arrays you can concat
+  // an undeifined inside an array which will throw off array lengths.
   return {
-    users: getProp(context, userType),
+    users: users.map(u => u.username),
     notAdded,
     errors,
     notEmailed: emailResponse?.notEmailed || [],
