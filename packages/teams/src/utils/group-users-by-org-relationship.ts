@@ -1,4 +1,3 @@
-import { IUser } from "@esri/arcgis-rest-types";
 import { IUserOrgRelationship, IUserWithOrgType } from "../types";
 
 /**
@@ -15,8 +14,8 @@ export function groupUsersByOrgRelationship(
   return users.reduce(
     (acc, user) => {
       // keyof needed to make bracket notation work without TS throwing a wobbly.
-      const modelType = user.orgType as keyof IUserOrgRelationship;
-      acc[modelType].push(user);
+      const orgType = user.orgType as keyof IUserOrgRelationship;
+      acc[orgType].push(user);
       return acc;
     },
     { world: [], org: [], community: [], partnered: [] }

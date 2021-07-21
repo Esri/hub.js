@@ -17,7 +17,7 @@ import { processEmailUsers } from "./process-email-users";
  */
 export async function processAutoAddUsers(
   context: IAddOrInviteContext,
-  userType: string,
+  userType: "world" | "org" | "community",
   shouldEmail: boolean = false
 ): Promise<IAddOrInviteResponse> {
   // fetch users out of context object
