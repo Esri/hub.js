@@ -13,6 +13,7 @@ import {
  * addOrInviteUsersToTeams adds/invites N users to N teams
  * Initial entry point function for add/invite members flow
  * when dealing with multiple teams.
+ * Responses from each group are then consolidated into the final returned object.
  *
  * @export
  * @param {string[]} groupIds array of groups we are adding users to

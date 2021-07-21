@@ -5,7 +5,11 @@ import { IAddOrInviteContext, IAddOrInviteResponse } from "../types";
 
 /**
  * @private
- * Processes the emailing of users
+ * Governs the logic for emailing N users. It acts under the assumption
+ * that all the 'community' users are the ones being emailed (this is due to platform rules we conform to)
+ * Function is called upstream depending on if an email object is attached to the context.
+ * Email object contains its own auth as it'll require the community admin to send the email itself.
+ * An individual email call goes out for each user due to how the response of multiple users in a single call works.
  *
  * @export
  * @param {IAddOrInviteContext} context context object

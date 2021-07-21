@@ -7,7 +7,7 @@ import { IAuthenticationManager } from "@esri/arcgis-rest-request";
 
 /**
  * @private
- * Auto add N users to a single group, with users added as admins
+ * Auto add N users to a single group, with users added as admins of that group
  *
  * @export
  * @param {string} id Group ID

@@ -15,6 +15,9 @@ import {
 
 /**
  * Add or invite N users to a single team
+ * Org|community|world logic flows are run even if there are no users applicable for that particular path.
+ * Results from each path are consolidated and surfaced in the return object as failures and errors are of
+ * more importance than successes.
  *
  * @export
  * @param {string} groupId Group we are adding users to

@@ -3,6 +3,7 @@ import { IUserOrgRelationship, IUserWithOrgType } from "../types";
 /**
  * @private
  * Takes users array and sorts them into an object by the type of user they are
+ * based on the orgType prop (world|org|community)
  *
  * @export
  * @param {IUserWithOrgType[]} users array of users

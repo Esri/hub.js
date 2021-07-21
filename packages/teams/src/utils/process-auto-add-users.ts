@@ -7,7 +7,10 @@ import { processEmailUsers } from "./process-email-users";
 
 /**
  * @private
- * Processing automatically adding users logic
+ * Governs logic for automatically adding N users to a group.
+ * Users are added as either a regular user OR as an administrator of the group
+ * depending on the addUserAsGroupAdmin prop on the IAddOrInviteContext.
+ * If there is an email object on the IAddOrInviteContext, then email notifications are sent.
  *
  * @export
  * @param {IAddOrInviteContext} context context object

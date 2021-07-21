@@ -5,7 +5,9 @@ import { IAddOrInviteContext, IAddOrInviteResponse } from "../types";
 
 /**
  * @private
- * Process invite of users
+ * Governs the logic for inviting N users to a single group.
+ * An individual invite call goes out for each user and the results are consolidated.
+ * See comment in function about the for...of loop which explains reasoning.
  *
  * @export
  * @param {IAddOrInviteContext} context context object
