@@ -17,9 +17,8 @@ export interface IPipeable<Type> {
 export type PipelineFn<T> = (value: IPipeable<T>) => Promise<IPipeable<T>>;
 
 /**
- * createOperationPipeline
- *
  * Returns a function that orchestrates a pipeline of smaller functions.
+ * See [Composing Workflows](../../../guides/composing-workflows) for more information.
  *
  * All the functions must adhere to the `PipelineFn<T>` signature:
  *
@@ -28,9 +27,9 @@ export type PipelineFn<T> = (value: IPipeable<T>) => Promise<IPipeable<T>>;
  * Given an array of OperationPipeFns, run them in sequence and return the resultant promise
  *
  * i.e. `createOperationPipeline([fn1, fn2, f3])` will return in a function that chains
- * the functions like this: `fn1(input).then(fn2).then(fn3)).then(result)`
+ * the functions like this: `fn1(input).then(fn2).then(fn3).then(result)`
  *
- * @param fns functions to be run in sequence. Nested arrays are run in parallel
+ * @param fns functions to be run in sequence
  * @returns Promise<Pipable<T>>
  */
 export const createOperationPipeline =
