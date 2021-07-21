@@ -1,8 +1,9 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { getHubApiUrl, getProp } from "@esri/hub-common";
+import { getHubApiUrl, getProp, IHubRequestOptions } from "@esri/hub-common";
 import { IItem, ISearchOptions, ISearchResult } from "@esri/arcgis-rest-portal";
 import { searchItems } from "@esri/arcgis-rest-portal";
 import {
+  IContentSearchOptions,
   IContentSearchRequest,
   IContentSearchResponse
 } from "../types/content";
@@ -76,6 +77,18 @@ export class ContentSearchService
   }
 }
 
+function getHubRequestOptions(
+  options: IContentSearchOptions
+): IHubRequestOptions {
+  if (!options) return null;
+
+  return {
+    authentication: options.authentication,
+    isPortal: options.isPortal,
+    hubApiUrl: getHubApiUrl(options.portal)
+  };
+}
+
 /**
  * A standalone function for searching content across the Portal API only or Portal API and the
  * Hub Indexer V3 API.
@@ -89,8 +102,15 @@ export class ContentSearchService
  * ```
  */
 export function searchContent(
-  request: IContentSearchRequest = { filter: {}, options: {} }
+  request: IContentSearchRequest = { filter: {}, options: {} },
+  hubRequestOptions: IHubRequestOptions
 ): Promise<IContentSearchResponse> {
+  const ro = hubRequestOptions
+    ? hubRequestOptions
+    : getHubRequestOptions(request.options);
+
+  // then use RO in lookupDomain, etc
+
   if (getProp(request, "options.isPortal")) {
     return performEnterpriseContentSearch(request);
   }

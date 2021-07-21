@@ -1,5 +1,6 @@
 import { searchItems } from "@esri/arcgis-rest-portal";
-import { IHubRequestOptions, includes } from "@esri/hub-common";
+import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { includes } from "@esri/hub-common";
 
 /**
  * Lookup a domain in Portal
@@ -9,7 +10,7 @@ import { IHubRequestOptions, includes } from "@esri/hub-common";
  */
 export function _lookupPortal(
   hostname: string,
-  hubRequestOptions: IHubRequestOptions
+  requestOptions: IRequestOptions
 ): Promise<{ hostname: string; siteId: string }> {
   // for portal we search for a site w/ `hubsubdomain|<domain>` type keyword
   let subdomain = hostname;
@@ -23,7 +24,7 @@ export function _lookupPortal(
     {
       q: `typekeywords: ${queryTerm}`
     },
-    hubRequestOptions
+    requestOptions
   );
   return searchItems(opts)
     .then(res => {
