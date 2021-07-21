@@ -17,13 +17,13 @@ describe("processEmailUsers: ", () => {
     const context: IAddOrInviteContext = {
       groupId: "abc123",
       primaryRO: MOCK_AUTH,
-      allUsers: [{ username: "bob" }, { username: "frank" }],
+      allUsers: [{ orgType: "community", username: "bob" }, { orgType: "community", username: "frank" }],
       canAutoAddUser: false,
       addUserAsGroupAdmin: false,
       email: { message: {}, auth: MOCK_AUTH },
       world: [],
       org: [],
-      community: [{ username: "bob" }, { username: "frank" }],
+      community: [{ orgType: "community", username: "bob" }, { orgType: "community", username: "frank" }],
     };
     emailOrgUsersSpy.and.callFake(() => Promise.resolve({ success: true }));
     const result = await processEmailUsers(context);
@@ -37,13 +37,13 @@ describe("processEmailUsers: ", () => {
     const context: IAddOrInviteContext = {
       groupId: "abc123",
       primaryRO: MOCK_AUTH,
-      allUsers: [{ username: "bob" }, { username: "frank" }],
+      allUsers: [{ orgType: "community", username: "bob" }, { orgType: "community", username: "frank" }],
       canAutoAddUser: false,
       addUserAsGroupAdmin: false,
       email: { message: {}, auth: MOCK_AUTH },
       world: [],
       org: [],
-      community: [{ username: "bob" }, { username: "frank" }],
+      community: [{ orgType: "community", username: "bob" }, { orgType: "community", username: "frank" }],
     };
     emailOrgUsersSpy.and.callFake(() => Promise.resolve({ success: false }));
     const result = await processEmailUsers(context);
@@ -57,13 +57,13 @@ describe("processEmailUsers: ", () => {
     const context: IAddOrInviteContext = {
       groupId: "abc123",
       primaryRO: MOCK_AUTH,
-      allUsers: [{ username: "bob" }, { username: "frank" }],
+      allUsers: [{ orgType: "community", username: "bob" }, { orgType: "community", username: "frank" }],
       canAutoAddUser: false,
       addUserAsGroupAdmin: false,
       email: { message: {}, auth: MOCK_AUTH },
       world: [],
       org: [],
-      community: [{ username: "bob" }, { username: "frank" }],
+      community: [{ orgType: "community", username: "bob" }, { orgType: "community", username: "frank" }],
     };
     const error = new ArcGISRequestError("Email not sent");
     emailOrgUsersSpy.and.callFake(() =>

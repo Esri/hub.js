@@ -31,11 +31,11 @@ describe("addOrInviteWorldUsers: ", () => {
     const context: IAddOrInviteContext = {
       groupId: "abc123",
       primaryRO: MOCK_AUTH,
-      allUsers: [{ modelType: "world" }],
+      allUsers: [{ orgType: "world" }],
       canAutoAddUser: false,
       addUserAsGroupAdmin: false,
       email: undefined,
-      world: [{ modelType: "world" }],
+      world: [{ orgType: "world" }],
       org: [],
       community: [],
     };

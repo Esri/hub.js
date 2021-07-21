@@ -32,13 +32,13 @@ describe("addOrInviteCommunityUsers:", () => {
     const context: IAddOrInviteContext = {
       groupId: "abc123",
       primaryRO: MOCK_AUTH,
-      allUsers: [{ modelType: "community" }],
+      allUsers: [{ orgType: "community" }],
       canAutoAddUser: false,
       addUserAsGroupAdmin: false,
       email: { message: {}, auth: MOCK_AUTH },
       world: [],
       org: [],
-      community: [{ modelType: "community" }],
+      community: [{ orgType: "community" }],
     };
     const processAutoAddUsersSpy = spyOn(
       processAutoAddUsersModule,
@@ -54,13 +54,13 @@ describe("addOrInviteCommunityUsers:", () => {
     const context: IAddOrInviteContext = {
       groupId: "abc123",
       primaryRO: MOCK_AUTH,
-      allUsers: [{ modelType: "community" }],
+      allUsers: [{ orgType: "community" }],
       canAutoAddUser: true,
       addUserAsGroupAdmin: false,
       email: undefined,
       world: [],
       org: [],
-      community: [{ modelType: "community" }],
+      community: [{ orgType: "community" }],
     };
     const processAutoAddUsersSpy = spyOn(
       processAutoAddUsersModule,
@@ -76,13 +76,13 @@ describe("addOrInviteCommunityUsers:", () => {
     const context: IAddOrInviteContext = {
       groupId: "abc123",
       primaryRO: MOCK_AUTH,
-      allUsers: [{ modelType: "community" }],
+      allUsers: [{ orgType: "community" }],
       canAutoAddUser: false,
       addUserAsGroupAdmin: false,
       email: undefined,
       world: [],
       org: [],
-      community: [{ modelType: "community" }],
+      community: [{ orgType: "community" }],
     };
     const processInviteUsersSpy = spyOn(
       processInviteUsersModule,

@@ -32,12 +32,12 @@ describe("addOrInviteOrgUsers: ", () => {
     const context: IAddOrInviteContext = {
       groupId: "abc123",
       primaryRO: MOCK_AUTH,
-      allUsers: [{ modelType: "org" }],
+      allUsers: [{ orgType: "org" }],
       canAutoAddUser: true,
       addUserAsGroupAdmin: false,
       email: undefined,
       world: [],
-      org: [{ modelType: "org" }],
+      org: [{ orgType: "org" }],
       community: [],
     };
     const processAutoAddUsersSpy = spyOn(
@@ -54,12 +54,12 @@ describe("addOrInviteOrgUsers: ", () => {
     const context: IAddOrInviteContext = {
       groupId: "abc123",
       primaryRO: MOCK_AUTH,
-      allUsers: [{ modelType: "org" }],
+      allUsers: [{ orgType: "org" }],
       canAutoAddUser: false,
       addUserAsGroupAdmin: false,
       email: undefined,
       world: [],
-      org: [{ modelType: "org" }],
+      org: [{ orgType: "org" }],
       community: [],
     };
     const processInviteUsersSpy = spyOn(

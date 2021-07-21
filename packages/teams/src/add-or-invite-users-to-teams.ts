@@ -6,7 +6,7 @@ import { addOrInviteUsersToTeam } from "./add-or-invite-users-to-team";
 import {
   IAddOrInviteEmail,
   IAddOrInviteToTeamResult,
-  IUserModalObject,
+  IUserWithOrgType,
 } from "./types";
 
 /**
@@ -16,7 +16,7 @@ import {
  *
  * @export
  * @param {string[]} groupIds array of groups we are adding users to
- * @param {IUserModalObject[]} users array of users to add to those teams
+ * @param {IUserWithOrgType[]} users array of users to add to those teams
  * @param {IAuthenticationManager} primaryRO primary requestOptions
  * @param {boolean} [canAutoAddUser=false] Can we automatically add a user to the team?
  * @param {boolean} [addUserAsGroupAdmin=false] Can the user be added to a team as an administrator of that team?
@@ -31,7 +31,7 @@ import {
  */
 export async function addOrInviteUsersToTeams(
   groupIds: string[],
-  users: IUserModalObject[],
+  users: IUserWithOrgType[],
   primaryRO: IAuthenticationManager,
   canAutoAddUser: boolean = false,
   addUserAsGroupAdmin: boolean = false,

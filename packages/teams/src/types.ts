@@ -76,8 +76,8 @@ export interface ITeamsStatus {
  * It extends the IUser interface with an additional property
  * that denotes what org relationship the user might have (world|org|community)
  */
-export interface IUserModalObject extends IUser {
-  modelType?: string;
+export interface IUserWithOrgType extends IUser {
+  orgType: "world" | "org" | "community";
 }
 
 /**
@@ -85,9 +85,9 @@ export interface IUserModalObject extends IUser {
  * Object contains users parsed by their org relationship (world|org|community)
  */
 export interface IUserOrgRelationship {
-  world: IUserModalObject[];
-  org: IUserModalObject[];
-  community: IUserModalObject[];
+  world: IUserWithOrgType[];
+  org: IUserWithOrgType[];
+  community: IUserWithOrgType[];
   // partnered: IUserModalObject[]
 }
 
@@ -118,7 +118,7 @@ export interface IAddOrInviteEmail {
 export interface IAddOrInviteContext extends IUserOrgRelationship {
   groupId: string;
   primaryRO: IAuthenticationManager;
-  allUsers: IUserModalObject[];
+  allUsers: IUserWithOrgType[];
   canAutoAddUser: boolean;
   addUserAsGroupAdmin: boolean;
   email: IAddOrInviteEmail;

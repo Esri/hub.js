@@ -17,13 +17,13 @@ describe("processInviteUsers: ", () => {
     const context: IAddOrInviteContext = {
       groupId: "abc123",
       primaryRO: MOCK_AUTH,
-      allUsers: [{ username: "bob" }, { username: "frank" }],
+      allUsers: [{ orgType: "world", username: "bob" }, { orgType: "world", username: "frank" }, { orgType: "community", username: "bob" }, { orgType: "community", username: "frank" }],
       canAutoAddUser: false,
       addUserAsGroupAdmin: false,
       email: undefined,
-      world: [{ username: "bob" }, { username: "frank" }],
+      world: [{ orgType: "world", username: "bob" }, { orgType: "world", username: "frank" }],
       org: [],
-      community: [{ username: "bob" }, { username: "frank" }],
+      community: [{ orgType: "community", username: "bob" }, { orgType: "community", username: "frank" }],
     };
     inviteUsersSpy.and.callFake(() => Promise.resolve({ success: true }));
     const result = await processInviteUsers(context, "community");
@@ -37,13 +37,13 @@ describe("processInviteUsers: ", () => {
     const context: IAddOrInviteContext = {
       groupId: "abc123",
       primaryRO: MOCK_AUTH,
-      allUsers: [{ username: "bob" }, { username: "frank" }],
+      allUsers: [{ orgType: "world", username: "bob" }, { orgType: "world", username: "frank" }, { orgType: "community", username: "bob" }, { orgType: "community", username: "frank" }],
       canAutoAddUser: false,
       addUserAsGroupAdmin: false,
       email: undefined,
-      world: [{ username: "bob" }, { username: "frank" }],
+      world: [{ orgType: "world", username: "bob" }, { orgType: "world", username: "frank" }],
       org: [],
-      community: [{ username: "bob" }, { username: "frank" }],
+      community: [{ orgType: "community", username: "bob" }, { orgType: "community", username: "frank" }],
     };
     inviteUsersSpy.and.callFake(() => Promise.resolve({ success: false }));
     const result = await processInviteUsers(context, "community");
@@ -57,13 +57,13 @@ describe("processInviteUsers: ", () => {
     const context: IAddOrInviteContext = {
       groupId: "abc123",
       primaryRO: MOCK_AUTH,
-      allUsers: [{ username: "bob" }, { username: "frank" }],
+      allUsers: [{ orgType: "community", username: "bob" }, { orgType: "community", username: "frank" }, { orgType: "world", username: "bob" }, { orgType: "world", username: "frank" }],
       canAutoAddUser: false,
       addUserAsGroupAdmin: false,
       email: undefined,
-      world: [{ username: "bob" }, { username: "frank" }],
+      world: [{ orgType: "world", username: "bob" }, { orgType: "world", username: "frank" }],
       org: [],
-      community: [{ username: "bob" }, { username: "frank" }],
+      community: [{ orgType: "community", username: "bob" }, { orgType: "community", username: "frank" }],
     };
     const error = new ArcGISRequestError("Email not sent");
     inviteUsersSpy.and.callFake(() =>

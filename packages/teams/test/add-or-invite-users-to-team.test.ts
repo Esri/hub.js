@@ -1,7 +1,7 @@
 import { addOrInviteUsersToTeam } from "../src/add-or-invite-users-to-team";
 import { MOCK_AUTH } from "./fixtures";
 import { ArcGISRequestError } from "@esri/arcgis-rest-request";
-import { IAddOrInviteResponse } from "../src/types";
+import { IAddOrInviteResponse, IUserWithOrgType } from "../src/types";
 import * as utilsModule from "../src/utils";
 
 describe("addOrInviteUsersToTeam: ", () => {
@@ -25,13 +25,13 @@ describe("addOrInviteUsersToTeam: ", () => {
   });
 
   it("all works...", async () => {
-    const users = [
-      { modelType: "world", username: "bob" },
-      { modelType: "world", username: "bobb" },
-      { modelType: "world", username: "bobbb" },
-      { modelType: "org", username: "frank" },
-      { modelType: "org", username: "frankk" },
-      { modelType: "community", username: "dobby" },
+    const users: IUserWithOrgType[] = [
+      { orgType: "world", username: "bob" },
+      { orgType: "world", username: "bobb" },
+      { orgType: "world", username: "bobbb" },
+      { orgType: "org", username: "frank" },
+      { orgType: "org", username: "frankk" },
+      { orgType: "community", username: "dobby" },
     ];
     const error = new ArcGISRequestError("error in addOrInviteUsersToTeam");
     addOrInviteCommunityUsersSpy.and.callFake(() => {

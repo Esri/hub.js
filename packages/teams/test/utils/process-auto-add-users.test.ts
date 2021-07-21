@@ -29,12 +29,12 @@ describe("processAutoAddUsers: ", () => {
     const context: IAddOrInviteContext = {
       groupId: "abc123",
       primaryRO: MOCK_AUTH,
-      allUsers: [{ username: "bob" }, { username: "frank" }],
+      allUsers: [{ orgType: "org", username: "bob" }, { orgType: "org", username: "frank" }],
       canAutoAddUser: false,
       addUserAsGroupAdmin: true,
       email: undefined,
       world: [],
-      org: [{ username: "bob" }, { username: "frank" }],
+      org: [{ orgType: "org", username: "bob" }, { orgType: "org", username: "frank" }],
       community: [],
     };
     autoAddUsersSpy.and.callFake(() => Promise.resolve({ success: true }));
@@ -53,12 +53,12 @@ describe("processAutoAddUsers: ", () => {
     const context: IAddOrInviteContext = {
       groupId: "abc123",
       primaryRO: MOCK_AUTH,
-      allUsers: [{ username: "bob" }, { username: "frank" }],
+      allUsers: [{ orgType: "org", username: "bob" }, { orgType: "org", username: "frank" }],
       canAutoAddUser: false,
       addUserAsGroupAdmin: false,
       email: undefined,
       world: [],
-      org: [{ username: "bob" }, { username: "frank" }],
+      org: [{ orgType: "org", username: "bob" }, { orgType: "org", username: "frank" }],
       community: [],
     };
     autoAddUsersSpy.and.callFake(() => Promise.resolve({ success: true }));
@@ -77,12 +77,12 @@ describe("processAutoAddUsers: ", () => {
     const context: IAddOrInviteContext = {
       groupId: "abc123",
       primaryRO: MOCK_AUTH,
-      allUsers: [{ username: "bob" }, { username: "frank" }],
+      allUsers: [{ orgType: "org", username: "bob" }, { orgType: "org", username: "frank" }],
       canAutoAddUser: false,
       addUserAsGroupAdmin: false,
       email: { message: {}, auth: MOCK_AUTH },
       world: [],
-      org: [{ username: "bob" }, { username: "frank" }],
+      org: [{ orgType: "org", username: "bob" }, { orgType: "org", username: "frank" }],
       community: [],
     };
     autoAddUsersSpy.and.callFake(() => Promise.resolve({ success: true }));
@@ -112,12 +112,12 @@ describe("processAutoAddUsers: ", () => {
     const context: IAddOrInviteContext = {
       groupId: "abc123",
       primaryRO: MOCK_AUTH,
-      allUsers: [{ username: "bob" }, { username: "frank" }],
+      allUsers: [{ orgType: "org", username: "bob" }, { orgType: "org", username: "frank" }],
       canAutoAddUser: false,
       addUserAsGroupAdmin: false,
       email: { message: {}, auth: MOCK_AUTH },
       world: [],
-      org: [{ username: "bob" }, { username: "frank" }],
+      org: [{ orgType: "org", username: "bob" }, { orgType: "org", username: "frank" }],
       community: [],
     };
     const error = new ArcGISRequestError("Email not sent");

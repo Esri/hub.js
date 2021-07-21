@@ -3,7 +3,7 @@ import {
   IAddOrInviteContext,
   IAddOrInviteEmail,
   IAddOrInviteToTeamResult,
-  IUserModalObject,
+  IUserWithOrgType,
   IUserOrgRelationship,
 } from "./types";
 import {
@@ -18,7 +18,7 @@ import {
  *
  * @export
  * @param {string} groupId Group we are adding users to
- * @param {IUserModalObject[]} users array of users to add
+ * @param {IUserWithOrgType[]} users array of users to add
  * @param {IAuthenticationManager} primaryRO primary requestOptions
  * @param {boolean} canAutoAddUser Can we automatically add a user to the team?
  * @param {boolean} addUserAsGroupAdmin Should the user be added as a group administrator
@@ -27,7 +27,7 @@ import {
  */
 export async function addOrInviteUsersToTeam(
   groupId: string,
-  users: IUserModalObject[],
+  users: IUserWithOrgType[],
   primaryRO: IAuthenticationManager,
   canAutoAddUser: boolean,
   addUserAsGroupAdmin: boolean,
