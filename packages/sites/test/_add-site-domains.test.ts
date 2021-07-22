@@ -1,33 +1,33 @@
 import { _addSiteDomains } from "../src";
-import * as domainsModule from "../src/domains";
+import * as commonModule from "@esri/hub-common";
 import { IHubRequestOptions, IModel } from "@esri/hub-common";
 
 describe("_addSiteDomains", () => {
   it("adds site domains", async () => {
-    const addSpy = spyOn(domainsModule, "addDomain").and.returnValue(
+    const addSpy = spyOn(commonModule, "addDomain").and.returnValue(
       Promise.resolve({})
     );
 
-    const model = ({
+    const model = {
       item: {
         id: "123",
-        title: "some-title"
+        title: "some-title",
       },
       data: {
         values: {
           clientId: "clientId",
-          defaultHostname: "default-hostname"
-        }
-      }
-    } as unknown) as IModel;
+          defaultHostname: "default-hostname",
+        },
+      },
+    } as unknown as IModel;
 
-    const ro = ({
+    const ro = {
       portalSelf: {
         id: "org-id",
         name: "portal-name",
-        urlKey: "org-key"
-      }
-    } as unknown) as IHubRequestOptions;
+        urlKey: "org-key",
+      },
+    } as unknown as IHubRequestOptions;
 
     await _addSiteDomains(model, ro);
 
@@ -41,39 +41,39 @@ describe("_addSiteDomains", () => {
         orgKey: ro.portalSelf.urlKey,
         siteId: model.item.id,
         siteTitle: model.item.title,
-        sslOnly: true
+        sslOnly: true,
       },
       "addDomain called correctly"
     );
   });
 
   it("does nothing on portal", async () => {
-    const addSpy = spyOn(domainsModule, "addDomain").and.returnValue(
+    const addSpy = spyOn(commonModule, "addDomain").and.returnValue(
       Promise.resolve({})
     );
 
-    const model = ({
+    const model = {
       item: {
         id: "123",
-        title: "some-title"
+        title: "some-title",
       },
       data: {
         values: {
           clientId: "clientId",
           defaultHostname: "default-hostname",
-          customHostname: "custom-hostname"
-        }
-      }
-    } as unknown) as IModel;
+          customHostname: "custom-hostname",
+        },
+      },
+    } as unknown as IModel;
 
-    const ro = ({
+    const ro = {
       isPortal: true,
       portalSelf: {
         id: "org-id",
         name: "portal-name",
-        urlKey: "org-key"
-      }
-    } as unknown) as IHubRequestOptions;
+        urlKey: "org-key",
+      },
+    } as unknown as IHubRequestOptions;
 
     await _addSiteDomains(model, ro);
 

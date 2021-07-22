@@ -1,5 +1,5 @@
 import { IHubRequestOptions, IModel, getProp } from "@esri/hub-common";
-import { addDomain } from "./domains";
+import { addDomain } from "@esri/hub-common";
 
 /**
  * Given a Site Model, add the required domains.
@@ -17,26 +17,23 @@ export function _addSiteDomains(
   } else {
     const props = ["defaultHostname", "customHostname"];
     return Promise.all(
-      props.reduce(
-        (acc, prop) => {
-          const hostname = getProp(model, `data.values.${prop}`);
-          if (hostname) {
-            const domainOpts = {
-              hostname,
-              clientKey: model.data.values.clientId,
-              orgId: hubRequestOptions.portalSelf.id,
-              orgTitle: hubRequestOptions.portalSelf.name,
-              orgKey: hubRequestOptions.portalSelf.urlKey,
-              siteId: model.item.id,
-              siteTitle: model.item.title,
-              sslOnly: true
-            };
-            acc.push(addDomain(domainOpts, hubRequestOptions));
-          }
-          return acc;
-        },
-        [] as Array<Promise<any>>
-      )
+      props.reduce((acc, prop) => {
+        const hostname = getProp(model, `data.values.${prop}`);
+        if (hostname) {
+          const domainOpts = {
+            hostname,
+            clientKey: model.data.values.clientId,
+            orgId: hubRequestOptions.portalSelf.id,
+            orgTitle: hubRequestOptions.portalSelf.name,
+            orgKey: hubRequestOptions.portalSelf.urlKey,
+            siteId: model.item.id,
+            siteTitle: model.item.title,
+            sslOnly: true,
+          };
+          acc.push(addDomain(domainOpts, hubRequestOptions));
+        }
+        return acc;
+      }, [] as Array<Promise<any>>)
     );
   }
 }

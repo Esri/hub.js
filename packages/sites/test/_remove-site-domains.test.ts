@@ -1,14 +1,14 @@
 import { _removeSiteDomains } from "../src";
-import * as domainsModule from "../src/domains";
+import * as commonModule from "@esri/hub-common";
 import { IHubRequestOptions } from "@esri/hub-common";
 
 describe("_removeSiteDomains", () => {
   it("removes the domains", async () => {
-    const removeSpy = spyOn(domainsModule, "removeDomain").and.returnValue(
+    const removeSpy = spyOn(commonModule, "removeDomain").and.returnValue(
       Promise.resolve({})
     );
 
-    spyOn(domainsModule, "getDomainsForSite").and.returnValue(
+    spyOn(commonModule, "getDomainsForSite").and.returnValue(
       Promise.resolve([{ id: "foo" }, { id: "baz" }, { id: "bar" }])
     );
 
@@ -29,12 +29,12 @@ describe("_removeSiteDomains", () => {
     expect(removeSpy.calls.argsFor(2)[0]).toBe("bar");
   });
 
-  it("does nothing on portal", async function() {
-    const removeSpy = spyOn(domainsModule, "removeDomain").and.returnValue(
+  it("does nothing on portal", async function () {
+    const removeSpy = spyOn(commonModule, "removeDomain").and.returnValue(
       Promise.resolve({})
     );
 
-    spyOn(domainsModule, "getDomainsForSite").and.returnValue(
+    spyOn(commonModule, "getDomainsForSite").and.returnValue(
       Promise.resolve([{ id: "foo" }, { id: "baz" }, { id: "bar" }])
     );
 
@@ -45,6 +45,6 @@ describe("_removeSiteDomains", () => {
 
     expect(res).toEqual([]);
     expect(removeSpy).not.toHaveBeenCalled();
-    expect(domainsModule.getDomainsForSite).not.toHaveBeenCalled();
+    expect(commonModule.getDomainsForSite).not.toHaveBeenCalled();
   });
 });

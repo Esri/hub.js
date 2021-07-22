@@ -1,7 +1,6 @@
 import { createSiteModelFromTemplate } from "../src";
-import * as commonModule from "@esri/hub-common";
 import * as teamsModule from "@esri/hub-teams";
-import * as domainModule from "../src/domains";
+import * as commonModule from "@esri/hub-common";
 import * as createSiteModule from "../src/_create-site-initiative";
 import * as updateTagsModule from "../src/_update-team-tags";
 import * as getPortalSiteHostnameModule from "../src/get-portal-site-hostname";
@@ -9,7 +8,7 @@ import {
   MOCK_HUB_REQOPTS,
   expectAllCalled,
   MOCK_PORTAL_REQOPTS,
-  expectAll
+  expectAll,
 } from "./test-helpers.test";
 import { cloneObject } from "@esri/hub-common";
 
@@ -32,21 +31,21 @@ const siteTemplate = {
       "Ready To Use",
       "selfConfigured",
       "Web Map",
-      "Registered App"
+      "Registered App",
     ],
     tags: ["Hub Site"],
     culture: "{{user.culture}}",
     properties: {
       createdFrom: "basicDefaultSite Solution Template (embedded)",
       schemaVersion: 1.2,
-      hasSeenGlobalNav: true
+      hasSeenGlobalNav: true,
     },
     owner: "{{user.username}}",
-    url: "{{solution.url}}"
+    url: "{{solution.url}}",
   },
   data: {
     catalog: {
-      groups: []
+      groups: [],
     },
     values: {
       title: "{{solution.name}}",
@@ -58,8 +57,8 @@ const siteTemplate = {
       uiVersion: "2.2",
       map: {
         basemaps: {
-          primary: "{{organization.defaultBasemap:optional:1}}"
-        }
+          primary: "{{organization.defaultBasemap:optional:1}}",
+        },
       },
       pages: [],
       layout: {},
@@ -67,8 +66,8 @@ const siteTemplate = {
       headerCss:
         ".first-tier {\n  height: 80px;\n  margin-bottom: 0px;\n  background-color: #005e95;\n}\n\n.first-tier .nav > li > a {\n  margin-top: 5px;\n  padding: 3px 6px;\n  color: #fff;\n}\n\n.first-tier .nav > li > a:focus,\n.first-tier .nav>li>a:hover {\n  background-color: #136fbf;\n  color: #fff;\n}\n\n.first-tier .site-logo img {\n  vertical-align: middle;\n}\n\n.first-tier h1 {\n  display: inline;\n  font-size: 25px;\n}\n\n.second-tier {\n  margin-bottom: 0px;\n  background-color: #05466c;\n}\n\n.site-header .navbar-header img {\n  vertical-align: middle;\n  height: 50px;\n  padding: 5px;\n}\n\n@media (max-width: 768px) {\n  .first-tier {\n    height: 100px;\n  }\n}\n\n@media (max-width: 498px) {\n  .navbar-brand {\n    padding: 0px;\n  }\n}\n\n.navbar-inverse .navbar-toggle {\n  border-color: #ffffff;\n}\n\n.navbar-inverse .navbar-toggle:hover {\n  background-color: transparent;\n}\n\n.navbar-inverse .navbar-toggle .icon-bar {\n  background-color: #ffffff;\n}\n\n",
       footerCss:
-        "\n  .footer-background {\n    padding-top: 20px;\n    padding-bottom: 20px;\n    background-color: #e7e7e7;\n  }\n\n  .logo, .nav {\n    margin-bottom: 10px;\n  }\n\n  .nav-pills {\n      display: flex;\n      justify-content: center;\n  }\n"
-    }
+        "\n  .footer-background {\n    padding-top: 20px;\n    padding-bottom: 20px;\n    background-color: #e7e7e7;\n  }\n\n  .logo, .nav {\n    margin-bottom: 10px;\n  }\n\n  .nav-pills {\n      display: flex;\n      justify-content: center;\n  }\n",
+    },
   },
   properties: {
     initiativeTemplate: {
@@ -82,50 +81,53 @@ const siteTemplate = {
         extent: "{{organization.defaultExtentBBox}}",
         culture: "{{user.culture}}",
         properties: {},
-        url: ""
+        url: "",
       },
       data: {
         assets: [],
         indicators: [],
-        recommendedTemplates: []
+        recommendedTemplates: [],
       },
-      assets: []
-    }
+      assets: [],
+    },
   },
   assets: [],
   itemId: "123",
-  key: "foobar"
+  key: "foobar",
 } as commonModule.IModelTemplate;
 
 const settings = {
   solution: {
     title: "site-title",
     snippet: "site-snippet",
-    name: "solution-name"
+    name: "solution-name",
   },
   organization: {
-    defaultExtentBBox: [[67, 32], [1, 2]]
+    defaultExtentBBox: [
+      [67, 32],
+      [1, 2],
+    ],
   },
   user: {
     username: "tate",
-    culture: "no"
-  }
+    culture: "no",
+  },
 };
 
 describe("createSiteModelFromTemplate", () => {
   const teams = {
     props: {
       contentGroupId: "123",
-      collaborationGroupId: "456"
-    }
+      collaborationGroupId: "456",
+    },
   };
 
   const uniqueDomain = "unique-domain";
 
   const initiativeResponse = {
     item: {
-      id: "initiative-parent"
-    }
+      id: "initiative-parent",
+    },
   };
 
   let getProductSpy: jasmine.Spy;
@@ -143,7 +145,7 @@ describe("createSiteModelFromTemplate", () => {
     );
 
     ensureDomainSpy = spyOn(
-      domainModule,
+      commonModule,
       "ensureUniqueDomainName"
     ).and.returnValue(Promise.resolve(uniqueDomain));
 
@@ -199,7 +201,7 @@ describe("createSiteModelFromTemplate", () => {
       teams.props.collaborationGroupId
     );
     expect(createdSite.data.catalog.groups).toEqual([
-      teams.props.contentGroupId
+      teams.props.contentGroupId,
     ]);
   });
 
@@ -244,7 +246,7 @@ describe("createSiteModelFromTemplate", () => {
       teams.props.collaborationGroupId
     );
     expect(createdSite.data.catalog.groups).toEqual([
-      teams.props.contentGroupId
+      teams.props.contentGroupId,
     ]);
   });
 
@@ -294,7 +296,7 @@ describe("createSiteModelFromTemplate", () => {
       teams.props.collaborationGroupId
     );
     expect(createdSite.data.catalog.groups).toEqual([
-      teams.props.contentGroupId
+      teams.props.contentGroupId,
     ]);
   });
 
@@ -302,9 +304,9 @@ describe("createSiteModelFromTemplate", () => {
     createTeamsSpy.and.returnValue(
       Promise.resolve({
         props: {
-          collaborationGroupId: "collab-group"
+          collaborationGroupId: "collab-group",
           // no contentGroupId
-        }
+        },
       })
     );
 
@@ -397,15 +399,18 @@ describe("createSiteModelFromTemplate", () => {
       solution: {
         title: 8888, // <-
         snippet: "site-snippet",
-        name: "solution-name"
+        name: "solution-name",
       },
       organization: {
-        defaultExtentBBox: [[67, 32], [1, 2]]
+        defaultExtentBBox: [
+          [67, 32],
+          [1, 2],
+        ],
       },
       user: {
         username: "tate",
-        culture: "no"
-      }
+        culture: "no",
+      },
     };
     const createdSite = await createSiteModelFromTemplate(
       commonModule.cloneObject(siteTemplate),
