@@ -10,7 +10,7 @@ const ALLOWED_SUBSCRIPTION_TYPES = [
   "ELA",
   "Education Site License",
   "Education",
-  "HUP Online"
+  "HUP Online",
 ];
 
 /**
