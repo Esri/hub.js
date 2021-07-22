@@ -1,5 +1,5 @@
 import { IHubRequestOptions } from "@esri/hub-common";
-import { getDomainsForSite, removeDomain } from "./domains";
+import { getDomainsForSite, removeDomain } from "@esri/hub-common";
 
 /**
  * Remove the Domain entries for a Site
@@ -14,9 +14,9 @@ export function _removeSiteDomains(
   if (hubRequestOptions.isPortal) {
     return Promise.resolve([]);
   } else {
-    return getDomainsForSite(siteId, hubRequestOptions).then(domains => {
+    return getDomainsForSite(siteId, hubRequestOptions).then((domains) => {
       return Promise.all(
-        domains.map(domainEntry => {
+        domains.map((domainEntry) => {
           return removeDomain(domainEntry.id, hubRequestOptions);
         })
       );

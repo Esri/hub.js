@@ -1,28 +1,28 @@
 import { updateSiteApplicationUris } from "../src";
 import * as updateRedirectModule from "../src/update-app-redirect-uris";
-import * as domainModule from "../src/domains";
+import * as commonModule from "@esri/hub-common";
 import { IModel, IHubRequestOptions } from "@esri/hub-common";
 
 describe("updateSiteApplicationUris", () => {
-  const site = ({
+  const site = {
     item: {
       id: "site-id",
-      title: "site-title"
+      title: "site-title",
     },
     data: {
       values: {
-        clientId: "client-id"
-      }
-    }
-  } as unknown) as IModel;
+        clientId: "client-id",
+      },
+    },
+  } as unknown as IModel;
 
-  const ro = ({
+  const ro = {
     portalSelf: {
       urlKey: "key",
       id: "org-id",
-      name: "org-name"
-    }
-  } as unknown) as IHubRequestOptions;
+      name: "org-name",
+    },
+  } as unknown as IHubRequestOptions;
 
   let updateRedirectSpy: jasmine.Spy;
   let removeSpy: jasmine.Spy;
@@ -34,18 +34,18 @@ describe("updateSiteApplicationUris", () => {
       "updateAppRedirectUris"
     ).and.returnValue(Promise.resolve());
 
-    getDomainsSpy = spyOn(domainModule, "getDomainsForSite").and.returnValue(
+    getDomainsSpy = spyOn(commonModule, "getDomainsForSite").and.returnValue(
       Promise.resolve([
         { id: "foo-id", hostname: "foo", sslOnly: false },
-        { id: "baz-id", hostname: "baz", sslOnly: false }
+        { id: "baz-id", hostname: "baz", sslOnly: false },
       ])
     );
 
-    removeSpy = spyOn(domainModule, "removeDomain").and.returnValue(
+    removeSpy = spyOn(commonModule, "removeDomain").and.returnValue(
       Promise.resolve({})
     );
 
-    addSpy = spyOn(domainModule, "addDomain").and.returnValue(
+    addSpy = spyOn(commonModule, "addDomain").and.returnValue(
       Promise.resolve({})
     );
   });
@@ -78,7 +78,7 @@ describe("updateSiteApplicationUris", () => {
         siteId: site.item.id,
         siteTitle: site.item.title,
         clientKey: site.data.values.clientId,
-        sslOnly: false
+        sslOnly: false,
       },
       "correct parameters for addDomain"
     );
@@ -100,7 +100,7 @@ describe("updateSiteApplicationUris", () => {
     const uris = ["foo", "bar"];
 
     await updateSiteApplicationUris(site, uris, {
-      isPortal: true
+      isPortal: true,
     } as IHubRequestOptions);
 
     expect(updateRedirectSpy).not.toHaveBeenCalled();

@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-export * from "./domains";
+export * from "@esri/hub-common";
 export * from "./drafts";
 export * from "./layout";
 export * from "./pages";

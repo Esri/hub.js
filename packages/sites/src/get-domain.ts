@@ -3,7 +3,7 @@
 
 import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 import { getHubApiUrl, IHubRequestOptions } from "@esri/hub-common";
-import { _getDomainServiceUrl } from "./domains";
+import { _getDomainServiceUrl } from "@esri/hub-common";
 
 /**
  * Get the domains associated with a Hub Site.
@@ -20,7 +20,7 @@ export function getDomains(
   const options: IRequestOptions = {
     params: { siteId },
     httpMethod: "GET",
-    ...requestOptions
+    ...requestOptions,
   };
 
   return request(url, options);
@@ -39,7 +39,7 @@ export function getDomain(
   siteId: string,
   requestOptions?: IRequestOptions
 ): Promise<any> {
-  return getDomains(siteId, requestOptions).then(response => {
+  return getDomains(siteId, requestOptions).then((response) => {
     if (response.length > 1) {
       // ok - in this case, it's likely that we have a default domain and a custom domain...
       // we want the one that's custom... i.e. does not contain arcgis.com

@@ -8,7 +8,7 @@ import {
   slugify,
   stripProtocol,
   interpolate,
-  addSolutionResourceUrlToAssets
+  addSolutionResourceUrlToAssets,
 } from "@esri/hub-common";
 import { createHubTeams } from "@esri/hub-teams";
 import { HubTeamType } from "@esri/hub-teams";
@@ -17,7 +17,7 @@ import { getPortalSiteHostname } from "./get-portal-site-hostname";
 import { getPortalSiteUrl } from "./get-portal-site-url";
 import { _createSiteInitiative } from "./_create-site-initiative";
 import { _updateTeamTags } from "./_update-team-tags";
-import { ensureUniqueDomainName } from "./domains";
+import { ensureUniqueDomainName } from "@esri/hub-common";
 
 /**
  * Convert a Site Template into a Site Model
@@ -54,8 +54,8 @@ export function createSiteModelFromTemplate(
     "contentGroupId",
     "followersGroupId",
     "collaborationGroupId",
-    "parentInitiativeId"
-  ].forEach(prop => {
+    "parentInitiativeId",
+  ].forEach((prop) => {
     delete template.data.values[prop];
   });
 
@@ -78,9 +78,9 @@ export function createSiteModelFromTemplate(
   return createHubTeams({
     title,
     types: teamsToCreate,
-    hubRequestOptions
+    hubRequestOptions,
   })
-    .then(teams => {
+    .then((teams) => {
       // fold teams into the settings hash - used mainly for cards
       settings.teams = cloneObject(teams.props);
       state.teams = teams;
@@ -100,7 +100,7 @@ export function createSiteModelFromTemplate(
       }
       return ensureUniqueDomainName(slugify(domainTitle), hubRequestOptions);
     })
-    .then(uniqueSubdomain => {
+    .then((uniqueSubdomain) => {
       const portal = hubRequestOptions.portalSelf;
       // TODO: Revisit this if/when we do more site templates which we want to maintain their theme
       settings.solution.theme = getTheme(portal);
@@ -135,7 +135,7 @@ export function createSiteModelFromTemplate(
       }
       return handleInitiative;
     })
-    .then(maybeInitiative => {
+    .then((maybeInitiative) => {
       // if we got an initiative back...
       let teamUpdatePromise = Promise.resolve(null);
       if (maybeInitiative) {
@@ -153,7 +153,7 @@ export function createSiteModelFromTemplate(
       }
       return teamUpdatePromise;
     })
-    .then(_ => {
+    .then((_) => {
       // If we have data.values.dcatConfig, yank it off b/c that may have adlib template
       // for use at run-time vs now
       const dcatConfig = cloneObject(template.data.values.dcatConfig);
@@ -173,7 +173,7 @@ export function createSiteModelFromTemplate(
       }
       return siteModel;
     })
-    .catch(ex => {
+    .catch((ex) => {
       throw Error(`site-utils::createSiteModelFromTemplate Error ${ex}`);
     });
 }

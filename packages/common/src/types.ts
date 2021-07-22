@@ -7,7 +7,7 @@ import {
   IGroup,
   IGeometry,
   IFeatureServiceDefinition,
-  ILayerDefinition
+  ILayerDefinition,
 } from "@esri/arcgis-rest-types";
 import { IPortal, ISearchResult } from "@esri/arcgis-rest-portal";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
@@ -442,4 +442,19 @@ export interface IUpdateSiteOptions extends IHubRequestOptions {
  */
 export interface IUpdatePageOptions extends IHubRequestOptions {
   allowList?: string[];
+}
+
+export interface IDomainEntry {
+  clientKey: string;
+  createdAt?: string;
+  hostname: string;
+  id: string;
+  orgId: string;
+  orgKey: string;
+  orgTitle: string;
+  permanentRedirect: boolean;
+  siteId: string;
+  siteTitle: string;
+  sslOnly: boolean;
+  updatedAt?: string;
 }

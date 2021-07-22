@@ -2,14 +2,14 @@ import {
   IModel,
   IHubRequestOptions,
   _getHttpAndHttpsUris,
-  includes
+  includes,
 } from "@esri/hub-common";
 import {
   getDomainsForSite,
   IDomainEntry,
   removeDomain,
-  addDomain
-} from "./domains";
+  addDomain,
+} from "@esri/hub-common";
 import { updateAppRedirectUris } from "./update-app-redirect-uris";
 /**
  * Update the list of valid uris associated with the Site item
@@ -40,18 +40,18 @@ export function updateSiteApplicationUris(
     .then((domainInfos: IDomainEntry[]) => {
       // get all domains that are no longer associated with the site
       const domainsToRemove = domainInfos.filter(
-        domain => !includes(uris, domain.hostname)
+        (domain) => !includes(uris, domain.hostname)
       );
       // get all new domains that are now associated with the site
-      const hostnames = domainInfos.map(domain => domain.hostname);
-      const domainsToAdd = uris.filter(uri => !includes(hostnames, uri));
+      const hostnames = domainInfos.map((domain) => domain.hostname);
+      const domainsToAdd = uris.filter((uri) => !includes(hostnames, uri));
       // finally, kick all the promises
       const domainPromises: Array<Promise<any>> = [];
-      domainsToRemove.forEach(domain =>
+      domainsToRemove.forEach((domain) =>
         domainPromises.push(removeDomain(domain.id, hubRequestOptions))
       );
 
-      domainsToAdd.forEach(uri =>
+      domainsToAdd.forEach((uri) =>
         domainPromises.push(
           addDomain(
             {
@@ -62,7 +62,7 @@ export function updateSiteApplicationUris(
               siteId: site.item.id,
               siteTitle: site.item.title,
               clientKey: site.data.values.clientId,
-              sslOnly: domainInfos[0] ? !!domainInfos[0].sslOnly : true
+              sslOnly: domainInfos[0] ? !!domainInfos[0].sslOnly : true,
             },
             hubRequestOptions
           )
