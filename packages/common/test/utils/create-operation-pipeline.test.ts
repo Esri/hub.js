@@ -48,12 +48,15 @@ const addProperties = (
       deep: "nesting",
     },
   };
-  // each fn should create a new operation stack
+  // functions can crate a new operation stack
   const s = new OperationStack();
   // add operations to it...
   const opId = s.start("addProperties");
   s.finish(opId);
   // then merge into the input stack at the end
+  // a similar approach can be used if the function
+  // calls other functions, which themselves
+  // return operation stacks
   input.stack.merge(s.serialize());
 
   return Promise.resolve(input);
