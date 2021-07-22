@@ -1,4 +1,4 @@
-import { IModel, getProp, cloneObject, isGuid } from "@esri/hub-common";
+import { IModel, getProp, cloneObject, isGuid } from "..";
 
 /**
  * Remove any non-guid entries from the data catalog groups array

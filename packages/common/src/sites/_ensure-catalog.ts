@@ -1,4 +1,4 @@
-import { IModel, getProp, cloneObject } from "@esri/hub-common";
+import { IModel, getProp, cloneObject } from "..";
 
 /**
  * Move the data.values.groups array into the

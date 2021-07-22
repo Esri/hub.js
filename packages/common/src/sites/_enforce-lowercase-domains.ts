@@ -1,4 +1,4 @@
-import { IModel, getProp, cloneObject } from "@esri/hub-common";
+import { IModel, getProp, cloneObject } from "..";
 
 /**
  * Enforce lowercase domains
@@ -16,8 +16,8 @@ export function _enforceLowercaseDomains(model: IModel) {
     "defaultHostname",
     "internalUrl",
     "customHostname",
-    "externalUrl"
-  ].forEach(prop => {
+    "externalUrl",
+  ].forEach((prop) => {
     if (
       clone.data.values[prop] &&
       typeof clone.data.values[prop] === "string"

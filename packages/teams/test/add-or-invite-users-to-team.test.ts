@@ -79,5 +79,6 @@ describe("addOrInviteUsersToTeam: ", () => {
     expect(response.notInvited.length).toEqual(2);
     expect(response.notEmailed.length).toEqual(1);
     expect(response.errors.length).toEqual(4);
+    expect(response.groupId).toEqual("abc123");
   });
 });

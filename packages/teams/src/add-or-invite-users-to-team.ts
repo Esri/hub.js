@@ -58,6 +58,7 @@ export async function addOrInviteUsersToTeam(
     notInvited: [],
     notEmailed: [],
     errors: [],
+    groupId,
   };
   // Bring not added / invited / emailed / errors up to the top level
   result.notAdded = [

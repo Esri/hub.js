@@ -1,4 +1,4 @@
-import { mergeObjects, IModel, IDraft } from "@esri/hub-common";
+import { IModel, IDraft, mergeObjects } from "../..";
 
 /**
  * Builds a draft with a subset of the model properties

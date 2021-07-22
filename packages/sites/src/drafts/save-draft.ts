@@ -2,10 +2,10 @@ import {
   IModel,
   IHubRequestOptions,
   objectToJsonBlob,
-  getProp
+  getProp,
+  buildDraft,
 } from "@esri/hub-common";
 import { _includeListFromItemType } from "./_include-list-from-item-type";
-import { buildDraft } from "./build-draft";
 import { deleteDraft } from "./delete-draft";
 import { addItemResource } from "@esri/arcgis-rest-portal";
 
@@ -27,7 +27,7 @@ export function saveDraft(
   const itemId = getProp(siteOrPageModel, "item.id");
 
   return deleteDraft(siteOrPageModel, hubRequestOptions)
-    .then(_ =>
+    .then((_) =>
       addItemResource({
         id: itemId,
         owner: getProp(siteOrPageModel, "item.owner"),
@@ -35,7 +35,7 @@ export function saveDraft(
         name: draftName,
         private: false,
         portal: hubRequestOptions.portal,
-        authentication: hubRequestOptions.authentication
+        authentication: hubRequestOptions.authentication,
       })
     )
     .then((_: any) => draft);

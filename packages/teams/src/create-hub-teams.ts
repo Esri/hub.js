@@ -3,7 +3,9 @@ import {
   getHubProduct,
   getCulture,
   convertToWellKnownLocale,
-  fetchHubTranslation
+  fetchHubTranslation,
+  getWithDefault,
+  getProp,
 } from "@esri/hub-common";
 import { getUserCreatableTeams } from "./utils/get-user-creatable-teams";
 import { _createTeamGroups } from "./utils/_create-team-groups";
@@ -27,12 +29,17 @@ export function createHubTeams(opts: {
   const product = getHubProduct(hubRequestOptions.portalSelf);
   // get all the groups that this user can create in this environment
   // and filter just the team types requested
+  const subscriptionType = getWithDefault(
+    hubRequestOptions.portalSelf,
+    "subscriptionInfo.type",
+    "Enterprise"
+  );
   const teamsToCreate = getUserCreatableTeams(
     hubRequestOptions.portalSelf.user,
     product,
     hubRequestOptions.portalSelf.currentVersion,
-    hubRequestOptions.portalSelf.subscriptionInfo.type
-  ).filter(g => {
+    subscriptionType
+  ).filter((g) => {
     return types.indexOf(g.config.type) > -1;
   });
   // get the culture out of the
@@ -40,7 +47,7 @@ export function createHubTeams(opts: {
   const locale = convertToWellKnownLocale(culture);
   // Fire that off
   return fetchHubTranslation(locale, hubRequestOptions.portalSelf)
-    .then(translations => {
+    .then((translations) => {
       // create the team groups
       return _createTeamGroups(
         title,
@@ -49,7 +56,7 @@ export function createHubTeams(opts: {
         hubRequestOptions
       );
     })
-    .catch(ex => {
+    .catch((ex) => {
       throw Error(`Error in team-utils::createHubTeams ${ex}`);
     });
 }

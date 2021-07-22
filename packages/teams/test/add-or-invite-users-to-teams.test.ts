@@ -20,6 +20,7 @@ describe("addOrInviteUsersToTeams: ", () => {
       "addOrInviteUsersToTeam"
     ).and.callFake(() => {
       const response: IAddOrInviteToTeamResult = {
+        groupId: "abc123",
         notAdded: ["dobby", "frank"],
         notInvited: ["bob", "bobb"],
         notEmailed: ["dobby"],

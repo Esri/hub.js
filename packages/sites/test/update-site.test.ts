@@ -1,19 +1,18 @@
-import * as getSiteByIdModule from "../src/get-site-by-id";
 import { SITE_ITEM_RESPONSE, SITE_DATA_RESPONSE } from "./site-responses.test";
 import * as commonModule from "@esri/hub-common";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { updateSite } from "../src";
 
-describe("update site", function() {
+describe("update site", function () {
   let getSiteByIdSpy: jasmine.Spy;
   let updateSpy: jasmine.Spy;
   let localSite: commonModule.IModel;
 
   beforeEach(() => {
-    getSiteByIdSpy = spyOn(getSiteByIdModule, "getSiteById").and.returnValue(
+    getSiteByIdSpy = spyOn(commonModule, "getSiteById").and.returnValue(
       Promise.resolve({
         item: SITE_ITEM_RESPONSE,
-        data: SITE_DATA_RESPONSE
+        data: SITE_DATA_RESPONSE,
       })
     );
 
@@ -27,11 +26,11 @@ describe("update site", function() {
 
     localSite = {
       item: siteItemClone,
-      data: commonModule.cloneObject(SITE_DATA_RESPONSE)
+      data: commonModule.cloneObject(SITE_DATA_RESPONSE),
     };
   });
 
-  it("ago with allowList, resources to remove & updateVersions", async function() {
+  it("ago with allowList, resources to remove & updateVersions", async function () {
     // apply some changes to the local model
     localSite.item.properties.newProp = "red";
     // change a prop that's not in the allowList so we can ensure it's not sent
@@ -42,7 +41,7 @@ describe("update site", function() {
 
     const updateSiteOptions = {
       authentication: {},
-      allowList: ["item.properties", "data.layout"]
+      allowList: ["item.properties", "data.layout"],
     } as commonModule.IUpdateSiteOptions;
 
     const result = await updateSite(localSite, updateSiteOptions);
@@ -68,7 +67,7 @@ describe("update site", function() {
     );
   });
 
-  it("ago with allowList and not updateVersions", async function() {
+  it("ago with allowList and not updateVersions", async function () {
     // apply some changes to the local model
     localSite.item.properties.newProp = "red";
     // change a prop that's not in the allowList so we can ensure it's not sent
@@ -80,7 +79,7 @@ describe("update site", function() {
     const updateSiteOptions = {
       authentication: {},
       allowList: ["item.properties", "data.layout"],
-      updateVersions: false
+      updateVersions: false,
     } as commonModule.IUpdateSiteOptions;
 
     const result = await updateSite(localSite, updateSiteOptions);
@@ -106,7 +105,7 @@ describe("update site", function() {
     );
   });
 
-  it("ago without allowList or resources to remove", async function() {
+  it("ago without allowList or resources to remove", async function () {
     // apply some changes to the local model
     localSite.item.properties.newProp = "red";
     // change a prop that's not in the allowList so we can ensure it's not sent
@@ -116,12 +115,12 @@ describe("update site", function() {
     delete localSite.data.values.layout.sections[0].style.background.cropSrc;
 
     const ro = {
-      authentication: {}
+      authentication: {},
     } as commonModule.IHubRequestOptions;
 
     const result = await updateSite(localSite, {
       ...ro,
-      allowList: null
+      allowList: null,
     });
 
     expect(result.success).toBeTruthy("should return sucess");
@@ -147,19 +146,19 @@ describe("update site", function() {
     );
   });
 
-  it("portal", async function() {
+  it("portal", async function () {
     const subdomain = "foo-bar-baz";
     localSite.data.values.subdomain = subdomain;
 
     const ro = {
       isPortal: true,
-      authentication: {}
+      authentication: {},
     } as commonModule.IHubRequestOptions;
 
     // WITH ALLOW LIST
     const result = await updateSite(localSite, {
       ...ro,
-      allowList: ["item.properties"]
+      allowList: ["item.properties"],
     });
 
     expect(result.success).toBeTruthy("should return success");
@@ -173,7 +172,7 @@ describe("update site", function() {
     updateSpy.calls.reset();
     const result2 = await updateSite(localSite, {
       ...ro,
-      allowList: null
+      allowList: null,
     });
 
     expect(result2.success).toBeTruthy("should return success");
@@ -184,10 +183,10 @@ describe("update site", function() {
     expect(updateItem2.typeKeywords).toContain(`hubsubdomain|${subdomain}`);
   });
 
-  it("rejects if fails", async function() {
+  it("rejects if fails", async function () {
     // create a siteModel from the fixtures
     const ro = {
-      authentication: {}
+      authentication: {},
     } as commonModule.IHubRequestOptions;
 
     updateSpy.and.returnValue(Promise.reject());
@@ -196,7 +195,7 @@ describe("update site", function() {
     try {
       await updateSite(localSite, {
         ...ro,
-        allowList: ["item.properties"]
+        allowList: ["item.properties"],
       });
       fail("should reject");
     } catch (err) {
