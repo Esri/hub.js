@@ -71,7 +71,7 @@
     "url": "https://github.com/Esri/hub.js/issues"
   },
   "homepage": "https://github.com/Esri/hub.js#readme",
-  "gitHead": "37f3a4e0e1c26399f6597697601d115d727540d9",
+  "gitHead": "5c3d6a4ddc88ce418b25bd1c8759ecc7aa561fd5",
   "volta": {
     "extends": "../../package.json"
   }
