@@ -1,16 +1,21 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { getHubApiUrl, getProp } from "@esri/hub-common";
+import {
+  getHubApiUrl,
+  getProp,
+  hubApiRequest,
+  ISiteCatalog,
+} from "@esri/hub-common";
 import { IItem, ISearchOptions, ISearchResult } from "@esri/arcgis-rest-portal";
 import { searchItems } from "@esri/arcgis-rest-portal";
 import {
+  IContentSearchFilter,
   IContentSearchRequest,
-  IContentSearchResponse
+  IContentSearchResponse,
 } from "../types/content";
 import { ISearchService, ISearchServiceParams } from "../types/search-service";
 import { convertToPortalParams } from "./helpers/convert-request-to-portal-params";
 import { convertToHubParams } from "./helpers/convert-request-to-hub-params";
 import { ISearchParams } from "../ago/params";
-import { hubApiRequest } from "@esri/hub-common";
 import { convertPortalResponse } from "./helpers/convert-portal-response";
 import { convertHubResponse } from "./helpers/convert-hub-response";
 
@@ -36,7 +41,8 @@ import { convertHubResponse } from "./helpers/convert-hub-response";
  */
 export class ContentSearchService
   implements
-    ISearchService<IContentSearchRequest, Promise<IContentSearchResponse>> {
+    ISearchService<IContentSearchRequest, Promise<IContentSearchResponse>>
+{
   private portal: string;
   private isPortal: boolean;
   private authentication: UserSession;
@@ -74,6 +80,33 @@ export class ContentSearchService
   ): Promise<IContentSearchResponse> {
     return performHubContentSearch(request, this.portal, this.authentication);
   }
+}
+
+/**
+ * Turns a site catalog into a content filters object.
+ *
+ * ```js
+ * import { catalogToContentFilter } from '@esri/hub-search';
+ *
+ * const siteCatalog = {
+ *   groups: ['24ad12457b8c410582f185c46f6896ba'],
+ *   orgId: 'be55891b4'
+ * };
+ *
+ * const filter: IContentSearchFilter = catalogToContentFilter(siteCatalog);
+ * ```
+ *
+ * @param catalog - The site catalog
+ * @returns
+ */
+export function catalogToContentFilter({
+  groups,
+  orgId,
+}: ISiteCatalog): IContentSearchFilter {
+  return {
+    group: groups,
+    orgid: orgId,
+  };
 }
 
 /**
@@ -131,10 +164,10 @@ function performHubContentSearch(
     headers: {
       authentication: authentication
         ? JSON.stringify(authentication)
-        : undefined
+        : undefined,
     },
     httpMethod: "POST",
-    params: requestParams
+    params: requestParams,
   }).then((response: any) =>
     convertHubResponse(requestParams, response, authentication)
   );

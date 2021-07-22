@@ -2,25 +2,29 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import * as portal from "@esri/arcgis-rest-portal";
 import { IItem, ISearchResult } from "@esri/arcgis-rest-portal";
 import * as common from "@esri/hub-common";
-import { ContentSearchService, searchContent } from "../../src/content/index";
+import {
+  catalogToContentFilter,
+  ContentSearchService,
+  searchContent,
+} from "../../src/content/index";
 import {
   IContentSearchFilter,
   IContentSearchRequest,
-  IContentSearchOptions
+  IContentSearchOptions,
 } from "../../src/types/content";
 
 describe("Content Search Service", () => {
-  it("can be perform an enterprise search when isPortal is specified as true", done => {
+  it("can be perform an enterprise search when isPortal is specified as true", (done) => {
     // Setup
     const filter: IContentSearchFilter = {
-      title: ["title 1", "title 2"]
+      title: ["title 1", "title 2"],
     };
 
     const options: IContentSearchOptions = { sortField: "title" };
 
     const request: IContentSearchRequest = {
       filter,
-      options
+      options,
     };
 
     const itemOne: IItem = {
@@ -32,7 +36,7 @@ describe("Content Search Service", () => {
       created: 1000,
       modified: 2000,
       numViews: 1,
-      size: 5
+      size: 5,
     };
 
     const itemTwo: IItem = {
@@ -44,7 +48,7 @@ describe("Content Search Service", () => {
       created: 2000,
       modified: 3000,
       numViews: 2,
-      size: 6
+      size: 6,
     };
 
     const mockedResponse: ISearchResult<IItem> = {
@@ -53,17 +57,17 @@ describe("Content Search Service", () => {
       start: 1,
       num: 2,
       nextStart: -1,
-      results: [itemOne, itemTwo]
+      results: [itemOne, itemTwo],
     };
 
     const authentication: UserSession = new UserSession({
-      portal: "portal-sharing-url"
+      portal: "portal-sharing-url",
     });
 
     const service: ContentSearchService = new ContentSearchService({
       portal: "portal-sharing-url",
       isPortal: true,
-      authentication
+      authentication,
     });
 
     // Mock
@@ -72,25 +76,24 @@ describe("Content Search Service", () => {
     );
 
     // Test
-    service.search(request).then(response => {
+    service.search(request).then((response) => {
       expect(searchItemsMock.calls.count()).toEqual(1);
       expect(searchItemsMock.calls.argsFor(0)).toEqual([
         {
-          q:
-            '(title: "title 1" OR title: "title 2") AND (-type: "code attachment")',
+          q: '(title: "title 1" OR title: "title 2") AND (-type: "code attachment")',
           params: {
             num: 10,
             start: 1,
             countFields: undefined,
-            countSize: undefined
+            countSize: undefined,
           },
           sortField: "title",
           portal: "portal-sharing-url",
           authentication,
           httpMethod: "POST",
           sortOrder: undefined,
-          bbox: undefined
-        }
+          bbox: undefined,
+        },
       ]);
       expect(response.results).toEqual(mockedResponse.results);
       expect(response.query).toEqual(mockedResponse.query);
@@ -103,7 +106,7 @@ describe("Content Search Service", () => {
     });
   });
 
-  it("can be handle an enterprise search with a falsey request", done => {
+  it("can be handle an enterprise search with a falsey request", (done) => {
     // Setup
     const itemOne: IItem = {
       id: "12345",
@@ -114,7 +117,7 @@ describe("Content Search Service", () => {
       created: 1000,
       modified: 2000,
       numViews: 1,
-      size: 5
+      size: 5,
     };
 
     const itemTwo: IItem = {
@@ -126,7 +129,7 @@ describe("Content Search Service", () => {
       created: 2000,
       modified: 3000,
       numViews: 2,
-      size: 6
+      size: 6,
     };
 
     const mockedResponse: ISearchResult<IItem> = {
@@ -135,17 +138,17 @@ describe("Content Search Service", () => {
       start: 1,
       num: 2,
       nextStart: -1,
-      results: [itemOne, itemTwo]
+      results: [itemOne, itemTwo],
     };
 
     const authentication: UserSession = new UserSession({
-      portal: "portal-sharing-url"
+      portal: "portal-sharing-url",
     });
 
     const service: ContentSearchService = new ContentSearchService({
       portal: "portal-sharing-url",
       isPortal: true,
-      authentication
+      authentication,
     });
 
     // Mock
@@ -154,7 +157,7 @@ describe("Content Search Service", () => {
     );
 
     // Test
-    service.search(undefined).then(response => {
+    service.search(undefined).then((response) => {
       expect(searchItemsMock.calls.count()).toEqual(1);
       expect(searchItemsMock.calls.argsFor(0)).toEqual([
         {
@@ -163,15 +166,15 @@ describe("Content Search Service", () => {
             num: 10,
             start: 1,
             countFields: undefined,
-            countSize: undefined
+            countSize: undefined,
           },
           portal: "portal-sharing-url",
           authentication,
           httpMethod: "POST",
           sortField: undefined,
           sortOrder: undefined,
-          bbox: undefined
-        }
+          bbox: undefined,
+        },
       ]);
       expect(response.results).toEqual(mockedResponse.results);
       expect(response.query).toEqual(mockedResponse.query);
@@ -184,17 +187,17 @@ describe("Content Search Service", () => {
     });
   });
 
-  it("can be perform a Hub API search when isPortal is specified as false", done => {
+  it("can be perform a Hub API search when isPortal is specified as false", (done) => {
     // Setup
     const filter: IContentSearchFilter = {
-      title: ["title 1", "title 2"]
+      title: ["title 1", "title 2"],
     };
 
     const options: IContentSearchOptions = { sortField: "title" };
 
     const request: IContentSearchRequest = {
       filter,
-      options
+      options,
     };
 
     const documentOne: Record<string, any> = {
@@ -207,8 +210,8 @@ describe("Content Search Service", () => {
         created: 1000,
         modified: 2000,
         numViews: 1,
-        size: 5
-      }
+        size: 5,
+      },
     };
 
     const documentTwo: Record<string, any> = {
@@ -221,8 +224,8 @@ describe("Content Search Service", () => {
         created: 2000,
         modified: 3000,
         numViews: 2,
-        size: 6
-      }
+        size: 6,
+      },
     };
 
     const mockedResponse: Record<string, any> = {
@@ -231,24 +234,24 @@ describe("Content Search Service", () => {
         queryParameters: {
           sort: "title",
           filter: {
-            title: "any(title 1,title 2)"
-          }
+            title: "any(title 1,title 2)",
+          },
         },
         stats: {
           count: 2,
-          totalCount: 2
-        }
-      }
+          totalCount: 2,
+        },
+      },
     };
 
     const authentication: UserSession = new UserSession({
-      portal: "portal-sharing-url"
+      portal: "portal-sharing-url",
     });
 
     const service: ContentSearchService = new ContentSearchService({
       portal: "https://qaext.arcgis.com/sharing/rest",
       isPortal: false,
-      authentication
+      authentication,
     });
 
     // Mock
@@ -257,7 +260,7 @@ describe("Content Search Service", () => {
     );
 
     // Test
-    service.search(request).then(response => {
+    service.search(request).then((response) => {
       expect(hubRequestMock.calls.count()).toEqual(1);
       expect(hubRequestMock.calls.argsFor(0)).toEqual([
         "/search",
@@ -266,24 +269,23 @@ describe("Content Search Service", () => {
           authentication,
           isPortal: false,
           headers: {
-            authentication: JSON.stringify(authentication)
+            authentication: JSON.stringify(authentication),
           },
           httpMethod: "POST",
           params: {
             sort: "name",
             filter: {
-              name: "any(title 1,title 2)"
+              name: "any(title 1,title 2)",
             },
             agg: undefined,
             catalog: undefined,
             fields: undefined,
-            q: undefined
-          }
-        }
+            q: undefined,
+          },
+        },
       ]);
-      const mappedAttributes: Array<
-        Record<string, any>
-      > = mockedResponse.data.map((d: Record<string, any>) => d.attributes);
+      const mappedAttributes: Array<Record<string, any>> =
+        mockedResponse.data.map((d: Record<string, any>) => d.attributes);
       expect(response.results).toEqual(mappedAttributes);
       expect(response.query).toEqual(
         JSON.stringify(mockedResponse.meta.queryParameters)
@@ -297,22 +299,22 @@ describe("Content Search Service", () => {
     });
   });
 
-  it("can be perform a Hub API search with a session from request options, overriding the service session", done => {
+  it("can be perform a Hub API search with a session from request options, overriding the service session", (done) => {
     // Setup
     const filter: IContentSearchFilter = {
-      title: ["title 1", "title 2"]
+      title: ["title 1", "title 2"],
     };
 
     const sessionOne: UserSession = new UserSession({ portal: "first-portal" });
 
     const options: IContentSearchOptions = {
       sortField: "title",
-      authentication: sessionOne
+      authentication: sessionOne,
     };
 
     const request: IContentSearchRequest = {
       filter,
-      options
+      options,
     };
 
     const documentOne: Record<string, any> = {
@@ -325,8 +327,8 @@ describe("Content Search Service", () => {
         created: 1000,
         modified: 2000,
         numViews: 1,
-        size: 5
-      }
+        size: 5,
+      },
     };
 
     const documentTwo: Record<string, any> = {
@@ -339,8 +341,8 @@ describe("Content Search Service", () => {
         created: 2000,
         modified: 3000,
         numViews: 2,
-        size: 6
-      }
+        size: 6,
+      },
     };
 
     const mockedResponse: Record<string, any> = {
@@ -349,24 +351,24 @@ describe("Content Search Service", () => {
         queryParameters: {
           sort: "title",
           filter: {
-            title: "any(title 1,title 2)"
-          }
+            title: "any(title 1,title 2)",
+          },
         },
         stats: {
           count: 2,
-          totalCount: 2
-        }
-      }
+          totalCount: 2,
+        },
+      },
     };
 
     const sessionTwo: UserSession = new UserSession({
-      portal: "a-different-Portal"
+      portal: "a-different-Portal",
     });
 
     const service: ContentSearchService = new ContentSearchService({
       portal: "https://qaext.arcgis.com/sharing/rest",
       isPortal: false,
-      authentication: sessionTwo
+      authentication: sessionTwo,
     });
 
     // Mock
@@ -375,7 +377,7 @@ describe("Content Search Service", () => {
     );
 
     // Test
-    service.search(request).then(response => {
+    service.search(request).then((response) => {
       expect(hubRequestMock.calls.count()).toEqual(1);
       expect(hubRequestMock.calls.argsFor(0)).toEqual([
         "/search",
@@ -384,24 +386,23 @@ describe("Content Search Service", () => {
           authentication: sessionOne,
           isPortal: false,
           headers: {
-            authentication: JSON.stringify(sessionOne)
+            authentication: JSON.stringify(sessionOne),
           },
           httpMethod: "POST",
           params: {
             sort: "name",
             filter: {
-              name: "any(title 1,title 2)"
+              name: "any(title 1,title 2)",
             },
             agg: undefined,
             catalog: undefined,
             fields: undefined,
-            q: undefined
-          }
-        }
+            q: undefined,
+          },
+        },
       ]);
-      const mappedAttributes: Array<
-        Record<string, any>
-      > = mockedResponse.data.map((d: Record<string, any>) => d.attributes);
+      const mappedAttributes: Array<Record<string, any>> =
+        mockedResponse.data.map((d: Record<string, any>) => d.attributes);
       expect(response.results).toEqual(mappedAttributes);
       expect(response.query).toEqual(
         JSON.stringify(mockedResponse.meta.queryParameters)
@@ -415,19 +416,19 @@ describe("Content Search Service", () => {
     });
   });
 
-  it("can be perform a Hub API search without a session", done => {
+  it("can be perform a Hub API search without a session", (done) => {
     // Setup
     const filter: IContentSearchFilter = {
-      title: ["title 1", "title 2"]
+      title: ["title 1", "title 2"],
     };
 
     const options: IContentSearchOptions = {
-      sortField: "title"
+      sortField: "title",
     };
 
     const request: IContentSearchRequest = {
       filter,
-      options
+      options,
     };
 
     const documentOne: Record<string, any> = {
@@ -440,8 +441,8 @@ describe("Content Search Service", () => {
         created: 1000,
         modified: 2000,
         numViews: 1,
-        size: 5
-      }
+        size: 5,
+      },
     };
 
     const documentTwo: Record<string, any> = {
@@ -454,8 +455,8 @@ describe("Content Search Service", () => {
         created: 2000,
         modified: 3000,
         numViews: 2,
-        size: 6
-      }
+        size: 6,
+      },
     };
 
     const mockedResponse: Record<string, any> = {
@@ -464,19 +465,19 @@ describe("Content Search Service", () => {
         queryParameters: {
           sort: "title",
           filter: {
-            title: "any(title 1,title 2)"
-          }
+            title: "any(title 1,title 2)",
+          },
         },
         stats: {
           count: 2,
-          totalCount: 2
-        }
-      }
+          totalCount: 2,
+        },
+      },
     };
 
     const service: ContentSearchService = new ContentSearchService({
       portal: "https://qaext.arcgis.com/sharing/rest",
-      isPortal: false
+      isPortal: false,
     });
 
     // Mock
@@ -485,7 +486,7 @@ describe("Content Search Service", () => {
     );
 
     // Test
-    service.search(request).then(response => {
+    service.search(request).then((response) => {
       expect(hubRequestMock.calls.count()).toEqual(1);
       expect(hubRequestMock.calls.argsFor(0)).toEqual([
         "/search",
@@ -494,24 +495,23 @@ describe("Content Search Service", () => {
           authentication: undefined,
           isPortal: false,
           headers: {
-            authentication: undefined
+            authentication: undefined,
           },
           httpMethod: "POST",
           params: {
             sort: "name",
             filter: {
-              name: "any(title 1,title 2)"
+              name: "any(title 1,title 2)",
             },
             agg: undefined,
             catalog: undefined,
             fields: undefined,
-            q: undefined
-          }
-        }
+            q: undefined,
+          },
+        },
       ]);
-      const mappedAttributes: Array<
-        Record<string, any>
-      > = mockedResponse.data.map((d: Record<string, any>) => d.attributes);
+      const mappedAttributes: Array<Record<string, any>> =
+        mockedResponse.data.map((d: Record<string, any>) => d.attributes);
       expect(response.results).toEqual(mappedAttributes);
       expect(response.query).toEqual(
         JSON.stringify(mockedResponse.meta.queryParameters)
@@ -525,7 +525,7 @@ describe("Content Search Service", () => {
     });
   });
 
-  it("can be handle a Hub API with a falsey request", done => {
+  it("can be handle a Hub API with a falsey request", (done) => {
     // Setup
     const documentOne: Record<string, any> = {
       attributes: {
@@ -537,8 +537,8 @@ describe("Content Search Service", () => {
         created: 1000,
         modified: 2000,
         numViews: 1,
-        size: 5
-      }
+        size: 5,
+      },
     };
 
     const documentTwo: Record<string, any> = {
@@ -551,8 +551,8 @@ describe("Content Search Service", () => {
         created: 2000,
         modified: 3000,
         numViews: 2,
-        size: 6
-      }
+        size: 6,
+      },
     };
 
     const mockedResponse: Record<string, any> = {
@@ -561,19 +561,19 @@ describe("Content Search Service", () => {
         queryParameters: {
           sort: "title",
           filter: {
-            title: "any(title 1,title 2)"
-          }
+            title: "any(title 1,title 2)",
+          },
         },
         stats: {
           count: 2,
-          totalCount: 2
-        }
-      }
+          totalCount: 2,
+        },
+      },
     };
 
     const service: ContentSearchService = new ContentSearchService({
       portal: "https://qaext.arcgis.com/sharing/rest",
-      isPortal: false
+      isPortal: false,
     });
 
     // Mock
@@ -582,7 +582,7 @@ describe("Content Search Service", () => {
     );
 
     // Test
-    service.search(undefined).then(response => {
+    service.search(undefined).then((response) => {
       expect(hubRequestMock.calls.count()).toEqual(1);
       expect(hubRequestMock.calls.argsFor(0)).toEqual([
         "/search",
@@ -591,7 +591,7 @@ describe("Content Search Service", () => {
           authentication: undefined,
           isPortal: false,
           headers: {
-            authentication: undefined
+            authentication: undefined,
           },
           httpMethod: "POST",
           params: {
@@ -600,13 +600,12 @@ describe("Content Search Service", () => {
             agg: undefined,
             catalog: undefined,
             fields: undefined,
-            q: undefined
-          }
-        }
+            q: undefined,
+          },
+        },
       ]);
-      const mappedAttributes: Array<
-        Record<string, any>
-      > = mockedResponse.data.map((d: Record<string, any>) => d.attributes);
+      const mappedAttributes: Array<Record<string, any>> =
+        mockedResponse.data.map((d: Record<string, any>) => d.attributes);
       expect(response.results).toEqual(mappedAttributes);
       expect(response.query).toEqual(
         JSON.stringify(mockedResponse.meta.queryParameters)
@@ -621,27 +620,40 @@ describe("Content Search Service", () => {
   });
 });
 
+describe("catalogToContentFilter function", () => {
+  it("converts a site catalog to a content filter", () => {
+    const siteCatalog = {
+      groups: ["24ad12457b8c410582f185c46f6896ba"],
+      orgId: "be55891b4",
+    };
+    expect(catalogToContentFilter(siteCatalog)).toEqual({
+      group: siteCatalog.groups,
+      orgid: siteCatalog.orgId,
+    });
+  });
+});
+
 describe("searchContent function", () => {
-  it("can be perform an enterprise search when isPortal is specified as true", done => {
+  it("can be perform an enterprise search when isPortal is specified as true", (done) => {
     // Setup
     const filter: IContentSearchFilter = {
-      title: ["title 1", "title 2"]
+      title: ["title 1", "title 2"],
     };
 
     const authentication: UserSession = new UserSession({
-      portal: "portal-sharing-url"
+      portal: "portal-sharing-url",
     });
 
     const options: IContentSearchOptions = {
       sortField: "title",
       isPortal: true,
       portal: "portal-sharing-url",
-      authentication
+      authentication,
     };
 
     const request: IContentSearchRequest = {
       filter,
-      options
+      options,
     };
 
     const itemOne: IItem = {
@@ -653,7 +665,7 @@ describe("searchContent function", () => {
       created: 1000,
       modified: 2000,
       numViews: 1,
-      size: 5
+      size: 5,
     };
 
     const itemTwo: IItem = {
@@ -665,7 +677,7 @@ describe("searchContent function", () => {
       created: 2000,
       modified: 3000,
       numViews: 2,
-      size: 6
+      size: 6,
     };
 
     const mockedResponse: ISearchResult<IItem> = {
@@ -674,7 +686,7 @@ describe("searchContent function", () => {
       start: 1,
       num: 2,
       nextStart: -1,
-      results: [itemOne, itemTwo]
+      results: [itemOne, itemTwo],
     };
 
     // Mock
@@ -683,25 +695,24 @@ describe("searchContent function", () => {
     );
 
     // Test
-    searchContent(request).then(response => {
+    searchContent(request).then((response) => {
       expect(searchItemsMock.calls.count()).toEqual(1);
       expect(searchItemsMock.calls.argsFor(0)).toEqual([
         {
-          q:
-            '(title: "title 1" OR title: "title 2") AND (-type: "code attachment")',
+          q: '(title: "title 1" OR title: "title 2") AND (-type: "code attachment")',
           params: {
             num: 10,
             start: 1,
             countFields: undefined,
-            countSize: undefined
+            countSize: undefined,
           },
           sortField: "title",
           portal: "portal-sharing-url",
           authentication,
           httpMethod: "POST",
           sortOrder: undefined,
-          bbox: undefined
-        }
+          bbox: undefined,
+        },
       ]);
       expect(response.results).toEqual(mockedResponse.results);
       expect(response.query).toEqual(mockedResponse.query);
@@ -714,26 +725,26 @@ describe("searchContent function", () => {
     });
   });
 
-  it("can be perform a Hub API search when isPortal is specified as false", done => {
+  it("can be perform a Hub API search when isPortal is specified as false", (done) => {
     // Setup
     const filter: IContentSearchFilter = {
-      title: ["title 1", "title 2"]
+      title: ["title 1", "title 2"],
     };
 
     const authentication: UserSession = new UserSession({
-      portal: "portal-sharing-url"
+      portal: "portal-sharing-url",
     });
 
     const options: IContentSearchOptions = {
       sortField: "title",
       isPortal: false,
       portal: "https://qaext.arcgis.com/sharing/rest",
-      authentication
+      authentication,
     };
 
     const request: IContentSearchRequest = {
       filter,
-      options
+      options,
     };
 
     const documentOne: Record<string, any> = {
@@ -746,8 +757,8 @@ describe("searchContent function", () => {
         created: 1000,
         modified: 2000,
         numViews: 1,
-        size: 5
-      }
+        size: 5,
+      },
     };
 
     const documentTwo: Record<string, any> = {
@@ -760,8 +771,8 @@ describe("searchContent function", () => {
         created: 2000,
         modified: 3000,
         numViews: 2,
-        size: 6
-      }
+        size: 6,
+      },
     };
 
     const mockedResponse: Record<string, any> = {
@@ -770,14 +781,14 @@ describe("searchContent function", () => {
         queryParameters: {
           sort: "title",
           filter: {
-            title: "any(title 1,title 2)"
-          }
+            title: "any(title 1,title 2)",
+          },
         },
         stats: {
           count: 2,
-          totalCount: 2
-        }
-      }
+          totalCount: 2,
+        },
+      },
     };
 
     // Mock
@@ -786,7 +797,7 @@ describe("searchContent function", () => {
     );
 
     // Test
-    searchContent(request).then(response => {
+    searchContent(request).then((response) => {
       expect(hubRequestMock.calls.count()).toEqual(1);
       expect(hubRequestMock.calls.argsFor(0)).toEqual([
         "/search",
@@ -795,24 +806,23 @@ describe("searchContent function", () => {
           authentication,
           isPortal: false,
           headers: {
-            authentication: JSON.stringify(authentication)
+            authentication: JSON.stringify(authentication),
           },
           httpMethod: "POST",
           params: {
             sort: "name",
             filter: {
-              name: "any(title 1,title 2)"
+              name: "any(title 1,title 2)",
             },
             agg: undefined,
             catalog: undefined,
             fields: undefined,
-            q: undefined
-          }
-        }
+            q: undefined,
+          },
+        },
       ]);
-      const mappedAttributes: Array<
-        Record<string, any>
-      > = mockedResponse.data.map((d: Record<string, any>) => d.attributes);
+      const mappedAttributes: Array<Record<string, any>> =
+        mockedResponse.data.map((d: Record<string, any>) => d.attributes);
       expect(response.results).toEqual(mappedAttributes);
       expect(response.query).toEqual(
         JSON.stringify(mockedResponse.meta.queryParameters)
@@ -826,7 +836,7 @@ describe("searchContent function", () => {
     });
   });
 
-  it("performs a Hub API Search with a falsey request", done => {
+  it("performs a Hub API Search with a falsey request", (done) => {
     // Setup
 
     const documentOne: Record<string, any> = {
@@ -839,8 +849,8 @@ describe("searchContent function", () => {
         created: 1000,
         modified: 2000,
         numViews: 1,
-        size: 5
-      }
+        size: 5,
+      },
     };
 
     const documentTwo: Record<string, any> = {
@@ -853,8 +863,8 @@ describe("searchContent function", () => {
         created: 2000,
         modified: 3000,
         numViews: 2,
-        size: 6
-      }
+        size: 6,
+      },
     };
 
     const mockedResponse: Record<string, any> = {
@@ -863,14 +873,14 @@ describe("searchContent function", () => {
         queryParameters: {
           sort: "title",
           filter: {
-            title: "any(title 1,title 2)"
-          }
+            title: "any(title 1,title 2)",
+          },
         },
         stats: {
           count: 2,
-          totalCount: 2
-        }
-      }
+          totalCount: 2,
+        },
+      },
     };
 
     // Mock
@@ -879,7 +889,7 @@ describe("searchContent function", () => {
     );
 
     // Test
-    searchContent().then(response => {
+    searchContent().then((response) => {
       expect(hubRequestMock.calls.count()).toEqual(1);
       expect(hubRequestMock.calls.argsFor(0)).toEqual([
         "/search",
@@ -888,7 +898,7 @@ describe("searchContent function", () => {
           authentication: undefined,
           isPortal: false,
           headers: {
-            authentication: undefined
+            authentication: undefined,
           },
           httpMethod: "POST",
           params: {
@@ -897,13 +907,12 @@ describe("searchContent function", () => {
             agg: undefined,
             catalog: undefined,
             fields: undefined,
-            q: undefined
-          }
-        }
+            q: undefined,
+          },
+        },
       ]);
-      const mappedAttributes: Array<
-        Record<string, any>
-      > = mockedResponse.data.map((d: Record<string, any>) => d.attributes);
+      const mappedAttributes: Array<Record<string, any>> =
+        mockedResponse.data.map((d: Record<string, any>) => d.attributes);
       expect(response.results).toEqual(mappedAttributes);
       expect(response.query).toEqual(
         JSON.stringify(mockedResponse.meta.queryParameters)
@@ -917,21 +926,21 @@ describe("searchContent function", () => {
     });
   });
 
-  it("can be perform a Hub API search without a session", done => {
+  it("can be perform a Hub API search without a session", (done) => {
     // Setup
     const filter: IContentSearchFilter = {
-      title: ["title 1", "title 2"]
+      title: ["title 1", "title 2"],
     };
 
     const options: IContentSearchOptions = {
       sortField: "title",
       portal: "https://qaext.arcgis.com/sharing/rest",
-      isPortal: false
+      isPortal: false,
     };
 
     const request: IContentSearchRequest = {
       filter,
-      options
+      options,
     };
 
     const documentOne: Record<string, any> = {
@@ -944,8 +953,8 @@ describe("searchContent function", () => {
         created: 1000,
         modified: 2000,
         numViews: 1,
-        size: 5
-      }
+        size: 5,
+      },
     };
 
     const documentTwo: Record<string, any> = {
@@ -958,8 +967,8 @@ describe("searchContent function", () => {
         created: 2000,
         modified: 3000,
         numViews: 2,
-        size: 6
-      }
+        size: 6,
+      },
     };
 
     const mockedResponse: Record<string, any> = {
@@ -968,14 +977,14 @@ describe("searchContent function", () => {
         queryParameters: {
           sort: "title",
           filter: {
-            title: "any(title 1,title 2)"
-          }
+            title: "any(title 1,title 2)",
+          },
         },
         stats: {
           count: 2,
-          totalCount: 2
-        }
-      }
+          totalCount: 2,
+        },
+      },
     };
 
     // Mock
@@ -984,7 +993,7 @@ describe("searchContent function", () => {
     );
 
     // Test
-    searchContent(request).then(response => {
+    searchContent(request).then((response) => {
       expect(hubRequestMock.calls.count()).toEqual(1);
       expect(hubRequestMock.calls.argsFor(0)).toEqual([
         "/search",
@@ -993,24 +1002,23 @@ describe("searchContent function", () => {
           authentication: undefined,
           isPortal: false,
           headers: {
-            authentication: undefined
+            authentication: undefined,
           },
           httpMethod: "POST",
           params: {
             sort: "name",
             filter: {
-              name: "any(title 1,title 2)"
+              name: "any(title 1,title 2)",
             },
             agg: undefined,
             catalog: undefined,
             fields: undefined,
-            q: undefined
-          }
-        }
+            q: undefined,
+          },
+        },
       ]);
-      const mappedAttributes: Array<
-        Record<string, any>
-      > = mockedResponse.data.map((d: Record<string, any>) => d.attributes);
+      const mappedAttributes: Array<Record<string, any>> =
+        mockedResponse.data.map((d: Record<string, any>) => d.attributes);
       expect(response.results).toEqual(mappedAttributes);
       expect(response.query).toEqual(
         JSON.stringify(mockedResponse.meta.queryParameters)

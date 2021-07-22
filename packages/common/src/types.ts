@@ -458,3 +458,8 @@ export interface IDomainEntry {
   sslOnly: boolean;
   updatedAt?: string;
 }
+
+export interface ISiteCatalog {
+  groups: string[];
+  orgId: string;
+}
