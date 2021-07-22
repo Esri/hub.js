@@ -4,12 +4,12 @@ import {
   deepSet,
   getProp,
   mergeObjects,
-  serializeModel
+  serializeModel,
+  getSiteById,
 } from "@esri/hub-common";
 import { SITE_UI_VERSION } from "./site-ui-version";
 import { _ensurePortalDomainKeyword } from "./_ensure-portal-domain-keyword";
 import { updateItem, IUpdateItemResponse } from "@esri/arcgis-rest-portal";
-import { getSiteById } from "./get-site-by-id";
 
 /**
  * Update an existing site item
@@ -73,7 +73,7 @@ export function updateSite(
 
   // Kick things off...
   return agoModelPromise
-    .then(agoModel => {
+    .then((agoModel) => {
       if (allowList.length) {
         // merge the props in the allow list into the model from AGO
         model = mergeObjects(model, agoModel, allowList);
@@ -82,10 +82,10 @@ export function updateSite(
       return updateItem({
         item: serializeModel(model),
         authentication: updateSiteOptions.authentication,
-        params: { clearEmptyFields: true }
+        params: { clearEmptyFields: true },
       });
     })
-    .catch(err => {
+    .catch((err) => {
       throw Error(`updateSite: Error updating site: ${err}`);
     });
 }

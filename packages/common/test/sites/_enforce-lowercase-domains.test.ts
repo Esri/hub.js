@@ -1,22 +1,22 @@
-import { _enforceLowercaseDomains } from "../src";
-import { IModel } from "@esri/hub-common";
+import { IModel } from "../../src";
+import { _enforceLowercaseDomains } from "../../src/sites/_enforce-lowercase-domains";
 
 describe("_enforceLowercaseDomains", () => {
   it("enforces lowercase domains", async () => {
-    const model = ({
+    const model = {
       item: {
         properties: {
-          schemaVersion: 1.0
-        }
+          schemaVersion: 1.0,
+        },
       },
       data: {
         values: {
           subdomain: "Capitalized",
           defaultHostname: "CaPitaliZed",
-          internalUrl: {} // not a string
-        }
-      }
-    } as unknown) as IModel;
+          internalUrl: {}, // not a string
+        },
+      },
+    } as unknown as IModel;
 
     const chk = _enforceLowercaseDomains(model);
 
@@ -27,20 +27,20 @@ describe("_enforceLowercaseDomains", () => {
   });
 
   it("does nothing if schema >= 1.1", async () => {
-    const model = ({
+    const model = {
       item: {
         properties: {
-          schemaVersion: 1.1
-        }
+          schemaVersion: 1.1,
+        },
       },
       data: {
         values: {
           subdomain: "Capitalized",
           defaultHostname: "CaPitaliZed",
-          internalUrl: {} // not a string
-        }
-      }
-    } as unknown) as IModel;
+          internalUrl: {}, // not a string
+        },
+      },
+    } as unknown as IModel;
 
     const chk = _enforceLowercaseDomains(model);
 

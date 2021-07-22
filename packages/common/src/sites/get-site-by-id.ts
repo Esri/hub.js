@@ -1,5 +1,5 @@
-import { IHubRequestOptions, getModel } from "@esri/hub-common";
-import { upgradeSiteSchema } from "./upgrade-site-schema";
+import { upgradeSiteSchema } from ".";
+import { IHubRequestOptions, getModel } from "..";
 
 /**
  * Get a Site Model by it's Item Id, and apply schema upgrades

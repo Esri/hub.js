@@ -39,11 +39,6 @@ export * from "./_create-site-initiative";
 export * from "./_update-team-tags";
 export * from "./create-site-model-from-template";
 export * from "./convert-site-to-template";
-export * from "./_purge-non-guids-from-catalog";
-export * from "./_ensure-catalog";
-export * from "./_enforce-lowercase-domains";
-export * from "./_apply-site-schema";
-export * from "./upgrade-site-schema";
 export * from "./_get-site-data-by-id";
 export * from "./_get-second-pass-sharing-options";
 export * from "./_share-items-to-site-groups";
@@ -51,7 +46,11 @@ export * from "./_second-pass-adlib-pages";
 export * from "./_update-pages";
 export * from "./site-second-pass";
 export * from "./get-data-for-site-item";
-export * from "./get-site-by-id";
 export * from "./is-site";
 export * from "./get-members";
-export * from "./_ensure-telemetry";
+export {
+  /* istanbul ignore next */
+  upgradeSiteSchema,
+  /* istanbul ignore next */
+  getSiteById,
+} from "@esri/hub-common";

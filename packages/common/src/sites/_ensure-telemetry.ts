@@ -1,11 +1,4 @@
-import {
-  IModel,
-  getProp,
-  setProp,
-  deleteProp,
-  cloneObject,
-  IDraft
-} from "@esri/hub-common";
+import { IModel, IDraft, getProp, cloneObject, deleteProp, setProp } from "..";
 
 /**
  * Add telemetry config object
@@ -21,16 +14,16 @@ export function _ensureTelemetry<T extends IModel | IDraft>(model: T): T {
     consentNotice: {
       isTheme: true,
       consentText: "",
-      policyURL: ""
+      policyURL: "",
     },
     customAnalytics: {
       ga: {
         customerTracker: {
           enabled: Boolean(gacode),
-          id: gacode
-        }
-      }
-    }
+          id: gacode,
+        },
+      },
+    },
   };
   deleteProp(clone, "data.values.gacode");
 

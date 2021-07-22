@@ -1,21 +1,21 @@
-import { _applySiteSchema } from "../src";
-import { IModel } from "@esri/hub-common";
+import { IModel } from "../../src";
+import { _applySiteSchema } from "../../src/sites/_apply-site-schema";
 
 describe("_applySiteSchema", () => {
-  it("fixes groups array", function() {
-    const model = ({
+  it("fixes groups array", function () {
+    const model = {
       item: {
         id: "3ef",
-        properties: {}
+        properties: {},
       },
       data: {
         values: {
           groupId: "shouldberemoved",
           title: "should also be remnoved",
-          groups: ["4bc", { id: "fromObj" }, "54b", { id: "secondObj" }]
-        }
-      }
-    } as unknown) as IModel;
+          groups: ["4bc", { id: "fromObj" }, "54b", { id: "secondObj" }],
+        },
+      },
+    } as unknown as IModel;
     const chk = _applySiteSchema(model);
     expect(chk.item.properties.schemaVersion).toBe(
       1,
@@ -32,18 +32,18 @@ describe("_applySiteSchema", () => {
     );
   });
 
-  it("doesnt blow up with no groups or properties", function() {
-    const model = ({
+  it("doesnt blow up with no groups or properties", function () {
+    const model = {
       item: {
-        id: "3ef"
+        id: "3ef",
       },
       data: {
         values: {
           groupId: "shouldberemoved",
-          title: "should also be remnoved"
-        }
-      }
-    } as unknown) as IModel;
+          title: "should also be remnoved",
+        },
+      },
+    } as unknown as IModel;
     const chk = _applySiteSchema(model);
     expect(chk.item.properties.schemaVersion).toBe(
       1,
@@ -51,22 +51,22 @@ describe("_applySiteSchema", () => {
     );
   });
 
-  it("does nothing if schema >= 1", function() {
-    const model = ({
+  it("does nothing if schema >= 1", function () {
+    const model = {
       item: {
         id: "3ef",
         properties: {
-          schemaVersion: 1
-        }
+          schemaVersion: 1,
+        },
       },
       data: {
         values: {
           groupId: "shouldberemoved",
           title: "should also be remnoved",
-          groups: ["4bc", { id: "fromObj" }, "54b", { id: "secondObj" }]
-        }
-      }
-    } as unknown) as IModel;
+          groups: ["4bc", { id: "fromObj" }, "54b", { id: "secondObj" }],
+        },
+      },
+    } as unknown as IModel;
     const chk = _applySiteSchema(model);
     expect(chk).toEqual(model);
   });

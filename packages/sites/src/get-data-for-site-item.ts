@@ -1,7 +1,6 @@
 import { IItem } from "@esri/arcgis-rest-types";
-import { IHubRequestOptions } from "@esri/hub-common";
+import { IHubRequestOptions, upgradeSiteSchema } from "@esri/hub-common";
 import { getItemData } from "@esri/arcgis-rest-portal";
-import { upgradeSiteSchema } from "./upgrade-site-schema";
 
 /**
  * Get the data for a site item. Used by the UI to back-fill
@@ -15,10 +14,10 @@ export function getDataForSiteItem(
   item: IItem,
   hubRequestOptions: IHubRequestOptions
 ) {
-  return getItemData(item.id, hubRequestOptions).then(data => {
+  return getItemData(item.id, hubRequestOptions).then((data) => {
     return upgradeSiteSchema({
       item,
-      data
+      data,
     });
   });
 }

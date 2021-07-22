@@ -1,11 +1,11 @@
-import { upgradeSiteSchema } from "../src";
-import * as _applySiteSchemaModule from "../src/_apply-site-schema";
-import * as _enforceLowercaseDomainsModule from "../src/_enforce-lowercase-domains";
-import * as _ensureCatalogModule from "../src/_ensure-catalog";
-import * as _purgeNonGuidsFromCatalogModule from "../src/_purge-non-guids-from-catalog";
-import * as _ensureTelemetryModule from "../src/_ensure-telemetry";
-import { IModel } from "@esri/hub-common";
-import { SITE_SCHEMA_VERSION } from "../src/site-schema-version";
+import { upgradeSiteSchema } from "../../src";
+import * as _applySiteSchemaModule from "../../src/sites/_apply-site-schema";
+import * as _enforceLowercaseDomainsModule from "../../src/sites/_enforce-lowercase-domains";
+import * as _ensureCatalogModule from "../../src/sites/_ensure-catalog";
+import * as _purgeNonGuidsFromCatalogModule from "../../src/sites/_purge-non-guids-from-catalog";
+import * as _ensureTelemetryModule from "../../src/sites/_ensure-telemetry";
+import { IModel } from "../../src";
+import { SITE_SCHEMA_VERSION } from "../../src/sites/site-schema-version";
 import { expectAllCalled, expectAll } from "./test-helpers.test";
 
 describe("upgradeSiteSchema", () => {
@@ -40,9 +40,9 @@ describe("upgradeSiteSchema", () => {
     const model = {
       item: {
         properties: {
-          schemaVersion: SITE_SCHEMA_VERSION - 1
-        }
-      }
+          schemaVersion: SITE_SCHEMA_VERSION - 1,
+        },
+      },
     } as IModel;
 
     upgradeSiteSchema(model);
@@ -53,7 +53,7 @@ describe("upgradeSiteSchema", () => {
         enforceLowercaseSpy,
         ensureCatalogSpy,
         purgeNonGuidsSpy,
-        ensureTelemetrySpy
+        ensureTelemetrySpy,
       ],
       expect
     );
@@ -63,9 +63,9 @@ describe("upgradeSiteSchema", () => {
     const model = {
       item: {
         properties: {
-          schemaVersion: SITE_SCHEMA_VERSION
-        }
-      }
+          schemaVersion: SITE_SCHEMA_VERSION,
+        },
+      },
     } as IModel;
 
     upgradeSiteSchema(model);
@@ -76,7 +76,7 @@ describe("upgradeSiteSchema", () => {
         enforceLowercaseSpy,
         ensureCatalogSpy,
         purgeNonGuidsSpy,
-        ensureTelemetrySpy
+        ensureTelemetrySpy,
       ],
       "toHaveBeenCalled",
       false,
