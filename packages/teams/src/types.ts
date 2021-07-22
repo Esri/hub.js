@@ -135,6 +135,7 @@ export interface IAddOrInviteToTeamResult {
   community: IAddOrInviteResponse;
   org: IAddOrInviteResponse;
   world: IAddOrInviteResponse;
+  groupId: string;
 }
 
 /**
