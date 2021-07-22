@@ -1,4 +1,6 @@
-import { IModel, getProp, cloneObject } from "@esri/hub-common";
+import { getProp } from "../objects";
+import { IModel } from "../types";
+import { cloneObject } from "../util";
 
 /**
  * Apply the first schema version to the item
@@ -11,7 +13,7 @@ export function _applySiteSchema(model: IModel) {
 
   const clone = cloneObject(model);
   // proactively purge old properties
-  ["groupId", "title"].forEach(prop => {
+  ["groupId", "title"].forEach((prop) => {
     delete clone.data.values[prop];
   });
   // ensure item.properties

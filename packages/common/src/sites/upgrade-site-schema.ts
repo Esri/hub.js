@@ -1,4 +1,5 @@
-import { IModel, getProp } from "@esri/hub-common";
+import { IModel } from "../types";
+import { getProp } from "../objects";
 import { SITE_SCHEMA_VERSION } from "./site-schema-version";
 import { _applySiteSchema } from "./_apply-site-schema";
 import { _enforceLowercaseDomains } from "./_enforce-lowercase-domains";

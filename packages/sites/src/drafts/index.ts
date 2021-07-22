@@ -1,7 +1,6 @@
 export * from "./page-draft-include-list";
 export * from "./site-draft-include-list";
 export * from "./unpublished-changes-kw";
-export * from "./build-draft";
 export * from "./_include-list-from-item-type";
 export * from "./has-unpublished-changes";
 export * from "./mark-published";
@@ -16,3 +15,4 @@ export * from "./apply-draft";
 export * from "./fetch-and-apply-draft";
 export * from "./get-draft-date";
 export * from "./upgrade-draft-schema";
+export { buildDraft } from "@esri/hub-common";

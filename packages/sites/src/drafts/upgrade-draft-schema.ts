@@ -1,6 +1,5 @@
 import { deepSet, getProp, IDraft } from "@esri/hub-common";
-import { SITE_SCHEMA_VERSION } from "../site-schema-version";
-import { _ensureTelemetry } from "../_ensure-telemetry";
+import { SITE_SCHEMA_VERSION, _ensureTelemetry } from "@esri/hub-common";
 
 const schemaVersionPath = "item.properties.schemaVersion";
 const initialDraftVersion = 1.3;

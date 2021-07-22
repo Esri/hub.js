@@ -1,19 +1,19 @@
-import { _ensureCatalog } from "../src";
-import { IModel } from "@esri/hub-common";
+import { IModel } from "../../src";
+import { _ensureCatalog } from "../../src/sites/_ensure-catalog";
 
 describe("_ensureCatalog", () => {
-  it("ensureCatalog adds data.catalog", function() {
-    const model = ({
+  it("ensureCatalog adds data.catalog", function () {
+    const model = {
       item: {
         id: "3ef",
-        properties: {}
+        properties: {},
       },
       data: {
         values: {
-          groups: ["4bc", { id: "fromObj" }, "54b", { id: "secondObj" }]
-        }
-      }
-    } as unknown) as IModel;
+          groups: ["4bc", { id: "fromObj" }, "54b", { id: "secondObj" }],
+        },
+      },
+    } as unknown as IModel;
     const chk = _ensureCatalog(model);
     expect(chk.data.catalog).toBeTruthy("catalog should exist");
     expect(Array.isArray(chk.data.catalog.groups)).toBeTruthy(
@@ -26,18 +26,18 @@ describe("_ensureCatalog", () => {
     );
   });
 
-  it("doesnt blow up with non-existant catalog", function() {
-    const model = ({
+  it("doesnt blow up with non-existant catalog", function () {
+    const model = {
       item: {
         id: "3ef",
         properties: {
-          schemaVersion: 1
-        }
+          schemaVersion: 1,
+        },
       },
       data: {
         // no catalog
-      }
-    } as unknown) as IModel;
+      },
+    } as unknown as IModel;
     try {
       const chk = _ensureCatalog(model);
       expect(chk).toBeDefined();
@@ -46,20 +46,20 @@ describe("_ensureCatalog", () => {
     }
   });
 
-  it("skips templates greater than 1.2 schema version", function() {
-    const model = ({
+  it("skips templates greater than 1.2 schema version", function () {
+    const model = {
       item: {
         id: "3ef",
         properties: {
-          schemaVersion: 2
-        }
+          schemaVersion: 2,
+        },
       },
       data: {
         values: {
-          groups: ["4bc", { id: "fromObj" }, "54b", { id: "secondObj" }]
-        }
-      }
-    } as unknown) as IModel;
+          groups: ["4bc", { id: "fromObj" }, "54b", { id: "secondObj" }],
+        },
+      },
+    } as unknown as IModel;
     const chk = _ensureCatalog(model);
     expect(chk).toEqual(model);
   });
