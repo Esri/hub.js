@@ -2,6 +2,7 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import * as portal from "@esri/arcgis-rest-portal";
 import { IItem, ISearchResult } from "@esri/arcgis-rest-portal";
 import * as common from "@esri/hub-common";
+import { IHubRequestOptions } from "@esri/hub-common";
 import {
   catalogToContentFilter,
   ContentSearchService,
@@ -634,6 +635,71 @@ describe("catalogToContentFilter function", () => {
 });
 
 describe("searchContent function", () => {
+  it("applies site catalog when site domain provided", async () => {
+    const lookupDomainSpy = spyOn(common, "lookupDomain");
+    const getSiteByIdSpy = spyOn(common, "getSiteById");
+    const hubApiRequestSpy = spyOn(common, "hubApiRequest").and.returnValue(
+      Promise.resolve()
+    );
+
+    lookupDomainSpy.and.returnValue(
+      Promise.resolve({
+        siteId: "1aldsf329fewasdf23",
+      })
+    );
+
+    getSiteByIdSpy.and.returnValue(
+      Promise.resolve({
+        data: {
+          values: {
+            catalog: {
+              groups: ["24ad12457b8c410582f185c46f6896ba"],
+              orgId: "be55891b4",
+            },
+          },
+        },
+      })
+    );
+
+    const userSession = new UserSession({
+      portal: "https://www.arcgis.com",
+    });
+
+    await searchContent({
+      options: {
+        site: "https://my-site.hub.arcgis.com",
+        isPortal: false,
+        portal: "https://www.arcgis.com",
+        authentication: userSession,
+      },
+    });
+
+    const expectedRequestOptions: IHubRequestOptions = {
+      isPortal: false,
+      hubApiUrl: "https://hub.arcgis.com",
+      authentication: userSession,
+    };
+
+    expect(lookupDomainSpy).toHaveBeenCalledWith(
+      "https://my-site.hub.arcgis.com",
+      expectedRequestOptions
+    );
+
+    expect(getSiteByIdSpy).toHaveBeenCalledWith(
+      "1aldsf329fewasdf23",
+      expectedRequestOptions
+    );
+
+    expect(hubApiRequestSpy).toHaveBeenCalledTimes(1);
+
+    const hubApiRequestParams = hubApiRequestSpy.calls.argsFor(0)[1].params;
+
+    expect(hubApiRequestParams.catalog).toEqual({
+      groupIds: "any(24ad12457b8c410582f185c46f6896ba)",
+      orgId: "any(be55891b4)",
+    });
+  });
+
   it("can be perform an enterprise search when isPortal is specified as true", (done) => {
     // Setup
     const filter: IContentSearchFilter = {

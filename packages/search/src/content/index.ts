@@ -3,12 +3,16 @@ import {
   getHubApiUrl,
   getProp,
   hubApiRequest,
+  IHubRequestOptions,
   ISiteCatalog,
+  lookupDomain,
+  getSiteById,
 } from "@esri/hub-common";
 import { IItem, ISearchOptions, ISearchResult } from "@esri/arcgis-rest-portal";
 import { searchItems } from "@esri/arcgis-rest-portal";
 import {
   IContentSearchFilter,
+  IContentSearchOptions,
   IContentSearchRequest,
   IContentSearchResponse,
 } from "../types/content";
@@ -121,9 +125,17 @@ export function catalogToContentFilter({
  * const searchResults = searchContent({ filters, options })
  * ```
  */
-export function searchContent(
+export async function searchContent(
   request: IContentSearchRequest = { filter: {}, options: {} }
 ): Promise<IContentSearchResponse> {
+  const siteCatalog = await getSiteCatalogFromOptions(request.options);
+  if (siteCatalog) {
+    request.filter = {
+      ...request.filter,
+      ...catalogToContentFilter(siteCatalog),
+    };
+  }
+
   if (getProp(request, "options.isPortal")) {
     return performEnterpriseContentSearch(request);
   }
@@ -171,4 +183,25 @@ function performHubContentSearch(
   }).then((response: any) =>
     convertHubResponse(requestParams, response, authentication)
   );
+}
+
+function getSiteCatalogFromOptions(options: IContentSearchOptions) {
+  if (!options || !options.site) return null;
+
+  const ro = getHubRequestOptions(options);
+
+  return lookupDomain(options.site, ro)
+    .then((domainRecord) => getSiteById(domainRecord.siteId, ro))
+    .then((siteModel) => getProp(siteModel, "data.values.catalog"));
+}
+
+// used above
+function getHubRequestOptions(
+  options: IContentSearchOptions
+): IHubRequestOptions {
+  return {
+    authentication: options.authentication,
+    isPortal: options.isPortal,
+    hubApiUrl: getHubApiUrl(options.portal),
+  };
 }
