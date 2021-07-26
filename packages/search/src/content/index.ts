@@ -6,6 +6,7 @@ import {
   IHubRequestOptions,
   fetchSite,
   ISiteCatalog,
+  getPortalApiUrl,
 } from "@esri/hub-common";
 import { IItem, ISearchOptions, ISearchResult } from "@esri/arcgis-rest-portal";
 import { searchItems } from "@esri/arcgis-rest-portal";
@@ -157,13 +158,15 @@ function performHubContentSearch(
   );
 }
 
-function getSiteCatalogFromOptions(options: IContentSearchOptions): Promise<ISiteCatalog> {
+function getSiteCatalogFromOptions(
+  options: IContentSearchOptions
+): Promise<ISiteCatalog> {
   if (!options || !options.site) return null;
 
   const ro = getHubRequestOptions(options);
 
   return fetchSite(options.site, ro).then((siteModel) =>
-    getProp(siteModel, "data.values.catalog")
+    getProp(siteModel, "data.catalog")
   );
 }
 
@@ -175,5 +178,6 @@ function getHubRequestOptions(
     authentication: options.authentication,
     isPortal: options.isPortal,
     hubApiUrl: getHubApiUrl(options.portal),
+    portal: getPortalApiUrl(options.portal),
   };
 }

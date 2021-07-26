@@ -3,10 +3,7 @@ import * as portal from "@esri/arcgis-rest-portal";
 import { IItem, ISearchResult } from "@esri/arcgis-rest-portal";
 import * as common from "@esri/hub-common";
 import { IHubRequestOptions } from "@esri/hub-common";
-import {
-  ContentSearchService,
-  searchContent,
-} from "../../src/content/index";
+import { ContentSearchService, searchContent } from "../../src/content/index";
 import {
   IContentSearchFilter,
   IContentSearchRequest,
@@ -621,8 +618,7 @@ describe("Content Search Service", () => {
 });
 
 describe("searchContent function", () => {
-
-  describe('scoping site catalog', () => {
+  describe("scoping site catalog", () => {
     const userSession = new UserSession({
       portal: "https://www.arcgis.com",
     });
@@ -630,14 +626,12 @@ describe("searchContent function", () => {
     let fetchSiteSpy: jasmine.Spy;
     let hubApiRequestSpy: jasmine.Spy;
     beforeEach(() => {
-      fetchSiteSpy = spyOn(common, 'fetchSite').and.returnValue(
+      fetchSiteSpy = spyOn(common, "fetchSite").and.returnValue(
         Promise.resolve({
           data: {
-            values: {
-              catalog: {
-                groups: ["24ad12457b8c410582f185c46f6896ba"],
-                orgId: "be55891b4",
-              },
+            catalog: {
+              groups: ["24ad12457b8c410582f185c46f6896ba"],
+              orgId: "be55891b4",
             },
           },
         })
@@ -646,7 +640,7 @@ describe("searchContent function", () => {
       hubApiRequestSpy = spyOn(common, "hubApiRequest").and.returnValue(
         Promise.resolve()
       );
-    })
+    });
 
     it("applies site catalog when site identifier provided", async () => {
       await searchContent({
@@ -661,6 +655,7 @@ describe("searchContent function", () => {
       const expectedRequestOptions: IHubRequestOptions = {
         isPortal: false,
         hubApiUrl: "https://hub.arcgis.com",
+        portal: "https://www.arcgis.com/sharing/rest",
         authentication: userSession,
       };
 
@@ -682,7 +677,7 @@ describe("searchContent function", () => {
     it("filter options override site catalog", async () => {
       await searchContent({
         filter: {
-          group: ['foo', 'bar']
+          group: ["foo", "bar"],
         },
         options: {
           site: "https://my-site.hub.arcgis.com",
@@ -701,7 +696,7 @@ describe("searchContent function", () => {
         orgId: "any(be55891b4)",
       });
     });
-  })
+  });
 
   it("can be perform an enterprise search when isPortal is specified as true", (done) => {
     // Setup
