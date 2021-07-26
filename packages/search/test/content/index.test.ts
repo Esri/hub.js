@@ -635,56 +635,87 @@ describe("catalogToContentFilter function", () => {
 });
 
 describe("searchContent function", () => {
-  it("applies site catalog when site identifier provided", async () => {
-    const fetchSiteSpy = spyOn(common, "fetchSite").and.returnValue(
-      Promise.resolve({
-        data: {
-          values: {
-            catalog: {
-              groups: ["24ad12457b8c410582f185c46f6896ba"],
-              orgId: "be55891b4",
-            },
-          },
-        },
-      })
-    );
-    const hubApiRequestSpy = spyOn(common, "hubApiRequest").and.returnValue(
-      Promise.resolve()
-    );
 
+  describe('scoping site catalog', () => {
     const userSession = new UserSession({
       portal: "https://www.arcgis.com",
     });
 
-    await searchContent({
-      options: {
-        site: "https://my-site.hub.arcgis.com",
+    let fetchSiteSpy: jasmine.Spy;
+    let hubApiRequestSpy: jasmine.Spy;
+    beforeEach(() => {
+      fetchSiteSpy = spyOn(common, 'fetchSite').and.returnValue(
+        Promise.resolve({
+          data: {
+            values: {
+              catalog: {
+                groups: ["24ad12457b8c410582f185c46f6896ba"],
+                orgId: "be55891b4",
+              },
+            },
+          },
+        })
+      );
+
+      hubApiRequestSpy = spyOn(common, "hubApiRequest").and.returnValue(
+        Promise.resolve()
+      );
+    })
+
+    it("applies site catalog when site identifier provided", async () => {
+      await searchContent({
+        options: {
+          site: "https://my-site.hub.arcgis.com",
+          isPortal: false,
+          portal: "https://www.arcgis.com",
+          authentication: userSession,
+        },
+      });
+
+      const expectedRequestOptions: IHubRequestOptions = {
         isPortal: false,
-        portal: "https://www.arcgis.com",
+        hubApiUrl: "https://hub.arcgis.com",
         authentication: userSession,
-      },
+      };
+
+      expect(fetchSiteSpy).toHaveBeenCalledWith(
+        "https://my-site.hub.arcgis.com",
+        expectedRequestOptions
+      );
+
+      expect(hubApiRequestSpy).toHaveBeenCalledTimes(1);
+
+      const hubApiRequestParams = hubApiRequestSpy.calls.argsFor(0)[1].params;
+
+      expect(hubApiRequestParams.catalog).toEqual({
+        groupIds: "any(24ad12457b8c410582f185c46f6896ba)",
+        orgId: "any(be55891b4)",
+      });
     });
 
-    const expectedRequestOptions: IHubRequestOptions = {
-      isPortal: false,
-      hubApiUrl: "https://hub.arcgis.com",
-      authentication: userSession,
-    };
+    it("filter options override site catalog", async () => {
+      await searchContent({
+        filter: {
+          group: ['foo', 'bar']
+        },
+        options: {
+          site: "https://my-site.hub.arcgis.com",
+          isPortal: false,
+          portal: "https://www.arcgis.com",
+          authentication: userSession,
+        },
+      });
 
-    expect(fetchSiteSpy).toHaveBeenCalledWith(
-      "https://my-site.hub.arcgis.com",
-      expectedRequestOptions
-    );
+      expect(hubApiRequestSpy).toHaveBeenCalledTimes(1);
 
-    expect(hubApiRequestSpy).toHaveBeenCalledTimes(1);
+      const hubApiRequestParams = hubApiRequestSpy.calls.argsFor(0)[1].params;
 
-    const hubApiRequestParams = hubApiRequestSpy.calls.argsFor(0)[1].params;
-
-    expect(hubApiRequestParams.catalog).toEqual({
-      groupIds: "any(24ad12457b8c410582f185c46f6896ba)",
-      orgId: "any(be55891b4)",
+      expect(hubApiRequestParams.catalog).toEqual({
+        groupIds: "any(foo,bar)",
+        orgId: "any(be55891b4)",
+      });
     });
-  });
+  })
 
   it("can be perform an enterprise search when isPortal is specified as true", (done) => {
     // Setup

@@ -130,8 +130,8 @@ export async function searchContent(
   const siteCatalog = await getSiteCatalogFromOptions(request.options);
   if (siteCatalog) {
     request.filter = {
-      ...request.filter,
       ...catalogToContentFilter(siteCatalog),
+      ...request.filter,
     };
   }
 
