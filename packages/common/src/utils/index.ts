@@ -1,5 +1,6 @@
 export * from "./batch";
 export * from "./ensure-unique-string";
+export * from "./create-operation-pipeline";
 export * from "./fail-safe";
 export * from "./generate-random-string";
 export * from "./get-hub-product";

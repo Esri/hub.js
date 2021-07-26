@@ -1,9 +1,4 @@
-import {
-  getItemData,
-  getItemGroups,
-  getUser,
-  IGetUserOptions,
-} from "@esri/arcgis-rest-portal";
+import { getItemData, getItemGroups, getUser } from "@esri/arcgis-rest-portal";
 import {
   getAllLayersAndTables,
   getService,
@@ -13,8 +8,9 @@ import {
 import {
   IHubContent,
   IHubRequestOptions,
-  IEnrichmentErrorInfo,
+  IPipeable,
   cloneObject,
+  createOperationPipeline,
   getProp,
   getItemHomeUrl,
   getItemApiUrl,
@@ -24,6 +20,7 @@ import {
   includes,
   isFeatureService,
   isNil,
+  OperationStack,
 } from "@esri/hub-common";
 import { getContentMetadata } from "./metadata";
 
@@ -262,55 +259,99 @@ export function _enrichDates(content: IHubContent): IHubContent {
   return newContent;
 }
 
-const fetchGroupIds = (
-  content: IHubContent,
-  requestOptions?: IHubRequestOptions
-): Promise<string[]> => {
-  return getItemGroups(content.id, requestOptions).then((response) => {
-    const { admin, member, other } = response;
-    return [...admin, ...member, ...other].map((group) => group.id);
-  });
+const enrichGroupIds = (
+  input: IPipeable<IHubContent>
+): Promise<IPipeable<IHubContent>> => {
+  const { data: content, stack, requestOptions } = input;
+  const opId = stack.start("enrichGroupIds");
+  return getItemGroups(content.id, requestOptions)
+    .then((response) => {
+      const { admin, member, other } = response;
+      const groupIds = [...admin, ...member, ...other].map((group) => group.id);
+      stack.finish(opId);
+      return {
+        data: { ...content, groupIds },
+        stack,
+        requestOptions,
+      };
+    })
+    .catch((error) => handleEnrichmentError(error, input, opId));
 };
 
-const fetchMetadata = (
-  content: IHubContent,
-  requestOptions?: IHubRequestOptions
-) => getContentMetadata(content.id, requestOptions);
+const enrichMetadata = (
+  input: IPipeable<IHubContent>
+): Promise<IPipeable<IHubContent>> => {
+  const { data: content, stack, requestOptions } = input;
+  const opId = stack.start("enrichMetadata");
+  return getContentMetadata(content.id, requestOptions as IHubRequestOptions)
+    .then((metadata) => {
+      stack.finish(opId);
+      const data = { ...content, metadata };
+      return { data, stack, requestOptions };
+    })
+    .catch((error) => handleEnrichmentError(error, input, opId));
+};
 
-const fetchOwnerOrgId = (
-  content: IHubContent,
-  requestOptions?: IHubRequestOptions
-): Promise<string> => {
-  const options: IGetUserOptions = {
+const enrichOwner = (
+  input: IPipeable<IHubContent>
+): Promise<IPipeable<IHubContent>> => {
+  const { data: content, stack, requestOptions } = input;
+  const opId = stack.start("enrichOwner");
+  // w/o the : any here, I get a compile error about
+  // .authentication being incompatible w/ UserSession
+  const options: any = {
     username: content.owner,
     ...requestOptions,
   };
-  return getUser(options).then((user) => user.orgId);
+  return getUser(options)
+    .then((ownerUser) => {
+      stack.finish(opId);
+      const orgId = ownerUser.orgId;
+      // TODO: also set owner user
+      const data = { ...content, orgId };
+      return { data, stack, requestOptions };
+    })
+    .catch((error) => handleEnrichmentError(error, input, opId));
 };
 
-const fetchContentData = (
-  content: IHubContent,
-  requestOptions?: IHubRequestOptions
-) => {
-  return getItemData(content.id, requestOptions);
+const enrichData = (
+  input: IPipeable<IHubContent>
+): Promise<IPipeable<IHubContent>> => {
+  const { data: content, stack, requestOptions } = input;
+  const opId = stack.start("enrichData");
+  return getItemData(content.id, requestOptions)
+    .then((itemData) => {
+      stack.finish(opId);
+      const data = { ...content, data: itemData };
+      return { data, stack, requestOptions };
+    })
+    .catch((error) => handleEnrichmentError(error, input, opId));
 };
 
-const fetchService = (
-  content: IHubContent,
-  requestOptions?: IHubRequestOptions
-) => {
+const enrichServer = (
+  input: IPipeable<IHubContent>
+): Promise<IPipeable<IHubContent>> => {
+  const { data: content, stack, requestOptions } = input;
+  const opId = stack.start("enrichServer");
   const url = content.url;
   const options = {
     ...requestOptions,
     url,
   };
-  return getService(options);
+  return getService(options)
+    .then((server) => {
+      stack.finish(opId);
+      const data = { ...content, server };
+      return { data, stack, requestOptions };
+    })
+    .catch((error) => handleEnrichmentError(error, input, opId));
 };
 
-const fetchLayers = (
-  content: IHubContent,
-  requestOptions?: IHubRequestOptions
-) => {
+const enrichLayers = (
+  input: IPipeable<IHubContent>
+): Promise<IPipeable<IHubContent>> => {
+  const { data: content, stack, requestOptions } = input;
+  const opId = stack.start("enrichLayers");
   const url = content.url;
   const options = {
     ...requestOptions,
@@ -326,31 +367,60 @@ const fetchLayers = (
           (layer) => (layer.type as string) !== "Group Layer"
         );
       })
+      .then((layers) => {
+        stack.finish(opId);
+        const data = { ...content, layers };
+        return { data, stack, requestOptions };
+      })
+      .catch((error) => handleEnrichmentError(error, input, opId))
   );
 };
 
-interface IEnrichmentRequests {
+// add the error to the content.errors,
+// log current stack operation as finished with an error
+// and return output that can be piped into the next operation
+const handleEnrichmentError = (
+  error: Error | string,
+  input: IPipeable<IHubContent>,
+  opId: string
+): IPipeable<IHubContent> => {
+  const { data: content, stack, requestOptions } = input;
+  stack.finish(opId, { error });
+  const message = typeof error === "string" ? error : error.message;
+  const errors = content.errors || [];
+  errors.push({
+    // NOTE: for now we just return the message and type "Other"
+    // but we could later introspect for HTTP or AGO errors
+    // and/or return the status code if available
+    type: "Other",
+    message,
+  });
+  const data = { ...content, errors };
+  return { data, stack, requestOptions };
+};
+interface IEnrichmentOperations {
   [key: string]: (
-    content: IHubContent,
-    requestOptions?: IHubRequestOptions
-  ) => Promise<unknown>;
+    input: IPipeable<IHubContent>
+  ) => Promise<IPipeable<IHubContent>>;
 }
-
-const enrichmentRequests: IEnrichmentRequests = {
-  // portal only
-  groupIds: fetchGroupIds,
-  metadata: fetchMetadata,
-  server: fetchService,
-  layers: fetchLayers,
-  // both portal and hub
-  data: fetchContentData,
-  orgId: fetchOwnerOrgId,
+const enrichmentOperations: IEnrichmentOperations = {
+  groupIds: enrichGroupIds,
+  metadata: enrichMetadata,
+  server: enrichServer,
+  layers: enrichLayers,
+  data: enrichData,
+  orgId: enrichOwner,
 };
 
-// TODO: use family instead
 const shouldFetchData = (content: IHubContent) => {
-  // TODO: we probably want to fetch data by default for other types of data
-  return !content.data && includes(["template", "solution"], content.hubType);
+  // TODO: use family instead of hubTypes
+  const hubTypes = ["template", "solution"];
+  // TODO: are there other types that we should fetch the data for?
+  const types = ["Web Map", "Web Scene"];
+  return (
+    !content.data &&
+    (includes(hubTypes, content.hubType) || includes(types, content.type))
+  );
 };
 
 const isHubCreatedContent = (content: IHubContent) => {
@@ -456,44 +526,26 @@ export interface IEnrichContentOptions extends IFetchEnrichmentOptions {
 export const fetchEnrichments = (
   content: IHubContent,
   requestOptions?: IFetchEnrichmentOptions
-): Partial<IHubContent> => {
-  // get the list of enrichments to fetch
+): Promise<IHubContent> => {
+  // get the list of enrichments (property names) to fetch
   const enrichments =
     (requestOptions && requestOptions.enrichments) ||
     getMissingEnrichments(content);
-  // only include the enrichments that we know how to enrich
-  const validEnrichments = enrichments.filter(
-    (name) => !!enrichmentRequests[name]
-  );
-  const errors: IEnrichmentErrorInfo[] = [];
-  const requests = validEnrichments.map((enrichment) => {
-    // initiate the request and return the promise
-    const request = enrichmentRequests[enrichment];
-    return request(content, requestOptions).catch((e) => {
-      // there was an error w/ the request, capture it
-      const message = (e && e.message) || e;
-      errors.push({
-        // NOTE: for now we just return the message and type "Other"
-        // but we could later introspect for HTTP or AGO errors
-        // and/or return the status code if available
-        type: "Other",
-        message,
-      });
-      // and then set this property to null
-      return null;
-    });
-  });
-  return Promise.all(requests).then((values) => {
-    // return a hash of enrichment properties with the errors merged in
-    const properties: { [key: string]: unknown } = {};
-    values.forEach((value, i) => {
-      const name = validEnrichments[i];
-      properties[name] = value;
-    });
-    return {
-      ...properties,
-      errors,
-    };
+  // create a pipeline of enrichment operations
+  const operations = enrichments.reduce((ops, enrichment) => {
+    const operation = enrichmentOperations[enrichment];
+    // only include the enrichments that we know how to fetch
+    operation && ops.push(operation);
+    return ops;
+  }, []);
+  const pipeline = createOperationPipeline(operations);
+  // execute pipeline and return the enriched content
+  return pipeline({
+    data: content,
+    stack: new OperationStack(),
+    requestOptions,
+  }).then((output) => {
+    return output.data as IHubContent;
   });
 };
 
@@ -509,22 +561,20 @@ export const enrichContent = (
   content: IHubContent,
   requestOptions?: IEnrichContentOptions
 ) => {
-  // get enriched portal urls
-  const portalUrls = getPortalUrls(content, requestOptions);
+  // ensure defaults and enrich content with portal urls
+  const defaults: Partial<IHubContent> = {
+    errors: [],
+  };
+  const contentWithPortalUrls = {
+    ...defaults,
+    ...content,
+    ...getPortalUrls(content, requestOptions),
+  };
   // fetch any missing or requested enrichments
-  return fetchEnrichments(content, requestOptions).then(
-    (enrichments: Partial<IHubContent>) => {
-      const serverErrors = content.errors || [];
-      // merge derived portal URLs & fetched enrichments into content
-      const merged = {
-        ...content,
-        ...portalUrls,
-        ...enrichments,
-        // include any previous errors (if any)
-        errors: [...serverErrors, ...enrichments.errors],
-      };
+  return fetchEnrichments(contentWithPortalUrls, requestOptions).then(
+    (fetched) => {
       // enrich dates now that we have metadata (if any)
-      const enriched = _enrichDates(merged);
+      const enriched = _enrichDates(fetched);
       // if this is a layer (type: Feature Layer, Table, Raster Layer)
       // or a feature or map service and caller has supplied a layer id
       // we want the content to represent the layer instead of the service

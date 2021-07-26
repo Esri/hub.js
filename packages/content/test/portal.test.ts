@@ -206,6 +206,7 @@ describe("get content from portal", () => {
     const id = item.id;
     getContentFromPortal(id, requestOpts).then((content) => {
       // verify that we attempted to fetch from the portal API
+      // TODO: mock getItem and related calls instead of fetchMock
       const [url] = fetchMock.calls()[0];
       expect(url).toBe(
         "https://vader.maps.arcgis.com/sharing/rest/content/items/8d37647291dd42deab032cfb1b57509c?f=json&token=fake-token"

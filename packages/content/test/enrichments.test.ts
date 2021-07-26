@@ -1,7 +1,7 @@
 import * as arcgisRestPortal from "@esri/arcgis-rest-portal";
 import * as arcgisRestFeatureLayer from "@esri/arcgis-rest-feature-layer";
 import * as metadataModule from "../src/metadata";
-import { IHubContent } from "@esri/hub-common";
+import { IHubContent, OperationStack } from "@esri/hub-common";
 import {
   fetchEnrichments,
   _enrichDates,
@@ -11,63 +11,107 @@ import {
   getLayerContent,
 } from "../src/enrichments";
 
+const spyOnAndReject = (context: any, name: string) => {
+  const error = {
+    message: `You have failed me for the last time, ${name}`,
+  };
+  return spyOn(context, name).and.returnValue(Promise.reject(error));
+};
+
 describe("fetchEnrichments", () => {
-  it("fetches orgId for hub created web maps", async () => {
-    const orgId = "ownerOrgId";
-    const getUserSpy = spyOn(arcgisRestPortal, "getUser").and.returnValue(
-      Promise.resolve({ orgId })
-    );
-    const content = {
-      id: "3ae",
-      // signature for a Hub created web map
-      type: "Web Map",
-      typeKeywords: ["ArcGIS Hub"],
-      // don't try to fetch the other enrichments:
-      groupIds: [],
-      data: {},
-      metadata: null,
-    } as IHubContent;
-    const props = await fetchEnrichments(content);
-    expect(getUserSpy.calls.count()).toBe(1);
-    expect(props).toEqual({ orgId, errors: [] });
+  describe("hub created web maps", () => {
+    let content: IHubContent;
+    beforeEach(() => {
+      content = {
+        id: "3ae",
+        // signature for a Hub created web map
+        type: "Web Map",
+        typeKeywords: ["ArcGIS Hub"],
+        // don't try to fetch the other enrichments:
+        groupIds: [],
+        data: {},
+        metadata: null,
+      } as IHubContent;
+    });
+    it("fetches orgId", async () => {
+      const orgId = "ownerOrgId";
+      const getUserSpy = spyOn(arcgisRestPortal, "getUser").and.returnValue(
+        Promise.resolve({ orgId })
+      );
+      const enriched = await fetchEnrichments(content);
+      expect(getUserSpy.calls.count()).toBe(1);
+      // TODO: verify ownerUser
+      expect(enriched.orgId).toEqual(orgId, "sets orgId");
+    });
+    it("handles errors", async () => {
+      const getUserSpy = spyOnAndReject(arcgisRestPortal, "getUser");
+      const getItemDataSpy = spyOnAndReject(arcgisRestPortal, "getItemData");
+      // remove data so that it will attempt to fetch it
+      delete content.data;
+      const enriched = await fetchEnrichments(content);
+      expect(getUserSpy.calls.count()).toBe(1);
+      expect(getItemDataSpy.calls.count()).toBe(1);
+      expect(enriched.ownerUser).toBeUndefined("does not set ownerUser");
+      expect(enriched.orgId).toBeUndefined("does not set orgId");
+      expect(enriched.data).toBeUndefined("does not set data");
+      expect(enriched.errors.length).toBe(2, "set errors");
+    });
   });
-  it("fetches service and layers for map services", async () => {
-    const server = {
-      currentVersion: 10.71,
-      serviceDescription: "For demo purposes only.",
-    };
-    const getServiceSpy = spyOn(
-      arcgisRestFeatureLayer,
-      "getService"
-    ).and.returnValue(Promise.resolve(server));
-    const layer = { id: 0, name: "layer0 " };
-    const table = { id: 1, name: "table1 " };
-    const groupLayer = { id: 2, name: "layer1", type: "Group Layer" };
-    const allLayersAndTables = {
-      layers: [layer, groupLayer],
-      tables: [table],
-    };
-    const getAllLayersAndTablesSpy = spyOn(
-      arcgisRestFeatureLayer,
-      "getAllLayersAndTables"
-    ).and.returnValue(Promise.resolve(allLayersAndTables));
-    const content = {
-      id: "3ae",
-      type: "Map Service",
-      url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Elevation/GlacierBay/MapServer/",
-      // don't try to fetch the other enrichments:
-      groupIds: [],
-      data: {},
-      metadata: null,
-    } as IHubContent;
-    const props = await fetchEnrichments(content);
-    const layers = [layer, table];
-    expect(getServiceSpy.calls.count()).toBe(1);
-    expect(getAllLayersAndTablesSpy.calls.count()).toBe(1);
-    expect(props).toEqual({
-      server,
-      layers,
-      errors: [],
+  describe("map services", () => {
+    let content: IHubContent;
+    beforeEach(() => {
+      content = {
+        id: "3ae",
+        type: "Map Service",
+        url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Elevation/GlacierBay/MapServer/",
+        // don't try to fetch the other enrichments:
+        groupIds: [],
+        data: {},
+        metadata: null,
+      } as IHubContent;
+    });
+    it("fetches service and layers", async () => {
+      const server = {
+        currentVersion: 10.71,
+        serviceDescription: "For demo purposes only.",
+      };
+      const getServiceSpy = spyOn(
+        arcgisRestFeatureLayer,
+        "getService"
+      ).and.returnValue(Promise.resolve(server));
+      const layer = { id: 0, name: "layer0 " };
+      const table = { id: 1, name: "table1 " };
+      const groupLayer = { id: 2, name: "layer1", type: "Group Layer" };
+      const allLayersAndTables = {
+        layers: [layer, groupLayer],
+        tables: [table],
+      };
+      const getAllLayersAndTablesSpy = spyOn(
+        arcgisRestFeatureLayer,
+        "getAllLayersAndTables"
+      ).and.returnValue(Promise.resolve(allLayersAndTables));
+      const enriched = await fetchEnrichments(content);
+      const layers = [layer, table];
+      expect(getServiceSpy.calls.count()).toBe(1);
+      expect(getAllLayersAndTablesSpy.calls.count()).toBe(1);
+      expect(enriched.server).toEqual(server, "sets server");
+      expect(enriched.layers).toEqual(layers, "sets layers");
+    });
+    it("handles errors", async () => {
+      const getServiceSpy = spyOnAndReject(
+        arcgisRestFeatureLayer,
+        "getService"
+      );
+      const getAllLayersAndTablesSpy = spyOnAndReject(
+        arcgisRestFeatureLayer,
+        "getAllLayersAndTables"
+      );
+      const enriched = await fetchEnrichments(content);
+      expect(getServiceSpy.calls.count()).toBe(1);
+      expect(getAllLayersAndTablesSpy.calls.count()).toBe(1);
+      expect(enriched.server).toBeUndefined("does not set server");
+      expect(enriched.layers).toBeUndefined("does not set layers");
+      expect(enriched.errors.length).toBe(2, "set errors");
     });
   });
 });
