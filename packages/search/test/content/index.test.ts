@@ -4,7 +4,6 @@ import { IItem, ISearchResult } from "@esri/arcgis-rest-portal";
 import * as common from "@esri/hub-common";
 import { IHubRequestOptions } from "@esri/hub-common";
 import {
-  catalogToContentFilter,
   ContentSearchService,
   searchContent,
 } from "../../src/content/index";
@@ -617,19 +616,6 @@ describe("Content Search Service", () => {
       expect(response.aggregations).toBeUndefined();
       expect(response.next).toBeDefined();
       done();
-    });
-  });
-});
-
-describe("catalogToContentFilter function", () => {
-  it("converts a site catalog to a content filter", () => {
-    const siteCatalog = {
-      groups: ["24ad12457b8c410582f185c46f6896ba"],
-      orgId: "be55891b4",
-    };
-    expect(catalogToContentFilter(siteCatalog)).toEqual({
-      group: siteCatalog.groups,
-      orgid: siteCatalog.orgId,
     });
   });
 });

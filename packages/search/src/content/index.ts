@@ -4,13 +4,12 @@ import {
   getProp,
   hubApiRequest,
   IHubRequestOptions,
-  ISiteCatalog,
   fetchSite,
+  ISiteCatalog,
 } from "@esri/hub-common";
 import { IItem, ISearchOptions, ISearchResult } from "@esri/arcgis-rest-portal";
 import { searchItems } from "@esri/arcgis-rest-portal";
 import {
-  IContentSearchFilter,
   IContentSearchOptions,
   IContentSearchRequest,
   IContentSearchResponse,
@@ -86,33 +85,6 @@ export class ContentSearchService
 }
 
 /**
- * Turns a site catalog into a content filters object.
- *
- * ```js
- * import { catalogToContentFilter } from '@esri/hub-search';
- *
- * const siteCatalog = {
- *   groups: ['24ad12457b8c410582f185c46f6896ba'],
- *   orgId: 'be55891b4'
- * };
- *
- * const filter: IContentSearchFilter = catalogToContentFilter(siteCatalog);
- * ```
- *
- * @param catalog - The site catalog
- * @returns
- */
-export function catalogToContentFilter({
-  groups,
-  orgId,
-}: ISiteCatalog): IContentSearchFilter {
-  return {
-    group: groups,
-    orgid: orgId,
-  };
-}
-
-/**
  * A standalone function for searching content across the Portal API only or Portal API and the
  * Hub Indexer V3 API.
  *
@@ -129,8 +101,9 @@ export async function searchContent(
 ): Promise<IContentSearchResponse> {
   const siteCatalog = await getSiteCatalogFromOptions(request.options);
   if (siteCatalog) {
+    const { groups: group, orgId: orgid } = siteCatalog;
     request.filter = {
-      ...catalogToContentFilter(siteCatalog),
+      ...{ group, orgid },
       ...request.filter,
     };
   }
@@ -184,7 +157,7 @@ function performHubContentSearch(
   );
 }
 
-function getSiteCatalogFromOptions(options: IContentSearchOptions) {
+function getSiteCatalogFromOptions(options: IContentSearchOptions): Promise<ISiteCatalog> {
   if (!options || !options.site) return null;
 
   const ro = getHubRequestOptions(options);
