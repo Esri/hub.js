@@ -22,6 +22,20 @@ describe("Util: parseDiscussionURI", () => {
     expect(parseDiscussionURI(discussion)).toEqual(expected);
   });
 
+  it("defaults layer to null", () => {
+    const discussion = "hub://dataset/1234/";
+    const expected = {
+      source: "hub",
+      type: "dataset",
+      id: '1234',
+      layer: null,
+      features: null,
+      attribute: null
+    } as IDiscussionParams;
+
+    expect(parseDiscussionURI(discussion)).toEqual(expected);
+  });
+
   it("returns DiscussionParams for invalid discussion uri", () => {
     const discussion = "hub://dataset";
     const expected = {

@@ -15,7 +15,13 @@ export function parseDiscussionURI(discussion: string): IDiscussionParams {
   const source = uri.protocol.slice(0, -1); // removes ":"
   const type = uri.hostname;
   const [, identifier] = uri.pathname.split("/");
-  const [id, layer = null] = identifier.split("_");
+  let id, layer;
+  if (!identifier) {
+    id = null;
+    layer = null;
+  } else {
+    [id, layer = null] = identifier.split("_");
+  }
   const searchParams = new URLSearchParams(uri.query);
   const features =
     (searchParams.has("id") && searchParams.get("id").split(",")) || null;
