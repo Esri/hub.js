@@ -109,6 +109,7 @@ export interface IAddOrInviteResponse {
 export interface IAddOrInviteEmail {
   message: IEmail;
   auth: IAuthenticationManager;
+  groupId?: string;
 }
 
 /**

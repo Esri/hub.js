@@ -1,4 +1,4 @@
-import { IAddOrInviteResponse } from "../types";
+import { IAddOrInviteContext, IAddOrInviteResponse } from "../types";
 
 /**
  * @private
@@ -10,7 +10,11 @@ import { IAddOrInviteResponse } from "../types";
  * @export
  * @return {IAddOrInviteResponse}
  */
-export function handleNoUsers(): IAddOrInviteResponse {
+export async function handleNoUsers(
+  context?: IAddOrInviteContext,
+  userType?: "world" | "org" | "community",
+  shouldEmail?: boolean
+): Promise<IAddOrInviteResponse> {
   return {
     notAdded: [],
     notEmailed: [],

@@ -18,20 +18,44 @@ import { processInviteUsers } from "./process-invite-users";
 export async function addOrInviteCommunityUsers(
   context: IAddOrInviteContext
 ): Promise<IAddOrInviteResponse> {
-  // If there are no community users return handling no users
-  if (!context.community || context.community.length === 0) {
-    // we return an empty object because
-    // if you leave out any of the props
-    // from the final object and you are concatting together arrays you can concat
-    // an undeifined inside an array which will throw off array lengths.
-    return handleNoUsers();
+  // We default to handleNoUsers
+  // we return an empty object because
+  // if you leave out any of the props
+  // from the final object and you are concatting together arrays you can concat
+  // an undeifined inside an array which will throw off array lengths.
+  let fnToCall = handleNoUsers;
+  let shouldEmail = false;
+
+  // If community users were passed in...
+  if (context.community && context.community.length > 0) {
+    // Default to either autoAdd or invite based on canAutoAddUser.
+    fnToCall = context.canAutoAddUser
+      ? processAutoAddUsers
+      : processInviteUsers;
+    // If we have an email object
+    // Then we will auto add...
+    // But whether or not we email is still in question
+    if (context.email) {
+      // If the email object has the groupId property...
+      if (context.email.hasOwnProperty("groupId")) {
+        // If the email objects groupId property is the same as the current groupId in context...
+        // (This function is part of a flow that could work for N groupIds)
+        if (context.email.groupId === context.groupId) {
+          // Then we auto add and send email
+          fnToCall = processAutoAddUsers;
+          shouldEmail = true;
+        } // ELSE if the groupId's do NOT match, we will fall back
+        // To autoAdd or invite as per line 32.
+        // We are doing the above logic (lines 43 - 47) because
+        // We wish to add users to core teams, followers, and content teams
+        // but only to email the core team.
+      } else {
+        // If it does not have a groupId at all then we will autoAdd and email.
+        fnToCall = processAutoAddUsers;
+        shouldEmail = true;
+      }
+    }
   }
-  // If email passed in then auto add
-  if (context.email) {
-    return processAutoAddUsers(context, "community", true);
-  }
-  // Otherwise can you autoAdd a user? if yes then do so otherwise invite
-  return context.canAutoAddUser
-    ? processAutoAddUsers(context, "community")
-    : processInviteUsers(context, "community");
+  // Return/call the function
+  return fnToCall(context, "community", shouldEmail);
 }
