@@ -1,8 +1,8 @@
 import { handleNoUsers } from "../../src/utils/handle-no-users";
 
 describe("handleNoUsers: ", () => {
-  it("returns expected empty addOrInviteReponse object", () => {
-    const result = handleNoUsers();
+  it("returns expected empty addOrInviteReponse object", async () => {
+    const result = await handleNoUsers();
     expect(result.notAdded.length).toBe(0);
     expect(result.notEmailed.length).toBe(0);
     expect(result.notInvited.length).toBe(0);
