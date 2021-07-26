@@ -5,8 +5,7 @@ import {
   hubApiRequest,
   IHubRequestOptions,
   ISiteCatalog,
-  lookupDomain,
-  getSiteById,
+  fetchSite,
 } from "@esri/hub-common";
 import { IItem, ISearchOptions, ISearchResult } from "@esri/arcgis-rest-portal";
 import { searchItems } from "@esri/arcgis-rest-portal";
@@ -190,9 +189,9 @@ function getSiteCatalogFromOptions(options: IContentSearchOptions) {
 
   const ro = getHubRequestOptions(options);
 
-  return lookupDomain(options.site, ro)
-    .then((domainRecord) => getSiteById(domainRecord.siteId, ro))
-    .then((siteModel) => getProp(siteModel, "data.values.catalog"));
+  return fetchSite(options.site, ro).then((siteModel) =>
+    getProp(siteModel, "data.values.catalog")
+  );
 }
 
 // used above

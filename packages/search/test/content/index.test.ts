@@ -635,20 +635,8 @@ describe("catalogToContentFilter function", () => {
 });
 
 describe("searchContent function", () => {
-  it("applies site catalog when site domain provided", async () => {
-    const lookupDomainSpy = spyOn(common, "lookupDomain");
-    const getSiteByIdSpy = spyOn(common, "getSiteById");
-    const hubApiRequestSpy = spyOn(common, "hubApiRequest").and.returnValue(
-      Promise.resolve()
-    );
-
-    lookupDomainSpy.and.returnValue(
-      Promise.resolve({
-        siteId: "1aldsf329fewasdf23",
-      })
-    );
-
-    getSiteByIdSpy.and.returnValue(
+  it("applies site catalog when site identifier provided", async () => {
+    const fetchSiteSpy = spyOn(common, "fetchSite").and.returnValue(
       Promise.resolve({
         data: {
           values: {
@@ -659,6 +647,9 @@ describe("searchContent function", () => {
           },
         },
       })
+    );
+    const hubApiRequestSpy = spyOn(common, "hubApiRequest").and.returnValue(
+      Promise.resolve()
     );
 
     const userSession = new UserSession({
@@ -680,13 +671,8 @@ describe("searchContent function", () => {
       authentication: userSession,
     };
 
-    expect(lookupDomainSpy).toHaveBeenCalledWith(
+    expect(fetchSiteSpy).toHaveBeenCalledWith(
       "https://my-site.hub.arcgis.com",
-      expectedRequestOptions
-    );
-
-    expect(getSiteByIdSpy).toHaveBeenCalledWith(
-      "1aldsf329fewasdf23",
       expectedRequestOptions
     );
 
