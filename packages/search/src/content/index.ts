@@ -1,16 +1,23 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { getHubApiUrl, getProp } from "@esri/hub-common";
+import {
+  getHubApiUrl,
+  getProp,
+  hubApiRequest,
+  IHubRequestOptions,
+  fetchSite,
+  ISiteCatalog,
+} from "@esri/hub-common";
 import { IItem, ISearchOptions, ISearchResult } from "@esri/arcgis-rest-portal";
 import { searchItems } from "@esri/arcgis-rest-portal";
 import {
+  IContentSearchOptions,
   IContentSearchRequest,
-  IContentSearchResponse
+  IContentSearchResponse,
 } from "../types/content";
 import { ISearchService, ISearchServiceParams } from "../types/search-service";
 import { convertToPortalParams } from "./helpers/convert-request-to-portal-params";
 import { convertToHubParams } from "./helpers/convert-request-to-hub-params";
 import { ISearchParams } from "../ago/params";
-import { hubApiRequest } from "@esri/hub-common";
 import { convertPortalResponse } from "./helpers/convert-portal-response";
 import { convertHubResponse } from "./helpers/convert-hub-response";
 
@@ -36,7 +43,8 @@ import { convertHubResponse } from "./helpers/convert-hub-response";
  */
 export class ContentSearchService
   implements
-    ISearchService<IContentSearchRequest, Promise<IContentSearchResponse>> {
+    ISearchService<IContentSearchRequest, Promise<IContentSearchResponse>>
+{
   private portal: string;
   private isPortal: boolean;
   private authentication: UserSession;
@@ -88,9 +96,18 @@ export class ContentSearchService
  * const searchResults = searchContent({ filters, options })
  * ```
  */
-export function searchContent(
+export async function searchContent(
   request: IContentSearchRequest = { filter: {}, options: {} }
 ): Promise<IContentSearchResponse> {
+  const siteCatalog = await getSiteCatalogFromOptions(request.options);
+  if (siteCatalog) {
+    const { groups: group, orgId: orgid } = siteCatalog;
+    request.filter = {
+      ...{ group, orgid },
+      ...request.filter,
+    };
+  }
+
   if (getProp(request, "options.isPortal")) {
     return performEnterpriseContentSearch(request);
   }
@@ -131,11 +148,32 @@ function performHubContentSearch(
     headers: {
       authentication: authentication
         ? JSON.stringify(authentication)
-        : undefined
+        : undefined,
     },
     httpMethod: "POST",
-    params: requestParams
+    params: requestParams,
   }).then((response: any) =>
     convertHubResponse(requestParams, response, authentication)
   );
+}
+
+function getSiteCatalogFromOptions(options: IContentSearchOptions): Promise<ISiteCatalog> {
+  if (!options || !options.site) return null;
+
+  const ro = getHubRequestOptions(options);
+
+  return fetchSite(options.site, ro).then((siteModel) =>
+    getProp(siteModel, "data.values.catalog")
+  );
+}
+
+// used above
+function getHubRequestOptions(
+  options: IContentSearchOptions
+): IHubRequestOptions {
+  return {
+    authentication: options.authentication,
+    isPortal: options.isPortal,
+    hubApiUrl: getHubApiUrl(options.portal),
+  };
 }

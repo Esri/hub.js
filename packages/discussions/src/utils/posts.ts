@@ -1,6 +1,7 @@
 import { IGroup, IItem } from "@esri/arcgis-rest-portal";
 import { IDiscussionParams } from "../types";
 import * as UrlParse from "url-parse";
+import { parseDatasetId } from "@esri/hub-common";
 
 /**
  * Utility that parses a discussion URI string into its component parts
@@ -15,7 +16,14 @@ export function parseDiscussionURI(discussion: string): IDiscussionParams {
   const source = uri.protocol.slice(0, -1); // removes ":"
   const type = uri.hostname;
   const [, identifier] = uri.pathname.split("/");
-  const [id, layer = null] = identifier.split("_");
+  let id, layer;
+  if (identifier) {
+    const {
+      itemId,
+      layerId
+    } = parseDatasetId(identifier);
+    [id, layer] = [itemId, layerId];
+  }
   const searchParams = new URLSearchParams(uri.query);
   const features =
     (searchParams.has("id") && searchParams.get("id").split(",")) || null;
@@ -25,7 +33,7 @@ export function parseDiscussionURI(discussion: string): IDiscussionParams {
     source,
     type,
     id: id || null,
-    layer,
+    layer: layer || null,
     features,
     attribute
   };

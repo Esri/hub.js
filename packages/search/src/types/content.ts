@@ -4,7 +4,7 @@ import {
   IDateRange,
   SortDirection,
   ISearchRequest,
-  ISearchResponse
+  ISearchResponse,
 } from "./common";
 
 /**
@@ -13,7 +13,7 @@ import {
 export enum IBooleanOperator {
   AND = "AND",
   OR = "OR",
-  NOT = "NOT"
+  NOT = "NOT",
 }
 
 /**
@@ -61,6 +61,7 @@ export interface IContentSearchFilter {
  * Properties correspond to their Portal API or arcgis-rest-js equivalents
  */
 export interface IContentSearchOptions {
+  site?: string;
   authentication?: UserSession;
   portal?: string;
   isPortal?: boolean;
