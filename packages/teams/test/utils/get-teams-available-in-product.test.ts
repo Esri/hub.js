@@ -13,12 +13,12 @@ describe("getTeamsAvailableInProduct", () => {
     expect(Array.isArray(chk)).toBeTruthy(
       "should return array of team templates"
     );
-    expect(chk.length).toBe(5, "should return 5 of team templates for basic");
+    expect(chk.length).toBe(6, "should return 5 of team templates for premium");
     expect(chk[0].membershipAccess).toBe(
       "org",
       "core team should be set to org" // it gets updated to collaboration via getUserCreatableTeams
     );
-    expect(chk[4].membershipAccess).toBe(
+    expect(chk[5].membershipAccess).toBe(
       "",
       "event team should be an empty string membershipAccess"
     );
