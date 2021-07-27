@@ -283,7 +283,7 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
   },
   {
     config: {
-      groupType: "Generic AGO Edit Supporting Team",
+      groupType: "Generic Portal Edit Supporting Team",
       type: "edit",
       availableIn: ["portal"],
       requiredPrivs: ["portal:user:createGroup"],
@@ -299,8 +299,8 @@ export const WELLKNOWNTEAMS: IGroupTemplate[] = [
     sortOrder: "desc",
     capabilities: "updateitemcontrol",
     membershipAccess: "org",
-    tags: ["Hub Team Group"],
-    typekeyword: ["Hub Team", "Hub Edit Supporting Team"],
+    tags: ["Site Team Group"],
+    typekeyword: ["Site Team", "Site Edit Supporting Team"],
   },
   {
     config: {
