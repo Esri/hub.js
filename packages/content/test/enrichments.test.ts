@@ -19,8 +19,8 @@ const spyOnAndReject = (context: any, name: string) => {
 };
 
 describe("fetchEnrichments", () => {
+  let content: IHubContent;
   describe("hub created web maps", () => {
-    let content: IHubContent;
     beforeEach(() => {
       content = {
         id: "3ae",
@@ -29,36 +29,48 @@ describe("fetchEnrichments", () => {
         typeKeywords: ["ArcGIS Hub"],
         // don't try to fetch the other enrichments:
         groupIds: [],
-        data: {},
         metadata: null,
       } as IHubContent;
     });
-    it("fetches orgId", async () => {
+    it("fetches orgId and data", async () => {
       const orgId = "ownerOrgId";
       const getUserSpy = spyOn(arcgisRestPortal, "getUser").and.returnValue(
         Promise.resolve({ orgId })
       );
+      const data = {
+        version: "2.0",
+      };
+      const getItemDataSpy = spyOn(
+        arcgisRestPortal,
+        "getItemData"
+      ).and.returnValue(Promise.resolve(data));
       const enriched = await fetchEnrichments(content);
       expect(getUserSpy.calls.count()).toBe(1);
       // TODO: verify ownerUser
       expect(enriched.orgId).toEqual(orgId, "sets orgId");
+      expect(getItemDataSpy.calls.count()).toBe(1, "fetched data");
+      expect(enriched.data).toEqual(data, "sets data");
     });
     it("handles errors", async () => {
+      const getItemGroupsSpy = spyOnAndReject(
+        arcgisRestPortal,
+        "getItemGroups"
+      );
       const getUserSpy = spyOnAndReject(arcgisRestPortal, "getUser");
       const getItemDataSpy = spyOnAndReject(arcgisRestPortal, "getItemData");
-      // remove data so that it will attempt to fetch it
-      delete content.data;
+      // remove properties so that the above spies will be called
+      delete content.groupIds;
       const enriched = await fetchEnrichments(content);
+      expect(getItemGroupsSpy.calls.count()).toBe(1);
       expect(getUserSpy.calls.count()).toBe(1);
       expect(getItemDataSpy.calls.count()).toBe(1);
       expect(enriched.ownerUser).toBeUndefined("does not set ownerUser");
       expect(enriched.orgId).toBeUndefined("does not set orgId");
       expect(enriched.data).toBeUndefined("does not set data");
-      expect(enriched.errors.length).toBe(2, "set errors");
+      expect(enriched.errors.length).toBe(3, "set errors");
     });
   });
   describe("map services", () => {
-    let content: IHubContent;
     beforeEach(() => {
       content = {
         id: "3ae",
@@ -66,7 +78,6 @@ describe("fetchEnrichments", () => {
         url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/Elevation/GlacierBay/MapServer/",
         // don't try to fetch the other enrichments:
         groupIds: [],
-        data: {},
         metadata: null,
       } as IHubContent;
     });
