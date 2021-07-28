@@ -18,13 +18,15 @@ export function canUserCreateTeam(
   if (userGroups.length > 510) {
     return false;
   } else {
-    const product = getHubProduct(hubRequestOptions.portalSelf);
+    const portalSelf = hubRequestOptions.portalSelf;
+    const product = getHubProduct(portalSelf);
+    const subscriptionInfo = portalSelf.subscriptionInfo;
     // get all the groups the user can create in this product...
     return getUserCreatableTeams(
       user,
       product,
-      hubRequestOptions.portalSelf.currentVersion,
-      hubRequestOptions.portalSelf.subscriptionInfo.type
-    ).some(t => t.config.type === hubTeamType);
+      portalSelf.currentVersion,
+      subscriptionInfo && subscriptionInfo.type
+    ).some((t) => t.config.type === hubTeamType);
   }
 }
