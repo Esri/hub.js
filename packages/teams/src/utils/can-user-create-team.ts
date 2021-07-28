@@ -1,5 +1,10 @@
 import { IUser } from "@esri/arcgis-rest-auth";
-import { IHubRequestOptions, getProp, getHubProduct } from "@esri/hub-common";
+import {
+  IHubRequestOptions,
+  getProp,
+  getHubProduct,
+  getSubscriptionType,
+} from "@esri/hub-common";
 import { HubTeamType } from "../types";
 import { getUserCreatableTeams } from "./get-user-creatable-teams";
 
@@ -20,13 +25,13 @@ export function canUserCreateTeam(
   } else {
     const portalSelf = hubRequestOptions.portalSelf;
     const product = getHubProduct(portalSelf);
-    const subscriptionInfo = portalSelf.subscriptionInfo;
+    const subscriptionType = getSubscriptionType(portalSelf);
     // get all the groups the user can create in this product...
     return getUserCreatableTeams(
       user,
       product,
       portalSelf.currentVersion,
-      subscriptionInfo && subscriptionInfo.type
+      subscriptionType
     ).some((t) => t.config.type === hubTeamType);
   }
 }

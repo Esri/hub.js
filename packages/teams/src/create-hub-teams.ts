@@ -4,8 +4,7 @@ import {
   getCulture,
   convertToWellKnownLocale,
   fetchHubTranslation,
-  getWithDefault,
-  getProp,
+  getSubscriptionType,
 } from "@esri/hub-common";
 import { getUserCreatableTeams } from "./utils/get-user-creatable-teams";
 import { _createTeamGroups } from "./utils/_create-team-groups";
@@ -29,11 +28,7 @@ export function createHubTeams(opts: {
   const product = getHubProduct(hubRequestOptions.portalSelf);
   // get all the groups that this user can create in this environment
   // and filter just the team types requested
-  const subscriptionType = getWithDefault(
-    hubRequestOptions.portalSelf,
-    "subscriptionInfo.type",
-    "Enterprise"
-  );
+  const subscriptionType = getSubscriptionType(hubRequestOptions.portalSelf);
   const teamsToCreate = getUserCreatableTeams(
     hubRequestOptions.portalSelf.user,
     product,
