@@ -4,6 +4,7 @@ export * from "./create-operation-pipeline";
 export * from "./fail-safe";
 export * from "./generate-random-string";
 export * from "./get-hub-product";
+export * from "./get-subscription-type";
 export * from "./includes";
 export * from "./is-guid";
 export * from "./map-by";
