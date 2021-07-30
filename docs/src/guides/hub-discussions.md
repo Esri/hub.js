@@ -14,11 +14,11 @@ As organizations use ArcGIS Hub to support community engagement and collaboratio
 
 # Channels
 
-The domain model is linked to ArcGIS Online users through Channels -- Channels are the mechanism that determine whether a user can engage with a piece of discussion content. A Channel represents a unique platform sharing configuration, comprised of a distinct set of values for **[sharing access](https://esri.github.io/hub.js/api/discussions/SharingAccess/)**, **groups**, and **orgs**. Possible values of `channel.access` include `private`, `org` and `public`. `channel.groups` and `channel.orgs` are represented as arrays of group and org ID's, respectively. Combining these three fields results in a flexible configuration that can make discussion content interactable to a select few users or widely visible to an entire organization or open to the public.
+Discussions are linked to ArcGIS Online users through Channels -- Channels are the mechanism that determine whether a user can engage with a piece of discussion content. A Channel represents a unique platform sharing configuration, comprised of a distinct set of values for **[sharing access](https://esri.github.io/hub.js/api/discussions/SharingAccess/)**, **groups**, and **orgs**. Possible values of `channel.access` include `private`, `org` and `public`. `channel.groups` and `channel.orgs` are represented as arrays of group and org ID's, respectively. Combining these three fields results in a flexible configuration that can make discussion content interactable to a select few users or widely visible to an entire organization or open to the public.
 
 ## Basic channel configuration
 
-A "team" channel describes a channel model where `channel.access: 'private'` and the groups array contains a single ArcGIS Online group ID, `channel.groups: ['someGroupId']` (By default, `channel.orgs` is populated with the channel-creating user's org ID). In effect, any posts that belong to this channel can be viewed and responded to by members of `'someGroupId'` group only. In the first iteration of Hub Discussions, we will limit users to only create "team" channels.
+A "team" channel describes a channel model where `channel.access: 'private'` and the groups array contains a single [ArcGIS Online group](https://doc.arcgis.com/en/arcgis-online/share-maps/groups.htm) ID, `channel.groups: ['someGroupId']` (By default, `channel.orgs` is populated with the channel-creating user's org ID). In effect, any posts that belong to this channel can be viewed and responded to by members of `'someGroupId'` group only. In the first iteration of Hub Discussions, we will limit users to only create "team" channels.
 
 Following along, other channel types not yet implemented will include "shared", "org", and "public". A "shared" channel will be similar to a "team" channel, except that its `channel.groups` array includes more than one group ID, enabling collaboration between members of multiple teams. An "org" channel will consist of `channel.access: 'org'` and `channel.orgs: ['someOrgId]`, and only members of `'someOrgId'` organization will be granted access to engage with discussion content related to it. Finally, "public" channels are configured using `channel.access: 'public'` and `channel.orgs: ['someOrgId']`, and while only members of `'someOrgId'` can author content in the channel anyone can view its discussions posts.
 
@@ -83,7 +83,7 @@ blockWords|string[] |[]|Array of words or phrases that should trigger moderation
 
 ## Moderation
 
-Channels can only be created by an "administrator"-like user. For "team" channels, that is the ArcGIS Online **group owner** or a **group manager**. For "org" and "public" channels, that is a user with the **"Administrator" role**. Similarly, these channel creators are effectively channel **moderators**, and are granted the ability to hide, obscure, and delete other user's posts at their discretion.
+Channels can only be created by an "administrator"-like user. For "team" channels, that is the ArcGIS Online **group owner** or a **group manager**. For "org" and "public" channels, that is a user with the **"Administrator" role**. Similarly, these channel creators are effectively channel **moderators**, and are granted the ability to hide, obscure, and delete other user's posts at their discretion. Only moderators can update [**`post.status`**](https://esri.github.io/hub.js/api/discussions/PostStatus/) -- non-moderators can only view posts where `post.status` equals `'approved'`.
 
 # Posts
 
@@ -104,31 +104,31 @@ parentId|string (UUID v4)|true|Join field for parent post if reply
 
 At the core of the Hub Discussions API is the ability to create posts and drive conversation about data. This data can be a literal dataset, a feature in a dataset, an attribute of a feature of a dataset, or it could be an item, or a sentence in a pdf. The idea is that anything can be discussed with this platform. The property `post.discussion` expects a specifically formatted URI string to encapsulate the following information: the application context the post originated from (i.e. Hub, Urban), content type, content id, and optionally for datasets identification of specific layers, features, and attribute. The format allows posts to target coarsely-grained and highly-specific content. See the URI format and examples below:
 
-```
-// coarsely-grained
+```txt
+# coarsely-grained
 <application context>://<content type>/<content id>
 
-// highly-specific
+# highly-specific
 <application context>://dataset/<dataset id>_<layer id>?id=<feature id>&attribute=<feature attribute>
 
-//// examples
+## examples
 
-// commenting on item ab4
+# commenting on item ab4
 hub://item/ab4
 
-// commenting on layer 1 of dataset 3ef
+# commenting on layer 1 of dataset 3ef
 hub://dataset/3ef_1
 
-// commenting on feature #5 of layer 1 of dataset 3ef
+# commenting on feature #5 of layer 1 of dataset 3ef
 hub://dataset/3ef_1?id=5
 
-// commenting on features #5 & #7
+# commenting on features #5 & #7
 hub://dataset/3ef_1?id=5,7
 
-// commenting on the species attribute of layer 1 of dataset 3ef
+# commenting on the species attribute of layer 1 of dataset 3ef
 hub://dataset/3ef_1?attribute=species
 
-// commenting on the species attributet of feature 5 of layer 1 of 3ef dataset
+# commenting on the species attributet of feature 5 of layer 1 of 3ef dataset
 hub://dataset/3ef_1?id=5&attribute=species
 ```
 
@@ -146,7 +146,7 @@ All requests to the Hub Discussions API rely on ArcGIS Online for authentication
 
 A user's access to content stored in the Discussions API is determined by their platform identity -- that is their organization and group memberships and any managerial roles therein. As noted above, ArcGIS Online access and permissions are encoded in Channels. Currently, most API methods employ one or many checks comparing Channel specs to the requesting user's identity. A summary of authorization checks are in the table below ([source code](https://github.com/Esri/hub.js/blob/master/packages/discussions/src/utils/channels.ts)):
 
-| **Permission** | **Description** |
+|**Permission**|**Description**|
 |---|---|
 | view posts in Channel | If Channel.access is "private", then user must be member of at least one group in Channel.groups If Channel.access is "org", then user must be member of at least one org in Channel.orgs If Channel.access is "public", then any user can view posts |
 | create posts in Channel | If Channel.access is "private", then user must be member of at least one group in Channel.groups If Channel.access is "org" or "public", then user must be member of at least one org in Channel.orgs Additionally, if Channel.access is "public" and Channel.allowAnonymous is true, then any user can create posts |
@@ -176,6 +176,29 @@ const authentication = new UserSession({
 To create a post, consider the following code:
 
 ```js
+import { createPost, ICreateChannelPost, ICreatePostOptions } from '@esri/hub-discussions';
+
+const params: ICreateChannelPost = {
+  title: 'Dataset 1234 is so cool',
+  body: 'this data ROCKS',
+  discussion: 'hub://dataset/1234',
+  channelId: '3efabc'
+};
+
+const opts: ICreatePostOptions = { authentication, params };
+
+const myPost = await createPost(opts);
+/*
+myPost = IPost {
+  id: 'abcdefg',
+  ...
+}
+*/
+```
+
+Note the property `params.channelId`. What if the channel ID we want to post to is unknown? In instances where the channel configuration is known (`access` & `groups`), we can provide those parameters instead of `channelId`. In the case below, if a "team" channel for `'someGroupId'` doesn't exist and the authenticated user has sufficient permission to create it (i.e. is group manager/owner), then the channel will be created on-the-fly and the post will be joined to it. If the user lacks the ability to create the channel, the API will return an error.
+
+```js
 import { createPost, ICreatePost, ICreatePostOptions } from '@esri/hub-discussions';
 
 const params: ICreatePost = {
@@ -197,30 +220,7 @@ myPost = IPost {
 */
 ```
 
-Note that in this example, the channel configuration for the post is provided alongside the post content. This is a valid way to create a post when the channel ID is unknown, but the sharing configuration is known. In this case, if a "team" channel for `'someGroupId'` doesn't exist and the authenticated user has sufficient permission to create it (i.e. is group manager/owner), then the channel will be created on-the-fly and the post will be joined to it. If the user lacks the ability to create the channel, the API will return an error.
-
-In instances where the channel ID is known, the payload for creating a post changes slightly, omittin the `access` and `groups` properties in favor of `channelId`:
-
-```js
-import { createPost, ICreateChannelPost, ICreatePostOptions } from '@esri/hub-discussions';
-
-const params: ICreateChannelPost = {
-  title: 'Dataset 1234 is so cool',
-  body: 'this data ROCKS',
-  discussion: 'hub://dataset/1234',
-  channelId: '3efabc'
-};
-
-const opts: ICreatePostOptions = { authentication, params };
-
-const myPost = await createPost(opts);
-/*
-myPost = IPost {
-  id: 'abcdefg',
-  ...
-}
-*/
-```
+## Creating a reply post
 
 Replying to a post is just as simple as creating a post; the only additional piece of information required is the ID of the post to reply to.
 
@@ -243,6 +243,8 @@ myPost = IPost {
 }
 */
 ```
+
+## Searching posts
 
 In all of these examples, we created a post about Dataset ID 1234. These posts are linked to that dataset through the `params.discussion` property. If we wanted to search for posts about this dataset, the code would look something like this:
 
@@ -311,6 +313,10 @@ const params: ISearchPosts = {
 };
 ```
 
+Searchable properties are enumerated on the [`ISearchPosts`](https://esri.github.io/hub.js/api/discussions/ISearchPosts/) interface. All properties that are type `string` can leverage the LIKE operator shown in the previous examples.
+
+## Creating reactions
+
 If you want to show support for a post, see the following code to give a thumbs up reaction:
 
 ```js
@@ -329,3 +335,8 @@ const thumbs_up = await createReaction(opts);
 # In Conclusion
 
 The Hub Discussions API has only begun to expose the numerous ways users can interact with each other around data and content in Hub. The API is under continuous development. The `@esri/hub-discussions` package provides a familar Hub.js interface to the API. There is much more that can be done with the Discussions API and library than what is expressed in this guide. Please add an issue to this repo if you have any questions or if something does not work as expected.
+
+# Useful links
+- [Hub Discussions API root](https://hub.arcgis.com/api/discussions/v1)
+- [Hub Discussions API /posts](https://hub.arcgis.com/api/discussions/v1/posts)
+- [Hub Discussions API /channels](https://hub.arcgis.com/api/discussions/v1/channels)
