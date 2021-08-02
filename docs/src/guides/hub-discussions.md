@@ -56,7 +56,7 @@ import { UserSession } from '@esri/arcgis-rest-auth';
 const authentication = new UserSession({
   username: 'jdoe',
   password: '########',
-  portal: 'https://arcgis.com//sharing/rest'
+  portal:  'https://www.arcgis.com/sharing/rest'
 });
 ```
 
