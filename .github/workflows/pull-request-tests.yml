@@ -32,9 +32,6 @@ jobs:
       - name: Test in Chrome
         run: npm run test:chrome:ci
 
-      - name: Test in Firefox
-        run: npm run test:firefox:ci
-
       - name: Test in Node
         run: npm run test:node
 
