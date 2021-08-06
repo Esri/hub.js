@@ -33,7 +33,7 @@ describe("getItems test", () => {
     // step 1: encode ago query
     expect(encodeAgoQuerySpy.calls.count()).toEqual(1);
     const [expectedParams] = encodeAgoQuerySpy.calls.argsFor(0);
-    expect(expectedParams).toEqual(params);
+    expect(expectedParams).toEqual({ ...params, maxUrlLength: 1018 });
 
     // step 2: search items
     expect(searchItemsSpy.calls.count()).toEqual(1);
