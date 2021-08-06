@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [4.1.1] - May 21st 2020
+## [4.1.1] - Aug 6th 2021
 
 * Bug Fixes
    * **hub-search**:  [`6a0f057`](https://github.com/Esri/hub.js/commit/6a0f057b5e89e7f429c1343d353d1fbbaec5081c)
