@@ -44,6 +44,7 @@ describe("getItems test", () => {
         num: 10,
         params: { token, countFields: undefined, countSize: undefined },
         portal,
+        maxUrlLength: 1018,
         authentication: undefined
       }
     ];

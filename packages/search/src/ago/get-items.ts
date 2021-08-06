@@ -28,7 +28,10 @@ export async function getItems(
           countSize: agoParams.countSize
         },
         portal,
-        authentication
+        authentication,
+        // this is the magic number of bytes that PORTAL-10.8
+        // allows in a GET request
+        maxUrlLength: 1018
       });
     });
     const responses = await Promise.all(promises);
