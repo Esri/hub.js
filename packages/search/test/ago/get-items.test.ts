@@ -33,22 +33,21 @@ describe("getItems test", () => {
     // step 1: encode ago query
     expect(encodeAgoQuerySpy.calls.count()).toEqual(1);
     const [expectedParams] = encodeAgoQuerySpy.calls.argsFor(0);
-    expect(expectedParams).toEqual({ ...params, maxUrlLength: 1018 });
+    expect(expectedParams).toEqual(params);
 
     // step 2: search items
     expect(searchItemsSpy.calls.count()).toEqual(1);
-    const expectedArgsForSearchItems: any = [
-      {
-        q: "long ago query",
-        start: 1,
-        num: 10,
-        params: { token, countFields: undefined, countSize: undefined },
-        portal,
-        maxUrlLength: 1018,
-        authentication: undefined
-      }
-    ];
-    expect(expectedArgsForSearchItems).toEqual(searchItemsSpy.calls.argsFor(0));
+    const expectedArgsForSearchItems: any =
+    {
+      q: "long ago query",
+      start: 1,
+      num: 10,
+      params: { token, countFields: undefined, countSize: undefined },
+      portal,
+      maxUrlLength: 1018,
+      authentication: undefined
+    };
+    expect(searchItemsSpy.calls.argsFor(0)[0]).toEqual(expectedArgsForSearchItems);
     done();
   });
 
