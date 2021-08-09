@@ -44,7 +44,7 @@ describe("getItems test", () => {
       num: 10,
       params: { token, countFields: undefined, countSize: undefined },
       portal,
-      maxUrlLength: 1018,
+      httpMethod: 'POST',
       authentication: undefined
     };
     expect(searchItemsSpy.calls.argsFor(0)[0]).toEqual(expectedArgsForSearchItems);
@@ -99,7 +99,7 @@ describe("getItems test", () => {
         num: 10,
         params: { token, countFields: "a,b,c", countSize: 10 },
         portal,
-        maxUrlLength: 1018,
+        httpMethod: 'POST',
         authentication: undefined,
         countFields: "a,b,c",
         countSize: 10
@@ -181,7 +181,7 @@ describe("getItems test", () => {
         num: 10,
         params: { token, countFields: "a,b,c", countSize: 10 },
         portal,
-        maxUrlLength: 1018,
+        httpMethod: 'POST',
         authentication: undefined,
         countFields: "a,b,c,d,e,f,g",
         countSize: 10
@@ -197,7 +197,7 @@ describe("getItems test", () => {
         num: 10,
         params: { token, countFields: "d,e,f", countSize: 10 },
         portal,
-        maxUrlLength: 1018,
+        httpMethod: 'POST',
         authentication: undefined,
         countFields: "a,b,c,d,e,f,g",
         countSize: 10
@@ -213,7 +213,7 @@ describe("getItems test", () => {
         num: 10,
         params: { token, countFields: "g", countSize: 10 },
         portal,
-        maxUrlLength: 1018,
+        httpMethod: 'POST',
         authentication: undefined,
         countFields: "a,b,c,d,e,f,g",
         countSize: 10
@@ -295,7 +295,7 @@ describe("getItems test", () => {
         num: 10,
         params: { token, countFields: "a,b,c", countSize: 10 },
         portal,
-        maxUrlLength: 1018,
+        httpMethod: 'POST',
         authentication: undefined,
         countFields: "a,b,c,d",
         countSize: 10
@@ -311,7 +311,7 @@ describe("getItems test", () => {
         num: 10,
         params: { token, countFields: "d", countSize: 10 },
         portal,
-        maxUrlLength: 1018,
+        httpMethod: 'POST',
         authentication: undefined,
         countFields: "a,b,c,d",
         countSize: 10
