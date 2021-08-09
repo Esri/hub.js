@@ -28,7 +28,8 @@ export async function getItems(
           countSize: agoParams.countSize
         },
         portal,
-        authentication
+        authentication,
+        httpMethod: 'POST'
       });
     });
     const responses = await Promise.all(promises);
@@ -59,6 +60,7 @@ export async function getItems(
         countSize: agoParams.countSize
       },
       portal,
+      httpMethod: 'POST',
       authentication
     });
   }

@@ -37,17 +37,17 @@ describe("getItems test", () => {
 
     // step 2: search items
     expect(searchItemsSpy.calls.count()).toEqual(1);
-    const expectedArgsForSearchItems: any = [
-      {
-        q: "long ago query",
-        start: 1,
-        num: 10,
-        params: { token, countFields: undefined, countSize: undefined },
-        portal,
-        authentication: undefined
-      }
-    ];
-    expect(expectedArgsForSearchItems).toEqual(searchItemsSpy.calls.argsFor(0));
+    const expectedArgsForSearchItems: any =
+    {
+      q: "long ago query",
+      start: 1,
+      num: 10,
+      params: { token, countFields: undefined, countSize: undefined },
+      portal,
+      httpMethod: 'POST',
+      authentication: undefined
+    };
+    expect(searchItemsSpy.calls.argsFor(0)[0]).toEqual(expectedArgsForSearchItems);
     done();
   });
 
@@ -99,6 +99,7 @@ describe("getItems test", () => {
         num: 10,
         params: { token, countFields: "a,b,c", countSize: 10 },
         portal,
+        httpMethod: 'POST',
         authentication: undefined,
         countFields: "a,b,c",
         countSize: 10
@@ -180,6 +181,7 @@ describe("getItems test", () => {
         num: 10,
         params: { token, countFields: "a,b,c", countSize: 10 },
         portal,
+        httpMethod: 'POST',
         authentication: undefined,
         countFields: "a,b,c,d,e,f,g",
         countSize: 10
@@ -195,6 +197,7 @@ describe("getItems test", () => {
         num: 10,
         params: { token, countFields: "d,e,f", countSize: 10 },
         portal,
+        httpMethod: 'POST',
         authentication: undefined,
         countFields: "a,b,c,d,e,f,g",
         countSize: 10
@@ -210,6 +213,7 @@ describe("getItems test", () => {
         num: 10,
         params: { token, countFields: "g", countSize: 10 },
         portal,
+        httpMethod: 'POST',
         authentication: undefined,
         countFields: "a,b,c,d,e,f,g",
         countSize: 10
@@ -291,6 +295,7 @@ describe("getItems test", () => {
         num: 10,
         params: { token, countFields: "a,b,c", countSize: 10 },
         portal,
+        httpMethod: 'POST',
         authentication: undefined,
         countFields: "a,b,c,d",
         countSize: 10
@@ -306,6 +311,7 @@ describe("getItems test", () => {
         num: 10,
         params: { token, countFields: "d", countSize: 10 },
         portal,
+        httpMethod: 'POST',
         authentication: undefined,
         countFields: "a,b,c,d",
         countSize: 10
