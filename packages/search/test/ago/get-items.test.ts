@@ -4,11 +4,11 @@ import { ISearchParams } from "../../src/ago/params";
 import * as EncodeAgoQuery from "../../src/ago/encode-ago-query";
 
 describe("getItems test", () => {
-  it("gets items when there are no count fields i.e. aggs", async done => {
+  it("gets items when there are no count fields i.e. aggs", async (done) => {
     const rawAgoResults = {
       results: [],
       total: 0,
-      aggregations: { counts: {} }
+      aggregations: { counts: {} },
     } as any;
     const encodeAgoQuerySpy = spyOn(
       EncodeAgoQuery,
@@ -24,7 +24,7 @@ describe("getItems test", () => {
       sort: "name",
       groupIds: "1ef",
       start: 1,
-      num: 10
+      num: 10,
     };
     const token = "token";
     const portal = "https://test.com";
@@ -37,25 +37,26 @@ describe("getItems test", () => {
 
     // step 2: search items
     expect(searchItemsSpy.calls.count()).toEqual(1);
-    const expectedArgsForSearchItems: any = [
-      {
-        q: "long ago query",
-        start: 1,
-        num: 10,
-        params: { token, countFields: undefined, countSize: undefined },
-        portal,
-        authentication: undefined
-      }
-    ];
-    expect(expectedArgsForSearchItems).toEqual(searchItemsSpy.calls.argsFor(0));
+    const expectedArgsForSearchItems: any = {
+      q: "long ago query",
+      start: 1,
+      num: 10,
+      params: { token, countFields: undefined, countSize: undefined },
+      portal,
+      httpMethod: "POST",
+      authentication: undefined,
+    };
+    expect(searchItemsSpy.calls.argsFor(0)[0]).toEqual(
+      expectedArgsForSearchItems
+    );
     done();
   });
 
-  it("gets items when there are <= 3 count fields and searchItems is called once", async done => {
+  it("gets items when there are <= 3 count fields and searchItems is called once", async (done) => {
     const rawAgoResults = {
       results: [],
       total: 0,
-      aggregations: { counts: {} }
+      aggregations: { counts: {} },
     } as any;
     const encodeAgoQuerySpy = spyOn(
       EncodeAgoQuery,
@@ -66,7 +67,7 @@ describe("getItems test", () => {
         start: 1,
         num: 10,
         countFields: "a,b,c",
-        countSize: 10
+        countSize: 10,
       };
     });
     const searchItemsSpy = spyOn(Portal, "searchItems").and.callFake(() => {
@@ -78,7 +79,7 @@ describe("getItems test", () => {
       groupIds: "1ef",
       start: 1,
       num: 10,
-      agg: { fields: "a,b,c" }
+      agg: { fields: "a,b,c" },
     };
     const token = "token";
     const portal = "https://test.com";
@@ -99,16 +100,17 @@ describe("getItems test", () => {
         num: 10,
         params: { token, countFields: "a,b,c", countSize: 10 },
         portal,
+        httpMethod: "POST",
         authentication: undefined,
         countFields: "a,b,c",
-        countSize: 10
-      }
+        countSize: 10,
+      },
     ];
     expect(expectedArgsForSearchItems).toEqual(searchItemsSpy.calls.argsFor(0));
     done();
   });
 
-  it("gets items when there are > 3 count fields and searchItems is called multiple times", async done => {
+  it("gets items when there are > 3 count fields and searchItems is called multiple times", async (done) => {
     const rawAgoResults1 = {
       results: [],
       total: 0,
@@ -116,9 +118,9 @@ describe("getItems test", () => {
         counts: [
           { fieldName: "a", fieldValues: [{ value: "dc", count: 12 }] },
           { fieldName: "b", fieldValues: [{ value: "crime", count: 3 }] },
-          { fieldName: "c", fieldValues: [{ value: "pdf", count: 5 }] }
-        ]
-      }
+          { fieldName: "c", fieldValues: [{ value: "pdf", count: 5 }] },
+        ],
+      },
     } as any;
     const rawAgoResults2 = {
       results: [],
@@ -127,15 +129,15 @@ describe("getItems test", () => {
         counts: [
           {
             fieldName: "d",
-            fieldValues: [{ value: "business/store", count: 5 }]
-          }
-        ]
-      }
+            fieldValues: [{ value: "business/store", count: 5 }],
+          },
+        ],
+      },
     } as any;
     const rawAgoResults3 = {
       results: [],
       total: 0,
-      aggregations: {}
+      aggregations: {},
     } as any;
     const rawAgoResults = [rawAgoResults1, rawAgoResults2, rawAgoResults3];
     const encodeAgoQuerySpy = spyOn(
@@ -147,7 +149,7 @@ describe("getItems test", () => {
         start: 1,
         num: 10,
         countFields: "a,b,c,d,e,f,g",
-        countSize: 10
+        countSize: 10,
       };
     });
     const searchItemsSpy = spyOn(Portal, "searchItems").and.callFake(() => {
@@ -159,7 +161,7 @@ describe("getItems test", () => {
       groupIds: "1ef",
       start: 1,
       num: 10,
-      agg: { fields: "a,b,c,d,e,f,g" }
+      agg: { fields: "a,b,c,d,e,f,g" },
     };
     const token = "token";
     const portal = "https://test.com";
@@ -180,10 +182,11 @@ describe("getItems test", () => {
         num: 10,
         params: { token, countFields: "a,b,c", countSize: 10 },
         portal,
+        httpMethod: "POST",
         authentication: undefined,
         countFields: "a,b,c,d,e,f,g",
-        countSize: 10
-      }
+        countSize: 10,
+      },
     ];
     expect(expectedArgsForSearchItems1).toEqual(
       searchItemsSpy.calls.argsFor(0)
@@ -195,10 +198,11 @@ describe("getItems test", () => {
         num: 10,
         params: { token, countFields: "d,e,f", countSize: 10 },
         portal,
+        httpMethod: "POST",
         authentication: undefined,
         countFields: "a,b,c,d,e,f,g",
-        countSize: 10
-      }
+        countSize: 10,
+      },
     ];
     expect(expectedArgsForSearchItems2).toEqual(
       searchItemsSpy.calls.argsFor(1)
@@ -210,10 +214,11 @@ describe("getItems test", () => {
         num: 10,
         params: { token, countFields: "g", countSize: 10 },
         portal,
+        httpMethod: "POST",
         authentication: undefined,
         countFields: "a,b,c,d,e,f,g",
-        countSize: 10
-      }
+        countSize: 10,
+      },
     ];
     expect(expectedArgsForSearchItems3).toEqual(
       searchItemsSpy.calls.argsFor(2)
@@ -224,10 +229,10 @@ describe("getItems test", () => {
     done();
   });
 
-  it("first raw AGO results w/o aggregations should initialize with full results", async done => {
+  it("first raw AGO results w/o aggregations should initialize with full results", async (done) => {
     const rawAgoResults1 = {
       results: [],
-      total: 0
+      total: 0,
     } as any;
     const rawAgoResults2 = {
       results: [],
@@ -236,14 +241,14 @@ describe("getItems test", () => {
         counts: [
           {
             fieldName: "c",
-            fieldValues: [{ value: "pdf", count: 5 }]
+            fieldValues: [{ value: "pdf", count: 5 }],
           },
           {
             fieldName: "d",
-            fieldValues: [{ value: "business/store", count: 5 }]
-          }
-        ]
-      }
+            fieldValues: [{ value: "business/store", count: 5 }],
+          },
+        ],
+      },
     } as any;
     const rawAgoResults = [rawAgoResults1, rawAgoResults2];
 
@@ -256,7 +261,7 @@ describe("getItems test", () => {
         start: 1,
         num: 10,
         countFields: "a,b,c,d",
-        countSize: 10
+        countSize: 10,
       };
     });
 
@@ -270,7 +275,7 @@ describe("getItems test", () => {
       groupIds: "1ef",
       start: 1,
       num: 10,
-      agg: { fields: "a,b,c,d" }
+      agg: { fields: "a,b,c,d" },
     };
     const token = "token";
     const portal = "https://test.com";
@@ -291,10 +296,11 @@ describe("getItems test", () => {
         num: 10,
         params: { token, countFields: "a,b,c", countSize: 10 },
         portal,
+        httpMethod: "POST",
         authentication: undefined,
         countFields: "a,b,c,d",
-        countSize: 10
-      }
+        countSize: 10,
+      },
     ];
     expect(expectedArgsForSearchItems1).toEqual(
       searchItemsSpy.calls.argsFor(0)
@@ -306,10 +312,11 @@ describe("getItems test", () => {
         num: 10,
         params: { token, countFields: "d", countSize: 10 },
         portal,
+        httpMethod: "POST",
         authentication: undefined,
         countFields: "a,b,c,d",
-        countSize: 10
-      }
+        countSize: 10,
+      },
     ];
     expect(expectedArgsForSearchItems2).toEqual(
       searchItemsSpy.calls.argsFor(1)

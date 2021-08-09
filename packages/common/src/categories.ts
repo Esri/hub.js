@@ -10,7 +10,7 @@ const {
   initiative,
   map,
   other,
-  site
+  site,
 } = collections;
 
 const downloadableTypes: string[] = [
@@ -56,7 +56,7 @@ const downloadableTypes: string[] = [
   "Service Definition",
   "Shapefile",
   "Vector Tile Package",
-  "Workflow Manager Package"
+  "Workflow Manager Package",
 ];
 
 const downloadableTypeKeywords: string[] = ["Data"];
@@ -76,7 +76,7 @@ export const categories: { [key: string]: string[] } = {
   site,
   downloadableTypes,
   downloadableTypeKeywords,
-  apiTypes
+  apiTypes,
 };
 
 // TODO: move this function and supporting arrays to another module
@@ -88,9 +88,9 @@ export function isDownloadable(item: IItem) {
   return (
     downloadableTypes.indexOf(item.type) !== -1 ||
     (item.typeKeywords &&
-      downloadableTypeKeywords.some(downloadableTypeKeyword =>
+      downloadableTypeKeywords.some((downloadableTypeKeyword) =>
         item.typeKeywords.some(
-          typeKeyword => typeKeyword === downloadableTypeKeyword
+          (typeKeyword) => typeKeyword === downloadableTypeKeyword
         )
       ))
   );
