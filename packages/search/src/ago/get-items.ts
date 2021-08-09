@@ -18,17 +18,18 @@ export async function getItems(
     const chunkedCountFields = chunkArray(
       agoParams.countFields.split(","),
       MAX_COUNTFIELDS
-    ).map(fieldArrayChunk => fieldArrayChunk.join(","));
-    const promises = chunkedCountFields.map(chunk => {
+    ).map((fieldArrayChunk) => fieldArrayChunk.join(","));
+    const promises = chunkedCountFields.map((chunk) => {
       return searchItems({
         ...agoParams,
         params: {
           token,
           countFields: chunk,
-          countSize: agoParams.countSize
+          countSize: agoParams.countSize,
         },
         portal,
-        authentication
+        authentication,
+        httpMethod: "POST",
       });
     });
     const responses = await Promise.all(promises);
@@ -46,7 +47,7 @@ export async function getItems(
     }
 
     responses[0].aggregations = {
-      counts: allCounts
+      counts: allCounts,
     };
 
     return responses[0];
@@ -56,10 +57,11 @@ export async function getItems(
       params: {
         token,
         countFields: agoParams.countFields,
-        countSize: agoParams.countSize
+        countSize: agoParams.countSize,
       },
       portal,
-      authentication
+      httpMethod: "POST",
+      authentication,
     });
   }
 }
