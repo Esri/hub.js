@@ -43,6 +43,7 @@ const document: string[] = [
   "Microsoft Powerpoint",
   "Microsoft Visio",
   "Microsoft Word",
+  "Notebook",
   "PDF",
   "Pro Map",
   "Report Template"

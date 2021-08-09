@@ -45,6 +45,7 @@ const downloadableTypes: string[] = [
   "Microsoft Powerpoint",
   "Microsoft Visio",
   "Microsoft Word",
+  "Notebook",
   "Operations Dashboard Add In",
   "PDF",
   "Pro Map",
