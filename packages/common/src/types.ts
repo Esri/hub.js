@@ -11,6 +11,7 @@ import {
 } from "@esri/arcgis-rest-types";
 import { IPortal, ISearchResult } from "@esri/arcgis-rest-portal";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IStructuredLicense } from "./items/get-structured-license";
 
 /**
  * Generic Model, used with all items that have a json
@@ -369,6 +370,8 @@ export interface IHubContent extends IHubResource, IItem {
   org?: Partial<IPortal>;
   /** Whether the content is downloadable in the Hub app */
   isDownloadable: boolean;
+  /** The content's structured license info */
+  structuredLicense?: IStructuredLicense;
 }
 
 interface IActionLink {

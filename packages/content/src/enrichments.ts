@@ -21,6 +21,7 @@ import {
   isFeatureService,
   isNil,
   OperationStack,
+  getStructuredLicense,
 } from "@esri/hub-common";
 import { getContentMetadata } from "./metadata";
 
@@ -376,6 +377,21 @@ const enrichLayers = (
   );
 };
 
+const enrichLicense = (
+  input: IPipeable<IHubContent>
+): Promise<IPipeable<IHubContent>> => {
+  const { data: content, stack, requestOptions } = input;
+  const opId = stack.start("enrichLicense");
+  try {
+    const structuredLicense = getStructuredLicense(content.licenseInfo);
+    stack.finish(opId);
+    const data = { ...content, structuredLicense };
+    return Promise.resolve({ data, stack, requestOptions });
+  } catch (error) {
+    handleEnrichmentError(error, input, opId);
+  }
+};
+
 // add the error to the content.errors,
 // log current stack operation as finished with an error
 // and return output that can be piped into the next operation
@@ -410,6 +426,7 @@ const enrichmentOperations: IEnrichmentOperations = {
   layers: enrichLayers,
   data: enrichData,
   orgId: enrichOwner,
+  license: enrichLicense,
 };
 
 const shouldFetchData = (content: IHubContent) => {
@@ -468,6 +485,9 @@ const getMissingEnrichments = (content: IHubContent) => {
     if (!content.layers) {
       enrichments.push("layers");
     }
+  }
+  if (!content.structuredLicense) {
+    enrichments.push("license");
   }
   return enrichments;
 };
