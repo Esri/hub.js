@@ -1,0 +1,29 @@
+name: Mark stale issues and pull requests
+
+on:
+  schedule:
+    - cron: "22 13 * * 1,2,3,4,5"
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      # 3+7 day stale policy for PRs
+      # * Except PRs marked as "no stale"
+      - name: Stale PRs policy
+        uses: actions/stale@v4
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          exempt-pr-labels: "no stale"
+          days-before-stale: 3
+          days-before-close: 7
+          days-before-issue-stale: -1
+          days-before-issue-close: -1
+          remove-stale-when-updated: true
+          stale-pr-label: "stale"
+          stale-pr-message: >
+            There hasn't been any activity on this pull request in the past 3 days, so
+            it has been marked as stale and it will be closed automatically if no
+            further activity occurs in the next 7 days.
+            If you want this PR to never become stale, please apply
+            the "no stale" label.
