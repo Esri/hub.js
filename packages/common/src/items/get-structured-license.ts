@@ -130,6 +130,7 @@ export function getStructuredLicense(rawLicense: string) {
 
   // (3) if not a standard license, we check if the raw license is a url or link
   if (!hasStandardLicense) {
+    const parsedLicense = parse(rawLicense, { ignoreAttributes: false });
     let url;
 
     // a. check if the the raw license is simply a url
@@ -137,11 +138,8 @@ export function getStructuredLicense(rawLicense: string) {
       url = rawLicense;
     }
     // b. check if the raw license is simply a link (i.e. an anchor tag with an href)
-    else if (validate(rawLicense)) {
-      const parsedLicense = parse(rawLicense, { ignoreAttributes: false });
-      if (isSingleAnchorWithHrefAttribute(rawLicense, parsedLicense)) {
-        url = parsedLicense.a["@_href"];
-      }
+    else if (isSingleAnchorWithHrefAttribute(rawLicense, parsedLicense)) {
+      url = parsedLicense.a["@_href"];
     }
 
     if (url) {
@@ -205,6 +203,6 @@ function isSingleAnchorWithHrefAttribute(rawXml: string, parsedXml: any) {
     rawXml.trim().startsWith("<a") &&
     Object.keys(parsedXml).length === 1 &&
     Object.keys(parsedXml)[0] === "a" &&
-    parsedXml?.a["@_href"]
+    parsedXml.a["@_href"]
   );
 }

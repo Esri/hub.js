@@ -382,14 +382,12 @@ const enrichLicense = (
 ): Promise<IPipeable<IHubContent>> => {
   const { data: content, stack, requestOptions } = input;
   const opId = stack.start("enrichLicense");
-  try {
-    const structuredLicense = getStructuredLicense(content.licenseInfo);
-    stack.finish(opId);
-    const data = { ...content, structuredLicense };
-    return Promise.resolve({ data, stack, requestOptions });
-  } catch (error) {
-    handleEnrichmentError(error, input, opId);
-  }
+
+  const structuredLicense = getStructuredLicense(content.licenseInfo);
+  stack.finish(opId);
+  const data = { ...content, structuredLicense };
+
+  return Promise.resolve({ data, stack, requestOptions });
 };
 
 // add the error to the content.errors,
