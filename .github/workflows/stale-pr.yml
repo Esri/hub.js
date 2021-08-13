@@ -1,4 +1,4 @@
-name: Mark stale issues and pull requests
+name: Mark stale pull requests
 
 on:
   schedule:
@@ -14,16 +14,17 @@ jobs:
         uses: actions/stale@v4
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          exempt-pr-labels: "no stale"
+          exempt-pr-labels: "draft"
           days-before-stale: 3
           days-before-close: 7
           days-before-issue-stale: -1
           days-before-issue-close: -1
           remove-stale-when-updated: true
           stale-pr-label: "stale"
+          operations-per-run: 60
           stale-pr-message: >
             There hasn't been any activity on this pull request in the past 3 days, so
             it has been marked as stale and it will be closed automatically if no
             further activity occurs in the next 7 days.
             If you want this PR to never become stale, please apply
-            the "no stale" label.
+            the "Draft" label.
