@@ -5,32 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [8.15.1] - August 16th 2021
+
+### Other Changes
+
+- Bug Fixes
+  - **hub-search**: force getItems() to always be post to avoid server errors from long urls [`30434003`](https://github.com/Esri/hub.js/commit/30434003d5ebe7342588e4bf989e616cd3b017e4)
+  - **hub-teams**: allow for user to be invited as group admin (#611) [`19dfd67c`](https://github.com/Esri/hub.js/commit/19dfd67ca935d830839e9ad3ff10cbfb754f3c15)
+
 ## [8.15.0] - August 9th 2021
 
 ### Other Changes
 
-* Documentation
-   * **hub-discussions**: adds hub-discussions guide [`ecaa6898`](https://github.com/Esri/hub.js/commit/ecaa689854d4e0476c21c131546d254556093c95)
-* New Features
-   * **hub-content**: notebooks are downloadable and in documents family [`6a958a20`](https://github.com/Esri/hub.js/commit/6a958a20c1445f6707dd0d388e046667fa865955)
-* Misc.
-   * **hub-content**: refactor fetchContent to use createOperationPipeline [`1b91a242`](https://github.com/Esri/hub.js/commit/1b91a2427cdd18ca905249caac2614ab8f3b9ae2)
+- Documentation
+  - **hub-discussions**: adds hub-discussions guide [`ecaa6898`](https://github.com/Esri/hub.js/commit/ecaa689854d4e0476c21c131546d254556093c95)
+- New Features
+  - **hub-content**: notebooks are downloadable and in documents family [`6a958a20`](https://github.com/Esri/hub.js/commit/6a958a20c1445f6707dd0d388e046667fa865955)
+- Misc.
+  - **hub-content**: refactor fetchContent to use createOperationPipeline [`1b91a242`](https://github.com/Esri/hub.js/commit/1b91a2427cdd18ca905249caac2614ab8f3b9ae2)
 
 ## [8.14.0] - July 28th 2021
 
 ### Other Changes
 
-* New Features
-   * **hub-common**: add getSubcriptionType() [`950cc63c`](https://github.com/Esri/hub.js/commit/950cc63c64daccf1b9de3dc628f40964c0698abc)
-* Bug Fixes
-   * **hub-teams**: canCreateTeam fatal error when portalSelf is missing subscription [`700f0e04`](https://github.com/Esri/hub.js/commit/700f0e04d15e46733c46f24405ab92d6cd3b2012)
+- New Features
+  - **hub-common**: add getSubcriptionType() [`950cc63c`](https://github.com/Esri/hub.js/commit/950cc63c64daccf1b9de3dc628f40964c0698abc)
+- Bug Fixes
+  - **hub-teams**: canCreateTeam fatal error when portalSelf is missing subscription [`700f0e04`](https://github.com/Esri/hub.js/commit/700f0e04d15e46733c46f24405ab92d6cd3b2012)
 
 ## [8.13.2] - July 27th 2021
 
 ### Other Changes
 
-* New Features
-   * **hub-teams**: update well known teams with edit team (#587) [`9791ee0d`](https://github.com/Esri/hub.js/commit/9791ee0d0635ed8ad02467076ed11ef5a752dfe3)
+- New Features
+  - **hub-teams**: update well known teams with edit team (#587) [`9791ee0d`](https://github.com/Esri/hub.js/commit/9791ee0d0635ed8ad02467076ed11ef5a752dfe3)
 
 ## [8.13.1] - July 26th 2021
 
@@ -126,7 +134,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - **hub-teams**: add canEditTeam [`d2c9fecf`](https://github.com/Esri/hub.js/commit/d2c9fecf0314e35ee5c1acb9583684f18740f0b1)
   - **hub-teams**: add username check [`36a8b792`](https://github.com/Esri/hub.js/commit/36a8b7924ef7cf11ac2f2e81abe0d9ca49e86ec7)
   - **hub-teams**: add canEditTeam tests [`d4d52c18`](https://github.com/Esri/hub.js/commit/d4d52c1879c01f44770c16de242822ce41ba2708)
-  - **hub-teams**: add case when user is not auth&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;#39;d [`295e04a7`](https://github.com/Esri/hub.js/commit/295e04a7189151c827a25dcf9222c76448df71f7)
+  - **hub-teams**: add case when user is not auth&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;#39;d [`295e04a7`](https://github.com/Esri/hub.js/commit/295e04a7189151c827a25dcf9222c76448df71f7)
 
 ## [8.7.0] - June 25th 2021
 
@@ -946,11 +954,7 @@ Attempt to address failed release
 
 ## [4.1.0] - May 21st 2020
 
-
-
 ## [4.0.0] - May 20th 2020
-
-
 
 ## [3.9.3] - May 14th 2020
 
@@ -988,8 +992,6 @@ Attempt to address failed release
   - **peerDependencies**: fix invalid peerDependencies [`08fae37`](https://github.com/Esri/hub.js/commit/08fae37875aa3e68a82970a54eedcbe13ef001a8) [#251](https://github.com/Esri/hub.js/issues/251)
 
 ## [3.9.1] - May 6th 2020
-
-
 
 ## [3.9.0] - May 6th 2020
 
@@ -1031,8 +1033,6 @@ Attempt to address failed release
 
 ## [3.7.4] - April 30th 2020
 
-
-
 ## [3.7.3] - April 29th 2020
 
 - New Features
@@ -1043,8 +1043,6 @@ Attempt to address failed release
 ### @esri/hub-common
 
 ## [3.7.1] - April 28th 2020
-
-
 
 ## [3.7.0] - April 28th 2020
 
@@ -1100,11 +1098,7 @@ Attempt to address failed release
 
 ## [3.6.3] - January 27th 2020
 
-
-
 ## [3.6.2] - January 2nd 2020
-
-
 
 ## [3.6.0] - November 18th 2019
 
@@ -1198,8 +1192,6 @@ Attempt to address failed release
   - **search**: support filters specified implicitly
 
 ## [2.6.0] - August 20th 2019
-
-
 
 ## [2.5.0] - August 15th 2019
 
@@ -1686,7 +1678,8 @@ Initial Release
 [3.9.3]: https://github.com/Esri/hub.js/compare/v3.9.2...v3.9.3 "v3.9.3"
 [4.0.0]: https://github.com/Esri/hub.js/compare/v3.9.3...v4.0.0 "v4.0.0"
 [4.1.0]: https://github.com/Esri/hub.js/compare/v4.0.0...v4.1.0 "v4.1.0"
-[4.2.0]: https://github.com/Esri/hub.js/compare/v4.1.0...v4.2.0 "v4.2.0"
+[4.1.1]: https://github.com/Esri/hub.js/compare/v4.1.0...v4.1.1 "v4.1.1"
+[4.2.0]: https://github.com/Esri/hub.js/compare/v4.1.1...v4.2.0 "v4.2.0"
 [4.2.1]: https://github.com/Esri/hub.js/compare/v4.2.0...v4.2.1 "v4.2.1"
 [4.2.2]: https://github.com/Esri/hub.js/compare/v4.2.1...v4.2.2 "v4.2.2"
 [4.2.3]: https://github.com/Esri/hub.js/compare/v4.2.2...v4.2.3 "v4.2.3"
@@ -1790,4 +1783,5 @@ Initial Release
 [8.13.2]: https://github.com/Esri/hub.js/compare/v8.13.1...v8.13.2 "v8.13.2"
 [8.14.0]: https://github.com/Esri/hub.js/compare/v8.13.2...v8.14.0 "v8.14.0"
 [8.15.0]: https://github.com/Esri/hub.js/compare/v8.14.0...v8.15.0 "v8.15.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v8.15.0...HEAD "Unreleased Changes"
+[8.15.1]: https://github.com/Esri/hub.js/compare/v8.15.0...v8.15.1 "v8.15.1"
+[HEAD]: https://github.com/Esri/hub.js/compare/v8.15.1...HEAD "Unreleased Changes"
