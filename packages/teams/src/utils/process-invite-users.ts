@@ -22,6 +22,7 @@ export async function processInviteUsers(
   const users: IUser[] = getProp(context, userType);
   const notInvited: string[] = [];
   let errors: ArcGISRequestError[] = [];
+  const { addUserAsGroupAdmin } = context;
   // iterate through users as we want a distinct invite call per user due to how
   // batch invites will only respond with success: true/false
   // and if there is an error then it gets priority even though successes do still go through
@@ -30,7 +31,9 @@ export async function processInviteUsers(
     const inviteResponse = await inviteUsers(
       getProp(context, "groupId"),
       [user],
-      getProp(context, "primaryRO")
+      getProp(context, "primaryRO"),
+      20160, // timeout
+      addUserAsGroupAdmin ? "group_admin" : "group_member" // if we are in a core team we want to invite them as a group admin, otherwise a group member
     );
     // If it's just a failed invite then
     // add username to notInvited array

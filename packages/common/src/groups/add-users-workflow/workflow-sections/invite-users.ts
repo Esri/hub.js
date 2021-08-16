@@ -2,7 +2,7 @@ import { IUser } from "@esri/arcgis-rest-auth";
 import {
   IInviteGroupUsersResult,
   IInviteGroupUsersOptions,
-  inviteGroupUsers
+  inviteGroupUsers,
 } from "@esri/arcgis-rest-portal";
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
 
@@ -21,16 +21,17 @@ export function inviteUsers(
   id: string,
   users: IUser[],
   authentication: IAuthenticationManager,
-  expiration = 20160 // default to 2 week expiration TODO: is this actually 2 weeks?
+  expiration = 20160, // default to 2 week expiration TODO: is this actually 2 weeks?
+  role: string = "group_member" // default to group member, but allow for team_admin as well
 ): Promise<IInviteGroupUsersResult> {
   let response: Promise<IInviteGroupUsersResult> = Promise.resolve(null);
   if (users.length) {
     const args: IInviteGroupUsersOptions = {
       id,
-      users: users.map(u => u.username),
+      users: users.map((u) => u.username),
       authentication,
-      role: "group_member",
-      expiration
+      role,
+      expiration,
     };
 
     response = inviteGroupUsers(args);
