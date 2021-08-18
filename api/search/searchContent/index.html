@@ -2333,9 +2333,208 @@
 
 
 
-  <p>A standalone function for searching content across the Portal API only or Portal API and the
-Hub Indexer V3 API.</p>
+  <p>A standalone function for searching Hub content</p>
 
+
+  
+    <p>A content search is configured by passing <code>searchContent</code> an object of type <code>IContentSearchRequest</code>.
+This configuration object is composed of two important child objects: <code>filter</code> and <code>options</code>.</p>
+<p>The <code>filter</code> object allows the caller to filter results based on attributes exposed by AGO and
+the Hub API. A complete list of attributes can be found at the docs for <code>IContentSearchFilter</code>,
+but some examples include:</p>
+<ul>
+<li>access</li>
+<li>id</li>
+<li>group</li>
+<li>orgid</li>
+</ul>
+<p>The <code>options</code> object allows the caller to specify more general attributes about the request itself.
+A complete list of options can be found at the docs for <code>IContentSearchOptions</code>, but some examples include:</p>
+<ul>
+<li>the authenticated user</li>
+<li>whether the call is happening in an enterprise environment</li>
+<li>what site catalog to search</li>
+</ul>
+<p>Combined, both filters and options allow you to create complex queries against AGO / Hub API.
+Here are examples of some common use cases:</p>
+<pre><code class="js"><span class="hljs-keyword">import</span> { searchContent, IBooleanOperator } <span class="hljs-keyword">from</span> <span class="hljs-string">'@esri/hub-search'</span>;
+...
+
+<span class="hljs-comment">/////////////////////////////////////////////////////////////////////</span>
+<span class="hljs-comment">// Search for all public and private content associated with a site</span>
+<span class="hljs-comment">/////////////////////////////////////////////////////////////////////</span>
+<span class="hljs-keyword">const</span> options: IContentSearchOptions = {
+   <span class="hljs-attr">site</span>: <span class="hljs-string">'https://my-site.hub.arcgis.com'</span>,
+   <span class="hljs-attr">portal</span>: <span class="hljs-string">'https://www.arcgis.com'</span>,
+   <span class="hljs-comment">// Any private content that the authenticated user can access will be included in the results</span>
+   authentication: <span class="hljs-keyword">new</span> UserSession(...),
+}
+<span class="hljs-keyword">const</span> searchResults = <span class="hljs-keyword">await</span> searchContent({ options });
+...
+
+<span class="hljs-comment">///////////////////////////////////////////////////////////</span>
+<span class="hljs-comment">// Search for all public content associated with a site</span>
+<span class="hljs-comment">///////////////////////////////////////////////////////////</span>
+<span class="hljs-keyword">const</span> options: IContentSearchOptions = {
+   <span class="hljs-attr">site</span>: <span class="hljs-string">'https://my-site.hub.arcgis.com'</span>,
+   <span class="hljs-attr">portal</span>: <span class="hljs-string">'https://www.arcgis.com'</span>,
+   <span class="hljs-attr">authentication</span>: <span class="hljs-keyword">new</span> UserSession(...),
+}
+<span class="hljs-keyword">const</span> filter: IContentSearchFilter = {
+   <span class="hljs-attr">access</span>: <span class="hljs-string">'public'</span>
+}
+<span class="hljs-keyword">const</span> searchResults = <span class="hljs-keyword">await</span> searchContent({ filter, options });
+...
+
+<span class="hljs-comment">//////////////////////////////////////////////////////////</span>
+<span class="hljs-comment">// Search for all private content associated with a site</span>
+<span class="hljs-comment">///////////////////////////////////////////////////////////</span>
+
+<span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> As of 8/17/21 the hub api has a bug in which</span>
+<span class="hljs-comment">// Any query with a not filter on the access field</span>
+<span class="hljs-comment">// (e.g access: not('public')) will return no results</span>
+
+<span class="hljs-keyword">const</span> options: IContentSearchOptions = {
+   <span class="hljs-attr">site</span>: <span class="hljs-string">'https://my-site.hub.arcgis.com'</span>,
+   <span class="hljs-attr">portal</span>: <span class="hljs-string">'https://www.arcgis.com'</span>,
+   <span class="hljs-comment">// Any private content that the authenticated user can access will be included in the results</span>
+   authentication: <span class="hljs-keyword">new</span> UserSession(...),
+}
+<span class="hljs-keyword">const</span> filter: IContentSearchFilter = {
+   <span class="hljs-attr">access</span>: {
+       <span class="hljs-attr">value</span>: [<span class="hljs-string">'public'</span>],
+       <span class="hljs-attr">bool</span>: IBooleanOperator.NOT
+   }
+}
+<span class="hljs-keyword">const</span> searchResults = <span class="hljs-keyword">await</span> searchContent({ filter, options });
+
+...
+<span class="hljs-comment">/////////////////////////////////</span>
+<span class="hljs-comment">// Search for a specific item</span>
+<span class="hljs-comment">/////////////////////////////////</span>
+<span class="hljs-keyword">const</span> options: IContentSearchOptions = {
+   <span class="hljs-attr">portal</span>: <span class="hljs-string">'https://www.arcgis.com'</span>,
+   <span class="hljs-attr">authentication</span>: <span class="hljs-keyword">new</span> UserSession(...),
+}
+<span class="hljs-keyword">const</span> filter: IContentSearchFilter = {
+   <span class="hljs-attr">id</span>: <span class="hljs-string">'my_item_id'</span>
+}
+<span class="hljs-keyword">const</span> searchResults = <span class="hljs-keyword">await</span> searchContent({ filter, options });
+</code></pre>
+<p>There are a couple gotchas that need to be accounted for:</p>
+<ol>
+<li>
+<p>There is no way to specify the number of results per page. If you need to fetch all
+items that match a given query, you'll need to utilize the <code>hasNext</code> flag as well as the
+<code>next</code> function included on the return object and make multiple XHR requests.</p>
+</li>
+<li>
+<p>Results returned from the hub index (i.e. 'public items') will be structured differently than
+results returned from AGO/Enterprise (i.e. 'private' items). A comprehensive list of differences cannot
+be given here, but developers should be aware that they exist. Additionally, the structure of 'public'
+items can change when either the indexing process or schema of the Hub API is modified. To showcase
+some of the possible differences between 'public' and 'private' items, we've provided examples of both
+types of results below:</p>
+</li>
+</ol>
+<pre><code class="js">///////////////
+// Private
+///////////////
+{
+ access: "myself",
+ appCategories: [],
+ avgRating: 0,
+ categories: [],
+ collection: ["Map"],
+ contentOrigin: "self",
+ created: 1623945553000,
+ culture: "en-us",
+ description: “A description",
+ extent: {
+   coordinates: [],
+   type: "envelope"
+ },
+ hubType: "map",
+ id: "06c0cdadc2ec48509576c20da8572bf8",
+ industries: [],
+ isOrgItem: true,
+ languages: [],
+ listed: false,
+ modified: 1629220743000,
+ name: "Traffic Camera Enforcement Locations in Washington DC",
+ numComments: 0,
+ numRatings: 0,
+ numViews: 0,
+ owner: "juliana_pa",
+ properties: {...}
+ protected: false,
+ scoreCompleteness: 66,
+ screenshots: [],
+ searchDescription: “A description”,
+ size: -1,
+ subInfo: 0,
+ tags: ["DC GIS", "police", "speed", "speeding", "ticket", "traffic", "violation"],
+ thumbnail: "thumbnail/ago_downloaded.png",
+ title: "Traffic Camera Enforcement Locations in Washington DC",
+ type: "Web Map",
+ typeKeywords: ["ArcGIS Online", "Explorer Web Map", "Map", "Online Map", "Web Map"],
+}
+
+/////////////
+// Public
+/////////////
+{
+ access: "public",
+ additionalResources: []
+ boundary: {...}
+ categories: []
+ collection: ["Map"]
+ commentsEnabled: true
+ composeStatus: {...}
+ composedAt: 1629220762412
+ content: "Web Map"
+ created: 1619446871000
+ culture: "en-us"
+ description: "A pretty brief summary"
+ downloadable: false
+ enrichCoverage: "global"
+ enrichQuality: 55
+ errors: []
+ extent: {...}
+ groupIds: []
+ hasApi: false
+ hubType: "Web Map"
+ id: "ebfe6f6712ff4a23b5447f0ce53d65c2"
+ itemExtent: [...]
+ itemModified: 1629220760000
+ license: "none"
+ modified: 1629220760000
+ modifiedProvenance: "item.modified"
+ name: "My map"
+ openData: false
+ orgExtent: {...}
+ orgId: "Xj56SBi2udA78cC9"
+ orgName: "QA Premium Alpha Hub"
+ organization: "QA Premium Alpha Hub"
+ owner: "juliana_pa"
+ region: "US"
+ searchDescription: "A pretty brief summary"
+ server: null
+ size: 1142
+ slug: "qa-pre-a-hub::my-map"
+ snippet: "A pretty brief summary"
+ source: "QA Premium Alpha Hub"
+ sourceProvenance: "org.name"
+ structuredLicense: { type: "none" }
+ tags: []
+ thumbnail: "thumbnail/ago_downloaded.png"
+ thumbnailUrl: "thumbnail/ago_downloaded.png"
+ title: "My map"type: "Web Map"
+ typeCategories: ["Map"]
+ typeKeywords: ["ArcGIS Hub", "ArcGIS Online", "Explorer Web Map", "Map", "Online Map", "Web Map"]
+ validExtent: true
+}
+</code></pre>
 
   
 
@@ -2388,10 +2587,6 @@ Hub Indexer V3 API.</p>
             <td class="body-face api-param-comment">
               
               <p>the IContentSearchRequest instance for searching</p>
-<pre><code class="js"><span class="hljs-keyword">import</span> { searchContent } <span class="hljs-keyword">from</span> <span class="hljs-string">'@esri/hub-search'</span>
-
-<span class="hljs-keyword">const</span> searchResults = searchContent({ filters, options })
-</code></pre>
 
             </td>
           </tr>
@@ -2654,7 +2849,7 @@ Hub Indexer V3 API.</p>
 
 
 
-<small class="font-size--2">Function defined in <a href="https://github.com/Esri/hub.js/blob/master/packages/search/src/content/index.ts#L100">packages/search/src/content/index.ts:100</a></small>
+<small class="font-size--2">Function defined in <a href="https://github.com/Esri/hub.js/blob/master/packages/search/src/content/index.ts#L292">packages/search/src/content/index.ts:292</a></small>
 
 
     </div>
