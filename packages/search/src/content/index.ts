@@ -86,10 +86,12 @@ export class ContentSearchService
 }
 
 /**
- * A standalone function for searching content across the Portal API only or Portal API and the
- * Hub Indexer V3 API.
+ * A standalone function for searching Hub content
  *
- * The `filter` argument allows the caller to filter results based on attributes exposed by AGO and
+ * A content search is configured by passing `searchContent` an object of type `IContentSearchRequest`.
+ * This configuration object is composed of two important child objects: `filter` and `options`.
+ *
+ * The `filter` object allows the caller to filter results based on attributes exposed by AGO and
  * the Hub API. A complete list of attributes can be found at the docs for `IContentSearchFilter`,
  * but some examples include:
  * - access
@@ -97,8 +99,8 @@ export class ContentSearchService
  * - group
  * - orgid
  *
- * The `options` argument allows the caller to specify more general attributes about the request itself.
- * A complete list of options can be found at the docs for `IContentSearchFilter`, but some examples include:
+ * The `options` object allows the caller to specify more general attributes about the request itself.
+ * A complete list of options can be found at the docs for `IContentSearchOptions`, but some examples include:
  * - the authenticated user
  * - whether the call is happening in an enterprise environment
  * - what site catalog to search
@@ -116,7 +118,7 @@ export class ContentSearchService
  * const options: IContentSearchOptions = {
  *    site: 'https://my-site.hub.arcgis.com',
  *    portal: 'https://www.arcgis.com',
- *    // Note: only private content visible to the authenticated user will be returned
+ *    // Any private content that the authenticated user can access will be included in the results
  *    authentication: new UserSession(...),
  * }
  * const searchResults = await searchContent({ options });
@@ -131,7 +133,7 @@ export class ContentSearchService
  *    authentication: new UserSession(...),
  * }
  * const filter: IContentSearchFilter = {
- *    access: 'public' // Can also be expressed as { value: ['public'] }
+ *    access: 'public'
  * }
  * const searchResults = await searchContent({ filter, options });
  * ...
@@ -147,7 +149,7 @@ export class ContentSearchService
  * const options: IContentSearchOptions = {
  *    site: 'https://my-site.hub.arcgis.com',
  *    portal: 'https://www.arcgis.com',
- *    // Note: only private content visible to the authenticated user will be returned
+ *    // Any private content that the authenticated user can access will be included in the results
  *    authentication: new UserSession(...),
  * }
  * const filter: IContentSearchFilter = {
@@ -167,7 +169,7 @@ export class ContentSearchService
  *    authentication: new UserSession(...),
  * }
  * const filter: IContentSearchFilter = {
- *    id: 'my_item_id' // Can also be expressed as { value: ['my_item_id'] }
+ *    id: 'my_item_id'
  * }
  * const searchResults = await searchContent({ filter, options });
  * ```
@@ -177,10 +179,17 @@ export class ContentSearchService
  * items that match a given query, you'll need to utilize the `hasNext` flag as well as the
  * `next` function included on the return object and make multiple XHR requests.
  *
- * 2) There are differences in item structure for results returned from the
- * hub index vs AGO/Enterprise (i.e. 'public' items vs 'private' items).
- * Here is an example of a 'private' map result:
+ * 2) Results returned from the hub index (i.e. 'public items') will be structured differently than
+ * results returned from AGO/Enterprise (i.e. 'private' items). A comprehensive list of differences cannot
+ * be given here, but developers should be aware that they exist. Additionally, the structure of 'public'
+ * items can change when either the indexing process or schema of the Hub API is modified. To showcase
+ * some of the possible differences between 'public' and 'private' items, we've provided examples of both
+ * types of results below:
+ *
  * ```js
+ * ///////////////
+ * // Private
+ * ///////////////
  * {
  *  access: "myself",
  *  appCategories: [],
@@ -220,9 +229,10 @@ export class ContentSearchService
  *  type: "Web Map",
  *  typeKeywords: ["ArcGIS Online", "Explorer Web Map", "Map", "Online Map", "Web Map"],
  * }
- * ```
- * Here is an example of a 'public' map result:
- * ```js
+ *
+ * /////////////
+ * // Public
+ * /////////////
  * {
  *  access: "public",
  *  additionalResources: []
