@@ -86,16 +86,208 @@ export class ContentSearchService
 }
 
 /**
- * A standalone function for searching content across the Portal API only or Portal API and the
- * Hub Indexer V3 API.
+ * A standalone function for searching Hub content
+ *
+ * A content search is configured by passing `searchContent` an object of type `IContentSearchRequest`.
+ * This configuration object is composed of two important child objects: `filter` and `options`.
+ *
+ * The `filter` object allows the caller to filter results based on attributes exposed by AGO and
+ * the Hub API. A complete list of attributes can be found at the docs for `IContentSearchFilter`,
+ * but some examples include:
+ * - access
+ * - id
+ * - group
+ * - orgid
+ *
+ * The `options` object allows the caller to specify more general attributes about the request itself.
+ * A complete list of options can be found at the docs for `IContentSearchOptions`, but some examples include:
+ * - the authenticated user
+ * - whether the call is happening in an enterprise environment
+ * - what site catalog to search
+ *
+ * Combined, both filters and options allow you to create complex queries against AGO / Hub API.
+ * Here are examples of some common use cases:
+ *
+ * ```js
+ * import { searchContent, IBooleanOperator } from '@esri/hub-search';
+ * ...
+ *
+ * /////////////////////////////////////////////////////////////////////
+ * // Search for all public and private content associated with a site
+ * /////////////////////////////////////////////////////////////////////
+ * const options: IContentSearchOptions = {
+ *    site: 'https://my-site.hub.arcgis.com',
+ *    portal: 'https://www.arcgis.com',
+ *    // Any private content that the authenticated user can access will be included in the results
+ *    authentication: new UserSession(...),
+ * }
+ * const searchResults = await searchContent({ options });
+ * ...
+ *
+ * ///////////////////////////////////////////////////////////
+ * // Search for all public content associated with a site
+ * ///////////////////////////////////////////////////////////
+ * const options: IContentSearchOptions = {
+ *    site: 'https://my-site.hub.arcgis.com',
+ *    portal: 'https://www.arcgis.com',
+ *    authentication: new UserSession(...),
+ * }
+ * const filter: IContentSearchFilter = {
+ *    access: 'public'
+ * }
+ * const searchResults = await searchContent({ filter, options });
+ * ...
+ *
+ * //////////////////////////////////////////////////////////
+ * // Search for all private content associated with a site
+ * ///////////////////////////////////////////////////////////
+ *
+ * // TODO: As of 8/17/21 the hub api has a bug in which
+ * // Any query with a not filter on the access field
+ * // (e.g access: not('public')) will return no results
+ *
+ * const options: IContentSearchOptions = {
+ *    site: 'https://my-site.hub.arcgis.com',
+ *    portal: 'https://www.arcgis.com',
+ *    // Any private content that the authenticated user can access will be included in the results
+ *    authentication: new UserSession(...),
+ * }
+ * const filter: IContentSearchFilter = {
+ *    access: {
+ *        value: ['public'],
+ *        bool: IBooleanOperator.NOT
+ *    }
+ * }
+ * const searchResults = await searchContent({ filter, options });
+ *
+ * ...
+ * /////////////////////////////////
+ * // Search for a specific item
+ * /////////////////////////////////
+ * const options: IContentSearchOptions = {
+ *    portal: 'https://www.arcgis.com',
+ *    authentication: new UserSession(...),
+ * }
+ * const filter: IContentSearchFilter = {
+ *    id: 'my_item_id'
+ * }
+ * const searchResults = await searchContent({ filter, options });
+ * ```
+ * There are a couple gotchas that need to be accounted for:
+ *
+ * 1) There is no way to specify the number of results per page. If you need to fetch all
+ * items that match a given query, you'll need to utilize the `hasNext` flag as well as the
+ * `next` function included on the return object and make multiple XHR requests.
+ *
+ * 2) Results returned from the hub index (i.e. 'public items') will be structured differently than
+ * results returned from AGO/Enterprise (i.e. 'private' items). A comprehensive list of differences cannot
+ * be given here, but developers should be aware that they exist. Additionally, the structure of 'public'
+ * items can change when either the indexing process or schema of the Hub API is modified. To showcase
+ * some of the possible differences between 'public' and 'private' items, we've provided examples of both
+ * types of results below:
+ *
+ * ```js
+ * ///////////////
+ * // Private
+ * ///////////////
+ * {
+ *  access: "myself",
+ *  appCategories: [],
+ *  avgRating: 0,
+ *  categories: [],
+ *  collection: ["Map"],
+ *  contentOrigin: "self",
+ *  created: 1623945553000,
+ *  culture: "en-us",
+ *  description: “A description",
+ *  extent: {
+ *    coordinates: [],
+ *    type: "envelope"
+ *  },
+ *  hubType: "map",
+ *  id: "06c0cdadc2ec48509576c20da8572bf8",
+ *  industries: [],
+ *  isOrgItem: true,
+ *  languages: [],
+ *  listed: false,
+ *  modified: 1629220743000,
+ *  name: "Traffic Camera Enforcement Locations in Washington DC",
+ *  numComments: 0,
+ *  numRatings: 0,
+ *  numViews: 0,
+ *  owner: "juliana_pa",
+ *  properties: {...}
+ *  protected: false,
+ *  scoreCompleteness: 66,
+ *  screenshots: [],
+ *  searchDescription: “A description”,
+ *  size: -1,
+ *  subInfo: 0,
+ *  tags: ["DC GIS", "police", "speed", "speeding", "ticket", "traffic", "violation"],
+ *  thumbnail: "thumbnail/ago_downloaded.png",
+ *  title: "Traffic Camera Enforcement Locations in Washington DC",
+ *  type: "Web Map",
+ *  typeKeywords: ["ArcGIS Online", "Explorer Web Map", "Map", "Online Map", "Web Map"],
+ * }
+ *
+ * /////////////
+ * // Public
+ * /////////////
+ * {
+ *  access: "public",
+ *  additionalResources: []
+ *  boundary: {...}
+ *  categories: []
+ *  collection: ["Map"]
+ *  commentsEnabled: true
+ *  composeStatus: {...}
+ *  composedAt: 1629220762412
+ *  content: "Web Map"
+ *  created: 1619446871000
+ *  culture: "en-us"
+ *  description: "A pretty brief summary"
+ *  downloadable: false
+ *  enrichCoverage: "global"
+ *  enrichQuality: 55
+ *  errors: []
+ *  extent: {...}
+ *  groupIds: []
+ *  hasApi: false
+ *  hubType: "Web Map"
+ *  id: "ebfe6f6712ff4a23b5447f0ce53d65c2"
+ *  itemExtent: [...]
+ *  itemModified: 1629220760000
+ *  license: "none"
+ *  modified: 1629220760000
+ *  modifiedProvenance: "item.modified"
+ *  name: "My map"
+ *  openData: false
+ *  orgExtent: {...}
+ *  orgId: "Xj56SBi2udA78cC9"
+ *  orgName: "QA Premium Alpha Hub"
+ *  organization: "QA Premium Alpha Hub"
+ *  owner: "juliana_pa"
+ *  region: "US"
+ *  searchDescription: "A pretty brief summary"
+ *  server: null
+ *  size: 1142
+ *  slug: "qa-pre-a-hub::my-map"
+ *  snippet: "A pretty brief summary"
+ *  source: "QA Premium Alpha Hub"
+ *  sourceProvenance: "org.name"
+ *  structuredLicense: { type: "none" }
+ *  tags: []
+ *  thumbnail: "thumbnail/ago_downloaded.png"
+ *  thumbnailUrl: "thumbnail/ago_downloaded.png"
+ *  title: "My map"type: "Web Map"
+ *  typeCategories: ["Map"]
+ *  typeKeywords: ["ArcGIS Hub", "ArcGIS Online", "Explorer Web Map", "Map", "Online Map", "Web Map"]
+ *  validExtent: true
+ * }
+ * ```
  *
  * @param request - the IContentSearchRequest instance for searching
  *
- * ```js
- * import { searchContent } from '@esri/hub-search'
- *
- * const searchResults = searchContent({ filters, options })
- * ```
  */
 export async function searchContent(
   request: IContentSearchRequest = { filter: {}, options: {} }
