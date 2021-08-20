@@ -1,4 +1,6 @@
 # Sends an MS Teams notification if a PR is marked Stale
+# Currently uses MessageCard and not AdaptiveCard.
+# Changing to AdaptiveCard might require forking & changing the action
 
 name: Notify Team on stale pull requests
 
@@ -8,28 +10,43 @@ on:
   
 jobs:
   notify:
-    if: ${{ github.event.label.name == 'stale' }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      # this is the new step    
-      - name: Notify of Stale PR
-        uses: toko-bifrost/ms-teams-deploy-card@master #  or "./" if in a local set-up
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          webhook-uri: ${{ secrets.MS_TEAMS_HUB_NOTIFICATIONS_WEBHOOK_URI }}
-  staleteams:
     runs-on: ubuntu-latest
     if: ${{ github.event.label.name == 'stale' }}
-    name: A job to send MS notifications stale prs/issues
+    name: Send MS notifications for stale prs
     steps:
       - uses: actions/checkout@v2
-      # this is the new step using the ms-teams-notification action
       - name: Notify dedicated teams channel
-        uses: jdcargile/ms-teams-notification@v1.3
+        uses: skitionek/notify-microsoft-teams@master
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_HUB_NOTIFICATIONS_WEBHOOK_URI }}
-          notification-summary: Stale Pull Reuqest
-          notification-color: B60205
-          timezone: America/New_York
+          webhook_url: ${{ secrets.MS_TEAMS_HUB_NOTIFICATIONS_WEBHOOK_URI }}
+          raw: >-
+            {
+                "@type": "MessageCard",
+                "@context": "http://schema.org/extensions",            
+                "themeColor": "0076D7",
+                "summary": "Stale Pull Request",
+                "sections": [{
+                    "activityTitle": "${{ github.event.pull_request.title }}",
+                    "activitySubtitle": "${{ github.event.pull_request.head.repo.full_name }} from ${{ github.event.pull_request.user.login }}",
+                    "activityImage": "${{ github.event.pull_request.user.avatar_url }}",
+                    "facts": [{
+                        "name": "Assigned to",
+                        "value": "${{ github.event.pull_request.requested_reviewers }}"
+                    }, {
+                        "name": "Updated",
+                        "value": "${{ github.event.pull_request.updated_at }}"
+                    }, {
+                        "name": "Status",
+                        "value": "${{ github.event.pull_request.state }}"
+                    }],
+                    "markdown": true
+                }],
+                "potentialAction": [{
+                    "@type": "OpenUri",
+                    "name": "View the PR",
+                    "targets": [{
+                        "os": "default",
+                        "uri": "${{ github.event.pull_request.html_url }}"
+                    }]
+                }]
+            }
