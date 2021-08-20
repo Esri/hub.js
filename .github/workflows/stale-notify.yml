@@ -1,0 +1,35 @@
+# Sends an MS Teams notification if a PR is marked Stale
+
+name: Notify Team on stale pull requests
+
+on:
+  pull_request:
+    types: [labeled]
+  
+jobs:
+  notify:
+    if: ${{ github.event.label.name == 'stale' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      # this is the new step    
+      - name: Notify of Stale PR
+        uses: toko-bifrost/ms-teams-deploy-card@master #  or "./" if in a local set-up
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          webhook-uri: ${{ secrets.MS_TEAMS_HUB_NOTIFICATIONS_WEBHOOK_URI }}
+  staleteams:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.label.name == 'stale' }}
+    name: A job to send MS notifications stale prs/issues
+    steps:
+      - uses: actions/checkout@v2
+      # this is the new step using the ms-teams-notification action
+      - name: Notify dedicated teams channel
+        uses: jdcargile/ms-teams-notification@v1.3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_HUB_NOTIFICATIONS_WEBHOOK_URI }}
+          notification-summary: Stale Pull Reuqest
+          notification-color: B60205
+          timezone: America/New_York
