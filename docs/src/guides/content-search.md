@@ -34,7 +34,7 @@ By contrast, the standalone `searchContent` function takes these values from an 
 
 Both the standalone `searchContent` function and the `search` method of the `ContentSearchService` take a parameters object with optional `filter` and `options` properties.
 
-```
+```js
 const resultsOne = await searchContent({ filter, options });
 const resultsTwo = await contentSearchService.search({ filter, options });
 ```
@@ -51,7 +51,7 @@ The `IContentFieldFilter` interface provides a more granular interface for const
 
 Examples:
 
-```
+```js
 // corresponds to (tag: TAG_ONE OR tag: TAG_TWO)
 const filterOne = { tag: { bool: "OR", value: ["TAG_ONE", "TAG_TWO"] } };
 
@@ -66,7 +66,7 @@ Through these three options, large filters can be constructed. As a default, ite
 
 Example:
 
-```
+```js
 // corresponds to `(water) AND (owner: me OR owner: you) AND (created: [1609459200000 TO 1612137600000]) AND (modified: [1609459200000 TO 1612137600000]) AND (-title: "a title" AND -title: "b title") AND (typekeywords: "a type keyword") AND (tags: "tag 1" OR tags: "tag 2" OR tags: "tag 3") AND (type: "Feature Layer" OR type: "Table" OR type: "CSV") AND (access: private) AND (culture: en OR culture: de) AND (categories: "category one" AND categories: "category 2" AND categories: "category three") AND (-type: "code attachment")`
 
 const filters = {
@@ -82,8 +82,8 @@ const filters = {
   culture: ["en", "de"],
   categories: {
     value: ["category one", "category 2", "category three"],
-    bool: "AND"
-  }
+    bool: "AND",
+  },
 };
 ```
 
@@ -103,7 +103,7 @@ The results of a content search could include:
 
 Importantly, one can optionally provide a UserSession instance to the `next` function invocation to be used for authenticated searches
 
-```
+```js
 const nextResponse = await firstResponse.next(userSession);
 ```
 
