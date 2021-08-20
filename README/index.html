@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <title>Using ES6 modules from @esri/hub.js | Guide | @esri/hub.js</title>
+    <title>Composing Workflows | @esri/hub.js</title>
     
     <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
     
@@ -18,7 +18,7 @@
       <nav class="drawer-nav" role="navigation">
         <aside class="side-nav">
           <h2 class="side-nav-title">@esri/hub.js</h2>
-          <a href="/hub.js/guides/" class="is-active side-nav-link">Guides</a>
+          <a href="/hub.js/guides/" class="side-nav-link">Guides</a>
           <a href="/hub.js/api/" class="side-nav-link">API Reference</a>
         </aside>
       </nav>
@@ -35,7 +35,7 @@
               <a href="/hub.js/" class="top-nav-title">@esri/hub.js</a>
               <!-- primary navigation sections -->
               <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
-                <a href="/hub.js/guides/" class="is-active top-nav-link">Guides</a>
+                <a href="/hub.js/guides/" class="top-nav-link">Guides</a>
                 <a href="/hub.js/api/" class="top-nav-link">API Reference</a>
                 <a href="https://github.com/Esri/hub.js" class="top-nav-link">GitHub</a>
               </nav>
@@ -59,60 +59,24 @@
 
 
       <main id="#skip-to-content">
-        
-  <div class="grid-container trailer-1 leader-1">
-    <div class="column-6">
-      <ul class="list-plain">
-        
-          <li>Get Started</li>
-          <ul class="list-plain margin-left-1">
-            
-              <li><a href="/hub.js/guides/from-a-cdn/">From a CDN</a></li>
-            
-              <li><a href="/hub.js/guides/node/">Node.js</a></li>
-            
-              <li><a href="/hub.js/guides/using-es6/" class="is-active">Using ES6</a></li>
-            
-              <li><a href="/hub.js/guides/whats-new-v2-0/">What's New in v2.0.0</a></li>
-            
-          </ul>
-        
-          <li>Concepts</li>
-          <ul class="list-plain margin-left-1">
-            
-              <li><a href="/hub.js/guides/authentication/">Authentication</a></li>
-            
-              <li><a href="/hub.js/guides/content-search/">Searching Content</a></li>
-            
-              <li><a href="/hub.js/guides/sites-and-pages/">Sites and Pages</a></li>
-            
-              <li><a href="/hub.js/guides/teams/">Hub Teams</a></li>
-            
-              <li><a href="/hub.js/guides/hub-discussions/">Hub Discussions</a></li>
-            
-              <li><a href="/hub.js/guides/work-with-annotations/">Map Annotations</a></li>
-            
-              <li><a href="/hub.js/guides/common/">Utilities</a></li>
-            
-              <li><a href="/hub.js/guides/operation-stack/">OperationStack</a></li>
-            
-              <li><a href="/hub.js/guides/composing-workflows/">Composing Workflows</a></li>
-            
-              <li><a href="/hub.js/guides/e2e-tests/">E2E Testing</a></li>
-            
-          </ul>
-        
-      </ul>
-    </div>
-
-    <div class="column-18">
-      <div class="panel">
-        <h1>Coming soon!</h1>
-<p>Trust us. it works.</p>
-      </div>
-    </div>
-  </div>
-
+        <h1>How to Author Guides</h1>
+<p>Generally, make a <code>.md</code> file in the <code>/docs/src/guides</code> folder. Add Markdown. Done.</p>
+<h2>Adding to Table of Contents</h2>
+<p>To link your guide into the generated website, it must have a header block that tells the doc processing system how to connect it</p>
+<pre><code class="md">
+</code></pre>
+<ul>
+<li><code>title</code>: what's show in the document's title</li>
+<li><code>navTitle</code>: the link text</li>
+<li><code>description</code>: header meta into for SEO</li>
+<li><code>group</code>: what &quot;section&quot; of the Guides TOC should this be added to?</li>
+<li><code>order</code>: relative position in the list. Typically incremented by 10, so we can &quot;interleave&quot; other content over time w/o needing to re-number all the pages</li>
+</ul>
+<h2>Developing Docs</h2>
+<p>To preview the doc site locally, from the root of the repo, run</p>
+<pre><code class="sh">$&gt; npm run docs:serve
+</code></pre>
+<p>This will run an Acetate development server, and open the doc site on <code>http://localhost:3000</code>. This development server is not particularly stable, so it's not unusual for it to blow up as you edit files, particularly if you edit the table of content section listed above. Just re-start the server.</p>
       </main>
     </div>
 
