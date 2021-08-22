@@ -1,24 +1,33 @@
 # Sends an MS Teams notification if a PR is marked Stale
 # Currently uses MessageCard and not AdaptiveCard.
-# Changing to AdaptiveCard might require forking & changing the action
+# Changing to AdaptiveCard might require forking & changing the action b/c current action automatically add MessageCard syntax
 
 name: Notify Team on stale pull requests
 
-on:
-  pull_request:
+on: 
+  issues:
     types: [labeled]
+  pull_request_target:
+    types: [labeled]    
+    # Use pull_request_target to handle PR with merge conflicts
   
 jobs:
   notify:
-    runs-on: ubuntu-latest
+    name: Send MS notifications for Stale PR/Issue
     if: ${{ github.event.label.name == 'stale' }}
-    name: Send MS notifications for stale prs
+    runs-on: ubuntu-latest
     steps:
+      - name: Debug GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"         
       - uses: actions/checkout@v2
       - name: Notify dedicated teams channel
         uses: skitionek/notify-microsoft-teams@master
         with:
           webhook_url: ${{ secrets.MS_TEAMS_HUB_NOTIFICATIONS_WEBHOOK_URI }}
+          # for possible github properties see
+          # https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads
           raw: >-
             {
                 "@type": "MessageCard",
@@ -26,27 +35,33 @@ jobs:
                 "themeColor": "0076D7",
                 "summary": "Stale Pull Request",
                 "sections": [{
-                    "activityTitle": "${{ github.event.pull_request.title }}",
-                    "activitySubtitle": "${{ github.event.pull_request.head.repo.full_name }} from ${{ github.event.pull_request.user.login }}",
-                    "activityImage": "${{ github.event.pull_request.user.avatar_url }}",
+                    "activityTitle": "**Stale Pull Request / Issue**",
+                    "activitySubtitle": "${{ github.event.issue.title }}${{ github.event.pull_request.title }} from ${{ github.event.issue.user.login }}${{ github.event.pull_request.user.login }}",
+                    "activityImage": "${{ github.event.issue.user.avatar_url }}${{ github.event.pull_request.user.avatar_url }}",
                     "facts": [{
-                        "name": "Assigned to",
-                        "value": "${{ github.event.pull_request.requested_reviewers }}"
+                        "name": "Requested Reviewers",
+                        "value": "${{ join(github.event.issue.assignees.*.login, ', ') }}${{ join(github.event.pull_request.requested_reviewers.*.login, ', ') }}"
+                    }, {
+                        "name": "Mergeable",
+                        "value": "${{ github.event.pull_request.mergeable }}"
+                    }, {
+                        "name": "Labels",
+                        "value": "${{ join(github.event.issue.labels.*.name, ', ') }}${{ join(github.event.pull_request.labels.*.name, ', ') }}"
                     }, {
                         "name": "Updated",
-                        "value": "${{ github.event.pull_request.updated_at }}"
+                        "value": "${{ github.event.issue.updated_at }}${{ github.event.pull_request.updated_at }}"
                     }, {
                         "name": "Status",
-                        "value": "${{ github.event.pull_request.state }}"
+                        "value": "${{ github.event.issue.state }}${{ github.event.pull_request.state }}"
                     }],
                     "markdown": true
                 }],
                 "potentialAction": [{
                     "@type": "OpenUri",
-                    "name": "View the PR",
+                    "name": "View the Issue",
                     "targets": [{
                         "os": "default",
-                        "uri": "${{ github.event.pull_request.html_url }}"
+                        "uri": "${{ github.event.issue.html_url }}${{ github.event.pull_request.html_url }}"
                     }]
                 }]
             }
