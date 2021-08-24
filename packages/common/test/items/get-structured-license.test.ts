@@ -58,14 +58,36 @@ describe("getStructuredLicense", function () {
       expect(structuredLicense).toEqual(expectedStructuredLicense);
     });
     it("rawLicense = simple anchor tag with href: returns the correct structured license", function () {
-      const structuredLicense = getStructuredLicense(
-        '<a href="https://google.com">Click</a>'
-      );
+      const scenarios = [
+        '<a href="https://google.com">Click</a>',
+        '<a href = "https://google.com">Click</a>',
+        '<a href="https://google.com" target="_blank">Click</a>',
+      ];
       const expectedStructuredLicense = {
         type: ETypes.CUSTOM,
         url: "https://google.com",
       };
-      expect(structuredLicense).toEqual(expectedStructuredLicense);
+      scenarios.forEach((scenario) => {
+        const structuredLicense = getStructuredLicense(scenario);
+        expect(structuredLicense).toEqual(expectedStructuredLicense);
+      });
+    });
+    it("rawLicense = self-closing anchor tag with href: returns the correct structured license", function () {
+      const scenarios = [
+        '<a href="https://google.com"/>',
+        '<a href="https://google.com" />',
+        '<a href = "https://google.com" />',
+        '<a href="https://google.com" target="_blank" />',
+      ];
+      const expectedStructuredLicense = {
+        type: ETypes.CUSTOM,
+        url: "https://google.com",
+      };
+
+      scenarios.forEach((scenario) => {
+        const structuredLicense = getStructuredLicense(scenario);
+        expect(structuredLicense).toEqual(expectedStructuredLicense);
+      });
     });
     it("rawLicense = custom license with rich markup: returns the correct structured license", function () {
       const richMarkup =

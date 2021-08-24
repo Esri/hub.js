@@ -1,5 +1,3 @@
-import { parse, validate } from "fast-xml-parser";
-
 export interface IStructuredLicense {
   type: string;
   name?: string;
@@ -130,7 +128,6 @@ export function getStructuredLicense(rawLicense: string) {
 
   // (3) if not a standard license, we check if the raw license is a url or link
   if (!hasStandardLicense) {
-    const parsedLicense = parse(rawLicense, { ignoreAttributes: false });
     let url;
 
     // a. check if the the raw license is simply a url
@@ -138,8 +135,12 @@ export function getStructuredLicense(rawLicense: string) {
       url = rawLicense;
     }
     // b. check if the raw license is simply a link (i.e. an anchor tag with an href)
-    else if (isSingleAnchorWithHrefAttribute(rawLicense, parsedLicense)) {
-      url = parsedLicense.a["@_href"];
+    else if (isSingleAnchorWithHrefAttribute(rawLicense)) {
+      const hrefRegex = new RegExp(/href\s?=\s?["'](.*?)["']/);
+      const match = rawLicense.match(hrefRegex);
+      const href = match[1];
+
+      url = href;
     }
 
     if (url) {
@@ -192,17 +193,15 @@ function isParseableAsURL(value: string) {
 }
 
 /**
- * helper function to determine if input xml is simply a link, i.e. a single
- * anchor tag with an href attribute: <a href="https://google.com">Click</a>
- * @param rawXml
- * @param parsedXml
+ * helper function to determine if the raw license is simply a link, i.e. a single
+ * anchor tag with an href attribute: <a href="https://google.com">Click</a> or <a href="https://google.com" />
+ * @param rawLicense an item's raw licenseInfo string
  * @returns {boolean}
  */
-function isSingleAnchorWithHrefAttribute(rawXml: string, parsedXml: any) {
-  return !!(
-    rawXml.trim().startsWith("<a") &&
-    Object.keys(parsedXml).length === 1 &&
-    Object.keys(parsedXml)[0] === "a" &&
-    parsedXml.a["@_href"]
+function isSingleAnchorWithHrefAttribute(rawLicense: string) {
+  const isSingleAnchorTagRegex = new RegExp(
+    /^<a[\s]+(href\s?=\s?["'].*?["'])+([^>]?)>((?:.(?!\<\/a\>))*.)?<\/a>$|^<a[\s]+(href\s?=\s?["'].*?["'])+([^>]?)\/>/
   );
+
+  return isSingleAnchorTagRegex.test(rawLicense);
 }
