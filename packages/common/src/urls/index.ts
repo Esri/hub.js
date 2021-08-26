@@ -11,3 +11,7 @@ export * from "./get-hub-url-from-portal";
 export * from "./get-item-home-url";
 export * from "./get-item-api-url";
 export * from "./get-item-data-url";
+
+export const isMapOrFeatureServerUrl = (url: string) => {
+  return /\/(map|feature)server/i.test(url);
+};
