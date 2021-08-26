@@ -19,6 +19,7 @@ import {
   getLayerIdFromUrl,
   includes,
   isFeatureService,
+  isMapOrFeatureServerUrl,
   isNil,
   OperationStack,
 } from "@esri/hub-common";
@@ -438,10 +439,6 @@ const isHubCreatedContent = (content: IHubContent) => {
 
 const shouldFetchOrgId = (content: IHubContent) => {
   return !content.orgId && isHubCreatedContent(content);
-};
-
-const isMapOrFeatureServerUrl = (url: string) => {
-  return /\/(map|feature)server/i.test(url);
 };
 
 // as this becomes more complicated, we'll probably want to
