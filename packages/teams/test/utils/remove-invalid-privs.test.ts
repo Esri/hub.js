@@ -4,6 +4,7 @@ describe("removeInvalidPrivs", () => {
   it("Correctly passes allowed types through", () => {
     const subTypes = [
       "Demo & Marketing",
+      "Demo and Marketing",
       "Organizational Plan",
       "Community",
       "In House",
