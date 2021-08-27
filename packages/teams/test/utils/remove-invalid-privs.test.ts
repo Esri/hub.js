@@ -3,6 +3,7 @@ import { removeInvalidPrivs } from "../../src/utils/remove-invalid-privs";
 describe("removeInvalidPrivs", () => {
   it("Correctly passes allowed types through", () => {
     const subTypes = [
+      "Demo & Marketing",
       "Demo and Marketing",
       "Organizational Plan",
       "Community",
