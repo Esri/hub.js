@@ -116,7 +116,7 @@ For more information on SemVer, please visit <http://semver.org/>.
 
 ### Contributing
 
-Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](CONTRIBUTING.md).
+Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](./docs/CONTRIBUTING.md).
 
 ### License
 

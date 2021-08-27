@@ -2,7 +2,7 @@ import { IUser } from "@esri/arcgis-rest-auth";
 import { cloneObject, includes, without } from "@esri/hub-common";
 
 const ALLOWED_SUBSCRIPTION_TYPES = [
-  "Demo & Marketing",
+  "Demo and Marketing",
   "Organizational Plan",
   "Community",
   "In House",
