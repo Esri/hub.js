@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [8.17.0] - August 30th 2021
+
+### Other Changes
+
+* Chores
+   * **hub-common**: added stale PR notification [`a4e7ac95`](https://github.com/Esri/hub.js/commit/a4e7ac954e0ddee23bae2fba13deb505bb552916)
+* New Features
+   * **hub-common**: add capitalize() and getServiceTypeFromUrl() [`f66e08af`](https://github.com/Esri/hub.js/commit/f66e08aff38ebdebd90dfbe3fd6d5b0ef8eca0ef)
+* Bug Fixes
+   * **hub-content**: content.item.type was layer.type when fetched from the API [`2e884ac8`](https://github.com/Esri/hub.js/commit/2e884ac8c3cc4bdccb5183aa57a1623db9ae0893)
+
 ## [8.16.1] - August 27th 2021
 
 ### Other Changes
@@ -152,7 +163,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - **hub-teams**: add canEditTeam [`d2c9fecf`](https://github.com/Esri/hub.js/commit/d2c9fecf0314e35ee5c1acb9583684f18740f0b1)
   - **hub-teams**: add username check [`36a8b792`](https://github.com/Esri/hub.js/commit/36a8b7924ef7cf11ac2f2e81abe0d9ca49e86ec7)
   - **hub-teams**: add canEditTeam tests [`d4d52c18`](https://github.com/Esri/hub.js/commit/d4d52c1879c01f44770c16de242822ce41ba2708)
-  - **hub-teams**: add case when user is not auth&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;#39;d [`295e04a7`](https://github.com/Esri/hub.js/commit/295e04a7189151c827a25dcf9222c76448df71f7)
+  - **hub-teams**: add case when user is not auth&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;#39;d [`295e04a7`](https://github.com/Esri/hub.js/commit/295e04a7189151c827a25dcf9222c76448df71f7)
 
 ## [8.7.0] - June 25th 2021
 
@@ -1712,7 +1723,8 @@ Initial Release
 [3.9.3]: https://github.com/Esri/hub.js/compare/v3.9.2...v3.9.3 "v3.9.3"
 [4.0.0]: https://github.com/Esri/hub.js/compare/v3.9.3...v4.0.0 "v4.0.0"
 [4.1.0]: https://github.com/Esri/hub.js/compare/v4.0.0...v4.1.0 "v4.1.0"
-[4.2.0]: https://github.com/Esri/hub.js/compare/v4.1.0...v4.2.0 "v4.2.0"
+[4.1.1]: https://github.com/Esri/hub.js/compare/v4.1.0...v4.1.1 "v4.1.1"
+[4.2.0]: https://github.com/Esri/hub.js/compare/v4.1.1...v4.2.0 "v4.2.0"
 [4.2.1]: https://github.com/Esri/hub.js/compare/v4.2.0...v4.2.1 "v4.2.1"
 [4.2.2]: https://github.com/Esri/hub.js/compare/v4.2.1...v4.2.2 "v4.2.2"
 [4.2.3]: https://github.com/Esri/hub.js/compare/v4.2.2...v4.2.3 "v4.2.3"
@@ -1819,4 +1831,5 @@ Initial Release
 [8.15.1]: https://github.com/Esri/hub.js/compare/v8.15.0...v8.15.1 "v8.15.1"
 [8.16.0]: https://github.com/Esri/hub.js/compare/v8.15.1...v8.16.0 "v8.16.0"
 [8.16.1]: https://github.com/Esri/hub.js/compare/v8.16.0...v8.16.1 "v8.16.1"
-[HEAD]: https://github.com/Esri/hub.js/compare/v8.16.1...HEAD "Unreleased Changes"
+[8.17.0]: https://github.com/Esri/hub.js/compare/v8.16.1...v8.17.0 "v8.17.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v8.17.0...HEAD "Unreleased Changes"
