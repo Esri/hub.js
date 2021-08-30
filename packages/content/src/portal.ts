@@ -82,6 +82,7 @@ export function itemToContent(item: IItem): IHubContent {
     // we don't store item.name in the Hub API and we use name for title
     name: item.title,
     family: getFamily(normalizedType),
+    // TODO: hubType is no longer used, remove it at next breaking change
     hubType: getItemHubType(item),
     normalizedType,
     categories: parseItemCategories(item.categories),
@@ -117,11 +118,16 @@ export function itemToContent(item: IItem): IHubContent {
 }
 
 /**
+ * DEPRECATED: Use getFamily() instead.
+ *
  * get the HubType for a given item or item type
  *
  * @param itemOrType an item or item.type
  */
 export function getItemHubType(itemOrType: IItem | string): HubType {
+  console.warn(
+    "DEPRECATED: Use getFamily() instead. getItemHubType() will be removed at v9.0.0"
+  );
   if (typeof itemOrType === "string") {
     itemOrType = { type: itemOrType } as IItem;
   }
