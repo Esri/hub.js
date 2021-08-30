@@ -1,3 +1,4 @@
+import { capitalize } from "../util";
 export * from "./build-url";
 export * from "./get-hub-locale-asset-url";
 export * from "./get-portal-api-url";
@@ -12,6 +13,25 @@ export * from "./get-item-home-url";
 export * from "./get-item-api-url";
 export * from "./get-item-data-url";
 
+const MAP_OR_FEATURE_SERVER_URL_REGEX = /\/(map|feature)server/i;
+
+/**
+ *
+ * @param url
+ * @returns true if the url is of a map or feature service
+ */
 export const isMapOrFeatureServerUrl = (url: string) => {
-  return /\/(map|feature)server/i.test(url);
+  return MAP_OR_FEATURE_SERVER_URL_REGEX.test(url);
+};
+
+/**
+ * parses map or feature service type from URL
+ * @param url map or feature service URL
+ * @returns item type, either "Map Service" or "Feature Service"
+ * or undefined for other types of URLs
+ */
+export const getServiceTypeFromUrl = (url: string) => {
+  const match = url.match(MAP_OR_FEATURE_SERVER_URL_REGEX);
+  const mapOrFeature = match && match[1];
+  return mapOrFeature && `${capitalize(mapOrFeature)} Service`;
 };

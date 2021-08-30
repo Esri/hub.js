@@ -2,11 +2,12 @@ import { ResourceObject } from "jsonapi-typescript";
 import { IItem, getItem } from "@esri/arcgis-rest-portal";
 import {
   IHubContent,
-  hubApiRequest,
   cloneObject,
+  getServiceTypeFromUrl,
+  hubApiRequest,
   mergeObjects,
 } from "@esri/hub-common";
-import { itemToContent } from "./portal";
+import { getFamily, itemToContent } from "./portal";
 import { isSlug, addContextToSlug, parseDatasetId } from "./slugs";
 import { enrichContent, IEnrichContentOptions } from "./enrichments";
 import { isExtentCoordinateArray } from "@esri/hub-common";
@@ -123,6 +124,7 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
 
   // overwrite hubId
   content.hubId = dataset.id;
+
   // overwrite or add enrichments from Hub API
   const attributes = dataset.attributes;
   const {
@@ -157,7 +159,15 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
     orgName,
     organization,
     orgExtent,
+    // NOTE: for layers and tables the Hub API returns the layer type
+    // ("Feature Layer", "Table", "Raster Layer") instead of the item type
+    type,
   } = attributes;
+
+  // use the type returned by the API (i.e. possibly layer.type)
+  content.type = type;
+  content.family = getFamily(type);
+
   // NOTE: we could throw or return if there are errors
   // to prevent type errors trying to read properties below
   content.errors = errors;
@@ -292,6 +302,10 @@ export function datasetToItem(dataset: DatasetResource): IItem {
     serviceSpatialReference,
   } = attributes;
 
+  // layer datasets will get their type from the layer
+  // so we will need to derive the item type from the URL
+  const serviceType = url && getServiceTypeFromUrl(url);
+
   // build and return an item from properties
   // NOTE: we currently do NOT provide default values
   // (i.e. null for scalar attributes, [] for arrays, etc)
@@ -308,7 +322,7 @@ export function datasetToItem(dataset: DatasetResource): IItem {
     modified: (itemModified ||
       (modifiedProvenance === "item.modified" && modified)) as number,
     title: (title || name) as string,
-    type,
+    type: serviceType || type,
     typeKeywords,
     description,
     tags,
