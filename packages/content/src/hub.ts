@@ -138,7 +138,6 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
     slug,
     searchDescription,
     groupIds,
-    structuredLicense,
     // map and feature server enrichments
     server,
     layers,
@@ -198,7 +197,6 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
     content.summary = searchDescription;
   }
   content.groupIds = groupIds;
-  content.structuredLicense = structuredLicense;
   // server enrichments
   content.server = server;
   content.layers = layers;

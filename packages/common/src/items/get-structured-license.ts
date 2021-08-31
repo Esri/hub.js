@@ -6,94 +6,210 @@ export interface IStructuredLicense {
   url?: string;
 }
 
-export enum ETypes {
-  NONE = "none",
-  CUSTOM = "custom",
-  CC0 = "CC0-1.0",
-  CC_BY = "CC-BY-4.0",
-  CC_BY_SA = "CC-BY-SA-4.0",
-  CC_BY_ND = "CC-BY-ND-4.0",
-  CC_BY_NC = "CC-BY-NC-4.0",
-  CC_BY_NC_SA = "CC-BY-NC-SA-4.0",
-  CC_BY_NC_ND = "CC-BY-NC-ND-4.0",
-  PDDL = "PDDL-1.0",
-  ODbL = "ODbl-1.0",
-  ODC_BY = "ODC-BY-1.0",
-}
-
-export enum EAbbreviations {
-  CC0 = "CC0",
-  CC_BY = "CC BY",
-  CC_BY_SA = "CC BY-SA",
-  CC_BY_ND = "CC BY-ND",
-  CC_BY_NC = "CC BY-NC",
-  CC_BY_NC_SA = "CC BY-NC-SA",
-  CC_BY_NC_ND = "CC BY-NC-ND",
-  PDDL = "PDDL",
-  ODbL = "ODbL",
-  ODC_BY = "ODC BY",
-}
-
 export const STANDARD_LICENSES = [
   {
-    type: ETypes.CC0,
-    name: "Creative Commons Zero",
-    abbr: EAbbreviations.CC0,
-    url: "http://creativecommons.org/publicdomain/zero/1.0/",
+    type: "CC0-1.0",
+    abbr: "CC0",
+    name: "Public Domain Dedication",
+    url: "http://creativecommons.org/publicdomain/zero/1.0",
   },
   {
-    type: ETypes.CC_BY,
-    name: "Creative Commons Attribution",
-    abbr: EAbbreviations.CC_BY,
-    url: "http://creativecommons.org/licenses/by/4.0/",
+    type: "CC-BY-4.0",
+    abbr: "CC BY",
+    name: "Attribution 4.0 International",
+    url: "http://creativecommons.org/licenses/by/4.0",
   },
   {
-    type: ETypes.CC_BY_SA,
-    name: "Creative Commons Share Alike",
-    abbr: EAbbreviations.CC_BY_SA,
-    url: "http://creativecommons.org/licenses/by-sa/4.0/",
+    type: "CC-BY-3.0",
+    abbr: "CC BY 3.0",
+    name: "Attribution 3.0 Unported",
+    url: "http://creativecommons.org/licenses/by/3.0",
   },
   {
-    type: ETypes.CC_BY_ND,
-    name: "Creative Commons Attribution-NoDerivatives",
-    abbr: EAbbreviations.CC_BY_ND,
-    url: "http://creativecommons.org/licenses/by-nd/4.0/",
+    type: "CC-BY-2.5",
+    abbr: "CC BY 2.5",
+    name: "Attribution 2.5 Generic",
+    url: "http://creativecommons.org/licenses/by/2.5",
   },
   {
-    type: ETypes.CC_BY_NC,
-    name: "Creative Commons Attribution-NonCommercial",
-    abbr: EAbbreviations.CC_BY_NC,
-    url: "https://creativecommons.org/licenses/by-nc/4.0/",
+    type: "CC-BY-2.0",
+    abbr: "CC BY 2.0",
+    name: "Attribution 2.0 Generic",
+    url: "http://creativecommons.org/licenses/by/2.0",
   },
   {
-    type: ETypes.CC_BY_NC_SA,
-    name: "Creative Commons Attribution-NonCommercial-ShareAlike",
-    abbr: EAbbreviations.CC_BY_NC_SA,
-    url: "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    type: "CC-BY-1.0",
+    abbr: "CC BY 1.0",
+    name: "Attribution 1.0 Generic",
+    url: "http://creativecommons.org/licenses/by/1.0",
   },
   {
-    type: ETypes.CC_BY_NC_ND,
-    name: "Creative Commons Attribution-NonCommercial-NoDerivatives",
-    abbr: EAbbreviations.CC_BY_NC_ND,
-    url: "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+    type: "CC-BY-SA-4.0",
+    abbr: "CC BY-SA",
+    name: "Attribution-ShareAlike 4.0 International",
+    url: "http://creativecommons.org/licenses/by-sa/4.0",
   },
   {
-    type: ETypes.PDDL,
+    type: "CC-BY-SA-3.0",
+    abbr: "CC BY-SA 3.0",
+    name: "Attribution-ShareAlike 3.0 Unported",
+    url: "http://creativecommons.org/licenses/by-sa/3.0",
+  },
+  {
+    type: "CC-BY-SA-2.5",
+    abbr: "CC BY-SA 2.5",
+    name: "Attribution-ShareAlike 2.5 Generic",
+    url: "http://creativecommons.org/licenses/by-sa/2.5",
+  },
+  {
+    type: "CC-BY-SA-2.0",
+    abbr: "CC BY-SA 2.0",
+    name: "Attribution-ShareAlike 2.0 Generic",
+    url: "http://creativecommons.org/licenses/by-sa/2.0",
+  },
+  {
+    type: "CC-BY-SA-1.0",
+    abbr: "CC BY-SA 1.0",
+    name: "Attribution-ShareAlike 1.0 Generic",
+    url: "http://creativecommons.org/licenses/by-sa/1.0",
+  },
+  {
+    type: "CC-BY-ND-4.0",
+    abbr: "CC BY-ND",
+    name: "Attribution-NoDerivatives 4.0 International",
+    url: "http://creativecommons.org/licenses/by-nd/4.0",
+  },
+  {
+    type: "CC-BY-ND-3.0",
+    abbr: "CC BY-ND 3.0",
+    name: "Attribution-NoDerivs 3.0 Unported",
+    url: "http://creativecommons.org/licenses/by-nd/3.0",
+  },
+  {
+    type: "CC-BY-ND-2.5",
+    abbr: "CC BY-ND 2.5",
+    name: "Attribution-NoDerivs 2.5 Generic",
+    url: "http://creativecommons.org/licenses/by-nd/2.5",
+  },
+  {
+    type: "CC-BY-ND-2.0",
+    abbr: "CC BY-ND 2.0",
+    name: "Attribution-NoDerivs 2.0 Generic",
+    url: "http://creativecommons.org/licenses/by-nd/2.0",
+  },
+  {
+    type: "CC-BY-ND-1.0",
+    abbr: "CC BY-ND 1.0",
+    name: "Attribution-NoDerivs 1.0 Generic",
+    url: "http://creativecommons.org/licenses/by-nd/1.0",
+  },
+  {
+    type: "CC-BY-NC-4.0",
+    abbr: "CC BY-NC",
+    name: "Attribution-NonCommercial 4.0 International",
+    url: "https://creativecommons.org/licenses/by-nc/4.0",
+  },
+  {
+    type: "CC-BY-NC-3.0",
+    abbr: "CC BY-NC 3.0",
+    name: "Attribution-NonCommercial 3.0 Unported",
+    url: "https://creativecommons.org/licenses/by-nc/3.0",
+  },
+  {
+    type: "CC-BY-NC-2.5",
+    abbr: "CC BY-NC 2.5",
+    name: "Attribution-NonCommercial 2.5 Generic",
+    url: "https://creativecommons.org/licenses/by-nc/2.5",
+  },
+  {
+    type: "CC-BY-NC-2.0",
+    abbr: "CC BY-NC 2.0",
+    name: "Attribution-NonCommercial 2.0 Generic",
+    url: "https://creativecommons.org/licenses/by-nc/2.0",
+  },
+  {
+    type: "CC-BY-NC-1.0",
+    abbr: "CC BY-NC 1.0",
+    name: "Attribution-NonCommercial 1.0 Generic",
+    url: "https://creativecommons.org/licenses/by-nc/1.0",
+  },
+  {
+    type: "CC-BY-NC-SA-4.0",
+    abbr: "CC BY-NC-SA",
+    name: "Attribution-NonCommercial-ShareAlike 4.0 International",
+    url: "https://creativecommons.org/licenses/by-nc-sa/4.0",
+  },
+  {
+    type: "CC-BY-NC-SA-3.0",
+    abbr: "CC BY-NC-SA 3.0",
+    name: "Attribution-NonCommercial-ShareAlike 3.0 Unported",
+    url: "https://creativecommons.org/licenses/by-nc-sa/3.0",
+  },
+  {
+    type: "CC-BY-NC-SA-2.5",
+    abbr: "CC BY-NC-SA 2.5",
+    name: "Attribution-NonCommercial-ShareAlike 2.5 Generic",
+    url: "https://creativecommons.org/licenses/by-nc-sa/2.5",
+  },
+  {
+    type: "CC-BY-NC-SA-2.0",
+    abbr: "CC BY-NC-SA 2.0",
+    name: "Attribution-NonCommercial-ShareAlike 2.0 Generic",
+    url: "https://creativecommons.org/licenses/by-nc-sa/2.0",
+  },
+  {
+    type: "CC-BY-NC-SA-1.0",
+    abbr: "CC BY-NC-SA 1.0",
+    name: "Attribution-NonCommercial-ShareAlike 1.0 Generic",
+    url: "https://creativecommons.org/licenses/by-nc-sa/1.0",
+  },
+  {
+    type: "CC-BY-NC-ND-4.0",
+    abbr: "CC BY-NC-ND",
+    name: "Attribution-NonCommercial-NoDerivatives 4.0 International",
+    url: "https://creativecommons.org/licenses/by-nc-nd/4.0",
+  },
+  {
+    type: "CC-BY-NC-ND-3.0",
+    abbr: "CC BY-NC-ND 3.0",
+    name: "Attribution-NonCommercial-NoDerivs 3.0 Unported",
+    url: "https://creativecommons.org/licenses/by-nc-nd/3.0",
+  },
+  {
+    type: "CC-BY-NC-ND-2.5",
+    abbr: "CC BY-NC-ND 2.5",
+    name: "Attribution-NonCommercial-NoDerivs 2.5 Generic",
+    url: "https://creativecommons.org/licenses/by-nc-nd/2.5",
+  },
+  {
+    type: "CC-BY-NC-ND-2.0",
+    abbr: "CC BY-NC-ND 2.0",
+    name: "Attribution-NonCommercial-NoDerivs 2.0 Generic",
+    url: "https://creativecommons.org/licenses/by-nc-nd/2.0",
+  },
+  {
+    type: "CC-BY-NC-ND-1.0",
+    abbr: "CC BY-NC-ND 1.0",
+    name: "Attribution-NonCommercial-NoDerivs 1.0 Generic",
+    url: "https://creativecommons.org/licenses/by-nc-nd/1.0",
+  },
+  {
+    type: "PDDL-1.0",
+    abbr: "PDDL",
     name: "ODC Public Domain Dedication and License",
-    abbr: EAbbreviations.PDDL,
-    url: "http://opendatacommons.org/licenses/pddl/summary/",
+    url: "http://opendatacommons.org/licenses/pddl/summary",
   },
   {
-    type: ETypes.ODbL,
+    type: "ODbL-1.0",
+    abbr: "ODbL",
     name: "ODC Open Database License",
-    abbr: EAbbreviations.ODbL,
-    url: "http://opendatacommons.org/licenses/odbl/summary/",
+    url: "http://opendatacommons.org/licenses/odbl/summary",
   },
   {
-    type: ETypes.ODC_BY,
+    type: "ODC-BY-1.0",
+    abbr: "ODC BY",
     name: "ODC Attribution License",
-    abbr: EAbbreviations.ODC_BY,
-    url: "https://opendatacommons.org/licenses/by/summary/",
+    url: "http://opendatacommons.org/licenses/by/summary",
   },
 ];
 
@@ -110,21 +226,25 @@ export function getStructuredLicense(rawLicense: string) {
   // (1) start by assuming it's either a custom license, or, if there's no
   // raw license, then there's no license at all
   structuredLicense = {
-    type: rawLicense ? ETypes.CUSTOM : ETypes.NONE,
+    type: rawLicense ? "custom" : "none",
     text: rawLicense,
   };
 
-  // (2) Check for standard licenses: If the name of any standard
+  // (2) Check for standard licenses: If the name, abbr, or url of any standard
   // license is in the raw license text, we assume that is the license.
   let hasStandardLicense = false;
-  STANDARD_LICENSES.forEach((standardLicense) => {
-    if (
-      licenseTextContainsStandardLicenseAttributes(rawLicense, standardLicense)
-    ) {
-      hasStandardLicense = true;
-      structuredLicense = standardLicense;
+  const matchingStandardLicenses = STANDARD_LICENSES.filter(
+    (standardLicense) => {
+      return licenseTextContainsStandardLicenseAttributes(
+        rawLicense,
+        standardLicense
+      );
     }
-  });
+  );
+  if (matchingStandardLicenses.length) {
+    hasStandardLicense = true;
+    structuredLicense = matchingStandardLicenses.pop();
+  }
 
   // (3) if not a standard license, we check if the raw license is a url or link
   if (!hasStandardLicense) {
