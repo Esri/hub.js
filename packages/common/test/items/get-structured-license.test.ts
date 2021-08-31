@@ -58,6 +58,17 @@ describe("getStructuredLicense", function () {
 
       expect(structuredLicense).toEqual(expectedStructuredLicense);
     });
+    it("rawLicense contains standard license abbreviation with an older version: returns the correct structured license", function () {
+      const standardLicenseAbbr = "CC BY 3.0";
+      const structuredLicense = getStructuredLicense(
+        `This is a standard license: ${standardLicenseAbbr}`
+      );
+      const expectedStructuredLicense = STANDARD_LICENSES.find(
+        (license) => license.abbr === standardLicenseAbbr
+      );
+
+      expect(structuredLicense).toEqual(expectedStructuredLicense);
+    });
   });
 
   describe("custom licenses", function () {

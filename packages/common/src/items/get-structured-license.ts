@@ -230,17 +230,21 @@ export function getStructuredLicense(rawLicense: string) {
     text: rawLicense,
   };
 
-  // (2) Check for standard licenses: If the name of any standard
+  // (2) Check for standard licenses: If the name, abbr, or url of any standard
   // license is in the raw license text, we assume that is the license.
   let hasStandardLicense = false;
-  STANDARD_LICENSES.forEach((standardLicense) => {
-    if (
-      licenseTextContainsStandardLicenseAttributes(rawLicense, standardLicense)
-    ) {
-      hasStandardLicense = true;
-      structuredLicense = standardLicense;
+  const matchingStandardLicenses = STANDARD_LICENSES.filter(
+    (standardLicense) => {
+      return licenseTextContainsStandardLicenseAttributes(
+        rawLicense,
+        standardLicense
+      );
     }
-  });
+  );
+  if (matchingStandardLicenses.length) {
+    hasStandardLicense = true;
+    structuredLicense = matchingStandardLicenses.pop();
+  }
 
   // (3) if not a standard license, we check if the raw license is a url or link
   if (!hasStandardLicense) {
