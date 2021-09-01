@@ -11,6 +11,7 @@ import { getFamily, itemToContent } from "./portal";
 import { isSlug, addContextToSlug, parseDatasetId } from "./slugs";
 import { enrichContent, IEnrichContentOptions } from "./enrichments";
 import { isExtentCoordinateArray } from "@esri/hub-common";
+import { normalizeItemType } from "@esri/hub-common";
 
 export interface IGetContentOptions extends IEnrichContentOptions {
   siteOrgKey?: string;
@@ -165,6 +166,7 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
 
   // use the type returned by the API (i.e. possibly layer.type)
   content.type = type;
+  content.normalizedType = normalizeItemType({ ...content.item, type });
   content.family = getFamily(type);
 
   // NOTE: we could throw or return if there are errors
