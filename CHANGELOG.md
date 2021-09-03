@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [8.17.3] - September 3rd 2021
+
+### Other Changes
+
+* Bug Fixes
+   * **hub-search**: hub search requests were sending undefined authentication header [`3b321c87a`](https://github.com/Esri/hub.js/commit/3b321c87accf193ed59558734a09850cfe70124b) [#https://devtopia.esri.com/dc/hub/issues/1946](https://github.com/Esri/hub.js/issues/https://devtopia.esri.com/dc/hub/issues/1946)
+
 ## [8.17.2] - September 1st 2021
 
 ### Other Changes
@@ -177,7 +184,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - **hub-teams**: add canEditTeam [`d2c9fecf`](https://github.com/Esri/hub.js/commit/d2c9fecf0314e35ee5c1acb9583684f18740f0b1)
   - **hub-teams**: add username check [`36a8b792`](https://github.com/Esri/hub.js/commit/36a8b7924ef7cf11ac2f2e81abe0d9ca49e86ec7)
   - **hub-teams**: add canEditTeam tests [`d4d52c18`](https://github.com/Esri/hub.js/commit/d4d52c1879c01f44770c16de242822ce41ba2708)
-  - **hub-teams**: add case when user is not auth&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;#39;d [`295e04a7`](https://github.com/Esri/hub.js/commit/295e04a7189151c827a25dcf9222c76448df71f7)
+  - **hub-teams**: add case when user is not auth&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;#39;d [`295e04a7`](https://github.com/Esri/hub.js/commit/295e04a7189151c827a25dcf9222c76448df71f7)
 
 ## [8.7.0] - June 25th 2021
 
@@ -1848,4 +1855,5 @@ Initial Release
 [8.17.0]: https://github.com/Esri/hub.js/compare/v8.16.1...v8.17.0 "v8.17.0"
 [8.17.1]: https://github.com/Esri/hub.js/compare/v8.17.0...v8.17.1 "v8.17.1"
 [8.17.2]: https://github.com/Esri/hub.js/compare/v8.17.1...v8.17.2 "v8.17.2"
-[HEAD]: https://github.com/Esri/hub.js/compare/v8.17.2...HEAD "Unreleased Changes"
+[8.17.3]: https://github.com/Esri/hub.js/compare/v8.17.2...v8.17.3 "v8.17.3"
+[HEAD]: https://github.com/Esri/hub.js/compare/v8.17.3...HEAD "Unreleased Changes"
