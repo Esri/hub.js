@@ -3,15 +3,15 @@ import { getProp } from "@esri/hub-common";
 import { ISearchParams } from "../../ago/params";
 import {
   IContentAggregations,
-  IContentSearchResponse
+  IContentSearchResponse,
 } from "../../types/content";
 import {
   IAggregation,
-  IAggregationResult
+  IAggregationResult,
 } from "../../util/aggregations/merge-aggregations";
 
 const PROP_MAP: Record<string, string> = {
-  title: "name"
+  title: "name",
 };
 
 /**
@@ -28,9 +28,8 @@ export function convertHubResponse(
   const results: any[] = response.data.map((d: Record<string, any>) =>
     getAttributes(d)
   );
-  const { count, total, hasNext, query, aggregations } = getResponseMetadata(
-    response
-  );
+  const { count, total, hasNext, query, aggregations } =
+    getResponseMetadata(response);
   const next: (
     authentication?: UserSession
   ) => Promise<IContentSearchResponse> = getNextFunction(
@@ -47,7 +46,7 @@ export function convertHubResponse(
     hasNext,
     query,
     aggregations: aggregations ? mapAggregations(aggregations) : undefined,
-    next
+    next,
   };
 }
 
@@ -55,7 +54,7 @@ function mapAggregations(
   aggregations: Record<string, any>
 ): IContentAggregations {
   return {
-    counts: mapCountAggregations(aggregations)
+    counts: mapCountAggregations(aggregations),
   };
 }
 
@@ -66,13 +65,13 @@ function mapCountAggregations(
     const aggregations: IAggregation[] = countAggs[aggKey]
       ? countAggs[aggKey].map((agg: Record<string, any>) => ({
           label: agg.key.toLowerCase(),
-          value: agg.docCount
+          value: agg.docCount,
         }))
       : [];
 
     return {
       fieldName: aggKey,
-      aggregations
+      aggregations,
     };
   });
 }
@@ -85,17 +84,19 @@ function getNextFunction(
 ): () => Promise<IContentSearchResponse> {
   return (auth?: UserSession) => {
     const authentication: UserSession = auth || defaultAuthentication;
-    const headers = authentication
-      ? new Headers({ authentication: JSON.stringify(authentication) })
-      : undefined;
+    const headers =
+      authentication &&
+      authentication.serialize &&
+      new Headers({ authentication: authentication.serialize() });
     if (hasNext) {
+      // should this use hubRequest instead of fetch?
       return fetch(response.meta.next, {
         method: "GET",
         mode: "cors",
-        headers
+        headers,
       })
-        .then(res => res.json())
-        .then(res => convertHubResponse(request, res, defaultAuthentication));
+        .then((res) => res.json())
+        .then((res) => convertHubResponse(request, res, defaultAuthentication));
     }
     const metadata: Record<string, any> = getResponseMetadata(response);
     return Promise.resolve({
@@ -107,14 +108,12 @@ function getNextFunction(
       aggregations: metadata.aggregations
         ? mapAggregations(metadata.aggregations)
         : undefined,
-      next: getNextFunction(request, response, false)
+      next: getNextFunction(request, response, false),
     });
   };
 }
 
-function getResponseMetadata(
-  response: any
-): {
+function getResponseMetadata(response: any): {
   count?: number;
   total?: number;
   hasNext?: boolean;
@@ -131,7 +130,7 @@ function getResponseMetadata(
     total: getProp(response, "meta.stats.totalCount") || 0,
     hasNext: !!getProp(response, "meta.next"),
     query,
-    aggregations
+    aggregations,
   };
 }
 
