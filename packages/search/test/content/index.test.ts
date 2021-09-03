@@ -263,8 +263,9 @@ describe("Content Search Service", () => {
         "/search",
         {
           hubApiUrl: "https://hubqa.arcgis.com",
+          portal: "https://qaext.arcgis.com/sharing/rest",
           authentication,
-          isPortal: false,
+          isPortal: undefined,
           headers: {
             authentication: JSON.stringify(authentication),
           },
@@ -380,8 +381,9 @@ describe("Content Search Service", () => {
         "/search",
         {
           hubApiUrl: "https://hubqa.arcgis.com",
+          portal: "https://qaext.arcgis.com/sharing/rest",
           authentication: sessionOne,
-          isPortal: false,
+          isPortal: undefined,
           headers: {
             authentication: JSON.stringify(sessionOne),
           },
@@ -489,8 +491,9 @@ describe("Content Search Service", () => {
         "/search",
         {
           hubApiUrl: "https://hubqa.arcgis.com",
+          portal: "https://qaext.arcgis.com/sharing/rest",
           authentication: undefined,
-          isPortal: false,
+          isPortal: undefined,
           headers: undefined,
           httpMethod: "POST",
           params: {
@@ -583,8 +586,9 @@ describe("Content Search Service", () => {
         "/search",
         {
           hubApiUrl: "https://hubqa.arcgis.com",
+          portal: "https://qaext.arcgis.com/sharing/rest",
           authentication: undefined,
-          isPortal: false,
+          isPortal: undefined,
           headers: undefined,
           httpMethod: "POST",
           params: {
@@ -863,6 +867,7 @@ describe("searchContent function", () => {
         "/search",
         {
           hubApiUrl: "https://hubqa.arcgis.com",
+          portal: "https://qaext.arcgis.com/sharing/rest",
           authentication,
           isPortal: false,
           headers: {
@@ -955,8 +960,9 @@ describe("searchContent function", () => {
         "/search",
         {
           hubApiUrl: "https://hub.arcgis.com",
+          portal: "https://www.arcgis.com/sharing/rest",
           authentication: undefined,
-          isPortal: false,
+          isPortal: undefined,
           headers: undefined,
           httpMethod: "POST",
           params: {
@@ -1057,6 +1063,7 @@ describe("searchContent function", () => {
         "/search",
         {
           hubApiUrl: "https://hubqa.arcgis.com",
+          portal: "https://qaext.arcgis.com/sharing/rest",
           authentication: undefined,
           isPortal: false,
           headers: undefined,
