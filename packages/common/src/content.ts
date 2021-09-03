@@ -1,14 +1,29 @@
 /* Copyright (c) 2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
+import { ResourceObject } from "jsonapi-typescript";
 import { IItem } from "@esri/arcgis-rest-portal";
 import { HubType, HubFamily, IBBox, IHubGeography } from "./types";
 import { collections } from "./collections";
-import { categories, isDownloadable } from "./categories";
-import { createExtent } from "./extent";
+import { categories as allCategories, isDownloadable } from "./categories";
+import { createExtent, isExtentCoordinateArray } from "./extent";
 import { includes, isGuid } from "./utils";
 import { IHubContent, IModel } from "./types";
 import { getProp } from "./objects";
 import { getStructuredLicense } from "./items/get-structured-license";
+import { getServiceTypeFromUrl } from "./urls";
+
+/**
+ * JSONAPI dataset resource returned by the Hub API
+ */
+export type DatasetResource = ResourceObject<
+  "dataset",
+  {
+    // TODO: actually define the attributes?
+    // what is the syntax? adding the following causes errors
+    // owner: string;
+    [k: string]: any;
+  }
+>;
 
 function collectionToFamily(collection: string): string {
   const overrides: any = {
@@ -72,7 +87,7 @@ export function getCategory(itemType: string = ""): string {
  *
  */
 export function getTypes(category: string = ""): string[] {
-  return categories[category.toLowerCase()];
+  return allCategories[category.toLowerCase()];
 }
 
 /**
@@ -362,14 +377,14 @@ export function removeContextFromSlug(slug: string, context: string): string {
  * ["Boundaries", "Planning and cadastre", "Property records", "Structure"]
  * ```
  *
- * @param _categories - an array of strings
+ * @param categories - an array of strings
  * @private
  */
-export function parseItemCategories(_categories: string[]) {
-  if (!_categories) return _categories;
+export function parseItemCategories(categories: string[]) {
+  if (!categories) return categories;
 
   const exclude = ["categories", ""];
-  const parsed = _categories.map((cat) => cat.split("/"));
+  const parsed = categories.map((cat) => cat.split("/"));
   const flattened = parsed.reduce((acc, arr, _) => [...acc, ...arr], []);
   return flattened.filter((cat) => !includes(exclude, cat.toLowerCase()));
 }
@@ -484,4 +499,259 @@ export function itemToContent(item: IItem): IHubContent {
     structuredLicense: getStructuredLicense(item.licenseInfo),
   });
   return content;
+}
+
+/**
+ * Convert a Hub API dataset resource to Hub Content
+ *
+ * @param {DatasetResource} Dataset resource
+ * @returns {IHubContent} Hub content object
+ * @export
+ */
+export function datasetToContent(dataset: DatasetResource): IHubContent {
+  // extract item from dataset, create content, & store a reference to the item
+  const item = datasetToItem(dataset);
+  const content = itemToContent(item);
+  content.item = item;
+
+  // We remove these because the indexer doesn't actually
+  // preserve the original item categories so this attribute is invalid
+  delete content.itemCategories;
+
+  // overwrite hubId
+  content.hubId = dataset.id;
+
+  // overwrite or add enrichments from Hub API
+  const attributes = dataset.attributes;
+  const {
+    // common enrichments
+    errors,
+    boundary,
+    extent,
+    metadata,
+    modified,
+    modifiedProvenance,
+    slug,
+    searchDescription,
+    groupIds,
+    // map and feature server enrichments
+    server,
+    layers,
+    // NOTE: the Hub API also returns the following server properties
+    // but we should be able to get them from the above server object
+    // currentVersion, capabilities, tileInfo, serviceSpatialReference
+    // maxRecordCount, supportedQueryFormats, etc
+    // feature and raster layer enrichments
+    layer,
+    recordCount,
+    statistics,
+    // NOTE: the Hub API also returns the following layer properties
+    // but we should be able to get them from the above layer object
+    // supportedQueryFormats, supportsAdvancedQueries, advancedQueryCapabilities, useStandardizedQueries
+    // geometryType, objectIdField, displayField, fields,
+    // org properties?
+    orgId,
+    orgName,
+    organization,
+    orgExtent,
+    // NOTE: for layers and tables the Hub API returns the layer type
+    // ("Feature Layer", "Table", "Raster Layer") instead of the item type
+    type,
+  } = attributes;
+
+  // use the type returned by the API (i.e. possibly layer.type)
+  content.type = type;
+  content.normalizedType = normalizeItemType({ ...content.item, type });
+  content.family = getFamily(type);
+
+  // NOTE: we could throw or return if there are errors
+  // to prevent type errors trying to read properties below
+  content.errors = errors;
+  // common enrichments
+  content.boundary = boundary;
+  if (
+    !isExtentCoordinateArray(item.extent) &&
+    extent &&
+    isExtentCoordinateArray(extent.coordinates)
+  ) {
+    // we fall back to the extent derived by the API
+    // which prefers layer or service extents and ultimately
+    // falls back to the org's extent
+    content.extent = extent.coordinates;
+  }
+  // setting this to null signals to enrichMetadata to skip this
+  content.metadata = metadata || null;
+  if (content.modified !== modified) {
+    // capture the enriched modified date
+    // NOTE: the item modified date is still available on content.item.modified
+    content.modified = modified;
+    content.updatedDate = new Date(modified);
+    content.updatedDateSource = modifiedProvenance;
+  }
+  content.slug = slug;
+  if (searchDescription) {
+    // overwrite default summary (from snippet) w/ search description
+    content.summary = searchDescription;
+  }
+  content.groupIds = groupIds;
+  // server enrichments
+  content.server = server;
+  content.layers = layers;
+  // layer enrichments
+  content.layer = layer;
+  content.recordCount = recordCount;
+  content.statistics = statistics;
+  // org enrichments
+  if (orgId) {
+    content.org = {
+      id: orgId,
+      name: orgName || organization,
+      extent: orgExtent,
+    };
+  }
+  return content;
+}
+
+/**
+ * Convert a Hub API dataset resource to a portal item
+ *
+ * @param {DatasetResource} Dataset resource
+ * @returns {IItem} portal item
+ * @export
+ */
+export function datasetToItem(dataset: DatasetResource): IItem {
+  if (!dataset) {
+    return;
+  }
+  const { id, attributes } = dataset;
+  if (!attributes) {
+    return;
+  }
+
+  // parse item id
+  const { itemId } = parseDatasetId(id);
+
+  // read item properties from attributes
+  // NOTE: we attempt to read all item properties
+  // even though some may not be currently returned
+  const {
+    // start w/ item properties from
+    // https://developers.arcgis.com/rest/users-groups-and-items/item.htm
+    owner,
+    orgId,
+    created,
+    // the Hub API returns item.modified in attributes.itemModified (below)
+    modified,
+    // NOTE: we use attributes.name to store the title or the service/layer name
+    // but in Portal name is only used for file types to store the file name (read only)
+    name,
+    title,
+    type,
+    typeKeywords,
+    description,
+    snippet,
+    tags,
+    thumbnail,
+    // the Hub API returns item.extent in attributes.itemExtent (below)
+    // extent,
+    categories,
+    contentStatus,
+    // the Hub API doesn't currently return spatialReference
+    spatialReference,
+    // the Hub API doesn't currently return accessInformation
+    accessInformation,
+    licenseInfo,
+    culture,
+    url,
+    access,
+    // the Hub API doesn't currently return proxyFilter
+    proxyFilter,
+    properties,
+    // the Hub API doesn't currently return appCategories, industries,
+    // languages, largeThumbnail, banner, screenshots, listed, ownerFolder
+    appCategories,
+    industries,
+    languages,
+    largeThumbnail,
+    banner,
+    screenshots,
+    listed,
+    ownerFolder,
+    size,
+    // the Hub API doesn't currently return protected
+    protected: isProtected,
+    commentsEnabled,
+    // the Hub API doesn't currently return numComments, numRatings,
+    // avgRating, numViews, itemControl, scoreCompleteness
+    numComments,
+    numRatings,
+    avgRating,
+    numViews,
+    itemControl,
+    scoreCompleteness,
+    // additional attributes we'll need
+    // to derive the above values when missing
+    itemExtent,
+    itemModified,
+    modifiedProvenance,
+    serviceSpatialReference,
+  } = attributes;
+
+  // layer datasets will get their type from the layer
+  // so we will need to derive the item type from the URL
+  const serviceType = url && getServiceTypeFromUrl(url);
+
+  // build and return an item from properties
+  // NOTE: we currently do NOT provide default values
+  // (i.e. null for scalar attributes, [] for arrays, etc)
+  // for attributes that are not returned by the Hub API
+  // this helps distinguish an item that comes from the API
+  // but forces all consumers to do handle missing properties
+  return {
+    id: itemId,
+    owner: owner as string,
+    orgId,
+    created: created as number,
+    // for feature layers, modified will usually come from the layer so
+    // we prefer itemModified, but fall back to modified if it came from the item
+    modified: (itemModified ||
+      (modifiedProvenance === "item.modified" && modified)) as number,
+    title: (title || name) as string,
+    type: serviceType || type,
+    typeKeywords,
+    description,
+    tags,
+    snippet,
+    thumbnail,
+    extent:
+      itemExtent ||
+      /* istanbul ignore next: API should always return itemExtent, but we default to [] just in case */ [],
+    categories,
+    contentStatus,
+    spatialReference: spatialReference || serviceSpatialReference,
+    accessInformation,
+    licenseInfo,
+    culture,
+    url,
+    access,
+    size,
+    protected: isProtected,
+    proxyFilter,
+    properties,
+    appCategories,
+    industries,
+    languages,
+    largeThumbnail,
+    banner,
+    screenshots,
+    listed,
+    ownerFolder,
+    commentsEnabled,
+    numComments,
+    numRatings,
+    avgRating,
+    numViews,
+    itemControl,
+    scoreCompleteness,
+  };
 }

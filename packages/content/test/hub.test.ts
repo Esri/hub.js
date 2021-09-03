@@ -2,12 +2,9 @@ import * as fetchMock from "fetch-mock";
 import {
   DatasetResource,
   parseDatasetId,
-  datasetToItem,
   getContentFromHub,
-  datasetToContent,
 } from "../src/index";
-import { IHubRequestOptions, cloneObject, IHubContent } from "@esri/hub-common";
-import * as documentsJson from "./mocks/datasets/document.json";
+import { IHubRequestOptions, IHubContent } from "@esri/hub-common";
 import * as featureLayerJson from "./mocks/datasets/feature-layer.json";
 import * as itemJson from "./mocks/items/map-service.json";
 import { mockUserSession } from "./test-helpers/fake-user-session";
@@ -86,108 +83,6 @@ function validateContentFromDataset(
 }
 
 describe("hub", () => {
-  describe("parseDatasetId", function () {
-    it("returns undefined", () => {
-      const result = parseDatasetId(undefined);
-      expect(result).toEqual({ itemId: undefined, layerId: undefined });
-    });
-    it("parse item id", () => {
-      const result = parseDatasetId("7a153563b0c74f7eb2b3eae8a66f2fbb");
-      expect(result).toEqual({
-        itemId: "7a153563b0c74f7eb2b3eae8a66f2fbb",
-        layerId: undefined,
-      });
-    });
-    it("parse item id and layer id", () => {
-      const result = parseDatasetId("7a153563b0c74f7eb2b3eae8a66f2fbb_0");
-      expect(result).toEqual({
-        itemId: "7a153563b0c74f7eb2b3eae8a66f2fbb",
-        layerId: "0",
-      });
-    });
-  });
-  describe("dataset to item", () => {
-    it("handles no dataset", () => {
-      expect(datasetToItem(null)).toBeUndefined();
-    });
-    it("handles no dataset attributes", () => {
-      expect(datasetToItem({ id: "foo", type: "dataset" })).toBeUndefined();
-    });
-    it("returns snippet when no searchDescription", () => {
-      const dataset = cloneObject(documentsJson.data) as DatasetResource;
-      delete dataset.attributes.searchDescription;
-      const item = datasetToItem(dataset);
-      expect(item.snippet).toBe(dataset.attributes.snippet);
-    });
-    it("handles when no itemModified", () => {
-      // NOTE: I expect that the API always returns itemModified
-      // so I don't know if this ever happens
-      const dataset = cloneObject(featureLayerJson.data) as DatasetResource;
-      const attributes = dataset.attributes;
-      attributes.modified = 1623232000295;
-      delete attributes.itemModified;
-      let item = datasetToItem(dataset);
-      expect(item.modified).toBe(
-        attributes.modified,
-        "returns modified when provenance is item"
-      );
-      attributes.modifiedProvenance = "layer.editingInfo.lastEditDate";
-      item = datasetToItem(dataset);
-      expect(item.modified).toBeFalsy(
-        "is undefined when provenance is layer.editingInfo"
-      );
-    });
-    // NOTE: other use cases are covered by getContent() tests
-  });
-  describe("dataset to content", () => {
-    it("has a reference to the item", () => {
-      const dataset = cloneObject(documentsJson.data) as DatasetResource;
-      const content = datasetToContent(dataset);
-      expect(content.item).toEqual(datasetToItem(dataset));
-    });
-    it("has enriched updatedDate", () => {
-      const dataset = cloneObject(featureLayerJson.data) as DatasetResource;
-      const attributes = dataset.attributes;
-      // simulate API returning date the layer was last modified
-      // instead of the date the item was last modified
-      attributes.modified = 1623232000295;
-      attributes.modifiedProvenance = "layer.editingInfo.lastEditDate";
-      const content = datasetToContent(dataset);
-      expect(content.modified).toBe(attributes.modified);
-      expect(content.updatedDate).toEqual(new Date(attributes.modified));
-      expect(content.updatedDateSource).toBe(attributes.modifiedProvenance);
-    });
-    it("has org", () => {
-      const dataset = cloneObject(featureLayerJson.data) as DatasetResource;
-      const {
-        orgId: id,
-        orgExtent: extent,
-        orgName: name,
-        organization,
-      } = dataset.attributes;
-      let content = datasetToContent(dataset);
-      expect(content.org).toEqual({ id, extent, name });
-      delete dataset.attributes.orgName;
-      content = datasetToContent(dataset);
-      expect(content.org).toEqual(
-        { id, extent, name: organization },
-        "name falls back to organization"
-      );
-    });
-    it("only uses enrichment attributes when they exist", () => {
-      const dataset = cloneObject(documentsJson.data) as DatasetResource;
-      // NOTE: I don't necessarily expect the API to return w/o these
-      // but our code depends on them, this test is mostly here for coverage
-      delete dataset.attributes.searchDescription;
-      delete dataset.attributes.errors;
-      const content = datasetToContent(dataset);
-      expect(content.summary).toBe(dataset.attributes.snippet);
-      expect(content.extent).toEqual([]);
-      // NOTE: the document JSON does not have org attributes
-      expect(content.org).toBeUndefined();
-    });
-    // NOTE: other use cases are covered by getContent() tests
-  });
   describe("get content from hub", () => {
     let requestOpts: IHubRequestOptions;
     beforeEach(() => {
