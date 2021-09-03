@@ -1,11 +1,37 @@
 /* Copyright (c) 2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 import { IItem } from "@esri/arcgis-rest-portal";
+import { HubType, HubFamily, IBBox, IHubGeography } from "./types";
 import { collections } from "./collections";
-import { categories } from "./categories";
+import { categories, isDownloadable } from "./categories";
+import { createExtent } from "./extent";
 import { includes, isGuid } from "./utils";
 import { IHubContent, IModel } from "./types";
 import { getProp } from "./objects";
+import { getStructuredLicense } from "./items/get-structured-license";
+
+function collectionToFamily(collection: string): string {
+  const overrides: any = {
+    other: "content",
+    solution: "template",
+  };
+  return overrides[collection] || collection;
+}
+
+function itemExtentToBoundary(extent: IBBox): IHubGeography {
+  return (
+    extent &&
+    extent.length && {
+      // TODO: center?
+      geometry: createExtent(
+        extent[0][0],
+        extent[0][1],
+        extent[1][0],
+        extent[1][1]
+      ),
+    }
+  );
+}
 
 const cache: { [key: string]: string } = {};
 
@@ -323,4 +349,139 @@ export function removeContextFromSlug(slug: string, context: string): string {
   } else {
     return slug;
   }
+}
+
+/**
+ * Splits item category strings at slashes and discards the "Categories" keyword
+ *
+ * ```
+ * ["/Categories/Boundaries", "/Categories/Planning and cadastre/Property records", "/Categories/Structure"]
+ * ```
+ * Should end up being
+ * ```
+ * ["Boundaries", "Planning and cadastre", "Property records", "Structure"]
+ * ```
+ *
+ * @param _categories - an array of strings
+ * @private
+ */
+export function parseItemCategories(_categories: string[]) {
+  if (!_categories) return _categories;
+
+  const exclude = ["categories", ""];
+  const parsed = _categories.map((cat) => cat.split("/"));
+  const flattened = parsed.reduce((acc, arr, _) => [...acc, ...arr], []);
+  return flattened.filter((cat) => !includes(exclude, cat.toLowerCase()));
+}
+
+/**
+ * return the Hub family given an item's type
+ * @param type item type
+ * @returns Hub family
+ */
+export function getFamily(type: string) {
+  let family;
+  // override default behavior for the rows that are highlighted in yellow here:
+  // https://esriis.sharepoint.com/:x:/r/sites/ArcGISHub/_layouts/15/Doc.aspx?sourcedoc=%7BADA1C9DC-4F6C-4DE4-92C6-693EF9571CFA%7D&file=Hub%20Routes.xlsx&nav=MTBfe0VENEREQzI4LUZFMDctNEI0Ri04NjcyLThCQUE2MTA0MEZGRn1fezIwMTIwMEJFLTA4MEQtNEExRC05QzA4LTE5MTAzOUQwMEE1RH0&action=default&mobileredirect=true&cid=df1c874b-c367-4cea-bc13-7bebfad3f2ac
+  switch ((type || "").toLowerCase()) {
+    case "image service":
+      family = "dataset";
+      break;
+    case "feature service":
+    case "raster layer":
+      // TODO: check if feature service has > 1 layer first?
+      family = "map";
+      break;
+    case "microsoft excel":
+      family = "document";
+      break;
+    case "cad drawing":
+    case "feature collection template":
+    case "report template":
+      family = "content";
+      break;
+    default:
+      // by default derive from collection
+      family = collectionToFamily(getCollection(type));
+  }
+  return family as HubFamily;
+}
+
+/**
+ * DEPRECATED: Use getFamily() instead.
+ *
+ * get the HubType for a given item or item type
+ *
+ * @param itemOrType an item or item.type
+ */
+export function getItemHubType(itemOrType: IItem | string): HubType {
+  /* tslint:disable no-console */
+  console.warn(
+    "DEPRECATED: Use getFamily() instead. getItemHubType() will be removed at v9.0.0"
+  );
+  /* tslint:enable no-console */
+  if (typeof itemOrType === "string") {
+    itemOrType = { type: itemOrType } as IItem;
+  }
+  const itemType = normalizeItemType(itemOrType);
+  // TODO: not all categories are Hub types, may need to validate
+  return getCollection(itemType) as HubType;
+}
+
+/**
+ * Convert a Portal item to Hub content
+ *
+ * @param item Portal Item
+ * @returns Hub content
+ * @export
+ */
+export function itemToContent(item: IItem): IHubContent {
+  const createdDate = new Date(item.created);
+  const createdDateSource = "item.created";
+  const properties = item.properties;
+  const normalizedType = normalizeItemType(item);
+  const content = Object.assign({}, item, {
+    // no server errors when fetching the item directly
+    errors: [],
+    // store a reference to the item
+    item,
+    // NOTE: this will overwrite any existing item.name, which is
+    // The file name of the item for file types. Read-only.
+    // presumably there to use as the default file name when downloading
+    // we don't store item.name in the Hub API and we use name for title
+    name: item.title,
+    family: getFamily(normalizedType),
+    // TODO: hubType is no longer used, remove it at next breaking change
+    hubType: getItemHubType(item),
+    normalizedType,
+    categories: parseItemCategories(item.categories),
+    itemCategories: item.categories,
+    // can we strip HTML from description, and do we need to trim it to a X chars?
+    summary: item.snippet || item.description,
+    publisher: {
+      name: item.owner,
+      username: item.owner,
+    },
+    permissions: {
+      visibility: item.access,
+      control: item.itemControl || "view",
+    },
+    // Hub app configuration metadata from item properties
+    actionLinks: properties && properties.links,
+    hubActions: properties && properties.actions,
+    metrics: properties && properties.metrics,
+    isDownloadable: isDownloadable(item),
+    // default boundary from item.extent
+    boundary: itemExtentToBoundary(item.extent),
+    license: { name: "Custom License", description: item.accessInformation },
+    // dates and sources we will enrich these later...
+    createdDate,
+    createdDateSource,
+    publishedDate: createdDate,
+    publishedDateSource: createdDateSource,
+    updatedDate: new Date(item.modified),
+    updatedDateSource: "item.modified",
+    structuredLicense: getStructuredLicense(item.licenseInfo),
+  });
+  return content;
 }

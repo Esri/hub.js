@@ -4,10 +4,11 @@ import {
   IHubContent,
   cloneObject,
   getServiceTypeFromUrl,
+  getFamily,
   hubApiRequest,
+  itemToContent,
   mergeObjects,
 } from "@esri/hub-common";
-import { getFamily, itemToContent } from "./portal";
 import { isSlug, addContextToSlug, parseDatasetId } from "./slugs";
 import { enrichContent, IEnrichContentOptions } from "./enrichments";
 import { isExtentCoordinateArray } from "@esri/hub-common";
