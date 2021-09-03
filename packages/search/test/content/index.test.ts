@@ -491,9 +491,7 @@ describe("Content Search Service", () => {
           hubApiUrl: "https://hubqa.arcgis.com",
           authentication: undefined,
           isPortal: false,
-          headers: {
-            authentication: undefined,
-          },
+          headers: undefined,
           httpMethod: "POST",
           params: {
             sort: "name",
@@ -587,9 +585,7 @@ describe("Content Search Service", () => {
           hubApiUrl: "https://hubqa.arcgis.com",
           authentication: undefined,
           isPortal: false,
-          headers: {
-            authentication: undefined,
-          },
+          headers: undefined,
           httpMethod: "POST",
           params: {
             sort: undefined,
@@ -961,9 +957,7 @@ describe("searchContent function", () => {
           hubApiUrl: "https://hub.arcgis.com",
           authentication: undefined,
           isPortal: false,
-          headers: {
-            authentication: undefined,
-          },
+          headers: undefined,
           httpMethod: "POST",
           params: {
             sort: undefined,
@@ -1065,9 +1059,7 @@ describe("searchContent function", () => {
           hubApiUrl: "https://hubqa.arcgis.com",
           authentication: undefined,
           isPortal: false,
-          headers: {
-            authentication: undefined,
-          },
+          headers: undefined,
           httpMethod: "POST",
           params: {
             sort: "name",

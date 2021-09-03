@@ -333,16 +333,14 @@ function performHubContentSearch(
 
   const hubApiUrl: string = getHubApiUrl(portal);
   const requestParams: ISearchParams = convertToHubParams(request);
+  const headers = authentication &&
+    authentication.serialize && { authentication: authentication.serialize() };
 
   return hubApiRequest("/search", {
     hubApiUrl,
     authentication,
     isPortal: false,
-    headers: {
-      authentication: authentication
-        ? JSON.stringify(authentication)
-        : undefined,
-    },
+    headers,
     httpMethod: "POST",
     params: requestParams,
   }).then((response: any) =>
