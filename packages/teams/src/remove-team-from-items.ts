@@ -10,7 +10,6 @@ import { cloneObject, IModel, without } from "@esri/hub-common";
  * @export
  * @param {string} teamId Team ID of the team we are removing
  * @param {IModel[]} models Array of IModels
- * @param {boolean} deleteTeam Should we delete the team true|false
  * @param {UserSession} authentication Auth
  * @return {*}  {Promise<IUpdateItemResponse[]>}
  */
