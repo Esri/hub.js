@@ -1,3 +1,4 @@
+import { getHubApiUrl } from ".";
 import { IHubRequestOptions } from "./types";
 import { buildUrl } from "./urls/build-url";
 
@@ -35,16 +36,16 @@ export function hubApiRequest(
 ) {
   // merge in default request options
   const options: IHubRequestOptions = {
-    hubApiUrl: "https://opendata.arcgis.com/api/v3/",
+    // why do we default to GET w/ our API?
     httpMethod: "GET",
-    ...requestOptions
+    ...requestOptions,
   };
   // use fetch override if any
   const _fetch = options.fetch || fetch;
   // merge in default headers
   const headers = {
     "Content-Type": "application/json",
-    ...options.headers
+    ...options.headers,
   };
   // build query params/body based on requestOptions.params
   let query;
@@ -58,15 +59,15 @@ export function hubApiRequest(
   }
   // build Hub API URL
   const url = buildUrl({
-    host: options.hubApiUrl,
+    host: getHubApiUrl(options),
     path: `/api/v3/${route}`.replace(/\/\//g, "/"),
-    query
+    query,
   });
   return _fetch(url, {
     method: options.httpMethod,
     headers,
-    body
-  }).then(resp => {
+    body,
+  }).then((resp) => {
     if (resp.ok) {
       return resp.json();
     } else {

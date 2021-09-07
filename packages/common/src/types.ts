@@ -10,8 +10,9 @@ import {
   ILayerDefinition,
 } from "@esri/arcgis-rest-types";
 import { IPortal, ISearchResult } from "@esri/arcgis-rest-portal";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { UserSession } from "@esri/arcgis-rest-auth";
 import { IStructuredLicense } from "./items/get-structured-license";
+import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 /**
  * Generic Model, used with all items that have a json
@@ -102,10 +103,18 @@ interface IHubRequestOptionsPortalSelf extends IPortal {
   user?: IUser;
 }
 
-export interface IHubRequestOptions extends IUserRequestOptions {
-  isPortal: boolean;
-  hubApiUrl: string;
+export interface IHubRequestOptions extends IRequestOptions {
+  authentication?: UserSession;
+  isPortal?: boolean;
+  hubApiUrl?: string;
   portalSelf?: IHubRequestOptionsPortalSelf;
+}
+
+/**
+ * Options for requests that require an authenticated user.
+ */
+export interface IHubUserRequestOptions extends IHubRequestOptions {
+  authentication: UserSession;
 }
 
 export interface IItemResource {
@@ -430,9 +439,8 @@ export interface ISerializedOperationStack {
  * @export
  * @interface UpdateSiteOptions
  */
-export interface IUpdateSiteOptions extends IHubRequestOptions {
+export interface IUpdateSiteOptions extends IUpdatePageOptions {
   updateVersions?: boolean;
-  allowList?: string[];
 }
 
 /**
@@ -443,7 +451,7 @@ export interface IUpdateSiteOptions extends IHubRequestOptions {
  * @export
  * @interface UpdatePageOptions
  */
-export interface IUpdatePageOptions extends IHubRequestOptions {
+export interface IUpdatePageOptions extends IHubUserRequestOptions {
   allowList?: string[];
 }
 

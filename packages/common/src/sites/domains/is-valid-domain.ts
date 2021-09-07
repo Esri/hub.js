@@ -1,5 +1,6 @@
 import { _getAuthHeader } from "./_get-auth-header";
 import { IHubRequestOptions } from "../../types";
+import { _getDomainServiceUrl } from ".";
 
 /**
  * Validate a custom domain
@@ -13,7 +14,9 @@ export function isValidDomain(
   if (hubRequestOptions.isPortal) {
     throw new Error(`isValidDomain is not available in ArcGIS Enterprise.`);
   }
-  const url = `${hubRequestOptions.hubApiUrl}/api/v3/domains/validate?hostname=${hostname}`;
+  const url = `${_getDomainServiceUrl(
+    hubRequestOptions.hubApiUrl
+  )}/validate?hostname=${hostname}`;
   const headers = _getAuthHeader(hubRequestOptions);
 
   return fetch(url, { method: "GET", headers, mode: "cors" })

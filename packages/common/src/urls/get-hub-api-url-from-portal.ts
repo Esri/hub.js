@@ -6,5 +6,5 @@ import { getHubUrlFromPortal } from "./get-hub-url-from-portal";
  * @param {Object} portal Portal Self
  */
 export function getHubApiUrlFromPortal(portal: IPortal): string {
-  return `${getHubUrlFromPortal(portal)}/api/v3`;
+  return `${getHubUrlFromPortal(portal)}`;
 }

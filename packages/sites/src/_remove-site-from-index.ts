@@ -1,4 +1,4 @@
-import { IModel, IHubRequestOptions } from "@esri/hub-common";
+import { IModel, IHubRequestOptions, getHubApiUrl } from "@esri/hub-common";
 
 /**
  * Remove a Site from the Hub Index system
@@ -13,21 +13,21 @@ export function _removeSiteFromIndex(
   if (hubRequestOptions.isPortal) {
     return Promise.resolve();
   } else {
-    const url = `${hubRequestOptions.hubApiUrl}/v2/${siteModel.item.id}`;
+    const url = `${getHubApiUrl(hubRequestOptions)}/v2/${siteModel.item.id}`;
     const opts = {
       method: "DELETE",
       mode: "cors",
       headers: {
-        Authorization: hubRequestOptions.authentication.token
-      }
+        Authorization: hubRequestOptions.authentication.token,
+      },
     } as RequestInit;
     return fetch(url, opts)
-      .then(raw => raw.json())
-      .then(_ => {
+      .then((raw) => raw.json())
+      .then((_) => {
         // TODO: Should we do anything here?
         return { success: true };
       })
-      .catch(err => {
+      .catch((err) => {
         throw Error(
           `_removeSiteFromIndex: Error removing site from index: ${err}`
         );

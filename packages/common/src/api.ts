@@ -17,5 +17,11 @@ import { _getHubUrlFromPortalHostname } from "./urls/_get-hub-url-from-portal-ho
 export function getHubApiUrl(
   urlOrObject: IPortal | IHubRequestOptions | IRequestOptions | string
 ): string {
+  const hubApiUrl =
+    urlOrObject && (urlOrObject as IHubRequestOptions).hubApiUrl;
+  if (hubApiUrl) {
+    // this is request options w/ hubApiUrl already defined
+    return hubApiUrl;
+  }
   return _getHubUrlFromPortalHostname(getPortalApiUrl(urlOrObject));
 }

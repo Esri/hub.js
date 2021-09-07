@@ -9,6 +9,7 @@ import {
   stripProtocol,
   interpolate,
   addSolutionResourceUrlToAssets,
+  getHubApiUrl,
 } from "@esri/hub-common";
 import { createHubTeams } from "@esri/hub-teams";
 import { HubTeamType } from "@esri/hub-teams";
@@ -114,12 +115,9 @@ export function createSiteModelFromTemplate(
         );
         settings.solution.url = getPortalSiteUrl(uniqueSubdomain, portal);
       } else {
-        settings.solution.defaultHostname = `${uniqueSubdomain}-${
-          portal.urlKey
-        }.${stripProtocol(hubRequestOptions.hubApiUrl)}`;
-        settings.solution.url = `https://${uniqueSubdomain}-${
-          portal.urlKey
-        }.${stripProtocol(hubRequestOptions.hubApiUrl)}`;
+        const base = stripProtocol(getHubApiUrl(hubRequestOptions));
+        settings.solution.defaultHostname = `${uniqueSubdomain}-${portal.urlKey}.${base}`;
+        settings.solution.url = `https://${uniqueSubdomain}-${portal.urlKey}.${base}`;
       }
 
       // create the initiative
