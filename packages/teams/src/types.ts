@@ -53,7 +53,8 @@ export interface IPrivPropValues {
  * status for an individual team
  */
 export interface ITeamStatus {
-  id: string;
+  teamType?: string;
+  id: string | null;
   isOk: boolean;
   isMissing: boolean;
   isBroken: boolean;
