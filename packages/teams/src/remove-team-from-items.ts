@@ -1,7 +1,6 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { IUpdateItemResponse, updateItem } from "@esri/arcgis-rest-portal";
 import { cloneObject, IModel, without } from "@esri/hub-common";
-import { removeTeam } from "./remove-team";
 
 /**
  * Removes a Team from N hub models.
@@ -18,14 +17,9 @@ import { removeTeam } from "./remove-team";
 export async function removeTeamFromItems(
   teamId: string,
   models: IModel[],
-  deleteTeam: boolean,
   authentication: UserSession
 ): Promise<IUpdateItemResponse[]> {
-  if (deleteTeam) {
-    // first kill the team...
-    await removeTeam(teamId, authentication);
-  }
-  // now remove from all items
+  // Iterate over all items...
   return Promise.all(
     models.map((model) => {
       // clone the item before modifying
@@ -35,11 +29,16 @@ export async function removeTeamFromItems(
         clonedModel.item.properties.teams,
         teamId
       );
-      // update the item
-      return updateItem({
-        item: clonedModel.item,
-        authentication,
-      });
+      // Check if the user has access to edit the item. itemControl is only present when the item is directly fetched
+      // 
+      return clonedModel.item.itemControl === "admin" || clonedModel.item.itemControl === "update"
+        // If yes, then update the item
+        ? updateItem({
+          item: clonedModel.item,
+          authentication,
+        })
+        // Otherwise return a 'fail' state for that item specifically
+        : { id: clonedModel.item.id, success: false};
     })
   );
 }
