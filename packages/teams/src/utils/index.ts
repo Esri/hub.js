@@ -30,3 +30,4 @@ export * from "./process-auto-add-users";
 export * from "./process-email-users";
 export * from "./process-invite-users";
 export * from "./teams-to-add-users-to";
+export * from "./get-team-status";
