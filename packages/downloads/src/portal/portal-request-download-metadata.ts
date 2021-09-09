@@ -4,7 +4,7 @@ import {
   getService,
   getLayer,
   IFeatureServiceDefinition,
-  ILayerDefinition
+  ILayerDefinition,
 } from "@esri/arcgis-rest-feature-layer";
 import { DownloadFormat, DownloadFormats } from "../download-format";
 import { urlBuilder, composeDownloadId } from "../utils";
@@ -12,10 +12,12 @@ import { DownloadTarget } from "../download-target";
 import { DownloadStatus } from "../download-status";
 import { isDownloadEnabled } from "./utils";
 import { isRecentlyUpdated } from "./utils";
+import { buildExistingExportsPortalQuery } from "./build-existing-exports-portal-query";
+import { parseDatasetId } from "@esri/hub-common";
 
 enum ItemTypes {
   FeatureService = "Feature Service",
-  MapService = "Map Service"
+  MapService = "Map Service",
 }
 
 const isCollectionType = (format: DownloadFormat) =>
@@ -48,11 +50,9 @@ export function portalRequestDownloadMetadata(
 ): Promise<any> {
   const { datasetId, authentication, format, spatialRefId, target } = params;
 
-  const [itemId, layerId] = datasetId.split("_");
+  const { itemId, layerId } = parseDatasetId(datasetId);
   // Layer Id's need to be padded with 0 so that /search results are predictable. Searches for exportLayer:1 don't work.
-  const exportKeyword = layerId
-    ? `exportItem:${itemId},exportLayer:0${layerId}`
-    : `exportItem:${itemId},exportLayer:null`;
+
   let serviceLastEditDate: number | undefined;
   let itemModifiedDate: number;
   let itemType: string;
@@ -70,18 +70,21 @@ export function portalRequestDownloadMetadata(
         type,
         modified,
         format,
-        layerId
+        layerId,
       });
     })
     .then((metadata: ICacheSearchMetadata) => {
       const { modified, format: searchFormat } = metadata;
       serviceLastEditDate = modified;
       return searchItems({
-        q: `type:"${searchFormat}" AND typekeywords:"${exportKeyword},spatialRefId:${spatialRefId}"`,
+        q: buildExistingExportsPortalQuery(datasetId, {
+          formats: [searchFormat],
+          spatialRefId,
+        }),
         num: 1,
         sortField: "modified",
         sortOrder: "DESC",
-        authentication
+        authentication,
       });
     })
     .then((searchResponse: any) => {
@@ -95,7 +98,7 @@ export function portalRequestDownloadMetadata(
         itemType,
         authentication,
         target,
-        item: fetchedItem
+        item: fetchedItem,
       });
     })
     .catch((err: any) => {
@@ -109,14 +112,14 @@ function fetchCacheSearchMetadata(params: any): Promise<ICacheSearchMetadata> {
   if (type !== ItemTypes.FeatureService && type !== ItemTypes.MapService) {
     return Promise.resolve({
       modified,
-      format
+      format,
     });
   }
 
   return getService({ url, authentication })
     .then((response: IFeatureServiceDefinition) => {
       const layers: ILayerDefinition[] = response.layers || [];
-      const promises: Array<Promise<ILayerDefinition>> = layers.map(layer => {
+      const promises: Array<Promise<ILayerDefinition>> = layers.map((layer) => {
         return getLayer({ url: `${url}/${layer.id}`, authentication });
       });
       return Promise.all(promises);
@@ -124,7 +127,7 @@ function fetchCacheSearchMetadata(params: any): Promise<ICacheSearchMetadata> {
     .then((layers: ILayerDefinition[]) => {
       return {
         format: getPortalFormat({ format, layerId, layers }),
-        modified: extractLastEditDate(layers)
+        modified: extractLastEditDate(layers),
       };
     });
 }
@@ -151,7 +154,7 @@ function extractLastEditDate(layers: ILayerDefinition[]) {
       const { editingInfo: { lastEditDate } = {} } = layer;
       return lastEditDate;
     })
-    .filter(timestamp => {
+    .filter((timestamp) => {
       return timestamp !== undefined;
     })
     .sort((a, b) => {
@@ -167,7 +170,7 @@ function formatDownloadMetadata(params: any) {
     authentication,
     target,
     item,
-    format
+    format,
   } = params;
 
   const lastEditDate =
@@ -188,7 +191,7 @@ function formatDownloadMetadata(params: any) {
     return {
       downloadId: composeDownloadId(params),
       status,
-      lastEditDate
+      lastEditDate,
     };
   }
 
@@ -201,8 +204,8 @@ function formatDownloadMetadata(params: any) {
     downloadUrl: urlBuilder({
       host: authentication.portal,
       route: `content/items/${id}/data`,
-      query: { token: authentication.token }
-    })
+      query: { token: authentication.token },
+    }),
   };
 }
 

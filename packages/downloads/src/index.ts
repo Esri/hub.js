@@ -7,3 +7,4 @@ export * from "./request-download-metadata";
 export * from "./download-format";
 export * from "./download-target";
 export * from "./poller";
+export * from "./portal/build-existing-exports-portal-query";
