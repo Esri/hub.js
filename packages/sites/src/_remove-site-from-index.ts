@@ -13,7 +13,9 @@ export function _removeSiteFromIndex(
   if (hubRequestOptions.isPortal) {
     return Promise.resolve();
   } else {
-    const url = `${getHubApiUrl(hubRequestOptions)}/v2/${siteModel.item.id}`;
+    const url = `${getHubApiUrl(hubRequestOptions)}/api/v3/${
+      siteModel.item.id
+    }`;
     const opts = {
       method: "DELETE",
       mode: "cors",

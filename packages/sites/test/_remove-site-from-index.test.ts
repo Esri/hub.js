@@ -7,17 +7,17 @@ describe("_removeSiteFromIndex", () => {
     const ro = {
       hubApiUrl: "foobar",
       authentication: {
-        token: "token"
-      }
+        token: "token",
+      },
     } as IHubRequestOptions;
 
     const siteModel = {
       item: {
-        id: "baz"
-      }
+        id: "baz",
+      },
     } as IModel;
 
-    fetchMock.delete(`${ro.hubApiUrl}/v2/${siteModel.item.id}`, {});
+    fetchMock.delete(`${ro.hubApiUrl}/api/v3/${siteModel.item.id}`, {});
 
     await _removeSiteFromIndex(siteModel, ro);
 
@@ -32,17 +32,17 @@ describe("_removeSiteFromIndex", () => {
     const ro = {
       hubApiUrl: "foobar",
       authentication: {
-        token: "token"
-      }
+        token: "token",
+      },
     } as IHubRequestOptions;
 
     const siteModel = {
       item: {
-        id: "baz"
-      }
+        id: "baz",
+      },
     } as IModel;
 
-    fetchMock.delete(`${ro.hubApiUrl}/v2/${siteModel.item.id}`, 400);
+    fetchMock.delete(`${ro.hubApiUrl}/api/v3/${siteModel.item.id}`, 400);
 
     try {
       await _removeSiteFromIndex(siteModel, ro);
@@ -59,17 +59,17 @@ describe("_removeSiteFromIndex", () => {
       isPortal: true,
       hubApiUrl: "foobar",
       authentication: {
-        token: "token"
-      }
+        token: "token",
+      },
     } as IHubRequestOptions;
 
     const siteModel = {
       item: {
-        id: "baz"
-      }
+        id: "baz",
+      },
     } as IModel;
 
-    fetchMock.delete(`${ro.hubApiUrl}/v2/${siteModel.item.id}`, {});
+    fetchMock.delete(`${ro.hubApiUrl}/api/v3/${siteModel.item.id}`, {});
 
     await _removeSiteFromIndex(siteModel, ro);
 
