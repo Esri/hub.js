@@ -49,8 +49,8 @@ interface ExistingExportsPortalQueryOptions {
 /**
  * Builds the Portal API query string to search for exports from a given dataset
  *
- * @param datasetId - The dataset ID
- * @param options - A set of options including requested export types and spatialRefId
+ * @param itemId - The dataset ID
+ * @param options - A set of options including item types, layerId, and spatialRefId
  * @returns
  */
 export function buildExistingExportsPortalQuery(
