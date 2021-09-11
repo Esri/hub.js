@@ -51,7 +51,6 @@ export function portalRequestDownloadMetadata(
   const { datasetId, authentication, format, spatialRefId, target } = params;
 
   const { itemId, layerId } = parseDatasetId(datasetId);
-  // Layer Id's need to be padded with 0 so that /search results are predictable. Searches for exportLayer:1 don't work.
 
   let serviceLastEditDate: number | undefined;
   let itemModifiedDate: number;
@@ -79,7 +78,7 @@ export function portalRequestDownloadMetadata(
       return searchItems({
         q: buildExistingExportsPortalQuery(itemId, {
           layerId,
-          types: [searchFormat],
+          onlyTypes: [searchFormat],
           spatialRefId,
         }),
         num: 1,
