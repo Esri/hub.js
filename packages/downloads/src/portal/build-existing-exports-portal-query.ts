@@ -1,5 +1,42 @@
 import { SearchQueryBuilder } from "@esri/arcgis-rest-portal";
-import { parseDatasetId } from "@esri/hub-common";
+
+const downloadFormats = {
+  csv: {
+    name: 'CSV',
+    itemType: 'CSV Collection',
+    supportProjection: true
+  },
+  kml: {
+    name: 'KML',
+    itemType: 'KML Collection',
+    supportProjection: false
+  },
+  shapefile: {
+    name: 'Shapefile',
+    itemType: 'Shapefile',
+    supportProjection: true
+  },
+  fileGeodatabase: {
+    name: 'File Geodatabase',
+    itemType: 'File Geodatabase',
+    supportProjection: true
+  },
+  geojson: {
+    name: 'GeoJson',
+    itemType: 'GeoJson',
+    supportProjection: false
+  },
+  excel: {
+    name: 'Excel',
+    itemType: 'Microsoft Excel',
+    supportProjection: true
+  },
+  featureCollection: {
+    name: 'Feature Collection',
+    itemType: 'Feature Collection',
+    supportProjection: true
+  }
+};
 
 /**
  * Builds the Portal API query string to search for exports from a given dataset
@@ -9,40 +46,47 @@ import { parseDatasetId } from "@esri/hub-common";
  * @returns
  */
 export function buildExistingExportsPortalQuery(
-  datasetId: string,
-  options: {
-    formats?: string[];
-    spatialRefId: string;
+  itemId: string,
+  options?: {
+    layerId?: number;
+    onlyTypes?: string[];
+    spatialRefId?: string;
   }
 ) {
-  const { formats, spatialRefId } = options;
+  let types, layerId, spatialRefId
+  if (options) {
+    types = options.onlyTypes;
+    layerId = options.layerId;
+    spatialRefId = options.spatialRefId;
+  }
 
-  const { itemId, layerId } = parseDatasetId(datasetId);
-
-  const query = new SearchQueryBuilder()
+  const queryBuilder = new SearchQueryBuilder()
     .match(`exportItem:${itemId}`)
     .in("typekeywords")
     .and()
     .match(`exportLayer:${layerId ? `0${layerId}` : null}`)
     .in("typekeywords");
 
-  if (formats?.length) {
-    query.and().startGroup();
-
-    formats.forEach((format, i) => {
-      query.match(format).in("type");
-
-      if (i < formats.length - 1) {
-        query.or();
-      }
-    });
-
-    query.endGroup();
+  if (types?.length) {
+    queryBuilder.and().startGroup();
+    buildMultiTermOrFromArray(types, 'type', queryBuilder);
+    queryBuilder.endGroup();
   }
 
   if (spatialRefId) {
-    query.and().match(spatialRefId).in("spatialRefId");
+    queryBuilder.and().match(spatialRefId).in("spatialRefId");
   }
 
-  return query.toParam();
+  return queryBuilder.toParam();
+}
+
+
+function buildMultiTermOrFromArray (terms: string[], inTerm: string, builder: SearchQueryBuilder) {
+  terms.forEach((format, i) => {
+    builder.match(format).in(inTerm);
+
+    if (i < terms.length - 1) {
+      builder.or();
+    }
+  });
 }

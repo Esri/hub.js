@@ -77,8 +77,9 @@ export function portalRequestDownloadMetadata(
       const { modified, format: searchFormat } = metadata;
       serviceLastEditDate = modified;
       return searchItems({
-        q: buildExistingExportsPortalQuery(datasetId, {
-          formats: [searchFormat],
+        q: buildExistingExportsPortalQuery(itemId, {
+          layerId,
+          types: [searchFormat],
           spatialRefId,
         }),
         num: 1,
