@@ -2,7 +2,7 @@ import { SearchQueryBuilder } from "@esri/arcgis-rest-portal";
 
 const WGS84_WKID = '4326';
 
-export const PORTAL_DOWNLOAD_FORMATS = {
+export const PORTAL_EXPORT_TYPES = {
   csv: {
     name: 'CSV',
     itemType: 'CSV Collection',
@@ -63,8 +63,8 @@ export function buildExistingExportsPortalQuery(
     spatialRefId
    } = maybeExtractOptions(options);
 
-  const formatInfos = Object.keys(PORTAL_DOWNLOAD_FORMATS)
-    .map((key) => PORTAL_DOWNLOAD_FORMATS[key as keyof typeof PORTAL_DOWNLOAD_FORMATS]);
+  const formatInfos = Object.keys(PORTAL_EXPORT_TYPES)
+    .map((key) => PORTAL_EXPORT_TYPES[key as keyof typeof PORTAL_EXPORT_TYPES]);
 
   const noProjectionItemTypes = new Set(
     formatInfos
