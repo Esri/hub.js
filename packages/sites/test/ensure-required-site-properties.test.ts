@@ -2,16 +2,16 @@ import { ensureRequiredSiteProperties } from "../src";
 import { IModel } from "@esri/hub-common";
 
 describe("ensureRequiredSiteProperties", () => {
-  it("ensures properties - simple", function() {
-    const model = ({
+  it("ensures properties - simple", function () {
+    const model = {
       item: {},
       data: {
         values: {
           subdomain: "name-org",
-          defaultHostname: "name-org.hub.arcgis.com"
-        }
-      }
-    } as unknown) as IModel;
+          defaultHostname: "name-org.hub.arcgis.com",
+        },
+      },
+    } as unknown as IModel;
 
     const chk = ensureRequiredSiteProperties(model, "vader");
     expect(chk.item.owner).toBe("vader", "sets owner");
@@ -33,18 +33,18 @@ describe("ensureRequiredSiteProperties", () => {
     );
   });
 
-  it("ensures properties - custom hostname", function() {
-    const model = ({
+  it("ensures properties - custom hostname", function () {
+    const model = {
       item: {},
       data: {
         values: {
           subdomain: "name-org",
           defaultHostname: "name-org.hub.arcgis.com",
           customHostname: "my-site.com",
-          pages: [{ id: "bc2", slug: "about" }]
-        }
-      }
-    } as unknown) as IModel;
+          pages: [{ id: "bc2", slug: "about" }],
+        },
+      },
+    } as unknown as IModel;
     const chk = ensureRequiredSiteProperties(model, "vader");
     expect(chk.item.owner).toEqual("vader", "sets owner");
     expect(chk.item.access).toEqual("private", "sets access");
@@ -68,20 +68,21 @@ describe("ensureRequiredSiteProperties", () => {
       "sets capabilities if not set"
     );
     expect(chk.data.values.capabilities).toContain("socialSharing");
+    expect(chk.data.values.capabilities).toContain("underlinedLinks");
   });
 
-  it("ensures properties - portal w url", function() {
-    const model = ({
+  it("ensures properties - portal w url", function () {
+    const model = {
       item: {
         url: "https://portal.org/instance/apps/sites/#/sitename",
-        typeKeywords: []
+        typeKeywords: [],
       },
       data: {
         values: {
-          subdomain: "sitename"
-        }
-      }
-    } as unknown) as IModel;
+          subdomain: "sitename",
+        },
+      },
+    } as unknown as IModel;
     const chk = ensureRequiredSiteProperties(model, "vader", true);
     expect(chk.item.owner).toBe("vader", "sets owner");
     expect(chk.item.access).toBe("private", "sets access");
