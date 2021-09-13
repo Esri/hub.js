@@ -407,3 +407,12 @@ export const capitalize = (word: string) => {
   chars[0] = chars[0].toUpperCase();
   return chars.join("");
 };
+
+/**
+ * An IE-compatible stand-in for Javascript's [array.flat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat)
+ * @param arr the array
+ * @returns an array
+ */
+export function flattenArray(arr: any[]) {
+  return arr.reduce((acc: any[], val: any) => acc.concat(val), []);
+}

@@ -12,7 +12,7 @@ import { DownloadTarget } from "../download-target";
 import { DownloadStatus } from "../download-status";
 import { isDownloadEnabled } from "./utils";
 import { isRecentlyUpdated } from "./utils";
-import { buildExistingExportsPortalQuery } from "./build-existing-exports-portal-query";
+import { buildExistingExportsPortalQuery } from "@esri/hub-common";
 import { parseDatasetId } from "@esri/hub-common";
 
 enum ItemTypes {
@@ -30,6 +30,7 @@ export interface IPortalDownloadMetadataRequestParams {
   datasetId: string;
   format: DownloadFormat;
   authentication: UserSession;
+  portal?: string; // optional if authentication is provided
   spatialRefId?: string;
   target?: DownloadTarget;
 }
