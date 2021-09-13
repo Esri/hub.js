@@ -103,7 +103,7 @@ describe("requestDownloadMetadata", () => {
       });
 
       fetchMock.mock(
-        "http://portal.com/sharing/rest/search?f=json&q=type%3A%22Shapefile%22%20AND%20typekeywords%3A%22exportItem%3A00cportalItemId%2CexportLayer%3Anull%2CspatialRefId%3A2227%22&num=1&sortField=modified&sortOrder=DESC&token=123",
+        "http://portal.com/sharing/rest/search?f=json&q=(typekeywords%3A%22exportItem%3A00cportalItemId%22%20AND%20typekeywords%3A%22exportLayer%3Anull%22)%20AND%20(%20(type%3A%22Shapefile%22%20AND%20typekeywords%3A%22spatialRefId%3A2227%22))&num=1&sortField=modified&sortOrder=DESC&token=123",
         {
           status: 200,
           body: {
@@ -173,7 +173,7 @@ describe("requestDownloadMetadata", () => {
       });
 
       fetchMock.mock(
-        "http://portal.com/sharing/rest/search?f=json&q=type%3A%22Shapefile%22%20AND%20typekeywords%3A%22exportItem%3A00fEnterpriseItemId%2CexportLayer%3Anull%2CspatialRefId%3A2227%22&num=1&sortField=modified&sortOrder=DESC&token=123",
+        "http://portal.com/sharing/rest/search?f=json&q=(typekeywords%3A%22exportItem%3A00fEnterpriseItemId%22%20AND%20typekeywords%3A%22exportLayer%3Anull%22)%20AND%20(%20(type%3A%22Shapefile%22%20AND%20typekeywords%3A%22spatialRefId%3A2227%22))&num=1&sortField=modified&sortOrder=DESC&token=123",
         {
           status: 200,
           body: {
