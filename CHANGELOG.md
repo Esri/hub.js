@@ -5,63 +5,70 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [8.19.0] - September 14th 2021
+
+### Other Changes
+
+- New Features
+  - **hub-downloads**: makes logic for querying for item exports available and centralized [`1cea4e712`](https://github.com/Esri/hub.js/commit/1cea4e712265fec80474b2c069bef032ee5b0be7)
+
 ## [8.18.0] - September 13th 2021
 
 ### Other Changes
 
-* New Features
-   * **hub-teams**: migrate a number of functions to hub-teams (#625) [`33b30d656`](https://github.com/Esri/hub.js/commit/33b30d656413b0a4eda6c5af686761c52724483b)
-   * **hub-sites**: news sites in any env get underlinedLinks capability [`78984219a`](https://github.com/Esri/hub.js/commit/78984219a8400a797a045f00f555a6645d57d530)
+- New Features
+  - **hub-teams**: migrate a number of functions to hub-teams (#625) [`33b30d656`](https://github.com/Esri/hub.js/commit/33b30d656413b0a4eda6c5af686761c52724483b)
+  - **hub-sites**: news sites in any env get underlinedLinks capability [`78984219a`](https://github.com/Esri/hub.js/commit/78984219a8400a797a045f00f555a6645d57d530)
 
 ## [8.17.3] - September 3rd 2021
 
 ### Other Changes
 
-* Bug Fixes
-   * **hub-search**: hub search requests were sending undefined authentication header [`3b321c87a`](https://github.com/Esri/hub.js/commit/3b321c87accf193ed59558734a09850cfe70124b) [#https://devtopia.esri.com/dc/hub/issues/1946](https://github.com/Esri/hub.js/issues/https://devtopia.esri.com/dc/hub/issues/1946)
+- Bug Fixes
+  - **hub-search**: hub search requests were sending undefined authentication header [`3b321c87a`](https://github.com/Esri/hub.js/commit/3b321c87accf193ed59558734a09850cfe70124b) [#https://devtopia.esri.com/dc/hub/issues/1946](https://github.com/Esri/hub.js/issues/https://devtopia.esri.com/dc/hub/issues/1946)
 
 ## [8.17.2] - September 1st 2021
 
 ### Other Changes
 
-* Bug Fixes
-   * **hub-content**: normalizedType should be based on content.type, not item.type [`60d196d66`](https://github.com/Esri/hub.js/commit/60d196d669fca3055506be92806f366d480a1b06)
+- Bug Fixes
+  - **hub-content**: normalizedType should be based on content.type, not item.type [`60d196d66`](https://github.com/Esri/hub.js/commit/60d196d669fca3055506be92806f366d480a1b06)
 
 ## [8.17.1] - August 31st 2021
 
 ### Other Changes
 
-* Bug Fixes
-* **hub-common**: account for versioned standard licenses [`1f5a8a9f`](https://github.com/Esri/hub.js/pull/620/commits/1f5a8a9fdf011eae5fee7c58c791a3ccdae0d002)
+- Bug Fixes
+- **hub-common**: account for versioned standard licenses [`1f5a8a9f`](https://github.com/Esri/hub.js/pull/620/commits/1f5a8a9fdf011eae5fee7c58c791a3ccdae0d002)
 
 ## [8.17.0] - August 30th 2021
 
 ### Other Changes
 
-* Chores
-   * **hub-common**: added stale PR notification [`a4e7ac95`](https://github.com/Esri/hub.js/commit/a4e7ac954e0ddee23bae2fba13deb505bb552916)
-* New Features
-   * **hub-common**: add capitalize() and getServiceTypeFromUrl() [`f66e08af`](https://github.com/Esri/hub.js/commit/f66e08aff38ebdebd90dfbe3fd6d5b0ef8eca0ef)
-* Bug Fixes
-   * **hub-content**: content.item.type was layer.type when fetched from the API [`2e884ac8`](https://github.com/Esri/hub.js/commit/2e884ac8c3cc4bdccb5183aa57a1623db9ae0893)
+- Chores
+  - **hub-common**: added stale PR notification [`a4e7ac95`](https://github.com/Esri/hub.js/commit/a4e7ac954e0ddee23bae2fba13deb505bb552916)
+- New Features
+  - **hub-common**: add capitalize() and getServiceTypeFromUrl() [`f66e08af`](https://github.com/Esri/hub.js/commit/f66e08aff38ebdebd90dfbe3fd6d5b0ef8eca0ef)
+- Bug Fixes
+  - **hub-content**: content.item.type was layer.type when fetched from the API [`2e884ac8`](https://github.com/Esri/hub.js/commit/2e884ac8c3cc4bdccb5183aa57a1623db9ae0893)
 
 ## [8.16.1] - August 27th 2021
 
 ### Other Changes
 
-* Bug Fixes
-   * **hub-teams**: prevent portal:user:addExternalMembersToGroup priv from being removed for Demo and Marketing subscription type [`7bb566ce4`](https://github.com/Esri/hub.js/commit/7bb566ce470dae261be7a421aceccc3cf1f10218)
+- Bug Fixes
+  - **hub-teams**: prevent portal:user:addExternalMembersToGroup priv from being removed for Demo and Marketing subscription type [`7bb566ce4`](https://github.com/Esri/hub.js/commit/7bb566ce470dae261be7a421aceccc3cf1f10218)
 
 ## [8.16.0] - August 26th 2021
 
 ### Other Changes
 
-* Documentation
-   * **hub-search**: add inline docs and examples to searchContent() [`77d741a2`](https://github.com/Esri/hub.js/commit/77d741a27a910756a8f4ce5da7c029bcb775dfa8)
-   * **hub-search**: add suggested edits to searchContent() docs [`470e330c`](https://github.com/Esri/hub.js/commit/470e330c5d37f674fb8d939c4ea2c2bc9ceedc7a)
-   * **hub-search**: add docs readme; add header for content-search [`dba9d09d`](https://github.com/Esri/hub.js/commit/dba9d09d74f0abf85cfedbcfa3e8742ecad2b620)
-* New Features
-   * **hub-common**: add isMapOrFeatureServerUrl [`e21c8961`](https://github.com/Esri/hub.js/commit/e21c8961ec9ba1415ecc0c479b80763c724915b9)
+- Documentation
+  - **hub-search**: add inline docs and examples to searchContent() [`77d741a2`](https://github.com/Esri/hub.js/commit/77d741a27a910756a8f4ce5da7c029bcb775dfa8)
+  - **hub-search**: add suggested edits to searchContent() docs [`470e330c`](https://github.com/Esri/hub.js/commit/470e330c5d37f674fb8d939c4ea2c2bc9ceedc7a)
+  - **hub-search**: add docs readme; add header for content-search [`dba9d09d`](https://github.com/Esri/hub.js/commit/dba9d09d74f0abf85cfedbcfa3e8742ecad2b620)
+- New Features
+  - **hub-common**: add isMapOrFeatureServerUrl [`e21c8961`](https://github.com/Esri/hub.js/commit/e21c8961ec9ba1415ecc0c479b80763c724915b9)
 
 ## [8.15.1] - August 16th 2021
 
@@ -192,7 +199,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - **hub-teams**: add canEditTeam [`d2c9fecf`](https://github.com/Esri/hub.js/commit/d2c9fecf0314e35ee5c1acb9583684f18740f0b1)
   - **hub-teams**: add username check [`36a8b792`](https://github.com/Esri/hub.js/commit/36a8b7924ef7cf11ac2f2e81abe0d9ca49e86ec7)
   - **hub-teams**: add canEditTeam tests [`d4d52c18`](https://github.com/Esri/hub.js/commit/d4d52c1879c01f44770c16de242822ce41ba2708)
-  - **hub-teams**: add case when user is not auth&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;#39;d [`295e04a7`](https://github.com/Esri/hub.js/commit/295e04a7189151c827a25dcf9222c76448df71f7)
+  - **hub-teams**: add case when user is not auth&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;#39;d [`295e04a7`](https://github.com/Esri/hub.js/commit/295e04a7189151c827a25dcf9222c76448df71f7)
 
 ## [8.7.0] - June 25th 2021
 
@@ -1012,11 +1019,7 @@ Attempt to address failed release
 
 ## [4.1.0] - May 21st 2020
 
-
-
 ## [4.0.0] - May 20th 2020
-
-
 
 ## [3.9.3] - May 14th 2020
 
@@ -1054,8 +1057,6 @@ Attempt to address failed release
   - **peerDependencies**: fix invalid peerDependencies [`08fae37`](https://github.com/Esri/hub.js/commit/08fae37875aa3e68a82970a54eedcbe13ef001a8) [#251](https://github.com/Esri/hub.js/issues/251)
 
 ## [3.9.1] - May 6th 2020
-
-
 
 ## [3.9.0] - May 6th 2020
 
@@ -1097,8 +1098,6 @@ Attempt to address failed release
 
 ## [3.7.4] - April 30th 2020
 
-
-
 ## [3.7.3] - April 29th 2020
 
 - New Features
@@ -1109,8 +1108,6 @@ Attempt to address failed release
 ### @esri/hub-common
 
 ## [3.7.1] - April 28th 2020
-
-
 
 ## [3.7.0] - April 28th 2020
 
@@ -1166,11 +1163,7 @@ Attempt to address failed release
 
 ## [3.6.3] - January 27th 2020
 
-
-
 ## [3.6.2] - January 2nd 2020
-
-
 
 ## [3.6.0] - November 18th 2019
 
@@ -1264,8 +1257,6 @@ Attempt to address failed release
   - **search**: support filters specified implicitly
 
 ## [2.6.0] - August 20th 2019
-
-
 
 ## [2.5.0] - August 15th 2019
 
@@ -1865,4 +1856,5 @@ Initial Release
 [8.17.2]: https://github.com/Esri/hub.js/compare/v8.17.1...v8.17.2 "v8.17.2"
 [8.17.3]: https://github.com/Esri/hub.js/compare/v8.17.2...v8.17.3 "v8.17.3"
 [8.18.0]: https://github.com/Esri/hub.js/compare/v8.17.3...v8.18.0 "v8.18.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v8.18.0...HEAD "Unreleased Changes"
+[8.19.0]: https://github.com/Esri/hub.js/compare/v8.18.0...v8.19.0 "v8.19.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v8.19.0...HEAD "Unreleased Changes"
