@@ -478,3 +478,9 @@ export interface ISiteCatalog {
    */
   orgId: string;
 }
+
+export interface IHubTeam extends IGroup {
+  properties: {
+    [key: string]: any;
+  };
+}
