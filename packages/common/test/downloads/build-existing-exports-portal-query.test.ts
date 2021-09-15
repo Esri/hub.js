@@ -1,5 +1,8 @@
 import {
   buildExistingExportsPortalQuery,
+  getExportItemTypeKeyword,
+  getExportLayerTypeKeyword,
+  getSpatialRefTypeKeyword,
   serializeSpatialReference,
 } from "../../src";
 
@@ -68,5 +71,23 @@ describe("serializeSpatialReference", () => {
         wkt: "this is probably a custom spatial reference",
       })
     ).toEqual("dGhpcyBpcyBwcm9iYWJseSBhIGN1c3RvbSBzcGF0aWFsIHJlZmVyZW5jZQ==");
+  });
+});
+
+describe("Generating typeKeywords", () => {
+  it("item", () => {
+    expect(getExportItemTypeKeyword("1234")).toEqual("exportItem:1234");
+  });
+
+  it("layer", () => {
+    expect(getExportLayerTypeKeyword(2)).toEqual("exportLayer:02");
+    expect(getExportLayerTypeKeyword("")).toEqual(`exportLayer:null`);
+    expect(getExportLayerTypeKeyword()).toEqual(`exportLayer:null`);
+  });
+
+  it("spatial reference", () => {
+    expect(
+      getSpatialRefTypeKeyword(JSON.stringify({ latestWkid: 9393, wkid: 1234 }))
+    ).toEqual("spatialRefId:1234");
   });
 });

@@ -128,13 +128,10 @@ export function buildExistingExportsPortalQuery(
 
   const queryBuilder = new SearchQueryBuilder()
     .startGroup()
-    .match(`exportItem:${itemId}`)
+    .match(getExportItemTypeKeyword(itemId))
     .in("typekeywords")
     .and()
-    // NOTE - Layer Id's need to be padded with "0" so that /search results are predictable. Searches for typeKeywords:"exportLayer:1" don't work.
-    // See https://github.com/Esri/hub.js/pull/472 for more information.
-    // TODO - use `filter` when Enterprise Sites adds support.
-    .match(`exportLayer:${layerId ? `0${layerId}` : "null"}`)
+    .match(getExportLayerTypeKeyword(layerId))
     .in("typekeywords")
     .endGroup()
     .and()
@@ -205,7 +202,7 @@ function buildExportTypesClause(
 }
 
 /**
- * Generates typekeyword for spatialRefId
+ * Generates typekeyword for identifying which spatialRefId an export is
  * @param spatialRefId
  * @param supportsProjection
  * @returns
@@ -216,4 +213,25 @@ export function getSpatialRefTypeKeyword(spatialRefId: string) {
     parsedSpatialReference
   );
   return `spatialRefId:${serializedSpatialReference}`;
+}
+
+/**
+ * Returns the keyword identifying exports by the item they originate from
+ * @param itemId
+ * @returns
+ */
+export function getExportItemTypeKeyword(itemId: string) {
+  return `exportItem:${itemId}`;
+}
+
+/**
+ * Returns the keyword identifying exports by the layer they originate from
+ * @param layerId
+ * @returns
+ */
+export function getExportLayerTypeKeyword(layerId?: number | string) {
+  // NOTE - Layer Id's need to be padded with "0" so that /search results are predictable. Searches for typeKeywords:"exportLayer:1" don't work.
+  // See https://github.com/Esri/hub.js/pull/472 for more information.
+  // TODO - use `filter` when Enterprise Sites adds support.
+  return layerId ? `exportLayer:0${layerId}` : `exportLayer:null`;
 }
