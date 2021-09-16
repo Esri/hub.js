@@ -9,8 +9,9 @@ import {
  * Search for teams
  * @param {ISearchOptions} searchRequestOptions
  * @returns {Promise<ISearchResult>}
+ * @private
  */
-export function searchTeams(
+export function _searchTeams(
   searchRequestOptions: ISearchOptions
 ): Promise<ISearchResult<IGroup>> {
   return searchGroups(searchRequestOptions);
