@@ -4,8 +4,9 @@ import { SortDirection } from "../../../src/types/common";
 import {
   IBooleanOperator,
   IContentSearchFilter,
-  IContentSearchOptions
+  IContentSearchOptions,
 } from "../../../src/types/content";
+import { btoa } from "@esri/hub-common";
 
 describe("Convert Portal Params Function", () => {
   it("can convert content filters to Portal API filters", () => {
@@ -23,8 +24,8 @@ describe("Convert Portal Params Function", () => {
       culture: ["en", "de"],
       categories: {
         value: ["category one", "category 2", "category three"],
-        bool: IBooleanOperator.AND
-      }
+        bool: IBooleanOperator.AND,
+      },
     };
 
     // Test
@@ -63,8 +64,8 @@ describe("Convert Portal Params Function", () => {
       culture: ["en", "de"],
       categories: {
         value: ["category one", "category 2", "category three"],
-        bool: IBooleanOperator.AND
-      }
+        bool: IBooleanOperator.AND,
+      },
     };
 
     // Test
@@ -101,7 +102,7 @@ describe("Convert Portal Params Function", () => {
       type: { value: null },
       access: "",
       culture: [],
-      categories: null
+      categories: null,
     };
 
     // Test
@@ -140,8 +141,8 @@ describe("Convert Portal Params Function", () => {
       culture: ["en", "de"],
       categories: {
         value: ["category one", "category 2", "category three"],
-        bool: IBooleanOperator.AND
-      }
+        bool: IBooleanOperator.AND,
+      },
     };
 
     const page: string = "eyJzdGFydCI6NSwibnVtIjoyMH0=";
@@ -149,7 +150,7 @@ describe("Convert Portal Params Function", () => {
     // Test
     const portalParams = convertToPortalParams({
       filter: filters,
-      options: { page }
+      options: { page },
     });
 
     // Assert
@@ -185,34 +186,36 @@ describe("Convert Portal Params Function", () => {
       culture: ["en", "de"],
       categories: {
         value: ["category one", "category 2", "category three"],
-        bool: IBooleanOperator.AND
-      }
+        bool: IBooleanOperator.AND,
+      },
+    };
+    const testInvalidPageOption = (pageOption: string) => {
+      // Test
+      const portalParams = convertToPortalParams({
+        filter: filters,
+        options: { page: pageOption },
+      });
+
+      // Assert
+      expect(portalParams).toBeDefined();
+      expect(portalParams.q).toBeDefined();
+      expect(portalParams.q).toEqual(
+        `(water) AND (owner: me OR owner: you) AND (created: [1609459200000 TO 1612137600000]) AND (modified: [1609459200000 TO 1612137600000]) AND (-title: "a title" AND -title: "b title") AND (typekeywords: "a type keyword") AND (tags: "tag 1" OR tags: "tag 2" OR tags: "tag 3") AND (type: "Feature Layer" OR type: "Table" OR type: "CSV") AND (access: private) AND (culture: en OR culture: de) AND (categories: "category one" AND categories: "category 2" AND categories: "category three") AND (-type: "code attachment")`
+      );
+      expect(portalParams.sortOrder).toBeUndefined();
+      expect(portalParams.sortField).toBeUndefined();
+      expect(portalParams.params).toBeDefined();
+      expect(portalParams.params.start).toBeDefined();
+      expect(portalParams.params.start).toEqual(1);
+      expect(portalParams.params.num).toBeDefined();
+      expect(portalParams.params.num).toEqual(10);
+      expect(portalParams.params.countFields).toBeUndefined();
+      expect(portalParams.params.countSize).toBeUndefined();
+      expect(portalParams.bbox).toBeUndefined();
     };
 
-    const page: string = "dummy";
-
-    // Test
-    const portalParams = convertToPortalParams({
-      filter: filters,
-      options: { page }
-    });
-
-    // Assert
-    expect(portalParams).toBeDefined();
-    expect(portalParams.q).toBeDefined();
-    expect(portalParams.q).toEqual(
-      `(water) AND (owner: me OR owner: you) AND (created: [1609459200000 TO 1612137600000]) AND (modified: [1609459200000 TO 1612137600000]) AND (-title: "a title" AND -title: "b title") AND (typekeywords: "a type keyword") AND (tags: "tag 1" OR tags: "tag 2" OR tags: "tag 3") AND (type: "Feature Layer" OR type: "Table" OR type: "CSV") AND (access: private) AND (culture: en OR culture: de) AND (categories: "category one" AND categories: "category 2" AND categories: "category three") AND (-type: "code attachment")`
-    );
-    expect(portalParams.sortOrder).toBeUndefined();
-    expect(portalParams.sortField).toBeUndefined();
-    expect(portalParams.params).toBeDefined();
-    expect(portalParams.params.start).toBeDefined();
-    expect(portalParams.params.start).toEqual(1);
-    expect(portalParams.params.num).toBeDefined();
-    expect(portalParams.params.num).toEqual(10);
-    expect(portalParams.params.countFields).toBeUndefined();
-    expect(portalParams.params.countSize).toBeUndefined();
-    expect(portalParams.bbox).toBeUndefined();
+    testInvalidPageOption("invalid base 64");
+    testInvalidPageOption(btoa("invalid serialized json"));
   });
 
   it("can convert content filters to Portal API filters with proper sorting", () => {
@@ -230,7 +233,7 @@ describe("Convert Portal Params Function", () => {
       culture: "en",
       categories: { value: ["category one", "category 2", "category three"] },
       orgid: ["org one", "org two"],
-      id: { value: ["1", "2", "3"], bool: IBooleanOperator.NOT }
+      id: { value: ["1", "2", "3"], bool: IBooleanOperator.NOT },
     };
 
     const portalOptions = { sortField: "title", sortOrder: SortDirection.desc };
@@ -238,7 +241,7 @@ describe("Convert Portal Params Function", () => {
     // Test
     const portalParams = convertToPortalParams({
       filter: filters,
-      options: portalOptions
+      options: portalOptions,
     });
 
     // Assert
@@ -276,19 +279,19 @@ describe("Convert Portal Params Function", () => {
       culture: "en",
       categories: { value: ["category one", "category 2", "category three"] },
       orgid: ["org one", "org two"],
-      id: { value: ["1", "2", "3"], bool: IBooleanOperator.NOT }
+      id: { value: ["1", "2", "3"], bool: IBooleanOperator.NOT },
     };
 
     const portalOptions = {
       sortField: "title",
       sortOrder: SortDirection.desc,
-      aggregations: "categories,type,access"
+      aggregations: "categories,type,access",
     };
 
     // Test
     const portalParams = convertToPortalParams({
       filter: filters,
-      options: portalOptions
+      options: portalOptions,
     });
 
     // Assert
@@ -328,20 +331,20 @@ describe("Convert Portal Params Function", () => {
       culture: "en",
       categories: { value: ["category one", "category 2", "category three"] },
       orgid: ["org one", "org two"],
-      id: { value: ["1", "2", "3"], bool: IBooleanOperator.NOT }
+      id: { value: ["1", "2", "3"], bool: IBooleanOperator.NOT },
     };
 
     const portalOptions = {
       sortField: "title",
       sortOrder: SortDirection.desc,
       aggregations: "categories,type,access",
-      bbox: "bbox"
+      bbox: "bbox",
     };
 
     // Test
     const portalParams = convertToPortalParams({
       filter: filters,
-      options: portalOptions
+      options: portalOptions,
     });
 
     // Assert
@@ -382,7 +385,7 @@ describe("Convert Portal Params Function", () => {
       culture: "en",
       categories: { value: ["category one", "category 2", "category three"] },
       orgid: ["org one", "org two"],
-      id: { value: ["1", "2", "3"], bool: IBooleanOperator.NOT }
+      id: { value: ["1", "2", "3"], bool: IBooleanOperator.NOT },
     };
 
     const portalOptions: IContentSearchOptions = {
@@ -391,14 +394,14 @@ describe("Convert Portal Params Function", () => {
       aggregations: "categories,type,access",
       bbox: "bbox",
       portal: "dummy-portal-sharing-one",
-      authentication: new UserSession({ portal: "dummy-portal-one" })
+      authentication: new UserSession({ portal: "dummy-portal-one" }),
     };
 
     // Test
     const portalParams = convertToPortalParams(
       {
         filter: filters,
-        options: portalOptions
+        options: portalOptions,
       },
       "dummy-portal-sharing-two",
       new UserSession({ portal: "dummy-portal-two" })
@@ -446,21 +449,21 @@ describe("Convert Portal Params Function", () => {
       culture: "en",
       categories: { value: ["category one", "category 2", "category three"] },
       orgid: ["org one", "org two"],
-      id: { value: ["1", "2", "3"], bool: IBooleanOperator.NOT }
+      id: { value: ["1", "2", "3"], bool: IBooleanOperator.NOT },
     };
 
     const portalOptions: IContentSearchOptions = {
       sortField: "title",
       sortOrder: SortDirection.desc,
       aggregations: "categories,type,access",
-      bbox: "bbox"
+      bbox: "bbox",
     };
 
     // Test
     const portalParams = convertToPortalParams(
       {
         filter: filters,
-        options: portalOptions
+        options: portalOptions,
       },
       "dummy-portal-sharing-two",
       new UserSession({ portal: "dummy-portal-two" })
@@ -508,20 +511,20 @@ describe("Convert Portal Params Function", () => {
       culture: "en",
       categories: { value: ["category one", "category 2", "category three"] },
       orgid: ["org one", "org two"],
-      id: { value: ["1", "2", "3"], bool: IBooleanOperator.NOT }
+      id: { value: ["1", "2", "3"], bool: IBooleanOperator.NOT },
     };
 
     const portalOptions: IContentSearchOptions = {
       sortField: "title",
       sortOrder: SortDirection.desc,
       aggregations: "categories,type,access",
-      bbox: "bbox"
+      bbox: "bbox",
     };
 
     // Test
     const portalParams = convertToPortalParams({
       filter: filters,
-      options: portalOptions
+      options: portalOptions,
     });
 
     // Assert

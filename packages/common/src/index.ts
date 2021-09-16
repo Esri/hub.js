@@ -24,3 +24,4 @@ import OperationStack from "./OperationStack";
 import OperationError from "./OperationError";
 // Re-exports
 export { OperationStack, OperationError };
+export { btoa, atob } from "abab";
