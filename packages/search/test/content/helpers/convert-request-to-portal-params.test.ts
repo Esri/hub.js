@@ -171,7 +171,7 @@ describe("Convert Portal Params Function", () => {
     expect(portalParams.bbox).toBeUndefined();
   });
 
-  fit("can handle an error occuring upon decoding a page", () => {
+  it("can handle an error occuring upon decoding a page", () => {
     // Setup
     const filters: IContentSearchFilter = {
       terms: "water",
