@@ -246,6 +246,86 @@ describe("getLayerContent", () => {
     );
     expect(layerContent.url).toEqual(content.url, "should not set url");
   });
+  it("zero-layered image service w/o layerId", () => {
+    const content = {
+      id: "3ae",
+      type: "Image Service",
+      title: "Item Title",
+      description: "Item description",
+      summary: "Item snippet",
+      layers: undefined,
+      url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/LocalGovernment/Recreation/FeatureServer",
+    } as IHubContent;
+    const layerContent = getLayerContent(content);
+    expect(layerContent).toBeFalsy();
+  });
+  it("zero-layered feature service w/o layerId", () => {
+    const content = {
+      id: "3ae",
+      type: "Feature Service",
+      title: "Item Title",
+      description: "Item description",
+      summary: "Item snippet",
+      layers: null,
+      url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/LocalGovernment/Recreation/FeatureServer",
+    } as IHubContent;
+    const layerContent = getLayerContent(content);
+    expect(layerContent).toBeFalsy();
+  });
+  it("zero-layered image service w/ layerId", () => {
+    const content = {
+      id: "3ae",
+      type: "Image Service",
+      title: "Item Title",
+      description: "Item description",
+      summary: "Item snippet",
+      layers: null,
+      url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/LocalGovernment/Recreation/FeatureServer",
+    } as IHubContent;
+    const layerId = 0;
+    const layerContent = getLayerContent(content, layerId);
+    expect(layerContent).toBeFalsy();
+  });
+  it("zero-layered feature service w/ layerId", () => {
+    const content = {
+      id: "3ae",
+      type: "Feature Service",
+      title: "Item Title",
+      description: "Item description",
+      summary: "Item snippet",
+      layers: null,
+      url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/LocalGovernment/Recreation/FeatureServer",
+    } as IHubContent;
+    const layerId = 0;
+    const layerContent = getLayerContent(content, layerId);
+    expect(layerContent).toBeFalsy();
+  });
+  it("image service w/ layerId and undefined layers", () => {
+    const content = {
+      id: "3ae",
+      type: "Image Service",
+      title: "Item Title",
+      description: "Item description",
+      summary: "Item snippet",
+      url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/LocalGovernment/Recreation/FeatureServer",
+    } as IHubContent;
+    const layerId = 0;
+    const layerContent = getLayerContent(content, layerId);
+    expect(layerContent).toBeFalsy();
+  });
+  it("feature service w/ layerId and undefined layers", () => {
+    const content = {
+      id: "3ae",
+      type: "Feature Service",
+      title: "Item Title",
+      description: "Item description",
+      summary: "Item snippet",
+      url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/LocalGovernment/Recreation/FeatureServer",
+    } as IHubContent;
+    const layerId = 0;
+    const layerContent = getLayerContent(content, layerId);
+    expect(layerContent).toBeFalsy();
+  });
 });
 
 describe("enrichDates", () => {
