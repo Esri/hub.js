@@ -246,6 +246,11 @@ describe("getLayerContent", () => {
     );
     expect(layerContent.url).toEqual(content.url, "should not set url");
   });
+  /**
+   * The following series of tests is to account for occurrences of items that have been uploaded as a
+   * type Feature Service, but are actually other types of services that may not have layers. This is a bug.
+   * See the PR for link to bug description: https://github.com/Esri/hub.js/pull/633
+   */
   it("zero-layered image service w/o layerId", () => {
     const content = {
       id: "3ae",
