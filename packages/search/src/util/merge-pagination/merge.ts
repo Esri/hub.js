@@ -1,4 +1,4 @@
-import { encode } from "base-64";
+import { btoa as encode } from "@esri/hub-common";
 import { InvalidPaginationInputError } from "./invalid-pagination-input";
 
 /**
