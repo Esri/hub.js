@@ -203,9 +203,8 @@ function buildExportTypesClause(
 
 /**
  * Generates typekeyword for identifying which spatialRefId an export is
- * @param spatialRefId
- * @param supportsProjection
- * @returns
+ * @param spatialRefId - either a WKID, WKT, or stringified ISpatialReference
+ * @private
  */
 export function getSpatialRefTypeKeyword(spatialRefId: string) {
   const parsedSpatialReference = parseSpatialRefId(spatialRefId);
@@ -217,8 +216,8 @@ export function getSpatialRefTypeKeyword(spatialRefId: string) {
 
 /**
  * Returns the keyword identifying exports by the item they originate from
- * @param itemId
- * @returns
+ * @param itemId - ID for the item from which the export originated
+ * @private
  */
 export function getExportItemTypeKeyword(itemId: string) {
   return `exportItem:${itemId}`;
@@ -226,8 +225,8 @@ export function getExportItemTypeKeyword(itemId: string) {
 
 /**
  * Returns the keyword identifying exports by the layer they originate from
- * @param layerId
- * @returns
+ * @param layerId - ID for the layer from which the export originated
+ * @private
  */
 export function getExportLayerTypeKeyword(layerId?: number | string) {
   // NOTE - Layer Id's need to be padded with "0" so that /search results are predictable. Searches for typeKeywords:"exportLayer:1" don't work.
