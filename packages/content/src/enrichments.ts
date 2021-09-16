@@ -37,7 +37,7 @@ const getLayer = (content: IHubContent, layerId?: number) => {
 };
 
 const getOnlyQueryLayer = (layers: ILayerDefinition[] = []) => {
-  const layer = layers.length === 1 && layers[0];
+  const layer = Array.isArray(layers) && layers.length === 1 && layers[0];
   return layer && layer.capabilities.includes("Query") && layer;
 };
 
