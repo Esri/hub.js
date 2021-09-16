@@ -14,6 +14,7 @@
     "dist/**"
   ],
   "dependencies": {
+    "abab": "^2.0.5",
     "adlib": "^3.0.7",
     "tslib": "^1.13.0"
   },
