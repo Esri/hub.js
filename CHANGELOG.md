@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [8.21.0] - September 17th 2021
+
+### Other Changes
+
+* New Features
+   * **hub-common**: add new add-IHubTeam type [`87a9fb2cc`](https://github.com/Esri/hub.js/commit/87a9fb2cc75206ef850adbe73dcf953b95b81ad2)
+   * **hub-common**: add itemToContent and related functions [`962a31335`](https://github.com/Esri/hub.js/commit/962a3133523a459506811d1963c0890ce5c21a91)
+   * **hub-common**: add datasetToContent() and datasetToItem() [`0951b59f5`](https://github.com/Esri/hub.js/commit/0951b59f5538988e74deb8a2cdd10212bd081ef8)
+* Bug Fixes
+   * **hub-common**: hupApiUrl, isPortal, and authentication options should be optional [`5a13718f6`](https://github.com/Esri/hub.js/commit/5a13718f6b1b3dd3f77df99ab526f13716ea4144)
+   * **hub-common**: hupApiUrl, isPortal, and authentication options shou… [`7aa7ade7c`](https://github.com/Esri/hub.js/commit/7aa7ade7c6ab84f53f08f8bab0c6a7ccd3d016c0)
+   * **hub-content**: not updating family and normalizedType for layer contnet [`10ca039e5`](https://github.com/Esri/hub.js/commit/10ca039e5cdfc7cb57feaaf0bc06f8f552c21eb5)
+
 ## [8.20.0] - September 16th 2021
 
 ### Other Changes
@@ -210,7 +223,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - **hub-teams**: add canEditTeam [`d2c9fecf`](https://github.com/Esri/hub.js/commit/d2c9fecf0314e35ee5c1acb9583684f18740f0b1)
   - **hub-teams**: add username check [`36a8b792`](https://github.com/Esri/hub.js/commit/36a8b7924ef7cf11ac2f2e81abe0d9ca49e86ec7)
   - **hub-teams**: add canEditTeam tests [`d4d52c18`](https://github.com/Esri/hub.js/commit/d4d52c1879c01f44770c16de242822ce41ba2708)
-  - **hub-teams**: add case when user is not auth&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;#39;d [`295e04a7`](https://github.com/Esri/hub.js/commit/295e04a7189151c827a25dcf9222c76448df71f7)
+  - **hub-teams**: add case when user is not auth&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;#39;d [`295e04a7`](https://github.com/Esri/hub.js/commit/295e04a7189151c827a25dcf9222c76448df71f7)
 
 ## [8.7.0] - June 25th 2021
 
@@ -1885,4 +1898,5 @@ Initial Release
 [8.18.0]: https://github.com/Esri/hub.js/compare/v8.17.3...v8.18.0 "v8.18.0"
 [8.19.0]: https://github.com/Esri/hub.js/compare/v8.18.0...v8.19.0 "v8.19.0"
 [8.20.0]: https://github.com/Esri/hub.js/compare/v8.19.0...v8.20.0 "v8.20.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v8.20.0...HEAD "Unreleased Changes"
+[8.21.0]: https://github.com/Esri/hub.js/compare/v8.20.0...v8.21.0 "v8.21.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v8.21.0...HEAD "Unreleased Changes"
