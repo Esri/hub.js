@@ -2,8 +2,14 @@ import {
   updateItem,
   removeItem,
   moveItem,
-  setItemAccess
+  setItemAccess,
 } from "@esri/arcgis-rest-portal";
+import {
+  getExportLayerTypeKeyword,
+  getExportItemTypeKeyword,
+  getSpatialRefTypeKeyword,
+  parseDatasetId,
+} from "@esri/hub-common";
 import { urlBuilder } from "../utils";
 import { getExportsFolderId } from "./portal-get-exports-folder-id";
 import { DownloadStatus } from "../download-status";
@@ -19,41 +25,43 @@ export function exportSuccessHandler(params: any): Promise<any> {
     exportCreated,
     spatialRefId,
     eventEmitter,
-    authentication
+    authentication,
   } = params;
 
-  const [itemId, layerId] = datasetId.split("_");
+  const { itemId, layerId } = parseDatasetId(datasetId);
 
-  // Layer Id's need to be padded with 0 so that /search results are predictable. Searches for exportLayer:1 don't work.
-  const exportKeyword = layerId
-    ? `exportItem:${itemId},exportLayer:0${layerId}`
-    : `exportItem:${itemId},exportLayer:null`;
+  const typeKeywords = [
+    getExportItemTypeKeyword(itemId),
+    getExportLayerTypeKeyword(layerId),
+    `modified:${exportCreated}`, // TODO - is this typekeyword still used for anything?
+    getSpatialRefTypeKeyword(spatialRefId),
+  ];
 
   return updateItem({
     item: {
       id: downloadId,
-      typekeywords: `${exportKeyword},modified:${exportCreated},spatialRefId:${spatialRefId}`
+      typekeywords: typeKeywords.join(","),
     },
-    authentication
+    authentication,
   })
     .then(() => {
       return setItemAccess({
         id: downloadId,
         authentication,
-        access: "private"
+        access: "private",
       });
     })
     .then(() => {
       return getExportsFolderId(authentication);
     })
-    .then(exportFolderId => {
+    .then((exportFolderId) => {
       return moveItem({
         itemId: downloadId,
         folderId: exportFolderId,
-        authentication
+        authentication,
       });
     })
-    .catch(err => {
+    .catch((err) => {
       if (err && err.code === "CONT_0011") {
         // Skipping file move, already exists in target folder
         return;
@@ -61,7 +69,7 @@ export function exportSuccessHandler(params: any): Promise<any> {
 
       removeItem({
         id: downloadId,
-        authentication
+        authentication,
       });
       throw new ExportCompletionError(err.message);
     })
@@ -75,10 +83,10 @@ export function exportSuccessHandler(params: any): Promise<any> {
             downloadUrl: urlBuilder({
               host: authentication.portal,
               route: `content/items/${downloadId}/data`,
-              query: { token: authentication.token }
-            })
-          }
-        }
+              query: { token: authentication.token },
+            }),
+          },
+        },
       });
     });
 }

@@ -1,5 +1,4 @@
-import { decode } from "base-64";
-import { Logger } from "@esri/hub-common";
+import { Logger, atob as decode } from "@esri/hub-common";
 import { IPagingParams, ISearchOptions } from "@esri/arcgis-rest-portal";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import {
@@ -7,13 +6,13 @@ import {
   IContentSearchFilter,
   IContentSearchOptions,
   IContentSearchRequest,
-  IContentFieldFilter
+  IContentFieldFilter,
 } from "../../types/content";
 import { IDateRange } from "../../types/common";
 import {
   isFilterAnArrayWithData,
   isFilterANonEmptyString,
-  isFilterFieldADateRange
+  isFilterFieldADateRange,
 } from "./common";
 
 const TERM_FIELD = "terms";
@@ -25,7 +24,7 @@ const STRING_ENCLOSED_FILTER_FIELDS = [
   "description",
   "tags",
   "snippet",
-  "categories"
+  "categories",
 ];
 
 /**
@@ -72,7 +71,7 @@ export function processPage(request: IContentSearchRequest): IPagingParams {
   const options: IContentSearchOptions = request.options || {};
   const providedPage: IPagingParams | string = options.page || {
     start: 1,
-    num: 10
+    num: 10,
   };
   return typeof providedPage === "string"
     ? decodePage(providedPage)
@@ -94,12 +93,12 @@ function createSearchOptions(
       countFields: options.aggregations,
       countSize: options.aggregations ? 200 : undefined,
       start: page.start,
-      num: page.num
+      num: page.num,
     },
     bbox: options.bbox,
     portal: options.portal || defaultPortal,
     authentication: options.authentication || defaultAuthentication,
-    httpMethod: "POST"
+    httpMethod: "POST",
   };
 }
 
@@ -143,8 +142,9 @@ function processDateField(
   filterField: string,
   filterValue: IDateRange<number>
 ) {
-  return `(${filterField}: [${filterValue.from || 0} TO ${filterValue.to ||
-    new Date().getTime()}])`;
+  return `(${filterField}: [${filterValue.from || 0} TO ${
+    filterValue.to || new Date().getTime()
+  }])`;
 }
 
 function processFieldFilter(
@@ -181,6 +181,9 @@ function stringifyFilterValue(
 function decodePage(page: string): IPagingParams {
   try {
     const decodedPage: any = decode(page);
+    if (decodedPage === null) {
+      throw new Error();
+    }
     return JSON.parse(decodedPage);
   } catch (err) {
     Logger.error(
