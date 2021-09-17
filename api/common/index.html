@@ -283,6 +283,14 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/datasetToContent/" class="tsd-kind-icon padding-right-1">datasetToContent</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/datasetToItem/" class="tsd-kind-icon padding-right-1">datasetToItem</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/deepSet/" class="tsd-kind-icon padding-right-1">deepSet</a>
             </li>
             
@@ -399,6 +407,10 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/getFamily/" class="tsd-kind-icon padding-right-1">getFamily</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/getGeographicOrgExtent/" class="tsd-kind-icon padding-right-1">getGeographicOrgExtent</a>
             </li>
             
@@ -440,6 +452,10 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/getItemHubId/" class="tsd-kind-icon padding-right-1">getItemHubId</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/getItemHubType/" class="tsd-kind-icon padding-right-1">getItemHubType</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -596,6 +612,10 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/isValidExtent/" class="tsd-kind-icon padding-right-1">isValidExtent</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/itemToContent/" class="tsd-kind-icon padding-right-1">itemToContent</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -803,6 +823,10 @@
             </li>
             
             <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/DatasetResource/" class="tsd-kind-icon padding-right-1">DatasetResource</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/GenericAsyncFunc/" class="tsd-kind-icon padding-right-1">GenericAsyncFunc</a>
             </li>
             
@@ -1004,14 +1028,6 @@
           <ul id="list3" class="api-package-content-list">
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
-              <a href="/hub.js/api/content/datasetToContent/" class="tsd-kind-icon padding-right-1">datasetToContent</a>
-            </li>
-            
-            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
-              <a href="/hub.js/api/content/datasetToItem/" class="tsd-kind-icon padding-right-1">datasetToItem</a>
-            </li>
-            
-            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/content/enrichContent/" class="tsd-kind-icon padding-right-1">enrichContent</a>
             </li>
             
@@ -1036,23 +1052,11 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
-              <a href="/hub.js/api/content/getFamily/" class="tsd-kind-icon padding-right-1">getFamily</a>
-            </li>
-            
-            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
-              <a href="/hub.js/api/content/getItemHubType/" class="tsd-kind-icon padding-right-1">getItemHubType</a>
-            </li>
-            
-            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/content/getLayerContent/" class="tsd-kind-icon padding-right-1">getLayerContent</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/content/getPortalUrls/" class="tsd-kind-icon padding-right-1">getPortalUrls</a>
-            </li>
-            
-            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
-              <a href="/hub.js/api/content/itemToContent/" class="tsd-kind-icon padding-right-1">itemToContent</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -1065,10 +1069,6 @@
             
             <li class="tsd-kind-enumeration padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/content/UpdateFrequency/" class="tsd-kind-icon padding-right-1">UpdateFrequency</a>
-            </li>
-            
-            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
-              <a href="/hub.js/api/content/DatasetResource/" class="tsd-kind-icon padding-right-1">DatasetResource</a>
             </li>
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
@@ -2403,6 +2403,8 @@
   createExtent,
   createId,
   createOperationPipeline,
+  datasetToContent,
+  datasetToItem,
   deepSet,
   deepStringReplace,
   deleteProp,
@@ -2432,6 +2434,7 @@
   getContentIdentifier,
   getCulture,
   getDomainsForSite,
+  getFamily,
   getGeographicOrgExtent,
   getHubApiUrl,
   getHubApiUrlFromPortal,
@@ -2443,6 +2446,7 @@
   getItemDataUrl,
   getItemHomeUrl,
   getItemHubId,
+  getItemHubType,
   getItemLayerId,
   getItemThumbnailUrl,
   getLayerIdFromUrl,
@@ -2482,6 +2486,7 @@
   isUpdateGroup,
   isValidDomain,
   isValidExtent,
+  itemToContent,
   last,
   lookupDomain,
   mapBy,
@@ -2634,6 +2639,14 @@
   </li>
   
   <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/datasetToContent/" class="tsd-kind-icon">datasetToContent</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/datasetToItem/" class="tsd-kind-icon">datasetToItem</a>
+  </li>
+  
+  <li class="tsd-kind-function">
     <a href="/hub.js/api/common/deepSet/" class="tsd-kind-icon">deepSet</a>
   </li>
   
@@ -2750,6 +2763,10 @@
   </li>
   
   <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/getFamily/" class="tsd-kind-icon">getFamily</a>
+  </li>
+  
+  <li class="tsd-kind-function">
     <a href="/hub.js/api/common/getGeographicOrgExtent/" class="tsd-kind-icon">getGeographicOrgExtent</a>
   </li>
   
@@ -2791,6 +2808,10 @@
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/common/getItemHubId/" class="tsd-kind-icon">getItemHubId</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/getItemHubType/" class="tsd-kind-icon">getItemHubType</a>
   </li>
   
   <li class="tsd-kind-function">
@@ -2947,6 +2968,10 @@
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/common/isValidExtent/" class="tsd-kind-icon">isValidExtent</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/itemToContent/" class="tsd-kind-icon">itemToContent</a>
   </li>
   
   <li class="tsd-kind-function">
@@ -3151,6 +3176,10 @@
   
   <li class="tsd-kind-type-alias">
     <a href="/hub.js/api/common/AccessControl/" class="tsd-kind-icon">AccessControl</a>
+  </li>
+  
+  <li class="tsd-kind-type-alias">
+    <a href="/hub.js/api/common/DatasetResource/" class="tsd-kind-icon">DatasetResource</a>
   </li>
   
   <li class="tsd-kind-type-alias">
