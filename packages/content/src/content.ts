@@ -1,9 +1,14 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { getItemHubId, IHubContent, IModel } from "@esri/hub-common";
+import {
+  getItemHubId,
+  itemToContent,
+  IHubContent,
+  IModel,
+} from "@esri/hub-common";
 import { IGetContentOptions, getContentFromHub } from "./hub";
-import { getContentFromPortal, itemToContent } from "./portal";
+import { getContentFromPortal } from "./portal";
 import { enrichContent } from "./enrichments";
 import { isSlug, parseDatasetId } from "./slugs";
 
@@ -23,7 +28,7 @@ function getContentById(
     const { itemId } = parseDatasetId(identifier);
     getContentPromise = getContentFromPortal(itemId, options);
   } else {
-    getContentPromise = getContentFromHub(identifier, options).catch(e => {
+    getContentPromise = getContentFromHub(identifier, options).catch((e) => {
       // dataset is not in index (i.e. might be a private item)
       if (!isSlug(identifier)) {
         // try fetching from portal instead

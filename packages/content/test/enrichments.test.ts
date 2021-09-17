@@ -193,6 +193,8 @@ describe("getLayerContent", () => {
     let layerContent = getLayerContent(content, layerId);
     let layer = layers[0];
     expect(layerContent.layer).toEqual(layer, "should set layer");
+    expect(layerContent.type).toBe(layer.type, "should set type");
+    expect(layerContent.family).toBe("dataset", "should set family");
     expect(layerContent.title).toEqual(layer.name, "should set title");
     expect(layerContent.description).toEqual(
       layer.description,
@@ -235,6 +237,8 @@ describe("getLayerContent", () => {
     } as IHubContent;
     const layerContent = getLayerContent(content);
     expect(layerContent.layer).toEqual(layer, "should set layer");
+    expect(layerContent.type).toBe(layer.type, "should set type");
+    expect(layerContent.family).toBe("dataset", "should set family");
     expect(layerContent.title).toEqual(content.title, "should not set title");
     expect(layerContent.description).toEqual(
       content.description,
