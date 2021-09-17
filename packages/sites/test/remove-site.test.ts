@@ -5,18 +5,18 @@ import * as removeGroupsModule from "../src/_remove-site-groups";
 import * as removeInitModule from "../src/_remove-parent-initiative";
 import * as removeDomainsModule from "../src/_remove-site-domains";
 import * as removeIndexModule from "../src/_remove-site-from-index";
-import { IModel, IHubRequestOptions } from "@esri/hub-common";
+import { IModel, IHubUserRequestOptions } from "@esri/hub-common";
 
 function expectAllCalled(spys: jasmine.Spy[], expect: any) {
-  spys.forEach(spy => expect(spy).toHaveBeenCalled());
+  spys.forEach((spy) => expect(spy).toHaveBeenCalled());
 }
 
 describe("removeSite", () => {
   const siteModelFromApi = {
     item: {
       id: "id-from-api",
-      owner: "owner-from-api"
-    }
+      owner: "owner-from-api",
+    },
   } as IModel;
 
   let getModelSpy: jasmine.Spy;
@@ -60,11 +60,11 @@ describe("removeSite", () => {
     const model = {
       item: {
         id: "some-id",
-        owner: "some-owner"
-      }
+        owner: "some-owner",
+      },
     } as IModel;
 
-    await removeSite(model, {} as IHubRequestOptions);
+    await removeSite(model, {} as IHubUserRequestOptions);
 
     expectAllCalled(
       [
@@ -73,7 +73,7 @@ describe("removeSite", () => {
         removeSiteSpy,
         removeInitSpy,
         removeDomainsSpy,
-        removeIndexSpy
+        removeIndexSpy,
       ],
       expect
     );
@@ -86,7 +86,7 @@ describe("removeSite", () => {
   it("removes a site when given an id", async () => {
     const id = "some-id";
 
-    await removeSite(id, {} as IHubRequestOptions);
+    await removeSite(id, {} as IHubUserRequestOptions);
 
     expect(getModelSpy).toHaveBeenCalled();
 
@@ -97,7 +97,7 @@ describe("removeSite", () => {
         removeSiteSpy,
         removeInitSpy,
         removeDomainsSpy,
-        removeIndexSpy
+        removeIndexSpy,
       ],
       expect
     );
@@ -111,7 +111,7 @@ describe("removeSite", () => {
     unlinkSpy.and.returnValue(Promise.reject());
 
     try {
-      await removeSite(id, {} as IHubRequestOptions);
+      await removeSite(id, {} as IHubUserRequestOptions);
       fail("should reject");
     } catch (err) {
       expect(err).toBeDefined();

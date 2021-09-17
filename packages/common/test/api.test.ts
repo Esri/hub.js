@@ -1,5 +1,6 @@
 import { getHubApiUrl } from "../src/api";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { IHubRequestOptions } from "../src/types";
 
 describe("getHubApiUrl", () => {
   let ro: IRequestOptions;
@@ -9,8 +10,8 @@ describe("getHubApiUrl", () => {
         portal: null,
         getToken() {
           return Promise.resolve("FAKE-TOKEN");
-        }
-      }
+        },
+      },
     };
   });
 
@@ -49,5 +50,13 @@ describe("getHubApiUrl", () => {
   it("can retrieve dev base url 2", () => {
     ro.authentication.portal = "https://devext.arcgis.com/sharing/rest";
     expect(getHubApiUrl(ro)).toBe("https://hubdev.arcgis.com");
+  });
+
+  it("returns existing hubApiUrl on IHubRequestOptions", () => {
+    const hubApiUrl = "fake.url.com";
+    const hro: IHubRequestOptions = {
+      hubApiUrl,
+    };
+    expect(getHubApiUrl(hro)).toBe(hubApiUrl);
   });
 });

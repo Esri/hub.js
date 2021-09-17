@@ -1,4 +1,4 @@
-import { IModel, IHubRequestOptions } from "@esri/hub-common";
+import { IHubUserRequestOptions, IModel } from "@esri/hub-common";
 import { updateSite } from "../update-site";
 import { updatePage, isPage } from "../pages";
 import { isSite } from "../is-site";
@@ -10,11 +10,11 @@ import { hasUnpublishedChanges } from "./has-unpublished-changes";
  * leaving everything else on the model alone.
  *
  * @param siteOrPageModel
- * @param hubRequestOptions
+ * @param requestOptions
  */
 export function savePublishedStatus(
   siteOrPageModel: IModel,
-  hubRequestOptions: IHubRequestOptions
+  requestOptions: IHubUserRequestOptions
 ): Promise<IUpdateItemResponse> {
   const allowList = ["item.typeKeywords"]; // only want to save typeKeywords
   const { item } = siteOrPageModel;
@@ -28,14 +28,14 @@ export function savePublishedStatus(
     // changes
     const isUnpublished = hasUnpublishedChanges(siteOrPageModel);
     prms = updateSite(siteOrPageModel, {
-      ...hubRequestOptions,
+      ...requestOptions,
       allowList,
-      updateVersions: !isUnpublished
+      updateVersions: !isUnpublished,
     });
   } else if (isPage(item)) {
     prms = updatePage(siteOrPageModel, {
-      ...hubRequestOptions,
-      allowList
+      ...requestOptions,
+      allowList,
     });
   } else {
     throw TypeError(

@@ -2,32 +2,32 @@ import { savePublishedStatus, UNPUBLISHED_CHANGES_KW } from "../../src/drafts";
 import * as pagesModule from "../../src/pages";
 import * as updateSiteModule from "../../src/update-site";
 import { getSiteItemType, getPageItemType } from "../../src";
-import { IHubRequestOptions, IModel, cloneObject } from "@esri/hub-common";
+import { IHubUserRequestOptions, IModel, cloneObject } from "@esri/hub-common";
 
 describe("savePublishedStatus", () => {
   const ro = {
-    isPortal: false
-  } as IHubRequestOptions;
+    isPortal: false,
+  } as IHubUserRequestOptions;
 
   const siteModel = {
     item: {
       type: getSiteItemType(ro.isPortal),
-      typeKeywords: [UNPUBLISHED_CHANGES_KW]
+      typeKeywords: [UNPUBLISHED_CHANGES_KW],
     },
-    data: {}
+    data: {},
   } as IModel;
 
   const pageModel = {
     item: {
       type: getPageItemType(ro.isPortal),
-      typeKeywords: [UNPUBLISHED_CHANGES_KW]
+      typeKeywords: [UNPUBLISHED_CHANGES_KW],
     },
-    data: {}
+    data: {},
   } as IModel;
 
   let updatePageSpy: jasmine.Spy;
   let updateSiteSpy: jasmine.Spy;
-  beforeEach(function() {
+  beforeEach(function () {
     updatePageSpy = spyOn(pagesModule, "updatePage").and.returnValue(
       Promise.resolve()
     );
@@ -41,7 +41,7 @@ describe("savePublishedStatus", () => {
     expect(updateSiteSpy).toHaveBeenCalledWith(siteModel, {
       ...ro,
       allowList: ["item.typeKeywords"],
-      updateVersions: false
+      updateVersions: false,
     });
     expect(updatePageSpy).not.toHaveBeenCalled();
   });
@@ -54,7 +54,7 @@ describe("savePublishedStatus", () => {
     expect(updateSiteSpy).toHaveBeenCalledWith(cloned, {
       ...ro,
       allowList: ["item.typeKeywords"],
-      updateVersions: true
+      updateVersions: true,
     });
     expect(updatePageSpy).not.toHaveBeenCalled();
   });
@@ -64,7 +64,7 @@ describe("savePublishedStatus", () => {
 
     expect(updatePageSpy).toHaveBeenCalledWith(pageModel, {
       ...ro,
-      allowList: ["item.typeKeywords"]
+      allowList: ["item.typeKeywords"],
     });
     expect(updateSiteSpy).not.toHaveBeenCalled();
   });

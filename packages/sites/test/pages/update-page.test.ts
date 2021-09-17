@@ -1,30 +1,30 @@
 import { updatePage } from "../../src";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as commonModule from "@esri/hub-common";
-import { IModel, IHubRequestOptions, cloneObject } from "@esri/hub-common";
+import { IModel, IHubUserRequestOptions, cloneObject } from "@esri/hub-common";
 
 describe("updatePage", () => {
-  const model = ({
+  const model = {
     item: {
       id: "page-id",
       url: "to-be-deleted",
       someOtherProp: "new version",
-      title: "new title"
+      title: "new title",
     },
     data: {
       values: {
         layout: "new-layout",
         updatedAt: "some-past-ISO",
-        updatedBy: "chewie"
-      }
-    }
-  } as unknown) as IModel;
+        updatedBy: "chewie",
+      },
+    },
+  } as unknown as IModel;
 
   const ro = {
     authentication: {
-      username: "tate"
-    }
-  } as IHubRequestOptions;
+      username: "tate",
+    },
+  } as IHubUserRequestOptions;
 
   let updateSpy: jasmine.Spy;
   beforeEach(() => {
@@ -38,7 +38,7 @@ describe("updatePage", () => {
 
     const updateSiteOptions = {
       ...ro,
-      allowList: [] as string[]
+      allowList: [] as string[],
     };
 
     await updatePage(cloneObject(model), updateSiteOptions);
@@ -67,15 +67,15 @@ describe("updatePage", () => {
         url: "old url",
         title: "old title",
         someOtherProp: "old version",
-        id: "page-id"
+        id: "page-id",
       },
       data: {
         values: {
           layout: "old-layout",
           updatedAt: "some-past-ISO",
-          updatedBy: "chewie"
-        }
-      }
+          updatedBy: "chewie",
+        },
+      },
     };
 
     const getModelSpy = spyOn(commonModule, "getModel").and.returnValue(
@@ -84,7 +84,7 @@ describe("updatePage", () => {
 
     const updateSiteOptions = {
       ...ro,
-      allowList: ["item.title"]
+      allowList: ["item.title"],
     };
 
     await updatePage(cloneObject(model), updateSiteOptions);

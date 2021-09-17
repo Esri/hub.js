@@ -1,9 +1,9 @@
 import {
   IModel,
-  IHubRequestOptions,
+  IHubUserRequestOptions,
   getModel,
   _unprotectAndRemoveItem,
-  failSafe
+  failSafe,
 } from "@esri/hub-common";
 import { unlinkPagesFromSite } from "./unlink-pages-from-site";
 import { _removeSiteGroups } from "./_remove-site-groups";
@@ -21,11 +21,11 @@ import { _removeSiteFromIndex } from "./_remove-site-from-index";
  * * removes the site item
  *
  * @param {string || Object} idOrModel Id of the site or a site model
- * @param {IHubRequestOptions} hubRequestOptions
+ * @param {IHubUserRequestOptions} hubRequestOptions
  */
 export function removeSite(
   idOrModel: string | IModel,
-  hubRequestOptions: IHubRequestOptions
+  hubRequestOptions: IHubUserRequestOptions
 ) {
   let modelPromise: Promise<IModel>;
   if (typeof idOrModel === "string") {
@@ -35,7 +35,7 @@ export function removeSite(
   }
   let siteModel: IModel;
   return modelPromise
-    .then(model => {
+    .then((model) => {
       siteModel = model;
       return unlinkPagesFromSite(siteModel, hubRequestOptions);
     })
@@ -66,7 +66,7 @@ export function removeSite(
         hubRequestOptions
       );
     })
-    .catch(err => {
+    .catch((err) => {
       throw Error(`removeSite: Error removing site: ${err}`);
     });
 }
