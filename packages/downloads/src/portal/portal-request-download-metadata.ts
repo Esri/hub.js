@@ -14,6 +14,7 @@ import { isDownloadEnabled } from "./utils";
 import { isRecentlyUpdated } from "./utils";
 import { buildExistingExportsPortalQuery } from "@esri/hub-common";
 import { parseDatasetId } from "@esri/hub-common";
+import { IDownloadMetadataResults } from "..";
 
 enum ItemTypes {
   FeatureService = "Feature Service",
@@ -29,7 +30,7 @@ const isCollectionType = (format: DownloadFormat) =>
 export interface IPortalDownloadMetadataRequestParams {
   datasetId: string;
   format: DownloadFormat;
-  authentication: UserSession;
+  authentication?: UserSession;
   portal?: string; // optional if authentication is provided
   spatialRefId?: string;
   target?: DownloadTarget;
@@ -48,8 +49,9 @@ export interface ICacheSearchMetadata {
  */
 export function portalRequestDownloadMetadata(
   params: IPortalDownloadMetadataRequestParams
-): Promise<any> {
-  const { datasetId, authentication, format, spatialRefId, target } = params;
+): Promise<IDownloadMetadataResults> {
+  const { datasetId, authentication, format, spatialRefId, target, portal } =
+    params;
 
   const { itemId, layerId } = parseDatasetId(datasetId);
 
@@ -58,7 +60,7 @@ export function portalRequestDownloadMetadata(
   let itemType: string;
   let fetchedItem: IItem;
 
-  return getItem(itemId, { authentication })
+  return getItem(itemId, { authentication, portal })
     .then((item: IItem) => {
       const { type, modified, url } = item;
       fetchedItem = item;
@@ -71,6 +73,7 @@ export function portalRequestDownloadMetadata(
         modified,
         format,
         layerId,
+        portal,
       });
     })
     .then((metadata: ICacheSearchMetadata) => {
@@ -86,6 +89,7 @@ export function portalRequestDownloadMetadata(
         sortField: "modified",
         sortOrder: "DESC",
         authentication,
+        portal,
       });
     })
     .then((searchResponse: any) => {
@@ -100,6 +104,7 @@ export function portalRequestDownloadMetadata(
         authentication,
         target,
         item: fetchedItem,
+        portal,
       });
     })
     .catch((err: any) => {
@@ -108,7 +113,8 @@ export function portalRequestDownloadMetadata(
 }
 
 function fetchCacheSearchMetadata(params: any): Promise<ICacheSearchMetadata> {
-  const { format, layerId, url, type, modified, authentication } = params;
+  const { format, layerId, url, type, modified, authentication, portal } =
+    params;
 
   if (type !== ItemTypes.FeatureService && type !== ItemTypes.MapService) {
     return Promise.resolve({
@@ -117,11 +123,11 @@ function fetchCacheSearchMetadata(params: any): Promise<ICacheSearchMetadata> {
     });
   }
 
-  return getService({ url, authentication })
+  return getService({ url, authentication, portal })
     .then((response: IFeatureServiceDefinition) => {
       const layers: ILayerDefinition[] = response.layers || [];
       const promises: Array<Promise<ILayerDefinition>> = layers.map((layer) => {
-        return getLayer({ url: `${url}/${layer.id}`, authentication });
+        return getLayer({ url: `${url}/${layer.id}`, authentication, portal });
       });
       return Promise.all(promises);
     })
@@ -164,7 +170,7 @@ function extractLastEditDate(layers: ILayerDefinition[]) {
   return result[0];
 }
 
-function formatDownloadMetadata(params: any) {
+function formatDownloadMetadata(params: any): IDownloadMetadataResults {
   const {
     cachedDownload,
     serviceLastEditDate,
@@ -172,6 +178,7 @@ function formatDownloadMetadata(params: any) {
     target,
     item,
     format,
+    portal,
   } = params;
 
   const lastEditDate =
@@ -203,9 +210,9 @@ function formatDownloadMetadata(params: any) {
     contentLastModified: new Date(created).toISOString(),
     lastModified: new Date(created).toISOString(),
     downloadUrl: urlBuilder({
-      host: authentication.portal,
+      host: portal || authentication.portal,
       route: `content/items/${id}/data`,
-      query: { token: authentication.token },
+      query: { token: authentication?.token },
     }),
   };
 }
