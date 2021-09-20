@@ -3847,8 +3847,8 @@ describe("portalRequestDownloadMetadata", () => {
             "http://portal.com/sharing/rest/content/items/abcdef/data?token=123",
         });
 
-        expect(portal.getItem).toHaveBeenCalledTimes(1);
-        expect((portal.getItem as any).calls.first().args).toEqual([
+        expect(portalModule.getItem).toHaveBeenCalledTimes(1);
+        expect((portalModule.getItem as any).calls.first().args).toEqual([
           "abcdef0123456789abcdef0123456789",
           {
             authentication,
@@ -3856,8 +3856,8 @@ describe("portalRequestDownloadMetadata", () => {
           },
         ]);
 
-        expect(portal.searchItems).toHaveBeenCalledTimes(1);
-        expect((portal.searchItems as any).calls.first().args).toEqual([
+        expect(portalModule.searchItems).toHaveBeenCalledTimes(1);
+        expect((portalModule.searchItems as any).calls.first().args).toEqual([
           {
             q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:null") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
             num: 1,
