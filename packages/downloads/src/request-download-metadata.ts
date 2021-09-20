@@ -8,8 +8,8 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 export interface IDownloadMetadataRequestParams {
   /* API target for downloads: 'hub' (default), 'portal', 'enterprise' */
   target?: DownloadTarget;
-  /* Hub API host name. Not required for Portal API downloads (stored in the authentication object) */
-  host?: string;
+  /* Hub API host name. */
+  host: string;
   /* ID for the downloads source dataset; e.g. "abcdef0123456789abcdef0123456789_0" */
   datasetId: string;
   /* Download format/file-type. */
@@ -91,7 +91,7 @@ export function requestDownloadMetadata(
     geometry,
     where,
     target,
-    authentication
+    authentication,
   } = params;
 
   if (!target || target === "hub") {
@@ -101,15 +101,16 @@ export function requestDownloadMetadata(
       format,
       spatialRefId,
       geometry,
-      where
+      where,
     });
   }
 
   return portalRequestDownloadMetadata({
+    portal: `${host}/sharing/rest`,
     datasetId,
     format,
     authentication,
     spatialRefId,
-    target
+    target,
   });
 }

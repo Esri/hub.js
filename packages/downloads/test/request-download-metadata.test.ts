@@ -73,9 +73,10 @@ describe("requestDownloadMetadata", () => {
   });
 
   it("handle portal download", async (done) => {
+    const host = `http://portal.com`;
     const authentication = new UserSession({
       username: "portal-user",
-      portal: `http://portal.com/sharing/rest`,
+      portal: `${host}/sharing/rest`,
       token: "123",
     });
     authentication.getToken = () =>
@@ -125,6 +126,7 @@ describe("requestDownloadMetadata", () => {
       const result = await requestDownloadMetadata({
         datasetId: "00cportalItemId",
         format: "Shapefile",
+        host,
         authentication,
         target: "portal",
         spatialRefId: "2227",
@@ -143,9 +145,10 @@ describe("requestDownloadMetadata", () => {
   });
 
   it("handle enterprise download", async (done) => {
+    const host = "https://my-enterprise-box.portal.com";
     const authentication = new UserSession({
       username: "portal-user",
-      portal: `http://portal.com/sharing/rest`,
+      portal: `${host}/sharing/rest`,
       token: "123",
     });
     authentication.getToken = () =>
@@ -155,7 +158,7 @@ describe("requestDownloadMetadata", () => {
 
     try {
       fetchMock.mock(
-        "http://portal.com/sharing/rest/content/items/00fEnterpriseItemId?f=json&token=123",
+        "https://my-enterprise-box.portal.com/sharing/rest/content/items/00fEnterpriseItemId?f=json&token=123",
         {
           status: 200,
           body: {
@@ -173,7 +176,7 @@ describe("requestDownloadMetadata", () => {
       });
 
       fetchMock.mock(
-        "http://portal.com/sharing/rest/search?f=json&q=(typekeywords%3A%22exportItem%3A00fEnterpriseItemId%22%20AND%20typekeywords%3A%22exportLayer%3Anull%22)%20AND%20(%20(type%3A%22Shapefile%22%20AND%20typekeywords%3A%22spatialRefId%3A2227%22))&num=1&sortField=modified&sortOrder=DESC&token=123",
+        "https://my-enterprise-box.portal.com/sharing/rest/search?f=json&q=(typekeywords%3A%22exportItem%3A00fEnterpriseItemId%22%20AND%20typekeywords%3A%22exportLayer%3Anull%22)%20AND%20(%20(type%3A%22Shapefile%22%20AND%20typekeywords%3A%22spatialRefId%3A2227%22))&num=1&sortField=modified&sortOrder=DESC&token=123",
         {
           status: 200,
           body: {
@@ -183,7 +186,7 @@ describe("requestDownloadMetadata", () => {
       );
 
       fetchMock.mock(
-        "http://portal.com/sharing/rest/search?f=json&q=type%3A%22CSV%20Collection%22%20AND%20typekeywords%3A%22exportItem%3A00fEnterpriseItemId%2CspatialRefId%3A2227%22&num=1&sortField=modified&sortOrder=DESC&token=123",
+        "https://my-enterprise-box.portal.com/sharing/rest/search?f=json&q=type%3A%22CSV%20Collection%22%20AND%20typekeywords%3A%22exportItem%3A00fEnterpriseItemId%2CspatialRefId%3A2227%22&num=1&sortField=modified&sortOrder=DESC&token=123",
         {
           status: 200,
           body: {
@@ -196,6 +199,7 @@ describe("requestDownloadMetadata", () => {
         datasetId: "00fEnterpriseItemId",
         format: "Shapefile",
         authentication,
+        host,
         target: "enterprise",
         spatialRefId: "2227",
       });
