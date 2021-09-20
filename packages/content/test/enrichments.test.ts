@@ -179,20 +179,36 @@ describe("getLayerContent", () => {
       capabilities: "Query",
     },
   ] as Array<Partial<arcgisRestFeatureLayer.ILayerDefinition>>;
-  it("multi-layer feature service w/ layerId", () => {
-    const content = {
+  let item: arcgisRestPortal.IItem;
+  beforeEach(() => {
+    item = {
       id: "3ae",
       type: "Feature Service",
       title: "Item Title",
       description: "Item description",
       summary: "Item snippet",
-      layers,
       url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/LocalGovernment/Recreation/FeatureServer",
+      access: "public",
+      owner: "me",
+      tags: ["test"],
+      created: 1526675011000,
+      modified: 1526675614000,
+      numViews: 1,
+      size: null,
+    };
+  });
+  it("non-public, multi-layer feature service w/ layerId", () => {
+    item.access = "private";
+    const content = {
+      ...item,
+      layers,
     } as IHubContent;
+    content.item = item;
     let layerId = 0;
     let layerContent = getLayerContent(content, layerId);
     let layer = layers[0];
     expect(layerContent.layer).toEqual(layer, "should set layer");
+    expect(layerContent.hubId).toBeUndefined("should not set hubId");
     expect(layerContent.type).toBe(layer.type, "should set type");
     expect(layerContent.family).toBe("dataset", "should set family");
     expect(layerContent.title).toEqual(layer.name, "should set title");
@@ -224,19 +240,19 @@ describe("getLayerContent", () => {
       "should set url"
     );
   });
-  it("single-layer feature service w/o layerId", () => {
+  it("public, single-layer feature service w/o layerId", () => {
     const layer = layers[0];
     const content = {
-      id: "3ae",
-      type: "Feature Service",
-      title: "Item Title",
-      description: "Item description",
-      summary: "Item snippet",
+      ...item,
       layers: [layer],
-      url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/LocalGovernment/Recreation/FeatureServer",
     } as IHubContent;
+    content.item = item;
     const layerContent = getLayerContent(content);
     expect(layerContent.layer).toEqual(layer, "should set layer");
+    expect(layerContent.hubId).toBe(
+      `${item.id}_${layer.id}`,
+      "should set hubId"
+    );
     expect(layerContent.type).toBe(layer.type, "should set type");
     expect(layerContent.family).toBe("dataset", "should set family");
     expect(layerContent.title).toEqual(content.title, "should not set title");
