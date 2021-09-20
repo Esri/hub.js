@@ -14,6 +14,7 @@ import { isDownloadEnabled } from "./utils";
 import { isRecentlyUpdated } from "./utils";
 import { buildExistingExportsPortalQuery } from "@esri/hub-common";
 import { parseDatasetId } from "@esri/hub-common";
+import { IDownloadMetadataResults } from "..";
 
 enum ItemTypes {
   FeatureService = "Feature Service",
@@ -48,7 +49,7 @@ export interface ICacheSearchMetadata {
  */
 export function portalRequestDownloadMetadata(
   params: IPortalDownloadMetadataRequestParams
-): Promise<any> {
+): Promise<IDownloadMetadataResults> {
   const { datasetId, authentication, format, spatialRefId, target, portal } =
     params;
 
@@ -169,7 +170,7 @@ function extractLastEditDate(layers: ILayerDefinition[]) {
   return result[0];
 }
 
-function formatDownloadMetadata(params: any) {
+function formatDownloadMetadata(params: any): IDownloadMetadataResults {
   const {
     cachedDownload,
     serviceLastEditDate,

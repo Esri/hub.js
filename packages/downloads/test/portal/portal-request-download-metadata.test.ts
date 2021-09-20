@@ -1,19 +1,33 @@
 import * as fetchMock from "fetch-mock";
-import * as portal from "@esri/arcgis-rest-portal";
+import * as portalModule from "@esri/arcgis-rest-portal";
 import * as featureLayer from "@esri/arcgis-rest-feature-layer";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { portalRequestDownloadMetadata } from "../../src/portal/portal-request-download-metadata";
 
+function buildAuth({
+  username,
+  portal,
+  token,
+}: {
+  username: string;
+  portal?: string;
+  token: string;
+}) {
+  const authentication = new UserSession({ username, portal, token });
+  authentication.getToken = () =>
+    new Promise((resolve) => {
+      resolve(token);
+    });
+
+  return authentication;
+}
+
 describe("portalRequestDownloadMetadata", () => {
-  const authentication = new UserSession({
+  const authentication = buildAuth({
     username: "portal-user",
     portal: `http://portal.com/sharing/rest`,
     token: "123",
   });
-  authentication.getToken = () =>
-    new Promise((resolve) => {
-      resolve("123");
-    });
   afterEach(() => fetchMock.restore());
 
   describe("portal errors", () => {
@@ -72,7 +86,7 @@ describe("portalRequestDownloadMetadata", () => {
   describe("non-service item", () => {
     it("not cached", async (done) => {
       try {
-        spyOn(portal, "getItem").and.returnValue(
+        spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "CSV",
@@ -81,7 +95,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        spyOn(portal, "searchItems").and.returnValue(
+        spyOn(portalModule, "searchItems").and.returnValue(
           new Promise((resolve) => {
             resolve({ results: [] });
           })
@@ -108,7 +122,7 @@ describe("portalRequestDownloadMetadata", () => {
 
     it("cached, stale", async (done) => {
       try {
-        spyOn(portal, "getItem").and.returnValue(
+        spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "CSV",
@@ -117,7 +131,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        spyOn(portal, "searchItems").and.returnValue(
+        spyOn(portalModule, "searchItems").and.returnValue(
           new Promise((resolve) => {
             resolve({
               results: [
@@ -154,7 +168,7 @@ describe("portalRequestDownloadMetadata", () => {
 
     it("cached, ready", async (done) => {
       try {
-        spyOn(portal, "getItem").and.returnValue(
+        spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "CSV",
@@ -163,7 +177,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        spyOn(portal, "searchItems").and.returnValue(
+        spyOn(portalModule, "searchItems").and.returnValue(
           new Promise((resolve) => {
             resolve({
               results: [
@@ -199,69 +213,237 @@ describe("portalRequestDownloadMetadata", () => {
     });
   });
 
-  describe("unauthenticated context", () => {
-    it('uses "portal" instead of UserSession for base URL', async (done) => {
+  describe("customizing portal URL", () => {
+    let getItemSpy: jasmine.Spy;
+    let getServiceSpy: jasmine.Spy;
+    let getLayerSpy: jasmine.Spy;
+    let searchItemsSpy: jasmine.Spy;
+
+    beforeEach(() => {
+      getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
+        new Promise((resolve) => {
+          resolve({
+            type: "Feature Service",
+            modified: new Date(1593450876).getTime(),
+            url: "http://feature-service.com/FeatureServer",
+          });
+        })
+      );
+
+      getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
+        new Promise((resolve) => {
+          resolve({
+            layers: [{ id: 0 }],
+          });
+        })
+      );
+
+      getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
+        new Promise((resolve) => {
+          resolve({ id: 0 });
+        })
+      );
+
+      searchItemsSpy = spyOn(portalModule, "searchItems").and.returnValue(
+        new Promise((resolve) => {
+          resolve({
+            results: [
+              {
+                id: "abcdef",
+                created: new Date(1594450876000).getTime(),
+              },
+            ],
+          });
+        })
+      );
+    });
+
+    it("prefers portal param over UserSession portal for base URL", async (done) => {
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
-          new Promise((resolve) => {
-            resolve({
-              type: "Feature Service",
-              modified: new Date(1593450876).getTime(),
-              url: "http://feature-service.com/FeatureServer",
-            });
-          })
-        );
+        const urlFromPortalParam = "https://my.portal.base.url/sharing/rest";
 
-        const getServiceSpy = spyOn(featureLayer, "getService").and.returnValue(
-          new Promise((resolve) => {
-            resolve({
-              layers: [{ id: 0 }],
-            });
-          })
-        );
+        const authWithPortal = buildAuth({
+          portal: "https://url-from-auth.com/sharing/rest",
+          username: "foo",
+          token: "bar",
+        });
 
-        const getLayerSpy = spyOn(featureLayer, "getLayer").and.returnValue(
-          new Promise((resolve) => {
-            resolve({ id: 0 });
-          })
-        );
-
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
-          new Promise((resolve) => {
-            resolve({ results: [] });
-          })
-        );
-
-        const sharingUrl = "https://my.portal.base.url/sharing/rest";
-
-        await portalRequestDownloadMetadata({
+        const result = await portalRequestDownloadMetadata({
           datasetId: "abcdef0123456789abcdef0123456789",
           format: "CSV",
-          portal: sharingUrl,
-          authentication: undefined,
+          portal: urlFromPortalParam,
+          authentication: authWithPortal,
         });
+
+        expect(result.downloadUrl).toContain(urlFromPortalParam);
 
         expect(getItemSpy).toHaveBeenCalledWith(
           "abcdef0123456789abcdef0123456789",
           {
-            portal: sharingUrl,
+            portal: urlFromPortalParam,
+            authentication: authWithPortal,
+          }
+        );
+
+        expect(getServiceSpy).toHaveBeenCalledWith({
+          url: "http://feature-service.com/FeatureServer",
+          portal: urlFromPortalParam,
+          authentication: authWithPortal,
+        });
+        expect(getLayerSpy).toHaveBeenCalledWith({
+          url: "http://feature-service.com/FeatureServer/0",
+          portal: urlFromPortalParam,
+          authentication: authWithPortal,
+        });
+        expect(searchItemsSpy).toHaveBeenCalledWith({
+          portal: urlFromPortalParam,
+          authentication: authWithPortal,
+          num: 1,
+          q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:null") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+          sortField: "modified",
+          sortOrder: "DESC",
+        });
+      } catch (err) {
+        expect(err).toEqual(undefined);
+      } finally {
+        done();
+      }
+    });
+
+    it("uses portal param if UserSession doesnt contain a portal URL", async (done) => {
+      try {
+        const urlFromPortalParam = "https://my.portal.base.url/sharing/rest";
+
+        const authWithoutPortal = buildAuth({
+          username: "foo",
+          token: "bar",
+        });
+
+        const result = await portalRequestDownloadMetadata({
+          datasetId: "abcdef0123456789abcdef0123456789",
+          format: "CSV",
+          portal: urlFromPortalParam,
+          authentication: authWithoutPortal,
+        });
+
+        expect(result.downloadUrl).toContain(urlFromPortalParam);
+
+        expect(getItemSpy).toHaveBeenCalledWith(
+          "abcdef0123456789abcdef0123456789",
+          {
+            portal: urlFromPortalParam,
+            authentication: authWithoutPortal,
+          }
+        );
+
+        expect(getServiceSpy).toHaveBeenCalledWith({
+          url: "http://feature-service.com/FeatureServer",
+          portal: urlFromPortalParam,
+          authentication: authWithoutPortal,
+        });
+        expect(getLayerSpy).toHaveBeenCalledWith({
+          url: "http://feature-service.com/FeatureServer/0",
+          portal: urlFromPortalParam,
+          authentication: authWithoutPortal,
+        });
+        expect(searchItemsSpy).toHaveBeenCalledWith({
+          portal: urlFromPortalParam,
+          authentication: authWithoutPortal,
+          num: 1,
+          q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:null") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+          sortField: "modified",
+          sortOrder: "DESC",
+        });
+      } catch (err) {
+        expect(err).toEqual(undefined);
+      } finally {
+        done();
+      }
+    });
+
+    it("uses portal param if no UserSession", async (done) => {
+      try {
+        const urlFromPortalParam = "https://my.portal.base.url/sharing/rest";
+
+        const result = await portalRequestDownloadMetadata({
+          datasetId: "abcdef0123456789abcdef0123456789",
+          format: "CSV",
+          portal: urlFromPortalParam,
+        });
+
+        expect(result.downloadUrl).toContain(urlFromPortalParam);
+
+        expect(getItemSpy).toHaveBeenCalledWith(
+          "abcdef0123456789abcdef0123456789",
+          {
+            portal: urlFromPortalParam,
             authentication: undefined,
           }
         );
 
-        expect(getServiceSpy).toHaveBeenCalledOnceWith({
+        expect(getServiceSpy).toHaveBeenCalledWith({
           url: "http://feature-service.com/FeatureServer",
-          portal: sharingUrl,
+          portal: urlFromPortalParam,
           authentication: undefined,
         });
-        expect(getLayerSpy).toHaveBeenCalledOnceWith({
+        expect(getLayerSpy).toHaveBeenCalledWith({
           url: "http://feature-service.com/FeatureServer/0",
-          portal: sharingUrl,
+          portal: urlFromPortalParam,
           authentication: undefined,
         });
         expect(searchItemsSpy).toHaveBeenCalledWith({
-          portal: sharingUrl,
+          portal: urlFromPortalParam,
           authentication: undefined,
+          num: 1,
+          q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:null") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
+          sortField: "modified",
+          sortOrder: "DESC",
+        });
+      } catch (err) {
+        expect(err).toEqual(undefined);
+      } finally {
+        done();
+      }
+    });
+
+    it("uses UserSession portal if no portal param", async (done) => {
+      try {
+        const portalFromAuth = "https://url-from-auth.com/sharing/rest";
+        const localAuth = buildAuth({
+          portal: portalFromAuth,
+          username: "foo",
+          token: "bar",
+        });
+
+        const result = await portalRequestDownloadMetadata({
+          datasetId: "abcdef0123456789abcdef0123456789",
+          format: "CSV",
+          authentication: localAuth,
+        });
+
+        expect(result.downloadUrl).toContain(portalFromAuth);
+
+        expect(getItemSpy).toHaveBeenCalledWith(
+          "abcdef0123456789abcdef0123456789",
+          {
+            authentication: localAuth,
+            portal: undefined,
+          }
+        );
+
+        expect(getServiceSpy).toHaveBeenCalledWith({
+          url: "http://feature-service.com/FeatureServer",
+          authentication: localAuth,
+          portal: undefined,
+        });
+        expect(getLayerSpy).toHaveBeenCalledWith({
+          url: "http://feature-service.com/FeatureServer/0",
+          authentication: localAuth,
+          portal: undefined,
+        });
+        expect(searchItemsSpy).toHaveBeenCalledWith({
+          authentication: localAuth,
+          portal: undefined,
           num: 1,
           q: '(typekeywords:"exportItem:abcdef0123456789abcdef0123456789" AND typekeywords:"exportLayer:null") AND ( (type:"CSV" AND typekeywords:"spatialRefId:4326"))',
           sortField: "modified",
@@ -278,7 +460,7 @@ describe("portalRequestDownloadMetadata", () => {
   describe("feature-service items, format CSV", () => {
     it("no layer id, single-layer, no lastEditDate, not cached", async (done) => {
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -302,7 +484,10 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({ results: [] });
           })
@@ -364,7 +549,7 @@ describe("portalRequestDownloadMetadata", () => {
 
     it("layer id, single-layer, no lastEditDate, not cached", async (done) => {
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -388,7 +573,10 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({ results: [] });
           })
@@ -452,7 +640,7 @@ describe("portalRequestDownloadMetadata", () => {
     it("layer id, single-layer, has lastEditDate, not cached", async (done) => {
       const elevenMinsAgo = new Date(new Date().getTime() - 11 * 60 * 1000);
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -479,7 +667,10 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({ results: [] });
           })
@@ -543,7 +734,7 @@ describe("portalRequestDownloadMetadata", () => {
     it("layer id, single-layer, has lastEditDate within 10 mins, not cached, targets hub", async (done) => {
       const nineMinutesAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -570,7 +761,10 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({ results: [] });
           })
@@ -634,7 +828,7 @@ describe("portalRequestDownloadMetadata", () => {
     it("layer id, single-layer, has lastEditDate within 10 mins, not cached, targets portal", async (done) => {
       const nineMinutesAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -661,7 +855,10 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({ results: [] });
           })
@@ -726,7 +923,7 @@ describe("portalRequestDownloadMetadata", () => {
     it("layer id, single-layer, has lastEditDate within 10 mins, not cached, targets enterprise", async (done) => {
       const nineMinutesAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -750,7 +947,10 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({ results: [] });
           })
@@ -814,7 +1014,7 @@ describe("portalRequestDownloadMetadata", () => {
     it("layer id, single-layer, has recent lastEditDate, not cached, item download disabled", async (done) => {
       const nineMinutesAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -846,7 +1046,10 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({ results: [] });
           })
@@ -910,7 +1113,7 @@ describe("portalRequestDownloadMetadata", () => {
     it("layer id, single-layer, has lastEditDate, not cached, format download disabled", async (done) => {
       const nineMinutesAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -947,7 +1150,10 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({ results: [] });
           })
@@ -1010,7 +1216,7 @@ describe("portalRequestDownloadMetadata", () => {
 
     it("no layer id, no layers, not cached", async (done) => {
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -1032,7 +1238,10 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({ results: [] });
           })
@@ -1088,7 +1297,7 @@ describe("portalRequestDownloadMetadata", () => {
 
     it("no layer id, multi-layer, no lastEditDate, not cached", async (done) => {
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -1115,7 +1324,10 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({ results: [] });
           })
@@ -1185,7 +1397,7 @@ describe("portalRequestDownloadMetadata", () => {
 
     it("layer id, multi-layer, no lastEditDate, not cached", async (done) => {
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -1212,7 +1424,10 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({ results: [] });
           })
@@ -1285,7 +1500,7 @@ describe("portalRequestDownloadMetadata", () => {
       const elevenMinsAgo = new Date(new Date().getTime() - 11 * 60 * 1000);
 
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -1318,7 +1533,10 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({ results: [] });
           })
@@ -1391,7 +1609,7 @@ describe("portalRequestDownloadMetadata", () => {
       const nineMinsAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
 
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -1421,7 +1639,10 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({ results: [] });
           })
@@ -1492,7 +1713,7 @@ describe("portalRequestDownloadMetadata", () => {
       const nineMinsAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
 
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -1525,7 +1746,10 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({ results: [] });
           })
@@ -1599,7 +1823,7 @@ describe("portalRequestDownloadMetadata", () => {
       const nineMinsAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
 
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -1629,7 +1853,10 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({ results: [] });
           })
@@ -1702,7 +1929,7 @@ describe("portalRequestDownloadMetadata", () => {
       const nineMinsAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
 
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -1740,7 +1967,10 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({ results: [] });
           })
@@ -1813,7 +2043,7 @@ describe("portalRequestDownloadMetadata", () => {
       const nineMinsAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
 
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -1855,7 +2085,10 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({ results: [] });
           })
@@ -1925,7 +2158,7 @@ describe("portalRequestDownloadMetadata", () => {
 
     it("no layer id, single-layer, no lastEditDate, cached, ready (unknown)", async (done) => {
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -1949,7 +2182,10 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({
               results: [
@@ -2022,7 +2258,7 @@ describe("portalRequestDownloadMetadata", () => {
 
     it("has lastEditDate, cached, ready", async (done) => {
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -2055,7 +2291,10 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({
               results: [
@@ -2130,7 +2369,7 @@ describe("portalRequestDownloadMetadata", () => {
       const nineMinsAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
 
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -2160,7 +2399,10 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({
               results: [
@@ -2232,7 +2474,7 @@ describe("portalRequestDownloadMetadata", () => {
       const nineMinsAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
 
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -2265,7 +2507,10 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({
               results: [
@@ -2341,7 +2586,7 @@ describe("portalRequestDownloadMetadata", () => {
       const nineMinsAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
 
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -2372,7 +2617,10 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({
               results: [
@@ -2446,7 +2694,7 @@ describe("portalRequestDownloadMetadata", () => {
       const nineMinsAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
 
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -2484,7 +2732,10 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({
               results: [
@@ -2559,7 +2810,7 @@ describe("portalRequestDownloadMetadata", () => {
       const nineMinsAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
 
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -2601,7 +2852,10 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({
               results: [
@@ -2675,7 +2929,7 @@ describe("portalRequestDownloadMetadata", () => {
     it("has lastEditDate, cached, stale", async (done) => {
       const elevenMinsAgo = new Date(new Date().getTime() - 11 * 60 * 1000);
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -2708,7 +2962,10 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({
               results: [
@@ -2782,7 +3039,7 @@ describe("portalRequestDownloadMetadata", () => {
     it("has lastEditDate within last 10 minutes, cached, stale, targets hub", async (done) => {
       const nineMinutesAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -2812,7 +3069,10 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({
               results: [
@@ -2883,7 +3143,7 @@ describe("portalRequestDownloadMetadata", () => {
     it("has lastEditDate within last 10 minutes, cached, stale, targets portal", async (done) => {
       const nineMinutesAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -2916,7 +3176,10 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({
               results: [
@@ -2991,7 +3254,7 @@ describe("portalRequestDownloadMetadata", () => {
     it("has lastEditDate within last 10 minutes, cached, stale, targets enterprise", async (done) => {
       const nineMinutesAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -3022,7 +3285,10 @@ describe("portalRequestDownloadMetadata", () => {
             });
           })
         );
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({
               results: [
@@ -3095,7 +3361,7 @@ describe("portalRequestDownloadMetadata", () => {
     it("has lastEditDate, cached, stale, item download disabled", async (done) => {
       const nineMinutesAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -3133,7 +3399,10 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({
               results: [
@@ -3207,7 +3476,7 @@ describe("portalRequestDownloadMetadata", () => {
     it("has lastEditDate, cached, stale, format download disabled", async (done) => {
       const nineMinutesAgo = new Date(new Date().getTime() - 9 * 60 * 1000);
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -3249,7 +3518,10 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({
               results: [
@@ -3324,7 +3596,7 @@ describe("portalRequestDownloadMetadata", () => {
   describe("feature-service items, format Shapefile", () => {
     it("no layer id, multi-layer, no lastEditDate, not cached", async (done) => {
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -3355,7 +3627,10 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({ results: [] });
           })
@@ -3427,7 +3702,7 @@ describe("portalRequestDownloadMetadata", () => {
   describe("feature-service items, format KML", () => {
     it("no layer id, multi-layer, no lastEditDate, not cached", async (done) => {
       try {
-        const getItemSpy = spyOn(portal, "getItem").and.returnValue(
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "Feature Service",
@@ -3458,7 +3733,10 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        const searchItemsSpy = spyOn(portal, "searchItems").and.returnValue(
+        const searchItemsSpy = spyOn(
+          portalModule,
+          "searchItems"
+        ).and.returnValue(
           new Promise((resolve) => {
             resolve({ results: [] });
           })
@@ -3530,7 +3808,7 @@ describe("portalRequestDownloadMetadata", () => {
   describe("CSV items", () => {
     it("with spatialRefId", async (done) => {
       try {
-        spyOn(portal, "getItem").and.returnValue(
+        spyOn(portalModule, "getItem").and.returnValue(
           new Promise((resolve) => {
             resolve({
               type: "CSV",
@@ -3539,7 +3817,7 @@ describe("portalRequestDownloadMetadata", () => {
           })
         );
 
-        spyOn(portal, "searchItems").and.returnValue(
+        spyOn(portalModule, "searchItems").and.returnValue(
           new Promise((resolve) => {
             resolve({
               results: [
