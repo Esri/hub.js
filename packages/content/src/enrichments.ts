@@ -38,8 +38,8 @@ const getLayer = (content: IHubContent, layerId?: number) => {
       isFeatureService(content.type) && getOnlyQueryLayer(layers);
 };
 
-const getOnlyQueryLayer = (layers: ILayerDefinition[] = []) => {
-  const layer = Array.isArray(layers) && layers.length === 1 && layers[0];
+const getOnlyQueryLayer = (layers: ILayerDefinition[]) => {
+  const layer = layers && layers.length === 1 && layers[0];
   return layer && layer.capabilities.includes("Query") && layer;
 };
 
@@ -597,11 +597,17 @@ export const getLayerContent = (
   if (!layer) {
     return;
   }
-  const { type, name, description } = layer;
+  const { item } = content;
+  // get type name and description from layer
+  const { id, type, name, description } = layer;
   // get family and normalized type based on layer type
   const family = getFamily(type);
-  const normalizedType = normalizeItemType({ ...content.item, type });
+  const normalizedType = normalizeItemType({ ...item, type });
   const layerContent = { ...content, layer, type, family, normalizedType };
+  if (item.access === "public") {
+    // we assume this is in the index,
+    layerContent.hubId = `${item.id}_${id}`;
+  }
   if (shouldUseLayerInfo(layerContent)) {
     // NOTE: composer updated dataset name and description
     // but b/c the layer enrichments now happen _after_ datasetToContent()
