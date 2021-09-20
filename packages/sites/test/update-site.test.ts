@@ -116,7 +116,7 @@ describe("update site", function () {
 
     const ro = {
       authentication: {},
-    } as commonModule.IHubRequestOptions;
+    } as commonModule.IHubUserRequestOptions;
 
     const result = await updateSite(localSite, {
       ...ro,
@@ -153,7 +153,7 @@ describe("update site", function () {
     const ro = {
       isPortal: true,
       authentication: {},
-    } as commonModule.IHubRequestOptions;
+    } as commonModule.IHubUserRequestOptions;
 
     // WITH ALLOW LIST
     const result = await updateSite(localSite, {
@@ -187,7 +187,7 @@ describe("update site", function () {
     // create a siteModel from the fixtures
     const ro = {
       authentication: {},
-    } as commonModule.IHubRequestOptions;
+    } as commonModule.IHubUserRequestOptions;
 
     updateSpy.and.returnValue(Promise.reject());
 

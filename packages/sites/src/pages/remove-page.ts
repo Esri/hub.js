@@ -1,14 +1,14 @@
 import {
   IModel,
-  IHubRequestOptions,
   getModel,
   mapBy,
   getWithDefault,
   failSafe,
-  unprotectModel
+  unprotectModel,
 } from "@esri/hub-common";
 import { unlinkSiteAndPage } from "../unlink-site-and-page";
-import { removeItem } from "@esri/arcgis-rest-portal";
+import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
+import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 /**
  * Remove a Page Item. This deletes the item.
@@ -17,7 +17,7 @@ import { removeItem } from "@esri/arcgis-rest-portal";
  */
 export function removePage(
   idOrModel: string | IModel,
-  requestOptions: IHubRequestOptions
+  requestOptions: IUserRequestOptions
 ) {
   let modelPromise = Promise.resolve(idOrModel);
   if (typeof idOrModel === "string") {
@@ -26,7 +26,7 @@ export function removePage(
   let pageModel: IModel;
   // fire it to get the model...
   return modelPromise
-    .then(model => {
+    .then((model) => {
       pageModel = model as IModel;
       // get the id's of the sites this page is linked to...
       const linkedSites = mapBy(
@@ -42,7 +42,7 @@ export function removePage(
           const opts = Object.assign(
             {
               pageModel,
-              siteId
+              siteId,
             },
             requestOptions
           );

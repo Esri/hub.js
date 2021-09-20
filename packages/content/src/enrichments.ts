@@ -11,6 +11,7 @@ import {
   IPipeable,
   cloneObject,
   createOperationPipeline,
+  getFamily,
   getProp,
   getItemHomeUrl,
   getItemApiUrl,
@@ -21,6 +22,7 @@ import {
   isFeatureService,
   isMapOrFeatureServerUrl,
   isNil,
+  normalizeItemType,
   OperationStack,
 } from "@esri/hub-common";
 import { getContentMetadata } from "./metadata";
@@ -596,7 +598,10 @@ export const getLayerContent = (
     return;
   }
   const { type, name, description } = layer;
-  const layerContent = { ...content, layer, type };
+  // get family and normalized type based on layer type
+  const family = getFamily(type);
+  const normalizedType = normalizeItemType({ ...content.item, type });
+  const layerContent = { ...content, layer, type, family, normalizedType };
   if (shouldUseLayerInfo(layerContent)) {
     // NOTE: composer updated dataset name and description
     // but b/c the layer enrichments now happen _after_ datasetToContent()

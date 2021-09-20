@@ -3,18 +3,18 @@ import * as commonModule from "@esri/hub-common";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as unlinkSiteAndPageModule from "../../src/unlink-site-and-page";
 
-import { IModel, IHubRequestOptions } from "@esri/hub-common";
+import { IModel, IHubUserRequestOptions } from "@esri/hub-common";
 
 function expectAllCalled(spys: jasmine.Spy[], expect: any) {
-  spys.forEach(spy => expect(spy).toHaveBeenCalled());
+  spys.forEach((spy) => expect(spy).toHaveBeenCalled());
 }
 
 describe("removeSite", () => {
   const pageModelFromApi = {
     item: {
       id: "id-from-api",
-      owner: "owner-from-api"
-    }
+      owner: "owner-from-api",
+    },
   } as IModel;
 
   let getModelSpy: jasmine.Spy;
@@ -39,21 +39,21 @@ describe("removeSite", () => {
   });
 
   it("removes a site when given a model", async () => {
-    const model = ({
+    const model = {
       item: {
         id: "some-id",
-        owner: "some-owner"
+        owner: "some-owner",
       },
       data: {
         values: {
-          sites: [{ id: "foo-site" }, { id: "bar-site" }, { id: "baz-site" }]
-        }
-      }
-    } as unknown) as IModel;
+          sites: [{ id: "foo-site" }, { id: "bar-site" }, { id: "baz-site" }],
+        },
+      },
+    } as unknown as IModel;
 
-    await removePage(model, ({
-      propFromRO: "foo"
-    } as unknown) as IHubRequestOptions);
+    await removePage(model, {
+      propFromRO: "foo",
+    } as unknown as IHubUserRequestOptions);
 
     expectAllCalled([unlinkSpy, unprotectSpy, removeSpy], expect);
 
@@ -62,17 +62,17 @@ describe("removeSite", () => {
     expect(unlinkSpy).toHaveBeenCalledWith({
       siteId: "foo-site",
       propFromRO: "foo",
-      pageModel: model
+      pageModel: model,
     });
     expect(unlinkSpy).toHaveBeenCalledWith({
       siteId: "baz-site",
       propFromRO: "foo",
-      pageModel: model
+      pageModel: model,
     });
     expect(unlinkSpy).toHaveBeenCalledWith({
       siteId: "bar-site",
       propFromRO: "foo",
-      pageModel: model
+      pageModel: model,
     });
 
     expect(removeSpy.calls.argsFor(0)[0].id).toBe("some-id");
@@ -81,9 +81,9 @@ describe("removeSite", () => {
   it("removes a site when given an id", async () => {
     const id = "some-id";
 
-    await removePage(id, ({
-      propFromRO: "foo"
-    } as unknown) as IHubRequestOptions);
+    await removePage(id, {
+      propFromRO: "foo",
+    } as unknown as IHubUserRequestOptions);
 
     expect(getModelSpy).toHaveBeenCalled();
 
@@ -94,22 +94,22 @@ describe("removeSite", () => {
   });
 
   it("succeeds even if unlinking fails", async () => {
-    const model = ({
+    const model = {
       item: {
         id: "some-id",
-        owner: "some-owner"
+        owner: "some-owner",
       },
       data: {
         values: {
-          sites: [{ id: "foo-site" }, { id: "bar-site" }, { id: "baz-site" }]
-        }
-      }
-    } as unknown) as IModel;
+          sites: [{ id: "foo-site" }, { id: "bar-site" }, { id: "baz-site" }],
+        },
+      },
+    } as unknown as IModel;
 
     unlinkSpy.and.returnValue(Promise.reject());
 
     try {
-      await removePage(model, {} as IHubRequestOptions);
+      await removePage(model, {} as IHubUserRequestOptions);
     } catch (err) {
       fail("shouldnt reject!");
     }
@@ -121,7 +121,7 @@ describe("removeSite", () => {
     unprotectSpy.and.returnValue(Promise.reject(Error("rejected!")));
 
     try {
-      await removePage(id, {} as IHubRequestOptions);
+      await removePage(id, {} as IHubUserRequestOptions);
       fail("should reject");
     } catch (err) {
       expect(err).toBeDefined();
