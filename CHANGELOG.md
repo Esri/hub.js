@@ -5,44 +5,51 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [8.22.1] - September 22nd 2021
+
+### Other Changes
+
+- Chore
+  - **hub-teams**: export experimental `_searchTeams(...)` function.
+
 ## [8.22.0] - September 20th 2021
 
 ### Other Changes
 
-* New Features
-   * **hub-downloads**: allows unathenticated requests for download metadata in portal/enterprise [`f4d8a3b00`](https://github.com/Esri/hub.js/commit/f4d8a3b000dd6f0965620b79efc88affc5fafd56)
-   * **hub-downloads**: allow portal to be configured via portal param in requestDownloadMetadata [`bfcb6e031`](https://github.com/Esri/hub.js/commit/bfcb6e0314e87621a4f7b19dcf9261095b1c1181)
+- New Features
+  - **hub-downloads**: allows unathenticated requests for download metadata in portal/enterprise [`f4d8a3b00`](https://github.com/Esri/hub.js/commit/f4d8a3b000dd6f0965620b79efc88affc5fafd56)
+  - **hub-downloads**: allow portal to be configured via portal param in requestDownloadMetadata [`bfcb6e031`](https://github.com/Esri/hub.js/commit/bfcb6e0314e87621a4f7b19dcf9261095b1c1181)
 
 ## [8.21.1] - September 20th 2021
 
 ### Other Changes
 
-* Bug Fixes
-   * **hub-content**: getLayerContent should update hubId [`6222c27dc`](https://github.com/Esri/hub.js/commit/6222c27dcd30c7aa410a4227cef1b3c46f65011a)
+- Bug Fixes
+  - **hub-content**: getLayerContent should update hubId [`6222c27dc`](https://github.com/Esri/hub.js/commit/6222c27dcd30c7aa410a4227cef1b3c46f65011a)
 
 ## [8.21.0] - September 17th 2021
 
 ### Other Changes
 
-* New Features
-   * **hub-common**: add new add-IHubTeam type [`87a9fb2cc`](https://github.com/Esri/hub.js/commit/87a9fb2cc75206ef850adbe73dcf953b95b81ad2)
-   * **hub-common**: add itemToContent and related functions [`962a31335`](https://github.com/Esri/hub.js/commit/962a3133523a459506811d1963c0890ce5c21a91)
-   * **hub-common**: add datasetToContent() and datasetToItem() [`0951b59f5`](https://github.com/Esri/hub.js/commit/0951b59f5538988e74deb8a2cdd10212bd081ef8)
-* Bug Fixes
-   * **hub-common**: hupApiUrl, isPortal, and authentication options should be optional [`5a13718f6`](https://github.com/Esri/hub.js/commit/5a13718f6b1b3dd3f77df99ab526f13716ea4144)
-   * **hub-common**: hupApiUrl, isPortal, and authentication options shou… [`7aa7ade7c`](https://github.com/Esri/hub.js/commit/7aa7ade7c6ab84f53f08f8bab0c6a7ccd3d016c0)
-   * **hub-content**: not updating family and normalizedType for layer contnet [`10ca039e5`](https://github.com/Esri/hub.js/commit/10ca039e5cdfc7cb57feaaf0bc06f8f552c21eb5)
+- New Features
+  - **hub-common**: add new add-IHubTeam type [`87a9fb2cc`](https://github.com/Esri/hub.js/commit/87a9fb2cc75206ef850adbe73dcf953b95b81ad2)
+  - **hub-common**: add itemToContent and related functions [`962a31335`](https://github.com/Esri/hub.js/commit/962a3133523a459506811d1963c0890ce5c21a91)
+  - **hub-common**: add datasetToContent() and datasetToItem() [`0951b59f5`](https://github.com/Esri/hub.js/commit/0951b59f5538988e74deb8a2cdd10212bd081ef8)
+- Bug Fixes
+  - **hub-common**: hupApiUrl, isPortal, and authentication options should be optional [`5a13718f6`](https://github.com/Esri/hub.js/commit/5a13718f6b1b3dd3f77df99ab526f13716ea4144)
+  - **hub-common**: hupApiUrl, isPortal, and authentication options shou… [`7aa7ade7c`](https://github.com/Esri/hub.js/commit/7aa7ade7c6ab84f53f08f8bab0c6a7ccd3d016c0)
+  - **hub-content**: not updating family and normalizedType for layer contnet [`10ca039e5`](https://github.com/Esri/hub.js/commit/10ca039e5cdfc7cb57feaaf0bc06f8f552c21eb5)
 
 ## [8.20.0] - September 16th 2021
 
 ### Other Changes
 
-* New Features
-   * **hub-common**: create a spatialReference serialization algorithm [`70c5dbfa5`](https://github.com/Esri/hub.js/commit/70c5dbfa59318e3df7f7c04d753b8b5f1be97b5c)
-* Bug Fixes
-   * **hub-content**: introduces empty array to handle servers without layers mistakenly typed as featur [`0a7acb5bc`](https://github.com/Esri/hub.js/commit/0a7acb5bc673f6cdcf275cc031c7663ffb5968a4)
-* Misc.
-   * **hub-search**: use a new base-64 encoding lib [`99c671226`](https://github.com/Esri/hub.js/commit/99c671226aca4b65e2e2d19e6b6627fb8000bfb4)
+- New Features
+  - **hub-common**: create a spatialReference serialization algorithm [`70c5dbfa5`](https://github.com/Esri/hub.js/commit/70c5dbfa59318e3df7f7c04d753b8b5f1be97b5c)
+- Bug Fixes
+  - **hub-content**: introduces empty array to handle servers without layers mistakenly typed as featur [`0a7acb5bc`](https://github.com/Esri/hub.js/commit/0a7acb5bc673f6cdcf275cc031c7663ffb5968a4)
+- Misc.
+  - **hub-search**: use a new base-64 encoding lib [`99c671226`](https://github.com/Esri/hub.js/commit/99c671226aca4b65e2e2d19e6b6627fb8000bfb4)
 
 ## [8.19.0] - September 14th 2021
 
@@ -238,7 +245,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - **hub-teams**: add canEditTeam [`d2c9fecf`](https://github.com/Esri/hub.js/commit/d2c9fecf0314e35ee5c1acb9583684f18740f0b1)
   - **hub-teams**: add username check [`36a8b792`](https://github.com/Esri/hub.js/commit/36a8b7924ef7cf11ac2f2e81abe0d9ca49e86ec7)
   - **hub-teams**: add canEditTeam tests [`d4d52c18`](https://github.com/Esri/hub.js/commit/d4d52c1879c01f44770c16de242822ce41ba2708)
-  - **hub-teams**: add case when user is not auth&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;#39;d [`295e04a7`](https://github.com/Esri/hub.js/commit/295e04a7189151c827a25dcf9222c76448df71f7)
+  - **hub-teams**: add case when user is not auth&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;#39;d [`295e04a7`](https://github.com/Esri/hub.js/commit/295e04a7189151c827a25dcf9222c76448df71f7)
 
 ## [8.7.0] - June 25th 2021
 
@@ -1058,11 +1065,7 @@ Attempt to address failed release
 
 ## [4.1.0] - May 21st 2020
 
-
-
 ## [4.0.0] - May 20th 2020
-
-
 
 ## [3.9.3] - May 14th 2020
 
@@ -1100,8 +1103,6 @@ Attempt to address failed release
   - **peerDependencies**: fix invalid peerDependencies [`08fae37`](https://github.com/Esri/hub.js/commit/08fae37875aa3e68a82970a54eedcbe13ef001a8) [#251](https://github.com/Esri/hub.js/issues/251)
 
 ## [3.9.1] - May 6th 2020
-
-
 
 ## [3.9.0] - May 6th 2020
 
@@ -1143,8 +1144,6 @@ Attempt to address failed release
 
 ## [3.7.4] - April 30th 2020
 
-
-
 ## [3.7.3] - April 29th 2020
 
 - New Features
@@ -1155,8 +1154,6 @@ Attempt to address failed release
 ### @esri/hub-common
 
 ## [3.7.1] - April 28th 2020
-
-
 
 ## [3.7.0] - April 28th 2020
 
@@ -1212,11 +1209,7 @@ Attempt to address failed release
 
 ## [3.6.3] - January 27th 2020
 
-
-
 ## [3.6.2] - January 2nd 2020
-
-
 
 ## [3.6.0] - November 18th 2019
 
@@ -1310,8 +1303,6 @@ Attempt to address failed release
   - **search**: support filters specified implicitly
 
 ## [2.6.0] - August 20th 2019
-
-
 
 ## [2.5.0] - August 15th 2019
 
@@ -1916,4 +1907,5 @@ Initial Release
 [8.21.0]: https://github.com/Esri/hub.js/compare/v8.20.0...v8.21.0 "v8.21.0"
 [8.21.1]: https://github.com/Esri/hub.js/compare/v8.21.0...v8.21.1 "v8.21.1"
 [8.22.0]: https://github.com/Esri/hub.js/compare/v8.21.1...v8.22.0 "v8.22.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v8.22.0...HEAD "Unreleased Changes"
+[8.22.1]: https://github.com/Esri/hub.js/compare/v8.22.0...v8.22.1 "v8.22.1"
+[HEAD]: https://github.com/Esri/hub.js/compare/v8.22.1...HEAD "Unreleased Changes"
