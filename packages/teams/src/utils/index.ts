@@ -1,5 +1,6 @@
 export * from "./_create-team-group";
 export * from "./_create-team-groups";
+export * from "./_search-teams";
 export * from "./_translate-team-template";
 export * from "./can-user-create-team-in-product";
 export * from "./can-user-create-team";
