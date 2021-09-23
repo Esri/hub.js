@@ -47,8 +47,6 @@ const indexValueToV3Value: any = {
   "{{enrichments.categories}}": "{{categories}}",
   "{{default.id}}": "{{id}}",
   "{{item.licenseInfo || No License}}": "{{licenseInfo || No License}}",
-  "{{item.licenseInfo}},{{metadata.metadata.dataIdInfo.idPoC.rpOrgName}},{{metadata.metadata.dataIdInfo.idPoC.rpCntInfo.cntAddress.eMailAdd}}":
-    "{{licenseInfo}},{{metadata.metadata.dataIdInfo.idPoC.rpOrgName}},{{metadata.metadata.dataIdInfo.idPoC.rpCntInfo.cntAddress.eMailAdd}}",
   "{{org.portalProperties.links.contactUs.url || mailto:data@tempe.gov}}":
     "{{orgContactEmail || mailto:data@tempe.gov}}",
   "{{default.description || No Description}}":
