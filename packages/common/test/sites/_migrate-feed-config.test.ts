@@ -2,8 +2,57 @@ import { IModel } from "../../src";
 import { _migrateFeedConfig } from "../../src/sites/_migrate-feed-config";
 
 describe("_migrateFeedConfig", () => {
+  it("Bumps the item.properties.schemaVersion if schemaVersion is < 1.5", () => {
+    const siteModel = {
+      item: { properties: { schemaVersion: 1.4 } },
+      data: { values: {} },
+    } as unknown as IModel;
+    const result = _migrateFeedConfig(siteModel);
+    expect(result.item.properties.schemaVersion).toEqual(
+      1.5,
+      "site.data.feeds should be present"
+    );
+  });
+
+  it("Does not run the migration is schemaVersion is >= 1.5", () => {
+    const siteModel = {
+      item: {
+        properties: {
+          schemaVersion: 1.5,
+        },
+      },
+      data: {
+        feeds: {
+          dcatUS11: {
+            title: "{{name}}",
+            description: "{{description}}",
+            keyword: "{{tags}}",
+            issued: "{{created:toISO}}",
+            modified: "{{modified:toISO}}",
+            publisher: {
+              name: "{{source}}",
+            },
+            contactPoint: {
+              fn: "{{owner}}",
+              hasEmail: "{{orgContactEmail}}",
+            },
+          },
+        },
+        values: {},
+      },
+    } as unknown as IModel;
+
+    const result = _migrateFeedConfig(siteModel);
+    expect(result).toEqual(siteModel, "The site object should be unchanged.");
+  });
+
   it("Removes the existing config object for dcat-us 1.1 from the site", () => {
     const siteModel = {
+      item: {
+        properties: {
+          schemaVersion: 1.4,
+        },
+      },
       data: {
         values: {
           dcatConfig: {
@@ -20,13 +69,21 @@ describe("_migrateFeedConfig", () => {
   });
 
   it("Adds an empty feeds config hash when the site does not have an existing config for dcat-us 1.1", () => {
-    const siteModel = { data: { values: {} } } as unknown as IModel;
+    const siteModel = {
+      item: { properties: { schemaVersion: 1.4 } },
+      data: { values: {} },
+    } as unknown as IModel;
     const result = _migrateFeedConfig(siteModel);
     expect(result.data.feeds).toBeTruthy("site.data.feeds should be present");
   });
 
   it("Adds an entry for dcat-us 1.1 in the feeds config hash when an existing config is present", () => {
     const siteModel = {
+      item: {
+        properties: {
+          schemaVersion: 1.4,
+        },
+      },
       data: {
         values: {
           dcatConfig: {
@@ -42,7 +99,7 @@ describe("_migrateFeedConfig", () => {
     );
   });
 
-  it("correctly migrates from index default values to v3 api default values", () => {
+  it("Correctly migrates from index default values to v3 api default values", () => {
     const indexDefaults = {
       title: "{{default.name}}",
       description: "{{default.description}}",
@@ -74,6 +131,11 @@ describe("_migrateFeedConfig", () => {
     };
 
     const siteModel = {
+      item: {
+        properties: {
+          schemaVersion: 1.4,
+        },
+      },
       data: {
         values: {
           dcatConfig: indexDefaults,
@@ -88,7 +150,7 @@ describe("_migrateFeedConfig", () => {
     );
   });
 
-  it("correctly migrates from custom index values to v3 api values", () => {
+  it("Correctly migrates from custom index values to v3 api values", () => {
     const indexValues: any = {
       publisher: {
         source: "{{default.source.source}}",
@@ -104,9 +166,6 @@ describe("_migrateFeedConfig", () => {
       modified: "{{item.modified}}",
       "customField{1}": {
         name: "{{metadata.metadata.dqInfo.dqScope.scpLvl.ScopeCd.@_value}}",
-      },
-      relation: {
-        exists: "{{metadata:optional:1}}", // TODO: Is this an actual value that we need to correct?
       },
       category: "{{enrichments.categories}}",
       itemid: "{{default.id}}",
@@ -128,14 +187,16 @@ describe("_migrateFeedConfig", () => {
       "customField{1}": {
         name: "{{metadata.metadata.dqInfo.dqScope.scpLvl.ScopeCd.@_value}}",
       },
-      relation: {
-        exists: "{{metadata}}",
-      },
       category: "{{categories}}",
       itemid: "{{id}}",
     };
 
     const siteModel = {
+      item: {
+        properties: {
+          schemaVersion: 1.4,
+        },
+      },
       data: {
         values: {
           dcatConfig: indexValues,
