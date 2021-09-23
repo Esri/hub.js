@@ -78,9 +78,17 @@ const originalValueToMigratedValue: any = {
 
   // Custom Values
   "{{org.name}}": "{{orgName}}",
-  "{{item.categories}}": "{{categories}}", // TODO: This is a replacement. Is it valid?
+  "{{item.categories}}": "{{categories}}",
   "{{item.licenseInfo}}": "{{licenseInfo}}",
   "{{item.modified}}": "{{modified}}",
   "{{enrichments.categories}}": "{{categories}}",
   "{{default.id}}": "{{id}}",
+  "{{item.licenseInfo || No License}}": "{{licenseInfo || No License}}",
+  "{{item.licenseInfo}},{{metadata.metadata.dataIdInfo.idPoC.rpOrgName}},{{metadata.metadata.dataIdInfo.idPoC.rpCntInfo.cntAddress.eMailAdd}}":
+    "{{licenseInfo}},{{metadata.metadata.dataIdInfo.idPoC.rpOrgName}},{{metadata.metadata.dataIdInfo.idPoC.rpCntInfo.cntAddress.eMailAdd}}",
+  "{{org.portalProperties.links.contactUs.url || mailto:data@tempe.gov}}":
+    "{{orgContactEmail || mailto:data@tempe.gov}}",
+  "{{default.description || No Description}}":
+    "{{description || No Description}}",
+  "{{item.id}}": "{{id}}",
 };

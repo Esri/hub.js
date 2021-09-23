@@ -10,7 +10,7 @@ describe("_migrateFeedConfig", () => {
     const result = _migrateFeedConfig(siteModel);
     expect(result.item.properties.schemaVersion).toEqual(
       1.5,
-      "site.data.feeds should be present"
+      "site.item.properties.schemaVersion should be 1.5"
     );
   });
 
@@ -153,15 +153,15 @@ describe("_migrateFeedConfig", () => {
   it("Correctly migrates from custom index values to v3 api values", () => {
     const indexValues: any = {
       publisher: {
-        source: "{{default.source.source}}",
+        source: "{{item.licenseInfo || No License}}",
         name: "{{org.name}}",
       },
       theme: "{{item.categories}}",
       license: "{{item.licenseInfo}}",
       contactPoint: {
-        fn: "{{default.source.source}}",
+        fn: "{{item.licenseInfo}},{{metadata.metadata.dataIdInfo.idPoC.rpOrgName}},{{metadata.metadata.dataIdInfo.idPoC.rpCntInfo.cntAddress.eMailAdd}}",
         hasEmail:
-          "{{metadata.metadata.mdContact.rpCntInfo.cntAddress.eMailAdd}}",
+          "{{org.portalProperties.links.contactUs.url || mailto:data@tempe.gov}}",
       },
       modified: "{{item.modified}}",
       "customField{1}": {
@@ -169,19 +169,20 @@ describe("_migrateFeedConfig", () => {
       },
       category: "{{enrichments.categories}}",
       itemid: "{{default.id}}",
+      description: "{{default.description || No Description}}",
+      agol: "{{item.id}}",
     };
 
     const v3ApiValues: any = {
       publisher: {
-        source: "{{source}}",
+        source: "{{licenseInfo || No License}}",
         name: "{{orgName}}",
       },
       theme: "{{categories}}",
       license: "{{licenseInfo}}",
       contactPoint: {
-        fn: "{{source}}",
-        hasEmail:
-          "{{metadata.metadata.mdContact.rpCntInfo.cntAddress.eMailAdd}}",
+        fn: "{{licenseInfo}},{{metadata.metadata.dataIdInfo.idPoC.rpOrgName}},{{metadata.metadata.dataIdInfo.idPoC.rpCntInfo.cntAddress.eMailAdd}}",
+        hasEmail: "{{orgContactEmail || mailto:data@tempe.gov}}",
       },
       modified: "{{modified}}",
       "customField{1}": {
@@ -189,6 +190,8 @@ describe("_migrateFeedConfig", () => {
       },
       category: "{{categories}}",
       itemid: "{{id}}",
+      description: "{{description || No Description}}",
+      agol: "{{id}}",
     };
 
     const siteModel = {
