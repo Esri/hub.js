@@ -210,7 +210,7 @@ describe("_migrateFeedConfig", () => {
     const result = _migrateFeedConfig(siteModel);
     expect(result.data.feeds.dcatUS11).toEqual(
       v3ApiValues,
-      "site.data.feeds.dcatUS11 should not contain index custom values"
+      "site.data.feeds.dcatUS11 should have all supported custom index values migrated to v3 values"
     );
   });
 });
