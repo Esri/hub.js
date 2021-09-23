@@ -6,6 +6,11 @@ import { IModel, cloneObject, getProp } from "..";
  * configuration for dcat-us 1.1, that configuration will be modified to
  * use values from the v3 api instead of values from the index.
  *
+ * Structural Impacts:
+ * - site.data.feeds will be added.
+ * - site.data.feeds.dcatUS11 will be added if site.data.values.dcatConfig exists.
+ * - site.data.values.dcatConfig will be removed.
+ *
  * @param {object} model Site Model
  * @private
  */
