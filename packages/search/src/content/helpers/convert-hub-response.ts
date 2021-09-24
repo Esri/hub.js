@@ -1,5 +1,5 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { getProp } from "@esri/hub-common";
+import { datasetToContent, getProp } from "@esri/hub-common";
 import { ISearchParams } from "../../ago/params";
 import {
   IContentAggregations,
@@ -25,9 +25,7 @@ export function convertHubResponse(
   response: any = { data: [], meta: {} },
   defaultAuthentication?: UserSession
 ): IContentSearchResponse {
-  const results: any[] = response.data.map((d: Record<string, any>) =>
-    getAttributes(d)
-  );
+  const results = response.data.map(datasetToContent);
   const { count, total, hasNext, query, aggregations } =
     getResponseMetadata(response);
   const next: (
@@ -132,18 +130,4 @@ function getResponseMetadata(response: any): {
     query,
     aggregations,
   };
-}
-
-function getAttributes(data: Record<string, any>) {
-  const attributes = getProp(data, "attributes");
-  /* istanbul ignore else */
-  if (attributes) {
-    Object.keys(PROP_MAP).map((key: string) => {
-      /* istanbul ignore else */
-      if (PROP_MAP[key]) {
-        attributes[key] = attributes[PROP_MAP[key]];
-      }
-    });
-  }
-  return attributes;
 }

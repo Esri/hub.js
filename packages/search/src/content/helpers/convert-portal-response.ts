@@ -2,18 +2,18 @@ import {
   IItem,
   ISearchOptions,
   ISearchResult,
-  searchItems
+  searchItems,
 } from "@esri/arcgis-rest-portal";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import {
   IContentSearchResponse,
-  IContentAggregations
+  IContentAggregations,
 } from "../../types/content";
 import {
   IAggregation,
-  IAggregationResult
+  IAggregationResult,
 } from "../../util/aggregations/merge-aggregations";
-import { cloneObject } from "@esri/hub-common";
+import { cloneObject, itemToContent } from "@esri/hub-common";
 
 /**
  * Converts the response format returned by the Portal API to a common format
@@ -24,7 +24,7 @@ export function convertPortalResponse(
   request: ISearchOptions,
   response: ISearchResult<IItem>
 ): IContentSearchResponse {
-  const results: IItem[] = response.results;
+  const results = response.results.map(itemToContent);
   const count: number = response.num;
   const total: number = response.total;
   const hasNext: boolean = response.nextStart > -1;
@@ -47,7 +47,7 @@ export function convertPortalResponse(
     hasNext,
     query,
     aggregations,
-    next
+    next,
   };
 }
 
@@ -74,13 +74,13 @@ function mapCountAggregations(
     const mappedAggs: IAggregation[] = agg.fieldValues.map(
       (aggValue: Record<string, any>) => ({
         label: aggValue.value,
-        value: aggValue.count
+        value: aggValue.count,
       })
     );
 
     return {
       fieldName: agg.fieldName,
-      aggregations: mappedAggs
+      aggregations: mappedAggs,
     };
   });
 }

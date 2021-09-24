@@ -5,9 +5,10 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { IContentSearchResponse } from "../../../src/types/content";
 import { convertPortalResponse } from "../../../src/content/helpers/convert-portal-response";
 import { ISearchResponse } from "../../../src/types/common";
+import { itemToContent } from "@esri/hub-common";
 
 describe("Convert Portal Response function", () => {
-  it("can properly format a response from Portal API", done => {
+  it("can properly format a response from Portal API", (done) => {
     // Setup
     const itemOne: IItem = {
       id: "12345",
@@ -18,7 +19,7 @@ describe("Convert Portal Response function", () => {
       created: 1000,
       modified: 2000,
       numViews: 1,
-      size: 5
+      size: 5,
     };
 
     const itemTwo: IItem = {
@@ -30,7 +31,7 @@ describe("Convert Portal Response function", () => {
       created: 2000,
       modified: 3000,
       numViews: 2,
-      size: 6
+      size: 6,
     };
 
     const request: ISearchOptions = {
@@ -38,7 +39,7 @@ describe("Convert Portal Response function", () => {
       sortOrder: "asc",
       sortField: "title",
       start: 1,
-      num: 1
+      num: 1,
     };
 
     const portalApiResultsOne: ISearchResult<IItem> = {
@@ -47,7 +48,7 @@ describe("Convert Portal Response function", () => {
       start: 1,
       num: 1,
       nextStart: 2,
-      results: [itemOne]
+      results: [itemOne],
     };
 
     const portalApiResultsTwo: ISearchResult<IItem> = {
@@ -56,7 +57,7 @@ describe("Convert Portal Response function", () => {
       start: 2,
       num: 1,
       nextStart: -1,
-      results: [itemTwo]
+      results: [itemTwo],
     };
 
     // Mock
@@ -72,7 +73,9 @@ describe("Convert Portal Response function", () => {
 
     // Assert
     expect(convertedResponse).toBeDefined();
-    expect(convertedResponse.results).toEqual(portalApiResultsOne.results);
+    expect(convertedResponse.results).toEqual(
+      portalApiResultsOne.results.map(itemToContent)
+    );
     expect(convertedResponse.query).toEqual(portalApiResultsOne.query);
     expect(convertedResponse.total).toEqual(portalApiResultsOne.total);
     expect(convertedResponse.count).toEqual(portalApiResultsOne.num);
@@ -92,10 +95,12 @@ describe("Convert Portal Response function", () => {
           start: 2,
           sortField: "title",
           sortOrder: "asc",
-          authentication: undefined
-        }
+          authentication: undefined,
+        },
       ]);
-      expect(contentResponse.results).toEqual(portalApiResultsTwo.results);
+      expect(contentResponse.results).toEqual(
+        portalApiResultsTwo.results.map(itemToContent)
+      );
       expect(contentResponse.query).toEqual(portalApiResultsTwo.query);
       expect(contentResponse.total).toEqual(portalApiResultsTwo.total);
       expect(contentResponse.count).toEqual(portalApiResultsTwo.num);
@@ -106,7 +111,7 @@ describe("Convert Portal Response function", () => {
     });
   });
 
-  it("can properly format a response from Portal API with aggregations", done => {
+  it("can properly format a response from Portal API with aggregations", (done) => {
     // Setup
     const itemOne: IItem = {
       id: "12345",
@@ -117,7 +122,7 @@ describe("Convert Portal Response function", () => {
       created: 1000,
       modified: 2000,
       numViews: 1,
-      size: 5
+      size: 5,
     };
 
     const itemTwo: IItem = {
@@ -129,7 +134,7 @@ describe("Convert Portal Response function", () => {
       created: 2000,
       modified: 3000,
       numViews: 2,
-      size: 6
+      size: 6,
     };
 
     const request: ISearchOptions = {
@@ -138,7 +143,7 @@ describe("Convert Portal Response function", () => {
       sortField: "title",
       start: 1,
       num: 1,
-      aggregations: "type,access"
+      aggregations: "type,access",
     };
 
     const portalApiResultsOne: ISearchResult<IItem> = {
@@ -155,33 +160,33 @@ describe("Convert Portal Response function", () => {
             fieldValues: [
               {
                 value: "Feature Layer",
-                count: 4
+                count: 4,
               },
               {
                 value: "Table",
-                count: 1
-              }
-            ]
+                count: 1,
+              },
+            ],
           },
           {
             fieldName: "access",
             fieldValues: [
               {
                 value: "public",
-                count: 3
+                count: 3,
               },
               {
                 value: "private",
-                count: 1
+                count: 1,
               },
               {
                 value: "org",
-                count: 1
-              }
-            ]
-          }
-        ]
-      }
+                count: 1,
+              },
+            ],
+          },
+        ],
+      },
     };
 
     const portalApiResultsTwo: ISearchResult<IItem> = {
@@ -198,33 +203,33 @@ describe("Convert Portal Response function", () => {
             fieldValues: [
               {
                 value: "Feature Layer",
-                count: 4
+                count: 4,
               },
               {
                 value: "Table",
-                count: 1
-              }
-            ]
+                count: 1,
+              },
+            ],
           },
           {
             fieldName: "access",
             fieldValues: [
               {
                 value: "public",
-                count: 3
+                count: 3,
               },
               {
                 value: "private",
-                count: 1
+                count: 1,
               },
               {
                 value: "org",
-                count: 1
-              }
-            ]
-          }
-        ]
-      }
+                count: 1,
+              },
+            ],
+          },
+        ],
+      },
     };
 
     // Mock
@@ -240,7 +245,9 @@ describe("Convert Portal Response function", () => {
 
     // Assert
     expect(convertedResponse).toBeDefined();
-    expect(convertedResponse.results).toEqual(portalApiResultsOne.results);
+    expect(convertedResponse.results).toEqual(
+      portalApiResultsOne.results.map(itemToContent)
+    );
     expect(convertedResponse.query).toEqual(portalApiResultsOne.query);
     expect(convertedResponse.total).toEqual(portalApiResultsOne.total);
     expect(convertedResponse.count).toEqual(portalApiResultsOne.num);
@@ -252,31 +259,31 @@ describe("Convert Portal Response function", () => {
         aggregations: [
           {
             label: "Feature Layer",
-            value: 4
+            value: 4,
           },
           {
             label: "Table",
-            value: 1
-          }
-        ]
+            value: 1,
+          },
+        ],
       },
       {
         fieldName: "access",
         aggregations: [
           {
             label: "public",
-            value: 3
+            value: 3,
           },
           {
             label: "private",
-            value: 1
+            value: 1,
           },
           {
             label: "org",
-            value: 1
-          }
-        ]
-      }
+            value: 1,
+          },
+        ],
+      },
     ]);
     expect(convertedResponse.next).toBeDefined();
 
@@ -293,10 +300,12 @@ describe("Convert Portal Response function", () => {
           sortField: "title",
           sortOrder: "asc",
           aggregations: "type,access",
-          authentication: undefined
-        }
+          authentication: undefined,
+        },
       ]);
-      expect(contentResponse.results).toEqual(portalApiResultsTwo.results);
+      expect(contentResponse.results).toEqual(
+        portalApiResultsTwo.results.map(itemToContent)
+      );
       expect(contentResponse.query).toEqual(portalApiResultsTwo.query);
       expect(contentResponse.total).toEqual(portalApiResultsTwo.total);
       expect(contentResponse.count).toEqual(portalApiResultsTwo.num);
@@ -308,38 +317,38 @@ describe("Convert Portal Response function", () => {
           aggregations: [
             {
               label: "Feature Layer",
-              value: 4
+              value: 4,
             },
             {
               label: "Table",
-              value: 1
-            }
-          ]
+              value: 1,
+            },
+          ],
         },
         {
           fieldName: "access",
           aggregations: [
             {
               label: "public",
-              value: 3
+              value: 3,
             },
             {
               label: "private",
-              value: 1
+              value: 1,
             },
             {
               label: "org",
-              value: 1
-            }
-          ]
-        }
+              value: 1,
+            },
+          ],
+        },
       ]);
       expect(contentResponse.next).toBeDefined();
       done();
     });
   });
 
-  it("can use different UserSession objects for subsequent requests", done => {
+  it("can use different UserSession objects for subsequent requests", (done) => {
     // Setup
     const itemOne: IItem = {
       id: "12345",
@@ -350,7 +359,7 @@ describe("Convert Portal Response function", () => {
       created: 1000,
       modified: 2000,
       numViews: 1,
-      size: 5
+      size: 5,
     };
 
     const itemTwo: IItem = {
@@ -362,7 +371,7 @@ describe("Convert Portal Response function", () => {
       created: 2000,
       modified: 3000,
       numViews: 2,
-      size: 6
+      size: 6,
     };
 
     const userSessionOne = new UserSession({ portal: "dummy-portal-one" });
@@ -374,7 +383,7 @@ describe("Convert Portal Response function", () => {
       sortField: "title",
       start: 1,
       num: 1,
-      authentication: userSessionOne
+      authentication: userSessionOne,
     };
 
     const portalApiResultsOne: ISearchResult<IItem> = {
@@ -383,7 +392,7 @@ describe("Convert Portal Response function", () => {
       start: 1,
       num: 1,
       nextStart: 2,
-      results: [itemOne]
+      results: [itemOne],
     };
 
     const portalApiResultsTwo: ISearchResult<IItem> = {
@@ -392,7 +401,7 @@ describe("Convert Portal Response function", () => {
       start: 2,
       num: 1,
       nextStart: -1,
-      results: [itemTwo]
+      results: [itemTwo],
     };
 
     // Mock
@@ -408,7 +417,9 @@ describe("Convert Portal Response function", () => {
 
     // Assert
     expect(convertedResponse).toBeDefined();
-    expect(convertedResponse.results).toEqual(portalApiResultsOne.results);
+    expect(convertedResponse.results).toEqual(
+      portalApiResultsOne.results.map(itemToContent)
+    );
     expect(convertedResponse.query).toEqual(portalApiResultsOne.query);
     expect(convertedResponse.total).toEqual(portalApiResultsOne.total);
     expect(convertedResponse.count).toEqual(portalApiResultsOne.num);
@@ -430,10 +441,12 @@ describe("Convert Portal Response function", () => {
             start: 2,
             sortField: "title",
             sortOrder: "asc",
-            authentication: userSessionTwo
-          }
+            authentication: userSessionTwo,
+          },
         ]);
-        expect(contentResponse.results).toEqual(portalApiResultsTwo.results);
+        expect(contentResponse.results).toEqual(
+          portalApiResultsTwo.results.map(itemToContent)
+        );
         expect(contentResponse.query).toEqual(portalApiResultsTwo.query);
         expect(contentResponse.total).toEqual(portalApiResultsTwo.total);
         expect(contentResponse.count).toEqual(portalApiResultsTwo.num);

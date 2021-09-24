@@ -2,7 +2,11 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import * as portal from "@esri/arcgis-rest-portal";
 import { IItem, ISearchResult } from "@esri/arcgis-rest-portal";
 import * as common from "@esri/hub-common";
-import { IHubRequestOptions } from "@esri/hub-common";
+import {
+  datasetToContent,
+  IHubRequestOptions,
+  itemToContent,
+} from "@esri/hub-common";
 import { ContentSearchService, searchContent } from "../../src/content/index";
 import {
   IContentSearchFilter,
@@ -57,6 +61,8 @@ describe("Content Search Service", () => {
       results: [itemOne, itemTwo],
     };
 
+    const results = mockedResponse.results.map(itemToContent);
+
     const authentication: UserSession = new UserSession({
       portal: "portal-sharing-url",
     });
@@ -92,7 +98,7 @@ describe("Content Search Service", () => {
           bbox: undefined,
         },
       ]);
-      expect(response.results).toEqual(mockedResponse.results);
+      expect(response.results).toEqual(results);
       expect(response.query).toEqual(mockedResponse.query);
       expect(response.total).toEqual(mockedResponse.total);
       expect(response.count).toEqual(mockedResponse.num);
@@ -138,6 +144,8 @@ describe("Content Search Service", () => {
       results: [itemOne, itemTwo],
     };
 
+    const expectedResults = mockedResponse.results.map(itemToContent);
+
     const authentication: UserSession = new UserSession({
       portal: "portal-sharing-url",
     });
@@ -173,7 +181,7 @@ describe("Content Search Service", () => {
           bbox: undefined,
         },
       ]);
-      expect(response.results).toEqual(mockedResponse.results);
+      expect(response.results).toEqual(expectedResults);
       expect(response.query).toEqual(mockedResponse.query);
       expect(response.total).toEqual(mockedResponse.total);
       expect(response.count).toEqual(mockedResponse.num);
@@ -241,6 +249,8 @@ describe("Content Search Service", () => {
       },
     };
 
+    const results = mockedResponse.data.map(datasetToContent);
+
     const authentication: UserSession = new UserSession({
       portal: "portal-sharing-url",
     });
@@ -282,9 +292,7 @@ describe("Content Search Service", () => {
           },
         },
       ]);
-      const mappedAttributes: Array<Record<string, any>> =
-        mockedResponse.data.map((d: Record<string, any>) => d.attributes);
-      expect(response.results).toEqual(mappedAttributes);
+      expect(response.results).toEqual(results);
       expect(response.query).toEqual(
         JSON.stringify(mockedResponse.meta.queryParameters)
       );
@@ -359,6 +367,8 @@ describe("Content Search Service", () => {
       },
     };
 
+    const expectedResults = mockedResponse.data.map(datasetToContent);
+
     const sessionTwo: UserSession = new UserSession({
       portal: "a-different-Portal",
     });
@@ -400,9 +410,7 @@ describe("Content Search Service", () => {
           },
         },
       ]);
-      const mappedAttributes: Array<Record<string, any>> =
-        mockedResponse.data.map((d: Record<string, any>) => d.attributes);
-      expect(response.results).toEqual(mappedAttributes);
+      expect(response.results).toEqual(expectedResults);
       expect(response.query).toEqual(
         JSON.stringify(mockedResponse.meta.queryParameters)
       );
@@ -473,6 +481,7 @@ describe("Content Search Service", () => {
         },
       },
     };
+    const expectedResults = mockedResponse.data.map(datasetToContent);
 
     const service: ContentSearchService = new ContentSearchService({
       portal: "https://qaext.arcgis.com/sharing/rest",
@@ -508,9 +517,7 @@ describe("Content Search Service", () => {
           },
         },
       ]);
-      const mappedAttributes: Array<Record<string, any>> =
-        mockedResponse.data.map((d: Record<string, any>) => d.attributes);
-      expect(response.results).toEqual(mappedAttributes);
+      expect(response.results).toEqual(expectedResults);
       expect(response.query).toEqual(
         JSON.stringify(mockedResponse.meta.queryParameters)
       );
@@ -568,6 +575,7 @@ describe("Content Search Service", () => {
         },
       },
     };
+    const expectedResults = mockedResponse.data.map(datasetToContent);
 
     const service: ContentSearchService = new ContentSearchService({
       portal: "https://qaext.arcgis.com/sharing/rest",
@@ -601,9 +609,7 @@ describe("Content Search Service", () => {
           },
         },
       ]);
-      const mappedAttributes: Array<Record<string, any>> =
-        mockedResponse.data.map((d: Record<string, any>) => d.attributes);
-      expect(response.results).toEqual(mappedAttributes);
+      expect(response.results).toEqual(expectedResults);
       expect(response.query).toEqual(
         JSON.stringify(mockedResponse.meta.queryParameters)
       );
@@ -753,6 +759,8 @@ describe("searchContent function", () => {
       results: [itemOne, itemTwo],
     };
 
+    const expectedResults = mockedResponse.results.map(itemToContent);
+
     // Mock
     const searchItemsMock = spyOn(portal, "searchItems").and.returnValue(
       Promise.resolve(mockedResponse)
@@ -778,7 +786,7 @@ describe("searchContent function", () => {
           bbox: undefined,
         },
       ]);
-      expect(response.results).toEqual(mockedResponse.results);
+      expect(response.results).toEqual(expectedResults);
       expect(response.query).toEqual(mockedResponse.query);
       expect(response.total).toEqual(mockedResponse.total);
       expect(response.count).toEqual(mockedResponse.num);
@@ -855,6 +863,8 @@ describe("searchContent function", () => {
       },
     };
 
+    const expectedResults = mockedResponse.data.map(datasetToContent);
+
     // Mock
     const hubRequestMock = spyOn(common, "hubApiRequest").and.returnValue(
       Promise.resolve(mockedResponse)
@@ -886,9 +896,7 @@ describe("searchContent function", () => {
           },
         },
       ]);
-      const mappedAttributes: Array<Record<string, any>> =
-        mockedResponse.data.map((d: Record<string, any>) => d.attributes);
-      expect(response.results).toEqual(mappedAttributes);
+      expect(response.results).toEqual(expectedResults);
       expect(response.query).toEqual(
         JSON.stringify(mockedResponse.meta.queryParameters)
       );
@@ -948,6 +956,8 @@ describe("searchContent function", () => {
       },
     };
 
+    const expectedResults = mockedResponse.data.map(datasetToContent);
+
     // Mock
     const hubRequestMock = spyOn(common, "hubApiRequest").and.returnValue(
       Promise.resolve(mockedResponse)
@@ -975,9 +985,7 @@ describe("searchContent function", () => {
           },
         },
       ]);
-      const mappedAttributes: Array<Record<string, any>> =
-        mockedResponse.data.map((d: Record<string, any>) => d.attributes);
-      expect(response.results).toEqual(mappedAttributes);
+      expect(response.results).toEqual(expectedResults);
       expect(response.query).toEqual(
         JSON.stringify(mockedResponse.meta.queryParameters)
       );
@@ -1051,6 +1059,8 @@ describe("searchContent function", () => {
       },
     };
 
+    const expectedResults = mockedResponse.data.map(datasetToContent);
+
     // Mock
     const hubRequestMock = spyOn(common, "hubApiRequest").and.returnValue(
       Promise.resolve(mockedResponse)
@@ -1080,9 +1090,7 @@ describe("searchContent function", () => {
           },
         },
       ]);
-      const mappedAttributes: Array<Record<string, any>> =
-        mockedResponse.data.map((d: Record<string, any>) => d.attributes);
-      expect(response.results).toEqual(mappedAttributes);
+      expect(response.results).toEqual(expectedResults);
       expect(response.query).toEqual(
         JSON.stringify(mockedResponse.meta.queryParameters)
       );
