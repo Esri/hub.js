@@ -1,6 +1,6 @@
 import { DatasetResource, IHubRequestOptions, hubApiRequest } from "..";
 
-export function fetchDatasets(
+export function searchHub(
   requestOptions: IHubRequestOptions
 ): Promise<{ data: DatasetResource[] }> {
   // derive default headers if authentication
