@@ -2,7 +2,7 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import {
   getHubApiUrl,
   getProp,
-  searchHub,
+  hubApiSearch,
   IHubRequestOptions,
   fetchSite,
   ISiteCatalog,
@@ -327,7 +327,7 @@ function performEnterpriseContentSearch(
 }
 
 /**
- * Internal function to search the Hub API (v3)
+ * Function to search the Hub API (v3)
  * using the same arguments as searchContent()
  *
  * NOTE: this returns the Hub API's raw JSONAPI response
@@ -335,15 +335,13 @@ function performEnterpriseContentSearch(
  *
  * @param request - see searchContent()
  * @returns Hub API's JSONAPI response
- *
- * @private
  */
-export function _searchHubByContentSearchRequest(
+export function searchDatasets(
   request: IContentSearchRequest
 ): Promise<{ data: DatasetResource[] }> {
   const params: ISearchParams = convertToHubParams(request);
   const requestOptions = { ...getHubRequestOptions(request.options), params };
-  return searchHub(requestOptions);
+  return hubApiSearch(requestOptions);
 }
 
 function performHubContentSearch(
@@ -353,7 +351,7 @@ function performHubContentSearch(
     request,
     "options.authentication"
   );
-  return _searchHubByContentSearchRequest(request).then((response) => {
+  return searchDatasets(request).then((response) => {
     const requestParams: ISearchParams = convertToHubParams(request);
     return convertHubResponse(requestParams, response, authentication);
   });

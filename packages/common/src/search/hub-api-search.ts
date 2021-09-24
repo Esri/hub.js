@@ -5,7 +5,7 @@ import { DatasetResource, IHubRequestOptions, hubApiRequest } from "..";
  * @param requestOptions
  * @returns JSONAPI response
  */
-export function searchHub(
+export function hubApiSearch(
   requestOptions: IHubRequestOptions
 ): Promise<{ data: DatasetResource[] }> {
   // derive default headers if authentication
