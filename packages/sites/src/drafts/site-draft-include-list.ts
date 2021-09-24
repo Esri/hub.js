@@ -15,5 +15,6 @@ export const SITE_DRAFT_INCLUDE_LIST = [
   "data.values.faviconUrl",
   "data.values.telemetry",
   "data.values.map",
-  "data.values.capabilities"
+  "data.values.capabilities",
+  "data.values.contentViews",
 ];
