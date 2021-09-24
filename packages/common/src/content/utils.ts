@@ -2,15 +2,15 @@
  * Apache-2.0 */
 import { ResourceObject } from "jsonapi-typescript";
 import { IItem } from "@esri/arcgis-rest-portal";
-import { HubType, HubFamily, IBBox, IHubGeography } from "./types";
-import { collections } from "./collections";
-import { categories as allCategories, isDownloadable } from "./categories";
-import { createExtent, isExtentCoordinateArray } from "./extent";
-import { includes, isGuid } from "./utils";
-import { IHubContent, IModel } from "./types";
-import { getProp } from "./objects";
-import { getStructuredLicense } from "./items/get-structured-license";
-import { getServiceTypeFromUrl } from "./urls";
+import { HubType, HubFamily, IBBox, IHubGeography } from "../types";
+import { collections } from "../collections";
+import { categories as allCategories, isDownloadable } from "../categories";
+import { createExtent, isExtentCoordinateArray } from "../extent";
+import { includes, isGuid } from "../utils";
+import { IHubContent, IModel } from "../types";
+import { getProp } from "../objects";
+import { getStructuredLicense } from "../items/get-structured-license";
+import { getServiceTypeFromUrl } from "../urls";
 
 /**
  * JSONAPI dataset resource returned by the Hub API

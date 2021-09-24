@@ -3,7 +3,8 @@ import {
   IHubContent,
   cloneObject,
   datasetToContent,
-  hubApiRequest,
+  fetchDatasets,
+  fetchDataset,
   mergeObjects,
 } from "@esri/hub-common";
 import { isSlug, addContextToSlug, parseDatasetId } from "./slugs";
@@ -58,11 +59,9 @@ export function getContentFromHub(
     const slug = addContextToSlug(identifier, options && options.siteOrgKey);
     const opts = cloneObject(options);
     opts.params = { ...opts.params, "filter[slug]": slug };
-    request = hubApiRequest(`/datasets`, opts).then(
-      (resp) => resp && resp.data[0]
-    );
+    request = fetchDatasets(opts).then((resp) => resp && resp.data[0]);
   } else {
-    request = hubApiRequest(`/datasets/${identifier}`, options).then(
+    request = fetchDataset(identifier, options).then(
       (resp) => resp && resp.data
     );
   }
