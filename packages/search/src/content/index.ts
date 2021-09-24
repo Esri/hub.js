@@ -2,11 +2,12 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import {
   getHubApiUrl,
   getProp,
-  hubApiRequest,
+  searchHub,
   IHubRequestOptions,
   fetchSite,
   ISiteCatalog,
   getPortalApiUrl,
+  DatasetResource,
 } from "@esri/hub-common";
 import { IItem, ISearchOptions, ISearchResult } from "@esri/arcgis-rest-portal";
 import { searchItems } from "@esri/arcgis-rest-portal";
@@ -81,7 +82,10 @@ export class ContentSearchService
   private onlineSearch(
     request: IContentSearchRequest = { filter: {}, options: {} }
   ): Promise<IContentSearchResponse> {
-    return performHubContentSearch(request, this.portal, this.authentication);
+    // merge instance's portal and authentication into options
+    const { portal, authentication } = this;
+    const options = { portal, authentication, ...request.options };
+    return performHubContentSearch({ ...request, options });
   }
 }
 
@@ -322,30 +326,37 @@ function performEnterpriseContentSearch(
   );
 }
 
+/**
+ * Internal function to search the Hub API (v3)
+ * using the same arguments as searchContent()
+ *
+ * NOTE: this returns the Hub API's raw JSONAPI response
+ * and invalid parameters like isPortal will be ignored
+ *
+ * @param request - see searchContent()
+ * @returns Hub API's JSONAPI response
+ *
+ * @private
+ */
+export function _searchHubByContentSearchRequest(
+  request: IContentSearchRequest
+): Promise<{ data: DatasetResource[] }> {
+  const params: ISearchParams = convertToHubParams(request);
+  const requestOptions = { ...getHubRequestOptions(request.options), params };
+  return searchHub(requestOptions);
+}
+
 function performHubContentSearch(
-  request: IContentSearchRequest,
-  defaultPortal?: string,
-  defaultAuthentication?: UserSession
+  request: IContentSearchRequest
 ): Promise<IContentSearchResponse> {
-  const portal: string = getProp(request, "options.portal") || defaultPortal;
-  const authentication: UserSession =
-    getProp(request, "options.authentication") || defaultAuthentication;
-
-  const hubApiUrl: string = getHubApiUrl(portal);
-  const requestParams: ISearchParams = convertToHubParams(request);
-  const headers = authentication &&
-    authentication.serialize && { authentication: authentication.serialize() };
-
-  return hubApiRequest("/search", {
-    hubApiUrl,
-    authentication,
-    isPortal: false,
-    headers,
-    httpMethod: "POST",
-    params: requestParams,
-  }).then((response: any) =>
-    convertHubResponse(requestParams, response, authentication)
+  const authentication: UserSession = getProp(
+    request,
+    "options.authentication"
   );
+  return _searchHubByContentSearchRequest(request).then((response) => {
+    const requestParams: ISearchParams = convertToHubParams(request);
+    return convertHubResponse(requestParams, response, authentication);
+  });
 }
 
 function getSiteCatalogFromOptions(

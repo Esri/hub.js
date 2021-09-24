@@ -12,6 +12,7 @@ export * from "./groups";
 export * from "./items";
 export * from "./objects";
 export * from "./resources";
+export * from "./search";
 export * from "./sites";
 export * from "./types";
 export * from "./urls";
