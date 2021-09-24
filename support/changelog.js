@@ -81,7 +81,7 @@ function getCommitData(from, to) {
        .replace(/\\/g, "\\\\")
        */
       // order commits from most recent to least recent
-      const commits = JSON.parse("["+stdout.slice(0, -1) /*.replace(/"patch"/g, "patch")*/ +"]").reverse();
+      const commits = JSON.parse("["+stdout.slice(0, -1).replace(/Revert "feat/g, "Revert feat").replace(/ function""/g, " function\"") +"]").reverse();
       const today = new Date();
       resolve({
         previousVersion: /v\d\.\d\.\d/.test(from)

@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [8.23.0] - September 24th 2021
+
+### Other Changes
+
+* New Features
+   * **hub-search**: expose searchDatasets() to search the Hub API and return datasets [`1c1f39991`](https://github.com/Esri/hub.js/commit/1c1f39991169caca8860fc5fbe60258efd6a63e7)
+
 ## [8.22.1] - September 22nd 2021
 
 ### Other Changes
@@ -245,7 +252,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - **hub-teams**: add canEditTeam [`d2c9fecf`](https://github.com/Esri/hub.js/commit/d2c9fecf0314e35ee5c1acb9583684f18740f0b1)
   - **hub-teams**: add username check [`36a8b792`](https://github.com/Esri/hub.js/commit/36a8b7924ef7cf11ac2f2e81abe0d9ca49e86ec7)
   - **hub-teams**: add canEditTeam tests [`d4d52c18`](https://github.com/Esri/hub.js/commit/d4d52c1879c01f44770c16de242822ce41ba2708)
-  - **hub-teams**: add case when user is not auth&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;#39;d [`295e04a7`](https://github.com/Esri/hub.js/commit/295e04a7189151c827a25dcf9222c76448df71f7)
+  - **hub-teams**: add case when user is not auth&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;#39;d [`295e04a7`](https://github.com/Esri/hub.js/commit/295e04a7189151c827a25dcf9222c76448df71f7)
 
 ## [8.7.0] - June 25th 2021
 
@@ -1065,7 +1072,11 @@ Attempt to address failed release
 
 ## [4.1.0] - May 21st 2020
 
+
+
 ## [4.0.0] - May 20th 2020
+
+
 
 ## [3.9.3] - May 14th 2020
 
@@ -1103,6 +1114,8 @@ Attempt to address failed release
   - **peerDependencies**: fix invalid peerDependencies [`08fae37`](https://github.com/Esri/hub.js/commit/08fae37875aa3e68a82970a54eedcbe13ef001a8) [#251](https://github.com/Esri/hub.js/issues/251)
 
 ## [3.9.1] - May 6th 2020
+
+
 
 ## [3.9.0] - May 6th 2020
 
@@ -1144,6 +1157,8 @@ Attempt to address failed release
 
 ## [3.7.4] - April 30th 2020
 
+
+
 ## [3.7.3] - April 29th 2020
 
 - New Features
@@ -1154,6 +1169,8 @@ Attempt to address failed release
 ### @esri/hub-common
 
 ## [3.7.1] - April 28th 2020
+
+
 
 ## [3.7.0] - April 28th 2020
 
@@ -1209,7 +1226,11 @@ Attempt to address failed release
 
 ## [3.6.3] - January 27th 2020
 
+
+
 ## [3.6.2] - January 2nd 2020
+
+
 
 ## [3.6.0] - November 18th 2019
 
@@ -1303,6 +1324,8 @@ Attempt to address failed release
   - **search**: support filters specified implicitly
 
 ## [2.6.0] - August 20th 2019
+
+
 
 ## [2.5.0] - August 15th 2019
 
@@ -1908,4 +1931,5 @@ Initial Release
 [8.21.1]: https://github.com/Esri/hub.js/compare/v8.21.0...v8.21.1 "v8.21.1"
 [8.22.0]: https://github.com/Esri/hub.js/compare/v8.21.1...v8.22.0 "v8.22.0"
 [8.22.1]: https://github.com/Esri/hub.js/compare/v8.22.0...v8.22.1 "v8.22.1"
-[HEAD]: https://github.com/Esri/hub.js/compare/v8.22.1...HEAD "Unreleased Changes"
+[8.23.0]: https://github.com/Esri/hub.js/compare/v8.22.1...v8.23.0 "v8.23.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v8.23.0...HEAD "Unreleased Changes"
