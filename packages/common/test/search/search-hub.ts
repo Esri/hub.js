@@ -1,8 +1,8 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
 import * as fetchMock from "fetch-mock";
-import { DatasetResource, searchHub } from "../../src";
+import { DatasetResource, hubApiSearch } from "../../src";
 
-describe("searchHub", function () {
+describe("hubApiSearch", function () {
   const response = {
     data: [] as DatasetResource[],
   };
@@ -14,7 +14,7 @@ describe("searchHub", function () {
       password: "notreal",
     });
     fetchMock.once("*", response);
-    await searchHub({
+    await hubApiSearch({
       authentication,
     });
     const [url, options] = fetchMock.lastCall();

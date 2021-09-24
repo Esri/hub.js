@@ -1,1 +1,1 @@
-export * from "./search-hub";
+export * from "./hub-api-search";
