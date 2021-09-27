@@ -3,6 +3,7 @@ import * as portalModule from "@esri/arcgis-rest-portal";
 import * as featureLayer from "@esri/arcgis-rest-feature-layer";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { portalRequestDownloadMetadata } from "../../src/portal/portal-request-download-metadata";
+import { ArcGISAuthError } from "@esri/arcgis-rest-request";
 
 function buildAuth({
   username,
@@ -29,6 +30,92 @@ describe("portalRequestDownloadMetadata", () => {
     token: "123",
   });
   afterEach(() => fetchMock.restore());
+
+  describe('failed service requests', () => {
+    // See https://github.com/Esri/arcgis-rest-js/issues/920 for context
+    it("retries failed service requests without token if they threw auth error", async () => {
+      const featureServiceResponse = { layers: [{ id: 0 }] };
+      const layerResponse = { id: 0 };
+
+      const mockAuthErrorForServiceCall = new ArcGISAuthError();
+      spyOn(mockAuthErrorForServiceCall, "retry").and.returnValue(
+        Promise.resolve(featureServiceResponse)
+      );
+      const mockAuthErrorForLayerCall = new ArcGISAuthError();
+      spyOn(mockAuthErrorForLayerCall, "retry").and.returnValue(
+        Promise.resolve(layerResponse)
+      );
+
+      spyOn(portalModule, "getItem").and.returnValue(
+        Promise.resolve({
+          type: "Feature Service",
+          modified: new Date(1593450876).getTime(),
+          url: "http://feature-service.com/FeatureServer",
+        })
+      );
+
+      spyOn(featureLayer, "getService").and.returnValue(
+        Promise.reject(mockAuthErrorForServiceCall)
+      );
+
+      spyOn(featureLayer, "getLayer").and.returnValue(
+        Promise.reject(mockAuthErrorForLayerCall)
+      );
+
+      spyOn(portalModule, "searchItems").and.returnValue(
+        new Promise((resolve) => {
+          resolve({ results: [] });
+        })
+      );
+
+      const result = await portalRequestDownloadMetadata({
+        datasetId: "abcdef0123456789abcdef0123456789",
+        format: "CSV",
+        authentication,
+      });
+
+      expect(result).toEqual({
+        downloadId:
+          "abcdef0123456789abcdef0123456789:CSV:undefined:undefined:undefined",
+        lastEditDate: undefined,
+        status: "not_ready",
+      });
+
+      expect(mockAuthErrorForServiceCall.retry).toHaveBeenCalled();
+      expect(mockAuthErrorForLayerCall.retry).toHaveBeenCalled();
+
+      const getSessionFunc = (mockAuthErrorForServiceCall.retry as jasmine.Spy).calls.argsFor(0)[0];
+      expect(await getSessionFunc()).toBeNull();
+    });
+
+    it("rejects if service requests fail for a reason not related to auth", async () => {
+      class NotAnAuthError extends Error {}
+
+      spyOn(portalModule, "getItem").and.returnValue(
+        Promise.resolve({
+          type: "Feature Service",
+          modified: new Date(1593450876).getTime(),
+          url: "http://feature-service.com/FeatureServer",
+        })
+        );
+
+        spyOn(featureLayer, "getService").and.callFake(() => Promise.reject(new NotAnAuthError()));
+
+        spyOn(featureLayer, "getLayer").and.callFake(() => Promise.reject(new NotAnAuthError()));
+
+      try {
+        await portalRequestDownloadMetadata({
+          datasetId: "abcdef0123456789abcdef0123456789",
+          format: "CSV",
+          authentication,
+        });
+
+        fail('should reject!');
+      } catch (err) {
+        expect(err).toEqual(jasmine.any(NotAnAuthError));
+      }
+    });
+  });
 
   describe("portal errors", () => {
     it("handle remote server 502 error", async (done) => {

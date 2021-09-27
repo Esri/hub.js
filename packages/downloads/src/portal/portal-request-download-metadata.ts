@@ -12,9 +12,10 @@ import { DownloadTarget } from "../download-target";
 import { DownloadStatus } from "../download-status";
 import { isDownloadEnabled } from "./utils";
 import { isRecentlyUpdated } from "./utils";
-import { buildExistingExportsPortalQuery } from "@esri/hub-common";
+import { buildExistingExportsPortalQuery, includes } from "@esri/hub-common";
 import { parseDatasetId } from "@esri/hub-common";
 import { IDownloadMetadataResults } from "..";
+import { ArcGISAuthError } from "@esri/arcgis-rest-request";
 
 enum ItemTypes {
   FeatureService = "Feature Service",
@@ -123,11 +124,13 @@ function fetchCacheSearchMetadata(params: any): Promise<ICacheSearchMetadata> {
     });
   }
 
-  return getService({ url, authentication, portal })
+  return retryWithoutAuthOnFail(getService({ url, authentication, portal }))
     .then((response: IFeatureServiceDefinition) => {
       const layers: ILayerDefinition[] = response.layers || [];
       const promises: Array<Promise<ILayerDefinition>> = layers.map((layer) => {
-        return getLayer({ url: `${url}/${layer.id}`, authentication, portal });
+        return retryWithoutAuthOnFail(
+          getLayer({ url: `${url}/${layer.id}`, authentication, portal })
+        );
       });
       return Promise.all(promises);
     })
@@ -232,4 +235,27 @@ function determineStatus(
     return recentlyUpdated ? DownloadStatus.STALE_LOCKED : DownloadStatus.STALE;
   }
   return DownloadStatus.READY;
+}
+
+/**
+ * Takes a request promise and retries the request without authentication
+ * if it fails.
+ *
+ * TODO - consider incorporating this into rest-js. Discussion at https://github.com/Esri/arcgis-rest-js/issues/920
+ *
+ * @param requestPromise
+ * @private
+ */
+function retryWithoutAuthOnFail<T>(requestPromise: Promise<T>): Promise<T> {
+  return requestPromise.catch((error: ArcGISAuthError | Error) => {
+    if (error.name === "ArcGISAuthError") {
+      // try again with no auth
+      return (error as ArcGISAuthError).retry(
+        () => Promise.resolve(null),
+        1
+      ) as Promise<T>;
+    } else {
+      throw error;
+    }
+  });
 }
