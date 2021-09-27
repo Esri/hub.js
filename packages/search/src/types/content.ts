@@ -1,4 +1,5 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
+import { IHubContent } from "@esri/hub-common";
 import { IAggregationResult } from "../util/aggregations/merge-aggregations";
 import {
   IDateRange,
@@ -93,7 +94,7 @@ export interface IContentAggregations {
  * a parameterized results list type of any. Includes query, paginated result count,
  * and aggregations
  */
-export interface IContentSearchResponse extends ISearchResponse<any> {
+export interface IContentSearchResponse extends ISearchResponse<IHubContent> {
   query: string;
   count: number;
   aggregations?: IContentAggregations;
