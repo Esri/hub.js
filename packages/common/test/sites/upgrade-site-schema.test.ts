@@ -4,6 +4,7 @@ import * as _enforceLowercaseDomainsModule from "../../src/sites/_enforce-lowerc
 import * as _ensureCatalogModule from "../../src/sites/_ensure-catalog";
 import * as _purgeNonGuidsFromCatalogModule from "../../src/sites/_purge-non-guids-from-catalog";
 import * as _ensureTelemetryModule from "../../src/sites/_ensure-telemetry";
+import * as _migrateFeedConfigModule from "../../src/sites/_migrate-feed-config";
 import { IModel } from "../../src";
 import { SITE_SCHEMA_VERSION } from "../../src/sites/site-schema-version";
 import { expectAllCalled, expectAll } from "./test-helpers.test";
@@ -14,6 +15,7 @@ describe("upgradeSiteSchema", () => {
   let ensureCatalogSpy: jasmine.Spy;
   let purgeNonGuidsSpy: jasmine.Spy;
   let ensureTelemetrySpy: jasmine.Spy;
+  let migrateFeedConfigSpy: jasmine.Spy;
   beforeEach(() => {
     applySpy = spyOn(_applySiteSchemaModule, "_applySiteSchema").and.callFake(
       (model: IModel) => model
@@ -33,6 +35,10 @@ describe("upgradeSiteSchema", () => {
     ensureTelemetrySpy = spyOn(
       _ensureTelemetryModule,
       "_ensureTelemetry"
+    ).and.callFake((model: IModel) => model);
+    migrateFeedConfigSpy = spyOn(
+      _migrateFeedConfigModule,
+      "_migrateFeedConfig"
     ).and.callFake((model: IModel) => model);
   });
 
@@ -54,6 +60,7 @@ describe("upgradeSiteSchema", () => {
         ensureCatalogSpy,
         purgeNonGuidsSpy,
         ensureTelemetrySpy,
+        migrateFeedConfigSpy,
       ],
       expect
     );
@@ -77,6 +84,7 @@ describe("upgradeSiteSchema", () => {
         ensureCatalogSpy,
         purgeNonGuidsSpy,
         ensureTelemetrySpy,
+        migrateFeedConfigSpy,
       ],
       "toHaveBeenCalled",
       false,
