@@ -1,10 +1,16 @@
 import * as fetchMock from "fetch-mock";
 import * as arcgisRestPortal from "@esri/arcgis-rest-portal";
 import { IItem } from "@esri/arcgis-rest-portal";
-import { IHubRequestOptions, IHubContent } from "@esri/hub-common";
+import {
+  IHubRequestOptions,
+  IHubContent,
+  datasetToContent,
+} from "@esri/hub-common";
 import { getContentFromPortal } from "../src/portal";
 import * as metadataModule from "../src/metadata";
 import * as documentItem from "./mocks/items/document.json";
+import * as singleLayerFeatureServiceItem from "./mocks/items/single-layer-feature-service.json";
+import * as singleLayerFeatureServiceDataset from "./mocks/datasets/single-layer-feature-service.json";
 import { mockUserSession } from "./test-helpers/fake-user-session";
 
 function validateContentFromPortal(content: IHubContent, item: IItem) {
@@ -172,6 +178,59 @@ describe("get content from portal", () => {
       expect(getContentMetadataSpy.calls.argsFor(0)[0]).toBe(item.id);
       expect(content.metadata).toEqual(mockMetadata);
       expect(content.errors).toEqual([]);
+      done();
+    });
+  });
+  it("should fetch and enrich item as a layer if passed a hubId", (done) => {
+    // we'll make these requests w/ portal and no auth, for giggles
+    requestOpts.portal = "https://portal.example.com/sharing/rest";
+    delete requestOpts.authentication;
+
+    // set up mocks using the dataset attributes as mock responses
+    const item = singleLayerFeatureServiceItem as IItem;
+    const dataset = singleLayerFeatureServiceDataset.data;
+    const { server, layers, groupIds, metadata } = dataset.attributes;
+    fetchMock.once(
+      `${requestOpts.portal}/content/items/${item.id}?f=json`,
+      item
+    );
+    fetchMock.once(item.url, server);
+    fetchMock.once(`${item.url}/layers`, { layers, tables: [] });
+
+    // TODO: replace these stubs w/ fetchMock calls
+    // emulate successful item groups response
+    getItemGroupsSpy = spyOn(arcgisRestPortal, "getItemGroups").and.returnValue(
+      Promise.resolve({
+        admin: [],
+        member: groupIds.map((id) => ({ id })),
+        other: [],
+      })
+    );
+    // emulate that metadata exists for this item
+    const mockMetadata = metadata;
+    const getContentMetadataSpy = spyOn(
+      metadataModule,
+      "getContentMetadata"
+    ).and.returnValue(Promise.resolve(mockMetadata));
+
+    // pass dataset id
+    getContentFromPortal(dataset.id, requestOpts).then((content) => {
+      expect(content.item).toEqual(item, "set item");
+      expect(content.hubId).toBe(dataset.id, "set hubId");
+      // validate that layer and associated properties were set
+      expect(content.layer).toEqual(layers[0] as unknown, "set content layer");
+      expect(content.type).toBe("Feature Layer", "updated type");
+      expect(content.family).toBe("dataset", "updated family");
+      // verify that we successfully fetched the groupIds
+      expect(getItemGroupsSpy.calls.argsFor(0)[0]).toBe(
+        item.id,
+        "gets groups by item id"
+      );
+      // verify that we successfully fetched the metadata
+      expect(getContentMetadataSpy.calls.argsFor(0)[0]).toBe(
+        item.id,
+        "gets metadata by item id"
+      );
       done();
     });
   });

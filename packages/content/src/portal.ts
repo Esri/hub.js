@@ -8,10 +8,11 @@ import {
   itemToContent,
 } from "@esri/hub-common";
 import {
-  IFetchEnrichmentOptions,
+  IEnrichContentOptions,
   enrichContent,
   getPortalUrls,
 } from "./enrichments";
+import { parseDatasetId } from "./slugs";
 // DEPRECATED: remove this at next breaking change
 export {
   itemToContent,
@@ -49,14 +50,24 @@ export function withPortalUrls(
  */
 export function getContentFromPortal(
   idOrItem: string | IItem,
-  requestOptions?: IFetchEnrichmentOptions
+  requestOptions?: IEnrichContentOptions
 ): Promise<IHubContent> {
-  const getItemPromise: Promise<IItem> =
-    typeof idOrItem === "string"
-      ? getItem(idOrItem, requestOptions)
-      : Promise.resolve(idOrItem);
-
+  let getItemPromise;
+  let enrichContentOptions = requestOptions;
+  if (typeof idOrItem === "string") {
+    // parse item and layer id and fetch the item by id
+    const { itemId, layerId: layerIdString } = parseDatasetId(idOrItem);
+    getItemPromise = getItem(itemId, requestOptions);
+    if (layerIdString) {
+      // we want to return the content for the layer, not the service
+      const layerId = parseInt(layerIdString, 10);
+      enrichContentOptions = { layerId, ...requestOptions };
+    }
+  } else {
+    // an item was passed in, just roll w/ that
+    getItemPromise = Promise.resolve(idOrItem);
+  }
   return getItemPromise.then((item) => {
-    return enrichContent(itemToContent(item), requestOptions);
+    return enrichContent(itemToContent(item), enrichContentOptions);
   });
 }
