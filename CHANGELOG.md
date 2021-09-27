@@ -5,12 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [8.24.0] - September 27th 2021
+
+### Other Changes
+
+* New Features
+   * **hub-common**: add beginning work for _migrate-feed-config site migration helper [`39bd8496e`](https://github.com/Esri/hub.js/commit/39bd8496e1bad11707b2eeb3588bbe11447602fd)
+   * **hub-common**: clean up recursive strategy of migrating dcat configs [`2350d237f`](https://github.com/Esri/hub.js/commit/2350d237f9b0d7bd83acd8fd77c5229e7409c772)
+   * **hub-common**: add support for migrating addition custom dcat values [`d06641d5b`](https://github.com/Esri/hub.js/commit/d06641d5b62e2bcddeddd63d31f2ebdeb8dff32a)
+   * **hub-common**: change custom dcat config migration to use string manipulation [`97690d76d`](https://github.com/Esri/hub.js/commit/97690d76d6dcceede4ede8b474857cf4193c4b54)
+   * **hub-common**: bump site schema version and add _migrateFeedConfig helper to upgradeSiteSchema [`baf39af35`](https://github.com/Esri/hub.js/commit/baf39af3551663b8bc565c4d08fda31642a00241)
+   * **hub-common**: remove redundant migration entry for migrating DCAT configs [`8daf1fd91`](https://github.com/Esri/hub.js/commit/8daf1fd91ca3c0b0b82ff38491a09c70cae723a7)
+   * **hub-common**: no longer remove dcatConfig object from site during migration [`fb8d7fb6b`](https://github.com/Esri/hub.js/commit/fb8d7fb6b2174012da41b47bc82c8a08fbe3b47c)
+   * **hub-common**: fix root package-lock.json conflicts with master [`2f6268402`](https://github.com/Esri/hub.js/commit/2f62684024c3a8a3fa2333f08c179995b9e8a933)
+* Bug Fixes
+   * **hub-downloads**: support requesting download metadata from all public feature services [`63001c4fd`](https://github.com/Esri/hub.js/commit/63001c4fd1e1c58b6d0ef5fa43a4c1f8ea810254)
+   * **hub-downloads**: support requesting download metadata from all pub… [`083aa7563`](https://github.com/Esri/hub.js/commit/083aa7563a762ea95efef8d31c2259b59a860833)
+
 ## [8.23.2] - September 27th 2021
 
 ### Other Changes
 
 * Chores
-   * **hub-common**: allow commits that start w/ &amp;#39;pr:&amp;#39; to address PR review [`e344283f0`](https://github.com/Esri/hub.js/commit/e344283f00cd329effd45aa4eb6b004e78664de9)
+   * **hub-common**: allow commits that start w/ &amp;amp;#39;pr:&amp;amp;#39; to address PR review [`e344283f0`](https://github.com/Esri/hub.js/commit/e344283f00cd329effd45aa4eb6b004e78664de9)
 
 * Bug Fixes
    * **hub-content**: getContentFromPortal() returns the layer content when passed a hubId [`157fa1110`](https://github.com/Esri/hub.js/commit/157fa1110546238d6a63b410ec129b93db15e6aa)
@@ -269,7 +286,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - **hub-teams**: add canEditTeam [`d2c9fecf`](https://github.com/Esri/hub.js/commit/d2c9fecf0314e35ee5c1acb9583684f18740f0b1)
   - **hub-teams**: add username check [`36a8b792`](https://github.com/Esri/hub.js/commit/36a8b7924ef7cf11ac2f2e81abe0d9ca49e86ec7)
   - **hub-teams**: add canEditTeam tests [`d4d52c18`](https://github.com/Esri/hub.js/commit/d4d52c1879c01f44770c16de242822ce41ba2708)
-  - **hub-teams**: add case when user is not auth&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;#39;d [`295e04a7`](https://github.com/Esri/hub.js/commit/295e04a7189151c827a25dcf9222c76448df71f7)
+  - **hub-teams**: add case when user is not auth&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;#39;d [`295e04a7`](https://github.com/Esri/hub.js/commit/295e04a7189151c827a25dcf9222c76448df71f7)
 
 ## [8.7.0] - June 25th 2021
 
@@ -1951,4 +1968,5 @@ Initial Release
 [8.23.0]: https://github.com/Esri/hub.js/compare/v8.22.1...v8.23.0 "v8.23.0"
 [8.23.1]: https://github.com/Esri/hub.js/compare/v8.23.0...v8.23.1 "v8.23.1"
 [8.23.2]: https://github.com/Esri/hub.js/compare/v8.23.1...v8.23.2 "v8.23.2"
-[HEAD]: https://github.com/Esri/hub.js/compare/v8.23.2...HEAD "Unreleased Changes"
+[8.24.0]: https://github.com/Esri/hub.js/compare/v8.23.2...v8.24.0 "v8.24.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v8.24.0...HEAD "Unreleased Changes"
