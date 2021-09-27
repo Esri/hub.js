@@ -83,6 +83,37 @@ describe("portalRequestDownloadMetadata", () => {
 
       expect(mockAuthErrorForServiceCall.retry).toHaveBeenCalled();
       expect(mockAuthErrorForLayerCall.retry).toHaveBeenCalled();
+
+      const getSessionFunc = (mockAuthErrorForServiceCall.retry as jasmine.Spy).calls.argsFor(0)[0];
+      expect(await getSessionFunc()).toBeNull();
+    });
+
+    it("rejects if service requests fail for a reason not related to auth", async () => {
+      class NotAnAuthError extends Error {}
+
+      spyOn(portalModule, "getItem").and.returnValue(
+        Promise.resolve({
+          type: "Feature Service",
+          modified: new Date(1593450876).getTime(),
+          url: "http://feature-service.com/FeatureServer",
+        })
+        );
+
+        spyOn(featureLayer, "getService").and.callFake(() => Promise.reject(new NotAnAuthError()));
+
+        spyOn(featureLayer, "getLayer").and.callFake(() => Promise.reject(new NotAnAuthError()));
+
+      try {
+        await portalRequestDownloadMetadata({
+          datasetId: "abcdef0123456789abcdef0123456789",
+          format: "CSV",
+          authentication,
+        });
+
+        fail('should reject!');
+      } catch (err) {
+        expect(err).toEqual(jasmine.any(NotAnAuthError));
+      }
     });
   });
 
