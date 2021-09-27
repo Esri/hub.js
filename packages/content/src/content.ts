@@ -10,7 +10,7 @@ import {
 import { IGetContentOptions, getContentFromHub } from "./hub";
 import { getContentFromPortal } from "./portal";
 import { enrichContent } from "./enrichments";
-import { isSlug, parseDatasetId } from "./slugs";
+import { isSlug } from "./slugs";
 
 /**
  * Fetch content by ID using either the Hub API or the ArcGIS REST API
@@ -25,8 +25,7 @@ function getContentById(
   let getContentPromise: Promise<IHubContent>;
   // first fetch and format the content from the Hub or portal API
   if (options && options.isPortal) {
-    const { itemId } = parseDatasetId(identifier);
-    getContentPromise = getContentFromPortal(itemId, options);
+    getContentPromise = getContentFromPortal(identifier, options);
   } else {
     getContentPromise = getContentFromHub(identifier, options).catch((e) => {
       // dataset is not in index (i.e. might be a private item)

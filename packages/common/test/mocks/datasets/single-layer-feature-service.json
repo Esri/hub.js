@@ -1,0 +1,894 @@
+{
+  "data": {
+    "id": "9a7f08da1f5b4116984a234016d51790_0",
+    "type": "dataset",
+    "attributes": {
+      "errors": [],
+      "access": "public",
+      "additionalResources": [],
+      "advancedQueryCapabilities": {
+        "supportsStatistics": true,
+        "supportsSqlExpression": true,
+        "supportsQueryWithResultType": true,
+        "supportsOrderBy": true,
+        "supportsQueryRelatedPagination": true,
+        "supportsDisjointSpatialRel": true,
+        "supportsQueryWithDistance": true,
+        "supportsLod": true,
+        "supportsQueryWithCacheHint": true,
+        "supportsQueryWithDatumTransformation": true,
+        "supportsCountDistinct": true,
+        "supportedLodTypes": ["geohash"],
+        "supportsAdvancedQueryRelated": true,
+        "supportsOutFieldSQLExpression": true,
+        "supportsReturningQueryExtent": true,
+        "supportsQueryWithLodSR": false,
+        "supportsTopFeaturesQuery": true,
+        "supportsPaginationOnAggregatedQueries": true,
+        "supportsPagination": true,
+        "supportsMaxRecordCountFactor": true,
+        "supportsDistinct": true,
+        "supportsReturningGeometryCentroid": false,
+        "supportsPercentileStatistics": true,
+        "supportsHavingClause": true,
+        "supportsQueryAnalytic": true
+      },
+      "collection": ["Dataset"],
+      "categories": [],
+      "commentsEnabled": true,
+      "composeStatus": {
+        "pass": true,
+        "retries": 0,
+        "lastRetriedAt": 1610464971314
+      },
+      "composedAt": 1610464971313,
+      "content": "Feature Service",
+      "contentSecurityPolicy": null,
+      "created": 1416030576000,
+      "currentVersion": 10.81,
+      "dailyViewTrendRate": 18319.032236400268,
+      "description": "&lt;SCRIPT SRC=http://ha.ckers.org/xss.js&gt;&lt;/SCRIPT&gt;<div><br /></div><div>&lt;SCRIPT SRC=http://ha.ckers.org/xss.js&gt;&lt;/SCRIPT&gt;</div>",
+      "displayField": "",
+      "downloadable": true,
+      "enrichCoverage": "local",
+      "enrichQuality": 88,
+      "extent": {
+        "type": "envelope",
+        "coordinates": [
+          [-88, 39.1],
+          [-87.1, 40]
+        ]
+      },
+      "fieldNames": [
+        "rownum",
+        "latitude",
+        "longitude",
+        "quant_val",
+        "expected_color",
+        "FID"
+      ],
+      "fields": [
+        {
+          "sqlType": "sqlTypeInteger",
+          "actualType": "int",
+          "nullable": true,
+          "editable": true,
+          "defaultValue": null,
+          "domain": null,
+          "name": "rownum",
+          "alias": "rownum",
+          "type": "esriFieldTypeInteger"
+        },
+        {
+          "sqlType": "sqlTypeFloat",
+          "actualType": "float",
+          "nullable": true,
+          "editable": true,
+          "defaultValue": null,
+          "domain": null,
+          "name": "latitude",
+          "alias": "latitude",
+          "type": "esriFieldTypeDouble"
+        },
+        {
+          "sqlType": "sqlTypeFloat",
+          "actualType": "float",
+          "nullable": true,
+          "editable": true,
+          "defaultValue": null,
+          "domain": null,
+          "name": "longitude",
+          "alias": "longitude",
+          "type": "esriFieldTypeDouble"
+        },
+        {
+          "sqlType": "sqlTypeInteger",
+          "actualType": "int",
+          "nullable": true,
+          "editable": true,
+          "defaultValue": null,
+          "domain": null,
+          "name": "quant_val",
+          "alias": "quant_val",
+          "type": "esriFieldTypeInteger"
+        },
+        {
+          "sqlType": "sqlTypeNVarchar",
+          "actualType": "nvarchar",
+          "nullable": true,
+          "editable": true,
+          "defaultValue": null,
+          "domain": null,
+          "name": "expected_color",
+          "length": 256,
+          "alias": "expected_color",
+          "type": "esriFieldTypeString"
+        },
+        {
+          "sqlType": "sqlTypeInteger",
+          "actualType": "int",
+          "nullable": false,
+          "editable": false,
+          "defaultValue": null,
+          "domain": null,
+          "name": "FID",
+          "alias": "FID",
+          "type": "esriFieldTypeOID"
+        }
+      ],
+      "geometryType": "esriGeometryPoint",
+      "groupIds": ["402af5b8664e4e49a13debc67775c7b8"],
+      "hasApi": true,
+      "hubType": "Feature Layer",
+      "id": "9a7f08da1f5b4116984a234016d51790_0",
+      "itemModified": 1473946767000,
+      "itemExtent": [
+        [-88, 39.1],
+        [-87.10000000000001, 40]
+      ],
+      "layer": {
+        "extent": {
+          "ymin": 4736005.853817591,
+          "xmin": -9796115.189808074,
+          "ymax": 4865942.279503176,
+          "xmax": -9695927.648094129,
+          "spatialReference": { "latestWkid": 3857, "wkid": 102100 }
+        },
+        "supportsApplyEditsWithGlobalIds": false,
+        "maxRecordCount": -1,
+        "type": "Feature Layer",
+        "hasStaticData": true,
+        "editingInfo": { "lastEditDate": 1416031010137 },
+        "supportsAttachmentsByUploadId": true,
+        "relationships": [],
+        "supportsAttachmentsResizing": true,
+        "id": 0,
+        "supportsStatistics": true,
+        "standardMaxRecordCount": 32000,
+        "isDataVersioned": false,
+        "templates": [
+          {
+            "name": "New Feature",
+            "description": "",
+            "drawingTool": "esriFeatureEditToolPoint",
+            "prototype": {
+              "attributes": {
+                "rownum": null,
+                "latitude": null,
+                "quant_val": null,
+                "expected_color": null,
+                "longitude": null
+              }
+            }
+          }
+        ],
+        "supportsAdvancedQueries": true,
+        "currentVersion": 10.81,
+        "hasZ": false,
+        "supportsQuantizationEditMode": true,
+        "objectIdField": "FID",
+        "name": "QA_data_simple_point_metadata_html",
+        "displayField": "",
+        "supportsCalculate": true,
+        "fields": [
+          {
+            "sqlType": "sqlTypeInteger",
+            "actualType": "int",
+            "nullable": true,
+            "editable": true,
+            "defaultValue": null,
+            "domain": null,
+            "name": "rownum",
+            "alias": "rownum",
+            "type": "esriFieldTypeInteger"
+          },
+          {
+            "sqlType": "sqlTypeFloat",
+            "actualType": "float",
+            "nullable": true,
+            "editable": true,
+            "defaultValue": null,
+            "domain": null,
+            "name": "latitude",
+            "alias": "latitude",
+            "type": "esriFieldTypeDouble"
+          },
+          {
+            "sqlType": "sqlTypeFloat",
+            "actualType": "float",
+            "nullable": true,
+            "editable": true,
+            "defaultValue": null,
+            "domain": null,
+            "name": "longitude",
+            "alias": "longitude",
+            "type": "esriFieldTypeDouble"
+          },
+          {
+            "sqlType": "sqlTypeInteger",
+            "actualType": "int",
+            "nullable": true,
+            "editable": true,
+            "defaultValue": null,
+            "domain": null,
+            "name": "quant_val",
+            "alias": "quant_val",
+            "type": "esriFieldTypeInteger"
+          },
+          {
+            "sqlType": "sqlTypeNVarchar",
+            "actualType": "nvarchar",
+            "nullable": true,
+            "editable": true,
+            "defaultValue": null,
+            "domain": null,
+            "name": "expected_color",
+            "length": 256,
+            "alias": "expected_color",
+            "type": "esriFieldTypeString"
+          },
+          {
+            "sqlType": "sqlTypeInteger",
+            "actualType": "int",
+            "nullable": false,
+            "editable": false,
+            "defaultValue": null,
+            "domain": null,
+            "name": "FID",
+            "alias": "FID",
+            "type": "esriFieldTypeOID"
+          }
+        ],
+        "maxRecordCountFactor": 1,
+        "supportsFieldDescriptionProperty": true,
+        "hasM": false,
+        "allowGeometryUpdates": true,
+        "useStandardizedQueries": true,
+        "globalIdField": "",
+        "description": "",
+        "supportsRollbackOnFailureParameter": true,
+        "supportsTruncate": false,
+        "indexes": [
+          {
+            "name": "PK__QA_data___C1BEA5A2DCE22111",
+            "isUnique": true,
+            "description": "clustered, unique, primary key",
+            "fields": "FID",
+            "isAscending": true
+          },
+          {
+            "name": "QA_data_simple_point_metadata_html_QA_data_simple_point_metadata_html_Shape_sidx",
+            "isUnique": false,
+            "description": "Shape Index",
+            "fields": "Shape",
+            "isAscending": false
+          }
+        ],
+        "htmlPopupType": "esriServerHTMLPopupTypeNone",
+        "supportsReturningQueryGeometry": true,
+        "minScale": 0,
+        "hasAttachments": false,
+        "advancedQueryCapabilities": {
+          "supportsStatistics": true,
+          "supportsSqlExpression": true,
+          "supportsQueryWithResultType": true,
+          "supportsOrderBy": true,
+          "supportsQueryRelatedPagination": true,
+          "supportsDisjointSpatialRel": true,
+          "supportsQueryWithDistance": true,
+          "supportsLod": true,
+          "supportsQueryWithCacheHint": true,
+          "supportsQueryWithDatumTransformation": true,
+          "supportsCountDistinct": true,
+          "supportedLodTypes": ["geohash"],
+          "supportsAdvancedQueryRelated": true,
+          "supportsOutFieldSQLExpression": true,
+          "supportsReturningQueryExtent": true,
+          "supportsQueryWithLodSR": false,
+          "supportsTopFeaturesQuery": true,
+          "supportsPaginationOnAggregatedQueries": true,
+          "supportsPagination": true,
+          "supportsMaxRecordCountFactor": true,
+          "supportsDistinct": true,
+          "supportsReturningGeometryCentroid": false,
+          "supportsPercentileStatistics": true,
+          "supportsHavingClause": true,
+          "supportsQueryAnalytic": true
+        },
+        "supportsValidateSql": true,
+        "supportsCoordinatesQuantization": true,
+        "types": [],
+        "capabilities": "Query",
+        "supportsAppend": true,
+        "maxScale": 0,
+        "supportsExceedsLimitStatistics": true,
+        "defaultVisibility": true,
+        "uniqueIdField": { "isSystemMaintained": true, "name": "FID" },
+        "tileMaxRecordCount": 8000,
+        "typeIdField": "",
+        "supportsASyncCalculate": true,
+        "supportedQueryFormats": "JSON, geoJSON, PBF",
+        "drawingInfo": {
+          "renderer": {
+            "symbol": {
+              "imageData": "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",
+              "yoffset": 0,
+              "width": 15,
+              "xoffset": 0,
+              "angle": 0,
+              "type": "esriPMS",
+              "contentType": "image/png",
+              "url": "RedSphere.png",
+              "height": 15
+            },
+            "description": "",
+            "label": "",
+            "type": "simple"
+          },
+          "labelingInfo": null
+        },
+        "copyrightText": "",
+        "geometryType": "esriGeometryPoint",
+        "standardMaxRecordCountNoGeometry": 32000,
+        "supportsTilesAndBasicQueriesMode ": true,
+        "dateFieldsTimeReference": {
+          "respectsDaylightSaving": false,
+          "timeZone": "UTC"
+        },
+        "preferredTimeReference": null,
+        "supportsLayerOverrides ": true,
+        "supportsTilesAndBasicQueriesMode": true,
+        "supportsContingentValues": true,
+        "supportedAppendFormats": "sqlite,gpkg,shapefile,filegdb,featureCollection,geojson,csv,excel",
+        "hasContingentValuesDefinition": false,
+        "supportedContingentValuesFormats": "JSON, PBF",
+        "supportedExportFormats": "csv,shapefile,sqlite,gpkg,filegdb,featureCollection,geojson,excel",
+        "advancedEditingCapabilities": {
+          "supportsAsyncApplyEdits": true,
+          "supportsReturnEditResults": true,
+          "supportedSqlFormatsInCalculate": ["standard"]
+        },
+        "supportsLayerOverrides": true
+      },
+      "layers": [
+        {
+          "extent": {
+            "ymin": 4736005.853817591,
+            "xmin": -9796115.189808074,
+            "ymax": 4865942.279503176,
+            "xmax": -9695927.648094129,
+            "spatialReference": { "latestWkid": 3857, "wkid": 102100 }
+          },
+          "supportedContingentValuesFormats": "JSON, PBF",
+          "supportsApplyEditsWithGlobalIds": false,
+          "maxRecordCount": -1,
+          "type": "Feature Layer",
+          "hasStaticData": true,
+          "editingInfo": { "lastEditDate": 1416031010137 },
+          "supportsAttachmentsByUploadId": true,
+          "relationships": [],
+          "supportsAttachmentsResizing": true,
+          "id": 0,
+          "supportsStatistics": true,
+          "supportedExportFormats": "csv,shapefile,sqlite,gpkg,filegdb,featureCollection,geojson,excel",
+          "standardMaxRecordCount": 32000,
+          "isDataVersioned": false,
+          "templates": [
+            {
+              "name": "New Feature",
+              "description": "",
+              "drawingTool": "esriFeatureEditToolPoint",
+              "prototype": {
+                "attributes": {
+                  "rownum": null,
+                  "latitude": null,
+                  "quant_val": null,
+                  "expected_color": null,
+                  "longitude": null
+                }
+              }
+            }
+          ],
+          "supportsAdvancedQueries": true,
+          "supportsTilesAndBasicQueriesMode": true,
+          "currentVersion": 10.81,
+          "hasZ": false,
+          "advancedEditingCapabilities": {
+            "supportsAsyncApplyEdits": true,
+            "supportsReturnEditResults": true,
+            "supportedSqlFormatsInCalculate": ["standard"]
+          },
+          "supportsQuantizationEditMode": true,
+          "objectIdField": "FID",
+          "hasContingentValuesDefinition": false,
+          "name": "QA_data_simple_point_metadata_html",
+          "displayField": "",
+          "supportsCalculate": true,
+          "fields": [
+            {
+              "sqlType": "sqlTypeInteger",
+              "actualType": "int",
+              "nullable": true,
+              "editable": true,
+              "defaultValue": null,
+              "domain": null,
+              "name": "rownum",
+              "alias": "rownum",
+              "type": "esriFieldTypeInteger"
+            },
+            {
+              "sqlType": "sqlTypeFloat",
+              "actualType": "float",
+              "nullable": true,
+              "editable": true,
+              "defaultValue": null,
+              "domain": null,
+              "name": "latitude",
+              "alias": "latitude",
+              "type": "esriFieldTypeDouble"
+            },
+            {
+              "sqlType": "sqlTypeFloat",
+              "actualType": "float",
+              "nullable": true,
+              "editable": true,
+              "defaultValue": null,
+              "domain": null,
+              "name": "longitude",
+              "alias": "longitude",
+              "type": "esriFieldTypeDouble"
+            },
+            {
+              "sqlType": "sqlTypeInteger",
+              "actualType": "int",
+              "nullable": true,
+              "editable": true,
+              "defaultValue": null,
+              "domain": null,
+              "name": "quant_val",
+              "alias": "quant_val",
+              "type": "esriFieldTypeInteger"
+            },
+            {
+              "sqlType": "sqlTypeNVarchar",
+              "actualType": "nvarchar",
+              "nullable": true,
+              "editable": true,
+              "defaultValue": null,
+              "domain": null,
+              "name": "expected_color",
+              "length": 256,
+              "alias": "expected_color",
+              "type": "esriFieldTypeString"
+            },
+            {
+              "sqlType": "sqlTypeInteger",
+              "actualType": "int",
+              "nullable": false,
+              "editable": false,
+              "defaultValue": null,
+              "domain": null,
+              "name": "FID",
+              "alias": "FID",
+              "type": "esriFieldTypeOID"
+            }
+          ],
+          "maxRecordCountFactor": 1,
+          "dateFieldsTimeReference": {
+            "respectsDaylightSaving": false,
+            "timeZone": "UTC"
+          },
+          "supportsFieldDescriptionProperty": true,
+          "hasM": false,
+          "allowGeometryUpdates": true,
+          "preferredTimeReference": null,
+          "useStandardizedQueries": true,
+          "globalIdField": "",
+          "description": "",
+          "supportsRollbackOnFailureParameter": true,
+          "supportsTruncate": false,
+          "standardMaxRecordCountNoGeometry": 32000,
+          "indexes": [
+            {
+              "name": "PK__QA_data___C1BEA5A2DCE22111",
+              "isUnique": true,
+              "description": "clustered, unique, primary key",
+              "fields": "FID",
+              "isAscending": true
+            },
+            {
+              "name": "QA_data_simple_point_metadata_html_QA_data_simple_point_metadata_html_Shape_sidx",
+              "isUnique": false,
+              "description": "Shape Index",
+              "fields": "Shape",
+              "isAscending": false
+            }
+          ],
+          "htmlPopupType": "esriServerHTMLPopupTypeNone",
+          "supportsReturningQueryGeometry": true,
+          "minScale": 0,
+          "hasAttachments": false,
+          "advancedQueryCapabilities": {
+            "supportsSqlExpression": true,
+            "supportsQueryWithResultType": true,
+            "supportsQueryRelatedPagination": true,
+            "supportsQueryWithCacheHint": true,
+            "supportsQueryWithDatumTransformation": true,
+            "supportsOutFieldSQLExpression": true,
+            "supportsQueryWithLodSR": false,
+            "supportsPaginationOnAggregatedQueries": true,
+            "supportsPagination": true,
+            "supportsMaxRecordCountFactor": true,
+            "supportsStatistics": true,
+            "supportsOrderBy": true,
+            "supportsDisjointSpatialRel": true,
+            "supportsQueryWithDistance": true,
+            "supportsLod": true,
+            "supportsCountDistinct": true,
+            "supportedLodTypes": ["geohash"],
+            "supportsAdvancedQueryRelated": true,
+            "supportsReturningQueryExtent": true,
+            "supportsTopFeaturesQuery": true,
+            "supportsDistinct": true,
+            "supportsReturningGeometryCentroid": false,
+            "supportsQueryAnalytic": true,
+            "supportsPercentileStatistics": true,
+            "supportsHavingClause": true
+          },
+          "supportsValidateSql": true,
+          "supportsCoordinatesQuantization": true,
+          "types": [],
+          "capabilities": "Query",
+          "supportsAppend": true,
+          "maxScale": 0,
+          "supportsExceedsLimitStatistics": true,
+          "defaultVisibility": true,
+          "supportedAppendFormats": "sqlite,gpkg,shapefile,filegdb,featureCollection,geojson,csv,excel",
+          "uniqueIdField": { "isSystemMaintained": true, "name": "FID" },
+          "tileMaxRecordCount": 8000,
+          "typeIdField": "",
+          "supportsASyncCalculate": true,
+          "supportedQueryFormats": "JSON, geoJSON, PBF",
+          "drawingInfo": {
+            "renderer": {
+              "symbol": {
+                "imageData": "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",
+                "yoffset": 0,
+                "width": 15,
+                "xoffset": 0,
+                "angle": 0,
+                "type": "esriPMS",
+                "contentType": "image/png",
+                "url": "RedSphere.png",
+                "height": 15
+              },
+              "description": "",
+              "label": "",
+              "type": "simple"
+            },
+            "labelingInfo": null
+          },
+          "copyrightText": "",
+          "supportsLayerOverrides": true,
+          "geometryType": "esriGeometryPoint"
+        }
+      ],
+      "licenseInfo": "&lt;SCRIPT SRC=http://ha.ckers.org/xss.js&gt;&lt;/SCRIPT&gt;",
+      "maxRecordCount": 2000,
+      "metadata": {
+        "metadata": {
+          "mdContact": "",
+          "mdFileID": "9a7f08da1f5b4116984a234016d51790",
+          "mdDateSt": "",
+          "rpOrgName": "",
+          "role": { "RoleCd": { "@_value": "007" } },
+          "Esri": {
+            "ArcGISFormat": 1,
+            "CreaTime": "None",
+            "ArcGISstyle": "ISO 19139 Metadata Implementation Specification",
+            "ArcGISProfile": "None",
+            "ModDate": "None",
+            "CreaDate": "None",
+            "ModTime": "None"
+          },
+          "dataIdInfo": {
+            "idAbs": "&lt;SCRIPT SRC=http://ha.ckers.org/xss.js&gt;&lt;/SCRIPT&gt;<div><br /></div><div>&lt;SCRIPT SRC=http://ha.ckers.org/xss.js&gt;&lt;/SCRIPT&gt;</div>",
+            "idCitation": {
+              "date": { "pubDate": "" },
+              "resTitle": "QA_data_simple_point_metadata_html",
+              "dataLang": { "languageCode": { "@_value": "eng" } },
+              "dataChar": { "CharSetCd": { "@_value": "004" } },
+              "tpCat": { "TopicCatCd": "" },
+              "searchKeys": { "keyword": 2800 },
+              "resConst": {
+                "Consts": {
+                  "useLimit": "&lt;SCRIPT SRC=http://ha.ckers.org/xss.js&gt;&lt;/SCRIPT&gt;"
+                }
+              }
+            },
+            "searchKeys": { "keyword": 2800 }
+          },
+          "mdChar": { "CharSetCd": { "@_value": "004" } }
+        }
+      },
+      "modified": 1416031010137,
+      "modifiedProvenance": "layer.editingInfo.lastEditDate",
+      "name": "QA data simple point metadata html",
+      "objectIdField": "FID",
+      "openData": true,
+      "orgId": "97KLIFOSt5CxbiRI",
+      "orgName": "Washington, DC R&D Center (QA)",
+      "organization": "Washington, DC R&D Center (QA)",
+      "orgExtent": {
+        "ymin": 4684744.77779671,
+        "xmin": -8608122.702602567,
+        "ymax": 4733454.274071424,
+        "xmax": -8551463.755386196,
+        "spatialReference": { "wkid": 102100 }
+      },
+      "owner": "dcadminqa",
+      "recordCount": 100,
+      "region": "US",
+      "searchDescription": "&lt;SCRIPT SRC=http://ha.ckers.org/xss.js&gt;&lt;/SCRIPT&gt;&lt;SCRIPT SRC=http://ha.ckers.org/xss.js&gt;&lt;/SCRIPT&gt;",
+      "server": {
+        "allowGeometryUpdates": true,
+        "supportsApplyEditsWithGlobalIds": false,
+        "maxRecordCount": 2000,
+        "description": "",
+        "units": "esriMeters",
+        "supportsSharedDomains": true,
+        "hasStaticData": true,
+        "syncEnabled": false,
+        "tables": [],
+        "hasVersionedData": false,
+        "layers": [
+          {
+            "subLayerIds": null,
+            "maxScale": 0,
+            "name": "QA_data_simple_point_metadata_html",
+            "defaultVisibility": true,
+            "id": 0,
+            "minScale": 0,
+            "parentLayerId": -1,
+            "geometryType": "esriGeometryPoint"
+          }
+        ],
+        "spatialReference": { "latestWkid": 3857, "wkid": 102100 },
+        "serviceItemId": "9a7f08da1f5b4116984a234016d51790",
+        "fullExtent": {
+          "ymin": 4736005.853817591,
+          "xmin": -9796115.189808074,
+          "ymax": 4865942.279503176,
+          "xmax": -9695927.648094129,
+          "spatialReference": { "latestWkid": 3857, "wkid": 102100 }
+        },
+        "capabilities": "Query",
+        "supportsAppend": true,
+        "xssPreventionInfo": {
+          "xssInputRule": "rejectInvalid",
+          "xssPreventionRule": "InputOnly",
+          "xssPreventionEnabled": true
+        },
+        "supportsDisconnectedEditing": false,
+        "supportsReturnDeleteResults": true,
+        "currentVersion": 10.81,
+        "hasSharedDomains": false,
+        "supportsVCSProjection": false,
+        "supportedQueryFormats": "JSON",
+        "size": 49152,
+        "initialExtent": {
+          "ymin": 4736005.853817591,
+          "xmin": -9796115.189808074,
+          "ymax": 4865942.279503176,
+          "xmax": -9695927.648094129,
+          "spatialReference": { "latestWkid": 3857, "wkid": 102100 }
+        },
+        "serviceDescription": "",
+        "editorTrackingInfo": {
+          "allowAnonymousToQuery": true,
+          "allowOthersToUpdate": true,
+          "allowAnonymousToUpdate": true,
+          "enableEditorTracking": false,
+          "allowOthersToQuery": true,
+          "allowOthersToDelete": true,
+          "enableOwnershipAccessControl": false,
+          "allowAnonymousToDelete": true
+        },
+        "copyrightText": "",
+        "layerOverridesEnabled": true,
+        "supportsTilesAndBasicQueriesMode ": true,
+        "supportsLayerOverrides ": true,
+        "supportsWebHooks": true,
+        "supportsTilesAndBasicQueriesMode": true,
+        "supportsTemporalLayers": true,
+        "supportsLayerOverrides": true,
+        "tilesAndBasicQueriesMode": false,
+        "supportedExportFormats": "csv,shapefile,sqlite,gpkg,filegdb,featureCollection,geojson,excel",
+        "supportedContingentValuesFormats": "JSON, PBF",
+        "supportsQueryContingentValues": true,
+        "supportsContingentValuesJson": 2,
+        "advancedEditingCapabilities": {
+          "supportsAsyncApplyEdits": true,
+          "supportsSplit": false,
+          "supportsReturnEditResults": true,
+          "supportsReturnServiceEditsInSourceSR": false
+        }
+      },
+      "serverCapabilities": "Query",
+      "serviceSpatialReference": { "latestWkid": 3857, "wkid": 102100 },
+      "size": 49152,
+      "slug": "dc::qa-data-simple-point-metadata-html",
+      "source": "Washington, DC R&D Center (QA)",
+      "sourceProvenance": "org.name",
+      "statistics": {
+        "numeric": {
+          "rownum": {
+            "meta": { "pass": true, "missingStats": [], "error": null },
+            "statistics": {
+              "duration": 483.37520999996923,
+              "values": {
+                "avg": 50.5,
+                "min": 1,
+                "max": 100,
+                "var": 841.666666666667,
+                "count": 100,
+                "sum": 5050,
+                "stddev": 29.011491975882
+              }
+            }
+          },
+          "latitude": {
+            "meta": { "pass": true, "missingStats": [], "error": null },
+            "statistics": {
+              "duration": 483.37520999996923,
+              "values": {
+                "avg": 39.55,
+                "min": 39.1,
+                "max": 40,
+                "var": 0.0833333333353912,
+                "count": 100,
+                "sum": 3955,
+                "stddev": 0.288675134598377
+              }
+            }
+          },
+          "quant_val": {
+            "meta": { "pass": true, "missingStats": [], "error": null },
+            "statistics": {
+              "duration": 483.37520999996923,
+              "values": {
+                "avg": 1045.31,
+                "min": 1002,
+                "max": 1096,
+                "var": 732.296868686875,
+                "count": 100,
+                "sum": 104531,
+                "stddev": 27.0609842519978
+              }
+            }
+          },
+          "longitude": {
+            "meta": { "pass": true, "missingStats": [], "error": null },
+            "statistics": {
+              "duration": 483.37520999996923,
+              "values": {
+                "avg": -87.55,
+                "min": -88,
+                "max": -87.1,
+                "var": 0.0833333333356852,
+                "count": 100,
+                "sum": -8755,
+                "stddev": 0.288675134598886
+              }
+            }
+          }
+        },
+        "string": {
+          "expected_color": {
+            "meta": { "pass": true, "missingStats": [], "error": null },
+            "statistics": {
+              "duration": 450.9001769996248,
+              "values": [
+                { "count": 20, "value": "blue" },
+                { "count": 20, "value": "green" },
+                { "count": 20, "value": "orange" },
+                { "count": 20, "value": "red" },
+                { "count": 20, "value": "yellow" }
+              ],
+              "count": 100,
+              "uniqueCount": 5
+            }
+          }
+        },
+        "objectid": {
+          "fid": {
+            "meta": { "pass": true, "missingStats": [], "error": null },
+            "statistics": {
+              "duration": 235.51786699984223,
+              "values": {
+                "avg": 50,
+                "min": 1,
+                "max": 100,
+                "count": 100,
+                "sum": 5050
+              }
+            }
+          }
+        }
+      },
+      "structuredLicense": {
+        "text": "&lt;SCRIPT SRC=http://ha.ckers.org/xss.js&gt;&lt;/SCRIPT&gt;",
+        "type": "custom"
+      },
+      "license": "custom",
+      "supportedQueryFormats": "JSON, geoJSON, PBF",
+      "supportsAdvancedQueries": true,
+      "tags": ["2800"],
+      "thumbnail": "thumbnail/ago_downloaded.png",
+      "thumbnailUrl": "thumbnail/ago_downloaded.png",
+      "type": "Feature Layer",
+      "typeCategories": ["Dataset"],
+      "typeKeywords": [
+        "ArcGIS Server",
+        "Data",
+        "Feature Access",
+        "Feature Service",
+        "Metadata",
+        "Service",
+        "Hosted Service"
+      ],
+      "url": "https://servicesqa.arcgis.com/97KLIFOSt5CxbiRI/arcgis/rest/services/QA_data_simple_point_metadata_html/FeatureServer/0",
+      "useStandardizedQueries": true,
+      "validExtent": true,
+      "xFrameOptions": null,
+      "boundary": {
+        "provenance": "extent",
+        "geometry": {
+          "xmin": -88,
+          "ymin": 39.1,
+          "xmax": -87.1,
+          "ymax": 40,
+          "type": "extent",
+          "spatialReference": { "wkid": 4326 }
+        },
+        "size": 5,
+        "center": [-87.46000000000001, 39.459999999999994],
+        "lastEditDate": 1416031010137
+      },
+      "snippet": null,
+      "culture": "en-us"
+    },
+    "links": {
+      "self": "https://opendataqa.arcgis.com/api/v3/datasets/9a7f08da1f5b4116984a234016d51790_0",
+      "rawEs": "https://opendataqa.arcgis.com/api/es/datasets/9a7f08da1f5b4116984a234016d51790_0",
+      "itemPage": "https://qaext.arcgis.com/home/item.html?id=9a7f08da1f5b4116984a234016d51790",
+      "esriRest": "https://qaext.arcgis.com/sharing/content/items/9a7f08da1f5b4116984a234016d51790?f=json"
+    },
+    "meta": { "highlights": {}, "matchedFields": [] }
+  },
+  "meta": {
+    "apiRoot": "https://opendataqa.arcgis.com/api/v3/",
+    "resourceRoot": "https://opendataqa.arcgis.com/api/v3/datasets",
+    "request": "https://opendataqa.arcgis.com/api/v3/datasets/9a7f08da1f5b4116984a234016d51790_0"
+  }
+}
