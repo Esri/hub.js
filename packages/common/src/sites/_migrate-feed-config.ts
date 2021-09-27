@@ -3,13 +3,12 @@ import { IModel, cloneObject, getProp } from "..";
 /**
  * Migrates the site so it can store configurations for multiple feed formats
  * (dcat-us-1.1, dcat-ap-2.0.1, etc.). If the site has an existing custom
- * configuration for dcat-us 1.1, that configuration will be modified to
- * use values from the v3 api instead of values from the index.
+ * configuration for dcat-us 1.1, a copy of that configuration will be modified
+ * to use values from the v3 api instead of values from the index.
  *
  * Structural Impacts:
  * - site.data.feeds will be added.
  * - site.data.feeds.dcatUS11 will be added if site.data.values.dcatConfig exists.
- * - site.data.values.dcatConfig will be removed.
  *
  * @param {object} model Site Model
  * @private
@@ -21,7 +20,6 @@ export function _migrateFeedConfig(model: IModel) {
   const oldDcatUS11Config = clone.data.values.dcatConfig;
   clone.data.feeds = {};
   if (oldDcatUS11Config) {
-    delete clone.data.values.dcatConfig;
     clone.data.feeds.dcatUS11 = _migrateToV3Values(oldDcatUS11Config);
   }
   clone.item.properties.schemaVersion = 1.5;

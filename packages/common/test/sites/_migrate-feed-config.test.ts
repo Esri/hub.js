@@ -46,28 +46,6 @@ describe("_migrateFeedConfig", () => {
     expect(result).toEqual(siteModel, "The site object should be unchanged.");
   });
 
-  it("Removes the existing config object for dcat-us 1.1 from the site", () => {
-    const siteModel = {
-      item: {
-        properties: {
-          schemaVersion: 1.4,
-        },
-      },
-      data: {
-        values: {
-          dcatConfig: {
-            title: "custom value",
-          },
-        },
-      },
-    } as unknown as IModel;
-
-    const result = _migrateFeedConfig(siteModel);
-    expect(result.data.values.dcatConfig).toBeFalsy(
-      "site.data.values.dcatConfig should not be present"
-    );
-  });
-
   it("Adds an empty feeds config hash when the site does not have an existing config for dcat-us 1.1", () => {
     const siteModel = {
       item: { properties: { schemaVersion: 1.4 } },
