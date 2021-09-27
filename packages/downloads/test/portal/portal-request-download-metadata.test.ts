@@ -31,57 +31,59 @@ describe("portalRequestDownloadMetadata", () => {
   });
   afterEach(() => fetchMock.restore());
 
-  // See https://github.com/Esri/arcgis-rest-js/issues/920 for context
-  it("retries failed service requests without auth", async () => {
-    const featureServiceResponse = { layers: [{ id: 0 }] };
-    const layerResponse = { id: 0 };
+  describe('failed service requests', () => {
+    // See https://github.com/Esri/arcgis-rest-js/issues/920 for context
+    it("retries failed service requests without token if they threw auth error", async () => {
+      const featureServiceResponse = { layers: [{ id: 0 }] };
+      const layerResponse = { id: 0 };
 
-    const mockAuthErrorForServiceCall = new ArcGISAuthError();
-    spyOn(mockAuthErrorForServiceCall, "retry").and.returnValue(
-      Promise.resolve(featureServiceResponse)
-    );
-    const mockAuthErrorForLayerCall = new ArcGISAuthError();
-    spyOn(mockAuthErrorForLayerCall, "retry").and.returnValue(
-      Promise.resolve(layerResponse)
-    );
+      const mockAuthErrorForServiceCall = new ArcGISAuthError();
+      spyOn(mockAuthErrorForServiceCall, "retry").and.returnValue(
+        Promise.resolve(featureServiceResponse)
+      );
+      const mockAuthErrorForLayerCall = new ArcGISAuthError();
+      spyOn(mockAuthErrorForLayerCall, "retry").and.returnValue(
+        Promise.resolve(layerResponse)
+      );
 
-    spyOn(portalModule, "getItem").and.returnValue(
-      Promise.resolve({
-        type: "Feature Service",
-        modified: new Date(1593450876).getTime(),
-        url: "http://feature-service.com/FeatureServer",
-      })
-    );
+      spyOn(portalModule, "getItem").and.returnValue(
+        Promise.resolve({
+          type: "Feature Service",
+          modified: new Date(1593450876).getTime(),
+          url: "http://feature-service.com/FeatureServer",
+        })
+      );
 
-    spyOn(featureLayer, "getService").and.returnValue(
-      Promise.reject(mockAuthErrorForServiceCall)
-    );
+      spyOn(featureLayer, "getService").and.returnValue(
+        Promise.reject(mockAuthErrorForServiceCall)
+      );
 
-    spyOn(featureLayer, "getLayer").and.returnValue(
-      Promise.reject(mockAuthErrorForLayerCall)
-    );
+      spyOn(featureLayer, "getLayer").and.returnValue(
+        Promise.reject(mockAuthErrorForLayerCall)
+      );
 
-    spyOn(portalModule, "searchItems").and.returnValue(
-      new Promise((resolve) => {
-        resolve({ results: [] });
-      })
-    );
+      spyOn(portalModule, "searchItems").and.returnValue(
+        new Promise((resolve) => {
+          resolve({ results: [] });
+        })
+      );
 
-    const result = await portalRequestDownloadMetadata({
-      datasetId: "abcdef0123456789abcdef0123456789",
-      format: "CSV",
-      authentication,
+      const result = await portalRequestDownloadMetadata({
+        datasetId: "abcdef0123456789abcdef0123456789",
+        format: "CSV",
+        authentication,
+      });
+
+      expect(result).toEqual({
+        downloadId:
+          "abcdef0123456789abcdef0123456789:CSV:undefined:undefined:undefined",
+        lastEditDate: undefined,
+        status: "not_ready",
+      });
+
+      expect(mockAuthErrorForServiceCall.retry).toHaveBeenCalled();
+      expect(mockAuthErrorForLayerCall.retry).toHaveBeenCalled();
     });
-
-    expect(result).toEqual({
-      downloadId:
-        "abcdef0123456789abcdef0123456789:CSV:undefined:undefined:undefined",
-      lastEditDate: undefined,
-      status: "not_ready",
-    });
-
-    expect(mockAuthErrorForServiceCall.retry).toHaveBeenCalled();
-    expect(mockAuthErrorForLayerCall.retry).toHaveBeenCalled();
   });
 
   describe("portal errors", () => {
