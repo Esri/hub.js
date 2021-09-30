@@ -12,7 +12,6 @@
 [coverage-img]: https://codecov.io/gh/Esri/hub.js/branch/master/graph/badge.svg
 [coverage-url]: https://codecov.io/gh/Esri/hub.js
 
-# THIS PACKAGE IS ACTIVELY UNDER DEVELOPMENT AND IS NOT TO BE USED IN A PRODUCTION ENVIRONMENT
 # @esri/hub-discussions
 
 > Module to interact with ArcGIS Hub Discussions API in Node.js and modern browsers.
