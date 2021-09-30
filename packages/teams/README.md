@@ -14,6 +14,8 @@
 
 # @esri/hub-teams
 
+**The functions from this package have moved to, see [`@esri/hub-common`](../common).**
+
 > Module to interact with ArcGIS Hub teams in Node.js and modern browsers.
 
 ### Example
