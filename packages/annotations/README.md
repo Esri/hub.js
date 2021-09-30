@@ -14,7 +14,7 @@
 
 # @esri/hub-annotations
 
-**Hub Annotations have been replaced with Hub Discussions, see [`@esri/hub-discussions`](../packages/discussions).**
+**Hub Annotations have been replaced with Hub Discussions, see [`@esri/hub-discussions`](../discussions).**
 
 > Module to interact with ArcGIS Hub Annotations in Node.js and modern browsers.
 
