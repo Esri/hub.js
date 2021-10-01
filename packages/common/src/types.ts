@@ -492,3 +492,11 @@ export interface IHubTeam extends IGroup {
     [key: string]: any;
   };
 }
+
+/**
+ * Hub Product Enum
+ * "basic" - Available to ArcGIS Online Organizations
+ * "premium" - Available to Organizations who have purchsed Hub Premium
+ * "portal" - Available to ArcGIS Enterprise users
+ */
+export type HubProduct = "basic" | "premium" | "portal";

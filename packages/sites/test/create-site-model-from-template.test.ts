@@ -1,5 +1,4 @@
 import { createSiteModelFromTemplate } from "../src";
-import * as teamsModule from "@esri/hub-teams";
 import * as commonModule from "@esri/hub-common";
 import * as createSiteModule from "../src/_create-site-initiative";
 import * as updateTagsModule from "../src/_update-team-tags";
@@ -140,7 +139,7 @@ describe("createSiteModelFromTemplate", () => {
       "premium"
     );
 
-    createTeamsSpy = spyOn(teamsModule, "createHubTeams").and.returnValue(
+    createTeamsSpy = spyOn(commonModule, "createHubTeams").and.returnValue(
       Promise.resolve(commonModule.cloneObject(teams))
     );
 

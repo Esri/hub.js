@@ -14,6 +14,7 @@ export * from "./objects";
 export * from "./resources";
 export * from "./search";
 export * from "./sites";
+export * from "./teams";
 export * from "./types";
 export * from "./urls";
 export * from "./util";

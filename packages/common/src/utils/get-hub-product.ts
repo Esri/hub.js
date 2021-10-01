@@ -1,6 +1,5 @@
+import { HubProduct } from "..";
 import { getProp } from "../objects/get-prop";
-
-export type HubProduct = "premium" | "portal" | "basic";
 
 /**
  * Gien a portal settings object, determine the hub product name

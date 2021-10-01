@@ -81,12 +81,12 @@ Some useful commands include:
 - [`@esri/hub-search`](./packages/search) - Helper functions for search on ArcGIS Online.
 - [`@esri/hub-sites`](./packages/sites) - Helper functions for working with [Sites](http://doc.arcgis.com/en/hub/sites/create-a-hub-site.htm), Pages and Domains.
 - [`@esri/hub-surveys`](./packages/surveys) - Helper functions for working with Surveys.
-- [`@esri/hub-teams`](./packages/teams) - Helper functions for working with ArcGIS Online groups in a Hub context.
 
 #### Deprecated Packages
 
 - [`@esri/hub-annotations`](https://github.com/Esri/hub.js/tree/cee44463c5cbf616abdb7786551d72a7792bb3c4/packages/annotations) - Hub Annotations have been replaced with Hub Discussions, see [`@esri/hub-discussions`](./packages/discussions)
 - [`@esri/hub-auth`](https://github.com/Esri/hub.js/tree/v6.10.0/packages/auth) - moved to [`@esri/hub-common`](./packages/common)
+- [`@esri/hub-teams`](https://github.com/Esri/hub.js/tree/1290da6bae03f66b9b74c797932b88a395371573/packages/teams) - moved to [`@esri/hub-common`](./packages/common)
 - [`@esri/hub-types`](https://github.com/Esri/hub.js/tree/v6.10.0/packages/types) - moved to [`@esri/hub-common`](./packages/common)
 
 ### Design Philosophy

@@ -1,9 +1,11 @@
 import {
+  HubTeamType,
   IModelTemplate,
   IHubRequestOptions,
   getHubProduct,
   getProp,
   cloneObject,
+  createHubTeams,
   deepSet,
   slugify,
   stripProtocol,
@@ -11,8 +13,6 @@ import {
   addSolutionResourceUrlToAssets,
   getHubApiUrl,
 } from "@esri/hub-common";
-import { createHubTeams } from "@esri/hub-teams";
-import { HubTeamType } from "@esri/hub-teams";
 import { getTheme } from "./get-theme";
 import { getPortalSiteHostname } from "./get-portal-site-hostname";
 import { getPortalSiteUrl } from "./get-portal-site-url";
