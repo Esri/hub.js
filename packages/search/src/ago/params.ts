@@ -20,6 +20,8 @@ export interface ISearchParams extends ISearchOptions {
   page?: {
     hub?: { start?: number; size?: number };
     ago?: { start?: number; size?: number };
+  } | {
+    key?: string
   };
   q: string;
   region?: string;

@@ -554,6 +554,8 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
     orgName,
     organization,
     orgExtent,
+    // Source
+    source,
     // NOTE: for layers and tables the Hub API returns the layer type
     // ("Feature Layer", "Table", "Raster Layer") instead of the item type
     type,

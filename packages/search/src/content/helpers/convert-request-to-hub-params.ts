@@ -126,6 +126,9 @@ function createSearchOptions(params: Record<string, any>): ISearchParams {
     sort,
     filter: params.filter,
     catalog: params.catalog,
+    page: {
+      key: params.paging
+    },
     agg,
     fields
   };
