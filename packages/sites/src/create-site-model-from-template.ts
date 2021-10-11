@@ -7,7 +7,6 @@ import {
   deepSet,
   slugify,
   stripProtocol,
-  interpolate,
   addSolutionResourceUrlToAssets,
   getHubApiUrl,
 } from "@esri/hub-common";
@@ -19,6 +18,7 @@ import { getPortalSiteUrl } from "./get-portal-site-url";
 import { _createSiteInitiative } from "./_create-site-initiative";
 import { _updateTeamTags } from "./_update-team-tags";
 import { ensureUniqueDomainName } from "@esri/hub-common";
+import { interpolateSite } from "./interpolate-site";
 
 /**
  * Convert a Site Template into a Site Model
@@ -152,11 +152,8 @@ export function createSiteModelFromTemplate(
       return teamUpdatePromise;
     })
     .then((_) => {
-      // If we have data.values.dcatConfig, yank it off b/c that may have adlib template
-      // for use at run-time vs now
-      const dcatConfig = cloneObject(template.data.values.dcatConfig);
-      delete template.data.values.dcatConfig;
-      const siteModel = interpolate(template, settings, transforms);
+      const siteModel = interpolateSite(template, settings, transforms);
+
       // Special logic for the site title
       // if the title is a string, containing only numbers, then the interpolation will set it as
       // a number, which causes some problems... in that case, we stomp it in as a string...
@@ -165,10 +162,6 @@ export function createSiteModelFromTemplate(
         siteModel.data.values.title = getProp(settings, "solution.title");
       }
 
-      // re-attach dcat...
-      if (dcatConfig) {
-        siteModel.data.values.dcatConfig = dcatConfig;
-      }
       return siteModel;
     })
     .catch((ex) => {
