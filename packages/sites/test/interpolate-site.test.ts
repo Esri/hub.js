@@ -59,19 +59,14 @@ describe("interpolateSite", () => {
     expect(actualTemplate).toEqual(expectedTemplate);
   });
 
-  it("Re-attaches nested adlib templates to the return value FAKE", async () => {
-    spyOn(commonModule, "interpolate").and.returnValue({
-      siteProperty: "propertyValue",
-      data: { values: {} },
-    });
-
+  it("Handles sites without custom dcat configs", async () => {
     const expectedTemplate = {
       siteProperty: "propertyValue",
       data: {
         values: {},
       },
     };
-
+    spyOn(commonModule, "interpolate").and.returnValue(expectedTemplate);
     const actualTemplate = interpolateSite(expectedTemplate, {}, {});
     expect(actualTemplate).toEqual(expectedTemplate);
   });
