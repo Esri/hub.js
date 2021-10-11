@@ -5,69 +5,77 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [9.1.0] - October 11th 2021
+
+### Other Changes
+
+- New Features
+  - **hub-sites**: add support for templating sites that use the new path for custom dcat configs [`33830e846`](https://github.com/Esri/hub.js/commit/33830e846443472e1f38cca6ef11f35328893690)
+- Tests
+  - **hub-sites**: change description of interpolateSite test [`6d47df3f9`](https://github.com/Esri/hub.js/commit/6d47df3f97b1ec6d4a02418de29e0982dafc3baa)
+
 ## [9.0.1] - October 11th 2021
 
 ### Other Changes
 
-* Chores
-   * **hub-search**: added export to searchDatasets function [`3db251a64`](https://github.com/Esri/hub.js/commit/3db251a645acd4df47995be17d0f3b895f6520cd)
-   * **hub-search**: added export to searchDatasets function [`3e9ef3bda`](https://github.com/Esri/hub.js/commit/3e9ef3bda35c60e4569c2646f623f866f3cadf54)
+- Chores
+  - **hub-search**: added export to searchDatasets function [`3db251a64`](https://github.com/Esri/hub.js/commit/3db251a645acd4df47995be17d0f3b895f6520cd)
+  - **hub-search**: added export to searchDatasets function [`3e9ef3bda`](https://github.com/Esri/hub.js/commit/3e9ef3bda35c60e4569c2646f623f866f3cadf54)
 
 ## Unreleased
-
-
 
 ## [9.0.0] - October 8th 2021
 
 ### Other Changes
 
-* Documentation
-   * **hub-annotations**: deprecate the @esri/hub-annotations package [`141736a74`](https://github.com/Esri/hub.js/commit/141736a74363afa1185efc3547e5d8f20ea72d02)
-* New Features
-   * **hub-sites**: bump site uiVersion to 2.4 [`66995fa6c`](https://github.com/Esri/hub.js/commit/66995fa6c5fd267dc0ca36652dffd70c9c19b4e5)
-* Misc.
-   * **hub-annotations**: remove @esri/hub-annotations package [`ed2e31cdb`](https://github.com/Esri/hub.js/commit/ed2e31cdb0105acc43cc7da285d7744db55262a0) [#627](https://github.com/Esri/hub.js/issues/627)
+- Documentation
+  - **hub-annotations**: deprecate the @esri/hub-annotations package [`141736a74`](https://github.com/Esri/hub.js/commit/141736a74363afa1185efc3547e5d8f20ea72d02)
+- New Features
+  - **hub-sites**: bump site uiVersion to 2.4 [`66995fa6c`](https://github.com/Esri/hub.js/commit/66995fa6c5fd267dc0ca36652dffd70c9c19b4e5)
+- Misc.
+  - **hub-annotations**: remove @esri/hub-annotations package [`ed2e31cdb`](https://github.com/Esri/hub.js/commit/ed2e31cdb0105acc43cc7da285d7744db55262a0) [#627](https://github.com/Esri/hub.js/issues/627)
 
 ## [8.24.0] - September 27th 2021
 
 ### Other Changes
 
-* New Features
-   * **hub-common**: add beginning work for _migrate-feed-config site migration helper [`39bd8496e`](https://github.com/Esri/hub.js/commit/39bd8496e1bad11707b2eeb3588bbe11447602fd)
-   * **hub-common**: clean up recursive strategy of migrating dcat configs [`2350d237f`](https://github.com/Esri/hub.js/commit/2350d237f9b0d7bd83acd8fd77c5229e7409c772)
-   * **hub-common**: add support for migrating addition custom dcat values [`d06641d5b`](https://github.com/Esri/hub.js/commit/d06641d5b62e2bcddeddd63d31f2ebdeb8dff32a)
-   * **hub-common**: change custom dcat config migration to use string manipulation [`97690d76d`](https://github.com/Esri/hub.js/commit/97690d76d6dcceede4ede8b474857cf4193c4b54)
-   * **hub-common**: bump site schema version and add _migrateFeedConfig helper to upgradeSiteSchema [`baf39af35`](https://github.com/Esri/hub.js/commit/baf39af3551663b8bc565c4d08fda31642a00241)
-   * **hub-common**: remove redundant migration entry for migrating DCAT configs [`8daf1fd91`](https://github.com/Esri/hub.js/commit/8daf1fd91ca3c0b0b82ff38491a09c70cae723a7)
-   * **hub-common**: no longer remove dcatConfig object from site during migration [`fb8d7fb6b`](https://github.com/Esri/hub.js/commit/fb8d7fb6b2174012da41b47bc82c8a08fbe3b47c)
-   * **hub-common**: fix root package-lock.json conflicts with master [`2f6268402`](https://github.com/Esri/hub.js/commit/2f62684024c3a8a3fa2333f08c179995b9e8a933)
-* Bug Fixes
-   * **hub-downloads**: support requesting download metadata from all public feature services [`63001c4fd`](https://github.com/Esri/hub.js/commit/63001c4fd1e1c58b6d0ef5fa43a4c1f8ea810254)
-   * **hub-downloads**: support requesting download metadata from all pub… [`083aa7563`](https://github.com/Esri/hub.js/commit/083aa7563a762ea95efef8d31c2259b59a860833)
+- New Features
+  - **hub-common**: add beginning work for \_migrate-feed-config site migration helper [`39bd8496e`](https://github.com/Esri/hub.js/commit/39bd8496e1bad11707b2eeb3588bbe11447602fd)
+  - **hub-common**: clean up recursive strategy of migrating dcat configs [`2350d237f`](https://github.com/Esri/hub.js/commit/2350d237f9b0d7bd83acd8fd77c5229e7409c772)
+  - **hub-common**: add support for migrating addition custom dcat values [`d06641d5b`](https://github.com/Esri/hub.js/commit/d06641d5b62e2bcddeddd63d31f2ebdeb8dff32a)
+  - **hub-common**: change custom dcat config migration to use string manipulation [`97690d76d`](https://github.com/Esri/hub.js/commit/97690d76d6dcceede4ede8b474857cf4193c4b54)
+  - **hub-common**: bump site schema version and add \_migrateFeedConfig helper to upgradeSiteSchema [`baf39af35`](https://github.com/Esri/hub.js/commit/baf39af3551663b8bc565c4d08fda31642a00241)
+  - **hub-common**: remove redundant migration entry for migrating DCAT configs [`8daf1fd91`](https://github.com/Esri/hub.js/commit/8daf1fd91ca3c0b0b82ff38491a09c70cae723a7)
+  - **hub-common**: no longer remove dcatConfig object from site during migration [`fb8d7fb6b`](https://github.com/Esri/hub.js/commit/fb8d7fb6b2174012da41b47bc82c8a08fbe3b47c)
+  - **hub-common**: fix root package-lock.json conflicts with master [`2f6268402`](https://github.com/Esri/hub.js/commit/2f62684024c3a8a3fa2333f08c179995b9e8a933)
+- Bug Fixes
+  - **hub-downloads**: support requesting download metadata from all public feature services [`63001c4fd`](https://github.com/Esri/hub.js/commit/63001c4fd1e1c58b6d0ef5fa43a4c1f8ea810254)
+  - **hub-downloads**: support requesting download metadata from all pub… [`083aa7563`](https://github.com/Esri/hub.js/commit/083aa7563a762ea95efef8d31c2259b59a860833)
 
 ## [8.23.2] - September 27th 2021
 
 ### Other Changes
 
-* Chores
-   * **hub-common**: allow commits that start w/ &amp;amp;amp;amp;#39;pr:&amp;amp;amp;amp;#39; to address PR review [`e344283f0`](https://github.com/Esri/hub.js/commit/e344283f00cd329effd45aa4eb6b004e78664de9)
+- Chores
 
-* Bug Fixes
-   * **hub-content**: getContentFromPortal() returns the layer content when passed a hubId [`157fa1110`](https://github.com/Esri/hub.js/commit/157fa1110546238d6a63b410ec129b93db15e6aa)
+  - **hub-common**: allow commits that start w/ &amp;amp;amp;amp;amp;#39;pr:&amp;amp;amp;amp;amp;#39; to address PR review [`e344283f0`](https://github.com/Esri/hub.js/commit/e344283f00cd329effd45aa4eb6b004e78664de9)
+
+- Bug Fixes
+  - **hub-content**: getContentFromPortal() returns the layer content when passed a hubId [`157fa1110`](https://github.com/Esri/hub.js/commit/157fa1110546238d6a63b410ec129b93db15e6aa)
 
 ## [8.23.1] - September 27th 2021
 
 ### Other Changes
 
-* Bug Fixes
-   * **hub-search**: searchContent() should return results as IHubContent[] [`907e84f1a`](https://github.com/Esri/hub.js/commit/907e84f1a6bcb8ff20e83d0bb5711afc22901f37)
+- Bug Fixes
+  - **hub-search**: searchContent() should return results as IHubContent[] [`907e84f1a`](https://github.com/Esri/hub.js/commit/907e84f1a6bcb8ff20e83d0bb5711afc22901f37)
 
 ## [8.23.0] - September 24th 2021
 
 ### Other Changes
 
-* New Features
-   * **hub-search**: expose searchDatasets() to search the Hub API and return datasets [`1c1f39991`](https://github.com/Esri/hub.js/commit/1c1f39991169caca8860fc5fbe60258efd6a63e7)
+- New Features
+  - **hub-search**: expose searchDatasets() to search the Hub API and return datasets [`1c1f39991`](https://github.com/Esri/hub.js/commit/1c1f39991169caca8860fc5fbe60258efd6a63e7)
 
 ## [8.22.1] - September 22nd 2021
 
@@ -309,7 +317,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - **hub-teams**: add canEditTeam [`d2c9fecf`](https://github.com/Esri/hub.js/commit/d2c9fecf0314e35ee5c1acb9583684f18740f0b1)
   - **hub-teams**: add username check [`36a8b792`](https://github.com/Esri/hub.js/commit/36a8b7924ef7cf11ac2f2e81abe0d9ca49e86ec7)
   - **hub-teams**: add canEditTeam tests [`d4d52c18`](https://github.com/Esri/hub.js/commit/d4d52c1879c01f44770c16de242822ce41ba2708)
-  - **hub-teams**: add case when user is not auth&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;#39;d [`295e04a7`](https://github.com/Esri/hub.js/commit/295e04a7189151c827a25dcf9222c76448df71f7)
+  - **hub-teams**: add case when user is not auth&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;#39;d [`295e04a7`](https://github.com/Esri/hub.js/commit/295e04a7189151c827a25dcf9222c76448df71f7)
 
 ## [8.7.0] - June 25th 2021
 
@@ -1129,11 +1137,7 @@ Attempt to address failed release
 
 ## [4.1.0] - May 21st 2020
 
-
-
 ## [4.0.0] - May 20th 2020
-
-
 
 ## [3.9.3] - May 14th 2020
 
@@ -1171,8 +1175,6 @@ Attempt to address failed release
   - **peerDependencies**: fix invalid peerDependencies [`08fae37`](https://github.com/Esri/hub.js/commit/08fae37875aa3e68a82970a54eedcbe13ef001a8) [#251](https://github.com/Esri/hub.js/issues/251)
 
 ## [3.9.1] - May 6th 2020
-
-
 
 ## [3.9.0] - May 6th 2020
 
@@ -1214,8 +1216,6 @@ Attempt to address failed release
 
 ## [3.7.4] - April 30th 2020
 
-
-
 ## [3.7.3] - April 29th 2020
 
 - New Features
@@ -1226,8 +1226,6 @@ Attempt to address failed release
 ### @esri/hub-common
 
 ## [3.7.1] - April 28th 2020
-
-
 
 ## [3.7.0] - April 28th 2020
 
@@ -1283,11 +1281,7 @@ Attempt to address failed release
 
 ## [3.6.3] - January 27th 2020
 
-
-
 ## [3.6.2] - January 2nd 2020
-
-
 
 ## [3.6.0] - November 18th 2019
 
@@ -1381,8 +1375,6 @@ Attempt to address failed release
   - **search**: support filters specified implicitly
 
 ## [2.6.0] - August 20th 2019
-
-
 
 ## [2.5.0] - August 15th 2019
 
@@ -1869,7 +1861,8 @@ Initial Release
 [3.9.3]: https://github.com/Esri/hub.js/compare/v3.9.2...v3.9.3 "v3.9.3"
 [4.0.0]: https://github.com/Esri/hub.js/compare/v3.9.3...v4.0.0 "v4.0.0"
 [4.1.0]: https://github.com/Esri/hub.js/compare/v4.0.0...v4.1.0 "v4.1.0"
-[4.2.0]: https://github.com/Esri/hub.js/compare/v4.1.0...v4.2.0 "v4.2.0"
+[4.1.1]: https://github.com/Esri/hub.js/compare/v4.1.0...v4.1.1 "v4.1.1"
+[4.2.0]: https://github.com/Esri/hub.js/compare/v4.1.1...v4.2.0 "v4.2.0"
 [4.2.1]: https://github.com/Esri/hub.js/compare/v4.2.0...v4.2.1 "v4.2.1"
 [4.2.2]: https://github.com/Esri/hub.js/compare/v4.2.1...v4.2.2 "v4.2.2"
 [4.2.3]: https://github.com/Esri/hub.js/compare/v4.2.2...v4.2.3 "v4.2.3"
@@ -1942,7 +1935,8 @@ Initial Release
 [7.3.0]: https://github.com/Esri/hub.js/compare/v7.2.0...v7.3.0 "v7.3.0"
 [7.3.1]: https://github.com/Esri/hub.js/compare/v7.3.0...v7.3.1 "v7.3.1"
 [7.3.2]: https://github.com/Esri/hub.js/compare/v7.3.1...v7.3.2 "v7.3.2"
-[8.1.0]: https://github.com/Esri/hub.js/compare/v7.3.2...v8.1.0 "v8.1.0"
+[8.0.0]: https://github.com/Esri/hub.js/compare/v7.3.2...v8.0.0 "v8.0.0"
+[8.1.0]: https://github.com/Esri/hub.js/compare/v8.0.0...v8.1.0 "v8.1.0"
 [8.2.0]: https://github.com/Esri/hub.js/compare/v8.1.0...v8.2.0 "v8.2.0"
 [8.2.1]: https://github.com/Esri/hub.js/compare/v8.2.0...v8.2.1 "v8.2.1"
 [8.2.2]: https://github.com/Esri/hub.js/compare/v8.2.1...v8.2.2 "v8.2.2"
@@ -1992,4 +1986,5 @@ Initial Release
 [8.24.0]: https://github.com/Esri/hub.js/compare/v8.23.2...v8.24.0 "v8.24.0"
 [9.0.0]: https://github.com/Esri/hub.js/compare/v8.24.0...v9.0.0 "v9.0.0"
 [9.0.1]: https://github.com/Esri/hub.js/compare/v9.0.0...v9.0.1 "v9.0.1"
-[HEAD]: https://github.com/Esri/hub.js/compare/v9.0.1...HEAD "Unreleased Changes"
+[9.1.0]: https://github.com/Esri/hub.js/compare/v9.0.1...v9.1.0 "v9.1.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v9.1.0...HEAD "Unreleased Changes"
