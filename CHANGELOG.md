@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [9.1.1] - October 12th 2021
+
+### Other Changes
+
+- updated dependency ranges from invalid semver range to valid semver range
+
 ## [9.1.0] - October 11th 2021
 
 ### Other Changes
@@ -58,7 +64,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Chores
 
-  - **hub-common**: allow commits that start w/ &amp;amp;amp;amp;amp;#39;pr:&amp;amp;amp;amp;amp;#39; to address PR review [`e344283f0`](https://github.com/Esri/hub.js/commit/e344283f00cd329effd45aa4eb6b004e78664de9)
+  - **hub-common**: allow commits that start w/ &amp;amp;amp;amp;amp;amp;#39;pr:&amp;amp;amp;amp;amp;amp;#39; to address PR review [`e344283f0`](https://github.com/Esri/hub.js/commit/e344283f00cd329effd45aa4eb6b004e78664de9)
 
 - Bug Fixes
   - **hub-content**: getContentFromPortal() returns the layer content when passed a hubId [`157fa1110`](https://github.com/Esri/hub.js/commit/157fa1110546238d6a63b410ec129b93db15e6aa)
@@ -317,7 +323,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - **hub-teams**: add canEditTeam [`d2c9fecf`](https://github.com/Esri/hub.js/commit/d2c9fecf0314e35ee5c1acb9583684f18740f0b1)
   - **hub-teams**: add username check [`36a8b792`](https://github.com/Esri/hub.js/commit/36a8b7924ef7cf11ac2f2e81abe0d9ca49e86ec7)
   - **hub-teams**: add canEditTeam tests [`d4d52c18`](https://github.com/Esri/hub.js/commit/d4d52c1879c01f44770c16de242822ce41ba2708)
-  - **hub-teams**: add case when user is not auth&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;#39;d [`295e04a7`](https://github.com/Esri/hub.js/commit/295e04a7189151c827a25dcf9222c76448df71f7)
+  - **hub-teams**: add case when user is not auth&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;#39;d [`295e04a7`](https://github.com/Esri/hub.js/commit/295e04a7189151c827a25dcf9222c76448df71f7)
 
 ## [8.7.0] - June 25th 2021
 
@@ -1987,4 +1993,5 @@ Initial Release
 [9.0.0]: https://github.com/Esri/hub.js/compare/v8.24.0...v9.0.0 "v9.0.0"
 [9.0.1]: https://github.com/Esri/hub.js/compare/v9.0.0...v9.0.1 "v9.0.1"
 [9.1.0]: https://github.com/Esri/hub.js/compare/v9.0.1...v9.1.0 "v9.1.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v9.1.0...HEAD "Unreleased Changes"
+[9.1.1]: https://github.com/Esri/hub.js/compare/v9.1.0...v9.1.1 "v9.1.1"
+[HEAD]: https://github.com/Esri/hub.js/compare/v9.1.1...HEAD "Unreleased Changes"
