@@ -17,7 +17,7 @@
     "tslib": "^1.13.0"
   },
   "peerDependencies": {
-    "@esri/hub-common": "^8.0.0 | 9"
+    "@esri/hub-common": "^8.0.0 || 9"
   },
   "devDependencies": {
     "@esri/arcgis-rest-auth": "^3.1.1",
