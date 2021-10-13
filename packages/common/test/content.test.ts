@@ -532,6 +532,10 @@ describe("item to content", () => {
     };
     expect(content.boundary).toEqual({ geometry });
   });
+  it("gets relative url from type and family", () => {
+    const content = itemToContent(item);
+    expect(content.urls.relative).toBe(`/documents/${content.id}`);
+  });
   // NOTE: other use cases (including when a portal is passed)
   // are covered by getContentFromPortal() tests
 });

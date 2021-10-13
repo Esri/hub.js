@@ -454,8 +454,8 @@ export function itemToContent(item: IItem): IHubContent {
   const createdDate = new Date(item.created);
   const createdDateSource = "item.created";
   const properties = item.properties;
-  const normalizedType = normalizeItemType(item);
   const content = Object.assign({}, item, {
+    identifier: item.id,
     // no server errors when fetching the item directly
     errors: [],
     // store a reference to the item
@@ -465,10 +465,8 @@ export function itemToContent(item: IItem): IHubContent {
     // presumably there to use as the default file name when downloading
     // we don't store item.name in the Hub API and we use name for title
     name: item.title,
-    family: getFamily(normalizedType),
     // TODO: hubType is no longer used, remove it at next breaking change
     hubType: getItemHubType(item),
-    normalizedType,
     categories: parseItemCategories(item.categories),
     itemCategories: item.categories,
     // can we strip HTML from description, and do we need to trim it to a X chars?
@@ -498,7 +496,7 @@ export function itemToContent(item: IItem): IHubContent {
     updatedDateSource: "item.modified",
     structuredLicense: getStructuredLicense(item.licenseInfo),
   });
-  return content;
+  return setContentType(content, item.type);
 }
 
 /**
@@ -509,20 +507,16 @@ export function itemToContent(item: IItem): IHubContent {
  * @export
  */
 export function datasetToContent(dataset: DatasetResource): IHubContent {
-  // extract item from dataset, create content, & store a reference to the item
+  // extract item from dataset, create content from the item
   const item = datasetToItem(dataset);
   const content = itemToContent(item);
-  content.item = item;
 
   // We remove these because the indexer doesn't actually
   // preserve the original item categories so this attribute is invalid
   delete content.itemCategories;
 
-  // overwrite hubId
-  content.hubId = dataset.id;
-
   // overwrite or add enrichments from Hub API
-  const attributes = dataset.attributes;
+  const { id: hubId, attributes } = dataset;
   const {
     // common enrichments
     errors,
@@ -559,14 +553,10 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
     type,
   } = attributes;
 
-  // use the type returned by the API (i.e. possibly layer.type)
-  content.type = type;
-  content.normalizedType = normalizeItemType({ ...content.item, type });
-  content.family = getFamily(type);
-
   // NOTE: we could throw or return if there are errors
   // to prevent type errors trying to read properties below
   content.errors = errors;
+
   // common enrichments
   content.boundary = boundary;
   if (
@@ -609,7 +599,9 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
       extent: orgExtent,
     };
   }
-  return content;
+  // return a content with updated hubId and type
+  // along w/ related properties like identifier, family, etc
+  return setContentType(setContentHubId(content, hubId), type);
 }
 
 /**
@@ -755,3 +747,102 @@ export function datasetToItem(dataset: DatasetResource): IItem {
     scoreCompleteness,
   };
 }
+
+/**
+ * retunrs a new content that has the specified type and
+ * and updated related properties like normalizedType, family, etc
+ * @param content orignal content
+ * @param type new type
+ * @returns new content
+ */
+export const setContentType = (
+  content: IHubContent,
+  type: string
+): IHubContent => {
+  // get family and normalized type based on new type
+  const family = getFamily(type);
+  const normalizedType = normalizeItemType({ ...content.item, type });
+  const updated = { ...content, type, family, normalizedType };
+  // get the relative URL to the content, which is based on type and family
+  const relative = getContentRelativeUrl(updated);
+  const urls = { ...content.urls, relative };
+  return { ...updated, urls };
+};
+
+/**
+ * retunrs a new content that has the specified hubId and updated identifier
+ * @param content orignal content
+ * @param hubId new hubId
+ * @returns new content
+ */
+export const setContentHubId = (
+  content: IHubContent,
+  hubId: string
+): IHubContent => {
+  const { id, slug } = content;
+  const identifier = slug || hubId || id;
+  return { ...content, hubId, identifier };
+};
+
+//
+// export const getContentSiteUrl = (content: IHubContent, site: IModel): string => {
+//   let contentUrl;
+//   const siteUrl = getProp(site, 'item.url').replace(/\/$/, '');
+//   const { type, id, identifier } = content;
+//   if (type === 'Hub Page' || type === 'Site Page') {
+//     // if it's a page, and part of the current site
+//     // render the page instead of documents content route
+//     const sitePages = getProp(site, 'data.values.pages') ?? [];
+//     if (sitePages.findBy('id', id)) {
+//       contentUrl = `${siteUrl}/${identifier}`;
+//     } else {
+//       // otherwise show it on the content route
+//       const relativeUrl = getContentRelativeUrl(content);
+//       contentUrl = `${siteUrl}${relativeUrl}`;
+//     }
+//   }
+//   return contentUrl;
+// }
+
+const getContentRelativeUrl = (content: IHubContent): string => {
+  const { family, identifier } = content;
+  // solution types have their own logic
+  let contentUrl = getSolutionUrl(content);
+  if (!contentUrl) {
+    const pluralizedFamilies = [
+      "app",
+      "dataset",
+      "document",
+      "map",
+      "template",
+    ];
+    // default to the catchall content route
+    let path = "/content";
+    if (content.family === "feedback") {
+      // exception
+      path = "/feedback/surveys";
+    } else if (pluralizedFamilies.indexOf(family) > -1) {
+      // the rule
+      path = `/${family}s`;
+    }
+    contentUrl = `${path}/${identifier}`;
+  }
+  return contentUrl;
+};
+
+const getSolutionUrl = (content: IHubContent): string => {
+  let hubUrl;
+  const { normalizedType, identifier } = content;
+  if (normalizedType === "Solution") {
+    // NOTE: as per the above spreadsheet,
+    // solution types are now in the Template family
+    // but we don't send them to the route for initiative templates
+    if (content.typeKeywords?.indexOf("Deployed") > 0) {
+      // deployed solutions go to the generic content route
+      hubUrl = `/content/${identifier}`;
+    }
+    // others go to the solution about route
+    hubUrl = `/templates/${identifier}/about`;
+  }
+  return hubUrl;
+};
