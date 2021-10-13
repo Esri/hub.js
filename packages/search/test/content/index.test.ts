@@ -288,6 +288,7 @@ describe("Content Search Service", () => {
             agg: undefined,
             catalog: undefined,
             fields: undefined,
+            page: undefined,
             q: undefined,
           },
         },
@@ -406,6 +407,7 @@ describe("Content Search Service", () => {
             agg: undefined,
             catalog: undefined,
             fields: undefined,
+            page: undefined,
             q: undefined,
           },
         },
@@ -513,6 +515,7 @@ describe("Content Search Service", () => {
             agg: undefined,
             catalog: undefined,
             fields: undefined,
+            page: undefined,
             q: undefined,
           },
         },
@@ -605,6 +608,7 @@ describe("Content Search Service", () => {
             agg: undefined,
             catalog: undefined,
             fields: undefined,
+            page: undefined,
             q: undefined,
           },
         },
@@ -701,6 +705,35 @@ describe("searchContent function", () => {
         groupIds: "any(foo,bar)",
         orgId: "any(be55891b4)",
       });
+    });
+  });
+
+  describe("allows a client to specify paging information", () => {
+    it("with the Hub API", async () => {
+      const pageParams = {
+        hub: { start: 1, size: 10 },
+        ago: { start: 3, size: 20 },
+      };
+
+      const options: IContentSearchOptions = {
+        page: common.btoa(JSON.stringify(pageParams)),
+      };
+
+      const request: IContentSearchRequest = { options };
+
+      // Mock
+      const hubRequestMock = spyOn(common, "hubApiRequest").and.returnValue(
+        Promise.resolve({
+          data: [],
+        })
+      );
+
+      // AGO
+      await searchContent(request);
+      expect(hubRequestMock).toHaveBeenCalledTimes(1);
+      expect(hubRequestMock.calls.argsFor(0)[1].params.page).toEqual(
+        pageParams
+      );
     });
   });
 
@@ -892,6 +925,7 @@ describe("searchContent function", () => {
             agg: undefined,
             catalog: undefined,
             fields: undefined,
+            page: undefined,
             q: undefined,
           },
         },
@@ -981,6 +1015,7 @@ describe("searchContent function", () => {
             agg: undefined,
             catalog: undefined,
             fields: undefined,
+            page: undefined,
             q: undefined,
           },
         },
@@ -1086,6 +1121,7 @@ describe("searchContent function", () => {
             agg: undefined,
             catalog: undefined,
             fields: undefined,
+            page: undefined,
             q: undefined,
           },
         },

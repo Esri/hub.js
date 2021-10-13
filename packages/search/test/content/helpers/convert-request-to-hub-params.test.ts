@@ -3,8 +3,9 @@ import { SortDirection } from "../../../src/types/common";
 import {
   IBooleanOperator,
   IContentSearchFilter,
-  IContentSearchOptions
+  IContentSearchOptions,
 } from "../../../src/types/content";
+import { btoa } from "@esri/hub-common";
 
 describe("Convert Hub Params Function", () => {
   it("can convert content filters to hub API filters", () => {
@@ -22,8 +23,8 @@ describe("Convert Hub Params Function", () => {
       culture: ["en", "de"],
       categories: {
         value: ["category one", "category 2", "category three"],
-        bool: IBooleanOperator.AND
-      }
+        bool: IBooleanOperator.AND,
+      },
     };
 
     // Test
@@ -64,7 +65,7 @@ describe("Convert Hub Params Function", () => {
       access: "",
       culture: [],
       categories: null,
-      orgid: ""
+      orgid: "",
     };
 
     // Test
@@ -105,8 +106,8 @@ describe("Convert Hub Params Function", () => {
       culture: ["en", "de"],
       categories: {
         value: ["category one", "category 2", "category three"],
-        bool: IBooleanOperator.AND
-      }
+        bool: IBooleanOperator.AND,
+      },
     };
 
     // Test
@@ -167,7 +168,7 @@ describe("Convert Hub Params Function", () => {
       categories: { value: ["category one", "category 2", "category three"] },
       orgid: ["org one", "org two"],
       id: { value: ["1", "2", "3"], bool: IBooleanOperator.NOT },
-      initiativeid: "12345"
+      initiativeid: "12345",
     };
 
     // Test
@@ -214,31 +215,31 @@ describe("Convert Hub Params Function", () => {
       categories: { value: ["category one", "category 2", "category three"] },
       orgid: ["org one", "org two"],
       id: { value: ["1", "2", "3"], bool: IBooleanOperator.NOT },
-      initiativeid: "12345"
+      initiativeid: "12345",
     };
 
     const optionsOne: IContentSearchOptions = {
       sortField: "name",
-      sortOrder: SortDirection.desc
+      sortOrder: SortDirection.desc,
     };
     const optionsTwo: IContentSearchOptions = {
       sortField: "modified",
-      sortOrder: SortDirection.asc
+      sortOrder: SortDirection.asc,
     };
     const optionsThree: IContentSearchOptions = { sortField: "created" };
 
     // Test
     const hubParamsOne = convertToHubParams({
       filter: filters,
-      options: optionsOne
+      options: optionsOne,
     });
     const hubParamsTwo = convertToHubParams({
       filter: filters,
-      options: optionsTwo
+      options: optionsTwo,
     });
     const hubParamsThree = convertToHubParams({
       filter: filters,
-      options: optionsThree
+      options: optionsThree,
     });
 
     // Assert
@@ -343,13 +344,13 @@ describe("Convert Hub Params Function", () => {
       categories: { value: ["category one", "category 2", "category three"] },
       orgid: ["org one", "org two"],
       id: { value: ["1", "2", "3"], bool: IBooleanOperator.NOT },
-      initiativeid: "12345"
+      initiativeid: "12345",
     };
 
     const options: IContentSearchOptions = {
       sortField: "name",
       sortOrder: SortDirection.desc,
-      aggregations: "downloadable,access,type,hasApi"
+      aggregations: "downloadable,access,type,hasApi",
     };
 
     // Test
@@ -398,14 +399,14 @@ describe("Convert Hub Params Function", () => {
       categories: { value: ["category one", "category 2", "category three"] },
       orgid: ["org one", "org two"],
       id: { value: ["1", "2", "3"], bool: IBooleanOperator.NOT },
-      initiativeid: "12345"
+      initiativeid: "12345",
     };
 
     const options: IContentSearchOptions = {
       sortField: "name",
       sortOrder: SortDirection.desc,
       aggregations: "downloadable,access,type,hasApi",
-      fields: "id,name,created,modified"
+      fields: "id,name,created,modified",
     };
 
     // Test
@@ -442,7 +443,7 @@ describe("Convert Hub Params Function", () => {
   it("can properly create a term only search", () => {
     // Setup
     const filters: IContentSearchFilter = {
-      terms: "water"
+      terms: "water",
     };
 
     // Test
@@ -451,6 +452,30 @@ describe("Convert Hub Params Function", () => {
     // Assert
     expect(hubParams).toBeDefined();
     expect(hubParams.q).toEqual("water");
+    expect(hubParams.filter).toBeUndefined();
+    expect(hubParams.catalog).toBeUndefined();
+    expect(hubParams.sort).toBeUndefined();
+    expect(hubParams.agg).toBeUndefined();
+    expect(hubParams.fields).toBeUndefined();
+  });
+
+  it("passes along paging info", () => {
+    const pageParams = {
+      hub: { start: 1, size: 10 },
+      ago: { start: 3, size: 20 },
+    };
+
+    // Setup
+    const options: IContentSearchOptions = {
+      page: btoa(JSON.stringify(pageParams)),
+    };
+
+    // Test
+    const hubParams = convertToHubParams({ options });
+
+    // Assert
+    expect(hubParams).toBeDefined();
+    expect(hubParams.page).toEqual(pageParams);
     expect(hubParams.filter).toBeUndefined();
     expect(hubParams.catalog).toBeUndefined();
     expect(hubParams.sort).toBeUndefined();
