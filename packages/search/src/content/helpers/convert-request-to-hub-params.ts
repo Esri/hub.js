@@ -119,17 +119,17 @@ function createSearchOptions(params: Record<string, any>): ISearchParams {
   const agg = getAggregations(options.aggregations);
   const fields = getFields(options.fields);
 
-  const page = params.paging && JSON.parse(atob(params.paging));
-
-  return {
+  const searchParams: ISearchParams = {
     q: params.termField || undefined,
     sort,
     filter: params.filter,
     catalog: params.catalog,
-    page,
+    page: params.paging && { key: params.paging },
     agg,
     fields,
   };
+
+  return searchParams;
 }
 
 function convertToHubFilterClause(

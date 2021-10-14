@@ -460,14 +460,16 @@ describe("Convert Hub Params Function", () => {
   });
 
   it("passes along paging info", () => {
-    const pageParams = {
-      hub: { start: 1, size: 10 },
-      ago: { start: 3, size: 20 },
-    };
+    const pageString = btoa(
+      JSON.stringify({
+        hub: { start: 1, size: 10 },
+        ago: { start: 3, size: 20 },
+      })
+    );
 
     // Setup
     const options: IContentSearchOptions = {
-      page: btoa(JSON.stringify(pageParams)),
+      page: pageString,
     };
 
     // Test
@@ -475,7 +477,7 @@ describe("Convert Hub Params Function", () => {
 
     // Assert
     expect(hubParams).toBeDefined();
-    expect(hubParams.page).toEqual(pageParams);
+    expect(hubParams.page).toEqual({ key: pageString });
     expect(hubParams.filter).toBeUndefined();
     expect(hubParams.catalog).toBeUndefined();
     expect(hubParams.sort).toBeUndefined();

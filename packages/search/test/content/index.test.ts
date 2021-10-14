@@ -710,13 +710,15 @@ describe("searchContent function", () => {
 
   describe("allows a client to specify paging information", () => {
     it("with the Hub API", async () => {
-      const pageParams = {
-        hub: { start: 1, size: 10 },
-        ago: { start: 3, size: 20 },
-      };
+      const pageString = common.btoa(
+        JSON.stringify({
+          hub: { start: 1, size: 10 },
+          ago: { start: 3, size: 20 },
+        })
+      );
 
       const options: IContentSearchOptions = {
-        page: common.btoa(JSON.stringify(pageParams)),
+        page: pageString,
       };
 
       const request: IContentSearchRequest = { options };
@@ -731,9 +733,9 @@ describe("searchContent function", () => {
       await searchContent(request);
 
       expect(hubRequestMock).toHaveBeenCalledTimes(1);
-      expect(hubRequestMock.calls.argsFor(0)[1].params.page).toEqual(
-        pageParams
-      );
+      expect(hubRequestMock.calls.argsFor(0)[1].params.page).toEqual({
+        key: pageString,
+      });
     });
 
     it("with the Portal API", async () => {
