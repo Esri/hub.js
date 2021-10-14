@@ -15,7 +15,7 @@ import * as getSourceFeatureServiceModelFromFieldworker from "../../src/items/ge
 import * as getStakeholderModel from "../../src/items/get-stakeholder-model";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
-describe("getSurveyModels", function() {
+describe("getSurveyModels", function () {
   let formModel: IModel;
   let featureServiceModel: IModel;
   let fieldworkerModel: IModel;
@@ -30,7 +30,7 @@ describe("getSurveyModels", function() {
     requestOptions = { authentication: mockUserSession };
   });
 
-  it("fetches the feature service when a fieldworker is the primary input service", async function() {
+  it("fetches the feature service when a fieldworker is the primary input service", async function () {
     const getItemStub = spyOn(restPortal, "getItem").and.returnValue(
       Promise.resolve(FormItemPublished)
     );
@@ -54,12 +54,12 @@ describe("getSurveyModels", function() {
     expect(getItemStub.calls.count()).toBe(1);
     expect(getItemStub.calls.argsFor(0)).toEqual([
       FormItemPublished.id,
-      requestOptions
+      requestOptions,
     ]);
     expect(getInputFeatureServiceModelSpy.calls.count()).toBe(1);
     expect(getInputFeatureServiceModelSpy.calls.argsFor(0)).toEqual([
       formModel.item.id,
-      requestOptions
+      requestOptions,
     ]);
     expect(getSourceFeatureServiceModelFromFieldworkerSpy.calls.count()).toBe(
       1
@@ -69,12 +69,12 @@ describe("getSurveyModels", function() {
     ).toEqual([FieldworkerItem.id, requestOptions]);
     expect(isFieldworkerViewSpy.calls.count()).toBe(1);
     expect(isFieldworkerViewSpy.calls.argsFor(0)).toEqual([
-      fieldworkerModel.item
+      fieldworkerModel.item,
     ]);
     expect(getStakeholderModelSpy.calls.count()).toBe(1);
     expect(getStakeholderModelSpy.calls.argsFor(0)).toEqual([
       FormItemPublished.id,
-      requestOptions
+      requestOptions,
     ]);
     expect(results.form).toEqual(formModel);
     expect(results.featureService).toEqual(featureServiceModel);
@@ -82,7 +82,7 @@ describe("getSurveyModels", function() {
     expect(results.stakeholder).toEqual(stakeholderModel);
   });
 
-  it("does not attempt to fetch the feature service when the feature service is resolved from getInputFeatureServiceModel", async function() {
+  it("does not attempt to fetch the feature service when the feature service is resolved from getInputFeatureServiceModel", async function () {
     const getItemStub = spyOn(restPortal, "getItem").and.returnValue(
       Promise.resolve(FormItemPublished)
     );
@@ -106,24 +106,24 @@ describe("getSurveyModels", function() {
     expect(getItemStub.calls.count()).toBe(1);
     expect(getItemStub.calls.argsFor(0)).toEqual([
       FormItemPublished.id,
-      requestOptions
+      requestOptions,
     ]);
     expect(getInputFeatureServiceModelSpy.calls.count()).toBe(1);
     expect(getInputFeatureServiceModelSpy.calls.argsFor(0)).toEqual([
       formModel.item.id,
-      requestOptions
+      requestOptions,
     ]);
     expect(getSourceFeatureServiceModelFromFieldworkerSpy.calls.count()).toBe(
       0
     );
     expect(isFieldworkerViewSpy.calls.count()).toBe(1);
     expect(isFieldworkerViewSpy.calls.argsFor(0)).toEqual([
-      featureServiceModel.item
+      featureServiceModel.item,
     ]);
     expect(getStakeholderModelSpy.calls.count()).toBe(1);
     expect(getStakeholderModelSpy.calls.argsFor(0)).toEqual([
       FormItemPublished.id,
-      requestOptions
+      requestOptions,
     ]);
     expect(results.form).toEqual(formModel);
     expect(results.featureService).toEqual(featureServiceModel);
@@ -131,7 +131,7 @@ describe("getSurveyModels", function() {
     expect(results.stakeholder).toBeUndefined();
   });
 
-  it("does not attempt to fetch the feature service when nothing is resolved from getInputFeatureServiceModel", async function() {
+  it("does not attempt to fetch the feature service when nothing is resolved from getInputFeatureServiceModel", async function () {
     const getItemStub = spyOn(restPortal, "getItem").and.returnValue(
       Promise.resolve(FormItemPublished)
     );
@@ -155,12 +155,12 @@ describe("getSurveyModels", function() {
     expect(getItemStub.calls.count()).toBe(1);
     expect(getItemStub.calls.argsFor(0)).toEqual([
       FormItemPublished.id,
-      requestOptions
+      requestOptions,
     ]);
     expect(getInputFeatureServiceModelSpy.calls.count()).toBe(1);
     expect(getInputFeatureServiceModelSpy.calls.argsFor(0)).toEqual([
       formModel.item.id,
-      requestOptions
+      requestOptions,
     ]);
     expect(getSourceFeatureServiceModelFromFieldworkerSpy.calls.count()).toBe(
       0
@@ -169,11 +169,57 @@ describe("getSurveyModels", function() {
     expect(getStakeholderModelSpy.calls.count()).toBe(1);
     expect(getStakeholderModelSpy.calls.argsFor(0)).toEqual([
       FormItemPublished.id,
-      requestOptions
+      requestOptions,
     ]);
     expect(results.form).toEqual(formModel);
     expect(results.featureService).toBeUndefined();
     expect(results.fieldworker).toBeUndefined();
     expect(results.stakeholder).toBeUndefined();
+  });
+
+  it("only fetches Form when formItemOrId is a string", async function () {
+    const getItemStub = spyOn(restPortal, "getItem");
+    const isFieldworkerViewSpy = spyOn(
+      isFieldworkerView,
+      "isFieldworkerView"
+    ).and.returnValue(true);
+    const getInputFeatureServiceModelSpy = spyOn(
+      getInputFeatureServiceModel,
+      "getInputFeatureServiceModel"
+    ).and.returnValue(Promise.resolve(fieldworkerModel));
+    const getSourceFeatureServiceModelFromFieldworkerSpy = spyOn(
+      getSourceFeatureServiceModelFromFieldworker,
+      "getSourceFeatureServiceModelFromFieldworker"
+    ).and.returnValue(Promise.resolve(featureServiceModel));
+    const getStakeholderModelSpy = spyOn(
+      getStakeholderModel,
+      "getStakeholderModel"
+    ).and.returnValue(Promise.resolve(stakeholderModel));
+    const results = await getSurveyModels(formModel.item, requestOptions);
+    expect(getItemStub.calls.count()).toBe(0);
+    expect(getInputFeatureServiceModelSpy.calls.count()).toBe(1);
+    expect(getInputFeatureServiceModelSpy.calls.argsFor(0)).toEqual([
+      formModel.item.id,
+      requestOptions,
+    ]);
+    expect(getSourceFeatureServiceModelFromFieldworkerSpy.calls.count()).toBe(
+      1
+    );
+    expect(
+      getSourceFeatureServiceModelFromFieldworkerSpy.calls.argsFor(0)
+    ).toEqual([FieldworkerItem.id, requestOptions]);
+    expect(isFieldworkerViewSpy.calls.count()).toBe(1);
+    expect(isFieldworkerViewSpy.calls.argsFor(0)).toEqual([
+      fieldworkerModel.item,
+    ]);
+    expect(getStakeholderModelSpy.calls.count()).toBe(1);
+    expect(getStakeholderModelSpy.calls.argsFor(0)).toEqual([
+      FormItemPublished.id,
+      requestOptions,
+    ]);
+    expect(results.form).toEqual(formModel);
+    expect(results.featureService).toEqual(featureServiceModel);
+    expect(results.fieldworker).toEqual(fieldworkerModel);
+    expect(results.stakeholder).toEqual(stakeholderModel);
   });
 });
