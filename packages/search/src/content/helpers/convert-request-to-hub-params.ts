@@ -1,3 +1,4 @@
+import { atob } from "@esri/hub-common";
 import { ISearchParams } from "../../ago/params";
 import { IDateRange } from "../../types/common";
 import {
@@ -5,12 +6,12 @@ import {
   IContentFieldFilter,
   IContentSearchFilter,
   IContentSearchOptions,
-  IContentSearchRequest
+  IContentSearchRequest,
 } from "../../types/content";
 import {
   isFilterAnArrayWithData,
   isFilterANonEmptyString,
-  isFilterFieldADateRange
+  isFilterFieldADateRange,
 } from "./common";
 
 const TERM_FIELD = "terms";
@@ -22,7 +23,7 @@ const PROP_MAP: Record<string, string> = {
   title: "name",
   typekeywords: "typeKeywords",
   orgid: "orgId",
-  initiativeid: "initiativeId"
+  initiativeid: "initiativeId",
 };
 
 // Necessary to map Portal API-supported values of properties to Hub Indexer Search API properties
@@ -30,8 +31,8 @@ const VALUE_MAP: Record<string, Record<string, string>> = {
   access: {
     org: "organization",
     shared: "team",
-    private: "myself"
-  }
+    private: "myself",
+  },
 };
 
 /**
@@ -41,11 +42,8 @@ const VALUE_MAP: Record<string, Record<string, string>> = {
 export function convertToHubParams(
   request: IContentSearchRequest
 ): ISearchParams {
-  const {
-    termField,
-    filterFields,
-    catalogFields
-  }: Record<string, any> = splitFilterTerms(request);
+  const { termField, filterFields, catalogFields }: Record<string, any> =
+    splitFilterTerms(request);
   const filter: Record<string, string> = Object.keys(filterFields).length
     ? processFilter(filterFields)
     : undefined;
@@ -58,7 +56,7 @@ export function convertToHubParams(
     filter,
     catalog,
     paging,
-    options: request.options
+    options: request.options,
   });
 }
 
@@ -121,14 +119,17 @@ function createSearchOptions(params: Record<string, any>): ISearchParams {
   const agg = getAggregations(options.aggregations);
   const fields = getFields(options.fields);
 
-  return {
+  const searchParams: ISearchParams = {
     q: params.termField || undefined,
     sort,
     filter: params.filter,
     catalog: params.catalog,
+    page: params.paging && { key: params.paging },
     agg,
-    fields
+    fields,
   };
+
+  return searchParams;
 }
 
 function convertToHubFilterClause(
@@ -209,7 +210,7 @@ function createSort(sortField: string, sortOrder: string): string {
 function getAggregations(aggregations: string) {
   return aggregations
     ? {
-        fields: aggregations
+        fields: aggregations,
       }
     : undefined;
 }
@@ -217,7 +218,7 @@ function getAggregations(aggregations: string) {
 function getFields(fields: string) {
   return fields
     ? {
-        datasets: fields
+        datasets: fields,
       }
     : undefined;
 }
