@@ -728,11 +728,42 @@ describe("searchContent function", () => {
         })
       );
 
-      // AGO
       await searchContent(request);
+
       expect(hubRequestMock).toHaveBeenCalledTimes(1);
       expect(hubRequestMock.calls.argsFor(0)[1].params.page).toEqual(
         pageParams
+      );
+    });
+
+    it("with the Portal API", async () => {
+      const pageParams = {
+        start: 10,
+        num: 24,
+      };
+
+      const options: IContentSearchOptions = {
+        isPortal: true,
+        page: common.btoa(JSON.stringify(pageParams)),
+      };
+
+      const request: IContentSearchRequest = { options };
+
+      // Mock
+      const searchItemsMock = spyOn(portal, "searchItems").and.returnValue(
+        Promise.resolve({
+          results: [],
+        })
+      );
+
+      await searchContent(request);
+
+      expect(searchItemsMock).toHaveBeenCalledTimes(1);
+      expect(searchItemsMock.calls.argsFor(0)[0].params.start).toEqual(
+        pageParams.start
+      );
+      expect(searchItemsMock.calls.argsFor(0)[0].params.num).toEqual(
+        pageParams.num
       );
     });
   });
