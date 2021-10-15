@@ -1,18 +1,21 @@
 import { mockUserSession as authentication } from "@esri/hub-common/test/test-helpers/fake-user-session";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { shouldDisplayResults, migrateFormPropertiesSettings } from "../../src/utils/results-availability";
-import { IFormItem, IFormItemProperties } from "../../src/types"
-import * as resultsUtils from "../../src/utils/results-availability/has-user-responded";
-import { FormItemPublished } from "../mocks/form-item-published";
-import { FormItemDraft } from "../mocks/form-item-draft";
-import { FeatureServiceItem } from "../mocks/feature-service-item";
-import { FieldworkerItem } from "../mocks/fieldworker-item";
-import { StakeholderItem } from "../mocks/stakeholder-item";
 import {
-  cloneObject,
-  IGetSurveyModelsResponse,
-  IModel
-} from "@esri/hub-common";
+  shouldDisplayResults,
+  migrateFormPropertiesSettings,
+} from "../../src/utils/results-availability";
+import {
+  IFormItem,
+  IStakeholderItem,
+  IFormItemProperties,
+} from "../../src/types";
+import * as resultsUtils from "../../src/utils/results-availability/has-user-responded";
+import * as FormItemPublished from "../../../common/test/mocks/items/form-item-published.json";
+import * as FormItemDraft from "../../../common/test/mocks/items/form-item-draft.json";
+import * as FeatureServiceItem from "../../../common/test/mocks/items/feature-service-item.json";
+import * as FieldworkerItem from "../../../common/test/mocks/items/fieldworker-item.json";
+import * as StakeholderItem from "../../../common/test/mocks/items/stakeholder-item.json";
+import { cloneObject, IModel } from "@esri/hub-common";
 import * as featureLayerUtils from "@esri/arcgis-rest-feature-layer";
 
 const getFormItem = (
@@ -24,17 +27,17 @@ const getFormItem = (
     properties = { settings: { resultsAvailability } } as IFormItemProperties;
   }
   const formItem = isDraft ? FormItemDraft : FormItemPublished;
-  return Object.assign(cloneObject(formItem), { properties });
+  return Object.assign(cloneObject(formItem), { properties }) as IFormItem;
 };
 
-describe("shouldDisplayResults", function() {
+describe("shouldDisplayResults", function () {
   let requestOptions: IRequestOptions;
 
   beforeEach(() => {
     requestOptions = { authentication };
   });
 
-  it(`should resolve false when stakeholder view doesn't exist (not published)`, async function() {
+  it(`should resolve false when stakeholder view doesn't exist (not published)`, async function () {
     const form = getFormItem(true);
     const result = await shouldDisplayResults(
       form,
@@ -45,11 +48,11 @@ describe("shouldDisplayResults", function() {
     expect(result).toBeFalsy("should return false when unpublished");
   });
 
-  it(`should resolve true when published and resultsAvailability is "always"`, async function() {
+  it(`should resolve true when published and resultsAvailability is "always"`, async function () {
     const form = getFormItem(false, "always");
     const result = await shouldDisplayResults(
       form,
-      StakeholderItem,
+      StakeholderItem as IStakeholderItem,
       "jdoe",
       requestOptions
     );
@@ -58,7 +61,7 @@ describe("shouldDisplayResults", function() {
     );
   });
 
-  it(`should call hasUserResponded when published and resultsAvailability is "after"`, async function() {
+  it(`should call hasUserResponded when published and resultsAvailability is "after"`, async function () {
     const hasUserRespondedSpy = spyOn(
       resultsUtils,
       "hasUserResponded"
@@ -66,7 +69,7 @@ describe("shouldDisplayResults", function() {
     const form = getFormItem(false, "after");
     const result = await shouldDisplayResults(
       form,
-      StakeholderItem,
+      StakeholderItem as IStakeholderItem,
       "jdoe",
       requestOptions
     );
@@ -74,12 +77,12 @@ describe("shouldDisplayResults", function() {
     expect(hasUserRespondedSpy.calls.argsFor(0)).toEqual([
       StakeholderItem.url,
       "jdoe",
-      requestOptions
+      requestOptions,
     ]);
   });
 });
 
-describe("migrateFormPropertiesSettings", function() {
+describe("migrateFormPropertiesSettings", function () {
   let formModel: IModel;
   let featureServiceModel: IModel;
   let fieldworkerModel: IModel;
@@ -92,29 +95,29 @@ describe("migrateFormPropertiesSettings", function() {
     stakeholderModel = { item: StakeholderItem };
   });
 
-  it(`should append properties to form.item when missing`, async function() {
+  it(`should append properties to form.item when missing`, async function () {
     const models = {
       form: formModel,
       featureService: featureServiceModel,
       fieldworker: fieldworkerModel,
-      stakeholder: stakeholderModel
+      stakeholder: stakeholderModel,
     };
     const result = migrateFormPropertiesSettings(models);
 
     expect(result).toEqual(
       Object.assign({}, models, {
-        form: { item: getFormItem(false, "always") }
+        form: { item: getFormItem(false, "always") },
       }),
       "properties should be added to form.item"
     );
   });
 
-  it(`should pass thru when properties exist on form.item`, async function() {
+  it(`should pass thru when properties exist on form.item`, async function () {
     const models = {
       form: { item: getFormItem(false, "always") },
       featureService: featureServiceModel,
       fieldworker: fieldworkerModel,
-      stakeholder: stakeholderModel
+      stakeholder: stakeholderModel,
     };
     const result = migrateFormPropertiesSettings(models);
 
@@ -122,7 +125,7 @@ describe("migrateFormPropertiesSettings", function() {
   });
 });
 
-describe("hasUserResponded", function() {
+describe("hasUserResponded", function () {
   let queryFeaturesSpy: jasmine.Spy;
   let requestOptions: IRequestOptions;
 
@@ -135,7 +138,7 @@ describe("hasUserResponded", function() {
     queryFeaturesSpy.calls.reset();
   });
 
-  it("resolves true if count > 0", async function() {
+  it("resolves true if count > 0", async function () {
     queryFeaturesSpy.and.returnValue(Promise.resolve({ count: 1 }));
     const url = "https://my-feature-service.com";
     const username = "jdoe";
@@ -151,14 +154,14 @@ describe("hasUserResponded", function() {
         url: `${url}/0`,
         params: {
           where: `Creator = '${username}'`,
-          returnCountOnly: true
+          returnCountOnly: true,
         },
-        ...requestOptions
-      }
+        ...requestOptions,
+      },
     ]);
   });
 
-  it("resolves false if count = 0", async function() {
+  it("resolves false if count = 0", async function () {
     queryFeaturesSpy.and.returnValue(Promise.resolve({ count: 0 }));
     const url = "https://my-feature-service.com";
     const username = "jdoe";
@@ -176,11 +179,11 @@ describe("hasUserResponded", function() {
           url: `${url}/0`,
           params: {
             where: `Creator = '${username}'`,
-            returnCountOnly: true
-          }
+            returnCountOnly: true,
+          },
         },
         requestOptions
-      )
+      ),
     ]);
   });
 });

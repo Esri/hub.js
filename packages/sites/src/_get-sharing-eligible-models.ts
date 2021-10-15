@@ -1,5 +1,4 @@
-import { IModel, IHubRequestOptions } from "@esri/hub-common";
-import { getSurveyModels } from "@esri/hub-surveys";
+import { IModel, IHubRequestOptions, getSurveyModels } from "@esri/hub-common";
 
 function _getIneligibleModelIds(
   siteModel: IModel,

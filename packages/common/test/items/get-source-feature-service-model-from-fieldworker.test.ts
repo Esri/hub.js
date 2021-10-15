@@ -2,21 +2,21 @@
  * Apache-2.0 */
 
 import { getSourceFeatureServiceModelFromFieldworker } from "../../src/items/get-source-feature-service-model-from-fieldworker";
-import { FeatureServiceItem } from "../mocks/feature-service-item";
+import * as FeatureServiceItem from "../mocks/items/feature-service-item.json";
 import * as restPortal from "@esri/arcgis-rest-portal";
-import { mockUserSession } from "@esri/hub-common/test/test-helpers/fake-user-session";
+import { mockUserSession } from "../test-helpers/fake-user-session";
 
-describe("getSourceFeatureServiceModelFromFieldworker", function() {
+describe("getSourceFeatureServiceModelFromFieldworker", function () {
   let getRelatedItemsResponse: restPortal.IGetRelatedItemsResponse;
 
   beforeEach(() => {
     getRelatedItemsResponse = {
       total: 1,
-      relatedItems: [FeatureServiceItem]
+      relatedItems: [FeatureServiceItem],
     };
   });
 
-  it("should resolve undefined when getRelatedItems returns no related items", async function() {
+  it("should resolve undefined when getRelatedItems returns no related items", async function () {
     getRelatedItemsResponse.relatedItems.splice(0, 1);
     const getRelatedItemsSpy = spyOn(
       restPortal,
@@ -32,13 +32,13 @@ describe("getSourceFeatureServiceModelFromFieldworker", function() {
         id: "123",
         relationshipType: "Service2Data",
         direction: "forward",
-        ...mockUserSession
-      }
+        ...mockUserSession,
+      },
     ]);
     expect(result).toBeUndefined();
   });
 
-  it("should resolve an IModel when getRelatedItems returns related items", async function() {
+  it("should resolve an IModel when getRelatedItems returns related items", async function () {
     const getRelatedItemsSpy = spyOn(
       restPortal,
       "getRelatedItems"
@@ -53,8 +53,8 @@ describe("getSourceFeatureServiceModelFromFieldworker", function() {
         id: "123",
         relationshipType: "Service2Data",
         direction: "forward",
-        ...mockUserSession
-      }
+        ...mockUserSession,
+      },
     ]);
     const expected = { item: FeatureServiceItem };
     expect(result).toEqual(expected);

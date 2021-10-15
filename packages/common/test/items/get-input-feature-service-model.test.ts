@@ -2,21 +2,21 @@
  * Apache-2.0 */
 
 import { getInputFeatureServiceModel } from "../../src/items/get-input-feature-service-model";
-import { FieldworkerItem } from "../mocks/fieldworker-item";
+import * as FieldworkerItem from "../mocks/items/fieldworker-item.json";
 import * as restPortal from "@esri/arcgis-rest-portal";
-import { mockUserSession } from "@esri/hub-common/test/test-helpers/fake-user-session";
+import { mockUserSession } from "../test-helpers/fake-user-session";
 
-describe("getInputFeatureServiceModel", function() {
+describe("getInputFeatureServiceModel", function () {
   let getRelatedItemsResponse: restPortal.IGetRelatedItemsResponse;
 
   beforeEach(() => {
     getRelatedItemsResponse = {
       total: 1,
-      relatedItems: [FieldworkerItem]
+      relatedItems: [FieldworkerItem],
     };
   });
 
-  it("should resolve undefined when getRelatedItems returns no related items", async function() {
+  it("should resolve undefined when getRelatedItems returns no related items", async function () {
     getRelatedItemsResponse.relatedItems.splice(0, 1);
     const getRelatedItemsSpy = spyOn(
       restPortal,
@@ -29,13 +29,13 @@ describe("getInputFeatureServiceModel", function() {
         id: "123",
         relationshipType: "Survey2Service",
         direction: "forward",
-        ...mockUserSession
-      }
+        ...mockUserSession,
+      },
     ]);
     expect(result).toBeUndefined();
   });
 
-  it("should resolve an IModel when getRelatedItems returns related items", async function() {
+  it("should resolve an IModel when getRelatedItems returns related items", async function () {
     const getRelatedItemsSpy = spyOn(
       restPortal,
       "getRelatedItems"
@@ -47,8 +47,8 @@ describe("getInputFeatureServiceModel", function() {
         id: "123",
         relationshipType: "Survey2Service",
         direction: "forward",
-        ...mockUserSession
-      }
+        ...mockUserSession,
+      },
     ]);
     const expected = { item: FieldworkerItem };
     expect(result).toEqual(expected);

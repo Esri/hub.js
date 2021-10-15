@@ -2,21 +2,21 @@
  * Apache-2.0 */
 
 import * as restPortal from "@esri/arcgis-rest-portal";
-import { mockUserSession } from "@esri/hub-common/test/test-helpers/fake-user-session";
+import { mockUserSession } from "../test-helpers/fake-user-session";
 import { getStakeholderModel } from "../../src/items/get-stakeholder-model";
-import { StakeholderItem } from "../mocks/stakeholder-item";
+import * as StakeholderItem from "../mocks/items/stakeholder-item.json";
 
-describe("getStakeholderModel", function() {
+describe("getStakeholderModel", function () {
   let getRelatedItemsResponse: restPortal.IGetRelatedItemsResponse;
 
   beforeEach(() => {
     getRelatedItemsResponse = {
       total: 2,
-      relatedItems: [StakeholderItem]
+      relatedItems: [StakeholderItem],
     };
   });
 
-  it("should resolve undefined when getRelatedItems returns no Stakeholder", async function() {
+  it("should resolve undefined when getRelatedItems returns no Stakeholder", async function () {
     getRelatedItemsResponse.relatedItems.pop();
     const getRelatedItemsSpy = spyOn(
       restPortal,
@@ -29,13 +29,13 @@ describe("getStakeholderModel", function() {
         id: "123",
         relationshipType: "Survey2Data",
         direction: "forward",
-        ...mockUserSession
-      }
+        ...mockUserSession,
+      },
     ]);
     expect(result).toBeUndefined();
   });
 
-  it("should resolve an IModel when getRelatedItems returns a Stakeholder", async function() {
+  it("should resolve an IModel when getRelatedItems returns a Stakeholder", async function () {
     const getRelatedItemsSpy = spyOn(
       restPortal,
       "getRelatedItems"
@@ -47,8 +47,8 @@ describe("getStakeholderModel", function() {
         id: "123",
         relationshipType: "Survey2Data",
         direction: "forward",
-        ...mockUserSession
-      }
+        ...mockUserSession,
+      },
     ]);
     const expected = { item: StakeholderItem };
     expect(result).toEqual(expected);

@@ -1,14 +1,14 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IModel } from "@esri/hub-common";
+import { IModel } from "../../src/types";
 import * as restPortal from "@esri/arcgis-rest-portal";
-import { mockUserSession } from "@esri/hub-common/test/test-helpers/fake-user-session";
+import { mockUserSession } from "../test-helpers/fake-user-session";
 import { getSurveyModels } from "../../src/items/get-survey-models";
-import { FormItemPublished } from "../mocks/form-item-published";
-import { FeatureServiceItem } from "../mocks/feature-service-item";
-import { FieldworkerItem } from "../mocks/fieldworker-item";
-import { StakeholderItem } from "../mocks/stakeholder-item";
+import * as FormItemPublished from "../mocks/items/form-item-published.json";
+import * as FeatureServiceItem from "../mocks/items/feature-service-item.json";
+import * as FieldworkerItem from "../mocks/items/fieldworker-item.json";
+import * as StakeholderItem from "../mocks/items/stakeholder-item.json";
 import * as isFieldworkerView from "../../src/utils/is-fieldworker-view";
 import * as getInputFeatureServiceModel from "../../src/items/get-input-feature-service-model";
 import * as getSourceFeatureServiceModelFromFieldworker from "../../src/items/get-source-feature-service-model-from-fieldworker";

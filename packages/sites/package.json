@@ -18,8 +18,7 @@
     "@esri/arcgis-rest-request": "^2.13.0 || 3",
     "@esri/hub-common": "^8.2.0 || 9",
     "@esri/hub-initiatives": "^8.0.0 || 9",
-    "@esri/hub-teams": "^8.0.0 || 9",
-    "@esri/hub-surveys": "^8.0.0 || 9"
+    "@esri/hub-teams": "^8.0.0 || 9"
   },
   "devDependencies": {
     "@esri/arcgis-rest-auth": "^3.1.1",
@@ -29,7 +28,6 @@
     "@esri/hub-initiatives": "^9.1.2",
     "@esri/hub-teams": "^9.1.2",
     "@esri/hub-types": "^6.10.0",
-    "@esri/hub-surveys": "^9.1.1",
     "@rollup/plugin-commonjs": "^15.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^9.0.0",

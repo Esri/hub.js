@@ -3,6 +3,5 @@
 
 export * from "./is-draft";
 export * from "./is-published";
-export * from "./is-fieldworker-view";
 export * from "./status-utils";
-export * from "./results-availability/index";
+export { isFieldworkerView } from "@esri/hub-common";

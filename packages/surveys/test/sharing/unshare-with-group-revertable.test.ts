@@ -4,11 +4,11 @@
 import * as restPortal from "@esri/arcgis-rest-portal";
 import * as hubCommon from "@esri/hub-common";
 import { mockUserSession as authentication } from "@esri/hub-common/test/test-helpers/fake-user-session";
-import { FormItemPublished } from "../mocks/form-item-published";
-import { ViewGroup } from "../mocks/view-group";
+import * as FormItemPublished from "../../../common/test/mocks/items/form-item-published.json";
+import * as ViewGroup from "../../../common/test/mocks/groups/view-group.json";
 import { unshareWithGroupRevertable } from "../../src/sharing/unshare-with-group-revertable";
 
-describe("unshareWithGroupRevertable", function() {
+describe("unshareWithGroupRevertable", function () {
   let model: hubCommon.IModel;
   let unshareWithGroupResponse: restPortal.ISharingResponse;
   let shareItemWithGroupResponse: restPortal.ISharingResponse;
@@ -19,22 +19,22 @@ describe("unshareWithGroupRevertable", function() {
 
     unshareWithGroupResponse = {
       notUnsharedFrom: [],
-      itemId: model.item.id
+      itemId: model.item.id,
     };
 
     shareItemWithGroupResponse = {
       notSharedWith: [],
-      itemId: model.item.id
+      itemId: model.item.id,
     };
 
-    group = ViewGroup;
+    group = ViewGroup as restPortal.IGroup;
   });
 
-  it("should resolve the IRevertableTaskResult from runRevertableTask", async function() {
+  it("should resolve the IRevertableTaskResult from runRevertableTask", async function () {
     const runRevertableTaskResult: hubCommon.IRevertableTaskResult = {
       status: "fullfilled",
       revert: () => Promise.resolve(),
-      results: unshareWithGroupResponse
+      results: unshareWithGroupResponse,
     } as hubCommon.IRevertableTaskSuccess;
     const runRevertableTaskSpy = spyOn(
       hubCommon,
@@ -44,7 +44,7 @@ describe("unshareWithGroupRevertable", function() {
       Promise.resolve(unshareWithGroupResponse)
     );
     const result = await unshareWithGroupRevertable(model, group, {
-      authentication
+      authentication,
     });
     expect(runRevertableTaskSpy.calls.count()).toBe(1);
     const taskMethod = runRevertableTaskSpy.calls.argsFor(0)[0];
@@ -54,12 +54,12 @@ describe("unshareWithGroupRevertable", function() {
     expect(result).toEqual(runRevertableTaskResult);
   });
 
-  describe("task method", function() {
-    it("should resolve the ISharingResponse from unshareItemWithGroup", async function() {
+  describe("task method", function () {
+    it("should resolve the ISharingResponse from unshareItemWithGroup", async function () {
       const runRevertableTaskResult: hubCommon.IRevertableTaskResult = {
         status: "fullfilled",
         revert: () => Promise.resolve(),
-        results: unshareWithGroupResponse
+        results: unshareWithGroupResponse,
       } as hubCommon.IRevertableTaskSuccess;
       const runRevertableTaskSpy = spyOn(
         hubCommon,
@@ -78,23 +78,23 @@ describe("unshareWithGroupRevertable", function() {
           id: model.item.id,
           owner: model.item.owner,
           groupId: group.id,
-          authentication
-        }
+          authentication,
+        },
       ]);
       expect(result).toEqual(unshareWithGroupResponse);
     });
 
-    it("rejects with an error", async function(done) {
+    it("rejects with an error", async function (done) {
       unshareWithGroupResponse = {
         notUnsharedFrom: [model.item.id],
-        itemId: model.item.id
+        itemId: model.item.id,
       };
       const error = new Error(
         `Failed to unshare item ${model.item.id} from group ${group.id}`
       );
       const runRevertableTaskResult: hubCommon.IRevertableTaskResult = {
         status: "rejected",
-        error
+        error,
       } as hubCommon.IRevertableTaskFailed;
       const runRevertableTaskSpy = spyOn(
         hubCommon,
@@ -116,8 +116,8 @@ describe("unshareWithGroupRevertable", function() {
             id: model.item.id,
             owner: model.item.owner,
             groupId: group.id,
-            authentication
-          }
+            authentication,
+          },
         ]);
         expect(e).toEqual(e);
         done();
@@ -125,8 +125,8 @@ describe("unshareWithGroupRevertable", function() {
     });
   });
 
-  describe("revert method", function() {
-    it("should resolve the ISharingResponse from shareItemWithGroup for view groups", async function() {
+  describe("revert method", function () {
+    it("should resolve the ISharingResponse from shareItemWithGroup for view groups", async function () {
       const runRevertableTaskSpy = spyOn(
         hubCommon,
         "runRevertableTask"
@@ -151,13 +151,13 @@ describe("unshareWithGroupRevertable", function() {
           owner: model.item.owner,
           groupId: group.id,
           confirmItemControl: false,
-          authentication
-        }
+          authentication,
+        },
       ]);
       expect(result).toEqual(shareItemWithGroupResponse);
     });
 
-    it("should resolve the ISharingResponse from shareItemWithGroup for update groups", async function() {
+    it("should resolve the ISharingResponse from shareItemWithGroup for update groups", async function () {
       const runRevertableTaskSpy = spyOn(
         hubCommon,
         "runRevertableTask"
@@ -182,19 +182,19 @@ describe("unshareWithGroupRevertable", function() {
           owner: model.item.owner,
           groupId: group.id,
           confirmItemControl: true,
-          authentication
-        }
+          authentication,
+        },
       ]);
       expect(result).toEqual(shareItemWithGroupResponse);
     });
 
-    it("should suppresses any error", async function() {
+    it("should suppresses any error", async function () {
       const error = new Error(
         `Failed to unshare item ${model.item.id} from group ${group.id}`
       );
       const runRevertableTaskResult: hubCommon.IRevertableTaskResult = {
         status: "rejected",
-        error
+        error,
       } as hubCommon.IRevertableTaskFailed;
       const runRevertableTaskSpy = spyOn(
         hubCommon,
@@ -220,8 +220,8 @@ describe("unshareWithGroupRevertable", function() {
           owner: model.item.owner,
           groupId: group.id,
           confirmItemControl: true,
-          authentication
-        }
+          authentication,
+        },
       ]);
       expect(result).toBeUndefined();
     });
