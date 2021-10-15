@@ -41,7 +41,7 @@ export function _getSharingEligibleModels(
           ineligibleModels.find(({ item: { id } }) => model.item.id === id)
             ? acc
             : [...acc, model],
-        []
+        [] as IModel[]
       )
   );
 }
