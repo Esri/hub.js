@@ -3,7 +3,7 @@
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getRelatedItems } from "@esri/arcgis-rest-portal";
-import { IModel } from "@esri/hub-common";
+import { IModel } from "../types";
 
 /**
  * Fetches a Survey's source Feature Service from a given
@@ -20,7 +20,7 @@ export const getSourceFeatureServiceModelFromFieldworker = (
     id: fieldworkerId,
     relationshipType: "Service2Data",
     direction: "forward",
-    ...requestOptions
+    ...requestOptions,
   }).then(({ relatedItems: [featureService] }) => {
     let model;
     if (featureService) {

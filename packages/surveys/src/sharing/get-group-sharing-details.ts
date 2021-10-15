@@ -3,8 +3,10 @@
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getGroup } from "@esri/arcgis-rest-portal";
-import { IGetGroupSharingDetailsResults } from "@esri/hub-common";
-import { getSurveyModels } from "../items/get-survey-models";
+import {
+  getSurveyModels,
+  IGetGroupSharingDetailsResults,
+} from "@esri/hub-common";
 import { isPublished } from "../utils/is-published";
 
 /**
@@ -39,14 +41,14 @@ export const getGroupSharingDetails = (
           form,
           featureService,
           fieldworker,
-          stakeholder
+          stakeholder,
         ]) || [form, fieldworker];
       } else {
         // drafts only have a form & feature service
         models = [form, featureService];
       }
 
-      const modelsToShare = models.filter(_ => _);
+      const modelsToShare = models.filter((_) => _);
 
       return { modelsToShare, group };
     }

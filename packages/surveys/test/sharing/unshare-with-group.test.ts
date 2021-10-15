@@ -2,17 +2,18 @@
  * Apache-2.0 */
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { IGroup } from "@esri/arcgis-rest-types";
 import * as hubCommon from "@esri/hub-common";
 import { mockUserSession as authentication } from "@esri/hub-common/test/test-helpers/fake-user-session";
-import { FormItemPublished } from "../mocks/form-item-published";
-import { FeatureServiceItem } from "../mocks/feature-service-item";
-import { FieldworkerItem } from "../mocks/fieldworker-item";
-import { ViewGroup } from "../mocks/view-group";
+import * as FormItemPublished from "../../../common/test/mocks/items/form-item-published.json";
+import * as FeatureServiceItem from "../../../common/test/mocks/items/feature-service-item.json";
+import * as FieldworkerItem from "../../../common/test/mocks/items/fieldworker-item.json";
+import * as ViewGroup from "../../../common/test/mocks/groups/view-group.json";
 import { unshareWithGroup } from "../../src/sharing/unshare-with-group";
 import * as unshareWithGroupRevertable from "../../src/sharing/unshare-with-group-revertable";
 import * as getGroupSharingDetails from "../../src/sharing/get-group-sharing-details";
 
-describe("unshareWithGroup", function() {
+describe("unshareWithGroup", function () {
   let formModel: hubCommon.IModel;
   let featureServiceModel: hubCommon.IModel;
   let fieldworkerModel: hubCommon.IModel;
@@ -31,34 +32,35 @@ describe("unshareWithGroup", function() {
     requestOptions = { authentication };
     getGroupSharingDetailsResults = {
       modelsToShare: [formModel, featureServiceModel, fieldworkerModel],
-      group: ViewGroup
+      group: ViewGroup as IGroup,
     };
     unshareWithGroupRevertableResults = [
       {
         status: "fullfilled",
         revert: () => Promise.resolve("form"),
-        results: { notUnSharedWith: [], itemId: formModel.item.id }
+        results: { notUnSharedWith: [], itemId: formModel.item.id },
       },
       {
         status: "fullfilled",
         revert: () => Promise.resolve("featureService"),
-        results: { notUnSharedWith: [], itemId: featureServiceModel.item.id }
+        results: { notUnSharedWith: [], itemId: featureServiceModel.item.id },
       },
       {
         status: "fullfilled",
         revert: () => Promise.resolve("fieldworker"),
-        results: { notUnSharedWith: [], itemId: fieldworkerModel.item.id }
-      }
+        results: { notUnSharedWith: [], itemId: fieldworkerModel.item.id },
+      },
     ];
-    unshareWithGroupRevertablePromiseResults = unshareWithGroupRevertableResults.map(
-      (result: hubCommon.IRevertableTaskResult) => Promise.resolve(result)
-    );
-    processRevertableTasksResults = (unshareWithGroupRevertableResults as hubCommon.IRevertableTaskSuccess[]).map(
-      ({ results }) => results
-    );
+    unshareWithGroupRevertablePromiseResults =
+      unshareWithGroupRevertableResults.map(
+        (result: hubCommon.IRevertableTaskResult) => Promise.resolve(result)
+      );
+    processRevertableTasksResults = (
+      unshareWithGroupRevertableResults as hubCommon.IRevertableTaskSuccess[]
+    ).map(({ results }) => results);
   });
 
-  it("should resolve the results from processRevertableTasks", async function() {
+  it("should resolve the results from processRevertableTasks", async function () {
     const getGroupSharingDetailsSpy = spyOn(
       getGroupSharingDetails,
       "getGroupSharingDetails"
@@ -80,32 +82,32 @@ describe("unshareWithGroup", function() {
     expect(getGroupSharingDetailsSpy.calls.argsFor(0)).toEqual([
       FormItemPublished.id,
       ViewGroup.id,
-      requestOptions
+      requestOptions,
     ]);
     expect(unshareWithGroupRevertableSpy.calls.count()).toBe(3);
     expect(unshareWithGroupRevertableSpy.calls.argsFor(0)).toEqual([
       formModel,
       ViewGroup,
-      requestOptions
+      requestOptions,
     ]);
     expect(unshareWithGroupRevertableSpy.calls.argsFor(1)).toEqual([
       featureServiceModel,
       ViewGroup,
-      requestOptions
+      requestOptions,
     ]);
     expect(unshareWithGroupRevertableSpy.calls.argsFor(2)).toEqual([
       fieldworkerModel,
       ViewGroup,
-      requestOptions
+      requestOptions,
     ]);
     expect(processRevertableTasksSpy.calls.count()).toBe(1);
     expect(processRevertableTasksSpy.calls.argsFor(0)).toEqual([
-      unshareWithGroupRevertablePromiseResults
+      unshareWithGroupRevertablePromiseResults,
     ]);
     expect(results).toEqual(processRevertableTasksResults);
   });
 
-  it("should reject if processRevertableTasks rejects", async function(done) {
+  it("should reject if processRevertableTasks rejects", async function (done) {
     const getGroupSharingDetailsSpy = spyOn(
       getGroupSharingDetails,
       "getGroupSharingDetails"
@@ -126,33 +128,31 @@ describe("unshareWithGroup", function() {
       expect(getGroupSharingDetailsSpy.calls.argsFor(0)).toEqual([
         FormItemPublished.id,
         ViewGroup.id,
-        requestOptions
+        requestOptions,
       ]);
       expect(unshareWithGroupRevertableSpy.calls.count()).toBe(3);
       expect(unshareWithGroupRevertableSpy.calls.argsFor(0)).toEqual([
         formModel,
         ViewGroup,
-        requestOptions
+        requestOptions,
       ]);
       expect(unshareWithGroupRevertableSpy.calls.argsFor(1)).toEqual([
         featureServiceModel,
         ViewGroup,
-        requestOptions
+        requestOptions,
       ]);
       expect(unshareWithGroupRevertableSpy.calls.argsFor(2)).toEqual([
         fieldworkerModel,
         ViewGroup,
-        requestOptions
+        requestOptions,
       ]);
       expect(processRevertableTasksSpy.calls.count()).toBe(1);
       expect(processRevertableTasksSpy.calls.argsFor(0)).toEqual([
-        unshareWithGroupRevertablePromiseResults
+        unshareWithGroupRevertablePromiseResults,
       ]);
       expect(e).toEqual(
         new Error(
-          `Failed to unshare survey ${formModel.item.id} items with group ${
-            ViewGroup.id
-          }`
+          `Failed to unshare survey ${formModel.item.id} items with group ${ViewGroup.id}`
         )
       );
       done();

@@ -18,7 +18,7 @@ export function isFieldworkerView(featureServiceItem: IItem): boolean {
     const hasExpectedTypeKeywords = [
       "Survey123",
       "Feature Service",
-      "View Service"
+      "View Service",
     ].every(hasTypekeyword);
     isFieldworker =
       hasExpectedTypeKeywords && !hasTypekeyword("StakeholderView");

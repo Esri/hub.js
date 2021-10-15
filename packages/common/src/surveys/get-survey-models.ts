@@ -2,12 +2,12 @@
  * Apache-2.0 */
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { getItem } from "@esri/arcgis-rest-portal";
-import { IModel, IGetSurveyModelsResponse } from "@esri/hub-common";
+import { getItem, IItem } from "@esri/arcgis-rest-portal";
+import { IModel, IGetSurveyModelsResponse } from "../types";
 import { getInputFeatureServiceModel } from "./get-input-feature-service-model";
 import { getSourceFeatureServiceModelFromFieldworker } from "./get-source-feature-service-model-from-fieldworker";
 import { getStakeholderModel } from "./get-stakeholder-model";
-import { isFieldworkerView } from "../utils/is-fieldworker-view";
+import { isFieldworkerView } from "./is-fieldworker-view";
 
 /**
  * Builds a dictionary of Survey items for the given Form model
@@ -16,18 +16,23 @@ import { isFieldworkerView } from "../utils/is-fieldworker-view";
  * @returns {Promise<IGetSurveyModelsResponse>}
  */
 export const getSurveyModels = (
-  formId: string,
+  formItemOrId: string | IItem,
   requestOptions: IRequestOptions
 ): Promise<IGetSurveyModelsResponse> => {
   let fieldworker: IModel;
   let stakeholder: IModel;
 
-  return getItem(formId, requestOptions).then(item => {
+  const getForm = () =>
+    typeof formItemOrId === "string"
+      ? getItem(formItemOrId, requestOptions)
+      : Promise.resolve(formItemOrId);
+
+  return getForm().then((form) => {
     const promises: Array<Promise<IModel>> = [
       // the primary input will be the fieldworker (if it exists), otherwise
       // the source feature service.
-      getInputFeatureServiceModel(formId, requestOptions),
-      getStakeholderModel(formId, requestOptions)
+      getInputFeatureServiceModel(form.id, requestOptions),
+      getStakeholderModel(form.id, requestOptions),
     ];
 
     return Promise.all(promises)
@@ -49,12 +54,12 @@ export const getSurveyModels = (
           return featureServiceOrFieldworkerModelResult;
         }
       })
-      .then(featureService => {
+      .then((featureService) => {
         return {
-          form: { item },
+          form: { item: form },
           featureService,
           fieldworker,
-          stakeholder
+          stakeholder,
         };
       });
   });

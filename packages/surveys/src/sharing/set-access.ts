@@ -5,9 +5,9 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import {
   processRevertableTasks,
   IRevertableTaskResult,
-  IModel
+  IModel,
+  getSurveyModels,
 } from "@esri/hub-common";
-import { getSurveyModels } from "../items/get-survey-models";
 import { isPublished } from "../utils/is-published";
 import { setAccessRevertable } from "./set-access-revertable";
 

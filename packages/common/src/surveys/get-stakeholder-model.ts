@@ -3,7 +3,7 @@
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getRelatedItems } from "@esri/arcgis-rest-portal";
-import { IModel } from "@esri/hub-common";
+import { IModel } from "../types";
 
 /**
  * Fetches a Survey's Stakeholder View for a given
@@ -20,7 +20,7 @@ export const getStakeholderModel = (
     id: formId,
     relationshipType: "Survey2Data",
     direction: "forward",
-    ...requestOptions
+    ...requestOptions,
   }).then(({ relatedItems: [stakeholderView] }) => {
     let model;
     if (stakeholderView) {
