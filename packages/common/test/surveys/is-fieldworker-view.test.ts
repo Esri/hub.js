@@ -1,7 +1,6 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-// import { cloneObject } from "../../util";
 import { cloneObject } from "../../src/util";
 import { isFieldworkerView } from "../../src/surveys/is-fieldworker-view";
 import * as FieldworkerItem from "../mocks/items/fieldworker-item.json";
