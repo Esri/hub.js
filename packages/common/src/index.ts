@@ -20,6 +20,7 @@ export * from "./util";
 export * from "./utils";
 export * from "./i18n";
 export * from "./request";
+export * from "./surveys";
 
 import OperationStack from "./OperationStack";
 import OperationError from "./OperationError";

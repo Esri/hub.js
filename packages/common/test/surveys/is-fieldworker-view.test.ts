@@ -3,7 +3,7 @@
 
 // import { cloneObject } from "../../util";
 import { cloneObject } from "../../src/util";
-import { isFieldworkerView } from "../../src/utils/is-fieldworker-view";
+import { isFieldworkerView } from "../../src/surveys/is-fieldworker-view";
 import * as FieldworkerItem from "../mocks/items/fieldworker-item.json";
 import * as FeatureServiceItem from "../mocks/items/feature-service-item.json";
 import * as StakeholderItem from "../mocks/items/stakeholder-item.json";

@@ -1,18 +1,16 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IModel, IHubRequestOptions } from "@esri/hub-common";
-import * as hubSurveys from "@esri/hub-surveys";
+import * as hubCommon from "@esri/hub-common";
 import { _getSharingEligibleModels } from "../src/_get-sharing-eligible-models";
-import { getSurveyModels } from "@esri/hub-surveys";
 
 describe("_getSharingEligibleModels", function () {
-  let models: IModel[];
-  let siteModel: IModel;
-  let hubRequestOptions: IHubRequestOptions;
+  let models: hubCommon.IModel[];
+  let siteModel: hubCommon.IModel;
+  let hubRequestOptions: hubCommon.IHubRequestOptions;
 
   beforeEach(() => {
-    siteModel = { item: { id: "site-id" } } as IModel;
+    siteModel = { item: { id: "site-id" } } as hubCommon.IModel;
 
     models = [
       siteModel,
@@ -21,14 +19,14 @@ describe("_getSharingEligibleModels", function () {
       { item: { id: "789", type: "Feature Service" } },
       { item: { id: "101", type: "Feature Service" } },
       { item: { id: "121", type: "Feature Service" } },
-    ] as IModel[];
+    ] as hubCommon.IModel[];
 
-    hubRequestOptions = { authentication: {} } as IHubRequestOptions;
+    hubRequestOptions = { authentication: {} } as hubCommon.IHubRequestOptions;
   });
 
   it("resolves an array of sharing eligible models", async function () {
     const getSurveyModelsSpy = spyOn(
-      hubSurveys,
+      hubCommon,
       "getSurveyModels"
     ).and.returnValue(
       Promise.resolve({

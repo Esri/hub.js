@@ -7,7 +7,7 @@ import { IModel, IGetSurveyModelsResponse } from "../types";
 import { getInputFeatureServiceModel } from "./get-input-feature-service-model";
 import { getSourceFeatureServiceModelFromFieldworker } from "./get-source-feature-service-model-from-fieldworker";
 import { getStakeholderModel } from "./get-stakeholder-model";
-import { isFieldworkerView } from "../utils/is-fieldworker-view";
+import { isFieldworkerView } from "./is-fieldworker-view";
 
 /**
  * Builds a dictionary of Survey items for the given Form model
