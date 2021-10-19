@@ -763,10 +763,9 @@ export const setContentType = (
   const family = getFamily(type);
   const normalizedType = normalizeItemType({ ...content.item, type });
   const updated = { ...content, type, family, normalizedType };
-  // get the relative URL to the content, which is based on type and family
-  const relative = getContentRelativeUrl(updated);
-  const urls = { ...content.urls, relative };
-  return { ...updated, urls };
+  // update the relative URL to the content
+  // which is based on type and family
+  return setContentRelativeUrl(updated);
 };
 
 /**
@@ -780,20 +779,33 @@ export const setContentHubId = (
   hubId: string
 ): IHubContent => {
   const { id, slug } = content;
+  // get the identifier which is based on hubId
   const identifier = slug || hubId || id;
-  return { ...content, hubId, identifier };
+  const updated = { ...content, hubId, identifier };
+  // update the relative URL to the content
+  // which is based on identifier
+  return setContentRelativeUrl(updated);
 };
 
-//
-// export const getContentSiteUrl = (content: IHubContent, site: IModel): string => {
+const setContentRelativeUrl = (content: IHubContent) => {
+  // calculate the relative URL to the content
+  const relative = getContentRelativeUrl(content);
+  const urls = { ...content.urls, relative };
+  return { ...content, urls };
+};
+
+// export const getContentSiteUrl = (
+//   content: IHubContent,
+//   site: IModel
+// ): string => {
 //   let contentUrl;
-//   const siteUrl = getProp(site, 'item.url').replace(/\/$/, '');
+//   const siteUrl = getProp(site, "item.url").replace(/\/$/, "");
 //   const { type, id, identifier } = content;
-//   if (type === 'Hub Page' || type === 'Site Page') {
+//   if (type === "Hub Page" || type === "Site Page") {
 //     // if it's a page, and part of the current site
 //     // render the page instead of documents content route
-//     const sitePages = getProp(site, 'data.values.pages') ?? [];
-//     if (sitePages.findBy('id', id)) {
+//     const sitePages = getProp(site, "data.values.pages") ?? [];
+//     if (sitePages.findBy("id", id)) {
 //       contentUrl = `${siteUrl}/${identifier}`;
 //     } else {
 //       // otherwise show it on the content route
@@ -802,7 +814,7 @@ export const setContentHubId = (
 //     }
 //   }
 //   return contentUrl;
-// }
+// };
 
 const getContentRelativeUrl = (content: IHubContent): string => {
   const { family, identifier } = content;

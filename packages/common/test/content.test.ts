@@ -14,6 +14,7 @@ import {
   getItemLayerId,
   getItemHubId,
   getContentIdentifier,
+  // getContentSiteUrl,
   isSlug,
   addContextToSlug,
   removeContextFromSlug,
@@ -22,6 +23,7 @@ import {
   parseItemCategories,
   getItemHubType,
   getFamily,
+  setContentType,
 } from "../src/content";
 import { IHubContent } from "../src/types";
 import { cloneObject } from "../src/util";
@@ -539,7 +541,6 @@ describe("item to content", () => {
   // NOTE: other use cases (including when a portal is passed)
   // are covered by getContentFromPortal() tests
 });
-
 describe("parseDatasetId", function () {
   it("returns undefined", () => {
     const result = parseDatasetId(undefined);
@@ -642,3 +643,50 @@ describe("dataset to content", () => {
   });
   // NOTE: other use cases are covered by getContent() tests
 });
+describe("setContentType", () => {
+  // NOTE: these tests are just the most expedient way
+  // to get coverage for getContentRelativeUrl() w/o exporting it
+  let content: IHubContent;
+  beforeEach(() => {
+    content = itemToContent(documentItem);
+  });
+  it("sets relative url for feedback", () => {
+    const updated = setContentType(content, "Form");
+    expect(updated.urls.relative).toBe(
+      `/feedback/surveys/${content.identifier}`
+    );
+  });
+  it("sets relative url for deployed solution", () => {
+    content.typeKeywords.push("Deployed");
+    const updated = setContentType(content, "Solution");
+    expect(updated.urls.relative).toBe(
+      `/templates/${content.identifier}/about`
+    );
+  });
+});
+// fdescribe("getContentSiteUrl", () => {
+//   const url = "https://my-site-org.hub.arcgis.com";
+//   const pageId = "43f";
+//   let site;
+//   beforeEach(() => {
+//     site = {
+//       item: {
+//         url,
+//       },
+//       data: {
+//         values: {
+//           pages: [pageId],
+//         },
+//       },
+//     };
+//   });
+//   it("returns /pages/id when page is in site", () => {
+//     const content = {
+//       id: pageId,
+//       type: "Hub Page",
+//       identifier: "org::page-slug",
+//     };
+//     const url = getContentSiteUrl(content, site);
+//     expect(url).toEqual(`${url}/pages/${pageId}`);
+//   });
+// });
