@@ -5,6 +5,7 @@
     "tslint-config-prettier"
   ],
   "rules": {
+    "no-floating-promises": false,
     "interface-over-type-literal": false,
     "strict-type-predicates": false,
     "ordered-imports": ["any"],
