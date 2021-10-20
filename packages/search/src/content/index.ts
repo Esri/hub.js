@@ -8,6 +8,8 @@ import {
   ISiteCatalog,
   getPortalApiUrl,
   DatasetResource,
+  IModel,
+  setContentSiteUrls,
 } from "@esri/hub-common";
 import { IItem, ISearchOptions, ISearchResult } from "@esri/arcgis-rest-portal";
 import { searchItems } from "@esri/arcgis-rest-portal";
@@ -296,7 +298,8 @@ export class ContentSearchService
 export async function searchContent(
   request: IContentSearchRequest = { filter: {}, options: {} }
 ): Promise<IContentSearchResponse> {
-  const siteCatalog = await getSiteCatalogFromOptions(request.options);
+  const siteModel = await getSiteModelFromOptions(request.options);
+  const siteCatalog: ISiteCatalog = siteModel?.data?.catalog;
   if (siteCatalog) {
     const { groups: group, orgId: orgid } = siteCatalog;
     request.filter = {
@@ -304,11 +307,16 @@ export async function searchContent(
       ...request.filter,
     };
   }
-
-  if (getProp(request, "options.isPortal")) {
-    return performEnterpriseContentSearch(request);
+  const response = getProp(request, "options.isPortal")
+    ? await performEnterpriseContentSearch(request)
+    : await performHubContentSearch(request);
+  if (siteModel) {
+    // append the absolute URL to the content on the site
+    response.results = response.results.map((content) =>
+      setContentSiteUrls(content, siteModel)
+    );
   }
-  return performHubContentSearch(request);
+  return response;
 }
 
 function performEnterpriseContentSearch(
@@ -357,16 +365,14 @@ function performHubContentSearch(
   });
 }
 
-function getSiteCatalogFromOptions(
+function getSiteModelFromOptions(
   options: IContentSearchOptions
-): Promise<ISiteCatalog> {
+): Promise<IModel> {
   if (!options || !options.site) return null;
 
   const ro = getHubRequestOptions(options);
 
-  return fetchSite(options.site, ro).then((siteModel) =>
-    getProp(siteModel, "data.catalog")
-  );
+  return fetchSite(options.site, ro);
 }
 
 // used above

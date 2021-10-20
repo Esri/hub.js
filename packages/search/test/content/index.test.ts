@@ -14,6 +14,51 @@ import {
   IContentSearchOptions,
 } from "../../src/types/content";
 
+// initialize mock responses
+const documentOne: Record<string, any> = {
+  id: "12345",
+  attributes: {
+    title: "title 1",
+    type: "Feature Layer",
+    owner: "me",
+    tags: ["tag 1", "tag 2"],
+    created: 1000,
+    modified: 2000,
+    numViews: 1,
+    size: 5,
+  },
+};
+const documentTwo: Record<string, any> = {
+  id: "23456",
+  attributes: {
+    title: "title 2",
+    type: "Table",
+    owner: "you",
+    tags: ["tag 3"],
+    created: 2000,
+    modified: 3000,
+    numViews: 2,
+    size: 6,
+  },
+};
+const mockHubResponse: Record<string, any> = {
+  data: [documentOne, documentTwo],
+  meta: {
+    queryParameters: {
+      sort: "title",
+      filter: {
+        title: "any(title 1,title 2)",
+      },
+    },
+    stats: {
+      count: 2,
+      totalCount: 2,
+    },
+  },
+};
+
+// TODO: hoist mockPortalResponse as well
+
 describe("Content Search Service", () => {
   it("can be perform an enterprise search when isPortal is specified as true", (done) => {
     // Setup
@@ -52,7 +97,7 @@ describe("Content Search Service", () => {
       size: 6,
     };
 
-    const mockedResponse: ISearchResult<IItem> = {
+    const mockPortalResponse: ISearchResult<IItem> = {
       query: "title:title 1 OR title:title 2",
       total: 2,
       start: 1,
@@ -61,7 +106,7 @@ describe("Content Search Service", () => {
       results: [itemOne, itemTwo],
     };
 
-    const results = mockedResponse.results.map(itemToContent);
+    const results = mockPortalResponse.results.map(itemToContent);
 
     const authentication: UserSession = new UserSession({
       portal: "portal-sharing-url",
@@ -75,7 +120,7 @@ describe("Content Search Service", () => {
 
     // Mock
     const searchItemsMock = spyOn(portal, "searchItems").and.returnValue(
-      Promise.resolve(mockedResponse)
+      Promise.resolve(mockPortalResponse)
     );
 
     // Test
@@ -99,9 +144,9 @@ describe("Content Search Service", () => {
         },
       ]);
       expect(response.results).toEqual(results);
-      expect(response.query).toEqual(mockedResponse.query);
-      expect(response.total).toEqual(mockedResponse.total);
-      expect(response.count).toEqual(mockedResponse.num);
+      expect(response.query).toEqual(mockPortalResponse.query);
+      expect(response.total).toEqual(mockPortalResponse.total);
+      expect(response.count).toEqual(mockPortalResponse.num);
       expect(response.hasNext).toEqual(false);
       expect(response.aggregations).toBeUndefined();
       expect(response.next).toBeDefined();
@@ -135,7 +180,7 @@ describe("Content Search Service", () => {
       size: 6,
     };
 
-    const mockedResponse: ISearchResult<IItem> = {
+    const mockPortalResponse: ISearchResult<IItem> = {
       query: "title:title 1 OR title:title 2",
       total: 2,
       start: 1,
@@ -144,7 +189,7 @@ describe("Content Search Service", () => {
       results: [itemOne, itemTwo],
     };
 
-    const expectedResults = mockedResponse.results.map(itemToContent);
+    const expectedResults = mockPortalResponse.results.map(itemToContent);
 
     const authentication: UserSession = new UserSession({
       portal: "portal-sharing-url",
@@ -158,7 +203,7 @@ describe("Content Search Service", () => {
 
     // Mock
     const searchItemsMock = spyOn(portal, "searchItems").and.returnValue(
-      Promise.resolve(mockedResponse)
+      Promise.resolve(mockPortalResponse)
     );
 
     // Test
@@ -182,9 +227,9 @@ describe("Content Search Service", () => {
         },
       ]);
       expect(response.results).toEqual(expectedResults);
-      expect(response.query).toEqual(mockedResponse.query);
-      expect(response.total).toEqual(mockedResponse.total);
-      expect(response.count).toEqual(mockedResponse.num);
+      expect(response.query).toEqual(mockPortalResponse.query);
+      expect(response.total).toEqual(mockPortalResponse.total);
+      expect(response.count).toEqual(mockPortalResponse.num);
       expect(response.hasNext).toEqual(false);
       expect(response.aggregations).toBeUndefined();
       expect(response.next).toBeDefined();
@@ -205,51 +250,7 @@ describe("Content Search Service", () => {
       options,
     };
 
-    const documentOne: Record<string, any> = {
-      attributes: {
-        id: "12345",
-        title: "title 1",
-        type: "Feature Layer",
-        owner: "me",
-        tags: ["tag 1", "tag 2"],
-        created: 1000,
-        modified: 2000,
-        numViews: 1,
-        size: 5,
-      },
-    };
-
-    const documentTwo: Record<string, any> = {
-      attributes: {
-        id: "23456",
-        title: "title 2",
-        type: "Table",
-        owner: "you",
-        tags: ["tag 3"],
-        created: 2000,
-        modified: 3000,
-        numViews: 2,
-        size: 6,
-      },
-    };
-
-    const mockedResponse: Record<string, any> = {
-      data: [documentOne, documentTwo],
-      meta: {
-        queryParameters: {
-          sort: "title",
-          filter: {
-            title: "any(title 1,title 2)",
-          },
-        },
-        stats: {
-          count: 2,
-          totalCount: 2,
-        },
-      },
-    };
-
-    const results = mockedResponse.data.map(datasetToContent);
+    const results = mockHubResponse.data.map(datasetToContent);
 
     const authentication: UserSession = new UserSession({
       portal: "portal-sharing-url",
@@ -263,7 +264,7 @@ describe("Content Search Service", () => {
 
     // Mock
     const hubRequestMock = spyOn(common, "hubApiRequest").and.returnValue(
-      Promise.resolve(mockedResponse)
+      Promise.resolve(mockHubResponse)
     );
 
     // Test
@@ -294,10 +295,10 @@ describe("Content Search Service", () => {
       ]);
       expect(response.results).toEqual(results);
       expect(response.query).toEqual(
-        JSON.stringify(mockedResponse.meta.queryParameters)
+        JSON.stringify(mockHubResponse.meta.queryParameters)
       );
-      expect(response.total).toEqual(mockedResponse.meta.stats.totalCount);
-      expect(response.count).toEqual(mockedResponse.meta.stats.count);
+      expect(response.total).toEqual(mockHubResponse.meta.stats.totalCount);
+      expect(response.count).toEqual(mockHubResponse.meta.stats.count);
       expect(response.hasNext).toEqual(false);
       expect(response.aggregations).toBeUndefined();
       expect(response.next).toBeDefined();
@@ -323,51 +324,7 @@ describe("Content Search Service", () => {
       options,
     };
 
-    const documentOne: Record<string, any> = {
-      attributes: {
-        id: "12345",
-        title: "title 1",
-        type: "Feature Layer",
-        owner: "me",
-        tags: ["tag 1", "tag 2"],
-        created: 1000,
-        modified: 2000,
-        numViews: 1,
-        size: 5,
-      },
-    };
-
-    const documentTwo: Record<string, any> = {
-      attributes: {
-        id: "23456",
-        title: "title 2",
-        type: "Table",
-        owner: "you",
-        tags: ["tag 3"],
-        created: 2000,
-        modified: 3000,
-        numViews: 2,
-        size: 6,
-      },
-    };
-
-    const mockedResponse: Record<string, any> = {
-      data: [documentOne, documentTwo],
-      meta: {
-        queryParameters: {
-          sort: "title",
-          filter: {
-            title: "any(title 1,title 2)",
-          },
-        },
-        stats: {
-          count: 2,
-          totalCount: 2,
-        },
-      },
-    };
-
-    const expectedResults = mockedResponse.data.map(datasetToContent);
+    const expectedResults = mockHubResponse.data.map(datasetToContent);
 
     const sessionTwo: UserSession = new UserSession({
       portal: "a-different-Portal",
@@ -381,7 +338,7 @@ describe("Content Search Service", () => {
 
     // Mock
     const hubRequestMock = spyOn(common, "hubApiRequest").and.returnValue(
-      Promise.resolve(mockedResponse)
+      Promise.resolve(mockHubResponse)
     );
 
     // Test
@@ -412,10 +369,10 @@ describe("Content Search Service", () => {
       ]);
       expect(response.results).toEqual(expectedResults);
       expect(response.query).toEqual(
-        JSON.stringify(mockedResponse.meta.queryParameters)
+        JSON.stringify(mockHubResponse.meta.queryParameters)
       );
-      expect(response.total).toEqual(mockedResponse.meta.stats.totalCount);
-      expect(response.count).toEqual(mockedResponse.meta.stats.count);
+      expect(response.total).toEqual(mockHubResponse.meta.stats.totalCount);
+      expect(response.count).toEqual(mockHubResponse.meta.stats.count);
       expect(response.hasNext).toEqual(false);
       expect(response.aggregations).toBeUndefined();
       expect(response.next).toBeDefined();
@@ -438,50 +395,7 @@ describe("Content Search Service", () => {
       options,
     };
 
-    const documentOne: Record<string, any> = {
-      attributes: {
-        id: "12345",
-        title: "title 1",
-        type: "Feature Layer",
-        owner: "me",
-        tags: ["tag 1", "tag 2"],
-        created: 1000,
-        modified: 2000,
-        numViews: 1,
-        size: 5,
-      },
-    };
-
-    const documentTwo: Record<string, any> = {
-      attributes: {
-        id: "23456",
-        title: "title 2",
-        type: "Table",
-        owner: "you",
-        tags: ["tag 3"],
-        created: 2000,
-        modified: 3000,
-        numViews: 2,
-        size: 6,
-      },
-    };
-
-    const mockedResponse: Record<string, any> = {
-      data: [documentOne, documentTwo],
-      meta: {
-        queryParameters: {
-          sort: "title",
-          filter: {
-            title: "any(title 1,title 2)",
-          },
-        },
-        stats: {
-          count: 2,
-          totalCount: 2,
-        },
-      },
-    };
-    const expectedResults = mockedResponse.data.map(datasetToContent);
+    const expectedResults = mockHubResponse.data.map(datasetToContent);
 
     const service: ContentSearchService = new ContentSearchService({
       portal: "https://qaext.arcgis.com/sharing/rest",
@@ -490,7 +404,7 @@ describe("Content Search Service", () => {
 
     // Mock
     const hubRequestMock = spyOn(common, "hubApiRequest").and.returnValue(
-      Promise.resolve(mockedResponse)
+      Promise.resolve(mockHubResponse)
     );
 
     // Test
@@ -519,10 +433,10 @@ describe("Content Search Service", () => {
       ]);
       expect(response.results).toEqual(expectedResults);
       expect(response.query).toEqual(
-        JSON.stringify(mockedResponse.meta.queryParameters)
+        JSON.stringify(mockHubResponse.meta.queryParameters)
       );
-      expect(response.total).toEqual(mockedResponse.meta.stats.totalCount);
-      expect(response.count).toEqual(mockedResponse.meta.stats.count);
+      expect(response.total).toEqual(mockHubResponse.meta.stats.totalCount);
+      expect(response.count).toEqual(mockHubResponse.meta.stats.count);
       expect(response.hasNext).toEqual(false);
       expect(response.aggregations).toBeUndefined();
       expect(response.next).toBeDefined();
@@ -532,50 +446,7 @@ describe("Content Search Service", () => {
 
   it("can be handle a Hub API with a falsey request", (done) => {
     // Setup
-    const documentOne: Record<string, any> = {
-      attributes: {
-        id: "12345",
-        title: "title 1",
-        type: "Feature Layer",
-        owner: "me",
-        tags: ["tag 1", "tag 2"],
-        created: 1000,
-        modified: 2000,
-        numViews: 1,
-        size: 5,
-      },
-    };
-
-    const documentTwo: Record<string, any> = {
-      attributes: {
-        id: "23456",
-        title: "title 2",
-        type: "Table",
-        owner: "you",
-        tags: ["tag 3"],
-        created: 2000,
-        modified: 3000,
-        numViews: 2,
-        size: 6,
-      },
-    };
-
-    const mockedResponse: Record<string, any> = {
-      data: [documentOne, documentTwo],
-      meta: {
-        queryParameters: {
-          sort: "title",
-          filter: {
-            title: "any(title 1,title 2)",
-          },
-        },
-        stats: {
-          count: 2,
-          totalCount: 2,
-        },
-      },
-    };
-    const expectedResults = mockedResponse.data.map(datasetToContent);
+    const expectedResults = mockHubResponse.data.map(datasetToContent);
 
     const service: ContentSearchService = new ContentSearchService({
       portal: "https://qaext.arcgis.com/sharing/rest",
@@ -584,7 +455,7 @@ describe("Content Search Service", () => {
 
     // Mock
     const hubRequestMock = spyOn(common, "hubApiRequest").and.returnValue(
-      Promise.resolve(mockedResponse)
+      Promise.resolve(mockHubResponse)
     );
 
     // Test
@@ -611,10 +482,10 @@ describe("Content Search Service", () => {
       ]);
       expect(response.results).toEqual(expectedResults);
       expect(response.query).toEqual(
-        JSON.stringify(mockedResponse.meta.queryParameters)
+        JSON.stringify(mockHubResponse.meta.queryParameters)
       );
-      expect(response.total).toEqual(mockedResponse.meta.stats.totalCount);
-      expect(response.count).toEqual(mockedResponse.meta.stats.count);
+      expect(response.total).toEqual(mockHubResponse.meta.stats.totalCount);
+      expect(response.count).toEqual(mockHubResponse.meta.stats.count);
       expect(response.hasNext).toEqual(false);
       expect(response.aggregations).toBeUndefined();
       expect(response.next).toBeDefined();
@@ -625,6 +496,7 @@ describe("Content Search Service", () => {
 
 describe("searchContent function", () => {
   describe("scoping site catalog", () => {
+    const siteUrl = "https://my-site.hub.arcgis.com";
     const userSession = new UserSession({
       portal: "https://www.arcgis.com",
     });
@@ -634,6 +506,9 @@ describe("searchContent function", () => {
     beforeEach(() => {
       fetchSiteSpy = spyOn(common, "fetchSite").and.returnValue(
         Promise.resolve({
+          item: {
+            url: siteUrl,
+          },
           data: {
             catalog: {
               groups: ["24ad12457b8c410582f185c46f6896ba"],
@@ -644,14 +519,14 @@ describe("searchContent function", () => {
       );
 
       hubApiRequestSpy = spyOn(common, "hubApiRequest").and.returnValue(
-        Promise.resolve()
+        Promise.resolve(mockHubResponse)
       );
     });
 
     it("applies site catalog when site identifier provided", async () => {
-      await searchContent({
+      const response = await searchContent({
         options: {
-          site: "https://my-site.hub.arcgis.com",
+          site: siteUrl,
           isPortal: false,
           portal: "https://www.arcgis.com",
           authentication: userSession,
@@ -665,8 +540,15 @@ describe("searchContent function", () => {
         authentication: userSession,
       };
 
+      const expectedResults = mockHubResponse.data.map((dataset: any) => {
+        const content = datasetToContent(dataset);
+        // NOTE: in this case, all mocked datasets are datasets
+        content.urls.site = `${siteUrl}/datasets/${dataset.id}`;
+        return content;
+      });
+
       expect(fetchSiteSpy).toHaveBeenCalledWith(
-        "https://my-site.hub.arcgis.com",
+        siteUrl,
         expectedRequestOptions
       );
 
@@ -678,6 +560,11 @@ describe("searchContent function", () => {
         groupIds: "any(24ad12457b8c410582f185c46f6896ba)",
         orgId: "any(be55891b4)",
       });
+
+      expect(response.results).toEqual(
+        expectedResults,
+        "appended site URL to content"
+      );
     });
 
     it("filter options override site catalog", async () => {
@@ -686,7 +573,7 @@ describe("searchContent function", () => {
           group: ["foo", "bar"],
         },
         options: {
-          site: "https://my-site.hub.arcgis.com",
+          site: siteUrl,
           isPortal: false,
           portal: "https://www.arcgis.com",
           authentication: userSession,
@@ -750,7 +637,7 @@ describe("searchContent function", () => {
       size: 6,
     };
 
-    const mockedResponse: ISearchResult<IItem> = {
+    const mockPortalResponse: ISearchResult<IItem> = {
       query: "title:title 1 OR title:title 2",
       total: 2,
       start: 1,
@@ -759,11 +646,11 @@ describe("searchContent function", () => {
       results: [itemOne, itemTwo],
     };
 
-    const expectedResults = mockedResponse.results.map(itemToContent);
+    const expectedResults = mockPortalResponse.results.map(itemToContent);
 
     // Mock
     const searchItemsMock = spyOn(portal, "searchItems").and.returnValue(
-      Promise.resolve(mockedResponse)
+      Promise.resolve(mockPortalResponse)
     );
 
     // Test
@@ -787,9 +674,9 @@ describe("searchContent function", () => {
         },
       ]);
       expect(response.results).toEqual(expectedResults);
-      expect(response.query).toEqual(mockedResponse.query);
-      expect(response.total).toEqual(mockedResponse.total);
-      expect(response.count).toEqual(mockedResponse.num);
+      expect(response.query).toEqual(mockPortalResponse.query);
+      expect(response.total).toEqual(mockPortalResponse.total);
+      expect(response.count).toEqual(mockPortalResponse.num);
       expect(response.hasNext).toEqual(false);
       expect(response.aggregations).toBeUndefined();
       expect(response.next).toBeDefined();
@@ -819,55 +706,11 @@ describe("searchContent function", () => {
       options,
     };
 
-    const documentOne: Record<string, any> = {
-      attributes: {
-        id: "12345",
-        title: "title 1",
-        type: "Feature Layer",
-        owner: "me",
-        tags: ["tag 1", "tag 2"],
-        created: 1000,
-        modified: 2000,
-        numViews: 1,
-        size: 5,
-      },
-    };
-
-    const documentTwo: Record<string, any> = {
-      attributes: {
-        id: "23456",
-        title: "title 2",
-        type: "Table",
-        owner: "you",
-        tags: ["tag 3"],
-        created: 2000,
-        modified: 3000,
-        numViews: 2,
-        size: 6,
-      },
-    };
-
-    const mockedResponse: Record<string, any> = {
-      data: [documentOne, documentTwo],
-      meta: {
-        queryParameters: {
-          sort: "title",
-          filter: {
-            title: "any(title 1,title 2)",
-          },
-        },
-        stats: {
-          count: 2,
-          totalCount: 2,
-        },
-      },
-    };
-
-    const expectedResults = mockedResponse.data.map(datasetToContent);
+    const expectedResults = mockHubResponse.data.map(datasetToContent);
 
     // Mock
     const hubRequestMock = spyOn(common, "hubApiRequest").and.returnValue(
-      Promise.resolve(mockedResponse)
+      Promise.resolve(mockHubResponse)
     );
 
     // Test
@@ -898,10 +741,10 @@ describe("searchContent function", () => {
       ]);
       expect(response.results).toEqual(expectedResults);
       expect(response.query).toEqual(
-        JSON.stringify(mockedResponse.meta.queryParameters)
+        JSON.stringify(mockHubResponse.meta.queryParameters)
       );
-      expect(response.total).toEqual(mockedResponse.meta.stats.totalCount);
-      expect(response.count).toEqual(mockedResponse.meta.stats.count);
+      expect(response.total).toEqual(mockHubResponse.meta.stats.totalCount);
+      expect(response.count).toEqual(mockHubResponse.meta.stats.count);
       expect(response.hasNext).toEqual(false);
       expect(response.aggregations).toBeUndefined();
       expect(response.next).toBeDefined();
@@ -912,55 +755,11 @@ describe("searchContent function", () => {
   it("performs a Hub API Search with a falsey request", (done) => {
     // Setup
 
-    const documentOne: Record<string, any> = {
-      attributes: {
-        id: "12345",
-        title: "title 1",
-        type: "Feature Layer",
-        owner: "me",
-        tags: ["tag 1", "tag 2"],
-        created: 1000,
-        modified: 2000,
-        numViews: 1,
-        size: 5,
-      },
-    };
-
-    const documentTwo: Record<string, any> = {
-      attributes: {
-        id: "23456",
-        title: "title 2",
-        type: "Table",
-        owner: "you",
-        tags: ["tag 3"],
-        created: 2000,
-        modified: 3000,
-        numViews: 2,
-        size: 6,
-      },
-    };
-
-    const mockedResponse: Record<string, any> = {
-      data: [documentOne, documentTwo],
-      meta: {
-        queryParameters: {
-          sort: "title",
-          filter: {
-            title: "any(title 1,title 2)",
-          },
-        },
-        stats: {
-          count: 2,
-          totalCount: 2,
-        },
-      },
-    };
-
-    const expectedResults = mockedResponse.data.map(datasetToContent);
+    const expectedResults = mockHubResponse.data.map(datasetToContent);
 
     // Mock
     const hubRequestMock = spyOn(common, "hubApiRequest").and.returnValue(
-      Promise.resolve(mockedResponse)
+      Promise.resolve(mockHubResponse)
     );
 
     // Test
@@ -987,10 +786,10 @@ describe("searchContent function", () => {
       ]);
       expect(response.results).toEqual(expectedResults);
       expect(response.query).toEqual(
-        JSON.stringify(mockedResponse.meta.queryParameters)
+        JSON.stringify(mockHubResponse.meta.queryParameters)
       );
-      expect(response.total).toEqual(mockedResponse.meta.stats.totalCount);
-      expect(response.count).toEqual(mockedResponse.meta.stats.count);
+      expect(response.total).toEqual(mockHubResponse.meta.stats.totalCount);
+      expect(response.count).toEqual(mockHubResponse.meta.stats.count);
       expect(response.hasNext).toEqual(false);
       expect(response.aggregations).toBeUndefined();
       expect(response.next).toBeDefined();
@@ -1015,55 +814,11 @@ describe("searchContent function", () => {
       options,
     };
 
-    const documentOne: Record<string, any> = {
-      attributes: {
-        id: "12345",
-        title: "title 1",
-        type: "Feature Layer",
-        owner: "me",
-        tags: ["tag 1", "tag 2"],
-        created: 1000,
-        modified: 2000,
-        numViews: 1,
-        size: 5,
-      },
-    };
-
-    const documentTwo: Record<string, any> = {
-      attributes: {
-        id: "23456",
-        title: "title 2",
-        type: "Table",
-        owner: "you",
-        tags: ["tag 3"],
-        created: 2000,
-        modified: 3000,
-        numViews: 2,
-        size: 6,
-      },
-    };
-
-    const mockedResponse: Record<string, any> = {
-      data: [documentOne, documentTwo],
-      meta: {
-        queryParameters: {
-          sort: "title",
-          filter: {
-            title: "any(title 1,title 2)",
-          },
-        },
-        stats: {
-          count: 2,
-          totalCount: 2,
-        },
-      },
-    };
-
-    const expectedResults = mockedResponse.data.map(datasetToContent);
+    const expectedResults = mockHubResponse.data.map(datasetToContent);
 
     // Mock
     const hubRequestMock = spyOn(common, "hubApiRequest").and.returnValue(
-      Promise.resolve(mockedResponse)
+      Promise.resolve(mockHubResponse)
     );
 
     // Test
@@ -1092,10 +847,10 @@ describe("searchContent function", () => {
       ]);
       expect(response.results).toEqual(expectedResults);
       expect(response.query).toEqual(
-        JSON.stringify(mockedResponse.meta.queryParameters)
+        JSON.stringify(mockHubResponse.meta.queryParameters)
       );
-      expect(response.total).toEqual(mockedResponse.meta.stats.totalCount);
-      expect(response.count).toEqual(mockedResponse.meta.stats.count);
+      expect(response.total).toEqual(mockHubResponse.meta.stats.totalCount);
+      expect(response.count).toEqual(mockHubResponse.meta.stats.count);
       expect(response.hasNext).toEqual(false);
       expect(response.aggregations).toBeUndefined();
       expect(response.next).toBeDefined();
