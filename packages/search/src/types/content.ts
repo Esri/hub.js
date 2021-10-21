@@ -62,6 +62,7 @@ export interface IContentSearchFilter {
  * Properties correspond to their Portal API or arcgis-rest-js equivalents
  */
 export interface IContentSearchOptions {
+  // TODO: this should also take a site model
   site?: string;
   authentication?: UserSession;
   portal?: string;

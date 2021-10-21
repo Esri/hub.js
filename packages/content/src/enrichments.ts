@@ -11,7 +11,6 @@ import {
   IPipeable,
   cloneObject,
   createOperationPipeline,
-  getFamily,
   getProp,
   getItemHomeUrl,
   getItemApiUrl,
@@ -22,8 +21,9 @@ import {
   isFeatureService,
   isMapOrFeatureServerUrl,
   isNil,
-  normalizeItemType,
   OperationStack,
+  setContentHubId,
+  setContentType,
 } from "@esri/hub-common";
 import { getContentMetadata } from "./metadata";
 
@@ -600,14 +600,11 @@ export const getLayerContent = (
   const { item } = content;
   // get type name and description from layer
   const { id, type, name, description } = layer;
-  // get family and normalized type based on layer type
-  const family = getFamily(type);
-  const normalizedType = normalizeItemType({ ...item, type });
-  const layerContent = { ...content, layer, type, family, normalizedType };
-  if (item.access === "public") {
-    // we assume this is in the index,
-    layerContent.hubId = `${item.id}_${id}`;
-  }
+  // assume public content is in the hub index
+  const hubId = item.access === "public" ? `${item.id}_${id}` : content.hubId;
+  // get new content w/ updated hubId and family etc based on layer type
+  const updatedContent = setContentType(setContentHubId(content, hubId), type);
+  const layerContent = { ...updatedContent, layer };
   if (shouldUseLayerInfo(layerContent)) {
     // NOTE: composer updated dataset name and description
     // but b/c the layer enrichments now happen _after_ datasetToContent()

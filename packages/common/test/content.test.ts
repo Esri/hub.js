@@ -14,6 +14,7 @@ import {
   getItemLayerId,
   getItemHubId,
   getContentIdentifier,
+  setContentSiteUrls,
   isSlug,
   addContextToSlug,
   removeContextFromSlug,
@@ -22,8 +23,9 @@ import {
   parseItemCategories,
   getItemHubType,
   getFamily,
+  setContentType,
 } from "../src/content";
-import { IHubContent } from "../src/types";
+import { IHubContent, IModel } from "../src/types";
 import { cloneObject } from "../src/util";
 import * as documentItem from "./mocks/items/document.json";
 import * as mapServiceItem from "./mocks/items/map-service.json";
@@ -532,10 +534,13 @@ describe("item to content", () => {
     };
     expect(content.boundary).toEqual({ geometry });
   });
+  it("gets relative url from type and family", () => {
+    const content = itemToContent(item);
+    expect(content.urls.relative).toBe(`/documents/${content.id}`);
+  });
   // NOTE: other use cases (including when a portal is passed)
   // are covered by getContentFromPortal() tests
 });
-
 describe("parseDatasetId", function () {
   it("returns undefined", () => {
     const result = parseDatasetId(undefined);
@@ -637,4 +642,63 @@ describe("dataset to content", () => {
     expect(content.org).toBeUndefined();
   });
   // NOTE: other use cases are covered by getContent() tests
+});
+describe("setContentType", () => {
+  // NOTE: these tests are just the most expedient way
+  // to get coverage for getContentRelativeUrl() w/o exporting it
+  let content: IHubContent;
+  beforeEach(() => {
+    content = itemToContent(documentItem);
+  });
+  it("sets relative url for feedback", () => {
+    const updated = setContentType(content, "Form");
+    expect(updated.urls.relative).toBe(
+      `/feedback/surveys/${content.identifier}`
+    );
+  });
+  it("sets relative url for deployed solution", () => {
+    content.typeKeywords.push("Deployed");
+    const updated = setContentType(content, "Solution");
+    expect(updated.urls.relative).toBe(
+      `/templates/${content.identifier}/about`
+    );
+  });
+});
+describe("setContentSiteUrls", () => {
+  let site: IModel;
+  beforeEach(() => {
+    // emulating a site item
+    const url = "https://my-site-org.hub.arcgis.com";
+    const item = { ...documentItem, type: "Hub Site", url };
+    site = {
+      item,
+      data: {},
+    };
+  });
+  it("links to page using site's slug for page when page is linked to site", () => {
+    // emulate linking a page to the site
+    const pageItem = { ...documentItem, type: "Hub Page" };
+    const slug = "page-slug-for-site";
+    site.data.values = {
+      pages: [{ id: pageItem.id, slug }],
+    };
+
+    // get the site URL
+    const content = itemToContent(pageItem);
+    const result = setContentSiteUrls(content, site);
+
+    expect(result.urls.site).toEqual(`${site.item.url}/pages/${slug}`);
+  });
+  it("links to page on documents route when page is NOT linked to site", () => {
+    // emulate a page item
+    const pageItem = { ...documentItem, type: "Hub Page" };
+
+    // get the site URL
+    const content = itemToContent(pageItem);
+    const result = setContentSiteUrls(content, site);
+
+    expect(result.urls.site).toEqual(
+      `${site.item.url}/pages/${content.identifier}`
+    );
+  });
 });
