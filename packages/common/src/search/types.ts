@@ -20,7 +20,7 @@ import { UserSession } from "@esri/arcgis-rest-auth";
  * }
  * ```
  */
-export type Filter<T extends FilterType> = FilterTypeMap[T] & {
+export type Filter<T extends FilterType> = IFilterTypeMap[T] & {
   filterType: T;
 };
 
@@ -28,58 +28,58 @@ export type Filter<T extends FilterType> = FilterTypeMap[T] & {
  * Defines the valid FilterTypes for use with `Filter<T extends FilterType>`
  * See [Filter](../Filter)
  */
-export type FilterTypeMap = {
-  any: AnyFilterDefinition;
-  content: ContentFilterDefinition;
-  user: UserFilterDefinition;
-  group: GroupFilterDefinition;
-  event: EventFilterDefinition;
-};
-export type FilterType = keyof FilterTypeMap;
+export interface IFilterTypeMap {
+  any: IAnyFilterDefinition;
+  content: IContentFilterDefinition;
+  user: IUserFilterDefinition;
+  group: IGroupFilterDefinition;
+  event: IEventFilterDefinition;
+}
+export type FilterType = keyof IFilterTypeMap;
 
 /**
  * Common set of fields that are reasonable to apply at the
  * top level of a Catalog
  */
-export type AnyFilterDefinition = {
-  title?: string | string[] | MatchOptions;
-  access?: string | string[] | MatchOptions;
-  owner?: string | string[] | MatchOptions;
-  tags?: string | string[] | MatchOptions;
-  created?: DateRange<number> | RelativeDate;
-  modified?: DateRange<number> | RelativeDate;
-  description?: string | string[] | MatchOptions;
-  group?: string | string[] | MatchOptions;
-  orgid?: string | string[] | MatchOptions;
+export interface IAnyFilterDefinition {
+  title?: string | string[] | IMatchOptions;
+  access?: string | string[] | IMatchOptions;
+  owner?: string | string[] | IMatchOptions;
+  tags?: string | string[] | IMatchOptions;
+  created?: IDateRange<number> | IRelativeDate;
+  modified?: IDateRange<number> | IRelativeDate;
+  description?: string | string[] | IMatchOptions;
+  group?: string | string[] | IMatchOptions;
+  orgid?: string | string[] | IMatchOptions;
   type?:
     | string
     | NamedContentFilter
     | Array<string | NamedContentFilter>
-    | MatchOptions;
-};
+    | IMatchOptions;
+}
 
 /**
  * Fields related to Content based searches
  */
-export type ContentFilterDefinition = {
-  access?: string | string[] | MatchOptions;
-  owner?: string | string[] | MatchOptions;
-  tags?: string | string[] | MatchOptions;
-  created?: DateRange<number> | RelativeDate;
-  description?: string | string[] | MatchOptions;
-  snippet?: string | string[] | MatchOptions;
-  group?: string | string[] | MatchOptions;
-  id?: string | string[] | MatchOptions;
-  modified?: DateRange<number> | RelativeDate;
-  orgid?: string | string[] | MatchOptions;
+export interface IContentFilterDefinition {
+  access?: string | string[] | IMatchOptions;
+  owner?: string | string[] | IMatchOptions;
+  tags?: string | string[] | IMatchOptions;
+  created?: IDateRange<number> | IRelativeDate;
+  description?: string | string[] | IMatchOptions;
+  snippet?: string | string[] | IMatchOptions;
+  group?: string | string[] | IMatchOptions;
+  id?: string | string[] | IMatchOptions;
+  modified?: IDateRange<number> | IRelativeDate;
+  orgid?: string | string[] | IMatchOptions;
   term?: string;
-  title?: string | string[] | MatchOptions;
+  title?: string | string[] | IMatchOptions;
   type?:
     | string
     | NamedContentFilter
     | Array<string | NamedContentFilter>
-    | MatchOptions;
-  typekeywords?: string | string[] | MatchOptions;
+    | IMatchOptions;
+  typekeywords?: string | string[] | IMatchOptions;
   // this allows arbitrary keys, which Hub api supports
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
@@ -87,78 +87,78 @@ export type ContentFilterDefinition = {
    * @internal
    * Support for complex OR queries; Used with various expansions
    */
-  subFilters?: Array<ContentFilterDefinition | NamedContentFilter>;
-};
+  subFilters?: Array<IContentFilterDefinition | NamedContentFilter>;
+}
 
 // This type is used internally to Hub.js and is the
 // "expanded" version of a ContentFilterDefinition
 // which can then be serialized into Portal or Hub queries
-export type ContentFilter = {
-  access?: MatchOptions;
-  created?: DateRange<number>;
-  description?: MatchOptions;
-  group?: MatchOptions;
-  id?: MatchOptions;
-  modified?: DateRange<number>;
-  orgid?: MatchOptions;
-  owner?: MatchOptions;
-  tags?: MatchOptions;
+export interface IContentFilter {
+  access?: IMatchOptions;
+  created?: IDateRange<number>;
+  description?: IMatchOptions;
+  group?: IMatchOptions;
+  id?: IMatchOptions;
+  modified?: IDateRange<number>;
+  orgid?: IMatchOptions;
+  owner?: IMatchOptions;
+  tags?: IMatchOptions;
   term?: string;
-  title?: MatchOptions;
-  type?: MatchOptions;
-  typekeywords?: MatchOptions;
+  title?: IMatchOptions;
+  type?: IMatchOptions;
+  typekeywords?: IMatchOptions;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
-  subFilters?: ContentFilter[];
-};
+  subFilters?: IContentFilter[];
+}
 
 // Short-cut strings for `type`
-export type WellKnownContentFilters = {
-  $dashboard: ContentFilterDefinition[];
-  $dataset: ContentFilterDefinition[];
-  $experience: ContentFilterDefinition[];
-  $site: ContentFilterDefinition[];
-  $storymap: ContentFilterDefinition[];
-  $initiative: ContentFilterDefinition[];
-  $document: ContentFilterDefinition[];
-};
+export interface IWellKnownContentFilters {
+  $dashboard: IContentFilterDefinition[];
+  $dataset: IContentFilterDefinition[];
+  $experience: IContentFilterDefinition[];
+  $site: IContentFilterDefinition[];
+  $storymap: IContentFilterDefinition[];
+  $initiative: IContentFilterDefinition[];
+  $document: IContentFilterDefinition[];
+}
 
 // Allows type-safe query "short-cuts"
-export type NamedContentFilter = keyof WellKnownContentFilters;
+export type NamedContentFilter = keyof IWellKnownContentFilters;
 
-export type UserFilterDefinition = {
+export interface IUserFilterDefinition {
   disabled?: boolean;
-  email?: string | string[] | MatchOptions;
-  firstname?: string | string[] | MatchOptions;
-  fullname?: string | string[] | MatchOptions;
-  groups?: string | string[] | MatchOptions;
-  lastname?: string | string[] | MatchOptions;
-  username?: string | string[] | MatchOptions;
-};
+  email?: string | string[] | IMatchOptions;
+  firstname?: string | string[] | IMatchOptions;
+  fullname?: string | string[] | IMatchOptions;
+  groups?: string | string[] | IMatchOptions;
+  lastname?: string | string[] | IMatchOptions;
+  username?: string | string[] | IMatchOptions;
+}
 
-export type GroupFilterDefinition = {
-  access?: string | string[] | MatchOptions;
-  created?: DateRange<number> | RelativeDate;
-  id?: string | string[] | MatchOptions;
+export interface IGroupFilterDefinition {
+  access?: string | string[] | IMatchOptions;
+  created?: IDateRange<number> | IRelativeDate;
+  id?: string | string[] | IMatchOptions;
   isInvitationOnly: boolean;
-  modified?: DateRange<number> | RelativeDate;
-  orgid?: string | string[] | MatchOptions;
+  modified?: IDateRange<number> | IRelativeDate;
+  orgid?: string | string[] | IMatchOptions;
   searchUserAccess?: "groupMember" | "admin";
-  tags?: string | string[] | MatchOptions;
-  title?: string | string[] | MatchOptions;
-  typekeywords?: string | string[] | MatchOptions;
-};
+  tags?: string | string[] | IMatchOptions;
+  title?: string | string[] | IMatchOptions;
+  typekeywords?: string | string[] | IMatchOptions;
+}
 
-export type EventFilterDefinition = {
-  created?: DateRange<number> | RelativeDate;
-  modified?: DateRange<number> | RelativeDate;
-  orgid?: string | string[] | MatchOptions;
-  title?: string | string[] | MatchOptions;
-};
+export interface IEventFilterDefinition {
+  created?: IDateRange<number> | IRelativeDate;
+  modified?: IDateRange<number> | IRelativeDate;
+  orgid?: string | string[] | IMatchOptions;
+  title?: string | string[] | IMatchOptions;
+}
 
 // User controlled refinements
 // can be static or dynamic (based on stats from the api)
-export type Facet = {
+export interface IFacet {
   // Label for the whole facet, shown in UI
   label: string;
   // what attribute this is powered by
@@ -168,11 +168,11 @@ export type Facet = {
   // if static, contains the pre-defined options
   // if dynamic the code must construct these
   // from the API response
-  options?: FacetOption[];
-};
+  options?: IFacetOption[];
+}
 
 // Facet Options shown in the UI
-export type FacetOption = {
+export interface IFacetOption {
   // What's shown in the UI
   label: string;
   // API Value
@@ -183,7 +183,7 @@ export type FacetOption = {
   selected: boolean;
   // when selected, this is the Filter to add
   filter: Filter<FilterType>;
-};
+}
 
 /**
  * Catalog is the definition which powers what options
@@ -236,7 +236,7 @@ export type FacetOption = {
  * }
  * ```
  */
-export type Catalog = {
+export interface ICatalog {
   /**
    * Title for the Gallery
    */
@@ -246,47 +246,47 @@ export type Catalog = {
   filter: Filter<FilterType>;
   // sort options to be shown in the Gallery
   // if not specified, defaults are merged in
-  sort?: SortOption[];
+  sort?: ISortOption[];
   // Sub Groups within the Catalog
-  collections?: Collection[];
+  collections?: ICollection[];
   // facets to use with all Filters
-  facets?: Facet[];
-};
+  facets?: IFacet[];
+}
 
-export type SortOption = {
+export interface ISortOption {
   // String to show in the UI. translated.
   label: string;
   // attribute to sort by at the API level
   attribute: string;
-};
+}
 
 /**
  * A Filter that defines a subset of a Catalog, aka a Collection
  */
-export type Collection = {
+export interface ICollection {
   label: string;
   filter: Filter<FilterType>;
-  facets?: Facet[];
-};
+  facets?: IFacet[];
+}
 
-export type DateRange<T> = {
+export interface IDateRange<T> {
   type?: "date-range";
   from: T;
   to: T;
-};
+}
 
 // Relative Date will be convertd to a real date-range
 // at run-time
-export type RelativeDate = {
+export interface IRelativeDate {
   type: "relative-date";
   num: number;
   unit: "minutes" | "hours" | "days" | "weeks" | "months" | "years";
-};
+}
 
 /**
  * Define how values should be matched
  */
-export type MatchOptions = {
+export interface IMatchOptions {
   /**
    * return results which have ANY of the listed values
    * for the specified field
@@ -310,9 +310,9 @@ export type MatchOptions = {
    * be used with that parameter
    */
   exact?: string | string[];
-};
+}
 
-export type SearchOptions = {
+export interface ISearchOptions {
   site?: string;
   authentication?: UserSession;
   sortField?: string;
@@ -321,8 +321,8 @@ export type SearchOptions = {
   aggregations?: string;
   bbox?: string;
   fields?: string;
-  apis: Array<NamedApis | ApiDefinition>;
-};
+  apis: Array<NamedApis | IApiDefinition>;
+}
 
 // Examples
 // const opts: SearchOptions = {
@@ -363,16 +363,16 @@ export type SearchOptions = {
 //   },
 // };
 
-export type WellKnownApis = {
-  arcgis: ApiDefinition;
-  arcgisQA: ApiDefinition;
-  arcgisDEV: ApiDefinition;
-  hub: ApiDefinition;
-  hubQA: ApiDefinition;
-  hubDEV: ApiDefinition;
-};
+export interface IWellKnownApis {
+  arcgis: IApiDefinition;
+  arcgisQA: IApiDefinition;
+  arcgisDEV: IApiDefinition;
+  hub: IApiDefinition;
+  hubQA: IApiDefinition;
+  hubDEV: IApiDefinition;
+}
 
-export const SEARCH_APIS: WellKnownApis = {
+export const SEARCH_APIS: IWellKnownApis = {
   arcgis: {
     label: "ArcGIS Online",
     url: "https://www.arcgis.com",
@@ -406,10 +406,10 @@ export const SEARCH_APIS: WellKnownApis = {
 };
 
 // Allows type-safe query "short-cuts"
-export type NamedApis = keyof WellKnownApis;
+export type NamedApis = keyof IWellKnownApis;
 
 // Defines an API
-export type ApiDefinition = {
+export interface IApiDefinition {
   label?: string;
   // url of the api
   // - for "arcgis", /sharing/rest will be appended
@@ -419,4 +419,4 @@ export type ApiDefinition = {
   type: "arcgis" | "arcgis-hub";
   // Future - allows separate auth objects per API Definition
   authentication?: UserSession;
-};
+}

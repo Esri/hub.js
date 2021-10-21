@@ -1,6 +1,6 @@
 import { ISearchOptions } from "@esri/arcgis-rest-portal";
 import { cloneObject } from "../util";
-import { ContentFilter, MatchOptions, DateRange } from "./types";
+import { IContentFilter, IMatchOptions, IDateRange } from "./types";
 
 /**
  * @private
@@ -9,7 +9,7 @@ import { ContentFilter, MatchOptions, DateRange } from "./types";
  * @returns
  */
 export function serializeContentFilterForPortal(
-  filter: ContentFilter
+  filter: IContentFilter
 ): ISearchOptions {
   let searchOptions = convertContentFilterToSearchOptions(filter);
 
@@ -49,7 +49,7 @@ export function serializeContentFilterForPortal(
  * @returns
  */
 export function convertContentFilterToSearchOptions(
-  filter: ContentFilter
+  filter: IContentFilter
 ): ISearchOptions {
   let result = {
     q: "",
@@ -120,7 +120,7 @@ export function mergeSearchOptions(
  */
 export function serializeMatchOptions(
   key: string,
-  opts: MatchOptions
+  opts: IMatchOptions
 ): ISearchOptions {
   const result = {
     q: "",
@@ -203,7 +203,7 @@ export function serializeMatchOptions(
  */
 export function serializeDateRange(
   key: string,
-  range: DateRange<number>
+  range: IDateRange<number>
 ): ISearchOptions {
   return {
     q: `${key}:[${range.from} TO ${range.to}]`,

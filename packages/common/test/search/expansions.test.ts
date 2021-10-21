@@ -1,8 +1,8 @@
 import {
-  ContentFilterDefinition,
-  DateRange,
+  IContentFilterDefinition,
+  IDateRange,
   Filter,
-  RelativeDate,
+  IRelativeDate,
   relativeDateToDateRange,
 } from "../../src/search";
 import {
@@ -42,7 +42,7 @@ describe("Filter Expansion:", () => {
 
   describe("relativeDateToDateRange:", () => {
     it("converts hours", () => {
-      const rd: RelativeDate = {
+      const rd: IRelativeDate = {
         type: "relative-date",
         num: 1,
         unit: "hours",
@@ -51,7 +51,7 @@ describe("Filter Expansion:", () => {
       expect(chk.from).toBeLessThan(chk.to);
     });
     it("converts days", () => {
-      const rd: RelativeDate = {
+      const rd: IRelativeDate = {
         type: "relative-date",
         num: 1,
         unit: "days",
@@ -60,7 +60,7 @@ describe("Filter Expansion:", () => {
       expect(chk.from).toBeLessThan(chk.to);
     });
     it("converts weeks", () => {
-      const rd: RelativeDate = {
+      const rd: IRelativeDate = {
         type: "relative-date",
         num: 1,
         unit: "weeks",
@@ -69,7 +69,7 @@ describe("Filter Expansion:", () => {
       expect(chk.from).toBeLessThan(chk.to);
     });
     it("converts months", () => {
-      const rd: RelativeDate = {
+      const rd: IRelativeDate = {
         type: "relative-date",
         num: 1,
         unit: "months",
@@ -80,7 +80,7 @@ describe("Filter Expansion:", () => {
       expect(m).toBeLessThan(new Date().getMonth());
     });
     it("converts years", () => {
-      const rd: RelativeDate = {
+      const rd: IRelativeDate = {
         type: "relative-date",
         num: 1,
         unit: "years",
@@ -161,7 +161,7 @@ describe("Filter Expansion:", () => {
 
   describe("definitionToFilter:", () => {
     it("general props", () => {
-      const def: ContentFilterDefinition = {
+      const def: IContentFilterDefinition = {
         owner: "dbouwman",
         metadataCountry: "Canada",
         tags: ["Maple Syrup", "Quebecois"],
@@ -178,7 +178,7 @@ describe("Filter Expansion:", () => {
     });
 
     it("subFilters", () => {
-      const def: ContentFilterDefinition = {
+      const def: IContentFilterDefinition = {
         owner: "dbouwman",
         term: "water",
         subFilters: [
@@ -207,7 +207,7 @@ describe("Filter Expansion:", () => {
     });
 
     it("relative dates", () => {
-      const def: ContentFilterDefinition = {
+      const def: IContentFilterDefinition = {
         created: {
           from: 10,
           to: 11,
@@ -230,7 +230,7 @@ describe("Filter Expansion:", () => {
       expect(chk.subFilters).toBeDefined();
       if (chk.subFilters) {
         expect(chk.subFilters[0].modified).toBeDefined();
-        const mod = chk.subFilters[0].modified as DateRange<number>;
+        const mod = chk.subFilters[0].modified as IDateRange<number>;
         expect(mod.from).toBeLessThan(mod.to);
       }
     });

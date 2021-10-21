@@ -1,16 +1,16 @@
 import { cloneObject } from "../util";
 import {
-  ContentFilter,
-  ContentFilterDefinition,
-  DateRange,
+  IContentFilter,
+  IContentFilterDefinition,
+  IDateRange,
   Filter,
-  MatchOptions,
-  RelativeDate,
-  WellKnownContentFilters,
+  IMatchOptions,
+  IRelativeDate,
+  IWellKnownContentFilters,
 } from "./types";
 
 // TODO: Implement all these type expansions
-const ContentFilterExpansions: WellKnownContentFilters = {
+const ContentFilterExpansions: IWellKnownContentFilters = {
   $storymap: [
     {
       type: "StoryMap",
@@ -56,7 +56,7 @@ const ContentFilterExpansions: WellKnownContentFilters = {
  * @param filter
  * @returns
  */
-export function expandContentFilter(filter: Filter<"content">): ContentFilter {
+export function expandContentFilter(filter: Filter<"content">): IContentFilter {
   // run any filter.type expansions first
   const expandedTypeFilter = expandTypeField(filter);
 
@@ -79,7 +79,7 @@ export function expandContentFilter(filter: Filter<"content">): ContentFilter {
         }
         return acc;
       },
-      [] as ContentFilterDefinition[]
+      [] as IContentFilterDefinition[]
     );
   }
   // Convert all props into MatchOptions/DateRanges
@@ -149,9 +149,9 @@ export function expandTypeField(filter: Filter<"content">): Filter<"content"> {
  * @returns
  */
 export function convertDefinitionToFilter(
-  filter: ContentFilterDefinition
-): ContentFilter {
-  const result = {} as ContentFilter;
+  filter: IContentFilterDefinition
+): IContentFilter {
+  const result = {} as IContentFilter;
 
   if (filter.term) {
     result.term = filter.term;
@@ -163,7 +163,7 @@ export function convertDefinitionToFilter(
   // Do the conversion
   Object.entries(filter).forEach(([key, value]) => {
     if (!specialProps.includes(key)) {
-      result[key] = valueToMatchOptions(value) as MatchOptions;
+      result[key] = valueToMatchOptions(value) as IMatchOptions;
     }
   });
 
@@ -171,7 +171,7 @@ export function convertDefinitionToFilter(
   // subFilters; Array of ContentFilterDefinitions
   if (filter.subFilters && Array.isArray(filter.subFilters)) {
     // downcast - would be nice to skip this or use some other constuct
-    const sf = filter.subFilters as ContentFilterDefinition[];
+    const sf = filter.subFilters as IContentFilterDefinition[];
     result.subFilters = sf.map(convertDefinitionToFilter);
   }
 
@@ -196,8 +196,8 @@ export function convertDefinitionToFilter(
  * @returns
  */
 export function valueToMatchOptions(
-  value: string | string[] | MatchOptions
-): MatchOptions {
+  value: string | string[] | IMatchOptions
+): IMatchOptions {
   let result = {};
   if (Array.isArray(value)) {
     result = {
@@ -224,8 +224,8 @@ export function valueToMatchOptions(
  * @returns
  */
 export function relativeDateToDateRange(
-  relative: RelativeDate
-): DateRange<number> {
+  relative: IRelativeDate
+): IDateRange<number> {
   // hash of offsets
   const offsetMs = {
     min: 1000 * 60,
@@ -235,7 +235,7 @@ export function relativeDateToDateRange(
   };
   const now = new Date();
   // default
-  const result: DateRange<number> = {
+  const result: IDateRange<number> = {
     type: "date-range",
     from: now.getTime(),
     to: now.getTime(),

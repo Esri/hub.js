@@ -1,10 +1,10 @@
 import { cloneObject, unique } from "../util";
 import {
-  ContentFilterDefinition,
-  DateRange,
+  IContentFilterDefinition,
+  IDateRange,
   Filter,
-  MatchOptions,
-  WellKnownContentFilters,
+  IMatchOptions,
+  IWellKnownContentFilters,
 } from "./types";
 import { expandContentFilter } from "./expansions";
 
@@ -59,18 +59,18 @@ export function mergeContentFilter(
 }
 
 function mergeSubFilters(
-  sf1: Array<ContentFilterDefinition | keyof WellKnownContentFilters>,
-  sf2: Array<ContentFilterDefinition | keyof WellKnownContentFilters>
-): Array<ContentFilterDefinition | keyof WellKnownContentFilters> {
+  sf1: Array<IContentFilterDefinition | keyof IWellKnownContentFilters>,
+  sf2: Array<IContentFilterDefinition | keyof IWellKnownContentFilters>
+): Array<IContentFilterDefinition | keyof IWellKnownContentFilters> {
   // Naieve: we just merge the arrays
   // in the future we may try to de-dupe things as a safeguard
   return [...sf1, ...sf2];
 }
 
 function mergeDateRange(
-  dr1: DateRange<number>,
-  dr2: DateRange<number>
-): DateRange<number> {
+  dr1: IDateRange<number>,
+  dr2: IDateRange<number>
+): IDateRange<number> {
   const result = cloneObject(dr1);
   // feels like there is a more concise way to do this...
   if (dr2.from < dr1.from) {
@@ -93,15 +93,15 @@ function mergeDateRange(
  * @returns
  */
 export function mergeMatchOptions(
-  mo1: MatchOptions,
-  mo2: MatchOptions
-): MatchOptions {
-  const result = {} as MatchOptions;
+  mo1: IMatchOptions,
+  mo2: IMatchOptions
+): IMatchOptions {
+  const result = {} as IMatchOptions;
   // None of these props are required, so we can't just
   // use Object.keys/.entries
   const props = ["any", "all", "not", "exact"];
   props.forEach((prop) => {
-    const key = prop as keyof MatchOptions;
+    const key = prop as keyof IMatchOptions;
     const merged = [...(mo1[key] || []), ...(mo2[key] || [])];
     if (merged.length) {
       // remove any dupes and set on the return

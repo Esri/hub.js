@@ -1,4 +1,4 @@
-import { ContentFilter, MatchOptions } from "../../src/search";
+import { IContentFilter, IMatchOptions } from "../../src/search";
 import {
   serializeDateRange,
   serializeMatchOptions,
@@ -24,7 +24,7 @@ describe("Portal Serializers:", () => {
     });
     describe("serializeMatchOptions:", () => {
       it("arrays", () => {
-        const mo: MatchOptions = {
+        const mo: IMatchOptions = {
           any: ["buildings", "tents"],
           all: ["red", "blue"],
           not: ["yellow"],
@@ -38,7 +38,7 @@ describe("Portal Serializers:", () => {
         expect(chk.filter).toBe(`(tags:"Rubber" AND tags:"Duck")`);
       });
       it("only not", () => {
-        const mo: MatchOptions = {
+        const mo: IMatchOptions = {
           not: "buildings",
         };
         const chk = serializeMatchOptions("tags", mo);
@@ -46,7 +46,7 @@ describe("Portal Serializers:", () => {
       });
 
       it("all string props", () => {
-        const mo: MatchOptions = {
+        const mo: IMatchOptions = {
           any: "buildings",
           all: "red",
           not: "yellow",
@@ -62,7 +62,7 @@ describe("Portal Serializers:", () => {
 
       describe("exact on non-filterable fields:", () => {
         it("added to existing .all", () => {
-          const mo: MatchOptions = {
+          const mo: IMatchOptions = {
             all: ["water", "river"],
             exact: "buildings",
           };
@@ -73,7 +73,7 @@ describe("Portal Serializers:", () => {
           expect(chk.filter).toEqual("");
         });
         it("added to .all", () => {
-          const mo: MatchOptions = {
+          const mo: IMatchOptions = {
             exact: "buildings",
           };
           const chk = serializeMatchOptions("metaInfo", mo);
@@ -81,7 +81,7 @@ describe("Portal Serializers:", () => {
           expect(chk.filter).toEqual("");
         });
         it("added to .all if both arrays", () => {
-          const mo: MatchOptions = {
+          const mo: IMatchOptions = {
             all: ["water", "river"],
             exact: ["buildings"],
           };
@@ -92,7 +92,7 @@ describe("Portal Serializers:", () => {
           expect(chk.filter).toEqual("");
         });
         it("added to .all if both string", () => {
-          const mo: MatchOptions = {
+          const mo: IMatchOptions = {
             all: "water",
             exact: "buildings",
           };
@@ -101,7 +101,7 @@ describe("Portal Serializers:", () => {
           expect(chk.filter).toEqual("");
         });
         it("added to .all is string", () => {
-          const mo: MatchOptions = {
+          const mo: IMatchOptions = {
             all: "water",
             exact: ["buildings"],
           };
@@ -110,7 +110,7 @@ describe("Portal Serializers:", () => {
           expect(chk.filter).toEqual("");
         });
         it("added to .all from array ", () => {
-          const mo: MatchOptions = {
+          const mo: IMatchOptions = {
             exact: ["buildings"],
           };
           const chk = serializeMatchOptions("metaInfo", mo);
@@ -122,7 +122,7 @@ describe("Portal Serializers:", () => {
   });
 
   it("serializeContentFilterForPortal: simple filter", () => {
-    const f: ContentFilter = {
+    const f: IContentFilter = {
       tags: {
         all: ["red", "blue"],
       },
@@ -136,7 +136,7 @@ describe("Portal Serializers:", () => {
   });
 
   it("serializeContentFilterForPortal: multiples", () => {
-    const f: ContentFilter = {
+    const f: IContentFilter = {
       tags: {
         all: ["red", "blue"],
         exact: "orange",
@@ -162,7 +162,7 @@ describe("Portal Serializers:", () => {
   });
 
   it("serializeForPortal: subfilter", () => {
-    const f: ContentFilter = {
+    const f: IContentFilter = {
       term: "water",
       group: {
         all: "3ef",

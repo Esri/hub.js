@@ -1,20 +1,20 @@
 import {
   mergeContentFilter,
   mergeMatchOptions,
-  DateRange,
+  IDateRange,
   Filter,
-  MatchOptions,
+  IMatchOptions,
 } from "../../src/search";
 
 fdescribe("Filters:", () => {
   describe("mergeMatchOptions:", () => {
     it("simple merging arrays", () => {
-      const mo1: MatchOptions = {
+      const mo1: IMatchOptions = {
         any: ["red"],
         all: ["cat", "dog"],
         not: ["bmw"],
       };
-      const mo2: MatchOptions = {
+      const mo2: IMatchOptions = {
         any: ["yellow"],
         all: ["fish", "dog"],
       };
@@ -91,7 +91,7 @@ fdescribe("Filters:", () => {
 
       expect(chk.filterType).toBe("content");
       expect(chk.group).toEqual({ any: ["ef0"] });
-      const created = chk.created as DateRange<number>;
+      const created = chk.created as IDateRange<number>;
       const nowStamp = new Date().getTime();
       expect(created.to / 1000).toBeCloseTo(nowStamp / 1000, 1);
       // turn into a decimal so we can use `toBeCloseTo`
@@ -124,7 +124,7 @@ fdescribe("Filters:", () => {
 
       expect(chk.filterType).toBe("content");
       expect(chk.group).toEqual({ any: ["ef0"] });
-      const created = chk.created as DateRange<number>;
+      const created = chk.created as IDateRange<number>;
       expect(created.from).toBeCloseTo(new Date("2021-05-01").getTime(), 2);
       expect(created.to).toBeCloseTo(new Date("2021-06-30").getTime(), 2);
     });
