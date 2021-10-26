@@ -3,6 +3,7 @@
 
 import { ISearchOptions } from "@esri/arcgis-rest-portal";
 
+// TODO: Why does ISearchParams extend ISearchOptions? it seems specific to Hub API...
 export interface ISearchParams extends ISearchOptions {
   // Override ISearchOptions.filter, which is a string b/c of how it's used in Portal
   filter?: any;

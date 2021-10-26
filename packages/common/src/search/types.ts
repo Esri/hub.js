@@ -1,14 +1,15 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
+import { IHubContent } from "..";
 
 /**
  * Generic filter used with various search functions.
  *
  * `Filter<T extends FilterType>` [FilterType](../FilterType) is constrained to
  *
- * - `Filter<"any">` [AnyFilterDefinition](../AnyFilterDefinition)
- * - `Filter<"content">` [ContentFilterDefinition](../ContentFilterDefinition)
- * - `Filter<"user">` [UserFilterDefinition](../UserFilterDefinition)
- * - `Filter<"group">` [GroupFilterDefinition](../GroupFilterDefinition)
+ * - `Filter<"any">` [IAnyFilterDefinition](../IAnyFilterDefinition)
+ * - `Filter<"content">` [IContentFilterDefinition](../IContentFilterDefinition)
+ * - `Filter<"user">` [IUserFilterDefinition](../IUserFilterDefinition)
+ * - `Filter<"group">` [IGroupFilterDefinition](../IGroupFilterDefinition)
  *
  * When constructing a Filter as json, the `filterType` must be specified,
  * and it must be `keyof` [FilterTypeMap](../FilterTypeMap)
@@ -114,6 +115,7 @@ export interface IContentFilter {
 
 // Short-cut strings for `type`
 export interface IWellKnownContentFilters {
+  $apps: IContentFilterDefinition[];
   $dashboard: IContentFilterDefinition[];
   $dataset: IContentFilterDefinition[];
   $experience: IContentFilterDefinition[];
@@ -312,16 +314,28 @@ export interface IMatchOptions {
   exact?: string | string[];
 }
 
-export interface ISearchOptions {
+/**
+ * Search Options
+ */
+export interface IHubSearchOptions {
   site?: string;
   authentication?: UserSession;
   sortField?: string;
   sortOrder?: "desc" | "asc";
   page?: string;
-  aggregations?: string;
+  num?: number;
+  aggregations?: string[];
   bbox?: string;
   fields?: string;
-  apis: Array<NamedApis | IApiDefinition>;
+  apis?: Array<NamedApis | IApiDefinition>;
+}
+
+/**
+ * searchContent return
+ */
+export interface IContentSearchResult {
+  content: IHubContent[];
+  facets?: IFacet[];
 }
 
 // Examples
@@ -371,39 +385,6 @@ export interface IWellKnownApis {
   hubQA: IApiDefinition;
   hubDEV: IApiDefinition;
 }
-
-export const SEARCH_APIS: IWellKnownApis = {
-  arcgis: {
-    label: "ArcGIS Online",
-    url: "https://www.arcgis.com",
-    type: "arcgis",
-  },
-  arcgisQA: {
-    label: "ArcGIS Online QAEXT",
-    url: "https://qaext.arcgis.com",
-    type: "arcgis",
-  },
-  arcgisDEV: {
-    label: "ArcGIS Online DEVEXT",
-    url: "https://devext.arcgis.com",
-    type: "arcgis",
-  },
-  hub: {
-    label: "ArcGIS Hub",
-    url: "https://hub.arcgis.com/api",
-    type: "arcgis-hub",
-  },
-  hubDEV: {
-    label: "ArcGIS Hub DEV",
-    url: "https://hubdev.arcgis.com/api",
-    type: "arcgis-hub",
-  },
-  hubQA: {
-    label: "ArcGIS Hub QA",
-    url: "https://hubqa.arcgis.com/api",
-    type: "arcgis-hub",
-  },
-};
 
 // Allows type-safe query "short-cuts"
 export type NamedApis = keyof IWellKnownApis;
