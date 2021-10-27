@@ -16,7 +16,7 @@ import { IAddOrInviteContext, IAddOrInviteResponse } from "../types";
  */
 export async function processInviteUsers(
   context: IAddOrInviteContext,
-  userType: "world" | "org" | "community"
+  userType: "world" | "org" | "community" | "partnered"
 ): Promise<IAddOrInviteResponse> {
   // Fetch users out of context based on userType
   const users: IUser[] = getProp(context, userType);

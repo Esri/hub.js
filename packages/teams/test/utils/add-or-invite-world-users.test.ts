@@ -16,6 +16,8 @@ describe("addOrInviteWorldUsers: ", () => {
       world: [],
       org: [],
       community: [],
+      partnered: [],
+      collaborationCoordinator: [],
     };
     const handleNoUsersSpy = spyOn(
       handleNoUsersModule,
@@ -38,6 +40,8 @@ describe("addOrInviteWorldUsers: ", () => {
       world: [{ orgType: "world" }],
       org: [],
       community: [],
+      partnered: [],
+      collaborationCoordinator: [],
     };
     const processInviteUsersSpy = spyOn(
       processInviteUsersModule,

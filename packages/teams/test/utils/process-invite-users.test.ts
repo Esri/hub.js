@@ -35,6 +35,8 @@ describe("processInviteUsers: ", () => {
         { orgType: "community", username: "bob" },
         { orgType: "community", username: "frank" },
       ],
+      partnered: [],
+      collaborationCoordinator: [],
     };
     inviteUsersSpy.and.callFake(() => Promise.resolve({ success: true }));
     const result = await processInviteUsers(context, "community");
@@ -68,6 +70,8 @@ describe("processInviteUsers: ", () => {
         { orgType: "community", username: "bob" },
         { orgType: "community", username: "frank" },
       ],
+      partnered: [],
+      collaborationCoordinator: [],
     };
     inviteUsersSpy.and.callFake(() => Promise.resolve({ success: true }));
     const result = await processInviteUsers(context, "community");
@@ -101,6 +105,8 @@ describe("processInviteUsers: ", () => {
         { orgType: "community", username: "bob" },
         { orgType: "community", username: "frank" },
       ],
+      partnered: [],
+      collaborationCoordinator: [],
     };
     inviteUsersSpy.and.callFake(() => Promise.resolve({ success: false }));
     const result = await processInviteUsers(context, "community");
@@ -132,6 +138,8 @@ describe("processInviteUsers: ", () => {
         { orgType: "community", username: "bob" },
         { orgType: "community", username: "frank" },
       ],
+      partnered: [],
+      collaborationCoordinator: [],
     };
     const error = new ArcGISRequestError("Email not sent");
     inviteUsersSpy.and.callFake(() =>

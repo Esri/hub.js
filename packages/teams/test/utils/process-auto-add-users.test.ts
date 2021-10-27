@@ -29,13 +29,21 @@ describe("processAutoAddUsers: ", () => {
     const context: IAddOrInviteContext = {
       groupId: "abc123",
       primaryRO: MOCK_AUTH,
-      allUsers: [{ orgType: "org", username: "bob" }, { orgType: "org", username: "frank" }],
+      allUsers: [
+        { orgType: "org", username: "bob" },
+        { orgType: "org", username: "frank" },
+      ],
       canAutoAddUser: false,
       addUserAsGroupAdmin: true,
       email: undefined,
       world: [],
-      org: [{ orgType: "org", username: "bob" }, { orgType: "org", username: "frank" }],
+      org: [
+        { orgType: "org", username: "bob" },
+        { orgType: "org", username: "frank" },
+      ],
       community: [],
+      partnered: [],
+      collaborationCoordinator: [],
     };
     autoAddUsersSpy.and.callFake(() => Promise.resolve({ success: true }));
     autoAddUsersAsAdminsSpy.and.callFake(() =>
@@ -53,13 +61,21 @@ describe("processAutoAddUsers: ", () => {
     const context: IAddOrInviteContext = {
       groupId: "abc123",
       primaryRO: MOCK_AUTH,
-      allUsers: [{ orgType: "org", username: "bob" }, { orgType: "org", username: "frank" }],
+      allUsers: [
+        { orgType: "org", username: "bob" },
+        { orgType: "org", username: "frank" },
+      ],
       canAutoAddUser: false,
       addUserAsGroupAdmin: false,
       email: undefined,
       world: [],
-      org: [{ orgType: "org", username: "bob" }, { orgType: "org", username: "frank" }],
+      org: [
+        { orgType: "org", username: "bob" },
+        { orgType: "org", username: "frank" },
+      ],
       community: [],
+      partnered: [],
+      collaborationCoordinator: [],
     };
     autoAddUsersSpy.and.callFake(() => Promise.resolve({ success: true }));
     autoAddUsersAsAdminsSpy.and.callFake(() =>
@@ -77,13 +93,21 @@ describe("processAutoAddUsers: ", () => {
     const context: IAddOrInviteContext = {
       groupId: "abc123",
       primaryRO: MOCK_AUTH,
-      allUsers: [{ orgType: "org", username: "bob" }, { orgType: "org", username: "frank" }],
+      allUsers: [
+        { orgType: "org", username: "bob" },
+        { orgType: "org", username: "frank" },
+      ],
       canAutoAddUser: false,
       addUserAsGroupAdmin: false,
       email: { message: {}, auth: MOCK_AUTH },
       world: [],
-      org: [{ orgType: "org", username: "bob" }, { orgType: "org", username: "frank" }],
+      org: [
+        { orgType: "org", username: "bob" },
+        { orgType: "org", username: "frank" },
+      ],
       community: [],
+      partnered: [],
+      collaborationCoordinator: [],
     };
     autoAddUsersSpy.and.callFake(() => Promise.resolve({ success: true }));
     autoAddUsersAsAdminsSpy.and.callFake(() =>
@@ -112,13 +136,21 @@ describe("processAutoAddUsers: ", () => {
     const context: IAddOrInviteContext = {
       groupId: "abc123",
       primaryRO: MOCK_AUTH,
-      allUsers: [{ orgType: "org", username: "bob" }, { orgType: "org", username: "frank" }],
+      allUsers: [
+        { orgType: "org", username: "bob" },
+        { orgType: "org", username: "frank" },
+      ],
       canAutoAddUser: false,
       addUserAsGroupAdmin: false,
       email: { message: {}, auth: MOCK_AUTH },
       world: [],
-      org: [{ orgType: "org", username: "bob" }, { orgType: "org", username: "frank" }],
+      org: [
+        { orgType: "org", username: "bob" },
+        { orgType: "org", username: "frank" },
+      ],
       community: [],
+      partnered: [],
+      collaborationCoordinator: [],
     };
     const error = new ArcGISRequestError("Email not sent");
     autoAddUsersSpy.and.callFake(() =>

@@ -12,7 +12,7 @@ import { IAddOrInviteContext, IAddOrInviteResponse } from "../types";
  */
 export async function handleNoUsers(
   context?: IAddOrInviteContext,
-  userType?: "world" | "org" | "community",
+  userType?: "world" | "org" | "community" | "partnered",
   shouldEmail?: boolean
 ): Promise<IAddOrInviteResponse> {
   return {

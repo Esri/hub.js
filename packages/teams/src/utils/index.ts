@@ -24,6 +24,8 @@ export * from "./can-edit-team";
 export * from "./add-or-invite-community-users";
 export * from "./add-or-invite-org-users";
 export * from "./add-or-invite-world-users";
+export * from "./add-or-invite-partnered-users";
+export * from "./add-or-invite-collaboration-coordinators";
 export * from "./auto-add-users-as-admins";
 export * from "./group-users-by-org-relationship";
 export * from "./handle-no-users";

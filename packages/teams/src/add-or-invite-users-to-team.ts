@@ -10,6 +10,8 @@ import {
   addOrInviteCommunityUsers,
   addOrInviteOrgUsers,
   addOrInviteWorldUsers,
+  addOrInvitePartneredUsers,
+  addOrInviteCollaborationCoordinators,
   groupUsersByOrgRelationship,
 } from "./utils";
 
@@ -54,6 +56,10 @@ export async function addOrInviteUsersToTeam(
     community: await addOrInviteCommunityUsers(context),
     org: await addOrInviteOrgUsers(context),
     world: await addOrInviteWorldUsers(context),
+    partnered: await addOrInvitePartneredUsers(context),
+    collaborationCoordinator: await addOrInviteCollaborationCoordinators(
+      context
+    ),
     notAdded: [],
     notInvited: [],
     notEmailed: [],
