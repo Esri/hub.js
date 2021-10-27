@@ -16,6 +16,8 @@ describe("addOrInviteCommunityUsers:", () => {
       email: { message: {}, auth: MOCK_AUTH },
       world: [],
       org: [],
+      partnered: [],
+      collaborationCoordinator: [],
       community: [],
     };
     const handleNoUsersSpy = spyOn(
@@ -38,6 +40,8 @@ describe("addOrInviteCommunityUsers:", () => {
       email: { message: {}, auth: MOCK_AUTH },
       world: [],
       org: [],
+      partnered: [],
+      collaborationCoordinator: [],
       community: [{ orgType: "community" }],
     };
     const processAutoAddUsersSpy = spyOn(
@@ -60,6 +64,8 @@ describe("addOrInviteCommunityUsers:", () => {
       email: { message: {}, auth: MOCK_AUTH, groupId: "abc123" },
       world: [],
       org: [],
+      partnered: [],
+      collaborationCoordinator: [],
       community: [{ orgType: "community" }],
     };
     const processAutoAddUsersSpy = spyOn(
@@ -83,6 +89,8 @@ describe("addOrInviteCommunityUsers:", () => {
       email: { message: {}, auth: MOCK_AUTH, groupId: "def456" },
       world: [],
       org: [],
+      partnered: [],
+      collaborationCoordinator: [],
       community: [{ orgType: "community" }],
     };
     const processInviteUsersSpy = spyOn(
@@ -105,6 +113,8 @@ describe("addOrInviteCommunityUsers:", () => {
       email: undefined,
       world: [],
       org: [],
+      partnered: [],
+      collaborationCoordinator: [],
       community: [{ orgType: "community" }],
     };
     const processAutoAddUsersSpy = spyOn(
@@ -127,6 +137,8 @@ describe("addOrInviteCommunityUsers:", () => {
       email: undefined,
       world: [],
       org: [],
+      partnered: [],
+      collaborationCoordinator: [],
       community: [{ orgType: "community" }],
     };
     const processInviteUsersSpy = spyOn(

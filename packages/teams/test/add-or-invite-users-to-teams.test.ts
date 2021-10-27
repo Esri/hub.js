@@ -13,6 +13,9 @@ describe("addOrInviteUsersToTeams: ", () => {
       { orgType: "org", username: "frank" },
       { orgType: "org", username: "frankk" },
       { orgType: "community", username: "dobby" },
+      { orgType: "partnered", username: "randy" },
+      { orgType: "partnered", username: "jupe" },
+      { orgType: "collaborationCoordinator", username: "freddy" },
     ];
     const error = new ArcGISRequestError("error in addOrInviteUsersToTeams");
     const addOrInviteUsersToTeamSpy = spyOn(
@@ -45,6 +48,20 @@ describe("addOrInviteUsersToTeams: ", () => {
           notAdded: [],
           notEmailed: [],
           errors: [error, error],
+        },
+        partnered: {
+          users: ["randy", "jupe"],
+          notInvited: [],
+          notAdded: [],
+          notEmailed: [],
+          errors: [],
+        },
+        collaborationCoordinator: {
+          users: ["freddy"],
+          notInvited: [],
+          notAdded: [],
+          notEmailed: [],
+          errors: [],
         },
       };
       return Promise.resolve(response);

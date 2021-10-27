@@ -1,11 +1,11 @@
-import { addOrInviteOrgUsers } from "../../src/utils/add-or-invite-org-users";
+import { addOrInviteCollaborationCoordinators } from "../../src/utils/add-or-invite-collaboration-coordinators";
 import { MOCK_AUTH } from "../fixtures";
 import * as processAutoAddUsersModule from "../../src/utils/process-auto-add-users";
 import * as processInviteUsersModule from "../../src/utils/process-invite-users";
 import * as handleNoUsersModule from "../../src/utils/handle-no-users";
 import { IAddOrInviteContext } from "../../src/types";
 
-describe("addOrInviteOrgUsers: ", () => {
+describe("addOrInviteCollaborationCoordinators: ", () => {
   it("Properly delegates to handleNoUsers when no users supplied", async () => {
     const context: IAddOrInviteContext = {
       groupId: "abc123",
@@ -27,22 +27,22 @@ describe("addOrInviteOrgUsers: ", () => {
       Promise.resolve();
     });
 
-    const actual = await addOrInviteOrgUsers(context);
+    const actual = await addOrInviteCollaborationCoordinators(context);
     expect(handleNoUsersSpy).toHaveBeenCalled();
   });
   it("Properly autoAdds when canAutoAdd is supplied", async () => {
     const context: IAddOrInviteContext = {
       groupId: "abc123",
       primaryRO: MOCK_AUTH,
-      allUsers: [{ orgType: "org" }],
+      allUsers: [{ orgType: "collaborationCoordinator" }],
       canAutoAddUser: true,
       addUserAsGroupAdmin: false,
       email: undefined,
       world: [],
-      org: [{ orgType: "org" }],
+      org: [],
       community: [],
       partnered: [],
-      collaborationCoordinator: [],
+      collaborationCoordinator: [{ orgType: "collaborationCoordinator" }],
     };
     const processAutoAddUsersSpy = spyOn(
       processAutoAddUsersModule,
@@ -51,31 +51,7 @@ describe("addOrInviteOrgUsers: ", () => {
       Promise.resolve();
     });
 
-    const actual = await addOrInviteOrgUsers(context);
+    const actual = await addOrInviteCollaborationCoordinators(context);
     expect(processAutoAddUsersSpy).toHaveBeenCalled();
-  });
-  it("Properly falls back to inviting users", async () => {
-    const context: IAddOrInviteContext = {
-      groupId: "abc123",
-      primaryRO: MOCK_AUTH,
-      allUsers: [{ orgType: "org" }],
-      canAutoAddUser: false,
-      addUserAsGroupAdmin: false,
-      email: undefined,
-      world: [],
-      org: [{ orgType: "org" }],
-      community: [],
-      partnered: [],
-      collaborationCoordinator: [],
-    };
-    const processInviteUsersSpy = spyOn(
-      processInviteUsersModule,
-      "processInviteUsers"
-    ).and.callFake(() => {
-      Promise.resolve();
-    });
-
-    const actual = await addOrInviteOrgUsers(context);
-    expect(processInviteUsersSpy).toHaveBeenCalled();
   });
 });

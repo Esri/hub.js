@@ -75,21 +75,27 @@ export interface ITeamsStatus {
 /**
  * User object returned from add users modal in ember application
  * It extends the IUser interface with an additional property
- * that denotes what org relationship the user might have (world|org|community)
+ * that denotes what org relationship the user might have (world|org|community|partnered|collaborationCoordinator)
  */
 export interface IUserWithOrgType extends IUser {
-  orgType: "world" | "org" | "community";
+  orgType:
+    | "world"
+    | "org"
+    | "community"
+    | "partnered"
+    | "collaborationCoordinator";
 }
 
 /**
  * User org relationship interface
- * Object contains users parsed by their org relationship (world|org|community)
+ * Object contains users parsed by their org relationship (world|org|community|partnered|collaborationCoordinator)
  */
 export interface IUserOrgRelationship {
   world: IUserWithOrgType[];
   org: IUserWithOrgType[];
   community: IUserWithOrgType[];
-  // partnered: IUserModalObject[]
+  partnered: IUserWithOrgType[];
+  collaborationCoordinator: IUserWithOrgType[];
 }
 
 /**
@@ -137,6 +143,8 @@ export interface IAddOrInviteToTeamResult {
   community: IAddOrInviteResponse;
   org: IAddOrInviteResponse;
   world: IAddOrInviteResponse;
+  partnered: IAddOrInviteResponse;
+  collaborationCoordinator: IAddOrInviteResponse;
   groupId: string;
 }
 

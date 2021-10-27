@@ -19,6 +19,12 @@ export function groupUsersByOrgRelationship(
       acc[orgType].push(user);
       return acc;
     },
-    { world: [], org: [], community: [], partnered: [] }
+    {
+      world: [],
+      org: [],
+      community: [],
+      partnered: [],
+      collaborationCoordinator: [],
+    }
   );
 }

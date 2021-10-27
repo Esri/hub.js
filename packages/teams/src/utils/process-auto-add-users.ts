@@ -20,7 +20,12 @@ import { processEmailUsers } from "./process-email-users";
  */
 export async function processAutoAddUsers(
   context: IAddOrInviteContext,
-  userType: "world" | "org" | "community",
+  userType:
+    | "world"
+    | "org"
+    | "community"
+    | "partnered"
+    | "collaborationCoordinator",
   shouldEmail: boolean = false
 ): Promise<IAddOrInviteResponse> {
   // fetch users out of context object
@@ -67,7 +72,7 @@ export async function processAutoAddUsers(
   // from the final object and you are concatting together arrays you can concat
   // an undeifined inside an array which will throw off array lengths.
   return {
-    users: users.map(u => u.username),
+    users: users.map((u) => u.username),
     notAdded,
     errors,
     notEmailed: emailResponse?.notEmailed || [],
