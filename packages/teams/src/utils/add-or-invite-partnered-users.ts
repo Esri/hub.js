@@ -2,6 +2,16 @@ import { handleNoUsers } from "./handle-no-users";
 import { IAddOrInviteContext, IAddOrInviteResponse } from "../types";
 import { processInviteUsers } from "./process-invite-users";
 
+/**
+ * @private
+ * Handles add/invite logic for partnered org users.
+ * It returns either an empty instance of the addOrInviteResponse
+ * object, or their response from inviting users.
+ *
+ * @export
+ * @param {IAddOrInviteContext} context context object
+ * @return {IAddOrInviteResponse} response object
+ */
 export async function addOrInvitePartneredUsers(
   context: IAddOrInviteContext
 ): Promise<IAddOrInviteResponse> {
