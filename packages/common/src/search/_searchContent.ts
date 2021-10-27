@@ -45,7 +45,7 @@ export async function _searchContent(
       // Aggregations
       if (options.aggregations?.length) {
         so.countFields = options.aggregations.join(",");
-        so.countSize = 100;
+        so.countSize = 200;
       }
       if (options.num) {
         so.num = options.num;

@@ -188,6 +188,19 @@ describe("Content:", () => {
         });
         expect(chk.subFilters).toBeDefined();
       });
+      it("type expansions with object", () => {
+        const def: Filter<"content"> = {
+          filterType: "content",
+          owner: "dbouwman",
+          type: { any: "Dashboard" },
+        };
+        const chk = expandContentFilter(def);
+        expect(chk.owner).toBeDefined();
+        expect(chk.owner).toEqual({ any: ["dbouwman"] });
+        expect(chk.type).toBeDefined();
+        expect(chk.subFilters).toBeDefined();
+        expect(chk.subFilters?.length).toBe(0);
+      });
 
       it("subFilters", () => {
         const def: Filter<"content"> = {
@@ -223,6 +236,23 @@ describe("Content:", () => {
             any: ["Maple Syrup", "Quebecois"],
           });
         }
+      });
+
+      it("malformed subFilters", () => {
+        const def = {
+          filterType: "content",
+          owner: "dbouwman",
+          term: "water",
+          subFilters: ["invalid"],
+        } as unknown as Filter<"content">;
+        const chk = expandContentFilter(def);
+        expect(chk.owner).toBeDefined();
+        expect(chk.owner).toEqual({ any: ["dbouwman"] });
+        expect(chk.term).toBe("water");
+
+        expect(chk.subFilters).toBeDefined();
+
+        expect(chk.subFilters?.length).toBe(0);
       });
 
       it("handles undefined subFilters", () => {

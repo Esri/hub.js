@@ -245,7 +245,7 @@ function mergeSubFilters(
   sf1: Array<IContentFilterDefinition | keyof IWellKnownContentFilters>,
   sf2: Array<IContentFilterDefinition | keyof IWellKnownContentFilters>
 ): Array<IContentFilterDefinition | keyof IWellKnownContentFilters> {
-  // Naieve: we just merge the arrays
+  // Simplistic implementation: we just merge the arrays
   // in the future we may try to de-dupe things as a safeguard
   return [...sf1, ...sf2];
 }
@@ -267,7 +267,7 @@ function mergeSubFilters(
  * @returns
  */
 export function expandContentFilter(filter: Filter<"content">): IContentFilter {
-  // run any filter.type expansions first
+  // Expand filter.type first
   const expandedTypeFilter = expandTypeField(filter);
 
   // Expand subfilters
@@ -277,10 +277,8 @@ export function expandContentFilter(filter: Filter<"content">): IContentFilter {
     expandedTypeFilter.subFilters = expandedTypeFilter.subFilters.reduce(
       (acc, entry) => {
         if (typeof entry === "string") {
-          // Next guard is present b/c this can be used from javascript
-          // but our tests are written in typescript which prevents us
-          // from hitting the else
-          /* istanbul ignore else */
+          // if the entry is not a key of ContentFilterExpansions
+          // we just skip over it
           if (ContentFilterExpansions[entry]) {
             acc = acc.concat(ContentFilterExpansions[entry]);
           }
@@ -310,41 +308,54 @@ export function expandTypeField(filter: Filter<"content">): Filter<"content"> {
   // ensure subFilters is defined as an array
   clone.subFilters = clone.subFilters || [];
   if (clone.type) {
-    // if type is an Array...
+    // if .type is an Array...
     if (Array.isArray(clone.type)) {
-      // remove any well-known-keys and move their expansions into
-      // subfilters
+      // remove any well-known-keys and move their expansions into subfilters
       clone.type = clone.type.reduce((acc, entry) => {
-        if (typeof entry === "string" && entry in ContentFilterExpansions) {
-          // working with dynamic objects in typescript does require some assetions
+        if (isWellKnownType(entry)) {
+          // working with dynamic objects in typescript requires some assertions
           const key = entry as keyof typeof ContentFilterExpansions;
-          clone.subFilters = clone.subFilters.concat(
-            ContentFilterExpansions[key]
-          );
+          clone.subFilters = clone.subFilters.concat(lookupTypeFilters(key));
         } else {
           acc.push(entry);
         }
         return acc;
       }, [] as string[]);
-    }
-    // if type is a string
-    if (typeof clone.type === "string") {
-      if (clone.type in ContentFilterExpansions) {
-        // not sure how to make typescript happy, other than this assetion
-        const key = clone.type as keyof typeof ContentFilterExpansions;
-        clone.subFilters = clone.subFilters.concat(
-          ContentFilterExpansions[key]
-        );
-        // remove it
-        delete clone.type;
-      }
+    } else if (isWellKnownType(clone.type)) {
+      const key = clone.type as keyof typeof ContentFilterExpansions;
+      clone.subFilters = clone.subFilters.concat(lookupTypeFilters(key));
+      delete clone.type;
     } else {
-      // TODO: implement expansions inside MatchOptions
-      // its an MatchOptions, so we just let that fall through...
-      // eventually we may expand well-known types
+      // Future?: implement "expansions" inside MatchOptions
+      // For now, we only attempt expansions for filter.type
+      // if it's a string, or for strings inside an array
+      // Unclear if it's of value to allow short-cuts inside MatchOptions
     }
   }
   return clone;
+}
+
+/**
+ * Is the argument a well-known type "key"
+ *
+ * Accepts `string`, `string[]` or `IMatchOptions`
+ * but only string values can possibly be properties
+ * on `ContentFilterExpansions`
+ * @param key
+ * @returns
+ */
+function isWellKnownType(key: string | string[] | IMatchOptions): boolean {
+  let result = false;
+  if (typeof key === "string") {
+    result = key in ContentFilterExpansions;
+  }
+  return result;
+}
+
+function lookupTypeFilters(
+  key: keyof typeof ContentFilterExpansions
+): IContentFilterDefinition[] {
+  return ContentFilterExpansions[key];
 }
 
 /**
