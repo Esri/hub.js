@@ -4,6 +4,9 @@
 import { ISearchOptions } from "@esri/arcgis-rest-portal";
 
 export interface ISearchParams extends ISearchOptions {
+  // Override ISearchOptions.filter, which is a string b/c of how it's used in Portal
+  filter?: any;
+  // ------------
   access?: string;
   agg?: { fields?: string; size?: number; mode?: string };
   bbox?: string;
