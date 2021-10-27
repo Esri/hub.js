@@ -1,7 +1,7 @@
 {
   "name": "webpack-demo",
   "private": true,
-  "version": "9.2.0",
+  "version": "9.3.0",
   "description": "Hub.js webpack demo",
   "scripts": {
     "build": "webpack --config webpack.config.js --mode=\"production\"",
@@ -15,8 +15,8 @@
     "@esri/arcgis-rest-auth": "^3.1.1",
     "@esri/arcgis-rest-portal": "^3.3.1",
     "@esri/arcgis-rest-request": "^3.1.1",
-    "@esri/hub-common": "^9.2.0",
-    "@esri/hub-content": "^9.2.0"
+    "@esri/hub-common": "^9.3.0",
+    "@esri/hub-content": "^9.3.0"
   },
   "devDependencies": {
     "webpack": "^4.46.0",
