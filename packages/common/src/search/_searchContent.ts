@@ -11,7 +11,7 @@ import {
 } from "./types";
 import { ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
 import { expandApis, mergeSearchResults } from "./utils";
-import { IHubContent, itemToContent } from "..";
+import { IHubContent, IModel, itemToContent, setContentSiteUrls } from "..";
 
 /**
  * Search for content via the Portal or Hub API
@@ -50,12 +50,13 @@ export async function _searchContent(
       if (options.num) {
         so.num = options.num;
       }
-      return searchPortal(so);
+      return searchPortal(so, options.siteModel);
     } else {
       // Hub API Search
       // TODO: Implement hub api content search
       return Promise.resolve({
-        content: [] as IHubContent[],
+        total: 0,
+        results: [] as IHubContent[],
         facets: [] as IFacet[],
       });
     }
@@ -67,12 +68,20 @@ export async function _searchContent(
 }
 
 function searchPortal(
-  searchOptions: ISearchOptions
+  searchOptions: ISearchOptions,
+  siteModel?: IModel
 ): Promise<IContentSearchResult> {
   return searchItems(searchOptions).then((resp) => {
-    const content = resp.results.map(itemToContent);
+    let content = resp.results.map(itemToContent);
+    if (siteModel) {
+      content = content.map((entry) => setContentSiteUrls(entry, siteModel));
+    }
     // convert aggregations into facets
     const facets = convertPortalResponseToFacets(resp);
-    return { content, facets };
+    return {
+      total: resp.total,
+      results: content,
+      facets,
+    };
   });
 }

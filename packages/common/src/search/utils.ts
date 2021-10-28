@@ -84,9 +84,9 @@ export function mergeSearchResults(
   responses: IContentSearchResult[]
 ): IContentSearchResult {
   // Merge content
-  const content = responses.reduce((acc, response) => {
-    if (response.content) {
-      acc = acc.concat(response.content);
+  const results = responses.reduce((acc, response) => {
+    if (response.results) {
+      acc = acc.concat(response.results);
     }
     return acc;
   }, [] as IHubContent[]);
@@ -99,7 +99,15 @@ export function mergeSearchResults(
     return acc;
   }, [] as IFacet[]);
 
-  return { content, facets };
+  // Total
+  const total = responses.reduce((acc, entry) => {
+    if (entry.total) {
+      acc = acc + entry.total;
+    }
+    return acc;
+  }, 0);
+
+  return { total, results, facets };
 }
 
 /**

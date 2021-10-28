@@ -1,5 +1,5 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { IHubContent } from "..";
+import { IHubContent, IModel } from "..";
 
 /**
  * Generic filter used with various search functions.
@@ -319,6 +319,7 @@ export interface IMatchOptions {
  */
 export interface IHubSearchOptions {
   site?: string;
+  siteModel?: IModel;
   authentication?: UserSession;
   sortField?: string;
   sortOrder?: "desc" | "asc";
@@ -334,7 +335,8 @@ export interface IHubSearchOptions {
  * searchContent return
  */
 export interface IContentSearchResult {
-  content: IHubContent[];
+  total: number;
+  results: IHubContent[];
   facets?: IFacet[];
 }
 
