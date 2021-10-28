@@ -5,45 +5,52 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [9.4.0] - October 28th 2021
+
+### Other Changes
+
+- New Features
+  - **hub-common**: Catalog, Filter and `_searchContent` (alpha feature!) [`ea52f69b7`](https://github.com/Esri/hub.js/commit/ea52f69b7fb8dd16757be58d01f8ec0404262cbf)
+
 ## [9.3.0] - October 27th 2021
 
 ### Other Changes
 
-* New Features
-   * **hub-teams**: add/invite partnered org members (#673) [`1b3e4b963`](https://github.com/Esri/hub.js/commit/1b3e4b963fed30f96e1587eac59d0203f57cfad2)
+- New Features
+  - **hub-teams**: add/invite partnered org members (#673) [`1b3e4b963`](https://github.com/Esri/hub.js/commit/1b3e4b963fed30f96e1587eac59d0203f57cfad2)
 
 ## [9.2.0] - October 21st 2021
 
 ### Other Changes
 
-* New Features
-   * **hub-common**: add content.urls, setContentHubId(), setContentType() [`51641fcbf`](https://github.com/Esri/hub.js/commit/51641fcbfda9f475e0a7f8263471139996efaec5)
-   * **hub-search**: add setContentSiteUrls; searchContent returns site urls [`35288cde1`](https://github.com/Esri/hub.js/commit/35288cde140ca511e2f0639472af96c11e8e7355) [#658](https://github.com/Esri/hub.js/issues/658)
+- New Features
+  - **hub-common**: add content.urls, setContentHubId(), setContentType() [`51641fcbf`](https://github.com/Esri/hub.js/commit/51641fcbfda9f475e0a7f8263471139996efaec5)
+  - **hub-search**: add setContentSiteUrls; searchContent returns site urls [`35288cde1`](https://github.com/Esri/hub.js/commit/35288cde140ca511e2f0639472af96c11e8e7355) [#658](https://github.com/Esri/hub.js/issues/658)
 
 ## [9.1.4] - October 18th 2021
 
 ### Other Changes
 
-* Bug Fixes
-   * **hub-sites**: fixes return type for _getSharingEligibleModels method [`aa39cc024`](https://github.com/Esri/hub.js/commit/aa39cc024d5ab8f6a14f811abcb1d3245914575e)
+- Bug Fixes
+  - **hub-sites**: fixes return type for \_getSharingEligibleModels method [`aa39cc024`](https://github.com/Esri/hub.js/commit/aa39cc024d5ab8f6a14f811abcb1d3245914575e)
 
 ## [9.1.3] - October 15th 2021
 
 ### Other Changes
 
-* Bug Fixes
-   * **hub-sites**: prevent surveys and their feature services from being shared to site teams during si [`658ed2872`](https://github.com/Esri/hub.js/commit/658ed28726857f2fa1e3576bc78940f2ac9817e7) [#[2325](https://devtopia.esri.com/dc/hub/issues/2325)](https://github.com/Esri/hub.js/issues/[2325](https://devtopia.esri.com/dc/hub/issues/2325))
-* Misc.
-   * **hub-surveys**: moves some methods from hub-surveys to hub-common to avoid adding a peer [`63450ba5f`](https://github.com/Esri/hub.js/commit/63450ba5f472a3330861533e84187d250a3ff00c)
-   * **hub-common**: add surveys dir to hub-common and move survey files there [`52ebe7e43`](https://github.com/Esri/hub.js/commit/52ebe7e437b2f7eb622113e4f35e87f21ba80208)
-   * **hub-common**: remove commented out code [`4705a688a`](https://github.com/Esri/hub.js/commit/4705a688aeeed6a885bd6a0d641effe592f95be7)
+- Bug Fixes
+  - **hub-sites**: prevent surveys and their feature services from being shared to site teams during si [`658ed2872`](https://github.com/Esri/hub.js/commit/658ed28726857f2fa1e3576bc78940f2ac9817e7) [#[2325](https://devtopia.esri.com/dc/hub/issues/2325)](<https://github.com/Esri/hub.js/issues/[2325](https://devtopia.esri.com/dc/hub/issues/2325)>)
+- Misc.
+  - **hub-surveys**: moves some methods from hub-surveys to hub-common to avoid adding a peer [`63450ba5f`](https://github.com/Esri/hub.js/commit/63450ba5f472a3330861533e84187d250a3ff00c)
+  - **hub-common**: add surveys dir to hub-common and move survey files there [`52ebe7e43`](https://github.com/Esri/hub.js/commit/52ebe7e437b2f7eb622113e4f35e87f21ba80208)
+  - **hub-common**: remove commented out code [`4705a688a`](https://github.com/Esri/hub.js/commit/4705a688aeeed6a885bd6a0d641effe592f95be7)
 
 ## [9.1.2] - October 14th 2021
 
 ### Other Changes
 
-* Bug Fixes
-   * **hub-search**: searchContent now respects user-provided paging information [`cd24c6fdf`](https://github.com/Esri/hub.js/commit/cd24c6fdf3377a2bad6c422fb341f52a0aaba07f)
+- Bug Fixes
+  - **hub-search**: searchContent now respects user-provided paging information [`cd24c6fdf`](https://github.com/Esri/hub.js/commit/cd24c6fdf3377a2bad6c422fb341f52a0aaba07f)
 
 ## [9.1.1] - October 12th 2021
 
@@ -69,8 +76,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - **hub-search**: added export to searchDatasets function [`3e9ef3bda`](https://github.com/Esri/hub.js/commit/3e9ef3bda35c60e4569c2646f623f866f3cadf54)
 
 ## Unreleased
-
-
 
 ## [9.0.0] - October 8th 2021
 
@@ -106,7 +111,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Chores
 
-  - **hub-common**: allow commits that start w/ &amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;#39;pr:&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;#39; to address PR review [`e344283f0`](https://github.com/Esri/hub.js/commit/e344283f00cd329effd45aa4eb6b004e78664de9)
+  - **hub-common**: allow commits that start w/ &amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;#39;pr:&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;#39; to address PR review [`e344283f0`](https://github.com/Esri/hub.js/commit/e344283f00cd329effd45aa4eb6b004e78664de9)
 
 - Bug Fixes
   - **hub-content**: getContentFromPortal() returns the layer content when passed a hubId [`157fa1110`](https://github.com/Esri/hub.js/commit/157fa1110546238d6a63b410ec129b93db15e6aa)
@@ -365,7 +370,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - **hub-teams**: add canEditTeam [`d2c9fecf`](https://github.com/Esri/hub.js/commit/d2c9fecf0314e35ee5c1acb9583684f18740f0b1)
   - **hub-teams**: add username check [`36a8b792`](https://github.com/Esri/hub.js/commit/36a8b7924ef7cf11ac2f2e81abe0d9ca49e86ec7)
   - **hub-teams**: add canEditTeam tests [`d4d52c18`](https://github.com/Esri/hub.js/commit/d4d52c1879c01f44770c16de242822ce41ba2708)
-  - **hub-teams**: add case when user is not auth&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;#39;d [`295e04a7`](https://github.com/Esri/hub.js/commit/295e04a7189151c827a25dcf9222c76448df71f7)
+  - **hub-teams**: add case when user is not auth&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;#39;d [`295e04a7`](https://github.com/Esri/hub.js/commit/295e04a7189151c827a25dcf9222c76448df71f7)
 
 ## [8.7.0] - June 25th 2021
 
@@ -1185,11 +1190,7 @@ Attempt to address failed release
 
 ## [4.1.0] - May 21st 2020
 
-
-
 ## [4.0.0] - May 20th 2020
-
-
 
 ## [3.9.3] - May 14th 2020
 
@@ -1227,8 +1228,6 @@ Attempt to address failed release
   - **peerDependencies**: fix invalid peerDependencies [`08fae37`](https://github.com/Esri/hub.js/commit/08fae37875aa3e68a82970a54eedcbe13ef001a8) [#251](https://github.com/Esri/hub.js/issues/251)
 
 ## [3.9.1] - May 6th 2020
-
-
 
 ## [3.9.0] - May 6th 2020
 
@@ -1270,8 +1269,6 @@ Attempt to address failed release
 
 ## [3.7.4] - April 30th 2020
 
-
-
 ## [3.7.3] - April 29th 2020
 
 - New Features
@@ -1282,8 +1279,6 @@ Attempt to address failed release
 ### @esri/hub-common
 
 ## [3.7.1] - April 28th 2020
-
-
 
 ## [3.7.0] - April 28th 2020
 
@@ -1339,11 +1334,7 @@ Attempt to address failed release
 
 ## [3.6.3] - January 27th 2020
 
-
-
 ## [3.6.2] - January 2nd 2020
-
-
 
 ## [3.6.0] - November 18th 2019
 
@@ -1437,8 +1428,6 @@ Attempt to address failed release
   - **search**: support filters specified implicitly
 
 ## [2.6.0] - August 20th 2019
-
-
 
 ## [2.5.0] - August 15th 2019
 
@@ -2057,4 +2046,5 @@ Initial Release
 [9.1.4]: https://github.com/Esri/hub.js/compare/v9.1.3...v9.1.4 "v9.1.4"
 [9.2.0]: https://github.com/Esri/hub.js/compare/v9.1.4...v9.2.0 "v9.2.0"
 [9.3.0]: https://github.com/Esri/hub.js/compare/v9.2.0...v9.3.0 "v9.3.0"
-[HEAD]: https://github.com/Esri/hub.js/compare/v9.3.0...HEAD "Unreleased Changes"
+[9.4.0]: https://github.com/Esri/hub.js/compare/v9.3.0...v9.4.0 "v9.4.0"
+[HEAD]: https://github.com/Esri/hub.js/compare/v9.4.0...HEAD "Unreleased Changes"
