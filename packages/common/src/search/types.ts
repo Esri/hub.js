@@ -142,9 +142,10 @@ export interface IGroupFilterDefinition {
   access?: string | string[] | IMatchOptions;
   created?: IDateRange<number> | IRelativeDate;
   id?: string | string[] | IMatchOptions;
-  isInvitationOnly: boolean;
+  isInvitationOnly?: boolean;
   modified?: IDateRange<number> | IRelativeDate;
   orgid?: string | string[] | IMatchOptions;
+  owner?: string | string[] | IMatchOptions;
   searchUserAccess?: "groupMember" | "admin";
   tags?: string | string[] | IMatchOptions;
   title?: string | string[] | IMatchOptions;
