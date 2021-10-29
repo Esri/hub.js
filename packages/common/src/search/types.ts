@@ -339,45 +339,6 @@ export interface IContentSearchResult {
   facets?: IFacet[];
 }
 
-// Examples
-// const opts: SearchOptions = {
-//   authentication: new UserSession({}),
-//   apis: ["arcgisQA", "hubQA"],
-// };
-
-// const entOpts: SearchOptions = {
-//   authentication: new UserSession({}),
-//   apis: [
-//     {
-//       type: "arcgis",
-//       url: "https://rpubs16029.ags.esri.com/portal",
-//     },
-//   ],
-// };
-
-// const demoCatalog: Catalog = {
-//   title: "Demo Catalog",
-//   filter: {
-//     filterType: "content",
-//     group: ["1d1f24e8556642f49448f1c88b5a571b"],
-//     type: {
-//       not: [
-//         "Code Attachment",
-//         "Featured Items",
-//         "Symbol Set",
-//         "Color Set",
-//         "Windows Viewer Add In",
-//         "Windows Viewer Configuration",
-//         "Map Area",
-//         "Indoors Map Configuration",
-//       ],
-//     },
-//     typekeywords: {
-//       not: ["SMX", "MapAreaPackage"],
-//     },
-//   },
-// };
-
 export interface IWellKnownApis {
   arcgis: IApiDefinition;
   arcgisQA: IApiDefinition;
