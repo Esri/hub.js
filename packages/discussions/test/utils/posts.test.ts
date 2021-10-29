@@ -1,13 +1,17 @@
 import { IItem } from "@esri/arcgis-rest-portal";
 import { IGroup } from "@esri/arcgis-rest-types";
 import { IDiscussionParams } from "../../src/types";
+import { IHubContent } from "@esri/hub-common";
 import {
   isGroupDiscussable,
   isItemDiscussable,
-  parseDiscussionURI
+  isDiscussable,
+  parseDiscussionURI,
 } from "../../src/utils/posts";
+import * as viewGroup from "../../../common/test/mocks/groups/view-group.json";
+import * as formItem from "../../../common/test/mocks/items/form-item-draft.json";
 
-describe("Util: parseDiscussionURI", () => {
+fdescribe("Util: parseDiscussionURI", () => {
   it("returns DiscussionParams for valid discussion uri", () => {
     const discussion = "hub://dataset/1234_1/?id=1,2,3&attribute=foo";
     const expected = {
@@ -16,7 +20,7 @@ describe("Util: parseDiscussionURI", () => {
       id: "1234",
       layer: "1",
       features: "1,2,3".split(","),
-      attribute: "foo"
+      attribute: "foo",
     } as IDiscussionParams;
 
     expect(parseDiscussionURI(discussion)).toEqual(expected);
@@ -27,10 +31,10 @@ describe("Util: parseDiscussionURI", () => {
     const expected = {
       source: "hub",
       type: "dataset",
-      id: '1234',
+      id: "1234",
       layer: null,
       features: null,
-      attribute: null
+      attribute: null,
     } as IDiscussionParams;
 
     expect(parseDiscussionURI(discussion)).toEqual(expected);
@@ -44,7 +48,7 @@ describe("Util: parseDiscussionURI", () => {
       id: null,
       layer: null,
       features: null,
-      attribute: null
+      attribute: null,
     } as IDiscussionParams;
 
     expect(parseDiscussionURI(discussion)).toEqual(expected);
@@ -57,16 +61,33 @@ describe("Util: parseDiscussionURI", () => {
   });
 });
 
-describe("[GATE] isGroupDiscussable", () => {
+describe("isGroupDiscussable", () => {
   it("returns true", () => {
     const group = { id: "foo" } as IGroup;
     expect(isGroupDiscussable(group)).toBeTruthy();
   });
 });
 
-describe("[GATE] isItemDiscussable", () => {
+describe("isItemDiscussable", () => {
   it("returns true", () => {
     const item = { id: "foo" } as IItem;
     expect(isItemDiscussable(item)).toBeTruthy();
+  });
+});
+
+describe("isDiscussable", () => {
+  it("returns true for an IGroup", () => {
+    const group = viewGroup as IGroup;
+    expect(isDiscussable(group)).toBeTruthy();
+  });
+
+  it("returns true for an IItem", () => {
+    const item = formItem as IItem;
+    expect(isDiscussable(item)).toBeTruthy();
+  });
+
+  it("returns true for an IHubContent", () => {
+    const content = formItem as unknown as IHubContent;
+    expect(isDiscussable(content)).toBeTruthy();
   });
 });
