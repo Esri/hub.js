@@ -39,7 +39,7 @@ describe("_searchContent:", () => {
         term: "water",
       };
       const opts: IHubSearchOptions = {
-        siteModel: {
+        site: {
           item: {
             url: "https://foo.com",
           } as Portal.IItem,
@@ -60,7 +60,7 @@ describe("_searchContent:", () => {
       expect(content.urls.site).toContain("https://foo.com");
     });
 
-    it("search with aggregations", async () => {
+    it("search with aggregations and sorting", async () => {
       const searchItemsSpy = spyOn(Portal, "searchItems").and.callFake(() => {
         return Promise.resolve(cloneObject(AggResponse));
       });
@@ -71,6 +71,8 @@ describe("_searchContent:", () => {
       const opts: IHubSearchOptions = {
         apis: ["arcgis"],
         aggregations: ["tags", "access"],
+        sortField: "title",
+        sortOrder: "desc",
       };
 
       const res = await _searchContent(f, opts);
