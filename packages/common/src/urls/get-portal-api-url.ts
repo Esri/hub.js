@@ -1,6 +1,5 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IPortal } from "@esri/arcgis-rest-portal";
-import { IHubRequestOptions } from "../types";
+import { IHubRequestOptions, IHubRequestOptionsPortalSelf } from "../types";
 import { getPortalUrl } from "./get-portal-url";
 
 /**
@@ -8,13 +7,13 @@ import { getPortalUrl } from "./get-portal-url";
  * import { getPortalApiUrl } from "@esri/hub-common";
  * // from a portal base URL
  * let portalApiUrl = getPortalApiUrl("https://org.maps.arcgis.com"); // https://org.maps.arcgis.com/sharing/rest
- * // from an enterprise portal self response (IPortal)
+ * // from an enterprise portal self response (IHubRequestOptionsPortalSelf)
  * let portalSelf = { isPortal: true, portalHostname: "server.example.org" };
  * portalApiUrl = getPortalApiUrl(portalSelf); // https://server.example.org/sharing/rest
- * // from an online portal self response (IPortal)
+ * // from an online portal self response (IHubRequestOptionsPortalSelf)
  * portalSelf = { isPortal: false, urlKey: "org", customBaseUrl: "maps.arcgis.com" };
  * portalApiUrl = getPortalApiUrl(portalSelf); // https://org.maps.arcgis.com/sharing/rest
- * // from hub request options (IHubRequestOptions) with a portal self (IPortal)
+ * // from hub request options (IHubRequestOptions) with a portal self (IHubRequestOptionsPortalSelf)
  * let requestOptions = { isPortal: false, portalSelf };
  * portalApiUrl = getPortalApiUrl(requestOptions); // https://org.maps.arcgis.com/sharing/rest
  * // from request options (IRequestOptions) with a portal (string)
@@ -26,7 +25,11 @@ import { getPortalUrl } from "./get-portal-url";
  * @returns The portal API URL, defaults to `https://www.arcgis.com/sharing/rest`
  */
 export function getPortalApiUrl(
-  urlOrObject?: string | IPortal | IHubRequestOptions | IRequestOptions
+  urlOrObject?:
+    | string
+    | IHubRequestOptionsPortalSelf
+    | IHubRequestOptions
+    | IRequestOptions
 ): string {
   return `${getPortalUrl(urlOrObject)}/sharing/rest`;
 }

@@ -99,7 +99,7 @@ export interface ISolutionTemplate extends IModel {
 
 export type GenericAsyncFunc = (...args: any) => Promise<any>;
 
-interface IHubRequestOptionsPortalSelf extends IPortal {
+export interface IHubRequestOptionsPortalSelf extends IPortal {
   user?: IUser;
 }
 
