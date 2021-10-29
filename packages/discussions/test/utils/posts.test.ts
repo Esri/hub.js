@@ -11,7 +11,7 @@ import {
 import * as viewGroup from "../../../common/test/mocks/groups/view-group.json";
 import * as formItem from "../../../common/test/mocks/items/form-item-draft.json";
 
-fdescribe("Util: parseDiscussionURI", () => {
+describe("Util: parseDiscussionURI", () => {
   it("returns DiscussionParams for valid discussion uri", () => {
     const discussion = "hub://dataset/1234_1/?id=1,2,3&attribute=foo";
     const expected = {
