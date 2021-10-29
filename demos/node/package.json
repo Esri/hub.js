@@ -1,7 +1,7 @@
 {
   "name": "node-demo",
   "private": true,
-  "version": "9.4.0",
+  "version": "9.4.1",
   "description": "Hub.js node demo",
   "scripts": {
     "start": "node index.js",
@@ -15,8 +15,8 @@
     "@esri/arcgis-rest-auth": "^3.1.1",
     "@esri/arcgis-rest-portal": "^3.3.1",
     "@esri/arcgis-rest-request": "^3.1.1",
-    "@esri/hub-common": "^9.4.0",
-    "@esri/hub-content": "^9.4.0",
+    "@esri/hub-common": "^9.4.1",
+    "@esri/hub-content": "^9.4.1",
     "cross-fetch": "^3.0.0",
     "isomorphic-form-data": "^2.0.0"
   }
