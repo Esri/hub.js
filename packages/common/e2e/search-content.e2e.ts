@@ -22,7 +22,7 @@ fdescribe("SearchContent:", () => {
         apis: ["arcgisQA"],
       };
       const results = await _searchContent(f, opts);
-      expect(results.content.length).toBeGreaterThan(1);
+      expect(results.results.length).toBeGreaterThan(1);
     });
     it("authd", async () => {
       const orgName = "hubBasic";
@@ -42,7 +42,7 @@ fdescribe("SearchContent:", () => {
         sortOrder: "desc",
       };
       const results = await _searchContent(f, opts);
-      expect(results.content.length).toBe(10);
+      expect(results.results.length).toBe(10);
       expect(results.facets?.length).toBe(2);
     });
   });

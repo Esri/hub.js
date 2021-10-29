@@ -11,7 +11,7 @@ import {
 } from "./types";
 import { ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
 import { expandApis, mergeSearchResults } from "./utils";
-import { IHubContent, itemToContent } from "..";
+import { IHubContent, IModel, itemToContent, setContentSiteUrls } from "..";
 
 /**
  * Search for content via the Portal or Hub API
@@ -47,15 +47,27 @@ export async function _searchContent(
         so.countFields = options.aggregations.join(",");
         so.countSize = 200;
       }
+      // copy over various options
+      // TODO: Dry this up
       if (options.num) {
         so.num = options.num;
       }
-      return searchPortal(so);
+      if (options.sortField) {
+        so.sortField = options.sortField;
+      }
+      if (options.sortOrder) {
+        so.sortOrder = options.sortOrder;
+      }
+      // NOTE: I think we will end up setting
+      // the site URL in mergeSearchResults() instead
+      // since it applies to both items and datasets
+      return searchPortal(so, options.site);
     } else {
       // Hub API Search
       // TODO: Implement hub api content search
       return Promise.resolve({
-        content: [] as IHubContent[],
+        total: 0,
+        results: [] as IHubContent[],
         facets: [] as IFacet[],
       });
     }
@@ -67,12 +79,20 @@ export async function _searchContent(
 }
 
 function searchPortal(
-  searchOptions: ISearchOptions
+  searchOptions: ISearchOptions,
+  site?: IModel
 ): Promise<IContentSearchResult> {
   return searchItems(searchOptions).then((resp) => {
-    const content = resp.results.map(itemToContent);
+    let content = resp.results.map(itemToContent);
+    if (site) {
+      content = content.map((entry) => setContentSiteUrls(entry, site));
+    }
     // convert aggregations into facets
     const facets = convertPortalResponseToFacets(resp);
-    return { content, facets };
+    return {
+      total: resp.total,
+      results: content,
+      facets,
+    };
   });
 }

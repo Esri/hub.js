@@ -266,29 +266,34 @@ describe("Search Utils:", () => {
   describe("mergeSearchResults:", () => {
     it("merges content and facet arrays", () => {
       const r0: IContentSearchResult = {
-        content: ["a", "b"] as unknown as IHubContent[],
+        total: 10,
+        results: ["a", "b"] as unknown as IHubContent[],
         facets: ["fa", "fb"] as unknown as IFacet[],
       };
       const r1: IContentSearchResult = {
-        content: ["d", "e"] as unknown as IHubContent[],
+        total: 5,
+        results: ["d", "e"] as unknown as IHubContent[],
         facets: ["fd", "fe"] as unknown as IFacet[],
       };
       const chk = mergeSearchResults([r0, r1]);
 
-      expect(chk.content.length).toBe(4);
+      expect(chk.results.length).toBe(4);
+      expect(chk.total).toBe(15);
       expect(chk.facets?.length).toBe(4);
     });
     it("handles responses with missing props", () => {
       const r0: IContentSearchResult = {
-        content: ["a", "b"] as unknown as IHubContent[],
+        total: 2,
+        results: ["a", "b"] as unknown as IHubContent[],
       };
       const r1 = {
+        total: 0,
         facets: ["fd", "fe"] as unknown as IFacet[],
       } as unknown as IContentSearchResult;
 
       const chk = mergeSearchResults([r0, r1]);
 
-      expect(chk.content.length).toBe(2);
+      expect(chk.results.length).toBe(2);
       expect(chk.facets?.length).toBe(2);
     });
   });

@@ -11,7 +11,7 @@ export interface IDateRange<T> {
  */
 export enum SortDirection {
   asc = "asc",
-  desc = "desc"
+  desc = "desc",
 }
 
 /**

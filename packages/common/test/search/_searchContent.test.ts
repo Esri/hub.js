@@ -30,8 +30,37 @@ describe("_searchContent:", () => {
       // verify countFields
       expect(expectedParams.countFields).not.toBeDefined();
     });
+    it("search with siteModel", async () => {
+      const searchItemsSpy = spyOn(Portal, "searchItems").and.callFake(() => {
+        return Promise.resolve(cloneObject(SimpleResponse));
+      });
+      const f: Filter<"content"> = {
+        filterType: "content",
+        term: "water",
+      };
+      const opts: IHubSearchOptions = {
+        site: {
+          item: {
+            url: "https://foo.com",
+          } as Portal.IItem,
+        },
+      };
 
-    it("search with aggregations", async () => {
+      const res = await _searchContent(f, opts);
+
+      expect(searchItemsSpy.calls.count()).toBe(1, "should call searchItems");
+      const [expectedParams] = searchItemsSpy.calls.argsFor(0);
+      // verify q
+      expect(expectedParams.q).toEqual("water");
+      // verify countFields
+      expect(expectedParams.countFields).not.toBeDefined();
+      // verify the urls
+      const content = res.results[0];
+      expect(content.urls.relative).toContain("maps/");
+      expect(content.urls.site).toContain("https://foo.com");
+    });
+
+    it("search with aggregations and sorting", async () => {
       const searchItemsSpy = spyOn(Portal, "searchItems").and.callFake(() => {
         return Promise.resolve(cloneObject(AggResponse));
       });
@@ -42,6 +71,8 @@ describe("_searchContent:", () => {
       const opts: IHubSearchOptions = {
         apis: ["arcgis"],
         aggregations: ["tags", "access"],
+        sortField: "title",
+        sortOrder: "desc",
       };
 
       const res = await _searchContent(f, opts);

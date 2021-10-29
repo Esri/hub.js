@@ -1,5 +1,5 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { IHubContent } from "..";
+import { IHubContent, IModel } from "..";
 
 /**
  * Generic filter used with various search functions.
@@ -318,7 +318,7 @@ export interface IMatchOptions {
  * Search Options
  */
 export interface IHubSearchOptions {
-  site?: string;
+  site?: IModel;
   authentication?: UserSession;
   sortField?: string;
   sortOrder?: "desc" | "asc";
@@ -334,48 +334,10 @@ export interface IHubSearchOptions {
  * searchContent return
  */
 export interface IContentSearchResult {
-  content: IHubContent[];
+  total: number;
+  results: IHubContent[];
   facets?: IFacet[];
 }
-
-// Examples
-// const opts: SearchOptions = {
-//   authentication: new UserSession({}),
-//   apis: ["arcgisQA", "hubQA"],
-// };
-
-// const entOpts: SearchOptions = {
-//   authentication: new UserSession({}),
-//   apis: [
-//     {
-//       type: "arcgis",
-//       url: "https://rpubs16029.ags.esri.com/portal",
-//     },
-//   ],
-// };
-
-// const demoCatalog: Catalog = {
-//   title: "Demo Catalog",
-//   filter: {
-//     filterType: "content",
-//     group: ["1d1f24e8556642f49448f1c88b5a571b"],
-//     type: {
-//       not: [
-//         "Code Attachment",
-//         "Featured Items",
-//         "Symbol Set",
-//         "Color Set",
-//         "Windows Viewer Add In",
-//         "Windows Viewer Configuration",
-//         "Map Area",
-//         "Indoors Map Configuration",
-//       ],
-//     },
-//     typekeywords: {
-//       not: ["SMX", "MapAreaPackage"],
-//     },
-//   },
-// };
 
 export interface IWellKnownApis {
   arcgis: IApiDefinition;
