@@ -318,7 +318,7 @@ export interface IMatchOptions {
  * Search Options
  */
 export interface IHubSearchOptions {
-  site?: string | IModel;
+  site?: IModel;
   authentication?: UserSession;
   sortField?: string;
   sortOrder?: "desc" | "asc";

@@ -58,6 +58,9 @@ export async function _searchContent(
       if (options.sortOrder) {
         so.sortOrder = options.sortOrder;
       }
+      // NOTE: I think we will end up setting
+      // the site URL in mergeSearchResults() instead
+      // since it applies to both items and datasets
       return searchPortal(so, options.site);
     } else {
       // Hub API Search
@@ -77,12 +80,11 @@ export async function _searchContent(
 
 function searchPortal(
   searchOptions: ISearchOptions,
-  site?: string | IModel
+  site?: IModel
 ): Promise<IContentSearchResult> {
   return searchItems(searchOptions).then((resp) => {
     let content = resp.results.map(itemToContent);
-    if (site && typeof site === "object") {
-      // TODO: update once setContentSiteUrls handles strings in addition to model
+    if (site) {
       content = content.map((entry) => setContentSiteUrls(entry, site));
     }
     // convert aggregations into facets
