@@ -6,8 +6,8 @@ import { parseDatasetId, IHubContent } from "@esri/hub-common";
  * Utility that parses a discussion URI string into its component parts
  *
  * @export
- * @param {string} discussion
- * @return {*}  {IDiscussionParams}
+ * @param {string} discussion A discussion URI
+ * @return {string}
  */
 export function parseDiscussionURI(discussion: string): IDiscussionParams {
   let url;
@@ -17,7 +17,8 @@ export function parseDiscussionURI(discussion: string): IDiscussionParams {
     throw new Error(`Invalid URI: ${discussion}`);
   }
   const source = url.protocol.replace(":", "");
-  const [, , type, identifier] = url.pathname.split("/");
+  const [, pathname] = discussion.split("://");
+  const [type, identifier] = pathname.split("/");
   let id;
   let layer;
   if (identifier) {
@@ -75,6 +76,7 @@ export function isItemDiscussable(item: IItem): boolean {
  *
  * NOT IMPLEMENTED
  *
+ * @export
  * @param {IGroup|IItem|IHubContent} The subject to evaluate
  * @return {boolean}
  */
