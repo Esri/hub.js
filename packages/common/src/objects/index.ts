@@ -9,3 +9,4 @@ export * from "./remove-empty-props";
 export * from "./deep-string-replace";
 export * from "./merge-objects";
 export * from "./set-prop";
+export * from "./deepFind";
