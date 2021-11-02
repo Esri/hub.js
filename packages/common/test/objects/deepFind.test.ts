@@ -175,10 +175,8 @@ describe("deepFind:", () => {
           customAltText: "",
         },
       };
-      const start = performance.now();
+
       const chk = deepFindById(data.values.layout, "myCoolCard");
-      const duration = performance.now() - start;
-      // console.info(`Searching a layout took: ${duration}ms`);
       expect(chk).toEqual(expected);
     });
   });
