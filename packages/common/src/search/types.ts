@@ -1,4 +1,5 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
+import { IGroup } from "@esri/arcgis-rest-types";
 import { IHubContent, IModel } from "..";
 
 /**
@@ -139,6 +140,7 @@ export interface IUserFilterDefinition {
 }
 
 export interface IGroupFilterDefinition {
+  term?: string;
   access?: string | string[] | IMatchOptions;
   created?: IDateRange<number> | IRelativeDate;
   id?: string | string[] | IMatchOptions;

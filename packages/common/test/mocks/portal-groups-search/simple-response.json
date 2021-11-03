@@ -1,0 +1,85 @@
+{
+    "query": "(Open) ",
+    "total": 2,
+    "start": 1,
+    "num": 20,
+    "nextStart": -1,
+    "results": [
+        {
+            "id": "7d9cc5e39a8f4c0aa29e04a473bf4703",
+            "title": "00 Demo OD Initiative Open Data Group",
+            "isInvitationOnly": false,
+            "owner": "dbouwman",
+            "description": "00 Demo OD Initiative Open Data Group",
+            "snippet": null,
+            "tags": [
+                "Hub Initiative Group",
+                "Open Data"
+            ],
+            "typeKeywords": [],
+            "phone": null,
+            "sortField": "title",
+            "sortOrder": "asc",
+            "isViewOnly": false,
+            "isOpenData": true,
+            "featuredItemsId": null,
+            "thumbnail": "happy-gilmore.png",
+            "created": 1551991859000,
+            "modified": 1551991860000,
+            "access": "public",
+            "capabilities": [],
+            "isFav": false,
+            "isReadOnly": false,
+            "protected": true,
+            "autoJoin": false,
+            "notificationsEnabled": false,
+            "provider": null,
+            "providerGroupName": null,
+            "leavingDisallowed": false,
+            "hiddenMembers": false,
+            "displaySettings": {
+                "itemTypes": ""
+            },
+            "properties": null
+        },
+        {
+            "id": "8564992879dc48ed82780637f99074bf",
+            "title": "Alexandria Open Data Demo Content",
+            "isInvitationOnly": false,
+            "owner": "phammons_dcdev",
+            "description": "Use this group to organize the items that you want to share as part of your initiative. Shared items become available in your initiative's search results and only people who have access to these items will be able to find them. Members of the core team get access to shared items and can update them at any time. Certain cards, like the Gallery card, will automatically populate with shared items so that you don't have to search for them when choosing what you want to display on your site.<br /><br />Contact support with any questions related to this group or content management for your site.<br /><br /><strong>DO NOT DELETE THIS GROUP.</strong>",
+            "snippet": "Applications, maps, data, etc. shared with this group generates the Alexandria Open Data Demo content catalog.",
+            "tags": [
+                "Hub Group",
+                "Hub Content Group",
+                "Hub Site Group",
+                "Hub Initiative Group"
+            ],
+            "typeKeywords": [],
+            "phone": null,
+            "sortField": "modified",
+            "sortOrder": "desc",
+            "isViewOnly": false,
+            "featuredItemsId": null,
+            "thumbnail": null,
+            "created": 1586893843000,
+            "modified": 1586893844000,
+            "access": "public",
+            "capabilities": [],
+            "isFav": false,
+            "isReadOnly": false,
+            "protected": true,
+            "autoJoin": false,
+            "notificationsEnabled": false,
+            "provider": null,
+            "providerGroupName": null,
+            "leavingDisallowed": false,
+            "hiddenMembers": false,
+            "displaySettings": {
+                "itemTypes": ""
+            },
+            "properties": null
+        }
+        
+    ]
+}

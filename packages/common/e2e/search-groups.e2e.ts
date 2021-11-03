@@ -21,8 +21,8 @@ fdescribe("SearchGroups:", () => {
       const opts: IHubSearchOptions = {
         apis: ["arcgisQA"],
       };
-      const results = await _searchGroups(f, opts);
-      expect(results.groups.length).toBeGreaterThan(1);
+      const response = await _searchGroups(f, opts);
+      expect(response.results.length).toBeGreaterThan(1);
     });
     it("authd", async () => {
       const orgName = "hubBasic";
@@ -40,8 +40,8 @@ fdescribe("SearchGroups:", () => {
         sortField: "created",
         sortOrder: "desc",
       };
-      const results = await _searchGroups(f, opts);
-      expect(results.groups.length).toBe(10);
+      const response = await _searchGroups(f, opts);
+      expect(response.results.length).toBe(10);
     });
     it("typeKeyword", async () => {
       const orgName = "hubBasic";
@@ -59,8 +59,8 @@ fdescribe("SearchGroups:", () => {
         sortField: "created",
         sortOrder: "desc",
       };
-      const results = await _searchGroups(f, opts);
-      expect(results.groups.length).toBe(10);
+      const response = await _searchGroups(f, opts);
+      expect(response.results.length).toBe(10);
     });
     it("searchUserAccess", async () => {
       const orgName = "hubBasic";
@@ -76,8 +76,9 @@ fdescribe("SearchGroups:", () => {
         sortField: "created",
         sortOrder: "desc",
       };
-      const results = await _searchGroups(f, opts);
-      expect(results.groups.length).toBe(10);
+      const response = await _searchGroups(f, opts);
+      expect(response.results.length).toBe(10);
+      // response.results.map((g) => console.log(g.thumbnailUrl));
     });
   });
 });

@@ -17,14 +17,14 @@ export function expandGroupFilter(
   const result = {} as IGroupFilterDefinition;
   const dateProps = ["created", "modified"];
   // Some properties should not get converted to MatchOptions
-  const specialProps = ["searchUserAccess", ...dateProps];
+  const specialProps = ["term", "searchUserAccess", ...dateProps];
   // Do the conversion
 
   Object.entries(filter).forEach(([key, value]) => {
     // handle Matchish fields
     if (!specialProps.includes(key)) {
       // setProp side-steps typescript complaining
-      setProp(key, valueToMatchOptions(value) as IMatchOptions, result);
+      setProp(key, valueToMatchOptions(value), result);
     }
     // Handle date fields
     if (dateProps.includes(key)) {
@@ -43,6 +43,10 @@ export function expandGroupFilter(
     result.searchUserAccess = filter.searchUserAccess;
   }
 
+  if (filter.term) {
+    result.term = filter.term;
+  }
+
   return result;
 }
 
@@ -55,15 +59,9 @@ export function serializeGroupFilterForPortal(
   } as ISearchOptions;
 
   const dateProps = ["created", "modified"];
-  const specialProps = [
-    "searchUserAccess",
-    "filterType",
-    "subFilters",
-    "term",
-    ...dateProps,
-  ];
+  const specialProps = ["term", "searchUserAccess", "filterType", ...dateProps];
   Object.entries(filter).forEach(([key, value]) => {
-    // MatchOptions may go into either q or filter
+    // MatchOptions fields
     if (!specialProps.includes(key)) {
       result = mergeSearchOptions(
         result,
@@ -83,6 +81,10 @@ export function serializeGroupFilterForPortal(
   // searchUserAccess is also a top-level property
   if (filter.hasOwnProperty("searchUserAccess")) {
     result.searchUserAccess = filter.searchUserAccess;
+  }
+  // add the term
+  if (filter.term) {
+    result.q = `${filter.term} ${result.q}`.trim();
   }
   return result;
 }
