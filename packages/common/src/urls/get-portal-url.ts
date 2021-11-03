@@ -1,19 +1,22 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { getPortalUrl as getPortalApiUrl } from "@esri/arcgis-rest-portal";
-import { IHubRequestOptions, IHubRequestOptionsPortalSelf } from "../types";
+import {
+  IPortal,
+  getPortalUrl as getPortalApiUrl,
+} from "@esri/arcgis-rest-portal";
+import { IHubRequestOptions } from "../types";
 
 /**
  * ```js
  * import { getPortalUrl } from "@esri/hub-common";
  * // from a portal API URL
  * let portalUrl = getPortalUrl("https://org.maps.arcgis.com/sharing/rest"); // https://org.maps.arcgis.com
- * // from an enterprise portal self response (IHubRequestOptionsPortalSelf)
+ * // from an enterprise portal self response (IPortal)
  * let portalSelf = { isPortal: true, portalHostname: "server.example.org" };
  * portalUrl = getPortalUrl(portalSelf); // https://server.example.org
- * // from an online portal self response (IHubRequestOptionsPortalSelf)
+ * // from an online portal self response (IPortal)
  * portalSelf = { isPortal: false, urlKey: "org", customBaseUrl: "maps.arcgis.com" };
  * portalUrl = getPortalUrl(portalSelf); // https://org.maps.arcgis.com
- * // from hub request options (IHubRequestOptions) with a portal self (IHubRequestOptionsPortalSelf)
+ * // from hub request options (IHubRequestOptions) with a portal self (IPortal)
  * let requestOptions = { isPortal: false, portalSelf };
  * portalUrl = getPortalUrl(requestOptions); // https://org.maps.arcgis.com
  * // from request options (IRequestOptions) with a portal (string)
@@ -25,11 +28,7 @@ import { IHubRequestOptions, IHubRequestOptionsPortalSelf } from "../types";
  * @returns The portal base URL, defaults to `https://www.arcgis.com`
  */
 export function getPortalUrl(
-  urlOrObject?:
-    | string
-    | IHubRequestOptionsPortalSelf
-    | IHubRequestOptions
-    | IRequestOptions
+  urlOrObject?: string | IPortal | IHubRequestOptions | IRequestOptions
 ): string {
   if (typeof urlOrObject === "string") {
     // assume this is the URL of the portal API
@@ -41,7 +40,7 @@ export function getPortalUrl(
     // build URL from portal self object, which could be
     // either a property of the object (request options) or the object itself
     const portalSelf = (urlOrObject as IHubRequestOptions).portalSelf;
-    const portal = portalSelf || (urlOrObject as IHubRequestOptionsPortalSelf);
+    const portal = portalSelf || (urlOrObject as IPortal);
     const { portalHostname, urlKey, customBaseUrl } = portal;
     if (portalHostname || (urlKey && customBaseUrl)) {
       // user passed in a portal object, we'll use that to build the URL
