@@ -37,13 +37,47 @@ fdescribe("SearchGroups:", () => {
       const opts: IHubSearchOptions = {
         apis: ["arcgisQA"],
         authentication: adminSession,
-        aggregations: ["tags", "access"],
         sortField: "created",
         sortOrder: "desc",
       };
       const results = await _searchGroups(f, opts);
       expect(results.groups.length).toBe(10);
-      expect(results.facets?.length).toBe(2);
+    });
+    it("typeKeyword", async () => {
+      const orgName = "hubBasic";
+      let adminSession: UserSession;
+      adminSession = factory.getSession(orgName, "admin");
+      const f: Filter<"group"> = {
+        filterType: "group",
+        tags: {
+          all: ["Hub Content Group", "Hub Initiative Group"],
+        },
+      };
+      const opts: IHubSearchOptions = {
+        apis: ["arcgisQA"],
+        authentication: adminSession,
+        sortField: "created",
+        sortOrder: "desc",
+      };
+      const results = await _searchGroups(f, opts);
+      expect(results.groups.length).toBe(10);
+    });
+    it("searchUserAccess", async () => {
+      const orgName = "hubBasic";
+      let adminSession: UserSession;
+      adminSession = factory.getSession(orgName, "admin");
+      const f: Filter<"group"> = {
+        filterType: "group",
+        searchUserAccess: "groupMember",
+      };
+      const opts: IHubSearchOptions = {
+        apis: ["arcgisQA"],
+        authentication: adminSession,
+        sortField: "created",
+        sortOrder: "desc",
+      };
+      const results = await _searchGroups(f, opts);
+      expect(results.groups.length).toBe(10);
     });
   });
 });

@@ -146,7 +146,7 @@ export interface IGroupFilterDefinition {
   modified?: IDateRange<number> | IRelativeDate;
   orgid?: string | string[] | IMatchOptions;
   owner?: string | string[] | IMatchOptions;
-  searchUserAccess?: "groupMember" | "admin";
+  searchUserAccess?: "groupMember";
   tags?: string | string[] | IMatchOptions;
   title?: string | string[] | IMatchOptions;
   typekeywords?: string | string[] | IMatchOptions;
