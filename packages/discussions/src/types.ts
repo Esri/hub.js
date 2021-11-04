@@ -1,7 +1,7 @@
 import { IHubRequestOptions as _IHubRequestOptions } from "@esri/hub-common";
 import {
   IPagedResponse as IRestPagedResponse,
-  IPagingParams
+  IPagingParams,
 } from "@esri/arcgis-rest-types";
 import { Geometry } from "geojson";
 
@@ -13,7 +13,7 @@ import { Geometry } from "geojson";
  */
 export enum SortOrder {
   ASC = "ASC",
-  DESC = "DESC"
+  DESC = "DESC",
 }
 
 /**
@@ -30,7 +30,7 @@ export enum PostReaction {
   ONE_HUNDRED = "one_hundred",
   SAD = "sad",
   LAUGH = "laugh",
-  SURPRISED = "surprised"
+  SURPRISED = "surprised",
 }
 
 /**
@@ -42,7 +42,7 @@ export enum PostReaction {
 export enum SharingAccess {
   PUBLIC = "public",
   ORG = "org",
-  PRIVATE = "private"
+  PRIVATE = "private",
 }
 /**
  * representation of AGOL platform sharing ACL
@@ -68,7 +68,7 @@ export enum PostStatus {
   APPROVED = "approved",
   REJECTED = "rejected",
   DELETED = "deleted",
-  HIDDEN = "hidden"
+  HIDDEN = "hidden",
 }
 
 /**
@@ -77,10 +77,12 @@ export enum PostStatus {
  * @export
  * @enum {number}
  */
+// TODO: Deprecate ITEM and DATASET keys at v10.0.0
 export enum DiscussionType {
   DATASET = "dataset",
   ITEM = "item",
-  GROUP = "group"
+  GROUP = "group",
+  CONTENT = "content",
 }
 
 /**
@@ -92,13 +94,13 @@ export enum DiscussionType {
 export enum DiscussionSource {
   HUB = "hub",
   AGO = "ago",
-  URBAN = "urban"
+  URBAN = "urban",
 }
 
 /**
  * named parts of a discussion URI, follows this convention:
  * ${source}://${type}/${id}_${layer}?features=${...features}&attribute=${attribute}
- * 
+ *
  * coarse-grained uri - hub://item/ab3 -- commenting from hub about item ab3
  * --
  * fine-grained uri - hub://dataset/3ef_0?features=10,32&attribute=species -- commenting from
@@ -126,7 +128,7 @@ export enum PostRelation {
   REPLIES = "replies",
   REACTIONS = "reactions",
   PARENT = "parent",
-  CHANNEL = "channel"
+  CHANNEL = "channel",
 }
 
 /**
@@ -136,7 +138,7 @@ export enum PostRelation {
  * @enum {number}
  */
 export enum ChannelRelation {
-  SETTINGS = "settings"
+  SETTINGS = "settings",
 }
 
 /**
@@ -146,7 +148,7 @@ export enum ChannelRelation {
  * @enum {number}
  */
 export enum ReactionRelation {
-  POST = "post"
+  POST = "post",
 }
 
 // mixins

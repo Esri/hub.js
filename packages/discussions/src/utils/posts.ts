@@ -1,30 +1,31 @@
 import { IGroup, IItem } from "@esri/arcgis-rest-portal";
 import { IDiscussionParams } from "../types";
-import * as UrlParse from "url-parse";
-import { parseDatasetId } from "@esri/hub-common";
+import { parseDatasetId, IHubContent } from "@esri/hub-common";
 
 /**
  * Utility that parses a discussion URI string into its component parts
  *
  * @export
- * @param {string} discussion
- * @return {*}  {IDiscussionParams}
+ * @param {string} discussion A discussion URI
+ * @return {string}
  */
 export function parseDiscussionURI(discussion: string): IDiscussionParams {
-  // pass it through browser/node URL to invalidate plain strings
-  const uri = new URL(discussion) && new UrlParse(discussion);
-  const source = uri.protocol.slice(0, -1); // removes ":"
-  const type = uri.hostname;
-  const [, identifier] = uri.pathname.split("/");
-  let id, layer;
+  let url;
+  try {
+    url = new URL(discussion);
+  } catch (e) {
+    throw new Error(`Invalid URI: ${discussion}`);
+  }
+  const source = url.protocol.replace(":", "");
+  const [, pathname] = discussion.split("://");
+  const [type, identifier] = pathname.split("/");
+  let id;
+  let layer;
   if (identifier) {
-    const {
-      itemId,
-      layerId
-    } = parseDatasetId(identifier);
+    const { itemId, layerId } = parseDatasetId(identifier);
     [id, layer] = [itemId, layerId];
   }
-  const searchParams = new URLSearchParams(uri.query);
+  const searchParams = new URLSearchParams(url.search.replace("?", ""));
   const features =
     (searchParams.has("id") && searchParams.get("id").split(",")) || null;
   const attribute =
@@ -35,28 +36,51 @@ export function parseDiscussionURI(discussion: string): IDiscussionParams {
     id: id || null,
     layer: layer || null,
     features,
-    attribute
+    attribute,
   };
 }
 
 /**
- * NOT IMPLEMENTED: this will inspect a group's properties to determine if it is "discussable"
+ * NOT IMPLEMENTED: this will inspect a group"s properties to determine if it is "discussable"
  *
  * @export
  * @param {IGroup} group
- * @return {*}  {boolean}
+ * @return {boolean}
  */
 export function isGroupDiscussable(group: IGroup): boolean {
-  return true;
+  /* tslint:disable no-console */
+  console.warn(
+    "DEPRECATED: Use isDiscussable() instead. isGroupDiscussable will be removed at v10.0.0"
+  );
+  return isDiscussable(group);
 }
 
 /**
- * NOT IMPLEMENTED: this will inspect an item's properties to determine if it is "discussable"
+ * NOT IMPLEMENTED: this will inspect an item"s properties to determine if it is "discussable"
  *
  * @export
  * @param {IItem} item
- * @return {*}  {boolean}
+ * @return {boolean}
  */
 export function isItemDiscussable(item: IItem): boolean {
+  /* tslint:disable no-console */
+  console.warn(
+    "DEPRECATED: Use isDiscussable() instead. isItemDiscussable will be removed at v10.0.0"
+  );
+  return isDiscussable(item);
+}
+
+/**
+ * Utility to determine if a given IGroup, IItem or IHubContent
+ * is discussable.
+ *
+ * NOT IMPLEMENTED
+ *
+ * @export
+ * @param {IGroup|IItem|IHubContent} The subject to evaluate
+ * @return {boolean}
+ */
+export function isDiscussable(subject: IGroup | IItem | IHubContent) {
+  // TODO: implement
   return true;
 }

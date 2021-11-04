@@ -66,7 +66,7 @@ const cache: { [key: string]: string } = {};
 export function getCategory(itemType: string = ""): string {
   /* tslint:disable no-console */
   console.warn(
-    "DEPRECATED: Use getCollection() instead. getCategory will be removed at v9.0.0"
+    "DEPRECATED: Use getCollection() instead. getCategory will be removed at v10.0.0"
   );
   /* tslint:enable no-console */
   const collection = getCollection(itemType);
@@ -426,7 +426,7 @@ export function getFamily(type: string) {
 export function getItemHubType(itemOrType: IItem | string): HubType {
   /* tslint:disable no-console */
   console.warn(
-    "DEPRECATED: Use getFamily() instead. getItemHubType() will be removed at v9.0.0"
+    "DEPRECATED: Use getFamily() instead. getItemHubType() will be removed at v10.0.0"
   );
   /* tslint:enable no-console */
   if (typeof itemOrType === "string") {

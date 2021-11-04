@@ -23,7 +23,7 @@ export {
 
 /**
  * Return a new content with portal URL (home, API, and data) properties
- * DEPRECATED: Use getPortalUrls() instead. withPortalUrls will be removed at v9.0.0
+ * DEPRECATED: Use getPortalUrls() instead. withPortalUrls will be removed at v10.0.0
  *
  * @param content Hub content
  * @param requestOptions Request options
@@ -37,7 +37,7 @@ export function withPortalUrls(
 ): IHubContent {
   /* tslint:disable no-console */
   console.warn(
-    "DEPRECATED: Use getPortalUrls() instead. withPortalUrls will be removed at v9.0.0"
+    "DEPRECATED: Use getPortalUrls() instead. withPortalUrls will be removed at v10.0.0"
   );
   const portalUrls = getPortalUrls(content, requestOptions);
   return { ...content, ...portalUrls };

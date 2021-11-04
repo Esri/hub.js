@@ -19,7 +19,7 @@ export function _shareItemsToSiteGroups(
 ) {
   /* tslint:disable no-console */
   console.info(
-    `DEPRECATED: _shareItemsToSiteGroups will be removed at v9.0.0. Use shareItemsToSiteGroups instead.`
+    `DEPRECATED: _shareItemsToSiteGroups will be removed at v10.0.0. Use shareItemsToSiteGroups instead.`
   );
   return shareItemsToSiteGroups(siteModel, solutionModels, hubRequestOptions);
 }

@@ -1,7 +1,7 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import {
   IPortal,
-  getPortalUrl as getPortalApiUrl
+  getPortalUrl as getPortalApiUrl,
 } from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions } from "../types";
 

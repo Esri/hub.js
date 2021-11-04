@@ -13,7 +13,7 @@ export function getTeamsAvailableInProduct(
 ) {
   /* tslint:disable no-console */
   console.warn(
-    "Hub.js::getTeamsAvailableInProduct Deprecation warning portalApiVersion will be removed at v9.0.0"
+    "Hub.js::getTeamsAvailableInProduct Deprecation warning portalApiVersion will be removed at v10.0.0"
   );
   /* tslint:enable no-console */
   const teams = WELLKNOWNTEAMS;
