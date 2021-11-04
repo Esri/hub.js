@@ -1,4 +1,9 @@
-import { IItem, ISearchOptions, ISearchResult } from "@esri/arcgis-rest-portal";
+import {
+  IGroup,
+  IItem,
+  ISearchOptions,
+  ISearchResult,
+} from "@esri/arcgis-rest-portal";
 import { cloneObject } from "..";
 
 import {
@@ -156,7 +161,7 @@ const ContentFilterExpansions: IWellKnownContentFilters = {
  * @returns
  */
 export function convertPortalResponseToFacets(
-  response: ISearchResult<IItem>
+  response: ISearchResult<IItem> | ISearchResult<IGroup>
 ): IFacet[] {
   const result: IFacet[] = [];
   if (response.aggregations?.counts) {

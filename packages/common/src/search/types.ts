@@ -1,4 +1,5 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
+import { IGroup } from "@esri/arcgis-rest-types";
 import { IHubContent, IModel } from "..";
 
 /**
@@ -139,13 +140,15 @@ export interface IUserFilterDefinition {
 }
 
 export interface IGroupFilterDefinition {
+  term?: string;
   access?: string | string[] | IMatchOptions;
   created?: IDateRange<number> | IRelativeDate;
   id?: string | string[] | IMatchOptions;
-  isInvitationOnly: boolean;
+  isInvitationOnly?: boolean;
   modified?: IDateRange<number> | IRelativeDate;
   orgid?: string | string[] | IMatchOptions;
-  searchUserAccess?: "groupMember" | "admin";
+  owner?: string | string[] | IMatchOptions;
+  searchUserAccess?: "groupMember";
   tags?: string | string[] | IMatchOptions;
   title?: string | string[] | IMatchOptions;
   typekeywords?: string | string[] | IMatchOptions;
