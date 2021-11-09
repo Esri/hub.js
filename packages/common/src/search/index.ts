@@ -1,5 +1,6 @@
 export * from "./hub-api-search";
 export * from "./content-utils";
+export * from "./group-utils";
 export * from "./utils";
 export * from "./types";
 export * from "./_searchContent";
