@@ -1,6 +1,6 @@
 {
   "name": "ember-app",
-  "version": "9.6.0",
+  "version": "9.6.1",
   "private": true,
   "description": "Small description for ember-app goes here",
   "repository": "",
@@ -27,8 +27,8 @@
     "@esri/arcgis-rest-auth": "^3.1.1",
     "@esri/arcgis-rest-portal": "^3.3.1",
     "@esri/arcgis-rest-request": "^3.1.1",
-    "@esri/hub-common": "^9.6.0",
-    "@esri/hub-content": "^9.6.0"
+    "@esri/hub-common": "^9.6.1",
+    "@esri/hub-content": "^9.6.1"
   },
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
