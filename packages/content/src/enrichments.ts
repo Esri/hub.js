@@ -27,6 +27,15 @@ import {
 } from "@esri/hub-common";
 import { getContentMetadata } from "./metadata";
 
+const getHubId = (content: IHubContent, layerId: number) => {
+  const { item } = content;
+  // assume non-proxied public content is in the hub index
+  return item.access === "public" && !content.isProxied
+    ? `${item.id}_${layerId}`
+    : // otherwise fall back to what was originally set
+      content.hubId;
+};
+
 const getLayer = (content: IHubContent, layerId?: number) => {
   const { url, layers } = content;
   const idFromUrl = getLayerIdFromUrl(url);
@@ -597,11 +606,10 @@ export const getLayerContent = (
   if (!layer) {
     return;
   }
-  const { item } = content;
   // get type name and description from layer
-  const { id, type, name, description } = layer;
-  // assume public content is in the hub index
-  const hubId = item.access === "public" ? `${item.id}_${id}` : content.hubId;
+  const { type, name, description } = layer;
+  // determine the hubId
+  const hubId = getHubId(content, layer.id);
   // get new content w/ updated hubId and family etc based on layer type
   const updatedContent = setContentType(setContentHubId(content, hubId), type);
   const layerContent = { ...updatedContent, layer };
