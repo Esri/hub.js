@@ -76,7 +76,7 @@ function addThumbnailUrl(
   token?: string
 ): IGroup {
   if (group.thumbnail) {
-    group.thumnailUrl = `${portalUrl}/community/groups/${group.id}/info/${group.thumbnail}`;
+    group.thumbnailUrl = `${portalUrl}/community/groups/${group.id}/info/${group.thumbnail}`;
     if (token) {
       group.thumbnailUrl = `${group.thumbnailUrl}?token=${token}`;
     }
