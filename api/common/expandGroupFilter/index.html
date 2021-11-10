@@ -586,6 +586,14 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/mergeContentFilter/" class="tsd-kind-icon padding-right-1">mergeContentFilter</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/mergeGroupFilters/" class="tsd-kind-icon padding-right-1">mergeGroupFilters</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/mergeObjects/" class="tsd-kind-icon padding-right-1">mergeObjects</a>
             </li>
             
@@ -635,10 +643,6 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/runRevertableTask/" class="tsd-kind-icon padding-right-1">runRevertableTask</a>
-            </li>
-            
-            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
-              <a href="/hub.js/api/common/serializeGroupFilterForPortal/" class="tsd-kind-icon padding-right-1">serializeGroupFilterForPortal</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -2476,14 +2480,24 @@
 
 
 
+  <p>Prior to serialization into the query syntax for the backing APIs, we first expand <a href="../Filter">Filters</a></p>
+
+
   
+    <p>Filter's can express their intent in a very terse form, but to ensure consistent structures
+we expand them into their more verbose form.</p>
+<p>i.e. <code>title: &quot;Water&quot;</code> expands into <code>title: { any: [&quot;Water&quot;]}</code></p>
+<ul>
+<li>Fields defined as <code>string | string[] | MatchOptions</code> will be converted to a <code>MatchOptions</code></li>
+<li>RelativeDate fields are converted to DateRange<number></li>
+</ul>
 
   
 
   <div class="panel padding-leader-half padding-trailer-half padding-right-quarter padding-left-half trailer-half">
     <ul class="list-plain tsd-signatures tsd-kind-function trailer-0 leader-0">
       
-        <li class="code-face tsd-signature tsd-kind-icon trailer-0 leader-0">expandGroupFilter<span class="text-light-gray">(</span>filter: <i><a href="/hub.js/api/common/IGroupFilterDefinition/">IGroupFilterDefinition</a></i><span class="text-light-gray">) : </span><i><a href="/hub.js/api/common/IGroupFilterDefinition/">IGroupFilterDefinition</a></i></li>
+        <li class="code-face tsd-signature tsd-kind-icon trailer-0 leader-0">expandGroupFilter<span class="text-light-gray">(</span>filter: <i><a href="/hub.js/api/common/Filter/">Filter</a></i><i><span class="text-light-gray">&lt;</span><span class="text-green">"group"</span><span class="text-light-gray">&gt;</span></i><span class="text-light-gray">) : </span><i><a href="/hub.js/api/common/IGroupFilterDefinition/">IGroupFilterDefinition</a></i></li>
       
     </ul>
   </div>
@@ -2524,7 +2538,7 @@
 
               
             </td>
-            <td class="code-face"><i><a href="/hub.js/api/common/IGroupFilterDefinition/">IGroupFilterDefinition</a></i></td>
+            <td class="code-face"><i><a href="/hub.js/api/common/Filter/">Filter</a></i><i><span class="text-light-gray">&lt;</span><span class="text-green">"group"</span><span class="text-light-gray">&gt;</span></i></td>
             <td class="code-face"></td>
             <td class="body-face api-param-comment">
               
@@ -2949,7 +2963,7 @@
 
 
 
-<small class="font-size--2">Function defined in <a href="https://github.com/Esri/hub.js/blob/master/packages/common/src/search/group-utils.ts#L14">packages/common/src/search/group-utils.ts:14</a></small>
+<small class="font-size--2">Function defined in <a href="https://github.com/Esri/hub.js/blob/master/packages/common/src/search/group-utils.ts#L87">packages/common/src/search/group-utils.ts:87</a></small>
 
 
     </div>
