@@ -1,8 +1,9 @@
 import { Filter, IDateRange, IGroupFilterDefinition } from "../../src";
 import {
   expandGroupFilter,
+  mergeGroupFilters,
   serializeGroupFilterForPortal,
-} from "../../src/search/group-utils";
+} from "../../src/search";
 
 describe("group-utils:", () => {
   describe("expandGroupFilter:", () => {
@@ -90,6 +91,121 @@ describe("group-utils:", () => {
         expect(chk.q).toBe(`(typekeywords:"Hub Content Group")`);
         expect(chk.searchUserAccess).toBe("groupMember");
       });
+    });
+  });
+
+  describe("mergeGroupFilters:", () => {
+    it("appends terms", () => {
+      const f1: Filter<"group"> = {
+        filterType: "group",
+        term: "world",
+      };
+      const f2: Filter<"group"> = {
+        filterType: "group",
+        term: "Dashboard",
+        owner: "dave",
+      };
+      const chk = mergeGroupFilters([f1, f2]);
+
+      expect(chk.filterType).toBe("group");
+      expect(chk.term).toEqual("world Dashboard");
+    });
+    it("simple MatchOption props", () => {
+      const f1: Filter<"group"> = {
+        filterType: "group",
+        term: "world",
+      };
+      const f2: Filter<"group"> = {
+        filterType: "group",
+        title: "Dashboard",
+        owner: "dave",
+      };
+      const chk = mergeGroupFilters([f1, f2]);
+
+      expect(chk.filterType).toBe("group");
+      expect(chk.term).toEqual("world");
+      expect(chk.title).toEqual({ any: ["Dashboard"] });
+      expect(chk.owner).toEqual({ any: ["dave"] });
+    });
+
+    it("overlapping props", () => {
+      const f1: Filter<"group"> = {
+        filterType: "group",
+        title: "world",
+        tags: ["beer"],
+      };
+      const f2: Filter<"group"> = {
+        filterType: "group",
+        tags: ["water"],
+        owner: "dave",
+      };
+      const chk = mergeGroupFilters([f1, f2]);
+
+      expect(chk.filterType).toBe("group");
+      expect(chk.title).toEqual({ any: ["world"] });
+      expect(chk.owner).toEqual({ any: ["dave"] });
+      expect(chk.tags).toEqual({ any: ["beer", "water"] });
+    });
+
+    it("expanding relative dates", () => {
+      const f1: Filter<"group"> = {
+        filterType: "group",
+        title: "world",
+        created: {
+          type: "relative-date",
+          num: 10,
+          unit: "hours",
+        },
+      };
+      const f2: Filter<"group"> = {
+        filterType: "group",
+        owner: "dave",
+        created: {
+          type: "relative-date",
+          num: 15,
+          unit: "hours",
+        },
+      };
+      const chk = mergeGroupFilters([f1, f2]);
+
+      expect(chk.filterType).toBe("group");
+      expect(chk.title).toEqual({ any: ["world"] });
+      const created = chk.created as IDateRange<number>;
+      const nowStamp = new Date().getTime();
+      expect(created.to / 1000).toBeCloseTo(nowStamp / 1000, 1);
+      // turn into a decimal so we can use `toBeCloseTo`
+      expect(created.from / 1000).toBeCloseTo(
+        (nowStamp - 15 * 60 * 60 * 1000) / 1000,
+        1
+      );
+    });
+
+    it("expanding non-overlapping ranges", () => {
+      const f1: Filter<"group"> = {
+        filterType: "group",
+        title: "world",
+        created: {
+          type: "date-range",
+          from: new Date("2021-05-01").getTime(),
+          to: new Date("2021-05-31").getTime(),
+        },
+      };
+      const f2: Filter<"group"> = {
+        filterType: "group",
+        owner: "dave",
+        created: {
+          type: "date-range",
+          from: new Date("2021-06-01").getTime(),
+          to: new Date("2021-06-30").getTime(),
+        },
+      };
+      const chk = mergeGroupFilters([f1, f2]);
+
+      expect(chk.filterType).toBe("group");
+      expect(chk.title).toEqual({ any: ["world"] });
+      const created = chk.created as IDateRange<number>;
+      expect(created.from).toBeCloseTo(new Date("2021-05-01").getTime(), 2);
+      expect(created.to).toBeCloseTo(new Date("2021-06-30").getTime(), 2);
     });
   });
 });

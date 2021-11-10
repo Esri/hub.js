@@ -196,8 +196,11 @@ export function convertPortalResponseToFacets(
 }
 
 /**
- * @private
  * Merge `Filter<"content">` objects
+ *
+ * Useful in components which may get partial filters from a variety of
+ * sub-components, which are then combined into a single filter prior
+ * to executing the search.
  * @param filters
  * @returns
  */
@@ -208,34 +211,24 @@ export function mergeContentFilter(
   const expanded = filters.map(expandContentFilter);
   // now we can merge based on fields
   const dateFields = ["created", "modified"];
-  const specialFields = ["filterType", "subFilters", ...dateFields];
+  const specialFields = ["filterType", "subFilters", "term", ...dateFields];
 
   const result = expanded.reduce((acc, entry) => {
     // process fields
     Object.entries(entry).forEach(([key, value]) => {
-      // MatchOption fields
-      if (!specialFields.includes(key)) {
-        if (acc[key]) {
+      if (acc.hasOwnProperty(key)) {
+        /* istanbul ignore else */
+        if (!specialFields.includes(key)) {
           acc[key] = mergeMatchOptions(acc[key], value);
-        } else {
-          acc[key] = cloneObject(value);
-        }
-      }
-      // Dates
-      if (dateFields.includes(key)) {
-        if (acc[key]) {
+        } else if (dateFields.includes(key)) {
           acc[key] = mergeDateRange(acc[key], value);
-        } else {
-          acc[key] = cloneObject(value);
+        } else if (key === "term") {
+          acc[key] = `${acc[key]} ${value}`;
+        } else if (key === "subFilters") {
+          acc[key] = mergeSubFilters(acc[key], value);
         }
-      }
-      // SubFilters
-      if (key === "subFilters" && Array.isArray(value)) {
-        if (acc.subFilters) {
-          acc.subFilters = mergeSubFilters(acc.subFilters, value);
-        } else {
-          acc.subFilters = cloneObject(value);
-        }
+      } else {
+        acc[key] = cloneObject(value);
       }
     });
     return acc;
@@ -258,8 +251,8 @@ function mergeSubFilters(
 /**
  * Prior to serialization into the query syntax for the backing APIs, we first expand [Filters](../Filter)
  *
- * Filter's can express their intent in a very terse form, but to ensure consistent
- * into their more verbose form.
+ * Filter's can express their intent in a very terse form, but to ensure consistent structures
+ * we expand them into their more verbose form.
  *
  * i.e. `title: "Water"` expands into `title: { any: ["Water"]}`
  *

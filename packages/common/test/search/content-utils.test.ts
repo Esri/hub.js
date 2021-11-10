@@ -365,6 +365,21 @@ describe("Content:", () => {
       expect(chk.owner).toEqual({ any: ["dave"] });
     });
 
+    it("merges terms", () => {
+      const f1: Filter<"content"> = {
+        filterType: "content",
+        term: "water",
+      };
+      const f2: Filter<"content"> = {
+        filterType: "content",
+        term: "beer",
+      };
+      const chk = mergeContentFilter([f1, f2]);
+
+      expect(chk.filterType).toBe("content");
+      expect(chk.term).toEqual("water beer");
+    });
+
     it("overlapping props", () => {
       const f1: Filter<"content"> = {
         filterType: "content",
