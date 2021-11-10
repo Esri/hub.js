@@ -3,6 +3,8 @@ import {
   Filter,
   IGroupFilterDefinition,
   IMatchOptions,
+  mergeDateRange,
+  mergeMatchOptions,
   mergeSearchOptions,
   relativeDateToDateRange,
   serializeDateRange,
@@ -11,8 +13,79 @@ import {
 } from ".";
 import { cloneObject, getProp, setProp } from "..";
 
+/**
+ *
+ * Merge `Filter<"group">` objects
+ *
+ * Useful in components which may get partial filters from a variety of
+ * sub-components, which are then combined into a single filter prior
+ * to executing the search.
+ * @param filters
+ * @returns
+ */
+export function mergeGroupFilters(
+  filters: Array<Filter<"group">>
+): Filter<"group"> {
+  // expand all the filters so all prop types are consistent
+  const expanded = filters.map(expandGroupFilter);
+  // now we can merge based on fields
+  const dateFields = ["created", "modified"];
+  const specialFields = ["filterType", "term", ...dateFields];
+
+  // acc is initialized as Filter<group> but also needs it
+  // in the function signature... for reasons?!
+  const result = expanded.reduce(
+    (acc: Filter<"group">, entry) => {
+      // process fields
+      Object.entries(entry).forEach(([key, value]) => {
+        // Note: getProp/setProp are used to get around
+        // typescript issues with string indexing
+
+        if (acc.hasOwnProperty(key)) {
+          const existingValue = getProp(acc, key);
+          // if the key is not to a special field
+          if (!specialFields.includes(key)) {
+            // treat as an IMatchOptions
+            setProp(key, mergeMatchOptions(existingValue, value), acc);
+          } else if (dateFields.includes(key)) {
+            // treat as IDateRange
+            setProp(key, mergeDateRange(existingValue, value), acc);
+          } else if (key === "term") {
+            // append terms
+            acc[key] = `${acc[key]} ${value}`;
+          }
+        } else {
+          // Acc does not have an entry for this yet
+          // so just clone it
+          setProp(key, cloneObject(value), acc);
+        }
+      });
+      return acc;
+    },
+    {
+      filterType: "group",
+    } as Filter<"group">
+  );
+
+  return result;
+}
+
+/**
+ * Prior to serialization into the query syntax for the backing APIs, we first expand [Filters](../Filter)
+ *
+ * Filter's can express their intent in a very terse form, but to ensure consistent structures
+ * we expand them into their more verbose form.
+ *
+ * i.e. `title: "Water"` expands into `title: { any: ["Water"]}`
+ *
+ * - Fields defined as `string | string[] | MatchOptions` will be converted to a `MatchOptions`
+ * - RelativeDate fields are converted to DateRange<number>
+ *
+ * @param filter
+ * @returns
+ */
 export function expandGroupFilter(
-  filter: IGroupFilterDefinition
+  filter: Filter<"group">
 ): IGroupFilterDefinition {
   const result = {} as IGroupFilterDefinition;
   const dateProps = ["created", "modified"];
@@ -50,6 +123,13 @@ export function expandGroupFilter(
   return result;
 }
 
+/**
+ * @private
+ * Serialize an `IGroupFilterDefinition` into an `ISearchOptions` for use
+ * with `searchGroups`
+ * @param filter
+ * @returns
+ */
 export function serializeGroupFilterForPortal(
   filter: IGroupFilterDefinition
 ): ISearchOptions {
