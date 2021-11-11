@@ -62,9 +62,18 @@ export async function _searchGroups(
     return addThumbnailUrl(portalUrl, group, token);
   };
 
+  const teamLinkify = (group: IGroup) => {
+    group.siteTeamUrl = `${options.site}/teams/${group.id}/about`;
+    return group;
+  };
+
   return portalGroupSearch(so).then((response) => {
     // upgrade thumbnail url
     response.results = response.results.map(thumbnailify);
+    // generate the site team url if site url is provided
+    if (options.site) {
+      response.results = response.results.map(teamLinkify);
+    }
     return response;
   });
 }

@@ -7,6 +7,7 @@ import {
 import * as Portal from "@esri/arcgis-rest-portal";
 import * as SimpleResponse from "../mocks/portal-groups-search/simple-response.json";
 import { MOCK_AUTH } from "../mocks/mock-auth";
+import { IModel } from "../../src";
 
 describe("_searchGroups:", () => {
   it("defaults to ago prod", async () => {
@@ -55,6 +56,7 @@ describe("_searchGroups:", () => {
     };
     const o: IHubSearchOptions = {
       authentication: MOCK_AUTH,
+      site: "foo.com" as unknown as IModel,
     };
     const chk = await _searchGroups(f, o);
     expect(searchGroupsSpy.calls.count()).toBe(1, "should call searchGroups");
@@ -63,5 +65,8 @@ describe("_searchGroups:", () => {
     const g1 = chk.results[0];
     expect(g1.id).toBe("7d9cc5e39a8f4c0aa29e04a473bf4703");
     expect(g1.thumbnailUrl).toBeDefined();
+    expect(g1.siteTeamUrl).toBe(
+      "foo.com/teams/7d9cc5e39a8f4c0aa29e04a473bf4703/about"
+    );
   });
 });
