@@ -63,7 +63,7 @@ export async function _searchGroups(
   };
 
   const teamLinkify = (group: IGroup) => {
-    group.siteTeamUrl = `${options.site}/teams/${group.id}/about`;
+    group.siteTeamUrl = `${options.site.item.url}/teams/${group.id}/about`;
     return group;
   };
 
@@ -71,7 +71,7 @@ export async function _searchGroups(
     // upgrade thumbnail url
     response.results = response.results.map(thumbnailify);
     // generate the site team url if site url is provided
-    if (options.site) {
+    if (options.site?.item?.url) {
       response.results = response.results.map(teamLinkify);
     }
     return response;
