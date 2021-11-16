@@ -1,3 +1,6 @@
+// Re-export so we don't have a breaking change
+export { ISearchResponse } from "@esri/hub-common";
+
 /**
  * Defines a generic date range interface
  */
@@ -24,20 +27,4 @@ export enum SortDirection {
 export interface ISearchRequest<T, U> {
   filter?: T;
   options?: U;
-}
-
-/**
- * Defines a generic search response interface with parameterized result type
- * for different types of searches
- *
- * total - total number of results
- * results - potentially paginated list of results
- * hasNext - boolean flag for if there are any more pages ofresults
- * next - invokable function for obtaining next page of results
- */
-export interface ISearchResponse<T> {
-  total: number;
-  results: T[];
-  hasNext: boolean;
-  next: (params?: any) => Promise<ISearchResponse<T>>;
 }

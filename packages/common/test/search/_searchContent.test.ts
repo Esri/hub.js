@@ -30,6 +30,23 @@ describe("_searchContent:", () => {
       // verify countFields
       expect(expectedParams.countFields).not.toBeDefined();
     });
+    it("simple search next", async () => {
+      const searchItemsSpy = spyOn(Portal, "searchItems").and.callFake(() => {
+        return Promise.resolve(cloneObject(SimpleResponse));
+      });
+      const f: Filter<"content"> = {
+        filterType: "content",
+        term: "water",
+      };
+      const opts: IHubSearchOptions = {};
+
+      const res = await _searchContent(f, opts);
+      await res.next();
+      expect(searchItemsSpy.calls.count()).toBe(2, "should call searchItems");
+      const [expectedParams] = searchItemsSpy.calls.argsFor(1);
+      // verify q
+      expect(expectedParams.q).toEqual("water");
+    });
     it("search with siteModel", async () => {
       const searchItemsSpy = spyOn(Portal, "searchItems").and.callFake(() => {
         return Promise.resolve(cloneObject(SimpleResponse));
@@ -69,7 +86,7 @@ describe("_searchContent:", () => {
         term: "water",
       };
       const opts: IHubSearchOptions = {
-        apis: ["arcgis"],
+        api: "arcgis",
         aggregations: ["tags", "access"],
         sortField: "title",
         sortOrder: "desc",
@@ -112,6 +129,27 @@ describe("_searchContent:", () => {
       // verify auth
       expect(expectedParams.authentication).toBeDefined();
     });
+    it("next with auth", async () => {
+      const searchItemsSpy = spyOn(Portal, "searchItems").and.callFake(() => {
+        return Promise.resolve(cloneObject(SimpleResponse));
+      });
+      const f: Filter<"content"> = {
+        filterType: "content",
+        term: "water",
+      };
+      const opts: IHubSearchOptions = {
+        authentication: { fake: "auth" } as unknown as UserSession,
+      };
+
+      const res = await _searchContent(f, opts);
+      await res.next(opts.authentication);
+      expect(searchItemsSpy.calls.count()).toBe(2, "should call searchItems");
+      const [expectedParams] = searchItemsSpy.calls.argsFor(1);
+      // verify q
+      expect(expectedParams.q).toEqual("water");
+      // verify auth
+      expect(expectedParams.authentication).toBeDefined();
+    });
   });
 
   describe("hub api: ", () => {
@@ -121,11 +159,27 @@ describe("_searchContent:", () => {
         term: "water",
       };
       const opts: IHubSearchOptions = {
-        apis: ["hubQA"],
+        api: "hubQA",
       };
 
       const res = await _searchContent(f, opts);
 
+      // TODO: Add tests for real implementation
+      expect(res.facets?.length).toEqual(0);
+      expect(res.facets?.length).toEqual(0);
+    });
+    it("next", async () => {
+      const f: Filter<"content"> = {
+        filterType: "content",
+        term: "water",
+      };
+      const opts: IHubSearchOptions = {
+        api: "hubQA",
+      };
+
+      const res = await _searchContent(f, opts);
+      const res2 = await res.next();
+      expect(res2).not.toBeDefined();
       // TODO: Add tests for real implementation
       expect(res.facets?.length).toEqual(0);
       expect(res.facets?.length).toEqual(0);

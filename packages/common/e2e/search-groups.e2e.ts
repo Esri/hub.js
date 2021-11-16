@@ -19,10 +19,23 @@ fdescribe("SearchGroups:", () => {
         owner: "dbouwman_dc",
       };
       const opts: IHubSearchOptions = {
-        apis: ["arcgisQA"],
+        api: "arcgisQA",
       };
       const response = await _searchGroups(f, opts);
       expect(response.results.length).toBeGreaterThan(1);
+    });
+    it("unauthd next", async () => {
+      const f: Filter<"group"> = {
+        filterType: "group",
+        owner: "dbouwman_dc",
+      };
+      const opts: IHubSearchOptions = {
+        api: "arcgisQA",
+      };
+      const response = await _searchGroups(f, opts);
+      expect(response.results.length).toBeGreaterThan(1);
+      const response2 = await response.next();
+      expect(response2.results.length).toBeGreaterThan(1);
     });
     it("authd", async () => {
       const orgName = "hubBasic";
@@ -35,7 +48,7 @@ fdescribe("SearchGroups:", () => {
         },
       };
       const opts: IHubSearchOptions = {
-        apis: ["arcgisQA"],
+        api: "arcgisQA",
         authentication: adminSession,
         sortField: "created",
         sortOrder: "desc",
@@ -54,7 +67,7 @@ fdescribe("SearchGroups:", () => {
         },
       };
       const opts: IHubSearchOptions = {
-        apis: ["arcgisQA"],
+        api: "arcgisQA",
         authentication: adminSession,
         sortField: "created",
         sortOrder: "desc",
@@ -71,7 +84,7 @@ fdescribe("SearchGroups:", () => {
         searchUserAccess: "groupMember",
       };
       const opts: IHubSearchOptions = {
-        apis: ["arcgisQA"],
+        api: "arcgisQA",
         authentication: adminSession,
         sortField: "created",
         sortOrder: "desc",

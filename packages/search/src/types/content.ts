@@ -1,12 +1,7 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { IHubContent } from "@esri/hub-common";
+import { ISearchResponse, IHubContent } from "@esri/hub-common";
 import { IAggregationResult } from "../util/aggregations/merge-aggregations";
-import {
-  IDateRange,
-  SortDirection,
-  ISearchRequest,
-  ISearchResponse,
-} from "./common";
+import { IDateRange, SortDirection, ISearchRequest } from "./common";
 
 /**
  * Defines an enum for common booleans used to create a search filter

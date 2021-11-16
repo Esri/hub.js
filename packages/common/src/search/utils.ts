@@ -1,8 +1,9 @@
 /* Copyright (c) 2018-2021 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { UserSession } from "@esri/arcgis-rest-auth";
 import { ISearchOptions } from "@esri/arcgis-rest-portal";
-import { IHubContent } from "..";
+import { ISearchResponse } from "..";
 import { cloneObject, unique } from "../util";
 import {
   IMatchOptions,
@@ -11,8 +12,6 @@ import {
   IWellKnownApis,
   IApiDefinition,
   NamedApis,
-  IContentSearchResult,
-  IFacet,
 } from "./types";
 
 /**
@@ -54,60 +53,29 @@ export const SEARCH_APIS: IWellKnownApis = {
 
 /**
  * @private
- * Convert api "names" into full ApiDefinitions
+ * Convert array of api "names" into full ApiDefinitions
  * @param apis
  * @returns
  */
-
 export function expandApis(
   apis: Array<NamedApis | IApiDefinition>
 ): IApiDefinition[] {
-  return apis.map((api) => {
-    if (typeof api === "string" && api in SEARCH_APIS) {
-      return SEARCH_APIS[api];
-    } else {
-      // it's an object, so we trust that it's well formed
-      return api as IApiDefinition;
-    }
-  });
+  return apis.map(expandApi);
 }
 
 /**
  * @private
- * Merge multiple search responses
- *
- * Naieve implementation that just merges arrays
- * @param responses
+ * Convert an api "name" into a full ApiDefinition
+ * @param api
  * @returns
  */
-export function mergeSearchResults(
-  responses: IContentSearchResult[]
-): IContentSearchResult {
-  // Merge content
-  const results = responses.reduce((acc, response) => {
-    if (response.results) {
-      acc = acc.concat(response.results);
-    }
-    return acc;
-  }, [] as IHubContent[]);
-
-  // Merge Facets
-  const facets = responses.reduce((acc, response) => {
-    if (response.facets) {
-      acc = acc.concat(response.facets);
-    }
-    return acc;
-  }, [] as IFacet[]);
-
-  // Total
-  const total = responses.reduce((acc, entry) => {
-    if (entry.total) {
-      acc = acc + entry.total;
-    }
-    return acc;
-  }, 0);
-
-  return { total, results, facets };
+export function expandApi(api: NamedApis | IApiDefinition): IApiDefinition {
+  if (typeof api === "string" && api in SEARCH_APIS) {
+    return SEARCH_APIS[api];
+  } else {
+    // it's an object, so we trust that it's well formed
+    return api as IApiDefinition;
+  }
 }
 
 /**
@@ -412,4 +380,33 @@ export function serializeStringOrArray(
     q = `${key}:"${value}"`;
   }
   return q;
+}
+
+/**
+ * Create a `.next()` function for a type
+ * @param request
+ * @param nextStart
+ * @param total
+ * @param fn
+ * @returns
+ */
+export function getNextFunction<T>(
+  request: ISearchOptions,
+  nextStart: number,
+  total: number,
+  fn: (r: ISearchOptions) => Promise<ISearchResponse<T>>
+): () => Promise<ISearchResponse<T>> {
+  const clonedRequest = cloneObject(request);
+
+  // Can't clone a UserSession
+  clonedRequest.authentication = request.authentication;
+  // figure out the start
+  clonedRequest.start = nextStart > -1 ? nextStart : total + 1;
+
+  return (authentication?: UserSession) => {
+    if (authentication) {
+      clonedRequest.authentication = authentication;
+    }
+    return fn(clonedRequest);
+  };
 }

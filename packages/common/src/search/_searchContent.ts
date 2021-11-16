@@ -10,8 +10,14 @@ import {
   IContentSearchResult,
 } from "./types";
 import { ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
-import { expandApis, mergeSearchResults } from "./utils";
-import { IHubContent, IModel, itemToContent, setContentSiteUrls } from "..";
+import { expandApi, getNextFunction } from ".";
+import {
+  cloneObject,
+  IHubContent,
+  ISearchResponse,
+  itemToContent,
+  setContentSiteUrls,
+} from "..";
 
 /**
  * Search for content via the Portal or Hub API
@@ -21,71 +27,85 @@ import { IHubContent, IModel, itemToContent, setContentSiteUrls } from "..";
 export async function _searchContent(
   filter: Filter<"content">,
   options: IHubSearchOptions
-): Promise<IContentSearchResult> {
+): Promise<ISearchResponse<IHubContent>> {
   // expand filter so we can serialize to either api
   const expanded = expandContentFilter(filter);
 
   // APIs
-  if (!options.apis) {
+  if (!options.api) {
     // default to AGO PROD
-    options.apis = ["arcgis"];
+    options.api = "arcgis";
   }
-  const apis = expandApis(options.apis);
 
+  const api = expandApi(options.api);
+
+  let searchPromise;
   // map over the apis, depending on the type we issue the queries
-  const searchPromises = apis.map((api) => {
-    // Portal Search
-    if (api.type === "arcgis") {
-      // serialize for portal
-      const so = serializeContentFilterForPortal(expanded);
-      // pass auth forward
-      if (options.authentication) {
-        so.authentication = options.authentication;
-      }
-      // Aggregations
-      if (options.aggregations?.length) {
-        so.countFields = options.aggregations.join(",");
-        so.countSize = 200;
-      }
-      // copy over various options
-      // TODO: Dry this up
-      if (options.num) {
-        so.num = options.num;
-      }
-      if (options.sortField) {
-        so.sortField = options.sortField;
-      }
-      if (options.sortOrder) {
-        so.sortOrder = options.sortOrder;
-      }
-      // NOTE: I think we will end up setting
-      // the site URL in mergeSearchResults() instead
-      // since it applies to both items and datasets
-      return searchPortal(so, options.site);
-    } else {
-      // Hub API Search
-      // TODO: Implement hub api content search
-      return Promise.resolve({
-        total: 0,
-        results: [] as IHubContent[],
-        facets: [] as IFacet[],
-      });
+  // const searchPromises = apis.map((api) => {
+  // Portal Search
+  if (api.type === "arcgis") {
+    // serialize for portal
+    const so = serializeContentFilterForPortal(expanded);
+    // pass auth forward
+    if (options.authentication) {
+      so.authentication = options.authentication;
     }
-  });
-  // wait for results
-  const results = await Promise.all(searchPromises);
-  // merge and return
-  return mergeSearchResults(results);
+    // Aggregations
+    if (options.aggregations?.length) {
+      so.countFields = options.aggregations.join(",");
+      so.countSize = 200;
+    }
+    // copy over various options
+    // TODO: Dry this up
+    if (options.num) {
+      so.num = options.num;
+    }
+    if (options.sortField) {
+      so.sortField = options.sortField;
+    }
+    if (options.sortOrder) {
+      so.sortOrder = options.sortOrder;
+    }
+    if (options.site) {
+      so.site = cloneObject(options.site);
+    }
+    searchPromise = searchPortal(so);
+  } else {
+    // Hub API Search
+    // TODO: Implement hub api content search
+    searchPromise = Promise.resolve({
+      total: 0,
+      results: [] as IHubContent[],
+      facets: [] as IFacet[],
+      hasNext: false,
+      next: () => {
+        Promise.resolve(null);
+      },
+    } as IContentSearchResult);
+  }
+  // });
+  // return for results
+  return searchPromise;
 }
 
+/**
+ * Internal portal search, which then converts items to Content, and
+ * if a Site was passed, also sets urls
+ *
+ * @param searchOptions
+ * @param site
+ * @returns
+ */
 function searchPortal(
-  searchOptions: ISearchOptions,
-  site?: IModel
-): Promise<IContentSearchResult> {
+  searchOptions: ISearchOptions
+): Promise<ISearchResponse<IHubContent>> {
   return searchItems(searchOptions).then((resp) => {
+    const hasNext: boolean = resp.nextStart > -1;
     let content = resp.results.map(itemToContent);
-    if (site) {
-      content = content.map((entry) => setContentSiteUrls(entry, site));
+    if (searchOptions.site) {
+      content = content.map((entry) =>
+        setContentSiteUrls(entry, searchOptions.site)
+      );
     }
     // convert aggregations into facets
     const facets = convertPortalResponseToFacets(resp);
@@ -93,6 +113,13 @@ function searchPortal(
       total: resp.total,
       results: content,
       facets,
+      hasNext,
+      next: getNextFunction<IHubContent>(
+        searchOptions,
+        resp.nextStart,
+        resp.total,
+        searchPortal
+      ),
     };
   });
 }
