@@ -49,6 +49,8 @@ export async function _searchContent(
     // pass auth forward
     if (options.authentication) {
       so.authentication = options.authentication;
+    } else {
+      so.portal = `${api.url}/sharing/rest`;
     }
     // Aggregations
     if (options.aggregations?.length) {

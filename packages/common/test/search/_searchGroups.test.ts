@@ -26,6 +26,28 @@ describe("_searchGroups:", () => {
       expect(expectedParams.q).toEqual("water");
       expect(expectedParams.portal).toBe("https://www.arcgis.com/sharing/rest");
     });
+    it("search enterprise", async () => {
+      const searchGroupsSpy = spyOn(Portal, "searchGroups").and.callFake(() => {
+        return Promise.resolve(cloneObject(SimpleResponse));
+      });
+      const f: Filter<"group"> = {
+        filterType: "group",
+        term: "water",
+      };
+      const o: IHubSearchOptions = {
+        api: {
+          type: "arcgis",
+          url: "https://my-portal.com/gis",
+        },
+      };
+      await _searchGroups(f, o);
+      expect(searchGroupsSpy.calls.count()).toBe(1, "should call searchGroups");
+      const [expectedParams] = searchGroupsSpy.calls.argsFor(0);
+      expect(expectedParams.q).toEqual("water");
+      expect(expectedParams.portal).toBe(
+        "https://my-portal.com/gis/sharing/rest"
+      );
+    });
 
     it("uses specified apis, passes num", async () => {
       const searchGroupsSpy = spyOn(Portal, "searchGroups").and.callFake(() => {

@@ -51,7 +51,7 @@ export async function _searchGroups(
       so.num = options.num;
     }
 
-    let portalUrl = "https://www.arcgis.com/sharing/rest";
+    let portalUrl = `${api.url}/sharing/rest`;
     if (so.authentication?.portal) {
       portalUrl = so.authentication.portal;
     }
