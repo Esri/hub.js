@@ -1,11 +1,4 @@
-import { IHubContent } from "../../src";
-import {
-  IContentSearchResult,
-  IFacet,
-  IMatchOptions,
-  IRelativeDate,
-  mergeSearchResults,
-} from "../../src/search";
+import { IMatchOptions, IRelativeDate } from "../../src/search";
 import {
   expandApis,
   mergeMatchOptions,
@@ -261,40 +254,6 @@ describe("Search Utils:", () => {
       expect(chk.all).toEqual(["cat", "dog", "fish"]);
       expect(chk.not).toEqual(["bmw"]);
       expect(chk.exact).not.toBeDefined();
-    });
-  });
-  describe("mergeSearchResults:", () => {
-    it("merges content and facet arrays", () => {
-      const r0: IContentSearchResult = {
-        total: 10,
-        results: ["a", "b"] as unknown as IHubContent[],
-        facets: ["fa", "fb"] as unknown as IFacet[],
-      };
-      const r1: IContentSearchResult = {
-        total: 5,
-        results: ["d", "e"] as unknown as IHubContent[],
-        facets: ["fd", "fe"] as unknown as IFacet[],
-      };
-      const chk = mergeSearchResults([r0, r1]);
-
-      expect(chk.results.length).toBe(4);
-      expect(chk.total).toBe(15);
-      expect(chk.facets?.length).toBe(4);
-    });
-    it("handles responses with missing props", () => {
-      const r0: IContentSearchResult = {
-        total: 2,
-        results: ["a", "b"] as unknown as IHubContent[],
-      };
-      const r1 = {
-        total: 0,
-        facets: ["fd", "fe"] as unknown as IFacet[],
-      } as unknown as IContentSearchResult;
-
-      const chk = mergeSearchResults([r0, r1]);
-
-      expect(chk.results.length).toBe(2);
-      expect(chk.facets?.length).toBe(2);
     });
   });
 });

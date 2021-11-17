@@ -1,5 +1,4 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { IGroup } from "@esri/arcgis-rest-types";
 import { IHubContent, IModel } from "..";
 
 /**
@@ -258,6 +257,9 @@ export interface ICatalog {
   facets?: IFacet[];
 }
 
+/**
+ * Sort Option to be displayed in a UI
+ */
 export interface ISortOption {
   // String to show in the UI. translated.
   label: string;
@@ -273,15 +275,19 @@ export interface ICollection {
   filter: Filter<FilterType>;
   facets?: IFacet[];
 }
-
+/**
+ * Defines a span of time by specifying a `from` and `to` Date
+ * as either a number or a ISO string
+ */
 export interface IDateRange<T> {
   type?: "date-range";
   from: T;
   to: T;
 }
 
-// Relative Date will be convertd to a real date-range
-// at run-time
+/**
+ * Relative Date will be convertd to a `IDateRange` at run-time
+ */
 export interface IRelativeDate {
   type: "relative-date";
   num: number;
@@ -330,7 +336,7 @@ export interface IHubSearchOptions {
   aggregations?: string[];
   bbox?: string;
   fields?: string;
-  apis?: Array<NamedApis | IApiDefinition>;
+  api?: NamedApis | IApiDefinition;
 }
 
 /**
@@ -340,6 +346,8 @@ export interface IContentSearchResult {
   total: number;
   results: IHubContent[];
   facets?: IFacet[];
+  hasNext: boolean;
+  next: (params?: any) => Promise<IContentSearchResult>;
 }
 
 export interface IWellKnownApis {

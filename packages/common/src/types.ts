@@ -13,6 +13,7 @@ import { IPortal, ISearchResult } from "@esri/arcgis-rest-portal";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { IStructuredLicense } from "./items/get-structured-license";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { IFacet } from "./search";
 
 /**
  * Generic Model, used with all items that have a json
@@ -491,4 +492,21 @@ export interface IHubTeam extends IGroup {
   properties: {
     [key: string]: any;
   };
+}
+
+/**
+ * Defines a generic search response interface with parameterized result type
+ * for different types of searches
+ *
+ * total - total number of results
+ * results - potentially paginated list of results
+ * hasNext - boolean flag for if there are any more pages ofresults
+ * next - invokable function for obtaining next page of results
+ */
+export interface ISearchResponse<T> {
+  total: number;
+  results: T[];
+  hasNext: boolean;
+  next: (params?: any) => Promise<ISearchResponse<T>>;
+  facets?: IFacet[];
 }
