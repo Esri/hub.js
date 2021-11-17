@@ -28,12 +28,9 @@ export async function _searchGroups(
   // expand filter so we can serialize to either api
   const expanded = expandGroupFilter(filter);
 
-  // APIs
-  if (!options.api) {
-    // default to AGO PROD
-    options.api = "arcgis";
-  }
-  const api = expandApi(options.api);
+  // API
+  const api = expandApi(options.api || "arcgis");
+
   if (api.type === "arcgis") {
     const so = serializeGroupFilterForPortal(expanded);
     let token = "";

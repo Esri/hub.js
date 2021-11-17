@@ -8,6 +8,7 @@ import {
 } from "../../src";
 import * as AggResponse from "../mocks/portal-search/response-with-aggregations.json";
 import * as SimpleResponse from "../mocks/portal-search/simple-response.json";
+import { MOCK_AUTH } from "../mocks/mock-auth";
 
 describe("_searchContent:", () => {
   describe("portal:", () => {
@@ -141,7 +142,7 @@ describe("_searchContent:", () => {
         term: "water",
       };
       const opts: IHubSearchOptions = {
-        authentication: { fake: "auth" } as unknown as UserSession,
+        authentication: MOCK_AUTH,
         num: 22,
       };
 
@@ -165,7 +166,7 @@ describe("_searchContent:", () => {
         term: "water",
       };
       const opts: IHubSearchOptions = {
-        authentication: { fake: "auth" } as unknown as UserSession,
+        authentication: MOCK_AUTH,
       };
 
       const res = await _searchContent(f, opts);

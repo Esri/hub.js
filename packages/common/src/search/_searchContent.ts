@@ -31,13 +31,8 @@ export async function _searchContent(
   // expand filter so we can serialize to either api
   const expanded = expandContentFilter(filter);
 
-  // APIs
-  if (!options.api) {
-    // default to AGO PROD
-    options.api = "arcgis";
-  }
-
-  const api = expandApi(options.api);
+  // API
+  const api = expandApi(options.api || "arcgis");
 
   let searchPromise;
   // map over the apis, depending on the type we issue the queries

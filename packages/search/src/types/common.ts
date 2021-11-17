@@ -1,4 +1,4 @@
-// Re-export so we don't have a breaking change
+// DEPRECATED: remove this at the next breaking change
 export { ISearchResponse } from "@esri/hub-common";
 
 /**

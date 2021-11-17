@@ -398,8 +398,13 @@ export function getNextFunction<T>(
 ): () => Promise<ISearchResponse<T>> {
   const clonedRequest = cloneObject(request);
 
-  // Can't clone a UserSession
-  clonedRequest.authentication = request.authentication;
+  // clone will not handle authentication so we do it manually
+  if (request.authentication) {
+    clonedRequest.authentication = UserSession.deserialize(
+      (request.authentication as UserSession).serialize()
+    );
+  }
+
   // figure out the start
   clonedRequest.start = nextStart > -1 ? nextStart : total + 1;
 
