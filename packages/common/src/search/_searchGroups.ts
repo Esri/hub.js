@@ -48,6 +48,14 @@ export async function _searchGroups(
       so.num = options.num;
     }
 
+    if (options.sortField) {
+      so.sortField = options.sortField;
+    }
+
+    if (options.sortOrder) {
+      so.sortOrder = options.sortOrder;
+    }
+
     let portalUrl = `${api.url}/sharing/rest`;
     if (so.authentication?.portal) {
       portalUrl = so.authentication.portal;
