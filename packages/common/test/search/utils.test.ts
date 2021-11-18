@@ -1,6 +1,8 @@
+import { IUser } from "@esri/arcgis-rest-types";
 import { IMatchOptions, IRelativeDate } from "../../src/search";
 import {
   expandApis,
+  getUserThumbnailUrl,
   mergeMatchOptions,
   relativeDateToDateRange,
   serializeDateRange,
@@ -254,6 +256,34 @@ describe("Search Utils:", () => {
       expect(chk.all).toEqual(["cat", "dog", "fish"]);
       expect(chk.not).toEqual(["bmw"]);
       expect(chk.exact).not.toBeDefined();
+    });
+  });
+  describe("user thumbnails:", () => {
+    const portal = "https://foo.com/sharing/rest";
+    const token = "FAKE_TOKEN";
+    it("returns null if no thumbnail present", () => {
+      const user = {} as IUser;
+      expect(getUserThumbnailUrl(portal, user, token)).toBeNull();
+    });
+    it("constructs url without token for public users", () => {
+      const user = {
+        username: "jsmith",
+        access: "public",
+        thumbnail: "photo.jpg",
+      } as IUser;
+      expect(getUserThumbnailUrl(portal, user, token)).toEqual(
+        "https://foo.com/sharing/rest/community/users/jsmith/info/photo.jpg"
+      );
+    });
+    it("constructs url with token for non-public users", () => {
+      const user = {
+        username: "jsmith",
+        access: "org",
+        thumbnail: "photo.jpg",
+      } as IUser;
+      expect(getUserThumbnailUrl(portal, user, "FAKE_TOKEN")).toEqual(
+        "https://foo.com/sharing/rest/community/users/jsmith/info/photo.jpg?token=FAKE_TOKEN"
+      );
     });
   });
 });

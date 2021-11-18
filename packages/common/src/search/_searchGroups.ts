@@ -7,7 +7,7 @@ import {
   serializeGroupFilterForPortal,
 } from "./group-utils";
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { cloneObject, ISearchResponse } from "..";
+import { cloneObject, getGroupThumbnailUrl, ISearchResponse } from "..";
 export interface IGroupSearchResult {
   groups: IGroup[];
   facets: IFacet[];
@@ -44,8 +44,16 @@ export async function _searchGroups(
       so.portal = `${api.url}/sharing/rest`;
     }
 
+    // TODO: Dry this up - typscript makes this... inconvenient
     if (options.num) {
       so.num = options.num;
+    }
+
+    if (options.sortField) {
+      so.sortField = options.sortField;
+    }
+    if (options.sortOrder) {
+      so.sortOrder = options.sortOrder;
     }
 
     let portalUrl = `${api.url}/sharing/rest`;
@@ -63,6 +71,11 @@ export async function _searchGroups(
   }
 }
 
+/**
+ * Internal function that searches for groups using the ArcGIS Portal API
+ * @param searchOptions
+ * @returns
+ */
 function searchPortalGroups(
   searchOptions: ISearchOptions
 ): Promise<ISearchResponse<IGroup>> {
@@ -79,9 +92,10 @@ function searchPortalGroups(
     const us: UserSession = searchOptions.authentication as UserSession;
     token = us.token;
   }
-  // Partially apply url and token to addThumbnailUrl fn
+
   const thumbnailify = (group: IGroup) => {
-    return addThumbnailUrl(portalUrl, group, token);
+    group.thumbnailUrl = getGroupThumbnailUrl(portalUrl, group, token);
+    return group;
   };
 
   // execute the search
@@ -107,27 +121,4 @@ function searchPortalGroups(
       ),
     } as ISearchResponse<IGroup>;
   });
-}
-
-/**
- * Internal helper that adds  `thumbnailUrl` property to an `IGroup`
- * if the `.thumbnail` property is defined.
- * Will add a token if group is not public and a token is passed in
- * @param portalUrl
- * @param group
- * @param token
- * @returns
- */
-function addThumbnailUrl(
-  portalUrl: string,
-  group: IGroup,
-  token?: string
-): IGroup {
-  if (group.thumbnail) {
-    group.thumbnailUrl = `${portalUrl}/community/groups/${group.id}/info/${group.thumbnail}`;
-    if (token && group.access !== "public") {
-      group.thumbnailUrl = `${group.thumbnailUrl}?token=${token}`;
-    }
-  }
-  return group;
 }

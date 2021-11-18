@@ -60,6 +60,8 @@ describe("_searchGroups:", () => {
       const o: IHubSearchOptions = {
         api: "arcgisQA",
         num: 6,
+        sortField: "title",
+        sortOrder: "desc",
       };
       await _searchGroups(f, o);
       expect(searchGroupsSpy.calls.count()).toBe(1, "should call searchGroups");

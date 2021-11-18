@@ -53,7 +53,7 @@ export async function _searchContent(
       so.countSize = 200;
     }
     // copy over various options
-    // TODO: Dry this up
+    // TODO: Dry this up - typscript makes this... inconvenient
     if (options.num) {
       so.num = options.num;
     }

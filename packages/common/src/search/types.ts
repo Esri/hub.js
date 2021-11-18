@@ -129,17 +129,22 @@ export interface IWellKnownContentFilters {
 export type NamedContentFilter = keyof IWellKnownContentFilters;
 
 export interface IUserFilterDefinition {
+  created?: IDateRange<number> | IRelativeDate;
   disabled?: boolean;
   email?: string | string[] | IMatchOptions;
   firstname?: string | string[] | IMatchOptions;
   fullname?: string | string[] | IMatchOptions;
   groups?: string | string[] | IMatchOptions;
+  lastlogin?: IDateRange<number> | IRelativeDate;
   lastname?: string | string[] | IMatchOptions;
+  modified?: IDateRange<number> | IRelativeDate;
+  role?: string | string[] | IMatchOptions;
+  term?: string;
+  userlicensetype?: string | string[] | IMatchOptions;
   username?: string | string[] | IMatchOptions;
 }
 
 export interface IGroupFilterDefinition {
-  term?: string;
   access?: string | string[] | IMatchOptions;
   created?: IDateRange<number> | IRelativeDate;
   id?: string | string[] | IMatchOptions;
@@ -149,6 +154,7 @@ export interface IGroupFilterDefinition {
   owner?: string | string[] | IMatchOptions;
   searchUserAccess?: "groupMember";
   tags?: string | string[] | IMatchOptions;
+  term?: string;
   title?: string | string[] | IMatchOptions;
   typekeywords?: string | string[] | IMatchOptions;
 }
