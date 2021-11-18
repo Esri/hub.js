@@ -1,8 +1,13 @@
 /* Copyright (c) 2018-2021 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { ISearchOptions } from "@esri/arcgis-rest-portal";
+import { IUser, UserSession } from "@esri/arcgis-rest-auth";
+import {
+  IGroup,
+  IItem,
+  ISearchOptions,
+  IUserSearchOptions,
+} from "@esri/arcgis-rest-portal";
 import { ISearchResponse } from "..";
 import { cloneObject, unique } from "../util";
 import {
@@ -394,7 +399,7 @@ export function getNextFunction<T>(
   request: ISearchOptions,
   nextStart: number,
   total: number,
-  fn: (r: ISearchOptions) => Promise<ISearchResponse<T>>
+  fn: (r: any) => Promise<ISearchResponse<T>>
 ): () => Promise<ISearchResponse<T>> {
   const clonedRequest = cloneObject(request);
 
@@ -414,4 +419,54 @@ export function getNextFunction<T>(
     }
     return fn(clonedRequest);
   };
+}
+
+/**
+ * Construct a the full url to a group thumbnail
+ *
+ * - If the group has a thumbnail, construct the full url
+ * - If the group is not public, append on the token
+ * @param portalUrl
+ * @param group
+ * @param token
+ * @returns
+ */
+export function getGroupThumbnailUrl(
+  portalUrl: string,
+  group: IGroup,
+  token?: string
+): string {
+  let thumbnailUrl = null;
+  if (group.thumbnail) {
+    thumbnailUrl = `${portalUrl}/community/groups/${group.id}/info/${group.thumbnail}`;
+    if (token && group.access !== "public") {
+      thumbnailUrl = `${thumbnailUrl}?token=${token}`;
+    }
+  }
+  return thumbnailUrl;
+}
+
+/**
+ * Construct a the full url to a user thumbnail
+ *
+ * - If the user has a thumbnail, construct the full url
+ * - If the user is not public, append on the token
+ * @param portalUrl
+ * @param user
+ * @param token
+ * @returns
+ */
+export function getUserThumbnailUrl(
+  portalUrl: string,
+  user: IUser,
+  token?: string
+): string {
+  let thumbnailUrl = null;
+  if (user.thumbnail) {
+    thumbnailUrl = `${portalUrl}/community/users/${user.username}/info/${user.thumbnail}`;
+    if (token && user.access !== "public") {
+      thumbnailUrl = `${thumbnailUrl}?token=${token}`;
+    }
+  }
+  return thumbnailUrl;
 }

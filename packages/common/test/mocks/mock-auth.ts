@@ -18,3 +18,16 @@ export const MOCK_AUTH = new UserSession({
   password: "123456",
   portal: "https://myorg.maps.arcgis.com/sharing/rest",
 });
+
+export const MOCK_ENTERPRISE_AUTH = new UserSession({
+  clientId: "clientId",
+  redirectUri: "https://example-app.com/redirect-uri",
+  token: "fake-token",
+  tokenExpires: TOMORROW,
+  refreshToken: "refreshToken",
+  refreshTokenExpires: TOMORROW,
+  refreshTokenTTL: 1440,
+  username: "vader",
+  password: "123456",
+  portal: "https://my-server.com/portal/sharing/rest",
+});
