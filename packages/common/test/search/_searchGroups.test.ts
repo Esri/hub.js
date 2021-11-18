@@ -119,6 +119,23 @@ describe("_searchGroups:", () => {
         "https://mysite.com/teams/7d9cc5e39a8f4c0aa29e04a473bf4703/about"
       );
     });
+    it("adds sort fields and sort orders", async () => {
+      const searchGroupsSpy = spyOn(Portal, "searchGroups").and.callFake(() => {
+        return Promise.resolve(cloneObject(SimpleResponse));
+      });
+      const f: Filter<"group"> = {
+        filterType: "group",
+        term: "water",
+      };
+      const o: IHubSearchOptions = {
+        sortField: "title",
+        sortOrder: "asc",
+      };
+      const chk = await _searchGroups(f, o);
+      const g1 = chk.results[0];
+      expect(g1.sortField).toBe("title");
+      expect(g1.sortOrder).toBe("asc");
+    });
   });
 
   describe("hub api:", () => {
