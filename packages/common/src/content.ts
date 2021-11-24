@@ -786,6 +786,24 @@ export const setContentHubId = (
 };
 
 /**
+ * Calculates the relative and absolute urls for a given content on a specific site
+ *
+ * @param content
+ * @param siteModel
+ * @returns relative and absolute urls
+ */
+export const getContentSiteUrls = (content: IHubContent, siteModel: IModel) => {
+  // compute relative URL using a site specific identifier
+  const siteIdentifier = getContentIdentifier(content, siteModel);
+  const relative = getContentRelativeUrl(content, siteIdentifier);
+  // get the absolute URL to this content on the site
+  const siteUrl = getProp(siteModel, "item.url").replace(/\/$/, "");
+  const absolute = `${siteUrl}${relative}`;
+
+  return { relative, absolute };
+};
+
+/**
  * append the absolute URL to the content on the site
  * also updates the relative URL in case the
  * @param content
@@ -796,12 +814,7 @@ export const setContentSiteUrls = (
   content: IHubContent,
   siteModel: IModel
 ): IHubContent => {
-  // recompute relative URL using a site specific identifier
-  const siteIdentifier = getContentIdentifier(content, siteModel);
-  const relative = getContentRelativeUrl(content, siteIdentifier);
-  // get the absolute URL to this content on the site
-  const siteUrl = getProp(siteModel, "item.url").replace(/\/$/, "");
-  const site = `${siteUrl}${relative}`;
+  const { relative, absolute: site } = getContentSiteUrls(content, siteModel);
   // append the updated URLs to a new content
   return appendContentUrls(content, {
     relative,
