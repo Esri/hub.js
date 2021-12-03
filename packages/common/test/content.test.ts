@@ -644,24 +644,40 @@ describe("dataset to content", () => {
   // NOTE: other use cases are covered by getContent() tests
 });
 describe("setContentType", () => {
-  // NOTE: these tests are just the most expedient way
-  // to get coverage for getContentRelativeUrl() w/o exporting it
-  let content: IHubContent;
-  beforeEach(() => {
-    content = itemToContent(documentItem);
+  describe("Relative Urls", () => {
+    // NOTE: these tests are just the most expedient way
+    // to get coverage for getContentRelativeUrl() w/o exporting it
+    let content: IHubContent;
+    beforeEach(() => {
+      content = itemToContent(documentItem);
+    });
+    it("sets relative url for feedback", () => {
+      const updated = setContentType(content, "Form");
+      expect(updated.urls.relative).toBe(
+        `/feedback/surveys/${content.identifier}`
+      );
+    });
+    it("sets relative url for deployed solution", () => {
+      content.typeKeywords.push("Deployed");
+      const updated = setContentType(content, "Solution");
+      expect(updated.urls.relative).toBe(
+        `/templates/${content.identifier}/about`
+      );
+    });
   });
-  it("sets relative url for feedback", () => {
-    const updated = setContentType(content, "Form");
-    expect(updated.urls.relative).toBe(
-      `/feedback/surveys/${content.identifier}`
-    );
-  });
-  it("sets relative url for deployed solution", () => {
-    content.typeKeywords.push("Deployed");
-    const updated = setContentType(content, "Solution");
-    expect(updated.urls.relative).toBe(
-      `/templates/${content.identifier}/about`
-    );
+  // NOTE: this test is meant to verify that normalizedType
+  // is passed into getFamily(), not the raw type.
+  it("Sets the family based on the normalizedType", () => {
+    const oldInitiativeTemplate = {
+      identifier: "9001",
+      item: {
+        type: "Hub Initiative",
+        typeKeywords: ["hubInitiativeTemplate"],
+      },
+    } as unknown as IHubContent;
+
+    const updated = setContentType(oldInitiativeTemplate, "Hub Initiative");
+    expect(updated.family).toBe("template");
   });
 });
 describe("setContentSiteUrls", () => {

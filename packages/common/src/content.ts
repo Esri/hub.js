@@ -743,7 +743,7 @@ export function datasetToItem(dataset: DatasetResource): IItem {
 }
 
 /**
- * retunrs a new content that has the specified type and
+ * returns a new content that has the specified type and
  * and updated related properties like normalizedType, family, etc
  * @param content orignal content
  * @param type new type
@@ -754,8 +754,8 @@ export const setContentType = (
   type: string
 ): IHubContent => {
   // get family and normalized type based on new type
-  const family = getFamily(type);
   const normalizedType = normalizeItemType({ ...content.item, type });
+  const family = getFamily(normalizedType);
   const updated = { ...content, type, family, normalizedType };
   // update the relative URL to the content
   // which is based on type and family
@@ -765,7 +765,7 @@ export const setContentType = (
 };
 
 /**
- * retunrs a new content that has the specified hubId and updated identifier
+ * returns a new content that has the specified hubId and updated identifier
  * @param content orignal content
  * @param hubId new hubId
  * @returns new content
