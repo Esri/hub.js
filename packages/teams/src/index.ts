@@ -13,3 +13,4 @@ export * from "./remove-users-from-team";
 export * from "./remove-users-from-teams";
 export * from "./update-team";
 export * from "./update-user-membership";
+export * from "./share-or-unshare-items-to-team";
