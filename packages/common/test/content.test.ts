@@ -6,6 +6,7 @@ import {
   datasetToItem,
   getCategory,
   getCollection,
+  setContentBoundary,
   getTypes,
   getTypeCategories,
   normalizeItemType,
@@ -518,7 +519,7 @@ describe("item to content", () => {
   });
   it("has a reference to the item", () => {
     const content = itemToContent(item);
-    expect(content.item).toBe(item);
+    expect(content.item).toEqual(item);
   });
   it("has a boundary when the item has a valid extent", () => {
     item = cloneObject(mapServiceItem) as IItem;
@@ -532,7 +533,7 @@ describe("item to content", () => {
         wkid: 4326,
       },
     };
-    expect(content.boundary).toEqual({ geometry });
+    expect(content.boundary).toEqual({ geometry, provenance: "item" });
   });
   it("gets relative url from type and family", () => {
     const content = itemToContent(item);
@@ -716,5 +717,12 @@ describe("setContentSiteUrls", () => {
     expect(result.urls.site).toEqual(
       `${site.item.url}/pages/${content.identifier}`
     );
+  });
+  it("sets boundary to none", () => {
+    const content = setContentBoundary(itemToContent(documentItem), "none");
+    expect(content.boundary).toEqual({
+      provenance: "none",
+      geometry: null,
+    });
   });
 });
