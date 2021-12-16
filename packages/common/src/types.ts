@@ -124,6 +124,9 @@ export interface IItemResource {
   name: string;
 }
 
+export type BBox = number[][];
+
+// DEPRECATED: use BBox instead
 export type IBBox = number[][];
 
 export type IBatch = any[];
@@ -387,7 +390,7 @@ export interface IHubContent extends IHubResource, IItem {
   structuredLicense?: IStructuredLicense;
 }
 
-interface IActionLink {
+export interface IActionLink {
   /** Link title */
   title: string;
   /** Link URL */

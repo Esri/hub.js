@@ -5,13 +5,13 @@ import { IItem } from "@esri/arcgis-rest-portal";
 import {
   HubType,
   HubFamily,
-  IBBox,
+  BBox,
   IHubGeography,
   GeographyProvenance,
 } from "./types";
 import { collections } from "./collections";
 import { categories as allCategories, isDownloadable } from "./categories";
-import { createExtent, isExtentCoordinateArray } from "./extent";
+import { bBoxToPolygon, isBBox } from "./extent";
 import { includes, isGuid } from "./utils";
 import { IHubContent, IModel } from "./types";
 import { getProp } from "./objects";
@@ -37,21 +37,6 @@ function collectionToFamily(collection: string): string {
     solution: "template",
   };
   return overrides[collection] || collection;
-}
-
-function itemExtentToBoundary(extent: IBBox): IHubGeography {
-  return (
-    extent &&
-    extent.length && {
-      // TODO: center?
-      geometry: createExtent(
-        extent[0][0],
-        extent[0][1],
-        extent[1][0],
-        extent[1][1]
-      ),
-    }
-  );
 }
 
 const cache: { [key: string]: string } = {};
@@ -558,11 +543,7 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
 
   // common enrichments
   content.boundary = boundary;
-  if (
-    !isExtentCoordinateArray(item.extent) &&
-    extent &&
-    isExtentCoordinateArray(extent.coordinates)
-  ) {
+  if (!isBBox(item.extent) && extent && isBBox(extent.coordinates)) {
     // we fall back to the extent derived by the API
     // which prefers layer or service extents and ultimately
     // falls back to the org's extent
@@ -916,7 +897,7 @@ export const setContentBoundary = (
  */
 export const setContentExtent = (
   content: IHubContent,
-  extent: IBBox
+  extent: BBox
 ): IHubContent => {
   // update content's item and extent
   const item = { ...content.item, extent };
@@ -929,15 +910,16 @@ export const setContentExtent = (
 const getContentBoundary = (content: IHubContent): IHubGeography => {
   const item = content.item;
   const extent = item.extent;
+  const isValidItemExtent = isBBox(extent);
   // user specified provenance is stored in item.properties
   const provenance: GeographyProvenance =
     item.properties?.boundary ||
     // but we default to item if the item has an extent
-    (isExtentCoordinateArray(extent) ? "item" : undefined);
+    (isValidItemExtent ? "item" : undefined);
   let geometry;
   switch (provenance) {
     case "item":
-      ({ geometry } = itemExtentToBoundary(extent));
+      geometry = isValidItemExtent ? bBoxToPolygon(extent) : null;
       break;
     case "none":
       geometry = null;
