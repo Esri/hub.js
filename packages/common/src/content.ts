@@ -2,10 +2,16 @@
  * Apache-2.0 */
 import { ResourceObject } from "jsonapi-typescript";
 import { IItem } from "@esri/arcgis-rest-portal";
-import { HubType, HubFamily, IBBox, IHubGeography } from "./types";
+import {
+  HubType,
+  HubFamily,
+  BBox,
+  IHubGeography,
+  GeographyProvenance,
+} from "./types";
 import { collections } from "./collections";
 import { categories as allCategories, isDownloadable } from "./categories";
-import { createExtent, isExtentCoordinateArray } from "./extent";
+import { bBoxToPolygon, isBBox } from "./extent";
 import { includes, isGuid } from "./utils";
 import { IHubContent, IModel } from "./types";
 import { getProp } from "./objects";
@@ -31,21 +37,6 @@ function collectionToFamily(collection: string): string {
     solution: "template",
   };
   return overrides[collection] || collection;
-}
-
-function itemExtentToBoundary(extent: IBBox): IHubGeography {
-  return (
-    extent &&
-    extent.length && {
-      // TODO: center?
-      geometry: createExtent(
-        extent[0][0],
-        extent[0][1],
-        extent[1][0],
-        extent[1][1]
-      ),
-    }
-  );
 }
 
 const cache: { [key: string]: string } = {};
@@ -479,7 +470,6 @@ export function itemToContent(item: IItem): IHubContent {
     metrics: properties && properties.metrics,
     isDownloadable: isDownloadable(item),
     // default boundary from item.extent
-    boundary: itemExtentToBoundary(item.extent),
     license: { name: "Custom License", description: item.accessInformation },
     // dates and sources we will enrich these later...
     createdDate,
@@ -490,7 +480,7 @@ export function itemToContent(item: IItem): IHubContent {
     updatedDateSource: "item.modified",
     structuredLicense: getStructuredLicense(item.licenseInfo),
   });
-  return setContentType(content, item.type);
+  return setContentExtent(setContentType(content, item.type), item.extent);
 }
 
 /**
@@ -553,11 +543,7 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
 
   // common enrichments
   content.boundary = boundary;
-  if (
-    !isExtentCoordinateArray(item.extent) &&
-    extent &&
-    isExtentCoordinateArray(extent.coordinates)
-  ) {
+  if (!isBBox(item.extent) && extent && isBBox(extent.coordinates)) {
     // we fall back to the extent derived by the API
     // which prefers layer or service extents and ultimately
     // falls back to the org's extent
@@ -756,6 +742,7 @@ export const setContentType = (
   // get family and normalized type based on new type
   const normalizedType = normalizeItemType({ ...content.item, type });
   const family = getFamily(normalizedType);
+  // TODO: don't we need to update content.item.type too?
   const updated = { ...content, type, family, normalizedType };
   // update the relative URL to the content
   // which is based on type and family
@@ -883,6 +870,67 @@ const getSolutionUrl = (content: IHubContent): string => {
     hubUrl = `/templates/${identifier}/about`;
   }
   return hubUrl;
+};
+
+/**
+ * Create a new content with updated boundary properties
+ * @param content original content
+ * @param boundary boundary provenance
+ * @returns
+ */
+export const setContentBoundary = (
+  content: IHubContent,
+  boundary: GeographyProvenance
+) => {
+  // update content's item and boundary
+  const properties = { ...(content.item.properties || {}), boundary };
+  const item = { ...content.item, properties };
+  const updated = { ...content, item };
+  return { ...updated, boundary: getContentBoundary(updated) };
+};
+
+/**
+ * Create a new content with updated extent and derived properties like boundary
+ * @param content original content
+ * @param extent new extent
+ * @returns a new content with the updated extent and boundary
+ */
+export const setContentExtent = (
+  content: IHubContent,
+  extent: BBox
+): IHubContent => {
+  // update content's item and extent
+  const item = { ...content.item, extent };
+  const updated = { ...content, item, extent };
+  // derive boundary from content properties
+  const boundary = getContentBoundary(updated);
+  return { ...updated, boundary };
+};
+
+const getContentBoundary = (content: IHubContent): IHubGeography => {
+  const item = content.item;
+  const extent = item.extent;
+  const isValidItemExtent = isBBox(extent);
+  // user specified provenance is stored in item.properties
+  const provenance: GeographyProvenance =
+    item.properties?.boundary ||
+    // but we default to item if the item has an extent
+    (isValidItemExtent ? "item" : undefined);
+  let geometry;
+  switch (provenance) {
+    case "item":
+      geometry = isValidItemExtent ? bBoxToPolygon(extent) : null;
+      break;
+    case "none":
+      geometry = null;
+      break;
+    // TODO: handle other provenances
+  }
+  // TODO: derive and return center
+  return {
+    provenance,
+    geometry,
+  };
 };
 
 // page helpers

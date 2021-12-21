@@ -1,11 +1,12 @@
 import { IItem } from "@esri/arcgis-rest-portal";
-import { IEnvelope } from "@esri/arcgis-rest-types";
+import { IEnvelope, IPolygon } from "@esri/arcgis-rest-types";
 import {
   DatasetResource,
   datasetToContent,
   datasetToItem,
   getCategory,
   getCollection,
+  setContentBoundary,
   getTypes,
   getTypeCategories,
   normalizeItemType,
@@ -518,21 +519,35 @@ describe("item to content", () => {
   });
   it("has a reference to the item", () => {
     const content = itemToContent(item);
-    expect(content.item).toBe(item);
+    expect(content.item).toEqual(item);
+  });
+  it("handles invalid item boundary set to item extent but item has no extent", () => {
+    // configure item to specify using item extent as boundary
+    // even though the item has an empty extent
+    const properties = { boundary: "item" };
+    const content = itemToContent({ ...item, properties });
+    const boundary = content.boundary;
+    expect(boundary.geometry).toBeNull();
+    expect(boundary.provenance).toBe("item");
   });
   it("has a boundary when the item has a valid extent", () => {
     item = cloneObject(mapServiceItem) as IItem;
     const content = itemToContent(item);
-    const geometry: IEnvelope = {
-      xmin: -2.732,
-      ymin: 53.4452,
-      xmax: -2.4139,
-      ymax: 53.6093,
+    const geometry: IPolygon = {
+      rings: [
+        [
+          [-2.732, 53.4452],
+          [-2.4139, 53.4452],
+          [-2.4139, 53.6093],
+          [-2.732, 53.6093],
+          [-2.732, 53.4452],
+        ],
+      ],
       spatialReference: {
         wkid: 4326,
       },
     };
-    expect(content.boundary).toEqual({ geometry });
+    expect(content.boundary).toEqual({ geometry, provenance: "item" });
   });
   it("gets relative url from type and family", () => {
     const content = itemToContent(item);
@@ -716,5 +731,12 @@ describe("setContentSiteUrls", () => {
     expect(result.urls.site).toEqual(
       `${site.item.url}/pages/${content.identifier}`
     );
+  });
+  it("sets boundary to none", () => {
+    const content = setContentBoundary(itemToContent(documentItem), "none");
+    expect(content.boundary).toEqual({
+      provenance: "none",
+      geometry: null,
+    });
   });
 });

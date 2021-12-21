@@ -1,4 +1,4 @@
-import { IInitiativeModelTemplate, IBBox } from "@esri/hub-common";
+import { IInitiativeModelTemplate, BBox } from "@esri/hub-common";
 
 export const DEFAULT_INITIATIVE_TEMPLATE: IInitiativeModelTemplate = {
   item: {
@@ -8,14 +8,14 @@ export const DEFAULT_INITIATIVE_TEMPLATE: IInitiativeModelTemplate = {
     type: "Hub Initiative",
     typeKeywords: ["Hub", "hubInitiative"],
     tags: [],
-    extent: ("{{organization.defaultExtentBBox}}" as unknown) as IBBox,
+    extent: "{{organization.defaultExtentBBox}}" as unknown as BBox,
     culture: "{{user.culture}}",
     properties: {},
-    url: ""
+    url: "",
   },
   data: {
     assets: [],
     indicators: [],
-    recommendedTemplates: []
-  }
+    recommendedTemplates: [],
+  },
 };

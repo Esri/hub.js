@@ -124,6 +124,9 @@ export interface IItemResource {
   name: string;
 }
 
+export type BBox = number[][];
+
+// DEPRECATED: use BBox instead
 export type IBBox = number[][];
 
 export type IBatch = any[];
@@ -198,6 +201,8 @@ export type Visibility = "private" | "org" | "public";
  */
 export type AccessControl = "view" | "edit" | "admin";
 
+export type GeographyProvenance = "item" | "none" | "automatic";
+
 /**
  * Location of a Hub resource
  *
@@ -207,6 +212,7 @@ export type AccessControl = "view" | "edit" | "admin";
 export interface IHubGeography {
   center?: [number, number];
   geometry?: IGeometry;
+  provenance?: GeographyProvenance;
 }
 
 export type SearchableType = IItem | IGroup | IUser;
@@ -384,7 +390,7 @@ export interface IHubContent extends IHubResource, IItem {
   structuredLicense?: IStructuredLicense;
 }
 
-interface IActionLink {
+export interface IActionLink {
   /** Link title */
   title: string;
   /** Link URL */
