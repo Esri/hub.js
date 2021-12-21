@@ -1,6 +1,15 @@
 import { IGroup, IItem } from "@esri/arcgis-rest-portal";
-import { IDiscussionParams } from "../types";
+import {
+  IDiscussionParams,
+  IPost,
+  IFetchChannelOptions,
+  IHubRequestOptions,
+  IChannel,
+} from "../types";
 import { parseDatasetId, IHubContent } from "@esri/hub-common";
+import { IUser } from "@esri/arcgis-rest-auth";
+import { fetchChannel } from "../channels";
+import { canModifyChannel } from "./channels";
 
 /**
  * Utility that parses a discussion URI string into its component parts
@@ -83,4 +92,34 @@ export function isItemDiscussable(item: IItem): boolean {
 export function isDiscussable(subject: IGroup | IItem | IHubContent) {
   // TODO: implement
   return true;
+}
+
+/**
+ * Determines if the given user has sufficient privileges to modify the given post
+ * @param post An IPost object
+ * @param channel An IChannel object
+ * @param user An IUser object
+ * @returns true if the user can modify the post
+ */
+export function canModifyPost(
+  post: IPost,
+  channel: IChannel,
+  user: IUser
+): boolean {
+  return post.creator === user.username || canModifyChannel(channel, user);
+}
+
+/**
+ * Determines if the given user has sufficient privileges to delete the given post
+ * @param post An IPost object
+ * @param channel An IChannel object
+ * @param user An IUser object
+ * @returns true if the user can delete the post
+ */
+export function canDeletePost(
+  post: IPost,
+  channel: IChannel,
+  user: IUser
+): boolean {
+  return canModifyPost(post, channel, user);
 }
