@@ -15,7 +15,7 @@ export function deepSet(
   let worker = target;
   const lastIdx = parts.length - 1;
   parts.forEach((p, idx) => {
-    if (!worker.hasOwnProperty(p) || worker[p] === null) {
+    if (!worker.hasOwnProperty(p) || worker[p] == null) {
       if (idx === lastIdx) {
         worker[p] = value;
       } else {

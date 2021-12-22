@@ -18,4 +18,10 @@ describe("setProp", () => {
     setProp(["foo", "bar"], true, obj);
     expect(obj).toEqual({ foo: { bar: true } });
   });
+
+  it("handles intermediary properties that are explicitly set to undefined", () => {
+    const obj = { foo: undefined as any };
+    setProp("foo.bar", true, obj);
+    expect(obj).toEqual({ foo: { bar: true } });
+  });
 });
