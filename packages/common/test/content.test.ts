@@ -1,12 +1,11 @@
 import { IItem } from "@esri/arcgis-rest-portal";
-import { IEnvelope, IPolygon } from "@esri/arcgis-rest-types";
+import { IPolygon } from "@esri/arcgis-rest-types";
 import {
   DatasetResource,
   datasetToContent,
   datasetToItem,
   getCategory,
   getCollection,
-  setContentBoundary,
   getTypes,
   getTypeCategories,
   normalizeItemType,
@@ -26,6 +25,7 @@ import {
   getFamily,
   setContentType,
 } from "../src/content";
+import { setContentBoundary } from "../src/content/_internal";
 import { IHubContent, IModel } from "../src/types";
 import { cloneObject } from "../src/util";
 import * as documentItem from "./mocks/items/document.json";
@@ -732,6 +732,11 @@ describe("setContentSiteUrls", () => {
       `${site.item.url}/pages/${content.identifier}`
     );
   });
+});
+
+// the tests below of internal functions are
+// usually only added to get to 100% coverage
+describe("internal", () => {
   it("sets boundary to none", () => {
     const content = setContentBoundary(itemToContent(documentItem), "none");
     expect(content.boundary).toEqual({

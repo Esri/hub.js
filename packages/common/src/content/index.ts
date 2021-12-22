@@ -2,21 +2,16 @@
  * Apache-2.0 */
 import { ResourceObject } from "jsonapi-typescript";
 import { IItem } from "@esri/arcgis-rest-portal";
-import {
-  HubType,
-  HubFamily,
-  BBox,
-  IHubGeography,
-  GeographyProvenance,
-} from "./types";
-import { collections } from "./collections";
-import { categories as allCategories, isDownloadable } from "./categories";
-import { bBoxToPolygon, isBBox } from "./extent";
-import { includes, isGuid } from "./utils";
-import { IHubContent, IModel } from "./types";
-import { getProp } from "./objects";
-import { getStructuredLicense } from "./items/get-structured-license";
-import { getServiceTypeFromUrl } from "./urls";
+import { HubType, HubFamily } from "../types";
+import { collections } from "../collections";
+import { categories as allCategories, isDownloadable } from "../categories";
+import { isBBox } from "../extent";
+import { includes, isGuid } from "../utils";
+import { IHubContent, IModel } from "../types";
+import { getProp } from "../objects";
+import { getStructuredLicense } from "../items/get-structured-license";
+import { getServiceTypeFromUrl } from "../urls";
+import { setContentExtent } from "./_internal";
 
 /**
  * JSONAPI dataset resource returned by the Hub API
@@ -870,67 +865,6 @@ const getSolutionUrl = (content: IHubContent): string => {
     hubUrl = `/templates/${identifier}/about`;
   }
   return hubUrl;
-};
-
-/**
- * Create a new content with updated boundary properties
- * @param content original content
- * @param boundary boundary provenance
- * @returns
- */
-export const setContentBoundary = (
-  content: IHubContent,
-  boundary: GeographyProvenance
-) => {
-  // update content's item and boundary
-  const properties = { ...(content.item.properties || {}), boundary };
-  const item = { ...content.item, properties };
-  const updated = { ...content, item };
-  return { ...updated, boundary: getContentBoundary(updated) };
-};
-
-/**
- * Create a new content with updated extent and derived properties like boundary
- * @param content original content
- * @param extent new extent
- * @returns a new content with the updated extent and boundary
- */
-export const setContentExtent = (
-  content: IHubContent,
-  extent: BBox
-): IHubContent => {
-  // update content's item and extent
-  const item = { ...content.item, extent };
-  const updated = { ...content, item, extent };
-  // derive boundary from content properties
-  const boundary = getContentBoundary(updated);
-  return { ...updated, boundary };
-};
-
-const getContentBoundary = (content: IHubContent): IHubGeography => {
-  const item = content.item;
-  const extent = item.extent;
-  const isValidItemExtent = isBBox(extent);
-  // user specified provenance is stored in item.properties
-  const provenance: GeographyProvenance =
-    item.properties?.boundary ||
-    // but we default to item if the item has an extent
-    (isValidItemExtent ? "item" : undefined);
-  let geometry;
-  switch (provenance) {
-    case "item":
-      geometry = isValidItemExtent ? bBoxToPolygon(extent) : null;
-      break;
-    case "none":
-      geometry = null;
-      break;
-    // TODO: handle other provenances
-  }
-  // TODO: derive and return center
-  return {
-    provenance,
-    geometry,
-  };
 };
 
 // page helpers
