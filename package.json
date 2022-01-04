@@ -22,7 +22,6 @@
 		"@commitlint/config-conventional": "^11.0.0",
 		"@commitlint/config-lerna-scopes": "^11.0.0",
 		"@commitlint/prompt": "^11.0.0",
-		"@qiwi/multi-semantic-release": "^3.17.1",
 		"@rollup/plugin-commonjs": "^15.0.0",
 		"@rollup/plugin-json": "^4.1.0",
 		"@rollup/plugin-node-resolve": "^9.0.0",
@@ -71,6 +70,7 @@
 		"lerna": "^3.22.1",
 		"lint-staged": "^4.3.0",
 		"minimatch": "^3.0.4",
+		"multi-semantic-release": "^2.11.0",
 		"onchange": "^3.3.0",
 		"prettier": "^2.2.1",
 		"resolve": "^1.5.0",
@@ -153,8 +153,8 @@
 		"tsc:v": "lerna run tsc:v",
 		"y:publish": "lerna run y:publish",
 		"y:push": "lerna run y:push",
-    "release:dry": "multi-semantic-release --dry-run --debug --deps.release=patch",
-    "release": "multi-semantic-release"
+		"release:dry": "multi-semantic-release --dry-run --debug --deps.release=patch",
+		"release": "multi-semantic-release"
 	},
 	"husky": {
 		"hooks": {
