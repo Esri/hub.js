@@ -1,18 +1,16 @@
 [![npm version][npm-img]][npm-url]
-[![build status][travis-img]][travis-url]
-[![gzip bundle size][gzip-image]][npm-url]
+[![build status][build-img]][build-url]
 [![Coverage Status][coverage-img]][coverage-url]
 [![apache licensed][license-img]][license-url]
 
-[npm-img]: https://img.shields.io/npm/v/@esri/hub-initiatives.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/@esri/hub-initiatives
-[travis-img]: https://img.shields.io/travis/Esri/hub.js/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/Esri/hub.js
+[npm-img]: https://img.shields.io/npm/v/@esri/hub-common.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/@esri/hub-commin
+[build-img]: https://github.com/Esri/hub.js/actions/workflows/pre-release-tests.yml/badge.svg
+[build-url]: https://github.com/Esri/hub.js/actions/workflows/pre-release-tests.yml
 [coverage-img]: https://codecov.io/gh/Esri/hub.js/branch/master/graph/badge.svg
 [coverage-url]: https://codecov.io/gh/Esri/hub.js
 [license-img]: https://img.shields.io/badge/license-Apache%202.0-orange.svg?style=flat-square
 [license-url]: #license
-[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/hub-common/dist/umd/common.umd.min.js?compression=gzip
 
 # @esri/hub.js
 
@@ -67,8 +65,7 @@ Some useful commands include:
 - There is also a `Debug Node Tests` configuration in the `.vscode/launch.json` which will run the Node tests in the VS Code debugger.
 - `npm run test:chrome:debug` runs _all_ the tests in a browser, and will re-run when changes are made. Note: in some situations, spies/stubs will fail on subsequent test runs. We are not certain why this occurs, but the resolution is to stop/start the test runner.
 - `npm run docs:serve` will run the documentation site locally at http://localhost:3000
-- `npm run build` will created UMD bundles for _all_ the packages
-- `npm run dev -- <esm|node> <glob>` will re-run the specified build type any time the source code changes in the matched package(s). Example: `npm run dev -- esm @esri/hub-initiatives`
+- `npm run build` will run the ES5, ESM, CJS and UMD build for _all_ the packages
 
 ### Packages
 

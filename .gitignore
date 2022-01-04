@@ -87,3 +87,6 @@ test.html
 
 .idea/
 .vscode/
+
+## ignore ultra build cache info
+/**/*/.ultra.cache.json
