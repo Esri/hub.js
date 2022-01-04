@@ -1,4 +1,4 @@
-name: Pre-Release Tests
+name: Build, Test, Release
 
 # On pushes to master (i.e. merging a PR)
 # run all tests, on win, macos, linux, on node 12 & 14
@@ -31,8 +31,11 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - name: Install and Build
+      - name: Install
         run: npm install
+
+      - name: Build
+        run: npm run build
 
       - name: Test in Chrome
         run: npm run test:chrome:ci

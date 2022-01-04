@@ -205,7 +205,13 @@ describe("Search Utils:", () => {
         const chk = relativeDateToDateRange(rd);
         expect(chk.from).toBeLessThan(chk.to);
         const m = new Date(chk.from).getMonth();
-        expect(m).toBeLessThan(new Date().getMonth());
+        const curMonth = new Date().getMonth();
+        // Account for January/December
+        if (curMonth > 0) {
+          expect(m).toBeLessThan(new Date().getMonth());
+        } else {
+          expect(m).toBe(11);
+        }
       });
       it("converts years", () => {
         const rd: IRelativeDate = {
