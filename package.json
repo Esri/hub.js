@@ -22,9 +22,12 @@
 		"@commitlint/config-conventional": "^11.0.0",
 		"@commitlint/config-lerna-scopes": "^11.0.0",
 		"@commitlint/prompt": "^11.0.0",
+		"@qiwi/multi-semantic-release": "^3.17.1",
 		"@rollup/plugin-commonjs": "^15.0.0",
 		"@rollup/plugin-json": "^4.1.0",
 		"@rollup/plugin-node-resolve": "^9.0.0",
+		"@semantic-release/changelog": "^6.0.1",
+		"@semantic-release/git": "^10.0.1",
 		"@types/es6-promise": "0.0.32",
 		"@types/fetch-mock": "^7.0.0",
 		"@types/isomorphic-fetch": "0.0.34",
@@ -149,7 +152,9 @@
 		"test": "npm run test:node && npm run test:chrome",
 		"tsc:v": "lerna run tsc:v",
 		"y:publish": "lerna run y:publish",
-		"y:push": "lerna run y:push"
+		"y:push": "lerna run y:push",
+    "release:dry": "multi-semantic-release --dry-run --debug --deps.release=patch",
+    "release": "multi-semantic-release"
 	},
 	"husky": {
 		"hooks": {
@@ -196,27 +201,27 @@
 		"node": "16.13.0",
 		"npm": "7.24.2"
 	},
-  "release":   {
-    "branches": [
-      "master",
-      "next",
-      "next-major",
-      {
-        "name": "beta",
-        "prerelease": true
-      },
-      {
-        "name": "alpha",
-        "prerelease": true
-      }
-    ],
-    "tagFormat": "${name}@${version}",
-    "plugins": [
-      "@semantic-release/commit-analyzer",
-      "@semantic-release/release-notes-generator",
-      "@semantic-release/changelog",
-      "@semantic-release/npm",
-      "@semantic-release/git"
-    ]
-  }
+	"release": {
+		"branches": [
+			"master",
+			"next",
+			"next-major",
+			{
+				"name": "beta",
+				"prerelease": true
+			},
+			{
+				"name": "alpha",
+				"prerelease": true
+			}
+		],
+		"tagFormat": "${name}@${version}",
+		"plugins": [
+			"@semantic-release/commit-analyzer",
+			"@semantic-release/release-notes-generator",
+			"@semantic-release/changelog",
+			"@semantic-release/npm",
+			"@semantic-release/git"
+		]
+	}
 }
