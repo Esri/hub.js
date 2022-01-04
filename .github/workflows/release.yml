@@ -6,18 +6,24 @@ on:
   push:
     branches:
       - master
+      - beta
     # Dont run if it's just markdown or doc files
     paths-ignore:
       - "**.md"
       - "docs/**"
+
 jobs:
-  build:
+  # First, build and test on multiple os's
+  # and multuple versions of node
+  build_and_test:
+    name: Build and Test
+
     runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest] # windows-latest
-        node: [12, 14]
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node: [14, 16]
 
     steps:
       - uses: actions/checkout@v2
@@ -40,3 +46,24 @@ jobs:
       - uses: codecov/codecov-action@v1
         with:
           directory: ./coverage
+
+  # If the build and test works, run a release
+  release:
+    name: Release
+    needs: [build_and_test]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.13
+
+      - name: Install and Build
+        run: npm install
+
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm run release

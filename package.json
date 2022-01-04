@@ -153,8 +153,8 @@
 		"tsc:v": "lerna run tsc:v",
 		"y:publish": "lerna run y:publish",
 		"y:push": "lerna run y:push",
-		"release:dry": "multi-semantic-release --dry-run --debug --deps.release=patch",
-		"release": "multi-semantic-release"
+		"release:dry": "multi-semantic-release --dry-run --debug --deps.release=inherit",
+		"release": "multi-semantic-release --deps.release=inherit"
 	},
 	"husky": {
 		"hooks": {

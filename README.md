@@ -5,8 +5,8 @@
 
 [npm-img]: https://img.shields.io/npm/v/@esri/hub-common.svg?style=flat-square
 [npm-url]: https://www.npmjs.com/package/@esri/hub-commin
-[build-img]: https://github.com/Esri/hub.js/actions/workflows/pre-release-tests.yml/badge.svg
-[build-url]: https://github.com/Esri/hub.js/actions/workflows/pre-release-tests.yml
+[build-img]: https://github.com/Esri/hub.js/actions/workflows/release.yml/badge.svg
+[build-url]: https://github.com/Esri/hub.js/actions/workflows/release.yml
 [coverage-img]: https://codecov.io/gh/Esri/hub.js/branch/master/graph/badge.svg
 [coverage-url]: https://codecov.io/gh/Esri/hub.js
 [license-img]: https://img.shields.io/badge/license-Apache%202.0-orange.svg?style=flat-square
