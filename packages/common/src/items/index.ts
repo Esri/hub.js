@@ -16,3 +16,4 @@ export * from "./does-item-exist-with-title";
 export * from "./get-unique-item-title";
 export * from "./fetch-all-pages";
 export * from "./get-structured-license";
+export * from "./itemResources";

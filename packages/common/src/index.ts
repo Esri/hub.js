@@ -21,6 +21,7 @@ export * from "./utils";
 export * from "./i18n";
 export * from "./request";
 export * from "./surveys";
+export * from "./projects";
 
 import OperationStack from "./OperationStack";
 import OperationError from "./OperationError";
