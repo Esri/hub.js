@@ -208,7 +208,7 @@ describe("Search Utils:", () => {
         const curMonth = new Date().getMonth();
         // Account for January/December
         if (curMonth > 0) {
-          expect(m).toBeLessThan(new Date().getMonth());
+          expect(m).toBeLessThan(curMonth);
         } else {
           expect(m).toBe(11);
         }

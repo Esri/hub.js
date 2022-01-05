@@ -22,14 +22,20 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest] #[ubuntu-latest, macos-latest, windows-latest]
-        node: [16] #[14, 16]
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node: [14, 16]
 
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
+
+      # Npm 7 is needed for workspaces, and it shipped w/ Node 16
+      # But we want to test on downlevel versions of node so we
+      # install npm7 directly
+      - name: Npm 7
+        run: npm i -g npm@7 --registry=https://registry.npmjs.org
 
       - name: Install
         run: npm ci
