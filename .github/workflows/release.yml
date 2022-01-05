@@ -20,10 +20,12 @@ jobs:
 
     runs-on: ${{ matrix.os }}
 
+    # PRs will run tests on node 14,16 on ubuntu, macos and windows
+    # so for the release, we're just running node 16@ubuntu
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        node: [14, 16]
+        os: [ubuntu-latest]
+        node: [16]
 
     steps:
       - uses: actions/checkout@v2
@@ -45,9 +47,6 @@ jobs:
 
       - name: Test in Chrome
         run: npm run test:chrome:ci
-
-      - name: Test in Firefox
-        run: npm run test:firefox:ci
 
       - name: Test in Node
         run: npm run test:node
