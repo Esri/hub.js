@@ -22,6 +22,7 @@ import {
 /**
  * Well known APIs
  * Short-forms for specifying common APIs
+ * We will likely deprecate this
  */
 export const SEARCH_APIS: IWellKnownApis = {
   arcgis: {
