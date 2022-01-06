@@ -17,25 +17,41 @@ jobs:
     if: github.event.pull_request.draft == false
     runs-on: ${{ matrix.os }}
 
+    # PRs will run across a wide range of versions & os's
+    # This takes ~10 minutes, but it ensures we don't get any
+    # weird regressions
     strategy:
       matrix:
-        os: [ubuntu-latest]
-        node: [14]
+        os: [ubuntu-latest, windows-latest]
+        node: [14, 16]
 
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
+      # Npm 7 is needed for workspaces, and it shipped w/ Node 16
+      # But we want to test on downlevel versions of node so we
+      # install npm7 directly
+      - name: Npm 7
+        run: npm i -g npm@7 --registry=https://registry.npmjs.org
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
+
+      - name: Build
+        run: npm run build
 
       - name: Test in Chrome
         run: npm run test:chrome:ci
 
+      # Only run FF on Linux b/c Windows is already really slow
       - name: Test in Firefox
-        run: npm run test:firefox:ci
+        run: |
+          if [ "$RUNNER_OS" == "Linux" ]; then
+            npm run test:firefox:ci
+          fi
+        shell: bash
 
       - name: Test in Node
         run: npm run test:node

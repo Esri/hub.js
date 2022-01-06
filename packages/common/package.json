@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-common",
-  "version": "9.10.0",
+  "version": "9.10.1-beta.1",
   "description": "Common TypeScript types and utility functions for @esri/hub.js.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/common.umd.js",
@@ -40,7 +40,6 @@
     "typescript": "^3.8.1"
   },
   "scripts": {
-    "prepare": "npm run build",
     "build": "npm run build:node && npm run build:esm",
     "build:esm": "tsc --outDir ./dist/es2017  --declaration --declarationDir ./dist/types",
     "build:esm:es5": "tsc --module es2015 --target es5 --outDir ./dist/esm",
