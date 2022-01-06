@@ -37,7 +37,7 @@ jobs:
         run: npm i -g npm@7 --registry=https://registry.npmjs.org
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
 
       - name: Test in Chrome
         run: npm run test:chrome:ci
