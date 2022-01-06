@@ -62,7 +62,7 @@ jobs:
           node-version: 16.13
 
       - name: Install and Build
-        run: npm install
+        run: npm ci
 
       - name: Release
         env:
