@@ -1,3 +1,10 @@
+## @esri/hub-common [9.10.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.10.0...@esri/hub-common@9.10.1) (2022-01-06)
+
+
+### Bug Fixes
+
+* **hub-common:** pass item owner name to shareItemToGroups and unshar… ([#697](https://github.com/Esri/hub.js/issues/697)) ([dd9bd1b](https://github.com/Esri/hub.js/commit/dd9bd1b7e8106f725ae1cde643fb6e42a7d4e47c))
+
 ## @esri/hub-common [9.10.1-beta.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.10.0...@esri/hub-common@9.10.1-beta.1) (2022-01-04)
 
 ### Bug Fixes
