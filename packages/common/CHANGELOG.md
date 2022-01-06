@@ -1,3 +1,10 @@
+## @esri/hub-common [9.10.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.10.1...@esri/hub-common@9.10.2) (2022-01-06)
+
+
+### Bug Fixes
+
+* **hub-common:** minor change to hopefully push 9.10.2, and update workflow ([66a1287](https://github.com/Esri/hub.js/commit/66a1287b91cee20fe20ab5a1c996ff3185582ee2))
+
 ## @esri/hub-common [9.10.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.10.0...@esri/hub-common@9.10.1) (2022-01-06)
 
 
