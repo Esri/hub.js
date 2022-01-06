@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-downloads",
-  "version": "9.10.1-beta.1",
+  "version": "9.10.1",
   "description": "Service for Hub downloads",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/downloads.umd.js",
@@ -17,11 +17,11 @@
     "tslib": "^1.13.0"
   },
   "peerDependencies": {
-    "@esri/hub-common": "9.10.1-beta.1"
+    "@esri/hub-common": "9.10.1"
   },
   "devDependencies": {
     "@esri/arcgis-rest-auth": "^3.1.1",
-    "@esri/hub-common": "9.10.1-beta.1",
+    "@esri/hub-common": "9.10.1",
     "@rollup/plugin-commonjs": "^15.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
