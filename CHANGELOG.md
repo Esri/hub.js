@@ -5,49 +5,62 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## All Subsequent changes are in the package changelog files:
+
+- [hub-common](./packages/common/CHANGELOG.md)
+- [hub-content](./packages/content/CHANGELOG.md)
+- [hub-discussions](./packages/discussions/CHANGELOG.md)
+- [hub-downloads](./packages/downloads/CHANGELOG.md)
+- [hub-events](./packages/events/CHANGELOG.md)
+- [hub-initiatives](./packages/initiatives/CHANGELOG.md)
+- [hub-search](./packages/search/CHANGELOG.md)
+- [hub-sites](./packages/sites/CHANGELOG.md)
+- [hub-surveys](./packages/surveys/CHANGELOG.md)
+- [hub-teams](./packages/teams/CHANGELOG.md)
+
 ## [9.10.0] - December 22nd 2021
 
 ### Other Changes
 
-* New Features
-   * **hub-common**: add bBoxToPolygon() function; fix content.boundary.geometry should be polygon [`87d62c07d`](https://github.com/Esri/hub.js/commit/87d62c07d0f7529dc7b2737433e2ad178aca89e8)
-* Bug Fixes
-   * **hub-common**: fix setProp() throws error when intermediary prop is set to undefined [`ecaf7412f`](https://github.com/Esri/hub.js/commit/ecaf7412f2cd2542d05d6d4ffac85a3bbe8de6d1)
-   * **hub-common**: fix content.boundary.geometry should be a polygon not an envelope [`47a9da120`](https://github.com/Esri/hub.js/commit/47a9da120c7d6ee1ad3fed0e852486bf762156b5)
-* Misc.
-   * **hub-common**: make setContentExtent() and setContentBoundary() internal only [`a1c2624fd`](https://github.com/Esri/hub.js/commit/a1c2624fd9bdc447ceb08475d5182ba4dc192668)
+- New Features
+  - **hub-common**: add bBoxToPolygon() function; fix content.boundary.geometry should be polygon [`87d62c07d`](https://github.com/Esri/hub.js/commit/87d62c07d0f7529dc7b2737433e2ad178aca89e8)
+- Bug Fixes
+  - **hub-common**: fix setProp() throws error when intermediary prop is set to undefined [`ecaf7412f`](https://github.com/Esri/hub.js/commit/ecaf7412f2cd2542d05d6d4ffac85a3bbe8de6d1)
+  - **hub-common**: fix content.boundary.geometry should be a polygon not an envelope [`47a9da120`](https://github.com/Esri/hub.js/commit/47a9da120c7d6ee1ad3fed0e852486bf762156b5)
+- Misc.
+  - **hub-common**: make setContentExtent() and setContentBoundary() internal only [`a1c2624fd`](https://github.com/Esri/hub.js/commit/a1c2624fd9bdc447ceb08475d5182ba4dc192668)
 
 ## [9.9.0] - December 14th 2021
 
 ### Other Changes
 
-* New Features
-   * **hub-discussions**: add canModifyPost and canDeletePost utils to discussions package [`798ad5520`](https://github.com/Esri/hub.js/commit/798ad552088843383b0087c343b11101caae9c04) [#https://devtopia.esri.com/dc/hub/issues/2770](https://github.com/Esri/hub.js/issues/https://devtopia.esri.com/dc/hub/issues/2770)
-   * **hub-discussions**: add canModifyPost and canDeletePost utils to d… [`1fc813020`](https://github.com/Esri/hub.js/commit/1fc813020c67335e054487a97c0d1c0ee3e5d12b)
+- New Features
+  - **hub-discussions**: add canModifyPost and canDeletePost utils to discussions package [`798ad5520`](https://github.com/Esri/hub.js/commit/798ad552088843383b0087c343b11101caae9c04) [#https://devtopia.esri.com/dc/hub/issues/2770](https://github.com/Esri/hub.js/issues/https://devtopia.esri.com/dc/hub/issues/2770)
+  - **hub-discussions**: add canModifyPost and canDeletePost utils to d… [`1fc813020`](https://github.com/Esri/hub.js/commit/1fc813020c67335e054487a97c0d1c0ee3e5d12b)
 
 ## [9.8.1] - December 6th 2021
 
 ### Other Changes
 
-* Bug Fixes
-   * **hub-common**: setContentType() now uses normalizedType to calculate family [`77b79b261`](https://github.com/Esri/hub.js/commit/77b79b261ac3e2d13f0e86acb4fc2e77b8c5d90f)
+- Bug Fixes
+  - **hub-common**: setContentType() now uses normalizedType to calculate family [`77b79b261`](https://github.com/Esri/hub.js/commit/77b79b261ac3e2d13f0e86acb4fc2e77b8c5d90f)
 
 ## [9.8.0] - November 24th 2021
 
 ### Other Changes
 
-* Documentation
-   * **hub-common**: add warning message around site schema migrations (#686) [`60d5f252d`](https://github.com/Esri/hub.js/commit/60d5f252dc75cf138e4009fed5784caa5f360a69)
-* New Features
-   * **hub-common**: add _searchUsers, with tests and utils (#687) [`8c9a7938e`](https://github.com/Esri/hub.js/commit/8c9a7938e5ae8b0e83c18de01f07413dc7059223)
-   * **hub-common**: add getContentSiteUrls() [`50f10de88`](https://github.com/Esri/hub.js/commit/50f10de88d80ec94f12781761e757fbdc5dc3da0)
+- Documentation
+  - **hub-common**: add warning message around site schema migrations (#686) [`60d5f252d`](https://github.com/Esri/hub.js/commit/60d5f252dc75cf138e4009fed5784caa5f360a69)
+- New Features
+  - **hub-common**: add \_searchUsers, with tests and utils (#687) [`8c9a7938e`](https://github.com/Esri/hub.js/commit/8c9a7938e5ae8b0e83c18de01f07413dc7059223)
+  - **hub-common**: add getContentSiteUrls() [`50f10de88`](https://github.com/Esri/hub.js/commit/50f10de88d80ec94f12781761e757fbdc5dc3da0)
 
 ## [9.7.2] - November 17th 2021
 
 ### Other Changes
 
-* New Features
-   * **hub-common**: add next() to _searchContent and _searchGroups (#685) [`d2ae91895`](https://github.com/Esri/hub.js/commit/d2ae91895690c2d92cc2b3a91b205246b78f550b)
+- New Features
+  - **hub-common**: add next() to \_searchContent and \_searchGroups (#685) [`d2ae91895`](https://github.com/Esri/hub.js/commit/d2ae91895690c2d92cc2b3a91b205246b78f550b)
 
 ## [9.7.1] - November 15th 2021
 
@@ -133,7 +146,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Other Changes
 
 - Bug Fixes
-  - **hub-sites**: prevent surveys and their feature services from being shared to site teams during si [`658ed2872`](https://github.com/Esri/hub.js/commit/658ed28726857f2fa1e3576bc78940f2ac9817e7) [#[2325](https://devtopia.esri.com/dc/hub/issues/2325)](&amp;amp;amp;amp;lt;&amp;amp;amp;amp;lt;&amp;amp;amp;amp;lt;&amp;amp;amp;amp;amp;lt;&amp;amp;amp;amp;amp;lt;&amp;amp;amp;amp;amp;lt;&amp;amp;amp;amp;amp;lt;https://github.com/Esri/hub.js/issues/[2325](https://devtopia.esri.com/dc/hub/issues/2325)&amp;amp;amp;amp;amp;gt;&amp;amp;amp;amp;amp;gt;&amp;amp;amp;amp;amp;gt;&amp;amp;amp;amp;amp;gt;&amp;amp;amp;amp;gt;&amp;amp;amp;amp;gt;&amp;amp;amp;amp;gt;)
+  - **hub-sites**: prevent surveys and their feature services from being shared to site teams during si [`658ed2872`](https://github.com/Esri/hub.js/commit/658ed28726857f2fa1e3576bc78940f2ac9817e7) [#[2325](https://devtopia.esri.com/dc/hub/issues/2325)](<&amp;amp;amp;lt;&amp;amp;amp;lt;&amp;amp;amp;lt;&amp;amp;amp;amp;lt;&amp;amp;amp;amp;lt;&amp;amp;amp;amp;lt;&amp;amp;amp;amp;lt;https://github.com/Esri/hub.js/issues/[2325](https://devtopia.esri.com/dc/hub/issues/2325)&amp;amp;amp;amp;gt;&amp;amp;amp;amp;gt;&amp;amp;amp;amp;gt;&amp;amp;amp;amp;gt;&amp;amp;amp;gt;&amp;amp;amp;gt;&amp;amp;amp;gt;>)
 - Misc.
   - **hub-surveys**: moves some methods from hub-surveys to hub-common to avoid adding a peer [`63450ba5f`](https://github.com/Esri/hub.js/commit/63450ba5f472a3330861533e84187d250a3ff00c)
   - **hub-common**: add surveys dir to hub-common and move survey files there [`52ebe7e43`](https://github.com/Esri/hub.js/commit/52ebe7e437b2f7eb622113e4f35e87f21ba80208)
@@ -1282,11 +1295,7 @@ Attempt to address failed release
 
 ## [4.1.0] - May 21st 2020
 
-
-
 ## [4.0.0] - May 20th 2020
-
-
 
 ## [3.9.3] - May 14th 2020
 
@@ -1324,8 +1333,6 @@ Attempt to address failed release
   - **peerDependencies**: fix invalid peerDependencies [`08fae37`](https://github.com/Esri/hub.js/commit/08fae37875aa3e68a82970a54eedcbe13ef001a8) [#251](https://github.com/Esri/hub.js/issues/251)
 
 ## [3.9.1] - May 6th 2020
-
-
 
 ## [3.9.0] - May 6th 2020
 
@@ -1367,8 +1374,6 @@ Attempt to address failed release
 
 ## [3.7.4] - April 30th 2020
 
-
-
 ## [3.7.3] - April 29th 2020
 
 - New Features
@@ -1379,8 +1384,6 @@ Attempt to address failed release
 ### @esri/hub-common
 
 ## [3.7.1] - April 28th 2020
-
-
 
 ## [3.7.0] - April 28th 2020
 
@@ -1436,11 +1439,7 @@ Attempt to address failed release
 
 ## [3.6.3] - January 27th 2020
 
-
-
 ## [3.6.2] - January 2nd 2020
-
-
 
 ## [3.6.0] - November 18th 2019
 
@@ -1534,8 +1533,6 @@ Attempt to address failed release
   - **search**: support filters specified implicitly
 
 ## [2.6.0] - August 20th 2019
-
-
 
 ## [2.5.0] - August 15th 2019
 

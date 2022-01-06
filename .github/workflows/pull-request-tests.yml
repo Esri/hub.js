@@ -22,7 +22,7 @@ jobs:
     # weird regressions
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest]
         node: [14, 16]
 
     steps:
@@ -42,8 +42,13 @@ jobs:
       - name: Test in Chrome
         run: npm run test:chrome:ci
 
+      # Only run FF on Linux b/c Windows is already really slow
       - name: Test in Firefox
-        run: npm run test:firefox:ci
+        run: |
+          if [ "$RUNNER_OS" == "Linux" ]; then
+            npm run test:firefox:ci
+          fi
+        shell: bash
 
       - name: Test in Node
         run: npm run test:node
