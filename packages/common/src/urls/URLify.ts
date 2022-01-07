@@ -2,7 +2,7 @@
  * Convert urls in a string to hyperlinks
  * @param {content} string
  */
-export function URLify(content: string): string {
+export function convertUrlsToAnchorTags(content: string): string {
   const urls = content.match(
     /((((ftp|https?):\/\/)|(w{3}\.))[-\w@:%_+.~#?,&//=]+)/g
   );
