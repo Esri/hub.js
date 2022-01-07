@@ -1,6 +1,6 @@
 import { URLify } from "../../src";
 
-fdescribe("URLify", function () {
+describe("URLify", function () {
   it("converts the url in a string to hyperlink", function () {
     const content = "Hello, https://foo.bar is supposed to be a hyperlink";
     expect(URLify(content)).toBe(
