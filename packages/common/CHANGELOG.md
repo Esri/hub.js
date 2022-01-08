@@ -1,3 +1,10 @@
+# @esri/hub-common [9.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.10.2...@esri/hub-common@9.11.0) (2022-01-08)
+
+
+### Features
+
+* **hub-common:** add URLify function that converts urls in a string to hyperlinks ([1a3035a](https://github.com/Esri/hub.js/commit/1a3035a5080a47efd7f027b5ccb68a308da0d96a))
+
 ## @esri/hub-common [9.10.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.10.1...@esri/hub-common@9.10.2) (2022-01-06)
 
 
