@@ -12,6 +12,7 @@ import { getProp } from "../objects";
 import { getStructuredLicense } from "../items/get-structured-license";
 import { getServiceTypeFromUrl } from "../urls";
 import { setContentExtent } from "./_internal";
+import { camelize } from "../util";
 
 /**
  * JSONAPI dataset resource returned by the Hub API
@@ -737,13 +738,143 @@ export const setContentType = (
   // get family and normalized type based on new type
   const normalizedType = normalizeItemType({ ...content.item, type });
   const family = getFamily(normalizedType);
+  const contentTypeIcon = setContentTypeIcon(normalizedType);
+  const contentTypeLabel = setContentTypeLabel(
+    normalizedType,
+    content.isProxied
+  );
   // TODO: don't we need to update content.item.type too?
-  const updated = { ...content, type, family, normalizedType };
+  const updated = {
+    ...content,
+    type,
+    family,
+    normalizedType,
+    contentTypeIcon,
+    contentTypeLabel,
+  };
   // update the relative URL to the content
   // which is based on type and family
   return appendContentUrls(updated, {
     relative: getContentRelativeUrl(updated),
   });
+};
+
+/**
+ * @param normalizedType
+ * @returns content type icon based on the normalizedType
+ */
+export const setContentTypeIcon = (normalizedType: string) => {
+  const type = camelize(normalizedType);
+  const iconMap = {
+    appbuilderExtension: "file",
+    appbuilderWidgetPackage: "widgets-source",
+    application: "web",
+    arcgisProMap: "desktop",
+    cadDrawing: "file-cad",
+    cityEngineWebScene: "urban-model",
+    codeAttachment: "file-code",
+    colorSet: "palette",
+    contentCategorySet: "label",
+    cSV: "file-csv",
+    cSVCollection: "file-csv",
+    dashboard: "dashboard",
+    desktopApplication: "desktop",
+    documentLink: "link",
+    excaliburImageryProject: "file",
+    explorerMap: "file",
+    exportPackage: "file",
+    featureCollection: "data",
+    featureCollectionTemplate: "file",
+    featureLayer: "data",
+    featureService: "collection",
+    fileGeodatabase: "data",
+    form: "survey",
+    geocodingService: "file",
+    geodataService: "file",
+    geometryService: "file",
+    geopackage: "file",
+    geoprocessingService: "file",
+    globeLayer: "layers",
+    globeService: "file",
+    hubInitiative: "mountain-summit-nocap",
+    hubInitiativeTemplate: "initiative-template-outlines-thick",
+    hubPage: "browser",
+    hubSiteApplication: "web",
+    image: "file-image",
+    imageService: "data",
+    insightsModel: "file",
+    insightsPage: "graph-moving-average",
+    insightsTheme: "palette",
+    insightsWorkbook: "graph-moving-average",
+    iWorkPages: "file-text",
+    iWorkKeynote: "presentation",
+    iWorkNumbers: "file-report",
+    kML: "data",
+    kMLCollection: "data",
+    layer: "layers",
+    layerPackage: "layers",
+    locatorPackage: "file",
+    mapArea: "file",
+    mapDocument: "map-contents",
+    mapImageLayer: "collection",
+    mapPackage: "file",
+    mapService: "collection",
+    microsoftExcel: "file-report",
+    microsoftPowerpoint: "presentation",
+    microsoftWord: "file-text",
+    mission: "file",
+    mobileMapPackage: "map-contents",
+    nativeApplication: "mobile",
+    nativeApplicationInstaller: "file",
+    nativeApplicationTemplate: "file",
+    mobileApplication: "mobile",
+    networkAnalysisService: "file",
+    notebook: "code",
+    orientedImageryCatalog: "file",
+    orthoMappingProject: "file",
+    orthoMappingTemplate: "file",
+    pDF: "file-pdf",
+    quickCaptureProject: "mobile",
+    rasterLayer: "map",
+    realTimeAnalytic: "file",
+    relationalDatabaseConnection: "file",
+    reportTemplate: "file",
+    sceneLayer: "data",
+    sceneService: "urban-model",
+    serviceDefinition: "file",
+    shapefile: "data",
+    solution: "solutions",
+    sqliteGeodatabase: "file",
+    statisticalDataCollection: "file",
+    storyMap: "tour",
+    symbolSet: "file",
+    table: "table",
+    urbanModel: "urban-model",
+    vectorTileService: "map",
+    visioDocument: "conditional-rules",
+    webExperience: "apps",
+    webMap: "map",
+    webMappingApplication: "apps",
+    webScene: "urban-model",
+    wFS: "map",
+    wMS: "map",
+    wMTS: "map",
+    workflowManagerService: "file",
+    workforceProject: "list-check",
+  } as any;
+  return iconMap[type] ?? "file";
+};
+
+/**
+ * @param normalizedType
+ * @param isProxied
+ * @returns content type label (typically placed next to the content type icon)
+ */
+export const setContentTypeLabel = (
+  normalizedType: string,
+  isProxied: boolean
+) => {
+  return isProxied ? "CSV" : camelize(normalizedType);
 };
 
 /**

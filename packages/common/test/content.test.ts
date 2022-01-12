@@ -24,6 +24,8 @@ import {
   getItemHubType,
   getFamily,
   setContentType,
+  setContentTypeIcon,
+  setContentTypeLabel,
 } from "../src/content";
 import { setContentBoundary } from "../src/content/_internal";
 import { IHubContent, IModel } from "../src/types";
@@ -693,6 +695,25 @@ describe("setContentType", () => {
 
     const updated = setContentType(oldInitiativeTemplate, "Hub Initiative");
     expect(updated.family).toBe("template");
+  });
+});
+describe("setContentTypeIcon", () => {
+  it("sets content type icons", () => {
+    expect(setContentTypeIcon("Application")).toEqual("web");
+    expect(setContentTypeIcon("Feature Service")).toEqual("collection");
+    expect(setContentTypeIcon("Mobile Application")).toEqual("mobile");
+    expect(setContentTypeIcon("Web Map")).toEqual("map");
+  });
+  it("sets non-existing type icon to file", () => {
+    expect(setContentTypeIcon("fooBar")).toEqual("file");
+  });
+});
+describe("setContentTypeLabel", () => {
+  it("sets content type label to the normalized type if is not proxied", () => {
+    expect(setContentTypeLabel("Application", false)).toEqual("application");
+  });
+  it("sets content type label to CSV if is proxied", () => {
+    expect(setContentTypeLabel("fooBar", true)).toEqual("CSV");
   });
 });
 describe("setContentSiteUrls", () => {
