@@ -738,8 +738,8 @@ export const setContentType = (
   // get family and normalized type based on new type
   const normalizedType = normalizeItemType({ ...content.item, type });
   const family = getFamily(normalizedType);
-  const contentTypeIcon = setContentTypeIcon(normalizedType);
-  const contentTypeLabel = setContentTypeLabel(
+  const contentTypeIcon = getContentTypeIcon(normalizedType);
+  const contentTypeLabel = getContentTypeLabel(
     normalizedType,
     content.isProxied
   );
@@ -760,11 +760,15 @@ export const setContentType = (
 };
 
 /**
+ * Compute the content type icon based on the normalizedType
  * @param normalizedType
- * @returns content type icon based on the normalizedType
+ * @returns content type icon
  */
-export const setContentTypeIcon = (normalizedType: string) => {
-  const type = camelize(normalizedType);
+export const getContentTypeIcon = (normalizedType: string) => {
+  let type;
+  if (normalizedType) {
+    type = camelize(normalizedType);
+  }
   const iconMap = {
     appbuilderExtension: "file",
     appbuilderWidgetPackage: "widgets-source",
@@ -866,15 +870,16 @@ export const setContentTypeIcon = (normalizedType: string) => {
 };
 
 /**
+ * Compute the content type label
  * @param normalizedType
  * @param isProxied
- * @returns content type label (typically placed next to the content type icon)
+ * @returns content type label
  */
-export const setContentTypeLabel = (
+export const getContentTypeLabel = (
   normalizedType: string,
   isProxied: boolean
 ) => {
-  return isProxied ? "CSV" : camelize(normalizedType);
+  return isProxied ? "CSV" : camelize(normalizedType || "");
 };
 
 /**
