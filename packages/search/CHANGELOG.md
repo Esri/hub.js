@@ -1,3 +1,13 @@
+# @esri/hub-search [9.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-search@9.11.0...@esri/hub-search@9.12.0) (2022-01-13)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 9.12.0
+
 # @esri/hub-search [9.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-search@9.10.2...@esri/hub-search@9.11.0) (2022-01-08)
 
 
