@@ -765,10 +765,7 @@ export const setContentType = (
  * @returns content type icon
  */
 export const getContentTypeIcon = (normalizedType: string) => {
-  let type;
-  if (normalizedType) {
-    type = camelize(normalizedType);
-  }
+  const type = camelize(normalizedType || "");
   const iconMap = {
     appbuilderExtension: "file",
     appbuilderWidgetPackage: "widgets-source",
