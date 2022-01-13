@@ -1,3 +1,10 @@
+# @esri/hub-common [9.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.11.0...@esri/hub-common@9.12.0) (2022-01-13)
+
+
+### Features
+
+* **hub-common:** get content type icon and content type label in itemToContent ([c7942da](https://github.com/Esri/hub.js/commit/c7942da78d5ca0fa704ae65430a4c22f5fbfb677))
+
 # @esri/hub-common [9.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.10.2...@esri/hub-common@9.11.0) (2022-01-08)
 
 
