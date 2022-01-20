@@ -8,15 +8,19 @@ import { getProp, getWithDefault, IHubRequestOptions } from ".";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 /**
+ * Hash of Hub API end points so updates
+ * are centralized
+ */
+const hubApiEndpoints = {
+  domains: "/api/v3/domains",
+  search: "/api/v3/datasets",
+  discussions: "/api/discussions/v1",
+};
+
+/**
  * Options that can be passed into `ArcGISContext.create`
  */
 export interface IArcGISContextOptions {
-  /**
-   * ClientId for use with oAuth. Although this is optional,
-   * it is required to use ArcGISContext with an oAuth flow
-   */
-  clientId?: string;
-
   /**
    * Existing user session, which may be created from Identity Manager
    * `const session = UserSession.fromCredential(idMgr.getCredential());`
@@ -56,11 +60,11 @@ export interface IArcGISContextOptions {
  */
 export class ArcGISContext {
   /**
-   * When a session is persisted to local storage,
-   * the storage key is the combination of the client id
-   * and the SESSION_KEY
+   * Random identifier useful for debugging issues
+   * where race-conditions can result in multiple
+   * contexts getting created
    */
-  private SESSION_KEY = "__CONTEXT_";
+  public id: number;
 
   private _authentication: UserSession;
 
@@ -72,15 +76,13 @@ export class ArcGISContext {
 
   private _currentUser: IUser;
 
-  private _clientId: string;
-
   private _debug = false;
 
   /**
-   * Random identifier useful for debugging issues where race-conditions
+   * Private constructor. Use `ArcGISContext.create(...)` to
+   * instantiate an instance
+   * @param opts
    */
-  public id: number;
-
   private constructor(opts: IArcGISContextOptions) {
     // Having a unique id makes debugging easier
     this.id = new Date().getTime();
@@ -88,11 +90,7 @@ export class ArcGISContext {
       this._debug = opts.debug;
     }
     this.log(`ArcGISContext:ctor: Creating ${this.id}`);
-    // If not passed in, the clientId defaults to arcgisonline
-    // NOTE: this clientid only works for applications hosted by Esri on the arcgis.com domain
-    // Custom applications *must* provide a valid clientId associated with
-    // an Application Item stored in the portal you are connecting to
-    this._clientId = opts.clientId || "arcgisonline";
+
     if (opts.authentication) {
       this._authentication = opts.authentication;
       this._portalUrl = this._authentication.portal.replace(
@@ -110,42 +108,14 @@ export class ArcGISContext {
   }
 
   /**
-   * @internal
-   * Log debugging messages to the console
-   * @param message
-   */
-  private log(message: string): void {
-    if (this._debug) {
-      console.info(message);
-    }
-  }
-
-  /**
    * Static async Factory
    * @param opts
    * @returns
    */
   public static async create(
-    opts: IArcGISContextOptions,
-    win: any = window
+    opts: IArcGISContextOptions = {}
   ): Promise<ArcGISContext> {
     const ctx = new ArcGISContext(opts);
-    // if auth was not passed in, but we have a clientId, and we have access
-    // to localStorage (i.e. we're in a browser) see if we can re-hydrate an existing session
-    if (!opts.authentication && opts.clientId && win.localStorage) {
-      const serializedSession = win.localStorage.getItem(ctx.sessionKey);
-      if (serializedSession) {
-        if (opts.debug) {
-          console.info(
-            `ArcGISContext-${ctx.id}: Loaded session from localStorage`
-          );
-        }
-        await ctx.setAuthentication(UserSession.deserialize(serializedSession));
-      }
-    }
-    if (opts.debug) {
-      console.info(`ArcGISContext-${ctx.id}: Initializing`);
-    }
     await ctx.initialize();
     return ctx;
   }
@@ -156,6 +126,7 @@ export class ArcGISContext {
    */
   async initialize(): Promise<void> {
     if (this._authentication) {
+      this.log(`ArcGISContext-${this.id}: Initializing`);
       const ps = await getSelf({ authentication: this._authentication });
       this._portalSelf = ps;
       this._currentUser = ps.user;
@@ -169,40 +140,30 @@ export class ArcGISContext {
     await this.initialize();
   }
 
-  private get sessionKey(): string {
-    return `${this.SESSION_KEY}${this._clientId}`;
-  }
-
-  public saveSession(win: any = window): void {
-    if (win.localStorage) {
-      win.localStorage.setItem(
-        this.sessionKey,
-        this._authentication.serialize()
-      );
+  /**
+   * @internal
+   * Log debugging messages to the console
+   * @param message
+   */
+  private log(message: string): void {
+    if (this._debug) {
+      // tslint:disable-next-line:no-console
+      console.info(message);
     }
   }
 
-  public async clearSession(win: any = window): Promise<void> {
-    // const localStorage = ArcGISContext._getLocalStorage();
-    if (win.localStorage) {
-      win.localStorage.removeItem(this.sessionKey);
-    }
-    this._authentication = null;
-    this._currentUser = null;
-    this._portalSelf = null;
-    this.initialize();
-  }
-
+  /**
+   * Return the UserSession if authenticated
+   */
   public get session(): UserSession {
     return this._authentication;
   }
 
+  /**
+   * Return boolean indicating if authenticatio is present
+   */
   public get isAuthenticated(): boolean {
     return !!this._authentication;
-  }
-
-  public get clientId(): string {
-    return this._clientId;
   }
 
   /**
@@ -241,6 +202,9 @@ export class ArcGISContext {
     return ro;
   }
 
+  /**
+   * Return a `IHubRequestOptions` object
+   */
   public get hubRequestOptions(): IHubRequestOptions {
     // We may add more logic around what is returned in some corner cases
     return {
@@ -254,8 +218,16 @@ export class ArcGISContext {
   // ==============================
   // Getters / Computed Properties
   // ==============================
-  // All these props should derive their values
-  // based on other state of the object
+
+  /**
+   * Return the portal url.
+   *
+   * If authenticated @ ArcGIS Online, it will return
+   * the https://org.env.arcgis.com
+   *
+   * If authenticated @ ArcGIS Enterprise, it will return
+   * https://portalHostname, which includes the web adaptor
+   */
   public get portalUrl(): string {
     if (this.isAuthenticated) {
       if (this.isPortal) {
@@ -268,6 +240,10 @@ export class ArcGISContext {
     }
   }
 
+  /**
+   * Returns the url to the sharing api
+   * i.e. https://myorg.maps.arcgis.com/sharing/rest
+   */
   public get sharingApiUrl(): string {
     return `${this.portalUrl}/sharing/rest`;
   }
@@ -276,10 +252,10 @@ export class ArcGISContext {
     return this._hubUrl;
   }
 
-  // Deprecate isPortal but until we can do that
-  // this is a stand-in and will warn in console
-  // which will be important if/when we rework
-  // session/ArcGISContext service to lean into this class
+  /**
+   * Returns boolean indicating if the backing system
+   * is ArcGIS Enterprise (formerly ArcGIS Portal) or not
+   */
   public get isPortal(): boolean {
     return this._portalSelf
       ? this._portalSelf.isPortal
@@ -386,9 +362,3 @@ function getHubApiFromPortalUrl(portalUrl: string): string {
 
   return result;
 }
-
-const hubApiEndpoints = {
-  domains: "/api/v3/domains",
-  search: "/api/v3/datasets",
-  discussions: "/api/discussions/v1",
-};
