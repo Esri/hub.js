@@ -21,9 +21,11 @@ export * from "./utils";
 export * from "./i18n";
 export * from "./request";
 export * from "./surveys";
+export * from "./ArcGISContext";
 
 import OperationStack from "./OperationStack";
 import OperationError from "./OperationError";
+
 // Re-exports
 export { OperationStack, OperationError };
 export { btoa, atob } from "abab";
