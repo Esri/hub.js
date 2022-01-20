@@ -100,7 +100,11 @@ export interface ISolutionTemplate extends IModel {
 
 export type GenericAsyncFunc = (...args: any) => Promise<any>;
 
-interface IHubRequestOptionsPortalSelf extends IPortal {
+/**
+ * @internal
+ * This just adds user to the IPortal interface
+ */
+export interface IHubRequestOptionsPortalSelf extends IPortal {
   user?: IUser;
 }
 
