@@ -1,3 +1,10 @@
+# @esri/hub-common [9.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.12.0...@esri/hub-common@9.13.0) (2022-01-20)
+
+
+### Features
+
+* add ArcGISContext ([8edb213](https://github.com/Esri/hub.js/commit/8edb213bc02b9a921a9a25ab1a4a7c0c7dda6f83))
+
 # @esri/hub-common [9.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.11.0...@esri/hub-common@9.12.0) (2022-01-13)
 
 
