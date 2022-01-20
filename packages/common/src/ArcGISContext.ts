@@ -68,7 +68,7 @@ export class ArcGISContext {
 
   private _authentication: UserSession;
 
-  private _portalUrl: string;
+  private _portalUrl: string = "https://www.arcgis.com";
 
   private _hubUrl: string;
 
@@ -102,7 +102,6 @@ export class ArcGISContext {
       this._portalUrl = opts.portalUrl;
       this._hubUrl = getHubApiFromPortalUrl(this._portalUrl);
     } else {
-      this._portalUrl = "https://www.arcgis.com";
       this._hubUrl = getHubApiFromPortalUrl(this._portalUrl);
     }
   }
