@@ -292,6 +292,11 @@ export class ArcGISContext {
     }
   }
 
+  /**
+   * Returns boolean indicating if the current user
+   * belongs to an organization that has licensed
+   * ArcGIS Hub
+   */
   public get hubEnabled(): boolean {
     return getWithDefault(
       this._portalSelf,
@@ -300,6 +305,9 @@ export class ArcGISContext {
     );
   }
 
+  /**
+   * Return Hub Community Org Id, if defined
+   */
   public get communityOrgId(): string {
     if (this._portalSelf) {
       return getProp(
