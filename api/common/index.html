@@ -166,6 +166,10 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/clearSession/" class="tsd-kind-icon padding-right-1">clearSession</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/cloneObject/" class="tsd-kind-icon padding-right-1">cloneObject</a>
             </li>
             
@@ -466,6 +470,10 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/getSession/" class="tsd-kind-icon padding-right-1">getSession</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/getSiteById/" class="tsd-kind-icon padding-right-1">getSiteById</a>
             </li>
             
@@ -694,6 +702,10 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/saveSession/" class="tsd-kind-icon padding-right-1">saveSession</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/serializeModel/" class="tsd-kind-icon padding-right-1">serializeModel</a>
             </li>
             
@@ -779,6 +791,10 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/withoutByProp/" class="tsd-kind-icon padding-right-1">withoutByProp</a>
+            </li>
+            
+            <li class="tsd-kind-class padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/ArcGISContext/" class="tsd-kind-icon padding-right-1">ArcGISContext</a>
             </li>
             
             <li class="tsd-kind-class padding-right-1 visually-hidden api-list-item">
@@ -950,6 +966,10 @@
             </li>
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/IArcGISContextOptions/" class="tsd-kind-icon padding-right-1">IArcGISContextOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/IAuthenticatedHubSearchOptions/" class="tsd-kind-icon padding-right-1">IAuthenticatedHubSearchOptions</a>
             </li>
             
@@ -1043,6 +1063,10 @@
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/IHubRequestOptions/" class="tsd-kind-icon padding-right-1">IHubRequestOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/IHubRequestOptionsPortalSelf/" class="tsd-kind-icon padding-right-1">IHubRequestOptionsPortalSelf</a>
             </li>
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
@@ -2522,7 +2546,7 @@
 
   <div class="column-18">
     <div class="panel panel-white padding-left-1 padding-right-1 padding-trailer-1 padding-leader-half">
-      <small class="label right">Version 9.11.0</small>
+      <small class="label right">Version 9.12.0</small>
 <h1 class="tsd-kind-module font-size-3 trailer-half code-face">
   <a href="/hub.js/api/common/" class="is-active">@esri/hub-common</a>
 </h1>
@@ -2554,6 +2578,7 @@
   canEditSiteContent,
   capitalize,
   chunkArray,
+  clearSession,
   cloneObject,
   completeOAuth2,
   compose,
@@ -2629,6 +2654,7 @@
   getProp,
   getProps,
   getServiceTypeFromUrl,
+  getSession,
   getSiteById,
   getSourceFeatureServiceModelFromFieldworker,
   getStakeholderModel,
@@ -2686,6 +2712,7 @@
   removeEmptyProps,
   replaceItemId,
   runRevertableTask,
+  saveSession,
   serializeModel,
   serializeSpatialReference,
   setContentBoundary,
@@ -2708,6 +2735,7 @@
   uploadResourcesFromUrl,
   without,
   withoutByProp,
+  ArcGISContext,
   Logger,
   OperationError,
   OperationStack,
@@ -2715,7 +2743,7 @@
 } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/hub-common"</span>;</code></pre>
 
 <h2 class="font-size-0 trailer-quarter">CDN:</h2>
-<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@esri/hub-common@9.11.0/dist/umd/common.umd.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@esri/hub-common@9.12.0/dist/umd/common.umd.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
 <h2 class="font-size-0 trailer-quarter">CDN with SRI:</h2>
 
 <hr class="leader-half trailer-quarter" />
@@ -2807,6 +2835,10 @@
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/common/chunkArray/" class="tsd-kind-icon">chunkArray</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/clearSession/" class="tsd-kind-icon">clearSession</a>
   </li>
   
   <li class="tsd-kind-function">
@@ -3110,6 +3142,10 @@
   </li>
   
   <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/getSession/" class="tsd-kind-icon">getSession</a>
+  </li>
+  
+  <li class="tsd-kind-function">
     <a href="/hub.js/api/common/getSiteById/" class="tsd-kind-icon">getSiteById</a>
   </li>
   
@@ -3338,6 +3374,10 @@
   </li>
   
   <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/saveSession/" class="tsd-kind-icon">saveSession</a>
+  </li>
+  
+  <li class="tsd-kind-function">
     <a href="/hub.js/api/common/serializeModel/" class="tsd-kind-icon">serializeModel</a>
   </li>
   
@@ -3423,6 +3463,10 @@
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/common/withoutByProp/" class="tsd-kind-icon">withoutByProp</a>
+  </li>
+  
+  <li class="tsd-kind-class">
+    <a href="/hub.js/api/common/ArcGISContext/" class="tsd-kind-icon">ArcGISContext</a>
   </li>
   
   <li class="tsd-kind-class">
@@ -3594,6 +3638,10 @@
   </li>
   
   <li class="tsd-kind-interface">
+    <a href="/hub.js/api/common/IArcGISContextOptions/" class="tsd-kind-icon">IArcGISContextOptions</a>
+  </li>
+  
+  <li class="tsd-kind-interface">
     <a href="/hub.js/api/common/IAuthenticatedHubSearchOptions/" class="tsd-kind-icon">IAuthenticatedHubSearchOptions</a>
   </li>
   
@@ -3687,6 +3735,10 @@
   
   <li class="tsd-kind-interface">
     <a href="/hub.js/api/common/IHubRequestOptions/" class="tsd-kind-icon">IHubRequestOptions</a>
+  </li>
+  
+  <li class="tsd-kind-interface">
+    <a href="/hub.js/api/common/IHubRequestOptionsPortalSelf/" class="tsd-kind-icon">IHubRequestOptionsPortalSelf</a>
   </li>
   
   <li class="tsd-kind-interface">
