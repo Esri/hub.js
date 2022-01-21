@@ -172,6 +172,12 @@ export class ArcGISContext {
     });
   }
 
+  /**
+   * Return a reference to the current state.
+   * When `.setAuthentication()` or `.clearAuthenentication()` are
+   * called, the state will be re-created. This is done so frameworks
+   * like React or Ember can detect changes.
+   */
   get state(): IArcGISContextState {
     return this._state;
   }
