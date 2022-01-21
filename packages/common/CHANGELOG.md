@@ -1,3 +1,11 @@
+## @esri/hub-common [9.13.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.13.0...@esri/hub-common@9.13.1) (2022-01-21)
+
+
+### Bug Fixes
+
+* add state to ArcGISContext ([9adc787](https://github.com/Esri/hub.js/commit/9adc787db2cd6951cd1a4d467788759ef06ff830))
+* add state to ArcGISContext ([#704](https://github.com/Esri/hub.js/issues/704)) ([079e97d](https://github.com/Esri/hub.js/commit/079e97dcdd9bc143bee7e6cb2b56f85156818e77))
+
 # @esri/hub-common [9.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.12.0...@esri/hub-common@9.13.0) (2022-01-20)
 
 
