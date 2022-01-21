@@ -62,26 +62,28 @@ describe("ArcGISContext:", () => {
     it("verify props when passed nothing", async () => {
       const t = new Date().getTime();
       const ctx = await ArcGISContext.create();
-      expect(ctx.id).toBeGreaterThanOrEqual(t);
+      expect(ctx.state.id).toBeGreaterThanOrEqual(t);
 
-      expect(ctx.portalUrl).toBe("https://www.arcgis.com");
-      expect(ctx.isPortal).toBe(false);
-      expect(ctx.hubUrl).toBe("https://hub.arcgis.com");
-      expect(ctx.requestOptions).toEqual({
-        portal: ctx.sharingApiUrl,
+      expect(ctx.state.portalUrl).toBe("https://www.arcgis.com");
+      expect(ctx.state.isPortal).toBe(false);
+      expect(ctx.state.hubUrl).toBe("https://hub.arcgis.com");
+      expect(ctx.state.requestOptions).toEqual({
+        portal: ctx.state.sharingApiUrl,
       });
-      expect(ctx.userRequestOptions).toBeUndefined();
-      expect(ctx.communityOrgId).toBeUndefined();
-      expect(ctx.communityOrgHostname).toBeUndefined();
-      expect(ctx.communityOrgUrl).toBeUndefined();
-      expect(ctx.eventsConfig).toBeUndefined();
-      expect(ctx.helperServices).toBeUndefined();
-      expect(ctx.hubEnabled).toBeFalsy();
+      expect(ctx.state.userRequestOptions).toBeUndefined();
+      expect(ctx.state.communityOrgId).toBeUndefined();
+      expect(ctx.state.communityOrgHostname).toBeUndefined();
+      expect(ctx.state.communityOrgUrl).toBeUndefined();
+      expect(ctx.state.eventsConfig).toBeUndefined();
+      expect(ctx.state.helperServices).toBeUndefined();
+      expect(ctx.state.hubEnabled).toBeFalsy();
       // Hub Urls
-      const base = ctx.hubUrl;
-      expect(ctx.discussionsServiceUrl).toBe(`${base}/api/discussions/v1`);
-      expect(ctx.hubSearchServiceUrl).toBe(`${base}/api/v3/datasets`);
-      expect(ctx.domainServiceUrl).toBe(`${base}/api/v3/domains`);
+      const base = ctx.state.hubUrl;
+      expect(ctx.state.discussionsServiceUrl).toBe(
+        `${base}/api/discussions/v1`
+      );
+      expect(ctx.state.hubSearchServiceUrl).toBe(`${base}/api/v3/datasets`);
+      expect(ctx.state.domainServiceUrl).toBe(`${base}/api/v3/domains`);
     });
     it("verify props when passed portalUrl", async () => {
       const t = new Date().getTime();
@@ -89,11 +91,11 @@ describe("ArcGISContext:", () => {
         portalUrl: "https://myserver.com/gis",
         debug: true,
       });
-      expect(ctx.id).toBeGreaterThanOrEqual(t);
+      expect(ctx.state.id).toBeGreaterThanOrEqual(t);
 
       // RequestOptions
-      expect(ctx.requestOptions.portal).toBe(ctx.sharingApiUrl);
-      expect(ctx.requestOptions.authentication).not.toBeDefined();
+      expect(ctx.state.requestOptions.portal).toBe(ctx.state.sharingApiUrl);
+      expect(ctx.state.requestOptions.authentication).not.toBeDefined();
     });
     it("verify props when passed session", async () => {
       const t = new Date().getTime();
@@ -104,50 +106,60 @@ describe("ArcGISContext:", () => {
       const ctx = await ArcGISContext.create({ authentication: MOCK_AUTH });
 
       // assertions
-      expect(ctx.id).toBeGreaterThanOrEqual(t);
-      expect(ctx.portalUrl).toBe(MOCK_AUTH.portal.replace(`/sharing/rest`, ""));
-      expect(ctx.sharingApiUrl).toBe(MOCK_AUTH.portal);
-      expect(ctx.hubUrl).toBe("https://hub.arcgis.com");
-      expect(ctx.session).toBe(MOCK_AUTH);
-      expect(ctx.isAuthenticated).toBe(true);
+      expect(ctx.state.id).toBeGreaterThanOrEqual(t);
+      expect(ctx.state.portalUrl).toBe(
+        MOCK_AUTH.portal.replace(`/sharing/rest`, "")
+      );
+      expect(ctx.state.sharingApiUrl).toBe(MOCK_AUTH.portal);
+      expect(ctx.state.hubUrl).toBe("https://hub.arcgis.com");
+      expect(ctx.state.session).toBe(MOCK_AUTH);
+      expect(ctx.state.isAuthenticated).toBe(true);
       // RequestOptions
-      expect(ctx.requestOptions.portal).toBe(ctx.sharingApiUrl);
-      expect(ctx.requestOptions.authentication).toBe(MOCK_AUTH);
+      expect(ctx.state.requestOptions.portal).toBe(ctx.state.sharingApiUrl);
+      expect(ctx.state.requestOptions.authentication).toBe(MOCK_AUTH);
       // UserRequestOptions
-      expect(ctx.userRequestOptions.authentication).toBe(MOCK_AUTH);
-      expect(ctx.userRequestOptions.portal).toBe(ctx.sharingApiUrl);
+      expect(ctx.state.userRequestOptions.authentication).toBe(MOCK_AUTH);
+      expect(ctx.state.userRequestOptions.portal).toBe(ctx.state.sharingApiUrl);
 
       // Hub Request Options
-      expect(ctx.hubRequestOptions.authentication).toBe(MOCK_AUTH);
-      expect(ctx.hubRequestOptions.isPortal).toBe(false);
-      expect(ctx.hubRequestOptions.portalSelf).toEqual(
+      expect(ctx.state.hubRequestOptions.authentication).toBe(MOCK_AUTH);
+      expect(ctx.state.hubRequestOptions.isPortal).toBe(false);
+      expect(ctx.state.hubRequestOptions.portalSelf).toEqual(
         onlinePortalSelfResponse as unknown as IHubRequestOptionsPortalSelf
       );
-      expect(ctx.hubRequestOptions.hubApiUrl).toBe("https://hub.arcgis.com");
+      expect(ctx.state.hubRequestOptions.hubApiUrl).toBe(
+        "https://hub.arcgis.com"
+      );
 
       // Hub Urls
-      const base = ctx.hubUrl;
-      expect(ctx.discussionsServiceUrl).toBe(`${base}/api/discussions/v1`);
-      expect(ctx.hubSearchServiceUrl).toBe(`${base}/api/v3/datasets`);
-      expect(ctx.domainServiceUrl).toBe(`${base}/api/v3/domains`);
+      const base = ctx.state.hubUrl;
+      expect(ctx.state.discussionsServiceUrl).toBe(
+        `${base}/api/discussions/v1`
+      );
+      expect(ctx.state.hubSearchServiceUrl).toBe(`${base}/api/v3/datasets`);
+      expect(ctx.state.domainServiceUrl).toBe(`${base}/api/v3/domains`);
 
       // Community
-      expect(ctx.communityOrgId).toBe("FAKE_C_ORGID");
-      expect(ctx.communityOrgHostname).toBe("my-community.maps.arcgis.com");
-      expect(ctx.communityOrgUrl).toBe("https://my-community.maps.arcgis.com");
+      expect(ctx.state.communityOrgId).toBe("FAKE_C_ORGID");
+      expect(ctx.state.communityOrgHostname).toBe(
+        "my-community.maps.arcgis.com"
+      );
+      expect(ctx.state.communityOrgUrl).toBe(
+        "https://my-community.maps.arcgis.com"
+      );
 
-      expect(ctx.eventsConfig).toEqual(
+      expect(ctx.state.eventsConfig).toEqual(
         onlinePortalSelfResponse.portalProperties.hub.settings.events
       );
-      expect(ctx.hubEnabled).toEqual(
+      expect(ctx.state.hubEnabled).toEqual(
         onlinePortalSelfResponse.portalProperties.hub.enabled
       );
 
-      expect(ctx.helperServices).toEqual(
+      expect(ctx.state.helperServices).toEqual(
         onlinePortalSelfResponse.helperServices
       );
-      expect(ctx.currentUser).toEqual(onlinePortalSelfResponse.user);
-      expect(ctx.portal).toEqual(
+      expect(ctx.state.currentUser).toEqual(onlinePortalSelfResponse.user);
+      expect(ctx.state.portal).toEqual(
         onlinePortalSelfResponse as unknown as IPortal
       );
     });
@@ -157,9 +169,26 @@ describe("ArcGISContext:", () => {
       });
 
       const ctx = await ArcGISContext.create();
-      expect(ctx.portalUrl).toBe("https://www.arcgis.com");
+      expect(ctx.state.portalUrl).toBe("https://www.arcgis.com");
       await ctx.setAuthentication(MOCK_AUTH);
-      expect(ctx.portalUrl).toBe(MOCK_AUTH.portal.replace(`/sharing/rest`, ""));
+      expect(ctx.state.portalUrl).toBe(
+        MOCK_AUTH.portal.replace(`/sharing/rest`, "")
+      );
+    });
+    it("verify props after clearing session", async () => {
+      spyOn(portalModule, "getSelf").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+      });
+
+      const ctx = await ArcGISContext.create({ authentication: MOCK_AUTH });
+      expect(ctx.state.portalUrl).toBe(
+        MOCK_AUTH.portal.replace(`/sharing/rest`, "")
+      );
+      await ctx.clearAuthentication();
+      expect(ctx.state.portalUrl).toBe("https://www.arcgis.com");
+      expect(ctx.state.portal).toBeUndefined();
+      expect(ctx.state.currentUser).toBeUndefined();
+      expect(ctx.state.session).toBeUndefined();
     });
   });
 
@@ -169,17 +198,17 @@ describe("ArcGISContext:", () => {
       const ctx = await ArcGISContext.create({
         portalUrl: "https://myenterprise.com/gis",
       });
-      expect(ctx.id).toBeGreaterThanOrEqual(t);
-      expect(ctx.portalUrl).toBe("https://myenterprise.com/gis");
-      expect(ctx.sharingApiUrl).toBe(
+      expect(ctx.state.id).toBeGreaterThanOrEqual(t);
+      expect(ctx.state.portalUrl).toBe("https://myenterprise.com/gis");
+      expect(ctx.state.sharingApiUrl).toBe(
         "https://myenterprise.com/gis/sharing/rest"
       );
-      expect(ctx.isPortal).toBe(true);
+      expect(ctx.state.isPortal).toBe(true);
 
-      expect(ctx.hubUrl).toBeUndefined();
-      expect(ctx.discussionsServiceUrl).toBeUndefined();
-      expect(ctx.hubSearchServiceUrl).toBeUndefined();
-      expect(ctx.domainServiceUrl).toBeUndefined();
+      expect(ctx.state.hubUrl).toBeUndefined();
+      expect(ctx.state.discussionsServiceUrl).toBeUndefined();
+      expect(ctx.state.hubSearchServiceUrl).toBeUndefined();
+      expect(ctx.state.domainServiceUrl).toBeUndefined();
     });
     it("verify props when passed session", async () => {
       const t = new Date().getTime();
@@ -192,11 +221,31 @@ describe("ArcGISContext:", () => {
       });
 
       // assertions
-      expect(ctx.id).toBeGreaterThanOrEqual(t);
-      expect(ctx.portalUrl).toBe(
+      expect(ctx.state.id).toBeGreaterThanOrEqual(t);
+      expect(ctx.state.portalUrl).toBe(
         MOCK_ENTERPRISE_AUTH.portal.replace(`/sharing/rest`, "")
       );
-      expect(ctx.sharingApiUrl).toBe(MOCK_ENTERPRISE_AUTH.portal);
+      expect(ctx.state.sharingApiUrl).toBe(MOCK_ENTERPRISE_AUTH.portal);
+    });
+    it("verify props after clearing session", async () => {
+      const t = new Date().getTime();
+      spyOn(portalModule, "getSelf").and.callFake(() => {
+        return Promise.resolve(cloneObject(enterprisePortalSelfResponse));
+      });
+
+      const ctx = await ArcGISContext.create({
+        authentication: MOCK_ENTERPRISE_AUTH,
+      });
+
+      // assertions
+      expect(ctx.state.id).toBeGreaterThanOrEqual(t);
+      expect(ctx.state.portalUrl).toBe(
+        MOCK_ENTERPRISE_AUTH.portal.replace(`/sharing/rest`, "")
+      );
+      await ctx.clearAuthentication();
+      expect(ctx.state.portalUrl).toBe(
+        MOCK_ENTERPRISE_AUTH.portal.replace(`/sharing/rest`, "")
+      );
     });
   });
   describe("extra coverage:", () => {
@@ -204,13 +253,31 @@ describe("ArcGISContext:", () => {
       const ctx = await ArcGISContext.create({
         portalUrl: "https://qaext.arcgis.com",
       });
-      expect(ctx.hubUrl).toBe("https://hubqa.arcgis.com");
+      expect(ctx.state.hubUrl).toBe("https://hubqa.arcgis.com");
     });
     it("handles devext hubUrl", async () => {
       const ctx = await ArcGISContext.create({
         portalUrl: "https://devext.arcgis.com",
       });
-      expect(ctx.hubUrl).toBe("https://hubdev.arcgis.com");
+      expect(ctx.state.hubUrl).toBe("https://hubdev.arcgis.com");
+    });
+    it("sign out on qa, resets portalUrl correctly", async () => {
+      const ctx = await ArcGISContext.create({
+        portalUrl: "https://org.mapsqa.arcgis.com",
+      });
+      expect(ctx.state.hubUrl).toBe("https://hubqa.arcgis.com");
+      await ctx.clearAuthentication();
+      expect(ctx.state.hubUrl).toBe("https://hubqa.arcgis.com");
+      expect(ctx.state.portalUrl).toBe("https://qaext.arcgis.com");
+    });
+    it("sign out on dev, resets portalUrl correctly", async () => {
+      const ctx = await ArcGISContext.create({
+        portalUrl: "https://org.mapsdevext.arcgis.com",
+      });
+      expect(ctx.state.hubUrl).toBe("https://hubdev.arcgis.com");
+      await ctx.clearAuthentication();
+      expect(ctx.state.hubUrl).toBe("https://hubdev.arcgis.com");
+      expect(ctx.state.portalUrl).toBe("https://devext.arcgis.com");
     });
   });
 });
