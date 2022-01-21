@@ -61,11 +61,13 @@ export interface IArcGISContextStateOptions {
 }
 
 /**
- * @internal
+ * State information based on the portal, the auth'd user and
+ * their organization.
+ *
  * Thin class just used to enable getters
  *
- * This class should not be used by anything other than
- * the ArcGISContext class
+ * This class should not be instantiated by anything other than
+ * the `ArcGISContext` class
  */
 export class ArcGISContextState implements IArcGISContextState {
   public id: number;
@@ -159,10 +161,6 @@ export class ArcGISContextState implements IArcGISContextState {
     };
   }
 
-  // ==============================
-  // Getters / Computed Properties
-  // ==============================
-
   /**
    * Return the portal url.
    *
@@ -170,7 +168,7 @@ export class ArcGISContextState implements IArcGISContextState {
    * the https://org.env.arcgis.com
    *
    * If authenticated @ ArcGIS Enterprise, it will return
-   * https://portalHostname, which includes the web adaptor
+   * https://portalHostname/adaptor
    */
   public get portalUrl(): string {
     if (this.isAuthenticated) {

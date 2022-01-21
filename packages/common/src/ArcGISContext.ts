@@ -36,13 +36,41 @@ export interface IArcGISContextOptions {
 }
 
 /**
- * Application Context Object
+ * ArcGIS Context Object
  *
  * Abstraction that combines a `UserSession` with
- * the `portal/self` and `user/self` responses to
+ * the `IPortal` and `IUser` objects to
  * provide a central lookup of platform information.
  *
- * This is a work-in-progress, and will likely expand over time.
+ * An instance of this class will expose many properties
+ * via the `.state` property. When the context changes
+ * the `.state` will be updated with a new instance of `ArcGISContextState`.
+ * This is done so that frameworks that rely on object equality change
+ * detection (i.e. most modern frameworks) will have something to react to.
+ *
+ * **Note: This is a work-in-progress, and will likely expand over time**
+ *
+ * ```js
+ * import {ArcGISContext} from '@esri/hub-common';
+ * import { UserSession } from '@esri/arcgis-rest-auth';
+ *
+ * const auth = new UserSession({
+ *   username: "jsmith",
+ *   password: "123456"
+ * });
+ * const ctx = await new ArcGISContext({
+ *  authentication: auth,
+ *  portalUrl: 'https://myserver.com/gis'
+ * });
+ *
+ * ctx.state.sharingApiUrl; //==> https://myserver.com/gis/sharing/rest
+ * ctx.state.user; //=> IUser for jsmith
+ * ctx.state.portal; //=> IPortal for jsmith's org
+ *
+ * // short cuts for the various request options needed in REST-JS functions:
+ * ctx.state.requestOptions; //=> IRequestOptions
+ * ctx.state.userRequestOptions; //=> IUserRequestOptions
+ * ```
  *
  * `ArcGISContext` is used in conjuction with the `arcgis-app-identity`
  * component to orchestrate oAuth.
@@ -111,34 +139,6 @@ export class ArcGISContext {
   }
 
   /**
-   * If we have a UserSession, fetch portal/self and
-   * store that along with current user
-   */
-  async initialize(): Promise<void> {
-    let stateOpts: IArcGISContextStateOptions = {
-      id: this.id,
-      portalUrl: this._portalUrl,
-      hubUrl: this._hubUrl,
-    };
-    if (this._authentication) {
-      this.log(`ArcGISContext-${this.id}: Initializing`);
-      const ps = await getSelf({ authentication: this._authentication });
-      this._portalSelf = ps;
-      this._currentUser = ps.user;
-      stateOpts = {
-        id: this.id,
-        portalUrl: this._portalUrl,
-        hubUrl: this._hubUrl,
-        portalSelf: this._portalSelf,
-        currentUser: this._currentUser,
-        authentication: this._authentication,
-      };
-    }
-    // update the state
-    this._state = new ArcGISContextState(stateOpts);
-  }
-
-  /**
    * Set the Authentication (UserSession) for the context.
    * This should be called when a user signs into a running
    * application.
@@ -192,6 +192,34 @@ export class ArcGISContext {
       // tslint:disable-next-line:no-console
       console.info(message);
     }
+  }
+
+  /**
+   * If we have a UserSession, fetch portal/self and
+   * store that along with current user
+   */
+  private async initialize(): Promise<void> {
+    let stateOpts: IArcGISContextStateOptions = {
+      id: this.id,
+      portalUrl: this._portalUrl,
+      hubUrl: this._hubUrl,
+    };
+    if (this._authentication) {
+      this.log(`ArcGISContext-${this.id}: Initializing`);
+      const ps = await getSelf({ authentication: this._authentication });
+      this._portalSelf = ps;
+      this._currentUser = ps.user;
+      stateOpts = {
+        id: this.id,
+        portalUrl: this._portalUrl,
+        hubUrl: this._hubUrl,
+        portalSelf: this._portalSelf,
+        currentUser: this._currentUser,
+        authentication: this._authentication,
+      };
+    }
+    // update the state
+    this._state = new ArcGISContextState(stateOpts);
   }
 }
 
