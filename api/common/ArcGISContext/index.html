@@ -2724,7 +2724,11 @@ contexts getting created</p>
               
             </td>
             <td class="body-face api-param-comment">
-              
+              <p>Return a reference to the current state.
+When <code>.setAuthentication()</code> or <code>.clearAuthenentication()</code> are
+called, the state will be re-created. This is done so frameworks
+like React or Ember can detect changes.</p>
+
             </td>
           </tr>
         
