@@ -1,3 +1,10 @@
+## @esri/hub-common [9.13.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.13.1...@esri/hub-common@9.13.2) (2022-01-22)
+
+
+### Bug Fixes
+
+* more optional params to ArcGISContext ([#707](https://github.com/Esri/hub.js/issues/707)) ([0f9c6a7](https://github.com/Esri/hub.js/commit/0f9c6a7d5fbaf438d7499affe29433d70e534bb0))
+
 ## @esri/hub-common [9.13.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.13.0...@esri/hub-common@9.13.1) (2022-01-21)
 
 
