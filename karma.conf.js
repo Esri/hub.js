@@ -19,12 +19,29 @@ module.exports = function(config) {
 
     karmaTypescriptConfig: {
       coverageOptions: {
+        // uncomment the next flag to disable coverage, and
+        // enable debugging in the browser
+        // if left true, the source maps won't actually match up
+        // instrumentation: false,
+
+        // don't report coverage on fixtures or tests
+        exclude: [
+          /\.(d|spec|test|e2e|node-utils)\.ts$/i,
+          /fixture*/,
+          /mocks*/, 
+          /test*/
+        ],
         threshold: {
           global: {
-              statements: 100,
-              branches: 100,
-              functions: 100,
-              lines: 100
+            statements: 100,
+            branches: 100,
+            functions: 100,
+            lines: 100,
+            // don't compute coverage for the tests themselves
+            excludes: [
+              'packages/*/test/**/*.ts',
+              'packages/*/e2e/**/*.ts',
+            ]
           }
         }
       },

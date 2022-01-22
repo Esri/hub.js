@@ -1,10 +1,11 @@
-import { getSelf, IPortal } from "@esri/arcgis-rest-portal";
+import { getSelf, getUser, IPortal } from "@esri/arcgis-rest-portal";
 import { IUser, UserSession } from "@esri/arcgis-rest-auth";
 import {
   ArcGISContextState,
   IArcGISContextState,
   IArcGISContextStateOptions,
 } from "./ArcGISContextState";
+import { cloneObject } from ".";
 
 /**
  * Options that can be passed into `ArcGISContext.create`
@@ -27,6 +28,18 @@ export interface IArcGISContextOptions {
    * used instead of this property.
    */
   portalUrl?: string;
+
+  /**
+   * Portal self for the authenticated user. If not passed into `.create`
+   * with the UserSession, it will be fetched
+   */
+  portal?: IPortal;
+
+  /**
+   * Current user as `IUser`. If not passed into `.create` with the UserSession
+   * it will be fetched.
+   */
+  currentUser?: IUser;
 
   /**
    * If set to `true` additional logging will be sent to the console
@@ -95,6 +108,13 @@ export class ArcGISContext {
     } else {
       this._hubUrl = getHubApiFromPortalUrl(this._portalUrl);
     }
+
+    if (opts.portal) {
+      this._portalSelf = cloneObject(opts.portal);
+    }
+    if (opts.currentUser) {
+      this._currentUser = cloneObject(opts.currentUser);
+    }
   }
 
   /**
@@ -108,34 +128,6 @@ export class ArcGISContext {
     const ctx = new ArcGISContext(opts);
     await ctx.initialize();
     return ctx;
-  }
-
-  /**
-   * If we have a UserSession, fetch portal/self and
-   * store that along with current user
-   */
-  async initialize(): Promise<void> {
-    let stateOpts: IArcGISContextStateOptions = {
-      id: this.id,
-      portalUrl: this._portalUrl,
-      hubUrl: this._hubUrl,
-    };
-    if (this._authentication) {
-      this.log(`ArcGISContext-${this.id}: Initializing`);
-      const ps = await getSelf({ authentication: this._authentication });
-      this._portalSelf = ps;
-      this._currentUser = ps.user;
-      stateOpts = {
-        id: this.id,
-        portalUrl: this._portalUrl,
-        hubUrl: this._hubUrl,
-        portalSelf: this._portalSelf,
-        currentUser: this._currentUser,
-        authentication: this._authentication,
-      };
-    }
-    // update the state
-    this._state = new ArcGISContextState(stateOpts);
   }
 
   /**
@@ -192,6 +184,52 @@ export class ArcGISContext {
       // tslint:disable-next-line:no-console
       console.info(message);
     }
+  }
+
+  /**
+   * If we have a UserSession, fetch portal/self and
+   * store that along with current user
+   */
+  private async initialize(): Promise<void> {
+    // if we have auth, and don't have portalSelf or currentUser, fetch them
+    if (this._authentication && (!this._portalSelf || !this._currentUser)) {
+      this.log(`ArcGISContext-${this.id}: Initializing`);
+      const username = this._authentication.username;
+      const requests: [Promise<IPortal>, Promise<IUser>] = [
+        getSelf({ authentication: this._authentication }),
+        getUser({ username, authentication: this._authentication }),
+      ];
+      try {
+        const [portal, user] = await Promise.all(requests);
+        this._portalSelf = portal;
+        this._currentUser = user;
+      } catch (ex) {
+        const msg = `ArcGISContext could not fetch portal & user for "${this._authentication.username}" using ${this._authentication.portal}.`;
+        // tslint:disable-next-line:no-console
+        console.error(msg);
+        throw ex;
+      }
+    }
+    // update the state
+    this._state = new ArcGISContextState(this.stateOpts);
+  }
+
+  private get stateOpts(): IArcGISContextStateOptions {
+    const stateOpts: IArcGISContextStateOptions = {
+      id: this.id,
+      portalUrl: this._portalUrl,
+      hubUrl: this._hubUrl,
+    };
+    if (this._authentication) {
+      stateOpts.authentication = this._authentication;
+    }
+    if (this._portalSelf) {
+      stateOpts.portalSelf = this._portalSelf;
+    }
+    if (this._currentUser) {
+      stateOpts.currentUser = this._currentUser;
+    }
+    return stateOpts;
   }
 }
 
