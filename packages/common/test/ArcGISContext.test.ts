@@ -3,8 +3,11 @@ import { cloneObject, IHubRequestOptionsPortalSelf } from "../src";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH, MOCK_ENTERPRISE_AUTH } from "./mocks/mock-auth";
 import { IPortal } from "@esri/arcgis-rest-portal";
+import ExceptionFactory from "./mocks/ExceptionFactory";
 
 const onlinePortalSelfResponse = {
+  id: "FAKEID",
+  name: "My Org",
   urlKey: "myorg",
   customBaseUrl: "maps.arcgis.com",
   isPortal: false,
@@ -35,7 +38,17 @@ const onlinePortalSelfResponse = {
   },
 };
 
+const onlineUserResponse = {
+  username: "jvader",
+  firstName: "Jeff",
+  lastName: "Vader",
+  description: "Runs the Deathstar",
+  email: "jvader@deathstar.com",
+};
+
 const enterprisePortalSelfResponse = {
+  id: "FAKEID",
+  name: "My Enterprise",
   customBaseUrl: "portal",
   portalHostname: "my-server.com/portal",
   isPortal: true,
@@ -50,6 +63,14 @@ const enterprisePortalSelfResponse = {
     description: "Runs the Rebels",
     email: "lskywalker@rebelalliance.com",
   },
+};
+
+const enterpriseUserResponse = {
+  username: "lskywalker",
+  firstName: "Leia",
+  lastName: "Skywalker",
+  description: "Runs the Rebels",
+  email: "lskywalker@rebelalliance.com",
 };
 
 /**
@@ -101,6 +122,9 @@ describe("ArcGISContext:", () => {
       const t = new Date().getTime();
       spyOn(portalModule, "getSelf").and.callFake(() => {
         return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+      });
+      spyOn(portalModule, "getUser").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlineUserResponse));
       });
 
       const ctx = await ArcGISContext.create({ authentication: MOCK_AUTH });
@@ -163,9 +187,31 @@ describe("ArcGISContext:", () => {
         onlinePortalSelfResponse as unknown as IPortal
       );
     });
+    it("verify props when passed session, portalSelf and User", async () => {
+      const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+      });
+      const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlineUserResponse));
+      });
+
+      const ctx = await ArcGISContext.create({
+        authentication: MOCK_AUTH,
+        portal: onlinePortalSelfResponse,
+        currentUser: onlineUserResponse,
+      });
+      expect(selfSpy.calls.count()).toBe(0);
+      expect(userSpy.calls.count()).toBe(0);
+      expect(ctx.state.currentUser).toEqual(onlineUserResponse);
+      expect(ctx.state.portal).toEqual(onlinePortalSelfResponse);
+      expect(ctx.state.session).toBe(MOCK_AUTH);
+    });
     it("verify props update setting session after", async () => {
       spyOn(portalModule, "getSelf").and.callFake(() => {
         return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+      });
+      spyOn(portalModule, "getUser").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlineUserResponse));
       });
 
       const ctx = await ArcGISContext.create();
@@ -179,6 +225,9 @@ describe("ArcGISContext:", () => {
       spyOn(portalModule, "getSelf").and.callFake(() => {
         return Promise.resolve(cloneObject(onlinePortalSelfResponse));
       });
+      spyOn(portalModule, "getUser").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlineUserResponse));
+      });
 
       const ctx = await ArcGISContext.create({ authentication: MOCK_AUTH });
       expect(ctx.state.portalUrl).toBe(
@@ -189,6 +238,20 @@ describe("ArcGISContext:", () => {
       expect(ctx.state.portal).toBeUndefined();
       expect(ctx.state.currentUser).toBeUndefined();
       expect(ctx.state.session).toBeUndefined();
+    });
+    it("throws if fetch fails", async () => {
+      const invalidToken = ExceptionFactory.createInvalidTokenError();
+      spyOn(portalModule, "getSelf").and.callFake(() => {
+        return Promise.reject(invalidToken);
+      });
+      spyOn(portalModule, "getUser").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlineUserResponse));
+      });
+      try {
+        await ArcGISContext.create({ authentication: MOCK_AUTH });
+      } catch (ex) {
+        expect(ex).toBeDefined();
+      }
     });
   });
 
@@ -215,6 +278,9 @@ describe("ArcGISContext:", () => {
       spyOn(portalModule, "getSelf").and.callFake(() => {
         return Promise.resolve(cloneObject(enterprisePortalSelfResponse));
       });
+      spyOn(portalModule, "getUser").and.callFake(() => {
+        return Promise.resolve(cloneObject(enterpriseUserResponse));
+      });
 
       const ctx = await ArcGISContext.create({
         authentication: MOCK_ENTERPRISE_AUTH,
@@ -231,6 +297,9 @@ describe("ArcGISContext:", () => {
       const t = new Date().getTime();
       spyOn(portalModule, "getSelf").and.callFake(() => {
         return Promise.resolve(cloneObject(enterprisePortalSelfResponse));
+      });
+      spyOn(portalModule, "getUser").and.callFake(() => {
+        return Promise.resolve(cloneObject(enterpriseUserResponse));
       });
 
       const ctx = await ArcGISContext.create({
