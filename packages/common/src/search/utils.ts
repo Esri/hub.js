@@ -8,7 +8,7 @@ import {
   ISearchOptions,
   IUserSearchOptions,
 } from "@esri/arcgis-rest-portal";
-import { ISearchResponse } from "..";
+import { IHubContent, ISearchResponse } from "..";
 import { cloneObject, unique } from "../util";
 import {
   IMatchOptions,
@@ -426,7 +426,7 @@ export function getNextFunction<T>(
  * Construct a the full url to a group thumbnail
  *
  * - If the group has a thumbnail, construct the full url
- * - If the group is not public, append on the token
+ * - If the group is not public, append on the token (if passed in)
  * @param portalUrl
  * @param group
  * @param token

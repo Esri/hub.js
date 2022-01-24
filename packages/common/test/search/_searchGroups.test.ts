@@ -48,6 +48,24 @@ describe("_searchGroups:", () => {
         "https://my-portal.com/gis/sharing/rest"
       );
     });
+    it("uses auth.portal", async () => {
+      const searchGroupsSpy = spyOn(Portal, "searchGroups").and.callFake(() => {
+        return Promise.resolve(cloneObject(SimpleResponse));
+      });
+      const f: Filter<"group"> = {
+        filterType: "group",
+        term: "water",
+      };
+      const o: IHubSearchOptions = {
+        authentication: MOCK_AUTH,
+      };
+      await _searchGroups(f, o);
+      expect(searchGroupsSpy.calls.count()).toBe(1, "should call searchGroups");
+      const [expectedParams] = searchGroupsSpy.calls.argsFor(0);
+      expect(expectedParams.q).toEqual("water");
+      expect(expectedParams.authentication).toBe(MOCK_AUTH);
+      expect(expectedParams.portal).toBeUndefined();
+    });
 
     it("uses specified apis, passes num", async () => {
       const searchGroupsSpy = spyOn(Portal, "searchGroups").and.callFake(() => {
