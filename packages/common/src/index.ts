@@ -21,8 +21,8 @@ export * from "./utils";
 export * from "./i18n";
 export * from "./request";
 export * from "./surveys";
+export * from "./ArcGISContextManager";
 export * from "./ArcGISContext";
-export * from "./ArcGISContextState";
 
 import OperationStack from "./OperationStack";
 import OperationError from "./OperationError";

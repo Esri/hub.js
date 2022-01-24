@@ -33,18 +33,14 @@ export async function _searchGroups(
 
   if (api.type === "arcgis") {
     const so = serializeGroupFilterForPortal(expanded);
-    let token = "";
     // if we have auth, pass it forward
     // otherwise set the portal property
     if (options.authentication) {
       so.authentication = options.authentication;
-      const us: UserSession = options.authentication as UserSession;
-      token = us.token;
     } else {
       so.portal = `${api.url}/sharing/rest`;
     }
 
-    // TODO: Dry this up - typscript makes this... inconvenient
     if (options.num) {
       so.num = options.num;
     }
@@ -54,11 +50,6 @@ export async function _searchGroups(
     }
     if (options.sortOrder) {
       so.sortOrder = options.sortOrder;
-    }
-
-    let portalUrl = `${api.url}/sharing/rest`;
-    if (so.authentication?.portal) {
-      portalUrl = so.authentication.portal;
     }
 
     if (options.site) {
@@ -85,8 +76,7 @@ function searchPortalGroups(
   };
 
   const portalUrl =
-    searchOptions.authentication?.portal ||
-    "https://www.arcgis.com/sharing/rest";
+    searchOptions.authentication?.portal || searchOptions.portal;
   let token: string;
   if (searchOptions.authentication) {
     const us: UserSession = searchOptions.authentication as UserSession;

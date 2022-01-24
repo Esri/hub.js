@@ -14,6 +14,8 @@ export * from "./get-item-home-url";
 export * from "./get-item-api-url";
 export * from "./get-item-data-url";
 export * from "./convert-urls-to-anchor-tags";
+export * from "./getHubApiFromPortalUrl";
+export * from "./getPortalBaseFromOrgUrl";
 
 const MAP_OR_FEATURE_SERVER_URL_REGEX = /\/(map|feature)server/i;
 

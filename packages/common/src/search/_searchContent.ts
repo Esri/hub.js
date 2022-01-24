@@ -13,11 +13,13 @@ import { ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
 import { expandApi, getNextFunction } from ".";
 import {
   cloneObject,
+  getContentThumbnailUrl,
   IHubContent,
   ISearchResponse,
   itemToContent,
   setContentSiteUrls,
 } from "..";
+import { UserSession } from "@esri/arcgis-rest-auth";
 
 /**
  * Search for content via the Portal or Hub API
@@ -35,13 +37,12 @@ export async function _searchContent(
   const api = expandApi(options.api || "arcgis");
 
   let searchPromise;
-  // map over the apis, depending on the type we issue the queries
-  // const searchPromises = apis.map((api) => {
   // Portal Search
   if (api.type === "arcgis") {
     // serialize for portal
     const so = serializeContentFilterForPortal(expanded);
-    // pass auth forward
+    // if we have auth, pass it forward
+    // otherwise set the portal property
     if (options.authentication) {
       so.authentication = options.authentication;
     } else {
@@ -53,7 +54,6 @@ export async function _searchContent(
       so.countSize = 200;
     }
     // copy over various options
-    // TODO: Dry this up - typscript makes this... inconvenient
     if (options.num) {
       so.num = options.num;
     }
@@ -80,8 +80,6 @@ export async function _searchContent(
       },
     } as IContentSearchResult);
   }
-  // });
-  // return for results
   return searchPromise;
 }
 
@@ -96,6 +94,18 @@ export async function _searchContent(
 function searchPortal(
   searchOptions: ISearchOptions
 ): Promise<ISearchResponse<IHubContent>> {
+  const portalUrl =
+    searchOptions.authentication?.portal || searchOptions.portal;
+  let token: string;
+  if (searchOptions.authentication) {
+    const us: UserSession = searchOptions.authentication as UserSession;
+    token = us.token;
+  }
+  const thumbnailify = (content: IHubContent) => {
+    content.thumbnailUrl = getContentThumbnailUrl(portalUrl, content, token);
+    return content;
+  };
+
   return searchItems(searchOptions).then((resp) => {
     const hasNext: boolean = resp.nextStart > -1;
     let content = resp.results.map(itemToContent);
@@ -104,6 +114,8 @@ function searchPortal(
         setContentSiteUrls(entry, searchOptions.site)
       );
     }
+    // add thumbnailUrl
+    content = content.map(thumbnailify);
     // convert aggregations into facets
     const facets = convertPortalResponseToFacets(resp);
     return {
