@@ -2604,8 +2604,9 @@
 
 
   <p>The manager exposes context (<code>IArcGISContext</code>), which combines a <code>UserSession</code> with
-the <code>portal/self</code> and <code>user/self</code> responses to provide a central lookup of platform
-information.</p>
+the <code>portal/self</code> and <code>user/self</code> responses to provide a central lookup for platform
+information, api urls, and other useful properties for developers such as IRequestOptions
+IUserRequestOptions, IHubRequestOptions etc.</p>
 <p>The context is exposed on gthe <code>.context</code> property, and as the authentication changes
 the <code>.context</code> is re-created. This is done to allow web frameworks to watch for
 changes on that single property, instead of having to leverage observers or events
@@ -3122,7 +3123,7 @@ application.</p>
 
 
 
-<small class="font-size--2">Class defined in <a href="https://github.com/Esri/hub.js/blob/master/common/src/ArcGISContextManager.ts#L69">common/src/ArcGISContextManager.ts:69</a></small>
+<small class="font-size--2">Class defined in <a href="https://github.com/Esri/hub.js/blob/master/common/src/ArcGISContextManager.ts#L70">common/src/ArcGISContextManager.ts:70</a></small>
 
 
     </div>
