@@ -448,30 +448,6 @@ export function getGroupThumbnailUrl(
 }
 
 /**
- * Construct the full url to an Content item's thumbnail
- *
- * - If the backing item has a thumbnail, construct the full url
- * - If the backing item is not public, append on the token (if passed in)
- * @param portalUrl
- * @param content
- * @param token
- * @returns
- */
-export function getContentThumbnailUrl(
-  portalUrl: string,
-  content: IHubContent,
-  token?: string
-): string {
-  let thumbnailUrl = null;
-  if (content.thumbnail) {
-    thumbnailUrl = `${portalUrl}/content/items/${content.id}/info/${content.thumbnail}`;
-    if (token && content.access !== "public") {
-      thumbnailUrl = `${thumbnailUrl}?token=${token}`;
-    }
-  }
-  return thumbnailUrl;
-}
-/**
  * Construct a the full url to a user thumbnail
  *
  * - If the user has a thumbnail, construct the full url

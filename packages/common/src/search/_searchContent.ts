@@ -13,7 +13,7 @@ import { ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
 import { expandApi, getNextFunction } from ".";
 import {
   cloneObject,
-  getContentThumbnailUrl,
+  getItemThumbnailUrl,
   IHubContent,
   ISearchResponse,
   itemToContent,
@@ -101,14 +101,17 @@ function searchPortal(
     const us: UserSession = searchOptions.authentication as UserSession;
     token = us.token;
   }
+
   const thumbnailify = (content: IHubContent) => {
-    content.thumbnailUrl = getContentThumbnailUrl(portalUrl, content, token);
+    content.thumbnailUrl = getItemThumbnailUrl(content, portalUrl, token);
     return content;
   };
 
   return searchItems(searchOptions).then((resp) => {
     const hasNext: boolean = resp.nextStart > -1;
+    // convert items to IHubContent's
     let content = resp.results.map(itemToContent);
+    // if we have a site, add those urls
     if (searchOptions.site) {
       content = content.map((entry) =>
         setContentSiteUrls(entry, searchOptions.site)

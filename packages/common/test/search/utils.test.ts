@@ -3,7 +3,6 @@ import { IHubContent } from "../../src";
 import { IMatchOptions, IRelativeDate } from "../../src/search";
 import {
   expandApis,
-  getContentThumbnailUrl,
   getUserThumbnailUrl,
   mergeMatchOptions,
   relativeDateToDateRange,
@@ -266,34 +265,7 @@ describe("Search Utils:", () => {
       expect(chk.exact).not.toBeDefined();
     });
   });
-  describe("content thumbnails:", () => {
-    const portal = "https://foo.com/sharing/rest";
-    const token = "FAKE_TOKEN";
-    it("returns null if no thumbnail present", () => {
-      const c = {} as IHubContent;
-      expect(getContentThumbnailUrl(portal, c, token)).toBeNull();
-    });
-    it("constructs url w/o token for public items", () => {
-      const c = {
-        access: "public",
-        thumbnail: "jabba.png",
-        id: "3ef",
-      } as unknown as IHubContent;
-      expect(getContentThumbnailUrl(portal, c, token)).toBe(
-        "https://foo.com/sharing/rest/content/items/3ef/info/jabba.png"
-      );
-    });
-    it("constructs url w/ token for non-public items", () => {
-      const c = {
-        access: "private",
-        thumbnail: "jabba.png",
-        id: "3ef",
-      } as unknown as IHubContent;
-      expect(getContentThumbnailUrl(portal, c, token)).toBe(
-        "https://foo.com/sharing/rest/content/items/3ef/info/jabba.png?token=FAKE_TOKEN"
-      );
-    });
-  });
+
   describe("user thumbnails:", () => {
     const portal = "https://foo.com/sharing/rest";
     const token = "FAKE_TOKEN";
