@@ -55,8 +55,9 @@ export interface IArcGISContextManagerOptions {
  * ArcGIS Context Manager
  *
  * The manager exposes context (`IArcGISContext`), which combines a `UserSession` with
- * the `portal/self` and `user/self` responses to provide a central lookup of platform
- * information.
+ * the `portal/self` and `user/self` responses to provide a central lookup for platform
+ * information, api urls, and other useful properties for developers such as IRequestOptions
+ * IUserRequestOptions, IHubRequestOptions etc.
  *
  * The context is exposed on gthe `.context` property, and as the authentication changes
  * the `.context` is re-created. This is done to allow web frameworks to watch for
