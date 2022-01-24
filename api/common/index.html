@@ -374,6 +374,10 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/getHubApiFromPortalUrl/" class="tsd-kind-icon padding-right-1">getHubApiFromPortalUrl</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/getHubApiUrl/" class="tsd-kind-icon padding-right-1">getHubApiUrl</a>
             </li>
             
@@ -451,6 +455,10 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/getPortalApiUrl/" class="tsd-kind-icon padding-right-1">getPortalApiUrl</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/getPortalBaseFromOrgUrl/" class="tsd-kind-icon padding-right-1">getPortalBaseFromOrgUrl</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -798,7 +806,7 @@
             </li>
             
             <li class="tsd-kind-class padding-right-1 visually-hidden api-list-item">
-              <a href="/hub.js/api/common/ArcGISContextState/" class="tsd-kind-icon padding-right-1">ArcGISContextState</a>
+              <a href="/hub.js/api/common/ArcGISContextManager/" class="tsd-kind-icon padding-right-1">ArcGISContextManager</a>
             </li>
             
             <li class="tsd-kind-class padding-right-1 visually-hidden api-list-item">
@@ -970,15 +978,15 @@
             </li>
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/IArcGISContext/" class="tsd-kind-icon padding-right-1">IArcGISContext</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/IArcGISContextManagerOptions/" class="tsd-kind-icon padding-right-1">IArcGISContextManagerOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/IArcGISContextOptions/" class="tsd-kind-icon padding-right-1">IArcGISContextOptions</a>
-            </li>
-            
-            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
-              <a href="/hub.js/api/common/IArcGISContextState/" class="tsd-kind-icon padding-right-1">IArcGISContextState</a>
-            </li>
-            
-            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
-              <a href="/hub.js/api/common/IArcGISContextStateOptions/" class="tsd-kind-icon padding-right-1">IArcGISContextStateOptions</a>
             </li>
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
@@ -2558,7 +2566,7 @@
 
   <div class="column-18">
     <div class="panel panel-white padding-left-1 padding-right-1 padding-trailer-1 padding-leader-half">
-      <small class="label right">Version 9.13.1</small>
+      <small class="label right">Version 9.13.2</small>
 <h1 class="tsd-kind-module font-size-3 trailer-half code-face">
   <a href="/hub.js/api/common/" class="is-active">@esri/hub-common</a>
 </h1>
@@ -2642,6 +2650,7 @@
   getFamily,
   getGeographicOrgExtent,
   getGroupThumbnailUrl,
+  getHubApiFromPortalUrl,
   getHubApiUrl,
   getHubApiUrlFromPortal,
   getHubLocaleAssetUrl,
@@ -2662,6 +2671,7 @@
   getNextFunction,
   getOrgExtentAsBBox,
   getPortalApiUrl,
+  getPortalBaseFromOrgUrl,
   getPortalUrl,
   getProp,
   getProps,
@@ -2748,7 +2758,7 @@
   without,
   withoutByProp,
   ArcGISContext,
-  ArcGISContextState,
+  ArcGISContextManager,
   Logger,
   OperationError,
   OperationStack,
@@ -2756,7 +2766,7 @@
 } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/hub-common"</span>;</code></pre>
 
 <h2 class="font-size-0 trailer-quarter">CDN:</h2>
-<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@esri/hub-common@9.13.1/dist/umd/common.umd.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@esri/hub-common@9.13.2/dist/umd/common.umd.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
 <h2 class="font-size-0 trailer-quarter">CDN with SRI:</h2>
 
 <hr class="leader-half trailer-quarter" />
@@ -3059,6 +3069,10 @@
   </li>
   
   <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/getHubApiFromPortalUrl/" class="tsd-kind-icon">getHubApiFromPortalUrl</a>
+  </li>
+  
+  <li class="tsd-kind-function">
     <a href="/hub.js/api/common/getHubApiUrl/" class="tsd-kind-icon">getHubApiUrl</a>
   </li>
   
@@ -3136,6 +3150,10 @@
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/common/getPortalApiUrl/" class="tsd-kind-icon">getPortalApiUrl</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/getPortalBaseFromOrgUrl/" class="tsd-kind-icon">getPortalBaseFromOrgUrl</a>
   </li>
   
   <li class="tsd-kind-function">
@@ -3483,7 +3501,7 @@
   </li>
   
   <li class="tsd-kind-class">
-    <a href="/hub.js/api/common/ArcGISContextState/" class="tsd-kind-icon">ArcGISContextState</a>
+    <a href="/hub.js/api/common/ArcGISContextManager/" class="tsd-kind-icon">ArcGISContextManager</a>
   </li>
   
   <li class="tsd-kind-class">
@@ -3655,15 +3673,15 @@
   </li>
   
   <li class="tsd-kind-interface">
+    <a href="/hub.js/api/common/IArcGISContext/" class="tsd-kind-icon">IArcGISContext</a>
+  </li>
+  
+  <li class="tsd-kind-interface">
+    <a href="/hub.js/api/common/IArcGISContextManagerOptions/" class="tsd-kind-icon">IArcGISContextManagerOptions</a>
+  </li>
+  
+  <li class="tsd-kind-interface">
     <a href="/hub.js/api/common/IArcGISContextOptions/" class="tsd-kind-icon">IArcGISContextOptions</a>
-  </li>
-  
-  <li class="tsd-kind-interface">
-    <a href="/hub.js/api/common/IArcGISContextState/" class="tsd-kind-icon">IArcGISContextState</a>
-  </li>
-  
-  <li class="tsd-kind-interface">
-    <a href="/hub.js/api/common/IArcGISContextStateOptions/" class="tsd-kind-icon">IArcGISContextStateOptions</a>
   </li>
   
   <li class="tsd-kind-interface">
