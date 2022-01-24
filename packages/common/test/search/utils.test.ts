@@ -1,4 +1,5 @@
 import { IUser } from "@esri/arcgis-rest-types";
+import { IHubContent } from "../../src";
 import { IMatchOptions, IRelativeDate } from "../../src/search";
 import {
   expandApis,
@@ -264,6 +265,7 @@ describe("Search Utils:", () => {
       expect(chk.exact).not.toBeDefined();
     });
   });
+
   describe("user thumbnails:", () => {
     const portal = "https://foo.com/sharing/rest";
     const token = "FAKE_TOKEN";
