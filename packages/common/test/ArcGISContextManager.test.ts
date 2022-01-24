@@ -1,5 +1,5 @@
 import { ArcGISContextManager } from "../src/ArcGISContextManager";
-import { cloneObject, IHubRequestOptionsPortalSelf } from "../src";
+import { cloneObject, IHubRequestOptionsPortalSelf, Level } from "../src";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH, MOCK_ENTERPRISE_AUTH } from "./mocks/mock-auth";
 import { IPortal } from "@esri/arcgis-rest-portal";
@@ -110,7 +110,7 @@ describe("ArcGISContext:", () => {
       const t = new Date().getTime();
       const mgr = await ArcGISContextManager.create({
         portalUrl: "https://myserver.com/gis",
-        debug: true,
+        logLevel: Level.debug,
       });
       expect(mgr.context.id).toBeGreaterThanOrEqual(t);
 

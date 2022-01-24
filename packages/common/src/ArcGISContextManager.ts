@@ -5,7 +5,7 @@ import {
   IArcGISContext,
   IArcGISContextOptions,
 } from "./ArcGISContext";
-import { cloneObject } from ".";
+import { cloneObject, Logger, Level } from ".";
 import { getHubApiFromPortalUrl } from "./urls/getHubApiFromPortalUrl";
 import { getPortalBaseFromOrgUrl } from "./urls/getPortalBaseFromOrgUrl";
 
@@ -44,10 +44,11 @@ export interface IArcGISContextManagerOptions {
   currentUser?: IUser;
 
   /**
-   * If set to `true` additional logging will be sent to the console
-   * Defaults to false.
+   * Logging level
+   * off > error > warn > info > debug > all
+   * defaults to 'error'
    */
-  debug?: boolean;
+  logLevel?: Level;
 }
 
 /**
@@ -85,7 +86,7 @@ export class ArcGISContextManager {
 
   private _currentUser: IUser;
 
-  private _debug = false;
+  private _logLevel: Level = Level.error;
 
   /**
    * Private constructor. Use `ArcGISContextManager.create(...)` to
@@ -95,10 +96,11 @@ export class ArcGISContextManager {
   private constructor(opts: IArcGISContextManagerOptions) {
     // Having a unique id makes debugging easier
     this.id = new Date().getTime();
-    if (opts.debug) {
-      this._debug = opts.debug;
+    if (opts.logLevel) {
+      this._logLevel = opts.logLevel;
     }
-    this.log(`ArcGISContextManager:ctor: Creating ${this.id}`);
+    Logger.setLogLevel(this._logLevel);
+    Logger.debug(`ArcGISContextManager:ctor: Creating ${this.id}`);
 
     if (opts.authentication) {
       this._authentication = opts.authentication;
@@ -180,25 +182,13 @@ export class ArcGISContextManager {
   }
 
   /**
-   * @internal
-   * Log debugging messages to the console
-   * @param message
-   */
-  private log(message: string): void {
-    if (this._debug) {
-      // tslint:disable-next-line:no-console
-      console.info(message);
-    }
-  }
-
-  /**
    * If we have a UserSession, fetch portal/self and
    * store that along with current user
    */
   private async initialize(): Promise<void> {
     // if we have auth, and don't have portalSelf or currentUser, fetch them
     if (this._authentication && (!this._portalSelf || !this._currentUser)) {
-      this.log(`ArcGISContextManager-${this.id}: Initializing`);
+      Logger.debug(`ArcGISContextManager-${this.id}: Initializing`);
       const username = this._authentication.username;
       const requests: [Promise<IPortal>, Promise<IUser>] = [
         getSelf({ authentication: this._authentication }),
@@ -208,14 +198,19 @@ export class ArcGISContextManager {
         const [portal, user] = await Promise.all(requests);
         this._portalSelf = portal;
         this._currentUser = user;
+        Logger.debug(
+          `ArcGISContextManager-${this.id}: received portalSelf and currentUser`
+        );
       } catch (ex) {
         const msg = `ArcGISContextManager could not fetch portal & user for "${this._authentication.username}" using ${this._authentication.portal}.`;
+        Logger.error(msg);
         // tslint:disable-next-line:no-console
         console.error(msg);
         throw ex;
       }
     }
-    // update the state
+    Logger.debug(`ArcGISContextManager-${this.id}: updating context`);
+    // update the context
     this._context = new ArcGISContext(this.contextOpts);
   }
 
