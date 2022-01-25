@@ -1,3 +1,13 @@
+# @esri/hub-events [9.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-events@9.13.2...@esri/hub-events@9.14.0) (2022-01-25)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 9.14.0
+
 ## @esri/hub-events [9.13.2](https://github.com/Esri/hub.js/compare/@esri/hub-events@9.13.1...@esri/hub-events@9.13.2) (2022-01-22)
 
 
