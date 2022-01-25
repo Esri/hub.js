@@ -1,3 +1,16 @@
+# @esri/hub-common [9.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.13.2...@esri/hub-common@9.14.0) (2022-01-25)
+
+
+### Bug Fixes
+
+* export IArcGISContextState correctly ([2d392fd](https://github.com/Esri/hub.js/commit/2d392fd76685f6474ee4261d2123e0395157f225))
+* rebase mess up ([22fc4d5](https://github.com/Esri/hub.js/commit/22fc4d5a0a71415955de3238fa9d517e5d90cb25))
+
+
+### Features
+
+* change context class names ([e03c939](https://github.com/Esri/hub.js/commit/e03c9395bd62566231b509b787d233b45472f0a0))
+
 ## @esri/hub-common [9.13.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.13.1...@esri/hub-common@9.13.2) (2022-01-22)
 
 
