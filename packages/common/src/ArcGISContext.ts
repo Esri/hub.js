@@ -27,54 +27,181 @@ const hubApiEndpoints = {
  *
  */
 export interface IArcGISContext {
+  /**
+   * Unique id from the ArcGISContextManager that created
+   * this instance. Primarily useful for debugging possible
+   * race-conditions that can result in multiple ArcGISContextManager
+   * instances being created.
+   */
   id: number;
+  /**
+   * Return the UserSession if authenticated
+   */
   session: UserSession;
+  /**
+   * Return boolean indicating if authenticatio is present
+   */
   isAuthenticated: boolean;
+  /**
+   * Return `IUserRequestOptions`, which is used for REST-JS
+   * functions which require authentication information.
+   *
+   * If context is not authenticated, this function will return `undefined`
+   */
   userRequestOptions: IUserRequestOptions;
+  /**
+   * Return `IRequestOptions`, which is used by REST-JS functions
+   * which *may* use authentication information if provided.
+   *
+   * If context is not authenticated, this function just returns
+   * the `portal` property, which informs REST-JS what Sharing API
+   * instance to use (i.e. AGO, Enterprise etc)
+   */
   requestOptions: IRequestOptions;
+  /**
+   * Return a `IHubRequestOptions` object
+   *
+   * If context is not authenticated, this function will return `undefined`
+   */
   hubRequestOptions: IHubRequestOptions;
+  /**
+   * Return the portal url.
+   *
+   * If authenticated @ ArcGIS Online, it will return
+   * the https://org.env.arcgis.com
+   *
+   * If authenticated @ ArcGIS Enterprise, it will return
+   * https://{portalHostname}/{webadaptor}
+   */
   portalUrl: string;
+  /**
+   * Returns the url to the sharing api composed from portalUrl
+   * i.e. https://myorg.maps.arcgis.com/sharing/rest
+   */
   sharingApiUrl: string;
+  /**
+   * Returns the Hub url, based on the portalUrl
+   *
+   * For ArcGIS Enterprise this will return `undefined`
+   */
   hubUrl: string;
+  /**
+   * Returns boolean indicating if the backing system
+   * is ArcGIS Enterprise (formerly ArcGIS Portal) or not
+   */
   isPortal: boolean;
+  /**
+   * Returns the discussions API URL
+   */
   discussionsServiceUrl: string;
+
+  /**
+   * Returns the Hub Search API URL
+   */
   hubSearchServiceUrl: string;
+  /**
+   * Returns Hub Domain Service URL
+   */
   domainServiceUrl: string;
+  /**
+   * Returns the Events configuration object from portal/self
+   *
+   * `{serviceId: '3ef..', publicViewId: 'bc3...'}`
+   */
   eventsConfig: any;
+  /**
+   * Returns boolean indicating if the current user
+   * belongs to an organization that has licensed
+   * ArcGIS Hub
+   */
   hubEnabled: boolean;
+  /**
+   * Return Hub Community Org Id, if defined
+   */
   communityOrgId: string;
+  /**
+   * Returns the Community Org Hostname, if defined
+   */
   communityOrgHostname: string;
+  /**
+   * Returns the Hub Community Org url
+   *
+   * i.e. https://c-org.maps.arcgis.com
+   */
   communityOrgUrl: string;
+  /**
+   * Returns the hash of helper services from portal self
+   */
   helperServices: any;
+  /**
+   * Returns the current user
+   */
   currentUser: IUser;
+  /**
+   * Returns the portal object
+   */
   portal: IPortal;
 }
 
 /**
- * @internal
+ * Options for the ArcGISContext constructor
  */
 export interface IArcGISContextOptions {
+  /**
+   * Unique id from the ArcGISContextManager that created
+   * this instance. Primarily useful for debugging possible
+   * race-conditions that can result in multiple ArcGISContextManager
+   * instances being created.
+   */
   id: number;
+  /**
+   * Portal base url
+   * For ArcGIS Online - https://org.env.arcgis.com
+   * For ArcGIS Enterprise - https://{portalHostname}/{webadaptor}
+   */
   portalUrl: string;
+  /**
+   * Hub Url that corresponds to the portal url is appropritate
+   */
   hubUrl: string;
+  /**
+   * The current UserSession
+   */
   authentication?: UserSession;
+  /**
+   * If the user is authenticated, the portal should be passed in
+   * so various getters can work as expected.
+   *
+   * ArcGISContextManager handles this internally
+   */
   portalSelf?: IPortal;
+  /**
+   * If the user is authenticated, the user should be passed in
+   * so various getters can work as expected.
+   *
+   * ArcGISContextManager handles this internally
+   */
   currentUser?: IUser;
 }
 
 /**
- * ArcGISContext
- *
- * Abstraction that holds a UserSession, along with
+ * Abstraction that holds a `UserSession`, along with
  * getters to streamline access to various platform
- * urls, and common constructs like IRequestOptions
+ * urls, and common constructs like `IRequestOptions`,
+ * `IUserRequestOptions` etc.
  *
- * Thin class just used to enable getters
+ * Instances are intended to be immutable, but this is not directly enforced.
  *
- * This class should not be used by anything other than
- * the ArcGISContextManager class
+ * In most circumstances, this class should be created by
+ * the ArcGISContextManager class.
  */
 export class ArcGISContext implements IArcGISContext {
+  /**
+   * Unique id from the ArcGISContextManager that created
+   * this instance. Primarily useful for debugging possible
+   * race-conditions that can result in multiple ArcGISContextManager
+   * instances being created.
+   */
   public id: number;
   private _authentication: UserSession;
 
@@ -86,6 +213,11 @@ export class ArcGISContext implements IArcGISContext {
 
   private _currentUser: IUser;
 
+  /**
+   * Create a new instance of `ArcGISContext`.
+   *
+   * @param opts
+   */
   constructor(opts: IArcGISContextOptions) {
     this.id = opts.id;
     this._portalUrl = opts.portalUrl;
@@ -158,22 +290,24 @@ export class ArcGISContext implements IArcGISContext {
    */
   public get hubRequestOptions(): IHubRequestOptions {
     // We may add more logic around what is returned in some corner cases
-    return {
-      authentication: this.session,
-      isPortal: this.isPortal,
-      portalSelf: this.portal,
-      hubApiUrl: this.hubUrl,
-    };
+    if (this.isAuthenticated) {
+      return {
+        authentication: this.session,
+        isPortal: this.isPortal,
+        portalSelf: this.portal,
+        hubApiUrl: this.hubUrl,
+      };
+    }
   }
 
   /**
-   * Return the portal url.
+   * Return the portal url i.e. https://www.arcgis.com
    *
    * If authenticated @ ArcGIS Online, it will return
    * the https://org.env.arcgis.com
    *
    * If authenticated @ ArcGIS Enterprise, it will return
-   * https://portalHostname, which includes the web adaptor
+   * https://{portalHostname}/{webadaptor}
    */
   public get portalUrl(): string {
     if (this.isAuthenticated) {
@@ -188,13 +322,18 @@ export class ArcGISContext implements IArcGISContext {
   }
 
   /**
-   * Returns the url to the sharing api
+   * Returns the url to the sharing api composed from portalUrl
    * i.e. https://myorg.maps.arcgis.com/sharing/rest
    */
   public get sharingApiUrl(): string {
     return `${this.portalUrl}/sharing/rest`;
   }
 
+  /**
+   * Returns the Hub url, based on the portalUrl
+   *
+   * For ArcGIS Enterprise this will return `undefined`
+   */
   public get hubUrl(): string {
     return this._hubUrl;
   }
@@ -209,31 +348,38 @@ export class ArcGISContext implements IArcGISContext {
       : this._portalUrl.indexOf("arcgis.com") === -1;
   }
 
-  // Hub APIs
-  // ----------
-  // Discussions
+  /**
+   * Returns the discussions API URL
+   */
   public get discussionsServiceUrl(): string {
     if (this._hubUrl) {
       return `${this._hubUrl}${hubApiEndpoints.discussions}`;
     }
   }
 
-  // Hub Search
+  /**
+   * Returns the Hub Search API URL
+   */
   public get hubSearchServiceUrl(): string {
     if (this._hubUrl) {
       return `${this._hubUrl}${hubApiEndpoints.search}`;
     }
   }
 
-  // Domain
+  /**
+   * Returns Hub Domain Service URL
+   */
   public get domainServiceUrl(): string {
     if (this._hubUrl) {
       return `${this._hubUrl}${hubApiEndpoints.domains}`;
     }
   }
 
-  // Events
-  // returns `{serviceId: '3ef..', publicViewId: 'bc3...'}
+  /**
+   * Returns the Events configuration object from portal/self
+   *
+   * `{serviceId: '3ef..', publicViewId: 'bc3...'}`
+   */
   public get eventsConfig(): any {
     if (this._portalSelf) {
       return getProp(this._portalSelf, "portalProperties.hub.settings.events");
@@ -254,7 +400,7 @@ export class ArcGISContext implements IArcGISContext {
   }
 
   /**
-   * Return Hub Community Org Id, if defined
+   * Return the Hub Community Org Id, if defined
    */
   public get communityOrgId(): string {
     if (this._portalSelf) {
@@ -265,6 +411,11 @@ export class ArcGISContext implements IArcGISContext {
     }
   }
 
+  /**
+   * Returns the Hub Community Org Hostname, if defined
+   *
+   * i.e. c-org.maps.arcgis.com
+   */
   public get communityOrgHostname(): string {
     if (this._portalSelf) {
       return getProp(
@@ -274,24 +425,36 @@ export class ArcGISContext implements IArcGISContext {
     }
   }
 
+  /**
+   * Returns the Hub Community Org url
+   *
+   * i.e. https://c-org.maps.arcgis.com
+   */
   public get communityOrgUrl(): string {
     if (this.communityOrgHostname) {
       return `https://${this.communityOrgHostname}`;
     }
   }
 
-  // Platform API service urls are all in helperServices
-  // and not consistent to expose as urls
+  /**
+   * Returns the hash of helper services from portal self
+   */
   public get helperServices(): any {
     if (this._portalSelf) {
       return this._portalSelf.helperServices;
     }
   }
 
+  /**
+   * Returns the current user as IUser
+   */
   public get currentUser(): IUser {
     return this._currentUser;
   }
 
+  /**
+   * Returns the portal object as IPortal
+   */
   public get portal(): IPortal {
     return this._portalSelf;
   }
