@@ -52,8 +52,6 @@ export interface IArcGISContextManagerOptions {
 }
 
 /**
- * ArcGIS Context Manager
- *
  * The manager exposes context (`IArcGISContext`), which combines a `UserSession` with
  * the `portal/self` and `user/self` responses to provide a central lookup for platform
  * information, api urls, and other useful properties for developers such as IRequestOptions
@@ -64,7 +62,7 @@ export interface IArcGISContextManagerOptions {
  * changes on that single property, instead of having to leverage observers or events
  * for change detection.
  *
- * This is a work-in-progress, and will likely expand over time.
+ * Please see the [ArcGISContext Guide](/hub.js/guides/context) for additional information.
  *
  */
 export class ArcGISContextManager {
@@ -126,7 +124,12 @@ export class ArcGISContextManager {
   }
 
   /**
-   * Static async Factory
+   * Used to create a new instance of the ArcGISContext class.
+   *
+   * ```js
+   * const ctxMgr = await ArcGISContextManager.create();
+   * ```
+   *
    * @param opts
    * @returns
    */
