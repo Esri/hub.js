@@ -2598,17 +2598,17 @@
 </div>
 
 
-  <p>ArcGISContext</p>
-
-
-
-
-  <p>Abstraction that holds a UserSession, along with
+  <p>Abstraction that holds a <code>UserSession</code>, along with
 getters to streamline access to various platform
-urls, and common constructs like IRequestOptions</p>
-<p>Thin class just used to enable getters</p>
-<p>This class should not be used by anything other than
-the ArcGISContextManager class</p>
+urls, and common constructs like <code>IRequestOptions</code>,
+<code>IUserRequestOptions</code> etc.</p>
+
+
+
+
+  <p>Instances are intended to be immutable, but this is not directly enforced.</p>
+<p>In most circumstances, this class should be created by
+the ArcGISContextManager class.</p>
 
 
 
@@ -2745,7 +2745,11 @@ the ArcGISContextManager class</p>
               
             </td>
             <td class="body-face api-param-comment">
-              
+              <p>Unique id from the ArcGISContextManager that created
+this instance. Primarily useful for debugging possible
+race-conditions that can result in multiple ArcGISContextManager
+instances being created.</p>
+
             </td>
           </tr>
         
@@ -2811,7 +2815,8 @@ the ArcGISContextManager class</p>
               
             </td>
             <td class="body-face api-param-comment">
-              
+              <p>Returns the Hub Community Org Hostname, if defined</p>
+
             </td>
           </tr>
         
@@ -2841,7 +2846,7 @@ the ArcGISContextManager class</p>
               
             </td>
             <td class="body-face api-param-comment">
-              <p>Return Hub Community Org Id, if defined</p>
+              <p>Return the Hub Community Org Id, if defined</p>
 
             </td>
           </tr>
@@ -2872,7 +2877,8 @@ the ArcGISContextManager class</p>
               
             </td>
             <td class="body-face api-param-comment">
-              
+              <p>Returns the Hub Community Org url</p>
+
             </td>
           </tr>
         
@@ -2902,7 +2908,8 @@ the ArcGISContextManager class</p>
               
             </td>
             <td class="body-face api-param-comment">
-              
+              <p>Returns the current user as IUser</p>
+
             </td>
           </tr>
         
@@ -2932,7 +2939,8 @@ the ArcGISContextManager class</p>
               
             </td>
             <td class="body-face api-param-comment">
-              
+              <p>Returns the discussions API URL</p>
+
             </td>
           </tr>
         
@@ -2962,7 +2970,8 @@ the ArcGISContextManager class</p>
               
             </td>
             <td class="body-face api-param-comment">
-              
+              <p>Returns Hub Domain Service URL</p>
+
             </td>
           </tr>
         
@@ -2992,7 +3001,8 @@ the ArcGISContextManager class</p>
               
             </td>
             <td class="body-face api-param-comment">
-              
+              <p>Returns the Events configuration object from portal/self</p>
+
             </td>
           </tr>
         
@@ -3022,7 +3032,8 @@ the ArcGISContextManager class</p>
               
             </td>
             <td class="body-face api-param-comment">
-              
+              <p>Returns the hash of helper services from portal self</p>
+
             </td>
           </tr>
         
@@ -3116,7 +3127,8 @@ ArcGIS Hub</p>
               
             </td>
             <td class="body-face api-param-comment">
-              
+              <p>Returns the Hub Search API URL</p>
+
             </td>
           </tr>
         
@@ -3146,7 +3158,8 @@ ArcGIS Hub</p>
               
             </td>
             <td class="body-face api-param-comment">
-              
+              <p>Returns the Hub url, based on the portalUrl</p>
+
             </td>
           </tr>
         
@@ -3239,7 +3252,8 @@ is ArcGIS Enterprise (formerly ArcGIS Portal) or not</p>
               
             </td>
             <td class="body-face api-param-comment">
-              
+              <p>Returns the portal object as IPortal</p>
+
             </td>
           </tr>
         
@@ -3269,7 +3283,7 @@ is ArcGIS Enterprise (formerly ArcGIS Portal) or not</p>
               
             </td>
             <td class="body-face api-param-comment">
-              <p>Return the portal url.</p>
+              <p>Return the portal url i.e. <a href="https://www.arcgis.com">https://www.arcgis.com</a></p>
 
             </td>
           </tr>
@@ -3363,7 +3377,7 @@ which <em>may</em> use authentication information if provided.</p>
               
             </td>
             <td class="body-face api-param-comment">
-              <p>Returns the url to the sharing api
+              <p>Returns the url to the sharing api composed from portalUrl
 i.e. <a href="https://myorg.maps.arcgis.com/sharing/rest">https://myorg.maps.arcgis.com/sharing/rest</a></p>
 
             </td>
@@ -3423,7 +3437,7 @@ functions which require authentication information.</p>
 
 
 
-<small class="font-size--2">Class defined in <a href="https://github.com/Esri/hub.js/blob/master/common/src/ArcGISContext.ts#L77">common/src/ArcGISContext.ts:77</a></small>
+<small class="font-size--2">Class defined in <a href="https://github.com/Esri/hub.js/blob/master/common/src/ArcGISContext.ts#L198">common/src/ArcGISContext.ts:198</a></small>
 
 
     </div>

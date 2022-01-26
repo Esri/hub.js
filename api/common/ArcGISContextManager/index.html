@@ -2598,20 +2598,19 @@
 </div>
 
 
-  <p>ArcGIS Context Manager</p>
-
-
-
-
   <p>The manager exposes context (<code>IArcGISContext</code>), which combines a <code>UserSession</code> with
 the <code>portal/self</code> and <code>user/self</code> responses to provide a central lookup for platform
 information, api urls, and other useful properties for developers such as IRequestOptions
 IUserRequestOptions, IHubRequestOptions etc.</p>
-<p>The context is exposed on gthe <code>.context</code> property, and as the authentication changes
+
+
+
+
+  <p>The context is exposed on gthe <code>.context</code> property, and as the authentication changes
 the <code>.context</code> is re-created. This is done to allow web frameworks to watch for
 changes on that single property, instead of having to leverage observers or events
 for change detection.</p>
-<p>This is a work-in-progress, and will likely expand over time.</p>
+<p>Please see the <a href="/hub.js/guides/context">ArcGISContext Guide</a> for additional information.</p>
 
 
 
@@ -2792,9 +2791,11 @@ like React or Ember can detect changes.</p>
             </td>
             <td class="code-face"><i>Promise</i><i><span class="text-light-gray">&lt;</span><i><a href="/hub.js/api/common/ArcGISContextManager/">ArcGISContextManager</a></i><span class="text-light-gray">&gt;</span></i></td>
             <td class="body-face api-param-comment">
-              <p>Static async Factory</p>
+              <p>Used to create a new instance of the ArcGISContext class.</p>
 
-              
+              <pre><code class="js"><span class="hljs-keyword">const</span> ctxMgr = <span class="hljs-keyword">await</span> ArcGISContextManager.create();
+</code></pre>
+
             </td>
           </tr>
         
@@ -2880,7 +2881,7 @@ application.</p>
       <hr class="leader-half trailer-half">
 
       <div class="api-function-comment">
-        <p>Static async Factory</p>
+        <p>Used to create a new instance of the ArcGISContext class.</p>
 
       </div>
 
@@ -2946,6 +2947,12 @@ application.</p>
       <div class="fonts-size--1 panel padding-leader-half padding-trailer-half padding-right-half padding-left-half trailer-half">
       <i>Promise</i><i><span class="text-light-gray">&lt;</span><i><a href="/hub.js/api/common/ArcGISContextManager/">ArcGISContextManager</a></i><span class="text-light-gray">&gt;</span></i>
       </div>
+
+      
+        <hr class="leader-half trailer-half">
+
+        <pre><code class="js"><span class="hljs-keyword">const</span> ctxMgr = <span class="hljs-keyword">await</span> ArcGISContextManager.create();
+</code></pre>
 
       
     </div>
@@ -3123,7 +3130,7 @@ application.</p>
 
 
 
-<small class="font-size--2">Class defined in <a href="https://github.com/Esri/hub.js/blob/master/common/src/ArcGISContextManager.ts#L70">common/src/ArcGISContextManager.ts:70</a></small>
+<small class="font-size--2">Class defined in <a href="https://github.com/Esri/hub.js/blob/master/common/src/ArcGISContextManager.ts#L68">common/src/ArcGISContextManager.ts:68</a></small>
 
 
     </div>
