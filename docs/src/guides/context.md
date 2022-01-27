@@ -8,13 +8,13 @@ group: 2-concepts
 
 ## About Context
 
-Simply put, "context" refers to the collection of platform and user information and application needs in order to make requests to the right services, pass the correct authentication and easily determin other use/org specific properties.
+Simply put, "context" refers to the collection of platform and user information an application needs in order to make requests to the right services, pass the correct authentication and easily determine other user/org specific properties.
 
-The `ArcGISContext` class provides just this - making it easier for applications and components to write simpler, consistent code, and to easily leverage shared libraries like [ArcGIS Rest JS](https://esri.github.io/arcgis-rest-js/), [Hub.js](https://esri.github.io/hub.js/), [Solutions.js](https://github.com/Esri/solution.js) etc.
+The `ArcGISContext` class provides just this - making it easier for applications and components to write simpler, more consistent code, and to easily leverage shared libraries like [ArcGIS Rest JS](https://esri.github.io/arcgis-rest-js/), [Hub.js](https://esri.github.io/hub.js/), [Solutions.js](https://github.com/Esri/solution.js) etc.
 
 ### Simple Access to Shared Information
 
-In addition to the portal and sharing api urls, `ArcGISContext` also provides easy access to authentication status, the active `UserSession`, portal and user objects, as well as a number of computed properties driven by those objects.
+In addition to the portal and sharing api urls, `ArcGISContext` also provides easy access to authentication status, the active [`UserSession`](https://esri.github.io/arcgis-rest-js/api/auth/UserSession/), [`IPortal`](https://esri.github.io/arcgis-rest-js/api/portal/IPortal/) and [`IUser`](https://esri.github.io/arcgis-rest-js/api/types/IUser/) objects, as well as a number of computed properties driven by those objects.
 
 See [`IArcGISContext`](/hub.js/api/common/IArcGISContext) for the list of properties and their descriptions.
 
@@ -42,6 +42,7 @@ This class should be created by your application - i.e. the React/Ember/Vue etc 
 
 ```js
 // Create a context manager, passing in no additional information
+// This will default to using https://www.arcgis.com as the portal url
 const ctxMgr = await ArcGISContextManager.create();
 ctxMgr.context.isAuthenticated; // false
 // the context then has a number of properties accessible
@@ -54,30 +55,34 @@ ctxMgr.context.portal = "https://dcdev.maps.arcgis.com"; //=> throws
 // now let's load a session from localStorage (for example)
 const session = UserSession.deserialize(localStorage.getItem("_context"));
 
-// we can set this on the context manager, and it will
+// we can set this on the context manager, and it will fetch the
+// IPortal from portal/self and the IUser from users/self
 await ctxMgr.setAuthentication(session);
 // at this point ctxMgr.context is now a *new* object
 ctxMgr.context.isAuthenticated; // true
 ctxMgr.context.portalUrl; //=> https://dcdev.maps.arcgis.com
 ctxMgr.context.sharingApiUrl; //=> https://dcdev.maps.arcgis.com/sharing/rest
 ctxMgr.context.currentUser; //=> {username: "dave", ...} IUser
+ctxMgr.context.portal; //=> {id: "BcRx2", ...} IPortal
 ```
 
 ### Framework Integration
 
 In Ember we create it in the application route's `beforeModel` hook (the very first thing to run as it boots up) and we store the reference on a Service. Ember services are singletons that exist for the lifetime of the application. When users sign in/out, the application gets a reference to the context manager from the service, and calls the necessary methods. It then sets a reference to the context on the service itself. This is necessary for the Ember change tracking system, and allows the rest of the application to bind to the `service.context` property without any additional complexity.
 
+This same approach should be taken with other frameworks, taking into consideration how the framework wants this sort of state to be handled.
+
 ### ArcGISContext
 
 This class is simply holds some properties and then exposes a large set of read only properties to streamline access to commonly accessed information or structures.
 
-In the case that an application opts not to use `ArcGISContextManager`, the `ArcGISContext` class could be manually created, and takes an `IArcGISContextOptions` in the constructor.
+In the case that an application opts not to use `ArcGISContextManager`, the [`ArcGISContext`](https://esri.github.io/hub.js/api/common/ArcGISContext/) class could be manually created, and takes an [`IArcGISContextOptions`](https://esri.github.io/hub.js/api/common/IArcGISContextOptions/) in the constructor.
 
 ### Questions and Answers
 
 Q: Should hub.js functions take an `IArcGISContext`?
 
-A: No. Hub.js function parameters should expect one of the lower level interfaces - `IHubRequestOptions`, `IUserRequestOptions` or `IRequestOptions`. The `ArcGISContext` should be used in components which need to easily access any of those interfaces, or other "platform configuration" properties, in order to make calls to modules from hub.js, or arcgis-rest-js.
+A: No. Hub.js function parameters should expect one of the lower level interfaces - `IHubRequestOptions`, `IUserRequestOptions` or `IRequestOptions`. The `ArcGISContext` should be used in components which need to easily access any of those interfaces, or other platform configuration properties, in order to make calls to modules from hub.js, or arcgis-rest-js.
 
 Q: Should my application bind to `ArcGISContextManager.context` directly?
 
