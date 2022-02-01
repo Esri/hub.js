@@ -23,6 +23,8 @@ export * from "./request";
 export * from "./surveys";
 export * from "./ArcGISContextManager";
 export * from "./ArcGISContext";
+export * from "./models";
+export * from "./projects";
 
 import OperationStack from "./OperationStack";
 import OperationError from "./OperationError";
