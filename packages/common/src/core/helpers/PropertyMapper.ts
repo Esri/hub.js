@@ -1,36 +1,59 @@
-import { IItem, searchItems } from "@esri/arcgis-rest-portal";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { cloneObject, dasherize, deepSet, getProp, IModel } from "..";
+import { cloneObject, deepSet, getProp, IModel } from "../..";
+
 /**
- * Create a slug, namespaced to an org
- * Typically used to lookup items by a human readable name in urls
+ * Manage forward and backward property mappings to
+ * streamline conversion between the Hub entities, and
+ * the backing IModel
+ */
+export class PropertyMapper<T> {
+  public mappings: IPropertyMap[];
+  /**
+   * Pass in the mappings between the Entity and
+   * it's backing structure (model or otherwise)
+   * @param mappings
+   */
+  constructor(mappings: IPropertyMap[]) {
+    this.mappings = mappings;
+  }
+  /**
+   * Map properties from a model on to the entity object.
+   *
+   * Used when constructing an entity can from a fetched model,
+   * in which case the entity should be an empty object (`{}`).
+   *
+   * Can also be used to apply changes to an entity from a model,
+   * in which case an existing entity can be passed in.
+   * @param model
+   * @param object
+   * @returns
+   */
+  modelToObject(model: IModel, object: T): T {
+    return mapModelToObject(model, object, this.mappings);
+  }
+
+  /**
+   * Map properties from an entity object onto a model.
+   *
+   * Typically the model will already exist, and this
+   * method is used to transfer changes to the model
+   * prior to storage.
+   * @param object
+   * @param model
+   * @returns
+   */
+  objectToModel(object: T, model: IModel): IModel {
+    return mapObjectToModel(object, model, this.mappings);
+  }
+}
+
+/**
+ * Property Map Entry that provides a cross-walk
+ * between a property path (`name`) on the "object"
+ * to a property path on a model (`item.title`).
  *
- * @param title
- * @param orgKey
- * @returns
+ * This enables autmatic mapping of properties between
+ * the two types of objects.
  */
-export function createSlug(title: string, orgKey: string) {
-  return `${orgKey.toLowerCase()}-${dasherize(title)}`;
-}
-
-/**
- * Adds/Updates the slug typekeyword
- * Returns a new array of keywords
- * @param typeKeywords
- * @param slug
- * @returns
- */
-export function setSlugKeyword(typeKeywords: string[], slug: string): string[] {
-  // remove slug entry from array
-  const removed = typeKeywords.filter((entry: string) => {
-    return !entry.startsWith("slug|");
-  });
-
-  // now add it
-  removed.push(`slug|${slug}`);
-  return removed;
-}
-
 export interface IPropertyMap {
   objectKey: string;
   modelKey: string;
@@ -102,21 +125,4 @@ function mapProps<S, T>(
   });
 
   return clone;
-}
-
-/**
- *
- */
-export class PropertyMapper<T> {
-  public mappings: IPropertyMap[];
-  constructor(mappings: IPropertyMap[]) {
-    this.mappings = mappings;
-  }
-  modelToObject(model: IModel, object: T): T {
-    return mapModelToObject(model, object, this.mappings);
-  }
-
-  objectToModel(object: T, model: IModel): IModel {
-    return mapObjectToModel(object, model, this.mappings);
-  }
 }

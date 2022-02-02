@@ -1,8 +1,17 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
-import { cloneObject, HubProjects, IHubProject, IModel } from "../../src";
-import { MOCK_AUTH } from "../mocks/mock-auth";
-import * as modelUtils from "../../src/models";
-import * as slugUtils from "../../src/items/slugs";
+import {
+  cloneObject,
+  IModel,
+  getProject,
+  destroyProject,
+  IHubProject,
+  createProject,
+  updateProject,
+} from "../../../src";
+
+import { MOCK_AUTH } from "../../mocks/mock-auth";
+import * as modelUtils from "../../../src/models";
+import * as slugUtils from "../../../src/items/slugs";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 const PROJECT_ITEM = {
@@ -33,7 +42,10 @@ describe("HubProjects:", () => {
       const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
         Promise.resolve(PROJECT_MODEL)
       );
-      const chk = await HubProjects.get(GUID, { authentication: MOCK_AUTH });
+
+      const chk = await getProject(GUID, {
+        authentication: MOCK_AUTH,
+      });
       expect(chk.id).toBe(GUID);
       expect(chk.owner).toBe("vader");
       expect(getModelSpy.calls.count()).toBe(1);
@@ -45,7 +57,7 @@ describe("HubProjects:", () => {
         modelUtils,
         "getModelBySlug"
       ).and.returnValue(Promise.resolve(PROJECT_MODEL));
-      const chk = await HubProjects.get("dcdev-34th-street", {
+      const chk = await getProject("dcdev-34th-street", {
         authentication: MOCK_AUTH,
       });
       expect(getModelBySlugSpy.calls.count()).toBe(1);
@@ -61,10 +73,10 @@ describe("HubProjects:", () => {
         Promise.resolve({ success: true })
       );
 
-      const result = await HubProjects.destroy("3ef", {
+      const result = await destroyProject("3ef", {
         authentication: MOCK_AUTH,
       });
-      expect(result.success).toBeTruthy();
+      expect(result).toBeUndefined();
       expect(removeSpy.calls.count()).toBe(1);
       expect(removeSpy.calls.argsFor(0)[0].authentication).toBe(MOCK_AUTH);
       expect(removeSpy.calls.argsFor(0)[0].id).toBe("3ef");
@@ -83,13 +95,13 @@ describe("HubProjects:", () => {
           return Promise.resolve(m);
         }
       );
-      const chk = await HubProjects.create(
-        { title: "Hello World", org: { id: "BC7ajs", key: "dcdev" } },
+      const chk = await createProject(
+        { name: "Hello World", org: { id: "BC7ajs", key: "dcdev" } },
         { authentication: MOCK_AUTH }
       );
 
       expect(chk.id).toBe(GUID);
-      expect(chk.title).toBe("Hello World");
+      expect(chk.name).toBe("Hello World");
       // should ensure unique slug
       expect(slugSpy.calls.count()).toBe(1);
       expect(slugSpy.calls.argsFor(0)[0]).toBe(
@@ -99,6 +111,7 @@ describe("HubProjects:", () => {
       // should create the item
       expect(createSpy.calls.count()).toBe(1);
       const modelToCreate = createSpy.calls.argsFor(0)[0];
+      expect(modelToCreate.item.title).toBe("Hello World");
       expect(modelToCreate.item.properties.slug).toBe("dcdev-hello-world");
       expect(modelToCreate.data.org.key).toBe("dcdev");
     });
@@ -114,9 +127,9 @@ describe("HubProjects:", () => {
           return Promise.resolve(m);
         }
       );
-      const chk = await HubProjects.create(
+      const chk = await createProject(
         {
-          title: "Hello World",
+          name: "Hello World",
           slug: "dcdev-hello-world", // important for coverage
           description: "my desc",
           org: { id: "BC7ajs", key: "dcdev" },
@@ -124,7 +137,7 @@ describe("HubProjects:", () => {
         { authentication: MOCK_AUTH }
       );
       expect(chk.id).toBe(GUID);
-      expect(chk.title).toBe("Hello World");
+      expect(chk.name).toBe("Hello World");
       expect(chk.description).toBe("my desc");
       // should ensure unique slug
       expect(slugSpy.calls.count()).toBe(1);
@@ -155,19 +168,24 @@ describe("HubProjects:", () => {
       );
       const prj: IHubProject = {
         id: GUID,
-        title: "Hello World",
+        name: "Hello World",
         tags: ["Transportation"],
         description: "Some longer description",
-        snippet: "More Snippety",
         slug: "dcdev-wat-blarg",
         org: {
           id: "BC7ajs",
           key: "dcdev",
         },
+        createdDate: new Date(1595878748000),
+        createdDateSource: "item.created",
+        updatedDate: new Date(1595878750000),
+        updatedDateSource: "item.modified",
+        status: "active",
+        thumbnailUrl: "",
       };
-      const chk = await HubProjects.update(prj, { authentication: MOCK_AUTH });
+      const chk = await updateProject(prj, { authentication: MOCK_AUTH });
       expect(chk.id).toBe(GUID);
-      expect(chk.title).toBe("Hello World");
+      expect(chk.name).toBe("Hello World");
       expect(chk.description).toBe("Some longer description");
       // should ensure unique slug
       expect(slugSpy.calls.count()).toBe(1);

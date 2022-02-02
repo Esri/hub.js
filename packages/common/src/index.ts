@@ -24,7 +24,8 @@ export * from "./surveys";
 export * from "./ArcGISContextManager";
 export * from "./ArcGISContext";
 export * from "./models";
-export * from "./projects";
+export * from "./core";
+export { Hub } from "./Hub";
 
 import OperationStack from "./OperationStack";
 import OperationError from "./OperationError";

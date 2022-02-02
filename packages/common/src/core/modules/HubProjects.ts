@@ -1,34 +1,50 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { IHubProject } from ".";
+
 // Note - we separate these imports so we can cleanly spy on things in tests
-import { createModel, getModel, getModelBySlug, updateModel } from "../models";
-import { getUniqueSlug } from "../items/slugs";
-import { IModel, isGuid, cloneObject } from "..";
+import {
+  createModel,
+  getModel,
+  getModelBySlug,
+  updateModel,
+} from "../../models";
+import {
+  constructSlug,
+  getUniqueSlug,
+  setSlugKeyword,
+} from "../../items/slugs";
+import {
+  IModel,
+  isGuid,
+  cloneObject,
+  Filter,
+  IHubSearchOptions,
+  ISearchResponse,
+} from "../..";
 import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { createSlug, IPropertyMap, setSlugKeyword } from "./utils";
-import { PropertyMapper } from "./utils";
+
+import { IPropertyMap, PropertyMapper } from "../helpers/PropertyMapper";
+import { IHubProject } from "../types";
+
+export const HUB_PROJECT_ITEM_TYPE = "Web Mapping Application";
 
 /**
  * Default values of a IHubProject
  */
 const DEFAULT_PROJECT: Partial<IHubProject> = {
-  title: "No title provided",
-  properties: {},
+  name: "No title provided",
   tags: [],
   typeKeywords: ["IHubProject", "HubProject"],
-  slug: "",
+  // slug: "",
   // status: "inactive",
 };
-
-export const PROJECT_ITEM_TYPE = "Web Mapping Application";
 
 /**
  * Default values for a new HubProject Model
  */
 const DEFAULT_PROJECT_MODEL = {
   item: {
-    type: PROJECT_ITEM_TYPE,
+    type: HUB_PROJECT_ITEM_TYPE,
     title: "No Title Provided",
     description: "No Description Provided",
     snippet: "",
@@ -56,7 +72,7 @@ const DEFAULT_PROJECT_MODEL = {
  * generate the structure.
  * @returns
  */
-export function getPropertyMap(): IPropertyMap[] {
+export function getProjectPropertyMap(): IPropertyMap[] {
   const itemProps = [
     "created",
     "culture",
@@ -67,7 +83,6 @@ export function getPropertyMap(): IPropertyMap[] {
     "owner",
     "snippet",
     "tags",
-    "title",
     "typeKeywords",
     "url",
   ];
@@ -93,31 +108,41 @@ export function getPropertyMap(): IPropertyMap[] {
     objectKey: "slug",
     modelKey: "item.properties.slug",
   });
+  map.push({
+    objectKey: "name",
+    modelKey: "item.title",
+  });
   return map;
 }
 
 /**
  * Create a new Hub Project item
+ *
+ * Minimal properties are name and org
+ *
  * @param project
  * @param requestOptions
  */
-export async function create(
-  partialProject: IHubProject,
+export async function createProject(
+  partialProject: Partial<IHubProject>,
   requestOptions: IUserRequestOptions
 ): Promise<IHubProject> {
   // merge incoming with the default
+  // this expansion solves the typing somehow
   const project = { ...DEFAULT_PROJECT, ...partialProject };
 
   // Create a slug from the title if one is not passed in
   if (!project.slug) {
-    project.slug = createSlug(project.title, project.org.key);
+    project.slug = constructSlug(project.name, project.org.key);
   }
   // Ensure slug is  unique
   project.slug = await getUniqueSlug(project.slug, requestOptions);
   // add slug to keywords
   project.typeKeywords = setSlugKeyword(project.typeKeywords, project.slug);
   // Map project object onto a default project Model
-  const mapper = new PropertyMapper<Partial<IHubProject>>(getPropertyMap());
+  const mapper = new PropertyMapper<Partial<IHubProject>>(
+    getProjectPropertyMap()
+  );
   // create model from object, using the default model as a starting point
   let model = mapper.objectToModel(project, cloneObject(DEFAULT_PROJECT_MODEL));
   // create the item
@@ -134,7 +159,7 @@ export async function create(
  * @param project
  * @param requestOptions
  */
-export async function update(
+export async function updateProject(
   project: IHubProject,
   requestOptions: IUserRequestOptions
 ): Promise<IHubProject> {
@@ -145,7 +170,9 @@ export async function update(
   // get the backing item & data
   const model = await getModel(project.id, requestOptions);
   // create the PropertyMapper
-  const mapper = new PropertyMapper<Partial<IHubProject>>(getPropertyMap());
+  const mapper = new PropertyMapper<Partial<IHubProject>>(
+    getProjectPropertyMap()
+  );
   // Although we are applying changes onto the model, we are not
   // checking if there were changes in the meantime
   // TODO: add checks on `modified` timestamps
@@ -155,7 +182,7 @@ export async function update(
   // now map back into the project and return that
   const updatedProject = mapper.modelToObject(updatedModel, project);
   return updatedProject as IHubProject;
-  // TODO: Error handling following JSON-API Error codes standard
+  // TODO: Error handling
 }
 
 /**
@@ -163,7 +190,7 @@ export async function update(
  * @param identifier item id or slug
  * @param requestOptions
  */
-export function get(
+export function getProject(
   identifier: string,
   requestOptions: IRequestOptions
 ): Promise<IHubProject> {
@@ -177,7 +204,9 @@ export function get(
   }
   return getPrms.then((model) => {
     // transform the model into a HubProject
-    const mapper = new PropertyMapper<Partial<IHubProject>>(getPropertyMap());
+    const mapper = new PropertyMapper<Partial<IHubProject>>(
+      getProjectPropertyMap()
+    );
     const project = mapper.modelToObject(model, {}) as IHubProject;
     return project;
   });
@@ -188,61 +217,18 @@ export function get(
  * @param id
  * @param requestOptions
  */
-export async function destroy(
+export async function destroyProject(
   id: string,
   requestOptions: IUserRequestOptions
-): Promise<{ success: boolean; itemId: string }> {
+): Promise<void> {
   const ro = { ...requestOptions, ...{ id } } as IUserItemOptions;
-  return removeItem(ro);
+  await removeItem(ro);
+  return;
 }
 
-/**
- * RESOURCES
- * Extract to another module and delegate
- */
-
-// export function createResource(
-//   project: IHubProject,
-//   file: File,
-//   name: string,
-//   requestOptions: IUserRequestOptions
-// ): Promise<IItemResourceResponse> {
-//   throw new Error("not implemented");
-// }
-
-// export function updateResource(
-//   project: IHubProject,
-//   file: File,
-//   name: string,
-//   requestOptions: IUserRequestOptions
-// ): Promise<IItemResourceResponse> {
-//   throw new Error("not implemented");
-// }
-
-// export function removeResource(
-//   project: IHubProject,
-//   name: string,
-//   requestOptions: IUserRequestOptions
-// ): Promise<void> {
-//   throw new Error("not implemented");
-// }
-
-// export function listResources(
-//   project: IHubProject,
-//   requestOptions: IUserRequestOptions
-// ): Promise<IResource[]> {
-//   return getAllResources(project.id, requestOptions);
-// }
-
-/**
- * UTILITIES
- */
-// export function validateProject(project: Partial<IHubProject>): IValidation {
-//   throw new Error("not implemented");
-// }
-
-// // This will likely change to whatever Ajv returns
-// export interface IValidation {
-//   valid: boolean;
-//   errors: any[];
-// }
+export async function searchProjects(
+  filter: Filter<"content">,
+  opts: IHubSearchOptions
+): Promise<ISearchResponse<IHubProject>> {
+  throw new Error("Not Implemented");
+}

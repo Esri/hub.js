@@ -1,31 +1,12 @@
-import { IModel } from "../../src";
+import { IModel } from "../../../src";
 import {
-  createSlug,
-  setSlugKeyword,
-  mapObjectToModel,
   IPropertyMap,
+  mapObjectToModel,
   mapModelToObject,
   PropertyMapper,
-} from "../../src/projects/utils";
+} from "../../../src/core/helpers/PropertyMapper";
 
-describe("project utils:", () => {
-  describe("createSlug:", () => {
-    it("combined org and dasherized title", () => {
-      expect(createSlug("Hello World", "DCdev")).toBe("dcdev-hello-world");
-    });
-  });
-  describe("setSlugKeyword:", () => {
-    it("removes existing slug keyword, add new one", () => {
-      const chk = setSlugKeyword(["slug|old-slug"], "hello-world");
-      expect(chk.length).toBe(1);
-      expect(chk[0]).toBe("slug|hello-world");
-    });
-    it("adds slug entry", () => {
-      const chk = setSlugKeyword(["otherKeyword"], "hello-world");
-      expect(chk.length).toBe(2);
-      expect(chk[1]).toBe("slug|hello-world");
-    });
-  });
+describe("PropertyMapper:", () => {
   describe("mapObjectToModel:", () => {
     const obj = {
       color: "red",

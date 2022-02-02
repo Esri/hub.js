@@ -1,9 +1,40 @@
 import { searchItems } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-types";
+import { dasherize } from "..";
 
 // TODO: work out how to unify content slug fns
 // https: github.com/Esri/hub.js/blob/master/packages/common/src/content/index.ts#L301-L348
+
+/**
+ * Create a slug, namespaced to an org
+ * Typically used to lookup items by a human readable name in urls
+ *
+ * @param title
+ * @param orgKey
+ * @returns
+ */
+export function constructSlug(title: string, orgKey: string) {
+  return `${orgKey.toLowerCase()}-${dasherize(title)}`;
+}
+
+/**
+ * Adds/Updates the slug typekeyword
+ * Returns a new array of keywords
+ * @param typeKeywords
+ * @param slug
+ * @returns
+ */
+export function setSlugKeyword(typeKeywords: string[], slug: string): string[] {
+  // remove slug entry from array
+  const removed = typeKeywords.filter((entry: string) => {
+    return !entry.startsWith("slug|");
+  });
+
+  // now add it
+  removed.push(`slug|${slug}`);
+  return removed;
+}
 
 /**
  * Get an item by searching for items with a typeKeyword like `slug|{slug-value}`

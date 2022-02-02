@@ -4,6 +4,26 @@ import { MOCK_AUTH } from "../groups/add-users-workflow/fixtures";
 import { ISearchOptions } from "@esri/arcgis-rest-portal";
 
 describe("slug utils: ", () => {
+  describe("createSlug:", () => {
+    it("combined org and dasherized title", () => {
+      expect(slugModule.constructSlug("Hello World", "DCdev")).toBe(
+        "dcdev-hello-world"
+      );
+    });
+  });
+  describe("setSlugKeyword:", () => {
+    it("removes existing slug keyword, add new one", () => {
+      const chk = slugModule.setSlugKeyword(["slug|old-slug"], "hello-world");
+      expect(chk.length).toBe(1);
+      expect(chk[0]).toBe("slug|hello-world");
+    });
+    it("adds slug entry", () => {
+      const chk = slugModule.setSlugKeyword(["otherKeyword"], "hello-world");
+      expect(chk.length).toBe(2);
+      expect(chk[1]).toBe("slug|hello-world");
+    });
+  });
+
   describe("getItemBySlug:", () => {
     it("searches by typekeyword", async () => {
       const searchSpy = spyOn(portalModule, "searchItems").and.returnValue(
