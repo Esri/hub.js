@@ -161,6 +161,81 @@ export enum ChannelFilter {
   HAS_USER_POSTS = "has_user_posts",
 }
 
+// sorting
+
+/**
+ * Common sorting fields
+ *
+ * @enum {string}
+ */
+enum BaseSort {
+  ID = "id",
+  CREATED_AT = "createdAt",
+  UPDATED_AT = "updatedAt",
+  CREATOR = "creator",
+  EDITOR = "editor",
+}
+
+/**
+ * Channel sorting fields
+ *
+ * @enum {string}
+ */
+enum _ChannelSort {
+  ACCESS = "access",
+  LAST_ACTIVITY = "last_activity",
+}
+
+/**
+ * All Channel sorting fields
+ *
+ * @export
+ * @enum {string}
+ */
+export const ChannelSort = {
+  ...BaseSort,
+  ..._ChannelSort,
+};
+
+/**
+ * ChannelSort type
+ *
+ * @export
+ */
+export type ChannelSort = typeof ChannelSort;
+
+/**
+ * Post sorting fields
+ *
+ * @enum {string}
+ */
+enum _PostSort {
+  TITLE = "title",
+  BODY = "body",
+  STATUS = "status",
+  DISCUSSION = "discussion",
+  CHANNEL_ID = "channelId",
+  PARENT_ID = "parentId",
+}
+
+/**
+ * All Post sorting fields
+ *
+ * @export
+ * @enum {string}
+ */
+export const PostSort = {
+  ...BaseSort,
+  ..._PostSort,
+};
+
+/**
+ * PostSort type
+ *
+ * @export
+ */
+export type PostSort = typeof PostSort;
+
 // mixins
 
 /**
