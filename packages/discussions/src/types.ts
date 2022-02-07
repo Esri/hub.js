@@ -9,7 +9,7 @@ import { Geometry } from "geojson";
  * sort orders
  *
  * @export
- * @enum {number}
+ * @enum {string}
  */
 export enum SortOrder {
   ASC = "ASC",
@@ -20,7 +20,7 @@ export enum SortOrder {
  * reactions to posts
  *
  * @export
- * @enum {number}
+ * @enum {string}
  */
 export enum PostReaction {
   THUMBS_UP = "thumbs_up",
@@ -37,7 +37,7 @@ export enum PostReaction {
  * platform sharing access values
  *
  * @export
- * @enum {number}
+ * @enum {string}
  */
 export enum SharingAccess {
   PUBLIC = "public",
@@ -61,7 +61,7 @@ export interface IPlatformSharing {
  * possible statuses of a post
  *
  * @export
- * @enum {number}
+ * @enum {string}
  */
 export enum PostStatus {
   PENDING = "pending",
@@ -75,7 +75,7 @@ export enum PostStatus {
  * possible discussionn content types, i.e. a post can be about an item, dataset, or group
  *
  * @export
- * @enum {number}
+ * @enum {string}
  */
 // TODO: Deprecate ITEM and DATASET keys at v10.0.0
 export enum DiscussionType {
@@ -89,7 +89,7 @@ export enum DiscussionType {
  * source of a post, i.e. app context
  *
  * @export
- * @enum {number}
+ * @enum {string}
  */
 export enum DiscussionSource {
   HUB = "hub",
@@ -122,7 +122,7 @@ export interface IDiscussionParams {
  * relations of post entity
  *
  * @export
- * @enum {number}
+ * @enum {string}
  */
 export enum PostRelation {
   REPLIES = "replies",
@@ -135,7 +135,7 @@ export enum PostRelation {
  * relations of channel entity
  *
  * @export
- * @enum {number}
+ * @enum {string}
  */
 export enum ChannelRelation {
   SETTINGS = "settings",
@@ -145,10 +145,56 @@ export enum ChannelRelation {
  * relations of reaction entity
  *
  * @export
- * @enum {number}
+ * @enum {string}
  */
 export enum ReactionRelation {
   POST = "post",
+}
+
+/**
+ * filters of channel entity
+ *
+ * @export
+ * @enum {string}
+ */
+export enum ChannelFilter {
+  HAS_USER_POSTS = "has_user_posts",
+}
+
+// sorting
+
+/**
+ * Channel sorting fields
+ *
+ * @enum {string}
+ */
+enum ChannelSort {
+  ACCESS = "access",
+  CREATED_AT = "createdAt",
+  CREATOR = "creator",
+  EDITOR = "editor",
+  ID = "id",
+  LAST_ACTIVITY = "last_activity",
+  UPDATED_AT = "updatedAt",
+}
+
+/**
+ * Post sorting fields
+ *
+ * @enum {string}
+ */
+enum PostSort {
+  BODY = "body",
+  CHANNEL_ID = "channelId",
+  CREATED_AT = "createdAt",
+  CREATOR = "creator",
+  DISCUSSION = "discussion",
+  EDITOR = "editor",
+  ID = "id",
+  PARENT_ID = "parentId",
+  STATUS = "status",
+  TITLE = "title",
+  UPDATED_AT = "updatedAt",
 }
 
 // mixins
