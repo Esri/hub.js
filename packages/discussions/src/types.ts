@@ -168,7 +168,7 @@ export enum ChannelFilter {
  *
  * @enum {string}
  */
-enum ChannelSort {
+export enum ChannelSort {
   ACCESS = "access",
   CREATED_AT = "createdAt",
   CREATOR = "creator",
@@ -183,7 +183,7 @@ enum ChannelSort {
  *
  * @enum {string}
  */
-enum PostSort {
+export enum PostSort {
   BODY = "body",
   CHANNEL_ID = "channelId",
   CREATED_AT = "createdAt",
