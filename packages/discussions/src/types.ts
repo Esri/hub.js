@@ -164,77 +164,38 @@ export enum ChannelFilter {
 // sorting
 
 /**
- * Common sorting fields
- *
- * @enum {string}
- */
-enum BaseSort {
-  ID = "id",
-  CREATED_AT = "createdAt",
-  UPDATED_AT = "updatedAt",
-  CREATOR = "creator",
-  EDITOR = "editor",
-}
-
-/**
  * Channel sorting fields
  *
  * @enum {string}
  */
-enum _ChannelSort {
+enum ChannelSort {
   ACCESS = "access",
+  CREATED_AT = "createdAt",
+  CREATOR = "creator",
+  EDITOR = "editor",
+  ID = "id",
   LAST_ACTIVITY = "last_activity",
+  UPDATED_AT = "updatedAt",
 }
-
-/**
- * All Channel sorting fields
- *
- * @export
- * @enum {string}
- */
-export const ChannelSort = {
-  ...BaseSort,
-  ..._ChannelSort,
-};
-
-/**
- * ChannelSort type
- *
- * @export
- */
-export type ChannelSort = typeof ChannelSort;
 
 /**
  * Post sorting fields
  *
  * @enum {string}
  */
-enum _PostSort {
-  TITLE = "title",
+enum PostSort {
   BODY = "body",
-  STATUS = "status",
-  DISCUSSION = "discussion",
   CHANNEL_ID = "channelId",
+  CREATED_AT = "createdAt",
+  CREATOR = "creator",
+  DISCUSSION = "discussion",
+  EDITOR = "editor",
+  ID = "id",
   PARENT_ID = "parentId",
+  STATUS = "status",
+  TITLE = "title",
+  UPDATED_AT = "updatedAt",
 }
-
-/**
- * All Post sorting fields
- *
- * @export
- * @enum {string}
- */
-export const PostSort = {
-  ...BaseSort,
-  ..._PostSort,
-};
-
-/**
- * PostSort type
- *
- * @export
- */
-export type PostSort = typeof PostSort;
 
 // mixins
 
