@@ -1,3 +1,11 @@
+## @esri/hub-common [9.14.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.14.0...@esri/hub-common@9.14.1) (2022-02-07)
+
+
+### Bug Fixes
+
+* **hub-common:** add missing content type icons ([8171b94](https://github.com/Esri/hub.js/commit/8171b944c77fe0b901d11cca3708201c651e9623))
+* **hub-common:** add missing content type icons in getContentTypeIcon mapping ([eb6225f](https://github.com/Esri/hub.js/commit/eb6225f59c9c219035fb48fd5e35b053edd7f9ed))
+
 # @esri/hub-common [9.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.13.2...@esri/hub-common@9.14.0) (2022-01-25)
 
 
