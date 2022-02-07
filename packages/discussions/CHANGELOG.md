@@ -1,3 +1,11 @@
+# @esri/hub-discussions [9.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@9.14.0...@esri/hub-discussions@9.15.0) (2022-02-07)
+
+
+### Features
+
+* add ChannelFilter type to discussions ([7886bca](https://github.com/Esri/hub.js/commit/7886bca04bd999be24cb08512a1cf29b858b5be9))
+* add discussions sorting enums ([a7a4cca](https://github.com/Esri/hub.js/commit/a7a4cca669262ca27fd604175dd2a2224ee6015f))
+
 # @esri/hub-discussions [9.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@9.13.2...@esri/hub-discussions@9.14.0) (2022-01-25)
 
 
