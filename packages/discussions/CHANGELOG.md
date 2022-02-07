@@ -1,3 +1,10 @@
+# @esri/hub-discussions [9.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@9.15.1...@esri/hub-discussions@9.16.0) (2022-02-07)
+
+
+### Features
+
+* export PostSort and ChannelSort ([4d9a18c](https://github.com/Esri/hub.js/commit/4d9a18cfa4f0cf7f294b55cd7317311546d90587))
+
 ## @esri/hub-discussions [9.15.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@9.15.0...@esri/hub-discussions@9.15.1) (2022-02-07)
 
 
