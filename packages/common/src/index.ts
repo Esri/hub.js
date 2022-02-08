@@ -3,33 +3,35 @@
 
 export * from "./access";
 export * from "./api";
+export * from "./ArcGISContext";
+export * from "./ArcGISContextManager";
 export * from "./auth";
 export * from "./categories";
 export * from "./content";
+export * from "./core";
 export * from "./downloads";
 export * from "./extent";
 export * from "./groups";
+export * from "./i18n";
 export * from "./items";
+export * from "./models";
 export * from "./objects";
+export * from "./projects";
+export * from "./request";
 export * from "./resources";
 export * from "./search";
 export * from "./sites";
+export * from "./surveys";
 export * from "./types";
 export * from "./urls";
 export * from "./util";
 export * from "./utils";
-export * from "./i18n";
-export * from "./request";
-export * from "./surveys";
-export * from "./ArcGISContextManager";
-export * from "./ArcGISContext";
-export * from "./models";
-export * from "./core";
 export { Hub } from "./Hub";
 
 import OperationStack from "./OperationStack";
 import OperationError from "./OperationError";
+import HubError from "./HubError";
 
 // Re-exports
-export { OperationStack, OperationError };
+export { OperationStack, OperationError, HubError };
 export { btoa, atob } from "abab";

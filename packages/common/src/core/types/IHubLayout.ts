@@ -1,7 +1,7 @@
 /**
  * General interface for a Layout
  *
- * Optional header and footer are only relevant for
+ * Optional header and footer are only used for
  * a Hub Site
  */
 export interface IHubLayout {

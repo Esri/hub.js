@@ -5,14 +5,15 @@ import {
   updateProject,
   destroyProject,
   getProject,
-} from "./modules/HubProjects";
+} from "./HubProjects";
 import {
   ArcGISContextManager,
   Filter,
+  HubError,
   IHubSearchOptions,
   ISearchResponse,
 } from "..";
-import { IHubProject, IHubEntityStore } from "./types";
+import { IHubProject, IHubEntityStore } from "../core/types";
 
 /**
  * Centralized functions used to manage IHubProject instances
@@ -76,7 +77,10 @@ export class HubProjectStore implements IHubEntityStore<IHubProject> {
         requestOptions || this.context.userRequestOptions
       );
     } else {
-      // THROW Not Authenticated Error
+      throw new HubError(
+        "Create Project",
+        "Creating Hub Projects requires authentication."
+      );
     }
   }
 
@@ -96,7 +100,10 @@ export class HubProjectStore implements IHubEntityStore<IHubProject> {
         requestOptions || this.context.userRequestOptions
       );
     } else {
-      // THROW Not Authenticated Error
+      throw new HubError(
+        "Update Project",
+        "Updating Hub Projects requires authentication."
+      );
     }
   }
 
@@ -117,7 +124,10 @@ export class HubProjectStore implements IHubEntityStore<IHubProject> {
         requestOptions || this.context.userRequestOptions
       );
     } else {
-      // THROW Not Authenticated Error
+      throw new HubError(
+        "Destroy Project",
+        "Destroying Hub Projects requires authentication."
+      );
     }
   }
   /**
@@ -140,21 +150,25 @@ export class HubProjectStore implements IHubEntityStore<IHubProject> {
         requestOptions || this.context.requestOptions
       );
     } else {
-      // THROW bad configuration error
-      // Portal
+      throw new HubError(
+        "Get Project",
+        "Can not retrieve context.requestOptions from Context Manager. HubProjectStore is configured incorrectly."
+      );
     }
   }
 
-  /**
-   * Search for Projects
-   *
-   * @param filter
-   * @param opts
-   */
-  async search(
-    filter: Filter<"content">,
-    opts: IHubSearchOptions
-  ): Promise<ISearchResponse<IHubProject>> {
-    throw new Error("Search not implemented");
-  }
+  // [WIP] Still working out how best to implement
+  //
+  // /**
+  //  * Search for Projects
+  //  *
+  //  * @param filter
+  //  * @param opts
+  //  */
+  // async search(
+  //   filter: Filter<"content">,
+  //   opts: IHubSearchOptions
+  // ): Promise<ISearchResponse<IHubProject>> {
+  //   throw new Error("Search not implemented");
+  // }
 }

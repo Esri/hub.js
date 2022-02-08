@@ -1,5 +1,5 @@
 import { ArcGISContextManager, IArcGISContextManagerOptions } from ".";
-import { HubProjectStore } from "./core/HubProjectStore";
+import { HubProjectStore } from "./projects/HubProjectStore";
 
 /**
  * Options for instantiating a Hub instance

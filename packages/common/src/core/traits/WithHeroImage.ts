@@ -3,7 +3,7 @@ import { IHubImage, IHubImageOptions } from "../types/IHubImage";
 
 /**
  * WithBannerImage Trait
- * Adds a .heroImage property
+ * Adds a .bannerImage property
  */
 export interface IWithBannerImage {
   /**

@@ -1,9 +1,8 @@
 /**
- * Base properties for Hub Models
- * This is a subset of IItem, that can apply to
- * models that are not backed by items
+ * Base properties for Hub Entities
+ * This is a subset of `IItem`, that can apply to
+ * models that are not backed by items.
  */
-
 export interface IHubEntityBase {
   /**
    * Id of the entity as a string
@@ -15,7 +14,8 @@ export interface IHubEntityBase {
    */
   name: string;
   /**
-   * Simple summary of the Entity
+   * Simple summary of the Entity.
+   * For items, this is the `snippet` property.
    */
   summary?: string;
   /**

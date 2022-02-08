@@ -111,8 +111,8 @@ function mapProps<S, T>(
   const clone = cloneObject(target);
   // walk the property map array
   mappings.forEach((entry: IPropertyMap) => {
-    // Verbose b/c typescript hates the use of property indexing
-    // i.e. entry[sourceKey] make typescript angry
+    // Verbose b/c typescript hates the use of property indexing with generics
+    // i.e. entry<T>[sourceKey] make typescript angry
     const sourcePath = getProp(entry, sourceKey);
     const targetPath = getProp(entry, targetKey);
     // get the value from the source

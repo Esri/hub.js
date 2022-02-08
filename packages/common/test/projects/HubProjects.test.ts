@@ -7,11 +7,11 @@ import {
   IHubProject,
   createProject,
   updateProject,
-} from "../../../src";
+} from "../../src";
 
-import { MOCK_AUTH } from "../../mocks/mock-auth";
-import * as modelUtils from "../../../src/models";
-import * as slugUtils from "../../../src/items/slugs";
+import { MOCK_AUTH } from "../mocks/mock-auth";
+import * as modelUtils from "../../src/models";
+import * as slugUtils from "../../src/items/slugs";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 const PROJECT_ITEM = {

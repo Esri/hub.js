@@ -1,8 +1,9 @@
 import { IGeometry } from "@esri/arcgis-rest-types";
 import { IHubEntityBase } from "./IHubEntityBase";
 
-// Things that are backed by items
-
+/**
+ * Properties exposed by Entities that are backed by Items
+ */
 export interface IHubEntityItemBase extends IHubEntityBase {
   /**
    * Thumbnail Uril (read-only)

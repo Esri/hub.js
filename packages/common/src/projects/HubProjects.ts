@@ -1,17 +1,8 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 // Note - we separate these imports so we can cleanly spy on things in tests
-import {
-  createModel,
-  getModel,
-  getModelBySlug,
-  updateModel,
-} from "../../models";
-import {
-  constructSlug,
-  getUniqueSlug,
-  setSlugKeyword,
-} from "../../items/slugs";
+import { createModel, getModel, getModelBySlug, updateModel } from "../models";
+import { constructSlug, getUniqueSlug, setSlugKeyword } from "../items/slugs";
 import {
   IModel,
   isGuid,
@@ -19,12 +10,13 @@ import {
   Filter,
   IHubSearchOptions,
   ISearchResponse,
-} from "../..";
+  _searchContent,
+} from "..";
 import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
-import { IPropertyMap, PropertyMapper } from "../helpers/PropertyMapper";
-import { IHubProject } from "../types";
+import { IPropertyMap, PropertyMapper } from "../core/helpers/PropertyMapper";
+import { IHubProject } from "../core/types";
 
 export const HUB_PROJECT_ITEM_TYPE = "Web Mapping Application";
 
@@ -72,7 +64,7 @@ const DEFAULT_PROJECT_MODEL = {
  * generate the structure.
  * @returns
  */
-export function getProjectPropertyMap(): IPropertyMap[] {
+function getProjectPropertyMap(): IPropertyMap[] {
   const itemProps = [
     "created",
     "culture",
@@ -151,7 +143,6 @@ export async function createProject(
   const newProject = mapper.modelToObject(model, {});
   // and return it
   return newProject as IHubProject;
-  // TODO Error handling
 }
 
 /**
@@ -173,16 +164,17 @@ export async function updateProject(
   const mapper = new PropertyMapper<Partial<IHubProject>>(
     getProjectPropertyMap()
   );
-  // Although we are applying changes onto the model, we are not
-  // checking if there were changes in the meantime
-  // TODO: add checks on `modified` timestamps
+  // Note: Although we are fetching the model, and applying changes onto it,
+  // we are not attempting to handle "concurrent edit" conflict resolution
+  // but this is where we would apply that sort of logic
   const modelToUpdate = mapper.objectToModel(project, model);
   // update the backing item
   const updatedModel = await updateModel(modelToUpdate, requestOptions);
-  // now map back into the project and return that
+  // now map back into a project and return that
   const updatedProject = mapper.modelToObject(updatedModel, project);
+  // the casting is needed because modelToObject returns a `Partial<T>`
+  // where as this function returns a `T`
   return updatedProject as IHubProject;
-  // TODO: Error handling
 }
 
 /**
@@ -226,9 +218,15 @@ export async function destroyProject(
   return;
 }
 
-export async function searchProjects(
-  filter: Filter<"content">,
-  opts: IHubSearchOptions
-): Promise<ISearchResponse<IHubProject>> {
-  throw new Error("Not Implemented");
-}
+// WIP: Need to resolve how best to execute this
+// i.e. delegate to searchContent or just do an item search
+// and convert to IHubProject objects.
+//
+// export async function searchProjects(
+//   filter: Filter<"content">,
+//   opts: IHubSearchOptions
+// ): Promise<ISearchResponse<IHubProject>> {
+//   return _searchContent(filter, opts).then((results) => {
+
+//   })
+// }
