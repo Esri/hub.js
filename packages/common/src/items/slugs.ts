@@ -1,7 +1,7 @@
 import { searchItems } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-types";
-import { dasherize } from "..";
+import { slugify } from "..";
 
 // TODO: work out how to unify content slug fns
 // https: github.com/Esri/hub.js/blob/master/packages/common/src/content/index.ts#L301-L348
@@ -15,7 +15,7 @@ import { dasherize } from "..";
  * @returns
  */
 export function constructSlug(title: string, orgKey: string) {
-  return `${orgKey.toLowerCase()}-${dasherize(title)}`;
+  return `${orgKey.toLowerCase()}-${slugify(title)}`;
 }
 
 /**
@@ -52,7 +52,7 @@ export function getItemBySlug(
 ): Promise<IItem> {
   const opts = {
     q: "",
-    filter: `typeKeywords:"slug|${slug}"`,
+    filter: `typekeywords:"slug|${slug}"`,
     authentication: requestOptions.authentication,
   };
   return searchItems(opts)

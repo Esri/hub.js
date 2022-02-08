@@ -72,6 +72,13 @@ export class HubProjectStore implements IHubEntityStore<IHubProject> {
     requestOptions?: IUserRequestOptions
   ): Promise<IHubProject> {
     if (requestOptions || this.context.isAuthenticated) {
+      // ammend in the org and key
+      if (!project.org) {
+        project.org = {
+          id: this.context.portal.id,
+          key: this.context.portal.urlKey,
+        };
+      }
       return createProject(
         project,
         requestOptions || this.context.userRequestOptions

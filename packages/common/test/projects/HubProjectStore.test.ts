@@ -4,7 +4,7 @@ import { IPortal } from "@esri/arcgis-rest-portal";
 // imported with a full path
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubProjectStore } from "../../src/projects/HubProjectStore";
-import { IHubProject } from "../../src";
+import { getProp, HubError, IHubProject } from "../../src";
 import * as HubProjects from "../../src/projects/HubProjects";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 
@@ -25,6 +25,8 @@ describe("HubProjectStore:", () => {
       } as unknown as IUser,
       portal: {
         name: "DC R&D Center",
+        id: "BRXFAKE",
+        urlKey: "fake-org",
       } as unknown as IPortal,
       portalUrl: "https://myserver.com",
     });
@@ -40,7 +42,12 @@ describe("HubProjectStore:", () => {
       );
     });
     it("uses context by default", async () => {
-      await authdStore.create({ name: "Fake project" });
+      await authdStore.create({
+        name: "Fake project",
+        org: { id: "OTHERFAKE", key: "dcdev" },
+      });
+      const prj = createSpy.calls.argsFor(0)[0];
+      expect(prj.org.key).toBe("dcdev");
       const ro = createSpy.calls.argsFor(0)[1];
       expect(ro.authentication).toBe(MOCK_AUTH);
     });
@@ -55,12 +62,21 @@ describe("HubProjectStore:", () => {
       const ro = createSpy.calls.argsFor(0)[1];
       expect(ro.authentication).toBe(fakeSession);
     });
+    it("uses org info from context if not passed", async () => {
+      await authdStore.create({
+        name: "Fake project",
+      });
+      const prj = createSpy.calls.argsFor(0)[0];
+      expect(prj.org.key).toBe("fake-org");
+      const ro = createSpy.calls.argsFor(0)[1];
+      expect(ro.authentication).toBe(MOCK_AUTH);
+    });
     it("throws HubError if not authd", async () => {
       try {
         await store.create({ name: "Fake project" });
       } catch (err) {
-        expect(err.name).toBe("HubError");
-        expect(err.message).toContain("requires authentication");
+        expect(getProp(err, "name")).toBe("HubError");
+        expect(getProp(err, "message")).toContain("requires authentication");
       }
     });
   });
@@ -95,8 +111,8 @@ describe("HubProjectStore:", () => {
       try {
         await store.update({ name: "Fake project" } as unknown as IHubProject);
       } catch (err) {
-        expect(err.name).toBe("HubError");
-        expect(err.message).toContain("requires authentication");
+        expect(getProp(err, "name")).toBe("HubError");
+        expect(getProp(err, "message")).toContain("requires authentication");
       }
     });
   });
@@ -127,8 +143,8 @@ describe("HubProjectStore:", () => {
       try {
         await store.destroy("3ef");
       } catch (err) {
-        expect(err.name).toBe("HubError");
-        expect(err.message).toContain("requires authentication");
+        expect(getProp(err, "name")).toBe("HubError");
+        expect(getProp(err, "message")).toContain("requires authentication");
       }
     });
   });
@@ -159,8 +175,8 @@ describe("HubProjectStore:", () => {
       try {
         await store.get("3ef");
       } catch (err) {
-        expect(err.name).toBe("HubError");
-        expect(err.message).toContain("requires authentication");
+        expect(getProp(err, "name")).toBe("HubError");
+        expect(getProp(err, "message")).toContain("requires authentication");
       }
     });
   });
@@ -174,8 +190,8 @@ describe("HubProjectStore:", () => {
       try {
         await store.get("3ef");
       } catch (err) {
-        expect(err.name).toBe("HubError");
-        expect(err.message).toContain(
+        expect(getProp(err, "name")).toBe("HubError");
+        expect(getProp(err, "message")).toContain(
           "HubProjectStore is configured incorrectly"
         );
       }

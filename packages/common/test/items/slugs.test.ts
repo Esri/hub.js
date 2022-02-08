@@ -9,6 +9,9 @@ describe("slug utils: ", () => {
       expect(slugModule.constructSlug("Hello World", "DCdev")).toBe(
         "dcdev-hello-world"
       );
+      expect(slugModule.constructSlug("E2E Test Project", "qa-bas-hub")).toBe(
+        "qa-bas-hub-e2e-test-project"
+      );
     });
   });
   describe("setSlugKeyword:", () => {
@@ -41,7 +44,7 @@ describe("slug utils: ", () => {
       // check if
       expect(searchSpy.calls.count()).toBe(1);
       const args = searchSpy.calls.argsFor(0)[0] as unknown as ISearchOptions;
-      expect(args.filter).toBe(`typeKeywords:"slug|foo-bar"`);
+      expect(args.filter).toBe(`typekeywords:"slug|foo-bar"`);
       expect(args.authentication).toBe(MOCK_AUTH);
     });
     it("returns null if no result found", async () => {
@@ -58,7 +61,7 @@ describe("slug utils: ", () => {
       // check if
       expect(searchSpy.calls.count()).toBe(1);
       const args = searchSpy.calls.argsFor(0)[0] as unknown as ISearchOptions;
-      expect(args.filter).toBe(`typeKeywords:"slug|foo-bar"`);
+      expect(args.filter).toBe(`typekeywords:"slug|foo-bar"`);
       expect(args.authentication).toBe(MOCK_AUTH);
     });
     it("throws lower level errors", async () => {
@@ -95,7 +98,7 @@ describe("slug utils: ", () => {
 
       expect(searchSpy.calls.count()).toBe(1);
       const args = searchSpy.calls.argsFor(0)[0] as unknown as ISearchOptions;
-      expect(args.filter).toBe(`typeKeywords:"slug|foo-bar"`);
+      expect(args.filter).toBe(`typekeywords:"slug|foo-bar"`);
       expect(args.authentication).toBe(MOCK_AUTH);
       expect(slug).toBe("foo-bar");
     });
@@ -123,9 +126,9 @@ describe("slug utils: ", () => {
       expect(slug).toBe("foo-bar-1");
       expect(searchSpy.calls.count()).toBe(2);
       const args = searchSpy.calls.argsFor(0)[0] as unknown as ISearchOptions;
-      expect(args.filter).toBe(`typeKeywords:"slug|foo-bar"`);
+      expect(args.filter).toBe(`typekeywords:"slug|foo-bar"`);
       const args2 = searchSpy.calls.argsFor(1)[0] as unknown as ISearchOptions;
-      expect(args2.filter).toBe(`typeKeywords:"slug|foo-bar-1"`);
+      expect(args2.filter).toBe(`typekeywords:"slug|foo-bar-1"`);
     });
     it("re-throws exceptions", async () => {
       const searchSpy = spyOn(portalModule, "searchItems").and.returnValue(
