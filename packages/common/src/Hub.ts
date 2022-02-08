@@ -1,4 +1,7 @@
-import { ArcGISContextManager, IArcGISContextManagerOptions } from ".";
+import {
+  ArcGISContextManager,
+  IArcGISContextManagerOptions,
+} from "./ArcGISContextManager";
 import { HubProjectStore } from "./projects/HubProjectStore";
 
 /**

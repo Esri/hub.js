@@ -1,7 +1,10 @@
 import { IUser, UserSession } from "@esri/arcgis-rest-auth";
 import { IPortal } from "@esri/arcgis-rest-portal";
-import { ArcGISContextManager, IHubProject } from "../../src";
-import { HubProjectStore } from "../../src";
+// For node jasmine tests to work, contextmanager needs to be
+// imported with a full path
+import { ArcGISContextManager } from "../../src/ArcGISContextManager";
+import { HubProjectStore } from "../../src/projects/HubProjectStore";
+import { IHubProject } from "../../src";
 import * as HubProjects from "../../src/projects/HubProjects";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 

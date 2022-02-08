@@ -26,7 +26,7 @@ export * from "./types";
 export * from "./urls";
 export * from "./util";
 export * from "./utils";
-export { Hub } from "./Hub";
+export * from "./Hub";
 
 import OperationStack from "./OperationStack";
 import OperationError from "./OperationError";

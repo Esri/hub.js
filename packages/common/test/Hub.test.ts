@@ -1,10 +1,10 @@
 import { IPortal } from "@esri/arcgis-rest-portal";
 import { IUser } from "@esri/arcgis-rest-types";
-import {
-  ArcGISContextManager,
-  Hub,
-  IArcGISContextManagerOptions,
-} from "../src";
+// For node jasmine tests to work, contextmanager needs to be
+// imported with a full path
+import { ArcGISContextManager } from "../src/ArcGISContextManager";
+import { Hub } from "../src/Hub";
+import { IArcGISContextManagerOptions } from "../src";
 import { MOCK_AUTH } from "./mocks/mock-auth";
 
 /**
