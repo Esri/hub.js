@@ -141,6 +141,11 @@ export interface IArcGISContext {
    * Returns the portal object
    */
   portal: IPortal;
+
+  /**
+   * Additional app-specific context
+   */
+  properties: Record<string, any>;
 }
 
 /**
@@ -182,6 +187,11 @@ export interface IArcGISContextOptions {
    * ArcGISContextManager handles this internally
    */
   currentUser?: IUser;
+
+  /**
+   * Optional hash of additional context
+   */
+  properties?: Record<string, any>;
 }
 
 /**
@@ -213,6 +223,8 @@ export class ArcGISContext implements IArcGISContext {
 
   private _currentUser: IUser;
 
+  private _properties: Record<string, any>;
+
   /**
    * Create a new instance of `ArcGISContext`.
    *
@@ -232,6 +244,9 @@ export class ArcGISContext implements IArcGISContext {
 
     if (opts.currentUser) {
       this._currentUser = opts.currentUser;
+    }
+    if (opts.properties) {
+      this._properties = opts.properties;
     }
   }
 
@@ -457,5 +472,14 @@ export class ArcGISContext implements IArcGISContext {
    */
   public get portal(): IPortal {
     return this._portalSelf;
+  }
+
+  /**
+   * Return the properties hash that was passed in.
+   * Useful for app-specific context such as the active
+   * Site for ArcGIS Hub
+   */
+  public get properties(): Record<string, any> {
+    return this._properties;
   }
 }

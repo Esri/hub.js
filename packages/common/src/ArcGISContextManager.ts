@@ -44,6 +44,15 @@ export interface IArcGISContextManagerOptions {
   currentUser?: IUser;
 
   /**
+   * Any additional properties to expose on the context. This allows
+   * an application to send additional context into the system.
+   * For example, in ArcGIS Hub, many times we want to pass in the
+   * active "Hub Site" as additional context, so we will send that in
+   * as a node on a properties object.
+   */
+  properties?: Record<string, any>;
+
+  /**
    * Logging level
    * off > error > warn > info > debug > all
    * defaults to 'error'
@@ -79,6 +88,8 @@ export class ArcGISContextManager {
 
   private _portalUrl: string = "https://www.arcgis.com";
 
+  private _properties: Record<string, any>;
+
   private _hubUrl: string;
 
   private _portalSelf: IPortal;
@@ -101,6 +112,10 @@ export class ArcGISContextManager {
     Logger.setLogLevel(this._logLevel);
     Logger.debug(`ArcGISContextManager:ctor: Creating ${this.id}`);
 
+    if (opts.properties) {
+      this._properties = opts.properties;
+    }
+
     if (opts.authentication) {
       this._authentication = opts.authentication;
       this._portalUrl = this._authentication.portal.replace(
@@ -118,6 +133,7 @@ export class ArcGISContextManager {
     if (opts.portal) {
       this._portalSelf = cloneObject(opts.portal);
     }
+
     if (opts.currentUser) {
       this._currentUser = cloneObject(opts.currentUser);
     }
@@ -154,6 +170,15 @@ export class ArcGISContextManager {
   }
 
   /**
+   * Set the properties hash and re-create the context
+   * @param properties
+   */
+  setProperties(properties: Record<string, any>): void {
+    this._properties = properties;
+    this._context = new ArcGISContext(this.contextOpts);
+  }
+
+  /**
    * Clear the Authentication (UserSession). This should be
    * called when a user signs out of an application, but
    * the application continues running
@@ -168,11 +193,7 @@ export class ArcGISContextManager {
     this._authentication = null;
     this._portalSelf = null;
     this._currentUser = null;
-    this._context = new ArcGISContext({
-      id: this.id,
-      portalUrl: this._portalUrl,
-      hubUrl: this._hubUrl,
-    });
+    this._context = new ArcGISContext(this.contextOpts);
   }
 
   /**
@@ -226,6 +247,7 @@ export class ArcGISContextManager {
       id: this.id,
       portalUrl: this._portalUrl,
       hubUrl: this._hubUrl,
+      properties: this._properties,
     };
     if (this._authentication) {
       contextOpts.authentication = this._authentication;
