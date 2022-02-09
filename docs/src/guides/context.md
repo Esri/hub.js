@@ -66,6 +66,18 @@ ctxMgr.context.currentUser; //=> {username: "dave", ...} IUser
 ctxMgr.context.portal; //=> {id: "BcRx2", ...} IPortal
 ```
 
+#### JSAPI Example
+
+```js
+// load a session from localStorage
+const session = UserSession.deserialize(localStorage.getItem("_context"));
+// create a context manager
+const ctxMgr = await ArcGISContextManager.create({ authentication: session });
+// else where in the code, register the session with the identity manager
+esriId.registerToken(ctxMgr.context.session.toCredential());
+// do things w/ JSAPI
+```
+
 ### Framework Integration
 
 In Ember we create it in the application route's `beforeModel` hook (the very first thing to run as it boots up) and we store the reference on a Service. Ember services are singletons that exist for the lifetime of the application. When users sign in/out, the application gets a reference to the context manager from the service, and calls the necessary methods. It then sets a reference to the context on the service itself. This is necessary for the Ember change tracking system, and allows the rest of the application to bind to the `service.context` property without any additional complexity.
