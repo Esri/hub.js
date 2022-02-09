@@ -328,6 +328,7 @@ export interface IHubContent extends IHubResource, IItem {
    */
   itemCategories?: string[];
   /**
+   * DEPRECATED: use `type` instead.
    * The normalized item type (we run normalizeItemType on
    * the item in order to compute this prop)
    */
