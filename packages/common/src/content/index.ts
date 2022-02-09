@@ -726,7 +726,7 @@ export function datasetToItem(dataset: DatasetResource): IItem {
 
 /**
  * returns a new content that has the specified type and
- * and updated related properties like normalizedType, family, etc
+ * and updated related properties like, family, etc
  * @param content orignal content
  * @param type new type
  * @returns new content
@@ -743,11 +743,11 @@ export const setContentType = (
     normalizedType,
     content.isProxied
   );
-  // TODO: don't we need to update content.item.type too?
   const updated = {
     ...content,
-    type,
+    type: normalizedType,
     family,
+    // TODO: remove this at next breaking change now that it has been deprecated
     normalizedType,
     contentTypeIcon,
     contentTypeLabel,
@@ -760,12 +760,12 @@ export const setContentType = (
 };
 
 /**
- * Compute the content type icon based on the normalizedType
- * @param normalizedType
+ * Compute the content type icon based on the content type
+ * @param content type
  * @returns content type icon
  */
-export const getContentTypeIcon = (normalizedType: string) => {
-  const type = camelize(normalizedType || "");
+export const getContentTypeIcon = (contentType: string) => {
+  const type = camelize(contentType || "");
   const iconMap = {
     appbuilderExtension: "file",
     appbuilderWidgetPackage: "widgets-source",
@@ -877,15 +877,15 @@ export const getContentTypeIcon = (normalizedType: string) => {
 
 /**
  * Compute the content type label
- * @param normalizedType
+ * @param contentType
  * @param isProxied
  * @returns content type label
  */
 export const getContentTypeLabel = (
-  normalizedType: string,
+  contentType: string,
   isProxied: boolean
 ) => {
-  return isProxied ? "CSV" : camelize(normalizedType || "");
+  return isProxied ? "CSV" : camelize(contentType || "");
 };
 
 /**
@@ -994,8 +994,8 @@ const getContentRelativeUrl = (
 
 const getSolutionUrl = (content: IHubContent): string => {
   let hubUrl;
-  const { normalizedType, identifier } = content;
-  if (normalizedType === "Solution") {
+  const { type, identifier } = content;
+  if (type === "Solution") {
     // NOTE: as per the above spreadsheet,
     // solution types are now in the Template family
     // but we don't send them to the route for initiative templates
@@ -1013,6 +1013,5 @@ const getSolutionUrl = (content: IHubContent): string => {
 // TODO: we check both "Hub Page" and "Site Page" because we don't know whether the site is a portal or not
 // In the future, the site object will have a site.isPortal() function that we can leverage
 // instead of hardcoding the types here.
-// TODO: should this be based on normalizedType instead?
 const isPageContent = (content: IHubContent) =>
   includes(["Hub Page", "Site Page"], content.type);
