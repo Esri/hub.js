@@ -164,6 +164,17 @@ export enum ChannelFilter {
 // sorting
 
 /**
+ * Common sorting fields
+ */
+export enum CommonSort {
+  CREATED_AT = "createdAt",
+  CREATOR = "creator",
+  EDITOR = "editor",
+  ID = "id",
+  UPDATED_AT = "updatedAt",
+}
+
+/**
  * Channel sorting fields
  *
  * @enum {string}
@@ -244,8 +255,8 @@ export interface IWithSharing {
  * @export
  * @interface IWithSorting
  */
-export interface IWithSorting {
-  sortBy: string;
+export interface IWithSorting<SortEnum> {
+  sortBy: SortEnum;
   sortOrder: SortOrder;
 }
 
@@ -392,13 +403,13 @@ export interface IFetchPost {
  * @interface ISearchChannelPosts
  * @extends {Partial<IWithAuthor>}
  * @extends {Partial<IPagingParams>}
- * @extends {Partial<IWithSorting>}
+ * @extends {Partial<IWithSorting<PostSort>>}
  * @extends {Partial<IWithTimeQueries>}
  */
 export interface ISearchPosts
   extends Partial<IWithAuthor>,
     Partial<IPagingParams>,
-    Partial<IWithSorting>,
+    Partial<IWithSorting<PostSort>>,
     Partial<IWithTimeQueries> {
   title?: string;
   body?: string;
@@ -487,12 +498,12 @@ export interface IFetchChannel {
  * @export
  * @interface ISearchChannels
  * @extends {Partial<IPagingParams>}
- * @extends {Partial<IWithSorting>}
+ * @extends {Partial<IWithSorting<ChannelSort>>}
  * @extends {Partial<IWithTimeQueries>}
  */
 export interface ISearchChannels
   extends Partial<IPagingParams>,
-    Partial<IWithSorting>,
+    Partial<IWithSorting<ChannelSort>>,
     Partial<IWithTimeQueries> {
   groups?: string[];
   access?: SharingAccess[];
