@@ -261,6 +261,16 @@ export interface IWithSorting<SortEnum> {
 }
 
 /**
+ * filtering properties
+ *
+ * @export
+ * @interface IWithFiltering
+ */
+export interface IWithFiltering<FilterEnum> {
+  filterBy: FilterEnum;
+}
+
+/**
  * properties that enable temporal querying
  *
  * @export
@@ -504,11 +514,11 @@ export interface IFetchChannel {
 export interface ISearchChannels
   extends Partial<IPagingParams>,
     Partial<IWithSorting<ChannelSort>>,
-    Partial<IWithTimeQueries> {
+    Partial<IWithTimeQueries>,
+    Partial<IWithFiltering<ChannelFilter>> {
   groups?: string[];
   access?: SharingAccess[];
   relations?: ChannelRelation[];
-  filterBy?: ChannelFilter;
 }
 
 /**
