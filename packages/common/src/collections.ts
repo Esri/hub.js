@@ -125,6 +125,30 @@ const other: string[] = [
 
 const site: string[] = ["Hub Site Application", "Site Application"];
 
+/**
+ * ```js
+ * import { getCollection } from "@esri/hub-common";
+ * //
+ * getCollection('Feature Layer')
+ * > 'dataset'
+ * ```
+ * Get the Hub collection for a given item type
+ * @param itemType The ArcGIS [item type](https://developers.arcgis.com/rest/users-groups-and-items/items-and-item-types.htm).
+ * @returns the Hub collection of a given item type.
+ */
+export const getCollection = (type?: string) => {
+  if (!type) {
+    return;
+  }
+  const lowerCaseType = type.toLocaleLowerCase();
+  return Object.keys(collections).find((key) => {
+    const collectionTypes = collections[key];
+    return collectionTypes.some((t) => t.toLocaleLowerCase() === lowerCaseType);
+  });
+};
+
+// TODO: remove this at the next breaking change
+// it's only here to support deprecated categories
 export const collections: { [key: string]: string[] } = {
   app,
   dataset,
