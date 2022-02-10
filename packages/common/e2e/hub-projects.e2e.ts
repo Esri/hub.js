@@ -2,7 +2,7 @@ import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { ArcGISContextManager } from "../src/ArcGISContextManager";
-import { HubProjectStore, IHubProject } from "../src";
+import { HubProjectManager, IHubProject } from "../src";
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
 describe("Hub Projects", () => {
@@ -17,13 +17,13 @@ describe("Hub Projects", () => {
     // create context
     const ctxMgr = await factory.getContextManager(orgName, "admin");
     // create store
-    const store = HubProjectStore.init(ctxMgr);
+    const mgr = HubProjectManager.init(ctxMgr);
     // create a project
     const newProj: Partial<IHubProject> = {
       name: "E2E Test Project",
       summary: "This is the summary. Delete me",
     };
-    const p = await store.create(newProj);
+    const p = await mgr.create(newProj);
     // inspect and ensure we have what we expect
     expect(p.typeKeywords).toBeDefined();
     // get the slug keyword
@@ -33,13 +33,13 @@ describe("Hub Projects", () => {
     p.status = "active";
     p.description = "This is the long description";
     p.culture = "en-us";
-    const updatedProject = await store.update(p);
+    const updatedProject = await mgr.update(p);
     // should return a new object
     expect(updatedProject).not.toBe(p);
     // get a project via the slug
-    const chk = await store.fetch("qa-bas-hub-e2e-test-project");
+    const chk = await mgr.fetch("qa-bas-hub-e2e-test-project");
     expect(chk.id).toBe(p.id);
     // destroy the project
-    await store.destroy(p.id);
+    await mgr.destroy(p.id);
   });
 });

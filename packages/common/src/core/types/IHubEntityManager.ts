@@ -5,7 +5,7 @@ import { Filter, IHubSearchOptions, ISearchResponse } from "../..";
 /**
  * Baseline CRUD+Search functions required for all Store classes
  */
-export interface IHubEntityStore<T> {
+export interface IHubEntityManager<T> {
   /**
    * Create and Store a new Entity
    * @param obj

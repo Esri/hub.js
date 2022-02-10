@@ -1,2 +1,2 @@
-export * from "./HubProjectStore";
+export * from "./HubProjectManager";
 export * from "./HubProjects";

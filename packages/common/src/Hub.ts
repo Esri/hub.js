@@ -2,7 +2,7 @@ import {
   ArcGISContextManager,
   IArcGISContextManagerOptions,
 } from "./ArcGISContextManager";
-import { HubProjectStore } from "./projects/HubProjectStore";
+import { HubProjectManager } from "./projects/HubProjectManager";
 
 /**
  * Options for instantiating a Hub instance
@@ -84,7 +84,7 @@ export class Hub {
    * Create a Project Store connected to the current Hub
    * @returns
    */
-  async createProjectStore() {
-    return HubProjectStore.init(this._contextManager);
+  async createProjectManager() {
+    return HubProjectManager.init(this._contextManager);
   }
 }

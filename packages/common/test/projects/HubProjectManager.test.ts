@@ -3,18 +3,18 @@ import { IPortal } from "@esri/arcgis-rest-portal";
 // For node jasmine tests to work, contextmanager needs to be
 // imported with a full path
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
-import { HubProjectStore } from "../../src/projects/HubProjectStore";
+import { HubProjectManager } from "../../src/projects/HubProjectManager";
 import { getProp, HubError, IHubProject } from "../../src";
 import * as HubProjects from "../../src/projects/HubProjects";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 
-describe("HubProjectStore:", () => {
+describe("HubProjectManager:", () => {
   // Setup the store
-  let authdStore: HubProjectStore;
-  let store: HubProjectStore;
+  let authdStore: HubProjectManager;
+  let store: HubProjectManager;
   beforeEach(async () => {
     const mgr = await ArcGISContextManager.create();
-    store = await HubProjectStore.init(mgr);
+    store = await HubProjectManager.init(mgr);
     // When we pass in all this information, the context
     // manager will not try to fetch anything, so no need
     // to mock those calls
@@ -30,7 +30,7 @@ describe("HubProjectStore:", () => {
       } as unknown as IPortal,
       portalUrl: "https://myserver.com",
     });
-    authdStore = await HubProjectStore.init(authdMgr);
+    authdStore = await HubProjectManager.init(authdMgr);
   });
   describe("create:", () => {
     let createSpy: jasmine.Spy;
@@ -184,7 +184,7 @@ describe("HubProjectStore:", () => {
     // In these tests we cover a case where the store is
     // passed a mangled contextManager,
     it("get returns error is context manager is mangled", async () => {
-      store = await HubProjectStore.init({
+      store = await HubProjectManager.init({
         context: {},
       } as unknown as ArcGISContextManager);
       try {
@@ -192,7 +192,7 @@ describe("HubProjectStore:", () => {
       } catch (err) {
         expect(getProp(err, "name")).toBe("HubError");
         expect(getProp(err, "message")).toContain(
-          "HubProjectStore is configured incorrectly"
+          "HubProjectManager is configured incorrectly"
         );
       }
     });

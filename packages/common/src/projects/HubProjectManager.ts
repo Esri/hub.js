@@ -13,7 +13,7 @@ import {
   IHubSearchOptions,
   ISearchResponse,
 } from "..";
-import { IHubProject, IHubEntityStore } from "../core/types";
+import { IHubProject, IHubEntityManager } from "../core/types";
 
 /**
  * Centralized functions used to manage IHubProject instances
@@ -22,7 +22,7 @@ import { IHubProject, IHubEntityStore } from "../core/types";
  * are also directly accessible for use in scenarios where
  * classes are inconvenient.
  */
-export class HubProjectStore implements IHubEntityStore<IHubProject> {
+export class HubProjectManager implements IHubEntityManager<IHubProject> {
   /**
    * Hold a context manager, which should be a single instance for
    * an application. When authentication changes, the .context
@@ -42,14 +42,14 @@ export class HubProjectStore implements IHubEntityStore<IHubProject> {
   }
 
   /**
-   * Factory function to construct a new HubProjectStore instance.
+   * Factory function to construct a new HubProjectManager instance.
    *
    * Note: Used so that we could do async actions in the ctor.
    * @param contextManager
    * @returns
    */
-  static init(contextManager: ArcGISContextManager): HubProjectStore {
-    return new HubProjectStore(contextManager);
+  static init(contextManager: ArcGISContextManager): HubProjectManager {
+    return new HubProjectManager(contextManager);
   }
 
   /**
@@ -159,7 +159,7 @@ export class HubProjectStore implements IHubEntityStore<IHubProject> {
     } else {
       throw new HubError(
         "Get Project",
-        "Can not retrieve context.requestOptions from Context Manager. HubProjectStore is configured incorrectly."
+        "Can not retrieve context.requestOptions from Context Manager. HubProjectManager is configured incorrectly."
       );
     }
   }

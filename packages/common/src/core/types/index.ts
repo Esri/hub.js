@@ -1,6 +1,6 @@
 export * from "./IHubEntityBase";
 export * from "./IHubItemEntity";
-export * from "./IHubEntityStore";
+export * from "./IHubEntityManager";
 export * from "./IHubEvent";
 export * from "./IHubImage";
 export * from "./IHubInitiative";
