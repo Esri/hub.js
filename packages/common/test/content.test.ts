@@ -4,8 +4,6 @@ import {
   DatasetResource,
   datasetToContent,
   datasetToItem,
-  getCategory,
-  getCollection,
   getTypes,
   getTypeCategories,
   normalizeItemType,
@@ -21,11 +19,13 @@ import {
   itemToContent,
   parseDatasetId,
   parseItemCategories,
-  getItemHubType,
   getFamily,
   setContentType,
   getContentTypeIcon,
   getContentTypeLabel,
+  // deprecated, remove these at the next breaking change
+  getCategory,
+  getItemHubType,
 } from "../src/content";
 import { setContentBoundary } from "../src/content/_internal";
 import { IHubContent, IModel } from "../src/types";
@@ -34,20 +34,6 @@ import * as documentItem from "./mocks/items/document.json";
 import * as mapServiceItem from "./mocks/items/map-service.json";
 import * as documentsJson from "./mocks/datasets/document.json";
 import * as featureLayerJson from "./mocks/datasets/feature-layer.json";
-
-describe("getCollection", () => {
-  it("can abort", () => {
-    expect(getCollection()).toBe(undefined);
-  });
-
-  it("can retrieve a single category", () => {
-    expect(getCollection("Feature Layer")).toBe("dataset");
-  });
-
-  it("can retrieve a single category (from cache)", () => {
-    expect(getCollection("Feature Layer")).toBe("dataset");
-  });
-});
 
 describe("getCategory", () => {
   it("returns 'app' for forms", () => {
