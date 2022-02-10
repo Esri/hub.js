@@ -4,7 +4,7 @@ import { IHubEntityBase } from "./IHubEntityBase";
 /**
  * Properties exposed by Entities that are backed by Items
  */
-export interface IHubEntityItemBase extends IHubEntityBase {
+export interface IHubItemEntity extends IHubEntityBase {
   /**
    * Thumbnail Uril (read-only)
    */
@@ -27,10 +27,7 @@ export interface IHubEntityItemBase extends IHubEntityBase {
    * i.e. `en-us`
    */
   culture?: string;
-  /**
-   * Url for the item
-   */
-  url?: string;
+
   /**
    * User configurable tags
    */
@@ -39,4 +36,8 @@ export interface IHubEntityItemBase extends IHubEntityBase {
    * System configurable typekeywords
    */
   typeKeywords?: string[];
+  /**
+   * Canonical Url for the Entity
+   */
+  url?: string;
 }

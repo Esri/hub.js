@@ -48,7 +48,7 @@ export class HubProjectStore implements IHubEntityStore<IHubProject> {
    * @param contextManager
    * @returns
    */
-  static create(contextManager: ArcGISContextManager): HubProjectStore {
+  static init(contextManager: ArcGISContextManager): HubProjectStore {
     return new HubProjectStore(contextManager);
   }
 
@@ -147,7 +147,7 @@ export class HubProjectStore implements IHubEntityStore<IHubProject> {
    * @param requestOptions
    * @returns
    */
-  async get(
+  async fetch(
     identifier: string,
     requestOptions?: IRequestOptions
   ): Promise<IHubProject> {

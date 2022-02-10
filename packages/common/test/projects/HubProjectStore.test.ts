@@ -14,7 +14,7 @@ describe("HubProjectStore:", () => {
   let store: HubProjectStore;
   beforeEach(async () => {
     const mgr = await ArcGISContextManager.create();
-    store = await HubProjectStore.create(mgr);
+    store = await HubProjectStore.init(mgr);
     // When we pass in all this information, the context
     // manager will not try to fetch anything, so no need
     // to mock those calls
@@ -30,7 +30,7 @@ describe("HubProjectStore:", () => {
       } as unknown as IPortal,
       portalUrl: "https://myserver.com",
     });
-    authdStore = await HubProjectStore.create(authdMgr);
+    authdStore = await HubProjectStore.init(authdMgr);
   });
   describe("create:", () => {
     let createSpy: jasmine.Spy;
@@ -158,7 +158,7 @@ describe("HubProjectStore:", () => {
       );
     });
     it("uses context by default", async () => {
-      await authdStore.get("3ef");
+      await authdStore.fetch("3ef");
       const ro = getSpy.calls.argsFor(0)[1];
       expect(ro.authentication).toBe(MOCK_AUTH);
     });
@@ -167,13 +167,13 @@ describe("HubProjectStore:", () => {
         username: "vader",
         getToken: () => Promise.resolve("FKAE_TOKEN"),
       } as unknown as UserSession;
-      await authdStore.get("3ef", { authentication: fakeSession });
+      await authdStore.fetch("3ef", { authentication: fakeSession });
       const ro = getSpy.calls.argsFor(0)[1];
       expect(ro.authentication).toBe(fakeSession);
     });
     it("throws HubError if not authd", async () => {
       try {
-        await store.get("3ef");
+        await store.fetch("3ef");
       } catch (err) {
         expect(getProp(err, "name")).toBe("HubError");
         expect(getProp(err, "message")).toContain("requires authentication");
@@ -184,11 +184,11 @@ describe("HubProjectStore:", () => {
     // In these tests we cover a case where the store is
     // passed a mangled contextManager,
     it("get returns error is context manager is mangled", async () => {
-      store = await HubProjectStore.create({
+      store = await HubProjectStore.init({
         context: {},
       } as unknown as ArcGISContextManager);
       try {
-        await store.get("3ef");
+        await store.fetch("3ef");
       } catch (err) {
         expect(getProp(err, "name")).toBe("HubError");
         expect(getProp(err, "message")).toContain(

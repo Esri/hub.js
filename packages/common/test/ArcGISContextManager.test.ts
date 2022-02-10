@@ -120,12 +120,12 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.requestOptions.authentication).not.toBeDefined();
       expect(mgr.context.properties).not.toBeDefined();
       // now call setProperties and ensure it's returned on context
-      const site = {
+      const hubSite = {
         id: "bc3",
         groups: ["3ef", "00c"],
       };
-      mgr.setProperties({ site });
-      expect(mgr.context.properties.site).toEqual(site);
+      mgr.setProperties({ hubSite });
+      expect(mgr.context.properties.hubSite).toEqual(hubSite);
     });
     it("verify when passed properties", async () => {
       const t = new Date().getTime();

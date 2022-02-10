@@ -5,7 +5,7 @@ import { ArcGISContextManager } from "../src/ArcGISContextManager";
 import { HubProjectStore, IHubProject } from "../src";
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
-fdescribe("Hub Projects", () => {
+describe("Hub Projects", () => {
   let factory: Artifactory;
   beforeAll(() => {
     factory = new Artifactory(config);
@@ -17,7 +17,7 @@ fdescribe("Hub Projects", () => {
     // create context
     const ctxMgr = await factory.getContextManager(orgName, "admin");
     // create store
-    const store = HubProjectStore.create(ctxMgr);
+    const store = HubProjectStore.init(ctxMgr);
     // create a project
     const newProj: Partial<IHubProject> = {
       name: "E2E Test Project",
@@ -37,7 +37,7 @@ fdescribe("Hub Projects", () => {
     // should return a new object
     expect(updatedProject).not.toBe(p);
     // get a project via the slug
-    const chk = await store.get("qa-bas-hub-e2e-test-project");
+    const chk = await store.fetch("qa-bas-hub-e2e-test-project");
     expect(chk.id).toBe(p.id);
     // destroy the project
     await store.destroy(p.id);

@@ -8,28 +8,6 @@ group: 2-concepts
 
 ## Working with Projects
 
-### In a Component
-
-If you have a component that you want to fetch and display a project using either
-the project's ID or slug
-
-```html
-<arcgis-hub-project-view identifier="dcdev-smith-st-2024" />
-```
-
-In the component, import the `getProject` function from `@esri/hub-common`, and use that
-in the lifecycle hooks to load the project. Directly importing the helper function ensures that the build will produce the smallest payload as compared to importing `HubProjectStore`.
-
-```ts
-import {getProject} from "@esri/hub-common";
-
-async componentWillLoad() {
-  if (!this.project && this.identifier && this.context) {
-    this.project = await getProject(this.identifier, this.context.requestOptions);
-  }
-}
-```
-
 ### In an Application
 
 Assuming the following routes in an app...
@@ -55,14 +33,15 @@ To create a project in the `/projects/edit/new` controller...
 import Controller from "@ember/controller";
 import { inject as service } from "@ember/service";
 import { action } from "@ember/object";
+import { HubProjectStore } from "@esri/hub-common";
 
 export default class projectsEditNewController extends Controller {
   @service appSettings;
 
   @action
   createProject(project) {
-    const store = HubProjects.create(appSettings.contextManager);
-    return store.create(params.project_id);
+    const projectStore = HubProjects.create(appSettings.contextManager);
+    return projectStore.create(params.project_id);
   }
 }
 ```
@@ -74,13 +53,14 @@ In the `/projects/:project_id` route, we get the project by id or slug
 ```js
 import Route from "@ember/routing/route";
 import { inject as service } from "@ember/service";
+import { HubProjectStore } from "@esri/hub-common";
 
 export default class ProjectsProjectRoute extends Route {
   @service appSettings;
 
   model(params) {
-    const store = HubProjects.create(appSettings.contextManager);
-    return store.get(params.project_id);
+    const projectStore = HubProjectStore.create(appSettings.contextManager);
+    return projectStore.get(params.project_id);
   }
 }
 ```
@@ -93,14 +73,15 @@ In the `/projects/:project_id/edit` controller we update the project like this
 import Controller from "@ember/controller";
 import { inject as service } from "@ember/service";
 import { action } from "@ember/object";
+import { HubProjectStore } from "@esri/hub-common";
 
 export default class projectEditController extends Controller {
   @service appSettings;
 
   @action
   updateProject(project) {
-    const store = HubProjects.create(appSettings.contextManager);
-    return store.update(params.project_id);
+    const projectStore = HubProjectStore.create(appSettings.contextManager);
+    return projectStore.update(project);
   }
 }
 ```
@@ -119,7 +100,7 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 const session = new UserSession({ username: "casey", password: "abc123" });
 // create contextManager
 const mgr = await ArcGISContextManager.create({ authentication: session });
-// create the store
+// create the projectStore
 const projectStore = HubProjectStore.create(mgr);
 
 // create a project
@@ -169,4 +150,27 @@ project = await HubProjectStore.update(project);
 
 // Destroy a project
 await HubProjectStore.destroy("3efbc7...");
+```
+
+### In a Component
+
+When working with Hub Projects in Components, we want to import the lower-level functions instead of using the `HubProjectStore`. This enables the Component build process to tree-shake out more code, resulting in a smaller build size.
+
+Let's suppose you have a component that you want to fetch and display a project using either
+the project's ID or slug. The component would have an attribute `identifier` that can take the slug or item id.
+
+```html
+<arcgis-hub-project-view identifier="dcdev-smith-st-2024" />
+```
+
+In the component, import the `getProject` function from `@esri/hub-common`, and use that in the lifecycle hooks to load the project.
+
+```ts
+import { getProject } from "@esri/hub-common";
+
+async componentWillLoad() {
+  if (!this.project && this.identifier && this.context) {
+    this.project = await getProject(this.identifier, this.context.requestOptions);
+  }
+}
 ```

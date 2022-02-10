@@ -176,6 +176,7 @@ describe("HubProjects:", () => {
           id: "BC7ajs",
           key: "dcdev",
         },
+        type: "Hub Project",
         createdDate: new Date(1595878748000),
         createdDateSource: "item.created",
         updatedDate: new Date(1595878750000),

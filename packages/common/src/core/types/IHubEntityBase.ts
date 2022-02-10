@@ -10,12 +10,12 @@ export interface IHubEntityBase {
   readonly id?: string;
   /**
    * Name of the Entity
-   * For Entities backed by items, this would be the title
+   * For Entities backed by items, this is typically the title
    */
   name: string;
   /**
    * Simple summary of the Entity.
-   * For items, this is the `snippet` property.
+   * For items, this is typically the `snippet` property.
    */
   summary?: string;
   /**
@@ -34,4 +34,8 @@ export interface IHubEntityBase {
    * Source of the updated date
    */
   updatedDateSource: "record" | "item.modified" | "item.metadata.modified_date";
+  /**
+   * Type of entity
+   */
+  type: string;
 }

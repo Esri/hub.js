@@ -1,3 +1,3 @@
-export * from "./WithHeroImage";
+export * from "./WithBannerImage";
 export * from "./WithLayout";
 export * from "./WithSlug";

@@ -1,13 +1,10 @@
 import { IHubTimeline } from ".";
-import { IHubEntityItemBase, IWithLayout, IWithSlug } from "..";
+import { IHubItemEntity, IWithLayout, IWithSlug } from "..";
 
 /**
  * Defines the properties of a Hub Project object
  */
-export interface IHubProject
-  extends IHubEntityItemBase,
-    IWithSlug,
-    IWithLayout {
+export interface IHubProject extends IHubItemEntity, IWithSlug, IWithLayout {
   /**
    * Timeline for the project
    */

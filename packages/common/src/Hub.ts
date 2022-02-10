@@ -84,7 +84,7 @@ export class Hub {
    * Create a Project Store connected to the current Hub
    * @returns
    */
-  async getProjectStore() {
-    return HubProjectStore.create(this._contextManager);
+  async createProjectStore() {
+    return HubProjectStore.init(this._contextManager);
   }
 }

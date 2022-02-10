@@ -31,7 +31,7 @@ export interface IHubEntityStore<T> {
    * @param identifier
    * @param requestOptions
    */
-  get(identifier: string, requestOptions: IRequestOptions): Promise<T>;
+  fetch(identifier: string, requestOptions: IRequestOptions): Promise<T>;
 
   /**
    * [WIP] We need to work out how best to handle the typing on this. Simply
