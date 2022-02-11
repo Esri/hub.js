@@ -47,6 +47,8 @@ export class Hub {
    */
   private _contextManager: ArcGISContextManager;
 
+  private _projectManager: HubProjectManager;
+
   /**
    * Private so we can employ a factory function should we need
    * async work during creation
@@ -84,7 +86,11 @@ export class Hub {
    * Create a Project Store connected to the current Hub
    * @returns
    */
-  async createProjectManager() {
-    return HubProjectManager.init(this._contextManager);
+  get projects() {
+    if (!this._projectManager) {
+      this._projectManager = HubProjectManager.init(this._contextManager);
+    }
+
+    return this._projectManager;
   }
 }

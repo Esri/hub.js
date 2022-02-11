@@ -6,13 +6,9 @@ import {
   destroyProject,
   getProject,
 } from "./HubProjects";
-import {
-  ArcGISContextManager,
-  Filter,
-  HubError,
-  IHubSearchOptions,
-  ISearchResponse,
-} from "..";
+// Node has issues if this is not directly imported
+import { ArcGISContextManager } from "../ArcGISContextManager";
+import { HubError, IArcGISContext } from "..";
 import { IHubProject, IHubEntityManager } from "../core/types";
 
 /**
@@ -31,36 +27,52 @@ export class HubProjectManager implements IHubEntityManager<IHubProject> {
    * everything be kept in sync.
    */
   private _contextManager: ArcGISContextManager;
+  /**
+   * Hold context directly. Allows the class to be used in places
+   * where an `ArcGISContextManager` is not directly available, but
+   * an `IArcGISContext` is
+   */
+  private _context: IArcGISContext;
 
   /**
    * Private so we can employ a factory function should we need
    * async work during creation
-   * @param contextManager
+   * @param contextOrManager
    */
-  private constructor(contextManager: ArcGISContextManager) {
-    this._contextManager = contextManager;
+  private constructor(contextOrManager: ArcGISContextManager | IArcGISContext) {
+    if (contextOrManager instanceof ArcGISContextManager) {
+      this._contextManager = contextOrManager;
+    } else {
+      this._context = contextOrManager;
+    }
   }
 
   /**
    * Factory function to construct a new HubProjectManager instance.
    *
    * Note: Used so that we could do async actions in the ctor.
-   * @param contextManager
+   * @param contextOrManager
    * @returns
    */
-  static init(contextManager: ArcGISContextManager): HubProjectManager {
-    return new HubProjectManager(contextManager);
+  static init(
+    contextOrManager: ArcGISContextManager | IArcGISContext
+  ): HubProjectManager {
+    return new HubProjectManager(contextOrManager);
   }
 
   /**
-   * Getter to abstract the context manager
+   * Getter to abstract how we store the context
    */
   private get context() {
-    return this._contextManager.context;
+    if (this._contextManager) {
+      return this._contextManager.context;
+    } else {
+      return this._context;
+    }
   }
 
   /**
-   * Create an store new project.
+   * Create and store new project.
    *
    * Projects are stored as Items in the Sharing API
    * @param project
@@ -170,11 +182,11 @@ export class HubProjectManager implements IHubEntityManager<IHubProject> {
   //  * Search for Projects
   //  *
   //  * @param filter
-  //  * @param opts
+  //  * @param options
   //  */
   // async search(
   //   filter: Filter<"content">,
-  //   opts: IHubSearchOptions
+  //   options: IHubSearchOptions
   // ): Promise<ISearchResponse<IHubProject>> {
   //   throw new Error("Search not implemented");
   // }

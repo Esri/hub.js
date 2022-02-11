@@ -168,7 +168,7 @@ export interface IArcGISContextOptions {
   /**
    * Hub Url that corresponds to the portal url is appropritate
    */
-  hubUrl: string;
+  hubUrl?: string;
   /**
    * The current UserSession
    */

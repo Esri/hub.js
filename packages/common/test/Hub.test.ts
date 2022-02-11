@@ -45,7 +45,11 @@ describe("Hub:", () => {
   describe("returns stores:", () => {
     it("returns projectStore", async () => {
       const chk = await Hub.create({ managerOptions });
-      const ps = await chk.createProjectManager();
+
+      // should be able to dot into projects
+      expect(chk.projects.create).toBeDefined();
+      // or get a ref to it
+      const ps = chk.projects;
       // since we don't expose context on the store
       // there's no clean way to verify that the contextMgr
       // was passed into the store. So we're just verifying
