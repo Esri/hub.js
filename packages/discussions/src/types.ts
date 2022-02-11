@@ -77,10 +77,7 @@ export enum PostStatus {
  * @export
  * @enum {string}
  */
-// TODO: Deprecate ITEM and DATASET keys at v10.0.0
 export enum DiscussionType {
-  DATASET = "dataset",
-  ITEM = "item",
   GROUP = "group",
   CONTENT = "content",
 }
