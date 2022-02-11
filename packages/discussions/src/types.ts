@@ -77,10 +77,7 @@ export enum PostStatus {
  * @export
  * @enum {string}
  */
-// TODO: Deprecate ITEM and DATASET keys at v10.0.0
 export enum DiscussionType {
-  DATASET = "dataset",
-  ITEM = "item",
   GROUP = "group",
   CONTENT = "content",
 }
@@ -164,6 +161,17 @@ export enum ChannelFilter {
 // sorting
 
 /**
+ * Common sorting fields
+ */
+export enum CommonSort {
+  CREATED_AT = "createdAt",
+  CREATOR = "creator",
+  EDITOR = "editor",
+  ID = "id",
+  UPDATED_AT = "updatedAt",
+}
+
+/**
  * Channel sorting fields
  *
  * @enum {string}
@@ -244,9 +252,19 @@ export interface IWithSharing {
  * @export
  * @interface IWithSorting
  */
-export interface IWithSorting {
-  sortBy: string;
+export interface IWithSorting<SortEnum> {
+  sortBy: SortEnum;
   sortOrder: SortOrder;
+}
+
+/**
+ * filtering properties
+ *
+ * @export
+ * @interface IWithFiltering
+ */
+export interface IWithFiltering<FilterEnum> {
+  filterBy: FilterEnum;
 }
 
 /**
@@ -392,13 +410,13 @@ export interface IFetchPost {
  * @interface ISearchChannelPosts
  * @extends {Partial<IWithAuthor>}
  * @extends {Partial<IPagingParams>}
- * @extends {Partial<IWithSorting>}
+ * @extends {Partial<IWithSorting<PostSort>>}
  * @extends {Partial<IWithTimeQueries>}
  */
 export interface ISearchPosts
   extends Partial<IWithAuthor>,
     Partial<IPagingParams>,
-    Partial<IWithSorting>,
+    Partial<IWithSorting<PostSort>>,
     Partial<IWithTimeQueries> {
   title?: string;
   body?: string;
@@ -487,13 +505,14 @@ export interface IFetchChannel {
  * @export
  * @interface ISearchChannels
  * @extends {Partial<IPagingParams>}
- * @extends {Partial<IWithSorting>}
+ * @extends {Partial<IWithSorting<ChannelSort>>}
  * @extends {Partial<IWithTimeQueries>}
  */
 export interface ISearchChannels
   extends Partial<IPagingParams>,
-    Partial<IWithSorting>,
-    Partial<IWithTimeQueries> {
+    Partial<IWithSorting<ChannelSort>>,
+    Partial<IWithTimeQueries>,
+    Partial<IWithFiltering<ChannelFilter>> {
   groups?: string[];
   access?: SharingAccess[];
   relations?: ChannelRelation[];
