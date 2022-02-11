@@ -1,3 +1,27 @@
+# @esri/hub-discussions [10.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@9.16.0...@esri/hub-discussions@10.0.0) (2022-02-11)
+
+
+### Features
+
+* **hub-discussions:** add CommonSort interface, add generics to IWit… ([#721](https://github.com/Esri/hub.js/issues/721)) ([b576574](https://github.com/Esri/hub.js/commit/b576574ef2683bc7d8a0b5bfc99dcb26e4e7f48a))
+
+
+### BREAKING CHANGES
+
+* **hub-discussions:** IWithSorting interface leverages generics now
+
+feat(hub-discussions): add filterBy to ISearchChannels interface
+
+feat(hub-discussions): add IWithFiltering interface
+
+build(hub-discussions): kick ci
+
+feat(hub-discussions): deprecate discussion types
+* **hub-discussions:** deprecate DiscussionType.DATASET and DiscussionType.ITEM enum values
+
+feat(hub-discussions): deprecate discussion methods
+* **hub-discussions:** deprecate isGroupDiscussable and isItemDiscussable methods
+
 # @esri/hub-discussions [9.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@9.15.1...@esri/hub-discussions@9.16.0) (2022-02-07)
 
 
