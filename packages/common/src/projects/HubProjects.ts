@@ -126,7 +126,7 @@ export async function createProject(
 
   // Create a slug from the title if one is not passed in
   if (!project.slug) {
-    project.slug = constructSlug(project.name, project.org.key);
+    project.slug = constructSlug(project.name, project.org.urlKey);
   }
   // Ensure slug is  unique
   project.slug = await getUniqueSlug(project.slug, requestOptions);

@@ -86,10 +86,7 @@ export class HubProjectManager implements IHubEntityManager<IHubProject> {
     if (requestOptions || this.context.isAuthenticated) {
       // ammend in the org and key
       if (!project.org) {
-        project.org = {
-          id: this.context.portal.id,
-          key: this.context.portal.urlKey,
-        };
+        project.org = this.context.portal;
       }
       return createProject(
         project,

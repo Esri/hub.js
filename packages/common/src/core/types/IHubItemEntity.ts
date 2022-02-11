@@ -1,5 +1,5 @@
-import { IGeometry } from "@esri/arcgis-rest-types";
 import { IHubEntityBase } from "./IHubEntityBase";
+import { IHubGeography } from "../..";
 
 /**
  * Properties exposed by Entities that are backed by Items
@@ -8,20 +8,21 @@ export interface IHubItemEntity extends IHubEntityBase {
   /**
    * Thumbnail Uril (read-only)
    */
-  readonly thumbnailUrl: string;
+  thumbnailUrl?: string;
   /**
-   * Owner of the item (read-only)
+   * Username of the owner of the item
    */
-  readonly owner?: string;
+  owner: string;
   /**
    * Description for the item
    */
-  description: string;
+  description?: string;
   /**
-   * Boundary. Either the item's extent or an `IGeometry`
-   * loaded from a resource
+   * boundary will default to the item extent
+   * but can be overwritten by enrichments from the Hub API (inline)
+   * or fetched from a location such as /resources/boundary.json
    */
-  boundary?: number[][] | IGeometry;
+  boundary?: IHubGeography;
   /**
    * Culture code of the content
    * i.e. `en-us`
@@ -31,7 +32,7 @@ export interface IHubItemEntity extends IHubEntityBase {
   /**
    * User configurable tags
    */
-  tags?: string[];
+  tags: string[];
   /**
    * System configurable typekeywords
    */

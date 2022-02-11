@@ -2,12 +2,12 @@
  * Apache-2.0 */
 import { ResourceObject } from "jsonapi-typescript";
 import { IItem } from "@esri/arcgis-rest-portal";
-import { HubType, HubFamily } from "../types";
-import { getCollection } from "../collections";
+import { HubType, HubFamily, IModel } from "../types";
+import { collections } from "../collections";
 import { categories as allCategories, isDownloadable } from "../categories";
 import { isBBox } from "../extent";
 import { includes, isGuid } from "../utils";
-import { IHubContent, IModel } from "../types";
+import { IHubContent, IHubGeography } from "..";
 import { getProp } from "../objects";
 import { getStructuredLicense } from "../items/get-structured-license";
 import { getServiceTypeFromUrl } from "../urls";

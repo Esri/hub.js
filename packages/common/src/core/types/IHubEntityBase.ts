@@ -7,7 +7,7 @@ export interface IHubEntityBase {
   /**
    * Id of the entity as a string
    */
-  readonly id?: string;
+  id: string;
   /**
    * Name of the Entity
    * For Entities backed by items, this is typically the title
@@ -25,7 +25,7 @@ export interface IHubEntityBase {
   /**
    * Source of the creation date
    */
-  createdDateSource: "record" | "item.created" | "item.metadata.created_date";
+  createdDateSource: string;
   /**
    * Date the entity was last updated
    */
@@ -33,7 +33,7 @@ export interface IHubEntityBase {
   /**
    * Source of the updated date
    */
-  updatedDateSource: "record" | "item.modified" | "item.metadata.modified_date";
+  updatedDateSource: string;
   /**
    * Type of entity
    */

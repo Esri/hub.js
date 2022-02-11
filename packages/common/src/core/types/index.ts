@@ -1,3 +1,6 @@
+export * from "./IContentEnrichments";
+export * from "./IItemEnrichments";
+export * from "./IHubContent";
 export * from "./IHubEntityBase";
 export * from "./IHubItemEntity";
 export * from "./IHubEntityManager";

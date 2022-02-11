@@ -45,10 +45,10 @@ describe("HubProjectManager:", () => {
     it("uses context by default", async () => {
       await authdStore.create({
         name: "Fake project",
-        org: { id: "OTHERFAKE", key: "dcdev" },
+        org: { id: "OTHERFAKE", urlKey: "dcdev" },
       });
       const prj = createSpy.calls.argsFor(0)[0];
-      expect(prj.org.key).toBe("dcdev");
+      expect(prj.org.urlKey).toBe("dcdev");
       const ro = createSpy.calls.argsFor(0)[1];
       expect(ro.authentication).toBe(MOCK_AUTH);
     });
@@ -68,7 +68,7 @@ describe("HubProjectManager:", () => {
         name: "Fake project",
       });
       const prj = createSpy.calls.argsFor(0)[0];
-      expect(prj.org.key).toBe("fake-org");
+      expect(prj.org.urlKey).toBe("fake-org");
       const ro = createSpy.calls.argsFor(0)[1];
       expect(ro.authentication).toBe(MOCK_AUTH);
     });

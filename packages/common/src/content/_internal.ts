@@ -9,12 +9,7 @@
  * move them to index.ts only when they are needed by a consumer.
  */
 
-import {
-  BBox,
-  IHubContent,
-  IHubGeography,
-  GeographyProvenance,
-} from "../types";
+import { BBox, IHubContent, IHubGeography, GeographyProvenance } from "..";
 import { bBoxToPolygon, isBBox } from "../extent";
 
 /**

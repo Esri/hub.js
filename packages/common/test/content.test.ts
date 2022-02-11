@@ -28,7 +28,8 @@ import {
   getItemHubType,
 } from "../src/content";
 import { setContentBoundary } from "../src/content/_internal";
-import { IHubContent, IModel } from "../src/types";
+import { IModel } from "../src/types";
+import { IHubContent } from "../src";
 import { cloneObject } from "../src/util";
 import * as documentItem from "./mocks/items/document.json";
 import * as mapServiceItem from "./mocks/items/map-service.json";
