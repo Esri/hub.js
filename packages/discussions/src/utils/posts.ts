@@ -50,36 +50,6 @@ export function parseDiscussionURI(discussion: string): IDiscussionParams {
 }
 
 /**
- * NOT IMPLEMENTED: this will inspect a group"s properties to determine if it is "discussable"
- *
- * @export
- * @param {IGroup} group
- * @return {boolean}
- */
-export function isGroupDiscussable(group: IGroup): boolean {
-  /* tslint:disable no-console */
-  console.warn(
-    "DEPRECATED: Use isDiscussable() instead. isGroupDiscussable will be removed at v10.0.0"
-  );
-  return isDiscussable(group);
-}
-
-/**
- * NOT IMPLEMENTED: this will inspect an item"s properties to determine if it is "discussable"
- *
- * @export
- * @param {IItem} item
- * @return {boolean}
- */
-export function isItemDiscussable(item: IItem): boolean {
-  /* tslint:disable no-console */
-  console.warn(
-    "DEPRECATED: Use isDiscussable() instead. isItemDiscussable will be removed at v10.0.0"
-  );
-  return isDiscussable(item);
-}
-
-/**
  * Utility to determine if a given IGroup, IItem or IHubContent
  * is discussable.
  *

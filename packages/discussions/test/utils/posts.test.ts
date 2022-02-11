@@ -3,8 +3,6 @@ import { IGroup, IUser } from "@esri/arcgis-rest-types";
 import { IDiscussionParams, IPost, IChannel } from "../../src/types";
 import { IHubContent } from "@esri/hub-common";
 import {
-  isGroupDiscussable,
-  isItemDiscussable,
   isDiscussable,
   parseDiscussionURI,
   canModifyPost,
@@ -61,20 +59,6 @@ describe("parseDiscussionURI", () => {
     const discussion = "hubdataset";
 
     expect(() => parseDiscussionURI(discussion)).toThrowError();
-  });
-});
-
-describe("isGroupDiscussable", () => {
-  it("returns true", () => {
-    const group = { id: "foo" } as IGroup;
-    expect(isGroupDiscussable(group)).toBeTruthy();
-  });
-});
-
-describe("isItemDiscussable", () => {
-  it("returns true", () => {
-    const item = { id: "foo" } as IItem;
-    expect(isItemDiscussable(item)).toBeTruthy();
   });
 });
 
