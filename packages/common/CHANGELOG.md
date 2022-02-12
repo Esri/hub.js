@@ -1,3 +1,10 @@
+# @esri/hub-common [9.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.14.1...@esri/hub-common@9.15.0) (2022-02-12)
+
+
+### Features
+
+* add HubProjects module ([#714](https://github.com/Esri/hub.js/issues/714)) ([92e5b10](https://github.com/Esri/hub.js/commit/92e5b10b6343396ac732aeb4deb1a9cc11de5919))
+
 ## @esri/hub-common [9.14.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.14.0...@esri/hub-common@9.14.1) (2022-02-07)
 
 
