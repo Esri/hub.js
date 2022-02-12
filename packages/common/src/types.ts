@@ -224,7 +224,9 @@ export type SearchFunction = (
   ...args: any[]
 ) => Promise<ISearchResult<SearchableType>>;
 
+// TODO: remove this at the next breaking change
 /**
+ * DEPRECATED: Use IHubEntityBase instead.
  * Properties that are common to Hub content, community, members, etc
  *
  * @export
@@ -286,113 +288,6 @@ export interface IEnrichmentErrorInfo {
   type: "HTTP" | "AGO" | "Other";
   statusCode?: number;
   message?: string;
-}
-
-/**
- * Properties that are common to all Hub content types (dataset, map, document, etc)
- *
- * @export
- * @interface IHubContent
- * @extends {IHubResource,IItem}
- */
-export interface IHubContent extends IHubResource, IItem {
-  /**
-   * The content's ID for use with the Hub API
-   * For most content this will be the item's id
-   * For layers this will be `<itemId>_<layerId>`
-   * This will be undefined for private items and in enterprise
-   * because only public online items are included in the Hub API
-   */
-  hubId?: string;
-  // NOTE: we may want to elevate this to IHubResource if it's needed for other subtypes
-  /**
-   * Content visibility and access control, including groups
-   */
-  permissions: {
-    /** Visibility of the content */
-    visibility: Visibility;
-    /** Current user's control over the content */
-    control?: AccessControl;
-    /** The groups that have access to the item (as far as you know) */
-    groups?: IGroup[]; // TODO: item.sharing.groups via content/users/:username/items/:id
-  };
-
-  // TODO: make this required at next breaking release
-  family?: HubFamily;
-
-  // TODO: license: IHubLicense // [Future] item.licenseInfo
-
-  /**
-   * Item categories are the original, non-flattened item
-   * category strings.
-   */
-  itemCategories?: string[];
-  /**
-   * DEPRECATED: use `type` instead.
-   * The normalized item type (we run normalizeItemType on
-   * the item in order to compute this prop)
-   */
-  normalizedType?: string;
-  /**
-   * Date the content was published (formal metadata),
-   * defaults to the date the content was created
-   */
-  publishedDate: Date;
-  /** Description of the source of the published date */
-  publishedDateSource?: string;
-
-  updateFrequency?: string;
-
-  // Hub configuration metadata
-  /** Optional links to show in the Hub application for this content */
-  actionLinks?: IActionLink[];
-  /** Configure which Hub application actions (i.e. create web map) are available for this content */
-  hubActions?: object;
-  metrics?: {
-    /** Visibility of the metrics for this content in the Hub application */
-    visibility: Visibility | "updateGroups";
-  };
-  /** The content's unique URL slug in the Hub app */
-  slug?: string;
-  /** URL of the Portal API data endpoint for the resource */
-  portalDataUrl?: string;
-  /** The ids of any groups that the item belongs to */
-  groupIds?: string[];
-  /**
-   * Any errors encountered when indexing or composing the content
-   * see https://github.com/ArcGIS/hub-indexer/blob/master/docs/errors.md#response-formatting-for-errors
-   */
-  errors?: IEnrichmentErrorInfo[];
-  /**
-   * The item data associated w/ most types of content
-   * the format of the data depends on the item type
-   */
-  data?: {
-    [propName: string]: any;
-  };
-  // service types: Feature Service, Map Service
-  /** service information (currentVersion, capabilities, maxRecordCount etc) */
-  server?: Partial<IFeatureServiceDefinition>;
-  /** layer information (geometryType, fields, etc) for related layers in the service */
-  layers?: Array<Partial<ILayerDefinition>>;
-  // layer types: Feature Layers, Raster Layers
-  /** layer information (geometryType, fields, etc) */
-  layer?: Partial<ILayerDefinition>;
-  recordCount?: number;
-  // TODO: statistics?: ???
-  // NOTE: this is usually(? always?) returned by the item endpoint
-  // but it's not on IItem, possibly b/c it's not listed here:
-  // https://developers.arcgis.com/rest/users-groups-and-items/item.htm
-  /** The owner's organization id */
-  orgId?: string;
-  /**
-   * The owner's organization (portal) details (id, name, extent, etc)
-   */
-  org?: Partial<IPortal>;
-  /** Whether the content is downloadable in the Hub app */
-  isDownloadable: boolean;
-  /** The content's structured license info */
-  structuredLicense?: IStructuredLicense;
 }
 
 export interface IActionLink {

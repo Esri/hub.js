@@ -64,7 +64,17 @@ module.exports = function(config) {
       bundlerOptions: {
         // validateSyntax: false,
         transforms: [
-          require("karma-typescript-es6-transform")()
+          require("karma-typescript-es6-transform")(
+            {
+                presets: [
+                    ["@babel/preset-env", {
+                        targets: {
+                            chrome: "94"
+                        }
+                    }]
+                ]
+            }
+          )
         ],
         exclude: ["@esri/arcgis-rest-types"],
         resolve: {

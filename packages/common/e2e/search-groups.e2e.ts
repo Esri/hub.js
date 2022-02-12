@@ -7,7 +7,7 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { Filter, IHubSearchOptions, _searchGroups } from "../src/search";
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
-fdescribe("SearchGroups:", () => {
+describe("SearchGroups:", () => {
   let factory: Artifactory;
   beforeAll(() => {
     factory = new Artifactory(config);

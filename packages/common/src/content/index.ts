@@ -2,12 +2,12 @@
  * Apache-2.0 */
 import { ResourceObject } from "jsonapi-typescript";
 import { IItem } from "@esri/arcgis-rest-portal";
-import { HubType, HubFamily } from "../types";
-import { getCollection } from "../collections";
+import { HubType, HubFamily, IModel } from "../types";
+import { collections } from "../collections";
 import { categories as allCategories, isDownloadable } from "../categories";
 import { isBBox } from "../extent";
 import { includes, isGuid } from "../utils";
-import { IHubContent, IModel } from "../types";
+import { IHubContent, IHubGeography } from "..";
 import { getProp } from "../objects";
 import { getStructuredLicense } from "../items/get-structured-license";
 import { getServiceTypeFromUrl } from "../urls";
@@ -35,6 +35,8 @@ function collectionToFamily(collection: string): string {
   };
   return overrides[collection] || collection;
 }
+
+const cache: { [key: string]: string } = {};
 
 // TODO: remove this at next breaking version
 /**
@@ -140,6 +142,31 @@ export function getTypeCategories(item: any = {}): string[] {
     return [chars.join("")];
   } else {
     return ["Other"];
+  }
+}
+
+/**
+ * ```js
+ * import { getCollection } from "@esri/hub-common";
+ * //
+ * getCollection('Feature Layer')
+ * > 'dataset'
+ * ```
+ * Get the Hub collection for a given item type
+ * @param itemType The ArcGIS [item type](https://developers.arcgis.com/rest/users-groups-and-items/items-and-item-types.htm).
+ * @returns the Hub collection of a given item type.
+ */
+export function getCollection(itemType: string = ""): string {
+  if (cache[itemType]) {
+    return cache[itemType];
+  }
+  for (const collection of Object.keys(collections)) {
+    for (const type of collections[collection]) {
+      if (itemType.toLowerCase() === type.toLowerCase()) {
+        cache[itemType] = collection;
+        return collection;
+      }
+    }
   }
 }
 

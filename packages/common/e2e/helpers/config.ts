@@ -40,11 +40,11 @@ const config = {
           orgShort: "qa-pre-hub",
           orgUrl: "https://qa-pre-hub.mapsqa.arcgis.com",
           admin: {
-            username: "qa_pre_sol_admin",
+            username: "e2e_pre_pub_admin",
             password: PWD,
           },
           user: {
-            username: "qa_pre_sol_user",
+            username: "e2e_pre_pub_publisher",
             password: PWD,
           },
           fixtures: {
@@ -58,11 +58,11 @@ const config = {
           orgShort: "qa-bas-hub",
           orgUrl: "https://qa-bas-hub.mapsqa.arcgis.com",
           admin: {
-            username: "qa_bas_sol_admin",
+            username: "e2e_bas_pub_admin",
             password: PWD,
           },
           user: {
-            username: "qa_bas_sol_user",
+            username: "e2e_bas_pub_publisher",
             password: PWD,
           },
           fixtures: {

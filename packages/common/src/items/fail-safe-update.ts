@@ -1,6 +1,6 @@
 import { IModel } from "../types";
 import { updateItem, IUpdateItemOptions } from "@esri/arcgis-rest-portal";
-import { serializeModel } from "./serialize-model";
+import { serializeModel } from "../models/serializeModel";
 import { failSafe } from "../utils";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
@@ -17,7 +17,7 @@ export function failSafeUpdate(
 ) {
   const failSafedUpdate = failSafe(updateItem, {
     id: model.item.id,
-    success: true
+    success: true,
   });
   const opts = Object.assign(
     { item: serializeModel(model) },

@@ -20,7 +20,7 @@ See [`IArcGISContext`](/hub.js/api/common/IArcGISContext) for the list of proper
 
 ### Application State
 
-In the past, this sort of "state" information has typically been managed at the application level, but with Esri's move towards building web components, we saw a need for a consistent means to pass this information into components. What's more, this solution needed to work well with modern, "reactive-style" web frameworks - i.e. React/Vue/Ember/Angular.
+In the past, this sort of "state" information has typically been managed using one-off patterns, specific to the application itself. With Esri's move towards building web components that are reusable across applications, we saw a need for a consistent means to pass this information into components. What's more, this solution needed to work well with modern, "reactive-style" web frameworks - i.e. React/Vue/Ember/Angular.
 
 These frameworks are designed to operate effectively and efficiently with immutable data, and the `ArcGISContext` class was designed to be used in this manner.
 
@@ -66,11 +66,36 @@ ctxMgr.context.currentUser; //=> {username: "dave", ...} IUser
 ctxMgr.context.portal; //=> {id: "BcRx2", ...} IPortal
 ```
 
+#### JSAPI Example
+
+```js
+// load a session from localStorage
+const session = UserSession.deserialize(localStorage.getItem("_context"));
+// create a context manager
+const ctxMgr = await ArcGISContextManager.create({ authentication: session });
+// else where in the code, register the session with the identity manager
+esriId.registerToken(ctxMgr.context.session.toCredential());
+// do things w/ JSAPI
+```
+
 ### Framework Integration
 
-In Ember we create it in the application route's `beforeModel` hook (the very first thing to run as it boots up) and we store the reference on a Service. Ember services are singletons that exist for the lifetime of the application. When users sign in/out, the application gets a reference to the context manager from the service, and calls the necessary methods. It then sets a reference to the context on the service itself. This is necessary for the Ember change tracking system, and allows the rest of the application to bind to the `service.context` property without any additional complexity.
+Integration of `ArcGISContext` within an application will vary depending on the framework in use. The next section provides general guidance, followed by details of how the ArcGIS Hub Team uses `ArcGISContext` in Ember.
 
-This same approach should be taken with other frameworks, taking into consideration how the framework wants this sort of state to be handled.
+#### General Guidance
+
+The `ArcGISContextManager` should be created as early in the application lifecycle as possible, and should exist for the lifetime of the application.
+
+When adding web components in a template, the `context` property on the element should be set to the `.context` property of the `ArcGISContextManager`
+
+When the authentication status changes, the application should call the `.setAuthentication(session: UserSession)` or `.clearAuthentication()` methods on the context manager instance. This will replace the object that backs the `.context` property. Depending on how the framework handles change tracking, the application may also need to set that context onto some state management system so that the application knows that the context has changed and it can re-render as needed.
+
+#### Ember.js
+
+In Ember we create the `ArcGISContextManager` in the application route's `beforeModel` hook, as that's the very first thing to run as the app boots up. We store the context manager on an Ember Service. In Ember, services are singletons that exist for the lifetime of the application, and can easily be accessed from routes, controllers, components or even other services.
+
+When users sign in/out, the application gets a reference to the context manager from the service, and calls the necessary methods.
+In order to work with Ember's change tracking system, we also set a reference to the `.context` on the service itself. This allows the rest of the application to bind to the `service.context` property without any additional complexity.
 
 ### ArcGISContext
 

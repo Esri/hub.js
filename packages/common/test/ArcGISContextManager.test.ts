@@ -118,6 +118,28 @@ describe("ArcGISContext:", () => {
       // RequestOptions
       expect(mgr.context.requestOptions.portal).toBe(mgr.context.sharingApiUrl);
       expect(mgr.context.requestOptions.authentication).not.toBeDefined();
+      expect(mgr.context.properties).not.toBeDefined();
+      // now call setProperties and ensure it's returned on context
+      const hubSite = {
+        id: "bc3",
+        groups: ["3ef", "00c"],
+      };
+      mgr.setProperties({ hubSite });
+      expect(mgr.context.properties.hubSite).toEqual(hubSite);
+    });
+    it("verify when passed properties", async () => {
+      const t = new Date().getTime();
+      const site = {
+        id: "bc3",
+        groups: ["3ef", "00c"],
+      };
+      const mgr = await ArcGISContextManager.create({
+        portalUrl: "https://myserver.com/gis",
+        logLevel: Level.debug,
+        properties: { site },
+      });
+      expect(mgr.context.id).toBeGreaterThanOrEqual(t);
+      expect(mgr.context.properties.site).toEqual(site);
     });
     it("verify props when passed session", async () => {
       const t = new Date().getTime();

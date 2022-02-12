@@ -1,5 +1,5 @@
 import { failSafe } from "../utils";
-import { getModel } from "./get-model";
+import { getModel } from "../models";
 import { IModel } from "../types";
 
 /**
@@ -23,7 +23,7 @@ export function getModelFromOptions(
     if (options[idProp]) {
       const failSafeModel = failSafe(getModel, {
         item: { id: options[idProp] },
-        isMissing: true
+        isMissing: true,
       });
       return failSafeModel(options[idProp], options);
     } else {

@@ -5,6 +5,7 @@ require("crypto");
 require("dotenv").config();
 require("ts-node").register({
   compilerOptions: {
-    module: "commonjs"
+    module: "commonjs",
+    target: "es2017"
   }
 });

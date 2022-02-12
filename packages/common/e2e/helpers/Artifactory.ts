@@ -4,7 +4,11 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { getProp } from "../../src";
+import {
+  ArcGISContextManager,
+  getProp,
+  IArcGISContextManagerOptions,
+} from "../../src";
 /**
  * @internal
  */
@@ -57,6 +61,19 @@ export default class Artifactory {
     const opts = this.getIdentity(orgType, role);
     opts.portal = this.getPortalUrl(orgType) + `/sharing/rest`;
     return new UserSession(opts);
+  }
+
+  async getContextManager(
+    orgType: string,
+    role: string
+  ): Promise<ArcGISContextManager> {
+    const session = await this.getSession(orgType, role);
+    const org = this.getOrg(orgType);
+    const opts: IArcGISContextManagerOptions = {
+      portalUrl: org.orgUrl as unknown as string,
+      authentication: session,
+    };
+    return ArcGISContextManager.create(opts);
   }
   /**
    * Get the org-short

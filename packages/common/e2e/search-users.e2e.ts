@@ -12,7 +12,7 @@ import {
 } from "../src/search";
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
-fdescribe("searchUsers:", () => {
+describe("searchUsers:", () => {
   let factory: Artifactory;
   beforeAll(() => {
     factory = new Artifactory(config);
