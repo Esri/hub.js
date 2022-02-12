@@ -84,6 +84,8 @@
             
               <li><a href="/hub.js/guides/context/" class="is-active">Using ArcGISContext</a></li>
             
+              <li><a href="/hub.js/guides/working-with-projects/">Working with Projects</a></li>
+            
               <li><a href="/hub.js/guides/content-search/">Searching Content</a></li>
             
               <li><a href="/hub.js/guides/sites-and-pages/">Sites and Pages</a></li>
@@ -116,7 +118,7 @@
 <p>In addition to the portal and sharing api urls, <code>ArcGISContext</code> also provides easy access to authentication status, the active <a href="https://esri.github.io/arcgis-rest-js/api/auth/UserSession/"><code>UserSession</code></a>, <a href="https://esri.github.io/arcgis-rest-js/api/portal/IPortal/"><code>IPortal</code></a> and <a href="https://esri.github.io/arcgis-rest-js/api/types/IUser/"><code>IUser</code></a> objects, as well as a number of computed properties driven by those objects.</p>
 <p>See <a href="/hub.js/api/common/IArcGISContext"><code>IArcGISContext</code></a> for the list of properties and their descriptions.</p>
 <h3>Application State</h3>
-<p>In the past, this sort of &quot;state&quot; information has typically been managed at the application level, but with Esri's move towards building web components, we saw a need for a consistent means to pass this information into components. What's more, this solution needed to work well with modern, &quot;reactive-style&quot; web frameworks - i.e. React/Vue/Ember/Angular.</p>
+<p>In the past, this sort of &quot;state&quot; information has typically been managed using one-off patterns, specific to the application itself. With Esri's move towards building web components that are reusable across applications, we saw a need for a consistent means to pass this information into components. What's more, this solution needed to work well with modern, &quot;reactive-style&quot; web frameworks - i.e. React/Vue/Ember/Angular.</p>
 <p>These frameworks are designed to operate effectively and efficiently with immutable data, and the <code>ArcGISContext</code> class was designed to be used in this manner.</p>
 <h3>References and Immutable Objects</h3>
 <p>The question then becomes, how can we pass a reference to a long-lived object, which can react to a user signing in/out of an application, and still have immutablilty?</p>
@@ -150,9 +152,25 @@ ctxMgr.context.sharingApiUrl; <span class="hljs-comment">//=&gt; https://dcdev.m
 ctxMgr.context.currentUser; <span class="hljs-comment">//=&gt; {username: "dave", ...} IUser</span>
 ctxMgr.context.portal; <span class="hljs-comment">//=&gt; {id: "BcRx2", ...} IPortal</span>
 </code></pre>
+<h4>JSAPI Example</h4>
+<pre><code class="js"><span class="hljs-comment">// load a session from localStorage</span>
+<span class="hljs-keyword">const</span> session = UserSession.deserialize(localStorage.getItem(<span class="hljs-string">"_context"</span>));
+<span class="hljs-comment">// create a context manager</span>
+<span class="hljs-keyword">const</span> ctxMgr = <span class="hljs-keyword">await</span> ArcGISContextManager.create({ <span class="hljs-attr">authentication</span>: session });
+<span class="hljs-comment">// else where in the code, register the session with the identity manager</span>
+esriId.registerToken(ctxMgr.context.session.toCredential());
+<span class="hljs-comment">// do things w/ JSAPI</span>
+</code></pre>
 <h3>Framework Integration</h3>
-<p>In Ember we create it in the application route's <code>beforeModel</code> hook (the very first thing to run as it boots up) and we store the reference on a Service. Ember services are singletons that exist for the lifetime of the application. When users sign in/out, the application gets a reference to the context manager from the service, and calls the necessary methods. It then sets a reference to the context on the service itself. This is necessary for the Ember change tracking system, and allows the rest of the application to bind to the <code>service.context</code> property without any additional complexity.</p>
-<p>This same approach should be taken with other frameworks, taking into consideration how the framework wants this sort of state to be handled.</p>
+<p>Integration of <code>ArcGISContext</code> within an application will vary depending on the framework in use. The next section provides general guidance, followed by details of how the ArcGIS Hub Team uses <code>ArcGISContext</code> in Ember.</p>
+<h4>General Guidance</h4>
+<p>The <code>ArcGISContextManager</code> should be created as early in the application lifecycle as possible, and should exist for the lifetime of the application.</p>
+<p>When adding web components in a template, the <code>context</code> property on the element should be set to the <code>.context</code> property of the <code>ArcGISContextManager</code></p>
+<p>When the authentication status changes, the application should call the <code>.setAuthentication(session: UserSession)</code> or <code>.clearAuthentication()</code> methods on the context manager instance. This will replace the object that backs the <code>.context</code> property. Depending on how the framework handles change tracking, the application may also need to set that context onto some state management system so that the application knows that the context has changed and it can re-render as needed.</p>
+<h4>Ember.js</h4>
+<p>In Ember we create the <code>ArcGISContextManager</code> in the application route's <code>beforeModel</code> hook, as that's the very first thing to run as the app boots up. We store the context manager on an Ember Service. In Ember, services are singletons that exist for the lifetime of the application, and can easily be accessed from routes, controllers, components or even other services.</p>
+<p>When users sign in/out, the application gets a reference to the context manager from the service, and calls the necessary methods.
+In order to work with Ember's change tracking system, we also set a reference to the <code>.context</code> on the service itself. This allows the rest of the application to bind to the <code>service.context</code> property without any additional complexity.</p>
 <h3>ArcGISContext</h3>
 <p>This class is simply holds some properties and then exposes a large set of read only properties to streamline access to commonly accessed information or structures.</p>
 <p>In the case that an application opts not to use <code>ArcGISContextManager</code>, the <a href="https://esri.github.io/hub.js/api/common/ArcGISContext/"><code>ArcGISContext</code></a> class could be manually created, and takes an <a href="https://esri.github.io/hub.js/api/common/IArcGISContextOptions/"><code>IArcGISContextOptions</code></a> in the constructor.</p>
