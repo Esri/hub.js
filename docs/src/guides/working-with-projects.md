@@ -8,7 +8,19 @@ group: 2-concepts
 
 ## Working with Projects
 
+Hub.js exposes a number of ways to work with Hub Projects. At the lowest level, you can simply import functions like `createProject`, `updateProject` etc, and work with them. This is ideal when you are looking to optimize the payload of an application which only needs to do a subset of operations.
+
+The next level up is to use the `HubProjectManager` class. This class is instantiated with either an `ArcGISContextManager` or `IArcGISContext`. If your application needs to have a long-lived `HubProjectManager` then it's best to pass a reference to your app's `ArcGISContextManager` instance, so that when authentication changes, the `HubProjectManager` instance will have current information because of the shared reference.
+
+For most applications, you can simply create a `HubProjectManager` using the `IArcGISContext`, do some operations, and then let the `HubProjectManager` instance be disposed.
+
+The final option is to use the `Hub` class. We recommend this for scripting / automation tasks. Although you could build a web application using the `Hub` class, it will likely result in a very large build since classes are much more complex to "tree shake" so your applicatin will get the entire Hub system, despite likely only needing a few functions.
+
 ### In an Application
+
+We expect that most applications will leverage the `HubProjectManager` class, instantiated as needed with `IArcGISContext` from the application's `ArcGISContextManager.context`. The following example shows this pattern using Ember.js, but it would be generally the same in React etc.
+
+### Ember.js Example
 
 Assuming the following routes in an app...
 
@@ -36,12 +48,16 @@ import { action } from "@ember/object";
 import { HubProjectManager } from "@esri/hub-common";
 
 export default class projectsEditNewController extends Controller {
+  // appSettings is a singleton service that holds an ArcGISContextManager instance
+  // and exposes an `IArcGISContext` on a `.context` property
   @service appSettings;
 
   @action
-  createProject(project) {
-    const projectMgr = HubProjects.create(appSettings.contextManager);
-    return projectMgr.create(params.project_id);
+  async createProject(project) {
+    // instantiate the project manager
+    const projectMgr = HubProjectManager.init(appSettings.context);
+    // create the project and return the IHubProject instance
+    return projectMgr.create(project);
   }
 }
 ```
@@ -59,7 +75,7 @@ export default class ProjectsProjectRoute extends Route {
   @service appSettings;
 
   model(params) {
-    const projectMgr = HubProjectManager.create(appSettings.contextManager);
+    const projectMgr = HubProjectManager.init(appSettings.context);
     return projectMgr.get(params.project_id);
   }
 }
@@ -80,7 +96,7 @@ export default class projectEditController extends Controller {
 
   @action
   updateProject(project) {
-    const projectMgr = HubProjectManager.create(appSettings.contextManager);
+    const projectMgr = HubProjectManager.create(appSettings.context);
     return projectMgr.update(project);
   }
 }
@@ -93,18 +109,16 @@ If you need to create or manage a series of projects, you can do this via Node.j
 This example assumes you are using NodeJS v13 or higher, and have set `type: "module"` in your `package.json` file, allowing the use of [ES Modules](https://nodejs.org/docs/latest-v12.x/api/packages.html#packages_determining_module_system) import syntax.
 
 ```js
-import { HubProjectManager } from "@esri/hub-common";
+import { Hub } from "@esri/hub-common";
 import { UserSession } from "@esri/arcgis-rest-auth";
 
-// create a UserSession
-const session = new UserSession({ username: "casey", password: "abc123" });
-// create contextManager
-const mgr = await ArcGISContextManager.create({ authentication: session });
-// create the projectMgr
-const projectMgr = HubProjectManager.create(mgr);
+// create Hub instance
+const myHub = await Hub.create({
+  authOptions: { username: "casey", password: "abc123" },
+});
 
 // create a project
-let project = projectMgr.create({
+let project = myHub.projects.create({
   name: "Smith Street Curb Replacement",
   summary: "Replace/upgrade damaged curbs along Smith St. Scheduled for 2024",
   status: "active",
@@ -146,17 +160,17 @@ project.timeline = {
   ],
 };
 
-project = await projectMgr.update(project);
+project = await myHub.projects.update(project);
 
 // Destroy a project
-await projectMgr.destroy("3efbc7...");
+await myHub.projects.destroy("3efbc7...");
 ```
 
 ### In a Component
 
-When working with Hub Projects in Components, we want to import the lower-level functions instead of using the `HubProjectManager`. This enables the Component build process to tree-shake out more code, resulting in a smaller build size.
+When working with Hub Projects in Components, import the lower-level functions instead of using the `HubProjectManager`. This enables the Component build process to tree-shake out more code, resulting in a smaller build size.
 
-Let's suppose you have a component that you want to fetch and display a project using either
+Let's suppose you have a component that will fetch and display a project using either
 the project's ID or slug. The component would have an attribute `identifier` that can take the slug or item id.
 
 ```html
@@ -169,6 +183,7 @@ In the component, import the `getProject` function from `@esri/hub-common`, and 
 import { getProject } from "@esri/hub-common";
 
 async componentWillLoad() {
+  // Note context should be set on the element as `IArcGISContext`
   if (!this.project && this.identifier && this.context) {
     this.project = await getProject(this.identifier, this.context.requestOptions);
   }

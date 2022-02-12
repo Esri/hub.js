@@ -10,13 +10,8 @@ export interface IWithSlug {
    */
   slug?: string;
   /**
-   * Organization information used to construct the
+   * Organization urlKey used to construct the
    * slug
    */
-  org?: {
-    id: string;
-    // NOTE: we'd like to make urlKey required b/c it's needed for slug,
-    // but it's not defined on IPortal, which is what we actually assign to org
-    urlKey?: string;
-  };
+  orgUrlKey: string;
 }

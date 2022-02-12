@@ -84,9 +84,9 @@ export class HubProjectManager implements IHubEntityManager<IHubProject> {
     requestOptions?: IUserRequestOptions
   ): Promise<IHubProject> {
     if (requestOptions || this.context.isAuthenticated) {
-      // ammend in the org and key
-      if (!project.org) {
-        project.org = this.context.portal;
+      // ammend in the orgUrlKey
+      if (!project.orgUrlKey) {
+        project.orgUrlKey = this.context.portal.urlKey;
       }
       return createProject(
         project,

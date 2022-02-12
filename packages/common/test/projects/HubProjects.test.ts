@@ -96,7 +96,7 @@ describe("HubProjects:", () => {
         }
       );
       const chk = await createProject(
-        { name: "Hello World", org: { id: "BC7ajs", urlKey: "dcdev" } },
+        { name: "Hello World", orgUrlKey: "dcdev" },
         { authentication: MOCK_AUTH }
       );
 
@@ -113,7 +113,7 @@ describe("HubProjects:", () => {
       const modelToCreate = createSpy.calls.argsFor(0)[0];
       expect(modelToCreate.item.title).toBe("Hello World");
       expect(modelToCreate.item.properties.slug).toBe("dcdev-hello-world");
-      expect(modelToCreate.data.org.urlKey).toBe("dcdev");
+      expect(modelToCreate.item.properties.orgUrlKey).toBe("dcdev");
     });
     it("works with more complete object", async () => {
       // Note: this covers a branch when a slug is passed in
@@ -132,7 +132,7 @@ describe("HubProjects:", () => {
           name: "Hello World",
           slug: "dcdev-hello-world", // important for coverage
           description: "my desc",
-          org: { id: "BC7ajs", urlKey: "dcdev" },
+          orgUrlKey: "dcdev",
         },
         { authentication: MOCK_AUTH }
       );
@@ -149,7 +149,7 @@ describe("HubProjects:", () => {
       expect(createSpy.calls.count()).toBe(1);
       const modelToCreate = createSpy.calls.argsFor(0)[0];
       expect(modelToCreate.item.properties.slug).toBe("dcdev-hello-world");
-      expect(modelToCreate.data.org.urlKey).toBe("dcdev");
+      expect(modelToCreate.item.properties.orgUrlKey).toBe("dcdev");
     });
   });
 
@@ -172,10 +172,7 @@ describe("HubProjects:", () => {
         tags: ["Transportation"],
         description: "Some longer description",
         slug: "dcdev-wat-blarg",
-        org: {
-          id: "BC7ajs",
-          urlKey: "dcdev",
-        },
+        orgUrlKey: "dcdev",
         owner: "dcdev_dude",
         type: "Hub Project",
         createdDate: new Date(1595878748000),

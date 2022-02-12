@@ -86,7 +86,6 @@ function getProjectPropertyMap(): IPropertyMap[] {
     "headerImage",
     "layout",
     "location",
-    "org",
     "status",
   ];
   const map: IPropertyMap[] = [];
@@ -100,6 +99,10 @@ function getProjectPropertyMap(): IPropertyMap[] {
   map.push({
     objectKey: "slug",
     modelKey: "item.properties.slug",
+  });
+  map.push({
+    objectKey: "orgUrlKey",
+    modelKey: "item.properties.orgUrlKey",
   });
   map.push({
     objectKey: "name",
@@ -126,7 +129,7 @@ export async function createProject(
 
   // Create a slug from the title if one is not passed in
   if (!project.slug) {
-    project.slug = constructSlug(project.name, project.org.urlKey);
+    project.slug = constructSlug(project.name, project.orgUrlKey);
   }
   // Ensure slug is  unique
   project.slug = await getUniqueSlug(project.slug, requestOptions);
