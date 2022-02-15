@@ -1,5 +1,5 @@
 import { IHubEntityBase } from "./IHubEntityBase";
-import { IHubGeography } from "../..";
+import { IHubGeography } from "../../types";
 
 /**
  * Properties exposed by Entities that are backed by Items

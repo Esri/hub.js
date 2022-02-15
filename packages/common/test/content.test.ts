@@ -27,7 +27,13 @@ import {
   getCategory,
   getItemHubType,
 } from "../src/content";
-import { isProxiedCSV, setContentBoundary } from "../src/content/_internal";
+import {
+  isProxiedCSV,
+  setContentBoundary,
+  parseISODateString,
+  getServerSpatialReference,
+  getItemSpatialReference,
+} from "../src/content/_internal";
 import { IModel } from "../src/types";
 import { getProxyUrl, IHubContent, IHubRequestOptions } from "../src";
 import { cloneObject } from "../src/util";
@@ -609,8 +615,14 @@ describe("dataset to content", () => {
     const attributes = dataset.attributes;
     // simulate API returning date the layer was last modified
     // instead of the date the item was last modified
-    attributes.modified = 1623232000295;
+    const lastEditDate = 1623232000295;
+    const editingInfo = { lastEditDate };
+    attributes.modified = lastEditDate;
     attributes.modifiedProvenance = "layer.editingInfo.lastEditDate";
+    attributes.layer.editingInfo = editingInfo;
+    // NOTE: the above 3 lines help emulate what the Hub API would return
+    // but only the following line is needed
+    attributes.layers[0].editingInfo = editingInfo;
     const content = datasetToContent(dataset);
     expect(content.modified).toBe(attributes.modified);
     expect(content.updatedDate).toEqual(new Date(attributes.modified));
@@ -699,7 +711,11 @@ describe("setContentType", () => {
       expect(getContentTypeLabel("Application", false)).toEqual("application");
     });
     it("sets content type label to CSV if is proxied", () => {
-      expect(getContentTypeLabel("Application", true)).toEqual("CSV");
+      expect(getContentTypeLabel("PDF", true)).toEqual("CSV");
+    });
+    it("returns an empty string if no args???", () => {
+      // I'm just here for the coverage
+      expect(getContentTypeLabel(undefined, false)).toEqual("");
     });
   });
 });
@@ -860,6 +876,61 @@ describe("internal", () => {
       };
 
       expect(isProxiedCSV(item, requestOptions)).toBeTruthy();
+    });
+  });
+
+  describe("parseISODateString", () => {
+    it("should parse various date strings properly", () => {
+      const expectations = [
+        {
+          dateString: "2018",
+          result: { date: new Date(2018, 0, 1), precision: "year" },
+        },
+        {
+          dateString: "2018-02",
+          result: { date: new Date(2018, 1, 1), precision: "month" },
+        },
+        {
+          dateString: "2018-02-07",
+          result: { date: new Date(2018, 1, 7), precision: "day" },
+        },
+        {
+          dateString: "2018-02-07T16:30",
+          result: { date: new Date("2018-02-07T16:30"), precision: "time" },
+        },
+        {
+          dateString: "02/07/1970",
+          result: { date: new Date("02/07/1970"), precision: "day" },
+        },
+      ];
+      expectations.forEach((expectation) => {
+        const result = parseISODateString(expectation.dateString);
+        expect(result.date).toEqual(expectation.result.date);
+        expect(result.precision).toEqual(expectation.result.precision);
+      });
+    });
+
+    it("should return undefined when provided an unsupported date format", () => {
+      const result = parseISODateString("2018-02-07T16");
+      expect(result).toBe(undefined);
+    });
+  });
+
+  describe("getServerSpatialReference", () => {
+    it("should get it from the server when no layer", () => {
+      const spatialReference = { wkid: 4326 };
+      const result = getServerSpatialReference({ spatialReference });
+      expect(result).toEqual(spatialReference);
+    });
+  });
+
+  describe("getItemSpatialReference", () => {
+    it("should handle wkt", () => {
+      const spatialReference =
+        "NAD_1983_HARN_StatePlane_Hawaii_3_FIPS_5103_Feet";
+      const item = { spatialReference } as unknown as IItem;
+      const result = getItemSpatialReference(item);
+      expect(result).toEqual({ wkt: spatialReference });
     });
   });
 });

@@ -46,11 +46,11 @@ function validateContentFromDataset(
   expect(content.name).toBe(attributes.name);
   // should include derived properties
   expect(content.hubId).toBe(id);
-  const extent = attributes.extent;
-  expect(content.extent).toEqual(extent && extent.coordinates);
+  const { itemExtent, extent } = attributes;
+  expect(content.extent).toEqual(itemExtent || (extent && extent.coordinates));
   expect(content.family).toBe(expectedFamily);
   expect(content.summary).toBe(
-    attributes.searchDescription || attributes.snippet
+    /* attributes.searchDescription || */ attributes.snippet
   );
   expect(content.publisher).toEqual({
     name: attributes.owner,
@@ -128,9 +128,9 @@ describe("hub", () => {
 
         // since we are authed, we will fetch the item and get this stuff from it
         expect(content.contentStatus).toEqual("org_authoritative");
-        expect(content.spatialReference as string).toEqual(
-          itemJson.spatialReference
-        );
+        expect(content.spatialReference).toEqual({
+          wkid: parseInt(itemJson.spatialReference as string, 10),
+        });
 
         // TODO: content type specific properties
         // expect(content.recordCount).toBe(attributes.recordCount);
@@ -205,9 +205,9 @@ describe("hub", () => {
 
         // since we are authed, we will fetch the item and get this stuff from it
         expect(content.contentStatus).toEqual("org_authoritative");
-        expect(content.spatialReference as string).toEqual(
-          itemJson.spatialReference
-        );
+        expect(content.spatialReference).toEqual({
+          wkid: parseInt(itemJson.spatialReference as string, 10),
+        });
 
         // TODO: content type specific properties
         // expect(content.recordCount).toBe(attributes.recordCount);

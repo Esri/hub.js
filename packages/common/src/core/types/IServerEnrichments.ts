@@ -3,9 +3,7 @@ import {
   ILayerDefinition,
 } from "@esri/arcgis-rest-feature-layer";
 
-import { IItemEnrichments } from "./IItemEnrichments";
-
-export interface IContentEnrichments extends IItemEnrichments {
+export interface IServerEnrichments {
   /** Information about the service referenced by this content (currentVersion, capabilities, maxRecordCount etc) */
   server?: Partial<IFeatureServiceDefinition>;
 
@@ -15,3 +13,7 @@ export interface IContentEnrichments extends IItemEnrichments {
   /** The count of records for the layer referenced by this content */
   recordCount?: number;
 }
+
+// DEPRECATED: remove this alias at the next breaking change
+// tslint:disable-next-line
+export interface IContentEnrichments extends IServerEnrichments {}

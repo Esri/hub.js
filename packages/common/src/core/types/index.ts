@@ -1,5 +1,5 @@
-export * from "./IContentEnrichments";
 export * from "./IItemEnrichments";
+export * from "./IHubContentEnrichments";
 export * from "./IHubContent";
 export * from "./IHubEntityBase";
 export * from "./IHubItemEntity";
@@ -12,3 +12,4 @@ export * from "./IHubPage";
 export * from "./IHubProject";
 export * from "./IHubSite";
 export * from "./IHubTimeline";
+export * from "./IServerEnrichments";
