@@ -208,7 +208,7 @@ export enum PostSort {
 // mixins
 
 /**
- * author property
+ * creator property
  *
  * @export
  * @interface IWithAuthor
@@ -538,8 +538,11 @@ export interface ISearchChannels
  * @export
  * @interface IUpdateChannel
  * @extends {Partial<IWithSettings>}
+ * @extends {Partial<IWithAuthor>}
  */
-export interface IUpdateChannel extends Partial<IWithSettings> {}
+export interface IUpdateChannel
+  extends Partial<IWithSettings>,
+    Partial<IWithAuthor> {}
 
 // // reactions
 
