@@ -208,13 +208,22 @@ export enum PostSort {
 // mixins
 
 /**
- * authoring properties
+ * author property
  *
  * @export
  * @interface IWithAuthor
  */
 export interface IWithAuthor {
   creator: string;
+}
+
+/**
+ * editor property
+ *
+ * @export
+ * @interface IWithEditor
+ */
+export interface IWithEditor {
   editor: string;
 }
 
@@ -346,9 +355,10 @@ export interface IRemoveReactionResponse {
  * @export
  * @interface IPost
  * @extends {IWithAuthor}
+ * @extends {IWithEditor}
  * @extends {IWithTimestamps}
  */
-export interface IPost extends IWithAuthor, IWithTimestamps {
+export interface IPost extends IWithAuthor, IWithEditor, IWithTimestamps {
   id: string;
   title?: string;
   body: string;
@@ -409,12 +419,14 @@ export interface IFetchPost {
  * @export
  * @interface ISearchChannelPosts
  * @extends {Partial<IWithAuthor>}
+ * @extends {Partial<IWithEditor>}
  * @extends {Partial<IPagingParams>}
  * @extends {Partial<IWithSorting<PostSort>>}
  * @extends {Partial<IWithTimeQueries>}
  */
 export interface ISearchPosts
   extends Partial<IWithAuthor>,
+    Partial<IWithEditor>,
     Partial<IPagingParams>,
     Partial<IWithSorting<PostSort>>,
     Partial<IWithTimeQueries> {
@@ -469,12 +481,14 @@ export interface IUpdatePost
  * @extends {IWithSettings}
  * @extends {IWithSharing}
  * @extends {IWithAuthor}
+ * @extends {IWithEditor}
  * @extends {IWithTimestamps}
  */
 export interface IChannel
   extends IWithSettings,
     IWithSharing,
     IWithAuthor,
+    IWithEditor,
     IWithTimestamps {
   id: string;
 }
@@ -535,9 +549,10 @@ export interface IUpdateChannel extends Partial<IWithSettings> {}
  * @export
  * @interface IReaction
  * @extends {IWithAuthor}
+ * @extends {IWithEditor}
  * @extends {IWithTimestamps}
  */
-export interface IReaction extends IWithAuthor, IWithTimestamps {
+export interface IReaction extends IWithAuthor, IWithEditor, IWithTimestamps {
   id: string;
   value: PostReaction;
   postId?: string;
