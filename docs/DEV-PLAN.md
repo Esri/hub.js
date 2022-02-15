@@ -7,9 +7,9 @@ The process of extraction involves:
 
 - determining what functions are core to the CRUD operations of Initiatives & Solutions
 - translating those functions into TypeScript and adding useful jsDoc comments
-- ensuring any platform-level dependant "services" are available in ArcGIS-REST-js 
+- ensuring any platform-level dependent "services" are available in ArcGIS-REST-js 
   - i.e. working with oAuth application registration, image resources etc
-- ensuring any hub-level dependant "services" are available in Hub.js
+- ensuring any hub-level dependent "services" are available in Hub.js
   - i.e. registering site domains w/ the Hub API
 - writing comprehensive unit tests
   - goal is 100% code-coverage
@@ -48,7 +48,7 @@ As we work through this project, the intent is to migrate the Hub applications t
 - utilize the S123 API
 
 ### Coarse-Grained Wrapper Calls
-- these will validate access/priviledges, and orchestrate calls to the fine-grained functions
+- these will validate access/privileges, and orchestrate calls to the fine-grained functions
 - *TODO: they are long-running tasks, and we need to work out how best to return "status" information to the caller*
 
 ### Hub API in Node

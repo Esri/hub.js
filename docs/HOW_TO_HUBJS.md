@@ -22,7 +22,7 @@ This should be the dominant workflow from July 2021 forward.
 - use existing Hub.js functions, until you need something that's not present yet
 - add util to the `hub-components` repo, where you write function in typescript
 - use Storybook to verify the function and the component work as you want them to
-- add the function to the appropritate package in Hub.js and add tests
+- add the function to the appropriate package in Hub.js and add tests
 - open Hub.js PR, get it approved & merged
 - cut a release (see Releasing section below)
 - bump Hub.js version in `hub-components` and install
@@ -38,7 +38,7 @@ This is the pre-July 2021 workflow [More details here](https://github.com/ArcGIS
 - add a util to the Ember app, write the needed function(s) in there
 - get it working the way you need it to
 - PR feature into Hub app repo
-- add the function to the appropritate package in Hub.js and add tests
+- add the function to the appropriate package in Hub.js and add tests
 - open Hub.js PR, get it approved & merged
 - cut a release (see Releasing section below)
 - bump Hub.js version in Hub App and install
@@ -51,7 +51,7 @@ This is the pre-July 2021 workflow [More details here](https://github.com/ArcGIS
 
 The easiest thing to do is edit the function in the Hub.js package, under `node_modules`. You can then verify it within the ember app, and when its working...
 
-- add/update the function to the appropritate package in Hub.js and add tests
+- add/update the function to the appropriate package in Hub.js and add tests
 - open Hub.hs PR, get it approved & merged
 - cut a release (see Releasing section below)
 - bump Hub.js version in Hub App and `yarn` to install
@@ -72,7 +72,7 @@ This is where things get complex. We have a few options:
 
 Hub.js has e2e test infrastructure, but it is _not_ intended to be run on a regular basis or drive code-coverage. Instead, it's a means to verify the underlying API calls, in a browser, without having to "link" into a UI app (Stencil or Hub app).
 
-# Sematic Commit Messages
+# Semantic Commit Messages
 
 As of June 24th, 2021, pull requests to Hub.js will require at least one [conventional commit message](https://www.conventionalcommits.org/en/v1.0.0/#summary) in order to automatically generate the CHANGELOG.md entries during the release process.
 
