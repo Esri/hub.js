@@ -1,3 +1,17 @@
+# @esri/hub-discussions [11.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@10.1.0...@esri/hub-discussions@11.0.0) (2022-02-15)
+
+
+### Features
+
+* **hub-discussions:** add IWithEditor interface ([#724](https://github.com/Esri/hub.js/issues/724)) ([7f8d194](https://github.com/Esri/hub.js/commit/7f8d194426d7bd18dcadd0b7d518483637c73cbd))
+
+
+### BREAKING CHANGES
+
+* **hub-discussions:** move editor from IWithAuthor to IWithEditor
+
+feat(hub-discussions): extending IWithAuthor on IUpdateChannel
+
 # @esri/hub-discussions [10.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@10.0.0...@esri/hub-discussions@10.1.0) (2022-02-12)
 
 
