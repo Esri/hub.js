@@ -271,6 +271,10 @@ export interface ISortOption {
   label: string;
   // attribute to sort by at the API level
   attribute: string;
+  // Default sort order for the sort field
+  defaultOrder: string;
+  // Current sort order for the sort field (mutable)
+  order: string;
 }
 
 /**
