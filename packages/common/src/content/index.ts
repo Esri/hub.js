@@ -11,7 +11,7 @@ import { IHubContent, IHubGeography } from "..";
 import { getProp } from "../objects";
 import { getStructuredLicense } from "../items/get-structured-license";
 import { getServiceTypeFromUrl } from "../urls";
-import { setContentExtent } from "./_internal";
+import { setContentExtent, isProxiedCSV } from "./_internal";
 import { camelize } from "../util";
 
 /**
@@ -1018,13 +1018,15 @@ const isPageContent = (content: IHubContent) =>
   includes(["Hub Page", "Site Page"], content.type);
 
 // proxied csv helpers
-const MAX_SIZE = 5000000;
-export const isProxiedCSV = (item: IItem, requestOptions: IHubRequestOptions) =>
-  !requestOptions.isPortal &&
-  item.access === "public" &&
-  item.type === "CSV" &&
-  item.size <= MAX_SIZE;
 
+/**
+ * If an item is a proxied csv, returns the url for the proxying feature layer.
+ * If the item is not a proxied csv, returns undefined.
+ *
+ * @param item
+ * @param requestOptions Hub Request Options (including whether we're in portal)
+ * @returns
+ */
 export const getProxyUrl = (
   item: IItem,
   requestOptions: IHubRequestOptions
