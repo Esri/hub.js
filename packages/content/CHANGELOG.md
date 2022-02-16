@@ -1,3 +1,13 @@
+# @esri/hub-content [9.17.0](https://github.com/Esri/hub.js/compare/@esri/hub-content@9.16.0...@esri/hub-content@9.17.0) (2022-02-16)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 9.17.0
+
 # @esri/hub-content [9.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-content@9.15.0...@esri/hub-content@9.16.0) (2022-02-16)
 
 
