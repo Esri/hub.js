@@ -2,7 +2,7 @@
  * Apache-2.0 */
 import { ResourceObject } from "jsonapi-typescript";
 import { IItem } from "@esri/arcgis-rest-portal";
-import { HubType, HubFamily, IModel } from "../types";
+import { HubType, HubFamily, IModel, IHubRequestOptions } from "../types";
 import { collections } from "../collections";
 import { categories as allCategories, isDownloadable } from "../categories";
 import { isBBox } from "../extent";
@@ -11,7 +11,7 @@ import { IHubContent, IHubGeography } from "..";
 import { getProp } from "../objects";
 import { getStructuredLicense } from "../items/get-structured-license";
 import { getServiceTypeFromUrl } from "../urls";
-import { setContentExtent } from "./_internal";
+import { setContentExtent, isProxiedCSV } from "./_internal";
 import { camelize } from "../util";
 
 /**
@@ -1016,3 +1016,24 @@ const getSolutionUrl = (content: IHubContent): string => {
 // instead of hardcoding the types here.
 const isPageContent = (content: IHubContent) =>
   includes(["Hub Page", "Site Page"], content.type);
+
+// proxied csv helpers
+
+/**
+ * If an item is a proxied csv, returns the url for the proxying feature layer.
+ * If the item is not a proxied csv, returns undefined.
+ *
+ * @param item
+ * @param requestOptions Hub Request Options (including whether we're in portal)
+ * @returns
+ */
+export const getProxyUrl = (
+  item: IItem,
+  requestOptions: IHubRequestOptions
+) => {
+  let result;
+  if (isProxiedCSV(item, requestOptions)) {
+    result = `${requestOptions.hubApiUrl}/datasets/${item.id}_0/FeatureServer/0`;
+  }
+  return result;
+};

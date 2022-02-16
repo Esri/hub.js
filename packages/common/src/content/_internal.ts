@@ -9,7 +9,14 @@
  * move them to index.ts only when they are needed by a consumer.
  */
 
-import { BBox, IHubContent, IHubGeography, GeographyProvenance } from "..";
+import { IItem } from "@esri/arcgis-rest-types/dist/types/item";
+import {
+  BBox,
+  IHubContent,
+  IHubGeography,
+  GeographyProvenance,
+  IHubRequestOptions,
+} from "..";
 import { bBoxToPolygon, isBBox } from "../extent";
 
 /**
@@ -72,3 +79,18 @@ const getContentBoundary = (content: IHubContent): IHubGeography => {
     geometry,
   };
 };
+
+const MAX_SIZE = 5000000;
+
+/**
+ * Returns whether or not an item is a proxied csv
+ *
+ * @param item
+ * @param requestOptions Hub Request Options (including whether we're in portal)
+ * @returns
+ */
+export const isProxiedCSV = (item: IItem, requestOptions: IHubRequestOptions) =>
+  !requestOptions.isPortal &&
+  item.access === "public" &&
+  item.type === "CSV" &&
+  item.size <= MAX_SIZE;
