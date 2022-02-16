@@ -1,3 +1,10 @@
+# @esri/hub-common [9.17.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.16.0...@esri/hub-common@9.17.0) (2022-02-16)
+
+
+### Features
+
+* **hub-common:** add defaultOrder and order props to ISortOption ([2ce21b7](https://github.com/Esri/hub.js/commit/2ce21b71bb9d387dcd37a7667c476ca5638e9a88))
+
 # @esri/hub-common [9.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.15.0...@esri/hub-common@9.16.0) (2022-02-16)
 
 
