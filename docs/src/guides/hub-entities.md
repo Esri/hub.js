@@ -20,7 +20,7 @@ All other ArcGIS content is handled generically as "Hub Content"
 
 While Discussions are a key component of the ArcGIS Hub as a system, they are in independent subsystem, documented in the [Hub Discussions Guide](/hub.js/guides/hub-discussions)
 
-The following sections describe these entites, their role in the Hub System, and how you work with them in Hub.js
+The following sections describe these entities, their role in the Hub System, and how you work with them in Hub.js
 
 ### Hub Sites
 
@@ -54,7 +54,7 @@ In both environments, we use Hub.js to work with sites via the `HubPageManager`,
 
 ### Hub Projects
 
-A Hub Project is a customizable representation of a real-world project. It can be associated with one or more Hub Sites or Hub Initiatives. It has a [banner image](), [timeline]() and can optinally have a [layout]().
+A Hub Project is a customizable representation of a real-world project. It can be associated with one or more Hub Sites or Hub Initiatives. It has a [banner image](), [timeline]() and can optionally have a [layout]().
 
 In ArcGIS Online, the item type is `Hub Project`
 
@@ -69,7 +69,7 @@ We use Hub.js to work with Projects via the `HubProjectManager`, which operates 
 
 ### Hub Initiatives
 
-A Hub Initiative is a broad umbrella of a real-world project. It can be associated with a Hub Sites and one or more Hub Projects. It has a [banner image](), and can optinally have a [layout]().
+A Hub Initiative is a broad umbrella of a real-world project. It can be associated with a Hub Sites and one or more Hub Projects. It has a [banner image](), and can optionally have a [layout]().
 
 In ArcGIS Online, the item type is `Hub Initiative`
 
@@ -100,4 +100,4 @@ Hub Events are not currently backed by items, only available in ArcGIS Online (H
 #### API Links
 
 - [HubEventManager (Not implemented yet)]()
-- [IHubEvet](/hub.js/api/common/IHubEvent)
+- [IHubEvent](/hub.js/api/common/IHubEvent)
