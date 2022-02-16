@@ -50,18 +50,49 @@ export function getItemBySlug(
   slug: string,
   requestOptions: IRequestOptions
 ): Promise<IItem> {
+  return findItemsBySlug({ slug }, requestOptions).then((results) => {
+    if (results.length) {
+      return results[0];
+    } else {
+      return null;
+    }
+  });
+}
+
+/**
+ * Find items by slug typeKeywords.
+ *
+ * Optional exclude parameter accepts the id of an item we expect to
+ * have this particular slug. This is used during update calls
+ * where we don't know if the slug specifically has been updated, but we
+ * don't want a false-postive from the item we are updating
+ *
+ * @param slug
+ * @param requestOptions
+ * @returns
+ */
+export function findItemsBySlug(
+  slugInfo: {
+    slug: string;
+    exclude?: string;
+  },
+  requestOptions: IRequestOptions
+): Promise<IItem[]> {
   const opts = {
     q: "",
-    filter: `typekeywords:"slug|${slug}"`,
+    filter: `typekeywords:"slug|${slugInfo.slug}"`,
     authentication: requestOptions.authentication,
   };
+  // We need to check for other items w/ a slug during
+  // the update calls. For those scenarios we are interested
+  // in any _other_ items which may have a specific slug
+  // but not one specific item
+  if (slugInfo.exclude) {
+    opts.q = `NOT id:${slugInfo.exclude}`;
+  }
   return searchItems(opts)
     .then((response) => {
-      if (response.results.length) {
-        return response.results[0];
-      } else {
-        return null;
-      }
+      return response.results;
     })
     .catch((e) => {
       throw Error(`Error in getItemBySlug ${e}`);
@@ -81,21 +112,27 @@ export function getItemBySlug(
  * @returns
  */
 export function getUniqueSlug(
-  slug: string,
+  slugInfo: {
+    slug: string;
+    existingId?: string;
+  },
   requestOptions: IRequestOptions,
   step: number = 0
 ): Promise<string> {
-  let combined = slug;
+  let combinedSlug = slugInfo.slug;
   if (step) {
-    combined = `${slug}-${step}`;
+    combinedSlug = `${slugInfo.slug}-${step}`;
   }
-  return getItemBySlug(combined, requestOptions)
-    .then((result) => {
-      if (result) {
+  return findItemsBySlug(
+    { slug: combinedSlug, exclude: slugInfo.existingId },
+    requestOptions
+  )
+    .then((results) => {
+      if (results.length) {
         step++;
-        return getUniqueSlug(slug, requestOptions, step);
+        return getUniqueSlug(slugInfo, requestOptions, step);
       } else {
-        return combined;
+        return combinedSlug;
       }
     })
     .catch((e) => {

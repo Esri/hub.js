@@ -15,3 +15,4 @@ export * from "./fetch-all-pages";
 export * from "./get-structured-license";
 export * from "./slugs";
 export * from "./normalize-solution-template-item";
+export * from "./setItemThumbnail";

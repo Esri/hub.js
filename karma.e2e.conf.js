@@ -21,7 +21,10 @@ module.exports = function(config) {
     frameworks: ["jasmine", "karma-typescript"],
 
     // list of files / patterns to load in the browser
-    files: ["packages/*/{src,e2e}/**/*.ts"],
+    files: [
+      "packages/*/{src,e2e}/**/*.ts",
+      { pattern: 'e2e/test-images/*.jpg', watched: false, included: false, served: true, nocache: false }
+    ],
 
     // list of files to exclude
     exclude: ["packages/*/{src,test}/**/*.d.ts"],

@@ -25,14 +25,12 @@ export interface IHubOptions {
  *
  * myHub.context.currentUser //=> {username: "casey", ...} as IUser
  *
- * const projectStore = await myHub.getProjectStore();
- *
- * const pavingProject = await projectStore.create({name: "12th Street Paving"});
+ * const pavingProject = await myHub.projects.create({name: "12th Street Paving"});
  * pavingProject.summary = "This is the 2024 planned paving of 12th Street, between 8th and 11th Ave";
- * await projectStore.update(pavingProject);
+ * await myHub.projects.update(pavingProject);
  * ```
  *
- * This is a convenience class. Hub Stores can be created
+ * This is a convenience class. Hub Managers can be created
  * directly, or the underlying functions can be imported an used
  * as need for scenarios where these class structures introduce
  * unwanted complexity
@@ -43,14 +41,14 @@ export class Hub {
    * an application. When authentication changes, the .context
    * property on the context manager will be replaced. As long as
    * all the fns in this class leverage properties on .context
-   * everything be kept in sync.
+   * everything will be kept in sync.
    */
   private _contextManager: ArcGISContextManager;
 
   private _projectManager: HubProjectManager;
 
   /**
-   * Private so we can employ a factory function should we need
+   * Private so we can employ a factory function to do
    * async work during creation
    * @param contextManager
    */
@@ -59,9 +57,7 @@ export class Hub {
   }
 
   /**
-   * Factory function to construct a new HubProjectStore instance.
-   *
-   * Note: Used so that we could do async actions in the ctor.
+   * Factory function to construct a new Hub instance.
    * @param contextManager
    * @returns
    */
@@ -83,7 +79,7 @@ export class Hub {
   }
 
   /**
-   * Create a Project Store connected to the current Hub
+   * HubProjectManager for the current Hub
    * @returns
    */
   get projects() {

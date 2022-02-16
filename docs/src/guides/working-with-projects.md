@@ -110,7 +110,6 @@ This example assumes you are using NodeJS v13 or higher, and have set `type: "mo
 
 ```js
 import { Hub } from "@esri/hub-common";
-import { UserSession } from "@esri/arcgis-rest-auth";
 
 // create Hub instance
 const myHub = await Hub.create({

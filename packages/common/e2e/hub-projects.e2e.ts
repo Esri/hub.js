@@ -3,9 +3,9 @@ import config from "./helpers/config";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { ArcGISContextManager } from "../src/ArcGISContextManager";
 import { HubProjectManager, IHubProject } from "../src";
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;
 
-describe("Hub Projects", () => {
+fdescribe("Hub Projects", () => {
   let factory: Artifactory;
   beforeAll(() => {
     factory = new Artifactory(config);
@@ -28,7 +28,7 @@ describe("Hub Projects", () => {
     expect(p.typeKeywords).toBeDefined();
     // get the slug keyword
     const slug = p.typeKeywords.find((e) => e.indexOf("slug|") === 0);
-    expect(slug).toEqual("slug|qa-bas-hub-e2e-test-project");
+    expect(slug).toEqual(`slug|${p.slug}`);
     // update the item
     p.status = "active";
     p.description = "This is the long description";
@@ -37,9 +37,23 @@ describe("Hub Projects", () => {
     // should return a new object
     expect(updatedProject).not.toBe(p);
     // get a project via the slug
-    const chk = await mgr.fetch("qa-bas-hub-e2e-test-project");
+    const chk = await mgr.fetch(p.slug);
     expect(chk.id).toBe(p.id);
+    // add a thumbnail
+    // loaded from the karma server so we need to get some info
+    const imgSrc = `http://${window.location.host}/base/e2e/test-images/test-thumbnail.jpg`;
+    const tnImage = await fetchImage(imgSrc);
+    const updated = await mgr.setThumbnail(chk, tnImage, "kitteh.jpg");
+    expect(updated.thumbnailUrl).toBeDefined();
+
     // destroy the project
     await mgr.destroy(p.id);
   });
 });
+
+// Quick and dirty fetch image fn
+function fetchImage(url: string): Promise<Blob> {
+  return fetch(url).then((response) => {
+    return response.blob();
+  });
+}
