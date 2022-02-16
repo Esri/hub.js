@@ -1,3 +1,10 @@
+# @esri/hub-common [9.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.15.0...@esri/hub-common@9.16.0) (2022-02-16)
+
+
+### Features
+
+* **hub-common:** add isProxiedCSV and getProxyUrl utils ([06812bb](https://github.com/Esri/hub.js/commit/06812bbbbe709c47945be3095187294e9f8381f1))
+
 # @esri/hub-common [9.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.14.1...@esri/hub-common@9.15.0) (2022-02-12)
 
 
