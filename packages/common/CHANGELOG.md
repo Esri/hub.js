@@ -1,3 +1,10 @@
+## @esri/hub-common [9.17.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.17.0...@esri/hub-common@9.17.1) (2022-02-17)
+
+
+### Bug Fixes
+
+* **hub-common:** fix circular import dependency in HubError ([51cc327](https://github.com/Esri/hub.js/commit/51cc327d72499a2844b442f3f04aa4ecad3a1e0c))
+
 # @esri/hub-common [9.17.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.16.0...@esri/hub-common@9.17.0) (2022-02-16)
 
 
