@@ -1,4 +1,5 @@
-import { getWithDefault, OperationError } from ".";
+import { getWithDefault } from "./objects/get-with-default";
+import OperationError from "./OperationError";
 
 /**
  * Generic Hub Error with an Error stack as well
