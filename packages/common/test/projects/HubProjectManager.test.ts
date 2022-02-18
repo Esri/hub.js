@@ -236,7 +236,7 @@ describe("HubProjectManager:", () => {
       const p = {
         id: "3ef",
       } as unknown as IHubProject;
-      await authdMgr.setThumbnail(p, "foo", "myFile.png");
+      await authdMgr.updateThumbnail(p, "foo", "myFile.png");
       expect(tnSpy.calls.count()).toBe(1);
       const so = tnSpy.calls.argsFor(0)[3];
       expect(so.authentication).toBe(MOCK_AUTH);
@@ -253,7 +253,7 @@ describe("HubProjectManager:", () => {
       const p = {
         id: "3ef",
       } as unknown as IHubProject;
-      await authdMgr.setThumbnail(p, "foo", "myFile.png", {
+      await authdMgr.updateThumbnail(p, "foo", "myFile.png", {
         authentication: fakeSession,
       });
       const so = tnSpy.calls.argsFor(0)[3];

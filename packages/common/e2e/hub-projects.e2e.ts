@@ -5,7 +5,7 @@ import { ArcGISContextManager } from "../src/ArcGISContextManager";
 import { HubProjectManager, IHubProject } from "../src";
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;
 
-fdescribe("Hub Projects", () => {
+describe("Hub Projects", () => {
   let factory: Artifactory;
   beforeAll(() => {
     factory = new Artifactory(config);
@@ -43,7 +43,7 @@ fdescribe("Hub Projects", () => {
     // loaded from the karma server so we need to get some info
     const imgSrc = `http://${window.location.host}/base/e2e/test-images/test-thumbnail.jpg`;
     const tnImage = await fetchImage(imgSrc);
-    const updated = await mgr.setThumbnail(chk, tnImage, "kitteh.jpg");
+    const updated = await mgr.updateThumbnail(chk, tnImage, "kitteh.jpg");
     expect(updated.thumbnailUrl).toBeDefined();
 
     // destroy the project

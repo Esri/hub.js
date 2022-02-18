@@ -20,7 +20,7 @@ To reduce cognitive load, and make it easier for developers outside the ArcGIS H
 
 For most developers, the Manager Classes are the simplest way to work with ArcGIS Hub.
 
-Manager Classes work with simple "entity" objects, which are not instances of classes.
+Manager Classes take and return "entities" as simple objects (POJOs), which are not instances of classes.
 
 #### Available Manager Classes
 
@@ -52,7 +52,7 @@ const updated = await projectMr.update(smithStProject);
 
 ### Working with Modern Web Frameworks
 
-All modern web frameworks (React, Angular, Vue, Ember etc) leverage some form of change tracking to determine when to re-render the UI. Typically this is done via object equality (aka `===`) or ES6 proxy objects, both of which are very efficient, but add complexity when working with Class instances. To keep things simple for all frameworks, Hub.js has enforced separation between the Manager classes and the entity objects. All Manager functions which apply changes to the backing data store, will return a new, updated instance of the entity object.
+All modern web frameworks (React, Angular, Vue, Ember etc) leverage some form of change tracking to determine when to re-render the UI. Typically this is done via object equality (aka `===`) or ES6 proxy objects, both of which are very efficient, but add complexity when working with Class instances. To keep things simple for all frameworks, Hub.js has enforced separation between the Manager classes and the entity objects. All Manager functions which apply changes to the backing data store, will return a newobject representing the updated entity.
 
 In the example above, the `.update(..)` method of the `HubProjectManager` class instance returns a new `IHubProject` entity object. This new object should then be assigned into the application's state management system.
 

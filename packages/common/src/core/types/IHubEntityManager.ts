@@ -47,8 +47,8 @@ export interface IHubEntityManager<T> {
    * @param filter
    * @param opts
    */
-  // search(
-  //   filter: Filter<"content">,
-  //   opts: IHubSearchOptions
-  // ): Promise<ISearchResponse<T>>;
+  search(
+    filter: Filter<"content">,
+    opts: IHubSearchOptions
+  ): Promise<ISearchResponse<T>>;
 }

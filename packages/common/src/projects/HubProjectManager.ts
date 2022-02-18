@@ -18,7 +18,7 @@ import {
 } from "..";
 import { IHubEntityManager, IHubProject } from "../core/types";
 import { IHubItemEntityManager } from "../core/types/IHubItemEntityManager";
-import { setItemThumbnail } from "../items/setItemThumbnail";
+import { setItemThumbnail as updateItemThumbnail } from "../items/setItemThumbnail";
 
 /**
  * Centralized functions used to manage IHubProject instances
@@ -157,6 +157,20 @@ export class HubProjectManager
       );
     }
   }
+
+  // DEPRECATED IN FAVOR OF .fetch()
+  // TODO: REMOVE AT NEXT MAJOR
+  /* istanbul ignore next */
+  async get(
+    identifier: string,
+    requestOptions?: IRequestOptions
+  ): Promise<IHubProject> {
+    // tslint:disable-next-line
+    console.warn(
+      `HubProjectManager.get is deprecated and will be removed. Use .fetch() instead.`
+    );
+    return this.fetch(identifier, requestOptions);
+  }
   /**
    * Fetch a Project via id or it's slug
    *
@@ -209,14 +223,14 @@ export class HubProjectManager
    * @param requestOptions
    * @returns
    */
-  async setThumbnail(
+  async updateThumbnail(
     project: IHubProject,
     file: any,
     filename: string,
     requestOptions?: IUserRequestOptions
   ): Promise<IHubProject> {
     const ro = requestOptions || this.context.userRequestOptions;
-    await setItemThumbnail(project.id, file, filename, ro);
+    await updateItemThumbnail(project.id, file, filename, ro);
     // get the item so we have updated props and timestamps
     return this.fetch(project.id, requestOptions);
   }

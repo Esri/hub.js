@@ -12,7 +12,7 @@ export interface IHubItemEntityManager<T> {
    * @param name
    * @param requestOptions
    */
-  setThumbnail(
+  updateThumbnail(
     entity: T,
     file: any,
     filename: string,
