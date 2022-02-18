@@ -24,7 +24,7 @@ The following sections describe these entities, their role in the Hub System, an
 
 ### Hub Sites
 
-In terms of ArcGIS Hub, sites are the central entity that our customers work with. A site is backed by an item, it has a [layout](/hub.js/api/common/IHubLayout/) that can include a header and footer, and a theme.
+In terms of ArcGIS Hub, sites are the central entity. A site is backed by an item, it has a [layout](/hub.js/api/common/IHubLayout/) that can include a header and footer, and a theme.
 
 In ArcGIS Online, the item type is `Hub Site Application`
 
@@ -54,7 +54,7 @@ In both environments, we use Hub.js to work with sites via the `HubPageManager`,
 
 ### Hub Projects
 
-A Hub Project is a customizable representation of a real-world project. It can be associated with one or more Hub Sites or Hub Initiatives. It has a [banner image](), [timeline]() and can optionally have a [layout]().
+A Hub Project is a customizable representation of a real-world project. It can be associated with one or more Hub Sites or Hub Initiatives. It has a [banner image](), [timeline]() and can optionally have a [layout](/hub.js/api/common/IHubLayout/).
 
 In ArcGIS Online, the item type is `Hub Project`
 
@@ -69,7 +69,7 @@ We use Hub.js to work with Projects via the `HubProjectManager`, which operates 
 
 ### Hub Initiatives
 
-A Hub Initiative is a broad umbrella of a real-world project. It can be associated with a Hub Sites and one or more Hub Projects. It has a [banner image](), and can optionally have a [layout]().
+A Hub Initiative is a broad umbrella of a real-world project. It can be associated with a Hub Sites and one or more Hub Projects. It has a [banner image](), and can optionally have a [layout](/hub.js/api/common/IHubLayout/).
 
 In ArcGIS Online, the item type is `Hub Initiative`
 
@@ -95,7 +95,7 @@ Within Hub we do allow users to edit some of the basic Item information - title,
 
 ### Hub Events
 
-Hub Events are not currently backed by items, only available in ArcGIS Online (Hub Premium) and do not currently have a Manager class wrapper. The are represented by `IHubEvent`
+Hub Events are not currently backed by items, only available in ArcGIS Online (Hub Premium). The are represented by `IHubEvent`
 
 #### API Links
 
