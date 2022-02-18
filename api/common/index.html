@@ -330,6 +330,14 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/fetchModelFromItem/" class="tsd-kind-icon padding-right-1">fetchModelFromItem</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/fetchProject/" class="tsd-kind-icon padding-right-1">fetchProject</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/fetchSite/" class="tsd-kind-icon padding-right-1">fetchSite</a>
             </li>
             
@@ -339,6 +347,10 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/findBy/" class="tsd-kind-icon padding-right-1">findBy</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/findItemsBySlug/" class="tsd-kind-icon padding-right-1">findItemsBySlug</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -495,10 +507,6 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/getPortalUrl/" class="tsd-kind-icon padding-right-1">getPortalUrl</a>
-            </li>
-            
-            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
-              <a href="/hub.js/api/common/getProject/" class="tsd-kind-icon padding-right-1">getProject</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -770,6 +778,10 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/searchProjects/" class="tsd-kind-icon padding-right-1">searchProjects</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/serializeModel/" class="tsd-kind-icon padding-right-1">serializeModel</a>
             </li>
             
@@ -795,6 +807,10 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/setContentType/" class="tsd-kind-icon padding-right-1">setContentType</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/setItemThumbnail/" class="tsd-kind-icon padding-right-1">setItemThumbnail</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -1199,6 +1215,10 @@
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/IHubItemEntity/" class="tsd-kind-icon padding-right-1">IHubItemEntity</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/IHubItemEntityManager/" class="tsd-kind-icon padding-right-1">IHubItemEntityManager</a>
             </li>
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
@@ -2758,7 +2778,7 @@
 
   <div class="column-18">
     <div class="panel panel-white padding-left-1 padding-right-1 padding-trailer-1 padding-leader-half">
-      <small class="label right">Version 9.17.0</small>
+      <small class="label right">Version 9.17.1</small>
 <h1 class="tsd-kind-module font-size-3 trailer-half code-face">
   <a href="/hub.js/api/common/" class="is-active">@esri/hub-common</a>
 </h1>
@@ -2831,9 +2851,12 @@
   fetchAndUploadThumbnail,
   fetchHubTranslation,
   fetchImageAsBlob,
+  fetchModelFromItem,
+  fetchProject,
   fetchSite,
   filterBy,
   findBy,
+  findItemsBySlug,
   flattenArray,
   generateRandomString,
   getCategory,
@@ -2873,7 +2896,6 @@
   getPortalApiUrl,
   getPortalBaseFromOrgUrl,
   getPortalUrl,
-  getProject,
   getProp,
   getProps,
   getProxyUrl,
@@ -2941,6 +2963,7 @@
   replaceItemId,
   runRevertableTask,
   saveSession,
+  searchProjects,
   serializeModel,
   serializeSpatialReference,
   setContentBoundary,
@@ -2948,6 +2971,7 @@
   setContentHubId,
   setContentSiteUrls,
   setContentType,
+  setItemThumbnail,
   setProp,
   setSlugKeyword,
   shareItemToGroups,
@@ -2979,7 +3003,7 @@
 } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/hub-common"</span>;</code></pre>
 
 <h2 class="font-size-0 trailer-quarter">CDN:</h2>
-<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@esri/hub-common@9.17.0/dist/umd/common.umd.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@esri/hub-common@9.17.1/dist/umd/common.umd.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
 <h2 class="font-size-0 trailer-quarter">CDN with SRI:</h2>
 
 <hr class="leader-half trailer-quarter" />
@@ -3238,6 +3262,14 @@
   </li>
   
   <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/fetchModelFromItem/" class="tsd-kind-icon">fetchModelFromItem</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/fetchProject/" class="tsd-kind-icon">fetchProject</a>
+  </li>
+  
+  <li class="tsd-kind-function">
     <a href="/hub.js/api/common/fetchSite/" class="tsd-kind-icon">fetchSite</a>
   </li>
   
@@ -3247,6 +3279,10 @@
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/common/findBy/" class="tsd-kind-icon">findBy</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/findItemsBySlug/" class="tsd-kind-icon">findItemsBySlug</a>
   </li>
   
   <li class="tsd-kind-function">
@@ -3403,10 +3439,6 @@
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/common/getPortalUrl/" class="tsd-kind-icon">getPortalUrl</a>
-  </li>
-  
-  <li class="tsd-kind-function">
-    <a href="/hub.js/api/common/getProject/" class="tsd-kind-icon">getProject</a>
   </li>
   
   <li class="tsd-kind-function">
@@ -3678,6 +3710,10 @@
   </li>
   
   <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/searchProjects/" class="tsd-kind-icon">searchProjects</a>
+  </li>
+  
+  <li class="tsd-kind-function">
     <a href="/hub.js/api/common/serializeModel/" class="tsd-kind-icon">serializeModel</a>
   </li>
   
@@ -3703,6 +3739,10 @@
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/common/setContentType/" class="tsd-kind-icon">setContentType</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/setItemThumbnail/" class="tsd-kind-icon">setItemThumbnail</a>
   </li>
   
   <li class="tsd-kind-function">
@@ -4107,6 +4147,10 @@
   
   <li class="tsd-kind-interface">
     <a href="/hub.js/api/common/IHubItemEntity/" class="tsd-kind-icon">IHubItemEntity</a>
+  </li>
+  
+  <li class="tsd-kind-interface">
+    <a href="/hub.js/api/common/IHubItemEntityManager/" class="tsd-kind-icon">IHubItemEntityManager</a>
   </li>
   
   <li class="tsd-kind-interface">

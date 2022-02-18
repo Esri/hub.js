@@ -80,6 +80,10 @@
           <li>Concepts</li>
           <ul class="list-plain margin-left-1">
             
+              <li><a href="/hub.js/guides/architecture-patterns/">Architecture</a></li>
+            
+              <li><a href="/hub.js/guides/hub-entities/">Hub Entities</a></li>
+            
               <li><a href="/hub.js/guides/authentication/">Authentication</a></li>
             
               <li><a href="/hub.js/guides/context/">Using ArcGISContext</a></li>
@@ -188,7 +192,6 @@
 <p>If you need to create or manage a series of projects, you can do this via Node.js.</p>
 <p>This example assumes you are using NodeJS v13 or higher, and have set <code>type: &quot;module&quot;</code> in your <code>package.json</code> file, allowing the use of <a href="https://nodejs.org/docs/latest-v12.x/api/packages.html#packages_determining_module_system">ES Modules</a> import syntax.</p>
 <pre><code class="js"><span class="hljs-keyword">import</span> { Hub } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/hub-common"</span>;
-<span class="hljs-keyword">import</span> { UserSession } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/arcgis-rest-auth"</span>;
 
 <span class="hljs-comment">// create Hub instance</span>
 <span class="hljs-keyword">const</span> myHub = <span class="hljs-keyword">await</span> Hub.create({

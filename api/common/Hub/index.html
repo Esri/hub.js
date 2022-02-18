@@ -330,6 +330,14 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/fetchModelFromItem/" class="tsd-kind-icon padding-right-1">fetchModelFromItem</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/fetchProject/" class="tsd-kind-icon padding-right-1">fetchProject</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/fetchSite/" class="tsd-kind-icon padding-right-1">fetchSite</a>
             </li>
             
@@ -339,6 +347,10 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/findBy/" class="tsd-kind-icon padding-right-1">findBy</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/findItemsBySlug/" class="tsd-kind-icon padding-right-1">findItemsBySlug</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -495,10 +507,6 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/getPortalUrl/" class="tsd-kind-icon padding-right-1">getPortalUrl</a>
-            </li>
-            
-            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
-              <a href="/hub.js/api/common/getProject/" class="tsd-kind-icon padding-right-1">getProject</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -770,6 +778,10 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/searchProjects/" class="tsd-kind-icon padding-right-1">searchProjects</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/serializeModel/" class="tsd-kind-icon padding-right-1">serializeModel</a>
             </li>
             
@@ -795,6 +807,10 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/setContentType/" class="tsd-kind-icon padding-right-1">setContentType</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/setItemThumbnail/" class="tsd-kind-icon padding-right-1">setItemThumbnail</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -1199,6 +1215,10 @@
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/IHubItemEntity/" class="tsd-kind-icon padding-right-1">IHubItemEntity</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/IHubItemEntityManager/" class="tsd-kind-icon padding-right-1">IHubItemEntityManager</a>
             </li>
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
@@ -2803,13 +2823,11 @@ content, teams, sites, projects etc, in an organization's Hub.</p>
 
 myHub.context.currentUser <span class="hljs-comment">//=&gt; {username: "casey", ...} as IUser</span>
 
-<span class="hljs-keyword">const</span> projectStore = <span class="hljs-keyword">await</span> myHub.getProjectStore();
-
-<span class="hljs-keyword">const</span> pavingProject = <span class="hljs-keyword">await</span> projectStore.create({<span class="hljs-attr">name</span>: <span class="hljs-string">"12th Street Paving"</span>});
+<span class="hljs-keyword">const</span> pavingProject = <span class="hljs-keyword">await</span> myHub.projects.create({<span class="hljs-attr">name</span>: <span class="hljs-string">"12th Street Paving"</span>});
 pavingProject.summary = <span class="hljs-string">"This is the 2024 planned paving of 12th Street, between 8th and 11th Ave"</span>;
-<span class="hljs-keyword">await</span> projectStore.update(pavingProject);
+<span class="hljs-keyword">await</span> myHub.projects.update(pavingProject);
 </code></pre>
-<p>This is a convenience class. Hub Stores can be created
+<p>This is a convenience class. Hub Managers can be created
 directly, or the underlying functions can be imported an used
 as need for scenarios where these class structures introduce
 unwanted complexity</p>
@@ -2903,7 +2921,7 @@ unwanted complexity</p>
               
             </td>
             <td class="body-face api-param-comment">
-              <p>Create a Project Store connected to the current Hub</p>
+              <p>HubProjectManager for the current Hub</p>
 
             </td>
           </tr>
@@ -2957,10 +2975,9 @@ unwanted complexity</p>
             </td>
             <td class="code-face"><i>Promise</i><i><span class="text-light-gray">&lt;</span><i><a href="/hub.js/api/common/Hub/">Hub</a></i><span class="text-light-gray">&gt;</span></i></td>
             <td class="body-face api-param-comment">
-              <p>Factory function to construct a new HubProjectStore instance.</p>
+              <p>Factory function to construct a new Hub instance.</p>
 
-              <p>Note: Used so that we could do async actions in the ctor.</p>
-
+              
             </td>
           </tr>
         
@@ -3002,7 +3019,7 @@ unwanted complexity</p>
       <hr class="leader-half trailer-half">
 
       <div class="api-function-comment">
-        <p>Factory function to construct a new HubProjectStore instance.</p>
+        <p>Factory function to construct a new Hub instance.</p>
 
       </div>
 
@@ -3070,11 +3087,6 @@ unwanted complexity</p>
       </div>
 
       
-        <hr class="leader-half trailer-half">
-
-        <p>Note: Used so that we could do async actions in the ctor.</p>
-
-      
     </div>
   
 
@@ -3091,7 +3103,7 @@ unwanted complexity</p>
 
 
 
-<small class="font-size--2">Class defined in <a href="https://github.com/Esri/hub.js/blob/master/common/src/Hub.ts#L40">common/src/Hub.ts:40</a></small>
+<small class="font-size--2">Class defined in <a href="https://github.com/Esri/hub.js/blob/master/common/src/Hub.ts#L38">common/src/Hub.ts:38</a></small>
 
 
     </div>
