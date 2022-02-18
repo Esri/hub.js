@@ -4,12 +4,21 @@ import {
   createProject,
   updateProject,
   destroyProject,
-  getProject,
+  fetchProject,
+  searchProjects,
 } from "./HubProjects";
 // Node has issues if this is not directly imported
 import { ArcGISContextManager } from "../ArcGISContextManager";
-import { HubError, IArcGISContext } from "..";
-import { IHubProject, IHubEntityManager } from "../core/types";
+import {
+  Filter,
+  HubError,
+  IArcGISContext,
+  IHubSearchOptions,
+  ISearchResponse,
+} from "..";
+import { IHubEntityManager, IHubProject } from "../core/types";
+import { IHubItemEntityManager } from "../core/types/IHubItemEntityManager";
+import { setItemThumbnail as updateItemThumbnail } from "../items/setItemThumbnail";
 
 /**
  * Centralized functions used to manage IHubProject instances
@@ -18,7 +27,9 @@ import { IHubProject, IHubEntityManager } from "../core/types";
  * are also directly accessible for use in scenarios where
  * classes are inconvenient.
  */
-export class HubProjectManager implements IHubEntityManager<IHubProject> {
+export class HubProjectManager
+  implements IHubEntityManager<IHubProject>, IHubItemEntityManager<IHubProject>
+{
   /**
    * Hold a context manager, which should be a single instance for
    * an application. When authentication changes, the .context
@@ -146,6 +157,20 @@ export class HubProjectManager implements IHubEntityManager<IHubProject> {
       );
     }
   }
+
+  // DEPRECATED IN FAVOR OF .fetch()
+  // TODO: REMOVE AT NEXT MAJOR
+  /* istanbul ignore next */
+  async get(
+    identifier: string,
+    requestOptions?: IRequestOptions
+  ): Promise<IHubProject> {
+    // tslint:disable-next-line
+    console.warn(
+      `HubProjectManager.get is deprecated and will be removed. Use .fetch() instead.`
+    );
+    return this.fetch(identifier, requestOptions);
+  }
   /**
    * Fetch a Project via id or it's slug
    *
@@ -161,30 +186,52 @@ export class HubProjectManager implements IHubEntityManager<IHubProject> {
     requestOptions?: IRequestOptions
   ): Promise<IHubProject> {
     if (requestOptions || this.context.requestOptions) {
-      return getProject(
+      return fetchProject(
         identifier,
         requestOptions || this.context.requestOptions
       );
     } else {
       throw new HubError(
-        "Get Project",
+        "Fetch Project",
         "Can not retrieve context.requestOptions from Context Manager. HubProjectManager is configured incorrectly."
       );
     }
   }
 
-  // [WIP] Still working out how best to implement
-  //
-  // /**
-  //  * Search for Projects
-  //  *
-  //  * @param filter
-  //  * @param options
-  //  */
-  // async search(
-  //   filter: Filter<"content">,
-  //   options: IHubSearchOptions
-  // ): Promise<ISearchResponse<IHubProject>> {
-  //   throw new Error("Search not implemented");
-  // }
+  /**
+   * Search for Projects
+   *
+   * @param filter
+   * @param options
+   */
+  async search(
+    filter: Filter<"content">,
+    options: IHubSearchOptions
+  ): Promise<ISearchResponse<IHubProject>> {
+    // if we were not passed auth, and we have a session, use it
+    if (!options.authentication && this.context.session) {
+      options.authentication = this.context.session;
+    }
+    return searchProjects(filter, options);
+  }
+
+  /**
+   * Set the thumbnail for the Project
+   * @param id
+   * @param file
+   * @param filename
+   * @param requestOptions
+   * @returns
+   */
+  async updateThumbnail(
+    project: IHubProject,
+    file: any,
+    filename: string,
+    requestOptions?: IUserRequestOptions
+  ): Promise<IHubProject> {
+    const ro = requestOptions || this.context.userRequestOptions;
+    await updateItemThumbnail(project.id, file, filename, ro);
+    // get the item so we have updated props and timestamps
+    return this.fetch(project.id, requestOptions);
+  }
 }

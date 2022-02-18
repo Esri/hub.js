@@ -1,7 +1,13 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions, UserSession } from "@esri/arcgis-rest-auth";
 
 // Note - we separate these imports so we can cleanly spy on things in tests
-import { createModel, getModel, getModelBySlug, updateModel } from "../models";
+import {
+  createModel,
+  fetchModelFromItem,
+  getModel,
+  getModelBySlug,
+  updateModel,
+} from "../models";
 import { constructSlug, getUniqueSlug, setSlugKeyword } from "../items/slugs";
 import {
   IModel,
@@ -11,8 +17,18 @@ import {
   IHubSearchOptions,
   ISearchResponse,
   _searchContent,
+  expandContentFilter,
+  serializeContentFilterForPortal,
+  getNextFunction,
+  mergeContentFilter,
+  getItemThumbnailUrl,
 } from "..";
-import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
+import {
+  ISearchOptions,
+  IUserItemOptions,
+  removeItem,
+  searchItems,
+} from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 import { IPropertyMap, PropertyMapper } from "../core/helpers/PropertyMapper";
@@ -27,8 +43,7 @@ const DEFAULT_PROJECT: Partial<IHubProject> = {
   name: "No title provided",
   tags: [],
   typeKeywords: ["IHubProject", "HubProject"],
-  // slug: "",
-  // status: "inactive",
+  status: "inactive",
 };
 
 /**
@@ -41,7 +56,7 @@ const DEFAULT_PROJECT_MODEL = {
     description: "No Description Provided",
     snippet: "",
     tags: [],
-    typeKeywords: [],
+    typeKeywords: ["Hub Project"],
     properties: {
       slug: "",
     },
@@ -49,7 +64,6 @@ const DEFAULT_PROJECT_MODEL = {
   data: {
     display: "about",
     timeline: {},
-    org: {},
     status: "inactive",
     contacts: [],
     schemaVersion: 1,
@@ -132,7 +146,7 @@ export async function createProject(
     project.slug = constructSlug(project.name, project.orgUrlKey);
   }
   // Ensure slug is  unique
-  project.slug = await getUniqueSlug(project.slug, requestOptions);
+  project.slug = await getUniqueSlug({ slug: project.slug }, requestOptions);
   // add slug to keywords
   project.typeKeywords = setSlugKeyword(project.typeKeywords, project.slug);
   // Map project object onto a default project Model
@@ -158,10 +172,11 @@ export async function updateProject(
   project: IHubProject,
   requestOptions: IUserRequestOptions
 ): Promise<IHubProject> {
-  // verify that the slug is unique
-  // TODO: if the slug has not changed, we don't want to do this because
-  // the existing item will cause this to increment
-  project.slug = await getUniqueSlug(project.slug, requestOptions);
+  // verify that the slug is unique, excluding the current project
+  project.slug = await getUniqueSlug(
+    { slug: project.slug, existingId: project.id },
+    requestOptions
+  );
   // get the backing item & data
   const model = await getModel(project.id, requestOptions);
   // create the PropertyMapper
@@ -186,7 +201,7 @@ export async function updateProject(
  * @param identifier item id or slug
  * @param requestOptions
  */
-export function getProject(
+export function fetchProject(
   identifier: string,
   requestOptions: IRequestOptions
 ): Promise<IHubProject> {
@@ -196,6 +211,8 @@ export function getProject(
     getPrms = getModel(identifier, requestOptions);
   } else {
     // search for item using filter=typekeywords:slug|identifier
+    // although we could leverage searchProjects with an appropriate filter
+    // getModelBySlug is a generalized function that works for any type
     getPrms = getModelBySlug(identifier, requestOptions);
   }
   return getPrms.then((model) => {
@@ -204,6 +221,17 @@ export function getProject(
       getProjectPropertyMap()
     );
     const project = mapper.modelToObject(model, {}) as IHubProject;
+    let token: string;
+    if (requestOptions.authentication) {
+      const us: UserSession = requestOptions.authentication as UserSession;
+      token = us.token;
+    }
+
+    project.thumbnailUrl = getItemThumbnailUrl(
+      model.item,
+      requestOptions,
+      token
+    );
     return project;
   });
 }
@@ -226,11 +254,97 @@ export async function destroyProject(
 // i.e. delegate to searchContent or just do an item search
 // and convert to IHubProject objects.
 //
-// export async function searchProjects(
-//   filter: Filter<"content">,
-//   opts: IHubSearchOptions
-// ): Promise<ISearchResponse<IHubProject>> {
-//   return _searchContent(filter, opts).then((results) => {
+export async function searchProjects(
+  filter: Filter<"content">,
+  options: IHubSearchOptions
+): Promise<ISearchResponse<IHubProject>> {
+  // Scope to Hub Projects
+  const scopingFilter: Filter<"content"> = {
+    filterType: "content",
+    typekeywords: {
+      exact: ["HubProject"],
+    },
+  };
+  // merge filters
+  const projectFilter = mergeContentFilter([scopingFilter, filter]);
+  // expand filter so we can serialize to either api
+  const expanded = expandContentFilter(projectFilter);
+  const so = serializeContentFilterForPortal(expanded);
+  // Aggregations
+  if (options.aggregations?.length) {
+    so.countFields = options.aggregations.join(",");
+    so.countSize = 200;
+  }
+  // copy over various options
+  if (options.num) {
+    so.num = options.num;
+  }
+  if (options.sortField) {
+    so.sortField = options.sortField;
+  }
+  if (options.sortOrder) {
+    so.sortOrder = options.sortOrder;
+  }
+  if (options.site) {
+    so.site = cloneObject(options.site);
+  }
+  if (options.authentication) {
+    so.authentication = options.authentication;
+  }
+  return searchPortalProjects(so);
+}
 
-//   })
-// }
+/**
+ * Internal fn that takes
+ * @param searchOptions
+ * @returns
+ */
+async function searchPortalProjects(
+  searchOptions: ISearchOptions
+): Promise<ISearchResponse<IHubProject>> {
+  const response = await searchItems(searchOptions);
+  const hasNext: boolean = response.nextStart > -1;
+  // TODO: Change to leveraging the enrichment pipelines
+
+  // Convert the item's into models
+  const modelPromises = response.results.map((itm) => {
+    return fetchModelFromItem(itm, {
+      authentication: searchOptions.authentication,
+    });
+  });
+  const models = await Promise.all(modelPromises);
+  // create a mapper to convert the model int
+  const mapper = new PropertyMapper<Partial<IHubProject>>(
+    getProjectPropertyMap()
+  );
+
+  let token: string;
+  if (searchOptions.authentication) {
+    const us: UserSession = searchOptions.authentication as UserSession;
+    token = us.token;
+  }
+
+  // map over the results, converting them into IHubProject pojos
+  const projects = models.map((m) => {
+    const prj = mapper.modelToObject(m, {}) as IHubProject;
+    prj.thumbnailUrl = getItemThumbnailUrl(
+      m.item,
+      { authentication: searchOptions.authentication },
+      token
+    );
+    return prj;
+  }) as unknown as IHubProject[];
+
+  return {
+    total: response.total,
+    results: projects,
+    facets: [],
+    hasNext,
+    next: getNextFunction<IHubProject>(
+      searchOptions,
+      response.nextStart,
+      response.total,
+      searchPortalProjects
+    ),
+  };
+}

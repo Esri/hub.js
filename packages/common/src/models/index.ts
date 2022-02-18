@@ -130,3 +130,20 @@ export function updateModel(
     return clone;
   });
 }
+
+/**
+ * Given an Item, fetch the data json and return an IModel
+ * @param item
+ * @param requestOptions
+ * @returns
+ */
+export async function fetchModelFromItem(
+  item: IItem,
+  requestOptions: IRequestOptions
+): Promise<IModel> {
+  const data = await getItemData(item.id, requestOptions);
+  return {
+    item,
+    data,
+  } as IModel;
+}

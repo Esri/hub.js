@@ -1,4 +1,10 @@
-import { getModelBySlug, createModel, updateModel, IModel } from "../../src";
+import {
+  getModelBySlug,
+  createModel,
+  updateModel,
+  IModel,
+  fetchModelFromItem,
+} from "../../src";
 
 import * as portalModule from "@esri/arcgis-rest-portal";
 
@@ -110,6 +116,21 @@ describe("model utils:", () => {
 
       expect(opts.authentication).toBe(MOCK_AUTH);
       expect(opts.item.data).toBeDefined();
+    });
+  });
+  describe("fetchModelFromItem:", () => {
+    it("fetches data and returns model", async () => {
+      const getItemDataSpy = spyOn(portalModule, "getItemData").and.returnValue(
+        Promise.resolve({ data: "values" })
+      );
+      const chk = await fetchModelFromItem(
+        { id: "3ef" } as portalModule.IItem,
+        {
+          authentication: MOCK_AUTH,
+        }
+      );
+      expect(chk.item).toEqual({ id: "3ef" } as portalModule.IItem);
+      expect(chk.data).toEqual({ data: "values" });
     });
   });
 });
