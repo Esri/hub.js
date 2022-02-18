@@ -1,3 +1,10 @@
+# @esri/hub-common [9.18.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.17.1...@esri/hub-common@9.18.0) (2022-02-18)
+
+
+### Features
+
+* project search and set thumbnail fns ([#727](https://github.com/Esri/hub.js/issues/727)) ([43f2143](https://github.com/Esri/hub.js/commit/43f2143f0ef46bb1add6ee236a03550c70a06880))
+
 ## @esri/hub-common [9.17.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.17.0...@esri/hub-common@9.17.1) (2022-02-17)
 
 
