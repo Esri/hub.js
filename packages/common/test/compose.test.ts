@@ -66,8 +66,86 @@ describe("composeContent", () => {
     beforeEach(() => {
       item = cloneObject(featureServiceItem);
     });
-    // TODO: copy over tests for metadataUpdateFrequency, updatedDate,
-    // and publishedDate from enrichments.test.ts
+    describe("updateFrequency", () => {
+      it("should return undefined when metadata present but unknown value", () => {
+        const metadata = {
+          metadata: {
+            Esri: {
+              ArcGISProfile: "ISO19139",
+            },
+            dataIdInfo: {
+              resMaint: {
+                maintFreq: {
+                  MaintFreqCd: {
+                    "@_value": "999",
+                  },
+                },
+              },
+            },
+          },
+        };
+        const result = composeContent(item, { metadata });
+        expect(result.updateFrequency).toEqual(undefined);
+      });
+      it("should return the correct value when metadata present", () => {
+        const metadata = {
+          metadata: {
+            Esri: {
+              ArcGISProfile: "ISO19139",
+            },
+            dataIdInfo: {
+              resMaint: {
+                maintFreq: {
+                  MaintFreqCd: {
+                    "@_value": "003",
+                  },
+                },
+              },
+            },
+          },
+        };
+        const result = composeContent(item, { metadata });
+        expect(result.updateFrequency).toEqual("weekly");
+      });
+    });
+    describe("metadataUpdateFrequency", () => {
+      it("should return undefined when metadata present but unknown value", () => {
+        const metadata = {
+          metadata: {
+            Esri: {
+              ArcGISProfile: "ISO19139",
+            },
+            mdMaint: {
+              maintFreq: {
+                MaintFreqCd: {
+                  "@_value": "999",
+                },
+              },
+            },
+          },
+        };
+        const result = composeContent(item, { metadata });
+        expect(result.metadataUpdateFrequency).toEqual(undefined);
+      });
+      it("should return the correct value when metadata present", () => {
+        const metadata = {
+          metadata: {
+            Esri: {
+              ArcGISProfile: "ISO19139",
+            },
+            mdMaint: {
+              maintFreq: {
+                MaintFreqCd: {
+                  "@_value": "003",
+                },
+              },
+            },
+          },
+        };
+        const result = composeContent(item, { metadata });
+        expect(result.metadataUpdateFrequency).toEqual("weekly");
+      });
+    });
     describe("metadataUpdatedDate", () => {
       it("should return the correct value when metadataUpdatedDate metadata present", () => {
         const metadataUpdatedDate = "1970";
@@ -88,6 +166,113 @@ describe("composeContent", () => {
           "metadata.metadata.mdDateSt"
         );
       });
+    });
+    describe("updatedDate", () => {
+      // NOTE: layer/server lastEditDate  is covered by other tests
+      it("should return the correct value when reviseDate metadata present", () => {
+        const reviseDate = "1970-02";
+        const metadata = {
+          metadata: {
+            Esri: {
+              ArcGISProfile: "ISO19139",
+            },
+            dataIdInfo: {
+              idCitation: {
+                date: {
+                  reviseDate,
+                },
+              },
+            },
+          },
+        };
+        const result = composeContent(item, { metadata });
+        const dateParts = reviseDate.split("-").map((part) => +part);
+        expect(result.updatedDate).toEqual(
+          new Date(dateParts[0], dateParts[1] - 1, 1)
+        );
+        expect(result.updatedDatePrecision).toEqual("month");
+        expect(result.updatedDateSource).toEqual(
+          "metadata.metadata.dataIdInfo.idCitation.date.reviseDate"
+        );
+      });
+    });
+  });
+  describe("publishedDate", () => {
+    it("should return the correct value when pubDate metadata present", () => {
+      const pubDate = "1970-02-07";
+      const metadata = {
+        metadata: {
+          Esri: {
+            ArcGISProfile: "ISO19139",
+          },
+          dataIdInfo: {
+            idCitation: {
+              date: {
+                pubDate,
+              },
+            },
+          },
+        },
+      };
+      const result = composeContent(item, { metadata });
+      const dateParts = pubDate.split("-").map((part) => +part);
+      expect(result.publishedDate).toEqual(
+        new Date(dateParts[0], dateParts[1] - 1, dateParts[2])
+      );
+      expect(result.publishedDatePrecision).toEqual("day");
+      expect(result.publishedDateSource).toEqual(
+        "metadata.metadata.dataIdInfo.idCitation.date.pubDate"
+      );
+    });
+    it("should return the correct value when createDate metadata present", () => {
+      const createDate = "1970-02-07";
+      const metadata = {
+        metadata: {
+          Esri: {
+            ArcGISProfile: "ISO19139",
+          },
+          dataIdInfo: {
+            idCitation: {
+              date: {
+                createDate,
+              },
+            },
+          },
+        },
+      };
+      const result = composeContent(item, { metadata });
+      const dateParts = createDate.split("-").map((part) => +part);
+      expect(result.publishedDate).toEqual(
+        new Date(dateParts[0], dateParts[1] - 1, dateParts[2])
+      );
+      expect(result.publishedDatePrecision).toEqual("day");
+      expect(result.publishedDateSource).toEqual(
+        "metadata.metadata.dataIdInfo.idCitation.date.createDate"
+      );
+    });
+    it("should return the correct value when createDate & pubDate metadata present", () => {
+      const pubDate = "02/07/1970";
+      const metadata = {
+        metadata: {
+          Esri: {
+            ArcGISProfile: "ISO19139",
+          },
+          dataIdInfo: {
+            idCitation: {
+              date: {
+                createDate: "1970-11-17T00:00:00.000Z",
+                pubDate,
+              },
+            },
+          },
+        },
+      };
+      const result = composeContent(item, { metadata });
+      expect(result.publishedDate).toEqual(new Date(1970, 1, 7));
+      expect(result.publishedDatePrecision).toEqual("day");
+      expect(result.publishedDateSource).toEqual(
+        "metadata.metadata.dataIdInfo.idCitation.date.pubDate"
+      );
     });
   });
   describe("with layers", () => {
@@ -176,91 +361,8 @@ describe("composeContent", () => {
       );
       expect(layerContent.url).toEqual(item.url, "should not set url");
     });
-    // TODO: re-implement these bug scenario tests
-    // /**
-    //  * The following series of tests is to account for occurrences of items that have been uploaded as a
-    //  * type Feature Service, but are actually other types of services that may not have layers. This is a bug.
-    //  * See the PR for link to bug description: https://github.com/Esri/hub.js/pull/633
-    //  */
-    // it("zero-layered image service w/o layerId", () => {
-    //   const content = {
-    //     id: "3ae",
-    //     type: "Image Service",
-    //     title: "Item Title",
-    //     description: "Item description",
-    //     summary: "Item snippet",
-    //     layers: undefined,
-    //     url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/LocalGovernment/Recreation/FeatureServer",
-    //   } as IHubContent;
-    //   const layerContent = getLayerContent(content);
-    //   expect(layerContent).toBeFalsy();
-    // });
-    // it("zero-layered feature service w/o layerId", () => {
-    //   const content = {
-    //     id: "3ae",
-    //     type: "Feature Service",
-    //     title: "Item Title",
-    //     description: "Item description",
-    //     summary: "Item snippet",
-    //     layers: null,
-    //     url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/LocalGovernment/Recreation/FeatureServer",
-    //   } as IHubContent;
-    //   const layerContent = getLayerContent(content);
-    //   expect(layerContent).toBeFalsy();
-    // });
-    // it("zero-layered image service w/ layerId", () => {
-    //   const content = {
-    //     id: "3ae",
-    //     type: "Image Service",
-    //     title: "Item Title",
-    //     description: "Item description",
-    //     summary: "Item snippet",
-    //     layers: null,
-    //     url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/LocalGovernment/Recreation/FeatureServer",
-    //   } as IHubContent;
-    //   const layerId = 0;
-    //   const layerContent = getLayerContent(content, layerId);
-    //   expect(layerContent).toBeFalsy();
-    // });
-    // it("zero-layered feature service w/ layerId", () => {
-    //   const content = {
-    //     id: "3ae",
-    //     type: "Feature Service",
-    //     title: "Item Title",
-    //     description: "Item description",
-    //     summary: "Item snippet",
-    //     layers: null,
-    //     url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/LocalGovernment/Recreation/FeatureServer",
-    //   } as IHubContent;
-    //   const layerId = 0;
-    //   const layerContent = getLayerContent(content, layerId);
-    //   expect(layerContent).toBeFalsy();
-    // });
-    // it("image service w/ layerId and undefined layers", () => {
-    //   const content = {
-    //     id: "3ae",
-    //     type: "Image Service",
-    //     title: "Item Title",
-    //     description: "Item description",
-    //     summary: "Item snippet",
-    //     url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/LocalGovernment/Recreation/FeatureServer",
-    //   } as IHubContent;
-    //   const layerId = 0;
-    //   const layerContent = getLayerContent(content, layerId);
-    //   expect(layerContent).toBeFalsy();
-    // });
-    // it("feature service w/ layerId and undefined layers", () => {
-    //   const content = {
-    //     id: "3ae",
-    //     type: "Feature Service",
-    //     title: "Item Title",
-    //     description: "Item description",
-    //     summary: "Item snippet",
-    //     url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/LocalGovernment/Recreation/FeatureServer",
-    //   } as IHubContent;
-    //   const layerId = 0;
-    //   const layerContent = getLayerContent(content, layerId);
-    //   expect(layerContent).toBeFalsy();
-    // });
+    // NOTE: we may want to re-implement the tests in enrichments.test.ts
+    // that were introduced in https://github.com/Esri/hub.js/pull/633
+    // if we discover that those buggy items cause problems
   });
 });

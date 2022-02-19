@@ -100,7 +100,7 @@ export const getHubRelativeUrl = (
   let contentUrl = getSolutionUrl(type, identifier, typeKeywords);
   if (!contentUrl) {
     const family = getFamily(type);
-    const pluralizedFamilies = [
+    const familiesWithPluralizedRoute = [
       "app",
       "dataset",
       "document",
@@ -110,15 +110,15 @@ export const getHubRelativeUrl = (
     // default to the catchall content route
     let path = "/content";
     if (family === "feedback") {
-      // exception
+      // the exception
       path = "/feedback/surveys";
     } else if (isPageType(type)) {
       // pages are in the document family,
       // but instead of showing the page's metadata on /documents/about
       // but we render the page on the pages route
       path = "/pages";
-    } else if (pluralizedFamilies.indexOf(family) > -1) {
-      // the rule
+    } else if (familiesWithPluralizedRoute.indexOf(family) > -1) {
+      // the rule: route name is plural of family name
       path = `/${family}s`;
     }
     contentUrl = `${path}/${identifier}`;
@@ -188,7 +188,6 @@ export enum DatePrecision {
   Time = "time",
 }
 
-// TODO: move this to _internal and copy over tests from hub-content
 /**
  * Parses an ISO8601 date string into a date and a precision.
  * This is because a) if somone entered 2018, we want to respect that and not treat it as the same as 2018-01-01
@@ -252,7 +251,7 @@ export const getItemSpatialReference = (item: IItem): ISpatialReference => {
   const spatialReferenceString = spatialReference + "";
   const wkid = parseInt(spatialReferenceString, 10);
   return isNaN(wkid)
-    ? // string is not a number, assume it is a wkid
+    ? // string is not a number, assume it is WKT
       { wkt: spatialReferenceString }
     : //
       { wkid };

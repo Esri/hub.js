@@ -29,7 +29,7 @@ import {
   parseISODateString,
 } from "./_internal";
 import { getFamily } from "./get-family";
-import { getHubApiUrl } from "..";
+import { getHubApiUrl } from "../api";
 
 // helper fns - move this to _internal if needed elsewhere
 const getOnlyQueryLayer = (layers: ILayerDefinition[]) => {
@@ -583,7 +583,7 @@ export const composeContent = (
     // enrichments from the Hub API (boundary is below)
     statistics,
     // derived properties
-    // NOTE: in the getters below you can **not** use this.
+    // NOTE: in the getters below you can **not** use `this`
     // these are not meant to provide live updating computed props
     // their purpose is to avoid computing all these values above
     // especially where we want to defer computation of less used props
