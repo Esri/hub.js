@@ -16,7 +16,6 @@ import { IItem } from "@esri/arcgis-rest-portal";
 import { ISpatialReference } from "@esri/arcgis-rest-types";
 import { IHubContent } from "../core";
 import {
-  BBox,
   IHubGeography,
   GeographyProvenance,
   IHubRequestOptions,
