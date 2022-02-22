@@ -1,3 +1,18 @@
+# @esri/hub-content [9.19.0](https://github.com/Esri/hub.js/compare/@esri/hub-content@9.18.0...@esri/hub-content@9.19.0) (2022-02-22)
+
+
+### Features
+
+* **hub-common:** add composeContent() ([2e549b1](https://github.com/Esri/hub.js/commit/2e549b184509bd7c0871cb895f974405c15a340f))
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 9.19.0
+
 # @esri/hub-content [9.18.0](https://github.com/Esri/hub.js/compare/@esri/hub-content@9.17.1...@esri/hub-content@9.18.0) (2022-02-18)
 
 
