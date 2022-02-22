@@ -1,11 +1,7 @@
 import * as fetchMock from "fetch-mock";
 import * as arcgisRestPortal from "@esri/arcgis-rest-portal";
 import { IItem } from "@esri/arcgis-rest-portal";
-import {
-  IHubRequestOptions,
-  IHubContent,
-  datasetToContent,
-} from "@esri/hub-common";
+import { IHubRequestOptions, IHubContent } from "@esri/hub-common";
 import { getContentFromPortal } from "../src/portal";
 import * as metadataModule from "../src/metadata";
 import * as documentItem from "./mocks/items/document.json";
@@ -20,7 +16,9 @@ function validateContentFromPortal(content: IHubContent, item: IItem) {
     if (key === "name") {
       return;
     }
-    expect(content[key]).toEqual(item[key]);
+    const contentValue = content[key];
+    const itemValue = item[key];
+    expect(contentValue).toEqual(itemValue);
   });
   // name should be title
   expect(content.name).toBe(item.title);
@@ -28,7 +26,7 @@ function validateContentFromPortal(content: IHubContent, item: IItem) {
   expect(content.hubId).toBeUndefined();
   // should include derived properties
   expect(content.family).toBe("document");
-  // DEPRECATED: remove hubType check
+  // DEPRECATED: remove hubType check at next breaking change
   expect(content.hubType).toBe("document");
   expect(content.summary).toBe(item.snippet);
   expect(content.publisher).toEqual({
@@ -216,7 +214,8 @@ describe("get content from portal", () => {
     // pass dataset id
     getContentFromPortal(dataset.id, requestOpts).then((content) => {
       expect(content.item).toEqual(item, "set item");
-      expect(content.hubId).toBe(dataset.id, "set hubId");
+      // since we are in portal we should not expect a hubId to be set
+      // expect(content.hubId).toBe(dataset.id, "set hubId");
       // validate that layer and associated properties were set
       expect(content.layer).toEqual(layers[0] as unknown, "set content layer");
       expect(content.type).toBe("Feature Layer", "updated type");

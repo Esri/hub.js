@@ -10,6 +10,7 @@ import {
   IHubRequestOptions,
   IPipeable,
   cloneObject,
+  composeContent,
   createOperationPipeline,
   getProp,
   getItemHomeUrl,
@@ -40,6 +41,7 @@ const getLayer = (content: IHubContent, layerId?: number) => {
   const { url, layers } = content;
   const idFromUrl = getLayerIdFromUrl(url);
   // NOTE: if the URL points to the layer itself, we _always_ use that layer
+  /* istanbul ignore next this function and getLayerContent() are no longer in use and will be deprecated along with the rest of this package */
   const id = idFromUrl ? parseInt(idFromUrl, 10) : layerId;
   return layers && !isNil(id)
     ? layers.find((layer) => layer.id === id)
@@ -488,6 +490,7 @@ const getMissingEnrichments = (content: IHubContent) => {
  * @returns a hash with the portal URLs
  * @export
  */
+/* istanbul ignore next this function is no longer in use and will be deprecated along with the rest of this package */
 export const getPortalUrls = (
   content: IHubContent,
   requestOptions: IHubRequestOptions
@@ -573,20 +576,47 @@ export const enrichContent = (
   const defaults: Partial<IHubContent> = {
     errors: [],
   };
-  const contentWithPortalUrls = {
+  const contentWithDefaults = {
     ...defaults,
     ...content,
-    ...getPortalUrls(content, requestOptions),
   };
   // fetch any missing or requested enrichments
-  return fetchEnrichments(contentWithPortalUrls, requestOptions).then(
+  return fetchEnrichments(contentWithDefaults, requestOptions).then(
     (fetched) => {
-      // enrich dates now that we have metadata (if any)
-      const enriched = _enrichDates(fetched);
-      // if this is a layer (type: Feature Layer, Table, Raster Layer)
-      // or a feature or map service and caller has supplied a layer id
-      // we want the content to represent the layer instead of the service
-      return getLayerContent(enriched, requestOptions.layerId) || enriched;
+      const { layerId } = requestOptions;
+      const {
+        item,
+        slug,
+        errors,
+        data,
+        metadata,
+        groupIds,
+        orgId,
+        // TODO: org, ownerUser
+        server,
+        layers,
+        // TODO: these should be fetched instead of pulled from the dataset
+        recordCount,
+        boundary,
+        statistics,
+      } = fetched;
+      // org enrichment is not yet implemented
+      const org = orgId && { id: orgId };
+      return composeContent(item, {
+        layerId,
+        slug,
+        data,
+        errors,
+        metadata,
+        groupIds,
+        org,
+        server,
+        layers,
+        recordCount,
+        boundary,
+        statistics,
+        requestOptions,
+      });
     }
   );
 };

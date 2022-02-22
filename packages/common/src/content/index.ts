@@ -2,17 +2,27 @@
  * Apache-2.0 */
 import { ResourceObject } from "jsonapi-typescript";
 import { IItem } from "@esri/arcgis-rest-portal";
-import { HubType, HubFamily, IModel, IHubRequestOptions } from "../types";
-import { collections } from "../collections";
-import { categories as allCategories, isDownloadable } from "../categories";
-import { isBBox } from "../extent";
+import { HubType, IModel } from "../types";
+import { getCollection } from "../collections";
+import { categories as allCategories } from "../categories";
 import { includes, isGuid } from "../utils";
-import { IHubContent, IHubGeography } from "..";
+import { IHubContent } from "../core";
 import { getProp } from "../objects";
-import { getStructuredLicense } from "../items/get-structured-license";
 import { getServiceTypeFromUrl } from "../urls";
-import { setContentExtent, isProxiedCSV } from "./_internal";
+import { getHubRelativeUrl, isPageType } from "./_internal";
 import { camelize } from "../util";
+import {
+  getLayerIdFromUrl,
+  isFeatureService,
+  normalizeItemType,
+  getContentTypeIcon,
+  composeContent,
+} from "./compose";
+import { getFamily } from "./get-family";
+
+// re-export functions used in this file
+export * from "./compose";
+export * from "./get-family";
 
 /**
  * JSONAPI dataset resource returned by the Hub API
@@ -26,17 +36,6 @@ export type DatasetResource = ResourceObject<
     [k: string]: any;
   }
 >;
-
-// private helper functions
-function collectionToFamily(collection: string): string {
-  const overrides: any = {
-    other: "content",
-    solution: "template",
-  };
-  return overrides[collection] || collection;
-}
-
-const cache: { [key: string]: string } = {};
 
 // TODO: remove this at next breaking version
 /**
@@ -80,49 +79,6 @@ export function getTypes(category: string = ""): string[] {
 
 /**
  * ```js
- * import { normalizeItemType } from "@esri/hub-common";
- * //
- * normalizeItemType(item)
- * > [ 'Hub Site Application' ]
- * ```
- * @param item Item object.
- * @returns type of the input item.
- *
- */
-export function normalizeItemType(item: any = {}): string {
-  let ret = item.type;
-  const typeKeywords = item.typeKeywords || [];
-  if (
-    item.type === "Site Application" ||
-    (item.type === "Web Mapping Application" &&
-      includes(typeKeywords, "hubSite"))
-  ) {
-    ret = "Hub Site Application";
-  }
-  if (
-    item.type === "Site Page" ||
-    (item.type === "Web Mapping Application" &&
-      includes(typeKeywords, "hubPage"))
-  ) {
-    ret = "Hub Page";
-  }
-  if (
-    item.type === "Hub Initiative" &&
-    includes(typeKeywords, "hubInitiativeTemplate")
-  ) {
-    ret = "Hub Initiative Template";
-  }
-  if (
-    item.type === "Web Mapping Application" &&
-    includes(typeKeywords, "hubSolutionTemplate")
-  ) {
-    ret = "Solution";
-  }
-  return ret;
-}
-
-/**
- * ```js
  * import { getTypeCategories } from "@esri/hub-common";
  * //
  * getTypeCategories(item)
@@ -144,83 +100,6 @@ export function getTypeCategories(item: any = {}): string[] {
     return ["Other"];
   }
 }
-
-/**
- * ```js
- * import { getCollection } from "@esri/hub-common";
- * //
- * getCollection('Feature Layer')
- * > 'dataset'
- * ```
- * Get the Hub collection for a given item type
- * @param itemType The ArcGIS [item type](https://developers.arcgis.com/rest/users-groups-and-items/items-and-item-types.htm).
- * @returns the Hub collection of a given item type.
- */
-export function getCollection(itemType: string = ""): string {
-  if (cache[itemType]) {
-    return cache[itemType];
-  }
-  for (const collection of Object.keys(collections)) {
-    for (const type of collections[collection]) {
-      if (itemType.toLowerCase() === type.toLowerCase()) {
-        cache[itemType] = collection;
-        return collection;
-      }
-    }
-  }
-}
-
-/**
- * Case-insensitive check if the type is "Feature Service"
- * @param {string} type - item's type
- * @returns {boolean}
- */
-export const isFeatureService = (type: string) => {
-  return type && type.toLowerCase() === "feature service";
-};
-
-/**
- * parse layer id from a service URL
- * @param {string} url
- * @returns {string} layer id
- */
-export const getLayerIdFromUrl = (url: string) => {
-  const endsWithNumberSegmentRegEx = /\/\d+$/;
-  const matched = url && url.match(endsWithNumberSegmentRegEx);
-  return matched && matched[0].slice(1);
-};
-
-/**
- * return the layerId if we can tell that item is a single layer service
- * @param {*} item from AGO
- * @returns {string} layer id
- */
-export const getItemLayerId = (item: IItem) => {
-  // try to parse it from the URL, but failing that we check for
-  // the Singlelayer typeKeyword, which I think is set when you create the item in AGO
-  // but have not verified that, nor that we should alway return '0' in that case
-  return (
-    getLayerIdFromUrl(item.url) ||
-    (isFeatureService(item.type) &&
-      includes(item.typeKeywords, "Singlelayer") &&
-      "0")
-  );
-};
-
-/**
- * given an item, get the id to use w/ the Hub API
- * @param item
- * @returns Hub API id (hubId)
- */
-export const getItemHubId = (item: IItem) => {
-  if (item.access !== "public") {
-    // the hub only indexes public items
-    return;
-  }
-  const id = item.id;
-  const layerId = getItemLayerId(item);
-  return layerId ? `${id}_${layerId}` : id;
-};
 
 /**
  * ```js
@@ -256,7 +135,7 @@ export function getContentIdentifier(
   // to create the page url (not mutable once created) and the slug (below)
   // generated by the hub-indexer could simply change with page name.
 
-  if (isPageContent(content)) {
+  if (isPageType(content.type)) {
     // check if the page is linked to the current site
     const pages: IHubContent[] = getProp(site, "data.values.pages") || [];
     // if so, return the page slug otherwise the page id
@@ -349,62 +228,6 @@ export function removeContextFromSlug(slug: string, context: string): string {
 }
 
 /**
- * Splits item category strings at slashes and discards the "Categories" keyword
- *
- * ```
- * ["/Categories/Boundaries", "/Categories/Planning and cadastre/Property records", "/Categories/Structure"]
- * ```
- * Should end up being
- * ```
- * ["Boundaries", "Planning and cadastre", "Property records", "Structure"]
- * ```
- *
- * @param categories - an array of strings
- * @private
- */
-export function parseItemCategories(categories: string[]) {
-  if (!categories) return categories;
-
-  const exclude = ["categories", ""];
-  const parsed = categories.map((cat) => cat.split("/"));
-  const flattened = parsed.reduce((acc, arr, _) => [...acc, ...arr], []);
-  return flattened.filter((cat) => !includes(exclude, cat.toLowerCase()));
-}
-
-/**
- * return the Hub family given an item's type
- * @param type item type
- * @returns Hub family
- */
-export function getFamily(type: string) {
-  let family;
-  // override default behavior for the rows that are highlighted in yellow here:
-  // https://esriis.sharepoint.com/:x:/r/sites/ArcGISHub/_layouts/15/Doc.aspx?sourcedoc=%7BADA1C9DC-4F6C-4DE4-92C6-693EF9571CFA%7D&file=Hub%20Routes.xlsx&nav=MTBfe0VENEREQzI4LUZFMDctNEI0Ri04NjcyLThCQUE2MTA0MEZGRn1fezIwMTIwMEJFLTA4MEQtNEExRC05QzA4LTE5MTAzOUQwMEE1RH0&action=default&mobileredirect=true&cid=df1c874b-c367-4cea-bc13-7bebfad3f2ac
-  switch ((type || "").toLowerCase()) {
-    case "image service":
-      family = "dataset";
-      break;
-    case "feature service":
-    case "raster layer":
-      // TODO: check if feature service has > 1 layer first?
-      family = "map";
-      break;
-    case "microsoft excel":
-      family = "document";
-      break;
-    case "cad drawing":
-    case "feature collection template":
-    case "report template":
-      family = "content";
-      break;
-    default:
-      // by default derive from collection
-      family = collectionToFamily(getCollection(type));
-  }
-  return family as HubFamily;
-}
-
-/**
  * DEPRECATED: Use getFamily() instead.
  *
  * get the HubType for a given item or item type
@@ -433,51 +256,7 @@ export function getItemHubType(itemOrType: IItem | string): HubType {
  * @export
  */
 export function itemToContent(item: IItem): IHubContent {
-  const createdDate = new Date(item.created);
-  const createdDateSource = "item.created";
-  const properties = item.properties;
-  const content = Object.assign({}, item, {
-    identifier: item.id,
-    // no server errors when fetching the item directly
-    errors: [],
-    // store a reference to the item
-    item,
-    // NOTE: this will overwrite any existing item.name, which is
-    // The file name of the item for file types. Read-only.
-    // presumably there to use as the default file name when downloading
-    // we don't store item.name in the Hub API and we use name for title
-    name: item.title,
-    // TODO: hubType is no longer used, remove it at next breaking change
-    hubType: getItemHubType(item),
-    categories: parseItemCategories(item.categories),
-    itemCategories: item.categories,
-    // can we strip HTML from description, and do we need to trim it to a X chars?
-    summary: item.snippet || item.description,
-    publisher: {
-      name: item.owner,
-      username: item.owner,
-    },
-    permissions: {
-      visibility: item.access,
-      control: item.itemControl || "view",
-    },
-    // Hub app configuration metadata from item properties
-    actionLinks: properties && properties.links,
-    hubActions: properties && properties.actions,
-    metrics: properties && properties.metrics,
-    isDownloadable: isDownloadable(item),
-    // default boundary from item.extent
-    license: { name: "Custom License", description: item.accessInformation },
-    // dates and sources we will enrich these later...
-    createdDate,
-    createdDateSource,
-    publishedDate: createdDate,
-    publishedDateSource: createdDateSource,
-    updatedDate: new Date(item.modified),
-    updatedDateSource: "item.modified",
-    structuredLicense: getStructuredLicense(item.licenseInfo),
-  });
-  return setContentExtent(setContentType(content, item.type), item.extent);
+  return composeContent(item);
 }
 
 /**
@@ -490,95 +269,61 @@ export function itemToContent(item: IItem): IHubContent {
 export function datasetToContent(dataset: DatasetResource): IHubContent {
   // extract item from dataset, create content from the item
   const item = datasetToItem(dataset);
-  const content = itemToContent(item);
 
-  // We remove these because the indexer doesn't actually
-  // preserve the original item categories so this attribute is invalid
-  delete content.itemCategories;
-
-  // overwrite or add enrichments from Hub API
-  const { id: hubId, attributes } = dataset;
+  // extract enrichments from attributes
   const {
-    // common enrichments
+    // item enrichments
     errors,
     boundary,
-    extent,
     metadata,
-    modified,
-    modifiedProvenance,
     slug,
-    searchDescription,
     groupIds,
-    // map and feature server enrichments
-    server,
-    layers,
-    // NOTE: the Hub API also returns the following server properties
-    // but we should be able to get them from the above server object
-    // currentVersion, capabilities, tileInfo, serviceSpatialReference
-    // maxRecordCount, supportedQueryFormats, etc
-    // feature and raster layer enrichments
-    layer,
-    recordCount,
-    statistics,
-    // NOTE: the Hub API also returns the following layer properties
-    // but we should be able to get them from the above layer object
-    // supportedQueryFormats, supportsAdvancedQueries, advancedQueryCapabilities, useStandardizedQueries
-    // geometryType, objectIdField, displayField, fields,
-    // org properties?
     orgId,
     orgName,
     organization,
     orgExtent,
-    // NOTE: for layers and tables the Hub API returns the layer type
-    // ("Feature Layer", "Table", "Raster Layer") instead of the item type
-    type,
-  } = attributes;
+    // map and feature server enrichments
+    server,
+    layers,
+    layer,
+    recordCount,
+    statistics,
+    // additional attributes needed
+    searchDescription,
+  } = dataset.attributes;
 
-  // NOTE: we could throw or return if there are errors
-  // to prevent type errors trying to read properties below
-  content.errors = errors;
+  // get the layerId from the layer
+  const layerId = layer && layer.id;
 
-  // common enrichments
-  content.boundary = boundary;
-  if (!isBBox(item.extent) && extent && isBBox(extent.coordinates)) {
-    // we fall back to the extent derived by the API
-    // which prefers layer or service extents and ultimately
-    // falls back to the org's extent
-    content.extent = extent.coordinates;
-  }
-  // setting this to null signals to enrichMetadata to skip this
-  content.metadata = metadata || null;
-  if (content.modified !== modified) {
-    // capture the enriched modified date
-    // NOTE: the item modified date is still available on content.item.modified
-    content.modified = modified;
-    content.updatedDate = new Date(modified);
-    content.updatedDateSource = modifiedProvenance;
-  }
-  content.slug = slug;
+  // re-assemble the org as an enrichment
+  const org = orgId && {
+    id: orgId,
+    name: orgName || organization,
+    extent: orgExtent,
+  };
+
+  // compose a content out of the above
+  const content = composeContent(item, {
+    layerId,
+    slug,
+    errors,
+    // setting this to null signals to enrichMetadata to skip this
+    metadata: metadata || null,
+    groupIds,
+    org,
+    server,
+    layers,
+    recordCount,
+    boundary,
+    statistics,
+  });
+
+  // TODO: need to add searchDescription logic to composeContent()
   if (searchDescription) {
     // overwrite default summary (from snippet) w/ search description
     content.summary = searchDescription;
   }
-  content.groupIds = groupIds;
-  // server enrichments
-  content.server = server;
-  content.layers = layers;
-  // layer enrichments
-  content.layer = layer;
-  content.recordCount = recordCount;
-  content.statistics = statistics;
-  // org enrichments
-  if (orgId) {
-    content.org = {
-      id: orgId,
-      name: orgName || organization,
-      extent: orgExtent,
-    };
-  }
-  // return a content with updated hubId and type
-  // along w/ related properties like identifier, family, etc
-  return setContentType(setContentHubId(content, hubId), type);
+  return content;
 }
 
 /**
@@ -761,122 +506,6 @@ export const setContentType = (
 };
 
 /**
- * Compute the content type icon based on the content type
- * @param content type
- * @returns content type icon
- */
-export const getContentTypeIcon = (contentType: string) => {
-  const type = camelize(contentType || "");
-  const iconMap = {
-    appbuilderExtension: "file",
-    appbuilderWidgetPackage: "widgets-source",
-    application: "web",
-    applicationConfiguration: "app-gear",
-    arcgisProMap: "desktop",
-    cadDrawing: "file-cad",
-    cityEngineWebScene: "urban-model",
-    codeAttachment: "file-code",
-    codeSample: "file-code",
-    colorSet: "palette",
-    contentCategorySet: "label",
-    csv: "file-csv",
-    cSV: "file-csv",
-    cSVCollection: "file-csv",
-    dashboard: "dashboard",
-    desktopApplication: "desktop",
-    documentLink: "link",
-    excaliburImageryProject: "file",
-    explorerMap: "file",
-    exportPackage: "file",
-    featureCollection: "data",
-    featureCollectionTemplate: "file",
-    featureLayer: "data",
-    featureService: "collection",
-    fileGeodatabase: "data",
-    form: "survey",
-    geocodingService: "file",
-    geodataService: "file",
-    geometryService: "file",
-    geopackage: "file",
-    geoprocessingService: "file",
-    globeLayer: "layers",
-    globeService: "file",
-    hubInitiative: "initiative",
-    hubInitiativeTemplate: "initiative-template",
-    hubPage: "browser",
-    hubSiteApplication: "web",
-    image: "file-image",
-    imageService: "data",
-    insightsModel: "file",
-    insightsPage: "graph-moving-average",
-    insightsTheme: "palette",
-    insightsWorkbook: "graph-moving-average",
-    iWorkPages: "file-text",
-    iWorkKeynote: "presentation",
-    iWorkNumbers: "file-report",
-    kML: "data",
-    kMLCollection: "data",
-    layer: "layers",
-    layerPackage: "layers",
-    layerTemplate: "file",
-    locatorPackage: "file",
-    mapArea: "file",
-    mapDocument: "map-contents",
-    mapImageLayer: "collection",
-    mapPackage: "file",
-    mapService: "collection",
-    microsoftExcel: "file-report",
-    microsoftPowerpoint: "presentation",
-    microsoftWord: "file-text",
-    mission: "file",
-    mobileMapPackage: "map-contents",
-    nativeApplication: "mobile",
-    nativeApplicationInstaller: "file",
-    nativeApplicationTemplate: "file",
-    mobileApplication: "mobile",
-    networkAnalysisService: "file",
-    notebook: "code",
-    orientedImageryCatalog: "file",
-    orthoMappingProject: "file",
-    orthoMappingTemplate: "file",
-    pDF: "file-pdf",
-    quickCaptureProject: "mobile",
-    rasterFunctionTemplate: "file",
-    rasterLayer: "map",
-    realTimeAnalytic: "file",
-    relationalDatabaseConnection: "file",
-    reportTemplate: "file",
-    sceneLayer: "data",
-    sceneService: "urban-model",
-    serviceDefinition: "file",
-    shapefile: "data",
-    solution: "puzzle-piece",
-    sqliteGeodatabase: "file",
-    statisticalDataCollection: "file",
-    storymap: "tour",
-    storyMap: "tour",
-    storymapTheme: "palette",
-    symbolSet: "file",
-    table: "table",
-    urbanModel: "urban-model",
-    vectorTilePackage: "file-shape",
-    vectorTileService: "map",
-    visioDocument: "conditional-rules",
-    webExperience: "apps",
-    webMap: "map",
-    webMappingApplication: "apps",
-    webScene: "urban-model",
-    wfs: "map",
-    wFS: "map",
-    wMS: "map",
-    wMTS: "map",
-    workflowManagerService: "file",
-    workforceProject: "list-check",
-  } as any;
-  return iconMap[type] ?? "file";
-};
-
-/**
  * Compute the content type label
  * @param contentType
  * @param isProxied
@@ -960,80 +589,10 @@ const appendContentUrls = (
 const getContentRelativeUrl = (
   content: IHubContent,
   siteIdentifier?: string
-): string => {
-  const { family } = content;
-  // prefer site specific identifier if passed in
-  const identifier = siteIdentifier || content.identifier;
-  // solution types have their own logic
-  let contentUrl = getSolutionUrl(content);
-  if (!contentUrl) {
-    const pluralizedFamilies = [
-      "app",
-      "dataset",
-      "document",
-      "map",
-      "template",
-    ];
-    // default to the catchall content route
-    let path = "/content";
-    if (content.family === "feedback") {
-      // exception
-      path = "/feedback/surveys";
-    } else if (isPageContent(content)) {
-      // pages are in the document family,
-      // but instead of showing the page's metadata on /documents/about
-      // but we render the page on the pages route
-      path = "/pages";
-    } else if (pluralizedFamilies.indexOf(family) > -1) {
-      // the rule
-      path = `/${family}s`;
-    }
-    contentUrl = `${path}/${identifier}`;
-  }
-  return contentUrl;
-};
-
-const getSolutionUrl = (content: IHubContent): string => {
-  let hubUrl;
-  const { type, identifier } = content;
-  if (type === "Solution") {
-    // NOTE: as per the above spreadsheet,
-    // solution types are now in the Template family
-    // but we don't send them to the route for initiative templates
-    if (content.typeKeywords?.indexOf("Deployed") > 0) {
-      // deployed solutions go to the generic content route
-      hubUrl = `/content/${identifier}`;
-    }
-    // others go to the solution about route
-    hubUrl = `/templates/${identifier}/about`;
-  }
-  return hubUrl;
-};
-
-// page helpers
-// TODO: we check both "Hub Page" and "Site Page" because we don't know whether the site is a portal or not
-// In the future, the site object will have a site.isPortal() function that we can leverage
-// instead of hardcoding the types here.
-const isPageContent = (content: IHubContent) =>
-  includes(["Hub Page", "Site Page"], content.type);
-
-// proxied csv helpers
-
-/**
- * If an item is a proxied csv, returns the url for the proxying feature layer.
- * If the item is not a proxied csv, returns undefined.
- *
- * @param item
- * @param requestOptions Hub Request Options (including whether we're in portal)
- * @returns
- */
-export const getProxyUrl = (
-  item: IItem,
-  requestOptions: IHubRequestOptions
 ) => {
-  let result;
-  if (isProxiedCSV(item, requestOptions)) {
-    result = `${requestOptions.hubApiUrl}/datasets/${item.id}_0/FeatureServer/0`;
-  }
-  return result;
+  return getHubRelativeUrl(
+    content.type,
+    siteIdentifier || content.identifier,
+    content.typeKeywords
+  );
 };

@@ -8,7 +8,7 @@ import {
   IStructuredLicense,
 } from "../..";
 import { IHubItemEntity } from ".";
-import { IContentEnrichments } from "./IContentEnrichments";
+import { IHubContentEnrichments } from "./IHubContentEnrichments";
 
 // TODO: at next breaking change, IHubContent should no longer extend IItem
 /**
@@ -16,7 +16,7 @@ import { IContentEnrichments } from "./IContentEnrichments";
  */
 export interface IHubContent
   extends IHubItemEntity,
-    IContentEnrichments,
+    IHubContentEnrichments,
     IItem {
   // NOTE: for content we keep and expose a reference to the underlying item
   // b/c some top-level properties like type and categories have been
@@ -111,6 +111,9 @@ export interface IHubContent
 
   /** Information about the layer referenced by this content (geometryType, fields, etc) */
   layer?: Partial<ILayerDefinition>;
+
+  /** Whether or not the layer or table is actually a proxied CSV */
+  isProxied?: boolean;
 
   ///////////
   // TODO: remove these deprecated props at the next breaking version

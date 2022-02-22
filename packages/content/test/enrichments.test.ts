@@ -133,12 +133,16 @@ describe("enrichContent", () => {
     const getItemDataSpy = spyOn(arcgisRestPortal, "getItemData");
     const getItemGroupsSpy = spyOn(arcgisRestPortal, "getItemGroups");
     const getContentMetadataSpy = spyOn(metadataModule, "getContentMetadata");
-    const content = {
+    const item = {
       id: "3ae",
       // signature for a Hub created web map would trigger getUser
       type: "Web Map",
       typeKeywords: ["ArcGIS Hub"],
       // missing groupIds, data, and metadata would trigger other fetches
+    } as unknown as arcgisRestPortal.IItem;
+    const content = {
+      item,
+      ...item,
     } as IHubContent;
     const requestOptions: IEnrichContentOptions = {
       isPortal: false,
