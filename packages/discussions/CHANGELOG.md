@@ -1,3 +1,13 @@
+# @esri/hub-discussions [11.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@11.3.0...@esri/hub-discussions@11.4.0) (2022-02-22)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 9.19.0
+
 # @esri/hub-discussions [11.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@11.2.1...@esri/hub-discussions@11.3.0) (2022-02-18)
 
 
