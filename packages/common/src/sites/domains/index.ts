@@ -13,6 +13,7 @@ export * from "./is-domain-used-elsewhere";
 export * from "./is-valid-domain";
 export * from "./lookup-domain";
 export * from "./remove-domain";
+export * from "./remove-domains-by-site-id";
 export * from "./update-domain";
 export * from "./_ensure-safe-domain-length";
 export * from "./ensure-unique-domain-name";

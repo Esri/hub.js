@@ -2,13 +2,19 @@ import { _removeSiteDomains } from "../src";
 import * as commonModule from "@esri/hub-common";
 import { IHubRequestOptions } from "@esri/hub-common";
 
+let removeDomainsBySiteIdSpy: jasmine.Spy;
+
+beforeEach(() => {
+  removeDomainsBySiteIdSpy = spyOn(commonModule, "removeDomainsBySiteId");
+});
+
+afterEach(() => {
+  removeDomainsBySiteIdSpy.calls.reset();
+});
+
 describe("_removeSiteDomains", () => {
   it("removes the domains", async () => {
-    const removeSpy = spyOn(commonModule, "removeDomain").and.returnValue(
-      Promise.resolve({})
-    );
-
-    spyOn(commonModule, "getDomainsForSite").and.returnValue(
+    removeDomainsBySiteIdSpy.and.returnValue(
       Promise.resolve([{ id: "foo" }, { id: "baz" }, { id: "bar" }])
     );
 
@@ -18,25 +24,16 @@ describe("_removeSiteDomains", () => {
     const res = await _removeSiteDomains(siteId, ro);
 
     expect(res.length).toEqual(3, "removed correct number of domains");
-    expect(removeSpy.calls.count()).toBe(
-      3,
-      "removeDomain called correct number of times"
+    expect(removeDomainsBySiteIdSpy.calls.count()).toBe(
+      1,
+      "removeDomainsBySiteId called correct number of times"
     );
 
-    // check the ids
-    expect(removeSpy.calls.argsFor(0)[0]).toBe("foo");
-    expect(removeSpy.calls.argsFor(1)[0]).toBe("baz");
-    expect(removeSpy.calls.argsFor(2)[0]).toBe("bar");
+    expect(removeDomainsBySiteIdSpy.calls.argsFor(0)[0]).toBe("foobarbaz");
   });
 
   it("does nothing on portal", async function () {
-    const removeSpy = spyOn(commonModule, "removeDomain").and.returnValue(
-      Promise.resolve({})
-    );
-
-    spyOn(commonModule, "getDomainsForSite").and.returnValue(
-      Promise.resolve([{ id: "foo" }, { id: "baz" }, { id: "bar" }])
-    );
+    removeDomainsBySiteIdSpy.and.returnValue(Promise.resolve({}));
 
     const ro = { isPortal: true } as IHubRequestOptions;
     const siteId = "foobarbaz";
@@ -44,7 +41,6 @@ describe("_removeSiteDomains", () => {
     const res = await _removeSiteDomains(siteId, ro);
 
     expect(res).toEqual([]);
-    expect(removeSpy).not.toHaveBeenCalled();
-    expect(commonModule.getDomainsForSite).not.toHaveBeenCalled();
+    expect(removeDomainsBySiteIdSpy).not.toHaveBeenCalled();
   });
 });
