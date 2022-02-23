@@ -12,7 +12,6 @@ import {
 import { ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
 import { expandApi, getNextFunction } from ".";
 import {
-  cloneObject,
   getItemThumbnailUrl,
   IHubContent,
   ISearchResponse,
@@ -41,11 +40,25 @@ export async function _searchContent(
   if (api.type === "arcgis") {
     // serialize for portal
     const so = serializeContentFilterForPortal(expanded);
-    // if we have auth, pass it forward
-    // otherwise set the portal property
-    if (options.authentication) {
-      so.authentication = options.authentication;
-    } else {
+
+    // Array of properties we want to copy from IHubSearchOptions
+    // to the ISearchOptions
+    const props: Array<keyof IHubSearchOptions> = [
+      "authentication",
+      "num",
+      "sortField",
+      "sortOrder",
+      "site",
+    ];
+    // copy the props over
+    props.forEach((prop) => {
+      if (options.hasOwnProperty(prop)) {
+        so[prop as keyof ISearchOptions] = options[prop];
+      }
+    });
+
+    // If we don't have auth, ensure we have .portal
+    if (!so.authentication) {
       so.portal = `${api.url}/sharing/rest`;
     }
     // Aggregations
@@ -53,19 +66,7 @@ export async function _searchContent(
       so.countFields = options.aggregations.join(",");
       so.countSize = 200;
     }
-    // copy over various options
-    if (options.num) {
-      so.num = options.num;
-    }
-    if (options.sortField) {
-      so.sortField = options.sortField;
-    }
-    if (options.sortOrder) {
-      so.sortOrder = options.sortOrder;
-    }
-    if (options.site) {
-      so.site = cloneObject(options.site);
-    }
+
     searchPromise = searchPortal(so);
   } else {
     // Hub API Search

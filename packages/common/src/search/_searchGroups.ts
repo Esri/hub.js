@@ -7,7 +7,7 @@ import {
   serializeGroupFilterForPortal,
 } from "./group-utils";
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { cloneObject, getGroupThumbnailUrl, ISearchResponse } from "..";
+import { getGroupThumbnailUrl, ISearchResponse } from "..";
 export interface IGroupSearchResult {
   groups: IGroup[];
   facets: IFacet[];
@@ -33,27 +33,25 @@ export async function _searchGroups(
 
   if (api.type === "arcgis") {
     const so = serializeGroupFilterForPortal(expanded);
-    // if we have auth, pass it forward
-    // otherwise set the portal property
-    if (options.authentication) {
-      so.authentication = options.authentication;
-    } else {
+
+    // Array of properties we want to copy from IHubSearchOptions
+    // to the ISearchOptions
+    const props: Array<keyof IHubSearchOptions> = [
+      "authentication",
+      "num",
+      "sortField",
+      "sortOrder",
+      "site",
+    ];
+    // copy the props over
+    props.forEach((prop) => {
+      if (options.hasOwnProperty(prop)) {
+        so[prop as keyof ISearchOptions] = options[prop];
+      }
+    });
+    // If we don't have auth, ensure we have .portal
+    if (!so.authentication) {
       so.portal = `${api.url}/sharing/rest`;
-    }
-
-    if (options.num) {
-      so.num = options.num;
-    }
-
-    if (options.sortField) {
-      so.sortField = options.sortField;
-    }
-    if (options.sortOrder) {
-      so.sortOrder = options.sortOrder;
-    }
-
-    if (options.site) {
-      so.site = cloneObject(options.site);
     }
 
     return searchPortalGroups(so);

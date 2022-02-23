@@ -275,22 +275,22 @@ export async function searchProjects(
     so.countFields = options.aggregations.join(",");
     so.countSize = 200;
   }
-  // copy over various options
-  if (options.num) {
-    so.num = options.num;
-  }
-  if (options.sortField) {
-    so.sortField = options.sortField;
-  }
-  if (options.sortOrder) {
-    so.sortOrder = options.sortOrder;
-  }
-  if (options.site) {
-    so.site = cloneObject(options.site);
-  }
-  if (options.authentication) {
-    so.authentication = options.authentication;
-  }
+  // Array of properties we want to copy from IHubSearchOptions
+  // to the ISearchOptions
+  const props: Array<keyof IHubSearchOptions> = [
+    "authentication",
+    "num",
+    "sortField",
+    "sortOrder",
+    "site",
+  ];
+  // copy the props over
+  props.forEach((prop) => {
+    if (options.hasOwnProperty(prop)) {
+      so[prop as keyof ISearchOptions] = options[prop];
+    }
+  });
+
   return searchPortalProjects(so);
 }
 
