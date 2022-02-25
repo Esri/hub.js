@@ -279,7 +279,8 @@ interface IAGOAdditionalResource {
  */
 export const getAdditionalResources = (
   item: IItem,
-  metadata?: any
+  metadata?: any,
+  requestOptions?: IHubRequestOptions
 ): IHubAdditionalResource[] => {
   let rawResources: IAGOAdditionalResource | IAGOAdditionalResource[] =
     getProp(metadata, "metadata.distInfo.distTranOps.onLineSrc") || null;
@@ -294,7 +295,7 @@ export const getAdditionalResources = (
   return rawResources.map(
     (resource: IAGOAdditionalResource): IHubAdditionalResource => ({
       name: resource.orName,
-      url: resource.linkage,
+      url: getAdditionalResourceUrl(resource, item, requestOptions),
       isDataSource: isDataSourceOfItem(resource, item),
     })
   );
@@ -315,4 +316,33 @@ export const isDataSourceOfItem = (
 ) => {
   const serviceUrl = item.url && parseServiceUrl(item.url);
   return serviceUrl && resource.linkage.includes(serviceUrl);
+};
+
+/**
+ * Returns the url for an additional resource.
+ *
+ * Automatically appends auth token if token is available
+ * and resource points to the backing service of an item.
+ *
+ * @param resource raw additional resource of an item
+ * @param item
+ * @param requestOptions IHubRequestOptions, including authentication
+ * @returns
+ */
+export const getAdditionalResourceUrl = (
+  resource: IAGOAdditionalResource,
+  item: IItem,
+  requestOptions?: IHubRequestOptions
+) => {
+  let result = resource.linkage;
+  const token = getProp(requestOptions, "authentication.token");
+  if (token && isDataSourceOfItem(resource, item)) {
+    const resUrl = new URL(resource.linkage);
+    const params = new URLSearchParams(resUrl.search);
+    params.set("token", token);
+    resUrl.search = params.toString();
+    result = resUrl.toString();
+  }
+
+  return result;
 };
