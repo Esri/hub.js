@@ -1,3 +1,20 @@
+# @esri/hub-sites [9.20.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@9.19.0...@esri/hub-sites@9.20.0) (2022-02-25)
+
+
+### Features
+
+* **hub-common:** add removeDomainsBySiteId() ([ddb5999](https://github.com/Esri/hub.js/commit/ddb59992f071cd72e90b5bdc84b9c1809e415293)), closes [#3230](https://github.com/Esri/hub.js/issues/3230)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 9.20.0
+* **@esri/hub-initiatives:** upgraded to 9.20.0
+* **@esri/hub-teams:** upgraded to 9.20.0
+
 # @esri/hub-sites [9.19.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@9.18.0...@esri/hub-sites@9.19.0) (2022-02-22)
 
 
