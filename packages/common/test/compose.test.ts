@@ -236,83 +236,83 @@ describe("composeContent", () => {
         ]);
       });
     });
-  });
-  describe("publishedDate", () => {
-    it("should return the correct value when pubDate metadata present", () => {
-      const pubDate = "1970-02-07";
-      const metadata = {
-        metadata: {
-          Esri: {
-            ArcGISProfile: "ISO19139",
-          },
-          dataIdInfo: {
-            idCitation: {
-              date: {
-                pubDate,
+    describe("publishedDate", () => {
+      it("should return the correct value when pubDate metadata present", () => {
+        const pubDate = "1970-02-07";
+        const metadata = {
+          metadata: {
+            Esri: {
+              ArcGISProfile: "ISO19139",
+            },
+            dataIdInfo: {
+              idCitation: {
+                date: {
+                  pubDate,
+                },
               },
             },
           },
-        },
-      };
-      const result = composeContent(item, { metadata });
-      const dateParts = pubDate.split("-").map((part) => +part);
-      expect(result.publishedDate).toEqual(
-        new Date(dateParts[0], dateParts[1] - 1, dateParts[2])
-      );
-      expect(result.publishedDatePrecision).toEqual("day");
-      expect(result.publishedDateSource).toEqual(
-        "metadata.metadata.dataIdInfo.idCitation.date.pubDate"
-      );
-    });
-    it("should return the correct value when createDate metadata present", () => {
-      const createDate = "1970-02-07";
-      const metadata = {
-        metadata: {
-          Esri: {
-            ArcGISProfile: "ISO19139",
-          },
-          dataIdInfo: {
-            idCitation: {
-              date: {
-                createDate,
+        };
+        const result = composeContent(item, { metadata });
+        const dateParts = pubDate.split("-").map((part) => +part);
+        expect(result.publishedDate).toEqual(
+          new Date(dateParts[0], dateParts[1] - 1, dateParts[2])
+        );
+        expect(result.publishedDatePrecision).toEqual("day");
+        expect(result.publishedDateSource).toEqual(
+          "metadata.metadata.dataIdInfo.idCitation.date.pubDate"
+        );
+      });
+      it("should return the correct value when createDate metadata present", () => {
+        const createDate = "1970-02-07";
+        const metadata = {
+          metadata: {
+            Esri: {
+              ArcGISProfile: "ISO19139",
+            },
+            dataIdInfo: {
+              idCitation: {
+                date: {
+                  createDate,
+                },
               },
             },
           },
-        },
-      };
-      const result = composeContent(item, { metadata });
-      const dateParts = createDate.split("-").map((part) => +part);
-      expect(result.publishedDate).toEqual(
-        new Date(dateParts[0], dateParts[1] - 1, dateParts[2])
-      );
-      expect(result.publishedDatePrecision).toEqual("day");
-      expect(result.publishedDateSource).toEqual(
-        "metadata.metadata.dataIdInfo.idCitation.date.createDate"
-      );
-    });
-    it("should return the correct value when createDate & pubDate metadata present", () => {
-      const pubDate = "02/07/1970";
-      const metadata = {
-        metadata: {
-          Esri: {
-            ArcGISProfile: "ISO19139",
-          },
-          dataIdInfo: {
-            idCitation: {
-              date: {
-                createDate: "1970-11-17T00:00:00.000Z",
-                pubDate,
+        };
+        const result = composeContent(item, { metadata });
+        const dateParts = createDate.split("-").map((part) => +part);
+        expect(result.publishedDate).toEqual(
+          new Date(dateParts[0], dateParts[1] - 1, dateParts[2])
+        );
+        expect(result.publishedDatePrecision).toEqual("day");
+        expect(result.publishedDateSource).toEqual(
+          "metadata.metadata.dataIdInfo.idCitation.date.createDate"
+        );
+      });
+      it("should return the correct value when createDate & pubDate metadata present", () => {
+        const pubDate = "02/07/1970";
+        const metadata = {
+          metadata: {
+            Esri: {
+              ArcGISProfile: "ISO19139",
+            },
+            dataIdInfo: {
+              idCitation: {
+                date: {
+                  createDate: "1970-11-17T00:00:00.000Z",
+                  pubDate,
+                },
               },
             },
           },
-        },
-      };
-      const result = composeContent(item, { metadata });
-      expect(result.publishedDate).toEqual(new Date(1970, 1, 7));
-      expect(result.publishedDatePrecision).toEqual("day");
-      expect(result.publishedDateSource).toEqual(
-        "metadata.metadata.dataIdInfo.idCitation.date.pubDate"
-      );
+        };
+        const result = composeContent(item, { metadata });
+        expect(result.publishedDate).toEqual(new Date(1970, 1, 7));
+        expect(result.publishedDatePrecision).toEqual("day");
+        expect(result.publishedDateSource).toEqual(
+          "metadata.metadata.dataIdInfo.idCitation.date.pubDate"
+        );
+      });
     });
   });
   describe("with layers", () => {
