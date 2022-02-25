@@ -196,6 +196,46 @@ describe("composeContent", () => {
         );
       });
     });
+    describe("additionalResources", () => {
+      it("should return null if metadata doesn't contain additional resources", () => {
+        const metadata = {};
+        const result = composeContent(item, { metadata });
+        expect(result.additionalResources).toBeNull();
+      });
+      it("should return correct structure when metadata contain additional resources", () => {
+        const metadata = {
+          metadata: {
+            distInfo: {
+              distTranOps: {
+                onLineSrc: [
+                  {
+                    linkage: "unnamed-resource-url",
+                  },
+                  {
+                    orName: "Named Resource",
+                    linkage: "named-resource-url",
+                  },
+                ],
+              },
+            },
+          },
+        };
+        const result = composeContent(item, { metadata });
+        expect(result.additionalResources.length).toEqual(2);
+        expect(result.additionalResources).toEqual([
+          {
+            name: undefined,
+            url: "unnamed-resource-url",
+            isDataSource: false,
+          },
+          {
+            name: "Named Resource",
+            url: "named-resource-url",
+            isDataSource: false,
+          },
+        ]);
+      });
+    });
   });
   describe("publishedDate", () => {
     it("should return the correct value when pubDate metadata present", () => {

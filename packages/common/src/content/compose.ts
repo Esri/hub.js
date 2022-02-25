@@ -27,6 +27,7 @@ import {
   isProxiedCSV,
   isPortal,
   parseISODateString,
+  getAdditionalResources,
 } from "./_internal";
 import { getFamily } from "./get-family";
 import { getHubApiUrl } from "../api";
@@ -750,6 +751,9 @@ export const composeContent = (
       console.warn("DEPRECATED: use family instead");
       /* tslint:enable no-console */
       return getFamily(type);
+    },
+    get additionalResources() {
+      return getAdditionalResources(item, metadata);
     },
   } as IHubContent;
 };

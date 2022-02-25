@@ -12,8 +12,6 @@ import { getServiceTypeFromUrl } from "../urls";
 import { getHubRelativeUrl, isPageType } from "./_internal";
 import { camelize } from "../util";
 import {
-  getLayerIdFromUrl,
-  isFeatureService,
   normalizeItemType,
   getContentTypeIcon,
   composeContent,
