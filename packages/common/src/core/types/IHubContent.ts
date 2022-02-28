@@ -1,14 +1,10 @@
 import { IItem, IGroup } from "@esri/arcgis-rest-portal";
 import { ILayerDefinition } from "@esri/arcgis-rest-feature-layer";
-import {
-  Visibility,
-  AccessControl,
-  HubFamily,
-  IActionLink,
-  IStructuredLicense,
-} from "../..";
+import { AccessControl, HubFamily, IActionLink, Visibility } from "../../types";
+import { IStructuredLicense } from "../../items/get-structured-license";
 import { IHubItemEntity } from ".";
 import { IHubContentEnrichments } from "./IHubContentEnrichments";
+import { IHubAdditionalResource } from "./IHubAdditionalResource";
 
 // TODO: at next breaking change, IHubContent should no longer extend IItem
 /**
@@ -114,6 +110,9 @@ export interface IHubContent
 
   /** Whether or not the layer or table is actually a proxied CSV */
   isProxied?: boolean;
+
+  /** links to additional resources specified in the formal item metadata */
+  additionalResources?: IHubAdditionalResource[];
 
   ///////////
   // TODO: remove these deprecated props at the next breaking version

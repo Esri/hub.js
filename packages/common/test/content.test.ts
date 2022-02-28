@@ -33,6 +33,9 @@ import {
   parseISODateString,
   getServerSpatialReference,
   getItemSpatialReference,
+  getAdditionalResources,
+  isDataSourceOfItem,
+  getAdditionalResourceUrl,
 } from "../src/content/_internal";
 import { IModel } from "../src/types";
 import { getProxyUrl, IHubContent, IHubRequestOptions } from "../src";
@@ -932,5 +935,98 @@ describe("internal", () => {
       const result = getItemSpatialReference(item);
       expect(result).toEqual({ wkt: spatialReference });
     });
+  });
+});
+
+// Gets branches not covered in compose.test.ts
+describe("getAdditionalResources", () => {
+  const item: any = {
+    type: "Feature Service",
+    url: "https://services9.arcgis.com/BH6j7VrWdIXhhNYw/arcgis/rest/services/Befolkning_efter_k%C3%B6n/FeatureServer",
+  };
+
+  it("returns null when no metadata is passed in", () => {
+    const result = getAdditionalResources(item);
+    expect(result).toBeNull();
+  });
+
+  it("handles when only one additional resource is in the metadata", () => {
+    // For some reason, AGO changes the resources from an array
+    // to an object when only one resource is available
+    const metadata = {
+      metadata: {
+        distInfo: {
+          distTranOps: {
+            onLineSrc: {
+              orName: "Resource Name",
+              linkage: "resource-url",
+            },
+          },
+        },
+      },
+    };
+    const result = getAdditionalResources(item, metadata);
+    expect(result.length).toEqual(1);
+    expect(result[0]).toEqual({
+      name: "Resource Name",
+      url: "resource-url",
+      isDataSource: false,
+    });
+  });
+});
+
+// Gets branches not covered in compose.test.ts
+// Partially covers isDataSourceOfItem
+describe("getAdditionalResourceUrl", () => {
+  const serviceUrl =
+    "https://services9.arcgis.com/BH6j7VrWdIXhhNYw/arcgis/rest/services/Befolkning_efter_k%C3%B6n/FeatureServer";
+  const item = {
+    type: "Feature Service",
+    url: serviceUrl,
+  } as unknown as IItem;
+  it("appends token onto preexisting query string when resource points to the item's data source", () => {
+    const resourceUrl = `${serviceUrl}/0?my-flag=true`;
+    const resource = { linkage: resourceUrl };
+    const requestOptions = {
+      authentication: {
+        token: "my-token",
+      },
+    } as unknown as IHubRequestOptions;
+
+    const result = getAdditionalResourceUrl(resource, item, requestOptions);
+    expect(result).toEqual(`${resourceUrl}&token=my-token`);
+  });
+  it("appends token onto new query string when resource points to the item's data source", () => {
+    const resourceUrl = `${serviceUrl}/0`;
+    const resource = { linkage: resourceUrl };
+    const requestOptions = {
+      authentication: {
+        token: "my-token",
+      },
+    } as unknown as IHubRequestOptions;
+
+    const result = getAdditionalResourceUrl(resource, item, requestOptions);
+    expect(result).toEqual(`${resourceUrl}?token=my-token`);
+  });
+  it("does not append token when resource isn't the item's data source", () => {
+    const resourceUrl = "https://google.com";
+    const resource = { linkage: resourceUrl };
+    const requestOptions = {
+      authentication: {
+        token: "my-token",
+      },
+    } as unknown as IHubRequestOptions;
+
+    const result = getAdditionalResourceUrl(resource, item, requestOptions);
+    expect(result).toEqual(resourceUrl);
+  });
+});
+
+// Gets branches not covered in compose.test.ts
+describe("isDataSourceOfItem", () => {
+  it("returns false when the item has no url", () => {
+    const item = { type: "csv" } as unknown as IItem;
+    const resource = { linkage: "my-link" };
+    expect(isDataSourceOfItem(resource, item)).toBeFalsy();
   });
 });

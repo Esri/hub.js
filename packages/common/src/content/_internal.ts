@@ -11,12 +11,12 @@
 import {
   ILayerDefinition,
   IFeatureServiceDefinition,
+  parseServiceUrl,
 } from "@esri/arcgis-rest-feature-layer";
 import { IItem } from "@esri/arcgis-rest-portal";
 import { ISpatialReference } from "@esri/arcgis-rest-types";
 import { IHubContent } from "../core";
 import {
-  BBox,
   IHubGeography,
   GeographyProvenance,
   IHubRequestOptions,
@@ -24,6 +24,7 @@ import {
 import { bBoxToPolygon, isBBox } from "../extent";
 import { getFamily } from "./get-family";
 import { getProp } from "../objects";
+import { IHubAdditionalResource } from "../core/types/IHubAdditionalResource";
 
 /**
  * Create a new content with updated boundary properties
@@ -255,4 +256,93 @@ export const getItemSpatialReference = (item: IItem): ISpatialReference => {
       { wkt: spatialReferenceString }
     : //
       { wkid };
+};
+
+/**
+ * Data model for additional resources that are extracted
+ * directly from formal item metadata (with no transformation)
+ */
+interface IAGOAdditionalResource {
+  orName?: string; // Name of the resource
+  linkage: string; // URL to the resource
+}
+
+/**
+ * Extracts additional resources from the provided metadata
+ * and transforms them into a hub-friendly format.
+ *
+ * Returns null if no resources are available
+ *
+ * @param item
+ * @param metadata formal metadata
+ * @returns
+ */
+export const getAdditionalResources = (
+  item: IItem,
+  metadata?: any,
+  requestOptions?: IHubRequestOptions
+): IHubAdditionalResource[] => {
+  let rawResources: IAGOAdditionalResource | IAGOAdditionalResource[] =
+    getProp(metadata, "metadata.distInfo.distTranOps.onLineSrc") || null;
+
+  if (rawResources === null) {
+    return null;
+  }
+
+  // Coerce to array since rawResources will be an object if only 1 resource is available
+  rawResources = Array.isArray(rawResources) ? rawResources : [rawResources];
+
+  return rawResources.map(
+    (resource: IAGOAdditionalResource): IHubAdditionalResource => ({
+      name: resource.orName,
+      url: getAdditionalResourceUrl(resource, item, requestOptions),
+      isDataSource: isDataSourceOfItem(resource, item),
+    })
+  );
+};
+
+/**
+ * Determines whether a raw additional resource (i.e. extracted out of formal
+ * metadata with no transformation) references the underlying service that backs
+ * the item.
+ *
+ * @param resource raw additional resource of an item
+ * @param item
+ * @returns
+ */
+export const isDataSourceOfItem = (
+  resource: IAGOAdditionalResource,
+  item: IItem
+) => {
+  const serviceUrl = item.url && parseServiceUrl(item.url);
+  return serviceUrl && resource.linkage.includes(serviceUrl);
+};
+
+/**
+ * Returns the url for an additional resource.
+ *
+ * Automatically appends auth token if token is available
+ * and resource points to the backing service of an item.
+ *
+ * @param resource raw additional resource of an item
+ * @param item
+ * @param requestOptions IHubRequestOptions, including authentication
+ * @returns
+ */
+export const getAdditionalResourceUrl = (
+  resource: IAGOAdditionalResource,
+  item: IItem,
+  requestOptions?: IHubRequestOptions
+) => {
+  let result = resource.linkage;
+  const token = getProp(requestOptions, "authentication.token");
+  if (token && isDataSourceOfItem(resource, item)) {
+    const resUrl = new URL(resource.linkage);
+    const params = new URLSearchParams(resUrl.search);
+    params.set("token", token);
+    resUrl.search = params.toString();
+    result = resUrl.toString();
+  }
+
+  return result;
 };
