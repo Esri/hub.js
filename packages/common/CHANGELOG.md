@@ -1,3 +1,10 @@
+## @esri/hub-common [9.21.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.21.0...@esri/hub-common@9.21.1) (2022-02-28)
+
+
+### Bug Fixes
+
+* final item type for hub projects ([#736](https://github.com/Esri/hub.js/issues/736)) ([0de27bb](https://github.com/Esri/hub.js/commit/0de27bbaea35079ae7107888a17c82ee87a32a82))
+
 # @esri/hub-common [9.21.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.20.0...@esri/hub-common@9.21.0) (2022-02-28)
 
 
