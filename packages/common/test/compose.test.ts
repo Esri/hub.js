@@ -62,6 +62,19 @@ describe("composeContent", () => {
       );
     });
   });
+  describe("with ownerUser", () => {
+    it("should have orgId", () => {
+      item = cloneObject(documentItem);
+      delete item.orgId;
+      const orgId = "foo";
+      const ownerUser = {
+        username: item.owner,
+        orgId,
+      };
+      const content = composeContent(item, { ownerUser });
+      expect(content.orgId).toBe(orgId);
+    });
+  });
   describe("with metadata", () => {
     beforeEach(() => {
       item = cloneObject(featureServiceItem);

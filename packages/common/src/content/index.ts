@@ -1,11 +1,10 @@
 /* Copyright (c) 2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-import { ResourceObject } from "jsonapi-typescript";
 import { IItem } from "@esri/arcgis-rest-portal";
 import { HubType, IModel } from "../types";
 import { getCollection } from "../collections";
 import { categories as allCategories } from "../categories";
-import { includes, isGuid } from "../utils";
+import { includes } from "../utils";
 import { IHubContent } from "../core";
 import { getProp } from "../objects";
 import { getServiceTypeFromUrl } from "../urls";
@@ -17,23 +16,15 @@ import {
   composeContent,
 } from "./compose";
 import { getFamily } from "./get-family";
+import { parseDatasetId, removeContextFromSlug } from "./slugs";
+import { DatasetResource } from "./types";
 
 // re-export functions used in this file
 export * from "./compose";
 export * from "./get-family";
-
-/**
- * JSONAPI dataset resource returned by the Hub API
- */
-export type DatasetResource = ResourceObject<
-  "dataset",
-  {
-    // TODO: actually define the attributes?
-    // what is the syntax? adding the following causes errors
-    // owner: string;
-    [k: string]: any;
-  }
->;
+export * from "./slugs";
+export * from "./fetch";
+export * from "./types";
 
 // TODO: remove this at next breaking version
 /**
@@ -156,73 +147,6 @@ export function getContentIdentifier(
   }
 
   return content.hubId || content.id;
-}
-
-//////////////////////
-// Slug Helpers
-//////////////////////
-
-/**
- * Parse item ID and layer ID (if any) from dataset record ID
- *
- * @param datasetId Hub API dataset record id ({itemId}_{layerId} or {itemId})
- * @returns A hash with the `itemId` and `layerId` (if any)
- */
-export function parseDatasetId(datasetId: string): {
-  itemId: string;
-  layerId?: string;
-} {
-  const [itemId, layerId] = datasetId ? datasetId.split("_") : [];
-  return { itemId, layerId };
-}
-
-/**
- * Determine if an identifier is a Hub API slug
- *
- * @param identifier Hub API slug ({orgKey}::{title-as-slug} or {title-as-slug})
- * or record id ((itemId}_{layerId} or {itemId})
- * @returns true if the identifier is valid _and_ is **not** a record id
- */
-export function isSlug(identifier: string): boolean {
-  const { itemId } = parseDatasetId(identifier);
-  if (!itemId || isGuid(itemId)) {
-    // it's either invalid, or an item id, or a dataset id
-    return false;
-  }
-  // otherwise assume it's a slug
-  return true;
-}
-
-/**
- * Add a context (prefix) to slug if it doesn't already have one
- *
- * @param slug Hub API slug (with or without context)
- * @param context usually a portal's orgKey
- * @returns slug with context ({context}::{slug})
- */
-export function addContextToSlug(slug: string, context: string): string {
-  // the slug has an org key already e.g. dc::crime-incidents
-  if (/.+::.+/.test(slug)) {
-    return slug;
-    // the slug belongs to the org that owns the site e.g. crime-incidents
-  } else {
-    return `${context}::${slug}`;
-  }
-}
-
-/**
- * Remove context (prefix) from a slug
- *
- * @param slug Hub API slug with context
- * @param context usually a portal's orgKey
- * @returns slug without context
- */
-export function removeContextFromSlug(slug: string, context: string): string {
-  if (context && slug.match(`${context}::`)) {
-    return slug.split(`${context}::`)[1];
-  } else {
-    return slug;
-  }
 }
 
 /**

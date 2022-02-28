@@ -76,6 +76,13 @@ export const isPortal = (requestOptions?: IHubRequestOptions) => {
   return requestOptions && requestOptions.isPortal;
 };
 
+export const canUseHubApiForItem = (
+  item: IItem,
+  requestOptions?: IHubRequestOptions
+) => {
+  return !!item && item.access === "public" && !isPortal(requestOptions);
+};
+
 /**
  * Returns whether or not an item is a proxied csv
  *

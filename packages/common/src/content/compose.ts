@@ -17,15 +17,15 @@ import { camelize, isNil } from "../util";
 import { includes } from "../utils";
 import {
   DatePrecision,
+  IMetadataPaths,
+  canUseHubApiForItem,
   getContentBoundary,
   getHubRelativeUrl,
   getItemSpatialReference,
   getServerSpatialReference,
   getValueFromMetadata,
-  IMetadataPaths,
   getMetadataPath,
   isProxiedCSV,
-  isPortal,
   parseISODateString,
   getAdditionalResources,
 } from "./_internal";
@@ -527,8 +527,7 @@ export const composeContent = (
       : // for feature servers with a single layer always show the layer
         isFeatureService(item.type) && getOnlyQueryLayer(layers));
   // NOTE: we only set hubId for public items in online
-  const _canUseHubApi = !isPortal(requestOptions) && item.access === "public";
-  const hubId = _canUseHubApi
+  const hubId = canUseHubApiForItem(item, requestOptions)
     ? layer
       ? `${item.id}_${layer.id}`
       : getItemHubId(item)
@@ -727,7 +726,7 @@ export const composeContent = (
     },
     get orgId() {
       // NOTE: it's undocumented, but the portal API will return orgId for items... sometimes
-      return org ? org.id : item.orgId;
+      return org ? org.id : item.orgId || ownerUser?.orgId;
     },
     // deprecated properties
     // TODO: should we add these in legacy wrappers
