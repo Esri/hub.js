@@ -42,7 +42,6 @@ describe("fetchContent", () => {
       portal,
       isPortal: false,
       hubApiUrl,
-      // authentication: mockUserSession,
     };
   });
   describe("by slug", () => {

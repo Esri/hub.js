@@ -660,6 +660,11 @@ describe("dataset to content", () => {
     // NOTE: the document JSON does not have org attributes
     expect(content.org).toBeUndefined();
   });
+  it("has extent returned from hub API", () => {
+    const dataset = cloneObject(featureLayerJson.data) as DatasetResource;
+    const content = datasetToContent(dataset);
+    expect(content.extent).toEqual(dataset.attributes.extent.coordinates);
+  });
   // NOTE: other use cases are covered by getContent() tests
 });
 describe("setContentType", () => {

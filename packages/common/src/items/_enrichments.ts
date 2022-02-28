@@ -241,8 +241,3 @@ export const fetchItemEnrichments = (
     requestOptions,
   }).then((output) => output.data);
 };
-
-// TODO:
-// const fetchItemAndEnrichments = (id: string, requestOptions?: IHubRequestOptions) => {
-//   IItemAndEnrichments
-// }

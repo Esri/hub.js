@@ -633,6 +633,8 @@ export const composeContent = (
         // TODO: groups?
       };
     },
+    // TODO: do we want to add dataset extent logic as a getter here?
+    // would require us to do client-side projection of server/layer extent
     get boundary() {
       // TODO: need to be able to handle automatic w/ additional enrichment
       // that could for example fetch the concave hull from the Hub API or resources
