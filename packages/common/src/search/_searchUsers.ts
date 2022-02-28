@@ -1,6 +1,5 @@
 import { IUser, UserSession } from "@esri/arcgis-rest-auth";
 import {
-  cloneObject,
   expandApi,
   expandUserFilter,
   Filter,
@@ -60,25 +59,22 @@ export async function _searchUsers(
     const searchOptions = serializeUserFilterForPortal(
       expanded
     ) as IUserSearchOptions;
-    // carry the auth forward
-    searchOptions.authentication = options.authentication;
 
-    // TODO: Dry this up - typscript makes this... inconvenient
-    if (options.num) {
-      searchOptions.num = options.num;
-    }
-
-    if (options.sortField) {
-      searchOptions.sortField = options.sortField;
-    }
-
-    if (options.sortOrder) {
-      searchOptions.sortOrder = options.sortOrder;
-    }
-
-    if (options.site) {
-      searchOptions.site = cloneObject(options.site);
-    }
+    // Array of properties we want to copy from IHubSearchOptions
+    // to the ISearchOptions
+    const props: Array<keyof IHubSearchOptions> = [
+      "authentication",
+      "num",
+      "sortField",
+      "sortOrder",
+      "site",
+    ];
+    // copy the props over
+    props.forEach((prop) => {
+      if (options.hasOwnProperty(prop)) {
+        searchOptions[prop as keyof IUserSearchOptions] = options[prop];
+      }
+    });
 
     return searchPortalUsers(searchOptions);
   } else {
