@@ -1,3 +1,10 @@
+## @esri/hub-common [9.21.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.21.1...@esri/hub-common@9.21.2) (2022-02-28)
+
+
+### Bug Fixes
+
+* **hub-common:** fix missing extent in datasetToContent() ([05e4769](https://github.com/Esri/hub.js/commit/05e4769132ea4d637d33e724ead6de5c7a9d9546))
+
 ## @esri/hub-common [9.21.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.21.0...@esri/hub-common@9.21.1) (2022-02-28)
 
 
