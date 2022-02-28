@@ -34,7 +34,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IPropertyMap, PropertyMapper } from "../core/helpers/PropertyMapper";
 import { IHubProject } from "../core/types";
 
-export const HUB_PROJECT_ITEM_TYPE = "Web Mapping Application";
+export const HUB_PROJECT_ITEM_TYPE = "Hub Project";
 
 /**
  * Default values of a IHubProject
@@ -42,7 +42,7 @@ export const HUB_PROJECT_ITEM_TYPE = "Web Mapping Application";
 const DEFAULT_PROJECT: Partial<IHubProject> = {
   name: "No title provided",
   tags: [],
-  typeKeywords: ["IHubProject", "HubProject"],
+  typeKeywords: ["Hub Project"],
   status: "inactive",
 };
 

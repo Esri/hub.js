@@ -137,6 +137,7 @@ describe("HubProjects:", () => {
       expect(createSpy.calls.count()).toBe(1);
       const modelToCreate = createSpy.calls.argsFor(0)[0];
       expect(modelToCreate.item.title).toBe("Hello World");
+      expect(modelToCreate.item.type).toBe("Hub Project");
       expect(modelToCreate.item.properties.slug).toBe("dcdev-hello-world");
       expect(modelToCreate.item.properties.orgUrlKey).toBe("dcdev");
     });
