@@ -1,3 +1,16 @@
+# @esri/hub-common [9.21.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.20.0...@esri/hub-common@9.21.0) (2022-02-28)
+
+
+### Bug Fixes
+
+* **hub-common:** fix incorrect parentheses/brackets in the test for composeContent ([c889c5c](https://github.com/Esri/hub.js/commit/c889c5c706d5e189b9775d4f4b2d542e3ae020dc))
+
+
+### Features
+
+* **hub-common:** add additional resources to IHubContent composition logic ([5b49541](https://github.com/Esri/hub.js/commit/5b49541fa56b2c273128a4857985b9f1cb9f0709))
+* **hub-common:** conditionally append auth tokens onto addition resource urls ([faba8a0](https://github.com/Esri/hub.js/commit/faba8a03db2457abca320562ebe885c9b7ef3739))
+
 # @esri/hub-common [9.20.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.19.0...@esri/hub-common@9.20.0) (2022-02-25)
 
 
