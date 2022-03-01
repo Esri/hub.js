@@ -20,7 +20,12 @@ const shouldFetchData = (item: IItem) => {
   return includes(dataFamilies, family) || includes(dataTypes, type);
 };
 
-// get the default list of enrichments to fetch for content
+/**
+ * get the default list of enrichments to fetch for content
+ * @param item
+ * @returns the default list of enrichments to fetch for content
+ * @private
+ */
 export const getContentEnrichments = (item: IItem) => {
   // we fetch these enrichments for all content types
   const enrichments: ItemOrServerEnrichment[] = [
@@ -39,6 +44,9 @@ export const getContentEnrichments = (item: IItem) => {
     : enrichments;
 };
 
+/**
+ * The set of enrichments that we fetch from the Hub API
+ */
 export interface IDatasetEnrichments {
   itemId: string;
   layerId?: number;
@@ -83,6 +91,13 @@ const getDatasetEnrichments = (dataset: DatasetResource) => {
   return { itemId, layerId, slug, boundary, statistics } as IDatasetEnrichments;
 };
 
+/**
+ * fetch enrichment from the Hub API by slug
+ * @param slug
+ * @param requestOptions
+ * @returns enrichments from the Hub API (slug, boundary, statistic, etc)
+ * @private
+ */
 export const fetchHubEnrichmentsBySlug = async (
   slug: string,
   requestOptions: IHubRequestOptions
@@ -94,6 +109,13 @@ export const fetchHubEnrichmentsBySlug = async (
   return getDatasetEnrichments(response.data[0]);
 };
 
+/**
+ * fetch enrichment from the Hub API by id
+ * @param slug
+ * @param requestOptions
+ * @returns enrichments from the Hub API (slug, boundary, statistic, etc)
+ * @private
+ */
 export const fetchHubEnrichmentsById = async (
   hubId: string,
   requestOptions: IHubRequestOptions

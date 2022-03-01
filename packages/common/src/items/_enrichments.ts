@@ -16,11 +16,20 @@ import OperationStack from "../OperationStack";
 import { getItemMetadata } from "@esri/arcgis-rest-portal";
 import { parse } from "fast-xml-parser";
 
+/**
+ * An object containing the item and fetched enrichments
+ */
 export interface IItemAndEnrichments
   extends IItemEnrichments,
     IServerEnrichments {
   item: IItem;
 }
+
+/**
+ * The name of an enrichment that comes either
+ * from the portal API for the item
+ * or from the server that the item points to
+ */
 export type ItemOrServerEnrichment =
   | keyof IItemEnrichments
   | keyof IServerEnrichments;
@@ -221,6 +230,14 @@ const enrichmentOperations: IEnrichmentOperations = {
   layers: enrichLayers,
 };
 
+/**
+ * Fetch enrichments for an item
+ * @param item
+ * @param enrichments the list of enrichments to fetch
+ * @param requestOptions
+ * @returns an object with the item and enrichments
+ * @private
+ */
 export const fetchItemEnrichments = (
   item: IItem,
   enrichments: ItemOrServerEnrichment[],
