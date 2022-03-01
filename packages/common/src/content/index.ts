@@ -227,7 +227,7 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
   };
 
   // compose a content out of the above
-  const content = composeContent(item, {
+  return composeContent(item, {
     layerId,
     slug,
     errors,
@@ -239,24 +239,10 @@ export function datasetToContent(dataset: DatasetResource): IHubContent {
     layers,
     recordCount,
     boundary,
+    extent,
+    searchDescription,
     statistics,
   });
-
-  // TODO: need to add searchDescription logic to composeContent()
-  // or fetch it as a Hub enrichment like boundary
-  if (searchDescription) {
-    // overwrite default summary (from snippet) w/ search description
-    content.summary = searchDescription;
-  }
-  // TODO: need to add extent logic to composeContent()
-  // or fetch it as a Hub enrichment like boundary
-  if (!isBBox(item.extent) && extent && isBBox(extent.coordinates)) {
-    // we fall back to the extent derived by the API
-    // which prefers layer or service extents and ultimately
-    // falls back to the org's extent
-    content.extent = extent.coordinates;
-  }
-  return content;
 }
 
 /**

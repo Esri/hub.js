@@ -5,8 +5,10 @@ import {
   parseServiceUrl,
 } from "@esri/arcgis-rest-feature-layer";
 import { IHubRequestOptions } from "../types";
+import { getHubApiUrl } from "../api";
 import { isDownloadable } from "../categories";
 import { IHubContentEnrichments, IHubContent } from "../core";
+import { isBBox } from "../extent";
 import { getStructuredLicense } from "../items/get-structured-license";
 import { getProp } from "../objects";
 import { getItemThumbnailUrl } from "../resources/get-item-thumbnail-url";
@@ -15,6 +17,7 @@ import { getItemApiUrl } from "../urls/get-item-api-url";
 import { getItemDataUrl } from "../urls/get-item-data-url";
 import { camelize, isNil } from "../util";
 import { includes } from "../utils";
+import { IHubExtent } from "./_fetch";
 import {
   DatePrecision,
   IMetadataPaths,
@@ -30,7 +33,6 @@ import {
   getAdditionalResources,
 } from "./_internal";
 import { getFamily } from "./get-family";
-import { getHubApiUrl } from "../api";
 
 // helper fns - move this to _internal if needed elsewhere
 const getOnlyQueryLayer = (layers: ILayerDefinition[]) => {
@@ -483,6 +485,17 @@ export interface IComposeContentOptions extends IHubContentEnrichments {
   layerId?: number;
   slug?: string;
   requestOptions?: IHubRequestOptions;
+  /**
+   * Either the item's extent, or the item's
+   * layer or server's extent converted to a lat/lng coordinate pair
+   */
+  extent?: IHubExtent;
+
+  /**
+   * The appropriate summary to show for the item, coming from either
+   * the item's data (for pages or initiatives) or the item's description
+   */
+  searchDescription?: string;
 }
 
 /**
@@ -509,6 +522,8 @@ export const composeContent = (
     layers,
     recordCount,
     boundary,
+    extent,
+    searchDescription,
     statistics,
   } = options || {};
 
@@ -598,7 +613,7 @@ export const composeContent = (
       return name;
     },
     get description() {
-      return _layerDescription || item.description;
+      return searchDescription || _layerDescription || item.description;
     },
     type,
     get family() {
@@ -634,6 +649,15 @@ export const composeContent = (
       };
     },
     // TODO: do we want to add dataset extent logic as a getter here?
+    get extent() {
+      return !isBBox(item.extent) && extent && isBBox(extent.coordinates)
+        ? // we fall back to the extent derived by the Hub API
+          // which prefers layer or service extents and ultimately
+          // falls back to the org's extent
+          extent.coordinates
+        : // prefer item extent
+          item.extent;
+    },
     // would require us to do client-side projection of server/layer extent
     get boundary() {
       // TODO: need to be able to handle automatic w/ additional enrichment

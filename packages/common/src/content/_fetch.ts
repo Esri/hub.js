@@ -1,4 +1,5 @@
 import { IItem } from "@esri/arcgis-rest-portal";
+import { BBox } from "..";
 import { ItemOrServerEnrichment } from "../items/_enrichments";
 import { hubApiRequest } from "../request";
 import { IHubRequestOptions, IHubGeography } from "../types";
@@ -45,6 +46,13 @@ export const getContentEnrichments = (item: IItem) => {
 };
 
 /**
+ * The extent returned by the Hub API
+ */
+export interface IHubExtent {
+  coordinates?: BBox;
+}
+
+/**
  * The set of enrichments that we fetch from the Hub API
  */
 export interface IDatasetEnrichments {
@@ -59,9 +67,21 @@ export interface IDatasetEnrichments {
    */
   boundary?: IHubGeography;
 
+  /**
+   * Either the item's extent, or the item's
+   * layer or server's extent converted to a lat/lng coordinate pair
+   */
+  extent?: IHubExtent;
+
+  /**
+   * The appropriate summary to show for the item, coming from either
+   * the item's data (for pages or initiatives) or the item's description
+   */
+  searchDescription?: string;
+
   // TODO: a better type than any
   /**
-   *
+   * Pre-computed field statistics (min, max, average, etc)
    */
   statistics?: any;
 }
@@ -75,7 +95,7 @@ const getHubEnrichmentsOptions = (
   const opts = cloneObject(requestOptions);
   opts.params = {
     ...opts.params,
-    "fields[datasets]": "slug,boundary,statistics",
+    "fields[datasets]": "slug,boundary,extent,searchDescription,statistics",
   };
   if (slug) {
     opts.params["filter[slug]"] = slug;
@@ -87,8 +107,17 @@ const getHubEnrichmentsOptions = (
 const getDatasetEnrichments = (dataset: DatasetResource) => {
   const { itemId, layerId: layerIdString } = parseDatasetId(dataset.id);
   const layerId = layerIdString && parseInt(layerIdString, 10);
-  const { slug, boundary, statistics } = dataset.attributes;
-  return { itemId, layerId, slug, boundary, statistics } as IDatasetEnrichments;
+  const { slug, boundary, extent, searchDescription, statistics } =
+    dataset.attributes;
+  return {
+    itemId,
+    layerId,
+    slug,
+    boundary,
+    extent,
+    searchDescription,
+    statistics,
+  } as IDatasetEnrichments;
 };
 
 /**

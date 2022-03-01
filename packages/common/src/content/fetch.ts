@@ -56,12 +56,10 @@ const fetchContentById = async (
     options && !isNil(options.layerId) && options.layerId;
   // if this is a public item and we're not in enterprise
   // fetch the slug and remaining enrichments from the Hub API
-  const { slug, layerId, boundary, statistics } = canUseHubApiForItem(
-    item,
-    options
-  )
-    ? await fetchHubEnrichmentsById(hubId, options)
-    : ({} as IDatasetEnrichments);
+  const { slug, layerId, boundary, extent, searchDescription, statistics } =
+    canUseHubApiForItem(item, options)
+      ? await fetchHubEnrichmentsById(hubId, options)
+      : ({} as IDatasetEnrichments);
   // return a new content object composed from the item and enrichments we fetched
   return composeContent(item, {
     requestOptions: options,
@@ -69,6 +67,8 @@ const fetchContentById = async (
     slug,
     layerId: specifiedLayerId || layerId,
     boundary,
+    extent,
+    searchDescription,
     statistics,
   });
 };
@@ -104,7 +104,8 @@ const fetchContentBySlug = async (
       options
     );
   }
-  const { slug, boundary, statistics } = hubEnrichments;
+  const { slug, boundary, extent, searchDescription, statistics } =
+    hubEnrichments;
   // return a new content object composed from the item and enrichments we fetched
   return composeContent(item, {
     requestOptions: options,
@@ -112,6 +113,8 @@ const fetchContentBySlug = async (
     layerId,
     slug,
     boundary,
+    extent,
+    searchDescription,
     statistics,
   });
 };

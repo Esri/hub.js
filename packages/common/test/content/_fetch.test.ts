@@ -88,7 +88,7 @@ describe("_fetch", () => {
         expect(calls.length).toBe(1);
         expect(searchParams.get("filter[slug]")).toEqual(slug);
         expect(searchParams.get("fields[datasets]")).toEqual(
-          "slug,boundary,statistics"
+          "slug,boundary,extent,searchDescription,statistics"
         );
         expect(result.itemId).toEqual(id);
         expect(result.layerId).toBeUndefined();
@@ -109,7 +109,7 @@ describe("_fetch", () => {
         const { searchParams } = new URL(url);
         expect(calls.length).toBe(1);
         expect(searchParams.get("fields[datasets]")).toEqual(
-          "slug,boundary,statistics"
+          "slug,boundary,extent,searchDescription,statistics"
         );
         expect(result.itemId).toEqual(id);
         expect(result.layerId).toBeUndefined();
@@ -142,7 +142,7 @@ describe("_fetch", () => {
         const { searchParams } = new URL(url);
         expect(calls.length).toBe(1);
         expect(searchParams.get("fields[datasets]")).toEqual(
-          "slug,boundary,statistics"
+          "slug,boundary,extent,searchDescription,statistics"
         );
         expect(result.itemId).toBe(itemId);
         expect(result.layerId).toBe(0);
