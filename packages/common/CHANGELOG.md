@@ -1,3 +1,10 @@
+# @esri/hub-common [9.22.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.21.2...@esri/hub-common@9.22.0) (2022-03-01)
+
+
+### Features
+
+* **hub-common:** add fetchContent() ([064df1d](https://github.com/Esri/hub.js/commit/064df1d479e13b74832eaef50ff7a3c5be28d1e7))
+
 ## @esri/hub-common [9.21.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.21.1...@esri/hub-common@9.21.2) (2022-02-28)
 
 
