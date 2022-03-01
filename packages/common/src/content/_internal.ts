@@ -31,6 +31,7 @@ import { IHubAdditionalResource } from "../core/types/IHubAdditionalResource";
  * @param content original content
  * @param boundary boundary provenance
  * @returns
+ * @private
  */
 export const setContentBoundary = (
   content: IHubContent,
@@ -43,6 +44,12 @@ export const setContentBoundary = (
   return { ...updated, boundary: getContentBoundary(item) };
 };
 
+/**
+ * get a content's boundary based on the item's boundary property
+ * @param item
+ * @returns
+ * @private
+ */
 // TODO: this needs to be able to handle "automatic"
 export const getContentBoundary = (item: IItem): IHubGeography => {
   const extent = item.extent;
@@ -69,11 +76,32 @@ export const getContentBoundary = (item: IItem): IHubGeography => {
   };
 };
 
-// when no request options are provided, the underlying
-// request functions assume that we are online in production
-// so we only want use enterprise logic if isPortal is explicitly defined
+/**
+ * Determine if we are in an enterprise environment
+ * NOTE: when no request options are provided, the underlying
+ * request functions assume that we are online in production
+ * so we only want use enterprise logic if isPortal is explicitly defined
+ * @param requestOptions
+ * @returns
+ * @private
+ */
 export const isPortal = (requestOptions?: IHubRequestOptions) => {
   return requestOptions && requestOptions.isPortal;
+};
+
+/**
+ * Determine if we can use the Hub API for an item, i.e.
+ * the item is public and we are not in an enterprise environment
+ * @param item
+ * @param requestOptions
+ * @returns
+ * @private
+ */
+export const canUseHubApiForItem = (
+  item: IItem,
+  requestOptions?: IHubRequestOptions
+) => {
+  return !!item && item.access === "public" && !isPortal(requestOptions);
 };
 
 /**
@@ -82,6 +110,7 @@ export const isPortal = (requestOptions?: IHubRequestOptions) => {
  * @param item
  * @param requestOptions Hub Request Options (including whether we're in portal)
  * @returns
+ * @private
  */
 export const isProxiedCSV = (
   item: IItem,
@@ -92,6 +121,14 @@ export const isProxiedCSV = (
   item.type === "CSV" &&
   item.size <= 5000000;
 
+/**
+ * Get the relative URL to use for the item in a hub site
+ * @param type
+ * @param identifier
+ * @param typeKeywords
+ * @returns
+ * @private
+ */
 export const getHubRelativeUrl = (
   type: string,
   identifier: string,
@@ -127,6 +164,12 @@ export const getHubRelativeUrl = (
   return contentUrl;
 };
 
+/**
+ * Is this content type a page?
+ * @param type
+ * @returns
+ * @private
+ */
 export const isPageType = (type: string) =>
   ["Hub Page", "Site Page"].includes(type);
 
@@ -151,6 +194,10 @@ const getSolutionUrl = (
 };
 
 // metadata
+
+/**
+ * well known paths to formal metadata values
+ */
 export interface IMetadataPaths {
   updateFrequency: string;
   metadataUpdateFrequency: string;
@@ -160,6 +207,12 @@ export interface IMetadataPaths {
   createDate: string;
 }
 
+/**
+ * Get the path to a well known metadata value
+ * @param identifier identifier for well known metadata value
+ * @returns path to be used like get(metadata, path)
+ * @private
+ */
 export function getMetadataPath(identifier: keyof IMetadataPaths) {
   // NOTE: i have verified that this will work regardless of the "Metadata Style" set on the org
   const metadataPaths: IMetadataPaths = {
@@ -174,6 +227,13 @@ export function getMetadataPath(identifier: keyof IMetadataPaths) {
   return metadataPaths[identifier];
 }
 
+/**
+ * Get a well known value from metadata
+ * @param metadata
+ * @param identifier identifier for well known metadata value
+ * @returns
+ * @private
+ */
 export function getValueFromMetadata(
   metadata: any,
   identifier: keyof IMetadataPaths
@@ -182,6 +242,9 @@ export function getValueFromMetadata(
   return path && getProp(metadata, path);
 }
 
+/**
+ * Date precisions
+ */
 export enum DatePrecision {
   Year = "year",
   Month = "month",
@@ -199,6 +262,7 @@ export enum DatePrecision {
  *
  * @param {string} isoString
  * @return { date: Date, precision: DatePrecision }
+ * @private
  */
 export function parseISODateString(isoString: string) {
   isoString = `${isoString}`;
@@ -228,6 +292,13 @@ export function parseISODateString(isoString: string) {
   return date && precision && { date, precision };
 }
 
+/**
+ * Get the spatial reference from layer or server info
+ * @param server
+ * @param layer
+ * @returns
+ * @private
+ */
 export const getServerSpatialReference = (
   server: Partial<IFeatureServiceDefinition>,
   layer?: ILayerDefinition
@@ -241,6 +312,12 @@ export const getServerSpatialReference = (
 // that is always either WKID like "102100" or
 // WKT like "NAD_1983_HARN_StatePlane_Hawaii_3_FIPS_5103_Feet"
 // so we coerce those string into a ISpatialReference object
+/**
+ * Get the spatial reference as an object for an item
+ * @param item
+ * @returns spatial reference object
+ * @private
+ */
 export const getItemSpatialReference = (item: IItem): ISpatialReference => {
   const spatialReference = item.spatialReference as unknown;
   if (!spatialReference || typeof spatialReference === "object") {
@@ -276,6 +353,7 @@ interface IAGOAdditionalResource {
  * @param item
  * @param metadata formal metadata
  * @returns
+ * @private
  */
 export const getAdditionalResources = (
   item: IItem,
@@ -309,6 +387,7 @@ export const getAdditionalResources = (
  * @param resource raw additional resource of an item
  * @param item
  * @returns
+ * @private
  */
 export const isDataSourceOfItem = (
   resource: IAGOAdditionalResource,
@@ -328,6 +407,7 @@ export const isDataSourceOfItem = (
  * @param item
  * @param requestOptions IHubRequestOptions, including authentication
  * @returns
+ * @private
  */
 export const getAdditionalResourceUrl = (
   resource: IAGOAdditionalResource,
