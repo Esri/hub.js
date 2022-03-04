@@ -1,4 +1,4 @@
-import { _addSiteDomains } from "../src";
+import { addSiteDomains } from "../../../src";
 import * as commonModule from "@esri/hub-common";
 import { IHubRequestOptions, IModel } from "@esri/hub-common";
 
@@ -29,7 +29,7 @@ describe("_addSiteDomains", () => {
       },
     } as unknown as IHubRequestOptions;
 
-    await _addSiteDomains(model, ro);
+    await addSiteDomains(model, ro);
 
     expect(addSpy.calls.count()).toBe(1);
     expect(addSpy.calls.argsFor(0)[0]).toEqual(
@@ -75,7 +75,7 @@ describe("_addSiteDomains", () => {
       },
     } as unknown as IHubRequestOptions;
 
-    await _addSiteDomains(model, ro);
+    await addSiteDomains(model, ro);
 
     expect(addSpy.calls.count()).toBe(0);
   });

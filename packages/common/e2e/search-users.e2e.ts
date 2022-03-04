@@ -10,7 +10,7 @@ import {
   _searchContent,
   _searchUsers,
 } from "../src/search";
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;
 
 describe("searchUsers:", () => {
   let factory: Artifactory;

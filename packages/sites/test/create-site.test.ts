@@ -2,12 +2,11 @@ import { createSite } from "../src";
 import * as commonModule from "@esri/hub-common";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as registerAsAppModule from "../src/register-site-as-application";
-import * as addDomainsModule from "../src/_add-site-domains";
 import { expectAllCalled, expectAll } from "./test-helpers.test";
 import * as initiativesModule from "@esri/hub-initiatives";
 import { IModel } from "@esri/hub-common";
 
-describe("create site :: ", function() {
+describe("create site :: ", function () {
   const APP_REGISTRATION_RESPONSE: any = {
     itemId: "3ef",
     client_id: "031AYEM9fd1X1ac9",
@@ -17,13 +16,13 @@ describe("create site :: ", function() {
       "http://my-site.com",
       "https://my-site.com",
       "https://name-org.hub.arcgis.com",
-      "http://name-org.hub.arcgis.com"
+      "http://name-org.hub.arcgis.com",
     ],
     registered: 1580932896000,
     modified: 1580932896000,
     apnsProdCert: null,
     apnsSandboxCert: null,
-    gcmApiKey: null
+    gcmApiKey: null,
   };
 
   let createSpy: jasmine.Spy;
@@ -33,7 +32,7 @@ describe("create site :: ", function() {
   let domainsSpy: jasmine.Spy;
   let uploadResourcesSpy: jasmine.Spy;
   let shareSpy: jasmine.Spy;
-  beforeEach(function() {
+  beforeEach(function () {
     createSpy = spyOn(portalModule, "createItem").and.returnValue(
       Promise.resolve({ success: true, id: "3ef" })
     );
@@ -47,7 +46,7 @@ describe("create site :: ", function() {
     updateSpy = spyOn(portalModule, "updateItem").and.returnValue(
       Promise.resolve({ success: true, id: "3ef" })
     );
-    domainsSpy = spyOn(addDomainsModule, "_addSiteDomains").and.returnValue(
+    domainsSpy = spyOn(commonModule, "addSiteDomains").and.returnValue(
       Promise.resolve({})
     );
     uploadResourcesSpy = spyOn(
@@ -60,23 +59,23 @@ describe("create site :: ", function() {
   });
 
   const ro = {
-    authentication: {}
+    authentication: {},
   } as commonModule.IHubRequestOptions;
 
-  it("happy path", async function() {
-    const site = ({
+  it("happy path", async function () {
+    const site = {
       item: {
         owner: "luke",
-        title: "Death Star Plans"
+        title: "Death Star Plans",
       },
       data: {
         values: {
           defaultHostname: "name-org.hub.arcgis.com",
           customHostname: "my-site.com",
-          verifySecondPass: "this should be {{appid}} interpolated"
-        }
-      }
-    } as unknown) as commonModule.IModel;
+          verifySecondPass: "this should be {{appid}} interpolated",
+        },
+      },
+    } as unknown as commonModule.IModel;
 
     const result = await createSite(site, {}, ro);
 
@@ -103,30 +102,30 @@ describe("create site :: ", function() {
         registerSpy,
         updateSpy,
         domainsSpy,
-        uploadResourcesSpy
+        uploadResourcesSpy,
       ],
       expect
     );
   });
 
   it("updates initiative if created", async () => {
-    const site = ({
+    const site = {
       item: {
         id: "3ef",
         owner: "luke",
         title: "Death Star with Initiative",
         properties: {
-          parentInitiativeId: "bc7"
-        }
+          parentInitiativeId: "bc7",
+        },
       },
       data: {
         values: {
           defaultHostname: "name-org.hub.arcgis.com",
           customHostname: "my-site.com",
-          verifySecondPass: "this should be {{appid}} interpolated"
-        }
-      }
-    } as unknown) as commonModule.IModel;
+          verifySecondPass: "this should be {{appid}} interpolated",
+        },
+      },
+    } as unknown as commonModule.IModel;
 
     const updateInitiativeSpy = spyOn(
       initiativesModule,
@@ -151,29 +150,29 @@ describe("create site :: ", function() {
         registerSpy,
         updateSpy,
         domainsSpy,
-        uploadResourcesSpy
+        uploadResourcesSpy,
       ],
       expect
     );
   });
 
-  it("shares with collab group if id exists", async function() {
-    const site = ({
+  it("shares with collab group if id exists", async function () {
+    const site = {
       item: {
         owner: "luke",
         title: "Death Star Plans",
         properties: {
-          collaborationGroupId: "foo-bar-baz"
-        }
+          collaborationGroupId: "foo-bar-baz",
+        },
       },
       data: {
         values: {
           defaultHostname: "name-org.hub.arcgis.com",
           customHostname: "my-site.com",
-          verifySecondPass: "this should be {{appid}} interpolated"
-        }
-      }
-    } as unknown) as commonModule.IModel;
+          verifySecondPass: "this should be {{appid}} interpolated",
+        },
+      },
+    } as unknown as commonModule.IModel;
 
     const result = await createSite(site, {}, ro);
 
@@ -201,20 +200,20 @@ describe("create site :: ", function() {
         registerSpy,
         updateSpy,
         domainsSpy,
-        uploadResourcesSpy
+        uploadResourcesSpy,
       ],
       expect
     );
   });
 
-  it("dcatConfig not interpolated", async function() {
-    const site = ({
+  it("dcatConfig not interpolated", async function () {
+    const site = {
       item: {
         owner: "luke",
         title: "Death Star Plans",
         properties: {
-          collaborationGroupId: "foo-bar-baz"
-        }
+          collaborationGroupId: "foo-bar-baz",
+        },
       },
       data: {
         values: {
@@ -222,11 +221,11 @@ describe("create site :: ", function() {
           customHostname: "my-site.com",
           verifySecondPass: "this should be {{appid}} interpolated",
           dcatConfig: {
-            foo: "{{some.undefined.thing}}"
-          }
-        }
-      }
-    } as unknown) as commonModule.IModel;
+            foo: "{{some.undefined.thing}}",
+          },
+        },
+      },
+    } as unknown as commonModule.IModel;
 
     const result = await createSite(site, {}, ro);
 
@@ -236,20 +235,20 @@ describe("create site :: ", function() {
     );
   });
 
-  it("critical failure", async function() {
+  it("critical failure", async function () {
     createSpy.and.returnValue(Promise.reject({}));
-    const site = ({
+    const site = {
       item: {
         owner: "luke",
-        title: "Death Star Plans"
+        title: "Death Star Plans",
       },
       data: {
         values: {
           defaultHostname: "name-org.hub.arcgis.com",
-          customHostname: "my-site.com"
-        }
-      }
-    } as unknown) as IModel;
+          customHostname: "my-site.com",
+        },
+      },
+    } as unknown as IModel;
 
     try {
       await createSite(site, {}, ro);
@@ -266,7 +265,7 @@ describe("create site :: ", function() {
         updateSpy,
         domainsSpy,
         uploadResourcesSpy,
-        shareSpy
+        shareSpy,
       ],
       "toHaveBeenCalled",
       false,

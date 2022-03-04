@@ -1,7 +1,5 @@
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { ArcGISContextManager } from "../src/ArcGISContextManager";
 import { HubProjectManager, IHubProject } from "../src";
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;
 
