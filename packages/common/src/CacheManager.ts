@@ -68,7 +68,13 @@ export class CacheManager {
     fn: (...args: any[]) => ReturnType<Fn>,
     ...args: any[]
   ): Promise<ReturnType<Fn>> {
-    const cacheKey = this.createCacheKey(args);
+    if (!fn.name) {
+      throw new Error(
+        `CacheManager is not reliable with anonymous functions. Please use a named function.`
+      );
+    }
+    const cacheKey = `${fn.name}-${this.createCacheKey(args)}`;
+
     this.requests++;
     if (this.cache.has(cacheKey)) {
       this.hits++;
