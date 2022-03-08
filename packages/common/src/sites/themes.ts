@@ -8,20 +8,6 @@ import {
 } from "..";
 
 /**
- * Return the default theme, extended with values from the Org's shared theme
- * @param {Object} portalSelf Org's Portal object
- */
-export function getOrgDefaultTheme(portalSelf: IPortal) {
-  let defaultTheme = cloneObject(DEFAULT_THEME);
-  let sharedTheme = getProp(portalSelf, "portalProperties.sharedTheme");
-  if (sharedTheme) {
-    sharedTheme = removeEmptyProps(sharedTheme);
-    defaultTheme = extend(defaultTheme, sharedTheme) as IHubSiteTheme;
-  }
-  return defaultTheme;
-}
-
-/**
  * Default Site Theme
  */
 export const DEFAULT_THEME: IHubSiteTheme = {
@@ -52,3 +38,17 @@ export const DEFAULT_THEME: IHubSiteTheme = {
     },
   },
 };
+
+/**
+ * Return the default theme, extended with values from the Org's shared theme
+ * @param {Object} portalSelf Org's Portal object
+ */
+export function getOrgDefaultTheme(portalSelf: IPortal) {
+  let defaultTheme = cloneObject(DEFAULT_THEME);
+  let sharedTheme = getProp(portalSelf, "portalProperties.sharedTheme");
+  if (sharedTheme) {
+    sharedTheme = removeEmptyProps(sharedTheme);
+    defaultTheme = extend(defaultTheme, sharedTheme) as IHubSiteTheme;
+  }
+  return defaultTheme;
+}

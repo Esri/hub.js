@@ -1,10 +1,8 @@
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { ArcGISContextManager } from "../src/ArcGISContextManager";
 import { HubSiteManager, IHubSite } from "../src";
 
-fdescribe("Hub Sites", () => {
+describe("Hub Sites", () => {
   let factory: Artifactory;
   beforeAll(() => {
     factory = new Artifactory(config);
@@ -33,7 +31,7 @@ fdescribe("Hub Sites", () => {
       // update the item
       site.description = "This is the long description";
       site.culture = "en-us";
-      debugger;
+
       const updatedSite = await mgr.update(site);
       // should return a new object
       expect(updatedSite).not.toBe(site);
@@ -48,10 +46,34 @@ fdescribe("Hub Sites", () => {
       expect(updated.thumbnailUrl).toBeDefined();
 
       // destroy the Site
-      debugger;
       await mgr.destroy(site.id);
     } catch (ex) {
-      debugger;
+      throw ex;
+    }
+  });
+  xit("can search", async () => {
+    const orgName = "hubBasic";
+    // create context
+    const ctxMgr = await factory.getContextManager(orgName, "admin");
+    // create store
+    const mgr = HubSiteManager.init(ctxMgr);
+    try {
+      const response = await mgr.search(
+        {
+          filterType: "content",
+          owner: "dbouwman_dc",
+        },
+        { num: 3 }
+      );
+      // Note: Since this depends on random items
+      // this may break
+      expect(response.results.length).toBe(3);
+      if (response.hasNext) {
+        const page2 = await response.next();
+        expect(page2.results.length).toBeGreaterThan(0);
+      }
+    } catch (ex) {
+      throw ex;
     }
   });
 });

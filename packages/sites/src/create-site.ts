@@ -61,6 +61,7 @@ export function createSite(
     })
     .then((protectResponse) => {
       // do app registration
+
       return registerSiteAsApplication(model, hubRequestOptions);
     })
     .then((appRegistrationResponse) => {
@@ -85,10 +86,12 @@ export function createSite(
     })
     .then((updateResponse) => {
       // Handle domains
+
       return addSiteDomains(model, hubRequestOptions);
     })
     .then((domainResponses) => {
       // upload resources from url
+
       return uploadResourcesFromUrl(
         model,
         options.assets || [],

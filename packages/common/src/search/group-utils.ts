@@ -2,7 +2,6 @@ import { ISearchOptions } from "@esri/arcgis-rest-portal";
 import {
   Filter,
   IGroupFilterDefinition,
-  IMatchOptions,
   mergeDateRange,
   mergeMatchOptions,
   mergeSearchOptions,

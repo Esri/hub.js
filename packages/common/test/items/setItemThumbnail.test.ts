@@ -18,7 +18,7 @@ describe("setItemThumbnail:", () => {
   });
 
   it("throws hub error if update fails", async () => {
-    const updateSpy = spyOn(portalModule, "updateItem").and.returnValues(
+    spyOn(portalModule, "updateItem").and.returnValues(
       Promise.resolve({ success: false })
     );
     try {
@@ -30,7 +30,7 @@ describe("setItemThumbnail:", () => {
     }
   });
   it("throws hub error if update rejects with error", async () => {
-    const updateSpy = spyOn(portalModule, "updateItem").and.returnValues(
+    spyOn(portalModule, "updateItem").and.returnValues(
       Promise.reject(new Error("Fake Rejection"))
     );
     try {
@@ -42,7 +42,7 @@ describe("setItemThumbnail:", () => {
     }
   });
   it("throws hub error if update rejects", async () => {
-    const updateSpy = spyOn(portalModule, "updateItem").and.returnValues(
+    spyOn(portalModule, "updateItem").and.returnValues(
       Promise.reject("something else")
     );
     try {

@@ -11,7 +11,7 @@ export interface IHubSite extends IHubItemEntity, IWithSlug, IWithLayout {
   /**
    * Array of minimal page objects
    */
-  pages: { title: string; id: string }[];
+  pages: Array<{ title: string; id: string; slug: string }>;
   /**
    * Site Theme as json
    */

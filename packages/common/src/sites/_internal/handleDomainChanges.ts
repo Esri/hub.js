@@ -37,7 +37,7 @@ export async function handleDomainChanges(
       domainChanges.add.push(updatedValue);
     }
   });
-  const domainChangePromises: Promise<any>[] = [];
+  const domainChangePromises: Array<Promise<any>> = [];
 
   // handle additions
   domainChanges.add.map((hostname) => {

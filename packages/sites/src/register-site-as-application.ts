@@ -11,11 +11,12 @@ import {
  * @param {Array} uris Arrayf valid uris for the site
  * @param {IHubRequestOptions} hubRequestOptions
  */
+/* istanbul ignore next */
 export function registerSiteAsApplication(
   model: IModel,
   hubRequestOptions: IHubRequestOptions
 ) {
-  // eslint-disable-next-line no-console
+  // tslint:disable-next-line
   console.warn(
     `@esri/hub-sites::registerSiteAsApplication is deprecated. Please use @esri/hub-common::registerSiteAsApplication instead`
   );

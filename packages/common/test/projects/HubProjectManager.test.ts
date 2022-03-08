@@ -16,7 +16,7 @@ describe("HubProjectManager:", () => {
   let unauthdMgr: HubProjectManager;
   beforeEach(async () => {
     const mgr = await ArcGISContextManager.create();
-    unauthdMgr = await HubProjectManager.init(mgr);
+    unauthdMgr = HubProjectManager.init(mgr);
     // When we pass in all this information, the context
     // manager will not try to fetch anything, so no need
     // to mock those calls
@@ -32,7 +32,7 @@ describe("HubProjectManager:", () => {
       } as unknown as IPortal,
       portalUrl: "https://myserver.com",
     });
-    authdMgr = await HubProjectManager.init(authdCtxMgr);
+    authdMgr = HubProjectManager.init(authdCtxMgr);
   });
   describe("create:", () => {
     let createSpy: jasmine.Spy;
@@ -218,10 +218,6 @@ describe("HubProjectManager:", () => {
   describe("setThumbnail:", () => {
     let tnSpy: jasmine.Spy;
     let getSpy: jasmine.Spy;
-    const f: Filter<"content"> = {
-      filterType: "content",
-      term: "water",
-    };
     beforeEach(() => {
       tnSpy = spyOn(ThumbnailModule, "setItemThumbnail").and.returnValue(
         Promise.resolve("response ignored")
@@ -283,7 +279,7 @@ describe("HubProjectManager:", () => {
     it("get returns error if context manager/context is mangled", async () => {
       // In this test we cover a case where the store is
       // passed a mangled contextManager,
-      unauthdMgr = await HubProjectManager.init({
+      unauthdMgr = HubProjectManager.init({
         context: {},
       } as unknown as ArcGISContextManager);
       try {

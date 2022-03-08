@@ -1,5 +1,4 @@
-import { IHubRequestOptions, IModel, getProp } from "../..";
-import { addDomain } from ".";
+import { IHubRequestOptions, IModel, getProp, addDomain } from "../..";
 
 /**
  * Given a Site Model, register the domains with the Domain Service.

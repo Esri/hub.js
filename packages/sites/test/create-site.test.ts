@@ -1,7 +1,6 @@
 import { createSite } from "../src";
 import * as commonModule from "@esri/hub-common";
 import * as portalModule from "@esri/arcgis-rest-portal";
-import * as registerAsAppModule from "../src/register-site-as-application";
 import { expectAllCalled, expectAll } from "./test-helpers.test";
 import * as initiativesModule from "@esri/hub-initiatives";
 import { IModel } from "@esri/hub-common";
@@ -40,7 +39,7 @@ describe("create site :: ", function () {
       Promise.resolve({ success: true, id: "3ef" })
     );
     registerSpy = spyOn(
-      registerAsAppModule,
+      commonModule,
       "registerSiteAsApplication"
     ).and.returnValue(Promise.resolve(APP_REGISTRATION_RESPONSE));
     updateSpy = spyOn(portalModule, "updateItem").and.returnValue(

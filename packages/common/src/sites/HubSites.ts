@@ -1,43 +1,41 @@
 import { IUserRequestOptions, UserSession } from "@esri/arcgis-rest-auth";
-import {
-  IUserItemOptions,
-  protectItem,
-  removeItem,
-} from "@esri/arcgis-rest-portal";
+import { IItem, IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 
 import {
   addSiteDomains,
   ensureUniqueDomainName,
-  fetchSite,
   fetchSiteModel,
   getOrgDefaultTheme,
-  getSiteById,
-  lookupDomain,
   removeDomainsBySiteId,
-} from ".";
-import {
+  registerSiteAsApplication,
   cloneObject,
   constructSlug,
   createModel,
+  fetchModelFromItem,
+  Filter,
   getHubApiUrl,
   getItemThumbnailUrl,
   getModel,
   getProp,
-  getUniqueSlug,
   IHubRequestOptions,
+  IHubSearchOptions,
   IHubSite,
   IModel,
-  isGuid,
-  registerBrowserApp,
+  ISearchResponse,
+  mergeContentFilter,
+  searchContentEntities,
   setProp,
   setSlugKeyword,
   slugify,
   stripProtocol,
   updateModel,
+  IPropertyMap,
+  PropertyMapper,
 } from "..";
-import { IPropertyMap, PropertyMapper } from "../core/helpers/PropertyMapper";
+
 import { handleDomainChanges } from "./_internal/handleDomainChanges";
-import { registerSiteAsApplication } from "./registerSiteAsApplication";
+
+import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
@@ -48,7 +46,7 @@ export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
 const DEFAULT_SITE: Partial<IHubSite> = {
   name: "No title provided",
   tags: [],
-  typeKeywords: ["Hub Site", "hubSite"],
+  typeKeywords: ["Hub Site", "hubSite", "DELETEMESITE"],
   capabilities: [
     "api_explorer",
     "pages",
@@ -87,7 +85,7 @@ const DEFAULT_SITE: Partial<IHubSite> = {
 /**
  * Default values for a new HubSite Model
  */
-const DEFAULT_SITE_MODEL = {
+const DEFAULT_SITE_MODEL: IModel = {
   item: {
     // type: intentionally left out as we need to
     // set that based on portal/enterprise
@@ -106,7 +104,7 @@ const DEFAULT_SITE_MODEL = {
       schemaVersion: 1.5,
     },
     url: "",
-  },
+  } as IItem,
   data: {
     catalog: {
       groups: [],
@@ -121,27 +119,9 @@ const DEFAULT_SITE_MODEL = {
       uiVersion: "2.4",
       clientId: "",
       map: {
-        basemaps: {
-          // TODO: Load this from portal
-          primary: {
-            id: "42c841849131429489cb340f171682e0",
-            title: "Imagery",
-            baseMapLayers: [
-              {
-                id: "World_Imagery_2017",
-                layerType: "ArcGISTiledMapServiceLayer",
-                url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer",
-                visibility: true,
-                opacity: 1,
-                title: "World Imagery",
-              },
-            ],
-            operationalLayers: [],
-          },
-        },
+        basemaps: {},
       },
-      defaultExtent: {}, // TODO: set from portal
-
+      defaultExtent: {},
       pages: [],
       theme: {},
       layout: {
@@ -200,7 +180,7 @@ const DEFAULT_SITE_MODEL = {
       },
     },
   },
-} as unknown as IModel;
+};
 
 /**
  * Returns an Array of IPropertyMap objects
@@ -247,7 +227,7 @@ function getSitePropertyMap(): IPropertyMap[] {
     "telemetry",
     "headerSass",
   ];
-  dataProps.forEach((entry) => {
+  valueProps.forEach((entry) => {
     map.push({ objectKey: entry, modelKey: `data.values.${entry}` });
   });
   // Deeper/Indirect mappings
@@ -312,7 +292,8 @@ export async function createSite(
 
   // Note:  We used to use adlib for this, but it's much harder to
   // use templates with typescript. i.e. you can't assign a string template
-  // to a property defined as `IExtent`
+  // to a property defined as `IExtent` without using `as unknown as ...`
+  // which basically removes typechecking
 
   site.orgUrlKey = portal.urlKey;
 
@@ -336,24 +317,21 @@ export async function createSite(
   if (!getProp(site, "layout.header.component.settings.title")) {
     setProp("layout.header.component.settings.title", site.name, site);
   }
-  // convert the IHubSite into an IModel
+
+  // Now convert the IHubSite into an IModel
   const mapper = new PropertyMapper<Partial<IHubSite>>(getSitePropertyMap());
   let model = mapper.objectToModel(site, cloneObject(DEFAULT_SITE_MODEL));
-  // create the item
+  // create the backing item
   model = await createModel(
     model,
     requestOptions as unknown as IUserRequestOptions
   );
-  // Protect the item
-  await protectItem({
-    id: model.item.id,
-    owner: model.item.owner,
-    authentication: requestOptions.authentication,
-  });
+
   // Register as an app
   const registration = await registerSiteAsApplication(model, requestOptions);
   model.data.values.clientId = registration.client_id;
-  // Register domain
+
+  // Register domains
   await addSiteDomains(model, requestOptions);
 
   // update the model
@@ -384,7 +362,7 @@ export async function updateSite(
   // applying the site onto the default model ensures that a minimum
   // set of properties exist, regardless what may have been done to
   // the site pojo
-  let updatedModel = mapper.objectToModel(
+  const updatedModel = mapper.objectToModel(
     site,
     cloneObject(DEFAULT_SITE_MODEL)
   );
@@ -394,7 +372,7 @@ export async function updateSite(
   await handleDomainChanges(updatedModel, currentModel, requestOptions);
 
   // merge the updated site onto the current model
-  let modelToStore = mapper.objectToModel(site, currentModel);
+  const modelToStore = mapper.objectToModel(site, currentModel);
   // update the model
   const updatedSiteModel = await updateModel(
     modelToStore,
@@ -453,4 +431,48 @@ export async function _fetchSite(
 
   site.thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
   return site;
+}
+
+/**
+ * Convert a Hub Site Application item into a Hub Site, fetching any
+ * additional information that may be required
+ * @param item
+ * @param auth
+ * @returns
+ */
+export async function convertItemToSite(
+  item: IItem,
+  requestOptions: IRequestOptions
+): Promise<IHubSite> {
+  const model = await fetchModelFromItem(item, requestOptions);
+  const mapper = new PropertyMapper<Partial<IHubSite>>(getSitePropertyMap());
+  let token: string;
+  if (requestOptions.authentication) {
+    const session: UserSession = requestOptions.authentication as UserSession;
+    token = session.token;
+  }
+  const prj = mapper.modelToObject(model, {}) as IHubSite;
+  prj.thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
+  return prj;
+}
+
+/**
+ * Search for Sites and get IHubSite results
+ * @param filter
+ * @param options
+ * @returns
+ */
+export async function searchSites(
+  filter: Filter<"content">,
+  options: IHubSearchOptions
+): Promise<ISearchResponse<IHubSite>> {
+  // Scope to Hub Sites
+  const scopingFilter: Filter<"content"> = {
+    filterType: "content",
+    type: "$site",
+  };
+  // merge filters
+  const sitesFilter = mergeContentFilter([scopingFilter, filter]);
+  // delegate
+  return searchContentEntities(sitesFilter, convertItemToSite, options);
 }

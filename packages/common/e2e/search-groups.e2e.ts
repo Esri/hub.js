@@ -90,7 +90,7 @@ describe("SearchGroups:", () => {
         sortOrder: "desc",
       };
       const response = await _searchGroups(f, opts);
-      expect(response.results.length).toBe(10);
+      expect(response.results.length).toBeGreaterThan(0);
       // response.results.map((g) => console.log(g.thumbnailUrl));
     });
   });

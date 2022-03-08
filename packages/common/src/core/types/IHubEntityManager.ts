@@ -1,5 +1,6 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { IItem } from "@esri/arcgis-rest-types";
 import { Filter, IHubSearchOptions, ISearchResponse } from "../..";
 
 /**
@@ -34,10 +35,6 @@ export interface IHubEntityManager<T> {
   fetch(identifier: string, requestOptions: IRequestOptions): Promise<T>;
 
   /**
-   * [WIP] We need to work out how best to handle the typing on this. Simply
-   * delegating to `searchContent` with a filter constraining to an Entity type
-   * will return `ISearchResponse<IHubContent>` and not the expected type.
-   *
    * Search for Entitys of type `T`
    *
    * Note: When implementing, this should be a search for things of type `T`
@@ -51,4 +48,13 @@ export interface IHubEntityManager<T> {
     filter: Filter<"content">,
     opts: IHubSearchOptions
   ): Promise<ISearchResponse<T>>;
+
+  /**
+   * Given an item, do any additional data fetching and return
+   * a type `T`
+   *
+   * @param item
+   * @param requestOptions
+   */
+  fromItem(item: IItem, requestOptions: IRequestOptions): Promise<T>;
 }

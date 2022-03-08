@@ -6,6 +6,7 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;
 describe("Hub Projects", () => {
   let factory: Artifactory;
   beforeAll(() => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;
     factory = new Artifactory(config);
   });
 
@@ -16,6 +17,7 @@ describe("Hub Projects", () => {
     const ctxMgr = await factory.getContextManager(orgName, "admin");
     // create store
     const mgr = HubProjectManager.init(ctxMgr);
+
     // create a project
     const newProj: Partial<IHubProject> = {
       name: "E2E Test Project",
@@ -31,6 +33,7 @@ describe("Hub Projects", () => {
     p.status = "active";
     p.description = "This is the long description";
     p.culture = "en-us";
+
     const updatedProject = await mgr.update(p);
     // should return a new object
     expect(updatedProject).not.toBe(p);
@@ -43,6 +46,15 @@ describe("Hub Projects", () => {
     const tnImage = await fetchImage(imgSrc);
     const updated = await mgr.updateThumbnail(chk, tnImage, "kitteh.jpg");
     expect(updated.thumbnailUrl).toBeDefined();
+
+    // search
+
+    const response = await mgr.search(
+      { filterType: "content", owner: ctxMgr.context.currentUser.username },
+      { num: 10 }
+    );
+    // we should get at least one back
+    expect(response.results.length).toBeGreaterThanOrEqual(1);
 
     // destroy the project
     await mgr.destroy(p.id);

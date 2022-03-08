@@ -1,13 +1,13 @@
-import { registerBrowserApp } from "../src";
+import { registerBrowserApp } from "../../src";
 import * as requestModule from "@esri/arcgis-rest-request";
 
 describe("registerBrowserApp", () => {
   it("registers an item as a browser app", async () => {
-    const ro = ({
+    const ro = {
       authentication: {
-        token: "token"
-      }
-    } as unknown) as requestModule.IRequestOptions;
+        token: "token",
+      },
+    } as unknown as requestModule.IRequestOptions;
 
     const uris = ["foo", "bar"];
     const itemId = "item-id";
@@ -32,8 +32,8 @@ describe("registerBrowserApp", () => {
         params: {
           itemId,
           appType: "browser",
-          redirect_uris: JSON.stringify(uris)
-        }
+          redirect_uris: JSON.stringify(uris),
+        },
       },
       "correct request params"
     );

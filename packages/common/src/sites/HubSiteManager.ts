@@ -1,5 +1,4 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
 import {
   IHubEntityManager,
   IHubSite,
@@ -9,13 +8,15 @@ import {
   createSite,
   HubError,
   destroySite,
-  fetchSite,
   _fetchSite,
   updateSite,
 } from "..";
 import { Filter, IHubSearchOptions } from "../search";
 import { IHubRequestOptions, ISearchResponse } from "../types";
 import { setItemThumbnail as updateItemThumbnail } from "../items/setItemThumbnail";
+import { convertItemToSite, searchSites } from ".";
+import { IItem } from "@esri/arcgis-rest-types";
+import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 export class HubSiteManager
   implements IHubEntityManager<IHubSite>, IHubItemEntityManager<IHubSite>
@@ -169,14 +170,19 @@ export class HubSiteManager
   }
   /**
    * Search for Sites
+   *
    * @param filter
    * @param opts
    */
-  search(
+  async search(
     filter: Filter<"content">,
-    opts: IHubSearchOptions
+    options: IHubSearchOptions
   ): Promise<ISearchResponse<IHubSite>> {
-    throw new Error("HubSiteManager.search not implemented.");
+    // if we were not passed auth, and we have a session, use it
+    if (!options.authentication && this.context.session) {
+      options.authentication = this.context.session;
+    }
+    return searchSites(filter, options);
   }
   /**
    * Set the thumbnail for the Site
@@ -196,5 +202,19 @@ export class HubSiteManager
     await updateItemThumbnail(site.id, file, filename, ro);
     // get the item so we have updated props and timestamps
     return this.fetch(site.id, requestOptions);
+  }
+
+  /**
+   * Convert a Hub Project Item to a IHubProject
+   * @param item
+   * @param requestOptions
+   * @returns
+   */
+  async fromItem(
+    item: IItem,
+    requestOptions?: IRequestOptions
+  ): Promise<IHubSite> {
+    const ro = requestOptions || this.context.userRequestOptions;
+    return convertItemToSite(item, ro);
   }
 }

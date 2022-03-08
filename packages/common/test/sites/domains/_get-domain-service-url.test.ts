@@ -1,5 +1,4 @@
 import { _getDomainServiceUrl } from "../../../src/sites/domains";
-import { IHubRequestOptions } from "../../../src";
 
 describe("_getDomainServiceUrl", function () {
   it("gets the url", function () {

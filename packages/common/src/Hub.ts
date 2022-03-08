@@ -1,3 +1,4 @@
+import { HubSiteManager } from ".";
 import {
   ArcGISContextManager,
   IArcGISContextManagerOptions,
@@ -47,6 +48,8 @@ export class Hub {
 
   private _projectManager: HubProjectManager;
 
+  private _siteManager: HubSiteManager;
+
   /**
    * Private so we can employ a factory function to do
    * async work during creation
@@ -72,15 +75,19 @@ export class Hub {
   }
 
   /**
-   * Getter to abstract the context manager
+   * Get the context
+   * @readonly
+   * @memberof Hub
    */
-  public get context() {
+  get context() {
     return this._contextManager.context;
   }
 
   /**
    * HubProjectManager for the current Hub
-   * @returns
+   *
+   * @readonly
+   * @memberof Hub
    */
   get projects() {
     if (!this._projectManager) {
@@ -88,5 +95,17 @@ export class Hub {
     }
 
     return this._projectManager;
+  }
+  /**
+   * HubSiteManager for the current Hub
+   *
+   * @readonly
+   * @memberof Hub
+   */
+  get sites() {
+    if (!this._siteManager) {
+      this._siteManager = HubSiteManager.init(this._contextManager);
+    }
+    return this._siteManager;
   }
 }
