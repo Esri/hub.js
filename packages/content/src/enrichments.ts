@@ -303,7 +303,9 @@ const enrichMetadata = (
       const data = { ...content, metadata };
       return { data, stack, requestOptions };
     })
-    .catch((error) => handleEnrichmentError(error, input, opId));
+    .catch((error) => {
+      return handleEnrichmentError(error, input, opId);
+    });
 };
 
 const enrichOwner = (

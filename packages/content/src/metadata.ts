@@ -7,7 +7,7 @@ function parseMetadataXml(metadataXml: string): any {
     // options for fastXmlParser to read tag attrs
     ignoreAttributes: false,
     attributeNamePrefix: "@_", // attr name will be a new field in the resulting json with this prefix
-    textNodeName: "#value" // the resulting json will have field called #value pointing to the actual tag value,
+    textNodeName: "#value", // the resulting json will have field called #value pointing to the actual tag value,
   };
   return parse(metadataXml, opts);
 }
@@ -22,7 +22,7 @@ export function getContentMetadata(
   id: string,
   requestOptions?: IHubRequestOptions
 ): Promise<any> {
-  return getItemMetadata(id, requestOptions).then(metadataXml =>
+  return getItemMetadata(id, requestOptions).then((metadataXml) =>
     parseMetadataXml(metadataXml)
   );
 }

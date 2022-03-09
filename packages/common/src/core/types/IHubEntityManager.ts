@@ -48,13 +48,4 @@ export interface IHubEntityManager<T> {
     filter: Filter<"content">,
     opts: IHubSearchOptions
   ): Promise<ISearchResponse<T>>;
-
-  /**
-   * Given an item, do any additional data fetching and return
-   * a type `T`
-   *
-   * @param item
-   * @param requestOptions
-   */
-  fromItem(item: IItem, requestOptions: IRequestOptions): Promise<T>;
 }
