@@ -305,14 +305,14 @@ export class ArcGISContext implements IArcGISContext {
    */
   public get hubRequestOptions(): IHubRequestOptions {
     // We may add more logic around what is returned in some corner cases
-    if (this.isAuthenticated) {
-      return {
-        authentication: this.session,
-        isPortal: this.isPortal,
-        portalSelf: this.portal,
-        hubApiUrl: this.hubUrl,
-      };
-    }
+
+    return {
+      authentication: this.session,
+      isPortal: this.isPortal,
+      portalSelf: this.portal,
+      hubApiUrl: this.hubUrl,
+      portal: this.sharingApiUrl,
+    };
   }
 
   /**

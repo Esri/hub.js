@@ -105,7 +105,8 @@ describe("ArcGISContext:", () => {
       );
       expect(mgr.context.hubSearchServiceUrl).toBe(`${base}/api/v3/datasets`);
       expect(mgr.context.domainServiceUrl).toBe(`${base}/api/v3/domains`);
-      expect(mgr.context.hubRequestOptions).toBeUndefined();
+      expect(mgr.context.hubRequestOptions).toBeDefined();
+      expect(mgr.context.hubRequestOptions.authentication).toBeUndefined();
     });
     it("verify props when passed portalUrl", async () => {
       const t = new Date().getTime();

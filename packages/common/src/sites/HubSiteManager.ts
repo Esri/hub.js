@@ -3,18 +3,23 @@ import {
   IHubEntityManager,
   IHubSite,
   IHubItemEntityManager,
-  ArcGISContextManager,
   IArcGISContext,
-  createSite,
   HubError,
-  destroySite,
-  _fetchSite,
-  updateSite,
 } from "..";
+// Node has issues if this is not directly imported
+import { ArcGISContextManager } from "../ArcGISContextManager";
+import {
+  updateSite,
+  destroySite,
+  createSite,
+  _fetchSite,
+  convertItemToSite,
+  searchSites,
+} from "./HubSites";
 import { Filter, IHubSearchOptions } from "../search";
 import { IHubRequestOptions, ISearchResponse } from "../types";
 import { setItemThumbnail as updateItemThumbnail } from "../items/setItemThumbnail";
-import { convertItemToSite, searchSites } from ".";
+
 import { IItem } from "@esri/arcgis-rest-types";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
@@ -156,15 +161,23 @@ export class HubSiteManager
     identifier: string,
     requestOptions?: IHubRequestOptions
   ): Promise<IHubSite> {
-    if (requestOptions || this.context.requestOptions) {
-      return _fetchSite(
-        identifier,
-        requestOptions || this.context.hubRequestOptions
-      );
-    } else {
+    try {
+      if (requestOptions || this.context.hubRequestOptions) {
+        return _fetchSite(
+          identifier,
+          requestOptions || this.context.hubRequestOptions
+        );
+      } else {
+        throw new HubError(
+          "Fetch Site",
+          "Can not retrieve context.hubRequestOptions from Context Manager. HubSiteManager is configured incorrectly."
+        );
+      }
+    } catch (ex) {
       throw new HubError(
         "Fetch Site",
-        "Can not retrieve context.hubRequestOptions from Context Manager. HubSiteManager is configured incorrectly."
+        "Can not retrieve context.hubRequestOptions from Context Manager. HubSiteManager is configured incorrectly.",
+        ex as unknown as Error
       );
     }
   }

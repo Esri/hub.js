@@ -1,22 +1,24 @@
-import { IUser, UserSession } from "@esri/arcgis-rest-auth";
-import { IItem, IPortal } from "@esri/arcgis-rest-portal";
+import { IItem, IPortal, IUser } from "@esri/arcgis-rest-portal";
+import { UserSession } from "@esri/arcgis-rest-auth";
 // For node jasmine tests to work, contextmanager & context need
 // to be imported with a full path
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { ArcGISContext } from "../../src/ArcGISContext";
-import { HubProjectManager } from "../../src/projects/HubProjectManager";
-import { Filter, getProp, IArcGISContextOptions, IHubProject } from "../../src";
-import * as HubProjects from "../../src/projects/HubProjects";
+import { HubSiteManager } from "../../src/sites/HubSiteManager";
+import { getProp, IArcGISContextOptions, IHubSite, Filter } from "../../src";
+
+import * as HubSites from "../../src/sites/HubSites";
+
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as ThumbnailModule from "../../src/items/setItemThumbnail";
 
-describe("HubProjectManager:", () => {
+describe("HubSiteManager:", () => {
   // Setup the store
-  let authdMgr: HubProjectManager;
-  let unauthdMgr: HubProjectManager;
+  let authdMgr: HubSiteManager;
+  let unauthdMgr: HubSiteManager;
   beforeEach(async () => {
     const mgr = await ArcGISContextManager.create();
-    unauthdMgr = HubProjectManager.init(mgr);
+    unauthdMgr = HubSiteManager.init(mgr);
     // When we pass in all this information, the context
     // manager will not try to fetch anything, so no need
     // to mock those calls
@@ -29,15 +31,18 @@ describe("HubProjectManager:", () => {
         name: "DC R&D Center",
         id: "BRXFAKE",
         urlKey: "fake-org",
+        isPortal: false,
+        customBaseUrl: "maps.arcgis.com",
       } as unknown as IPortal,
-      portalUrl: "https://myserver.com",
+      portalUrl: "https://fake-org.maps.arcgis.com",
     });
-    authdMgr = HubProjectManager.init(authdCtxMgr);
+    authdMgr = HubSiteManager.init(authdCtxMgr);
   });
+
   describe("create:", () => {
     let createSpy: jasmine.Spy;
     beforeEach(() => {
-      createSpy = spyOn(HubProjects, "createProject").and.returnValue(
+      createSpy = spyOn(HubSites, "createSite").and.returnValue(
         Promise.resolve({
           id: "3ef",
         })
@@ -45,11 +50,11 @@ describe("HubProjectManager:", () => {
     });
     it("uses context by default", async () => {
       await authdMgr.create({
-        name: "Fake project",
+        name: "Fake Site",
         orgUrlKey: "dcdev",
       });
-      const prj = createSpy.calls.argsFor(0)[0];
-      expect(prj.orgUrlKey).toBe("dcdev");
+      const site = createSpy.calls.argsFor(0)[0];
+      expect(site.orgUrlKey).toBe("dcdev");
       const ro = createSpy.calls.argsFor(0)[1];
       expect(ro.authentication).toBe(MOCK_AUTH);
     });
@@ -58,7 +63,7 @@ describe("HubProjectManager:", () => {
         username: "vader",
       } as unknown as UserSession;
       await authdMgr.create(
-        { name: "Fake project" },
+        { name: "Fake Site" },
         { authentication: fakeSession }
       );
       const ro = createSpy.calls.argsFor(0)[1];
@@ -66,26 +71,27 @@ describe("HubProjectManager:", () => {
     });
     it("uses org info from context if not passed", async () => {
       await authdMgr.create({
-        name: "Fake project",
+        name: "Fake Site",
       });
-      const prj = createSpy.calls.argsFor(0)[0];
-      expect(prj.orgUrlKey).toBe("fake-org");
+      const site = createSpy.calls.argsFor(0)[0];
+      expect(site.orgUrlKey).toBe("fake-org");
       const ro = createSpy.calls.argsFor(0)[1];
       expect(ro.authentication).toBe(MOCK_AUTH);
     });
     it("throws HubError if not authd", async () => {
       try {
-        await unauthdMgr.create({ name: "Fake project" });
+        await unauthdMgr.create({ name: "Fake Site" });
       } catch (err) {
         expect(getProp(err, "name")).toBe("HubError");
         expect(getProp(err, "message")).toContain("requires authentication");
       }
     });
   });
+
   describe("update:", () => {
     let updateSpy: jasmine.Spy;
     beforeEach(() => {
-      updateSpy = spyOn(HubProjects, "updateProject").and.returnValue(
+      updateSpy = spyOn(HubSites, "updateSite").and.returnValue(
         Promise.resolve({
           id: "3ef",
         })
@@ -93,8 +99,8 @@ describe("HubProjectManager:", () => {
     });
     it("uses context by default", async () => {
       await authdMgr.update({
-        name: "Fake project",
-      } as unknown as IHubProject);
+        name: "Fake site",
+      } as unknown as IHubSite);
       const ro = updateSpy.calls.argsFor(0)[1];
       expect(ro.authentication).toBe(MOCK_AUTH);
     });
@@ -102,18 +108,17 @@ describe("HubProjectManager:", () => {
       const fakeSession = {
         username: "vader",
       } as unknown as UserSession;
-      await authdMgr.update(
-        { name: "Fake project" } as unknown as IHubProject,
-        { authentication: fakeSession }
-      );
+      await authdMgr.update({ name: "Fake site" } as unknown as IHubSite, {
+        authentication: fakeSession,
+      });
       const ro = updateSpy.calls.argsFor(0)[1];
       expect(ro.authentication).toBe(fakeSession);
     });
     it("throws HubError if not authd", async () => {
       try {
         await unauthdMgr.update({
-          name: "Fake project",
-        } as unknown as IHubProject);
+          name: "Fake site",
+        } as unknown as IHubSite);
       } catch (err) {
         expect(getProp(err, "name")).toBe("HubError");
         expect(getProp(err, "message")).toContain("requires authentication");
@@ -124,7 +129,7 @@ describe("HubProjectManager:", () => {
   describe("destroy:", () => {
     let destroySpy: jasmine.Spy;
     beforeEach(() => {
-      destroySpy = spyOn(HubProjects, "destroyProject").and.returnValue(
+      destroySpy = spyOn(HubSites, "destroySite").and.returnValue(
         Promise.resolve({
           id: "3ef",
         })
@@ -152,10 +157,11 @@ describe("HubProjectManager:", () => {
       }
     });
   });
+
   describe("fetch: ", () => {
     let getSpy: jasmine.Spy;
     beforeEach(() => {
-      getSpy = spyOn(HubProjects, "fetchProject").and.returnValue(
+      getSpy = spyOn(HubSites, "_fetchSite").and.returnValue(
         Promise.resolve({
           id: "3ef",
         })
@@ -184,6 +190,50 @@ describe("HubProjectManager:", () => {
       }
     });
   });
+
+  describe("constructor:", () => {
+    it("accepts and uses IArcGISContext", async () => {
+      const ctx = new ArcGISContext({
+        id: 12312,
+        portalUrl: "https://ent.myorg.com/gis",
+        portalSelf: {
+          id: "ABC123",
+          name: "fake name",
+          isPortal: true,
+          portalHostname: "ent.myorg.com/gis",
+        },
+        authentication: MOCK_AUTH,
+      } as IArcGISContextOptions);
+
+      const mgr = HubSiteManager.init(ctx);
+
+      const fetchSpy = spyOn(HubSites, "_fetchSite").and.returnValue(
+        Promise.resolve({
+          id: "3ef",
+        })
+      );
+      await mgr.fetch("3ef");
+      expect(fetchSpy.calls.count()).toBe(1);
+      const ro = fetchSpy.calls.argsFor(0)[1];
+      expect(ro.portal).toBe("https://ent.myorg.com/gis/sharing/rest");
+    });
+    it("get returns error if context manager/context is mangled", async () => {
+      // In this test we cover a case where the store is
+      // passed a mangled contextManager,
+      unauthdMgr = HubSiteManager.init({
+        context: {},
+      } as unknown as ArcGISContextManager);
+      try {
+        await unauthdMgr.fetch("3ef");
+      } catch (err) {
+        expect(getProp(err, "name")).toBe("HubError");
+        expect(getProp(err, "message")).toContain(
+          "HubSiteManager is configured incorrectly"
+        );
+      }
+    });
+  });
+
   describe("search:", () => {
     let searchSpy: jasmine.Spy;
     const f: Filter<"content"> = {
@@ -191,7 +241,7 @@ describe("HubProjectManager:", () => {
       term: "water",
     };
     beforeEach(() => {
-      searchSpy = spyOn(HubProjects, "searchProjects").and.returnValue(
+      searchSpy = spyOn(HubSites, "searchSites").and.returnValue(
         Promise.resolve({
           total: 0,
           results: [],
@@ -222,7 +272,7 @@ describe("HubProjectManager:", () => {
       tnSpy = spyOn(ThumbnailModule, "setItemThumbnail").and.returnValue(
         Promise.resolve("response ignored")
       );
-      getSpy = spyOn(HubProjects, "fetchProject").and.returnValue(
+      getSpy = spyOn(HubSites, "_fetchSite").and.returnValue(
         Promise.resolve({
           id: "3ef",
         })
@@ -231,7 +281,7 @@ describe("HubProjectManager:", () => {
     it("uses context by default", async () => {
       const p = {
         id: "3ef",
-      } as unknown as IHubProject;
+      } as unknown as IHubSite;
       await authdMgr.updateThumbnail(p, "foo", "myFile.png");
       expect(tnSpy.calls.count()).toBe(1);
       const so = tnSpy.calls.argsFor(0)[3];
@@ -248,7 +298,7 @@ describe("HubProjectManager:", () => {
       } as unknown as UserSession;
       const p = {
         id: "3ef",
-      } as unknown as IHubProject;
+      } as unknown as IHubSite;
       await authdMgr.updateThumbnail(p, "foo", "myFile.png", {
         authentication: fakeSession,
       });
@@ -258,44 +308,10 @@ describe("HubProjectManager:", () => {
       expect(ro.authentication).toBe(fakeSession);
     });
   });
-  describe("constructor:", () => {
-    it("accepts and uses IArcGISContext", async () => {
-      const ctx = new ArcGISContext({
-        id: 12312,
-        portalUrl: "https://ent.myorg.com/gis",
-      } as IArcGISContextOptions);
-
-      const mgr = HubProjectManager.init(ctx);
-
-      const fetchSpy = spyOn(HubProjects, "fetchProject").and.returnValue(
-        Promise.resolve({
-          id: "3ef",
-        })
-      );
-      await mgr.fetch("3ef");
-      const ro = fetchSpy.calls.argsFor(0)[1];
-      expect(ro.portal).toBe("https://ent.myorg.com/gis/sharing/rest");
-    });
-    it("get returns error if context manager/context is mangled", async () => {
-      // In this test we cover a case where the store is
-      // passed a mangled contextManager,
-      unauthdMgr = HubProjectManager.init({
-        context: {},
-      } as unknown as ArcGISContextManager);
-      try {
-        await unauthdMgr.fetch("3ef");
-      } catch (err) {
-        expect(getProp(err, "name")).toBe("HubError");
-        expect(getProp(err, "message")).toContain(
-          "HubProjectManager is configured incorrectly"
-        );
-      }
-    });
-  });
   describe("fromItem:", () => {
     let convertSpy: jasmine.Spy;
     beforeEach(() => {
-      convertSpy = spyOn(HubProjects, "convertItemToProject").and.returnValue(
+      convertSpy = spyOn(HubSites, "convertItemToSite").and.returnValue(
         Promise.resolve({
           id: "3ef",
         })

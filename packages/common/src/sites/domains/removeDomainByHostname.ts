@@ -1,7 +1,6 @@
 import { IHubRequestOptions } from "../../types";
-import { lookupDomain } from ".";
+import { lookupDomain, removeDomain } from ".";
 import { getProp } from "../..";
-import { removeDomain } from "./remove-domain";
 
 /**
  * Remove an entry from the domain service, based on a hostname

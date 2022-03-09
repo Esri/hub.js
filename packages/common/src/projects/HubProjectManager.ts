@@ -6,6 +6,7 @@ import {
   destroyProject,
   fetchProject,
   searchProjects,
+  convertItemToProject,
 } from "./HubProjects";
 // Node has issues if this is not directly imported
 import { ArcGISContextManager } from "../ArcGISContextManager";
@@ -19,7 +20,6 @@ import {
 import { IHubEntityManager, IHubProject } from "../core/types";
 import { IHubItemEntityManager } from "../core/types/IHubItemEntityManager";
 import { setItemThumbnail as updateItemThumbnail } from "../items/setItemThumbnail";
-import { convertItemToProject } from ".";
 import { IItem } from "@esri/arcgis-rest-types";
 
 /**

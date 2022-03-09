@@ -2,17 +2,16 @@ import { _removeSiteDomains } from "../src";
 import * as commonModule from "@esri/hub-common";
 import { IHubRequestOptions } from "@esri/hub-common";
 
-let removeDomainsBySiteIdSpy: jasmine.Spy;
-
-beforeEach(() => {
-  removeDomainsBySiteIdSpy = spyOn(commonModule, "removeDomainsBySiteId");
-});
-
-afterEach(() => {
-  removeDomainsBySiteIdSpy.calls.reset();
-});
-
 describe("_removeSiteDomains", () => {
+  let removeDomainsBySiteIdSpy: jasmine.Spy;
+
+  beforeEach(() => {
+    removeDomainsBySiteIdSpy = spyOn(commonModule, "removeDomainsBySiteId");
+  });
+
+  afterEach(() => {
+    removeDomainsBySiteIdSpy.calls.reset();
+  });
   it("removes the domains", async () => {
     removeDomainsBySiteIdSpy.and.returnValue(
       Promise.resolve([{ id: "foo" }, { id: "baz" }, { id: "bar" }])

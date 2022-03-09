@@ -10,7 +10,7 @@ import {
 import {
   draftModelOneThree,
   oneThreeSiteDraftIncludeList,
-} from "./historical-site-draft-schemas/1-3";
+} from "../fixtures/historical-site-draft-schemas/1-3";
 
 const siteModel = {
   item: {

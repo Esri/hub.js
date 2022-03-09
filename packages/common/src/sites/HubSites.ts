@@ -3,37 +3,37 @@ import { IItem, IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 
 import {
   addSiteDomains,
-  ensureUniqueDomainName,
-  fetchSiteModel,
-  getOrgDefaultTheme,
-  removeDomainsBySiteId,
-  registerSiteAsApplication,
   cloneObject,
   constructSlug,
   createModel,
+  ensureUniqueDomainName,
   fetchModelFromItem,
+  fetchSiteModel,
   Filter,
   getHubApiUrl,
   getItemThumbnailUrl,
   getModel,
+  getOrgDefaultTheme,
   getProp,
   IHubRequestOptions,
   IHubSearchOptions,
   IHubSite,
   IModel,
+  IPropertyMap,
   ISearchResponse,
   mergeContentFilter,
+  PropertyMapper,
+  registerSiteAsApplication,
+  removeDomainsBySiteId,
   searchContentEntities,
   setProp,
   setSlugKeyword,
   slugify,
   stripProtocol,
   updateModel,
-  IPropertyMap,
-  PropertyMapper,
 } from "..";
 
-import { handleDomainChanges } from "./_internal/handleDomainChanges";
+import { handleDomainChanges } from "./_internal";
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
@@ -260,6 +260,7 @@ export async function createSite(
   requestOptions: IHubRequestOptions
 ): Promise<IHubSite> {
   const site = { ...DEFAULT_SITE, ...partialSite };
+  const portal = requestOptions.portalSelf;
   // Set the type based on the environment we are working in
   site.type = requestOptions.isPortal
     ? ENTERPRISE_SITE_ITEM_TYPE
@@ -273,22 +274,31 @@ export async function createSite(
   // add slug to keywords
   site.typeKeywords = setSlugKeyword(site.typeKeywords, site.slug);
 
-  // Domains
   if (!site.subdomain) {
     site.subdomain = slugify(site.name);
   }
+
   site.subdomain = await ensureUniqueDomainName(site.subdomain, requestOptions);
 
-  const portal = requestOptions.portalSelf;
-  // now that we know the subdomain is available, set the defaultHostname
-  site.defaultHostname = `${site.subdomain}-${portal.urlKey}.${stripProtocol(
-    getHubApiUrl(requestOptions)
-  )}`;
+  // Domains
+  if (!requestOptions.isPortal) {
+    // now that we know the subdomain is available, set the defaultHostname
+    site.defaultHostname = `${site.subdomain}-${portal.urlKey}.${stripProtocol(
+      getHubApiUrl(requestOptions)
+    )}`;
 
-  // set the url
-  site.url = `https://${
-    site.customHostname ? site.customHostname : site.defaultHostname
-  }`;
+    // set the url
+    site.url = `https://${
+      site.customHostname ? site.customHostname : site.defaultHostname
+    }`;
+  } else {
+    // Portal Sites use subdomain in hash based router
+    site.typeKeywords.push(`hubsubdomain|${site.subdomain}`.toLowerCase());
+    site.url = `${requestOptions.authentication.portal.replace(
+      `/sharing/rest`,
+      `/apps/sites`
+    )}/#/${site.subdomain}`;
+  }
 
   // Note:  We used to use adlib for this, but it's much harder to
   // use templates with typescript. i.e. you can't assign a string template
@@ -370,6 +380,14 @@ export async function updateSite(
   const currentModel = await getModel(site.id, requestOptions);
   // handle any domain changes
   await handleDomainChanges(updatedModel, currentModel, requestOptions);
+
+  if (updatedModel.item.properties.slug !== currentModel.item.properties.slug) {
+    // ensure slug to keywords
+    updatedModel.item.typeKeywords = setSlugKeyword(
+      updatedModel.item.typeKeywords,
+      updatedModel.item.properties.slug
+    );
+  }
 
   // merge the updated site onto the current model
   const modelToStore = mapper.objectToModel(site, currentModel);

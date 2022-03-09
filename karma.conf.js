@@ -29,7 +29,8 @@ module.exports = function(config) {
           /\.(d|spec|test|e2e|node-utils)\.ts$/i,
           /fixture*/,
           /mocks*/, 
-          /test*/
+          /test-helpers*/
+          
         ],
         threshold: {
           global: {

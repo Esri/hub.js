@@ -2,7 +2,7 @@ import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
 import { HubSiteManager, IHubSite } from "../src";
 
-describe("Hub Sites", () => {
+fdescribe("Hub Sites", () => {
   let factory: Artifactory;
   beforeAll(() => {
     factory = new Artifactory(config);
