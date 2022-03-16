@@ -1,8 +1,10 @@
+import { queryFeatures } from "@esri/arcgis-rest-feature-layer";
 import { getItem } from "@esri/arcgis-rest-portal";
-import { composeContent } from "./compose";
+import { IHubContent } from "../core";
 import {
   ItemOrServerEnrichment,
   fetchItemEnrichments,
+  IItemAndEnrichments,
 } from "../items/_enrichments";
 import { IHubRequestOptions } from "../types";
 import { isNil } from "../util";
@@ -14,6 +16,7 @@ import {
   getContentEnrichments,
 } from "./_fetch";
 import { canUseHubApiForItem } from "./_internal";
+import { composeContent, getItemLayer, isLayerView } from "./compose";
 
 interface IFetchItemAndEnrichmentsOptions extends IHubRequestOptions {
   enrichments?: ItemOrServerEnrichment[];
@@ -24,13 +27,30 @@ export interface IFetchContentOptions extends IFetchItemAndEnrichmentsOptions {
   siteOrgKey?: string;
 }
 
+const maybeFetchLayerEnrichments = async (
+  itemAndEnrichments: IItemAndEnrichments,
+  options?: IFetchContentOptions
+) => {
+  // determine if this is a client-side feature layer view
+  const { item, data, layers } = itemAndEnrichments;
+  const layer =
+    layers && getItemLayer(item, layers, options && options.layerId);
+  // TODO: add recordCount here too?
+  const layerEnrichments =
+    layer && isLayerView(layer) && !data
+      ? await fetchItemEnrichments(item, ["data"], options)
+      : undefined;
+  // TODO: merge errors
+  return { ...itemAndEnrichments, ...layerEnrichments };
+};
+
 const fetchItemAndEnrichments = async (
   itemId: string,
-  options?: IFetchItemAndEnrichmentsOptions
+  options?: IFetchContentOptions
 ) => {
-  // TODO: add error handling
+  // fetch the item
   const item = await getItem(itemId, options);
-  // TODO: allow override enrichments
+  // fetch the enrichments
   const enrichmentsToFetch =
     options?.enrichments || getContentEnrichments(item);
   const enrichments = await fetchItemEnrichments(
@@ -38,7 +58,7 @@ const fetchItemAndEnrichments = async (
     enrichmentsToFetch,
     options
   );
-  return { ...enrichments, item };
+  return maybeFetchLayerEnrichments({ ...enrichments, item }, options);
 };
 
 const fetchContentById = async (
@@ -52,8 +72,7 @@ const fetchContentById = async (
     options
   );
   // did the caller request a specific layer
-  const specifiedLayerId =
-    options && !isNil(options.layerId) && options.layerId;
+  const specifiedLayerId = options && options.layerId;
   // if this is a public item and we're not in enterprise
   // fetch the slug and remaining enrichments from the Hub API
   const { slug, layerId, boundary, extent, searchDescription, statistics } =
@@ -65,7 +84,7 @@ const fetchContentById = async (
     requestOptions: options,
     ...itemEnrichments,
     slug,
-    layerId: specifiedLayerId || layerId,
+    layerId: isNil(specifiedLayerId) ? layerId : specifiedLayerId,
     boundary,
     extent,
     searchDescription,
@@ -119,6 +138,17 @@ const fetchContentBySlug = async (
   });
 };
 
+const fetchContentRecordCount = async (content: IHubContent) => {
+  const { url, viewDefinition } = content;
+  const where = viewDefinition?.definitionExpression;
+  const response: any = await queryFeatures({
+    url,
+    where,
+    returnCountOnly: true,
+  });
+  return response.count;
+};
+
 /**
  * Fetch enriched content from the Portal and Hub APIs.
  * @param identifier content slug or id
@@ -131,14 +161,19 @@ const fetchContentBySlug = async (
  * const content = await fetchContent('my-org::item-name')
  * ```
  */
-export const fetchContent = (
+export const fetchContent = async (
   identifier: string,
   options?: IFetchContentOptions
 ) => {
-  return isSlug(identifier)
-    ? fetchContentBySlug(
+  const content = isSlug(identifier)
+    ? await fetchContentBySlug(
         addContextToSlug(identifier, options?.siteOrgKey),
         options
       )
-    : fetchContentById(identifier, options);
+    : await fetchContentById(identifier, options);
+  // fetch record count for layers, tables, or proxied CSVs
+  const { isProxied, layer } = content;
+  content.recordCount =
+    isProxied || !!layer ? await fetchContentRecordCount(content) : undefined;
+  return content;
 };

@@ -1,8 +1,12 @@
 import { IItem } from "@esri/arcgis-rest-portal";
-import { BBox } from "..";
-import { ItemOrServerEnrichment } from "../items/_enrichments";
+import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { IHubContent } from "../core";
+import {
+  fetchItemEnrichments,
+  ItemOrServerEnrichment,
+} from "../items/_enrichments";
 import { hubApiRequest } from "../request";
-import { IHubRequestOptions, IHubGeography } from "../types";
+import { BBox, IHubRequestOptions, IHubGeography } from "../types";
 import { isMapOrFeatureServerUrl } from "../urls";
 import { cloneObject } from "../util";
 import { includes } from "../utils";

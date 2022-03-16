@@ -499,6 +499,51 @@ export interface IComposeContentOptions extends IHubContentEnrichments {
 }
 
 /**
+ * get the layer object for
+ * - an item that refers to a specific layer of a service
+ * - a multi-layer services (if a layer id was passed in)
+ * - a single layer feature service
+ * @param item
+ * @param layers the layers and tables returned from the service
+ * @param layerId a specific id
+ * @returns layer definition
+ * @private
+ */
+export const getItemLayer = (
+  item: IItem,
+  layers: ILayerDefinition[],
+  layerId?: number
+) => {
+  // if item refers to a layer we always want to use that layer id
+  // otherwise use the layer id that was passed in (if any)
+  const _layerIdFromUrl = getLayerIdFromUrl(item.url);
+  const _layerId = _layerIdFromUrl ? parseInt(_layerIdFromUrl, 10) : layerId;
+  return (
+    layers &&
+    (!isNil(_layerId)
+      ? // find the explicitly set layer id
+        layers.find((_layer) => _layer.id === _layerId)
+      : // for feature servers with a single layer always show the layer
+        isFeatureService(item.type) && getOnlyQueryLayer(layers))
+  );
+};
+
+// TODO: we should re-define ILayerDefinition
+// in IServerEnrichments.ts to include isView
+interface ILayerViewDefinition extends ILayerDefinition {
+  isView?: boolean;
+}
+
+/**
+ * determine if a layer is a layer view
+ * @param layer
+ * @returns
+ * @private
+ */
+export const isLayerView = (layer: ILayerDefinition) =>
+  (layer as ILayerViewDefinition).isView;
+
+/**
  * Compose a new content object out of an item, enrichments, and context
  * @param item
  * @param options any enrichments, current state (selected layerId), or context (requestOptions)
@@ -528,19 +573,7 @@ export const composeContent = (
   } = options || {};
 
   // set common variables that we will use in the derived properties below
-  // if item refers to a layer we always want to use that layer id
-  // otherwise use the layer id that was passed in (if any)
-  const _layerIdFromUrl = getLayerIdFromUrl(item.url);
-  const layerId = _layerIdFromUrl
-    ? parseInt(_layerIdFromUrl, 10)
-    : options?.layerId;
-  const layer =
-    layers &&
-    (!isNil(layerId)
-      ? // find the explicitly set layer id
-        layers.find((_layer) => _layer.id === layerId)
-      : // for feature servers with a single layer always show the layer
-        isFeatureService(item.type) && getOnlyQueryLayer(layers));
+  const layer = getItemLayer(item, layers, options?.layerId);
   // NOTE: we only set hubId for public items in online
   const hubId = canUseHubApiForItem(item, requestOptions)
     ? layer
@@ -749,6 +782,17 @@ export const composeContent = (
         getServerSpatialReference(server, layer) ||
         null
       );
+    },
+    get viewDefinition() {
+      return layer &&
+        isLayerView(layer) &&
+        data &&
+        data.layers &&
+        data.layers.length > 0
+        ? // NOTE: I copied over this logic that
+          // _always_ uses the first layer from composer.js
+          data.layers[0].layerDefinition
+        : undefined;
     },
     get orgId() {
       // NOTE: it's undocumented, but the portal API will return orgId for items... sometimes

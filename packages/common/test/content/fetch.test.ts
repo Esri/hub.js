@@ -1,5 +1,6 @@
 import { IPolygon } from "@esri/arcgis-rest-types";
 import * as portalModule from "@esri/arcgis-rest-portal";
+import * as featureLayerModule from "@esri/arcgis-rest-feature-layer";
 import {
   IHubRequestOptions,
   fetchContent,
@@ -11,6 +12,26 @@ import * as _enrichmentsModule from "../../src/items/_enrichments";
 import * as _fetchModule from "../../src/content/_fetch";
 import * as documentItem from "../mocks/items/document.json";
 import * as multiLayerFeatureServiceItem from "../mocks/items/multi-layer-feature-service.json";
+
+// mock the item enrichments that would be returned for a multi-layer service
+const getMultiLayerItemEnrichments = () => {
+  const layer = { id: 0, name: "layer0 " };
+  const table = { id: 1, name: "table1 " };
+  const item = multiLayerFeatureServiceItem as unknown as portalModule.IItem;
+  return {
+    item,
+    groupIds: ["foo", "bar"],
+    metadata: null as any,
+    ownerUser: {
+      username: item.owner,
+    },
+    server: {
+      currentVersion: 10.71,
+      serviceDescription: "For demo purposes only.",
+    },
+    layers: [layer, table],
+  };
+};
 
 describe("fetchContent", () => {
   let portal: string;
@@ -54,6 +75,7 @@ describe("fetchContent", () => {
       const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
         Promise.resolve(documentItem)
       );
+      const queryFeaturesSpy = spyOn(featureLayerModule, "queryFeatures");
       // call fetch content
       const options = {
         ...requestOpts,
@@ -67,6 +89,7 @@ describe("fetchContent", () => {
       expect(fetchHubEnrichmentsSpy).toHaveBeenCalledWith(slug, options);
       expect(getItemSpy).toHaveBeenCalledTimes(1);
       expect(getItemSpy).toHaveBeenCalledWith(itemId, options);
+      expect(queryFeaturesSpy).not.toHaveBeenCalled();
       // inspect the results
       expect(result.item).toEqual(documentItem);
       expect(result.boundary).toEqual({
@@ -76,6 +99,7 @@ describe("fetchContent", () => {
       expect(result.statistics).toBeUndefined();
     });
     describe("with a specific layer", () => {
+      let itemEnrichments: _enrichmentsModule.IItemAndEnrichments;
       beforeEach(() => {
         // initialize the above above variables for the multi-layer feature service item
         // see: https://hubqa.arcgis.com/api/v3/datasets/eda6e08848924887b00a67ca319ec1bf
@@ -111,9 +135,99 @@ describe("fetchContent", () => {
             // "setBy": null
           },
         };
+        itemEnrichments = getMultiLayerItemEnrichments();
       });
       it("should re-fetch hub enrichments for feature services", async () => {
         // expected layer
+        const layerId = 1;
+        // the hub API enrichments that we expect for the above layer
+        // see: https://hubqa.arcgis.com/api/v3/datasets/eda6e08848924887b00a67ca319ec1bf_2?fields[datasets]=slug,boundary,statistics
+        const layerHubEnrichments = {
+          itemId,
+          layerId,
+          slug: "dc::municipal-fire-stations",
+          // NOTE: in this case the layer's boundary is the same as the parent's
+          // for now I'm just cloning it so that we can test reference equality below
+          boundary: cloneObject(hubEnrichments.boundary),
+          statistics: {},
+        };
+        // initialize the spies
+        const fetchItemEnrichmentsSpy = spyOn(
+          _enrichmentsModule,
+          "fetchItemEnrichments"
+        ).and.returnValue(Promise.resolve(itemEnrichments));
+        const fetchHubEnrichmentsSpy = spyOn(
+          _fetchModule,
+          "fetchHubEnrichmentsBySlug"
+        ).and.returnValue(Promise.resolve(hubEnrichments));
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
+          Promise.resolve(multiLayerFeatureServiceItem)
+        );
+        const fetchLayerHubEnrichmentsSpy = spyOn(
+          _fetchModule,
+          "fetchHubEnrichmentsById"
+        ).and.returnValue(Promise.resolve(layerHubEnrichments));
+        const count = 100;
+        const queryFeaturesSpy = spyOn(
+          featureLayerModule,
+          "queryFeatures"
+        ).and.returnValue(Promise.resolve({ count }));
+        // call fetch content
+        const options = {
+          ...requestOpts,
+          siteOrgKey,
+          layerId,
+        } as IFetchContentOptions;
+        const result = await fetchContent(shortSlug, options);
+        // inspect the calls
+        expect(fetchHubEnrichmentsSpy).toHaveBeenCalledTimes(1);
+        expect(fetchHubEnrichmentsSpy).toHaveBeenCalledWith(slug, options);
+        expect(getItemSpy).toHaveBeenCalledTimes(1);
+        expect(getItemSpy).toHaveBeenCalledWith(itemId, options);
+        expect(fetchItemEnrichmentsSpy).toHaveBeenCalledTimes(1);
+        expect(fetchItemEnrichmentsSpy).toHaveBeenCalledWith(
+          multiLayerFeatureServiceItem,
+          ["groupIds", "metadata", "ownerUser", "org", "server", "layers"],
+          options
+        );
+        expect(fetchLayerHubEnrichmentsSpy).toHaveBeenCalledTimes(1);
+        expect(fetchLayerHubEnrichmentsSpy).toHaveBeenCalledWith(
+          `${itemId}_${layerId}`,
+          options
+        );
+        expect(queryFeaturesSpy).toHaveBeenCalledTimes(1);
+        // inspect the results
+        expect(result.item).toEqual(
+          multiLayerFeatureServiceItem as unknown as portalModule.IItem
+        );
+        expect(result.slug).toBe(layerHubEnrichments.slug);
+        // expect(result.boundary).toEqual(layerHubEnrichments.boundary)
+        expect(result.boundary).toBe(layerHubEnrichments.boundary);
+        expect(result.boundary).not.toBe(hubEnrichments.boundary);
+        expect(result.statistics).toEqual(layerHubEnrichments.statistics);
+        expect(result.recordCount).toBe(count);
+      });
+      it("should fetch view definition for client-side layer views", async () => {
+        // NOTE: testing edge case here by pretending that
+        // this layer view ends up filtering out all records
+        const definitionExpression = "1=2";
+        const count = 0;
+        // mock the data response for a client-side layer view
+        const data = {
+          layers: [
+            {
+              layerDefinition: {
+                definitionExpression,
+              },
+            },
+          ],
+        };
+        // expected layer
+        itemEnrichments.layers.push({
+          id: 2,
+          isView: true,
+          name: "layerView",
+        } as any);
         const layerId = 2;
         // the hub API enrichments that we expect for the above layer
         // see: https://hubqa.arcgis.com/api/v3/datasets/eda6e08848924887b00a67ca319ec1bf_2?fields[datasets]=slug,boundary,statistics
@@ -127,45 +241,68 @@ describe("fetchContent", () => {
           statistics: {},
         };
         // initialize the spies
+        const fetchItemEnrichmentsSpy = spyOn(
+          _enrichmentsModule,
+          "fetchItemEnrichments"
+        ).and.callFake(
+          (
+            item: any,
+            enrichments: _enrichmentsModule.ItemOrServerEnrichment[]
+          ) => {
+            return Promise.resolve(
+              enrichments.length === 1 && enrichments[0] === "data"
+                ? { data }
+                : itemEnrichments
+            );
+          }
+        );
         const fetchHubEnrichmentsSpy = spyOn(
           _fetchModule,
           "fetchHubEnrichmentsBySlug"
-        ).and.returnValue(Promise.resolve(hubEnrichments));
+        ).and.returnValue(Promise.resolve(layerHubEnrichments));
         const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           Promise.resolve(multiLayerFeatureServiceItem)
         );
-        const fetchLayerHubEnrichmentsSpy = spyOn(
-          _fetchModule,
-          "fetchHubEnrichmentsById"
-        ).and.returnValue(Promise.resolve(layerHubEnrichments));
+        const queryFeaturesSpy = spyOn(
+          featureLayerModule,
+          "queryFeatures"
+        ).and.returnValue(Promise.resolve({ count }));
         // call fetch content
+        // NOTE: not passing siteOrgKey and instead using fully qualified slug for layer
+        slug = layerHubEnrichments.slug;
         const options = {
           ...requestOpts,
-          siteOrgKey,
           layerId,
-          // this keeps us from having to mock the call to fetch item enrichments
-          enrichments: [],
         } as IFetchContentOptions;
-        const result = await fetchContent(shortSlug, options);
+        const result = await fetchContent(slug, options);
         // inspect the calls
         expect(fetchHubEnrichmentsSpy).toHaveBeenCalledTimes(1);
         expect(fetchHubEnrichmentsSpy).toHaveBeenCalledWith(slug, options);
         expect(getItemSpy).toHaveBeenCalledTimes(1);
         expect(getItemSpy).toHaveBeenCalledWith(itemId, options);
-        expect(fetchLayerHubEnrichmentsSpy).toHaveBeenCalledTimes(1);
-        expect(fetchLayerHubEnrichmentsSpy).toHaveBeenCalledWith(
-          `${itemId}_${layerId}`,
-          options
-        );
+        expect(fetchItemEnrichmentsSpy).toHaveBeenCalledTimes(2);
+        expect(fetchItemEnrichmentsSpy.calls.argsFor(0)[1]).toEqual([
+          "groupIds",
+          "metadata",
+          "ownerUser",
+          "org",
+          "server",
+          "layers",
+        ]);
+        expect(fetchItemEnrichmentsSpy.calls.argsFor(1)[1]).toEqual(["data"]);
+        expect(queryFeaturesSpy).toHaveBeenCalledTimes(1);
+        const queryFeaturesArg = queryFeaturesSpy.calls.argsFor(0)[0] as any;
+        expect(queryFeaturesArg.url).toEqual(result.url);
+        expect(queryFeaturesArg.returnCountOnly).toBeTruthy();
+        expect(queryFeaturesArg.where).toBe(definitionExpression);
         // inspect the results
         expect(result.item).toEqual(
           multiLayerFeatureServiceItem as unknown as portalModule.IItem
         );
-        expect(result.slug).toBe(layerHubEnrichments.slug);
-        // expect(result.boundary).toEqual(layerHubEnrichments.boundary)
-        expect(result.boundary).toBe(layerHubEnrichments.boundary);
-        expect(result.boundary).not.toBe(hubEnrichments.boundary);
-        expect(result.statistics).toEqual(layerHubEnrichments.statistics);
+        expect(result.viewDefinition.definitionExpression).toBe(
+          definitionExpression
+        );
+        expect(result.recordCount).toBe(count);
       });
     });
     describe("with defaults", () => {
@@ -192,6 +329,7 @@ describe("fetchContent", () => {
           _enrichmentsModule,
           "fetchItemEnrichments"
         ).and.returnValue(Promise.resolve(itemEnrichments));
+        const queryFeaturesSpy = spyOn(featureLayerModule, "queryFeatures");
         // call fetch content
         const options = {
           ...requestOpts,
@@ -209,6 +347,7 @@ describe("fetchContent", () => {
           ["groupIds", "metadata", "ownerUser", "org"],
           options
         );
+        expect(queryFeaturesSpy).not.toHaveBeenCalled();
         // inspect the results
         expect(result.item).toEqual(documentItem);
         expect(result.boundary).toEqual({
@@ -230,6 +369,7 @@ describe("fetchContent", () => {
           _enrichmentsModule,
           "fetchItemEnrichments"
         ).and.returnValue(Promise.resolve(itemEnrichments));
+        const queryFeaturesSpy = spyOn(featureLayerModule, "queryFeatures");
         // call fetch content
         // NOTE: we have to pass the fully qualified slug if not passing options
         const result = await fetchContent(slug);
@@ -244,6 +384,7 @@ describe("fetchContent", () => {
           ["groupIds", "metadata", "ownerUser", "org"],
           undefined
         );
+        expect(queryFeaturesSpy).not.toHaveBeenCalled();
         // inspect the results
         expect(result.item).toEqual(documentItem);
         expect(result.boundary).toEqual({
@@ -264,6 +405,7 @@ describe("fetchContent", () => {
       const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
         Promise.resolve(documentItem)
       );
+      const queryFeaturesSpy = spyOn(featureLayerModule, "queryFeatures");
       // call fetch content
       const options = {
         ...requestOpts,
@@ -276,6 +418,7 @@ describe("fetchContent", () => {
       expect(fetchHubEnrichmentsSpy).toHaveBeenCalledWith(itemId, options);
       expect(getItemSpy).toHaveBeenCalledTimes(1);
       expect(getItemSpy).toHaveBeenCalledWith(itemId, options);
+      expect(queryFeaturesSpy).not.toHaveBeenCalled();
       // inspect the results
       expect(result.item).toEqual(documentItem);
       expect(result.boundary).toEqual({
@@ -300,6 +443,7 @@ describe("fetchContent", () => {
         const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
           Promise.resolve(documentItem)
         );
+        const queryFeaturesSpy = spyOn(featureLayerModule, "queryFeatures");
         // call fetch content
         const options = {
           ...requestOpts,
@@ -311,6 +455,7 @@ describe("fetchContent", () => {
         expect(fetchHubEnrichmentsSpy).not.toHaveBeenCalled();
         expect(getItemSpy).toHaveBeenCalledTimes(1);
         expect(getItemSpy).toHaveBeenCalledWith(itemId, options);
+        expect(queryFeaturesSpy).not.toHaveBeenCalled();
         // inspect the results
         expect(result.item).toEqual(documentItem);
         expect(result.boundary).toEqual({
@@ -327,21 +472,8 @@ describe("fetchContent", () => {
           // NOTE: other tests pass enrichments: [] to avoid stubbing fetchItemEnrichments
           // this test covers the more common use case where we fetch the default enrichments
           // for a feature service item.
-          const layer = { id: 0, name: "layer0 " };
-          const table = { id: 1, name: "table1 " };
-          const itemEnrichments = {
-            groupIds: ["foo", "bar"],
-            metadata: null,
-            ownerUser: {
-              username: multiLayerFeatureServiceItem.owner,
-            },
-            server: {
-              currentVersion: 10.71,
-              serviceDescription: "For demo purposes only.",
-            },
-            layers: [layer, table],
-          } as IItemEnrichments;
-          const layerId = 1;
+          const itemEnrichments = getMultiLayerItemEnrichments();
+          const layerId = 0;
           // initialize the spies
           const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
             Promise.resolve(multiLayerFeatureServiceItem)
@@ -350,6 +482,11 @@ describe("fetchContent", () => {
             _enrichmentsModule,
             "fetchItemEnrichments"
           ).and.returnValue(Promise.resolve(itemEnrichments));
+          const count = 1000;
+          const queryFeaturesSpy = spyOn(
+            featureLayerModule,
+            "queryFeatures"
+          ).and.returnValue(Promise.resolve({ count }));
           // call fetch content
           const options = {
             ...requestOpts,
@@ -365,13 +502,19 @@ describe("fetchContent", () => {
             ["groupIds", "metadata", "ownerUser", "org", "server", "layers"],
             options
           );
+          expect(queryFeaturesSpy).toHaveBeenCalledTimes(1);
+          const queryFeaturesArg = queryFeaturesSpy.calls.argsFor(0)[0] as any;
+          expect(queryFeaturesArg.url).toEqual(result.url);
+          expect(queryFeaturesArg.returnCountOnly).toBeTruthy();
+          expect(queryFeaturesArg.where).toBeUndefined();
           // inspect the results
           expect(result.item).toEqual(
             multiLayerFeatureServiceItem as portalModule.IItem
           );
           // expect(result.boundary).toEqual({ geometry: undefined, provenance: undefined })
           expect(result.statistics).toBeUndefined();
-          expect(result.layer).toEqual(table);
+          expect(result.layer.id).toBe(layerId);
+          expect(result.recordCount).toEqual(count);
         });
       });
     });
