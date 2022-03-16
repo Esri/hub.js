@@ -1,3 +1,15 @@
+# @esri/hub-common [9.23.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.22.0...@esri/hub-common@9.23.0) (2022-03-16)
+
+
+### Bug Fixes
+
+* **hub-common:** first layer view definition applied to all layers ([4f7ed57](https://github.com/Esri/hub.js/commit/4f7ed57f1acc00190fc5190d5abd057b833b7497))
+
+
+### Features
+
+* **hub-common:** add viewDefinition and recordCount to fetchContent() response ([2740f00](https://github.com/Esri/hub.js/commit/2740f00d11e609e9d97ffaaee1ec302655495be4))
+
 # @esri/hub-common [9.22.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.21.2...@esri/hub-common@9.22.0) (2022-03-01)
 
 
