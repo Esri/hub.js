@@ -208,6 +208,7 @@ describe("fetchContent", () => {
         expect(result.recordCount).toBe(count);
       });
       it("should fetch view definition for client-side layer views", async () => {
+        const layerId = 2;
         // NOTE: testing edge case here by pretending that
         // this layer view ends up filtering out all records
         const definitionExpression = "1=2";
@@ -216,6 +217,7 @@ describe("fetchContent", () => {
         const data = {
           layers: [
             {
+              id: layerId,
               layerDefinition: {
                 definitionExpression,
               },
@@ -224,11 +226,10 @@ describe("fetchContent", () => {
         };
         // expected layer
         itemEnrichments.layers.push({
-          id: 2,
+          id: layerId,
           isView: true,
           name: "layerView",
         } as any);
-        const layerId = 2;
         // the hub API enrichments that we expect for the above layer
         // see: https://hubqa.arcgis.com/api/v3/datasets/eda6e08848924887b00a67ca319ec1bf_2?fields[datasets]=slug,boundary,statistics
         const layerHubEnrichments = {

@@ -38,7 +38,11 @@ const maybeFetchLayerEnrichments = async (
   // TODO: add recordCount here too?
   const layerEnrichments =
     layer && isLayerView(layer) && !data
-      ? await fetchItemEnrichments(item, ["data"], options)
+      ? // NOTE: I'm not sure what conditions causes a layer view
+        // to store (at least part of) it's view definition in item data
+        // it seems that most do not, but until we have a reliable signal
+        // we just fetch the item data for all layer views
+        await fetchItemEnrichments(item, ["data"], options)
       : undefined;
   // TODO: merge errors
   return { ...itemAndEnrichments, ...layerEnrichments };

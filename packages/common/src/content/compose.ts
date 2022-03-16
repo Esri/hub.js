@@ -784,15 +784,15 @@ export const composeContent = (
       );
     },
     get viewDefinition() {
-      return layer &&
+      // if this is a layer view and we have the item data
+      // find the definition that corresponds to the current layer
+      const dataLayer =
+        layer &&
         isLayerView(layer) &&
         data &&
-        data.layers &&
-        data.layers.length > 0
-        ? // NOTE: I copied over this logic that
-          // _always_ uses the first layer from composer.js
-          data.layers[0].layerDefinition
-        : undefined;
+        Array.isArray(data.layers) &&
+        data.layers.find((_layer) => _layer.id === layer.id);
+      return dataLayer ? dataLayer.layerDefinition : undefined;
     },
     get orgId() {
       // NOTE: it's undocumented, but the portal API will return orgId for items... sometimes
