@@ -114,6 +114,11 @@ export interface IHubContent
   /** links to additional resources specified in the formal item metadata */
   additionalResources?: IHubAdditionalResource[];
 
+  /** definition for content that refers to a client-side layer view */
+  viewDefinition?: { definitionExpression?: string };
+
+  // TODO: metrics, urls, publisher, etc?
+
   ///////////
   // TODO: remove these deprecated props at the next breaking version
   //////////
@@ -126,6 +131,4 @@ export interface IHubContent
 
   /* DEPRECATED: use org.id instead */
   orgId?: string;
-
-  // TODO: metrics, urls, publisher, etc?
 }
