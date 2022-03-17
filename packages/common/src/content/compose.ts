@@ -655,7 +655,7 @@ export const composeContent = (
     get url() {
       return _proxyUrl
         ? _proxyUrl
-        : _shouldUseLayerInfo
+        : layer
         ? `${parseServiceUrl(item.url)}/${layer.id}`
         : item.url;
     },

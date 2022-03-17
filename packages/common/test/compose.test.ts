@@ -403,6 +403,10 @@ describe("composeContent", () => {
       );
       expect(layerContent.type).toBe(layer.type, "should set type");
       expect(layerContent.family).toBe("dataset", "should set family");
+      expect(layerContent.url).toEqual(
+        `${item.url}/${layer.id}`,
+        "should set url"
+      );
       expect(layerContent.title).toEqual(item.title, "should not set title");
       expect(layerContent.description).toEqual(
         item.description,
@@ -412,7 +416,6 @@ describe("composeContent", () => {
         item.snippet,
         "should not set summary"
       );
-      expect(layerContent.url).toEqual(item.url, "should not set url");
     });
     // NOTE: we may want to re-implement the tests in enrichments.test.ts
     // that were introduced in https://github.com/Esri/hub.js/pull/633
