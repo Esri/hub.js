@@ -1,3 +1,10 @@
+## @esri/hub-common [9.23.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.23.0...@esri/hub-common@9.23.1) (2022-03-17)
+
+
+### Bug Fixes
+
+* **hub-common:** fix urls for single-layer feature services and fix 0 falsy comparision ([9aa478e](https://github.com/Esri/hub.js/commit/9aa478e653fd254625efdfffa833d6f7d1f81167))
+
 # @esri/hub-common [9.23.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.22.0...@esri/hub-common@9.23.0) (2022-03-16)
 
 
