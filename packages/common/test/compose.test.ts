@@ -332,21 +332,21 @@ describe("composeContent", () => {
     const layers = [
       {
         id: 0,
-        name: "layer0",
+        name: "layer_0",
         type: "Feature Layer",
         description: "Layer description",
         capabilities: "Query",
       },
       {
         id: 1,
-        name: "layer1",
+        name: "layer_1",
         type: "Feature Layer",
         description: "",
         capabilities: "Query",
       },
       {
         id: 2,
-        name: "table2",
+        name: "table_2",
         type: "Table",
         description: "",
         capabilities: "Query",
@@ -364,7 +364,7 @@ describe("composeContent", () => {
       expect(layerContent.hubId).toBeUndefined("should not set hubId");
       expect(layerContent.type).toBe(layer.type, "should set type");
       expect(layerContent.family).toBe("dataset", "should set family");
-      expect(layerContent.title).toEqual(layer.name, "should set title");
+      expect(layerContent.title).toEqual("layer 0", "should set title");
       expect(layerContent.description).toEqual(
         layer.description,
         "should set description"
@@ -382,7 +382,7 @@ describe("composeContent", () => {
       layerContent = composeContent(item, { layerId, layers });
       layer = layers[1];
       expect(layerContent.layer).toEqual(layer, "should set layer");
-      expect(layerContent.title).toEqual(layer.name, "should set title");
+      expect(layerContent.title).toEqual("layer 1", "should set title");
       expect(layerContent.description).toEqual(
         item.description,
         "should set description"
@@ -392,6 +392,17 @@ describe("composeContent", () => {
         `${item.url}/${layerId}`,
         "should set url"
       );
+    });
+    it("public, multi-layer feature service w/o layerId", () => {
+      const layerContent = composeContent(item, { layers });
+      expect(layerContent.layer).toBeUndefined();
+      expect(layerContent.hubId).toBe(item.id);
+      expect(layerContent.type).toBe(item.type);
+      expect(layerContent.family).toBe("map");
+      expect(layerContent.url).toEqual(item.url);
+      expect(layerContent.title).toEqual(item.title);
+      expect(layerContent.description).toEqual(item.description);
+      expect(layerContent.summary).toEqual(item.snippet);
     });
     it("public, single-layer feature service w/o layerId", () => {
       const layer = layers[0];

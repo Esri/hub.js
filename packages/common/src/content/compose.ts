@@ -36,8 +36,8 @@ import { getFamily } from "./get-family";
 
 // helper fns - move this to _internal if needed elsewhere
 const getOnlyQueryLayer = (layers: ILayerDefinition[]) => {
-  const layer = layers && layers.length === 1 && layers[0];
-  return layer && layer.capabilities.includes("Query") && layer;
+  const layer = layers && layers.length === 1 ? layers[0] : undefined;
+  return layer && layer.capabilities.includes("Query") ? layer : undefined;
 };
 
 const shouldUseLayerInfo = (
@@ -52,6 +52,18 @@ const shouldUseLayerInfo = (
     // we use item info instead of layer info for single layer items
     !getLayerIdFromUrl(url)
   );
+};
+
+// this logic adapted from hub-indexer's determineName(), see
+// https://github.com/ArcGIS/hub-indexer/blob/8f4dd6f928124c1f35dd02bc11bd996191ee1160/packages/duke/compose/common.js#L7-L34
+const getContentName = (
+  item: IItem,
+  layer?: Partial<ILayerDefinition>,
+  _shouldUseLayerInfo = false
+) => {
+  return (
+    (_shouldUseLayerInfo ? layer.name : item.title || item.name) || ""
+  ).replace(/_/g, " ");
 };
 
 /**
@@ -583,7 +595,7 @@ export const composeContent = (
   const identifier = slug || hubId || item.id;
   // whether or not we should show layer info for name, description, etc
   const _shouldUseLayerInfo = shouldUseLayerInfo(layer, layers, item.url);
-  const name = _shouldUseLayerInfo ? layer.name : item.title;
+  const name = getContentName(item, layer, _shouldUseLayerInfo);
   const _layerDescription = _shouldUseLayerInfo && layer.description;
   // so much depends on type
   const type = layer
