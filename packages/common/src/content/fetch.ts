@@ -115,9 +115,8 @@ const fetchContentBySlug = async (
     options
   );
   // did the caller request a specific layer
-  const specifiedLayerId =
-    options && !isNil(options.layerId) && options.layerId;
-  if (specifiedLayerId && specifiedLayerId !== layerId) {
+  const specifiedLayerId = options && options.layerId;
+  if (!isNil(specifiedLayerId) && specifiedLayerId !== layerId) {
     // we fetched Hub enrichments by slug for another dataset,
     // most likely for the parent service of this layer,
     // we need to fetch them for the specified layer instead
