@@ -1,3 +1,10 @@
+## @esri/hub-common [9.23.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.23.1...@esri/hub-common@9.23.2) (2022-03-18)
+
+
+### Bug Fixes
+
+* **hub-common:** strip _ from content name and title; content.layer is never false ([7066922](https://github.com/Esri/hub.js/commit/7066922a24bb36194c82ae0e54ef452f56c8103e))
+
 ## @esri/hub-common [9.23.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.23.0...@esri/hub-common@9.23.1) (2022-03-17)
 
 
