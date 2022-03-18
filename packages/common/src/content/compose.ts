@@ -59,10 +59,12 @@ const shouldUseLayerInfo = (
 const getContentName = (
   item: IItem,
   layer?: Partial<ILayerDefinition>,
-  _shouldUseLayerInfo = false
+  layers?: Array<Partial<ILayerDefinition>>
 ) => {
   return (
-    (_shouldUseLayerInfo ? layer.name : item.title || item.name) || ""
+    (shouldUseLayerInfo(layer, layers, item.url)
+      ? layer.name
+      : item.title || item.name) || ""
   ).replace(/_/g, " ");
 };
 
@@ -594,9 +596,9 @@ export const composeContent = (
     : undefined;
   const identifier = slug || hubId || item.id;
   // whether or not we should show layer info for name, description, etc
-  const _shouldUseLayerInfo = shouldUseLayerInfo(layer, layers, item.url);
-  const name = getContentName(item, layer, _shouldUseLayerInfo);
-  const _layerDescription = _shouldUseLayerInfo && layer.description;
+  const name = getContentName(item, layer, layers);
+  const _layerDescription =
+    shouldUseLayerInfo(layer, layers, item.url) && layer.description;
   // so much depends on type
   const type = layer
     ? // use layer type (Feature Layer, Table, etc) for layer content
