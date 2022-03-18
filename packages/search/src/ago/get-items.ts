@@ -20,13 +20,16 @@ export async function getItems(
       MAX_COUNTFIELDS
     ).map((fieldArrayChunk) => fieldArrayChunk.join(","));
     const promises = chunkedCountFields.map((chunk) => {
+      const countFields = chunk;
       return searchItems({
         ...agoParams,
         params: {
+          // NOTE: we shouldn't need this since we pass in authentication below
           token,
-          countFields: chunk,
+          countFields,
           countSize: agoParams.countSize,
         },
+        countFields,
         portal,
         authentication,
         httpMethod: "POST",
@@ -55,9 +58,8 @@ export async function getItems(
     return searchItems({
       ...agoParams,
       params: {
+        // NOTE: we shouldn't need this since we pass in authentication below
         token,
-        countFields: agoParams.countFields,
-        countSize: agoParams.countSize,
       },
       portal,
       httpMethod: "POST",
