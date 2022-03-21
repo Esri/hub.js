@@ -18,6 +18,9 @@ import {
 import { canUseHubApiForItem } from "./_internal";
 import { composeContent, getItemLayer, isLayerView } from "./compose";
 
+const hasFeatures = (contentType: string) =>
+  ["Feature Layer", "Table"].includes(contentType);
+
 interface IFetchItemAndEnrichmentsOptions extends IHubRequestOptions {
   enrichments?: ItemOrServerEnrichment[];
 }
@@ -187,6 +190,3 @@ export const fetchContent = async (
       : undefined;
   return content;
 };
-
-const hasFeatures = (contentType: string) =>
-  ["Feature Layer", "Table"].includes(contentType);
