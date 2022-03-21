@@ -1,9 +1,10 @@
 import * as commonModule from "../../src";
+import * as regiserBrowserAppModule from "../../src/items/registerBrowserApp";
 
 describe("registerSiteAsApplication", () => {
   it("registers the site", async () => {
     const registerSpy = spyOn(
-      commonModule,
+      regiserBrowserAppModule,
       "registerBrowserApp"
     ).and.returnValue({});
 
@@ -41,7 +42,7 @@ describe("registerSiteAsApplication", () => {
 
   it("registers the site", async () => {
     const registerSpy = spyOn(
-      commonModule,
+      regiserBrowserAppModule,
       "registerBrowserApp"
     ).and.returnValue({});
 
@@ -80,7 +81,7 @@ describe("registerSiteAsApplication", () => {
 
   it("does nothing on portal", async () => {
     const registerSpy = spyOn(
-      commonModule,
+      regiserBrowserAppModule,
       "registerBrowserApp"
     ).and.returnValue({});
 

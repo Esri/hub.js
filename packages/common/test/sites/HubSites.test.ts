@@ -1,6 +1,7 @@
 import * as commonModule from "../../src";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as siteInternals from "../../src/sites/_internal";
+import * as searchEntitiesModule from "../../src/search/_internal/searchContentEntities";
 import {
   MOCK_AUTH,
   MOCK_ENTERPRISE_REQOPTS,
@@ -127,7 +128,7 @@ describe("HubSites:", () => {
   describe("searchSites:", () => {
     it("delegates to searchContentEntities", async () => {
       const searchSpy = spyOn(
-        commonModule,
+        searchEntitiesModule,
         "searchContentEntities"
       ).and.returnValue(Promise.resolve({ results: [] }));
       await commonModule.searchSites(

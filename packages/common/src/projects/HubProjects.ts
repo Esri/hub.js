@@ -23,7 +23,6 @@ import {
   _searchContent,
   mergeContentFilter,
   getItemThumbnailUrl,
-  searchContentEntities,
 } from "..";
 import {
   IItem,
@@ -32,8 +31,8 @@ import {
   getItem,
 } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-
-import { IPropertyMap, PropertyMapper } from "../core/helpers/PropertyMapper";
+import { searchContentEntities } from "../search/_internal/searchContentEntities";
+import { IPropertyMap, PropertyMapper } from "../core/_internal/PropertyMapper";
 import { IHubProject } from "../core/types";
 
 export const HUB_PROJECT_ITEM_TYPE = "Hub Project";

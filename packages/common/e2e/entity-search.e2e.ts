@@ -1,13 +1,13 @@
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
 import {
-  createContentEntitySearchFn,
   expandContentFilter,
   failSafe,
   fetchModelFromItem,
   IModel,
   serializeContentFilterForPortal,
 } from "../src";
+import { createContentEntitySearchFn } from "../src/search/_internal/searchContentEntities";
 import { IItem } from "@esri/arcgis-rest-types";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 

@@ -4,7 +4,7 @@ import {
   mapObjectToModel,
   mapModelToObject,
   PropertyMapper,
-} from "../../../src/core/helpers/PropertyMapper";
+} from "../../../src/core/_internal/PropertyMapper";
 
 describe("PropertyMapper:", () => {
   describe("mapObjectToModel:", () => {

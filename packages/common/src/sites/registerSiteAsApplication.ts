@@ -1,11 +1,5 @@
-import {
-  IHubRequestOptions,
-  IModel,
-  getProp,
-  _getHttpAndHttpsUris,
-  registerBrowserApp,
-} from "..";
-
+import { IHubRequestOptions, IModel, getProp, _getHttpAndHttpsUris } from "..";
+import { registerBrowserApp } from "../items/registerBrowserApp";
 /**
  * Register the Site item as an application so we can oauth against it
  * @param {string} siteId Item Id of the site

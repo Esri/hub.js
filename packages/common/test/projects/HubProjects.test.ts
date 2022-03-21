@@ -1,4 +1,5 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
+
 import {
   cloneObject,
   IModel,

@@ -19,13 +19,10 @@ import {
   IHubSearchOptions,
   IHubSite,
   IModel,
-  IPropertyMap,
   ISearchResponse,
   mergeContentFilter,
-  PropertyMapper,
   registerSiteAsApplication,
   removeDomainsBySiteId,
-  searchContentEntities,
   setProp,
   setSlugKeyword,
   slugify,
@@ -33,7 +30,10 @@ import {
   updateModel,
 } from "..";
 
+import { PropertyMapper, IPropertyMap } from "../core/_internal/PropertyMapper";
+
 import { handleDomainChanges } from "./_internal";
+import { searchContentEntities } from "../search/_internal/searchContentEntities";
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
