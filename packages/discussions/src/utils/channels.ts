@@ -16,7 +16,7 @@ function intersectGroups(
     );
     const method = strict ? "every" : "some";
     return sharedGroups[method](
-      group => eligibleUserGroups.indexOf(group) > -1
+      (group) => eligibleUserGroups.indexOf(group) > -1
     );
   };
 }
@@ -57,6 +57,10 @@ export function canReadFromChannel(channel: IChannel, user: IUser): boolean {
  * @return {*}  {boolean}
  */
 export function canModifyChannel(channel: IChannel, user: IUser): boolean {
+  if (channel.creator === user.username) {
+    return true;
+  }
+
   if (channel.access === "private") {
     // ensure user is owner/admin of at least one group
     return intersectGroups(["owner", "admin"])(user, channel);
