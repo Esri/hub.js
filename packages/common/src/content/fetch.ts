@@ -17,6 +17,7 @@ import {
 } from "./_fetch";
 import { canUseHubApiForItem } from "./_internal";
 import { composeContent, getItemLayer, isLayerView } from "./compose";
+import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 const hasFeatures = (contentType: string) =>
   ["Feature Layer", "Table"].includes(contentType);
@@ -149,15 +150,27 @@ const fetchContentBySlug = async (
   });
 };
 
-const fetchContentRecordCount = async (content: IHubContent) => {
+const fetchContentRecordCount = async (
+  content: IHubContent,
+  requestOptions: IRequestOptions
+) => {
   const { url, viewDefinition } = content;
   const where = viewDefinition?.definitionExpression;
-  const response: any = await queryFeatures({
-    url,
-    where,
-    returnCountOnly: true,
-  });
-  return response.count;
+  try {
+    const response: any = await queryFeatures({
+      ...requestOptions,
+      url,
+      where,
+      returnCountOnly: true,
+    });
+    return response.count;
+  } catch {
+    // swallow the error and return Infinity as a flag that the caller can act on
+    // NOTE: this is what the -ui app currently expects, see:
+    // https://github.com/ArcGIS/opendata-ui/blob/300601918eb2dee79a89314880541ecd60f21e68/packages/opendata-ui/app/utils/composer.js#L273-L279
+    // however, we should probably push the error message into content.errors instead
+    return Infinity;
+  }
 };
 
 /**
@@ -186,7 +199,7 @@ export const fetchContent = async (
   const { layer, type } = content;
   content.recordCount =
     !!layer && hasFeatures(type)
-      ? await fetchContentRecordCount(content)
+      ? await fetchContentRecordCount(content, options)
       : undefined;
   return content;
 };
