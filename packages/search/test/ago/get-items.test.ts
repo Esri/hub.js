@@ -41,7 +41,7 @@ describe("getItems test", () => {
       q: "long ago query",
       start: 1,
       num: 10,
-      params: { token, countFields: undefined, countSize: undefined },
+      params: { token },
       portal,
       httpMethod: "POST",
       authentication: undefined,
@@ -184,7 +184,7 @@ describe("getItems test", () => {
         portal,
         httpMethod: "POST",
         authentication: undefined,
-        countFields: "a,b,c,d,e,f,g",
+        countFields: "a,b,c",
         countSize: 10,
       },
     ];
@@ -200,7 +200,7 @@ describe("getItems test", () => {
         portal,
         httpMethod: "POST",
         authentication: undefined,
-        countFields: "a,b,c,d,e,f,g",
+        countFields: "d,e,f",
         countSize: 10,
       },
     ];
@@ -216,7 +216,7 @@ describe("getItems test", () => {
         portal,
         httpMethod: "POST",
         authentication: undefined,
-        countFields: "a,b,c,d,e,f,g",
+        countFields: "g",
         countSize: 10,
       },
     ];
@@ -298,7 +298,7 @@ describe("getItems test", () => {
         portal,
         httpMethod: "POST",
         authentication: undefined,
-        countFields: "a,b,c,d",
+        countFields: "a,b,c",
         countSize: 10,
       },
     ];
@@ -314,7 +314,7 @@ describe("getItems test", () => {
         portal,
         httpMethod: "POST",
         authentication: undefined,
-        countFields: "a,b,c,d",
+        countFields: "d",
         countSize: 10,
       },
     ];
