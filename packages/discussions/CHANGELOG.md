@@ -1,3 +1,10 @@
+# @esri/hub-discussions [11.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@11.8.2...@esri/hub-discussions@11.9.0) (2022-03-21)
+
+
+### Features
+
+* **hub-discussions:** allow channel owner to modify channel ([#748](https://github.com/Esri/hub.js/issues/748)) ([f402fbd](https://github.com/Esri/hub.js/commit/f402fbdc8908663a6bd7dcf2db6e4f29d7023627))
+
 ## @esri/hub-discussions [11.8.2](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@11.8.1...@esri/hub-discussions@11.8.2) (2022-03-18)
 
 
