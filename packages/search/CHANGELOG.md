@@ -1,3 +1,10 @@
+## @esri/hub-search [9.23.3](https://github.com/Esri/hub.js/compare/@esri/hub-search@9.23.2...@esri/hub-search@9.23.3) (2022-03-21)
+
+
+### Bug Fixes
+
+* **hub-search:** fix not chunking countFields ([786e509](https://github.com/Esri/hub.js/commit/786e5093959cf0fac27639141cb81812662e49ec))
+
 ## @esri/hub-search [9.23.2](https://github.com/Esri/hub.js/compare/@esri/hub-search@9.23.1...@esri/hub-search@9.23.2) (2022-03-18)
 
 
