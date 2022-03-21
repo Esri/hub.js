@@ -6,7 +6,7 @@ import {
   canModifyChannel,
   canPostToChannel,
   canReadFromChannel,
-  isChannelInclusive
+  isChannelInclusive,
 } from "../../src/utils/channels";
 
 const orgId1 = "3ef";
@@ -26,13 +26,13 @@ describe("Util: isChannelInclusive", () => {
     const outer = fakeChannel({
       access: SharingAccess.PRIVATE,
       orgs: [orgId1],
-      groups: [groupId1]
+      groups: [groupId1],
     });
     it("returns void when outer and inner access and groups are identical", () => {
       const inner = fakeChannel({
         access: SharingAccess.PRIVATE,
         orgs: [orgId1],
-        groups: [groupId1]
+        groups: [groupId1],
       });
       expect(() => isChannelInclusive(outer, inner)).not.toThrowError();
     });
@@ -40,7 +40,7 @@ describe("Util: isChannelInclusive", () => {
       const inner = fakeChannel({
         access: SharingAccess.ORG,
         orgs: [orgId1],
-        groups: [groupId1]
+        groups: [groupId1],
       });
       expect(() => isChannelInclusive(outer, inner)).toThrowError(
         "replies to private post must be shared to same team"
@@ -50,7 +50,7 @@ describe("Util: isChannelInclusive", () => {
       const inner = fakeChannel({
         access: SharingAccess.PRIVATE,
         orgs: [orgId1],
-        groups: [groupId2]
+        groups: [groupId2],
       });
       expect(() => isChannelInclusive(outer, inner)).toThrowError(
         "replies to private post must be shared to same team"
@@ -61,13 +61,13 @@ describe("Util: isChannelInclusive", () => {
     const outer = fakeChannel({
       access: SharingAccess.PRIVATE,
       orgs: [orgId1],
-      groups: [groupId1, groupId2]
+      groups: [groupId1, groupId2],
     });
     it("returns void when outer and inner have same access and groups include subset of outer groups", () => {
       const inner = fakeChannel({
         access: SharingAccess.PRIVATE,
         orgs: [orgId1],
-        groups: [groupId1]
+        groups: [groupId1],
       });
       expect(() => isChannelInclusive(outer, inner)).not.toThrowError();
     });
@@ -75,7 +75,7 @@ describe("Util: isChannelInclusive", () => {
       const inner = fakeChannel({
         access: SharingAccess.ORG,
         orgs: [orgId1],
-        groups: [groupId1]
+        groups: [groupId1],
       });
       expect(() => isChannelInclusive(outer, inner)).toThrowError(
         "replies to shared post must be shared to subset of same teams"
@@ -85,7 +85,7 @@ describe("Util: isChannelInclusive", () => {
       const inner = fakeChannel({
         access: SharingAccess.PRIVATE,
         orgs: [orgId1],
-        groups: [groupId3]
+        groups: [groupId3],
       });
       expect(() => isChannelInclusive(outer, inner)).toThrowError(
         "replies to shared post must be shared to subset of same teams"
@@ -95,12 +95,12 @@ describe("Util: isChannelInclusive", () => {
   describe("outer visibility: org", () => {
     const outer = fakeChannel({
       access: SharingAccess.ORG,
-      orgs: [orgId1]
+      orgs: [orgId1],
     });
     it("returns void when outer and inner have same access and orgs include subset of outer orgs", () => {
       const inner = fakeChannel({
         access: SharingAccess.ORG,
-        orgs: [orgId1]
+        orgs: [orgId1],
       });
       expect(() => isChannelInclusive(outer, inner)).not.toThrowError();
     });
@@ -108,14 +108,14 @@ describe("Util: isChannelInclusive", () => {
       const inner = fakeChannel({
         access: SharingAccess.PRIVATE,
         orgs: [orgId1],
-        groups: [groupId1]
+        groups: [groupId1],
       });
       expect(() => isChannelInclusive(outer, inner)).not.toThrowError();
     });
     it("throws when inner access public", () => {
       const inner = fakeChannel({
         access: SharingAccess.PUBLIC,
-        orgs: [orgId1]
+        orgs: [orgId1],
       });
       expect(() => isChannelInclusive(outer, inner)).toThrowError(
         "replies to org post cannot be shared to public"
@@ -124,7 +124,7 @@ describe("Util: isChannelInclusive", () => {
     it("throws when outer and inner orgs do not intersect", () => {
       const inner = fakeChannel({
         access: SharingAccess.ORG,
-        orgs: [orgId2]
+        orgs: [orgId2],
       });
       expect(() => isChannelInclusive(outer, inner)).toThrowError(
         "replies to org post must be shared to subset of same orgs"
@@ -134,13 +134,13 @@ describe("Util: isChannelInclusive", () => {
   describe("outer visibility: public", () => {
     const outer = fakeChannel({
       access: SharingAccess.PUBLIC,
-      orgs: [orgId1]
+      orgs: [orgId1],
     });
     it("returns void", () => {
       const inner = fakeChannel({
         access: SharingAccess.PRIVATE,
         orgs: [orgId1],
-        groups: [groupId3]
+        groups: [groupId3],
       });
       expect(() => isChannelInclusive(outer, inner)).not.toThrowError();
     });
@@ -153,7 +153,7 @@ describe("Util: Channel Access", () => {
     user = fakeUser({
       username: "jdoe",
       orgId: orgId1,
-      groups: [fakeGroup(groupId1, "member"), fakeGroup(groupId2, "admin")]
+      groups: [fakeGroup(groupId1, "member"), fakeGroup(groupId2, "admin")],
     });
   });
 
@@ -162,7 +162,7 @@ describe("Util: Channel Access", () => {
       const channel = fakeChannel({
         access: SharingAccess.PRIVATE,
         orgs: [orgId1],
-        groups: [groupId1]
+        groups: [groupId1],
       });
       expect(canReadFromChannel(channel, user)).toBeTruthy();
     });
@@ -170,39 +170,55 @@ describe("Util: Channel Access", () => {
       const channel = fakeChannel({
         access: SharingAccess.PRIVATE,
         orgs: [orgId1],
-        groups: [groupId3]
+        groups: [groupId3],
       });
       expect(canReadFromChannel(channel, user)).toBeFalsy();
     });
     it("returns true for users included within org channel access", () => {
       const channel = fakeChannel({
         access: SharingAccess.ORG,
-        orgs: [orgId1]
+        orgs: [orgId1],
       });
       expect(canReadFromChannel(channel, user)).toBeTruthy();
     });
     it("returns false for users not included within org channel access", () => {
       const channel = fakeChannel({
         access: SharingAccess.ORG,
-        orgs: [orgId2]
+        orgs: [orgId2],
       });
       expect(canReadFromChannel(channel, user)).toBeFalsy();
     });
     it("returns true for public channel access", () => {
       const channel = fakeChannel({
         access: SharingAccess.PUBLIC,
-        orgs: [orgId2]
+        orgs: [orgId2],
       });
       expect(canReadFromChannel(channel, user)).toBeTruthy();
     });
   });
 
   describe("canModifyChannel", () => {
+    it("returns true for channel owner but not an admin/owner of groups included within private channel access", () => {
+      const channel = fakeChannel({
+        access: SharingAccess.PRIVATE,
+        orgs: [orgId1],
+        groups: [groupId1],
+        creator: "jdoe2",
+      });
+
+      const channelOwner = fakeUser({
+        username: "jdoe2",
+        orgId: orgId2,
+        groups: [fakeGroup(groupId1, "member")],
+      });
+
+      expect(canModifyChannel(channel, channelOwner)).toBeTruthy();
+    });
     it("returns true for group admins included within private channel access", () => {
       const channel = fakeChannel({
         access: SharingAccess.PRIVATE,
         orgs: [orgId1],
-        groups: [groupId2]
+        groups: [groupId2],
       });
       expect(canModifyChannel(channel, user)).toBeTruthy();
     });
@@ -210,14 +226,14 @@ describe("Util: Channel Access", () => {
       const channel = fakeChannel({
         access: SharingAccess.PRIVATE,
         orgs: [orgId1],
-        groups: [groupId1]
+        groups: [groupId1],
       });
       expect(canModifyChannel(channel, user)).toBeFalsy();
     });
     it("returns true for org admins included within org channel access", () => {
       const channel = fakeChannel({
         access: SharingAccess.ORG,
-        orgs: [orgId1]
+        orgs: [orgId1],
       });
       user.role = "org_admin";
       expect(canModifyChannel(channel, user)).toBeTruthy();
@@ -225,7 +241,7 @@ describe("Util: Channel Access", () => {
     it("returns true for org admins included within public channel access", () => {
       const channel = fakeChannel({
         access: SharingAccess.PUBLIC,
-        orgs: [orgId1]
+        orgs: [orgId1],
       });
       user.role = "org_admin";
       expect(canModifyChannel(channel, user)).toBeTruthy();
@@ -233,7 +249,7 @@ describe("Util: Channel Access", () => {
     it("returns false for non-admin org members included within org channel access", () => {
       const channel = fakeChannel({
         access: SharingAccess.ORG,
-        orgs: [orgId1]
+        orgs: [orgId1],
       });
       user.role = "org_admin";
       user.roleId = "123abc";
@@ -243,7 +259,7 @@ describe("Util: Channel Access", () => {
       const channel = fakeChannel({
         access: SharingAccess.PUBLIC,
         orgs: [orgId1],
-        groups: [groupId3]
+        groups: [groupId3],
       });
       expect(canModifyChannel(channel, user)).toBeFalsy();
     });
@@ -254,7 +270,7 @@ describe("Util: Channel Access", () => {
       const channel = fakeChannel({
         access: SharingAccess.PRIVATE,
         orgs: [orgId1],
-        groups: [groupId1, groupId2]
+        groups: [groupId1, groupId2],
       });
       expect(canCreateChannel(channel, user)).toBeTruthy();
     });
@@ -262,14 +278,14 @@ describe("Util: Channel Access", () => {
       const channel = fakeChannel({
         access: SharingAccess.PRIVATE,
         orgs: [orgId1],
-        groups: [groupId1, groupId2, groupId3]
+        groups: [groupId1, groupId2, groupId3],
       });
       expect(canCreateChannel(channel, user)).toBeFalsy();
     });
     it("returns true for org admins included within org channel access", () => {
       const channel = fakeChannel({
         access: SharingAccess.ORG,
-        orgs: [orgId1]
+        orgs: [orgId1],
       });
       user.role = "org_admin";
       expect(canCreateChannel(channel, user)).toBeTruthy();
@@ -277,7 +293,7 @@ describe("Util: Channel Access", () => {
     it("returns false for non-admin org members included within org channel access", () => {
       const channel = fakeChannel({
         access: SharingAccess.ORG,
-        orgs: [orgId1]
+        orgs: [orgId1],
       });
       user.role = "org_admin";
       user.roleId = "123abc";
@@ -286,7 +302,7 @@ describe("Util: Channel Access", () => {
     it("returns true for org admins included within public channel access", () => {
       const channel = fakeChannel({
         access: SharingAccess.PUBLIC,
-        orgs: [orgId1]
+        orgs: [orgId1],
       });
       user.role = "org_admin";
       expect(canCreateChannel(channel, user)).toBeTruthy();
@@ -294,7 +310,7 @@ describe("Util: Channel Access", () => {
     it("returns false for non-admin org members included within public channel access", () => {
       const channel = fakeChannel({
         access: SharingAccess.PUBLIC,
-        orgs: [orgId1]
+        orgs: [orgId1],
       });
       user.role = "org_admin";
       user.roleId = "123abc";
@@ -307,7 +323,7 @@ describe("Util: Channel Access", () => {
       const channel = fakeChannel({
         access: SharingAccess.PRIVATE,
         orgs: [orgId1],
-        groups: [groupId1]
+        groups: [groupId1],
       });
       expect(canPostToChannel(channel, user)).toBeTruthy();
     });
@@ -315,28 +331,28 @@ describe("Util: Channel Access", () => {
       const channel = fakeChannel({
         access: SharingAccess.PRIVATE,
         orgs: [orgId1],
-        groups: [groupId3]
+        groups: [groupId3],
       });
       expect(canPostToChannel(channel, user)).toBeFalsy();
     });
     it("returns true if user is org member of channel with org access", () => {
       const channel = fakeChannel({
         access: SharingAccess.ORG,
-        orgs: [orgId1]
+        orgs: [orgId1],
       });
       expect(canPostToChannel(channel, user)).toBeTruthy();
     });
     it("returns false if user is not org member of channel with org access", () => {
       const channel = fakeChannel({
         access: SharingAccess.ORG,
-        orgs: [orgId2]
+        orgs: [orgId2],
       });
       expect(canPostToChannel(channel, user)).toBeFalsy();
     });
     it("[GATE]: returns false if user supplies multiple orgs to channel with org access", () => {
       const channel = fakeChannel({
         access: SharingAccess.ORG,
-        orgs: [orgId1, orgId2]
+        orgs: [orgId1, orgId2],
       });
       expect(canPostToChannel(channel, user)).toBeFalsy();
     });
@@ -344,10 +360,10 @@ describe("Util: Channel Access", () => {
       const channel = fakeChannel({
         access: SharingAccess.PUBLIC,
         orgs: [orgId2],
-        allowAnonymous: true
+        allowAnonymous: true,
       });
       const _user = fakeUser({
-        username: "anonymous"
+        username: "anonymous",
       });
       expect(canPostToChannel(channel, _user)).toBeTruthy();
     });
@@ -355,17 +371,17 @@ describe("Util: Channel Access", () => {
       const channel = fakeChannel({
         access: SharingAccess.PUBLIC,
         orgs: [orgId2],
-        allowAnonymous: false
+        allowAnonymous: false,
       });
       const _user = fakeUser({
-        username: "anonymous"
+        username: "anonymous",
       });
       expect(canPostToChannel(channel, _user)).toBeFalsy();
     });
     it("returns true if channel is public", () => {
       const channel = fakeChannel({
         access: SharingAccess.PUBLIC,
-        orgs: [orgId2]
+        orgs: [orgId2],
       });
       expect(canPostToChannel(channel, user)).toBeTruthy();
     });
