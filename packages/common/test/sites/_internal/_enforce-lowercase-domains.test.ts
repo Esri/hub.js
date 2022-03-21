@@ -1,5 +1,5 @@
-import { IModel } from "../../src";
-import { _enforceLowercaseDomains } from "../../src/sites/_enforce-lowercase-domains";
+import { IModel } from "../../../src";
+import { _enforceLowercaseDomains } from "../../../src/sites/_internal/_enforce-lowercase-domains";
 
 describe("_enforceLowercaseDomains", () => {
   it("enforces lowercase domains", async () => {

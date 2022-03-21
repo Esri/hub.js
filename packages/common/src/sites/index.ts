@@ -1,4 +1,4 @@
-export * from "./_ensure-telemetry";
+export * from "./_internal/_ensure-telemetry";
 export * from "./domains";
 export * from "./drafts";
 export * from "./fetchSiteModel";

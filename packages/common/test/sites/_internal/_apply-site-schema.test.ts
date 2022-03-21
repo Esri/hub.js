@@ -1,5 +1,5 @@
-import { IModel } from "../../src";
-import { _applySiteSchema } from "../../src/sites/_apply-site-schema";
+import { IModel } from "../../../src";
+import { _applySiteSchema } from "../../../src/sites/_internal/_apply-site-schema";
 
 describe("_applySiteSchema", () => {
   it("fixes groups array", function () {

@@ -1,6 +1,6 @@
-import { getProp } from "../objects";
-import { IModel } from "../types";
-import { cloneObject } from "../util";
+import { getProp } from "../../objects";
+import { IModel } from "../../types";
+import { cloneObject } from "../../util";
 
 /**
  * Apply the first schema version to the item

@@ -1,4 +1,4 @@
-import { IModel, getProp, cloneObject } from "..";
+import { IModel, getProp, cloneObject } from "../..";
 
 /**
  * Enforce lowercase domains
