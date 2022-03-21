@@ -18,6 +18,9 @@ import {
 import { canUseHubApiForItem } from "./_internal";
 import { composeContent, getItemLayer, isLayerView } from "./compose";
 
+const hasFeatures = (contentType: string) =>
+  ["Feature Layer", "Table"].includes(contentType);
+
 interface IFetchItemAndEnrichmentsOptions extends IHubRequestOptions {
   enrichments?: ItemOrServerEnrichment[];
 }
@@ -126,14 +129,19 @@ const fetchContentBySlug = async (
       options
     );
   }
-  const { slug, boundary, extent, searchDescription, statistics } =
-    hubEnrichments;
+  // Note that we are not extracting the slug for the specified layer.
+  // It seems that the old client composer code always populated the slug
+  // field with the slug that was passed into the function (typically the
+  // slug of the parent service). To maintain parity, we do the same here.
+  //
+  // TODO: should we prefer the slug of the fetched layer instead?
+  const { boundary, extent, searchDescription, statistics } = hubEnrichments;
   // return a new content object composed from the item and enrichments we fetched
   return composeContent(item, {
     requestOptions: options,
     ...itemEnrichments,
     layerId,
-    slug,
+    slug: fullyQualifiedSlug,
     boundary,
     extent,
     searchDescription,
@@ -174,9 +182,11 @@ export const fetchContent = async (
         options
       )
     : await fetchContentById(identifier, options);
-  // fetch record count for layers, tables, or proxied CSVs
-  const { isProxied, layer } = content;
+  // fetch record count for content that has features (e.g. layers, tables, or proxied CSVs)
+  const { layer, type } = content;
   content.recordCount =
-    isProxied || !!layer ? await fetchContentRecordCount(content) : undefined;
+    !!layer && hasFeatures(type)
+      ? await fetchContentRecordCount(content)
+      : undefined;
   return content;
 };

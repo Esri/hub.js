@@ -15,8 +15,16 @@ import * as multiLayerFeatureServiceItem from "../mocks/items/multi-layer-featur
 
 // mock the item enrichments that would be returned for a multi-layer service
 const getMultiLayerItemEnrichments = () => {
-  const layer = { id: 0, name: "layer0 " };
-  const table = { id: 1, name: "table1 " };
+  const layer = {
+    id: 0,
+    type: "Feature Layer" as "Feature Layer" | "Table", // casting needed by compiler
+    name: "layer0 ",
+  };
+  const table = {
+    id: 1,
+    type: "Table" as "Feature Layer" | "Table", // casting needed by compiler
+    name: "table1 ",
+  };
   const item = multiLayerFeatureServiceItem as unknown as portalModule.IItem;
   return {
     item,
@@ -200,7 +208,8 @@ describe("fetchContent", () => {
         expect(result.item).toEqual(
           multiLayerFeatureServiceItem as unknown as portalModule.IItem
         );
-        expect(result.slug).toBe(layerHubEnrichments.slug);
+        // Default to slug that was passed in, not the slug of the fetched layer
+        expect(result.slug).toBe(slug);
         // expect(result.boundary).toEqual(layerHubEnrichments.boundary)
         expect(result.boundary).toBe(layerHubEnrichments.boundary);
         expect(result.boundary).not.toBe(hubEnrichments.boundary);
@@ -227,6 +236,7 @@ describe("fetchContent", () => {
         // expected layer
         itemEnrichments.layers.push({
           id: layerId,
+          type: "Feature Layer",
           isView: true,
           name: "layerView",
         } as any);
