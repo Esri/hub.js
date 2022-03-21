@@ -306,6 +306,7 @@ describe("fetchContent", () => {
         expect(queryFeaturesArg.url).toEqual(result.url);
         expect(queryFeaturesArg.returnCountOnly).toBeTruthy();
         expect(queryFeaturesArg.where).toBe(definitionExpression);
+        expect(queryFeaturesArg.portal).toBe(requestOpts.portal);
         // inspect the results
         expect(result.item).toEqual(
           multiLayerFeatureServiceItem as unknown as portalModule.IItem
@@ -493,7 +494,6 @@ describe("fetchContent", () => {
             _enrichmentsModule,
             "fetchItemEnrichments"
           ).and.returnValue(Promise.resolve(itemEnrichments));
-          const count = 1000;
           // NOTE: for coverage sake we're going to emulate
           // that the feature service is down and doesn't return record count
           const queryFeaturesSpy = spyOn(
@@ -520,6 +520,7 @@ describe("fetchContent", () => {
           expect(queryFeaturesArg.url).toEqual(result.url);
           expect(queryFeaturesArg.returnCountOnly).toBeTruthy();
           expect(queryFeaturesArg.where).toBeUndefined();
+          expect(queryFeaturesArg.portal).toBe(requestOpts.portal);
           // inspect the results
           expect(result.item).toEqual(
             multiLayerFeatureServiceItem as portalModule.IItem
