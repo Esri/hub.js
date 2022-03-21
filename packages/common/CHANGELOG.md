@@ -1,3 +1,11 @@
+## @esri/hub-common [9.23.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.23.2...@esri/hub-common@9.23.3) (2022-03-21)
+
+
+### Bug Fixes
+
+* **hub-common:** add @esri/arcgis-rest-feature-layer as dependency of hub-common ([f8e45b5](https://github.com/Esri/hub.js/commit/f8e45b5ce6034c3039d4b89cd30f2fb987db5e06))
+* **hub-common:** only fetch record count for feature layers and tables (e.g. not raster layers) and ([1a7123a](https://github.com/Esri/hub.js/commit/1a7123a08e8b43d716c7c0a295689361eb810475))
+
 ## @esri/hub-common [9.23.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.23.1...@esri/hub-common@9.23.2) (2022-03-18)
 
 
