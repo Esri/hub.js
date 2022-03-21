@@ -1,3 +1,10 @@
+## @esri/hub-common [9.24.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.24.0...@esri/hub-common@9.24.1) (2022-03-21)
+
+
+### Bug Fixes
+
+* **hub-common:** use accordionClosed instead of accordionOpen ([21c410a](https://github.com/Esri/hub.js/commit/21c410acfc8862f24729c5b2ba256be5e110133f))
+
 # @esri/hub-common [9.24.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.23.3...@esri/hub-common@9.24.0) (2022-03-21)
 
 
