@@ -179,6 +179,10 @@ export interface IFacet {
   // if dynamic the code must construct these
   // from the API response
   options?: IFacetOption[];
+  // whether to keep the accordion open
+  accordionOpen?: boolean;
+  // number of facet options to show
+  pageSize?: number;
 }
 
 // Facet Options shown in the UI
