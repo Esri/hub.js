@@ -1,3 +1,10 @@
+# @esri/hub-common [9.24.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.23.3...@esri/hub-common@9.24.0) (2022-03-21)
+
+
+### Features
+
+* **hub-common:** add optional accordionOpen and pageSize to IFacet interface' ([25233b5](https://github.com/Esri/hub.js/commit/25233b5427370d276eda90f4960d91181f43432c))
+
 ## @esri/hub-common [9.23.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.23.2...@esri/hub-common@9.23.3) (2022-03-21)
 
 
