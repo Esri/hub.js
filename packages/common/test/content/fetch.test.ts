@@ -306,6 +306,7 @@ describe("fetchContent", () => {
         expect(queryFeaturesArg.url).toEqual(result.url);
         expect(queryFeaturesArg.returnCountOnly).toBeTruthy();
         expect(queryFeaturesArg.where).toBe(definitionExpression);
+        expect(queryFeaturesArg.portal).toBe(requestOpts.portal);
         // inspect the results
         expect(result.item).toEqual(
           multiLayerFeatureServiceItem as unknown as portalModule.IItem
@@ -493,11 +494,12 @@ describe("fetchContent", () => {
             _enrichmentsModule,
             "fetchItemEnrichments"
           ).and.returnValue(Promise.resolve(itemEnrichments));
-          const count = 1000;
+          // NOTE: for coverage sake we're going to emulate
+          // that the feature service is down and doesn't return record count
           const queryFeaturesSpy = spyOn(
             featureLayerModule,
             "queryFeatures"
-          ).and.returnValue(Promise.resolve({ count }));
+          ).and.returnValue(Promise.reject());
           // call fetch content
           const options = {
             ...requestOpts,
@@ -518,6 +520,7 @@ describe("fetchContent", () => {
           expect(queryFeaturesArg.url).toEqual(result.url);
           expect(queryFeaturesArg.returnCountOnly).toBeTruthy();
           expect(queryFeaturesArg.where).toBeUndefined();
+          expect(queryFeaturesArg.portal).toBe(requestOpts.portal);
           // inspect the results
           expect(result.item).toEqual(
             multiLayerFeatureServiceItem as portalModule.IItem
@@ -525,7 +528,7 @@ describe("fetchContent", () => {
           // expect(result.boundary).toEqual({ geometry: undefined, provenance: undefined })
           expect(result.statistics).toBeUndefined();
           expect(result.layer.id).toBe(layerId);
-          expect(result.recordCount).toEqual(count);
+          expect(result.recordCount).toEqual(Infinity);
         });
       });
     });
