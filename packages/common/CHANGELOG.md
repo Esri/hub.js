@@ -1,3 +1,10 @@
+## @esri/hub-common [9.24.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.24.1...@esri/hub-common@9.24.2) (2022-03-22)
+
+
+### Bug Fixes
+
+* **hub-common:** fetchContentRecordCount did not pass auth nor handle errors ([be79422](https://github.com/Esri/hub.js/commit/be794228a66de0eb818b8687ae908f4d30629e73))
+
 ## @esri/hub-common [9.24.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.24.0...@esri/hub-common@9.24.1) (2022-03-21)
 
 
