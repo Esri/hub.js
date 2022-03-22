@@ -1,11 +1,12 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IArcGISContext } from "../ArcGISContext";
+import HubError from "../HubError";
 import {
   IHubEntityManager,
-  IHubSite,
   IHubItemEntityManager,
-  IArcGISContext,
-  HubError,
-} from "..";
+  IHubSite,
+} from "../core/types";
+
 // Node has issues if this is not directly imported
 import { ArcGISContextManager } from "../ArcGISContextManager";
 import {

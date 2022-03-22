@@ -1,7 +1,7 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IItem } from "@esri/arcgis-rest-types";
-import { Filter, IHubSearchOptions, ISearchResponse } from "../..";
+import { Filter, IHubSearchOptions } from "../../search/types";
+import { ISearchResponse } from "../../types";
 
 /**
  * Baseline CRUD+Search functions required for all Store classes

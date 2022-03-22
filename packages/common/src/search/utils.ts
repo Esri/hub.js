@@ -3,7 +3,7 @@
 
 import { IUser, UserSession } from "@esri/arcgis-rest-auth";
 import { IGroup, ISearchOptions } from "@esri/arcgis-rest-portal";
-import { ISearchResponse } from "..";
+import { ISearchResponse } from "../types";
 import { cloneObject, unique } from "../util";
 import {
   IMatchOptions,

@@ -1,5 +1,5 @@
 import { IExtent } from "@esri/arcgis-rest-feature-layer";
-import { IWithSlug } from "..";
+import { IWithSlug } from "../traits/WithSlug";
 import { IWithLayout } from "../traits/WithLayout";
 import { IHubItemEntity } from "./IHubItemEntity";
 

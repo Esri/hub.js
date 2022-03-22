@@ -2,14 +2,13 @@ import { ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-types";
 
+import { ISearchResponse } from "../../types";
+import { Filter, IHubSearchOptions } from "../../search/types";
+import { getNextFunction } from "../../search/utils";
 import {
-  ISearchResponse,
   expandContentFilter,
-  Filter,
-  getNextFunction,
-  IHubSearchOptions,
   serializeContentFilterForPortal,
-} from "../..";
+} from "../../search/content-utils";
 
 /**
  * Definition of `convertItemTo<T>` functions
