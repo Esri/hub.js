@@ -23,19 +23,19 @@ npm install @esri/hub-common
 ```
 
 ```ts
-import { IIInitiativeItem } from '@esri/hub-common-types';
+import { IIInitiativeItem } from "@esri/hub-common-types";
 
 const myInitiative = {
   item: {
     id: "abc123",
-    owner: "c@sey"
-  }
-} as IInitiativeItem
+    owner: "c@sey",
+  },
+} as IInitiativeItem;
 ```
 
 ### Issues
 
-If something isn't working the way you expected, please take a look at [previously logged issues](https://github.com/Esri/hub.js/issues) first.  Have you found a new bug?  Want to request a new feature?  We'd [**love**](https://github.com/Esri/hub.js/issues/new) to hear from you.
+If something isn't working the way you expected, please take a look at [previously logged issues](https://github.com/Esri/hub.js/issues) first. Have you found a new bug? Want to request a new feature? We'd [**love**](https://github.com/Esri/hub.js/issues/new) to hear from you.
 
 If you're looking for help you can also post issues on [GIS Stackexchange](http://gis.stackexchange.com/questions/ask?tags=esri-oss).
 
@@ -51,7 +51,7 @@ Esri welcomes contributions from anyone and everyone. Please see our [guidelines
 
 ### License
 
-Copyright &copy; 2018 Esri
+Copyright &copy; 2022 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
