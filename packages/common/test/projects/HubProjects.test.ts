@@ -17,6 +17,7 @@ import * as slugUtils from "../../src/items/slugs";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 import { IHubSearchOptions } from "../../dist/types";
+import { UserSession } from "@esri/arcgis-rest-auth";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 const PROJECT_ITEM = {
@@ -225,6 +226,7 @@ describe("HubProjects:", () => {
       expect(modelToUpdate.item.properties.slug).toBe("dcdev-wat-blarg-1");
     });
   });
+
   describe("searchProjects:", () => {
     const fakeResults = {
       total: 1,
@@ -272,6 +274,7 @@ describe("HubProjects:", () => {
         sortField: "title",
         sortOrder: "desc",
         site: { item: {}, data: {} },
+        api: "arcgisQA",
       } as IHubSearchOptions;
       const response = await searchProjects(filter, opts);
       expect(response.results.length).toBe(1);
@@ -285,6 +288,8 @@ describe("HubProjects:", () => {
 
       expect(searchOpts.q).toBe("water");
       expect(searchOpts.filter).toBe(`(typekeywords:"HubProject")`);
+      expect(searchOpts.portal).toEqual("https://qaext.arcgis.com");
+      expect(searchOpts.authentication).toBeDefined();
     });
   });
 });

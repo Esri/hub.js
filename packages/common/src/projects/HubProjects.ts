@@ -1,4 +1,8 @@
-import { IUserRequestOptions, UserSession } from "@esri/arcgis-rest-auth";
+import {
+  ApiKey,
+  IUserRequestOptions,
+  UserSession,
+} from "@esri/arcgis-rest-auth";
 
 // Note - we separate these imports so we can cleanly spy on things in tests
 import {
@@ -33,6 +37,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 import { IPropertyMap, PropertyMapper } from "../core/helpers/PropertyMapper";
 import { IHubProject } from "../core/types";
+import { expandApi } from "../search";
 
 export const HUB_PROJECT_ITEM_TYPE = "Hub Project";
 
@@ -290,6 +295,12 @@ export async function searchProjects(
       so[prop as keyof ISearchOptions] = options[prop];
     }
   });
+
+  // Add ArcGIS API
+  if (options.api) {
+    const expandedApi = expandApi(options.api);
+    so.portal = expandedApi.url;
+  }
 
   return searchPortalProjects(so);
 }
