@@ -277,6 +277,28 @@ describe("HubProjects:", () => {
       expect(searchOpts.q).toBe("water");
       expect(searchOpts.filter).toBe(`(type:"Hub Project")`);
     });
+    it("it constructs search, passing api", async () => {
+      const filter: Filter<"content"> = {
+        filterType: "content",
+        term: "water",
+      };
+      const opts = {
+        api: "arcgisQA",
+      } as IHubSearchOptions;
+      const response = await searchProjects(filter, opts);
+      expect(response.results.length).toBe(1);
+      expect(searchSpy.calls.count()).toBe(1);
+      expect(dataSpy.calls.count()).toBe(1);
+      expect(response.results[0].thumbnailUrl).toBe(
+        "https://qaext.arcgis.com/sharing/rest/content/items/bc3/info/zen.jpg"
+      );
+      // verify the query
+      const searchOpts = searchSpy.calls.argsFor(0)[0];
+
+      expect(searchOpts.q).toBe("water");
+      expect(searchOpts.filter).toBe(`(type:"Hub Project")`);
+      expect(searchOpts.portal).toEqual(`https://qaext.arcgis.com`);
+    });
     it("constructs search, detailed", async () => {
       const filter: Filter<"content"> = {
         filterType: "content",

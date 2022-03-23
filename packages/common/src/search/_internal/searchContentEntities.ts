@@ -4,7 +4,7 @@ import { IItem } from "@esri/arcgis-rest-types";
 
 import { ISearchResponse } from "../../types";
 import { Filter, IHubSearchOptions } from "../../search/types";
-import { getNextFunction } from "../../search/utils";
+import { expandApi, getNextFunction } from "../../search/utils";
 import {
   expandContentFilter,
   serializeContentFilterForPortal,
@@ -61,6 +61,11 @@ export function searchContentEntities<T>(
   // create the entitySearchFn
   const searchFn = createContentEntitySearchFn(convertFn);
   // execute the search
+  // Add ArcGIS API
+  if (options.api && !options.authentication) {
+    const expandedApi = expandApi(options.api);
+    searchOptions.portal = expandedApi.url;
+  }
   return searchFn(searchOptions);
 }
 
