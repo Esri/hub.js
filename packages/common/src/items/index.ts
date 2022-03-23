@@ -16,3 +16,4 @@ export * from "./get-structured-license";
 export * from "./slugs";
 export * from "./normalize-solution-template-item";
 export * from "./setItemThumbnail";
+export * from "./registerBrowserApp";

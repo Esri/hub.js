@@ -1,5 +1,5 @@
-import { IModel } from "../../src";
-import { _purgeNonGuidsFromCatalog } from "../../src/sites/_purge-non-guids-from-catalog";
+import { IModel } from "../../../src";
+import { _purgeNonGuidsFromCatalog } from "../../../src/sites/_internal/_purge-non-guids-from-catalog";
 
 describe("_purgeNonGuidsFromCatalog", () => {
   it("removes non-guids and handle permutations", function () {

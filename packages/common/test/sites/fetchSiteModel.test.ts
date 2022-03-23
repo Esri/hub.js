@@ -1,40 +1,38 @@
-import * as domainsModule from "../../src/sites/domains";
-import * as getSiteByIdModule from "../../src/sites/get-site-by-id";
-import { fetchSite, IModel, IHubRequestOptions } from "../../src";
+import * as commonModule from "../../src";
 
-describe("fetchSite", () => {
+describe("fetchSiteModel", () => {
   const siteId = "042584cf391c428e995e97eccdebb8f8";
 
   const site = {
     item: { id: siteId },
     data: {},
-  } as IModel;
+  } as commonModule.IModel;
 
   const domainRecord = { siteId };
 
-  const requestOptions = {} as IHubRequestOptions;
+  const requestOptions = {} as commonModule.IHubRequestOptions;
 
   let lookupDomainSpy: jasmine.Spy;
   let getSiteSpy: jasmine.Spy;
   beforeEach(() => {
-    lookupDomainSpy = spyOn(domainsModule, "lookupDomain").and.returnValue(
+    lookupDomainSpy = spyOn(commonModule, "lookupDomain").and.returnValue(
       Promise.resolve(domainRecord)
     );
 
-    getSiteSpy = spyOn(getSiteByIdModule, "getSiteById").and.returnValue(
+    getSiteSpy = spyOn(commonModule, "getSiteById").and.returnValue(
       Promise.resolve(site)
     );
   });
 
   it("accepts an item ID", async () => {
-    const chk = await fetchSite(siteId, requestOptions);
+    const chk = await commonModule.fetchSiteModel(siteId, requestOptions);
     expect(chk).toEqual(site);
     expect(lookupDomainSpy).not.toHaveBeenCalled();
     expect(getSiteSpy).toHaveBeenCalledWith(siteId, requestOptions);
   });
 
   it("accepts a site URL", async () => {
-    const chk = await fetchSite(
+    const chk = await commonModule.fetchSiteModel(
       "https://okokokko-dc.hubqa.arcgis.com/foo/bar",
       requestOptions
     );
@@ -47,7 +45,10 @@ describe("fetchSite", () => {
   });
 
   it("accepts a site hostname", async () => {
-    const chk = await fetchSite("okokokko-dc.hubqa.arcgis.com", requestOptions);
+    const chk = await commonModule.fetchSiteModel(
+      "okokokko-dc.hubqa.arcgis.com",
+      requestOptions
+    );
     expect(chk).toEqual(site);
     expect(lookupDomainSpy).toHaveBeenCalledWith(
       "okokokko-dc.hubqa.arcgis.com",
@@ -57,8 +58,8 @@ describe("fetchSite", () => {
   });
 
   it("accepts a site slug", async () => {
-    const portalRO = { isPortal: true } as IHubRequestOptions;
-    const chk = await fetchSite("okokokko", portalRO);
+    const portalRO = { isPortal: true } as commonModule.IHubRequestOptions;
+    const chk = await commonModule.fetchSiteModel("okokokko", portalRO);
     expect(chk).toEqual(site);
     expect(lookupDomainSpy).toHaveBeenCalledWith("okokokko", portalRO);
     expect(getSiteSpy).toHaveBeenCalledWith(siteId, portalRO);

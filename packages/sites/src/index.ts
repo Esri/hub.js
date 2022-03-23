@@ -34,7 +34,6 @@ export * from "./create-site";
 export * from "./get-portal-site-url";
 export * from "./get-portal-site-hostname";
 export * from "./get-theme";
-export * from "./default-theme";
 export * from "./_create-site-initiative";
 export * from "./_update-team-tags";
 export * from "./create-site-model-from-template";
@@ -49,9 +48,15 @@ export * from "./get-data-for-site-item";
 export * from "./is-site";
 export * from "./get-members";
 export * from "./interpolate-site";
+
+// Re-exports to avoid breaking changes
 export {
   /* istanbul ignore next */
   upgradeSiteSchema,
   /* istanbul ignore next */
   getSiteById,
+  /* istanbul ignore next */
+  IHubSiteTheme,
+  /* istanbul ignore next */
+  DEFAULT_THEME,
 } from "@esri/hub-common";

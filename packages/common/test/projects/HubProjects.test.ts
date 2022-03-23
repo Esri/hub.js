@@ -1,4 +1,5 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
+
 import {
   cloneObject,
   IModel,
@@ -47,8 +48,11 @@ const PROJECT_MODEL = {
 describe("HubProjects:", () => {
   describe("fetchProject:", () => {
     it("gets by id, if passed a guid", async () => {
-      const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
-        Promise.resolve(PROJECT_MODEL)
+      const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
+        Promise.resolve(PROJECT_ITEM)
+      );
+      const getItemDataSpy = spyOn(portalModule, "getItemData").and.returnValue(
+        Promise.resolve(PROJECT_DATA)
       );
 
       const chk = await fetchProject(GUID, {
@@ -56,13 +60,18 @@ describe("HubProjects:", () => {
       });
       expect(chk.id).toBe(GUID);
       expect(chk.owner).toBe("vader");
-      expect(getModelSpy.calls.count()).toBe(1);
-      expect(getModelSpy.calls.argsFor(0)[0]).toBe(GUID);
+      expect(getItemSpy.calls.count()).toBe(1);
+      expect(getItemSpy.calls.argsFor(0)[0]).toBe(GUID);
+      expect(getItemDataSpy.calls.count()).toBe(1);
+      expect(getItemDataSpy.calls.argsFor(0)[0]).toBe(GUID);
     });
 
     it("gets without auth", async () => {
-      const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
-        Promise.resolve(PROJECT_MODEL)
+      const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
+        Promise.resolve(PROJECT_ITEM)
+      );
+      const getItemDataSpy = spyOn(portalModule, "getItemData").and.returnValue(
+        Promise.resolve(PROJECT_DATA)
       );
       const ro: IRequestOptions = {
         portal: "https://gis.myserver.com/portal/sharing/rest",
@@ -73,20 +82,28 @@ describe("HubProjects:", () => {
       expect(chk.thumbnailUrl).toBe(
         "https://gis.myserver.com/portal/sharing/rest/content/items/9b77674e43cf4bbd9ecad5189b3f1fdc/info/vader.png"
       );
-      expect(getModelSpy.calls.count()).toBe(1);
-      expect(getModelSpy.calls.argsFor(0)[0]).toBe(GUID);
+      expect(getItemSpy.calls.count()).toBe(1);
+      expect(getItemSpy.calls.argsFor(0)[0]).toBe(GUID);
+      expect(getItemDataSpy.calls.count()).toBe(1);
+      expect(getItemDataSpy.calls.argsFor(0)[0]).toBe(GUID);
     });
 
     it("gets by slug if not passed guid", async () => {
-      const getModelBySlugSpy = spyOn(
-        modelUtils,
-        "getModelBySlug"
-      ).and.returnValue(Promise.resolve(PROJECT_MODEL));
+      const getItemBySlugSpy = spyOn(
+        slugUtils,
+        "getItemBySlug"
+      ).and.returnValue(Promise.resolve(PROJECT_ITEM));
+      const getItemDataSpy = spyOn(portalModule, "getItemData").and.returnValue(
+        Promise.resolve(PROJECT_DATA)
+      );
+
       const chk = await fetchProject("dcdev-34th-street", {
         authentication: MOCK_AUTH,
       });
-      expect(getModelBySlugSpy.calls.count()).toBe(1);
-      expect(getModelBySlugSpy.calls.argsFor(0)[0]).toBe("dcdev-34th-street");
+      expect(getItemBySlugSpy.calls.count()).toBe(1);
+      expect(getItemBySlugSpy.calls.argsFor(0)[0]).toBe("dcdev-34th-street");
+      expect(getItemDataSpy.calls.count()).toBe(1);
+      expect(getItemDataSpy.calls.argsFor(0)[0]).toBe(GUID);
       expect(chk.id).toBe(GUID);
       expect(chk.owner).toBe("vader");
     });
@@ -116,8 +133,8 @@ describe("HubProjects:", () => {
       const createSpy = spyOn(modelUtils, "createModel").and.callFake(
         (m: IModel) => {
           const newModel = cloneObject(m);
-          m.item.id = GUID;
-          return Promise.resolve(m);
+          newModel.item.id = GUID;
+          return Promise.resolve(newModel);
         }
       );
       const chk = await createProject(
@@ -149,8 +166,8 @@ describe("HubProjects:", () => {
       const createSpy = spyOn(modelUtils, "createModel").and.callFake(
         (m: IModel) => {
           const newModel = cloneObject(m);
-          m.item.id = GUID;
-          return Promise.resolve(m);
+          newModel.item.id = GUID;
+          return Promise.resolve(newModel);
         }
       );
       const chk = await createProject(
@@ -258,7 +275,29 @@ describe("HubProjects:", () => {
       const searchOpts = searchSpy.calls.argsFor(0)[0];
 
       expect(searchOpts.q).toBe("water");
-      expect(searchOpts.filter).toBe(`(typekeywords:"HubProject")`);
+      expect(searchOpts.filter).toBe(`(type:"Hub Project")`);
+    });
+    it("it constructs search, passing api", async () => {
+      const filter: Filter<"content"> = {
+        filterType: "content",
+        term: "water",
+      };
+      const opts = {
+        api: "arcgisQA",
+      } as IHubSearchOptions;
+      const response = await searchProjects(filter, opts);
+      expect(response.results.length).toBe(1);
+      expect(searchSpy.calls.count()).toBe(1);
+      expect(dataSpy.calls.count()).toBe(1);
+      expect(response.results[0].thumbnailUrl).toBe(
+        "https://qaext.arcgis.com/sharing/rest/content/items/bc3/info/zen.jpg"
+      );
+      // verify the query
+      const searchOpts = searchSpy.calls.argsFor(0)[0];
+
+      expect(searchOpts.q).toBe("water");
+      expect(searchOpts.filter).toBe(`(type:"Hub Project")`);
+      expect(searchOpts.portal).toEqual(`https://qaext.arcgis.com`);
     });
     it("constructs search, detailed", async () => {
       const filter: Filter<"content"> = {
@@ -284,7 +323,7 @@ describe("HubProjects:", () => {
       const searchOpts = searchSpy.calls.argsFor(0)[0];
 
       expect(searchOpts.q).toBe("water");
-      expect(searchOpts.filter).toBe(`(typekeywords:"HubProject")`);
+      expect(searchOpts.filter).toBe(`(type:"Hub Project")`);
     });
   });
 });

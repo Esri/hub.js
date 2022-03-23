@@ -6,6 +6,7 @@ import {
   destroyProject,
   fetchProject,
   searchProjects,
+  convertItemToProject,
 } from "./HubProjects";
 // Node has issues if this is not directly imported
 import { ArcGISContextManager } from "../ArcGISContextManager";
@@ -19,6 +20,7 @@ import {
 import { IHubEntityManager, IHubProject } from "../core/types";
 import { IHubItemEntityManager } from "../core/types/IHubItemEntityManager";
 import { setItemThumbnail as updateItemThumbnail } from "../items/setItemThumbnail";
+import { IItem } from "@esri/arcgis-rest-types";
 
 /**
  * Centralized functions used to manage IHubProject instances
@@ -233,5 +235,19 @@ export class HubProjectManager
     await updateItemThumbnail(project.id, file, filename, ro);
     // get the item so we have updated props and timestamps
     return this.fetch(project.id, requestOptions);
+  }
+
+  /**
+   * Convert a Hub Project Item to a IHubProject
+   * @param item
+   * @param requestOptions
+   * @returns
+   */
+  async fromItem(
+    item: IItem,
+    requestOptions?: IRequestOptions
+  ): Promise<IHubProject> {
+    const ro = requestOptions || this.context.userRequestOptions;
+    return convertItemToProject(item, ro);
   }
 }

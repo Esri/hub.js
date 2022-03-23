@@ -1,23 +1,15 @@
 import { IPortal } from "@esri/arcgis-rest-portal";
-import { DEFAULT_THEME } from "./default-theme";
-import {
-  cloneObject,
-  getProp,
-  removeEmptyProps,
-  extend
-} from "@esri/hub-common";
-import { IHubSiteTheme } from "./types";
+import { getOrgDefaultTheme } from "@esri/hub-common";
 
+/* istanbul ignore next */
 /**
  * Return the default theme, extended with values from the Org's shared theme
  * @param {Object} portalSelf Org's Portal object
  */
 export function getTheme(portalSelf: IPortal) {
-  let defaultTheme = cloneObject(DEFAULT_THEME);
-  let sharedTheme = getProp(portalSelf, "portalProperties.sharedTheme");
-  if (sharedTheme) {
-    sharedTheme = removeEmptyProps(sharedTheme);
-    defaultTheme = extend(defaultTheme, sharedTheme) as IHubSiteTheme;
-  }
-  return defaultTheme;
+  // eslint-disable-next-line no-console
+  console.warn(
+    `@esri/hub-sites::getTheme is deprecated. Please use @esri/hub-common::getOrgDefaultTheme instead`
+  );
+  return getOrgDefaultTheme(portalSelf);
 }

@@ -1,4 +1,11 @@
-import { IModel, IDraft, getProp, cloneObject, deleteProp, setProp } from "..";
+import {
+  IModel,
+  IDraft,
+  getProp,
+  cloneObject,
+  deleteProp,
+  setProp,
+} from "../..";
 
 /**
  * Add telemetry config object

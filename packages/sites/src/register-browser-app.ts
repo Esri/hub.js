@@ -1,5 +1,5 @@
-import { IRequestOptions, request } from "@esri/arcgis-rest-request";
-import { getPortalApiUrl } from "@esri/hub-common";
+import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { registerBrowserApp as implementation } from "@esri/hub-common";
 
 /**
  * Register an Item as an application, enabling oAuth flows at custom
@@ -10,21 +10,15 @@ import { getPortalApiUrl } from "@esri/hub-common";
  * @param {string} appType Defaults to "browser"
  * @param {IRequestOptions} requestOptions
  */
+/* istanbul ignore next */
 export function registerBrowserApp(
   itemId: string,
   redirectUris: string[],
   requestOptions: IRequestOptions
 ) {
-  const url = `${getPortalApiUrl(requestOptions)}/oauth2/registerApp`;
-  const options = {
-    method: "POST",
-    authentication: requestOptions.authentication,
-    params: {
-      itemId,
-      appType: "browser",
-      redirect_uris: JSON.stringify(redirectUris)
-    }
-  };
-
-  return request(url, options);
+  // tslint:disable-next-line
+  console.warn(
+    `@esri/hub-sites::registerBrowserApp is deprecated. Please use @esri/hub-common::registerBrowserApp instead`
+  );
+  return implementation(itemId, redirectUris, requestOptions);
 }

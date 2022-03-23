@@ -2,13 +2,8 @@
  * Apache-2.0 */
 
 import { IUser, UserSession } from "@esri/arcgis-rest-auth";
-import {
-  IGroup,
-  IItem,
-  ISearchOptions,
-  IUserSearchOptions,
-} from "@esri/arcgis-rest-portal";
-import { IHubContent, ISearchResponse } from "..";
+import { IGroup, ISearchOptions } from "@esri/arcgis-rest-portal";
+import { ISearchResponse } from "../types";
 import { cloneObject, unique } from "../util";
 import {
   IMatchOptions,

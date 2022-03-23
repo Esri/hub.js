@@ -1,5 +1,5 @@
-import { IModel } from "../../src";
-import { _migrateFeedConfig } from "../../src/sites/_migrate-feed-config";
+import { IModel } from "../../../src";
+import { _migrateFeedConfig } from "../../../src/sites/_internal/_migrate-feed-config";
 
 describe("_migrateFeedConfig", () => {
   it("Bumps the item.properties.schemaVersion if schemaVersion is < 1.5", () => {

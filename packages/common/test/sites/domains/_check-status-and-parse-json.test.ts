@@ -5,7 +5,7 @@ describe("_checkStatusAndParseJson", function () {
     const res = {
       status: 200,
       json: () => {
-        const foo = 1;
+        return {};
       },
     } as Response;
     spyOn(res, "json").and.returnValue(
@@ -31,7 +31,7 @@ describe("_checkStatusAndParseJson", function () {
     const res = {
       status: 404,
       json: () => {
-        const foo = 1;
+        return {};
       },
     } as Response;
     spyOn(res, "json").and.callFake(() => Promise.resolve(jsonRes));
@@ -50,7 +50,7 @@ describe("_checkStatusAndParseJson", function () {
     const res = {
       status: 404,
       json: () => {
-        const foo = 1;
+        return {};
       },
     } as Response;
     spyOn(res, "json").and.callFake(() => Promise.resolve(jsonRes));

@@ -17,3 +17,5 @@ export * from "./remove-domains-by-site-id";
 export * from "./update-domain";
 export * from "./_ensure-safe-domain-length";
 export * from "./ensure-unique-domain-name";
+export * from "./addSiteDomains";
+export * from "./removeDomainByHostname";

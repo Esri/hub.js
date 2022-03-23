@@ -1,5 +1,5 @@
-import { IModel } from "../../src";
-import { _ensureCatalog } from "../../src/sites/_ensure-catalog";
+import { IModel } from "../../../src";
+import { _ensureCatalog } from "../../../src/sites/_internal/_ensure-catalog";
 
 describe("_ensureCatalog", () => {
   it("ensureCatalog adds data.catalog", function () {

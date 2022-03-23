@@ -1,6 +1,7 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { Filter, IHubSearchOptions, ISearchResponse } from "../..";
+import { Filter, IHubSearchOptions } from "../../search/types";
+import { ISearchResponse } from "../../types";
 
 /**
  * Baseline CRUD+Search functions required for all Store classes
@@ -34,10 +35,6 @@ export interface IHubEntityManager<T> {
   fetch(identifier: string, requestOptions: IRequestOptions): Promise<T>;
 
   /**
-   * [WIP] We need to work out how best to handle the typing on this. Simply
-   * delegating to `searchContent` with a filter constraining to an Entity type
-   * will return `ISearchResponse<IHubContent>` and not the expected type.
-   *
    * Search for Entitys of type `T`
    *
    * Note: When implementing, this should be a search for things of type `T`

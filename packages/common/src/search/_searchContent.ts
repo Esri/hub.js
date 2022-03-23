@@ -77,6 +77,7 @@ export async function _searchContent(
       facets: [] as IFacet[],
       hasNext: false,
       next: () => {
+        // tslint:disable-next-line
         Promise.resolve(null);
       },
     } as IContentSearchResult);

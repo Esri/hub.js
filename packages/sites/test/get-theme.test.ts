@@ -1,4 +1,5 @@
-import { getTheme, DEFAULT_THEME } from "../src";
+import { getTheme } from "../src";
+import { DEFAULT_THEME } from "@esri/hub-common";
 import { IPortal } from "@esri/arcgis-rest-portal";
 
 describe("getTheme", () => {
@@ -8,45 +9,45 @@ describe("getTheme", () => {
 
   it("extends default theme ", async () => {
     expect(
-      getTheme(({
+      getTheme({
         portalProperties: {
           sharedTheme: {
             header: {
-              background: "custom-background"
+              background: "custom-background",
             },
             body: {
-              text: "foobar"
-            }
-          }
-        }
-      } as unknown) as IPortal)
+              text: "foobar",
+            },
+          },
+        },
+      } as unknown as IPortal)
     ).toEqual({
       header: {
         background: "custom-background",
-        text: "#4c4c4c"
+        text: "#4c4c4c",
       },
       body: {
         background: "#fff",
         text: "foobar",
-        link: "#0079c1"
+        link: "#0079c1",
       },
       button: {
         background: "#0079c1",
-        text: "#fff"
+        text: "#fff",
       },
       logo: {
-        small: ""
+        small: "",
       },
       fonts: {
         base: {
           url: "",
-          family: "Avenir Next"
+          family: "Avenir Next",
         },
         heading: {
           url: "",
-          family: "Avenir Next"
-        }
-      }
+          family: "Avenir Next",
+        },
+      },
     });
   });
 });

@@ -1,5 +1,3 @@
-import { IHubImage } from "../types/IHubImage";
-
 /**
  * Adds slug and related properties
  */

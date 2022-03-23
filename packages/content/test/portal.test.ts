@@ -58,7 +58,7 @@ function validateContentFromPortal(content: IHubContent, item: IItem) {
   expect(content.isDownloadable).toBe(true);
 }
 
-describe("get content from portal", () => {
+describe("hub-content:: get content from portal", () => {
   // emulate the get groups response
   const mockItemGroups: any = {
     admin: [],
@@ -81,6 +81,10 @@ describe("get content from portal", () => {
     };
   });
   afterEach(fetchMock.restore);
+
+  // This was due to re-building package-lock.json, which picked up a big jump
+  // in jasmine core (3.4.0 to 3.99.0) Forcing jasmine-core to stay at 3.4.0 resolved the issue
+  // Issue to resolve this -> https://github.com/Esri/hub.js/issues/742
   it("should fetch a portal item and return content w/o metadata", (done) => {
     fetchMock.once("*", documentItem);
     // emulate successful item groups response
@@ -88,30 +92,35 @@ describe("get content from portal", () => {
       Promise.resolve(mockItemGroups)
     );
     // emulate no metadata exists for this item
-    const message = "Some error";
+    const message = "Fake Error throw in getContentMetadata";
     const getContentMetadataSpy = spyOn(
       metadataModule,
       "getContentMetadata"
     ).and.returnValue(Promise.reject(message));
     const item = documentItem as IItem;
     const id = item.id;
-    getContentFromPortal(id, requestOpts).then((content) => {
-      // verify that we attempted to fetch from the portal API
-      // TODO: mock getItem and related calls instead of fetchMock
-      const [url] = fetchMock.calls()[0];
-      expect(url).toBe(
-        "https://vader.maps.arcgis.com/sharing/rest/content/items/8d37647291dd42deab032cfb1b57509c?f=json&token=fake-token"
-      );
-      // validate that the item properties were set
-      validateContentFromPortal(content, item);
-      // verify that we successfully fetch the groupIds
-      expect(getItemGroupsSpy.calls.argsFor(0)[0]).toBe(id);
-      expect(content.groupIds).toEqual(["memberGroupId"]);
-      // verify that we failed to fetch the metadata
-      expect(getContentMetadataSpy.calls.argsFor(0)[0]).toBe(id);
-      expect(content.errors).toEqual([{ type: "Other", message }]);
-      done();
-    });
+
+    return getContentFromPortal(id, requestOpts)
+      .then((content) => {
+        // verify that we attempted to fetch from the portal API
+        // TODO: mock getItem and related calls instead of fetchMock
+        const [url] = fetchMock.calls()[0];
+        expect(url).toBe(
+          "https://vader.maps.arcgis.com/sharing/rest/content/items/8d37647291dd42deab032cfb1b57509c?f=json&token=fake-token"
+        );
+        // validate that the item properties were set
+        validateContentFromPortal(content, item);
+        // verify that we successfully fetch the groupIds
+        expect(getItemGroupsSpy.calls.argsFor(0)[0]).toBe(id);
+        expect(content.groupIds).toEqual(["memberGroupId"]);
+        // verify that we failed to fetch the metadata
+        expect(getContentMetadataSpy.calls.argsFor(0)[0]).toBe(id);
+        expect(content.errors).toEqual([{ type: "Other", message }]);
+        done();
+      })
+      .catch((ex) => {
+        throw ex;
+      });
   });
   it("should fetch a portal item and return content w/ metadata", (done) => {
     fetchMock.once("*", documentItem);

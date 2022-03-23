@@ -1,26 +1,28 @@
-import { registerSiteAsApplication } from "../src";
-import * as registerBrowserModule from "../src/register-browser-app";
-import { IHubRequestOptions, IModel } from "@esri/hub-common";
+import * as commonModule from "../../src";
+import * as regiserBrowserAppModule from "../../src/items/registerBrowserApp";
 
 describe("registerSiteAsApplication", () => {
   it("registers the site", async () => {
     const registerSpy = spyOn(
-      registerBrowserModule,
+      regiserBrowserAppModule,
       "registerBrowserApp"
     ).and.returnValue({});
 
-    const model = ({
+    const model = {
       item: {
-        id: "site-id"
+        id: "site-id",
       },
       data: {
         values: {
-          defaultHostname: "default-hostname"
-        }
-      }
-    } as unknown) as IModel;
+          defaultHostname: "default-hostname",
+        },
+      },
+    } as unknown as commonModule.IModel;
 
-    await registerSiteAsApplication(model, {} as IHubRequestOptions);
+    await commonModule.registerSiteAsApplication(
+      model,
+      {} as commonModule.IHubRequestOptions
+    );
 
     expect(registerSpy).toHaveBeenCalledTimes(1);
     const redirectUris = registerSpy.calls.argsFor(0)[1];
@@ -40,23 +42,26 @@ describe("registerSiteAsApplication", () => {
 
   it("registers the site", async () => {
     const registerSpy = spyOn(
-      registerBrowserModule,
+      regiserBrowserAppModule,
       "registerBrowserApp"
     ).and.returnValue({});
 
-    const model = ({
+    const model = {
       item: {
-        id: "site-id"
+        id: "site-id",
       },
       data: {
         values: {
           defaultHostname: "default-hostname",
-          customHostname: "custom-hostname"
-        }
-      }
-    } as unknown) as IModel;
+          customHostname: "custom-hostname",
+        },
+      },
+    } as unknown as commonModule.IModel;
 
-    await registerSiteAsApplication(model, {} as IHubRequestOptions);
+    await commonModule.registerSiteAsApplication(
+      model,
+      {} as commonModule.IHubRequestOptions
+    );
 
     expect(registerSpy).toHaveBeenCalledTimes(1);
     const redirectUris = registerSpy.calls.argsFor(0)[1];
@@ -76,25 +81,25 @@ describe("registerSiteAsApplication", () => {
 
   it("does nothing on portal", async () => {
     const registerSpy = spyOn(
-      registerBrowserModule,
+      regiserBrowserAppModule,
       "registerBrowserApp"
     ).and.returnValue({});
 
-    const model = ({
+    const model = {
       item: {
-        id: "site-id"
+        id: "site-id",
       },
       data: {
         values: {
           defaultHostname: "default-hostname",
-          customHostname: "custom-hostname"
-        }
-      }
-    } as unknown) as IModel;
+          customHostname: "custom-hostname",
+        },
+      },
+    } as unknown as commonModule.IModel;
 
-    await registerSiteAsApplication(model, {
-      isPortal: true
-    } as IHubRequestOptions);
+    await commonModule.registerSiteAsApplication(model, {
+      isPortal: true,
+    } as commonModule.IHubRequestOptions);
 
     expect(registerSpy).not.toHaveBeenCalled();
   });

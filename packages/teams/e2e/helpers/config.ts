@@ -40,38 +40,38 @@ const config = {
           orgShort: "qa-pre-hub",
           orgUrl: "https://qa-pre-hub.mapsqa.arcgis.com",
           admin: {
-            username: "qa_pre_sol_admin",
-            password: PWD
+            username: "e2e_pre_pub_admin",
+            password: PWD,
           },
           user: {
-            username: "qa_pre_sol_user",
-            password: PWD
+            username: "e2e_pre_pub_publisher",
+            password: PWD,
           },
           fixtures: {
             items: {
               sitePageMapViewsLayersTable: "5741debb4bd9476e9511035126c7edb6",
-              mapViewsLayersTable: "be81062c50534a8abddd5927f4f41316"
-            }
-          }
+              mapViewsLayersTable: "be81062c50534a8abddd5927f4f41316",
+            },
+          },
         },
         hubBasic: {
           orgShort: "qa-bas-hub",
           orgUrl: "https://qa-bas-hub.mapsqa.arcgis.com",
           admin: {
-            username: "qa_bas_sol_admin",
-            password: PWD
+            username: "e2e_bas_pub_admin",
+            password: PWD,
           },
           user: {
-            username: "qa_bas_sol_user",
-            password: PWD
+            username: "e2e_bas_pub_publisher",
+            password: PWD,
           },
           fixtures: {
             items: {
               livingAtlasWebMapPublic: "9218fd27932f43aca023d4f7f55cf090",
-              livingAtlasWebMapOrg: "9ee53fa3cd60467086a4e5ebbac6d487"
-            }
-          }
-        }
+              livingAtlasWebMapOrg: "9ee53fa3cd60467086a4e5ebbac6d487",
+            },
+          },
+        },
         // portal: {
         //   homeUrl: 'https://portal.hubqa.arcgis.com/portal/apps/sites/#/home',
         //   harnessSite: 'https://portal.hubqa.arcgis.com/portal/apps/sites/#/harness',
@@ -87,9 +87,9 @@ const config = {
 
         //   }
         // }
-      }
-    }
-  }
+      },
+    },
+  },
 };
 
 export default config;

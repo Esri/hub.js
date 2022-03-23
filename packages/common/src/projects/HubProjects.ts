@@ -5,10 +5,14 @@ import {
   createModel,
   fetchModelFromItem,
   getModel,
-  getModelBySlug,
   updateModel,
 } from "../models";
-import { constructSlug, getUniqueSlug, setSlugKeyword } from "../items/slugs";
+import {
+  constructSlug,
+  getItemBySlug,
+  getUniqueSlug,
+  setSlugKeyword,
+} from "../items/slugs";
 import {
   IModel,
   isGuid,
@@ -17,21 +21,18 @@ import {
   IHubSearchOptions,
   ISearchResponse,
   _searchContent,
-  expandContentFilter,
-  serializeContentFilterForPortal,
-  getNextFunction,
   mergeContentFilter,
   getItemThumbnailUrl,
 } from "..";
 import {
-  ISearchOptions,
+  IItem,
   IUserItemOptions,
   removeItem,
-  searchItems,
+  getItem,
 } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-
-import { IPropertyMap, PropertyMapper } from "../core/helpers/PropertyMapper";
+import { searchContentEntities } from "../search/_internal/searchContentEntities";
+import { IPropertyMap, PropertyMapper } from "../core/_internal/PropertyMapper";
 import { IHubProject } from "../core/types";
 
 export const HUB_PROJECT_ITEM_TYPE = "Hub Project";
@@ -208,31 +209,12 @@ export function fetchProject(
   let getPrms;
   if (isGuid(identifier)) {
     // get item by id
-    getPrms = getModel(identifier, requestOptions);
+    getPrms = getItem(identifier, requestOptions);
   } else {
-    // search for item using filter=typekeywords:slug|identifier
-    // although we could leverage searchProjects with an appropriate filter
-    // getModelBySlug is a generalized function that works for any type
-    getPrms = getModelBySlug(identifier, requestOptions);
+    getPrms = getItemBySlug(identifier, requestOptions);
   }
-  return getPrms.then((model) => {
-    // transform the model into a HubProject
-    const mapper = new PropertyMapper<Partial<IHubProject>>(
-      getProjectPropertyMap()
-    );
-    const project = mapper.modelToObject(model, {}) as IHubProject;
-    let token: string;
-    if (requestOptions.authentication) {
-      const us: UserSession = requestOptions.authentication as UserSession;
-      token = us.token;
-    }
-
-    project.thumbnailUrl = getItemThumbnailUrl(
-      model.item,
-      requestOptions,
-      token
-    );
-    return project;
+  return getPrms.then((item) => {
+    return convertItemToProject(item, requestOptions);
   });
 }
 
@@ -250,10 +232,15 @@ export async function destroyProject(
   return;
 }
 
-// WIP: Need to resolve how best to execute this
-// i.e. delegate to searchContent or just do an item search
-// and convert to IHubProject objects.
-//
+/**
+ * Search for Projects, and get IHubProject results
+ *
+ * Different from `searchContent` in that this returns the specific entity type
+ *
+ * @param filter
+ * @param options
+ * @returns
+ */
 export async function searchProjects(
   filter: Filter<"content">,
   options: IHubSearchOptions
@@ -261,90 +248,37 @@ export async function searchProjects(
   // Scope to Hub Projects
   const scopingFilter: Filter<"content"> = {
     filterType: "content",
-    typekeywords: {
-      exact: ["HubProject"],
+    type: {
+      exact: ["Hub Project"],
     },
   };
   // merge filters
   const projectFilter = mergeContentFilter([scopingFilter, filter]);
-  // expand filter so we can serialize to either api
-  const expanded = expandContentFilter(projectFilter);
-  const so = serializeContentFilterForPortal(expanded);
-  // Aggregations
-  if (options.aggregations?.length) {
-    so.countFields = options.aggregations.join(",");
-    so.countSize = 200;
-  }
-  // Array of properties we want to copy from IHubSearchOptions
-  // to the ISearchOptions
-  const props: Array<keyof IHubSearchOptions> = [
-    "authentication",
-    "num",
-    "sortField",
-    "sortOrder",
-    "site",
-  ];
-  // copy the props over
-  props.forEach((prop) => {
-    if (options.hasOwnProperty(prop)) {
-      so[prop as keyof ISearchOptions] = options[prop];
-    }
-  });
 
-  return searchPortalProjects(so);
+  return searchContentEntities(projectFilter, convertItemToProject, options);
 }
 
 /**
- * Internal fn that takes
- * @param searchOptions
+ * Convert an Hub Project Item into a Hub Project, fetching any additional
+ * information that may be required
+ * @param item
+ * @param auth
  * @returns
  */
-async function searchPortalProjects(
-  searchOptions: ISearchOptions
-): Promise<ISearchResponse<IHubProject>> {
-  const response = await searchItems(searchOptions);
-  const hasNext: boolean = response.nextStart > -1;
-  // TODO: Change to leveraging the enrichment pipelines
-
-  // Convert the item's into models
-  const modelPromises = response.results.map((itm) => {
-    return fetchModelFromItem(itm, {
-      authentication: searchOptions.authentication,
-    });
-  });
-  const models = await Promise.all(modelPromises);
-  // create a mapper to convert the model int
+export async function convertItemToProject(
+  item: IItem,
+  requestOptions: IRequestOptions
+): Promise<IHubProject> {
+  const model = await fetchModelFromItem(item, requestOptions);
   const mapper = new PropertyMapper<Partial<IHubProject>>(
     getProjectPropertyMap()
   );
-
   let token: string;
-  if (searchOptions.authentication) {
-    const us: UserSession = searchOptions.authentication as UserSession;
-    token = us.token;
+  if (requestOptions.authentication) {
+    const session: UserSession = requestOptions.authentication as UserSession;
+    token = session.token;
   }
-
-  // map over the results, converting them into IHubProject pojos
-  const projects = models.map((m) => {
-    const prj = mapper.modelToObject(m, {}) as IHubProject;
-    prj.thumbnailUrl = getItemThumbnailUrl(
-      m.item,
-      { authentication: searchOptions.authentication },
-      token
-    );
-    return prj;
-  }) as unknown as IHubProject[];
-
-  return {
-    total: response.total,
-    results: projects,
-    facets: [],
-    hasNext,
-    next: getNextFunction<IHubProject>(
-      searchOptions,
-      response.nextStart,
-      response.total,
-      searchPortalProjects
-    ),
-  };
+  const prj = mapper.modelToObject(model, {}) as IHubProject;
+  prj.thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
+  return prj;
 }

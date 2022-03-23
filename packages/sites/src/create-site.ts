@@ -5,17 +5,18 @@ import {
   cloneObject,
   interpolateItemId,
   uploadResourcesFromUrl,
-  getProp
+  getProp,
+  addSiteDomains,
+  registerSiteAsApplication,
 } from "@esri/hub-common";
 import { ensureRequiredSiteProperties } from "./ensure-required-site-properties";
 import {
   createItem,
   protectItem,
   updateItem,
-  shareItemWithGroup
+  shareItemWithGroup,
 } from "@esri/arcgis-rest-portal";
-import { registerSiteAsApplication } from "./register-site-as-application";
-import { _addSiteDomains } from "./_add-site-domains";
+
 import { updateInitiativeSiteId } from "@esri/hub-initiatives";
 
 /**
@@ -45,9 +46,9 @@ export function createSite(
   return createItem({
     item: serializeModel(model),
     owner: model.item.owner,
-    authentication: hubRequestOptions.authentication
+    authentication: hubRequestOptions.authentication,
   })
-    .then(createResponse => {
+    .then((createResponse) => {
       // hold onto the Id so we can return a complete model
       model.item.id = createResponse.id;
 
@@ -55,14 +56,15 @@ export function createSite(
       return protectItem({
         id: model.item.id,
         owner: model.item.owner,
-        authentication: hubRequestOptions.authentication
+        authentication: hubRequestOptions.authentication,
       });
     })
-    .then(protectResponse => {
+    .then((protectResponse) => {
       // do app registration
+
       return registerSiteAsApplication(model, hubRequestOptions);
     })
-    .then(appRegistrationResponse => {
+    .then((appRegistrationResponse) => {
       // store the clientId
       model.data.values.clientId = appRegistrationResponse.client_id;
       // If we have a dcat section, hoist it out as it may contain complex adlib
@@ -79,22 +81,24 @@ export function createSite(
 
       return updateItem({
         item: serializeModel(model),
-        authentication: hubRequestOptions.authentication
+        authentication: hubRequestOptions.authentication,
       });
     })
-    .then(updateResponse => {
+    .then((updateResponse) => {
       // Handle domains
-      return _addSiteDomains(model, hubRequestOptions);
+
+      return addSiteDomains(model, hubRequestOptions);
     })
-    .then(domainResponses => {
+    .then((domainResponses) => {
       // upload resources from url
+
       return uploadResourcesFromUrl(
         model,
         options.assets || [],
         hubRequestOptions
       );
     })
-    .then(uploadResponses => {
+    .then((uploadResponses) => {
       // default to a success response
       let sharePrms: Promise<any> = Promise.resolve({ success: true });
       // share it to the collab team if that got created
@@ -107,12 +111,12 @@ export function createSite(
           id: model.item.id,
           groupId: collabGroupId,
           authentication: hubRequestOptions.authentication,
-          confirmItemControl: true
+          confirmItemControl: true,
         });
       }
       return sharePrms;
     })
-    .then(resp => {
+    .then((resp) => {
       // if we created an initiative, ensure we inject the site Id into it
       const initiativeItemId = getProp(
         model,
@@ -129,10 +133,10 @@ export function createSite(
         return Promise.resolve(true);
       }
     })
-    .then(resp => {
+    .then((resp) => {
       return model;
     })
-    .catch(err => {
+    .catch((err) => {
       throw Error(
         `site-utils::createSite - Error creating site ${JSON.stringify(err)}`
       );

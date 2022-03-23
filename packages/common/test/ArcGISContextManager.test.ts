@@ -105,7 +105,8 @@ describe("ArcGISContext:", () => {
       );
       expect(mgr.context.hubSearchServiceUrl).toBe(`${base}/api/v3/datasets`);
       expect(mgr.context.domainServiceUrl).toBe(`${base}/api/v3/domains`);
-      expect(mgr.context.hubRequestOptions).toBeUndefined();
+      expect(mgr.context.hubRequestOptions).toBeDefined();
+      expect(mgr.context.hubRequestOptions.authentication).toBeUndefined();
     });
     it("verify props when passed portalUrl", async () => {
       const t = new Date().getTime();
@@ -262,7 +263,7 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.portalUrl).toBe(
         MOCK_AUTH.portal.replace(`/sharing/rest`, "")
       );
-      await mgr.clearAuthentication();
+      mgr.clearAuthentication();
       expect(mgr.context.portalUrl).toBe("https://www.arcgis.com");
       expect(mgr.context.portal).toBeUndefined();
       expect(mgr.context.currentUser).toBeUndefined();
@@ -340,7 +341,7 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.portalUrl).toBe(
         MOCK_ENTERPRISE_AUTH.portal.replace(`/sharing/rest`, "")
       );
-      await mgr.clearAuthentication();
+      mgr.clearAuthentication();
       expect(mgr.context.portalUrl).toBe(
         MOCK_ENTERPRISE_AUTH.portal.replace(`/sharing/rest`, "")
       );
@@ -364,7 +365,7 @@ describe("ArcGISContext:", () => {
         portalUrl: "https://org.mapsqa.arcgis.com",
       });
       expect(mgr.context.hubUrl).toBe("https://hubqa.arcgis.com");
-      await mgr.clearAuthentication();
+      mgr.clearAuthentication();
       expect(mgr.context.hubUrl).toBe("https://hubqa.arcgis.com");
       expect(mgr.context.portalUrl).toBe("https://qaext.arcgis.com");
     });
@@ -373,7 +374,7 @@ describe("ArcGISContext:", () => {
         portalUrl: "https://org.mapsdevext.arcgis.com",
       });
       expect(mgr.context.hubUrl).toBe("https://hubdev.arcgis.com");
-      await mgr.clearAuthentication();
+      mgr.clearAuthentication();
       expect(mgr.context.hubUrl).toBe("https://hubdev.arcgis.com");
       expect(mgr.context.portalUrl).toBe("https://devext.arcgis.com");
     });
