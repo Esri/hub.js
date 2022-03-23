@@ -291,30 +291,30 @@ myPost = IPost {
 </table>
 <h2>Posting about content</h2>
 <p>At the core of the Hub Discussions API is the ability to create posts and drive conversation about data. This data can be a literal dataset, a feature in a dataset, an attribute of a feature of a dataset, or it could be an item, or a sentence in a pdf. The idea is that anything can be discussed with this platform. The property <code>post.discussion</code> expects a specifically formatted URI string to encapsulate the following information: the application context the post originated from (i.e. Hub, Urban), content type, content id, and optionally for datasets identification of specific layers, features, and attribute. The format allows posts to target coarsely-grained and highly-specific content. See the URI format and examples below:</p>
-<pre><code># coarsely-grained
+<pre><code><span class="hljs-meta"># coarsely-grained</span>
 &lt;application context&gt;:<span class="hljs-comment">//&lt;content type&gt;/&lt;content id&gt;</span>
 
-# highly-specific
+<span class="hljs-meta"># highly-specific</span>
 &lt;application context&gt;:<span class="hljs-comment">//dataset/&lt;dataset id&gt;_&lt;layer id&gt;?id=&lt;feature id&gt;&amp;attribute=&lt;feature attribute&gt;</span>
 
-## examples
+<span class="hljs-meta">## examples</span>
 
-# commenting on item ab4
+<span class="hljs-meta"># commenting on item ab4</span>
 hub:<span class="hljs-comment">//item/ab4</span>
 
-# commenting on layer <span class="hljs-number">1</span> <span class="hljs-keyword">of</span> dataset <span class="hljs-number">3</span>ef
+<span class="hljs-meta"># commenting on layer 1 of dataset 3ef</span>
 hub:<span class="hljs-comment">//dataset/3ef_1</span>
 
-# commenting on feature #<span class="hljs-number">5</span> <span class="hljs-keyword">of</span> layer <span class="hljs-number">1</span> <span class="hljs-keyword">of</span> dataset <span class="hljs-number">3</span>ef
+<span class="hljs-meta"># commenting on feature #5 of layer 1 of dataset 3ef</span>
 hub:<span class="hljs-comment">//dataset/3ef_1?id=5</span>
 
-# commenting on features #<span class="hljs-number">5</span> &amp; #<span class="hljs-number">7</span>
+<span class="hljs-meta"># commenting on features #5 &amp; #7</span>
 hub:<span class="hljs-comment">//dataset/3ef_1?id=5,7</span>
 
-# commenting on the species attribute <span class="hljs-keyword">of</span> layer <span class="hljs-number">1</span> <span class="hljs-keyword">of</span> dataset <span class="hljs-number">3</span>ef
+<span class="hljs-meta"># commenting on the species attribute of layer 1 of dataset 3ef</span>
 hub:<span class="hljs-comment">//dataset/3ef_1?attribute=species</span>
 
-# commenting on the species attributet <span class="hljs-keyword">of</span> feature <span class="hljs-number">5</span> <span class="hljs-keyword">of</span> layer <span class="hljs-number">1</span> <span class="hljs-keyword">of</span> <span class="hljs-number">3</span>ef dataset
+<span class="hljs-meta"># commenting on the species attributet of feature 5 of layer 1 of 3ef dataset</span>
 hub:<span class="hljs-comment">//dataset/3ef_1?id=5&amp;attribute=species</span>
 </code></pre>
 <h2>Replying to posts</h2>
@@ -418,7 +418,7 @@ Some other common query params are enumerated below:</p>
 <span class="hljs-comment">// search for posts by jdoe made in hub about dataset 1234</span>
 <span class="hljs-keyword">const</span> params: ISearchPosts = {
   <span class="hljs-attr">creator</span>: <span class="hljs-string">'jdoe'</span>
-  discussion: <span class="hljs-string">'hub://dataset/1234'</span>,
+  <span class="hljs-attr">discussion</span>: <span class="hljs-string">'hub://dataset/1234'</span>,
 };
 
 <span class="hljs-comment">// search for posts about trees that are replies to post abcdefg</span>
