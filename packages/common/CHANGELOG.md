@@ -1,3 +1,11 @@
+# @esri/hub-common [9.25.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.24.2...@esri/hub-common@9.25.0) (2022-03-23)
+
+
+### Features
+
+* force release ([#756](https://github.com/Esri/hub.js/issues/756)) ([e248015](https://github.com/Esri/hub.js/commit/e248015a02a57389a0dbc1e93cb1731cbff56094))
+* release HubSite and HubSiteManager ([#755](https://github.com/Esri/hub.js/issues/755)) ([42a702d](https://github.com/Esri/hub.js/commit/42a702d5ff72b59020d19ff244e7239f224c184a))
+
 ## @esri/hub-common [9.24.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.24.1...@esri/hub-common@9.24.2) (2022-03-22)
 
 
