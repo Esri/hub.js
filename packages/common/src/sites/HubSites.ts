@@ -251,7 +251,7 @@ function getSitePropertyMap(): IPropertyMap[] {
 /**
  * Create a new Hub Site
  *
- * Minimum properties are name and org
+ * Minimum properties are `name` and `org`
  * @param partialSite
  * @param requestOptions
  */
