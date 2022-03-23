@@ -8,9 +8,9 @@ import {
 } from "../items/_enrichments";
 import { IHubRequestOptions } from "../types";
 import { isNil } from "../util";
+import { maybeConcat } from "../utils/_array";
 import { addContextToSlug, isSlug, parseDatasetId } from "./slugs";
 import {
-  IDatasetEnrichments,
   fetchHubEnrichmentsById,
   fetchHubEnrichmentsBySlug,
   getContentEnrichments,
@@ -48,8 +48,12 @@ const maybeFetchLayerEnrichments = async (
         // we just fetch the item data for all layer views
         await fetchItemEnrichments(item, ["data"], options)
       : undefined;
-  // TODO: merge errors
-  return { ...itemAndEnrichments, ...layerEnrichments };
+  return {
+    ...itemAndEnrichments,
+    ...layerEnrichments,
+    // merge error arrays
+    errors: maybeConcat([itemAndEnrichments.errors, layerEnrichments?.errors]),
+  };
 };
 
 const fetchItemAndEnrichments = async (
@@ -83,20 +87,20 @@ const fetchContentById = async (
   const specifiedLayerId = options && options.layerId;
   // if this is a public item and we're not in enterprise
   // fetch the slug and remaining enrichments from the Hub API
-  const { slug, layerId, boundary, extent, searchDescription, statistics } =
-    canUseHubApiForItem(item, options)
-      ? await fetchHubEnrichmentsById(hubId, options)
-      : ({} as IDatasetEnrichments);
+  // const { slug, layerId, boundary, extent, searchDescription, statistics } =
+  const hubEnrichments = canUseHubApiForItem(item, options)
+    ? await fetchHubEnrichmentsById(hubId, options)
+    : {};
+  const layerId = hubEnrichments.layerId;
   // return a new content object composed from the item and enrichments we fetched
   return composeContent(item, {
     requestOptions: options,
     ...itemEnrichments,
-    slug,
+    ...hubEnrichments,
+    // prefer specified layer id if any
     layerId: isNil(specifiedLayerId) ? layerId : specifiedLayerId,
-    boundary,
-    extent,
-    searchDescription,
-    statistics,
+    // merge error arrays
+    errors: maybeConcat([itemEnrichments.errors, hubEnrichments.errors]),
   });
 };
 
@@ -121,32 +125,30 @@ const fetchContentBySlug = async (
   // did the caller request a specific layer
   const specifiedLayerId = options && options.layerId;
   if (!isNil(specifiedLayerId) && specifiedLayerId !== layerId) {
-    // we fetched Hub enrichments by slug for another dataset,
-    // most likely for the parent service of this layer,
-    // we need to fetch them for the specified layer instead
+    // we fetched Hub enrichments by slug for another record,
+    // most likely the record for the parent service of this layer,
+    // so we need to fetch them for the specified layer instead
     layerId = specifiedLayerId;
-    hubEnrichments = await fetchHubEnrichmentsById(
-      `${itemId}_${layerId}`,
-      options
-    );
+    hubEnrichments = {
+      ...hubEnrichments,
+      ...(await fetchHubEnrichmentsById(`${itemId}_${layerId}`, options)),
+    };
   }
-  // Note that we are not extracting the slug for the specified layer.
-  // It seems that the old client composer code always populated the slug
-  // field with the slug that was passed into the function (typically the
-  // slug of the parent service). To maintain parity, we do the same here.
-  //
-  // TODO: should we prefer the slug of the fetched layer instead?
-  const { boundary, extent, searchDescription, statistics } = hubEnrichments;
-  // return a new content object composed from the item and enrichments we fetched
   return composeContent(item, {
     requestOptions: options,
     ...itemEnrichments,
+    ...hubEnrichments,
     layerId,
+    // Note that we are not extracting the slug for the specified layer.
+    // It seems that the old client composer code always populated the slug
+    // field with the slug that was passed into the function (typically the
+    // slug of the parent service). To maintain parity, we do the same here.
+    //
+    // TODO: should we prefer the slug of the fetched layer instead?
+    // return a new content object composed from the item and enrichments we fetched
     slug: fullyQualifiedSlug,
-    boundary,
-    extent,
-    searchDescription,
-    statistics,
+    // merge error arrays
+    errors: maybeConcat([itemEnrichments.errors, hubEnrichments.errors]),
   });
 };
 
