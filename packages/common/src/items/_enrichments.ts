@@ -201,7 +201,7 @@ const handleEnrichmentError = (
   return {
     data: {
       ...data,
-      errors: addEnrichmentError(error, data.errors),
+      errors: getEnrichmentErrors(error, data.errors),
     },
     stack,
     requestOptions,
@@ -231,7 +231,7 @@ const enrichmentOperations: IEnrichmentOperations = {
  * @returns a new array of enrichment error info
  * @private
  */
-export const addEnrichmentError = (
+export const getEnrichmentErrors = (
   error: Error | string,
   errors: IEnrichmentErrorInfo[] = []
 ) => {

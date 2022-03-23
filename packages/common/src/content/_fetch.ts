@@ -1,6 +1,6 @@
 import { IItem } from "@esri/arcgis-rest-portal";
 import {
-  addEnrichmentError,
+  getEnrichmentErrors,
   ItemOrServerEnrichment,
 } from "../items/_enrichments";
 import { hubApiRequest } from "../request";
@@ -177,6 +177,6 @@ export const fetchHubEnrichmentsById = async (
   } catch (e) {
     // dataset record not found, just log the error
     // b/c we can still look up the item and enrichments by id
-    return { errors: addEnrichmentError(e as Error) };
+    return { errors: getEnrichmentErrors(e as Error) };
   }
 };

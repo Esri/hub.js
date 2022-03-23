@@ -4,6 +4,7 @@
  * that are not actually arrays
  * @param arrays An array of arrays
  * @returns concatenated array
+ * @private
  */
 export const maybeConcat = (arrays: any[][]) => {
   const result = [].concat.apply([], arrays.filter(Array.isArray));
