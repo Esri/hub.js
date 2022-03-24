@@ -1,3 +1,10 @@
+## @esri/hub-common [9.25.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.25.0...@esri/hub-common@9.25.1) (2022-03-24)
+
+
+### Bug Fixes
+
+* **hub-common:** fetchContent() handles & returns non-fatal errors ([477b0e7](https://github.com/Esri/hub.js/commit/477b0e7d64aa85f265486e5574c6ddba453bcc4f))
+
 # @esri/hub-common [9.25.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.24.2...@esri/hub-common@9.25.0) (2022-03-23)
 
 
