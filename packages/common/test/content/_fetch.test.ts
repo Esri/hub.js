@@ -95,9 +95,21 @@ describe("_fetch", () => {
         expect(result.slug).toBe(slug);
         expect(result.boundary).toEqual(dataset.attributes.boundary);
         expect(result.statistics).toBeUndefined();
+        expect(result.errors).toBeUndefined();
       });
     });
     describe("by id", () => {
+      it("should handle errors", async () => {
+        fetchMock.mock(`begin:${hubApiUrl}/api/v3/datasets/${id}`, 404);
+        const result = await fetchHubEnrichmentsById(id, requestOpts);
+        // inspect the datasets request for the correct parameters
+        const calls = fetchMock.calls();
+        const [url] = calls[0];
+        expect(calls.length).toBe(1);
+        expect(result).toEqual({
+          errors: [{ type: "Other", message: "Not Found" }],
+        });
+      });
       it("should call the hub API with an id and specific fields", async () => {
         fetchMock.mock(`begin:${hubApiUrl}/api/v3/datasets/${id}`, {
           data: dataset,
@@ -116,6 +128,7 @@ describe("_fetch", () => {
         expect(result.slug).toBe(slug);
         expect(result.boundary).toEqual(dataset.attributes.boundary);
         expect(result.statistics).toBeUndefined();
+        expect(result.errors).toBeUndefined();
       });
       it("should return the layerId", async () => {
         const itemId = "4ef";
@@ -149,6 +162,7 @@ describe("_fetch", () => {
         expect(result.slug).toBe(slug);
         expect(result.boundary).toEqual(layerDataset.attributes.boundary);
         expect(result.statistics).toEqual(layerDataset.attributes.statistics);
+        expect(result.errors).toBeUndefined();
       });
     });
   });

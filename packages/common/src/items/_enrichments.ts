@@ -9,7 +9,7 @@ import {
   getService,
 } from "@esri/arcgis-rest-feature-layer";
 import { IItemEnrichments, IServerEnrichments } from "../core";
-import { IHubRequestOptions } from "../types";
+import { IEnrichmentErrorInfo, IHubRequestOptions } from "../types";
 import { IPipeable, createOperationPipeline } from "../utils";
 import OperationStack from "../OperationStack";
 // TODO: move these functions here under /items
@@ -198,20 +198,14 @@ const handleEnrichmentError = (
 ): IPipeable<IItemAndEnrichments> => {
   const { data, stack, requestOptions } = input;
   stack.finish(opId, { error });
-  const message =
-    typeof error === "string"
-      ? /* istanbul ignore next our tests only throw Error objects */
-        error
-      : error.message;
-  const errors = data.errors || [];
-  errors.push({
-    // NOTE: for now we just return the message and type "Other"
-    // but we could later introspect for HTTP or AGO errors
-    // and/or return the status code if available
-    type: "Other",
-    message,
-  });
-  return { data: { ...data, errors }, stack, requestOptions };
+  return {
+    data: {
+      ...data,
+      errors: getEnrichmentErrors(error, data.errors),
+    },
+    stack,
+    requestOptions,
+  };
 };
 
 // map of all enrichment operations
@@ -224,10 +218,38 @@ const enrichmentOperations: IEnrichmentOperations = {
   groupIds: enrichGroupIds,
   metadata: enrichMetadata,
   ownerUser: enrichOwnerUser,
-  // TOOD: org
   data: enrichData,
   server: enrichServer,
   layers: enrichLayers,
+};
+
+/**
+ * convert an error to an enrichment error info format
+ * and optionally append it to an existing array of those
+ * @param error
+ * @param errors an array of existing enrichment error info
+ * @returns a new array of enrichment error info
+ * @private
+ */
+export const getEnrichmentErrors = (
+  error: Error | string,
+  errors: IEnrichmentErrorInfo[] = []
+) => {
+  const message =
+    typeof error === "string"
+      ? /* istanbul ignore next our tests only throw Error objects */
+        error
+      : error.message;
+  return [
+    ...errors,
+    {
+      // NOTE: for now we just return the message and type "Other"
+      // but we could later introspect for HTTP or AGO errors
+      // and/or return the status code if available
+      type: "Other",
+      message,
+    } as IEnrichmentErrorInfo,
+  ];
 };
 
 /**

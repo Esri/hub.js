@@ -1,7 +1,15 @@
 import { IItem } from "@esri/arcgis-rest-portal";
-import { ItemOrServerEnrichment } from "../items/_enrichments";
+import {
+  getEnrichmentErrors,
+  ItemOrServerEnrichment,
+} from "../items/_enrichments";
 import { hubApiRequest } from "../request";
-import { BBox, IHubRequestOptions, IHubGeography } from "../types";
+import {
+  BBox,
+  IHubRequestOptions,
+  IHubGeography,
+  IEnrichmentErrorInfo,
+} from "../types";
 import { isMapOrFeatureServerUrl } from "../urls";
 import { cloneObject } from "../util";
 import { includes } from "../utils";
@@ -55,7 +63,9 @@ export interface IHubExtent {
  * The set of enrichments that we fetch from the Hub API
  */
 export interface IDatasetEnrichments {
-  itemId: string;
+  // TODO: I don't think itemId is used
+  // we should remove it at the next breaking change
+  itemId?: string;
   layerId?: number;
   slug?: string;
   // TODO: move these to a common interface shared w/ IHubContentEnrichments
@@ -83,6 +93,12 @@ export interface IDatasetEnrichments {
    * Pre-computed field statistics (min, max, average, etc)
    */
   statistics?: any;
+
+  /**
+   * Any errors encountered when fetching enrichments
+   * see https://github.com/ArcGIS/hub-indexer/blob/master/docs/errors.md#response-formatting-for-errors
+   */
+  errors?: IEnrichmentErrorInfo[];
 }
 
 // build up request options to only include the above enrichments
@@ -94,6 +110,7 @@ const getHubEnrichmentsOptions = (
   const opts = cloneObject(requestOptions);
   opts.params = {
     ...opts.params,
+    // TODO: we should fetch errors too
     "fields[datasets]": "slug,boundary,extent,searchDescription,statistics",
   };
   if (slug) {
@@ -128,8 +145,11 @@ const getDatasetEnrichments = (dataset: DatasetResource) => {
  */
 export const fetchHubEnrichmentsBySlug = async (
   slug: string,
-  requestOptions: IHubRequestOptions
+  requestOptions?: IHubRequestOptions
 ) => {
+  // NOTE: we don't catch errors here b/c
+  // searching by slug is the first step in fetchContent()
+  // and if this fails, we don't have an id to fall back on
   const response = await hubApiRequest(
     `/datasets`,
     getHubEnrichmentsOptions(requestOptions, slug)
@@ -146,11 +166,17 @@ export const fetchHubEnrichmentsBySlug = async (
  */
 export const fetchHubEnrichmentsById = async (
   hubId: string,
-  requestOptions: IHubRequestOptions
+  requestOptions?: IHubRequestOptions
 ) => {
-  const response = await hubApiRequest(
-    `/datasets/${hubId}`,
-    getHubEnrichmentsOptions(requestOptions)
-  );
-  return getDatasetEnrichments(response.data);
+  try {
+    const response = await hubApiRequest(
+      `/datasets/${hubId}`,
+      getHubEnrichmentsOptions(requestOptions)
+    );
+    return getDatasetEnrichments(response.data);
+  } catch (e) {
+    // dataset record not found, just log the error
+    // b/c we can still look up the item and enrichments by id
+    return { errors: getEnrichmentErrors(e as Error) };
+  }
 };
