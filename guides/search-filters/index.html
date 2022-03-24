@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Searching for Content | Guide | @esri/hub.js</title>
+    
+    <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
+    
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css">
+    <link rel="stylesheet" href="/hub.js/css/style.css">
+    
+  </head>
+  <body>
+  <!-- Drawer -->
+    <div class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
+      <nav class="drawer-nav" role="navigation">
+        <aside class="side-nav">
+          <h2 class="side-nav-title">@esri/hub.js</h2>
+          <a href="/hub.js/guides/" class="is-active side-nav-link">Guides</a>
+          <a href="/hub.js/api/" class="side-nav-link">API Reference</a>
+        </aside>
+      </nav>
+    </div>
+
+    <div id="page" class="wrapper">
+      <!-- Sample HTML -->
+      <header class="top-nav">
+        <div class="grid-container">
+          <div class="column-24">
+            <!-- desktop sized navigation -->
+            <div class="tablet-hide">
+              <!-- logo / home -->
+              <a href="/hub.js/" class="top-nav-title">@esri/hub.js</a>
+              <!-- primary navigation sections -->
+              <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/guides/" class="is-active top-nav-link">Guides</a>
+                <a href="/hub.js/api/" class="top-nav-link">API Reference</a>
+                <a href="https://github.com/Esri/hub.js" class="top-nav-link">GitHub</a>
+              </nav>
+            </div>
+
+            <!-- tablet and mobile sized navigation -->
+            <div class="tablet-show top-nav-flex">
+              <!-- open primary navigation drawer -->
+              <nav class="top-nav-flex-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/" class="icon-ui-menu top-nav-link js-drawer-toggle" data-drawer="top-nav"><span class="phone-hide">Menu</span></a>
+              </nav>
+              <!-- logo / home -->
+              <header class="top-nav-flex-title">
+                <a href="/hub.js/" class="top-nav-link">@esri/hub.js</a>
+              </header>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+
+      <main id="#skip-to-content">
+        
+  <div class="grid-container trailer-1 leader-1">
+    <div class="column-6">
+      <ul class="list-plain">
+        
+          <li>Get Started</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/from-a-cdn/">From a CDN</a></li>
+            
+              <li><a href="/hub.js/guides/node/">Node.js</a></li>
+            
+              <li><a href="/hub.js/guides/using-es6/">Using ES6</a></li>
+            
+              <li><a href="/hub.js/guides/whats-new-v2-0/">What's New in v2.0.0</a></li>
+            
+          </ul>
+        
+          <li>Concepts</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/architecture-patterns/">Architecture</a></li>
+            
+              <li><a href="/hub.js/guides/hub-entities/">Hub Entities</a></li>
+            
+              <li><a href="/hub.js/guides/authentication/">Authentication</a></li>
+            
+              <li><a href="/hub.js/guides/context/">Using ArcGISContext</a></li>
+            
+              <li><a href="/hub.js/guides/working-with-projects/">Working with Projects</a></li>
+            
+              <li><a href="/hub.js/guides/content-search/">Searching Content</a></li>
+            
+              <li><a href="/hub.js/guides/search-filters/" class="is-active">Searching Content</a></li>
+            
+              <li><a href="/hub.js/guides/sites-and-pages/">Sites and Pages</a></li>
+            
+              <li><a href="/hub.js/guides/teams/">Hub Teams</a></li>
+            
+              <li><a href="/hub.js/guides/hub-discussions/">Hub Discussions</a></li>
+            
+              <li><a href="/hub.js/guides/work-with-annotations/">Map Annotations</a></li>
+            
+              <li><a href="/hub.js/guides/common/">Utilities</a></li>
+            
+              <li><a href="/hub.js/guides/operation-stack/">OperationStack</a></li>
+            
+              <li><a href="/hub.js/guides/composing-workflows/">Composing Workflows</a></li>
+            
+              <li><a href="/hub.js/guides/e2e-tests/">E2E Testing</a></li>
+            
+          </ul>
+        
+      </ul>
+    </div>
+
+    <div class="column-18">
+      <div class="panel">
+        <h2>Searching for Content vs Searching for Hub Entities</h2>
+<p>In Hub we deal with two broad categories of things - <a href="./hub-entities">Hub Entities</a> (Site/Page/Project/Initiative etc) and Content (Maps/Apps/Data/Documents).</p>
+<p>Although the Hub Entities can be thought of as “Content”, generally when working with specific entities, we will use the <code>.search</code> methods on the Entity Manager classes, or the <code>search[EntityType]</code> functions in the entity modules. The key thing is that these methods will return the expected Hub Entity (i.e. for projects you get back <code>IHubProject</code> objects), where as the more generic content search will return an <code>IHubContent</code>, even for Hub Entity types.</p>
+<h2>Searching for Content</h2>
+<p>To search for content, we want to use:</p>
+<pre><code class="ts">_searchContent(filter: Filter&lt;“content”&gt;, options: IHubSearchOptions):<span class="hljs-built_in">Promise</span>&lt;ISearchResponse&lt;IHubContent&gt;&gt;
+</code></pre>
+<p><em>NOTE:</em> the <code>_</code> is temporary. The currently exported <code>searchContent</code> function operates very differently. We will use an incremental process to convert client code over to using the new functions, and then deprecate the old implementation at a breaking change in Hub.js</p>
+<p>The response contains an array of results, and a <code>next()</code> function which fetches the next page.</p>
+<h2>Search Filters: Developers Guide</h2>
+<p>When searching for Content, Groups or Users, we use <code>Filters</code> to specify the search criteria.</p>
+<p>The <code>Filter</code> is a tagged union type, and it's properties depend on the tag passed in when it's declared.</p>
+<p>While <code>Filter&lt;&quot;content&quot;&gt;</code> has different properties than <code>Filter&lt;&quot;user&quot;&gt;</code>, using a tagged union type allows us to write generic functions that can work with all of the variations.</p>
+<p>When working with <code>Filter&lt;&quot;content&quot;&gt;</code> the filter interface is defined as:</p>
+<pre><code class="ts"><span class="hljs-comment">// This is the actual interface for Filter&lt;"content"&gt;</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> IContentFilterDefinition {
+  access?: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">string</span>[] | IMatchOptions;
+  owner?: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">string</span>[] | IMatchOptions;
+  tags?: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">string</span>[] | IMatchOptions;
+  created?: IDateRange&lt;<span class="hljs-built_in">number</span>&gt; | IRelativeDate;
+  description?: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">string</span>[] | IMatchOptions;
+  snippet?: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">string</span>[] | IMatchOptions;
+  group?: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">string</span>[] | IMatchOptions;
+  id?: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">string</span>[] | IMatchOptions;
+  modified?: IDateRange&lt;<span class="hljs-built_in">number</span>&gt; | IRelativeDate;
+  orgid?: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">string</span>[] | IMatchOptions;
+  term?: <span class="hljs-built_in">string</span>;
+  title?: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">string</span>[] | IMatchOptions;
+  <span class="hljs-keyword">type</span>?:
+    | <span class="hljs-built_in">string</span>
+    | NamedContentFilter
+    | <span class="hljs-built_in">Array</span>&lt;<span class="hljs-built_in">string</span> | NamedContentFilter&gt;
+    | IMatchOptions;
+  typekeywords?: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">string</span>[] | IMatchOptions;
+  <span class="hljs-comment">// this allows arbitrary keys, which Hub api supports</span>
+  [key: <span class="hljs-built_in">string</span>]: <span class="hljs-built_in">any</span>;
+  <span class="hljs-comment">/**
+   * @internal
+   * Support for complex OR queries; Used with various expansions
+   */</span>
+  subFilters?: <span class="hljs-built_in">Array</span>&lt;IContentFilterDefinition | NamedContentFilter&gt;;
+}
+</code></pre>
+<p>The listed properties are those supported by the Portal API. It also supports additional properties, but those will ignored by the Portal API search, and may be respected by the Hub API.</p>
+<h2>Building Filters</h2>
+<p>The core idea is that complex queries can be built up by combining many simple Filters. For example, to locate items owned by <code>jsmith</code> of type <code>Web Map</code>, we could create two filters and merge them as follows</p>
+<pre><code class="ts"><span class="hljs-keyword">const</span> ownerFilter: Filter&lt;<span class="hljs-string">"content"</span>&gt; = {
+  filterType: <span class="hljs-string">"content"</span>,
+  owner: <span class="hljs-string">"jsmith"</span>,
+};
+
+<span class="hljs-keyword">const</span> typeFilter: Filter&lt;<span class="hljs-string">"content"</span>&gt; = {
+  filterType: <span class="hljs-string">"content"</span>,
+  <span class="hljs-keyword">type</span>: <span class="hljs-string">"Web Map"</span>,
+};
+
+<span class="hljs-keyword">const</span> filter = mergeContentFilter([ownerFilter, typeFilter]);
+<span class="hljs-comment">//=&gt; {filterType: "content", owner:"jsmith", type: "Web Map"}</span>
+</code></pre>
+<p>While that example could have been written as a single filter without much issue, this approach of merging many filters into a single filter is core to how the <code>Filter</code> system works. It's also enables the UI layer to be composed of many small components, which define simple Filters, which are merged to create a single complex Filter, which is passed into the <code>_searchContent</code>, <code>_searchGroups</code> or <code>_searchUsers</code> functions. Serialization into API specific query syntax is handled internally.</p>
+<h3>Complex Filters</h3>
+<p>Sometimes we need to express more complex logic. As shown in the <code>IContentFilterDefinition</code> interface above, properties on a <code>Filter</code> can be a string, but can also be an array of strings, or <code>IMatchOptions</code>.</p>
+<p>Let's look at an array of strings first.</p>
+<pre><code class="ts"><span class="hljs-keyword">const</span> typeFilter: Filter&lt;<span class="hljs-string">"content"</span>&gt; = {
+  filterType: <span class="hljs-string">"content"</span>,
+  <span class="hljs-keyword">type</span>: [<span class="hljs-string">"Web Map"</span>, <span class="hljs-string">"Dashboard"</span>],
+};
+</code></pre>
+<p>We can read this as <code>where type = &quot;Web Map&quot; or type = &quot;Dashboard&quot;</code>. If we need to be even more specific, we need to use the <code>IMatchOptions</code></p>
+<h4>Using IMatchOptions</h4>
+<p>When you need very specific control over the boolean logic, use the <code>IMatchOptions</code> interface.</p>
+<pre><code class="ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> IMatchOptions {
+  <span class="hljs-comment">/**
+   * return results which have ANY of the listed values
+   * for the specified field
+   */</span>
+  <span class="hljs-built_in">any</span>?: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">string</span>[];
+  <span class="hljs-comment">/**
+   * return resutls which have ALL of the listed values
+   * for the specified field
+   */</span>
+  all?: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">string</span>[];
+  <span class="hljs-comment">/**
+   * return results which do not have any of the listed
+   * values for the specified field
+   */</span>
+  not?: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">string</span>[];
+  <span class="hljs-comment">/**
+   * Depending on the API being searched, `exact` will
+   * attempt to structure the query such that it is an
+   * exact match. For Portal API, this may involve using
+   * the `filter` parameter, if the specific field can
+   * be used with that parameter
+   */</span>
+  exact?: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">string</span>[];
+}
+</code></pre>
+<p>For example, to find items with the tags <code>water</code> and <code>colorado</code>, optionally with tags <code>lake</code> and <code>stream</code>, but without the tags <code>epa</code>, <code>nepa</code> and matching exactly the type <code>&quot;Feature Service&quot;</code> we could use this filter:</p>
+<pre><code class="ts"><span class="hljs-keyword">const</span> typeFilter: Filter&lt;<span class="hljs-string">"content"</span>&gt; = {
+  filterType: <span class="hljs-string">"content"</span>,
+  <span class="hljs-keyword">type</span>: {
+    exact: <span class="hljs-string">"Feature Service"</span> <span class="hljs-comment">// must be exactly this type</span>
+  },
+  tags: {
+    all: [<span class="hljs-string">"water"</span>, <span class="hljs-string">"colorado"</span>], <span class="hljs-comment">// must have all these</span>
+    <span class="hljs-built_in">any</span>: [<span class="hljs-string">"lake"</span>,<span class="hljs-string">"river"</span>] <span class="hljs-comment">// may have any of these</span>
+    not: [<span class="hljs-string">"epa"</span>, <span class="hljs-string">"nepa"</span>] <span class="hljs-comment">// may not have these</span>
+  }
+};
+</code></pre>
+<h3>A Note About Exact Matching</h3>
+<p>As the <a href="https://developers.arcgis.com/rest/users-groups-and-items/search-reference.htm">Portal Search API documentation notes (Query vs Filter section)</a>, by default the api does a &quot;fuzzy search&quot; - this means that searching for <code>type:&quot;Web Map&quot;</code> will also return things with <code>type: &quot;Web Mapping Application&quot;</code>. To do an exact match, the query is structured differently (for the Portal API, this criteria is serialized into the <code>filter</code> property vs the <code>q</code>).</p>
+<p><code>Filter</code> design accomodates this via the <code>IMatchOptions.exact</code> property. It should be noted that the portal API accepts a subset of properties on the <code>filter</code> parameter. From the docs:</p>
+<h4>Exact Match Fields by Filter Type</h4>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Field</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content</td>
+<td><code>title</code></td>
+</tr>
+<tr>
+<td>Content</td>
+<td><code>tags</code></td>
+</tr>
+<tr>
+<td>Content</td>
+<td><code>typeKeywords</code></td>
+</tr>
+<tr>
+<td>Content</td>
+<td><code>type</code></td>
+</tr>
+<tr>
+<td>Content</td>
+<td><code>name</code></td>
+</tr>
+<tr>
+<td>Content</td>
+<td><code>owner</code></td>
+</tr>
+<tr>
+<td>User</td>
+<td><code>username</code></td>
+</tr>
+<tr>
+<td>User</td>
+<td><code>firstname</code></td>
+</tr>
+<tr>
+<td>User</td>
+<td><code>lastname</code></td>
+</tr>
+<tr>
+<td>User</td>
+<td><code>fullname</code></td>
+</tr>
+<tr>
+<td>User</td>
+<td><code>email</code></td>
+</tr>
+<tr>
+<td>Group</td>
+<td><code>title</code></td>
+</tr>
+<tr>
+<td>Group</td>
+<td><code>typeKeywords</code></td>
+</tr>
+<tr>
+<td>Group</td>
+<td><code>owner</code></td>
+</tr>
+</tbody>
+</table>
+<h3>SubFilters</h3>
+<p>While rare, some scenarios require an &quot;OR&quot; between two complex queries that do not intersect. For example, to find all &quot;StoryMaps&quot; the query logic is as follows:</p>
+<pre><code>- <span class="hljs-class"><span class="hljs-keyword">type</span></span>: <span class="hljs-string">"StoryMap"</span>
+or
+- <span class="hljs-class"><span class="hljs-keyword">type</span></span>: <span class="hljs-string">"Web Mapping Application"</span> <span class="hljs-type">AND</span> typeKeyword: <span class="hljs-string">"StoryMap"</span>
+</code></pre>
+<p>As a Filter this would be done as follows:</p>
+<pre><code class="ts"><span class="hljs-keyword">const</span> typeFilter: Filter&lt;<span class="hljs-string">"content"</span>&gt; = {
+  filterType: <span class="hljs-string">"content"</span>,
+  subFilters: [
+    {
+      <span class="hljs-keyword">type</span>: <span class="hljs-string">"StoryMap"</span>,
+    },
+    {
+      <span class="hljs-keyword">type</span>: <span class="hljs-string">"Web Mapping Application"</span>,
+      typeKeywords: <span class="hljs-string">"StoryMap"</span>,
+    },
+  ],
+};
+</code></pre>
+<h3>Well-Known Filters</h3>
+<p>The Filter system has some built in short-cuts for some commonly used filters.</p>
+<table>
+<thead>
+<tr>
+<th>Description</th>
+<th>Short-cut</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Applications</td>
+<td><code>$apps</code></td>
+</tr>
+<tr>
+<td>StoryMaps</td>
+<td><code>$storymap</code></td>
+</tr>
+<tr>
+<td>Dashboard</td>
+<td><code>$dashboard</code></td>
+</tr>
+<tr>
+<td>Site</td>
+<td><code>$site</code></td>
+</tr>
+<tr>
+<td>Initiative</td>
+<td><code>$initiative</code></td>
+</tr>
+<tr>
+<td>Document</td>
+<td><code>$document</code></td>
+</tr>
+<tr>
+<td>Experience</td>
+<td><code>$experience</code></td>
+</tr>
+</tbody>
+</table>
+<p>These are the commonly used &quot;Collections&quot; within the Hub UI. Utilizing short-cuts ensures that these complex queries are consistent across the application, and that changes can be made in a single location.</p>
+<h2>Search Options</h2>
+<p>Once we have constructed the filter, the next thing needed are the search options. The inteface is shown below, and for the most part it's information like authentication, sorting and paging.</p>
+<pre><code class="ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> IHubSearchOptions {
+  site?: IModel; <span class="hljs-comment">// This may change</span>
+  authentication?: UserSession;
+  sortField?: <span class="hljs-built_in">string</span>;
+  sortOrder?: <span class="hljs-string">"desc"</span> | <span class="hljs-string">"asc"</span>;
+  page?: <span class="hljs-built_in">string</span>;
+  num?: <span class="hljs-built_in">number</span>;
+  aggregations?: <span class="hljs-built_in">string</span>[];
+  bbox?: <span class="hljs-built_in">string</span>;
+  fields?: <span class="hljs-built_in">string</span>;
+  api?: NamedApis | IApiDefinition;
+}
+</code></pre>
+<h3>Specifying the API</h3>
+<p><strong>NOTE</strong> This is likely to change!</p>
+<p>Searches can be run against the Portal API or against the Hub API. This is specified by the <code>.api</code> property of the <code>IHubSearchOptions</code></p>
+<p>The <code>.api</code> property can take either a well-known name (<code>NamedApis</code> type) or an <code>IApiDefinition</code></p>
+<table>
+<thead>
+<tr>
+<th>NamedApis</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>arcgis</code></td>
+<td>ArcGIS Online Production</td>
+</tr>
+<tr>
+<td><code>arcgisQA</code></td>
+<td>ArcGIS Online QA</td>
+</tr>
+<tr>
+<td><code>arcgisDEV</code></td>
+<td>ArcGIS Online Dev</td>
+</tr>
+<tr>
+<td><code>hub</code></td>
+<td>ArcGIS Hub Production</td>
+</tr>
+<tr>
+<td><code>hubQA</code></td>
+<td>ArcGIS Hub QA</td>
+</tr>
+<tr>
+<td><code>hubDEV</code></td>
+<td>ArcGIS Hub Dev</td>
+</tr>
+</tbody>
+</table>
+<p>To work with ArcGIS Enterprise, a full <code>IApiDefinition</code> must be provided:</p>
+<pre><code class="ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> IApiDefinition {
+  label?: <span class="hljs-built_in">string</span>;
+  <span class="hljs-comment">// url of the api</span>
+  <span class="hljs-comment">// - for "arcgis", /sharing/rest will be appended</span>
+  <span class="hljs-comment">// - for "arcgis-hub", the /v3/search will be added</span>
+  url: <span class="hljs-built_in">string</span>;
+  <span class="hljs-comment">// We can add types as we add support for more</span>
+  <span class="hljs-keyword">type</span>: <span class="hljs-string">"arcgis"</span> | <span class="hljs-string">"arcgis-hub"</span>;
+}
+
+<span class="hljs-keyword">const</span> myPortalApi: IApiDefinition = {
+  label: <span class="hljs-string">"My Portal"</span>,
+  url: <span class="hljs-string">"https://my.portal.com/gis"</span>,
+  <span class="hljs-keyword">type</span>: <span class="hljs-string">"arcgis"</span>,
+};
+</code></pre>
+      </div>
+    </div>
+  </div>
+
+      </main>
+    </div>
+
+    <footer class="footer">
+      
+      <div class="panel panel-white">
+        <div class="grid-container">
+          <div class="column-24">
+            <a href="https://github.com/Esri/hub.js" class="font-size--2">Fork this project</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/js/calcite-web.min.js"></script>
+
+    <script>
+       calcite.init()
+    </script>
+
+    
+  </body>
+</html>
