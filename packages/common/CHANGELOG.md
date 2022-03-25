@@ -1,3 +1,10 @@
+## @esri/hub-common [9.25.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.25.1...@esri/hub-common@9.25.2) (2022-03-25)
+
+
+### Bug Fixes
+
+* **hub-common:** fix composeContent to prefer layer spatialReference to item spatialReference and re ([61f5952](https://github.com/Esri/hub.js/commit/61f59525aef3286d9f01d87b910542879ed85967))
+
 ## @esri/hub-common [9.25.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.25.0...@esri/hub-common@9.25.1) (2022-03-24)
 
 
