@@ -129,7 +129,8 @@ describe("hub", () => {
         // since we are authed, we will fetch the item and get this stuff from it
         expect(content.contentStatus).toEqual("org_authoritative");
         expect(content.spatialReference).toEqual({
-          wkid: parseInt(itemJson.spatialReference as string, 10),
+          latestWkid: 27700,
+          wkid: 27700,
         });
 
         // TODO: content type specific properties
@@ -206,7 +207,8 @@ describe("hub", () => {
         // since we are authed, we will fetch the item and get this stuff from it
         expect(content.contentStatus).toEqual("org_authoritative");
         expect(content.spatialReference).toEqual({
-          wkid: parseInt(itemJson.spatialReference as string, 10),
+          latestWkid: 27700,
+          wkid: 27700,
         });
 
         // TODO: content type specific properties
