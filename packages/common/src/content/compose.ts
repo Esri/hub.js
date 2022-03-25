@@ -25,7 +25,6 @@ import {
   getContentBoundary,
   getHubRelativeUrl,
   getItemSpatialReference,
-  getServerSpatialReference,
   getValueFromMetadata,
   getMetadataPath,
   isProxiedCSV,
@@ -792,9 +791,7 @@ export const composeContent = (
       // NOTE: I had to add || null just so packages/content/test/portal.test.ts would pass
       // we can remove that when that package is deprecated
       return (
-        getItemSpatialReference(item) ||
-        getServerSpatialReference(server, layer) ||
-        null
+        layer?.extent?.spatialReference || getItemSpatialReference(item) || null
       );
     },
     get viewDefinition() {

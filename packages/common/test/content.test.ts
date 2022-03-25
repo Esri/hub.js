@@ -31,7 +31,6 @@ import {
   isProxiedCSV,
   setContentBoundary,
   parseISODateString,
-  getServerSpatialReference,
   getItemSpatialReference,
   getAdditionalResources,
   isDataSourceOfItem,
@@ -924,21 +923,13 @@ describe("internal", () => {
     });
   });
 
-  describe("getServerSpatialReference", () => {
-    it("should get it from the server when no layer", () => {
-      const spatialReference = { wkid: 4326 };
-      const result = getServerSpatialReference({ spatialReference });
-      expect(result).toEqual(spatialReference);
-    });
-  });
-
   describe("getItemSpatialReference", () => {
-    it("should handle wkt", () => {
+    it("should handle wkt name", () => {
       const spatialReference =
         "NAD_1983_HARN_StatePlane_Hawaii_3_FIPS_5103_Feet";
       const item = { spatialReference } as unknown as IItem;
       const result = getItemSpatialReference(item);
-      expect(result).toEqual({ wkt: spatialReference });
+      expect(result).toBeNull();
     });
   });
 });
