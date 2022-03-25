@@ -1,3 +1,18 @@
+## @esri/hub-content [9.25.2](https://github.com/Esri/hub.js/compare/@esri/hub-content@9.25.1...@esri/hub-content@9.25.2) (2022-03-25)
+
+
+### Bug Fixes
+
+* **hub-content:** fix breaking tests ([fb2f516](https://github.com/Esri/hub.js/commit/fb2f516b4cbde38c0c3d91b19c8cf5fa464066f8))
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 9.25.2
+
 ## @esri/hub-content [9.25.1](https://github.com/Esri/hub.js/compare/@esri/hub-content@9.25.0...@esri/hub-content@9.25.1) (2022-03-24)
 
 
