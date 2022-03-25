@@ -292,26 +292,12 @@ export function parseISODateString(isoString: string) {
   return date && precision && { date, precision };
 }
 
-/**
- * Get the spatial reference from layer or server info
- * @param server
- * @param layer
- * @returns
- * @private
- */
-export const getServerSpatialReference = (
-  server: Partial<IFeatureServiceDefinition>,
-  layer?: ILayerDefinition
-) => {
-  const layerSpatialReference = layer?.extent?.spatialReference;
-  return layerSpatialReference || server?.spatialReference;
-};
-
 // NOTE: IItem has spatialRefernce: ISpatialReference, but
 // the portal REST API returns spatialReference as as string
-// that is always either WKID like "102100" or
-// WKT like "NAD_1983_HARN_StatePlane_Hawaii_3_FIPS_5103_Feet"
-// so we coerce those string into a ISpatialReference object
+// that is always either WKID like "102100" or the name of a
+// WKT like "NAD_1983_HARN_StatePlane_Hawaii_3_FIPS_5103_Feet".
+// We only coerce WKIDs into a ISpatialReference objects since we
+// can't easily lookup a complete WKT.
 /**
  * Get the spatial reference as an object for an item
  * @param item
@@ -329,8 +315,9 @@ export const getItemSpatialReference = (item: IItem): ISpatialReference => {
   const spatialReferenceString = spatialReference + "";
   const wkid = parseInt(spatialReferenceString, 10);
   return isNaN(wkid)
-    ? // string is not a number, assume it is WKT
-      { wkt: spatialReferenceString }
+    ? // It looks like the portal api returns the name of a WKT, but we'd
+      // need to perform a lookup to get the full WKT. Return null for now.
+      null
     : //
       { wkid };
 };
