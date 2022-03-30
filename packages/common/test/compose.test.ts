@@ -370,8 +370,8 @@ describe("composeContent", () => {
         "should set description"
       );
       expect(layerContent.summary).toEqual(
-        layer.description,
-        "should set summary"
+        item.snippet,
+        "should not set summary"
       );
       expect(layerContent.url).toEqual(
         `${item.url}/${layerId}`,

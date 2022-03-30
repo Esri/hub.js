@@ -659,7 +659,7 @@ export const composeContent = (
       return name;
     },
     get description() {
-      return searchDescription || _layerDescription || item.description;
+      return _layerDescription || item.description;
     },
     type,
     get family() {
@@ -711,12 +711,13 @@ export const composeContent = (
       return boundary || getContentBoundary(item);
     },
     get summary() {
-      return _layerDescription
-        ? _layerDescription
-        : // TODO: this should use the logic for the Hub API's searchDescription
-          // see: https://github.com/ArcGIS/hub-indexer/blob/b352cfded8221a967ac80447879d493db6476d7a/packages/duke/compose/dataset.js#L238-L250
-          // TODO: can we strip HTML from description, and do we need to trim it to a X chars?
-          item.snippet || item.description;
+      return (
+        searchDescription ||
+        // TODO: this should use the logic for the Hub API's searchDescription
+        // see: https://github.com/ArcGIS/hub-indexer/blob/b352cfded8221a967ac80447879d493db6476d7a/packages/duke/compose/dataset.js#L238-L250
+        item.snippet ||
+        item.description
+      );
     },
     urls,
     get portalHomeUrl() {

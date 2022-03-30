@@ -218,6 +218,9 @@ export function relativeDateToDateRange(
       break;
     case "months":
       // get the current month and subtract num
+      // NOTE: when the previous month has fewer days than this month
+      // setMonth() will return a date w/in the current month
+      // example: 3/30 -> 3/2 b/c there is no 2/28
       now.setMonth(now.getMonth() - relative.num);
       result.from = now.getTime();
       break;
