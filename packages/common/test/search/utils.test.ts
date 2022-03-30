@@ -198,6 +198,7 @@ describe("Search Utils:", () => {
         expect(chk.from).toBeLessThan(chk.to);
       });
       it("converts months", () => {
+        const monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
         const rd: IRelativeDate = {
           type: "relative-date",
           num: 1,
@@ -206,10 +207,19 @@ describe("Search Utils:", () => {
         const chk = relativeDateToDateRange(rd);
         expect(chk.from).toBeLessThan(chk.to);
         const m = new Date(chk.from).getMonth();
-        const curMonth = new Date().getMonth();
+        const now = new Date();
+        const curMonth = now.getMonth();
         // Account for January/December
         if (curMonth > 0) {
-          expect(m).toBeLessThan(curMonth);
+          const prevMonthDays = monthDays[curMonth - 1];
+          const curDay = now.getDate();
+          if (curDay > prevMonthDays) {
+            // see NOTE in relativeDateToDateRange() about why this is
+            // should probably also expect that chk.to - prevMonthDays > chk.from
+            expect(m).toBe(curMonth);
+          } else {
+            expect(m).toBeLessThan(curMonth);
+          }
         } else {
           expect(m).toBe(11);
         }
