@@ -1,3 +1,18 @@
+## @esri/hub-content [9.25.3](https://github.com/Esri/hub.js/compare/@esri/hub-content@9.25.2...@esri/hub-content@9.25.3) (2022-03-30)
+
+
+### Bug Fixes
+
+* **hub-common:** searchDescription is for content.summary not content.description ([477229c](https://github.com/Esri/hub.js/commit/477229cacc5eb3c78cf63634ca031f734cb632da))
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 9.25.3
+
 ## @esri/hub-content [9.25.2](https://github.com/Esri/hub.js/compare/@esri/hub-content@9.25.1...@esri/hub-content@9.25.2) (2022-03-25)
 
 
