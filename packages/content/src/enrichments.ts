@@ -601,6 +601,8 @@ export const enrichContent = (
         recordCount,
         boundary,
         statistics,
+        // summary will have searchDescription if coming from getContentFromHub()
+        summary,
       } = fetched;
       // org enrichment is not yet implemented
       const org = orgId && { id: orgId };
@@ -618,6 +620,7 @@ export const enrichContent = (
         boundary,
         statistics,
         requestOptions,
+        searchDescription: summary,
       });
     }
   );

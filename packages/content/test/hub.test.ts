@@ -49,9 +49,7 @@ function validateContentFromDataset(
   const { itemExtent, extent } = attributes;
   expect(content.extent).toEqual(itemExtent || (extent && extent.coordinates));
   expect(content.family).toBe(expectedFamily);
-  expect(content.summary).toBe(
-    /* attributes.searchDescription || */ attributes.snippet
-  );
+  expect(content.summary).toBe(attributes.searchDescription);
   expect(content.publisher).toEqual({
     name: attributes.owner,
     username: attributes.owner,
