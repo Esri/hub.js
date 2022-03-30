@@ -347,23 +347,60 @@ export const getAdditionalResources = (
   metadata?: any,
   requestOptions?: IHubRequestOptions
 ): IHubAdditionalResource[] => {
-  let rawResources: IAGOAdditionalResource | IAGOAdditionalResource[] =
-    getProp(metadata, "metadata.distInfo.distTranOps.onLineSrc") || null;
-
-  if (rawResources === null) {
-    return null;
-  }
-
-  // Coerce to array since rawResources will be an object if only 1 resource is available
-  rawResources = Array.isArray(rawResources) ? rawResources : [rawResources];
-
-  return rawResources.map(
-    (resource: IAGOAdditionalResource): IHubAdditionalResource => ({
-      name: resource.orName,
-      url: getAdditionalResourceUrl(resource, item, requestOptions),
-      isDataSource: isDataSourceOfItem(resource, item),
-    })
+  const rawResources: IAGOAdditionalResource[] = extractRawResources(metadata);
+  return (
+    rawResources &&
+    rawResources.map(
+      (resource: IAGOAdditionalResource): IHubAdditionalResource => ({
+        name: resource.orName,
+        url: getAdditionalResourceUrl(resource, item, requestOptions),
+        isDataSource: isDataSourceOfItem(resource, item),
+      })
+    )
   );
+};
+
+/**
+ * Extracts additional resources from formal item metadata.
+ * If none are available, null is returned.
+ *
+ * @param metadata the formal item metadata
+ * @returns an array of all additional resources, or null
+ */
+export const extractRawResources = (
+  metadata?: any
+): IAGOAdditionalResource[] => {
+  const rawResources: IAGOAdditionalResource[] = [];
+
+  // The property path to additional resources should be fairly simple.
+  // In many cases, it's just `metadata.metadata.distInfo.distTranOps.onLineSrc`.
+  // However, since `distInfo`, `distTranOps` and `onLineSrc` can be either
+  // Objects OR Arrays, we have to do all this looping.
+  maybeCastToArray(getProp(metadata, "metadata.distInfo")).forEach(
+    (distInfo: any) => {
+      maybeCastToArray(distInfo.distTranOps).forEach((distTranOps: any) => {
+        maybeCastToArray(distTranOps.onLineSrc).forEach(
+          (onLineSrc: IAGOAdditionalResource) => {
+            rawResources.push(onLineSrc);
+          }
+        );
+      });
+    }
+  );
+
+  return rawResources.length ? rawResources : null;
+};
+
+/**
+ * Arrays are returned as-is.
+ * Objects are wrapped into a 1 element array.
+ * Undefined values return an empty array.
+ *
+ * @param objectOrArray
+ * @returns the casted array
+ */
+const maybeCastToArray = (objectOrArray: any = []) => {
+  return Array.isArray(objectOrArray) ? objectOrArray : [objectOrArray];
 };
 
 /**
