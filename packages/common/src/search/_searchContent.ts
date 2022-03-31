@@ -3,14 +3,15 @@ import {
   serializeContentFilterForPortal,
   convertPortalResponseToFacets,
 } from "./content-utils";
+
 import {
   Filter,
   IHubSearchOptions,
-  IFacet,
   IContentSearchResult,
+  IFacet,
 } from "./types";
 import { ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
-import { expandApi, getNextFunction } from ".";
+import { expandApi, getNextFunction } from "./utils";
 import {
   getItemThumbnailUrl,
   IHubContent,
@@ -62,10 +63,21 @@ export async function _searchContent(
     if (!so.authentication) {
       so.portal = `${api.url}/sharing/rest`;
     }
-    // Aggregations
+
+    // DEPRECATION
     if (options.aggregations?.length) {
+      // tslint:disable-next-line:no-console
+      console.warn(
+        `IHubSearchOptions.aggregations is deprecated. Please use .aggFields instead.`
+      );
       so.countFields = options.aggregations.join(",");
-      so.countSize = 200;
+      so.countSize = options.aggLimit || 10;
+    }
+
+    // Aggregations
+    if (options.aggFields?.length) {
+      so.countFields = options.aggFields.join(",");
+      so.countSize = options.aggLimit || 10;
     }
 
     searchPromise = searchPortal(so);

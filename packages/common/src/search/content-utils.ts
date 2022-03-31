@@ -12,9 +12,9 @@ import {
   IWellKnownContentFilters,
   IContentFilterDefinition,
   Filter,
-  IFacet,
-  IFacetOption,
-} from "./types";
+} from "./types/types";
+import { IFacetOption } from "./types/IFacetOption";
+import { IFacet } from "./types/IFacet";
 import {
   mergeDateRange,
   mergeMatchOptions,
@@ -161,15 +161,17 @@ const ContentFilterExpansions: IWellKnownContentFilters = {
  * @returns
  */
 export function convertPortalResponseToFacets(
-  response: ISearchResult<IItem> | ISearchResult<IGroup>
+  response: ISearchResult<IItem> | ISearchResult<IGroup>,
+  operation: "OR" | "AND" = "OR"
 ): IFacet[] {
   const result: IFacet[] = [];
   if (response.aggregations?.counts) {
     response.aggregations.counts.forEach((entry) => {
       const facet: IFacet = {
         label: entry.fieldName,
-        attribute: entry.fieldName,
-        type: "multi-select",
+        key: entry.fieldName,
+        aggField: entry.fieldName,
+        display: "multi-select",
       };
 
       const options: IFacetOption[] = [];
@@ -178,10 +180,15 @@ export function convertPortalResponseToFacets(
         const filter: Filter<"content"> = {
           filterType: "content",
         };
-        filter[entry.fieldName] = fv.value;
+        // construct the filter based on the operation
+        const matchKey = operation === "OR" ? "any" : "all";
+        const filterMatchOption = {} as IMatchOptions;
+        filterMatchOption[matchKey] = [fv.value];
+        filter[entry.fieldName] = entry;
+        // construct the FacetOption
         const fo: IFacetOption = {
-          label: fv.value,
-          value: fv.value,
+          label: `${fv.value} (${fv.count})`,
+          key: fv.value,
           count: fv.count,
           selected: false,
           filter,

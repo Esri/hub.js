@@ -3,7 +3,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-types";
 
 import { ISearchResponse } from "../../types";
-import { Filter, IHubSearchOptions } from "../../search/types";
+import { Filter, IHubSearchOptions } from "../types/types";
 import { expandApi, getNextFunction } from "../../search/utils";
 import {
   expandContentFilter,
