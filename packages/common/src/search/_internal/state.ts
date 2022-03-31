@@ -1,48 +1,13 @@
-import { getProp } from "../../objects";
-import { cloneObject, maybeAdd } from "../../util";
-import {
-  ICollection,
-  ICollectionState,
-  IFacet,
-  IFacetState,
-  ISortOption,
-} from "../types";
+import { cloneObject } from "../../util";
+import { IFacet, IFacetState, ISortOption } from "../types";
 
 /**
- * Apply ICollectionState to an ICollection
+ * Apply the sortState to SortOptions
  *
- * Typically used in a Gallery or Catalog component to
- * set the inital state, based on values deserialized
- * from a query string
- * @param collection
- * @param state
+ * @param sortOptions
+ * @param sortState
  * @returns
  */
-export function applyCollectionState(
-  collection: ICollection,
-  state: ICollectionState
-): ICollection {
-  let updated = cloneObject(collection);
-  // Apply default query
-  if (state.query) {
-    updated.defaultQuery = state.query;
-  }
-
-  // Apply Sort State
-  updated.sortOption = applySortState(updated.sortOption, state.sort);
-
-  // Apply Facet State
-  updated.facets = updated.facets.map((facet) => {
-    if (getProp(state, `facetState.${facet.key}`)) {
-      return applyFacetState(facet, state.facetState);
-    } else {
-      return facet;
-    }
-  });
-
-  return updated;
-}
-
 export function applySortState(
   sortOptions: ISortOption,
   sortState: string
@@ -57,12 +22,8 @@ export function applySortState(
   return updated;
 }
 
-export function serializeSortState(sort: ISortOption): string {
-  return `${sort.label}|${sort.attribute}|${sort.order}`;
-}
-
 /**
- * Intentionally mutates
+ * Apply FacetState to a Facet
  * @param facet
  * @param state
  * @returns
@@ -90,14 +51,14 @@ export function applyFacetState(facet: IFacet, state: IFacetState): IFacet {
 }
 
 /**
- * Apply the Facet State onto a Facet
+ * Apply the Facet State onto a single-select facet
  *
  * Intentionally mutates the facet.
  * @param facet
  * @param state
  * @returns
  */
-function applySingleSelectFacetState(
+export function applySingleSelectFacetState(
   facet: IFacet,
   state: IFacetState
 ): IFacet {
@@ -109,24 +70,34 @@ function applySingleSelectFacetState(
   return updated;
 }
 
-function serializeSingleSelectFacetState(facet: IFacet): IFacetState {
+/**
+ * Serialize single-select facet into IFacetState
+ * @param facet
+ * @returns
+ */
+export function serializeSingleSelectFacetState(facet: IFacet): IFacetState {
   const state: IFacetState = {};
   const selected = facet.options.find((o) => o.selected);
-  state[facet.key] = selected.key;
+  if (selected) {
+    state[facet.key] = selected.key;
+  }
   return state;
 }
 
 /**
- * Apply the Facet State onto a Facet
+ * Apply the Facet State onto a multi-select Facet
  *
  * Intentionally mutates the facet.
  * @param facet
  * @param state
  * @returns
  */
-function applyMultiSelectFacetState(facet: IFacet, state: IFacetState): IFacet {
+export function applyMultiSelectFacetState(
+  facet: IFacet,
+  state: IFacetState
+): IFacet {
   const updated = cloneObject(facet);
-  const selectedKeys = state[facet.key].split(",");
+  const selectedKeys = state[facet.key]?.split(",") || [];
   updated.options = updated.options.map((o) => {
     o.selected = selectedKeys.includes(o.key);
     return o;
@@ -134,9 +105,17 @@ function applyMultiSelectFacetState(facet: IFacet, state: IFacetState): IFacet {
   return updated;
 }
 
-function serializeMultiSelectFacetState(facet: IFacet): IFacetState {
+/**
+ * Serialize multi-select facet into IFacetState
+ * @param facet
+ * @returns
+ */
+export function serializeMultiSelectFacetState(facet: IFacet): IFacetState {
   const state: IFacetState = {};
   const selected = facet.options.filter((o) => o.selected);
-  state[facet.key] = selected.map((o) => o.key).join(",");
+  const value = selected.map((o) => o.key).join(",");
+  if (value.length) {
+    state[facet.key] = value;
+  }
   return state;
 }
