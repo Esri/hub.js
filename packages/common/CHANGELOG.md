@@ -1,3 +1,13 @@
+## @esri/hub-common [9.25.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.25.3...@esri/hub-common@9.25.4) (2022-03-31)
+
+
+### Bug Fixes
+
+* **hub-common:** added a quick test for coverage ([6d5ec60](https://github.com/Esri/hub.js/commit/6d5ec6017dbec842c6b8f9b2fd679d1d0be8b067))
+* **hub-common:** defaults q param of fetchItemsBySlug to be slug and adds portal ([9d8d04a](https://github.com/Esri/hub.js/commit/9d8d04ac05213c87c21762b5df147468c619f61a))
+* **hub-common:** fixes null pointer when fetching a project ([59fd401](https://github.com/Esri/hub.js/commit/59fd401e900abfac9bf5fd453d84ad0fe3ebd7e2))
+* **hub-common:** revert automatic assignment of q when searching by slug ([9af7f8e](https://github.com/Esri/hub.js/commit/9af7f8e099ae6d0f6e32fbc8eb9d148593fa416c))
+
 ## @esri/hub-common [9.25.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.25.2...@esri/hub-common@9.25.3) (2022-03-30)
 
 
