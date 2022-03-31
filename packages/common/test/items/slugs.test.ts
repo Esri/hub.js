@@ -106,7 +106,7 @@ describe("slug utils: ", () => {
       expect(args.authentication).toBe(MOCK_AUTH);
     });
 
-    it("passes a q query when no exclusion is provided", async () => {
+    it("passes an undefined q query when no exclusion is provided", async () => {
       const searchSpy = spyOn(portalModule, "searchItems").and.returnValue(
         Promise.resolve({
           results: [
@@ -126,7 +126,7 @@ describe("slug utils: ", () => {
       expect(searchSpy.calls.count()).toBe(1);
       const args = searchSpy.calls.argsFor(0)[0] as unknown as ISearchOptions;
       expect(args.filter).toBe(`typekeywords:"slug|foo-bar"`);
-      expect(args.q).toBe(`typekeywords:"slug|foo-bar"`);
+      expect(args.q).toBe(undefined);
       expect(args.authentication).toBe(MOCK_AUTH);
     });
 
@@ -150,7 +150,6 @@ describe("slug utils: ", () => {
       expect(searchSpy.calls.count()).toBe(1);
       const args = searchSpy.calls.argsFor(0)[0] as unknown as ISearchOptions;
       expect(args.filter).toBe(`typekeywords:"slug|foo-bar"`);
-      expect(args.q).toBe(`typekeywords:"slug|foo-bar"`);
       expect(args.authentication).toBe(undefined);
       expect(args.portal).toBe("mock-portal");
     });
@@ -170,7 +169,6 @@ describe("slug utils: ", () => {
       expect(searchSpy.calls.count()).toBe(1);
       const args = searchSpy.calls.argsFor(0)[0] as unknown as ISearchOptions;
       expect(args.filter).toBe(`typekeywords:"slug|foo-bar"`);
-      expect(args.q).toBe(`typekeywords:"slug|foo-bar"`);
       expect(args.authentication).toBe(undefined);
       expect(args.portal).toBe(undefined);
     });

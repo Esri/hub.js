@@ -79,9 +79,6 @@ export function findItemsBySlug(
   requestOptions: IRequestOptions
 ): Promise<IItem[]> {
   const opts = {
-    // Necessary because underlying searchItems does not yet pass the filter
-    // TODO - remove "q" when searchItems passes filter
-    q: `typekeywords:"slug|${slugInfo.slug}"`,
     filter: `typekeywords:"slug|${slugInfo.slug}"`,
   } as ISearchOptions;
 
