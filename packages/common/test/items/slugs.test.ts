@@ -155,6 +155,26 @@ describe("slug utils: ", () => {
       expect(args.portal).toBe("mock-portal");
     });
 
+    it("handles when neither portal nor auth are provided", async () => {
+      const searchSpy = spyOn(portalModule, "searchItems").and.returnValue(
+        Promise.resolve({
+          results: [
+            { id: "3ef", title: "Fake", typeKeywords: ["one", "slug|foo-bar"] },
+          ],
+        })
+      );
+
+      const results = await slugModule.findItemsBySlug({ slug: "foo-bar" }, {});
+      expect(results[0].id).toBe("3ef");
+      // check if
+      expect(searchSpy.calls.count()).toBe(1);
+      const args = searchSpy.calls.argsFor(0)[0] as unknown as ISearchOptions;
+      expect(args.filter).toBe(`typekeywords:"slug|foo-bar"`);
+      expect(args.q).toBe(`typekeywords:"slug|foo-bar"`);
+      expect(args.authentication).toBe(undefined);
+      expect(args.portal).toBe(undefined);
+    });
+
     it("can re-throw original error", async () => {
       const searchSpy = spyOn(portalModule, "searchItems").and.throwError(
         "Error occurred"
