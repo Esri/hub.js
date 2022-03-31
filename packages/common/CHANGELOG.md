@@ -1,3 +1,10 @@
+## @esri/hub-common [9.25.5](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.25.4...@esri/hub-common@9.25.5) (2022-03-31)
+
+
+### Bug Fixes
+
+* **hub-common:** fix additional resource logic to handle metadata props possibly being arrays ([717791a](https://github.com/Esri/hub.js/commit/717791aa4531ff1387003fd6dbcee6f54438561e))
+
 ## @esri/hub-common [9.25.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.25.3...@esri/hub-common@9.25.4) (2022-03-31)
 
 
