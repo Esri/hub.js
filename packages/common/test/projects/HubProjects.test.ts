@@ -107,6 +107,20 @@ describe("HubProjects:", () => {
       expect(chk.id).toBe(GUID);
       expect(chk.owner).toBe("vader");
     });
+
+    it("returns null if no id found", async () => {
+      const getItemBySlugSpy = spyOn(
+        slugUtils,
+        "getItemBySlug"
+      ).and.returnValue(Promise.resolve(null));
+
+      const chk = await fetchProject("dcdev-34th-street", {
+        authentication: MOCK_AUTH,
+      });
+      expect(getItemBySlugSpy.calls.count()).toBe(1);
+      expect(getItemBySlugSpy.calls.argsFor(0)[0]).toBe("dcdev-34th-street");
+      expect(chk).toBe(null);
+    });
   });
 
   describe("destroyProject:", () => {

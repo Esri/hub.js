@@ -1,4 +1,4 @@
-import { searchItems } from "@esri/arcgis-rest-portal";
+import { ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-types";
 import { slugify } from "..";
@@ -79,10 +79,15 @@ export function findItemsBySlug(
   requestOptions: IRequestOptions
 ): Promise<IItem[]> {
   const opts = {
-    q: "",
     filter: `typekeywords:"slug|${slugInfo.slug}"`,
-    authentication: requestOptions.authentication,
-  };
+  } as ISearchOptions;
+
+  if (requestOptions.authentication) {
+    opts.authentication = requestOptions.authentication;
+  } else if (requestOptions.portal) {
+    opts.portal = requestOptions.portal;
+  }
+
   // We need to check for other items w/ a slug during
   // the update calls. For those scenarios we are interested
   // in any _other_ items which may have a specific slug
@@ -95,7 +100,7 @@ export function findItemsBySlug(
       return response.results;
     })
     .catch((e) => {
-      throw Error(`Error in getItemBySlug ${e}`);
+      throw e;
     });
 }
 

@@ -214,6 +214,7 @@ export function fetchProject(
     getPrms = getItemBySlug(identifier, requestOptions);
   }
   return getPrms.then((item) => {
+    if (!item) return null;
     return convertItemToProject(item, requestOptions);
   });
 }

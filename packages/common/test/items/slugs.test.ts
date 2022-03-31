@@ -66,7 +66,7 @@ describe("slug utils: ", () => {
     });
     it("throws lower level errors", async () => {
       const searchSpy = spyOn(portalModule, "searchItems").and.returnValue(
-        Promise.reject()
+        Promise.reject(new Error("An error occurred"))
       );
 
       try {
@@ -75,6 +75,7 @@ describe("slug utils: ", () => {
         });
       } catch (ex) {
         expect(ex).toBeDefined();
+        expect(ex.message).toBe("An error occurred");
         expect(searchSpy.calls.count()).toBe(1);
       }
     });
@@ -103,6 +104,93 @@ describe("slug utils: ", () => {
       expect(args.filter).toBe(`typekeywords:"slug|foo-bar"`);
       expect(args.q).toBe(`NOT id:bc3`);
       expect(args.authentication).toBe(MOCK_AUTH);
+    });
+
+    it("passes an undefined q query when no exclusion is provided", async () => {
+      const searchSpy = spyOn(portalModule, "searchItems").and.returnValue(
+        Promise.resolve({
+          results: [
+            { id: "3ef", title: "Fake", typeKeywords: ["one", "slug|foo-bar"] },
+          ],
+        })
+      );
+
+      const results = await slugModule.findItemsBySlug(
+        { slug: "foo-bar" },
+        {
+          authentication: MOCK_AUTH,
+        }
+      );
+      expect(results[0].id).toBe("3ef");
+      // check if
+      expect(searchSpy.calls.count()).toBe(1);
+      const args = searchSpy.calls.argsFor(0)[0] as unknown as ISearchOptions;
+      expect(args.filter).toBe(`typekeywords:"slug|foo-bar"`);
+      expect(args.q).toBe(undefined);
+      expect(args.authentication).toBe(MOCK_AUTH);
+    });
+
+    it("passes a portal url when no auth is provided", async () => {
+      const searchSpy = spyOn(portalModule, "searchItems").and.returnValue(
+        Promise.resolve({
+          results: [
+            { id: "3ef", title: "Fake", typeKeywords: ["one", "slug|foo-bar"] },
+          ],
+        })
+      );
+
+      const results = await slugModule.findItemsBySlug(
+        { slug: "foo-bar" },
+        {
+          portal: "mock-portal",
+        }
+      );
+      expect(results[0].id).toBe("3ef");
+      // check if
+      expect(searchSpy.calls.count()).toBe(1);
+      const args = searchSpy.calls.argsFor(0)[0] as unknown as ISearchOptions;
+      expect(args.filter).toBe(`typekeywords:"slug|foo-bar"`);
+      expect(args.authentication).toBe(undefined);
+      expect(args.portal).toBe("mock-portal");
+    });
+
+    it("handles when neither portal nor auth are provided", async () => {
+      const searchSpy = spyOn(portalModule, "searchItems").and.returnValue(
+        Promise.resolve({
+          results: [
+            { id: "3ef", title: "Fake", typeKeywords: ["one", "slug|foo-bar"] },
+          ],
+        })
+      );
+
+      const results = await slugModule.findItemsBySlug({ slug: "foo-bar" }, {});
+      expect(results[0].id).toBe("3ef");
+      // check if
+      expect(searchSpy.calls.count()).toBe(1);
+      const args = searchSpy.calls.argsFor(0)[0] as unknown as ISearchOptions;
+      expect(args.filter).toBe(`typekeywords:"slug|foo-bar"`);
+      expect(args.authentication).toBe(undefined);
+      expect(args.portal).toBe(undefined);
+    });
+
+    it("can re-throw original error", async () => {
+      const searchSpy = spyOn(portalModule, "searchItems").and.throwError(
+        "Error occurred"
+      );
+
+      try {
+        await slugModule.findItemsBySlug(
+          { slug: "foo-bar" },
+          {
+            portal: "mock-portal",
+          }
+        );
+        // Never reach here
+        expect(true).toBe(false);
+      } catch (err) {
+        expect(err).toBeDefined();
+        expect(err.message).toBe("Error occurred");
+      }
     });
   });
 
