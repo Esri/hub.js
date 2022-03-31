@@ -8,11 +8,7 @@
  * It's probably a good pattern to add functions here first and then
  * move them to index.ts only when they are needed by a consumer.
  */
-import {
-  ILayerDefinition,
-  IFeatureServiceDefinition,
-  parseServiceUrl,
-} from "@esri/arcgis-rest-feature-layer";
+import { parseServiceUrl } from "@esri/arcgis-rest-feature-layer";
 import { IItem } from "@esri/arcgis-rest-portal";
 import { ISpatialReference } from "@esri/arcgis-rest-types";
 import { IHubContent } from "../core";
@@ -361,6 +357,8 @@ export const getAdditionalResources = (
 };
 
 /**
+ * @private
+ *
  * Extracts additional resources from formal item metadata.
  * If none are available, null is returned.
  *
@@ -376,10 +374,10 @@ export const extractRawResources = (
   // In many cases, it's just `metadata.metadata.distInfo.distTranOps.onLineSrc`.
   // However, since `distInfo`, `distTranOps` and `onLineSrc` can be either
   // Objects OR Arrays, we have to do all this looping.
-  maybeCastToArray(getProp(metadata, "metadata.distInfo")).forEach(
+  castToArray(getProp(metadata, "metadata.distInfo") || []).forEach(
     (distInfo: any) => {
-      maybeCastToArray(distInfo.distTranOps).forEach((distTranOps: any) => {
-        maybeCastToArray(distTranOps.onLineSrc).forEach(
+      castToArray(distInfo.distTranOps || []).forEach((distTranOps: any) => {
+        castToArray(distTranOps.onLineSrc || []).forEach(
           (onLineSrc: IAGOAdditionalResource) => {
             rawResources.push(onLineSrc);
           }
@@ -392,14 +390,15 @@ export const extractRawResources = (
 };
 
 /**
+ * @private
+ *
  * Arrays are returned as-is.
  * Objects are wrapped into a 1 element array.
- * Undefined values return an empty array.
  *
  * @param objectOrArray
  * @returns the casted array
  */
-const maybeCastToArray = (objectOrArray: any = []) => {
+const castToArray = (objectOrArray: any) => {
   return Array.isArray(objectOrArray) ? objectOrArray : [objectOrArray];
 };
 

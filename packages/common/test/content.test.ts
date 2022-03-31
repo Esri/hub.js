@@ -951,6 +951,18 @@ describe("getAdditionalResources", () => {
 
 // Gets branches not covered in compose.test.ts
 describe("extractRawResources", () => {
+  it("handles when onLineSrc is undefined", () => {
+    const metadata = {
+      metadata: {
+        distInfo: {
+          distTranOps: {},
+        },
+      },
+    };
+    const result = extractRawResources(metadata);
+    expect(result).toBeNull();
+  });
+
   it("handles when onLineSrc is an object", () => {
     const metadata = {
       metadata: {
@@ -965,14 +977,57 @@ describe("extractRawResources", () => {
       },
     };
     const result = extractRawResources(metadata);
-    expect(result.length).toEqual(1);
-    expect(result[0]).toEqual({
-      orName: "Resource Name",
-      linkage: "resource-url",
-    });
+    expect(result).toEqual([
+      {
+        orName: "Resource Name",
+        linkage: "resource-url",
+      },
+    ]);
   });
 
-  it("handles when distTranOps is an array", () => {
+  it("handles when onLineSrc is a multi-element array", () => {
+    const metadata = {
+      metadata: {
+        distInfo: {
+          distTranOps: {
+            onLineSrc: [
+              {
+                orName: "Resource Name",
+                linkage: "resource-url",
+              },
+              {
+                orName: "Other Resource Name",
+                linkage: "other-resource-url",
+              },
+            ],
+          },
+        },
+      },
+    };
+    const result = extractRawResources(metadata);
+    expect(result).toEqual([
+      {
+        orName: "Resource Name",
+        linkage: "resource-url",
+      },
+      {
+        orName: "Other Resource Name",
+        linkage: "other-resource-url",
+      },
+    ]);
+  });
+
+  it("handles when distTranOps is undefined", () => {
+    const metadata = {
+      metadata: {
+        distInfo: {},
+      },
+    };
+    const result = extractRawResources(metadata);
+    expect(result).toBeNull();
+  });
+
+  it("handles when distTranOps is a single item array", () => {
     const metadata = {
       metadata: {
         distInfo: {
@@ -988,14 +1043,49 @@ describe("extractRawResources", () => {
       },
     };
     const result = extractRawResources(metadata);
-    expect(result.length).toEqual(1);
-    expect(result[0]).toEqual({
-      orName: "Resource Name",
-      linkage: "resource-url",
-    });
+    expect(result).toEqual([
+      {
+        orName: "Resource Name",
+        linkage: "resource-url",
+      },
+    ]);
   });
 
-  it("handles when distInfo is an Array", () => {
+  it("handles when distTranOps is a multi item array", () => {
+    const metadata = {
+      metadata: {
+        distInfo: {
+          distTranOps: [
+            {
+              onLineSrc: {
+                orName: "Resource Name",
+                linkage: "resource-url",
+              },
+            },
+            {
+              onLineSrc: {
+                orName: "Other Resource Name",
+                linkage: "other-resource-url",
+              },
+            },
+          ],
+        },
+      },
+    };
+    const result = extractRawResources(metadata);
+    expect(result).toEqual([
+      {
+        orName: "Resource Name",
+        linkage: "resource-url",
+      },
+      {
+        orName: "Other Resource Name",
+        linkage: "other-resource-url",
+      },
+    ]);
+  });
+
+  it("handles when distInfo is a single item array", () => {
     const metadata = {
       metadata: {
         distInfo: [
@@ -1011,11 +1101,48 @@ describe("extractRawResources", () => {
       },
     };
     const result = extractRawResources(metadata);
-    expect(result.length).toEqual(1);
-    expect(result[0]).toEqual({
-      orName: "Resource Name",
-      linkage: "resource-url",
-    });
+    expect(result).toEqual([
+      {
+        orName: "Resource Name",
+        linkage: "resource-url",
+      },
+    ]);
+  });
+
+  it("handles when distInfo is a multi item array", () => {
+    const metadata = {
+      metadata: {
+        distInfo: [
+          {
+            distTranOps: {
+              onLineSrc: {
+                orName: "Resource Name",
+                linkage: "resource-url",
+              },
+            },
+          },
+          {
+            distTranOps: {
+              onLineSrc: {
+                orName: "Other Resource Name",
+                linkage: "other-resource-url",
+              },
+            },
+          },
+        ],
+      },
+    };
+    const result = extractRawResources(metadata);
+    expect(result).toEqual([
+      {
+        orName: "Resource Name",
+        linkage: "resource-url",
+      },
+      {
+        orName: "Other Resource Name",
+        linkage: "other-resource-url",
+      },
+    ]);
   });
 });
 
