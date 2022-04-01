@@ -1,3 +1,10 @@
+## @esri/hub-common [9.25.6](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.25.5...@esri/hub-common@9.25.6) (2022-04-01)
+
+
+### Bug Fixes
+
+* **hub-common:** re-fetch target layer for legacy services that return sparsely populated layers in ([91af598](https://github.com/Esri/hub.js/commit/91af598a94c4eb6b5dea353ee53d6b8ef694d403))
+
 ## @esri/hub-common [9.25.5](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.25.4...@esri/hub-common@9.25.5) (2022-03-31)
 
 
