@@ -316,6 +316,126 @@ describe("fetchContent", () => {
         );
         expect(result.recordCount).toBe(count);
       });
+      // TODO: remove this test once we no longer support ArcGIS Server versions < 10.5
+      // This test exercises the branch where a legacy server returns layers that are
+      // sparsely populated (e.g. no type field) and the target layer needs to be re-fetched
+      it("should fetch individual layer for legacy server", async () => {
+        // set itemEnrichments to enrichments from a legacy server
+        const layer = {
+          id: 0,
+          name: "layer0",
+        };
+        const table = {
+          id: 1,
+          name: "table1",
+        };
+        const item =
+          multiLayerFeatureServiceItem as unknown as portalModule.IItem;
+        itemEnrichments = {
+          item,
+          groupIds: ["foo", "bar"],
+          metadata: null as any,
+          ownerUser: {
+            username: item.owner,
+          },
+          server: {
+            currentVersion: 10.4,
+            serviceDescription: "For demo purposes only.",
+          },
+          layers: [layer, table],
+        };
+
+        const layerId = 1;
+        const count = 0;
+
+        const layerHubEnrichments = {
+          itemId,
+          layerId,
+          slug: "dc::municipal-fire-stations",
+          // NOTE: in this case the layer's boundary is the same as the parent's
+          // for now I'm just cloning it so that we can test reference equality below
+          boundary: cloneObject(hubEnrichments.boundary),
+          statistics: {},
+        };
+        // initialize the spies
+        const fetchItemEnrichmentsSpy = spyOn(
+          _enrichmentsModule,
+          "fetchItemEnrichments"
+        ).and.callFake(() => Promise.resolve(itemEnrichments));
+
+        const fetchHubEnrichmentsSpy = spyOn(
+          _fetchModule,
+          "fetchHubEnrichmentsBySlug"
+        ).and.returnValue(Promise.resolve(layerHubEnrichments));
+        const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
+          Promise.resolve(multiLayerFeatureServiceItem)
+        );
+
+        const hydratedLayer = {
+          id: 1,
+          type: "Table",
+          name: "table1",
+        } as any;
+
+        const getLayerSpy = spyOn(
+          featureLayerModule,
+          "getLayer"
+        ).and.returnValue(Promise.resolve(hydratedLayer));
+
+        const queryFeaturesSpy = spyOn(
+          featureLayerModule,
+          "queryFeatures"
+        ).and.returnValue(Promise.resolve({ count }));
+
+        // call fetch content
+        // NOTE: not passing siteOrgKey and instead using fully qualified slug for layer
+        slug = layerHubEnrichments.slug;
+        const options = {
+          ...requestOpts,
+          layerId,
+        } as IFetchContentOptions;
+        const result = await fetchContent(slug, options);
+        // inspect the calls
+        expect(fetchHubEnrichmentsSpy).toHaveBeenCalledTimes(1);
+        expect(fetchHubEnrichmentsSpy).toHaveBeenCalledWith(slug, options);
+        expect(getItemSpy).toHaveBeenCalledTimes(1);
+        expect(getItemSpy).toHaveBeenCalledWith(itemId, options);
+        expect(fetchItemEnrichmentsSpy).toHaveBeenCalledTimes(1);
+        expect(fetchItemEnrichmentsSpy.calls.argsFor(0)[1]).toEqual([
+          "groupIds",
+          "metadata",
+          "ownerUser",
+          "org",
+          "server",
+          "layers",
+        ]);
+        expect(getLayerSpy).toHaveBeenCalledTimes(1);
+        const getLayerArg = getLayerSpy.calls.argsFor(0)[0] as any;
+        expect(getLayerArg).toEqual({
+          ...requestOpts,
+          layerId,
+          url: "https://geodata.md.gov/imap/rest/services/PublicSafety/MD_Fire/FeatureServer/1",
+        });
+        expect(queryFeaturesSpy).toHaveBeenCalledTimes(1);
+        const queryFeaturesArg = queryFeaturesSpy.calls.argsFor(0)[0] as any;
+        expect(queryFeaturesArg.url).toEqual(result.url);
+        expect(queryFeaturesArg.returnCountOnly).toBeTruthy();
+        expect(queryFeaturesArg.where).toBeUndefined();
+        expect(queryFeaturesArg.portal).toBe(requestOpts.portal);
+        // inspect the results
+        expect(result.item).toEqual(
+          multiLayerFeatureServiceItem as unknown as portalModule.IItem
+        );
+        expect(result.layer).toEqual(hydratedLayer); // Layer is hydrated
+        expect(result.layers).toEqual([
+          {
+            id: 0,
+            name: "layer0",
+          },
+          hydratedLayer, // Corresponding entry in Layers in hydrated
+        ]);
+        expect(result.recordCount).toBe(count);
+      });
     });
     describe("with defaults", () => {
       // NOTE: other tests pass enrichments: [] to avoid stubbing fetchItemEnrichments
