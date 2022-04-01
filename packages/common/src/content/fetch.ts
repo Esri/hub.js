@@ -1,4 +1,8 @@
-import { queryFeatures } from "@esri/arcgis-rest-feature-layer";
+import {
+  getLayer,
+  parseServiceUrl,
+  queryFeatures,
+} from "@esri/arcgis-rest-feature-layer";
 import { getItem } from "@esri/arcgis-rest-portal";
 import { IHubContent } from "../core";
 import {
@@ -36,9 +40,25 @@ const maybeFetchLayerEnrichments = async (
   options?: IFetchContentOptions
 ) => {
   // determine if this is a client-side feature layer view
-  const { item, data, layers } = itemAndEnrichments;
-  const layer =
-    layers && getItemLayer(item, layers, options && options.layerId);
+  const { item, data } = itemAndEnrichments;
+  let { layers } = itemAndEnrichments;
+
+  let layer = layers && getItemLayer(item, layers, options && options.layerId);
+
+  // TODO: Remove once we stop supporting ArcGIS Servers below version 10.5.
+  // The /layers endpoint of some earlier servers return layers and tables
+  // without certain critical properties, such as type. If this is the case,
+  // fetch the fully hydrated target layer and stab it onto the layers array.
+  // See https://devtopia.esri.com/dc/hub/issues/3488 for more details
+  if (layer && !layer.type) {
+    const layerUrl = parseServiceUrl(item.url) + "/" + layer.id;
+    const getLayerOptions = Object.assign({ url: layerUrl }, options); // works whether options is defined or not
+    layer = await getLayer(getLayerOptions);
+    layers = layers.map((unhydratedLayer) => {
+      return unhydratedLayer.id === layer.id ? layer : unhydratedLayer;
+    });
+  }
+
   // TODO: add recordCount here too?
   const layerEnrichments =
     layer && isLayerView(layer) && !data
@@ -53,6 +73,8 @@ const maybeFetchLayerEnrichments = async (
     ...layerEnrichments,
     // merge error arrays
     errors: maybeConcat([itemAndEnrichments.errors, layerEnrichments?.errors]),
+    // Also remove once we stop supporting ArcGIS Servers below version 10.5
+    layers,
   };
 };
 
