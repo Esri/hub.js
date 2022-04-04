@@ -615,6 +615,7 @@ export const enrichContent = (
         groupIds,
         org,
         server,
+        // TODO: fetch and pass in extent enrichment
         layers,
         recordCount,
         boundary,

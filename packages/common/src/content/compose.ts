@@ -8,7 +8,7 @@ import { IHubRequestOptions } from "../types";
 import { getHubApiUrl } from "../api";
 import { isDownloadable } from "../categories";
 import { IHubContentEnrichments, IHubContent } from "../core";
-import { isBBox } from "../extent";
+
 import { getStructuredLicense } from "../items/get-structured-license";
 import { getProp } from "../objects";
 import { getItemThumbnailUrl } from "../resources/get-item-thumbnail-url";
@@ -30,6 +30,7 @@ import {
   isProxiedCSV,
   parseISODateString,
   getAdditionalResources,
+  determineExtent,
 } from "./_internal";
 import { getFamily } from "./get-family";
 
@@ -40,16 +41,18 @@ const getOnlyQueryLayer = (layers: ILayerDefinition[]) => {
 };
 
 const shouldUseLayerInfo = (
+  item: IItem,
   layer: Partial<ILayerDefinition>,
   layers: Array<Partial<ILayerDefinition>>,
-  url: string
+  requestOptions?: IHubRequestOptions
 ) => {
   return (
+    !isProxiedCSV(item, requestOptions) &&
     layer &&
     layers &&
     layers.length > 1 &&
     // we use item info instead of layer info for single layer items
-    !getLayerIdFromUrl(url)
+    !getLayerIdFromUrl(item.url)
   );
 };
 
@@ -58,10 +61,11 @@ const shouldUseLayerInfo = (
 const getContentName = (
   item: IItem,
   layer?: Partial<ILayerDefinition>,
-  layers?: Array<Partial<ILayerDefinition>>
+  layers?: Array<Partial<ILayerDefinition>>,
+  requestOptions?: IHubRequestOptions
 ) => {
   return (
-    (shouldUseLayerInfo(layer, layers, item.url)
+    (shouldUseLayerInfo(item, layer, layers, requestOptions)
       ? layer.name
       : item.title || item.name) || ""
   ).replace(/_/g, " ");
@@ -369,9 +373,9 @@ export const getProxyUrl = (
 ) => {
   let result;
   if (isProxiedCSV(item, requestOptions)) {
-    result = `${getHubApiUrl(requestOptions)}/datasets/${
-      item.id
-    }_0/FeatureServer/0`;
+    // Sometimes hubApiUrl includes /api/v3, sometimes it doesn't
+    const baseUrl = getHubApiUrl(requestOptions).replace("/api/v3", "");
+    result = `${baseUrl}/datasets/${item.id}_0/FeatureServer/0`;
   }
   return result;
 };
@@ -556,6 +560,24 @@ interface ILayerViewDefinition extends ILayerDefinition {
 export const isLayerView = (layer: ILayerDefinition) =>
   (layer as ILayerViewDefinition).isView;
 
+const determineHubId = (
+  item: IItem,
+  layer?: ILayerDefinition,
+  requestOptions?: IHubRequestOptions
+) => {
+  // Proxied CSVs are one offs in that we don't index the proxied layer,
+  // so we cannot append _0. Return item id instead.
+  if (isProxiedCSV(item, requestOptions)) {
+    return item.id;
+  }
+
+  return canUseHubApiForItem(item, requestOptions)
+    ? layer
+      ? `${item.id}_${layer.id}`
+      : getItemHubId(item)
+    : undefined;
+};
+
 /**
  * Compose a new content object out of an item, enrichments, and context
  * @param item
@@ -588,16 +610,13 @@ export const composeContent = (
   // set common variables that we will use in the derived properties below
   const layer = getItemLayer(item, layers, options?.layerId);
   // NOTE: we only set hubId for public items in online
-  const hubId = canUseHubApiForItem(item, requestOptions)
-    ? layer
-      ? `${item.id}_${layer.id}`
-      : getItemHubId(item)
-    : undefined;
+  const hubId = determineHubId(item, layer, requestOptions);
   const identifier = slug || hubId || item.id;
   // whether or not we should show layer info for name, description, etc
-  const name = getContentName(item, layer, layers);
+  const name = getContentName(item, layer, layers, requestOptions);
   const _layerDescription =
-    shouldUseLayerInfo(layer, layers, item.url) && layer.description;
+    shouldUseLayerInfo(item, layer, layers, requestOptions) &&
+    layer.description;
   // so much depends on type
   const type = layer
     ? // use layer type (Feature Layer, Table, etc) for layer content
@@ -694,15 +713,8 @@ export const composeContent = (
         // TODO: groups?
       };
     },
-    // TODO: do we want to add dataset extent logic as a getter here?
     get extent() {
-      return !isBBox(item.extent) && extent && isBBox(extent.coordinates)
-        ? // we fall back to the extent derived by the Hub API
-          // which prefers layer or service extents and ultimately
-          // falls back to the org's extent
-          extent.coordinates
-        : // prefer item extent
-          item.extent;
+      return determineExtent(item, extent, layer);
     },
     // would require us to do client-side projection of server/layer extent
     get boundary() {

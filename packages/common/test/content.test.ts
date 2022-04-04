@@ -1,5 +1,5 @@
 import { IItem } from "@esri/arcgis-rest-portal";
-import { IPolygon } from "@esri/arcgis-rest-types";
+import { ILayerDefinition, IPolygon } from "@esri/arcgis-rest-types";
 import {
   DatasetResource,
   datasetToContent,
@@ -36,6 +36,7 @@ import {
   extractRawResources,
   isDataSourceOfItem,
   getAdditionalResourceUrl,
+  determineExtent,
 } from "../src/content/_internal";
 import { IModel } from "../src/types";
 import { getProxyUrl, IHubContent, IHubRequestOptions } from "../src";
@@ -656,7 +657,7 @@ describe("dataset to content", () => {
     delete dataset.attributes.errors;
     const content = datasetToContent(dataset);
     expect(content.summary).toBe(dataset.attributes.snippet);
-    expect(content.extent).toEqual([]);
+    expect(content.extent).toBeUndefined();
     // NOTE: the document JSON does not have org attributes
     expect(content.org).toBeUndefined();
   });
@@ -1199,5 +1200,55 @@ describe("isDataSourceOfItem", () => {
     const item = { type: "csv" } as unknown as IItem;
     const resource = { linkage: "my-link" };
     expect(isDataSourceOfItem(resource, item)).toBeFalsy();
+  });
+});
+
+// Gets branches not covered in compose.test.ts
+describe("determineExtent", () => {
+  it("returns item extent when valid bbox", () => {
+    const item = {
+      extent: [
+        [0, 1],
+        [1, 0],
+      ],
+    } as unknown as IItem;
+    const result = determineExtent(item);
+    expect(result).toEqual(item.extent);
+  });
+  it("returns extent enrichment coordinates if is valid bbox and item extent isn't a valid bbox", () => {
+    const item = {
+      extent: [],
+    } as unknown as IItem;
+    const extentEnrichment = {
+      coordinates: [
+        [0, 1],
+        [1, 0],
+      ],
+      type: "envelope",
+    };
+    const result = determineExtent(item, extentEnrichment);
+    expect(result).toEqual(extentEnrichment.coordinates);
+  });
+  it("returns layer extent as bbox when spatial ref is 4326 and both item extent and extent enrichment aren't valid", () => {
+    const item = {
+      extent: [],
+    } as unknown as IItem;
+    const extentEnrichment = {};
+    const layer = {
+      extent: {
+        spatialReference: {
+          wkid: 4326,
+        },
+        xmin: 1,
+        xmax: 2,
+        ymin: 3,
+        ymax: 4,
+      },
+    } as unknown as ILayerDefinition;
+    const result = determineExtent(item, extentEnrichment, layer);
+    expect(result).toEqual([
+      [1, 3],
+      [2, 4],
+    ]);
   });
 });

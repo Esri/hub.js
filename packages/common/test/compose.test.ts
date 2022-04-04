@@ -1,6 +1,11 @@
 import { ILayerDefinition } from "@esri/arcgis-rest-feature-layer";
 import { IItem } from "@esri/arcgis-rest-portal";
-import { cloneObject, composeContent } from "../src";
+import {
+  cloneObject,
+  composeContent,
+  getProxyUrl,
+  IHubRequestOptions,
+} from "../src";
 import * as documentItem from "./mocks/items/document.json";
 
 const featureServiceItem = {
@@ -60,6 +65,45 @@ describe("composeContent", () => {
       expect(proxiedContent.url).toEqual(
         "https://hub.arcgis.com/datasets/3ae_0/FeatureServer/0"
       );
+    });
+    it("getProxyUrl removes /api/v3 from resulting url", () => {
+      const requestOptions = {
+        hubApiUrl: "https://hubqa.arcgis.com/api/v3",
+      } as unknown as IHubRequestOptions;
+      const proxyUrl = getProxyUrl(item, requestOptions);
+      expect(proxyUrl).toEqual(
+        "https://hubqa.arcgis.com/datasets/3ae_0/FeatureServer/0"
+      );
+    });
+    it("should not append _0 to the hubId", () => {
+      const proxiedContent = composeContent(item);
+      expect(proxiedContent.hubId).toEqual("3ae");
+    });
+    it("should correctly populate layer-dependent properties when item.url is the proxied url", () => {
+      const layers = [
+        {
+          id: 0,
+          type: "Feature Layer",
+          name: "layer name",
+          description: "layer description",
+        },
+      ] as unknown as ILayerDefinition[];
+      const proxiedItem = {
+        ...item,
+        url: "https://hub.arcgis.com/datasets/3ae_0/FeatureServer/0",
+      };
+      const proxiedContent = composeContent(proxiedItem, { layers });
+      expect(proxiedContent.layer).toEqual({
+        id: 0,
+        type: "Feature Layer",
+        name: "layer name",
+        description: "layer description",
+      });
+      expect(proxiedContent.type).toEqual("Feature Layer");
+      // layer description shouldn't be used for proxied csv's
+      expect(proxiedContent.description).toEqual("Item description");
+      // layer name shouldn't be used for proxied csv's
+      expect(proxiedContent.name).toEqual("Item Title");
     });
   });
   describe("with ownerUser", () => {
