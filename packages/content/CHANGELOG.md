@@ -1,3 +1,18 @@
+## @esri/hub-content [9.25.7](https://github.com/Esri/hub.js/compare/@esri/hub-content@9.25.6...@esri/hub-content@9.25.7) (2022-04-04)
+
+
+### Bug Fixes
+
+* **hub-common:** fix issues composing proxied csvs ([5004f4e](https://github.com/Esri/hub.js/commit/5004f4ec8bb3a5ec10392eb22838d8cf81b46fff))
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 9.25.7
+
 ## @esri/hub-content [9.25.6](https://github.com/Esri/hub.js/compare/@esri/hub-content@9.25.5...@esri/hub-content@9.25.6) (2022-04-01)
 
 
