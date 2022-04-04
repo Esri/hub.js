@@ -1,7 +1,7 @@
 import * as fetchMock from "fetch-mock";
 import * as arcgisRestPortal from "@esri/arcgis-rest-portal";
 import { IItem } from "@esri/arcgis-rest-portal";
-import { IHubRequestOptions, IHubContent } from "@esri/hub-common";
+import { IHubRequestOptions, IHubContent, isBBox } from "@esri/hub-common";
 import { getContentFromPortal } from "../src/portal";
 import * as metadataModule from "../src/metadata";
 import * as documentItem from "./mocks/items/document.json";
@@ -12,8 +12,8 @@ import { mockUserSession } from "./test-helpers/fake-user-session";
 function validateContentFromPortal(content: IHubContent, item: IItem) {
   // should include all item properties
   Object.keys(item).forEach((key) => {
-    // we check name below
-    if (key === "name") {
+    // we check name  and extent below
+    if (["name", "extent"].includes(key)) {
       return;
     }
     const contentValue = content[key];
@@ -22,6 +22,10 @@ function validateContentFromPortal(content: IHubContent, item: IItem) {
   });
   // name should be title
   expect(content.name).toBe(item.title);
+  // extent will be undefined if item extent is invalid bbox
+  isBBox(item.extent)
+    ? expect(content.extent).toEqual(item.extent)
+    : expect(content.extent).toBeUndefined();
   // should not set hubId when in portal
   expect(content.hubId).toBeUndefined();
   // should include derived properties

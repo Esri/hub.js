@@ -4,7 +4,7 @@ import {
   parseDatasetId,
   getContentFromHub,
 } from "../src/index";
-import { IHubRequestOptions, IHubContent } from "@esri/hub-common";
+import { IHubRequestOptions, IHubContent, isBBox } from "@esri/hub-common";
 import * as featureLayerJson from "./mocks/datasets/feature-layer.json";
 import * as itemJson from "./mocks/items/map-service.json";
 import { mockUserSession } from "./test-helpers/fake-user-session";
@@ -46,8 +46,11 @@ function validateContentFromDataset(
   expect(content.name).toBe(attributes.name);
   // should include derived properties
   expect(content.hubId).toBe(id);
-  const { itemExtent, extent } = attributes;
-  expect(content.extent).toEqual(itemExtent || (extent && extent.coordinates));
+  // verify extent fallback
+  const { itemExtent } = attributes;
+  isBBox(itemExtent)
+    ? expect(content.extent).toEqual(itemExtent)
+    : expect(content.extent).toBeUndefined();
   expect(content.family).toBe(expectedFamily);
   expect(content.summary).toBe(attributes.searchDescription);
   expect(content.publisher).toEqual({

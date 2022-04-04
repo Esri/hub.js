@@ -10,14 +10,14 @@
  */
 import { parseServiceUrl } from "@esri/arcgis-rest-feature-layer";
 import { IItem } from "@esri/arcgis-rest-portal";
-import { ISpatialReference } from "@esri/arcgis-rest-types";
+import { ILayerDefinition, ISpatialReference } from "@esri/arcgis-rest-types";
 import { IHubContent } from "../core";
 import {
   IHubGeography,
   GeographyProvenance,
   IHubRequestOptions,
 } from "../types";
-import { bBoxToPolygon, isBBox } from "../extent";
+import { bBoxToPolygon, extentToBBox, isBBox } from "../extent";
 import { getFamily } from "./get-family";
 import { getProp } from "../objects";
 import { IHubAdditionalResource } from "../core/types/IHubAdditionalResource";
@@ -448,4 +448,37 @@ export const getAdditionalResourceUrl = (
   }
 
   return result;
+};
+
+/**
+ * @private
+ *
+ * Contains fallback logic for determining a content's extent.
+ *
+ * The fallback priority is as follows:
+ * 1) item's extent (if valid bbox)
+ * 2) extent enrichment from the hub api (if coordinates are valid bbox)
+ * 3) layer's extent (if spatial reference is 4326)
+ *
+ * If none of these conditions are met, undefined is returned.
+ *
+ * @param item
+ * @param layer
+ * @param extentEnrichment
+ * @returns the correct extent in a bbox format, or undefined
+ */
+export const determineExtent = (
+  item: IItem,
+  extentEnrichment?: any,
+  layer?: ILayerDefinition
+) => {
+  const itemExtent = isBBox(item.extent) ? item.extent : undefined;
+  const extentEnrichmentCoordinates = isBBox(extentEnrichment?.coordinates)
+    ? extentEnrichment.coordinates
+    : undefined;
+  const layerExtent =
+    getProp(layer, "extent.spatialReference.wkid") === 4326
+      ? extentToBBox(layer.extent)
+      : undefined;
+  return itemExtent || extentEnrichmentCoordinates || layerExtent;
 };

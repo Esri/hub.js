@@ -20,7 +20,12 @@ import {
   getContentEnrichments,
 } from "./_fetch";
 import { canUseHubApiForItem } from "./_internal";
-import { composeContent, getItemLayer, isLayerView } from "./compose";
+import {
+  composeContent,
+  getItemLayer,
+  getProxyUrl,
+  isLayerView,
+} from "./compose";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 const hasFeatures = (contentType: string) =>
@@ -84,6 +89,12 @@ const fetchItemAndEnrichments = async (
 ) => {
   // fetch the item
   const item = await getItem(itemId, options);
+
+  // The Hub Application expects the item url of proxied CSVs to point to the
+  // proxying feature service. Stabbing it on here maintains that consistency
+  // and also helps us fetch and calculate the correct reference layer
+  item.url = getProxyUrl(item, options) || item.url;
+
   // fetch the enrichments
   const enrichmentsToFetch =
     options?.enrichments || getContentEnrichments(item);
