@@ -1,3 +1,10 @@
+# @esri/hub-common [9.26.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.25.7...@esri/hub-common@9.26.0) (2022-04-05)
+
+
+### Features
+
+* **hub-common:** migrate validateUrl function from ember application ([#765](https://github.com/Esri/hub.js/issues/765)) ([39acf77](https://github.com/Esri/hub.js/commit/39acf77a176c65cf891cd27b2bcfba980518adef))
+
 ## @esri/hub-common [9.25.7](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.25.6...@esri/hub-common@9.25.7) (2022-04-04)
 
 
