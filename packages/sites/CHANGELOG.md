@@ -1,3 +1,15 @@
+## @esri/hub-sites [9.26.1](https://github.com/Esri/hub.js/compare/@esri/hub-sites@9.26.0...@esri/hub-sites@9.26.1) (2022-04-06)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 9.26.1
+* **@esri/hub-initiatives:** upgraded to 9.26.1
+* **@esri/hub-teams:** upgraded to 9.26.1
+
 # @esri/hub-sites [9.26.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@9.25.7...@esri/hub-sites@9.26.0) (2022-04-05)
 
 
