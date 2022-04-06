@@ -365,6 +365,7 @@ export interface IPost extends IWithAuthor, IWithEditor, IWithTimestamps {
   discussion?: string;
   status: PostStatus;
   geometry?: Geometry;
+  featureGeometry?: Geometry;
   appInfo?: string; // this is a catch-all field for app-specific information about a post, added for Urban
   channelId?: string;
   channel?: IChannel;
@@ -388,6 +389,7 @@ export interface ICreateChannelPost {
   channelId: string;
   discussion?: string;
   geometry?: Geometry;
+  featureGeometry?: Geometry;
   appInfo?: string;
 }
 
@@ -433,6 +435,8 @@ export interface ISearchPosts
   title?: string;
   body?: string;
   discussion?: string;
+  geometry?: Geometry;
+  featureGeometry?: Geometry;
   parents?: Array<string | null>;
   status?: PostStatus[];
   relations?: PostRelation[];
