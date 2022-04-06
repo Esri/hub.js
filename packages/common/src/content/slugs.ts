@@ -60,7 +60,7 @@ export function addContextToSlug(slug: string, context: string): string {
  * @returns slug without context
  */
 export function removeContextFromSlug(slug: string, context: string): string {
-  if (context && slug.match(`${context}::`)) {
+  if (context && slug.match(`^${context}::`)) {
     return slug.split(`${context}::`)[1];
   } else {
     return slug;

@@ -432,6 +432,15 @@ describe("Slug Helpers", () => {
       const slug = removeContextFromSlug(slugWithContext, "other-org");
       expect(slug).toBe(slugWithContext);
     });
+    it("correctly matches on full context", () => {
+      const slugOne = removeContextFromSlug(slugWithContext, orgKey);
+      expect(slugOne).toBe(title);
+      const slugTwo = removeContextFromSlug(
+        slugWithContext,
+        `another-${orgKey}`
+      );
+      expect(slugTwo).toBe(slugWithContext);
+    });
   });
 });
 
