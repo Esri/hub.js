@@ -1,3 +1,10 @@
+## @esri/hub-common [9.26.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.26.0...@esri/hub-common@9.26.1) (2022-04-06)
+
+
+### Bug Fixes
+
+* **hub-common:** fixes removeContextFromSlug to ensure entire context included ([142fd3e](https://github.com/Esri/hub.js/commit/142fd3edb957ac508a0a180e7b91505b1f53b327))
+
 # @esri/hub-common [9.26.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.25.7...@esri/hub-common@9.26.0) (2022-04-05)
 
 
