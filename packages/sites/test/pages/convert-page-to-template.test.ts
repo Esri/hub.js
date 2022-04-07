@@ -39,6 +39,21 @@ describe("convertPageToTemplate", () => {
       url: "some-url",
       type: "some-type",
     },
+    {
+      mimeType: "image/png",
+      name: "draft-1234123.json",
+      url: "some-url",
+      type: "some-type",
+    },
+  ];
+
+  const expectedAsset: ITemplateAsset[] = [
+    {
+      mimeType: "image/png",
+      name: "some-name",
+      url: "some-url",
+      type: "some-type",
+    },
   ];
 
   beforeEach(() => {
@@ -49,11 +64,10 @@ describe("convertPageToTemplate", () => {
 
   it("convert page to template", async () => {
     const chk = await convertPageToTemplate(cloneObject(model), ro);
-
     expect(chk.type).toBe("Hub Page");
     expect(chk.key).toBeDefined();
     expect(chk.itemId).toBe("page-id");
-    expect(chk.assets).toEqual(assets);
+    expect(chk.assets).toEqual(expectedAsset, "should ignore draft resources");
     expect(chk.dependencies).toEqual([
       "cc2",
       "cc3",

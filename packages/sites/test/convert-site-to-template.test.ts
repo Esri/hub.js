@@ -3,7 +3,7 @@ import { cloneObject, deepSet } from "@esri/hub-common";
 import {
   SITE_ITEM_RESPONSE,
   SITE_DATA_RESPONSE,
-  SITE_RESOURCES_RESPONSE
+  SITE_RESOURCES_RESPONSE,
 } from "./site-responses.test";
 import { MOCK_HUB_REQOPTS } from "./test-helpers.test";
 import * as fetchMock from "fetch-mock";
@@ -13,14 +13,14 @@ describe("convertSiteToTemplate", () => {
     // construct a model
     const model = {
       item: cloneObject(SITE_ITEM_RESPONSE),
-      data: cloneObject(SITE_DATA_RESPONSE)
+      data: cloneObject(SITE_DATA_RESPONSE),
     };
     // make some changes so we can ensure some operations occur
     model.data.chkIdConvert = `this has the ${model.item.id} item id`;
     // setup the fetch mocks
     fetchMock.post(`glob:*/${SITE_ITEM_RESPONSE.id}/resources`, {
       status: 200,
-      body: JSON.stringify(SITE_RESOURCES_RESPONSE)
+      body: JSON.stringify(SITE_RESOURCES_RESPONSE),
     });
 
     const response = await convertSiteToTemplate(model, MOCK_HUB_REQOPTS);
@@ -39,7 +39,11 @@ describe("convertSiteToTemplate", () => {
       "192c341d37b04e35a017402491bec6ea",
       "should pull a dependency"
     );
-    expect(response.assets.length).toBe(9, "should have 9 assets");
+    expect(SITE_RESOURCES_RESPONSE.total).toBe(
+      10,
+      "should have 10 resources from site"
+    );
+    expect(response.assets.length).toBe(9, "should ignore draft resources");
     expect(response.item.hasOwnProperty("url")).toBeFalsy(
       "item.url should be removed"
     );
@@ -57,7 +61,7 @@ describe("convertSiteToTemplate", () => {
     // construct a model
     const model = {
       item: cloneObject(SITE_ITEM_RESPONSE),
-      data: cloneObject(SITE_DATA_RESPONSE)
+      data: cloneObject(SITE_DATA_RESPONSE),
     };
 
     delete model.data.values.defaultExtent;
@@ -66,7 +70,7 @@ describe("convertSiteToTemplate", () => {
     // setup the fetch mocks
     fetchMock.post(`glob:*/${SITE_ITEM_RESPONSE.id}/resources`, {
       status: 200,
-      body: JSON.stringify(SITE_RESOURCES_RESPONSE)
+      body: JSON.stringify(SITE_RESOURCES_RESPONSE),
     });
 
     const response = await convertSiteToTemplate(model, MOCK_HUB_REQOPTS);
