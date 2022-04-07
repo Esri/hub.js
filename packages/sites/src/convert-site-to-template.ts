@@ -8,13 +8,14 @@ import {
   IModelTemplate,
   getProp,
   replaceItemId,
-  getItemAssets
+  getItemAssets,
 } from "@esri/hub-common";
 import { getSiteItemType } from "./get-site-item-type";
 import { IItem } from "@esri/arcgis-rest-types";
 import { SITE_SCHEMA_VERSION } from "./site-schema-version";
 import { convertLayoutToTemplate } from "./layout";
 import { getSiteDependencies } from "./get-site-dependencies";
+import { DRAFT_RESOURCE_REGEX } from "./drafts/_draft-resource-regex";
 
 /**
  * Convert an existing site into the Solution template format
@@ -26,7 +27,7 @@ export function convertSiteToTemplate(
   hubRequestOptions: IHubRequestOptions
 ) {
   // clone it...
-  const tmpl = (cloneObject(model) as unknown) as IModelTemplate;
+  const tmpl = cloneObject(model) as unknown as IModelTemplate;
 
   // Ensure some properties are set correctly
   tmpl.type = getSiteItemType(hubRequestOptions.isPortal);
@@ -44,7 +45,7 @@ export function convertSiteToTemplate(
   // will be injected as needed
   tmpl.item.properties = {
     schemaVersion: SITE_SCHEMA_VERSION,
-    children: []
+    children: [],
   };
   // inject interpolation propertues where we need them
   tmpl.item.title = "{{solution.title}}";
@@ -58,7 +59,7 @@ export function convertSiteToTemplate(
   delete tmpl.data.values.collaborationGroupId;
 
   // some props need to be reset to empty strings
-  ["updatedAt", "updatedBy", "clientId", "siteId"].forEach(p => {
+  ["updatedAt", "updatedBy", "clientId", "siteId"].forEach((p) => {
     tmpl.data.values[p] = "";
   });
   // others we should just delete
@@ -67,8 +68,8 @@ export function convertSiteToTemplate(
     "externalUrl",
     "contentGroupId",
     "followersGroupId",
-    "groups"
-  ].forEach(p => {
+    "groups",
+  ].forEach((p) => {
     delete tmpl.data.values[p];
   });
 
@@ -90,8 +91,12 @@ export function convertSiteToTemplate(
   tmpl.data = replaceItemId(tmpl.data, tmpl.itemId);
 
   tmpl.dependencies = getSiteDependencies(model);
-  return getItemAssets(model.item, hubRequestOptions).then(assets => {
-    tmpl.assets = assets;
+  return getItemAssets(model.item, hubRequestOptions).then((assets) => {
+    // Because we don't want to include the draft resource when clone a site
+    // we are filtering out assets that are not 'draft-{timestamp}.json'
+    tmpl.assets = assets.filter(
+      (asset) => asset.name.search(DRAFT_RESOURCE_REGEX) === -1
+    );
     return tmpl;
   });
 }

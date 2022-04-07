@@ -7,12 +7,13 @@ import {
   normalizeSolutionTemplateItem,
   replaceItemId,
   getItemAssets,
-  IModelTemplate
+  IModelTemplate,
 } from "@esri/hub-common";
 import { getPageItemType } from "./get-page-item-type";
 import { convertLayoutToTemplate } from "../layout";
 import { getSiteDependencies } from "../get-site-dependencies";
 import { IItem } from "@esri/arcgis-rest-types";
+import { DRAFT_RESOURCE_REGEX } from "../drafts/_draft-resource-regex";
 
 /**
  * Given a Page Model, return a template object
@@ -23,7 +24,7 @@ export function convertPageToTemplate(
   model: IModel,
   hubRequestOptions: IHubRequestOptions
 ) {
-  const tmpl = (cloneObject(model) as unknown) as IModelTemplate;
+  const tmpl = cloneObject(model) as unknown as IModelTemplate;
   // set things we always want...
   tmpl.type = getPageItemType(hubRequestOptions.isPortal);
   tmpl.key = `${propifyString(model.item.title)}_${createId("i")}`;
@@ -31,7 +32,7 @@ export function convertPageToTemplate(
   // now pass the item off to be normalized
   tmpl.item = normalizeSolutionTemplateItem(tmpl.item as IItem);
   tmpl.data.values.sites = [];
-  ["source", "updatedAt", "updatedBy", "folderId", "slug"].forEach(p => {
+  ["source", "updatedAt", "updatedBy", "folderId", "slug"].forEach((p) => {
     delete tmpl.data.values[p];
   });
 
@@ -48,8 +49,12 @@ export function convertPageToTemplate(
   if (!tmpl.item.properties) {
     tmpl.item.properties = {};
   }
-  return getItemAssets(model.item, hubRequestOptions).then(assets => {
-    tmpl.assets = assets;
+  return getItemAssets(model.item, hubRequestOptions).then((assets) => {
+    // Because we don't want to include the draft resource when clone a page
+    // we are filtering out assets that are not 'draft-{timestamp}.json'
+    tmpl.assets = assets.filter(
+      (asset) => asset.name.search(DRAFT_RESOURCE_REGEX) === -1
+    );
     return tmpl;
   });
 }
