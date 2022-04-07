@@ -256,6 +256,7 @@ describe("HubProjects:", () => {
       expect(modelToUpdate.item.properties.slug).toBe("dcdev-wat-blarg-1");
     });
   });
+
   describe("searchProjects:", () => {
     const fakeResults = {
       total: 1,
@@ -326,6 +327,33 @@ describe("HubProjects:", () => {
         sortOrder: "desc",
         site: { item: {}, data: {} },
       } as IHubSearchOptions;
+      const response = await searchProjects(filter, opts);
+      expect(response.results.length).toBe(1);
+      expect(searchSpy.calls.count()).toBe(1);
+      expect(dataSpy.calls.count()).toBe(1);
+      expect(response.results[0].thumbnailUrl).toBe(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/items/bc3/info/zen.jpg?token=fake-token"
+      );
+      // verify the query
+      const searchOpts = searchSpy.calls.argsFor(0)[0];
+
+      expect(searchOpts.q).toBe("water");
+      expect(searchOpts.filter).toBe(`(type:"Hub Project")`);
+    });
+    it("constructs search, including a specific start if required", async () => {
+      const filter: Filter<"content"> = {
+        filterType: "content",
+        term: "water",
+      };
+      const opts = {
+        authentication: MOCK_AUTH,
+        aggregations: ["tags"],
+        num: 10,
+        sortField: "title",
+        sortOrder: "desc",
+        site: { item: {}, data: {} },
+        start: 2,
+      } as any;
       const response = await searchProjects(filter, opts);
       expect(response.results.length).toBe(1);
       expect(searchSpy.calls.count()).toBe(1);
