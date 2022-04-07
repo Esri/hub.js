@@ -1,3 +1,10 @@
+## @esri/hub-sites [9.26.2](https://github.com/Esri/hub.js/compare/@esri/hub-sites@9.26.1...@esri/hub-sites@9.26.2) (2022-04-07)
+
+
+### Bug Fixes
+
+* **hub-sites:** ignore draft resources when clone a site or page ([33116fc](https://github.com/Esri/hub.js/commit/33116fc6b09eb129b97c50dc3c69e8c596bed996))
+
 ## @esri/hub-sites [9.26.1](https://github.com/Esri/hub.js/compare/@esri/hub-sites@9.26.0...@esri/hub-sites@9.26.1) (2022-04-06)
 
 
