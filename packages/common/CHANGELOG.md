@@ -1,3 +1,11 @@
+## @esri/hub-common [9.26.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.26.1...@esri/hub-common@9.26.2) (2022-04-08)
+
+
+### Bug Fixes
+
+* **hub-common:** add start parameter to IHubSearchOptions ([c779b56](https://github.com/Esri/hub.js/commit/c779b56ec2a78fbdea84a69afb896c9352f8b831))
+* **hub-common:** allows start param to be passed into Project searches ([7f4aa5c](https://github.com/Esri/hub.js/commit/7f4aa5c4dc5290f42341376963d07ad1752178eb))
+
 ## @esri/hub-common [9.26.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.26.0...@esri/hub-common@9.26.1) (2022-04-06)
 
 
