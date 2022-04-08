@@ -92,6 +92,7 @@ describe("_searchUsers:", () => {
         sortField: "username",
         num: 11,
         site,
+        start: 2,
       };
 
       const chk = await _searchUsers(f, o);
@@ -101,6 +102,7 @@ describe("_searchUsers:", () => {
       expect(expectedParams.num).toEqual(11);
       expect(expectedParams.sortOrder).toEqual("desc");
       expect(expectedParams.sortField).toEqual("username");
+      expect(expectedParams.start).toEqual(2);
       expect(expectedParams.site).toEqual(site);
       expect(expectedParams.authentication).toBe(MOCK_ENTERPRISE_AUTH);
       const u1 = chk.results[0];

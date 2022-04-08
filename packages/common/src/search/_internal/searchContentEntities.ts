@@ -51,13 +51,8 @@ export function searchContentEntities<T>(
     "sortField",
     "sortOrder",
     "site",
+    "start",
   ];
-
-  // "start" not included in IHubSearchOptions because Hub v3 API relied on "page"
-  // Hub V4 API, however, will provide "start"
-  if ((options as any).start) {
-    searchOptions.start = (options as any).start;
-  }
 
   // Include "start" here
   // copy the props over

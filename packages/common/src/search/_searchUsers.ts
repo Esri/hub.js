@@ -68,6 +68,7 @@ export async function _searchUsers(
       "sortField",
       "sortOrder",
       "site",
+      "start",
     ];
     // copy the props over
     props.forEach((prop) => {
