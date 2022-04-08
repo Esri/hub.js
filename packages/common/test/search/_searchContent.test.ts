@@ -118,6 +118,7 @@ describe("_searchContent:", () => {
         aggregations: ["tags", "access"],
         sortField: "title",
         sortOrder: "desc",
+        start: 1,
       };
 
       const res = await _searchContent(f, opts);
@@ -128,6 +129,10 @@ describe("_searchContent:", () => {
       expect(expectedParams.q).toEqual("water");
       // verify countFields
       expect(expectedParams.countFields).toEqual("tags,access");
+      // veryify opts
+      expect(expectedParams.sortField).toEqual("title");
+      expect(expectedParams.sortOrder).toEqual("desc");
+      expect(expectedParams.start).toEqual(1);
       // verify Facets
       expect(res.facets).toBeDefined();
       expect(res.facets?.length).toBe(2, "should have two facets");

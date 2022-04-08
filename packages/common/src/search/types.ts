@@ -346,6 +346,7 @@ export interface IHubSearchOptions {
   sortField?: string;
   sortOrder?: "desc" | "asc";
   page?: string;
+  start?: number;
   num?: number;
   aggregations?: string[];
   bbox?: string;

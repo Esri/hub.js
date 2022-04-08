@@ -42,6 +42,7 @@ export async function _searchGroups(
       "sortField",
       "sortOrder",
       "site",
+      "start",
     ];
     // copy the props over
     props.forEach((prop) => {

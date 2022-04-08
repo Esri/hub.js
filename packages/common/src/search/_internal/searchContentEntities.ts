@@ -51,7 +51,10 @@ export function searchContentEntities<T>(
     "sortField",
     "sortOrder",
     "site",
+    "start",
   ];
+
+  // Include "start" here
   // copy the props over
   props.forEach((prop) => {
     if (options.hasOwnProperty(prop)) {

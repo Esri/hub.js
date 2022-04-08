@@ -80,6 +80,7 @@ describe("_searchGroups:", () => {
         num: 6,
         sortField: "title",
         sortOrder: "desc",
+        start: 3,
       };
       await _searchGroups(f, o);
       expect(searchGroupsSpy.calls.count()).toBe(1, "should call searchGroups");
@@ -87,6 +88,7 @@ describe("_searchGroups:", () => {
 
       expect(expectedParams.q).toEqual("water");
       expect(expectedParams.num).toEqual(6);
+      expect(expectedParams.start).toEqual(3);
       expect(expectedParams.portal).toBe(
         "https://qaext.arcgis.com/sharing/rest"
       );
