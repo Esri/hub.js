@@ -1,5 +1,8 @@
+import { IItem, ISearchResult } from "@esri/arcgis-rest-portal";
+import { cloneObject } from "../../src";
 import {
   convertContentDefinitionToFilter,
+  convertPortalResponseToFacets,
   expandContentFilter,
   expandTypeField,
   mergeContentFilter,
@@ -485,6 +488,46 @@ describe("Content:", () => {
       if (chk.subFilters) {
         expect(chk.subFilters.length).toBe(3);
       }
+    });
+  });
+  describe("convertPortalResponseToFacets:", () => {
+    const resp = {
+      aggregations: {
+        counts: [
+          {
+            fieldName: "tags",
+            fieldValues: [
+              { value: "red", count: 50 },
+              { value: "blue", count: 25 },
+              { value: "green", count: 5 },
+            ],
+          },
+        ],
+      },
+    } as unknown as ISearchResult<IItem>;
+
+    it("creates OR facets from aggregations by default", () => {
+      const chk = convertPortalResponseToFacets(cloneObject(resp));
+      expect(chk.length).toBe(1);
+      // first facet
+      const f1 = chk[0];
+      expect(f1.key).toBe("tags");
+      expect(f1.options.length).toBe(3);
+      expect(f1.options[0].filter.filterType).toBe("content");
+      const f1Filter = f1.options[0].filter as Filter<"content">;
+      expect(f1Filter.tags).toEqual({ any: ["red"] });
+    });
+
+    it("creates AND facets from aggregations if specified", () => {
+      const chk = convertPortalResponseToFacets(cloneObject(resp), "AND");
+      expect(chk.length).toBe(1);
+      // first facet
+      const f1 = chk[0];
+      expect(f1.key).toBe("tags");
+      expect(f1.options.length).toBe(3);
+      expect(f1.options[0].filter.filterType).toBe("content");
+      const f1Filter = f1.options[0].filter as Filter<"content">;
+      expect(f1Filter.tags).toEqual({ all: ["red"] });
     });
   });
 });

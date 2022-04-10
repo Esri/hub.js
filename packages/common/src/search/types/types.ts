@@ -286,16 +286,23 @@ export interface IApiDefinition {
 }
 
 export interface IFacetState {
-  [key: string]: string; // value is encoded by the origin component
+  [key: string]: string;
 }
 
 export interface ICollectionState {
   query?: string; // query term
   sort?: string; // attribute|direction
-  facetState?: IFacetState;
+  [key: string]: string;
 }
 
 export interface ICatalogState {
   collection: string; // key of the active collection (only relevant for -catalog component)
   collectionState?: ICollectionState; // state of the collection
+}
+
+/**
+ * Generic key/value type for storing component state
+ */
+export interface IComponentState {
+  [key: string]: string;
 }

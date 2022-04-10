@@ -7,4 +7,4 @@ export * from "./_searchContent";
 export * from "./_searchGroups";
 export * from "./_searchUsers";
 export * from "./types";
-export * from "./stateSerializers";
+export * from "./collectionState";

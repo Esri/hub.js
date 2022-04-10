@@ -80,6 +80,8 @@ export function serializeSingleSelectFacetState(facet: IFacet): IFacetState {
   const selected = facet.options.find((o) => o.selected);
   if (selected) {
     state[facet.key] = selected.key;
+  } else {
+    state[facet.key] = null;
   }
   return state;
 }
@@ -116,6 +118,48 @@ export function serializeMultiSelectFacetState(facet: IFacet): IFacetState {
   const value = selected.map((o) => o.key).join(",");
   if (value.length) {
     state[facet.key] = value;
+  } else {
+    state[facet.key] = null;
   }
+  return state;
+}
+
+/**
+ * Serialize the state of the SortOption into a key/value pair
+ *
+ * Called from the Sort component
+ * @param sort
+ * @returns
+ */
+export function serializeSortState(sort: ISortOption): string {
+  return `${sort.label}|${sort.attribute}|${sort.order}`;
+}
+
+/**
+ * Serialize the state of a facet into a key/value pair
+ *
+ * Called from the various facet components
+ * @param facet
+ * @returns
+ */
+export function serializeFacetState(facet: IFacet): IFacetState {
+  let state = {};
+
+  switch (facet.display) {
+    case "single-select":
+      state = serializeSingleSelectFacetState(facet);
+      break;
+    case "multi-select":
+      state = serializeMultiSelectFacetState(facet);
+      break;
+    case "date-range":
+      break;
+    case "histogram":
+      break;
+    default:
+      // no default behavior
+      break;
+  }
+
   return state;
 }

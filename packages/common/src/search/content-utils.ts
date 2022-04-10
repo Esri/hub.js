@@ -156,12 +156,13 @@ const ContentFilterExpansions: IWellKnownContentFilters = {
 
 /**
  * @private
- * Convert portal search response to items
+ * Convert portal search response to facets
+ * Note: Only applicable to a "content" search
  * @param response
  * @returns
  */
 export function convertPortalResponseToFacets(
-  response: ISearchResult<IItem> | ISearchResult<IGroup>,
+  response: ISearchResult<IItem>,
   operation: "OR" | "AND" = "OR"
 ): IFacet[] {
   const result: IFacet[] = [];
@@ -184,7 +185,7 @@ export function convertPortalResponseToFacets(
         const matchKey = operation === "OR" ? "any" : "all";
         const filterMatchOption = {} as IMatchOptions;
         filterMatchOption[matchKey] = [fv.value];
-        filter[entry.fieldName] = entry;
+        filter[entry.fieldName] = filterMatchOption;
         // construct the FacetOption
         const fo: IFacetOption = {
           label: `${fv.value} (${fv.count})`,

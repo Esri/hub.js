@@ -31,6 +31,27 @@ describe("_searchContent:", () => {
       // verify countFields
       expect(expectedParams.countFields).not.toBeDefined();
     });
+    it("simple search with aggregations", async () => {
+      const searchItemsSpy = spyOn(Portal, "searchItems").and.callFake(() => {
+        return Promise.resolve(cloneObject(SimpleResponse));
+      });
+      const f: Filter<"content"> = {
+        filterType: "content",
+        term: "water",
+      };
+      const opts: IHubSearchOptions = {
+        aggFields: ["tags"],
+      };
+
+      const res = await _searchContent(f, opts);
+
+      expect(searchItemsSpy.calls.count()).toBe(1, "should call searchItems");
+      const [expectedParams] = searchItemsSpy.calls.argsFor(0);
+      // verify q
+      expect(expectedParams.q).toEqual("water");
+      expect(expectedParams.countFields).toEqual("tags");
+      expect(expectedParams.countSize).toEqual(10);
+    });
     it("simple search enterprise", async () => {
       const searchItemsSpy = spyOn(Portal, "searchItems").and.callFake(() => {
         return Promise.resolve(cloneObject(SimpleResponse));
@@ -44,6 +65,8 @@ describe("_searchContent:", () => {
           type: "arcgis",
           url: "https://my-portal.com/gis",
         },
+        aggFields: ["tags"],
+        aggLimit: 100,
       };
 
       const res = await _searchContent(f, opts);
@@ -52,11 +75,11 @@ describe("_searchContent:", () => {
       const [expectedParams] = searchItemsSpy.calls.argsFor(0);
       // verify q
       expect(expectedParams.q).toEqual("water");
+      expect(expectedParams.countFields).toEqual("tags");
+      expect(expectedParams.countSize).toEqual(100);
       expect(expectedParams.portal).toEqual(
         "https://my-portal.com/gis/sharing/rest"
       );
-      // verify countFields
-      expect(expectedParams.countFields).not.toBeDefined();
     });
     it("simple search next", async () => {
       const searchItemsSpy = spyOn(Portal, "searchItems").and.callFake(() => {
