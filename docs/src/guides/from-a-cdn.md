@@ -8,40 +8,71 @@ group: 1-get-started
 
 # Get Started using a CDN
 
-@esri/hub.js is hosted on [unpkg](https://unpkg.com/). You can find URLs for individual packages in the [API reference](../../api).
+@esri/hub.js is hosted on [skypack](https://skypack.dev/), allowing the use of ESM directly in browsers via `<script type=
+
+When using ESM directly in the browser, you `import {fn1, fn2} from "https://cdn.skypack.dev/{package}"`.
+
+You can find the individual package names in the [API reference](../../api).
 
 ```html
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>@esri/hub.js</title>
-</head>
-<body>
-  Open your console to see the demo.
-</body>
-  <!-- require polyfills for fetch and Promise from https://polyfill.io -->
-  <script src="https://cdn.polyfill.io/v2/polyfill.js?features=es5,Promise,fetch"></script>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@esri/hub.js</title>
+    <style>
+      .container {
+        margin-top: 50px;
+        display: flex;
+        justify-content: space-between;
+        width: 95vw;
+      }
+      .display {
+        width: 45vw;
+        min-height: 300px;
+      }
+    </style>
+  </head>
 
-  <!-- hub.js has external dependencies on @esri/arcgis-rest-js packages -->
-  <script src="https://unpkg.com/@esri/arcgis-rest-request"></script>
-  <script src="https://unpkg.com/@esri/arcgis-rest-auth"></script>
-  <script src="https://unpkg.com/@esri/arcgis-rest-portal"></script>
+  <body>
+    <h2>Fetch Domain Record, and Site</h2>
+    <div class="container">
+      <div class="display">
+        <h4>Domain Record Json</h4>
+        <pre id="domainRecord"></pre>
+      </div>
+      <div class="display">
+        <h4>Site</h4>
+        <pre id="site"></pre>
+      </div>
+    </div>
+  </body>
 
-  <!-- require @esri/hub.js libraries from https://unpkg.com too -->
-  <script src="{% cdnUrl data.typedoc | findPackage('@esri/hub-common') %}"></script>
-  <script src="{% cdnUrl data.typedoc | findPackage('@esri/hub-sites') %}"></script>
-  
+  <script type="module">
+    import {
+      lookupDomain,
+      getSiteById,
+    } from "https://cdn.skypack.dev/@esri/hub-sites";
 
-  <script>
-    // all exports are available from an arcgisHub global
-    arcgisHub.lookupDomain('coronavirus-resources.esri.com', {isPortal: false})
-    .then(response => {
-      console.log(response);
-      arcgisHub.getSiteById(response.siteId).then(response => {
+    lookupDomain("coronavirus-resources.esri.com", { isPortal: false }).then(
+      (response) => {
         console.log(response);
-      });
-    });
+        document.getElementById("domainRecord").innerText = JSON.stringify(
+          response,
+          null,
+          2
+        );
+        getSiteById(response.siteId).then((response) => {
+          console.log(response);
+          document.getElementById("site").innerText = JSON.stringify(
+            response,
+            null,
+            2
+          );
+        });
+      }
+    );
   </script>
 </html>
+```
