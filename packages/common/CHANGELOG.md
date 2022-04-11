@@ -1,3 +1,10 @@
+# @esri/hub-common [9.27.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.26.2...@esri/hub-common@9.27.0) (2022-04-11)
+
+
+### Features
+
+* dynamic facets, state functions ([#772](https://github.com/Esri/hub.js/issues/772)) ([6260a82](https://github.com/Esri/hub.js/commit/6260a82964acd79d699fcfa3ec4a62c212c68c00))
+
 ## @esri/hub-common [9.26.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.26.1...@esri/hub-common@9.26.2) (2022-04-08)
 
 
