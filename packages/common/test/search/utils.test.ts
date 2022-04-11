@@ -1,5 +1,4 @@
 import { IUser } from "@esri/arcgis-rest-types";
-import { IHubContent } from "../../src";
 import { IMatchOptions, IRelativeDate } from "../../src/search";
 import {
   expandApis,

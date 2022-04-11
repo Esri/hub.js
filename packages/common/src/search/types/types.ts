@@ -1,5 +1,6 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { IHubContent, IModel } from "..";
+import { IHubContent, IModel } from "../..";
+import { IFacet } from "./IFacet";
 
 /**
  * Generic filter used with various search functions.
@@ -166,107 +167,6 @@ export interface IEventFilterDefinition {
   title?: string | string[] | IMatchOptions;
 }
 
-// User controlled refinements
-// can be static or dynamic (based on stats from the api)
-export interface IFacet {
-  // Label for the whole facet, shown in UI
-  label: string;
-  // what attribute this is powered by
-  attribute?: string;
-  // what type of facet is this
-  type: "single-select" | "multi-select" | "date-range" | "histogram";
-  // if static, contains the pre-defined options
-  // if dynamic the code must construct these
-  // from the API response
-  options?: IFacetOption[];
-  // whether to keep the accordion closed
-  accordionClosed?: boolean;
-  // number of facet options to show
-  pageSize?: number;
-}
-
-// Facet Options shown in the UI
-export interface IFacetOption {
-  // What's shown in the UI
-  label: string;
-  // API Value
-  value: string;
-  // Count, if returned from API
-  count?: number;
-  // is this selected
-  selected: boolean;
-  // when selected, this is the Filter to add
-  filter: Filter<FilterType>;
-}
-
-/**
- * Catalog is the definition which powers what options
- * are available in a Gallery. It controls not only
- * the scoping of the search, but also the options
- * available to the UX.
- *
- * Thus the lower-level `searchContent`, `searchUser`, `searchGroup` functions
- * do not take Catalogs, rather they accept [Filters](../Filter)
- *
- * ```ts
- * const simpleCatalog:Catalog = {
- *   title: "Select Map",
- *   filter: {
- *     filterType: "content",
- *     type: "Web Map",
- *     owner: "jsmith"
- *   }
- * }
- * ```
- *
- * ## Collections
- * The key feature of a Catalog is the ability to defined [Collections](../Collection).
- * These are essentially sub-sets of content, typically organized around
- * generalized content types, i.e. "Datasets", vs "Maps", vs "Documents"
- *
- *
- * ```ts
- * const complex:Catalog = {
- *   filter: {
- *    type: "content",
- *    groups: ["3ef", "bc4"]
- *   },
- *   collections: [
- *     {
- *       label: "Documents",
- *       filter: {
- *         filterType: "content",
- *         type: ["Microsoft Word", "PDF", "Microsoft Excel"]
- *       }
- *     },
- *     {
- *       label: "Datasets",
- *       filter: {
- *         filterType: "content",
- *         type: ["Feature Layer", "Feature Service", "Map Service", "CSV"]
- *       }
- *     }
- *   ]
- * }
- * ```
- */
-export interface ICatalog {
-  /**
-   * Title for the Gallery
-   */
-  title?: string;
-  // Filter defines the "scope" of the Catalog
-  // typically a set of groups or orgids
-  filter: Filter<FilterType>;
-  // sort options to be shown in the Gallery
-  // if not specified, defaults are merged in
-  sort?: ISortOption[];
-  // Sub Groups within the Catalog
-  collections?: ICollection[];
-  // facets to use with all Filters
-  facets?: IFacet[];
-}
-
 /**
  * Sort Option to be displayed in a UI
  */
@@ -281,14 +181,6 @@ export interface ISortOption {
   order: string;
 }
 
-/**
- * A Filter that defines a subset of a Catalog, aka a Collection
- */
-export interface ICollection {
-  label: string;
-  filter: Filter<FilterType>;
-  facets?: IFacet[];
-}
 /**
  * Defines a span of time by specifying a `from` and `to` Date
  * as either a number or a ISO string
@@ -348,10 +240,13 @@ export interface IHubSearchOptions {
   page?: string;
   start?: number;
   num?: number;
-  aggregations?: string[];
+  aggFields?: string[];
+  aggLimit?: number;
   bbox?: string;
   fields?: string;
   api?: NamedApis | IApiDefinition;
+  // DEPRECATION
+  aggregations?: string[];
 }
 
 /**
@@ -388,4 +283,26 @@ export interface IApiDefinition {
   type: "arcgis" | "arcgis-hub";
   // Future - allows separate auth objects per API Definition
   authentication?: UserSession;
+}
+
+export interface IFacetState {
+  [key: string]: string;
+}
+
+export interface ICollectionState {
+  query?: string; // query term
+  sort?: string; // attribute|direction
+  [key: string]: string;
+}
+
+export interface ICatalogState {
+  collection: string; // key of the active collection (only relevant for -catalog component)
+  collectionState?: ICollectionState; // state of the collection
+}
+
+/**
+ * Generic key/value type for storing component state
+ */
+export interface IComponentState {
+  [key: string]: string;
 }
