@@ -3,9 +3,10 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-types";
 
 import { ISearchResponse } from "../../types";
-import { Filter, IHubSearchOptions } from "../types/types";
+import { Filter, IHubSearchOptions } from "../types";
 import { expandApi, getNextFunction } from "../../search/utils";
 import {
+  convertPortalResponseToFacets,
   expandContentFilter,
   serializeContentFilterForPortal,
 } from "../../search/content-utils";
@@ -39,10 +40,22 @@ export function searchContentEntities<T>(
   // expand filter so we can serialize to either api
   const expanded = expandContentFilter(filter);
   const searchOptions = serializeContentFilterForPortal(expanded);
-  // Aggregations
+
+  // DEPRECATION
+  /* istanbul ignore next */
   if (options.aggregations?.length) {
+    // tslint:disable-next-line:no-console
+    console.warn(
+      `IHubSearchOptions.aggregations is deprecated. Please use .aggFields instead.`
+    );
     searchOptions.countFields = options.aggregations.join(",");
-    searchOptions.countSize = 200;
+    searchOptions.countSize = options.aggLimit || 10;
+  }
+
+  // Aggregations
+  if (options.aggFields?.length) {
+    searchOptions.countFields = options.aggFields.join(",");
+    searchOptions.countSize = options.aggLimit || 10;
   }
   // properties to copy from IHubSearchOptions to the ISearchOptions
   const props: Array<keyof IHubSearchOptions> = [
@@ -97,10 +110,13 @@ export function createContentEntitySearchFn<T>(
       })
     );
 
+    // convert aggregations into facets
+    const facets = convertPortalResponseToFacets(response);
+
     return {
       total: response.total,
       results: entities,
-      facets: [],
+      facets,
       hasNext: response.nextStart > -1,
       next: getNextFunction<T>(
         searchOptions,
