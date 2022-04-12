@@ -1,3 +1,10 @@
+# @esri/hub-common [9.28.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.27.0...@esri/hub-common@9.28.0) (2022-04-12)
+
+
+### Features
+
+* **hub-common:** add aggregations to seachContentEntities + tests ([2867cd4](https://github.com/Esri/hub.js/commit/2867cd4e59c202d95ef62fe098b89e766662dde9))
+
 # @esri/hub-common [9.27.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.26.2...@esri/hub-common@9.27.0) (2022-04-11)
 
 
