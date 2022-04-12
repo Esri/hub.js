@@ -262,6 +262,18 @@ describe("HubProjects:", () => {
       total: 1,
       results: [{ id: "bc3", thumbnail: "zen.jpg" }],
       nextStart: -1,
+      aggregations: {
+        counts: [
+          {
+            fieldName: "tags",
+            fieldValues: [
+              { value: "red", count: 50 },
+              { value: "blue", count: 25 },
+              { value: "green", count: 5 },
+            ],
+          },
+        ],
+      },
     };
     let searchSpy: jasmine.Spy;
     let dataSpy: jasmine.Spy;
@@ -291,7 +303,10 @@ describe("HubProjects:", () => {
 
       expect(searchOpts.q).toBe("water");
       expect(searchOpts.filter).toBe(`(type:"Hub Project")`);
+      // Verify facets
+      expect(response.facets).toBeDefined();
     });
+
     it("it constructs search, passing api", async () => {
       const filter: Filter<"content"> = {
         filterType: "content",
@@ -313,6 +328,8 @@ describe("HubProjects:", () => {
       expect(searchOpts.q).toBe("water");
       expect(searchOpts.filter).toBe(`(type:"Hub Project")`);
       expect(searchOpts.portal).toEqual(`https://qaext.arcgis.com`);
+      // Verify facets
+      expect(response.facets).toBeDefined();
     });
     it("constructs search, detailed", async () => {
       const filter: Filter<"content"> = {
@@ -321,7 +338,7 @@ describe("HubProjects:", () => {
       };
       const opts = {
         authentication: MOCK_AUTH,
-        aggregations: ["tags"],
+        aggFields: ["tags"],
         num: 10,
         sortField: "title",
         sortOrder: "desc",
@@ -338,7 +355,15 @@ describe("HubProjects:", () => {
       const searchOpts = searchSpy.calls.argsFor(0)[0];
 
       expect(searchOpts.q).toBe("water");
+      expect(searchOpts.countFields).toBe("tags");
+      expect(searchOpts.countSize).toBe(10);
       expect(searchOpts.filter).toBe(`(type:"Hub Project")`);
+
+      // Verify facets
+      expect(response.facets).toBeDefined();
+      expect(response.facets.length).toBe(1);
+      expect(response.facets[0].key).toBe("tags");
+      expect(response.facets[0].options.length).toBe(3);
     });
     it("constructs search, including a specific start if required", async () => {
       const filter: Filter<"content"> = {
@@ -347,7 +372,8 @@ describe("HubProjects:", () => {
       };
       const opts = {
         authentication: MOCK_AUTH,
-        aggregations: ["tags"],
+        aggFields: ["tags"],
+        aggLimit: 54,
         num: 10,
         sortField: "title",
         sortOrder: "desc",
@@ -366,6 +392,14 @@ describe("HubProjects:", () => {
 
       expect(searchOpts.q).toBe("water");
       expect(searchOpts.filter).toBe(`(type:"Hub Project")`);
+      expect(searchOpts.countSize).toBe(54);
+      expect(searchOpts.filter).toBe(`(type:"Hub Project")`);
+
+      // Verify facets
+      expect(response.facets).toBeDefined();
+      expect(response.facets.length).toBe(1);
+      expect(response.facets[0].key).toBe("tags");
+      expect(response.facets[0].options.length).toBe(3);
     });
   });
 });

@@ -1,6 +1,5 @@
 import { IGroup, ISearchOptions } from "@esri/arcgis-rest-portal";
-import { Filter, IHubSearchOptions } from "./types/types";
-import { IFacet } from "./types/IFacet";
+import { Filter, IHubSearchOptions, IFacet } from "./types";
 import { searchGroups as portalGroupSearch } from "@esri/arcgis-rest-portal";
 import { expandApi, getNextFunction } from ".";
 import {
