@@ -1,6 +1,6 @@
 ---
-title: Searching for Content
-navTitle: Searching Content
+title: Searching with Filters
+navTitle: Search Filters
 description: Searching with Filters
 group: 2-concepts
 order: 15
