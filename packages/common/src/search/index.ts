@@ -8,3 +8,4 @@ export * from "./_searchGroups";
 export * from "./_searchUsers";
 export * from "./types";
 export * from "./collectionState";
+export * from "./convertCatalog";
