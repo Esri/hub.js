@@ -1,3 +1,10 @@
+# @esri/hub-common [9.29.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.28.0...@esri/hub-common@9.29.0) (2022-04-21)
+
+
+### Features
+
+* **hub-common:** add convertCatalog function ([#775](https://github.com/Esri/hub.js/issues/775)) ([ce4a36b](https://github.com/Esri/hub.js/commit/ce4a36bdfdb046eb64c075b397056d489ba250c0))
+
 # @esri/hub-common [9.28.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.27.0...@esri/hub-common@9.28.0) (2022-04-12)
 
 
