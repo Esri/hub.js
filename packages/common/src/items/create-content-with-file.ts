@@ -9,6 +9,15 @@ import { cloneObject } from "../util";
 import { _multiThreadUpload } from "./_internal/_multi-thread-upload";
 import { _prepareUploadRequests } from "./_internal/_prepare-upload-requests";
 
+/**
+ * Creates an item in online from a local file/item.
+ * Upload is multithreaded as the item is chunked up.
+ *
+ * @export
+ * @param {IItemAdd} item Item to be uploaded into online.
+ * @param {IUserRequestOptions} requestOptions
+ * @return {*}  {Promise<string>} Newly created item id
+ */
 export async function createContentWithFile(
   item: IItemAdd,
   requestOptions: IUserRequestOptions
@@ -19,6 +28,7 @@ export async function createContentWithFile(
   // that it won't trigger the direct upload at the createContent request
   delete item.file;
 
+  // Create the item in online so we have an id
   const createResult = await createItem({
     item,
     filename: file.name,
@@ -27,7 +37,7 @@ export async function createContentWithFile(
     overwrite: true,
     ...requestOptions,
   });
-
+  // get the items id
   const itemId = createResult.id;
 
   try {
@@ -35,6 +45,7 @@ export async function createContentWithFile(
     // to upload so we use 6mb to slice the file.
     // see https://developers.arcgis.com/rest/users-groups-and-items/add-item-part.htm
     const sizeLimit = 6 * 1000 * 1000;
+    // Create queue of upload requests.
     const uploadQueue = _prepareUploadRequests(
       file,
       item.owner,
@@ -42,9 +53,10 @@ export async function createContentWithFile(
       sizeLimit,
       requestOptions
     );
-    // up to 5 concurrent requests
+    // execute up to 5 concurrent requests
     await _multiThreadUpload(uploadQueue, 5);
 
+    // Commit is called once all parts are uploaded during a multipart add item or update item operation.
     await commitItemUpload({
       id: itemId,
       item,
@@ -52,6 +64,7 @@ export async function createContentWithFile(
       ...requestOptions,
     });
   } catch (e) {
+    // If an error is thrown then cancel item upload
     await cancelItemUpload({
       id: itemId,
       owner: item.owner,
