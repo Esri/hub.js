@@ -18,8 +18,8 @@ export interface IFacet {
   state?: "open" | "closed";
   // Individual options for this Facet
   options?: IFacetOption[];
-  // Operation when combining options. Only applies to `multi-select` and defaults to "OR"
-  operation?: ("OR" | "AND")[];
+  // Operation when combining options.
+  operation?: "OR" | "AND";
   // Number of facet options to show by default. Only applies to `multi-select`, and defaults to all.
   optionLimit?: number;
 

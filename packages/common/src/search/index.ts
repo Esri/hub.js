@@ -9,3 +9,6 @@ export * from "./_searchUsers";
 export * from "./types";
 export * from "./collectionState";
 export * from "./convertCatalog";
+export * from "./hubSearch";
+export * from "./hubSearchItems";
+export * from "./hubSearchGroups";

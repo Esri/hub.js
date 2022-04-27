@@ -31,7 +31,8 @@ export type Filter<T extends FilterType> = IFilterTypeMap[T] & {
  * See [Filter](../Filter)
  */
 export interface IFilterTypeMap {
-  any: IAnyFilterDefinition;
+  // any: IAnyFilterDefinition;
+  item: IItemFilterDefinition;
   content: IContentFilterDefinition;
   user: IUserFilterDefinition;
   group: IGroupFilterDefinition;
@@ -39,26 +40,50 @@ export interface IFilterTypeMap {
 }
 export type FilterType = keyof IFilterTypeMap;
 
-/**
- * Common set of fields that are reasonable to apply at the
- * top level of a Catalog
- */
-export interface IAnyFilterDefinition {
-  title?: string | string[] | IMatchOptions;
+export interface IItemFilterDefinition {
   access?: string | string[] | IMatchOptions;
   owner?: string | string[] | IMatchOptions;
   tags?: string | string[] | IMatchOptions;
   created?: IDateRange<number> | IRelativeDate;
-  modified?: IDateRange<number> | IRelativeDate;
   description?: string | string[] | IMatchOptions;
+  snippet?: string | string[] | IMatchOptions;
   group?: string | string[] | IMatchOptions;
+  id?: string | string[] | IMatchOptions;
+  modified?: IDateRange<number> | IRelativeDate;
   orgid?: string | string[] | IMatchOptions;
+  term?: string;
+  title?: string | string[] | IMatchOptions;
   type?:
     | string
     | NamedContentFilter
     | Array<string | NamedContentFilter>
     | IMatchOptions;
+  typekeywords?: string | string[] | IMatchOptions;
+  // this allows arbitrary keys, which Hub api supports
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
 }
+
+/**
+ * Common set of fields that are reasonable to apply at the
+ * top level of a Catalog
+ */
+// export interface IAnyFilterDefinition {
+//   title?: string | string[] | IMatchOptions;
+//   access?: string | string[] | IMatchOptions;
+//   owner?: string | string[] | IMatchOptions;
+//   tags?: string | string[] | IMatchOptions;
+//   created?: IDateRange<number> | IRelativeDate;
+//   modified?: IDateRange<number> | IRelativeDate;
+//   description?: string | string[] | IMatchOptions;
+//   group?: string | string[] | IMatchOptions;
+//   orgid?: string | string[] | IMatchOptions;
+//   type?:
+//     | string
+//     | NamedContentFilter
+//     | Array<string | NamedContentFilter>
+//     | IMatchOptions;
+// }
 
 /**
  * Fields related to Content based searches

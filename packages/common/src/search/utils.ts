@@ -3,11 +3,8 @@
 
 import { IUser, UserSession } from "@esri/arcgis-rest-auth";
 import { IGroup, ISearchOptions } from "@esri/arcgis-rest-portal";
-import { getProp, setProp } from "../objects";
-import { updateSite } from "../sites";
 import { ISearchResponse } from "../types";
 import { cloneObject, unique } from "../util";
-import { ICollection, IFacet } from "./types";
 import {
   IMatchOptions,
   IDateRange,
@@ -15,10 +12,7 @@ import {
   IWellKnownApis,
   IApiDefinition,
   NamedApis,
-  ICollectionState,
-  IFacetState,
-  ISortOption,
-} from "./types/types";
+} from "./types";
 
 /**
  * Well known APIs

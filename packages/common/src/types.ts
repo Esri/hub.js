@@ -207,8 +207,13 @@ export type GeographyProvenance = "item" | "none" | "automatic";
  */
 export interface IHubGeography {
   center?: [number, number];
+  coverage?: "global" | "regional" | "local";
   geometry?: IGeometry;
   provenance?: GeographyProvenance;
+  /**
+   * feature layer + feature URL. e.g. "https://server.cityx.gov/FeatureService/0/53"
+   */
+  source?: string;
 }
 
 export type SearchableType = IItem | IGroup | IUser;
