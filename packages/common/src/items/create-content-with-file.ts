@@ -1,12 +1,14 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import {
+  addItemPart,
   cancelItemUpload,
   commitItemUpload,
   createItem,
+  ICreateItemResponse,
 } from "@esri/arcgis-rest-portal";
 import { IItemAdd } from "@esri/arcgis-rest-types";
 import { cloneObject } from "../util";
-import { _multiThreadUpload } from "./_internal/_multi-thread-upload";
+import { batch } from "../utils";
 import { _prepareUploadRequests } from "./_internal/_prepare-upload-requests";
 
 /**
@@ -21,7 +23,7 @@ import { _prepareUploadRequests } from "./_internal/_prepare-upload-requests";
 export async function createContentWithFile(
   item: IItemAdd,
   requestOptions: IUserRequestOptions
-): Promise<string> {
+): Promise<ICreateItemResponse> {
   // Make a copy of the file
   const file: any = cloneObject(item.file);
   //  and remove the file object so
@@ -29,7 +31,7 @@ export async function createContentWithFile(
   delete item.file;
 
   // Create the item in online so we have an id
-  const createResult = await createItem({
+  const createResult: ICreateItemResponse = await createItem({
     item,
     filename: file.name,
     async: true,
@@ -54,7 +56,23 @@ export async function createContentWithFile(
       requestOptions
     );
     // execute up to 5 concurrent requests
-    await _multiThreadUpload(uploadQueue, 5);
+    await batch(
+      uploadQueue,
+      // We are doing this to catch individual response failures
+      // and throwing them to stop further xhr's
+      async (opts) => {
+        try {
+          const resp = await addItemPart(opts);
+          // If the response did not return with success then throw an error
+          if (!resp.success) {
+            throw new Error("addItemPart failed");
+          }
+        } catch (error) {
+          throw error;
+        }
+      },
+      5
+    );
 
     // Commit is called once all parts are uploaded during a multipart add item or update item operation.
     await commitItemUpload({
@@ -74,5 +92,5 @@ export async function createContentWithFile(
     throw e;
   }
 
-  return itemId;
+  return createResult;
 }

@@ -19,7 +19,7 @@ describe("_waitForItemReady", () => {
       spyOn(portal, "getItemStatus").and.returnValues(
         new Promise((resolve, reject) => {
           resolve({
-            status: "progress",
+            status: "partial",
           });
         }),
         new Promise((resolve, reject) => {
@@ -46,16 +46,23 @@ describe("_waitForItemReady", () => {
         },
       } as IUserRequestOptions;
 
-      spyOn(portal, "getItemStatus").and.callFake(async () => {
-        return Promise.resolve({
-          status: "failed",
-          statusMessage: "Upload failed",
-        });
-      });
+      spyOn(portal, "getItemStatus").and.returnValues(
+        new Promise((resolve, reject) => {
+          resolve({
+            status: "partial",
+          });
+        }),
+        new Promise((resolve, reject) => {
+          resolve({
+            status: "failed",
+            statusMessage: "Upload failed",
+          });
+        })
+      );
 
       await _waitForItemReady("1234abc", ro);
       await delay(100);
-      expect(portal.getItemStatus).toHaveBeenCalledTimes(1);
+      expect(portal.getItemStatus).toHaveBeenCalledTimes(2);
     } catch (err) {
       expect(err.message).toEqual("Upload failed");
     } finally {

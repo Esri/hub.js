@@ -28,11 +28,15 @@ describe("createContent", () => {
     const createContentWithFileSpy = spyOn(
       createContentWithFileModule,
       "createContentWithFile"
-    ).and.returnValue(Promise.resolve("123abc"));
+    ).and.returnValue(
+      Promise.resolve({ id: "123abc", success: true, folder: "test" })
+    );
     const createContentWithUrlSpy = spyOn(
       createContentWithUrlModule,
       "createContentWithUrl"
-    ).and.returnValue(Promise.resolve("123abc"));
+    ).and.returnValue(
+      Promise.resolve({ id: "123abc", success: true, folder: "test" })
+    );
     const _waitForItemReadySpy = spyOn(
       _waitForItemReadyModule,
       "_waitForItemReady"
@@ -43,7 +47,7 @@ describe("createContent", () => {
 
     const result = await createContent(item, ro);
 
-    expect(result).toBe("123abc");
+    expect(result).toEqual({ id: "123abc", success: true, folder: "test" });
     expect(createContentWithFileSpy).not.toHaveBeenCalled();
     expect(createContentWithUrlSpy).toHaveBeenCalledTimes(1);
     expect(_waitForItemReadySpy).toHaveBeenCalledTimes(1);
@@ -69,11 +73,15 @@ describe("createContent", () => {
     const createContentWithFileSpy = spyOn(
       createContentWithFileModule,
       "createContentWithFile"
-    ).and.returnValue(Promise.resolve("123abc"));
+    ).and.returnValue(
+      Promise.resolve({ id: "123abc", success: true, folder: "test" })
+    );
     const createContentWithUrlSpy = spyOn(
       createContentWithUrlModule,
       "createContentWithUrl"
-    ).and.returnValue(Promise.resolve("123abc"));
+    ).and.returnValue(
+      Promise.resolve({ id: "123abc", success: true, folder: "test" })
+    );
     const _waitForItemReadySpy = spyOn(
       _waitForItemReadyModule,
       "_waitForItemReady"
@@ -84,7 +92,7 @@ describe("createContent", () => {
 
     const result = await createContent(item, ro);
 
-    expect(result).toBe("123abc");
+    expect(result).toEqual({ id: "123abc", success: true, folder: "test" });
     expect(createContentWithFileSpy).not.toHaveBeenCalled();
     expect(createContentWithUrlSpy).toHaveBeenCalledTimes(1);
     expect(_waitForItemReadySpy).not.toHaveBeenCalled();
@@ -114,11 +122,15 @@ describe("createContent", () => {
     const createContentWithFileSpy = spyOn(
       createContentWithFileModule,
       "createContentWithFile"
-    ).and.returnValue(Promise.resolve("123abc"));
+    ).and.returnValue(
+      Promise.resolve({ id: "123abc", success: true, folder: "test" })
+    );
     const createContentWithUrlSpy = spyOn(
       createContentWithUrlModule,
       "createContentWithUrl"
-    ).and.returnValue(Promise.resolve("123abc"));
+    ).and.returnValue(
+      Promise.resolve({ id: "123abc", success: true, folder: "test" })
+    );
     const _waitForItemReadySpy = spyOn(
       _waitForItemReadyModule,
       "_waitForItemReady"
@@ -129,7 +141,7 @@ describe("createContent", () => {
 
     const result = await createContent(item, ro);
 
-    expect(result).toBe("123abc");
+    expect(result).toEqual({ id: "123abc", success: true, folder: "test" });
     expect(createContentWithFileSpy).toHaveBeenCalledTimes(1);
     expect(createContentWithUrlSpy).not.toHaveBeenCalled();
     expect(_waitForItemReadySpy).toHaveBeenCalledTimes(1);

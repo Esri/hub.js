@@ -1,5 +1,5 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { createItem } from "@esri/arcgis-rest-portal";
+import { createItem, ICreateItemResponse } from "@esri/arcgis-rest-portal";
 import { IItemAdd } from "@esri/arcgis-rest-types";
 
 /**
@@ -13,9 +13,9 @@ import { IItemAdd } from "@esri/arcgis-rest-types";
 export async function createContentWithUrl(
   item: IItemAdd,
   requestOptions: IUserRequestOptions
-): Promise<string> {
+): Promise<ICreateItemResponse> {
   // Fire off createItem call
-  const createResult = await createItem({
+  const createResult: ICreateItemResponse = await createItem({
     item,
     owner: item.owner,
     file: item.file,
@@ -26,5 +26,5 @@ export async function createContentWithUrl(
     ...requestOptions,
   });
   // return the newly created item id
-  return createResult.id;
+  return createResult;
 }

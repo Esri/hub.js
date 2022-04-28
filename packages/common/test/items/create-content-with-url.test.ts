@@ -5,7 +5,7 @@ import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 describe("createContentWithUrl", () => {
   it("Properly calls createItem", async () => {
     const createItemSpy = spyOn(portal, "createItem").and.returnValue(
-      Promise.resolve({ success: true, id: "123abc" })
+      Promise.resolve({ id: "123abc", success: true, folder: "test" })
     );
     const ro = {
       authentication: {
@@ -21,7 +21,7 @@ describe("createContentWithUrl", () => {
       async: false,
     };
     const result = await createContentWithUrl(item, ro);
-    expect(result).toBe("123abc");
+    expect(result).toEqual({ id: "123abc", success: true, folder: "test" });
     expect(createItemSpy.calls.count()).toBe(1);
   });
 });
