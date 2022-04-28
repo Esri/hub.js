@@ -10,7 +10,7 @@ import { IItemAdd } from "@esri/arcgis-rest-types";
  * @param {IUserRequestOptions} requestOptions
  * @return {*}  {Promise<string>} Newly created item ID
  */
-export async function createContentWithUrl(
+export async function createItemFromUrl(
   item: IItemAdd,
   requestOptions: IUserRequestOptions
 ): Promise<ICreateItemResponse> {

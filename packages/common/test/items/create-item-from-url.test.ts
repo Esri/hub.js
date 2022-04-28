@@ -1,4 +1,4 @@
-import { createContentWithUrl } from "../../src/items/create-content-with-url";
+import { createItemFromUrl } from "../../src/items/create-item-from-url";
 import * as portal from "@esri/arcgis-rest-portal";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
@@ -20,7 +20,7 @@ describe("createContentWithUrl", () => {
       text: "This is a test",
       async: false,
     };
-    const result = await createContentWithUrl(item, ro);
+    const result = await createItemFromUrl(item, ro);
     expect(result).toEqual({ id: "123abc", success: true, folder: "test" });
     expect(createItemSpy.calls.count()).toBe(1);
   });

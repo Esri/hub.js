@@ -20,7 +20,7 @@ import { _prepareUploadRequests } from "./_internal/_prepare-upload-requests";
  * @param {IUserRequestOptions} requestOptions
  * @return {*}  {Promise<string>} Newly created item id
  */
-export async function createContentWithFile(
+export async function createItemFromFile(
   item: IItemAdd,
   requestOptions: IUserRequestOptions
 ): Promise<ICreateItemResponse> {
@@ -61,14 +61,10 @@ export async function createContentWithFile(
       // We are doing this to catch individual response failures
       // and throwing them to stop further xhr's
       async (opts) => {
-        try {
-          const resp = await addItemPart(opts);
-          // If the response did not return with success then throw an error
-          if (!resp.success) {
-            throw new Error("addItemPart failed");
-          }
-        } catch (error) {
-          throw error;
+        const resp = await addItemPart(opts);
+        // If the response did not return with success then throw an error
+        if (!resp.success) {
+          throw new Error("addItemPart failed");
         }
       },
       5

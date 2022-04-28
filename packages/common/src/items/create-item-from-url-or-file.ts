@@ -1,8 +1,8 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { ICreateItemResponse, setItemAccess } from "@esri/arcgis-rest-portal";
 import { IItemAdd } from "@esri/arcgis-rest-types";
-import { createContentWithFile } from "./create-content-with-file";
-import { createContentWithUrl } from "./create-content-with-url";
+import { createItemFromFile } from "./create-item-from-file";
+import { createItemFromUrl } from "./create-item-from-url";
 import { _waitForItemReady } from "./_internal/_wait-for-item-ready";
 
 /**
@@ -15,7 +15,7 @@ import { _waitForItemReady } from "./_internal/_wait-for-item-ready";
  * @param {IUserRequestOptions} requestOptions
  * @return {*}  {Promise<string>} AGO item id
  */
-export async function createContent(
+export async function createItemFromUrlOrFile(
   item: IItemAdd,
   requestOptions: IUserRequestOptions
 ): Promise<ICreateItemResponse> {
@@ -26,10 +26,10 @@ export async function createContent(
   // If there is a file then we create the item and chunk the file
   // while multithread uploading it
   if (item.file) {
-    createdItem = await createContentWithFile(item, requestOptions);
+    createdItem = await createItemFromFile(item, requestOptions);
     // Otherwise it's being created from a url.
   } else {
-    createdItem = await createContentWithUrl(item, requestOptions);
+    createdItem = await createItemFromUrl(item, requestOptions);
   }
 
   // If there is a file or data url we want to check to see if / when the item is ready.

@@ -1,8 +1,8 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { IItemAdd } from "@esri/arcgis-rest-types";
-import { createContent } from "../../src/items/create-content";
-import * as createContentWithFileModule from "../../src/items/create-content-with-file";
-import * as createContentWithUrlModule from "../../src/items/create-content-with-url";
+import { createItemFromUrlOrFile } from "../../src/items/create-item-from-url-or-file";
+import * as createItemFromFileModule from "../../src/items/create-item-from-file";
+import * as createItemFromUrlModule from "../../src/items/create-item-from-url";
 import * as _waitForItemReadyModule from "../../src/items/_internal/_wait-for-item-ready";
 import * as portal from "@esri/arcgis-rest-portal";
 
@@ -25,15 +25,15 @@ describe("createContent", () => {
       access: "org",
     } as IItemAdd;
 
-    const createContentWithFileSpy = spyOn(
-      createContentWithFileModule,
-      "createContentWithFile"
+    const createItemFromFileSpy = spyOn(
+      createItemFromFileModule,
+      "createItemFromFile"
     ).and.returnValue(
       Promise.resolve({ id: "123abc", success: true, folder: "test" })
     );
-    const createContentWithUrlSpy = spyOn(
-      createContentWithUrlModule,
-      "createContentWithUrl"
+    const createItemFromUrlSpy = spyOn(
+      createItemFromUrlModule,
+      "createItemFromUrl"
     ).and.returnValue(
       Promise.resolve({ id: "123abc", success: true, folder: "test" })
     );
@@ -45,11 +45,11 @@ describe("createContent", () => {
       Promise.resolve()
     );
 
-    const result = await createContent(item, ro);
+    const result = await createItemFromUrlOrFile(item, ro);
 
     expect(result).toEqual({ id: "123abc", success: true, folder: "test" });
-    expect(createContentWithFileSpy).not.toHaveBeenCalled();
-    expect(createContentWithUrlSpy).toHaveBeenCalledTimes(1);
+    expect(createItemFromFileSpy).not.toHaveBeenCalled();
+    expect(createItemFromUrlSpy).toHaveBeenCalledTimes(1);
     expect(_waitForItemReadySpy).toHaveBeenCalledTimes(1);
     expect(setItemAccessSpy).toHaveBeenCalledTimes(1);
   });
@@ -70,15 +70,15 @@ describe("createContent", () => {
       access: "org",
     } as IItemAdd;
 
-    const createContentWithFileSpy = spyOn(
-      createContentWithFileModule,
-      "createContentWithFile"
+    const createItemFromFileSpy = spyOn(
+      createItemFromFileModule,
+      "createItemFromFile"
     ).and.returnValue(
       Promise.resolve({ id: "123abc", success: true, folder: "test" })
     );
-    const createContentWithUrlSpy = spyOn(
-      createContentWithUrlModule,
-      "createContentWithUrl"
+    const createItemFromUrlSpy = spyOn(
+      createItemFromUrlModule,
+      "createItemFromUrl"
     ).and.returnValue(
       Promise.resolve({ id: "123abc", success: true, folder: "test" })
     );
@@ -90,11 +90,11 @@ describe("createContent", () => {
       Promise.resolve()
     );
 
-    const result = await createContent(item, ro);
+    const result = await createItemFromUrlOrFile(item, ro);
 
     expect(result).toEqual({ id: "123abc", success: true, folder: "test" });
-    expect(createContentWithFileSpy).not.toHaveBeenCalled();
-    expect(createContentWithUrlSpy).toHaveBeenCalledTimes(1);
+    expect(createItemFromFileSpy).not.toHaveBeenCalled();
+    expect(createItemFromUrlSpy).toHaveBeenCalledTimes(1);
     expect(_waitForItemReadySpy).not.toHaveBeenCalled();
     expect(setItemAccessSpy).toHaveBeenCalledTimes(1);
   });
@@ -119,15 +119,15 @@ describe("createContent", () => {
       access: "private",
     } as IItemAdd;
 
-    const createContentWithFileSpy = spyOn(
-      createContentWithFileModule,
-      "createContentWithFile"
+    const createItemFromFileSpy = spyOn(
+      createItemFromFileModule,
+      "createItemFromFile"
     ).and.returnValue(
       Promise.resolve({ id: "123abc", success: true, folder: "test" })
     );
-    const createContentWithUrlSpy = spyOn(
-      createContentWithUrlModule,
-      "createContentWithUrl"
+    const createItemFromUrlSpy = spyOn(
+      createItemFromUrlModule,
+      "createItemFromUrl"
     ).and.returnValue(
       Promise.resolve({ id: "123abc", success: true, folder: "test" })
     );
@@ -139,11 +139,11 @@ describe("createContent", () => {
       Promise.resolve()
     );
 
-    const result = await createContent(item, ro);
+    const result = await createItemFromUrlOrFile(item, ro);
 
     expect(result).toEqual({ id: "123abc", success: true, folder: "test" });
-    expect(createContentWithFileSpy).toHaveBeenCalledTimes(1);
-    expect(createContentWithUrlSpy).not.toHaveBeenCalled();
+    expect(createItemFromFileSpy).toHaveBeenCalledTimes(1);
+    expect(createItemFromUrlSpy).not.toHaveBeenCalled();
     expect(_waitForItemReadySpy).toHaveBeenCalledTimes(1);
     expect(setItemAccessSpy).not.toHaveBeenCalled();
   });

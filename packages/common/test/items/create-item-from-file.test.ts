@@ -1,10 +1,10 @@
-import { createContentWithFile } from "../../src/items/create-content-with-file";
+import { createItemFromFile } from "../../src/items/create-item-from-file";
 import * as portal from "@esri/arcgis-rest-portal";
 import * as _prepareUploadRequestsModule from "../../src/items/_internal/_prepare-upload-requests";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { IItemAdd } from "@esri/arcgis-rest-types";
 
-describe("createContentWithFile", () => {
+describe("createItemFromFile", () => {
   if (typeof Blob !== "undefined") {
     it("Properly creates item", async () => {
       // request options
@@ -42,7 +42,7 @@ describe("createContentWithFile", () => {
         _prepareUploadRequestsModule,
         "_prepareUploadRequests"
       ).and.returnValue([{}, {}, {}]);
-      const result = await createContentWithFile(item, ro);
+      const result = await createItemFromFile(item, ro);
       expect(result).toEqual({ id: "123abc", success: true, folder: "test" });
       expect(addItemPartSpy).toHaveBeenCalledTimes(3);
       expect(createItemSpy).toHaveBeenCalledTimes(1);
@@ -88,7 +88,7 @@ describe("createContentWithFile", () => {
         "_prepareUploadRequests"
       ).and.returnValue([{}, {}, {}]);
       try {
-        const result = await createContentWithFile(item, ro);
+        const result = await createItemFromFile(item, ro);
         expect(addItemPartSpy).toHaveBeenCalledTimes(3);
         expect(createItemSpy).toHaveBeenCalledTimes(1);
         expect(commitItemUploadSpy).not.toHaveBeenCalled();
@@ -135,7 +135,7 @@ describe("createContentWithFile", () => {
         "_prepareUploadRequests"
       ).and.returnValue([{}, {}, {}]);
       try {
-        const result = await createContentWithFile(item, ro);
+        const result = await createItemFromFile(item, ro);
         expect(addItemPartSpy).toHaveBeenCalledTimes(3);
         expect(createItemSpy).toHaveBeenCalledTimes(1);
         expect(commitItemUploadSpy).not.toHaveBeenCalled();
