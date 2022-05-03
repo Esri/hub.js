@@ -18,13 +18,13 @@ export interface IFacet {
   state?: "open" | "closed";
   // Individual options for this Facet
   options?: IFacetOption[];
-  // Operation when combining options. Only applies to `multi-select` and defaults to "OR"
-  operation?: ("OR" | "AND")[];
+  // Operation when combining the filter options
+  operation?: "OR" | "AND";
   // Number of facet options to show by default. Only applies to `multi-select`, and defaults to all.
   optionLimit?: number;
 
   // DEPRECATE
   accordionClosed?: boolean; // -> state: "closed"
-  type?: "single-select" | "multi-select" | "date-range" | "histogram"; //-> display
+  type?: "single-select" | "multi-select" | "date-range" | "histogram"; // -> display
   pageSize?: number;
 }

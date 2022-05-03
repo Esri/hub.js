@@ -1,3 +1,4 @@
+import { IFilter } from "./IFilter";
 import { Filter, FilterType } from "./types";
 
 // Facet Options shown in the UI
@@ -11,9 +12,11 @@ export interface IFacetOption {
   count?: number;
   // is this option selected when the UI loads
   selected: boolean;
-  // Filter to be applied when this option is selected
-  filter: Filter<FilterType>;
+  // DEPRECATED Filter to be applied when this option is selected
+  filter?: Filter<FilterType>;
 
-  // DEPRECATED
-  // value?: any;
+  /**
+   * Filters which implement the needed logic
+   */
+  filters?: IFilter[];
 }
