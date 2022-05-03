@@ -2,6 +2,60 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { IHubContent, IModel } from "../..";
 import { IFacet } from "./IFacet";
 
+export interface IFilter {
+  access?: string | string[] | IMatchOptions;
+  created?: IDateRange<number> | IRelativeDate;
+  description?: string | string[] | IMatchOptions;
+  disabled?: boolean;
+  email?: string | string[] | IMatchOptions;
+  firstname?: string | string[] | IMatchOptions;
+  fullname?: string | string[] | IMatchOptions;
+  group?: string | string[] | IMatchOptions;
+  groups?: string | string[] | IMatchOptions;
+  id?: string | string[] | IMatchOptions;
+  isInvitationOnly?: boolean;
+  lastlogin?: IDateRange<number> | IRelativeDate;
+  lastname?: string | string[] | IMatchOptions;
+  modified?: IDateRange<number> | IRelativeDate;
+  orgid?: string | string[] | IMatchOptions;
+  owner?: string | string[] | IMatchOptions;
+  role?: string | string[] | IMatchOptions;
+  searchUserAccess?: "groupMember";
+  snippet?: string | string[] | IMatchOptions;
+  tags?: string | string[] | IMatchOptions;
+  term?: string;
+  title?: string | string[] | IMatchOptions;
+  typekeywords?: string | string[] | IMatchOptions;
+  userlicensetype?: string | string[] | IMatchOptions;
+  username?: string | string[] | IMatchOptions;
+  // TODO: re-implement tupe specif
+  type?:
+    | string
+    | NamedContentFilter
+    | Array<string | NamedContentFilter>
+    | IMatchOptions;
+  // this allows arbitrary keys; Future use
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
+}
+
+export interface IFilterGroup {
+  operation?: "AND" | "OR";
+  filters: IFilter[];
+}
+
+export interface IHubApiSearchRequest {
+  q: string | IFilterGroup[];
+  options: IHubApiSearchOptions;
+}
+
+export interface IHubApiSearchOptions {
+  num: number;
+  start: number;
+  sortField?: string;
+  sortOrder?: "asc" | "desc";
+}
+
 /**
  * Generic filter used with various search functions.
  *

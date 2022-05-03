@@ -2,10 +2,12 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { IGroup, ISearchOptions } from "@esri/arcgis-rest-portal";
 import {
   expandGroupFilter,
+  mergeGroupFilters,
   serializeGroupFilterForPortal,
 } from "./group-utils";
 import {
   Filter,
+  IFilterBlock,
   IHubSearchOptions,
   IHubSearchResponse,
   IHubSearchResult,
@@ -14,16 +16,15 @@ import { expandApi, getGroupThumbnailUrl, getNextFunction } from "./utils";
 import { searchGroups as portalGroupSearch } from "@esri/arcgis-rest-portal";
 
 export function hubSearchGroups(
-  filter: Filter<"group">,
+  filters: IFilterBlock<"group">[],
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
-  // expand filter so we can serialize to either api
-  const expanded = expandGroupFilter(filter);
-
   // API
   const api = expandApi(options.api || "arcgis");
 
   if (api.type === "arcgis") {
+    const filter = mergeGroupFilters(filters);
+    const expanded = expandGroupFilter(filter);
     const so = serializeGroupFilterForPortal(expanded);
 
     // Array of properties we want to copy from IHubSearchOptions

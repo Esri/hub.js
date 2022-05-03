@@ -7,6 +7,7 @@ import { getItemThumbnailUrl } from "../resources";
 import {
   convertPortalResponseToFacets,
   expandContentFilter,
+  mergeContentFilter,
   serializeContentFilterForPortal,
 } from "./content-utils";
 import {
@@ -14,7 +15,9 @@ import {
   IContentSearchResult,
   IFacet,
   IFacetOption,
+  IFilterBlock,
   IHubSearchOptions,
+  IHubApiSearchRequest,
   IHubSearchResponse,
   IHubSearchResult,
   IMatchOptions,
@@ -22,21 +25,22 @@ import {
 import { expandApi, getNextFunction } from "./utils";
 
 export function hubSearchItems(
-  filter: Filter<"item">,
+  filters: IFilterBlock<"item">[],
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
   // hulk-smash the filter into a Filter<"content"> so we can use existing functions
-  const contentFilter = filter as unknown as Filter<"content">;
-
-  const expanded = expandContentFilter(contentFilter);
-
+  const contentFilters = filters as unknown as Filter<"content">[];
   // API
   const api = expandApi(options.api || "arcgis");
 
   let searchPromise;
   // Portal Search
   if (api.type === "arcgis") {
-    // serialize for portal
+    // Merge
+    const contentFilter = mergeContentFilter(contentFilters);
+    // Expand
+    const expanded = expandContentFilter(contentFilter);
+    // Serialize for portal
     const so = serializeContentFilterForPortal(expanded);
 
     // Array of properties we want to copy from IHubSearchOptions
@@ -70,7 +74,7 @@ export function hubSearchItems(
     searchPromise = searchPortal(so);
   } else {
     // Hub API Search
-    return searchHub(filter, options);
+    return searchHub(filters, options);
   }
   return searchPromise;
 }
@@ -82,21 +86,13 @@ export function hubSearchItems(
  * @returns
  */
 async function searchHub(
-  filter: Filter<"item">,
+  filters: IFilterBlock<"item">[],
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
   const api = expandApi(options.api || "hub");
 
-  // SUPER SIMPLE TERM QUERY
-  // TODO: Serialize filters into Hub request format
-  let query = {
-    q: {
-      filters: {
-        term: {
-          any: [filter.term],
-        },
-      },
-    },
+  let searchRequest: IHubApiSearchRequest = {
+    q: filters,
     options: {
       num: options.num || 10,
       start: options.start || 1,
@@ -113,14 +109,14 @@ async function searchHub(
         num: options.aggLimit || 10,
       },
     ];
-    setProp("aggregations", aggs, query.options);
+    setProp("aggregations", aggs, searchRequest.options);
   }
   if (options.authentication) {
     const session = {
       token: options.authentication.token,
       portal: options.authentication.portal,
     };
-    setProp("session", session, query.options);
+    setProp("session", session, searchRequest.options);
   }
 
   const opts: RequestInit = {
@@ -130,7 +126,7 @@ async function searchHub(
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(query),
+    body: JSON.stringify(searchRequest),
   };
 
   try {

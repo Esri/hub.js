@@ -3,6 +3,7 @@ import { hubSearchItems } from "./hubSearchItems";
 import {
   Filter,
   FilterType,
+  IFilterBlock,
   IHubSearchOptions,
   IHubSearchResponse,
   IHubSearchResult,
@@ -10,20 +11,22 @@ import {
 import { _searchContent } from "./_searchContent";
 
 export function hubSearch(
-  filter: Filter<FilterType>,
+  filters: IFilterBlock<FilterType>[],
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
   let prms;
-  switch (filter.filterType) {
+  // get the type of the first filter
+  const f = filters[0];
+  switch (f.filterType) {
     case "item":
-      prms = hubSearchItems(filter as Filter<"item">, options);
+      prms = hubSearchItems(filters as IFilterBlock<"item">[], options);
       break;
     case "group":
-      prms = hubSearchGroups(filter as Filter<"group">, options);
+      prms = hubSearchGroups(filters as IFilterBlock<"group">[], options);
       break;
     default:
       // No-Op returning a fake HubSearchResponse
-      throw new Error(`hubSearch for ${filter.filterType} is not implemented`);
+      throw new Error(`hubSearch for ${f.filterType} is not implemented`);
   }
 
   return prms;
