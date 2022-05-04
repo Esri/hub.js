@@ -14,6 +14,8 @@
 
 # @esri/hub-content
 
+> DEPRECATED: This package has been deprecated. `getContent()` has been replaced by `fetchContent()` in `@esri/hub-common`, and all related functions such as `datasetToContent()` have moved to that package.
+
 > Module to interact with ArcGIS Hub Content in Node.js and modern browsers.
 
 ### Example
