@@ -14,8 +14,8 @@ export interface IHubEntityBase {
    */
   name: string;
   /**
-   * Simple summary of the Entity.
-   * For items, this is typically the `snippet` property.
+   * Sanitized summary derived from item.snippet, item.description,
+   * group.description, user.description, event.description etc
    */
   summary?: string;
   /**
@@ -23,11 +23,14 @@ export interface IHubEntityBase {
    */
   createdDate: Date;
   /**
-   * Source of the creation date
+   * Source of the creation date as a property path
+   * e.q `item.created`
    */
   createdDateSource: string;
   /**
-   * Date the entity was last updated
+   * Date when the entity was last updated
+   * Depending on the entity, this could be derived
+   * in many different ways
    */
   updatedDate: Date;
   /**
@@ -35,7 +38,8 @@ export interface IHubEntityBase {
    */
   updatedDateSource: string;
   /**
-   * Type of entity
+   * For Item backed results, this will be `item.type`
+   * Otherwise it will be "Group", "User", "Event" etc
    */
   type: string;
 }

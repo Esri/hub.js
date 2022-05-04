@@ -1,3 +1,4 @@
+import { AccessLevel } from "../..";
 import { IMatchOptions, IDateRange, IRelativeDate } from "./types";
 
 /**
@@ -10,7 +11,7 @@ export interface IFilter {
   /**
    * Applies to Item and Group
    */
-  access?: string | string[] | IMatchOptions;
+  access?: AccessLevel | AccessLevel[] | IMatchOptions;
   /**
    * Applies to Item, Group and User
    */

@@ -18,8 +18,15 @@ export interface IFacet {
   state?: "open" | "closed";
   // Individual options for this Facet
   options?: IFacetOption[];
-  // Operation when combining the filter options
+  // Operation when combining the filter options.
+  // Implemetations should default to "OR" if not specified
   operation?: "OR" | "AND";
+  /**
+   * This is still needed so we can direct the
+   * search to the correct api
+   * TODO: remove optional at breaking change
+   */
+  filterType?: "item" | "group" | "user" | "event";
   // Number of facet options to show by default. Only applies to `multi-select`, and defaults to all.
   optionLimit?: number;
 
