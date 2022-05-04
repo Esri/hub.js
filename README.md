@@ -72,7 +72,6 @@ Some useful commands include:
 ### Packages
 
 - [`@esri/hub-common`](./packages/common) - Common TypeScript types and utility functions.
-- [`@esri/hub-content`](./packages/content) - Helper functions for working with Hub Content.
 - [`@esri/hub-discussions`](./packages/discussions) - Module to interact with ArcGIS Hub Discussions API
 - [`@esri/hub-downloads`](./packages/downloads) - Helper functions for working with downloads.
 - [`@esri/hub-events`](./packages/events) - Helper functions for working with Events.
@@ -87,6 +86,7 @@ Some useful commands include:
 - [`@esri/hub-annotations`](https://github.com/Esri/hub.js/tree/cee44463c5cbf616abdb7786551d72a7792bb3c4/packages/annotations) - Hub Annotations have been replaced with Hub Discussions, see [`@esri/hub-discussions`](./packages/discussions)
 - [`@esri/hub-auth`](https://github.com/Esri/hub.js/tree/v6.10.0/packages/auth) - moved to [`@esri/hub-common`](./packages/common)
 - [`@esri/hub-types`](https://github.com/Esri/hub.js/tree/v6.10.0/packages/types) - moved to [`@esri/hub-common`](./packages/common)
+- [`@esri/hub-content`](https://github.com/Esri/hub.js/tree/2379fbeb1672d059025c6efdc84b34b78ce23709/packages/content) - moved to [`@esri/hub-common`](./packages/common)
 
 ### Design Philosophy
 
