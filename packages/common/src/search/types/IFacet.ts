@@ -5,15 +5,23 @@ import { IFacetOption } from "./IFacetOption";
 
 export interface IFacet {
   // Translated label for the facet
-  label: string;
+  label?: string;
   // Unique key, used for query params and telemetry
-  key: string;
+  key?: string;
+  // DEPRECATE in favor of field
   // aggregate field for dyanmic facets
   aggField?: string;
+  // field to generate the facet from
+  field?: string;
   // limit of aggregates returned. Max 200
   aggLimit?: number;
   // Display for this facet. Not all facets will be compatible with all displays
-  display: "single-select" | "multi-select" | "date-range" | "histogram";
+  display?:
+    | "map"
+    | "single-select"
+    | "multi-select"
+    | "date-range"
+    | "histogram";
   // State of the Facet
   state?: "open" | "closed";
   // Individual options for this Facet

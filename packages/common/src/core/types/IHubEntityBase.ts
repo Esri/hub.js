@@ -42,4 +42,10 @@ export interface IHubEntityBase {
    * Otherwise it will be "Group", "User", "Event" etc
    */
   type: string;
+  /**
+   * Source of the entity.
+   * Exact logic for this tbd, but the intent is to allow the
+   * result to be attributed to something other than "owner"
+   */
+  source?: string;
 }

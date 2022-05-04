@@ -60,13 +60,7 @@ export interface IHubSearchResult extends IHubEntityBase {
    * Generic hash of type-specific properties
    * that will be shown in the results card
    */
-  metadata?: IMetaEntry[];
-  /**
-   * Source of the entity.
-   * Exact logic for this tbd, but the intent is to allow the
-   * result to be attributed to something other than "owner"
-   */
-  source?: string;
+  metadata?: IMetadataElement[];
 }
 
 /**
@@ -79,7 +73,7 @@ export interface IMetadataElement {
    */
   key: string;
   /**
-   * Value of the key
+   * Value of the field
    */
   value: number | string | Date;
   /**
