@@ -1,5 +1,5 @@
 import { IHubGeography } from "../..";
-import { AccessLevel, IHubEntityBase } from "../../core";
+import { AccessLevel, HubFamily, IHubEntityBase } from "../../core";
 
 /**
  * Standardized light-weight search result structure, applicable to all
@@ -12,10 +12,9 @@ export interface IHubSearchResult extends IHubEntityBase {
   access: AccessLevel;
 
   /**
-   * Hub Family: "dataset" | "map" | "document" | "content"
-   * TODO: Can we create a type for this?
+   * Hub Family
    */
-  family: string;
+  family: HubFamily;
 
   /**
    * Owner; Applies to Items and Groups
