@@ -60,7 +60,7 @@ export interface IHubSearchResult extends IHubEntityBase {
    * Generic hash of type-specific properties
    * that will be shown in the results card
    */
-  meta?: IMetaEntry[];
+  metadata?: IMetaEntry[];
   /**
    * Source of the entity.
    * Exact logic for this tbd, but the intent is to allow the
@@ -72,7 +72,7 @@ export interface IHubSearchResult extends IHubEntityBase {
 /**
  * Entry in the metadata hash
  */
-export interface IMetaEntry {
+export interface IMetadataElement {
   /**
    * Key that maps to the source of the information
    * i.e. `data.values.status`

@@ -1,6 +1,6 @@
 import { IFilter } from "./IFilter";
 import { IFilterGroup } from "./IFilterGroup";
-import { IHubApiSearchOptions } from "./IHubApiSearchOptions";
+import { IHubSearchOptions } from "./types";
 
 /**
  * Structure for making Hub API Search Requests
@@ -14,5 +14,5 @@ export interface IHubApiSearchRequest {
   /**
    * Search options like the number of results to return, sorting, aggregations etc
    */
-  options: IHubApiSearchOptions;
+  options: IHubSearchOptions;
 }
