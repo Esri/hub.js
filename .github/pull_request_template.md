@@ -4,8 +4,6 @@
 
 1. Closes Issues: #<number> (if appropriate)
 
-1. [ ] ran commit script (`npm run c`)
-
-_Note_ If you don't run the commit script at least once, the Semantic Pull Request check will fail. Save yourself some time, and run `npm run c` and follow the prompts.
-
-For more information see the README
+1. [ ] used semantic commit messages
+  
+1. [ ] PR title follows semantic commit format (**CRITICAL** if the title is not in a semantic format, the release automation will not run!)
