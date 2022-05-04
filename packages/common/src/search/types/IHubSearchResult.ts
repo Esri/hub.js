@@ -1,5 +1,5 @@
-import { IHubGeography } from "../..";
-import { AccessLevel, HubFamily, IHubEntityBase } from "../../core";
+import { HubFamily, IHubGeography } from "../..";
+import { AccessLevel, IHubEntityBase } from "../../core";
 
 /**
  * Standardized light-weight search result structure, applicable to all
