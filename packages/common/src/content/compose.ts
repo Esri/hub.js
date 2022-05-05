@@ -217,7 +217,7 @@ const getMetadataUpdatedDateInfo = (item: IItem, metadata?: any) => {
  * @returns content type icon
  */
 export const getContentTypeIcon = (contentType: string) => {
-  const type = camelize(contentType || "");
+  const type = camelize(contentType);
   const iconMap = {
     appbuilderExtension: "file",
     appbuilderWidgetPackage: "widgets-source",

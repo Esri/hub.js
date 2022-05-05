@@ -183,6 +183,8 @@ const getSolutionUrl = (
       // deployed solutions go to the generic content route
       hubUrl = `/content/${identifier}`;
     }
+    // TODO: I think this is a bug. The line below should be w/in else
+    // in order to avoid overwriting the above for deployed solutions, right?
     // others go to the solution about route
     hubUrl = `/templates/${identifier}/about`;
   }
