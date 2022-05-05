@@ -4,7 +4,7 @@ This demo is used to verify that ember-auto-import dynamic and static imports wo
 
 ## Running this demo
 
-1. Make sure you run `npm run bootstrap` in the monorepo root to setup the dependencies
+1. Make sure you run `npm run build` in the monorepo root to setup the dependencies
 1. cd into `demos/ember-app`
 1. Run `npm start`
 1. Load `http://localhost:4200/` in a web browser.
@@ -13,7 +13,7 @@ This demo is used to verify that ember-auto-import dynamic and static imports wo
 
 This demo can be used to verify that the Hub.js code that you are developing works in Ember. To run this demo in development mode, _from the root of the monorepo_:
 
-1. run `npm run bootstrap` (if you haven't already)
+1. run `npm run build` (if you haven't already)
 1. Run `npm run dev:ember`
 1. Load `http://localhost:4200/` in a web browser.
 
@@ -24,7 +24,7 @@ That will start watching code in the Hub.js packages that this demo depends on a
 To add Hub.js packages, you must:
 1. stop the server (if needed)
 1. add the package to this package's dependencies
-1. run `npm run bootstrap` in the monorepo root
+1. run `npm run build` in the monorepo root
 1. add the package to the `alias` and `watchDependencies` lists under the `autoImport` configuration in `ember-cli-build.js`
 1. update the `dev:ember` script in the `package.json` at the monorepo root to `run dev` in that package
 

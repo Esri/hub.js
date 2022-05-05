@@ -37,6 +37,7 @@ import {
   isDataSourceOfItem,
   getAdditionalResourceUrl,
   determineExtent,
+  getHubRelativeUrl,
 } from "../src/content/_internal";
 import { IModel } from "../src/types";
 import { getProxyUrl, IHubContent, IHubRequestOptions } from "../src";
@@ -681,6 +682,7 @@ describe("setContentType", () => {
   describe("Relative Urls", () => {
     // NOTE: these tests are just the most expedient way
     // to get coverage for getContentRelativeUrl() w/o exporting it
+    // TODO: we should really move most of these tests to the getHubRelativeUrl block below
     let content: IHubContent;
     beforeEach(() => {
       content = itemToContent(documentItem);
@@ -693,6 +695,15 @@ describe("setContentType", () => {
     });
     it("sets relative url for deployed solution", () => {
       content.typeKeywords.push("Deployed");
+      const updated = setContentType(content, "Solution");
+      expect(updated.urls.relative).toBe(
+        // TODO: I think this should actually be
+        // /content/${content.identifier}/
+        `/templates/${content.identifier}/about`
+      );
+    });
+    it("sets relative url for a solution", () => {
+      delete content.typeKeywords;
       const updated = setContentType(content, "Solution");
       expect(updated.urls.relative).toBe(
         `/templates/${content.identifier}/about`
@@ -941,6 +952,15 @@ describe("internal", () => {
       const item = { spatialReference } as unknown as IItem;
       const result = getItemSpatialReference(item);
       expect(result).toBeNull();
+    });
+  });
+
+  describe("getHubRelativeUrl", () => {
+    it("should handle a family that does not have a puralized route", () => {
+      const identifier = "a-slug";
+      // 'report template' should be in the 'content' family
+      const result = getHubRelativeUrl("report template", identifier);
+      expect(result).toBe(`/content/${identifier}`);
     });
   });
 });

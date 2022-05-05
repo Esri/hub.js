@@ -1,5 +1,5 @@
 import Route from '@ember/routing/route';
-import { getContent } from '@esri/hub-content';
+import { fetchContent } from '@esri/hub-common';
 
 export default class ContentRoute extends Route {
   async model () {
@@ -7,6 +7,6 @@ export default class ContentRoute extends Route {
     const id = 'e691172598f04ea8881cd2a4adaa45ba';
     // using portal in order to force lazy loading code to parse metadata xml
     const isPortal = true;
-    return await getContent(id, { isPortal });
+    return await fetchContent(id, { isPortal });
   }
 }

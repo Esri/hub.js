@@ -6,8 +6,7 @@ module.exports = {
   resolve: {
     alias: {
       // use the es2017 build of Hub.js packages
-      '@esri/hub-common': '@esri/hub-common/dist/es2017',
-      '@esri/hub-content': '@esri/hub-content/dist/es2017'
+      '@esri/hub-common': '@esri/hub-common/dist/es2017'
     }
   },
   output: {

@@ -438,11 +438,12 @@ export const getContentTypeLabel = (
 };
 
 /**
- * returns a new content that has the specified hubId and updated identifier
+ * DEPRECATED returns a new content that has the specified hubId and updated identifier
  * @param content orignal content
  * @param hubId new hubId
  * @returns new content
  */
+/* istanbul ignore next DEPRECATED and no longer in use */
 export const setContentHubId = (
   content: IHubContent,
   hubId: string
@@ -459,7 +460,7 @@ export const setContentHubId = (
 };
 
 /**
- * Calculates the relative and absolute urls for a given content on a specific site
+ * DEPRECATED: Calculates the relative and absolute urls for a given content on a specific site
  *
  * @param content
  * @param siteModel

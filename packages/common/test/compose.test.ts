@@ -3,6 +3,7 @@ import { IItem } from "@esri/arcgis-rest-portal";
 import {
   cloneObject,
   composeContent,
+  getPortalUrls,
   getProxyUrl,
   IHubRequestOptions,
 } from "../src";
@@ -475,5 +476,29 @@ describe("composeContent", () => {
     // NOTE: we may want to re-implement the tests in enrichments.test.ts
     // that were introduced in https://github.com/Esri/hub.js/pull/633
     // if we discover that those buggy items cause problems
+  });
+  describe("edge cases", () => {
+    it("should handle no item title", () => {
+      item = cloneObject(documentItem) as IItem;
+      delete item.title;
+      const content = composeContent(item);
+      expect(content.name).toBe("e2e.pdf");
+    });
+    it("should handle no item title/name", () => {
+      item = cloneObject(documentItem) as IItem;
+      delete item.title;
+      delete item.name;
+      const content = composeContent(item);
+      expect(content.name).toBe("");
+    });
+  });
+});
+
+describe("getPortalUrls", () => {
+  it("should handle authentication w/o token", () => {
+    // I'm not sure this is a valid scenario, but it was needed for coverage
+    const item = cloneObject(documentItem);
+    const result = getPortalUrls(item, { authentication: {} } as unknown);
+    expect(result.portalHome.indexOf("token")).toBe(-1);
   });
 });
