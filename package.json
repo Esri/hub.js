@@ -14,7 +14,8 @@
 		"packages/teams",
 		"packages/sites",
 		"packages/surveys",
-		"packages/search"
+		"packages/search",
+		"./demos/*"
 	],
 	"devDependencies": {
 		"@chiragrupani/karma-chromium-edge-launcher": "^2.0.0",
@@ -108,7 +109,7 @@
 		"clean:deps": "rm -rf node_modules && rm -rf packages/*/node_modules/",
 		"clean:dist": "rm -rf packages/*/dist/",
 		"clean": "npm run clean:dist & npm run clean:deps",
-		"dev:ember": "npm run dev -- esm \"@esri/hub-{common,content}\" & lerna run dev --scope ember-app --parallel",
+		"dev:ember": "npm run dev -- esm \"@esri/hub-common\" & lerna run dev --scope ember-app --parallel",
 		"dev": "support/dev.sh",
 		"docs:build:acetate": "ENV=prod acetate build --config docs/acetate.config.js",
 		"docs:build:css": "cpx \"docs/src/css/*.css\" docs/build/hub.js/css",

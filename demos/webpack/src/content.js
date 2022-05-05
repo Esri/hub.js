@@ -1,4 +1,4 @@
-import { getContent } from '@esri/hub-content';
+import { fetchContent } from '@esri/hub-common';
 
 function component(html) {
   const element = document.createElement('div');
@@ -13,7 +13,7 @@ function component(html) {
   const id = 'e691172598f04ea8881cd2a4adaa45ba';
   // using portal in order to force lazy loading code to parse metadata xml
   const isPortal = true;
-  const content = await getContent(id, { isPortal });
+  const content = await fetchContent(id, { isPortal });
 
   document.body.appendChild(component(content.title));
 })();

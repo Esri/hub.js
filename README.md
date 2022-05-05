@@ -51,7 +51,7 @@ The documentation is published at http://esri.github.io/hub.js/ (source code [he
 
 ### Instructions
 
-You can install dependencies (and bootstrap lerna) by cloning the repository and running:
+You can install dependencies by cloning the repository and running:
 
 ```bash
 npm install
