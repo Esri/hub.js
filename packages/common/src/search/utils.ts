@@ -385,7 +385,10 @@ export function serializeStringOrArray(
 ): string {
   let q = "";
   if (Array.isArray(value)) {
-    q = `(${key}:"${value.join(`" ${join} ${key}:"`)}")`;
+    q = `${key}:"${value.join(`" ${join} ${key}:"`)}"`;
+    if (value.length > 1) {
+      q = `(${q})`;
+    }
   } else {
     q = `${key}:"${value}"`;
   }

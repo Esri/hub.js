@@ -26,12 +26,24 @@ export type Filter<T extends FilterType> = IFilterTypeMap[T] & {
   filterType: T;
 };
 
+export interface IFilterGroup<T extends FilterType> {
+  operation?: "AND" | "OR";
+  filters: Array<Filter<T>>;
+}
+
 /**
  * Defines the valid FilterTypes for use with `Filter<T extends FilterType>`
  * See [Filter](../Filter)
  */
 export interface IFilterTypeMap {
+  item: IItemFilter;
+  /**
+   * DEPRECATED: Never used
+   */
   any: IAnyFilterDefinition;
+  /**
+   * DEPRECATED use item
+   */
   content: IContentFilterDefinition;
   user: IUserFilterDefinition;
   group: IGroupFilterDefinition;
@@ -92,10 +104,32 @@ export interface IContentFilterDefinition {
   subFilters?: Array<IContentFilterDefinition | NamedContentFilter>;
 }
 
+export interface IItemFilter {
+  access?: string | string[] | IMatchOptions;
+  owner?: string | string[] | IMatchOptions;
+  tags?: string | string[] | IMatchOptions;
+  created?: IDateRange<number> | IRelativeDate;
+  description?: string | string[] | IMatchOptions;
+  snippet?: string | string[] | IMatchOptions;
+  group?: string | string[] | IMatchOptions;
+  id?: string | string[] | IMatchOptions;
+  modified?: IDateRange<number> | IRelativeDate;
+  orgid?: string | string[] | IMatchOptions;
+  term?: string;
+  title?: string | string[] | IMatchOptions;
+  type?: string | string[] | IMatchOptions;
+  typekeywords?: string | string[] | IMatchOptions;
+  // this allows arbitrary keys, which Hub api supports
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
+}
+
 // This type is used internally to Hub.js and is the
 // "expanded" version of a ContentFilterDefinition
 // which can then be serialized into Portal or Hub queries
+// DEPRECATED: Use IItemFilter
 export interface IContentFilter {
+  // DEPRECATED: Use IItemFilter
   access?: IMatchOptions;
   created?: IDateRange<number>;
   description?: IMatchOptions;
@@ -115,6 +149,7 @@ export interface IContentFilter {
 }
 
 // Short-cut strings for `type`
+// TODO: Implement for IItem but simplify
 export interface IWellKnownContentFilters {
   $apps: IContentFilterDefinition[];
   $dashboard: IContentFilterDefinition[];
@@ -135,7 +170,7 @@ export interface IUserFilterDefinition {
   email?: string | string[] | IMatchOptions;
   firstname?: string | string[] | IMatchOptions;
   fullname?: string | string[] | IMatchOptions;
-  groups?: string | string[] | IMatchOptions;
+  // groups?: string | string[] | IMatchOptions;
   lastlogin?: IDateRange<number> | IRelativeDate;
   lastname?: string | string[] | IMatchOptions;
   modified?: IDateRange<number> | IRelativeDate;
