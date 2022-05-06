@@ -24,6 +24,7 @@ export interface IHubSearchResult extends IHubEntityBase {
   /**
    * Fully qualified thumbnail url for items, groups, users
    * Will not have the token appended. Consuming app needs to
+   * check the value of `access` and apply the token as needed
    */
   thumbnailUrl: string;
   /**
