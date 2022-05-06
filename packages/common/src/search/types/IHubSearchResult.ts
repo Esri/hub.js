@@ -41,14 +41,14 @@ export interface IHubSearchResult extends IHubEntityBase {
      * system so the full url can be computed
      */
     relative: string;
+
+    /**
+     * Allow for arbitrary other urls, including `.customUrl` which
+     * can ben generated client-side in the gallery via a callback
+     */
+    [key: string]: string;
   };
-  /**
-   * Used in the Gallery components, where a callback can be
-   * provided to compute a custom url for each result.
-   * Useful when using those components in a custom app and
-   * the routing is different from urls.siteRelativeUrl
-   */
-  customUrl?: string;
+
   /**
    * Geometry connected to this entity
    * For items, it will default to the extent,

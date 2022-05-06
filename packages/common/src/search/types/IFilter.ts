@@ -41,17 +41,13 @@ export interface IFilter {
    */
   group?: string | string[] | IMatchOptions;
   /**
-   * Applies to User
-   */
-  groups?: string | string[] | IMatchOptions;
-  /**
    * Applies to Item and Group
    */
   id?: string | string[] | IMatchOptions;
   /**
    * Applies to Group
    */
-  isInvitationOnly?: boolean;
+  isinvitationonly?: boolean;
   /**
    * Applies to User
    */
