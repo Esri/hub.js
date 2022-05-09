@@ -21,9 +21,7 @@ interface ICreateItemFromUrlOrFileOptions extends IUserRequestOptions {
  * If access is not private then we make a call to update that.
  *
  * @export
- * @param {IItemAdd} item Item to be uploaded into online
- * @param {string[]} groupIds Group ids for the item to be shared to.
- * @param {IUserRequestOptions} requestOptions
+ * @param {ICreateItemFromUrlOrFileOptions} createItemFromUrlOrFileOptions Input params (item, groups?, requestoptions)
  * @return {*}  {Promise<string>} AGO item id
  */
 export async function createItemFromUrlOrFile(
