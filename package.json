@@ -149,6 +149,7 @@
 		"y:publish": "lerna run y:publish",
 		"y:push": "lerna run y:push",
 		"release:dry": "multi-semantic-release --dry-run  --deps.release=inherit --ignore-private-packages --debug",
+    "prerelease": "npm config set workspaces-update false",
 		"release": "multi-semantic-release --deps.release=inherit --ignore-private-packages"
 	},
 	"husky": {
