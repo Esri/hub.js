@@ -1,3 +1,10 @@
+# @esri/hub-common [9.30.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.29.0...@esri/hub-common@9.30.0) (2022-05-09)
+
+
+### Features
+
+* **hub-common:** createItemFromUrlOrFile can also share created item to n groups ([e3c8dd9](https://github.com/Esri/hub.js/commit/e3c8dd9921ab832811f0118f6576a56854ea1757))
+
 # @esri/hub-common [9.29.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.28.0...@esri/hub-common@9.29.0) (2022-04-21)
 
 
