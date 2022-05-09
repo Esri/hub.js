@@ -39,7 +39,6 @@
     "@types/adlib": "^3.0.1",
     "rollup": "^2.26.5",
     "rollup-plugin-filesize": "^9.0.2",
-    "rollup-plugin-uglify": "^6.0.4",
     "typescript": "^3.8.1"
   },
   "scripts": {
