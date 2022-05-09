@@ -1,5 +1,9 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { ICreateItemResponse, setItemAccess } from "@esri/arcgis-rest-portal";
+import {
+  ICreateItemResponse,
+  setItemAccess,
+  shareItemWithGroup,
+} from "@esri/arcgis-rest-portal";
 import { IItemAdd } from "@esri/arcgis-rest-types";
 import { createItemFromFile } from "./create-item-from-file";
 import { createItemFromUrl } from "./create-item-from-url";
@@ -12,12 +16,14 @@ import { _waitForItemReady } from "./_internal/_wait-for-item-ready";
  *
  * @export
  * @param {IItemAdd} item Item to be uploaded into online
+ * @param {string[]} groupIds Group ids for the item to be shared to.
  * @param {IUserRequestOptions} requestOptions
  * @return {*}  {Promise<string>} AGO item id
  */
 export async function createItemFromUrlOrFile(
   item: IItemAdd,
-  requestOptions: IUserRequestOptions
+  requestOptions: IUserRequestOptions,
+  groupIds?: string[]
 ): Promise<ICreateItemResponse> {
   // Is there a file or data url?
   const shouldWaitForItemReady = item.dataUrl || item.file;
@@ -45,6 +51,18 @@ export async function createItemFromUrlOrFile(
       owner: item.owner,
       access: item.access,
       ...requestOptions,
+    });
+  }
+
+  // If group ids were passedd in then make share calls to each.
+  if (groupIds && groupIds.length) {
+    groupIds.forEach(async (groupId) => {
+      await shareItemWithGroup({
+        id: createdItem.id,
+        owner: item.owner,
+        groupId,
+        ...requestOptions,
+      });
     });
   }
 

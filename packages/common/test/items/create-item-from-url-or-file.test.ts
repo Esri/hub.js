@@ -44,14 +44,24 @@ describe("createContent", () => {
     const setItemAccessSpy = spyOn(portal, "setItemAccess").and.callFake(() =>
       Promise.resolve()
     );
+    const shareItemWithGroupSpy = spyOn(
+      portal,
+      "shareItemWithGroup"
+    ).and.callFake(() => Promise.resolve());
 
-    const result = await createItemFromUrlOrFile(item, ro);
+    const result = await createItemFromUrlOrFile(item, ro, [
+      "123",
+      "abc",
+      "456",
+      "def",
+    ]);
 
     expect(result).toEqual({ id: "123abc", success: true, folder: "test" });
     expect(createItemFromFileSpy).not.toHaveBeenCalled();
     expect(createItemFromUrlSpy).toHaveBeenCalledTimes(1);
     expect(_waitForItemReadySpy).toHaveBeenCalledTimes(1);
     expect(setItemAccessSpy).toHaveBeenCalledTimes(1);
+    expect(shareItemWithGroupSpy).toHaveBeenCalledTimes(4);
   });
   it("creates an item from url without dataUrl", async () => {
     // request options
@@ -89,14 +99,19 @@ describe("createContent", () => {
     const setItemAccessSpy = spyOn(portal, "setItemAccess").and.callFake(() =>
       Promise.resolve()
     );
+    const shareItemWithGroupSpy = spyOn(
+      portal,
+      "shareItemWithGroup"
+    ).and.callFake(() => Promise.resolve());
 
-    const result = await createItemFromUrlOrFile(item, ro);
+    const result = await createItemFromUrlOrFile(item, ro, []);
 
     expect(result).toEqual({ id: "123abc", success: true, folder: "test" });
     expect(createItemFromFileSpy).not.toHaveBeenCalled();
     expect(createItemFromUrlSpy).toHaveBeenCalledTimes(1);
     expect(_waitForItemReadySpy).not.toHaveBeenCalled();
     expect(setItemAccessSpy).toHaveBeenCalledTimes(1);
+    expect(shareItemWithGroupSpy).not.toHaveBeenCalled();
   });
   it("creates an item from file", async () => {
     // request options
