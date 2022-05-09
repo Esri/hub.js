@@ -1,12 +1,12 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { IItemAdd } from "@esri/arcgis-rest-types";
+import { IGroup, IItemAdd } from "@esri/arcgis-rest-types";
 import { createItemFromUrlOrFile } from "../../src/items/create-item-from-url-or-file";
 import * as createItemFromFileModule from "../../src/items/create-item-from-file";
 import * as createItemFromUrlModule from "../../src/items/create-item-from-url";
 import * as _waitForItemReadyModule from "../../src/items/_internal/_wait-for-item-ready";
 import * as portal from "@esri/arcgis-rest-portal";
 
-describe("createContent", () => {
+describe("createItemFromUrlOrFile", () => {
   it("creates an item from url", async () => {
     // request options
     const ro = {
@@ -49,12 +49,16 @@ describe("createContent", () => {
       "shareItemWithGroup"
     ).and.callFake(() => Promise.resolve());
 
-    const result = await createItemFromUrlOrFile(item, ro, [
-      "123",
-      "abc",
-      "456",
-      "def",
-    ]);
+    const result = await createItemFromUrlOrFile({
+      item,
+      groups: [
+        { id: "123", capabilities: ["updateitemcontrol"] } as unknown as IGroup,
+        { id: "abc", capabilities: [] } as unknown as IGroup,
+        { id: "456", capabilities: [] } as unknown as IGroup,
+        { id: "def", capabilities: [] } as unknown as IGroup,
+      ],
+      ...ro,
+    });
 
     expect(result).toEqual({ id: "123abc", success: true, folder: "test" });
     expect(createItemFromFileSpy).not.toHaveBeenCalled();
@@ -104,7 +108,7 @@ describe("createContent", () => {
       "shareItemWithGroup"
     ).and.callFake(() => Promise.resolve());
 
-    const result = await createItemFromUrlOrFile(item, ro, []);
+    const result = await createItemFromUrlOrFile({ item, groups: [], ...ro });
 
     expect(result).toEqual({ id: "123abc", success: true, folder: "test" });
     expect(createItemFromFileSpy).not.toHaveBeenCalled();
@@ -154,7 +158,7 @@ describe("createContent", () => {
       Promise.resolve()
     );
 
-    const result = await createItemFromUrlOrFile(item, ro);
+    const result = await createItemFromUrlOrFile({ item, ...ro });
 
     expect(result).toEqual({ id: "123abc", success: true, folder: "test" });
     expect(createItemFromFileSpy).toHaveBeenCalledTimes(1);
