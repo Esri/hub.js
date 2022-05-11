@@ -7,6 +7,7 @@ import {
 import {
   getAllLayersAndTables,
   getService,
+  parseServiceUrl,
 } from "@esri/arcgis-rest-feature-layer";
 import { IItemEnrichments, IServerEnrichments } from "../core";
 import { IEnrichmentErrorInfo, IHubRequestOptions } from "../types";
@@ -147,7 +148,7 @@ const enrichServer = (
 ): Promise<IPipeable<IItemAndEnrichments>> => {
   const { data, stack, requestOptions } = input;
   const opId = stack.start("enrichServer");
-  const url = data.item.url;
+  const url = parseServiceUrl(data.item.url);
   const options = {
     ...requestOptions,
     url,
