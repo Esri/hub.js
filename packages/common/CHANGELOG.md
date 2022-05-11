@@ -1,3 +1,10 @@
+## @esri/hub-common [9.30.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.30.0...@esri/hub-common@9.30.1) (2022-05-11)
+
+
+### Bug Fixes
+
+* **hub-common:** fix issue where enrichServer was actually fetching the layer for reference layer it ([b11dcb4](https://github.com/Esri/hub.js/commit/b11dcb447a0e93165921fddc7a7ef486044144e9))
+
 # @esri/hub-common [9.30.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.29.0...@esri/hub-common@9.30.0) (2022-05-09)
 
 
