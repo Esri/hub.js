@@ -78,6 +78,16 @@ describe("_enrichments", () => {
         const result = await fetchItemEnrichments(item, ["server"]);
         expect(result.server).toEqual(server);
       });
+      it("removes /:layer from url", async () => {
+        fetchMock.once("*", {});
+        const serviceRootUrl =
+          "https://servicesqa.arcgis.com/Xj56SBi2udA78cC9/arcgis/rest/services/survey123_a5db32e043f14f6a9edfec7075288df6/FeatureServer";
+        await fetchItemEnrichments({ ...item, url: `${serviceRootUrl}/5` }, [
+          "server",
+        ]);
+        expect(fetchMock.calls().length).toEqual(1);
+        expect(fetchMock.lastUrl()).toEqual(serviceRootUrl);
+      });
       it("handles errors", async () => {
         fetchMock.once("*", 404);
         const result = await fetchItemEnrichments(item, ["server"]);
