@@ -19,7 +19,7 @@ export interface IHubSearchResult extends IHubEntityBase {
   /**
    * Owner; Applies to Items and Groups
    */
-  owner: string;
+  owner?: string;
 
   /**
    * Fully qualified thumbnail url for items, groups, users
