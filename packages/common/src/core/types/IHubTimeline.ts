@@ -14,7 +14,7 @@ export interface IHubStage {
   /**
    * Stage identifier
    */
-  id: number;
+  order: number;
   /**
    * Stage Title
    */
@@ -38,8 +38,6 @@ export interface IHubStage {
   icon: string;
 
   // TODO: These should likely be removed as they are not
-  // specific to the Stage itself, but rather the edit UI
-  isEditing: boolean; // render editing ui for a stage
-  leadingElement: boolean; // indicates if the move-up button should be disabled
-  trailingElement: boolean; // indicates if the move-down button should be disabled
+  // specific to the Stage itself, but rather the edit UI and never persists
+  isEditing?: boolean; // render editing ui for a stage
 }
