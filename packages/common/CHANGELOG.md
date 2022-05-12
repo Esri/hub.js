@@ -1,3 +1,10 @@
+# @esri/hub-common [9.31.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.30.1...@esri/hub-common@9.31.0) (2022-05-12)
+
+
+### Features
+
+* **hub-common:** export createItemFromUrlOrFile ([#789](https://github.com/Esri/hub.js/issues/789)) ([6f30beb](https://github.com/Esri/hub.js/commit/6f30beb41c8917a5e9e4b9c432908e57bb9655f0))
+
 ## @esri/hub-common [9.30.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.30.0...@esri/hub-common@9.30.1) (2022-05-11)
 
 
