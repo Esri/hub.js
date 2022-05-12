@@ -1,3 +1,10 @@
+## @esri/hub-common [9.31.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.31.0...@esri/hub-common@9.31.1) (2022-05-12)
+
+
+### Bug Fixes
+
+* **hub-common:** createItemFromFile properly copies file / handles object mutation ([#790](https://github.com/Esri/hub.js/issues/790)) ([3ecfc1a](https://github.com/Esri/hub.js/commit/3ecfc1a19e52faba4980e4ce93eafcc6e523da51))
+
 # @esri/hub-common [9.31.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.30.1...@esri/hub-common@9.31.0) (2022-05-12)
 
 
