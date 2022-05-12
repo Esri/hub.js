@@ -1,3 +1,11 @@
+## @esri/hub-common [9.31.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.31.2...@esri/hub-common@9.31.3) (2022-05-12)
+
+
+### Bug Fixes
+
+* **hub-common:** remove leadingElement and trailingElement and make isEditing optional ([60d2a74](https://github.com/Esri/hub.js/commit/60d2a740656dff5f9bfcde1417115937189a371c))
+* **hub-common:** use key as the stage identifier ([e0d2cbd](https://github.com/Esri/hub.js/commit/e0d2cbd23465bfc42283f7b4675e36ab6e736d14))
+
 ## @esri/hub-common [9.31.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.31.1...@esri/hub-common@9.31.2) (2022-05-12)
 
 
