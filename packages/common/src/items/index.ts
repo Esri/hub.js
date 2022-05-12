@@ -17,3 +17,6 @@ export * from "./slugs";
 export * from "./normalize-solution-template-item";
 export * from "./setItemThumbnail";
 export * from "./registerBrowserApp";
+export * from "./create-item-from-file";
+export * from "./create-item-from-url";
+export * from "./create-item-from-url-or-file";
