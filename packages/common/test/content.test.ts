@@ -467,6 +467,10 @@ describe("get item family", () => {
   it("returns content for collection other", () => {
     expect(getFamily("360 VR Experience")).toBe("content");
   });
+  // DEPRECATED: remove this test at the next breaking chagne
+  it("should handle falsey values", () => {
+    expect(getFamily()).toBeUndefined();
+  });
 });
 
 describe("get item hub type", () => {

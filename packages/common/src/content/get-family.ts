@@ -15,11 +15,13 @@ function collectionToFamily(collection: string): string {
  * @param type item type
  * @returns Hub family
  */
-export function getFamily(type: string) {
+export function getFamily(type?: string) {
   let family;
   // override default behavior for the rows that are highlighted in yellow here:
   // https://esriis.sharepoint.com/:x:/r/sites/ArcGISHub/_layouts/15/Doc.aspx?sourcedoc=%7BADA1C9DC-4F6C-4DE4-92C6-693EF9571CFA%7D&file=Hub%20Routes.xlsx&nav=MTBfe0VENEREQzI4LUZFMDctNEI0Ri04NjcyLThCQUE2MTA0MEZGRn1fezIwMTIwMEJFLTA4MEQtNEExRC05QzA4LTE5MTAzOUQwMEE1RH0&action=default&mobileredirect=true&cid=df1c874b-c367-4cea-bc13-7bebfad3f2ac
-  switch (type.toLowerCase()) {
+  // DEPRECATED: we should make type a required parameter
+  // and just do type.toLowerCase() at the next breaking change
+  switch ((type || "").toLowerCase()) {
     case "image service":
       family = "dataset";
       break;
