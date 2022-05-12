@@ -57,44 +57,11 @@ export interface IHubSearchResult extends IHubEntityBase {
    * or the extent of a layer
    */
   geometry?: IHubGeography;
-  /**
-   * Generic hash of type-specific properties
-   * that will be shown in the results card
-   */
-  metadata?: IMetadataElement[];
-}
 
-/**
- * Entry in the metadata hash
- */
-export interface IMetadataElement {
   /**
-   * Key that maps to the source of the information
-   * i.e. `data.values.status`
+   * Optional metadata hash
+   * Any specified enrichments will be attached in here, as well
+   * as tags, typekeywords and culture
    */
-  key: string;
-  /**
-   * Value of the field
-   */
-  value: number | string | Date;
-  /**
-   * Optional Label that will be displayed in the UI
-   * If not provided, the UI will attempt to use the
-   * key to look up a translated string. If not found
-   * the key will be displayed.
-   * This also supports future customization of meta information
-   * allowing customers to specify a label
-   */
-  label?: string;
-  /**
-   * Optional formatting information. This is a placeholder
-   * that will allow future customization of how values
-   * are displayed via the Intl formatting functions for
-   * currencies, dates etc. If not provided, the UI layer
-   * will apply default localization based on the value type
-   * string: display value as-is
-   * number: default localization via `Intl.NumberFormat()`
-   * Date: default localization via `Intl.DateTimeFormat()`
-   */
-  format?: Record<string, any>;
+  metadata?: Record<string, any>;
 }

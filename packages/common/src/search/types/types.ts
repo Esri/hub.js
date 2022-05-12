@@ -1,5 +1,5 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { IHubContent, IModel, AccessLevel } from "../..";
+import { IHubContent, AccessLevel } from "../..";
 import { IFacet } from "./IFacet";
 
 /**
@@ -257,26 +257,6 @@ export interface IMatchOptions {
    * be used with that parameter
    */
   exact?: string | string[];
-}
-
-/**
- * Search Options
- */
-export interface IHubSearchOptions {
-  site?: IModel;
-  authentication?: UserSession;
-  sortField?: string;
-  sortOrder?: "desc" | "asc";
-  page?: string;
-  start?: number;
-  num?: number;
-  aggFields?: string[];
-  aggLimit?: number;
-  bbox?: string;
-  fields?: string;
-  api?: NamedApis | IApiDefinition;
-  // DEPRECATION
-  aggregations?: string[];
 }
 
 /**

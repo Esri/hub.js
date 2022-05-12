@@ -1,6 +1,7 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { Filter, IHubSearchOptions } from "../../search/types/types";
+import { Filter } from "../../search/types/types";
+import { IHubSearchOptions } from "../../search/types/IHubSearchOptions";
 import { ISearchResponse } from "../../types";
 
 /**

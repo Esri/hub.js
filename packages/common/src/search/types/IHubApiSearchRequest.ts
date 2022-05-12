@@ -1,4 +1,5 @@
-import { Filter, IHubSearchOptions, IFilterGroup, FilterType } from "./types";
+import { Filter, IFilterGroup, FilterType } from "./types";
+import { IHubSearchOptions } from "./IHubSearchOptions";
 
 /**
  * Structure for making Hub API Search Requests
