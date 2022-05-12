@@ -7,7 +7,6 @@ import {
   ICreateItemResponse,
 } from "@esri/arcgis-rest-portal";
 import { IItemAdd } from "@esri/arcgis-rest-types";
-import { cloneObject } from "../util";
 import { batch } from "../utils";
 import { _prepareUploadRequests } from "./_internal/_prepare-upload-requests";
 
@@ -24,10 +23,13 @@ export async function createItemFromFile(
   item: IItemAdd,
   requestOptions: IUserRequestOptions
 ): Promise<ICreateItemResponse> {
-  // Make a copy of the file
-  const file: any = cloneObject(item.file);
-  //  and remove the file object so
-  // that it won't trigger the direct upload at the createContent request
+  // Grab a reference to the file.
+  const file: any = item.file;
+
+  // make a shadow copy of the item parameter and remove the file object
+  // so that it won't trigger the direct upload at the createContent
+  // request
+  item = Object.assign({}, item);
   delete item.file;
 
   // Create the item in online so we have an id
