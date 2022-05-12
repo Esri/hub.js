@@ -1,3 +1,10 @@
+## @esri/hub-common [9.31.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.31.1...@esri/hub-common@9.31.2) (2022-05-12)
+
+
+### Bug Fixes
+
+* **hub-common:** revert unintended breaking change: getFamily() requires type ([97d0e12](https://github.com/Esri/hub.js/commit/97d0e12566a99de14e1887109293ce91e1d24f0a))
+
 ## @esri/hub-common [9.31.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.31.0...@esri/hub-common@9.31.1) (2022-05-12)
 
 
