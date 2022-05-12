@@ -14,7 +14,7 @@ export interface IHubStage {
   /**
    * Stage identifier
    */
-  order: number;
+  key: number;
   /**
    * Stage Title
    */
