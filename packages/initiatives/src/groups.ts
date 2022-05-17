@@ -7,7 +7,7 @@ import {
   searchGroups,
   removeGroup,
   unprotectGroup,
-  IUserGroupOptions
+  IUserGroupOptions,
 } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
@@ -34,7 +34,7 @@ export function createInitiativeGroup(
     description,
     access: "org",
     sortField: "title",
-    sortOrder: "asc"
+    sortOrder: "asc",
   } as any;
 
   if (options.isOpenData) {
@@ -52,7 +52,7 @@ export function createInitiativeGroup(
 
   const createOpts = {
     group,
-    ...requestOptions
+    ...requestOptions,
   };
 
   // The protect call does not return the groupId, but we need to return it
@@ -66,7 +66,7 @@ export function createInitiativeGroup(
       // protect it
       const protectOpts = {
         id: groupId,
-        ...requestOptions
+        ...requestOptions,
       } as IUserGroupOptions;
       return protectGroup(protectOpts);
     })
@@ -90,13 +90,13 @@ export function removeInitiativeGroup(
 ): Promise<any> {
   const opts = {
     id,
-    ...requestOptions
+    ...requestOptions,
   } as IUserGroupOptions;
   return unprotectGroup(opts).then(
     () => {
       return removeGroup(opts);
     },
-    ex => {
+    (ex) => {
       // check if the failure is b/c the group does not exist...
       if (ex.messageCode === "COM_0003" && ex.code === 400) {
         return Promise.resolve({ success: true });
@@ -122,13 +122,14 @@ export function checkGroupExists(
   requestOptions: IRequestOptions
 ): Promise<any> {
   const options = {
-    q: `("${title}") AND orgid: ${orgId}`,
-    ...requestOptions
+    q: `(orgid: ${orgId}`,
+    filter: `title:"${title}"`,
+    ...requestOptions,
   };
 
   return searchGroups(options).then((response: any) => {
     const result = {
-      exists: false
+      exists: false,
     } as any;
     if (response.total > 0) {
       result.exists = true;
@@ -158,15 +159,17 @@ export function getUniqueGroupName(
   if (step) {
     proposedName = `${title} - ${step}`;
   }
-  return checkGroupExists(proposedName, orgId, requestOptions).then(result => {
-    if (result.exists) {
-      // increment the step...
-      step = step + 1;
-      return getUniqueGroupName(title, orgId, step, requestOptions);
-    } else {
-      return proposedName;
+  return checkGroupExists(proposedName, orgId, requestOptions).then(
+    (result) => {
+      if (result.exists) {
+        // increment the step...
+        step = step + 1;
+        return getUniqueGroupName(title, orgId, step, requestOptions);
+      } else {
+        return proposedName;
+      }
     }
-  });
+  );
 }
 
 export function isSharedEditingGroup(group: any): boolean {

@@ -7,7 +7,7 @@ import {
   ISearchOptions,
   ISearchResult,
   ICreateGroupOptions,
-  IUserGroupOptions
+  IUserGroupOptions,
 } from "@esri/arcgis-rest-portal";
 import { MOCK_REQUEST_OPTIONS } from "./mocks/fake-session";
 import {
@@ -15,7 +15,7 @@ import {
   isSharedEditingGroup,
   createInitiativeGroup,
   getUniqueGroupName,
-  removeInitiativeGroup
+  removeInitiativeGroup,
 } from "../src/groups";
 
 const fakeGroup = {
@@ -32,7 +32,7 @@ const fakeGroup = {
   isFav: false,
   isViewOnly: false,
   autoJoin: true,
-  access: "public"
+  access: "public",
 } as IGroup;
 
 describe("Initiative Groups ::", () => {
@@ -52,13 +52,13 @@ describe("Initiative Groups ::", () => {
   });
 
   describe("createInitiativeGroup ::", () => {
-    it("should create and protect a generic group", done => {
+    it("should create and protect a generic group", (done) => {
       return createInitiativeGroup(
         "generic group",
         "generic description",
         {},
         MOCK_REQUEST_OPTIONS
-      ).then(res => {
+      ).then((res) => {
         expect(createGroupSpy.calls.count()).toEqual(
           1,
           "should make one call to createGroup"
@@ -77,13 +77,13 @@ describe("Initiative Groups ::", () => {
         done();
       });
     });
-    it("should create and protect an Open Data group", done => {
+    it("should create and protect an Open Data group", (done) => {
       return createInitiativeGroup(
         "od group",
         "od description",
         { isOpenData: true },
         MOCK_REQUEST_OPTIONS
-      ).then(res => {
+      ).then((res) => {
         expect(createGroupSpy.calls.count()).toEqual(
           1,
           "should make one call to createGroup"
@@ -106,13 +106,13 @@ describe("Initiative Groups ::", () => {
         done();
       });
     });
-    it("should create and protect a collaboration group", done => {
+    it("should create and protect a collaboration group", (done) => {
       return createInitiativeGroup(
         "generic group",
         "generic description",
         { isSharedEditing: true },
         MOCK_REQUEST_OPTIONS
-      ).then(res => {
+      ).then((res) => {
         expect(createGroupSpy.calls.count()).toEqual(
           1,
           "should make one call to createGroup"
@@ -156,14 +156,14 @@ describe("Initiative Groups ::", () => {
         }
       );
     });
-    it("unprotects and removes the group", done => {
+    it("unprotects and removes the group", (done) => {
       unprotectGroupSpy = spyOn(portal, "unprotectGroup").and.callFake(
         (opts: IUserGroupOptions) => {
           return Promise.resolve({ success: true, id: "3ef" });
         }
       );
       return removeInitiativeGroup("BZ7426", MOCK_REQUEST_OPTIONS).then(
-        result => {
+        (result) => {
           expect(result.success).toBeTruthy();
           expect(unprotectGroupSpy.calls.count()).toEqual(1);
           expect(removeGroupSpy.calls.count()).toEqual(1);
@@ -171,14 +171,14 @@ describe("Initiative Groups ::", () => {
         }
       );
     });
-    it("returns success if group does not exist", done => {
+    it("returns success if group does not exist", (done) => {
       unprotectGroupSpy = spyOn(portal, "unprotectGroup").and.callFake(
         (opts: IUserGroupOptions) => {
           return Promise.reject({ code: 400, messageCode: "COM_0003" });
         }
       );
       return removeInitiativeGroup("BZ7426", MOCK_REQUEST_OPTIONS).then(
-        result => {
+        (result) => {
           expect(result.success).toBeTruthy();
           expect(unprotectGroupSpy.calls.count()).toEqual(1);
           expect(removeGroupSpy.calls.count()).toEqual(0);
@@ -186,21 +186,23 @@ describe("Initiative Groups ::", () => {
         }
       );
     });
-    it("throws on some other error", done => {
+    it("throws on some other error", (done) => {
       unprotectGroupSpy = spyOn(portal, "unprotectGroup").and.callFake(
         (opts: IUserGroupOptions) => {
           return Promise.reject({ code: 502, messageCode: "WAT" });
         }
       );
-      return removeInitiativeGroup("BZ7426", MOCK_REQUEST_OPTIONS).catch(ex => {
-        expect(ex.messageCode).toEqual("WAT");
-        done();
-      });
+      return removeInitiativeGroup("BZ7426", MOCK_REQUEST_OPTIONS).catch(
+        (ex) => {
+          expect(ex.messageCode).toEqual("WAT");
+          done();
+        }
+      );
     });
   });
 
   describe("checkGroupExists ::", () => {
-    it("returns true and the group if it exists", done => {
+    it("returns true and the group if it exists", (done) => {
       const searchSpy = spyOn(portal, "searchGroups").and.callFake(
         (opts: ISearchOptions) => {
           const res = {
@@ -209,7 +211,7 @@ describe("Initiative Groups ::", () => {
             total: 1,
             start: 1,
             num: 1,
-            nextStart: -1
+            nextStart: -1,
           } as ISearchResult<IGroup>;
           return Promise.resolve(res);
         }
@@ -232,7 +234,7 @@ describe("Initiative Groups ::", () => {
         done();
       });
     });
-    it("returns false if group does not exist", done => {
+    it("returns false if group does not exist", (done) => {
       const searchSpy = spyOn(portal, "searchGroups").and.callFake(
         (opts: ISearchOptions) => {
           const res = {
@@ -241,7 +243,7 @@ describe("Initiative Groups ::", () => {
             total: 0,
             start: 0,
             num: 0,
-            nextStart: -1
+            nextStart: -1,
           } as ISearchResult<IGroup>;
           return Promise.resolve(res);
         }
@@ -263,7 +265,7 @@ describe("Initiative Groups ::", () => {
   });
 
   describe("getUniqueGroupName ::", () => {
-    it("return original name of no group exists", done => {
+    it("return original name of no group exists", (done) => {
       const searchSpy = spyOn(portal, "searchGroups").and.callFake(
         (opts: ISearchOptions) => {
           const res = {
@@ -272,7 +274,7 @@ describe("Initiative Groups ::", () => {
             total: 0,
             start: 0,
             num: 0,
-            nextStart: -1
+            nextStart: -1,
           } as ISearchResult<IGroup>;
           return Promise.resolve(res);
         }
@@ -291,7 +293,7 @@ describe("Initiative Groups ::", () => {
         done();
       });
     });
-    it("append a number to original name if group exists", done => {
+    it("append a number to original name if group exists", (done) => {
       const searchSpy = spyOn(portal, "searchGroups").and.callFake(
         (opts: ISearchOptions) => {
           const res = {
@@ -300,12 +302,12 @@ describe("Initiative Groups ::", () => {
             total: 0,
             start: 0,
             num: 0,
-            nextStart: -1
+            nextStart: -1,
           } as ISearchResult<IGroup>;
           // if this is the first call w/ a specific name
           // we want to fake the response to show the group
           // does exist
-          if (opts.q === '("foo bar baz") AND orgid: BZ7426') {
+          if (opts.filter === `title:\"foo bar baz\"`) {
             res.total = 1;
             res.results.push({} as IGroup);
           }
@@ -332,7 +334,7 @@ describe("Initiative Groups ::", () => {
     it("should check for sharedEditing correctly", () => {
       expect(
         isSharedEditingGroup({
-          capabilities: ["foo", "updateitemcontrol", "lala"]
+          capabilities: ["foo", "updateitemcontrol", "lala"],
         })
       ).toBeTruthy();
       expect(
