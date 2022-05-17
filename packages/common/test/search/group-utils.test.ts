@@ -76,7 +76,7 @@ describe("group-utils:", () => {
         };
         const chk = serializeGroupFilterForPortal(f);
         expect(chk.q).toBe(
-          `((((owner:"dbouwman_dc") AND (typekeywords:"one" OR typekeywords:"two")) AND created:[10 TO 100]) AND modified:[2 TO 8])`
+          `(((owner:"dbouwman_dc" AND (typekeywords:"one" OR typekeywords:"two")) AND created:[10 TO 100]) AND modified:[2 TO 8])`
         );
       });
       it("creates q", () => {
@@ -88,7 +88,7 @@ describe("group-utils:", () => {
           searchUserAccess: "groupMember",
         };
         const chk = serializeGroupFilterForPortal(f);
-        expect(chk.q).toBe(`(typekeywords:"Hub Content Group")`);
+        expect(chk.q).toBe(`typekeywords:"Hub Content Group"`);
         expect(chk.searchUserAccess).toBe("groupMember");
       });
     });

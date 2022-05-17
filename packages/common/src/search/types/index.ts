@@ -5,4 +5,5 @@ export * from "./IFacetOption";
 export * from "./IHubApiSearchRequest";
 export * from "./IHubSearchOptions";
 export * from "./IHubSearchResult";
+export * from "./IHubSearchResponse";
 export * from "./types";

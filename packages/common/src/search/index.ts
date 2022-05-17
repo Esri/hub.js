@@ -9,3 +9,4 @@ export * from "./_searchUsers";
 export * from "./types";
 export * from "./collectionState";
 export * from "./convertCatalog";
+export * from "./filter-utils";
