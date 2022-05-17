@@ -1,5 +1,5 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { IHubContent, IModel } from "../..";
+import { IHubContent, AccessLevel } from "../..";
 import { IFacet } from "./IFacet";
 
 /**
@@ -27,11 +27,21 @@ export type Filter<T extends FilterType> = IFilterTypeMap[T] & {
 };
 
 /**
+ * Groups of filters with an operation specifying how the
+ * filters should be connected when serialized
+ */
+export interface IFilterGroup<T extends FilterType> {
+  operation?: "AND" | "OR";
+  filters: Array<Filter<T>>;
+}
+
+/**
  * Defines the valid FilterTypes for use with `Filter<T extends FilterType>`
  * See [Filter](../Filter)
  */
 export interface IFilterTypeMap {
-  any: IAnyFilterDefinition;
+  // any: IAnyFilterDefinition;
+  item: IItemFilter;
   content: IContentFilterDefinition;
   user: IUserFilterDefinition;
   group: IGroupFilterDefinition;
@@ -43,21 +53,41 @@ export type FilterType = keyof IFilterTypeMap;
  * Common set of fields that are reasonable to apply at the
  * top level of a Catalog
  */
-export interface IAnyFilterDefinition {
-  title?: string | string[] | IMatchOptions;
-  access?: string | string[] | IMatchOptions;
+// export interface IAnyFilterDefinition {
+//   title?: string | string[] | IMatchOptions;
+//   access?: string | string[] | IMatchOptions;
+//   owner?: string | string[] | IMatchOptions;
+//   tags?: string | string[] | IMatchOptions;
+//   created?: IDateRange<number> | IRelativeDate;
+//   modified?: IDateRange<number> | IRelativeDate;
+//   description?: string | string[] | IMatchOptions;
+//   group?: string | string[] | IMatchOptions;
+//   orgid?: string | string[] | IMatchOptions;
+//   type?:
+//     | string
+//     | NamedContentFilter
+//     | Array<string | NamedContentFilter>
+//     | IMatchOptions;
+// }
+
+export interface IItemFilter {
+  access?: AccessLevel | AccessLevel[] | IMatchOptions;
   owner?: string | string[] | IMatchOptions;
   tags?: string | string[] | IMatchOptions;
   created?: IDateRange<number> | IRelativeDate;
-  modified?: IDateRange<number> | IRelativeDate;
   description?: string | string[] | IMatchOptions;
+  snippet?: string | string[] | IMatchOptions;
   group?: string | string[] | IMatchOptions;
+  id?: string | string[] | IMatchOptions;
+  modified?: IDateRange<number> | IRelativeDate;
   orgid?: string | string[] | IMatchOptions;
-  type?:
-    | string
-    | NamedContentFilter
-    | Array<string | NamedContentFilter>
-    | IMatchOptions;
+  term?: string;
+  title?: string | string[] | IMatchOptions;
+  type?: string | string[] | IMatchOptions;
+  typekeywords?: string | string[] | IMatchOptions;
+  // this allows arbitrary keys, which Hub api supports
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
 }
 
 /**
@@ -227,26 +257,6 @@ export interface IMatchOptions {
    * be used with that parameter
    */
   exact?: string | string[];
-}
-
-/**
- * Search Options
- */
-export interface IHubSearchOptions {
-  site?: IModel;
-  authentication?: UserSession;
-  sortField?: string;
-  sortOrder?: "desc" | "asc";
-  page?: string;
-  start?: number;
-  num?: number;
-  aggFields?: string[];
-  aggLimit?: number;
-  bbox?: string;
-  fields?: string;
-  api?: NamedApis | IApiDefinition;
-  // DEPRECATION
-  aggregations?: string[];
 }
 
 /**
