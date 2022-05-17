@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-initiatives",
-  "version": "9.32.0",
+  "version": "9.32.1",
   "description": "Module to interact with ArcGIS Hub Initiatives in Node.js and modern browsers.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/initiatives.umd.js",

@@ -1,3 +1,10 @@
+## @esri/hub-initiatives [9.32.1](https://github.com/Esri/hub.js/compare/@esri/hub-initiatives@9.32.0...@esri/hub-initiatives@9.32.1) (2022-05-17)
+
+
+### Bug Fixes
+
+* **hub-initiatives:** filter group search by title ([964c503](https://github.com/Esri/hub.js/commit/964c503e1710d533751e59fb95e1f20fad72597e))
+
 # @esri/hub-initiatives [9.32.0](https://github.com/Esri/hub.js/compare/@esri/hub-initiatives@9.31.3...@esri/hub-initiatives@9.32.0) (2022-05-17)
 
 
