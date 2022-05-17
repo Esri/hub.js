@@ -1,5 +1,5 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { IHubContent, IModel } from "../..";
+import { IHubContent, AccessLevel } from "../..";
 import { IFacet } from "./IFacet";
 
 /**
@@ -26,6 +26,10 @@ export type Filter<T extends FilterType> = IFilterTypeMap[T] & {
   filterType: T;
 };
 
+/**
+ * Groups of filters with an operation specifying how the
+ * filters should be connected when serialized
+ */
 export interface IFilterGroup<T extends FilterType> {
   operation?: "AND" | "OR";
   filters: Array<Filter<T>>;
@@ -37,13 +41,6 @@ export interface IFilterGroup<T extends FilterType> {
  */
 export interface IFilterTypeMap {
   item: IItemFilter;
-  /**
-   * DEPRECATED: Never used
-   */
-  any: IAnyFilterDefinition;
-  /**
-   * DEPRECATED use item
-   */
   content: IContentFilterDefinition;
   user: IUserFilterDefinition;
   group: IGroupFilterDefinition;
@@ -55,21 +52,41 @@ export type FilterType = keyof IFilterTypeMap;
  * Common set of fields that are reasonable to apply at the
  * top level of a Catalog
  */
-export interface IAnyFilterDefinition {
-  title?: string | string[] | IMatchOptions;
-  access?: string | string[] | IMatchOptions;
+// export interface IAnyFilterDefinition {
+//   title?: string | string[] | IMatchOptions;
+//   access?: string | string[] | IMatchOptions;
+//   owner?: string | string[] | IMatchOptions;
+//   tags?: string | string[] | IMatchOptions;
+//   created?: IDateRange<number> | IRelativeDate;
+//   modified?: IDateRange<number> | IRelativeDate;
+//   description?: string | string[] | IMatchOptions;
+//   group?: string | string[] | IMatchOptions;
+//   orgid?: string | string[] | IMatchOptions;
+//   type?:
+//     | string
+//     | NamedContentFilter
+//     | Array<string | NamedContentFilter>
+//     | IMatchOptions;
+// }
+
+export interface IItemFilter {
+  access?: AccessLevel | AccessLevel[] | IMatchOptions;
   owner?: string | string[] | IMatchOptions;
   tags?: string | string[] | IMatchOptions;
   created?: IDateRange<number> | IRelativeDate;
-  modified?: IDateRange<number> | IRelativeDate;
   description?: string | string[] | IMatchOptions;
+  snippet?: string | string[] | IMatchOptions;
   group?: string | string[] | IMatchOptions;
+  id?: string | string[] | IMatchOptions;
+  modified?: IDateRange<number> | IRelativeDate;
   orgid?: string | string[] | IMatchOptions;
-  type?:
-    | string
-    | NamedContentFilter
-    | Array<string | NamedContentFilter>
-    | IMatchOptions;
+  term?: string;
+  title?: string | string[] | IMatchOptions;
+  type?: string | string[] | IMatchOptions;
+  typekeywords?: string | string[] | IMatchOptions;
+  // this allows arbitrary keys, which Hub api supports
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
 }
 
 /**
@@ -102,26 +119,6 @@ export interface IContentFilterDefinition {
    * Support for complex OR queries; Used with various expansions
    */
   subFilters?: Array<IContentFilterDefinition | NamedContentFilter>;
-}
-
-export interface IItemFilter {
-  access?: string | string[] | IMatchOptions;
-  owner?: string | string[] | IMatchOptions;
-  tags?: string | string[] | IMatchOptions;
-  created?: IDateRange<number> | IRelativeDate;
-  description?: string | string[] | IMatchOptions;
-  snippet?: string | string[] | IMatchOptions;
-  group?: string | string[] | IMatchOptions;
-  id?: string | string[] | IMatchOptions;
-  modified?: IDateRange<number> | IRelativeDate;
-  orgid?: string | string[] | IMatchOptions;
-  term?: string;
-  title?: string | string[] | IMatchOptions;
-  type?: string | string[] | IMatchOptions;
-  typekeywords?: string | string[] | IMatchOptions;
-  // this allows arbitrary keys, which Hub api supports
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
 }
 
 // This type is used internally to Hub.js and is the
@@ -262,26 +259,6 @@ export interface IMatchOptions {
    * be used with that parameter
    */
   exact?: string | string[];
-}
-
-/**
- * Search Options
- */
-export interface IHubSearchOptions {
-  site?: IModel;
-  authentication?: UserSession;
-  sortField?: string;
-  sortOrder?: "desc" | "asc";
-  page?: string;
-  start?: number;
-  num?: number;
-  aggFields?: string[];
-  aggLimit?: number;
-  bbox?: string;
-  fields?: string;
-  api?: NamedApis | IApiDefinition;
-  // DEPRECATION
-  aggregations?: string[];
 }
 
 /**

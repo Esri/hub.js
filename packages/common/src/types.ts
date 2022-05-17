@@ -174,18 +174,18 @@ export type HubType =
   | "organization";
 
 export type HubFamily =
-  | "people"
-  | "team"
-  | "event"
+  | "app"
+  | "content"
   | "dataset"
   | "document"
+  | "event"
   | "feedback"
-  | "map"
-  | "app"
-  | "site"
   | "initiative"
-  | "template"
-  | "content";
+  | "map"
+  | "people"
+  | "site"
+  | "team"
+  | "template";
 
 /**
  * Visibility levels of a Hub resource

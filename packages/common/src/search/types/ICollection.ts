@@ -10,7 +10,7 @@ export interface ICollection {
   label: string;
   // Unique key, used for query params and telemetry
   key: string;
-  // Default query for the Collectoin
+  // Default query for the Collection
   defaultQuery?: string;
   // Default Sorts
   sortOption: ISortOption;
