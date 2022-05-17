@@ -8,13 +8,17 @@ import {
   IDateRange,
   IMatchOptions,
 } from "./types";
-import {
-  relativeDateToDateRange,
-  serializeStringOrArray,
-  valueToMatchOptions,
-} from "./utils";
+import { relativeDateToDateRange, valueToMatchOptions } from "./utils";
 
-// Drops ~150 lines of type-specific code that will only grow as we add Events etc
+/**
+ * Expand a Filter into it's more expressive structure so it can be
+ * serialized deterministically.
+ *
+ * Props with type `string | string[] | MatchOptions` expand into `IMatchOptions`
+ * Props relative-dates are expanded into formal date-ranges
+ * @param filter
+ * @returns
+ */
 export function expandFilter<T>(filter: T): T {
   const result = {} as typeof filter;
   const dateProps = ["created", "modified", "lastlogin"];
@@ -44,6 +48,11 @@ export function expandFilter<T>(filter: T): T {
   return result;
 }
 
+/**
+ * Serialize a FilterGroup of any type for Portal
+ * @param filterGroups
+ * @returns
+ */
 export function serializeFilterGroupsForPortal(
   filterGroups: Array<IFilterGroup<FilterType>>
 ): ISearchOptions {
@@ -52,29 +61,37 @@ export function serializeFilterGroupsForPortal(
     filter: "",
   } as ISearchOptions;
 
-  result.q = filterGroups.map(stringifyGroup).join(" AND ");
+  result.q = filterGroups.map(serializeGroup).join(" AND ");
 
   return result;
 }
 
-export function stringifyGroup(group: IFilterGroup<FilterType>): string {
+/**
+ * Serialize the filters in a FitlerGroup into a Portal Query
+ * @param group
+ * @returns
+ */
+function serializeGroup(group: IFilterGroup<FilterType>): string {
   const operation = group.operation || "AND";
   const filters = group.filters.map(expandFilter);
-  const q = filters.map(stringifyFilter).join(` ${operation} `);
-  return q;
+  return filters.map(serializeFilter).join(` ${operation} `);
 }
-
-export function stringifyFilter(filter: Filter<FilterType>): string {
+/**
+ * Serialize a Filter into a Portal Query
+ * @param filter
+ * @returns
+ */
+function serializeFilter(filter: Filter<FilterType>): string {
   const dateProps = ["created", "modified"];
   const specialProps = ["filterType", "searchUserAccess", "term", ...dateProps];
   // TODO: Look at using reduce vs .map and remove the `.filter`
   const stringFilters = Object.entries(filter)
     .map(([key, value]) => {
       if (!specialProps.includes(key)) {
-        return stringifyMatchOptions(key, value);
+        return serializeMatchOptions(key, value);
       }
       if (dateProps.includes(key)) {
-        return stringifyDateRange(key, value as unknown as IDateRange<number>);
+        return serializeDateRange(key, value as unknown as IDateRange<number>);
       }
       if (key === "term") {
         return value;
@@ -89,7 +106,13 @@ export function stringifyFilter(filter: Filter<FilterType>): string {
   }
 }
 
-function stringifyMatchOptions(key: string, value: IMatchOptions): string {
+/**
+ * Serialize MatchOptions into portal syntax
+ * @param key
+ * @param value
+ * @returns
+ */
+function serializeMatchOptions(key: string, value: IMatchOptions): string {
   let result = "";
   if (value.any) {
     result = `${serializeStringOrArray("OR", key, value.any)}`;
@@ -109,6 +132,36 @@ function stringifyMatchOptions(key: string, value: IMatchOptions): string {
   return result;
 }
 
-function stringifyDateRange(key: string, range: IDateRange<number>): string {
+/**
+ * Serialize a date-range into Portal syntax
+ * @param key
+ * @param range
+ * @returns
+ */
+function serializeDateRange(key: string, range: IDateRange<number>): string {
   return `${key}:[${range.from} TO ${range.to}]`;
+}
+
+/**
+ * Serialize a `string` or `string[]` into a string
+ * @param join
+ * @param key
+ * @param value
+ * @returns
+ */
+function serializeStringOrArray(
+  join: "AND" | "OR",
+  key: string,
+  value: string | string[]
+): string {
+  let q = "";
+  if (Array.isArray(value)) {
+    q = `${key}:"${value.join(`" ${join} ${key}:"`)}"`;
+    if (value.length > 1) {
+      q = `(${q})`;
+    }
+  } else {
+    q = `${key}:"${value}"`;
+  }
+  return q;
 }

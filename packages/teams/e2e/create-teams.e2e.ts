@@ -7,7 +7,7 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 
-fdescribe("Team Creation Validation:", () => {
+describe("Team Creation Validation:", () => {
   let factory: Artifactory;
   beforeAll(() => {
     factory = new Artifactory(config);

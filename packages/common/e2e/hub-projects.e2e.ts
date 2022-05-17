@@ -3,7 +3,7 @@ import config from "./helpers/config";
 import { HubProjectManager, IHubProject } from "../src";
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;
 
-fdescribe("Hub Projects", () => {
+describe("Hub Projects", () => {
   let factory: Artifactory;
   beforeAll(() => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;

@@ -7,7 +7,7 @@ import {
   serializeFilterGroupsForPortal,
 } from "../../src";
 
-fdescribe("filter-utils:", () => {
+describe("filter-utils:", () => {
   describe("expandFilters;", () => {
     it("expands group filter", () => {
       const f: Filter<"group"> = {
@@ -55,6 +55,11 @@ fdescribe("filter-utils:", () => {
           num: 2,
           unit: "months",
         },
+        modified: {
+          type: "date-range",
+          from: 1689716790912,
+          to: 1652808629198,
+        },
         snowcover: {
           any: ["sparse", "medium"],
         },
@@ -99,11 +104,36 @@ fdescribe("filter-utils:", () => {
   });
 
   describe("serialize for Portal:", () => {
-    it("converts simple group to portal query", () => {
+    it("converts item filter", () => {
       const f: Filter<"item"> = {
         filterType: "item",
         term: "water",
+        modified: {
+          type: "date-range",
+          from: 1689716790912,
+          to: 1652808629198,
+        },
         type: { any: ["Web Map", "Hub Project"] },
+      };
+
+      const group: IFilterGroup<"item"> = {
+        filters: [f],
+      };
+
+      const chk = serializeFilterGroupsForPortal([group]);
+
+      expect(chk.q).toEqual(
+        '(water AND modified:[1689716790912 TO 1652808629198] AND (type:"Web Map" OR type:"Hub Project"))'
+      );
+    });
+    it("handles complex filter", () => {
+      const f: Filter<"item"> = {
+        filterType: "item",
+        tags: {
+          any: ["water", "rivers"],
+          all: "production",
+          not: ["preview", "deprecated"],
+        },
       };
 
       const group: IFilterGroup<"item"> = {
@@ -114,8 +144,60 @@ fdescribe("filter-utils:", () => {
       const chk = serializeFilterGroupsForPortal([group]);
 
       expect(chk.q).toEqual(
-        '(water AND (type:"Web Map" OR type:"Hub Project"))'
+        '(tags:"water" OR tags:"rivers") AND tags:"production" AND (-tags:"preview" OR -tags:"deprecated")'
       );
+    });
+    it("handles complex filter without any", () => {
+      const f: Filter<"item"> = {
+        filterType: "item",
+        tags: {
+          all: "production",
+          not: ["preview", "deprecated"],
+        },
+      };
+
+      const group: IFilterGroup<"item"> = {
+        operation: "AND",
+        filters: [f],
+      };
+
+      const chk = serializeFilterGroupsForPortal([group]);
+
+      expect(chk.q).toEqual(
+        'tags:"production" AND (-tags:"preview" OR -tags:"deprecated")'
+      );
+    });
+    it("handles complex filter without any or all", () => {
+      const f: Filter<"item"> = {
+        filterType: "item",
+        tags: {
+          not: ["preview", "deprecated"],
+        },
+      };
+
+      const group: IFilterGroup<"item"> = {
+        operation: "AND",
+        filters: [f],
+      };
+
+      const chk = serializeFilterGroupsForPortal([group]);
+
+      expect(chk.q).toEqual('(-tags:"preview" OR -tags:"deprecated")');
+    });
+    it("handles simple filter ", () => {
+      const f: Filter<"item"> = {
+        filterType: "item",
+        tags: "water",
+      };
+
+      const group: IFilterGroup<"item"> = {
+        operation: "AND",
+        filters: [f],
+      };
+
+      const chk = serializeFilterGroupsForPortal([group]);
+
+      expect(chk.q).toEqual('tags:"water"');
     });
   });
 });

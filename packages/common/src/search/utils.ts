@@ -273,6 +273,7 @@ export function mergeSearchOptions(
 /**
  * @private
  * Serialize a `MatchOptions` into `q` or `filter` on an `ISearchOptions`
+ * DEPRECATED: Serialization should be handled in filter-utils.ts
  * @param key
  * @param opts
  * @returns

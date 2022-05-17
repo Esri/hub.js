@@ -302,7 +302,7 @@ describe("HubProjects:", () => {
       const searchOpts = searchSpy.calls.argsFor(0)[0];
 
       expect(searchOpts.q).toBe("water");
-      expect(searchOpts.filter).toBe(`(type:"Hub Project")`);
+      expect(searchOpts.filter).toBe(`type:"Hub Project"`);
       // Verify facets
       expect(response.facets).toBeDefined();
     });
@@ -326,7 +326,7 @@ describe("HubProjects:", () => {
       const searchOpts = searchSpy.calls.argsFor(0)[0];
 
       expect(searchOpts.q).toBe("water");
-      expect(searchOpts.filter).toBe(`(type:"Hub Project")`);
+      expect(searchOpts.filter).toBe(`type:"Hub Project"`);
       expect(searchOpts.portal).toEqual(`https://qaext.arcgis.com`);
       // Verify facets
       expect(response.facets).toBeDefined();
@@ -357,7 +357,7 @@ describe("HubProjects:", () => {
       expect(searchOpts.q).toBe("water");
       expect(searchOpts.countFields).toBe("tags");
       expect(searchOpts.countSize).toBe(10);
-      expect(searchOpts.filter).toBe(`(type:"Hub Project")`);
+      expect(searchOpts.filter).toBe(`type:"Hub Project"`);
 
       // Verify facets
       expect(response.facets).toBeDefined();
@@ -391,9 +391,8 @@ describe("HubProjects:", () => {
       const searchOpts = searchSpy.calls.argsFor(0)[0];
 
       expect(searchOpts.q).toBe("water");
-      expect(searchOpts.filter).toBe(`(type:"Hub Project")`);
+      expect(searchOpts.filter).toBe(`type:"Hub Project"`);
       expect(searchOpts.countSize).toBe(54);
-      expect(searchOpts.filter).toBe(`(type:"Hub Project")`);
 
       // Verify facets
       expect(response.facets).toBeDefined();

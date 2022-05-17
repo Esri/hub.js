@@ -53,7 +53,7 @@ describe("Search Utils:", () => {
         const chk = serializeMatchOptions("tags", mo);
 
         expect(chk.q).toBe(
-          '(tags:"buildings" OR tags:"tents") AND (tags:"red" AND tags:"blue") AND (-tags:"yellow")'
+          '(tags:"buildings" OR tags:"tents") AND (tags:"red" AND tags:"blue") AND -tags:"yellow"'
         );
         expect(chk.filter).toBe(`(tags:"Rubber" AND tags:"Duck")`);
       });
@@ -97,7 +97,7 @@ describe("Search Utils:", () => {
             exact: "buildings",
           };
           const chk = serializeMatchOptions("metaInfo", mo);
-          expect(chk.q).toBe('(metaInfo:"buildings")');
+          expect(chk.q).toBe('metaInfo:"buildings"');
           expect(chk.filter).toEqual("");
         });
         it("added to .all if both arrays", () => {
@@ -134,7 +134,7 @@ describe("Search Utils:", () => {
             exact: ["buildings"],
           };
           const chk = serializeMatchOptions("metaInfo", mo);
-          expect(chk.q).toBe('(metaInfo:"buildings")');
+          expect(chk.q).toBe('metaInfo:"buildings"');
           expect(chk.filter).toEqual("");
         });
       });
