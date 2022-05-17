@@ -1,3 +1,10 @@
+# @esri/hub-common [9.32.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.31.3...@esri/hub-common@9.32.0) (2022-05-17)
+
+
+### Features
+
+* add search related interfaces ([#780](https://github.com/Esri/hub.js/issues/780)) ([4f8929d](https://github.com/Esri/hub.js/commit/4f8929dc1c5c9cac6dd70dedef2207b7222259df))
+
 ## @esri/hub-common [9.31.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.31.2...@esri/hub-common@9.31.3) (2022-05-12)
 
 
