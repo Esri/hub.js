@@ -419,7 +419,9 @@ export const isDataSourceOfItem = (
   item: IItem
 ) => {
   const serviceUrl = item.url && parseServiceUrl(item.url);
-  return serviceUrl && resource.linkage.includes(serviceUrl);
+  return (
+    serviceUrl && resource.linkage && resource.linkage.includes(serviceUrl)
+  );
 };
 
 /**
