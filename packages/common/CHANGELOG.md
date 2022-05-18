@@ -1,3 +1,10 @@
+## @esri/hub-common [9.32.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.32.0...@esri/hub-common@9.32.1) (2022-05-18)
+
+
+### Bug Fixes
+
+* **hub-common:** fixes a type error when checking if additional resource is an item data source ([edb1118](https://github.com/Esri/hub.js/commit/edb1118487ab92211e14a19bb1bbdc0ef2006d8f))
+
 # @esri/hub-common [9.32.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.31.3...@esri/hub-common@9.32.0) (2022-05-17)
 
 
