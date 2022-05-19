@@ -1,3 +1,10 @@
+# @esri/hub-common [9.33.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.32.1...@esri/hub-common@9.33.0) (2022-05-19)
+
+
+### Features
+
+* add FilterGroup functions ([#794](https://github.com/Esri/hub.js/issues/794)) ([fabd8e7](https://github.com/Esri/hub.js/commit/fabd8e7cf34c058784433cb744a01bee580048ac))
+
 ## @esri/hub-common [9.32.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.32.0...@esri/hub-common@9.32.1) (2022-05-18)
 
 
