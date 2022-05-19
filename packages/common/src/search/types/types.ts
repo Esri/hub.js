@@ -26,6 +26,11 @@ export type Filter<T extends FilterType> = IFilterTypeMap[T] & {
   filterType: T;
 };
 
+export interface IFilterGroup<T extends FilterType> {
+  operation?: "AND" | "OR";
+  filters: Array<Filter<T>>;
+}
+
 /**
  * Groups of filters with an operation specifying how the
  * filters should be connected when serialized
@@ -42,6 +47,9 @@ export interface IFilterGroup<T extends FilterType> {
 export interface IFilterTypeMap {
   // any: IAnyFilterDefinition;
   item: IItemFilter;
+  /**
+   * DEPRECATED use item
+   */
   content: IContentFilterDefinition;
   user: IUserFilterDefinition;
   group: IGroupFilterDefinition;

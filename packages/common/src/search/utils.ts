@@ -273,6 +273,7 @@ export function mergeSearchOptions(
 /**
  * @private
  * Serialize a `MatchOptions` into `q` or `filter` on an `ISearchOptions`
+ * DEPRECATED: Serialization should be handled in filter-utils.ts
  * @param key
  * @param opts
  * @returns
@@ -385,7 +386,10 @@ export function serializeStringOrArray(
 ): string {
   let q = "";
   if (Array.isArray(value)) {
-    q = `(${key}:"${value.join(`" ${join} ${key}:"`)}")`;
+    q = `${key}:"${value.join(`" ${join} ${key}:"`)}"`;
+    if (value.length > 1) {
+      q = `(${q})`;
+    }
   } else {
     q = `${key}:"${value}"`;
   }
