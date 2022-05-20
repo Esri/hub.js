@@ -38,6 +38,9 @@ export function getFamily(type?: string) {
     case "report template":
       family = "content";
       break;
+    case "hub project":
+      family = "project";
+      break;
     default:
       // by default derive from collection
       family = collectionToFamily(getCollection(type));
