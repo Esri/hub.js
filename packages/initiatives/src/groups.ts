@@ -122,7 +122,7 @@ export function checkGroupExists(
   requestOptions: IRequestOptions
 ): Promise<any> {
   const options = {
-    q: `(orgid: ${orgId}`,
+    q: `(orgid: ${orgId})`,
     filter: `title:"${title}"`,
     ...requestOptions,
   };
