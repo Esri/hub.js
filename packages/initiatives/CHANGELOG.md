@@ -1,3 +1,10 @@
+## @esri/hub-initiatives [9.33.1](https://github.com/Esri/hub.js/compare/@esri/hub-initiatives@9.33.0...@esri/hub-initiatives@9.33.1) (2022-05-20)
+
+
+### Bug Fixes
+
+* **hub-initiatives:** add missing closing paren in checkGroupExists query ([1293b57](https://github.com/Esri/hub.js/commit/1293b57b3f605e45dd6f83d3cbfa7145456dd5cf))
+
 # @esri/hub-initiatives [9.33.0](https://github.com/Esri/hub.js/compare/@esri/hub-initiatives@9.32.2...@esri/hub-initiatives@9.33.0) (2022-05-19)
 
 
