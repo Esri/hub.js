@@ -1,3 +1,10 @@
+# @esri/hub-common [9.34.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.33.0...@esri/hub-common@9.34.0) (2022-05-20)
+
+
+### Features
+
+* **hub-common:** add project family to compose flow ([2285f8c](https://github.com/Esri/hub.js/commit/2285f8c4f3f42895901836d3c598b6ca3b611ba1))
+
 # @esri/hub-common [9.33.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.32.1...@esri/hub-common@9.33.0) (2022-05-19)
 
 
