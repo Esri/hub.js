@@ -459,6 +459,9 @@ describe("get item family", () => {
   it("returns template for solution", () => {
     expect(getFamily("Solution")).toBe("template");
   });
+  it("returns project for hub project", () => {
+    expect(getFamily("Hub Project")).toBe("project");
+  });
   it("returns content for other specific types", () => {
     expect(getFamily("CAD Drawing")).toBe("content");
     expect(getFamily("Feature Collection Template")).toBe("content");
@@ -734,6 +737,7 @@ describe("setContentType", () => {
       expect(getContentTypeIcon("Feature Service")).toEqual("collection");
       expect(getContentTypeIcon("Mobile Application")).toEqual("mobile");
       expect(getContentTypeIcon("Web Map")).toEqual("map");
+      expect(getContentTypeIcon("Hub Project")).toEqual("briefcase");
     });
     it("sets non-existing type icon to file", () => {
       expect(getContentTypeIcon("fooBar")).toEqual("file");

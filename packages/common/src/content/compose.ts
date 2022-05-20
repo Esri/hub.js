@@ -212,7 +212,7 @@ const getMetadataUpdatedDateInfo = (item: IItem, metadata?: any) => {
 
 // public API
 /**
- * DEPRECATED: Compute the content type icon based on the content type
+ * Compute the content type calcite-icon based on the content type
  * @param content type
  * @returns content type icon
  */
@@ -255,6 +255,7 @@ export const getContentTypeIcon = (contentType: string) => {
     hubInitiative: "initiative",
     hubInitiativeTemplate: "initiative-template",
     hubPage: "browser",
+    hubProject: "briefcase",
     hubSiteApplication: "web",
     image: "file-image",
     imageService: "data",
@@ -822,17 +823,13 @@ export const composeContent = (
       // NOTE: it's undocumented, but the portal API will return orgId for items... sometimes
       return org ? org.id : item.orgId || ownerUser?.orgId;
     },
+    get contentTypeIcon() {
+      /* Note: only returns calcite-icons */
+      return getContentTypeIcon(type);
+    },
     // deprecated properties
     // TODO: should we add these in legacy wrappers
     // like itemToContent or datasetToContent instead?
-    get contentTypeIcon() {
-      /* tslint:disable no-console */
-      console.warn(
-        /* tslint:enable no-console */
-        "DEPRECATED: it is now the responsibility of the consuming package to determine the icon"
-      );
-      return getContentTypeIcon(type);
-    },
     get license() {
       /* tslint:disable no-console */
       console.warn("DEPRECATED: use structuredLicense instead");
