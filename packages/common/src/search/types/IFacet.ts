@@ -56,9 +56,9 @@ export interface IFacet {
    */
   optionLimit?: number;
   /**
-   * Specifies how to order the options of the given facet.
-   * - count: `uses option.count` in descending order of frequency (default)
-   * - label: `uses option.label` in ascending alphabetical order
+   * Specifies how to order the facet options. Only applies to `multi-select`, and defaults to count.
+   * - count: orders by `option.count` in descending order of frequency
+   * - label: orders by `option.label` in ascending alphabetical order
    */
   orderBy?: "count" | "label";
   // DEPRECATE
