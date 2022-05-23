@@ -1,3 +1,10 @@
+# @esri/hub-common [9.35.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.34.0...@esri/hub-common@9.35.0) (2022-05-23)
+
+
+### Features
+
+* **hub-common:** add orderBy field to the IFacet interface ([67bcbc5](https://github.com/Esri/hub.js/commit/67bcbc5d82c0f64c3d7b5b8af0c519e332022026))
+
 # @esri/hub-common [9.34.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.33.0...@esri/hub-common@9.34.0) (2022-05-20)
 
 
