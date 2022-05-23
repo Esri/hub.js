@@ -1,7 +1,14 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IItem, IUser, IGroup, IGeometry } from "@esri/arcgis-rest-types";
+import {
+  IItem,
+  IUser,
+  IGroup,
+  IPolygon,
+  ISpatialReference,
+  IGeometry,
+} from "@esri/arcgis-rest-types";
 import { IPortal, ISearchResult } from "@esri/arcgis-rest-portal";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
@@ -201,6 +208,16 @@ export type AccessControl = "view" | "edit" | "admin";
 export type GeographyProvenance = "item" | "none" | "automatic";
 
 /**
+ * properties to be used with the ArcGIS API geometry class constructors
+ */
+export interface IGeometryProperties extends IGeometry {
+  type: string;
+}
+export interface IPolygonProperties extends IPolygon, IGeometryProperties {
+  type: "polygon";
+}
+
+/**
  * Location of a Hub resource
  *
  * @export
@@ -208,8 +225,9 @@ export type GeographyProvenance = "item" | "none" | "automatic";
  */
 export interface IHubGeography {
   center?: [number, number];
-  geometry?: IGeometry;
+  geometry?: IPolygonProperties;
   provenance?: GeographyProvenance;
+  spatialReference?: ISpatialReference;
 }
 
 export type SearchableType = IItem | IGroup | IUser;
