@@ -55,7 +55,12 @@ export interface IFacet {
    * Number of facet options to show by default. Only applies to `multi-select`, and defaults to all.
    */
   optionLimit?: number;
-
+  /**
+   * Specifies how to order the facet options. Only applies to `multi-select`, and defaults to count.
+   * - count: orders by `option.count` in descending order of frequency
+   * - label: orders by `option.label` in ascending alphabetical order
+   */
+  orderBy?: "count" | "label";
   // DEPRECATE
   accordionClosed?: boolean; // -> state: "closed"
   type?: "single-select" | "multi-select" | "date-range" | "histogram"; // -> display
