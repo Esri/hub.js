@@ -1,3 +1,10 @@
+# @esri/hub-common [9.36.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.35.0...@esri/hub-common@9.36.0) (2022-05-24)
+
+
+### Features
+
+* **hub-common:** createItemFromUrlOrFile rtrns itm title, access chnge resp, and item chnge resp ([#799](https://github.com/Esri/hub.js/issues/799)) ([6894ad8](https://github.com/Esri/hub.js/commit/6894ad896effa14a295d76702761438a2c3a7e35))
+
 # @esri/hub-common [9.35.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.34.0...@esri/hub-common@9.35.0) (2022-05-23)
 
 
