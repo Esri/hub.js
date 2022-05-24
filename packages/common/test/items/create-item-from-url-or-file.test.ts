@@ -47,7 +47,7 @@ describe("createItemFromUrlOrFile", () => {
     const shareItemWithGroupSpy = spyOn(
       portal,
       "shareItemWithGroup"
-    ).and.callFake(() => Promise.resolve());
+    ).and.callFake(() => Promise.resolve({}));
 
     const result = await createItemFromUrlOrFile({
       item,
@@ -60,7 +60,12 @@ describe("createItemFromUrlOrFile", () => {
       ...ro,
     });
 
-    expect(result).toEqual({ id: "123abc", success: true, folder: "test" });
+    expect(result.title).toBe("Test.csv");
+    expect(result.createdItem).toEqual({
+      id: "123abc",
+      success: true,
+      folder: "test",
+    });
     expect(createItemFromFileSpy).not.toHaveBeenCalled();
     expect(createItemFromUrlSpy).toHaveBeenCalledTimes(1);
     expect(_waitForItemReadySpy).toHaveBeenCalledTimes(1);
@@ -110,7 +115,11 @@ describe("createItemFromUrlOrFile", () => {
 
     const result = await createItemFromUrlOrFile({ item, groups: [], ...ro });
 
-    expect(result).toEqual({ id: "123abc", success: true, folder: "test" });
+    expect(result.createdItem).toEqual({
+      id: "123abc",
+      success: true,
+      folder: "test",
+    });
     expect(createItemFromFileSpy).not.toHaveBeenCalled();
     expect(createItemFromUrlSpy).toHaveBeenCalledTimes(1);
     expect(_waitForItemReadySpy).not.toHaveBeenCalled();
@@ -160,7 +169,11 @@ describe("createItemFromUrlOrFile", () => {
 
     const result = await createItemFromUrlOrFile({ item, ...ro });
 
-    expect(result).toEqual({ id: "123abc", success: true, folder: "test" });
+    expect(result.createdItem).toEqual({
+      id: "123abc",
+      success: true,
+      folder: "test",
+    });
     expect(createItemFromFileSpy).toHaveBeenCalledTimes(1);
     expect(createItemFromUrlSpy).not.toHaveBeenCalled();
     expect(_waitForItemReadySpy).toHaveBeenCalledTimes(1);
