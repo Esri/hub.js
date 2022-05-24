@@ -279,5 +279,8 @@ export const fetchItemEnrichments = (
     data: { item },
     stack: new OperationStack(),
     requestOptions,
-  }).then((output) => output.data);
+  }).then((output) => {
+    // console.log(output.stack.toString());
+    return output.data;
+  });
 };

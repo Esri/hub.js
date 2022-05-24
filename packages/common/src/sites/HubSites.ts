@@ -10,16 +10,20 @@ import {
   fetchModelFromItem,
   fetchSiteModel,
   Filter,
+  getFamily,
   getHubApiUrl,
+  getItemHomeUrl,
   getItemThumbnailUrl,
   getModel,
   getOrgDefaultTheme,
   getProp,
   IHubRequestOptions,
   IHubSearchOptions,
+  IHubSearchResult,
   IHubSite,
   IModel,
   ISearchResponse,
+  mapBy,
   mergeContentFilter,
   registerSiteAsApplication,
   removeDomainsBySiteId,
@@ -27,6 +31,7 @@ import {
   setSlugKeyword,
   slugify,
   stripProtocol,
+  unique,
   updateModel,
 } from "..";
 
@@ -36,6 +41,9 @@ import { handleDomainChanges } from "./_internal";
 import { searchContentEntities } from "../search/_internal/searchContentEntities";
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { fetchItemEnrichments } from "../items/_enrichments";
+import { parseInclude } from "../search/_internal/parseInclude";
+import { getHubRelativeUrl } from "../content/_internal";
 
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
@@ -493,4 +501,68 @@ export async function searchSites(
   const sitesFilter = mergeContentFilter([scopingFilter, filter]);
   // delegate
   return searchContentEntities(sitesFilter, convertItemToSite, options);
+}
+
+/**
+ *
+ * @param item
+ * @param includes
+ * @param requestOptions
+ * @returns
+ */
+export async function enrichSiteSearchResult(
+  item: IItem,
+  includes: string[] = [],
+  requestOptions?: IHubRequestOptions
+): Promise<IHubSearchResult> {
+  // Create the basic structure
+  const result: IHubSearchResult = {
+    access: item.access,
+    id: item.id,
+    type: item.type,
+    name: item.title,
+    owner: item.owner,
+    summary: item.snippet || item.description,
+    createdDate: new Date(item.created),
+    createdDateSource: "item.created",
+    updatedDate: new Date(item.modified),
+    updatedDateSource: "item.modified",
+    family: getFamily(item.type),
+    links: {
+      self: "not-implemented",
+      siteRelative: "not-implemented",
+      thumbnail: "not-implemented",
+    },
+  };
+
+  // default includes
+  const DEFAULTS = ["data.values.pages.length AS pageCount"];
+  // merge includes
+  includes = [...includes, ...DEFAULTS].filter(unique);
+  // Parse the includes into a valid set of enrichments
+  const specs = includes.map(parseInclude);
+  // Extract out the low-level enrichments needed
+  const enrichments = mapBy("enrichment", specs).filter(unique);
+  // fetch the enrichments
+  let enriched = {};
+  if (enrichments.length) {
+    // TODO: Look into caching for the requests in fetchItemEnrichments
+    enriched = await fetchItemEnrichments(item, enrichments, requestOptions);
+  }
+
+  // map the enriched props onto the result
+  specs.forEach((spec) => {
+    result[spec.prop] = getProp(enriched, spec.path);
+  });
+
+  // Handle links
+  result.links.thumbnail = getItemThumbnailUrl(item, requestOptions);
+  result.links.self = item.url;
+  result.links.siteRelative = getHubRelativeUrl(
+    result.type,
+    result.id,
+    item.typeKeywords
+  );
+
+  return result;
 }

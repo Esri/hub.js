@@ -74,7 +74,12 @@ export function serializeFilterGroupsForPortal(
 function serializeGroup(group: IFilterGroup<FilterType>): string {
   const operation = group.operation || "AND";
   const filters = group.filters.map(expandFilter);
-  return filters.map(serializeFilter).join(` ${operation} `);
+  let q = filters.map(serializeFilter).join(` ${operation} `);
+  // Wrap in parens if there is more than one filter
+  if (filters.length > 1) {
+    q = `(${q})`;
+  }
+  return q;
 }
 /**
  * Serialize a Filter into a Portal Query

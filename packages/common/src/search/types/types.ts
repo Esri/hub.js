@@ -26,16 +26,12 @@ export type Filter<T extends FilterType> = IFilterTypeMap[T] & {
   filterType: T;
 };
 
-export interface IFilterGroup<T extends FilterType> {
-  operation?: "AND" | "OR";
-  filters: Array<Filter<T>>;
-}
-
 /**
  * Groups of filters with an operation specifying how the
  * filters should be connected when serialized
  */
 export interface IFilterGroup<T extends FilterType> {
+  filterType: T;
   operation?: "AND" | "OR";
   filters: Array<Filter<T>>;
 }
@@ -82,6 +78,7 @@ export interface IItemFilter {
   access?: AccessLevel | AccessLevel[] | IMatchOptions;
   owner?: string | string[] | IMatchOptions;
   tags?: string | string[] | IMatchOptions;
+  categories?: string | string[] | IMatchOptions;
   created?: IDateRange<number> | IRelativeDate;
   description?: string | string[] | IMatchOptions;
   snippet?: string | string[] | IMatchOptions;
@@ -92,6 +89,7 @@ export interface IItemFilter {
   term?: string;
   title?: string | string[] | IMatchOptions;
   type?: string | string[] | IMatchOptions;
+
   typekeywords?: string | string[] | IMatchOptions;
   // this allows arbitrary keys, which Hub api supports
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -105,6 +103,7 @@ export interface IContentFilterDefinition {
   access?: string | string[] | IMatchOptions;
   owner?: string | string[] | IMatchOptions;
   tags?: string | string[] | IMatchOptions;
+  categories?: string | string[] | IMatchOptions;
   created?: IDateRange<number> | IRelativeDate;
   description?: string | string[] | IMatchOptions;
   snippet?: string | string[] | IMatchOptions;

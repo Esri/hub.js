@@ -23,6 +23,12 @@ import {
   _searchContent,
   mergeContentFilter,
   getItemThumbnailUrl,
+  unique,
+  mapBy,
+  getProp,
+  getFamily,
+  IHubRequestOptions,
+  getItemHomeUrl,
 } from "..";
 import {
   IItem,
@@ -33,7 +39,11 @@ import {
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { searchContentEntities } from "../search/_internal/searchContentEntities";
 import { IPropertyMap, PropertyMapper } from "../core/_internal/PropertyMapper";
-import { IHubProject } from "../core/types";
+import { IHubEntityBase, IHubProject } from "../core/types";
+import { IHubSearchResult } from "../search";
+import { parseInclude } from "../search/_internal/parseInclude";
+import { fetchItemEnrichments } from "../items/_enrichments";
+import { getHubRelativeUrl } from "../content/_internal";
 
 export const HUB_PROJECT_ITEM_TYPE = "Hub Project";
 
@@ -282,4 +292,68 @@ export async function convertItemToProject(
   const prj = mapper.modelToObject(model, {}) as IHubProject;
   prj.thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
   return prj;
+}
+
+/**
+ *
+ * @param item
+ * @param includes
+ * @param requestOptions
+ * @returns
+ */
+export async function enrichProjectSearchResult(
+  item: IItem,
+  includes: string[] = [],
+  requestOptions?: IHubRequestOptions
+): Promise<IHubSearchResult> {
+  // Create the basic structure
+  const result: IHubSearchResult = {
+    access: item.access,
+    id: item.id,
+    type: item.type,
+    name: item.title,
+    owner: item.owner,
+    summary: item.snippet || item.description,
+    createdDate: new Date(item.created),
+    createdDateSource: "item.created",
+    updatedDate: new Date(item.modified),
+    updatedDateSource: "item.modified",
+    family: getFamily(item.type),
+    links: {
+      self: "not-implemented",
+      siteRelative: "not-implemented",
+      thumbnail: "not-implemented",
+    },
+  };
+
+  // default includes
+  const DEFAULTS = ["data.status AS projectStatus"];
+  // merge includes
+  includes = [...includes, ...DEFAULTS].filter(unique);
+  // Parse the includes into a valid set of enrichments
+  const specs = includes.map(parseInclude);
+  // Extract out the low-level enrichments needed
+  const enrichments = mapBy("enrichment", specs).filter(unique);
+  // fetch the enrichments
+  let enriched = {};
+  if (enrichments.length) {
+    // TODO: Look into caching for the requests in fetchItemEnrichments
+    enriched = await fetchItemEnrichments(item, enrichments, requestOptions);
+  }
+  // map the enriched props onto the result
+  specs.forEach((spec) => {
+    result[spec.prop] = getProp(enriched, spec.path);
+  });
+
+  // Handle links
+  // TODO: Link handling should be an enrichment
+  result.links.thumbnail = getItemThumbnailUrl(item, requestOptions);
+  result.links.self = getItemHomeUrl(result.id, requestOptions);
+  result.links.siteRelative = getHubRelativeUrl(
+    result.type,
+    result.id,
+    item.typeKeywords
+  );
+
+  return result;
 }
