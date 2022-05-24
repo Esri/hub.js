@@ -1,6 +1,7 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import {
   ICreateItemResponse,
+  ISharingResponse,
   setItemAccess,
   shareItemWithGroup,
 } from "@esri/arcgis-rest-portal";
@@ -22,16 +23,28 @@ interface ICreateItemFromUrlOrFileOptions extends IUserRequestOptions {
  *
  * @export
  * @param {ICreateItemFromUrlOrFileOptions} createItemFromUrlOrFileOptions Input params (item, groups?, requestoptions)
- * @return {*}  {Promise<string>} AGO item id
+ * @return {*}  {
+ *     title: string,
+ *     createdItem: ICreateItemResponse,
+ *     itemAccessResponse: ISharingResponse,
+ *     itemSharingResponse: ISharingResponse[]
+ *   } Responses from createdItem, changing item access, and item Sharing to group
  */
 export async function createItemFromUrlOrFile(
   createItemFromUrlOrFileOptions: ICreateItemFromUrlOrFileOptions
-): Promise<ICreateItemResponse> {
+): Promise<{
+  title: string;
+  createdItem: ICreateItemResponse;
+  itemAccessResponse: ISharingResponse;
+  itemSharingResponse: ISharingResponse[];
+}> {
   const { item, groups, ...userRequestOptions } =
     createItemFromUrlOrFileOptions;
   // Is there a file or data url?
   const shouldWaitForItemReady = item.dataUrl || item.file;
   let createdItem: ICreateItemResponse;
+  let itemAccessResponse: ISharingResponse;
+  let itemSharingResponse: ISharingResponse[];
 
   // If there is a file then we create the item and chunk the file
   // while multithread uploading it
@@ -50,7 +63,7 @@ export async function createItemFromUrlOrFile(
   // If the item access is NOT private (which is the sharing access level by default)
   // We subsequently update the items access level.
   if (item.access !== "private") {
-    await setItemAccess({
+    itemAccessResponse = await setItemAccess({
       id: createdItem.id,
       owner: item.owner,
       access: item.access,
@@ -61,7 +74,7 @@ export async function createItemFromUrlOrFile(
   // If group ids were passedd in then make share calls to each.
   if (groups?.length) {
     const failSafeShare = failSafe(shareItemWithGroup);
-    await Promise.all(
+    itemSharingResponse = await Promise.all(
       groups.map((group: IGroup) =>
         failSafeShare({
           id: createdItem.id,
@@ -74,5 +87,10 @@ export async function createItemFromUrlOrFile(
     );
   }
 
-  return createdItem;
+  return {
+    title: item.title,
+    createdItem,
+    itemAccessResponse,
+    itemSharingResponse,
+  };
 }
