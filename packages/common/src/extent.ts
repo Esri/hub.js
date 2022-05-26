@@ -1,7 +1,17 @@
-import { IExtent, IPolygon, Position } from "@esri/arcgis-rest-types";
+import { IExtent, IPoint, IPolygon, Position } from "@esri/arcgis-rest-types";
 import { IHubRequestOptions, BBox } from "./types";
 import { getProp } from "./objects";
 import { IRequestOptions, request } from "@esri/arcgis-rest-request";
+
+/**
+ * Turns an bounding box coordinate array into an extent object
+ * @param bBox bounding box coordinate array
+ * @returns extent object
+ */
+export const bBoxToExtent = (bBox: BBox) => {
+  const [[xmin, ymin], [xmax, ymax]] = bBox;
+  return createExtent(xmin, ymin, xmax, ymax);
+};
 
 export function createExtent(
   xmin: number,
@@ -23,13 +33,13 @@ export function createExtent(
 }
 
 /**
- * Turns an extent into a bbox
- * @param envelope extent
+ * Turns an extent object into a bounding box coordinate array
+ * @param extent extent
  */
-export function extentToBBox(envelope: IExtent): BBox {
+export function extentToBBox(extent: IExtent): BBox {
   return [
-    [envelope.xmin, envelope.ymin],
-    [envelope.xmax, envelope.ymax],
+    [extent.xmin, extent.ymin],
+    [extent.xmax, extent.ymax],
   ];
 }
 
@@ -149,22 +159,43 @@ export function isValidExtent(extent: object) {
   );
 }
 
-export const bBoxToPolygon = (bBox: BBox): IPolygon => {
-  const [[xmin, ymin], [xmax, ymax]] = bBox;
+/* istanbul ignore next DEPRECATED, remove at next breaking change */
+export const bBoxToPolygon = (bBox: BBox) => {
+  /* tslint:disable no-console */
+  console.warn("DEPRECATED: use extentToPolygon(bBoxToExtent(bBox)) instead");
+  return extentToPolygon(bBoxToExtent(bBox));
+};
+
+/**
+ * Convert an extent object into a polygon object
+ * @param extent
+ * @returns
+ */
+export const extentToPolygon = (extent: IExtent): IPolygon => {
+  const { xmin, ymin, xmax, ymax, spatialReference } = extent;
   const rings = [
     [
-      [xmin, ymin] as Position,
-      [xmax, ymin] as Position,
-      [xmax, ymax] as Position,
       [xmin, ymax] as Position,
+      [xmax, ymax] as Position,
+      [xmax, ymin] as Position,
       [xmin, ymin] as Position,
+      [xmin, ymax] as Position,
     ],
   ];
-  const wkid: number = 4326;
   return {
     rings,
-    spatialReference: {
-      wkid,
-    },
+    spatialReference,
   };
+};
+
+/**
+ * Get the center of an extent as a point
+ * @param extent
+ * @returns
+ */
+export const getExtentCenter = (extent: IExtent): IPoint => {
+  const { xmin, ymin, xmax, ymax, spatialReference } = extent;
+  const x = (xmax - xmin) / 2 + xmin;
+  const y = (ymax - ymin) / 2 + ymin;
+  return { x, y, spatialReference };
 };

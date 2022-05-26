@@ -5,9 +5,11 @@ import {
   composeContent,
   getPortalUrls,
   getProxyUrl,
+  IHubGeography,
   IHubRequestOptions,
 } from "../src";
 import * as documentItem from "./mocks/items/document.json";
+import * as mapServiceItem from "./mocks/items/map-service.json";
 
 const featureServiceItem = {
   id: "3ae",
@@ -476,6 +478,64 @@ describe("composeContent", () => {
     // NOTE: we may want to re-implement the tests in enrichments.test.ts
     // that were introduced in https://github.com/Esri/hub.js/pull/633
     // if we discover that those buggy items cause problems
+  });
+  describe("boundary", () => {
+    const spatialReference = {
+      wkid: 4326,
+    };
+    const geometry = {
+      rings: [
+        [
+          [-2.732, 53.6093],
+          [-2.4139, 53.6093],
+          [-2.4139, 53.4452],
+          [-2.732, 53.4452],
+          [-2.732, 53.6093],
+        ],
+      ],
+      spatialReference,
+      type: "polygon",
+    } as any;
+    const center = [-2.57295, 53.527249999999995] as [number, number];
+    it("handles invalid item boundary set to item extent but item has no extent", () => {
+      item = cloneObject(documentItem) as IItem;
+      // configure item to specify using item extent as boundary
+      // even though the item has an empty extent
+      const properties = { boundary: "item" };
+      const content = composeContent({ ...item, properties });
+      const boundary = content.boundary;
+      expect(boundary.geometry).toBeNull();
+      expect(boundary.provenance).toBe("item");
+    });
+    it("has a boundary when the item has a valid extent", () => {
+      item = cloneObject(mapServiceItem) as IItem;
+      const content = composeContent(item);
+      expect(content.boundary).toEqual({
+        geometry,
+        provenance: "item",
+        center,
+        spatialReference,
+      });
+    });
+    it("should handle boundary type automatic from the Hub API", () => {
+      item = cloneObject(mapServiceItem) as IItem;
+      // create new geometry and center by shifting y coord up 1
+      const shiftXY = ([x, y]: [number, number]) => [x, y + 1];
+      const updatedGeometry = {
+        ...geometry,
+        rings: [geometry.rings[0].map(shiftXY)],
+      };
+      const updatedCenter = shiftXY(center);
+      const boundary = {
+        geometry: updatedGeometry,
+        provenance: "automatic",
+        center: updatedCenter,
+        spatialReference,
+      } as IHubGeography;
+      const content = composeContent(item, { boundary });
+      expect(content.boundary).toBe(boundary);
+    });
+    // NOTE: other boundary scenarios are covered by tests in _fetch.test.ts
   });
   describe("edge cases", () => {
     it("should handle no item title", () => {

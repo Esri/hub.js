@@ -1,4 +1,3 @@
-import { IPolygon } from "@esri/arcgis-rest-types";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as featureLayerModule from "@esri/arcgis-rest-feature-layer";
 import {
@@ -7,6 +6,7 @@ import {
   IFetchContentOptions,
   IItemEnrichments,
   cloneObject,
+  IPolygonProperties,
 } from "../../src";
 import * as _enrichmentsModule from "../../src/items/_enrichments";
 import * as _fetchModule from "../../src/content/_fetch";
@@ -101,7 +101,7 @@ describe("fetchContent", () => {
       // inspect the results
       expect(result.item).toEqual(documentItem);
       expect(result.boundary).toEqual({
-        geometry: undefined,
+        geometry: null,
         provenance: undefined,
       });
       expect(result.statistics).toBeUndefined();
@@ -139,8 +139,10 @@ describe("fetchContent", () => {
               spatialReference: {
                 wkid: 4326,
               },
-            } as IPolygon,
-            // "setBy": null
+            } as IPolygonProperties,
+            spatialReference: {
+              wkid: 4326,
+            },
           },
         };
         itemEnrichments = getMultiLayerItemEnrichments();
@@ -211,7 +213,7 @@ describe("fetchContent", () => {
         // Default to slug that was passed in, not the slug of the fetched layer
         expect(result.slug).toBe(slug);
         // expect(result.boundary).toEqual(layerHubEnrichments.boundary)
-        expect(result.boundary).toBe(layerHubEnrichments.boundary);
+        expect(result.boundary).toEqual(layerHubEnrichments.boundary);
         expect(result.boundary).not.toBe(hubEnrichments.boundary);
         expect(result.statistics).toEqual(layerHubEnrichments.statistics);
         expect(result.recordCount).toBe(count);
@@ -483,7 +485,7 @@ describe("fetchContent", () => {
         // inspect the results
         expect(result.item).toEqual(documentItem);
         expect(result.boundary).toEqual({
-          geometry: undefined,
+          geometry: null,
           provenance: undefined,
         });
         expect(result.statistics).toBeUndefined();
@@ -520,7 +522,7 @@ describe("fetchContent", () => {
         // inspect the results
         expect(result.item).toEqual(documentItem);
         expect(result.boundary).toEqual({
-          geometry: undefined,
+          geometry: null,
           provenance: undefined,
         });
         expect(result.statistics).toBeUndefined();
@@ -554,7 +556,7 @@ describe("fetchContent", () => {
       // inspect the results
       expect(result.item).toEqual(documentItem);
       expect(result.boundary).toEqual({
-        geometry: undefined,
+        geometry: null,
         provenance: undefined,
       });
       expect(result.statistics).toBeUndefined();
@@ -591,7 +593,7 @@ describe("fetchContent", () => {
         // inspect the results
         expect(result.item).toEqual(documentItem);
         expect(result.boundary).toEqual({
-          geometry: undefined,
+          geometry: null,
           provenance: undefined,
         });
         expect(result.statistics).toBeUndefined();
@@ -645,7 +647,7 @@ describe("fetchContent", () => {
           expect(result.item).toEqual(
             multiLayerFeatureServiceItem as portalModule.IItem
           );
-          // expect(result.boundary).toEqual({ geometry: undefined, provenance: undefined })
+          // expect(result.boundary).toEqual({ geometry: null, provenance: undefined })
           expect(result.statistics).toBeUndefined();
           expect(result.layer.id).toBe(layerId);
           expect(result.recordCount).toEqual(Infinity);

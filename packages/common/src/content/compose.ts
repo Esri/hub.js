@@ -719,9 +719,10 @@ export const composeContent = (
     },
     // would require us to do client-side projection of server/layer extent
     get boundary() {
-      // TODO: need to be able to handle automatic w/ additional enrichment
-      // that could for example fetch the concave hull from the Hub API or resources
-      return boundary || getContentBoundary(item);
+      // NOTE: the boundary from the Hub API will be undefined if item.properties.boundary === 'none'
+      return boundary?.provenance === "automatic"
+        ? boundary
+        : getContentBoundary(item);
     },
     get summary() {
       return (

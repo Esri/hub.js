@@ -17,7 +17,13 @@ import {
   GeographyProvenance,
   IHubRequestOptions,
 } from "../types";
-import { bBoxToPolygon, extentToBBox, isBBox } from "../extent";
+import {
+  bBoxToExtent,
+  extentToBBox,
+  extentToPolygon,
+  getExtentCenter,
+  isBBox,
+} from "../extent";
 import { getFamily } from "./get-family";
 import { getProp } from "../objects";
 import { IHubAdditionalResource } from "../core/types/IHubAdditionalResource";
@@ -46,30 +52,29 @@ export const setContentBoundary = (
  * @returns
  * @private
  */
-// TODO: this needs to be able to handle "automatic"
 export const getContentBoundary = (item: IItem): IHubGeography => {
-  const extent = item.extent;
-  const isValidItemExtent = isBBox(extent);
+  const bBox = item.extent;
+  const isValidItemExtent = isBBox(bBox);
   // user specified provenance is stored in item.properties
   const provenance: GeographyProvenance =
     item.properties?.boundary ||
     // but we default to item if the item has an extent
     (isValidItemExtent ? "item" : undefined);
-  let geometry;
-  switch (provenance) {
-    case "item":
-      geometry = isValidItemExtent ? bBoxToPolygon(extent) : null;
-      break;
-    case "none":
-      geometry = null;
-      break;
-    // TODO: handle other provenances
-  }
-  // TODO: derive and return center
-  return {
+  const boundary: IHubGeography = {
+    geometry: null,
     provenance,
-    geometry,
   };
+  if (provenance === "item" && isValidItemExtent) {
+    const extent = bBoxToExtent(bBox);
+    const center = getExtentCenter(extent);
+    boundary.center = [center.x, center.y];
+    boundary.geometry = {
+      ...extentToPolygon(extent),
+      type: "polygon",
+    };
+    boundary.spatialReference = boundary.geometry.spatialReference;
+  }
+  return boundary;
 };
 
 /**
