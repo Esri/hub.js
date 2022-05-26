@@ -1,3 +1,10 @@
+# @esri/hub-common [9.37.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.36.0...@esri/hub-common@9.37.0) (2022-05-26)
+
+
+### Features
+
+* add bBoxToExtent(), extentToPolygon(), and getExtentCenter() utils ([b688776](https://github.com/Esri/hub.js/commit/b68877643ff1bae5c6cfa10d14175481c5208128))
+
 # @esri/hub-common [9.36.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.35.0...@esri/hub-common@9.36.0) (2022-05-24)
 
 
