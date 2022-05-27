@@ -43,13 +43,13 @@ export interface IFilterGroup<T extends FilterType> {
 export interface IFilterTypeMap {
   // any: IAnyFilterDefinition;
   item: IItemFilter;
+  user: IUserFilterDefinition;
+  group: IGroupFilterDefinition;
+  event: IEventFilterDefinition;
   /**
    * DEPRECATED use item
    */
   content: IContentFilterDefinition;
-  user: IUserFilterDefinition;
-  group: IGroupFilterDefinition;
-  event: IEventFilterDefinition;
 }
 export type FilterType = keyof IFilterTypeMap;
 

@@ -1,42 +1,40 @@
-import { IItem } from "@esri/arcgis-rest-types";
-import { isMaster } from "cluster";
-import { fetchItemEnrichments } from "../items/_enrichments";
+import { IGroup } from "@esri/arcgis-rest-types";
+import { getHubRelativeUrl } from "../content/_internal";
+import { fetchGroupEnrichments } from "./_internal/enrichments";
 import { getProp } from "../objects";
 import { getItemThumbnailUrl } from "../resources";
-import { IHubSearchResult } from "../search";
+import { getGroupThumbnailUrl, IHubSearchResult } from "../search";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { IHubRequestOptions } from "../types";
-import { getItemHomeUrl } from "../urls";
+import { getGroupHomeUrl, getItemHomeUrl } from "../urls";
 import { unique } from "../util";
 import { mapBy } from "../utils";
-import { getFamily } from "./get-family";
-import { getHubRelativeUrl } from "./_internal";
 
 /**
  * Enrich a generic search result
- * @param item
+ * @param group
  * @param includes
  * @param requestOptions
  * @returns
  */
-export async function enrichContentSearchResult(
-  item: IItem,
+export async function enrichGroupSearchResult(
+  group: IGroup,
   include: string[] = [],
   requestOptions?: IHubRequestOptions
 ): Promise<IHubSearchResult> {
   // Create the basic structure
   const result: IHubSearchResult = {
-    access: item.access,
-    id: item.id,
-    type: item.type,
-    name: item.title,
-    owner: item.owner,
-    summary: item.snippet || item.description,
-    createdDate: new Date(item.created),
-    createdDateSource: "item.created",
-    updatedDate: new Date(item.modified),
-    updatedDateSource: "item.modified",
-    family: getFamily(item.type),
+    access: group.access,
+    id: group.id,
+    type: "Group",
+    name: group.title,
+    owner: group.owner,
+    summary: group.snippet || group.description,
+    createdDate: new Date(group.created),
+    createdDateSource: "group.created",
+    updatedDate: new Date(group.modified),
+    updatedDateSource: "group.modified",
+    family: "team",
     links: {
       self: "not-implemented",
       siteRelative: "not-implemented",
@@ -44,18 +42,16 @@ export async function enrichContentSearchResult(
     },
   };
 
+  // Informal Enrichments - basically adding type-specific props
+  // derived directly from the entity
+  result.isSharedUpdate = (group.capabilities || []).includes(
+    "updateitemcontrol"
+  );
+  result.membershipAccess = group.membershipAccess;
+  result.isOpenData = !!group.isOpenData;
+
   // default includes
   let DEFAULTS: string[] = [];
-
-  // Type specific logic here
-  // NOTE: This is currently just test logic
-  if (["Map Service", "Feature Service"].includes(item.type)) {
-    DEFAULTS = ["server.layers.length AS layerCount"];
-  }
-
-  if (item.type === "Web Map") {
-    DEFAULTS = ["data.operationalLayers.length AS layerCount"];
-  }
 
   // merge includes
   include = [...include, ...DEFAULTS].filter(unique);
@@ -66,7 +62,7 @@ export async function enrichContentSearchResult(
   // fetch the enrichments
   let enriched = {};
   if (enrichments.length) {
-    enriched = await fetchItemEnrichments(item, enrichments, requestOptions);
+    enriched = await fetchGroupEnrichments(group, enrichments, requestOptions);
   }
 
   // map the enriched props onto the result
@@ -76,12 +72,13 @@ export async function enrichContentSearchResult(
 
   // Handle links
   // TODO: Link handling should be an enrichment
-  result.links.thumbnail = getItemThumbnailUrl(item, requestOptions);
-  result.links.self = getItemHomeUrl(result.id, requestOptions);
+  result.links.thumbnail = getGroupThumbnailUrl(requestOptions.portal, group);
+  // TODO: Create Fn to get the group home url
+  result.links.self = getGroupHomeUrl(result.id, requestOptions);
   result.links.siteRelative = getHubRelativeUrl(
     result.type,
     result.id,
-    item.typeKeywords
+    group.typeKeywords
   );
 
   return result;

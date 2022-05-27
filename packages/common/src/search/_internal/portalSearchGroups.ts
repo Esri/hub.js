@@ -1,13 +1,6 @@
-import { IItem, ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
-import {
-  convertPortalItemResponseToFacets,
-  convertPortalResponseToFacets,
-  enrichContentSearchResult,
-} from "../..";
-
-import { enrichPageSearchResult } from "../../pages/HubPages";
-import { enrichProjectSearchResult } from "../../projects";
-import { enrichSiteSearchResult } from "../../sites";
+import { ISearchOptions, searchGroups } from "@esri/arcgis-rest-portal";
+import { IGroup } from "@esri/arcgis-rest-types";
+import { enrichGroupSearchResult } from "../../groups/HubGroups";
 import { IHubRequestOptions } from "../../types";
 import { expandFilter, serializeFilterGroupsForPortal } from "../filter-utils";
 import {
@@ -25,8 +18,8 @@ import { expandApi, getNextFunction } from "../utils";
  * @param options
  * @returns
  */
-export async function portalSearchItems(
-  filterGroups: Array<IFilterGroup<"item">>,
+export async function portalSearchGroups(
+  filterGroups: Array<IFilterGroup<"group">>,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
   // API
@@ -80,13 +73,14 @@ async function searchPortal(
   searchOptions: ISearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
   // Execute portal search
-  const resp = await searchItems(searchOptions);
+  const resp = await searchGroups(searchOptions);
 
-  // create mappable fn that will handle the includes
-  const fn = (item: IItem) => {
-    return itemToSearchResult(
+  // create mappable fn that will close
+  // over the includes and requestOptions
+  const fn = (item: IGroup) => {
+    return groupToSearchResult(
       item,
-      searchOptions.includes,
+      searchOptions.include,
       searchOptions.requestOptions
     );
   };
@@ -94,14 +88,12 @@ async function searchPortal(
   // map over results
   const results = await Promise.all(resp.results.map(fn));
 
-  // convert aggregations into facets
-  const facets = convertPortalItemResponseToFacets(resp);
-
+  // Group Search does not support aggregations
   // Construct the return
   return {
     total: resp.total,
     results,
-    facets,
+    facets: [],
     hasNext: resp.nextStart > -1,
     next: getNextFunction<IHubSearchResult>(
       searchOptions,
@@ -120,26 +112,10 @@ async function searchPortal(
  * @param requestOptions
  * @returns
  */
-async function itemToSearchResult(
-  item: IItem,
+async function groupToSearchResult(
+  group: IGroup,
   includes: string[] = [],
   requestOptions?: IHubRequestOptions
 ): Promise<IHubSearchResult> {
-  // based on the type, we delegate to type-specific functions
-  // this allows each type to apply "default" enrichments
-  let fn = enrichContentSearchResult;
-  switch (item.type) {
-    case "Hub Site Application":
-    case "Site Application":
-      fn = enrichSiteSearchResult;
-      break;
-    case "Hub Page":
-    case "Site Page":
-      fn = enrichPageSearchResult;
-      break;
-    case "Hub Project":
-      fn = enrichProjectSearchResult;
-      break;
-  }
-  return fn(item, includes, requestOptions);
+  return enrichGroupSearchResult(group, includes, requestOptions);
 }

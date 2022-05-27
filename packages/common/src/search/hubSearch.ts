@@ -10,6 +10,7 @@ import {
 } from "./types";
 import { expandApi } from "./utils";
 import { hubSearchItems, portalSearchItems } from "./_internal";
+import { portalSearchGroups } from "./_internal/portalSearchGroups";
 
 /**
  * Main Search function for ArcGIS Hub
@@ -58,6 +59,7 @@ export async function hubSearch(
   const fnHash = {
     arcgis: {
       item: portalSearchItems,
+      group: portalSearchGroups,
     },
     "arcgis-hub": {
       item: hubSearchItems,

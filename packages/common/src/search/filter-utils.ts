@@ -22,7 +22,7 @@ import { relativeDateToDateRange, valueToMatchOptions } from "./utils";
 export function expandFilter<T>(filter: T): T {
   const result = {} as typeof filter;
   const dateProps = ["created", "modified", "lastlogin"];
-  const copyProps = ["filterType", "term", "searchUserAccess"];
+  const copyProps = ["filterType", "term", "searchUserAccess", "isopendata"];
   const nonMatchOptionsFields = [...dateProps, ...copyProps];
   // Do the conversion
   Object.entries(filter).forEach(([key, value]) => {
@@ -88,7 +88,14 @@ function serializeGroup(group: IFilterGroup<FilterType>): string {
  */
 function serializeFilter(filter: Filter<FilterType>): string {
   const dateProps = ["created", "modified"];
-  const specialProps = ["filterType", "searchUserAccess", "term", ...dateProps];
+  const boolProps = ["isopendata"];
+  const specialProps = [
+    "filterType",
+    "searchUserAccess",
+    "term",
+    ...dateProps,
+    ...boolProps,
+  ];
   // TODO: Look at using reduce vs .map and remove the `.filter`
   const stringFilters = Object.entries(filter)
     .map(([key, value]) => {
@@ -97,6 +104,9 @@ function serializeFilter(filter: Filter<FilterType>): string {
       }
       if (dateProps.includes(key)) {
         return serializeDateRange(key, value as unknown as IDateRange<number>);
+      }
+      if (boolProps.includes(key)) {
+        return `${key}:${value}`;
       }
       if (key === "term") {
         return value;
