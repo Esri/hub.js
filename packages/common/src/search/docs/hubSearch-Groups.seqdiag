@@ -1,0 +1,17 @@
+Title: hubSearch Portal Group Function Flow
+hubSearch->portalSearchGroups\n(internal): FilterGroups & IHubSearchOptions
+portalSearchGroups\n(internal)->serializeFilterGroupForPortal: FilterGroups
+serializeFilterGroupForPortal->portalSearchGroups\n(internal): searchOptions
+portalSearchGroups\n(internal)->searchPortal\n(private):searchOptions
+searchPortal\n(private)->searchGroups\n(restjs):searchOptions
+searchGroups\n(restjs)->PORTAL SEARCH API:HTTP POST
+PORTAL SEARCH API->searchGroups\n(restjs): Raw Results
+searchGroups\n(restjs)->searchPortal\n(private): Raw Results
+searchPortal\n(private)->results.map(groupToSearchResult): IItem
+results.map(groupToSearchResult)->enrichGroupSearchResult\n(in HubGroups Module): IItem
+enrichGroupSearchResult\n(in HubGroups Module)->PORTAL API: get enrichment(s)
+PORTAL API->enrichGroupSearchResult\n(in HubGroups Module): enrichment(s)
+enrichGroupSearchResult\n(in HubGroups Module)->results.map(groupToSearchResult): enriched IHubSearchResult
+results.map(groupToSearchResult)->searchPortal\n(private):enriched IHubSearchResult
+searchPortal\n(private)->portalSearchGroups\n(internal): Array<IHubSearchResponse<IHubSearchResult>>
+portalSearchGroups\n(internal)->hubSearch: Array<IHubSearchResponse<IHubSearchResult>>

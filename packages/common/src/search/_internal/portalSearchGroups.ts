@@ -127,5 +127,8 @@ async function groupToSearchResult(
   requestOptions?: IHubRequestOptions
 ): Promise<IHubSearchResult> {
   // Delegate to HubGroups module
+  // This layer of indirection is not necessary but
+  // aligns with how the items search works and
+  // allows for future specialization
   return enrichGroupSearchResult(group, includes, requestOptions);
 }
