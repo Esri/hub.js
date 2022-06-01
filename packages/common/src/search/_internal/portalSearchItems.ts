@@ -2,6 +2,7 @@ import { IItem, ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
 import {
   convertPortalItemResponseToFacets,
   enrichContentSearchResult,
+  HubError,
 } from "../..";
 
 import { enrichPageSearchResult } from "../../pages/HubPages";
@@ -28,6 +29,12 @@ export async function portalSearchItems(
   filterGroups: Array<IFilterGroup<"item">>,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
+  if (!options.requestOptions) {
+    throw new HubError(
+      "hubSearch",
+      "requestOptions: IHubRequestOptions is required."
+    );
+  }
   // Expand the individual filters in each of the groups
   const expandedGroups = filterGroups.map((fg) => {
     fg.filters = fg.filters.map(expandFilter);
@@ -52,7 +59,7 @@ export async function portalSearchItems(
     }
   });
 
-  if (options.requestOptions?.authentication) {
+  if (options.requestOptions.authentication) {
     so.authentication = options.requestOptions.authentication;
   } else {
     so.portal = options.requestOptions.portal;

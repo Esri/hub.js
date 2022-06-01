@@ -5,7 +5,7 @@ import * as Portal from "@esri/arcgis-rest-portal";
 import * as SimpleResponse from "../../mocks/portal-groups-search/simple-response.json";
 import { MOCK_AUTH, MOCK_ENTERPRISE_AUTH } from "../../mocks/mock-auth";
 
-fdescribe("portalSearchGroups:", () => {
+describe("portalSearchGroups:", () => {
   it("defaults to ago prod", async () => {
     const searchGroupsSpy = spyOn(Portal, "searchGroups").and.callFake(() => {
       return Promise.resolve(cloneObject(SimpleResponse));

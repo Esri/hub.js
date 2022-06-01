@@ -195,6 +195,7 @@ export interface IGroupFilterDefinition {
   term?: string;
   title?: string | string[] | IMatchOptions;
   typekeywords?: string | string[] | IMatchOptions;
+  isopendata?: boolean;
 }
 
 export interface IEventFilterDefinition {

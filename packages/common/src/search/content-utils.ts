@@ -216,6 +216,7 @@ export function convertPortalItemResponseToFacets(
         // Temporary to ensure the old fn can delegate to this
         // but we can still return the correct structure
         // TODO: Remove with _searchContent
+        /* istanbul ignore next */
         if (optionProp === "filter") {
           fo.filter = filter;
         } else {

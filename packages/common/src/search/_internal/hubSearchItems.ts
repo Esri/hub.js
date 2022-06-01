@@ -15,12 +15,15 @@ import {
 } from "../types";
 import { expandApi } from "../utils";
 
+/** NOTE: Since Hub API is still in flux, there is no code coverage for this file */
+
 /**
  * Execute search against the Hub API
  * @param filter
  * @param options
  * @returns
  */
+/* istanbul ignore next */
 export async function hubSearchItems(
   filters: Array<IFilterGroup<"item">>,
   options: IHubSearchOptions
@@ -133,12 +136,14 @@ export async function hubSearchItems(
  * @param data
  * @returns
  */
+/* istanbul ignore next */
 export function jsonApiToHubContent(data: Record<string, any>): IHubContent {
   const content = cloneObject(data.attributes) as unknown as IHubContent;
   content.id = data.id;
   return content;
 }
 
+/* istanbul ignore next */
 export function hubContentToSearchResult(
   content: IHubContent
 ): Promise<IHubSearchResult> {
@@ -182,6 +187,7 @@ interface IHubMetaResponse {
   }>;
 }
 
+/* istanbul ignore next */
 export function convertHubResponseToFacets(
   response: any,
   operation: "OR" | "AND" = "OR"

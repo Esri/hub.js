@@ -303,8 +303,8 @@ export async function convertItemToProject(
  */
 export async function enrichProjectSearchResult(
   item: IItem,
-  includes: string[] = [],
-  requestOptions?: IHubRequestOptions
+  includes: string[],
+  requestOptions: IHubRequestOptions
 ): Promise<IHubSearchResult> {
   // Create the basic structure
   const result: IHubSearchResult = {
@@ -327,7 +327,7 @@ export async function enrichProjectSearchResult(
   };
 
   // default includes
-  const DEFAULTS = ["data.status AS projectStatus"];
+  const DEFAULTS: string[] = [];
   // merge includes
   includes = [...includes, ...DEFAULTS].filter(unique);
   // Parse the includes into a valid set of enrichments

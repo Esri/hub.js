@@ -21,8 +21,8 @@ import { getHubRelativeUrl } from "./_internal";
  */
 export async function enrichContentSearchResult(
   item: IItem,
-  include: string[] = [],
-  requestOptions?: IHubRequestOptions
+  include: string[],
+  requestOptions: IHubRequestOptions
 ): Promise<IHubSearchResult> {
   // Create the basic structure
   const result: IHubSearchResult = {
@@ -45,17 +45,16 @@ export async function enrichContentSearchResult(
   };
 
   // default includes
-  let DEFAULTS: string[] = [];
+  const DEFAULTS: string[] = [];
 
-  // Type specific logic here
-  // NOTE: This is currently just test logic
-  if (["Map Service", "Feature Service"].includes(item.type)) {
-    DEFAULTS = ["server.layers.length AS layerCount"];
-  }
+  // Add any type-specific defaults here
+  // if (["Map Service", "Feature Service"].includes(item.type)) {
+  //   DEFAULTS = ["server.layers.length AS layerCount"];
+  // }
 
-  if (item.type === "Web Map") {
-    DEFAULTS = ["data.operationalLayers.length AS layerCount"];
-  }
+  // if (item.type === "Web Map") {
+  //   DEFAULTS = ["data.operationalLayers.length AS layerCount"];
+  // }
 
   // merge includes
   include = [...include, ...DEFAULTS].filter(unique);

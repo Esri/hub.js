@@ -9,8 +9,11 @@ import {
   IHubSearchResult,
 } from "./types";
 import { expandApi } from "./utils";
-import { hubSearchItems, portalSearchItems } from "./_internal";
-import { portalSearchGroups } from "./_internal/portalSearchGroups";
+import {
+  hubSearchItems,
+  portalSearchItems,
+  portalSearchGroups,
+} from "./_internal";
 
 /**
  * Main Search function for ArcGIS Hub
@@ -29,13 +32,13 @@ export async function hubSearch(
   if (!filterGroups || !Array.isArray(filterGroups)) {
     throw new HubError(
       "hubSearch",
-      "FilterGroup is required and must be an array."
+      "FilterGroups are required and must be an array."
     );
   }
   if (!filterGroups.length) {
     throw new HubError(
       "hubSearch",
-      "FilterGroup array must contain at least one entry."
+      "FilterGrous array must contain at least one entry."
     );
   }
 

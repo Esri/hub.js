@@ -1,5 +1,5 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
-
+import * as FetchEnrichments from "../../src/items/_enrichments";
 import {
   cloneObject,
   IModel,
@@ -10,6 +10,8 @@ import {
   updateProject,
   searchProjects,
   Filter,
+  IHubRequestOptions,
+  enrichProjectSearchResult,
 } from "../../src";
 
 import { MOCK_AUTH } from "../mocks/mock-auth";
@@ -20,7 +22,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubSearchOptions } from "../../dist/types";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
-const PROJECT_ITEM = {
+const PROJECT_ITEM: portalModule.IItem = {
   id: GUID,
   title: "Fake Project",
   description: "fake description",
@@ -44,6 +46,64 @@ const PROJECT_MODEL = {
   item: PROJECT_ITEM,
   data: PROJECT_DATA,
 } as IModel;
+
+const PROJECT_ITEM_ENRICH: portalModule.IItem = {
+  id: "0332f8205e594368b8c3409772f2dcf1",
+  owner: "dev_pre_hub_admin",
+  created: 1652819949000,
+  isOrgItem: true,
+  modified: 1652819949000,
+  guid: null,
+  name: null,
+  title: "Data Project",
+  type: "Hub Project",
+  typeKeywords: [
+    "Dave Projects",
+    "Hub",
+    "Hub Project",
+    "JavaScript",
+    "Map",
+    "Mapping Site",
+    "Online Map",
+    "Ready To Use",
+    "selfConfigured",
+    "Web Map",
+  ],
+  description: "Test Project with data",
+  tags: ["hubproject"],
+  snippet: null,
+  thumbnail: "thumbnail/my-project.png",
+  documentation: null,
+  extent: [],
+  categories: [],
+  spatialReference: null,
+  accessInformation: null,
+  licenseInfo: "CC-BY-SA",
+  culture: "en-us",
+  properties: null,
+  advancedSettings: null,
+  url: null,
+  proxyFilter: null,
+  access: "public",
+  size: -1,
+  subInfo: 0,
+  appCategories: [],
+  industries: [],
+  languages: [],
+  largeThumbnail: null,
+  banner: null,
+  screenshots: [],
+  listed: false,
+  ownerFolder: null,
+  protected: false,
+  numComments: 0,
+  numRatings: 0,
+  avgRating: 0,
+  numViews: 13,
+  scoreCompleteness: 45,
+  groupDesignations: null,
+  contentOrigin: "self",
+};
 
 describe("HubProjects:", () => {
   describe("fetchProject:", () => {
@@ -399,6 +459,82 @@ describe("HubProjects:", () => {
       expect(response.facets.length).toBe(1);
       expect(response.facets[0].key).toBe("tags");
       expect(response.facets[0].options.length).toBe(3);
+    });
+  });
+
+  describe("enrichments:", () => {
+    let enrichmentSpy: jasmine.Spy;
+    let hubRo: IHubRequestOptions;
+    beforeEach(() => {
+      enrichmentSpy = spyOn(
+        FetchEnrichments,
+        "fetchItemEnrichments"
+      ).and.callFake(() => {
+        return Promise.resolve({
+          data: {
+            status: "active",
+          },
+        });
+      });
+      hubRo = {
+        portal: "https://some-server.com/gis/sharing/rest",
+      };
+    });
+    it("converts item to search result", async () => {
+      const chk = await enrichProjectSearchResult(
+        cloneObject(PROJECT_ITEM_ENRICH),
+        [],
+        hubRo
+      );
+
+      expect(enrichmentSpy.calls.count()).toBe(
+        0,
+        "should not fetch enrichments"
+      );
+
+      // verify expected output
+      const ITM = cloneObject(PROJECT_ITEM_ENRICH);
+      expect(chk.access).toEqual(ITM.access);
+      expect(chk.id).toEqual(ITM.id);
+      expect(chk.type).toEqual(ITM.type);
+      expect(chk.name).toEqual(ITM.title);
+      expect(chk.owner).toEqual(ITM.owner);
+      expect(chk.summary).toEqual(ITM.description);
+      expect(chk.createdDate).toEqual(new Date(ITM.created));
+      expect(chk.createdDateSource).toEqual("item.created");
+      expect(chk.updatedDate).toEqual(new Date(ITM.modified));
+      expect(chk.updatedDateSource).toEqual("item.modified");
+      expect(chk.family).toEqual("project");
+      expect(chk.links.self).toEqual(
+        `https://some-server.com/gis/home/item.html?id=${ITM.id}`
+      );
+      expect(chk.links.siteRelative).toEqual(`/projects/${ITM.id}`);
+      expect(chk.links.thumbnail).toEqual(
+        `${hubRo.portal}/content/items/${ITM.id}/info/${ITM.thumbnail}`
+      );
+    });
+    it("uses snippet if defined", async () => {
+      const itm = cloneObject(PROJECT_ITEM_ENRICH);
+      itm.snippet = "This should be used";
+      const chk = await enrichProjectSearchResult(itm, [], hubRo);
+      expect(chk.summary).toEqual(itm.snippet);
+    });
+    it("fetches enrichments", async () => {
+      const chk = await enrichProjectSearchResult(
+        cloneObject(PROJECT_ITEM_ENRICH),
+        ["data.status AS projectStatus"],
+        hubRo
+      );
+
+      // verify the response
+      expect(chk.projectStatus).toBe("active");
+
+      // verify the spy
+      expect(enrichmentSpy.calls.count()).toBe(1, "should fetch enrichments");
+      const [item, enrichments, ro] = enrichmentSpy.calls.argsFor(0);
+      expect(item).toEqual(PROJECT_ITEM_ENRICH);
+      expect(enrichments).toEqual(["data"]);
+      expect(ro).toBe(hubRo);
     });
   });
 });

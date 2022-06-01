@@ -18,7 +18,9 @@ All of these functions utilize the same utility functions to serialize the `IFil
 
 ## Enrichment
 
-While this is mainly focused on Items, the other entity types will also support enrichments over time, so they utilize the same function chains. Essentially, after the initial search results return from the API, the `include` array is used to determine the additional "enrichments" that need to be fetched. For items, this is done in the `enrich{Type}SearchResult` functions, implemented in the `HubContent`, `HubSite`, `HubPage`, and `HubProject` modules, where furter type-specific logic can also be applied, including the concept of "default enrichments", which are always applied for that type. Once the enrichments are fetched, the `include` array is used to determine if the whole object is attached, or if we are just plucking out a deep object path, and then attaching that into the `IHubSearchResult` object.
+While this is mainly focused on Items, the other entity types will also support enrichments over time, so they utilize the same function chains. Essentially, after the initial search results return from the API, the `include` array is used to determine the additional "enrichments" that need to be fetched. For items, this is done in the `enrich{Type}SearchResult` functions, implemented in the `HubContent`, `HubSite`, `HubPage`, and `HubProject` modules, where furter type-specific logic can also be applied, including the concept of "default enrichments", which are always applied for that type. The actual enrichments are fetched using the `fetchItemEnrichments` function, used internally by `fetchContent`. For Groups, `fetchGroupEnrichments` is called.
+
+Once the enrichments are fetched, the `include` array is used to determine if the whole object is attached, or if we are just plucking out a deep object path, and then attaching that into the `IHubSearchResult` object.
 Once that's all done, the `IHubSearchResponse<IHubSearchResult>` is returned to the caller.
 
 ## Item Search Sequence Diagram

@@ -20,8 +20,8 @@ import { mapBy } from "../utils";
  */
 export async function enrichPageSearchResult(
   item: IItem,
-  includes: string[] = [],
-  requestOptions?: IHubRequestOptions
+  includes: string[],
+  requestOptions: IHubRequestOptions
 ): Promise<IHubSearchResult> {
   // Create the basic structure
   const result: IHubSearchResult = {

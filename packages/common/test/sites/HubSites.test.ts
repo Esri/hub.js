@@ -2,12 +2,18 @@ import * as commonModule from "../../src";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as siteInternals from "../../src/sites/_internal";
 import * as searchEntitiesModule from "../../src/search/_internal/searchContentEntities";
+import * as FetchEnrichments from "../../src/items/_enrichments";
 import {
   MOCK_AUTH,
   MOCK_ENTERPRISE_REQOPTS,
   MOCK_HUB_REQOPTS,
   MOCK_NOAUTH_HUB_REQOPTS,
 } from "../mocks/mock-auth";
+import {
+  cloneObject,
+  enrichSiteSearchResult,
+  IHubRequestOptions,
+} from "../../src";
 
 const GUID = "00c77674e43cf4bbd9ecad5189b3f1fdc";
 const SITE_ITEM: portalModule.IItem = {
@@ -74,6 +80,73 @@ const SITE: commonModule.IHubSite = {
   contentViews: {},
   headerSass: "",
   thumbnailUrl: "",
+};
+
+const SITE_ITEM_ENRICH: portalModule.IItem = {
+  id: "ad5bace94384467b8712309ae8b68bfd",
+  owner: "zhen9978",
+  created: 1647332678000,
+  modified: 1647404575000,
+  guid: null,
+  name: null,
+  title: "314 march update",
+  type: "Hub Site Application",
+  typeKeywords: [
+    "Hub",
+    "hubSite",
+    "hubSolution",
+    "JavaScript",
+    "Map",
+    "Mapping Site",
+    "Online Map",
+    "OpenData",
+    "Ready To Use",
+    "selfConfigured",
+    "source-embedded-basic-default-site",
+    "Web Map",
+    "Registered App",
+  ],
+  description: null,
+  tags: ["Hub Site"],
+  snippet: null,
+  thumbnail: "thumbnail/bar.png",
+  documentation: null,
+  extent: [],
+  categories: [],
+  spatialReference: null,
+  accessInformation: null,
+  licenseInfo: null,
+  culture: "en-us",
+  properties: {
+    createdFrom: "basicDefaultSite Solution Template (embedded)",
+    schemaVersion: 1.5,
+    hasSeenGlobalNav: true,
+    collaborationGroupId: "7faa3c339a5f4f6b9e605f7aba2b1593",
+    contentGroupId: "19db2e0ea0a14b54bc94a3cf04b93abe",
+    parentInitiativeId: "c1d7fe46f84547a6ace8ad2ecd529a72",
+    children: [],
+    parentId: "embedded-basic-default-site",
+  },
+  advancedSettings: null,
+  url: "https://314-march-update-beijing.hubdev.arcgis.com",
+  proxyFilter: null,
+  access: "public",
+  size: -1,
+  subInfo: 0,
+  appCategories: [],
+  industries: [],
+  languages: [],
+  largeThumbnail: null,
+  banner: null,
+  screenshots: [],
+  listed: false,
+  numComments: 0,
+  numRatings: 0,
+  avgRating: 0,
+  numViews: 88,
+  scoreCompleteness: 16,
+  groupDesignations: null,
+  contentOrigin: "other",
 };
 
 describe("HubSites:", () => {
@@ -367,6 +440,79 @@ describe("HubSites:", () => {
       expect(chk.url).toBe("https://my-server.com/portal/apps/sites/#/my-site");
       expect(chk.typeKeywords).toContain(`hubsubdomain|${chk.subdomain}`);
       expect(chk.subdomain).toBe(`my-site`);
+    });
+  });
+  describe("enrichments:", () => {
+    let enrichmentSpy: jasmine.Spy;
+    let hubRo: IHubRequestOptions;
+    beforeEach(() => {
+      enrichmentSpy = spyOn(
+        FetchEnrichments,
+        "fetchItemEnrichments"
+      ).and.callFake(() => {
+        return Promise.resolve({
+          data: {
+            pages: [{ id: 1 }, { id: 2 }],
+          },
+        });
+      });
+      hubRo = {
+        portal: "https://some-server.com/gis/sharing/rest",
+      };
+    });
+    it("converts item to search result", async () => {
+      const chk = await enrichSiteSearchResult(
+        cloneObject(SITE_ITEM_ENRICH),
+        [],
+        hubRo
+      );
+
+      expect(enrichmentSpy.calls.count()).toBe(
+        0,
+        "should not fetch enrichments"
+      );
+
+      // verify expected output
+      const ITM = cloneObject(SITE_ITEM_ENRICH);
+      expect(chk.access).toEqual(ITM.access);
+      expect(chk.id).toEqual(ITM.id);
+      expect(chk.type).toEqual(ITM.type);
+      expect(chk.name).toEqual(ITM.title);
+      expect(chk.owner).toEqual(ITM.owner);
+      expect(chk.summary).toEqual(ITM.description);
+      expect(chk.createdDate).toEqual(new Date(ITM.created));
+      expect(chk.createdDateSource).toEqual("item.created");
+      expect(chk.updatedDate).toEqual(new Date(ITM.modified));
+      expect(chk.updatedDateSource).toEqual("item.modified");
+      expect(chk.family).toEqual("site");
+      expect(chk.links.self).toEqual(ITM.url);
+      expect(chk.links.siteRelative).toEqual(`/content/${ITM.id}`);
+      expect(chk.links.thumbnail).toEqual(
+        `${hubRo.portal}/content/items/${ITM.id}/info/${ITM.thumbnail}`
+      );
+    });
+    it("uses snippet if defined", async () => {
+      const itm = cloneObject(SITE_ITEM_ENRICH);
+      itm.snippet = "This should be used";
+      const chk = await enrichSiteSearchResult(itm, [], hubRo);
+      expect(chk.summary).toEqual(itm.snippet);
+    });
+    it("fetches enrichments", async () => {
+      const chk = await enrichSiteSearchResult(
+        cloneObject(SITE_ITEM_ENRICH),
+        ["data.pages.length AS pageCount"],
+        hubRo
+      );
+
+      // verify the response
+      expect(chk.pageCount).toBe(2);
+
+      // verify the spy
+      expect(enrichmentSpy.calls.count()).toBe(1, "should fetch enrichments");
+      const [item, enrichments, ro] = enrichmentSpy.calls.argsFor(0);
+      expect(item).toEqual(SITE_ITEM_ENRICH);
+      expect(enrichments).toEqual(["data"]);
+      expect(ro).toBe(hubRo);
     });
   });
 });

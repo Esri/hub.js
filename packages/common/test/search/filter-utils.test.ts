@@ -241,5 +241,21 @@ describe("filter-utils:", () => {
 
       expect(chk.q).toEqual('tags:"water"');
     });
+    it("handles bool filter ", () => {
+      const f: Filter<"group"> = {
+        filterType: "group",
+        isopendata: true,
+      };
+
+      const group: IFilterGroup<"group"> = {
+        filterType: "group",
+        operation: "AND",
+        filters: [f],
+      };
+
+      const chk = serializeFilterGroupsForPortal([group]);
+
+      expect(chk.q).toEqual("isopendata:true");
+    });
   });
 });

@@ -1,12 +1,10 @@
 import { IGroup } from "@esri/arcgis-rest-types";
-import { getHubRelativeUrl } from "../content/_internal";
 import { fetchGroupEnrichments } from "./_internal/enrichments";
 import { getProp } from "../objects";
-import { getItemThumbnailUrl } from "../resources";
 import { getGroupThumbnailUrl, IHubSearchResult } from "../search";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { IHubRequestOptions } from "../types";
-import { getGroupHomeUrl, getItemHomeUrl } from "../urls";
+import { getGroupHomeUrl } from "../urls";
 import { unique } from "../util";
 import { mapBy } from "../utils";
 
@@ -19,8 +17,8 @@ import { mapBy } from "../utils";
  */
 export async function enrichGroupSearchResult(
   group: IGroup,
-  include: string[] = [],
-  requestOptions?: IHubRequestOptions
+  include: string[],
+  requestOptions: IHubRequestOptions
 ): Promise<IHubSearchResult> {
   // Create the basic structure
   const result: IHubSearchResult = {
@@ -51,7 +49,7 @@ export async function enrichGroupSearchResult(
   result.isOpenData = !!group.isOpenData;
 
   // default includes
-  let DEFAULTS: string[] = [];
+  const DEFAULTS: string[] = [];
 
   // merge includes
   include = [...include, ...DEFAULTS].filter(unique);
@@ -71,15 +69,9 @@ export async function enrichGroupSearchResult(
   });
 
   // Handle links
-  // TODO: Link handling should be an enrichment
   result.links.thumbnail = getGroupThumbnailUrl(requestOptions.portal, group);
-  // TODO: Create Fn to get the group home url
   result.links.self = getGroupHomeUrl(result.id, requestOptions);
-  result.links.siteRelative = getHubRelativeUrl(
-    result.type,
-    result.id,
-    group.typeKeywords
-  );
+  result.links.siteRelative = `/teams/${result.id}`;
 
   return result;
 }
