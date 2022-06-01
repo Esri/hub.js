@@ -12,6 +12,8 @@ import {
 } from ".";
 import { cloneObject, getProp, setProp } from "..";
 
+// TODO: Remove with _searchContent
+
 /**
  *
  * Merge `Filter<"group">` objects

@@ -1,5 +1,5 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { IHubRequestOptions, IModel } from "../..";
+import { IArcGISContext, IHubRequestOptions, IModel } from "../..";
 import { NamedApis, IApiDefinition } from "./types";
 
 // @private
@@ -12,9 +12,16 @@ export type Enrichments = "data" | "metadata" | "org" | "service" | "layers";
 export interface IHubSearchOptions {
   aggFields?: string[];
   aggLimit?: number;
+  /**
+   * Required for `hubSearch`
+   */
+  context?: IArcGISContext;
+  /**
+   * TODO: Deprecate in favor of context
+   */
   api?: NamedApis | IApiDefinition;
   /**
-   * TODO: Deprecate in favor of IHubRequestOptions
+   * TODO: Deprecate in favor of context
    */
   authentication?: UserSession;
   /**

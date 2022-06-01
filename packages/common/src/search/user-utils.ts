@@ -14,6 +14,7 @@ import {
   valueToMatchOptions,
 } from "..";
 
+// TODO: Remove with _searchContent
 /**
  *
  * Merge `Filter<"user">` objects

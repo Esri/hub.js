@@ -26,6 +26,8 @@ import {
   valueToMatchOptions,
 } from "./utils";
 
+// TODO: Remove with _searchContent
+
 // TODO: Implement $dataset
 const ContentFilterExpansions: IWellKnownContentFilters = {
   $apps: [

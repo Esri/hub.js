@@ -25,6 +25,19 @@ export async function portalSearchGroups(
   // API
   const api = expandApi(options.api || "arcgis");
 
+  if (!options.requestOptions) {
+    if (options.authentication) {
+      // create minimal requestOptions
+      options.requestOptions = {
+        authentication: options.authentication,
+        portal: options.authentication.portal,
+      };
+    } else {
+      options.requestOptions = {
+        portal: `${api.url}/sharing/rest`,
+      };
+    }
+  }
   // Expand the individual filters in each of the groups
   const expandedGroups = filterGroups.map((fg) => {
     fg.filters = fg.filters.map(expandFilter);
@@ -51,13 +64,9 @@ export async function portalSearchGroups(
   });
   // If we don't have auth, ensure we have .portal
   if (!so.authentication) {
-    so.portal = `${api.url}/sharing/rest`;
+    so.portal = so.requestOptions.portal || `${api.url}/sharing/rest`;
   }
-  // Aggregations
-  if (options.aggFields?.length) {
-    so.countFields = options.aggFields.join(",");
-    so.countSize = options.aggLimit || 10;
-  }
+
   return searchPortal(so);
 }
 
@@ -117,5 +126,6 @@ async function groupToSearchResult(
   includes: string[] = [],
   requestOptions?: IHubRequestOptions
 ): Promise<IHubSearchResult> {
+  // Delegate to HubGroups module
   return enrichGroupSearchResult(group, includes, requestOptions);
 }

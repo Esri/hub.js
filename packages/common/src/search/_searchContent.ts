@@ -21,6 +21,8 @@ import {
 } from "..";
 import { UserSession } from "@esri/arcgis-rest-auth";
 
+// TODO: Remove with _searchContent
+
 /**
  * Search for content via the Portal or Hub API
  * @param filter

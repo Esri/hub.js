@@ -1,7 +1,6 @@
 import { IItem, ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
 import {
   convertPortalItemResponseToFacets,
-  convertPortalResponseToFacets,
   enrichContentSearchResult,
 } from "../..";
 
@@ -29,9 +28,6 @@ export async function portalSearchItems(
   filterGroups: Array<IFilterGroup<"item">>,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
-  // API
-  const api = expandApi(options.api || "arcgis");
-
   // Expand the individual filters in each of the groups
   const expandedGroups = filterGroups.map((fg) => {
     fg.filters = fg.filters.map(expandFilter);
@@ -42,13 +38,12 @@ export async function portalSearchItems(
   const so = serializeFilterGroupsForPortal(expandedGroups);
   // Array of properties we want to copy from IHubSearchOptions to the ISearchOptions
   const props: Array<keyof IHubSearchOptions> = [
-    "authentication",
     "num",
     "sortField",
     "sortOrder",
     "include",
     "start",
-    "requestOptions",
+    "requestOptions", // although requestOptions is not needed on ISearchOption we send it through so downstream fns have access to it
   ];
   // copy the props over
   props.forEach((prop) => {
@@ -56,10 +51,13 @@ export async function portalSearchItems(
       so[prop as keyof ISearchOptions] = options[prop];
     }
   });
-  // If we don't have auth, ensure we have .portal
-  if (!so.authentication) {
-    so.portal = `${api.url}/sharing/rest`;
+
+  if (options.requestOptions?.authentication) {
+    so.authentication = options.requestOptions.authentication;
+  } else {
+    so.portal = options.requestOptions.portal;
   }
+
   // Aggregations
   if (options.aggFields?.length) {
     so.countFields = options.aggFields.join(",");

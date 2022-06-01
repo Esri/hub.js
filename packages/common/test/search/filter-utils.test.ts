@@ -103,7 +103,7 @@ describe("filter-utils:", () => {
     });
   });
 
-  fdescribe("serialize for Portal:", () => {
+  describe("serialize for Portal:", () => {
     it("converts item filter", () => {
       const f: Filter<"item"> = {
         filterType: "item",

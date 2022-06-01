@@ -513,8 +513,8 @@ describe("Content:", () => {
       const f1 = chk[0];
       expect(f1.key).toBe("tags");
       expect(f1.options.length).toBe(3);
-      expect(f1.options[0].filter.filterType).toBe("content");
-      const f1Filter = f1.options[0].filter as Filter<"content">;
+      expect(f1.options[0].filter.filterType).toBe("item");
+      const f1Filter = f1.options[0].filter as Filter<"item">;
       expect(f1Filter.tags).toEqual({ any: ["red"] });
     });
 
@@ -525,8 +525,8 @@ describe("Content:", () => {
       const f1 = chk[0];
       expect(f1.key).toBe("tags");
       expect(f1.options.length).toBe(3);
-      expect(f1.options[0].filter.filterType).toBe("content");
-      const f1Filter = f1.options[0].filter as Filter<"content">;
+      expect(f1.options[0].filter.filterType).toBe("item");
+      const f1Filter = f1.options[0].filter as Filter<"item">;
       expect(f1Filter.tags).toEqual({ all: ["red"] });
     });
   });

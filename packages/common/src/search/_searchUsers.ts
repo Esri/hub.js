@@ -30,6 +30,7 @@ export interface IHubUser extends IUser {
   thumbnailUrl?: string;
 }
 
+// TODO: Remove with _searchContent
 /**
  * Search for Users via the Portal API.
  *

@@ -26,6 +26,7 @@ export async function hubSearchItems(
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
   const api = expandApi(options.api || "hub");
+  const apiUrl = `${api.url}/api/items/beta/search`;
 
   // Purge filterType from the filters array
   const cleanFilters: any[] = [];
@@ -82,7 +83,7 @@ export async function hubSearchItems(
   };
 
   try {
-    const raw = await fetch(api.url, opts);
+    const raw = await fetch(apiUrl, opts);
     const json = await raw.json();
 
     let token: string;

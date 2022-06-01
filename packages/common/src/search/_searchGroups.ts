@@ -13,6 +13,8 @@ export interface IGroupSearchResult {
   facets: IFacet[];
 }
 
+// TODO: Remove with _searchContent
+
 /**
  * Search Groups using Filter<"group">
  *
