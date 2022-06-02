@@ -1,3 +1,10 @@
+# @esri/hub-common [9.38.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.37.0...@esri/hub-common@9.38.0) (2022-06-02)
+
+
+### Features
+
+* add hubSearch subsystem ([#801](https://github.com/Esri/hub.js/issues/801)) ([eefc831](https://github.com/Esri/hub.js/commit/eefc83157d0958e10acab079b24652550e14b02e))
+
 # @esri/hub-common [9.37.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.36.0...@esri/hub-common@9.37.0) (2022-05-26)
 
 
