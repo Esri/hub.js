@@ -15,7 +15,15 @@ import {
 } from "../types";
 import { expandApi } from "../utils";
 
-/** NOTE: Since Hub API is still in flux, there is no code coverage for this file */
+// ##    ##  #######  ######## ########
+// ###   ## ##     ##    ##    ##
+// ####  ## ##     ##    ##    ##
+// ## ## ## ##     ##    ##    ######
+// ##  #### ##     ##    ##    ##
+// ##   ### ##     ##    ##    ##
+// ##    ##  #######     ##    ########
+//
+// Since Hub API is still in flux, there is no code coverage for this file
 
 /**
  * Execute search against the Hub API

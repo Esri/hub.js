@@ -10,7 +10,7 @@ import {
   serializeMatchOptions,
   valueToMatchOptions,
 } from ".";
-import { cloneObject, getProp, setProp } from "..";
+import { cloneObject, getProp, Logger, setProp } from "..";
 
 // TODO: Remove with _searchContent
 
@@ -27,6 +27,10 @@ import { cloneObject, getProp, setProp } from "..";
 export function mergeGroupFilters(
   filters: Array<Filter<"group">>
 ): Filter<"group"> {
+  // TODO: Remove with _searchContent
+  Logger.warn(
+    `DEPRECATION: mergeGroupFilters will be removed. Work with IFilterGroups<"group"> and hubSearch() instead`
+  );
   // expand all the filters so all prop types are consistent
   const expanded = filters.map(expandGroupFilter);
   // now we can merge based on fields
@@ -88,6 +92,10 @@ export function mergeGroupFilters(
 export function expandGroupFilter(
   filter: Filter<"group">
 ): IGroupFilterDefinition {
+  // TODO: Remove with _searchContent
+  Logger.warn(
+    `DEPRECATION: expandGroupFilters will be removed. Work with IFilterGroups<"group"> and hubSearch() instead`
+  );
   const result = {} as IGroupFilterDefinition;
   const dateProps = ["created", "modified"];
   // Some properties should not get converted to MatchOptions
@@ -134,6 +142,10 @@ export function expandGroupFilter(
 export function serializeGroupFilterForPortal(
   filter: IGroupFilterDefinition
 ): ISearchOptions {
+  // TODO: Remove with _searchContent
+  Logger.warn(
+    `DEPRECATION: serializeGroupFilterForPortal will be removed. Work with IFilterGroups<"group"> and hubSearch() instead`
+  );
   let result = {
     q: "",
     filter: "",

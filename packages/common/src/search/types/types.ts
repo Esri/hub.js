@@ -7,8 +7,7 @@ import { IFacet } from "./IFacet";
  *
  * `Filter<T extends FilterType>` [FilterType](../FilterType) is constrained to
  *
- * - `Filter<"any">` [IAnyFilterDefinition](../IAnyFilterDefinition)
- * - `Filter<"content">` [IContentFilterDefinition](../IContentFilterDefinition)
+ * - `Filter<"item">` [IContentFilterDefinition](../IContentFilterDefinition)
  * - `Filter<"user">` [IUserFilterDefinition](../IUserFilterDefinition)
  * - `Filter<"group">` [IGroupFilterDefinition](../IGroupFilterDefinition)
  *
@@ -16,8 +15,8 @@ import { IFacet } from "./IFacet";
  * and it must be `keyof` [FilterTypeMap](../FilterTypeMap)
  *
  * ```ts
- * const f:Filter<"content"> = {
- *   filterType: "content" // must match the FilterType
+ * const f:Filter<"item"> = {
+ *   filterType: "item" // must match the FilterType
  *   term: "water"
  * }
  * ```
@@ -48,31 +47,11 @@ export interface IFilterTypeMap {
   event: IEventFilterDefinition;
   /**
    * DEPRECATED use item
+   * // TODO: Remove with _searchContent
    */
   content: IContentFilterDefinition;
 }
 export type FilterType = keyof IFilterTypeMap;
-
-/**
- * Common set of fields that are reasonable to apply at the
- * top level of a Catalog
- */
-// export interface IAnyFilterDefinition {
-//   title?: string | string[] | IMatchOptions;
-//   access?: string | string[] | IMatchOptions;
-//   owner?: string | string[] | IMatchOptions;
-//   tags?: string | string[] | IMatchOptions;
-//   created?: IDateRange<number> | IRelativeDate;
-//   modified?: IDateRange<number> | IRelativeDate;
-//   description?: string | string[] | IMatchOptions;
-//   group?: string | string[] | IMatchOptions;
-//   orgid?: string | string[] | IMatchOptions;
-//   type?:
-//     | string
-//     | NamedContentFilter
-//     | Array<string | NamedContentFilter>
-//     | IMatchOptions;
-// }
 
 export interface IItemFilter {
   access?: AccessLevel | AccessLevel[] | IMatchOptions;
@@ -89,7 +68,6 @@ export interface IItemFilter {
   term?: string;
   title?: string | string[] | IMatchOptions;
   type?: string | string[] | IMatchOptions;
-
   typekeywords?: string | string[] | IMatchOptions;
   // this allows arbitrary keys, which Hub api supports
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -98,6 +76,7 @@ export interface IItemFilter {
 
 /**
  * Fields related to Content based searches
+ * // TODO: Remove with _searchContent
  */
 export interface IContentFilterDefinition {
   access?: string | string[] | IMatchOptions;
@@ -132,6 +111,7 @@ export interface IContentFilterDefinition {
 // This type is used internally to Hub.js and is the
 // "expanded" version of a ContentFilterDefinition
 // which can then be serialized into Portal or Hub queries
+// TODO: Remove with _searchContent
 export interface IContentFilter {
   access?: IMatchOptions;
   created?: IDateRange<number>;
@@ -269,6 +249,7 @@ export interface IMatchOptions {
 
 /**
  * searchContent return
+ * // TODO: Remove with _searchContent
  */
 export interface IContentSearchResult {
   total: number;

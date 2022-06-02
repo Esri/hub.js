@@ -3,6 +3,7 @@
 
 import { IUser, UserSession } from "@esri/arcgis-rest-auth";
 import { IGroup, ISearchOptions } from "@esri/arcgis-rest-portal";
+import { Logger } from "..";
 import { ISearchResponse } from "../types";
 import { cloneObject, unique } from "../util";
 import {
@@ -251,6 +252,9 @@ export function mergeSearchOptions(
   join: "AND" | "OR"
 ): ISearchOptions {
   // TODO: Remove with _searchContent
+  Logger.warn(
+    `DEPRECATION: mergeSearchOptions will be removed. Work with IFilterGroups<"group"> and hubSearch() instead`
+  );
   const result = cloneObject(so1) as ISearchOptions;
 
   const { q, filter } = so2;

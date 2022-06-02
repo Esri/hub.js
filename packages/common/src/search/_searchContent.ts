@@ -20,6 +20,7 @@ import {
   setContentSiteUrls,
 } from "..";
 import { UserSession } from "@esri/arcgis-rest-auth";
+import { Logger } from "../utils";
 
 // TODO: Remove with _searchContent
 
@@ -32,6 +33,9 @@ export async function _searchContent(
   filter: Filter<"content">,
   options: IHubSearchOptions
 ): Promise<ISearchResponse<IHubContent>> {
+  Logger.warn(
+    `DEPRECATION: _searchContent will be removed; switch to hubSearch(...)`
+  );
   // expand filter so we can serialize to either api
   const expanded = expandContentFilter(filter);
 

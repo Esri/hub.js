@@ -4,7 +4,7 @@ import {
   ISearchOptions,
   ISearchResult,
 } from "@esri/arcgis-rest-portal";
-import { cloneObject } from "..";
+import { cloneObject, Logger } from "..";
 
 import {
   IContentFilter,
@@ -243,6 +243,9 @@ export function convertPortalItemResponseToFacets(
 export function mergeContentFilter(
   filters: Array<Filter<"content">>
 ): Filter<"content"> {
+  Logger.warn(
+    `DEPRECATION: mergeContentFilter will be removed and filters should not longer be merged. Work with IFilterGroups instead`
+  );
   // expand all the filters so all prop types are consistent
   const expanded = filters.map(expandContentFilter);
   // now we can merge based on fields
@@ -301,6 +304,9 @@ function mergeSubFilters(
  * @returns
  */
 export function expandContentFilter(filter: Filter<"content">): IContentFilter {
+  Logger.warn(
+    `DEPRECATION: expandContentFilter will be removed. Work with IFilterGroups<"item"> instead`
+  );
   // Expand filter.type first
   const expandedTypeFilter = expandTypeField(filter);
 
@@ -406,6 +412,10 @@ function lookupTypeFilters(
 export function convertContentDefinitionToFilter(
   filter: IContentFilterDefinition
 ): IContentFilter {
+  // TODO: Remove with _searchContent
+  Logger.warn(
+    `DEPRECATION: convertContentDefinitionToFilter will be removed. Work with IFilterGroups<"item"> instead`
+  );
   const result = {} as IContentFilter;
 
   if (filter.term) {
@@ -453,6 +463,10 @@ export function convertContentDefinitionToFilter(
 export function serializeContentFilterForPortal(
   filter: IContentFilter
 ): ISearchOptions {
+  // TODO: Remove with _searchContent
+  Logger.warn(
+    `DEPRECATION: serializeContentFilterForPortal will be removed. Work with IFilterGroups<"item"> and hubSearch() instead`
+  );
   let searchOptions = convertContentFilterToSearchOptions(filter);
 
   if (filter.subFilters) {
@@ -493,6 +507,10 @@ export function serializeContentFilterForPortal(
 export function convertContentFilterToSearchOptions(
   filter: IContentFilter
 ): ISearchOptions {
+  // TODO: Remove with _searchContent
+  Logger.warn(
+    `DEPRECATION: convertContentFilterToSearchOptions will be removed. Work with IFilterGroups<"item"> and hubSearch() instead`
+  );
   let result = {
     q: "",
     filter: "",
