@@ -14,13 +14,13 @@ import { mapBy } from "../utils";
 /**
  * Fetch Page specific Enrichments
  * @param item
- * @param includes
+ * @param include
  * @param requestOptions
  * @returns
  */
 export async function enrichPageSearchResult(
   item: IItem,
-  includes: string[],
+  include: string[],
   requestOptions: IHubRequestOptions
 ): Promise<IHubSearchResult> {
   // Create the basic structure
@@ -46,9 +46,9 @@ export async function enrichPageSearchResult(
   // default includes
   const DEFAULTS: string[] = [];
   // merge includes
-  includes = [...includes, ...DEFAULTS].filter(unique);
+  include = [...DEFAULTS, ...include].filter(unique);
   // Parse the includes into a valid set of enrichments
-  const specs = includes.map(parseInclude);
+  const specs = include.map(parseInclude);
   // Extract out the low-level enrichments needed
   const enrichments = mapBy("enrichment", specs).filter(unique);
   // fetch the enrichments

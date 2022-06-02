@@ -52,7 +52,7 @@ export async function enrichGroupSearchResult(
   const DEFAULTS: string[] = [];
 
   // merge includes
-  include = [...include, ...DEFAULTS].filter(unique);
+  include = [...DEFAULTS, ...include].filter(unique);
   // Parse the includes into a valid set of enrichments
   const specs = include.map(parseInclude);
   // Extract out the low-level enrichments needed
