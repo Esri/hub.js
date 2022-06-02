@@ -287,7 +287,7 @@ export const fetchItemEnrichments = (
     stack: new OperationStack(),
     requestOptions,
   }).then((output) => {
-    // console.log(output.stack.toString());
+    // TODO: send telemetry so we have info on what enrichments are requested and possible errors
     return output.data;
   });
 };
