@@ -4,6 +4,7 @@ import {
   Filter,
   getProp,
   IUserFilterDefinition,
+  Logger,
   mergeDateRange,
   mergeMatchOptions,
   mergeSearchOptions,
@@ -14,6 +15,7 @@ import {
   valueToMatchOptions,
 } from "..";
 
+// TODO: Remove with _searchContent
 /**
  *
  * Merge `Filter<"user">` objects
@@ -27,6 +29,10 @@ import {
 export function mergeUserFilters(
   filters: Array<Filter<"user">>
 ): Filter<"user"> {
+  // TODO: Remove with _searchContent
+  Logger.warn(
+    `DEPRECATION: mergeUserFilters will be removed. Work with IFilterGroups<"user"> and hubSearch() instead`
+  );
   // expand all the filters so all prop types are consistent
   const expanded = filters.map(expandUserFilter);
   // now we can merge based on fields
@@ -87,6 +93,10 @@ export function mergeUserFilters(
 export function expandUserFilter(
   filter: Filter<"user">
 ): IUserFilterDefinition {
+  // TODO: Remove with _searchContent
+  Logger.warn(
+    `DEPRECATION: expandUserFilter will be removed. Work with IFilterGroups<"user"> and hubSearch() instead`
+  );
   const result = {} as IUserFilterDefinition;
   const dateProps = ["created", "modified", "lastlogin"];
   const specialProps = ["disabled", "term", ...dateProps];
@@ -129,6 +139,10 @@ export function expandUserFilter(
 export function serializeUserFilterForPortal(
   filter: IUserFilterDefinition
 ): ISearchOptions {
+  // TODO: Remove with _searchContent
+  Logger.warn(
+    `DEPRECATION: serializeUserFilterForPortal will be removed. Work with IFilterGroups<"user"> and hubSearch() instead`
+  );
   let result = {
     q: "",
     filter: "",

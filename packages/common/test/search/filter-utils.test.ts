@@ -117,6 +117,7 @@ describe("filter-utils:", () => {
       };
 
       const group: IFilterGroup<"item"> = {
+        filterType: "item",
         filters: [f],
       };
 
@@ -137,6 +138,7 @@ describe("filter-utils:", () => {
       };
 
       const group: IFilterGroup<"item"> = {
+        filterType: "item",
         operation: "AND",
         filters: [f],
       };
@@ -145,6 +147,43 @@ describe("filter-utils:", () => {
 
       expect(chk.q).toEqual(
         '(tags:"water" OR tags:"rivers") AND tags:"production" AND (-tags:"preview" OR -tags:"deprecated")'
+      );
+    });
+    it("handles multiple filters", () => {
+      const filters: Array<IFilterGroup<"item">> = [
+        {
+          operation: "OR",
+          filterType: "item",
+          filters: [
+            {
+              filterType: "item",
+              term: "austin",
+            },
+          ],
+        },
+        {
+          operation: "OR",
+          filterType: "item",
+          filters: [
+            {
+              filterType: "item",
+              type: "Hub Project",
+            },
+            {
+              filterType: "item",
+              type: "Web Map",
+            },
+            {
+              filterType: "item",
+              type: "Hub Site Application",
+            },
+          ],
+        },
+      ];
+      const chk = serializeFilterGroupsForPortal(filters);
+
+      expect(chk.q).toEqual(
+        'austin AND (type:"Hub Project" OR type:"Web Map" OR type:"Hub Site Application")'
       );
     });
     it("handles complex filter without any", () => {
@@ -157,6 +196,7 @@ describe("filter-utils:", () => {
       };
 
       const group: IFilterGroup<"item"> = {
+        filterType: "item",
         operation: "AND",
         filters: [f],
       };
@@ -176,6 +216,7 @@ describe("filter-utils:", () => {
       };
 
       const group: IFilterGroup<"item"> = {
+        filterType: "item",
         operation: "AND",
         filters: [f],
       };
@@ -191,6 +232,7 @@ describe("filter-utils:", () => {
       };
 
       const group: IFilterGroup<"item"> = {
+        filterType: "item",
         operation: "AND",
         filters: [f],
       };
@@ -198,6 +240,22 @@ describe("filter-utils:", () => {
       const chk = serializeFilterGroupsForPortal([group]);
 
       expect(chk.q).toEqual('tags:"water"');
+    });
+    it("handles bool filter ", () => {
+      const f: Filter<"group"> = {
+        filterType: "group",
+        isopendata: true,
+      };
+
+      const group: IFilterGroup<"group"> = {
+        filterType: "group",
+        operation: "AND",
+        filters: [f],
+      };
+
+      const chk = serializeFilterGroupsForPortal([group]);
+
+      expect(chk.q).toEqual("isopendata:true");
     });
   });
 });

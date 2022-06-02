@@ -7,11 +7,13 @@ import {
   serializeGroupFilterForPortal,
 } from "./group-utils";
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { getGroupThumbnailUrl, ISearchResponse } from "..";
+import { getGroupThumbnailUrl, ISearchResponse, Logger } from "..";
 export interface IGroupSearchResult {
   groups: IGroup[];
   facets: IFacet[];
 }
+
+// TODO: Remove with _searchContent
 
 /**
  * Search Groups using Filter<"group">
@@ -25,6 +27,9 @@ export async function _searchGroups(
   filter: Filter<"group">,
   options: IHubSearchOptions
 ): Promise<ISearchResponse<IGroup>> {
+  Logger.warn(
+    `DEPRECATION: _searchGroups will be removed; switch to hubSearch(...)`
+  );
   // expand filter so we can serialize to either api
   const expanded = expandGroupFilter(filter);
 

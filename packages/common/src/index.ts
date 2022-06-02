@@ -27,6 +27,7 @@ export * from "./urls";
 export * from "./util";
 export * from "./utils";
 export * from "./Hub";
+export * from "./pages";
 
 import OperationStack from "./OperationStack";
 import OperationError from "./OperationError";

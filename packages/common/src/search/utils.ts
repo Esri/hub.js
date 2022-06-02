@@ -3,11 +3,9 @@
 
 import { IUser, UserSession } from "@esri/arcgis-rest-auth";
 import { IGroup, ISearchOptions } from "@esri/arcgis-rest-portal";
-import { getProp, setProp } from "../objects";
-import { updateSite } from "../sites";
+import { Logger } from "..";
 import { ISearchResponse } from "../types";
 import { cloneObject, unique } from "../util";
-import { ICollection, IFacet } from "./types";
 import {
   IMatchOptions,
   IDateRange,
@@ -15,9 +13,6 @@ import {
   IWellKnownApis,
   IApiDefinition,
   NamedApis,
-  ICollectionState,
-  IFacetState,
-  ISortOption,
 } from "./types/types";
 
 /**
@@ -96,6 +91,7 @@ export function mergeDateRange(
   dr1: IDateRange<number>,
   dr2: IDateRange<number>
 ): IDateRange<number> {
+  // TODO: Remove with _searchContent
   const result = cloneObject(dr1);
   // feels like there is a more concise way to do this...
   if (dr2.from < dr1.from) {
@@ -121,6 +117,7 @@ export function mergeMatchOptions(
   mo1: IMatchOptions,
   mo2: IMatchOptions
 ): IMatchOptions {
+  // TODO: Remove with _searchContent
   const result = {} as IMatchOptions;
   // None of these props are required, so we can't just
   // use Object.keys/.entries
@@ -254,6 +251,10 @@ export function mergeSearchOptions(
   so2: ISearchOptions,
   join: "AND" | "OR"
 ): ISearchOptions {
+  // TODO: Remove with _searchContent
+  Logger.warn(
+    `DEPRECATION: mergeSearchOptions will be removed. Work with IFilterGroups<"group"> and hubSearch() instead`
+  );
   const result = cloneObject(so1) as ISearchOptions;
 
   const { q, filter } = so2;

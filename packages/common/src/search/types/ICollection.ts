@@ -10,6 +10,14 @@ export interface ICollection {
   label: string;
   // Unique key, used for query params and telemetry
   key: string;
+  /**
+   * Filter Type used in this collection
+   */
+  filterType?: FilterType;
+  /**
+   * Specify the includes to be requested when working with this collection
+   */
+  include?: string[];
   // Default query for the Collection
   defaultQuery?: string;
   // Default Sorts

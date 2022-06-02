@@ -1,0 +1,20 @@
+{
+    "total": 1,
+    "start": 1,
+    "num": 20,
+    "nextStart": -1,
+    "owner": {
+        "username": "dev_pre_hub_admin",
+        "fullName": "Jeremy Schneider"
+    },
+    "users": [
+        {
+            "username": "dev_pre_hub_admin",
+            "fullName": "Jeremy Schneider",
+            "memberType": "admin",
+            "thumbnail": "hub-profile-1563556375992.png",
+            "joined": 1563555829000,
+            "orgId": "ATCRG96GAegBiycU"
+        }
+    ]
+}

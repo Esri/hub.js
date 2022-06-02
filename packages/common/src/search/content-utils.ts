@@ -4,7 +4,7 @@ import {
   ISearchOptions,
   ISearchResult,
 } from "@esri/arcgis-rest-portal";
-import { cloneObject } from "..";
+import { cloneObject, Logger } from "..";
 
 import {
   IContentFilter,
@@ -12,6 +12,7 @@ import {
   IWellKnownContentFilters,
   IContentFilterDefinition,
   Filter,
+  FilterType,
 } from "./types/types";
 import { IFacetOption } from "./types/IFacetOption";
 import { IFacet } from "./types/IFacet";
@@ -24,6 +25,8 @@ import {
   serializeMatchOptions,
   valueToMatchOptions,
 } from "./utils";
+
+// TODO: Remove with _searchContent
 
 // TODO: Implement $dataset
 const ContentFilterExpansions: IWellKnownContentFilters = {
@@ -157,14 +160,32 @@ const ContentFilterExpansions: IWellKnownContentFilters = {
 /**
  * @private
  * Convert portal search response to facets
- * Note: Only applicable to a "content" search
+ * Note: Only applicable to an item search
  * @param response
  * @returns
  */
+// TODO: Remove with _searchContent
 export function convertPortalResponseToFacets(
   response: ISearchResult<IItem>,
   operation: "OR" | "AND" = "OR"
 ): IFacet[] {
+  // delegate to a more future-friendly version
+  return convertPortalItemResponseToFacets(response, operation, "filter");
+}
+
+/**
+ * @private
+ * Convert portal search response to facets
+ * Note: Only applicable to an item search
+ * @param response
+ * @returns
+ */
+export function convertPortalItemResponseToFacets(
+  response: ISearchResult<IItem>,
+  operation: "OR" | "AND" = "OR",
+  optionProp: "filter" | "filters" = "filters" // TODO: Remove with _searchContent and use `filters`
+): IFacet[] {
+  // TODO: move into portalSearchItems
   const result: IFacet[] = [];
   if (response.aggregations?.counts) {
     response.aggregations.counts.forEach((entry) => {
@@ -178,8 +199,8 @@ export function convertPortalResponseToFacets(
       const options: IFacetOption[] = [];
 
       entry.fieldValues.forEach((fv) => {
-        const filter: Filter<"content"> = {
-          filterType: "content",
+        const filter: Filter<"item"> = {
+          filterType: "item",
         };
         // construct the filter based on the operation
         const matchKey = operation === "OR" ? "any" : "all";
@@ -192,8 +213,16 @@ export function convertPortalResponseToFacets(
           key: fv.value,
           count: fv.count,
           selected: false,
-          filter,
         };
+        // Temporary to ensure the old fn can delegate to this
+        // but we can still return the correct structure
+        // TODO: Remove with _searchContent
+        /* istanbul ignore next */
+        if (optionProp === "filter") {
+          fo.filter = filter;
+        } else {
+          fo.filters = [filter];
+        }
         options.push(fo);
       });
       facet.options = options;
@@ -215,6 +244,9 @@ export function convertPortalResponseToFacets(
 export function mergeContentFilter(
   filters: Array<Filter<"content">>
 ): Filter<"content"> {
+  Logger.warn(
+    `DEPRECATION: mergeContentFilter will be removed and filters should not longer be merged. Work with IFilterGroups instead`
+  );
   // expand all the filters so all prop types are consistent
   const expanded = filters.map(expandContentFilter);
   // now we can merge based on fields
@@ -273,6 +305,9 @@ function mergeSubFilters(
  * @returns
  */
 export function expandContentFilter(filter: Filter<"content">): IContentFilter {
+  Logger.warn(
+    `DEPRECATION: expandContentFilter will be removed. Work with IFilterGroups<"item"> instead`
+  );
   // Expand filter.type first
   const expandedTypeFilter = expandTypeField(filter);
 
@@ -378,6 +413,10 @@ function lookupTypeFilters(
 export function convertContentDefinitionToFilter(
   filter: IContentFilterDefinition
 ): IContentFilter {
+  // TODO: Remove with _searchContent
+  Logger.warn(
+    `DEPRECATION: convertContentDefinitionToFilter will be removed. Work with IFilterGroups<"item"> instead`
+  );
   const result = {} as IContentFilter;
 
   if (filter.term) {
@@ -425,6 +464,10 @@ export function convertContentDefinitionToFilter(
 export function serializeContentFilterForPortal(
   filter: IContentFilter
 ): ISearchOptions {
+  // TODO: Remove with _searchContent
+  Logger.warn(
+    `DEPRECATION: serializeContentFilterForPortal will be removed. Work with IFilterGroups<"item"> and hubSearch() instead`
+  );
   let searchOptions = convertContentFilterToSearchOptions(filter);
 
   if (filter.subFilters) {
@@ -465,6 +508,10 @@ export function serializeContentFilterForPortal(
 export function convertContentFilterToSearchOptions(
   filter: IContentFilter
 ): ISearchOptions {
+  // TODO: Remove with _searchContent
+  Logger.warn(
+    `DEPRECATION: convertContentFilterToSearchOptions will be removed. Work with IFilterGroups<"item"> and hubSearch() instead`
+  );
   let result = {
     q: "",
     filter: "",

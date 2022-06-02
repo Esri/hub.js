@@ -3,6 +3,7 @@ import {
   getItemData,
   getItemGroups,
   getUser,
+  IGroup,
 } from "@esri/arcgis-rest-portal";
 import {
   getAllLayersAndTables,
@@ -35,6 +36,11 @@ export type ItemOrServerEnrichment =
   | keyof IItemEnrichments
   | keyof IServerEnrichments;
 
+/**
+ * Parse metadataxml into json object
+ * @param metadataXml
+ * @returns
+ */
 function parseMetadataXml(metadataXml: string): any {
   const opts = {
     // options for fastXmlParser to read tag attrs
@@ -215,6 +221,7 @@ interface IEnrichmentOperations {
     input: IPipeable<IItemAndEnrichments>
   ) => Promise<IPipeable<IItemAndEnrichments>>;
 }
+
 const enrichmentOperations: IEnrichmentOperations = {
   groupIds: enrichGroupIds,
   metadata: enrichMetadata,
@@ -279,5 +286,8 @@ export const fetchItemEnrichments = (
     data: { item },
     stack: new OperationStack(),
     requestOptions,
-  }).then((output) => output.data);
+  }).then((output) => {
+    // TODO: send telemetry so we have info on what enrichments are requested and possible errors
+    return output.data;
+  });
 };

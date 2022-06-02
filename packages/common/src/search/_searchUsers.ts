@@ -7,6 +7,7 @@ import {
   getUserThumbnailUrl,
   IHubSearchOptions,
   ISearchResponse,
+  Logger,
   serializeUserFilterForPortal,
 } from "..";
 import {
@@ -30,6 +31,7 @@ export interface IHubUser extends IUser {
   thumbnailUrl?: string;
 }
 
+// TODO: Remove with _searchContent
 /**
  * Search for Users via the Portal API.
  *
@@ -45,6 +47,9 @@ export async function _searchUsers(
   filter: Filter<"user">,
   options: IAuthenticatedHubSearchOptions
 ): Promise<ISearchResponse<IHubUser>> {
+  Logger.warn(
+    `DEPRECATION: _searchUsers will be removed; switch to hubSearch(...)`
+  );
   // JS Clients may not pass in authentication
   if (!options.authentication) {
     throw new Error("Authentication required to search for users.");
