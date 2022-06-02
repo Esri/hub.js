@@ -16,7 +16,7 @@ import {
   IHubSearchResponse,
   IHubSearchResult,
 } from "../types";
-import { expandApi, getNextFunction } from "../utils";
+import { getNextFunction } from "../utils";
 
 /**
  * @private
@@ -74,11 +74,10 @@ export async function portalSearchItems(
 }
 
 /**
- * Internal portal search, which then converts items to Content, and
- * if a Site was passed, also sets urls
+ * Internal portal search, which then converts `IItem`s to `IHubSearchResult`s
+ * handling enrichments & includes along the way
  *
  * @param searchOptions
- * @param site
  * @returns
  */
 async function searchPortal(
@@ -118,8 +117,8 @@ async function searchPortal(
 }
 
 /**
- * Convert an Item to a IHubSearchResult
- * Fetches the includes and attaches them to the item
+ * Convert an `IItem` to a `IHubSearchResult`
+ * Fetches the enrichments, and attaches them as directed in the `include` list
  * @param item
  * @param includes
  * @param requestOptions

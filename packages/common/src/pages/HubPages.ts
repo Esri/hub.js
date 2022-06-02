@@ -12,7 +12,7 @@ import { unique } from "../util";
 import { mapBy } from "../utils";
 
 /**
- *
+ * Fetch Page specific Enrichments
  * @param item
  * @param includes
  * @param requestOptions

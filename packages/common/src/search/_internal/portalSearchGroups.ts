@@ -71,11 +71,10 @@ export async function portalSearchGroups(
 }
 
 /**
- * Internal portal search, which then converts items to Content, and
- * if a Site was passed, also sets urls
+ * Internal portal search, which then converts `IGroup`s to `IHubSearchResult`s
+ * handling enrichments & includes along the way
  *
  * @param searchOptions
- * @param site
  * @returns
  */
 async function searchPortal(

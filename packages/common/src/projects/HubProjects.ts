@@ -295,7 +295,7 @@ export async function convertItemToProject(
 }
 
 /**
- *
+ * Fetch project specific enrichments
  * @param item
  * @param includes
  * @param requestOptions

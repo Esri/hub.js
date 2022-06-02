@@ -504,7 +504,7 @@ export async function searchSites(
 }
 
 /**
- *
+ * Fetch Site specific enrichments
  * @param item
  * @param includes
  * @param requestOptions

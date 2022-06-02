@@ -10,6 +10,9 @@ import OperationStack from "../../OperationStack";
 import { IEnrichmentErrorInfo, IHubRequestOptions } from "../../types";
 import { createOperationPipeline, IPipeable } from "../../utils";
 
+/**
+ * Possible additional properties available through enrichments
+ */
 export interface IGroupEnrichments {
   contentCount?: number;
   membershipSummary?: IGroupMembershipSummary;
@@ -19,18 +22,32 @@ export interface IGroupEnrichments {
    */
   errors?: IEnrichmentErrorInfo[];
 }
+
+export type GroupEnrichment = keyof IGroupEnrichments;
+
+/**
+ * Merging of the Enrichment and the Group
+ */
 export interface IGroupAndEnrichments extends IGroupEnrichments {
   group: IGroup;
 }
 
-export type GroupEnrichment = keyof IGroupEnrichments;
-
+/**
+ * Define the Function interface for Group enrichment functions
+ */
 interface IGroupEnrichmentOperations {
   [key: string]: (
     input: IPipeable<IGroupAndEnrichments>
   ) => Promise<IPipeable<IGroupAndEnrichments>>;
 }
 
+/**
+ * Fetch the count of items shared to the group.
+ * This is done by searching for content in the group
+ * and using the returned `total` value
+ * @param input
+ * @returns
+ */
 const enrichGroupContentCount = (
   input: IPipeable<IGroupAndEnrichments>
 ): Promise<IPipeable<IGroupAndEnrichments>> => {
@@ -55,6 +72,12 @@ const enrichGroupContentCount = (
     .catch((error) => handleEnrichmentError(error, input, opId));
 };
 
+/**
+ * Create a summary of the Group membership by searching for members,
+ * limiting to three for a sample, and using the `total`.
+ * @param input
+ * @returns
+ */
 const enrichGroupMembershipSummary = (
   input: IPipeable<IGroupAndEnrichments>
 ): Promise<IPipeable<IGroupAndEnrichments>> => {
@@ -103,14 +126,24 @@ const handleEnrichmentError = (
   };
 };
 
+/**
+ * Available enrichments for Groups
+ */
 const groupEnrichementOperations: IGroupEnrichmentOperations = {
   membershipSummary: enrichGroupMembershipSummary,
   contentCount: enrichGroupContentCount,
 };
 
+/**
+ * Fetch enrichments for Groups
+ * @param group
+ * @param enrichments
+ * @param requestOptions
+ * @returns
+ */
 export function fetchGroupEnrichments(
   group: IGroup,
-  enrichments: Array<GroupEnrichment>,
+  enrichments: GroupEnrichment[],
   requestOptions?: IHubRequestOptions
 ) {
   // create a pipeline of enrichment operations
@@ -127,7 +160,7 @@ export function fetchGroupEnrichments(
     stack: new OperationStack(),
     requestOptions,
   }).then((output) => {
-    // console.log(output.stack.toString());
+    // TODO: send telemetry so we have info on what enrichments are requested and possible errors
     return output.data;
   });
 }

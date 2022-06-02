@@ -26,13 +26,13 @@ export interface IIncludeSpec {
  * - `enrichment{.deep.path} AS propertyName`
  *
  * Examples
- * - `server.layers.0.name as layerName` -> use the server enrichment, extract the name of the first layer and attach that as `layerName`
+ * - `server.layers.0.name as layerName` -> use the `server` enrichment, extract the name of the first layer and attach that as `layerName`
  * - `server.layers` ->  use the `server` enrichment, attach the `layers` array as `layers`
  * @param include
  * @returns
  */
 export function parseInclude(include: string): IIncludeSpec {
-  // TODO: Validate enrichment
+  // TODO: Validate enrichment? Not clear how we'd do that other than a manully maintained string list
   const parts = include.split(" AS ");
   const path = parts[0];
   const prop = parts[1] || path.split(".").reverse()[0];
@@ -44,15 +44,6 @@ export function parseInclude(include: string): IIncludeSpec {
     path,
     prop,
   };
-  // split on " AS "
-  // const parts = include.split(" AS ");
-  // spec.path = parts[0];
-
-  // if (parts[1]) {
-  //   spec.prop = parts[1];
-  // } else {
-  //   spec.prop = spec.path.split(".").reverse()[0];
-  // }
 
   return spec;
 }

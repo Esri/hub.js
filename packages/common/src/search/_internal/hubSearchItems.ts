@@ -26,7 +26,7 @@ import { expandApi } from "../utils";
 // Since Hub API is still in flux, there is no code coverage for this file
 
 /**
- * Execute search against the Hub API
+ * Execute item search against the Hub API
  * @param filter
  * @param options
  * @returns
@@ -36,6 +36,7 @@ export async function hubSearchItems(
   filters: Array<IFilterGroup<"item">>,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
+  // TODO: better mapping from api to apiUrl
   const api = expandApi(options.api || "hub");
   const apiUrl = `${api.url}/api/items/beta/search`;
 

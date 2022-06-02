@@ -164,6 +164,7 @@ const ContentFilterExpansions: IWellKnownContentFilters = {
  * @param response
  * @returns
  */
+// TODO: Remove with _searchContent
 export function convertPortalResponseToFacets(
   response: ISearchResult<IItem>,
   operation: "OR" | "AND" = "OR"
@@ -182,7 +183,7 @@ export function convertPortalResponseToFacets(
 export function convertPortalItemResponseToFacets(
   response: ISearchResult<IItem>,
   operation: "OR" | "AND" = "OR",
-  optionProp: "filter" | "filters" = "filters"
+  optionProp: "filter" | "filters" = "filters" // TODO: Remove with _searchContent and use `filters`
 ): IFacet[] {
   // TODO: move into portalSearchItems
   const result: IFacet[] = [];

@@ -10,18 +10,22 @@ export type Enrichments = "data" | "metadata" | "org" | "service" | "layers";
  * Search Options
  */
 export interface IHubSearchOptions {
-  aggFields?: string[];
-  aggLimit?: number;
   /**
-   * Required for `hubSearch`
+   * Fields to return aggregations on
    */
-  context?: IArcGISContext;
+  aggFields?: string[];
   /**
-   * TODO: Deprecate in favor of context
+   * Maximum number of aggregations to return
+   * Portal API only supports a single value
+   */
+  aggLimit?: number;
+
+  /**
+   * Deprecate in favor of context
    */
   api?: NamedApis | IApiDefinition;
   /**
-   * TODO: Deprecate in favor of context
+   * TODO: Deprecate in requestOptions
    */
   authentication?: UserSession;
   /**
@@ -34,22 +38,36 @@ export interface IHubSearchOptions {
   bbox?: string;
   /**
    * Objects or fields to include
-   * Initially, this is limited to ItemOrServerEnrichments
-   * but it will be extended to allow arbitrary
+   * e.g. `server.layers AS serverLayers`
    */
   include?: string[];
   /**
    * Enrichments
-   * Deprecated in favor of includes
+   * Deprecated in favor of `include`
    */
   enrichments?: Enrichments[];
-  fields?: string;
+  /**
+   * Maximum number of results to return, per-page
+   */
   num?: number;
+  /**
+   * What page of results to return
+   */
   page?: string;
+  /**
+   * What field should the results be sorted on
+   */
   sortField?: string;
+  /**
+   * Sort direction
+   */
   sortOrder?: "desc" | "asc";
+  /**
+   * TODO: Determine if this is used or can be removed
+   */
   start?: number;
   // DEPRECATION
   aggregations?: string[];
   site?: IModel;
+  fields?: string;
 }

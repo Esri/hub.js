@@ -1,8 +1,17 @@
 import { HubFamily, IHubGeography } from "../..";
 import { AccessLevel, IHubEntityBase } from "../../core";
 
+/**
+ * Simple interface for Links
+ */
 export interface ILink {
+  /**
+   * Link url
+   */
   href: string;
+  /**
+   * Additional optional properties
+   */
   [key: string]: string;
 }
 
@@ -61,12 +70,26 @@ export interface IHubSearchResult extends IHubEntityBase {
   };
 
   /**
-   * Links to
+   * Links to related things
    */
   links?: {
+    /**
+     * Url to Thumbnail. Will not include a token
+     */
     thumbnail?: string;
+    /**
+     * Url to the entities canonical "self"
+     * For Items/Groups/Users, this will be the Home App url
+     * For other entities, it will be the canonical url
+     */
     self: string;
+    /**
+     * Relative url of the entity, within a site
+     */
     siteRelative: string;
+    /**
+     * Additional urls
+     */
     [key: string]: string | ILink;
   };
 
