@@ -171,6 +171,7 @@ export interface IGroupFilterDefinition {
   orgid?: string | string[] | IMatchOptions;
   owner?: string | string[] | IMatchOptions;
   searchUserAccess?: "groupMember";
+  searchUserName?: string;
   tags?: string | string[] | IMatchOptions;
   term?: string;
   title?: string | string[] | IMatchOptions;
