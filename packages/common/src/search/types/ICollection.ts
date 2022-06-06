@@ -1,5 +1,5 @@
 import { IFacet } from "./IFacet";
-import { Filter, FilterType, ISortOption } from "./types";
+import { Filter, FilterType, IFilterGroup, ISortOption } from "./types";
 
 /**
  * A Collection is a subset of a Catalog, but can be used independently
@@ -15,15 +15,26 @@ export interface ICollection {
    */
   filterType?: FilterType;
   /**
+   * Scope is a set of FilterGroups which define the limits of the Collection.
+   * Typically it is just a set of group ids, but it may be arbitrarily complex.
+   * If one was to "search the collection", this is the description of what would be returned.
+   */
+  scope?: Array<IFilterGroup<FilterType>>;
+  /**
    * Specify the includes to be requested when working with this collection
    */
   include?: string[];
-  // Default query for the Collection
-  defaultQuery?: string;
+
   // Default Sorts
   sortOption: ISortOption;
-  // Filter defines the "scope" of the Collection, typically a set of groups or orgids
-  filter: Filter<FilterType>;
   // Facets available for this Collection
   facets?: IFacet[];
+
+  // Filter defines the "scope" of the Collection, typically a set of groups or orgids
+  // DEPRECATED: Use `scope`
+  filter?: Filter<FilterType>;
+
+  // Default query for the Collection
+  // DEPRECATED: use `scope`
+  defaultQuery?: string;
 }

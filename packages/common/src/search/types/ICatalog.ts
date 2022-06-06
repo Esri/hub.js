@@ -1,6 +1,6 @@
 import { ICollection } from "./ICollection";
 import { IFacet } from "./IFacet";
-import { Filter, FilterType, ISortOption } from "./types";
+import { Filter, FilterType, IFilterGroup, ISortOption } from "./types";
 
 /**
  * Catalog is the definition which powers what options
@@ -14,7 +14,11 @@ import { Filter, FilterType, ISortOption } from "./types";
  * ```ts
  * const simpleCatalog:Catalog = {
  *   title: "Select Map",
- *   filter: {
+ *   filters: [
+ *    {
+ *     fitlerType: "item",
+ *      operation: "AND",
+ *      fitlers
  *     filterType: "content",
  *     type: "Web Map",
  *     owner: "jsmith"
@@ -59,9 +63,16 @@ export interface ICatalog {
    */
   title?: string;
   /**
-   * Filter defines the "scope" of the Catalog, typically a set of groups or orgids
+   * Scope is a set of FilterGroups which define the limits of the Catalog.
+   * Typically it is just a set of group ids, but it may be arbitrarily complex.
+   * If one was to "search a catalog", this is the description of what would be returned.
    */
-  filter: Filter<FilterType>;
+  scope?: Array<IFilterGroup<FilterType>>;
+  /**
+   * Filter defines the "scope" of the Catalog, typically a set of groups or orgids
+   * DEPRECATED: Use `scope`
+   */
+  filter?: Filter<FilterType>;
   /**
    * Sort options to be shown in the Gallery
    */

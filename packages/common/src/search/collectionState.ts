@@ -74,7 +74,7 @@ export function serializeCollectionState(
     state.sort = serializeSortState(collection.sortOption);
   }
 
-  const facetState = collection.facets.reduce((s, facet) => {
+  const facetState = (collection.facets || []).reduce((s, facet) => {
     return { ...s, ...serializeFacetState(facet) };
   }, {} as IFacetState);
 
