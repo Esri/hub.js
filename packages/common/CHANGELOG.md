@@ -1,3 +1,10 @@
+# @esri/hub-common [9.39.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.38.0...@esri/hub-common@9.39.0) (2022-06-06)
+
+
+### Features
+
+* add scope to ICatalog and ICollection ([#803](https://github.com/Esri/hub.js/issues/803)) ([5a965c5](https://github.com/Esri/hub.js/commit/5a965c57b993c08317f72feaab8f594521029c37))
+
 # @esri/hub-common [9.38.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.37.0...@esri/hub-common@9.38.0) (2022-06-02)
 
 
