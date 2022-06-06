@@ -1,6 +1,12 @@
-import { ISearchOptions, searchGroups } from "@esri/arcgis-rest-portal";
-import { IGroup } from "@esri/arcgis-rest-types";
+import {
+  ISearchOptions,
+  IUserSearchOptions,
+  searchUsers,
+} from "@esri/arcgis-rest-portal";
+import { IUser } from "@esri/arcgis-rest-types";
+import { enrichUserSearchResult } from "../..";
 import { enrichGroupSearchResult } from "../../groups/HubGroups";
+import HubError from "../../HubError";
 import { IHubRequestOptions } from "../../types";
 import { expandFilter, serializeFilterGroupsForPortal } from "../filter-utils";
 import {
@@ -13,31 +19,30 @@ import { expandApi, getNextFunction } from "../utils";
 
 /**
  * @private
- * Portal Search Implementation for Items
+ * Portal Search implementation for Users
  * @param filterGroups
  * @param options
- * @returns
  */
-export async function portalSearchGroups(
-  filterGroups: Array<IFilterGroup<"group">>,
+export async function portalSearchUsers(
+  filterGroups: Array<IFilterGroup<"user">>,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
-  // API
-  const api = expandApi(options.api || "arcgis");
-
+  // requestOptions is always required and user must be authd
   if (!options.requestOptions) {
-    if (options.authentication) {
-      // create minimal requestOptions
-      options.requestOptions = {
-        authentication: options.authentication,
-        portal: options.authentication.portal,
-      };
-    } else {
-      options.requestOptions = {
-        portal: `${api.url}/sharing/rest`,
-      };
-    }
+    throw new HubError(
+      "portalSearchUsers",
+      "requestOptions: IHubRequestOptions is required."
+    );
   }
+
+  if (!options.requestOptions.authentication) {
+    throw new HubError(
+      "portalSearchUsers",
+      "requestOptions must pass authentication."
+    );
+  }
+
+  //
 
   // Expand the individual filters in each of the groups
   const expandedGroups = filterGroups.map((fg) => {
@@ -64,12 +69,12 @@ export async function portalSearchGroups(
     }
   });
 
-  // If we don't have auth, ensure we have .portal
+  // Ensure authentication gets sent
   if (!so.authentication) {
-    so.portal = so.requestOptions.portal || `${api.url}/sharing/rest`;
+    so.authentication = options.requestOptions.authentication;
   }
 
-  return searchPortal(so);
+  return searchPortal(so as IUserSearchOptions);
 }
 
 /**
@@ -80,16 +85,16 @@ export async function portalSearchGroups(
  * @returns
  */
 async function searchPortal(
-  searchOptions: ISearchOptions
+  searchOptions: IUserSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
   // Execute portal search
-  const resp = await searchGroups(searchOptions);
+  const resp = await searchUsers(searchOptions);
 
   // create mappable fn that will close
   // over the includes and requestOptions
-  const fn = (item: IGroup) => {
-    return groupToSearchResult(
-      item,
+  const fn = (user: IUser) => {
+    return userToSearchResult(
+      user,
       searchOptions.include,
       searchOptions.requestOptions
     );
@@ -122,8 +127,8 @@ async function searchPortal(
  * @param requestOptions
  * @returns
  */
-async function groupToSearchResult(
-  group: IGroup,
+async function userToSearchResult(
+  user: IUser,
   includes: string[] = [],
   requestOptions?: IHubRequestOptions
 ): Promise<IHubSearchResult> {
@@ -131,5 +136,5 @@ async function groupToSearchResult(
   // This layer of indirection is not necessary but
   // aligns with how the items search works and
   // allows for future specialization
-  return enrichGroupSearchResult(group, includes, requestOptions);
+  return enrichUserSearchResult(user, includes, requestOptions);
 }

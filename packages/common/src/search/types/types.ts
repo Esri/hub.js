@@ -152,7 +152,7 @@ export interface IUserFilterDefinition {
   email?: string | string[] | IMatchOptions;
   firstname?: string | string[] | IMatchOptions;
   fullname?: string | string[] | IMatchOptions;
-  groups?: string | string[] | IMatchOptions;
+  group?: string | string[] | IMatchOptions;
   lastlogin?: IDateRange<number> | IRelativeDate;
   lastname?: string | string[] | IMatchOptions;
   modified?: IDateRange<number> | IRelativeDate;
@@ -160,6 +160,8 @@ export interface IUserFilterDefinition {
   term?: string;
   userlicensetype?: string | string[] | IMatchOptions;
   username?: string | string[] | IMatchOptions;
+  emailstatus?: string | string[] | IMatchOptions;
+  provider?: string | string[] | IMatchOptions;
 }
 
 export interface IGroupFilterDefinition {

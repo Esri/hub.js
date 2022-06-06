@@ -14,6 +14,7 @@ import {
   portalSearchItems,
   portalSearchGroups,
 } from "./_internal";
+import { portalSearchUsers } from "./_internal/portalSearchUsers";
 
 /**
  * Main Search function for ArcGIS Hub
@@ -35,12 +36,12 @@ export async function hubSearch(
       "FilterGroups are required and must be an array."
     );
   }
-  if (!filterGroups.length) {
-    throw new HubError(
-      "hubSearch",
-      "FilterGrous array must contain at least one entry."
-    );
-  }
+  // if (!filterGroups.length) {
+  //   throw new HubError(
+  //     "hubSearch",
+  //     "FilterGrous array must contain at least one entry."
+  //   );
+  // }
 
   if (!options.requestOptions) {
     throw new HubError(
@@ -63,6 +64,7 @@ export async function hubSearch(
     arcgis: {
       item: portalSearchItems,
       group: portalSearchGroups,
+      user: portalSearchUsers,
     },
     "arcgis-hub": {
       item: hubSearchItems,
