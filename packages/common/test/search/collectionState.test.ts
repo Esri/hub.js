@@ -11,9 +11,21 @@ describe("collection state:", () => {
     collection = {
       label: "fake collection",
       key: "fake",
+      scope: [
+        {
+          filterType: "content",
+          operation: "AND",
+          filters: [
+            {
+              filterType: "content",
+              owner: "vader",
+            },
+          ],
+        },
+      ],
       filter: {
         filterType: "content",
-        owner: "vader",
+        owner: "luke",
       },
       sortOption: {
         label: "Title",
@@ -131,6 +143,13 @@ describe("collection state:", () => {
       const chk = serializeCollectionState(clone);
       expect(chk.type).toEqual("map");
       expect(chk.tags).toEqual("water,river");
+    });
+    it("can handle undefined facets", () => {
+      const clone = cloneObject(collection);
+      delete clone.facets;
+      const chk = serializeCollectionState(clone);
+      expect(chk.type).not.toBeDefined();
+      expect(chk.tags).not.toBeDefined();
     });
   });
 });
