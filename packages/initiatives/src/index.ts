@@ -20,3 +20,4 @@ export * from "./_fetch-and-convert-initiative-to-template";
 export * from "./get-default-initiative-template";
 export * from "./get-initiative-template";
 export * from "./update-initiative-site-id";
+export * from "./migrator";
