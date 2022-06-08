@@ -52,6 +52,51 @@ describe("_enrichments", () => {
         expect(result.errors).toEqual([expectedError]);
       });
     });
+    describe("enrichOrg", () => {
+      it("fetches the org portal", async () => {
+        const orgPortalUrl = "https://myorg.maps.arcgis.com"; // target we pass in
+        const basePortalUrl = "https://www.arcgis.com"; // target that should be hit
+
+        // Simulate fetching the user...
+        const username = item.owner;
+        const ownerUser = {
+          username,
+          orgId: "foo", // should be used to fetch the org
+        };
+        fetchMock.once("*", ownerUser);
+
+        // then fetch the org
+        const org = { id: "foo", name: "bar" };
+        fetchMock.once("*", org, { overwriteRoutes: false });
+
+        const result = await fetchItemEnrichments(item, ["ownerUser", "org"], {
+          portal: orgPortalUrl,
+        });
+        expect(fetchMock.calls().length).toEqual(2);
+        expect(fetchMock.lastUrl()).toMatch(
+          `${basePortalUrl}/sharing/rest/portals/${ownerUser.orgId}`
+        );
+        expect(result.org).toEqual(org);
+      });
+
+      it("handles errors", async () => {
+        // Simulate fetching the user...
+        const username = item.owner;
+        const ownerUser = {
+          username,
+          orgId: "foo",
+        };
+        fetchMock.once("*", ownerUser);
+        // Fail when fetching the org
+        fetchMock.once("*", 404, { overwriteRoutes: false });
+        const result = await fetchItemEnrichments(item, ["ownerUser", "org"], {
+          portal: "will-fail",
+        });
+        expect(result.org).toBeUndefined();
+        expect(result.errors).toEqual([expectedError]);
+      });
+      // TODO: Add test when no portal is passed in
+    });
     describe("enrichData", () => {
       it("fetches data", async () => {
         const data = {

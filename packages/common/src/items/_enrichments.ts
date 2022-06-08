@@ -3,7 +3,7 @@ import {
   getItemData,
   getItemGroups,
   getUser,
-  IGroup,
+  getPortal,
 } from "@esri/arcgis-rest-portal";
 import {
   getAllLayersAndTables,
@@ -17,6 +17,8 @@ import OperationStack from "../OperationStack";
 // TODO: move these functions here under /items
 import { getItemMetadata } from "@esri/arcgis-rest-portal";
 import { parse } from "fast-xml-parser";
+import { getPortalBaseFromOrgUrl } from "../urls/getPortalBaseFromOrgUrl";
+import { getItemOrgId } from "../content/_internal";
 
 /**
  * An object containing the item and fetched enrichments
@@ -136,6 +138,36 @@ const enrichOwnerUser = (
     .catch((error) => handleEnrichmentError(error, input, opId));
 };
 
+// Note, this MUST be run after `enrichOwnerUser` to access the correct orgId during
+// processing. `item.orgId` is only SOMETIMES returned by Portal, so we need to have
+// the ownerUser's orgId as a backup.
+const enrichOrg = (
+  input: IPipeable<IItemAndEnrichments>
+): Promise<IPipeable<IItemAndEnrichments>> => {
+  const { data, stack, requestOptions } = input;
+  const opId = stack.start("enrichOrg");
+  const orgId = getItemOrgId(data.item, data.ownerUser);
+  // TODO: purposely error / reject when requestOptions.portal isn't passed in.
+  const options = {
+    ...requestOptions,
+    // In order to get the correct response, we must pass options.portal
+    // as a base portal url (e.g., www.arcgis.com, qaext.arcgis.com, etc)
+    // **not** an org portal (i.e. org.maps.arcgis.com).
+    portal: `${getPortalBaseFromOrgUrl(requestOptions.portal)}/sharing/rest`,
+  };
+
+  return getPortal(orgId, options)
+    .then((org) => {
+      stack.finish(opId);
+      return {
+        data: { ...data, org },
+        stack,
+        requestOptions,
+      };
+    })
+    .catch((error) => handleEnrichmentError(error, input, opId));
+};
+
 const enrichData = (
   input: IPipeable<IItemAndEnrichments>
 ): Promise<IPipeable<IItemAndEnrichments>> => {
@@ -226,6 +258,7 @@ const enrichmentOperations: IEnrichmentOperations = {
   groupIds: enrichGroupIds,
   metadata: enrichMetadata,
   ownerUser: enrichOwnerUser,
+  org: enrichOrg,
   data: enrichData,
   server: enrichServer,
   layers: enrichLayers,

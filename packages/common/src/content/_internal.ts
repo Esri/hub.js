@@ -9,9 +9,13 @@
  * move them to index.ts only when they are needed by a consumer.
  */
 import { parseServiceUrl } from "@esri/arcgis-rest-feature-layer";
-import { IItem } from "@esri/arcgis-rest-portal";
-import { ILayerDefinition, ISpatialReference } from "@esri/arcgis-rest-types";
-import { IHubContent } from "../core";
+import { IItem, IPortal } from "@esri/arcgis-rest-portal";
+import {
+  ILayerDefinition,
+  ISpatialReference,
+  IUser,
+} from "@esri/arcgis-rest-types";
+import { IHubContent, PublisherSource } from "../core";
 import {
   IHubGeography,
   GeographyProvenance,
@@ -491,4 +495,99 @@ export const determineExtent = (
       ? extentToBBox(layer.extent)
       : undefined;
   return itemExtent || extentEnrichmentCoordinates || layerExtent;
+};
+
+/**
+ * @private
+ *
+ * Extracts the first contact from a given formal item metadata path.
+ * This is particularly helpful if the contact path is either an object or an array.
+ *
+ * Note: the raw contact object must have the following properties:
+ * - `rpIndName`: name of the individual
+ * - `rpOrgName`: name of the individual's organization
+ *
+ * @param metadata formal item metadata
+ * @param path path to the contact object/array
+ * @returns
+ */
+export const extractFirstContact = (metadata: any, path: string) => {
+  const rawContacts = getProp(metadata, path) || {};
+  const { rpIndName, rpOrgName } = Array.isArray(rawContacts)
+    ? rawContacts[0]
+    : rawContacts;
+  return { individualName: rpIndName, organizationName: rpOrgName };
+};
+
+/**
+ * Determines the correct orgId for an item.
+ * Note: it's undocumented, but the portal API will return orgId for items... sometimes.
+ *
+ * @param item
+ * @param ownerUser item owner's hydrated user object
+ */
+export const getItemOrgId = (item: IItem, ownerUser?: IUser) =>
+  item.orgId || ownerUser?.orgId;
+
+/**
+ * Calculates the Publisher display info for the given item.
+ * Utilizes this fallback pattern:
+ * 1) Formal Item Metadata > Resource > Citation > Contact
+ * 2) Formal Item Metadata > Resource > Contact
+ * 3) Item’s Owner and Org Name
+ * 4) Undefined (Item Owner / Org are private and we can't access additional info)
+ *
+ * @param item
+ * @param metadata
+ * @param org portal info of the item's organization
+ * @param ownerUser the item owner's hydrated user
+ * @returns
+ */
+export const getPublisherInfo = (
+  item: IItem,
+  metadata?: any,
+  org?: Partial<IPortal>,
+  ownerUser?: IUser
+) => {
+  const result: any = {
+    nameSource: PublisherSource.None,
+    organizationSource: PublisherSource.None,
+  };
+  const citationContact = extractFirstContact(
+    metadata,
+    "metadata.dataIdInfo.idCitation.citRespParty"
+  );
+  const resourceContact = extractFirstContact(metadata, "metadata.mdContact");
+
+  // Determine publisher name properties
+  const ownerFullName = getProp(ownerUser, "fullName");
+
+  if (citationContact.individualName) {
+    result.name = citationContact.individualName;
+    result.nameSource = PublisherSource.CitationContact;
+  } else if (resourceContact.individualName) {
+    result.name = resourceContact.individualName;
+    result.nameSource = PublisherSource.ResourceContact;
+  } else if (ownerFullName) {
+    result.name = ownerFullName;
+    result.username = ownerUser.username;
+    result.nameSource = PublisherSource.ItemOwner;
+  }
+
+  // Determine publisher org properties
+  const orgName = getProp(org, "name");
+
+  if (citationContact.organizationName) {
+    result.organization = citationContact.organizationName;
+    result.organizationSource = PublisherSource.CitationContact;
+  } else if (resourceContact.organizationName) {
+    result.organization = resourceContact.organizationName;
+    result.organizationSource = PublisherSource.ResourceContact;
+  } else if (orgName) {
+    result.organization = orgName;
+    result.orgId = getItemOrgId(item, ownerUser);
+    result.organizationSource = PublisherSource.ItemOwner;
+  }
+
+  return result;
 };
