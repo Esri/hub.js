@@ -1,3 +1,10 @@
+# @esri/hub-initiatives [9.40.0](https://github.com/Esri/hub.js/compare/@esri/hub-initiatives@9.39.0...@esri/hub-initiatives@9.40.0) (2022-06-08)
+
+
+### Features
+
+* export migrateSchema() from @esri/hub-initiatives ([a8f229e](https://github.com/Esri/hub.js/commit/a8f229e8c421a0be734d9fbc50111a7fb9e6cc52))
+
 # @esri/hub-initiatives [9.39.0](https://github.com/Esri/hub.js/compare/@esri/hub-initiatives@9.38.0...@esri/hub-initiatives@9.39.0) (2022-06-06)
 
 
