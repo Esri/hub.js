@@ -53,7 +53,7 @@ describe("_enrichments", () => {
       });
     });
     describe("enrichOrg", () => {
-      it("fetches the org portal", async () => {
+      it("fetches the org portal using options.portal", async () => {
         const orgPortalUrl = "https://myorg.maps.arcgis.com"; // target we pass in
         const basePortalUrl = "https://www.arcgis.com"; // target that should be hit
 
@@ -71,6 +71,35 @@ describe("_enrichments", () => {
 
         const result = await fetchItemEnrichments(item, ["ownerUser", "org"], {
           portal: orgPortalUrl,
+        });
+        expect(fetchMock.calls().length).toEqual(2);
+        expect(fetchMock.lastUrl()).toMatch(
+          `${basePortalUrl}/sharing/rest/portals/${ownerUser.orgId}`
+        );
+        expect(result.org).toEqual(org);
+      });
+
+      it("fetches the org portal using options.authentication.portal", async () => {
+        const orgPortalUrl = "https://myorg.maps.arcgis.com"; // target we pass in
+        const basePortalUrl = "https://www.arcgis.com"; // target that should be hit
+
+        // Simulate fetching the user...
+        const username = item.owner;
+        const ownerUser = {
+          username,
+          orgId: "foo", // should be used to fetch the org
+        };
+        fetchMock.once("*", ownerUser);
+
+        // then fetch the org
+        const org = { id: "foo", name: "bar" };
+        fetchMock.once("*", org, { overwriteRoutes: false });
+        const result = await fetchItemEnrichments(item, ["ownerUser", "org"], {
+          // add back in org
+          authentication: {
+            getToken: async () => "fake-token",
+            portal: orgPortalUrl,
+          } as any,
         });
         expect(fetchMock.calls().length).toEqual(2);
         expect(fetchMock.lastUrl()).toMatch(
