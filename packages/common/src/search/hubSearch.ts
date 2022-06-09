@@ -36,12 +36,12 @@ export async function hubSearch(
       "FilterGroups are required and must be an array."
     );
   }
-  // if (!filterGroups.length) {
-  //   throw new HubError(
-  //     "hubSearch",
-  //     "FilterGrous array must contain at least one entry."
-  //   );
-  // }
+  if (!filterGroups.length) {
+    throw new HubError(
+      "hubSearch",
+      "FilterGrous array must contain at least one entry."
+    );
+  }
 
   if (!options.requestOptions) {
     throw new HubError(

@@ -4,16 +4,18 @@ import {
   searchUsers,
 } from "@esri/arcgis-rest-portal";
 import { IUser } from "@esri/arcgis-rest-types";
-import { enrichUserSearchResult } from "../..";
+import { enrichUserSearchResult, unique } from "../..";
 import { enrichGroupSearchResult } from "../../groups/HubGroups";
 import HubError from "../../HubError";
 import { IHubRequestOptions } from "../../types";
+import { cloneObject } from "../../util";
 import { expandFilter, serializeFilterGroupsForPortal } from "../filter-utils";
 import {
   IFilterGroup,
   IHubSearchOptions,
   IHubSearchResponse,
   IHubSearchResult,
+  IMatchOptions,
 } from "../types";
 import { expandApi, getNextFunction } from "../utils";
 
@@ -41,8 +43,6 @@ export async function portalSearchUsers(
       "requestOptions must pass authentication."
     );
   }
-
-  //
 
   // Expand the individual filters in each of the groups
   const expandedGroups = filterGroups.map((fg) => {
@@ -74,6 +74,7 @@ export async function portalSearchUsers(
     so.authentication = options.requestOptions.authentication;
   }
 
+  // Execute search
   return searchPortal(so as IUserSearchOptions);
 }
 

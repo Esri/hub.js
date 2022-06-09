@@ -35,15 +35,46 @@ export interface IFilterGroup<T extends FilterType> {
   filters: Array<Filter<T>>;
 }
 
+// export interface IFilter<T extends keyof IFilterTypeMap> {
+//   operation?: "AND" | "OR";
+//   clauses: Array<IFilterTypeMap[T]>;
+// }
+
+// const f: IFilter<"item"> = {
+//   operation: "AND",
+//   clauses: [
+//     {
+//       type: "Web Map",
+//       typekeywords: "production",
+//     },
+//     {
+//       group: "3ef"
+//     }
+//   ],
+// };
+
+// const f2: IFilter<"group"> = {
+//   operation: "AND",
+//   clauses: [
+//     {
+//       term: "water",
+//       typekeywords: "production"
+//     },
+//     {
+//       owner: "Luke",
+//     },
+//   ],
+// };
+
 /**
  * Defines the valid FilterTypes for use with `Filter<T extends FilterType>`
  * See [Filter](../Filter)
  */
 export interface IFilterTypeMap {
-  // any: IAnyFilterDefinition;
   item: IItemFilter;
   user: IUserFilterDefinition;
   group: IGroupFilterDefinition;
+  groupMember: IGroupMemberFilterDefinition;
   event: IEventFilterDefinition;
   /**
    * DEPRECATED use item
@@ -162,6 +193,24 @@ export interface IUserFilterDefinition {
   username?: string | string[] | IMatchOptions;
   emailstatus?: string | string[] | IMatchOptions;
   provider?: string | string[] | IMatchOptions;
+  // Only these props are valid for userList
+  memberType?: "admin" | "member";
+  joined?: IDateRange<number> | IRelativeDate;
+  name?: string | string[] | IMatchOptions;
+}
+
+/**
+ * These properties must all be passed through
+ * so they are sent in separate fields and *not*
+ * serialized into a q
+ * Also `joined` does not take the same format as
+ * dates in `q`
+ */
+export interface IGroupMemberFilterDefinition {
+  memberType?: "admin" | "member";
+  joined?: IDateRange<number> | IRelativeDate;
+  name?: string | string[] | IMatchOptions;
+  orgIds?: string | string[] | IMatchOptions;
 }
 
 export interface IGroupFilterDefinition {
