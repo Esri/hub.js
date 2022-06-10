@@ -54,7 +54,6 @@ export async function portalSearchUsers(
   const so = serializeFilterGroupsForPortal(expandedGroups);
   // Array of properties we want to copy from IHubSearchOptions to the ISearchOptions
   const props: Array<keyof IHubSearchOptions> = [
-    "authentication",
     "num",
     "sortField",
     "sortOrder",
@@ -70,9 +69,7 @@ export async function portalSearchUsers(
   });
 
   // Ensure authentication gets sent
-  if (!so.authentication) {
-    so.authentication = options.requestOptions.authentication;
-  }
+  so.authentication = options.requestOptions.authentication;
 
   // Execute search
   return searchPortal(so as IUserSearchOptions);

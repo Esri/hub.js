@@ -35,7 +35,7 @@ describe("portalSearchItems:", () => {
       );
     }
   });
-  it("search with all entities", async () => {
+  it("simple search", async () => {
     const searchItemsSpy = spyOn(Portal, "searchItems").and.callFake(() => {
       return Promise.resolve(cloneObject(AllTypesResponse));
     });

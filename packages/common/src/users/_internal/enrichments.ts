@@ -1,11 +1,5 @@
-import {
-  searchGroupContent,
-  searchGroupUsers,
-  IGroup,
-  IUser,
-  getUser,
-} from "@esri/arcgis-rest-portal";
-import { IGroupMembershipSummary } from "../..";
+import { IUser, getPortal, IPortal } from "@esri/arcgis-rest-portal";
+import { getPortalBaseFromOrgUrl } from "../..";
 import { getEnrichmentErrors } from "../../items/_enrichments";
 import OperationStack from "../../OperationStack";
 import { IEnrichmentErrorInfo, IHubRequestOptions } from "../../types";
@@ -15,7 +9,7 @@ import { createOperationPipeline, IPipeable } from "../../utils";
  * Possible additional properties available through enrichments
  */
 export interface IUserEnrichments {
-  groups?: IGroup[];
+  org?: IPortal;
   /**
    * Any errors encountered when fetching enrichments
    * see https://github.com/ArcGIS/hub-indexer/blob/master/docs/errors.md#response-formatting-for-errors
@@ -41,30 +35,31 @@ interface IUserEnrichmentOperations {
   ) => Promise<IPipeable<IUserAndEnrichments>>;
 }
 
-/**
- * Fetch all the groups for the user
- * @param input
- * @returns
- */
-const enrichUserGroups = (
+const enrichUserOrg = (
   input: IPipeable<IUserAndEnrichments>
 ): Promise<IPipeable<IUserAndEnrichments>> => {
   const { data, stack, requestOptions } = input;
-  const opId = stack.start("enrichUserGroups");
-  // w/o the `: any` here, I get a compile error about
-  // .authentication being incompatible w/ UserSession
-  const options: any = {
-    username: data.user.username,
+  const opId = stack.start("enrichUserOrg");
+  const options = {
     ...requestOptions,
+    // In order to get the correct response, we must pass options.portal
+    // as a base portal url (e.g., www.arcgis.com, qaext.arcgis.com, etc)
+    // **not** an org portal (i.e. org.maps.arcgis.com).
+    portal: `${getPortalBaseFromOrgUrl(requestOptions.portal)}/sharing/rest`,
   };
-  return getUser(options)
+  // Simple caching
+  if (!orgCache[data.user.orgId]) {
+    orgCache[data.user.orgId] = getPortal(data.user.orgId, options);
+  }
+
+  return (orgCache[data.user.orgId] as Promise<IPortal>)
     .then((results) => {
       stack.finish(opId);
       return {
         data: {
           ...data,
           ...{
-            groups: results.groups || [],
+            org: results,
           },
         },
         stack,
@@ -73,6 +68,12 @@ const enrichUserGroups = (
     })
     .catch((error) => handleEnrichmentError(error, input, opId));
 };
+
+/**
+ * Simple cache for user org's. This does not expire
+ * but that seems reasonable as Org props rarely change
+ */
+const orgCache: Record<string, any> = {};
 
 // add the error to the content.errors,
 // log current stack operation as finished with an error
@@ -98,7 +99,7 @@ const handleEnrichmentError = (
  * Available enrichments for Groups
  */
 const groupEnrichementOperations: IUserEnrichmentOperations = {
-  groups: enrichUserGroups,
+  org: enrichUserOrg,
 };
 
 /**

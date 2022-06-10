@@ -7,7 +7,7 @@ import { getPortalUrl } from "./get-portal-url";
  * Return the URL of the user's page in the Portal Home application
  * @param username The username
  * @param portalUrlOrObject a portal base or API URL, a portal object, or request options containing either of those
- * @returns URL to the user's profile, defaults to `https://www.arcgis.com/home/user.html?id={username}`
+ * @returns URL to the user's profile, defaults to `https://www.arcgis.com/home/user.html?user={username}`
  */
 export function getUserHomeUrl(
   username: string,

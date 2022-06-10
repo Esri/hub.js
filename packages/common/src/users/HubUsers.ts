@@ -45,7 +45,7 @@ export async function enrichUserSearchResult(
   // derived directly from the entity
 
   // default includes
-  const DEFAULTS: string[] = [];
+  const DEFAULTS: string[] = ["org.name AS orgName"];
 
   // merge includes
   include = [...DEFAULTS, ...include].filter(unique);
