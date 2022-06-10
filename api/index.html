@@ -376,6 +376,10 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/enrichUserSearchResult/" class="tsd-kind-icon padding-right-1">enrichUserSearchResult</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/ensureProp/" class="tsd-kind-icon padding-right-1">ensureProp</a>
             </li>
             
@@ -465,6 +469,10 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/fetchSiteModel/" class="tsd-kind-icon padding-right-1">fetchSiteModel</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/fetchUserEnrichments/" class="tsd-kind-icon padding-right-1">fetchUserEnrichments</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -737,6 +745,10 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/getUniqueSlug/" class="tsd-kind-icon padding-right-1">getUniqueSlug</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/getUserHomeUrl/" class="tsd-kind-icon padding-right-1">getUserHomeUrl</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -1376,6 +1388,10 @@
             </li>
             
             <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/UserEnrichment/" class="tsd-kind-icon padding-right-1">UserEnrichment</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/Visibility/" class="tsd-kind-icon padding-right-1">Visibility</a>
             </li>
             
@@ -1537,6 +1553,10 @@
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/IGroupFilterDefinition/" class="tsd-kind-icon padding-right-1">IGroupFilterDefinition</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/IGroupMemberFilterDefinition/" class="tsd-kind-icon padding-right-1">IGroupMemberFilterDefinition</a>
             </li>
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
@@ -1793,6 +1813,14 @@
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/IUpdateSiteOptions/" class="tsd-kind-icon padding-right-1">IUpdateSiteOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/IUserAndEnrichments/" class="tsd-kind-icon padding-right-1">IUserAndEnrichments</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/IUserEnrichments/" class="tsd-kind-icon padding-right-1">IUserEnrichments</a>
             </li>
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
@@ -3125,7 +3153,7 @@
   
   
   
-  <small class="label right">Version 9.39.0</small>
+  <small class="label right">Version 9.40.0</small>
 <h1 class=" font-size-3 trailer-half code-face">
   <a href="/hub.js/api/common/">@esri/hub-common</a>
 </h1>
@@ -3210,6 +3238,7 @@
   enrichPageSearchResult,
   enrichProjectSearchResult,
   enrichSiteSearchResult,
+  enrichUserSearchResult,
   ensureProp,
   ensureUniqueDomainName,
   ensureUniqueString,
@@ -3233,6 +3262,7 @@
   fetchOrg,
   fetchProject,
   fetchSiteModel,
+  fetchUserEnrichments,
   filterBy,
   findBy,
   findItemsBySlug,
@@ -3301,6 +3331,7 @@
   getUniqueDomainNamePortal,
   getUniqueItemTitle,
   getUniqueSlug,
+  getUserHomeUrl,
   getUserThumbnailUrl,
   getWithDefault,
   hasBasePriv,
@@ -3415,7 +3446,7 @@
 } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/hub-common"</span>;</code></pre>
 
 <h2 class="font-size-0 trailer-quarter">CDN:</h2>
-<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@esri/hub-common@9.39.0/dist/umd/common.umd.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@esri/hub-common@9.40.0/dist/umd/common.umd.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
 <h2 class="font-size-0 trailer-quarter">CDN with SRI:</h2>
 
 <hr class="leader-half trailer-quarter" />
@@ -3722,6 +3753,10 @@
   </li>
   
   <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/enrichUserSearchResult/" class="tsd-kind-icon">enrichUserSearchResult</a>
+  </li>
+  
+  <li class="tsd-kind-function">
     <a href="/hub.js/api/common/ensureProp/" class="tsd-kind-icon">ensureProp</a>
   </li>
   
@@ -3811,6 +3846,10 @@
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/common/fetchSiteModel/" class="tsd-kind-icon">fetchSiteModel</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/fetchUserEnrichments/" class="tsd-kind-icon">fetchUserEnrichments</a>
   </li>
   
   <li class="tsd-kind-function">
@@ -4083,6 +4122,10 @@
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/common/getUniqueSlug/" class="tsd-kind-icon">getUniqueSlug</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/getUserHomeUrl/" class="tsd-kind-icon">getUserHomeUrl</a>
   </li>
   
   <li class="tsd-kind-function">
@@ -4722,6 +4765,10 @@
   </li>
   
   <li class="tsd-kind-type-alias">
+    <a href="/hub.js/api/common/UserEnrichment/" class="tsd-kind-icon">UserEnrichment</a>
+  </li>
+  
+  <li class="tsd-kind-type-alias">
     <a href="/hub.js/api/common/Visibility/" class="tsd-kind-icon">Visibility</a>
   </li>
   
@@ -4883,6 +4930,10 @@
   
   <li class="tsd-kind-interface">
     <a href="/hub.js/api/common/IGroupFilterDefinition/" class="tsd-kind-icon">IGroupFilterDefinition</a>
+  </li>
+  
+  <li class="tsd-kind-interface">
+    <a href="/hub.js/api/common/IGroupMemberFilterDefinition/" class="tsd-kind-icon">IGroupMemberFilterDefinition</a>
   </li>
   
   <li class="tsd-kind-interface">
@@ -5142,6 +5193,14 @@
   </li>
   
   <li class="tsd-kind-interface">
+    <a href="/hub.js/api/common/IUserAndEnrichments/" class="tsd-kind-icon">IUserAndEnrichments</a>
+  </li>
+  
+  <li class="tsd-kind-interface">
+    <a href="/hub.js/api/common/IUserEnrichments/" class="tsd-kind-icon">IUserEnrichments</a>
+  </li>
+  
+  <li class="tsd-kind-interface">
     <a href="/hub.js/api/common/IUserFilterDefinition/" class="tsd-kind-icon">IUserFilterDefinition</a>
   </li>
   
@@ -5182,13 +5241,13 @@
   
   
   
-  <small class="label right">Version 11.26.0</small>
+  <small class="label right">Version 11.27.0</small>
 <h1 class=" font-size-3 trailer-half code-face">
   <a href="/hub.js/api/discussions/">@esri/hub-discussions</a>
 </h1>
 <p class="font-size--1 trailer-1 avenir-regular">Module to interact with ArcGIS Hub Discussions API in Node.js and modern browsers.</p>
 <h2 class="font-size-0 trailer-quarter">npm install:</h2>
-<pre><code>npm install @esri/hub-discussions @esri/arcgis-rest-auth@^2.14.0 || 3  @esri/arcgis-rest-request@^2.14.0 || 3  @esri/hub-common@9.39.0 </code></pre>
+<pre><code>npm install @esri/hub-discussions @esri/arcgis-rest-auth@^2.14.0 || 3  @esri/arcgis-rest-request@^2.14.0 || 3  @esri/hub-common@9.40.0 </code></pre>
 <h2 class="font-size-0 trailer-quarter">Module Import:</h2>
 
 <pre><code class="js"><span class="hljs-keyword">import</span> {
@@ -5226,7 +5285,7 @@
 } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/hub-discussions"</span>;</code></pre>
 
 <h2 class="font-size-0 trailer-quarter">CDN:</h2>
-<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@esri/hub-discussions@11.26.0/dist/umd/discussions.umd.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@esri/hub-discussions@11.27.0/dist/umd/discussions.umd.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
 <h2 class="font-size-0 trailer-quarter">CDN with SRI:</h2>
 
 <hr class="leader-half trailer-quarter" />
@@ -5597,13 +5656,13 @@
   
   
   
-  <small class="label right">Version 9.39.0</small>
+  <small class="label right">Version 9.40.0</small>
 <h1 class=" font-size-3 trailer-half code-face">
   <a href="/hub.js/api/downloads/">@esri/hub-downloads</a>
 </h1>
 <p class="font-size--1 trailer-1 avenir-regular">Service for Hub downloads</p>
 <h2 class="font-size-0 trailer-quarter">npm install:</h2>
-<pre><code>npm install @esri/hub-downloads @esri/hub-common@9.39.0 </code></pre>
+<pre><code>npm install @esri/hub-downloads @esri/hub-common@9.40.0 </code></pre>
 <h2 class="font-size-0 trailer-quarter">Module Import:</h2>
 
 <pre><code class="js"><span class="hljs-keyword">import</span> {
@@ -5613,7 +5672,7 @@
 } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/hub-downloads"</span>;</code></pre>
 
 <h2 class="font-size-0 trailer-quarter">CDN:</h2>
-<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@esri/hub-downloads@9.39.0/dist/umd/downloads.umd.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@esri/hub-downloads@9.40.0/dist/umd/downloads.umd.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
 <h2 class="font-size-0 trailer-quarter">CDN with SRI:</h2>
 
 <hr class="leader-half trailer-quarter" />
@@ -5684,13 +5743,13 @@
   
   
   
-  <small class="label right">Version 9.39.0</small>
+  <small class="label right">Version 9.40.0</small>
 <h1 class=" font-size-3 trailer-half code-face">
   <a href="/hub.js/api/events/">@esri/hub-events</a>
 </h1>
 <p class="font-size--1 trailer-1 avenir-regular">Module to interact with ArcGIS Hub Events in Node.js and modern browsers.</p>
 <h2 class="font-size-0 trailer-quarter">npm install:</h2>
-<pre><code>npm install @esri/hub-events @esri/arcgis-rest-auth@^2.13.0 || 3  @esri/arcgis-rest-feature-layer@^2.13.0 || 3  @esri/arcgis-rest-portal@^2.15.0 || 3  @esri/arcgis-rest-request@^2.13.0 || 3  @esri/arcgis-rest-types@^2.13.0 || 3  @esri/hub-common@9.39.0 </code></pre>
+<pre><code>npm install @esri/hub-events @esri/arcgis-rest-auth@^2.13.0 || 3  @esri/arcgis-rest-feature-layer@^2.13.0 || 3  @esri/arcgis-rest-portal@^2.15.0 || 3  @esri/arcgis-rest-request@^2.13.0 || 3  @esri/arcgis-rest-types@^2.13.0 || 3  @esri/hub-common@9.40.0 </code></pre>
 <h2 class="font-size-0 trailer-quarter">Module Import:</h2>
 
 <pre><code class="js"><span class="hljs-keyword">import</span> {
@@ -5705,7 +5764,7 @@
 } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/hub-events"</span>;</code></pre>
 
 <h2 class="font-size-0 trailer-quarter">CDN:</h2>
-<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@esri/hub-events@9.39.0/dist/umd/events.umd.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@esri/hub-events@9.40.0/dist/umd/events.umd.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
 <h2 class="font-size-0 trailer-quarter">CDN with SRI:</h2>
 
 <hr class="leader-half trailer-quarter" />
@@ -5760,13 +5819,13 @@
   
   
   
-  <small class="label right">Version 9.39.0</small>
+  <small class="label right">Version 9.40.0</small>
 <h1 class=" font-size-3 trailer-half code-face">
   <a href="/hub.js/api/search/">@esri/hub-search</a>
 </h1>
 <p class="font-size--1 trailer-1 avenir-regular">Module to search for ArcGIS items and format them for display in ArcGIS Hub.</p>
 <h2 class="font-size-0 trailer-quarter">npm install:</h2>
-<pre><code>npm install @esri/hub-search @esri/arcgis-rest-auth@^2.13.0 || 3  @esri/arcgis-rest-feature-layer@^2.13.0 || 3  @esri/arcgis-rest-portal@^2.6.1 || 3  @esri/arcgis-rest-request@^2.13.0 || 3  @esri/arcgis-rest-types@^2.13.0 || 3  @esri/hub-common@9.39.0 </code></pre>
+<pre><code>npm install @esri/hub-search @esri/arcgis-rest-auth@^2.13.0 || 3  @esri/arcgis-rest-feature-layer@^2.13.0 || 3  @esri/arcgis-rest-portal@^2.6.1 || 3  @esri/arcgis-rest-request@^2.13.0 || 3  @esri/arcgis-rest-types@^2.13.0 || 3  @esri/hub-common@9.40.0 </code></pre>
 <h2 class="font-size-0 trailer-quarter">Module Import:</h2>
 
 <pre><code class="js"><span class="hljs-keyword">import</span> {
@@ -5792,7 +5851,7 @@
 } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/hub-search"</span>;</code></pre>
 
 <h2 class="font-size-0 trailer-quarter">CDN:</h2>
-<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@esri/hub-search@9.39.0/dist/umd/search.umd.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@esri/hub-search@9.40.0/dist/umd/search.umd.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
 <h2 class="font-size-0 trailer-quarter">CDN with SRI:</h2>
 
 <hr class="leader-half trailer-quarter" />
@@ -5955,13 +6014,13 @@
   
   
   
-  <small class="label right">Version 9.40.0</small>
+  <small class="label right">Version 9.41.0</small>
 <h1 class=" font-size-3 trailer-half code-face">
   <a href="/hub.js/api/sites/">@esri/hub-sites</a>
 </h1>
 <p class="font-size--1 trailer-1 avenir-regular">Module to interact with ArcGIS Hub Sites in Node.js and modern browsers.</p>
 <h2 class="font-size-0 trailer-quarter">npm install:</h2>
-<pre><code>npm install @esri/hub-sites @esri/arcgis-rest-auth@^2.13.0 || 3  @esri/arcgis-rest-portal@^2.19.0 || 3  @esri/arcgis-rest-request@^2.13.0 || 3  @esri/hub-common@9.39.0  @esri/hub-initiatives@9.40.0  @esri/hub-teams@9.39.0 </code></pre>
+<pre><code>npm install @esri/hub-sites @esri/arcgis-rest-auth@^2.13.0 || 3  @esri/arcgis-rest-portal@^2.19.0 || 3  @esri/arcgis-rest-request@^2.13.0 || 3  @esri/hub-common@9.40.0  @esri/hub-initiatives@9.41.0  @esri/hub-teams@9.40.0 </code></pre>
 <h2 class="font-size-0 trailer-quarter">Module Import:</h2>
 
 <pre><code class="js"><span class="hljs-keyword">import</span> {
@@ -6030,7 +6089,7 @@
 } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/hub-sites"</span>;</code></pre>
 
 <h2 class="font-size-0 trailer-quarter">CDN:</h2>
-<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@esri/hub-sites@9.40.0/dist/umd/sites.umd.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@esri/hub-sites@9.41.0/dist/umd/sites.umd.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
 <h2 class="font-size-0 trailer-quarter">CDN with SRI:</h2>
 
 <hr class="leader-half trailer-quarter" />
@@ -6361,13 +6420,13 @@
   
   
   
-  <small class="label right">Version 9.39.0</small>
+  <small class="label right">Version 9.40.0</small>
 <h1 class=" font-size-3 trailer-half code-face">
   <a href="/hub.js/api/surveys/">@esri/hub-surveys</a>
 </h1>
 <p class="font-size--1 trailer-1 avenir-regular">Module to interact with ArcGIS Hub Surveys in Node.js and modern browsers.</p>
 <h2 class="font-size-0 trailer-quarter">npm install:</h2>
-<pre><code>npm install @esri/hub-surveys @esri/arcgis-rest-auth@^2.13.0 || 3  @esri/arcgis-rest-feature-layer@^2.13.0 || 3  @esri/arcgis-rest-portal@^2.13.0 || 3  @esri/arcgis-rest-request@^2.13.0 || 3  @esri/arcgis-rest-types@^2.13.0 || 3  @esri/hub-common@9.39.0 </code></pre>
+<pre><code>npm install @esri/hub-surveys @esri/arcgis-rest-auth@^2.13.0 || 3  @esri/arcgis-rest-feature-layer@^2.13.0 || 3  @esri/arcgis-rest-portal@^2.13.0 || 3  @esri/arcgis-rest-request@^2.13.0 || 3  @esri/arcgis-rest-types@^2.13.0 || 3  @esri/hub-common@9.40.0 </code></pre>
 <h2 class="font-size-0 trailer-quarter">Module Import:</h2>
 
 <pre><code class="js"><span class="hljs-keyword">import</span> {
@@ -6388,7 +6447,7 @@
 } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/hub-surveys"</span>;</code></pre>
 
 <h2 class="font-size-0 trailer-quarter">CDN:</h2>
-<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@esri/hub-surveys@9.39.0/dist/umd/surveys.umd.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@esri/hub-surveys@9.40.0/dist/umd/surveys.umd.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
 <h2 class="font-size-0 trailer-quarter">CDN with SRI:</h2>
 
 <hr class="leader-half trailer-quarter" />
@@ -6483,13 +6542,13 @@
   
   
   
-  <small class="label right">Version 9.39.0</small>
+  <small class="label right">Version 9.40.0</small>
 <h1 class=" font-size-3 trailer-half code-face">
   <a href="/hub.js/api/teams/">@esri/hub-teams</a>
 </h1>
 <p class="font-size--1 trailer-1 avenir-regular">Module to interact with ArcGIS Hub Teams in Node.js and modern browsers.</p>
 <h2 class="font-size-0 trailer-quarter">npm install:</h2>
-<pre><code>npm install @esri/hub-teams @esri/arcgis-rest-auth@^2.13.0 || 3  @esri/arcgis-rest-portal@^2.15.0 || 3  @esri/arcgis-rest-request@^2.13.0 || 3  @esri/arcgis-rest-types@^2.13.0 || 3  @esri/hub-common@9.39.0 </code></pre>
+<pre><code>npm install @esri/hub-teams @esri/arcgis-rest-auth@^2.13.0 || 3  @esri/arcgis-rest-portal@^2.15.0 || 3  @esri/arcgis-rest-request@^2.13.0 || 3  @esri/arcgis-rest-types@^2.13.0 || 3  @esri/hub-common@9.40.0 </code></pre>
 <h2 class="font-size-0 trailer-quarter">Module Import:</h2>
 
 <pre><code class="js"><span class="hljs-keyword">import</span> {
@@ -6528,7 +6587,7 @@
 } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/hub-teams"</span>;</code></pre>
 
 <h2 class="font-size-0 trailer-quarter">CDN:</h2>
-<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@esri/hub-teams@9.39.0/dist/umd/teams.umd.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@esri/hub-teams@9.40.0/dist/umd/teams.umd.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
 <h2 class="font-size-0 trailer-quarter">CDN with SRI:</h2>
 
 <hr class="leader-half trailer-quarter" />
