@@ -55,6 +55,9 @@ export async function enrichUserSearchResult(
   const enrichments = mapBy("enrichment", specs).filter(unique);
   // fetch the enrichments
   let enriched = {};
+  // Ignoring the else, because we currently have defaults, but want the guards
+  // so if we remove that in the future, we don't call the fn
+  /* istanbul ignore else */
   if (enrichments.length) {
     enriched = await fetchUserEnrichments(user, enrichments, requestOptions);
   }

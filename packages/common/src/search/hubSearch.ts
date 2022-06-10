@@ -1,5 +1,6 @@
 import HubError from "../HubError";
 import { getProp } from "../objects";
+import { cloneObject } from "../util";
 
 import {
   IFilterGroup,
@@ -78,5 +79,5 @@ export async function hubSearch(
       `Search via "${filterType}" filter against "${apiType}" api is not implemented`
     );
   }
-  return fn(filterGroups, options);
+  return fn(cloneObject(filterGroups), options);
 }

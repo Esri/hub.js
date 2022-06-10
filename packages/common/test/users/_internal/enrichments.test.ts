@@ -1,4 +1,5 @@
 import * as Portal from "@esri/arcgis-rest-portal";
+import * as FetchOrgModule from "../../../src";
 import {
   cloneObject,
   IEnrichmentErrorInfo,
@@ -10,7 +11,7 @@ import * as SimpleResponse from "../../mocks/portal/simple-response.json";
 
 describe("user enrichments:", () => {
   it("org enrichment", async () => {
-    const getPortalSpy = spyOn(Portal, "getPortal").and.callFake(() => {
+    const getPortalSpy = spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
       return Promise.resolve(cloneObject(SimpleResponse));
     });
 
@@ -37,7 +38,7 @@ describe("user enrichments:", () => {
 
   describe("errors:", () => {
     it("org enrichment", async () => {
-      spyOn(Portal, "getPortal").and.callFake(() => {
+      spyOn(FetchOrgModule, "fetchOrg").and.callFake(() => {
         return Promise.reject(new Error("get portal failed"));
       });
 

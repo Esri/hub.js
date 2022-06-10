@@ -1,5 +1,5 @@
-import { IUser, getPortal, IPortal } from "@esri/arcgis-rest-portal";
-import { getPortalBaseFromOrgUrl } from "../..";
+import { IUser, IPortal } from "@esri/arcgis-rest-portal";
+import { getPortalBaseFromOrgUrl, fetchOrg } from "../..";
 import { getEnrichmentErrors } from "../../items/_enrichments";
 import OperationStack from "../../OperationStack";
 import { IEnrichmentErrorInfo, IHubRequestOptions } from "../../types";
@@ -47,12 +47,15 @@ const enrichUserOrg = (
     // **not** an org portal (i.e. org.maps.arcgis.com).
     portal: `${getPortalBaseFromOrgUrl(requestOptions.portal)}/sharing/rest`,
   };
-  // Simple caching
-  if (!orgCache[data.user.orgId]) {
-    orgCache[data.user.orgId] = getPortal(data.user.orgId, options);
-  }
+  // TODO: Add Caching
+  // Had implemented a simple caching system, but it leads to unstable
+  // tests because we can't deterministically clear it
+  // if (!orgCache[data.user.orgId]) {
+  //   orgCache[data.user.orgId] = fetchOrg(data.user.orgId, options);
+  // }
 
-  return (orgCache[data.user.orgId] as Promise<IPortal>)
+  // return (orgCache[data.user.orgId] as Promise<IPortal>)
+  return fetchOrg(data.user.orgId, options)
     .then((results) => {
       stack.finish(opId);
       return {
@@ -73,7 +76,10 @@ const enrichUserOrg = (
  * Simple cache for user org's. This does not expire
  * but that seems reasonable as Org props rarely change
  */
-const orgCache: Record<string, any> = {};
+// This works find at run-time, but it's a problem in tests
+// where we are validating calls. Will work with Randy to
+// create something that's more robust
+// const orgCache: Record<string, any> = {};
 
 // add the error to the content.errors,
 // log current stack operation as finished with an error
