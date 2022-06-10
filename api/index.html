@@ -456,6 +456,10 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/fetchOrg/" class="tsd-kind-icon padding-right-1">fetchOrg</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/fetchProject/" class="tsd-kind-icon padding-right-1">fetchProject</a>
             </li>
             
@@ -612,6 +616,10 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/getItemOrgId/" class="tsd-kind-icon padding-right-1">getItemOrgId</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/getItemThumbnailUrl/" class="tsd-kind-icon padding-right-1">getItemThumbnailUrl</a>
             </li>
             
@@ -669,6 +677,10 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/getProxyUrl/" class="tsd-kind-icon padding-right-1">getProxyUrl</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/getPublisherInfo/" class="tsd-kind-icon padding-right-1">getPublisherInfo</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -1253,6 +1265,10 @@
             
             <li class="tsd-kind-enumeration padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/Level/" class="tsd-kind-icon padding-right-1">Level</a>
+            </li>
+            
+            <li class="tsd-kind-enumeration padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/PublisherSource/" class="tsd-kind-icon padding-right-1">PublisherSource</a>
             </li>
             
             <li class="tsd-kind-enumeration padding-right-1 visually-hidden api-list-item">
@@ -3214,6 +3230,7 @@
   fetchHubTranslation,
   fetchImageAsBlob,
   fetchModelFromItem,
+  fetchOrg,
   fetchProject,
   fetchSiteModel,
   filterBy,
@@ -3253,6 +3270,7 @@
   getItemHubId,
   getItemHubType,
   getItemLayerId,
+  getItemOrgId,
   getItemThumbnailUrl,
   getLayerIdFromUrl,
   getModel,
@@ -3268,6 +3286,7 @@
   getProp,
   getProps,
   getProxyUrl,
+  getPublisherInfo,
   getServiceTypeFromUrl,
   getSession,
   getSiteById,
@@ -3783,6 +3802,10 @@
   </li>
   
   <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/fetchOrg/" class="tsd-kind-icon">fetchOrg</a>
+  </li>
+  
+  <li class="tsd-kind-function">
     <a href="/hub.js/api/common/fetchProject/" class="tsd-kind-icon">fetchProject</a>
   </li>
   
@@ -3939,6 +3962,10 @@
   </li>
   
   <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/getItemOrgId/" class="tsd-kind-icon">getItemOrgId</a>
+  </li>
+  
+  <li class="tsd-kind-function">
     <a href="/hub.js/api/common/getItemThumbnailUrl/" class="tsd-kind-icon">getItemThumbnailUrl</a>
   </li>
   
@@ -3996,6 +4023,10 @@
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/common/getProxyUrl/" class="tsd-kind-icon">getProxyUrl</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/getPublisherInfo/" class="tsd-kind-icon">getPublisherInfo</a>
   </li>
   
   <li class="tsd-kind-function">
@@ -4580,6 +4611,10 @@
   
   <li class="tsd-kind-enumeration">
     <a href="/hub.js/api/common/Level/" class="tsd-kind-icon">Level</a>
+  </li>
+  
+  <li class="tsd-kind-enumeration">
+    <a href="/hub.js/api/common/PublisherSource/" class="tsd-kind-icon">PublisherSource</a>
   </li>
   
   <li class="tsd-kind-enumeration">
@@ -5920,13 +5955,13 @@
   
   
   
-  <small class="label right">Version 9.39.0</small>
+  <small class="label right">Version 9.40.0</small>
 <h1 class=" font-size-3 trailer-half code-face">
   <a href="/hub.js/api/sites/">@esri/hub-sites</a>
 </h1>
 <p class="font-size--1 trailer-1 avenir-regular">Module to interact with ArcGIS Hub Sites in Node.js and modern browsers.</p>
 <h2 class="font-size-0 trailer-quarter">npm install:</h2>
-<pre><code>npm install @esri/hub-sites @esri/arcgis-rest-auth@^2.13.0 || 3  @esri/arcgis-rest-portal@^2.19.0 || 3  @esri/arcgis-rest-request@^2.13.0 || 3  @esri/hub-common@9.39.0  @esri/hub-initiatives@9.39.0  @esri/hub-teams@9.39.0 </code></pre>
+<pre><code>npm install @esri/hub-sites @esri/arcgis-rest-auth@^2.13.0 || 3  @esri/arcgis-rest-portal@^2.19.0 || 3  @esri/arcgis-rest-request@^2.13.0 || 3  @esri/hub-common@9.39.0  @esri/hub-initiatives@9.40.0  @esri/hub-teams@9.39.0 </code></pre>
 <h2 class="font-size-0 trailer-quarter">Module Import:</h2>
 
 <pre><code class="js"><span class="hljs-keyword">import</span> {
@@ -5995,7 +6030,7 @@
 } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/hub-sites"</span>;</code></pre>
 
 <h2 class="font-size-0 trailer-quarter">CDN:</h2>
-<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@esri/hub-sites@9.39.0/dist/umd/sites.umd.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@esri/hub-sites@9.40.0/dist/umd/sites.umd.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
 <h2 class="font-size-0 trailer-quarter">CDN with SRI:</h2>
 
 <hr class="leader-half trailer-quarter" />
