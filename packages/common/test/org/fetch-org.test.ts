@@ -4,7 +4,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { fetchOrg } from "../../src";
 
 describe("fetchOrg", () => {
-  let getPortalStub;
+  let getPortalStub: any;
   const orgId = "9001";
   const mockPortal = {
     orgId,
