@@ -3,7 +3,6 @@ import {
   getItemData,
   getItemGroups,
   getUser,
-  getPortal,
 } from "@esri/arcgis-rest-portal";
 import {
   getAllLayersAndTables,
@@ -17,9 +16,8 @@ import OperationStack from "../OperationStack";
 // TODO: move these functions here under /items
 import { getItemMetadata } from "@esri/arcgis-rest-portal";
 import { parse } from "fast-xml-parser";
-import { getPortalBaseFromOrgUrl } from "../urls/getPortalBaseFromOrgUrl";
 import { getItemOrgId } from "../content/_internal";
-import { getProp } from "../objects";
+import { fetchOrg } from "../org";
 
 /**
  * An object containing the item and fetched enrichments
@@ -148,19 +146,8 @@ const enrichOrg = (
   const { data, stack, requestOptions } = input;
   const opId = stack.start("enrichOrg");
   const orgId = getItemOrgId(data.item, data.ownerUser);
-  // TODO: purposely error / reject when requestOptions.portal isn't passed in.
-  const orgPortalUrl =
-    getProp(requestOptions, "portal") ||
-    getProp(requestOptions, "authentication.portal");
-  const options = {
-    ...requestOptions,
-    // In order to get the correct response, we must pass options.portal
-    // as a base portal url (e.g., www.arcgis.com, qaext.arcgis.com, etc)
-    // **not** an org portal (i.e. org.maps.arcgis.com).
-    portal: `${getPortalBaseFromOrgUrl(orgPortalUrl)}/sharing/rest`,
-  };
 
-  return getPortal(orgId, options)
+  return fetchOrg(orgId, requestOptions)
     .then((org) => {
       stack.finish(opId);
       return {
