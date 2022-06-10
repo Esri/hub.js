@@ -1,3 +1,10 @@
+# @esri/hub-common [9.41.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.40.0...@esri/hub-common@9.41.0) (2022-06-10)
+
+
+### Features
+
+* add user search fns ([#806](https://github.com/Esri/hub.js/issues/806)) ([9ea6317](https://github.com/Esri/hub.js/commit/9ea6317f139aff61757c50c099bdca94192c8327))
+
 # @esri/hub-common [9.40.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.39.0...@esri/hub-common@9.40.0) (2022-06-10)
 
 
