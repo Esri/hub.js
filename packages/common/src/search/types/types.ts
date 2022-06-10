@@ -35,37 +35,6 @@ export interface IFilterGroup<T extends FilterType> {
   filters: Array<Filter<T>>;
 }
 
-// export interface IFilter<T extends keyof IFilterTypeMap> {
-//   operation?: "AND" | "OR";
-//   clauses: Array<IFilterTypeMap[T]>;
-// }
-
-// const f: IFilter<"item"> = {
-//   operation: "AND",
-//   clauses: [
-//     {
-//       type: "Web Map",
-//       typekeywords: "production",
-//     },
-//     {
-//       group: "3ef"
-//     }
-//   ],
-// };
-
-// const f2: IFilter<"group"> = {
-//   operation: "AND",
-//   clauses: [
-//     {
-//       term: "water",
-//       typekeywords: "production"
-//     },
-//     {
-//       owner: "Luke",
-//     },
-//   ],
-// };
-
 /**
  * Defines the valid FilterTypes for use with `Filter<T extends FilterType>`
  * See [Filter](../Filter)
@@ -193,10 +162,6 @@ export interface IUserFilterDefinition {
   username?: string | string[] | IMatchOptions;
   emailstatus?: string | string[] | IMatchOptions;
   provider?: string | string[] | IMatchOptions;
-  // Only these props are valid for userList
-  memberType?: "admin" | "member";
-  joined?: IDateRange<number> | IRelativeDate;
-  name?: string | string[] | IMatchOptions;
 }
 
 /**
