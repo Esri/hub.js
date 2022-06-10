@@ -1,3 +1,15 @@
+# @esri/hub-common [9.40.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.39.0...@esri/hub-common@9.40.0) (2022-06-10)
+
+
+### Bug Fixes
+
+* **hub-common:** enrichOrg uses authentication.portal as a fallback ([1ff49a5](https://github.com/Esri/hub.js/commit/1ff49a58bd486e1b2007e80d2e08235e2e8e499d))
+
+
+### Features
+
+* **hub-common:** fetch org enrichment in fetchContent and add fallback logic for publisher in compo ([ca89c23](https://github.com/Esri/hub.js/commit/ca89c230377112b855e8ea97f64259dfe19add23))
+
 # @esri/hub-common [9.39.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.38.0...@esri/hub-common@9.39.0) (2022-06-06)
 
 
