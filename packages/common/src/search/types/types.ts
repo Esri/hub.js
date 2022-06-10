@@ -40,10 +40,10 @@ export interface IFilterGroup<T extends FilterType> {
  * See [Filter](../Filter)
  */
 export interface IFilterTypeMap {
-  // any: IAnyFilterDefinition;
   item: IItemFilter;
   user: IUserFilterDefinition;
   group: IGroupFilterDefinition;
+  groupMember: IGroupMemberFilterDefinition;
   event: IEventFilterDefinition;
   /**
    * DEPRECATED use item
@@ -152,7 +152,7 @@ export interface IUserFilterDefinition {
   email?: string | string[] | IMatchOptions;
   firstname?: string | string[] | IMatchOptions;
   fullname?: string | string[] | IMatchOptions;
-  groups?: string | string[] | IMatchOptions;
+  group?: string | string[] | IMatchOptions;
   lastlogin?: IDateRange<number> | IRelativeDate;
   lastname?: string | string[] | IMatchOptions;
   modified?: IDateRange<number> | IRelativeDate;
@@ -160,6 +160,22 @@ export interface IUserFilterDefinition {
   term?: string;
   userlicensetype?: string | string[] | IMatchOptions;
   username?: string | string[] | IMatchOptions;
+  emailstatus?: string | string[] | IMatchOptions;
+  provider?: string | string[] | IMatchOptions;
+}
+
+/**
+ * These properties must all be passed through
+ * so they are sent in separate fields and *not*
+ * serialized into a q
+ * Also `joined` does not take the same format as
+ * dates in `q`
+ */
+export interface IGroupMemberFilterDefinition {
+  memberType?: "admin" | "member";
+  joined?: IDateRange<number> | IRelativeDate;
+  name?: string | string[] | IMatchOptions;
+  orgIds?: string | string[] | IMatchOptions;
 }
 
 export interface IGroupFilterDefinition {

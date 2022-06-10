@@ -1,5 +1,6 @@
 import HubError from "../HubError";
 import { getProp } from "../objects";
+import { cloneObject } from "../util";
 
 import {
   IFilterGroup,
@@ -14,6 +15,7 @@ import {
   portalSearchItems,
   portalSearchGroups,
 } from "./_internal";
+import { portalSearchUsers } from "./_internal/portalSearchUsers";
 
 /**
  * Main Search function for ArcGIS Hub
@@ -63,6 +65,7 @@ export async function hubSearch(
     arcgis: {
       item: portalSearchItems,
       group: portalSearchGroups,
+      user: portalSearchUsers,
     },
     "arcgis-hub": {
       item: hubSearchItems,
@@ -76,5 +79,5 @@ export async function hubSearch(
       `Search via "${filterType}" filter against "${apiType}" api is not implemented`
     );
   }
-  return fn(filterGroups, options);
+  return fn(cloneObject(filterGroups), options);
 }
