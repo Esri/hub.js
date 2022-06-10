@@ -31,6 +31,8 @@ import {
   parseISODateString,
   getAdditionalResources,
   determineExtent,
+  getPublisherInfo,
+  getItemOrgId,
 } from "./_internal";
 import { getFamily } from "./get-family";
 
@@ -790,13 +792,9 @@ export const composeContent = (
         "metadataUpdateFrequency"
       );
     },
-    // TODO: add the publisher logic outlined here:
-    // https://devtopia.esri.com/dc/hub/issues/2932#issuecomment-3276309
+
     get publisher() {
-      return {
-        name: item.owner,
-        username: item.owner,
-      };
+      return getPublisherInfo(item, metadata, org, ownerUser);
     },
     // TODO: is metrics in use?
     get metrics() {
@@ -821,8 +819,7 @@ export const composeContent = (
       return dataLayer ? dataLayer.layerDefinition : undefined;
     },
     get orgId() {
-      // NOTE: it's undocumented, but the portal API will return orgId for items... sometimes
-      return org ? org.id : item.orgId || ownerUser?.orgId;
+      return org ? org.id : getItemOrgId(item, ownerUser);
     },
     get contentTypeIcon() {
       /* Note: only returns calcite-icons */

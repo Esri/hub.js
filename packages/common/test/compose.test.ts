@@ -7,6 +7,7 @@ import {
   getProxyUrl,
   IHubGeography,
   IHubRequestOptions,
+  PublisherSource,
 } from "../src";
 import * as documentItem from "./mocks/items/document.json";
 import * as mapServiceItem from "./mocks/items/map-service.json";
@@ -372,6 +373,25 @@ describe("composeContent", () => {
         expect(result.publishedDateSource).toEqual(
           "metadata.metadata.dataIdInfo.idCitation.date.pubDate"
         );
+      });
+    });
+    describe("with publisher info", () => {
+      it("should populate publisher", () => {
+        const metadata = {
+          metadata: {
+            mdContact: {
+              rpIndName: "Resource Name",
+              rpOrgName: "Resource Org",
+            },
+          },
+        };
+        const content = composeContent(item, { metadata });
+        expect(content.publisher).toEqual({
+          name: "Resource Name",
+          nameSource: PublisherSource.ResourceContact,
+          organization: "Resource Org",
+          organizationSource: PublisherSource.ResourceContact,
+        });
       });
     });
   });

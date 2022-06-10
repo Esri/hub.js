@@ -6,6 +6,13 @@ import { IHubItemEntity } from ".";
 import { IHubContentEnrichments } from "./IHubContentEnrichments";
 import { IHubAdditionalResource } from "./IHubAdditionalResource";
 
+export enum PublisherSource {
+  CitationContact = "metadata.resource.citation.contact",
+  ResourceContact = "metadata.resource.contact",
+  ItemOwner = "item.owner",
+  None = "none",
+}
+
 // TODO: at next breaking change, IHubContent should no longer extend IItem
 /**
  * Data model for content
@@ -84,7 +91,21 @@ export interface IHubContent
   /** Frequency at which the content is updated */
   updateFrequency?: string;
 
-  // TODO: publisher?
+  /**
+   * Info to display about the content's publisher. Follows this fallback pattern:
+   * 1) Formal Item Metadata > Resource > Citation > Contact
+   * 2) Formal Item Metadata > Resource > Contact
+   * 3) Item’s Owner and Org Name
+   * 4) Undefined (Item Owner / Org are private and we can't access additional info)
+   */
+  publisher?: {
+    name?: string;
+    username?: string; // if name refers to item owner, then this will be item owner's username, otherwise it will be undefined
+    nameSource: PublisherSource;
+    organization?: string;
+    orgId?: string; // if organization refers to item owner's org, then this will be that org's orgId
+    organizationSource: PublisherSource;
+  };
 
   // TODO: should portalHomeUrl and portalApiUrl be hoisted to IHubItemEntity?
   // previously we had them in IHubResource

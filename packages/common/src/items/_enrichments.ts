@@ -3,7 +3,6 @@ import {
   getItemData,
   getItemGroups,
   getUser,
-  IGroup,
 } from "@esri/arcgis-rest-portal";
 import {
   getAllLayersAndTables,
@@ -17,6 +16,8 @@ import OperationStack from "../OperationStack";
 // TODO: move these functions here under /items
 import { getItemMetadata } from "@esri/arcgis-rest-portal";
 import { parse } from "fast-xml-parser";
+import { getItemOrgId } from "../content/_internal";
+import { fetchOrg } from "../org";
 
 /**
  * An object containing the item and fetched enrichments
@@ -136,6 +137,28 @@ const enrichOwnerUser = (
     .catch((error) => handleEnrichmentError(error, input, opId));
 };
 
+// Note, this MUST be run after `enrichOwnerUser` to access the correct orgId during
+// processing. `item.orgId` is only SOMETIMES returned by Portal, so we need to have
+// the ownerUser's orgId as a backup.
+const enrichOrg = (
+  input: IPipeable<IItemAndEnrichments>
+): Promise<IPipeable<IItemAndEnrichments>> => {
+  const { data, stack, requestOptions } = input;
+  const opId = stack.start("enrichOrg");
+  const orgId = getItemOrgId(data.item, data.ownerUser);
+
+  return fetchOrg(orgId, requestOptions)
+    .then((org) => {
+      stack.finish(opId);
+      return {
+        data: { ...data, org },
+        stack,
+        requestOptions,
+      };
+    })
+    .catch((error) => handleEnrichmentError(error, input, opId));
+};
+
 const enrichData = (
   input: IPipeable<IItemAndEnrichments>
 ): Promise<IPipeable<IItemAndEnrichments>> => {
@@ -226,6 +249,7 @@ const enrichmentOperations: IEnrichmentOperations = {
   groupIds: enrichGroupIds,
   metadata: enrichMetadata,
   ownerUser: enrichOwnerUser,
+  org: enrichOrg,
   data: enrichData,
   server: enrichServer,
   layers: enrichLayers,

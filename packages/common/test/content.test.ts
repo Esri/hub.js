@@ -38,9 +38,16 @@ import {
   getAdditionalResourceUrl,
   determineExtent,
   getHubRelativeUrl,
+  extractFirstContact,
+  getPublisherInfo,
 } from "../src/content/_internal";
 import { IModel } from "../src/types";
-import { getProxyUrl, IHubContent, IHubRequestOptions } from "../src";
+import {
+  getProxyUrl,
+  IHubContent,
+  IHubRequestOptions,
+  PublisherSource,
+} from "../src";
 import { cloneObject } from "../src/util";
 import * as documentItem from "./mocks/items/document.json";
 import * as documentsJson from "./mocks/datasets/document.json";
@@ -1258,5 +1265,159 @@ describe("determineExtent", () => {
       [1, 3],
       [2, 4],
     ]);
+  });
+});
+
+// Gets branches not covered in compose.test.ts
+describe("extractFirstContact", () => {
+  it("handles when the path points to a contact array", () => {
+    const contact1 = {
+      rpIndName: "contact1",
+      rpOrgName: "org1",
+    };
+    const contact2 = {
+      rpIndName: "contact2",
+      rpOrgName: "org2",
+    };
+    const metadata = {
+      metadata: {
+        path: [contact1, contact2],
+      },
+    };
+    expect(extractFirstContact(metadata, "metadata.path")).toEqual({
+      individualName: contact1.rpIndName,
+      organizationName: contact1.rpOrgName,
+    });
+  });
+});
+
+// Gets branches not covered in compose.test.ts
+describe("getPublisherInfo", () => {
+  it("correctly reports when no info is available", () => {
+    const item = { id: "abc" } as unknown as IItem;
+    const result = getPublisherInfo(item, null, null, null);
+    expect(result).toEqual({
+      nameSource: PublisherSource.None,
+      organizationSource: PublisherSource.None,
+    });
+  });
+
+  it("correctly reports citation contact info", () => {
+    const item = { id: "abc" } as unknown as IItem;
+    const metadata = {
+      metadata: {
+        // Resource Info
+        mdContact: {
+          rpIndName: "Resource Name",
+          rpOrgName: "Resource Org",
+        },
+        // Citation Info
+        dataIdInfo: {
+          idCitation: {
+            citRespParty: {
+              rpIndName: "Citation Name",
+              rpOrgName: "Citation Org",
+            },
+          },
+        },
+      },
+    };
+    const ownerUser = {
+      fullName: "Owner User",
+      username: "username",
+      orgId: "org_id",
+    };
+    const org = {
+      id: "org_id",
+      name: "Org Name",
+    };
+    const result = getPublisherInfo(item, metadata, org, ownerUser);
+    expect(result).toEqual({
+      name: "Citation Name",
+      nameSource: PublisherSource.CitationContact,
+      organization: "Citation Org",
+      organizationSource: PublisherSource.CitationContact,
+    });
+  });
+
+  it("correctly reports resource contact info", () => {
+    const item = { id: "abc" } as unknown as IItem;
+    const metadata = {
+      metadata: {
+        // Resource Info
+        mdContact: {
+          rpIndName: "Resource Name",
+          rpOrgName: "Resource Org",
+        },
+      },
+    };
+    const ownerUser = {
+      fullName: "Owner User",
+      username: "username",
+      orgId: "org_id",
+    };
+    const org = {
+      id: "org_id",
+      name: "Org Name",
+    };
+    const result = getPublisherInfo(item, metadata, org, ownerUser);
+    expect(result).toEqual({
+      name: "Resource Name",
+      nameSource: PublisherSource.ResourceContact,
+      organization: "Resource Org",
+      organizationSource: PublisherSource.ResourceContact,
+    });
+  });
+
+  it("correctly reports item owner / org info", () => {
+    const item = { id: "abc" } as unknown as IItem;
+    const ownerUser = {
+      fullName: "Owner User",
+      username: "username",
+      orgId: "org_id",
+    };
+    const org = {
+      id: "org_id",
+      name: "Item Org Name",
+    };
+    const result = getPublisherInfo(item, null, org, ownerUser);
+    expect(result).toEqual({
+      name: "Owner User",
+      username: "username",
+      nameSource: PublisherSource.ItemOwner,
+      organization: "Item Org Name",
+      orgId: "org_id",
+      organizationSource: PublisherSource.ItemOwner,
+    });
+  });
+
+  it("correctly reports mixed name and org info", () => {
+    const item = { id: "abc" } as unknown as IItem;
+    const metadata = {
+      metadata: {
+        // Resource Info
+        mdContact: {
+          rpIndName: "Resource Name",
+          // note that resource org name is omitted
+        },
+      },
+    };
+    const ownerUser = {
+      fullName: "Owner User",
+      username: "username",
+      orgId: "org_id",
+    };
+    const org = {
+      id: "org_id",
+      name: "Org Name",
+    };
+    const result = getPublisherInfo(item, metadata, org, ownerUser);
+    expect(result).toEqual({
+      name: "Resource Name",
+      nameSource: PublisherSource.ResourceContact,
+      organization: "Org Name",
+      orgId: "org_id",
+      organizationSource: PublisherSource.ItemOwner,
+    });
   });
 });
