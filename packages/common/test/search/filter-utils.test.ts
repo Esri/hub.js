@@ -149,6 +149,22 @@ describe("filter-utils:", () => {
         '(tags:"water" OR tags:"rivers") AND tags:"production" AND (-tags:"preview" OR -tags:"deprecated")'
       );
     });
+    it("can pass through props", () => {
+      const f: Filter<"item"> = {
+        filterType: "item",
+        searchUserAccess: "member",
+      };
+
+      const group: IFilterGroup<"item"> = {
+        filterType: "item",
+        operation: "AND",
+        filters: [f],
+      };
+
+      const chk = serializeFilterGroupsForPortal([group]);
+
+      expect(chk.searchUserAccess).toEqual("member");
+    });
     it("handles multiple filters", () => {
       const filters: Array<IFilterGroup<"item">> = [
         {
@@ -256,6 +272,24 @@ describe("filter-utils:", () => {
       const chk = serializeFilterGroupsForPortal([group]);
 
       expect(chk.q).toEqual("isopendata:true");
+    });
+    it("handles passthrough props ", () => {
+      const f: Filter<"group"> = {
+        filterType: "group",
+        searchUserAccess: "groupMember",
+        searchUserName: "dave",
+      };
+
+      const group: IFilterGroup<"group"> = {
+        filterType: "group",
+        operation: "AND",
+        filters: [f],
+      };
+
+      const chk = serializeFilterGroupsForPortal([group]);
+
+      expect(chk.searchUserAccess).toEqual("groupMember");
+      expect(chk.searchUserName).toEqual("dave");
     });
   });
 });

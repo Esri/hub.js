@@ -1,4 +1,5 @@
-import { ISearchOptions } from "@esri/arcgis-rest-portal";
+import { ISearchOptions, SearchQueryBuilder } from "@esri/arcgis-rest-portal";
+import { group } from "console";
 import { getProp, setProp } from "../objects";
 import { cloneObject } from "../util";
 import {
@@ -22,7 +23,13 @@ import { relativeDateToDateRange, valueToMatchOptions } from "./utils";
 export function expandFilter<T>(filter: T): T {
   const result = {} as typeof filter;
   const dateProps = ["created", "modified", "lastlogin"];
-  const copyProps = ["filterType", "term", "searchUserAccess", "isopendata"];
+  const copyProps = [
+    "filterType",
+    "term",
+    "searchUserAccess",
+    "isopendata",
+    "searchUserName",
+  ];
   const nonMatchOptionsFields = [...dateProps, ...copyProps];
   // Do the conversion
   Object.entries(filter).forEach(([key, value]) => {
@@ -56,69 +63,107 @@ export function expandFilter<T>(filter: T): T {
 export function serializeFilterGroupsForPortal(
   filterGroups: Array<IFilterGroup<FilterType>>
 ): ISearchOptions {
-  const result = {
-    q: "",
-    filter: "",
-  } as ISearchOptions;
+  const groupSearchOptions = filterGroups.map(serializeGroup);
 
-  result.q = filterGroups.map(serializeGroup).join(" AND ");
+  const result = mergeSearchOptions(groupSearchOptions, "AND");
 
   return result;
 }
 
 /**
  * Serialize the filters in a FitlerGroup into a Portal Query
- * @param group
+ * @param filterGroup
  * @returns
  */
-function serializeGroup(group: IFilterGroup<FilterType>): string {
-  const operation = group.operation || "AND";
-  const filters = group.filters.map(expandFilter);
-  let q = filters.map(serializeFilter).join(` ${operation} `);
-  // Wrap in parens if there is more than one filter
+function serializeGroup(filterGroup: IFilterGroup<FilterType>): ISearchOptions {
+  const operation = filterGroup.operation || "AND";
+  const filters = filterGroup.filters.map(expandFilter);
+  const filterSearchOptions = filters.map(serializeFilter);
+  // combine these searchOptions
+  const groupSearchOptions = mergeSearchOptions(filterSearchOptions, operation);
+  //
   if (filters.length > 1) {
-    q = `(${q})`;
+    groupSearchOptions.q = `(${groupSearchOptions.q})`;
   }
-  return q;
+  return groupSearchOptions;
 }
 /**
  * Serialize a Filter into a Portal Query
  * @param filter
  * @returns
  */
-function serializeFilter(filter: Filter<FilterType>): string {
+function serializeFilter(filter: Filter<FilterType>): ISearchOptions {
   const dateProps = ["created", "modified"];
   const boolProps = ["isopendata"];
+  const passThroughProps = ["searchUserAccess", "searchUserName"];
   const specialProps = [
     "filterType",
-    "searchUserAccess",
     "term",
     ...dateProps,
     ...boolProps,
+    ...passThroughProps,
   ];
+  let qCount = 0;
   // TODO: Look at using reduce vs .map and remove the `.filter`
-  const stringFilters = Object.entries(filter)
+  const opts = Object.entries(filter)
     .map(([key, value]) => {
+      const so: ISearchOptions = { q: "" };
       if (!specialProps.includes(key)) {
-        return serializeMatchOptions(key, value);
+        qCount++;
+        so.q = serializeMatchOptions(key, value);
       }
       if (dateProps.includes(key)) {
-        return serializeDateRange(key, value as unknown as IDateRange<number>);
+        qCount++;
+        so.q = serializeDateRange(key, value as unknown as IDateRange<number>);
       }
       if (boolProps.includes(key)) {
-        return `${key}:${value}`;
+        qCount++;
+        so.q = `${key}:${value}`;
+      }
+      if (passThroughProps.includes(key)) {
+        so[key] = value;
       }
       if (key === "term") {
-        return value;
+        qCount++;
+        so.q = value;
       }
+      return so;
     })
     .filter((e) => e !== undefined);
-  // eslint-disable-next-line unicorn/prefer-ternary
-  if (stringFilters.length > 1) {
-    return `(${stringFilters.join(" AND ")})`;
-  } else {
-    return stringFilters[0] as string;
+
+  // merge up all the searchOptions
+  const searchOptions = mergeSearchOptions(opts, "AND");
+
+  if (qCount > 1) {
+    searchOptions.q = `(${searchOptions.q})`;
   }
+  return searchOptions;
+}
+
+function mergeSearchOptions(
+  options: ISearchOptions[],
+  operation: "AND" | "OR"
+): ISearchOptions {
+  const result: ISearchOptions = options.reduce(
+    (acc, entry) => {
+      // walk the props
+      Object.entries(entry).forEach(([key, value]) => {
+        // if prop exists
+        if (acc[key]) {
+          // combine via operation
+          acc[key] = `${acc[key]} ${operation} ${value}`;
+        } else {
+          // just copy the value
+          acc[key] = value;
+        }
+      });
+
+      return acc;
+    },
+    { q: "" }
+  );
+
+  return result;
 }
 
 /**
