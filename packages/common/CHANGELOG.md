@@ -1,3 +1,10 @@
+## @esri/hub-common [9.41.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.41.0...@esri/hub-common@9.41.1) (2022-06-13)
+
+
+### Bug Fixes
+
+* allow specific props to propogate through to ISearchOptions ([#802](https://github.com/Esri/hub.js/issues/802)) ([32a4c70](https://github.com/Esri/hub.js/commit/32a4c70ee281bdc1fee7cfa86cf6864c93391ada))
+
 # @esri/hub-common [9.41.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.40.0...@esri/hub-common@9.41.0) (2022-06-10)
 
 
