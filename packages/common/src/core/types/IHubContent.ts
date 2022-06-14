@@ -107,6 +107,7 @@ export interface IHubContent
     organization?: string;
     orgId?: string; // if organization refers to item owner's org, then this will be that org's orgId
     organizationSource: PublisherSource;
+    isExternal: boolean; // whether the item is published to an external org (can only be set when no org info is available)
   };
 
   // TODO: should portalHomeUrl and portalApiUrl be hoisted to IHubItemEntity?

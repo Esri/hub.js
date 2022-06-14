@@ -599,5 +599,10 @@ export const getPublisherInfo = (
     result.organizationSource = PublisherSource.ItemOwner;
   }
 
+  // We assume the item belongs to external org if no org info is available and the item is private
+  result.isExternal =
+    result.organizationSource === PublisherSource.None &&
+    item.access !== "public";
+
   return result;
 };

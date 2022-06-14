@@ -1294,11 +1294,22 @@ describe("extractFirstContact", () => {
 // Gets branches not covered in compose.test.ts
 describe("getPublisherInfo", () => {
   it("correctly reports when no info is available", () => {
-    const item = { id: "abc" } as unknown as IItem;
+    const item = { id: "abc", access: "public" } as unknown as IItem;
     const result = getPublisherInfo(item, null, null, null);
     expect(result).toEqual({
       nameSource: PublisherSource.None,
       organizationSource: PublisherSource.None,
+      isExternal: false,
+    });
+  });
+
+  it("correctly reports when no info is available and the item is external", () => {
+    const item = { id: "abc", access: "private" } as unknown as IItem;
+    const result = getPublisherInfo(item, null, null, null);
+    expect(result).toEqual({
+      nameSource: PublisherSource.None,
+      organizationSource: PublisherSource.None,
+      isExternal: true,
     });
   });
 
@@ -1342,6 +1353,7 @@ describe("getPublisherInfo", () => {
       nameSource: PublisherSource.CitationContact,
       organization: "Citation Org",
       organizationSource: PublisherSource.CitationContact,
+      isExternal: false,
     });
   });
 
@@ -1378,6 +1390,7 @@ describe("getPublisherInfo", () => {
       nameSource: PublisherSource.ResourceContact,
       organization: "Resource Org",
       organizationSource: PublisherSource.ResourceContact,
+      isExternal: false,
     });
   });
 
@@ -1407,6 +1420,7 @@ describe("getPublisherInfo", () => {
       nameSource: PublisherSource.MetadataContact,
       organization: "Metadata Org",
       organizationSource: PublisherSource.MetadataContact,
+      isExternal: false,
     });
   });
 
@@ -1429,6 +1443,7 @@ describe("getPublisherInfo", () => {
       organization: "Item Org Name",
       orgId: "org_id",
       organizationSource: PublisherSource.ItemOwner,
+      isExternal: false,
     });
   });
 
@@ -1459,6 +1474,7 @@ describe("getPublisherInfo", () => {
       organization: "Org Name",
       orgId: "org_id",
       organizationSource: PublisherSource.ItemOwner,
+      isExternal: false,
     });
   });
 });

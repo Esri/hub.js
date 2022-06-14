@@ -391,6 +391,7 @@ describe("composeContent", () => {
           nameSource: PublisherSource.MetadataContact,
           organization: "Metadata Org",
           organizationSource: PublisherSource.MetadataContact,
+          isExternal: false,
         });
       });
     });
