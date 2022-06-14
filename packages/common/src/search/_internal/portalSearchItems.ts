@@ -170,7 +170,7 @@ interface IWellKnownItemFilters {
   $document: Array<Filter<"item">>;
   $webmap: Array<Filter<"item">>;
   $template: Array<Filter<"item">>;
-  $pageforcurrentsite: Array<Filter<"item">>;
+  $page: Array<Filter<"item">>;
 }
 
 export const WellKnownItemFilters: IWellKnownItemFilters = {
@@ -283,7 +283,7 @@ export const WellKnownItemFilters: IWellKnownItemFilters = {
       type: "Form",
     },
   ],
-  $pageforcurrentsite: [
+  $page: [
     {
       filterType: "item",
       typekeywords: "hubPage",
