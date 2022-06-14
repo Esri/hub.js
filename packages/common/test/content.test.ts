@@ -1294,11 +1294,22 @@ describe("extractFirstContact", () => {
 // Gets branches not covered in compose.test.ts
 describe("getPublisherInfo", () => {
   it("correctly reports when no info is available", () => {
-    const item = { id: "abc" } as unknown as IItem;
+    const item = { id: "abc", access: "public" } as unknown as IItem;
     const result = getPublisherInfo(item, null, null, null);
     expect(result).toEqual({
       nameSource: PublisherSource.None,
       organizationSource: PublisherSource.None,
+      isExternal: false,
+    });
+  });
+
+  it("correctly reports when no info is available and the item is external", () => {
+    const item = { id: "abc", access: "private" } as unknown as IItem;
+    const result = getPublisherInfo(item, null, null, null);
+    expect(result).toEqual({
+      nameSource: PublisherSource.None,
+      organizationSource: PublisherSource.None,
+      isExternal: true,
     });
   });
 
@@ -1306,18 +1317,23 @@ describe("getPublisherInfo", () => {
     const item = { id: "abc" } as unknown as IItem;
     const metadata = {
       metadata: {
-        // Resource Info
+        // Metadata Info
         mdContact: {
-          rpIndName: "Resource Name",
-          rpOrgName: "Resource Org",
+          rpIndName: "Metadata Name",
+          rpOrgName: "Metadata Org",
         },
-        // Citation Info
         dataIdInfo: {
+          // Citation Info
           idCitation: {
             citRespParty: {
               rpIndName: "Citation Name",
               rpOrgName: "Citation Org",
             },
+          },
+          // Resource Info
+          idPoC: {
+            rpIndName: "Resource Name",
+            rpOrgName: "Resource Org",
           },
         },
       },
@@ -1337,6 +1353,7 @@ describe("getPublisherInfo", () => {
       nameSource: PublisherSource.CitationContact,
       organization: "Citation Org",
       organizationSource: PublisherSource.CitationContact,
+      isExternal: false,
     });
   });
 
@@ -1344,10 +1361,17 @@ describe("getPublisherInfo", () => {
     const item = { id: "abc" } as unknown as IItem;
     const metadata = {
       metadata: {
-        // Resource Info
+        // Metadata Info
         mdContact: {
           rpIndName: "Resource Name",
           rpOrgName: "Resource Org",
+        },
+        dataIdInfo: {
+          // Resource Info
+          idPoC: {
+            rpIndName: "Resource Name",
+            rpOrgName: "Resource Org",
+          },
         },
       },
     };
@@ -1366,6 +1390,37 @@ describe("getPublisherInfo", () => {
       nameSource: PublisherSource.ResourceContact,
       organization: "Resource Org",
       organizationSource: PublisherSource.ResourceContact,
+      isExternal: false,
+    });
+  });
+
+  it("correctly reports metadata contact info", () => {
+    const item = { id: "abc" } as unknown as IItem;
+    const metadata = {
+      metadata: {
+        // Metadata Info
+        mdContact: {
+          rpIndName: "Metadata Name",
+          rpOrgName: "Metadata Org",
+        },
+      },
+    };
+    const ownerUser = {
+      fullName: "Owner User",
+      username: "username",
+      orgId: "org_id",
+    };
+    const org = {
+      id: "org_id",
+      name: "Org Name",
+    };
+    const result = getPublisherInfo(item, metadata, org, ownerUser);
+    expect(result).toEqual({
+      name: "Metadata Name",
+      nameSource: PublisherSource.MetadataContact,
+      organization: "Metadata Org",
+      organizationSource: PublisherSource.MetadataContact,
+      isExternal: false,
     });
   });
 
@@ -1388,6 +1443,7 @@ describe("getPublisherInfo", () => {
       organization: "Item Org Name",
       orgId: "org_id",
       organizationSource: PublisherSource.ItemOwner,
+      isExternal: false,
     });
   });
 
@@ -1395,10 +1451,10 @@ describe("getPublisherInfo", () => {
     const item = { id: "abc" } as unknown as IItem;
     const metadata = {
       metadata: {
-        // Resource Info
+        // Metadata Info
         mdContact: {
-          rpIndName: "Resource Name",
-          // note that resource org name is omitted
+          rpIndName: "Metadata Name",
+          // note that metadata org name is omitted
         },
       },
     };
@@ -1413,11 +1469,12 @@ describe("getPublisherInfo", () => {
     };
     const result = getPublisherInfo(item, metadata, org, ownerUser);
     expect(result).toEqual({
-      name: "Resource Name",
-      nameSource: PublisherSource.ResourceContact,
+      name: "Metadata Name",
+      nameSource: PublisherSource.MetadataContact,
       organization: "Org Name",
       orgId: "org_id",
       organizationSource: PublisherSource.ItemOwner,
+      isExternal: false,
     });
   });
 });

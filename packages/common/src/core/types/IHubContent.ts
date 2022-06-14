@@ -9,6 +9,7 @@ import { IHubAdditionalResource } from "./IHubAdditionalResource";
 export enum PublisherSource {
   CitationContact = "metadata.resource.citation.contact",
   ResourceContact = "metadata.resource.contact",
+  MetadataContact = "metadata.contact",
   ItemOwner = "item.owner",
   None = "none",
 }
@@ -95,8 +96,9 @@ export interface IHubContent
    * Info to display about the content's publisher. Follows this fallback pattern:
    * 1) Formal Item Metadata > Resource > Citation > Contact
    * 2) Formal Item Metadata > Resource > Contact
-   * 3) Item’s Owner and Org Name
-   * 4) Undefined (Item Owner / Org are private and we can't access additional info)
+   * 3) Formal Item Metadata > Contact
+   * 4) Item’s Owner and Org Name
+   * 5) Undefined (Item Owner / Org are private and we can't access additional info)
    */
   publisher?: {
     name?: string;
@@ -105,6 +107,7 @@ export interface IHubContent
     organization?: string;
     orgId?: string; // if organization refers to item owner's org, then this will be that org's orgId
     organizationSource: PublisherSource;
+    isExternal: boolean; // whether the item is published to an external org (can only be set when no org info is available)
   };
 
   // TODO: should portalHomeUrl and portalApiUrl be hoisted to IHubItemEntity?

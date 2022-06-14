@@ -557,7 +557,11 @@ export const getPublisherInfo = (
     metadata,
     "metadata.dataIdInfo.idCitation.citRespParty"
   );
-  const resourceContact = extractFirstContact(metadata, "metadata.mdContact");
+  const resourceContact = extractFirstContact(
+    metadata,
+    "metadata.dataIdInfo.idPoC"
+  );
+  const metadataContact = extractFirstContact(metadata, "metadata.mdContact");
 
   // Determine publisher name properties
   const ownerFullName = getProp(ownerUser, "fullName");
@@ -568,6 +572,9 @@ export const getPublisherInfo = (
   } else if (resourceContact.individualName) {
     result.name = resourceContact.individualName;
     result.nameSource = PublisherSource.ResourceContact;
+  } else if (metadataContact.individualName) {
+    result.name = metadataContact.individualName;
+    result.nameSource = PublisherSource.MetadataContact;
   } else if (ownerFullName) {
     result.name = ownerFullName;
     result.username = ownerUser.username;
@@ -583,11 +590,19 @@ export const getPublisherInfo = (
   } else if (resourceContact.organizationName) {
     result.organization = resourceContact.organizationName;
     result.organizationSource = PublisherSource.ResourceContact;
+  } else if (metadataContact.organizationName) {
+    result.organization = metadataContact.organizationName;
+    result.organizationSource = PublisherSource.MetadataContact;
   } else if (orgName) {
     result.organization = orgName;
     result.orgId = getItemOrgId(item, ownerUser);
     result.organizationSource = PublisherSource.ItemOwner;
   }
+
+  // We assume the item belongs to external org if no org info is available and the item is private
+  result.isExternal =
+    result.organizationSource === PublisherSource.None &&
+    item.access !== "public";
 
   return result;
 };
