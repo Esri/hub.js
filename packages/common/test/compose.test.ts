@@ -380,17 +380,17 @@ describe("composeContent", () => {
         const metadata = {
           metadata: {
             mdContact: {
-              rpIndName: "Resource Name",
-              rpOrgName: "Resource Org",
+              rpIndName: "Metadata Name",
+              rpOrgName: "Metadata Org",
             },
           },
         };
         const content = composeContent(item, { metadata });
         expect(content.publisher).toEqual({
-          name: "Resource Name",
-          nameSource: PublisherSource.ResourceContact,
-          organization: "Resource Org",
-          organizationSource: PublisherSource.ResourceContact,
+          name: "Metadata Name",
+          nameSource: PublisherSource.MetadataContact,
+          organization: "Metadata Org",
+          organizationSource: PublisherSource.MetadataContact,
         });
       });
     });
