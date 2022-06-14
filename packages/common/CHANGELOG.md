@@ -1,3 +1,11 @@
+# @esri/hub-common [9.42.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.41.1...@esri/hub-common@9.42.0) (2022-06-14)
+
+
+### Features
+
+* **hub-common:** add isExternal flag to IHubContent's publisher field ([8f2f794](https://github.com/Esri/hub.js/commit/8f2f794d82c94163eddfb418376c0dc23a69c37b))
+* **hub-common:** add metadata.contact as a possible source for IHubContent's publisher field ([2fc486e](https://github.com/Esri/hub.js/commit/2fc486e7aeb12f80881f079305f1678e64a1300d))
+
 ## @esri/hub-common [9.41.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.41.0...@esri/hub-common@9.41.1) (2022-06-13)
 
 
