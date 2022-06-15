@@ -50,6 +50,7 @@ export async function _searchUsers(
   Logger.warn(
     `DEPRECATION: _searchUsers will be removed; switch to hubSearch(...)`
   );
+
   // JS Clients may not pass in authentication
   if (!options.authentication) {
     throw new Error("Authentication required to search for users.");
