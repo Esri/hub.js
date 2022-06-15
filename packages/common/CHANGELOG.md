@@ -3,6 +3,21 @@
 
 ### Bug Fixes
 
+* force release ([60c7eae](https://github.com/Esri/hub.js/commit/60c7eae8ce020580824cf638583df2d80eba0567))
+* force release - 2 ([25f3815](https://github.com/Esri/hub.js/commit/25f381506e409b823b5a9be718c7542704eb81d5))
+* force release due to ci network failure - take 2 ([dbbf4d9](https://github.com/Esri/hub.js/commit/dbbf4d91b5c62f0c864d7627ffe42e9617a489d0))
+* reset version numbers so hopefully it can release ([8da9264](https://github.com/Esri/hub.js/commit/8da9264a15040ae06964eddcfda639009a927be0))
+
+
+### Features
+
+* add well-known-type filter expansions ([#808](https://github.com/Esri/hub.js/issues/808)) ([168671e](https://github.com/Esri/hub.js/commit/168671e86e8bba089f249836a4eb714272ab5bff))
+
+# @esri/hub-common [9.43.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.42.0...@esri/hub-common@9.43.0) (2022-06-15)
+
+
+### Bug Fixes
+
 * force release due to ci network failure - take 2 ([dbbf4d9](https://github.com/Esri/hub.js/commit/dbbf4d91b5c62f0c864d7627ffe42e9617a489d0))
 
 
