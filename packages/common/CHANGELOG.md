@@ -1,3 +1,10 @@
+# @esri/hub-common [9.43.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.42.0...@esri/hub-common@9.43.0) (2022-06-15)
+
+
+### Features
+
+* add well-known-type filter expansions ([#808](https://github.com/Esri/hub.js/issues/808)) ([168671e](https://github.com/Esri/hub.js/commit/168671e86e8bba089f249836a4eb714272ab5bff))
+
 # @esri/hub-common [9.42.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.41.1...@esri/hub-common@9.42.0) (2022-06-14)
 
 
