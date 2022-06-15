@@ -37,6 +37,8 @@ export interface IHubUser extends IUser {
  *
  * **Note** Authentication is required
  *
+ *
+ *
  * Note: in the future, there may be options to search via
  * a Hub specific API
  * @param filter
