@@ -37,7 +37,7 @@ export interface IHubUser extends IUser {
  *
  * **Note** Authentication is required
  *
- * Trivial comment to force a release
+ * Another trivial comment to force a release
  *
  * Note: in the future, there may be options to search via
  * a Hub specific API
