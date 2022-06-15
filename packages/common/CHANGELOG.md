@@ -1,3 +1,10 @@
+## @esri/hub-common [9.43.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.43.0...@esri/hub-common@9.43.1) (2022-06-15)
+
+
+### Bug Fixes
+
+* whitespace change to kick a release ([d40f5fb](https://github.com/Esri/hub.js/commit/d40f5fbe9e20829e897b75bf2691e218af65851d))
+
 # @esri/hub-common [9.43.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.42.0...@esri/hub-common@9.43.0) (2022-06-15)
 
 
