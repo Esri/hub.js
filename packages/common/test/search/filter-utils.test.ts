@@ -5,6 +5,8 @@ import {
   IDateRange,
   IFilterGroup,
   serializeFilterGroupsForPortal,
+  isEmptyFilter,
+  isEmptyFilterGroup,
 } from "../../src";
 
 describe("filter-utils:", () => {
@@ -290,6 +292,43 @@ describe("filter-utils:", () => {
 
       expect(chk.searchUserAccess).toEqual("groupMember");
       expect(chk.searchUserName).toEqual("dave");
+    });
+  });
+
+  describe("empty filters:", () => {
+    it("detects empty filter", () => {
+      expect(isEmptyFilter({ filterType: "item" })).toBe(true);
+      expect(isEmptyFilter({ filterType: "item", owner: "dave" })).toBe(false);
+    });
+
+    it("detects empty filtergroup", () => {
+      expect(
+        isEmptyFilterGroup({ operation: "OR", filters: [], filterType: "item" })
+      ).toBe(true);
+      expect(
+        isEmptyFilterGroup({
+          operation: "OR",
+          filters: [{ filterType: "item" }],
+          filterType: "item",
+        })
+      ).toBe(true);
+      expect(
+        isEmptyFilterGroup({
+          operation: "OR",
+          filters: [{ filterType: "item", owner: "dave" }],
+          filterType: "item",
+        })
+      ).toBe(false);
+      expect(
+        isEmptyFilterGroup({
+          operation: "OR",
+          filters: [
+            { filterType: "item", owner: "dave" },
+            { filterType: "item" },
+          ],
+          filterType: "item",
+        })
+      ).toBe(false);
     });
   });
 });

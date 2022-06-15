@@ -10,7 +10,11 @@ import {
 import * as SimpleResponse from "../../mocks/portal-search/simple-response.json";
 import * as AllTypesResponse from "../../mocks/portal-search/response-with-key-types.json";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
-import { portalSearchItems } from "../../../src/search/_internal/portalSearchItems";
+import {
+  applyWellKnownItemFilters,
+  portalSearchItems,
+  WellKnownItemFilters,
+} from "../../../src/search/_internal/portalSearchItems";
 
 describe("portalSearchItems:", () => {
   it("throws if requestOptions not passed in IHubSearchOptions", async () => {
@@ -179,5 +183,161 @@ describe("portalSearchItems:", () => {
     const [expectedParams] = searchItemsSpy.calls.argsFor(1);
     // verify q
     expect(expectedParams.q).toEqual("water");
+  });
+  describe("applyWellKnownItemFilters:", () => {
+    it("expands single filter group", () => {
+      const input: Array<IFilterGroup<"item">> = [
+        {
+          filterType: "item",
+          filters: [
+            {
+              filterType: "item",
+              type: "$dashboard",
+            },
+          ],
+        },
+      ];
+
+      const chk = applyWellKnownItemFilters(input);
+      expect(chk.length).toBe(1);
+      expect(chk[0].filters).toEqual(WellKnownItemFilters.$dashboard);
+    });
+    it("expands multiple filter group", () => {
+      const input: Array<IFilterGroup<"item">> = [
+        {
+          filterType: "item",
+          filters: [
+            {
+              filterType: "item",
+              type: "$dashboard",
+            },
+            {
+              filterType: "item",
+              type: "$storymap",
+            },
+          ],
+        },
+      ];
+
+      const chk = applyWellKnownItemFilters(input);
+      expect(chk.length).toBe(1);
+      const filters = chk[0].filters;
+      expect(filters.length).toBe(3);
+      expect(filters).toEqual([
+        ...WellKnownItemFilters.$dashboard,
+        ...WellKnownItemFilters.$storymap,
+      ]);
+    });
+    it("skips non-well-known string keys", () => {
+      const input: Array<IFilterGroup<"item">> = [
+        {
+          filterType: "item",
+          filters: [
+            {
+              filterType: "item",
+              type: "Web Map",
+            },
+          ],
+        },
+      ];
+
+      const chk = applyWellKnownItemFilters(input);
+      expect(chk.length).toBe(1);
+      expect(chk[0].filters).toEqual(input[0].filters);
+    });
+    it("skips non-well-known keys", () => {
+      const input: Array<IFilterGroup<"item">> = [
+        {
+          filterType: "item",
+          filters: [
+            {
+              filterType: "item",
+              type: { any: ["Web Map"] },
+            },
+          ],
+        },
+      ];
+
+      const chk = applyWellKnownItemFilters(input);
+      expect(chk.length).toBe(1);
+      expect(chk[0].filters).toEqual(input[0].filters);
+    });
+    it("handles two filtergroups", () => {
+      const input: Array<IFilterGroup<"item">> = [
+        {
+          filterType: "item",
+          operation: "AND",
+          filters: [
+            {
+              filterType: "item",
+              owner: "dave",
+            },
+          ],
+        },
+        {
+          filterType: "item",
+          operation: "OR",
+          filters: [
+            {
+              filterType: "item",
+              type: "$dashboard",
+            },
+          ],
+        },
+      ];
+
+      const chk = applyWellKnownItemFilters(input);
+      expect(chk.length).toBe(2);
+      expect(chk[1].filters).toEqual(WellKnownItemFilters.$dashboard);
+    });
+    it("handles two filtergroups opposite order", () => {
+      const input: Array<IFilterGroup<"item">> = [
+        {
+          filterType: "item",
+          operation: "OR",
+          filters: [
+            {
+              filterType: "item",
+              type: "$dashboard",
+            },
+          ],
+        },
+        {
+          filterType: "item",
+          operation: "AND",
+          filters: [
+            {
+              filterType: "item",
+              owner: "dave",
+            },
+          ],
+        },
+      ];
+
+      const chk = applyWellKnownItemFilters(input);
+      expect(chk.length).toBe(2);
+      expect(chk[0].filters).toEqual(WellKnownItemFilters.$dashboard);
+    });
+    it("drops other props if type is found", () => {
+      const input: Array<IFilterGroup<"item">> = [
+        {
+          filterType: "item",
+          operation: "OR",
+          filters: [
+            {
+              filterType: "item",
+              type: "$dashboard",
+              owner: "dbouwman",
+            },
+          ],
+        },
+      ];
+
+      const chk = applyWellKnownItemFilters(input);
+      expect(chk.length).toBe(1);
+      const filters = chk[0].filters;
+      expect(filters.length).toBe(1);
+      expect(filters).toEqual(WellKnownItemFilters.$dashboard);
+    });
   });
 });
