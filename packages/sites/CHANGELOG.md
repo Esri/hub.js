@@ -1,3 +1,20 @@
+## @esri/hub-sites [9.43.1](https://github.com/Esri/hub.js/compare/@esri/hub-sites@9.43.0...@esri/hub-sites@9.43.1) (2022-06-15)
+
+
+### Bug Fixes
+
+* reset version numbers so hopefully it can release ([8da9264](https://github.com/Esri/hub.js/commit/8da9264a15040ae06964eddcfda639009a927be0))
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 9.43.1
+* **@esri/hub-initiatives:** upgraded to 9.43.1
+* **@esri/hub-teams:** upgraded to 9.42.1
+
 # @esri/hub-sites [9.43.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@9.42.1...@esri/hub-sites@9.43.0) (2022-06-14)
 
 
