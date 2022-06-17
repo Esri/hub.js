@@ -111,18 +111,9 @@ export function getFeatureServiceTitle(url: string): string {
  * Gets item info out of a feature layer item.
  *
  * @export
- * @param {string} url Item URL
- * @param {{
- *     name: string,
- *     description: string,
- *     extent: any
- *   }} body Item body.
- * @return {*}  {{
- *   title: string,
- *   description: string,
- *   extent: any,
- *   url: string
- * }}
+ * @param url Item URL
+ * @param body Item body.
+ * @return Item info (title, description, extent, url)
  */
 export function getFeatureLayerItem(
   url: string,
