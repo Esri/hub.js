@@ -64,7 +64,6 @@ const maybeFetchLayerEnrichments = async (
     });
   }
 
-  // TODO: add recordCount here too?
   const layerEnrichments =
     layer && isLayerView(layer) && !data
       ? // NOTE: I'm not sure what conditions causes a layer view
@@ -232,9 +231,16 @@ export const fetchContent = async (
     : await fetchContentById(identifier, options);
   // fetch record count for content that has features (e.g. layers, tables, or proxied CSVs)
   const { layer, type } = content;
+  // it's too expensive to always fetch the live record count up front
+  // in order to avoid a breaking change, we're including the cached recordCount
+  // in the list of enrichments we fetch from the Hub API and using that
+  // and only fetching the live record count in cases where we don't have that
+  // TODO: fetchContent() should NOT fetch record count in the next breaking change
+  const canQuery = !!layer && hasFeatures(type);
   content.recordCount =
-    !!layer && hasFeatures(type)
-      ? await fetchContentRecordCount(content, options)
-      : undefined;
+    canQuery && (isNil(content.recordCount) || content.viewDefinition)
+      ? // no cached count, or this is client-side layer view, fetch the count
+        await fetchContentRecordCount(content, options)
+      : content.recordCount;
   return content;
 };

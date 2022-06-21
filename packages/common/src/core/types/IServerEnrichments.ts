@@ -10,8 +10,9 @@ export interface IServerEnrichments {
   /** Detailed information about the service's layers (geometryType, fields, etc) for related layers in the service */
   layers?: Array<Partial<ILayerDefinition>>;
 
+  // TODO: should we remove this once fetchContent() no longer fetches it?
   /** The count of records for the layer referenced by this content */
-  recordCount?: number;
+  recordCount?: number | null;
 }
 
 // DEPRECATED: remove this alias at the next breaking change
