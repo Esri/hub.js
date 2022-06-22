@@ -1,3 +1,10 @@
+## @esri/hub-common [9.43.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.43.1...@esri/hub-common@9.43.2) (2022-06-22)
+
+
+### Performance Improvements
+
+* **hub-common:** fetchContent returns cached recordCount when it can ([3b9b2d6](https://github.com/Esri/hub.js/commit/3b9b2d680a84229af4cd5f2d0fffa8e013e0491a))
+
 ## @esri/hub-common [9.43.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.43.0...@esri/hub-common@9.43.1) (2022-06-15)
 
 
