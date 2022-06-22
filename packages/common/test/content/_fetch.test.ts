@@ -65,6 +65,9 @@ describe("_fetch", () => {
         boundary: null,
       },
     } as DatasetResource;
+    // expected dataset fields to be fetched from the Hub API
+    const datasetFields =
+      "slug,boundary,extent,recordCount,searchDescription,statistics";
     let requestOpts: IHubRequestOptions;
     beforeEach(() => {
       requestOpts = {
@@ -87,9 +90,7 @@ describe("_fetch", () => {
         const { searchParams } = new URL(url);
         expect(calls.length).toBe(1);
         expect(searchParams.get("filter[slug]")).toEqual(slug);
-        expect(searchParams.get("fields[datasets]")).toEqual(
-          "slug,boundary,extent,searchDescription,statistics"
-        );
+        expect(searchParams.get("fields[datasets]")).toEqual(datasetFields);
         expect(result.itemId).toEqual(id);
         expect(result.layerId).toBeUndefined();
         expect(result.slug).toBe(slug);
@@ -120,9 +121,7 @@ describe("_fetch", () => {
         const [url] = calls[0];
         const { searchParams } = new URL(url);
         expect(calls.length).toBe(1);
-        expect(searchParams.get("fields[datasets]")).toEqual(
-          "slug,boundary,extent,searchDescription,statistics"
-        );
+        expect(searchParams.get("fields[datasets]")).toEqual(datasetFields);
         expect(result.itemId).toEqual(id);
         expect(result.layerId).toBeUndefined();
         expect(result.slug).toBe(slug);
@@ -154,9 +153,7 @@ describe("_fetch", () => {
         const [url] = calls[0];
         const { searchParams } = new URL(url);
         expect(calls.length).toBe(1);
-        expect(searchParams.get("fields[datasets]")).toEqual(
-          "slug,boundary,extent,searchDescription,statistics"
-        );
+        expect(searchParams.get("fields[datasets]")).toEqual(datasetFields);
         expect(result.itemId).toBe(itemId);
         expect(result.layerId).toBe(0);
         expect(result.slug).toBe(slug);

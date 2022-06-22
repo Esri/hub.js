@@ -116,7 +116,7 @@ describe("fetchContent", () => {
         siteOrgKey = "dc";
         slug = `${siteOrgKey}::${shortSlug}`;
         // the expected hub enrichments for the above item
-        // see: https://hubqa.arcgis.com/api/v3/datasets?filter%5Bslug%5D=dc%3A%3Amaryland-server-supports-export&fields[datasets]=slug,boundary,statistics
+        // see: https://hubqa.arcgis.com/api/v3/datasets?filter%5Bslug%5D=dc%3A%3Amaryland-server-supports-export&fields%5Bdatasets%5D=slug,boundary,recordCount,statistics
         hubEnrichments = {
           itemId,
           layerId: undefined,
@@ -144,6 +144,7 @@ describe("fetchContent", () => {
               wkid: 4326,
             },
           },
+          recordCount: null,
         };
         itemEnrichments = getMultiLayerItemEnrichments();
       });
@@ -151,7 +152,7 @@ describe("fetchContent", () => {
         // expected layer
         const layerId = 1;
         // the hub API enrichments that we expect for the above layer
-        // see: https://hubqa.arcgis.com/api/v3/datasets/eda6e08848924887b00a67ca319ec1bf_2?fields[datasets]=slug,boundary,statistics
+        // see: https://hubqa.arcgis.com/api/v3/datasets/eda6e08848924887b00a67ca319ec1bf_2?fields[datasets]=slug,boundary,recordCount,statistics
         const layerHubEnrichments = {
           itemId,
           layerId,
@@ -159,6 +160,7 @@ describe("fetchContent", () => {
           // NOTE: in this case the layer's boundary is the same as the parent's
           // for now I'm just cloning it so that we can test reference equality below
           boundary: cloneObject(hubEnrichments.boundary),
+          recordCount: 438,
           statistics: {},
         };
         // initialize the spies
@@ -177,11 +179,7 @@ describe("fetchContent", () => {
           _fetchModule,
           "fetchHubEnrichmentsById"
         ).and.returnValue(Promise.resolve(layerHubEnrichments));
-        const count = 100;
-        const queryFeaturesSpy = spyOn(
-          featureLayerModule,
-          "queryFeatures"
-        ).and.returnValue(Promise.resolve({ count }));
+        const queryFeaturesSpy = spyOn(featureLayerModule, "queryFeatures");
         // call fetch content
         const options = {
           ...requestOpts,
@@ -205,7 +203,7 @@ describe("fetchContent", () => {
           `${itemId}_${layerId}`,
           options
         );
-        expect(queryFeaturesSpy).toHaveBeenCalledTimes(1);
+        expect(queryFeaturesSpy).not.toHaveBeenCalled();
         // inspect the results
         expect(result.item).toEqual(
           multiLayerFeatureServiceItem as unknown as portalModule.IItem
@@ -216,7 +214,7 @@ describe("fetchContent", () => {
         expect(result.boundary).toEqual(layerHubEnrichments.boundary);
         expect(result.boundary).not.toBe(hubEnrichments.boundary);
         expect(result.statistics).toEqual(layerHubEnrichments.statistics);
-        expect(result.recordCount).toBe(count);
+        expect(result.recordCount).toBe(layerHubEnrichments.recordCount);
       });
       it("should fetch view definition for client-side layer views", async () => {
         const layerId = 2;
@@ -243,7 +241,7 @@ describe("fetchContent", () => {
           name: "layerView",
         } as any);
         // the hub API enrichments that we expect for the above layer
-        // see: https://hubqa.arcgis.com/api/v3/datasets/eda6e08848924887b00a67ca319ec1bf_2?fields[datasets]=slug,boundary,statistics
+        // see: https://hubqa.arcgis.com/api/v3/datasets/eda6e08848924887b00a67ca319ec1bf_2?fields%5Bdatasets%5D=slug,boundary,recordCount,statistics
         const layerHubEnrichments = {
           itemId,
           layerId,
@@ -251,6 +249,7 @@ describe("fetchContent", () => {
           // NOTE: in this case the layer's boundary is the same as the parent's
           // for now I'm just cloning it so that we can test reference equality below
           boundary: cloneObject(hubEnrichments.boundary),
+          recordCount: 438,
           statistics: {},
         };
         // initialize the spies
@@ -348,7 +347,6 @@ describe("fetchContent", () => {
         };
 
         const layerId = 1;
-        const count = 0;
 
         const layerHubEnrichments = {
           itemId,
@@ -357,6 +355,7 @@ describe("fetchContent", () => {
           // NOTE: in this case the layer's boundary is the same as the parent's
           // for now I'm just cloning it so that we can test reference equality below
           boundary: cloneObject(hubEnrichments.boundary),
+          recordCount: 438,
           statistics: {},
         };
         // initialize the spies
@@ -384,10 +383,7 @@ describe("fetchContent", () => {
           "getLayer"
         ).and.returnValue(Promise.resolve(hydratedLayer));
 
-        const queryFeaturesSpy = spyOn(
-          featureLayerModule,
-          "queryFeatures"
-        ).and.returnValue(Promise.resolve({ count }));
+        const queryFeaturesSpy = spyOn(featureLayerModule, "queryFeatures");
 
         // call fetch content
         // NOTE: not passing siteOrgKey and instead using fully qualified slug for layer
@@ -418,12 +414,7 @@ describe("fetchContent", () => {
           layerId,
           url: "https://geodata.md.gov/imap/rest/services/PublicSafety/MD_Fire/FeatureServer/1",
         });
-        expect(queryFeaturesSpy).toHaveBeenCalledTimes(1);
-        const queryFeaturesArg = queryFeaturesSpy.calls.argsFor(0)[0] as any;
-        expect(queryFeaturesArg.url).toEqual(result.url);
-        expect(queryFeaturesArg.returnCountOnly).toBeTruthy();
-        expect(queryFeaturesArg.where).toBeUndefined();
-        expect(queryFeaturesArg.portal).toBe(requestOpts.portal);
+        expect(queryFeaturesSpy).not.toHaveBeenCalled();
         // inspect the results
         expect(result.item).toEqual(
           multiLayerFeatureServiceItem as unknown as portalModule.IItem
@@ -436,7 +427,7 @@ describe("fetchContent", () => {
           },
           hydratedLayer, // Corresponding entry in Layers in hydrated
         ]);
-        expect(result.recordCount).toBe(count);
+        expect(result.recordCount).toBe(layerHubEnrichments.recordCount);
       });
     });
     describe("with defaults", () => {

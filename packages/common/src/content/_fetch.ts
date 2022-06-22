@@ -82,6 +82,9 @@ export interface IDatasetEnrichments {
    */
   extent?: IHubExtent;
 
+  /** The count of records for the layer referenced by this content */
+  recordCount?: number | null;
+
   /**
    * The appropriate summary to show for the item, coming from either
    * the item's data (for pages or initiatives) or the item's description
@@ -111,7 +114,9 @@ const getHubEnrichmentsOptions = (
   opts.params = {
     ...opts.params,
     // TODO: we should fetch errors too
-    "fields[datasets]": "slug,boundary,extent,searchDescription,statistics",
+    // TODO: stop fetching recordCount at next breaking change
+    "fields[datasets]":
+      "slug,boundary,extent,recordCount,searchDescription,statistics",
   };
   if (slug) {
     opts.params["filter[slug]"] = slug;
@@ -123,7 +128,7 @@ const getHubEnrichmentsOptions = (
 const getDatasetEnrichments = (dataset: DatasetResource) => {
   const { itemId, layerId: layerIdString } = parseDatasetId(dataset.id);
   const layerId = layerIdString && parseInt(layerIdString, 10);
-  const { slug, boundary, extent, searchDescription, statistics } =
+  const { slug, boundary, extent, recordCount, searchDescription, statistics } =
     dataset.attributes;
   return {
     itemId,
@@ -131,6 +136,7 @@ const getDatasetEnrichments = (dataset: DatasetResource) => {
     slug,
     boundary,
     extent,
+    recordCount,
     searchDescription,
     statistics,
   } as IDatasetEnrichments;
