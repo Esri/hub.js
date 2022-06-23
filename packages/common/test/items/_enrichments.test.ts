@@ -79,6 +79,21 @@ describe("_enrichments", () => {
         expect(result.org).toEqual(org);
       });
 
+      it("performs a no-op if orgId isn't available on the item or the ownerUser", async () => {
+        const orgPortalUrl = "https://myorg.maps.arcgis.com";
+
+        // Simulate fetching the user...
+        const username = item.owner;
+        const ownerUser = { username };
+        fetchMock.once("*", ownerUser);
+
+        const result = await fetchItemEnrichments(item, ["ownerUser", "org"], {
+          portal: orgPortalUrl,
+        });
+        expect(fetchMock.calls().length).toEqual(1); // only the ownerUser call is made
+        expect(result.org).toBeUndefined();
+      });
+
       it("handles errors", async () => {
         // Simulate fetching the user...
         const username = item.owner;
