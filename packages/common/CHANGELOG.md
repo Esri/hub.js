@@ -1,3 +1,10 @@
+## @esri/hub-common [9.43.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.43.2...@esri/hub-common@9.43.3) (2022-06-23)
+
+
+### Bug Fixes
+
+* **hub-common:** fix bug where enrichOrg would wrongly fetch org of the authenticated user (not the ([b32acfc](https://github.com/Esri/hub.js/commit/b32acfc2e477af5685bdef3571f679c9f4575fa5))
+
 ## @esri/hub-common [9.43.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.43.1...@esri/hub-common@9.43.2) (2022-06-22)
 
 
