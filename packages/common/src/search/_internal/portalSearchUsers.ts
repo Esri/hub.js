@@ -4,7 +4,12 @@ import {
   searchUsers,
 } from "@esri/arcgis-rest-portal";
 import { IUser } from "@esri/arcgis-rest-types";
-import { enrichUserSearchResult, unique } from "../..";
+import {
+  enrichUserSearchResult,
+  expandPredicate,
+  serializeQueryForPortal,
+  unique,
+} from "../..";
 import { enrichGroupSearchResult } from "../../groups/HubGroups";
 import HubError from "../../HubError";
 import { IHubRequestOptions } from "../../types";
@@ -16,16 +21,18 @@ import {
   IHubSearchResponse,
   IHubSearchResult,
   IMatchOptions,
+  IQuery,
 } from "../types";
 import { expandApi, getNextFunction } from "../utils";
 
 /**
  * @private
+ * DEPRECATED: Use `portalSearchUsers`
  * Portal Search implementation for Users
  * @param filterGroups
  * @param options
  */
-export async function portalSearchUsers(
+export async function portalSearchUsersFilterGroups(
   filterGroups: Array<IFilterGroup<"user">>,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
@@ -69,6 +76,64 @@ export async function portalSearchUsers(
   });
 
   // Ensure authentication gets sent
+  so.authentication = options.requestOptions.authentication;
+
+  // Execute search
+  return searchPortal(so as IUserSearchOptions);
+}
+
+/**
+ * @private
+ * Portal Search Implementation for Users
+ * @param filterGroups
+ * @param options
+ * @returns
+ */
+export async function portalSearchUsers(
+  query: IQuery,
+  options: IHubSearchOptions
+): Promise<IHubSearchResponse<IHubSearchResult>> {
+  // requestOptions is always required and user must be authd
+  if (!options.requestOptions) {
+    throw new HubError(
+      "portalSearchUsers",
+      "requestOptions: IHubRequestOptions is required."
+    );
+  }
+
+  if (!options.requestOptions.authentication) {
+    throw new HubError(
+      "portalSearchUsers",
+      "requestOptions must pass authentication."
+    );
+  }
+
+  // Expand the individual predicates in each filter
+  query.filters = query.filters.map((filter) => {
+    filter.predicates = filter.predicates.map(expandPredicate);
+    return filter;
+  });
+
+  // Serialize the all the groups for portal
+  const so = serializeQueryForPortal(query);
+  // Array of properties we want to copy from IHubSearchOptions to the ISearchOptions
+  const props: Array<keyof IHubSearchOptions> = [
+    "num",
+    "sortField",
+    "sortOrder",
+    "include",
+    "start",
+    "requestOptions",
+  ];
+  // copy the props over
+  props.forEach((prop) => {
+    if (options.hasOwnProperty(prop)) {
+      so[prop as keyof ISearchOptions] = options[prop];
+    }
+  });
+
+  // Unlike Groups and Item, the Users api *requires* authentication
+  // so we set it directly
   so.authentication = options.requestOptions.authentication;
 
   // Execute search

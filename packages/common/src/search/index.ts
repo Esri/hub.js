@@ -10,4 +10,5 @@ export * from "./types";
 export * from "./collectionState";
 export * from "./convertCatalog";
 export * from "./filter-utils";
+export * from "./ifilter-utils";
 export * from "./hubSearch";
