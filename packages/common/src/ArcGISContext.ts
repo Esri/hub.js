@@ -326,7 +326,7 @@ export class ArcGISContext implements IArcGISContext {
    */
   public get portalUrl(): string {
     if (this.isAuthenticated) {
-      if (this.isPortal) {
+      if (this.isPortal || !this._portalSelf.urlKey) {
         return `https://${this._portalSelf.portalHostname}`;
       } else {
         return `https://${this._portalSelf.urlKey}.${this._portalSelf.customBaseUrl}`;

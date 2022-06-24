@@ -8,14 +8,20 @@ import {
   IHubSearchOptions,
   IHubSearchResponse,
   IHubSearchResult,
+  IQuery,
 } from "./types";
 import { expandApi } from "./utils";
 import {
   hubSearchItems,
   portalSearchItems,
   portalSearchGroups,
+  portalSearchItemsFilterGroups,
+  portalSearchGroupsFilterGroups,
 } from "./_internal";
-import { portalSearchUsers } from "./_internal/portalSearchUsers";
+import {
+  portalSearchUsers,
+  portalSearchUsersFilterGroups,
+} from "./_internal/portalSearchUsers";
 
 /**
  * Main Search function for ArcGIS Hub
@@ -63,6 +69,56 @@ export async function hubSearch(
 
   const fnHash = {
     arcgis: {
+      item: portalSearchItemsFilterGroups,
+      group: portalSearchGroupsFilterGroups,
+      user: portalSearchUsersFilterGroups,
+    },
+    "arcgis-hub": {
+      item: hubSearchItems,
+    },
+  };
+
+  const fn = getProp(fnHash, `${apiType}.${filterType}`);
+  if (!fn) {
+    throw new HubError(
+      `hubSearch`,
+      `Search via "${filterType}" filter against "${apiType}" api is not implemented`
+    );
+  }
+  return fn(cloneObject(filterGroups), options);
+}
+
+export async function hubSearchQuery(
+  query: IQuery,
+  options: IHubSearchOptions
+): Promise<IHubSearchResponse<IHubSearchResult>> {
+  // Validate inputs
+  if (!query) {
+    throw new HubError("hubSearch", "Query is required.");
+  }
+  if (!query.filters || !query.filters.length) {
+    throw new HubError("hubSearch", "Query must contain at least one Filter.");
+  }
+
+  if (!options.requestOptions) {
+    throw new HubError(
+      "hubSearch",
+      "requestOptions: IHubRequestOptions is required."
+    );
+  }
+
+  // Ensure includes is an array
+  if (!options.include) {
+    options.include = [];
+  }
+
+  // Get the type of the first filterGroup
+  const filterType = query.targetEntity;
+  // get the API
+  const apiType = expandApi(options.api || "arcgis").type;
+
+  const fnHash = {
+    arcgis: {
       item: portalSearchItems,
       group: portalSearchGroups,
       user: portalSearchUsers,
@@ -79,5 +135,5 @@ export async function hubSearch(
       `Search via "${filterType}" filter against "${apiType}" api is not implemented`
     );
   }
-  return fn(cloneObject(filterGroups), options);
+  return fn(cloneObject(query), options);
 }

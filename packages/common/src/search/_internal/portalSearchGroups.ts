@@ -1,24 +1,28 @@
 import { ISearchOptions, searchGroups } from "@esri/arcgis-rest-portal";
 import { IGroup } from "@esri/arcgis-rest-types";
+import { HubError } from "../../index";
 import { enrichGroupSearchResult } from "../../groups/HubGroups";
 import { IHubRequestOptions } from "../../types";
 import { expandFilter, serializeFilterGroupsForPortal } from "../filter-utils";
+import { expandPredicate, serializeQueryForPortal } from "./ifilter-utils";
 import {
   IFilterGroup,
   IHubSearchOptions,
   IHubSearchResponse,
   IHubSearchResult,
+  IQuery,
 } from "../types";
 import { expandApi, getNextFunction } from "../utils";
 
 /**
  * @private
- * Portal Search Implementation for Items
+ * DEPRECATED: Use `portalSerchGroups`
+ * Portal Search Implementation for Groups
  * @param filterGroups
  * @param options
  * @returns
  */
-export async function portalSearchGroups(
+export async function portalSearchGroupsFilterGroups(
   filterGroups: Array<IFilterGroup<"group">>,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
@@ -67,6 +71,58 @@ export async function portalSearchGroups(
   // If we don't have auth, ensure we have .portal
   if (!so.authentication) {
     so.portal = so.requestOptions.portal || `${api.url}/sharing/rest`;
+  }
+
+  return searchPortal(so);
+}
+
+/**
+ * @private
+ * Portal Search Implementation for Groups
+ * @param query
+ * @param options
+ * @returns
+ */
+export async function portalSearchGroups(
+  query: IQuery,
+  options: IHubSearchOptions
+): Promise<IHubSearchResponse<IHubSearchResult>> {
+  if (!options.requestOptions) {
+    throw new HubError(
+      "portalSearchGroups",
+      "options.requestOptions is required."
+    );
+  }
+
+  // Expand the individual predicates in each filter
+  query.filters = query.filters.map((filter) => {
+    filter.predicates = filter.predicates.map(expandPredicate);
+    return filter;
+  });
+
+  // Serialize the all the groups for portal
+  const so = serializeQueryForPortal(query);
+  // Array of properties we want to copy from IHubSearchOptions to the ISearchOptions
+  const props: Array<keyof IHubSearchOptions> = [
+    "num",
+    "sortField",
+    "sortOrder",
+    "include",
+    "start",
+    "requestOptions",
+  ];
+  // copy the props over
+  props.forEach((prop) => {
+    if (options.hasOwnProperty(prop)) {
+      so[prop as keyof ISearchOptions] = options[prop];
+    }
+  });
+
+  // If we don't have auth, ensure we have .portal
+  if (options.requestOptions.authentication) {
+    so.authentication = options.requestOptions.authentication;
+  } else {
+    so.portal = options.requestOptions.portal;
   }
 
   return searchPortal(so);

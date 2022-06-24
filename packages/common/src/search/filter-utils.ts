@@ -11,6 +11,8 @@ import {
 } from "./types";
 import { relativeDateToDateRange, valueToMatchOptions } from "./utils";
 
+// DEPRECATED - REMOVE THIS FILE
+
 /**
  * Expand a Filter into it's more expressive structure so it can be
  * serialized deterministically.

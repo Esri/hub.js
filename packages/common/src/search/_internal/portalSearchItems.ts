@@ -6,16 +6,13 @@ import {
   HubError,
 } from "../..";
 
+import { expandPredicate, serializeQueryForPortal } from "./ifilter-utils";
+
 import { enrichPageSearchResult } from "../../pages/HubPages";
 import { enrichProjectSearchResult } from "../../projects";
 import { enrichSiteSearchResult } from "../../sites";
 import { IHubRequestOptions } from "../../types";
-import {
-  expandFilter,
-  isEmptyFilter,
-  isEmptyFilterGroup,
-  serializeFilterGroupsForPortal,
-} from "../filter-utils";
+import { expandFilter, serializeFilterGroupsForPortal } from "../filter-utils";
 import {
   Filter,
   IFilterGroup,
@@ -23,17 +20,19 @@ import {
   IHubSearchResponse,
   IHubSearchResult,
   IMatchOptions,
+  IPredicate,
+  IQuery,
 } from "../types";
 import { getNextFunction } from "../utils";
 
 /**
  * @private
- * Portal Search Implementation for Items
+ * DEPRECATED
  * @param filterGroups
  * @param options
  * @returns
  */
-export async function portalSearchItems(
+export async function portalSearchItemsFilterGroups(
   filterGroups: Array<IFilterGroup<"item">>,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
@@ -44,7 +43,7 @@ export async function portalSearchItems(
     );
   }
   // Expand well-known filterGroups
-  const replaced = applyWellKnownItemFilters(filterGroups);
+  const replaced = applyWellKnownItemFilterGroups(filterGroups);
   // Expand the individual filters in each of the groups
   const expandedGroups = replaced.map((fg) => {
     fg.filters = fg.filters.map(expandFilter);
@@ -53,6 +52,63 @@ export async function portalSearchItems(
 
   // Serialize the all the groups for portal
   const so = serializeFilterGroupsForPortal(expandedGroups);
+  // Array of properties we want to copy from IHubSearchOptions to the ISearchOptions
+  const props: Array<keyof IHubSearchOptions> = [
+    "num",
+    "sortField",
+    "sortOrder",
+    "include",
+    "start",
+    "requestOptions", // although requestOptions is not needed on ISearchOption we send it through so downstream fns have access to it
+  ];
+  // copy the props over
+  props.forEach((prop) => {
+    if (options.hasOwnProperty(prop)) {
+      so[prop as keyof ISearchOptions] = options[prop];
+    }
+  });
+
+  if (options.requestOptions.authentication) {
+    so.authentication = options.requestOptions.authentication;
+  } else {
+    so.portal = options.requestOptions.portal;
+  }
+
+  // Aggregations
+  if (options.aggFields?.length) {
+    so.countFields = options.aggFields.join(",");
+    so.countSize = options.aggLimit || 10;
+  }
+  return searchPortal(so);
+}
+
+/**
+ * @private
+ * Portal Search Implementation for Items
+ * @param query
+ * @param options
+ * @returns
+ */
+export async function portalSearchItems(
+  query: IQuery,
+  options: IHubSearchOptions
+): Promise<IHubSearchResponse<IHubSearchResult>> {
+  if (!options.requestOptions) {
+    throw new HubError(
+      "portalSearchItems",
+      "options.requestOptions is required."
+    );
+  }
+  // Expand well-known filterGroups
+  const updatedQuery = applyWellKnownItemPredicates(query);
+  // Expand the individual predicates in each filter
+  updatedQuery.filters = updatedQuery.filters.map((filter) => {
+    filter.predicates = filter.predicates.map(expandPredicate);
+    return filter;
+  });
+
+  // Serialize the all the groups for portal
+  const so = serializeQueryForPortal(updatedQuery);
   // Array of properties we want to copy from IHubSearchOptions to the ISearchOptions
   const props: Array<keyof IHubSearchOptions> = [
     "num",
@@ -171,6 +227,21 @@ interface IWellKnownItemFilters {
   $webmap: Array<Filter<"item">>;
   $template: Array<Filter<"item">>;
   $page: Array<Filter<"item">>;
+}
+
+interface IWellKnownItemPredicates {
+  $application: IPredicate[];
+  $feedback: IPredicate[];
+  $dashboard: IPredicate[];
+  $dataset: IPredicate[];
+  $experience: IPredicate[];
+  $site: IPredicate[];
+  $storymap: IPredicate[];
+  $initiative: IPredicate[];
+  $document: IPredicate[];
+  $webmap: IPredicate[];
+  $template: IPredicate[];
+  $page: IPredicate[];
 }
 
 export const WellKnownItemFilters: IWellKnownItemFilters = {
@@ -349,7 +420,42 @@ export const WellKnownItemFilters: IWellKnownItemFilters = {
  * Only exported to enable extensive testing
  * @param filterGroups
  */
-export function applyWellKnownItemFilters(
+export function applyWellKnownItemPredicates(query: IQuery): IQuery {
+  const queryClone = cloneObject(query);
+  // iterate the filters
+  queryClone.filters = queryClone.filters.map((filter) => {
+    // replace predicates with well-known types
+    filter.predicates = filter.predicates.reduce(
+      (acc: IPredicate[], predicate) => {
+        // if the predicate has a well-known type
+        // we replace it with the set of predicates defined
+        // for the well-known type
+        if (isWellKnownTypeFilter(predicate.type)) {
+          const replacements = lookupTypePredicates(
+            predicate.type as keyof typeof WellKnownItemFilters
+          );
+          acc = [...acc, ...replacements];
+        } else {
+          // this predicate does not have a well-known type
+          // so we just keep it
+          acc.push(predicate);
+        }
+        return acc;
+      },
+      []
+    );
+    return filter;
+  });
+
+  return queryClone;
+}
+
+/**
+ * DEPRECATED
+ * @param filterGroups
+ * @returns
+ */
+export function applyWellKnownItemFilterGroups(
   filterGroups: Array<IFilterGroup<"item">>
 ): Array<IFilterGroup<"item">> {
   const clone = cloneObject(filterGroups);
@@ -391,7 +497,7 @@ export function applyWellKnownItemFilters(
  * @param key
  * @returns
  */
-function isWellKnownTypeFilter(
+export function isWellKnownTypeFilter(
   key: string | string[] | IMatchOptions
 ): boolean {
   let result = false;
@@ -410,4 +516,17 @@ function lookupTypeFilters(
   key: keyof typeof WellKnownItemFilters
 ): Array<Filter<"item">> {
   return WellKnownItemFilters[key];
+}
+
+function lookupTypePredicates(
+  key: keyof typeof WellKnownItemFilters
+): IPredicate[] {
+  const rawPredicates = WellKnownItemFilters[key];
+  // Remove the filterType property as it's not needed in an IPredicate
+  const predicates = rawPredicates.map((entry) => {
+    const c = cloneObject(entry);
+    delete c.filterType;
+    return c;
+  });
+  return predicates;
 }
