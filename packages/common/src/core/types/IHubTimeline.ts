@@ -2,7 +2,7 @@
  * Hub Timeline Definition
  */
 export interface IHubTimeline {
-  title: string;
+  timelineTitle: string;
   description: string;
   stages: IHubStage[];
 }
