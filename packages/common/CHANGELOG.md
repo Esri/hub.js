@@ -1,3 +1,10 @@
+# @esri/hub-common [9.44.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.43.3...@esri/hub-common@9.44.0) (2022-06-24)
+
+
+### Features
+
+* hubSearch IQuery Implementation ([#812](https://github.com/Esri/hub.js/issues/812)) ([078479d](https://github.com/Esri/hub.js/commit/078479dff75bfbcb3a443352888f062025d61157))
+
 ## @esri/hub-common [9.43.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.43.2...@esri/hub-common@9.43.3) (2022-06-23)
 
 
