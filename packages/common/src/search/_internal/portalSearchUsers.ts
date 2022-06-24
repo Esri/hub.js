@@ -4,12 +4,8 @@ import {
   searchUsers,
 } from "@esri/arcgis-rest-portal";
 import { IUser } from "@esri/arcgis-rest-types";
-import {
-  enrichUserSearchResult,
-  expandPredicate,
-  serializeQueryForPortal,
-  unique,
-} from "../..";
+import { enrichUserSearchResult, unique } from "../..";
+import { expandPredicate, serializeQueryForPortal } from "./ifilter-utils";
 import { enrichGroupSearchResult } from "../../groups/HubGroups";
 import HubError from "../../HubError";
 import { IHubRequestOptions } from "../../types";

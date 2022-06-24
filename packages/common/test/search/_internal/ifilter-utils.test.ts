@@ -1,17 +1,8 @@
+import { IMatchOptions, IDateRange, IPredicate, IQuery } from "../../../src";
 import {
-  Filter,
-  expandFilter,
-  IMatchOptions,
-  IDateRange,
-  IFilterGroup,
-  isEmptyFilter,
-  isEmptyFilterGroup,
-  IFilter,
-  IPredicate,
   expandPredicate,
-  IQuery,
   serializeQueryForPortal,
-} from "../../src";
+} from "../../../src/search/_internal/ifilter-utils";
 
 describe("ifilter-utils:", () => {
   describe("expandPredicates;", () => {

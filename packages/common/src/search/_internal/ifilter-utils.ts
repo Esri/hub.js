@@ -1,15 +1,15 @@
 import { ISearchOptions } from "@esri/arcgis-rest-portal";
-import { setProp, getProp } from "../objects";
-import { cloneObject } from "../util";
-import { expandFilter } from "./filter-utils";
+import { setProp, getProp } from "../../objects";
+import { cloneObject } from "../../util";
+import { expandFilter } from "../filter-utils";
 import {
   IDateRange,
   IFilter,
   IMatchOptions,
   IPredicate,
   IQuery,
-} from "./types";
-import { valueToMatchOptions, relativeDateToDateRange } from "./utils";
+} from "../types";
+import { valueToMatchOptions, relativeDateToDateRange } from "../utils";
 
 export function expandPredicate(predicate: IPredicate): IPredicate {
   const result: IPredicate = {};

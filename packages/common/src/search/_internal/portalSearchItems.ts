@@ -3,21 +3,16 @@ import {
   cloneObject,
   convertPortalItemResponseToFacets,
   enrichContentSearchResult,
-  expandPredicate,
   HubError,
-  serializeQueryForPortal,
 } from "../..";
+
+import { expandPredicate, serializeQueryForPortal } from "./ifilter-utils";
 
 import { enrichPageSearchResult } from "../../pages/HubPages";
 import { enrichProjectSearchResult } from "../../projects";
 import { enrichSiteSearchResult } from "../../sites";
 import { IHubRequestOptions } from "../../types";
-import {
-  expandFilter,
-  isEmptyFilter,
-  isEmptyFilterGroup,
-  serializeFilterGroupsForPortal,
-} from "../filter-utils";
+import { expandFilter, serializeFilterGroupsForPortal } from "../filter-utils";
 import {
   Filter,
   IFilterGroup,

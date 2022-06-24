@@ -4,7 +4,7 @@ import { HubError } from "../..";
 import { enrichGroupSearchResult } from "../../groups/HubGroups";
 import { IHubRequestOptions } from "../../types";
 import { expandFilter, serializeFilterGroupsForPortal } from "../filter-utils";
-import { expandPredicate, serializeQueryForPortal } from "../ifilter-utils";
+import { expandPredicate, serializeQueryForPortal } from "./ifilter-utils";
 import {
   IFilterGroup,
   IHubSearchOptions,
