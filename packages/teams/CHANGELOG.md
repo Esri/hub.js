@@ -1,3 +1,13 @@
+# @esri/hub-teams [9.43.0](https://github.com/Esri/hub.js/compare/@esri/hub-teams@9.42.3...@esri/hub-teams@9.43.0) (2022-06-24)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 9.44.0
+
 ## @esri/hub-teams [9.42.3](https://github.com/Esri/hub.js/compare/@esri/hub-teams@9.42.2...@esri/hub-teams@9.42.3) (2022-06-23)
 
 
