@@ -88,6 +88,15 @@ export async function hubSearch(
   return fn(cloneObject(filterGroups), options);
 }
 
+/**
+ * Main entrypoint for searching via Hub
+ *
+ * Default's to search ArcGIS Portal but can delegate
+ * to Hub API when it's available.
+ * @param query
+ * @param options
+ * @returns
+ */
 export async function hubSearchQuery(
   query: IQuery,
   options: IHubSearchOptions

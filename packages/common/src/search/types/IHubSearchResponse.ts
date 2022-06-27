@@ -1,4 +1,5 @@
 import { IFacet } from "./IFacet";
+import { IHubAggregation } from "./IHubAggregation";
 
 /**
  * Defines a generic search response interface with parameterized result type
@@ -14,5 +15,8 @@ export interface IHubSearchResponse<T> {
   results: T[];
   hasNext: boolean;
   next: (params?: any) => Promise<IHubSearchResponse<T>>;
+  aggregations?: IHubAggregation[];
+  // DEPRECATED - hub.js no longer computes facets; consumers need to
+  // construct them from aggregations
   facets?: IFacet[];
 }
