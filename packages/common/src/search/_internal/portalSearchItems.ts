@@ -24,6 +24,7 @@ import {
   IQuery,
 } from "../types";
 import { getNextFunction } from "../utils";
+import { convertPortalAggregations } from "./portalSearchUtils";
 
 /**
  * @private
@@ -164,14 +165,17 @@ async function searchPortal(
   // map over results
   const results = await Promise.all(resp.results.map(fn));
 
-  // convert aggregations into facets
+  // TODO Remove this call
   const facets = convertPortalItemResponseToFacets(resp);
+  // convert portal  aggregations into hub aggregations
+  const aggregations = convertPortalAggregations(resp);
 
   // Construct the return
   return {
     total: resp.total,
     results,
     facets,
+    aggregations,
     hasNext: resp.nextStart > -1,
     next: getNextFunction<IHubSearchResult>(
       searchOptions,
