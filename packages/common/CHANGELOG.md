@@ -1,3 +1,10 @@
+## @esri/hub-common [9.44.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.44.0...@esri/hub-common@9.44.1) (2022-06-27)
+
+
+### Bug Fixes
+
+* return aggregations in hub format ([#814](https://github.com/Esri/hub.js/issues/814)) ([53d921a](https://github.com/Esri/hub.js/commit/53d921aa369eea9eceab8eaa33dd2dff6aad1756))
+
 # @esri/hub-common [9.44.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.43.3...@esri/hub-common@9.44.0) (2022-06-24)
 
 
