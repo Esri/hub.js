@@ -32,12 +32,4 @@ export interface IHubStage {
    * Stage status
    */
   status: string;
-  /**
-   * Icon Name
-   */
-  icon: string;
-
-  // TODO: These should likely be removed as they are not
-  // specific to the Stage itself, but rather the edit UI and never persists
-  isEditing?: boolean; // render editing ui for a stage
 }
