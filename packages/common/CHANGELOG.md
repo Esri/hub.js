@@ -1,3 +1,10 @@
+# @esri/hub-common [9.45.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.44.1...@esri/hub-common@9.45.0) (2022-06-28)
+
+
+### Features
+
+* **hub-common:** remove icon and isEditing from IHubStage ([a099442](https://github.com/Esri/hub.js/commit/a09944212f14bf526e1003687a1a17e7b2420614))
+
 ## @esri/hub-common [9.44.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.44.0...@esri/hub-common@9.44.1) (2022-06-27)
 
 
