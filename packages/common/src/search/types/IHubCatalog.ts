@@ -11,9 +11,13 @@ export interface IHubCatalog {
    * Collections within the Catalog
    */
   collections?: IHubCollection[];
+  /**
+   * Schema Version
+   */
+  schemaVersion: number;
 }
 
-export interface ICatalogScope extends Record<EntityType, IQuery> {}
+export interface ICatalogScope extends Partial<Record<EntityType, IQuery>> {}
 
 export interface IHubCollection {
   /**
@@ -40,6 +44,11 @@ export interface IHubCollection {
    * Default sort direction for the Collection
    */
   sortDirection?: "asc" | "desc";
+  /**
+   * What entity is this query targeting. This is used internally to
+   * ensure we query the correct API
+   */
+  targetEntity: EntityType;
 }
 
 export type EntityType = "item" | "group" | "user" | "groupMember" | "event";
