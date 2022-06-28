@@ -1,5 +1,6 @@
 import { hubSearchQuery, IArcGISContext } from "..";
 import {
+  EntityType,
   IHubCatalog,
   IHubCollection,
   IHubSearchOptions,
@@ -51,6 +52,9 @@ export class Collection implements IHubCollection {
   }
   public get sortDirection(): "asc" | "desc" {
     return this._collection.sortDirection || "asc";
+  }
+  public get targetEntity(): EntityType {
+    return this._collection.targetEntity;
   }
 
   public async search(
