@@ -715,7 +715,7 @@ describe("setContentType", () => {
       expect(getContentTypeIcon("Feature Service")).toEqual("collection");
       expect(getContentTypeIcon("Mobile Application")).toEqual("mobile");
       expect(getContentTypeIcon("Web Map")).toEqual("map");
-      expect(getContentTypeIcon("Hub Project")).toEqual("briefcase");
+      expect(getContentTypeIcon("Hub Project")).toEqual("projects");
     });
     it("sets non-existing type icon to file", () => {
       expect(getContentTypeIcon("fooBar")).toEqual("file");
