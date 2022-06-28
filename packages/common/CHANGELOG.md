@@ -1,3 +1,10 @@
+## @esri/hub-common [9.45.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.45.0...@esri/hub-common@9.45.1) (2022-06-28)
+
+
+### Bug Fixes
+
+* update convertCatalog to return latest structure ([#816](https://github.com/Esri/hub.js/issues/816)) ([a84ecae](https://github.com/Esri/hub.js/commit/a84ecae9faf747d9bf00d2188253f127db9fd337))
+
 # @esri/hub-common [9.45.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.44.1...@esri/hub-common@9.45.0) (2022-06-28)
 
 
