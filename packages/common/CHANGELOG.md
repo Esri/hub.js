@@ -1,3 +1,10 @@
+## @esri/hub-common [9.45.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.45.1...@esri/hub-common@9.45.2) (2022-06-28)
+
+
+### Bug Fixes
+
+* **hub-common:** fixed icon name for hub projects ([f43b596](https://github.com/Esri/hub.js/commit/f43b596c0c1fd1ef07be8e8a971feabf54c176fd))
+
 ## @esri/hub-common [9.45.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.45.0...@esri/hub-common@9.45.1) (2022-06-28)
 
 
