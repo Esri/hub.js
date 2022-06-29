@@ -12,10 +12,9 @@ import { enrichPageSearchResult } from "../../pages/HubPages";
 import { enrichProjectSearchResult } from "../../projects";
 import { enrichSiteSearchResult } from "../../sites";
 import { IHubRequestOptions } from "../../types";
-import { expandFilter, serializeFilterGroupsForPortal } from "../filter-utils";
+
 import {
   Filter,
-  IFilterGroup,
   IHubSearchOptions,
   IHubSearchResponse,
   IHubSearchResult,
@@ -25,63 +24,6 @@ import {
 } from "../types";
 import { getNextFunction } from "../utils";
 import { convertPortalAggregations } from "./portalSearchUtils";
-
-/**
- * @private
- * DEPRECATED
- * @param filterGroups
- * @param options
- * @returns
- */
-export async function portalSearchItemsFilterGroups(
-  filterGroups: Array<IFilterGroup<"item">>,
-  options: IHubSearchOptions
-): Promise<IHubSearchResponse<IHubSearchResult>> {
-  if (!options.requestOptions) {
-    throw new HubError(
-      "hubSearch",
-      "requestOptions: IHubRequestOptions is required."
-    );
-  }
-  // Expand well-known filterGroups
-  const replaced = applyWellKnownItemFilterGroups(filterGroups);
-  // Expand the individual filters in each of the groups
-  const expandedGroups = replaced.map((fg) => {
-    fg.filters = fg.filters.map(expandFilter);
-    return fg;
-  });
-
-  // Serialize the all the groups for portal
-  const so = serializeFilterGroupsForPortal(expandedGroups);
-  // Array of properties we want to copy from IHubSearchOptions to the ISearchOptions
-  const props: Array<keyof IHubSearchOptions> = [
-    "num",
-    "sortField",
-    "sortOrder",
-    "include",
-    "start",
-    "requestOptions", // although requestOptions is not needed on ISearchOption we send it through so downstream fns have access to it
-  ];
-  // copy the props over
-  props.forEach((prop) => {
-    if (options.hasOwnProperty(prop)) {
-      so[prop as keyof ISearchOptions] = options[prop];
-    }
-  });
-
-  if (options.requestOptions.authentication) {
-    so.authentication = options.requestOptions.authentication;
-  } else {
-    so.portal = options.requestOptions.portal;
-  }
-
-  // Aggregations
-  if (options.aggFields?.length) {
-    so.countFields = options.aggFields.join(",");
-    so.countSize = options.aggLimit || 10;
-  }
-  return searchPortal(so);
-}
 
 /**
  * @private
@@ -455,44 +397,6 @@ export function applyWellKnownItemPredicates(query: IQuery): IQuery {
 }
 
 /**
- * DEPRECATED
- * @param filterGroups
- * @returns
- */
-export function applyWellKnownItemFilterGroups(
-  filterGroups: Array<IFilterGroup<"item">>
-): Array<IFilterGroup<"item">> {
-  const clone = cloneObject(filterGroups);
-  // iterate the filterGroups
-  const result = clone.map((filterGroup) => {
-    filterGroup.filters = filterGroup.filters.reduce((updated, filter) => {
-      // check if the filter.type is a well-known type
-      if (isWellKnownTypeFilter(filter.type)) {
-        // get the set of filters to replace the current filter with
-        const typeFilters = lookupTypeFilters(
-          filter.type as keyof typeof WellKnownItemFilters
-        );
-        // Note: At this point we could try to "merge" in the other
-        // props on the filter, into all the filters returned from
-        // the well-known hash. The problem with this is that the
-        // combination may yield unexpected results; For now, if a filter
-        // includes `.type is keyof WellKnownItemFilters` we simply
-        // replace the entire filter with the array of filters returne
-        // from the hash
-        updated = [...updated, ...typeFilters];
-      } else {
-        // filter does not have a well-known type entry so keep it
-        updated.push(filter);
-      }
-      return updated;
-    }, []);
-    return filterGroup;
-  });
-
-  return result;
-}
-
-/**
  * Is the argument a well-known type "key"
  *
  * Accepts `string`, `string[]` or `IMatchOptions`
@@ -512,16 +416,10 @@ export function isWellKnownTypeFilter(
 }
 
 /**
- * Fetch the array of fitlers from the well-known hash
+ * Return the predicates for a well-known type
  * @param key
  * @returns
  */
-function lookupTypeFilters(
-  key: keyof typeof WellKnownItemFilters
-): Array<Filter<"item">> {
-  return WellKnownItemFilters[key];
-}
-
 function lookupTypePredicates(
   key: keyof typeof WellKnownItemFilters
 ): IPredicate[] {

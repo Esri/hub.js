@@ -3,8 +3,6 @@ import { getProp } from "../objects";
 import { cloneObject } from "../util";
 
 import {
-  IFilterGroup,
-  FilterType,
   IHubSearchOptions,
   IHubSearchResponse,
   IHubSearchResult,
@@ -15,16 +13,14 @@ import {
   hubSearchItems,
   portalSearchItems,
   portalSearchGroups,
-  portalSearchItemsFilterGroups,
-  portalSearchGroupsFilterGroups,
-} from "./_internal";
-import {
   portalSearchUsers,
-  portalSearchUsersFilterGroups,
-} from "./_internal/portalSearchUsers";
+} from "./_internal";
 
 /**
- * Main Search function for ArcGIS Hub
+ * @private
+ * TEMPORARY - this function only exists to allow incremental
+ * changes and should be removed as soon as arcgis-hub-gallery
+ * is changed to call `hubSearch(...)` directly
  *
  * Default's to search ArcGIS Portal but can delegate
  * to Hub API when it's available.
@@ -32,60 +28,12 @@ import {
  * @param options
  * @returns
  */
-export async function hubSearch(
-  filterGroups: Array<IFilterGroup<FilterType>>,
+export async function hubSearchQuery(
+  query: IQuery,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
-  // Validate inputs
-  if (!filterGroups || !Array.isArray(filterGroups)) {
-    throw new HubError(
-      "hubSearch",
-      "FilterGroups are required and must be an array."
-    );
-  }
-  if (!filterGroups.length) {
-    throw new HubError(
-      "hubSearch",
-      "FilterGrous array must contain at least one entry."
-    );
-  }
-
-  if (!options.requestOptions) {
-    throw new HubError(
-      "hubSearch",
-      "requestOptions: IHubRequestOptions is required."
-    );
-  }
-
-  // Ensure includes is an array
-  if (!options.include) {
-    options.include = [];
-  }
-
-  // Get the type of the first filterGroup
-  const filterType = filterGroups[0].filterType as FilterType;
-  // get the API
-  const apiType = expandApi(options.api || "arcgis").type;
-
-  const fnHash = {
-    arcgis: {
-      item: portalSearchItemsFilterGroups,
-      group: portalSearchGroupsFilterGroups,
-      user: portalSearchUsersFilterGroups,
-    },
-    "arcgis-hub": {
-      item: hubSearchItems,
-    },
-  };
-
-  const fn = getProp(fnHash, `${apiType}.${filterType}`);
-  if (!fn) {
-    throw new HubError(
-      `hubSearch`,
-      `Search via "${filterType}" filter against "${apiType}" api is not implemented`
-    );
-  }
-  return fn(cloneObject(filterGroups), options);
+  // delegate
+  return hubSearch(query, options);
 }
 
 /**
@@ -97,7 +45,7 @@ export async function hubSearch(
  * @param options
  * @returns
  */
-export async function hubSearchQuery(
+export async function hubSearch(
   query: IQuery,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
