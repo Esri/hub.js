@@ -202,7 +202,7 @@ Although the `IPredicate` structure allows for any key, value combinations, the 
 | `isopendata`       | `group`                 | boolean                               |
 | `joined`           | `group`                 | `IDateRange<number>` `IRelativeDate`  |
 | `lastlogin`        | `user`                  | `IDateRange<number>` `IRelativeDate`  |
-| `lastname`         | `lastname`              | `string`, `string[]`, `IMatchOptions` |
+| `lastname`         | `user`                  | `string`, `string[]`, `IMatchOptions` |
 | `memberType`       | `group`                 | `string`, `string[]`, `IMatchOptions` |
 | `modified`         | `item`, `group`         | `IDateRange<number>` `IRelativeDate`  |
 | `orgid`            | `item`, `group`         | `string`, `string[]`, `IMatchOptions` |
