@@ -1,13 +1,16 @@
 ---
 title: Searching for Content
-navTitle: Searching Content
+navTitle: Searching Content (Old)
 description: Leveraging the Hub Search system
 group: 2-concepts
-order: 15
+order: 16
 ---
 
 ## Searching for Content
 
+**Note** At this point we should be using `hubSearch`. See the [Guide](../hub-search/)
+
+<hr>
 Unified Content Search can be performed in two different ways: the `searchContent` function and the `ContentSearchService` class. Both provide a mechanism to search for content from the Portal API only or from both ArcGIS Online and Hub Indexer's V3 Search API (hereafter known as `V3 Search API`), depending on how `searchContent` function is invoked, or how the `ContentSearchService` is configured. They use the same underlying search functions for consistency.
 
 ### Instantiating the Content Search Service

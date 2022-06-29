@@ -53,6 +53,12 @@ export interface IHubCollection {
 
 export type EntityType = "item" | "group" | "user" | "groupMember" | "event";
 
+/**
+ * IQuery is the fundamental unit used to execute a search. By composing
+ * `Filter`'s and `IPredicate`s, we can express very complex queries
+ *
+ *  The [Hub Search Guide](/hub.js/guides/hub-search) contains many examples.
+ */
 export interface IQuery {
   /**
    * What entity is this query targeting. This is used internally to
@@ -70,15 +76,46 @@ export interface IQuery {
   properties?: Record<string, any>;
 }
 
+/**
+ * Queries are composed from a set of `IFilter` objects.
+ * All Filters are combined via `AND`, but the predicates
+ * that make up a filter are combined using the specified `operation`
+ * thereby allowing queries to be composed dynamically and deterministically.
+ *
+ *  The [Hub Search Guide](/hub.js/guides/hub-search) contains many examples.
+ */
 export interface IFilter {
   /**
    * Operation used to combine the predicates
    */
   operation?: "AND" | "OR";
   /**
-   * Predicates
+   * Predicates which specify the properties and values to match in the search
    */
   predicates: IPredicate[];
 }
 
-export interface IPredicate extends Record<string, any> {}
+/**
+ * An `IPredicate` is a set of key/value pairs
+ * that can be evaluated into a boolean value in a search system.
+ *
+ * For example, a predicate like
+ * ```js
+ * const p = { type: "Web Map"}
+ * ```
+ * equates to a search `where type = "Web Map"`
+ *
+ * Properties can be `string`, `string[]`, `IMatchOption`,
+ * `IDateRange<number>` or  `IRelativeDate`. Some properties are booleans
+ * and other properties have a limited set of values that can be passed.
+ *
+ * The [Hub Search Guide](/hub.js/guides/hub-search) contains a list
+ * of properties that can be sent to the ArcGIS Portal API.
+ */
+export interface IPredicate {
+  /**
+   * This is intentionally loosely typed to allow flexibility
+   * in implementation without constantly updates to this interface
+   */
+  [key: string]: any;
+}

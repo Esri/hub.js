@@ -16,8 +16,6 @@ While ArcGIS Hub acts as an integration point for the entire ArcGIS ecosystem, a
 - Hub Projects
 - Hub Events
 
-All other ArcGIS content is handled generically as "Hub Content"
-
 While Discussions are a key component of the ArcGIS Hub as a system, they are in independent subsystem, documented in the [Hub Discussions Guide](/hub.js/guides/hub-discussions)
 
 The following sections describe these entities, their role in the Hub System, and how you work with them in Hub.js
