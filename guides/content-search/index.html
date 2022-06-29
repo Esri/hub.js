@@ -90,9 +90,11 @@
             
               <li><a href="/hub.js/guides/working-with-projects/">Working with Projects</a></li>
             
-              <li><a href="/hub.js/guides/content-search/" class="is-active">Searching Content</a></li>
+              <li><a href="/hub.js/guides/hub-search/">Searching Content</a></li>
             
               <li><a href="/hub.js/guides/search-filters/">Search Filters</a></li>
+            
+              <li><a href="/hub.js/guides/content-search/" class="is-active">Searching Content (Old)</a></li>
             
               <li><a href="/hub.js/guides/sites-and-pages/">Sites and Pages</a></li>
             
@@ -118,7 +120,9 @@
     <div class="column-18">
       <div class="panel">
         <h2>Searching for Content</h2>
-<p>Unified Content Search can be performed in two different ways: the <code>searchContent</code> function and the <code>ContentSearchService</code> class. Both provide a mechanism to search for content from the Portal API only or from both ArcGIS Online and Hub Indexer's V3 Search API (hereafter known as <code>V3 Search API</code>), depending on how <code>searchContent</code> function is invoked, or how the <code>ContentSearchService</code> is configured. They use the same underlying search functions for consistency.</p>
+<p><strong>Note</strong> At this point we should be using <code>hubSearch</code>. See the <a href="../hub-search/">Guide</a></p>
+<hr>
+Unified Content Search can be performed in two different ways: the `searchContent` function and the `ContentSearchService` class. Both provide a mechanism to search for content from the Portal API only or from both ArcGIS Online and Hub Indexer's V3 Search API (hereafter known as `V3 Search API`), depending on how `searchContent` function is invoked, or how the `ContentSearchService` is configured. They use the same underlying search functions for consistency.
 <h3>Instantiating the Content Search Service</h3>
 <p>The Content Search Service takes the following parameters to instantiate:</p>
 <ol>
