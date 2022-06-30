@@ -21,11 +21,11 @@ export interface IHubSearchOptions {
   aggLimit?: number;
 
   /**
-   * Deprecate in favor of context
+   * Specify API to call. Defaults to ArcGIS Online Portal API
    */
   api?: NamedApis | IApiDefinition;
   /**
-   * TODO: Deprecate in requestOptions
+   * DEPRECATE in favor of requestOptions
    */
   authentication?: UserSession;
   /**
@@ -35,15 +35,16 @@ export interface IHubSearchOptions {
    * hubSearch
    */
   requestOptions?: IHubRequestOptions;
+  /**
+   * Bounding box for the search (NOT IMPLEMENTED)
+   */
   bbox?: string;
   /**
-   * Objects or fields to include
-   * e.g. `server.layers AS serverLayers`
+   * Objects or fields to include e.g. `server.layers AS serverLayers`
    */
   include?: string[];
   /**
-   * Enrichments
-   * Deprecated in favor of `include`
+   * DEPRECATED: Use `include` instead
    */
   enrichments?: Enrichments[];
   /**
@@ -51,7 +52,7 @@ export interface IHubSearchOptions {
    */
   num?: number;
   /**
-   * What page of results to return
+   * LEGACY. Use `start` and `num` instead
    */
   page?: string;
   /**
@@ -63,11 +64,19 @@ export interface IHubSearchOptions {
    */
   sortOrder?: "desc" | "asc";
   /**
-   * TODO: Determine if this is used or can be removed
+   * The result number of the first entry in the result set response. The start parameter, along with the num parameter, can be used to paginate the search results.
    */
   start?: number;
-  // DEPRECATION
+  /**
+   * DEPRECATED
+   */
   aggregations?: string[];
+  /**
+   * DEPRECATED
+   */
   site?: IModel;
+  /**
+   * DEPRECATED
+   */
   fields?: string;
 }

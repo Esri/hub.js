@@ -3,7 +3,7 @@ title: End-to-End Tests
 navTitle: E2E Testing
 description: How to leverage E2e Testing
 order: 80
-group: 2-concepts
+group: 4-developers
 ---
 
 # End-to-End Testing for Hub.js

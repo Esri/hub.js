@@ -1,8 +1,8 @@
 ---
 title: Working with Projects
-navTitle: Working with Projects
+navTitle: Hub Projects
 description: Working with Hub Projects
-order: 12
+order: 30
 group: 2-concepts
 ---
 

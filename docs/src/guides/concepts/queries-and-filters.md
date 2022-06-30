@@ -1,18 +1,12 @@
 ---
-title: Searching for Content
-navTitle: Searching Content
-description: Leveraging the Hub Search system
+title: Queries and Filters
+navTitle: Queries & Filters
+description: Constructing Search Queries
+order: 8
 group: 2-concepts
-order: 15
 ---
 
-## Searching using `hubSearch(...)`
-
-Within Hub.js the main search function is [`hubSearch`](../api/common/hubSearch), which uses an [`IQuery`](../api/common/IQuery) to defined the critera to be applied, and an [`IHubSearchOptions`](../api/common/IHubSearchOptions) for paging, number and authentication information.
-
-This guide will review how to construct the query, and the search options.
-
-_Note_ If you are searching for specific [Hub Entities](), the entity "manager" modules also have search functions
+## Queries, Filters and Predicates
 
 ### Building a Query
 
@@ -47,7 +41,7 @@ Within a Query...
 
 ```json
 {
-  "entityType": "item",
+  "targetEntity": "item",
   "filters": [
     {
       "operation": "AND",
@@ -82,7 +76,7 @@ We can also express this more concisely as:
 
 ```json
 {
-  "entityType": "item",
+  "targetEntity": "item",
   "filters": [
     {
       "operation": "AND",
@@ -110,7 +104,7 @@ As noted above, most predicate properties will work with a `IMatchOptions` struc
 
 ```json
 {
-  "entityType": "item",
+  "targetEntity": "item",
   "filters": [
     {
       "operation": "AND",
@@ -133,15 +127,15 @@ This reads as:
 
 - search for items
   - of type `Feature Service`
-  - tag `authoritative`
-  - AND tag `water` or `lake`
+  - WITH tag `authoritative`
+  - AND tag `water` OR tag `lake`
   - WITHOUT tag `rivers`
 
 We can combine predicates via the `.operation` to construct more complex queries
 
 ```json
 {
-  "entityType": "item",
+  "targetEntity": "item",
   "filters": [
     {
       "operation": "OR",
@@ -172,13 +166,13 @@ This reads as:
 
 - search for items
   - of type `Feature Service`
-  - tag `authoritative`
-  - AND tag `water` or `lake`
+  - WITH tag `authoritative`
+  - AND tag `water` OR tag `lake`
   - WITHOUT tag `rivers`
   - OR
   - of type `Web Map`
-  - tag `authoritative`
-  - AND tag `wildfire` or `fire`
+  - WITH tag `authoritative`
+  - AND tag `wildfire` OR tag `fire`
   - owned by `jsmith`
 
 ## Predicate Properties

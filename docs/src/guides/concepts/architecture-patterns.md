@@ -1,9 +1,9 @@
 ---
-title: Architecture Patterns
-navTitle: Architecture
+title: Manager Classess
+navTitle: Manager Classes
 description: Design Patterns in Hub.js
 order: 1
-group: 2-concepts
+group: 3-classes
 ---
 
 # Architecture Patterns in Hub.js
@@ -25,6 +25,7 @@ Manager Classes take and return "entities" as simple objects (POJOs), which are 
 #### Available Manager Classes
 
 - [`HubProjectManager`](/hub.js/api/common/HubProjectManager)
+- [`HubSiteManager`](/hub.js/api/common/HubSiteManager)
 
 ### Working with Manager Classes
 

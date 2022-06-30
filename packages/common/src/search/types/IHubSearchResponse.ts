@@ -11,12 +11,29 @@ import { IHubAggregation } from "./IHubAggregation";
  * next - invokable function for obtaining next page of results
  */
 export interface IHubSearchResponse<T> {
+  /**
+   * Total number of matches for the query
+   */
   total: number;
+  /**
+   * Array if results
+   */
   results: T[];
+  /**
+   * Can more results be fetched?
+   */
   hasNext: boolean;
+  /**
+   * Function that fetches the next page of results
+   */
   next: (params?: any) => Promise<IHubSearchResponse<T>>;
+  /**
+   * Array of requested aggregations
+   */
   aggregations?: IHubAggregation[];
-  // DEPRECATED - hub.js no longer computes facets; consumers need to
-  // construct them from aggregations
+
+  /**
+   * DEPRECATED - hub.js no longer computes facets; consumers need to construct them from aggregations
+   */
   facets?: IFacet[];
 }

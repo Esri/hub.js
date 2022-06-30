@@ -2,7 +2,7 @@
 title: Working with Hub Discussions
 navTitle: Hub Discussions
 description: Learn how to perform basic flows using the Hub Discussions API via @esri/hub.js.
-order: 50
+order: 45
 group: 2-concepts
 ---
 
