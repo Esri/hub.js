@@ -1,3 +1,10 @@
+## @esri/hub-common [9.45.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.45.2...@esri/hub-common@9.45.3) (2022-06-30)
+
+
+### Bug Fixes
+
+* remove filtergroups search implementation ([#819](https://github.com/Esri/hub.js/issues/819)) ([0dade7e](https://github.com/Esri/hub.js/commit/0dade7e3850b5bebb4d87ac775677e060b74ccce))
+
 ## @esri/hub-common [9.45.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.45.1...@esri/hub-common@9.45.2) (2022-06-28)
 
 
