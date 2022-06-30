@@ -4,79 +4,17 @@ import {
   searchUsers,
 } from "@esri/arcgis-rest-portal";
 import { IUser } from "@esri/arcgis-rest-types";
-import { enrichUserSearchResult, unique } from "../..";
+import { enrichUserSearchResult } from "../..";
 import { expandPredicate, serializeQueryForPortal } from "./ifilter-utils";
-import { enrichGroupSearchResult } from "../../groups/HubGroups";
 import HubError from "../../HubError";
 import { IHubRequestOptions } from "../../types";
-import { cloneObject } from "../../util";
-import { expandFilter, serializeFilterGroupsForPortal } from "../filter-utils";
 import {
-  IFilterGroup,
   IHubSearchOptions,
   IHubSearchResponse,
   IHubSearchResult,
-  IMatchOptions,
   IQuery,
 } from "../types";
-import { expandApi, getNextFunction } from "../utils";
-
-/**
- * @private
- * DEPRECATED: Use `portalSearchUsers`
- * Portal Search implementation for Users
- * @param filterGroups
- * @param options
- */
-export async function portalSearchUsersFilterGroups(
-  filterGroups: Array<IFilterGroup<"user">>,
-  options: IHubSearchOptions
-): Promise<IHubSearchResponse<IHubSearchResult>> {
-  // requestOptions is always required and user must be authd
-  if (!options.requestOptions) {
-    throw new HubError(
-      "portalSearchUsers",
-      "requestOptions: IHubRequestOptions is required."
-    );
-  }
-
-  if (!options.requestOptions.authentication) {
-    throw new HubError(
-      "portalSearchUsers",
-      "requestOptions must pass authentication."
-    );
-  }
-
-  // Expand the individual filters in each of the groups
-  const expandedGroups = filterGroups.map((fg) => {
-    fg.filters = fg.filters.map(expandFilter);
-    return fg;
-  });
-
-  // Serialize the all the groups for portal
-  const so = serializeFilterGroupsForPortal(expandedGroups);
-  // Array of properties we want to copy from IHubSearchOptions to the ISearchOptions
-  const props: Array<keyof IHubSearchOptions> = [
-    "num",
-    "sortField",
-    "sortOrder",
-    "include",
-    "start",
-    "requestOptions",
-  ];
-  // copy the props over
-  props.forEach((prop) => {
-    if (options.hasOwnProperty(prop)) {
-      so[prop as keyof ISearchOptions] = options[prop];
-    }
-  });
-
-  // Ensure authentication gets sent
-  so.authentication = options.requestOptions.authentication;
-
-  // Execute search
-  return searchPortal(so as IUserSearchOptions);
-}
+import { getNextFunction } from "../utils";
 
 /**
  * @private

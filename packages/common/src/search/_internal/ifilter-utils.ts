@@ -1,7 +1,6 @@
 import { ISearchOptions } from "@esri/arcgis-rest-portal";
 import { setProp, getProp } from "../../objects";
 import { cloneObject } from "../../util";
-import { expandFilter } from "../filter-utils";
 import {
   IDateRange,
   IFilter,

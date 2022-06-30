@@ -4,49 +4,53 @@ import { hubSearch, hubSearchQuery } from "../../src/search/hubSearch";
 import * as SearchFunctionModule from "../../src/search/_internal";
 
 describe("hubSearch Module:", () => {
-  describe("hubSearch - FilterGroups:", () => {
+  describe("hubSearch:", () => {
     describe("guards:", () => {
-      it("throws if filterGroups not passed", async () => {
+      it("throws if Query not passed", async () => {
         try {
           await hubSearch(
-            null as unknown as Array<IFilterGroup<FilterType>>,
+            null as unknown as IQuery,
             {} as unknown as IHubSearchOptions
           );
         } catch (err) {
           expect(err.name).toBe("HubError");
-          expect(err.message).toBe(
-            "FilterGroups are required and must be an array."
-          );
+          expect(err.message).toBe("Query is required.");
         }
       });
-      it("throws if filter groups not an array with entries", async () => {
+      it("throws if Query does not have filters prop", async () => {
         try {
           await hubSearch(
-            [] as unknown as Array<IFilterGroup<FilterType>>,
+            {} as unknown as IQuery,
             {} as unknown as IHubSearchOptions
           );
         } catch (err) {
           expect(err.name).toBe("HubError");
-          expect(err.message).toBe(
-            "FilterGrous array must contain at least one entry."
+          expect(err.message).toBe("Query must contain at least one Filter.");
+        }
+      });
+      it("throws if Query does not have filters with entries", async () => {
+        try {
+          await hubSearch(
+            { filters: [] } as unknown as IQuery,
+            {} as unknown as IHubSearchOptions
           );
+        } catch (err) {
+          expect(err.name).toBe("HubError");
+          expect(err.message).toBe("Query must contain at least one Filter.");
         }
       });
       it("throws if options does not have requestOptions", async () => {
-        const fg: Array<IFilterGroup<FilterType>> = [
-          {
-            filterType: "item",
-            operation: "OR",
-            filters: [
-              {
-                filterType: "item",
-                term: "water",
-              },
-            ],
-          },
-        ];
+        const qry: IQuery = {
+          targetEntity: "item",
+          filters: [
+            {
+              predicates: [{ term: "water" }],
+            },
+          ],
+        };
+
         try {
-          await hubSearch(fg, {} as unknown as IHubSearchOptions);
+          await hubSearch(qry, {} as unknown as IHubSearchOptions);
         } catch (err) {
           expect(err.name).toBe("HubError");
           expect(err.message).toBe(
@@ -55,18 +59,14 @@ describe("hubSearch Module:", () => {
         }
       });
       it("throws if function is not available", async () => {
-        const fg: Array<IFilterGroup<FilterType>> = [
-          {
-            filterType: "group",
-            operation: "OR",
-            filters: [
-              {
-                filterType: "group",
-                term: "water",
-              },
-            ],
-          },
-        ];
+        const qry: IQuery = {
+          targetEntity: "group",
+          filters: [
+            {
+              predicates: [{ term: "water" }],
+            },
+          ],
+        };
         const opts: IHubSearchOptions = {
           requestOptions: {
             portal: "https://qaext.arcgis.com/sharing/rest",
@@ -75,7 +75,7 @@ describe("hubSearch Module:", () => {
           include: ["server"],
         };
         try {
-          await hubSearch(fg, opts);
+          await hubSearch(qry, opts);
         } catch (err) {
           expect(err.name).toBe("HubError");
           expect(err.message).toBe(
@@ -85,15 +85,15 @@ describe("hubSearch Module:", () => {
       });
     });
     describe("delegations:", () => {
-      let portalSearchItemsSpyFG: jasmine.Spy;
-      let portalSearchGroupsSpyFG: jasmine.Spy;
-      let hubSearchFilterGroupsItemsSpyFG: jasmine.Spy;
+      let portalSearchItemsSpy: jasmine.Spy;
+      let portalSearchGroupsSpy: jasmine.Spy;
+      let hubSearchItemsSpy: jasmine.Spy;
       beforeEach(() => {
         // we are only interested in verifying that the fn was called with specific args
         // so all the responses are fake
-        portalSearchItemsSpyFG = spyOn(
+        portalSearchItemsSpy = spyOn(
           SearchFunctionModule,
-          "portalSearchItemsFilterGroups"
+          "portalSearchItems"
         ).and.callFake(() => {
           return Promise.resolve({
             hasNext: false,
@@ -101,9 +101,9 @@ describe("hubSearch Module:", () => {
             total: 99,
           });
         });
-        portalSearchGroupsSpyFG = spyOn(
+        portalSearchGroupsSpy = spyOn(
           SearchFunctionModule,
-          "portalSearchGroupsFilterGroups"
+          "portalSearchGroups"
         ).and.callFake(() => {
           return Promise.resolve({
             hasNext: false,
@@ -111,7 +111,7 @@ describe("hubSearch Module:", () => {
             total: 99,
           });
         });
-        hubSearchFilterGroupsItemsSpyFG = spyOn(
+        hubSearchItemsSpy = spyOn(
           SearchFunctionModule,
           "hubSearchItems"
         ).and.callFake(() => {
@@ -123,46 +123,47 @@ describe("hubSearch Module:", () => {
         });
       });
       it("items: portalSearchItems", async () => {
-        const fg: Array<IFilterGroup<FilterType>> = [
-          {
-            filterType: "item",
-            operation: "OR",
-            filters: [
-              {
-                filterType: "item",
-                term: "water",
-              },
-            ],
-          },
-        ];
+        const qry: IQuery = {
+          targetEntity: "item",
+          filters: [
+            {
+              predicates: [{ term: "water" }],
+            },
+          ],
+        };
         const opts: IHubSearchOptions = {
           requestOptions: {
             portal: "https://qaext.arcgis.com/sharing/rest",
           },
         };
-        const chk = await hubSearch(fg, opts);
+        const chk = await hubSearch(qry, opts);
         expect(chk.total).toBe(99);
-        expect(portalSearchItemsSpyFG.calls.count()).toBe(1);
-        expect(portalSearchGroupsSpyFG.calls.count()).toBe(0);
-        expect(hubSearchFilterGroupsItemsSpyFG.calls.count()).toBe(0);
-        const [filterGroups, options] = portalSearchItemsSpyFG.calls.argsFor(0);
-        expect(filterGroups).toEqual(fg);
+        expect(portalSearchItemsSpy.calls.count()).toBe(
+          1,
+          "should call portalSearchItems once"
+        );
+        expect(portalSearchGroupsSpy.calls.count()).toBe(
+          0,
+          "should not call portalSearchGroups"
+        );
+        expect(hubSearchItemsSpy.calls.count()).toBe(
+          0,
+          "should not call hubSearch"
+        );
+        const [query, options] = portalSearchItemsSpy.calls.argsFor(0);
+        expect(query).toEqual(qry);
         expect(options.include).toBeDefined();
         expect(options.requestOptions).toEqual(opts.requestOptions);
       });
       it("items + arcgis: portalSearchItems", async () => {
-        const fg: Array<IFilterGroup<FilterType>> = [
-          {
-            filterType: "item",
-            operation: "OR",
-            filters: [
-              {
-                filterType: "item",
-                term: "water",
-              },
-            ],
-          },
-        ];
+        const qry: IQuery = {
+          targetEntity: "item",
+          filters: [
+            {
+              predicates: [{ term: "water" }],
+            },
+          ],
+        };
         const opts: IHubSearchOptions = {
           requestOptions: {
             portal: "https://qaext.arcgis.com/sharing/rest",
@@ -170,29 +171,25 @@ describe("hubSearch Module:", () => {
           api: "arcgis",
           include: ["server"],
         };
-        const chk = await hubSearch(fg, opts);
+        const chk = await hubSearch(qry, opts);
         expect(chk.total).toBe(99);
-        expect(portalSearchItemsSpyFG.calls.count()).toBe(1);
-        expect(portalSearchGroupsSpyFG.calls.count()).toBe(0);
-        expect(hubSearchFilterGroupsItemsSpyFG.calls.count()).toBe(0);
-        const [filterGroups, options] = portalSearchItemsSpyFG.calls.argsFor(0);
-        expect(filterGroups).toEqual(fg);
+        expect(portalSearchItemsSpy.calls.count()).toBe(1);
+        expect(portalSearchGroupsSpy.calls.count()).toBe(0);
+        expect(hubSearchItemsSpy.calls.count()).toBe(0);
+        const [query, options] = portalSearchItemsSpy.calls.argsFor(0);
+        expect(query).toEqual(qry);
         expect(options.include).toBeDefined();
         expect(options.requestOptions).toEqual(opts.requestOptions);
       });
-      it("items + arcgis-hub: hubSearchFilterGroupsItems", async () => {
-        const fg: Array<IFilterGroup<FilterType>> = [
-          {
-            filterType: "item",
-            operation: "OR",
-            filters: [
-              {
-                filterType: "item",
-                term: "water",
-              },
-            ],
-          },
-        ];
+      it("items + arcgis-hub: hubSearchItems", async () => {
+        const qry: IQuery = {
+          targetEntity: "item",
+          filters: [
+            {
+              predicates: [{ term: "water" }],
+            },
+          ],
+        };
         const opts: IHubSearchOptions = {
           requestOptions: {
             portal: "https://qaext.arcgis.com/sharing/rest",
@@ -200,30 +197,25 @@ describe("hubSearch Module:", () => {
           api: "hubDEV",
           include: ["server"],
         };
-        const chk = await hubSearch(fg, opts);
+        const chk = await hubSearch(qry, opts);
         expect(chk.total).toBe(99);
-        expect(portalSearchItemsSpyFG.calls.count()).toBe(0);
-        expect(portalSearchGroupsSpyFG.calls.count()).toBe(0);
-        expect(hubSearchFilterGroupsItemsSpyFG.calls.count()).toBe(1);
-        const [filterGroups, options] =
-          hubSearchFilterGroupsItemsSpyFG.calls.argsFor(0);
-        expect(filterGroups).toEqual(fg);
+        expect(portalSearchItemsSpy.calls.count()).toBe(0);
+        expect(portalSearchGroupsSpy.calls.count()).toBe(0);
+        expect(hubSearchItemsSpy.calls.count()).toBe(1);
+        const [query, options] = hubSearchItemsSpy.calls.argsFor(0);
+        expect(query).toEqual(qry);
         expect(options.include).toBeDefined();
         expect(options.requestOptions).toEqual(opts.requestOptions);
       });
-      it("groups + arcgis: portalSearchItems", async () => {
-        const fg: Array<IFilterGroup<FilterType>> = [
-          {
-            filterType: "group",
-            operation: "OR",
-            filters: [
-              {
-                filterType: "group",
-                term: "water",
-              },
-            ],
-          },
-        ];
+      it("groups + arcgis: portalSearchGroups", async () => {
+        const qry: IQuery = {
+          targetEntity: "group",
+          filters: [
+            {
+              predicates: [{ term: "water" }],
+            },
+          ],
+        };
         const opts: IHubSearchOptions = {
           requestOptions: {
             portal: "https://qaext.arcgis.com/sharing/rest",
@@ -231,20 +223,19 @@ describe("hubSearch Module:", () => {
           api: "arcgis",
           include: ["server"],
         };
-        const chk = await hubSearch(fg, opts);
+        const chk = await hubSearch(qry, opts);
         expect(chk.total).toBe(99);
-        expect(portalSearchItemsSpyFG.calls.count()).toBe(0);
-        expect(portalSearchGroupsSpyFG.calls.count()).toBe(1);
-        expect(hubSearchFilterGroupsItemsSpyFG.calls.count()).toBe(0);
-        const [filterGroups, options] =
-          portalSearchGroupsSpyFG.calls.argsFor(0);
-        expect(filterGroups).toEqual(fg);
+        expect(portalSearchItemsSpy.calls.count()).toBe(0);
+        expect(portalSearchGroupsSpy.calls.count()).toBe(1);
+        expect(hubSearchItemsSpy.calls.count()).toBe(0);
+        const [query, options] = portalSearchGroupsSpy.calls.argsFor(0);
+        expect(query).toEqual(qry);
         expect(options.include).toBeDefined();
         expect(options.requestOptions).toEqual(opts.requestOptions);
       });
     });
   });
-  describe("hubSearch:", () => {
+  describe("hubSearchQuery:", () => {
     describe("guards:", () => {
       it("throws if Query not passed", async () => {
         try {
