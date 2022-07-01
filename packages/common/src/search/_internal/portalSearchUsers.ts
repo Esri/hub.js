@@ -5,7 +5,7 @@ import {
 } from "@esri/arcgis-rest-portal";
 import { IUser } from "@esri/arcgis-rest-types";
 import { enrichUserSearchResult } from "../..";
-import { expandPredicate, serializeQueryForPortal } from "./ifilter-utils";
+import { serializeQueryForPortal } from "./ifilter-utils";
 import HubError from "../../HubError";
 import { IHubRequestOptions } from "../../types";
 import {
@@ -15,6 +15,7 @@ import {
   IQuery,
 } from "../types";
 import { getNextFunction } from "../utils";
+import { expandPredicate } from "./ipredicate-utils";
 
 /**
  * @private
