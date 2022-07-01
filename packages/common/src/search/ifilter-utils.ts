@@ -105,6 +105,7 @@ function serializePredicate(predicate: IPredicate): ISearchOptions {
     "snippet",
     "tags",
     "term",
+    "title",
     "type",
     "typekeywords",
     "userlicensetype",
