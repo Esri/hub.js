@@ -1,3 +1,10 @@
+## @esri/hub-common [9.45.5](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.45.4...@esri/hub-common@9.45.5) (2022-07-01)
+
+
+### Bug Fixes
+
+* **hub-common:** added title to portal allow list ([e3a1cbf](https://github.com/Esri/hub.js/commit/e3a1cbf608e8c474cc72f33d10e339bd643f5215))
+
 ## @esri/hub-common [9.45.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.45.3...@esri/hub-common@9.45.4) (2022-07-01)
 
 
