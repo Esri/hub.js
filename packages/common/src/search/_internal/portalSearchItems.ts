@@ -6,7 +6,7 @@ import {
   HubError,
 } from "../..";
 
-import { serializeQueryForPortal } from "./ifilter-utils";
+import { serializeQueryForPortal } from "../ifilter-utils";
 
 import { enrichPageSearchResult } from "../../pages/HubPages";
 import { enrichProjectSearchResult } from "../../projects";
