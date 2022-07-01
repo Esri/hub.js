@@ -6,7 +6,7 @@ import {
   HubError,
 } from "../..";
 
-import { expandPredicate, serializeQueryForPortal } from "./ifilter-utils";
+import { serializeQueryForPortal } from "./ifilter-utils";
 
 import { enrichPageSearchResult } from "../../pages/HubPages";
 import { enrichProjectSearchResult } from "../../projects";
@@ -24,6 +24,7 @@ import {
 } from "../types";
 import { getNextFunction } from "../utils";
 import { convertPortalAggregations } from "./portalSearchUtils";
+import { expandPredicate } from "./ipredicate-utils";
 
 /**
  * @private
