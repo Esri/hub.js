@@ -1,3 +1,10 @@
+## @esri/hub-common [9.45.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.45.3...@esri/hub-common@9.45.4) (2022-07-01)
+
+
+### Bug Fixes
+
+* **hub-common:** fix export of a serialization function ([4b15010](https://github.com/Esri/hub.js/commit/4b15010d21a4f6d903bd56f1d9e6d9429c9e46b2))
+
 ## @esri/hub-common [9.45.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.45.2...@esri/hub-common@9.45.3) (2022-06-30)
 
 
