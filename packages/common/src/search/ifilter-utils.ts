@@ -5,8 +5,8 @@ import {
   IMatchOptions,
   IPredicate,
   IQuery,
-} from "../types";
-import { expandPredicate } from "./ipredicate-utils";
+} from "./types";
+import { expandPredicate } from "./_internal/ipredicate-utils";
 
 export function serializeQueryForPortal(query: IQuery): ISearchOptions {
   const filterSearchOptions = query.filters.map(serializeFilter);

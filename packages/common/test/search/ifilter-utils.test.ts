@@ -1,5 +1,5 @@
-import { IPredicate, IQuery } from "../../../src";
-import { serializeQueryForPortal } from "../../../src/search/_internal/ifilter-utils";
+import { IPredicate, IQuery } from "../../src";
+import { serializeQueryForPortal } from "../../src/search/ifilter-utils";
 
 describe("ifilter-utils:", () => {
   describe("serialize query for Portal:", () => {
