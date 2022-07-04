@@ -8,7 +8,7 @@ group: 1-get-started
 
 # Get Started using a CDN
 
-@esri/hub.js is hosted on [skypack](https://skypack.dev/), allowing the use of ESM directly in browsers via `<script type=
+@esri/hub.js is hosted on [skypack](https://skypack.dev/), allowing the use of ESM directly in browsers via `<script type="module">`
 
 When using ESM directly in the browser, you `import {fn1, fn2} from "https://cdn.skypack.dev/{package}"`.
 

@@ -1,8 +1,8 @@
 ---
 title: Searching for Content
-navTitle: Searching Content (Old)
+navTitle: Search Service
 description: Leveraging the Hub Search system
-group: 2-concepts
+group: 5-legacy
 order: 16
 ---
 

@@ -3,7 +3,7 @@ title: OperationStack
 navTitle: OperationStack
 description: Manage multi-step operations with OperationStack.
 order: 70
-group: 2-concepts
+group: 3-functional-api
 ---
 
 ## OperationStack

@@ -1,8 +1,8 @@
 ---
 title: Authentication and Context
-navTitle: Using ArcGISContext
+navTitle: ArcGISContext
 description: Working with authentication and configuration in applications, components and modules
-order: 12
+order: 2
 group: 2-concepts
 ---
 

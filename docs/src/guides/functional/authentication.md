@@ -3,7 +3,7 @@ title: Hub.js Authentication
 navTitle: Authentication
 description: Learn how to send authentication to hub.js functions
 order: 10
-group: 2-concepts
+group: 3-functional-api
 ---
 
 ## Sending Authentication to Hub.js Functions
@@ -15,7 +15,7 @@ While the underlying REST Js functions typically require an [IRequestOptions](ht
 IHubRequestOptions extends IRequestOptions with three important properties:
 
 - `isPortal` a flag indicating if the code is running against ArcGIS Enterprise or ArcGIS Online
-- `hubApiUrl` the url to the hub api. 
+- `hubApiUrl` the url to the hub api.
 - `portalSelf` (optional) the entire object returned from `/portals/self`, including the `currentUser` node
 
 This information is generally available in any application that does any form of authentication against the ArcGIS Online or Enterprise APIs, and greatly reduces the amount of repetitive network requests that are required.
@@ -28,22 +28,22 @@ First we need to create a `UserSession` object. Typically web applications will 
 To keep things simple we'll just use a username and password
 
 ```js
-import { UserSession } from '@esri/arcgis-rest-auth';
-import { getSelf } from '@esri/arcgis-rest-portal';
-import { getHubApiUrlFromPortal } from '@esri/hub-common';
-import { removeSite } from '@esri/hub-sites';
+import { UserSession } from "@esri/arcgis-rest-auth";
+import { getSelf } from "@esri/arcgis-rest-portal";
+import { getHubApiUrlFromPortal } from "@esri/hub-common";
+import { removeSite } from "@esri/hub-sites";
 
-const session = new UserSession({username: 'jsmith', password: '12345678'});
+const session = new UserSession({ username: "jsmith", password: "12345678" });
 // now use the session to get the portal/self
-const portalSelf = await getSelf({authentication: session});
+const portalSelf = await getSelf({ authentication: session });
 
 // now construct hubRequestOptions
 const hubRO = {
   isPortal: portalSelf.isPortal,
   hubApiUrl: getHubApiUrlFromPortal(portalSelf),
   portalSelf: portalSelf,
-  authentication: session
+  authentication: session,
 };
 // now we can make hub.js calls
-const result = await removeSite('3ef', hubRO);
+const result = await removeSite("3ef", hubRO);
 ```
