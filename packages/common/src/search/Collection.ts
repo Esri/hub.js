@@ -16,11 +16,9 @@ import {
 export class Collection implements IHubCollection {
   private _context: IArcGISContext;
   private _collection: IHubCollection;
-  private constructor(collection: IHubCollection, context?: IArcGISContext) {
+  private constructor(collection: IHubCollection, context: IArcGISContext) {
     this._collection = collection;
-    if (context) {
-      this._context = context;
-    }
+    this._context = context;
   }
 
   public static async create(
@@ -31,6 +29,13 @@ export class Collection implements IHubCollection {
     // https://mysite.com#documents vs passing in a full ICollection
     const col = new Collection(collection, context);
     return Promise.resolve(col);
+  }
+
+  public static fromJson(
+    collection: IHubCollection,
+    context: IArcGISContext
+  ): Collection {
+    return new Collection(collection, context);
   }
 
   // Getters
