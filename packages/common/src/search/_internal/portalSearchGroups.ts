@@ -3,7 +3,7 @@ import { IGroup } from "@esri/arcgis-rest-types";
 import { HubError } from "../../index";
 import { enrichGroupSearchResult } from "../../groups/HubGroups";
 import { IHubRequestOptions } from "../../types";
-import { serializeQueryForPortal } from "../ifilter-utils";
+import { serializeQueryForPortal } from "../serializeQueryForPortal";
 import {
   IHubSearchOptions,
   IHubSearchResponse,

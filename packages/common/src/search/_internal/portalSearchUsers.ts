@@ -5,7 +5,7 @@ import {
 } from "@esri/arcgis-rest-portal";
 import { IUser } from "@esri/arcgis-rest-types";
 import { enrichUserSearchResult } from "../..";
-import { serializeQueryForPortal } from "../ifilter-utils";
+import { serializeQueryForPortal } from "../serializeQueryForPortal";
 import HubError from "../../HubError";
 import { IHubRequestOptions } from "../../types";
 import {

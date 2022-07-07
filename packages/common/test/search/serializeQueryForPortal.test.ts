@@ -1,5 +1,5 @@
 import { IPredicate, IQuery } from "../../src";
-import { serializeQueryForPortal } from "../../src/search/ifilter-utils";
+import { serializeQueryForPortal } from "../../src/search/serializeQueryForPortal";
 
 describe("ifilter-utils:", () => {
   describe("serialize query for Portal:", () => {
@@ -57,6 +57,58 @@ describe("ifilter-utils:", () => {
       expect(chk.q).toEqual(
         '(water AND modified:[1689716790912 TO 1652808629198] AND (type:"Web Map" OR type:"Hub Project"))'
       );
+    });
+    it("it drops empty predicates", () => {
+      const p: IPredicate = {
+        searchUserAccess: "groupMember",
+      };
+      const p2: IPredicate = {
+        owner: "dave",
+      };
+      const p3: IPredicate = {
+        filterType: "foo",
+      };
+
+      const query: IQuery = {
+        targetEntity: "group",
+        filters: [
+          {
+            operation: "AND",
+            predicates: [p, p2, p3],
+          },
+        ],
+      };
+
+      const chk = serializeQueryForPortal(query);
+
+      expect(chk.q).toEqual(`(owner:"dave")`);
+      expect(chk.searchUserAccess).toBe("groupMember");
+    });
+    it("it drops empty predicates: different order", () => {
+      const p: IPredicate = {
+        searchUserAccess: "groupMember",
+      };
+      const p2: IPredicate = {
+        owner: "dave",
+      };
+      const p3: IPredicate = {
+        filterType: "foo",
+      };
+
+      const query: IQuery = {
+        targetEntity: "group",
+        filters: [
+          {
+            operation: "AND",
+            predicates: [p2, p3, p],
+          },
+        ],
+      };
+
+      const chk = serializeQueryForPortal(query);
+
+      expect(chk.q).toEqual(`(owner:"dave")`);
+      expect(chk.searchUserAccess).toBe("groupMember");
     });
     it("handles complex filter", () => {
       const p: IPredicate = {
