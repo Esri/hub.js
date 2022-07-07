@@ -8,12 +8,27 @@ import {
 } from "./types";
 import { expandPredicate } from "./_internal/ipredicate-utils";
 
+/**
+ * Serialize IQuery into ISearchOptions for ArcGIS Portal
+ * @param query
+ * @returns
+ */
 export function serializeQueryForPortal(query: IQuery): ISearchOptions {
   const filterSearchOptions = query.filters.map(serializeFilter);
-
-  const result = mergeSearchOptions(filterSearchOptions, "AND");
+  // remove any empty entries
+  const nonEmptyOptions = filterSearchOptions.filter(removeEmptyEntries);
+  const result = mergeSearchOptions(nonEmptyOptions, "AND");
 
   return result;
+}
+
+/**
+ * Predicate to remove things from array
+ * @param e
+ * @returns
+ */
+function removeEmptyEntries(e: any): boolean {
+  return !(typeof e === "undefined" || e === null || e === "");
 }
 
 function mergeSearchOptions(
@@ -24,13 +39,15 @@ function mergeSearchOptions(
     (acc, entry) => {
       // walk the props
       Object.entries(entry).forEach(([key, value]) => {
-        // if prop exists
-        if (acc[key]) {
+        // if prop exists and is not empty string
+        if (acc[key] && value !== "") {
           // combine via operation
           acc[key] = `${acc[key]} ${operation} ${value}`;
         } else {
-          // just copy the value
-          acc[key] = value;
+          // just copy the value if it's not empty string
+          if (value !== "") {
+            acc[key] = value;
+          }
         }
       });
 
@@ -38,7 +55,6 @@ function mergeSearchOptions(
     },
     { q: "" }
   );
-
   return result;
 }
 
@@ -50,7 +66,11 @@ function mergeSearchOptions(
 function serializeFilter(filter: IFilter): ISearchOptions {
   const operation = filter.operation || "AND";
   const predicates = filter.predicates.map(expandPredicate);
-  const predicateSearchOptions = predicates.map(serializePredicate);
+
+  const predicateSearchOptions = predicates
+    .map(serializePredicate)
+    .filter((e) => e !== undefined && e !== null);
+
   // combine these searchOptions
   const searchOptions = mergeSearchOptions(predicateSearchOptions, operation);
   // wrap in parens if we have more than one predicate
@@ -120,7 +140,7 @@ function serializePredicate(predicate: IPredicate): ISearchOptions {
       // not attempt to ensure the properties are used in the correct combinations
       if (portalAllowList.includes(key)) {
         const so: ISearchOptions = { q: "" };
-        if (!specialProps.includes(key)) {
+        if (!specialProps.includes(key) && key !== "term") {
           qCount++;
           so.q = serializeMatchOptions(key, value);
         }
@@ -145,15 +165,18 @@ function serializePredicate(predicate: IPredicate): ISearchOptions {
         return so;
       }
     })
-    .filter((e) => e !== undefined);
+    .filter(removeEmptyEntries);
 
   // merge up all the searchOptions
-  const searchOptions = mergeSearchOptions(opts, "AND");
-
-  if (qCount > 1) {
-    searchOptions.q = `(${searchOptions.q})`;
+  if (opts.length) {
+    const searchOptions = mergeSearchOptions(opts, "AND");
+    if (qCount > 1) {
+      searchOptions.q = `(${searchOptions.q})`;
+    }
+    return searchOptions;
+  } else {
+    return null;
   }
-  return searchOptions;
 }
 
 /**
