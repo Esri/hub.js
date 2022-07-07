@@ -24,7 +24,7 @@ import {
 } from "../types";
 import { getNextFunction } from "../utils";
 import { convertPortalAggregations } from "./portalSearchUtils";
-import { expandPredicate } from "./ipredicate-utils";
+import { expandPredicate } from "./expandPredicate";
 
 /**
  * @private
