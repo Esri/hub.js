@@ -1,5 +1,5 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { IArcGISContext, IHubRequestOptions, IModel } from "../..";
+import { EntityType, IArcGISContext, IHubRequestOptions, IModel } from "../..";
 import { NamedApis, IApiDefinition } from "./types";
 
 // @private
@@ -47,6 +47,11 @@ export interface IHubSearchOptions {
    * DEPRECATED: Use `include` instead
    */
   enrichments?: Enrichments[];
+
+  /**
+   * Specify what entity to search for; For use with hubSearch
+   */
+  targetEntity?: EntityType;
   /**
    * Maximum number of results to return, per-page
    */

@@ -1,4 +1,4 @@
-import { hubSearchQuery, IArcGISContext } from "..";
+import { cloneObject, hubSearchQuery, IArcGISContext } from "..";
 import {
   EntityType,
   IHubCatalog,
@@ -21,21 +21,41 @@ export class Collection implements IHubCollection {
     this._context = context;
   }
 
-  public static async create(
-    collection: IHubCollection,
-    context?: IArcGISContext
-  ): Promise<Collection> {
-    // Async so we could extend to look up by ref like
-    // https://mysite.com#documents vs passing in a full ICollection
-    const col = new Collection(collection, context);
-    return Promise.resolve(col);
-  }
+  /**
+   * Create an instance of a Collection
+   * @param collection
+   * @param context
+   * @returns
+   */
+  // public static async create(
+  //   collection: IHubCollection,
+  //   context?: IArcGISContext
+  // ): Promise<Collection> {
+  //   // Async so we could extend to look up by ref like
+  //   // https://mysite.com#documents vs passing in a full ICollection
+  //   const col = new Collection(collection, context);
+  //   return Promise.resolve(col);
+  // }
 
+  /**
+   * Create an instance of a Collection from a JSON object
+   * @param collection
+   * @param context
+   * @returns
+   */
   public static fromJson(
     collection: IHubCollection,
     context: IArcGISContext
   ): Collection {
     return new Collection(collection, context);
+  }
+
+  /**
+   * Return the JSON object backing the instance
+   * @returns
+   */
+  toJson(): IHubCollection {
+    return cloneObject(this._collection);
   }
 
   // Getters
@@ -70,7 +90,7 @@ export class Collection implements IHubCollection {
     if (typeof query === "string") {
       // construct a query from that...
       qry = {
-        targetEntity: this._collection.scope?.targetEntity || "item",
+        targetEntity: this._collection.targetEntity || "item",
         filters: [
           {
             predicates: [

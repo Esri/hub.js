@@ -1,5 +1,10 @@
+import { getItemData } from "@esri/arcgis-rest-portal";
 import { IArcGISContext } from "../ArcGISContext";
 import HubError from "../HubError";
+import { lookupDomain } from "../sites/domains/lookup-domain";
+import { stripProtocol } from "../urls";
+import { cloneObject } from "../util";
+import { isGuid, mapBy } from "../utils";
 import { Collection } from "./Collection";
 import { hubSearch } from "./hubSearch";
 import {
@@ -13,41 +18,169 @@ import {
   IHubCatalog,
   IQuery,
 } from "./types/IHubCatalog";
+import { upgradeCatalogSchema } from "./upgradeCatalogSchema";
 
 /* istanbul ignore next */
 export class Catalog implements IHubCatalog {
   private _context: IArcGISContext;
   private _catalog: IHubCatalog;
 
+  // internal - use static factory methods
   private constructor(catalog: IHubCatalog, context: IArcGISContext) {
     this._catalog = catalog;
     this._context = context;
   }
 
-  static fromJson(json: IHubCatalog, context: IArcGISContext): Catalog {
-    return new Catalog(json, context);
+  /**
+   * Create a Collection instance from a Catalog json object, a site url or itemId
+   * '''js
+   * const catalog = await Catalog.create('https://site-org.hub.arcgis.com', context);
+   * '''
+   *
+   * @param collection
+   * @param context
+   * @returns
+   */
+  public static async create(
+    collection: string | IHubCatalog,
+    context: IArcGISContext
+  ): Promise<Catalog> {
+    // TODO: Hoist out to a pure fn
+    let getPrms;
+    // collection can be a guid, a url or an object
+    if (typeof collection === "string") {
+      if (collection.indexOf("http") === 0) {
+        let url = collection;
+
+        // get down the the hostname
+        url = stripProtocol(url);
+        url = url.split("/")[0];
+
+        getPrms = lookupDomain(url, context.hubRequestOptions)
+          .then(({ siteId }) => getItemData(siteId, context.hubRequestOptions))
+          .then((data) => {
+            return upgradeCatalogSchema(data.catalog || {});
+          });
+      }
+      if (isGuid(collection)) {
+        // get the item's data, and read the catalog out of it
+        getPrms = getItemData(collection, context.hubRequestOptions).then(
+          (data) => {
+            return upgradeCatalogSchema(data.catalog || {});
+          }
+        );
+      }
+    } else {
+      if (typeof collection === "object") {
+        getPrms = Promise.resolve(collection);
+      } else {
+        throw new HubError(
+          "Catalog.create",
+          "Catalog must be a url, guid or catalog object"
+        );
+      }
+    }
+
+    const fetched = await getPrms;
+
+    return new Catalog(fetched, context);
   }
 
+  /**
+   * Create a Catalog instance from a Catalog Json object
+   * @param json
+   * @param context
+   * @returns
+   */
+  static fromJson(json: any, context: IArcGISContext): Catalog {
+    // ensure it's in the latest structure
+    json = upgradeCatalogSchema(json);
+    return new Catalog(cloneObject(json), context);
+  }
+
+  /**
+   * Return the JSON object backing the instance
+   * @returns
+   */
+  toJson(): IHubCatalog {
+    return cloneObject(this._catalog);
+  }
+
+  /**
+   * Return the schema version
+   */
   get schemaVersion() {
     return this._catalog.schemaVersion;
   }
 
+  /**
+   * Title getter
+   */
   get title() {
     return this._catalog.title;
   }
 
+  /**
+   * Titke setter
+   */
+  set title(v: string) {
+    this._catalog.title = v;
+  }
+
+  /**
+   * Return the existing scopes hash
+   */
   get scopes(): ICatalogScope {
     return this._catalog.scopes;
   }
 
+  /**
+   * Get the scope's query for a particular entity type
+   * @param type
+   * @returns
+   */
+  getScope(type: EntityType): IQuery | undefined {
+    return this._catalog.scopes[type];
+  }
+
+  /**
+   * Set the scope for a specific entity type
+   * @param type
+   * @param query
+   */
+  setScope(type: EntityType, query: IQuery) {
+    this._catalog.scopes[type] = query;
+  }
+
+  /**
+   * Get the collections array. Returns simple objects not Collection instances
+   */
   get collections() {
     return this._catalog.collections || [];
   }
 
+  /**
+   * Get the names of the collections
+   */
+  get collectionNames(): string[] {
+    return mapBy("key", this.collections);
+  }
+
+  /**
+   * Get a Collection instance by name
+   * @param name
+   * @returns
+   */
   getCollection(name: string): Collection {
     const json = this._catalog.collections.find((entry) => entry.key === name);
     if (json) {
-      return Collection.fromJson(json, this._context);
+      // clone it then merge in the associated scope filter
+      const clone = cloneObject(json);
+      const catalogScope = this.getScope(clone.scope.targetEntity);
+      if (catalogScope.filters) {
+        clone.scope.filters = [...clone.scope.filters, ...catalogScope.filters];
+      }
+      return Collection.fromJson(clone, this._context);
     } else {
       throw new HubError(
         "getCollection",
@@ -56,10 +189,17 @@ export class Catalog implements IHubCatalog {
     }
   }
 
+  /**
+   * Execute a search against the Catalog as a whole
+   * @param query
+   * @param targetEntity
+   * @returns
+   */
   search(
     query: string | IQuery,
-    targetEntity: EntityType = "item"
+    options: IHubSearchOptions = { targetEntity: "item" }
   ): Promise<IHubSearchResponse<IHubSearchResult>> {
+    const targetEntity = options.targetEntity || "item";
     if (typeof query === "string") {
       query = {
         targetEntity,
@@ -81,14 +221,12 @@ export class Catalog implements IHubCatalog {
         ...this._catalog.scopes[targetEntity].filters,
       ];
     }
-    // create request options
-    // TODO: How should we get options into this fn?
-    // = add targetEntity to the IHubSearchOptions?
-    // - add another arg?
-    const opts: IHubSearchOptions = {
-      requestOptions: this._context.hubRequestOptions,
-    };
+
+    // An instance always uses the context so we remove any
+    delete options.authentication;
+    options.requestOptions = this._context.hubRequestOptions;
+
     // delegate
-    return hubSearch(query, opts);
+    return hubSearch(query, options);
   }
 }
