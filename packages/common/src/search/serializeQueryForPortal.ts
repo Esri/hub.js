@@ -16,10 +16,19 @@ import { expandPredicate } from "./_internal/ipredicate-utils";
 export function serializeQueryForPortal(query: IQuery): ISearchOptions {
   const filterSearchOptions = query.filters.map(serializeFilter);
   // remove any empty entries
-  const nonEmptyOptions = filterSearchOptions.filter((e) => e !== undefined);
+  const nonEmptyOptions = filterSearchOptions.filter(removeEmptyEntries);
   const result = mergeSearchOptions(nonEmptyOptions, "AND");
 
   return result;
+}
+
+/**
+ * Predicate to remove things from array
+ * @param e
+ * @returns
+ */
+function removeEmptyEntries(e: any): boolean {
+  return !(typeof e === "undefined" || e === null || e === "");
 }
 
 function mergeSearchOptions(
@@ -30,12 +39,12 @@ function mergeSearchOptions(
     (acc, entry) => {
       // walk the props
       Object.entries(entry).forEach(([key, value]) => {
-        // if prop exists
+        // if prop exists and is not empty string
         if (acc[key] && value !== "") {
           // combine via operation
           acc[key] = `${acc[key]} ${operation} ${value}`;
         } else {
-          // just copy the value if it's not ""
+          // just copy the value if it's not empty string
           if (value !== "") {
             acc[key] = value;
           }
@@ -156,7 +165,7 @@ function serializePredicate(predicate: IPredicate): ISearchOptions {
         return so;
       }
     })
-    .filter((e) => e !== undefined);
+    .filter(removeEmptyEntries);
 
   // merge up all the searchOptions
   if (opts.length) {
