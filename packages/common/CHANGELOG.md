@@ -1,3 +1,10 @@
+## @esri/hub-common [9.45.6](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.45.5...@esri/hub-common@9.45.6) (2022-07-07)
+
+
+### Bug Fixes
+
+* resolve null predicate issue; rename file ([#826](https://github.com/Esri/hub.js/issues/826)) ([a1318a6](https://github.com/Esri/hub.js/commit/a1318a64bb92d38e9691af3babff584220531575))
+
 ## @esri/hub-common [9.45.5](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.45.4...@esri/hub-common@9.45.5) (2022-07-01)
 
 
