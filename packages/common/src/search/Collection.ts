@@ -1,4 +1,4 @@
-import { cloneObject, hubSearchQuery, IArcGISContext } from "..";
+import { cloneObject, IArcGISContext } from "..";
 import {
   EntityType,
   IHubCollection,
@@ -7,11 +7,10 @@ import {
   IHubSearchResult,
   IQuery,
 } from "./types";
-
+import { hubSearch } from "./hubSearch";
 /**
  * Implements Collection behavior
  */
-/* istanbul ignore next */
 export class Collection implements IHubCollection {
   private _context: IArcGISContext;
   private _collection: IHubCollection;
@@ -70,7 +69,7 @@ export class Collection implements IHubCollection {
     return this._collection.key;
   }
   public get include(): string[] {
-    return this._collection.include;
+    return this._collection.include || [];
   }
   public get scope(): IQuery {
     return this._collection.scope;
@@ -93,7 +92,7 @@ export class Collection implements IHubCollection {
     if (typeof query === "string") {
       // construct a query from that...
       qry = {
-        targetEntity: this._collection.targetEntity || "item",
+        targetEntity: this._collection.targetEntity,
         filters: [
           {
             predicates: [
@@ -119,6 +118,6 @@ export class Collection implements IHubCollection {
     options.include = options.include || this.include;
 
     // execute the search and return results
-    return hubSearchQuery(qry, options);
+    return hubSearch(qry, options);
   }
 }

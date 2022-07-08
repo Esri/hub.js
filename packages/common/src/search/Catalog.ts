@@ -1,10 +1,7 @@
-import { getItemData } from "@esri/arcgis-rest-portal";
 import { IArcGISContext } from "../ArcGISContext";
 import HubError from "../HubError";
-import { lookupDomain } from "../sites/domains/lookup-domain";
-import { stripProtocol } from "../urls";
 import { cloneObject } from "../util";
-import { isGuid, mapBy } from "../utils";
+import { mapBy } from "../utils";
 import { Collection } from "./Collection";
 import { fetchCatalog } from "./fetchCatalog";
 import { hubSearch } from "./hubSearch";
@@ -21,7 +18,10 @@ import {
 } from "./types/IHubCatalog";
 import { upgradeCatalogSchema } from "./upgradeCatalogSchema";
 
-/* istanbul ignore next */
+/**
+ * Catalog Class
+ * Abstracts handling of scope cascades into Collections
+ */
 export class Catalog implements IHubCatalog {
   private _context: IArcGISContext;
   private _catalog: IHubCatalog;
@@ -143,14 +143,14 @@ export class Catalog implements IHubCatalog {
       // clone it then merge in the associated scope filter
       const clone = cloneObject(json);
       const catalogScope = this.getScope(clone.scope.targetEntity);
-      if (catalogScope.filters) {
+      if (catalogScope?.filters) {
         clone.scope.filters = [...clone.scope.filters, ...catalogScope.filters];
       }
       return Collection.fromJson(clone, this._context);
     } else {
       throw new HubError(
         "getCollection",
-        `Collection ${name} is not present in the Catalog`
+        `Collection "${name}" is not present in the Catalog`
       );
     }
   }
@@ -165,7 +165,7 @@ export class Catalog implements IHubCatalog {
     query: string | IQuery,
     options: IHubSearchOptions = { targetEntity: "item" }
   ): Promise<IHubSearchResponse<IHubSearchResult>> {
-    const targetEntity = options.targetEntity || "item";
+    const targetEntity = options.targetEntity;
     if (typeof query === "string") {
       query = {
         targetEntity,

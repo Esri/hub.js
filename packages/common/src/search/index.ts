@@ -12,3 +12,5 @@ export * from "./upgradeCatalogSchema";
 export * from "./filter-utils";
 export * from "./serializeQueryForPortal";
 export * from "./hubSearch";
+export * from "./Catalog";
+export * from "./Collection";
