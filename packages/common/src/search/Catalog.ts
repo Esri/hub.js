@@ -60,8 +60,8 @@ export class Catalog implements IHubCatalog {
    */
   static fromJson(json: any, context: IArcGISContext): Catalog {
     // ensure it's in the latest structure
-    json = upgradeCatalogSchema(json);
-    return new Catalog(cloneObject(json), context);
+    const catalog = upgradeCatalogSchema(json);
+    return new Catalog(catalog, context);
   }
 
   /**
@@ -87,7 +87,7 @@ export class Catalog implements IHubCatalog {
   }
 
   /**
-   * Titke setter
+   * Title setter
    */
   set title(v: string) {
     this._catalog.title = v;
@@ -138,7 +138,7 @@ export class Catalog implements IHubCatalog {
    * @returns
    */
   getCollection(name: string): Collection {
-    const json = this._catalog.collections.find((entry) => entry.key === name);
+    const json = this.collections.find((entry) => entry.key === name);
     if (json) {
       // clone it then merge in the associated scope filter
       const clone = cloneObject(json);
@@ -166,8 +166,9 @@ export class Catalog implements IHubCatalog {
     options: IHubSearchOptions = { targetEntity: "item" }
   ): Promise<IHubSearchResponse<IHubSearchResult>> {
     const targetEntity = options.targetEntity;
+    let qry: IQuery;
     if (typeof query === "string") {
-      query = {
+      qry = {
         targetEntity,
         filters: [
           {
@@ -179,20 +180,22 @@ export class Catalog implements IHubCatalog {
           },
         ],
       } as IQuery;
+    } else {
+      qry = cloneObject(query);
     }
     // Now merge in catalog scope level filters
     if (this._catalog.scopes[targetEntity]) {
-      query.filters = [
-        ...query.filters,
+      qry.filters = [
+        ...qry.filters,
         ...this._catalog.scopes[targetEntity].filters,
       ];
     }
-
+    const opts = cloneObject(options);
     // An instance always uses the context so we remove any
-    delete options.authentication;
-    options.requestOptions = this._context.hubRequestOptions;
+    delete opts.authentication;
+    opts.requestOptions = this._context.hubRequestOptions;
 
     // delegate
-    return hubSearch(query, options);
+    return hubSearch(qry, opts);
   }
 }

@@ -1,4 +1,5 @@
 import { getProp } from "../objects";
+import { cloneObject } from "../util";
 import { IHubCatalog } from "./types";
 
 const CATALOG_SCHEMA_VERSION = 1.0;
@@ -9,13 +10,14 @@ const CATALOG_SCHEMA_VERSION = 1.0;
  * @returns
  */
 export function upgradeCatalogSchema(catalog: any): IHubCatalog {
-  if (getProp(catalog, "schemaVersion") === CATALOG_SCHEMA_VERSION) {
-    return catalog;
+  let clone = cloneObject(catalog);
+  if (getProp(clone, "schemaVersion") === CATALOG_SCHEMA_VERSION) {
+    return clone;
   } else {
     // apply migrations in order
-    catalog = applyCatalogSchema(catalog);
+    clone = applyCatalogSchema(clone);
 
-    return catalog;
+    return clone;
   }
 }
 

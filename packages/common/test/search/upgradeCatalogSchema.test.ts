@@ -44,11 +44,11 @@ describe("upgradeCatalogSchema", () => {
   it("skips upgrade if on the same version", () => {
     const cat = { schemaVersion: 1.0 };
     const chk = upgradeCatalogSchema(cat);
-    expect(chk).toBe(cat);
+    expect(chk).toEqual(cat);
   });
   it("skips applySchema if version already applied", () => {
     const cat = { schemaVersion: 1.1 };
     const chk = upgradeCatalogSchema(cat);
-    expect(chk).toBe(cat);
+    expect(chk).toEqual(cat);
   });
 });

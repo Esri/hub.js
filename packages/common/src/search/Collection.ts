@@ -109,15 +109,15 @@ export class Collection implements IHubCollection {
 
     // merge the passed in query w/ the scope
     qry.filters = [...qry.filters, ...this.scope.filters];
-
-    options.requestOptions = this._context.hubRequestOptions;
+    const opts = cloneObject(options);
+    opts.requestOptions = this._context.hubRequestOptions;
     // inject default sort info if not specified
-    options.sortField = options.sortField || this.sortField;
-    options.sortOrder = options.sortOrder || this.sortDirection;
+    opts.sortField = options.sortField || this.sortField;
+    opts.sortOrder = options.sortOrder || this.sortDirection;
     // inject default includes if not specified
-    options.include = options.include || this.include;
+    opts.include = options.include || this.include;
 
     // execute the search and return results
-    return hubSearch(qry, options);
+    return hubSearch(qry, opts);
   }
 }
