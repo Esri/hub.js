@@ -1,15 +1,15 @@
 import { IPortal } from "@esri/arcgis-rest-portal";
 import { IUser } from "@esri/arcgis-rest-types";
 import {
-  ArcGISContextManager,
   cloneObject,
-  Collection,
   IArcGISContext,
   IHubCollection,
   IHubSearchResponse,
   IHubSearchResult,
   IQuery,
 } from "../../src";
+import { ArcGISContextManager } from "../../src/ArcGISContextManager";
+import { Collection } from "../../src/search/Collection";
 import * as HubSearchModule from "../../src/search/hubSearch";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 

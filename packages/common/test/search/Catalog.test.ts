@@ -1,12 +1,7 @@
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
+import { cloneObject, getProp, IArcGISContext } from "../../src";
+import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import {
-  ArcGISContextManager,
-  cloneObject,
-  getProp,
-  IArcGISContext,
-} from "../../src";
-import {
-  Catalog,
   ICatalogScope,
   IHubCatalog,
   IHubCollection,
@@ -14,6 +9,7 @@ import {
   IHubSearchResult,
   IQuery,
 } from "../../src/search";
+import { Catalog } from "../../src/search/Catalog";
 import * as FetchCatalogModule from "../../src/search/fetchCatalog";
 import * as HubSearchModule from "../../src/search/hubSearch";
 import { MOCK_AUTH } from "../mocks/mock-auth";
