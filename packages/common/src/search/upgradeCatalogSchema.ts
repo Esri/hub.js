@@ -63,6 +63,7 @@ function applyCatalogSchema(original: any): IHubCatalog {
  * DEPRECATED: Use upgradeCatalogSchema(...)
  * @param original
  */
+/* istanbul ignore next */
 export function convertCatalog(original: any): IHubCatalog {
   return upgradeCatalogSchema(original);
 }

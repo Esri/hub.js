@@ -1,7 +1,6 @@
 import { cloneObject, hubSearchQuery, IArcGISContext } from "..";
 import {
   EntityType,
-  IHubCatalog,
   IHubCollection,
   IHubSearchOptions,
   IHubSearchResponse,
@@ -27,10 +26,14 @@ export class Collection implements IHubCollection {
    * @param context
    * @returns
    */
-  // public static async create(
-  //   collection: IHubCollection,
+  // public static async init(
+  //   identifier: string,
   //   context?: IArcGISContext
   // ): Promise<Collection> {
+  //   // TODO: Need to decide how to handle the url identifier for portal
+  //   // since the portal urls already have `#` in them, we'd need to do
+  //   // some convoluted work.
+  //   // OR just throw for portal if it's not a GUID
   //   // Async so we could extend to look up by ref like
   //   // https://mysite.com#documents vs passing in a full ICollection
   //   const col = new Collection(collection, context);

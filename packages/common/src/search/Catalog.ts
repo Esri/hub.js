@@ -6,6 +6,7 @@ import { stripProtocol } from "../urls";
 import { cloneObject } from "../util";
 import { isGuid, mapBy } from "../utils";
 import { Collection } from "./Collection";
+import { fetchCatalog } from "./fetchCatalog";
 import { hubSearch } from "./hubSearch";
 import {
   IHubSearchOptions,
@@ -37,52 +38,17 @@ export class Catalog implements IHubCatalog {
    * const catalog = await Catalog.create('https://site-org.hub.arcgis.com', context);
    * '''
    *
-   * @param collection
+   * @param identifier
    * @param context
    * @returns
    */
-  public static async create(
-    collection: string | IHubCatalog,
+  public static async init(
+    identifier: string,
     context: IArcGISContext
   ): Promise<Catalog> {
-    // TODO: Hoist out to a pure fn
-    let getPrms;
-    // collection can be a guid, a url or an object
-    if (typeof collection === "string") {
-      if (collection.indexOf("http") === 0) {
-        let url = collection;
-
-        // get down the the hostname
-        url = stripProtocol(url);
-        url = url.split("/")[0];
-
-        getPrms = lookupDomain(url, context.hubRequestOptions)
-          .then(({ siteId }) => getItemData(siteId, context.hubRequestOptions))
-          .then((data) => {
-            return upgradeCatalogSchema(data.catalog || {});
-          });
-      }
-      if (isGuid(collection)) {
-        // get the item's data, and read the catalog out of it
-        getPrms = getItemData(collection, context.hubRequestOptions).then(
-          (data) => {
-            return upgradeCatalogSchema(data.catalog || {});
-          }
-        );
-      }
-    } else {
-      if (typeof collection === "object") {
-        getPrms = Promise.resolve(collection);
-      } else {
-        throw new HubError(
-          "Catalog.create",
-          "Catalog must be a url, guid or catalog object"
-        );
-      }
-    }
-
-    const fetched = await getPrms;
-
+    // fetch the catalog
+    const fetched = await fetchCatalog(identifier, context.hubRequestOptions);
+    // return an instance
     return new Catalog(fetched, context);
   }
 

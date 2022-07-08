@@ -1,4 +1,4 @@
-import { upgradeCatalogSchema, Filter, IFilterGroup } from "../../src/search";
+import { upgradeCatalogSchema } from "../../src/search/upgradeCatalogSchema";
 
 describe("upgradeCatalogSchema", () => {
   it("returns default catalog if null", () => {
@@ -39,5 +39,16 @@ describe("upgradeCatalogSchema", () => {
       "3ef",
       "bc4",
     ]);
+  });
+
+  it("skips upgrade if on the same version", () => {
+    const cat = { schemaVersion: 1.0 };
+    const chk = upgradeCatalogSchema(cat);
+    expect(chk).toBe(cat);
+  });
+  it("skips applySchema if version already applied", () => {
+    const cat = { schemaVersion: 1.1 };
+    const chk = upgradeCatalogSchema(cat);
+    expect(chk).toBe(cat);
   });
 });
