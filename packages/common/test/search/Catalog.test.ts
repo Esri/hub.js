@@ -114,6 +114,22 @@ describe("Catalog Class:", () => {
 
   describe("initialize", () => {
     let fetchCatalogSpy: jasmine.Spy;
+    it("defaults to AGO anonymous", async () => {
+      fetchCatalogSpy = spyOn(FetchCatalogModule, "fetchCatalog").and.callFake(
+        () => {
+          return Promise.resolve(cloneObject(catalogJson));
+        }
+      );
+      const instance = await Catalog.init("https://somesite.com");
+      expect(instance.toJson()).toEqual(catalogJson);
+      const userQuery: IQuery = { targetEntity: "user", filters: [] };
+      instance.setScope("user", userQuery);
+      expect(instance.getScope("user")).toEqual(userQuery);
+      const [id, hubReqOpts] = fetchCatalogSpy.calls.argsFor(0);
+      expect(id).toEqual("https://somesite.com");
+      expect(hubReqOpts.portal).toEqual("https://www.arcgis.com/sharing/rest");
+      expect(hubReqOpts.isPortal).toEqual(false);
+    });
     it("fetches the catalog", async () => {
       fetchCatalogSpy = spyOn(FetchCatalogModule, "fetchCatalog").and.callFake(
         () => {

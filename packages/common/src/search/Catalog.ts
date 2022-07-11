@@ -1,4 +1,5 @@
 import { IArcGISContext } from "../ArcGISContext";
+import { ArcGISContextManager } from "../ArcGISContextManager";
 import HubError from "../HubError";
 import { cloneObject } from "../util";
 import { mapBy } from "../utils";
@@ -44,8 +45,13 @@ export class Catalog implements IHubCatalog {
    */
   public static async init(
     identifier: string,
-    context: IArcGISContext
+    context?: IArcGISContext
   ): Promise<Catalog> {
+    // if context is not passed, create a default that point to AGO prod
+    if (!context) {
+      const mgr = await ArcGISContextManager.create();
+      context = mgr.context;
+    }
     // fetch the catalog
     const fetched = await fetchCatalog(identifier, context.hubRequestOptions);
     // return an instance
@@ -58,7 +64,7 @@ export class Catalog implements IHubCatalog {
    * @param context
    * @returns
    */
-  static fromJson(json: any, context: IArcGISContext): Catalog {
+  static fromJson(json: any, context?: IArcGISContext): Catalog {
     // ensure it's in the latest structure
     const catalog = upgradeCatalogSchema(json);
     return new Catalog(catalog, context);

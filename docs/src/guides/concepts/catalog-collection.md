@@ -95,4 +95,56 @@ A Collection is a subset of the Catalog. The `.scope` of a Collection is an [`IQ
 }
 ```
 
-At this time, the developer must check for and merge the related catalog scope's filters with the filters defined in the Collection's `scope` to ensure that the search will execute as expected.
+## Working with Catalogs and Collections
+
+The `Catalog` and `Collection` classes are designed to simplify working with these structures, in particular, loading them from items, and executing searches.
+
+### Searching a Site Catalog Example
+
+```js
+import { Catalog } from "@esri/hub-common";
+
+// Load the catalog for a specific site
+const siteCatalog = Catalog.init("https://opendata.dc.gov");
+
+const results = await siteCatalog.search("schools");
+```
+
+### Searching an ArcGIS Enterprise Site Catalog Example
+
+```js
+const mgr = await ArcGISContextManager.init({
+  portalUrl: "https://myserver.com/gis",
+});
+
+const siteCatalog = Catalog.init(
+  "https://myserver.com/gis/apps/sites/#mysite",
+  mgr.context
+);
+
+const results = await siteCatalog.search("schools");
+```
+
+## Passing Authentication
+
+Authentication is passed into the `ArcGISContextManager.init(...)` function. It expects an `UserSession` instance, which can be created directly, via oAuth, or from a JSAPI Identity Manager via the `UserSession.fromCredential(...)` method.
+
+```js
+const session = new UserSession({
+  username: "replacewithusername",
+  password: "replacewithpassword",
+});
+
+const mgr = await ArcGISContextManager.init({
+  portalUrl: "https://myserver.com/gis",
+  authentication: session,
+});
+
+const siteCatalog = Catalog.init(
+  "https://private-site-org.hub.arcgis.com",
+  mgr.context
+);
+
+// This will return any items within the catalog that the user has access to
+const results = siteCatalog.search("water");
+```

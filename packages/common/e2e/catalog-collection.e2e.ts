@@ -78,6 +78,20 @@ fdescribe("catalog and collection e2e:", () => {
       const col = instance.getCollection("sites");
       const result3 = await col.search("bug");
     });
+    it("defaults to prod / anon", async () => {
+      const instance = await Catalog.init("https://opendata.dc.gov");
+      const response = await instance.search("schools");
+      expect(response.results.length).toBeGreaterThan(5);
+    });
+    xit("can search enterprise", async () => {
+      // unf this server has a really strict cors policy so we can't actually verify this
+      const ctxMgr = await factory.getContextManager("portal", "publisher");
+      const instance = await Catalog.init(
+        "https://rqawinbi01pt.ags.esri.com/gis/apps/sites/#/harness",
+        ctxMgr.context
+      );
+      const response = await instance.search("colorado");
+    });
   });
 
   describe("collection search", () => {

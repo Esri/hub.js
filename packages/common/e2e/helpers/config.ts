@@ -72,21 +72,16 @@ const config = {
             },
           },
         },
-        // portal: {
-        //   homeUrl: 'https://portal.hubqa.arcgis.com/portal/apps/sites/#/home',
-        //   harnessSite: 'https://portal.hubqa.arcgis.com/portal/apps/sites/#/harness',
-        //   admin: {
-        //     username: 'e2eadmin',
-        //     password: process.env.QA_PORTAL_CREDS_PSW
-        //   },
-        //   publisher: {
-        //     username: 'e2epublisher',
-        //     password: process.env.QA_PORTAL_CREDS_PSW
-        //   },
-        //   fixtures: {
+        portal: {
+          isPortal: true,
+          orgUrl: "https://rqawinbi01pt.ags.esri.com/gis",
 
-        //   }
-        // }
+          publisher: {
+            username: "creator1",
+            password: process.env.QA_PORTAL_CREDS_PSW,
+          },
+          fixtures: {},
+        },
       },
     },
   },
