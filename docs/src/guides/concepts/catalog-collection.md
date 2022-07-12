@@ -18,7 +18,7 @@ Hub Sites utilize a Catalog to define what content is available on a site search
 
 Any hiearchy between Sites, Initiatives and Projects must be manually maintained, and will not be automatic.
 
-Catalogs associated with Hub Sites, Hub Initiatives and Hub Projects will all be stored in the `.catalog` property of the item's data.json.
+Catalogs associated with Hub Sites, Hub Initiatives and Hub Projects will all be stored in the `.catalog` property of the item's data.json. If other applications want to leverage the Catalog system, we recommend storing the information in this same location.
 
 The Catalog structure is expected to change over time so it's important to either fetch the Site/Project/Initiative via hub.js functions, or use the `upgradeCatalogSchema(..)` function to ensure you are working with the latest structure.
 
@@ -63,10 +63,12 @@ const seventhStreetProjectCatalog: IHubCatalog = {
 
 ## Collections in Catalogs
 
-A Collection is a subset of the Catalog, constrained to a single platform entity (`targetEntity`). The `.scope` of a Collection is an [`IQuery`](../api/common/IQuery) object which adds additional critera, creating the "subset".
+A Collection is a subset of the Catalog, constrained to a single platform entity, specified by the `targetEntity` property. The `.scope` of a Collection is an [`IQuery`](../api/common/IQuery) object which adds additional critera, creating the "subset".
 
 ```js
-// This example adds a collection, which adds additional constraints to the catalog.
+// This example adds a collection, which adds additional constraints on top of
+// the catalog itself.
+//
 // Searching the Web Maps collection will limit the search to items in the
 // ("c4059b70af8d4773910a812f7d712dc8" group OR owned by data_mart) AND
 // which have type:"Web Map" AND NOT type: "Web Mapping Application"
@@ -120,11 +122,11 @@ const seventhStreetProjectCatalog: IHubCatalog = {
 };
 ```
 
-## Working with Catalogs and Collections
+## Working with Catalogs
 
 The `Catalog` and `Collection` classes are designed to simplify working with these structures, in particular, loading Catalogs from items, executing Catalog searches, getting a Collection from a Catalog, and executing Collection searches.
 
-### Searching a Site Catalog Example
+### Searching a Site Catalog
 
 ```js
 import { Catalog } from "@esri/hub-common";
@@ -139,7 +141,7 @@ const projectCatalog = await Catalog.init("648149685cfd47f7b265d37d009a87dd");
 const results = await siteCatalog.search("schools");
 ```
 
-In the example above, no authentication information or server information has been provided, so the system assumes the backing server is ArcGIS Online. It will look up the Site item based on the url passed into `.init` function, and from that, load the Catalog, applying any necessary schema upgrades. If an item id is passed in, it will simply fetch the item, and load the Catalog.
+In the example above, no authentication information or server information has been provided, so the system assumes the backing server is ArcGIS Online. It will look up the Site item based on the url, and from that, load the Catalog. If an item id is passed in, it will simply fetch the item, and load the Catalog. In either case, schema upgrades are automatically applied, ensuring that the system is always operating with the latest version of the catalog structure.
 
 ### Searching for other Entity Types
 
@@ -169,7 +171,9 @@ const results = await siteCatalog.search("schools");
 
 ## Passing Authentication
 
-Authentication is passed into the `ArcGISContextManager.init(...)` function. It expects an `UserSession` instance, which can be created directly, via oAuth, or from a JSAPI Identity Manager via the `UserSession.fromCredential(...)` method.
+When a Catalog or Collection instance is created, the second parameter is an `IArcGISContext` which holds authentication information. To create an `IArcGISContext`, we use the `ArcGISContextManager` class, and pass a `UserSession` into it's `.init` factory function.
+
+A `UserSession` be created directly, via oAuth, or from a JSAPI Identity Manager via the `UserSession.fromCredential(...)` static method. Please see the [ArcGIS REST JS Documentation](https://esri.github.io/arcgis-rest-js/api/auth/UserSession/). (Note: At this time ArcGISContextManager is only compabitle with REST-JS 3.x)
 
 ```js
 const session = new UserSession({
@@ -192,11 +196,11 @@ const siteCatalog = Catalog.init(
 const results = siteCatalog.search("water");
 ```
 
-## Collections
+## Working with Collections
 
-A Collection defines a set of searchable platform resources, of a single type - i.e. Items OR Groups OR Users.
+A `Collection` defines a set of searchable platform resources, of a single type - i.e. Items OR Groups OR Users.
 
-Further, Collections within Catalogs are expected to be constrained to the scope of their targetEntity, that is defined at the Catalog level. Put another way, all collections in a Catalog should be subset's of the Catalog itself.
+Further, `Collections` within `Catalogs` are expected to be constrained to the scope of their `targetEntity` as defined at the Catalog level. Put another way, all collections in a Catalog should be subset's of the Catalog itself.
 
 Operationally, this means that the `IQuery` defined in `Collection.scope`, must include the `IQuery` that's defined at `Catalog.scopes[collection.targetEntity]`. While this can be done manually, the Catalog class provides an abstraction to simplify this.
 
@@ -208,6 +212,9 @@ const catalog = Catalog.fromJson(seventhStreetProjectCatalog);
 // we can get the collection from the catalog via it's key property
 const collection = catalog.getCollection("webmaps");
 
+// searching the collection, constrains the search to the intersection
+// of the set of entities defined by the Catalog's item scope, and the
+// set of entities defined by the Collection's scope
 const results = collection.search("water");
 ```
 
@@ -215,7 +222,7 @@ const results = collection.search("water");
 
 There are times when the application will have already fetched the Catalog or Collection json, or cases where a Collection needs to be created dynamically (i.e. for use in an Item Picker gallery)
 
-In these scenarios we can just use the `.fromJson(...)` method to create an instance of either class.
+In these scenarios use the `.fromJson(...)` static method to create an instance of either class.
 
 ```js
 // Creating a Collection from Json
@@ -243,4 +250,4 @@ const results = myCollection.search("Vision Zero");
 
 ### Complex Queries
 
-The examples so far have focused on passing a string into the `.search(..)` method, but that method can also take an [`IQuery`](https://esri.github.io/hub.js/api/common/IQuery/) which enables complex, and expressive queries to be constructed. Please see the [Queries and Filters Guide](https://esri.github.io/hub.js/guides/concepts/queries-and-filters/) in the Hub.js documentation for more information.
+The examples so far have focused on passing a string into the `.search(..)` method, but that method can also take an [`IQuery`](https://esri.github.io/hub.js/api/common/IQuery/) which enables complex queries to be constructed. Please see the [Queries and Filters Guide](https://esri.github.io/hub.js/guides/concepts/queries-and-filters/) for more information.
