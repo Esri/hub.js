@@ -9,7 +9,11 @@ import {
 } from "./types";
 import { hubSearch } from "./hubSearch";
 /**
- * Implements Collection behavior
+ * Collection Class
+ *
+ * Abstracts searching a Collection
+ *
+ * For more information, check out the [Catalog & Collection Guide](/hub.js/guides/concepts/catalog-collection/)
  */
 export class Collection implements IHubCollection {
   private _context: IArcGISContext;
@@ -20,7 +24,8 @@ export class Collection implements IHubCollection {
   }
 
   /**
-   * Create an instance of a Collection
+   * TBD if we implement this
+   * Fetch a collection from a catalog stored with an item
    * @param collection
    * @param context
    * @returns

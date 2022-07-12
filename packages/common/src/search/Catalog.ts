@@ -21,7 +21,11 @@ import { upgradeCatalogSchema } from "./upgradeCatalogSchema";
 
 /**
  * Catalog Class
- * Abstracts handling of scope cascades into Collections
+ *
+ * Abstracts working with Catalogs and fetching collections with
+ * the correct scope applied.
+ *
+ * For more information, check out the [Catalog & Collection Guide](/hub.js/guides/concepts/catalog-collection/)
  */
 export class Catalog implements IHubCatalog {
   private _context: IArcGISContext;
