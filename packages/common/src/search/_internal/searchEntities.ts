@@ -8,6 +8,9 @@ import { expandApi, getNextFunction } from "../utils";
 import { serializeQueryForPortal } from "../serializeQueryForPortal";
 import { convertPortalAggregations } from "./portalSearchUtils";
 
+/**
+ * @private
+ */
 export type ConversionFunction<T> = (
   i: IItem,
   ro?: IRequestOptions
@@ -61,6 +64,11 @@ export function searchEntities<T>(
   return searchFn(searchOptions);
 }
 
+/**
+ * @private
+ * @param convertFn
+ * @returns
+ */
 export function createEntitySearchFn<T>(
   convertFn: ConversionFunction<T>
 ): (v: ISearchOptions) => Promise<IHubSearchResponse<T>> {

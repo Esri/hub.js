@@ -1,6 +1,7 @@
 import { EntityType, IPredicate, IQuery } from "../types";
 
 /**
+ * @private
  * Construct a query from a string
  * @param value
  * @param predicateKey

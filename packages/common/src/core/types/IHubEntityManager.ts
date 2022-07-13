@@ -43,11 +43,11 @@ export interface IHubEntityManager<T> {
    * not searching "within" the `T`.
    *
    * i.e. Searching for Teams, not searching for content shared to a team.
-   * @param filter
+   * @param query
    * @param opts
    */
-  // search(
-  //   query: IQuery,
-  //   opts: IHubSearchOptions
-  // ): Promise<IHubSearchResponse<T>>;
+  search(
+    query: IQuery,
+    opts: IHubSearchOptions
+  ): Promise<IHubSearchResponse<T>>;
 }
