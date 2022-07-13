@@ -138,21 +138,22 @@ const siteCatalog = await Catalog.init("https://opendata.dc.gov");
 const projectCatalog = await Catalog.init("648149685cfd47f7b265d37d009a87dd");
 
 // search for schools.
-const results = await siteCatalog.search("schools");
+const itemResults = await siteCatalog.searchItems("schools");
+const groupResults = await siteCatalog.searchGroups("schools");
+const userResults = await siteCatalog.searchUsers("schools");
 ```
 
 In the example above, no authentication information or server information has been provided, so the system assumes the backing server is ArcGIS Online. It will look up the Site item based on the url, and from that, load the Catalog. If an item id is passed in, it will simply fetch the item, and load the Catalog. In either case, schema upgrades are automatically applied, ensuring that the system is always operating with the latest version of the catalog structure.
 
-### Searching for other Entity Types
+### Catalog Search "Scopes"
 
-The search call will default to searching for "items". To search for other entities, we can pass in `IHubSearchOptions` and specify the `targetEntity`.
+Although the Catalog specification supports many different entity searches (item, group, user, event etc ), and individual Catalog instance may not support all the entities. Attempting to search for an entity that does not have a scope defined, will result in an exception.
 
-```js
-// Search for Groups with term "schools"
-const results = await siteCatalog.search("schools", { targetEntity: "group" });
-```
+To determine what scopes are available, user the `.availableScopes` property to get an array of them.
 
-Additional search information such as paging, number of results to return, sorting, aggregations and optional "include"
+### Search Options
+
+All the search functions take an `IHubSearchOptions` as the second parameter, and this is used to specify paging, sorting, aggregations and includes. Please see the [`IHubSearchOptions` documentation]() for more information.
 
 ### Searching an ArcGIS Enterprise Site Catalog Example
 
@@ -174,6 +175,8 @@ const results = await siteCatalog.search("schools");
 When a Catalog or Collection instance is created, the second parameter is an `IArcGISContext` which holds authentication information. To create an `IArcGISContext`, we use the `ArcGISContextManager` class, and pass a `UserSession` into it's `.init` factory function.
 
 A `UserSession` be created directly, via oAuth, or from a JSAPI Identity Manager via the `UserSession.fromCredential(...)` static method. Please see the [ArcGIS REST JS Documentation](https://esri.github.io/arcgis-rest-js/api/auth/UserSession/). (Note: At this time ArcGISContextManager is only compabitle with REST-JS 3.x)
+
+**NOTE** passing `.authentication` or `.requestOptions` on the `IHubSearchOptions` will be ignored, and instead the context information help in the Catalog or Collection instance will be used.
 
 ```js
 const session = new UserSession({
@@ -203,6 +206,8 @@ A `Collection` defines a set of searchable platform resources, of a single type 
 Further, `Collections` within `Catalogs` are expected to be constrained to the scope of their `targetEntity` as defined at the Catalog level. Put another way, all collections in a Catalog should be subset's of the Catalog itself.
 
 Operationally, this means that the `IQuery` defined in `Collection.scope`, must include the `IQuery` that's defined at `Catalog.scopes[collection.targetEntity]`. While this can be done manually, the Catalog class provides an abstraction to simplify this.
+
+**NOTE** Unlike searching directly against the Catalog, a Collection can be defined for an entity that does not have a scope defined at the Catalog level. i.e. the Catalog may not have a `user` scope defined, but there can be a Collection defined that targets the `user` entity.
 
 ```js
 // Working from the Seventh Street Project catalog defined above
