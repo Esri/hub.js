@@ -2,6 +2,7 @@ import { cloneObject } from "../../util";
 import { IFacet, IFacetState, ISortOption } from "../types";
 
 /**
+ * @private
  * Apply the sortState to SortOptions
  *
  * @param sortOptions
@@ -23,6 +24,7 @@ export function applySortState(
 }
 
 /**
+ * @private
  * Apply FacetState to a Facet
  * @param facet
  * @param state
@@ -51,6 +53,7 @@ export function applyFacetState(facet: IFacet, state: IFacetState): IFacet {
 }
 
 /**
+ * @private
  * Apply the Facet State onto a single-select facet
  *
  * Intentionally mutates the facet.
@@ -71,6 +74,7 @@ export function applySingleSelectFacetState(
 }
 
 /**
+ * @private
  * Serialize single-select facet into IFacetState
  * @param facet
  * @returns
@@ -87,6 +91,7 @@ export function serializeSingleSelectFacetState(facet: IFacet): IFacetState {
 }
 
 /**
+ * @private
  * Apply the Facet State onto a multi-select Facet
  *
  * Intentionally mutates the facet.
@@ -108,6 +113,7 @@ export function applyMultiSelectFacetState(
 }
 
 /**
+ * @private
  * Serialize multi-select facet into IFacetState
  * @param facet
  * @returns
@@ -125,6 +131,7 @@ export function serializeMultiSelectFacetState(facet: IFacet): IFacetState {
 }
 
 /**
+ * @private
  * Serialize the state of the SortOption into a key/value pair
  *
  * Called from the Sort component
@@ -136,6 +143,7 @@ export function serializeSortState(sort: ISortOption): string {
 }
 
 /**
+ * @private
  * Serialize the state of a facet into a key/value pair
  *
  * Called from the various facet components

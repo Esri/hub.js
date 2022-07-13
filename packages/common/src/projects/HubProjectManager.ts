@@ -11,11 +11,11 @@ import {
 // Node has issues if this is not directly imported
 import { ArcGISContextManager } from "../ArcGISContextManager";
 import {
-  Filter,
   HubError,
   IArcGISContext,
   IHubSearchOptions,
-  ISearchResponse,
+  IHubSearchResponse,
+  IQuery,
 } from "..";
 import { IHubEntityManager, IHubProject } from "../core/types";
 import { IHubItemEntityManager } from "../core/types/IHubItemEntityManager";
@@ -203,18 +203,19 @@ export class HubProjectManager
   /**
    * Search for Projects
    *
-   * @param filter
+   * @param query
    * @param options
    */
   async search(
-    filter: Filter<"content">,
+    query: string | IQuery,
     options: IHubSearchOptions
-  ): Promise<ISearchResponse<IHubProject>> {
+  ): Promise<IHubSearchResponse<IHubProject>> {
     // if we were not passed auth, and we have a session, use it
     if (!options.authentication && this.context.session) {
       options.authentication = this.context.session;
     }
-    return searchProjects(filter, options);
+
+    return searchProjects(query, options);
   }
 
   /**

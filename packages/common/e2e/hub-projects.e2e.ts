@@ -27,7 +27,7 @@ describe("Hub Projects", () => {
     // inspect and ensure we have what we expect
     expect(p.typeKeywords).toBeDefined();
     // get the slug keyword
-    const slug = p.typeKeywords.find((e) => e.indexOf("slug|") === 0);
+    const slug = (p.typeKeywords || []).find((e) => e.indexOf("slug|") === 0);
     expect(slug).toEqual(`slug|${p.slug}`);
     // update the item
     p.status = "active";
@@ -38,7 +38,7 @@ describe("Hub Projects", () => {
     // should return a new object
     expect(updatedProject).not.toBe(p);
     // get a project via the slug
-    const chk = await mgr.fetch(p.slug);
+    const chk = await mgr.fetch(p.slug as string);
     expect(chk.id).toBe(p.id);
     // add a thumbnail
     // loaded from the karma server so we need to get some info
@@ -46,15 +46,6 @@ describe("Hub Projects", () => {
     const tnImage = await fetchImage(imgSrc);
     const updated = await mgr.updateThumbnail(chk, tnImage, "kitteh.jpg");
     expect(updated.thumbnailUrl).toBeDefined();
-
-    // search
-
-    const response = await mgr.search(
-      { filterType: "content", owner: ctxMgr.context.currentUser.username },
-      { num: 10 }
-    );
-    // we should get at least one back
-    expect(response.results.length).toBeGreaterThanOrEqual(1);
 
     // destroy the project
     await mgr.destroy(p.id);

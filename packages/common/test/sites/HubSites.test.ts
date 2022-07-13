@@ -1,7 +1,7 @@
 import * as commonModule from "../../src";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as siteInternals from "../../src/sites/_internal";
-import * as searchEntitiesModule from "../../src/search/_internal/searchContentEntities";
+import * as searchEntitiesModule from "../../src/search/_internal/searchEntities";
 import * as FetchEnrichments from "../../src/items/_enrichments";
 import {
   MOCK_AUTH,
@@ -13,6 +13,7 @@ import {
   cloneObject,
   enrichSiteSearchResult,
   IHubRequestOptions,
+  IQuery,
 } from "../../src";
 
 const GUID = "00c77674e43cf4bbd9ecad5189b3f1fdc";
@@ -106,14 +107,14 @@ const SITE_ITEM_ENRICH: portalModule.IItem = {
     "Web Map",
     "Registered App",
   ],
-  description: null,
+  // description: null,
   tags: ["Hub Site"],
-  snippet: null,
+  // snippet: null,
   thumbnail: "thumbnail/bar.png",
-  documentation: null,
+  // documentation: null,
   extent: [],
   categories: [],
-  spatialReference: null,
+  // spatialReference: null,
   accessInformation: null,
   licenseInfo: null,
   culture: "en-us",
@@ -202,19 +203,32 @@ describe("HubSites:", () => {
     it("delegates to searchContentEntities", async () => {
       const searchSpy = spyOn(
         searchEntitiesModule,
-        "searchContentEntities"
+        "searchEntities"
       ).and.returnValue(Promise.resolve({ results: [] }));
       await commonModule.searchSites(
-        { filterType: "content", term: "water" },
+        {
+          targetEntity: "item",
+          filters: [{ predicates: [{ term: "water" }] }],
+        },
         { num: 10 }
       );
       expect(searchSpy.calls.count()).toBe(1);
-      const filter = searchSpy.calls.argsFor(
-        0
-      )[0] as commonModule.Filter<"content">;
-      expect(filter.term).toBe("water");
+      const query = searchSpy.calls.argsFor(0)[0] as IQuery;
+      expect(query.filters[1].predicates[0].term).toBe("water");
       // should merge the sites scopeing query
-      expect(filter.subFilters.length).toBe(2);
+      expect(query.filters.length).toBe(2);
+    });
+    it("accepts a string", async () => {
+      const searchSpy = spyOn(
+        searchEntitiesModule,
+        "searchEntities"
+      ).and.returnValue(Promise.resolve({ results: [] }));
+      await commonModule.searchSites("water", { num: 10 });
+      expect(searchSpy.calls.count()).toBe(1);
+      const query = searchSpy.calls.argsFor(0)[0] as IQuery;
+      expect(query.filters[1].predicates[0].term).toBe("water");
+      // should merge the sites scopeing query
+      expect(query.filters.length).toBe(2);
     });
   });
   describe("destroySite:", () => {
@@ -485,9 +499,9 @@ describe("HubSites:", () => {
       expect(chk.updatedDate).toEqual(new Date(ITM.modified));
       expect(chk.updatedDateSource).toEqual("item.modified");
       expect(chk.family).toEqual("site");
-      expect(chk.links.self).toEqual(ITM.url);
-      expect(chk.links.siteRelative).toEqual(`/content/${ITM.id}`);
-      expect(chk.links.thumbnail).toEqual(
+      expect(chk.links?.self).toEqual(ITM.url);
+      expect(chk.links?.siteRelative).toEqual(`/content/${ITM.id}`);
+      expect(chk.links?.thumbnail).toEqual(
         `${hubRo.portal}/content/items/${ITM.id}/info/${ITM.thumbnail}`
       );
     });

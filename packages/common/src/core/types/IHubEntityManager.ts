@@ -3,6 +3,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { Filter } from "../../search/types/types";
 import { IHubSearchOptions } from "../../search/types/IHubSearchOptions";
 import { ISearchResponse } from "../../types";
+import { IHubSearchResponse, IQuery } from "../../search";
 
 /**
  * Baseline CRUD+Search functions required for all Store classes
@@ -45,8 +46,8 @@ export interface IHubEntityManager<T> {
    * @param filter
    * @param opts
    */
-  search(
-    filter: Filter<"content">,
-    opts: IHubSearchOptions
-  ): Promise<ISearchResponse<T>>;
+  // search(
+  //   query: IQuery,
+  //   opts: IHubSearchOptions
+  // ): Promise<IHubSearchResponse<T>>;
 }

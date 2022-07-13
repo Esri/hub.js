@@ -9,22 +9,21 @@ import {
   ensureUniqueDomainName,
   fetchModelFromItem,
   fetchSiteModel,
-  Filter,
   getFamily,
   getHubApiUrl,
-  getItemHomeUrl,
   getItemThumbnailUrl,
   getModel,
   getOrgDefaultTheme,
   getProp,
+  IFilter,
   IHubRequestOptions,
   IHubSearchOptions,
+  IHubSearchResponse,
   IHubSearchResult,
   IHubSite,
   IModel,
-  ISearchResponse,
+  IQuery,
   mapBy,
-  mergeContentFilter,
   registerSiteAsApplication,
   removeDomainsBySiteId,
   setProp,
@@ -33,17 +32,18 @@ import {
   stripProtocol,
   unique,
   updateModel,
-} from "..";
+} from "../index";
 
 import { PropertyMapper, IPropertyMap } from "../core/_internal/PropertyMapper";
 
 import { handleDomainChanges } from "./_internal";
-import { searchContentEntities } from "../search/_internal/searchContentEntities";
+import { searchEntities } from "../search/_internal/searchEntities";
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { fetchItemEnrichments } from "../items/_enrichments";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { getHubRelativeUrl } from "../content/_internal";
+import { createQueryFromString } from "../search/_internal/createQueryFromString";
 
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
@@ -489,18 +489,30 @@ export async function convertItemToSite(
  * @returns
  */
 export async function searchSites(
-  filter: Filter<"content">,
+  query: string | IQuery,
   options: IHubSearchOptions
-): Promise<ISearchResponse<IHubSite>> {
-  // Scope to Hub Sites
-  const scopingFilter: Filter<"content"> = {
-    filterType: "content",
-    type: "$site",
-  };
-  // merge filters
-  const sitesFilter = mergeContentFilter([scopingFilter, filter]);
-  // delegate
-  return searchContentEntities(sitesFilter, convertItemToSite, options);
+): Promise<IHubSearchResponse<IHubSite>> {
+  let qry: IQuery;
+
+  if (typeof query === "string") {
+    qry = createQueryFromString(query, "term", "item");
+  } else {
+    qry = cloneObject(query);
+  }
+
+  const scopingFilters: IFilter[] = [
+    {
+      predicates: [
+        {
+          type: "Hub Project",
+        },
+      ],
+    },
+  ];
+
+  // add filters from the passed in query
+  qry.filters = [...scopingFilters, ...qry.filters];
+  return searchEntities(qry, convertItemToSite, options);
 }
 
 /**

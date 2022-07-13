@@ -5,7 +5,13 @@ import { IItem, IPortal } from "@esri/arcgis-rest-portal";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { ArcGISContext } from "../../src/ArcGISContext";
 import { HubProjectManager } from "../../src/projects/HubProjectManager";
-import { Filter, getProp, IArcGISContextOptions, IHubProject } from "../../src";
+import {
+  Filter,
+  getProp,
+  IArcGISContextOptions,
+  IHubProject,
+  IQuery,
+} from "../../src";
 import * as HubProjects from "../../src/projects/HubProjects";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as ThumbnailModule from "../../src/items/setItemThumbnail";
@@ -186,9 +192,17 @@ describe("HubProjectManager:", () => {
   });
   describe("search:", () => {
     let searchSpy: jasmine.Spy;
-    const f: Filter<"content"> = {
-      filterType: "content",
-      term: "water",
+    const query: IQuery = {
+      targetEntity: "item",
+      filters: [
+        {
+          predicates: [
+            {
+              term: "water",
+            },
+          ],
+        },
+      ],
     };
     beforeEach(() => {
       searchSpy = spyOn(HubProjects, "searchProjects").and.returnValue(
@@ -201,7 +215,7 @@ describe("HubProjectManager:", () => {
       );
     });
     it("uses context by default", async () => {
-      await authdMgr.search(f, { num: 10 });
+      await authdMgr.search(query, { num: 10 });
       const so = searchSpy.calls.argsFor(0)[1];
       expect(so.authentication).toBe(MOCK_AUTH);
     });
@@ -210,7 +224,7 @@ describe("HubProjectManager:", () => {
         username: "vader",
         getToken: () => Promise.resolve("FKAE_TOKEN"),
       } as unknown as UserSession;
-      await authdMgr.search(f, { num: 10, authentication: fakeSession });
+      await authdMgr.search(query, { num: 10, authentication: fakeSession });
       const so = searchSpy.calls.argsFor(0)[1];
       expect(so.authentication).toBe(fakeSession);
     });

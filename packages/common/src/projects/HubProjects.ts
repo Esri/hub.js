@@ -17,11 +17,8 @@ import {
   IModel,
   isGuid,
   cloneObject,
-  Filter,
   IHubSearchOptions,
-  ISearchResponse,
   _searchContent,
-  mergeContentFilter,
   getItemThumbnailUrl,
   unique,
   mapBy,
@@ -29,7 +26,7 @@ import {
   getFamily,
   IHubRequestOptions,
   getItemHomeUrl,
-} from "..";
+} from "../index";
 import {
   IItem,
   IUserItemOptions,
@@ -37,13 +34,19 @@ import {
   getItem,
 } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { searchContentEntities } from "../search/_internal/searchContentEntities";
+import { searchEntities } from "../search/_internal/searchEntities";
 import { IPropertyMap, PropertyMapper } from "../core/_internal/PropertyMapper";
-import { IHubEntityBase, IHubProject } from "../core/types";
-import { IHubSearchResult } from "../search";
+import { IHubProject } from "../core/types";
+import {
+  IFilter,
+  IHubSearchResponse,
+  IHubSearchResult,
+  IQuery,
+} from "../search";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { fetchItemEnrichments } from "../items/_enrichments";
 import { getHubRelativeUrl } from "../content/_internal";
+import { createQueryFromString } from "../search/_internal";
 
 export const HUB_PROJECT_ITEM_TYPE = "Hub Project";
 
@@ -246,27 +249,38 @@ export async function destroyProject(
 /**
  * Search for Projects, and get IHubProject results
  *
- * Different from `searchContent` in that this returns the specific entity type
+ * Different from `hubSearch` in that this returns the IHubProjects
  *
  * @param filter
  * @param options
  * @returns
  */
 export async function searchProjects(
-  filter: Filter<"content">,
+  query: string | IQuery,
   options: IHubSearchOptions
-): Promise<ISearchResponse<IHubProject>> {
-  // Scope to Hub Projects
-  const scopingFilter: Filter<"content"> = {
-    filterType: "content",
-    type: {
-      exact: ["Hub Project"],
-    },
-  };
-  // merge filters
-  const projectFilter = mergeContentFilter([scopingFilter, filter]);
+): Promise<IHubSearchResponse<IHubProject>> {
+  let qry: IQuery;
 
-  return searchContentEntities(projectFilter, convertItemToProject, options);
+  if (typeof query === "string") {
+    qry = createQueryFromString(query, "term", "item");
+  } else {
+    qry = cloneObject(query);
+  }
+
+  const scopingFilters: IFilter[] = [
+    {
+      predicates: [
+        {
+          type: "Hub Project",
+        },
+      ],
+    },
+  ];
+
+  // add filters from the passed in query
+  qry.filters = [...scopingFilters, ...qry.filters];
+
+  return searchEntities(qry, convertItemToProject, options);
 }
 
 /**

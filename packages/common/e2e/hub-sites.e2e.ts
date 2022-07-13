@@ -26,7 +26,7 @@ describe("Hub Sites", () => {
       // inspect and ensure we have what we expect
       expect(site.typeKeywords).toBeDefined();
       // get the slug keyword
-      const slug = site.typeKeywords.find((e) => e.indexOf("slug|") === 0);
+      const slug = site.typeKeywords?.find((e) => e.indexOf("slug|") === 0);
       expect(slug).toEqual(`slug|${site.slug}`);
       // update the item
       site.description = "This is the long description";
@@ -51,7 +51,7 @@ describe("Hub Sites", () => {
       throw ex;
     }
   });
-  xit("can search", async () => {
+  it("can search", async () => {
     const orgName = "hubBasic";
     // create context
     const ctxMgr = await factory.getContextManager(orgName, "admin");
@@ -60,8 +60,16 @@ describe("Hub Sites", () => {
     try {
       const response = await mgr.search(
         {
-          filterType: "content",
-          owner: "dbouwman_dc",
+          targetEntity: "item",
+          filters: [
+            {
+              predicates: [
+                {
+                  owner: "dbouwman_dc",
+                },
+              ],
+            },
+          ],
         },
         { num: 3 }
       );

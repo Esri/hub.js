@@ -25,6 +25,7 @@ import { Logger } from "../utils";
 // TODO: Remove with _searchContent
 
 /**
+ * @private
  * Search for content via the Portal or Hub API
  * @param filter
  * @param options
