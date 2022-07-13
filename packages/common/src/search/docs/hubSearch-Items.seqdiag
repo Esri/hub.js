@@ -1,7 +1,7 @@
 Title: hubSearch Portal Item Function Flow
-hubSearch->portalSearchItems\n(internal): FilterGroups & IHubSearchOptions
-portalSearchItems\n(internal)->serializeFilterGroupForPortal: FilterGroups
-serializeFilterGroupForPortal->portalSearchItems\n(internal): searchOptions
+hubSearch->portalSearchItems\n(internal):IQuery & IHubSearchOptions
+portalSearchItems\n(internal)->serializeQueryForPortal: IQuery
+serializeQueryForPortal->portalSearchItems\n(internal): searchOptions
 portalSearchItems\n(internal)->searchPortal\n(private):searchOptions
 searchPortal\n(private)->searchItems\n(restjs):searchOptions
 searchItems\n(restjs)->PORTAL SEARCH API:HTTP POST
