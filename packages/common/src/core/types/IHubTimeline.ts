@@ -29,6 +29,14 @@ export interface IHubStage {
    */
   description: string;
   /**
+   * Stage Link
+   */
+  link?: string;
+  /**
+   * Stage Link Display Text
+   */
+  linkText?: string;
+  /**
    * Stage status
    */
   status: string;
