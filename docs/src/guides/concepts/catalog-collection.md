@@ -16,7 +16,7 @@ While a Catalog can reference any set of platform entities, any individual Colle
 
 Hub Sites utilize a Catalog to define what content is available on a site search. Catalogs are also planned for Hub Projects and Hub Initiatives.
 
-Any hiearchy between Sites, Initiatives and Projects must be manually maintained, and will not be automatic.
+Any hierarchy between Sites, Initiatives and Projects must be manually maintained, and will not be automatic.
 
 Catalogs associated with Hub Sites, Hub Initiatives and Hub Projects will all be stored in the `.catalog` property of the item's data.json. If other applications want to leverage the Catalog system, we recommend storing the information in this same location.
 

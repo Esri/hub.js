@@ -67,20 +67,16 @@ describe("catalog and collection e2e:", () => {
       const ctxMgr = await factory.getContextManager(orgName, "admin");
       const instance = Catalog.fromJson(catalog, ctxMgr.context);
 
-      const result = await instance.search("dashboard", {
-        targetEntity: "item",
-      });
+      const result = await instance.searchItems("dashboard");
 
-      const result2 = await instance.search("cephalopod", {
-        targetEntity: "group",
-      });
+      const result2 = await instance.searchGroups("cephalopod");
 
       const col = instance.getCollection("sites");
       const result3 = await col.search("bug");
     });
     it("defaults to prod / anon", async () => {
       const instance = await Catalog.init("https://opendata.dc.gov");
-      const response = await instance.search("schools");
+      const response = await instance.searchItems("schools");
       expect(response.results.length).toBeGreaterThan(5);
     });
     xit("can search enterprise", async () => {
@@ -90,7 +86,7 @@ describe("catalog and collection e2e:", () => {
         "https://rqawinbi01pt.ags.esri.com/gis/apps/sites/#/harness",
         ctxMgr.context
       );
-      const response = await instance.search("colorado");
+      const response = await instance.searchItems("colorado");
     });
   });
 

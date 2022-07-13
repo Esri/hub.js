@@ -109,6 +109,12 @@ export class Catalog implements IHubCatalog {
   get scopes(): ICatalogScope {
     return this._catalog.scopes;
   }
+  /**
+   * Return an array of the entity types available in this Catalog
+   */
+  get availableScopes(): EntityType[] {
+    return Object.keys(this.scopes) as unknown as EntityType[];
+  }
 
   /**
    * Get the scope's query for a particular entity type
@@ -166,14 +172,83 @@ export class Catalog implements IHubCatalog {
   }
 
   /**
+   * Search for Items
+   * Will throw if the Catalog does not have a scope defined for items
+   * @param query
+   * @param options
+   * @returns
+   */
+  searchItems(
+    query: string | IQuery,
+    options: IHubSearchOptions = {}
+  ): Promise<IHubSearchResponse<IHubSearchResult>> {
+    if (!this.getScope("item")) {
+      throw new HubError(
+        "Catalog.searchItems",
+        "Catalog does not support searching for items"
+      );
+    } else {
+      // ensure it's an item search
+      options.targetEntity = "item";
+      return this.search(query, options);
+    }
+  }
+
+  /**
+   * Search for Groups
+   * Will throw if the Catalog does not have a scope defined for groups
+   * @param query
+   * @param options
+   * @returns
+   */
+  searchGroups(
+    query: string | IQuery,
+    options: IHubSearchOptions = {}
+  ): Promise<IHubSearchResponse<IHubSearchResult>> {
+    if (!this.getScope("group")) {
+      throw new HubError(
+        "Catalog.searchGroups",
+        "Catalog does not support searching for groups"
+      );
+    } else {
+      // ensure it's an group search
+      options.targetEntity = "group";
+      return this.search(query, options);
+    }
+  }
+
+  /**
+   * Search for Users
+   * Will throw if the Catalog does not have a scope defined for users
+   * @param query
+   * @param options
+   * @returns
+   */
+  searchUsers(
+    query: string | IQuery,
+    options: IHubSearchOptions = {}
+  ): Promise<IHubSearchResponse<IHubSearchResult>> {
+    if (!this.getScope("user")) {
+      throw new HubError(
+        "Catalog.searchUsers",
+        "Catalog does not support searching for users"
+      );
+    } else {
+      // ensure it's an group search
+      options.targetEntity = "user";
+      return this.search(query, options);
+    }
+  }
+
+  /**
    * Execute a search against the Catalog as a whole
    * @param query
    * @param targetEntity
    * @returns
    */
-  search(
+  private search(
     query: string | IQuery,
-    options: IHubSearchOptions = { targetEntity: "item" }
+    options: IHubSearchOptions
   ): Promise<IHubSearchResponse<IHubSearchResult>> {
     const targetEntity = options.targetEntity;
     let qry: IQuery;
@@ -193,19 +268,15 @@ export class Catalog implements IHubCatalog {
     } else {
       qry = cloneObject(query);
     }
+
     // Now merge in catalog scope level filters
-    if (this._catalog.scopes[targetEntity]) {
-      qry.filters = [
-        ...qry.filters,
-        ...this._catalog.scopes[targetEntity].filters,
-      ];
-    }
+    qry.filters = [...qry.filters, ...this.getScope(targetEntity).filters];
+
     const opts = cloneObject(options);
-    // An instance always uses the context so we remove any
+    // An Catalog instance always uses the context so we remove/replace any passed in auth
     delete opts.authentication;
     opts.requestOptions = this._context.hubRequestOptions;
 
-    // delegate
     return hubSearch(qry, opts);
   }
 }

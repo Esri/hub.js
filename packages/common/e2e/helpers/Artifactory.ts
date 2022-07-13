@@ -100,8 +100,4 @@ export default class Artifactory {
   getFixtures(name: string): Record<string, unknown> {
     return this.getOrg(name).fixtures as Record<string, unknown>;
   }
-
-  // getFixtureId(org: string, path: string): string {
-  //   return getProp(this.getOrg(org).fixtures, path);
-  // }
 }

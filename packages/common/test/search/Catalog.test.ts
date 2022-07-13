@@ -30,6 +30,30 @@ const catalogJson: IHubCatalog = {
         },
       ],
     },
+    group: {
+      targetEntity: "group",
+      filters: [
+        {
+          predicates: [
+            {
+              orgid: "abc123",
+            },
+          ],
+        },
+      ],
+    },
+    user: {
+      targetEntity: "user",
+      filters: [
+        {
+          predicates: [
+            {
+              orgid: "abc123",
+            },
+          ],
+        },
+      ],
+    },
   },
   collections: [
     {
@@ -103,6 +127,7 @@ describe("Catalog Class:", () => {
       expect(instance.collectionNames).toEqual(["teams", "environment"]);
       instance.title = "Changed Title";
       expect(instance.title).toBe("Changed Title");
+      expect(instance.availableScopes).toEqual(["item", "group", "user"]);
     });
     it("allows null collections", () => {
       const noCollectionsCatalog = cloneObject(catalogJson);
@@ -164,7 +189,9 @@ describe("Catalog Class:", () => {
       expect(envCollection.scope.filters.length).toBe(2);
     });
     it("get collection works without catalog scope", () => {
-      const instance = Catalog.fromJson(cloneObject(catalogJson), context);
+      const cat = cloneObject(catalogJson);
+      delete cat.scopes?.group;
+      const instance = Catalog.fromJson(cat, context);
       const teamsCollection = instance.getCollection("teams");
       expect(teamsCollection.scope.filters.length).toBe(1);
     });
@@ -172,12 +199,12 @@ describe("Catalog Class:", () => {
 
   describe("search:", () => {
     let hubSearchSpy: jasmine.Spy;
-    it("searches with string; defaults to item", async () => {
+    it("searchItems with string", async () => {
       hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
         return Promise.resolve({ fake: "response" });
       });
       const instance = Catalog.fromJson(cloneObject(catalogJson), context);
-      const res = await instance.search("water");
+      const res = await instance.searchItems("water");
       // ensure the spy was called
       expect(res).toEqual({
         fake: "response",
@@ -189,30 +216,13 @@ describe("Catalog Class:", () => {
       expect(query.filters[1]).toEqual(catalogJson.scopes?.item?.filters[0]);
     });
 
-    it("searches with string and entity", async () => {
-      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
-        return Promise.resolve({ fake: "response" });
-      });
-      const instance = Catalog.fromJson(cloneObject(catalogJson), context);
-      const res = await instance.search("water", { targetEntity: "item" });
-      // ensure the spy was called
-      expect(res).toEqual({
-        fake: "response",
-      } as unknown as IHubSearchResponse<IHubSearchResult>);
-      // check the args
-      const [query, opts] = hubSearchSpy.calls.argsFor(0);
-      expect(query.targetEntity).toBe("item");
-      expect(query.filters[0].predicates[0].term).toBe("water");
-      expect(query.filters[1]).toEqual(catalogJson.scopes?.item?.filters[0]);
-    });
-
-    it("searches with query", async () => {
+    it("searcheItems with query", async () => {
       hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
         return Promise.resolve({ fake: "response" });
       });
       const instance = Catalog.fromJson(cloneObject(catalogJson), context);
       const qry: IQuery = {
-        targetEntity: "group",
+        targetEntity: "item",
         filters: [
           {
             predicates: [
@@ -223,15 +233,92 @@ describe("Catalog Class:", () => {
           },
         ],
       };
-      const res = await instance.search(qry, { targetEntity: "group" });
+      const res = await instance.searchItems(qry);
       // ensure the spy was called
       expect(res).toEqual({
         fake: "response",
       } as unknown as IHubSearchResponse<IHubSearchResult>);
       const [query, opts] = hubSearchSpy.calls.argsFor(0);
-      expect(query.targetEntity).toBe("group");
+      expect(query.targetEntity).toBe("item");
       expect(query.filters[0].predicates[0].term).toBe("Pine St");
       expect(opts.requestOptions).toEqual(context.hubRequestOptions);
+    });
+
+    it("searchGroup by term", async () => {
+      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
+        return Promise.resolve({ fake: "response" });
+      });
+      const instance = Catalog.fromJson(cloneObject(catalogJson), context);
+      const res = await instance.searchGroups("water");
+      // ensure the spy was called
+      expect(res).toEqual({
+        fake: "response",
+      } as unknown as IHubSearchResponse<IHubSearchResult>);
+      // check the args
+      const [query, opts] = hubSearchSpy.calls.argsFor(0);
+      expect(query.targetEntity).toBe("group");
+      expect(query.filters[0].predicates[0].term).toBe("water");
+      expect(query.filters[1]).toEqual(catalogJson.scopes?.group?.filters[0]);
+    });
+
+    it("searchUsers by term", async () => {
+      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
+        return Promise.resolve({ fake: "response" });
+      });
+      const instance = Catalog.fromJson(cloneObject(catalogJson), context);
+      const res = await instance.searchUsers("water");
+      // ensure the spy was called
+      expect(res).toEqual({
+        fake: "response",
+      } as unknown as IHubSearchResponse<IHubSearchResult>);
+      // check the args
+      const [query, opts] = hubSearchSpy.calls.argsFor(0);
+      expect(query.targetEntity).toBe("user");
+      expect(query.filters[0].predicates[0].term).toBe("water");
+      expect(query.filters[1]).toEqual(catalogJson.scopes?.user?.filters[0]);
+    });
+
+    it("throws if item scope does not exist", async () => {
+      const cat = cloneObject(catalogJson);
+      delete cat.scopes?.item;
+      const instance = Catalog.fromJson(cat, context);
+
+      try {
+        await instance.searchItems("water");
+      } catch (err) {
+        expect(getProp(err, "name")).toBe("HubError");
+        expect(getProp(err, "message")).toContain(
+          "Catalog does not support searching for items"
+        );
+      }
+    });
+    it("throws if group scope does not exist", async () => {
+      const cat = cloneObject(catalogJson);
+      delete cat.scopes?.group;
+      const instance = Catalog.fromJson(cat, context);
+
+      try {
+        await instance.searchGroups("water");
+      } catch (err) {
+        expect(getProp(err, "name")).toBe("HubError");
+        expect(getProp(err, "message")).toContain(
+          "Catalog does not support searching for groups"
+        );
+      }
+    });
+    it("throws if user scope does not exist", async () => {
+      const cat = cloneObject(catalogJson);
+      delete cat.scopes?.user;
+      const instance = Catalog.fromJson(cat, context);
+
+      try {
+        await instance.searchUsers("water");
+      } catch (err) {
+        expect(getProp(err, "name")).toBe("HubError");
+        expect(getProp(err, "message")).toContain(
+          "Catalog does not support searching for users"
+        );
+      }
     });
   });
 });
