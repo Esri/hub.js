@@ -197,7 +197,7 @@
 </table>
 <h3>Aggregations</h3>
 <p>The search can also return aggregation information for the entire result set.</p>
-<p>For the most part. the aggregations supported by <code>hubSearch</code> are limited to those supported by the ArcGIS Portal Search API. A maximum of three aggregations can be specified.</p>
+<p>For the most part, the aggregations supported by <code>hubSearch</code> are limited to those supported by the ArcGIS Portal Search API. A maximum of three aggregations can be specified.</p>
 <table>
 <thead>
 <tr>
@@ -222,9 +222,6 @@
 </table>
 <p>Once the search is executed, the aggregations are available on the <code>IHubSearchResponse.aggregations</code> property as an array of <code>IHubAggregation</code> objects.</p>
 <p>Applications can use aggregations to construct dynamic facets and filters.</p>
-<pre><code class="json"><span class="hljs-comment">// Example aggregation stucture</span>
-
-</code></pre>
 <h3>Specifying the API &amp; Authentication</h3>
 <p>By default, <code>hubSearch</code> will use the ArcGIS Online Portal Search API.</p>
 <p>To specify an ArcGIS Enterprise server, <code>IHubSearchOptions.requestOptions.portal</code> should be set.</p>
@@ -249,7 +246,7 @@
 </ul>
 </li>
 </ul>
-<p><em>Note</em> If you are searching for specific <a href="">Hub Entities</a>, the entity &quot;manager&quot; modules also have simplified search functions return fully populated entity objects.</p>
+<p><em>Note</em> If you are searching for specific <a href="./hub-entities">Hub Entities</a>, the entity &quot;manager&quot; modules also have simplified search functions return fully populated entity objects.</p>
       </div>
     </div>
   </div>
