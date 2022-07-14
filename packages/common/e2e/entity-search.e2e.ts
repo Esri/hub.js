@@ -20,7 +20,7 @@ describe("Entity Search", () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;
   });
 
-  fit("validate createEntitySearchFn", async () => {
+  it("validate createEntitySearchFn", async () => {
     // create session
     const orgName = "hubBasic";
     // create context
