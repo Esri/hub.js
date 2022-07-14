@@ -372,6 +372,7 @@ export function applyWellKnownItemPredicates(query: IQuery): IQuery {
   // iterate the filters
   queryClone.filters = queryClone.filters.map((filter) => {
     // replace predicates with well-known types
+    let replacedPredicates = false;
     filter.predicates = filter.predicates.reduce(
       (acc: IPredicate[], predicate) => {
         // if the predicate has a well-known type
@@ -382,6 +383,7 @@ export function applyWellKnownItemPredicates(query: IQuery): IQuery {
             predicate.type as keyof typeof WellKnownItemFilters
           );
           acc = [...acc, ...replacements];
+          replacedPredicates = true;
         } else {
           // this predicate does not have a well-known type
           // so we just keep it
@@ -391,6 +393,12 @@ export function applyWellKnownItemPredicates(query: IQuery): IQuery {
       },
       []
     );
+    if (replacedPredicates) {
+      // Any filter who's predicates were replaced with
+      // well-known predicates, needs to use "OR" to ensure
+      // correct query logic
+      filter.operation = "OR";
+    }
     return filter;
   });
 
