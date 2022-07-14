@@ -1,3 +1,10 @@
+# @esri/hub-common [9.46.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.45.6...@esri/hub-common@9.46.0) (2022-07-14)
+
+
+### Features
+
+* change entity search to use IQuery ([#829](https://github.com/Esri/hub.js/issues/829)) ([f3897aa](https://github.com/Esri/hub.js/commit/f3897aa6271c5c19c052da05fadaa1e349966ffe))
+
 ## @esri/hub-common [9.45.6](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.45.5...@esri/hub-common@9.45.6) (2022-07-07)
 
 
