@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-surveys",
-  "version": "9.45.6",
+  "version": "9.46.0",
   "description": "Module to interact with ArcGIS Hub Surveys in Node.js and modern browsers.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/surveys.umd.js",
@@ -18,7 +18,7 @@
     "@esri/arcgis-rest-portal": "^2.13.0 || 3",
     "@esri/arcgis-rest-request": "^2.13.0 || 3",
     "@esri/arcgis-rest-types": "^2.13.0 || 3",
-    "@esri/hub-common": "9.45.6"
+    "@esri/hub-common": "9.46.0"
   },
   "devDependencies": {
     "@esri/arcgis-rest-auth": "^3.1.1",
@@ -26,7 +26,7 @@
     "@esri/arcgis-rest-portal": "^3.4.2",
     "@esri/arcgis-rest-request": "^3.1.1",
     "@esri/arcgis-rest-types": "^3.1.1",
-    "@esri/hub-common": "9.45.6",
+    "@esri/hub-common": "9.46.0",
     "@rollup/plugin-commonjs": "^15.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
