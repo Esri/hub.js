@@ -5,9 +5,11 @@ import {
   failSafe,
   fetchModelFromItem,
   IModel,
+  IQuery,
   serializeContentFilterForPortal,
+  serializeQueryForPortal,
 } from "../src";
-import { createContentEntitySearchFn } from "../src/search/_internal/searchContentEntities";
+import { createEntitySearchFn } from "../src/search/_internal/searchEntities";
 import { IItem } from "@esri/arcgis-rest-types";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
@@ -24,45 +26,44 @@ describe("Entity Search", () => {
     // create context
     const ctxMgr = await factory.getContextManager(orgName, "admin");
 
-    try {
-      const convertToModel = async function (
-        itm: IItem,
-        ro: IRequestOptions
-      ): Promise<IModel> {
-        try {
-          // create a fail-safe version of fetchModelFromItem
-          const fsFetchModel = failSafe(fetchModelFromItem, {
-            item: itm,
-            data: {},
-          });
-          return fsFetchModel(itm, ro);
-        } catch (ex) {
-          return { item: itm, data: {} };
-        }
-      };
+    const convertToModel = async function (
+      itm: IItem,
+      ro?: IRequestOptions
+    ): Promise<IModel> {
+      try {
+        // create a fail-safe version of fetchModelFromItem
+        const fsFetchModel = failSafe(fetchModelFromItem, {
+          item: itm,
+          data: {},
+        });
+        return fsFetchModel(itm, ro);
+      } catch (ex) {
+        return { item: itm, data: {} };
+      }
+    };
 
-      const searchFn = createContentEntitySearchFn(convertToModel);
-      // expand filter so we can serialize to either api
-      const expanded = expandContentFilter({
-        filterType: "content",
-        type: "Web Map",
-      });
-      const so = serializeContentFilterForPortal(expanded);
-      so.authentication = ctxMgr.context.requestOptions.authentication;
-
-      const response = await searchFn(so);
-      expect(response.results.length).toBe(10);
-      // call next
-      const page2 = await response.next();
-      expect(page2.results.length).toBe(10);
-      const page3 = await response.next();
-      expect(page3.results.length).toBe(10);
-      // pick one and see that it has the structure we expect
-      const m: IModel = page3.results[4];
-      expect(m.item).toBeDefined();
-      expect(m.data).toBeDefined();
-    } catch (ex) {
-      throw ex;
-    }
+    const fn = createEntitySearchFn(convertToModel);
+    // now create a query
+    const query: IQuery = {
+      targetEntity: "item",
+      filters: [
+        {
+          predicates: [{ type: "Web Map" }],
+        },
+      ],
+    };
+    const so = serializeQueryForPortal(query);
+    so.authentication = ctxMgr.context.requestOptions.authentication;
+    const response = await fn(so);
+    expect(response.results.length).toBe(10);
+    // call next
+    const page2 = await response.next();
+    expect(page2.results.length).toBe(10);
+    const page3 = await response.next();
+    expect(page3.results.length).toBe(10);
+    // pick one and see that it has the structure we expect
+    const m: IModel = page3.results[4];
+    expect(m.item).toBeDefined();
+    expect(m.data).toBeDefined();
   });
 });

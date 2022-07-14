@@ -5,7 +5,13 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { ArcGISContext } from "../../src/ArcGISContext";
 import { HubSiteManager } from "../../src/sites/HubSiteManager";
-import { getProp, IArcGISContextOptions, IHubSite, Filter } from "../../src";
+import {
+  getProp,
+  IArcGISContextOptions,
+  IHubSite,
+  Filter,
+  IQuery,
+} from "../../src";
 
 import * as HubSites from "../../src/sites/HubSites";
 
@@ -236,9 +242,17 @@ describe("HubSiteManager:", () => {
 
   describe("search:", () => {
     let searchSpy: jasmine.Spy;
-    const f: Filter<"content"> = {
-      filterType: "content",
-      term: "water",
+    const query: IQuery = {
+      targetEntity: "item",
+      filters: [
+        {
+          predicates: [
+            {
+              term: "water",
+            },
+          ],
+        },
+      ],
     };
     beforeEach(() => {
       searchSpy = spyOn(HubSites, "searchSites").and.returnValue(
@@ -251,7 +265,7 @@ describe("HubSiteManager:", () => {
       );
     });
     it("uses context by default", async () => {
-      await authdMgr.search(f, { num: 10 });
+      await authdMgr.search(query, { num: 10 });
       const so = searchSpy.calls.argsFor(0)[1];
       expect(so.authentication).toBe(MOCK_AUTH);
     });
@@ -260,7 +274,7 @@ describe("HubSiteManager:", () => {
         username: "vader",
         getToken: () => Promise.resolve("FKAE_TOKEN"),
       } as unknown as UserSession;
-      await authdMgr.search(f, { num: 10, authentication: fakeSession });
+      await authdMgr.search(query, { num: 10, authentication: fakeSession });
       const so = searchSpy.calls.argsFor(0)[1];
       expect(so.authentication).toBe(fakeSession);
     });

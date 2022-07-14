@@ -16,6 +16,7 @@ export interface IGroupSearchResult {
 // TODO: Remove with _searchContent
 
 /**
+ * @private
  * Search Groups using Filter<"group">
  *
  * Currently just returns ISearchResult<IGroup>

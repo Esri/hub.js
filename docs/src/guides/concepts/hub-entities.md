@@ -32,7 +32,7 @@ In both environments, we use Hub.js to work with sites via the `HubSiteManager`,
 
 #### API Links
 
-- [HubSiteManager (/hub.js/api/common/HubSiteManager)]()
+- [HubSiteManager](/hub.js/api/common/HubSiteManager)
 - [IHubSite](/hub.js/api/common/IHubSite)
 
 ### Hub Pages

@@ -33,6 +33,7 @@ export interface IHubUser extends IUser {
 
 // TODO: Remove with _searchContent
 /**
+ * @private
  * Search for Users via the Portal API.
  *
  * **Note** Authentication is required

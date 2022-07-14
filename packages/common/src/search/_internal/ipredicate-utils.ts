@@ -3,6 +3,12 @@ import { cloneObject } from "../../util";
 import { IPredicate } from "../types";
 import { relativeDateToDateRange, valueToMatchOptions } from "../utils";
 
+/**
+ * @private
+ * Expand a predicate
+ * @param predicate
+ * @returns
+ */
 export function expandPredicate(predicate: IPredicate): IPredicate {
   const result: IPredicate = {};
   const dateProps = ["created", "modified", "lastlogin"];

@@ -26,6 +26,7 @@ import { expandApi } from "../utils";
 // Since Hub API is still in flux, there is no code coverage for this file
 
 /**
+ * @private
  * Execute item search against the Hub API
  * @param filter
  * @param options

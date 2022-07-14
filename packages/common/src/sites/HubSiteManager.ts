@@ -17,7 +17,7 @@ import {
   convertItemToSite,
   searchSites,
 } from "./HubSites";
-import { Filter, IHubSearchOptions } from "../search";
+import { Filter, IHubSearchOptions, IQuery } from "../search";
 import { IHubRequestOptions, ISearchResponse } from "../types";
 import { setItemThumbnail as updateItemThumbnail } from "../items/setItemThumbnail";
 
@@ -189,14 +189,14 @@ export class HubSiteManager
    * @param opts
    */
   async search(
-    filter: Filter<"content">,
+    query: string | IQuery,
     options: IHubSearchOptions
   ): Promise<ISearchResponse<IHubSite>> {
     // if we were not passed auth, and we have a session, use it
     if (!options.authentication && this.context.session) {
       options.authentication = this.context.session;
     }
-    return searchSites(filter, options);
+    return searchSites(query, options);
   }
   /**
    * Set the thumbnail for the Site

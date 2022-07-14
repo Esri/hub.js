@@ -3,6 +3,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { Filter } from "../../search/types/types";
 import { IHubSearchOptions } from "../../search/types/IHubSearchOptions";
 import { ISearchResponse } from "../../types";
+import { IHubSearchResponse, IQuery } from "../../search";
 
 /**
  * Baseline CRUD+Search functions required for all Store classes
@@ -42,11 +43,11 @@ export interface IHubEntityManager<T> {
    * not searching "within" the `T`.
    *
    * i.e. Searching for Teams, not searching for content shared to a team.
-   * @param filter
+   * @param query
    * @param opts
    */
   search(
-    filter: Filter<"content">,
+    query: IQuery,
     opts: IHubSearchOptions
-  ): Promise<ISearchResponse<T>>;
+  ): Promise<IHubSearchResponse<T>>;
 }

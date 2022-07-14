@@ -40,7 +40,7 @@ It is also possible to pluck a specific piece of information out of an enrichmen
 
 The search can also return aggregation information for the entire result set.
 
-For the most part. the aggregations supported by `hubSearch` are limited to those supported by the ArcGIS Portal Search API. A maximum of three aggregations can be specified.
+For the most part, the aggregations supported by `hubSearch` are limited to those supported by the ArcGIS Portal Search API. A maximum of three aggregations can be specified.
 
 | Entity  | Aggregation Fields                                      |
 | ------- | ------------------------------------------------------- |
@@ -51,11 +51,6 @@ For the most part. the aggregations supported by `hubSearch` are limited to thos
 Once the search is executed, the aggregations are available on the `IHubSearchResponse.aggregations` property as an array of `IHubAggregation` objects.
 
 Applications can use aggregations to construct dynamic facets and filters.
-
-```json
-// Example aggregation stucture
-
-```
 
 ### Specifying the API & Authentication
 
@@ -85,4 +80,4 @@ const opts: IHubSearchOptions = {
   - In ArcGIS Online, ArcGIS Hub has it's own search engine, which is optimized for searching public items.
   - In all other cases, we recommend specifying `arcgis` as that will use the Portal search API, and can return non-public content.
 
-_Note_ If you are searching for specific [Hub Entities](), the entity "manager" modules also have simplified search functions return fully populated entity objects.
+_Note_ If you are searching for specific [Hub Entities](./hub-entities), the entity "manager" modules also have simplified search functions return fully populated entity objects.

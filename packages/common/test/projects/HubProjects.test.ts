@@ -12,6 +12,7 @@ import {
   Filter,
   IHubRequestOptions,
   enrichProjectSearchResult,
+  IQuery,
 } from "../../src";
 
 import { MOCK_AUTH } from "../mocks/mock-auth";
@@ -71,18 +72,18 @@ const PROJECT_ITEM_ENRICH: portalModule.IItem = {
   ],
   description: "Test Project with data",
   tags: ["hubproject"],
-  snippet: null,
+  // snippet: null,
   thumbnail: "thumbnail/my-project.png",
-  documentation: null,
+  // documentation: null,
   extent: [],
   categories: [],
-  spatialReference: null,
+  // spatialReference: null,
   accessInformation: null,
   licenseInfo: "CC-BY-SA",
   culture: "en-us",
   properties: null,
   advancedSettings: null,
-  url: null,
+  // url: null,
   proxyFilter: null,
   access: "public",
   size: -1,
@@ -179,7 +180,8 @@ describe("HubProjects:", () => {
       });
       expect(getItemBySlugSpy.calls.count()).toBe(1);
       expect(getItemBySlugSpy.calls.argsFor(0)[0]).toBe("dcdev-34th-street");
-      expect(chk).toBe(null);
+      // This next stuff is O_o but req'd by typescript
+      expect(chk).toEqual(null as unknown as IHubProject);
     });
   });
 
@@ -345,13 +347,9 @@ describe("HubProjects:", () => {
         Promise.resolve({ values: "the values" })
       );
     });
-    it("it constructs search, minimal", async () => {
-      const filter: Filter<"content"> = {
-        filterType: "content",
-        term: "water",
-      };
+    it("accepts a string", async () => {
       const opts = {};
-      const response = await searchProjects(filter, opts);
+      const response = await searchProjects("water", opts);
       expect(response.results.length).toBe(1);
       expect(searchSpy.calls.count()).toBe(1);
       expect(dataSpy.calls.count()).toBe(1);
@@ -361,21 +359,62 @@ describe("HubProjects:", () => {
       // verify the query
       const searchOpts = searchSpy.calls.argsFor(0)[0];
 
-      expect(searchOpts.q).toBe("water");
-      expect(searchOpts.filter).toBe(`type:"Hub Project"`);
-      // Verify facets
-      expect(response.facets).toBeDefined();
+      expect(searchOpts.q).toBe(`type:"Hub Project" AND water`);
+    });
+    it("accepts an IQuery", async () => {
+      const qry: IQuery = {
+        targetEntity: "item",
+        filters: [
+          {
+            predicates: [
+              {
+                term: "colorado",
+              },
+            ],
+          },
+        ],
+      };
+      const opts = {};
+
+      const response = await searchProjects(qry, opts);
+      expect(response.results.length).toBe(1);
+      expect(searchSpy.calls.count()).toBe(1);
+      expect(dataSpy.calls.count()).toBe(1);
+      expect(response.results[0].thumbnailUrl).toBe(
+        "https://www.arcgis.com/sharing/rest/content/items/bc3/info/zen.jpg"
+      );
+      // verify the query
+      const searchOpts = searchSpy.calls.argsFor(0)[0];
+
+      expect(searchOpts.q).toBe(`type:"Hub Project" AND colorado`);
+    });
+
+    it("accepts num, sortField and aggFields", async () => {
+      const opts = {
+        api: "arcgisQA",
+        aggFields: ["tags"],
+        num: 4,
+        sortField: "created",
+      } as IHubSearchOptions;
+      const response = await searchProjects("water", opts);
+      expect(response.results.length).toBe(1);
+
+      // verify the query
+      const searchOpts = searchSpy.calls.argsFor(0)[0];
+
+      expect(searchOpts.q).toBe(`type:"Hub Project" AND water`);
+      expect(searchOpts.portal).toEqual(`https://qaext.arcgis.com`);
+      expect(searchOpts.num).toBe(4);
+      expect(searchOpts.sortField).toBe("created");
+      expect(searchOpts.countFields).toBe("tags");
+      expect(searchOpts.countSize).toBe(10);
     });
 
     it("it constructs search, passing api", async () => {
-      const filter: Filter<"content"> = {
-        filterType: "content",
-        term: "water",
-      };
       const opts = {
         api: "arcgisQA",
       } as IHubSearchOptions;
-      const response = await searchProjects(filter, opts);
+      const response = await searchProjects("water", opts);
       expect(response.results.length).toBe(1);
       expect(searchSpy.calls.count()).toBe(1);
       expect(dataSpy.calls.count()).toBe(1);
@@ -385,80 +424,8 @@ describe("HubProjects:", () => {
       // verify the query
       const searchOpts = searchSpy.calls.argsFor(0)[0];
 
-      expect(searchOpts.q).toBe("water");
-      expect(searchOpts.filter).toBe(`type:"Hub Project"`);
+      expect(searchOpts.q).toBe(`type:"Hub Project" AND water`);
       expect(searchOpts.portal).toEqual(`https://qaext.arcgis.com`);
-      // Verify facets
-      expect(response.facets).toBeDefined();
-    });
-    it("constructs search, detailed", async () => {
-      const filter: Filter<"content"> = {
-        filterType: "content",
-        term: "water",
-      };
-      const opts = {
-        authentication: MOCK_AUTH,
-        aggFields: ["tags"],
-        num: 10,
-        sortField: "title",
-        sortOrder: "desc",
-        site: { item: {}, data: {} },
-      } as IHubSearchOptions;
-      const response = await searchProjects(filter, opts);
-      expect(response.results.length).toBe(1);
-      expect(searchSpy.calls.count()).toBe(1);
-      expect(dataSpy.calls.count()).toBe(1);
-      expect(response.results[0].thumbnailUrl).toBe(
-        "https://myorg.maps.arcgis.com/sharing/rest/content/items/bc3/info/zen.jpg?token=fake-token"
-      );
-      // verify the query
-      const searchOpts = searchSpy.calls.argsFor(0)[0];
-
-      expect(searchOpts.q).toBe("water");
-      expect(searchOpts.countFields).toBe("tags");
-      expect(searchOpts.countSize).toBe(10);
-      expect(searchOpts.filter).toBe(`type:"Hub Project"`);
-
-      // Verify facets
-      expect(response.facets).toBeDefined();
-      expect(response.facets.length).toBe(1);
-      expect(response.facets[0].key).toBe("tags");
-      expect(response.facets[0].options.length).toBe(3);
-    });
-    it("constructs search, including a specific start if required", async () => {
-      const filter: Filter<"content"> = {
-        filterType: "content",
-        term: "water",
-      };
-      const opts = {
-        authentication: MOCK_AUTH,
-        aggFields: ["tags"],
-        aggLimit: 54,
-        num: 10,
-        sortField: "title",
-        sortOrder: "desc",
-        site: { item: {}, data: {} },
-        start: 2,
-      } as any;
-      const response = await searchProjects(filter, opts);
-      expect(response.results.length).toBe(1);
-      expect(searchSpy.calls.count()).toBe(1);
-      expect(dataSpy.calls.count()).toBe(1);
-      expect(response.results[0].thumbnailUrl).toBe(
-        "https://myorg.maps.arcgis.com/sharing/rest/content/items/bc3/info/zen.jpg?token=fake-token"
-      );
-      // verify the query
-      const searchOpts = searchSpy.calls.argsFor(0)[0];
-
-      expect(searchOpts.q).toBe("water");
-      expect(searchOpts.filter).toBe(`type:"Hub Project"`);
-      expect(searchOpts.countSize).toBe(54);
-
-      // Verify facets
-      expect(response.facets).toBeDefined();
-      expect(response.facets.length).toBe(1);
-      expect(response.facets[0].key).toBe("tags");
-      expect(response.facets[0].options.length).toBe(3);
     });
   });
 
@@ -505,11 +472,11 @@ describe("HubProjects:", () => {
       expect(chk.updatedDate).toEqual(new Date(ITM.modified));
       expect(chk.updatedDateSource).toEqual("item.modified");
       expect(chk.family).toEqual("project");
-      expect(chk.links.self).toEqual(
+      expect(chk.links?.self).toEqual(
         `https://some-server.com/gis/home/item.html?id=${ITM.id}`
       );
-      expect(chk.links.siteRelative).toEqual(`/projects/${ITM.id}`);
-      expect(chk.links.thumbnail).toEqual(
+      expect(chk.links?.siteRelative).toEqual(`/projects/${ITM.id}`);
+      expect(chk.links?.thumbnail).toEqual(
         `${hubRo.portal}/content/items/${ITM.id}/info/${ITM.thumbnail}`
       );
     });
