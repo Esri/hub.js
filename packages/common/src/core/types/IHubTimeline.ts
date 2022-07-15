@@ -32,13 +32,20 @@ export interface IHubStage {
   /**
    * Stage Link
    */
-  link?: string;
-  /**
-   * Stage Link Display Text
-   */
-  linkText?: string;
+  link?: IHubStageLink;
   /**
    * Stage status
    */
   status: string;
+}
+
+export interface IHubStageLink {
+  /**
+   * Link href
+   */
+  href: string;
+  /**
+   * Link display title text
+   */
+  title?: string;
 }
