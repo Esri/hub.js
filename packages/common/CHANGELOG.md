@@ -1,3 +1,10 @@
+## @esri/hub-common [9.46.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.46.0...@esri/hub-common@9.46.1) (2022-07-15)
+
+
+### Bug Fixes
+
+* correct $application well-known-type ([#831](https://github.com/Esri/hub.js/issues/831)) ([be1fe6d](https://github.com/Esri/hub.js/commit/be1fe6de137a7214e5733d4e4a1ac123f6c3e4f6))
+
 # @esri/hub-common [9.46.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.45.6...@esri/hub-common@9.46.0) (2022-07-14)
 
 
