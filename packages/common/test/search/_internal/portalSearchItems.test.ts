@@ -243,12 +243,14 @@ describe("portalSearchItems Module:", () => {
 
         const chk = applyWellKnownItemPredicates(qry);
         expect(chk.filters.length).toBe(2);
+        expect(chk.filters[0].operation).toBe("OR");
 
         expect(chk.filters[0].predicates.length).toBe(1);
         expect(chk.filters[0].predicates[0].type).toEqual(
           WellKnownItemFilters.$dashboard[0].type
         );
         expect(chk.filters[1].predicates.length).toBe(2);
+        expect(chk.filters[1].operation).toBe("OR");
         expect(chk.filters[1].predicates[0].type).toEqual(
           WellKnownItemFilters.$storymap[0].type
         );
@@ -261,6 +263,7 @@ describe("portalSearchItems Module:", () => {
           targetEntity: "item",
           filters: [
             {
+              operation: "AND",
               predicates: [
                 {
                   type: "Web Map",
@@ -273,6 +276,7 @@ describe("portalSearchItems Module:", () => {
         const chk = applyWellKnownItemPredicates(qry);
         expect(chk.filters.length).toBe(1);
         expect(chk.filters).toEqual(qry.filters);
+        expect(chk.filters[0].operation).toBe("AND");
       });
       it("skips non-well-known keys", () => {
         const qry: IQuery = {
@@ -297,7 +301,7 @@ describe("portalSearchItems Module:", () => {
           targetEntity: "item",
           filters: [
             {
-              operation: "OR",
+              operation: "AND",
               predicates: [
                 {
                   type: "$dashboard",
@@ -314,6 +318,7 @@ describe("portalSearchItems Module:", () => {
         expect(chk.filters.length).toBe(1);
 
         expect(chk.filters[0].predicates.length).toBe(3);
+        expect(chk.filters[0].operation).toBe("OR");
         expect(chk.filters[0].predicates[0].type).toEqual(
           WellKnownItemFilters.$dashboard[0].type
         );
@@ -344,7 +349,7 @@ describe("portalSearchItems Module:", () => {
         const chk = applyWellKnownItemPredicates(qry);
         expect(chk.filters.length).toBe(1);
         const expected = cloneObject(WellKnownItemFilters.$dashboard[0].type);
-
+        expect(chk.filters[0].operation).toBe("OR");
         expect(chk.filters[0].predicates[0].type).toEqual(expected);
         expect(chk.filters[0].predicates[0].owner).not.toBeDefined();
       });
