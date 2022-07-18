@@ -1,3 +1,10 @@
+# @esri/hub-teams [9.46.0](https://github.com/Esri/hub.js/compare/@esri/hub-teams@9.45.1...@esri/hub-teams@9.46.0) (2022-07-18)
+
+
+### Features
+
+* allow custom org group limits ([#833](https://github.com/Esri/hub.js/issues/833)) ([d205606](https://github.com/Esri/hub.js/commit/d205606bf095a6c1ab9a6de9f1acfa5d2e6c817f))
+
 ## @esri/hub-teams [9.45.1](https://github.com/Esri/hub.js/compare/@esri/hub-teams@9.45.0...@esri/hub-teams@9.45.1) (2022-07-15)
 
 
