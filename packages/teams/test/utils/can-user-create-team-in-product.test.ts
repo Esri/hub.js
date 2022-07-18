@@ -8,14 +8,14 @@ describe("teams:utils:canUserCreateTeamInProduct:", () => {
   const tmpl = {
     config: {
       requiredPrivs: ["baz"],
-      availableIn: ["basic"]
-    }
+      availableIn: ["basic"],
+    },
   } as IGroupTemplate;
 
   it("returns false if user lacks privs", () => {
     const user = {
       privileges: ["foo"],
-      groups: [] as any[]
+      groups: [] as any[],
     };
 
     const result = canUserCreateTeamInProduct(user, "basic", tmpl);
@@ -26,7 +26,7 @@ describe("teams:utils:canUserCreateTeamInProduct:", () => {
   it("returns false if team not availble in product", () => {
     const user = {
       privileges: ["foo"],
-      groups: [] as any[]
+      groups: [] as any[],
     };
 
     const result = canUserCreateTeamInProduct(user, "premium", tmpl);
@@ -36,7 +36,7 @@ describe("teams:utils:canUserCreateTeamInProduct:", () => {
   it("returns false if user has 507 or more groups", () => {
     const user = {
       privileges: ["baz"],
-      groups: new Array(508)
+      groups: new Array(508),
     };
 
     const result = canUserCreateTeamInProduct(user, "basic", tmpl);
@@ -46,10 +46,24 @@ describe("teams:utils:canUserCreateTeamInProduct:", () => {
   it("returns true if user has privs and less than 511 groups", () => {
     const user = {
       privileges: ["baz"],
-      groups: [] as any[]
+      groups: [] as any[],
     };
 
     const result = canUserCreateTeamInProduct(user, "basic", tmpl);
     expect(result).toBeTruthy("user can creat team if they have privs");
+  });
+
+  it("allows more groups for some orgs", () => {
+    const user = {
+      orgId: "xW49QhDgcgjm4BU0",
+      privileges: ["baz"],
+      groups: new Array(645),
+    };
+    const result = canUserCreateTeamInProduct(user, "basic", tmpl);
+    expect(result).toBeTruthy("user can creat team if they have privs");
+
+    user.orgId = "q5DTBtIqgaEcBe1j";
+    const result2 = canUserCreateTeamInProduct(user, "basic", tmpl);
+    expect(result2).toBeTruthy("user can creat team if they have privs");
   });
 });
