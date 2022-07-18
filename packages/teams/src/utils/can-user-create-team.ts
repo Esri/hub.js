@@ -7,6 +7,7 @@ import {
 } from "@esri/hub-common";
 import { HubTeamType } from "../types";
 import { getUserCreatableTeams } from "./get-user-creatable-teams";
+import { getOrgGroupLimit } from "./getOrgGroupLimit";
 
 /**
  * Determine if the current user can create a specific type of team
@@ -20,7 +21,8 @@ export function canUserCreateTeam(
   hubRequestOptions: IHubRequestOptions
 ) {
   const userGroups = getProp(user, "groups") || [];
-  if (userGroups.length > 510) {
+  const userGroupLimit = getOrgGroupLimit(user.orgId) - 2;
+  if (userGroups.length > userGroupLimit) {
     return false;
   } else {
     const portalSelf = hubRequestOptions.portalSelf;

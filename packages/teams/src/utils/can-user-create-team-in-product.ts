@@ -2,6 +2,7 @@ import { IUser } from "@esri/arcgis-rest-auth";
 import { hasAllPrivileges } from "./has-all-privileges";
 import { getProp, HubProduct, includes } from "@esri/hub-common";
 import { IGroupTemplate } from "../types";
+import { getOrgGroupLimit } from "./getOrgGroupLimit";
 
 /**
  * Predicate for filtering group templates based on product
@@ -17,10 +18,11 @@ export function canUserCreateTeamInProduct(
   template: IGroupTemplate
 ) {
   let result = false;
+  const userGroupLimit = getOrgGroupLimit(user.orgId) - 5;
   const userGroups = getProp(user, "groups") || [];
   // can this be created in the current environment?
   if (
-    userGroups.length < 507 &&
+    userGroups.length <= userGroupLimit &&
     includes(template.config.availableIn, product)
   ) {
     // and user has required privs...
