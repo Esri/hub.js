@@ -193,7 +193,7 @@ export class Catalog implements IHubCatalog {
       const result = this.getEmptyResult();
       result.messages = [
         {
-          id: "missingScope",
+          code: "missingScope",
           message: "Catalog does not have a scope for items",
           data: {
             scope: "item",
@@ -223,7 +223,7 @@ export class Catalog implements IHubCatalog {
       const result = this.getEmptyResult();
       result.messages = [
         {
-          id: "missingScope",
+          code: "missingScope",
           message: "Catalog does not have a scope for groups",
           data: {
             scope: "group",
@@ -253,7 +253,7 @@ export class Catalog implements IHubCatalog {
       const result = this.getEmptyResult();
       result.messages = [
         {
-          id: "missingScope",
+          code: "missingScope",
           message: "Catalog does not have a scope for user",
           data: {
             scope: "user",

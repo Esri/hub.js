@@ -4,22 +4,22 @@
  * for the translation
  *
  * @export
- * @interface ITranslatableMessage
+ * @interface IMessage
  */
-export interface ITranslatableMessage {
+export interface IMessage {
   /**
    * Unique key that can be used with a i18n system in a consuming application
    *
    * @type {string}
-   * @memberof ITranslatableMessage
+   * @memberof IMessage
    */
-  id: string;
+  code: string;
   /**
    * English message describing the issue, for debugging only. Not intended to be shown
    * in an application interface.
    *
    * @type {string}
-   * @memberof ITranslatableMessage
+   * @memberof IMessage
    */
   message: string;
 
@@ -27,7 +27,7 @@ export interface ITranslatableMessage {
    * Optional data that can be sent along
    *
    * @type {Record<string, unknown>}
-   * @memberof ITranslatableMessage
+   * @memberof IMessage
    */
   data?: Record<string, unknown>;
 }

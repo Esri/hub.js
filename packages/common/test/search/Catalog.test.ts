@@ -326,7 +326,7 @@ describe("Catalog Class:", () => {
       const res = await instance.searchItems("water");
       expect(res.results.length).toBe(0);
       expect(res.messages?.length).toBe(1);
-      expect(res.messages?.[0].id).toBe("missingScope");
+      expect(res.messages?.[0].code).toBe("missingScope");
       expect(res.messages?.[0].data?.scope).toBe("item");
     });
     it("returns empty results if group scope does not exist", async () => {
@@ -337,7 +337,7 @@ describe("Catalog Class:", () => {
       const res = await instance.searchGroups("water");
       expect(res.results.length).toBe(0);
       expect(res.messages?.length).toBe(1);
-      expect(res.messages?.[0].id).toBe("missingScope");
+      expect(res.messages?.[0].code).toBe("missingScope");
       expect(res.messages?.[0].data?.scope).toBe("group");
     });
     it("returns empty results if user scope does not exist", async () => {
@@ -348,7 +348,7 @@ describe("Catalog Class:", () => {
       const res = await instance.searchUsers("water");
       expect(res.results.length).toBe(0);
       expect(res.messages?.length).toBe(1);
-      expect(res.messages?.[0].id).toBe("missingScope");
+      expect(res.messages?.[0].code).toBe("missingScope");
       expect(res.messages?.[0].data?.scope).toBe("user");
     });
   });

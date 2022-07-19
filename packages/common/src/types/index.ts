@@ -1,1 +1,1 @@
-export * from "./ITranslatableMessage";
+export * from "./IMessage";
