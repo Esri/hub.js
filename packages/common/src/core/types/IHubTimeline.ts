@@ -2,6 +2,7 @@
  * Hub Timeline Definition
  */
 export interface IHubTimeline {
+  schemaVersion: number;
   title: string;
   description: string;
   stages: IHubStage[];
@@ -29,7 +30,22 @@ export interface IHubStage {
    */
   description: string;
   /**
+   * Stage Link
+   */
+  link?: IHubStageLink;
+  /**
    * Stage status
    */
   status: string;
+}
+
+export interface IHubStageLink {
+  /**
+   * Link href
+   */
+  href: string;
+  /**
+   * Link display title text
+   */
+  title?: string;
 }
