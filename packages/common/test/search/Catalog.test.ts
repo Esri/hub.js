@@ -278,47 +278,78 @@ describe("Catalog Class:", () => {
       expect(query.filters[1]).toEqual(catalogJson.scopes?.user?.filters[0]);
     });
 
-    it("throws if item scope does not exist", async () => {
+    it("searchCollections by term", async () => {
+      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
+        return Promise.resolve({ fake: "response" });
+      });
+      const instance = Catalog.fromJson(cloneObject(catalogJson), context);
+      const res = await instance.searchCollections("water");
+      // ensure the spy was called
+      expect(hubSearchSpy.calls.count()).toBe(2);
+      expect(res.teams).toBeDefined();
+      expect(res.teams).toEqual({
+        fake: "response",
+      } as unknown as IHubSearchResponse<IHubSearchResult>);
+      expect(res.environment).toBeDefined();
+      expect(res.environment).toEqual({
+        fake: "response",
+      } as unknown as IHubSearchResponse<IHubSearchResult>);
+    });
+
+    it("searchScopes by term", async () => {
+      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
+        return Promise.resolve({ fake: "response" });
+      });
+      const instance = Catalog.fromJson(cloneObject(catalogJson), context);
+      const res = await instance.searchScopes("water");
+      // ensure the spy was called
+      expect(hubSearchSpy.calls.count()).toBe(3);
+      expect(res.user).toBeDefined();
+      expect(res.user).toEqual({
+        fake: "response",
+      } as unknown as IHubSearchResponse<IHubSearchResult>);
+      expect(res.item).toBeDefined();
+      expect(res.item).toEqual({
+        fake: "response",
+      } as unknown as IHubSearchResponse<IHubSearchResult>);
+      expect(res.group).toBeDefined();
+      expect(res.group).toEqual({
+        fake: "response",
+      } as unknown as IHubSearchResponse<IHubSearchResult>);
+    });
+
+    it("returns empty results if item scope does not exist", async () => {
       const cat = cloneObject(catalogJson);
       delete cat.scopes?.item;
       const instance = Catalog.fromJson(cat, context);
 
-      try {
-        await instance.searchItems("water");
-      } catch (err) {
-        expect(getProp(err, "name")).toBe("HubError");
-        expect(getProp(err, "message")).toContain(
-          "Catalog does not support searching for items"
-        );
-      }
+      const res = await instance.searchItems("water");
+      expect(res.results.length).toBe(0);
+      expect(res.messages?.length).toBe(1);
+      expect(res.messages?.[0].id).toBe("missingScope");
+      expect(res.messages?.[0].data?.scope).toBe("item");
     });
-    it("throws if group scope does not exist", async () => {
+    it("returns empty results if group scope does not exist", async () => {
       const cat = cloneObject(catalogJson);
       delete cat.scopes?.group;
       const instance = Catalog.fromJson(cat, context);
 
-      try {
-        await instance.searchGroups("water");
-      } catch (err) {
-        expect(getProp(err, "name")).toBe("HubError");
-        expect(getProp(err, "message")).toContain(
-          "Catalog does not support searching for groups"
-        );
-      }
+      const res = await instance.searchGroups("water");
+      expect(res.results.length).toBe(0);
+      expect(res.messages?.length).toBe(1);
+      expect(res.messages?.[0].id).toBe("missingScope");
+      expect(res.messages?.[0].data?.scope).toBe("group");
     });
-    it("throws if user scope does not exist", async () => {
+    it("returns empty results if user scope does not exist", async () => {
       const cat = cloneObject(catalogJson);
       delete cat.scopes?.user;
       const instance = Catalog.fromJson(cat, context);
 
-      try {
-        await instance.searchUsers("water");
-      } catch (err) {
-        expect(getProp(err, "name")).toBe("HubError");
-        expect(getProp(err, "message")).toContain(
-          "Catalog does not support searching for users"
-        );
-      }
+      const res = await instance.searchUsers("water");
+      expect(res.results.length).toBe(0);
+      expect(res.messages?.length).toBe(1);
+      expect(res.messages?.[0].id).toBe("missingScope");
+      expect(res.messages?.[0].data?.scope).toBe("user");
     });
   });
 });

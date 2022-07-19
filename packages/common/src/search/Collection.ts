@@ -24,27 +24,6 @@ export class Collection implements IHubCollection {
   }
 
   /**
-   * TBD if we implement this
-   * Fetch a collection from a catalog stored with an item
-   * @param collection
-   * @param context
-   * @returns
-   */
-  // public static async init(
-  //   identifier: string,
-  //   context?: IArcGISContext
-  // ): Promise<Collection> {
-  //   // TODO: Need to decide how to handle the url identifier for portal
-  //   // since the portal urls already have `#` in them, we'd need to do
-  //   // some convoluted work.
-  //   // OR just throw for portal if it's not a GUID
-  //   // Async so we could extend to look up by ref like
-  //   // https://mysite.com#documents vs passing in a full ICollection
-  //   const col = new Collection(collection, context);
-  //   return Promise.resolve(col);
-  // }
-
-  /**
    * Create an instance of a Collection from a JSON object
    * @param collection
    * @param context
@@ -89,6 +68,12 @@ export class Collection implements IHubCollection {
     return this._collection.targetEntity;
   }
 
+  /**
+   * Search the collection using a string or IQuery
+   * @param query
+   * @param options
+   * @returns
+   */
   public async search(
     query: string | IQuery,
     options: IHubSearchOptions = {}
@@ -111,6 +96,8 @@ export class Collection implements IHubCollection {
     } else {
       qry = query;
     }
+
+    // TODO: What should happen when a Query is passed in that has a targetEntity that doesn't match the collection's targetEntity?
 
     // merge the passed in query w/ the scope
     qry.filters = [...qry.filters, ...this.scope.filters];

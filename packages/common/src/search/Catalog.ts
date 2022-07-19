@@ -20,6 +20,13 @@ import {
 import { upgradeCatalogSchema } from "./upgradeCatalogSchema";
 
 /**
+ * Response from a Catalog search operation where the responses for different collections
+ * or entities are grouped into a single object.
+ */
+export interface ISearchResponseHash
+  extends Record<string, IHubSearchResponse<IHubSearchResult>> {}
+
+/**
  * Catalog Class
  *
  * Abstracts working with Catalogs and fetching collections with
@@ -183,10 +190,17 @@ export class Catalog implements IHubCatalog {
     options: IHubSearchOptions = {}
   ): Promise<IHubSearchResponse<IHubSearchResult>> {
     if (!this.getScope("item")) {
-      throw new HubError(
-        "Catalog.searchItems",
-        "Catalog does not support searching for items"
-      );
+      const result = this.getEmptyResult();
+      result.messages = [
+        {
+          id: "missingScope",
+          message: "Catalog does not have a scope for items",
+          data: {
+            scope: "item",
+          },
+        },
+      ];
+      return Promise.resolve(result);
     } else {
       // ensure it's an item search
       options.targetEntity = "item";
@@ -206,10 +220,17 @@ export class Catalog implements IHubCatalog {
     options: IHubSearchOptions = {}
   ): Promise<IHubSearchResponse<IHubSearchResult>> {
     if (!this.getScope("group")) {
-      throw new HubError(
-        "Catalog.searchGroups",
-        "Catalog does not support searching for groups"
-      );
+      const result = this.getEmptyResult();
+      result.messages = [
+        {
+          id: "missingScope",
+          message: "Catalog does not have a scope for groups",
+          data: {
+            scope: "group",
+          },
+        },
+      ];
+      return Promise.resolve(result);
     } else {
       // ensure it's an group search
       options.targetEntity = "group";
@@ -229,15 +250,112 @@ export class Catalog implements IHubCatalog {
     options: IHubSearchOptions = {}
   ): Promise<IHubSearchResponse<IHubSearchResult>> {
     if (!this.getScope("user")) {
-      throw new HubError(
-        "Catalog.searchUsers",
-        "Catalog does not support searching for users"
-      );
+      const result = this.getEmptyResult();
+      result.messages = [
+        {
+          id: "missingScope",
+          message: "Catalog does not have a scope for user",
+          data: {
+            scope: "user",
+          },
+        },
+      ];
+      return Promise.resolve(result);
     } else {
       // ensure it's an group search
       options.targetEntity = "user";
       return this.search(query, options);
     }
+  }
+
+  /**
+   * Execute a search against all the collections in the Catalog
+   * @param query
+   * @param options
+   * @returns
+   */
+  async searchCollections(
+    query: string,
+    options: IHubSearchOptions = {}
+  ): Promise<ISearchResponseHash> {
+    // build a query
+    const qry: IQuery = {
+      targetEntity: "item",
+      filters: [
+        {
+          predicates: [
+            {
+              term: query,
+            },
+          ],
+        },
+      ],
+    };
+    // iterate the colllections, issue searchs for each one
+    const promiseKeys: string[] = [];
+    const promises = this.collectionNames.map((name) => {
+      const col = this.getCollection(name);
+      promiseKeys.push(name);
+      qry.targetEntity = col.targetEntity;
+      return col.search(qry, options);
+    });
+
+    const responses = await Promise.all(promises);
+
+    // merge the responses into the hash
+    const hash: ISearchResponseHash = {};
+    for (let i = 0; i < promiseKeys.length; i++) {
+      hash[promiseKeys[i]] = responses[i];
+    }
+    return hash;
+  }
+
+  /**
+   * Execute a search against all the scopes in the Catalog
+   * @param query
+   * @param options
+   * @returns
+   */
+  async searchScopes(
+    query: string,
+    options: IHubSearchOptions = {}
+  ): Promise<ISearchResponseHash> {
+    const qry: IQuery = {
+      targetEntity: "item",
+      filters: [
+        {
+          predicates: [
+            {
+              term: query,
+            },
+          ],
+        },
+      ],
+    };
+    // iterate the scopes, issue searchs for each one
+
+    const promiseKeys: string[] = [];
+    const promises = this.availableScopes.map((name) => {
+      promiseKeys.push(name);
+      // make clones
+      const qryClone = cloneObject(qry);
+      const optsClone = cloneObject(options);
+      // set the target entity
+      qryClone.targetEntity = name;
+      optsClone.targetEntity = name;
+      // return the search promise
+      return this.search(qryClone, optsClone);
+    });
+
+    // wait for all the searches to complete
+    const responses = await Promise.all(promises);
+
+    // merge the responses into the hash
+    const hash: ISearchResponseHash = {};
+    for (let i = 0; i < promiseKeys.length; i++) {
+      hash[promiseKeys[i]] = responses[i];
+    }
+    return hash;
   }
 
   /**
@@ -278,5 +396,19 @@ export class Catalog implements IHubCatalog {
     opts.requestOptions = this._context.hubRequestOptions;
 
     return hubSearch(qry, opts);
+  }
+
+  /**
+   * Construct an empty result. Returned when a search is performed against an entity type that
+   * does not have a scope defined.
+   * @returns
+   */
+  private getEmptyResult(): IHubSearchResponse<IHubSearchResult> {
+    return {
+      results: [],
+      total: 0,
+      hasNext: false,
+      next: null,
+    };
   }
 }
