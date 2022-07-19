@@ -1,3 +1,12 @@
+# @esri/hub-common [9.47.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.46.1...@esri/hub-common@9.47.0) (2022-07-19)
+
+
+### Features
+
+* update IHubStage to optionally include a link and linkText ([f556f3d](https://github.com/Esri/hub.js/commit/f556f3d225e891a6460e20c471762b757b4585d7))
+* update IHubStage to optionally include a link property ([2fae827](https://github.com/Esri/hub.js/commit/2fae827808e009137264830ae0dba12914742e20))
+* update IHubTimeline to include schemaVersion ([8cc8871](https://github.com/Esri/hub.js/commit/8cc8871209b2c389807dc0cc445017a4956c5a90))
+
 ## @esri/hub-common [9.46.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.46.0...@esri/hub-common@9.46.1) (2022-07-15)
 
 
