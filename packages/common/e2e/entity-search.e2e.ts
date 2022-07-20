@@ -4,6 +4,7 @@ import {
   expandContentFilter,
   failSafe,
   fetchModelFromItem,
+  fetchOrgLimits,
   IModel,
   IQuery,
   serializeContentFilterForPortal,
@@ -19,6 +20,19 @@ describe("Entity Search", () => {
     factory = new Artifactory(config);
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;
   });
+
+  // Just used to verify the request works and the QA API is working
+  // it("fetchOrgLimits", async () => {
+  //   const ctxMgr = await factory.getContextManager("hubBasic", "admin");
+  //   const result = await fetchOrgLimits(
+  //     "self",
+  //     "Groups",
+  //     "MaxNumUserGroups",
+  //     ctxMgr.context.userRequestOptions
+  //   );
+  //   debugger;
+  //   expect(result.limitValue).toBe(512);
+  // });
 
   it("validate createEntitySearchFn", async () => {
     // create session
