@@ -1,3 +1,10 @@
+# @esri/hub-common [9.48.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.47.0...@esri/hub-common@9.48.0) (2022-07-20)
+
+
+### Features
+
+* fetch org limits functions ([#834](https://github.com/Esri/hub.js/issues/834)) ([6bfbf19](https://github.com/Esri/hub.js/commit/6bfbf19b154f33796b10a20f5e74a838d8db09b9))
+
 # @esri/hub-common [9.47.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.46.1...@esri/hub-common@9.47.0) (2022-07-19)
 
 
