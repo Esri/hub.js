@@ -6,6 +6,8 @@ on:
     types: [opened, reopened, ready_for_review, synchronize]
     branches:
       - master
+      - next
+      - beta
     # If the PR has other files, a push w/ just .md or /docs
     # files will still cause tests to run
     paths-ignore:

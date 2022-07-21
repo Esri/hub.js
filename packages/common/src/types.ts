@@ -12,7 +12,6 @@ import {
 import { IPortal, ISearchResult } from "@esri/arcgis-rest-portal";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IFacet } from "./search";
 
 /**
  * Generic Model, used with all items that have a json
@@ -425,7 +424,6 @@ export interface ISearchResponse<T> {
   results: T[];
   hasNext: boolean;
   next: (params?: any) => Promise<ISearchResponse<T>>;
-  facets?: IFacet[];
 }
 
 /**

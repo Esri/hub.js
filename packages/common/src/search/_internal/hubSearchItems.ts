@@ -8,10 +8,6 @@ import {
   IHubSearchResponse,
   IHubSearchResult,
   IHubApiSearchRequest,
-  Filter,
-  IFacet,
-  IFacetOption,
-  IMatchOptions,
 } from "../types";
 import { expandApi } from "../utils";
 
@@ -119,13 +115,10 @@ export async function hubSearchItems(
       json.data.map(conversion)
     );
 
-    const facets = convertHubResponseToFacets(json);
-
     // now transform into a IHubSearchResponse
     const response = {
       total: json.meta.total,
       results,
-      facets,
       hasNext: json.meta.hasNext,
       next: () => {
         // tslint:disable-next-line
@@ -195,51 +188,4 @@ interface IHubMetaResponse {
       count: number;
     }>;
   }>;
-}
-
-/* istanbul ignore next */
-export function convertHubResponseToFacets(
-  response: any,
-  operation: "OR" | "AND" = "OR"
-): IFacet[] {
-  const result: IFacet[] = [];
-
-  if (response.meta?.aggregations) {
-    const meta = response.meta as unknown as IHubMetaResponse;
-    meta.aggregations.forEach((entry) => {
-      // Dyanmic facets typically "AND" so we are refining
-      const facet: IFacet = {
-        label: entry.field,
-        key: entry.field,
-        aggField: entry.field,
-        display: "multi-select",
-        operation,
-      };
-
-      const options: IFacetOption[] = [];
-
-      entry.values.forEach((fv: any) => {
-        const filter: Filter<"item"> = {
-          filterType: "item",
-        };
-        // construct the filter based on the operation
-        const matchKey = operation === "OR" ? "any" : "all";
-        const filterMatchOption = {} as IMatchOptions;
-        filterMatchOption[matchKey] = [fv.value];
-        filter[entry.field] = filterMatchOption;
-        // construct the FacetOption
-        const fo: IFacetOption = {
-          label: `${fv.value} (${fv.count})`,
-          key: fv.value,
-          count: fv.count,
-          selected: false,
-          filters: [filter],
-        };
-        options.push(fo);
-      });
-      facet.options = options;
-      result.push(facet);
-    });
-  }
-  return result;
 }

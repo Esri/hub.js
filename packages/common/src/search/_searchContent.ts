@@ -1,15 +1,9 @@
 import {
   expandContentFilter,
   serializeContentFilterForPortal,
-  convertPortalResponseToFacets,
 } from "./content-utils";
 
-import {
-  Filter,
-  IHubSearchOptions,
-  IContentSearchResult,
-  IFacet,
-} from "./types";
+import { Filter, IHubSearchOptions, IContentSearchResult } from "./types";
 import { ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
 import { expandApi, getNextFunction } from "./utils";
 import {
@@ -94,7 +88,6 @@ export async function _searchContent(
     searchPromise = Promise.resolve({
       total: 0,
       results: [] as IHubContent[],
-      facets: [] as IFacet[],
       hasNext: false,
       next: () => {
         // tslint:disable-next-line
@@ -141,12 +134,10 @@ function searchPortal(
     }
     // add thumbnailUrl
     content = content.map(thumbnailify);
-    // convert aggregations into facets
-    const facets = convertPortalResponseToFacets(resp);
+
     return {
       total: resp.total,
       results: content,
-      facets,
       hasNext,
       next: getNextFunction<IHubContent>(
         searchOptions,

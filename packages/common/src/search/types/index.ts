@@ -1,7 +1,5 @@
 export * from "./ICatalog";
 export * from "./ICollection";
-export * from "./IFacet";
-export * from "./IFacetOption";
 export * from "./IHubAggregation";
 export * from "./IHubApiSearchRequest";
 export * from "./IHubSearchOptions";

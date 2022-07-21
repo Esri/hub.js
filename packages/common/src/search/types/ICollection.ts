@@ -1,4 +1,3 @@
-import { IFacet } from "./IFacet";
 import { Filter, FilterType, IFilterGroup, ISortOption } from "./types";
 
 /**
@@ -27,8 +26,6 @@ export interface ICollection {
 
   // Default Sorts
   sortOption: ISortOption;
-  // Facets available for this Collection
-  facets?: IFacet[];
 
   // Filter defines the "scope" of the Collection, typically a set of groups or orgids
   // DEPRECATED: Use `scope`

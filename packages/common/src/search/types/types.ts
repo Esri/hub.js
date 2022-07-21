@@ -1,6 +1,5 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { IHubContent, AccessLevel } from "../..";
-import { IFacet } from "./IFacet";
 
 /**
  * Generic filter used with various search functions.
@@ -271,7 +270,6 @@ export interface IMatchOptions {
 export interface IContentSearchResult {
   total: number;
   results: IHubContent[];
-  facets?: IFacet[];
   hasNext: boolean;
   next: (params?: any) => Promise<IContentSearchResult>;
 }

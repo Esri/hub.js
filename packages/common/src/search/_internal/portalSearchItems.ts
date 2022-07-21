@@ -1,10 +1,5 @@
 import { IItem, ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
-import {
-  cloneObject,
-  convertPortalItemResponseToFacets,
-  enrichContentSearchResult,
-  HubError,
-} from "../..";
+import { cloneObject, enrichContentSearchResult, HubError } from "../..";
 
 import { serializeQueryForPortal } from "../serializeQueryForPortal";
 
@@ -108,8 +103,6 @@ async function searchPortal(
   // map over results
   const results = await Promise.all(resp.results.map(fn));
 
-  // TODO Remove this call
-  const facets = convertPortalItemResponseToFacets(resp);
   // convert portal  aggregations into hub aggregations
   const aggregations = convertPortalAggregations(resp);
 
@@ -117,7 +110,6 @@ async function searchPortal(
   return {
     total: resp.total,
     results,
-    facets,
     aggregations,
     hasNext: resp.nextStart > -1,
     next: getNextFunction<IHubSearchResult>(
