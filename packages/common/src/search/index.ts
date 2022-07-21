@@ -7,7 +7,6 @@ export * from "./_searchContent";
 export * from "./_searchGroups";
 export * from "./_searchUsers";
 export * from "./types";
-export * from "./collectionState";
 export * from "./upgradeCatalogSchema";
 export * from "./filter-utils";
 export * from "./serializeQueryForPortal";

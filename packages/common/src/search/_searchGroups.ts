@@ -1,5 +1,5 @@
 import { IGroup, ISearchOptions } from "@esri/arcgis-rest-portal";
-import { Filter, IHubSearchOptions, IFacet } from "./types";
+import { Filter, IHubSearchOptions } from "./types";
 import { searchGroups as portalGroupSearch } from "@esri/arcgis-rest-portal";
 import { expandApi, getNextFunction } from ".";
 import {
@@ -8,10 +8,9 @@ import {
 } from "./group-utils";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { getGroupThumbnailUrl, ISearchResponse, Logger } from "..";
-export interface IGroupSearchResult {
-  groups: IGroup[];
-  facets: IFacet[];
-}
+// export interface IGroupSearchResult {
+//   groups: IGroup[];
+// }
 
 // TODO: Remove with _searchContent
 

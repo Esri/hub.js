@@ -156,9 +156,6 @@ describe("_searchContent:", () => {
       expect(expectedParams.sortField).toEqual("title");
       expect(expectedParams.sortOrder).toEqual("desc");
       expect(expectedParams.start).toEqual(1);
-      // verify Facets
-      expect(res.facets).toBeDefined();
-      expect(res.facets?.length).toBe(2, "should have two facets");
     });
 
     it("search with auth", async () => {
@@ -219,10 +216,6 @@ describe("_searchContent:", () => {
       };
 
       const res = await _searchContent(f, opts);
-
-      // TODO: Add tests for real implementation
-      expect(res.facets?.length).toEqual(0);
-      expect(res.facets?.length).toEqual(0);
     });
     it("next", async () => {
       const f: Filter<"content"> = {
@@ -236,9 +229,6 @@ describe("_searchContent:", () => {
       const res = await _searchContent(f, opts);
       const res2 = await res.next();
       expect(res2).not.toBeDefined();
-      // TODO: Add tests for real implementation
-      expect(res.facets?.length).toEqual(0);
-      expect(res.facets?.length).toEqual(0);
     });
   });
 });

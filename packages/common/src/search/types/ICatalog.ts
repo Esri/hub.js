@@ -1,5 +1,4 @@
 import { ICollection } from "./ICollection";
-import { IFacet } from "./IFacet";
 import { Filter, FilterType, IFilterGroup, ISortOption } from "./types";
 
 /**
@@ -81,8 +80,4 @@ export interface ICatalog {
    * Collections within the Catalog
    */
   collections?: ICollection[];
-  /**
-   * Facets to use with all Collections
-   */
-  facets?: IFacet[];
 }

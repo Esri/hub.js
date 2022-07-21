@@ -14,8 +14,8 @@ import {
   Filter,
   FilterType,
 } from "./types/types";
-import { IFacetOption } from "./types/IFacetOption";
-import { IFacet } from "./types/IFacet";
+// import { IFacetOption } from "./types/IFacetOption";
+// import { IFacet } from "./types/IFacet";
 import {
   mergeDateRange,
   mergeMatchOptions,
@@ -165,13 +165,13 @@ const ContentFilterExpansions: IWellKnownContentFilters = {
  * @returns
  */
 // TODO: Remove with _searchContent
-export function convertPortalResponseToFacets(
-  response: ISearchResult<IItem>,
-  operation: "OR" | "AND" = "OR"
-): IFacet[] {
-  // delegate to a more future-friendly version
-  return convertPortalItemResponseToFacets(response, operation, "filter");
-}
+// export function convertPortalResponseToFacets(
+//   response: ISearchResult<IItem>,
+//   operation: "OR" | "AND" = "OR"
+// ): IFacet[] {
+//   // delegate to a more future-friendly version
+//   return convertPortalItemResponseToFacets(response, operation, "filter");
+// }
 
 /**
  * @private
@@ -180,57 +180,57 @@ export function convertPortalResponseToFacets(
  * @param response
  * @returns
  */
-export function convertPortalItemResponseToFacets(
-  response: ISearchResult<IItem>,
-  operation: "OR" | "AND" = "OR",
-  optionProp: "filter" | "filters" = "filters" // TODO: Remove with _searchContent and use `filters`
-): IFacet[] {
-  // TODO: move into portalSearchItems
-  const result: IFacet[] = [];
-  if (response.aggregations?.counts) {
-    response.aggregations.counts.forEach((entry) => {
-      const facet: IFacet = {
-        label: entry.fieldName,
-        key: entry.fieldName,
-        aggField: entry.fieldName,
-        display: "multi-select",
-      };
+// export function convertPortalItemResponseToFacets(
+//   response: ISearchResult<IItem>,
+//   operation: "OR" | "AND" = "OR",
+//   optionProp: "filter" | "filters" = "filters" // TODO: Remove with _searchContent and use `filters`
+// ): IFacet[] {
+//   // TODO: move into portalSearchItems
+//   const result: IFacet[] = [];
+//   if (response.aggregations?.counts) {
+//     response.aggregations.counts.forEach((entry) => {
+//       const facet: IFacet = {
+//         label: entry.fieldName,
+//         key: entry.fieldName,
+//         aggField: entry.fieldName,
+//         display: "multi-select",
+//       };
 
-      const options: IFacetOption[] = [];
+//       const options: IFacetOption[] = [];
 
-      entry.fieldValues.forEach((fv) => {
-        const filter: Filter<"item"> = {
-          filterType: "item",
-        };
-        // construct the filter based on the operation
-        const matchKey = operation === "OR" ? "any" : "all";
-        const filterMatchOption = {} as IMatchOptions;
-        filterMatchOption[matchKey] = [fv.value];
-        filter[entry.fieldName] = filterMatchOption;
-        // construct the FacetOption
-        const fo: IFacetOption = {
-          label: `${fv.value} (${fv.count})`,
-          key: fv.value,
-          count: fv.count,
-          selected: false,
-        };
-        // Temporary to ensure the old fn can delegate to this
-        // but we can still return the correct structure
-        // TODO: Remove with _searchContent
-        /* istanbul ignore next */
-        if (optionProp === "filter") {
-          fo.filter = filter;
-        } else {
-          fo.filters = [filter];
-        }
-        options.push(fo);
-      });
-      facet.options = options;
-      result.push(facet);
-    });
-  }
-  return result;
-}
+//       entry.fieldValues.forEach((fv) => {
+//         const filter: Filter<"item"> = {
+//           filterType: "item",
+//         };
+//         // construct the filter based on the operation
+//         const matchKey = operation === "OR" ? "any" : "all";
+//         const filterMatchOption = {} as IMatchOptions;
+//         filterMatchOption[matchKey] = [fv.value];
+//         filter[entry.fieldName] = filterMatchOption;
+//         // construct the FacetOption
+//         const fo: IFacetOption = {
+//           label: `${fv.value} (${fv.count})`,
+//           key: fv.value,
+//           count: fv.count,
+//           selected: false,
+//         };
+//         // Temporary to ensure the old fn can delegate to this
+//         // but we can still return the correct structure
+//         // TODO: Remove with _searchContent
+//         /* istanbul ignore next */
+//         if (optionProp === "filter") {
+//           fo.filter = filter;
+//         } else {
+//           fo.filters = [filter];
+//         }
+//         options.push(fo);
+//       });
+//       facet.options = options;
+//       result.push(facet);
+//     });
+//   }
+//   return result;
+// }
 
 /**
  * Merge `Filter<"content">` objects

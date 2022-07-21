@@ -106,7 +106,6 @@ async function searchPortal(
   return {
     total: resp.total,
     results,
-    facets: [],
     hasNext: resp.nextStart > -1,
     next: getNextFunction<IHubSearchResult>(
       searchOptions,
