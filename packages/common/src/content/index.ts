@@ -151,27 +151,6 @@ export function getContentIdentifier(
 }
 
 /**
- * DEPRECATED: Use getFamily() instead.
- *
- * get the HubType for a given item or item type
- *
- * @param itemOrType an item or item.type
- */
-export function getItemHubType(itemOrType: IItem | string): HubType {
-  /* tslint:disable no-console */
-  console.warn(
-    "DEPRECATED: Use getFamily() instead. getItemHubType() will be removed at v10.0.0"
-  );
-  /* tslint:enable no-console */
-  if (typeof itemOrType === "string") {
-    itemOrType = { type: itemOrType } as IItem;
-  }
-  const itemType = normalizeItemType(itemOrType);
-  // TODO: not all categories are Hub types, may need to validate
-  return getCollection(itemType) as HubType;
-}
-
-/**
  * Convert a Portal item to Hub content
  *
  * @param item Portal Item

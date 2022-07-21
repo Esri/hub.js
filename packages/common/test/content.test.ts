@@ -25,7 +25,6 @@ import {
   getContentTypeLabel,
   // deprecated, remove these at the next breaking change
   getCategory,
-  getItemHubType,
 } from "../src/content";
 import {
   isProxiedCSV,
@@ -475,20 +474,6 @@ describe("get item family", () => {
   });
   it("returns content for collection other", () => {
     expect(getFamily("360 VR Experience")).toBe("content");
-  });
-});
-
-describe("get item hub type", () => {
-  it("normalizes item", () => {
-    expect(
-      getItemHubType({
-        type: "Hub Initiative",
-        typeKeywords: ["hubInitiativeTemplate"],
-      } as IItem)
-    ).toBe("template");
-  });
-  it("works with just type", () => {
-    expect(getItemHubType("Form")).toBe("feedback");
   });
 });
 
