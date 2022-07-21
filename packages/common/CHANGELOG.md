@@ -1,3 +1,19 @@
+# @esri/hub-common [10.0.0-next.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.49.0...@esri/hub-common@10.0.0-next.1) (2022-07-21)
+
+
+* !feat: remove interfaces moved to components (#836) ([72e2d93](https://github.com/Esri/hub.js/commit/72e2d93cae2b5e438ee39abc7bb31b5cb190d3b8)), closes [#836](https://github.com/Esri/hub.js/issues/836)
+
+
+### BREAKING CHANGES
+
+* Removes deprecated things
+
+* refactor: ensure next is a pre-release branch
+
+* fix: ensure CI runs for next branch
+
+* refactor: remove commented code/files
+
 # @esri/hub-common [9.49.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.48.0...@esri/hub-common@9.49.0) (2022-07-21)
 
 
