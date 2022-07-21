@@ -1,3 +1,10 @@
+# @esri/hub-common [9.49.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.48.0...@esri/hub-common@9.49.0) (2022-07-21)
+
+
+### Features
+
+* add Catalog and Collection Classes ([#828](https://github.com/Esri/hub.js/issues/828)) ([b08d138](https://github.com/Esri/hub.js/commit/b08d138da089fac6bd1e261de4844883c60935b5))
+
 # @esri/hub-common [9.48.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.47.0...@esri/hub-common@9.48.0) (2022-07-20)
 
 
