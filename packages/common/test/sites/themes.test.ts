@@ -1,15 +1,14 @@
-import { getTheme } from "../src";
-import { DEFAULT_THEME } from "@esri/hub-common";
+import { DEFAULT_THEME, getOrgDefaultTheme } from "../../src";
 import { IPortal } from "@esri/arcgis-rest-portal";
 
-describe("getTheme", () => {
+describe("getOrgDefaultTheme", () => {
   it("returns default theme if no shared theme", async () => {
-    expect(getTheme({} as IPortal)).toEqual(DEFAULT_THEME);
+    expect(getOrgDefaultTheme({} as IPortal)).toEqual(DEFAULT_THEME);
   });
 
   it("extends default theme ", async () => {
     expect(
-      getTheme({
+      getOrgDefaultTheme({
         portalProperties: {
           sharedTheme: {
             header: {
