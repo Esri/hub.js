@@ -159,13 +159,6 @@ export function isValidExtent(extent: object) {
   );
 }
 
-/* istanbul ignore next DEPRECATED, remove at next breaking change */
-export const bBoxToPolygon = (bBox: BBox) => {
-  /* tslint:disable no-console */
-  console.warn("DEPRECATED: use extentToPolygon(bBoxToExtent(bBox)) instead");
-  return extentToPolygon(bBoxToExtent(bBox));
-};
-
 /**
  * Convert an extent object into a polygon object
  * @param extent
