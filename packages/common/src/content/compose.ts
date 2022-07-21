@@ -801,11 +801,7 @@ export const composeContent = (
       return item.properties && item.properties.metrics;
     },
     get spatialReference() {
-      // NOTE: I had to add || null just so packages/content/test/portal.test.ts would pass
-      // we can remove that when that package is deprecated
-      return (
-        layer?.extent?.spatialReference || getItemSpatialReference(item) || null
-      );
+      return layer?.extent?.spatialReference || getItemSpatialReference(item);
     },
     get viewDefinition() {
       // if this is a layer view and we have the item data
@@ -824,21 +820,6 @@ export const composeContent = (
     get contentTypeIcon() {
       /* Note: only returns calcite-icons */
       return getContentTypeIcon(type);
-    },
-    // deprecated properties
-    // TODO: should we add these in legacy wrappers
-    // like itemToContent or datasetToContent instead?
-    get license() {
-      /* tslint:disable no-console */
-      console.warn("DEPRECATED: use structuredLicense instead");
-      /* tslint:enable no-console */
-      return { name: "Custom License", description: item.accessInformation };
-    },
-    get hubType() {
-      /* tslint:disable no-console */
-      console.warn("DEPRECATED: use family instead");
-      /* tslint:enable no-console */
-      return getFamily(type);
     },
     get additionalResources() {
       return getAdditionalResources(item, metadata);

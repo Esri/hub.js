@@ -390,8 +390,6 @@ export const setContentType = (
     ...content,
     type: normalizedType,
     family,
-    // TODO: remove this at next breaking change now that it has been deprecated
-    normalizedType,
     contentTypeIcon,
     contentTypeLabel,
   };
