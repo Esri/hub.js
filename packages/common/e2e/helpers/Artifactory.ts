@@ -4,11 +4,8 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { UserSession } from "@esri/arcgis-rest-auth";
-import {
-  ArcGISContextManager,
-  getProp,
-  IArcGISContextManagerOptions,
-} from "../../src";
+import { getProp, IArcGISContextManagerOptions } from "../../src";
+import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 /**
  * @internal
  */
@@ -58,8 +55,14 @@ export default class Artifactory {
    * @param {string} role
    */
   getSession(orgType: string, role: string): UserSession {
+    const org = this.getOrg(orgType);
     const opts = this.getIdentity(orgType, role);
-    opts.portal = this.getPortalUrl(orgType) + `/sharing/rest`;
+    if (!org.isPortal) {
+      opts.portal = this.getPortalUrl(orgType) + `/sharing/rest`;
+    } else {
+      opts.portal = org.orgUrl;
+    }
+
     return new UserSession(opts);
   }
 
@@ -96,9 +99,5 @@ export default class Artifactory {
 
   getFixtures(name: string): Record<string, unknown> {
     return this.getOrg(name).fixtures as Record<string, unknown>;
-  }
-
-  getFixtureId(org: string, path: string): string {
-    return getProp(this.getOrg(org).fixtures, path);
   }
 }

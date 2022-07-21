@@ -3,7 +3,7 @@ import {
   IMatchOptions,
   IPredicate,
 } from "../../../src/search/types";
-import { expandPredicate } from "../../../src/search/_internal/ipredicate-utils";
+import { expandPredicate } from "../../../src/search/_internal/expandPredicate";
 
 describe("ipredicate-utils", () => {
   describe("expandPredicates;", () => {

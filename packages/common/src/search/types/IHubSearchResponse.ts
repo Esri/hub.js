@@ -1,3 +1,4 @@
+import { IMessage } from "../../types/IMessage";
 import { IFacet } from "./IFacet";
 import { IHubAggregation } from "./IHubAggregation";
 
@@ -31,6 +32,11 @@ export interface IHubSearchResponse<T> {
    * Array of requested aggregations
    */
   aggregations?: IHubAggregation[];
+
+  /**
+   * Array of messages / warnings
+   */
+  messages?: IMessage[];
 
   /**
    * DEPRECATED - hub.js no longer computes facets; consumers need to construct them from aggregations

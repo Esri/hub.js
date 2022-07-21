@@ -6,7 +6,7 @@ import {
   IPredicate,
   IQuery,
 } from "./types";
-import { expandPredicate } from "./_internal/ipredicate-utils";
+import { expandPredicate } from "./_internal/expandPredicate";
 
 /**
  * Serialize IQuery into ISearchOptions for ArcGIS Portal

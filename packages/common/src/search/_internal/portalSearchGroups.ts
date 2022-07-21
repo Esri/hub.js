@@ -11,7 +11,7 @@ import {
   IQuery,
 } from "../types";
 import { getNextFunction } from "../utils";
-import { expandPredicate } from "./ipredicate-utils";
+import { expandPredicate } from "./expandPredicate";
 
 /**
  * @private

@@ -79,7 +79,7 @@ describe("hubSearch Module:", () => {
         } catch (err) {
           expect(err.name).toBe("HubError");
           expect(err.message).toBe(
-            `Search via "group" filter against "arcgis-hub" api is not implemented`
+            `Search via "group" filter against "arcgis-hub" api is not implemented. Please ensure "targetEntity" is defined on the query.`
           );
         }
       });
@@ -310,7 +310,7 @@ describe("hubSearch Module:", () => {
         } catch (err) {
           expect(err.name).toBe("HubError");
           expect(err.message).toBe(
-            `Search via "group" filter against "arcgis-hub" api is not implemented`
+            `Search via "group" filter against "arcgis-hub" api is not implemented. Please ensure "targetEntity" is defined on the query.`
           );
         }
       });

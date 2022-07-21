@@ -30,6 +30,7 @@ export * from "./Hub";
 export * from "./pages";
 export * from "./org";
 export * from "./users";
+export * from "./types";
 
 import OperationStack from "./OperationStack";
 import OperationError from "./OperationError";

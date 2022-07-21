@@ -89,7 +89,7 @@ export async function hubSearch(
   if (!fn) {
     throw new HubError(
       `hubSearch`,
-      `Search via "${filterType}" filter against "${apiType}" api is not implemented`
+      `Search via "${filterType}" filter against "${apiType}" api is not implemented. Please ensure "targetEntity" is defined on the query.`
     );
   }
   return fn(cloneObject(query), options);
