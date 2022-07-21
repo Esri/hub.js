@@ -14,7 +14,3 @@ export interface IServerEnrichments {
   /** The count of records for the layer referenced by this content */
   recordCount?: number | null;
 }
-
-// DEPRECATED: remove this alias at the next breaking change
-// tslint:disable-next-line
-export interface IContentEnrichments extends IServerEnrichments {}

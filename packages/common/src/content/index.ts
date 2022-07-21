@@ -1,10 +1,9 @@
 /* Copyright (c) 2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 import { IItem } from "@esri/arcgis-rest-portal";
-import { HubType, IModel } from "../types";
+import { IModel } from "../types";
 import { getCollection } from "../collections";
 import { categories as allCategories } from "../categories";
-import { isBBox } from "../extent";
 import { includes } from "../utils";
 import { IHubContent } from "../core";
 import { getProp } from "../objects";
