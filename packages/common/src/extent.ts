@@ -134,13 +134,6 @@ export const isBBox = (extent: unknown): boolean => {
   );
 };
 
-export function isExtentCoordinateArray(extent: object) {
-  /* tslint:disable no-console */
-  console.warn("DEPRECATED: use isBBox() instead");
-  /* tslint:enable no-console */
-  return isBBox(extent);
-}
-
 function isExtentJSON(extent: any) {
   return ["xmin", "ymin", "xmax", "ymax"].every(
     (key) => typeof extent[key] === "number"
@@ -153,10 +146,7 @@ function isExtentJSON(extent: any) {
  * @return {Boolean}       indicator
  */
 export function isValidExtent(extent: object) {
-  return (
-    !!extent &&
-    [isExtentCoordinateArray, isExtentJSON].some((test) => test(extent))
-  );
+  return !!extent && [isBBox, isExtentJSON].some((test) => test(extent));
 }
 
 /**
