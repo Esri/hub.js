@@ -8,9 +8,6 @@ import {
 } from "./group-utils";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { getGroupThumbnailUrl, ISearchResponse, Logger } from "..";
-// export interface IGroupSearchResult {
-//   groups: IGroup[];
-// }
 
 // TODO: Remove with _searchContent
 
