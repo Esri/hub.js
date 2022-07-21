@@ -200,7 +200,7 @@
 	"release": {
 		"branches": [
 			"master",
-			"next",
+			{ "name": "next", "prerelease": true },
 			"next-major",
 			{
 				"name": "beta",
