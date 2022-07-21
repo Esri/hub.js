@@ -5,13 +5,7 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { ArcGISContext } from "../../src/ArcGISContext";
 import { HubSiteManager } from "../../src/sites/HubSiteManager";
-import {
-  getProp,
-  IArcGISContextOptions,
-  IHubSite,
-  Filter,
-  IQuery,
-} from "../../src";
+import { getProp, IArcGISContextOptions, IHubSite, IQuery } from "../../src";
 
 import * as HubSites from "../../src/sites/HubSites";
 

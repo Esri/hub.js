@@ -1,10 +1,5 @@
 import * as Portal from "@esri/arcgis-rest-portal";
-import {
-  cloneObject,
-  IHubSearchOptions,
-  IQuery,
-  _searchContent,
-} from "../../../src";
+import { cloneObject, IHubSearchOptions, IQuery } from "../../../src";
 
 import * as SimpleResponse from "../../mocks/portal-search/simple-response.json";
 import * as AllTypesResponse from "../../mocks/portal-search/response-with-key-types.json";
@@ -12,7 +7,7 @@ import { MOCK_AUTH } from "../../mocks/mock-auth";
 import {
   applyWellKnownItemPredicates,
   portalSearchItems,
-  WellKnownItemFilters,
+  WellKnownItemPredicates,
 } from "../../../src/search/_internal/portalSearchItems";
 
 describe("portalSearchItems Module:", () => {
@@ -217,7 +212,9 @@ describe("portalSearchItems Module:", () => {
 
         const chk = applyWellKnownItemPredicates(qry);
         expect(chk.filters.length).toBe(1);
-        const expected = cloneObject(WellKnownItemFilters.$dashboard[0].type);
+        const expected = cloneObject(
+          WellKnownItemPredicates.$dashboard[0].type
+        );
         expect(chk.filters[0].predicates[0].type).toEqual(expected);
       });
       it("expands multiple filters", () => {
@@ -247,15 +244,15 @@ describe("portalSearchItems Module:", () => {
 
         expect(chk.filters[0].predicates.length).toBe(1);
         expect(chk.filters[0].predicates[0].type).toEqual(
-          WellKnownItemFilters.$dashboard[0].type
+          WellKnownItemPredicates.$dashboard[0].type
         );
         expect(chk.filters[1].predicates.length).toBe(2);
         expect(chk.filters[1].operation).toBe("OR");
         expect(chk.filters[1].predicates[0].type).toEqual(
-          WellKnownItemFilters.$storymap[0].type
+          WellKnownItemPredicates.$storymap[0].type
         );
         expect(chk.filters[1].predicates[1].type).toEqual(
-          WellKnownItemFilters.$storymap[1].type
+          WellKnownItemPredicates.$storymap[1].type
         );
       });
       it("skips non-well-known string keys", () => {
@@ -320,14 +317,14 @@ describe("portalSearchItems Module:", () => {
         expect(chk.filters[0].predicates.length).toBe(3);
         expect(chk.filters[0].operation).toBe("OR");
         expect(chk.filters[0].predicates[0].type).toEqual(
-          WellKnownItemFilters.$dashboard[0].type
+          WellKnownItemPredicates.$dashboard[0].type
         );
 
         expect(chk.filters[0].predicates[1].type).toEqual(
-          WellKnownItemFilters.$storymap[0].type
+          WellKnownItemPredicates.$storymap[0].type
         );
         expect(chk.filters[0].predicates[2].type).toEqual(
-          WellKnownItemFilters.$storymap[1].type
+          WellKnownItemPredicates.$storymap[1].type
         );
       });
 
@@ -348,7 +345,9 @@ describe("portalSearchItems Module:", () => {
 
         const chk = applyWellKnownItemPredicates(qry);
         expect(chk.filters.length).toBe(1);
-        const expected = cloneObject(WellKnownItemFilters.$dashboard[0].type);
+        const expected = cloneObject(
+          WellKnownItemPredicates.$dashboard[0].type
+        );
         expect(chk.filters[0].operation).toBe("OR");
         expect(chk.filters[0].predicates[0].type).toEqual(expected);
         expect(chk.filters[0].predicates[0].owner).not.toBeDefined();

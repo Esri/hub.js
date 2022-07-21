@@ -1,4 +1,4 @@
-import { FilterType, IFilterGroup, IHubSearchOptions, IQuery } from "../../src";
+import { IHubSearchOptions, IQuery } from "../../src";
 import { hubSearch, hubSearchQuery } from "../../src/search/hubSearch";
 
 import * as SearchFunctionModule from "../../src/search/_internal";

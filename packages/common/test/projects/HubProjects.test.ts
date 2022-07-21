@@ -9,7 +9,6 @@ import {
   createProject,
   updateProject,
   searchProjects,
-  Filter,
   IHubRequestOptions,
   enrichProjectSearchResult,
   IQuery,

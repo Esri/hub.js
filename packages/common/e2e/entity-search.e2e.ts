@@ -1,13 +1,11 @@
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
 import {
-  expandContentFilter,
   failSafe,
   fetchModelFromItem,
   fetchOrgLimits,
   IModel,
   IQuery,
-  serializeContentFilterForPortal,
   serializeQueryForPortal,
 } from "../src";
 import { createEntitySearchFn } from "../src/search/_internal/searchEntities";

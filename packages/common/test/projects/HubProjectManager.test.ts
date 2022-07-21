@@ -5,13 +5,7 @@ import { IItem, IPortal } from "@esri/arcgis-rest-portal";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { ArcGISContext } from "../../src/ArcGISContext";
 import { HubProjectManager } from "../../src/projects/HubProjectManager";
-import {
-  Filter,
-  getProp,
-  IArcGISContextOptions,
-  IHubProject,
-  IQuery,
-} from "../../src";
+import { getProp, IArcGISContextOptions, IHubProject, IQuery } from "../../src";
 import * as HubProjects from "../../src/projects/HubProjects";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as ThumbnailModule from "../../src/items/setItemThumbnail";

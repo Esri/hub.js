@@ -17,7 +17,7 @@ import {
   convertItemToSite,
   searchSites,
 } from "./HubSites";
-import { Filter, IHubSearchOptions, IQuery } from "../search";
+import { IHubSearchOptions, IQuery } from "../search";
 import { IHubRequestOptions, ISearchResponse } from "../types";
 import { setItemThumbnail as updateItemThumbnail } from "../items/setItemThumbnail";
 

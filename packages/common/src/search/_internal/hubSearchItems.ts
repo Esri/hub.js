@@ -1,15 +1,12 @@
-import { UserSession } from "@esri/arcgis-rest-auth";
 import { IHubContent } from "../..";
-import { setProp } from "../../objects";
+
 import { cloneObject } from "../../util";
 import {
-  IFilterGroup,
   IHubSearchOptions,
   IHubSearchResponse,
   IHubSearchResult,
-  IHubApiSearchRequest,
+  IQuery,
 } from "../types";
-import { expandApi } from "../utils";
 
 // ##    ##  #######  ######## ########
 // ###   ## ##     ##    ##    ##
@@ -24,113 +21,16 @@ import { expandApi } from "../utils";
 /**
  * @private
  * Execute item search against the Hub API
- * @param filter
+ * @param query
  * @param options
  * @returns
  */
 /* istanbul ignore next */
 export async function hubSearchItems(
-  filters: Array<IFilterGroup<"item">>,
+  query: IQuery,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
-  // TODO: better mapping from api to apiUrl
-  const api = expandApi(options.api || "hub");
-  const apiUrl = `${api.url}/api/items/beta/search`;
-
-  // Purge filterType from the filters array
-  const cleanFilters: any[] = [];
-  filters.forEach((block) => {
-    const b = {
-      operation: block.operation,
-      filters: block.filters.map((f) => {
-        const c = cloneObject(f);
-        delete c.filterType;
-        return c;
-      }),
-    };
-    cleanFilters.push(b);
-  });
-
-  const searchRequest: IHubApiSearchRequest = {
-    q: cleanFilters,
-    options: {
-      num: options.num || 10,
-      start: options.start || 1,
-      sortField: options.sortField,
-      sortOrder: options.sortOrder,
-    },
-  } as unknown as IHubApiSearchRequest;
-
-  // Add optional props via setProp b/c typescript really does not like
-  // adding properties after defining an object
-  if (options.aggFields?.length) {
-    const aggs = [
-      {
-        mode: "terms",
-        fields: options.aggFields,
-        num: options.aggLimit || 10,
-      },
-    ];
-    setProp("aggregations", aggs, searchRequest.options);
-  }
-  if (options.authentication) {
-    const session = {
-      token: options.authentication.token,
-      portal: options.authentication.portal,
-    };
-    setProp("session", session, searchRequest.options);
-  }
-
-  const opts: RequestInit = {
-    method: "POST",
-    mode: "cors",
-    cache: "no-cache",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(searchRequest),
-  };
-
-  try {
-    const raw = await fetch(apiUrl, opts);
-    const json = await raw.json();
-
-    let token: string;
-    if (options.authentication) {
-      const us: UserSession = options.authentication as UserSession;
-      token = us.token;
-    }
-    const tokenizeThubmnailUrl = (entry: any) => {
-      if (token && entry.attributes.access !== "public") {
-        entry.attributes.thumbnailUrl = `${entry.attributes.thumbnailUrl}?token=${token}`;
-      }
-      return entry;
-    };
-    json.data = json.data.map(tokenizeThubmnailUrl);
-    // convert items to IHubSerchResult
-    const conversion = (entry: Record<string, any>) => {
-      return hubContentToSearchResult(jsonApiToHubContent(entry));
-    };
-    const results: IHubSearchResult[] = await Promise.all(
-      json.data.map(conversion)
-    );
-
-    // now transform into a IHubSearchResponse
-    const response = {
-      total: json.meta.total,
-      results,
-      hasNext: json.meta.hasNext,
-      next: () => {
-        // tslint:disable-next-line
-        Promise.resolve(null);
-      },
-    } as IHubSearchResponse<IHubSearchResult>;
-
-    return Promise.resolve(response);
-  } catch (ex) {
-    // TODO: Turn into a formal error
-    throw ex;
-  }
+  throw new Error("Not implemented");
 }
 
 /**
@@ -175,17 +75,17 @@ export function hubContentToSearchResult(
   return Promise.resolve(result);
 }
 
-interface IHubMetaResponse {
-  total: number;
-  start: number;
-  num: number;
-  hasNext: boolean;
-  next: number;
-  aggregations: Array<{
-    field: string;
-    values: Array<{
-      value: any;
-      count: number;
-    }>;
-  }>;
-}
+// interface IHubMetaResponse {
+//   total: number;
+//   start: number;
+//   num: number;
+//   hasNext: boolean;
+//   next: number;
+//   aggregations: Array<{
+//     field: string;
+//     values: Array<{
+//       value: any;
+//       count: number;
+//     }>;
+//   }>;
+// }
