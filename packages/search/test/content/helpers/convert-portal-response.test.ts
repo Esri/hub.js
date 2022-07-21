@@ -4,8 +4,7 @@ import { IItem } from "@esri/arcgis-rest-types";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { IContentSearchResponse } from "../../../src/types/content";
 import { convertPortalResponse } from "../../../src/content/helpers/convert-portal-response";
-import { ISearchResponse } from "../../../src/types/common";
-import { itemToContent } from "@esri/hub-common";
+import { ISearchResponse, itemToContent } from "@esri/hub-common";
 
 describe("Convert Portal Response function", () => {
   it("can properly format a response from Portal API", (done) => {

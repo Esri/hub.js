@@ -1,9 +1,12 @@
 import * as fetchMock from "fetch-mock";
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { DatasetResource, datasetToContent } from "@esri/hub-common";
+import {
+  DatasetResource,
+  ISearchResponse,
+  datasetToContent,
+} from "@esri/hub-common";
 import { IContentSearchResponse } from "../../../src/types/content";
 import { convertHubResponse } from "../../../src/content/helpers/convert-hub-response";
-import { ISearchResponse } from "../../../src/types/common";
 import { ISearchParams } from "../../../src/ago/params";
 
 afterEach(fetchMock.restore);
