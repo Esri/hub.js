@@ -1,3 +1,10 @@
+# @esri/hub-common [10.0.0-next.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@10.0.0-next.1...@esri/hub-common@10.0.0-next.2) (2022-07-22)
+
+
+### Features
+
+* remove functions, interfaces, tests ([#837](https://github.com/Esri/hub.js/issues/837)) ([19e0e0e](https://github.com/Esri/hub.js/commit/19e0e0e1fcfa6d0c9f5ac685f9e56cacca44d0e0))
+
 # @esri/hub-common [10.0.0-next.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.49.0...@esri/hub-common@10.0.0-next.1) (2022-07-21)
 
 
