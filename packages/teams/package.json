@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-teams",
-  "version": "9.49.0",
+  "version": "9.49.1",
   "description": "Module to interact with ArcGIS Hub Teams in Node.js and modern browsers.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/teams.umd.js",
