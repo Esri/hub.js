@@ -1,6 +1,3 @@
-// import { UserSession } from "@esri/arcgis-rest-auth";
-// import { IHubContent, AccessLevel } from "../..";
-
 /**
  * Sort Option to be displayed in a UI
  */

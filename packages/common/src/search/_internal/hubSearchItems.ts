@@ -74,18 +74,3 @@ export function hubContentToSearchResult(
 
   return Promise.resolve(result);
 }
-
-// interface IHubMetaResponse {
-//   total: number;
-//   start: number;
-//   num: number;
-//   hasNext: boolean;
-//   next: number;
-//   aggregations: Array<{
-//     field: string;
-//     values: Array<{
-//       value: any;
-//       count: number;
-//     }>;
-//   }>;
-// }
