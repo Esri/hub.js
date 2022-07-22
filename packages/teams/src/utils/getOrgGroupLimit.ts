@@ -5,6 +5,8 @@ export const limitsHash: Record<string, number> = {
   default: 512,
   xW49QhDgcgjm4BU0: 700,
   q5DTBtIqgaEcBe1j: 700,
+  z6hI6KRjKHvhNO0r: 700,
+  "7ldwmV3MFwjrElY8": 700,
 };
 
 /**
