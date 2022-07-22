@@ -9,7 +9,6 @@ import { enrichSiteSearchResult } from "../../sites";
 import { IHubRequestOptions } from "../../types";
 
 import {
-  Filter,
   IHubSearchOptions,
   IHubSearchResponse,
   IHubSearchResult,
@@ -152,22 +151,6 @@ async function itemToSearchResult(
   }
   return fn(item, includes, requestOptions);
 }
-
-interface IWellKnownItemFilters {
-  $application: Array<Filter<"item">>;
-  $feedback: Array<Filter<"item">>;
-  $dashboard: Array<Filter<"item">>;
-  $dataset: Array<Filter<"item">>;
-  $experience: Array<Filter<"item">>;
-  $site: Array<Filter<"item">>;
-  $storymap: Array<Filter<"item">>;
-  $initiative: Array<Filter<"item">>;
-  $document: Array<Filter<"item">>;
-  $webmap: Array<Filter<"item">>;
-  $template: Array<Filter<"item">>;
-  $page: Array<Filter<"item">>;
-}
-
 interface IWellKnownItemPredicates {
   $application: IPredicate[];
   $feedback: IPredicate[];
@@ -183,10 +166,9 @@ interface IWellKnownItemPredicates {
   $page: IPredicate[];
 }
 
-export const WellKnownItemFilters: IWellKnownItemFilters = {
+export const WellKnownItemPredicates: IWellKnownItemPredicates = {
   $application: [
     {
-      filterType: "item",
       type: {
         any: [
           "Web Mapping Application",
@@ -201,14 +183,12 @@ export const WellKnownItemFilters: IWellKnownItemFilters = {
       },
     },
     {
-      filterType: "item",
       type: "Web Mapping Experience",
       typekeywords: "EXB Experience",
     },
   ],
   $dashboard: [
     {
-      filterType: "item",
       type: {
         any: ["Dashboard"],
         not: ["Operation View"],
@@ -220,7 +200,6 @@ export const WellKnownItemFilters: IWellKnownItemFilters = {
   ],
   $dataset: [
     {
-      filterType: "item",
       type: {
         any: [
           "Scene Service",
@@ -255,13 +234,11 @@ export const WellKnownItemFilters: IWellKnownItemFilters = {
       },
     },
     {
-      filterType: "item",
       typekeywords: ["OGC", "Geodata Service"],
     },
   ],
   $document: [
     {
-      filterType: "item",
       type: [
         "PDF",
         "Microsoft Excel",
@@ -277,48 +254,40 @@ export const WellKnownItemFilters: IWellKnownItemFilters = {
   ],
   $initiative: [
     {
-      filterType: "item",
       type: "Hub Initiative",
     },
   ],
   $experience: [
     {
-      filterType: "item",
       type: "Web Experience",
     },
   ],
   $feedback: [
     {
-      filterType: "item",
       type: "Form",
     },
   ],
   $page: [
     {
-      filterType: "item",
       typekeywords: "hubPage",
     },
   ],
   $site: [
     {
-      filterType: "item",
       type: ["Hub Site Application", "Site Application"],
     },
   ],
   $storymap: [
     {
-      filterType: "item",
       type: "Storymap",
     },
     {
-      filterType: "item",
       type: "Web Mapping Application",
       typekeywords: "Story Map",
     },
   ],
   $template: [
     {
-      filterType: "item",
       type: [
         "Web Mapping Application",
         "Hub Initiative",
@@ -333,7 +302,6 @@ export const WellKnownItemFilters: IWellKnownItemFilters = {
   ],
   $webmap: [
     {
-      filterType: "item",
       type: {
         any: ["Web Map", "Web Scene"],
         not: "Web Mapping Application",
@@ -372,7 +340,7 @@ export function applyWellKnownItemPredicates(query: IQuery): IQuery {
         // for the well-known type
         if (isWellKnownTypeFilter(predicate.type)) {
           const replacements = lookupTypePredicates(
-            predicate.type as keyof typeof WellKnownItemFilters
+            predicate.type as keyof typeof WellKnownItemPredicates
           );
           acc = [...acc, ...replacements];
           replacedPredicates = true;
@@ -411,7 +379,7 @@ export function isWellKnownTypeFilter(
 ): boolean {
   let result = false;
   if (typeof key === "string") {
-    result = key in WellKnownItemFilters;
+    result = key in WellKnownItemPredicates;
   }
   return result;
 }
@@ -422,14 +390,7 @@ export function isWellKnownTypeFilter(
  * @returns
  */
 function lookupTypePredicates(
-  key: keyof typeof WellKnownItemFilters
+  key: keyof typeof WellKnownItemPredicates
 ): IPredicate[] {
-  const rawPredicates = WellKnownItemFilters[key];
-  // Remove the filterType property as it's not needed in an IPredicate
-  const predicates = rawPredicates.map((entry) => {
-    const c = cloneObject(entry);
-    delete c.filterType;
-    return c;
-  });
-  return predicates;
+  return WellKnownItemPredicates[key];
 }

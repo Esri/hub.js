@@ -3,9 +3,8 @@
 
 import { IUser, UserSession } from "@esri/arcgis-rest-auth";
 import { IGroup, ISearchOptions } from "@esri/arcgis-rest-portal";
-import { Logger } from "..";
 import { ISearchResponse } from "../types";
-import { cloneObject, unique } from "../util";
+import { cloneObject } from "../util";
 import {
   IMatchOptions,
   IDateRange,
@@ -78,87 +77,6 @@ export function expandApi(api: NamedApis | IApiDefinition): IApiDefinition {
     // it's an object, so we trust that it's well formed
     return api as IApiDefinition;
   }
-}
-
-/**
- * @private
- * Merge two date ranges by taking the longest span
- * @param dr1
- * @param dr2
- * @returns
- */
-export function mergeDateRange(
-  dr1: IDateRange<number>,
-  dr2: IDateRange<number>
-): IDateRange<number> {
-  // TODO: Remove with _searchContent
-  const result = cloneObject(dr1);
-  // feels like there is a more concise way to do this...
-  if (dr2.from < dr1.from) {
-    result.from = dr2.from;
-  }
-  if (dr2.to > dr1.to) {
-    result.to = dr2.to;
-  }
-  return result;
-}
-
-/**
- * @private
- * Merge two [`MatchOptions`](../MatchOptions)
- *
- * Currently a naieve implementation where the arrays are simply merged
- *
- * @param mo1
- * @param mo2
- * @returns
- */
-export function mergeMatchOptions(
-  mo1: IMatchOptions,
-  mo2: IMatchOptions
-): IMatchOptions {
-  // TODO: Remove with _searchContent
-  const result = {} as IMatchOptions;
-  // None of these props are required, so we can't just
-  // use Object.keys/.entries
-  const props = ["any", "all", "not", "exact"];
-  props.forEach((prop) => {
-    const key = prop as keyof IMatchOptions;
-    const merged = [...getMatchValue(mo1, key), ...getMatchValue(mo2, key)];
-    if (merged.length) {
-      // remove any dupes and set on the return
-      result[key] = merged.filter(unique);
-    }
-  });
-  return result;
-}
-
-/**
- * Get the value of a property on an IMatchOptions
- *
- * This is complex b/c all the props are optional, and
- * they could be a simple string, or an array of strings.
- *
- * This function normalizes all that and returns an array,
- * which may or may not be empty
- * @param option
- * @param key
- * @returns
- */
-function getMatchValue(
-  option: IMatchOptions,
-  key: keyof IMatchOptions
-): string[] {
-  let matchValue: string[] = [];
-  if (option[key]) {
-    const val = option[key];
-    if (Array.isArray(val)) {
-      matchValue = val as string[];
-    } else {
-      matchValue = [val];
-    }
-  }
-  return matchValue;
 }
 
 /**
@@ -237,167 +155,6 @@ export function relativeDateToDateRange(
 }
 
 /**
- * @private
- * As a final `ISearchOptions` object gets created, many such objects are created, and
- * need to be systematically "merged" so as to return consistently structured `q` and `filter`
- * values.
- * @param so1
- * @param so2
- * @param join
- * @returns
- */
-export function mergeSearchOptions(
-  so1: ISearchOptions,
-  so2: ISearchOptions,
-  join: "AND" | "OR"
-): ISearchOptions {
-  // TODO: Remove with _searchContent
-  Logger.warn(
-    `DEPRECATION: mergeSearchOptions will be removed. Work with IFilterGroups<"group"> and hubSearch() instead`
-  );
-  const result = cloneObject(so1) as ISearchOptions;
-
-  const { q, filter } = so2;
-  if (q) {
-    result.q = (
-      (result.q ? ` (${result.q} ${join} ${q})` : q) as string
-    ).trim();
-  }
-  if (filter) {
-    result.filter = (
-      result.filter ? `(${result.filter} ${join} ${filter})` : filter
-    ).trim();
-  }
-  return result;
-}
-
-/**
- * @private
- * Serialize a `MatchOptions` into `q` or `filter` on an `ISearchOptions`
- * DEPRECATED: Serialization should be handled in filter-utils.ts
- * @param key
- * @param opts
- * @returns
- */
-export function serializeMatchOptions(
-  key: string,
-  opts: IMatchOptions
-): ISearchOptions {
-  const result = {
-    q: "",
-    filter: "",
-  } as ISearchOptions;
-
-  if (opts.exact) {
-    // defined separately for refactoring later
-    const userFilterableFields = [
-      "username",
-      "firstname",
-      "lastname",
-      "fullname",
-      "email",
-    ];
-    const itemFilterableFields = [
-      "title",
-      "tags",
-      "typekeywords",
-      "type",
-      "name",
-      "owner",
-    ];
-    const groupFilterableFields = ["title", "typekeywords", "owner"];
-    const filterableFields = [
-      ...userFilterableFields,
-      ...itemFilterableFields,
-      ...groupFilterableFields,
-    ];
-    if (filterableFields.includes(key)) {
-      result.filter = serializeStringOrArray("AND", key, opts.exact);
-    } else {
-      // Treat it the same as .all
-      if (typeof opts.exact === "string") {
-        if (!opts.all) {
-          opts.all = [];
-        }
-        if (typeof opts.all === "string") {
-          opts.all = [opts.all];
-        }
-        opts.all.push(opts.exact);
-      }
-      if (Array.isArray(opts.exact)) {
-        if (!opts.all) {
-          opts.all = [];
-        }
-        if (typeof opts.all === "string") {
-          opts.all = [opts.all];
-        }
-        opts.all = opts.all.concat(opts.exact);
-      }
-    }
-  }
-  // Handle the other props
-  if (opts.any) {
-    result.q = serializeStringOrArray("OR", key, opts.any);
-  }
-  if (opts.all) {
-    result.q =
-      (result.q ? result.q + " AND " : "") +
-      serializeStringOrArray("AND", key, opts.all);
-  }
-
-  if (opts.not) {
-    // negate the entries if they are not
-    result.q =
-      (result.q ? result.q + " AND " : "") +
-      serializeStringOrArray("OR", `-${key}`, opts.not);
-  }
-
-  return result;
-}
-
-/**
- * @private
- * Serialize a DateRange<number> into a Portal Query string
- * @param key
- * @param range
- * @returns
- */
-export function serializeDateRange(
-  key: string,
-  range: IDateRange<number>
-): ISearchOptions {
-  return {
-    q: `${key}:[${range.from} TO ${range.to}]`,
-    filter: "",
-  };
-}
-
-/**
- * @private
- * Serialize a `string` or `string[]` into a string
- * @param join
- * @param key
- * @param value
- * @returns
- */
-export function serializeStringOrArray(
-  join: "AND" | "OR",
-  key: string,
-  value: string | string[]
-): string {
-  let q = "";
-  if (Array.isArray(value)) {
-    q = `${key}:"${value.join(`" ${join} ${key}:"`)}"`;
-    if (value.length > 1) {
-      q = `(${q})`;
-    }
-  } else {
-    q = `${key}:"${value}"`;
-  }
-  return q;
-}
-
-/**
  * Create a `.next()` function for a type
  * @param request
  * @param nextStart
@@ -410,7 +167,7 @@ export function getNextFunction<T>(
   nextStart: number,
   total: number,
   fn: (r: any) => Promise<ISearchResponse<T>>
-): () => Promise<ISearchResponse<T>> {
+): (authentication?: UserSession) => Promise<ISearchResponse<T>> {
   const clonedRequest = cloneObject(request);
 
   // clone will not handle authentication so we do it manually

@@ -1,15 +1,16 @@
-import { IUser } from "@esri/arcgis-rest-types";
-import { IMatchOptions, IRelativeDate } from "../../src/search";
+import { IGroup, ISearchOptions, IUser } from "@esri/arcgis-rest-portal";
+import { ISearchResponse } from "../../src";
+import { IHubSearchResult, IRelativeDate } from "../../src/search";
 import {
   expandApis,
   getUserThumbnailUrl,
-  mergeMatchOptions,
-  relativeDateToDateRange,
-  serializeDateRange,
-  serializeMatchOptions,
-  serializeStringOrArray,
   valueToMatchOptions,
+  relativeDateToDateRange,
+  getGroupThumbnailUrl,
+  getNextFunction,
 } from "../../src/search/utils";
+import { MOCK_AUTH } from "../mocks/mock-auth";
+import { mockUserSession } from "../test-helpers/fake-user-session";
 
 describe("Search Utils:", () => {
   describe("expandApis", () => {
@@ -27,119 +28,6 @@ describe("Search Utils:", () => {
     });
   });
 
-  describe("serializers:", () => {
-    it("dateRange to query", () => {
-      const chk = serializeDateRange("created", { from: 10, to: 11 });
-      expect(chk.q).toBe("created:[10 TO 11]");
-    });
-
-    it("field: string", () => {
-      const chk = serializeStringOrArray("OR", "owner", "luke");
-      expect(chk).toBe(`owner:"luke"`);
-    });
-
-    it("field: array of strings", () => {
-      const chk = serializeStringOrArray("OR", "owner", ["luke", "yoda"]);
-      expect(chk).toBe(`(owner:"luke" OR owner:"yoda")`);
-    });
-    describe("serializeMatchOptions:", () => {
-      it("arrays", () => {
-        const mo: IMatchOptions = {
-          any: ["buildings", "tents"],
-          all: ["red", "blue"],
-          not: ["yellow"],
-          exact: ["Rubber", "Duck"],
-        };
-        const chk = serializeMatchOptions("tags", mo);
-
-        expect(chk.q).toBe(
-          '(tags:"buildings" OR tags:"tents") AND (tags:"red" AND tags:"blue") AND -tags:"yellow"'
-        );
-        expect(chk.filter).toBe(`(tags:"Rubber" AND tags:"Duck")`);
-      });
-      it("only not", () => {
-        const mo: IMatchOptions = {
-          not: "buildings",
-        };
-        const chk = serializeMatchOptions("tags", mo);
-        expect(chk.q).toBe('-tags:"buildings"');
-      });
-
-      it("all string props", () => {
-        const mo: IMatchOptions = {
-          any: "buildings",
-          all: "red",
-          not: "yellow",
-          exact: "Rubber",
-        };
-        const chk = serializeMatchOptions("tags", mo);
-
-        expect(chk.q).toBe(
-          'tags:"buildings" AND tags:"red" AND -tags:"yellow"'
-        );
-        expect(chk.filter).toBe(`tags:"Rubber"`);
-      });
-
-      describe("exact on non-filterable fields:", () => {
-        it("added to existing .all", () => {
-          const mo: IMatchOptions = {
-            all: ["water", "river"],
-            exact: "buildings",
-          };
-          const chk = serializeMatchOptions("metaInfo", mo);
-          expect(chk.q).toBe(
-            '(metaInfo:"water" AND metaInfo:"river" AND metaInfo:"buildings")'
-          );
-          expect(chk.filter).toEqual("");
-        });
-        it("added to .all", () => {
-          const mo: IMatchOptions = {
-            exact: "buildings",
-          };
-          const chk = serializeMatchOptions("metaInfo", mo);
-          expect(chk.q).toBe('metaInfo:"buildings"');
-          expect(chk.filter).toEqual("");
-        });
-        it("added to .all if both arrays", () => {
-          const mo: IMatchOptions = {
-            all: ["water", "river"],
-            exact: ["buildings"],
-          };
-          const chk = serializeMatchOptions("metaInfo", mo);
-          expect(chk.q).toBe(
-            '(metaInfo:"water" AND metaInfo:"river" AND metaInfo:"buildings")'
-          );
-          expect(chk.filter).toEqual("");
-        });
-        it("added to .all if both string", () => {
-          const mo: IMatchOptions = {
-            all: "water",
-            exact: "buildings",
-          };
-          const chk = serializeMatchOptions("metaInfo", mo);
-          expect(chk.q).toBe('(metaInfo:"water" AND metaInfo:"buildings")');
-          expect(chk.filter).toEqual("");
-        });
-        it("added to .all is string", () => {
-          const mo: IMatchOptions = {
-            all: "water",
-            exact: ["buildings"],
-          };
-          const chk = serializeMatchOptions("metaInfo", mo);
-          expect(chk.q).toBe('(metaInfo:"water" AND metaInfo:"buildings")');
-          expect(chk.filter).toEqual("");
-        });
-        it("added to .all from array ", () => {
-          const mo: IMatchOptions = {
-            exact: ["buildings"],
-          };
-          const chk = serializeMatchOptions("metaInfo", mo);
-          expect(chk.q).toBe('metaInfo:"buildings"');
-          expect(chk.filter).toEqual("");
-        });
-      });
-    });
-  });
   describe("expansions:", () => {
     describe("matchOptions:", () => {
       it("convert value to MatchOptions", () => {
@@ -236,44 +124,6 @@ describe("Search Utils:", () => {
       });
     });
   });
-  describe("merging: ", () => {
-    it("merge MatchOptions", () => {
-      const mo1: IMatchOptions = {
-        any: ["red"],
-        all: ["cat", "dog"],
-        not: ["bmw"],
-      };
-      const mo2: IMatchOptions = {
-        any: ["yellow"],
-        all: ["fish", "dog"],
-      };
-
-      const chk = mergeMatchOptions(mo1, mo2);
-
-      expect(chk.any).toEqual(["red", "yellow"]);
-      expect(chk.all).toEqual(["cat", "dog", "fish"]);
-      expect(chk.not).toEqual(["bmw"]);
-      expect(chk.exact).not.toBeDefined();
-    });
-    it("mergeMatchOptsion handles string values", () => {
-      const mo1: IMatchOptions = {
-        any: ["red"],
-        all: ["cat", "dog"],
-        not: "bmw",
-      };
-      const mo2: IMatchOptions = {
-        any: ["yellow"],
-        all: ["fish", "dog"],
-      };
-
-      const chk = mergeMatchOptions(mo1, mo2);
-
-      expect(chk.any).toEqual(["red", "yellow"]);
-      expect(chk.all).toEqual(["cat", "dog", "fish"]);
-      expect(chk.not).toEqual(["bmw"]);
-      expect(chk.exact).not.toBeDefined();
-    });
-  });
 
   describe("user thumbnails:", () => {
     const portal = "https://foo.com/sharing/rest";
@@ -301,6 +151,92 @@ describe("Search Utils:", () => {
       expect(getUserThumbnailUrl(portal, user, "FAKE_TOKEN")).toEqual(
         "https://foo.com/sharing/rest/community/users/jsmith/info/photo.jpg?token=FAKE_TOKEN"
       );
+    });
+  });
+
+  describe("group thumbnails:", () => {
+    const portal = "https://foo.com/sharing/rest";
+    const token = "FAKE_TOKEN";
+    it("returns null if no thumbnail present", () => {
+      const g = {} as IGroup;
+      expect(getGroupThumbnailUrl(portal, g, token)).toBeNull();
+    });
+    it("constructs url without token for public groups", () => {
+      const group = {
+        id: "3ef",
+        title: "fake group",
+        access: "public",
+        thumbnail: "photo.jpg",
+      } as IGroup;
+      expect(getGroupThumbnailUrl(portal, group, token)).toEqual(
+        "https://foo.com/sharing/rest/community/groups/3ef/info/photo.jpg"
+      );
+    });
+    it("constructs url with token for non-public groups", () => {
+      const group = {
+        id: "3ef",
+        title: "fake group",
+        access: "org",
+        thumbnail: "photo.jpg",
+      } as IGroup;
+      expect(getGroupThumbnailUrl(portal, group, token)).toEqual(
+        "https://foo.com/sharing/rest/community/groups/3ef/info/photo.jpg?token=FAKE_TOKEN"
+      );
+    });
+  });
+
+  describe("get next function:", () => {
+    it("change change auth on subsequent calls", async () => {
+      const request = {
+        authentication: MOCK_AUTH,
+      } as unknown as ISearchOptions;
+
+      const Module = {
+        fn: <T>(r: any) => {
+          return Promise.resolve({} as unknown as ISearchResponse<T>);
+        },
+      };
+      const fnSpy = spyOn(Module, "fn").and.callThrough();
+
+      const chk = await getNextFunction<IHubSearchResult>(
+        request,
+        10,
+        20,
+        fnSpy
+      );
+      await chk();
+      expect(fnSpy).toHaveBeenCalled();
+      // verify it's called with the MOCK_AUTH
+      const opts = fnSpy.calls.mostRecent().args[0];
+      expect(opts.authentication).toEqual(MOCK_AUTH);
+      await chk(mockUserSession);
+      const opts2 = fnSpy.calls.mostRecent().args[0];
+      expect(opts2.authentication).toEqual(mockUserSession);
+    });
+    it("can pass auth on subsequent calls", async () => {
+      const request = {} as unknown as ISearchOptions;
+
+      const Module = {
+        fn: <T>(r: any) => {
+          return Promise.resolve({} as unknown as ISearchResponse<T>);
+        },
+      };
+      const fnSpy = spyOn(Module, "fn").and.callThrough();
+
+      const chk = await getNextFunction<IHubSearchResult>(
+        request,
+        -2, // weird guard in code, not 100% sure what it's for but I don't want to change it
+        20,
+        fnSpy
+      );
+      await chk();
+      expect(fnSpy).toHaveBeenCalled();
+      // verify it's called with the MOCK_AUTH
+      const opts = fnSpy.calls.mostRecent().args[0];
+      expect(opts.authentication).not.toBeDefined();
+      await chk(mockUserSession);
+      const opts2 = fnSpy.calls.mostRecent().args[0];
+      expect(opts2.authentication).toEqual(mockUserSession);
     });
   });
 });

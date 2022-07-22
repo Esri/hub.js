@@ -18,7 +18,6 @@ import {
   isGuid,
   cloneObject,
   IHubSearchOptions,
-  _searchContent,
   getItemThumbnailUrl,
   unique,
   mapBy,
