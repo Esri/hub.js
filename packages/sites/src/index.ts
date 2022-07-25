@@ -36,7 +36,7 @@ export * from "./create-site-model-from-template";
 export * from "./convert-site-to-template";
 export * from "./_get-site-data-by-id";
 export * from "./_get-second-pass-sharing-options";
-export * from "./_share-items-to-site-groups";
+export * from "./share-items-to-site-groups";
 export * from "./_second-pass-adlib-pages";
 export * from "./_update-pages";
 export * from "./site-second-pass";

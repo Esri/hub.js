@@ -1,5 +1,5 @@
 import { siteSecondPass } from "../src";
-import * as shareItemsModule from "../src/_share-items-to-site-groups";
+import * as shareItemsModule from "../src/share-items-to-site-groups";
 import * as updatePagesModule from "../src/_update-pages";
 import { IModel, IHubRequestOptions, IModelTemplate } from "@esri/hub-common";
 import { expectAllCalled } from "./test-helpers.test";
@@ -8,7 +8,7 @@ describe("siteSecondPass", () => {
   it("calls the correct functions", async () => {
     const shareSpy = spyOn(
       shareItemsModule,
-      "_shareItemsToSiteGroups"
+      "shareItemsToSiteGroups"
     ).and.returnValue(Promise.resolve({}));
     const updateSpy = spyOn(updatePagesModule, "_updatePages").and.returnValue(
       Promise.resolve({})
