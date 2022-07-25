@@ -508,7 +508,7 @@ describe("searchContent function", () => {
     let fetchSiteSpy: jasmine.Spy;
     let hubApiRequestSpy: jasmine.Spy;
     beforeEach(() => {
-      fetchSiteSpy = spyOn(common, "fetchSite").and.returnValue(
+      fetchSiteSpy = spyOn(common, "fetchSiteModel").and.returnValue(
         Promise.resolve({
           item: {
             url: siteUrl,

@@ -4,7 +4,7 @@ import {
   getProp,
   hubApiSearch,
   IHubRequestOptions,
-  fetchSite,
+  fetchSiteModel,
   ISiteCatalog,
   getPortalApiUrl,
   DatasetResource,
@@ -372,7 +372,7 @@ function getSiteModelFromOptions(
 
   const ro = getHubRequestOptions(options);
 
-  return fetchSite(options.site, ro);
+  return fetchSiteModel(options.site, ro);
 }
 
 // used above

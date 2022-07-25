@@ -2,7 +2,6 @@ import {
   IHubRequestOptions,
   isGuid,
   stripProtocol,
-  IModel,
   getSiteById,
   lookupDomain,
 } from "..";
@@ -34,19 +33,4 @@ export function fetchSiteModel(
   }
 
   return prms;
-}
-
-/**
- * @private // keep out of docs
- */
-/* istanbul ignore next */
-export function fetchSite(
-  identifier: string,
-  hubRequestOptions: IHubRequestOptions
-): Promise<IModel> {
-  // tslint:disable-next-line
-  console.warn(
-    `@esri/hub-common::fetchSite is deprecated. Please use @esri/hub-common::fetchSiteModel instead`
-  );
-  return fetchSiteModel(identifier, hubRequestOptions);
 }
