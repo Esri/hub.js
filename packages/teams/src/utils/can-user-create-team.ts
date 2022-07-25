@@ -29,11 +29,8 @@ export function canUserCreateTeam(
     const product = getHubProduct(portalSelf);
     const subscriptionType = getSubscriptionType(portalSelf);
     // get all the groups the user can create in this product...
-    return getUserCreatableTeams(
-      user,
-      product,
-      portalSelf.currentVersion,
-      subscriptionType
-    ).some((t) => t.config.type === hubTeamType);
+    return getUserCreatableTeams(user, product, subscriptionType).some(
+      (t) => t.config.type === hubTeamType
+    );
   }
 }
