@@ -98,6 +98,7 @@ function serializePredicate(predicate: IPredicate): ISearchOptions {
   const portalAllowList = [
     "access",
     "categories",
+    "capabilities",
     "created",
     "description",
     "disabled",
@@ -131,6 +132,7 @@ function serializePredicate(predicate: IPredicate): ISearchOptions {
     "userlicensetype",
     "username",
   ];
+
   let qCount = 0;
   // TODO: Look at using reduce vs .map and remove the `.filter`
   const opts = Object.entries(predicate)
