@@ -414,28 +414,6 @@ export const getContentTypeLabel = (
 };
 
 /**
- * DEPRECATED returns a new content that has the specified hubId and updated identifier
- * @param content orignal content
- * @param hubId new hubId
- * @returns new content
- */
-/* istanbul ignore next DEPRECATED and no longer in use */
-export const setContentHubId = (
-  content: IHubContent,
-  hubId: string
-): IHubContent => {
-  const { id, slug } = content;
-  // get the identifier which is based on hubId
-  const identifier = slug || hubId || id;
-  const updated = { ...content, hubId, identifier };
-  // update the relative URL to the content
-  // which is based on identifier
-  return appendContentUrls(updated, {
-    relative: getContentRelativeUrl(updated),
-  });
-};
-
-/**
  * DEPRECATED: Calculates the relative and absolute urls for a given content on a specific site
  *
  * @param content
