@@ -5,13 +5,13 @@ import * as portalModule from "@esri/arcgis-rest-portal";
 import { fetchAndUploadResource } from "../../src";
 import {
   IItemResourceOptions,
-  IItemResourceResponse
+  IItemResourceResponse,
 } from "@esri/arcgis-rest-portal";
 
-describe("fetchAndUploadResource", function() {
+describe("fetchAndUploadResource", function () {
   // These tests create a blob
   if (typeof Blob !== "undefined") {
-    it("fetches and uploads a resource", async function() {
+    it("fetches and uploads a resource", async function () {
       const owner = "andrew";
       const itemId = "some-id";
 
@@ -25,7 +25,7 @@ describe("fetchAndUploadResource", function() {
         success: true,
         itemId,
         owner,
-        folder: null
+        folder: null,
       };
       const addItemResourceSpy = spyOn(
         portalModule,
@@ -37,7 +37,7 @@ describe("fetchAndUploadResource", function() {
         owner,
         fileName: "thumbnail.png",
         url: "https://my-image-url",
-        authentication: mockUserSession
+        authentication: mockUserSession,
       };
 
       const res = await fetchAndUploadResource(opts);
@@ -60,19 +60,20 @@ describe("fetchAndUploadResource", function() {
         addResourceRes,
         "resolves to response from addItemResource"
       );
-      const addItemOpts: IItemResourceOptions = addItemResourceSpy.calls.argsFor(
-        0
-      )[0];
+      const addItemOpts: IItemResourceOptions =
+        addItemResourceSpy.calls.argsFor(0)[0];
       expect(addItemOpts).toEqual(
         {
           id: itemId,
           owner,
           name: opts.fileName,
           resource: resourceBlob,
-          authentication: mockUserSession
+          authentication: mockUserSession,
         },
         "addItemResource called with correct configuration"
       );
     });
+  } else {
+    it("does not test in node", () => true);
   }
 });
