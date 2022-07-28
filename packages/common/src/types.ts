@@ -310,23 +310,6 @@ export interface IDomainEntry {
   updatedAt?: string;
 }
 
-/**
- * The catalog object found on Hub Site Application items.
- * It defines a selection of content to show up in the site"s
- * search context.
- */
-export interface ISiteCatalog {
-  /**
-   * A list of groups containing searchable content.
-   */
-  groups: string[];
-
-  /**
-   * An org to limit searching to.
-   */
-  orgId: string;
-}
-
 export interface IHubTeam extends IGroup {
   properties: {
     [key: string]: any;

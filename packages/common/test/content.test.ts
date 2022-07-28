@@ -11,7 +11,6 @@ import {
   getItemLayerId,
   getItemHubId,
   getContentIdentifier,
-  setContentSiteUrls,
   isSlug,
   addContextToSlug,
   removeContextFromSlug,
@@ -687,44 +686,6 @@ describe("setContentType", () => {
       // I'm just here for the coverage
       expect(getContentTypeLabel(undefined, false)).toEqual("");
     });
-  });
-});
-describe("setContentSiteUrls", () => {
-  let site: IModel;
-  beforeEach(() => {
-    // emulating a site item
-    const url = "https://my-site-org.hub.arcgis.com";
-    const item = { ...documentItem, type: "Hub Site", url };
-    site = {
-      item,
-      data: {},
-    };
-  });
-  it("links to page using site's slug for page when page is linked to site", () => {
-    // emulate linking a page to the site
-    const pageItem = { ...documentItem, type: "Hub Page" };
-    const slug = "page-slug-for-site";
-    site.data.values = {
-      pages: [{ id: pageItem.id, slug }],
-    };
-
-    // get the site URL
-    const content = itemToContent(pageItem);
-    const result = setContentSiteUrls(content, site);
-
-    expect(result.urls.site).toEqual(`${site.item.url}/pages/${slug}`);
-  });
-  it("links to page on documents route when page is NOT linked to site", () => {
-    // emulate a page item
-    const pageItem = { ...documentItem, type: "Hub Page" };
-
-    // get the site URL
-    const content = itemToContent(pageItem);
-    const result = setContentSiteUrls(content, site);
-
-    expect(result.urls.site).toEqual(
-      `${site.item.url}/pages/${content.identifier}`
-    );
   });
 });
 
