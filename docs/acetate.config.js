@@ -208,42 +208,6 @@ module.exports = function(acetate) {
     return inspect(obj, { depth: 3 });
   });
 
-  // without the '.js' on the end, for the benefit of the AMD sample
-  acetate.helper("cdnUrl", function(context, package) {
-    return `https://unpkg.com/${
-      package.name
-    }@${package.version}/dist/umd/${package.name.replace("@esri/hub-", "")}.umd`;
-  });
-
-  // <code> friendly script tag string
-  acetate.helper("scriptTag", function(context, package) {
-    return acetate.nunjucks.renderString(
-      `{% highlight "html" %}<script src="https://unpkg.com/${package.name}@${
-        package.version
-      }/dist/umd/${package.name.replace(
-        "@esri/hub-",
-        ""
-      )}.umd.min.js"></script>{% endhighlight %}`
-    );
-  });
-
-  // CDN with SRI only if hash exists
-  acetate.helper("scriptTagSRI", function(context, package) {
-    const hash = srihashes.packages[package.name];
-    if (hash) {
-      return acetate.nunjucks.renderString(`
-        {%highlight "html" %}
-        <script src="https://unpkg.com/${package.name}@${
-        package.version
-      }/dist/umd/${package.name.replace(
-        "@esri/hub-",
-        ""
-      )}.umd.min.js" integrity="${hash}" crossorigin="anonymous"></script>{% endhighlight %}`);
-    } else {
-      return "";
-    }
-  });
-
   acetate.helper("npmInstallCmd", function(context, package) {
     const peers = package.peerDependencies
       ? Object.keys(package.peerDependencies).map(

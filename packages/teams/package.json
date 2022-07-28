@@ -3,7 +3,6 @@
   "version": "10.0.0-next.3",
   "description": "Module to interact with ArcGIS Hub Teams in Node.js and modern browsers.",
   "main": "dist/node/index.js",
-  "unpkg": "dist/umd/teams.umd.js",
   "module": "dist/esm/index.js",
   "es2017": "dist/es2017/index.js",
   "sideEffects": false,
@@ -25,11 +24,6 @@
     "@esri/arcgis-rest-request": "^3.1.1",
     "@esri/arcgis-rest-types": "^3.1.1",
     "@esri/hub-common": "10.0.0-next.3",
-    "@rollup/plugin-commonjs": "^15.0.0",
-    "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^9.0.0",
-    "rollup": "^2.26.5",
-    "rollup-plugin-filesize": "^9.0.2",
     "typescript": "^3.8.1"
   },
   "files": [
@@ -40,7 +34,6 @@
     "build:esm": "tsc --outDir ./dist/es2017  --declaration --declarationDir ./dist/types",
     "build:esm:es5": "tsc --module es2015 --target es5 --outDir ./dist/esm",
     "build:node": "tsc --module commonjs --outDir ./dist/node",
-    "build:umd": "rollup -c ../../umd-base-profile.js && rollup -c ../../umd-production-profile.js",
     "dev:esm": "npm run build:esm -- -w",
     "dev:node": "npm run build:node -- -w",
     "format": "prettier --write ./{src,test}/**/*.ts",
