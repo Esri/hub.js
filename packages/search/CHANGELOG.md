@@ -1,3 +1,27 @@
+# @esri/hub-search [10.0.0-next.3](https://github.com/Esri/hub.js/compare/@esri/hub-search@10.0.0-next.2...@esri/hub-search@10.0.0-next.3) (2022-07-28)
+
+
+### Code Refactoring
+
+* **hub-common:** remove fetchSite() ([f2482c4](https://github.com/Esri/hub.js/commit/f2482c4377e02d24f7e5e99b0ee97950d98e5435))
+* **hub-search:** remove content search classes and functions ([8fdfac1](https://github.com/Esri/hub.js/commit/8fdfac1b631d7e4a1ae7d6d0ce5676f98ef8a23b))
+* **hub-search:** remove hub-search re-exports from hub-common ([516b6ee](https://github.com/Esri/hub.js/commit/516b6eee1b6519b60e5404fd8a66783018aff6dc))
+
+
+### BREAKING CHANGES
+
+* **hub-search:** remove ContentSearchService, searchContent(), searchDatasets()
+* **hub-common:** remove fetchSite()
+* **hub-search:** remove ISearchResponse from hub-search
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 10.0.0-next.3
+
 # @esri/hub-search [10.0.0-next.2](https://github.com/Esri/hub.js/compare/@esri/hub-search@10.0.0-next.1...@esri/hub-search@10.0.0-next.2) (2022-07-22)
 
 
