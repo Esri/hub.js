@@ -1,3 +1,47 @@
+# @esri/hub-common [10.0.0-next.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@10.0.0-next.2...@esri/hub-common@10.0.0-next.3) (2022-07-28)
+
+
+### chore
+
+* **hub-common:** remove bBoxToPolygon() ([75041c2](https://github.com/Esri/hub.js/commit/75041c2e86727f7d0d6ab2e80e5080047721b9d9))
+
+
+### Code Refactoring
+
+* **hub-common:** remove convertCatalog() ([fc7e62b](https://github.com/Esri/hub.js/commit/fc7e62b914d670247155841edcdadd28ce2e05d2))
+* **hub-common:** remove deprecated content properties ([cc00d73](https://github.com/Esri/hub.js/commit/cc00d739203d72e845dc93d839b9442493c7a86f))
+* **hub-common:** remove DEPRECATED isExtentCoordinateArray ([180baa7](https://github.com/Esri/hub.js/commit/180baa7e662cf03c17b7fefc39bb152c44aac362))
+* **hub-common:** remove deprecated properties from hub search interfaces ([bacf97a](https://github.com/Esri/hub.js/commit/bacf97a67f2bc6b895a4d2f36dfc37f76723a155))
+* **hub-common:** remove fetchSite() ([f2482c4](https://github.com/Esri/hub.js/commit/f2482c4377e02d24f7e5e99b0ee97950d98e5435))
+* **hub-common:** remove functions that were only used by content search ([2173a66](https://github.com/Esri/hub.js/commit/2173a662d4b2d30f460475a8ba07351fa8089dbb))
+* **hub-common:** remove getItemHubType() ([296d2ec](https://github.com/Esri/hub.js/commit/296d2ec943f59af83676081754eaa636e03acda0))
+* **hub-common:** remove HubProjectManager.get() ([c472384](https://github.com/Esri/hub.js/commit/c472384f5ead35c86e78eae25266c7ac8104bb9a))
+* **hub-common:** remove hubSearchQuery() ([42ea577](https://github.com/Esri/hub.js/commit/42ea577b19aac0f371e43fbcd914abbf5bc153a8))
+* **hub-common:** remove setContentHubId() ([b64cee1](https://github.com/Esri/hub.js/commit/b64cee14f8387f3669887cbf1742483fdd116e57))
+* **hub-common:** remove unused types ([8eb91be](https://github.com/Esri/hub.js/commit/8eb91bea238f0f757695f873827ca6aa87f21cc5))
+* **hub-common:** require type when calling getFamily() ([fcf58f4](https://github.com/Esri/hub.js/commit/fcf58f4041f0eec8a997f12a88326870af19df8e))
+* **hub-search:** remove content search classes and functions ([8fdfac1](https://github.com/Esri/hub.js/commit/8fdfac1b631d7e4a1ae7d6d0ce5676f98ef8a23b))
+* **hub-sites:** remove hub-sites re-exports from hub-common ([b3e2503](https://github.com/Esri/hub.js/commit/b3e25034e63c00efd9347953208c708342869cce))
+
+
+### BREAKING CHANGES
+
+* **hub-common:** remove hubApiSearch(), getContentSiteUrls(), & setContentSiteUrls()
+* **hub-search:** remove ContentSearchService, searchContent(), searchDatasets()
+* **hub-common:** removes isExtentCoordinateArray()
+* **hub-common:** remove deprecated properties from hub search interfaces
+* **hub-common:** remove HubProjectManager.get()
+* **hub-common:** remove setContentHubId()
+* **hub-common:** remove convertCatalog()
+* **hub-common:** remove fetchSite()
+* **hub-common:** remove hubSearchQuery()
+* **hub-sites:** remove getTheme(), _addSiteDomains, registerSiteAsApplication, registerBrowserApp from hub-sites
+* **hub-common:** remove deprecated properties from content
+* **hub-common:** remove HubType, IBBox, IContentEnrichments, and IHubResource types
+* **hub-common:** remove getItemHubType()
+* **hub-common:** getFamily() requires type
+* **hub-common:** remove bBoxToPolygon()
+
 # @esri/hub-common [10.0.0-next.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@10.0.0-next.1...@esri/hub-common@10.0.0-next.2) (2022-07-22)
 
 
