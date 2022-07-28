@@ -1,3 +1,23 @@
+# @esri/hub-teams [10.0.0-next.3](https://github.com/Esri/hub.js/compare/@esri/hub-teams@10.0.0-next.2...@esri/hub-teams@10.0.0-next.3) (2022-07-28)
+
+
+### Code Refactoring
+
+* **hub-teams:** remove portalApiVersion argument from teams functions ([1132c43](https://github.com/Esri/hub.js/commit/1132c436e9f1145f63188b806a9638be0d258c53))
+
+
+### BREAKING CHANGES
+
+* **hub-teams:** remove portalApiVersion argument from teams functions
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 10.0.0-next.3
+
 # @esri/hub-teams [10.0.0-next.2](https://github.com/Esri/hub.js/compare/@esri/hub-teams@10.0.0-next.1...@esri/hub-teams@10.0.0-next.2) (2022-07-22)
 
 
