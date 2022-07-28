@@ -1,3 +1,27 @@
+# @esri/hub-sites [10.0.0-next.3](https://github.com/Esri/hub.js/compare/@esri/hub-sites@10.0.0-next.2...@esri/hub-sites@10.0.0-next.3) (2022-07-28)
+
+
+### Code Refactoring
+
+* **hub-sites:** remove _shareItemsToSiteGroups() ([b806773](https://github.com/Esri/hub.js/commit/b806773b044b413f0173271739f8f9047b203237))
+* **hub-sites:** remove hub-sites re-exports from hub-common ([b3e2503](https://github.com/Esri/hub.js/commit/b3e25034e63c00efd9347953208c708342869cce))
+
+
+### BREAKING CHANGES
+
+* **hub-sites:** remove _shareItemsToSiteGroups()
+* **hub-sites:** remove getTheme(), _addSiteDomains, registerSiteAsApplication, registerBrowserApp from hub-sites
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 10.0.0-next.3
+* **@esri/hub-initiatives:** upgraded to 10.0.0-next.3
+* **@esri/hub-teams:** upgraded to 10.0.0-next.3
+
 # @esri/hub-sites [10.0.0-next.2](https://github.com/Esri/hub.js/compare/@esri/hub-sites@10.0.0-next.1...@esri/hub-sites@10.0.0-next.2) (2022-07-22)
 
 
