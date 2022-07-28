@@ -1,6 +1,3 @@
-// DEPRECATED: remove this at the next breaking change
-export { ISearchResponse } from "@esri/hub-common";
-
 /**
  * Defines a generic date range interface
  */

@@ -1,13 +1,13 @@
 import { fetchImageAsBlob } from "../../src";
 import * as fetchMock from "fetch-mock";
 
-describe("fetchImageAsBlob", function() {
+describe("fetchImageAsBlob", function () {
   // These tests create a blob
   if (typeof Blob !== "undefined") {
-    it("fetches an image as a blob", async function() {
+    it("fetches an image as a blob", async function () {
       fetchMock.getOnce("image-url", {
         body: new Blob(["a"], { type: "image/png" }),
-        sendAsJson: false
+        sendAsJson: false,
       });
 
       const res = await fetchImageAsBlob("image-url", { credentials: "omit" });
@@ -20,10 +20,10 @@ describe("fetchImageAsBlob", function() {
       expect(res.size).toBeGreaterThan(0);
     });
 
-    it("has sensible defaults", async function() {
+    it("has sensible defaults", async function () {
       fetchMock.getOnce("image-url", {
         body: new Blob(["a"], { type: "image/png" }),
-        sendAsJson: false
+        sendAsJson: false,
       });
 
       const res = await fetchImageAsBlob("image-url");
@@ -35,5 +35,7 @@ describe("fetchImageAsBlob", function() {
       );
       expect(res.size).toBeGreaterThan(0);
     });
+  } else {
+    it("does not test in node", () => true);
   }
 });

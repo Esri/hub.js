@@ -1,5 +1,5 @@
 import { IModelTemplate, IHubRequestOptions, IModel } from "@esri/hub-common";
-import { _shareItemsToSiteGroups } from "./_share-items-to-site-groups";
+import { shareItemsToSiteGroups } from "./share-items-to-site-groups";
 import { _updatePages } from "./_update-pages";
 
 /**
@@ -16,9 +16,9 @@ export function siteSecondPass(
   let secondPassPromises: Array<Promise<any>> = [];
   // get all the items that are not the site
   secondPassPromises = secondPassPromises.concat(
-    _shareItemsToSiteGroups(
+    shareItemsToSiteGroups(
       siteModel,
-      (solutionModels as unknown) as IModel[],
+      solutionModels as unknown as IModel[],
       hubRequestOptions
     )
   );

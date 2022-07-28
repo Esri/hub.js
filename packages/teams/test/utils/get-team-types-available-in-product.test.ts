@@ -3,19 +3,19 @@ import { getTeamTypesAvailableInProduct } from "../../src/utils/get-team-types-a
 import { HubTeamType } from "../../src/types";
 
 describe("getTeamTypesAvailableInProduct", () => {
-  it("maps group templates to team types", function() {
+  it("maps group templates to team types", function () {
     const teamTypes: HubTeamType[] = ["core", "event"];
 
     spyOn(
       getTeamsAvailableInProductModule,
       "getTeamsAvailableInProduct"
     ).and.returnValue(
-      teamTypes.map(type => {
+      teamTypes.map((type) => {
         return { config: { type } };
       })
     );
 
-    expect(getTeamTypesAvailableInProduct("premium", "8.4")).toEqual(teamTypes);
-    expect(getTeamTypesAvailableInProduct("premium", "9.1")).toEqual(teamTypes);
+    expect(getTeamTypesAvailableInProduct("premium")).toEqual(teamTypes);
+    expect(getTeamTypesAvailableInProduct("premium")).toEqual(teamTypes);
   });
 });

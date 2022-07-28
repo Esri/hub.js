@@ -15,5 +15,7 @@ describe("_prepareUploadRequests", () => {
       expect(result[0].id).toBe("123abc");
       expect(result[0].partNum).toBe(3);
     });
+  } else {
+    it("does not test in node", () => true);
   }
 });
