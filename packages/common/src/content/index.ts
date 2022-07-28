@@ -34,15 +34,16 @@ export * from "./HubContent";
  * getCategory('Feature Layer')
  * > 'dataset'
  * ```
- * **DEPRECATED: Use getCollection() instead**
+ * **DEPRECATED: Use getFamily() instead**
  * returns the Hub category for a given item type
  * @param itemType The ArcGIS [item type](https://developers.arcgis.com/rest/users-groups-and-items/items-and-item-types.htm).
  * @returns the category of a given item type.
  */
+/* istanbul ignore next deprecated */
 export function getCategory(itemType: string = ""): string {
   /* tslint:disable no-console */
   console.warn(
-    "DEPRECATED: Use getCollection() instead. getCategory will be removed at v10.0.0"
+    "DEPRECATED: Use getFamily() instead. getCategory will be removed at the next breaking version"
   );
   /* tslint:enable no-console */
   const collection = getCollection(itemType);
@@ -73,11 +74,18 @@ export function getTypes(category: string = ""): string[] {
  * getTypeCategories(item)
  * > [ 'Hub Site Application' ]
  * ```
+ * **DEPRECATED: getTypeCategories will be removed at the next breaking version**
  * @param item Item object.
  * @returns typeCategory of the input item.
  *
  */
+/* istanbul ignore next deprecated */
 export function getTypeCategories(item: any = {}): string[] {
+  /* tslint:disable no-console */
+  console.warn(
+    "DEPRECATED: getTypeCategories will be removed at the next breaking version"
+  );
+  /* tslint:enable no-console */
   const type: string = normalizeItemType(item);
   const category: string = getCategory(type);
   if (category) {

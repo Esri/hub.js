@@ -5,7 +5,6 @@ import {
   datasetToContent,
   datasetToItem,
   getTypes,
-  getTypeCategories,
   normalizeItemType,
   isFeatureService,
   getLayerIdFromUrl,
@@ -23,8 +22,6 @@ import {
   setContentType,
   getContentTypeIcon,
   getContentTypeLabel,
-  // deprecated, remove these at the next breaking change
-  getCategory,
 } from "../src/content";
 import {
   isProxiedCSV,
@@ -51,12 +48,6 @@ import { cloneObject } from "../src/util";
 import * as documentItem from "./mocks/items/document.json";
 import * as documentsJson from "./mocks/datasets/document.json";
 import * as featureLayerJson from "./mocks/datasets/feature-layer.json";
-
-describe("getCategory", () => {
-  it("returns 'app' for forms", () => {
-    expect(getCategory("Form")).toBe("app");
-  });
-});
 
 describe("getTypes", () => {
   it("can abort", () => {
@@ -121,23 +112,6 @@ describe("normalizeItemType", () => {
   });
   it("can work with blank inputs", () => {
     expect(normalizeItemType()).toBe(undefined);
-  });
-});
-
-describe("getTypeCategories", () => {
-  it("should return Other if category is undefined", () => {
-    expect(getTypeCategories({ type: "unknown type" })).toEqual(["Other"]);
-  });
-  it("should return correct typeCategory if category is defined", () => {
-    expect(
-      getTypeCategories({
-        type: "Web Mapping Application",
-        typeKeywords: ["hubSite"],
-      })
-    ).toEqual(["Site"]);
-  });
-  it("can work with blank inputs", () => {
-    expect(getTypeCategories()).toEqual(["Other"]);
   });
 });
 
