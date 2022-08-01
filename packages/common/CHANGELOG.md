@@ -1,3 +1,15 @@
+# @esri/hub-common [10.0.0-next.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@10.0.0-next.3...@esri/hub-common@10.0.0-next.4) (2022-08-01)
+
+
+### chore
+
+* **hub-common:** no longer run and publish UMD build ([2f0d7a2](https://github.com/Esri/hub.js/commit/2f0d7a25332e0864e03f814a34847abb8ee1bc4b))
+
+
+### BREAKING CHANGES
+
+* **hub-common:** no longer publish a CDN release
+
 # @esri/hub-common [10.0.0-next.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@10.0.0-next.2...@esri/hub-common@10.0.0-next.3) (2022-07-28)
 
 
