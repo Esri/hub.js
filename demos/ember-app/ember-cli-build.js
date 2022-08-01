@@ -7,10 +7,6 @@ module.exports = function (defaults) {
     // see the README for information on 
     // how to configure this for additional Hub.js packages
     autoImport: {
-      alias: {
-        // use the es2017 build of Hub.js packages
-        '@esri/hub-common': '@esri/hub-common/dist/es2017'
-      },
       // live reload on changes to these Hub.js packages
       watchDependencies: ['@esri/hub-common']
     }
