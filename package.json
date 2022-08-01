@@ -96,12 +96,11 @@
 		"ultra-runner": "^3.10.5"
 	},
 	"scripts": {
-		"build:esm:es5": "npx ultra --build -r filter=\"packages/*\" build:esm:es5",
 		"build:esm": "npx ultra --build -r filter=\"packages/*\"  build:esm",
 		"build:node": "npx ultra --build -r filter=\"packages/*\"  build:node",
 		"build:tests": "npm run build:esm && npm run build:node",
 		"build:umd": "npx ultra --build -r filter=\"packages/*\"  build:umd",
-		"build": "npm run build:esm && npm run build:esm:es5 && npm run build:node",
+		"build": "npm run build:esm && npm run build:node",
 		"c": "npm run precommit && git-cz",
 		"clean:deps": "rm -rf node_modules && rm -rf packages/*/node_modules/",
 		"clean:dist": "rm -rf packages/*/dist/",

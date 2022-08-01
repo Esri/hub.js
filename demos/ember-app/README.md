@@ -4,7 +4,7 @@ This demo is used to verify that ember-auto-import dynamic and static imports wo
 
 ## Running this demo
 
-1. Make sure you run `npm run build` in the monorepo root to setup the dependencies
+1. Make sure you run `npm i && npm run build` in the monorepo root to setup the dependencies
 1. cd into `demos/ember-app`
 1. Run `npm start`
 1. Load `http://localhost:4200/` in a web browser.
