@@ -3,7 +3,6 @@
   "version": "10.0.0-next.3",
   "description": "Module to interact with ArcGIS Hub Initiatives in Node.js and modern browsers.",
   "main": "dist/node/index.js",
-  "unpkg": "dist/umd/initiatives.umd.js",
   "module": "dist/esm/index.js",
   "es2017": "dist/es2017/index.js",
   "sideEffects": false,

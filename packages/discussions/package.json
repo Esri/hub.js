@@ -3,7 +3,6 @@
   "version": "12.0.0-next.3",
   "description": "Module to interact with ArcGIS Hub Discussions API in Node.js and modern browsers.",
   "main": "dist/node/index.js",
-  "unpkg": "dist/umd/discussions.umd.js",
   "module": "dist/esm/index.js",
   "es2017": "dist/es2017/index.js",
   "sideEffects": false,
