@@ -1,3 +1,15 @@
+# @esri/hub-common [10.0.0-next.5](https://github.com/Esri/hub.js/compare/@esri/hub-common@10.0.0-next.4...@esri/hub-common@10.0.0-next.5) (2022-08-01)
+
+
+### chore
+
+* **hub-common:** no longer publish es5 build ([995ce02](https://github.com/Esri/hub.js/commit/995ce02373e8390250e4490b738babb71cb7c303))
+
+
+### BREAKING CHANGES
+
+* **hub-common:** no longer publish es5 build
+
 # @esri/hub-common [10.0.0-next.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@10.0.0-next.3...@esri/hub-common@10.0.0-next.4) (2022-08-01)
 
 
