@@ -1,3 +1,18 @@
+# @esri/hub-teams [10.0.0-next.6](https://github.com/Esri/hub.js/compare/@esri/hub-teams@10.0.0-next.5...@esri/hub-teams@10.0.0-next.6) (2022-08-02)
+
+
+### Bug Fixes
+
+* add more orgs with 700 group max ([#838](https://github.com/Esri/hub.js/issues/838)) ([e90a01c](https://github.com/Esri/hub.js/commit/e90a01c583209b32990bfbc79234b39d2147bd7a))
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 10.0.0-next.6
+
 # @esri/hub-teams [10.0.0-next.5](https://github.com/Esri/hub.js/compare/@esri/hub-teams@10.0.0-next.4...@esri/hub-teams@10.0.0-next.5) (2022-08-01)
 
 
