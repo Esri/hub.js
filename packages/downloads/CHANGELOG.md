@@ -1,3 +1,15 @@
+# @esri/hub-downloads [10.0.0-next.7](https://github.com/Esri/hub.js/compare/@esri/hub-downloads@10.0.0-next.6...@esri/hub-downloads@10.0.0-next.7) (2022-08-02)
+
+
+### Features
+
+* **hub-downloads:** make rest-js packages peer dependencies ([4ae8f43](https://github.com/Esri/hub.js/commit/4ae8f433732ac8e9dbc084e06088632b82dc5894))
+
+
+### BREAKING CHANGES
+
+* **hub-downloads:** make rest-js packages peer dependencies
+
 # @esri/hub-downloads [10.0.0-next.6](https://github.com/Esri/hub.js/compare/@esri/hub-downloads@10.0.0-next.5...@esri/hub-downloads@10.0.0-next.6) (2022-08-02)
 
 
