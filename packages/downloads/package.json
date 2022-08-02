@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-downloads",
-  "version": "10.0.0-next.5",
+  "version": "10.0.0-next.6",
   "description": "Service for Hub downloads",
   "main": "dist/node/index.js",
   "module": "dist/esm/index.js",
@@ -15,11 +15,11 @@
     "tslib": "^1.13.0"
   },
   "peerDependencies": {
-    "@esri/hub-common": "10.0.0-next.5"
+    "@esri/hub-common": "10.0.0-next.6"
   },
   "devDependencies": {
     "@esri/arcgis-rest-auth": "^3.1.1",
-    "@esri/hub-common": "10.0.0-next.5",
+    "@esri/hub-common": "10.0.0-next.6",
     "@rollup/plugin-commonjs": "^15.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
