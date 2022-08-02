@@ -1,5 +1,6 @@
 import { IHubEntityBase } from "./IHubEntityBase";
 import { IHubGeography } from "../../types";
+import { AccessLevel } from "./types";
 
 /**
  * Properties exposed by Entities that are backed by Items
@@ -41,4 +42,8 @@ export interface IHubItemEntity extends IHubEntityBase {
    * Canonical Url for the Entity
    */
   url?: string;
+  /**
+   * Access level of the item ("private" | "org" | "public")
+   */
+  access?: AccessLevel;
 }
