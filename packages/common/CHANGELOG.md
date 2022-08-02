@@ -89,6 +89,13 @@
 
 * refactor: remove commented code/files
 
+## @esri/hub-common [9.49.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.49.0...@esri/hub-common@9.49.1) (2022-07-26)
+
+
+### Bug Fixes
+
+* enable searching groups by shared edit ([#839](https://github.com/Esri/hub.js/issues/839)) ([30b6bd7](https://github.com/Esri/hub.js/commit/30b6bd7788b8904dcc900c3ce9cfb1e85a6ebd20))
+
 # @esri/hub-common [9.49.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.48.0...@esri/hub-common@9.49.0) (2022-07-21)
 
 

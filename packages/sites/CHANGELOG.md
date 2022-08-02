@@ -68,17 +68,32 @@
 
 # @esri/hub-sites [10.0.0-next.2](https://github.com/Esri/hub.js/compare/@esri/hub-sites@10.0.0-next.1...@esri/hub-sites@10.0.0-next.2) (2022-07-22)
 
-
-
-
-
 ### Dependencies
 
 * **@esri/hub-common:** upgraded to 10.0.0-next.2
 * **@esri/hub-initiatives:** upgraded to 10.0.0-next.2
 * **@esri/hub-teams:** upgraded to 10.0.0-next.2
 
+## @esri/hub-sites [9.50.2](https://github.com/Esri/hub.js/compare/@esri/hub-sites@9.50.1...@esri/hub-sites@9.50.2) (2022-07-26)
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 9.49.1
+* **@esri/hub-initiatives:** upgraded to 9.49.1
+* **@esri/hub-teams:** upgraded to 9.49.2
+
+
+
 # @esri/hub-sites [10.0.0-next.1](https://github.com/Esri/hub.js/compare/@esri/hub-sites@9.50.0...@esri/hub-sites@10.0.0-next.1) (2022-07-21)
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 10.0.0-next.1
+* **@esri/hub-initiatives:** upgraded to 10.0.0-next.1
+* **@esri/hub-teams:** upgraded to 10.0.0-next.1
+
+
+## @esri/hub-sites [9.50.1](https://github.com/Esri/hub.js/compare/@esri/hub-sites@9.50.0...@esri/hub-sites@9.50.1) (2022-07-22)
 
 
 
@@ -86,9 +101,7 @@
 
 ### Dependencies
 
-* **@esri/hub-common:** upgraded to 10.0.0-next.1
-* **@esri/hub-initiatives:** upgraded to 10.0.0-next.1
-* **@esri/hub-teams:** upgraded to 10.0.0-next.1
+* **@esri/hub-teams:** upgraded to 9.49.1
 
 # @esri/hub-sites [9.50.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@9.49.0...@esri/hub-sites@9.50.0) (2022-07-21)
 

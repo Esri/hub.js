@@ -49,6 +49,7 @@
 ### BREAKING CHANGES
 
 * **hub-teams:** remove portalApiVersion argument from teams functions
+## @esri/hub-teams [9.49.2](https://github.com/Esri/hub.js/compare/@esri/hub-teams@9.49.1...@esri/hub-teams@9.49.2) (2022-07-26)
 
 
 
@@ -77,6 +78,18 @@
 ### Dependencies
 
 * **@esri/hub-common:** upgraded to 10.0.0-next.1
+
+## @esri/hub-teams [9.49.1](https://github.com/Esri/hub.js/compare/@esri/hub-teams@9.49.0...@esri/hub-teams@9.49.1) (2022-07-22)
+
+
+### Bug Fixes
+
+* add more orgs with 700 group max ([#838](https://github.com/Esri/hub.js/issues/838)) ([e90a01c](https://github.com/Esri/hub.js/commit/e90a01c583209b32990bfbc79234b39d2147bd7a))
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 9.49.1
 
 # @esri/hub-teams [9.49.0](https://github.com/Esri/hub.js/compare/@esri/hub-teams@9.48.0...@esri/hub-teams@9.49.0) (2022-07-21)
 

@@ -74,13 +74,19 @@
 
 # @esri/hub-search [10.0.0-next.1](https://github.com/Esri/hub.js/compare/@esri/hub-search@9.48.0...@esri/hub-search@10.0.0-next.1) (2022-07-21)
 
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 10.0.0-next.1
+
+## @esri/hub-search [9.48.1](https://github.com/Esri/hub.js/compare/@esri/hub-search@9.48.0...@esri/hub-search@9.48.1) (2022-07-26)
+
 
 
 
 
 ### Dependencies
 
-* **@esri/hub-common:** upgraded to 10.0.0-next.1
+* **@esri/hub-common:** upgraded to 9.49.1
 
 # @esri/hub-search [9.48.0](https://github.com/Esri/hub.js/compare/@esri/hub-search@9.47.0...@esri/hub-search@9.48.0) (2022-07-21)
 

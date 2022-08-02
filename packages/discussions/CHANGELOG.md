@@ -61,12 +61,19 @@
 # @esri/hub-discussions [12.0.0-next.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@11.36.0...@esri/hub-discussions@12.0.0-next.1) (2022-07-21)
 
 
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 10.0.0-next.1
+
+## @esri/hub-discussions [11.36.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@11.36.0...@esri/hub-discussions@11.36.1) (2022-07-26)
+
+
 
 
 
 ### Dependencies
 
-* **@esri/hub-common:** upgraded to 10.0.0-next.1
+* **@esri/hub-common:** upgraded to 9.49.1
 
 # @esri/hub-discussions [11.36.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@11.35.0...@esri/hub-discussions@11.36.0) (2022-07-21)
 
