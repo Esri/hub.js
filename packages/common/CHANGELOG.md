@@ -1,3 +1,10 @@
+# @esri/hub-common [10.0.0-next.6](https://github.com/Esri/hub.js/compare/@esri/hub-common@10.0.0-next.5...@esri/hub-common@10.0.0-next.6) (2022-08-02)
+
+
+### Bug Fixes
+
+* enable searching groups by shared edit ([#839](https://github.com/Esri/hub.js/issues/839)) ([30b6bd7](https://github.com/Esri/hub.js/commit/30b6bd7788b8904dcc900c3ce9cfb1e85a6ebd20))
+
 # @esri/hub-common [10.0.0-next.5](https://github.com/Esri/hub.js/compare/@esri/hub-common@10.0.0-next.4...@esri/hub-common@10.0.0-next.5) (2022-08-01)
 
 
