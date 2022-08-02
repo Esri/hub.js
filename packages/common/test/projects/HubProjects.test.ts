@@ -359,7 +359,7 @@ describe("HubProjects:", () => {
       // verify the query
       const searchOpts = searchSpy.calls.argsFor(0)[0];
 
-      expect(searchOpts.q).toBe(`type:"Hub Project" AND water`);
+      expect(searchOpts.q).toBe(`(type:"Hub Project") AND (water)`);
     });
     it("accepts an IQuery", async () => {
       const qry: IQuery = {
@@ -386,7 +386,7 @@ describe("HubProjects:", () => {
       // verify the query
       const searchOpts = searchSpy.calls.argsFor(0)[0];
 
-      expect(searchOpts.q).toBe(`type:"Hub Project" AND colorado`);
+      expect(searchOpts.q).toBe(`(type:"Hub Project") AND (colorado)`);
     });
 
     it("accepts num, sortField and aggFields", async () => {
@@ -402,7 +402,7 @@ describe("HubProjects:", () => {
       // verify the query
       const searchOpts = searchSpy.calls.argsFor(0)[0];
 
-      expect(searchOpts.q).toBe(`type:"Hub Project" AND water`);
+      expect(searchOpts.q).toBe(`(type:"Hub Project") AND (water)`);
       expect(searchOpts.portal).toEqual(`https://qaext.arcgis.com`);
       expect(searchOpts.num).toBe(4);
       expect(searchOpts.sortField).toBe("created");
@@ -424,7 +424,7 @@ describe("HubProjects:", () => {
       // verify the query
       const searchOpts = searchSpy.calls.argsFor(0)[0];
 
-      expect(searchOpts.q).toBe(`type:"Hub Project" AND water`);
+      expect(searchOpts.q).toBe(`(type:"Hub Project") AND (water)`);
       expect(searchOpts.portal).toEqual(`https://qaext.arcgis.com`);
     });
   });
