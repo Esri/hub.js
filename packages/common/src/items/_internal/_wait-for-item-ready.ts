@@ -18,11 +18,14 @@ function delay(milliseconds: number) {
  */
 export async function _waitForItemReady(
   itemId: string,
-  requestOptions: IUserRequestOptions
+  requestOptions: IUserRequestOptions,
+  milliseconds?: number
 ): Promise<void> {
   let statusResult: IGetItemStatusResponse;
   do {
-    await delay(2000);
+    await delay(
+      milliseconds || /* istanbul ignore next: slows down tests */ 2000
+    );
 
     statusResult = await getItemStatus({
       id: itemId,

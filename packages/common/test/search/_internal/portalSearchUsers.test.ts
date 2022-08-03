@@ -1,6 +1,7 @@
 import { cloneObject, IHubSearchOptions, IQuery } from "../../../src";
 import { portalSearchUsers } from "../../../src/search/_internal/portalSearchUsers";
 import * as Portal from "@esri/arcgis-rest-portal";
+import * as users from "../../../src/users";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
 import * as SimpleResponse from "../../mocks/user-search/simple-response.json";
 
@@ -60,6 +61,11 @@ describe("portalSearchUsers module:", () => {
       const searchUsersSpy = spyOn(Portal, "searchUsers").and.callFake(() => {
         return Promise.resolve(cloneObject(SimpleResponse));
       });
+      // NOTE: enrichUserSearchResult is tested elsewhere so we don't assert on the results here
+      const enrichUserSearchResultSpy = spyOn(
+        users,
+        "enrichUserSearchResult"
+      ).and.callFake(() => Promise.resolve({}));
       const qry: IQuery = {
         targetEntity: "user",
         filters: [
@@ -79,7 +85,7 @@ describe("portalSearchUsers module:", () => {
         },
       };
 
-      await await portalSearchUsers(qry, opts);
+      await portalSearchUsers(qry, opts);
 
       expect(searchUsersSpy.calls.count()).toBe(1, "should call searchItems");
       const [expectedParams] = searchUsersSpy.calls.argsFor(0);
@@ -89,6 +95,10 @@ describe("portalSearchUsers module:", () => {
         opts.requestOptions?.authentication
       );
       expect(expectedParams.countFields).not.toBeDefined();
+      expect(enrichUserSearchResultSpy.calls.count()).toBe(
+        10,
+        "should call enrichUserSearchResult for each result"
+      );
     });
   });
 });

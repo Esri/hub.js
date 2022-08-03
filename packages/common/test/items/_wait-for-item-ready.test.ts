@@ -2,12 +2,8 @@ import * as portal from "@esri/arcgis-rest-portal";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { _waitForItemReady } from "../../src/items/_internal/_wait-for-item-ready";
 
-function delay(milliseconds: number) {
-  return new Promise((resolve) => setTimeout(resolve, milliseconds));
-}
-
 describe("_waitForItemReady", () => {
-  it("works for success", async (done) => {
+  it("works for success", async () => {
     try {
       // auth
       const ro = {
@@ -17,27 +13,16 @@ describe("_waitForItemReady", () => {
       } as IUserRequestOptions;
 
       spyOn(portal, "getItemStatus").and.returnValues(
-        new Promise((resolve, reject) => {
-          resolve({
-            status: "partial",
-          });
-        }),
-        new Promise((resolve, reject) => {
-          resolve({
-            status: "completed",
-          });
-        })
+        Promise.resolve({ status: "partial" }),
+        Promise.resolve({ status: "completed" })
       );
-      await _waitForItemReady("1234abc", ro);
-      await delay(100);
+      await _waitForItemReady("1234abc", ro, 10);
       expect(portal.getItemStatus).toHaveBeenCalledTimes(2);
     } catch (err) {
       expect(err).toEqual(undefined);
-    } finally {
-      done();
     }
   });
-  it("throws an error when an error occurs", async (done) => {
+  it("throws an error when an error occurs", async () => {
     try {
       // auth
       const ro = {
@@ -47,26 +32,17 @@ describe("_waitForItemReady", () => {
       } as IUserRequestOptions;
 
       spyOn(portal, "getItemStatus").and.returnValues(
-        new Promise((resolve, reject) => {
-          resolve({
-            status: "partial",
-          });
-        }),
-        new Promise((resolve, reject) => {
-          resolve({
-            status: "failed",
-            statusMessage: "Upload failed",
-          });
+        Promise.resolve({ status: "partial" }),
+        Promise.resolve({
+          status: "failed",
+          statusMessage: "Upload failed",
         })
       );
 
-      await _waitForItemReady("1234abc", ro);
-      await delay(100);
+      await _waitForItemReady("1234abc", ro, 10);
       expect(portal.getItemStatus).toHaveBeenCalledTimes(2);
     } catch (err) {
-      expect(err.message).toEqual("Upload failed");
-    } finally {
-      done();
+      expect((err as Error).message).toEqual("Upload failed");
     }
   });
 });
