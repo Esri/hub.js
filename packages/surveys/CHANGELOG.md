@@ -1,3 +1,10 @@
+# @esri/hub-surveys [10.0.0-next.8](https://github.com/Esri/hub.js/compare/@esri/hub-surveys@10.0.0-next.7...@esri/hub-surveys@10.0.0-next.8) (2022-08-03)
+
+
+### Bug Fixes
+
+* re-export survey utils ([#848](https://github.com/Esri/hub.js/issues/848)) ([e3edf7e](https://github.com/Esri/hub.js/commit/e3edf7e61a0bf3fda8b97b8468039d672ef550fd))
+
 # @esri/hub-surveys [10.0.0-next.7](https://github.com/Esri/hub.js/compare/@esri/hub-surveys@10.0.0-next.6...@esri/hub-surveys@10.0.0-next.7) (2022-08-03)
 
 
