@@ -1,3 +1,10 @@
+# @esri/hub-common [10.0.0-next.7](https://github.com/Esri/hub.js/compare/@esri/hub-common@10.0.0-next.6...@esri/hub-common@10.0.0-next.7) (2022-08-03)
+
+
+### Bug Fixes
+
+* predicates need to be wrapped in parens ([ed9c230](https://github.com/Esri/hub.js/commit/ed9c2308afa32c8867e86682090811b1efb6d9ea))
+
 # @esri/hub-common [10.0.0-next.6](https://github.com/Esri/hub.js/compare/@esri/hub-common@10.0.0-next.5...@esri/hub-common@10.0.0-next.6) (2022-08-02)
 
 
