@@ -172,7 +172,7 @@ function serializePredicate(predicate: IPredicate): ISearchOptions {
   // merge up all the searchOptions
   if (opts.length) {
     const searchOptions = mergeSearchOptions(opts, "AND");
-    if (qCount > 1) {
+    if (searchOptions.q) {
       searchOptions.q = `(${searchOptions.q})`;
     }
     return searchOptions;

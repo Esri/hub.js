@@ -32,7 +32,7 @@ describe("portalSearchGroups module:", () => {
       await portalSearchGroups(qry, o);
       expect(searchGroupsSpy.calls.count()).toBe(1, "should call searchGroups");
       const [expectedParams] = searchGroupsSpy.calls.argsFor(0);
-      expect(expectedParams.q).toEqual("water");
+      expect(expectedParams.q).toEqual("(water)");
       expect(expectedParams.portal).toBe("https://www.arcgis.com/sharing/rest");
       expect(expectedParams.requestOptions).toBeDefined();
     });
@@ -61,7 +61,7 @@ describe("portalSearchGroups module:", () => {
       await portalSearchGroups(qry, o);
       expect(searchGroupsSpy.calls.count()).toBe(1, "should call searchGroups");
       const [expectedParams] = searchGroupsSpy.calls.argsFor(0);
-      expect(expectedParams.q).toEqual("water");
+      expect(expectedParams.q).toEqual("(water)");
       expect(expectedParams.authentication).toBe(MOCK_ENTERPRISE_AUTH);
       expect(expectedParams.portal).toBeUndefined();
       expect(expectedParams.requestOptions).toBeDefined();
@@ -96,7 +96,7 @@ describe("portalSearchGroups module:", () => {
       await portalSearchGroups(qry, o);
       expect(searchGroupsSpy.calls.count()).toBe(1, "should call searchGroups");
       const [expectedParams] = searchGroupsSpy.calls.argsFor(0);
-      expect(expectedParams.q).toEqual("water");
+      expect(expectedParams.q).toEqual("(water)");
       expect(expectedParams.portal).toBe(
         "https://some-server.com/gis/sharing/rest"
       );
