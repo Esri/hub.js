@@ -1,3 +1,31 @@
+# @esri/hub-downloads [10.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-downloads@9.48.2...@esri/hub-downloads@10.0.0) (2022-08-03)
+
+
+### chore
+
+* **hub-common:** no longer publish es5 build ([995ce02](https://github.com/Esri/hub.js/commit/995ce02373e8390250e4490b738babb71cb7c303))
+* **hub-common:** no longer run and publish UMD build ([2f0d7a2](https://github.com/Esri/hub.js/commit/2f0d7a25332e0864e03f814a34847abb8ee1bc4b))
+
+
+### Features
+
+* **hub-downloads:** make rest-js packages peer dependencies ([4ae8f43](https://github.com/Esri/hub.js/commit/4ae8f433732ac8e9dbc084e06088632b82dc5894))
+
+
+### BREAKING CHANGES
+
+* **hub-downloads:** make rest-js packages peer dependencies
+* **hub-common:** no longer publish es5 build
+* **hub-common:** no longer publish a CDN release
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 10.0.0
+
 # @esri/hub-downloads [10.0.0-next.8](https://github.com/Esri/hub.js/compare/@esri/hub-downloads@10.0.0-next.7...@esri/hub-downloads@10.0.0-next.8) (2022-08-03)
 
 ### Dependencies
