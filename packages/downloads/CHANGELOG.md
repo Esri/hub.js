@@ -1,9 +1,5 @@
 # @esri/hub-downloads [10.0.0-next.8](https://github.com/Esri/hub.js/compare/@esri/hub-downloads@10.0.0-next.7...@esri/hub-downloads@10.0.0-next.8) (2022-08-03)
 
-
-
-
-
 ### Dependencies
 
 * **@esri/hub-common:** upgraded to 10.0.0-next.7
@@ -96,6 +92,11 @@
 
 * **@esri/hub-common:** upgraded to 10.0.0-next.1
 
+## @esri/hub-downloads [9.48.2](https://github.com/Esri/hub.js/compare/@esri/hub-downloads@9.48.1...@esri/hub-downloads@9.48.2) (2022-08-02)
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 9.49.2
 
 ## @esri/hub-downloads [9.48.1](https://github.com/Esri/hub.js/compare/@esri/hub-downloads@9.48.0...@esri/hub-downloads@9.48.1) (2022-07-26)
 

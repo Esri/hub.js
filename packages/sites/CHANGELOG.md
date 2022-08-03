@@ -1,9 +1,5 @@
 # @esri/hub-sites [10.0.0-next.8](https://github.com/Esri/hub.js/compare/@esri/hub-sites@10.0.0-next.7...@esri/hub-sites@10.0.0-next.8) (2022-08-03)
 
-
-
-
-
 ### Dependencies
 
 * **@esri/hub-common:** upgraded to 10.0.0-next.7
@@ -53,7 +49,6 @@
 
 # @esri/hub-sites [10.0.0-next.4](https://github.com/Esri/hub.js/compare/@esri/hub-sites@10.0.0-next.3...@esri/hub-sites@10.0.0-next.4) (2022-08-01)
 
-
 ### chore
 
 * **hub-common:** no longer run and publish UMD build ([2f0d7a2](https://github.com/Esri/hub.js/commit/2f0d7a25332e0864e03f814a34847abb8ee1bc4b))
@@ -63,15 +58,22 @@
 
 * **hub-common:** no longer publish a CDN release
 
-
-
-
-
 ### Dependencies
 
 * **@esri/hub-common:** upgraded to 10.0.0-next.4
 * **@esri/hub-initiatives:** upgraded to 10.0.0-next.4
 * **@esri/hub-teams:** upgraded to 10.0.0-next.4
+
+## @esri/hub-sites [9.50.3](https://github.com/Esri/hub.js/compare/@esri/hub-sites@9.50.2...@esri/hub-sites@9.50.3) (2022-08-02)
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 9.49.2
+* **@esri/hub-initiatives:** upgraded to 9.49.2
+* **@esri/hub-teams:** upgraded to 9.49.3
+
+## @esri/hub-sites [9.50.2](https://github.com/Esri/hub.js/compare/@esri/hub-sites@9.50.1...@esri/hub-sites@9.50.2) (2022-07-26)
+
 
 # @esri/hub-sites [10.0.0-next.3](https://github.com/Esri/hub.js/compare/@esri/hub-sites@10.0.0-next.2...@esri/hub-sites@10.0.0-next.3) (2022-07-28)
 
