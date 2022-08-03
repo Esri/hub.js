@@ -1,3 +1,40 @@
+# @esri/hub-sites [10.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@9.50.3...@esri/hub-sites@10.0.0) (2022-08-03)
+
+
+### Bug Fixes
+
+* **hub-sites:** re-add _shareItemsToSiteGroups in order to support older versions of solutions.js ([b8d91ef](https://github.com/Esri/hub.js/commit/b8d91ef0b716fc49aeb559180d6e514a27e40cdc))
+
+
+### chore
+
+* **hub-common:** no longer publish es5 build ([995ce02](https://github.com/Esri/hub.js/commit/995ce02373e8390250e4490b738babb71cb7c303))
+* **hub-common:** no longer run and publish UMD build ([2f0d7a2](https://github.com/Esri/hub.js/commit/2f0d7a25332e0864e03f814a34847abb8ee1bc4b))
+
+
+### Code Refactoring
+
+* **hub-sites:** remove _shareItemsToSiteGroups() ([b806773](https://github.com/Esri/hub.js/commit/b806773b044b413f0173271739f8f9047b203237))
+* **hub-sites:** remove hub-sites re-exports from hub-common ([b3e2503](https://github.com/Esri/hub.js/commit/b3e25034e63c00efd9347953208c708342869cce))
+
+
+### BREAKING CHANGES
+
+* **hub-common:** no longer publish es5 build
+* **hub-common:** no longer publish a CDN release
+* **hub-sites:** remove _shareItemsToSiteGroups()
+* **hub-sites:** remove getTheme(), _addSiteDomains, registerSiteAsApplication, registerBrowserApp from hub-sites
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 10.0.0
+* **@esri/hub-initiatives:** upgraded to 10.0.0
+* **@esri/hub-teams:** upgraded to 10.0.0
+
 # @esri/hub-sites [10.0.0-next.8](https://github.com/Esri/hub.js/compare/@esri/hub-sites@10.0.0-next.7...@esri/hub-sites@10.0.0-next.8) (2022-08-03)
 
 ### Dependencies
