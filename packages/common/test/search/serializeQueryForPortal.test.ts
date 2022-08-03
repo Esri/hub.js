@@ -81,7 +81,7 @@ describe("ifilter-utils:", () => {
 
       const chk = serializeQueryForPortal(query);
 
-      expect(chk.q).toEqual(`(owner:"dave")`);
+      expect(chk.q).toEqual(`((owner:"dave"))`);
       expect(chk.searchUserAccess).toBe("groupMember");
     });
     it("it drops empty predicates: different order", () => {
@@ -107,7 +107,7 @@ describe("ifilter-utils:", () => {
 
       const chk = serializeQueryForPortal(query);
 
-      expect(chk.q).toEqual(`(owner:"dave")`);
+      expect(chk.q).toEqual(`((owner:"dave"))`);
       expect(chk.searchUserAccess).toBe("groupMember");
     });
     it("handles complex filter", () => {
@@ -132,7 +132,7 @@ describe("ifilter-utils:", () => {
       const chk = serializeQueryForPortal(query);
 
       expect(chk.q).toEqual(
-        '(tags:"water" OR tags:"rivers") AND tags:"production" AND (-tags:"preview" OR -tags:"deprecated")'
+        '((tags:"water" OR tags:"rivers") AND tags:"production" AND (-tags:"preview" OR -tags:"deprecated"))'
       );
     });
     it("can pass through props", () => {
@@ -185,7 +185,7 @@ describe("ifilter-utils:", () => {
       const chk = serializeQueryForPortal(query);
 
       expect(chk.q).toEqual(
-        'austin AND (type:"Hub Project" OR type:"Web Map" OR type:"Hub Site Application")'
+        '(austin) AND ((type:"Hub Project") OR (type:"Web Map") OR (type:"Hub Site Application"))'
       );
     });
     it("handles complex filter without any", () => {
@@ -209,7 +209,7 @@ describe("ifilter-utils:", () => {
       const chk = serializeQueryForPortal(query);
 
       expect(chk.q).toEqual(
-        'tags:"production" AND (-tags:"preview" OR -tags:"deprecated")'
+        '(tags:"production" AND (-tags:"preview" OR -tags:"deprecated"))'
       );
     });
     it("handles complex filter without any or all", () => {
@@ -231,7 +231,7 @@ describe("ifilter-utils:", () => {
 
       const chk = serializeQueryForPortal(query);
 
-      expect(chk.q).toEqual('(-tags:"preview" OR -tags:"deprecated")');
+      expect(chk.q).toEqual('((-tags:"preview" OR -tags:"deprecated"))');
     });
     it("handles simple filter ", () => {
       const p: IPredicate = {
@@ -250,7 +250,7 @@ describe("ifilter-utils:", () => {
 
       const chk = serializeQueryForPortal(query);
 
-      expect(chk.q).toEqual('tags:"water"');
+      expect(chk.q).toEqual('(tags:"water")');
     });
     it("handles capabilities filter ", () => {
       const p: IPredicate = {
@@ -269,7 +269,7 @@ describe("ifilter-utils:", () => {
 
       const chk = serializeQueryForPortal(query);
 
-      expect(chk.q).toEqual('capabilities:"updateitemcontrol"');
+      expect(chk.q).toEqual('(capabilities:"updateitemcontrol")');
     });
     it("handles bool filter ", () => {
       const p: IPredicate = {
@@ -288,7 +288,7 @@ describe("ifilter-utils:", () => {
 
       const chk = serializeQueryForPortal(query);
 
-      expect(chk.q).toEqual("isopendata:true");
+      expect(chk.q).toEqual("(isopendata:true)");
     });
     it("handles passthrough props ", () => {
       const p: IPredicate = {

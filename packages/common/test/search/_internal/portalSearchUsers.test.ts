@@ -84,7 +84,7 @@ describe("portalSearchUsers module:", () => {
       expect(searchUsersSpy.calls.count()).toBe(1, "should call searchItems");
       const [expectedParams] = searchUsersSpy.calls.argsFor(0);
       expect(expectedParams.portal).toBeUndefined();
-      expect(expectedParams.q).toEqual(`firstname:"Jane"`);
+      expect(expectedParams.q).toEqual(`(firstname:"Jane")`);
       expect(expectedParams.authentication).toEqual(
         opts.requestOptions?.authentication
       );
