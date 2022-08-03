@@ -1,3 +1,10 @@
+# @esri/hub-sites [10.0.0-next.7](https://github.com/Esri/hub.js/compare/@esri/hub-sites@10.0.0-next.6...@esri/hub-sites@10.0.0-next.7) (2022-08-03)
+
+
+### Bug Fixes
+
+* **hub-sites:** re-add _shareItemsToSiteGroups in order to support older versions of solutions.js ([b8d91ef](https://github.com/Esri/hub.js/commit/b8d91ef0b716fc49aeb559180d6e514a27e40cdc))
+
 # @esri/hub-sites [10.0.0-next.6](https://github.com/Esri/hub.js/compare/@esri/hub-sites@10.0.0-next.5...@esri/hub-sites@10.0.0-next.6) (2022-08-02)
 
 
