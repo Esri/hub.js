@@ -1,3 +1,13 @@
+# @esri/hub-downloads [10.0.0-next.8](https://github.com/Esri/hub.js/compare/@esri/hub-downloads@10.0.0-next.7...@esri/hub-downloads@10.0.0-next.8) (2022-08-03)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 10.0.0-next.7
+
 # @esri/hub-downloads [10.0.0-next.7](https://github.com/Esri/hub.js/compare/@esri/hub-downloads@10.0.0-next.6...@esri/hub-downloads@10.0.0-next.7) (2022-08-02)
 
 
