@@ -1,10 +1,9 @@
 /* Copyright (c) 2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 import { IItem } from "@esri/arcgis-rest-portal";
-import { HubType, IModel } from "../types";
+import { IModel } from "../types";
 import { getCollection } from "../collections";
 import { categories as allCategories } from "../categories";
-import { isBBox } from "../extent";
 import { includes } from "../utils";
 import { IHubContent } from "../core";
 import { getProp } from "../objects";
@@ -35,15 +34,16 @@ export * from "./HubContent";
  * getCategory('Feature Layer')
  * > 'dataset'
  * ```
- * **DEPRECATED: Use getCollection() instead**
+ * **DEPRECATED: Use getFamily() instead**
  * returns the Hub category for a given item type
  * @param itemType The ArcGIS [item type](https://developers.arcgis.com/rest/users-groups-and-items/items-and-item-types.htm).
  * @returns the category of a given item type.
  */
+/* istanbul ignore next deprecated */
 export function getCategory(itemType: string = ""): string {
   /* tslint:disable no-console */
   console.warn(
-    "DEPRECATED: Use getCollection() instead. getCategory will be removed at v10.0.0"
+    "DEPRECATED: Use getFamily() instead. getCategory will be removed at the next breaking version"
   );
   /* tslint:enable no-console */
   const collection = getCollection(itemType);
@@ -74,11 +74,18 @@ export function getTypes(category: string = ""): string[] {
  * getTypeCategories(item)
  * > [ 'Hub Site Application' ]
  * ```
+ * **DEPRECATED: getTypeCategories will be removed at the next breaking version**
  * @param item Item object.
  * @returns typeCategory of the input item.
  *
  */
+/* istanbul ignore next deprecated */
 export function getTypeCategories(item: any = {}): string[] {
+  /* tslint:disable no-console */
+  console.warn(
+    "DEPRECATED: getTypeCategories will be removed at the next breaking version"
+  );
+  /* tslint:enable no-console */
   const type: string = normalizeItemType(item);
   const category: string = getCategory(type);
   if (category) {
@@ -148,27 +155,6 @@ export function getContentIdentifier(
   }
 
   return content.hubId || content.id;
-}
-
-/**
- * DEPRECATED: Use getFamily() instead.
- *
- * get the HubType for a given item or item type
- *
- * @param itemOrType an item or item.type
- */
-export function getItemHubType(itemOrType: IItem | string): HubType {
-  /* tslint:disable no-console */
-  console.warn(
-    "DEPRECATED: Use getFamily() instead. getItemHubType() will be removed at v10.0.0"
-  );
-  /* tslint:enable no-console */
-  if (typeof itemOrType === "string") {
-    itemOrType = { type: itemOrType } as IItem;
-  }
-  const itemType = normalizeItemType(itemOrType);
-  // TODO: not all categories are Hub types, may need to validate
-  return getCollection(itemType) as HubType;
 }
 
 /**
@@ -412,8 +398,6 @@ export const setContentType = (
     ...content,
     type: normalizedType,
     family,
-    // TODO: remove this at next breaking change now that it has been deprecated
-    normalizedType,
     contentTypeIcon,
     contentTypeLabel,
   };
@@ -435,65 +419,6 @@ export const getContentTypeLabel = (
   isProxied: boolean
 ) => {
   return isProxied ? "CSV" : camelize(contentType || "");
-};
-
-/**
- * DEPRECATED returns a new content that has the specified hubId and updated identifier
- * @param content orignal content
- * @param hubId new hubId
- * @returns new content
- */
-/* istanbul ignore next DEPRECATED and no longer in use */
-export const setContentHubId = (
-  content: IHubContent,
-  hubId: string
-): IHubContent => {
-  const { id, slug } = content;
-  // get the identifier which is based on hubId
-  const identifier = slug || hubId || id;
-  const updated = { ...content, hubId, identifier };
-  // update the relative URL to the content
-  // which is based on identifier
-  return appendContentUrls(updated, {
-    relative: getContentRelativeUrl(updated),
-  });
-};
-
-/**
- * DEPRECATED: Calculates the relative and absolute urls for a given content on a specific site
- *
- * @param content
- * @param siteModel
- * @returns relative and absolute urls
- */
-export const getContentSiteUrls = (content: IHubContent, siteModel: IModel) => {
-  // compute relative URL using a site specific identifier
-  const siteIdentifier = getContentIdentifier(content, siteModel);
-  const relative = getContentRelativeUrl(content, siteIdentifier);
-  // get the absolute URL to this content on the site
-  const siteUrl = getProp(siteModel, "item.url").replace(/\/$/, "");
-  const absolute = `${siteUrl}${relative}`;
-
-  return { relative, absolute };
-};
-
-/**
- * append the absolute URL to the content on the site
- * also updates the relative URL in case the
- * @param content
- * @param siteModel
- * @returns
- */
-export const setContentSiteUrls = (
-  content: IHubContent,
-  siteModel: IModel
-): IHubContent => {
-  const { relative, absolute: site } = getContentSiteUrls(content, siteModel);
-  // append the updated URLs to a new content
-  return appendContentUrls(content, {
-    relative,
-    site,
-  });
 };
 
 // URL helpers

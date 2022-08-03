@@ -12,7 +12,6 @@ import {
 import { IPortal, ISearchResult } from "@esri/arcgis-rest-portal";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IFacet } from "./search";
 
 /**
  * Generic Model, used with all items that have a json
@@ -129,9 +128,6 @@ export interface IItemResource {
 
 export type BBox = number[][];
 
-// DEPRECATED: use BBox instead
-export type IBBox = number[][];
-
 export type IBatch = any[];
 
 export type IBatchTransform = (value: any) => any;
@@ -162,23 +158,6 @@ export interface IRevertableTaskFailed {
 export type IRevertableTaskResult =
   | IRevertableTaskSuccess
   | IRevertableTaskFailed;
-
-/**
- * Types of Hub resources
- * DEPRECATED: Use HubFamily instead
- */
-export type HubType =
-  | "member"
-  | "team"
-  | "event"
-  | "dataset"
-  | "document"
-  | "map"
-  | "app"
-  | "site"
-  | "initiative"
-  | "template"
-  | "organization";
 
 export type HubFamily =
   | "app"
@@ -234,63 +213,6 @@ export type SearchableType = IItem | IGroup | IUser;
 export type SearchFunction = (
   ...args: any[]
 ) => Promise<ISearchResult<SearchableType>>;
-
-// TODO: remove this at the next breaking change
-/**
- * DEPRECATED: Use IHubEntityBase instead.
- * Properties that are common to Hub content, community, members, etc
- *
- * @export
- * @interface IHubResource
- */
-export interface IHubResource {
-  /** Generic term for the primary label (title, fullname, username, etc.) */
-  name: string;
-  /** Content snippet or other summary */
-  summary?: string;
-  // TODO: publisher: IHubOwner // TODO: better name? item.owner with more user metadata
-  // Derived metadata
-  /** Type of Hub resource */
-  hubType: HubType;
-
-  // Explicit data information since this is a common confusion + bug report
-  /** Date the item was created */
-  createdDate: Date;
-  /**
-   * description of what was used for this attribute
-   * the item key, e.g. `item.created` or `item.metadata.created_date`
-   */
-  createdDateSource?: string;
-  /** Date the item was last updated */
-  updatedDate: Date;
-  /**
-   * description of what was used for this attribute
-   * the item key, e.g. `item.modified` or `item.metadata.modified_date`
-   */
-  updatedDateSource?: string;
-  /** URL of the resource"s page in the Portal Home application */
-  portalHomeUrl?: string;
-  /** URL of the Portal API endpoint for the resource */
-  portalApiUrl?: string;
-  /** Fully qualified URL for the item"s thumbnail, including current user"s token if authenticated and required */
-  thumbnailUrl?: string; // Full URL. item.thumbnail with host + path
-
-  /**
-   * boundary will default to the item extent
-   * but can be overwritten by enrichments from the Hub API (inline)
-   * or fetched from a location such as /resources/boundary.json
-   */
-  boundary?: IHubGeography;
-
-  // TODO: should metadata be on IHubContent instead of IHubResource?
-  /**
-   * Additional metadata from a metadata document using a formal or custom schema.
-   * For example, [item metadata in ArcGIS Online](https://doc.arcgis.com/en/arcgis-online/manage-data/metadata.htm)
-   * Metadata stored in XML format is parsed into JSON.
-   */
-  metadata?: any;
-  // Unique or additional formal metadata that will be displayed in sidebar
-}
 
 /**
  * Information about an error that occurred while indexing or composing content
@@ -388,23 +310,6 @@ export interface IDomainEntry {
   updatedAt?: string;
 }
 
-/**
- * The catalog object found on Hub Site Application items.
- * It defines a selection of content to show up in the site"s
- * search context.
- */
-export interface ISiteCatalog {
-  /**
-   * A list of groups containing searchable content.
-   */
-  groups: string[];
-
-  /**
-   * An org to limit searching to.
-   */
-  orgId: string;
-}
-
 export interface IHubTeam extends IGroup {
   properties: {
     [key: string]: any;
@@ -425,7 +330,6 @@ export interface ISearchResponse<T> {
   results: T[];
   hasNext: boolean;
   next: (params?: any) => Promise<ISearchResponse<T>>;
-  facets?: IFacet[];
 }
 
 /**

@@ -42,7 +42,6 @@ export function createHubTeam(opts: {
   const groupsToCreate = getUserCreatableTeams(
     portalSelf.user,
     product,
-    portalSelf.currentVersion,
     subscriptionType
   )
     .filter((g) => {

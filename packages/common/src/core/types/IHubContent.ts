@@ -142,17 +142,4 @@ export interface IHubContent
   viewDefinition?: { definitionExpression?: string };
 
   // TODO: metrics, urls, publisher, etc?
-
-  ///////////
-  // TODO: remove these deprecated props at the next breaking version
-  //////////
-
-  /* DEPRECATED: use item.categories instead */
-  itemCategories?: string[];
-
-  /* DEPRECATED: use type instead */
-  normalizedType?: string;
-
-  /* DEPRECATED: use org.id instead */
-  orgId?: string;
 }

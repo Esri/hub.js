@@ -63,8 +63,10 @@ const downloadableTypeKeywords: string[] = ["Data"];
 
 const apiTypes: string[] = ["Feature Service", "Map Service", "Image Service"];
 
-// TODO: remove this at next breaking version
-// we're just keeping this for backwards compatibility
+// DEPRECATED: remove this at next breaking version
+// this is currently used by hub-search and opendata-ui
+// (in the dataset-display and content-library-engine)
+// TODO: remove this once it is no longer used in those places
 export const categories: { [key: string]: string[] } = {
   app: app.concat(feedback),
   dataset,

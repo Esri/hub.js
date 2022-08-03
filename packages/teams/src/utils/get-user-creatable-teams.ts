@@ -18,14 +18,8 @@ import { applyPrivPropValuesToTemplate } from "./apply-priv-prop-values-to-templ
 export function getUserCreatableTeams(
   user: IUser,
   environment: HubProduct,
-  portalApiVersion: string, // Depracated, remove at next breaking change
   subscriptionInfoType: string = ""
 ): IGroupTemplate[] {
-  /* tslint:disable no-console */
-  console.warn(
-    "Hub.js::getUserCreatableTeams Deprecation warning portalApiVersion will be removed at v9.0.0"
-  );
-  /* tslint:enable no-console */
   const teams = WELLKNOWNTEAMS;
   // Online is not properly respecting addExternalMembersToGroup for
   // certain subscription types known ones so far: Trial, personal use, developer, and evaluation

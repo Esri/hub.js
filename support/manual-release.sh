@@ -9,7 +9,6 @@ $VERSION=3.6.7
 # create a ZIP archive of the dist files
 TEMP_FOLDER=hub-js-v$VERSION;
 mkdir $TEMP_FOLDER
-cp packages/*/dist/umd/* $TEMP_FOLDER
 zip -r $TEMP_FOLDER.zip $TEMP_FOLDER
 rm -rf $TEMP_FOLDER
 

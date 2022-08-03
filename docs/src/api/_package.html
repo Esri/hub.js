@@ -24,10 +24,6 @@ import {
 } from "{{ pkg.name }}";
 {% endhighlight %}
 {% endif %}
-<h2 class="font-size-0 trailer-quarter">CDN:</h2>
-{% scriptTag pkg %}
-<h2 class="font-size-0 trailer-quarter">CDN with SRI:</h2>
-{% scriptTagSRI pkg %}
 <hr class="leader-half trailer-quarter" />
 <ul class="list-plain package-contents">
   {% for declaration in declarations %}

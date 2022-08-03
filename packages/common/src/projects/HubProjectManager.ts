@@ -160,19 +160,6 @@ export class HubProjectManager
     }
   }
 
-  // DEPRECATED IN FAVOR OF .fetch()
-  // TODO: REMOVE AT NEXT MAJOR
-  /* istanbul ignore next */
-  async get(
-    identifier: string,
-    requestOptions?: IRequestOptions
-  ): Promise<IHubProject> {
-    // tslint:disable-next-line
-    console.warn(
-      `HubProjectManager.get is deprecated and will be removed. Use .fetch() instead.`
-    );
-    return this.fetch(identifier, requestOptions);
-  }
   /**
    * Fetch a Project via id or it's slug
    *

@@ -144,5 +144,7 @@ describe("createItemFromFile", () => {
         expect(cancelItemSpy).toHaveBeenCalledTimes(1);
       }
     });
+  } else {
+    it("does not test in node", () => true);
   }
 });

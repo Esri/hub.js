@@ -2,6 +2,7 @@ import {
   IModelTemplate,
   IHubRequestOptions,
   getHubProduct,
+  getOrgDefaultTheme,
   getProp,
   cloneObject,
   deepSet,
@@ -12,7 +13,6 @@ import {
 } from "@esri/hub-common";
 import { createHubTeams } from "@esri/hub-teams";
 import { HubTeamType } from "@esri/hub-teams";
-import { getTheme } from "./get-theme";
 import { getPortalSiteHostname } from "./get-portal-site-hostname";
 import { getPortalSiteUrl } from "./get-portal-site-url";
 import { _createSiteInitiative } from "./_create-site-initiative";
@@ -104,7 +104,7 @@ export function createSiteModelFromTemplate(
     .then((uniqueSubdomain) => {
       const portal = hubRequestOptions.portalSelf;
       // TODO: Revisit this if/when we do more site templates which we want to maintain their theme
-      settings.solution.theme = getTheme(portal);
+      settings.solution.theme = getOrgDefaultTheme(portal);
       // set site-specific settings properties...
       settings.solution.subdomain = uniqueSubdomain;
       // setup the url properties

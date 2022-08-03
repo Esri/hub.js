@@ -17,26 +17,6 @@ import {
 } from "./_internal";
 
 /**
- * @private
- * TEMPORARY - this function only exists to allow incremental
- * changes and should be removed as soon as arcgis-hub-gallery
- * is changed to call `hubSearch(...)` directly
- *
- * Default's to search ArcGIS Portal but can delegate
- * to Hub API when it's available.
- * @param filterGroups
- * @param options
- * @returns
- */
-export async function hubSearchQuery(
-  query: IQuery,
-  options: IHubSearchOptions
-): Promise<IHubSearchResponse<IHubSearchResult>> {
-  // delegate
-  return hubSearch(query, options);
-}
-
-/**
  * Main entrypoint for searching via Hub
  *
  * Default's to search ArcGIS Portal but can delegate

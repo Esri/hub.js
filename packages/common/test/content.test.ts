@@ -5,14 +5,12 @@ import {
   datasetToContent,
   datasetToItem,
   getTypes,
-  getTypeCategories,
   normalizeItemType,
   isFeatureService,
   getLayerIdFromUrl,
   getItemLayerId,
   getItemHubId,
   getContentIdentifier,
-  setContentSiteUrls,
   isSlug,
   addContextToSlug,
   removeContextFromSlug,
@@ -23,9 +21,6 @@ import {
   setContentType,
   getContentTypeIcon,
   getContentTypeLabel,
-  // deprecated, remove these at the next breaking change
-  getCategory,
-  getItemHubType,
 } from "../src/content";
 import {
   isProxiedCSV,
@@ -52,12 +47,6 @@ import { cloneObject } from "../src/util";
 import * as documentItem from "./mocks/items/document.json";
 import * as documentsJson from "./mocks/datasets/document.json";
 import * as featureLayerJson from "./mocks/datasets/feature-layer.json";
-
-describe("getCategory", () => {
-  it("returns 'app' for forms", () => {
-    expect(getCategory("Form")).toBe("app");
-  });
-});
 
 describe("getTypes", () => {
   it("can abort", () => {
@@ -122,23 +111,6 @@ describe("normalizeItemType", () => {
   });
   it("can work with blank inputs", () => {
     expect(normalizeItemType()).toBe(undefined);
-  });
-});
-
-describe("getTypeCategories", () => {
-  it("should return Other if category is undefined", () => {
-    expect(getTypeCategories({ type: "unknown type" })).toEqual(["Other"]);
-  });
-  it("should return correct typeCategory if category is defined", () => {
-    expect(
-      getTypeCategories({
-        type: "Web Mapping Application",
-        typeKeywords: ["hubSite"],
-      })
-    ).toEqual(["Site"]);
-  });
-  it("can work with blank inputs", () => {
-    expect(getTypeCategories()).toEqual(["Other"]);
   });
 });
 
@@ -476,24 +448,6 @@ describe("get item family", () => {
   it("returns content for collection other", () => {
     expect(getFamily("360 VR Experience")).toBe("content");
   });
-  // DEPRECATED: remove this test at the next breaking chagne
-  it("should handle falsey values", () => {
-    expect(getFamily()).toBeUndefined();
-  });
-});
-
-describe("get item hub type", () => {
-  it("normalizes item", () => {
-    expect(
-      getItemHubType({
-        type: "Hub Initiative",
-        typeKeywords: ["hubInitiativeTemplate"],
-      } as IItem)
-    ).toBe("template");
-  });
-  it("works with just type", () => {
-    expect(getItemHubType("Form")).toBe("feedback");
-  });
 });
 
 describe("parse item categories", () => {
@@ -732,44 +686,6 @@ describe("setContentType", () => {
       // I'm just here for the coverage
       expect(getContentTypeLabel(undefined, false)).toEqual("");
     });
-  });
-});
-describe("setContentSiteUrls", () => {
-  let site: IModel;
-  beforeEach(() => {
-    // emulating a site item
-    const url = "https://my-site-org.hub.arcgis.com";
-    const item = { ...documentItem, type: "Hub Site", url };
-    site = {
-      item,
-      data: {},
-    };
-  });
-  it("links to page using site's slug for page when page is linked to site", () => {
-    // emulate linking a page to the site
-    const pageItem = { ...documentItem, type: "Hub Page" };
-    const slug = "page-slug-for-site";
-    site.data.values = {
-      pages: [{ id: pageItem.id, slug }],
-    };
-
-    // get the site URL
-    const content = itemToContent(pageItem);
-    const result = setContentSiteUrls(content, site);
-
-    expect(result.urls.site).toEqual(`${site.item.url}/pages/${slug}`);
-  });
-  it("links to page on documents route when page is NOT linked to site", () => {
-    // emulate a page item
-    const pageItem = { ...documentItem, type: "Hub Page" };
-
-    // get the site URL
-    const content = itemToContent(pageItem);
-    const result = setContentSiteUrls(content, site);
-
-    expect(result.urls.site).toEqual(
-      `${site.item.url}/pages/${content.identifier}`
-    );
   });
 });
 

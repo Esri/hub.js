@@ -43,10 +43,6 @@ export interface IHubSearchOptions {
    * Objects or fields to include e.g. `server.layers AS serverLayers`
    */
   include?: string[];
-  /**
-   * DEPRECATED: Use `include` instead
-   */
-  enrichments?: Enrichments[];
 
   /**
    * Specify what entity to search for; For use with hubSearch
@@ -72,16 +68,4 @@ export interface IHubSearchOptions {
    * The result number of the first entry in the result set response. The start parameter, along with the num parameter, can be used to paginate the search results.
    */
   start?: number;
-  /**
-   * DEPRECATED
-   */
-  aggregations?: string[];
-  /**
-   * DEPRECATED
-   */
-  site?: IModel;
-  /**
-   * DEPRECATED
-   */
-  fields?: string;
 }
