@@ -156,7 +156,7 @@ export const getHubRelativeUrl = (
     if (family === "feedback") {
       // the exception
       path = "/feedback/surveys";
-    } else if (isPageType(type)) {
+    } else if (isPageType(type, typeKeywords)) {
       // pages are in the document family,
       // but instead of showing the page's metadata on /documents/about
       // but we render the page on the pages route
@@ -176,8 +176,8 @@ export const getHubRelativeUrl = (
  * @returns
  * @private
  */
-export const isPageType = (type: string) =>
-  ["Hub Page", "Site Page"].includes(type);
+export const isPageType = (type: string, typeKeywords: string[] = []) =>
+  ["Hub Page", "Site Page"].includes(type) || typeKeywords.includes("hubPage");
 
 const getSolutionUrl = (
   type: string,
