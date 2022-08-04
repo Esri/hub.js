@@ -1,5 +1,6 @@
 import { IUser, UserSession } from "@esri/arcgis-rest-auth";
 import { IItem, IPortal } from "@esri/arcgis-rest-portal";
+import { IGroup } from "@esri/arcgis-rest-types";
 // For node jasmine tests to work, contextmanager & context need
 // to be imported with a full path
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
@@ -9,6 +10,7 @@ import { getProp, IArcGISContextOptions, IHubProject, IQuery } from "../../src";
 import * as HubProjects from "../../src/projects/HubProjects";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as ThumbnailModule from "../../src/items/setItemThumbnail";
+import * as portal from "@esri/arcgis-rest-portal";
 
 describe("HubProjectManager:", () => {
   // Setup the store
@@ -114,6 +116,238 @@ describe("HubProjectManager:", () => {
         await unauthdMgr.update({
           name: "Fake project",
         } as unknown as IHubProject);
+      } catch (err) {
+        expect(getProp(err, "name")).toBe("HubError");
+        expect(getProp(err, "message")).toContain("requires authentication");
+      }
+    });
+  });
+
+  describe("access:", () => {
+    let accessSpy: jasmine.Spy;
+    beforeEach(() => {
+      accessSpy = spyOn(portal, "setItemAccess").and.returnValue(
+        Promise.resolve({
+          id: "3ef",
+        })
+      );
+    });
+    it("uses context by default", async () => {
+      await authdMgr.setAccess(
+        { id: "3ef", owner: "test" } as unknown as IHubProject,
+        "org"
+      );
+      const ro = accessSpy.calls.argsFor(0)[0];
+      expect(ro.authentication).toBe(MOCK_AUTH);
+    });
+    it("uses reqOpts if passed", async () => {
+      const fakeSession = {
+        username: "vader",
+      } as unknown as UserSession;
+      await authdMgr.setAccess(
+        { id: "3ef", owner: "test" } as unknown as IHubProject,
+        "org",
+        { authentication: fakeSession }
+      );
+      const ro = accessSpy.calls.argsFor(0)[0];
+      expect(ro.authentication).toBe(fakeSession);
+    });
+    it("throws HubError if not authd", async () => {
+      try {
+        await unauthdMgr.setAccess(
+          { id: "3ef", owner: "test" } as unknown as IHubProject,
+          "org"
+        );
+      } catch (err) {
+        expect(getProp(err, "name")).toBe("HubError");
+        expect(getProp(err, "message")).toContain("requires authentication");
+      }
+    });
+  });
+
+  describe("shareToGroup:", () => {
+    let groupSpy: jasmine.Spy;
+    beforeEach(() => {
+      groupSpy = spyOn(portal, "shareItemWithGroup").and.returnValue(
+        Promise.resolve({
+          id: "3ef",
+        })
+      );
+    });
+    it("uses context by default", async () => {
+      await authdMgr.shareToGroup(
+        { id: "3ef", owner: "test" } as unknown as IHubProject,
+        {
+          id: "abc123",
+          capabilities: ["updateitemcontrol"],
+        } as unknown as IGroup
+      );
+      const ro = groupSpy.calls.argsFor(0)[0];
+      expect(ro.authentication).toBe(MOCK_AUTH);
+    });
+    it("uses reqOpts if passed", async () => {
+      const fakeSession = {
+        username: "vader",
+      } as unknown as UserSession;
+      await authdMgr.shareToGroup(
+        { id: "3ef", owner: "test" } as unknown as IHubProject,
+        {
+          id: "abc123",
+          capabilities: ["updateitemcontrol"],
+        } as unknown as IGroup,
+        { authentication: fakeSession }
+      );
+      const ro = groupSpy.calls.argsFor(0)[0];
+      expect(ro.authentication).toBe(fakeSession);
+    });
+    it("throws HubError if not authd", async () => {
+      try {
+        await unauthdMgr.shareToGroup(
+          { id: "3ef", owner: "test" } as unknown as IHubProject,
+          {
+            id: "abc123",
+            capabilities: ["updateitemcontrol"],
+          } as unknown as IGroup
+        );
+      } catch (err) {
+        expect(getProp(err, "name")).toBe("HubError");
+        expect(getProp(err, "message")).toContain("requires authentication");
+      }
+    });
+  });
+
+  describe("shareToGroups:", () => {
+    let groupsSpy: jasmine.Spy;
+    beforeEach(() => {
+      groupsSpy = spyOn(portal, "shareItemWithGroup").and.returnValue(
+        Promise.resolve({
+          id: "3ef",
+        })
+      );
+    });
+    it("uses reqOpts if passed", async () => {
+      const fakeSession = {
+        username: "vader",
+      } as unknown as UserSession;
+      await authdMgr.shareToGroups(
+        { id: "3ef", owner: "test" } as unknown as IHubProject,
+        [
+          {
+            id: "abc123",
+            capabilities: ["updateitemcontrol"],
+          } as unknown as IGroup,
+        ],
+        { authentication: fakeSession }
+      );
+      const ro = groupsSpy.calls.argsFor(0)[0];
+      expect(ro.authentication).toBe(fakeSession);
+    });
+    it("throws HubError if not authd", async () => {
+      try {
+        await unauthdMgr.shareToGroups(
+          { id: "3ef", owner: "test" } as unknown as IHubProject,
+          [
+            {
+              id: "abc123",
+              capabilities: ["updateitemcontrol"],
+            } as unknown as IGroup,
+          ]
+        );
+      } catch (err) {
+        expect(getProp(err, "name")).toBe("HubError");
+        expect(getProp(err, "message")).toContain("requires authentication");
+      }
+    });
+  });
+
+  describe("unshareFromGroup:", () => {
+    let groupSpy: jasmine.Spy;
+    beforeEach(() => {
+      groupSpy = spyOn(portal, "unshareItemWithGroup").and.returnValue(
+        Promise.resolve({
+          id: "3ef",
+        })
+      );
+    });
+    it("uses context by default", async () => {
+      await authdMgr.unshareFromGroup(
+        { id: "3ef", owner: "test" } as unknown as IHubProject,
+        {
+          id: "abc123",
+          capabilities: ["updateitemcontrol"],
+        } as unknown as IGroup
+      );
+      const ro = groupSpy.calls.argsFor(0)[0];
+      expect(ro.authentication).toBe(MOCK_AUTH);
+    });
+    it("uses reqOpts if passed", async () => {
+      const fakeSession = {
+        username: "vader",
+      } as unknown as UserSession;
+      await authdMgr.unshareFromGroup(
+        { id: "3ef", owner: "test" } as unknown as IHubProject,
+        {
+          id: "abc123",
+          capabilities: ["updateitemcontrol"],
+        } as unknown as IGroup,
+        { authentication: fakeSession }
+      );
+      const ro = groupSpy.calls.argsFor(0)[0];
+      expect(ro.authentication).toBe(fakeSession);
+    });
+    it("throws HubError if not authd", async () => {
+      try {
+        await unauthdMgr.unshareFromGroup(
+          { id: "3ef", owner: "test" } as unknown as IHubProject,
+          {
+            id: "abc123",
+            capabilities: ["updateitemcontrol"],
+          } as unknown as IGroup
+        );
+      } catch (err) {
+        expect(getProp(err, "name")).toBe("HubError");
+        expect(getProp(err, "message")).toContain("requires authentication");
+      }
+    });
+  });
+
+  describe("unshareFromGroups:", () => {
+    let groupSpy: jasmine.Spy;
+    beforeEach(() => {
+      groupSpy = spyOn(portal, "unshareItemWithGroup").and.returnValue(
+        Promise.resolve({
+          id: "3ef",
+        })
+      );
+    });
+    it("uses reqOpts if passed", async () => {
+      const fakeSession = {
+        username: "vader",
+      } as unknown as UserSession;
+      await authdMgr.unshareFromGroups(
+        { id: "3ef", owner: "test" } as unknown as IHubProject,
+        [
+          {
+            id: "abc123",
+            capabilities: ["updateitemcontrol"],
+          } as unknown as IGroup,
+        ],
+        { authentication: fakeSession }
+      );
+      const ro = groupSpy.calls.argsFor(0)[0];
+      expect(ro.authentication).toBe(fakeSession);
+    });
+    it("throws HubError if not authd", async () => {
+      try {
+        await unauthdMgr.unshareFromGroups(
+          { id: "3ef", owner: "test" } as unknown as IHubProject,
+          [
+            {
+              id: "abc123",
+              capabilities: ["updateitemcontrol"],
+            } as unknown as IGroup,
+          ]
+        );
       } catch (err) {
         expect(getProp(err, "name")).toBe("HubError");
         expect(getProp(err, "message")).toContain("requires authentication");

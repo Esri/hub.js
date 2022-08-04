@@ -105,6 +105,7 @@ function getProjectPropertyMap(): IPropertyMap[] {
     "typeKeywords",
     "url",
     "type",
+    "access",
   ];
   const dataProps = [
     "contacts",

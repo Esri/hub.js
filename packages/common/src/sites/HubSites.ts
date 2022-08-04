@@ -212,6 +212,7 @@ function getSitePropertyMap(): IPropertyMap[] {
     "typeKeywords",
     "url",
     "type",
+    "access",
   ];
 
   const map: IPropertyMap[] = [];

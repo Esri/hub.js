@@ -20,7 +20,14 @@ import {
 import { IHubEntityManager, IHubProject } from "../core/types";
 import { IHubItemEntityManager } from "../core/types/IHubItemEntityManager";
 import { setItemThumbnail as updateItemThumbnail } from "../items/setItemThumbnail";
-import { IItem } from "@esri/arcgis-rest-types";
+import { IGroup, IItem } from "@esri/arcgis-rest-types";
+import {
+  ISharingResponse,
+  setItemAccess,
+  shareItemWithGroup,
+  unshareItemWithGroup,
+} from "@esri/arcgis-rest-portal";
+import { failSafe, isUpdateGroup } from "../utils";
 
 /**
  * Centralized functions used to manage IHubProject instances
@@ -237,5 +244,149 @@ export class HubProjectManager
   ): Promise<IHubProject> {
     const ro = requestOptions || this.context.userRequestOptions;
     return convertItemToProject(item, ro);
+  }
+
+  /**
+   * Sets the access level of a Hub Project
+   *
+   * @param {IHubProject} project
+   * @param {("public" | "org" | "private")} accessLevel
+   * @param {IUserRequestOptions} [requestOptions]
+   * @returns
+   */
+  async setAccess(
+    project: IHubProject,
+    accessLevel: "public" | "org" | "private",
+    requestOptions?: IUserRequestOptions
+  ): Promise<ISharingResponse> {
+    if (requestOptions || this.context.isAuthenticated) {
+      const ro = requestOptions || this.context.userRequestOptions;
+      return setItemAccess({
+        id: project.id,
+        owner: project.owner,
+        access: accessLevel,
+        ...ro,
+      });
+    } else {
+      throw new HubError(
+        "Set Project Access",
+        "Setting Hub Projects access level requires authentication."
+      );
+    }
+  }
+
+  /**
+   * Shares a Hub Project to a group
+   *
+   * @param {IHubProject} project
+   * @param {IGroup} group
+   * @param {IUserRequestOptions} [requestOptions]
+   * @returns
+   */
+  async shareToGroup(
+    project: IHubProject,
+    group: IGroup,
+    requestOptions?: IUserRequestOptions
+  ): Promise<ISharingResponse> {
+    if (requestOptions || this.context.isAuthenticated) {
+      const ro = requestOptions || this.context.userRequestOptions;
+      return shareItemWithGroup({
+        id: project.id,
+        owner: project.owner,
+        groupId: group.id,
+        confirmItemControl: isUpdateGroup(group),
+        ...ro,
+      });
+    } else {
+      throw new HubError(
+        "Share Project to Group",
+        "Sharing Hub Projects to group requires authentication."
+      );
+    }
+  }
+
+  /**
+   * Shares a Hub Project to N Groups.
+   *
+   * @param {IHubProject} project
+   * @param {IGroup[]} groups
+   * @param {IUserRequestOptions} [requestOptions]
+   * @returns
+   */
+  async shareToGroups(
+    project: IHubProject,
+    groups: IGroup[],
+    requestOptions?: IUserRequestOptions
+  ): Promise<ISharingResponse[]> {
+    if (requestOptions || this.context.isAuthenticated) {
+      const failSafeShare = failSafe(this.shareToGroup);
+      return Promise.all(
+        groups.map((group: IGroup) =>
+          failSafeShare(project, group, requestOptions)
+        )
+      );
+    } else {
+      throw new HubError(
+        "Share Project to Groups",
+        "Sharing Hub Projects to groups requires authentication."
+      );
+    }
+  }
+
+  /**
+   * Unshares a Hub Project from a group
+   *
+   * @param {IHubProject} project
+   * @param {IGroup} group
+   * @param {IUserRequestOptions} [requestOptions]
+   * @returns
+   */
+  async unshareFromGroup(
+    project: IHubProject,
+    group: IGroup,
+    requestOptions?: IUserRequestOptions
+  ): Promise<ISharingResponse> {
+    if (requestOptions || this.context.isAuthenticated) {
+      const ro = requestOptions || this.context.userRequestOptions;
+      return unshareItemWithGroup({
+        id: project.id,
+        owner: project.owner,
+        groupId: group.id,
+        ...ro,
+      });
+    } else {
+      throw new HubError(
+        "Unshare Project from Group",
+        "Unsharing Hub Project from group requires authentication."
+      );
+    }
+  }
+
+  /**
+   * Unshares a Hub Project from N groups.
+   *
+   * @param {IHubProject} project
+   * @param {IGroup[]} groups
+   * @param {IUserRequestOptions} [requestOptions]
+   * @returns
+   */
+  async unshareFromGroups(
+    project: IHubProject,
+    groups: IGroup[],
+    requestOptions?: IUserRequestOptions
+  ): Promise<ISharingResponse[]> {
+    if (requestOptions || this.context.isAuthenticated) {
+      const failSafeUnshare = failSafe(this.unshareFromGroup);
+      return Promise.all(
+        groups.map((group: IGroup) =>
+          failSafeUnshare(project, group, requestOptions)
+        )
+      );
+    } else {
+      throw new HubError(
+        "Unshare Project from Groups",
+        "Unsharing Hub Project from groups requires authentication."
+      );
+    }
   }
 }
