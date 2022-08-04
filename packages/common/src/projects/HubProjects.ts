@@ -46,42 +46,7 @@ import { parseInclude } from "../search/_internal/parseInclude";
 import { fetchItemEnrichments } from "../items/_enrichments";
 import { getHubRelativeUrl } from "../content/_internal";
 import { createQueryFromString } from "../search/_internal";
-
-export const HUB_PROJECT_ITEM_TYPE = "Hub Project";
-
-/**
- * Default values of a IHubProject
- */
-const DEFAULT_PROJECT: Partial<IHubProject> = {
-  name: "No title provided",
-  tags: [],
-  typeKeywords: ["Hub Project"],
-  status: "inactive",
-};
-
-/**
- * Default values for a new HubProject Model
- */
-const DEFAULT_PROJECT_MODEL = {
-  item: {
-    type: HUB_PROJECT_ITEM_TYPE,
-    title: "No Title Provided",
-    description: "No Description Provided",
-    snippet: "",
-    tags: [],
-    typeKeywords: ["Hub Project"],
-    properties: {
-      slug: "",
-    },
-  },
-  data: {
-    display: "about",
-    timeline: {},
-    status: "inactive",
-    contacts: [],
-    schemaVersion: 1,
-  },
-} as unknown as IModel;
+import { DEFAULT_PROJECT, DEFAULT_PROJECT_MODEL } from "./defaults";
 
 /**
  * Returns an Array of IPropertyMap objects

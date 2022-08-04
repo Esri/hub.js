@@ -1,4 +1,4 @@
-import { HubSiteManager } from ".";
+import { HubProject, HubSiteManager } from ".";
 import {
   ArcGISContextManager,
   IArcGISContextManagerOptions,
@@ -90,6 +90,9 @@ export class Hub {
    * @memberof Hub
    */
   get projects() {
+    console.warn(
+      "Hub.sites is deprecated. Please use Hub.fetchProject instead."
+    );
     if (!this._projectManager) {
       this._projectManager = HubProjectManager.init(this._contextManager);
     }
@@ -103,9 +106,19 @@ export class Hub {
    * @memberof Hub
    */
   get sites() {
+    console.warn("Hub.sites is deprecated.");
     if (!this._siteManager) {
       this._siteManager = HubSiteManager.init(this._contextManager);
     }
     return this._siteManager;
+  }
+
+  async fetchProject(id: string): Promise<HubProject> {
+    const project = await this.projects.fetch(id);
+    return HubProject.fromJson(project, this.context);
+  }
+
+  async destroyProject(id: string): Promise<void> {
+    await this.projects.destroy(id);
   }
 }
