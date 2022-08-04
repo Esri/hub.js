@@ -1,3 +1,10 @@
+## @esri/hub-teams [10.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-teams@10.0.0...@esri/hub-teams@10.0.1) (2022-08-04)
+
+
+### Bug Fixes
+
+* swap customer orgids and add qa id ([#851](https://github.com/Esri/hub.js/issues/851)) ([6b64d75](https://github.com/Esri/hub.js/commit/6b64d75c45bcd4c28112192bdc83fb699a4f1690))
+
 # @esri/hub-teams [10.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-teams@9.49.3...@esri/hub-teams@10.0.0) (2022-08-03)
 
 
