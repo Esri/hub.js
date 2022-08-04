@@ -1,3 +1,10 @@
+## @esri/hub-common [10.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@10.0.0...@esri/hub-common@10.0.1) (2022-08-04)
+
+
+### Bug Fixes
+
+* isPageType accounts for typekeywords ([82ab99e](https://github.com/Esri/hub.js/commit/82ab99e23c206c6c59bdf14805d205a1e697327e))
+
 # @esri/hub-common [10.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@9.49.2...@esri/hub-common@10.0.0) (2022-08-03)
 
 
