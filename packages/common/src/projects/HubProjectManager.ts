@@ -287,7 +287,7 @@ export class HubProjectManager
     project: IHubProject,
     group: IGroup,
     requestOptions?: IUserRequestOptions
-  ) {
+  ): Promise<ISharingResponse> {
     if (requestOptions || this.context.isAuthenticated) {
       const ro = requestOptions || this.context.userRequestOptions;
       return shareItemWithGroup({
@@ -317,11 +317,13 @@ export class HubProjectManager
     project: IHubProject,
     groups: IGroup[],
     requestOptions?: IUserRequestOptions
-  ) {
+  ): Promise<ISharingResponse[]> {
     if (requestOptions || this.context.isAuthenticated) {
       const failSafeShare = failSafe(this.shareToGroup);
-      return groups.map((group: IGroup) =>
-        failSafeShare(project, group, requestOptions)
+      return Promise.all(
+        groups.map((group: IGroup) =>
+          failSafeShare(project, group, requestOptions)
+        )
       );
     } else {
       throw new HubError(
@@ -343,7 +345,7 @@ export class HubProjectManager
     project: IHubProject,
     group: IGroup,
     requestOptions?: IUserRequestOptions
-  ) {
+  ): Promise<ISharingResponse> {
     if (requestOptions || this.context.isAuthenticated) {
       const ro = requestOptions || this.context.userRequestOptions;
       return unshareItemWithGroup({
@@ -372,11 +374,13 @@ export class HubProjectManager
     project: IHubProject,
     groups: IGroup[],
     requestOptions?: IUserRequestOptions
-  ) {
+  ): Promise<ISharingResponse[]> {
     if (requestOptions || this.context.isAuthenticated) {
       const failSafeUnshare = failSafe(this.unshareFromGroup);
-      return groups.map((group: IGroup) =>
-        failSafeUnshare(project, group, requestOptions)
+      return Promise.all(
+        groups.map((group: IGroup) =>
+          failSafeUnshare(project, group, requestOptions)
+        )
       );
     } else {
       throw new HubError(
