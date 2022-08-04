@@ -3,9 +3,10 @@
  */
 export const limitsHash: Record<string, number> = {
   default: 512,
-  xW49QhDgcgjm4BU0: 700,
+  mJaJSax0KPHoCNB6: 700, // pgegisportal
   q5DTBtIqgaEcBe1j: 700,
   z6hI6KRjKHvhNO0r: 700,
+  Xj56SBi2udA78cC9: 700, // qa-pre-a-hub
   "7ldwmV3MFwjrElY8": 700,
 };
 

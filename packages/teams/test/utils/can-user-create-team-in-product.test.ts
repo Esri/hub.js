@@ -55,7 +55,7 @@ describe("teams:utils:canUserCreateTeamInProduct:", () => {
 
   it("allows more groups for some orgs", () => {
     const user = {
-      orgId: "xW49QhDgcgjm4BU0",
+      orgId: "Xj56SBi2udA78cC9",
       privileges: ["baz"],
       groups: new Array(645),
     };
