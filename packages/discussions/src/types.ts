@@ -227,6 +227,27 @@ export interface IWithEditor {
   editor: string;
 }
 
+export interface IPermission {
+  role: string;
+  createdAt: string;
+  updatedAt: string;
+  accessibleAfter: string;
+}
+
+export interface IACL {
+  anonymous?: IPermission;
+  authenticated?: IPermission;
+  groups?: {
+    [key: string]: IPermission;
+  };
+  orgs?: {
+    [key: string]: IPermission;
+  };
+  users: {
+    [key: string]: IPermission;
+  };
+}
+
 /**
  * channel settings properties
  *
@@ -241,6 +262,7 @@ export interface IWithSettings {
   allowReaction: boolean;
   allowedReactions?: PostReaction[];
   blockwords?: string[];
+  acl?: ACL;
 }
 
 /**
