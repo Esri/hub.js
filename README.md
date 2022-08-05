@@ -67,7 +67,7 @@ Some useful commands include:
 - There is also a `Debug Node Tests` configuration in the `.vscode/launch.json` which will run the Node tests in the VS Code debugger.
 - `npm run test:chrome:debug` runs _all_ the tests in a browser, and will re-run when changes are made. Note: in some situations, spies/stubs will fail on subsequent test runs. We are not certain why this occurs, but the resolution is to stop/start the test runner.
 - `npm run docs:serve` will run the documentation site locally at http://localhost:3000
-- `npm run build` will run the ES5, ESM, CJS and UMD build for _all_ the packages
+- `npm run build` will run the ESM and CJS build for _all_ the packages
 
 ### Packages
 

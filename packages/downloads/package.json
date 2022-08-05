@@ -24,11 +24,6 @@
     "@esri/arcgis-rest-portal": "^3.4.2",
     "@esri/arcgis-rest-request": "^3.1.1",
     "@esri/hub-common": "10.0.1",
-    "@rollup/plugin-commonjs": "^15.0.0",
-    "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^9.0.0",
-    "rollup": "^2.26.5",
-    "rollup-plugin-filesize": "^9.0.2",
     "typescript": "^3.8.1"
   },
   "files": [
@@ -38,7 +33,6 @@
     "build": "npm run build:node && npm run build:esm",
     "build:esm": "tsc --outDir ./dist/esm  --declaration --declarationDir ./dist/types",
     "build:node": "tsc --module commonjs --outDir ./dist/node",
-    "build:umd": "rollup -c ../../umd-base-profile.js && rollup -c ../../umd-production-profile.js",
     "dev:esm": "npm run build:esm -- -w",
     "dev:node": "npm run build:node -- -w",
     "format": "prettier --write ./{src,test}/**/*.ts",
