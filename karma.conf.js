@@ -83,7 +83,20 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["jasmine-diff", "dots", "karma-typescript"],
+    reporters: [
+      // replace "dots" with "spec" to get verbose info on tests, including timing
+      "dots",
+      "jasmine-diff",
+      "karma-typescript"
+    ],
+
+    // NOTE: this is only used when when reporters includes "spec"
+    specReporter: {
+      // useful for identifying long-running tests
+      showSpecTiming: true,
+      // useful when using fdescribe() or fit()
+      // suppressSkipped: true
+    },
 
     // web server port
     port: 9876,

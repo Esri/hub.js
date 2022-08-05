@@ -4,7 +4,7 @@ import {
   searchUsers,
 } from "@esri/arcgis-rest-portal";
 import { IUser } from "@esri/arcgis-rest-types";
-import { enrichUserSearchResult } from "../..";
+import { enrichUserSearchResult } from "../../users";
 import { serializeQueryForPortal } from "../serializeQueryForPortal";
 import HubError from "../../HubError";
 import { IHubRequestOptions } from "../../types";
@@ -120,18 +120,18 @@ async function searchPortal(
  * Convert an Item to a IHubSearchResult
  * Fetches the includes and attaches them to the item
  * @param item
- * @param includes
+ * @param include
  * @param requestOptions
  * @returns
  */
 async function userToSearchResult(
   user: IUser,
-  includes: string[] = [],
+  include: string[] = [],
   requestOptions?: IHubRequestOptions
 ): Promise<IHubSearchResult> {
   // Delegate to HubGroups module
   // This layer of indirection is not necessary but
   // aligns with how the items search works and
   // allows for future specialization
-  return enrichUserSearchResult(user, includes, requestOptions);
+  return enrichUserSearchResult(user, include, requestOptions);
 }
