@@ -61,7 +61,7 @@ export function isUrl(url: string): boolean {
     // Cast to bool.
     return !!result;
   } catch (e) {
-    Logger.error(`Error parsing data url`);
+    Logger.error(`Error parsing URL`);
     return false;
   }
 }

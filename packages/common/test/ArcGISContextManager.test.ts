@@ -112,7 +112,6 @@ describe("ArcGISContext:", () => {
       const t = new Date().getTime();
       const mgr = await ArcGISContextManager.create({
         portalUrl: "https://myserver.com/gis",
-        logLevel: Level.debug,
       });
       expect(mgr.context.id).toBeGreaterThanOrEqual(t);
 
@@ -128,7 +127,7 @@ describe("ArcGISContext:", () => {
       mgr.setProperties({ hubSite });
       expect(mgr.context.properties.hubSite).toEqual(hubSite);
     });
-    it("verify when passed properties", async () => {
+    it("verify when passed log level and properties", async () => {
       const t = new Date().getTime();
       const site = {
         id: "bc3",
