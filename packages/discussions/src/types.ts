@@ -706,7 +706,7 @@ export interface ISearchChannelsOptions extends IHubRequestOptions {
 }
 
 /**
- * permissino object that will populate ACL interface
+ * permission object that will populate ACL interface
  *
  * @export
  * @interface IPermission
