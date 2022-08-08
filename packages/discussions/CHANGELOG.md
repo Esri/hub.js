@@ -1,3 +1,10 @@
+# @esri/hub-discussions [12.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@12.0.1...@esri/hub-discussions@12.1.0) (2022-08-08)
+
+
+### Features
+
+* **hub-discussions:** adding acl support for channels ([#858](https://github.com/Esri/hub.js/issues/858)) ([9a3691c](https://github.com/Esri/hub.js/commit/9a3691c5a249c003e3f3fbbcf9cd787e0558758e))
+
 ## @esri/hub-discussions [12.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@12.0.0...@esri/hub-discussions@12.0.1) (2022-08-04)
 
 
