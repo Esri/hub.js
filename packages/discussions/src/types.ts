@@ -706,13 +706,28 @@ export interface ISearchChannelsOptions extends IHubRequestOptions {
 }
 
 /**
+ * Role types
+ *
+ * @export
+ * @enum {string}
+ */
+export enum Role {
+  READ = "read",
+  WRITE = "write",
+  READWRITE = "readWrite",
+  MODERATE = "moderate",
+  MANAGE = "manage",
+  OWNER = "owner",
+}
+
+/**
  * permission object that will populate ACL interface
  *
  * @export
  * @interface IPermission
  */
 export interface IPermission {
-  role: string;
+  role: Role;
   createdAt: string;
   updatedAt: string;
   accessibleAfter: string;
