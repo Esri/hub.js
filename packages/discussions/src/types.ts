@@ -738,9 +738,9 @@ export interface IPermission {
  *
  * @export
  * @interface IWithACL
- * @extends {IWithSettings}
+ * @extends {ICreateChannelWithACL}
  */
-export interface IWithACL extends IWithSettings {
+export interface ICreateChannelWithACL extends IWithSettings {
   anonymous?: IPermission;
   authenticated?: IPermission;
   groups?: {
@@ -762,7 +762,7 @@ export interface IWithACL extends IWithSettings {
  * @extends {IHubRequestOptions}
  */
 export interface ICreateChannelOptions extends IHubRequestOptions {
-  params: ICreateChannel | IWithACL;
+  params: ICreateChannel | ICreateChannelWithACL;
 }
 
 /**
