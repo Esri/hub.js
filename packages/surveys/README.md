@@ -8,7 +8,6 @@
 [npm-url]: https://www.npmjs.com/package/@esri/hub-surveys
 [travis-img]: https://img.shields.io/travis/Esri/hub.js/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/Esri/hub.js
-[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/hub-surveys/dist/umd/surveys.umd.min.js?compression=gzip
 [coverage-img]: https://codecov.io/gh/Esri/hub.js/branch/master/graph/badge.svg
 [coverage-url]: https://codecov.io/gh/Esri/hub.js
 

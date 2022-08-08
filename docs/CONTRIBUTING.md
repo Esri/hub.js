@@ -51,17 +51,11 @@ We use TypeDoc and acetate to turn the inline documentation into a snazzy websit
 you can run the command below in the root of the repo to automatically recompile a package when the raw TypeScript source changes
 
 ```
-# watch 'hub-events' and rebuild a UMD for the browser
-npm run dev -- umd @esri/hub-events
-
 # rebuild CommonJS for Node.js
 npm run dev -- node @esri/@esri/hub-events
 
 # rebuild ES modules
 npm run dev -- esm @esri/hub-events
-
-# watch all the packages
-npm run dev -- umd @esri/*
 ```
 
 ### Publishing a release

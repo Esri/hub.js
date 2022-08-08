@@ -12,8 +12,6 @@ docs
 
 
 # Root folder files
-umd-base-profile.js
-umd-production-profile.js
 commitlint.config.js
 exit-if-no-staged.js
 
