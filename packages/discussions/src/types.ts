@@ -706,6 +706,40 @@ export interface ISearchChannelsOptions extends IHubRequestOptions {
 }
 
 /**
+ * permissino object that will populate ACL interface
+ *
+ * @export
+ * @interface IPermission
+ */
+export interface IPermission {
+  role: string;
+  createdAt: string;
+  updatedAt: string;
+  accessibleAfter: string;
+}
+
+/**
+ * request options for creating channel with ACL
+ *
+ * @export
+ * @interface IWithACL
+ * @extends {IWithSettings}
+ */
+export interface IWithACL extends IWithSettings {
+  anonymous?: IPermission;
+  authenticated?: IPermission;
+  groups?: {
+    [key: string]: IPermission;
+  };
+  orgs?: {
+    [key: string]: IPermission;
+  };
+  users: {
+    [key: string]: IPermission;
+  };
+}
+
+/**
  * request options for creating a channel
  *
  * @export
@@ -713,7 +747,7 @@ export interface ISearchChannelsOptions extends IHubRequestOptions {
  * @extends {IHubRequestOptions}
  */
 export interface ICreateChannelOptions extends IHubRequestOptions {
-  params: ICreateChannel;
+  params: ICreateChannel | IWithACL;
 }
 
 /**
