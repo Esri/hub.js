@@ -127,7 +127,7 @@ export class Hub {
    * Destroy a Hub Project by item id
    * @param id
    */
-  async destroyProject(id: string): Promise<void> {
-    await this.projects.destroy(id);
+  async deleteProject(id: string): Promise<void> {
+    await this.projects.delete(id);
   }
 }

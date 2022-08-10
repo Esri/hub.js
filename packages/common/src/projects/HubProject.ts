@@ -12,10 +12,10 @@ import {
   IPermissionBehavior,
   removePermission,
 } from "../core";
-import { IArcGISContext } from "..";
+import { Catalog, IArcGISContext, IHubCatalog } from "..";
 import { IHubGeography } from "../types";
 import { cloneObject } from "../util";
-import { createProject, destroyProject, updateProject } from "./HubProjects";
+import { createProject, deleteProject, updateProject } from "./HubProjects";
 
 /**
  * Hub Project Class
@@ -24,6 +24,7 @@ export class HubProject implements IHubProject, IPermissionBehavior {
   private context: IArcGISContext;
   private entity: IHubProject;
   private isDestroyed: boolean = false;
+  private _catalog: Catalog;
   /**
    * Private constructor so we don't have `new` all over the place. Allows for
    * more flexibility in how we create the HubProjectManager over time.
@@ -32,6 +33,10 @@ export class HubProject implements IHubProject, IPermissionBehavior {
   private constructor(project: IHubProject, context: IArcGISContext) {
     this.context = context;
     this.entity = project;
+    // this._catalog = Catalog.fromJson(
+    //   project.catalog || { schemaVersion: 1 },
+    //   this.context
+    // );
   }
 
   //#region Properties
@@ -155,6 +160,11 @@ export class HubProject implements IHubProject, IPermissionBehavior {
   set layout(value: IHubLayout | undefined) {
     this.entity.layout = value;
   }
+
+  get catalog(): Catalog {
+    return this._catalog;
+  }
+
   // #endregion
 
   /**
@@ -241,10 +251,10 @@ export class HubProject implements IHubProject, IPermissionBehavior {
    * at the Hub level
    * @returns
    */
-  async destroy(): Promise<boolean> {
+  async delete(): Promise<boolean> {
     this.isDestroyed = true;
     // Delegate to module fn
-    await destroyProject(this.entity.id, this.context.userRequestOptions);
+    await deleteProject(this.entity.id, this.context.userRequestOptions);
     // how to indicate that this instance should be destroyed?
     return true;
   }
@@ -270,10 +280,10 @@ export class HubProject implements IHubProject, IPermissionBehavior {
     this.entity = addPermission(this.entity, permission, definition);
   }
 
-  removePermission(key: string): void {
+  removePermission(permission: HubPermission, targetId: string): void {
     if (this.isDestroyed) {
       throw new Error("HubProject is already destroyed.");
     }
-    this.entity = removePermission(this.entity, key);
+    this.entity = removePermission(this.entity, permission, targetId);
   }
 }

@@ -32,8 +32,30 @@ fdescribe("HubProject Class", () => {
     // updates the internal project object
     await project.save();
     // verify some server set props are set
-    expect(project.owner).toBe("admin");
+    expect(project.owner).toBe(ctxMgr.context.currentUser.username || "");
     expect(project.createdDate).toBeDefined();
+
+    const groups = ctxMgr.context.currentUser.groups || [];
+    const group = groups[0];
+    if (group) {
+      // add the project to the project
+      project.addPermission("addInitiative", {
+        permission: "addInitiative",
+        target: "group",
+        targetId: group.id,
+      });
+
+      // verify that it works
+      const canCreateInitiative = project.checkPermission("addInitiative");
+      expect(canCreateInitiative).toBe(true);
+
+      // save project and verify that the permission is there
+      await project.save();
+
+      const json = project.toJson();
+      expect(json.permissions).toBeDefined();
+      expect(json.permissions[0].targetId).toBe(group.id);
+    }
 
     // change something else and save it again
     project.summary = "This is the new summary";
@@ -48,7 +70,7 @@ fdescribe("HubProject Class", () => {
     expect(projectById).not.toBe(project);
 
     // delete project via Hub
-    await myHub.destroyProject(project.id);
+    await myHub.deleteProject(project.id);
     debugger;
     // try to get it again - should fail
     try {
@@ -57,7 +79,7 @@ fdescribe("HubProject Class", () => {
       expect(ex.message).toBe("Project not found");
     }
   });
-  fit("ensure unique slug", async () => {
+  it("ensure unique slug", async () => {
     // create context
     const ctxMgr = await factory.getContextManager("hubBasic", "admin");
 
@@ -91,14 +113,14 @@ fdescribe("HubProject Class", () => {
     expect(oakTreesProject.slug).toBe(`${orgUrlKey}|trees-1`);
     debugger;
 
-    await treesProject.destroy();
-    await oakTreesProject.destroy();
+    await treesProject.delete();
+    await oakTreesProject.delete();
 
     // expect project to throw if we try to save after destroy
     try {
       await treesProject.save();
     } catch (ex) {
-      expect(ex.message).toBe("HubProject is already destroyed");
+      expect(ex.message).toBe("HubProject is already destroyed.");
     }
   });
 });

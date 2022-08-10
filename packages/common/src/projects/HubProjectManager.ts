@@ -3,7 +3,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import {
   createProject,
   updateProject,
-  destroyProject,
+  deleteProject,
   fetchProject,
   searchProjects,
   convertItemToProject,
@@ -150,18 +150,18 @@ export class HubProjectManager
    * @param requestOptions
    * @returns
    */
-  async destroy(
+  async delete(
     id: string,
     requestOptions?: IUserRequestOptions
   ): Promise<void> {
     if (requestOptions || this.context.isAuthenticated) {
-      return destroyProject(
+      return deleteProject(
         id,
         requestOptions || this.context.userRequestOptions
       );
     } else {
       throw new HubError(
-        "Destroy Project",
+        "Delete Project",
         "Destroying Hub Projects requires authentication."
       );
     }

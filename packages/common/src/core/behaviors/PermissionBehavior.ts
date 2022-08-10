@@ -7,21 +7,25 @@ export interface IPermissionBehavior {
    * @param permission
    */
   checkPermission(permission: HubPermission): boolean;
+
   /**
    * Get all the permission definitions for the given entity, and the specific permission
    * @param key permission to check for
    */
   getPermissions(key: string): IHubPermission[];
+
   /**
    * Set a permission for the given entity
    * @param permission
    */
   addPermission(permission: HubPermission, definition: IHubPermission): void;
+
   /**
-   * Remove a permission for the given entity and store it in the store
-   * @param key permission to remove
+   * Remove a permission by targetId
+   * @param permission
+   * @param targetId
    */
-  removePermission(key: string): void;
+  removePermission(permission: HubPermission, targetId: string): void;
 }
 
 export type HubPermission =
@@ -38,10 +42,6 @@ export type PermissionTarget = "org" | "group" | "user";
 
 export interface IHubPermission {
   /**
-   * Identifier for the permission
-   */
-  key: string;
-  /**
    * What action is being enabled for the target
    */
   permission: HubPermission;
@@ -55,6 +55,13 @@ export interface IHubPermission {
   targetId: string;
 }
 
+/**
+ * Check if the user has a specific permission in the context of an entity
+ * @param entity
+ * @param permission
+ * @param user
+ * @returns
+ */
 export function checkPermission<T>(
   entity: T,
   permission: HubPermission,
@@ -90,16 +97,31 @@ export function checkPermission<T>(
   return result;
 }
 
-export function getPermissions<T>(entity: T, key: string): IHubPermission[] {
+/**
+ * Get all the permission definitions for the given entity, and the specific permission
+ * @param entity
+ * @param permission
+ * @returns
+ */
+export function getPermissions<T>(
+  entity: T,
+  permission: HubPermission
+): IHubPermission[] {
   const allPermissions = getWithDefault(
     entity,
     "permissions",
     []
   ) as IHubPermission[];
-  return allPermissions.filter((p) => p.key === key);
+  return allPermissions.filter((p) => p.permission === permission);
 }
 
-// TODO: should this take a permission array and return a new permission array
+/**
+ * Add a permission entry to the entitys permissions array
+ * @param entity
+ * @param permission
+ * @param definition
+ * @returns
+ */
 export function addPermission<T>(
   entity: T,
   permission: HubPermission,
@@ -114,21 +136,31 @@ export function addPermission<T>(
     return p.permission !== permission && p.target !== definition.target;
   });
   const newPermissions = [...otherPermissions, definition];
-  // TODO: Add permissions to IHubProject
+
   setProp("permissions", newPermissions, entity);
   return entity;
 }
 
-export function removePermission<T>(entity: T, key: string): T {
+/**
+ * Remove permission entry from the entitys permissions array
+ * @param entity
+ * @param permission
+ * @param targetId
+ * @returns
+ */
+export function removePermission<T>(
+  entity: T,
+  permission: HubPermission,
+  targetId: string
+): T {
   const allPermissions = getWithDefault(
     entity,
     "permissions",
     []
   ) as IHubPermission[];
   const otherPermissions = allPermissions.filter((p) => {
-    return p.key !== key;
+    return p.permission !== permission && p.targetId !== targetId;
   });
-  // TODO: Add permissions to IHubProject
   setProp("permissions", otherPermissions, entity);
   return entity;
 }

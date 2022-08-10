@@ -1,8 +1,8 @@
-import { Catalog } from "../../search/Catalog";
+import { IHubCatalog } from "../../search";
 
 export interface IWithCatalog {
   /**
    * Catalog
    */
-  catalog: Catalog;
+  catalog: IHubCatalog;
 }

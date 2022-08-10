@@ -48,7 +48,7 @@ describe("Hub Projects", () => {
     expect(updated.thumbnailUrl).toBeDefined();
 
     // destroy the project
-    await mgr.destroy(p.id);
+    await mgr.delete(p.id);
   });
 });
 

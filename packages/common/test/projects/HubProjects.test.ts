@@ -4,7 +4,7 @@ import {
   cloneObject,
   IModel,
   fetchProject,
-  destroyProject,
+  deleteProject,
   IHubProject,
   createProject,
   updateProject,
@@ -190,7 +190,7 @@ describe("HubProjects:", () => {
         Promise.resolve({ success: true })
       );
 
-      const result = await destroyProject("3ef", {
+      const result = await deleteProject("3ef", {
         authentication: MOCK_AUTH,
       });
       expect(result).toBeUndefined();
@@ -299,6 +299,10 @@ describe("HubProjects:", () => {
         updatedDateSource: "item.modified",
         status: "active",
         thumbnailUrl: "",
+        permissions: [],
+        catalog: {
+          schemaVersion: 1,
+        },
       };
       const chk = await updateProject(prj, { authentication: MOCK_AUTH });
       expect(chk.id).toBe(GUID);

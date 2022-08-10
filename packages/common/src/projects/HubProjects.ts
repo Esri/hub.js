@@ -80,6 +80,8 @@ function getProjectPropertyMap(): IPropertyMap[] {
     "layout",
     "location",
     "status",
+    "permissions",
+    "catalog",
   ];
   const map: IPropertyMap[] = [];
   itemProps.forEach((entry) => {
@@ -202,7 +204,7 @@ export function fetchProject(
  * @param id
  * @param requestOptions
  */
-export async function destroyProject(
+export async function deleteProject(
   id: string,
   requestOptions: IUserRequestOptions
 ): Promise<void> {
