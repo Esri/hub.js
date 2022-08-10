@@ -91,7 +91,7 @@ export class Hub {
    */
   get projects() {
     console.warn(
-      "Hub.sites is deprecated. Please use Hub.fetchProject instead."
+      "Hub.projects is deprecated. Please use Hub.fetchProject instead."
     );
     if (!this._projectManager) {
       this._projectManager = HubProjectManager.init(this._contextManager);
@@ -113,11 +113,20 @@ export class Hub {
     return this._siteManager;
   }
 
-  async fetchProject(id: string): Promise<HubProject> {
-    const project = await this.projects.fetch(id);
+  /**
+   * Fetch a Hub Project by slug or item id
+   * @param identifier slug or item id
+   * @returns
+   */
+  async fetchProject(identifier: string): Promise<HubProject> {
+    const project = await this.projects.fetch(identifier);
     return HubProject.fromJson(project, this.context);
   }
 
+  /**
+   * Destroy a Hub Project by item id
+   * @param id
+   */
   async destroyProject(id: string): Promise<void> {
     await this.projects.destroy(id);
   }

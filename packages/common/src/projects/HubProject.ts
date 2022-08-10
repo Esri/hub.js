@@ -1,7 +1,4 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-
-import { DEFAULT_PROJECT, DEFAULT_PROJECT_MODEL } from "./defaults";
-import { IPropertyMap, PropertyMapper } from "../core/_internal/PropertyMapper";
+import { DEFAULT_PROJECT } from "./defaults";
 
 import {
   addPermission,
@@ -16,19 +13,17 @@ import {
   removePermission,
 } from "../core";
 import { IArcGISContext } from "..";
-import { constructSlug, getUniqueSlug, setSlugKeyword } from "../items";
-import { createModel } from "../models";
 import { IHubGeography } from "../types";
 import { cloneObject } from "../util";
-import { updateProject } from "./HubProjects";
+import { createProject, destroyProject, updateProject } from "./HubProjects";
 
 /**
  * Hub Project Class
  */
 export class HubProject implements IHubProject, IPermissionBehavior {
   private context: IArcGISContext;
-  private mapper: PropertyMapper<IHubProject>;
   private entity: IHubProject;
+  private isDestroyed: boolean = false;
   /**
    * Private constructor so we don't have `new` all over the place. Allows for
    * more flexibility in how we create the HubProjectManager over time.
@@ -37,7 +32,6 @@ export class HubProject implements IHubProject, IPermissionBehavior {
   private constructor(project: IHubProject, context: IArcGISContext) {
     this.context = context;
     this.entity = project;
-    this.mapper = new PropertyMapper<IHubProject>(getProjectPropertyMap());
   }
 
   //#region Properties
@@ -146,10 +140,10 @@ export class HubProject implements IHubProject, IPermissionBehavior {
   set source(value: string | undefined) {
     this.entity.source = value;
   }
-  get slug(): string | undefined {
+  get slug(): string {
     return this.entity.slug;
   }
-  set slug(value: string | undefined) {
+  set slug(value: string) {
     this.entity.slug = value;
   }
   get orgUrlKey(): string {
@@ -174,7 +168,8 @@ export class HubProject implements IHubProject, IPermissionBehavior {
   }
 
   /**
-   * Create a new HubProject, returning a HubProject instance
+   * Create a new HubProject, returning a HubProject instance.
+   * Note: This does not persist the Project into the backing store
    * @param partialProject
    * @param context
    * @returns
@@ -183,6 +178,10 @@ export class HubProject implements IHubProject, IPermissionBehavior {
     partialProject: Partial<IHubProject>,
     context: IArcGISContext
   ): Promise<HubProject> {
+    // ensure we have the orgUrlKey
+    if (!partialProject.orgUrlKey) {
+      partialProject.orgUrlKey = context.portal.urlKey;
+    }
     // extend the partial over the defaults
     const pojo = { ...DEFAULT_PROJECT, ...partialProject } as IHubProject;
     // return an instance of HubProject
@@ -194,6 +193,9 @@ export class HubProject implements IHubProject, IPermissionBehavior {
    * @returns IHubProject POJO
    */
   toJson(): IHubProject {
+    if (this.isDestroyed) {
+      throw new Error("HubProject is already destroyed.");
+    }
     return cloneObject(this.entity);
   }
 
@@ -202,6 +204,9 @@ export class HubProject implements IHubProject, IPermissionBehavior {
    * @param changes
    */
   applyChanges(changes: IHubProject): void {
+    if (this.isDestroyed) {
+      throw new Error("HubProject is already destroyed.");
+    }
     this.entity = cloneObject(changes);
   }
 
@@ -210,20 +215,19 @@ export class HubProject implements IHubProject, IPermissionBehavior {
    * @returns
    */
   async save(): Promise<void> {
+    if (this.isDestroyed) {
+      throw new Error("HubProject is already destroyed.");
+    }
     if (this.entity.id) {
       // update it
-      this.entity = (await updateProject(
+      this.entity = await updateProject(
         this.entity,
         this.context.userRequestOptions
-      )) as IHubProject; // this cast is needed b/c we have extended IHubProject within this hack app
+      );
     } else {
       // create it
       this.entity = await createProject(
-        {
-          partialProject: this.entity,
-          mapper: this.mapper,
-          orgUrlKey: this.context.portal.urlKey,
-        },
+        this.entity,
         this.context.userRequestOptions
       );
     }
@@ -237,126 +241,39 @@ export class HubProject implements IHubProject, IPermissionBehavior {
    * at the Hub level
    * @returns
    */
-  // async delete(): Promise<boolean> {
-  //   // Delegate to module fn
-  //   await destroyProject(this.entity.id, this.context.userRequestOptions);
-  //   // how to indicate that this instance should be destroyed?
-  //   return true;
-  // }
+  async destroy(): Promise<boolean> {
+    this.isDestroyed = true;
+    // Delegate to module fn
+    await destroyProject(this.entity.id, this.context.userRequestOptions);
+    // how to indicate that this instance should be destroyed?
+    return true;
+  }
 
   checkPermission(permission: HubPermission): boolean {
+    if (this.isDestroyed) {
+      throw new Error("HubProject is already destroyed.");
+    }
     return checkPermission(this.entity, permission, this.context.currentUser);
   }
 
   getPermissions(permission: HubPermission): IHubPermission[] {
+    if (this.isDestroyed) {
+      throw new Error("HubProject is already destroyed.");
+    }
     return getPermissions(this.entity, permission);
   }
 
   addPermission(permission: HubPermission, definition: IHubPermission): void {
+    if (this.isDestroyed) {
+      throw new Error("HubProject is already destroyed.");
+    }
     this.entity = addPermission(this.entity, permission, definition);
   }
 
   removePermission(key: string): void {
+    if (this.isDestroyed) {
+      throw new Error("HubProject is already destroyed.");
+    }
     this.entity = removePermission(this.entity, key);
   }
 }
-
-/**
- * Returns an Array of IPropertyMap objects
- * We could define these directly, but since the
- * properties of IHubProject map directly to properties
- * on item or data, it's slightly less verbose to
- * generate the structure.
- * @returns
- */
-function getProjectPropertyMap(): IPropertyMap[] {
-  const itemProps = [
-    "created",
-    "culture",
-    "description",
-    "extent",
-    "id",
-    "modified",
-    "owner",
-    "snippet",
-    "tags",
-    "typeKeywords",
-    "url",
-    "type",
-  ];
-  const dataProps = [
-    "contacts",
-    "display",
-    "geometry",
-    "headerImage",
-    "layout",
-    "location",
-    "status",
-    "permissions",
-  ];
-  const map: IPropertyMap[] = [];
-  itemProps.forEach((entry) => {
-    map.push({ objectKey: entry, modelKey: `item.${entry}` });
-  });
-  dataProps.forEach((entry) => {
-    map.push({ objectKey: entry, modelKey: `data.${entry}` });
-  });
-  // Deeper mappings
-  map.push({
-    objectKey: "slug",
-    modelKey: "item.properties.slug",
-  });
-  map.push({
-    objectKey: "orgUrlKey",
-    modelKey: "item.properties.orgUrlKey",
-  });
-  map.push({
-    objectKey: "name",
-    modelKey: "item.title",
-  });
-  return map;
-}
-
-//#region helper functions
-
-async function createProject(
-  options: {
-    partialProject: Partial<IHubProject>;
-    mapper: PropertyMapper<IHubProject>;
-    orgUrlKey: string;
-  },
-  requestOptions: IUserRequestOptions
-): Promise<IHubProject> {
-  const project = {
-    ...DEFAULT_PROJECT,
-    ...options.partialProject,
-  } as IHubProject;
-  // construct slug
-  if (!project.slug && project.name) {
-    project.slug = constructSlug(project.name, options.orgUrlKey);
-  }
-  // Ensure slug is  unique
-  project.slug = await getUniqueSlug(
-    { slug: project.slug || "" },
-    requestOptions
-  );
-  // add slug to keywords
-  project.typeKeywords = setSlugKeyword(
-    project.typeKeywords || [],
-    project.slug
-  );
-
-  // create model from object, using the default model as a starting point
-  let model = options.mapper.objectToModel(
-    project,
-    cloneObject(DEFAULT_PROJECT_MODEL)
-  );
-  // create the item
-  model = await createModel(model, requestOptions);
-  // map the model back into a IHubProject
-  const newProject = options.mapper.modelToObject(model, {} as IHubProject);
-  // and return it
-  return newProject as IHubProject;
-}
-
-//#endregion
