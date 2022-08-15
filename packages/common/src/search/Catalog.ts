@@ -1,6 +1,6 @@
 import { IArcGISContext } from "../ArcGISContext";
 import { ArcGISContextManager } from "../ArcGISContextManager";
-import { IWithCatalogBehavior } from "../core/behaviors/CatalogBehavior";
+import { IWithCatalogBehavior } from "../core/behaviors/IWithCatalogBehavior";
 import HubError from "../HubError";
 import { cloneObject } from "../util";
 import { mapBy } from "../utils";

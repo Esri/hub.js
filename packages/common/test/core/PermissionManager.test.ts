@@ -1,5 +1,5 @@
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
-import * as PermissionBehavior from "../../src/core/behaviors/PermissionBehavior";
+import * as PermissionBehavior from "../../src/core/behaviors/IWithPermissionBehavior";
 import {
   ArcGISContextManager,
   IHubPermission,

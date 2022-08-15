@@ -5,7 +5,7 @@ import {
   getPermissions,
   addPermission,
   removePermission,
-} from "./behaviors/PermissionBehavior";
+} from "./behaviors/IWithPermissionBehavior";
 import { HubPermission, IHubPermission } from "./types/IHubPermission";
 
 /**

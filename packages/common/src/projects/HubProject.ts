@@ -4,11 +4,11 @@ import {
   IHubLayout,
   IHubProject,
   IHubTimeline,
-  IPermissionBehavior,
+  IWithPermissionBehavior,
   IWithCatalogBehavior,
   PermissionManager,
   IHubPermission,
-  IHubItemEntity,
+  IHubClassBehavior,
 } from "../core";
 
 import { IHubGeography } from "../types";
@@ -23,7 +23,11 @@ import { IArcGISContext } from "../ArcGISContext";
  * Hub Project Class
  */
 export class HubProject
-  implements IHubProject, IPermissionBehavior, IWithCatalogBehavior
+  implements
+    IHubProject,
+    IHubClassBehavior<IHubProject>,
+    IWithPermissionBehavior,
+    IWithCatalogBehavior
 {
   private context: IArcGISContext;
   private entity: IHubProject;
@@ -290,7 +294,7 @@ export class HubProject
     if (this.isDestroyed) {
       throw new Error("HubProject is already destroyed.");
     }
-    return cloneObject(this.entity);
+    return cloneObject(this.entity) as unknown as IHubProject;
   }
 
   /**
@@ -302,7 +306,7 @@ export class HubProject
       throw new Error("HubProject is already destroyed.");
     }
     // apply the changes to the entity
-    this.entity = cloneObject(changes);
+    this.entity = cloneObject(changes) as unknown as IHubProject;
     // set the internal catalog
     this._catalog = Catalog.fromJson(changes.catalogDefinition, this.context);
   }

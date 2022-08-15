@@ -1,11 +1,11 @@
-import { IUser } from "@esri/arcgis-rest-types";
+import { IGroup, IUser } from "@esri/arcgis-rest-portal";
 import { PermissionManager } from "../PermissionManager";
 import { IHubPermission, HubPermission } from "../types/IHubPermission";
 
 /**
  * Composable behavior that adds permissions to an entity
  */
-export interface IPermissionBehavior {
+export interface IWithPermissionBehavior {
   permissions: PermissionManager;
 }
 
@@ -40,7 +40,7 @@ export function checkPermission(
     }
     // if the user is in a group that has the permission, return true
     if (!result && p.target === "group") {
-      if (user.groups?.find((g) => g.id === p.targetId)) {
+      if (user.groups?.find((g: IGroup) => g.id === p.targetId)) {
         result = true;
       }
     }
