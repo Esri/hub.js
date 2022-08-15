@@ -344,14 +344,12 @@ export class HubProject
    * set a flag to indicate that it is destroyed
    * @returns
    */
-  async delete(): Promise<boolean> {
+  async delete(): Promise<void> {
     if (this.isDestroyed) {
       throw new Error("HubProject is already destroyed.");
     }
     this.isDestroyed = true;
     // Delegate to module fn
     await deleteProject(this.entity.id, this.context.userRequestOptions);
-    // how to indicate that this instance should be destroyed?
-    return true;
   }
 }

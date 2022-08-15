@@ -18,5 +18,5 @@ export interface IHubClassBehavior<T> {
   /**
    * Delete the class instance from it's backing store
    */
-  delete(): Promise<boolean>;
+  delete(): Promise<void>;
 }
