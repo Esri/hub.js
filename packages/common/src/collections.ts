@@ -142,6 +142,20 @@ export const getCollection = (type?: string) => {
   });
 };
 
+/**
+ * The converse of getCollection, returns associated types of provided collection
+ * @param collection The Hub collection
+ * @returns An array of types or undefined if collection is not found
+ * @private
+ */
+export const getCollectionTypes = (collection?: string) => {
+  if (!collection) {
+    return;
+  }
+  const lowerCaseCollection = collection.toLocaleLowerCase();
+  return collections[lowerCaseCollection];
+};
+
 // TODO: remove this when we remove the deprecated categories
 // and then move the above arrays and getCollection() logic to get-family
 export const collections: { [key: string]: string[] } = {
