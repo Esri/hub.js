@@ -1,10 +1,6 @@
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
-import {
-  ArcGISContextManager,
-  Catalog,
-  IHubProject,
-  PermissionManager,
-} from "../../src";
+import { Catalog, IHubProject, PermissionManager } from "../../src";
+import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubProject } from "../../src/projects/HubProject";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as HubProjectsModule from "../../src/projects/HubProjects";

@@ -1,10 +1,7 @@
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
 import * as PermissionBehavior from "../../src/core/behaviors/IWithPermissionBehavior";
-import {
-  ArcGISContextManager,
-  IHubPermission,
-  PermissionManager,
-} from "../../src/index";
+import { IHubPermission, PermissionManager } from "../../src/index";
+import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 
 describe("PermissionManager Class:", () => {
