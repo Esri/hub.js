@@ -1,5 +1,6 @@
 import { IArcGISContext } from "../ArcGISContext";
 import { ArcGISContextManager } from "../ArcGISContextManager";
+import { IWithCatalogBehavior } from "../core/behaviors/CatalogBehavior";
 import HubError from "../HubError";
 import { cloneObject } from "../util";
 import { mapBy } from "../utils";
@@ -45,7 +46,7 @@ export class Catalog implements IHubCatalog {
   }
 
   /**
-   * Create a Collection instance from a Catalog json object, a site url or itemId
+   * Create a Catalog instance from a site url or itemId
    * '''js
    * const catalog = await Catalog.create('https://site-org.hub.arcgis.com', context);
    * '''
@@ -70,12 +71,12 @@ export class Catalog implements IHubCatalog {
   }
 
   /**
-   * Create a Catalog instance from a Catalog Json object
+   * Create a Catalog instance from a Catalog Definition Json object
    * @param json
    * @param context
    * @returns
    */
-  static fromJson(json: any, context?: IArcGISContext): Catalog {
+  static fromJson(json: IHubCatalog, context?: IArcGISContext): Catalog {
     // ensure it's in the latest structure
     const catalog = upgradeCatalogSchema(json);
     return new Catalog(catalog, context);
@@ -138,6 +139,9 @@ export class Catalog implements IHubCatalog {
    * @param query
    */
   setScope(type: EntityType, query: IQuery) {
+    // TODO: This needs to be much smarter in terms of merging
+    // existing filters with the new ones. Basically this
+    // hides very little complexity from the developer
     this._catalog.scopes[type] = query;
   }
 
@@ -185,10 +189,13 @@ export class Catalog implements IHubCatalog {
    * @param options
    * @returns
    */
-  searchItems(
+  async searchItems(
     query: string | IQuery,
-    options: IHubSearchOptions = {}
+    options?: IHubSearchOptions
   ): Promise<IHubSearchResponse<IHubSearchResult>> {
+    if (!options) {
+      options = this.getDefaultSearchOptions("item");
+    }
     if (!this.getScope("item")) {
       const result = this.getEmptyResult();
       result.messages = [
@@ -215,10 +222,13 @@ export class Catalog implements IHubCatalog {
    * @param options
    * @returns
    */
-  searchGroups(
+  async searchGroups(
     query: string | IQuery,
-    options: IHubSearchOptions = {}
+    options?: IHubSearchOptions
   ): Promise<IHubSearchResponse<IHubSearchResult>> {
+    if (!options) {
+      options = this.getDefaultSearchOptions("group");
+    }
     if (!this.getScope("group")) {
       const result = this.getEmptyResult();
       result.messages = [
@@ -245,7 +255,7 @@ export class Catalog implements IHubCatalog {
    * @param options
    * @returns
    */
-  searchUsers(
+  async searchUsers(
     query: string | IQuery,
     options: IHubSearchOptions = {}
   ): Promise<IHubSearchResponse<IHubSearchResult>> {
@@ -409,6 +419,15 @@ export class Catalog implements IHubCatalog {
       total: 0,
       hasNext: false,
       next: null,
+    };
+  }
+
+  private getDefaultSearchOptions(type: EntityType): IHubSearchOptions {
+    return {
+      targetEntity: type,
+      num: 10,
+      start: 1,
+      requestOptions: this._context.hubRequestOptions,
     };
   }
 }

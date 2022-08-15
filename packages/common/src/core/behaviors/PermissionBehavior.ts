@@ -1,59 +1,15 @@
 import { IUser } from "@esri/arcgis-rest-types";
-import { getWithDefault, setProp } from "../../objects";
+import { PermissionManager } from "../PermissionManager";
+import { IHubPermission, HubPermission } from "../types/IHubPermission";
 
+/**
+ * Composable behavior that adds permissions to an entity
+ */
 export interface IPermissionBehavior {
-  /**
-   * Check if the user has a specific permission in the context of an entity
-   * @param permission
-   */
-  checkPermission(permission: HubPermission): boolean;
-
-  /**
-   * Get all the permission definitions for the given entity, and the specific permission
-   * @param key permission to check for
-   */
-  getPermissions(key: string): IHubPermission[];
-
-  /**
-   * Set a permission for the given entity
-   * @param permission
-   */
-  addPermission(permission: HubPermission, definition: IHubPermission): void;
-
-  /**
-   * Remove a permission by targetId
-   * @param permission
-   * @param targetId
-   */
-  removePermission(permission: HubPermission, targetId: string): void;
+  permissions: PermissionManager;
 }
 
-export type HubPermission =
-  | "addInitiative"
-  | "createInitiative"
-  | "editInitiative"
-  | "deleteInitiative"
-  | "addProject"
-  | "createProject"
-  | "editProject"
-  | "deleteProject";
-
-export type PermissionTarget = "org" | "group" | "user";
-
-export interface IHubPermission {
-  /**
-   * What action is being enabled for the target
-   */
-  permission: HubPermission;
-  /**
-   * What is the target of the permission
-   */
-  target: PermissionTarget;
-  /**
-   * Id of the entity that this permission is granted for
-   */
-  targetId: string;
-}
+// Permission util functions
 
 /**
  * Check if the user has a specific permission in the context of an entity
@@ -62,18 +18,13 @@ export interface IHubPermission {
  * @param user
  * @returns
  */
-export function checkPermission<T>(
-  entity: T,
+export function checkPermission(
   permission: HubPermission,
-  user: IUser
+  user: IUser,
+  permissions: IHubPermission[]
 ): boolean {
-  const allPermissions = getWithDefault(
-    entity,
-    "permissions",
-    []
-  ) as IHubPermission[];
   // filter to only those for the requested permission
-  const filteredPermissions = allPermissions.filter(
+  const filteredPermissions = permissions.filter(
     (p) => p.permission === permission
   );
   let result = false;
@@ -99,68 +50,54 @@ export function checkPermission<T>(
 
 /**
  * Get all the permission definitions for the given entity, and the specific permission
- * @param entity
  * @param permission
+ * @param permissions
  * @returns
  */
-export function getPermissions<T>(
-  entity: T,
-  permission: HubPermission
+export function getPermissions(
+  permission: HubPermission,
+  permissions: IHubPermission[]
 ): IHubPermission[] {
-  const allPermissions = getWithDefault(
-    entity,
-    "permissions",
-    []
-  ) as IHubPermission[];
-  return allPermissions.filter((p) => p.permission === permission);
+  return permissions.filter((p) => p.permission === permission);
 }
 
 /**
- * Add a permission entry to the entitys permissions array
- * @param entity
+ * Add a permission entry to the permissions array
  * @param permission
  * @param definition
+ * @param permissions
  * @returns
  */
-export function addPermission<T>(
-  entity: T,
+export function addPermission(
   permission: HubPermission,
-  definition: IHubPermission
-): T {
-  const allPermissions = getWithDefault(
-    entity,
-    "permissions",
-    []
-  ) as IHubPermission[];
-  const otherPermissions = allPermissions.filter((p) => {
-    return p.permission !== permission && p.target !== definition.target;
-  });
-  const newPermissions = [...otherPermissions, definition];
-
-  setProp("permissions", newPermissions, entity);
-  return entity;
+  definition: IHubPermission,
+  permissions: IHubPermission[]
+): IHubPermission[] {
+  const otherPermissions = removePermission(
+    permission,
+    definition.targetId,
+    permissions
+  );
+  return [...otherPermissions, definition];
 }
 
 /**
- * Remove permission entry from the entitys permissions array
- * @param entity
+ * Remove a permission
  * @param permission
  * @param targetId
+ * @param permissions
  * @returns
  */
-export function removePermission<T>(
-  entity: T,
+export function removePermission(
   permission: HubPermission,
-  targetId: string
-): T {
-  const allPermissions = getWithDefault(
-    entity,
-    "permissions",
-    []
-  ) as IHubPermission[];
-  const otherPermissions = allPermissions.filter((p) => {
-    return p.permission !== permission && p.targetId !== targetId;
+  targetId: string,
+  permissions: IHubPermission[]
+): IHubPermission[] {
+  return permissions.filter((p) => {
+    let keep = true;
+    if (p.permission === permission && p.targetId === targetId) {
+      keep = false;
+    }
+    return keep;
   });
-  setProp("permissions", otherPermissions, entity);
-  return entity;
 }

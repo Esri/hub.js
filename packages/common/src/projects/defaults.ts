@@ -11,6 +11,8 @@ export const DEFAULT_PROJECT: Partial<IHubProject> = {
   tags: [],
   typeKeywords: ["Hub Project"],
   status: "inactive",
+  catalogDefinition: { schemaVersion: 0 },
+  permissionDefinition: [],
 };
 
 /**

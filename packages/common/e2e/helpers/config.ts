@@ -72,6 +72,8 @@ const config = {
             },
           },
         },
+
+        // NOTE - this does not work b/c CORS is blocking access
         portal: {
           isPortal: true,
           orgUrl: "https://rqawinbi01pt.ags.esri.com/gis",

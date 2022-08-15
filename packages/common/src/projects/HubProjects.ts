@@ -81,7 +81,6 @@ function getProjectPropertyMap(): IPropertyMap[] {
     "location",
     "status",
     "permissions",
-    "catalog",
   ];
   const map: IPropertyMap[] = [];
   itemProps.forEach((entry) => {
@@ -94,6 +93,10 @@ function getProjectPropertyMap(): IPropertyMap[] {
   map.push({
     objectKey: "slug",
     modelKey: "item.properties.slug",
+  });
+  map.push({
+    objectKey: "catalogDefinition",
+    modelKey: "data.catalog",
   });
   map.push({
     objectKey: "orgUrlKey",

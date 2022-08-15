@@ -369,7 +369,7 @@ describe("HubSites:", () => {
       const modelToCreate = createModelSpy.calls.argsFor(0)[0];
       expect(modelToCreate.item.title).toBe("my site");
       expect(modelToCreate.item.type).toBe("Hub Site Application");
-      expect(modelToCreate.item.properties.slug).toBe("dcdev-my-site");
+      expect(modelToCreate.item.properties.slug).toBe("dcdev|my-site");
       expect(modelToCreate.item.properties.orgUrlKey).toBe("org");
 
       expect(chk.name).toBe("my site");
@@ -449,7 +449,7 @@ describe("HubSites:", () => {
       const modelToCreate = createModelSpy.calls.argsFor(0)[0];
       expect(modelToCreate.item.title).toBe("my site");
       expect(modelToCreate.item.type).toBe("Site Application");
-      expect(modelToCreate.item.properties.slug).toBe("dcdev-my-site");
+      expect(modelToCreate.item.properties.slug).toBe("dcdev|my-site");
       expect(modelToCreate.item.properties.orgUrlKey).toBe("org");
       expect(chk.url).toBe("https://my-server.com/portal/apps/sites/#/my-site");
       expect(chk.typeKeywords).toContain(`hubsubdomain|${chk.subdomain}`);

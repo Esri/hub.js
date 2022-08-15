@@ -1,6 +1,7 @@
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
-import { Hub, HubProject } from "../src";
+import { createId, Hub, HubProject } from "../src";
+import { Catalog } from "../src/search/Catalog";
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;
 
 function delay(milliseconds: number) {
@@ -13,7 +14,7 @@ fdescribe("HubProject Class", () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;
     factory = new Artifactory(config);
   });
-  it("crud project", async () => {
+  xit("crud project", async () => {
     // create context
     const ctxMgr = await factory.getContextManager("hubBasic", "admin");
     // create Hub
@@ -30,6 +31,8 @@ fdescribe("HubProject Class", () => {
     project.tags = ["tag1", "tag2"];
     // save it, which actually creates the item and
     // updates the internal project object
+
+    // TODO: How do we handle conflicts? should this throw? pass a overwrite: true?
     await project.save();
     // verify some server set props are set
     expect(project.owner).toBe(ctxMgr.context.currentUser.username || "");
@@ -39,22 +42,22 @@ fdescribe("HubProject Class", () => {
     const group = groups[0];
     if (group) {
       // add the project to the project
-      project.addPermission("addInitiative", {
-        permission: "addInitiative",
+      project.permissions.add("addEvent", {
+        permission: "addEvent",
         target: "group",
         targetId: group.id,
       });
 
       // verify that it works
-      const canCreateInitiative = project.checkPermission("addInitiative");
-      expect(canCreateInitiative).toBe(true);
+      const canCreateEvent = project.permissions.check("addEvent");
+      expect(canCreateEvent).toBe(true);
 
       // save project and verify that the permission is there
       await project.save();
 
       const json = project.toJson();
-      expect(json.permissions).toBeDefined();
-      expect(json.permissions[0].targetId).toBe(group.id);
+      expect(json.permissionDefinition).toBeDefined();
+      expect(json.permissionDefinition[0].targetId).toBe(group.id);
     }
 
     // change something else and save it again
@@ -71,7 +74,7 @@ fdescribe("HubProject Class", () => {
 
     // delete project via Hub
     await myHub.deleteProject(project.id);
-    debugger;
+
     // try to get it again - should fail
     try {
       await myHub.fetchProject(project.id);
@@ -79,7 +82,7 @@ fdescribe("HubProject Class", () => {
       expect(ex.message).toBe("Project not found");
     }
   });
-  it("ensure unique slug", async () => {
+  xit("ensure unique slug", async () => {
     // create context
     const ctxMgr = await factory.getContextManager("hubBasic", "admin");
 
@@ -111,7 +114,6 @@ fdescribe("HubProject Class", () => {
     await oakTreesProject.save();
 
     expect(oakTreesProject.slug).toBe(`${orgUrlKey}|trees-1`);
-    debugger;
 
     await treesProject.delete();
     await oakTreesProject.delete();
@@ -122,5 +124,47 @@ fdescribe("HubProject Class", () => {
     } catch (ex) {
       expect(ex.message).toBe("HubProject is already destroyed.");
     }
+  });
+  it("catalog manipulation", async () => {
+    // ------------
+    // Simulate assiging specific content in a group to the project catalog
+    // ------------
+    // create project
+    const ctxMgr = await factory.getContextManager("hubBasic", "admin");
+    // create a project
+    const newProj: Partial<HubProject> = {
+      name: "E2E Test Project",
+      summary: "This is the summary. Delete me",
+    };
+    const project = await HubProject.create(newProj, ctxMgr.context);
+    // use End to End Test Harness Site Content group
+    const groupId = "22d25224451847679bb2ce92ae687792";
+
+    // add group to catalog item scope, with type & keyword specifiers
+    project.catalog.setScope("item", {
+      targetEntity: "item",
+      filters: [
+        {
+          operation: "OR",
+          predicates: [
+            {
+              group: groupId,
+              type: "Feature Service",
+              tags: "approved",
+            },
+          ],
+        },
+      ],
+    });
+    // execute search on catalog and get items
+    const response = await project.catalog.searchItems("e2e");
+    expect(response.results.length).toBe(1);
+
+    // save the item and verify that the scope is there
+    await project.save();
+    // debugger;
+
+    // clean up
+    await project.delete();
   });
 });

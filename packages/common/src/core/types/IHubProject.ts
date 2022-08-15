@@ -1,6 +1,10 @@
 import { IHubTimeline, IHubItemEntity } from "./index";
-import { IWithLayout, IWithPermissions, IWithSlug } from "../traits/index";
-import { IWithCatalog } from "../traits/WithCatalog";
+import {
+  IWithLayout,
+  IWithPermissionDefinition,
+  IWithSlug,
+} from "../traits/index";
+import { IWithCatalogDefinition } from "../traits/IWithCatalogDefinition";
 
 /**
  * Defines the properties of a Hub Project object
@@ -8,9 +12,9 @@ import { IWithCatalog } from "../traits/WithCatalog";
 export interface IHubProject
   extends IHubItemEntity,
     IWithSlug,
-    IWithCatalog,
+    IWithCatalogDefinition,
     IWithLayout,
-    IWithPermissions {
+    IWithPermissionDefinition {
   /**
    * Timeline for the project
    */

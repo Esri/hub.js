@@ -4,8 +4,9 @@ import { IUser } from "@esri/arcgis-rest-types";
 // imported with a full path
 import { ArcGISContextManager } from "../src/ArcGISContextManager";
 import { Hub } from "../src/Hub";
-import { IArcGISContextManagerOptions } from "../src";
+import { IArcGISContextManagerOptions, IHubProject } from "../src";
 import { MOCK_AUTH } from "./mocks/mock-auth";
+import * as ProjectsModule from "../src/projects/HubProjects";
 
 /**
  * Pass this into a ContextManager.create call
@@ -68,6 +69,26 @@ describe("Hub:", () => {
       // was passed into the manager. So we're just verifying
       // that what we got back has a create function
       expect(ps.create).toBeDefined();
+    });
+  });
+  describe("projects", () => {
+    it("fetches project instance by identifier", async () => {
+      const chk = await Hub.create({ managerOptions });
+      const fetchSpy = spyOn(ProjectsModule, "fetchProject").and.returnValue(
+        Promise.resolve({ id: "3ef" } as IHubProject)
+      );
+      const p = await chk.fetchProject("3ef");
+      expect(fetchSpy).toHaveBeenCalledTimes(1);
+      expect(p.id).toBe("3ef");
+    });
+
+    it("deletes project by id", async () => {
+      const chk = await Hub.create({ managerOptions });
+      const deleteSpy = spyOn(ProjectsModule, "deleteProject").and.returnValue(
+        Promise.resolve({ id: "3ef" } as IHubProject)
+      );
+      await chk.deleteProject("3ef");
+      expect(deleteSpy).toHaveBeenCalledTimes(1);
     });
   });
 });

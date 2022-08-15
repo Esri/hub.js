@@ -12,14 +12,13 @@ import {
   IHubRequestOptions,
   enrichProjectSearchResult,
   IQuery,
+  IHubSearchOptions,
 } from "../../src";
 
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as modelUtils from "../../src/models";
 import * as slugUtils from "../../src/items/slugs";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-
-import { IHubSearchOptions } from "../../dist/types";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 const PROJECT_ITEM: portalModule.IItem = {
@@ -203,7 +202,7 @@ describe("HubProjects:", () => {
   describe("createProject:", () => {
     it("works with very limited initial structure", async () => {
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
-        Promise.resolve("dcdev-hello-world")
+        Promise.resolve("dcdev|hello-world")
       );
       const createSpy = spyOn(modelUtils, "createModel").and.callFake(
         (m: IModel) => {
@@ -222,7 +221,7 @@ describe("HubProjects:", () => {
       // should ensure unique slug
       expect(slugSpy.calls.count()).toBe(1);
       expect(slugSpy.calls.argsFor(0)[0]).toEqual(
-        { slug: "dcdev-hello-world" },
+        { slug: "dcdev|hello-world" },
         "should recieve slug"
       );
       // should create the item
@@ -230,13 +229,13 @@ describe("HubProjects:", () => {
       const modelToCreate = createSpy.calls.argsFor(0)[0];
       expect(modelToCreate.item.title).toBe("Hello World");
       expect(modelToCreate.item.type).toBe("Hub Project");
-      expect(modelToCreate.item.properties.slug).toBe("dcdev-hello-world");
+      expect(modelToCreate.item.properties.slug).toBe("dcdev|hello-world");
       expect(modelToCreate.item.properties.orgUrlKey).toBe("dcdev");
     });
     it("works with more complete object", async () => {
       // Note: this covers a branch when a slug is passed in
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
-        Promise.resolve("dcdev-hello-world")
+        Promise.resolve("dcdev|hello-world")
       );
       const createSpy = spyOn(modelUtils, "createModel").and.callFake(
         (m: IModel) => {
@@ -248,7 +247,7 @@ describe("HubProjects:", () => {
       const chk = await createProject(
         {
           name: "Hello World",
-          slug: "dcdev-hello-world", // important for coverage
+          slug: "dcdev|hello-world", // important for coverage
           description: "my desc",
           orgUrlKey: "dcdev",
         },
@@ -260,13 +259,13 @@ describe("HubProjects:", () => {
       // should ensure unique slug
       expect(slugSpy.calls.count()).toBe(1);
       expect(slugSpy.calls.argsFor(0)[0]).toEqual(
-        { slug: "dcdev-hello-world" },
+        { slug: "dcdev|hello-world" },
         "should recieve slug"
       );
       // should create the item
       expect(createSpy.calls.count()).toBe(1);
       const modelToCreate = createSpy.calls.argsFor(0)[0];
-      expect(modelToCreate.item.properties.slug).toBe("dcdev-hello-world");
+      expect(modelToCreate.item.properties.slug).toBe("dcdev|hello-world");
       expect(modelToCreate.item.properties.orgUrlKey).toBe("dcdev");
     });
   });
@@ -299,9 +298,9 @@ describe("HubProjects:", () => {
         updatedDateSource: "item.modified",
         status: "active",
         thumbnailUrl: "",
-        permissions: [],
-        catalog: {
-          schemaVersion: 1,
+        permissionDefinition: [],
+        catalogDefinition: {
+          schemaVersion: 0,
         },
       };
       const chk = await updateProject(prj, { authentication: MOCK_AUTH });
