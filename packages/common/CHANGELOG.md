@@ -1,3 +1,10 @@
+## @esri/hub-common [10.0.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@10.0.1...@esri/hub-common@10.0.2) (2022-08-15)
+
+
+### Bug Fixes
+
+* update standard license url protocol ([f730997](https://github.com/Esri/hub.js/commit/f730997f257001046ccf31e34277832e19243728))
+
 ## @esri/hub-common [10.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@10.0.0...@esri/hub-common@10.0.1) (2022-08-04)
 
 
