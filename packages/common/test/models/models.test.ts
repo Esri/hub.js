@@ -76,7 +76,8 @@ describe("model utils:", () => {
           some: "data",
         },
       } as unknown as IModel;
-      const ts = new Date().getTime();
+      // depending how fast tests run, the date we're faking may be a bit off
+      const ts = new Date().getTime() - 100;
       const chk = await createModel(m, {
         authentication: MOCK_AUTH,
       });
