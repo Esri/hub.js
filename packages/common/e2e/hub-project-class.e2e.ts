@@ -1,7 +1,7 @@
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
-import { createId, Hub, HubProject } from "../src";
-import { Catalog } from "../src/search/Catalog";
+import { HubProject, IHubProject } from "../src";
+
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;
 
 function delay(milliseconds: number) {
@@ -14,76 +14,79 @@ fdescribe("HubProject Class", () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;
     factory = new Artifactory(config);
   });
-  // TEMPORARY COMMENT OUT WHILE TOM INVESTIGATES DYNAMIC LOADING
-  // xit("crud project", async () => {
-  //   // create context
-  //   const ctxMgr = await factory.getContextManager("hubBasic", "admin");
-  //   // create Hub
-  //   const myHub = await Hub.create({ contextManager: ctxMgr });
-  //   // create a project
-  //   const newProj: Partial<HubProject> = {
-  //     name: "E2E Test Project",
-  //     summary: "This is the summary. Delete me",
-  //   };
-  //   const project = await HubProject.create(newProj, ctxMgr.context);
-  //   // at this point we have a HubProject instance, but it is not yet saved
-  //   // set some more props on the project
-  //   project.name = "Oak Street Plaza";
-  //   project.tags = ["tag1", "tag2"];
-  //   // save it, which actually creates the item and
-  //   // updates the internal project object
 
-  //   // TODO: How do we handle conflicts? should this throw? pass a overwrite: true?
-  //   await project.save();
-  //   // verify some server set props are set
-  //   expect(project.owner).toBe(ctxMgr.context.currentUser.username || "");
-  //   expect(project.createdDate).toBeDefined();
+  it("crud project", async () => {
+    // create context
+    const ctxMgr = await factory.getContextManager("hubBasic", "admin");
+    // create a project
+    const newProj: Partial<IHubProject> = {
+      name: "E2E Test Project",
+      summary: "This is the summary. Delete me",
+    };
+    const project = await HubProject.create(newProj, ctxMgr.context);
+    // at this point we have a HubProject instance, but it is not yet saved
 
-  //   const groups = ctxMgr.context.currentUser.groups || [];
-  //   const group = groups[0];
-  //   if (group) {
-  //     // add the project to the project
-  //     project.permissions.add("addEvent", {
-  //       permission: "addEvent",
-  //       target: "group",
-  //       targetId: group.id,
-  //     });
+    // Set some more props on the project via the Json
+    project.update({
+      name: "Oak Street Plaza",
+      tags: ["tag1", "tag2"],
+    });
+    // save it, which actually creates the item and
+    // updates the internal project object
+    await project.save();
+    // verify some server set props are set
+    const pojo = project.toJson();
+    expect(pojo.owner).toBe(ctxMgr.context.currentUser.username || "");
+    expect(pojo.createdDate).toBeDefined();
 
-  //     // verify that it works
-  //     const canCreateEvent = project.permissions.check("addEvent");
-  //     expect(canCreateEvent).toBe(true);
+    const groups = ctxMgr.context.currentUser.groups || [];
+    const group = groups[0];
+    if (group) {
+      // add the project to the project
+      project.permissions.add("addEvent", {
+        permission: "addEvent",
+        target: "group",
+        targetId: group.id,
+      });
 
-  //     // save project and verify that the permission is there
-  //     await project.save();
+      // verify that it works
+      const canCreateEvent = project.permissions.check("addEvent");
+      expect(canCreateEvent).toBe(true);
 
-  //     const json = project.toJson();
-  //     expect(json.permissionDefinition).toBeDefined();
-  //     expect(json.permissionDefinition[0].targetId).toBe(group.id);
-  //   }
+      // save project and verify that the permission is there
+      await project.save();
 
-  //   // change something else and save it again
-  //   project.summary = "This is the new summary";
-  //   await project.save();
-  //   // verify the change
-  //   expect(project.summary).toBe("This is the new summary");
+      const json = project.toJson();
+      expect(json.permissionDefinition).toBeDefined();
+      expect(json.permissionDefinition[0].targetId).toBe(group.id);
+    }
 
-  //   // Get the project by id, from Hub
-  //   const projectById = await myHub.fetchProject(project.id);
-  //   expect(projectById.id).toBe(project.id);
-  //   // ensure differnet instance
-  //   expect(projectById).not.toBe(project);
+    // change something else and save it again
+    project.update({ summary: "This is the new summary" });
+    await project.save();
+    // verify the change
+    expect(project.toJson().summary).toBe("This is the new summary");
 
-  //   // delete project via Hub
-  //   await myHub.deleteProject(project.id);
+    // Get the project by id, from Hub
+    const projectById = await HubProject.fetch(
+      project.toJson().id,
+      ctxMgr.context
+    );
+    expect(projectById.toJson().id).toBe(project.toJson().id);
+    // ensure differnet instance
+    expect(projectById).not.toBe(project);
+    const id = projectById.toJson().id;
+    // delete project via Hub
+    await project.delete();
 
-  //   // try to get it again - should fail
-  //   try {
-  //     await myHub.fetchProject(project.id);
-  //   } catch (ex) {
-  //     expect(ex.message).toBe("Project not found");
-  //   }
-  // });
-  xit("ensure unique slug", async () => {
+    // try to get it again - should fail
+    try {
+      await HubProject.fetch(id, ctxMgr.context);
+    } catch (ex) {
+      expect(ex.message).toBe("Project not found.");
+    }
+  });
+  it("ensure unique slug", async () => {
     // create context
     const ctxMgr = await factory.getContextManager("hubBasic", "admin");
 
@@ -113,8 +116,8 @@ fdescribe("HubProject Class", () => {
       ctxMgr.context
     );
     await oakTreesProject.save();
-
-    expect(oakTreesProject.slug).toBe(`${orgUrlKey}|trees-1`);
+    const json = oakTreesProject.toJson();
+    expect(json.slug).toBe(`${orgUrlKey}|trees-1`);
 
     await treesProject.delete();
     await oakTreesProject.delete();
@@ -133,7 +136,7 @@ fdescribe("HubProject Class", () => {
     // create project
     const ctxMgr = await factory.getContextManager("hubBasic", "admin");
     // create a project
-    const newProj: Partial<HubProject> = {
+    const newProj: Partial<IHubProject> = {
       name: "E2E Test Project",
       summary: "This is the summary. Delete me",
     };

@@ -10,7 +10,7 @@ export interface IHubClassBehavior<T> {
    * Push changes into the Class. This method should be used when applying updates from a component, into the class instance
    * @param changes
    */
-  applyChanges(changes: T): void;
+  update(changes: Partial<T>): void;
   /**
    * Save the class instance to it's backing store
    */

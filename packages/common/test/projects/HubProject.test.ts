@@ -34,12 +34,60 @@ describe("HubProject Class:", () => {
     );
 
     expect(createSpy).not.toHaveBeenCalled();
-    expect(chk.name).toEqual("Test Project");
+    expect(chk.toJson().name).toEqual("Test Project");
     // adds empty permissions and catalog
     const json = chk.toJson();
     expect(json.permissionDefinition).toEqual([]);
     expect(json.catalogDefinition).toEqual({ schemaVersion: 0 });
   });
+  it("loads based on identifier", async () => {
+    const fetchSpy = spyOn(HubProjectsModule, "fetchProject").and.callFake(
+      (id: string) => {
+        return Promise.resolve({
+          id,
+          name: "Test Project",
+        });
+      }
+    );
+
+    const chk = await HubProject.fetch("3ef", authdCtxMgr.context);
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    expect(chk.toJson().id).toBe("3ef");
+    expect(chk.toJson().name).toBe("Test Project");
+  });
+
+  it("handle load missing projects", async () => {
+    const fetchSpy = spyOn(HubProjectsModule, "fetchProject").and.callFake(
+      (id: string) => {
+        const err = new Error(
+          "CONT_0001: Item does not exist or is inaccessible."
+        );
+        return Promise.reject(err);
+      }
+    );
+    try {
+      await HubProject.fetch("3ef", authdCtxMgr.context);
+    } catch (ex) {
+      expect(fetchSpy).toHaveBeenCalledTimes(1);
+      expect(ex.message).toBe("Project not found.");
+    }
+  });
+
+  it("handle load errors", async () => {
+    const fetchSpy = spyOn(HubProjectsModule, "fetchProject").and.callFake(
+      (id: string) => {
+        const err = new Error("ZOMG!");
+        return Promise.reject(err);
+      }
+    );
+    try {
+      await HubProject.fetch("3ef", authdCtxMgr.context);
+    } catch (ex) {
+      expect(fetchSpy).toHaveBeenCalledTimes(1);
+      expect(ex.message).toBe("ZOMG!");
+    }
+  });
+
   it("save call createProject if object does not have an id", async () => {
     const createSpy = spyOn(HubProjectsModule, "createProject").and.callFake(
       (p: IHubProject) => {
@@ -52,7 +100,7 @@ describe("HubProject Class:", () => {
     );
     await chk.save();
     expect(createSpy).toHaveBeenCalledTimes(1);
-    expect(chk.name).toEqual("Test Project");
+    expect(chk.toJson().name).toEqual("Test Project");
   });
   it("create saves the instance if passed true", async () => {
     const createSpy = spyOn(HubProjectsModule, "createProject").and.callFake(
@@ -68,7 +116,7 @@ describe("HubProject Class:", () => {
     );
 
     expect(createSpy).toHaveBeenCalledTimes(1);
-    expect(chk.name).toEqual("Test Project");
+    expect(chk.toJson().name).toEqual("Test Project");
   });
   it("create does not save by default", async () => {
     const createSpy = spyOn(HubProjectsModule, "createProject");
@@ -78,20 +126,26 @@ describe("HubProject Class:", () => {
     );
 
     expect(createSpy).not.toHaveBeenCalled();
-    expect(chk.name).toEqual("Test Project");
+    expect(chk.toJson().name).toEqual("Test Project");
   });
 
-  it("applyChanges updates internal state", () => {
+  it("update applies partial chagnes to internal state", () => {
     const chk = HubProject.fromJson(
       { name: "Test Project", catalogDefinition: { schemaVersion: 0 } },
       authdCtxMgr.context
     );
-    chk.applyChanges({
+    chk.update({
       name: "Test Project 2",
+      permissionDefinition: [
+        { permission: "addEvent", target: "group", targetId: "3ef" },
+      ],
       catalogDefinition: { schemaVersion: 2 },
-    } as IHubProject);
-    expect(chk.name).toEqual("Test Project 2");
-    expect(chk.catalogDefinition).toEqual({ schemaVersion: 2 });
+    });
+    expect(chk.toJson().name).toEqual("Test Project 2");
+    expect(chk.toJson().catalogDefinition).toEqual({ schemaVersion: 2 });
+
+    chk.update({ tags: ["one", "two"] });
+    expect(chk.toJson().tags).toEqual(["one", "two"]);
   });
 
   it("save updates if object has id", async () => {
@@ -130,7 +184,7 @@ describe("HubProject Class:", () => {
     }).toThrowError("HubProject is already destroyed.");
 
     expect(() => {
-      chk.applyChanges({ name: "Test Project 2" } as IHubProject);
+      chk.update({ name: "Test Project 2" } as IHubProject);
     }).toThrowError("HubProject is already destroyed.");
 
     // async calls
@@ -162,8 +216,8 @@ describe("HubProject Class:", () => {
       { name: "Test Project", catalogDefinition: { schemaVersion: 0 } },
       authdCtxMgr.context
     );
-    chk.catalogDefinition = { schemaVersion: 2 };
-    expect(chk.catalogDefinition).toEqual({ schemaVersion: 2 });
+    chk.update({ catalogDefinition: { schemaVersion: 2 } });
+    expect(chk.toJson().catalogDefinition).toEqual({ schemaVersion: 2 });
     expect(chk.catalog.schemaVersion).toEqual(2);
   });
 });
