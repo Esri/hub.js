@@ -41,4 +41,5 @@ import HubError from "./HubError";
 export { OperationStack, OperationError, HubError };
 export { btoa, atob } from "abab";
 
-export * from "./Hub";
+// This will be moved to another package
+// export * from "./Hub";
