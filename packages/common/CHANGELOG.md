@@ -1,3 +1,19 @@
+# @esri/hub-common [11.0.0-beta.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@10.1.0...@esri/hub-common@11.0.0-beta.1) (2022-08-18)
+
+
+### Features
+
+* add HubProject class ([#853](https://github.com/Esri/hub.js/issues/853)) ([d9cd20d](https://github.com/Esri/hub.js/commit/d9cd20d579eef5fd7faff2ff2a1451167dbf803e))
+
+
+### BREAKING CHANGES
+
+* Hub class is removed for the time being.
+
+* fix: update model test to ensure timestamps are in correct range
+
+* refactor: rename interface
+
 # @esri/hub-common [10.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@10.0.2...@esri/hub-common@10.1.0) (2022-08-15)
 
 
