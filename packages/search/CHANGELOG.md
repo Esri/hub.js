@@ -1,3 +1,13 @@
+# @esri/hub-search [11.0.0-beta.1](https://github.com/Esri/hub.js/compare/@esri/hub-search@10.1.0...@esri/hub-search@11.0.0-beta.1) (2022-08-18)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 11.0.0-beta.1
+
 # @esri/hub-search [10.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-search@10.0.2...@esri/hub-search@10.1.0) (2022-08-15)
 
 
