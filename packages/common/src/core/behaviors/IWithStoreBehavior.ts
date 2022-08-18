@@ -1,7 +1,7 @@
 /**
  * Ensure consitent interfaces for the Hub classes
  */
-export interface IHubClassBehavior<T> {
+export interface IWithStoreBehavior<T> {
   /**
    * Export the internal entity to a JSON object. This should be used to get the JSON representation of the entity before passing into a component
    */

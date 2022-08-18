@@ -8,7 +8,7 @@ import {
   IWithCatalogBehavior,
   PermissionManager,
   IHubPermission,
-  IHubClassBehavior,
+  IWithStoreBehavior,
 } from "../core";
 
 import { IHubGeography } from "../types";
@@ -29,7 +29,7 @@ import { IArcGISContext } from "../ArcGISContext";
  */
 export class HubProject
   implements
-    IHubClassBehavior<IHubProject>,
+    IWithStoreBehavior<IHubProject>,
     IWithPermissionBehavior,
     IWithCatalogBehavior
 {
