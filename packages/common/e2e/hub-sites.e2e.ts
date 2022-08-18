@@ -46,7 +46,7 @@ describe("Hub Sites", () => {
       expect(updated.thumbnailUrl).toBeDefined();
 
       // destroy the Site
-      await mgr.destroy(site.id);
+      await mgr.delete(site.id);
     } catch (ex) {
       throw ex;
     }

@@ -136,7 +136,7 @@ describe("HubSiteManager:", () => {
       );
     });
     it("uses context by default", async () => {
-      await authdMgr.destroy("3ef");
+      await authdMgr.delete("3ef");
       const ro = destroySpy.calls.argsFor(0)[1];
       expect(ro.authentication).toBe(MOCK_AUTH);
     });
@@ -144,13 +144,13 @@ describe("HubSiteManager:", () => {
       const fakeSession = {
         username: "vader",
       } as unknown as UserSession;
-      await authdMgr.destroy("3ef", { authentication: fakeSession });
+      await authdMgr.delete("3ef", { authentication: fakeSession });
       const ro = destroySpy.calls.argsFor(0)[1];
       expect(ro.authentication).toBe(fakeSession);
     });
     it("throws HubError if not authd", async () => {
       try {
-        await unauthdMgr.destroy("3ef");
+        await unauthdMgr.delete("3ef");
       } catch (err) {
         expect(getProp(err, "name")).toBe("HubError");
         expect(getProp(err, "message")).toContain("requires authentication");

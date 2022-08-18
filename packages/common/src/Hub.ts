@@ -1,4 +1,4 @@
-import { HubSiteManager } from ".";
+import { HubProject, HubSiteManager } from ".";
 import {
   ArcGISContextManager,
   IArcGISContextManagerOptions,
@@ -90,6 +90,8 @@ export class Hub {
    * @memberof Hub
    */
   get projects() {
+    // tslint:disable-next-line:no-console
+    console.warn("Hub.projects is deprecated.");
     if (!this._projectManager) {
       this._projectManager = HubProjectManager.init(this._contextManager);
     }
@@ -103,9 +105,30 @@ export class Hub {
    * @memberof Hub
    */
   get sites() {
+    // tslint:disable-next-line:no-console
+    console.warn("Hub.sites is deprecated.");
     if (!this._siteManager) {
       this._siteManager = HubSiteManager.init(this._contextManager);
     }
     return this._siteManager;
   }
+
+  // TEMPORARY COMMENT OUT WHILE TOM INVESTIGATES DYNAMIC LOADING
+  // /**
+  //  * Fetch a Hub Project by slug or item id
+  //  * @param identifier slug or item id
+  //  * @returns
+  //  */
+  // async fetchProject(identifier: string): Promise<HubProject> {
+  //   const project = await this.projects.fetch(identifier);
+  //   return HubProject.fromJson(project, this.context);
+  // }
+
+  // /**
+  //  * Destroy a Hub Project by item id
+  //  * @param id
+  //  */
+  // async deleteProject(id: string): Promise<void> {
+  //   await this.projects.delete(id);
+  // }
 }

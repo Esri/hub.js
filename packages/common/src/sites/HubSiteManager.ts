@@ -134,10 +134,7 @@ export class HubSiteManager
    * @param requestOptions
    * @returns
    */
-  async destroy(
-    id: string,
-    requestOptions?: IHubRequestOptions
-  ): Promise<void> {
+  async delete(id: string, requestOptions?: IHubRequestOptions): Promise<void> {
     if (requestOptions || this.context.isAuthenticated) {
       return destroySite(id, requestOptions || this.context.hubRequestOptions);
     } else {

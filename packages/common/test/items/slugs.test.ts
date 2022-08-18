@@ -7,10 +7,10 @@ describe("slug utils: ", () => {
   describe("createSlug:", () => {
     it("combined org and dasherized title", () => {
       expect(slugModule.constructSlug("Hello World", "DCdev")).toBe(
-        "dcdev-hello-world"
+        "dcdev|hello-world"
       );
       expect(slugModule.constructSlug("E2E Test Project", "qa-bas-hub")).toBe(
-        "qa-bas-hub-e2e-test-project"
+        "qa-bas-hub|e2e-test-project"
       );
     });
   });
@@ -126,7 +126,7 @@ describe("slug utils: ", () => {
       expect(searchSpy.calls.count()).toBe(1);
       const args = searchSpy.calls.argsFor(0)[0] as unknown as ISearchOptions;
       expect(args.filter).toBe(`typekeywords:"slug|foo-bar"`);
-      expect(args.q).toBe(undefined);
+      expect(args.q).not.toBeDefined();
       expect(args.authentication).toBe(MOCK_AUTH);
     });
 

@@ -46,42 +46,7 @@ import { parseInclude } from "../search/_internal/parseInclude";
 import { fetchItemEnrichments } from "../items/_enrichments";
 import { getHubRelativeUrl } from "../content/_internal";
 import { createQueryFromString } from "../search/_internal";
-
-export const HUB_PROJECT_ITEM_TYPE = "Hub Project";
-
-/**
- * Default values of a IHubProject
- */
-const DEFAULT_PROJECT: Partial<IHubProject> = {
-  name: "No title provided",
-  tags: [],
-  typeKeywords: ["Hub Project"],
-  status: "inactive",
-};
-
-/**
- * Default values for a new HubProject Model
- */
-const DEFAULT_PROJECT_MODEL = {
-  item: {
-    type: HUB_PROJECT_ITEM_TYPE,
-    title: "No Title Provided",
-    description: "No Description Provided",
-    snippet: "",
-    tags: [],
-    typeKeywords: ["Hub Project"],
-    properties: {
-      slug: "",
-    },
-  },
-  data: {
-    display: "about",
-    timeline: {},
-    status: "inactive",
-    contacts: [],
-    schemaVersion: 1,
-  },
-} as unknown as IModel;
+import { DEFAULT_PROJECT, DEFAULT_PROJECT_MODEL } from "./defaults";
 
 /**
  * Returns an Array of IPropertyMap objects
@@ -115,6 +80,7 @@ function getProjectPropertyMap(): IPropertyMap[] {
     "layout",
     "location",
     "status",
+    "permissions",
   ];
   const map: IPropertyMap[] = [];
   itemProps.forEach((entry) => {
@@ -129,6 +95,10 @@ function getProjectPropertyMap(): IPropertyMap[] {
     modelKey: "item.properties.slug",
   });
   map.push({
+    objectKey: "catalogDefinition",
+    modelKey: "data.catalog",
+  });
+  map.push({
     objectKey: "orgUrlKey",
     modelKey: "item.properties.orgUrlKey",
   });
@@ -140,6 +110,7 @@ function getProjectPropertyMap(): IPropertyMap[] {
 }
 
 /**
+ * @private
  * Create a new Hub Project item
  *
  * Minimal properties are name and org
@@ -172,12 +143,14 @@ export async function createProject(
   // create the item
   model = await createModel(model, requestOptions);
   // map the model back into a IHubProject
-  const newProject = mapper.modelToObject(model, {});
+  let newProject = mapper.modelToObject(model, {});
+  newProject = computeProps(model, newProject, requestOptions);
   // and return it
   return newProject as IHubProject;
 }
 
 /**
+ * @private
  * Update a Hub Project
  * @param project
  * @param requestOptions
@@ -204,13 +177,15 @@ export async function updateProject(
   // update the backing item
   const updatedModel = await updateModel(modelToUpdate, requestOptions);
   // now map back into a project and return that
-  const updatedProject = mapper.modelToObject(updatedModel, project);
+  let updatedProject = mapper.modelToObject(updatedModel, project);
+  updatedProject = computeProps(model, updatedProject, requestOptions);
   // the casting is needed because modelToObject returns a `Partial<T>`
   // where as this function returns a `T`
   return updatedProject as IHubProject;
 }
 
 /**
+ * @private
  * Get a Hub Project by id or slug
  * @param identifier item id or slug
  * @param requestOptions
@@ -233,11 +208,12 @@ export function fetchProject(
 }
 
 /**
+ * @private
  * Remove a Hub Project
  * @param id
  * @param requestOptions
  */
-export async function destroyProject(
+export async function deleteProject(
   id: string,
   requestOptions: IUserRequestOptions
 ): Promise<void> {
@@ -284,6 +260,7 @@ export async function searchProjects(
 }
 
 /**
+ * @private
  * Convert an Hub Project Item into a Hub Project, fetching any additional
  * information that may be required
  * @param item
@@ -298,17 +275,40 @@ export async function convertItemToProject(
   const mapper = new PropertyMapper<Partial<IHubProject>>(
     getProjectPropertyMap()
   );
+  const prj = mapper.modelToObject(model, {}) as IHubProject;
+  return computeProps(model, prj, requestOptions);
+}
+
+/**
+ * Given a model and a project, set various computed properties that can't be directly mapped
+ * @param model
+ * @param project
+ * @param requestOptions
+ * @returns
+ */
+function computeProps(
+  model: IModel,
+  project: Partial<IHubProject>,
+  requestOptions: IRequestOptions
+): IHubProject {
   let token: string;
   if (requestOptions.authentication) {
     const session: UserSession = requestOptions.authentication as UserSession;
     token = session.token;
   }
-  const prj = mapper.modelToObject(model, {}) as IHubProject;
-  prj.thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
-  return prj;
+  // thumbnail url
+  project.thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
+  // Handle Dates
+  project.createdDate = new Date(model.item.created);
+  project.createdDateSource = "item.created";
+  project.updatedDate = new Date(model.item.modified);
+  project.updatedDateSource = "item.modified";
+  // cast b/c this takes a partial but returns a full project
+  return project as IHubProject;
 }
 
 /**
+ * @private
  * Fetch project specific enrichments
  * @param item
  * @param include
