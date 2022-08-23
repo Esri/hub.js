@@ -1,3 +1,17 @@
+# @esri/hub-common [11.0.0-beta.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.0.0-beta.2...@esri/hub-common@11.0.0-beta.3) (2022-08-23)
+
+
+* F/remove manager exports (#862) ([f3a0aae](https://github.com/Esri/hub.js/commit/f3a0aaea96808bea23a8ced798b0c0bbc6f8dfbb)), closes [#862](https://github.com/Esri/hub.js/issues/862)
+
+
+### BREAKING CHANGES
+
+* This removes the Manager class exports
+
+* feat: remove managers from tests
+
+* refactor: remove commented code
+
 # @esri/hub-common [11.0.0-beta.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.0.0-beta.1...@esri/hub-common@11.0.0-beta.2) (2022-08-23)
 
 
