@@ -1,17 +1,15 @@
 import { DEFAULT_PROJECT } from "./defaults";
 
 import {
-  IHubLayout,
   IHubProject,
-  IHubTimeline,
   IWithPermissionBehavior,
   IWithCatalogBehavior,
   PermissionManager,
-  IHubPermission,
   IWithStoreBehavior,
+  IWithSharingBehavior,
+  SettableAccessLevel,
 } from "../core";
 
-import { IHubGeography } from "../types";
 import { cloneObject } from "../util";
 import {
   createProject,
@@ -20,9 +18,15 @@ import {
   updateProject,
 } from "./HubProjects";
 
-import { IHubCatalog } from "../search";
 import { Catalog } from "../search/Catalog";
 import { IArcGISContext } from "../ArcGISContext";
+import { IGroup } from "@esri/arcgis-rest-types";
+import {
+  setItemAccess,
+  shareItemWithGroup,
+  unshareItemWithGroup,
+} from "@esri/arcgis-rest-portal";
+import { sharedWith } from "../core/_internal/sharedWith";
 
 /**
  * Hub Project Class
@@ -31,7 +35,8 @@ export class HubProject
   implements
     IWithStoreBehavior<IHubProject>,
     IWithPermissionBehavior,
-    IWithCatalogBehavior
+    IWithCatalogBehavior,
+    IWithSharingBehavior
 {
   private context: IArcGISContext;
   private entity: IHubProject;
@@ -396,4 +401,54 @@ export class HubProject
     // Delegate to module fn
     await deleteProject(this.entity.id, this.context.userRequestOptions);
   }
+
+  //#region IWithSharingBehavior
+  /**
+   * Share the Project with the specified group id
+   * @param groupId
+   */
+  async shareWithGroup(groupId: string): Promise<void> {
+    await shareItemWithGroup({
+      id: this.entity.id,
+      groupId,
+      owner: this.entity.owner,
+      authentication: this.context.session,
+    });
+  }
+  /**
+   * Unshare the Project with the specified group id
+   * @param groupId
+   */
+  async unshareWithGroup(groupId: string): Promise<void> {
+    await unshareItemWithGroup({
+      id: this.entity.id,
+      groupId,
+      owner: this.entity.owner,
+      authentication: this.context.session,
+    });
+  }
+  /**
+   * Set the access level of the backing item
+   * @param access
+   */
+  async setAccess(access: SettableAccessLevel): Promise<void> {
+    await setItemAccess({
+      id: this.entity.id,
+      access,
+      authentication: this.context.session,
+    });
+    // if this succeeded, update the entity
+    this.entity.access = access;
+  }
+
+  /**
+   * Return a list of groups the Project is shared to.
+   * @returns
+   */
+  async sharedWith(): Promise<IGroup[]> {
+    // delegate to a util that merges the three arrays returned from the api, into a single array
+    return sharedWith(this.entity.id, this.context.requestOptions);
+  }
+
+  //#endregion
 }

@@ -1,6 +1,7 @@
 import { cloneObject, deepSet, getProp, IModel } from "../..";
 
 /**
+ * @private
  * Manage forward and backward property mappings to
  * streamline conversion between the Hub entities, and
  * the backing IModel

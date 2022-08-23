@@ -1,9 +1,10 @@
-import { IPortal, IUser } from "@esri/arcgis-rest-portal";
+import * as PortalModule from "@esri/arcgis-rest-portal";
 import { Catalog, IHubProject, PermissionManager } from "../../src";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubProject } from "../../src/projects/HubProject";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as HubProjectsModule from "../../src/projects/HubProjects";
+import * as SharedWithModule from "../../src/core/_internal/sharedWith";
 
 describe("HubProject Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -17,75 +18,78 @@ describe("HubProject Class:", () => {
       authentication: MOCK_AUTH,
       currentUser: {
         username: "casey",
-      } as unknown as IUser,
+      } as unknown as PortalModule.IUser,
       portal: {
         name: "DC R&D Center",
         id: "BRXFAKE",
         urlKey: "fake-org",
-      } as unknown as IPortal,
+      } as unknown as PortalModule.IPortal,
       portalUrl: "https://myserver.com",
     });
   });
-  it("loads from minimal json", () => {
-    const createSpy = spyOn(HubProjectsModule, "createProject");
-    const chk = HubProject.fromJson(
-      { name: "Test Project" },
-      authdCtxMgr.context
-    );
 
-    expect(createSpy).not.toHaveBeenCalled();
-    expect(chk.toJson().name).toEqual("Test Project");
-    // adds empty permissions and catalog
-    const json = chk.toJson();
-    expect(json.permissionDefinition).toEqual([]);
-    expect(json.catalogDefinition).toEqual({ schemaVersion: 0 });
-  });
-  it("loads based on identifier", async () => {
-    const fetchSpy = spyOn(HubProjectsModule, "fetchProject").and.callFake(
-      (id: string) => {
-        return Promise.resolve({
-          id,
-          name: "Test Project",
-        });
-      }
-    );
+  describe("ctor:", () => {
+    it("loads from minimal json", () => {
+      const createSpy = spyOn(HubProjectsModule, "createProject");
+      const chk = HubProject.fromJson(
+        { name: "Test Project" },
+        authdCtxMgr.context
+      );
 
-    const chk = await HubProject.fetch("3ef", authdCtxMgr.context);
-    expect(fetchSpy).toHaveBeenCalledTimes(1);
-    expect(chk.toJson().id).toBe("3ef");
-    expect(chk.toJson().name).toBe("Test Project");
-  });
+      expect(createSpy).not.toHaveBeenCalled();
+      expect(chk.toJson().name).toEqual("Test Project");
+      // adds empty permissions and catalog
+      const json = chk.toJson();
+      expect(json.permissionDefinition).toEqual([]);
+      expect(json.catalogDefinition).toEqual({ schemaVersion: 0 });
+    });
+    it("loads based on identifier", async () => {
+      const fetchSpy = spyOn(HubProjectsModule, "fetchProject").and.callFake(
+        (id: string) => {
+          return Promise.resolve({
+            id,
+            name: "Test Project",
+          });
+        }
+      );
 
-  it("handle load missing projects", async () => {
-    const fetchSpy = spyOn(HubProjectsModule, "fetchProject").and.callFake(
-      (id: string) => {
-        const err = new Error(
-          "CONT_0001: Item does not exist or is inaccessible."
-        );
-        return Promise.reject(err);
-      }
-    );
-    try {
-      await HubProject.fetch("3ef", authdCtxMgr.context);
-    } catch (ex) {
+      const chk = await HubProject.fetch("3ef", authdCtxMgr.context);
       expect(fetchSpy).toHaveBeenCalledTimes(1);
-      expect(ex.message).toBe("Project not found.");
-    }
-  });
+      expect(chk.toJson().id).toBe("3ef");
+      expect(chk.toJson().name).toBe("Test Project");
+    });
 
-  it("handle load errors", async () => {
-    const fetchSpy = spyOn(HubProjectsModule, "fetchProject").and.callFake(
-      (id: string) => {
-        const err = new Error("ZOMG!");
-        return Promise.reject(err);
+    it("handle load missing projects", async () => {
+      const fetchSpy = spyOn(HubProjectsModule, "fetchProject").and.callFake(
+        (id: string) => {
+          const err = new Error(
+            "CONT_0001: Item does not exist or is inaccessible."
+          );
+          return Promise.reject(err);
+        }
+      );
+      try {
+        await HubProject.fetch("3ef", authdCtxMgr.context);
+      } catch (ex) {
+        expect(fetchSpy).toHaveBeenCalledTimes(1);
+        expect(ex.message).toBe("Project not found.");
       }
-    );
-    try {
-      await HubProject.fetch("3ef", authdCtxMgr.context);
-    } catch (ex) {
-      expect(fetchSpy).toHaveBeenCalledTimes(1);
-      expect(ex.message).toBe("ZOMG!");
-    }
+    });
+
+    it("handle load errors", async () => {
+      const fetchSpy = spyOn(HubProjectsModule, "fetchProject").and.callFake(
+        (id: string) => {
+          const err = new Error("ZOMG!");
+          return Promise.reject(err);
+        }
+      );
+      try {
+        await HubProject.fetch("3ef", authdCtxMgr.context);
+      } catch (ex) {
+        expect(fetchSpy).toHaveBeenCalledTimes(1);
+        expect(ex.message).toBe("ZOMG!");
+      }
+    });
   });
 
   it("save call createProject if object does not have an id", async () => {
@@ -219,5 +223,83 @@ describe("HubProject Class:", () => {
     chk.update({ catalogDefinition: { schemaVersion: 2 } });
     expect(chk.toJson().catalogDefinition).toEqual({ schemaVersion: 2 });
     expect(chk.catalog.schemaVersion).toEqual(2);
+  });
+
+  describe("sharing behavior:", () => {
+    let testProject: HubProject;
+    beforeEach(() => {
+      testProject = HubProject.fromJson(
+        {
+          id: "00c",
+          name: "Test Project",
+          owner: "deke",
+          catalogDefinition: { schemaVersion: 0 },
+        },
+        authdCtxMgr.context
+      );
+    });
+    it("shares to group", async () => {
+      const shareSpy = spyOn(PortalModule, "shareItemWithGroup").and.callFake(
+        () => {
+          return Promise.resolve();
+        }
+      );
+      await testProject.shareWithGroup("3ef");
+      expect(shareSpy).toHaveBeenCalledTimes(1);
+      // verify args
+      expect(shareSpy).toHaveBeenCalledWith({
+        id: "00c",
+        groupId: "3ef",
+        owner: "deke",
+        authentication: authdCtxMgr.context.session,
+      });
+    });
+
+    it("unshared from group", async () => {
+      const unshareSpy = spyOn(
+        PortalModule,
+        "unshareItemWithGroup"
+      ).and.callFake(() => {
+        return Promise.resolve();
+      });
+      await testProject.unshareWithGroup("3ef");
+      expect(unshareSpy).toHaveBeenCalledWith({
+        id: "00c",
+        groupId: "3ef",
+        owner: "deke",
+        authentication: authdCtxMgr.context.session,
+      });
+    });
+
+    it("sets access", async () => {
+      const setAccessSpy = spyOn(PortalModule, "setItemAccess").and.callFake(
+        () => {
+          return Promise.resolve();
+        }
+      );
+      await testProject.setAccess("public");
+      expect(setAccessSpy).toHaveBeenCalledTimes(1);
+      // verify args
+      expect(setAccessSpy).toHaveBeenCalledWith({
+        id: "00c",
+        access: "public",
+        authentication: authdCtxMgr.context.session,
+      });
+      // verify update to access property
+      expect(testProject.toJson().access).toEqual("public");
+    });
+
+    it("gets groups entity is shared to", async () => {
+      const spy = spyOn(SharedWithModule, "sharedWith").and.callFake(() => {
+        return Promise.resolve([{ id: "3ef", name: "Test Group" }]);
+      });
+      const groups = await testProject.sharedWith();
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith(
+        "00c",
+        authdCtxMgr.context.requestOptions
+      );
+      expect(groups.length).toEqual(1);
+    });
   });
 });
