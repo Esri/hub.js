@@ -1,3 +1,10 @@
+# @esri/hub-common [11.0.0-beta.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.0.0-beta.1...@esri/hub-common@11.0.0-beta.2) (2022-08-23)
+
+
+### Features
+
+* add sharing behavior interface and implementation for project ([#861](https://github.com/Esri/hub.js/issues/861)) ([aafee1b](https://github.com/Esri/hub.js/commit/aafee1b1b7210846996a5b67273204f0865e6176))
+
 # @esri/hub-common [11.0.0-beta.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@10.1.0...@esri/hub-common@11.0.0-beta.1) (2022-08-18)
 
 
