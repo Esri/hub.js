@@ -1,9 +1,7 @@
-import { HubProject, HubSiteManager } from ".";
 import {
   ArcGISContextManager,
   IArcGISContextManagerOptions,
 } from "./ArcGISContextManager";
-import { HubProjectManager } from "./projects/HubProjectManager";
 
 /**
  * Options for instantiating a Hub instance
@@ -46,10 +44,6 @@ export class Hub {
    */
   private _contextManager: ArcGISContextManager;
 
-  private _projectManager: HubProjectManager;
-
-  private _siteManager: HubSiteManager;
-
   /**
    * Private so we can employ a factory function to do
    * async work during creation
@@ -81,36 +75,6 @@ export class Hub {
    */
   get context() {
     return this._contextManager.context;
-  }
-
-  /**
-   * HubProjectManager for the current Hub
-   *
-   * @readonly
-   * @memberof Hub
-   */
-  get projects() {
-    // tslint:disable-next-line:no-console
-    console.warn("Hub.projects is deprecated.");
-    if (!this._projectManager) {
-      this._projectManager = HubProjectManager.init(this._contextManager);
-    }
-
-    return this._projectManager;
-  }
-  /**
-   * HubSiteManager for the current Hub
-   *
-   * @readonly
-   * @memberof Hub
-   */
-  get sites() {
-    // tslint:disable-next-line:no-console
-    console.warn("Hub.sites is deprecated.");
-    if (!this._siteManager) {
-      this._siteManager = HubSiteManager.init(this._contextManager);
-    }
-    return this._siteManager;
   }
 
   // TEMPORARY COMMENT OUT WHILE TOM INVESTIGATES DYNAMIC LOADING

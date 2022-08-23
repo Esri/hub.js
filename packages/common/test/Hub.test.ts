@@ -43,34 +43,6 @@ describe("Hub:", () => {
       expect(chk.context.portalUrl).toBe("https://www.arcgis.com");
     });
   });
-  describe("returns managers:", () => {
-    it("returns projectManager", async () => {
-      const chk = await Hub.create({ managerOptions });
-
-      // should be able to dot into projects
-      expect(chk.projects.create).toBeDefined();
-      // or get a ref to it
-      const ps = chk.projects;
-      // since we don't expose context on the manager
-      // there's no clean way to verify that the contextMgr
-      // was passed into the manager. So we're just verifying
-      // that what we got back has a create function
-      expect(ps.create).toBeDefined();
-    });
-    it("returns siteManager", async () => {
-      const chk = await Hub.create({ managerOptions });
-
-      // should be able to dot into projects
-      expect(chk.sites.create).toBeDefined();
-      // or get a ref to it
-      const ps = chk.sites;
-      // since we don't expose context on the manager
-      // there's no clean way to verify that the contextMgr
-      // was passed into the manager. So we're just verifying
-      // that what we got back has a create function
-      expect(ps.create).toBeDefined();
-    });
-  });
   // TEMPORARY COMMENT OUT WHILE TOM INVESTIGATES DYNAMIC LOADING
   // describe("projects", () => {
   //   it("fetches project instance by identifier", async () => {
