@@ -441,7 +441,7 @@ export async function destroySite(
  * @param requestOptions
  * @private // remove when we remove existing fetchSite function
  */
-export async function _fetchSite(
+export async function fetchSite(
   identifier: string,
   requestOptions: IHubRequestOptions
 ): Promise<IHubSite> {
@@ -478,9 +478,9 @@ export async function convertItemToSite(
     const session: UserSession = requestOptions.authentication as UserSession;
     token = session.token;
   }
-  const prj = mapper.modelToObject(model, {}) as IHubSite;
-  prj.thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
-  return prj;
+  const site = mapper.modelToObject(model, {}) as IHubSite;
+  site.thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
+  return site;
 }
 
 /**
@@ -489,32 +489,32 @@ export async function convertItemToSite(
  * @param options
  * @returns
  */
-export async function searchSites(
-  query: string | IQuery,
-  options: IHubSearchOptions
-): Promise<IHubSearchResponse<IHubSite>> {
-  let qry: IQuery;
+// export async function searchSites(
+//   query: string | IQuery,
+//   options: IHubSearchOptions
+// ): Promise<IHubSearchResponse<IHubSite>> {
+//   let qry: IQuery;
 
-  if (typeof query === "string") {
-    qry = createQueryFromString(query, "term", "item");
-  } else {
-    qry = cloneObject(query);
-  }
+//   if (typeof query === "string") {
+//     qry = createQueryFromString(query, "term", "item");
+//   } else {
+//     qry = cloneObject(query);
+//   }
 
-  const scopingFilters: IFilter[] = [
-    {
-      predicates: [
-        {
-          type: "Hub Project",
-        },
-      ],
-    },
-  ];
+//   const scopingFilters: IFilter[] = [
+//     {
+//       predicates: [
+//         {
+//           type: "Hub Project",
+//         },
+//       ],
+//     },
+//   ];
 
-  // add filters from the passed in query
-  qry.filters = [...scopingFilters, ...qry.filters];
-  return searchEntities(qry, convertItemToSite, options);
-}
+//   // add filters from the passed in query
+//   qry.filters = [...scopingFilters, ...qry.filters];
+//   return searchEntities(qry, convertItemToSite, options);
+// }
 
 /**
  * Fetch Site specific enrichments

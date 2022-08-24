@@ -1,7 +1,7 @@
 import * as commonModule from "../../src";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as siteInternals from "../../src/sites/_internal";
-import * as searchEntitiesModule from "../../src/search/_internal/searchEntities";
+
 import * as FetchEnrichments from "../../src/items/_enrichments";
 import {
   MOCK_AUTH,
@@ -13,7 +13,6 @@ import {
   cloneObject,
   enrichSiteSearchResult,
   IHubRequestOptions,
-  IQuery,
 } from "../../src";
 
 const GUID = "00c77674e43cf4bbd9ecad5189b3f1fdc";
@@ -151,28 +150,6 @@ const SITE_ITEM_ENRICH: portalModule.IItem = {
 };
 
 describe("HubSites:", () => {
-  describe("fetchSite:", () => {
-    it("delegates to fetchSiteModel: with auth", async () => {
-      const fetchSiteModelSpy = spyOn(
-        commonModule,
-        "fetchSiteModel"
-      ).and.returnValue(Promise.resolve(SITE_MODEL));
-      const site = await commonModule._fetchSite(GUID, MOCK_HUB_REQOPTS);
-      expect(site.name).toBe(SITE_ITEM.title);
-      expect(fetchSiteModelSpy.calls.count()).toBe(1);
-      expect(fetchSiteModelSpy.calls.argsFor(0)[0]).toBe(GUID);
-    });
-    it("delegates to fetchSiteModel: without auth", async () => {
-      const fetchSiteModelSpy = spyOn(
-        commonModule,
-        "fetchSiteModel"
-      ).and.returnValue(Promise.resolve(SITE_MODEL));
-      const site = await commonModule._fetchSite(GUID, MOCK_NOAUTH_HUB_REQOPTS);
-      expect(site.name).toBe(SITE_ITEM.title);
-      expect(fetchSiteModelSpy.calls.count()).toBe(1);
-      expect(fetchSiteModelSpy.calls.argsFor(0)[0]).toBe(GUID);
-    });
-  });
   describe("converItemToSite:", () => {
     it("fetches model and converts to site with auth", async () => {
       const fetchModelSpy = spyOn(
@@ -199,38 +176,7 @@ describe("HubSites:", () => {
       expect(site.name).toBe(SITE_ITEM.title);
     });
   });
-  describe("searchSites:", () => {
-    it("delegates to searchContentEntities", async () => {
-      const searchSpy = spyOn(
-        searchEntitiesModule,
-        "searchEntities"
-      ).and.returnValue(Promise.resolve({ results: [] }));
-      await commonModule.searchSites(
-        {
-          targetEntity: "item",
-          filters: [{ predicates: [{ term: "water" }] }],
-        },
-        { num: 10 }
-      );
-      expect(searchSpy.calls.count()).toBe(1);
-      const query = searchSpy.calls.argsFor(0)[0] as IQuery;
-      expect(query.filters[1].predicates[0].term).toBe("water");
-      // should merge the sites scopeing query
-      expect(query.filters.length).toBe(2);
-    });
-    it("accepts a string", async () => {
-      const searchSpy = spyOn(
-        searchEntitiesModule,
-        "searchEntities"
-      ).and.returnValue(Promise.resolve({ results: [] }));
-      await commonModule.searchSites("water", { num: 10 });
-      expect(searchSpy.calls.count()).toBe(1);
-      const query = searchSpy.calls.argsFor(0)[0] as IQuery;
-      expect(query.filters[1].predicates[0].term).toBe("water");
-      // should merge the sites scopeing query
-      expect(query.filters.length).toBe(2);
-    });
-  });
+
   describe("destroySite:", () => {
     it("removes item and domains in AGO", async () => {
       const removeSpy = spyOn(portalModule, "removeItem").and.returnValue(
