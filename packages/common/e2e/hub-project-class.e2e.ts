@@ -43,7 +43,7 @@ fdescribe("HubProject Class", () => {
     const group = groups[0];
     if (group) {
       // add the project to the project
-      project.permissions.add("addEvent", {
+      project.permissions.add({
         permission: "addEvent",
         target: "group",
         targetId: group.id,
@@ -57,8 +57,8 @@ fdescribe("HubProject Class", () => {
       await project.save();
 
       const json = project.toJson();
-      expect(json.permissionDefinition).toBeDefined();
-      expect(json.permissionDefinition[0].targetId).toBe(group.id);
+      expect(json.permissions).toBeDefined();
+      expect(json.permissions[0].targetId).toBe(group.id);
     }
 
     // change something else and save it again

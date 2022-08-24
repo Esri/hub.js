@@ -298,8 +298,8 @@ describe("HubProjects:", () => {
         updatedDateSource: "item.modified",
         status: "active",
         thumbnailUrl: "",
-        permissionDefinition: [],
-        catalogDefinition: {
+        permissions: [],
+        catalog: {
           schemaVersion: 0,
         },
       };

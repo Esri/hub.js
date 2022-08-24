@@ -1,8 +1,8 @@
 import { IHubCatalog } from "../../search";
 
-export interface IWithCatalogDefinition {
+export interface IWithCatalog {
   /**
    * Catalog
    */
-  catalogDefinition: IHubCatalog;
+  catalog: IHubCatalog;
 }

@@ -4,7 +4,7 @@ import {
   IWithPermissionDefinition,
   IWithSlug,
 } from "../traits/index";
-import { IWithCatalogDefinition } from "../traits/IWithCatalogDefinition";
+import { IWithCatalog } from "../traits/IWithCatalogDefinition";
 
 /**
  * Defines the properties of a Hub Project object
@@ -12,7 +12,7 @@ import { IWithCatalogDefinition } from "../traits/IWithCatalogDefinition";
 export interface IHubProject
   extends IHubItemEntity,
     IWithSlug,
-    IWithCatalogDefinition,
+    IWithCatalog,
     IWithLayout,
     IWithPermissionDefinition {
   /**

@@ -77,7 +77,6 @@ describe("PermissionBehavior module:", () => {
   });
   it("addPermission replaces existing", () => {
     const updates = addPermission(
-      "addInitiative",
       {
         id: "pnew",
         permission: "addInitiative",
@@ -93,7 +92,6 @@ describe("PermissionBehavior module:", () => {
   });
   it("addPermission adds new", () => {
     const updates = addPermission(
-      "createProject",
       {
         id: "p9",
         permission: "createProject",
