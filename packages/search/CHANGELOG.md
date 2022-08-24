@@ -1,3 +1,137 @@
+# @esri/hub-search [11.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-search@10.1.0...@esri/hub-search@11.0.0) (2022-08-24)
+
+
+* feat!: Merge beta -> Master (#868) ([69be0aa](https://github.com/Esri/hub.js/commit/69be0aa61366acf3d281b720b16423735be0cff0)), closes [#868](https://github.com/Esri/hub.js/issues/868) [#853](https://github.com/Esri/hub.js/issues/853) [#853](https://github.com/Esri/hub.js/issues/853) [#853](https://github.com/Esri/hub.js/issues/853) [#853](https://github.com/Esri/hub.js/issues/853) [#853](https://github.com/Esri/hub.js/issues/853) [#853](https://github.com/Esri/hub.js/issues/853) [#853](https://github.com/Esri/hub.js/issues/853) [#853](https://github.com/Esri/hub.js/issues/853) [#853](https://github.com/Esri/hub.js/issues/853) [#861](https://github.com/Esri/hub.js/issues/861) [#861](https://github.com/Esri/hub.js/issues/861) [#861](https://github.com/Esri/hub.js/issues/861) [#861](https://github.com/Esri/hub.js/issues/861) [#861](https://github.com/Esri/hub.js/issues/861) [#861](https://github.com/Esri/hub.js/issues/861) [#861](https://github.com/Esri/hub.js/issues/861) [#861](https://github.com/Esri/hub.js/issues/861) [#861](https://github.com/Esri/hub.js/issues/861) [#862](https://github.com/Esri/hub.js/issues/862) [#862](https://github.com/Esri/hub.js/issues/862) [#862](https://github.com/Esri/hub.js/issues/862) [#862](https://github.com/Esri/hub.js/issues/862) [#862](https://github.com/Esri/hub.js/issues/862) [#862](https://github.com/Esri/hub.js/issues/862) [#862](https://github.com/Esri/hub.js/issues/862) [#862](https://github.com/Esri/hub.js/issues/862) [#862](https://github.com/Esri/hub.js/issues/862) [#863](https://github.com/Esri/hub.js/issues/863) [#863](https://github.com/Esri/hub.js/issues/863) [#863](https://github.com/Esri/hub.js/issues/863) [#863](https://github.com/Esri/hub.js/issues/863) [#863](https://github.com/Esri/hub.js/issues/863) [#863](https://github.com/Esri/hub.js/issues/863) [#863](https://github.com/Esri/hub.js/issues/863) [#863](https://github.com/Esri/hub.js/issues/863) [#863](https://github.com/Esri/hub.js/issues/863) [#865](https://github.com/Esri/hub.js/issues/865) [#865](https://github.com/Esri/hub.js/issues/865) [#865](https://github.com/Esri/hub.js/issues/865) [#865](https://github.com/Esri/hub.js/issues/865) [#865](https://github.com/Esri/hub.js/issues/865) [#865](https://github.com/Esri/hub.js/issues/865) [#865](https://github.com/Esri/hub.js/issues/865) [#865](https://github.com/Esri/hub.js/issues/865) [#865](https://github.com/Esri/hub.js/issues/865)
+* feat!: add HubProject class; remove Managers (#866) ([bef1200](https://github.com/Esri/hub.js/commit/bef1200bce65c527eda3bac1b2548e9f72fc115f)), closes [#866](https://github.com/Esri/hub.js/issues/866) [#853](https://github.com/Esri/hub.js/issues/853) [#853](https://github.com/Esri/hub.js/issues/853) [#853](https://github.com/Esri/hub.js/issues/853) [#853](https://github.com/Esri/hub.js/issues/853) [#853](https://github.com/Esri/hub.js/issues/853) [#853](https://github.com/Esri/hub.js/issues/853) [#853](https://github.com/Esri/hub.js/issues/853) [#853](https://github.com/Esri/hub.js/issues/853) [#853](https://github.com/Esri/hub.js/issues/853) [#861](https://github.com/Esri/hub.js/issues/861) [#861](https://github.com/Esri/hub.js/issues/861) [#861](https://github.com/Esri/hub.js/issues/861) [#861](https://github.com/Esri/hub.js/issues/861) [#861](https://github.com/Esri/hub.js/issues/861) [#861](https://github.com/Esri/hub.js/issues/861) [#861](https://github.com/Esri/hub.js/issues/861) [#861](https://github.com/Esri/hub.js/issues/861) [#861](https://github.com/Esri/hub.js/issues/861) [#862](https://github.com/Esri/hub.js/issues/862) [#862](https://github.com/Esri/hub.js/issues/862) [#862](https://github.com/Esri/hub.js/issues/862) [#862](https://github.com/Esri/hub.js/issues/862) [#862](https://github.com/Esri/hub.js/issues/862) [#862](https://github.com/Esri/hub.js/issues/862) [#862](https://github.com/Esri/hub.js/issues/862) [#862](https://github.com/Esri/hub.js/issues/862) [#862](https://github.com/Esri/hub.js/issues/862) [#863](https://github.com/Esri/hub.js/issues/863) [#863](https://github.com/Esri/hub.js/issues/863) [#863](https://github.com/Esri/hub.js/issues/863) [#863](https://github.com/Esri/hub.js/issues/863) [#863](https://github.com/Esri/hub.js/issues/863) [#863](https://github.com/Esri/hub.js/issues/863) [#863](https://github.com/Esri/hub.js/issues/863) [#863](https://github.com/Esri/hub.js/issues/863) [#863](https://github.com/Esri/hub.js/issues/863) [#865](https://github.com/Esri/hub.js/issues/865) [#865](https://github.com/Esri/hub.js/issues/865) [#865](https://github.com/Esri/hub.js/issues/865) [#865](https://github.com/Esri/hub.js/issues/865) [#865](https://github.com/Esri/hub.js/issues/865) [#865](https://github.com/Esri/hub.js/issues/865) [#865](https://github.com/Esri/hub.js/issues/865) [#865](https://github.com/Esri/hub.js/issues/865) [#865](https://github.com/Esri/hub.js/issues/865)
+
+
+### Reverts
+
+* Revert "feat!: add HubProject class; remove Managers (#866)" (#867) ([423c71b](https://github.com/Esri/hub.js/commit/423c71b508e88f14aa13291e63f5dd0b91e149b3)), closes [#866](https://github.com/Esri/hub.js/issues/866) [#867](https://github.com/Esri/hub.js/issues/867)
+
+
+### BREAKING CHANGES
+
+* Hub class is removed for the time being.
+
+* fix: update model test to ensure timestamps are in correct range
+
+* refactor: rename interface
+
+* chore(release): 11.0.0-beta.1 [skip ci]
+
+# @esri/hub-events [11.0.0-beta.1](https://github.com/Esri/hub.js/compare/@esri/hub-events@10.1.0...@esri/hub-events@11.0.0-beta.1) (2022-08-18)
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 11.0.0-beta.1
+
+* chore(release): 11.0.0-beta.1 [skip ci]
+
+# [11.0.0-beta.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@10.1.0...@esri/hub-common@11.0.0-beta.1) (2022-08-18)
+
+### Features
+* This removes the Manager class exports
+
+* feat: remove managers from tests
+
+* refactor: remove commented code
+
+* chore(release): 11.0.0-beta.3 [skip ci]
+
+# @esri/hub-events [11.0.0-beta.3](https://github.com/Esri/hub.js/compare/@esri/hub-events@11.0.0-beta.2...@esri/hub-events@11.0.0-beta.3) (2022-08-23)
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 11.0.0-beta.3
+
+* chore(release): 11.0.0-beta.3 [skip ci]
+
+# [11.0.0-beta.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.0.0-beta.2...@esri/hub-common@11.0.0-beta.3) (2022-08-23)
+* HubSiteManager class removed
+
+* refactor: remove entity based search functions
+* remove entity based search fns
+
+* punch GHA
+
+* chore(release): 13.0.0-beta.5 [skip ci]
+
+# @esri/hub-discussions [13.0.0-beta.5](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@13.0.0-beta.4...@esri/hub-discussions@13.0.0-beta.5) (2022-08-24)
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 11.0.0-beta.5
+
+* chore(release): 11.0.0-beta.5 [skip ci]
+
+# [11.0.0-beta.5](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.0.0-beta.4...@esri/hub-common@11.0.0-beta.5) (2022-08-24)
+* Remove Manager classes and entity search
+
+Co-authored-by: semantic-release-bot <semantic-release-bot@martynus.net>
+* Hub class is removed for the time being.
+
+* fix: update model test to ensure timestamps are in correct range
+
+* refactor: rename interface
+
+* chore(release): 11.0.0-beta.1 [skip ci]
+
+# @esri/hub-events [11.0.0-beta.1](https://github.com/Esri/hub.js/compare/@esri/hub-events@10.1.0...@esri/hub-events@11.0.0-beta.1) (2022-08-18)
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 11.0.0-beta.1
+
+* chore(release): 11.0.0-beta.1 [skip ci]
+
+# [11.0.0-beta.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@10.1.0...@esri/hub-common@11.0.0-beta.1) (2022-08-18)
+
+### Features
+* This removes the Manager class exports
+
+* feat: remove managers from tests
+
+* refactor: remove commented code
+
+* chore(release): 11.0.0-beta.3 [skip ci]
+
+# @esri/hub-events [11.0.0-beta.3](https://github.com/Esri/hub.js/compare/@esri/hub-events@11.0.0-beta.2...@esri/hub-events@11.0.0-beta.3) (2022-08-23)
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 11.0.0-beta.3
+
+* chore(release): 11.0.0-beta.3 [skip ci]
+
+# [11.0.0-beta.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.0.0-beta.2...@esri/hub-common@11.0.0-beta.3) (2022-08-23)
+* HubSiteManager class removed
+
+* refactor: remove entity based search functions
+* remove entity based search fns
+
+* punch GHA
+
+* chore(release): 13.0.0-beta.5 [skip ci]
+
+# @esri/hub-discussions [13.0.0-beta.5](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@13.0.0-beta.4...@esri/hub-discussions@13.0.0-beta.5) (2022-08-24)
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 11.0.0-beta.5
+
+* chore(release): 11.0.0-beta.5 [skip ci]
+
+# [11.0.0-beta.5](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.0.0-beta.4...@esri/hub-common@11.0.0-beta.5) (2022-08-24)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 11.0.0
+
 # @esri/hub-search [11.0.0-beta.5](https://github.com/Esri/hub.js/compare/@esri/hub-search@11.0.0-beta.4...@esri/hub-search@11.0.0-beta.5) (2022-08-24)
 
 
