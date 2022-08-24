@@ -1,3 +1,10 @@
+# @esri/hub-common [11.0.0-beta.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.0.0-beta.3...@esri/hub-common@11.0.0-beta.4) (2022-08-24)
+
+
+### Bug Fixes
+
+* rename permission, catalog props and simplify adding permission ([#863](https://github.com/Esri/hub.js/issues/863)) ([01b296f](https://github.com/Esri/hub.js/commit/01b296f135ec43a7a38f43285cb7cb1124ebd5fc))
+
 # @esri/hub-common [11.0.0-beta.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.0.0-beta.2...@esri/hub-common@11.0.0-beta.3) (2022-08-23)
 
 
