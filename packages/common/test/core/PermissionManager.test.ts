@@ -84,8 +84,8 @@ describe("PermissionManager Class:", () => {
       targetId: "bchy8ad",
     };
 
-    pm.add(p2.permission, p2);
-    pm.add(p3.permission, p3);
+    pm.add(p2);
+    pm.add(p3);
     expect(addPermissionSpy.calls.count()).toBe(2);
     expect(pm.get("addInitiative").length).toBe(2);
     pm.remove("addInitiative", p2.targetId);

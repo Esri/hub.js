@@ -40,8 +40,8 @@ describe("HubProject Class:", () => {
       expect(chk.toJson().name).toEqual("Test Project");
       // adds empty permissions and catalog
       const json = chk.toJson();
-      expect(json.permissionDefinition).toEqual([]);
-      expect(json.catalogDefinition).toEqual({ schemaVersion: 0 });
+      expect(json.permissions).toEqual([]);
+      expect(json.catalog).toEqual({ schemaVersion: 0 });
     });
     it("loads based on identifier", async () => {
       const fetchSpy = spyOn(HubProjectsModule, "fetchProject").and.callFake(
@@ -135,18 +135,18 @@ describe("HubProject Class:", () => {
 
   it("update applies partial chagnes to internal state", () => {
     const chk = HubProject.fromJson(
-      { name: "Test Project", catalogDefinition: { schemaVersion: 0 } },
+      { name: "Test Project", catalog: { schemaVersion: 0 } },
       authdCtxMgr.context
     );
     chk.update({
       name: "Test Project 2",
-      permissionDefinition: [
+      permissions: [
         { permission: "addEvent", target: "group", targetId: "3ef" },
       ],
-      catalogDefinition: { schemaVersion: 2 },
+      catalog: { schemaVersion: 2 },
     });
     expect(chk.toJson().name).toEqual("Test Project 2");
-    expect(chk.toJson().catalogDefinition).toEqual({ schemaVersion: 2 });
+    expect(chk.toJson().catalog).toEqual({ schemaVersion: 2 });
 
     chk.update({ tags: ["one", "two"] });
     expect(chk.toJson().tags).toEqual(["one", "two"]);
@@ -162,7 +162,7 @@ describe("HubProject Class:", () => {
       {
         id: "bc3",
         name: "Test Project",
-        catalogDefinition: { schemaVersion: 0 },
+        catalog: { schemaVersion: 0 },
       },
       authdCtxMgr.context
     );
@@ -207,7 +207,7 @@ describe("HubProject Class:", () => {
 
   it("internal instance accessors", () => {
     const chk = HubProject.fromJson(
-      { name: "Test Project", catalogDefinition: { schemaVersion: 0 } },
+      { name: "Test Project", catalog: { schemaVersion: 0 } },
       authdCtxMgr.context
     );
 
@@ -215,13 +215,13 @@ describe("HubProject Class:", () => {
     expect(chk.permissions instanceof PermissionManager).toBeTruthy();
   });
 
-  it("setting catalogDefinition updates catalog instance", () => {
+  it("setting catalog updates catalog instance", () => {
     const chk = HubProject.fromJson(
-      { name: "Test Project", catalogDefinition: { schemaVersion: 0 } },
+      { name: "Test Project", catalog: { schemaVersion: 0 } },
       authdCtxMgr.context
     );
-    chk.update({ catalogDefinition: { schemaVersion: 2 } });
-    expect(chk.toJson().catalogDefinition).toEqual({ schemaVersion: 2 });
+    chk.update({ catalog: { schemaVersion: 2 } });
+    expect(chk.toJson().catalog).toEqual({ schemaVersion: 2 });
     expect(chk.catalog.schemaVersion).toEqual(2);
   });
 
@@ -233,7 +233,7 @@ describe("HubProject Class:", () => {
           id: "00c",
           name: "Test Project",
           owner: "deke",
-          catalogDefinition: { schemaVersion: 0 },
+          catalog: { schemaVersion: 0 },
         },
         authdCtxMgr.context
       );

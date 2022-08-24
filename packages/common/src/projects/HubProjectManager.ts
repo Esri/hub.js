@@ -30,6 +30,7 @@ import {
 import { failSafe, isUpdateGroup } from "../utils";
 
 /**
+ * @private
  * Centralized functions used to manage IHubProject instances
  *
  * This class is a convenience wrapper over util functions which

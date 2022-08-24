@@ -69,12 +69,11 @@ export function getPermissions(
  * @returns
  */
 export function addPermission(
-  permission: HubPermission,
   definition: IHubPermission,
   permissions: IHubPermission[]
 ): IHubPermission[] {
   const otherPermissions = removePermission(
-    permission,
+    definition.permission,
     definition.targetId,
     permissions
   );

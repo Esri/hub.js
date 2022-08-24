@@ -74,6 +74,7 @@ function getProjectPropertyMap(): IPropertyMap[] {
   ];
   const dataProps = [
     "contacts",
+    "catalog",
     "display",
     "geometry",
     "headerImage",
@@ -93,10 +94,6 @@ function getProjectPropertyMap(): IPropertyMap[] {
   map.push({
     objectKey: "slug",
     modelKey: "item.properties.slug",
-  });
-  map.push({
-    objectKey: "catalogDefinition",
-    modelKey: "data.catalog",
   });
   map.push({
     objectKey: "orgUrlKey",

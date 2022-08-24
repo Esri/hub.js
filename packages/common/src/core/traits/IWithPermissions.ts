@@ -7,5 +7,5 @@ export interface IWithPermissionDefinition {
   /**
    * List of permissions for the entity
    */
-  permissionDefinition: IHubPermission[];
+  permissions: IHubPermission[];
 }

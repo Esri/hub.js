@@ -57,15 +57,11 @@ export class PermissionManager {
    * Set a permission for the given entity
    * @param permission
    */
-  add(permission: HubPermission, definition: IHubPermission): void {
-    if (!definition.id) {
-      definition.id = createId("p");
+  add(permission: IHubPermission): void {
+    if (!permission.id) {
+      permission.id = createId("p");
     }
-    this._permissions = addPermission(
-      permission,
-      definition,
-      this._permissions
-    );
+    this._permissions = addPermission(permission, this._permissions);
   }
 
   /**
