@@ -183,7 +183,7 @@ export class HubProject
   }
 
   /**
-   * Save the HubProject to the store
+   * Save the HubProject to the backing store. Currently Projects are stored as Items in Portal
    * @returns
    */
   async save(): Promise<void> {
