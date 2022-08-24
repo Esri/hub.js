@@ -1,3 +1,18 @@
+# @esri/hub-common [11.0.0-beta.5](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.0.0-beta.4...@esri/hub-common@11.0.0-beta.5) (2022-08-24)
+
+
+* refactor!: Remove Manager Classes and Entity Search Functions (#865) ([73f3d2e](https://github.com/Esri/hub.js/commit/73f3d2ec2bf60ae60f2ad722206cb28f3ead7998)), closes [#865](https://github.com/Esri/hub.js/issues/865)
+
+
+### BREAKING CHANGES
+
+* HubSiteManager class removed
+
+* refactor: remove entity based search functions
+* remove entity based search fns
+
+* punch GHA
+
 # @esri/hub-common [11.0.0-beta.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.0.0-beta.3...@esri/hub-common@11.0.0-beta.4) (2022-08-24)
 
 
