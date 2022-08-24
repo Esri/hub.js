@@ -1,3 +1,63 @@
+# @esri/hub-sites [11.0.0-beta.5](https://github.com/Esri/hub.js/compare/@esri/hub-sites@11.0.0-beta.4...@esri/hub-sites@11.0.0-beta.5) (2022-08-24)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 11.0.0-beta.5
+* **@esri/hub-initiatives:** upgraded to 11.0.0-beta.5
+* **@esri/hub-teams:** upgraded to 11.0.0-beta.5
+
+# @esri/hub-sites [11.0.0-beta.4](https://github.com/Esri/hub.js/compare/@esri/hub-sites@11.0.0-beta.3...@esri/hub-sites@11.0.0-beta.4) (2022-08-24)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 11.0.0-beta.4
+* **@esri/hub-initiatives:** upgraded to 11.0.0-beta.4
+* **@esri/hub-teams:** upgraded to 11.0.0-beta.4
+
+# @esri/hub-sites [11.0.0-beta.3](https://github.com/Esri/hub.js/compare/@esri/hub-sites@11.0.0-beta.2...@esri/hub-sites@11.0.0-beta.3) (2022-08-23)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 11.0.0-beta.3
+* **@esri/hub-initiatives:** upgraded to 11.0.0-beta.3
+* **@esri/hub-teams:** upgraded to 11.0.0-beta.3
+
+# @esri/hub-sites [11.0.0-beta.2](https://github.com/Esri/hub.js/compare/@esri/hub-sites@11.0.0-beta.1...@esri/hub-sites@11.0.0-beta.2) (2022-08-23)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 11.0.0-beta.2
+* **@esri/hub-initiatives:** upgraded to 11.0.0-beta.2
+* **@esri/hub-teams:** upgraded to 11.0.0-beta.2
+
+# @esri/hub-sites [11.0.0-beta.1](https://github.com/Esri/hub.js/compare/@esri/hub-sites@10.1.0...@esri/hub-sites@11.0.0-beta.1) (2022-08-18)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 11.0.0-beta.1
+* **@esri/hub-initiatives:** upgraded to 11.0.0-beta.1
+* **@esri/hub-teams:** upgraded to 11.0.0-beta.1
+
 # @esri/hub-sites [10.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@10.0.3...@esri/hub-sites@10.1.0) (2022-08-15)
 
 

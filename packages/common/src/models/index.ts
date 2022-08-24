@@ -85,7 +85,7 @@ export function createModel(
   model: IModel,
   requestOptions: IUserRequestOptions
 ): Promise<IModel> {
-  const clone = cloneObject(model) as IModel;
+  // const clone = cloneObject(model) as IModel;
   const item = cloneObject(model.item);
   item.data = cloneObject(model.data);
   const opts = {
@@ -94,10 +94,12 @@ export function createModel(
   };
   return createItem(opts as ICreateItemOptions).then(
     (response: ICreateItemResponse) => {
-      clone.item.id = response.id;
-      clone.item.created = new Date().getTime();
-      clone.item.modified = clone.item.created;
-      return clone as IModel;
+      // re-fetch the model so all the server-set properties
+      // are included in the response
+      return getModel(response.id, requestOptions);
+      // clone.item.created = new Date().getTime();
+      // clone.item.modified = clone.item.created;
+      // return clone as IModel;
     }
   );
 }
@@ -115,7 +117,7 @@ export function updateModel(
   model: IModel,
   requestOptions: IUserRequestOptions
 ): Promise<IModel> {
-  const clone = cloneObject(model);
+  // const clone = cloneObject(model);
   const item = cloneObject(model.item);
   item.data = cloneObject(model.data);
   const opts = {
@@ -124,10 +126,13 @@ export function updateModel(
   };
 
   return updateItem(opts as IUpdateItemOptions).then(() => {
-    // update the modified prop
-    // this won't be exact, but it will be very close
-    clone.item.modified = new Date().getTime();
-    return clone;
+    // To ensure we have the exact modified timestamp, we need to
+    // get the item again
+    return getModel(item.id, requestOptions);
+    // // update the modified prop
+    // // this won't be exact, but it will be very close
+    // clone.item.modified = new Date().getTime();
+    // return clone;
   });
 }
 
