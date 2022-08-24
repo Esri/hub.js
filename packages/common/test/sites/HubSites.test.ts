@@ -1,7 +1,7 @@
 import * as commonModule from "../../src";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as siteInternals from "../../src/sites/_internal";
-
+import * as FetchSiteModelModule from "../../src/sites/fetchSiteModel";
 import * as FetchEnrichments from "../../src/items/_enrichments";
 import {
   MOCK_AUTH,
@@ -12,8 +12,11 @@ import {
 import {
   cloneObject,
   enrichSiteSearchResult,
+  fetchSite,
   IHubRequestOptions,
+  IHubSite,
 } from "../../src";
+import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 const GUID = "00c77674e43cf4bbd9ecad5189b3f1fdc";
 const SITE_ITEM: portalModule.IItem = {
@@ -150,6 +153,41 @@ const SITE_ITEM_ENRICH: portalModule.IItem = {
 };
 
 describe("HubSites:", () => {
+  describe("fetchSite:", () => {
+    it("gets by id, if passed a guid", async () => {
+      const fetchSpy = spyOn(
+        FetchSiteModelModule,
+        "fetchSiteModel"
+      ).and.returnValue(Promise.resolve(SITE_MODEL));
+
+      const chk = await fetchSite(GUID, {
+        authentication: MOCK_AUTH,
+      });
+      expect(chk.id).toBe(GUID);
+      expect(chk.owner).toBe("vader");
+      expect(fetchSpy.calls.count()).toBe(1);
+      expect(fetchSpy.calls.argsFor(0)[0]).toBe(GUID);
+    });
+
+    it("gets by domain, without auth", async () => {
+      const fetchSpy = spyOn(
+        FetchSiteModelModule,
+        "fetchSiteModel"
+      ).and.returnValue(Promise.resolve(SITE_MODEL));
+
+      const ro: IHubRequestOptions = {
+        portal: "https://gis.myserver.com/portal/sharing/rest",
+      };
+      const chk = await fetchSite("mysite.com", ro);
+      expect(chk.id).toBe(GUID);
+      expect(chk.owner).toBe("vader");
+      expect(chk.thumbnailUrl).toBe(
+        "https://gis.myserver.com/portal/sharing/rest/content/items/00c77674e43cf4bbd9ecad5189b3f1fdc/info/vader.png"
+      );
+      expect(fetchSpy.calls.count()).toBe(1);
+      expect(fetchSpy.calls.argsFor(0)[0]).toBe("mysite.com");
+    });
+  });
   describe("converItemToSite:", () => {
     it("fetches model and converts to site with auth", async () => {
       const fetchModelSpy = spyOn(

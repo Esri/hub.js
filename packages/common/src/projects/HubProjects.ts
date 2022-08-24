@@ -17,7 +17,6 @@ import {
   IModel,
   isGuid,
   cloneObject,
-  IHubSearchOptions,
   getItemThumbnailUrl,
   unique,
   mapBy,
@@ -33,19 +32,13 @@ import {
   getItem,
 } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { searchEntities } from "../search/_internal/searchEntities";
+
 import { IPropertyMap, PropertyMapper } from "../core/_internal/PropertyMapper";
 import { IHubProject } from "../core/types";
-import {
-  IFilter,
-  IHubSearchResponse,
-  IHubSearchResult,
-  IQuery,
-} from "../search";
+import { IHubSearchResult } from "../search";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { fetchItemEnrichments } from "../items/_enrichments";
 import { getHubRelativeUrl } from "../content/_internal";
-import { createQueryFromString } from "../search/_internal";
 import { DEFAULT_PROJECT, DEFAULT_PROJECT_MODEL } from "./defaults";
 
 /**
@@ -217,43 +210,6 @@ export async function deleteProject(
   const ro = { ...requestOptions, ...{ id } } as IUserItemOptions;
   await removeItem(ro);
   return;
-}
-
-/**
- * Search for Projects, and get IHubProject results
- *
- * Different from `hubSearch` in that this returns the IHubProjects
- *
- * @param filter
- * @param options
- * @returns
- */
-export async function searchProjects(
-  query: string | IQuery,
-  options: IHubSearchOptions
-): Promise<IHubSearchResponse<IHubProject>> {
-  let qry: IQuery;
-
-  if (typeof query === "string") {
-    qry = createQueryFromString(query, "term", "item");
-  } else {
-    qry = cloneObject(query);
-  }
-
-  const scopingFilters: IFilter[] = [
-    {
-      predicates: [
-        {
-          type: "Hub Project",
-        },
-      ],
-    },
-  ];
-
-  // add filters from the passed in query
-  qry.filters = [...scopingFilters, ...qry.filters];
-
-  return searchEntities(qry, convertItemToProject, options);
 }
 
 /**
