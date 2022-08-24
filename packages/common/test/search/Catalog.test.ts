@@ -215,22 +215,6 @@ describe("Catalog Class:", () => {
       expect(query.filters[0].predicates[0].term).toBe("water");
       expect(query.filters[1]).toEqual(catalogJson.scopes?.item?.filters[0]);
     });
-    it("searchItems with string and options", async () => {
-      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
-        return Promise.resolve({ fake: "response" });
-      });
-      const instance = Catalog.fromJson(cloneObject(catalogJson), context);
-      const res = await instance.searchItems("water", { num: 50 });
-      // ensure the spy was called
-      expect(res).toEqual({
-        fake: "response",
-      } as unknown as IHubSearchResponse<IHubSearchResult>);
-      // check the args
-      const [query, opts] = hubSearchSpy.calls.argsFor(0);
-      expect(query.targetEntity).toBe("item");
-      expect(query.filters[0].predicates[0].term).toBe("water");
-      expect(query.filters[1]).toEqual(catalogJson.scopes?.item?.filters[0]);
-    });
 
     it("searcheItems with query", async () => {
       hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
@@ -266,22 +250,6 @@ describe("Catalog Class:", () => {
       });
       const instance = Catalog.fromJson(cloneObject(catalogJson), context);
       const res = await instance.searchGroups("water");
-      // ensure the spy was called
-      expect(res).toEqual({
-        fake: "response",
-      } as unknown as IHubSearchResponse<IHubSearchResult>);
-      // check the args
-      const [query, opts] = hubSearchSpy.calls.argsFor(0);
-      expect(query.targetEntity).toBe("group");
-      expect(query.filters[0].predicates[0].term).toBe("water");
-      expect(query.filters[1]).toEqual(catalogJson.scopes?.group?.filters[0]);
-    });
-    it("searchGroup by term and options", async () => {
-      hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(() => {
-        return Promise.resolve({ fake: "response" });
-      });
-      const instance = Catalog.fromJson(cloneObject(catalogJson), context);
-      const res = await instance.searchGroups("water", { num: 50 });
       // ensure the spy was called
       expect(res).toEqual({
         fake: "response",

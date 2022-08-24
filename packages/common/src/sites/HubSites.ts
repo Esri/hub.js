@@ -8,16 +8,21 @@ import {
   createModel,
   ensureUniqueDomainName,
   fetchModelFromItem,
+  fetchSiteModel,
   getFamily,
   getHubApiUrl,
   getItemThumbnailUrl,
   getModel,
   getOrgDefaultTheme,
   getProp,
+  IFilter,
   IHubRequestOptions,
+  IHubSearchOptions,
+  IHubSearchResponse,
   IHubSearchResult,
   IHubSite,
   IModel,
+  IQuery,
   mapBy,
   registerSiteAsApplication,
   removeDomainsBySiteId,
@@ -29,14 +34,16 @@ import {
   updateModel,
 } from "../index";
 
-// having a separate import is important for testing
-import { fetchSiteModel } from "./fetchSiteModel";
 import { PropertyMapper, IPropertyMap } from "../core/_internal/PropertyMapper";
+
 import { handleDomainChanges } from "./_internal";
+import { searchEntities } from "../search/_internal/searchEntities";
+
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { fetchItemEnrichments } from "../items/_enrichments";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { getHubRelativeUrl } from "../content/_internal";
+import { createQueryFromString } from "../search/_internal/createQueryFromString";
 
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
@@ -434,13 +441,12 @@ export async function destroySite(
  * @param requestOptions
  * @private // remove when we remove existing fetchSite function
  */
-export async function fetchSite(
+export async function _fetchSite(
   identifier: string,
   requestOptions: IHubRequestOptions
 ): Promise<IHubSite> {
   // get the model
   const model = await fetchSiteModel(identifier, requestOptions);
-
   // convert to site
   const mapper = new PropertyMapper<Partial<IHubSite>>(getSitePropertyMap());
   const site = mapper.modelToObject(model, {}) as IHubSite;
@@ -472,9 +478,42 @@ export async function convertItemToSite(
     const session: UserSession = requestOptions.authentication as UserSession;
     token = session.token;
   }
-  const site = mapper.modelToObject(model, {}) as IHubSite;
-  site.thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
-  return site;
+  const prj = mapper.modelToObject(model, {}) as IHubSite;
+  prj.thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
+  return prj;
+}
+
+/**
+ * Search for Sites and get IHubSite results
+ * @param filter
+ * @param options
+ * @returns
+ */
+export async function searchSites(
+  query: string | IQuery,
+  options: IHubSearchOptions
+): Promise<IHubSearchResponse<IHubSite>> {
+  let qry: IQuery;
+
+  if (typeof query === "string") {
+    qry = createQueryFromString(query, "term", "item");
+  } else {
+    qry = cloneObject(query);
+  }
+
+  const scopingFilters: IFilter[] = [
+    {
+      predicates: [
+        {
+          type: "Hub Project",
+        },
+      ],
+    },
+  ];
+
+  // add filters from the passed in query
+  qry.filters = [...scopingFilters, ...qry.filters];
+  return searchEntities(qry, convertItemToSite, options);
 }
 
 /**

@@ -1,7 +1,7 @@
 import * as commonModule from "../../src";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as siteInternals from "../../src/sites/_internal";
-import * as FetchSiteModelModule from "../../src/sites/fetchSiteModel";
+import * as searchEntitiesModule from "../../src/search/_internal/searchEntities";
 import * as FetchEnrichments from "../../src/items/_enrichments";
 import {
   MOCK_AUTH,
@@ -12,11 +12,9 @@ import {
 import {
   cloneObject,
   enrichSiteSearchResult,
-  fetchSite,
   IHubRequestOptions,
-  IHubSite,
+  IQuery,
 } from "../../src";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 const GUID = "00c77674e43cf4bbd9ecad5189b3f1fdc";
 const SITE_ITEM: portalModule.IItem = {
@@ -154,38 +152,25 @@ const SITE_ITEM_ENRICH: portalModule.IItem = {
 
 describe("HubSites:", () => {
   describe("fetchSite:", () => {
-    it("gets by id, if passed a guid", async () => {
-      const fetchSpy = spyOn(
-        FetchSiteModelModule,
+    it("delegates to fetchSiteModel: with auth", async () => {
+      const fetchSiteModelSpy = spyOn(
+        commonModule,
         "fetchSiteModel"
       ).and.returnValue(Promise.resolve(SITE_MODEL));
-
-      const chk = await fetchSite(GUID, {
-        authentication: MOCK_AUTH,
-      });
-      expect(chk.id).toBe(GUID);
-      expect(chk.owner).toBe("vader");
-      expect(fetchSpy.calls.count()).toBe(1);
-      expect(fetchSpy.calls.argsFor(0)[0]).toBe(GUID);
+      const site = await commonModule._fetchSite(GUID, MOCK_HUB_REQOPTS);
+      expect(site.name).toBe(SITE_ITEM.title);
+      expect(fetchSiteModelSpy.calls.count()).toBe(1);
+      expect(fetchSiteModelSpy.calls.argsFor(0)[0]).toBe(GUID);
     });
-
-    it("gets by domain, without auth", async () => {
-      const fetchSpy = spyOn(
-        FetchSiteModelModule,
+    it("delegates to fetchSiteModel: without auth", async () => {
+      const fetchSiteModelSpy = spyOn(
+        commonModule,
         "fetchSiteModel"
       ).and.returnValue(Promise.resolve(SITE_MODEL));
-
-      const ro: IHubRequestOptions = {
-        portal: "https://gis.myserver.com/portal/sharing/rest",
-      };
-      const chk = await fetchSite("mysite.com", ro);
-      expect(chk.id).toBe(GUID);
-      expect(chk.owner).toBe("vader");
-      expect(chk.thumbnailUrl).toBe(
-        "https://gis.myserver.com/portal/sharing/rest/content/items/00c77674e43cf4bbd9ecad5189b3f1fdc/info/vader.png"
-      );
-      expect(fetchSpy.calls.count()).toBe(1);
-      expect(fetchSpy.calls.argsFor(0)[0]).toBe("mysite.com");
+      const site = await commonModule._fetchSite(GUID, MOCK_NOAUTH_HUB_REQOPTS);
+      expect(site.name).toBe(SITE_ITEM.title);
+      expect(fetchSiteModelSpy.calls.count()).toBe(1);
+      expect(fetchSiteModelSpy.calls.argsFor(0)[0]).toBe(GUID);
     });
   });
   describe("converItemToSite:", () => {
@@ -214,7 +199,38 @@ describe("HubSites:", () => {
       expect(site.name).toBe(SITE_ITEM.title);
     });
   });
-
+  describe("searchSites:", () => {
+    it("delegates to searchContentEntities", async () => {
+      const searchSpy = spyOn(
+        searchEntitiesModule,
+        "searchEntities"
+      ).and.returnValue(Promise.resolve({ results: [] }));
+      await commonModule.searchSites(
+        {
+          targetEntity: "item",
+          filters: [{ predicates: [{ term: "water" }] }],
+        },
+        { num: 10 }
+      );
+      expect(searchSpy.calls.count()).toBe(1);
+      const query = searchSpy.calls.argsFor(0)[0] as IQuery;
+      expect(query.filters[1].predicates[0].term).toBe("water");
+      // should merge the sites scopeing query
+      expect(query.filters.length).toBe(2);
+    });
+    it("accepts a string", async () => {
+      const searchSpy = spyOn(
+        searchEntitiesModule,
+        "searchEntities"
+      ).and.returnValue(Promise.resolve({ results: [] }));
+      await commonModule.searchSites("water", { num: 10 });
+      expect(searchSpy.calls.count()).toBe(1);
+      const query = searchSpy.calls.argsFor(0)[0] as IQuery;
+      expect(query.filters[1].predicates[0].term).toBe("water");
+      // should merge the sites scopeing query
+      expect(query.filters.length).toBe(2);
+    });
+  });
   describe("destroySite:", () => {
     it("removes item and domains in AGO", async () => {
       const removeSpy = spyOn(portalModule, "removeItem").and.returnValue(
@@ -353,7 +369,7 @@ describe("HubSites:", () => {
       const modelToCreate = createModelSpy.calls.argsFor(0)[0];
       expect(modelToCreate.item.title).toBe("my site");
       expect(modelToCreate.item.type).toBe("Hub Site Application");
-      expect(modelToCreate.item.properties.slug).toBe("dcdev|my-site");
+      expect(modelToCreate.item.properties.slug).toBe("dcdev-my-site");
       expect(modelToCreate.item.properties.orgUrlKey).toBe("org");
 
       expect(chk.name).toBe("my site");
@@ -433,7 +449,7 @@ describe("HubSites:", () => {
       const modelToCreate = createModelSpy.calls.argsFor(0)[0];
       expect(modelToCreate.item.title).toBe("my site");
       expect(modelToCreate.item.type).toBe("Site Application");
-      expect(modelToCreate.item.properties.slug).toBe("dcdev|my-site");
+      expect(modelToCreate.item.properties.slug).toBe("dcdev-my-site");
       expect(modelToCreate.item.properties.orgUrlKey).toBe("org");
       expect(chk.url).toBe("https://my-server.com/portal/apps/sites/#/my-site");
       expect(chk.typeKeywords).toContain(`hubsubdomain|${chk.subdomain}`);

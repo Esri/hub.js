@@ -1,4 +1,4 @@
-import { IWithLayout } from "../traits/IWithLayout";
+import { IWithLayout } from "../traits/WithLayout";
 import { IHubItemEntity } from "./IHubItemEntity";
 
 /**

@@ -1,4 +1,4 @@
-import { IWithBannerImage } from "../traits/IWithBannerImage";
+import { IWithBannerImage } from "../traits/WithBannerImage";
 import { IHubItemEntity } from "./IHubItemEntity";
 
 /**
