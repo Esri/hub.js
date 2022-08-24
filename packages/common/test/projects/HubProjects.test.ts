@@ -8,7 +8,6 @@ import {
   IHubProject,
   createProject,
   updateProject,
-  searchProjects,
   IHubRequestOptions,
   enrichProjectSearchResult,
   IQuery,
@@ -318,116 +317,6 @@ describe("HubProjects:", () => {
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.item.description).toBe(prj.description);
       expect(modelToUpdate.item.properties.slug).toBe("dcdev-wat-blarg-1");
-    });
-  });
-
-  describe("searchProjects:", () => {
-    const fakeResults = {
-      total: 1,
-      results: [{ id: "bc3", thumbnail: "zen.jpg" }],
-      nextStart: -1,
-      aggregations: {
-        counts: [
-          {
-            fieldName: "tags",
-            fieldValues: [
-              { value: "red", count: 50 },
-              { value: "blue", count: 25 },
-              { value: "green", count: 5 },
-            ],
-          },
-        ],
-      },
-    };
-    let searchSpy: jasmine.Spy;
-    let dataSpy: jasmine.Spy;
-    beforeEach(() => {
-      searchSpy = spyOn(portalModule, "searchItems").and.returnValue(
-        Promise.resolve(fakeResults)
-      );
-      dataSpy = spyOn(portalModule, "getItemData").and.returnValue(
-        Promise.resolve({ values: "the values" })
-      );
-    });
-    it("accepts a string", async () => {
-      const opts = {};
-      const response = await searchProjects("water", opts);
-      expect(response.results.length).toBe(1);
-      expect(searchSpy.calls.count()).toBe(1);
-      expect(dataSpy.calls.count()).toBe(1);
-      expect(response.results[0].thumbnailUrl).toBe(
-        "https://www.arcgis.com/sharing/rest/content/items/bc3/info/zen.jpg"
-      );
-      // verify the query
-      const searchOpts = searchSpy.calls.argsFor(0)[0];
-
-      expect(searchOpts.q).toBe(`(type:"Hub Project") AND (water)`);
-    });
-    it("accepts an IQuery", async () => {
-      const qry: IQuery = {
-        targetEntity: "item",
-        filters: [
-          {
-            predicates: [
-              {
-                term: "colorado",
-              },
-            ],
-          },
-        ],
-      };
-      const opts = {};
-
-      const response = await searchProjects(qry, opts);
-      expect(response.results.length).toBe(1);
-      expect(searchSpy.calls.count()).toBe(1);
-      expect(dataSpy.calls.count()).toBe(1);
-      expect(response.results[0].thumbnailUrl).toBe(
-        "https://www.arcgis.com/sharing/rest/content/items/bc3/info/zen.jpg"
-      );
-      // verify the query
-      const searchOpts = searchSpy.calls.argsFor(0)[0];
-
-      expect(searchOpts.q).toBe(`(type:"Hub Project") AND (colorado)`);
-    });
-
-    it("accepts num, sortField and aggFields", async () => {
-      const opts = {
-        api: "arcgisQA",
-        aggFields: ["tags"],
-        num: 4,
-        sortField: "created",
-      } as IHubSearchOptions;
-      const response = await searchProjects("water", opts);
-      expect(response.results.length).toBe(1);
-
-      // verify the query
-      const searchOpts = searchSpy.calls.argsFor(0)[0];
-
-      expect(searchOpts.q).toBe(`(type:"Hub Project") AND (water)`);
-      expect(searchOpts.portal).toEqual(`https://qaext.arcgis.com`);
-      expect(searchOpts.num).toBe(4);
-      expect(searchOpts.sortField).toBe("created");
-      expect(searchOpts.countFields).toBe("tags");
-      expect(searchOpts.countSize).toBe(10);
-    });
-
-    it("it constructs search, passing api", async () => {
-      const opts = {
-        api: "arcgisQA",
-      } as IHubSearchOptions;
-      const response = await searchProjects("water", opts);
-      expect(response.results.length).toBe(1);
-      expect(searchSpy.calls.count()).toBe(1);
-      expect(dataSpy.calls.count()).toBe(1);
-      expect(response.results[0].thumbnailUrl).toBe(
-        "https://qaext.arcgis.com/sharing/rest/content/items/bc3/info/zen.jpg"
-      );
-      // verify the query
-      const searchOpts = searchSpy.calls.argsFor(0)[0];
-
-      expect(searchOpts.q).toBe(`(type:"Hub Project") AND (water)`);
-      expect(searchOpts.portal).toEqual(`https://qaext.arcgis.com`);
     });
   });
 
