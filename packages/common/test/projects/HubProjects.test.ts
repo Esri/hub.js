@@ -4,20 +4,22 @@ import {
   cloneObject,
   IModel,
   fetchProject,
-  deleteProject,
+  destroyProject,
   IHubProject,
   createProject,
   updateProject,
+  searchProjects,
   IHubRequestOptions,
   enrichProjectSearchResult,
   IQuery,
-  IHubSearchOptions,
 } from "../../src";
 
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as modelUtils from "../../src/models";
 import * as slugUtils from "../../src/items/slugs";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
+
+import { IHubSearchOptions } from "../../dist/types";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 const PROJECT_ITEM: portalModule.IItem = {
@@ -188,7 +190,7 @@ describe("HubProjects:", () => {
         Promise.resolve({ success: true })
       );
 
-      const result = await deleteProject("3ef", {
+      const result = await destroyProject("3ef", {
         authentication: MOCK_AUTH,
       });
       expect(result).toBeUndefined();
@@ -201,7 +203,7 @@ describe("HubProjects:", () => {
   describe("createProject:", () => {
     it("works with very limited initial structure", async () => {
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
-        Promise.resolve("dcdev|hello-world")
+        Promise.resolve("dcdev-hello-world")
       );
       const createSpy = spyOn(modelUtils, "createModel").and.callFake(
         (m: IModel) => {
@@ -220,7 +222,7 @@ describe("HubProjects:", () => {
       // should ensure unique slug
       expect(slugSpy.calls.count()).toBe(1);
       expect(slugSpy.calls.argsFor(0)[0]).toEqual(
-        { slug: "dcdev|hello-world" },
+        { slug: "dcdev-hello-world" },
         "should recieve slug"
       );
       // should create the item
@@ -228,13 +230,13 @@ describe("HubProjects:", () => {
       const modelToCreate = createSpy.calls.argsFor(0)[0];
       expect(modelToCreate.item.title).toBe("Hello World");
       expect(modelToCreate.item.type).toBe("Hub Project");
-      expect(modelToCreate.item.properties.slug).toBe("dcdev|hello-world");
+      expect(modelToCreate.item.properties.slug).toBe("dcdev-hello-world");
       expect(modelToCreate.item.properties.orgUrlKey).toBe("dcdev");
     });
     it("works with more complete object", async () => {
       // Note: this covers a branch when a slug is passed in
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
-        Promise.resolve("dcdev|hello-world")
+        Promise.resolve("dcdev-hello-world")
       );
       const createSpy = spyOn(modelUtils, "createModel").and.callFake(
         (m: IModel) => {
@@ -246,7 +248,7 @@ describe("HubProjects:", () => {
       const chk = await createProject(
         {
           name: "Hello World",
-          slug: "dcdev|hello-world", // important for coverage
+          slug: "dcdev-hello-world", // important for coverage
           description: "my desc",
           orgUrlKey: "dcdev",
         },
@@ -258,13 +260,13 @@ describe("HubProjects:", () => {
       // should ensure unique slug
       expect(slugSpy.calls.count()).toBe(1);
       expect(slugSpy.calls.argsFor(0)[0]).toEqual(
-        { slug: "dcdev|hello-world" },
+        { slug: "dcdev-hello-world" },
         "should recieve slug"
       );
       // should create the item
       expect(createSpy.calls.count()).toBe(1);
       const modelToCreate = createSpy.calls.argsFor(0)[0];
-      expect(modelToCreate.item.properties.slug).toBe("dcdev|hello-world");
+      expect(modelToCreate.item.properties.slug).toBe("dcdev-hello-world");
       expect(modelToCreate.item.properties.orgUrlKey).toBe("dcdev");
     });
   });
@@ -297,10 +299,6 @@ describe("HubProjects:", () => {
         updatedDateSource: "item.modified",
         status: "active",
         thumbnailUrl: "",
-        permissions: [],
-        catalog: {
-          schemaVersion: 0,
-        },
       };
       const chk = await updateProject(prj, { authentication: MOCK_AUTH });
       expect(chk.id).toBe(GUID);
@@ -317,6 +315,116 @@ describe("HubProjects:", () => {
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.item.description).toBe(prj.description);
       expect(modelToUpdate.item.properties.slug).toBe("dcdev-wat-blarg-1");
+    });
+  });
+
+  describe("searchProjects:", () => {
+    const fakeResults = {
+      total: 1,
+      results: [{ id: "bc3", thumbnail: "zen.jpg" }],
+      nextStart: -1,
+      aggregations: {
+        counts: [
+          {
+            fieldName: "tags",
+            fieldValues: [
+              { value: "red", count: 50 },
+              { value: "blue", count: 25 },
+              { value: "green", count: 5 },
+            ],
+          },
+        ],
+      },
+    };
+    let searchSpy: jasmine.Spy;
+    let dataSpy: jasmine.Spy;
+    beforeEach(() => {
+      searchSpy = spyOn(portalModule, "searchItems").and.returnValue(
+        Promise.resolve(fakeResults)
+      );
+      dataSpy = spyOn(portalModule, "getItemData").and.returnValue(
+        Promise.resolve({ values: "the values" })
+      );
+    });
+    it("accepts a string", async () => {
+      const opts = {};
+      const response = await searchProjects("water", opts);
+      expect(response.results.length).toBe(1);
+      expect(searchSpy.calls.count()).toBe(1);
+      expect(dataSpy.calls.count()).toBe(1);
+      expect(response.results[0].thumbnailUrl).toBe(
+        "https://www.arcgis.com/sharing/rest/content/items/bc3/info/zen.jpg"
+      );
+      // verify the query
+      const searchOpts = searchSpy.calls.argsFor(0)[0];
+
+      expect(searchOpts.q).toBe(`(type:"Hub Project") AND (water)`);
+    });
+    it("accepts an IQuery", async () => {
+      const qry: IQuery = {
+        targetEntity: "item",
+        filters: [
+          {
+            predicates: [
+              {
+                term: "colorado",
+              },
+            ],
+          },
+        ],
+      };
+      const opts = {};
+
+      const response = await searchProjects(qry, opts);
+      expect(response.results.length).toBe(1);
+      expect(searchSpy.calls.count()).toBe(1);
+      expect(dataSpy.calls.count()).toBe(1);
+      expect(response.results[0].thumbnailUrl).toBe(
+        "https://www.arcgis.com/sharing/rest/content/items/bc3/info/zen.jpg"
+      );
+      // verify the query
+      const searchOpts = searchSpy.calls.argsFor(0)[0];
+
+      expect(searchOpts.q).toBe(`(type:"Hub Project") AND (colorado)`);
+    });
+
+    it("accepts num, sortField and aggFields", async () => {
+      const opts = {
+        api: "arcgisQA",
+        aggFields: ["tags"],
+        num: 4,
+        sortField: "created",
+      } as IHubSearchOptions;
+      const response = await searchProjects("water", opts);
+      expect(response.results.length).toBe(1);
+
+      // verify the query
+      const searchOpts = searchSpy.calls.argsFor(0)[0];
+
+      expect(searchOpts.q).toBe(`(type:"Hub Project") AND (water)`);
+      expect(searchOpts.portal).toEqual(`https://qaext.arcgis.com`);
+      expect(searchOpts.num).toBe(4);
+      expect(searchOpts.sortField).toBe("created");
+      expect(searchOpts.countFields).toBe("tags");
+      expect(searchOpts.countSize).toBe(10);
+    });
+
+    it("it constructs search, passing api", async () => {
+      const opts = {
+        api: "arcgisQA",
+      } as IHubSearchOptions;
+      const response = await searchProjects("water", opts);
+      expect(response.results.length).toBe(1);
+      expect(searchSpy.calls.count()).toBe(1);
+      expect(dataSpy.calls.count()).toBe(1);
+      expect(response.results[0].thumbnailUrl).toBe(
+        "https://qaext.arcgis.com/sharing/rest/content/items/bc3/info/zen.jpg"
+      );
+      // verify the query
+      const searchOpts = searchSpy.calls.argsFor(0)[0];
+
+      expect(searchOpts.q).toBe(`(type:"Hub Project") AND (water)`);
+      expect(searchOpts.portal).toEqual(`https://qaext.arcgis.com`);
     });
   });
 

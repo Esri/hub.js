@@ -1,7 +1,9 @@
+import { HubSiteManager } from ".";
 import {
   ArcGISContextManager,
   IArcGISContextManagerOptions,
 } from "./ArcGISContextManager";
+import { HubProjectManager } from "./projects/HubProjectManager";
 
 /**
  * Options for instantiating a Hub instance
@@ -44,6 +46,10 @@ export class Hub {
    */
   private _contextManager: ArcGISContextManager;
 
+  private _projectManager: HubProjectManager;
+
+  private _siteManager: HubSiteManager;
+
   /**
    * Private so we can employ a factory function to do
    * async work during creation
@@ -77,22 +83,29 @@ export class Hub {
     return this._contextManager.context;
   }
 
-  // TEMPORARY COMMENT OUT WHILE TOM INVESTIGATES DYNAMIC LOADING
-  // /**
-  //  * Fetch a Hub Project by slug or item id
-  //  * @param identifier slug or item id
-  //  * @returns
-  //  */
-  // async fetchProject(identifier: string): Promise<HubProject> {
-  //   const project = await this.projects.fetch(identifier);
-  //   return HubProject.fromJson(project, this.context);
-  // }
+  /**
+   * HubProjectManager for the current Hub
+   *
+   * @readonly
+   * @memberof Hub
+   */
+  get projects() {
+    if (!this._projectManager) {
+      this._projectManager = HubProjectManager.init(this._contextManager);
+    }
 
-  // /**
-  //  * Destroy a Hub Project by item id
-  //  * @param id
-  //  */
-  // async deleteProject(id: string): Promise<void> {
-  //   await this.projects.delete(id);
-  // }
+    return this._projectManager;
+  }
+  /**
+   * HubSiteManager for the current Hub
+   *
+   * @readonly
+   * @memberof Hub
+   */
+  get sites() {
+    if (!this._siteManager) {
+      this._siteManager = HubSiteManager.init(this._contextManager);
+    }
+    return this._siteManager;
+  }
 }

@@ -15,7 +15,7 @@ import { slugify } from "..";
  * @returns
  */
 export function constructSlug(title: string, orgKey: string) {
-  return `${orgKey.toLowerCase()}|${slugify(title)}`;
+  return `${orgKey.toLowerCase()}-${slugify(title)}`;
 }
 
 /**

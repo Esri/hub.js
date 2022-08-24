@@ -1,16 +1,22 @@
+import {
+  getModelBySlug,
+  createModel,
+  updateModel,
+  IModel,
+  fetchModelFromItem,
+} from "../../src";
+
 import * as portalModule from "@esri/arcgis-rest-portal";
 
 import * as hubCommon from "../../src";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import {
-  createModel,
-  fetchModelFromItem,
-  getModelBySlug,
-  IModel,
-  updateModel,
-} from "../../src";
+  ICreateItemOptions,
+  IUpdateItemOptions,
+} from "@esri/arcgis-rest-portal";
 
 describe("model utils:", () => {
+  // afterEach(fetchMock.restore);
   describe("getModelBySlug:", () => {
     it("getModelBySlug returns item and data", async () => {
       const getItemBySlugSpy = spyOn(
@@ -56,16 +62,6 @@ describe("model utils:", () => {
       const createItemSpy = spyOn(portalModule, "createItem").and.returnValue(
         Promise.resolve({ success: true, id: "bc3" })
       );
-      const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
-        Promise.resolve({
-          id: "bc3",
-          created: new Date().getTime(),
-          modified: new Date().getTime(),
-        })
-      );
-      const getItemDataSpy = spyOn(portalModule, "getItemData").and.returnValue(
-        Promise.resolve({ data: "values" })
-      );
 
       const m = {
         item: {
@@ -76,20 +72,15 @@ describe("model utils:", () => {
           some: "data",
         },
       } as unknown as IModel;
-      // depending how fast tests run, the date we're faking may be a bit off
-      const ts = new Date().getTime() - 100;
-      const chk = await createModel(m, {
-        authentication: MOCK_AUTH,
-      });
+      const ts = new Date().getTime();
+      const chk = await createModel(m, { authentication: MOCK_AUTH });
       expect(chk.item.id).toBe("bc3");
       expect(chk.item.created).toBeGreaterThanOrEqual(ts);
       expect(chk.item.modified).toBeGreaterThanOrEqual(ts);
-      expect(getItemSpy.calls.count()).toBe(1);
-      expect(getItemDataSpy.calls.count()).toBe(1);
       expect(createItemSpy.calls.count()).toBe(1);
       const opts = createItemSpy.calls.argsFor(
         0
-      )[0] as unknown as portalModule.ICreateItemOptions;
+      )[0] as unknown as ICreateItemOptions;
 
       expect(opts.authentication).toBe(MOCK_AUTH);
       expect(opts.item.data).toBeDefined();
@@ -98,17 +89,7 @@ describe("model utils:", () => {
   describe("updateModel: ", () => {
     it("updates a model", async () => {
       const updateItemSpy = spyOn(portalModule, "updateItem").and.returnValue(
-        Promise.resolve({ success: true, id: "00c" })
-      );
-      const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
-        Promise.resolve({
-          id: "00c",
-          created: 1643663750004,
-          modified: new Date().getTime(),
-        })
-      );
-      const getItemDataSpy = spyOn(portalModule, "getItemData").and.returnValue(
-        Promise.resolve({ data: "values" })
+        Promise.resolve({ success: true, id: "bc3" })
       );
 
       const m = {
@@ -123,20 +104,15 @@ describe("model utils:", () => {
           some: "data",
         },
       } as unknown as IModel;
-      // depending how fast tests run, the modified date we're faking may be a bit off
-      const ts = new Date().getTime() - 100;
-      const chk = await updateModel(m, {
-        authentication: MOCK_AUTH,
-      });
+      const ts = new Date().getTime();
+      const chk = await updateModel(m, { authentication: MOCK_AUTH });
       expect(chk.item.id).toBe("00c");
       expect(chk.item.created).toBe(1643663750004);
       expect(chk.item.modified).toBeGreaterThanOrEqual(ts);
-      expect(getItemSpy.calls.count()).toBe(1);
-      expect(getItemDataSpy.calls.count()).toBe(1);
       expect(updateItemSpy.calls.count()).toBe(1);
       const opts = updateItemSpy.calls.argsFor(
         0
-      )[0] as unknown as portalModule.IUpdateItemOptions;
+      )[0] as unknown as IUpdateItemOptions;
 
       expect(opts.authentication).toBe(MOCK_AUTH);
       expect(opts.item.data).toBeDefined();

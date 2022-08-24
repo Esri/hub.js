@@ -26,7 +26,7 @@ export interface IHubEntityManager<T> {
    * @param id
    * @param requestOptions
    */
-  delete(id: string, requestOptions: IUserRequestOptions): Promise<void>;
+  destroy(id: string, requestOptions: IUserRequestOptions): Promise<void>;
   /**
    * Get an entity by an identifier. Implementations can handle this
    * differently as needed. i.e. a HubProject can be fetched by item id (guid)
