@@ -27,7 +27,7 @@ export * from "./types";
 export * from "./urls";
 export * from "./util";
 export * from "./utils";
-export * from "./Hub";
+
 export * from "./pages";
 export * from "./org";
 export * from "./users";
@@ -40,3 +40,6 @@ import HubError from "./HubError";
 // Re-exports
 export { OperationStack, OperationError, HubError };
 export { btoa, atob } from "abab";
+
+// This will be moved to another package
+// export * from "./Hub";

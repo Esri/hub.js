@@ -16,3 +16,4 @@ export * from "./IHubTimeline";
 export * from "./IItemEnrichments";
 export * from "./IServerEnrichments";
 export * from "./types";
+export * from "./IHubPermission";
