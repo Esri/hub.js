@@ -34,112 +34,114 @@ import {
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 import { IPropertyMap, PropertyMapper } from "../core/_internal/PropertyMapper";
-import { IHubProject } from "../core/types";
+import { IHubInitiative } from "../core/types";
 import { IHubSearchResult } from "../search";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { fetchItemEnrichments } from "../items/_enrichments";
 import { getHubRelativeUrl } from "../content/_internal";
-import { DEFAULT_PROJECT, DEFAULT_PROJECT_MODEL } from "./defaults";
+import { DEFAULT_INITIATIVE, DEFAULT_INITIATIVE_MODEL } from "./defaults";
 import { getBasePropertyMap } from "../core/_internal/getBasePropertyMap";
 
 /**
  * Returns an Array of IPropertyMap objects
- * that define the projection of properties from a IModel to an IHubProject
+ * that define the projection of properties from a IModel to an IHubInitiative
  * @returns
  */
 function getPropertyMap(): IPropertyMap[] {
-  const map = getBasePropertyMap();
-
-  // Type specific mappings
-  map.push({
-    objectKey: "status",
-    modelKey: "data.status",
-  });
-
-  return map;
+  // at this time, initiative does not have any additional properties
+  return getBasePropertyMap();
 }
 
 /**
  * @private
- * Create a new Hub Project item
+ * Create a new Hub Initiative item
  *
- * Minimal properties are name and org
+ * Minimal properties are name and orgUrlKey
  *
- * @param project
+ * @param partialInitiative
  * @param requestOptions
  */
-export async function createProject(
-  partialProject: Partial<IHubProject>,
+export async function createInitiative(
+  partialInitiative: Partial<IHubInitiative>,
   requestOptions: IUserRequestOptions
-): Promise<IHubProject> {
+): Promise<IHubInitiative> {
   // merge incoming with the default
   // this expansion solves the typing somehow
-  const project = { ...DEFAULT_PROJECT, ...partialProject };
+  const initiative = { ...DEFAULT_INITIATIVE, ...partialInitiative };
 
   // Create a slug from the title if one is not passed in
-  if (!project.slug) {
-    project.slug = constructSlug(project.name, project.orgUrlKey);
+  if (!initiative.slug) {
+    initiative.slug = constructSlug(initiative.name, initiative.orgUrlKey);
   }
   // Ensure slug is  unique
-  project.slug = await getUniqueSlug({ slug: project.slug }, requestOptions);
+  initiative.slug = await getUniqueSlug(
+    { slug: initiative.slug },
+    requestOptions
+  );
   // add slug to keywords
-  project.typeKeywords = setSlugKeyword(project.typeKeywords, project.slug);
-  // Map project object onto a default project Model
-  const mapper = new PropertyMapper<Partial<IHubProject>>(getPropertyMap());
+  initiative.typeKeywords = setSlugKeyword(
+    initiative.typeKeywords,
+    initiative.slug
+  );
+  // Map initiative object onto a default initiative Model
+  const mapper = new PropertyMapper<Partial<IHubInitiative>>(getPropertyMap());
   // create model from object, using the default model as a starting point
-  let model = mapper.objectToModel(project, cloneObject(DEFAULT_PROJECT_MODEL));
+  let model = mapper.objectToModel(
+    initiative,
+    cloneObject(DEFAULT_INITIATIVE_MODEL)
+  );
   // create the item
   model = await createModel(model, requestOptions);
-  // map the model back into a IHubProject
-  let newProject = mapper.modelToObject(model, {});
-  newProject = computeProps(model, newProject, requestOptions);
+  // map the model back into a IHubInitiative
+  let newInitiative = mapper.modelToObject(model, {});
+  newInitiative = computeProps(model, newInitiative, requestOptions);
   // and return it
-  return newProject as IHubProject;
+  return newInitiative as IHubInitiative;
 }
 
 /**
  * @private
- * Update a Hub Project
- * @param project
+ * Update a Hub Initiative
+ * @param initiative
  * @param requestOptions
  */
-export async function updateProject(
-  project: IHubProject,
+export async function updateInitiative(
+  initiative: IHubInitiative,
   requestOptions: IUserRequestOptions
-): Promise<IHubProject> {
-  // verify that the slug is unique, excluding the current project
-  project.slug = await getUniqueSlug(
-    { slug: project.slug, existingId: project.id },
+): Promise<IHubInitiative> {
+  // verify that the slug is unique, excluding the current initiative
+  initiative.slug = await getUniqueSlug(
+    { slug: initiative.slug, existingId: initiative.id },
     requestOptions
   );
   // get the backing item & data
-  const model = await getModel(project.id, requestOptions);
+  const model = await getModel(initiative.id, requestOptions);
   // create the PropertyMapper
-  const mapper = new PropertyMapper<Partial<IHubProject>>(getPropertyMap());
+  const mapper = new PropertyMapper<Partial<IHubInitiative>>(getPropertyMap());
   // Note: Although we are fetching the model, and applying changes onto it,
   // we are not attempting to handle "concurrent edit" conflict resolution
   // but this is where we would apply that sort of logic
-  const modelToUpdate = mapper.objectToModel(project, model);
+  const modelToUpdate = mapper.objectToModel(initiative, model);
   // update the backing item
   const updatedModel = await updateModel(modelToUpdate, requestOptions);
-  // now map back into a project and return that
-  let updatedProject = mapper.modelToObject(updatedModel, project);
-  updatedProject = computeProps(model, updatedProject, requestOptions);
+  // now map back into an initiative and return that
+  let updatedInitiative = mapper.modelToObject(updatedModel, initiative);
+  updatedInitiative = computeProps(model, updatedInitiative, requestOptions);
   // the casting is needed because modelToObject returns a `Partial<T>`
   // where as this function returns a `T`
-  return updatedProject as IHubProject;
+  return updatedInitiative as IHubInitiative;
 }
 
 /**
  * @private
- * Get a Hub Project by id or slug
+ * Get a Hub Initiative by id or slug
  * @param identifier item id or slug
  * @param requestOptions
  */
-export function fetchProject(
+export function fetchInitiative(
   identifier: string,
   requestOptions: IRequestOptions
-): Promise<IHubProject> {
+): Promise<IHubInitiative> {
   let getPrms;
   if (isGuid(identifier)) {
     // get item by id
@@ -149,17 +151,17 @@ export function fetchProject(
   }
   return getPrms.then((item) => {
     if (!item) return null;
-    return convertItemToProject(item, requestOptions);
+    return convertItemToInitiative(item, requestOptions);
   });
 }
 
 /**
  * @private
- * Remove a Hub Project
+ * Remove a Hub Initiative
  * @param id
  * @param requestOptions
  */
-export async function deleteProject(
+export async function deleteInitiative(
   id: string,
   requestOptions: IUserRequestOptions
 ): Promise<void> {
@@ -170,59 +172,63 @@ export async function deleteProject(
 
 /**
  * @private
- * Convert an Hub Project Item into a Hub Project, fetching any additional
+ * Convert an Hub Initiative Item into a Hub Initiative, fetching any additional
  * information that may be required
  * @param item
  * @param auth
  * @returns
  */
-export async function convertItemToProject(
+export async function convertItemToInitiative(
   item: IItem,
   requestOptions: IRequestOptions
-): Promise<IHubProject> {
+): Promise<IHubInitiative> {
   const model = await fetchModelFromItem(item, requestOptions);
-  const mapper = new PropertyMapper<Partial<IHubProject>>(getPropertyMap());
-  const prj = mapper.modelToObject(model, {}) as IHubProject;
+  const mapper = new PropertyMapper<Partial<IHubInitiative>>(getPropertyMap());
+  const prj = mapper.modelToObject(model, {}) as IHubInitiative;
   return computeProps(model, prj, requestOptions);
 }
 
 /**
- * Given a model and a project, set various computed properties that can't be directly mapped
+ * Given a model and an initiative, set various computed properties that can't be directly mapped
  * @param model
- * @param project
+ * @param initiative
  * @param requestOptions
  * @returns
  */
 function computeProps(
   model: IModel,
-  project: Partial<IHubProject>,
+  initiative: Partial<IHubInitiative>,
   requestOptions: IRequestOptions
-): IHubProject {
+): IHubInitiative {
   let token: string;
   if (requestOptions.authentication) {
     const session: UserSession = requestOptions.authentication as UserSession;
     token = session.token;
   }
   // thumbnail url
-  project.thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
+  initiative.thumbnailUrl = getItemThumbnailUrl(
+    model.item,
+    requestOptions,
+    token
+  );
   // Handle Dates
-  project.createdDate = new Date(model.item.created);
-  project.createdDateSource = "item.created";
-  project.updatedDate = new Date(model.item.modified);
-  project.updatedDateSource = "item.modified";
-  // cast b/c this takes a partial but returns a full project
-  return project as IHubProject;
+  initiative.createdDate = new Date(model.item.created);
+  initiative.createdDateSource = "item.created";
+  initiative.updatedDate = new Date(model.item.modified);
+  initiative.updatedDateSource = "item.modified";
+  // cast b/c this takes a partial but returns a full initiative
+  return initiative as IHubInitiative;
 }
 
 /**
  * @private
- * Fetch project specific enrichments
+ * Fetch Initiative specific enrichments
  * @param item
  * @param include
  * @param requestOptions
  * @returns
  */
-export async function enrichProjectSearchResult(
+export async function enrichInitiativeSearchResult(
   item: IItem,
   include: string[],
   requestOptions: IHubRequestOptions

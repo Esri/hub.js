@@ -46,4 +46,9 @@ export interface IHubItemEntity extends IHubEntityBase {
    * Access level of the item ("private" | "org" | "public")
    */
   access?: AccessLevel;
+  /**
+   * Current schema version. Used to determine what if any
+   * schema migrations should be applied when the item is loaded
+   */
+  schemaVersion: number;
 }

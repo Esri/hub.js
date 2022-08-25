@@ -3,7 +3,7 @@ import { IHubPermission } from "../types";
 /**
  * Adds permissions property to an entity
  */
-export interface IWithPermissionDefinition {
+export interface IWithPermissions {
   /**
    * List of permissions for the entity
    */

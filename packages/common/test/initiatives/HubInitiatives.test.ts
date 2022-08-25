@@ -3,15 +3,13 @@ import * as FetchEnrichments from "../../src/items/_enrichments";
 import {
   cloneObject,
   IModel,
-  fetchProject,
-  deleteProject,
-  IHubProject,
-  createProject,
-  updateProject,
+  fetchInitiative,
+  deleteInitiative,
+  IHubInitiative,
+  createInitiative,
+  updateInitiative,
   IHubRequestOptions,
-  enrichProjectSearchResult,
-  IQuery,
-  IHubSearchOptions,
+  enrichInitiativeSearchResult,
 } from "../../src";
 
 import { MOCK_AUTH } from "../mocks/mock-auth";
@@ -20,16 +18,16 @@ import * as slugUtils from "../../src/items/slugs";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
-const PROJECT_ITEM: portalModule.IItem = {
+const INITIATIVE_ITEM: portalModule.IItem = {
   id: GUID,
-  title: "Fake Project",
+  title: "Fake Initiative",
   description: "fake description",
   snippet: "fake snippet",
   properties: {
     schemaVersion: 1,
   },
   owner: "vader",
-  type: "Hub Project",
+  type: "Hub Initiative",
   created: 1643646881000,
   modified: 1643646881000,
   tags: [],
@@ -39,16 +37,14 @@ const PROJECT_ITEM: portalModule.IItem = {
   size: 0,
 } as portalModule.IItem;
 
-const PROJECT_DATA = {
-  timeline: {},
-};
+const INITIATIVE_DATA = {};
 
-const PROJECT_MODEL = {
-  item: PROJECT_ITEM,
-  data: PROJECT_DATA,
+const INITIATIVE_MODEL = {
+  item: INITIATIVE_ITEM,
+  data: INITIATIVE_DATA,
 } as IModel;
 
-const PROJECT_ITEM_ENRICH: portalModule.IItem = {
+const INITIATIVE_ITEM_ENRICH: portalModule.IItem = {
   id: "0332f8205e594368b8c3409772f2dcf1",
   owner: "dev_pre_hub_admin",
   created: 1652819949000,
@@ -56,12 +52,11 @@ const PROJECT_ITEM_ENRICH: portalModule.IItem = {
   modified: 1652819949000,
   guid: null,
   name: null,
-  title: "Data Project",
-  type: "Hub Project",
+  title: "Data Initiative",
+  type: "Hub Initiative",
   typeKeywords: [
-    "Dave Projects",
     "Hub",
-    "Hub Project",
+    "Hub Initiative",
     "JavaScript",
     "Map",
     "Mapping Site",
@@ -70,10 +65,10 @@ const PROJECT_ITEM_ENRICH: portalModule.IItem = {
     "selfConfigured",
     "Web Map",
   ],
-  description: "Test Project with data",
-  tags: ["hubproject"],
+  description: "Test Initiative with data",
+  tags: ["hubinitiative"],
   // snippet: null,
-  thumbnail: "thumbnail/my-project.png",
+  thumbnail: "thumbnail/my-thing.png",
   // documentation: null,
   extent: [],
   categories: [],
@@ -106,17 +101,17 @@ const PROJECT_ITEM_ENRICH: portalModule.IItem = {
   contentOrigin: "self",
 };
 
-describe("HubProjects:", () => {
-  describe("fetchProject:", () => {
+describe("HubInitiatives:", () => {
+  describe("fetchInitiative:", () => {
     it("gets by id, if passed a guid", async () => {
       const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
-        Promise.resolve(PROJECT_ITEM)
+        Promise.resolve(INITIATIVE_ITEM)
       );
       const getItemDataSpy = spyOn(portalModule, "getItemData").and.returnValue(
-        Promise.resolve(PROJECT_DATA)
+        Promise.resolve(INITIATIVE_DATA)
       );
 
-      const chk = await fetchProject(GUID, {
+      const chk = await fetchInitiative(GUID, {
         authentication: MOCK_AUTH,
       });
       expect(chk.id).toBe(GUID);
@@ -129,15 +124,15 @@ describe("HubProjects:", () => {
 
     it("gets without auth", async () => {
       const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
-        Promise.resolve(PROJECT_ITEM)
+        Promise.resolve(INITIATIVE_ITEM)
       );
       const getItemDataSpy = spyOn(portalModule, "getItemData").and.returnValue(
-        Promise.resolve(PROJECT_DATA)
+        Promise.resolve(INITIATIVE_DATA)
       );
       const ro: IRequestOptions = {
         portal: "https://gis.myserver.com/portal/sharing/rest",
       };
-      const chk = await fetchProject(GUID, ro);
+      const chk = await fetchInitiative(GUID, ro);
       expect(chk.id).toBe(GUID);
       expect(chk.owner).toBe("vader");
       expect(chk.thumbnailUrl).toBe(
@@ -153,12 +148,12 @@ describe("HubProjects:", () => {
       const getItemBySlugSpy = spyOn(
         slugUtils,
         "getItemBySlug"
-      ).and.returnValue(Promise.resolve(PROJECT_ITEM));
+      ).and.returnValue(Promise.resolve(INITIATIVE_ITEM));
       const getItemDataSpy = spyOn(portalModule, "getItemData").and.returnValue(
-        Promise.resolve(PROJECT_DATA)
+        Promise.resolve(INITIATIVE_DATA)
       );
 
-      const chk = await fetchProject("dcdev-34th-street", {
+      const chk = await fetchInitiative("dcdev-34th-street", {
         authentication: MOCK_AUTH,
       });
       expect(getItemBySlugSpy.calls.count()).toBe(1);
@@ -175,13 +170,13 @@ describe("HubProjects:", () => {
         "getItemBySlug"
       ).and.returnValue(Promise.resolve(null));
 
-      const chk = await fetchProject("dcdev-34th-street", {
+      const chk = await fetchInitiative("dcdev-34th-street", {
         authentication: MOCK_AUTH,
       });
       expect(getItemBySlugSpy.calls.count()).toBe(1);
       expect(getItemBySlugSpy.calls.argsFor(0)[0]).toBe("dcdev-34th-street");
       // This next stuff is O_o but req'd by typescript
-      expect(chk).toEqual(null as unknown as IHubProject);
+      expect(chk).toEqual(null as unknown as IHubInitiative);
     });
   });
 
@@ -191,7 +186,7 @@ describe("HubProjects:", () => {
         Promise.resolve({ success: true })
       );
 
-      const result = await deleteProject("3ef", {
+      const result = await deleteInitiative("3ef", {
         authentication: MOCK_AUTH,
       });
       expect(result).toBeUndefined();
@@ -201,8 +196,8 @@ describe("HubProjects:", () => {
     });
   });
 
-  describe("createProject:", () => {
-    it("works with very limited initial structure", async () => {
+  describe("createInitiative:", () => {
+    it("works with very limited structure", async () => {
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
         Promise.resolve("dcdev|hello-world")
       );
@@ -213,7 +208,7 @@ describe("HubProjects:", () => {
           return Promise.resolve(newModel);
         }
       );
-      const chk = await createProject(
+      const chk = await createInitiative(
         { name: "Hello World", orgUrlKey: "dcdev" },
         { authentication: MOCK_AUTH }
       );
@@ -230,7 +225,7 @@ describe("HubProjects:", () => {
       expect(createSpy.calls.count()).toBe(1);
       const modelToCreate = createSpy.calls.argsFor(0)[0];
       expect(modelToCreate.item.title).toBe("Hello World");
-      expect(modelToCreate.item.type).toBe("Hub Project");
+      expect(modelToCreate.item.type).toBe("Hub Initiative");
       expect(modelToCreate.item.properties.slug).toBe("dcdev|hello-world");
       expect(modelToCreate.item.properties.orgUrlKey).toBe("dcdev");
     });
@@ -246,7 +241,7 @@ describe("HubProjects:", () => {
           return Promise.resolve(newModel);
         }
       );
-      const chk = await createProject(
+      const chk = await createInitiative(
         {
           name: "Hello World",
           slug: "dcdev|hello-world", // important for coverage
@@ -272,20 +267,20 @@ describe("HubProjects:", () => {
     });
   });
 
-  describe("updateProject: ", () => {
+  describe("updateInitiative: ", () => {
     it("updates backing model", async () => {
       const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
         Promise.resolve("dcdev-wat-blarg-1")
       );
       const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
-        Promise.resolve(PROJECT_MODEL)
+        Promise.resolve(INITIATIVE_MODEL)
       );
       const updateModelSpy = spyOn(modelUtils, "updateModel").and.callFake(
         (m: IModel) => {
           return Promise.resolve(m);
         }
       );
-      const prj: IHubProject = {
+      const prj: IHubInitiative = {
         id: GUID,
         name: "Hello World",
         tags: ["Transportation"],
@@ -293,12 +288,11 @@ describe("HubProjects:", () => {
         slug: "dcdev-wat-blarg",
         orgUrlKey: "dcdev",
         owner: "dcdev_dude",
-        type: "Hub Project",
+        type: "Hub Initiative",
         createdDate: new Date(1595878748000),
         createdDateSource: "item.created",
         updatedDate: new Date(1595878750000),
         updatedDateSource: "item.modified",
-        status: "active",
         thumbnailUrl: "",
         permissions: [],
         catalog: {
@@ -306,7 +300,7 @@ describe("HubProjects:", () => {
         },
         schemaVersion: 1,
       };
-      const chk = await updateProject(prj, { authentication: MOCK_AUTH });
+      const chk = await updateInitiative(prj, { authentication: MOCK_AUTH });
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Hello World");
       expect(chk.description).toBe("Some longer description");
@@ -343,8 +337,8 @@ describe("HubProjects:", () => {
       };
     });
     it("converts item to search result", async () => {
-      const chk = await enrichProjectSearchResult(
-        cloneObject(PROJECT_ITEM_ENRICH),
+      const chk = await enrichInitiativeSearchResult(
+        cloneObject(INITIATIVE_ITEM_ENRICH),
         [],
         hubRo
       );
@@ -355,7 +349,7 @@ describe("HubProjects:", () => {
       );
 
       // verify expected output
-      const ITM = cloneObject(PROJECT_ITEM_ENRICH);
+      const ITM = cloneObject(INITIATIVE_ITEM_ENRICH);
       expect(chk.access).toEqual(ITM.access);
       expect(chk.id).toEqual(ITM.id);
       expect(chk.type).toEqual(ITM.type);
@@ -366,24 +360,24 @@ describe("HubProjects:", () => {
       expect(chk.createdDateSource).toEqual("item.created");
       expect(chk.updatedDate).toEqual(new Date(ITM.modified));
       expect(chk.updatedDateSource).toEqual("item.modified");
-      expect(chk.family).toEqual("project");
+      expect(chk.family).toEqual("initiative");
       expect(chk.links?.self).toEqual(
         `https://some-server.com/gis/home/item.html?id=${ITM.id}`
       );
-      expect(chk.links?.siteRelative).toEqual(`/projects/${ITM.id}`);
+      expect(chk.links?.siteRelative).toEqual(`/content/${ITM.id}`);
       expect(chk.links?.thumbnail).toEqual(
         `${hubRo.portal}/content/items/${ITM.id}/info/${ITM.thumbnail}`
       );
     });
     it("uses snippet if defined", async () => {
-      const itm = cloneObject(PROJECT_ITEM_ENRICH);
+      const itm = cloneObject(INITIATIVE_ITEM_ENRICH);
       itm.snippet = "This should be used";
-      const chk = await enrichProjectSearchResult(itm, [], hubRo);
+      const chk = await enrichInitiativeSearchResult(itm, [], hubRo);
       expect(chk.summary).toEqual(itm.snippet);
     });
     it("fetches enrichments", async () => {
-      const chk = await enrichProjectSearchResult(
-        cloneObject(PROJECT_ITEM_ENRICH),
+      const chk = await enrichInitiativeSearchResult(
+        cloneObject(INITIATIVE_ITEM_ENRICH),
         ["data.status AS projectStatus"],
         hubRo
       );
@@ -394,7 +388,7 @@ describe("HubProjects:", () => {
       // verify the spy
       expect(enrichmentSpy.calls.count()).toBe(1, "should fetch enrichments");
       const [item, enrichments, ro] = enrichmentSpy.calls.argsFor(0);
-      expect(item).toEqual(PROJECT_ITEM_ENRICH);
+      expect(item).toEqual(INITIATIVE_ITEM_ENRICH);
       expect(enrichments).toEqual(["data"]);
       expect(ro).toBe(hubRo);
     });

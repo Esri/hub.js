@@ -1,0 +1,57 @@
+import { IPropertyMap } from "./PropertyMapper";
+
+/**
+ * Returns an Array of IPropertyMap objects
+ * that define the standard projection of properties from a IModel an entity interface
+ * @returns
+ */
+export function getBasePropertyMap(): IPropertyMap[] {
+  const itemProps = [
+    "access",
+    "created",
+    "culture",
+    "description",
+    "extent",
+    "id",
+    "modified",
+    "owner",
+    "snippet",
+    "tags",
+    "type",
+    "typeKeywords",
+    "url",
+  ];
+  const dataProps = [
+    "catalog",
+    "contacts",
+    "display",
+    "geometry",
+    "location",
+    "permissions",
+  ];
+  const map: IPropertyMap[] = [];
+  itemProps.forEach((entry) => {
+    map.push({ objectKey: entry, modelKey: `item.${entry}` });
+  });
+  dataProps.forEach((entry) => {
+    map.push({ objectKey: entry, modelKey: `data.${entry}` });
+  });
+  // Deeper mappings
+  map.push({
+    objectKey: "slug",
+    modelKey: "item.properties.slug",
+  });
+  map.push({
+    objectKey: "schemaVersion",
+    modelKey: "item.properties.schemaVersion",
+  });
+  map.push({
+    objectKey: "orgUrlKey",
+    modelKey: "item.properties.orgUrlKey",
+  });
+  map.push({
+    objectKey: "name",
+    modelKey: "item.title",
+  });
+  return map;
+}

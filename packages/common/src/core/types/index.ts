@@ -1,12 +1,12 @@
 export * from "./IHubContent";
 export * from "./IHubContentEnrichments";
 export * from "./IHubEntityBase";
-export * from "./IHubEntityManager";
+
 export * from "./IHubEvent";
 export * from "./IHubImage";
 export * from "./IHubInitiative";
 export * from "./IHubItemEntity";
-export * from "./IHubItemEntityManager";
+
 export * from "./IHubLayout";
 export * from "./IHubPage";
 export * from "./IHubProject";
