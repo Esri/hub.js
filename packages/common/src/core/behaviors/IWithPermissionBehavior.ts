@@ -7,6 +7,18 @@ import { IHubPermission, HubPermission } from "../types/IHubPermission";
  */
 export interface IWithPermissionBehavior {
   permissions: PermissionManager;
+  /**
+   * Can the current user edit the Entity?
+   * User must be owner, or member of a shared editing group, to which the item is shared
+   * @param useCache by default, this method will use cached user groups and item groups. Passing false will force a re-caching of this information
+   */
+  canEdit(useCache: boolean): Promise<boolean>;
+  /**
+   * Can the current user delete the Entity?
+   * User must own the entiry or be an org admin in the owner's org
+   * @param useCache by default, this method will use cached user groups and item groups. Passing false will force a re-caching of this information
+   */
+  canDelete(useCache: boolean): Promise<boolean>;
 }
 
 // Permission util functions

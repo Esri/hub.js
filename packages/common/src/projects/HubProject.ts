@@ -22,11 +22,13 @@ import { Catalog } from "../search/Catalog";
 import { IArcGISContext } from "../ArcGISContext";
 import { IGroup } from "@esri/arcgis-rest-types";
 import {
+  getUser,
   setItemAccess,
   shareItemWithGroup,
   unshareItemWithGroup,
 } from "@esri/arcgis-rest-portal";
 import { sharedWith } from "../core/_internal/sharedWith";
+import { mapBy } from "../utils";
 
 /**
  * Hub Project Class
@@ -43,6 +45,7 @@ export class HubProject
   private isDestroyed: boolean = false;
   private _catalog: Catalog;
   private _permissionManager: PermissionManager;
+  private _cachedEntityGroups: IGroup[];
   /**
    * Private constructor so we don't have `new` all over the place. Allows for
    * more flexibility in how we create the HubProjectManager over time.
@@ -268,10 +271,96 @@ export class HubProject
    * Return a list of groups the Project is shared to.
    * @returns
    */
-  async sharedWith(): Promise<IGroup[]> {
-    // delegate to a util that merges the three arrays returned from the api, into a single array
-    return sharedWith(this.entity.id, this.context.requestOptions);
+  async sharedWith(useCache: boolean = true): Promise<IGroup[]> {
+    if (!this._cachedEntityGroups || !useCache) {
+      this._cachedEntityGroups = await sharedWith(
+        this.entity.id,
+        this.context.requestOptions
+      );
+    }
+    return Promise.resolve(this._cachedEntityGroups);
   }
 
   //#endregion
+
+  // TODO: Abstract into utils or a "Manager" class we proxy to
+
+  /**
+   * Can the current user edit this Project?
+   * Logic:
+   * - owner can edit
+   * - members of shared edit groups to which the backing item is shared can edit
+   * @param useCache
+   * @returns
+   */
+  async canEdit(useCache: boolean = true): Promise<boolean> {
+    const user = this.context.currentUser;
+    // owner can always edit
+    if (user.username === this.entity.owner) {
+      return Promise.resolve(true);
+    }
+    // user groups are loaded when the context is initialized
+    // TODO: figure out how to have context update the groups and use a cache
+    let usersGroups = this.context.currentUser.groups || [];
+    if (!useCache) {
+      // break the cache of groups, by fetching the user, which has the groups
+      const u = await getUser(user.username);
+      usersGroups = u.groups;
+    }
+
+    if (!usersGroups.length) {
+      // if user is not owner and not in any groups they can't have edit access
+      return Promise.resolve(false);
+    }
+
+    // get the groups the entity is shared to
+    const entityGroups = await this.sharedWith(useCache);
+    // filter to shared edit groups
+    const editGroupIds = entityGroups
+      .filter((g) => {
+        const caps = (g.capabilities as string[]) || [];
+        return caps.includes("updateitemcontrol");
+      })
+      .map((g) => g.id);
+    // get the user's groups ids
+    const usersGroupsIds = mapBy("id", usersGroups) as string[];
+    // check for any overlap
+    let isMemberOfEditGroup = false;
+    usersGroupsIds.forEach((id) => {
+      // only check if flag is still false
+      if (!isMemberOfEditGroup) {
+        isMemberOfEditGroup = editGroupIds.includes(id);
+      }
+    });
+    return Promise.resolve(isMemberOfEditGroup);
+  }
+  /**
+   * Can the current user delete this project?
+   * Rules:
+   * - owner can delete
+   * - org admin from same org as owner can delete
+   * @param useCache
+   * @returns
+   */
+  async canDelete(useCache: boolean): Promise<boolean> {
+    const user = this.context.currentUser;
+    // owner can always delete
+    if (user.username === this.entity.owner) {
+      return Promise.resolve(true);
+    }
+    // if not owner, check if user is org_admin in same org as owner
+    if (user.role === "org_admin" && !user.roleId) {
+      // need to get the owner, and see if the orgid matches
+      const ownerUser = await getUser({
+        username: this.entity.owner,
+        authentication: this.context.session,
+      });
+      // ensure owner orgId is not null and matched current user
+      const adminCanDelete = ownerUser.orgId && ownerUser.orgId === user.orgId;
+      return Promise.resolve(adminCanDelete);
+    } else {
+      // not org admin, can't edit
+      return Promise.resolve(false);
+    }
+  }
 }

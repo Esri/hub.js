@@ -24,5 +24,5 @@ export interface IWithSharingBehavior {
    * Get the list of groups that the item is shared to.
    * Limited to Groups that the user has access to
    */
-  sharedWith(): Promise<IGroup[]>;
+  sharedWith(useCache: boolean): Promise<IGroup[]>;
 }
