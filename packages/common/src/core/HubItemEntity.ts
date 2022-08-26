@@ -27,6 +27,10 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
 
   //#region IWithStoreBehavior
 
+  /**
+   * Return the backing entity as an object literal
+   * @returns
+   */
   toJson(): T {
     if (this.isDestroyed) {
       throw new Error("Entity is already destroyed.");

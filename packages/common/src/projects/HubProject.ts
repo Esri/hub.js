@@ -9,7 +9,6 @@ import {
   IWithSharingBehavior,
 } from "../core";
 
-import { cloneObject } from "../util";
 import {
   createProject,
   deleteProject,
@@ -19,7 +18,6 @@ import {
 
 import { Catalog } from "../search/Catalog";
 import { IArcGISContext } from "../ArcGISContext";
-
 import { HubItemEntity } from "../core/HubItemEntity";
 
 /**
@@ -50,14 +48,16 @@ export class HubProject
   }
 
   /**
-   * @returns Catalog instance for this project. Note: Do not hold direct references to this object; always access it from the project.
+   * Catalog instance for this project. Note: Do not hold direct references to this object; always access it from the project.
+   * @returns
    */
   get catalog(): Catalog {
     return this._catalog;
   }
 
   /**
-   * @returns PermissionManager instance for this project. Note: Do not hold direct references to this object; always access it from the project.
+   * PermissionManager instance for this project. Note: Do not hold direct references to this object; always access it from the project.
+   * @returns
    */
   get permissions(): PermissionManager {
     return this._permissionManager;
