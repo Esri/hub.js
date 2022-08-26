@@ -7,7 +7,6 @@ import {
   PermissionManager,
   IWithStoreBehavior,
   IWithSharingBehavior,
-  SettableAccessLevel,
 } from "../core";
 
 import { cloneObject } from "../util";
@@ -20,27 +19,20 @@ import {
 
 import { Catalog } from "../search/Catalog";
 import { IArcGISContext } from "../ArcGISContext";
-import { IGroup } from "@esri/arcgis-rest-types";
-import {
-  setItemAccess,
-  shareItemWithGroup,
-  unshareItemWithGroup,
-} from "@esri/arcgis-rest-portal";
-import { sharedWith } from "../core/_internal/sharedWith";
+
+import { HubItemEntity } from "../core/HubItemEntity";
 
 /**
  * Hub Project Class
  */
 export class HubProject
+  extends HubItemEntity<IHubProject>
   implements
     IWithStoreBehavior<IHubProject>,
     IWithPermissionBehavior,
     IWithCatalogBehavior,
     IWithSharingBehavior
 {
-  private context: IArcGISContext;
-  private entity: IHubProject;
-  private isDestroyed: boolean = false;
   private _catalog: Catalog;
   private _permissionManager: PermissionManager;
   /**
@@ -49,8 +41,7 @@ export class HubProject
    * @param context
    */
   private constructor(project: IHubProject, context: IArcGISContext) {
-    this.context = context;
-    this.entity = project;
+    super(project, context);
     this._catalog = Catalog.fromJson(project.catalog, this.context);
     this._permissionManager = PermissionManager.fromJson(
       project.permissions,
@@ -149,17 +140,6 @@ export class HubProject
   }
 
   /**
-   * Get the current state of the IHubProject from the instance
-   * @returns IHubProject POJO
-   */
-  toJson(): IHubProject {
-    if (this.isDestroyed) {
-      throw new Error("HubProject is already destroyed.");
-    }
-    return cloneObject(this.entity) as unknown as IHubProject;
-  }
-
-  /**
    * Apply a new state to the instance
    * @param changes
    */
@@ -224,54 +204,4 @@ export class HubProject
     // Delegate to module fn
     await deleteProject(this.entity.id, this.context.userRequestOptions);
   }
-
-  //#region IWithSharingBehavior
-  /**
-   * Share the Project with the specified group id
-   * @param groupId
-   */
-  async shareWithGroup(groupId: string): Promise<void> {
-    await shareItemWithGroup({
-      id: this.entity.id,
-      groupId,
-      owner: this.entity.owner,
-      authentication: this.context.session,
-    });
-  }
-  /**
-   * Unshare the Project with the specified group id
-   * @param groupId
-   */
-  async unshareWithGroup(groupId: string): Promise<void> {
-    await unshareItemWithGroup({
-      id: this.entity.id,
-      groupId,
-      owner: this.entity.owner,
-      authentication: this.context.session,
-    });
-  }
-  /**
-   * Set the access level of the backing item
-   * @param access
-   */
-  async setAccess(access: SettableAccessLevel): Promise<void> {
-    await setItemAccess({
-      id: this.entity.id,
-      access,
-      authentication: this.context.session,
-    });
-    // if this succeeded, update the entity
-    this.entity.access = access;
-  }
-
-  /**
-   * Return a list of groups the Project is shared to.
-   * @returns
-   */
-  async sharedWith(): Promise<IGroup[]> {
-    // delegate to a util that merges the three arrays returned from the api, into a single array
-    return sharedWith(this.entity.id, this.context.requestOptions);
-  }
-
-  //#endregion
 }

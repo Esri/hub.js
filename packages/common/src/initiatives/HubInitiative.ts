@@ -7,7 +7,6 @@ import {
   PermissionManager,
   IWithStoreBehavior,
   IWithSharingBehavior,
-  SettableAccessLevel,
 } from "../core";
 
 import { cloneObject } from "../util";
@@ -20,27 +19,20 @@ import {
 
 import { Catalog } from "../search/Catalog";
 import { IArcGISContext } from "../ArcGISContext";
-import { IGroup } from "@esri/arcgis-rest-types";
-import {
-  setItemAccess,
-  shareItemWithGroup,
-  unshareItemWithGroup,
-} from "@esri/arcgis-rest-portal";
-import { sharedWith } from "../core/_internal/sharedWith";
+
+import { HubItemEntity } from "../core/HubItemEntity";
 
 /**
  * Hub Initiative Class
  */
 export class HubInitiative
+  extends HubItemEntity<IHubInitiative>
   implements
     IWithStoreBehavior<IHubInitiative>,
     IWithPermissionBehavior,
     IWithCatalogBehavior,
     IWithSharingBehavior
 {
-  private context: IArcGISContext;
-  private entity: IHubInitiative;
-  private isDestroyed: boolean = false;
   private _catalog: Catalog;
   private _permissionManager: PermissionManager;
   /**
@@ -49,8 +41,7 @@ export class HubInitiative
    * @param context
    */
   private constructor(entity: IHubInitiative, context: IArcGISContext) {
-    this.context = context;
-    this.entity = entity;
+    super(entity, context);
     this._catalog = Catalog.fromJson(entity.catalog, this.context);
     this._permissionManager = PermissionManager.fromJson(
       entity.permissions,
@@ -154,17 +145,6 @@ export class HubInitiative
   }
 
   /**
-   * Get the current state of the IHubInitiative from the instance
-   * @returns IHubInitiative POJO
-   */
-  toJson(): IHubInitiative {
-    if (this.isDestroyed) {
-      throw new Error("HubInitiative is already destroyed.");
-    }
-    return cloneObject(this.entity) as unknown as IHubInitiative;
-  }
-
-  /**
    * Apply a new state to the instance
    * @param changes
    */
@@ -230,54 +210,4 @@ export class HubInitiative
     // Delegate to module fn
     await deleteInitiative(this.entity.id, this.context.userRequestOptions);
   }
-
-  //#region IWithSharingBehavior
-  /**
-   * Share with the specified group id
-   * @param groupId
-   */
-  async shareWithGroup(groupId: string): Promise<void> {
-    await shareItemWithGroup({
-      id: this.entity.id,
-      groupId,
-      owner: this.entity.owner,
-      authentication: this.context.session,
-    });
-  }
-  /**
-   * Unshare with the specified group id
-   * @param groupId
-   */
-  async unshareWithGroup(groupId: string): Promise<void> {
-    await unshareItemWithGroup({
-      id: this.entity.id,
-      groupId,
-      owner: this.entity.owner,
-      authentication: this.context.session,
-    });
-  }
-  /**
-   * Set the access level of the backing item
-   * @param access
-   */
-  async setAccess(access: SettableAccessLevel): Promise<void> {
-    await setItemAccess({
-      id: this.entity.id,
-      access,
-      authentication: this.context.session,
-    });
-    // if this succeeded, update the entity
-    this.entity.access = access;
-  }
-
-  /**
-   * Return a list of groups the Initiative is shared to.
-   * @returns
-   */
-  async sharedWith(): Promise<IGroup[]> {
-    // delegate to a util that merges the three arrays returned from the api, into a single array
-    return sharedWith(this.entity.id, this.context.requestOptions);
-  }
-
-  //#endregion
 }

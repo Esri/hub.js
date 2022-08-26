@@ -192,7 +192,7 @@ describe("HubInitiative Class:", () => {
     // all fns should now throw an error
     expect(() => {
       chk.toJson();
-    }).toThrowError("HubInitiative is already destroyed.");
+    }).toThrowError("Entity is already destroyed.");
 
     expect(() => {
       chk.update({ name: "Test Initiative 2" } as IHubInitiative);

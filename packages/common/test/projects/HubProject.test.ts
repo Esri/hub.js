@@ -185,7 +185,7 @@ describe("HubProject Class:", () => {
     // all fns should now throw an error
     expect(() => {
       chk.toJson();
-    }).toThrowError("HubProject is already destroyed.");
+    }).toThrowError("Entity is already destroyed.");
 
     expect(() => {
       chk.update({ name: "Test Project 2" } as IHubProject);
