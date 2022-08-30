@@ -51,10 +51,10 @@ function getPropertyMap(): IPropertyMap[] {
   const map = getBasePropertyMap();
 
   // Type specific mappings
-  map.push({
-    objectKey: "status",
-    modelKey: "data.status",
-  });
+  map.push({ objectKey: "status", modelKey: "data.status" });
+  map.push({ objectKey: "catalog", modelKey: "data.catalog" });
+  map.push({ objectKey: "permissions", modelKey: "data.permissions" });
+  map.push({ objectKey: "contacts", modelKey: "data.contacts" });
 
   return map;
 }
@@ -181,6 +181,7 @@ export async function convertItemToProject(
   requestOptions: IRequestOptions
 ): Promise<IHubProject> {
   const model = await fetchModelFromItem(item, requestOptions);
+  // TODO: In the future we will handle the boundary fetching from resource
   const mapper = new PropertyMapper<Partial<IHubProject>>(getPropertyMap());
   const prj = mapper.modelToObject(model, {}) as IHubProject;
   return computeProps(model, prj, requestOptions);

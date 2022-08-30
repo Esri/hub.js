@@ -48,8 +48,12 @@ import { getBasePropertyMap } from "../core/_internal/getBasePropertyMap";
  * @returns
  */
 function getPropertyMap(): IPropertyMap[] {
-  // at this time, initiative does not have any additional properties
-  return getBasePropertyMap();
+  const map = getBasePropertyMap();
+
+  // Type specific mappings
+  map.push({ objectKey: "catalog", modelKey: "data.catalog" });
+  map.push({ objectKey: "permissions", modelKey: "data.permissions" });
+  return map;
 }
 
 /**

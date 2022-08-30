@@ -21,14 +21,7 @@ export function getBasePropertyMap(): IPropertyMap[] {
     "typeKeywords",
     "url",
   ];
-  const dataProps = [
-    "catalog",
-    "contacts",
-    "display",
-    "geometry",
-    "location",
-    "permissions",
-  ];
+  const dataProps = ["display", "geometry", "location"];
   const map: IPropertyMap[] = [];
   itemProps.forEach((entry) => {
     map.push({ objectKey: entry, modelKey: `item.${entry}` });
@@ -52,6 +45,10 @@ export function getBasePropertyMap(): IPropertyMap[] {
   map.push({
     objectKey: "name",
     modelKey: "item.title",
+  });
+  map.push({
+    objectKey: "boundary",
+    modelKey: "item.properties.boundary",
   });
   return map;
 }
