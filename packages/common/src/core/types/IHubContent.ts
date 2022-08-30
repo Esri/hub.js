@@ -19,7 +19,7 @@ export enum PublisherSource {
  * Data model for content
  */
 export interface IHubContent
-  extends Omit<IHubItemEntity, "schemaVersion">,
+  extends Omit<IHubItemEntity, "schemaVersion" | "extent">,
     IHubContentEnrichments,
     IItem {
   // NOTE: for content we keep and expose a reference to the underlying item
