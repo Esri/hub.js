@@ -1,7 +1,6 @@
 import { IHubEntityBase } from "./IHubEntityBase";
 import { IHubGeography } from "../../types";
 import { AccessLevel } from "./types";
-import { IExtent } from "@esri/arcgis-rest-feature-layer";
 
 /**
  * Properties exposed by Entities that are backed by Items
@@ -33,7 +32,7 @@ export interface IHubItemEntity extends IHubEntityBase {
   /**
    * Extent of the Entity
    */
-  extent?: IExtent;
+  extent?: number[][];
 
   /**
    * Username of the owner of the item
