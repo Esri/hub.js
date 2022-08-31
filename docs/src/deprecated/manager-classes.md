@@ -1,59 +1,99 @@
 ---
-title: Manager Classess
-navTitle: Manager Classes
+title: Hub Classess
+navTitle: Hub Classes
 description: Design Patterns in Hub.js
 order: 1
 group: 3-classes
 ---
 
-# Architecture Patterns in Hub.js
+# Working with Hub Classes
 
-Hub.js has three architectural patterns:
+Core Hub business logic has been wrapped into a set of javascript classes, representing the core Hub Entities: Site, Page, Initiative and Project. Additional classes are planned for Event, Team, and Person.
 
-- **Manager Classes** - streamlining operations on [Hub Entities](./hub-entities)
-- **`Hub` Class** - designed for automation scripting, where build size is not a concern.
-- **Plain Functions** - powering the other levels of abstraction, directly importing the functions allow for ad-hoc composition, and minimized build sizes
+## Key Patterns for Dev's building classes
 
-## Manager Classes
+- separation of structure from behavior
+  - `IWith<Noun>` structural interfaces vs `IWith<Noun>Behavior` interfaces
+- limited inheritance
+- delegation to functions
 
-To reduce cognitive load, and make it easier for developers outside the ArcGIS Hub team, we have introduced a set of Manager Classes. These classes are [Entity Specific](./hub-entities) (e.g. there is a `HubProjectManager` class), and they encapsulate the standard operations for an Entity - `create`, `update`, `destroy`, `fetch` etc, as well as entity specific operations.
+## Developer Experience
 
-For most developers, the Manager Classes are the simplest way to work with ArcGIS Hub.
+- create instance via factory functions
+- "extract to edit"
+  - optimized for reactive ui layers
+- working with editor components
+  - json schema + ui schema
 
-Manager Classes take and return "entities" as simple objects (POJOs), which are not instances of classes.
+## Hub Classes
+
+To reduce cognitive load, and make it easier for developers outside the ArcGIS Hub team, we have introduced a set of Classes. These classes are [Entity Specific](./hub-entities) (e.g. there is a `HubProject` class), and they encapsulate the standard operations for an Entity - `create`, `update`, `delete`, `fetch` etc, as well as entity specific methods.
+
+For most developers, the Classes are the simplest way to work with ArcGIS Hub.
 
 #### Available Manager Classes
 
 - [`HubProjectManager`](/hub.js/api/common/HubProjectManager)
 - [`HubSiteManager`](/hub.js/api/common/HubSiteManager)
 
-### Working with Manager Classes
+### Working with Classes
 
-Manager classes are instantiated as needed, using either an `ArcGISContext` or an `ArcGISContextManager` to provide platform and identity information. The [`ArcGISContextManager` documentation](./context.html) has additional background information.
+Classes are instantiated via factory functions, which all take an `ArcGISContext` to provide platform and identity information. The [`ArcGISContextManager` documentation](./context.html) has additional background information.
 
-Once instantiated, you can call the exposed functions without passing in platform or identity information.
+## Factory Function Examples
 
 ```ts
-import { HubProjectManager, ArcGISContextManager } from "@esri/hub-common";
+import { HubProject, ArcGISContextManager } from "@esri/hub-common";
 
 // Typically your application will manage a context manager instance
 const ctxMgr = await ArcGISContextManager.create({
   username: "casey",
   password: "abc123",
 });
-// create a project manager
-const projectMr = HubProjectManager.init(ctxMgr);
-// get a project via it's slug
-const smithStProject = await projectMr.fetch("smith-st-project");
-// update some properties
-smithStProject.state = "active";
-// use the .update method on the manager, and get a new object back
-const updated = await projectMr.update(smithStProject);
+// get the context from the manager
+const ctx = ctxMgr.context;
+
+// If you have the slug or id, use the `.fetch(...)` factory function
+// In Ember, this is commonly used in the model hook of a route, and the instance can
+// be passed forward into the controller
+const smithStProject = await HubProject.fetch("dc::smith-st-forestry", ctx);
+
+// If your app has aleady fetched the IHubProject object literal
+// create an instance using the `.fromJson(...)` factory function
+// note: since it's not fetching anything, this is a sync call
+const pineStProject = HubProject.fromJson(pineStObjectLiteral, ctx);
+
+// To create a new project, pass in an Partial<IHubProject> to `.create(..)`
+// to get an instance for a new Project. If you want to immediately save the
+// it, pass in `true` as the third argument.
+const oakStProject = await HubProject.create({ title: "Oak St Project" }, ctx);
+```
+
+## Working with Editors
+
+```ts
+// share with a group - sharing happens immediately
+await smithStProject.shareWith("00c");
+
+const canCurrentUserEditProject = await smithStProject.canEdit();
+
+if (canCurrentUserEditProject) {
+  // get the object literal from the class
+  // typically to pass into an editor component
+  const prjObjectLiteral = smithStProject.toJson();
+
+  // apply changes back into the class
+  // typically in an event handler recieving changes from an editor component
+  smithStProject.update(changedObjectLiteral);
+
+  // save changes back to the Portal item
+  await smithStProject.save();
+}
 ```
 
 ### Working with Modern Web Frameworks
 
-All modern web frameworks (React, Angular, Vue, Ember etc) leverage some form of change tracking to determine when to re-render the UI. Typically this is done via object equality (aka `===`) or ES6 proxy objects, both of which are very efficient, but add complexity when working with Class instances. To keep things simple for all frameworks, Hub.js has enforced separation between the Manager classes and the entity objects. All Manager functions which apply changes to the backing data store, will return a newobject representing the updated entity.
+All modern web frameworks (React, Angular, Vue, Ember etc) leverage some form of change tracking to determine when to re-render the UI. Typically this is done via object equality (aka `===`) or ES6 proxy objects, both of which are very efficient, but add complexity when working with Class instances. To keep things simple for all frameworks, Hub.js has enforced separation between the class instances and the entity objects.
 
 In the example above, the `.update(..)` method of the `HubProjectManager` class instance returns a new `IHubProject` entity object. This new object should then be assigned into the application's state management system.
 

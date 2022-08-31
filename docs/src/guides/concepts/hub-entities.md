@@ -28,11 +28,11 @@ In ArcGIS Online, the item type is `Hub Site Application`
 
 In ArcGIS Enterprise, the item type is `Site Application`
 
-In both environments, we use Hub.js to work with sites via the `HubSiteManager`, which operates on `IHubSite` objects.
+In both environments, we use Hub.js to work with sites via the `HubSite` class, which operates on `IHubSite` objects.
 
 #### API Links
 
-- [HubSiteManager](/hub.js/api/common/HubSiteManager)
+- Not Implemented yet [HubSite Class](/hub.js/api/common/HubSite)
 - [IHubSite](/hub.js/api/common/IHubSite)
 
 ### Hub Pages
@@ -47,7 +47,7 @@ In both environments, we use Hub.js to work with sites via the `HubPageManager`,
 
 #### API Links
 
-- [HubPageManager (Not implemented yet)]()
+- Not implemented yet [HubPage Class ]()
 - [IHubPage](/hub.js/api/common/IHubPage)
 
 ### Hub Projects
@@ -58,11 +58,11 @@ In ArcGIS Online, the item type is `Hub Project`
 
 Hub Projects are not available in ArcGIS Enterprise.
 
-We use Hub.js to work with Projects via the `HubProjectManager`, which operates on `IHubProject` objects.
+We use Hub.js to work with Projects via the `HubProject` class, which operates on `IHubProject` objects.
 
 #### API Links
 
-- [HubProjectManager](/hub.js/api/common/HubProjectManager)
+- [HubProject Class](/hub.js/api/common/HubProject)
 - [IHubProject](/hub.js/api/common/IHubProject)
 
 ### Hub Initiatives
@@ -73,22 +73,21 @@ In ArcGIS Online, the item type is `Hub Initiative`
 
 Hub Initiatives are not available in ArcGIS Enterprise.
 
-We use Hub.js to work with Initiatives via the `HubInitiativeManager`, which operates on `IHubInitiative` objects.
+We use Hub.js to work with Initiatives via the `HubInitiative` class, which operates on `IHubInitiative` objects.
 
 #### API Links
 
-- [HubInitiativeManager (Not implemented yet)]()
+- [HubInitiative Class](/hub.js/api/common/HubInitiative)
 - [IHubInitiative](/hub.js/api/common/IHubInitiative)
 
 ### Hub Content
 
 Any other items surfaced in ArcGIS Hub, are abstracted into "Hub Content". Depending on the specific item type, the properties available may vary a lot - i.e. a multi-layer feature service exposes a lot more properties than a PDF Document.
 
-Within Hub we do allow users to edit some of the basic Item information - title, description, summary, thumbnail etc, and that is done via the `HubContentManager`, which operates on `IHubContent` objects.
+Within Hub we do allow users to edit some of the basic Item information - title, description, summary, thumbnail etc, and that is done via functions exported from the `HubContent` module, which operate on `IHubContent` objects.
 
 #### API Links
 
-- [HubContentManager (Not implemented yet)]()
 - [IHubContent](/hub.js/api/common/IHubContent)
 
 ### Hub Events
@@ -97,5 +96,5 @@ Hub Events are not currently backed by items, only available in ArcGIS Online (H
 
 #### API Links
 
-- [HubEventManager (Not implemented yet)]()
+- Not Implemented Yet [HubEvent Class]()
 - [IHubEvent](/hub.js/api/common/IHubEvent)
