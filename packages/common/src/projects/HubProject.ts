@@ -19,6 +19,7 @@ import {
 import { Catalog } from "../search/Catalog";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
+import { setItemThumbnail } from "../items";
 
 /**
  * Hub Project Class
@@ -187,6 +188,8 @@ export class HubProject
         this.context.userRequestOptions
       );
     }
+    // call the after save hook on superclass
+    await super.afterSave();
 
     return;
   }
