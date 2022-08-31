@@ -1,3 +1,10 @@
+# @esri/hub-common [11.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.0.0...@esri/hub-common@11.1.0) (2022-08-31)
+
+
+### Features
+
+* add HubInitiative class ([#869](https://github.com/Esri/hub.js/issues/869)) ([6faf838](https://github.com/Esri/hub.js/commit/6faf83851bc6e2e0ae03dd35c1f78cc37b9a9071))
+
 # @esri/hub-common [11.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@10.1.0...@esri/hub-common@11.0.0) (2022-08-24)
 
 
