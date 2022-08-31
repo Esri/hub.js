@@ -13,6 +13,7 @@ export const DEFAULT_PROJECT: Partial<IHubProject> = {
   status: "inactive",
   catalog: { schemaVersion: 0 },
   permissions: [],
+  schemaVersion: 1,
 };
 
 /**
@@ -28,6 +29,7 @@ export const DEFAULT_PROJECT_MODEL: IModel = {
     typeKeywords: ["Hub Project"],
     properties: {
       slug: "",
+      schemaVersion: 1,
     },
   },
   data: {
@@ -35,6 +37,5 @@ export const DEFAULT_PROJECT_MODEL: IModel = {
     timeline: {},
     status: "inactive",
     contacts: [],
-    schemaVersion: 1,
   },
 } as unknown as IModel;

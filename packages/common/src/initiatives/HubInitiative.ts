@@ -1,7 +1,7 @@
-import { DEFAULT_PROJECT } from "./defaults";
+import { DEFAULT_INITIATIVE } from "./defaults";
 
 import {
-  IHubProject,
+  IHubInitiative,
   IWithPermissionBehavior,
   IWithCatalogBehavior,
   PermissionManager,
@@ -9,24 +9,25 @@ import {
   IWithSharingBehavior,
 } from "../core";
 
+import { cloneObject } from "../util";
 import {
-  createProject,
-  deleteProject,
-  fetchProject,
-  updateProject,
-} from "./HubProjects";
+  createInitiative,
+  deleteInitiative,
+  fetchInitiative,
+  updateInitiative,
+} from "./HubInitiatives";
 
 import { Catalog } from "../search/Catalog";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
 
 /**
- * Hub Project Class
+ * Hub Initiative Class
  */
-export class HubProject
-  extends HubItemEntity<IHubProject>
+export class HubInitiative
+  extends HubItemEntity<IHubInitiative>
   implements
-    IWithStoreBehavior<IHubProject>,
+    IWithStoreBehavior<IHubInitiative>,
     IWithPermissionBehavior,
     IWithCatalogBehavior,
     IWithSharingBehavior
@@ -35,64 +36,64 @@ export class HubProject
   private _permissionManager: PermissionManager;
   /**
    * Private constructor so we don't have `new` all over the place. Allows for
-   * more flexibility in how we create the HubProjectManager over time.
+   * more flexibility in how we create the HubInitiativeManager over time.
    * @param context
    */
-  private constructor(project: IHubProject, context: IArcGISContext) {
-    super(project, context);
-    this._catalog = Catalog.fromJson(project.catalog, this.context);
+  private constructor(entity: IHubInitiative, context: IArcGISContext) {
+    super(entity, context);
+    this._catalog = Catalog.fromJson(entity.catalog, this.context);
     this._permissionManager = PermissionManager.fromJson(
-      project.permissions,
+      entity.permissions,
       this.context
     );
   }
 
   /**
-   * Catalog instance for this project. Note: Do not hold direct references to this object; always access it from the project.
-   * @returns
+   * Catalog instance for this Initiative. Note: Do not hold direct references to this object; always access it from the Initiative.
+   * @returns Catalog
    */
   get catalog(): Catalog {
     return this._catalog;
   }
 
   /**
-   * PermissionManager instance for this project. Note: Do not hold direct references to this object; always access it from the project.
-   * @returns
+   * PermissionManager instance for this Initiative. Note: Do not hold direct references to this object; always access it from the Initiative.
+   * @returns PermissionManager
    */
   get permissions(): PermissionManager {
     return this._permissionManager;
   }
 
   /**
-   * Create an instance from an IHubProject object
-   * @param json - JSON object to create a HubProject from
+   * Create an instance from an IHubInitiative object
+   * @param json - JSON object to create a HubInitiative from
    * @param context - ArcGIS context
    * @returns
    */
   static fromJson(
-    json: Partial<IHubProject>,
+    json: Partial<IHubInitiative>,
     context: IArcGISContext
-  ): HubProject {
+  ): HubInitiative {
     // merge what we have with the default values
     const pojo = this.applyDefaults(json, context);
-    return new HubProject(pojo, context);
+    return new HubInitiative(pojo, context);
   }
 
   /**
-   * Create a new HubProject, returning a HubProject instance.
-   * Note: This does not persist the Project into the backing store
-   * @param partialProject
+   * Create a new HubInitiative, returning a HubInitiative instance.
+   * Note: This does not persist the Initiative into the backing store
+   * @param partialInitiative
    * @param context
    * @returns
    */
   static async create(
-    partialProject: Partial<IHubProject>,
+    partialInitiative: Partial<IHubInitiative>,
     context: IArcGISContext,
     save: boolean = false
-  ): Promise<HubProject> {
-    const pojo = this.applyDefaults(partialProject, context);
-    // return an instance of HubProject
-    const instance = HubProject.fromJson(pojo, context);
+  ): Promise<HubInitiative> {
+    const pojo = this.applyDefaults(partialInitiative, context);
+    // return an instance of HubInitiative
+    const instance = HubInitiative.fromJson(pojo, context);
     if (save) {
       await instance.save();
     }
@@ -100,26 +101,26 @@ export class HubProject
   }
 
   /**
-   * Fetch a Project from the backing store and return a HubProject instance.
-   * @param identifier - Identifier of the project to load
+   * Fetch an Initiative from the backing store and return a HubInitiative instance.
+   * @param identifier - slug or item id
    * @param context
    * @returns
    */
   static async fetch(
     identifier: string,
     context: IArcGISContext
-  ): Promise<HubProject> {
-    // fetch the project by id or slug
+  ): Promise<HubInitiative> {
+    // fetch by id or slug
     try {
-      const project = await fetchProject(identifier, context.requestOptions);
-      // create an instance of HubProject from the project
-      return HubProject.fromJson(project, context);
+      const entity = await fetchInitiative(identifier, context.requestOptions);
+      // create an instance of HubInitiative from the entity
+      return HubInitiative.fromJson(entity, context);
     } catch (ex) {
       if (
         (ex as Error).message ===
         "CONT_0001: Item does not exist or is inaccessible."
       ) {
-        throw new Error(`Project not found.`);
+        throw new Error(`Initiative not found.`);
       } else {
         throw ex;
       }
@@ -127,15 +128,18 @@ export class HubProject
   }
 
   private static applyDefaults(
-    partialProject: Partial<IHubProject>,
+    partialInitiative: Partial<IHubInitiative>,
     context: IArcGISContext
-  ): IHubProject {
+  ): IHubInitiative {
     // ensure we have the orgUrlKey
-    if (!partialProject.orgUrlKey) {
-      partialProject.orgUrlKey = context.portal.urlKey;
+    if (!partialInitiative.orgUrlKey) {
+      partialInitiative.orgUrlKey = context.portal.urlKey;
     }
     // extend the partial over the defaults
-    const pojo = { ...DEFAULT_PROJECT, ...partialProject } as IHubProject;
+    const pojo = {
+      ...DEFAULT_INITIATIVE,
+      ...partialInitiative,
+    } as IHubInitiative;
     return pojo;
   }
 
@@ -143,9 +147,9 @@ export class HubProject
    * Apply a new state to the instance
    * @param changes
    */
-  update(changes: Partial<IHubProject>): void {
+  update(changes: Partial<IHubInitiative>): void {
     if (this.isDestroyed) {
-      throw new Error("HubProject is already destroyed.");
+      throw new Error("HubInitiative is already destroyed.");
     }
     // merge partial onto existing entity
     this.entity = { ...this.entity, ...changes };
@@ -163,12 +167,13 @@ export class HubProject
   }
 
   /**
-   * Save the HubProject to the backing store. Currently Projects are stored as Items in Portal
+   * Save the HubInitiative to the backing store.
+   * Currently Initiatives are stored as Items in Portal
    * @returns
    */
   async save(): Promise<void> {
     if (this.isDestroyed) {
-      throw new Error("HubProject is already destroyed.");
+      throw new Error("HubInitiative is already destroyed.");
     }
     // get the catalog, and permission configs
     this.entity.catalog = this._catalog.toJson();
@@ -176,13 +181,13 @@ export class HubProject
 
     if (this.entity.id) {
       // update it
-      this.entity = await updateProject(
+      this.entity = await updateInitiative(
         this.entity,
         this.context.userRequestOptions
       );
     } else {
       // create it
-      this.entity = await createProject(
+      this.entity = await createInitiative(
         this.entity,
         this.context.userRequestOptions
       );
@@ -192,16 +197,16 @@ export class HubProject
   }
 
   /**
-   * Delete the HubProject from the store
+   * Delete the HubInitiative from the store
    * set a flag to indicate that it is destroyed
    * @returns
    */
   async delete(): Promise<void> {
     if (this.isDestroyed) {
-      throw new Error("HubProject is already destroyed.");
+      throw new Error("HubInitiative is already destroyed.");
     }
     this.isDestroyed = true;
     // Delegate to module fn
-    await deleteProject(this.entity.id, this.context.userRequestOptions);
+    await deleteInitiative(this.entity.id, this.context.userRequestOptions);
   }
 }

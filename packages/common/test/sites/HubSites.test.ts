@@ -83,6 +83,7 @@ const SITE: commonModule.IHubSite = {
   contentViews: {},
   headerSass: "",
   thumbnailUrl: "",
+  schemaVersion: 2,
 };
 
 const SITE_ITEM_ENRICH: portalModule.IItem = {

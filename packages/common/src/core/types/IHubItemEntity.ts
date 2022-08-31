@@ -7,23 +7,17 @@ import { AccessLevel } from "./types";
  */
 export interface IHubItemEntity extends IHubEntityBase {
   /**
-   * Thumbnail Uril (read-only)
+   * Access level of the item ("private" | "org" | "public")
    */
-  thumbnailUrl?: string;
-  /**
-   * Username of the owner of the item
-   */
-  owner: string;
-  /**
-   * Description for the item
-   */
-  description?: string;
+  access?: AccessLevel;
+
   /**
    * boundary will default to the item extent
    * but can be overwritten by enrichments from the Hub API (inline)
    * or fetched from a location such as /resources/boundary.json
    */
   boundary?: IHubGeography;
+
   /**
    * Culture code of the content
    * i.e. `en-us`
@@ -31,19 +25,43 @@ export interface IHubItemEntity extends IHubEntityBase {
   culture?: string;
 
   /**
-   * User configurable tags
+   * Description for the item
    */
-  tags: string[];
+  description?: string;
+
   /**
-   * System configurable typekeywords
+   * Extent of the Entity
    */
-  typeKeywords?: string[];
+  extent?: number[][];
+
+  /**
+   * Username of the owner of the item
+   */
+  owner: string;
+
   /**
    * Canonical Url for the Entity
    */
   url?: string;
+
   /**
-   * Access level of the item ("private" | "org" | "public")
+   * Current schema version. Used to determine what if any
+   * schema migrations should be applied when the item is loaded
    */
-  access?: AccessLevel;
+  schemaVersion: number;
+
+  /**
+   * User configurable tags
+   */
+  tags: string[];
+
+  /**
+   * Thumbnail Uril (read-only)
+   */
+  thumbnailUrl?: string;
+
+  /**
+   * System configurable typekeywords
+   */
+  typeKeywords?: string[];
 }

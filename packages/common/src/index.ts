@@ -18,6 +18,7 @@ export * from "./items";
 export * from "./models";
 export * from "./objects";
 export * from "./projects";
+export * from "./initiatives";
 export * from "./request";
 export * from "./resources";
 export * from "./search";
@@ -40,6 +41,3 @@ import HubError from "./HubError";
 // Re-exports
 export { OperationStack, OperationError, HubError };
 export { btoa, atob } from "abab";
-
-// This will be moved to another package
-// export * from "./Hub";
