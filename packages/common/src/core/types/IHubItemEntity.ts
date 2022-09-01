@@ -61,6 +61,11 @@ export interface IHubItemEntity extends IHubEntityBase {
   thumbnailUrl?: string;
 
   /**
+   * Thumbnail (read-only)
+   */
+  thumbnail?: string;
+
+  /**
    * System configurable typekeywords
    */
   typeKeywords?: string[];

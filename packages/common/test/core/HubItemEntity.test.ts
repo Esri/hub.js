@@ -3,6 +3,7 @@ import { HubItemEntity } from "../../src/core/HubItemEntity";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import * as SharedWithModule from "../../src/core/_internal/sharedWith";
+import * as setItemThumbnailModule from "../../src/items/setItemThumbnail";
 
 // To test the abstract class, we need to create a
 // concrete class that extends it
@@ -14,7 +15,7 @@ class TestHarness extends HubItemEntity<any> {
     throw new Error("Method not implemented.");
   }
   save(): Promise<void> {
-    throw new Error("Method not implemented.");
+    return super.afterSave();
   }
   delete(): Promise<void> {
     this.isDestroyed = true;
@@ -37,8 +38,8 @@ describe("HubItemEntity Class: ", () => {
         name: "DC R&D Center",
         id: "BRXFAKE",
         urlKey: "fake-org",
+        customBaseUrl: "fakemaps.arcgis.com",
       } as unknown as PortalModule.IPortal,
-      portalUrl: "https://myserver.com",
     });
   });
 
@@ -398,6 +399,87 @@ describe("HubItemEntity Class: ", () => {
         expect(chk).toBeTruthy();
         expect(getUserSpy).toHaveBeenCalledTimes(1);
       });
+    });
+  });
+
+  describe("thumbnail behavior:", () => {
+    it("should return a thumbnail if one is available", () => {
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+          thumbnail: "thumbnail/ago_downloaded.png",
+        },
+        authdCtxMgr.context
+      );
+      const thumbnail = instance.getThumbnailUrl();
+      expect(thumbnail).toBeDefined();
+      expect(thumbnail).toBe(
+        "https://fake-org.fakemaps.arcgis.com/sharing/rest/content/items/00c/info/thumbnail/ago_downloaded.png?token=fake-token&w=200"
+      );
+    });
+    it("should add custom width", () => {
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+          thumbnail: "thumbnail/ago_downloaded.png",
+        },
+        authdCtxMgr.context
+      );
+      const thumbnail = instance.getThumbnailUrl(756);
+      expect(thumbnail).toBeDefined();
+      expect(thumbnail).toBe(
+        "https://fake-org.fakemaps.arcgis.com/sharing/rest/content/items/00c/info/thumbnail/ago_downloaded.png?token=fake-token&w=756"
+      );
+    });
+    it("should return undefined if no thumbnail is available", () => {
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+        },
+        authdCtxMgr.context
+      );
+      const thumbnail = instance.getThumbnailUrl();
+      expect(thumbnail).toBeNull();
+    });
+    it("should set thumbnail but not save it to the item", () => {
+      const spy = spyOn(
+        setItemThumbnailModule,
+        "setItemThumbnail"
+      ).and.callFake(() => {
+        return Promise.resolve();
+      });
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+        },
+        authdCtxMgr.context
+      );
+      instance.setThumbnail("fake-file", "kitteh.png");
+      expect(spy).toHaveBeenCalledTimes(0);
+    });
+    it("should save thumbnail when save is called, only if the cache is present", async () => {
+      const spy = spyOn(
+        setItemThumbnailModule,
+        "setItemThumbnail"
+      ).and.callFake(() => {
+        return Promise.resolve();
+      });
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+        },
+        authdCtxMgr.context
+      );
+      instance.setThumbnail("fake-file", "kitteh.png");
+      await instance.save();
+      // save again, which should not call setItemThumbnail again b/c the cache should be cleared
+      await instance.save();
+      expect(spy).toHaveBeenCalledTimes(1);
     });
   });
 });

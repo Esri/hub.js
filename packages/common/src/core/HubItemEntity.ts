@@ -213,6 +213,7 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     const minimalItem = {
       id: this.entity.id,
       access: this.entity.access,
+      thumbnail: this.entity.thumbnail,
     } as unknown as IItem;
 
     const opts: IThumbnailOptions = {

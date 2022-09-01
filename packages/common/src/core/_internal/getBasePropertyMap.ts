@@ -19,6 +19,7 @@ export function getBasePropertyMap(): IPropertyMap[] {
     "tags",
     "type",
     "typeKeywords",
+    "thumbnail",
     "url",
   ];
   const dataProps = ["display", "geometry", "location"];
