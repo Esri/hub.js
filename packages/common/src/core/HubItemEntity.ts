@@ -35,6 +35,21 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     this.entity = entity;
   }
 
+  // Although we don't expose all the properties, we do expose a few for convenience
+  /**
+   * Return the entity id
+   */
+  get id() {
+    return this.entity.id;
+  }
+
+  /**
+   * Return the entity owner
+   */
+  get owner() {
+    return this.entity.owner;
+  }
+
   //#region IWithStoreBehavior
 
   /**
@@ -189,6 +204,11 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
         this.thumbnailCache.filename,
         this.context.userRequestOptions
       );
+
+      // Note: updating the thumbnail alone does not update the modified date of the item
+      // thus we can just set props on the entity w/o re-fetching
+      this.entity.thumbnail = `thumbnail/${this.thumbnailCache.filename}`;
+      this.entity.thumbnailUrl = this.getThumbnailUrl();
       // clear the thumbnail cache
       this.thumbnailCache = null;
     }

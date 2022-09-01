@@ -21,6 +21,7 @@ export async function setItemThumbnail(
     },
     params: {
       thumbnail: file,
+      fileName: filename,
     },
     filename,
     ...requestOptions,

@@ -8,13 +8,35 @@ function delay(milliseconds: number) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
-fdescribe("HubProject Class", () => {
+describe("HubProject Class", () => {
   let factory: Artifactory;
   beforeAll(() => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;
     factory = new Artifactory(config);
   });
+  it("can set thumbnail on a project", async () => {
+    // create context
+    const ctxMgr = await factory.getContextManager("hubBasic", "admin");
+    // create a project
+    const newProj: Partial<IHubProject> = {
+      name: "E2E Test Project",
+      summary: "This is the summary. Delete me",
+    };
+    const project = await HubProject.create(newProj, ctxMgr.context);
 
+    const imgSrc = `http://${window.location.host}/base/e2e/test-images/test-thumbnail.jpg`;
+    const tnImage = await fetchImage(imgSrc);
+    project.setThumbnail(tnImage, "test-thumbnail.jpg");
+    await project.save();
+    //
+    const chk = project.getThumbnailUrl(800);
+    expect(chk).toContain("test-thumbnail.jpg");
+    expect(chk).toContain("w=800");
+    // refetch the project
+    const p2 = await HubProject.fetch(project.id, ctxMgr.context);
+    expect(p2.getThumbnailUrl(800)).toEqual(chk);
+    await project.delete();
+  });
   it("crud project", async () => {
     // create context
     const ctxMgr = await factory.getContextManager("hubBasic", "admin");
@@ -172,3 +194,10 @@ fdescribe("HubProject Class", () => {
     await project.delete();
   });
 });
+
+// Quick and dirty fetch image fn
+function fetchImage(url: string): Promise<Blob> {
+  return fetch(url).then((response) => {
+    return response.blob();
+  });
+}
