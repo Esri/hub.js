@@ -15,7 +15,6 @@ export function getBasePropertyMap(): IPropertyMap[] {
     "id",
     "modified",
     "owner",
-    "snippet",
     "tags",
     "type",
     "typeKeywords",
@@ -34,6 +33,10 @@ export function getBasePropertyMap(): IPropertyMap[] {
   map.push({
     objectKey: "slug",
     modelKey: "item.properties.slug",
+  });
+  map.push({
+    objectKey: "summary",
+    modelKey: "item.snippet",
   });
   map.push({
     objectKey: "schemaVersion",
