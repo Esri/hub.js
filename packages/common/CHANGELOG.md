@@ -1,3 +1,10 @@
+# @esri/hub-common [11.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.1.0...@esri/hub-common@11.2.0) (2022-09-02)
+
+
+### Features
+
+* thumbnail behavior ([#872](https://github.com/Esri/hub.js/issues/872)) ([1581169](https://github.com/Esri/hub.js/commit/158116921eeb632cd555c98fc02fce8d6392eb49))
+
 # @esri/hub-common [11.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.0.0...@esri/hub-common@11.1.0) (2022-08-31)
 
 
