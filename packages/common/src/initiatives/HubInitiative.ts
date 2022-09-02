@@ -9,7 +9,6 @@ import {
   IWithSharingBehavior,
 } from "../core";
 
-import { cloneObject } from "../util";
 import {
   createInitiative,
   deleteInitiative,
