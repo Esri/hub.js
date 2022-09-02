@@ -9,7 +9,6 @@ import {
   IWithSharingBehavior,
 } from "../core";
 
-import { cloneObject } from "../util";
 import {
   createInitiative,
   deleteInitiative,
@@ -192,6 +191,9 @@ export class HubInitiative
         this.context.userRequestOptions
       );
     }
+
+    // call the after save hook on superclass
+    await super.afterSave();
 
     return;
   }
