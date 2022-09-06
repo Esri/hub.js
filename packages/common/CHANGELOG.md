@@ -1,3 +1,10 @@
+# @esri/hub-common [11.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.2.0...@esri/hub-common@11.3.0) (2022-09-06)
+
+
+### Features
+
+* **hub-discussions:** add parseMentionedUsers util ([#874](https://github.com/Esri/hub.js/issues/874)) ([cf7a426](https://github.com/Esri/hub.js/commit/cf7a4263f12e92da9e7d67845341ea5de08f80db))
+
 # @esri/hub-common [11.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.1.0...@esri/hub-common@11.2.0) (2022-09-02)
 
 
