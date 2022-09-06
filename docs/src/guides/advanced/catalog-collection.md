@@ -2,8 +2,8 @@
 title: Catalogs and Collections
 navTitle: Catalogs & Collections
 description: Searching within Sites and other items
-order: 4
-group: 2-concepts
+order: 30
+group: 4-advanced
 ---
 
 ## Catalogs and Collections
@@ -14,13 +14,17 @@ When executing queries, additional filters can be applied at the Catalog or Coll
 
 While a Catalog can reference any set of platform entities, any individual Collection can only reference a single platform entity type (i.e. items vs groups)
 
-Hub Sites utilize a Catalog to define what content is available on a site search. Catalogs are also planned for Hub Projects and Hub Initiatives.
+Hub Sites utilize a Catalog to define what content is available on a site search. Catalogs are also used for Hub Projects and Hub Initiatives.
 
-Any hierarchy between Sites, Initiatives and Projects must be manually maintained, and will not be automatic.
+Any hierarchy of content between Sites, Initiatives and Projects must be manually maintained, and will not be automatic. This is typically done by organizing content by Groups, and then adding Project Catalog groups to their parent Initiative Catalog, and then up to the Site Catalog.
 
 Catalogs associated with Hub Sites, Hub Initiatives and Hub Projects will all be stored in the `.catalog` property of the item's data.json. If other applications want to leverage the Catalog system, we recommend storing the information in this same location.
 
-The Catalog structure is expected to change over time so it's important to either fetch the Site/Project/Initiative via hub.js functions, or use the `upgradeCatalogSchema(..)` function to ensure you are working with the latest structure.
+The Catalog structure is expected to change over time so it's important to either fetch the Site/Project/Initiative via the cooresponding Class instances, or use the `upgradeCatalogSchema(..)` function to ensure you are working with the latest structure before executing searches.
+
+## Interfaces
+
+![Catalog Model](/hub.js/img/catalog-collection.png)
 
 ## Defining a Catalog
 

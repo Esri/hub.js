@@ -1,12 +1,10 @@
 ---
 title: Working with Hub Discussions
-navTitle: Hub Discussions
+navTitle: Discussions
 description: Learn how to perform basic flows using the Hub Discussions API via @esri/hub.js.
-order: 45
-group: 2-concepts
+order: 80
+group: 3-functional-api
 ---
-
-# Overview
 
 As organizations use ArcGIS Hub to support community engagement and collaboration, **ArcGIS Hub Discussions** provides an integrated capability for organizations to meet their varied needs for internal & external collaborative communication around Hub initiatives, content and data.
 
