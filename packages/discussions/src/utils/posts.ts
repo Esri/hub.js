@@ -1,14 +1,7 @@
 import { IGroup, IItem } from "@esri/arcgis-rest-portal";
-import {
-  IDiscussionParams,
-  IPost,
-  IFetchChannelOptions,
-  IHubRequestOptions,
-  IChannel,
-} from "../types";
+import { IDiscussionParams, IPost, IChannel } from "../types";
 import { parseDatasetId, IHubContent } from "@esri/hub-common";
 import { IUser } from "@esri/arcgis-rest-auth";
-import { fetchChannel } from "../channels";
 import { canModifyChannel } from "./channels";
 
 /**
@@ -92,4 +85,31 @@ export function canDeletePost(
   user: IUser
 ): boolean {
   return canModifyPost(post, channel, user);
+}
+
+export const MENTION_ATTRIBUTE = "data-mention";
+const MENTION_ATTRIBUTE_AND_VALUE_PATTERN = new RegExp(
+  `${MENTION_ATTRIBUTE}=('|")(\\w)+('|")`,
+  "g"
+);
+const MENTION_ATTRIBUTE_PATTERN = new RegExp(`${MENTION_ATTRIBUTE}=`, "g");
+const NON_WORDS_PATTERN = new RegExp("[^\\w]", "g");
+
+/**
+ * Parses mentioned users
+ * @param text A string to parse mentioned users from
+ * @returns A unique collection of usernames parsed from the provided text
+ */
+export function parseMentionedUsers(text = ""): string[] {
+  const toReplaced = (input: string, pattern: RegExp) =>
+    input.replace(pattern, "");
+  const toMentionedUsers = (acc: string[], match: string) => {
+    const username = [MENTION_ATTRIBUTE_PATTERN, NON_WORDS_PATTERN].reduce(
+      toReplaced,
+      match
+    );
+    return acc.indexOf(username) < 0 ? [...acc, username] : acc;
+  };
+  const matches = text.match(MENTION_ATTRIBUTE_AND_VALUE_PATTERN) || [];
+  return matches.reduce(toMentionedUsers, []);
 }

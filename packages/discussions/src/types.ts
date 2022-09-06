@@ -823,3 +823,14 @@ export interface ICreateReactionOptions extends IHubRequestOptions {
 export interface IRemoveReactionOptions extends IHubRequestOptions {
   reactionId: string;
 }
+
+/**
+ * Interface representing the meta data associated with a discussions
+ * mention email
+ */
+export interface IDiscussionsMentionMeta {
+  channelId: string;
+  discussion: string;
+  postId: string;
+  replyId?: string;
+}
