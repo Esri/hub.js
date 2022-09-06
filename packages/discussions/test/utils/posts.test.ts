@@ -7,6 +7,8 @@ import {
   parseDiscussionURI,
   canModifyPost,
   canDeletePost,
+  parseMentionedUsers,
+  MENTION_ATTRIBUTE,
 } from "../../src/utils/posts";
 import * as viewGroup from "../../../common/test/mocks/groups/view-group.json";
 import * as formItem from "../../../common/test/mocks/items/form-item-draft.json";
@@ -156,5 +158,37 @@ describe("canDeletePost", () => {
     expect(result).toBe(false);
     expect(canModifyChannelSpy).toHaveBeenCalledTimes(1);
     expect(canModifyChannelSpy).toHaveBeenCalledWith(channel, user);
+  });
+});
+
+describe("MENTION_ATTRIBUTE", () => {
+  it("should be defined", () => {
+    expect(MENTION_ATTRIBUTE).toBeDefined();
+    expect(MENTION_ATTRIBUTE).toEqual("data-mention");
+  });
+});
+
+describe("parseMentionedUsers", () => {
+  it("should return an empty array when the text is falsy", () => {
+    expect(parseMentionedUsers()).toEqual([]);
+  });
+
+  it("should parse unique usernames from data attributes in provided text", () => {
+    const text = `
+      <p>
+        Hello <span data-mention="juliana_pa">@juliana_pa</span>!
+        <br />
+        How are you <em data-mention="paige_pa">@paige_pa</em>?
+        <br />
+        How about you <strong data-mention="cory_pa">@cory_pa</strong>?
+        <br />
+        And back to you <b data-mention="juliana_pa">@juliana_pa</b>
+      </p>
+    `;
+    expect(parseMentionedUsers(text)).toEqual([
+      "juliana_pa",
+      "paige_pa",
+      "cory_pa",
+    ]);
   });
 });
