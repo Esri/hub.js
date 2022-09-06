@@ -1,9 +1,9 @@
 ---
 title: Working with Projects
-navTitle: Hub Projects
+navTitle: Projects
 description: Working with Hub Projects
-order: 30
-group: 2-concepts
+order: 50
+group: 2-class-api
 ---
 
 ## Working with Projects

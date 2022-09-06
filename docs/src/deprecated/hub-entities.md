@@ -2,8 +2,8 @@
 title: Hub Entities
 navTitle: Hub Entities
 description: Core Entities in ArcGIS Hub
-order: 3
-group: 2-concepts
+order: 20
+group: 1-overview
 ---
 
 # Hub Entities

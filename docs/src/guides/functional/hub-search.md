@@ -2,13 +2,15 @@
 title: Searching for Content
 navTitle: Hub Search
 description: Leveraging the Hub Search system
-group: 2-concepts
-order: 15
+group: 3-functional-api
+order: 20
 ---
 
 ## Hub Search
 
 Within Hub.js the main search function is [`hubSearch`](../api/common/hubSearch), which uses an [`IQuery`](../api/common/IQuery) to defined the critera to be applied, and an [`IHubSearchOptions`](../api/common/IHubSearchOptions) for additional information.
+
+# TODO: Add Search Example
 
 Please read the [Queries and Filters](./queries-and-filters) guide for details on constructing the query.
 

@@ -1,9 +1,9 @@
 ---
-title: Hub Classess
-navTitle: Hub Classes
-description: Design Patterns in Hub.js
-order: 1
-group: 3-classes
+title: Working with Hub Classess
+navTitle: Overview
+description: Working with Hub Classes
+order: 10
+group: 2-class-api
 ---
 
 # Working with Hub Classes

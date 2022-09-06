@@ -2,8 +2,8 @@
 title: Queries and Filters
 navTitle: Queries & Filters
 description: Constructing Search Queries
-order: 8
-group: 2-concepts
+order: 20
+group: 4-advanced
 ---
 
 ## Queries, Filters and Predicates
@@ -19,6 +19,8 @@ A query must declare the target entity type. This is needed so the query can be 
 | `item`      | ArcGIS Portal Item <br> `/sharing/rest/search`                   |
 | `group`     | ArcGIS Portal Group <br> `/sharing/rest/community/groups/search` |
 | `user`      | ArcGIS Portal User <br> `/sharing/rest/portal/self/users`        |
+
+# TODO: Insert Interface Diagram
 
 These entities are not currently implemented
 

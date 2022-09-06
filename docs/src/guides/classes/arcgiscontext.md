@@ -1,12 +1,12 @@
 ---
 title: Authentication and Context
-navTitle: ArcGISContext
+navTitle: Authentication
 description: Working with authentication and configuration in applications, components and modules
-order: 2
-group: 2-concepts
+order: 15
+group: 2-class-api
 ---
 
-## About Context
+## Authentication with Hub Classes: ArcGIS Context
 
 Simply put, "context" refers to the collection of platform and user information an application needs in order to make requests to the right services, pass the correct authentication and easily determine other user/org specific properties.
 
