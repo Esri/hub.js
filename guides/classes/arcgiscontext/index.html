@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Authentication and Context | Guide | @esri/hub.js</title>
+    
+    <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
+    
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css">
+    <link rel="stylesheet" href="/hub.js/css/style.css">
+    
+  </head>
+  <body>
+  <!-- Drawer -->
+    <div class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
+      <nav class="drawer-nav" role="navigation">
+        <aside class="side-nav">
+          <h2 class="side-nav-title">@esri/hub.js</h2>
+          <a href="/hub.js/guides/" class="is-active side-nav-link">Guides</a>
+          <a href="/hub.js/api/" class="side-nav-link">API Reference</a>
+        </aside>
+      </nav>
+    </div>
+
+    <div id="page" class="wrapper">
+      <!-- Sample HTML -->
+      <header class="top-nav">
+        <div class="grid-container">
+          <div class="column-24">
+            <!-- desktop sized navigation -->
+            <div class="tablet-hide">
+              <!-- logo / home -->
+              <a href="/hub.js/" class="top-nav-title">@esri/hub.js</a>
+              <!-- primary navigation sections -->
+              <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/guides/" class="is-active top-nav-link">Guides</a>
+                <a href="/hub.js/api/" class="top-nav-link">API Reference</a>
+                <a href="https://github.com/Esri/hub.js" class="top-nav-link">GitHub</a>
+              </nav>
+            </div>
+
+            <!-- tablet and mobile sized navigation -->
+            <div class="tablet-show top-nav-flex">
+              <!-- open primary navigation drawer -->
+              <nav class="top-nav-flex-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/" class="icon-ui-menu top-nav-link js-drawer-toggle" data-drawer="top-nav"><span class="phone-hide">Menu</span></a>
+              </nav>
+              <!-- logo / home -->
+              <header class="top-nav-flex-title">
+                <a href="/hub.js/" class="top-nav-link">@esri/hub.js</a>
+              </header>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+
+      <main id="#skip-to-content">
+        
+  <div class="grid-container trailer-1 leader-1">
+    <div class="column-6">
+      <ul class="list-plain">
+        
+          <li>Intro</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/intro/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/intro/getting-started/">Getting Started</a></li>
+            
+          </ul>
+        
+          <li>Class Api</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/classes/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/classes/arcgiscontext/" class="is-active">Authentication</a></li>
+            
+              <li><a href="/hub.js/guides/classes/sites/">Sites (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/pages/">Pages (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/initiatives/">Initiatives (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/projects/">Projects</a></li>
+            
+          </ul>
+        
+          <li>Functional Api</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/functional/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/functional/authentication/">Authentication</a></li>
+            
+              <li><a href="/hub.js/guides/functional/hub-search/">Hub Search</a></li>
+            
+              <li><a href="/hub.js/guides/functional/utilities/">Utilities</a></li>
+            
+              <li><a href="/hub.js/guides/functional/discussions/">Discussions</a></li>
+            
+              <li><a href="/hub.js/guides/functional/teams/">Teams</a></li>
+            
+          </ul>
+        
+          <li>Advanced</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/advanced/composing-workflows/">Composing Workflows</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/operation-stack/">OperationStack</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/queries-and-filters/">Queries & Filters</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/catalog-collection/">Catalogs & Collections</a></li>
+            
+          </ul>
+        
+          <li>Developers</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/developers/e2e-tests/">E2E Testing</a></li>
+            
+          </ul>
+        
+          <li>Legacy</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/legacy/content-search/">Search Service</a></li>
+            
+              <li><a href="/hub.js/guides/legacy/sites-and-pages/">Sites and Pages</a></li>
+            
+          </ul>
+        
+      </ul>
+    </div>
+
+    <div class="column-18">
+      <div class="panel">
+        <h3>Authentication and Hub Classes</h3>
+<p>The Hub Classes are all instantiated via a set of common factory functions:</p>
+<table>
+<thead>
+<tr>
+<th>Factory Function</th>
+<th>Description/Use-Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.load(Partial&lt;entity&gt;, context)</code></td>
+<td>Use when application already has an object literal</td>
+</tr>
+<tr>
+<td><code>.fetch(identifier, context)</code></td>
+<td>Fetch the backing entity by id, slug or domain (Site only)</td>
+</tr>
+<tr>
+<td><code>.create(Partial&lt;entity&gt;, context)</code></td>
+<td>Create an instance for a new entity</td>
+</tr>
+</tbody>
+</table>
+<p>In all these functions, <code>context</code> refers to an <a href="/hub.js/api/common/IArcGISContext"><code>IArcGISContext</code></a> object literal, which is a collection of platform and user information an application needs in order to make requests to the right services, pass the correct authentication and easily determine other user/org specific properties.</p>
+<p>The <code>ArcGISContext</code> class provides a simple container for &quot;context&quot;, thereby making it easier for applications and components to write simpler, more consistent code, and to easily leverage shared libraries like <a href="https://esri.github.io/arcgis-rest-js/">ArcGIS Rest JS</a>, <a href="https://esri.github.io/hub.js/">Hub.js</a>, <a href="https://github.com/Esri/solution.js">Solutions.js</a> etc.</p>
+<p>In addition to the portal and sharing api urls, <code>ArcGISContext</code> also provides easy access to authentication status, the active <a href="https://esri.github.io/arcgis-rest-js/api/auth/UserSession/"><code>UserSession</code></a>, <a href="https://esri.github.io/arcgis-rest-js/api/portal/IPortal/"><code>IPortal</code></a> and <a href="https://esri.github.io/arcgis-rest-js/api/types/IUser/"><code>IUser</code></a> objects, as well as a number of computed properties driven by those objects.</p>
+<p>See <a href="/hub.js/api/common/IArcGISContext"><code>IArcGISContext</code></a> for the list of properties and their descriptions.</p>
+<h3>Application State</h3>
+<p>In the past, this sort of &quot;state&quot; information has typically been managed using one-off patterns, specific to the application itself. With Esri's move towards building web components that are reusable across applications, we saw a need for a consistent means to pass this information into components. What's more, this solution needed to work well with modern, &quot;reactive-style&quot; web frameworks - i.e. React/Vue/Ember/Angular.</p>
+<p>These frameworks are designed to operate effectively and efficiently with immutable data, and the <code>ArcGISContext</code> class was designed to be used in this manner.</p>
+<h3>References and Immutable Objects</h3>
+<p>The question then becomes, how can we pass a reference to a long-lived object, which can react to a user signing in/out of an application, and still have immutablilty?</p>
+<p>The solution to this was split those two things apart. The <code>ArcGISContextManager</code> is the long-lived object, which exposes the immutable <code>ArcGISContext</code> instance via the <code>.context</code> property.</p>
+<p>As users sign in/out of the application, the app calls <code>ArcGISContextManager.setAuthentication(...)</code> or <code>ArcGISContextManager.clearAuthentication()</code> as needed. When those methods are called the <code>.context</code> instance is replaced with a new, immutable, object.</p>
+<p>The application can then pass that updated <code>.context</code> into it's normal state/change tracking system, and the application will re-render as needed.</p>
+<h3>ArcGISContextManager Class</h3>
+<p>This class should be created by your application - i.e. the React/Ember/Vue etc and maintained for the lifetime of the application. As your application allows the user to sign in/out, your app should call the <code>.setAuthentication(...)</code> or <code>.clearAuthentication()</code> methods as needed. If your application loads a serialized session from localStorage or a cookie, then it can pass the hydrated <code>UserSession</code> into the <code>.create(...)</code> static factory function, thus saving some xhrs.</p>
+<h4>Example</h4>
+<pre><code class="js"><span class="hljs-comment">// Create a context manager, passing in no additional information</span>
+<span class="hljs-comment">// This will default to using https://www.arcgis.com as the portal url</span>
+<span class="hljs-keyword">const</span> ctxMgr = <span class="hljs-keyword">await</span> ArcGISContextManager.create();
+ctxMgr.context.isAuthenticated; <span class="hljs-comment">// false</span>
+<span class="hljs-comment">// the context then has a number of properties accessible</span>
+ctxMgr.context.sharingApiUrl; <span class="hljs-comment">//=&gt; https://www.arcgis.com/sharing/rest</span>
+ctxMgr.context.hubUrl; <span class="hljs-comment">//=&gt; https://hub.arcgis.com</span>
+<span class="hljs-comment">// all properties are getters so</span>
+<span class="hljs-comment">// attempting to change values will throw</span>
+ctxMgr.context.portal = <span class="hljs-string">"https://dcdev.maps.arcgis.com"</span>; <span class="hljs-comment">//=&gt; throws</span>
+
+<span class="hljs-comment">// now let's load a session from localStorage (for example)</span>
+<span class="hljs-keyword">const</span> session = UserSession.deserialize(localStorage.getItem(<span class="hljs-string">"_context"</span>));
+
+<span class="hljs-comment">// we can set this on the context manager, and it will fetch the</span>
+<span class="hljs-comment">// IPortal from portal/self and the IUser from users/self</span>
+<span class="hljs-keyword">await</span> ctxMgr.setAuthentication(session);
+<span class="hljs-comment">// at this point ctxMgr.context is now a *new* object</span>
+ctxMgr.context.isAuthenticated; <span class="hljs-comment">// true</span>
+ctxMgr.context.portalUrl; <span class="hljs-comment">//=&gt; https://dcdev.maps.arcgis.com</span>
+ctxMgr.context.sharingApiUrl; <span class="hljs-comment">//=&gt; https://dcdev.maps.arcgis.com/sharing/rest</span>
+ctxMgr.context.currentUser; <span class="hljs-comment">//=&gt; {username: "dave", ...} IUser</span>
+ctxMgr.context.portal; <span class="hljs-comment">//=&gt; {id: "BcRx2", ...} IPortal</span>
+</code></pre>
+<h4>JSAPI Example</h4>
+<pre><code class="js"><span class="hljs-comment">// load a session from localStorage</span>
+<span class="hljs-keyword">const</span> session = UserSession.deserialize(localStorage.getItem(<span class="hljs-string">"_context"</span>));
+<span class="hljs-comment">// create a context manager</span>
+<span class="hljs-keyword">const</span> ctxMgr = <span class="hljs-keyword">await</span> ArcGISContextManager.create({ <span class="hljs-attr">authentication</span>: session });
+<span class="hljs-comment">// else where in the code, register the session with the identity manager</span>
+esriId.registerToken(ctxMgr.context.session.toCredential());
+<span class="hljs-comment">// do things w/ JSAPI</span>
+</code></pre>
+<h3>Framework Integration</h3>
+<p>Integration of <code>ArcGISContext</code> within an application will vary depending on the framework in use. The next section provides general guidance, followed by details of how the ArcGIS Hub Team uses <code>ArcGISContext</code> in Ember.</p>
+<h4>General Guidance</h4>
+<p>The <code>ArcGISContextManager</code> should be created as early in the application lifecycle as possible, and should exist for the lifetime of the application.</p>
+<p>When adding web components in a template, the <code>context</code> property on the element should be set to the <code>.context</code> property of the <code>ArcGISContextManager</code></p>
+<p>When the authentication status changes, the application should call the <code>.setAuthentication(session: UserSession)</code> or <code>.clearAuthentication()</code> methods on the context manager instance. This will replace the object that backs the <code>.context</code> property. Depending on how the framework handles change tracking, the application may also need to set that context onto some state management system so that the application knows that the context has changed and it can re-render as needed.</p>
+<h4>Ember.js</h4>
+<p>In Ember we create the <code>ArcGISContextManager</code> in the application route's <code>beforeModel</code> hook, as that's the very first thing to run as the app boots up. We store the context manager on an Ember Service. In Ember, services are singletons that exist for the lifetime of the application, and can easily be accessed from routes, controllers, components or even other services.</p>
+<p>When users sign in/out, the application gets a reference to the context manager from the service, and calls the necessary methods.
+In order to work with Ember's change tracking system, we also set a reference to the <code>.context</code> on the service itself. This allows the rest of the application to bind to the <code>service.context</code> property without any additional complexity.</p>
+<h3>ArcGISContext</h3>
+<p>This class is simply holds some properties and then exposes a large set of read only properties to streamline access to commonly accessed information or structures.</p>
+<p>In the case that an application opts not to use <code>ArcGISContextManager</code>, the <a href="https://esri.github.io/hub.js/api/common/ArcGISContext/"><code>ArcGISContext</code></a> class could be manually created, and takes an <a href="https://esri.github.io/hub.js/api/common/IArcGISContextOptions/"><code>IArcGISContextOptions</code></a> in the constructor.</p>
+<h3>Questions and Answers</h3>
+<p>Q: Should hub.js functions take an <code>IArcGISContext</code>?</p>
+<p>A: No. Hub.js function parameters should expect one of the lower level interfaces - <code>IHubRequestOptions</code>, <code>IUserRequestOptions</code> or <code>IRequestOptions</code>. The <code>ArcGISContext</code> should be used in components which need to easily access any of those interfaces, or other platform configuration properties, in order to make calls to modules from hub.js, or arcgis-rest-js.</p>
+<p>Q: Should my application bind to <code>ArcGISContextManager.context</code> directly?</p>
+<p>A: This depends on your application framework. For Ember's tracking system, when the authentication changes, we call the cooresponding methods on the <code>ArcGISContextManager</code>, and then set the <code>context</code> onto a property on a service. The rest of the application reads the context from the service. This enables Ember's change tracking system to be aware of the change and thus computed properties re-fire and templates know to re-render.</p>
+      </div>
+    </div>
+  </div>
+
+      </main>
+    </div>
+
+    <footer class="footer">
+      
+      <div class="panel panel-white">
+        <div class="grid-container">
+          <div class="column-24">
+            <a href="https://github.com/Esri/hub.js" class="font-size--2">Fork this project</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/js/calcite-web.min.js"></script>
+
+    <script>
+       calcite.init()
+    </script>
+
+    
+  </body>
+</html>

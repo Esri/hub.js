@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Composing Workflows | Guide | @esri/hub.js</title>
+    
+    <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
+    
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css">
+    <link rel="stylesheet" href="/hub.js/css/style.css">
+    
+  </head>
+  <body>
+  <!-- Drawer -->
+    <div class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
+      <nav class="drawer-nav" role="navigation">
+        <aside class="side-nav">
+          <h2 class="side-nav-title">@esri/hub.js</h2>
+          <a href="/hub.js/guides/" class="is-active side-nav-link">Guides</a>
+          <a href="/hub.js/api/" class="side-nav-link">API Reference</a>
+        </aside>
+      </nav>
+    </div>
+
+    <div id="page" class="wrapper">
+      <!-- Sample HTML -->
+      <header class="top-nav">
+        <div class="grid-container">
+          <div class="column-24">
+            <!-- desktop sized navigation -->
+            <div class="tablet-hide">
+              <!-- logo / home -->
+              <a href="/hub.js/" class="top-nav-title">@esri/hub.js</a>
+              <!-- primary navigation sections -->
+              <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/guides/" class="is-active top-nav-link">Guides</a>
+                <a href="/hub.js/api/" class="top-nav-link">API Reference</a>
+                <a href="https://github.com/Esri/hub.js" class="top-nav-link">GitHub</a>
+              </nav>
+            </div>
+
+            <!-- tablet and mobile sized navigation -->
+            <div class="tablet-show top-nav-flex">
+              <!-- open primary navigation drawer -->
+              <nav class="top-nav-flex-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/" class="icon-ui-menu top-nav-link js-drawer-toggle" data-drawer="top-nav"><span class="phone-hide">Menu</span></a>
+              </nav>
+              <!-- logo / home -->
+              <header class="top-nav-flex-title">
+                <a href="/hub.js/" class="top-nav-link">@esri/hub.js</a>
+              </header>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+
+      <main id="#skip-to-content">
+        
+  <div class="grid-container trailer-1 leader-1">
+    <div class="column-6">
+      <ul class="list-plain">
+        
+          <li>Intro</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/intro/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/intro/getting-started/">Getting Started</a></li>
+            
+          </ul>
+        
+          <li>Class Api</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/classes/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/classes/arcgiscontext/">Authentication</a></li>
+            
+              <li><a href="/hub.js/guides/classes/sites/">Sites (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/pages/">Pages (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/initiatives/">Initiatives (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/projects/">Projects</a></li>
+            
+          </ul>
+        
+          <li>Functional Api</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/functional/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/functional/authentication/">Authentication</a></li>
+            
+              <li><a href="/hub.js/guides/functional/hub-search/">Hub Search</a></li>
+            
+              <li><a href="/hub.js/guides/functional/utilities/">Utilities</a></li>
+            
+              <li><a href="/hub.js/guides/functional/discussions/">Discussions</a></li>
+            
+              <li><a href="/hub.js/guides/functional/teams/">Teams</a></li>
+            
+          </ul>
+        
+          <li>Advanced</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/advanced/composing-workflows/" class="is-active">Composing Workflows</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/operation-stack/">OperationStack</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/queries-and-filters/">Queries & Filters</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/catalog-collection/">Catalogs & Collections</a></li>
+            
+          </ul>
+        
+          <li>Developers</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/developers/e2e-tests/">E2E Testing</a></li>
+            
+          </ul>
+        
+          <li>Legacy</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/legacy/content-search/">Search Service</a></li>
+            
+              <li><a href="/hub.js/guides/legacy/sites-and-pages/">Sites and Pages</a></li>
+            
+          </ul>
+        
+      </ul>
+    </div>
+
+    <div class="column-18">
+      <div class="panel">
+        <h1>Composing Workflows</h1>
+<p>When building complex features using the ArcGIS platform, many times you will need to orchestrate complex workflows.</p>
+<p>For example - converting a Site into a Template for use in <a href="https://github.com/Esri/templates-js">Templates.js</a> involves the following (abbreviated) steps:</p>
+<ul>
+<li>fetch the Site item</li>
+<li>fetch the Site item's /data</li>
+<li>walk the layout, and determine what other items the Site depends upon</li>
+<li>check other parts of the Site configuration for dependencies on Page items</li>
+<li>verify that all those dependency items exist by fetching them</li>
+<li>get a list of all the site item's resources</li>
+</ul>
+<p>While we can write and test a single function that has a single promise chain that executes all the steps...</p>
+<pre><code class="js"><span class="hljs-comment">// Pseudo code - this the actual site template process is much more complex</span>
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">convertToTemplate</span>(<span class="hljs-params">id</span>) </span>{
+  <span class="hljs-keyword">const</span> tmpl = {};
+  <span class="hljs-comment">// get the item</span>
+  <span class="hljs-keyword">return</span> getItem(id)
+    .then(<span class="hljs-function">(<span class="hljs-params">item</span>) =&gt;</span> {
+      tmpl.item = item;
+      <span class="hljs-comment">// get the data</span>
+      <span class="hljs-keyword">return</span> getItemData(id);
+    })
+    .then(<span class="hljs-function">(<span class="hljs-params">itemData</span>) =&gt;</span> {
+      tmpl.data = itemData;
+      <span class="hljs-comment">// extract dependencies from layout cards</span>
+      tmpl.dependencies = itemData.layout.sections.reduce(<span class="hljs-function">(<span class="hljs-params">deps, section</span>) =&gt;</span> {
+        <span class="hljs-keyword">return</span> deps.concat(
+          section.rows.reduce(<span class="hljs-function">(<span class="hljs-params">rowDeps, row</span>) =&gt;</span> {
+            <span class="hljs-keyword">return</span> rowDeps.concat(
+              row.cards.reduce(<span class="hljs-function">(<span class="hljs-params">cardDeps, card</span>) =&gt;</span> {
+                <span class="hljs-keyword">const</span> cardDeps = getCardDependencies(card);
+                <span class="hljs-keyword">if</span> (cardDeps.length) {
+                  deps = deps.concat(cardDeps);
+                }
+                <span class="hljs-keyword">return</span> deps;
+              }, [])
+            );
+          }, [])
+        );
+      }, []);
+      <span class="hljs-comment">// verify dependendencies exist</span>
+      tmpl.dependencies = tmpl.dependencies.concat(itemData.layout.pages);
+      <span class="hljs-keyword">const</span> q = <span class="hljs-string">`id: <span class="hljs-subst">${tmpl.dependencies.join(<span class="hljs-string">" OR id:"</span>)}</span>`</span>;
+      <span class="hljs-keyword">return</span> searchItems(q);
+    })
+    .then(<span class="hljs-function">(<span class="hljs-params">searchResponse</span>) =&gt;</span> {
+      <span class="hljs-keyword">const</span> existingIds = searchResponse.results.map(<span class="hljs-function">(<span class="hljs-params">itm</span>) =&gt;</span> itm.id);
+      <span class="hljs-comment">// filter out items which no longer exist, or which the current user can't access</span>
+      tmpl.dependencies = tmpl.dependencies.reduce(<span class="hljs-function">(<span class="hljs-params">acc, entry</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span> (existingIds.includes(entry)) {
+          acc.push(entry);
+        }
+        <span class="hljs-keyword">return</span> acc;
+      });
+      <span class="hljs-comment">// get the resources</span>
+      <span class="hljs-keyword">return</span> getResources(id);
+    })
+    .then(<span class="hljs-function">(<span class="hljs-params">resources</span>) =&gt;</span> {
+      tmpl.resources = resources;
+      <span class="hljs-keyword">return</span> tmpl;
+    });
+}
+</code></pre>
+<p>However that type of solution is very complex to write, difficult to understand, and - since all the logic is inside a single promise chain - we have no means to re-use any of those steps (i.e. Page items also need to walk a layout and determine dependencies).</p>
+<p>A better pattern is to break up the steps into focused functions, and then compose those functions into a workflow.</p>
+<pre><code class="js"><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">convertToTemplate</span>(<span class="hljs-params">id</span>) </span>{
+  <span class="hljs-keyword">const</span> tmpl = {};
+  <span class="hljs-comment">// we've moved a lot of the work out of this promise chain</span>
+  <span class="hljs-comment">// but we're still managing the composition of the template</span>
+  <span class="hljs-keyword">return</span> getItem(id)
+    .then(<span class="hljs-function">(<span class="hljs-params">item</span>) =&gt;</span> {
+      tmpl.item = item;
+      <span class="hljs-keyword">return</span> getItemData(id);
+    })
+    .then(<span class="hljs-function">(<span class="hljs-params">itemData</span>) =&gt;</span> {
+      tmpl.data = itemData;
+      tmpl.dependencies = getLayoutDependencies(tmpl.data.layout);
+      tmpl.dependencies = tmpl.data.pages.concat(tmpl.dependencies);
+      <span class="hljs-keyword">return</span> verifyDependencies(tmpl.dependencies);
+    })
+    .then(<span class="hljs-function">(<span class="hljs-params">verifiedDeps</span>) =&gt;</span> {
+      tmpl.dependencies = verifiedDeps;
+      <span class="hljs-keyword">return</span> getResources(id);
+    })
+    .then(<span class="hljs-function">(<span class="hljs-params">resources</span>) =&gt;</span> {
+      tmpl.resources = resources;
+      <span class="hljs-keyword">return</span> tmpl;
+    });
+}
+
+<span class="hljs-comment">// now this can be used for pages or sites</span>
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getLayoutDependencies</span>(<span class="hljs-params">layout</span>) </span>{
+  <span class="hljs-keyword">return</span> layout.sections.reduce(<span class="hljs-function">(<span class="hljs-params">deps, section</span>) =&gt;</span> {
+    <span class="hljs-keyword">return</span> deps.concat(
+      section.rows.reduce(<span class="hljs-function">(<span class="hljs-params">rowDeps, row</span>) =&gt;</span> {
+        <span class="hljs-keyword">return</span> rowDeps.concat(
+          row.cards.reduce(<span class="hljs-function">(<span class="hljs-params">cardDeps, card</span>) =&gt;</span> {
+            <span class="hljs-keyword">const</span> cardDeps = getCardDependencies(card);
+            <span class="hljs-keyword">if</span> (cardDeps.length) {
+              deps = deps.concat(cardDeps);
+            }
+            <span class="hljs-keyword">return</span> deps;
+          }, [])
+        );
+      }, [])
+    );
+  }, []);
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">verifyDependencies</span>(<span class="hljs-params">ids</span>) </span>{
+  <span class="hljs-keyword">const</span> q = <span class="hljs-string">`id: <span class="hljs-subst">${ids.join(<span class="hljs-string">" OR id:"</span>)}</span>`</span>;
+  <span class="hljs-keyword">return</span> searchItems(q).then(<span class="hljs-function">(<span class="hljs-params">searchResponse</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> existingIds = searchResponse.results.map(<span class="hljs-function">(<span class="hljs-params">itm</span>) =&gt;</span> itm.id);
+    <span class="hljs-keyword">return</span> ids.reduce(<span class="hljs-function">(<span class="hljs-params">acc, entry</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (existingIds.includes(entry)) {
+        acc.push(entry);
+      }
+      <span class="hljs-keyword">return</span> acc;
+    });
+  });
+}
+</code></pre>
+<p>Having separate functions allows us to work with smaller units of code, thus making things easier to understand, and maintain, as well as opens opportunities for re-use in different scenarios. However, we still have significant logic in the main promise chain, and each function has a different signature which adds complexity, and we have no good means to understand the system state when a failure does occur. So let's address those issues next</p>
+<h2>Functional Composition</h2>
+<p>In the last refactor, we still have some logic within the main promise chain. To make this even cleaner, we can design the functions to take and return the same structure. This allows us to chain the functions, effectively executing them in series, with no &quot;connective logic&quot; - aka a &quot;pipeline&quot;. This is exactly what <code>createOperationPipeline</code> does for us.</p>
+<h3>Consistent Arguments and Return Values</h3>
+<p>To leverage an operation pipeline, we need to ensure that all the functions that will be composed take the same argument and return the same value. In order to make this flexible, we use a &quot;Container Type&quot; <code>IPipeable&lt;Type&gt;</code></p>
+<pre><code class="js"><span class="hljs-keyword">export</span> interface IPipeable&lt;Type&gt; {
+  <span class="hljs-attr">data</span>: Type;
+  stack: OperationStack;
+  requestOptions?: IHubRequestOptions | IRequestOptions;
+}
+</code></pre>
+<p>What's important is that the <code>IPipeable&lt;Type&gt;</code> has a <code>data</code> property that can be of whatever type your pipeline is using. If we are &quot;building up&quot; an object we can also leverage the <code>Partial&lt;Type&gt;</code> type.</p>
+<p><code>IPipeable</code> also includes an <code>OperationStack</code> which allows each function in the pipeline to add information about what it is doing internally, effectively providing state information in the event of an exception. This greatly simplifies debugging when things to wrong. Read more in the <a href="../operation-stack">OperationStack Guide</a></p>
+<p>Since many of the operations we do will be asynchronous, all the functions should return a Promise, even if they do not have to make any async calls. From a typing perspectives, the functions adhere to the <code>PipelineFn&lt;Type&gt;</code> signature:</p>
+<pre><code class="js"><span class="hljs-keyword">export</span> type PipelineFn&lt;T&gt; = <span class="hljs-function">(<span class="hljs-params">value: IPipeable&lt;T&gt;</span>) =&gt;</span> <span class="hljs-built_in">Promise</span>&lt;IPipeable&lt;T&gt;&gt;;
+</code></pre>
+<p>Working from the previous example, we could define an <code>ITemplate</code> as</p>
+<pre><code class="js"><span class="hljs-comment">// Note: This is also simpified to demonstrate the concept</span>
+<span class="hljs-keyword">export</span> interface ITemplate {
+  <span class="hljs-attr">id</span>: string;
+  item: IItem;
+  data: Record&lt;string, unknown&gt;;
+  dependencies: string[];
+  resources: IResource[];
+}
+</code></pre>
+<p>And have functions like</p>
+<pre><code class="js"><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getItemAndData</span>(<span class="hljs-params">
+  input: IPipable&lt;Partial&lt;ITemplate&gt;&gt;
+</span>): <span class="hljs-title">Promise</span>&lt;<span class="hljs-title">IPipable</span>&lt;<span class="hljs-title">Partial</span>&lt;<span class="hljs-title">ITemplate</span>&gt;&gt;&gt; </span>{
+  <span class="hljs-comment">// Add wrapper operation to the stack.</span>
+  <span class="hljs-keyword">let</span> opId = input.stack.startOperation(<span class="hljs-string">"getItemAndData"</span>);
+  <span class="hljs-comment">// add a more detailed operation specific to the xhr getting the site item</span>
+  <span class="hljs-comment">// this includes more details on the request, and when we finish it we can</span>
+  <span class="hljs-comment">// provide additional information that may be useful in debugging</span>
+  input.stack.start({
+    <span class="hljs-attr">id</span>: <span class="hljs-string">`getItem - <span class="hljs-subst">${input.data.id}</span>`</span>,
+    <span class="hljs-attr">type</span>: <span class="hljs-string">"getItem"</span>,
+    <span class="hljs-attr">inputs</span>: {
+      <span class="hljs-attr">id</span>: input.data.id,
+    },
+  });
+  <span class="hljs-keyword">return</span> getItem(input.data.id, input.requestOptions)
+    .then(<span class="hljs-function">(<span class="hljs-params">item</span>) =&gt;</span> {
+      <span class="hljs-comment">// finish the getItem operation...</span>
+      input.stack.finish(<span class="hljs-string">`getItem - <span class="hljs-subst">${input.data.id}</span>`</span>, { <span class="hljs-attr">success</span>: <span class="hljs-literal">true</span> });
+      <span class="hljs-comment">// start one for getItemData</span>
+      input.stack.start({
+        <span class="hljs-attr">id</span>: <span class="hljs-string">`getItemData - <span class="hljs-subst">${input.data.id}</span>`</span>,
+        <span class="hljs-attr">type</span>: <span class="hljs-string">"getItemData"</span>,
+        <span class="hljs-attr">inputs</span>: {
+          <span class="hljs-attr">id</span>: input.data.id,
+        },
+      });
+      input.data.item = item;
+      <span class="hljs-keyword">return</span> getItemData(input.data.id, input.requestOptions);
+    })
+    .then(<span class="hljs-function">(<span class="hljs-params">itemData</span>) =&gt;</span> {
+      input.stack.finish(<span class="hljs-string">`getItemData - <span class="hljs-subst">${input.data.id}</span>`</span>, { <span class="hljs-attr">success</span>: <span class="hljs-literal">true</span> });
+      input.stack.finish(opId);
+      input.data.data = itemData;
+      <span class="hljs-keyword">return</span> input;
+    })
+    .catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+      <span class="hljs-comment">// construct an OperationError so the stack is serialized and returned</span>
+      <span class="hljs-comment">// If somethign failed</span>
+      <span class="hljs-keyword">const</span> msg = <span class="hljs-string">`getSite Error \n Operation Stack: \n <span class="hljs-subst">${input.stack.toString()}</span>`</span>;
+      <span class="hljs-keyword">const</span> opErr = <span class="hljs-keyword">new</span> OperationError(<span class="hljs-string">"pipeline execution error"</span>, msg);
+      opErr.operationStack = input.stack.serialize();
+      <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.reject(opErr);
+    });
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getLayoutDependencies</span>(<span class="hljs-params">
+  input: IPipable&lt;Partial&lt;ITemplate&gt;&gt;
+</span>): <span class="hljs-title">Promise</span>&lt;<span class="hljs-title">IPipable</span>&lt;<span class="hljs-title">Partial</span>&lt;<span class="hljs-title">ITemplate</span>&gt;&gt;&gt; </span>{
+  <span class="hljs-keyword">const</span> opId = input.stack.startOperation(<span class="hljs-string">"getLayoutDependencies"</span>);
+  input.data.dependencies = input.data.data.layout.sections.reduce(
+    <span class="hljs-function">(<span class="hljs-params">deps, section</span>) =&gt;</span> {
+      <span class="hljs-keyword">return</span> deps.concat(
+        section.rows.reduce(<span class="hljs-function">(<span class="hljs-params">rowDeps, row</span>) =&gt;</span> {
+          <span class="hljs-keyword">return</span> rowDeps.concat(
+            row.cards.reduce(<span class="hljs-function">(<span class="hljs-params">cardDeps, card</span>) =&gt;</span> {
+              <span class="hljs-keyword">const</span> cardDeps = getCardDependencies(card);
+              <span class="hljs-keyword">if</span> (cardDeps.length) {
+                deps = deps.concat(cardDeps);
+              }
+              <span class="hljs-keyword">return</span> deps;
+            }, [])
+          );
+        }, [])
+      );
+    },
+    []
+  );
+  input.stack.finish(opId);
+  <span class="hljs-comment">// although this is all sycn operations, we still resolve a promise</span>
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.resolve(input);
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">verifyDependencies</span>(<span class="hljs-params">
+  input: IPipable&lt;Partial&lt;ITemplate&gt;&gt;
+</span>): <span class="hljs-title">Promise</span>&lt;<span class="hljs-title">IPipable</span>&lt;<span class="hljs-title">Partial</span>&lt;<span class="hljs-title">ITemplate</span>&gt;&gt;&gt; </span>{
+  <span class="hljs-keyword">const</span> ids = input.data.dependencies || [];
+  <span class="hljs-keyword">const</span> q = <span class="hljs-string">`id: <span class="hljs-subst">${ids.join(<span class="hljs-string">" OR id:"</span>)}</span>`</span>;
+  <span class="hljs-comment">// create the wrapper operation for this function</span>
+  <span class="hljs-keyword">const</span> opId = input.stack.startOperation(<span class="hljs-string">"verifyDependencies"</span>);
+  <span class="hljs-comment">// start a second operation for the search</span>
+  input.stack.start({
+    <span class="hljs-attr">id</span>: <span class="hljs-string">`dependenciesSearch`</span>,
+    <span class="hljs-attr">type</span>: <span class="hljs-string">"dependency search request"</span>,
+    <span class="hljs-attr">inputs</span>: {
+      <span class="hljs-attr">q</span>: q,
+    },
+  });
+  <span class="hljs-keyword">return</span> searchItems(q)
+    .then(<span class="hljs-function">(<span class="hljs-params">searchResponse</span>) =&gt;</span> {
+      input.stack.finish(<span class="hljs-string">"dependenciesSearch"</span>, {
+        <span class="hljs-attr">count</span>: searchResponse.results.length,
+      });
+      <span class="hljs-keyword">const</span> existingIds = searchResponse.results.map(<span class="hljs-function">(<span class="hljs-params">itm</span>) =&gt;</span> itm.id);
+      input.data.dependencies = ids.reduce(<span class="hljs-function">(<span class="hljs-params">acc, entry</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span> (existingIds.includes(entry)) {
+          acc.push(entry);
+        }
+        <span class="hljs-keyword">return</span> acc;
+      });
+      <span class="hljs-comment">// finish the wrapper operation</span>
+      input.stack.finish(opId);
+      <span class="hljs-keyword">return</span> input;
+    })
+    .catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+      <span class="hljs-comment">// construct OperationError and reject with that</span>
+    });
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getResources</span>(<span class="hljs-params">
+  input: IPipable&lt;Partial&lt;ITemplate&gt;&gt;
+</span>): <span class="hljs-title">Promise</span>&lt;<span class="hljs-title">IPipable</span>&lt;<span class="hljs-title">Partial</span>&lt;<span class="hljs-title">ITemplate</span>&gt;&gt;&gt; </span>{
+  <span class="hljs-keyword">let</span> opId = input.stack.startOperation(<span class="hljs-string">"getResources"</span>);
+  <span class="hljs-keyword">return</span> getItemResources(input.data.id)
+    .then(<span class="hljs-function">(<span class="hljs-params">resources</span>) =&gt;</span> {
+      input.stack.finish(opId);
+      input.data.resources = resources;
+      <span class="hljs-keyword">return</span> input;
+    })
+    .catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+      <span class="hljs-comment">// construct OperationError and reject with that</span>
+    });
+}
+</code></pre>
+<p>With these functions setup we can then compose them using <code>createOperationPipeline</code></p>
+<pre><code class="js"><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createSiteTemplate</span>(<span class="hljs-params">
+  id: string,
+  requestOptions: IHubRequestOptions
+</span>) </span>{
+  <span class="hljs-comment">// create the pipeline function...</span>
+  <span class="hljs-keyword">const</span> pipeline = createOperationPipeline([
+    getItemAndData,
+    getLayoutDependencies,
+    verifyDependencies,
+    getResources,
+  ]);
+  <span class="hljs-comment">// create the initial input</span>
+  <span class="hljs-keyword">const</span> input = {
+    <span class="hljs-attr">data</span>: {},
+    <span class="hljs-attr">stack</span>: <span class="hljs-keyword">new</span> OperationStack(),
+    requestOptions,
+  };
+  <span class="hljs-comment">// execute the pipeline</span>
+  <span class="hljs-keyword">return</span> pipeline(input);
+}
+</code></pre>
+<p>What's more, we can make these pipelines configurable... so let's abstract this further...</p>
+<pre><code class="js">export function createTemplate(id: string, type: string, requestOptions: IRequestOptions) {
+  const pipeline = createOperationPipeline(getPipelineFnsByType(type));
+  // create the initial input
+  const input = {
+    data: {},
+    stack: new OperationStack(),
+    requestOptions
+  };
+  // execute the pipeline
+  return pipeline(input);
+}
+
+function getPipelineFnsByType(type: string): PipelineFn&lt;T&gt;[] {
+  const fns = [getItemAndData];
+  // implement whatever sort of logic
+  if type === "Hub Site Application" {
+    fns.push(getLayoutDependencies, verifyDependencies, getResources);
+  }
+  if type === "Web Map" {
+    fns.push(getLayerDependencies);
+  }
+  return fns;
+}
+</code></pre>
+<h3>Summary</h3>
+<p>Creating pipeline functions via <code>createOperationPipeline</code> allows us to compose complex workflows, dyanmically, from a set of focused functions that all share a consistent API.</p>
+      </div>
+    </div>
+  </div>
+
+      </main>
+    </div>
+
+    <footer class="footer">
+      
+      <div class="panel panel-white">
+        <div class="grid-container">
+          <div class="column-24">
+            <a href="https://github.com/Esri/hub.js" class="font-size--2">Fork this project</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/js/calcite-web.min.js"></script>
+
+    <script>
+       calcite.init()
+    </script>
+
+    
+  </body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Hub Classess | @esri/hub.js</title>
+    
+    <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
+    
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css">
+    <link rel="stylesheet" href="/hub.js/css/style.css">
+    
+  </head>
+  <body>
+  <!-- Drawer -->
+    <div class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
+      <nav class="drawer-nav" role="navigation">
+        <aside class="side-nav">
+          <h2 class="side-nav-title">@esri/hub.js</h2>
+          <a href="/hub.js/guides/" class="side-nav-link">Guides</a>
+          <a href="/hub.js/api/" class="side-nav-link">API Reference</a>
+        </aside>
+      </nav>
+    </div>
+
+    <div id="page" class="wrapper">
+      <!-- Sample HTML -->
+      <header class="top-nav">
+        <div class="grid-container">
+          <div class="column-24">
+            <!-- desktop sized navigation -->
+            <div class="tablet-hide">
+              <!-- logo / home -->
+              <a href="/hub.js/" class="top-nav-title">@esri/hub.js</a>
+              <!-- primary navigation sections -->
+              <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/guides/" class="top-nav-link">Guides</a>
+                <a href="/hub.js/api/" class="top-nav-link">API Reference</a>
+                <a href="https://github.com/Esri/hub.js" class="top-nav-link">GitHub</a>
+              </nav>
+            </div>
+
+            <!-- tablet and mobile sized navigation -->
+            <div class="tablet-show top-nav-flex">
+              <!-- open primary navigation drawer -->
+              <nav class="top-nav-flex-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/" class="icon-ui-menu top-nav-link js-drawer-toggle" data-drawer="top-nav"><span class="phone-hide">Menu</span></a>
+              </nav>
+              <!-- logo / home -->
+              <header class="top-nav-flex-title">
+                <a href="/hub.js/" class="top-nav-link">@esri/hub.js</a>
+              </header>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+
+      <main id="#skip-to-content">
+        <h1>Working with Hub Classes</h1>
+<p>Core Hub business logic has been wrapped into a set of javascript classes, representing the core Hub Entities: Site, Page, Initiative and Project. Additional classes are planned for Event, Team, and Person.</p>
+<h2>Key Patterns for Dev's building classes</h2>
+<ul>
+<li>separation of structure from behavior
+<ul>
+<li><code>IWith&lt;Noun&gt;</code> structural interfaces vs <code>IWith&lt;Noun&gt;Behavior</code> interfaces</li>
+</ul>
+</li>
+<li>limited inheritance</li>
+<li>delegation to functions</li>
+</ul>
+<h2>Developer Experience</h2>
+<ul>
+<li>create instance via factory functions</li>
+<li>&quot;extract to edit&quot;
+<ul>
+<li>optimized for reactive ui layers</li>
+</ul>
+</li>
+<li>working with editor components
+<ul>
+<li>json schema + ui schema</li>
+</ul>
+</li>
+</ul>
+<h2>Hub Classes</h2>
+<p>To reduce cognitive load, and make it easier for developers outside the ArcGIS Hub team, we have introduced a set of Classes. These classes are <a href="./hub-entities">Entity Specific</a> (e.g. there is a <code>HubProject</code> class), and they encapsulate the standard operations for an Entity - <code>create</code>, <code>update</code>, <code>delete</code>, <code>fetch</code> etc, as well as entity specific methods.</p>
+<p>For most developers, the Classes are the simplest way to work with ArcGIS Hub.</p>
+<h4>Available Manager Classes</h4>
+<ul>
+<li><a href="/hub.js/api/common/HubProjectManager"><code>HubProjectManager</code></a></li>
+<li><a href="/hub.js/api/common/HubSiteManager"><code>HubSiteManager</code></a></li>
+</ul>
+<h3>Working with Classes</h3>
+<p>Classes are instantiated via factory functions, which all take an <code>ArcGISContext</code> to provide platform and identity information. The <a href="./context.html"><code>ArcGISContextManager</code> documentation</a> has additional background information.</p>
+<h2>Factory Function Examples</h2>
+<pre><code class="ts"><span class="hljs-keyword">import</span> { HubProject, ArcGISContextManager } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/hub-common"</span>;
+
+<span class="hljs-comment">// Typically your application will manage a context manager instance</span>
+<span class="hljs-keyword">const</span> ctxMgr = <span class="hljs-keyword">await</span> ArcGISContextManager.create({
+  username: <span class="hljs-string">"casey"</span>,
+  password: <span class="hljs-string">"abc123"</span>,
+});
+<span class="hljs-comment">// get the context from the manager</span>
+<span class="hljs-keyword">const</span> ctx = ctxMgr.context;
+
+<span class="hljs-comment">// If you have the slug or id, use the `.fetch(...)` factory function</span>
+<span class="hljs-comment">// In Ember, this is commonly used in the model hook of a route, and the instance can</span>
+<span class="hljs-comment">// be passed forward into the controller</span>
+<span class="hljs-keyword">const</span> smithStProject = <span class="hljs-keyword">await</span> HubProject.fetch(<span class="hljs-string">"dc::smith-st-forestry"</span>, ctx);
+
+<span class="hljs-comment">// If your app has aleady fetched the IHubProject object literal</span>
+<span class="hljs-comment">// create an instance using the `.fromJson(...)` factory function</span>
+<span class="hljs-comment">// note: since it's not fetching anything, this is a sync call</span>
+<span class="hljs-keyword">const</span> pineStProject = HubProject.fromJson(pineStObjectLiteral, ctx);
+
+<span class="hljs-comment">// To create a new project, pass in an Partial&lt;IHubProject&gt; to `.create(..)`</span>
+<span class="hljs-comment">// to get an instance for a new Project. If you want to immediately save the</span>
+<span class="hljs-comment">// it, pass in `true` as the third argument.</span>
+<span class="hljs-keyword">const</span> oakStProject = <span class="hljs-keyword">await</span> HubProject.create({ title: <span class="hljs-string">"Oak St Project"</span> }, ctx);
+</code></pre>
+<h2>Working with Editors</h2>
+<pre><code class="ts"><span class="hljs-comment">// share with a group - sharing happens immediately</span>
+<span class="hljs-keyword">await</span> smithStProject.shareWith(<span class="hljs-string">"00c"</span>);
+
+<span class="hljs-keyword">const</span> canCurrentUserEditProject = <span class="hljs-keyword">await</span> smithStProject.canEdit();
+
+<span class="hljs-keyword">if</span> (canCurrentUserEditProject) {
+  <span class="hljs-comment">// get the object literal from the class</span>
+  <span class="hljs-comment">// typically to pass into an editor component</span>
+  <span class="hljs-keyword">const</span> prjObjectLiteral = smithStProject.toJson();
+
+  <span class="hljs-comment">// apply changes back into the class</span>
+  <span class="hljs-comment">// typically in an event handler recieving changes from an editor component</span>
+  smithStProject.update(changedObjectLiteral);
+
+  <span class="hljs-comment">// save changes back to the Portal item</span>
+  <span class="hljs-keyword">await</span> smithStProject.save();
+}
+</code></pre>
+<h3>Working with Modern Web Frameworks</h3>
+<p>All modern web frameworks (React, Angular, Vue, Ember etc) leverage some form of change tracking to determine when to re-render the UI. Typically this is done via object equality (aka <code>===</code>) or ES6 proxy objects, both of which are very efficient, but add complexity when working with Class instances. To keep things simple for all frameworks, Hub.js has enforced separation between the class instances and the entity objects.</p>
+<p>In the example above, the <code>.update(..)</code> method of the <code>HubProjectManager</code> class instance returns a new <code>IHubProject</code> entity object. This new object should then be assigned into the application's state management system.</p>
+<h3>Composition via Interfaces and Functions</h3>
+<p>Manager classes and the entity objects they work with are defined via interface composition.</p>
+<p>The Managers all implement the <code>IHubEntityManager</code> interface, which defines the basic CRUD+Search operations.</p>
+<p>Additionally, Managers also implement &quot;trait interfaces&quot; (e.g. <code>IWithLayoutManager</code>), which define standardized behaviors. This allows different entity types of compose their behavior and properties based on common patterns, while still enabling per-entity customization where necessary. The actual implementation of the behaviors is typically delegated to a generic function, ensuring all entities implement the same behavior the same way, while still allowing for minor variations.</p>
+<p>Similarly, the entity objects will conform to the entity specific interface (e.g. <code>IHubProject</code>) but those interfaces are composed with &quot;trait interfaces&quot; to ensure consistent properties are used across the types.</p>
+<p>For example <code>IHubProject</code> extends the <code>IWithSlug</code> interface, and the <code>HubProjectManager</code> implements the <code>IWithSlugManager</code> interface, operating on the properties defined by <code>IWithSlug</code>.</p>
+<p><img src="/hub.js/img/interface-hiearchy.png" alt="Manager and Entity Object Interfaces"></p>
+<p>This pattern ensures consistent API's across entities, powered by stand alone functions, composed into the Manager Classes and entity objects.</p>
+<h2>Hub Automation Class</h2>
+<p>The final pattern is oriented towards developers looking to automate various Hub activities via scripting. In this pattern, all the Managers are accessible from a central <a href="/hub.js/api/common/Hub"><code>Hub</code> class</a>.</p>
+<pre><code class="js"><span class="hljs-keyword">import</span> { Hub } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/hub-common"</span>;
+
+<span class="hljs-comment">// create Hub instance</span>
+<span class="hljs-keyword">const</span> myHub = <span class="hljs-keyword">await</span> Hub.create({
+  <span class="hljs-attr">authOptions</span>: { <span class="hljs-attr">username</span>: <span class="hljs-string">"casey"</span>, <span class="hljs-attr">password</span>: <span class="hljs-string">"abc123"</span> },
+});
+
+<span class="hljs-comment">// Create a project via the HubProjectManager, which is accessed via `.projects`</span>
+<span class="hljs-keyword">let</span> project = <span class="hljs-keyword">await</span> myHub.projects.create({
+  <span class="hljs-attr">name</span>: <span class="hljs-string">"Smith Street Curb Replacement"</span>,
+  <span class="hljs-attr">summary</span>: <span class="hljs-string">"Replace/upgrade damaged curbs along Smith St. Scheduled for 2024"</span>,
+  <span class="hljs-attr">culture</span>: <span class="hljs-string">"en-us"</span>,
+  <span class="hljs-attr">slug</span>: <span class="hljs-string">"smith-st-2024"</span>,
+  <span class="hljs-attr">tags</span>: [<span class="hljs-string">"2024 Plan"</span>],
+});
+<span class="hljs-built_in">console</span>.info(<span class="hljs-string">`Created project <span class="hljs-subst">${project.name}</span> owned by <span class="hljs-subst">${project.owner}</span>`</span>);
+
+<span class="hljs-comment">// Update the project</span>
+project.status = <span class="hljs-string">"active"</span>;
+<span class="hljs-keyword">await</span> Hub.projects.update(project);
+
+<span class="hljs-comment">// Fetch a project by it's slug (can also use it's id)</span>
+<span class="hljs-keyword">const</span> treeProject = <span class="hljs-keyword">await</span> Hub.projects.fetch(<span class="hljs-string">"2018-tree-trimming"</span>);
+
+<span class="hljs-comment">// Destroy a project</span>
+<span class="hljs-keyword">await</span> Hub.projects.destroy(treeProject);
+
+<span class="hljs-comment">// search for projects</span>
+<span class="hljs-keyword">const</span> filter: Filter&lt;<span class="hljs-string">"content"</span>&gt; = {
+  <span class="hljs-attr">fitlerType</span>: <span class="hljs-string">"content"</span>,
+  <span class="hljs-attr">owner</span>: <span class="hljs-string">"casey"</span>,
+};
+<span class="hljs-keyword">const</span> myProjects = <span class="hljs-keyword">await</span> Hub.projects.search(filter, { <span class="hljs-attr">num</span>: <span class="hljs-number">100</span> });
+<span class="hljs-built_in">console</span>.info(<span class="hljs-string">`"casey" owns <span class="hljs-subst">${myProjects.results.length}</span> projects`</span>);
+</code></pre>
+<p>While this api could be used in a web application, the tight coupling between the Hub class and all the Manager classes means that the build output would contain the vast majority of the Hub.js library, despite the application likely requiring a small fraction of that.</p>
+<h2>Plain Functions</h2>
+<p>Backing the Managers and the Hub Class are a collection of functions that implement all the business logic for working with ArcGIS Hub entities (Sites/Pages/Initiatives/Projects etc). While most developers should look to leverage the Manager Classes or the Hub Class, those who need a more flexible option for composing other workflows can opt into this level.</p>
+<p>While this pattern enables the wide reuse, and simple composition, it comes at the cost of increased cognitive load for developers - you need to know what functions to use and what context to use them in. The <a href="/hub.js/api/">API Reference</a> contains a full list of all the functions.</p>
+<p>Additionally, working with modern build tools, this level of abstraction will result in the smallest built output, as functions are the simplest structures to <a href="https://developers.google.com/web/fundamentals/performance/optimizing-javascript/tree-shaking/">tree shake</a> during a build (assuming you only import the functions your code needs!).</p>
+      </main>
+    </div>
+
+    <footer class="footer">
+      
+      <div class="panel panel-white">
+        <div class="grid-container">
+          <div class="column-24">
+            <a href="https://github.com/Esri/hub.js" class="font-size--2">Fork this project</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/js/calcite-web.min.js"></script>
+
+    <script>
+       calcite.init()
+    </script>
+
+    
+  </body>
+</html>

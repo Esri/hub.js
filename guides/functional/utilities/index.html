@@ -64,57 +64,59 @@
     <div class="column-6">
       <ul class="list-plain">
         
-          <li>Get Started</li>
+          <li>Intro</li>
           <ul class="list-plain margin-left-1">
             
-              <li><a href="/hub.js/guides/get-started/from-a-cdn/">From a CDN</a></li>
+              <li><a href="/hub.js/guides/intro/overview/">Overview</a></li>
             
-              <li><a href="/hub.js/guides/get-started/node/">Node.js</a></li>
-            
-              <li><a href="/hub.js/guides/get-started/using-es6/">Using ES6</a></li>
-            
-              <li><a href="/hub.js/guides/get-started/whats-new-v2-0/">What's New in v2.0.0</a></li>
+              <li><a href="/hub.js/guides/intro/getting-started/">Getting Started</a></li>
             
           </ul>
         
-          <li>Concepts</li>
+          <li>Class Api</li>
           <ul class="list-plain margin-left-1">
             
-              <li><a href="/hub.js/guides/concepts/arcgiscontext/">ArcGISContext</a></li>
+              <li><a href="/hub.js/guides/classes/overview/">Overview</a></li>
             
-              <li><a href="/hub.js/guides/concepts/hub-entities/">Hub Entities</a></li>
+              <li><a href="/hub.js/guides/classes/arcgiscontext/">Authentication</a></li>
             
-              <li><a href="/hub.js/guides/concepts/catalog-collection/">Catalogs & Collections</a></li>
+              <li><a href="/hub.js/guides/classes/sites/">Sites (WIP)</a></li>
             
-              <li><a href="/hub.js/guides/concepts/queries-and-filters/">Queries & Filters</a></li>
+              <li><a href="/hub.js/guides/classes/pages/">Pages (WIP)</a></li>
             
-              <li><a href="/hub.js/guides/concepts/hub-search/">Hub Search</a></li>
+              <li><a href="/hub.js/guides/classes/initiatives/">Initiatives (WIP)</a></li>
             
-              <li><a href="/hub.js/guides/concepts/working-with-projects/">Hub Projects</a></li>
-            
-              <li><a href="/hub.js/guides/concepts/working-with-teams/">Hub Teams</a></li>
-            
-              <li><a href="/hub.js/guides/concepts/hub-discussions/">Hub Discussions</a></li>
-            
-          </ul>
-        
-          <li>Classes</li>
-          <ul class="list-plain margin-left-1">
-            
-              <li><a href="/hub.js/guides/concepts/architecture-patterns/">Manager Classes</a></li>
+              <li><a href="/hub.js/guides/classes/projects/">Projects</a></li>
             
           </ul>
         
           <li>Functional Api</li>
           <ul class="list-plain margin-left-1">
             
+              <li><a href="/hub.js/guides/functional/overview/">Overview</a></li>
+            
               <li><a href="/hub.js/guides/functional/authentication/">Authentication</a></li>
+            
+              <li><a href="/hub.js/guides/functional/hub-search/">Hub Search</a></li>
             
               <li><a href="/hub.js/guides/functional/utilities/" class="is-active">Utilities</a></li>
             
-              <li><a href="/hub.js/guides/functional/operation-stack/">OperationStack</a></li>
+              <li><a href="/hub.js/guides/functional/discussions/">Discussions</a></li>
             
-              <li><a href="/hub.js/guides/functional/composing-workflows/">Composing Workflows</a></li>
+              <li><a href="/hub.js/guides/functional/teams/">Teams</a></li>
+            
+          </ul>
+        
+          <li>Advanced</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/advanced/composing-workflows/">Composing Workflows</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/operation-stack/">OperationStack</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/queries-and-filters/">Queries & Filters</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/catalog-collection/">Catalogs & Collections</a></li>
             
           </ul>
         
@@ -140,10 +142,10 @@
     <div class="column-18">
       <div class="panel">
         <h2>Hub Utilities</h2>
-<p>The <code>hub-common</code> module is a collection of utility functions that the Hub team has come to rely on across all the projects we work on.</p>
+<p>Hub.js exports a collection of utility functions that the Hub team has come to rely on across all the projects we work on.</p>
 <p>This page lists some of the more prominent functions, but there are dozens of others that are extremely useful and we invite you to explore them.</p>
 <h2>Working with Objects</h2>
-<p>The philosophy behing Hub.js (as well as ArcGIS Rest Js) is that the libraries are composed of functions that work with data.</p>
+<p>The philosophy behind Hub.js (as well as ArcGIS Rest Js) is that the libraries are composed of functions that work with data.</p>
 <p>The output of the functions depends only on the data passed into them. Unless otherwise noted, the functions do not mutate the data passed into them - instead they return new copies of the data.</p>
 <h3>Getting Deeply Nested Properties</h3>
 <p>In Hub we frequently deal with deeply nested objects. For example, given an object like</p>
@@ -157,6 +159,11 @@
 </code></pre>
 <p>We can safely get the value of <code>itm.properties.parentId</code> because we know it's defined. But what if there is a possibility that the <code>properties</code> object itself was <code>undefined</code>? Typically we would have to write guard code like this:</p>
 <pre><code class="js"><span class="hljs-keyword">if</span> (itm.properties &amp;&amp; itm.properties.parentId) {
+  <span class="hljs-comment">// do something</span>
+}
+</code></pre>
+<p>... or with ES6 we can use</p>
+<pre><code class="js"><span class="hljs-keyword">if</span> (itm.properties?.parentId) {
   <span class="hljs-comment">// do something</span>
 }
 </code></pre>
@@ -182,9 +189,9 @@
 <span class="hljs-comment">// mapping over an empty array which will return an empty array</span>
 </code></pre>
 <h3>Avoid Mutating Shared State</h3>
-<p>One of the most complex problems we face as application developers is how to manage state in our applications. One prominent technique to simplify this is to write functions which do not mutate data that is passed in; rather they return new objects. This minimizes unexpected mutation of shared objects. In order to do this, we leverage <a href="https://esri.github.io/hub.js/api/common/cloneObject/">cloneObject</a>.</p>
+<p>One of the most complex problems we face as application developers is how to manage state in our applications. One prominent technique to simplify this is to write functions which do not mutate data that is passed in; rather they return new objects. This minimizes unexpected mutation of shared objects. In order to do this, we leverage <a href="/hub.js/api/common/cloneObject/">cloneObject</a>.</p>
 <p>We also make us of this extensively in our unit tests.</p>
-<p><strong>Note</strong>: <code>cloneObject</code> does not attempt to clone functions, and thus should not be used with instances of classes</p>
+<p><strong>Note</strong>: <code>cloneObject</code> does not clone functions, and thus should not be used with instances of classes</p>
 <pre><code class="js"><span class="hljs-keyword">const</span> obj1 = {
   <span class="hljs-attr">id</span>: <span class="hljs-string">"3ef"</span>,
   <span class="hljs-attr">properties</span>: {

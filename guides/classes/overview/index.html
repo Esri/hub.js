@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Working with Hub Classess | Guide | @esri/hub.js</title>
+    
+    <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
+    
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css">
+    <link rel="stylesheet" href="/hub.js/css/style.css">
+    
+  </head>
+  <body>
+  <!-- Drawer -->
+    <div class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
+      <nav class="drawer-nav" role="navigation">
+        <aside class="side-nav">
+          <h2 class="side-nav-title">@esri/hub.js</h2>
+          <a href="/hub.js/guides/" class="is-active side-nav-link">Guides</a>
+          <a href="/hub.js/api/" class="side-nav-link">API Reference</a>
+        </aside>
+      </nav>
+    </div>
+
+    <div id="page" class="wrapper">
+      <!-- Sample HTML -->
+      <header class="top-nav">
+        <div class="grid-container">
+          <div class="column-24">
+            <!-- desktop sized navigation -->
+            <div class="tablet-hide">
+              <!-- logo / home -->
+              <a href="/hub.js/" class="top-nav-title">@esri/hub.js</a>
+              <!-- primary navigation sections -->
+              <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/guides/" class="is-active top-nav-link">Guides</a>
+                <a href="/hub.js/api/" class="top-nav-link">API Reference</a>
+                <a href="https://github.com/Esri/hub.js" class="top-nav-link">GitHub</a>
+              </nav>
+            </div>
+
+            <!-- tablet and mobile sized navigation -->
+            <div class="tablet-show top-nav-flex">
+              <!-- open primary navigation drawer -->
+              <nav class="top-nav-flex-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/" class="icon-ui-menu top-nav-link js-drawer-toggle" data-drawer="top-nav"><span class="phone-hide">Menu</span></a>
+              </nav>
+              <!-- logo / home -->
+              <header class="top-nav-flex-title">
+                <a href="/hub.js/" class="top-nav-link">@esri/hub.js</a>
+              </header>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+
+      <main id="#skip-to-content">
+        
+  <div class="grid-container trailer-1 leader-1">
+    <div class="column-6">
+      <ul class="list-plain">
+        
+          <li>Intro</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/intro/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/intro/getting-started/">Getting Started</a></li>
+            
+          </ul>
+        
+          <li>Class Api</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/classes/overview/" class="is-active">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/classes/arcgiscontext/">Authentication</a></li>
+            
+              <li><a href="/hub.js/guides/classes/sites/">Sites (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/pages/">Pages (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/initiatives/">Initiatives (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/projects/">Projects</a></li>
+            
+          </ul>
+        
+          <li>Functional Api</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/functional/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/functional/authentication/">Authentication</a></li>
+            
+              <li><a href="/hub.js/guides/functional/hub-search/">Hub Search</a></li>
+            
+              <li><a href="/hub.js/guides/functional/utilities/">Utilities</a></li>
+            
+              <li><a href="/hub.js/guides/functional/discussions/">Discussions</a></li>
+            
+              <li><a href="/hub.js/guides/functional/teams/">Teams</a></li>
+            
+          </ul>
+        
+          <li>Advanced</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/advanced/composing-workflows/">Composing Workflows</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/operation-stack/">OperationStack</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/queries-and-filters/">Queries & Filters</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/catalog-collection/">Catalogs & Collections</a></li>
+            
+          </ul>
+        
+          <li>Developers</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/developers/e2e-tests/">E2E Testing</a></li>
+            
+          </ul>
+        
+          <li>Legacy</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/legacy/content-search/">Search Service</a></li>
+            
+              <li><a href="/hub.js/guides/legacy/sites-and-pages/">Sites and Pages</a></li>
+            
+          </ul>
+        
+      </ul>
+    </div>
+
+    <div class="column-18">
+      <div class="panel">
+        <h1>Working with Hub Classes</h1>
+<p>Core Hub business logic has been wrapped into a set of javascript classes, representing the core Hub Entities: Site, Page, Initiative and Project.</p>
+<p>Additional classes are planned for Event, Team, Discussion and Person.</p>
+<p>For most developers, the Classes are the simplest way to work with ArcGIS Hub.</p>
+<h3>Class Patterns</h3>
+<p>The Class pattern used in hub.js separates the methods (the behavior) from the underlying entity (the structure). In the example below we have the <code>HubSite</code> class which contains an <code>entity</code> of type <code>IHubSite</code>. The methods on the class are composed from &quot;behavioral&quot; interfaces, which ensure consistent methods across types. Similarly the entity is composed from structural interfaces, ensuring consistent object structures across entities.</p>
+<p><img src="/hub.js/img/class-pattern.png" alt="Hub Class Patterns"></p>
+<p>To manipulate properties of the underlying entity, we first extract the entity into an object-literal via the <code>.toJson()</code> method. At this point we have a simple object that adheres to the entity interface (<code>IHubSite</code> in the diagram). We can then make changes to the object directly, but more commonly we will pass it into a component, which can then treat it as an immutable/clonable object. Once the componet has applied changed to the object, we reload that back into the class instance using the <code>.update(...)</code> method. It should be noted that changes are not stored until <code>.save()</code> is called.</p>
+<h3>Available Classes</h3>
+<ul>
+<li>WIP <a href=""><code>HubSite</code></a></li>
+<li>WIP <a href=""><code>HubPage</code></a></li>
+<li><a href="/hub.js/api/common/HubProject"><code>HubProject</code></a></li>
+<li><a href="/hub.js/api/common/HubInitiative"><code>HubInitiative</code></a></li>
+</ul>
+<h3>Working with Classes</h3>
+<p>Classes are instantiated via factory functions, which all take an <code>ArcGISContext</code> to provide platform and identity information. The <a href="./context.html"><code>ArcGISContextManager</code> documentation</a> has additional background information.</p>
+<h2>Factory Function Examples</h2>
+<pre><code class="ts"><span class="hljs-keyword">import</span> { HubProject, ArcGISContextManager } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/hub-common"</span>;
+
+<span class="hljs-comment">// Typically your application will manage a context manager instance</span>
+<span class="hljs-keyword">const</span> ctxMgr = <span class="hljs-keyword">await</span> ArcGISContextManager.create({
+  username: <span class="hljs-string">"casey"</span>,
+  password: <span class="hljs-string">"abc123"</span>,
+});
+<span class="hljs-comment">// get the context from the manager</span>
+<span class="hljs-keyword">const</span> ctx = ctxMgr.context;
+
+<span class="hljs-comment">// If you have the slug or id, use the `.fetch(...)` factory function</span>
+<span class="hljs-comment">// In Ember, this is commonly used in the model hook of a route, and the instance can</span>
+<span class="hljs-comment">// be passed forward into the controller</span>
+<span class="hljs-keyword">const</span> smithStProject = <span class="hljs-keyword">await</span> HubProject.fetch(<span class="hljs-string">"dc::smith-st-forestry"</span>, ctx);
+
+<span class="hljs-comment">// If your app has already fetched the IHubProject object literal,</span>
+<span class="hljs-comment">// create an instance using the `.fromJson(...)` factory function</span>
+<span class="hljs-comment">// note: since it's not fetching anything, this is a sync call</span>
+<span class="hljs-keyword">const</span> pineStProject = HubProject.fromJson(pineStObjectLiteral, ctx);
+
+<span class="hljs-comment">// To create a new project, pass in an Partial&lt;IHubProject&gt; to `.create(..)`</span>
+<span class="hljs-comment">// which will return instance for a new Project. If you want to immediately save the</span>
+<span class="hljs-comment">// it, pass in `true` as the third argument.</span>
+<span class="hljs-keyword">const</span> oakStProject = <span class="hljs-keyword">await</span> HubProject.create({ title: <span class="hljs-string">"Oak St Project"</span> }, ctx);
+</code></pre>
+<h2>Working with Editors</h2>
+<p>The Hub Classes are designed to work with the <a href="https://esri.github.io/hub-components/?path=/docs/components-configuration-editor-arcgis-configuration-editor--form-rendering">ArcGIS Configuration Editor</a> component. This component is a generic editor interface that's driven by a json-schema for the entity being edited. While the editor will have a default interface layout, additional control is available by passing in a ui-schema.</p>
+<p>In order to ensure consistent editing behavior and user experience, all Hub classes expose these schema's via static properties:</p>
+<ul>
+<li><code>.jsonSchema</code> - full schema for all properties of the entity</li>
+<li><code>.fullUiSchema</code> full ui for comprehensive editing of the entity</li>
+<li><code>.minimalUiSchema</code> minimal fields needed to create a new entity</li>
+</ul>
+<p>Regardless if you are using the ArcGIS Configuration Editor, or some other component or just need to change properties on the entity programatically, you must &quot;extract&quot; the entity object literal from the class via <code>.toJson()</code>, make changes to the object literal, and then push those changes back into the class via <code>.update(objectLiteral)</code>. While nominally cumbersome in some situations, this pattern ensures developers do not pass class instances into components, which would be extremely problematic.</p>
+<h2>Editing Properties Example</h2>
+<pre><code class="ts"><span class="hljs-keyword">const</span> ctxMgr = <span class="hljs-keyword">await</span> ArcGISContextManager.create({
+  username: <span class="hljs-string">"casey"</span>,
+  password: <span class="hljs-string">"abc123"</span>,
+});
+<span class="hljs-comment">// get the context from the manager</span>
+<span class="hljs-keyword">const</span> ctx = ctxMgr.context;
+<span class="hljs-comment">// get a project</span>
+<span class="hljs-keyword">const</span> smithStProject = <span class="hljs-keyword">await</span> HubProject.fetch(<span class="hljs-string">"dc::smith-st-forestry"</span>, ctx);
+<span class="hljs-comment">// extract the IHubProject object literal</span>
+<span class="hljs-keyword">const</span> prj = smithStProject.toJson();
+<span class="hljs-comment">// set the status and change the summary text</span>
+prj.status = <span class="hljs-string">"complete"</span>;
+prj.summary =
+  <span class="hljs-string">"The Smith Street re-forestation project concluded on August 25th, 2022"</span>;
+<span class="hljs-comment">// apply the changes back into the instance</span>
+smithStProject.update(prj);
+<span class="hljs-comment">// now save changes back to the Portal</span>
+<span class="hljs-keyword">await</span> smithStProject.save();
+</code></pre>
+<h2>Editing via ArcGIS Configuration Editor Example</h2>
+<p>This is a simplistic example of editing a project using the <code>&lt;arcgis-configuration-editor&gt;</code> component, showing a number of things:</p>
+<ul>
+<li>using the class to load the project from an id</li>
+<li>how we use <code>.toJson()</code> to get the &quot;values&quot; (aka the Object Literal) out of the class instance and into the editor</li>
+<li>how we can use the schema static properties on the class to drive the editor</li>
+<li>how to apply changes from the editor into the instance in response to an event</li>
+<li>and finally, how to save changes when the Save button is clicked</li>
+</ul>
+<p>This same pattern can be used with other components or frameworks.</p>
+<pre><code class="ts">export class myEditor {
+  @Prop
+  projectId: string;
+
+  @Prop
+  context: IArcGISContext;
+
+  private _project: HubProject;
+
+  async componentWillLoad() {
+    this._project = await HubProject.fetch(this.projectId, this.context);
+  }
+
+  get values() {
+    // wrap the object literal into a {values: &lt;any&gt;} structure
+    return { values: this.project.toJson() };
+  }
+
+  @Listen("arcgisConfigurationEditorChange")
+  updateValues(evt: CustomEvent&lt;IChangeEventDetail&gt;): void {
+    // apply changes into the project if valid
+    if (evt.detail.valid) {
+      this.project.update(evt.detail.values);
+    }
+    // typically we'd disable the save button if the editor is in an invalid state
+  }
+
+  handleSave() {
+    // since project is kept up to date, we can just call Save
+    this.project.save();
+  }
+
+  render() {
+    return (
+      &lt;Fragment&gt;
+        &lt;arcgis-configuration-editor
+          schema={this.project.jsonSchema}
+          uiSchema={this.project.fullUiSchema}
+          values={this.values}
+        /&gt;
+        &lt;calcite-button onClick={handleSave}&gt;Save&lt;/calcite-button&gt;
+      &lt;/Fragment&gt;
+    );
+  }
+}
+</code></pre>
+<hr>
+<h1>Sections to Write</h1>
+<h2>Key Patterns for Dev's building classes</h2>
+<ul>
+<li>separation of structure from behavior
+<ul>
+<li><code>IWith&lt;Noun&gt;</code> structural interfaces vs <code>IWith&lt;Noun&gt;Behavior</code> interfaces</li>
+</ul>
+</li>
+<li>limited inheritance</li>
+<li>delegation to functions</li>
+</ul>
+<h2>Developer Experience</h2>
+<ul>
+<li>create instance via factory functions</li>
+<li>&quot;extract to edit&quot;
+<ul>
+<li>optimized for reactive ui layers</li>
+</ul>
+</li>
+<li>working with editor components
+<ul>
+<li>json schema + ui schema</li>
+</ul>
+</li>
+</ul>
+<h3>Composition via Interfaces and Functions</h3>
+<p>Manager classes and the entity objects they work with are defined via interface composition.</p>
+<p>The Managers all implement the <code>IHubEntityManager</code> interface, which defines the basic CRUD+Search operations.</p>
+<p>Additionally, Managers also implement &quot;trait interfaces&quot; (e.g. <code>IWithLayoutManager</code>), which define standardized behaviors. This allows different entity types of compose their behavior and properties based on common patterns, while still enabling per-entity customization where necessary. The actual implementation of the behaviors is typically delegated to a generic function, ensuring all entities implement the same behavior the same way, while still allowing for minor variations.</p>
+<p>Similarly, the entity objects will conform to the entity specific interface (e.g. <code>IHubProject</code>) but those interfaces are composed with &quot;trait interfaces&quot; to ensure consistent properties are used across the types.</p>
+<p>For example <code>IHubProject</code> extends the <code>IWithSlug</code> interface, and the <code>HubProjectManager</code> implements the <code>IWithSlugManager</code> interface, operating on the properties defined by <code>IWithSlug</code>.</p>
+<p><img src="/hub.js/img/interface-hiearchy.png" alt="Manager and Entity Object Interfaces"></p>
+<p>This pattern ensures consistent API's across entities, powered by stand alone functions, composed into the Manager Classes and entity objects.</p>
+      </div>
+    </div>
+  </div>
+
+      </main>
+    </div>
+
+    <footer class="footer">
+      
+      <div class="panel panel-white">
+        <div class="grid-container">
+          <div class="column-24">
+            <a href="https://github.com/Esri/hub.js" class="font-size--2">Fork this project</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/js/calcite-web.min.js"></script>
+
+    <script>
+       calcite.init()
+    </script>
+
+    
+  </body>
+</html>

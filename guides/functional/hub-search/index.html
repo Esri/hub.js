@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Searching for Content | Guide | @esri/hub.js</title>
+    
+    <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
+    
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css">
+    <link rel="stylesheet" href="/hub.js/css/style.css">
+    
+  </head>
+  <body>
+  <!-- Drawer -->
+    <div class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
+      <nav class="drawer-nav" role="navigation">
+        <aside class="side-nav">
+          <h2 class="side-nav-title">@esri/hub.js</h2>
+          <a href="/hub.js/guides/" class="is-active side-nav-link">Guides</a>
+          <a href="/hub.js/api/" class="side-nav-link">API Reference</a>
+        </aside>
+      </nav>
+    </div>
+
+    <div id="page" class="wrapper">
+      <!-- Sample HTML -->
+      <header class="top-nav">
+        <div class="grid-container">
+          <div class="column-24">
+            <!-- desktop sized navigation -->
+            <div class="tablet-hide">
+              <!-- logo / home -->
+              <a href="/hub.js/" class="top-nav-title">@esri/hub.js</a>
+              <!-- primary navigation sections -->
+              <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/guides/" class="is-active top-nav-link">Guides</a>
+                <a href="/hub.js/api/" class="top-nav-link">API Reference</a>
+                <a href="https://github.com/Esri/hub.js" class="top-nav-link">GitHub</a>
+              </nav>
+            </div>
+
+            <!-- tablet and mobile sized navigation -->
+            <div class="tablet-show top-nav-flex">
+              <!-- open primary navigation drawer -->
+              <nav class="top-nav-flex-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/" class="icon-ui-menu top-nav-link js-drawer-toggle" data-drawer="top-nav"><span class="phone-hide">Menu</span></a>
+              </nav>
+              <!-- logo / home -->
+              <header class="top-nav-flex-title">
+                <a href="/hub.js/" class="top-nav-link">@esri/hub.js</a>
+              </header>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+
+      <main id="#skip-to-content">
+        
+  <div class="grid-container trailer-1 leader-1">
+    <div class="column-6">
+      <ul class="list-plain">
+        
+          <li>Intro</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/intro/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/intro/getting-started/">Getting Started</a></li>
+            
+          </ul>
+        
+          <li>Class Api</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/classes/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/classes/arcgiscontext/">Authentication</a></li>
+            
+              <li><a href="/hub.js/guides/classes/sites/">Sites (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/pages/">Pages (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/initiatives/">Initiatives (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/projects/">Projects</a></li>
+            
+          </ul>
+        
+          <li>Functional Api</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/functional/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/functional/authentication/">Authentication</a></li>
+            
+              <li><a href="/hub.js/guides/functional/hub-search/" class="is-active">Hub Search</a></li>
+            
+              <li><a href="/hub.js/guides/functional/utilities/">Utilities</a></li>
+            
+              <li><a href="/hub.js/guides/functional/discussions/">Discussions</a></li>
+            
+              <li><a href="/hub.js/guides/functional/teams/">Teams</a></li>
+            
+          </ul>
+        
+          <li>Advanced</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/advanced/composing-workflows/">Composing Workflows</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/operation-stack/">OperationStack</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/queries-and-filters/">Queries & Filters</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/catalog-collection/">Catalogs & Collections</a></li>
+            
+          </ul>
+        
+          <li>Developers</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/developers/e2e-tests/">E2E Testing</a></li>
+            
+          </ul>
+        
+          <li>Legacy</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/legacy/content-search/">Search Service</a></li>
+            
+              <li><a href="/hub.js/guides/legacy/sites-and-pages/">Sites and Pages</a></li>
+            
+          </ul>
+        
+      </ul>
+    </div>
+
+    <div class="column-18">
+      <div class="panel">
+        <h2>Hub Search</h2>
+<p>Within Hub.js the main search function is <a href="../api/common/hubSearch"><code>hubSearch</code></a>, which uses an <a href="../api/common/IQuery"><code>IQuery</code></a> to defined the critera to be applied, and an <a href="../api/common/IHubSearchOptions"><code>IHubSearchOptions</code></a> for additional information.</p>
+<h1>TODO: Add Search Example</h1>
+<p>Please read the <a href="./queries-and-filters">Queries and Filters</a> guide for details on constructing the query.</p>
+<h3>Search Options</h3>
+<p>For the most part, <code>IHubSeachOptions</code> is self-explanatory, as it's used to pass authentication (as <code>IHubRequestOptions</code>), as well as sort and paging information. However there are some additional properties that are worth exploring on their own.</p>
+<h3>Fetching Additional Fields via <code>Include</code></h3>
+<p>By default, <code>hubSearch</code> will return a <code>IHubSearchResponse</code> containing <code>IHubSearchResult</code> objects. These are simplified objects optimized for display in a list or grid of cards. In some advanced scenarios, additional information is required, and can be requested via <code>include</code>.</p>
+<p>The include array takes a list of the &quot;enrichments&quot; to return. e.g <code>include: ['metadata','server']</code> In this simple case, before returning the results, the item metadata will be fetched, converted to json, and attached to the <code>IHubSearchResult</code> as <code>.metadata</code>. For appropriate item types (Feature Service) the <code>server</code> information will be fetched and attached as <code>.server</code>. Fetching these additional resources takes time, so it's best to do some testing to determine if the information you want is worth the performance hit.</p>
+<p>It is also possible to pluck a specific piece of information out of an enrichment and specifying the property name to use on the <code>IHubSearchResult</code>. Specifying <code>include: [&quot;server.layerCount AS numLayers&quot;]</code> will fetch the server info, then grab just the <code>layerCount</code> property and attach that value to the result using the <code>numLayers</code> property.</p>
+<h4></h4>
+<table>
+<thead>
+<tr>
+<th>Enrichment</th>
+<th>Entities</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>data</code></td>
+<td><code>item</code></td>
+<td>Returns the data json for the item.</td>
+</tr>
+<tr>
+<td><code>metadata</code></td>
+<td><code>item</code></td>
+<td>Returns the item's metadata, in json</td>
+</tr>
+<tr>
+<td><code>groupIds</code></td>
+<td><code>item</code></td>
+<td>Array of id's of the groups the item is shared to</td>
+</tr>
+<tr>
+<td><code>ownerUser</code></td>
+<td><code>item</code>, <code>group</code></td>
+<td>returns a full <code>IUser</code> for the owner of the group or item</td>
+</tr>
+<tr>
+<td><code>org</code></td>
+<td><code>item</code></td>
+<td>returns the <code>IPortal</code> of the owning user's org</td>
+</tr>
+<tr>
+<td><code>server</code></td>
+<td>Feature Service, Map Service items</td>
+<td>Returns the feature service definition</td>
+</tr>
+<tr>
+<td><code>layers</code></td>
+<td>Feature Service, Map Service item</td>
+<td>Returns the layers array</td>
+</tr>
+</tbody>
+</table>
+<h3>Aggregations</h3>
+<p>The search can also return aggregation information for the entire result set.</p>
+<p>For the most part, the aggregations supported by <code>hubSearch</code> are limited to those supported by the ArcGIS Portal Search API. A maximum of three aggregations can be specified.</p>
+<table>
+<thead>
+<tr>
+<th>Entity</th>
+<th>Aggregation Fields</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>item</code></td>
+<td><code>tags</code>, <code>type</code>, <code>access</code>, <code>contentstatus</code>, <code>categories</code></td>
+</tr>
+<tr>
+<td><code>user</code></td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>group</code></td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<p>Once the search is executed, the aggregations are available on the <code>IHubSearchResponse.aggregations</code> property as an array of <code>IHubAggregation</code> objects.</p>
+<p>Applications can use aggregations to construct dynamic facets and filters.</p>
+<h3>Specifying the API &amp; Authentication</h3>
+<p>By default, <code>hubSearch</code> will use the ArcGIS Online Portal Search API.</p>
+<p>To specify an ArcGIS Enterprise server, <code>IHubSearchOptions.requestOptions.portal</code> should be set.</p>
+<pre><code class="js"><span class="hljs-keyword">const</span> opts: IHubSearchOptions = {
+  <span class="hljs-attr">requestOptions</span>: {
+    <span class="hljs-attr">portal</span>: <span class="hljs-string">"https://myserver.org/gis/sharing/rest"</span>,
+  },
+};
+</code></pre>
+<p>To pass authentication information, send <code>IHubSearchOptions.requestOptions.authentucation</code></p>
+<pre><code class="js"><span class="hljs-keyword">const</span> opts: IHubSearchOptions = {
+  <span class="hljs-attr">requestOptions</span>: {
+    <span class="hljs-attr">authentication</span>: myUserSession, <span class="hljs-comment">// IUserSession</span>
+  },
+};
+</code></pre>
+<ul>
+<li>Specifying the API to call
+<ul>
+<li>In ArcGIS Online, ArcGIS Hub has it's own search engine, which is optimized for searching public items.</li>
+<li>In all other cases, we recommend specifying <code>arcgis</code> as that will use the Portal search API, and can return non-public content.</li>
+</ul>
+</li>
+</ul>
+<p><em>Note</em> If you are searching for specific <a href="./hub-entities">Hub Entities</a>, the entity &quot;manager&quot; modules also have simplified search functions return fully populated entity objects.</p>
+      </div>
+    </div>
+  </div>
+
+      </main>
+    </div>
+
+    <footer class="footer">
+      
+      <div class="panel panel-white">
+        <div class="grid-container">
+          <div class="column-24">
+            <a href="https://github.com/Esri/hub.js" class="font-size--2">Fork this project</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/js/calcite-web.min.js"></script>
+
+    <script>
+       calcite.init()
+    </script>
+
+    
+  </body>
+</html>

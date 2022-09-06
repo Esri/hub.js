@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Working with Projects | Guide | @esri/hub.js</title>
+    
+    <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
+    
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css">
+    <link rel="stylesheet" href="/hub.js/css/style.css">
+    
+  </head>
+  <body>
+  <!-- Drawer -->
+    <div class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
+      <nav class="drawer-nav" role="navigation">
+        <aside class="side-nav">
+          <h2 class="side-nav-title">@esri/hub.js</h2>
+          <a href="/hub.js/guides/" class="is-active side-nav-link">Guides</a>
+          <a href="/hub.js/api/" class="side-nav-link">API Reference</a>
+        </aside>
+      </nav>
+    </div>
+
+    <div id="page" class="wrapper">
+      <!-- Sample HTML -->
+      <header class="top-nav">
+        <div class="grid-container">
+          <div class="column-24">
+            <!-- desktop sized navigation -->
+            <div class="tablet-hide">
+              <!-- logo / home -->
+              <a href="/hub.js/" class="top-nav-title">@esri/hub.js</a>
+              <!-- primary navigation sections -->
+              <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/guides/" class="is-active top-nav-link">Guides</a>
+                <a href="/hub.js/api/" class="top-nav-link">API Reference</a>
+                <a href="https://github.com/Esri/hub.js" class="top-nav-link">GitHub</a>
+              </nav>
+            </div>
+
+            <!-- tablet and mobile sized navigation -->
+            <div class="tablet-show top-nav-flex">
+              <!-- open primary navigation drawer -->
+              <nav class="top-nav-flex-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/" class="icon-ui-menu top-nav-link js-drawer-toggle" data-drawer="top-nav"><span class="phone-hide">Menu</span></a>
+              </nav>
+              <!-- logo / home -->
+              <header class="top-nav-flex-title">
+                <a href="/hub.js/" class="top-nav-link">@esri/hub.js</a>
+              </header>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+
+      <main id="#skip-to-content">
+        
+  <div class="grid-container trailer-1 leader-1">
+    <div class="column-6">
+      <ul class="list-plain">
+        
+          <li>Intro</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/intro/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/intro/getting-started/">Getting Started</a></li>
+            
+          </ul>
+        
+          <li>Class Api</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/classes/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/classes/arcgiscontext/">Authentication</a></li>
+            
+              <li><a href="/hub.js/guides/classes/sites/">Sites (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/pages/">Pages (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/initiatives/">Initiatives (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/projects/" class="is-active">Projects</a></li>
+            
+          </ul>
+        
+          <li>Functional Api</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/functional/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/functional/authentication/">Authentication</a></li>
+            
+              <li><a href="/hub.js/guides/functional/hub-search/">Hub Search</a></li>
+            
+              <li><a href="/hub.js/guides/functional/utilities/">Utilities</a></li>
+            
+              <li><a href="/hub.js/guides/functional/discussions/">Discussions</a></li>
+            
+              <li><a href="/hub.js/guides/functional/teams/">Teams</a></li>
+            
+          </ul>
+        
+          <li>Advanced</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/advanced/composing-workflows/">Composing Workflows</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/operation-stack/">OperationStack</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/queries-and-filters/">Queries & Filters</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/catalog-collection/">Catalogs & Collections</a></li>
+            
+          </ul>
+        
+          <li>Developers</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/developers/e2e-tests/">E2E Testing</a></li>
+            
+          </ul>
+        
+          <li>Legacy</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/legacy/content-search/">Search Service</a></li>
+            
+              <li><a href="/hub.js/guides/legacy/sites-and-pages/">Sites and Pages</a></li>
+            
+          </ul>
+        
+      </ul>
+    </div>
+
+    <div class="column-18">
+      <div class="panel">
+        <h3>Hub Projects</h3>
+<p>A Hub Project is a customizable representation of a real-world project. It is backed by an Item, and it can be associated with one or more Sites or Initiatives. It has a <a href="">banner image</a>, <a href="">timeline</a>, <a href="">catalog</a> and <a href="">permissions</a>.</p>
+<p>In ArcGIS Online, the item type is <code>Hub Project</code></p>
+<p>Hub Projects are not available in ArcGIS Enterprise.</p>
+<p>We use Hub.js to work with Projects via the <code>HubProject</code> class, which operates on <code>IHubProject</code> objects.</p>
+<h4>API Links</h4>
+<ul>
+<li><a href="/hub.js/api/common/HubProject">HubProject Class</a></li>
+<li><a href="/hub.js/api/common/IHubProject">IHubProject</a></li>
+</ul>
+<h3>Working with Projects</h3>
+<p>To work with Projects, use the <code>HubProject</code> class. This class is instantiated via the standard factory functions, along with an <code>IArcGISContext</code></p>
+<table>
+<thead>
+<tr>
+<th>Factory Function</th>
+<th>Description/Use-Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.load(Partial&lt;IHubProject&gt;, context)</code></td>
+<td>Use when application already has an Project object literal</td>
+</tr>
+<tr>
+<td><code>.fetch(identifier, context)</code></td>
+<td>Fetch the Project by id, slug</td>
+</tr>
+<tr>
+<td><code>.create(Partial&lt;IHubProject&gt;, context)</code></td>
+<td>Create an instance for a new Project</td>
+</tr>
+</tbody>
+</table>
+<h3>In an Application</h3>
+<p>We expect that most applications will leverage the <code>HubProjectManager</code> class, instantiated as needed with <code>IArcGISContext</code> from the application's <code>ArcGISContextManager.context</code>. The following example shows this pattern using Ember.js, but it would be generally the same in React etc.</p>
+<h3>Ember.js Example</h3>
+<p>Assuming the following routes in an app...</p>
+<pre><code class="js"><span class="hljs-comment">//...snip...</span>
+<span class="hljs-keyword">this</span>.route(<span class="hljs-string">"projects"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">this</span>.route(<span class="hljs-string">"project"</span>, { <span class="hljs-attr">path</span>: <span class="hljs-string">"/:project_id"</span> }, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">this</span>.route(<span class="hljs-string">"edit"</span>);
+  });
+  <span class="hljs-keyword">this</span>.route(<span class="hljs-string">"edit"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">this</span>.route(<span class="hljs-string">"new"</span>);
+  });
+});
+<span class="hljs-comment">//...snip...</span>
+</code></pre>
+<h4>Create a Project</h4>
+<p>To create a project in the <code>/projects/edit/new</code> controller...</p>
+<pre><code class="js"><span class="hljs-keyword">import</span> Controller <span class="hljs-keyword">from</span> <span class="hljs-string">"@ember/controller"</span>;
+<span class="hljs-keyword">import</span> { inject <span class="hljs-keyword">as</span> service } <span class="hljs-keyword">from</span> <span class="hljs-string">"@ember/service"</span>;
+<span class="hljs-keyword">import</span> { action } <span class="hljs-keyword">from</span> <span class="hljs-string">"@ember/object"</span>;
+<span class="hljs-keyword">import</span> { HubProject } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/hub-common"</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">projectsEditNewController</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Controller</span> </span>{
+  <span class="hljs-comment">// appSettings is a singleton service that holds an ArcGISContextManager instance</span>
+  <span class="hljs-comment">// and exposes an `IArcGISContext` on a `.context` property</span>
+  @service appSettings;
+
+  @action
+  <span class="hljs-keyword">async</span> createProject(project) {
+    <span class="hljs-comment">// create project instance and save it</span>
+    <span class="hljs-keyword">const</span> project = HubProject.create(project, appSettings.context, <span class="hljs-literal">true</span>);
+    <span class="hljs-comment">// return project</span>
+    <span class="hljs-keyword">return</span> project.toJson();
+  }
+}
+</code></pre>
+<h4>Get a Project</h4>
+<p>In the <code>/projects/:project_id</code> route, we get the project by id or slug</p>
+<pre><code class="js"><span class="hljs-keyword">import</span> Route <span class="hljs-keyword">from</span> <span class="hljs-string">"@ember/routing/route"</span>;
+<span class="hljs-keyword">import</span> { inject <span class="hljs-keyword">as</span> service } <span class="hljs-keyword">from</span> <span class="hljs-string">"@ember/service"</span>;
+<span class="hljs-keyword">import</span> { HubProject } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/hub-common"</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProjectsProjectRoute</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Route</span> </span>{
+  @service appSettings;
+
+  model(params) {
+    <span class="hljs-keyword">const</span> project = <span class="hljs-keyword">await</span> HubProject.fetch(params.project_id, appSettings.context);
+    <span class="hljs-comment">// results in model.project in the controller</span>
+    <span class="hljs-keyword">return</span> {project}
+  }
+}
+</code></pre>
+<h4>Update a Project</h4>
+<p>In the <code>/projects/:project_id/edit</code> controller we update the project like this</p>
+<pre><code class="js"><span class="hljs-keyword">import</span> Controller <span class="hljs-keyword">from</span> <span class="hljs-string">"@ember/controller"</span>;
+<span class="hljs-keyword">import</span> { inject <span class="hljs-keyword">as</span> service } <span class="hljs-keyword">from</span> <span class="hljs-string">"@ember/service"</span>;
+<span class="hljs-keyword">import</span> { action } <span class="hljs-keyword">from</span> <span class="hljs-string">"@ember/object"</span>;
+<span class="hljs-keyword">import</span> { HubProject } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/hub-common"</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">projectEditController</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Controller</span> </span>{
+  @service appSettings;
+
+  @action
+  updateProject(project) {
+    <span class="hljs-keyword">this</span>.model.project.update(project);
+    <span class="hljs-keyword">await</span> <span class="hljs-keyword">this</span>.model.project.save();
+  }
+}
+</code></pre>
+<h2>Automation Scripting</h2>
+<p>If you need to create or manage a series of projects, you can do this via Node.js.</p>
+<p>This example assumes you are using NodeJS v13 or higher, and have set <code>type: &quot;module&quot;</code> in your <code>package.json</code> file, allowing the use of <a href="https://nodejs.org/docs/latest-v12.x/api/packages.html#packages_determining_module_system">ES Modules</a> import syntax.</p>
+<pre><code class="js"><span class="hljs-keyword">import</span> { HubProject, ArcGISContextManager } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/hub-common"</span>;
+
+<span class="hljs-comment">// create context</span>
+<span class="hljs-keyword">const</span> contextManager = <span class="hljs-keyword">await</span> ArcGISContextManager.init({
+  <span class="hljs-attr">username</span>: <span class="hljs-string">"jack"</span>,
+  <span class="hljs-attr">password</span>: <span class="hljs-string">"seekret"</span>,
+});
+
+<span class="hljs-comment">// create a project</span>
+<span class="hljs-keyword">let</span> project = <span class="hljs-keyword">await</span> HubProject.create(
+  {
+    <span class="hljs-attr">name</span>: <span class="hljs-string">"Smith Street Curb Replacement"</span>,
+    <span class="hljs-attr">summary</span>: <span class="hljs-string">"Replace/upgrade damaged curbs along Smith St. Scheduled for 2024"</span>,
+    <span class="hljs-attr">status</span>: <span class="hljs-string">"active"</span>,
+    <span class="hljs-attr">culture</span>: <span class="hljs-string">"en-us"</span>,
+    <span class="hljs-attr">slug</span>: <span class="hljs-string">"smith-st-2024"</span>,
+    <span class="hljs-attr">tags</span>: [<span class="hljs-string">"2024 Plan"</span>],
+  },
+  contextManager.context
+);
+<span class="hljs-built_in">console</span>.info(<span class="hljs-string">`Created project <span class="hljs-subst">${project.name}</span> owned by <span class="hljs-subst">${project.owner}</span>`</span>);
+
+<span class="hljs-comment">// in scripting scenarios, we extract the object literal and make changes to that</span>
+<span class="hljs-keyword">const</span> projectObjectLiteral = project.toJson();
+
+<span class="hljs-comment">// assign a timeline</span>
+projectObjectLiteral.timeline = {
+  <span class="hljs-attr">title</span>: <span class="hljs-string">"Project Schedule"</span>,
+  <span class="hljs-attr">timeframe</span>: <span class="hljs-string">"Summer 2024"</span>,
+  <span class="hljs-attr">description</span>: <span class="hljs-string">"Key dates for design and construction"</span>,
+  <span class="hljs-attr">stages</span>: [
+    {
+      <span class="hljs-attr">title</span>: <span class="hljs-string">"Study Completed"</span>,
+      <span class="hljs-attr">description</span>: <span class="hljs-string">"Initial review of existing infrastructure"</span>,
+      <span class="hljs-attr">icon</span>: <span class="hljs-string">"check-circle-f"</span>,
+      <span class="hljs-attr">timeframe</span>: <span class="hljs-string">"Fall 2019"</span>,
+      <span class="hljs-attr">id</span>: <span class="hljs-number">1638572046394</span>,
+      <span class="hljs-attr">status</span>: <span class="hljs-string">"Complete"</span>,
+      <span class="hljs-attr">isEditing</span>: <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">leadingElement</span>: <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">trailingElement</span>: <span class="hljs-literal">false</span>,
+    },
+    {
+      <span class="hljs-attr">title</span>: <span class="hljs-string">"Environmental and Preliminary Design Completed"</span>,
+      <span class="hljs-attr">timeframe</span>: <span class="hljs-string">"Fall 2019"</span>,
+      <span class="hljs-attr">description</span>:
+        <span class="hljs-string">"Work with Federal Highway Administration to secure environmental approval of designs"</span>,
+      <span class="hljs-attr">icon</span>: <span class="hljs-string">"check-circle-f"</span>,
+      <span class="hljs-attr">id</span>: <span class="hljs-number">1638572046399</span>,
+      <span class="hljs-attr">status</span>: <span class="hljs-string">"Complete"</span>,
+      <span class="hljs-attr">isEditing</span>: <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">leadingElement</span>: <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">trailingElement</span>: <span class="hljs-literal">false</span>,
+    },
+  ],
+};
+<span class="hljs-comment">// apply changes back into the class instance</span>
+project.update(projectObjectLiteral);
+<span class="hljs-comment">// save the changes back to the item</span>
+<span class="hljs-keyword">await</span> project.save();
+</code></pre>
+<h3>In a Component</h3>
+<p>When working with Hub Projects in Components, import the lower-level functions instead of using the <code>HubProject</code>. This enables the Component build process to tree-shake out more code, resulting in a smaller build size.</p>
+<p>Let's suppose you have a component that will fetch and display a project using either
+the project's ID or slug. The component would have an attribute <code>identifier</code> that can take the slug or item id.</p>
+<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">arcgis-hub-project-view</span> <span class="hljs-attr">identifier</span>=<span class="hljs-string">"dcdev-smith-st-2024"</span> /&gt;</span>
+</code></pre>
+<p>In the component, import the <code>getProject</code> function from <code>@esri/hub-common</code>, and use that in the lifecycle hooks to load the project.</p>
+<pre><code class="ts"><span class="hljs-keyword">import</span> { getProject } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/hub-common"</span>;
+
+<span class="hljs-keyword">async</span> componentWillLoad() {
+  <span class="hljs-comment">// Note context should be set on the element as `IArcGISContext`</span>
+  <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.project &amp;&amp; <span class="hljs-keyword">this</span>.identifier &amp;&amp; <span class="hljs-keyword">this</span>.context) {
+    <span class="hljs-keyword">this</span>.project = <span class="hljs-keyword">await</span> getProject(<span class="hljs-keyword">this</span>.identifier, <span class="hljs-keyword">this</span>.context.requestOptions);
+  }
+}
+</code></pre>
+      </div>
+    </div>
+  </div>
+
+      </main>
+    </div>
+
+    <footer class="footer">
+      
+      <div class="panel panel-white">
+        <div class="grid-container">
+          <div class="column-24">
+            <a href="https://github.com/Esri/hub.js" class="font-size--2">Fork this project</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/js/calcite-web.min.js"></script>
+
+    <script>
+       calcite.init()
+    </script>
+
+    
+  </body>
+</html>

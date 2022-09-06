@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Catalogs and Collections | Guide | @esri/hub.js</title>
+    
+    <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
+    
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css">
+    <link rel="stylesheet" href="/hub.js/css/style.css">
+    
+  </head>
+  <body>
+  <!-- Drawer -->
+    <div class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
+      <nav class="drawer-nav" role="navigation">
+        <aside class="side-nav">
+          <h2 class="side-nav-title">@esri/hub.js</h2>
+          <a href="/hub.js/guides/" class="is-active side-nav-link">Guides</a>
+          <a href="/hub.js/api/" class="side-nav-link">API Reference</a>
+        </aside>
+      </nav>
+    </div>
+
+    <div id="page" class="wrapper">
+      <!-- Sample HTML -->
+      <header class="top-nav">
+        <div class="grid-container">
+          <div class="column-24">
+            <!-- desktop sized navigation -->
+            <div class="tablet-hide">
+              <!-- logo / home -->
+              <a href="/hub.js/" class="top-nav-title">@esri/hub.js</a>
+              <!-- primary navigation sections -->
+              <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/guides/" class="is-active top-nav-link">Guides</a>
+                <a href="/hub.js/api/" class="top-nav-link">API Reference</a>
+                <a href="https://github.com/Esri/hub.js" class="top-nav-link">GitHub</a>
+              </nav>
+            </div>
+
+            <!-- tablet and mobile sized navigation -->
+            <div class="tablet-show top-nav-flex">
+              <!-- open primary navigation drawer -->
+              <nav class="top-nav-flex-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/" class="icon-ui-menu top-nav-link js-drawer-toggle" data-drawer="top-nav"><span class="phone-hide">Menu</span></a>
+              </nav>
+              <!-- logo / home -->
+              <header class="top-nav-flex-title">
+                <a href="/hub.js/" class="top-nav-link">@esri/hub.js</a>
+              </header>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+
+      <main id="#skip-to-content">
+        
+  <div class="grid-container trailer-1 leader-1">
+    <div class="column-6">
+      <ul class="list-plain">
+        
+          <li>Intro</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/intro/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/intro/getting-started/">Getting Started</a></li>
+            
+          </ul>
+        
+          <li>Class Api</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/classes/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/classes/arcgiscontext/">Authentication</a></li>
+            
+              <li><a href="/hub.js/guides/classes/sites/">Sites (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/pages/">Pages (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/initiatives/">Initiatives (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/projects/">Projects</a></li>
+            
+          </ul>
+        
+          <li>Functional Api</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/functional/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/functional/authentication/">Authentication</a></li>
+            
+              <li><a href="/hub.js/guides/functional/hub-search/">Hub Search</a></li>
+            
+              <li><a href="/hub.js/guides/functional/utilities/">Utilities</a></li>
+            
+              <li><a href="/hub.js/guides/functional/discussions/">Discussions</a></li>
+            
+              <li><a href="/hub.js/guides/functional/teams/">Teams</a></li>
+            
+          </ul>
+        
+          <li>Advanced</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/advanced/composing-workflows/">Composing Workflows</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/operation-stack/">OperationStack</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/queries-and-filters/">Queries & Filters</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/catalog-collection/" class="is-active">Catalogs & Collections</a></li>
+            
+          </ul>
+        
+          <li>Developers</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/developers/e2e-tests/">E2E Testing</a></li>
+            
+          </ul>
+        
+          <li>Legacy</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/legacy/content-search/">Search Service</a></li>
+            
+              <li><a href="/hub.js/guides/legacy/sites-and-pages/">Sites and Pages</a></li>
+            
+          </ul>
+        
+      </ul>
+    </div>
+
+    <div class="column-18">
+      <div class="panel">
+        <h2>Catalogs and Collections</h2>
+<p>A Catalog defines a set of platform entities (items/users/groups/events etc) which can be searched. Catalogs can have futher subsets called Collections.</p>
+<p>When executing queries, additional filters can be applied at the Catalog or Collection level.</p>
+<p>While a Catalog can reference any set of platform entities, any individual Collection can only reference a single platform entity type (i.e. items vs groups)</p>
+<p>Hub Sites utilize a Catalog to define what content is available on a site search. Catalogs are also used for Hub Projects and Hub Initiatives.</p>
+<p>Any hierarchy of content between Sites, Initiatives and Projects must be manually maintained, and will not be automatic. This is typically done by organizing content by Groups, and then adding Project Catalog groups to their parent Initiative Catalog, and then up to the Site Catalog.</p>
+<p>Catalogs associated with Hub Sites, Hub Initiatives and Hub Projects will all be stored in the <code>.catalog</code> property of the item's data.json. If other applications want to leverage the Catalog system, we recommend storing the information in this same location.</p>
+<p>The Catalog structure is expected to change over time so it's important to either fetch the Site/Project/Initiative via the cooresponding Class instances, or use the <code>upgradeCatalogSchema(..)</code> function to ensure you are working with the latest structure before executing searches.</p>
+<h2>Interfaces</h2>
+<p><img src="/hub.js/img/catalog-collection.png" alt="Catalog Model"></p>
+<h2>Defining a Catalog</h2>
+<p>Catalogs and Collections are defined using json structure, specified in typescript via the <code>IHubCatalog</code> and <code>IHubCollection</code> interfaces.</p>
+<p>The Catalog defines a set of &quot;scopes&quot; for each resource type to be included in the Catalog. Each scope is an <a href="../api/common/IQuery"><code>IQuery</code></a> object.</p>
+<pre><code class="js"><span class="hljs-comment">// Example Catalog setting the scope for "item" searches to content</span>
+<span class="hljs-comment">// in a specific group OR owned by a specific user</span>
+<span class="hljs-keyword">const</span> seventhStreetProjectCatalog: IHubCatalog = {
+  <span class="hljs-attr">title</span>: <span class="hljs-string">"Seventh Street Project"</span>,
+  <span class="hljs-attr">schemaVersion</span>: <span class="hljs-number">1</span>,
+  <span class="hljs-attr">scopes</span>: {
+    <span class="hljs-attr">item</span>: {
+      <span class="hljs-comment">// IQuery applied when searching for `items`</span>
+      <span class="hljs-attr">targetEntity</span>: <span class="hljs-string">"item"</span>,
+      <span class="hljs-attr">operation</span>: <span class="hljs-string">"OR"</span>,
+      <span class="hljs-attr">filters</span>: [
+        {
+          <span class="hljs-attr">predicates</span>: [
+            {
+              <span class="hljs-attr">group</span>: [<span class="hljs-string">"c4059b70af8d4773910a812f7d712dc8"</span>],
+            },
+          ],
+        },
+        {
+          <span class="hljs-attr">predicates</span>: [
+            {
+              <span class="hljs-attr">owner</span>: <span class="hljs-string">"data_mart"</span>,
+            },
+          ],
+        },
+      ],
+    },
+  },
+  <span class="hljs-attr">collections</span>: [],
+};
+</code></pre>
+<h2>Collections in Catalogs</h2>
+<p>A Collection is a subset of the Catalog, constrained to a single platform entity, specified by the <code>targetEntity</code> property. The <code>.scope</code> of a Collection is an <a href="../api/common/IQuery"><code>IQuery</code></a> object which adds additional critera, creating the &quot;subset&quot;.</p>
+<pre><code class="js"><span class="hljs-comment">// This example adds a collection, which adds additional constraints on top of</span>
+<span class="hljs-comment">// the catalog itself.</span>
+<span class="hljs-comment">//</span>
+<span class="hljs-comment">// Searching the Web Maps collection will limit the search to items in the</span>
+<span class="hljs-comment">// ("c4059b70af8d4773910a812f7d712dc8" group OR owned by data_mart) AND</span>
+<span class="hljs-comment">// which have type:"Web Map" AND NOT type: "Web Mapping Application"</span>
+<span class="hljs-keyword">const</span> seventhStreetProjectCatalog: IHubCatalog = {
+  <span class="hljs-attr">title</span>: <span class="hljs-string">"Seventh Street Project"</span>,
+  <span class="hljs-attr">schemaVersion</span>: <span class="hljs-number">1</span>,
+  <span class="hljs-attr">scopes</span>: {
+    <span class="hljs-attr">item</span>: {
+      <span class="hljs-comment">// IQuery</span>
+      <span class="hljs-attr">targetEntity</span>: <span class="hljs-string">"item"</span>,
+      <span class="hljs-attr">filters</span>: [
+        {
+          <span class="hljs-attr">predicates</span>: [
+            {
+              <span class="hljs-attr">group</span>: [<span class="hljs-string">"c4059b70af8d4773910a812f7d712dc8"</span>],
+            },
+          ],
+        },
+        {
+          <span class="hljs-attr">predicates</span>: [
+            {
+              <span class="hljs-attr">owner</span>: <span class="hljs-string">"data_mart"</span>,
+            },
+          ],
+        },
+      ],
+    },
+  },
+  <span class="hljs-attr">collections</span>: [
+    {
+      <span class="hljs-attr">targetEntity</span>: <span class="hljs-string">"item"</span>,
+      <span class="hljs-attr">key</span>: <span class="hljs-string">"webmaps"</span>,
+      <span class="hljs-attr">label</span>: <span class="hljs-string">"Web Maps"</span>,
+      <span class="hljs-attr">scope</span>: {
+        <span class="hljs-attr">targetEntity</span>: <span class="hljs-string">"item"</span>,
+        <span class="hljs-attr">filters</span>: [
+          {
+            <span class="hljs-attr">predicates</span>: [
+              {
+                <span class="hljs-attr">type</span>: {
+                  <span class="hljs-attr">any</span>: [<span class="hljs-string">"Web Map"</span>],
+                  <span class="hljs-attr">not</span>: [<span class="hljs-string">"Web Mapping Application"</span>],
+                },
+              },
+            ],
+          },
+        ],
+      },
+    },
+  ],
+};
+</code></pre>
+<h2>Working with Catalogs</h2>
+<p>The <code>Catalog</code> and <code>Collection</code> classes are designed to simplify working with these structures, in particular, loading Catalogs from items, executing Catalog searches, getting a Collection from a Catalog, and executing Collection searches.</p>
+<h3>Searching a Site Catalog</h3>
+<pre><code class="js"><span class="hljs-keyword">import</span> { Catalog } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/hub-common"</span>;
+
+<span class="hljs-comment">// Load the catalog for a specific site</span>
+<span class="hljs-keyword">const</span> siteCatalog = <span class="hljs-keyword">await</span> Catalog.init(<span class="hljs-string">"https://opendata.dc.gov"</span>);
+
+<span class="hljs-comment">// alternatively an item id can be passed in</span>
+<span class="hljs-keyword">const</span> projectCatalog = <span class="hljs-keyword">await</span> Catalog.init(<span class="hljs-string">"648149685cfd47f7b265d37d009a87dd"</span>);
+
+<span class="hljs-comment">// search for schools.</span>
+<span class="hljs-keyword">const</span> itemResults = <span class="hljs-keyword">await</span> siteCatalog.searchItems(<span class="hljs-string">"schools"</span>);
+<span class="hljs-keyword">const</span> groupResults = <span class="hljs-keyword">await</span> siteCatalog.searchGroups(<span class="hljs-string">"schools"</span>);
+<span class="hljs-keyword">const</span> userResults = <span class="hljs-keyword">await</span> siteCatalog.searchUsers(<span class="hljs-string">"schools"</span>);
+</code></pre>
+<p>In the example above, no authentication information or server information has been provided, so the system assumes the backing server is ArcGIS Online. It will look up the Site item based on the url, and from that, load the Catalog. If an item id is passed in, it will simply fetch the item, and load the Catalog. In either case, schema upgrades are automatically applied, ensuring that the system is always operating with the latest version of the catalog structure.</p>
+<h3>Catalog Search &quot;Scopes&quot;</h3>
+<p>Although the Catalog specification supports many different entity searches (item, group, user, event etc ), and individual Catalog instance may not support all the entities. Attempting to search for an entity that does not have a scope defined, will result in an exception.</p>
+<p>To determine what scopes are available, user the <code>.availableScopes</code> property to get an array of them.</p>
+<h3>Search Options</h3>
+<p>All the search functions take an <code>IHubSearchOptions</code> as the second parameter, and this is used to specify paging, sorting, aggregations and includes. Please see the <a href=""><code>IHubSearchOptions</code> documentation</a> for more information.</p>
+<h3>Searching an ArcGIS Enterprise Site Catalog Example</h3>
+<pre><code class="js"><span class="hljs-keyword">const</span> mgr = <span class="hljs-keyword">await</span> ArcGISContextManager.init({
+  <span class="hljs-attr">portalUrl</span>: <span class="hljs-string">"https://myserver.com/gis"</span>,
+});
+
+<span class="hljs-keyword">const</span> siteCatalog = Catalog.init(
+  <span class="hljs-string">"https://myserver.com/gis/apps/sites/#mysite"</span>,
+  mgr.context
+);
+
+<span class="hljs-keyword">const</span> results = <span class="hljs-keyword">await</span> siteCatalog.search(<span class="hljs-string">"schools"</span>);
+</code></pre>
+<h2>Passing Authentication</h2>
+<p>When a Catalog or Collection instance is created, the second parameter is an <code>IArcGISContext</code> which holds authentication information. To create an <code>IArcGISContext</code>, we use the <code>ArcGISContextManager</code> class, and pass a <code>UserSession</code> into it's <code>.init</code> factory function.</p>
+<p>A <code>UserSession</code> be created directly, via oAuth, or from a JSAPI Identity Manager via the <code>UserSession.fromCredential(...)</code> static method. Please see the <a href="https://esri.github.io/arcgis-rest-js/api/auth/UserSession/">ArcGIS REST JS Documentation</a>. (Note: At this time ArcGISContextManager is only compabitle with REST-JS 3.x)</p>
+<p><strong>NOTE</strong> passing <code>.authentication</code> or <code>.requestOptions</code> on the <code>IHubSearchOptions</code> will be ignored, and instead the context information help in the Catalog or Collection instance will be used.</p>
+<pre><code class="js"><span class="hljs-keyword">const</span> session = <span class="hljs-keyword">new</span> UserSession({
+  <span class="hljs-attr">username</span>: <span class="hljs-string">"replacewithusername"</span>,
+  <span class="hljs-attr">password</span>: <span class="hljs-string">"replacewithpassword"</span>,
+});
+
+<span class="hljs-keyword">const</span> mgr = <span class="hljs-keyword">await</span> ArcGISContextManager.init({
+  <span class="hljs-attr">portalUrl</span>: <span class="hljs-string">"https://myserver.com/gis"</span>,
+  <span class="hljs-attr">authentication</span>: session,
+});
+
+<span class="hljs-keyword">const</span> siteCatalog = Catalog.init(
+  <span class="hljs-string">"https://private-site-org.hub.arcgis.com"</span>,
+  mgr.context
+);
+
+<span class="hljs-comment">// This will return any items the user has access to, matching "water"</span>
+<span class="hljs-comment">// within the catalog</span>
+<span class="hljs-keyword">const</span> results = siteCatalog.search(<span class="hljs-string">"water"</span>);
+</code></pre>
+<h2>Working with Collections</h2>
+<p>A <code>Collection</code> defines a set of searchable platform resources, of a single type - i.e. Items OR Groups OR Users.</p>
+<p>Further, <code>Collections</code> within <code>Catalogs</code> are expected to be constrained to the scope of their <code>targetEntity</code> as defined at the Catalog level. Put another way, all collections in a Catalog should be subset's of the Catalog itself.</p>
+<p>Operationally, this means that the <code>IQuery</code> defined in <code>Collection.scope</code>, must include the <code>IQuery</code> that's defined at <code>Catalog.scopes[collection.targetEntity]</code>. While this can be done manually, the Catalog class provides an abstraction to simplify this.</p>
+<p><strong>NOTE</strong> Unlike searching directly against the Catalog, a Collection can be defined for an entity that does not have a scope defined at the Catalog level. i.e. the Catalog may not have a <code>user</code> scope defined, but there can be a Collection defined that targets the <code>user</code> entity.</p>
+<pre><code class="js"><span class="hljs-comment">// Working from the Seventh Street Project catalog defined above</span>
+<span class="hljs-comment">// we can initialize a Catalog and then use that to get the Web Map collection</span>
+<span class="hljs-keyword">const</span> catalog = Catalog.fromJson(seventhStreetProjectCatalog);
+
+<span class="hljs-comment">// we can get the collection from the catalog via it's key property</span>
+<span class="hljs-keyword">const</span> collection = catalog.getCollection(<span class="hljs-string">"webmaps"</span>);
+
+<span class="hljs-comment">// searching the collection, constrains the search to the intersection</span>
+<span class="hljs-comment">// of the set of entities defined by the Catalog's item scope, and the</span>
+<span class="hljs-comment">// set of entities defined by the Collection's scope</span>
+<span class="hljs-keyword">const</span> results = collection.search(<span class="hljs-string">"water"</span>);
+</code></pre>
+<h3>Using Catalog / Collection Json Directly</h3>
+<p>There are times when the application will have already fetched the Catalog or Collection json, or cases where a Collection needs to be created dynamically (i.e. for use in an Item Picker gallery)</p>
+<p>In these scenarios use the <code>.fromJson(...)</code> static method to create an instance of either class.</p>
+<pre><code class="js"><span class="hljs-comment">// Creating a Collection from Json</span>
+
+<span class="hljs-keyword">const</span> myCollection = Collection.fromJson({
+  <span class="hljs-attr">label</span>: <span class="hljs-string">"Example Json Collection"</span>,
+  <span class="hljs-attr">key</span>: <span class="hljs-string">"example"</span>,
+  <span class="hljs-attr">targetEntity</span>: <span class="hljs-string">"item"</span>,
+  <span class="hljs-attr">scope</span>: {
+    <span class="hljs-attr">filters</span>: [
+      {
+        <span class="hljs-attr">predicates</span>: [
+          {
+            <span class="hljs-attr">group</span>: <span class="hljs-string">"aba30fb9f66c4d1ebf8a37d6130c722b"</span>,
+            <span class="hljs-attr">typekeyword</span>: <span class="hljs-string">"Solution Template"</span>,
+          },
+        ],
+      },
+    ],
+  },
+});
+
+<span class="hljs-keyword">const</span> results = myCollection.search(<span class="hljs-string">"Vision Zero"</span>);
+</code></pre>
+<h3>Complex Queries</h3>
+<p>The examples so far have focused on passing a string into the <code>.search(..)</code> method, but that method can also take an <a href="https://esri.github.io/hub.js/api/common/IQuery/"><code>IQuery</code></a> which enables complex queries to be constructed. Please see the <a href="https://esri.github.io/hub.js/guides/concepts/queries-and-filters/">Queries and Filters Guide</a> for more information.</p>
+      </div>
+    </div>
+  </div>
+
+      </main>
+    </div>
+
+    <footer class="footer">
+      
+      <div class="panel panel-white">
+        <div class="grid-container">
+          <div class="column-24">
+            <a href="https://github.com/Esri/hub.js" class="font-size--2">Fork this project</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/js/calcite-web.min.js"></script>
+
+    <script>
+       calcite.init()
+    </script>
+
+    
+  </body>
+</html>

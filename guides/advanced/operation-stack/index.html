@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>OperationStack | Guide | @esri/hub.js</title>
+    
+    <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
+    
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css">
+    <link rel="stylesheet" href="/hub.js/css/style.css">
+    
+  </head>
+  <body>
+  <!-- Drawer -->
+    <div class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
+      <nav class="drawer-nav" role="navigation">
+        <aside class="side-nav">
+          <h2 class="side-nav-title">@esri/hub.js</h2>
+          <a href="/hub.js/guides/" class="is-active side-nav-link">Guides</a>
+          <a href="/hub.js/api/" class="side-nav-link">API Reference</a>
+        </aside>
+      </nav>
+    </div>
+
+    <div id="page" class="wrapper">
+      <!-- Sample HTML -->
+      <header class="top-nav">
+        <div class="grid-container">
+          <div class="column-24">
+            <!-- desktop sized navigation -->
+            <div class="tablet-hide">
+              <!-- logo / home -->
+              <a href="/hub.js/" class="top-nav-title">@esri/hub.js</a>
+              <!-- primary navigation sections -->
+              <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/guides/" class="is-active top-nav-link">Guides</a>
+                <a href="/hub.js/api/" class="top-nav-link">API Reference</a>
+                <a href="https://github.com/Esri/hub.js" class="top-nav-link">GitHub</a>
+              </nav>
+            </div>
+
+            <!-- tablet and mobile sized navigation -->
+            <div class="tablet-show top-nav-flex">
+              <!-- open primary navigation drawer -->
+              <nav class="top-nav-flex-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/" class="icon-ui-menu top-nav-link js-drawer-toggle" data-drawer="top-nav"><span class="phone-hide">Menu</span></a>
+              </nav>
+              <!-- logo / home -->
+              <header class="top-nav-flex-title">
+                <a href="/hub.js/" class="top-nav-link">@esri/hub.js</a>
+              </header>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+
+      <main id="#skip-to-content">
+        
+  <div class="grid-container trailer-1 leader-1">
+    <div class="column-6">
+      <ul class="list-plain">
+        
+          <li>Intro</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/intro/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/intro/getting-started/">Getting Started</a></li>
+            
+          </ul>
+        
+          <li>Class Api</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/classes/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/classes/arcgiscontext/">Authentication</a></li>
+            
+              <li><a href="/hub.js/guides/classes/sites/">Sites (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/pages/">Pages (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/initiatives/">Initiatives (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/projects/">Projects</a></li>
+            
+          </ul>
+        
+          <li>Functional Api</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/functional/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/functional/authentication/">Authentication</a></li>
+            
+              <li><a href="/hub.js/guides/functional/hub-search/">Hub Search</a></li>
+            
+              <li><a href="/hub.js/guides/functional/utilities/">Utilities</a></li>
+            
+              <li><a href="/hub.js/guides/functional/discussions/">Discussions</a></li>
+            
+              <li><a href="/hub.js/guides/functional/teams/">Teams</a></li>
+            
+          </ul>
+        
+          <li>Advanced</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/advanced/composing-workflows/">Composing Workflows</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/operation-stack/" class="is-active">OperationStack</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/queries-and-filters/">Queries & Filters</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/catalog-collection/">Catalogs & Collections</a></li>
+            
+          </ul>
+        
+          <li>Developers</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/developers/e2e-tests/">E2E Testing</a></li>
+            
+          </ul>
+        
+          <li>Legacy</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/legacy/content-search/">Search Service</a></li>
+            
+              <li><a href="/hub.js/guides/legacy/sites-and-pages/">Sites and Pages</a></li>
+            
+          </ul>
+        
+      </ul>
+    </div>
+
+    <div class="column-18">
+      <div class="panel">
+        <h2>OperationStack</h2>
+<p>When processing data, it is common to have long running tasks that leverage recursive function, work on tree data structures and/or leverage chained asynchronous operations (i.e. http requests).</p>
+<p>Our work on the previous versions of Solution.js and it's Ember based precursor proved just how complex and time consuming it is to debug these sorts of systems by watching network requests in a browser, something that's not viable when running in node.</p>
+<p>Thus, when embaring on this version of Solution.js, we designed in a system to ease this pain right from the start: <a href="../../hub.js/api/common/OperationStack">OperationStack</a>.</p>
+<h2>What is an OperationStack?</h2>
+<p>Not as formal as an audit trail, but similar in concept, an <code>OperationStack</code> is used to track &quot;operations&quot; as they are started, and completed, attaching in useful debugging information along the way. Each substantial function in the process creates an instance of an <code>OperationStack</code>, adds operations to it, and returns a serialized stack along with it's usual payload, or in an exception should an error occur.</p>
+<p>With this in place, we have a clean means to see where in the process a failure occured.</p>
+<p>In addition, the OperationStack is very useful when you want to combine a set of atomic actions into a larger atomic transaction.</p>
+<p>i.e. a series of HTTP POST calls to create a number of inter-related entities, and if any of the calls fail, all of the already created entities should be removed.</p>
+<p>While <code>OperationStack</code> itself does not attempt to handle &quot;rollback&quot;, the information in the &quot;operations&quot; should provide enough information to write code that can perform the needed cleanup.</p>
+<p>Note: While this works well for &quot;creational&quot; workflows, however, for flows where you are destroying entities, typically there is no means to &quot;undo&quot; a HTTP DELETE operation, and typically API's do not allow a HTTP POST to create an entity and specify it's unique identifier, so re-constructing already deleted entities is typically not viable.</p>
+<p>In these scenarios, combining the OperationStack with Errors should provide deeper insights into why the operation did not succeed, as compared to a stack trace alone.</p>
+<h2>Usage Example</h2>
+<p>Let's use the example of creating a Hub Site Application item. There are a number of things that happen when a Site is created:</p>
+<ul>
+<li>create item</li>
+<li>create domain system entry</li>
+<li>register item as application w/ oauth</li>
+<li>create team groups (depending on licensing and user privs)</li>
+<li>create Hub Initiative item (depending on licensing)</li>
+</ul>
+<p>Let's use some psuedo code to show how this process can be orchestrated, and how we would use an OperationStack to keep track of things:</p>
+<pre><code class="js">import OperationStack from '@esri/hub-common`;
+// NOTE: the site related functions are fictional
+import { ... } from '@esri/hub-sites';
+
+
+export function createSite(siteModel, session) {
+  // create a name that's specific to the entity we are working with
+  // this will be used as part of the id in our operations
+  const name = siteModel.item.title.camelize();
+  const stack = new OperationStack();
+  // add an operation
+  stack.start({
+    id: `createSite-${name}`,
+    type: 'createSite',
+    inputs: {
+      url: siteModel.url,
+      owner: siteModel.owner
+      }
+    });
+  return createSiteItem(siteModel)
+  .then((newSiteId) =&gt; {
+    // finish the operation, and hold the id of the new item
+    stack.finish(`createSite-${name}`, {id: newSiteId});
+    siteModel.item.id = newSiteId
+    // start a new operation for registering the domain
+    stack.start({
+      id: `registerDomain-${name}`,
+      type: 'registerDomain',
+      inputs: {
+        url: siteModel.item.url,
+        org: session.orgId,
+        id: newSiteId
+      }
+    });
+    return registerDomain(siteModel, session);
+  })
+  .then((domainId) =&gt; {
+    stack.finish(`registerDomain-${name}`, {domainId});
+    stack.start({
+      id: `registerOAuth-${name}`,
+      type: 'registerOAuth',
+      inputs: {
+        id: siteModel.item.id,
+        redirectUris: [
+          siteModel.item.url,
+          siteModel.data.defaultHostname
+        ]
+      }
+    });
+    return registerSiteWithOAuth(siteModel, session);
+  })
+  .then((_) =&gt; {
+    stack.finish(`registerOAuth-${name}`);
+    stack.start({
+      id: `createSiteTeams-${name}`,
+      type: 'createSiteTeams',
+      inputs: {
+        id: siteModel.item.id,
+      }
+    });
+    // createSiteTeams is a complex multi-step process itself
+    // so it's response returns a serialized operation stack
+    return createSiteTeams(siteModel, session)
+  })
+  .then((teamsResponse) =&gt; {
+    // merge in the stack from createSiteTeams
+    stack.merge(teamsResponse.stack);
+    // then finish the operation started here
+    stack.finish(`createSiteTeams-${name}`, {
+      groups: mapBy(teamsResponse.teams, 'id')
+    });
+    stack.start({
+      id: `createInitiative-${name}`,
+      type: 'createInitiative',
+      inputs: {
+        id: siteModel.item.id,
+      }
+    })
+    return createInitiative(siteModel, teamsResponse.teams, session);
+  })
+  .then((initiative) =&gt; {
+    stack.finish(`createInitiative-${name}`, {id: initiative.item.id});
+    return {
+      siteModel,
+      stack: stack.serialize()
+    };
+  })
+  .catch((err) =&gt; {
+    // see if the err has a .operationStack property
+    // and if so, merge it into the current stack and return a new
+    // SolutionError
+    if (err.operationStack) {
+      stack.merge(err.operationStack);
+    }
+    // Set the message of the error to be the stringified stack
+    const msg = `${
+      err.message
+    } \n Operation Stack: \n ${stack.toString()}`;
+    // stack.toString() emits this format
+    // &lt;timestamp&gt; &lt;type&gt; &lt;id&gt; &lt;started|completed in {ms}&gt; with inputs &lt;JSON.stringify(inputs)&gt;
+    const solErr = new SolutionError('convertFromItemIds', msg, err);
+    solErr.operationStack = stack.serialize();
+    // the code that called this function will have access to the full stack
+    // and can thus conduct rollback operations as needed
+    return Promise.reject(solErr);
+  })
+
+}
+
+</code></pre>
+<h2>Examples</h2>
+<p>Example output of a large process</p>
+<pre><code><span class="hljs-symbol">1614199528247 </span>: Operation canDeployTemplates-ini44h96n took <span class="hljs-number">167</span> ms with inputs {<span class="hljs-string">"username"</span>:<span class="hljs-string">"qa_bas_sol_admin"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199528414 </span>: Operation deploy-ini44h96n took <span class="hljs-number">108163</span> ms with inputs {<span class="hljs-string">"username"</span>:<span class="hljs-string">"qa_bas_sol_admin"</span>,<span class="hljs-string">"canDeploy"</span>:true} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199528414 </span>: Operation createVars-i98pqph5s took <span class="hljs-number">1100</span> ms with inputs {<span class="hljs-string">"username"</span>:<span class="hljs-string">"qa_bas_sol_admin"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199529514 </span>: Operation deployItemTemplates-i98pqph5s took <span class="hljs-number">32099</span> ms with inputs {} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199529515 </span>: Operation deployTemplate-Hub Page-d541623471414e2fb4200deb91a6f47d took <span class="hljs-number">7217</span> ms with inputs {<span class="hljs-string">"sourceId"</span>:<span class="hljs-string">"d541623471414e2fb4200deb91a6f47d"</span>} <span class="hljs-keyword">and</span> output {<span class="hljs-string">"deployedItems"</span>:[{<span class="hljs-string">"id"</span>:<span class="hljs-string">"b89311d4d2f24d3dadc34c0645841085"</span>,<span class="hljs-string">"type"</span>:<span class="hljs-string">"Hub Page"</span>}]}
+<span class="hljs-symbol">1614199529515 </span>: Operation deployHubPageProcessor-d541623471414e2fb4200deb91a6f47d took <span class="hljs-number">7217</span> ms with inputs {<span class="hljs-string">"sourceId"</span>:<span class="hljs-string">"d541623471414e2fb4200deb91a6f47d"</span>,<span class="hljs-string">"type"</span>:<span class="hljs-string">"Hub Page"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199529515 </span>: Operation createHubRO-d541623471414e2fb4200deb91a6f47d took <span class="hljs-number">249</span> ms with inputs {<span class="hljs-string">"username"</span>:<span class="hljs-string">"qa_bas_sol_admin"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199529764 </span>: Operation createPageModel-d541623471414e2fb4200deb91a6f47d took <span class="hljs-number">2</span> ms with inputs {<span class="hljs-string">"sourceId"</span>:<span class="hljs-string">"d541623471414e2fb4200deb91a6f47d"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199529766 </span>: Operation createPage-d541623471414e2fb4200deb91a6f47d took <span class="hljs-number">1405</span> ms with inputs {<span class="hljs-string">"sourceId"</span>:<span class="hljs-string">"d541623471414e2fb4200deb91a6f47d"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199531171 </span>: Operation deployResources-d541623471414e2fb4200deb91a6f47d took <span class="hljs-number">5561</span> ms with inputs {<span class="hljs-string">"sourceId"</span>:<span class="hljs-string">"d541623471414e2fb4200deb91a6f47d"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199531171 </span>: Operation fetchThumbnailResource-b89311d4d2f24d3dadc34c0645841085-abstract-architecture-black-building-<span class="hljs-number">277576.</span>jpg took <span class="hljs-number">3479</span> ms with inputs {<span class="hljs-string">"sourceUrl"</span>:<span class="hljs-string">"https://qa-bas-hub.mapsqa.arcgis.com/sharing/rest/content/items/d541623471414e2fb4200deb91a6f47d/resources/abstract-architecture-black-building-277576.jpg?token=4FLZcllB4c4nBuiucdVraRPh0lIq5Kl1QAJUkM2r-ydBGS9lEtjDVAmU_rxoOjZfOGejYUQ--IQE51509I2BphS__3pMOzScuKyORe4kjXLZS2dBW3kdU95O4Js6evr-yQbnRmkda_lQeW1eapMECn9Us5c-my2_RFak4uo_opN9YdcGlvae8KyYjtFKmG7Z"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199531172 </span>: Operation fetchThumbnailResource-b89311d4d2f24d3dadc34c0645841085-IMG_0420.jpg took <span class="hljs-number">2470</span> ms with inputs {<span class="hljs-string">"sourceUrl"</span>:<span class="hljs-string">"https://qa-bas-hub.mapsqa.arcgis.com/sharing/rest/content/items/d541623471414e2fb4200deb91a6f47d/resources/IMG_0420.jpg?token=4FLZcllB4c4nBuiucdVraRPh0lIq5Kl1QAJUkM2r-ydBGS9lEtjDVAmU_rxoOjZfOGejYUQ--IQE51509I2BphS__3pMOzScuKyORe4kjXLZS2dBW3kdU95O4Js6evr-yQbnRmkda_lQeW1eapMECn9Us5c-my2_RFak4uo_opN9YdcGlvae8KyYjtFKmG7Z"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199533642 </span>: Operation addResource-b89311d4d2f24d3dadc34c0645841085-IMG_0420.jpg took <span class="hljs-number">1186</span> ms with inputs {<span class="hljs-string">"targetItemId"</span>:<span class="hljs-string">"b89311d4d2f24d3dadc34c0645841085"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199534650 </span>: Operation addResource-b89311d4d2f24d3dadc34c0645841085-abstract-architecture-black-building-<span class="hljs-number">277576.</span>jpg took <span class="hljs-number">2081</span> ms with inputs {<span class="hljs-string">"targetItemId"</span>:<span class="hljs-string">"b89311d4d2f24d3dadc34c0645841085"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199536732 </span>: Operation movePage-b89311d4d2f24d3dadc34c0645841085 took <span class="hljs-number">0</span> ms with inputs {<span class="hljs-string">"id"</span>:<span class="hljs-string">"b89311d4d2f24d3dadc34c0645841085"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199536732 </span>: Operation deployTemplate-Hub Site Application-<span class="hljs-number">79d2924052</span>f4457995816e1554aa74bf took <span class="hljs-number">24880</span> ms with inputs {<span class="hljs-string">"sourceId"</span>:<span class="hljs-string">"79d2924052f4457995816e1554aa74bf"</span>} <span class="hljs-keyword">and</span> output {<span class="hljs-string">"deployedItems"</span>:[{<span class="hljs-string">"id"</span>:<span class="hljs-string">"76852f77eca64b6eacea137f8f2a50b6"</span>,<span class="hljs-string">"type"</span>:<span class="hljs-string">"Hub Site Application"</span>}]}
+<span class="hljs-symbol">1614199536732 </span>: Operation deployHubSiteProcessor-<span class="hljs-number">79d2924052</span>f4457995816e1554aa74bf took <span class="hljs-number">24880</span> ms with inputs {<span class="hljs-string">"sourceId"</span>:<span class="hljs-string">"79d2924052f4457995816e1554aa74bf"</span>,<span class="hljs-string">"type"</span>:<span class="hljs-string">"Hub Site Application"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199536732 </span>: Operation createHubRO-<span class="hljs-number">79d2924052</span>f4457995816e1554aa74bf took <span class="hljs-number">2981</span> ms with inputs {<span class="hljs-string">"username"</span>:<span class="hljs-string">"qa_bas_sol_admin"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199539713 </span>: Operation createSiteModel-<span class="hljs-number">79d2924052</span>f4457995816e1554aa74bf took <span class="hljs-number">3338</span> ms with inputs {<span class="hljs-string">"sourceId"</span>:<span class="hljs-string">"79d2924052f4457995816e1554aa74bf"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199543051 </span>: Operation createSite-<span class="hljs-number">79d2924052</span>f4457995816e1554aa74bf took <span class="hljs-number">3771</span> ms with inputs {<span class="hljs-string">"sourceId"</span>:<span class="hljs-string">"79d2924052f4457995816e1554aa74bf"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199546823 </span>: Operation deployResources-<span class="hljs-number">79d2924052</span>f4457995816e1554aa74bf took <span class="hljs-number">14789</span> ms with inputs {<span class="hljs-string">"sourceId"</span>:<span class="hljs-string">"79d2924052f4457995816e1554aa74bf"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199546823 </span>: Operation fetchThumbnailResource-<span class="hljs-number">76852</span>f77eca64b6eacea137f8f2a50b6-hub-image-card-crop-i10znomnn.png took <span class="hljs-number">1085</span> ms with inputs {<span class="hljs-string">"sourceUrl"</span>:<span class="hljs-string">"https://qa-bas-hub.mapsqa.arcgis.com/sharing/rest/content/items/79d2924052f4457995816e1554aa74bf/resources/hub-image-card-crop-i10znomnn.png?token=4FLZcllB4c4nBuiucdVraRPh0lIq5Kl1QAJUkM2r-ydBGS9lEtjDVAmU_rxoOjZfOGejYUQ--IQE51509I2BphS__3pMOzScuKyORe4kjXLZS2dBW3kdU95O4Js6evr-yQbnRmkda_lQeW1eapMECn9Us5c-my2_RFak4uo_opN9YdcGlvae8KyYjtFKmG7Z"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199546823 </span>: Operation fetchThumbnailResource-<span class="hljs-number">76852</span>f77eca64b6eacea137f8f2a50b6-hub-image-card-crop-izmjv7x98.png took <span class="hljs-number">1686</span> ms with inputs {<span class="hljs-string">"sourceUrl"</span>:<span class="hljs-string">"https://qa-bas-hub.mapsqa.arcgis.com/sharing/rest/content/items/79d2924052f4457995816e1554aa74bf/resources/hub-image-card-crop-izmjv7x98.png?token=4FLZcllB4c4nBuiucdVraRPh0lIq5Kl1QAJUkM2r-ydBGS9lEtjDVAmU_rxoOjZfOGejYUQ--IQE51509I2BphS__3pMOzScuKyORe4kjXLZS2dBW3kdU95O4Js6evr-yQbnRmkda_lQeW1eapMECn9Us5c-my2_RFak4uo_opN9YdcGlvae8KyYjtFKmG7Z"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199547908 </span>: Operation addResource-<span class="hljs-number">76852</span>f77eca64b6eacea137f8f2a50b6-hub-image-card-crop-i10znomnn.png took <span class="hljs-number">1345</span> ms with inputs {<span class="hljs-string">"targetItemId"</span>:<span class="hljs-string">"76852f77eca64b6eacea137f8f2a50b6"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199548509 </span>: Operation addResource-<span class="hljs-number">76852</span>f77eca64b6eacea137f8f2a50b6-hub-image-card-crop-izmjv7x98.png took <span class="hljs-number">1672</span> ms with inputs {<span class="hljs-string">"targetItemId"</span>:<span class="hljs-string">"76852f77eca64b6eacea137f8f2a50b6"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199550181 </span>: Operation fetchThumbnailResource-<span class="hljs-number">76852</span>f77eca64b6eacea137f8f2a50b6-IMG_0475.jpg took <span class="hljs-number">431</span> ms with inputs {<span class="hljs-string">"sourceUrl"</span>:<span class="hljs-string">"https://qa-bas-hub.mapsqa.arcgis.com/sharing/rest/content/items/79d2924052f4457995816e1554aa74bf/resources/IMG_0475.jpg?token=4FLZcllB4c4nBuiucdVraRPh0lIq5Kl1QAJUkM2r-ydBGS9lEtjDVAmU_rxoOjZfOGejYUQ--IQE51509I2BphS__3pMOzScuKyORe4kjXLZS2dBW3kdU95O4Js6evr-yQbnRmkda_lQeW1eapMECn9Us5c-my2_RFak4uo_opN9YdcGlvae8KyYjtFKmG7Z"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199550182 </span>: Operation fetchThumbnailResource-<span class="hljs-number">76852</span>f77eca64b6eacea137f8f2a50b6-IMG_0923.jpg took <span class="hljs-number">557</span> ms with inputs {<span class="hljs-string">"sourceUrl"</span>:<span class="hljs-string">"https://qa-bas-hub.mapsqa.arcgis.com/sharing/rest/content/items/79d2924052f4457995816e1554aa74bf/resources/IMG_0923.jpg?token=4FLZcllB4c4nBuiucdVraRPh0lIq5Kl1QAJUkM2r-ydBGS9lEtjDVAmU_rxoOjZfOGejYUQ--IQE51509I2BphS__3pMOzScuKyORe4kjXLZS2dBW3kdU95O4Js6evr-yQbnRmkda_lQeW1eapMECn9Us5c-my2_RFak4uo_opN9YdcGlvae8KyYjtFKmG7Z"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199550612 </span>: Operation addResource-<span class="hljs-number">76852</span>f77eca64b6eacea137f8f2a50b6-IMG_0475.jpg took <span class="hljs-number">675</span> ms with inputs {<span class="hljs-string">"targetItemId"</span>:<span class="hljs-string">"76852f77eca64b6eacea137f8f2a50b6"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199550739 </span>: Operation addResource-<span class="hljs-number">76852</span>f77eca64b6eacea137f8f2a50b6-IMG_0923.jpg took <span class="hljs-number">1567</span> ms with inputs {<span class="hljs-string">"targetItemId"</span>:<span class="hljs-string">"76852f77eca64b6eacea137f8f2a50b6"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199552306 </span>: Operation fetchThumbnailResource-<span class="hljs-number">76852</span>f77eca64b6eacea137f8f2a50b6-IMG_1871.JPG took <span class="hljs-number">467</span> ms with inputs {<span class="hljs-string">"sourceUrl"</span>:<span class="hljs-string">"https://qa-bas-hub.mapsqa.arcgis.com/sharing/rest/content/items/79d2924052f4457995816e1554aa74bf/resources/IMG_1871.JPG?token=4FLZcllB4c4nBuiucdVraRPh0lIq5Kl1QAJUkM2r-ydBGS9lEtjDVAmU_rxoOjZfOGejYUQ--IQE51509I2BphS__3pMOzScuKyORe4kjXLZS2dBW3kdU95O4Js6evr-yQbnRmkda_lQeW1eapMECn9Us5c-my2_RFak4uo_opN9YdcGlvae8KyYjtFKmG7Z"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199552306 </span>: Operation fetchThumbnailResource-<span class="hljs-number">76852</span>f77eca64b6eacea137f8f2a50b6-IMG_2051.JPG took <span class="hljs-number">725</span> ms with inputs {<span class="hljs-string">"sourceUrl"</span>:<span class="hljs-string">"https://qa-bas-hub.mapsqa.arcgis.com/sharing/rest/content/items/79d2924052f4457995816e1554aa74bf/resources/IMG_2051.JPG?token=4FLZcllB4c4nBuiucdVraRPh0lIq5Kl1QAJUkM2r-ydBGS9lEtjDVAmU_rxoOjZfOGejYUQ--IQE51509I2BphS__3pMOzScuKyORe4kjXLZS2dBW3kdU95O4Js6evr-yQbnRmkda_lQeW1eapMECn9Us5c-my2_RFak4uo_opN9YdcGlvae8KyYjtFKmG7Z"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199552773 </span>: Operation addResource-<span class="hljs-number">76852</span>f77eca64b6eacea137f8f2a50b6-IMG_1871.JPG took <span class="hljs-number">1467</span> ms with inputs {<span class="hljs-string">"targetItemId"</span>:<span class="hljs-string">"76852f77eca64b6eacea137f8f2a50b6"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199553031 </span>: Operation addResource-<span class="hljs-number">76852</span>f77eca64b6eacea137f8f2a50b6-IMG_2051.JPG took <span class="hljs-number">2528</span> ms with inputs {<span class="hljs-string">"targetItemId"</span>:<span class="hljs-string">"76852f77eca64b6eacea137f8f2a50b6"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199555559 </span>: Operation fetchThumbnailResource-<span class="hljs-number">76852</span>f77eca64b6eacea137f8f2a50b6-json-resource.json took <span class="hljs-number">298</span> ms with inputs {<span class="hljs-string">"sourceUrl"</span>:<span class="hljs-string">"https://qa-bas-hub.mapsqa.arcgis.com/sharing/rest/content/items/79d2924052f4457995816e1554aa74bf/resources/json-resource.json?token=4FLZcllB4c4nBuiucdVraRPh0lIq5Kl1QAJUkM2r-ydBGS9lEtjDVAmU_rxoOjZfOGejYUQ--IQE51509I2BphS__3pMOzScuKyORe4kjXLZS2dBW3kdU95O4Js6evr-yQbnRmkda_lQeW1eapMECn9Us5c-my2_RFak4uo_opN9YdcGlvae8KyYjtFKmG7Z"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199555560 </span>: Operation fetchThumbnailResource-<span class="hljs-number">76852</span>f77eca64b6eacea137f8f2a50b6-sep-<span class="hljs-number">13</span>-beyond-the-clouds-nocal-<span class="hljs-number">2560</span>x1440.jpg took <span class="hljs-number">779</span> ms with inputs {<span class="hljs-string">"sourceUrl"</span>:<span class="hljs-string">"https://qa-bas-hub.mapsqa.arcgis.com/sharing/rest/content/items/79d2924052f4457995816e1554aa74bf/resources/sep-13-beyond-the-clouds-nocal-2560x1440.jpg?token=4FLZcllB4c4nBuiucdVraRPh0lIq5Kl1QAJUkM2r-ydBGS9lEtjDVAmU_rxoOjZfOGejYUQ--IQE51509I2BphS__3pMOzScuKyORe4kjXLZS2dBW3kdU95O4Js6evr-yQbnRmkda_lQeW1eapMECn9Us5c-my2_RFak4uo_opN9YdcGlvae8KyYjtFKmG7Z"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199555857 </span>: Operation addResource-<span class="hljs-number">76852</span>f77eca64b6eacea137f8f2a50b6-json-resource.json took <span class="hljs-number">484</span> ms with inputs {<span class="hljs-string">"targetItemId"</span>:<span class="hljs-string">"76852f77eca64b6eacea137f8f2a50b6"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199556339 </span>: Operation addResource-<span class="hljs-number">76852</span>f77eca64b6eacea137f8f2a50b6-sep-<span class="hljs-number">13</span>-beyond-the-clouds-nocal-<span class="hljs-number">2560</span>x1440.jpg took <span class="hljs-number">2798</span> ms with inputs {<span class="hljs-string">"targetItemId"</span>:<span class="hljs-string">"76852f77eca64b6eacea137f8f2a50b6"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199559138 </span>: Operation fetchThumbnailResource-<span class="hljs-number">76852</span>f77eca64b6eacea137f8f2a50b6-text-resource.txt took <span class="hljs-number">282</span> ms with inputs {<span class="hljs-string">"sourceUrl"</span>:<span class="hljs-string">"https://qa-bas-hub.mapsqa.arcgis.com/sharing/rest/content/items/79d2924052f4457995816e1554aa74bf/resources/text-resource.txt?token=4FLZcllB4c4nBuiucdVraRPh0lIq5Kl1QAJUkM2r-ydBGS9lEtjDVAmU_rxoOjZfOGejYUQ--IQE51509I2BphS__3pMOzScuKyORe4kjXLZS2dBW3kdU95O4Js6evr-yQbnRmkda_lQeW1eapMECn9Us5c-my2_RFak4uo_opN9YdcGlvae8KyYjtFKmG7Z"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199559138 </span>: Operation fetchThumbnailResource-<span class="hljs-number">76852</span>f77eca64b6eacea137f8f2a50b6-zip-resource.zip took <span class="hljs-number">623</span> ms with inputs {<span class="hljs-string">"sourceUrl"</span>:<span class="hljs-string">"https://qa-bas-hub.mapsqa.arcgis.com/sharing/rest/content/items/79d2924052f4457995816e1554aa74bf/resources/zip-resource.zip?token=4FLZcllB4c4nBuiucdVraRPh0lIq5Kl1QAJUkM2r-ydBGS9lEtjDVAmU_rxoOjZfOGejYUQ--IQE51509I2BphS__3pMOzScuKyORe4kjXLZS2dBW3kdU95O4Js6evr-yQbnRmkda_lQeW1eapMECn9Us5c-my2_RFak4uo_opN9YdcGlvae8KyYjtFKmG7Z"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199559420 </span>: Operation addResource-<span class="hljs-number">76852</span>f77eca64b6eacea137f8f2a50b6-text-resource.txt took <span class="hljs-number">395</span> ms with inputs {<span class="hljs-string">"targetItemId"</span>:<span class="hljs-string">"76852f77eca64b6eacea137f8f2a50b6"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199559761 </span>: Operation addResource-<span class="hljs-number">76852</span>f77eca64b6eacea137f8f2a50b6-zip-resource.zip took <span class="hljs-number">1851</span> ms with inputs {<span class="hljs-string">"targetItemId"</span>:<span class="hljs-string">"76852f77eca64b6eacea137f8f2a50b6"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199561612 </span>: Operation moveSite-<span class="hljs-number">76852</span>f77eca64b6eacea137f8f2a50b6 took <span class="hljs-number">0</span> ms with inputs {<span class="hljs-string">"id"</span>:<span class="hljs-string">"76852f77eca64b6eacea137f8f2a50b6"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199561613 </span>: Operation postProcess-i98pqph5s took <span class="hljs-number">74964</span> ms with inputs {} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199571662 </span>: Operation getDeployedItems took <span class="hljs-number">38974</span> ms with inputs {<span class="hljs-string">"itemIds"</span>:[<span class="hljs-string">"b89311d4d2f24d3dadc34c0645841085"</span>,<span class="hljs-string">"76852f77eca64b6eacea137f8f2a50b6"</span>]} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199610636 </span>: Operation postProcessItems took <span class="hljs-number">25941</span> ms with inputs {<span class="hljs-string">"itemIds"</span>:[<span class="hljs-string">"b89311d4d2f24d3dadc34c0645841085"</span>,<span class="hljs-string">"76852f77eca64b6eacea137f8f2a50b6"</span>]} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199634145 </span>: Operation createHubRO-<span class="hljs-number">76852</span>f77eca64b6eacea137f8f2a50b6 took <span class="hljs-number">183</span> ms with inputs {<span class="hljs-string">"username"</span>:<span class="hljs-string">"qa_bas_sol_admin"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199634586 </span>: Operation shareItemsToSiteGroups-<span class="hljs-number">76852</span>f77eca64b6eacea137f8f2a50b6 took <span class="hljs-number">612</span> ms with inputs {<span class="hljs-string">"siteId"</span>:<span class="hljs-string">"76852f77eca64b6eacea137f8f2a50b6"</span>,<span class="hljs-string">"username"</span>:<span class="hljs-string">"qa_bas_sol_admin"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199635198 </span>: Operation linkPagesToSite-<span class="hljs-number">76852</span>f77eca64b6eacea137f8f2a50b6 took <span class="hljs-number">1377</span> ms with inputs {<span class="hljs-string">"siteId"</span>:<span class="hljs-string">"76852f77eca64b6eacea137f8f2a50b6"</span>,<span class="hljs-string">"username"</span>:<span class="hljs-string">"qa_bas_sol_admin"</span>} <span class="hljs-keyword">and</span> output n/a
+</code></pre>
+<p>Example of the same process, but an error was thrown from deep in an external library that is not utilizing OperationStack</p>
+<pre><code><span class="hljs-symbol">1614199713202 </span>: Operation canDeployTemplates-iukwhlh6b took <span class="hljs-number">157</span> ms with inputs {<span class="hljs-string">"username"</span>:<span class="hljs-string">"qa_bas_sol_admin"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199713359 </span>: Operation deploy-iukwhlh6b started with inputs {<span class="hljs-string">"username"</span>:<span class="hljs-string">"qa_bas_sol_admin"</span>,<span class="hljs-string">"canDeploy"</span>:true} but was <span class="hljs-keyword">not</span> completed
+<span class="hljs-symbol">1614199714452 </span>: Operation deployTemplate-Hub Page-d541623471414e2fb4200deb91a6f47d took <span class="hljs-number">6983</span> ms with inputs {<span class="hljs-string">"sourceId"</span>:<span class="hljs-string">"d541623471414e2fb4200deb91a6f47d"</span>} <span class="hljs-keyword">and</span> output {<span class="hljs-string">"deployedItems"</span>:[{<span class="hljs-string">"id"</span>:<span class="hljs-string">"85a595d6ccce4a55a4c061dc98e1a96b"</span>,<span class="hljs-string">"type"</span>:<span class="hljs-string">"Hub Page"</span>}]}
+<span class="hljs-symbol">1614199714452 </span>: Operation deployHubPageProcessor-d541623471414e2fb4200deb91a6f47d took <span class="hljs-number">6982</span> ms with inputs {<span class="hljs-string">"sourceId"</span>:<span class="hljs-string">"d541623471414e2fb4200deb91a6f47d"</span>,<span class="hljs-string">"type"</span>:<span class="hljs-string">"Hub Page"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199714453 </span>: Operation createHubRO-d541623471414e2fb4200deb91a6f47d took <span class="hljs-number">147</span> ms with inputs {<span class="hljs-string">"username"</span>:<span class="hljs-string">"qa_bas_sol_admin"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199714600 </span>: Operation createPageModel-d541623471414e2fb4200deb91a6f47d took <span class="hljs-number">2</span> ms with inputs {<span class="hljs-string">"sourceId"</span>:<span class="hljs-string">"d541623471414e2fb4200deb91a6f47d"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199714602 </span>: Operation createPage-d541623471414e2fb4200deb91a6f47d took <span class="hljs-number">1011</span> ms with inputs {<span class="hljs-string">"sourceId"</span>:<span class="hljs-string">"d541623471414e2fb4200deb91a6f47d"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199715613 </span>: Operation deployResources-d541623471414e2fb4200deb91a6f47d took <span class="hljs-number">5821</span> ms with inputs {<span class="hljs-string">"sourceId"</span>:<span class="hljs-string">"d541623471414e2fb4200deb91a6f47d"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199715614 </span>: Operation fetchThumbnailResource-<span class="hljs-number">85</span>a595d6ccce4a55a4c061dc98e1a96b-abstract-architecture-black-building-<span class="hljs-number">277576.</span>jpg took <span class="hljs-number">2887</span> ms with inputs {<span class="hljs-string">"sourceUrl"</span>:<span class="hljs-string">"https://qa-bas-hub.mapsqa.arcgis.com/sharing/rest/content/items/d541623471414e2fb4200deb91a6f47d/resources/abstract-architecture-black-building-277576.jpg?token=7Vu_Nao4GALcmLdUeh4b7w5qOIBMTLL6rb_zXxUGrQK5RZY1z5EOO6eeg_l2xDq2o2hsae7GHZ-pHUHfm0g3UNRoSLxeA0_MwZKU-kElQkI_addqJ80VhtPxRdyVfYI-8-is30ng1Q0F6-ABUwS8ZObZC4rZGFTpMt4HD9RIPyuatZORUDqe4-h1mwvb-IIs"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199715614 </span>: Operation fetchThumbnailResource-<span class="hljs-number">85</span>a595d6ccce4a55a4c061dc98e1a96b-IMG_0420.jpg took <span class="hljs-number">2209</span> ms with inputs {<span class="hljs-string">"sourceUrl"</span>:<span class="hljs-string">"https://qa-bas-hub.mapsqa.arcgis.com/sharing/rest/content/items/d541623471414e2fb4200deb91a6f47d/resources/IMG_0420.jpg?token=7Vu_Nao4GALcmLdUeh4b7w5qOIBMTLL6rb_zXxUGrQK5RZY1z5EOO6eeg_l2xDq2o2hsae7GHZ-pHUHfm0g3UNRoSLxeA0_MwZKU-kElQkI_addqJ80VhtPxRdyVfYI-8-is30ng1Q0F6-ABUwS8ZObZC4rZGFTpMt4HD9RIPyuatZORUDqe4-h1mwvb-IIs"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199717823 </span>: Operation addResource-<span class="hljs-number">85</span>a595d6ccce4a55a4c061dc98e1a96b-IMG_0420.jpg took <span class="hljs-number">1246</span> ms with inputs {<span class="hljs-string">"targetItemId"</span>:<span class="hljs-string">"85a595d6ccce4a55a4c061dc98e1a96b"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199718501 </span>: Operation addResource-<span class="hljs-number">85</span>a595d6ccce4a55a4c061dc98e1a96b-abstract-architecture-black-building-<span class="hljs-number">277576.</span>jpg took <span class="hljs-number">2929</span> ms with inputs {<span class="hljs-string">"targetItemId"</span>:<span class="hljs-string">"85a595d6ccce4a55a4c061dc98e1a96b"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199721434 </span>: Operation movePage-<span class="hljs-number">85</span>a595d6ccce4a55a4c061dc98e1a96b took <span class="hljs-number">0</span> ms with inputs {<span class="hljs-string">"id"</span>:<span class="hljs-string">"85a595d6ccce4a55a4c061dc98e1a96b"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199721435 </span>: Operation deployTemplate-Hub Site Application-<span class="hljs-number">79d2924052</span>f4457995816e1554aa74bf started with inputs {<span class="hljs-string">"sourceId"</span>:<span class="hljs-string">"79d2924052f4457995816e1554aa74bf"</span>} but was <span class="hljs-keyword">not</span> completed
+<span class="hljs-symbol">1614199721435 </span>: Operation createHubRO-<span class="hljs-number">79d2924052</span>f4457995816e1554aa74bf took <span class="hljs-number">5988</span> ms with inputs {<span class="hljs-string">"username"</span>:<span class="hljs-string">"qa_bas_sol_admin"</span>} <span class="hljs-keyword">and</span> output n/a
+<span class="hljs-symbol">1614199727423 </span>: Operation createSiteModel-<span class="hljs-number">79d2924052</span>f4457995816e1554aa74bf started with inputs {<span class="hljs-string">"sourceId"</span>:<span class="hljs-string">"79d2924052f4457995816e1554aa74bf"</span>} but was <span class="hljs-keyword">not</span> completed
+</code></pre>
+<p>The returned OperationError has the stack trace from the original location that threw</p>
+<pre><code><span class="hljs-keyword">Error: </span>site-utils::createSiteModelFromTemplate Error TypeError: Cannot set property 'theme' of undefined
+    at karma-typescript-bundle-<span class="hljs-string">-50366</span>-eCa8QbhkgeR0-.js?8643af5618d2e22f36e172e229976bca65d27008:35563
+</code></pre>
+<p>For more details please see <a href="../../hub.js/api/common/OperationStack">OperationStack</a> documentation.</p>
+      </div>
+    </div>
+  </div>
+
+      </main>
+    </div>
+
+    <footer class="footer">
+      
+      <div class="panel panel-white">
+        <div class="grid-container">
+          <div class="column-24">
+            <a href="https://github.com/Esri/hub.js" class="font-size--2">Fork this project</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/js/calcite-web.min.js"></script>
+
+    <script>
+       calcite.init()
+    </script>
+
+    
+  </body>
+</html>
