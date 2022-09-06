@@ -6,15 +6,30 @@ order: 50
 group: 2-class-api
 ---
 
-## Working with Projects
+### Hub Projects
 
-Hub.js exposes a number of ways to work with Hub Projects. At the lowest level, you can simply import functions like `createProject`, `updateProject` etc, and work with them. This is ideal when you are looking to optimize the payload of an application which only needs to do a subset of operations.
+A Hub Project is a customizable representation of a real-world project. It is backed by an Item, and it can be associated with one or more Sites or Initiatives. It has a [banner image](), [timeline](), [catalog]() and [permissions]().
 
-The next level up is to use the `HubProjectManager` class. This class is instantiated with either an `ArcGISContextManager` or `IArcGISContext`. If your application needs to have a long-lived `HubProjectManager` then it's best to pass a reference to your app's `ArcGISContextManager` instance, so that when authentication changes, the `HubProjectManager` instance will have current information because of the shared reference.
+In ArcGIS Online, the item type is `Hub Project`
 
-For most applications, you can simply create a `HubProjectManager` using the `IArcGISContext`, do some operations, and then let the `HubProjectManager` instance be disposed.
+Hub Projects are not available in ArcGIS Enterprise.
 
-The final option is to use the `Hub` class. We recommend this for scripting / automation tasks. Although you could build a web application using the `Hub` class, it will likely result in a very large build since classes are much more complex to "tree shake" so your applicatin will get the entire Hub system, despite likely only needing a few functions.
+We use Hub.js to work with Projects via the `HubProject` class, which operates on `IHubProject` objects.
+
+#### API Links
+
+- [HubProject Class](/hub.js/api/common/HubProject)
+- [IHubProject](/hub.js/api/common/IHubProject)
+
+### Working with Projects
+
+To work with Projects, use the `HubProject` class. This class is instantiated via the standard factory functions, along with an `IArcGISContext`
+
+| Factory Function                         | Description/Use-Case                                       |
+| ---------------------------------------- | ---------------------------------------------------------- |
+| `.load(Partial<IHubProject>, context)`   | Use when application already has an Project object literal |
+| `.fetch(identifier, context)`            | Fetch the Project by id, slug                              |
+| `.create(Partial<IHubProject>, context)` | Create an instance for a new Project                       |
 
 ### In an Application
 
@@ -45,7 +60,7 @@ To create a project in the `/projects/edit/new` controller...
 import Controller from "@ember/controller";
 import { inject as service } from "@ember/service";
 import { action } from "@ember/object";
-import { HubProjectManager } from "@esri/hub-common";
+import { HubProject } from "@esri/hub-common";
 
 export default class projectsEditNewController extends Controller {
   // appSettings is a singleton service that holds an ArcGISContextManager instance
@@ -54,10 +69,10 @@ export default class projectsEditNewController extends Controller {
 
   @action
   async createProject(project) {
-    // instantiate the project manager
-    const projectMgr = HubProjectManager.init(appSettings.context);
-    // create the project and return the IHubProject instance
-    return projectMgr.create(project);
+    // create project instance and save it
+    const project = HubProject.create(project, appSettings.context, true);
+    // return project
+    return project.toJson();
   }
 }
 ```
@@ -69,14 +84,15 @@ In the `/projects/:project_id` route, we get the project by id or slug
 ```js
 import Route from "@ember/routing/route";
 import { inject as service } from "@ember/service";
-import { HubProjectManager } from "@esri/hub-common";
+import { HubProject } from "@esri/hub-common";
 
 export default class ProjectsProjectRoute extends Route {
   @service appSettings;
 
   model(params) {
-    const projectMgr = HubProjectManager.init(appSettings.context);
-    return projectMgr.get(params.project_id);
+    const project = await HubProject.fetch(params.project_id, appSettings.context);
+    // results in model.project in the controller
+    return {project}
   }
 }
 ```
@@ -89,15 +105,15 @@ In the `/projects/:project_id/edit` controller we update the project like this
 import Controller from "@ember/controller";
 import { inject as service } from "@ember/service";
 import { action } from "@ember/object";
-import { HubProjectManager } from "@esri/hub-common";
+import { HubProject } from "@esri/hub-common";
 
 export default class projectEditController extends Controller {
   @service appSettings;
 
   @action
   updateProject(project) {
-    const projectMgr = HubProjectManager.create(appSettings.context);
-    return projectMgr.update(project);
+    this.model.project.update(project);
+    await this.model.project.save();
   }
 }
 ```
@@ -109,26 +125,33 @@ If you need to create or manage a series of projects, you can do this via Node.j
 This example assumes you are using NodeJS v13 or higher, and have set `type: "module"` in your `package.json` file, allowing the use of [ES Modules](https://nodejs.org/docs/latest-v12.x/api/packages.html#packages_determining_module_system) import syntax.
 
 ```js
-import { Hub } from "@esri/hub-common";
+import { HubProject, ArcGISContextManager } from "@esri/hub-common";
 
-// create Hub instance
-const myHub = await Hub.create({
-  authOptions: { username: "casey", password: "abc123" },
+// create context
+const contextManager = await ArcGISContextManager.init({
+  username: "jack",
+  password: "seekret",
 });
 
 // create a project
-let project = myHub.projects.create({
-  name: "Smith Street Curb Replacement",
-  summary: "Replace/upgrade damaged curbs along Smith St. Scheduled for 2024",
-  status: "active",
-  culture: "en-us",
-  slug: "smith-st-2024",
-  tags: ["2024 Plan"],
-});
+let project = await HubProject.create(
+  {
+    name: "Smith Street Curb Replacement",
+    summary: "Replace/upgrade damaged curbs along Smith St. Scheduled for 2024",
+    status: "active",
+    culture: "en-us",
+    slug: "smith-st-2024",
+    tags: ["2024 Plan"],
+  },
+  contextManager.context
+);
 console.info(`Created project ${project.name} owned by ${project.owner}`);
 
-// assign a timeline and update
-project.timeline = {
+// in scripting scenarios, we extract the object literal and make changes to that
+const projectObjectLiteral = project.toJson();
+
+// assign a timeline
+projectObjectLiteral.timeline = {
   title: "Project Schedule",
   timeframe: "Summer 2024",
   description: "Key dates for design and construction",
@@ -158,16 +181,15 @@ project.timeline = {
     },
   ],
 };
-
-project = await myHub.projects.update(project);
-
-// Destroy a project
-await myHub.projects.destroy("3efbc7...");
+// apply changes back into the class instance
+project.update(projectObjectLiteral);
+// save the changes back to the item
+await project.save();
 ```
 
 ### In a Component
 
-When working with Hub Projects in Components, import the lower-level functions instead of using the `HubProjectManager`. This enables the Component build process to tree-shake out more code, resulting in a smaller build size.
+When working with Hub Projects in Components, import the lower-level functions instead of using the `HubProject`. This enables the Component build process to tree-shake out more code, resulting in a smaller build size.
 
 Let's suppose you have a component that will fetch and display a project using either
 the project's ID or slug. The component would have an attribute `identifier` that can take the slug or item id.

@@ -6,8 +6,6 @@ order: 80
 group: 3-functional-api
 ---
 
-# Overview
-
 As organizations use ArcGIS Hub to support community engagement and collaboration, **ArcGIS Hub Discussions** provides an integrated capability for organizations to meet their varied needs for internal & external collaborative communication around Hub initiatives, content and data.
 
 Hub Discussions will be available in mid-2021 starting with private discussions within Hub Teams. Through the rest of the year, Hub Discussions will expand to support focused public feedback, dataset comments or corrections, and possibly public forums.

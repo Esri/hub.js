@@ -20,7 +20,7 @@ A query must declare the target entity type. This is needed so the query can be 
 | `group`     | ArcGIS Portal Group <br> `/sharing/rest/community/groups/search` |
 | `user`      | ArcGIS Portal User <br> `/sharing/rest/portal/self/users`        |
 
-# TODO: Insert Interface Diagram
+![Query Model](/hub.js/img/query-filter.png)
 
 These entities are not currently implemented
 

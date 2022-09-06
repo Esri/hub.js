@@ -1,8 +1,8 @@
 ---
 title: Working with Initiatives
-navTitle: Initiatives
+navTitle: Initiatives (WIP)
 description: Working with Hub Initiatives
-order: 30
+order: 35
 group: 2-class-api
 ---
 

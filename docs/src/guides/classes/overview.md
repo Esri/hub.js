@@ -8,16 +8,24 @@ group: 2-class-api
 
 # Working with Hub Classes
 
-Core Hub business logic has been wrapped into a set of javascript classes, representing the core Hub Entities: Site, Page, Initiative and Project. Additional classes are planned for Event, Team, and Person.
+Core Hub business logic has been wrapped into a set of javascript classes, representing the core Hub Entities: Site, Page, Initiative and Project.
 
-## Hub Classes
-
-To reduce cognitive load, we have introduced a set of Classes. These classes are [Entity Specific](./hub-entities) (e.g. there is a `HubProject` class), and they encapsulate the standard operations for an Entity - `create`, `update`, `delete`, `fetch` etc, as well as entity specific methods.
+Additional classes are planned for Event, Team, Discussion and Person.
 
 For most developers, the Classes are the simplest way to work with ArcGIS Hub.
 
+### Class Patterns
+
+The Class pattern used in hub.js separates the methods (the behavior) from the underlying entity (the structure). In the example below we have the `HubSite` class which contains an `entity` of type `IHubSite`. The methods on the class are composed from "behavioral" interfaces, which ensure consistent methods across types. Similarly the entity is composed from structural interfaces, ensuring consistent object structures across entities.
+
+![Hub Class Patterns](/hub.js/img/class-pattern.png)
+
+To manipulate properties of the underlying entity, we first extract the entity into an object-literal via the `.toJson()` method. At this point we have a simple object that adheres to the entity interface (`IHubSite` in the diagram). We can then make changes to the object directly, but more commonly we will pass it into a component, which can then treat it as an immutable/clonable object. Once the componet has applied changed to the object, we reload that back into the class instance using the `.update(...)` method. It should be noted that changes are not stored until `.save()` is called.
+
 ### Available Classes
 
+- WIP [`HubSite`]()
+- WIP [`HubPage`]()
 - [`HubProject`](/hub.js/api/common/HubProject)
 - [`HubInitiative`](/hub.js/api/common/HubInitiative)
 
@@ -43,13 +51,13 @@ const ctx = ctxMgr.context;
 // be passed forward into the controller
 const smithStProject = await HubProject.fetch("dc::smith-st-forestry", ctx);
 
-// If your app has aleady fetched the IHubProject object literal
+// If your app has already fetched the IHubProject object literal,
 // create an instance using the `.fromJson(...)` factory function
 // note: since it's not fetching anything, this is a sync call
 const pineStProject = HubProject.fromJson(pineStObjectLiteral, ctx);
 
 // To create a new project, pass in an Partial<IHubProject> to `.create(..)`
-// to get an instance for a new Project. If you want to immediately save the
+// which will return instance for a new Project. If you want to immediately save the
 // it, pass in `true` as the third argument.
 const oakStProject = await HubProject.create({ title: "Oak St Project" }, ctx);
 ```
@@ -64,7 +72,7 @@ In order to ensure consistent editing behavior and user experience, all Hub clas
 - `.fullUiSchema` full ui for comprehensive editing of the entity
 - `.minimalUiSchema` minimal fields needed to create a new entity
 
-Regardless if you are using the ArcGIS Configuration Editor, or some other component or just need to change properties on the entity programatically, you must "extract" the entity object literal from the class, make changes to the object literal, and then push those changes back into the class. While nominally cumbersome in some situations, this pattern ensures developers do not pass class instances into components, which would be extremely problematic.
+Regardless if you are using the ArcGIS Configuration Editor, or some other component or just need to change properties on the entity programatically, you must "extract" the entity object literal from the class via `.toJson()`, make changes to the object literal, and then push those changes back into the class via `.update(objectLiteral)`. While nominally cumbersome in some situations, this pattern ensures developers do not pass class instances into components, which would be extremely problematic.
 
 ## Editing Properties Example
 

@@ -11,13 +11,13 @@ teamsCollaborationId: "{% raw %}{{teams.collaborationId}}{% endraw %}"
 
 ## Hub Utilities
 
-The `hub-common` module is a collection of utility functions that the Hub team has come to rely on across all the projects we work on.
+Hub.js exports a collection of utility functions that the Hub team has come to rely on across all the projects we work on.
 
 This page lists some of the more prominent functions, but there are dozens of others that are extremely useful and we invite you to explore them.
 
 ## Working with Objects
 
-The philosophy behing Hub.js (as well as ArcGIS Rest Js) is that the libraries are composed of functions that work with data.
+The philosophy behind Hub.js (as well as ArcGIS Rest Js) is that the libraries are composed of functions that work with data.
 
 The output of the functions depends only on the data passed into them. Unless otherwise noted, the functions do not mutate the data passed into them - instead they return new copies of the data.
 
@@ -39,6 +39,14 @@ We can safely get the value of `itm.properties.parentId` because we know it's de
 
 ```js
 if (itm.properties && itm.properties.parentId) {
+  // do something
+}
+```
+
+... or with ES6 we can use
+
+```js
+if (itm.properties?.parentId) {
   // do something
 }
 ```
@@ -69,11 +77,11 @@ const childIds = getPropWithDefault(itm, "properties.children", []).map(
 
 ### Avoid Mutating Shared State
 
-One of the most complex problems we face as application developers is how to manage state in our applications. One prominent technique to simplify this is to write functions which do not mutate data that is passed in; rather they return new objects. This minimizes unexpected mutation of shared objects. In order to do this, we leverage [cloneObject](https://esri.github.io/hub.js/api/common/cloneObject/).
+One of the most complex problems we face as application developers is how to manage state in our applications. One prominent technique to simplify this is to write functions which do not mutate data that is passed in; rather they return new objects. This minimizes unexpected mutation of shared objects. In order to do this, we leverage [cloneObject](/hub.js/api/common/cloneObject/).
 
 We also make us of this extensively in our unit tests.
 
-**Note**: `cloneObject` does not attempt to clone functions, and thus should not be used with instances of classes
+**Note**: `cloneObject` does not clone functions, and thus should not be used with instances of classes
 
 ```js
 const obj1 = {

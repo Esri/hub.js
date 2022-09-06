@@ -6,13 +6,19 @@ order: 15
 group: 2-class-api
 ---
 
-## Authentication with Hub Classes: ArcGIS Context
+### Authentication and Hub Classes
 
-Simply put, "context" refers to the collection of platform and user information an application needs in order to make requests to the right services, pass the correct authentication and easily determine other user/org specific properties.
+The Hub Classes are all instantiated via a set of common factory functions:
 
-The `ArcGISContext` class provides just this - making it easier for applications and components to write simpler, more consistent code, and to easily leverage shared libraries like [ArcGIS Rest JS](https://esri.github.io/arcgis-rest-js/), [Hub.js](https://esri.github.io/hub.js/), [Solutions.js](https://github.com/Esri/solution.js) etc.
+| Factory Function                    | Description/Use-Case                                       |
+| ----------------------------------- | ---------------------------------------------------------- |
+| `.load(Partial<entity>, context)`   | Use when application already has an object literal         |
+| `.fetch(identifier, context)`       | Fetch the backing entity by id, slug or domain (Site only) |
+| `.create(Partial<entity>, context)` | Create an instance for a new entity                        |
 
-### Simple Access to Shared Information
+In all these functions, `context` refers to an [`IArcGISContext`](/hub.js/api/common/IArcGISContext) object literal, which is a collection of platform and user information an application needs in order to make requests to the right services, pass the correct authentication and easily determine other user/org specific properties.
+
+The `ArcGISContext` class provides a simple container for "context", thereby making it easier for applications and components to write simpler, more consistent code, and to easily leverage shared libraries like [ArcGIS Rest JS](https://esri.github.io/arcgis-rest-js/), [Hub.js](https://esri.github.io/hub.js/), [Solutions.js](https://github.com/Esri/solution.js) etc.
 
 In addition to the portal and sharing api urls, `ArcGISContext` also provides easy access to authentication status, the active [`UserSession`](https://esri.github.io/arcgis-rest-js/api/auth/UserSession/), [`IPortal`](https://esri.github.io/arcgis-rest-js/api/portal/IPortal/) and [`IUser`](https://esri.github.io/arcgis-rest-js/api/types/IUser/) objects, as well as a number of computed properties driven by those objects.
 

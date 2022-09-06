@@ -1,6 +1,6 @@
 ---
 title: Working with Pages
-navTitle: Pages
+navTitle: Pages (WIP)
 description: Working with Hub Pages
 order: 30
 group: 2-class-api
