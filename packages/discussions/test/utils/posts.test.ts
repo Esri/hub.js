@@ -9,8 +9,6 @@ import {
   canDeletePost,
   parseMentionedUsers,
   MENTION_ATTRIBUTE,
-  MENTION_ATTRIBUTE_AND_VALUE_PATTERN,
-  MENTION_ATTRIBUTE_PATTERN,
 } from "../../src/utils/posts";
 import * as viewGroup from "../../../common/test/mocks/groups/view-group.json";
 import * as formItem from "../../../common/test/mocks/items/form-item-draft.json";
@@ -167,28 +165,6 @@ describe("MENTION_ATTRIBUTE", () => {
   it("should be defined", () => {
     expect(MENTION_ATTRIBUTE).toBeDefined();
     expect(MENTION_ATTRIBUTE).toEqual("data-mention");
-  });
-});
-
-describe("MENTION_ATTRIBUTE_AND_VALUE_PATTERN", () => {
-  it("should match the expected strings", () => {
-    const input = `<span data-mention="juliana_pa">@juliana_pa</span> <span data-mention="paige_pa">@paige_pa</span>`;
-    expect(MENTION_ATTRIBUTE_AND_VALUE_PATTERN).toBeDefined();
-    expect(input.match(MENTION_ATTRIBUTE_AND_VALUE_PATTERN)).toEqual([
-      'data-mention="juliana_pa"',
-      'data-mention="paige_pa"',
-    ]);
-  });
-});
-
-describe("MENTION_ATTRIBUTE_PATTERN", () => {
-  it("should match the expected strings", () => {
-    const input = `<span data-mention="juliana_pa">@juliana_pa</span> <span data-mention="paige_pa">@paige_pa</span>`;
-    expect(MENTION_ATTRIBUTE_PATTERN).toBeDefined();
-    expect(input.match(MENTION_ATTRIBUTE_PATTERN)).toEqual([
-      "data-mention=",
-      "data-mention=",
-    ]);
   });
 });
 
