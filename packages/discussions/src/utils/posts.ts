@@ -97,7 +97,8 @@ const NON_WORDS_PATTERN = new RegExp("[^\\w]", "g");
 
 /**
  * Parses mentioned users
- * @param text
+ * @param text A string to parse mentioned users from
+ * @returns A unique collection of usernames parsed from the provided text
  */
 export function parseMentionedUsers(text = ""): string[] {
   const toReplaced = (input: string, pattern: RegExp) =>
