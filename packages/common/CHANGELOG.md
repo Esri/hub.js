@@ -1,3 +1,10 @@
+# @esri/hub-common [11.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.3.0...@esri/hub-common@11.4.0) (2022-09-07)
+
+
+### Features
+
+* add timeline to hubproject property mapper ([#875](https://github.com/Esri/hub.js/issues/875)) ([84aed11](https://github.com/Esri/hub.js/commit/84aed119f530beefd1e8e2e817b88fd9077ef259))
+
 # @esri/hub-common [11.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.2.0...@esri/hub-common@11.3.0) (2022-09-06)
 
 
