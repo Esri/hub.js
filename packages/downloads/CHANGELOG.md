@@ -1,3 +1,13 @@
+# @esri/hub-downloads [11.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-downloads@11.3.0...@esri/hub-downloads@11.4.0) (2022-09-07)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 11.4.0
+
 # @esri/hub-downloads [11.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-downloads@11.2.0...@esri/hub-downloads@11.3.0) (2022-09-06)
 
 
