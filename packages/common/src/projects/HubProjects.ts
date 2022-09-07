@@ -55,6 +55,7 @@ function getPropertyMap(): IPropertyMap[] {
   map.push({ objectKey: "catalog", modelKey: "data.catalog" });
   map.push({ objectKey: "permissions", modelKey: "data.permissions" });
   map.push({ objectKey: "contacts", modelKey: "data.contacts" });
+  map.push({ objectKey: "timeline", modelKey: "data.timeline" });
 
   return map;
 }
