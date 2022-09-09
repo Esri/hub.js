@@ -66,7 +66,10 @@ export function getFamilyTypes(family: HubFamily): string[] {
       ]);
       break;
     case "template":
-      types = getCollectionTypes("solution");
+      types = [
+        ...getCollectionTypes("template"),
+        ...getCollectionTypes("solution"),
+      ];
       break;
     case "dataset":
       types = getCollectionTypes(family.toLowerCase()).filter(
