@@ -14,7 +14,8 @@ describe("getFamily", () => {
     it("can get 'template' types", () => {
       const types = getFamilyTypes("template");
       expect(Array.isArray(types)).toBeTruthy();
-      expect(types.length).toBe(1);
+      expect(types.length).toBe(2);
+      expect(types.includes("Hub Initiative Template")).toBeTruthy();
       expect(types.includes("Solution")).toBeTruthy();
     });
 
