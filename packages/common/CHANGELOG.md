@@ -1,3 +1,10 @@
+## @esri/hub-common [11.4.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.4.0...@esri/hub-common@11.4.1) (2022-09-12)
+
+
+### Bug Fixes
+
+* **hub-common:** getFamilyTypes() now correctly returns "Hub Initiative Template" as a type of the " ([35771a7](https://github.com/Esri/hub.js/commit/35771a75c0b3dd24f8bf99a81d3e7171febb917a))
+
 # @esri/hub-common [11.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.3.0...@esri/hub-common@11.4.0) (2022-09-07)
 
 
