@@ -1,10 +1,11 @@
+import { IHubRequestOptions } from "../../src/types";
 import { isSafeRedirectUrl } from "../../src/urls/is-safe-redirect-url";
 import * as domainExistsUtils from "../../src/sites/domains/domain-exists";
 
 describe("isSafeRedirectUrl", function () {
   const externalUrl = "https://some.external.site.com";
-  let domainExistsSpy;
-  let hubRequestOptions;
+  let domainExistsSpy: jasmine.Spy;
+  let hubRequestOptions: IHubRequestOptions;
 
   beforeEach(() => {
     hubRequestOptions = {};
