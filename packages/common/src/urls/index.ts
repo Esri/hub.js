@@ -19,6 +19,7 @@ export * from "./getPortalBaseFromOrgUrl";
 export * from "./getGroupHomeUrl";
 export * from "./getUserHomeUrl";
 export * from "./get-campaign-url";
+export * from "./is-safe-redirect-url";
 
 const MAP_OR_FEATURE_SERVER_URL_REGEX = /\/(map|feature)server/i;
 
