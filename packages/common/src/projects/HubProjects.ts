@@ -24,6 +24,10 @@ import {
   getFamily,
   IHubRequestOptions,
   getItemHomeUrl,
+  interpolate,
+  EditorConfigType,
+  SchemaElementOptions,
+  IEditorConfig,
 } from "../index";
 import {
   IItem,
@@ -41,6 +45,11 @@ import { fetchItemEnrichments } from "../items/_enrichments";
 import { getHubRelativeUrl } from "../content/_internal";
 import { DEFAULT_PROJECT, DEFAULT_PROJECT_MODEL } from "./defaults";
 import { getBasePropertyMap } from "../core/_internal/getBasePropertyMap";
+import {
+  HubProjectCompleteUiSchema,
+  HubProjectMinimalUiSchema,
+  HubProjectSchema,
+} from "./schemas";
 
 /**
  * Returns an Array of IPropertyMap objects
@@ -279,4 +288,69 @@ export async function enrichProjectSearchResult(
   );
 
   return result;
+}
+
+/**
+ * Get the editor config for for the HubProject entity.
+ * @param i18nScope Translation scope to be interpolated into the schemas
+ * @param type
+ * @param options Optional hash of Element component options
+ * @returns
+ */
+export async function getHubProjectEditorConfig(
+  i18nScope: string,
+  type: EditorConfigType,
+  options: SchemaElementOptions[] = []
+): Promise<IEditorConfig> {
+  // schema is always the entire schema
+  const schema = cloneObject(HubProjectSchema);
+  // uiSchema is the complete schema, unless otherwise specified
+  let uiSchema = cloneObject(HubProjectCompleteUiSchema);
+  // by default we don't need to filter the schema b/c it's the entire schema
+  let filterSchema = false;
+
+  // if another schema is requested, we need to use that UI schema
+  // and the subset the overall schema down to just the properties
+  // used in the UI schema
+  switch (type) {
+    case "minimal":
+      uiSchema = cloneObject(HubProjectMinimalUiSchema);
+      filterSchema = true;
+      break;
+  }
+
+  if (filterSchema) {
+    // TODO: Hoist into a utility function as all other classes will need to do this
+    // filter out the schema elements that are not needed for the requested UI Schema
+    const propsToKeep = uiSchema.elements.reduce((acc, entry) => {
+      // TODO: Verify that UI we can simply split and use the 2nd entry
+      acc.push(entry.scope.split("/")[2]);
+      return acc;
+    }, []);
+    Object.keys(schema.properties).forEach((key) => {
+      if (propsToKeep.indexOf(key) === -1) {
+        delete schema.properties[key];
+      }
+    });
+  }
+
+  // interpolate the i18n scope into the uiSchema
+  uiSchema = interpolate(uiSchema, { i18nScope });
+
+  // merge the options into the uiSchema
+  options.forEach((elementOptions) => {
+    // find the entry in the uiSchema for the elementOptions.scope,
+    // and extend the elementOptions.options into the .options property
+    const elConfig = uiSchema.elements.find((entry) => {
+      return entry.scope === elementOptions.scope;
+    });
+    if (elConfig) {
+      elConfig.options = {
+        ...(elConfig.options || {}),
+        ...elementOptions.options,
+      };
+    }
+  });
+
+  return Promise.resolve({ schema, uiSchema });
 }

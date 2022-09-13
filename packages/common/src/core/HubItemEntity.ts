@@ -12,6 +12,7 @@ import { getItemThumbnailUrl, IThumbnailOptions } from "../resources";
 import { cloneObject } from "../util";
 import { mapBy } from "../utils";
 import { IWithSharingBehavior, IWithStoreBehavior } from "./behaviors";
+
 import { IWithThumbnailBehavior } from "./behaviors/IWithThumbnailBehavior";
 import { IHubItemEntity, SettableAccessLevel } from "./types";
 import { sharedWith } from "./_internal/sharedWith";

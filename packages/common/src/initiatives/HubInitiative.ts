@@ -7,6 +7,9 @@ import {
   PermissionManager,
   IWithStoreBehavior,
   IWithSharingBehavior,
+  EditorConfigType,
+  SchemaElementOptions,
+  IEditorConfig,
 } from "../core";
 
 import {
@@ -124,6 +127,21 @@ export class HubInitiative
         throw ex;
       }
     }
+  }
+
+  /**
+   * Static method to get the editor config for for the HubProject entity.
+   * @param i18nScope Translation scope to be interpolated into the schemas
+   * @param type
+   * @param options Optional hash of Element component options
+   */
+  static async getEditorConfig(
+    i18nScope: string,
+    type: EditorConfigType,
+    options: SchemaElementOptions[] = []
+  ): Promise<IEditorConfig> {
+    // Delegate to module fn
+    throw new Error("getEditorConfig Not Implemented for Initiatives");
   }
 
   private static applyDefaults(

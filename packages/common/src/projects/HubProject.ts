@@ -13,12 +13,18 @@ import {
   createProject,
   deleteProject,
   fetchProject,
+  getHubProjectEditorConfig,
   updateProject,
 } from "./HubProjects";
 
 import { Catalog } from "../search/Catalog";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
+import {
+  EditorConfigType,
+  SchemaElementOptions,
+  IEditorConfig,
+} from "../core/behaviors/IWithEditorBehavior";
 
 /**
  * Hub Project Class
@@ -31,6 +37,7 @@ export class HubProject
     IWithCatalogBehavior,
     IWithSharingBehavior
 {
+  // static IWithEditorBehavior
   private _catalog: Catalog;
   private _permissionManager: PermissionManager;
   /**
@@ -124,6 +131,24 @@ export class HubProject
         throw ex;
       }
     }
+  }
+
+  /**
+   * Static method to get the editor config for for the HubProject entity.
+   * @param i18nScope Translation scope to be interpolated into the schemas
+   * @param type
+   * @param options Optional hash of Element component options
+   * Note: typescript does not have a means to specify static methods in interfaces
+   * so while this is the implementation of IWithEditorBehavior, it is not enforced
+   * by the compiler.
+   */
+  static async getEditorConfig(
+    i18nScope: string,
+    type: EditorConfigType,
+    options: SchemaElementOptions[] = []
+  ): Promise<IEditorConfig> {
+    // Delegate to module fn
+    return getHubProjectEditorConfig(i18nScope, type, options);
   }
 
   private static applyDefaults(
