@@ -7,7 +7,7 @@ const SAFE_REDIRECT_URL = new RegExp(
 
 const HTTP_PROTOCOL = new RegExp("^https?:$");
 
-interface IIsSafeUrlOptions extends IHubRequestOptions {
+interface IIsSafeRedirectUrlOptions extends IHubRequestOptions {
   url: string;
 }
 
@@ -16,7 +16,7 @@ interface IIsSafeUrlOptions extends IHubRequestOptions {
  * @param options url A URL
  */
 export async function isSafeRedirectUrl(
-  options: IIsSafeUrlOptions
+  options: IIsSafeRedirectUrlOptions
 ): Promise<boolean> {
   const { url, ...hubRequestOptions } = options;
   let isSafe;
