@@ -94,7 +94,7 @@ module.exports = function(config) {
     specReporter: {
       // useful for identifying long-running tests
       showSpecTiming: true,
-      // useful when using describe() or fit()
+      // useful when using fdescribe() or fit()
       // suppressSkipped: true
     },
 
