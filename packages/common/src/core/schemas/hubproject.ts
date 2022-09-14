@@ -1,4 +1,4 @@
-import { IConfigurationSchema, IUiSchema } from "../core";
+import { IConfigurationSchema, IUiSchema } from "./types";
 
 export const HubProjectSchema: IConfigurationSchema = {
   required: ["name"],
@@ -27,7 +27,7 @@ export const HubProjectSchema: IConfigurationSchema = {
 /**
  * Minimal UI Schema for Hub Project
  */
-export const HubProjectMinimalUiSchema: IUiSchema = {
+export const HubProjectCreateUiSchema: IUiSchema = {
   type: "Layout",
   elements: [
     {
@@ -41,7 +41,7 @@ export const HubProjectMinimalUiSchema: IUiSchema = {
 /**
  * Complete UI Schema for Hub Project
  */
-export const HubProjectCompleteUiSchema: IUiSchema = {
+export const HubProjectEditUiSchema: IUiSchema = {
   type: "Layout",
   elements: [
     {

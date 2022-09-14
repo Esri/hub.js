@@ -8,7 +8,7 @@ import {
   IWithStoreBehavior,
   IWithSharingBehavior,
   EditorConfigType,
-  SchemaElementOptions,
+  UiSchemaElementOptions,
   IEditorConfig,
 } from "../core";
 
@@ -135,14 +135,14 @@ export class HubInitiative
    * @param type
    * @param options Optional hash of Element component options
    */
-  static async getEditorConfig(
-    i18nScope: string,
-    type: EditorConfigType,
-    options: SchemaElementOptions[] = []
-  ): Promise<IEditorConfig> {
-    // Delegate to module fn
-    throw new Error("getEditorConfig Not Implemented for Initiatives");
-  }
+  // static async getEditorConfig(
+  //   i18nScope: string,
+  //   type: EditorConfigType,
+  //   options: UiSchemaElementOptions[] = []
+  // ): Promise<IEditorConfig> {
+  //   // Delegate to module fn
+  //   throw new Error("getEditorConfig Not Implemented for Initiatives");
+  // }
 
   private static applyDefaults(
     partialInitiative: Partial<IHubInitiative>,

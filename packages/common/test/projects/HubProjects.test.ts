@@ -12,6 +12,10 @@ import {
   enrichProjectSearchResult,
   IQuery,
   IHubSearchOptions,
+  getHubProjectEditorConfig,
+  UiSchemaElementOptions,
+  HubProjectSchema,
+  deepFind,
 } from "../../src";
 
 import { MOCK_AUTH } from "../mocks/mock-auth";
@@ -397,6 +401,43 @@ describe("HubProjects:", () => {
       expect(item).toEqual(PROJECT_ITEM_ENRICH);
       expect(enrichments).toEqual(["data"]);
       expect(ro).toBe(hubRo);
+    });
+  });
+
+  describe("getEditorConfig:", () => {
+    // TODO: Decide how deep to verify the return structures
+    it("returns create schema", async () => {
+      const chk = await getHubProjectEditorConfig("test.scope", "create");
+      expect(chk.schema).toBeDefined();
+      expect(chk.schema).not.toEqual(HubProjectSchema);
+      expect(chk.uiSchema).toBeDefined();
+    });
+
+    it("returns edit schema with overrides", async () => {
+      const opts: UiSchemaElementOptions[] = [
+        {
+          scope: "/properties/name",
+          options: {
+            color: "red",
+          },
+        },
+      ];
+      const chk = await getHubProjectEditorConfig("test.scope", "edit", opts);
+      expect(chk.schema).toBeDefined();
+      expect(chk.schema).toEqual(HubProjectSchema);
+      expect(chk.uiSchema).toBeDefined();
+
+      const target = deepFind(chk, (entry) => {
+        return entry.scope === "/properties/name";
+      });
+      expect(target.options.color).toBe("red");
+    });
+
+    it("returns edit schema", async () => {
+      const chk = await getHubProjectEditorConfig("test.scope", "edit");
+      expect(chk.schema).toBeDefined();
+      expect(chk.schema).toEqual(HubProjectSchema);
+      expect(chk.uiSchema).toBeDefined();
     });
   });
 });

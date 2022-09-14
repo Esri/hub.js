@@ -1,10 +1,14 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
-import { Catalog, IHubProject, PermissionManager } from "../../src";
+import {
+  Catalog,
+  IHubProject,
+  PermissionManager,
+  UiSchemaElementOptions,
+} from "../../src";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubProject } from "../../src/projects/HubProject";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as HubProjectsModule from "../../src/projects/HubProjects";
-import * as SharedWithModule from "../../src/core/_internal/sharedWith";
 
 describe("HubProject Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -28,7 +32,7 @@ describe("HubProject Class:", () => {
     });
   });
 
-  describe("ctor:", () => {
+  describe("static methods:", () => {
     it("loads from minimal json", () => {
       const createSpy = spyOn(HubProjectsModule, "createProject");
       const chk = HubProject.fromJson(
@@ -89,6 +93,34 @@ describe("HubProject Class:", () => {
         expect(fetchSpy).toHaveBeenCalledTimes(1);
         expect(ex.message).toBe("ZOMG!");
       }
+    });
+
+    it("returns editorConfig", async () => {
+      const spy = spyOn(
+        HubProjectsModule,
+        "getHubProjectEditorConfig"
+      ).and.callFake(() => {
+        return Promise.resolve({ schema: {}, uiSchema: {} });
+      });
+
+      await HubProject.getEditorConfig("test.scope", "edit");
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith("test.scope", "edit", []);
+    });
+
+    it("returns editorConfig integrating options", async () => {
+      const spy = spyOn(
+        HubProjectsModule,
+        "getHubProjectEditorConfig"
+      ).and.callFake(() => {
+        return Promise.resolve({ schema: {}, uiSchema: {} });
+      });
+
+      const opts: UiSchemaElementOptions[] = [];
+
+      await HubProject.getEditorConfig("test.scope", "edit", opts);
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith("test.scope", "edit", opts);
     });
   });
 

@@ -7,6 +7,7 @@ import {
   PermissionManager,
   IWithStoreBehavior,
   IWithSharingBehavior,
+  UiSchemaElementOptions,
 } from "../core";
 
 import {
@@ -22,7 +23,6 @@ import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
 import {
   EditorConfigType,
-  SchemaElementOptions,
   IEditorConfig,
 } from "../core/behaviors/IWithEditorBehavior";
 
@@ -145,7 +145,7 @@ export class HubProject
   static async getEditorConfig(
     i18nScope: string,
     type: EditorConfigType,
-    options: SchemaElementOptions[] = []
+    options: UiSchemaElementOptions[] = []
   ): Promise<IEditorConfig> {
     // Delegate to module fn
     return getHubProjectEditorConfig(i18nScope, type, options);
