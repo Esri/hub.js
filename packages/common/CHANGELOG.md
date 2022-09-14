@@ -1,3 +1,10 @@
+# @esri/hub-common [11.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.4.1...@esri/hub-common@11.5.0) (2022-09-14)
+
+
+### Features
+
+* add isSafeRedirectUrl ([#878](https://github.com/Esri/hub.js/issues/878)) ([8c6abf6](https://github.com/Esri/hub.js/commit/8c6abf6027be2c051c7b715806c8f2590f49fbd5))
+
 ## @esri/hub-common [11.4.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.4.0...@esri/hub-common@11.4.1) (2022-09-12)
 
 
