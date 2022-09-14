@@ -136,7 +136,7 @@ export function updatePostStatus(
 }
 
 /**
- * Builds the necessary headers for post/reply create/update requests
+ * Builds the necessary request options for post/reply create/update requests
  * @param mentionUrl
  */
 function getCreateUpdateRequestOptions<
