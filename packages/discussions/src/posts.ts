@@ -11,7 +11,7 @@ import {
   IUpdatePostStatusOptions,
   IPagedResponse,
   IPost,
-  IRemovePostResponse
+  IRemovePostResponse,
 } from "./types";
 
 /**
@@ -38,8 +38,10 @@ export function searchPosts(
  */
 export function createPost(options: ICreatePostOptions): Promise<IPost> {
   const url = `/posts`;
-  options.httpMethod = "POST";
-  return request(url, options);
+  return request(url, {
+    httpMethod: "POST",
+    ...getCreateUpdateRequestOptions(options),
+  });
 }
 
 /**
@@ -51,8 +53,10 @@ export function createPost(options: ICreatePostOptions): Promise<IPost> {
  */
 export function createReply(options: ICreateReplyOptions): Promise<IPost> {
   const url = `/posts/${options.postId}/reply`;
-  options.httpMethod = "POST";
-  return request(url, options);
+  return request(url, {
+    httpMethod: "POST",
+    ...getCreateUpdateRequestOptions(options),
+  });
 }
 
 /**
@@ -93,8 +97,10 @@ export function removePost(
  */
 export function updatePost(options: IUpdatePostOptions): Promise<IPost> {
   const url = `/posts/${options.postId}`;
-  options.httpMethod = "PATCH";
-  return request(url, options);
+  return request(url, {
+    httpMethod: "PATCH",
+    ...getCreateUpdateRequestOptions(options),
+  });
 }
 
 /**
@@ -127,4 +133,21 @@ export function updatePostStatus(
   const url = `/posts/${options.postId}/status`;
   options.httpMethod = "PATCH";
   return request(url, options);
+}
+
+/**
+ * Builds the necessary request options for post/reply create/update requests
+ * @param mentionUrl
+ */
+function getCreateUpdateRequestOptions<
+  T extends IUpdatePostOptions | ICreatePostOptions | ICreateReplyOptions
+>(options: T): T {
+  const { mentionUrl, ...requestOptions } = options;
+  if (mentionUrl) {
+    requestOptions.headers = {
+      ...requestOptions.headers,
+      "mention-url": mentionUrl,
+    };
+  }
+  return requestOptions as T;
 }

@@ -620,6 +620,7 @@ export interface ISearchPostsOptions extends IHubRequestOptions {
  */
 export interface ICreatePostOptions extends IHubRequestOptions {
   params: ICreatePost | ICreateChannelPost;
+  mentionUrl?: string;
 }
 
 /**
@@ -655,6 +656,7 @@ export interface IFetchPostOptions extends IHubRequestOptions {
 export interface IUpdatePostOptions extends IHubRequestOptions {
   postId: string;
   params: IUpdatePost;
+  mentionUrl?: string;
 }
 
 /**
