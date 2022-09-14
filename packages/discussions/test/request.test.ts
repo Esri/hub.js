@@ -7,7 +7,7 @@ import { IHubRequestOptions } from "../src/types";
 describe("request", () => {
   const url = "foo";
   const options = { params: { foo: "bar" } };
-  it("resolves token before making api request", done => {
+  it("resolves token before making api request", (done) => {
     const token = "thisisatoken";
     const authenticateRequestSpy = spyOn(
       utils,
@@ -15,7 +15,7 @@ describe("request", () => {
     ).and.callFake(async () => token);
     const apiRequestSpy = spyOn(utils, "apiRequest");
 
-    request(url, (options as unknown) as IHubRequestOptions)
+    request(url, options as unknown as IHubRequestOptions)
       .then(() => {
         expect(authenticateRequestSpy).toHaveBeenCalledWith(options);
         expect(apiRequestSpy).toHaveBeenCalledWith(url, options, token);
@@ -32,7 +32,7 @@ describe("authenticateRequest", () => {
     portal,
     getToken() {
       return Promise.resolve(token);
-    }
+    },
   };
 
   let getTokenSpy: any;
@@ -40,7 +40,7 @@ describe("authenticateRequest", () => {
     getTokenSpy = spyOn(authentication, "getToken").and.callThrough();
   });
 
-  it("returns promise resolving token if token provided in request options", done => {
+  it("returns promise resolving token if token provided in request options", (done) => {
     const options = { token };
     utils
       .authenticateRequest(options as IHubRequestOptions)
@@ -51,7 +51,7 @@ describe("authenticateRequest", () => {
       .catch(() => fail());
   });
 
-  it("resolves token from authentication", done => {
+  it("resolves token from authentication", (done) => {
     const options = { authentication };
     utils
       .authenticateRequest(options as IHubRequestOptions)
@@ -82,7 +82,7 @@ describe("apiRequest", () => {
       method: "GET",
       mode: undefined,
       cache: undefined,
-      credentials: undefined
+      credentials: undefined,
     } as RequestInit;
 
     opts = { hubApiUrl } as IHubRequestOptions;
@@ -90,13 +90,13 @@ describe("apiRequest", () => {
 
   afterEach(fetchMock.restore);
 
-  it("handles failed requests", done => {
+  it("handles failed requests", (done) => {
     const status = 400;
     const message = ["go do this", "go do that"];
     fetchMock.reset();
     fetchMock.mock("*", { status, body: { message } });
 
-    utils.apiRequest(url, opts).catch(e => {
+    utils.apiRequest(url, opts).catch((e) => {
       expect(e.message).toBe("Bad Request");
       expect(e.status).toBe(status);
       expect(e.url).toBe(`${hubApiUrl}/${url}`);
@@ -107,6 +107,25 @@ describe("apiRequest", () => {
 
   it("appends headers to request options", async () => {
     const result = await utils.apiRequest(url, opts);
+
+    expect(result).toEqual(response);
+
+    const [calledUrl, calledOpts] = fetchMock.calls()[0];
+    expect(calledUrl).toEqual([hubApiUrl, url].join("/"));
+    expect(calledOpts).toEqual(expectedOpts);
+  });
+
+  it("appends additional headers to request options", async () => {
+    const expectedHeaders = new Headers(expectedOpts.headers);
+    expectedHeaders.append("mention-url", "https://some.hub.arcgis.com");
+    expectedOpts = {
+      ...expectedOpts,
+      headers: expectedHeaders,
+    };
+    const result = await utils.apiRequest(url, {
+      ...opts,
+      headers: { "mention-url": "https://some.hub.arcgis.com" },
+    });
 
     expect(result).toEqual(response);
 
@@ -134,7 +153,7 @@ describe("apiRequest", () => {
 
   it(`appends query params to url if GET`, async () => {
     const query = {
-      bar: "baz"
+      bar: "baz",
     };
     const options = { ...opts, params: query, httpMethod: "GET" };
 
@@ -151,7 +170,7 @@ describe("apiRequest", () => {
 
   it(`stringifies and appends body to request options !GET`, async () => {
     const body = {
-      bar: "baz"
+      bar: "baz",
     };
     const options = { ...opts, params: body, httpMethod: "POST" };
 

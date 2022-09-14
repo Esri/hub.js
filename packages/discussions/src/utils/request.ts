@@ -54,7 +54,7 @@ export function apiRequest<T>(
   options: IHubRequestOptions,
   token?: string
 ): Promise<T> {
-  const headers = new Headers();
+  const headers = new Headers(options.headers);
   headers.append("Content-Type", "application/json");
   if (token) {
     headers.append("Authorization", `Bearer ${token}`);
