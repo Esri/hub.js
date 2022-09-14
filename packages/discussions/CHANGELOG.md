@@ -1,3 +1,10 @@
+# @esri/hub-discussions [13.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@13.5.0...@esri/hub-discussions@13.6.0) (2022-09-14)
+
+
+### Features
+
+* pass headers through createPost createReply and updatePost ([#880](https://github.com/Esri/hub.js/issues/880)) ([c3b5377](https://github.com/Esri/hub.js/commit/c3b53776a611f2202376f6591363dda78acc0f7e))
+
 # @esri/hub-discussions [13.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@13.4.1...@esri/hub-discussions@13.5.0) (2022-09-14)
 
 
