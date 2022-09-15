@@ -22,7 +22,10 @@ export function applyUiSchemaElementOptions(
     // find the entry in the uiSchema for the elementOptions.scope,
     // and extend the elementOptions.options into the .options property
     const elConfig = deepFind(cloneSchema, (entry) => {
-      return entry.scope === elementOptions.scope;
+      // we dont want to apply this to rules
+      // Note: If this logic becomes more complex, we may need to
+      // write a function that's more specific to the uiSchema
+      return !entry.schema && entry.scope === elementOptions.scope;
     });
     if (elConfig) {
       elConfig.options = {

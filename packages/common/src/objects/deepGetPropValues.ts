@@ -1,8 +1,9 @@
 import { _deepMapValues } from ".";
+import { unique } from "../util";
 
 /**
- * Extract all the propertie names from a UI schema so we can subset the
- * json schema to only those properties.
+ * For a given property name, extract an array of the unique values of that property
+ * This was designed to work with string values, so no promises about other types
  * @param obj
  */
 
@@ -18,5 +19,5 @@ export function deepGetPropValues(
     }
     return value;
   });
-  return props;
+  return props.filter(unique);
 }

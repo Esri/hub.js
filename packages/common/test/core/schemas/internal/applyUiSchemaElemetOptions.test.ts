@@ -2,11 +2,12 @@ import { applyUiSchemaElementOptions } from "../../../../src/core/schemas/intern
 import {
   IUiSchema,
   UiSchemaElementOptions,
+  UiSchemaRuleEffects,
 } from "../../../../src/core/schemas/types";
 import { deepFind, getProp } from "../../../../src/objects";
 import { cloneObject } from "../../../../src/util";
 
-describe("appluSchemaElementOptions util:", () => {
+describe("applySchemaElementOptions util:", () => {
   it("returns a clone with out changes if no options passed", () => {
     const cloneSchema = cloneObject(SteppedUiSchema);
     expect(applyUiSchemaElementOptions(cloneSchema)).toEqual(cloneSchema);
@@ -65,10 +66,11 @@ describe("appluSchemaElementOptions util:", () => {
     ];
     const cloneSchema = cloneObject(SteppedUiSchema);
     const chk = applyUiSchemaElementOptions(cloneSchema, opts);
-    // get the property2 element out of the deep graph
+    // get the property3 element out of the deep graph
     const target = deepFind(chk, (entry) => {
-      return entry.scope === "/properties/property3";
+      return !entry.schema && entry.scope === opts[0].scope;
     });
+
     // verify that .options has been merged into the element
     expect(target.options).toEqual({
       ...{ existing: "prop" },
@@ -120,6 +122,13 @@ const SteppedUiSchema: IUiSchema = {
               labelKey: "property4.label.key",
               scope: "/properties/property4",
               type: "Control",
+              rule: {
+                effect: UiSchemaRuleEffects.DISABLE,
+                condition: {
+                  scope: "/properties/property3",
+                  schema: { enum: ["hello"] },
+                },
+              },
             },
           ],
         },

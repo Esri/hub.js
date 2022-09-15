@@ -2,9 +2,15 @@ import { getUiSchemaProps } from "../../../../src/core/schemas/internal/getUiSch
 import { IUiSchema } from "../../../../src/core/schemas/types";
 
 describe("getUiSchemaProps util:", () => {
-  it("returns prop names from a sectioned schema", () => {
+  it("returns unique prop names from a sectioned schema with deep props", () => {
     const chk = getUiSchemaProps(SectionedUiSchema);
-    expect(chk).toEqual(["property1", "property2", "property3", "property4"]);
+    expect(chk).toEqual([
+      "property1",
+      "property2",
+      "link", // there are two entries for link b/c it's an object
+      "property3",
+      "property4",
+    ]);
   });
   it("returns prop names from accordion schema", () => {
     const chk = getUiSchemaProps(AccordionUiSchema);
@@ -33,6 +39,16 @@ const SectionedUiSchema: IUiSchema = {
         {
           labelKey: "property2.label.key",
           scope: "/properties/property2",
+          type: "Control",
+        },
+        {
+          labelKey: "link.href",
+          scope: "/properties/link/properties/href",
+          type: "Control",
+        },
+        {
+          labelKey: "link.title",
+          scope: "/properties/link/properties/title",
           type: "Control",
         },
       ],

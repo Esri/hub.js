@@ -1,4 +1,5 @@
 import { deepGetPropValues } from "../../../objects/deepGetPropValues";
+import { unique } from "../../../util";
 import { IUiSchema } from "../types";
 
 /**
@@ -9,7 +10,9 @@ import { IUiSchema } from "../types";
  * @returns
  */
 export function getUiSchemaProps(uiSchema: IUiSchema): string[] {
-  return deepGetPropValues(uiSchema, "scope").map((scope: string) => {
-    return scope.split("/").pop();
-  });
+  return deepGetPropValues(uiSchema, "scope")
+    .map((scope: string) => {
+      return scope.split("/")[2];
+    })
+    .filter(unique);
 }

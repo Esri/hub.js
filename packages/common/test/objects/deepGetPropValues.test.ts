@@ -1,3 +1,4 @@
+import { UiSchemaRuleEffects } from "../../src";
 import { deepGetPropValues } from "../../src/objects/deepGetPropValues";
 import { cloneObject } from "../../src/util";
 
@@ -49,6 +50,13 @@ const testObject = {
           labelKey: "property4.label.key",
           scope: "/properties/property4",
           type: "Control",
+          rule: {
+            effect: UiSchemaRuleEffects.DISABLE,
+            condition: {
+              scope: "/properties/property3",
+              schema: { enum: ["hello"] },
+            },
+          },
         },
       ],
     },
