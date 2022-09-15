@@ -13,6 +13,16 @@ export const bBoxToExtent = (bBox: BBox) => {
   return createExtent(xmin, ymin, xmax, ymax);
 };
 
+/**
+ * Given a Bbox, convert it to a string. Some api endpoints expect a string
+ *
+ * @param {BBox} extent
+ * @return {*}  {string}
+ */
+export const bboxToString = (extent: BBox): string => {
+  return extent.map((a) => a.join(", ")).join(", ");
+};
+
 export function createExtent(
   xmin: number,
   ymin: number,
