@@ -46,7 +46,7 @@ describe("applySchemaElementOptions util:", () => {
     const chk = applyUiSchemaElementOptions(cloneSchema, opts);
     // get the property2 element out of the deep graph
     const target = deepFind(chk, (entry) => {
-      return entry.scope === "/properties/property2";
+      return entry?.scope === "/properties/property2";
     });
     // verify that .options has been merged into the element
     expect(target.options).toEqual(opts[0].options);
@@ -68,7 +68,7 @@ describe("applySchemaElementOptions util:", () => {
     const chk = applyUiSchemaElementOptions(cloneSchema, opts);
     // get the property3 element out of the deep graph
     const target = deepFind(chk, (entry) => {
-      return !entry.schema && entry.scope === opts[0].scope;
+      return !entry?.schema && entry?.scope === opts[0].scope;
     });
 
     // verify that .options has been merged into the element
@@ -116,6 +116,13 @@ const SteppedUiSchema: IUiSchema = {
               type: "Control",
               options: {
                 existing: "prop",
+              },
+              rule: {
+                effect: UiSchemaRuleEffects.DISABLE,
+                condition: {
+                  scope: "/properties/property3",
+                  schema: { enum: [undefined, ""] },
+                },
               },
             },
             {

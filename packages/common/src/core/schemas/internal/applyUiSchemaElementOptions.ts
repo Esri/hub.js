@@ -25,7 +25,7 @@ export function applyUiSchemaElementOptions(
       // we dont want to apply this to rules
       // Note: If this logic becomes more complex, we may need to
       // write a function that's more specific to the uiSchema
-      return !entry.schema && entry.scope === elementOptions.scope;
+      return !entry?.schema && entry?.scope === elementOptions.scope;
     });
     if (elConfig) {
       elConfig.options = {
