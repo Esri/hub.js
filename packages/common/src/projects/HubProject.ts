@@ -137,7 +137,7 @@ export class HubProject
    * Static method to get the editor config for for the HubProject entity.
    * @param i18nScope Translation scope to be interpolated into the schemas
    * @param type
-   * @param options Optional hash of Element component options
+   * @param options Optional hash of uiSchema element option overrides
    * Note: typescript does not have a means to specify static methods in interfaces
    * so while this is the implementation of IWithEditorBehavior, it is not enforced
    * by the compiler.
