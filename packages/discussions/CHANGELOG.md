@@ -1,3 +1,15 @@
+# @esri/hub-discussions [14.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@13.6.0...@esri/hub-discussions@14.0.0) (2022-09-16)
+
+
+### Bug Fixes
+
+* update discussion auth methods ([b4beb93](https://github.com/Esri/hub.js/commit/b4beb938c6245ebb33f9225a627b4339ecafa499))
+
+
+### BREAKING CHANGES
+
+* changed signature of canModifyPost
+
 # @esri/hub-discussions [13.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@13.5.0...@esri/hub-discussions@13.6.0) (2022-09-14)
 
 
