@@ -1,7 +1,7 @@
 import { IUser } from "@esri/arcgis-rest-auth";
 import { GroupMembership } from "@esri/arcgis-rest-portal";
-import { IChannel, IPlatformSharing } from "../types";
-import { isOrgAdmin, reduceByGroupMembership } from "./platform";
+import { IChannel, IPlatformSharing } from "../../types";
+import { isOrgAdmin, reduceByGroupMembership } from "../platform";
 
 function intersectGroups(
   membershipTypes: GroupMembership[],
@@ -86,25 +86,7 @@ export function canCreateChannel(channel: IChannel, user: IUser): boolean {
   return isChannelOrgAdmin(channel, user);
 }
 
-/**
- * Utility to determine whether User can create posts to Channel
- *
- * @export
- * @param {IChannel} channel
- * @param {IUser} user
- * @return {*}  {boolean}
- */
-export function canPostToChannel(channel: IChannel, user: IUser): boolean {
-  if (channel.access === "private") {
-    // ensure user is member of at least one
-    return intersectGroups(["owner", "admin", "member"])(user, channel);
-  } else if (channel.access === "org") {
-    return isChannelOrgMember(channel, user);
-  } else if (user.username === "anonymous") {
-    return channel.allowAnonymous;
-  }
-  return true;
-}
+export { canPostToChannel } from "./can-post-to-channel";
 
 /**
  * Utility to determine whether a Channel definition (inner) is encapsulated by another Channel's definition (outer)

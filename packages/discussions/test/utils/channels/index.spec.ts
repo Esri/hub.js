@@ -1,13 +1,12 @@
 import { IUser } from "@esri/arcgis-rest-auth";
 import { IGroup } from "@esri/arcgis-rest-types";
-import { SharingAccess, IChannel } from "../../src/types";
+import { SharingAccess, IChannel } from "../../../src/types";
 import {
   canCreateChannel,
   canModifyChannel,
-  canPostToChannel,
   canReadFromChannel,
   isChannelInclusive,
-} from "../../src/utils/channels";
+} from "../../../src/utils/channels";
 
 const orgId1 = "3ef";
 const orgId2 = "4dc";
@@ -315,75 +314,6 @@ describe("Util: Channel Access", () => {
       user.role = "org_admin";
       user.roleId = "123abc";
       expect(canCreateChannel(channel, user)).toBeFalsy();
-    });
-  });
-
-  describe("canPostToChannel", () => {
-    it("returns true for users included within private channel access", () => {
-      const channel = fakeChannel({
-        access: SharingAccess.PRIVATE,
-        orgs: [orgId1],
-        groups: [groupId1],
-      });
-      expect(canPostToChannel(channel, user)).toBeTruthy();
-    });
-    it("returns false for users not included within private channel access", () => {
-      const channel = fakeChannel({
-        access: SharingAccess.PRIVATE,
-        orgs: [orgId1],
-        groups: [groupId3],
-      });
-      expect(canPostToChannel(channel, user)).toBeFalsy();
-    });
-    it("returns true if user is org member of channel with org access", () => {
-      const channel = fakeChannel({
-        access: SharingAccess.ORG,
-        orgs: [orgId1],
-      });
-      expect(canPostToChannel(channel, user)).toBeTruthy();
-    });
-    it("returns false if user is not org member of channel with org access", () => {
-      const channel = fakeChannel({
-        access: SharingAccess.ORG,
-        orgs: [orgId2],
-      });
-      expect(canPostToChannel(channel, user)).toBeFalsy();
-    });
-    it("[GATE]: returns false if user supplies multiple orgs to channel with org access", () => {
-      const channel = fakeChannel({
-        access: SharingAccess.ORG,
-        orgs: [orgId1, orgId2],
-      });
-      expect(canPostToChannel(channel, user)).toBeFalsy();
-    });
-    it("returns true if user is anonymous and channel is public and allows anonymous posts", () => {
-      const channel = fakeChannel({
-        access: SharingAccess.PUBLIC,
-        orgs: [orgId2],
-        allowAnonymous: true,
-      });
-      const _user = fakeUser({
-        username: "anonymous",
-      });
-      expect(canPostToChannel(channel, _user)).toBeTruthy();
-    });
-    it("returns false is user is anonymous and channel is public and does not allow anonymous posts", () => {
-      const channel = fakeChannel({
-        access: SharingAccess.PUBLIC,
-        orgs: [orgId2],
-        allowAnonymous: false,
-      });
-      const _user = fakeUser({
-        username: "anonymous",
-      });
-      expect(canPostToChannel(channel, _user)).toBeFalsy();
-    });
-    it("returns true if channel is public", () => {
-      const channel = fakeChannel({
-        access: SharingAccess.PUBLIC,
-        orgs: [orgId2],
-      });
-      expect(canPostToChannel(channel, user)).toBeTruthy();
     });
   });
 });

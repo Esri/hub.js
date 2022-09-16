@@ -58,18 +58,25 @@ export function isDiscussable(subject: IGroup | IItem | IHubContent) {
 }
 
 /**
- * Determines if the given user has sufficient privileges to modify the given post
+ * Determines if the given user has sufficient privileges to modify a post's editable attributes
  * @param post An IPost object
  * @param channel An IChannel object
  * @param user An IUser object
  * @returns true if the user can modify the post
  */
-export function canModifyPost(
-  post: IPost,
-  channel: IChannel,
-  user: IUser
-): boolean {
-  return post.creator === user.username || canModifyChannel(channel, user);
+export function canModifyPost(post: IPost, user: IUser): boolean {
+  return post.creator === user.username;
+}
+
+/**
+ * Determines if the given user has sufficient privileges to modify a post's status
+ * @param post An IPost object
+ * @param channel An IChannel object
+ * @param user An IUser object
+ * @returns true if the user can modify the post
+ */
+export function canModifyPostStatus(channel: IChannel, user: IUser): boolean {
+  return canModifyChannel(channel, user);
 }
 
 /**
@@ -84,7 +91,7 @@ export function canDeletePost(
   channel: IChannel,
   user: IUser
 ): boolean {
-  return canModifyPost(post, channel, user);
+  return canModifyPost(post, user) || canModifyChannel(channel, user);
 }
 
 export const MENTION_ATTRIBUTE = "data-mention";

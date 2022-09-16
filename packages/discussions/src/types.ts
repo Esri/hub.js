@@ -2,6 +2,7 @@ import { IHubRequestOptions as _IHubRequestOptions } from "@esri/hub-common";
 import {
   IPagedResponse as IRestPagedResponse,
   IPagingParams,
+  IUser,
 } from "@esri/arcgis-rest-types";
 import { Geometry } from "geojson";
 
@@ -243,6 +244,20 @@ export interface IWithSettings {
   blockwords?: string[];
 }
 
+export interface IChannelACL {
+  anonymous?: IPermission;
+  authenticated?: IPermission;
+  groups?: {
+    [key: string]: IPermission;
+  };
+  orgs?: {
+    [key: string]: IPermission;
+  };
+  users: {
+    [key: string]: IPermission;
+  };
+}
+
 /**
  * channel definition properties, mirroring AGOL sharing ACL & IPlatformSharing
  *
@@ -253,6 +268,7 @@ export interface IWithSharing {
   access: SharingAccess;
   groups?: string[];
   orgs?: string[];
+  acl?: IChannelACL;
 }
 
 /**
@@ -835,4 +851,8 @@ export interface IDiscussionsMentionMeta {
   discussion: string;
   postId: string;
   replyId?: string;
+}
+
+export interface IDiscussionsUser extends IUser {
+  username?: string | null;
 }
