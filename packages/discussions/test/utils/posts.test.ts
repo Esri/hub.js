@@ -6,6 +6,7 @@ import {
   isDiscussable,
   parseDiscussionURI,
   canModifyPost,
+  canModifyPostStatus,
   canDeletePost,
   parseMentionedUsers,
   MENTION_ATTRIBUTE,
@@ -83,38 +84,42 @@ describe("isDiscussable", () => {
 
 describe("canModifyPost", () => {
   it("returns true when the user created the post", () => {
-    const canModifyChannelSpy = spyOn(channelUtils, "canModifyChannel");
     const post = { id: "post1", creator: "user1" } as IPost;
     const user = { username: "user1" } as IUser;
-    const channel = { id: "channel1" } as IChannel;
-    const result = canModifyPost(post, channel, user);
+    const result = canModifyPost(post, user);
     expect(result).toBe(true);
-    expect(canModifyChannelSpy).not.toHaveBeenCalled();
   });
 
-  it("returns when user can modify channel", () => {
+  it("returns false when user did not create the post", () => {
+    const post = { id: "post1", creator: "user1" } as IPost;
+    const user = { username: "user2" } as IUser;
+    const result = canModifyPost(post, user);
+    expect(result).toBe(false);
+  });
+});
+
+describe("canModifyPostStatus", () => {
+  it("returns true when user can modify channel", () => {
     const canModifyChannelSpy = spyOn(
       channelUtils,
       "canModifyChannel"
     ).and.returnValue(true);
-    const post = { id: "post1", creator: "user1" } as IPost;
     const user = { username: "user2" } as IUser;
     const channel = { id: "channel1" } as IChannel;
-    const result = canModifyPost(post, channel, user);
+    const result = canModifyPostStatus(channel, user);
     expect(result).toBe(true);
     expect(canModifyChannelSpy).toHaveBeenCalledTimes(1);
     expect(canModifyChannelSpy).toHaveBeenCalledWith(channel, user);
   });
 
-  it("returns false when user did not create the post and user cannot modify channel", () => {
+  it("returns false when user cannot modify channel", () => {
     const canModifyChannelSpy = spyOn(
       channelUtils,
       "canModifyChannel"
     ).and.returnValue(false);
-    const post = { id: "post1", creator: "user1" } as IPost;
     const user = { username: "user2" } as IUser;
     const channel = { id: "channel1" } as IChannel;
-    const result = canModifyPost(post, channel, user);
+    const result = canModifyPostStatus(channel, user);
     expect(result).toBe(false);
     expect(canModifyChannelSpy).toHaveBeenCalledTimes(1);
     expect(canModifyChannelSpy).toHaveBeenCalledWith(channel, user);
