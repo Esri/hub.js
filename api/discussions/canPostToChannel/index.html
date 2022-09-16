@@ -1791,6 +1791,10 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/discussions/canModifyPostStatus/" class="tsd-kind-icon padding-right-1">canModifyPostStatus</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/discussions/canPostToChannel/" class="is-active tsd-kind-icon padding-right-1">canPostToChannel</a>
             </li>
             
@@ -1955,6 +1959,10 @@
             </li>
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/discussions/IChannelACL/" class="tsd-kind-icon padding-right-1">IChannelACL</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/discussions/ICreateChannel/" class="tsd-kind-icon padding-right-1">ICreateChannel</a>
             </li>
             
@@ -1996,6 +2004,10 @@
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/discussions/IDiscussionsMentionMeta/" class="tsd-kind-icon padding-right-1">IDiscussionsMentionMeta</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/discussions/IDiscussionsUser/" class="tsd-kind-icon padding-right-1">IDiscussionsUser</a>
             </li>
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
@@ -3023,15 +3035,14 @@
 
 
 
-  <p>Utility to determine whether User can create posts to Channel</p>
-
+  
 
   
 
   <div class="panel padding-leader-half padding-trailer-half padding-right-quarter padding-left-half trailer-half">
     <ul class="list-plain tsd-signatures tsd-kind-function trailer-0 leader-0">
       
-        <li class="code-face tsd-signature tsd-kind-icon trailer-0 leader-0">canPostToChannel<span class="text-light-gray">(</span>channel: <i><a href="/hub.js/api/discussions/IChannel/">IChannel</a></i>, user: <i>IUser</i><span class="text-light-gray">) : </span><i class="text-purple">boolean</i></li>
+        <li class="code-face tsd-signature tsd-kind-icon trailer-0 leader-0">canPostToChannel<span class="text-light-gray">(</span>channel: <i><a href="/hub.js/api/discussions/IChannel/">IChannel</a></i>, user: <i><a href="/hub.js/api/discussions/IDiscussionsUser/">IDiscussionsUser</a></i><span class="text-light-gray">) : </span><i class="text-purple">boolean</i></li>
       
     </ul>
   </div>
@@ -3100,7 +3111,7 @@
 
               
             </td>
-            <td class="code-face"><i>IUser</i></td>
+            <td class="code-face"><i><a href="/hub.js/api/discussions/IDiscussionsUser/">IDiscussionsUser</a></i></td>
             <td class="code-face"></td>
             <td class="body-face api-param-comment">
               
@@ -3123,8 +3134,7 @@
     
   
 
-  <h2 class="font-size-1 trailer-half">Returns</h2><p>{boolean}</p>
-
+  <h2 class="font-size-1 trailer-half">Returns</h2>
 
   <div class="fonts-size--1 panel padding-leader-half padding-trailer-half padding-right-half padding-left-half trailer-half">
   <i class="text-purple">boolean</i>
@@ -3137,12 +3147,8 @@
 <hr class="leader-half trailer-half">
 
 
-  
-    
-  
 
-
-<small class="font-size--2">Function defined in <a href="https://github.com/Esri/hub.js/blob/master/discussions/src/utils/channels.ts#L97">discussions/src/utils/channels.ts:97</a></small>
+<small class="font-size--2">Function defined in <a href="https://github.com/Esri/hub.js/blob/master/discussions/src/utils/channels/can-post-to-channel.ts#L23">discussions/src/utils/channels/can-post-to-channel.ts:23</a></small>
 
 
     </div>
