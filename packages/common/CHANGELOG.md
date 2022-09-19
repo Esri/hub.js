@@ -1,3 +1,10 @@
+# @esri/hub-common [11.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.5.0...@esri/hub-common@11.6.0) (2022-09-19)
+
+
+### Features
+
+* add editor config static method to HubProject class ([#879](https://github.com/Esri/hub.js/issues/879)) ([b0292ea](https://github.com/Esri/hub.js/commit/b0292ea2efde44b636d783d190e0c56e4c55429e))
+
 # @esri/hub-common [11.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.4.1...@esri/hub-common@11.5.0) (2022-09-14)
 
 
