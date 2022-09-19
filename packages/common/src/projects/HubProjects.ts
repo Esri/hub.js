@@ -24,6 +24,11 @@ import {
   getFamily,
   IHubRequestOptions,
   getItemHomeUrl,
+  interpolate,
+  EditorConfigType,
+  UiSchemaElementOptions,
+  IEditorConfig,
+  deepFind,
 } from "../index";
 import {
   IItem,
@@ -41,6 +46,13 @@ import { fetchItemEnrichments } from "../items/_enrichments";
 import { getHubRelativeUrl } from "../content/_internal";
 import { DEFAULT_PROJECT, DEFAULT_PROJECT_MODEL } from "./defaults";
 import { getBasePropertyMap } from "../core/_internal/getBasePropertyMap";
+import {
+  HubProjectEditUiSchema,
+  HubProjectCreateUiSchema,
+  HubProjectSchema,
+} from "../core/schemas";
+import { filterSchemaToUiSchema } from "../core/schemas/internal";
+import { applyUiSchemaElementOptions } from "../core/schemas/internal/applyUiSchemaElementOptions";
 
 /**
  * Returns an Array of IPropertyMap objects
@@ -279,4 +291,46 @@ export async function enrichProjectSearchResult(
   );
 
   return result;
+}
+
+/**
+ * Get the editor config for for the HubProject entity.
+ * @param i18nScope Translation scope to be interpolated into the schemas
+ * @param type
+ * @param options Optional hash of Element component options
+ * @returns
+ */
+export async function getHubProjectEditorConfig(
+  i18nScope: string,
+  type: EditorConfigType,
+  options: UiSchemaElementOptions[] = []
+): Promise<IEditorConfig> {
+  // schema is always the entire schema
+  let schema = cloneObject(HubProjectSchema);
+  // uiSchema is the complete (edit) schema, unless otherwise specified
+  let uiSchema = cloneObject(HubProjectEditUiSchema);
+  // by default we don't need to filter the schema b/c it's the entire schema
+  let filterSchema = false;
+
+  // if another schema is requested, we need to use that UI schema
+  // and the subset the overall schema down to just the properties
+  // used in the UI schema
+  switch (type) {
+    case "create":
+      uiSchema = cloneObject(HubProjectCreateUiSchema);
+      filterSchema = true;
+      break;
+  }
+
+  if (filterSchema) {
+    // filter out properties not used in the UI schema
+    schema = filterSchemaToUiSchema(schema, uiSchema);
+  }
+
+  // interpolate the i18n scope into the uiSchema
+  uiSchema = interpolate(uiSchema, { i18nScope });
+  // apply the options
+  uiSchema = applyUiSchemaElementOptions(uiSchema, options);
+
+  return Promise.resolve({ schema, uiSchema });
 }
