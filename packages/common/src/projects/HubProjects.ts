@@ -24,7 +24,6 @@ import {
   getFamily,
   IHubRequestOptions,
   getItemHomeUrl,
-  bboxToString,
 } from "../index";
 import {
   IItem,
@@ -90,10 +89,6 @@ export async function createProject(
   const mapper = new PropertyMapper<Partial<IHubProject>>(getPropertyMap());
   // create model from object, using the default model as a starting point
   let model = mapper.objectToModel(project, cloneObject(DEFAULT_PROJECT_MODEL));
-  // Update extent from bbox to string
-  if (model.extent) {
-    model.extent = bboxToString(project.extent);
-  }
   // create the item
   model = await createModel(model, requestOptions);
   // map the model back into a IHubProject
@@ -126,10 +121,6 @@ export async function updateProject(
   // we are not attempting to handle "concurrent edit" conflict resolution
   // but this is where we would apply that sort of logic
   const modelToUpdate = mapper.objectToModel(project, model);
-  // Update extent from bbox to string
-  if (model.extent) {
-    model.extent = bboxToString(project.extent);
-  }
   // update the backing item
   const updatedModel = await updateModel(modelToUpdate, requestOptions);
   // now map back into a project and return that

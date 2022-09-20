@@ -12,7 +12,7 @@ import {
   updateItem,
 } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { cloneObject, IModel, getItemBySlug } from "..";
+import { cloneObject, IModel, getItemBySlug, bboxToString } from "..";
 
 /**
  * Gets the full item/data model for an item id
@@ -88,6 +88,13 @@ export function createModel(
   // const clone = cloneObject(model) as IModel;
   const item = cloneObject(model.item);
   item.data = cloneObject(model.data);
+  // Update extent from bbox to string
+  // TODO: remove below logic once rest.js is fixed.
+  if (item.extent && typeof item.extent !== "string") {
+    // THIS IS A HACK TO WORK AROUND REST.JS BUG
+    // and normally should never be done.
+    item.extent = bboxToString(item.extent) as unknown as number[][];
+  }
   const opts = {
     item,
     ...requestOptions,
@@ -120,6 +127,13 @@ export function updateModel(
   // const clone = cloneObject(model);
   const item = cloneObject(model.item);
   item.data = cloneObject(model.data);
+  // Update extent from bbox to string
+  // TODO: remove below logic once rest.js is fixed.
+  if (item.extent && typeof item.extent !== "string") {
+    // THIS IS A HACK TO WORK AROUND REST.JS BUG
+    // and normally should never be done.
+    item.extent = bboxToString(item.extent) as unknown as number[][];
+  }
   const opts = {
     item,
     ...requestOptions,
