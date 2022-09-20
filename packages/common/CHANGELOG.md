@@ -1,3 +1,10 @@
+# @esri/hub-common [11.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.6.0...@esri/hub-common@11.7.0) (2022-09-20)
+
+
+### Features
+
+* project extents are converted to strings on create/update ([#882](https://github.com/Esri/hub.js/issues/882)) ([520df57](https://github.com/Esri/hub.js/commit/520df579007e09b4314adc02fd4dfece51b9fb85))
+
 # @esri/hub-common [11.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.5.0...@esri/hub-common@11.6.0) (2022-09-19)
 
 
