@@ -116,7 +116,7 @@ const SITE_ITEM_ENRICH: portalModule.IItem = {
   thumbnail: "thumbnail/bar.png",
   // documentation: null,
   extent: [],
-  categories: [],
+  categories: ["category"],
   // spatialReference: null,
   accessInformation: null,
   licenseInfo: null,
@@ -484,6 +484,8 @@ describe("HubSites:", () => {
       expect(chk.updatedDate).toEqual(new Date(ITM.modified));
       expect(chk.updatedDateSource).toEqual("item.modified");
       expect(chk.family).toEqual("site");
+      expect(chk.tags).toEqual(ITM.tags);
+      expect(chk.categories).toEqual(ITM.categories);
       expect(chk.links?.self).toEqual(ITM.url);
       expect(chk.links?.siteRelative).toEqual(`/content/${ITM.id}`);
       expect(chk.links?.thumbnail).toEqual(

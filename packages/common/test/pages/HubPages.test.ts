@@ -30,12 +30,12 @@ const PAGE_ITEM: IItem = {
   ],
   description:
     "DO NOT DELETE OR MODIFY THIS ITEM. This item is managed by the ArcGIS Hub application. To make changes to this page, please visit https://hub.arcgis.com/admin/",
-  tags: [],
+  tags: ["tag"],
   snippet: null,
   thumbnail: "thumbnail/foo.png",
   documentation: null,
   extent: [],
-  categories: [],
+  categories: ["category"],
   spatialReference: null,
   accessInformation: null,
   licenseInfo: null,
@@ -110,6 +110,8 @@ describe("HubPages Module", () => {
       expect(chk.updatedDate).toEqual(new Date(ITM.modified));
       expect(chk.updatedDateSource).toEqual("item.modified");
       expect(chk.family).toEqual("document");
+      expect(chk.tags).toEqual(ITM.tags);
+      expect(chk.categories).toEqual(ITM.categories);
       expect(chk.links.self).toEqual(
         `https://some-server.com/gis/home/item.html?id=${ITM.id}`
       );
