@@ -31,9 +31,29 @@ export const HubProjectCreateUiSchema: IUiSchema = {
   type: "Layout",
   elements: [
     {
-      labelKey: "routes.projects.project.edit.name",
+      labelKey: "{{i18nScope}}.name.label",
       scope: "/properties/name",
       type: "Control",
+    },
+    {
+      labelKey: "{{i18nScope}}.summary.label",
+      scope: "/properties/summary",
+      type: "Control",
+      options: {
+        helperText: {
+          labelKey: "{{i18nScope}}.summary.helperText",
+        },
+      },
+    },
+    {
+      labelKey: "{{i18nScope}}.description.label",
+      scope: "/properties/description",
+      type: "Control",
+      options: {
+        helperText: {
+          labelKey: "{{i18nScope}}.description.helperText",
+        },
+      },
     },
   ],
 };
