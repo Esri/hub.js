@@ -409,7 +409,7 @@ describe("HubProjects:", () => {
     it("returns create schema", async () => {
       const chk = await getHubProjectEditorConfig("test.scope", "create");
       expect(chk.schema).toBeDefined();
-      expect(chk.schema).not.toEqual(HubProjectSchema);
+      expect(chk.schema).toEqual(HubProjectSchema);
       expect(chk.uiSchema).toBeDefined();
     });
 
