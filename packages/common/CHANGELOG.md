@@ -1,3 +1,10 @@
+# @esri/hub-common [11.8.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.7.0...@esri/hub-common@11.8.0) (2022-09-21)
+
+
+### Features
+
+* hub project create ui schema update ([#883](https://github.com/Esri/hub.js/issues/883)) ([b92954a](https://github.com/Esri/hub.js/commit/b92954a8cff3becdd1caee5665a82fc51e4879a2))
+
 # @esri/hub-common [11.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.6.0...@esri/hub-common@11.7.0) (2022-09-20)
 
 
