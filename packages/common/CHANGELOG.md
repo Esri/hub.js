@@ -1,3 +1,10 @@
+# @esri/hub-common [11.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.8.0...@esri/hub-common@11.9.0) (2022-09-22)
+
+
+### Features
+
+* **hub-common:** add tags and categories to item-backed search results and to the IHubSearchResult ([fedd16b](https://github.com/Esri/hub.js/commit/fedd16be165c45acb90f0f2e9bf2d8682d5d35e1))
+
 # @esri/hub-common [11.8.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.7.0...@esri/hub-common@11.8.0) (2022-09-21)
 
 
