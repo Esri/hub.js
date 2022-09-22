@@ -14,6 +14,7 @@ export function expandPredicate(predicate: IPredicate): IPredicate {
   const dateProps = ["created", "modified", "lastlogin"];
   const copyProps = [
     "filterType",
+    "categories",
     "term",
     "searchUserAccess",
     "isopendata",
