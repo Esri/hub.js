@@ -87,7 +87,7 @@ function serializeFilter(filter: IFilter): ISearchOptions {
 function serializePredicate(predicate: IPredicate): ISearchOptions {
   const dateProps = ["created", "modified"];
   const boolProps = ["isopendata"];
-  const passThroughProps = ["searchUserAccess", "searchUserName"];
+  const passThroughProps = ["searchUserAccess", "searchUserName", "categories"];
   const specialProps = [
     "filterType",
     "term",
@@ -97,9 +97,9 @@ function serializePredicate(predicate: IPredicate): ISearchOptions {
   ];
   const portalAllowList = [
     "access",
-    "categories",
     "capabilities",
     "created",
+    "categories",
     "description",
     "disabled",
     "email",
@@ -133,7 +133,6 @@ function serializePredicate(predicate: IPredicate): ISearchOptions {
     "username",
   ];
 
-  let qCount = 0;
   // TODO: Look at using reduce vs .map and remove the `.filter`
   const opts = Object.entries(predicate)
     .map(([key, value]) => {
@@ -143,25 +142,21 @@ function serializePredicate(predicate: IPredicate): ISearchOptions {
       if (portalAllowList.includes(key)) {
         const so: ISearchOptions = { q: "" };
         if (!specialProps.includes(key) && key !== "term") {
-          qCount++;
           so.q = serializeMatchOptions(key, value);
         }
         if (dateProps.includes(key)) {
-          qCount++;
           so.q = serializeDateRange(
             key,
             value as unknown as IDateRange<number>
           );
         }
         if (boolProps.includes(key)) {
-          qCount++;
           so.q = `${key}:${value}`;
         }
         if (passThroughProps.includes(key)) {
           so[key] = value;
         }
         if (key === "term") {
-          qCount++;
           so.q = value;
         }
         return so;

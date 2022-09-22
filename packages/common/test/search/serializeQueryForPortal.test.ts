@@ -30,6 +30,27 @@ describe("ifilter-utils:", () => {
         '(water AND modified:[1689716790912 TO 1652808629198] AND (type:"Web Map" OR type:"Hub Project"))'
       );
     });
+    it("handles categories", () => {
+      const p: IPredicate = {
+        term: "water",
+        categories: "/Categories/Lakes",
+      };
+
+      const query: IQuery = {
+        targetEntity: "item",
+        filters: [
+          {
+            operation: "AND",
+            predicates: [p],
+          },
+        ],
+      };
+
+      const chk = serializeQueryForPortal(query);
+
+      expect(chk.q).toEqual("(water)");
+      expect(chk.categories).toEqual("/Categories/Lakes");
+    });
     it("blocks props not in portal allow list", () => {
       const p: IPredicate = {
         term: "water",
