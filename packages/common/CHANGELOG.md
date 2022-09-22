@@ -1,3 +1,11 @@
+# @esri/hub-common [11.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.9.0...@esri/hub-common@11.10.0) (2022-09-22)
+
+
+### Features
+
+* support serializing categories into separate param on ISearchOptions ([#888](https://github.com/Esri/hub.js/issues/888)) ([2fd11cb](https://github.com/Esri/hub.js/commit/2fd11cbe2be35aad37b054fb09d51bdba92f9747))
+* **hub-common:** lazy-load XML parsing library before parsing item metadata ([b55449c](https://github.com/Esri/hub.js/commit/b55449c1c1050602fc39cd21899a3aa127b94d96))
+
 # @esri/hub-common [11.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.8.0...@esri/hub-common@11.9.0) (2022-09-22)
 
 
