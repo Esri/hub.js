@@ -10,8 +10,6 @@ import {
   updateProject,
   IHubRequestOptions,
   enrichProjectSearchResult,
-  IQuery,
-  IHubSearchOptions,
   getHubProjectEditorConfig,
   UiSchemaElementOptions,
   HubProjectSchema,
@@ -80,7 +78,7 @@ const PROJECT_ITEM_ENRICH: portalModule.IItem = {
   thumbnail: "thumbnail/my-project.png",
   // documentation: null,
   extent: [],
-  categories: [],
+  categories: ["category"],
   // spatialReference: null,
   accessInformation: null,
   licenseInfo: "CC-BY-SA",
@@ -371,6 +369,8 @@ describe("HubProjects:", () => {
       expect(chk.updatedDate).toEqual(new Date(ITM.modified));
       expect(chk.updatedDateSource).toEqual("item.modified");
       expect(chk.family).toEqual("project");
+      expect(chk.tags).toEqual(ITM.tags);
+      expect(chk.categories).toEqual(ITM.categories);
       expect(chk.links?.self).toEqual(
         `https://some-server.com/gis/home/item.html?id=${ITM.id}`
       );

@@ -31,6 +31,8 @@ export async function enrichContentSearchResult(
     type: item.type,
     name: item.title,
     owner: item.owner,
+    tags: item.tags,
+    categories: item.categories,
     summary: item.snippet || item.description,
     createdDate: new Date(item.created),
     createdDateSource: "item.created",

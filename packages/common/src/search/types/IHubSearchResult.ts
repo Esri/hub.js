@@ -36,6 +36,16 @@ export interface IHubSearchResult extends IHubEntityBase {
   owner?: string;
 
   /**
+   * Tags; Applies to Items
+   */
+  tags?: string[];
+
+  /**
+   * Categories; Applies to Items
+   */
+  categories?: string[];
+
+  /**
    * Links to related things
    */
   links?: {

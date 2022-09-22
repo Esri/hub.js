@@ -33,7 +33,7 @@ const FEATURE_SERVICE_ITEM: IItem = {
     [20.9847, 37.0075],
     [26.6331, 41.7264],
   ],
-  categories: [],
+  categories: ["category"],
   spatialReference: null,
   accessInformation: null,
   licenseInfo: null,
@@ -106,6 +106,8 @@ describe("HubContent module:", () => {
       expect(chk.updatedDate).toEqual(new Date(ITM.modified));
       expect(chk.updatedDateSource).toEqual("item.modified");
       expect(chk.family).toEqual("map");
+      expect(chk.tags).toEqual(ITM.tags);
+      expect(chk.categories).toEqual(ITM.categories);
       expect(chk.links.self).toEqual(
         `https://some-server.com/gis/home/item.html?id=${ITM.id}`
       );
