@@ -15,7 +15,6 @@ import { IPipeable, createOperationPipeline } from "../utils";
 import OperationStack from "../OperationStack";
 // TODO: move these functions here under /items
 import { getItemMetadata } from "@esri/arcgis-rest-portal";
-import { parse } from "fast-xml-parser";
 import { getItemOrgId } from "../content/_internal";
 import { fetchOrg } from "../org";
 
@@ -38,11 +37,14 @@ export type ItemOrServerEnrichment =
   | keyof IServerEnrichments;
 
 /**
- * Parse metadataxml into json object
+ * Lazy load XML parsing library and parse metadata XML into JSON
  * @param metadataXml
  * @returns
  */
-function parseMetadataXml(metadataXml: string): any {
+async function parseMetadataXml(metadataXml: string): Promise<any> {
+  // lazy load xml parsing library
+  const { parse } = await import("fast-xml-parser");
+  // return XML parsed as JSON
   const opts = {
     // options for fastXmlParser to read tag attrs
     ignoreAttributes: false,
@@ -58,20 +60,21 @@ function parseMetadataXml(metadataXml: string): any {
  * @param id item id
  * @param requestOptions
  */
-function fetchContentMetadata(
+async function fetchContentMetadata(
   id: string,
   requestOptions?: IHubRequestOptions
 ): Promise<any> {
-  return getItemMetadata(id, requestOptions)
-    .then((metadataXml) => parseMetadataXml(metadataXml))
-    .catch(() => {
-      // many items don't have metadata and the request will 404
-      // in these cases we don't want to treat it as an error
-      // content.metadata === null signals to consumers that
-      // we attempted to fetch the metadata, but it doesn't exist
-      // TODO: we should probably still throw the error if it's not a 404
-      return null;
-    });
+  try {
+    const metadataXml = await getItemMetadata(id, requestOptions);
+    return await parseMetadataXml(metadataXml);
+  } catch (_) {
+    // many items don't have metadata and the request will 404
+    // in these cases we don't want to treat it as an error
+    // content.metadata === null signals to consumers that
+    // we attempted to fetch the metadata, but it doesn't exist
+    // TODO: we should probably still throw the error if it's not a 404
+    return null;
+  }
 }
 
 const enrichGroupIds = (
