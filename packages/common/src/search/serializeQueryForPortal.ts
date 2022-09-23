@@ -87,7 +87,12 @@ function serializeFilter(filter: IFilter): ISearchOptions {
 function serializePredicate(predicate: IPredicate): ISearchOptions {
   const dateProps = ["created", "modified"];
   const boolProps = ["isopendata"];
-  const passThroughProps = ["searchUserAccess", "searchUserName", "categories"];
+  const passThroughProps = [
+    "searchUserAccess",
+    "searchUserName",
+    "categoriesAsParam",
+    "categoryFilter",
+  ];
   const specialProps = [
     "filterType",
     "term",
@@ -100,6 +105,8 @@ function serializePredicate(predicate: IPredicate): ISearchOptions {
     "capabilities",
     "created",
     "categories",
+    "categoriesAsParam",
+    "categoryFilter",
     "description",
     "disabled",
     "email",

@@ -33,7 +33,12 @@ describe("ifilter-utils:", () => {
     it("handles categories", () => {
       const p: IPredicate = {
         term: "water",
-        categories: "/Categories/Lakes",
+        categories: { any: ["Lakes", "Rivers"] },
+        categoriesAsParam: [
+          ["/Categories/Lakes", "/Categories/Rivers"],
+          ["/Categories/Land"],
+        ],
+        categoryFilter: "WAT",
       };
 
       const query: IQuery = {
@@ -48,8 +53,14 @@ describe("ifilter-utils:", () => {
 
       const chk = serializeQueryForPortal(query);
 
-      expect(chk.q).toEqual("(water)");
-      expect(chk.categories).toEqual("/Categories/Lakes");
+      expect(chk.q).toEqual(
+        `(water AND (categories:"Lakes" OR categories:"Rivers"))`
+      );
+      expect(chk.categoriesAsParam).toEqual([
+        ["/Categories/Lakes", "/Categories/Rivers"],
+        ["/Categories/Land"],
+      ]);
+      expect(chk.categoryFilter).toEqual("WAT");
     });
     it("blocks props not in portal allow list", () => {
       const p: IPredicate = {
