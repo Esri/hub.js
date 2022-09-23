@@ -1,3 +1,10 @@
+# @esri/hub-common [11.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.10.0...@esri/hub-common@11.11.0) (2022-09-23)
+
+
+### Features
+
+* add support for categoryFilter and categoryAsParam ([#890](https://github.com/Esri/hub.js/issues/890)) ([6ee0960](https://github.com/Esri/hub.js/commit/6ee0960faed55ffbe778970a07ccca8087cf9e37))
+
 # @esri/hub-common [11.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.9.0...@esri/hub-common@11.10.0) (2022-09-22)
 
 
