@@ -1,3 +1,11 @@
+# @esri/hub-common [11.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.11.0...@esri/hub-common@11.12.0) (2022-09-23)
+
+
+### Features
+
+* **hub-common:** add titleize to utils ([eaae268](https://github.com/Esri/hub.js/commit/eaae268b4e4f8cffca28cb814ce5345f825c37a1))
+* **hub-common:** capitalize every word in a sentence and remove extra white space ([f4b1a97](https://github.com/Esri/hub.js/commit/f4b1a97c27ebcd74b287cd890130b845154093c7))
+
 # @esri/hub-common [11.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.10.0...@esri/hub-common@11.11.0) (2022-09-23)
 
 
