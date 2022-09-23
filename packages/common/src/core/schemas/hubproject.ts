@@ -141,5 +141,15 @@ export const HubProjectEditUiSchema: IUiSchema = {
         },
       },
     },
+    {
+      labelKey: "{{i18nScope}}.status.label",
+      scope: "/properties/status",
+      type: "Control",
+      options: {
+        enum: {
+          i18nScope: "{{i18nScope}}.status.enum",
+        },
+      },
+    },
   ],
 };
