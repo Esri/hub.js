@@ -17,3 +17,4 @@ export * from "./is-update-group";
 export * from "./revertable-tasks";
 export * from "./sessionLocalStorage";
 export * from "./dasherize";
+export * from "./titleize";
