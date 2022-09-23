@@ -7,6 +7,7 @@ import { capitalize } from "../util";
  */
 export function titleize(value: string) {
   return value
+    .replace(/\s\s+/g, " ")
     .split(" ")
     .map((k) => capitalize(k))
     .join(" ");
