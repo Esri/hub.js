@@ -3,11 +3,13 @@ import { ArcGISContextManager } from "../ArcGISContextManager";
 import { IWithCatalogBehavior } from "../core/behaviors/IWithCatalogBehavior";
 import HubError from "../HubError";
 import { cloneObject } from "../util";
-import { mapBy } from "../utils";
+import { isGuid, mapBy } from "../utils";
 import { Collection } from "./Collection";
 import { fetchCatalog } from "./fetchCatalog";
 import { hubSearch } from "./hubSearch";
 import {
+  IContainsOptions,
+  IContainsResponse,
   IHubSearchOptions,
   IHubSearchResponse,
   IHubSearchResult,
@@ -16,6 +18,7 @@ import {
   EntityType,
   ICatalogScope,
   IHubCatalog,
+  IPredicate,
   IQuery,
 } from "./types/IHubCatalog";
 import { upgradeCatalogSchema } from "./upgradeCatalogSchema";
@@ -38,6 +41,7 @@ export interface ISearchResponseHash
 export class Catalog implements IHubCatalog {
   private _context: IArcGISContext;
   private _catalog: IHubCatalog;
+  private _containsCache: Record<string, IContainsResponse> = {};
 
   // internal - use static factory methods
   private constructor(catalog: IHubCatalog, context: IArcGISContext) {
@@ -212,6 +216,92 @@ export class Catalog implements IHubCatalog {
       // ensure it's an item search
       options.targetEntity = "item";
       return this.search(query, options);
+    }
+  }
+
+  /**
+   * Does the Catalog contain a specific piece of content?
+   * @param identifier id or slug of the content
+   * @param options entityType if known; otherwise will execute one search for each scope
+   * @returns
+   */
+  async contains(
+    identifier: string,
+    options: IContainsOptions
+  ): Promise<IContainsResponse> {
+    const catalog = this._catalog;
+    // check if we have cached results for this identifier
+    if (this._containsCache[identifier]) {
+      return Promise.resolve(this._containsCache[identifier]);
+    } else {
+      // construct the response
+      const response: IContainsResponse = {
+        identifier,
+        isContained: false,
+      };
+      // construct the predicate
+      const pred: IPredicate = {};
+
+      if (isGuid(identifier)) {
+        pred.id = identifier;
+      } else {
+        // treat as slug
+        pred.typekeywords = `slug|${identifier}`;
+      }
+      // construct the queries
+      const queries = [];
+      if (options.entityType) {
+        if (this.scopes[options.entityType]) {
+          queries.push({
+            targetEntity: options.entityType,
+            filters: [{ predicates: [pred] }],
+          });
+        } else {
+          // no scope for this entity type, thus it cannot be in the catalog
+          this._containsCache[identifier] = response;
+          return Promise.resolve(response);
+        }
+      } else {
+        // Construct a query for each scope
+        Object.keys(catalog.scopes).forEach((type) => {
+          queries.push({
+            targetEntity: type as EntityType,
+            filters: [{ predicates: [pred] }],
+          });
+        });
+      }
+      // execute the queries
+      const results = await Promise.all(
+        queries.map((q) =>
+          // We set num to be 10 to account for api not doing exact matching on slugs
+          this.search(q, { targetEntity: q.targetEntity, num: 10 })
+        )
+      );
+
+      // if any of the queries returned a result, then the entity is contained
+      response.isContained = results.reduce((isContained, queryResponse) => {
+        if (queryResponse.results.length) {
+          if (pred.id) {
+            isContained = true;
+          } else {
+            // portal API stems, so we manually verify the slug matches
+            isContained = queryResponse.results.reduce(
+              (slugKeywordPresent, entry) => {
+                if (entry.typeKeywords.includes(pred.typekeywords)) {
+                  slugKeywordPresent = true;
+                }
+                return slugKeywordPresent;
+              },
+              false as boolean
+            );
+          }
+        }
+        return isContained;
+      }, false as boolean);
+      // add to cache...
+      this._containsCache[identifier] = response;
+      // return the response
+      return response;
     }
   }
 

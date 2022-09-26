@@ -1,4 +1,4 @@
-import { HubFamily, IHubGeography } from "../..";
+import { EntityType, HubFamily, IHubGeography } from "../..";
 import { AccessLevel, IHubEntityBase } from "../../core";
 
 /**
@@ -44,6 +44,11 @@ export interface IHubSearchResult extends IHubEntityBase {
    * Categories; Applies to Items
    */
   categories?: string[];
+
+  /**
+   * TypeKeywords; Applies to Items
+   */
+  typeKeywords?: string[];
 
   /**
    * Links to related things

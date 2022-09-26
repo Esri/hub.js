@@ -1,3 +1,5 @@
+import { EntityType, IHubCatalog } from "./IHubCatalog";
+
 /**
  * Sort Option to be displayed in a UI
  */
@@ -81,4 +83,25 @@ export interface IApiDefinition {
   url: string;
   // We can add types as we add support for more
   type: "arcgis" | "arcgis-hub";
+}
+/**
+ * Base options when checking catalog containment
+ */
+export interface IContainsOptions {
+  /**
+   * Entity type of the identifier
+   * Specifing this will allow us to skip a lookup
+   */
+  entityType?: EntityType;
+}
+
+/**
+ * When checking containment, we want to be able to cache the response
+ * so we return enough information to do that
+ */
+export interface IContainsResponse {
+  // identifier being checked
+  identifier: string;
+  // is the entity actually contained in the catalog?
+  isContained: boolean;
 }
