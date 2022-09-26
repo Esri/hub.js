@@ -26,6 +26,9 @@ export const HubProjectSchema: IConfigurationSchema = {
       default: "not_started",
       enum: ["notStarted", "inProgress", "complete"],
     },
+    timeline: {
+      type: "object",
+    },
   },
 } as unknown as IConfigurationSchema;
 
@@ -103,6 +106,15 @@ export const HubProjectCreateUiSchema: IUiSchema = {
                 },
               },
             },
+            {
+              labelKey: "{{i18nScope}}.timeline.label",
+              scope: "/properties/timeline",
+              type: "Control",
+              options: {
+                control: "arcgis-hub-timeline-editor",
+                changeEvent: "arcgisHubTimelineEditorChange",
+              },
+            },
           ],
         },
       ],
@@ -149,6 +161,15 @@ export const HubProjectEditUiSchema: IUiSchema = {
         enum: {
           i18nScope: "{{i18nScope}}.status.enum",
         },
+      },
+    },
+    {
+      labelKey: "{{i18nScope}}.timeline.label",
+      scope: "/properties/timeline",
+      type: "Control",
+      options: {
+        control: "arcgis-hub-timeline-editor",
+        changeEvent: "arcgisHubTimelineEditorChange",
       },
     },
   ],
