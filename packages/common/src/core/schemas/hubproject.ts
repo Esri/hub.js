@@ -1,4 +1,4 @@
-import { IConfigurationSchema, IUiSchema } from "./types";
+import { IConfigurationSchema, IUiSchema, UiSchemaRuleEffects } from "./types";
 
 export const HubProjectSchema: IConfigurationSchema = {
   required: ["name"],
@@ -21,6 +21,11 @@ export const HubProjectSchema: IConfigurationSchema = {
       // Issue https://devtopia.esri.com/dc/hub/issues/3725
       subtype: "long-text",
     },
+    status: {
+      type: "string",
+      default: "not_started",
+      enum: ["notStarted", "inProgress", "complete"],
+    },
   },
 } as unknown as IConfigurationSchema;
 
@@ -31,29 +36,76 @@ export const HubProjectCreateUiSchema: IUiSchema = {
   type: "Layout",
   elements: [
     {
-      labelKey: "{{i18nScope}}.name.label",
-      scope: "/properties/name",
-      type: "Control",
-    },
-    {
-      labelKey: "{{i18nScope}}.summary.label",
-      scope: "/properties/summary",
-      type: "Control",
-      options: {
-        helperText: {
-          labelKey: "{{i18nScope}}.summary.helperText",
+      type: "Section",
+      options: { section: "stepper", scale: "s" },
+      elements: [
+        {
+          type: "Step",
+          labelKey: "{{i18nScope}}.describeProject.label",
+          elements: [
+            {
+              labelKey: "{{i18nScope}}.name.label",
+              scope: "/properties/name",
+              type: "Control",
+            },
+            {
+              labelKey: "{{i18nScope}}.summary.label",
+              scope: "/properties/summary",
+              type: "Control",
+              options: {
+                helperText: {
+                  labelKey: "{{i18nScope}}.summary.helperText",
+                },
+              },
+            },
+            {
+              labelKey: "{{i18nScope}}.description.label",
+              scope: "/properties/description",
+              type: "Control",
+              options: {
+                helperText: {
+                  labelKey: "{{i18nScope}}.description.helperText",
+                },
+              },
+            },
+          ],
         },
-      },
-    },
-    {
-      labelKey: "{{i18nScope}}.description.label",
-      scope: "/properties/description",
-      type: "Control",
-      options: {
-        helperText: {
-          labelKey: "{{i18nScope}}.description.helperText",
+        {
+          type: "Step",
+          labelKey: "{{i18nScope}}.setLocation.label",
+          rule: {
+            effect: UiSchemaRuleEffects.DISABLE,
+            condition: {
+              scope: "/properties/name",
+              schema: { const: "" },
+            },
+          },
+          elements: [],
         },
-      },
+        {
+          type: "Step",
+          labelKey: "{{i18nScope}}.statusAndTimeline.label",
+          rule: {
+            effect: UiSchemaRuleEffects.DISABLE,
+            condition: {
+              scope: "/properties/name",
+              schema: { const: "" },
+            },
+          },
+          elements: [
+            {
+              labelKey: "{{i18nScope}}.status.label",
+              scope: "/properties/status",
+              type: "Control",
+              options: {
+                enum: {
+                  i18nScope: "{{i18nScope}}.status.enum",
+                },
+              },
+            },
+          ],
+        },
+      ],
     },
   ],
 };
@@ -86,6 +138,16 @@ export const HubProjectEditUiSchema: IUiSchema = {
       options: {
         helperText: {
           labelKey: "{{i18nScope}}.description.helperText",
+        },
+      },
+    },
+    {
+      labelKey: "{{i18nScope}}.status.label",
+      scope: "/properties/status",
+      type: "Control",
+      options: {
+        enum: {
+          i18nScope: "{{i18nScope}}.status.enum",
         },
       },
     },
