@@ -88,7 +88,7 @@ describe("catalog and collection e2e:", () => {
       );
       const response = await instance.searchItems("colorado");
     });
-    fdescribe("Catalog.contains:", () => {
+    describe("Catalog.contains:", () => {
       it("located item by id", async () => {
         const ctxMgr = await factory.getContextManager(orgName, "admin");
         const instance = Catalog.fromJson(catalog, ctxMgr.context);
@@ -97,6 +97,20 @@ describe("catalog and collection e2e:", () => {
           { entityType: "item" }
         );
         expect(response.isContained).toBe(true);
+      });
+      it("verify cache", async () => {
+        const ctxMgr = await factory.getContextManager(orgName, "admin");
+        const instance = Catalog.fromJson(catalog, ctxMgr.context);
+        const response = await instance.contains(
+          "1950189b18a64ab78fc478d97ea502e0",
+          { entityType: "item" }
+        );
+        expect(response.isContained).toBe(true);
+        const response2 = await instance.contains(
+          "1950189b18a64ab78fc478d97ea502e0",
+          { entityType: "item" }
+        );
+        expect(response2.isContained).toBe(true);
       });
       it("item not in catalog returns false", async () => {
         const ctxMgr = await factory.getContextManager(orgName, "admin");

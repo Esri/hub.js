@@ -496,6 +496,7 @@ export async function enrichSiteSearchResult(
     type: item.type,
     name: item.title,
     owner: item.owner,
+    typeKeywords: item.typeKeywords,
     tags: item.tags,
     categories: item.categories,
     summary: item.snippet || item.description,

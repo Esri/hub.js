@@ -96,18 +96,6 @@ export interface IContainsOptions {
 }
 
 /**
- * Cacheable information about a catalog
- */
-export interface ICatalogInfo {
-  // id of the entity with the catalog we are checking
-  id?: string;
-  // optional, but if passed, it reduces the queries
-  entityType?: EntityType;
-  // optional, but if passed it reduces the xhrs to fetch the catalogs
-  catalog?: IHubCatalog;
-}
-
-/**
  * When checking containment, we want to be able to cache the response
  * so we return enough information to do that
  */
@@ -116,7 +104,4 @@ export interface IContainsResponse {
   identifier: string;
   // is the entity actually contained in the catalog?
   isContained: boolean;
-  // return a hash of the catalogs so caller can cache
-  // them and optimize subsequent calls
-  catalogs: Record<string, ICatalogInfo>;
 }

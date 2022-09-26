@@ -219,6 +219,12 @@ export class Catalog implements IHubCatalog {
     }
   }
 
+  /**
+   * Does the Catalog contain a specific piece of content?
+   * @param identifier id or slug of the content
+   * @param options entityType if known; otherwise will execute one search for each scope
+   * @returns
+   */
   async contains(
     identifier: string,
     options: IContainsOptions
@@ -228,24 +234,35 @@ export class Catalog implements IHubCatalog {
     if (this._containsCache[identifier]) {
       return Promise.resolve(this._containsCache[identifier]);
     } else {
+      // construct the response
+      const response: IContainsResponse = {
+        identifier,
+        isContained: false,
+      };
+      // construct the predicate
       const pred: IPredicate = {};
-      let queryType = "id";
-      // construct the query
+
       if (isGuid(identifier)) {
         pred.id = identifier;
       } else {
         // treat as slug
-        queryType = "slug";
-        pred.typeKeyword = `slug|${identifier}`;
+        pred.typekeywords = `slug|${identifier}`;
       }
       // construct the queries
       const queries = [];
-      if (options?.entityType) {
-        queries.push({
-          targetEntity: options.entityType,
-          filters: [{ predicates: [pred] }],
-        });
+      if (options.entityType) {
+        if (this.scopes[options.entityType]) {
+          queries.push({
+            targetEntity: options.entityType,
+            filters: [{ predicates: [pred] }],
+          });
+        } else {
+          // no scope for this entity type, thus it cannot be in the catalog
+          this._containsCache[identifier] = response;
+          return Promise.resolve(response);
+        }
       } else {
+        // Construct a query for each scope
         Object.keys(catalog.scopes).forEach((type) => {
           queries.push({
             targetEntity: type as EntityType,
@@ -256,15 +273,11 @@ export class Catalog implements IHubCatalog {
       // execute the queries
       const results = await Promise.all(
         queries.map((q) =>
-          this.search(q, { targetEntity: q.targetEntity, num: 100 })
+          // We set num to be 10 to account for api not doing exact matching on slugs
+          this.search(q, { targetEntity: q.targetEntity, num: 10 })
         )
       );
-      const response: IContainsResponse = {
-        identifier,
-        isContained: false,
-        catalogs: {},
-      };
-      // response.catalogs[identifier] = {catalog: cloneObject(catalog)};
+
       // if any of the queries returned a result, then the entity is contained
       response.isContained = results.reduce((isContained, queryResponse) => {
         if (queryResponse.results.length) {
@@ -274,7 +287,7 @@ export class Catalog implements IHubCatalog {
             // portal API stems, so we manually verify the slug matches
             isContained = queryResponse.results.reduce(
               (slugKeywordPresent, entry) => {
-                if (entry.typeKeywords.includes(pred.slug)) {
+                if (entry.typeKeywords.includes(pred.typekeywords)) {
                   slugKeywordPresent = true;
                 }
                 return slugKeywordPresent;
@@ -285,8 +298,9 @@ export class Catalog implements IHubCatalog {
         }
         return isContained;
       }, false as boolean);
-      // cache the result
+      // add to cache...
       this._containsCache[identifier] = response;
+      // return the response
       return response;
     }
   }
