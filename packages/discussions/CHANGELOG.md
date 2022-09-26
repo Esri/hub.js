@@ -1,3 +1,10 @@
+# @esri/hub-discussions [14.8.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@14.7.0...@esri/hub-discussions@14.8.0) (2022-09-26)
+
+
+### Features
+
+* **hub-discussions:** check groups for cannotDiscuss ([5b262ef](https://github.com/Esri/hub.js/commit/5b262ef91e8eaa66b798c2a6c5a28fbb2368754c))
+
 # @esri/hub-discussions [14.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@14.6.0...@esri/hub-discussions@14.7.0) (2022-09-23)
 
 
