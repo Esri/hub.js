@@ -7,6 +7,8 @@ import {
   SharingAccess,
 } from "../../types";
 
+const CANNOT_DISCUSS = "cannotDiscuss";
+
 const ALLOWED_GROUP_ROLES = Object.freeze(["owner", "admin", "member"]);
 
 const ALLOWED_ROLES_FOR_POSTING = Object.freeze([
@@ -99,15 +101,16 @@ function channelAllowsPostsByThisUsersGroups(
     const {
       id: userGroupId,
       userMembership: { memberType: userMemberType },
+      typeKeywords,
     } = userGroup;
 
     const channelGroupPermission = acl.groups[userGroupId];
 
-    if (!channelGroupPermission) {
-      return false;
-    }
-
-    return ALLOWED_GROUP_ROLES.includes(userMemberType);
+    return (
+      channelGroupPermission &&
+      ALLOWED_GROUP_ROLES.includes(userMemberType) &&
+      !typeKeywords.includes(CANNOT_DISCUSS)
+    );
   });
 }
 
@@ -168,11 +171,13 @@ function isAuthorizedToPostByLegacyGroup(
       const {
         id: userGroupId,
         userMembership: { memberType: userMemberType },
+        typeKeywords,
       } = group;
 
       return (
         channelGroupId === userGroupId &&
-        ALLOWED_GROUP_ROLES.includes(userMemberType)
+        ALLOWED_GROUP_ROLES.includes(userMemberType) &&
+        !typeKeywords.includes(CANNOT_DISCUSS)
       );
     });
   });

@@ -172,11 +172,82 @@ describe("canPostToChannel", () => {
                   {
                     id: "abc",
                     userMembership: { memberType },
+                    typeKeywords: [],
                   },
                 ],
               } as any;
 
               expect(canPostToChannel(channel, user)).toBe(true);
+            });
+          }
+        );
+      });
+
+      it("returns true if user has group overlap with acl.groups with allowed roles, and at least one group does NOT have typeKewords cannotDiscuss", () => {
+        ["readWrite", "write", "manage", "moderate", "owner"].forEach(
+          (allowedRole) => {
+            const channel = {
+              acl: {
+                groups: {
+                  abc: {
+                    role: allowedRole,
+                  },
+                  def: {
+                    role: allowedRole,
+                  },
+                },
+              },
+            } as any;
+
+            ["owner", "admin", "member"].forEach((memberType) => {
+              const user: IDiscussionsUser = {
+                username: "Slughorn",
+                groups: [
+                  {
+                    id: "abc",
+                    userMembership: { memberType },
+                    typeKeywords: ["cannotDiscuss"],
+                  },
+                  {
+                    id: "def",
+                    userMembership: { memberType },
+                    typeKeywords: [],
+                  },
+                ],
+              } as any;
+
+              expect(canPostToChannel(channel, user)).toBe(true);
+            });
+          }
+        );
+      });
+
+      it("returns false if user has group overlap with acl.groups with allowed roles, but typeKewords include cannotDiscuss", () => {
+        ["readWrite", "write", "manage", "moderate", "owner"].forEach(
+          (allowedRole) => {
+            const channel = {
+              acl: {
+                groups: {
+                  abc: {
+                    role: allowedRole,
+                  },
+                },
+              },
+            } as any;
+
+            ["owner", "admin", "member"].forEach((memberType) => {
+              const user: IDiscussionsUser = {
+                username: "Slughorn",
+                groups: [
+                  {
+                    id: "abc",
+                    userMembership: { memberType },
+                    typeKeywords: ["cannotDiscuss"],
+                  },
+                ],
+              } as any;
+
+              expect(canPostToChannel(channel, user)).toBe(false);
             });
           }
         );
@@ -203,6 +274,7 @@ describe("canPostToChannel", () => {
                   userMembership: { memberType: "wuzzles" },
                 },
               ],
+              typeKeywords: [],
             } as any;
 
             expect(canPostToChannel(channel, user)).toBe(false);
@@ -230,6 +302,7 @@ describe("canPostToChannel", () => {
                 userMembership: { memberType },
               },
             ],
+            typeKeywords: [],
           } as any;
 
           expect(canPostToChannel(channel, user)).toBe(false);
@@ -341,6 +414,7 @@ describe("canPostToChannel", () => {
           {
             id: "abc",
             userMembership: { memberType: "member" },
+            typeKeywords: [],
           },
         ],
       } as any;
@@ -353,6 +427,51 @@ describe("canPostToChannel", () => {
       expect(canPostToChannel(channel, user)).toBe(true);
     });
 
+    it("returns true if a group authorized user attempts to create post in private-access channel, but at least one group is NOT marked cannotDiscuss", () => {
+      const user: IDiscussionsUser = {
+        username: "Slughorn",
+        groups: [
+          {
+            id: "abc",
+            userMembership: { memberType: "member" },
+            typeKeywords: ["cannotDiscuss"],
+          },
+          {
+            id: "xyz",
+            userMembership: { memberType: "member" },
+            typeKeywords: [],
+          },
+        ],
+      } as any;
+      const channel = {
+        access: "private",
+        allowAnonymous: false,
+        groups: ["abc", "xyz"],
+      } as any;
+
+      expect(canPostToChannel(channel, user)).toBe(true);
+    });
+
+    it("returns false if group authorized user attempts to create post in private-access channel, but the only group is marked cannotDiscuss", () => {
+      const user: IDiscussionsUser = {
+        username: "Slughorn",
+        groups: [
+          {
+            id: "abc",
+            userMembership: { memberType: "member" },
+            typeKeywords: ["cannotDiscuss"],
+          },
+        ],
+      } as any;
+      const channel = {
+        access: "private",
+        allowAnonymous: false,
+        groups: ["abc"],
+      } as any;
+
+      expect(canPostToChannel(channel, user)).toBe(false);
+    });
+
     it("returns false if group unauthorized user attempts to create post in private-access channel", () => {
       const user: IDiscussionsUser = {
         username: "Slughorn",
@@ -362,6 +481,7 @@ describe("canPostToChannel", () => {
             userMembership: { memberType: "member" },
           },
         ],
+        typeKeywords: [],
       } as any;
       const channel = {
         access: "private",
