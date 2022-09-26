@@ -1,3 +1,15 @@
+# @esri/hub-sites [11.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@11.12.0...@esri/hub-sites@11.13.0) (2022-09-26)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 11.13.0
+* **@esri/hub-initiatives:** upgraded to 11.13.0
+* **@esri/hub-teams:** upgraded to 11.13.0
+
 # @esri/hub-sites [11.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@11.11.0...@esri/hub-sites@11.12.0) (2022-09-23)
 
 
