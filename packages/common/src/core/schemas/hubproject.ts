@@ -77,7 +77,7 @@ export const HubProjectCreateUiSchema: IUiSchema = {
             effect: UiSchemaRuleEffects.DISABLE,
             condition: {
               scope: "/properties/name",
-              schema: { enum: [undefined, ""] },
+              schema: { const: "" },
             },
           },
           elements: [],
@@ -89,7 +89,7 @@ export const HubProjectCreateUiSchema: IUiSchema = {
             effect: UiSchemaRuleEffects.DISABLE,
             condition: {
               scope: "/properties/name",
-              schema: { enum: [undefined, ""] },
+              schema: { const: "" },
             },
           },
           elements: [
