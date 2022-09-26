@@ -1,3 +1,10 @@
+# @esri/hub-common [11.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.13.0...@esri/hub-common@11.14.0) (2022-09-26)
+
+
+### Features
+
+* add catalog contains function ([#893](https://github.com/Esri/hub.js/issues/893)) ([734661e](https://github.com/Esri/hub.js/commit/734661ee351d8a87db994e812f43737af7d397db))
+
 # @esri/hub-common [11.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.12.0...@esri/hub-common@11.13.0) (2022-09-26)
 
 
