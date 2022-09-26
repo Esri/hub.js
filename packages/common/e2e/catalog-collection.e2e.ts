@@ -88,6 +88,43 @@ describe("catalog and collection e2e:", () => {
       );
       const response = await instance.searchItems("colorado");
     });
+    fdescribe("Catalog.contains:", () => {
+      it("located item by id", async () => {
+        const ctxMgr = await factory.getContextManager(orgName, "admin");
+        const instance = Catalog.fromJson(catalog, ctxMgr.context);
+        const response = await instance.contains(
+          "1950189b18a64ab78fc478d97ea502e0",
+          { entityType: "item" }
+        );
+        expect(response.isContained).toBe(true);
+      });
+      it("item not in catalog returns false", async () => {
+        const ctxMgr = await factory.getContextManager(orgName, "admin");
+        const instance = Catalog.fromJson(catalog, ctxMgr.context);
+        const response = await instance.contains(
+          "98f41f09ef6a4112b15530d9a35c587d",
+          { entityType: "item" }
+        );
+        expect(response.isContained).toBe(false);
+      });
+      it("located by id", async () => {
+        const ctxMgr = await factory.getContextManager(orgName, "admin");
+        const instance = Catalog.fromJson(catalog, ctxMgr.context);
+        const response = await instance.contains(
+          "1950189b18a64ab78fc478d97ea502e0",
+          {}
+        );
+        expect(response.isContained).toBe(true);
+      });
+      it("locate by slug", async () => {
+        const ctxMgr = await factory.getContextManager(orgName, "admin");
+        const instance = Catalog.fromJson(catalog, ctxMgr.context);
+        const response = await instance.contains("qa-bas-hub|my-spiffy-slug", {
+          entityType: "item",
+        });
+        expect(response.isContained).toBe(true);
+      });
+    });
   });
 
   describe("collection search", () => {
