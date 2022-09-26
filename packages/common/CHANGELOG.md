@@ -1,3 +1,16 @@
+# @esri/hub-common [11.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.12.0...@esri/hub-common@11.13.0) (2022-09-26)
+
+
+### Bug Fixes
+
+* update step rule condition ([b955582](https://github.com/Esri/hub.js/commit/b95558217ea2cfce68601f84f554d6f7096b100c))
+
+
+### Features
+
+* update project create schemas to support status ([8a78968](https://github.com/Esri/hub.js/commit/8a78968285d4aa775fdd2b3917de90c7af0872ee))
+* update project edit uiSchema to support status ([40746f2](https://github.com/Esri/hub.js/commit/40746f2e094fb80775402a00b0a1c4bd778124f0))
+
 # @esri/hub-common [11.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.11.0...@esri/hub-common@11.12.0) (2022-09-23)
 
 
