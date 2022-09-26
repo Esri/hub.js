@@ -1,3 +1,13 @@
+# @esri/hub-surveys [11.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-surveys@11.12.0...@esri/hub-surveys@11.13.0) (2022-09-26)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 11.13.0
+
 # @esri/hub-surveys [11.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-surveys@11.11.0...@esri/hub-surveys@11.12.0) (2022-09-23)
 
 
