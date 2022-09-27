@@ -1,3 +1,18 @@
+## @esri/hub-initiatives [11.14.1](https://github.com/Esri/hub.js/compare/@esri/hub-initiatives@11.14.0...@esri/hub-initiatives@11.14.1) (2022-09-27)
+
+
+### Bug Fixes
+
+* bump arcgis-rest-portal to pull in request fix for extents ([#895](https://github.com/Esri/hub.js/issues/895)) ([3494865](https://github.com/Esri/hub.js/commit/349486574fb15e47f025c3573578a3ec2719005c))
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 11.14.1
+
 # @esri/hub-initiatives [11.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-initiatives@11.13.0...@esri/hub-initiatives@11.14.0) (2022-09-26)
 
 
