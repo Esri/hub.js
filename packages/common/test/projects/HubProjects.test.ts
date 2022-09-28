@@ -14,6 +14,7 @@ import {
   UiSchemaElementOptions,
   HubProjectSchema,
   deepFind,
+  PROJECT_STATUSES,
 } from "../../src";
 
 import { MOCK_AUTH } from "../mocks/mock-auth";
@@ -300,7 +301,7 @@ describe("HubProjects:", () => {
         createdDateSource: "item.created",
         updatedDate: new Date(1595878750000),
         updatedDateSource: "item.modified",
-        status: "active",
+        status: PROJECT_STATUSES.inProgress,
         thumbnailUrl: "",
         permissions: [],
         catalog: {
@@ -336,7 +337,7 @@ describe("HubProjects:", () => {
       ).and.callFake(() => {
         return Promise.resolve({
           data: {
-            status: "active",
+            status: PROJECT_STATUSES.inProgress,
           },
         });
       });
@@ -393,7 +394,7 @@ describe("HubProjects:", () => {
       );
 
       // verify the response
-      expect(chk.projectStatus).toBe("active");
+      expect(chk.projectStatus).toBe(PROJECT_STATUSES.inProgress);
 
       // verify the spy
       expect(enrichmentSpy.calls.count()).toBe(1, "should fetch enrichments");
