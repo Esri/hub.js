@@ -23,7 +23,7 @@ export const HubProjectSchema: IConfigurationSchema = {
     },
     status: {
       type: "string",
-      default: "not_started",
+      default: "notStarted",
       enum: ["notStarted", "inProgress", "complete"],
     },
   },

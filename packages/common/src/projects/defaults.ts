@@ -10,7 +10,7 @@ export const DEFAULT_PROJECT: Partial<IHubProject> = {
   name: "No title provided",
   tags: [],
   typeKeywords: ["Hub Project"],
-  status: "inactive",
+  status: "notStarted",
   catalog: { schemaVersion: 0 },
   permissions: [],
   schemaVersion: 1,
@@ -35,7 +35,7 @@ export const DEFAULT_PROJECT_MODEL: IModel = {
   data: {
     display: "about",
     timeline: {},
-    status: "inactive",
+    status: "notStarted",
     contacts: [],
   },
 } as unknown as IModel;

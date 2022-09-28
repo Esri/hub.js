@@ -18,5 +18,5 @@ export interface IHubProject
   /**
    * Project Status
    */
-  status: "inactive" | "active";
+  status: "notStarted" | "inProgress" | "complete";
 }
