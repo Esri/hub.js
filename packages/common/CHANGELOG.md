@@ -1,3 +1,13 @@
+## @esri/hub-common [11.14.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.14.1...@esri/hub-common@11.14.2) (2022-09-28)
+
+
+### Bug Fixes
+
+* failing test ([9cfe65f](https://github.com/Esri/hub.js/commit/9cfe65f183db471f68b30ae5d9300f7ca58d69ca))
+* project status defaults ([d481e66](https://github.com/Esri/hub.js/commit/d481e66c80d2cfbcbb53daeaa97bce11fae5c7ab))
+* use enum for status default ([c645c39](https://github.com/Esri/hub.js/commit/c645c3990c0227b2acf0f37fd2471f91b70e7fb6))
+* use enum for status default on project model ([de9aadb](https://github.com/Esri/hub.js/commit/de9aadb443d36962cd0a842844f0b1cd505552e0))
+
 ## @esri/hub-common [11.14.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.14.0...@esri/hub-common@11.14.1) (2022-09-27)
 
 
