@@ -35,7 +35,7 @@ export const DEFAULT_PROJECT_MODEL: IModel = {
   data: {
     display: "about",
     timeline: {},
-    status: "notStarted",
+    status: PROJECT_STATUSES.notStarted,
     contacts: [],
   },
 } as unknown as IModel;
