@@ -1,4 +1,5 @@
 import { IConfigurationSchema, IUiSchema, UiSchemaRuleEffects } from "./types";
+import { PROJECT_STATUSES } from "../types";
 
 export const HubProjectSchema: IConfigurationSchema = {
   required: ["name"],
@@ -24,7 +25,7 @@ export const HubProjectSchema: IConfigurationSchema = {
     status: {
       type: "string",
       default: "notStarted",
-      enum: ["notStarted", "inProgress", "complete"],
+      enum: Object.keys(PROJECT_STATUSES),
     },
   },
 } as unknown as IConfigurationSchema;
