@@ -24,7 +24,7 @@ export const HubProjectSchema: IConfigurationSchema = {
     },
     status: {
       type: "string",
-      default: "notStarted",
+      default: PROJECT_STATUSES.notStarted,
       enum: Object.keys(PROJECT_STATUSES),
     },
   },
