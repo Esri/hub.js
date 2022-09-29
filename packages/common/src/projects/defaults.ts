@@ -23,7 +23,7 @@ export const DEFAULT_PROJECT_MODEL: IModel = {
   item: {
     type: HUB_PROJECT_ITEM_TYPE,
     title: "No Title Provided",
-    description: "No Description Provided",
+    description: "",
     snippet: "",
     tags: [],
     typeKeywords: ["Hub Project"],
