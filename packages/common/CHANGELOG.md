@@ -1,3 +1,10 @@
+# @esri/hub-common [11.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.14.2...@esri/hub-common@11.15.0) (2022-09-29)
+
+
+### Features
+
+* implement deepContains function ([#898](https://github.com/Esri/hub.js/issues/898)) ([467baee](https://github.com/Esri/hub.js/commit/467baeeb26e3c6e1048fc100ac51ba2b0f5767b0))
+
 ## @esri/hub-common [11.14.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.14.1...@esri/hub-common@11.14.2) (2022-09-28)
 
 
