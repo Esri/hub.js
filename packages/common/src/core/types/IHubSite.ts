@@ -1,13 +1,22 @@
 import { IExtent } from "@esri/arcgis-rest-feature-layer";
-import { IWithSlug } from "../traits/IWithSlug";
-import { IWithLayout } from "../traits/IWithLayout";
+import {
+  IWithCatalog,
+  IWithLayout,
+  IWithPermissions,
+  IWithSlug,
+} from "../traits/index";
 import { IHubItemEntity } from "./IHubItemEntity";
 
 /**
  * DRAFT: Under development and more properties will likely be added
  * @internal
  */
-export interface IHubSite extends IHubItemEntity, IWithSlug, IWithLayout {
+export interface IHubSite
+  extends IHubItemEntity,
+    IWithSlug,
+    IWithCatalog,
+    IWithLayout,
+    IWithPermissions {
   /**
    * Array of minimal page objects
    */
@@ -21,13 +30,7 @@ export interface IHubSite extends IHubItemEntity, IWithSlug, IWithLayout {
    * Array of capabilities enabled for the site
    */
   capabilities: string[];
-  /**
-   * Currently not an actual ICatalog
-   */
-  catalog: {
-    groups: string[];
-    [key: string]: any;
-  };
+
   /**
    * Subdomain of the site
    * Will be prepended to `<org-key>.hub.arcgis.com`

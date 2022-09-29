@@ -1,6 +1,10 @@
 import { IHubTimeline, IHubItemEntity } from "./index";
-import { IWithLayout, IWithPermissions, IWithSlug } from "../traits/index";
-import { IWithCatalog } from "../traits/IWithCatalog";
+import {
+  IWithLayout,
+  IWithPermissions,
+  IWithSlug,
+  IWithCatalog,
+} from "../traits/index";
 
 /**
  * Defines the properties of a Hub Project object
