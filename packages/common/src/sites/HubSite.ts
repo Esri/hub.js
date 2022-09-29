@@ -12,7 +12,16 @@ import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
 
 import { DEFAULT_SITE } from "./defaults";
-import { createSite, deleteSite, fetchSite, updateSite } from "./HubSites";
+import {
+  createSite,
+  deleteSite,
+  ENTERPRISE_SITE_ITEM_TYPE,
+  fetchSite,
+  HUB_SITE_ITEM_TYPE,
+  updateSite,
+} from "./HubSites";
+import { IContainsResponse, IDeepCatalogInfo, IHubCatalog } from "../search";
+import { deepContains } from "../core/_internal/deepContains";
 
 /**
  * Hub Site Class
@@ -28,6 +37,7 @@ export class HubSite
 {
   private _catalog: Catalog;
   private _permissionManager: PermissionManager;
+  private _catalogCache: Record<string, IHubCatalog> = {};
   /**
    * Private constructor so we don't have `new` all over the place. Allows for
    * more flexibility in how we create the HubSiteManager over time.
@@ -121,6 +131,9 @@ export class HubSite
     }
     // extend the partial over the defaults
     const pojo = { ...DEFAULT_SITE, ...partialSite } as IHubSite;
+    pojo.type = context.isPortal
+      ? ENTERPRISE_SITE_ITEM_TYPE
+      : HUB_SITE_ITEM_TYPE;
     return pojo;
   }
 
@@ -191,5 +204,66 @@ export class HubSite
     this.isDestroyed = true;
     // Delegate to module fn
     await deleteSite(this.entity.id, this.context.userRequestOptions);
+  }
+
+  /**
+   * Check if a particular entity is contained is this HubSite.
+   *
+   * By default, this checks the Site catalog for the entity, by executing a search.
+   *
+   * Transitive containment is supported by passing in an array of `IDeepCatalogInfo`
+   * objects, in the order of the containment hierarchy.
+   *
+   * Scenario:
+   * - Site `00a`'s Catalog contains Initiative `00b`.
+   * - Initiative `00b`'s Catalog contains Project `00c`.
+   * - Project `00c`'s catalog contains Dataset `00d`.
+   *
+   * Check if Dataset `00d` can be displayed in Site `00a`, pass in the following
+   * ```js
+   * [
+   *  {id: '00c', entityType:"item"}, // project
+   *  {id: '00b', entityType:"item"}, // initiative
+   * ]
+   * ```
+   * The site catalog and id will be added in automatically.
+   *
+   * If you already have the `IHubCatalog` for the project or initiative, you can
+   * pass that in as well, and it will save a request.
+   *
+   * This function will also build a cache of the catalogs so subsequent calls
+   * will be faster.
+   * @param identifier
+   * @param hierarchy
+   * @returns
+   */
+  async contains(
+    identifier: string,
+    hierarchy: IDeepCatalogInfo[] = []
+  ): Promise<IContainsResponse> {
+    // Apply any cached catalogs
+    hierarchy.forEach((entry: IDeepCatalogInfo) => {
+      if (this._catalogCache[entry.id]) {
+        entry.catalog = this._catalogCache[entry.id];
+      }
+    });
+
+    // push the site and it's catalog into the hierarchy as the last entry
+    hierarchy.push({
+      id: this.id,
+      entityType: "item",
+      catalog: this._catalog.toJson(),
+    });
+    // delegate to fn
+    const response = await deepContains(identifier, hierarchy, this.context);
+    // cache the catalogs
+    Object.keys(response.catalogInfo).forEach((key) => {
+      // don't cache the site's catalog
+      if (key !== this.id) {
+        this._catalogCache[key] = response.catalogInfo[key].catalog;
+      }
+    });
+
+    return response;
   }
 }
