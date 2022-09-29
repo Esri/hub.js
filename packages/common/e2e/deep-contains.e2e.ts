@@ -24,7 +24,7 @@ import { getProp } from "../src";
 //     - Unique Web App: a88285b001574cf3bfc91c4da11391cf
 //     - Common Web App: 63c765456d23439e8faf0e4172fc9b23
 
-describe("deepContains:", () => {
+fdescribe("deepContains:", () => {
   const siteItemId: string = "c84347eb5d0a4a7b84c334fe84a5bbfe";
   const siteAppItemId: string = "7da7ea6055d34afd9125a2ccd63be5e1";
   const projectItemId: string = "9c0ecf87bcc04a1d93dec04b54332458";
@@ -53,8 +53,8 @@ describe("deepContains:", () => {
         ctxMgr.context
       );
       expect(chk.isContained).toBeTruthy();
-
-      // console.info(`App in Site Catalog: Time: ${chk.duration} ms`);
+      // tslint:disable-next-line:no-console
+      console.info(`App in Site Catalog: Time: ${chk.duration} ms`);
 
       // hold the catalog and do another check
       siteCatalogInfo.catalog = getProp(
@@ -67,8 +67,8 @@ describe("deepContains:", () => {
         ctxMgr.context
       );
       expect(chk2.isContained).toBeTruthy();
-
-      // console.info(`App in Site Catalog (cached): Time: ${chk2.duration} ms`);
+      // tslint:disable-next-line:no-console
+      console.info(`App in Site Catalog (cached): Time: ${chk2.duration} ms`);
     });
 
     it("finds app in initiative catalog", async () => {
@@ -89,8 +89,8 @@ describe("deepContains:", () => {
       );
 
       expect(chk.isContained).toBeTruthy();
-
-      // console.info(`App in Initiative Catalog: Time: ${chk.duration} ms`);
+      // tslint:disable-next-line:no-console
+      console.info(`App in Initiative Catalog: Time: ${chk.duration} ms`);
     });
 
     it("finds app in project catalog", async () => {
@@ -116,8 +116,8 @@ describe("deepContains:", () => {
       );
 
       expect(chk.isContained).toBeTruthy();
-
-      // console.info(`App in Project Catalog: Time: ${chk.duration} ms`);
+      // tslint:disable-next-line:no-console
+      console.info(`App in Project Catalog: Time: ${chk.duration} ms`);
     });
   });
   describe("pass in catalogs", () => {
@@ -135,8 +135,8 @@ describe("deepContains:", () => {
         ctxMgr.context
       );
       expect(chk.isContained).toBeTruthy();
-
-      // console.info(`App in Site Catalog (passed in): Time: ${chk.duration} ms`);
+      // tslint:disable-next-line:no-console
+      console.info(`App in Site Catalog (passed in): Time: ${chk.duration} ms`);
     });
     it("find app in initiative catalog", async () => {
       const ctxMgr = await factory.getContextManager(orgName, "admin");
@@ -158,8 +158,10 @@ describe("deepContains:", () => {
       );
 
       expect(chk.isContained).toBeTruthy();
-
-      // console.info(`App in Initiative Catalog (passed in): Time: ${chk.duration} ms`);
+      // tslint:disable-next-line:no-console
+      console.info(
+        `App in Initiative Catalog (passed in): Time: ${chk.duration} ms`
+      );
     });
     it("find app in project catalog", async () => {
       const ctxMgr = await factory.getContextManager(orgName, "admin");
@@ -187,8 +189,10 @@ describe("deepContains:", () => {
       );
 
       expect(chk.isContained).toBeTruthy();
-
-      // console.info(`App in Project Catalog (passed in): Time: ${chk.duration} ms`);
+      // tslint:disable-next-line:no-console
+      console.info(
+        `App in Project Catalog (passed in): Time: ${chk.duration} ms`
+      );
     });
   });
 });

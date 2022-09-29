@@ -52,7 +52,7 @@ export class HubSite
     );
   }
   /**
-   * Catalog instance for this project. Note: Do not hold direct references to this object; always access it from the project.
+   * Catalog instance for this site. Note: Do not hold direct references to this object; always access it from the site.
    * @returns
    */
   get catalog(): Catalog {
@@ -60,7 +60,7 @@ export class HubSite
   }
 
   /**
-   * PermissionManager instance for this project. Note: Do not hold direct references to this object; always access it from the project.
+   * PermissionManager instance for this site. Note: Do not hold direct references to this object; always access it from the site.
    * @returns
    */
   get permissions(): PermissionManager {
@@ -81,7 +81,7 @@ export class HubSite
   /**
    *
    * NOT IMPLEMENTED YET: Create a new HubSite, returning a HubSite instance.
-   * Note: This does not persist the Project into the backing store
+   * By default, this does not save the site to the backing store.
    * @param partialSite
    * @param context
    * @returns
@@ -91,12 +91,18 @@ export class HubSite
     context: IArcGISContext,
     save: boolean = false
   ): Promise<HubSite> {
-    throw new Error("HubSite.create Not implemented");
+    const pojo = this.applyDefaults(partialSite, context);
+    // return an instance of HubProject
+    const instance = HubSite.fromJson(pojo, context);
+    if (save) {
+      await instance.save();
+    }
+    return instance;
   }
 
   /**
-   * Fetch a Project from the backing store and return a HubSite instance.
-   * @param identifier - Identifier of the project to load
+   * Fetch a Site from the backing store and return a HubSite instance.
+   * @param identifier - Identifier of the site to load
    * @param context
    * @returns
    */
@@ -104,17 +110,17 @@ export class HubSite
     identifier: string,
     context: IArcGISContext
   ): Promise<HubSite> {
-    // fetch the project by id or slug
+    // fetch the site by id or slug
     try {
-      const project = await fetchSite(identifier, context.hubRequestOptions);
-      // create an instance of HubSite from the project
-      return HubSite.fromJson(project, context);
+      const site = await fetchSite(identifier, context.hubRequestOptions);
+      // create an instance of HubSite from the site
+      return HubSite.fromJson(site, context);
     } catch (ex) {
       if (
         (ex as Error).message ===
         "CONT_0001: Item does not exist or is inaccessible."
       ) {
-        throw new Error(`Project not found.`);
+        throw new Error(`Site not found.`);
       } else {
         throw ex;
       }
@@ -216,19 +222,19 @@ export class HubSite
    *
    * Scenario:
    * - Site `00a`'s Catalog contains Initiative `00b`.
-   * - Initiative `00b`'s Catalog contains Project `00c`.
-   * - Project `00c`'s catalog contains Dataset `00d`.
+   * - Initiative `00b`'s Catalog contains Site `00c`.
+   * - Site `00c`'s catalog contains Dataset `00d`.
    *
    * Check if Dataset `00d` can be displayed in Site `00a`, pass in the following
    * ```js
    * [
-   *  {id: '00c', entityType:"item"}, // project
+   *  {id: '00c', entityType:"item"}, // site
    *  {id: '00b', entityType:"item"}, // initiative
    * ]
    * ```
    * The site catalog and id will be added in automatically.
    *
-   * If you already have the `IHubCatalog` for the project or initiative, you can
+   * If you already have the `IHubCatalog` for the site or initiative, you can
    * pass that in as well, and it will save a request.
    *
    * This function will also build a cache of the catalogs so subsequent calls
