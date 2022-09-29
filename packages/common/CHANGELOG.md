@@ -1,3 +1,10 @@
+# @esri/hub-common [11.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.15.0...@esri/hub-common@11.16.0) (2022-09-29)
+
+
+### Features
+
+* add location to project schemas ([#896](https://github.com/Esri/hub.js/issues/896)) ([0ec512b](https://github.com/Esri/hub.js/commit/0ec512be751123f0fcf943818e355c5fbd53e9cf))
+
 # @esri/hub-common [11.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.14.2...@esri/hub-common@11.15.0) (2022-09-29)
 
 
