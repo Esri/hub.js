@@ -27,7 +27,7 @@ import { Catalog } from "../../search/Catalog";
  */
 export async function deepContains(
   identifier: string,
-  hiearchy: IDeepCatalogInfo[],
+  hierarchy: IDeepCatalogInfo[],
   context: IArcGISContext
 ): Promise<IContainsResponse> {
   const start = Date.now();
@@ -38,7 +38,7 @@ export async function deepContains(
     duration: 0,
   };
   // if no hiearchy, we can't do anything
-  if (!hiearchy || hiearchy.length === 0) {
+  if (!hierarchy || hierarchy.length === 0) {
     return Promise.resolve(response);
   }
 
@@ -46,12 +46,12 @@ export async function deepContains(
   // defines to order we need to check.
   // remove the last entry b/c that's the top level (usually the site)
   // and we don't need to check if that's contained in itself.
-  const catalogIds = hiearchy.map((c) => c.id).slice(0, -1);
+  const catalogIds = hierarchy.map((c) => c.id).slice(0, -1);
   // add the passed in identifier as the first id to check
   const idsToCheck = [identifier, ...catalogIds];
 
   // iterate the hierarchy
-  await asyncForEach(hiearchy, async (catalogInfo, idx) => {
+  await asyncForEach(hierarchy, async (catalogInfo, idx) => {
     const currentIdentifier = idsToCheck[idx];
     // create a catalog instance
     let catalog: Catalog;
