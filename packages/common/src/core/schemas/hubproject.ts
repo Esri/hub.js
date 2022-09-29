@@ -130,7 +130,6 @@ export const HubProjectEditUiSchema: IUiSchema = {
   elements: [
     {
       type: "Section",
-      options: { headerTag: "h4" },
       labelKey: "{{i18nScope}}.basicInfo.label",
       elements: [
         {
@@ -158,8 +157,24 @@ export const HubProjectEditUiSchema: IUiSchema = {
             },
           },
         },
+      ],
+    },
+    {
+      type: "Section",
+      labelKey: "{{i18nScope}}.location.label",
+      elements: [
         {
-          labelKey: "{{i18nScope}}.status.label",
+          labelKey: "{{i18nScope}}.extent.label",
+          scope: "/properties/extent",
+          type: "Control",
+        },
+      ],
+    },
+    {
+      type: "Section",
+      labelKey: "{{i18nScope}}.status.label",
+      elements: [
+        {
           scope: "/properties/status",
           type: "Control",
           options: {
@@ -167,18 +182,6 @@ export const HubProjectEditUiSchema: IUiSchema = {
               i18nScope: "{{i18nScope}}.status.enum",
             },
           },
-        },
-      ],
-    },
-    {
-      type: "Section",
-      options: { headerTag: "h4" },
-      labelKey: "{{i18nScope}}.location.label",
-      elements: [
-        {
-          labelKey: "{{i18nScope}}.extent.label",
-          scope: "/properties/extent",
-          type: "Control",
         },
       ],
     },
