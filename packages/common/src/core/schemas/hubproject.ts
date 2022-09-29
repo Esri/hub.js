@@ -89,7 +89,6 @@ export const HubProjectCreateUiSchema: IUiSchema = {
           },
           elements: [
             {
-              labelKey: "{{i18nScope}}.extent.label",
               scope: "/properties/extent",
               type: "Control",
             },
