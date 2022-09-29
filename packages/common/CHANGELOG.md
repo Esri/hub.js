@@ -1,3 +1,10 @@
+## @esri/hub-common [11.16.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.16.0...@esri/hub-common@11.16.1) (2022-09-29)
+
+
+### Bug Fixes
+
+* projects do not have a default description ([#899](https://github.com/Esri/hub.js/issues/899)) ([e3feee5](https://github.com/Esri/hub.js/commit/e3feee5994300870795217207f41bd5f257da760))
+
 # @esri/hub-common [11.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.15.0...@esri/hub-common@11.16.0) (2022-09-29)
 
 
