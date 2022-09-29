@@ -5,21 +5,18 @@ import {
   PermissionManager,
   IWithStoreBehavior,
   IWithSharingBehavior,
-  UiSchemaElementOptions,
 } from "../core";
 
 import { Catalog } from "../search/Catalog";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
-import {
-  EditorConfigType,
-  IEditorConfig,
-} from "../core/behaviors/IWithEditorBehavior";
+
 import { DEFAULT_SITE } from "./defaults";
 import { createSite, deleteSite, fetchSite, updateSite } from "./HubSites";
 
 /**
  * Hub Site Class
+ * NOTE: This is a minimal implementation. Create operations are not supported at this time
  */
 export class HubSite
   extends HubItemEntity<IHubSite>
