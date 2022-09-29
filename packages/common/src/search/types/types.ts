@@ -96,6 +96,24 @@ export interface IContainsOptions {
 }
 
 /**
+ * Basic information about a catalog
+ */
+export interface ICatalogInfo extends Partial<IDeepCatalogInfo> {}
+
+/**
+ * Cacheable information about a catalog
+ */
+export interface IDeepCatalogInfo {
+  // id of the entity with the catalog we are checking
+  id: string;
+  // Entity type that the catalog belongs to. This enables us to
+  // fetch the catalog.
+  entityType: EntityType;
+  // optional, but if passed it reduces the xhrs to fetch the catalogs
+  catalog?: IHubCatalog;
+}
+
+/**
  * When checking containment, we want to be able to cache the response
  * so we return enough information to do that
  */
@@ -104,4 +122,12 @@ export interface IContainsResponse {
   identifier: string;
   // is the entity actually contained in the catalog?
   isContained: boolean;
+  /**
+   * Cacheable information about the catalogs
+   */
+  catalogInfo?: Record<string, ICatalogInfo>;
+  /**
+   * How long did it take to check containment?
+   */
+  duration?: number;
 }

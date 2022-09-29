@@ -229,15 +229,20 @@ export class Catalog implements IHubCatalog {
     identifier: string,
     options: IContainsOptions
   ): Promise<IContainsResponse> {
+    const start = Date.now();
     const catalog = this._catalog;
     // check if we have cached results for this identifier
     if (this._containsCache[identifier]) {
-      return Promise.resolve(this._containsCache[identifier]);
+      const cachedResult = cloneObject(this._containsCache[identifier]);
+      cachedResult.duration = Date.now() - start;
+      return Promise.resolve(cachedResult);
     } else {
       // construct the response
       const response: IContainsResponse = {
         identifier,
         isContained: false,
+        // no need to return the catalogInfo
+        // in this function.
       };
       // construct the predicate
       const pred: IPredicate = {};
@@ -258,6 +263,7 @@ export class Catalog implements IHubCatalog {
           });
         } else {
           // no scope for this entity type, thus it cannot be in the catalog
+          response.duration = Date.now() - start;
           this._containsCache[identifier] = response;
           return Promise.resolve(response);
         }
@@ -284,7 +290,8 @@ export class Catalog implements IHubCatalog {
           if (pred.id) {
             isContained = true;
           } else {
-            // portal API stems, so we manually verify the slug matches
+            // slug based search, which is not exact,
+            // so we manually verify the exact slug matches
             isContained = queryResponse.results.reduce(
               (slugKeywordPresent, entry) => {
                 if (entry.typeKeywords.includes(pred.typekeywords)) {
@@ -298,6 +305,7 @@ export class Catalog implements IHubCatalog {
         }
         return isContained;
       }, false as boolean);
+      response.duration = Date.now() - start;
       // add to cache...
       this._containsCache[identifier] = response;
       // return the response
