@@ -18,5 +18,11 @@ export interface IHubProject
   /**
    * Project Status
    */
-  status: "inactive" | "active";
+  status: PROJECT_STATUSES;
+}
+
+export enum PROJECT_STATUSES {
+  notStarted = "notStarted",
+  inProgress = "inProgress",
+  complete = "complete",
 }

@@ -1,4 +1,5 @@
 import { IConfigurationSchema, IUiSchema, UiSchemaRuleEffects } from "./types";
+import { PROJECT_STATUSES } from "../types";
 
 export const HubProjectSchema: IConfigurationSchema = {
   required: ["name"],
@@ -23,8 +24,14 @@ export const HubProjectSchema: IConfigurationSchema = {
     },
     status: {
       type: "string",
-      default: "not_started",
-      enum: ["notStarted", "inProgress", "complete"],
+      default: PROJECT_STATUSES.notStarted,
+      enum: Object.keys(PROJECT_STATUSES),
+    },
+    extent: {
+      type: "object",
+      // TODO: Remove reliance on subtype as it's not valid json schema
+      // Issue https://devtopia.esri.com/dc/hub/issues/3725
+      subtype: "boundary",
     },
     timeline: {
       type: "object",
@@ -83,7 +90,12 @@ export const HubProjectCreateUiSchema: IUiSchema = {
               schema: { const: "" },
             },
           },
-          elements: [],
+          elements: [
+            {
+              scope: "/properties/extent",
+              type: "Control",
+            },
+          ],
         },
         {
           type: "Step",
@@ -129,39 +141,61 @@ export const HubProjectEditUiSchema: IUiSchema = {
   type: "Layout",
   elements: [
     {
-      labelKey: "{{i18nScope}}.name.label",
-      scope: "/properties/name",
-      type: "Control",
-    },
-    {
-      labelKey: "{{i18nScope}}.summary.label",
-      scope: "/properties/summary",
-      type: "Control",
-      options: {
-        helperText: {
-          labelKey: "{{i18nScope}}.summary.helperText",
+      type: "Section",
+      labelKey: "{{i18nScope}}.basicInfo.label",
+      elements: [
+        {
+          labelKey: "{{i18nScope}}.name.label",
+          scope: "/properties/name",
+          type: "Control",
         },
-      },
-    },
-    {
-      labelKey: "{{i18nScope}}.description.label",
-      scope: "/properties/description",
-      type: "Control",
-      options: {
-        helperText: {
-          labelKey: "{{i18nScope}}.description.helperText",
+        {
+          labelKey: "{{i18nScope}}.summary.label",
+          scope: "/properties/summary",
+          type: "Control",
+          options: {
+            helperText: {
+              labelKey: "{{i18nScope}}.summary.helperText",
+            },
+          },
         },
-      },
+        {
+          labelKey: "{{i18nScope}}.description.label",
+          scope: "/properties/description",
+          type: "Control",
+          options: {
+            helperText: {
+              labelKey: "{{i18nScope}}.description.helperText",
+            },
+          },
+        },
+      ],
     },
     {
+      type: "Section",
+      labelKey: "{{i18nScope}}.location.label",
+      elements: [
+        {
+          labelKey: "{{i18nScope}}.extent.label",
+          scope: "/properties/extent",
+          type: "Control",
+        },
+      ],
+    },
+    {
+      type: "Section",
       labelKey: "{{i18nScope}}.status.label",
-      scope: "/properties/status",
-      type: "Control",
-      options: {
-        enum: {
-          i18nScope: "{{i18nScope}}.status.enum",
+      elements: [
+        {
+          scope: "/properties/status",
+          type: "Control",
+          options: {
+            enum: {
+              i18nScope: "{{i18nScope}}.status.enum",
+            },
+          },
         },
-      },
+      ],
     },
     {
       labelKey: "{{i18nScope}}.timeline.label",

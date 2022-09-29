@@ -7,6 +7,7 @@ import {
   ICreateItemResponse,
 } from "@esri/arcgis-rest-portal";
 import { IItemAdd } from "@esri/arcgis-rest-types";
+import { isBBox, bboxToString } from "../extent";
 import { batch } from "../utils";
 import { _prepareUploadRequests } from "./_internal/_prepare-upload-requests";
 
@@ -72,6 +73,10 @@ export async function createItemFromFile(
       5
     );
 
+    // update item extent to string
+    if (item.extent && isBBox(item.extent)) {
+      item.extent = bboxToString(item.extent) as unknown as number[][];
+    }
     // Commit is called once all parts are uploaded during a multipart add item or update item operation.
     await commitItemUpload({
       id: itemId,

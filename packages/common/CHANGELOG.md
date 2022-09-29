@@ -1,3 +1,48 @@
+## @esri/hub-common [11.16.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.16.0...@esri/hub-common@11.16.1) (2022-09-29)
+
+
+### Bug Fixes
+
+* projects do not have a default description ([#899](https://github.com/Esri/hub.js/issues/899)) ([e3feee5](https://github.com/Esri/hub.js/commit/e3feee5994300870795217207f41bd5f257da760))
+
+# @esri/hub-common [11.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.15.0...@esri/hub-common@11.16.0) (2022-09-29)
+
+
+### Features
+
+* add location to project schemas ([#896](https://github.com/Esri/hub.js/issues/896)) ([0ec512b](https://github.com/Esri/hub.js/commit/0ec512be751123f0fcf943818e355c5fbd53e9cf))
+
+# @esri/hub-common [11.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.14.2...@esri/hub-common@11.15.0) (2022-09-29)
+
+
+### Features
+
+* implement deepContains function ([#898](https://github.com/Esri/hub.js/issues/898)) ([467baee](https://github.com/Esri/hub.js/commit/467baeeb26e3c6e1048fc100ac51ba2b0f5767b0))
+
+## @esri/hub-common [11.14.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.14.1...@esri/hub-common@11.14.2) (2022-09-28)
+
+
+### Bug Fixes
+
+* failing test ([9cfe65f](https://github.com/Esri/hub.js/commit/9cfe65f183db471f68b30ae5d9300f7ca58d69ca))
+* project status defaults ([d481e66](https://github.com/Esri/hub.js/commit/d481e66c80d2cfbcbb53daeaa97bce11fae5c7ab))
+* use enum for status default ([c645c39](https://github.com/Esri/hub.js/commit/c645c3990c0227b2acf0f37fd2471f91b70e7fb6))
+* use enum for status default on project model ([de9aadb](https://github.com/Esri/hub.js/commit/de9aadb443d36962cd0a842844f0b1cd505552e0))
+
+## @esri/hub-common [11.14.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.14.0...@esri/hub-common@11.14.1) (2022-09-27)
+
+
+### Bug Fixes
+
+* bump arcgis-rest-portal to pull in request fix for extents ([#895](https://github.com/Esri/hub.js/issues/895)) ([3494865](https://github.com/Esri/hub.js/commit/349486574fb15e47f025c3573578a3ec2719005c))
+
+# @esri/hub-common [11.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.13.0...@esri/hub-common@11.14.0) (2022-09-26)
+
+
+### Features
+
+* add catalog contains function ([#893](https://github.com/Esri/hub.js/issues/893)) ([734661e](https://github.com/Esri/hub.js/commit/734661ee351d8a87db994e812f43737af7d397db))
+
 # @esri/hub-common [11.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.12.0...@esri/hub-common@11.13.0) (2022-09-26)
 
 

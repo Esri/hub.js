@@ -1,3 +1,63 @@
+## @esri/hub-discussions [14.12.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@14.12.0...@esri/hub-discussions@14.12.1) (2022-09-29)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 11.16.1
+
+# @esri/hub-discussions [14.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@14.11.0...@esri/hub-discussions@14.12.0) (2022-09-29)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 11.16.0
+
+# @esri/hub-discussions [14.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@14.10.2...@esri/hub-discussions@14.11.0) (2022-09-29)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 11.15.0
+
+## @esri/hub-discussions [14.10.2](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@14.10.1...@esri/hub-discussions@14.10.2) (2022-09-28)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 11.14.2
+
+## @esri/hub-discussions [14.10.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@14.10.0...@esri/hub-discussions@14.10.1) (2022-09-27)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 11.14.1
+
+# @esri/hub-discussions [14.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@14.9.0...@esri/hub-discussions@14.10.0) (2022-09-26)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 11.14.0
+
 # @esri/hub-discussions [14.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@14.8.0...@esri/hub-discussions@14.9.0) (2022-09-26)
 
 
