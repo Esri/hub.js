@@ -254,14 +254,23 @@ export class HubSite
       }
     });
 
-    // push the site and it's catalog into the hierarchy as the last entry
-    hierarchy.push({
-      id: this.id,
-      entityType: "item",
-      catalog: this._catalog.toJson(),
-    });
+    // Add the site and it's catalog into the hierarchy as the last entry
+    const hierarchyWithSiteCatalog = [
+      ...hierarchy,
+      ...[
+        {
+          id: this.id,
+          entityType: "item",
+          catalog: this._catalog.toJson(),
+        } as IDeepCatalogInfo,
+      ],
+    ];
     // delegate to fn
-    const response = await deepContains(identifier, hierarchy, this.context);
+    const response = await deepContains(
+      identifier,
+      hierarchyWithSiteCatalog,
+      this.context
+    );
     // cache the catalogs
     Object.keys(response.catalogInfo).forEach((key) => {
       // don't cache the site's catalog
