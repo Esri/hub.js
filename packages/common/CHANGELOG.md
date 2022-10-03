@@ -1,3 +1,10 @@
+## @esri/hub-common [11.18.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.18.1...@esri/hub-common@11.18.2) (2022-10-03)
+
+
+### Bug Fixes
+
+* actually export HubSite class s ([#902](https://github.com/Esri/hub.js/issues/902)) ([554be8f](https://github.com/Esri/hub.js/commit/554be8fd0078806a3b24096ae02c32f634b22600))
+
 ## @esri/hub-common [11.18.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.18.0...@esri/hub-common@11.18.1) (2022-10-03)
 
 
