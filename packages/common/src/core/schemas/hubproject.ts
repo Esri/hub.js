@@ -198,13 +198,18 @@ export const HubProjectEditUiSchema: IUiSchema = {
       ],
     },
     {
+      type: "Section",
       labelKey: "{{i18nScope}}.timeline.label",
-      scope: "/properties/timeline",
-      type: "Control",
-      options: {
-        control: "arcgis-hub-timeline-editor",
-        changeEvent: "arcgisHubTimelineEditorChange",
-      },
+      elements: [
+        {
+          scope: "/properties/timeline",
+          type: "Control",
+          options: {
+            control: "arcgis-hub-timeline-editor",
+            changeEvent: "arcgisHubTimelineEditorChange",
+          },
+        },
+      ],
     },
   ],
 };
