@@ -1,3 +1,15 @@
+# @esri/hub-common [11.17.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.16.1...@esri/hub-common@11.17.0) (2022-10-03)
+
+
+### Bug Fixes
+
+* **hub-common:** put timeline into it's own section ([c8c8b44](https://github.com/Esri/hub.js/commit/c8c8b446888ac62e80c576759fc38106e227d9cd))
+
+
+### Features
+
+* **hub-common:** update project create and edit schemas and uiSchema to support timeine ([6527b91](https://github.com/Esri/hub.js/commit/6527b91256734051579c0cf54974d5ff17a40759))
+
 ## @esri/hub-common [11.16.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.16.0...@esri/hub-common@11.16.1) (2022-09-29)
 
 
