@@ -1,3 +1,10 @@
+## @esri/hub-common [11.18.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.18.0...@esri/hub-common@11.18.1) (2022-10-03)
+
+
+### Bug Fixes
+
+* refactor so conversion of model to ihubsite is separate fn ([#901](https://github.com/Esri/hub.js/issues/901)) ([c26a285](https://github.com/Esri/hub.js/commit/c26a2854821dd6d146849edb5a1d6779995f09d4))
+
 # @esri/hub-common [11.18.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.17.0...@esri/hub-common@11.18.0) (2022-10-03)
 
 
