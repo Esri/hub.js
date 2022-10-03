@@ -1,3 +1,10 @@
+# @esri/hub-common [11.18.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.17.0...@esri/hub-common@11.18.0) (2022-10-03)
+
+
+### Features
+
+* add HubSite class with .contains ([#900](https://github.com/Esri/hub.js/issues/900)) ([fbb857e](https://github.com/Esri/hub.js/commit/fbb857eaf2a287cac82ca9cb372af4e3536dd8cb))
+
 # @esri/hub-common [11.17.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.16.1...@esri/hub-common@11.17.0) (2022-10-03)
 
 
