@@ -461,6 +461,19 @@ export async function fetchSite(
   // get the model
   const model = await fetchSiteModel(identifier, requestOptions);
 
+  return convertModelToSite(model, requestOptions);
+}
+
+/**
+ * Convert an IModel for a Hub Site Item into an IHubSite
+ * @param model
+ * @param requestOptions
+ * @returns
+ */
+export function convertModelToSite(
+  model: IModel,
+  requestOptions: IHubRequestOptions
+): IHubSite {
   // convert to site
   const mapper = new PropertyMapper<Partial<IHubSite>>(getSitePropertyMap());
   const site = mapper.modelToObject(model, {}) as IHubSite;
