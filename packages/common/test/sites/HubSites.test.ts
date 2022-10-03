@@ -73,7 +73,7 @@ const SITE: commonModule.IHubSite = {
   theme: {},
   subdomain: "site-org",
   capabilities: [],
-  catalog: { groups: [] },
+  catalog: { schemaVersion: 0 },
   pages: [],
   defaultHostname: "site-org.hub.arcgis.com",
   customHostname: "",
@@ -84,6 +84,7 @@ const SITE: commonModule.IHubSite = {
   headerSass: "",
   thumbnailUrl: "",
   schemaVersion: 2,
+  permissions: [],
 };
 
 const SITE_ITEM_ENRICH: portalModule.IItem = {

@@ -1,10 +1,10 @@
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
-import { deepContains } from "../src/core/_internal/deepContains";
+import { HubSite } from "../src/sites/HubSite";
 import { IDeepCatalogInfo, IHubCatalog } from "../src/search";
-import { getProp } from "../src";
+import { ArcGISContextManager, IArcGISContext } from "../src";
 
-// Fixtures
+// Fixtures - shared with deep-contains.e2e.ts
 //
 // Site: c84347eb5d0a4a7b84c334fe84a5bbfe
 // - Catalog Group: b29562e1236f4743bc08d2444497b008
@@ -24,7 +24,7 @@ import { getProp } from "../src";
 //     - Unique Web App: a88285b001574cf3bfc91c4da11391cf
 //     - Common Web App: 63c765456d23439e8faf0e4172fc9b23
 
-fdescribe("deepContains:", () => {
+fdescribe("HubSite.contains:", () => {
   const siteItemId: string = "c84347eb5d0a4a7b84c334fe84a5bbfe";
   const siteAppItemId: string = "7da7ea6055d34afd9125a2ccd63be5e1";
   const projectItemId: string = "9c0ecf87bcc04a1d93dec04b54332458";
@@ -35,70 +35,61 @@ fdescribe("deepContains:", () => {
 
   let factory: Artifactory;
   const orgName = "hubBasic";
-  beforeAll(() => {
+  let siteInstance: HubSite;
+  let context: IArcGISContext;
+  beforeAll(async () => {
     factory = new Artifactory(config);
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;
+    const ctxMgr = await factory.getContextManager(orgName, "admin");
+    context = ctxMgr.context;
+  });
+
+  beforeEach(async () => {
+    // re-create site for each test so we can verify the caching works
+    siteInstance = await HubSite.fetch(siteItemId, context);
   });
 
   describe(" passing only id:", () => {
     it("finds app in site catalog", async () => {
-      const ctxMgr = await factory.getContextManager(orgName, "admin");
-      const siteCatalogInfo: IDeepCatalogInfo = {
-        id: siteItemId,
-        entityType: "item",
-      };
-      const chk = await deepContains(
-        siteAppItemId,
-        [siteCatalogInfo],
-        ctxMgr.context
-      );
+      const chk = await siteInstance.contains(siteAppItemId);
       expect(chk.isContained).toBeTruthy();
       // tslint:disable-next-line:no-console
-      console.info(`App in Site Catalog: Time: ${chk.duration} ms`);
+      console.info(
+        `HubSite.contains: App in Site Catalog: Time: ${chk.duration} ms`
+      );
 
-      // hold the catalog and do another check
-      siteCatalogInfo.catalog = getProp(
-        chk,
-        `catalogInfo.${siteItemId}.catalog`
-      );
-      const chk2 = await deepContains(
-        commonAppItemId,
-        [siteCatalogInfo],
-        ctxMgr.context
-      );
+      const chk2 = await siteInstance.contains(commonAppItemId);
       expect(chk2.isContained).toBeTruthy();
       // tslint:disable-next-line:no-console
-      console.info(`App in Site Catalog (cached): Time: ${chk2.duration} ms`);
+      console.info(
+        `HubSite.contains: App in Site Catalog (cached): Time: ${chk2.duration} ms`
+      );
+      const chk3 = await siteInstance.contains(projectAppItemId);
+      expect(chk3.isContained).toBeFalsy();
+      // tslint:disable-next-line:no-console
+      console.info(
+        `HubSite.contains: App not in Site Catalog (cached): Time: ${chk3.duration} ms`
+      );
     });
 
     it("finds app in initiative catalog", async () => {
-      const ctxMgr = await factory.getContextManager(orgName, "admin");
-      const siteCatalogInfo: IDeepCatalogInfo = {
-        id: siteItemId,
-        entityType: "item",
-      };
       const initiativeCatalogInfo: IDeepCatalogInfo = {
         id: initiativeItemId,
         entityType: "item",
       };
 
-      const chk = await deepContains(
-        initiativeAppItemId,
-        [initiativeCatalogInfo, siteCatalogInfo],
-        ctxMgr.context
-      );
+      const chk = await siteInstance.contains(initiativeAppItemId, [
+        initiativeCatalogInfo,
+      ]);
 
       expect(chk.isContained).toBeTruthy();
       // tslint:disable-next-line:no-console
-      console.info(`App in Initiative Catalog: Time: ${chk.duration} ms`);
+      console.info(
+        `HubSite.contains: App in Initiative Catalog: Time: ${chk.duration} ms`
+      );
     });
 
     it("finds app in project catalog", async () => {
-      const ctxMgr = await factory.getContextManager(orgName, "admin");
-      const siteCatalogInfo: IDeepCatalogInfo = {
-        id: siteItemId,
-        entityType: "item",
-      };
       const initiativeCatalogInfo: IDeepCatalogInfo = {
         id: initiativeItemId,
         entityType: "item",
@@ -108,68 +99,38 @@ fdescribe("deepContains:", () => {
         entityType: "item",
       };
 
-      const chk = await deepContains(
+      const chk = await siteInstance.contains(
         projectAppItemId,
 
-        [projectCatalogInfo, initiativeCatalogInfo, siteCatalogInfo],
-        ctxMgr.context
+        [projectCatalogInfo, initiativeCatalogInfo]
       );
 
       expect(chk.isContained).toBeTruthy();
       // tslint:disable-next-line:no-console
-      console.info(`App in Project Catalog: Time: ${chk.duration} ms`);
+      console.info(
+        `HubSite.contains: App in Project Catalog: Time: ${chk.duration} ms`
+      );
     });
   });
   describe("pass in catalogs", () => {
-    it("finds app in site catalog", async () => {
-      const ctxMgr = await factory.getContextManager(orgName, "admin");
-      const siteCatalogInfo: IDeepCatalogInfo = {
-        id: siteItemId,
-        entityType: "item",
-        catalog: createCatalog("b29562e1236f4743bc08d2444497b008"),
-      };
-      const chk = await deepContains(
-        siteAppItemId,
-
-        [siteCatalogInfo],
-        ctxMgr.context
-      );
-      expect(chk.isContained).toBeTruthy();
-      // tslint:disable-next-line:no-console
-      console.info(`App in Site Catalog (passed in): Time: ${chk.duration} ms`);
-    });
     it("find app in initiative catalog", async () => {
-      const ctxMgr = await factory.getContextManager(orgName, "admin");
-      const siteCatalogInfo: IDeepCatalogInfo = {
-        id: siteItemId,
-        entityType: "item",
-        catalog: createCatalog("b29562e1236f4743bc08d2444497b008"),
-      };
       const initiativeCatalogInfo: IDeepCatalogInfo = {
         id: initiativeItemId,
         entityType: "item",
         catalog: createCatalog("1d568e44a1b043529f67122340a33890"),
       };
 
-      const chk = await deepContains(
-        initiativeAppItemId,
-        [initiativeCatalogInfo, siteCatalogInfo],
-        ctxMgr.context
-      );
+      const chk = await siteInstance.contains(initiativeAppItemId, [
+        initiativeCatalogInfo,
+      ]);
 
       expect(chk.isContained).toBeTruthy();
       // tslint:disable-next-line:no-console
       console.info(
-        `App in Initiative Catalog (passed in): Time: ${chk.duration} ms`
+        `HubSite.contains: App in Initiative Catalog (passed in): Time: ${chk.duration} ms`
       );
     });
     it("find app in project catalog", async () => {
-      const ctxMgr = await factory.getContextManager(orgName, "admin");
-      const siteCatalogInfo: IDeepCatalogInfo = {
-        id: siteItemId,
-        entityType: "item",
-        catalog: createCatalog("b29562e1236f4743bc08d2444497b008"),
-      };
       const initiativeCatalogInfo: IDeepCatalogInfo = {
         id: initiativeItemId,
         entityType: "item",
@@ -181,17 +142,16 @@ fdescribe("deepContains:", () => {
         catalog: createCatalog("5d92405aaa2b414d8632a469f9983be8"),
       };
 
-      const chk = await deepContains(
+      const chk = await siteInstance.contains(
         initiativeAppItemId,
 
-        [projectCatalogInfo, initiativeCatalogInfo, siteCatalogInfo],
-        ctxMgr.context
+        [projectCatalogInfo, initiativeCatalogInfo]
       );
 
       expect(chk.isContained).toBeTruthy();
       // tslint:disable-next-line:no-console
       console.info(
-        `App in Project Catalog (passed in): Time: ${chk.duration} ms`
+        `HubSite.contains: App in Project Catalog (passed in): Time: ${chk.duration} ms`
       );
     });
   });
