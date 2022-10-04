@@ -1,3 +1,10 @@
+## @esri/hub-common [11.18.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.18.2...@esri/hub-common@11.18.3) (2022-10-04)
+
+
+### Bug Fixes
+
+* **hub-common:** bumps adlib to fix leading 0 removal issue ([f438006](https://github.com/Esri/hub.js/commit/f438006e9743e9d8c8a71ee514e03a48341e98de))
+
 ## @esri/hub-common [11.18.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.18.1...@esri/hub-common@11.18.2) (2022-10-03)
 
 
