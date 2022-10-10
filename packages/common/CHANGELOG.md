@@ -1,3 +1,10 @@
+# @esri/hub-common [11.19.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.18.3...@esri/hub-common@11.19.0) (2022-10-10)
+
+
+### Features
+
+* show toggle to show/hide project map ([#904](https://github.com/Esri/hub.js/issues/904)) ([96121b2](https://github.com/Esri/hub.js/commit/96121b2856bf2733a47143023b16120eb09fe859))
+
 ## @esri/hub-common [11.18.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.18.2...@esri/hub-common@11.18.3) (2022-10-04)
 
 
