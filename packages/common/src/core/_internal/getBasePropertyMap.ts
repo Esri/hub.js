@@ -21,7 +21,7 @@ export function getBasePropertyMap(): IPropertyMap[] {
     "thumbnail",
     "url",
   ];
-  const dataProps = ["display", "geometry", "location"];
+  const dataProps = ["display", "geometry", "location", "view"];
   const map: IPropertyMap[] = [];
   itemProps.forEach((entry) => {
     map.push({ objectKey: entry, modelKey: `item.${entry}` });

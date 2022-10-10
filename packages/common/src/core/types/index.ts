@@ -17,4 +17,4 @@ export * from "./IItemEnrichments";
 export * from "./IServerEnrichments";
 export * from "./types";
 export * from "./IHubPermission";
-export * from "./IHubProjectView";
+export * from "./IHubViewSettings";
