@@ -1,4 +1,4 @@
-import { IHubTimeline, IHubItemEntity } from "./index";
+import { IHubTimeline, IHubItemEntity, IHubProjectView } from "./index";
 import {
   IWithLayout,
   IWithPermissions,
@@ -23,6 +23,10 @@ export interface IHubProject
    * Project Status
    */
   status: PROJECT_STATUSES;
+  /**
+   * Project display properties
+   */
+  view?: IHubProjectView;
 }
 
 export enum PROJECT_STATUSES {

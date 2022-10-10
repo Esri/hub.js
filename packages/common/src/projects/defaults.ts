@@ -37,5 +37,8 @@ export const DEFAULT_PROJECT_MODEL: IModel = {
     timeline: {},
     status: PROJECT_STATUSES.notStarted,
     contacts: [],
+    view: {
+      showMap: true,
+    },
   },
 } as unknown as IModel;
