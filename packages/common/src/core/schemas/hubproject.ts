@@ -27,6 +27,10 @@ export const HubProjectSchema: IConfigurationSchema = {
       default: PROJECT_STATUSES.notStarted,
       enum: Object.keys(PROJECT_STATUSES),
     },
+    showMap: {
+      type: "boolean",
+      subtype: "switch",
+    },
     extent: {
       type: "object",
       // TODO: Remove reliance on subtype as it's not valid json schema
@@ -175,6 +179,11 @@ export const HubProjectEditUiSchema: IUiSchema = {
       type: "Section",
       labelKey: "{{i18nScope}}.location.label",
       elements: [
+        {
+          labelKey: "{{i18nScope}}.showMap.label",
+          scope: "/properties/showMap",
+          type: "Control",
+        },
         {
           labelKey: "{{i18nScope}}.extent.label",
           scope: "/properties/extent",

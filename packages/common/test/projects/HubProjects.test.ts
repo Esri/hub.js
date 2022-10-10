@@ -15,12 +15,14 @@ import {
   HubProjectSchema,
   deepFind,
   PROJECT_STATUSES,
+  HubProjectCreateUiSchema,
 } from "../../src";
 
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as modelUtils from "../../src/models";
 import * as slugUtils from "../../src/items/slugs";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { filterSchemaToUiSchema } from "../../src/core/schemas/internal";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 const PROJECT_ITEM: portalModule.IItem = {
@@ -409,8 +411,12 @@ describe("HubProjects:", () => {
     // TODO: Decide how deep to verify the return structures
     it("returns create schema", async () => {
       const chk = await getHubProjectEditorConfig("test.scope", "create");
+      const schema = filterSchemaToUiSchema(
+        HubProjectSchema,
+        HubProjectCreateUiSchema
+      );
       expect(chk.schema).toBeDefined();
-      expect(chk.schema).toEqual(HubProjectSchema);
+      expect(chk.schema).toEqual(schema);
       expect(chk.uiSchema).toBeDefined();
     });
 
