@@ -6,6 +6,7 @@ export interface IHubTimeline {
   title: string;
   description: string;
   stages: IHubStage[];
+  collapse: boolean;
 }
 
 /**
