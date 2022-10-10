@@ -1,3 +1,10 @@
+# @esri/hub-common [11.20.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.19.0...@esri/hub-common@11.20.0) (2022-10-10)
+
+
+### Features
+
+* **hub-common:** add collapse to IHubTimeline ([4b8a00b](https://github.com/Esri/hub.js/commit/4b8a00b0df97e87d45192e00fc896134b8a1ae15))
+
 # @esri/hub-common [11.19.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.18.3...@esri/hub-common@11.19.0) (2022-10-10)
 
 
