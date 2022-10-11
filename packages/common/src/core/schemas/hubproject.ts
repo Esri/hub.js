@@ -12,15 +12,9 @@ export const HubProjectSchema: IConfigurationSchema = {
     },
     summary: {
       type: "string",
-      // TODO: Remove reliance on subtype as it's not valid json schema
-      // Issue https://devtopia.esri.com/dc/hub/issues/3725
-      subtype: "long-text",
     },
     description: {
       type: "string",
-      // TODO: Remove reliance on subtype as it's not valid json schema
-      // Issue https://devtopia.esri.com/dc/hub/issues/3725
-      subtype: "long-text",
     },
     status: {
       type: "string",
@@ -29,13 +23,9 @@ export const HubProjectSchema: IConfigurationSchema = {
     },
     showMap: {
       type: "boolean",
-      subtype: "switch",
     },
     extent: {
       type: "object",
-      // TODO: Remove reliance on subtype as it's not valid json schema
-      // Issue https://devtopia.esri.com/dc/hub/issues/3725
-      subtype: "boundary",
     },
     timeline: {
       type: "object",
@@ -67,6 +57,8 @@ export const HubProjectCreateUiSchema: IUiSchema = {
               scope: "/properties/summary",
               type: "Control",
               options: {
+                control: "hub-field-input-input",
+                type: "textarea",
                 helperText: {
                   labelKey: "{{i18nScope}}.summary.helperText",
                 },
@@ -77,6 +69,8 @@ export const HubProjectCreateUiSchema: IUiSchema = {
               scope: "/properties/description",
               type: "Control",
               options: {
+                control: "hub-field-input-input",
+                type: "textarea",
                 helperText: {
                   labelKey: "{{i18nScope}}.description.helperText",
                 },
@@ -98,6 +92,9 @@ export const HubProjectCreateUiSchema: IUiSchema = {
             {
               scope: "/properties/extent",
               type: "Control",
+              options: {
+                control: "hub-field-input-boundary-picker",
+              },
             },
           ],
         },
@@ -117,6 +114,7 @@ export const HubProjectCreateUiSchema: IUiSchema = {
               scope: "/properties/status",
               type: "Control",
               options: {
+                control: "hub-field-input-select",
                 enum: {
                   i18nScope: "{{i18nScope}}.status.enum",
                 },
@@ -128,7 +126,6 @@ export const HubProjectCreateUiSchema: IUiSchema = {
               type: "Control",
               options: {
                 control: "arcgis-hub-timeline-editor",
-                changeEvent: "arcgisHubTimelineEditorChange",
               },
             },
           ],
@@ -158,6 +155,8 @@ export const HubProjectEditUiSchema: IUiSchema = {
           scope: "/properties/summary",
           type: "Control",
           options: {
+            control: "hub-field-input-input",
+            type: "textarea",
             helperText: {
               labelKey: "{{i18nScope}}.summary.helperText",
             },
@@ -168,6 +167,8 @@ export const HubProjectEditUiSchema: IUiSchema = {
           scope: "/properties/description",
           type: "Control",
           options: {
+            control: "hub-field-input-input",
+            type: "textarea",
             helperText: {
               labelKey: "{{i18nScope}}.description.helperText",
             },
@@ -188,6 +189,9 @@ export const HubProjectEditUiSchema: IUiSchema = {
           labelKey: "{{i18nScope}}.extent.label",
           scope: "/properties/extent",
           type: "Control",
+          options: {
+            control: "hub-field-input-boundary-picker",
+          },
         },
       ],
     },
@@ -199,6 +203,7 @@ export const HubProjectEditUiSchema: IUiSchema = {
           scope: "/properties/status",
           type: "Control",
           options: {
+            control: "hub-field-input-select",
             enum: {
               i18nScope: "{{i18nScope}}.status.enum",
             },
@@ -215,7 +220,6 @@ export const HubProjectEditUiSchema: IUiSchema = {
           type: "Control",
           options: {
             control: "arcgis-hub-timeline-editor",
-            changeEvent: "arcgisHubTimelineEditorChange",
           },
         },
       ],
