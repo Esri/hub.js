@@ -17,4 +17,5 @@ export const SITE_DRAFT_INCLUDE_LIST = [
   "data.values.map",
   "data.values.capabilities",
   "data.values.contentViews",
+  "data.values.headContent",
 ];
