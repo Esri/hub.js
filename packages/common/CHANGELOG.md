@@ -1,3 +1,10 @@
+## @esri/hub-common [11.20.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.20.0...@esri/hub-common@11.20.1) (2022-10-11)
+
+
+### Bug Fixes
+
+* remove all references to subtype in project schema ([6f6dd08](https://github.com/Esri/hub.js/commit/6f6dd08251df6a3361591d9f7add12997a84b112))
+
 # @esri/hub-common [11.20.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.19.0...@esri/hub-common@11.20.0) (2022-10-10)
 
 
