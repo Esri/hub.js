@@ -6,7 +6,7 @@ export interface IHubTimeline {
   title: string;
   description: string;
   stages: IHubStage[];
-  isCollapsed: boolean;
+  isCollapsible: boolean;
 }
 
 /**
