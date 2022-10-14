@@ -1,3 +1,12 @@
+## @esri/hub-common [11.21.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.21.0...@esri/hub-common@11.21.1) (2022-10-14)
+
+
+### Bug Fixes
+
+* **hub-common:** change name to isCollapsible ([7479bc8](https://github.com/Esri/hub.js/commit/7479bc815d1454f5e0fb3d363e0618858596a368))
+* **hub-common:** rename collapse to isCollapsed in IHubTimeline ([fae3a56](https://github.com/Esri/hub.js/commit/fae3a56ffcf0b347854c971b1f4b5d345743e612))
+* **hub-common:** rename to canCollapse ([11043a5](https://github.com/Esri/hub.js/commit/11043a5ee5c44c0fcffc39413a6575c6ac26dc4d))
+
 # @esri/hub-common [11.21.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.20.1...@esri/hub-common@11.21.0) (2022-10-14)
 
 
