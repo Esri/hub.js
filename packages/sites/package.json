@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-sites",
-  "version": "11.21.0",
+  "version": "11.22.0",
   "description": "Module to interact with ArcGIS Hub Sites in Node.js and modern browsers.",
   "main": "dist/node/index.js",
   "module": "dist/esm/index.js",
@@ -14,17 +14,17 @@
     "@esri/arcgis-rest-auth": "^2.13.0 || 3",
     "@esri/arcgis-rest-portal": "^2.19.0 || 3",
     "@esri/arcgis-rest-request": "^2.13.0 || 3",
-    "@esri/hub-common": "11.20.1",
-    "@esri/hub-initiatives": "11.20.1",
-    "@esri/hub-teams": "11.20.1"
+    "@esri/hub-common": "11.21.0",
+    "@esri/hub-initiatives": "11.21.0",
+    "@esri/hub-teams": "11.21.0"
   },
   "devDependencies": {
     "@esri/arcgis-rest-auth": "^3.1.1",
     "@esri/arcgis-rest-portal": "^3.5.0",
     "@esri/arcgis-rest-request": "^3.1.1",
-    "@esri/hub-common": "11.20.1",
-    "@esri/hub-initiatives": "11.20.1",
-    "@esri/hub-teams": "11.20.1",
+    "@esri/hub-common": "11.21.0",
+    "@esri/hub-initiatives": "11.21.0",
+    "@esri/hub-teams": "11.21.0",
     "@esri/hub-types": "^6.10.0",
     "typescript": "^3.8.1"
   },
