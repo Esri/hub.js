@@ -1,3 +1,10 @@
+# @esri/hub-common [11.21.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.20.1...@esri/hub-common@11.21.0) (2022-10-14)
+
+
+### Features
+
+* reorder project edit location uischema section and remove unneeded label ([#911](https://github.com/Esri/hub.js/issues/911)) ([ad96f97](https://github.com/Esri/hub.js/commit/ad96f97efcec93a79118a8e096e72519ac6c5410))
+
 ## @esri/hub-common [11.20.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.20.0...@esri/hub-common@11.20.1) (2022-10-11)
 
 
