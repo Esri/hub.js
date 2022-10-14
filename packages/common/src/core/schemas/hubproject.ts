@@ -181,17 +181,16 @@ export const HubProjectEditUiSchema: IUiSchema = {
       labelKey: "{{i18nScope}}.location.label",
       elements: [
         {
-          labelKey: "{{i18nScope}}.showMap.label",
-          scope: "/properties/showMap",
-          type: "Control",
-        },
-        {
-          labelKey: "{{i18nScope}}.extent.label",
           scope: "/properties/extent",
           type: "Control",
           options: {
             control: "hub-field-input-boundary-picker",
           },
+        },
+        {
+          labelKey: "{{i18nScope}}.showMap.label",
+          scope: "/properties/showMap",
+          type: "Control",
         },
       ],
     },
