@@ -1,3 +1,10 @@
+## @esri/hub-common [11.21.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.21.1...@esri/hub-common@11.21.2) (2022-10-19)
+
+
+### Bug Fixes
+
+* rename stage description to stageDescription ([e3b4bcb](https://github.com/Esri/hub.js/commit/e3b4bcb69c3533b79e0466345f394e8b8b89b655))
+
 ## @esri/hub-common [11.21.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.21.0...@esri/hub-common@11.21.1) (2022-10-14)
 
 
