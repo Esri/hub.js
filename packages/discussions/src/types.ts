@@ -351,6 +351,41 @@ export interface IRemoveChannelResponse {
 }
 
 /**
+ * delete notifications opt out response properties
+ *
+ * @export
+ * @interface IRemoveChannelNotificationOptOutResult
+ */
+export interface IRemoveChannelNotificationOptOutResult {
+  success: boolean;
+  channelId: string;
+  username: string;
+}
+
+/**
+ * delete channel activity response properties
+ *
+ * @export
+ * @interface IRemoveChannelActivityResult
+ */
+export interface IRemoveChannelActivityResult {
+  success: boolean;
+  channelId: string;
+  username: string;
+}
+
+/**
+ * opt out response properties
+ *
+ * @export
+ * @interface IChannelNotificationOptOut
+ */
+export interface IChannelNotificationOptOut {
+  channelId: string;
+  username: string;
+}
+
+/**
  * delete reaction response properties
  *
  * @export
@@ -815,6 +850,53 @@ export interface IUpdateChannelOptions extends IHubRequestOptions {
  * @extends {IHubRequestOptions}
  */
 export interface IRemoveChannelOptions extends IHubRequestOptions {
+  channelId: string;
+}
+
+/**
+ * request options for fetching opt out status
+ *
+ * @export
+ * @interface IFetchChannelNotificationOptOutOptions
+ * @extends {IHubRequestOptions}
+ */
+export interface IFetchChannelNotificationOptOutOptions
+  extends IHubRequestOptions {
+  channelId: string;
+}
+
+/**
+ * request options for opting out
+ *
+ * @export
+ * @interface ICreateChannelNotificationOptOutOptions
+ * @extends {IHubRequestOptions}
+ */
+export interface ICreateChannelNotificationOptOutOptions
+  extends IHubRequestOptions {
+  channelId: string;
+}
+
+/**
+ * request options for opting back in
+ *
+ * @export
+ * @interface IRemoveChannelNotificationOptOutOptions
+ * @extends {IHubRequestOptions}
+ */
+export interface IRemoveChannelNotificationOptOutOptions
+  extends IHubRequestOptions {
+  channelId: string;
+}
+
+/**
+ * request options for deleting channel activity
+ *
+ * @export
+ * @interface IRemoveChannelActivityOptions
+ * @extends {IHubRequestOptions}
+ */
+export interface IRemoveChannelActivityOptions extends IHubRequestOptions {
   channelId: string;
 }
 

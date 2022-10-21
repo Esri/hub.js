@@ -3,7 +3,11 @@ import {
   searchChannels,
   fetchChannel,
   updateChannel,
-  removeChannel
+  removeChannel,
+  fetchChannelNotifcationOptOut,
+  createChannelNotificationOptOut,
+  removeChannelNotificationOptOut,
+  removeChannelActivity,
 } from "../src/channels";
 import * as req from "../src/request";
 import {
@@ -11,7 +15,7 @@ import {
   IHubRequestOptions,
   PostReaction,
   PostStatus,
-  SharingAccess
+  SharingAccess,
 } from "../src/types";
 
 describe("channels", () => {
@@ -19,7 +23,7 @@ describe("channels", () => {
   const response = new Response("ok", { status: 200 });
   const baseOpts: IHubRequestOptions = {
     hubApiUrl: "https://hub.arcgis.com/api",
-    authentication: null
+    authentication: null,
   };
 
   beforeEach(() => {
@@ -28,10 +32,10 @@ describe("channels", () => {
     );
   });
 
-  it("queries channels", done => {
+  it("queries channels", (done) => {
     const query = {
       access: [SharingAccess.PUBLIC],
-      groups: ["foo"]
+      groups: ["foo"],
     };
 
     const options = { ...baseOpts, params: query };
@@ -46,7 +50,7 @@ describe("channels", () => {
       .catch(() => fail());
   });
 
-  it("creates channel", done => {
+  it("creates channel", (done) => {
     const body = {
       access: SharingAccess.PUBLIC,
       groups: ["foo"],
@@ -55,7 +59,7 @@ describe("channels", () => {
       softDelete: true,
       defaultPostStatus: PostStatus.APPROVED,
       allowReaction: true,
-      allowedReactions: [PostReaction.HEART]
+      allowedReactions: [PostReaction.HEART],
     };
 
     const options = { ...baseOpts, params: body };
@@ -71,7 +75,7 @@ describe("channels", () => {
       .catch(() => fail());
   });
 
-  it("gets channel", done => {
+  it("gets channel", (done) => {
     const channelId = "channelId";
 
     const options = { ...baseOpts, channelId };
@@ -87,10 +91,10 @@ describe("channels", () => {
       .catch(() => fail());
   });
 
-  it("updates channel", done => {
+  it("updates channel", (done) => {
     const channelId = "channelId";
     const body = {
-      allowReaction: false
+      allowReaction: false,
     };
 
     const options = { ...baseOpts, channelId, params: body };
@@ -106,7 +110,7 @@ describe("channels", () => {
       .catch(() => fail());
   });
 
-  it("deletes channel", done => {
+  it("deletes channel", (done) => {
     const channelId = "channelId";
 
     const options = { ...baseOpts, channelId };
@@ -116,6 +120,70 @@ describe("channels", () => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
         expect(url).toEqual(`/channels/${channelId}`);
+        expect(opts).toEqual({ ...options, httpMethod: "DELETE" });
+        done();
+      })
+      .catch(() => fail());
+  });
+
+  it("gets channel opt out status", (done) => {
+    const channelId = "channelId";
+
+    const options = { ...baseOpts, channelId };
+
+    fetchChannelNotifcationOptOut(options)
+      .then(() => {
+        expect(requestSpy.calls.count()).toEqual(1);
+        const [url, opts] = requestSpy.calls.argsFor(0);
+        expect(url).toEqual(`/channels/${channelId}/notifications/opt-out`);
+        expect(opts).toEqual({ ...options, httpMethod: "GET" });
+        done();
+      })
+      .catch(() => fail());
+  });
+
+  it("creates channel opt out", (done) => {
+    const channelId = "channelId";
+
+    const options = { ...baseOpts, channelId };
+
+    createChannelNotificationOptOut(options)
+      .then(() => {
+        expect(requestSpy.calls.count()).toEqual(1);
+        const [url, opts] = requestSpy.calls.argsFor(0);
+        expect(url).toEqual(`/channels/${channelId}/notifications/opt-out`);
+        expect(opts).toEqual({ ...options, httpMethod: "POST" });
+        done();
+      })
+      .catch(() => fail());
+  });
+
+  it("deletes channel opt out", (done) => {
+    const channelId = "channelId";
+
+    const options = { ...baseOpts, channelId };
+
+    removeChannelNotificationOptOut(options)
+      .then(() => {
+        expect(requestSpy.calls.count()).toEqual(1);
+        const [url, opts] = requestSpy.calls.argsFor(0);
+        expect(url).toEqual(`/channels/${channelId}/notifications/opt-out`);
+        expect(opts).toEqual({ ...options, httpMethod: "DELETE" });
+        done();
+      })
+      .catch(() => fail());
+  });
+
+  it("deletes channel activity", (done) => {
+    const channelId = "channelId";
+
+    const options = { ...baseOpts, channelId };
+
+    removeChannelActivity(options)
+      .then(() => {
+        expect(requestSpy.calls.count()).toEqual(1);
+        const [url, opts] = requestSpy.calls.argsFor(0);
+        expect(url).toEqual(`/channels/${channelId}/activity`);
         expect(opts).toEqual({ ...options, httpMethod: "DELETE" });
         done();
       })

@@ -7,7 +7,14 @@ import {
   IRemoveChannelOptions,
   IChannel,
   IPagedResponse,
-  IRemoveChannelResponse
+  IRemoveChannelResponse,
+  IFetchChannelNotificationOptOutOptions,
+  ICreateChannelNotificationOptOutOptions,
+  IRemoveChannelNotificationOptOutOptions,
+  IRemoveChannelActivityOptions,
+  IRemoveChannelNotificationOptOutResult,
+  IRemoveChannelActivityResult,
+  IChannelNotificationOptOut,
 } from "./types";
 
 /**
@@ -78,4 +85,69 @@ export function removeChannel(
 ): Promise<IRemoveChannelResponse> {
   options.httpMethod = "DELETE";
   return request(`/channels/${options.channelId}`, options);
+}
+
+/**
+ * get channel opt out status
+ *
+ * @export
+ * @param {IFetchChannelNotificationOptOutOptions} options
+ * @return {*}
+ */
+export function fetchChannelNotifcationOptOut(
+  options: IFetchChannelNotificationOptOutOptions
+): Promise<IChannelNotificationOptOut> {
+  options.httpMethod = "GET";
+  return request(
+    `/channels/${options.channelId}/notifications/opt-out`,
+    options
+  );
+}
+
+/**
+ * opt out of channel notifs
+ *
+ * @export
+ * @param {ICreateChannelNotificationOptOutOptions} options
+ * @return {*}
+ */
+export function createChannelNotificationOptOut(
+  options: ICreateChannelNotificationOptOutOptions
+): Promise<IChannelNotificationOptOut> {
+  options.httpMethod = "POST";
+  return request(
+    `/channels/${options.channelId}/notifications/opt-out`,
+    options
+  );
+}
+
+/**
+ * opt in to channel notifs
+ *
+ * @export
+ * @param {IRemoveChannelNotificationOptOutOptions} options
+ * @return {*}
+ */
+export function removeChannelNotificationOptOut(
+  options: IRemoveChannelNotificationOptOutOptions
+): Promise<IRemoveChannelNotificationOptOutResult> {
+  options.httpMethod = "DELETE";
+  return request(
+    `/channels/${options.channelId}/notifications/opt-out`,
+    options
+  );
+}
+
+/**
+ * remove all posts in a channel
+ *
+ * @export
+ * @param {IRemoveChannelActivityOptions} options
+ * @return {*}
+ */
+export function removeChannelActivity(
+  options: IRemoveChannelActivityOptions
+): Promise<IRemoveChannelActivityResult> {
+  options.httpMethod = "DELETE";
+  return request(`/channels/${options.channelId}/activity`, options);
 }
