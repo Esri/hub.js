@@ -20,6 +20,8 @@ export function getBasePropertyMap(): IPropertyMap[] {
     "typeKeywords",
     "thumbnail",
     "url",
+    // Allows for clearing out fields with an empty string
+    "clearEmptyFields",
   ];
   const dataProps = ["display", "geometry", "location", "view"];
   const map: IPropertyMap[] = [];
