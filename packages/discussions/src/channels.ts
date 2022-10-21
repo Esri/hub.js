@@ -8,13 +8,13 @@ import {
   IChannel,
   IPagedResponse,
   IRemoveChannelResponse,
-  IFetchOptOutOptions,
-  ICreateOptOutOptions,
-  IRemoveOptOutOptions,
-  IRemoveActivityOptions,
-  IDeleteChannelNotificationOptOutResponse,
-  IDeleteChannelActivityResponse,
-  IChannelNotificationOptOutResponse,
+  IFetchChannelNotificationOptOutOptions,
+  ICreateChannelNotificationOptOutOptions,
+  IRemoveChannelNotificationOptOutOptions,
+  IRemoveChannelActivityOptions,
+  IRemoveChannelNotificationOptOutResult,
+  IRemoveChannelActivityResult,
+  IChannelNotificationOptOut,
 } from "./types";
 
 /**
@@ -91,12 +91,12 @@ export function removeChannel(
  * get channel opt out status
  *
  * @export
- * @param {IFetchOptOutOptions} options
+ * @param {IFetchChannelNotificationOptOutOptions} options
  * @return {*}
  */
-export function fetchOptOut(
-  options: IFetchOptOutOptions
-): Promise<IChannelNotificationOptOutResponse> {
+export function fetchChannelNotifcationOptOut(
+  options: IFetchChannelNotificationOptOutOptions
+): Promise<IChannelNotificationOptOut> {
   options.httpMethod = "GET";
   return request(
     `/channels/${options.channelId}/notifications/opt-out`,
@@ -108,12 +108,12 @@ export function fetchOptOut(
  * opt out of channel notifs
  *
  * @export
- * @param {ICreateOptOutOptions} options
+ * @param {ICreateChannelNotificationOptOutOptions} options
  * @return {*}
  */
-export function createOptOut(
-  options: ICreateOptOutOptions
-): Promise<IChannelNotificationOptOutResponse> {
+export function createChannelNotificationOptOut(
+  options: ICreateChannelNotificationOptOutOptions
+): Promise<IChannelNotificationOptOut> {
   options.httpMethod = "POST";
   return request(
     `/channels/${options.channelId}/notifications/opt-out`,
@@ -125,12 +125,12 @@ export function createOptOut(
  * opt in to channel notifs
  *
  * @export
- * @param {IRemoveOptOutOptions} options
+ * @param {IRemoveChannelNotificationOptOutOptions} options
  * @return {*}
  */
-export function removeOptOut(
-  options: IRemoveOptOutOptions
-): Promise<IDeleteChannelNotificationOptOutResponse> {
+export function removeChannelNotificationOptOut(
+  options: IRemoveChannelNotificationOptOutOptions
+): Promise<IRemoveChannelNotificationOptOutResult> {
   options.httpMethod = "DELETE";
   return request(
     `/channels/${options.channelId}/notifications/opt-out`,
@@ -142,12 +142,12 @@ export function removeOptOut(
  * remove all posts in a channel
  *
  * @export
- * @param {IRemoveActivityOptions} options
+ * @param {IRemoveChannelActivityOptions} options
  * @return {*}
  */
-export function removeActivity(
-  options: IRemoveActivityOptions
-): Promise<IDeleteChannelActivityResponse> {
+export function removeChannelActivity(
+  options: IRemoveChannelActivityOptions
+): Promise<IRemoveChannelActivityResult> {
   options.httpMethod = "DELETE";
   return request(`/channels/${options.channelId}/activity`, options);
 }

@@ -4,10 +4,10 @@ import {
   fetchChannel,
   updateChannel,
   removeChannel,
-  fetchOptOut,
-  createOptOut,
-  removeOptOut,
-  removeActivity,
+  fetchChannelNotifcationOptOut,
+  createChannelNotificationOptOut,
+  removeChannelNotificationOptOut,
+  removeChannelActivity,
 } from "../src/channels";
 import * as req from "../src/request";
 import {
@@ -131,7 +131,7 @@ describe("channels", () => {
 
     const options = { ...baseOpts, channelId };
 
-    fetchOptOut(options)
+    fetchChannelNotifcationOptOut(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
@@ -147,7 +147,7 @@ describe("channels", () => {
 
     const options = { ...baseOpts, channelId };
 
-    createOptOut(options)
+    createChannelNotificationOptOut(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
@@ -163,7 +163,7 @@ describe("channels", () => {
 
     const options = { ...baseOpts, channelId };
 
-    removeOptOut(options)
+    removeChannelNotificationOptOut(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
@@ -179,7 +179,7 @@ describe("channels", () => {
 
     const options = { ...baseOpts, channelId };
 
-    removeActivity(options)
+    removeChannelActivity(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
