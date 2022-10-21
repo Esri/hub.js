@@ -1,3 +1,10 @@
+# @esri/hub-discussions [14.18.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@14.17.2...@esri/hub-discussions@14.18.0) (2022-10-21)
+
+
+### Features
+
+* **hub-discussions:** create methods for notifications opt out and activity deletion ([512061a](https://github.com/Esri/hub.js/commit/512061a3a2c3cd653638420ff40aab5ecc2e4b23))
+
 ## @esri/hub-discussions [14.17.2](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@14.17.1...@esri/hub-discussions@14.17.2) (2022-10-19)
 
 
