@@ -351,6 +351,41 @@ export interface IRemoveChannelResponse {
 }
 
 /**
+ * delete notifications opt out response properties
+ *
+ * @export
+ * @interface IDeleteChannelNotificationOptOutResponse
+ */
+export interface IDeleteChannelNotificationOptOutResponse {
+  success: boolean;
+  channelId: string;
+  username: string;
+}
+
+/**
+ * delete channel activity response properties
+ *
+ * @export
+ * @interface IDeleteChannelActivityResponse
+ */
+export interface IDeleteChannelActivityResponse {
+  success: boolean;
+  channelId: string;
+  username: string;
+}
+
+/**
+ * opt out response properties
+ *
+ * @export
+ * @interface IChannelNotificationOptOutResponse
+ */
+export interface IChannelNotificationOptOutResponse {
+  channelId: string;
+  username: string;
+}
+
+/**
  * delete reaction response properties
  *
  * @export
@@ -815,6 +850,50 @@ export interface IUpdateChannelOptions extends IHubRequestOptions {
  * @extends {IHubRequestOptions}
  */
 export interface IRemoveChannelOptions extends IHubRequestOptions {
+  channelId: string;
+}
+
+/**
+ * request options for fetching opt out status
+ *
+ * @export
+ * @interface IFetchOptOutOptions
+ * @extends {IHubRequestOptions}
+ */
+export interface IFetchOptOutOptions extends IHubRequestOptions {
+  channelId: string;
+}
+
+/**
+ * request options for opting out
+ *
+ * @export
+ * @interface ICreateOptOutOptions
+ * @extends {IHubRequestOptions}
+ */
+export interface ICreateOptOutOptions extends IHubRequestOptions {
+  channelId: string;
+}
+
+/**
+ * request options for opting back in
+ *
+ * @export
+ * @interface IRemoveOptOutOptions
+ * @extends {IHubRequestOptions}
+ */
+export interface IRemoveOptOutOptions extends IHubRequestOptions {
+  channelId: string;
+}
+
+/**
+ * request options for deleting channel activity
+ *
+ * @export
+ * @interface IRemoveActivityOptions
+ * @extends {IHubRequestOptions}
+ */
+export interface IRemoveActivityOptions extends IHubRequestOptions {
   channelId: string;
 }
 
