@@ -134,6 +134,16 @@ export function updateModel(
     // and normally should never be done.
     item.extent = bboxToString(item.extent) as unknown as number[][];
   }
+
+  // If we have a field we are trying to clear (by making it an empty string like description / snippet)
+  // We need to send clearEmptyFields: true to the updateItem call
+  if (shouldClearEmptyFields(item)) {
+    requestOptions.params = {
+      ...requestOptions.params,
+      clearEmptyFields: true,
+    };
+  }
+
   const opts = {
     item,
     ...requestOptions,
@@ -165,4 +175,14 @@ export async function fetchModelFromItem(
     item,
     data,
   } as IModel;
+}
+
+/**
+ * Given an Item, determine if there are any fields to be cleared
+ *
+ * @param {IItem} item
+ * @return {*} boolean
+ */
+function shouldClearEmptyFields(item: IItem) {
+  return ["description", "snippet"].some((field) => item[field] === "");
 }

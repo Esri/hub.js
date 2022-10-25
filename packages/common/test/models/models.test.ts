@@ -162,6 +162,7 @@ describe("model utils:", () => {
 
       const m = {
         item: {
+          description: "",
           id: "00c",
           title: "My New Thing",
           type: "Hub Project",
@@ -192,6 +193,8 @@ describe("model utils:", () => {
       )[0] as unknown as portalModule.IUpdateItemOptions;
 
       expect(opts.authentication).toBe(MOCK_AUTH);
+      expect(opts.params).toBeDefined();
+      expect(opts?.params?.clearEmptyFields).toBeTruthy();
       expect(opts.item.data).toBeDefined();
       expect(opts.item.extent).toBe("1, 2, 3, 4" as unknown as number[][]);
     });
