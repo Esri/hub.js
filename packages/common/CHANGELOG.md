@@ -1,3 +1,10 @@
+## @esri/hub-common [11.21.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.21.2...@esri/hub-common@11.21.3) (2022-10-25)
+
+
+### Bug Fixes
+
+* allows for project fields to be cleared out ([#914](https://github.com/Esri/hub.js/issues/914)) ([a136e68](https://github.com/Esri/hub.js/commit/a136e68daa4a154d59bf7e390360c84bf808705d))
+
 ## @esri/hub-common [11.21.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.21.1...@esri/hub-common@11.21.2) (2022-10-19)
 
 
