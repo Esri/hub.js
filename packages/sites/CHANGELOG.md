@@ -1,3 +1,10 @@
+# @esri/hub-sites [11.23.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@11.22.3...@esri/hub-sites@11.23.0) (2022-10-26)
+
+
+### Features
+
+* adds page headContent to draft allow list ([8dbff70](https://github.com/Esri/hub.js/commit/8dbff706a23cb546738d86d18e406496c078672c))
+
 ## @esri/hub-sites [11.22.3](https://github.com/Esri/hub.js/compare/@esri/hub-sites@11.22.2...@esri/hub-sites@11.22.3) (2022-10-25)
 
 
