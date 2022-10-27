@@ -1,3 +1,10 @@
+# @esri/hub-discussions [14.19.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@14.18.1...@esri/hub-discussions@14.19.0) (2022-10-27)
+
+
+### Features
+
+* items can be designated as discussable ([#917](https://github.com/Esri/hub.js/issues/917)) ([eb1a6b0](https://github.com/Esri/hub.js/commit/eb1a6b09284515a84abf4e24f62a2b9722c84bc5))
+
 ## @esri/hub-discussions [14.18.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@14.18.0...@esri/hub-discussions@14.18.1) (2022-10-25)
 
 
