@@ -1,4 +1,4 @@
-import { IHubRequestOptions } from "./types";
+import { IDiscussionsRequestOptions } from "./types";
 import { apiRequest, authenticateRequest } from "./utils/request";
 
 /**
@@ -7,7 +7,7 @@ import { apiRequest, authenticateRequest } from "./utils/request";
  * @export
  * @template T
  * @param {string} url
- * @param {IHubRequestOptions} options
+ * @param {IDiscussionsRequestOptions} options
  * @return {*}  {Promise<T>}
  */
 // NOTE: feasibly this could be replaced with @esi/hub-common hubApiRequest,
@@ -16,9 +16,9 @@ import { apiRequest, authenticateRequest } from "./utils/request";
 // https://github.com/Esri/hub.js/blob/f35b1a0a868916bd07e1dfd84cb084bc2c876267/packages/common/src/request.ts#L62
 export function request<T>(
   url: string,
-  options: IHubRequestOptions
+  options: IDiscussionsRequestOptions
 ): Promise<T> {
-  return authenticateRequest(options).then(token => {
+  return authenticateRequest(options).then((token) => {
     return apiRequest(url, options, token);
   });
 }

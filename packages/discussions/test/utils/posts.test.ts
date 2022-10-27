@@ -1,6 +1,6 @@
 import { IItem } from "@esri/arcgis-rest-portal";
 import { IGroup, IUser } from "@esri/arcgis-rest-types";
-import { IDiscussionParams, IPost, IChannel } from "../../src/types";
+import { IDiscussionParams } from "../../src/types";
 import { IHubContent } from "@esri/hub-common";
 import {
   isDiscussable,
@@ -14,6 +14,8 @@ import {
 import * as viewGroup from "../../../common/test/mocks/groups/view-group.json";
 import * as formItem from "../../../common/test/mocks/items/form-item-draft.json";
 import * as channelUtils from "../../src/utils/channels";
+import { IPost } from "../../src/posts";
+import { IChannel } from "../../src/channels";
 
 describe("parseDiscussionURI", () => {
   it("returns DiscussionParams for valid discussion uri", () => {
@@ -67,12 +69,12 @@ describe("parseDiscussionURI", () => {
 
 describe("isDiscussable", () => {
   it("returns true for an IGroup", () => {
-    const group = viewGroup as IGroup;
+    const group = viewGroup as unknown as IGroup;
     expect(isDiscussable(group)).toBeTruthy();
   });
 
   it("returns true for an IItem", () => {
-    const item = formItem as IItem;
+    const item = formItem as unknown as IItem;
     expect(isDiscussable(item)).toBeTruthy();
   });
 

@@ -1,7 +1,12 @@
 import { IGroup } from "@esri/arcgis-rest-types";
 import {
+  IAclGroup,
+  IAclPermission,
   IChannel,
-  IChannelACL,
+  IChannelAcl,
+} from "../../channels";
+import {
+  IAclGroupDefinition,
   IDiscussionsUser,
   Role,
   SharingAccess,
@@ -43,7 +48,7 @@ export function canPostToChannel(
 
 function isAuthorizedToPostByAcl(
   user: IDiscussionsUser,
-  acl: IChannelACL
+  acl: IChannelAcl
 ): boolean {
   if (channelAllowsAnyUserToPost(acl)) {
     return true;
@@ -61,37 +66,27 @@ function isAuthorizedToPostByAcl(
   );
 }
 
-function channelAllowsAnyUserToPost(channelAcl: IChannelACL) {
-  return (
-    channelAcl.anonymous &&
-    ALLOWED_ROLES_FOR_POSTING.includes(channelAcl.anonymous.role)
-  );
+function channelAllowsAnyUserToPost(channelAcl: IChannelAcl) {
+  return isAuthorized(ALLOWED_ROLES_FOR_POSTING, channelAcl.anonymous);
 }
 
-function channelAllowsAnyAuthenticatedUserToPost(channelAcl: IChannelACL) {
-  return (
-    channelAcl.authenticated &&
-    ALLOWED_ROLES_FOR_POSTING.includes(channelAcl.authenticated.role)
-  );
+function channelAllowsAnyAuthenticatedUserToPost(channelAcl: IChannelAcl) {
+  return isAuthorized(ALLOWED_ROLES_FOR_POSTING, channelAcl.authenticated);
 }
 
-function channelAllowsThisUserToPost(user: IDiscussionsUser, acl: IChannelACL) {
+function channelAllowsThisUserToPost(user: IDiscussionsUser, acl: IChannelAcl) {
   // TODO: migrate to userId instead of username
   const { username } = user;
 
   const userLookup = acl.users || {};
   const userPermission = userLookup[username];
 
-  if (!userPermission) {
-    return false;
-  }
-
-  return ALLOWED_ROLES_FOR_POSTING.includes(userPermission.role);
+  return isAuthorized(ALLOWED_ROLES_FOR_POSTING, userPermission);
 }
 
 function channelAllowsPostsByThisUsersGroups(
   user: IDiscussionsUser,
-  acl: IChannelACL
+  acl: IChannelAcl
 ) {
   if (!acl.groups) {
     return false;
@@ -100,35 +95,63 @@ function channelAllowsPostsByThisUsersGroups(
   return user.groups.some((userGroup: IGroup) => {
     const {
       id: userGroupId,
-      userMembership: { memberType: userMemberType },
+      userMembership: { memberType: groupMemberType },
       typeKeywords,
     } = userGroup;
 
-    const channelGroupPermission = acl.groups[userGroupId];
+    const aclGroup = acl.groups[userGroupId];
+
+    if (!aclGroup || typeKeywords.includes(CANNOT_DISCUSS)) {
+      return false;
+    }
+
+    if (canGroupMembersPost(aclGroup)) {
+      return true;
+    }
 
     return (
-      channelGroupPermission &&
-      ALLOWED_GROUP_ROLES.includes(userMemberType) &&
-      !typeKeywords.includes(CANNOT_DISCUSS)
+      (groupMemberType === "admin" || groupMemberType === "owner") &&
+      canGroupAdminsPost(aclGroup)
     );
   });
 }
 
+function canGroupMembersPost(aclGroup: IAclGroup): boolean {
+  return isAuthorized(ALLOWED_ROLES_FOR_POSTING, aclGroup.member);
+}
+
+function canGroupAdminsPost(aclGroup: IAclGroup): boolean {
+  return isAuthorized(ALLOWED_ROLES_FOR_POSTING, aclGroup.admin);
+}
+
+function isAuthorized(
+  allowedRoles: readonly Role[],
+  permission?: IAclPermission
+): boolean {
+  return permission && allowedRoles.includes(permission.role);
+}
+
 function channelAllowsPostsByThisUsersOrg(
   user: IDiscussionsUser,
-  acl: IChannelACL
+  acl: IChannelAcl
 ) {
+  const { orgId, role: orgRole } = user;
+
   if (!acl.orgs) {
     return false;
   }
 
-  const channelOrgPermission = acl.orgs[user.orgId];
+  const channelOrgPermission = acl.orgs[orgId];
 
   if (!channelOrgPermission) {
     return false;
   }
 
-  return ALLOWED_ROLES_FOR_POSTING.includes(channelOrgPermission.role);
+  return (
+    (orgRole === "org_admin" &&
+      isAuthorized(ALLOWED_ROLES_FOR_POSTING, channelOrgPermission.admin)) ||
+    isAuthorized(ALLOWED_ROLES_FOR_POSTING, channelOrgPermission.member)
+  );
 }
 
 function isAuthorizedToPostByLegacyPermissions(

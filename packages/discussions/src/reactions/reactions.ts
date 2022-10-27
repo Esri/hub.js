@@ -1,9 +1,9 @@
-import { request } from "./request";
+import { request } from "../request";
 import {
   ICreateReactionOptions,
   IRemoveReactionOptions,
   IRemoveReactionResponse,
-  IReaction
+  IReaction,
 } from "./types";
 
 /**

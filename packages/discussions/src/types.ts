@@ -1,7 +1,6 @@
-import { IHubRequestOptions as _IHubRequestOptions } from "@esri/hub-common";
+import { IHubRequestOptions } from "@esri/hub-common";
 import {
   IPagedResponse as IRestPagedResponse,
-  IPagingParams,
   IUser,
 } from "@esri/arcgis-rest-types";
 import { Geometry } from "geojson";
@@ -130,16 +129,6 @@ export enum PostRelation {
 }
 
 /**
- * relations of channel entity
- *
- * @export
- * @enum {string}
- */
-export enum ChannelRelation {
-  SETTINGS = "settings",
-}
-
-/**
  * relations of reaction entity
  *
  * @export
@@ -172,40 +161,6 @@ export enum CommonSort {
   UPDATED_AT = "updatedAt",
 }
 
-/**
- * Channel sorting fields
- *
- * @enum {string}
- */
-export enum ChannelSort {
-  ACCESS = "access",
-  CREATED_AT = "createdAt",
-  CREATOR = "creator",
-  EDITOR = "editor",
-  ID = "id",
-  LAST_ACTIVITY = "last_activity",
-  UPDATED_AT = "updatedAt",
-}
-
-/**
- * Post sorting fields
- *
- * @enum {string}
- */
-export enum PostSort {
-  BODY = "body",
-  CHANNEL_ID = "channelId",
-  CREATED_AT = "createdAt",
-  CREATOR = "creator",
-  DISCUSSION = "discussion",
-  EDITOR = "editor",
-  ID = "id",
-  PARENT_ID = "parentId",
-  STATUS = "status",
-  TITLE = "title",
-  UPDATED_AT = "updatedAt",
-}
-
 // mixins
 
 /**
@@ -232,9 +187,9 @@ export interface IWithEditor {
  * channel settings properties
  *
  * @export
- * @interface IWithSettings
+ * @interface IWithChannelSettings
  */
-export interface IWithSettings {
+export interface IWithChannelSettings {
   allowReply: boolean;
   allowAnonymous: boolean;
   softDelete: boolean;
@@ -244,31 +199,66 @@ export interface IWithSettings {
   blockwords?: string[];
 }
 
-export interface IChannelACL {
-  anonymous?: IPermission;
-  authenticated?: IPermission;
-  groups?: {
-    [key: string]: IPermission;
-  };
-  orgs?: {
-    [key: string]: IPermission;
-  };
-  users: {
-    [key: string]: IPermission;
+/**
+ * permission object that will populate ACL interface
+ *
+ * @export
+ * @interface IAclPermissionDefinition
+ */
+export interface IAclPermissionDefinition {
+  role: Role;
+  accessibleAfter?: string;
+}
+
+/**
+ * ACL intra-group/org role definition
+ *
+ * @export
+ * @interface IAclGroupDefinition
+ */
+export interface IAclGroupDefinition {
+  admin?: IAclPermissionDefinition;
+  member?: IAclPermissionDefinition;
+}
+
+/**
+ * key-value lookup for ACL group/org permission definitions
+ * @export
+ */
+export type AclGroupDefinitionMap = Record<string, IAclGroupDefinition>;
+
+/**
+ * key-value lookup for ACL user permission definitions
+ * @export
+ */
+export type AclUserDefinitionMap = Record<string, IAclPermissionDefinition>;
+
+/**
+ * request options for creating channel with ACL
+ *
+ * @export
+ * @interface IChannelAclDefinition
+ */
+export interface IChannelAclDefinition extends IWithChannelSettings {
+  anonymous?: IAclPermissionDefinition;
+  authenticated?: IAclPermissionDefinition;
+  groups?: AclGroupDefinitionMap;
+  orgs?: AclGroupDefinitionMap;
+  users?: {
+    [key: string]: IAclPermissionDefinition;
   };
 }
 
 /**
- * channel definition properties, mirroring AGOL sharing ACL & IPlatformSharing
+ * channel definition properties, mirroring AGOL sharing
  *
  * @export
- * @interface IWithSharing
+ * @interface IWithPlatformSharing
  */
-export interface IWithSharing {
-  access: SharingAccess;
+export interface IWithPlatformSharing {
+  access?: SharingAccess;
   groups?: string[];
   orgs?: string[];
-  acl?: IChannelACL;
 }
 
 /**
@@ -329,28 +319,6 @@ export interface IPagedResponse<PaginationObject> extends IRestPagedResponse {
 }
 
 /**
- * delete post response properties
- *
- * @export
- * @interface IRemovePostResponse
- */
-export interface IRemovePostResponse {
-  success: boolean;
-  postId: string;
-}
-
-/**
- * delete channel response properties
- *
- * @export
- * @interface IRemoveChannelResponse
- */
-export interface IRemoveChannelResponse {
-  success: boolean;
-  channelId: string;
-}
-
-/**
  * delete notifications opt out response properties
  *
  * @export
@@ -386,251 +354,6 @@ export interface IChannelNotificationOptOut {
 }
 
 /**
- * delete reaction response properties
- *
- * @export
- * @interface IRemoveReactionResponse
- */
-export interface IRemoveReactionResponse {
-  success: boolean;
-  reactionId: string;
-}
-
-// dto
-
-// // posts
-
-/**
- * representation of post entity
- *
- * @export
- * @interface IPost
- * @extends {IWithAuthor}
- * @extends {IWithEditor}
- * @extends {IWithTimestamps}
- */
-export interface IPost extends IWithAuthor, IWithEditor, IWithTimestamps {
-  id: string;
-  title?: string;
-  body: string;
-  discussion?: string;
-  status: PostStatus;
-  geometry?: Geometry;
-  featureGeometry?: Geometry;
-  appInfo?: string; // this is a catch-all field for app-specific information about a post, added for Urban
-  channelId?: string;
-  channel?: IChannel;
-  parentId?: string;
-  parent?: IPost;
-  replies?: IPost[] | IPagedResponse<IPost>;
-  replyCount?: number;
-  reactions?: IReaction[];
-  userReactions?: IReaction[];
-}
-
-/**
- * dto for creating a post in a known channel
- *
- * @export
- * @interface ICreateChannelPost
- */
-export interface ICreateChannelPost {
-  title?: string;
-  body: string;
-  channelId: string;
-  discussion?: string;
-  geometry?: Geometry;
-  featureGeometry?: Geometry;
-  appInfo?: string;
-}
-
-/**
- * paramaters for creating a post in an unknown channel
- *
- * @export
- * @interface ICreatePost
- * @extends {Omit<ICreateChannelPost, 'channelId'>}
- * @extends {IWithSharing}
- */
-export interface ICreatePost
-  extends Omit<ICreateChannelPost, "channelId">,
-    IWithSharing {}
-
-/**
- * dto for decorating found post with relations
- *
- * @export
- * @interface IFetchPost
- */
-export interface IFetchPost {
-  relations?: PostRelation[];
-}
-
-/**
- * dto for querying posts in a single channel
- *
- * @export
- * @interface ISearchChannelPosts
- * @extends {Partial<IWithAuthor>}
- * @extends {Partial<IWithEditor>}
- * @extends {Partial<IPagingParams>}
- * @extends {Partial<IWithSorting<PostSort>>}
- * @extends {Partial<IWithTimeQueries>}
- */
-export interface ISearchPosts
-  extends Partial<IWithAuthor>,
-    Partial<IWithEditor>,
-    Partial<IPagingParams>,
-    Partial<IWithSorting<PostSort>>,
-    Partial<IWithTimeQueries> {
-  title?: string;
-  body?: string;
-  discussion?: string;
-  geometry?: Geometry;
-  featureGeometry?: Geometry;
-  parents?: Array<string | null>;
-  status?: PostStatus[];
-  relations?: PostRelation[];
-  groups?: string[];
-  access?: SharingAccess[];
-  channels?: string[];
-}
-
-/**
- * dto for updating a post's channel
- *
- * @export
- * @interface IUpdatePostSharing
- * @extends {Partial<IWithSharing>}
- */
-export interface IUpdatePostSharing extends Partial<IWithSharing> {
-  channelId?: string;
-}
-
-/**
- * dto for updating a post's status
- *
- * @export
- * @interface IUpdatePostStatus
- */
-export interface IUpdatePostStatus {
-  status: PostStatus;
-}
-
-/**
- * dto for updating a post's content
- *
- * @export
- * @interface IUpdatePost
- * @extends {Partial<Omit<ICreateChannelPost, 'channelId'>>}
- */
-export interface IUpdatePost
-  extends Partial<Omit<ICreateChannelPost, "channelId">> {}
-
-// channels
-/**
- * representation of channel entity
- *
- * @export
- * @interface IChannel
- * @extends {IWithSettings}
- * @extends {IWithSharing}
- * @extends {IWithAuthor}
- * @extends {IWithEditor}
- * @extends {IWithTimestamps}
- */
-export interface IChannel
-  extends IWithSettings,
-    IWithSharing,
-    IWithAuthor,
-    IWithEditor,
-    IWithTimestamps {
-  id: string;
-}
-
-/**
- * dto for creating a channel
- *
- * @export
- * @interface ICreateChannel
- * @extends {IWithSettings}
- * @extends {IWithSharing}
- */
-export interface ICreateChannel extends Partial<IWithSettings>, IWithSharing {}
-
-/**
- * dto for decorating found channel with relations
- *
- * @export
- * @interface IFetchChannel
- */
-export interface IFetchChannel {
-  relations?: ChannelRelation[];
-}
-
-/**
- * dto for querying channels
- *
- * @export
- * @interface ISearchChannels
- * @extends {Partial<IPagingParams>}
- * @extends {Partial<IWithSorting<ChannelSort>>}
- * @extends {Partial<IWithTimeQueries>}
- */
-export interface ISearchChannels
-  extends Partial<IPagingParams>,
-    Partial<IWithSorting<ChannelSort>>,
-    Partial<IWithTimeQueries>,
-    Partial<IWithFiltering<ChannelFilter>> {
-  groups?: string[];
-  access?: SharingAccess[];
-  relations?: ChannelRelation[];
-}
-
-/**
- * dto for updating channel settings
- *
- * @export
- * @interface IUpdateChannel
- * @extends {Partial<IWithSettings>}
- * @extends {Partial<IWithAuthor>}
- */
-export interface IUpdateChannel
-  extends Partial<IWithSettings>,
-    Partial<IWithAuthor> {}
-
-// // reactions
-
-/**
- * representation of reaction entity
- *
- * @export
- * @interface IReaction
- * @extends {IWithAuthor}
- * @extends {IWithEditor}
- * @extends {IWithTimestamps}
- */
-export interface IReaction extends IWithAuthor, IWithEditor, IWithTimestamps {
-  id: string;
-  value: PostReaction;
-  postId?: string;
-  post?: IPost;
-}
-
-/**
- * dto for creating a reaction
- *
- * @export
- * @interface ICreateReaction
- */
-export interface ICreateReaction {
-  postId: string;
-  value: PostReaction;
-}
-
-// request options
-
-/**
  * options for making requests against Discussion API
  *
  * @export
@@ -641,121 +364,13 @@ export interface ICreateReaction {
 // only real exception is needing to extend httpMethod to include PATCH and DELETE
 // also making isPortal optional for convenience
 // picking fields from requestInit for development against local api
-export interface IHubRequestOptions
-  extends Omit<_IHubRequestOptions, "httpMethod" | "isPortal">,
+export interface IDiscussionsRequestOptions
+  extends Omit<IHubRequestOptions, "httpMethod" | "isPortal">,
     Pick<RequestInit, "mode" | "cache" | "credentials"> {
   httpMethod?: "GET" | "POST" | "PATCH" | "DELETE";
   isPortal?: boolean;
   token?: string;
-}
-
-// // posts
-
-/**
- * request options for querying posts
- *
- * @export
- * @interface ISearchPostsOptions
- * @extends {IHubRequestOptions}
- */
-export interface ISearchPostsOptions extends IHubRequestOptions {
-  params?: ISearchPosts;
-}
-
-/**
- * request options for creating post
- *
- * @export
- * @interface ICreatePostOptions
- * @extends {IHubRequestOptions}
- */
-export interface ICreatePostOptions extends IHubRequestOptions {
-  params: ICreatePost | ICreateChannelPost;
-  mentionUrl?: string;
-}
-
-/**
- * request options for creating reply to post
- *
- * @export
- * @interface ICreateReplyOptions
- * @extends {ICreatePostOptions}
- */
-export interface ICreateReplyOptions extends ICreatePostOptions {
-  postId: string;
-}
-
-/**
- * request options for getting post
- *
- * @export
- * @interface IFetchPostOptions
- * @extends {IHubRequestOptions}
- */
-export interface IFetchPostOptions extends IHubRequestOptions {
-  postId: string;
-  params?: IFetchPost;
-}
-
-/**
- * request options for updating post
- *
- * @export
- * @interface IUpdatePostOptions
- * @extends {IHubRequestOptions}
- */
-export interface IUpdatePostOptions extends IHubRequestOptions {
-  postId: string;
-  params: IUpdatePost;
-  mentionUrl?: string;
-}
-
-/**
- * request options for updating a post's channel
- *
- * @export
- * @interface IUpdatePostSharingOptions
- * @extends {IHubRequestOptions}
- */
-export interface IUpdatePostSharingOptions extends IHubRequestOptions {
-  postId: string;
-  params: IUpdatePostSharing;
-}
-
-/**
- * request options for updating a post's status
- *
- * @export
- * @interface IUpdatePostStatusOptions
- * @extends {IHubRequestOptions}
- */
-export interface IUpdatePostStatusOptions extends IHubRequestOptions {
-  postId: string;
-  params: IUpdatePostStatus;
-}
-
-/**
- * request options for deleting a post
- *
- * @export
- * @interface IRemovePostOptions
- * @extends {IHubRequestOptions}
- */
-export interface IRemovePostOptions extends IHubRequestOptions {
-  postId: string;
-}
-
-// // channels
-
-/**
- * request options for searching channels
- *
- * @export
- * @interface ISearchChannelsOptions
- * @extends {IHubRequestOptions}
- */
-export interface ISearchChannelsOptions extends IHubRequestOptions {
-  params?: ISearchChannels;
+  data?: { [key: string]: any };
 }
 
 /**
@@ -771,157 +386,6 @@ export enum Role {
   MODERATE = "moderate",
   MANAGE = "manage",
   OWNER = "owner",
-}
-
-/**
- * permission object that will populate ACL interface
- *
- * @export
- * @interface IPermission
- */
-export interface IPermission {
-  role: Role;
-  createdAt: string;
-  updatedAt: string;
-  accessibleAfter: string;
-}
-
-/**
- * request options for creating channel with ACL
- *
- * @export
- * @interface IWithACL
- * @extends {ICreateChannelWithACL}
- */
-export interface ICreateChannelWithACL extends IWithSettings {
-  anonymous?: IPermission;
-  authenticated?: IPermission;
-  groups?: {
-    [key: string]: IPermission;
-  };
-  orgs?: {
-    [key: string]: IPermission;
-  };
-  users: {
-    [key: string]: IPermission;
-  };
-}
-
-/**
- * request options for creating a channel
- *
- * @export
- * @interface ICreateChannelOptions
- * @extends {IHubRequestOptions}
- */
-export interface ICreateChannelOptions extends IHubRequestOptions {
-  params: ICreateChannel | ICreateChannelWithACL;
-}
-
-/**
- * request options for getting a channel
- *
- * @export
- * @interface IFetchChannelOptions
- * @extends {IHubRequestOptions}
- */
-export interface IFetchChannelOptions extends IHubRequestOptions {
-  channelId: string;
-  params?: IFetchChannel;
-}
-
-/**
- * request options for updating a channel's settings
- *
- * @export
- * @interface IUpdateChannelOptions
- * @extends {IHubRequestOptions}
- */
-export interface IUpdateChannelOptions extends IHubRequestOptions {
-  channelId: string;
-  params: IUpdateChannel;
-}
-
-/**
- * request options for deleting a channel
- *
- * @export
- * @interface IRemoveChannelOptions
- * @extends {IHubRequestOptions}
- */
-export interface IRemoveChannelOptions extends IHubRequestOptions {
-  channelId: string;
-}
-
-/**
- * request options for fetching opt out status
- *
- * @export
- * @interface IFetchChannelNotificationOptOutOptions
- * @extends {IHubRequestOptions}
- */
-export interface IFetchChannelNotificationOptOutOptions
-  extends IHubRequestOptions {
-  channelId: string;
-}
-
-/**
- * request options for opting out
- *
- * @export
- * @interface ICreateChannelNotificationOptOutOptions
- * @extends {IHubRequestOptions}
- */
-export interface ICreateChannelNotificationOptOutOptions
-  extends IHubRequestOptions {
-  channelId: string;
-}
-
-/**
- * request options for opting back in
- *
- * @export
- * @interface IRemoveChannelNotificationOptOutOptions
- * @extends {IHubRequestOptions}
- */
-export interface IRemoveChannelNotificationOptOutOptions
-  extends IHubRequestOptions {
-  channelId: string;
-}
-
-/**
- * request options for deleting channel activity
- *
- * @export
- * @interface IRemoveChannelActivityOptions
- * @extends {IHubRequestOptions}
- */
-export interface IRemoveChannelActivityOptions extends IHubRequestOptions {
-  channelId: string;
-}
-
-// // reactions
-
-/**
- * request options for creating a reaction to a post
- *
- * @export
- * @interface ICreateReactionOptions
- * @extends {IHubRequestOptions}
- */
-export interface ICreateReactionOptions extends IHubRequestOptions {
-  params: ICreateReaction;
-}
-
-/**
- * request options for deleting a reaction
- *
- * @export
- * @interface IRemoveReactionOptions
- * @extends {IHubRequestOptions}
- */
-export interface IRemoveReactionOptions extends IHubRequestOptions {
-  reactionId: string;
 }
 
 /**

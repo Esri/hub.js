@@ -1,4 +1,4 @@
-import { IHubRequestOptions } from "../types";
+import { IDiscussionsRequestOptions } from "../types";
 import {
   RemoteServerError as _RemoteServerError,
   buildUrl,
@@ -17,11 +17,11 @@ export class RemoteServerError extends _RemoteServerError {
  * returns Promise that resolves token to use in Discussions API requests
  *
  * @export
- * @param {IHubRequestOptions} options
+ * @param {IDiscussionsRequestOptions} options
  * @return {*}  {Promise<string>}
  */
 export function authenticateRequest(
-  options: IHubRequestOptions
+  options: IDiscussionsRequestOptions
 ): Promise<string> {
   const { token, authentication } = options;
 
@@ -45,13 +45,13 @@ export function authenticateRequest(
  * @export
  * @template T
  * @param {string} route
- * @param {IHubRequestOptions} options
+ * @param {IDiscussionsRequestOptions} options
  * @param {string} [token]
  * @return {*}  {Promise<T>}
  */
 export function apiRequest<T>(
   route: string,
-  options: IHubRequestOptions,
+  options: IDiscussionsRequestOptions,
   token?: string
 ): Promise<T> {
   const headers = new Headers(options.headers);
@@ -75,12 +75,12 @@ export function apiRequest<T>(
     path: "/api/discussions/v1",
   });
 
-  if (options.params) {
+  if (options.data) {
     if (options.httpMethod === "GET") {
-      const queryParams = new URLSearchParams(options.params).toString();
+      const queryParams = new URLSearchParams(options.data).toString();
       route += `?${queryParams}`;
     } else {
-      opts.body = JSON.stringify(options.params);
+      opts.body = JSON.stringify(options.data);
     }
   }
 

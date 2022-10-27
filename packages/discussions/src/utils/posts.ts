@@ -1,8 +1,10 @@
 import { IGroup, IItem } from "@esri/arcgis-rest-portal";
-import { IDiscussionParams, IPost, IChannel } from "../types";
+import { IDiscussionParams } from "../types";
 import { parseDatasetId, IHubContent } from "@esri/hub-common";
 import { IUser } from "@esri/arcgis-rest-auth";
 import { canModifyChannel } from "./channels";
+import { IPost } from "../posts";
+import { IChannel } from "../channels";
 
 /**
  * Utility that parses a discussion URI string into its component parts
