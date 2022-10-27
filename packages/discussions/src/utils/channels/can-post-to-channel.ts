@@ -6,8 +6,7 @@ import {
   Role,
   SharingAccess,
 } from "../../types";
-
-const CANNOT_DISCUSS = "cannotDiscuss";
+import { CANNOT_DISCUSS } from "../constants";
 
 const ALLOWED_GROUP_ROLES = Object.freeze(["owner", "admin", "member"]);
 

@@ -9,8 +9,8 @@ import {
   canModifyPostStatus,
   canDeletePost,
   parseMentionedUsers,
-  MENTION_ATTRIBUTE,
 } from "../../src/utils/posts";
+import { MENTION_ATTRIBUTE, CANNOT_DISCUSS } from "../../src/utils/constants";
 import * as viewGroup from "../../../common/test/mocks/groups/view-group.json";
 import * as formItem from "../../../common/test/mocks/items/form-item-draft.json";
 import * as channelUtils from "../../src/utils/channels";
@@ -66,19 +66,28 @@ describe("parseDiscussionURI", () => {
 });
 
 describe("isDiscussable", () => {
-  it("returns true for an IGroup", () => {
-    const group = viewGroup as IGroup;
+  it("returns true", () => {
+    const group = {
+      ...viewGroup,
+      typeKeywords: [],
+    } as any as IGroup;
     expect(isDiscussable(group)).toBeTruthy();
   });
 
-  it("returns true for an IItem", () => {
-    const item = formItem as IItem;
-    expect(isDiscussable(item)).toBeTruthy();
+  it("returns true when typeKeywords don't exist", () => {
+    const group = {
+      ...viewGroup,
+      typeKeywords: undefined,
+    } as any as IGroup;
+    expect(isDiscussable(group)).toBeTruthy();
   });
 
-  it("returns true for an IHubContent", () => {
-    const content = formItem as unknown as IHubContent;
-    expect(isDiscussable(content)).toBeTruthy();
+  it("returns false", () => {
+    const group = {
+      ...viewGroup,
+      typeKeywords: [CANNOT_DISCUSS],
+    } as any as IGroup;
+    expect(isDiscussable(group)).toBeFalsy();
   });
 });
 

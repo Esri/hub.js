@@ -10,3 +10,4 @@ export * from "./utils/posts";
 export * from "./utils/channels/";
 export * from "./utils/reactions";
 export * from "./utils/platform";
+export * from "./utils/constants";
