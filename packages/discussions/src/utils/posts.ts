@@ -3,6 +3,7 @@ import { IDiscussionParams, IPost, IChannel } from "../types";
 import { parseDatasetId, IHubContent } from "@esri/hub-common";
 import { IUser } from "@esri/arcgis-rest-auth";
 import { canModifyChannel } from "./channels";
+import { CANNOT_DISCUSS, MENTION_ATTRIBUTE } from "./constants";
 
 /**
  * Utility that parses a discussion URI string into its component parts
@@ -45,16 +46,12 @@ export function parseDiscussionURI(discussion: string): IDiscussionParams {
 /**
  * Utility to determine if a given IGroup, IItem or IHubContent
  * is discussable.
- *
- * NOT IMPLEMENTED
- *
  * @export
  * @param {IGroup|IItem|IHubContent} The subject to evaluate
  * @return {boolean}
  */
 export function isDiscussable(subject: IGroup | IItem | IHubContent) {
-  // TODO: implement
-  return true;
+  return !(subject.typeKeywords ?? []).includes(CANNOT_DISCUSS);
 }
 
 /**
@@ -94,7 +91,6 @@ export function canDeletePost(
   return canModifyPost(post, user) || canModifyChannel(channel, user);
 }
 
-export const MENTION_ATTRIBUTE = "data-mention";
 const MENTION_ATTRIBUTE_AND_VALUE_PATTERN = new RegExp(
   `${MENTION_ATTRIBUTE}=('|")(\\w)+('|")`,
   "g"
