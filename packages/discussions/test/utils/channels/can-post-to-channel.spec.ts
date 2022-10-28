@@ -1,4 +1,5 @@
-import { IChannel, IDiscussionsUser } from "../../../src/types";
+import { IChannel } from "../../../src/channels";
+import { IDiscussionsUser } from "../../../src/types";
 import { canPostToChannel } from "../../../src/utils/channels/can-post-to-channel";
 
 describe("canPostToChannel", () => {
@@ -152,14 +153,16 @@ describe("canPostToChannel", () => {
     });
 
     describe("authorization by group", () => {
-      it("returns true if user has group overlap with acl.groups with allowed roles", () => {
+      it("returns true if user is group member of acl.group with allowed roles", () => {
         ["readWrite", "write", "manage", "moderate", "owner"].forEach(
           (allowedRole) => {
             const channel = {
               acl: {
                 groups: {
                   abc: {
-                    role: allowedRole,
+                    member: {
+                      role: allowedRole,
+                    },
                   },
                 },
               },
@@ -183,17 +186,54 @@ describe("canPostToChannel", () => {
         );
       });
 
-      it("returns true if user has group overlap with acl.groups with allowed roles, and at least one group does NOT have typeKewords cannotDiscuss", () => {
+      it("returns true if user is group owner/admin of acl.group with allowed roles", () => {
         ["readWrite", "write", "manage", "moderate", "owner"].forEach(
           (allowedRole) => {
             const channel = {
               acl: {
                 groups: {
                   abc: {
-                    role: allowedRole,
+                    admin: {
+                      role: allowedRole,
+                    },
+                  },
+                },
+              },
+            } as any;
+
+            ["owner", "admin"].forEach((memberType) => {
+              const user: IDiscussionsUser = {
+                username: "Slughorn",
+                groups: [
+                  {
+                    id: "abc",
+                    userMembership: { memberType },
+                    typeKeywords: [],
+                  },
+                ],
+              } as any;
+
+              expect(canPostToChannel(channel, user)).toBe(true);
+            });
+          }
+        );
+      });
+
+      it("returns true if user is member acl.groups with allowed roles, and at least one group does NOT have typeKewords cannotDiscuss", () => {
+        ["readWrite", "write", "manage", "moderate", "owner"].forEach(
+          (allowedRole) => {
+            const channel = {
+              acl: {
+                groups: {
+                  abc: {
+                    member: {
+                      role: allowedRole,
+                    },
                   },
                   def: {
-                    role: allowedRole,
+                    member: {
+                      role: allowedRole,
+                    },
                   },
                 },
               },
@@ -229,7 +269,7 @@ describe("canPostToChannel", () => {
               acl: {
                 groups: {
                   abc: {
-                    role: allowedRole,
+                    member: { role: allowedRole },
                   },
                 },
               },
@@ -253,33 +293,32 @@ describe("canPostToChannel", () => {
         );
       });
 
-      it("returns false if user has group membership not allowed", () => {
-        ["readWrite", "write", "manage", "moderate", "owner"].forEach(
-          (allowedRole) => {
-            const channel = {
-              acl: {
-                groups: {
-                  abc: {
-                    role: allowedRole,
-                  },
+      it("returns false if user has group membership type admin that is not allowed", () => {
+        const channel = {
+          acl: {
+            groups: {
+              abc: {
+                member: {
+                  role: "read",
                 },
               },
-            } as any;
+            },
+          },
+        } as any;
 
-            const user: IDiscussionsUser = {
-              username: "Slughorn",
-              groups: [
-                {
-                  id: "abc",
-                  userMembership: { memberType: "wuzzles" },
-                },
-              ],
+        const user: IDiscussionsUser = {
+          username: "Slughorn",
+          groups: [
+            {
+              id: "abc",
+              userMembership: { memberType: "member" },
               typeKeywords: [],
-            } as any;
+            },
+          ],
+          typeKeywords: [],
+        } as any;
 
-            expect(canPostToChannel(channel, user)).toBe(false);
-          }
-        );
+        expect(canPostToChannel(channel, user)).toBe(false);
       });
 
       it("returns false if group does not exist in acl", () => {
@@ -287,7 +326,7 @@ describe("canPostToChannel", () => {
           acl: {
             groups: {
               xyz: {
-                role: "read",
+                admin: { role: "read" },
               },
             },
           },
@@ -300,6 +339,7 @@ describe("canPostToChannel", () => {
               {
                 id: "abc",
                 userMembership: { memberType },
+                typeKeywords: [],
               },
             ],
             typeKeywords: [],
@@ -318,7 +358,7 @@ describe("canPostToChannel", () => {
               acl: {
                 orgs: {
                   abc: {
-                    role: allowedRole,
+                    admin: { role: allowedRole },
                   },
                 },
               },
@@ -327,6 +367,7 @@ describe("canPostToChannel", () => {
             const user: IDiscussionsUser = {
               username: "Slughorn",
               orgId: "abc",
+              role: "org_admin",
             } as any;
 
             expect(canPostToChannel(channel, user)).toBe(true);
@@ -357,12 +398,14 @@ describe("canPostToChannel", () => {
         );
       });
 
-      it("returns false if org does not have post writing privledge", () => {
+      it("returns false if org-role that matches user role does not have post writing privledge", () => {
         const channel = {
           acl: {
             orgs: {
               abc: {
-                role: "read",
+                member: {
+                  role: "read",
+                },
               },
             },
           },
@@ -371,6 +414,7 @@ describe("canPostToChannel", () => {
         const user: IDiscussionsUser = {
           username: "Slughorn",
           orgId: "abc",
+          role: "org_member",
         } as any;
 
         expect(canPostToChannel(channel, user)).toBe(false);
@@ -479,6 +523,7 @@ describe("canPostToChannel", () => {
           {
             id: "abc",
             userMembership: { memberType: "member" },
+            typeKeywords: [],
           },
         ],
         typeKeywords: [],

@@ -7,11 +7,11 @@ import {
   createReply,
   updatePostSharing,
   updatePostStatus,
+  IFetchPostParams,
 } from "../src/posts";
 import * as req from "../src/request";
 import {
-  IFetchPostOptions,
-  IHubRequestOptions,
+  IDiscussionsRequestOptions,
   PostStatus,
   SharingAccess,
 } from "../src/types";
@@ -19,10 +19,10 @@ import {
 describe("posts", () => {
   let requestSpy: any;
   const response = new Response("ok", { status: 200 });
-  const baseOpts: IHubRequestOptions = {
+  const baseOpts: IDiscussionsRequestOptions = {
     hubApiUrl: "https://hub.arcgis.com/api",
     authentication: null,
-  };
+  } as unknown as IDiscussionsRequestOptions;
 
   beforeEach(() => {
     requestSpy = spyOn(req, "request").and.returnValue(
@@ -36,7 +36,7 @@ describe("posts", () => {
       groups: ["foo"],
     };
 
-    const options = { ...baseOpts, params: query };
+    const options = { ...baseOpts, data: query };
     searchPosts(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
@@ -48,14 +48,14 @@ describe("posts", () => {
       .catch(() => fail());
   });
 
-  it("creates post [ICreatePost]", (done) => {
+  it("creates post on unknown or non-existent channel", (done) => {
     const body = {
       access: SharingAccess.PUBLIC,
       groups: ["foo"],
       body: "foo",
     };
 
-    const options = { ...baseOpts, params: body };
+    const options = { ...baseOpts, data: body };
     createPost(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
@@ -67,7 +67,7 @@ describe("posts", () => {
       .catch(() => fail());
   });
 
-  it("creates post [ICreatePost] with mention url", (done) => {
+  it("creates post with mention url on unknown or non-existent channel", (done) => {
     const body = {
       access: SharingAccess.PUBLIC,
       groups: ["foo"],
@@ -76,7 +76,7 @@ describe("posts", () => {
 
     const options = {
       ...baseOpts,
-      params: body,
+      data: body,
       mentionUrl: "https://some.hub.arcgis.com",
     };
     createPost(options)
@@ -86,7 +86,7 @@ describe("posts", () => {
         expect(url).toEqual(`/posts`);
         expect(opts).toEqual({
           ...baseOpts,
-          params: body,
+          data: body,
           httpMethod: "POST",
           headers: { "mention-url": "https://some.hub.arcgis.com" },
         });
@@ -95,13 +95,13 @@ describe("posts", () => {
       .catch(() => fail());
   });
 
-  it("creates post [ICreateChannelPost]", (done) => {
+  it("creates post on known channel", (done) => {
     const body = {
       channelId: "abc123",
       body: "foo",
     };
 
-    const options = { ...baseOpts, params: body };
+    const options = { ...baseOpts, data: body };
     createPost(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
@@ -113,7 +113,7 @@ describe("posts", () => {
       .catch(() => fail());
   });
 
-  it("creates post [ICreateChannelPost] with mention url", (done) => {
+  it("creates post on known channel with mention url", (done) => {
     const body = {
       channelId: "abc123",
       body: "foo",
@@ -121,7 +121,7 @@ describe("posts", () => {
 
     const options = {
       ...baseOpts,
-      params: body,
+      data: body,
       mentionUrl: "https://some.hub.arcgis.com",
     };
     createPost(options)
@@ -131,7 +131,7 @@ describe("posts", () => {
         expect(url).toEqual(`/posts`);
         expect(opts).toEqual({
           ...baseOpts,
-          params: body,
+          data: body,
           httpMethod: "POST",
           headers: { "mention-url": "https://some.hub.arcgis.com" },
         });
@@ -140,15 +140,13 @@ describe("posts", () => {
       .catch(() => fail());
   });
 
-  it("creates reply [ICreatePost]", (done) => {
+  it("creates reply", (done) => {
     const postId = "postId";
-    const body = {
-      access: SharingAccess.PUBLIC,
-      groups: ["foo"],
+    const requestBody = {
       body: "foo",
     };
 
-    const options = { ...baseOpts, postId, params: body };
+    const options = { ...baseOpts, postId, data: requestBody };
     createReply(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
@@ -160,67 +158,16 @@ describe("posts", () => {
       .catch(() => fail());
   });
 
-  it("creates reply [ICreatePost] with mention url", (done) => {
+  it("creates reply with mention url", (done) => {
     const postId = "postId";
-    const body = {
-      access: SharingAccess.PUBLIC,
-      groups: ["foo"],
+    const requestBody = {
       body: "foo",
     };
 
     const options = {
-      ...baseOpts,
       postId,
-      params: body,
-      mentionUrl: "https://some.hub.arcgis.com",
-    };
-    createReply(options)
-      .then(() => {
-        expect(requestSpy.calls.count()).toEqual(1);
-        const [url, opts] = requestSpy.calls.argsFor(0);
-        expect(url).toEqual(`/posts/${postId}/reply`);
-        expect(opts).toEqual({
-          ...baseOpts,
-          postId,
-          params: body,
-          httpMethod: "POST",
-          headers: { "mention-url": "https://some.hub.arcgis.com" },
-        });
-        done();
-      })
-      .catch(() => fail());
-  });
-
-  it("creates reply [ICreateChannelPost]", (done) => {
-    const postId = "postId";
-    const body = {
-      channelId: "abc123",
-      body: "foo",
-    };
-
-    const options = { ...baseOpts, postId, params: body };
-    createReply(options)
-      .then(() => {
-        expect(requestSpy.calls.count()).toEqual(1);
-        const [url, opts] = requestSpy.calls.argsFor(0);
-        expect(url).toEqual(`/posts/${postId}/reply`);
-        expect(opts).toEqual({ ...options, httpMethod: "POST" });
-        done();
-      })
-      .catch(() => fail());
-  });
-
-  it("creates reply [ICreateChannelPost] with mention url", (done) => {
-    const postId = "postId";
-    const body = {
-      channelId: "abc123",
-      body: "foo",
-    };
-
-    const options = {
       ...baseOpts,
-      postId,
-      params: body,
+      data: requestBody,
       mentionUrl: "https://some.hub.arcgis.com",
     };
     createReply(options)
@@ -229,9 +176,9 @@ describe("posts", () => {
         const [url, opts] = requestSpy.calls.argsFor(0);
         expect(url).toEqual(`/posts/${postId}/reply`);
         expect(opts).toEqual({
-          ...baseOpts,
           postId,
-          params: body,
+          ...baseOpts,
+          data: requestBody,
           httpMethod: "POST",
           headers: { "mention-url": "https://some.hub.arcgis.com" },
         });
@@ -244,7 +191,7 @@ describe("posts", () => {
     const postId = "postId";
 
     const options = { ...baseOpts, postId };
-    fetchPost(options as IFetchPostOptions)
+    fetchPost(options as IFetchPostParams)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
@@ -275,7 +222,7 @@ describe("posts", () => {
 
     const body = { body: "foo" };
 
-    const options = { ...baseOpts, postId, params: body };
+    const options = { ...baseOpts, postId, data: body };
     updatePost(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
@@ -295,9 +242,10 @@ describe("posts", () => {
     const options = {
       ...baseOpts,
       postId,
-      params: body,
+      data: body,
       mentionUrl: "https://some.hub.arcgis.com",
     };
+
     updatePost(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
@@ -306,7 +254,7 @@ describe("posts", () => {
         expect(opts).toEqual({
           ...baseOpts,
           postId,
-          params: body,
+          data: body,
           httpMethod: "PATCH",
           headers: { "mention-url": "https://some.hub.arcgis.com" },
         });
@@ -320,7 +268,7 @@ describe("posts", () => {
 
     const body = { access: SharingAccess.ORG };
 
-    const options = { ...baseOpts, postId, params: body };
+    const options = { ...baseOpts, postId, data: body };
     updatePostSharing(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
@@ -337,7 +285,7 @@ describe("posts", () => {
 
     const body = { status: PostStatus.APPROVED };
 
-    const options = { ...baseOpts, postId, params: body };
+    const options = { ...baseOpts, postId, data: body };
     updatePostStatus(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);

@@ -1,31 +1,32 @@
-import { request } from "./request";
+import { request } from "../request";
 import {
-  ISearchChannelsOptions,
-  ICreateChannelOptions,
-  IFetchChannelOptions,
-  IUpdateChannelOptions,
-  IRemoveChannelOptions,
+  ISearchChannelsParams,
+  ICreateChannelParams,
+  IFetchChannelParams,
+  IUpdateChannelParams,
+  IRemoveChannelParams,
   IChannel,
-  IPagedResponse,
   IRemoveChannelResponse,
-  IFetchChannelNotificationOptOutOptions,
-  ICreateChannelNotificationOptOutOptions,
-  IRemoveChannelNotificationOptOutOptions,
-  IRemoveChannelActivityOptions,
+  IFetchChannelNotificationOptOutParams,
+  ICreateChannelNotificationOptOutParams,
+  IRemoveChannelNotificationOptOutParams,
+  IRemoveChannelActivityParams,
+} from "./types";
+import {
+  IPagedResponse,
   IRemoveChannelNotificationOptOutResult,
   IRemoveChannelActivityResult,
   IChannelNotificationOptOut,
-} from "./types";
-
+} from "../types";
 /**
  * search channels
  *
  * @export
- * @param {ISearchChannelsOptions} options
+ * @param {ISearchChannelsParams} options
  * @return {*}  {Promise<IPagedResponse<IChannel>>}
  */
 export function searchChannels(
-  options: ISearchChannelsOptions
+  options: ISearchChannelsParams
 ): Promise<IPagedResponse<IChannel>> {
   options.httpMethod = "GET";
   return request(`/channels`, options);
@@ -35,11 +36,11 @@ export function searchChannels(
  * create channel
  *
  * @export
- * @param {ICreateChannelOptions} options
+ * @param {ICreateChannelParams} options
  * @return {*}  {Promise<IChannel>}
  */
 export function createChannel(
-  options: ICreateChannelOptions
+  options: ICreateChannelParams
 ): Promise<IChannel> {
   options.httpMethod = "POST";
   return request(`/channels`, options);
@@ -49,10 +50,10 @@ export function createChannel(
  * fetch channel
  *
  * @export
- * @param {IFetchChannelOptions} options
+ * @param {IFetchChannelParams} options
  * @return {*}  {Promise<IChannel>}
  */
-export function fetchChannel(options: IFetchChannelOptions): Promise<IChannel> {
+export function fetchChannel(options: IFetchChannelParams): Promise<IChannel> {
   options.httpMethod = "GET";
   return request(`/channels/${options.channelId}`, options);
 }
@@ -63,11 +64,11 @@ export function fetchChannel(options: IFetchChannelOptions): Promise<IChannel> {
  * access and groups cannot be updated.
  *
  * @export
- * @param {IUpdateChannelOptions} options
+ * @param {IUpdateChannelParams} options
  * @return {*}  {Promise<IChannel>}
  */
 export function updateChannel(
-  options: IUpdateChannelOptions
+  options: IUpdateChannelParams
 ): Promise<IChannel> {
   options.httpMethod = "PATCH";
   return request(`/channels/${options.channelId}`, options);
@@ -77,11 +78,11 @@ export function updateChannel(
  * remove channel
  *
  * @export
- * @param {IRemoveChannelOptions} options
+ * @param {IRemoveChannelParams} options
  * @return {*}
  */
 export function removeChannel(
-  options: IRemoveChannelOptions
+  options: IRemoveChannelParams
 ): Promise<IRemoveChannelResponse> {
   options.httpMethod = "DELETE";
   return request(`/channels/${options.channelId}`, options);
@@ -91,11 +92,11 @@ export function removeChannel(
  * get channel opt out status
  *
  * @export
- * @param {IFetchChannelNotificationOptOutOptions} options
+ * @param {IFetchChannelNotificationOptOutParams} options
  * @return {*}
  */
 export function fetchChannelNotifcationOptOut(
-  options: IFetchChannelNotificationOptOutOptions
+  options: IFetchChannelNotificationOptOutParams
 ): Promise<IChannelNotificationOptOut> {
   options.httpMethod = "GET";
   return request(
@@ -108,11 +109,11 @@ export function fetchChannelNotifcationOptOut(
  * opt out of channel notifs
  *
  * @export
- * @param {ICreateChannelNotificationOptOutOptions} options
+ * @param {ICreateChannelNotificationOptOutParams} options
  * @return {*}
  */
 export function createChannelNotificationOptOut(
-  options: ICreateChannelNotificationOptOutOptions
+  options: ICreateChannelNotificationOptOutParams
 ): Promise<IChannelNotificationOptOut> {
   options.httpMethod = "POST";
   return request(
@@ -125,11 +126,11 @@ export function createChannelNotificationOptOut(
  * opt in to channel notifs
  *
  * @export
- * @param {IRemoveChannelNotificationOptOutOptions} options
+ * @param {IRemoveChannelNotificationOptOutParams} options
  * @return {*}
  */
 export function removeChannelNotificationOptOut(
-  options: IRemoveChannelNotificationOptOutOptions
+  options: IRemoveChannelNotificationOptOutParams
 ): Promise<IRemoveChannelNotificationOptOutResult> {
   options.httpMethod = "DELETE";
   return request(
@@ -142,11 +143,11 @@ export function removeChannelNotificationOptOut(
  * remove all posts in a channel
  *
  * @export
- * @param {IRemoveChannelActivityOptions} options
+ * @param {IRemoveChannelActivityParams} options
  * @return {*}
  */
 export function removeChannelActivity(
-  options: IRemoveChannelActivityOptions
+  options: IRemoveChannelActivityParams
 ): Promise<IRemoveChannelActivityResult> {
   options.httpMethod = "DELETE";
   return request(`/channels/${options.channelId}/activity`, options);
