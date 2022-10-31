@@ -1,13 +1,13 @@
 import { createReaction, removeReaction } from "../src/reactions";
 import * as req from "../src/request";
-import { IHubRequestOptions, PostReaction } from "../src/types";
+import { IDiscussionsRequestOptions, PostReaction } from "../src/types";
 
 describe("reactions", () => {
   let requestSpy: any;
   const response = new Response("ok", { status: 200 });
-  const baseOpts: IHubRequestOptions = {
+  const baseOpts: IDiscussionsRequestOptions = {
     hubApiUrl: "https://hub.arcgis.com/api",
-    authentication: null
+    authentication: null,
   };
 
   beforeEach(() => {
@@ -16,11 +16,11 @@ describe("reactions", () => {
     );
   });
 
-  it("creates a reaction to a post", done => {
+  it("creates a reaction to a post", (done) => {
     const postId = "postId";
     const body = { postId, value: PostReaction.THUMBS_UP };
 
-    const options = { ...baseOpts, params: body };
+    const options = { ...baseOpts, data: body };
 
     createReaction(options)
       .then(() => {
@@ -33,7 +33,7 @@ describe("reactions", () => {
       .catch(() => fail());
   });
 
-  it("deletes a reaction to a post", done => {
+  it("deletes a reaction to a post", (done) => {
     const reactionId = "reactionId";
 
     const options = { ...baseOpts, reactionId };

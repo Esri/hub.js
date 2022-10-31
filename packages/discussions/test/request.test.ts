@@ -2,7 +2,7 @@ import { request } from "../src/request";
 import * as utils from "../src/utils/request";
 import * as fetchMock from "fetch-mock";
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
-import { IHubRequestOptions } from "../src/types";
+import { IDiscussionsRequestOptions } from "../src/types";
 
 describe("request", () => {
   const url = "foo";
@@ -15,7 +15,7 @@ describe("request", () => {
     ).and.callFake(async () => token);
     const apiRequestSpy = spyOn(utils, "apiRequest");
 
-    request(url, options as unknown as IHubRequestOptions)
+    request(url, options as unknown as IDiscussionsRequestOptions)
       .then(() => {
         expect(authenticateRequestSpy).toHaveBeenCalledWith(options);
         expect(apiRequestSpy).toHaveBeenCalledWith(url, options, token);
@@ -43,7 +43,7 @@ describe("authenticateRequest", () => {
   it("returns promise resolving token if token provided in request options", (done) => {
     const options = { token };
     utils
-      .authenticateRequest(options as IHubRequestOptions)
+      .authenticateRequest(options as IDiscussionsRequestOptions)
       .then(() => {
         expect(getTokenSpy).not.toHaveBeenCalled();
         done();
@@ -54,7 +54,7 @@ describe("authenticateRequest", () => {
   it("resolves token from authentication", (done) => {
     const options = { authentication };
     utils
-      .authenticateRequest(options as IHubRequestOptions)
+      .authenticateRequest(options as IDiscussionsRequestOptions)
       .then(() => {
         expect(getTokenSpy).toHaveBeenCalledWith(portal);
         done();
@@ -70,7 +70,7 @@ describe("apiRequest", () => {
   const url = "foo";
 
   let expectedOpts: RequestInit;
-  let opts: IHubRequestOptions;
+  let opts: IDiscussionsRequestOptions;
 
   beforeEach(() => {
     fetchMock.mock("*", { status: 200, body: response });
@@ -85,7 +85,7 @@ describe("apiRequest", () => {
       credentials: undefined,
     } as RequestInit;
 
-    opts = { hubApiUrl } as IHubRequestOptions;
+    opts = { hubApiUrl } as IDiscussionsRequestOptions;
   });
 
   afterEach(fetchMock.restore);
@@ -155,9 +155,12 @@ describe("apiRequest", () => {
     const query = {
       bar: "baz",
     };
-    const options = { ...opts, params: query, httpMethod: "GET" };
+    const options = { ...opts, data: query, httpMethod: "GET" };
 
-    const result = await utils.apiRequest(url, options as IHubRequestOptions);
+    const result = await utils.apiRequest(
+      url,
+      options as IDiscussionsRequestOptions
+    );
 
     expect(result).toEqual(response);
     const queryParams = new URLSearchParams(query).toString();
@@ -172,9 +175,12 @@ describe("apiRequest", () => {
     const body = {
       bar: "baz",
     };
-    const options = { ...opts, params: body, httpMethod: "POST" };
+    const options = { ...opts, data: body, httpMethod: "POST" };
 
-    const result = await utils.apiRequest(url, options as IHubRequestOptions);
+    const result = await utils.apiRequest(
+      url,
+      options as IDiscussionsRequestOptions
+    );
 
     expectedOpts.method = "POST";
     expectedOpts.body = JSON.stringify(body);
@@ -190,7 +196,7 @@ describe("apiRequest", () => {
     const options = { ...opts, hubApiUrl: `${hubApiUrl}/` };
     const result = await utils.apiRequest(
       `/${url}`,
-      options as IHubRequestOptions
+      options as IDiscussionsRequestOptions
     );
 
     expect(result).toEqual(response);
@@ -202,7 +208,10 @@ describe("apiRequest", () => {
 
   it(`uses default hubApiUrl if none provided`, async () => {
     const options = {};
-    const result = await utils.apiRequest(url, options as IHubRequestOptions);
+    const result = await utils.apiRequest(
+      url,
+      options as IDiscussionsRequestOptions
+    );
 
     expect(result).toEqual(response);
 

@@ -8,11 +8,11 @@ import {
   createChannelNotificationOptOut,
   removeChannelNotificationOptOut,
   removeChannelActivity,
+  IFetchChannelParams,
 } from "../src/channels";
 import * as req from "../src/request";
 import {
-  IFetchChannelOptions,
-  IHubRequestOptions,
+  IDiscussionsRequestOptions,
   PostReaction,
   PostStatus,
   SharingAccess,
@@ -21,10 +21,10 @@ import {
 describe("channels", () => {
   let requestSpy: any;
   const response = new Response("ok", { status: 200 });
-  const baseOpts: IHubRequestOptions = {
+  const baseOpts: IDiscussionsRequestOptions = {
     hubApiUrl: "https://hub.arcgis.com/api",
     authentication: null,
-  };
+  } as unknown as IDiscussionsRequestOptions;
 
   beforeEach(() => {
     requestSpy = spyOn(req, "request").and.returnValue(
@@ -38,7 +38,7 @@ describe("channels", () => {
       groups: ["foo"],
     };
 
-    const options = { ...baseOpts, params: query };
+    const options = { ...baseOpts, data: query };
     searchChannels(options)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
@@ -62,7 +62,7 @@ describe("channels", () => {
       allowedReactions: [PostReaction.HEART],
     };
 
-    const options = { ...baseOpts, params: body };
+    const options = { ...baseOpts, data: body };
 
     createChannel(options)
       .then(() => {
@@ -80,7 +80,7 @@ describe("channels", () => {
 
     const options = { ...baseOpts, channelId };
 
-    fetchChannel(options as IFetchChannelOptions)
+    fetchChannel(options as IFetchChannelParams)
       .then(() => {
         expect(requestSpy.calls.count()).toEqual(1);
         const [url, opts] = requestSpy.calls.argsFor(0);
@@ -97,7 +97,7 @@ describe("channels", () => {
       allowReaction: false,
     };
 
-    const options = { ...baseOpts, channelId, params: body };
+    const options = { ...baseOpts, channelId, data: body };
 
     updateChannel(options)
       .then(() => {

@@ -1,6 +1,7 @@
 import { IUser } from "@esri/arcgis-rest-auth";
 import { GroupMembership } from "@esri/arcgis-rest-portal";
-import { IChannel, IPlatformSharing } from "../../types";
+import { IChannel } from "../../channels";
+import { IPlatformSharing } from "../../types";
 import { isOrgAdmin, reduceByGroupMembership } from "../platform";
 
 function intersectGroups(

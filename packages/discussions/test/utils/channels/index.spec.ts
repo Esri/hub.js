@@ -1,6 +1,7 @@
 import { IUser } from "@esri/arcgis-rest-auth";
 import { IGroup } from "@esri/arcgis-rest-types";
-import { SharingAccess, IChannel } from "../../../src/types";
+import { IChannel } from "../../../src/channels";
+import { SharingAccess } from "../../../src/types";
 import {
   canCreateChannel,
   canModifyChannel,

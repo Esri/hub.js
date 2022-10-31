@@ -1,28 +1,29 @@
 /* tslint:disable unified-signatures */
-import { request } from "./request";
+import { request } from "../request";
+import { IPagedResponse } from "../types";
 import {
-  ISearchPostsOptions,
-  ICreatePostOptions,
-  ICreateReplyOptions,
-  IFetchPostOptions,
-  IRemovePostOptions,
-  IUpdatePostOptions,
-  IUpdatePostSharingOptions,
-  IUpdatePostStatusOptions,
-  IPagedResponse,
+  ICreatePostParams,
+  ICreateReplyParams,
   IPost,
+  ISearchPostsParams,
+  IFetchPostParams,
+  IRemovePostParams,
   IRemovePostResponse,
+  IUpdatePostSharingParams,
+  IUpdatePostParams,
+  IUpdatePostStatusParams,
 } from "./types";
+import { IDiscussionsRequestOptions } from "../types";
 
 /**
  * search posts
  *
  * @export
- * @param {ISearchPostsOptions} options
+ * @param {ISearchPostsParams} options
  * @return {*}  {Promise<IPagedResponse<IPost>>}
  */
 export function searchPosts(
-  options: ISearchPostsOptions
+  options: ISearchPostsParams
 ): Promise<IPagedResponse<IPost>> {
   const url = `/posts`;
   options.httpMethod = "GET";
@@ -33,14 +34,14 @@ export function searchPosts(
  * create post
  *
  * @export
- * @param {ICreatePostOptions} options
+ * @param {ICreatePostParams} options
  * @return {*}  {Promise<IPost>}
  */
-export function createPost(options: ICreatePostOptions): Promise<IPost> {
+export function createPost(options: ICreatePostParams): Promise<IPost> {
   const url = `/posts`;
   return request(url, {
     httpMethod: "POST",
-    ...getCreateUpdateRequestOptions(options),
+    ...getCreateUpdateRequestParams(options),
   });
 }
 
@@ -48,14 +49,15 @@ export function createPost(options: ICreatePostOptions): Promise<IPost> {
  * create reply to post
  *
  * @export
- * @param {ICreateReplyOptions} options
+ * @param {string} parentId
+ * @param {ICreateReplyParams} options
  * @return {*}  {Promise<IPost>}
  */
-export function createReply(options: ICreateReplyOptions): Promise<IPost> {
+export function createReply(options: ICreateReplyParams): Promise<IPost> {
   const url = `/posts/${options.postId}/reply`;
   return request(url, {
     httpMethod: "POST",
-    ...getCreateUpdateRequestOptions(options),
+    ...getCreateUpdateRequestParams(options),
   });
 }
 
@@ -63,24 +65,24 @@ export function createReply(options: ICreateReplyOptions): Promise<IPost> {
  * fetch post
  *
  * @export
- * @param {IFetchPostOptions} options
+ * @param {IFetchPostParams} params
  * @return {*}  {Promise<IPost>}
  */
-export function fetchPost(options: IFetchPostOptions): Promise<IPost> {
-  const url = `/posts/${options.postId}`;
-  options.httpMethod = "GET";
-  return request(url, options);
+export function fetchPost(params: IFetchPostParams): Promise<IPost> {
+  const url = `/posts/${params.postId}`;
+  params.httpMethod = "GET";
+  return request(url, params);
 }
 
 /**
  * remove post
  *
  * @export
- * @param {IRemovePostOptions} options
+ * @param {IRemovePostParams} options
  * @return {*}  {Promise<IRemovePostResponse>}
  */
 export function removePost(
-  options: IRemovePostOptions
+  options: IRemovePostParams
 ): Promise<IRemovePostResponse> {
   const url = `/posts/${options.postId}`;
   options.httpMethod = "DELETE";
@@ -92,14 +94,14 @@ export function removePost(
  * NOTE: this method currently only update post.title and post.body
  *
  * @export
- * @param {IUpdatePostOptions} options
+ * @param {IUpdatePostParams} options
  * @return {*}  {Promise<IPost>}
  */
-export function updatePost(options: IUpdatePostOptions): Promise<IPost> {
+export function updatePost(options: IUpdatePostParams): Promise<IPost> {
   const url = `/posts/${options.postId}`;
   return request(url, {
     httpMethod: "PATCH",
-    ...getCreateUpdateRequestOptions(options),
+    ...getCreateUpdateRequestParams(options),
   });
 }
 
@@ -108,11 +110,11 @@ export function updatePost(options: IUpdatePostOptions): Promise<IPost> {
  * NOTE: this method will change the channel a post belongs to
  *
  * @export
- * @param {IUpdatePostSharingOptions} options
+ * @param {IUpdatePostSharingParams} options
  * @return {*}  {Promise<IPost>}
  */
 export function updatePostSharing(
-  options: IUpdatePostSharingOptions
+  options: IUpdatePostSharingParams
 ): Promise<IPost> {
   const url = `/posts/${options.postId}/sharing`;
   options.httpMethod = "PATCH";
@@ -124,11 +126,11 @@ export function updatePostSharing(
  * NOTE: this method will only update a post's status
  *
  * @export
- * @param {IUpdatePostStatusOptions} options
+ * @param {IUpdatePostStatusParams} options
  * @return {*}  {Promise<IPost>}
  */
 export function updatePostStatus(
-  options: IUpdatePostStatusOptions
+  options: IUpdatePostStatusParams
 ): Promise<IPost> {
   const url = `/posts/${options.postId}/status`;
   options.httpMethod = "PATCH";
@@ -139,10 +141,10 @@ export function updatePostStatus(
  * Builds the necessary request options for post/reply create/update requests
  * @param mentionUrl
  */
-function getCreateUpdateRequestOptions<
-  T extends IUpdatePostOptions | ICreatePostOptions | ICreateReplyOptions
->(options: T): T {
-  const { mentionUrl, ...requestOptions } = options;
+function getCreateUpdateRequestParams<
+  T extends IUpdatePostParams | ICreatePostParams | ICreateReplyParams
+>(params: T): T {
+  const { mentionUrl, ...requestOptions } = params;
   if (mentionUrl) {
     requestOptions.headers = {
       ...requestOptions.headers,
