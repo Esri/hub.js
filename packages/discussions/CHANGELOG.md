@@ -1,3 +1,15 @@
+# @esri/hub-discussions [15.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@14.19.0...@esri/hub-discussions@15.0.0) (2022-10-31)
+
+
+### Features
+
+* **hub-discussions:** refactor, add, rename interfaces; update can post method ([6c0d54f](https://github.com/Esri/hub.js/commit/6c0d54f546ed397d109e9d5ffb631787276eb813))
+
+
+### BREAKING CHANGES
+
+* **hub-discussions:** Interface names have changed and been refactored
+
 # @esri/hub-discussions [14.19.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@14.18.1...@esri/hub-discussions@14.19.0) (2022-10-27)
 
 
