@@ -1,3 +1,10 @@
+# @esri/hub-common [11.22.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.21.3...@esri/hub-common@11.22.0) (2022-11-01)
+
+
+### Features
+
+* remove/add featured image to hubitementity ([#919](https://github.com/Esri/hub.js/issues/919)) ([0671e47](https://github.com/Esri/hub.js/commit/0671e473eef3ac30c6fc79e55340074c6422d718))
+
 ## @esri/hub-common [11.21.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.21.2...@esri/hub-common@11.21.3) (2022-10-25)
 
 
