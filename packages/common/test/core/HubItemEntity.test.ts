@@ -4,6 +4,7 @@ import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import * as SharedWithModule from "../../src/core/_internal/sharedWith";
 import * as setItemThumbnailModule from "../../src/items/setItemThumbnail";
+import * as ItemsModule from "../../src/items";
 
 // To test the abstract class, we need to create a
 // concrete class that extends it
@@ -495,6 +496,160 @@ describe("HubItemEntity Class: ", () => {
       // save again, which should not call setItemThumbnail again b/c the cache should be cleared
       await instance.save();
       expect(spy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("featured image behavior:", () => {
+    it("should clear featured image", async () => {
+      const clearImageSpy = spyOn(
+        PortalModule,
+        "removeItemResource"
+      ).and.returnValue(Promise.resolve({ success: true }));
+
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+          featuredImageUrl: "https://fake.com/featured.png",
+        },
+        authdCtxMgr.context
+      );
+      await instance.clearFeaturedImage();
+      expect(clearImageSpy).toHaveBeenCalledTimes(1);
+      const chk = instance.toJson();
+      expect(chk.featuredImageUrl).toBeNull();
+    });
+
+    it("should throw hub error if clear featured image fails", async () => {
+      const clearImageSpy = spyOn(
+        PortalModule,
+        "removeItemResource"
+      ).and.returnValue(Promise.resolve({ success: false }));
+
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+          featuredImageUrl: "https://fake.com/featured.png",
+        },
+        authdCtxMgr.context
+      );
+      try {
+        await instance.clearFeaturedImage();
+        fail("should have thrown error");
+      } catch (err) {
+        expect(err.name).toBe("HubError");
+      }
+      expect(clearImageSpy).toHaveBeenCalledTimes(1);
+      const chk = instance.toJson();
+      expect(chk.featuredImageUrl).toBe("https://fake.com/featured.png");
+    });
+
+    it("throws hub error if removeItemResource rejects with error", async () => {
+      const clearImageSpy = spyOn(
+        PortalModule,
+        "removeItemResource"
+      ).and.returnValue(Promise.reject(new Error("fake error")));
+
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+          featuredImageUrl: "https://fake.com/featured.png",
+        },
+        authdCtxMgr.context
+      );
+      try {
+        await instance.clearFeaturedImage();
+        fail("should have thrown error");
+      } catch (err) {
+        expect(err.name).toBe("HubError");
+      }
+      expect(clearImageSpy).toHaveBeenCalledTimes(1);
+      const chk = instance.toJson();
+      expect(chk.featuredImageUrl).toBe("https://fake.com/featured.png");
+    });
+
+    it("throws hub error if remove rejects", async () => {
+      const clearImageSpy = spyOn(
+        PortalModule,
+        "removeItemResource"
+      ).and.returnValue(Promise.reject("fake error"));
+
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+          featuredImageUrl: "https://fake.com/featured.png",
+        },
+        authdCtxMgr.context
+      );
+      try {
+        await instance.clearFeaturedImage();
+        fail("should have thrown error");
+      } catch (err) {
+        expect(err.name).toBe("HubError");
+      }
+      expect(clearImageSpy).toHaveBeenCalledTimes(1);
+      const chk = instance.toJson();
+      expect(chk.featuredImageUrl).toBe("https://fake.com/featured.png");
+    });
+
+    it("should set featured image", async () => {
+      const setImageSpy = spyOn(
+        ItemsModule,
+        "uploadImageResource"
+      ).and.callFake(() => {
+        return Promise.resolve(
+          "https://www.arcgis.com/sharing/rest/content/items/3ef/resources/featuredImage.png"
+        );
+      });
+
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+        },
+        authdCtxMgr.context
+      );
+      await instance.setFeaturedImage("fake-file");
+      expect(setImageSpy).toHaveBeenCalledTimes(1);
+      const chk = instance.toJson();
+      expect(chk.featuredImageUrl).toBe(
+        "https://www.arcgis.com/sharing/rest/content/items/3ef/resources/featuredImage.png"
+      );
+    });
+
+    it("should remove existing featured image when setting a new one", async () => {
+      const clearImageSpy = spyOn(
+        PortalModule,
+        "removeItemResource"
+      ).and.returnValue(Promise.resolve({ success: true }));
+
+      const setImageSpy = spyOn(
+        ItemsModule,
+        "uploadImageResource"
+      ).and.callFake(() => {
+        return Promise.resolve(
+          "https://www.arcgis.com/sharing/rest/content/items/3ef/resources/featuredImage.png"
+        );
+      });
+
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+          featuredImageUrl: "https://fake.com/featured.png",
+        },
+        authdCtxMgr.context
+      );
+      await instance.setFeaturedImage("fake-file");
+      expect(clearImageSpy).toHaveBeenCalledTimes(1);
+      expect(setImageSpy).toHaveBeenCalledTimes(1);
+      const chk = instance.toJson();
+      expect(chk.featuredImageUrl).toBe(
+        "https://www.arcgis.com/sharing/rest/content/items/3ef/resources/featuredImage.png"
+      );
     });
   });
 });

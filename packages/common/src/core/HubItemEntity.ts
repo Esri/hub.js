@@ -2,20 +2,29 @@ import {
   getUser,
   IGroup,
   IItem,
+  removeItemResource,
   setItemAccess,
   shareItemWithGroup,
   unshareItemWithGroup,
 } from "@esri/arcgis-rest-portal";
 import { IArcGISContext } from "../ArcGISContext";
+import HubError from "../HubError";
+import { uploadImageResource } from "../items";
 import { setItemThumbnail } from "../items/setItemThumbnail";
 import { getItemThumbnailUrl, IThumbnailOptions } from "../resources";
 import { cloneObject } from "../util";
 import { mapBy } from "../utils";
-import { IWithSharingBehavior, IWithStoreBehavior } from "./behaviors";
+import {
+  IWithSharingBehavior,
+  IWithStoreBehavior,
+  IWithFeaturedImageBehavior,
+} from "./behaviors";
 
 import { IWithThumbnailBehavior } from "./behaviors/IWithThumbnailBehavior";
 import { IHubItemEntity, SettableAccessLevel } from "./types";
 import { sharedWith } from "./_internal/sharedWith";
+
+const FEATURED_IMAGE_FILENAME = "featuredImage.png";
 
 /**
  * Base class for all Hub Entities backed by items
@@ -24,7 +33,8 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
   implements
     IWithStoreBehavior<T>,
     IWithSharingBehavior,
-    IWithThumbnailBehavior
+    IWithThumbnailBehavior,
+    IWithFeaturedImageBehavior
 {
   protected context: IArcGISContext;
   protected entity: T;
@@ -245,4 +255,64 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     return getItemThumbnailUrl(minimalItem, this.context.requestOptions, opts);
   }
   //#endregion IWithThumbnailBehavior
+
+  //#region IWithFeaturedImageBehavior
+  /**
+   * Set a featured image on the Entity, if one already exists it is cleared out before the new one is set
+   * to keep the number of resources in control
+   * @param file
+   */
+  async setFeaturedImage(file: any): Promise<void> {
+    // If we have a featured image then clear it out.
+    if (this.entity.featuredImageUrl) {
+      await this.clearFeaturedImage();
+    }
+    // add the new featured image
+    const featuredImageUrl = await uploadImageResource(
+      this.entity.id,
+      this.entity.owner,
+      file,
+      FEATURED_IMAGE_FILENAME,
+      this.context.userRequestOptions
+    );
+    // If successful, update the entity
+    this.entity.featuredImageUrl = featuredImageUrl;
+    // save the entity
+    await this.save();
+  }
+  /**
+   * Remove the featured image from the item
+   */
+  async clearFeaturedImage(): Promise<void> {
+    try {
+      // remove the resource
+      const response = await removeItemResource({
+        id: this.entity.id,
+        owner: this.entity.owner,
+        resource: FEATURED_IMAGE_FILENAME,
+        ...this.context.userRequestOptions,
+      });
+      // if not successful throw an error
+      if (response && !response.success) {
+        throw new HubError(
+          "Clear Item Featured Image",
+          "Unknown error clearing featured image."
+        );
+      }
+      // If successful, clear the featured image url
+      this.entity.featuredImageUrl = null;
+      // save the entity
+      await this.save();
+    } catch (err) {
+      if (err instanceof Error) {
+        throw new HubError("Clear Item Featured Image", err.message, err);
+      } else {
+        throw new HubError(
+          "Clear Item Featured Image",
+          "Unknown error clearing featured image."
+        );
+      }
+    }
+  }
+  //#endregion IWithFeaturedImageBehavior
 }
