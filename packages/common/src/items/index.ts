@@ -20,3 +20,5 @@ export * from "./registerBrowserApp";
 export * from "./create-item-from-file";
 export * from "./create-item-from-url";
 export * from "./create-item-from-url-or-file";
+export * from "./clear-item-featured-image";
+export * from "./set-item-featured-image";

@@ -7,15 +7,22 @@ import {
   unshareItemWithGroup,
 } from "@esri/arcgis-rest-portal";
 import { IArcGISContext } from "../ArcGISContext";
+import { clearItemFeaturedImage, setItemFeaturedImage } from "../items";
 import { setItemThumbnail } from "../items/setItemThumbnail";
 import { getItemThumbnailUrl, IThumbnailOptions } from "../resources";
 import { cloneObject } from "../util";
 import { mapBy } from "../utils";
-import { IWithSharingBehavior, IWithStoreBehavior } from "./behaviors";
+import {
+  IWithSharingBehavior,
+  IWithStoreBehavior,
+  IWithFeaturedImageBehavior,
+} from "./behaviors";
 
 import { IWithThumbnailBehavior } from "./behaviors/IWithThumbnailBehavior";
 import { IHubItemEntity, SettableAccessLevel } from "./types";
 import { sharedWith } from "./_internal/sharedWith";
+
+const FEATURED_IMAGE_FILENAME = "featuredImage.png";
 
 /**
  * Base class for all Hub Entities backed by items
@@ -24,7 +31,8 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
   implements
     IWithStoreBehavior<T>,
     IWithSharingBehavior,
-    IWithThumbnailBehavior
+    IWithThumbnailBehavior,
+    IWithFeaturedImageBehavior
 {
   protected context: IArcGISContext;
   protected entity: T;
@@ -245,4 +253,47 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     return getItemThumbnailUrl(minimalItem, this.context.requestOptions, opts);
   }
   //#endregion IWithThumbnailBehavior
+
+  //#region IWithFeaturedImageBehavior
+  /**
+   * Set a featured image on the Entity, if one already exists it is cleared out before the new one is set
+   * to keep the number of resources in control
+   * @param file
+   * @param filename
+   */
+  async setFeaturedImage(file: any): Promise<void> {
+    // If we have a featured image then clear it out.
+    if (this.entity.featuredImageUrl) {
+      this.clearFeaturedImage();
+    }
+    // add the new featured image
+    const featuredImageUrl = await setItemFeaturedImage(
+      this.entity.id,
+      this.entity.owner,
+      file,
+      FEATURED_IMAGE_FILENAME,
+      this.context.userRequestOptions
+    );
+    // If successful, update the entity
+    this.entity.featuredImageUrl = featuredImageUrl;
+    // save the entity
+    this.save();
+  }
+  /**
+   * Remove the featured image from the item
+   * @param filename
+   */
+  async clearFeaturedImage(): Promise<void> {
+    await clearItemFeaturedImage(
+      this.entity.id,
+      this.entity.owner,
+      FEATURED_IMAGE_FILENAME,
+      this.context.userRequestOptions
+    );
+    // If successful, clear the featured image url
+    this.entity.featuredImageUrl = null;
+    // save the entity
+    this.save();
+  }
+  //#endregion IWithFeaturedImageBehavior
 }

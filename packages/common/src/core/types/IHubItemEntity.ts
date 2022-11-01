@@ -69,4 +69,9 @@ export interface IHubItemEntity extends IHubEntityBase {
    * System configurable typekeywords
    */
   typeKeywords?: string[];
+
+  /**
+   * Url of the items featured image
+   */
+  featuredImageUrl?: string;
 }
