@@ -502,11 +502,9 @@ describe("HubItemEntity Class: ", () => {
   describe("featured image behavior:", () => {
     it("should clear featured image", async () => {
       const clearImageSpy = spyOn(
-        ItemsModule,
-        "clearItemFeaturedImage"
-      ).and.callFake(() => {
-        return Promise.resolve();
-      });
+        PortalModule,
+        "removeItemResource"
+      ).and.returnValue(Promise.resolve({ success: true }));
 
       const instance = new TestHarness(
         {
@@ -520,6 +518,81 @@ describe("HubItemEntity Class: ", () => {
       expect(clearImageSpy).toHaveBeenCalledTimes(1);
       const chk = instance.toJson();
       expect(chk.featuredImageUrl).toBeNull();
+    });
+
+    it("should throw hub error if clear featured image fails", async () => {
+      const clearImageSpy = spyOn(
+        PortalModule,
+        "removeItemResource"
+      ).and.returnValue(Promise.resolve({ success: false }));
+
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+          featuredImageUrl: "https://fake.com/featured.png",
+        },
+        authdCtxMgr.context
+      );
+      try {
+        await instance.clearFeaturedImage();
+        fail("should have thrown error");
+      } catch (err) {
+        expect(err.name).toBe("HubError");
+      }
+      expect(clearImageSpy).toHaveBeenCalledTimes(1);
+      const chk = instance.toJson();
+      expect(chk.featuredImageUrl).toBe("https://fake.com/featured.png");
+    });
+
+    it("throws hub error if removeItemResource rejects with error", async () => {
+      const clearImageSpy = spyOn(
+        PortalModule,
+        "removeItemResource"
+      ).and.returnValue(Promise.reject(new Error("fake error")));
+
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+          featuredImageUrl: "https://fake.com/featured.png",
+        },
+        authdCtxMgr.context
+      );
+      try {
+        await instance.clearFeaturedImage();
+        fail("should have thrown error");
+      } catch (err) {
+        expect(err.name).toBe("HubError");
+      }
+      expect(clearImageSpy).toHaveBeenCalledTimes(1);
+      const chk = instance.toJson();
+      expect(chk.featuredImageUrl).toBe("https://fake.com/featured.png");
+    });
+
+    it("throws hub error if remove rejects", async () => {
+      const clearImageSpy = spyOn(
+        PortalModule,
+        "removeItemResource"
+      ).and.returnValue(Promise.reject("fake error"));
+
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+          featuredImageUrl: "https://fake.com/featured.png",
+        },
+        authdCtxMgr.context
+      );
+      try {
+        await instance.clearFeaturedImage();
+        fail("should have thrown error");
+      } catch (err) {
+        expect(err.name).toBe("HubError");
+      }
+      expect(clearImageSpy).toHaveBeenCalledTimes(1);
+      const chk = instance.toJson();
+      expect(chk.featuredImageUrl).toBe("https://fake.com/featured.png");
     });
 
     it("should set featured image", async () => {
@@ -549,11 +622,10 @@ describe("HubItemEntity Class: ", () => {
 
     it("should remove existing featured image when setting a new one", async () => {
       const clearImageSpy = spyOn(
-        ItemsModule,
-        "clearItemFeaturedImage"
-      ).and.callFake(() => {
-        return Promise.resolve();
-      });
+        PortalModule,
+        "removeItemResource"
+      ).and.returnValue(Promise.resolve({ success: true }));
+
       const setImageSpy = spyOn(
         ItemsModule,
         "uploadImageResource"

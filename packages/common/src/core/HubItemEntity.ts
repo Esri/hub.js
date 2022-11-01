@@ -2,12 +2,14 @@ import {
   getUser,
   IGroup,
   IItem,
+  removeItemResource,
   setItemAccess,
   shareItemWithGroup,
   unshareItemWithGroup,
 } from "@esri/arcgis-rest-portal";
 import { IArcGISContext } from "../ArcGISContext";
-import { clearItemFeaturedImage, uploadImageResource } from "../items";
+import HubError from "../HubError";
+import { uploadImageResource } from "../items";
 import { setItemThumbnail } from "../items/setItemThumbnail";
 import { getItemThumbnailUrl, IThumbnailOptions } from "../resources";
 import { cloneObject } from "../util";
@@ -259,7 +261,6 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * Set a featured image on the Entity, if one already exists it is cleared out before the new one is set
    * to keep the number of resources in control
    * @param file
-   * @param filename
    */
   async setFeaturedImage(file: any): Promise<void> {
     // If we have a featured image then clear it out.
@@ -281,19 +282,37 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
   }
   /**
    * Remove the featured image from the item
-   * @param filename
    */
   async clearFeaturedImage(): Promise<void> {
-    await clearItemFeaturedImage(
-      this.entity.id,
-      this.entity.owner,
-      FEATURED_IMAGE_FILENAME,
-      this.context.userRequestOptions
-    );
-    // If successful, clear the featured image url
-    this.entity.featuredImageUrl = null;
-    // save the entity
-    await this.save();
+    try {
+      // remove the resource
+      const response = await removeItemResource({
+        id: this.entity.id,
+        owner: this.entity.owner,
+        resource: FEATURED_IMAGE_FILENAME,
+        ...this.context.userRequestOptions,
+      });
+      // if not successful throw an error
+      if (response && !response.success) {
+        throw new HubError(
+          "Clear Item Featured Image",
+          "Unknown error clearing featured image."
+        );
+      }
+      // If successful, clear the featured image url
+      this.entity.featuredImageUrl = null;
+      // save the entity
+      await this.save();
+    } catch (err) {
+      if (err instanceof Error) {
+        throw new HubError("Clear Item Featured Image", err.message, err);
+      } else {
+        throw new HubError(
+          "Clear Item Featured Image",
+          "Unknown error clearing featured image."
+        );
+      }
+    }
   }
   //#endregion IWithFeaturedImageBehavior
 }
