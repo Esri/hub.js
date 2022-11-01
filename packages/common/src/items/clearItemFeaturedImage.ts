@@ -15,14 +15,15 @@ export async function clearItemFeaturedImage(
   filename: string,
   ro: IUserRequestOptions
 ): Promise<void> {
+  let response;
   try {
-    const response = await removeItemResource({
+    response = await removeItemResource({
       id,
       owner,
       resource: filename,
       ...ro,
     });
-    if (!response.success) {
+    if (response && !response.success) {
       throw new HubError(
         "Clear Item Featured Image",
         "Unknown error clearing featured image."

@@ -4,7 +4,7 @@ import HubError from "../HubError";
 import { getPortalApiUrl } from "../urls";
 
 /**
- * Given an item, and owner, add a resource to the item
+ * Given an item, and owner, add a image resource to the item and returns its url
  * @param id
  * @param owner
  * @param file
@@ -13,7 +13,7 @@ import { getPortalApiUrl } from "../urls";
  * @param prefix
  * @returns
  */
-export async function setItemFeaturedImage(
+export async function uploadImageResource(
   id: string,
   owner: string,
   file: any,

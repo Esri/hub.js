@@ -1,5 +1,5 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
-import { clearItemFeaturedImage } from "../../src/items/clear-item-featured-image";
+import { clearItemFeaturedImage } from "../../src/items/clearItemFeaturedImage";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 
 describe("clearItemFeaturedImage", () => {

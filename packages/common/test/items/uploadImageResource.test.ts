@@ -1,13 +1,13 @@
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as portalModule from "@esri/arcgis-rest-portal";
-import { setItemFeaturedImage } from "../../src/items/set-item-featured-image";
+import { uploadImageResource } from "../../src/items/uploadImageResource";
 
-describe("setItemFeaturedImage:", () => {
+describe("uploadImageResource:", () => {
   it("calls addItemResource with expected params", async () => {
     const addSpy = spyOn(portalModule, "addItemResource").and.returnValues(
       Promise.resolve({ success: true })
     );
-    const resp = await setItemFeaturedImage(
+    const resp = await uploadImageResource(
       "3ef",
       "bob",
       "fakeFile",
@@ -32,7 +32,7 @@ describe("setItemFeaturedImage:", () => {
     const addSpy = spyOn(portalModule, "addItemResource").and.returnValues(
       Promise.resolve({ success: true })
     );
-    const resp = await setItemFeaturedImage(
+    const resp = await uploadImageResource(
       "3ef",
       "bob",
       "fakeFile",
@@ -60,15 +60,9 @@ describe("setItemFeaturedImage:", () => {
       Promise.resolve({ success: false })
     );
     try {
-      await setItemFeaturedImage(
-        "3ef",
-        "bob",
-        "fakeFile",
-        "featuredImage.png",
-        {
-          authentication: MOCK_AUTH,
-        }
-      );
+      await uploadImageResource("3ef", "bob", "fakeFile", "featuredImage.png", {
+        authentication: MOCK_AUTH,
+      });
     } catch (err) {
       expect(err.name).toBe("HubError");
     }
@@ -79,15 +73,9 @@ describe("setItemFeaturedImage:", () => {
       Promise.reject(new Error("Fake Rejection"))
     );
     try {
-      await setItemFeaturedImage(
-        "3ef",
-        "bob",
-        "fakeFile",
-        "featuredImage.png",
-        {
-          authentication: MOCK_AUTH,
-        }
-      );
+      await uploadImageResource("3ef", "bob", "fakeFile", "featuredImage.png", {
+        authentication: MOCK_AUTH,
+      });
     } catch (err) {
       expect(err.name).toBe("HubError");
     }
@@ -98,15 +86,9 @@ describe("setItemFeaturedImage:", () => {
       Promise.reject("Fake Rejection")
     );
     try {
-      await setItemFeaturedImage(
-        "3ef",
-        "bob",
-        "fakeFile",
-        "featuredImage.png",
-        {
-          authentication: MOCK_AUTH,
-        }
-      );
+      await uploadImageResource("3ef", "bob", "fakeFile", "featuredImage.png", {
+        authentication: MOCK_AUTH,
+      });
     } catch (err) {
       expect(err.name).toBe("HubError");
     }

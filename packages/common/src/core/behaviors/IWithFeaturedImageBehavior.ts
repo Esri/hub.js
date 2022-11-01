@@ -1,3 +1,6 @@
+/**
+ * Composable behavior that adds featured image support to an entity class
+ */
 export interface IWithFeaturedImageBehavior {
   /**
    * Set the featured image for the item

@@ -4,7 +4,6 @@ import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import * as SharedWithModule from "../../src/core/_internal/sharedWith";
 import * as setItemThumbnailModule from "../../src/items/setItemThumbnail";
-// import * as clearItemFeaturedImageModule from "../../src/items/clear-item-featured-image";
 import * as ItemsModule from "../../src/items";
 
 // To test the abstract class, we need to create a
@@ -526,7 +525,7 @@ describe("HubItemEntity Class: ", () => {
     it("should set featured image", async () => {
       const setImageSpy = spyOn(
         ItemsModule,
-        "setItemFeaturedImage"
+        "uploadImageResource"
       ).and.callFake(() => {
         return Promise.resolve(
           "https://www.arcgis.com/sharing/rest/content/items/3ef/resources/featuredImage.png"
@@ -557,7 +556,7 @@ describe("HubItemEntity Class: ", () => {
       });
       const setImageSpy = spyOn(
         ItemsModule,
-        "setItemFeaturedImage"
+        "uploadImageResource"
       ).and.callFake(() => {
         return Promise.resolve(
           "https://www.arcgis.com/sharing/rest/content/items/3ef/resources/featuredImage.png"

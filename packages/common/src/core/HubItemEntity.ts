@@ -7,7 +7,7 @@ import {
   unshareItemWithGroup,
 } from "@esri/arcgis-rest-portal";
 import { IArcGISContext } from "../ArcGISContext";
-import { clearItemFeaturedImage, setItemFeaturedImage } from "../items";
+import { clearItemFeaturedImage, uploadImageResource } from "../items";
 import { setItemThumbnail } from "../items/setItemThumbnail";
 import { getItemThumbnailUrl, IThumbnailOptions } from "../resources";
 import { cloneObject } from "../util";
@@ -264,10 +264,10 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
   async setFeaturedImage(file: any): Promise<void> {
     // If we have a featured image then clear it out.
     if (this.entity.featuredImageUrl) {
-      this.clearFeaturedImage();
+      await this.clearFeaturedImage();
     }
     // add the new featured image
-    const featuredImageUrl = await setItemFeaturedImage(
+    const featuredImageUrl = await uploadImageResource(
       this.entity.id,
       this.entity.owner,
       file,
@@ -277,7 +277,7 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     // If successful, update the entity
     this.entity.featuredImageUrl = featuredImageUrl;
     // save the entity
-    this.save();
+    await this.save();
   }
   /**
    * Remove the featured image from the item
@@ -293,7 +293,7 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     // If successful, clear the featured image url
     this.entity.featuredImageUrl = null;
     // save the entity
-    this.save();
+    await this.save();
   }
   //#endregion IWithFeaturedImageBehavior
 }
