@@ -1,5 +1,5 @@
 import { IGroup, IItem } from "@esri/arcgis-rest-portal";
-import { IDiscussionParams } from "../types";
+import { IDiscussionParams } from "../shared/types";
 import { parseDatasetId, IHubContent } from "@esri/hub-common";
 import { IUser } from "@esri/arcgis-rest-auth";
 import { canModifyChannel } from "./channels";

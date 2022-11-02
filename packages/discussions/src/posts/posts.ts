@@ -1,6 +1,6 @@
 /* tslint:disable unified-signatures */
 import { request } from "../request";
-import { IPagedResponse } from "../types";
+import { IPagedResponse } from "../shared/types";
 import {
   ICreatePostParams,
   ICreateReplyParams,
@@ -13,7 +13,6 @@ import {
   IUpdatePostParams,
   IUpdatePostStatusParams,
 } from "./types";
-import { IDiscussionsRequestOptions } from "../types";
 
 /**
  * search posts

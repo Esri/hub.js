@@ -5,7 +5,7 @@ import {
   IWithEditor,
   IWithTimestamps,
   PostReaction,
-} from "../types";
+} from "../shared/types";
 
 /**
  * representation of reaction entity

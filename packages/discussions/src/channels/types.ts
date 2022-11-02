@@ -12,7 +12,7 @@ import {
   PostStatus,
   Role,
   SharingAccess,
-} from "../types";
+} from "../shared/types";
 
 /**
  * Channel sorting fields

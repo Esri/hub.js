@@ -17,7 +17,7 @@ import {
   PostRelation,
   PostStatus,
   SharingAccess,
-} from "../types";
+} from "../shared/types";
 
 /**
  * Post sorting fields
