@@ -1,3 +1,10 @@
+## @esri/hub-discussions [15.1.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@15.1.0...@esri/hub-discussions@15.1.1) (2022-11-03)
+
+
+### Bug Fixes
+
+* **hub-discussions:** properly export types and interfaces ([a228776](https://github.com/Esri/hub.js/commit/a22877661e9b03286806e35baa3bdb7635016d3b))
+
 # @esri/hub-discussions [15.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@15.0.0...@esri/hub-discussions@15.1.0) (2022-11-01)
 
 
