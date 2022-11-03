@@ -17,7 +17,7 @@ import {
   IRemoveChannelNotificationOptOutResult,
   IRemoveChannelActivityResult,
   IChannelNotificationOptOut,
-} from "../types";
+} from "../shared/types";
 /**
  * search channels
  *

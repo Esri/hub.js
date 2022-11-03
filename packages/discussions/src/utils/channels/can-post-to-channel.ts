@@ -5,7 +5,7 @@ import {
   IChannel,
   IChannelAcl,
 } from "../../channels";
-import { IDiscussionsUser, Role, SharingAccess } from "../../types";
+import { IDiscussionsUser, Role, SharingAccess } from "../../shared/types";
 import { CANNOT_DISCUSS } from "../constants";
 
 const ALLOWED_GROUP_ROLES = Object.freeze(["owner", "admin", "member"]);
