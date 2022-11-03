@@ -1,3 +1,10 @@
+# @esri/hub-common [11.23.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.22.0...@esri/hub-common@11.23.0) (2022-11-03)
+
+
+### Features
+
+* project edit schema supports featured image ([#922](https://github.com/Esri/hub.js/issues/922)) ([0ccd1f4](https://github.com/Esri/hub.js/commit/0ccd1f40a71bf84f65b39d2e7bdef58b7af60228))
+
 # @esri/hub-common [11.22.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.21.3...@esri/hub-common@11.22.0) (2022-11-01)
 
 
