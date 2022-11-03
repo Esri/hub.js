@@ -21,14 +21,22 @@ export const HubProjectSchema: IConfigurationSchema = {
       default: PROJECT_STATUSES.notStarted,
       enum: Object.keys(PROJECT_STATUSES),
     },
-    showMap: {
-      type: "boolean",
-    },
     extent: {
       type: "object",
     },
     timeline: {
       type: "object",
+    },
+    view: {
+      type: "object",
+      properties: {
+        showMap: {
+          type: "boolean",
+        },
+        featuredImage: {
+          type: "object",
+        },
+      },
     },
   },
 } as unknown as IConfigurationSchema;
@@ -174,6 +182,16 @@ export const HubProjectEditUiSchema: IUiSchema = {
             },
           },
         },
+        {
+          labelKey: "{{i18nScope}}.featuredImage.label",
+          scope: "/properties/view/properties/featuredImage",
+          type: "Control",
+          options: {
+            control: "hub-field-input-image-picker",
+            maxWidth: 727,
+            aspectRatio: 1.5,
+          },
+        },
       ],
     },
     {
@@ -189,7 +207,7 @@ export const HubProjectEditUiSchema: IUiSchema = {
         },
         {
           labelKey: "{{i18nScope}}.showMap.label",
-          scope: "/properties/showMap",
+          scope: "/properties/view/properties/showMap",
           type: "Control",
         },
       ],

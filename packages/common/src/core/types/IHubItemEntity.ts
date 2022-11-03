@@ -1,6 +1,7 @@
 import { IHubEntityBase } from "./IHubEntityBase";
 import { IHubGeography } from "../../types";
 import { AccessLevel } from "./types";
+import { IWithViewSettings } from "../traits";
 
 /**
  * Properties exposed by Entities that are backed by Items
@@ -71,7 +72,7 @@ export interface IHubItemEntity extends IHubEntityBase {
   typeKeywords?: string[];
 
   /**
-   * Url of the items featured image
+   * Project display properties
    */
-  featuredImageUrl?: string;
+  view?: IWithViewSettings;
 }
