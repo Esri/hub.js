@@ -30,6 +30,9 @@ export const HubProjectSchema: IConfigurationSchema = {
     timeline: {
       type: "object",
     },
+    featuredImage: {
+      type: "object",
+    },
   },
 } as unknown as IConfigurationSchema;
 
@@ -172,6 +175,17 @@ export const HubProjectEditUiSchema: IUiSchema = {
             helperText: {
               labelKey: "{{i18nScope}}.description.helperText",
             },
+          },
+        },
+        {
+          labelKey: "{{i18nScope}}.featuredImage.label",
+          scope: "/properties/featuredImage",
+          type: "Control",
+          options: {
+            control: "hub-field-input-image-picker",
+            sizeDescription: "{{i18nScope}}.featuredImage.sizeDescription",
+            maxWidth: 727,
+            aspectRatio: 1.5,
           },
         },
       ],
