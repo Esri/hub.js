@@ -264,7 +264,7 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    */
   async setFeaturedImage(file: any): Promise<void> {
     // If we have a featured image then clear it out.
-    if (this.entity.featuredImageUrl) {
+    if (this.entity.view?.featuredImageUrl) {
       await this.clearFeaturedImage();
     }
     // add the new featured image
@@ -276,7 +276,10 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
       this.context.userRequestOptions
     );
     // If successful, update the entity
-    this.entity.featuredImageUrl = featuredImageUrl;
+    this.entity.view = {
+      ...this.entity.view,
+      featuredImageUrl,
+    };
     // save the entity
     await this.save();
   }
@@ -300,7 +303,7 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
         );
       }
       // If successful, clear the featured image url
-      this.entity.featuredImageUrl = null;
+      this.entity.view.featuredImageUrl = null;
       // save the entity
       await this.save();
     } catch (err) {

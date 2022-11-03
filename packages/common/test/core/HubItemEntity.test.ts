@@ -510,14 +510,16 @@ describe("HubItemEntity Class: ", () => {
         {
           id: "00c",
           owner: "deke",
-          featuredImageUrl: "https://fake.com/featured.png",
+          view: {
+            featuredImageUrl: "https://fake.com/featured.png",
+          },
         },
         authdCtxMgr.context
       );
       await instance.clearFeaturedImage();
       expect(clearImageSpy).toHaveBeenCalledTimes(1);
       const chk = instance.toJson();
-      expect(chk.featuredImageUrl).toBeNull();
+      expect(chk.view.featuredImageUrl).toBeNull();
     });
 
     it("should throw hub error if clear featured image fails", async () => {
@@ -530,7 +532,9 @@ describe("HubItemEntity Class: ", () => {
         {
           id: "00c",
           owner: "deke",
-          featuredImageUrl: "https://fake.com/featured.png",
+          view: {
+            featuredImageUrl: "https://fake.com/featured.png",
+          },
         },
         authdCtxMgr.context
       );
@@ -542,7 +546,7 @@ describe("HubItemEntity Class: ", () => {
       }
       expect(clearImageSpy).toHaveBeenCalledTimes(1);
       const chk = instance.toJson();
-      expect(chk.featuredImageUrl).toBe("https://fake.com/featured.png");
+      expect(chk.view.featuredImageUrl).toBe("https://fake.com/featured.png");
     });
 
     it("throws hub error if removeItemResource rejects with error", async () => {
@@ -555,7 +559,9 @@ describe("HubItemEntity Class: ", () => {
         {
           id: "00c",
           owner: "deke",
-          featuredImageUrl: "https://fake.com/featured.png",
+          view: {
+            featuredImageUrl: "https://fake.com/featured.png",
+          },
         },
         authdCtxMgr.context
       );
@@ -567,7 +573,7 @@ describe("HubItemEntity Class: ", () => {
       }
       expect(clearImageSpy).toHaveBeenCalledTimes(1);
       const chk = instance.toJson();
-      expect(chk.featuredImageUrl).toBe("https://fake.com/featured.png");
+      expect(chk.view.featuredImageUrl).toBe("https://fake.com/featured.png");
     });
 
     it("throws hub error if remove rejects", async () => {
@@ -580,7 +586,9 @@ describe("HubItemEntity Class: ", () => {
         {
           id: "00c",
           owner: "deke",
-          featuredImageUrl: "https://fake.com/featured.png",
+          view: {
+            featuredImageUrl: "https://fake.com/featured.png",
+          },
         },
         authdCtxMgr.context
       );
@@ -592,7 +600,7 @@ describe("HubItemEntity Class: ", () => {
       }
       expect(clearImageSpy).toHaveBeenCalledTimes(1);
       const chk = instance.toJson();
-      expect(chk.featuredImageUrl).toBe("https://fake.com/featured.png");
+      expect(chk.view.featuredImageUrl).toBe("https://fake.com/featured.png");
     });
 
     it("should set featured image", async () => {
@@ -615,7 +623,7 @@ describe("HubItemEntity Class: ", () => {
       await instance.setFeaturedImage("fake-file");
       expect(setImageSpy).toHaveBeenCalledTimes(1);
       const chk = instance.toJson();
-      expect(chk.featuredImageUrl).toBe(
+      expect(chk.view.featuredImageUrl).toBe(
         "https://www.arcgis.com/sharing/rest/content/items/3ef/resources/featuredImage.png"
       );
     });
@@ -639,7 +647,9 @@ describe("HubItemEntity Class: ", () => {
         {
           id: "00c",
           owner: "deke",
-          featuredImageUrl: "https://fake.com/featured.png",
+          view: {
+            featuredImageUrl: "https://fake.com/featured.png",
+          },
         },
         authdCtxMgr.context
       );
@@ -647,7 +657,7 @@ describe("HubItemEntity Class: ", () => {
       expect(clearImageSpy).toHaveBeenCalledTimes(1);
       expect(setImageSpy).toHaveBeenCalledTimes(1);
       const chk = instance.toJson();
-      expect(chk.featuredImageUrl).toBe(
+      expect(chk.view.featuredImageUrl).toBe(
         "https://www.arcgis.com/sharing/rest/content/items/3ef/resources/featuredImage.png"
       );
     });

@@ -183,7 +183,6 @@ export const HubProjectEditUiSchema: IUiSchema = {
           type: "Control",
           options: {
             control: "hub-field-input-image-picker",
-            sizeDescription: "{{i18nScope}}.featuredImage.sizeDescription",
             maxWidth: 727,
             aspectRatio: 1.5,
           },

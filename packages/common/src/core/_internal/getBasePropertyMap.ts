@@ -54,9 +54,5 @@ export function getBasePropertyMap(): IPropertyMap[] {
     objectKey: "boundary",
     modelKey: "item.properties.boundary",
   });
-  map.push({
-    objectKey: "featuredImageUrl",
-    modelKey: "item.properties.featuredImageUrl",
-  });
   return map;
 }
