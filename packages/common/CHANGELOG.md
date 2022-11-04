@@ -1,3 +1,10 @@
+## @esri/hub-common [11.23.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.23.0...@esri/hub-common@11.23.1) (2022-11-04)
+
+
+### Bug Fixes
+
+* add helperText for featured image field ([#923](https://github.com/Esri/hub.js/issues/923)) ([3c0974d](https://github.com/Esri/hub.js/commit/3c0974d0020f1e31505276ed87564a257bd2d281))
+
 # @esri/hub-common [11.23.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.22.0...@esri/hub-common@11.23.0) (2022-11-03)
 
 
