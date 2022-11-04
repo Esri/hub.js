@@ -6,7 +6,7 @@ import { ArcGISContextManager } from "../src/ArcGISContextManager";
 import { Hub } from "../src/Hub";
 import { IArcGISContextManagerOptions, IHubProject } from "../src";
 import { MOCK_AUTH } from "./mocks/mock-auth";
-import * as ProjectsModule from "../src/projects/HubProjects";
+// import * as ProjectsModule from "../src/projects/HubProjects";
 
 /**
  * Pass this into a ContextManager.create call
