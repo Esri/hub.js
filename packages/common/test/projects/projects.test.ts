@@ -1,3 +1,5 @@
+// NOTE: this test suite was written before we split the fns into two modules
+// so rather than split up the tests, we just left them in this single file
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as FetchEnrichments from "../../src/items/_enrichments";
 import {

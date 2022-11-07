@@ -8,7 +8,8 @@ import {
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubProject } from "../../src/projects/HubProject";
 import { MOCK_AUTH } from "../mocks/mock-auth";
-import * as HubProjectsModule from "../../src/projects/HubProjects";
+import * as editModule from "../../src/projects/edit";
+import * as fetchModule from "../../src/projects/fetch";
 
 describe("HubProject Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -34,7 +35,7 @@ describe("HubProject Class:", () => {
 
   describe("static methods:", () => {
     it("loads from minimal json", () => {
-      const createSpy = spyOn(HubProjectsModule, "createProject");
+      const createSpy = spyOn(editModule, "createProject");
       const chk = HubProject.fromJson(
         { name: "Test Project" },
         authdCtxMgr.context
@@ -48,7 +49,7 @@ describe("HubProject Class:", () => {
       expect(json.catalog).toEqual({ schemaVersion: 0 });
     });
     it("loads based on identifier", async () => {
-      const fetchSpy = spyOn(HubProjectsModule, "fetchProject").and.callFake(
+      const fetchSpy = spyOn(fetchModule, "fetchProject").and.callFake(
         (id: string) => {
           return Promise.resolve({
             id,
@@ -64,7 +65,7 @@ describe("HubProject Class:", () => {
     });
 
     it("handle load missing projects", async () => {
-      const fetchSpy = spyOn(HubProjectsModule, "fetchProject").and.callFake(
+      const fetchSpy = spyOn(fetchModule, "fetchProject").and.callFake(
         (id: string) => {
           const err = new Error(
             "CONT_0001: Item does not exist or is inaccessible."
@@ -81,7 +82,7 @@ describe("HubProject Class:", () => {
     });
 
     it("handle load errors", async () => {
-      const fetchSpy = spyOn(HubProjectsModule, "fetchProject").and.callFake(
+      const fetchSpy = spyOn(fetchModule, "fetchProject").and.callFake(
         (id: string) => {
           const err = new Error("ZOMG!");
           return Promise.reject(err);
@@ -96,12 +97,11 @@ describe("HubProject Class:", () => {
     });
 
     it("returns editorConfig", async () => {
-      const spy = spyOn(
-        HubProjectsModule,
-        "getHubProjectEditorConfig"
-      ).and.callFake(() => {
-        return Promise.resolve({ schema: {}, uiSchema: {} });
-      });
+      const spy = spyOn(editModule, "getHubProjectEditorConfig").and.callFake(
+        () => {
+          return Promise.resolve({ schema: {}, uiSchema: {} });
+        }
+      );
 
       await HubProject.getEditorConfig("test.scope", "edit");
       expect(spy).toHaveBeenCalledTimes(1);
@@ -109,12 +109,11 @@ describe("HubProject Class:", () => {
     });
 
     it("returns editorConfig integrating options", async () => {
-      const spy = spyOn(
-        HubProjectsModule,
-        "getHubProjectEditorConfig"
-      ).and.callFake(() => {
-        return Promise.resolve({ schema: {}, uiSchema: {} });
-      });
+      const spy = spyOn(editModule, "getHubProjectEditorConfig").and.callFake(
+        () => {
+          return Promise.resolve({ schema: {}, uiSchema: {} });
+        }
+      );
 
       const opts: UiSchemaElementOptions[] = [];
 
@@ -125,7 +124,7 @@ describe("HubProject Class:", () => {
   });
 
   it("save call createProject if object does not have an id", async () => {
-    const createSpy = spyOn(HubProjectsModule, "createProject").and.callFake(
+    const createSpy = spyOn(editModule, "createProject").and.callFake(
       (p: IHubProject) => {
         return Promise.resolve(p);
       }
@@ -139,7 +138,7 @@ describe("HubProject Class:", () => {
     expect(chk.toJson().name).toEqual("Test Project");
   });
   it("create saves the instance if passed true", async () => {
-    const createSpy = spyOn(HubProjectsModule, "createProject").and.callFake(
+    const createSpy = spyOn(editModule, "createProject").and.callFake(
       (p: IHubProject) => {
         p.id = "3ef";
         return Promise.resolve(p);
@@ -155,7 +154,7 @@ describe("HubProject Class:", () => {
     expect(chk.toJson().name).toEqual("Test Project");
   });
   it("create does not save by default", async () => {
-    const createSpy = spyOn(HubProjectsModule, "createProject");
+    const createSpy = spyOn(editModule, "createProject");
     const chk = await HubProject.create(
       { name: "Test Project" },
       authdCtxMgr.context
@@ -185,7 +184,7 @@ describe("HubProject Class:", () => {
   });
 
   it("save updates if object has id", async () => {
-    const updateSpy = spyOn(HubProjectsModule, "updateProject").and.callFake(
+    const updateSpy = spyOn(editModule, "updateProject").and.callFake(
       (p: IHubProject) => {
         return Promise.resolve(p);
       }
@@ -203,11 +202,9 @@ describe("HubProject Class:", () => {
   });
 
   it("delete", async () => {
-    const deleteSpy = spyOn(HubProjectsModule, "deleteProject").and.callFake(
-      () => {
-        return Promise.resolve();
-      }
-    );
+    const deleteSpy = spyOn(editModule, "deleteProject").and.callFake(() => {
+      return Promise.resolve();
+    });
     const chk = HubProject.fromJson(
       { name: "Test Project" },
       authdCtxMgr.context

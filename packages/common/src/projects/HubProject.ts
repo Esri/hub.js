@@ -10,14 +10,6 @@ import {
   UiSchemaElementOptions,
 } from "../core";
 
-import {
-  createProject,
-  deleteProject,
-  fetchProject,
-  getHubProjectEditorConfig,
-  updateProject,
-} from "./HubProjects";
-
 import { Catalog } from "../search/Catalog";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
@@ -25,6 +17,9 @@ import {
   EditorConfigType,
   IEditorConfig,
 } from "../core/behaviors/IWithEditorBehavior";
+
+// NOTE: this could be lazy-loaded just like the CUD functions
+import { fetchProject } from "./fetch";
 
 /**
  * Hub Project Class
@@ -147,6 +142,7 @@ export class HubProject
     type: EditorConfigType,
     options: UiSchemaElementOptions[] = []
   ): Promise<IEditorConfig> {
+    const { getHubProjectEditorConfig } = await import("./edit");
     // Delegate to module fn
     return getHubProjectEditorConfig(i18nScope, type, options);
   }
@@ -199,6 +195,8 @@ export class HubProject
     this.entity.catalog = this._catalog.toJson();
     this.entity.permissions = this._permissionManager.toJson();
 
+    const { createProject, updateProject } = await import("./edit");
+
     if (this.entity.id) {
       // update it
       this.entity = await updateProject(
@@ -228,6 +226,7 @@ export class HubProject
       throw new Error("HubProject is already destroyed.");
     }
     this.isDestroyed = true;
+    const { deleteProject } = await import("./edit");
     // Delegate to module fn
     await deleteProject(this.entity.id, this.context.userRequestOptions);
   }
