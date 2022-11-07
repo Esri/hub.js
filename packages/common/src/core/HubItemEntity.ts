@@ -78,10 +78,8 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
   abstract delete(): Promise<void>;
 
   /**
-   * Can the current user edit the Entity?
-   * In order to edit an item, the user must be the owner of the item
-   * or be a member of a shared editing group, to which the item is shared.
-   * @returns
+   * Can current user edit this entity?
+   * Derived from the `itemControl` property of the item
    */
   async canEdit(): Promise<boolean> {
     const user = this.context.currentUser;
@@ -126,6 +124,8 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * In order to delete an item, the user must be the owner of the item or a full org_admin
    * in the owner's organization.
    * @returns
+   * Can current user delete this entity?
+   * Derived from the `itemControl` property of the item
    */
   async canDelete(): Promise<boolean> {
     const user = this.context.currentUser;
