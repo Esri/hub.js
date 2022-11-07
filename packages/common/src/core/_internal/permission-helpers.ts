@@ -74,12 +74,13 @@ export async function checkEntityPermission(
 
   // Pipe through functions that check each level of permission
   // while setting the result on the definition
-  // TODO Change to operation pipeline
+  // TODO: Change to operation pipeline
   def = await checkLicense(def, entity, context);
   def = await checkPrivileges(def, entity, context);
   def = await checkRoles(def, entity, context);
   def = await checkOwner(def, entity, context);
   def = await checkEdit(def, entity, context);
+  // may break this one up more for more granular checks
   def = await checkEntity(def, entity, context);
 
   return Promise.resolve(def);

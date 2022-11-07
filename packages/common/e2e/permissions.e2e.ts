@@ -3,7 +3,7 @@ import { checkEntityPermission, fetchHubEntity, HubEntity } from "../src/index";
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
 
-const TEST_ITEM_ID = "9d5591a4eec74718b03c32535a5947f1";
+const TEST_ITEM_ID = "7deb8b7bdb4f4fab973513ebb55cd9a6";
 
 fdescribe("Check Permissions", () => {
   let factory: Artifactory;
