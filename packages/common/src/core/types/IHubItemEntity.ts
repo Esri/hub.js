@@ -75,4 +75,18 @@ export interface IHubItemEntity extends IHubEntityBase {
    * Project display properties
    */
   view?: IWithViewSettings;
+
+  /**
+   * Can current user edit the entity
+   * Derived from `item.itemControl` = "admin" | "update"
+   * @readonly
+   */
+  canEdit: boolean;
+
+  /**
+   * Can current user delete the entity
+   * Derived from `item.itemControl` = "admin"
+   * @readonly
+   */
+  canDelete: boolean;
 }

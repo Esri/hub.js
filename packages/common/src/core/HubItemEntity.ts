@@ -78,75 +78,19 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
   abstract delete(): Promise<void>;
 
   /**
-   * Can the current user edit the Entity?
-   * In order to edit an item, the user must be the owner of the item
-   * or be a member of a shared editing group, to which the item is shared.
-   * @returns
+   * Cam current user edit this entity?
+   * Derived from the `itemControl` property of the item
    */
-  async canEdit(): Promise<boolean> {
-    const user = this.context.currentUser;
-    // owner can always edit
-    if (user.username === this.entity.owner) {
-      return Promise.resolve(true);
-    }
-
-    // Fetch the user's groups by fetching the user
-    // we do this each time to ensure we have the latest groups
-    const u = await getUser(user.username);
-    const usersGroups = u.groups;
-
-    if (!usersGroups.length) {
-      // if user is not owner and not in any groups they can't have edit access
-      return Promise.resolve(false);
-    }
-    // get the groups the entity is shared to
-    const entityGroups = await this.sharedWith();
-    // filter to shared edit groups
-    const editGroupIds = entityGroups
-      .filter((g) => {
-        const caps = (g.capabilities as string[]) || [];
-        return caps.includes("updateitemcontrol");
-      })
-      .map((g) => g.id);
-    // get the user's groups ids
-    const usersGroupsIds = mapBy("id", usersGroups) as string[];
-    // check for any overlap
-    let isMemberOfEditGroup = false;
-    for (const id of usersGroupsIds) {
-      isMemberOfEditGroup = editGroupIds.includes(id);
-      if (isMemberOfEditGroup) {
-        break;
-      }
-    }
-    return Promise.resolve(isMemberOfEditGroup);
+  get canEdit(): boolean {
+    return this.entity.canEdit;
   }
 
   /**
-   * Can the current user delete the Entity?
-   * In order to delete an item, the user must be the owner of the item or a full org_admin
-   * in the owner's organization.
-   * @returns
+   * Cam current user delete this entity?
+   * Derived from the `itemControl` property of the item
    */
-  async canDelete(): Promise<boolean> {
-    const user = this.context.currentUser;
-    // owner can always delete
-    if (user.username === this.entity.owner) {
-      return Promise.resolve(true);
-    }
-    // if not owner, check if user is org_admin in same org as owner
-    if (user.role === "org_admin" && !user.roleId) {
-      // need to get the owner, and see if the orgid matches
-      const ownerUser = await getUser({
-        username: this.entity.owner,
-        authentication: this.context.session,
-      });
-      // ensure owner orgId is not null and matched current user
-      const adminCanDelete = ownerUser.orgId && ownerUser.orgId === user.orgId;
-      return Promise.resolve(adminCanDelete);
-    } else {
-      // not org admin, can't edit
-      return Promise.resolve(false);
-    }
+  get canDelete() {
+    return this.entity.canDelete;
   }
 
   //#endregion IWithStoreBehavior

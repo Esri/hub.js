@@ -85,6 +85,8 @@ const SITE: commonModule.IHubSite = {
   thumbnailUrl: "",
   schemaVersion: 2,
   permissions: [],
+  canEdit: true,
+  canDelete: false,
 };
 
 const SITE_ITEM_ENRICH: portalModule.IItem = {
