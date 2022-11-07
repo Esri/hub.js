@@ -6,6 +6,7 @@ import {
 import { IPortal } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getProp, getWithDefault, IHubRequestOptions } from ".";
+import { HubLicense } from "./core/licensing";
 
 /**
  * Hash of Hub API end points so updates
@@ -141,6 +142,11 @@ export interface IArcGISContext {
    * Returns the portal object
    */
   portal: IPortal;
+
+  /**
+   * What is the current user's hub license level?
+   */
+  hubLicense: HubLicense;
 
   /**
    * Additional app-specific context
@@ -333,6 +339,18 @@ export class ArcGISContext implements IArcGISContext {
       }
     } else {
       return this._portalUrl;
+    }
+  }
+
+  get hubLicense(): HubLicense {
+    if (this.isPortal) {
+      return "enterprise";
+    } else {
+      if (this.hubEnabled) {
+        return "premium";
+      } else {
+        return "basic";
+      }
     }
   }
 

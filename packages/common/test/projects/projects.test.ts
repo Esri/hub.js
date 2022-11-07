@@ -293,6 +293,7 @@ describe("HubProjects:", () => {
         }
       );
       const prj: IHubProject = {
+        itemControl: "edit",
         id: GUID,
         name: "Hello World",
         tags: ["Transportation"],

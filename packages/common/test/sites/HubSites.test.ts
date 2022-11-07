@@ -49,6 +49,7 @@ const SITE_MODEL = {
 } as commonModule.IModel;
 
 const SITE: commonModule.IHubSite = {
+  itemControl: "edit",
   id: GUID,
   name: "Fake Site",
   tags: ["Transportation"],

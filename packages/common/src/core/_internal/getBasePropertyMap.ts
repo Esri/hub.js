@@ -13,6 +13,7 @@ export function getBasePropertyMap(): IPropertyMap[] {
     "description",
     "extent",
     "id",
+    "itemControl",
     "modified",
     "owner",
     "tags",

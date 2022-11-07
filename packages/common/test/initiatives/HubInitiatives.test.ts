@@ -281,6 +281,7 @@ describe("HubInitiatives:", () => {
         }
       );
       const prj: IHubInitiative = {
+        itemControl: "edit",
         id: GUID,
         name: "Hello World",
         tags: ["Transportation"],

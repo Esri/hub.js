@@ -36,6 +36,12 @@ export interface IHubItemEntity extends IHubEntityBase {
   extent?: number[][];
 
   /**
+   * Platform derived based on current user's access to the entity
+   * if defined, it means the user can edit the entity
+   */
+  itemControl: string;
+
+  /**
    * Username of the owner of the item
    */
   owner: string;

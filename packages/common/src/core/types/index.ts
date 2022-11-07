@@ -1,3 +1,5 @@
+export * from "./HubEntity";
+export * from "./HubEntityType";
 export * from "./IHubContent";
 export * from "./IHubContentEnrichments";
 export * from "./IHubEntityBase";

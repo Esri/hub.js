@@ -824,5 +824,8 @@ export const composeContent = (
     get additionalResources() {
       return getAdditionalResources(item, metadata);
     },
+    get itemControl() {
+      return item.itemControl || "view";
+    },
   } as IHubContent;
 };
