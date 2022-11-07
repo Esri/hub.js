@@ -8,7 +8,7 @@ import {
 } from "../shared/types";
 
 /**
- * representation of reaction entity
+ * representation of reaction from the service
  *
  * @export
  * @interface IReaction

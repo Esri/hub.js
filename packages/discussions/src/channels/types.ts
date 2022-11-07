@@ -13,10 +13,12 @@ import {
   Role,
   SharingAccess,
 } from "../shared/types";
+import { IPost } from "../types";
 
 /**
  * Channel sorting fields
  *
+ * @export
  * @enum {string}
  */
 export enum ChannelSort {
@@ -84,7 +86,7 @@ export interface IChannelAclDefinition {
   authenticated?: IAclPermissionDefinition;
   groups?: AclGroupDefinitionMap;
   orgs?: AclGroupDefinitionMap;
-  users?: {
+  users: {
     [key: string]: IAclPermissionDefinition;
   };
 }
@@ -152,7 +154,7 @@ export interface ICreateChannelSettings {
   allowReaction?: boolean;
   name?: string;
   allowedReactions?: PostReaction[];
-  blockwords?: string[];
+  blockWords?: string[];
 }
 
 /**
@@ -174,6 +176,7 @@ export interface ICreateChannelPermissions {
  * @export
  * @interface ICreateChannel
  * @extends {ICreateChannelSettings}
+ * @extends {ICreateChannelPermissions}
  */
 export interface ICreateChannel
   extends ICreateChannelSettings,
@@ -184,17 +187,24 @@ export interface ICreateChannel
  *
  * @export
  * @interface IChannel
- * @extends {Required<Omit<ICreateChannel, 'acl'>>}
  * @extends {IWithAuthor}
  * @extends {IWithEditor}
  * @extends {IWithTimestamps}
  */
-export interface IChannel
-  extends Required<Omit<ICreateChannel, "acl">>,
-    IWithAuthor,
-    IWithEditor,
-    IWithTimestamps {
+export interface IChannel extends IWithAuthor, IWithEditor, IWithTimestamps {
   id: string;
+  posts?: IPost[];
+  allowReply: boolean;
+  allowAnonymous: boolean;
+  softDelete: boolean;
+  defaultPostStatus: PostStatus;
+  allowReaction: boolean;
+  allowedReactions: PostReaction[] | null;
+  blockWords: string[] | null;
+  name: string | null;
+  access: SharingAccess;
+  orgs: string[];
+  groups: string[];
   acl: IChannelAcl;
 }
 
