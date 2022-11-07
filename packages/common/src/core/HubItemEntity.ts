@@ -78,7 +78,7 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
   abstract delete(): Promise<void>;
 
   /**
-   * Cam current user edit this entity?
+   * Can current user edit this entity?
    * Derived from the `itemControl` property of the item
    */
   get canEdit(): boolean {
@@ -86,7 +86,7 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
   }
 
   /**
-   * Cam current user delete this entity?
+   * Can current user delete this entity?
    * Derived from the `itemControl` property of the item
    */
   get canDelete() {
