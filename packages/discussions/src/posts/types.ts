@@ -56,8 +56,7 @@ export type PostReactionSummary = {
 };
 
 /**
- * representation of post entity
- * (post response from service)
+ * representation of post from service
  *
  * @export
  * @interface IPost
