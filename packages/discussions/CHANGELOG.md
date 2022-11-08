@@ -1,3 +1,12 @@
+## @esri/hub-discussions [16.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@16.0.0...@esri/hub-discussions@16.0.1) (2022-11-08)
+
+
+### Bug Fixes
+
+* **hub-discussions:** add to export ([f7ae8d8](https://github.com/Esri/hub.js/commit/f7ae8d8e750ae8c606b1156d9b988787943ddc96))
+* **hub-discussions:** fix test imports ([992cd69](https://github.com/Esri/hub.js/commit/992cd6901bac1e7362a0f9292a542c59148e8720))
+* **hub-discussions:** repackage types into a single file ([b5b9232](https://github.com/Esri/hub.js/commit/b5b9232b4f89a0d086b300a9067040927a62c77d))
+
 # @esri/hub-discussions [16.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@15.2.1...@esri/hub-discussions@16.0.0) (2022-11-08)
 
 
