@@ -1,5 +1,4 @@
-import { IChannel } from "../../../src/channels";
-import { IDiscussionsUser } from "../../../src/types";
+import { IChannel, IDiscussionsUser } from "../../../src/types";
 import { canPostToChannel } from "../../../src/utils/channels/can-post-to-channel";
 
 describe("canPostToChannel", () => {
