@@ -13,7 +13,7 @@ import {
   Role,
   SharingAccess,
 } from "../shared/types";
-import { IPost } from "../types";
+import { IPost } from "../posts/types";
 
 /**
  * Channel sorting fields
