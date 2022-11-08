@@ -7,11 +7,11 @@ import {
   createReply,
   updatePostSharing,
   updatePostStatus,
-  IFetchPostParams,
 } from "../src/posts";
 import * as req from "../src/request";
 import {
   IDiscussionsRequestOptions,
+  IFetchPostParams,
   PostStatus,
   SharingAccess,
 } from "../src/types";

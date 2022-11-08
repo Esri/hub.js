@@ -8,11 +8,11 @@ import {
   createChannelNotificationOptOut,
   removeChannelNotificationOptOut,
   removeChannelActivity,
-  IFetchChannelParams,
 } from "../src/channels";
 import * as req from "../src/request";
 import {
   IDiscussionsRequestOptions,
+  IFetchChannelParams,
   PostReaction,
   PostStatus,
   SharingAccess,

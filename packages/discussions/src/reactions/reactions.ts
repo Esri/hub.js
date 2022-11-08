@@ -4,7 +4,7 @@ import {
   IRemoveReactionOptions,
   IRemoveReactionResponse,
   IReaction,
-} from "./types";
+} from "../types";
 
 /**
  * create reaction to post

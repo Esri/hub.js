@@ -1,5 +1,4 @@
-import { IChannel } from "../channels";
-import { PostReaction } from "../shared/types";
+import { PostReaction, IChannel } from "../types";
 
 /**
  * Utility that determines whether a Channel allows a given PostReaction

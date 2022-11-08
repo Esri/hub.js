@@ -1,4 +1,4 @@
-import { IDiscussionsRequestOptions } from "../shared/types";
+import { IDiscussionsRequestOptions } from "../types";
 import {
   RemoteServerError as _RemoteServerError,
   buildUrl,

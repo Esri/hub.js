@@ -1,6 +1,5 @@
 import { canCreateReaction } from "../../src/utils/reactions";
-import { PostReaction } from "../../src/types";
-import { IChannel } from "../../src/channels";
+import { PostReaction, IChannel } from "../../src/types";
 
 describe("Util: canCreateReaction", () => {
   it("returns true if channel allows all reactions", () => {

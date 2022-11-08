@@ -11,13 +11,12 @@ import {
   ICreateChannelNotificationOptOutParams,
   IRemoveChannelNotificationOptOutParams,
   IRemoveChannelActivityParams,
-} from "./types";
-import {
   IPagedResponse,
   IRemoveChannelNotificationOptOutResult,
   IRemoveChannelActivityResult,
   IChannelNotificationOptOut,
-} from "../shared/types";
+} from "../types";
+
 /**
  * search channels
  *
