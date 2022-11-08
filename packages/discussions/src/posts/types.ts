@@ -14,6 +14,7 @@ import {
   IWithSorting,
   IWithTimeQueries,
   IWithTimestamps,
+  PostReaction,
   PostRelation,
   PostStatus,
   SharingAccess,
@@ -39,7 +40,23 @@ export enum PostSort {
 }
 
 /**
- * representation of post entity
+ * Post types
+ *
+ * @enum{string}
+ */
+export enum PostType {
+  Text = "text",
+  Announcement = "announcement",
+  Poll = "poll",
+  Question = "question",
+}
+
+export type PostReactionSummary = {
+  [key in PostReaction]: string[];
+};
+
+/**
+ * representation of post from service
  *
  * @export
  * @interface IPost
@@ -49,20 +66,21 @@ export enum PostSort {
  */
 export interface IPost extends IWithAuthor, IWithEditor, IWithTimestamps {
   id: string;
+  title: string | null;
   body: string;
-  channelId: string;
-  channel: IChannel;
-  title?: string;
-  discussion?: string;
-  geometry?: Geometry;
-  featureGeometry?: Geometry;
-  appInfo?: string; // this is a catch-all field for app-specific information about a post, added for Urban
   status: PostStatus;
+  appInfo: string | null; // this is a catch-all field for app-specific information about a post, added for Urban
+  discussion: string | null;
+  geometry: Geometry | null;
+  featureGeometry: Geometry | null;
+  postType: PostType;
+  channelId?: string;
+  channel?: IChannel;
   parentId?: string;
-  parent?: IPost;
+  parent?: IPost | null;
   replies?: IPost[] | IPagedResponse<IPost>;
   replyCount?: number;
-  reactions?: IReaction[];
+  reactions?: PostReactionSummary;
   userReactions?: IReaction[];
 }
 
