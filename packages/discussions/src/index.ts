@@ -4,6 +4,7 @@
 export * from "./posts";
 export * from "./channels";
 export * from "./reactions";
+export * from "./types";
 
 export * from "./utils/posts";
 export * from "./utils/channels/";
