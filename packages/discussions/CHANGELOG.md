@@ -1,3 +1,16 @@
+# @esri/hub-discussions [16.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@15.2.1...@esri/hub-discussions@16.0.0) (2022-11-08)
+
+
+### Bug Fixes
+
+* **hub-discussions:** fix circular import ([5b8f0e7](https://github.com/Esri/hub.js/commit/5b8f0e7749a5b38fae6a9994e15addf2d96739ea))
+* **hub-discussions:** refactor discussion interfaces ([f93fbba](https://github.com/Esri/hub.js/commit/f93fbba2bd9282042cde2082be9cf01b50ebd034))
+
+
+### BREAKING CHANGES
+
+* **hub-discussions:** interface changes for channel, post, and reaction
+
 ## @esri/hub-discussions [15.2.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@15.2.0...@esri/hub-discussions@15.2.1) (2022-11-04)
 
 
