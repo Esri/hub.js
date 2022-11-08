@@ -1,10 +1,8 @@
 import { IGroup, IItem } from "@esri/arcgis-rest-portal";
-import { IDiscussionParams } from "../shared/types";
+import { IChannel, IDiscussionParams, IPost } from "../types";
 import { parseDatasetId, IHubContent } from "@esri/hub-common";
 import { IUser } from "@esri/arcgis-rest-auth";
 import { canModifyChannel } from "./channels";
-import { IPost } from "../posts";
-import { IChannel } from "../channels";
 import { CANNOT_DISCUSS, MENTION_ATTRIBUTE } from "./constants";
 
 /**
