@@ -4,4 +4,3 @@ export * from "./behaviors";
 export * from "./PermissionManager";
 export * from "./schemas";
 export * from "./fetchEntity";
-export * from "./_internal/permission-helpers";

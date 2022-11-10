@@ -20,6 +20,7 @@ export * from "./models";
 export * from "./objects";
 export * from "./org";
 export * from "./pages";
+export * from "./permissions";
 export * from "./projects";
 export * from "./request";
 export * from "./resources";

@@ -18,7 +18,7 @@ import { checkEdit } from "./_internal/checkEdit";
 import { checkPrivileges } from "./_internal/checkPrivileges";
 import { IGroup } from "@esri/arcgis-rest-portal";
 
-export function checkPermission(
+export function checkPermissionv2(
   permission: Permission,
   context: IArcGISContext,
   entity?: HubEntity

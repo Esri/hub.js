@@ -1,5 +1,5 @@
 import { IArcGISContext } from "../src/ArcGISContext";
-import { checkEntityPermission, fetchHubEntity, HubEntity } from "../src/index";
+import { checkPermissionv2, fetchHubEntity, HubEntity } from "../src/index";
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
 
@@ -18,7 +18,6 @@ fdescribe("Check Permissions", () => {
   describe("hacking", () => {
     it("testing", async () => {
       // get a project
-
       const entity: HubEntity = await fetchHubEntity(
         "project",
         TEST_ITEM_ID,
@@ -26,11 +25,12 @@ fdescribe("Check Permissions", () => {
       );
 
       // check permissions
-      const results = await checkEntityPermission(
-        "hub:site:edit",
-        entity,
-        context
-      );
+      // console.time("checkPermissionv2");
+      // for (let i = 0; i < 100000; i++) {
+      const results = checkPermissionv2("hub:site:edit", context, entity);
+      // }
+      // console.timeEnd("checkPermissionv2");
+      // debugger;
     });
   });
 });

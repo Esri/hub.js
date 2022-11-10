@@ -10,7 +10,7 @@ export function checkPrivileges(
 ): IPolicyCheck[] {
   const privs = policy.privileges || [];
 
-  const checks = policy.privileges.map((privilege) => {
+  const checks = privs.map((privilege) => {
     let response: PolicyResponse = "granted";
     if (!context.currentUser.privileges.includes(privilege)) {
       response = "privilege-required";

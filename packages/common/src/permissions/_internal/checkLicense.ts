@@ -33,19 +33,11 @@ export function checkLicense(
   }
 
   const check: IPolicyCheck = {
-    name: "license",
-    value: policy.licenses.join(", "),
+    name: `license in ${policy.licenses.join(", ")}`,
+    value: context.hubLicense,
     code: getPolicyResponseCode(result),
     response: result,
   };
-  // response.checks.push(check);
-  // // only overwrite the response code/val if it's currently "granted"
-  // // this allows the checks to be run in any order, and the first to
-  // // revoke access will be the one that is returned, along with all the checks
-  // if (response.response === 'granted'){
-  //   response.code = getPolicyResponseCode(result);
-  //   response.response = result;
-  // }
 
   return [check];
 }

@@ -1,26 +1,34 @@
-import { HubCapability } from "./configuration/HubCapabilities";
+// /**
+//  * Defines status structure for subsystem license information
+//  */
+// export interface ISubsystemLicenseStatus {
+//   /**
+//    * Subsystem is available in this environment, but may not be licenesed for the current user
+//    */
+//   available: boolean;
+//   /**
+//    * Capablility is available in this environment and is licenesed for the current user
+//    */
+//   licensed: boolean;
+// }
 
-/**
- * Defines the values for hub license types
- */
-export type HubLicense = "hub-basic" | "hub-premium" | "enterprise-sites";
+// /**
+//  * Structure that's used to determine if a subsystem is available and licensed
+//  */
+// export interface IPlatformLicenseStatus {
+//   /**
+//    * Current license type
+//    */
+//   license: HubLicense;
+//   /**
+//    * Status of each subsystem
+//    */
+//   subsystems: SubsystemLicenseStatus;
+// }
 
-export interface ICapabilityLicenseStatus {
-  /**
-   * Capability is available in this environment, but may not be licenesed for the current user
-   */
-  available: boolean;
-  /**
-   * Capablility is available in this environment and is licenesed for the current user
-   */
-  licensed: boolean;
-}
-
-export interface IPlatformLicenseStatus {
-  context: string;
-  capabilities: CapabilityLicenseStatus;
-}
-
-export type CapabilityLicenseStatus = {
-  [key in HubCapability]: ICapabilityLicenseStatus;
-};
+// /**
+//  * Typing for subsystem status information
+//  */
+// export type SubsystemLicenseStatus = {
+//   [key in HubSubsystem]: ISubsystemLicenseStatus;
+// };

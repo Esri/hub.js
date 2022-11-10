@@ -1,4 +1,4 @@
-import { IPermissionPolicy } from "../../core";
+import { IPermissionPolicy } from "../../permissions/types";
 
 /**
  * Site permission policies

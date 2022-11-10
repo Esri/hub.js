@@ -19,13 +19,13 @@ export function checkEdit(
       response = "entity-required";
     }
     // TODO: Chance to entiti.canEdit
-    if (getWithDefault(entity, "canEdit", false)) {
+    if (!getWithDefault(entity, "canEdit", false)) {
       response = "no-edit-access";
     }
     // create the check
     const check: IPolicyCheck = {
-      name: "entity:edit",
-      value: "entity",
+      name: "entity edit required",
+      value: `entity.canEdit: ${getWithDefault(entity, "canEdit", false)}`,
       code: getPolicyResponseCode(response),
       response,
     };

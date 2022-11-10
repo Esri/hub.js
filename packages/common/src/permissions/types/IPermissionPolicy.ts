@@ -1,4 +1,4 @@
-import { HubLicense } from "../../core/licensing";
+import { HubLicense } from "./HubLicense";
 import { HubSubsystem } from "../../core/types/ISystemStatus";
 import { Permission } from "./Permission";
 import { PlatformPrivilege } from "./PlatformPrivilege";
