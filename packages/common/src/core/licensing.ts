@@ -3,18 +3,24 @@ import { HubCapability } from "./configuration/HubCapabilities";
 /**
  * Defines the values for hub license types
  */
-export type HubLicense = "basic" | "premium" | "enterprise";
+export type HubLicense = "hub-basic" | "hub-premium" | "enterprise-sites";
 
-export interface ILicenseStatus {
+export interface ICapabilityLicenseStatus {
+  /**
+   * Capability is available in this environment, but may not be licenesed for the current user
+   */
   available: boolean;
+  /**
+   * Capablility is available in this environment and is licenesed for the current user
+   */
   licensed: boolean;
 }
 
 export interface IPlatformLicenseStatus {
   context: string;
-  capabilities: HubCapabilityLicenseStatus;
+  capabilities: CapabilityLicenseStatus;
 }
 
-export type HubCapabilityLicenseStatus = {
-  [key in HubCapability]: ILicenseStatus;
+export type CapabilityLicenseStatus = {
+  [key in HubCapability]: ICapabilityLicenseStatus;
 };

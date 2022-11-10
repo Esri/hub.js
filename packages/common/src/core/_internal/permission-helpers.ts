@@ -2,55 +2,13 @@ import { IGroup } from "@esri/arcgis-rest-portal";
 import { IArcGISContext } from "../../ArcGISContext";
 import { getWithDefault } from "../../objects";
 import { cloneObject } from "../../util";
-import {
-  HubSystemPermissions,
-  ICheck,
-  IEntityPermissionDefinition,
-  IPermissionDefinition,
-  IPermissionResult,
-  isPermission,
-  Permission,
-} from "../configuration";
+
 import { HubEntity } from "../types/HubEntity";
 
-export async function checkSystemPermission(
+export async function checkPermission(
   permission: Permission,
-  context: IArcGISContext
-): Promise<IPermissionDefinition> {
-  // Early Exit: Is this even a valid permission?
-  if (!isPermission(permission)) {
-    return Promise.reject({
-      id: permission,
-      result: {
-        access: false,
-        reason: "invalid-permission",
-      },
-    } as IPermissionDefinition);
-  }
-
-  let def: IPermissionDefinition = {
-    id: permission,
-    checks: [],
-  };
-  // Expansions
-  // Add system/platform level checks for this permission
-  def = mergeSystemPermissions(def);
-
-  // Pipe through functions that check each level of permission
-  // while setting the result on the definition
-  // TODO Change to operation pipeline
-  def = await checkLicense(def, null, context);
-  def = await checkPrivileges(def, null, context);
-  def = await checkRoles(def, null, context);
-  def = await checkOwner(def, null, context);
-  def = await checkEdit(def, null, context);
-  return Promise.resolve(def);
-}
-
-export async function checkEntityPermission(
-  permission: Permission,
-  entity: HubEntity,
-  context: IArcGISContext
+  context: IArcGISContext,
+  entity?: HubEntity
 ): Promise<IPermissionDefinition> {
   // Early Exit: Is this even a valid permission?
   if (!isPermission(permission)) {
@@ -107,7 +65,7 @@ export function mergeEntityPermissions(
   entity: HubEntity
 ): IPermissionDefinition {
   // Merge in the entity specific permissions
-  const entityPermissions: IEntityPermissionDefinition[] = getWithDefault(
+  const entityPermissions: IEntityPermissionGrant[] = getWithDefault(
     entity,
     "permissions",
     []
@@ -131,7 +89,7 @@ export function checkEntity(
   context: IArcGISContext
 ): Promise<IPermissionDefinition> {
   const user = context.currentUser;
-  const entityPermissions: IEntityPermissionDefinition[] = getWithDefault(
+  const entityPermissions: IEntityPermissionGrant[] = getWithDefault(
     entity,
     "permissions",
     []
@@ -142,7 +100,7 @@ export function checkEntity(
   // if there are no rules, then the permission is not defined for this entity
 
   // We only need one rule to pass
-  let result: IPermissionResult = {
+  let result: IPermissionCheckResult = {
     access: false,
     reason: "no-entity-permission",
   };

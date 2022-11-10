@@ -1,5 +1,5 @@
 /**
- * Structure of a Hub Permission
+ * DEPRECATED: Use IEntityPermission instead.
  */
 export interface IHubPermission {
   /**
@@ -20,6 +20,9 @@ export interface IHubPermission {
   targetId: string;
 }
 
+/**
+ * DEPRECATED: Use `Permission`
+ */
 export type HubPermission =
   | "addEvent"
   | "createEvent"
@@ -34,4 +37,5 @@ export type HubPermission =
   | "editProject"
   | "deleteProject";
 
+// DEPRECATED
 export type PermissionTarget = "org" | "group" | "user";
