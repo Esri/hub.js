@@ -1,12 +1,13 @@
 import { IHubEntityBase } from "./IHubEntityBase";
 import { IHubGeography } from "../../types";
 import { AccessLevel } from "./types";
-import { IWithViewSettings } from "../traits";
+import { IWithPermissions, IWithViewSettings } from "../traits";
+import { IEntityPermissionPolicy } from "../../permissions";
 
 /**
  * Properties exposed by Entities that are backed by Items
  */
-export interface IHubItemEntity extends IHubEntityBase {
+export interface IHubItemEntity extends IHubEntityBase, IWithPermissions {
   /**
    * Access level of the item ("private" | "org" | "public")
    */

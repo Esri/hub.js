@@ -42,7 +42,6 @@ export class PropertyMapper<T> {
       obj
     );
     setProp("canDelete", model.item.itemControl === "admin", obj);
-
     return obj;
   }
 

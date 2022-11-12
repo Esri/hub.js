@@ -5,7 +5,7 @@ import {
   IArcGISContext,
   IArcGISContextOptions,
 } from "./ArcGISContext";
-import { cloneObject, Logger, Level } from ".";
+import { cloneObject, Logger, Level, HubSystemStatus } from ".";
 import { getHubApiFromPortalUrl } from "./urls/getHubApiFromPortalUrl";
 import { getPortalBaseFromOrgUrl } from "./urls/getPortalBaseFromOrgUrl";
 
@@ -58,6 +58,11 @@ export interface IArcGISContextManagerOptions {
    * defaults to 'error'
    */
   logLevel?: Level;
+
+  /**
+   * Option to pass in system status vs fetching it
+   */
+  systemStatus?: HubSystemStatus;
 }
 
 /**
@@ -98,6 +103,8 @@ export class ArcGISContextManager {
 
   private _logLevel: Level = Level.error;
 
+  private _systemStatus: HubSystemStatus;
+
   /**
    * Private constructor. Use `ArcGISContextManager.create(...)` to
    * instantiate an instance
@@ -136,6 +143,10 @@ export class ArcGISContextManager {
 
     if (opts.currentUser) {
       this._currentUser = cloneObject(opts.currentUser);
+    }
+
+    if (opts.systemStatus) {
+      this._systemStatus = opts.systemStatus;
     }
   }
 
@@ -234,6 +245,10 @@ export class ArcGISContextManager {
         throw ex;
       }
     }
+    // get system status
+    if (!this._systemStatus) {
+      this._systemStatus = await getSystemStatus(this._portalUrl);
+    }
     Logger.debug(`ArcGISContextManager-${this.id}: updating context`);
     // update the context
     this._context = new ArcGISContext(this.contextOpts);
@@ -248,6 +263,7 @@ export class ArcGISContextManager {
       portalUrl: this._portalUrl,
       hubUrl: this._hubUrl,
       properties: this._properties,
+      systemStatus: this._systemStatus,
     };
     if (this._authentication) {
       contextOpts.authentication = this._authentication;
@@ -261,3 +277,47 @@ export class ArcGISContextManager {
     return contextOpts;
   }
 }
+
+/**
+ * Temporary fake implementation based on isPortal
+ * which we have during the initialization
+ * @param hubApiUrl
+ */
+function getSystemStatus(portalUrl: string): Promise<HubSystemStatus> {
+  let status = HUB_STATUS;
+  const isPortal = portalUrl.indexOf("arcgis.com") === -1;
+  // When we move to fetching the system status from the API
+  // we can use
+  // const hubApiUrl = getHubApiFromPortalUrl(portalUrl);
+  if (isPortal) {
+    status = ENTERPRISE_SITES_STATUS;
+  }
+
+  return Promise.resolve(status);
+}
+
+const ENTERPRISE_SITES_STATUS: HubSystemStatus = {
+  discussions: "not-available",
+  events: "not-available",
+  initiatives: "not-available",
+  items: "online",
+  metrics: "not-available",
+  notifications: "not-available",
+  pages: "online",
+  projects: "not-available",
+  search: "online",
+  sites: "online",
+};
+
+const HUB_STATUS: HubSystemStatus = {
+  discussions: "online",
+  events: "online",
+  initiatives: "online",
+  items: "online",
+  metrics: "online",
+  notifications: "online",
+  pages: "online",
+  projects: "online",
+  search: "online",
+  sites: "online",
+};

@@ -1,10 +1,10 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
-import { Catalog, IHubInitiative, PermissionManager } from "../../src";
+import { IHubInitiative } from "../../src";
+import { Catalog } from "../../src/search/Catalog";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubInitiative } from "../../src/initiatives/HubInitiative";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as HubInitiativesModule from "../../src/initiatives/HubInitiatives";
-import * as SharedWithModule from "../../src/core/_internal/sharedWith";
 
 describe("HubInitiative Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -146,7 +146,11 @@ describe("HubInitiative Class:", () => {
     chk.update({
       name: "Test Initiative 2",
       permissions: [
-        { permission: "addEvent", target: "group", targetId: "3ef" },
+        {
+          permission: "hub:project:create",
+          collaborationType: "group",
+          collaborationId: "3ef",
+        },
       ],
       catalog: { schemaVersion: 2 },
     });
@@ -219,7 +223,6 @@ describe("HubInitiative Class:", () => {
     );
 
     expect(chk.catalog instanceof Catalog).toBeTruthy();
-    expect(chk.permissions instanceof PermissionManager).toBeTruthy();
   });
 
   it("setting catalog updates catalog instance", () => {

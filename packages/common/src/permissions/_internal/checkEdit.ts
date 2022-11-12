@@ -4,6 +4,13 @@ import { getWithDefault } from "../../objects";
 import { IPermissionPolicy, PolicyResponse, IPolicyCheck } from "../types";
 import { getPolicyResponseCode } from "./getPolicyResponseCode";
 
+/**
+ * Validate entityEdit policy
+ * @param policy
+ * @param context
+ * @param entity
+ * @returns
+ */
 export function checkEdit(
   policy: IPermissionPolicy,
   context: IArcGISContext,
@@ -17,11 +24,12 @@ export function checkEdit(
     if (!entity) {
       // fail b/c no entity
       response = "entity-required";
+    } else {
+      if (!entity.canEdit) {
+        response = "no-edit-access";
+      }
     }
-    // TODO: Chance to entiti.canEdit
-    if (!getWithDefault(entity, "canEdit", false)) {
-      response = "no-edit-access";
-    }
+
     // create the check
     const check: IPolicyCheck = {
       name: "entity edit required",

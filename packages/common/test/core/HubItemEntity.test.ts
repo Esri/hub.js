@@ -5,6 +5,8 @@ import * as PortalModule from "@esri/arcgis-rest-portal";
 import * as SharedWithModule from "../../src/core/_internal/sharedWith";
 import * as setItemThumbnailModule from "../../src/items/setItemThumbnail";
 import * as ItemsModule from "../../src/items";
+import { IEntityPermissionPolicy } from "../../src/permissions";
+import { IHubItemEntity } from "../../src";
 
 // To test the abstract class, we need to create a
 // concrete class that extends it
@@ -421,6 +423,70 @@ describe("HubItemEntity Class: ", () => {
       const chk = instance.toJson();
       expect(chk.view.featuredImageUrl).toBe(
         "https://www.arcgis.com/sharing/rest/content/items/3ef/resources/featuredImage.png"
+      );
+    });
+  });
+
+  describe("permission behavior:", () => {
+    it("should return empty array if entity has no polices", () => {
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+        },
+        authdCtxMgr.context
+      );
+      expect(instance.getPermissionPolicies("hub:project:create")).toEqual([]);
+    });
+    it("pass in, add and remove", () => {
+      const policy: IEntityPermissionPolicy = {
+        permission: "hub:project:create",
+        collaborationType: "user",
+        collaborationId: "deke",
+      };
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+          permissions: [policy],
+        },
+        authdCtxMgr.context
+      );
+      expect(instance.getPermissionPolicies("hub:project:create")).toEqual([
+        policy,
+      ]);
+      instance.removePermissionPolicy(
+        policy.permission,
+        policy.collaborationId
+      );
+      expect(instance.getPermissionPolicies("hub:project:create")).toEqual([]);
+      instance.addPermissionPolicy(policy);
+      expect(instance.getPermissionPolicies("hub:project:create")).toEqual([
+        policy,
+      ]);
+    });
+    it("checkPermission delegates to util", () => {
+      const policy: IEntityPermissionPolicy = {
+        permission: "hub:project:create",
+        collaborationType: "user",
+        collaborationId: "deke",
+      };
+      const entity = {
+        id: "00c",
+        owner: "deke",
+        permissions: [policy],
+      } as IHubItemEntity;
+      const instance = new TestHarness(entity, authdCtxMgr.context);
+      const checkPermissionSpy = spyOn(
+        require("../../src/permissions"),
+        "checkPermission"
+      ).and.returnValue({ access: true });
+      const chk = instance.checkPermission("hub:project:create");
+      expect(chk.access).toBeTruthy();
+      expect(checkPermissionSpy).toHaveBeenCalledWith(
+        "hub:project:create",
+        authdCtxMgr.context,
+        entity
       );
     });
   });

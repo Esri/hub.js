@@ -65,22 +65,23 @@ describe("HubProject Class", () => {
     const group = groups[0];
     if (group) {
       // add the project to the project
-      project.permissions.add({
-        permission: "addEvent",
-        target: "group",
-        targetId: group.id,
+      project.addPermissionPolicy({
+        permission: "hub:project:edit",
+        collaborationType: "group",
+        collaborationId: group.id,
       });
 
       // verify that it works
-      const canCreateEvent = project.permissions.check("addEvent");
-      expect(canCreateEvent).toBe(true);
+      const canCreateEvent = project.checkPermission("hub:project:edit");
+      expect(canCreateEvent.access).toBe(true);
 
       // save project and verify that the permission is there
       await project.save();
 
       const json = project.toJson();
       expect(json.permissions).toBeDefined();
-      expect(json.permissions[0].targetId).toBe(group.id);
+      const p = json.permissions || [];
+      expect(p[0].collaborationId).toBe(group.id);
     }
 
     // change something else and save it again

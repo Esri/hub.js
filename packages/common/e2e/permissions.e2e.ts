@@ -1,11 +1,11 @@
 import { IArcGISContext } from "../src/ArcGISContext";
-import { checkPermissionv2, fetchHubEntity, HubEntity } from "../src/index";
+import { checkPermission, fetchHubEntity, HubEntity } from "../src/index";
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
 
 const TEST_ITEM_ID = "7deb8b7bdb4f4fab973513ebb55cd9a6";
 
-fdescribe("Check Permissions", () => {
+describe("Check Permissions", () => {
   let factory: Artifactory;
   const orgName = "hubPremium";
   let context: IArcGISContext;
@@ -27,10 +27,9 @@ fdescribe("Check Permissions", () => {
       // check permissions
       // console.time("checkPermissionv2");
       // for (let i = 0; i < 100000; i++) {
-      const results = checkPermissionv2("hub:site:edit", context, entity);
+      const results = checkPermission("hub:site:edit", context, entity);
       // }
       // console.timeEnd("checkPermissionv2");
-      // debugger;
     });
   });
 });

@@ -7,20 +7,20 @@ import { IPermissionPolicy } from "../../permissions/types";
 export const SitesPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:site:create",
-    subsystems: ["site"],
+    subsystems: ["sites"],
     authenticated: true,
     privileges: ["portal:user:createItem"],
     licenses: ["hub-basic", "hub-premium", "enterprise-sites"],
   },
   {
     permission: "hub:site:view",
-    subsystems: ["site"],
+    subsystems: ["sites"],
     authenticated: false,
     licenses: ["hub-basic", "hub-premium", "enterprise-sites"],
   },
   {
     permission: "hub:site:delete",
-    subsystems: ["site"],
+    subsystems: ["sites"],
     authenticated: true,
     licenses: ["hub-basic", "hub-premium", "enterprise-sites"],
     entityOwner: true,
@@ -28,7 +28,7 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:site:edit",
     entityEdit: true,
-    subsystems: ["site"],
+    subsystems: ["sites"],
     authenticated: true,
     licenses: ["hub-basic", "hub-premium", "enterprise-sites"],
   },

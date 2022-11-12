@@ -1,5 +1,4 @@
 import {
-  getUser,
   IGroup,
   IItem,
   removeItemResource,
@@ -11,13 +10,21 @@ import { IArcGISContext } from "../ArcGISContext";
 import HubError from "../HubError";
 import { uploadImageResource } from "../items";
 import { setItemThumbnail } from "../items/setItemThumbnail";
+import {
+  addPermissionPolicy,
+  checkPermission,
+  IAccessResponse,
+  IEntityPermissionPolicy,
+  Permission,
+  removePermissionPolicy,
+} from "../permissions";
 import { getItemThumbnailUrl, IThumbnailOptions } from "../resources";
 import { cloneObject } from "../util";
-import { mapBy } from "../utils";
 import {
   IWithSharingBehavior,
   IWithStoreBehavior,
   IWithFeaturedImageBehavior,
+  IWithPermissionBehavior,
 } from "./behaviors";
 
 import { IWithThumbnailBehavior } from "./behaviors/IWithThumbnailBehavior";
@@ -34,7 +41,8 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     IWithStoreBehavior<T>,
     IWithSharingBehavior,
     IWithThumbnailBehavior,
-    IWithFeaturedImageBehavior
+    IWithFeaturedImageBehavior,
+    IWithPermissionBehavior
 {
   protected context: IArcGISContext;
   protected entity: T;
@@ -44,6 +52,47 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
   constructor(entity: T, context: IArcGISContext) {
     this.context = context;
     this.entity = entity;
+  }
+
+  /**
+   * Check if current user has a specific permission, accounting for
+   * both system and entity level policies
+   * @param permission
+   * @returns
+   */
+  checkPermission(permission: Permission): IAccessResponse {
+    return checkPermission(permission, this.context, this.entity);
+  }
+  /**
+   * Get all policies related to a specific permission
+   * @param permission
+   * @returns
+   */
+  getPermissionPolicies(permission: Permission): IEntityPermissionPolicy[] {
+    const permissions = this.entity.permissions || [];
+    return permissions.filter((p) => p.permission === permission);
+  }
+  /**
+   * Add a policy to the entity
+   * @param policy
+   */
+  addPermissionPolicy(policy: IEntityPermissionPolicy): void {
+    this.entity.permissions = addPermissionPolicy(
+      this.entity.permissions,
+      policy
+    );
+  }
+  /**
+   * Remove a policy from the entity
+   * @param permission
+   * @param id
+   */
+  removePermissionPolicy(permission: Permission, id: string): void {
+    this.entity.permissions = removePermissionPolicy(
+      this.entity.permissions,
+      permission,
+      id
+    );
   }
 
   // Although we don't expose all the properties, we do expose a few for convenience

@@ -3,6 +3,13 @@ import { HubEntity } from "../../core";
 import { IPermissionPolicy, PolicyResponse, IPolicyCheck } from "../types";
 import { getPolicyResponseCode } from "./getPolicyResponseCode";
 
+/**
+ * Validate authentication policy
+ * @param policy
+ * @param context
+ * @param entity
+ * @returns
+ */
 export function checkAuthentication(
   policy: IPermissionPolicy,
   context: IArcGISContext,

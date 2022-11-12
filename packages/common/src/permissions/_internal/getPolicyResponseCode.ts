@@ -5,6 +5,7 @@ interface IPolicyLookup {
   code: string;
 }
 
+// TODO: Determine how to keep this in sycn with the PolicyResponse type
 const policyResponseCodes: IPolicyLookup[] = [
   { response: "granted", code: "PC001" },
   { response: "org-member", code: "PC002" },

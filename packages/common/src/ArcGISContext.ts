@@ -5,7 +5,12 @@ import {
 } from "@esri/arcgis-rest-auth";
 import { IPortal } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { getProp, getWithDefault, IHubRequestOptions } from ".";
+import {
+  getProp,
+  getWithDefault,
+  HubSystemStatus,
+  IHubRequestOptions,
+} from ".";
 import { HubLicense } from "./permissions/types";
 
 /**
@@ -152,6 +157,10 @@ export interface IArcGISContext {
    * Additional app-specific context
    */
   properties: Record<string, any>;
+  /**
+   * Option to pass in system status vs fetching it
+   */
+  systemStatus: HubSystemStatus;
 }
 
 /**
@@ -198,6 +207,10 @@ export interface IArcGISContextOptions {
    * Optional hash of additional context
    */
   properties?: Record<string, any>;
+  /**
+   * Option to pass in system status vs fetching it
+   */
+  systemStatus: HubSystemStatus;
 }
 
 /**
@@ -231,6 +244,8 @@ export class ArcGISContext implements IArcGISContext {
 
   private _properties: Record<string, any>;
 
+  private _systemStatus: HubSystemStatus;
+
   /**
    * Create a new instance of `ArcGISContext`.
    *
@@ -240,6 +255,7 @@ export class ArcGISContext implements IArcGISContext {
     this.id = opts.id;
     this._portalUrl = opts.portalUrl;
     this._hubUrl = opts.hubUrl;
+    this._systemStatus = opts.systemStatus;
     if (opts.authentication) {
       this._authentication = opts.authentication;
     }
@@ -342,6 +358,9 @@ export class ArcGISContext implements IArcGISContext {
     }
   }
 
+  /**
+   * Returns the current user's Hub License
+   */
   get hubLicense(): HubLicense {
     if (this.isPortal) {
       return "enterprise-sites";
@@ -352,6 +371,13 @@ export class ArcGISContext implements IArcGISContext {
         return "hub-basic";
       }
     }
+  }
+
+  /**
+   * Returns the current hub system status information
+   */
+  get systemStatus(): HubSystemStatus {
+    return this._systemStatus;
   }
 
   /**

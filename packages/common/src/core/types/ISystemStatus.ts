@@ -7,13 +7,14 @@ export type SystemStatus =
   | "maintenance"
   | "not-available";
 
-export interface ISystemStatus {
-  subsystem: HubSubsystem;
-  status: SystemStatus;
-}
+/**
+ * Hash of subsystems and their status
+ */
+export type HubSystemStatus = {
+  [key in HubSubsystem]: SystemStatus;
+};
 
 const validSubsystems = [
-  "content",
   "discussions",
   "events",
   "initiatives",
@@ -24,7 +25,7 @@ const validSubsystems = [
   "projects",
   "search",
   "sites",
-];
+] as const;
 /**
  * Defines values for HubSubsystem
  */

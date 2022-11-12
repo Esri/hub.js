@@ -1,20 +1,14 @@
 import { IArcGISContext } from "../../ArcGISContext";
-import {
-  IAccessResponse,
-  IPermissionPolicy,
-  IPolicyCheck,
-  PolicyResponse,
-} from "../types";
+import { IPermissionPolicy, IPolicyCheck, PolicyResponse } from "../types";
 import { getPolicyResponseCode } from "./getPolicyResponseCode";
 
 /**
- * Check license for a system level policy
+ * Validate license policy
  * @param policy
  * @param response
  * @param context
  * @returns
  */
-
 export function checkLicense(
   policy: IPermissionPolicy,
   context: IArcGISContext

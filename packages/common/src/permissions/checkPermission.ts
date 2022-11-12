@@ -1,6 +1,6 @@
 import { IArcGISContext } from "../ArcGISContext";
-import { HubEntity, IEntityPermissionPolicy } from "../core";
-import { getProp, getWithDefault } from "../objects";
+import { HubEntity } from "../core";
+import { getWithDefault } from "../objects";
 import { checkLicense } from "./_internal/checkLicense";
 import { getPermissionPolicy } from "./HubPermissionPolicies";
 import {
@@ -8,17 +8,23 @@ import {
   Permission,
   isPermission,
   IPolicyCheck,
-  IPermissionPolicy,
-  PolicyResponse,
+  IEntityPermissionPolicy,
 } from "./types";
 import { getPolicyResponseCode } from "./_internal/getPolicyResponseCode";
 import { checkAuthentication } from "./_internal/checkAuthentication";
 import { checkOwner } from "./_internal/checkOwner";
 import { checkEdit } from "./_internal/checkEdit";
 import { checkPrivileges } from "./_internal/checkPrivileges";
-import { IGroup } from "@esri/arcgis-rest-portal";
+import { checkEntityPolicy } from "./_internal/checkEntityPolicy";
 
-export function checkPermissionv2(
+/**
+ * Check a permission against the system policies, and possibly an entity policy
+ * @param permission
+ * @param context
+ * @param entity
+ * @returns
+ */
+export function checkPermission(
   permission: Permission,
   context: IArcGISContext,
   entity?: HubEntity
@@ -40,7 +46,7 @@ export function checkPermissionv2(
   // Default to granted
   const response: IAccessResponse = {
     permission,
-    access: false,
+    access: true,
     response: "granted",
     code: getPolicyResponseCode("granted"),
     checks: [],
@@ -54,7 +60,7 @@ export function checkPermissionv2(
     checkEdit,
     checkOwner,
   ].reduce((acc: IPolicyCheck[], fn) => {
-    acc = [...acc, ...fn(systemPolicy, context)];
+    acc = [...acc, ...fn(systemPolicy, context, entity)];
     return acc;
   }, []);
 
@@ -75,11 +81,12 @@ export function checkPermissionv2(
   if (entity) {
     const entityPolicies: IEntityPermissionPolicy[] = getWithDefault(
       entity,
-      "policies",
+      "permissions",
       []
     );
-    const entityPermissionPolicies =
-      entityPolicies.filter((e) => e.permission === permission) || [];
+    const entityPermissionPolicies = entityPolicies.filter(
+      (e) => e.permission === permission
+    );
     // Entity Policies are "grants" in that only one needs to pass
     // but we still want each check returned so we can see why they
     // got access or got denied
@@ -104,56 +111,4 @@ export function checkPermissionv2(
   }
   // return the response
   return response;
-}
-
-export function checkEntityPolicy(
-  policy: IEntityPermissionPolicy,
-  context: IArcGISContext
-): IPolicyCheck {
-  const user = context.currentUser;
-  const userGroups = user.groups || ([] as IGroup[]);
-  let response: PolicyResponse = "not-granted";
-  const type = policy.collaborationType;
-  const id = policy.collaborationId;
-
-  if (type === "user") {
-    if (id === user.username) {
-      response = "granted";
-    } else {
-      response = "not-granted";
-    }
-  }
-
-  if (type === "org") {
-    if (id === user.orgId) {
-      response = "granted";
-    } else {
-      response = "not-org-member";
-    }
-  }
-
-  if (type === "group") {
-    if (userGroups.find((g: IGroup) => g.id === id)) {
-      response = "granted";
-    } else {
-      response = "not-group-member";
-    }
-  }
-
-  if (type === "group-admin") {
-    const group = userGroups.find((g: IGroup) => g.id === id);
-    if (getProp(group, "userMembership.memberType") === "admin") {
-      response = "granted";
-    } else {
-      response = "not-group-admin";
-    }
-  }
-
-  const check: IPolicyCheck = {
-    name: "entity:policy",
-    value: `${policy.collaborationType}:${policy.collaborationId}`,
-    response,
-    code: getPolicyResponseCode(response),
-  };
-  return check;
 }
