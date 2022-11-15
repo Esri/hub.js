@@ -1,3 +1,10 @@
+# @esri/hub-sites [11.26.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@11.25.1...@esri/hub-sites@11.26.0) (2022-11-15)
+
+
+### Features
+
+* add telemetry to draft include list ([97cb882](https://github.com/Esri/hub.js/commit/97cb882f97ed15fc9563b947bfc4e7125cd5166b))
+
 ## @esri/hub-sites [11.25.1](https://github.com/Esri/hub.js/compare/@esri/hub-sites@11.25.0...@esri/hub-sites@11.25.1) (2022-11-04)
 
 
