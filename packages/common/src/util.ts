@@ -25,6 +25,8 @@ export function cloneObject<T>(obj: T): T {
         if (value != null && typeof value === "object") {
           if (value instanceof Date) {
             clone[i] = new Date(value.getTime());
+          } else if (typeof Blob !== "undefined" && value instanceof Blob) {
+            clone[i] = new Blob([value], { type: value.type });
           } else {
             clone[i] = cloneObject(value);
           }
