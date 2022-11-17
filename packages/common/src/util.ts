@@ -19,7 +19,6 @@ export function cloneObject<T>(obj: T): T {
     clone = obj.map(cloneObject);
   } else if (typeof obj === "object") {
     for (const i in obj) {
-      /* istanbul ignore next no need to deal w/ other side of hasOwnProperty() */
       if (obj.hasOwnProperty(i)) {
         const value = obj[i];
         if (value != null && typeof value === "object") {

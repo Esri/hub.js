@@ -81,6 +81,30 @@ describe("util functions", () => {
     });
   });
 
+  if (typeof Blob !== "undefined") {
+    it("can clone a Blob", () => {
+      const obj = {
+        color: "red",
+        length: 12,
+        field: {
+          name: "origin",
+          type: "string",
+          csvFile: new Blob(["foo"], { type: "csv" }),
+        },
+      } as any;
+      const c = cloneObject(obj);
+      expect(c).not.toBe(obj);
+      expect(c.field).not.toBe(obj.field);
+
+      ["color", "length"].map((prop) => {
+        expect(c[prop]).toEqual(obj[prop]);
+      });
+      ["name", "type", "csvFile"].map((prop) => {
+        expect(c.field[prop]).toEqual(obj.field[prop]);
+      });
+    });
+  }
+
   it("can clone a deep object with an array", () => {
     const obj = {
       color: "red",
