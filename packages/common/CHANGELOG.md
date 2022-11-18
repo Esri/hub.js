@@ -1,3 +1,10 @@
+## @esri/hub-common [11.23.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.23.1...@esri/hub-common@11.23.2) (2022-11-18)
+
+
+### Bug Fixes
+
+* cloneObject supports blobs ([#930](https://github.com/Esri/hub.js/issues/930)) ([6ea27c5](https://github.com/Esri/hub.js/commit/6ea27c5813276768b105b43c082ab5855f733a7c))
+
 ## @esri/hub-common [11.23.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.23.0...@esri/hub-common@11.23.1) (2022-11-04)
 
 
