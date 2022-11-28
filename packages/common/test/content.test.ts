@@ -847,7 +847,7 @@ describe("internal", () => {
     });
   });
 
-  fdescribe("getItemSpatialReference", () => {
+  describe("getItemSpatialReference", () => {
     it("should handle wkt name", () => {
       const spatialReference =
         "NAD_1983_HARN_StatePlane_Hawaii_3_FIPS_5103_Feet";
