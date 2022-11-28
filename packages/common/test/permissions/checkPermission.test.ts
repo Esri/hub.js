@@ -1,10 +1,6 @@
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
-import {
-  ArcGISContextManager,
-  checkPermission,
-  IHubItemEntity,
-  Permission,
-} from "../../src";
+import { ArcGISContextManager } from "../../src/ArcGISContextManager";
+import { checkPermission, IHubItemEntity, Permission } from "../../src";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 
 describe("checkPermission:", () => {
