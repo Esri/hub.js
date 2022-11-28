@@ -72,8 +72,8 @@ describe("HubProject Class", () => {
       });
 
       // verify that it works
-      const canCreateEvent = project.checkPermission("hub:project:edit");
-      expect(canCreateEvent.access).toBe(true);
+      const canEditProject = project.checkPermission("hub:project:edit");
+      expect(canEditProject.access).toBe(true);
 
       // save project and verify that the permission is there
       await project.save();

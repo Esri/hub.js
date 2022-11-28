@@ -22,8 +22,8 @@ checkPermission("hub:events:create", entity, context);
 //=> {permission: "hub:events:create", access: false, response: "not-group-member", checks: [{"hub:events:create", value: "group:00c", response:"not-group-member"}]}
 
 // same function will be exposed on the class instances
-entityInstance.checkPermission("hub:events:create");
-//=> {permission: "hub:events:create", access: false, response: "not-group-member", checks: [{"hub:events:create", value: "group:00c", response:"not-group-member"}]}
+site.checkPermission("hub:pages:create");
+//=> {permission: "hub:pages:create", access: true, response: "group-member", checks: [{"hub:pages:create", value: "group:00c", response:"group-member"}]}
 ```
 
 The key part of the response is the `access` which denotes if the user has been granted access. The rest of the response structure (`IAccessResponse`) provides deeper information about why access was granted or denied.

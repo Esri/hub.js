@@ -10,7 +10,7 @@ import {
   getWithDefault,
   HubSystemStatus,
   IHubRequestOptions,
-} from ".";
+} from "./index";
 import { HubLicense } from "./permissions/types";
 
 /**
@@ -158,7 +158,7 @@ export interface IArcGISContext {
    */
   properties: Record<string, any>;
   /**
-   * Option to pass in system status vs fetching it
+   * System status
    */
   systemStatus: HubSystemStatus;
 }
@@ -210,7 +210,7 @@ export interface IArcGISContextOptions {
   /**
    * Option to pass in system status vs fetching it
    */
-  systemStatus: HubSystemStatus;
+  systemStatus?: HubSystemStatus;
 }
 
 /**
