@@ -1,15 +1,15 @@
 import { IUser } from "@esri/arcgis-rest-auth";
 import { GroupMembership } from "@esri/arcgis-rest-portal";
-import { IChannel, IPlatformSharing } from "../../types";
+import { IChannel, IDiscussionsUser, IPlatformSharing } from "../../types";
 import { isOrgAdmin, reduceByGroupMembership } from "../platform";
 
 function intersectGroups(
-  membershipTypes: GroupMembership[],
+  membershipTypes: GroupMembership[], // which user groups to allow
   strict?: boolean
 ): (arg0: IUser, arg1: IChannel) => boolean {
   return (user: IUser, channel: IChannel): boolean => {
-    const { groups: sharedGroups } = channel;
-    const { groups: userGroups } = user;
+    const { groups: sharedGroups } = channel; // channel groups
+    const { groups: userGroups } = user; // user groups
     const eligibleUserGroups = userGroups.reduce(
       reduceByGroupMembership(membershipTypes),
       []
@@ -77,7 +77,10 @@ export function canModifyChannel(channel: IChannel, user: IUser): boolean {
  * @param {IUser} user
  * @return {*}  {boolean}
  */
-export function canCreateChannel(channel: IChannel, user: IUser): boolean {
+export function canCreateChannel(
+  channel: IChannel,
+  user: IDiscussionsUser
+): boolean {
   if (channel.access === "private") {
     // ensure user is member of all groups included
     return intersectGroups(["owner", "admin", "member"], true)(user, channel);
@@ -85,6 +88,8 @@ export function canCreateChannel(channel: IChannel, user: IUser): boolean {
   // if org or public channel, must be org admin
   return isChannelOrgAdmin(channel, user);
 }
+
+// export { canCreateChannel } from './can-create-channel';
 
 export { canPostToChannel } from "./can-post-to-channel";
 

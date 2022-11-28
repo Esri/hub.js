@@ -7,7 +7,7 @@ describe("Util: reduceByGroupMembership", () => {
     const fn = reduceByGroupMembership(["member"]);
     const groups = [
       { id: groupId, userMembership: { memberType: "member" } } as IGroup,
-      { id: "bar", userMembership: { memberType: "admin" } } as IGroup
+      { id: "bar", userMembership: { memberType: "admin" } } as IGroup,
     ];
     expect(groups.reduce(fn, [])).toEqual([groupId]);
   });
@@ -15,7 +15,7 @@ describe("Util: reduceByGroupMembership", () => {
 
 describe("Util: isOrgAdmin", () => {
   it("returns true if org_admin and no roleId", async () => {
-    const user = { role: "org_admin", roleId: null } as IUser;
+    const user = { role: "org_admin", roleId: null } as unknown as IUser;
     expect(isOrgAdmin(user)).toBeTruthy();
   });
 
@@ -25,7 +25,7 @@ describe("Util: isOrgAdmin", () => {
   });
 
   it("returns false if not org_admin", async () => {
-    const user = { role: "org_user", roleId: null } as IUser;
+    const user = { role: "org_user", roleId: null } as unknown as IUser;
     expect(isOrgAdmin(user)).toBeFalsy();
   });
 });

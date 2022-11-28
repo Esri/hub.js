@@ -20,8 +20,10 @@ const ALLOWED_ROLES_FOR_POSTING = Object.freeze([
   Role.OWNER,
 ]);
 
-interface ILegacyChannelPermissions
-  extends Pick<IChannel, "groups" | "orgs" | "access" | "allowAnonymous"> {}
+type ILegacyChannelPermissions = Pick<
+  IChannel,
+  "groups" | "orgs" | "access" | "allowAnonymous"
+>;
 
 export function canPostToChannel(
   channel: IChannel,

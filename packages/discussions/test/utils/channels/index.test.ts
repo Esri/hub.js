@@ -2,7 +2,6 @@ import { IUser } from "@esri/arcgis-rest-auth";
 import { IGroup } from "@esri/arcgis-rest-types";
 import { SharingAccess, IChannel } from "../../../src/types";
 import {
-  canCreateChannel,
   canModifyChannel,
   canReadFromChannel,
   isChannelInclusive,
@@ -261,59 +260,6 @@ describe("Util: Channel Access", () => {
         groups: [groupId3],
       });
       expect(canModifyChannel(channel, user)).toBeFalsy();
-    });
-  });
-
-  describe("canCreateChannel", () => {
-    it("returns true if user is member of all groups of channel with private access", () => {
-      const channel = fakeChannel({
-        access: SharingAccess.PRIVATE,
-        orgs: [orgId1],
-        groups: [groupId1, groupId2],
-      });
-      expect(canCreateChannel(channel, user)).toBeTruthy();
-    });
-    it("returns false if user is not member of all groups of channel with private access", () => {
-      const channel = fakeChannel({
-        access: SharingAccess.PRIVATE,
-        orgs: [orgId1],
-        groups: [groupId1, groupId2, groupId3],
-      });
-      expect(canCreateChannel(channel, user)).toBeFalsy();
-    });
-    it("returns true for org admins included within org channel access", () => {
-      const channel = fakeChannel({
-        access: SharingAccess.ORG,
-        orgs: [orgId1],
-      });
-      user.role = "org_admin";
-      expect(canCreateChannel(channel, user)).toBeTruthy();
-    });
-    it("returns false for non-admin org members included within org channel access", () => {
-      const channel = fakeChannel({
-        access: SharingAccess.ORG,
-        orgs: [orgId1],
-      });
-      user.role = "org_admin";
-      user.roleId = "123abc";
-      expect(canCreateChannel(channel, user)).toBeFalsy();
-    });
-    it("returns true for org admins included within public channel access", () => {
-      const channel = fakeChannel({
-        access: SharingAccess.PUBLIC,
-        orgs: [orgId1],
-      });
-      user.role = "org_admin";
-      expect(canCreateChannel(channel, user)).toBeTruthy();
-    });
-    it("returns false for non-admin org members included within public channel access", () => {
-      const channel = fakeChannel({
-        access: SharingAccess.PUBLIC,
-        orgs: [orgId1],
-      });
-      user.role = "org_admin";
-      user.roleId = "123abc";
-      expect(canCreateChannel(channel, user)).toBeFalsy();
     });
   });
 });
