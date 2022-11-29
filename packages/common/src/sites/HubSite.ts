@@ -2,7 +2,6 @@ import {
   IHubSite,
   IWithPermissionBehavior,
   IWithCatalogBehavior,
-  PermissionManager,
   IWithStoreBehavior,
   IWithSharingBehavior,
 } from "../core";
@@ -36,7 +35,7 @@ export class HubSite
     IWithSharingBehavior
 {
   private _catalog: Catalog;
-  private _permissionManager: PermissionManager;
+
   private _catalogCache: Record<string, IHubCatalog> = {};
   /**
    * Private constructor so we don't have `new` all over the place. Allows for
@@ -46,10 +45,6 @@ export class HubSite
   private constructor(site: IHubSite, context: IArcGISContext) {
     super(site, context);
     this._catalog = Catalog.fromJson(site.catalog, this.context);
-    this._permissionManager = PermissionManager.fromJson(
-      site.permissions,
-      this.context
-    );
   }
   /**
    * Catalog instance for this site. Note: Do not hold direct references to this object; always access it from the site.
@@ -59,13 +54,6 @@ export class HubSite
     return this._catalog;
   }
 
-  /**
-   * PermissionManager instance for this site. Note: Do not hold direct references to this object; always access it from the site.
-   * @returns
-   */
-  get permissions(): PermissionManager {
-    return this._permissionManager;
-  }
   /**
    * Create an instance from an IHubSite object
    * @param json - JSON object to create a HubSite from
@@ -158,12 +146,6 @@ export class HubSite
     if (changes.catalog) {
       this._catalog = Catalog.fromJson(this.entity.catalog, this.context);
     }
-    if (changes.permissions) {
-      this._permissionManager = PermissionManager.fromJson(
-        this.entity.permissions,
-        this.context
-      );
-    }
   }
 
   /**
@@ -177,7 +159,6 @@ export class HubSite
     }
     // get the catalog, and permission configs
     this.entity.catalog = this._catalog.toJson();
-    this.entity.permissions = this._permissionManager.toJson();
 
     if (this.entity.id) {
       // update it

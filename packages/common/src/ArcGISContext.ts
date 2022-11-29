@@ -5,7 +5,13 @@ import {
 } from "@esri/arcgis-rest-auth";
 import { IPortal } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { getProp, getWithDefault, IHubRequestOptions } from ".";
+import {
+  getProp,
+  getWithDefault,
+  HubSystemStatus,
+  IHubRequestOptions,
+} from "./index";
+import { HubLicense } from "./permissions/types";
 
 /**
  * Hash of Hub API end points so updates
@@ -143,9 +149,18 @@ export interface IArcGISContext {
   portal: IPortal;
 
   /**
+   * What is the current user's hub license level?
+   */
+  hubLicense: HubLicense;
+
+  /**
    * Additional app-specific context
    */
   properties: Record<string, any>;
+  /**
+   * System status
+   */
+  systemStatus: HubSystemStatus;
 }
 
 /**
@@ -192,6 +207,10 @@ export interface IArcGISContextOptions {
    * Optional hash of additional context
    */
   properties?: Record<string, any>;
+  /**
+   * Option to pass in system status vs fetching it
+   */
+  systemStatus?: HubSystemStatus;
 }
 
 /**
@@ -225,6 +244,8 @@ export class ArcGISContext implements IArcGISContext {
 
   private _properties: Record<string, any>;
 
+  private _systemStatus: HubSystemStatus;
+
   /**
    * Create a new instance of `ArcGISContext`.
    *
@@ -234,6 +255,7 @@ export class ArcGISContext implements IArcGISContext {
     this.id = opts.id;
     this._portalUrl = opts.portalUrl;
     this._hubUrl = opts.hubUrl;
+    this._systemStatus = opts.systemStatus;
     if (opts.authentication) {
       this._authentication = opts.authentication;
     }
@@ -334,6 +356,28 @@ export class ArcGISContext implements IArcGISContext {
     } else {
       return this._portalUrl;
     }
+  }
+
+  /**
+   * Returns the current user's Hub License
+   */
+  get hubLicense(): HubLicense {
+    if (this.isPortal) {
+      return "enterprise-sites";
+    } else {
+      if (this.hubEnabled) {
+        return "hub-premium";
+      } else {
+        return "hub-basic";
+      }
+    }
+  }
+
+  /**
+   * Returns the current hub system status information
+   */
+  get systemStatus(): HubSystemStatus {
+    return this._systemStatus;
   }
 
   /**

@@ -2,7 +2,7 @@
 title: Queries and Filters
 navTitle: Queries & Filters
 description: Constructing Search Queries
-order: 20
+order: 10
 group: 4-advanced
 ---
 

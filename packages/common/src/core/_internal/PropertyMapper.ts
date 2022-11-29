@@ -1,4 +1,4 @@
-import { cloneObject, deepSet, getProp, IModel } from "../..";
+import { cloneObject, deepSet, getProp, IModel, setProp } from "../..";
 
 /**
  * @private
@@ -29,7 +29,20 @@ export class PropertyMapper<T> {
    * @returns
    */
   modelToObject(model: IModel, object: T): T {
-    return mapModelToObject(model, object, this.mappings);
+    const obj = mapModelToObject(model, object, this.mappings);
+    // Additional Read-Only Model Level Property Mappings
+
+    // ------------------------------
+    // canEdit and canDelete
+    // ------------------------------
+    // use setProp to side-step typechecking
+    setProp(
+      "canEdit",
+      ["admin", "update"].includes(model.item.itemControl),
+      obj
+    );
+    setProp("canDelete", model.item.itemControl === "admin", obj);
+    return obj;
   }
 
   /**

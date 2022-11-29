@@ -1,12 +1,13 @@
 import { IHubEntityBase } from "./IHubEntityBase";
 import { IHubGeography } from "../../types";
 import { AccessLevel } from "./types";
-import { IWithViewSettings } from "../traits";
+import { IWithPermissions, IWithViewSettings } from "../traits";
+import { IEntityPermissionPolicy } from "../../permissions";
 
 /**
  * Properties exposed by Entities that are backed by Items
  */
-export interface IHubItemEntity extends IHubEntityBase {
+export interface IHubItemEntity extends IHubEntityBase, IWithPermissions {
   /**
    * Access level of the item ("private" | "org" | "public")
    */
@@ -34,6 +35,12 @@ export interface IHubItemEntity extends IHubEntityBase {
    * Extent of the Entity
    */
   extent?: number[][];
+
+  /**
+   * Platform derived based on current user's access to the entity
+   * if defined, it means the user can edit the entity
+   */
+  itemControl: string;
 
   /**
    * Username of the owner of the item
@@ -75,4 +82,18 @@ export interface IHubItemEntity extends IHubEntityBase {
    * Project display properties
    */
   view?: IWithViewSettings;
+
+  /**
+   * Can current user edit the entity
+   * Derived from `item.itemControl` = "admin" | "update"
+   * @readonly
+   */
+  canEdit: boolean;
+
+  /**
+   * Can current user delete the entity
+   * Derived from `item.itemControl` = "admin"
+   * @readonly
+   */
+  canDelete: boolean;
 }

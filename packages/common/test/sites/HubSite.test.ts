@@ -3,13 +3,8 @@ import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubSite } from "../../src/sites/HubSite";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as HubSitesModule from "../../src/sites/HubSites";
-import {
-  Catalog,
-  IDeepCatalogInfo,
-  IHubCatalog,
-  IHubSite,
-  PermissionManager,
-} from "../../src";
+import { IDeepCatalogInfo, IHubCatalog, IHubSite } from "../../src";
+import { Catalog } from "../../src/search/Catalog";
 import * as ContainsModule from "../../src/core/_internal/deepContains";
 describe("HubSite Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -160,7 +155,11 @@ describe("HubSite Class:", () => {
     chk.update({
       name: "Test Site 2",
       permissions: [
-        { permission: "addEvent", target: "group", targetId: "3ef" },
+        {
+          permission: "hub:project:create",
+          collaborationType: "group",
+          collaborationId: "3ef",
+        },
       ],
       catalog: { schemaVersion: 2 },
     });
@@ -226,7 +225,6 @@ describe("HubSite Class:", () => {
     );
 
     expect(chk.catalog instanceof Catalog).toBeTruthy();
-    expect(chk.permissions instanceof PermissionManager).toBeTruthy();
   });
 
   it("setting catalog updates catalog instance", () => {

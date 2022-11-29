@@ -1,10 +1,6 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
-import {
-  Catalog,
-  IHubProject,
-  PermissionManager,
-  UiSchemaElementOptions,
-} from "../../src";
+import { IHubProject, UiSchemaElementOptions } from "../../src";
+import { Catalog } from "../../src/search/Catalog";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubProject } from "../../src/projects/HubProject";
 import { MOCK_AUTH } from "../mocks/mock-auth";
@@ -172,7 +168,11 @@ describe("HubProject Class:", () => {
     chk.update({
       name: "Test Project 2",
       permissions: [
-        { permission: "addEvent", target: "group", targetId: "3ef" },
+        {
+          permission: "hub:project:create",
+          collaborationType: "group",
+          collaborationId: "3ef",
+        },
       ],
       catalog: { schemaVersion: 2 },
     });
@@ -241,7 +241,6 @@ describe("HubProject Class:", () => {
     );
 
     expect(chk.catalog instanceof Catalog).toBeTruthy();
-    expect(chk.permissions instanceof PermissionManager).toBeTruthy();
   });
 
   it("setting catalog updates catalog instance", () => {

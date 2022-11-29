@@ -7,6 +7,7 @@ on:
     branches:
       - master
       - beta
+      - alpha
       - next
     # Dont run if it's just markdown or doc files
     paths-ignore:
