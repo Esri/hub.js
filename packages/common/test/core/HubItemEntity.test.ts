@@ -5,6 +5,8 @@ import * as PortalModule from "@esri/arcgis-rest-portal";
 import * as SharedWithModule from "../../src/core/_internal/sharedWith";
 import * as setItemThumbnailModule from "../../src/items/setItemThumbnail";
 import * as ItemsModule from "../../src/items";
+import { IEntityPermissionPolicy } from "../../src/permissions";
+import { IHubItemEntity } from "../../src";
 
 // To test the abstract class, we need to create a
 // concrete class that extends it
@@ -164,256 +166,18 @@ describe("HubItemEntity Class: ", () => {
         expect(chk.owner).toEqual(authdCtxMgr.context.currentUser.username);
       });
 
-      it("owner can edit", async () => {
-        const getUserSpy = spyOn(PortalModule, "getUser").and.callFake(() => {
-          return Promise.resolve();
-        });
-        const sharedWithSpy = spyOn(
-          SharedWithModule,
-          "sharedWith"
-        ).and.callFake(() => {
-          return Promise.resolve();
-        });
+      it("can edit and delete pass thru from entity", async () => {
         const instance = new TestHarness(
           {
             id: "00c",
             owner: authdCtxMgr.context.currentUser.username,
+            canEdit: true,
+            canDelete: false,
           },
           authdCtxMgr.context
         );
-        const chk = await instance.canEdit();
-        expect(chk).toBeTruthy();
-        expect(getUserSpy).toHaveBeenCalledTimes(0);
-        expect(sharedWithSpy).toHaveBeenCalledTimes(0);
-      });
-
-      it("member of shared edit group can edit", async () => {
-        const getUserSpy = spyOn(PortalModule, "getUser").and.callFake(() => {
-          return Promise.resolve({
-            usename: "tom",
-            groups: [
-              {
-                id: "group1",
-                capabilities: "updateitemcontrol",
-              },
-            ],
-          });
-        });
-        const sharedWithSpy = spyOn(
-          SharedWithModule,
-          "sharedWith"
-        ).and.callFake(() => {
-          return Promise.resolve([
-            {
-              id: "group1",
-              capabilities: "updateitemcontrol",
-            },
-          ]);
-        });
-        const instance = new TestHarness(
-          {
-            id: "00c",
-            owner: "tom",
-          },
-          authdCtxMgr.context
-        );
-        const chk = await instance.canEdit();
-        expect(chk).toBeTruthy();
-        expect(getUserSpy).toHaveBeenCalledTimes(1);
-        expect(sharedWithSpy).toHaveBeenCalledTimes(1);
-      });
-
-      it("user with no groups can not edit", async () => {
-        const getUserSpy = spyOn(PortalModule, "getUser").and.callFake(() => {
-          return Promise.resolve({
-            usename: "lolo",
-            groups: [],
-          });
-        });
-        const sharedWithSpy = spyOn(
-          SharedWithModule,
-          "sharedWith"
-        ).and.callFake(() => {
-          return Promise.resolve([
-            {
-              id: "group1",
-              capabilities: "updateitemcontrol",
-            },
-          ]);
-        });
-        const instance = new TestHarness(
-          {
-            id: "00c",
-            owner: "lolo",
-          },
-          authdCtxMgr.context
-        );
-        const chk = await instance.canEdit();
-        expect(chk).toBeFalsy();
-        expect(getUserSpy).toHaveBeenCalledTimes(1);
-        // should early exit
-        expect(sharedWithSpy).toHaveBeenCalledTimes(0);
-      });
-
-      it("user without shared membership can not edit", async () => {
-        const getUserSpy = spyOn(PortalModule, "getUser").and.callFake(() => {
-          return Promise.resolve({
-            usename: "casey",
-            groups: [
-              {
-                id: "group1",
-                capabilities: "updateitemcontrol",
-              },
-            ],
-          });
-        });
-        const sharedWithSpy = spyOn(
-          SharedWithModule,
-          "sharedWith"
-        ).and.callFake(() => {
-          return Promise.resolve([
-            {
-              id: "group2",
-            },
-            {
-              id: "group3",
-              capabilities: "updateitemcontrol",
-            },
-          ]);
-        });
-        const instance = new TestHarness(
-          {
-            id: "00c",
-            owner: "deke",
-          },
-          authdCtxMgr.context
-        );
-        const chk = await instance.canEdit();
-        expect(chk).toBeFalsy();
-        expect(getUserSpy).toHaveBeenCalledTimes(1);
-        expect(sharedWithSpy).toHaveBeenCalledTimes(1);
-      });
-
-      it("owner can delete", async () => {
-        const getUserSpy = spyOn(PortalModule, "getUser").and.callFake(() => {
-          return Promise.resolve();
-        });
-        const instance = new TestHarness(
-          {
-            id: "00c",
-            owner: authdCtxMgr.context.currentUser.username,
-          },
-          authdCtxMgr.context
-        );
-        const chk = await instance.canDelete();
-        expect(chk).toBeTruthy();
-        expect(getUserSpy).toHaveBeenCalledTimes(0);
-      });
-
-      it("non-owner, org-admin from another org can not delete", async () => {
-        const getUserSpy = spyOn(PortalModule, "getUser").and.callFake(() => {
-          return Promise.resolve({
-            usename: "jones",
-            orgId: "orgTwo",
-          });
-        });
-        const ctxMgr = await ArcGISContextManager.create({
-          authentication: MOCK_AUTH,
-          currentUser: {
-            username: "casey",
-            orgId: "orgOne",
-            role: "org_admin",
-          } as unknown as PortalModule.IUser,
-          portal: {
-            name: "DC R&D Center",
-            id: "orgOne",
-
-            urlKey: "fake-org",
-          } as unknown as PortalModule.IPortal,
-          portalUrl: "https://myserver.com",
-        });
-
-        const instance = new TestHarness(
-          {
-            id: "00c",
-            owner: "jones",
-          },
-          ctxMgr.context
-        );
-
-        const chk = await instance.canDelete();
-        expect(chk).toBeFalsy();
-        expect(getUserSpy).toHaveBeenCalledTimes(1);
-      });
-
-      it("non-owner, org-admin with roleId can not delete", async () => {
-        const getUserSpy = spyOn(PortalModule, "getUser").and.callFake(() => {
-          return Promise.resolve({
-            usename: "jones",
-            orgId: "orgTwo",
-          });
-        });
-        const ctxMgr = await ArcGISContextManager.create({
-          authentication: MOCK_AUTH,
-          currentUser: {
-            username: "casey",
-            orgId: "orgOne",
-            role: "org_admin",
-            roleId: "someValue",
-          } as unknown as PortalModule.IUser,
-          portal: {
-            name: "DC R&D Center",
-            id: "orgOne",
-            urlKey: "fake-org",
-          } as unknown as PortalModule.IPortal,
-          portalUrl: "https://myserver.com",
-        });
-
-        const instance = new TestHarness(
-          {
-            id: "00c",
-            owner: "jones",
-          },
-          ctxMgr.context
-        );
-
-        const chk = await instance.canDelete();
-        expect(chk).toBeFalsy();
-        expect(getUserSpy).toHaveBeenCalledTimes(0);
-      });
-
-      it("org_admin from owner org can delete", async () => {
-        const getUserSpy = spyOn(PortalModule, "getUser").and.callFake(() => {
-          return Promise.resolve({
-            usename: "jones",
-            orgId: "orgOne",
-          });
-        });
-        const ctxMgr = await ArcGISContextManager.create({
-          authentication: MOCK_AUTH,
-          currentUser: {
-            username: "casey",
-            orgId: "orgOne",
-            role: "org_admin",
-          } as unknown as PortalModule.IUser,
-          portal: {
-            name: "DC R&D Center",
-            id: "orgOne",
-            urlKey: "fake-org",
-          } as unknown as PortalModule.IPortal,
-          portalUrl: "https://myserver.com",
-        });
-
-        const instance = new TestHarness(
-          {
-            id: "00c",
-            owner: "jones",
-          },
-          ctxMgr.context
-        );
-        const chk = await instance.canDelete();
-        expect(chk).toBeTruthy();
-        expect(getUserSpy).toHaveBeenCalledTimes(1);
+        expect(instance.canEdit).toBeTruthy();
+        expect(instance.canDelete).toBeFalsy();
       });
     });
   });
@@ -659,6 +423,70 @@ describe("HubItemEntity Class: ", () => {
       const chk = instance.toJson();
       expect(chk.view.featuredImageUrl).toBe(
         "https://www.arcgis.com/sharing/rest/content/items/3ef/resources/featuredImage.png"
+      );
+    });
+  });
+
+  describe("permission behavior:", () => {
+    it("should return empty array if entity has no polices", () => {
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+        },
+        authdCtxMgr.context
+      );
+      expect(instance.getPermissionPolicies("hub:project:create")).toEqual([]);
+    });
+    it("pass in, add and remove", () => {
+      const policy: IEntityPermissionPolicy = {
+        permission: "hub:project:create",
+        collaborationType: "user",
+        collaborationId: "deke",
+      };
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+          permissions: [policy],
+        },
+        authdCtxMgr.context
+      );
+      expect(instance.getPermissionPolicies("hub:project:create")).toEqual([
+        policy,
+      ]);
+      instance.removePermissionPolicy(
+        policy.permission,
+        policy.collaborationId
+      );
+      expect(instance.getPermissionPolicies("hub:project:create")).toEqual([]);
+      instance.addPermissionPolicy(policy);
+      expect(instance.getPermissionPolicies("hub:project:create")).toEqual([
+        policy,
+      ]);
+    });
+    it("checkPermission delegates to util", () => {
+      const policy: IEntityPermissionPolicy = {
+        permission: "hub:project:create",
+        collaborationType: "user",
+        collaborationId: "deke",
+      };
+      const entity = {
+        id: "00c",
+        owner: "deke",
+        permissions: [policy],
+      } as IHubItemEntity;
+      const instance = new TestHarness(entity, authdCtxMgr.context);
+      const checkPermissionSpy = spyOn(
+        require("../../src/permissions"),
+        "checkPermission"
+      ).and.returnValue({ access: true });
+      const chk = instance.checkPermission("hub:project:create");
+      expect(chk.access).toBeTruthy();
+      expect(checkPermissionSpy).toHaveBeenCalledWith(
+        "hub:project:create",
+        authdCtxMgr.context,
+        entity
       );
     });
   });

@@ -1,11 +1,11 @@
-import { IHubPermission } from "../types";
+import { IEntityPermissionPolicy } from "../../permissions";
 
 /**
  * Adds permissions property to an entity
  */
 export interface IWithPermissions {
   /**
-   * List of permissions for the entity
+   * Array of permission policies that apply to the entity
    */
-  permissions: IHubPermission[];
+  permissions?: IEntityPermissionPolicy[];
 }

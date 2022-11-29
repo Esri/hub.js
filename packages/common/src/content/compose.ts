@@ -641,6 +641,10 @@ export const composeContent = (
   });
   const _publishedDateInfo = getPublishedDateInfo(item, metadata);
   const _metadataUpdatedDateInfo = getMetadataUpdatedDateInfo(item, metadata);
+  // derive canEdit/canDelete from itemControl
+  const _canEdit =
+    item.itemControl === "update" || item.itemControl === "admin";
+  const _canDelete = item.itemControl === "admin";
 
   // return all of the above composed into a content object
   return {
@@ -677,6 +681,12 @@ export const composeContent = (
     },
     layer,
     name,
+    get canEdit() {
+      return _canEdit;
+    },
+    get canDelete() {
+      return _canDelete;
+    },
     get title() {
       return name;
     },
@@ -823,6 +833,9 @@ export const composeContent = (
     },
     get additionalResources() {
       return getAdditionalResources(item, metadata);
+    },
+    get itemControl() {
+      return item.itemControl || "view";
     },
   } as IHubContent;
 };
