@@ -1,3 +1,29 @@
+# @esri/hub-common [12.0.0-alpha.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.23.2...@esri/hub-common@12.0.0-alpha.1) (2022-11-29)
+
+
+* !feat: permission subsystem (#933) ([01c44db](https://github.com/Esri/hub.js/commit/01c44db1f194132331f1a8a911a4118726c9d11c)), closes [#933](https://github.com/Esri/hub.js/issues/933)
+
+
+### BREAKING CHANGES
+
+* canEdit canDelete are now sync getters
+
+* feat: add canEdit, canDelete; validate, test and docs
+
+* refactor: remove HubPermissions and use new system
+* removes PermissionManager; permission fns are exposed
+on HubItemEntity
+
+* docs: add permission guide
+
+* refactor: run tests + release on alpha branch
+
+* fix: change import path so node tests work
+
+* refactor: remove files w/ commented code
+
+* refactor: address PR review comments
+
 ## @esri/hub-common [11.23.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.23.1...@esri/hub-common@11.23.2) (2022-11-18)
 
 
