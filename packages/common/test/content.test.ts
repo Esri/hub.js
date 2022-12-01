@@ -618,37 +618,6 @@ describe("dataset to content", () => {
   // NOTE: other use cases are covered by getContent() tests
 });
 describe("setContentType", () => {
-  describe("Relative Urls", () => {
-    // NOTE: these tests are just the most expedient way
-    // to get coverage for getContentRelativeUrl() w/o exporting it
-    // TODO: we should really move most of these tests to the getHubRelativeUrl block below
-    let content: IHubContent;
-    beforeEach(() => {
-      content = itemToContent(documentItem);
-    });
-    it("sets relative url for feedback", () => {
-      const updated = setContentType(content, "Form");
-      expect(updated.urls.relative).toBe(
-        `/feedback/surveys/${content.identifier}`
-      );
-    });
-    it("sets relative url for deployed solution", () => {
-      content.typeKeywords.push("Deployed");
-      const updated = setContentType(content, "Solution");
-      expect(updated.urls.relative).toBe(
-        // TODO: I think this should actually be
-        // /content/${content.identifier}/
-        `/templates/${content.identifier}/about`
-      );
-    });
-    it("sets relative url for a solution", () => {
-      delete content.typeKeywords;
-      const updated = setContentType(content, "Solution");
-      expect(updated.urls.relative).toBe(
-        `/templates/${content.identifier}/about`
-      );
-    });
-  });
   // NOTE: this test is meant to verify that normalizedType
   // is passed into getFamily(), not the raw type.
   it("Sets the family based on the normalizedType", () => {
@@ -885,6 +854,10 @@ describe("internal", () => {
       expect(result).toBe(`/templates/${identifier}/about`);
       result = getHubRelativeUrl("Solution", identifier, ["Deployed"]);
       expect(result).toBe(`/content/${identifier}/about`);
+    });
+    it("should handle feedback", () => {
+      const result = getHubRelativeUrl("Form", identifier);
+      expect(result).toBe(`/feedback/surveys/${identifier}`);
     });
   });
 });
