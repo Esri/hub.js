@@ -803,7 +803,7 @@ export enum AclSubCategory {
 }
 
 /**
- * request option for creating a channel ACL
+ * request option for creating a channel ACL permission
  */
 export interface IChannelAclPermissionDefinition {
   channelId: string;
@@ -815,7 +815,7 @@ export interface IChannelAclPermissionDefinition {
 }
 
 /**
- * representation of channelAcl from service
+ * representation of channel Acl permission from service
  *
  * @export
  * @interface IChannelAclPermission
