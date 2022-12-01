@@ -142,7 +142,7 @@ export const getHubRelativeUrl = (
   // solution types have their own logic
   let contentUrl =
     getSolutionUrl(type, identifier, typeKeywords) ||
-    getInitiativeUrl(type, identifier, typeKeywords);
+    getInitiativeTemplateUrl(type, identifier, typeKeywords);
   if (!contentUrl) {
     const family = getFamily(type);
     const familiesWithPluralizedRoute = [
@@ -188,9 +188,8 @@ const getSolutionUrl = (
 ): string => {
   let hubUrl;
   if (type === "Solution") {
-    // NOTE: as per the above spreadsheet,
     // solution types are now in the Template family
-    // but we don't send them to the route for initiative templates
+    // we send all except the deployed solution items to the route for initiative templates
     if (typeKeywords?.indexOf("Deployed") > -1) {
       // deployed solutions go to the generic content route
       hubUrl = `/content/${identifier}/about`;
@@ -206,7 +205,7 @@ const getSolutionUrl = (
   return hubUrl;
 };
 
-const getInitiativeUrl = (
+const getInitiativeTemplateUrl = (
   type: string,
   identifier: string,
   typeKeywords?: string[]
