@@ -727,9 +727,9 @@ export type AclUserDefinitionMap = Record<string, IAclPermissionDefinition>;
  * request options for creating channel with ACL
  *
  * @export
- * @interface IChannelAclDefinition
+ * @interface IChannelAclObjectDefinition
  */
-export interface IChannelAclDefinition {
+export interface IChannelAclObjectDefinition {
   anonymous?: IAclPermissionDefinition;
   authenticated?: IAclPermissionDefinition;
   groups?: AclGroupDefinitionMap;
@@ -803,22 +803,33 @@ export enum AclSubCategory {
 }
 
 /**
- * representation of channelAcl from service
- *
- * @export
- * @interface IChannelAcl
- * @extends {IWithAuthor}
- * @extends {IWithEditor}
- * @extends {IWithTimestamps}
+ * request option for creating a channel ACL
  */
-export interface IChannelAcl extends IWithAuthor, IWithEditor, IWithTimestamps {
-  id: string;
+export interface IChannelAclPermissionDefinition {
   channelId: string;
-  channel?: IChannel;
   category: AclCategory;
   subCategory: AclSubCategory | null;
   key: string | null;
   role: Role;
+  restrictedBefore?: Date;
+}
+
+/**
+ * representation of channelAcl from service
+ *
+ * @export
+ * @interface IChannelAclPermission
+ * @extends {IChannelAclDefinition}
+ * @extends {IWithAuthor}
+ * @extends {IWithEditor}
+ * @extends {IWithTimestamps}
+ */
+export interface IChannelAclPermission
+  extends Omit<IChannelAclPermissionDefinition, "restrictedBefore">,
+    IWithAuthor,
+    IWithEditor,
+    IWithTimestamps {
+  id: string;
   restrictedBefore: Date;
 }
 
@@ -849,7 +860,8 @@ export interface ICreateChannelPermissions {
   access?: SharingAccess;
   groups?: string[];
   orgs?: string[];
-  acl?: IChannelAclDefinition;
+  acl?: IChannelAclObjectDefinition;
+  channelAcl?: IChannelAclPermissionDefinition[];
 }
 
 /**
@@ -888,7 +900,7 @@ export interface IChannel extends IWithAuthor, IWithEditor, IWithTimestamps {
   orgs: string[];
   groups: string[];
   acl: IChannelAclObject;
-  channelAcl?: IChannelAcl[];
+  channelAcl?: IChannelAclPermission[];
 }
 
 /**
