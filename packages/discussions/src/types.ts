@@ -779,9 +779,9 @@ export type AclUserMap = Record<string, IAclPermission>;
  * DEPRECATING! Will be removed after permissions refactor
  *
  * @export
- * @interface ILegacyChannelAcl
+ * @interface IChannelAclObject
  */
-export interface ILegacyChannelAcl {
+export interface IChannelAclObject {
   anonymous?: IAclPermission;
   authenticated?: IAclPermission;
   groups?: AclGroupMap;
@@ -887,7 +887,7 @@ export interface IChannel extends IWithAuthor, IWithEditor, IWithTimestamps {
   access: SharingAccess;
   orgs: string[];
   groups: string[];
-  acl: ILegacyChannelAcl;
+  acl: IChannelAclObject;
   channelAcl?: IChannelAcl[];
 }
 

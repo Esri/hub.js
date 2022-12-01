@@ -3,7 +3,7 @@ import {
   IAclGroup,
   IAclPermission,
   IChannel,
-  ILegacyChannelAcl,
+  IChannelAclObject,
   IDiscussionsUser,
   Role,
   SharingAccess,
@@ -44,7 +44,7 @@ export function canPostToChannel(
 
 function isAuthorizedToPostByAcl(
   user: IDiscussionsUser,
-  acl: ILegacyChannelAcl
+  acl: IChannelAclObject
 ): boolean {
   if (channelAllowsAnyUserToPost(acl)) {
     return true;
@@ -62,19 +62,19 @@ function isAuthorizedToPostByAcl(
   );
 }
 
-function channelAllowsAnyUserToPost(channelAcl: ILegacyChannelAcl) {
+function channelAllowsAnyUserToPost(channelAcl: IChannelAclObject) {
   return isAuthorized(ALLOWED_ROLES_FOR_POSTING, channelAcl.anonymous);
 }
 
 function channelAllowsAnyAuthenticatedUserToPost(
-  channelAcl: ILegacyChannelAcl
+  channelAcl: IChannelAclObject
 ) {
   return isAuthorized(ALLOWED_ROLES_FOR_POSTING, channelAcl.authenticated);
 }
 
 function channelAllowsThisUserToPost(
   user: IDiscussionsUser,
-  acl: ILegacyChannelAcl
+  acl: IChannelAclObject
 ) {
   // TODO: migrate to userId instead of username
   const { username } = user;
@@ -87,7 +87,7 @@ function channelAllowsThisUserToPost(
 
 function channelAllowsPostsByThisUsersGroups(
   user: IDiscussionsUser,
-  acl: ILegacyChannelAcl
+  acl: IChannelAclObject
 ) {
   if (!acl.groups) {
     return false;
@@ -134,7 +134,7 @@ function isAuthorized(
 
 function channelAllowsPostsByThisUsersOrg(
   user: IDiscussionsUser,
-  acl: ILegacyChannelAcl
+  acl: IChannelAclObject
 ) {
   const { orgId, role: orgRole } = user;
 
