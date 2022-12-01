@@ -857,7 +857,7 @@ describe("internal", () => {
     });
   });
 
-  fdescribe("getHubRelativeUrl", () => {
+  describe("getHubRelativeUrl", () => {
     const identifier = "a-slug";
     it("should handle a family that does not have a puralized route", () => {
       // 'report template' should be in the 'content' family
