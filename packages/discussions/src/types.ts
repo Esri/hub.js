@@ -776,16 +776,50 @@ export type AclUserMap = Record<string, IAclPermission>;
 
 /**
  * channel access control list
+ * DEPRECATING! Will be removed after permissions refactor
  *
  * @export
- * @interface IChannelAcl
+ * @interface ILegacyChannelAcl
  */
-export interface IChannelAcl {
+export interface ILegacyChannelAcl {
   anonymous?: IAclPermission;
   authenticated?: IAclPermission;
   groups?: AclGroupMap;
   orgs?: AclGroupMap;
   users: AclUserMap;
+}
+
+export enum AclCategory {
+  GROUP = "group",
+  ORG = "org",
+  USER = "user",
+  ANONYMOUS_USER = "anonymousUser",
+  AUTHENTICATED_USER = "authenticatedUser",
+}
+
+export enum AclSubCategory {
+  ADMIN = "admin",
+  MEMBER = "member",
+}
+
+/**
+ * representation of channelAcl from service
+ *
+ * @export
+ * @interface IChannelAcl
+ * @extends {IWithAuthor}
+ * @extends {IWithEditor}
+ * @extends {IWithTimestamps}
+ */
+export interface IChannelAcl extends IWithAuthor, IWithEditor, IWithTimestamps {
+  id: string;
+  channelId: string;
+  channel?: IChannel;
+  category: AclCategory;
+  subCategory: AclSubCategory | null;
+  key: string | null;
+  role: Role;
+  restrictedBefore: Date;
 }
 
 /**
@@ -831,7 +865,7 @@ export interface ICreateChannel
     ICreateChannelPermissions {}
 
 /**
- * representation of channel entity
+ * representation of channel from service
  *
  * @export
  * @interface IChannel
@@ -853,7 +887,8 @@ export interface IChannel extends IWithAuthor, IWithEditor, IWithTimestamps {
   access: SharingAccess;
   orgs: string[];
   groups: string[];
-  acl: IChannelAcl;
+  acl: ILegacyChannelAcl;
+  channelAcl?: IChannelAcl[];
 }
 
 /**

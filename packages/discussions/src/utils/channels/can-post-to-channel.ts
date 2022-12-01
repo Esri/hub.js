@@ -3,7 +3,7 @@ import {
   IAclGroup,
   IAclPermission,
   IChannel,
-  IChannelAcl,
+  ILegacyChannelAcl,
   IDiscussionsUser,
   Role,
   SharingAccess,
@@ -44,7 +44,7 @@ export function canPostToChannel(
 
 function isAuthorizedToPostByAcl(
   user: IDiscussionsUser,
-  acl: IChannelAcl
+  acl: ILegacyChannelAcl
 ): boolean {
   if (channelAllowsAnyUserToPost(acl)) {
     return true;
@@ -62,15 +62,20 @@ function isAuthorizedToPostByAcl(
   );
 }
 
-function channelAllowsAnyUserToPost(channelAcl: IChannelAcl) {
+function channelAllowsAnyUserToPost(channelAcl: ILegacyChannelAcl) {
   return isAuthorized(ALLOWED_ROLES_FOR_POSTING, channelAcl.anonymous);
 }
 
-function channelAllowsAnyAuthenticatedUserToPost(channelAcl: IChannelAcl) {
+function channelAllowsAnyAuthenticatedUserToPost(
+  channelAcl: ILegacyChannelAcl
+) {
   return isAuthorized(ALLOWED_ROLES_FOR_POSTING, channelAcl.authenticated);
 }
 
-function channelAllowsThisUserToPost(user: IDiscussionsUser, acl: IChannelAcl) {
+function channelAllowsThisUserToPost(
+  user: IDiscussionsUser,
+  acl: ILegacyChannelAcl
+) {
   // TODO: migrate to userId instead of username
   const { username } = user;
 
@@ -82,7 +87,7 @@ function channelAllowsThisUserToPost(user: IDiscussionsUser, acl: IChannelAcl) {
 
 function channelAllowsPostsByThisUsersGroups(
   user: IDiscussionsUser,
-  acl: IChannelAcl
+  acl: ILegacyChannelAcl
 ) {
   if (!acl.groups) {
     return false;
@@ -129,7 +134,7 @@ function isAuthorized(
 
 function channelAllowsPostsByThisUsersOrg(
   user: IDiscussionsUser,
-  acl: IChannelAcl
+  acl: ILegacyChannelAcl
 ) {
   const { orgId, role: orgRole } = user;
 
