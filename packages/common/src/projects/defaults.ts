@@ -40,5 +40,6 @@ export const DEFAULT_PROJECT_MODEL: IModel = {
     view: {
       showMap: true,
     },
+    permissions: [],
   },
 } as unknown as IModel;
