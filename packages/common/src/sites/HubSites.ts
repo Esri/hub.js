@@ -509,15 +509,6 @@ export async function convertItemToSite(
 ): Promise<IHubSite> {
   const model = await fetchModelFromItem(item, requestOptions);
   return convertModelToSite(model, requestOptions);
-  // const mapper = new PropertyMapper<Partial<IHubSite>>(getSitePropertyMap());
-  // let token: string;
-  // if (requestOptions.authentication) {
-  //   const session: UserSession = requestOptions.authentication as UserSession;
-  //   token = session.token;
-  // }
-  // const site = mapper.modelToObject(model, {}) as IHubSite;
-  // site.thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
-  // return site;
 }
 
 /**
