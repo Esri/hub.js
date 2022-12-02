@@ -850,6 +850,8 @@ describe("internal", () => {
         "hubSolutionTemplate",
       ]);
       expect(result).toBe(`/templates/${identifier}/about`);
+      result = getHubRelativeUrl("Web Mapping Application", identifier);
+      expect(result).toBe(`/apps/${identifier}`);
       result = getHubRelativeUrl("Solution", identifier);
       expect(result).toBe(`/templates/${identifier}/about`);
       result = getHubRelativeUrl("Solution", identifier, ["Deployed"]);
