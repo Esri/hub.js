@@ -37,6 +37,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { fetchItemEnrichments } from "../items/_enrichments";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { getHubRelativeUrl } from "../content/_internal";
+import { applyPermissionMigration } from "./_internal/applyPermissionMigration";
 
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
@@ -212,7 +213,7 @@ function getSitePropertyMap(): IPropertyMap[] {
   itemProps.forEach((entry) => {
     map.push({ objectKey: entry, modelKey: `item.${entry}` });
   });
-  const dataProps = ["catalog", "feeds"];
+  const dataProps = ["catalog", "feeds", "permissions"];
   dataProps.forEach((entry) => {
     map.push({ objectKey: entry, modelKey: `data.${entry}` });
   });
@@ -460,7 +461,7 @@ export async function fetchSite(
 ): Promise<IHubSite> {
   // get the model
   const model = await fetchSiteModel(identifier, requestOptions);
-
+  // convert to IHubSite
   return convertModelToSite(model, requestOptions);
 }
 
@@ -472,18 +473,26 @@ export async function fetchSite(
  */
 export function convertModelToSite(
   model: IModel,
-  requestOptions: IHubRequestOptions
+  requestOptions: IRequestOptions
 ): IHubSite {
+  // Add permissions based on Groups
+  // This may get moved to a formal schema migration in the future but for now
+  // we can do it here as there is no ux for managing permissions yet.
+  const modelWithPermissions = applyPermissionMigration(model);
   // convert to site
   const mapper = new PropertyMapper<Partial<IHubSite>>(getSitePropertyMap());
-  const site = mapper.modelToObject(model, {}) as IHubSite;
+  const site = mapper.modelToObject(modelWithPermissions, {}) as IHubSite;
   let token: string;
   if (requestOptions.authentication) {
     const us: UserSession = requestOptions.authentication as UserSession;
     token = us.token;
   }
 
-  site.thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
+  site.thumbnailUrl = getItemThumbnailUrl(
+    modelWithPermissions.item,
+    requestOptions,
+    token
+  );
   return site;
 }
 
@@ -499,15 +508,7 @@ export async function convertItemToSite(
   requestOptions: IRequestOptions
 ): Promise<IHubSite> {
   const model = await fetchModelFromItem(item, requestOptions);
-  const mapper = new PropertyMapper<Partial<IHubSite>>(getSitePropertyMap());
-  let token: string;
-  if (requestOptions.authentication) {
-    const session: UserSession = requestOptions.authentication as UserSession;
-    token = session.token;
-  }
-  const site = mapper.modelToObject(model, {}) as IHubSite;
-  site.thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
-  return site;
+  return convertModelToSite(model, requestOptions);
 }
 
 /**
