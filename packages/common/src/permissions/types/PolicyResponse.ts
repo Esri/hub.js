@@ -21,4 +21,5 @@ export type PolicyResponse =
   | "system-offline" // subsystem is offline
   | "system-maintenance" // subsystem is in maintenance mode
   | "entity-required" // entity is required but not passed
-  | "not-authenticated"; // user is not authenticated
+  | "not-authenticated" // user is not authenticated
+  | "not-alpha-org"; // user is not in an alpha org

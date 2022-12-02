@@ -103,6 +103,7 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.eventsConfig).toBeUndefined();
       expect(mgr.context.helperServices).toBeUndefined();
       expect(mgr.context.hubEnabled).toBeFalsy();
+      expect(mgr.context.isAlphaOrg).toBeFalsy();
       // Hub Urls
       const base = mgr.context.hubUrl;
       expect(mgr.context.discussionsServiceUrl).toBe(
@@ -235,6 +236,9 @@ describe("ArcGISContext:", () => {
         portal: onlinePortalSelfResponse,
         currentUser: onlineUserResponse,
         systemStatus: { discussions: "offline" } as HubSystemStatus,
+        properties: {
+          alphaOrgs: ["FAKEID", "FOTHERID"],
+        },
       });
       expect(selfSpy.calls.count()).toBe(0);
       expect(userSpy.calls.count()).toBe(0);
@@ -244,6 +248,8 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.systemStatus).toEqual({
         discussions: "offline",
       } as HubSystemStatus);
+      expect(mgr.context.properties.alphaOrgs).toEqual(["FAKEID", "FOTHERID"]);
+      expect(mgr.context.isAlphaOrg).toBeTruthy();
     });
     it("verify props update setting session after", async () => {
       spyOn(portalModule, "getSelf").and.callFake(() => {

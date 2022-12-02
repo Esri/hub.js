@@ -47,4 +47,8 @@ export interface IPermissionPolicy {
    * Does the user need to be the owner of the entity to be granted this permission?
    */
   entityOwner?: boolean;
+  /**
+   * Is this gated to alpha orgs?
+   */
+  alpha?: boolean;
 }

@@ -161,6 +161,12 @@ export interface IArcGISContext {
    * System status
    */
   systemStatus: HubSystemStatus;
+
+  /**
+   * Is this user in a Hub Alpha org?
+   * Derived from properties.alphaOrgs
+   */
+  isAlphaOrg: boolean;
 }
 
 /**
@@ -284,6 +290,20 @@ export class ArcGISContext implements IArcGISContext {
    */
   public get isAuthenticated(): boolean {
     return !!this._authentication;
+  }
+
+  /**
+   * Is the users org in the alpha orgs list?
+   * Alpha orgs are passed in via properties.alphaOrgs
+   */
+  public get isAlphaOrg(): boolean {
+    let result = false;
+    const orgs = this._properties?.alphaOrgs || [];
+    const orgId = this._portalSelf?.id;
+    if (orgs.length && orgId) {
+      result = orgs.includes(orgId);
+    }
+    return result;
   }
 
   /**
