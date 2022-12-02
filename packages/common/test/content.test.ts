@@ -618,37 +618,6 @@ describe("dataset to content", () => {
   // NOTE: other use cases are covered by getContent() tests
 });
 describe("setContentType", () => {
-  describe("Relative Urls", () => {
-    // NOTE: these tests are just the most expedient way
-    // to get coverage for getContentRelativeUrl() w/o exporting it
-    // TODO: we should really move most of these tests to the getHubRelativeUrl block below
-    let content: IHubContent;
-    beforeEach(() => {
-      content = itemToContent(documentItem);
-    });
-    it("sets relative url for feedback", () => {
-      const updated = setContentType(content, "Form");
-      expect(updated.urls.relative).toBe(
-        `/feedback/surveys/${content.identifier}`
-      );
-    });
-    it("sets relative url for deployed solution", () => {
-      content.typeKeywords.push("Deployed");
-      const updated = setContentType(content, "Solution");
-      expect(updated.urls.relative).toBe(
-        // TODO: I think this should actually be
-        // /content/${content.identifier}/
-        `/templates/${content.identifier}/about`
-      );
-    });
-    it("sets relative url for a solution", () => {
-      delete content.typeKeywords;
-      const updated = setContentType(content, "Solution");
-      expect(updated.urls.relative).toBe(
-        `/templates/${content.identifier}/about`
-      );
-    });
-  });
   // NOTE: this test is meant to verify that normalizedType
   // is passed into getFamily(), not the raw type.
   it("Sets the family based on the normalizedType", () => {
@@ -858,11 +827,39 @@ describe("internal", () => {
   });
 
   describe("getHubRelativeUrl", () => {
+    const identifier = "a-slug";
     it("should handle a family that does not have a puralized route", () => {
-      const identifier = "a-slug";
       // 'report template' should be in the 'content' family
       const result = getHubRelativeUrl("report template", identifier);
       expect(result).toBe(`/content/${identifier}`);
+    });
+    it("should handle initiative templates", () => {
+      let result = getHubRelativeUrl("Hub Initiative", identifier, [
+        "hubInitiativeTemplate",
+      ]);
+      expect(result).toBe(`/initiatives/templates/${identifier}/about`);
+      result = getHubRelativeUrl("Hub Initiative Template", identifier);
+      expect(result).toBe(`/initiatives/templates/${identifier}/about`);
+    });
+    it("should handle initiative items", () => {
+      const result = getHubRelativeUrl("Hub Initiative", identifier);
+      expect(result).toBe(`/content/${identifier}`);
+    });
+    it("should handle solution templates", () => {
+      let result = getHubRelativeUrl("Web Mapping Application", identifier, [
+        "hubSolutionTemplate",
+      ]);
+      expect(result).toBe(`/templates/${identifier}/about`);
+      result = getHubRelativeUrl("Web Mapping Application", identifier);
+      expect(result).toBe(`/apps/${identifier}`);
+      result = getHubRelativeUrl("Solution", identifier);
+      expect(result).toBe(`/templates/${identifier}/about`);
+      result = getHubRelativeUrl("Solution", identifier, ["Deployed"]);
+      expect(result).toBe(`/content/${identifier}/about`);
+    });
+    it("should handle feedback", () => {
+      const result = getHubRelativeUrl("Form", identifier);
+      expect(result).toBe(`/feedback/surveys/${identifier}`);
     });
   });
 });

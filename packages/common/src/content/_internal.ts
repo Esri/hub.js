@@ -140,7 +140,9 @@ export const getHubRelativeUrl = (
   typeKeywords?: string[]
 ): string => {
   // solution types have their own logic
-  let contentUrl = getSolutionUrl(type, identifier, typeKeywords);
+  let contentUrl =
+    getSolutionUrl(type, identifier, typeKeywords) ||
+    getInitiativeTemplateUrl(type, identifier, typeKeywords);
   if (!contentUrl) {
     const family = getFamily(type);
     const familiesWithPluralizedRoute = [
@@ -186,19 +188,35 @@ const getSolutionUrl = (
 ): string => {
   let hubUrl;
   if (type === "Solution") {
-    // NOTE: as per the above spreadsheet,
     // solution types are now in the Template family
-    // but we don't send them to the route for initiative templates
-    if (typeKeywords?.indexOf("Deployed") > 0) {
+    // we send all except the deployed solution items to the route for initiative templates
+    if (typeKeywords?.indexOf("Deployed") > -1) {
       // deployed solutions go to the generic content route
-      hubUrl = `/content/${identifier}`;
+      hubUrl = `/content/${identifier}/about`;
+    } else {
+      hubUrl = `/templates/${identifier}/about`;
     }
-    // TODO: I think this is a bug. The line below should be w/in else
-    // in order to avoid overwriting the above for deployed solutions, right?
-    // others go to the solution about route
+  } else if (
+    type === "Web Mapping Application" &&
+    typeKeywords?.indexOf("hubSolutionTemplate") > -1
+  ) {
     hubUrl = `/templates/${identifier}/about`;
   }
   return hubUrl;
+};
+
+const getInitiativeTemplateUrl = (
+  type: string,
+  identifier: string,
+  typeKeywords?: string[]
+): string => {
+  if (
+    (type === "Hub Initiative" &&
+      typeKeywords?.indexOf("hubInitiativeTemplate") > -1) ||
+    type === "Hub Initiative Template"
+  ) {
+    return `/initiatives/templates/${identifier}/about`;
+  }
 };
 
 // metadata
