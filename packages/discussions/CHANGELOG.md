@@ -1,3 +1,22 @@
+# @esri/hub-discussions [17.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@16.0.3...@esri/hub-discussions@17.0.0) (2022-12-02)
+
+
+### Code Refactoring
+
+* **hub-discussions:** rename IChannelAcl => IChannelAclPermission ([eccd87f](https://github.com/Esri/hub.js/commit/eccd87fe1f6acda524bf30ad66b0988634c46cf0))
+* **hub-discussions:** rename ILegacyChannelAcl => IChannelAclObject ([ea07a99](https://github.com/Esri/hub.js/commit/ea07a99cdfb115e27893c95175234f370eb97a71))
+
+
+### Features
+
+* **hub-discussions:** add type IChannelAcl ([9cef542](https://github.com/Esri/hub.js/commit/9cef542b38f8b9b87c0772341ea2dd1ce0c1f21f))
+
+
+### BREAKING CHANGES
+
+* **hub-discussions:** rename IChannelAcl => IChannlAclPermission
+* **hub-discussions:** existing IChannelAcl renamed to IChannelAclObject, refactored IChannelAcl added
+
 ## @esri/hub-discussions [16.0.3](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@16.0.2...@esri/hub-discussions@16.0.3) (2022-12-02)
 
 
