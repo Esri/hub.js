@@ -1,3 +1,16 @@
+## @esri/hub-common [11.23.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.23.2...@esri/hub-common@11.23.3) (2022-12-02)
+
+
+### Bug Fixes
+
+* better naming and comments ([1f06632](https://github.com/Esri/hub.js/commit/1f06632daf21ae5bb660412e57900c20b4930bbe))
+* consolidate tests ([3174134](https://github.com/Esri/hub.js/commit/317413488e5129d49b39b1587e197377766c7f1b))
+* fix and enhance logic for getHubRelativeUrl ([5e8485b](https://github.com/Esri/hub.js/commit/5e8485b4c92d0d575f5ee9aceec9e75fcd3518f2))
+* remove test focus ([1cb1fcb](https://github.com/Esri/hub.js/commit/1cb1fcb33cbac343cfe964290b8c51a59ca24f92))
+* remove test focus ([ef05e9f](https://github.com/Esri/hub.js/commit/ef05e9f7549547f8c0b3d8667feafd0634323df7))
+* tests ([c2a40e9](https://github.com/Esri/hub.js/commit/c2a40e9e49619b983df989b55386d147ecad5c6f))
+* **hub-common:** add tests for getHubRelativeUrl for template/solution/initiative ([a2becea](https://github.com/Esri/hub.js/commit/a2beceae34f83e81fbd1fe6fe71ab2d4d7e45225))
+
 ## @esri/hub-common [11.23.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.23.1...@esri/hub-common@11.23.2) (2022-11-18)
 
 
