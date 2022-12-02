@@ -2077,6 +2077,14 @@
             </li>
             
             <li class="tsd-kind-enumeration padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/discussions/AclCategory/" class="tsd-kind-icon padding-right-1">AclCategory</a>
+            </li>
+            
+            <li class="tsd-kind-enumeration padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/discussions/AclSubCategory/" class="tsd-kind-icon padding-right-1">AclSubCategory</a>
+            </li>
+            
+            <li class="tsd-kind-enumeration padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/discussions/ChannelFilter/" class="tsd-kind-icon padding-right-1">ChannelFilter</a>
             </li>
             
@@ -2177,11 +2185,19 @@
             </li>
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
-              <a href="/hub.js/api/discussions/IChannelAcl/" class="tsd-kind-icon padding-right-1">IChannelAcl</a>
+              <a href="/hub.js/api/discussions/IChannelAclObject/" class="tsd-kind-icon padding-right-1">IChannelAclObject</a>
             </li>
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
-              <a href="/hub.js/api/discussions/IChannelAclDefinition/" class="tsd-kind-icon padding-right-1">IChannelAclDefinition</a>
+              <a href="/hub.js/api/discussions/IChannelAclObjectDefinition/" class="tsd-kind-icon padding-right-1">IChannelAclObjectDefinition</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/discussions/IChannelAclPermission/" class="tsd-kind-icon padding-right-1">IChannelAclPermission</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/discussions/IChannelAclPermissionDefinition/" class="tsd-kind-icon padding-right-1">IChannelAclPermissionDefinition</a>
             </li>
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
@@ -3241,7 +3257,7 @@
   
   
   
-  <small class="label right">Version 11.23.2</small>
+  <small class="label right">Version 11.23.3</small>
 <h1 class=" font-size-3 trailer-half code-face">
   <a href="/hub.js/api/common/">@esri/hub-common</a>
 </h1>
@@ -5365,13 +5381,13 @@
   
   
   
-  <small class="label right">Version 16.0.2</small>
+  <small class="label right">Version 16.0.3</small>
 <h1 class=" font-size-3 trailer-half code-face">
   <a href="/hub.js/api/discussions/">@esri/hub-discussions</a>
 </h1>
 <p class="font-size--1 trailer-1 avenir-regular">Module to interact with ArcGIS Hub Discussions API in Node.js and modern browsers.</p>
 <h2 class="font-size-0 trailer-quarter">npm install:</h2>
-<pre><code>npm install @esri/hub-discussions @esri/arcgis-rest-auth@^2.14.0 || 3  @esri/arcgis-rest-request@^2.14.0 || 3  @esri/hub-common@11.23.2 </code></pre>
+<pre><code>npm install @esri/hub-discussions @esri/arcgis-rest-auth@^2.14.0 || 3  @esri/arcgis-rest-request@^2.14.0 || 3  @esri/hub-common@11.23.3 </code></pre>
 <h2 class="font-size-0 trailer-quarter">Module Import:</h2>
 
 <pre><code class="js"><span class="hljs-keyword">import</span> {
@@ -5574,6 +5590,14 @@
   </li>
   
   <li class="tsd-kind-enumeration">
+    <a href="/hub.js/api/discussions/AclCategory/" class="tsd-kind-icon">AclCategory</a>
+  </li>
+  
+  <li class="tsd-kind-enumeration">
+    <a href="/hub.js/api/discussions/AclSubCategory/" class="tsd-kind-icon">AclSubCategory</a>
+  </li>
+  
+  <li class="tsd-kind-enumeration">
     <a href="/hub.js/api/discussions/ChannelFilter/" class="tsd-kind-icon">ChannelFilter</a>
   </li>
   
@@ -5674,11 +5698,19 @@
   </li>
   
   <li class="tsd-kind-interface">
-    <a href="/hub.js/api/discussions/IChannelAcl/" class="tsd-kind-icon">IChannelAcl</a>
+    <a href="/hub.js/api/discussions/IChannelAclObject/" class="tsd-kind-icon">IChannelAclObject</a>
   </li>
   
   <li class="tsd-kind-interface">
-    <a href="/hub.js/api/discussions/IChannelAclDefinition/" class="tsd-kind-icon">IChannelAclDefinition</a>
+    <a href="/hub.js/api/discussions/IChannelAclObjectDefinition/" class="tsd-kind-icon">IChannelAclObjectDefinition</a>
+  </li>
+  
+  <li class="tsd-kind-interface">
+    <a href="/hub.js/api/discussions/IChannelAclPermission/" class="tsd-kind-icon">IChannelAclPermission</a>
+  </li>
+  
+  <li class="tsd-kind-interface">
+    <a href="/hub.js/api/discussions/IChannelAclPermissionDefinition/" class="tsd-kind-icon">IChannelAclPermissionDefinition</a>
   </li>
   
   <li class="tsd-kind-interface">
@@ -5906,13 +5938,13 @@
   
   
   
-  <small class="label right">Version 11.23.2</small>
+  <small class="label right">Version 11.23.3</small>
 <h1 class=" font-size-3 trailer-half code-face">
   <a href="/hub.js/api/downloads/">@esri/hub-downloads</a>
 </h1>
 <p class="font-size--1 trailer-1 avenir-regular">Service for Hub downloads</p>
 <h2 class="font-size-0 trailer-quarter">npm install:</h2>
-<pre><code>npm install @esri/hub-downloads @esri/arcgis-rest-auth@^3.1.0  @esri/arcgis-rest-feature-layer@^3.1.0  @esri/arcgis-rest-portal@^3.5.0  @esri/arcgis-rest-request@^3.1.0  @esri/hub-common@11.23.2 </code></pre>
+<pre><code>npm install @esri/hub-downloads @esri/arcgis-rest-auth@^3.1.0  @esri/arcgis-rest-feature-layer@^3.1.0  @esri/arcgis-rest-portal@^3.5.0  @esri/arcgis-rest-request@^3.1.0  @esri/hub-common@11.23.3 </code></pre>
 <h2 class="font-size-0 trailer-quarter">Module Import:</h2>
 
 <pre><code class="js"><span class="hljs-keyword">import</span> {
@@ -5989,13 +6021,13 @@
   
   
   
-  <small class="label right">Version 11.23.2</small>
+  <small class="label right">Version 11.23.3</small>
 <h1 class=" font-size-3 trailer-half code-face">
   <a href="/hub.js/api/events/">@esri/hub-events</a>
 </h1>
 <p class="font-size--1 trailer-1 avenir-regular">Module to interact with ArcGIS Hub Events in Node.js and modern browsers.</p>
 <h2 class="font-size-0 trailer-quarter">npm install:</h2>
-<pre><code>npm install @esri/hub-events @esri/arcgis-rest-auth@^2.13.0 || 3  @esri/arcgis-rest-feature-layer@^2.13.0 || 3  @esri/arcgis-rest-portal@^2.15.0 || 3  @esri/arcgis-rest-request@^2.13.0 || 3  @esri/arcgis-rest-types@^2.13.0 || 3  @esri/hub-common@11.23.2 </code></pre>
+<pre><code>npm install @esri/hub-events @esri/arcgis-rest-auth@^2.13.0 || 3  @esri/arcgis-rest-feature-layer@^2.13.0 || 3  @esri/arcgis-rest-portal@^2.15.0 || 3  @esri/arcgis-rest-request@^2.13.0 || 3  @esri/arcgis-rest-types@^2.13.0 || 3  @esri/hub-common@11.23.3 </code></pre>
 <h2 class="font-size-0 trailer-quarter">Module Import:</h2>
 
 <pre><code class="js"><span class="hljs-keyword">import</span> {
@@ -6061,13 +6093,13 @@
   
   
   
-  <small class="label right">Version 11.23.2</small>
+  <small class="label right">Version 11.23.3</small>
 <h1 class=" font-size-3 trailer-half code-face">
   <a href="/hub.js/api/search/">@esri/hub-search</a>
 </h1>
 <p class="font-size--1 trailer-1 avenir-regular">Module to search for ArcGIS items and format them for display in ArcGIS Hub.</p>
 <h2 class="font-size-0 trailer-quarter">npm install:</h2>
-<pre><code>npm install @esri/hub-search @esri/arcgis-rest-auth@^2.13.0 || 3  @esri/arcgis-rest-feature-layer@^2.13.0 || 3  @esri/arcgis-rest-portal@^2.6.1 || 3  @esri/arcgis-rest-request@^2.13.0 || 3  @esri/arcgis-rest-types@^2.13.0 || 3  @esri/hub-common@11.23.2 </code></pre>
+<pre><code>npm install @esri/hub-search @esri/arcgis-rest-auth@^2.13.0 || 3  @esri/arcgis-rest-feature-layer@^2.13.0 || 3  @esri/arcgis-rest-portal@^2.6.1 || 3  @esri/arcgis-rest-request@^2.13.0 || 3  @esri/arcgis-rest-types@^2.13.0 || 3  @esri/hub-common@11.23.3 </code></pre>
 <h2 class="font-size-0 trailer-quarter">Module Import:</h2>
 
 <pre><code class="js"><span class="hljs-keyword">import</span> {
@@ -6157,13 +6189,13 @@
   
   
   
-  <small class="label right">Version 11.26.1</small>
+  <small class="label right">Version 11.26.2</small>
 <h1 class=" font-size-3 trailer-half code-face">
   <a href="/hub.js/api/sites/">@esri/hub-sites</a>
 </h1>
 <p class="font-size--1 trailer-1 avenir-regular">Module to interact with ArcGIS Hub Sites in Node.js and modern browsers.</p>
 <h2 class="font-size-0 trailer-quarter">npm install:</h2>
-<pre><code>npm install @esri/hub-sites @esri/arcgis-rest-auth@^2.13.0 || 3  @esri/arcgis-rest-portal@^2.19.0 || 3  @esri/arcgis-rest-request@^2.13.0 || 3  @esri/hub-common@11.23.2  @esri/hub-initiatives@11.23.2  @esri/hub-teams@11.23.2 </code></pre>
+<pre><code>npm install @esri/hub-sites @esri/arcgis-rest-auth@^2.13.0 || 3  @esri/arcgis-rest-portal@^2.19.0 || 3  @esri/arcgis-rest-request@^2.13.0 || 3  @esri/hub-common@11.23.3  @esri/hub-initiatives@11.23.3  @esri/hub-teams@11.23.3 </code></pre>
 <h2 class="font-size-0 trailer-quarter">Module Import:</h2>
 
 <pre><code class="js"><span class="hljs-keyword">import</span> {
@@ -6544,13 +6576,13 @@
   
   
   
-  <small class="label right">Version 11.23.2</small>
+  <small class="label right">Version 11.23.3</small>
 <h1 class=" font-size-3 trailer-half code-face">
   <a href="/hub.js/api/surveys/">@esri/hub-surveys</a>
 </h1>
 <p class="font-size--1 trailer-1 avenir-regular">Module to interact with ArcGIS Hub Surveys in Node.js and modern browsers.</p>
 <h2 class="font-size-0 trailer-quarter">npm install:</h2>
-<pre><code>npm install @esri/hub-surveys @esri/arcgis-rest-auth@^2.13.0 || 3  @esri/arcgis-rest-feature-layer@^2.13.0 || 3  @esri/arcgis-rest-portal@^2.13.0 || 3  @esri/arcgis-rest-request@^2.13.0 || 3  @esri/arcgis-rest-types@^2.13.0 || 3  @esri/hub-common@11.23.2 </code></pre>
+<pre><code>npm install @esri/hub-surveys @esri/arcgis-rest-auth@^2.13.0 || 3  @esri/arcgis-rest-feature-layer@^2.13.0 || 3  @esri/arcgis-rest-portal@^2.13.0 || 3  @esri/arcgis-rest-request@^2.13.0 || 3  @esri/arcgis-rest-types@^2.13.0 || 3  @esri/hub-common@11.23.3 </code></pre>
 <h2 class="font-size-0 trailer-quarter">Module Import:</h2>
 
 <pre><code class="js"><span class="hljs-keyword">import</span> {
@@ -6662,13 +6694,13 @@
   
   
   
-  <small class="label right">Version 11.23.2</small>
+  <small class="label right">Version 11.23.3</small>
 <h1 class=" font-size-3 trailer-half code-face">
   <a href="/hub.js/api/teams/">@esri/hub-teams</a>
 </h1>
 <p class="font-size--1 trailer-1 avenir-regular">Module to interact with ArcGIS Hub Teams in Node.js and modern browsers.</p>
 <h2 class="font-size-0 trailer-quarter">npm install:</h2>
-<pre><code>npm install @esri/hub-teams @esri/arcgis-rest-auth@^2.13.0 || 3  @esri/arcgis-rest-portal@^2.15.0 || 3  @esri/arcgis-rest-request@^2.13.0 || 3  @esri/arcgis-rest-types@^2.13.0 || 3  @esri/hub-common@11.23.2 </code></pre>
+<pre><code>npm install @esri/hub-teams @esri/arcgis-rest-auth@^2.13.0 || 3  @esri/arcgis-rest-portal@^2.15.0 || 3  @esri/arcgis-rest-request@^2.13.0 || 3  @esri/arcgis-rest-types@^2.13.0 || 3  @esri/hub-common@11.23.3 </code></pre>
 <h2 class="font-size-0 trailer-quarter">Module Import:</h2>
 
 <pre><code class="js"><span class="hljs-keyword">import</span> {
