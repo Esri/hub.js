@@ -22,33 +22,100 @@ export interface IPermissionPolicy {
   /**
    * Must the user authenticated?
    */
-  authenticated: boolean;
+  authenticated?: boolean;
   /**
    * What licenses are required for this permission to be granted.
    * This is checking the licese of the current user's org. It is not transitive to the entity being accessed.
    * e.g. If a user is in a Partner "hub-basic" org, they can not create "premium" entities (e.g. Projects)
    */
-  licenses: HubLicense[];
+  licenses?: HubLicense[];
   /**
    * Any platform level privileges required for this permission to be granted
    * e.g. "portal:user:createItem"
    */
   privileges?: PlatformPrivilege[];
-  /**
-   * Does the user need to be in a specific platform role to be granted this permission?
-   * This is likely extremely rare.
-   */
-  roles?: string[];
-  /**
-   * Does the user require edit access to the entity to be granted this permission?
-   */
-  entityEdit?: boolean;
-  /**
-   * Does the user need to be the owner of the entity to be granted this permission?
-   */
-  entityOwner?: boolean;
+
   /**
    * Is this gated to alpha orgs?
    */
   alpha?: boolean;
+  /**
+   *
+   */
+  assertions?: IPolicyAssertion[];
 }
+
+export interface IPolicyAssertion {
+  property: string;
+  assertion:
+    | "eq"
+    | "neq"
+    | "gt"
+    | "lt"
+    | "contains"
+    | "contains-all"
+    | "not-contains"
+    | "included-in";
+  value: any;
+}
+
+const userInGroup: IPolicyAssertion = {
+  property: "mapBy:id:context.currentUser.groups",
+  assertion: "contains",
+  value: "entity.group.id",
+};
+
+const mostlyComplete: IPolicyAssertion = {
+  property: "item.properties.percentComplete",
+  assertion: "gt",
+  value: 75,
+};
+
+const before2020: IPolicyAssertion = {
+  property: "item.modified",
+  assertion: "lt",
+  value: 1577836800000,
+};
+
+const itemCreatedAfterGroup: IPolicyAssertion = {
+  property: "item.created",
+  assertion: "gt",
+  value: "group.created",
+};
+
+const permsission = {
+  permission: "discussions:channel:createprivate",
+  subsystems: ["discussions"],
+  assertions: [
+    {
+      property: "context.isAuthenticated",
+      assertion: "eq",
+      value: true,
+    },
+    {
+      property: "typeKeywords",
+      assertion: "not-contains",
+      value: "cannotDiscuss",
+    },
+    {
+      property: "context.license",
+      assertion: "included-in",
+      value: ["hub-basic", "hub-premium"],
+    },
+    {
+      property: "mapBy:id:context.currentUser.groups",
+      assertion: "contains",
+      value: "entity.group.id",
+    },
+    {
+      property: "item.created",
+      assertion: "lt",
+      value: "group.created",
+    },
+    {
+      property: "modified",
+      assertion: "gt",
+      value: 1577836800000,
+    },
+  ],
+};

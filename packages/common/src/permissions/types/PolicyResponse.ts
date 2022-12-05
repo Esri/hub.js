@@ -22,4 +22,13 @@ export type PolicyResponse =
   | "system-maintenance" // subsystem is in maintenance mode
   | "entity-required" // entity is required but not passed
   | "not-authenticated" // user is not authenticated
-  | "not-alpha-org"; // user is not in an alpha org
+  | "not-alpha-org" // user is not in an alpha org
+  | "property-missing" // assertion requires property but is missing from entity
+  | "property-not-array" // assertion requires array property
+  | "array-contains-invalid-value" // assertion specifies a value not be included
+  | "array-missing-required-value" // assertion specifies a value not be included
+  | "property-mismatch"
+  | "entity-property-not-found"
+  | "entity-lookup-property-not-found"
+  | "context-lookup-property-not-found"
+  | "property-match";

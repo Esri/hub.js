@@ -13,7 +13,7 @@ import { getPolicyResponseCode } from "./getPolicyResponseCode";
 export function checkAuthentication(
   policy: IPermissionPolicy,
   context: IArcGISContext,
-  entity?: HubEntity
+  entity?: Record<string, any>
 ): IPolicyCheck[] {
   let response: PolicyResponse = "granted";
 

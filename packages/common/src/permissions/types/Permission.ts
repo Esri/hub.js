@@ -12,6 +12,9 @@ const validPermissions = [
   "hub:project:delete",
   "hub:project:edit",
   "hub:project:view",
+  "discussions:channel:create",
+  "discussions:post:create",
+  "discussions:channel:createprivate",
 ] as const;
 
 /**

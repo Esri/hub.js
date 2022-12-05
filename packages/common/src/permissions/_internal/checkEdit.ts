@@ -14,7 +14,7 @@ import { getPolicyResponseCode } from "./getPolicyResponseCode";
 export function checkEdit(
   policy: IPermissionPolicy,
   context: IArcGISContext,
-  entity?: HubEntity
+  entity?: Record<string, any>
 ): IPolicyCheck[] {
   const checks = [] as IPolicyCheck[];
   let response: PolicyResponse = "granted";

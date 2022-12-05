@@ -58,6 +58,18 @@ export function checkEntityPolicy(
     }
   }
 
+  if (type === "authenticated") {
+    if (context.isAuthenticated) {
+      response = "granted";
+    } else {
+      response = "not-group-admin";
+    }
+  }
+
+  if (type === "anonymous") {
+    response = "granted";
+  }
+
   const check: IPolicyCheck = {
     name: "entity:policy",
     value: `${policy.collaborationType}:${policy.collaborationId}`,

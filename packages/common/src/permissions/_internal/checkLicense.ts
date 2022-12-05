@@ -11,7 +11,8 @@ import { getPolicyResponseCode } from "./getPolicyResponseCode";
  */
 export function checkLicense(
   policy: IPermissionPolicy,
-  context: IArcGISContext
+  context: IArcGISContext,
+  entity?: Record<string, any>
 ): IPolicyCheck[] {
   let result: PolicyResponse = "granted";
 

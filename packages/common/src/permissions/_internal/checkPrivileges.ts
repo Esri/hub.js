@@ -13,7 +13,7 @@ import { getPolicyResponseCode } from "./getPolicyResponseCode";
 export function checkPrivileges(
   policy: IPermissionPolicy,
   context: IArcGISContext,
-  entity?: HubEntity
+  entity?: Record<string, any>
 ): IPolicyCheck[] {
   const privs = policy.privileges || [];
 

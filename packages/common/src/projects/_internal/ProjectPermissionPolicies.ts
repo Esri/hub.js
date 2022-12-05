@@ -23,14 +23,28 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:project:edit",
     authenticated: true,
     subsystems: ["projects"],
-    entityEdit: true,
+    assertions: [
+      {
+        property: "canEdit",
+        assertion: "eq",
+        valueType: "static",
+        value: true,
+      },
+    ],
     licenses: ["hub-premium"],
   },
   {
     permission: "hub:project:delete",
     authenticated: true,
     subsystems: ["projects"],
-    entityOwner: true,
     licenses: ["hub-premium"],
+    assertions: [
+      {
+        property: "owner",
+        assertion: "eq",
+        valueType: "context-lookup",
+        value: "currentUser.username",
+      },
+    ],
   },
 ];
