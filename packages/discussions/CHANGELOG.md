@@ -1,3 +1,10 @@
+# @esri/hub-discussions [17.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@17.0.0...@esri/hub-discussions@17.1.0) (2022-12-05)
+
+
+### Features
+
+* **hub-discussions:** add channel-acl update definition ([5f5fc45](https://github.com/Esri/hub.js/commit/5f5fc458f93cad40b1eff5b40c0282bd3debad0c))
+
 # @esri/hub-discussions [17.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@16.0.3...@esri/hub-discussions@17.0.0) (2022-12-02)
 
 
