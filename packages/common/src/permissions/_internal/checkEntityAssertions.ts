@@ -104,7 +104,7 @@ export function checkAssertion(
   }
 
   let result: IPolicyCheck = {
-    name: `entity assertion: ${assertion.property} ${assertion.assertion} ${assertion.valueType} ${assertion.value}`,
+    name: `entity assertion: ${assertion.property} ${assertion.assertion} ${assertion.value}`,
     value: prop,
     code: getPolicyResponseCode(response),
     response,
