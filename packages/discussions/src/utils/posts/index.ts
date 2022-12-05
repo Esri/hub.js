@@ -4,9 +4,8 @@ import { parseDatasetId, IHubContent } from "@esri/hub-common";
 import { IUser } from "@esri/arcgis-rest-auth";
 import { canModifyChannel } from "../channels";
 import { CANNOT_DISCUSS, MENTION_ATTRIBUTE } from "../constants";
-import { canModifyPost } from "../posts/can-modify-post";
 
-export { canModifyPost };
+export { canModifyPost } from "../posts/can-modify-post";
 
 /**
  * Utility that parses a discussion URI string into its component parts
