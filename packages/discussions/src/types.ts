@@ -806,12 +806,19 @@ export enum AclSubCategory {
  * request option for creating a channel ACL permission
  */
 export interface IChannelAclPermissionDefinition {
-  channelId: string;
   category: AclCategory;
-  subCategory: AclSubCategory | null;
-  key: string | null;
+  subCategory?: AclSubCategory;
+  key?: string;
   role: Role;
   restrictedBefore?: Date;
+}
+
+/**
+ * request option for updating a channel ACL permission
+ */
+export interface IChannelAclPermissionUpdateDefinition
+  extends IChannelAclPermissionDefinition {
+  channelId: string;
 }
 
 /**
