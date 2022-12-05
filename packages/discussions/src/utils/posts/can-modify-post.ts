@@ -52,15 +52,11 @@ function isAuthorizedToModifyByLegacyPermissions(
     return true;
   }
 
-  if (access === SharingAccess.PRIVATE) {
-    return isAuthorizedToModifyPostByLegacyGroup(channelGroups, userGroups);
-  }
-
   if (access === SharingAccess.ORG) {
     return orgs.includes(userOrgId);
   }
 
-  return false;
+  return isAuthorizedToModifyPostByLegacyGroup(channelGroups, userGroups);
 }
 
 /**
