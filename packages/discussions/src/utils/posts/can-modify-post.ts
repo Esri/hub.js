@@ -21,11 +21,6 @@ export function canModifyPost(
 ) {
   const { access, groups, orgs, allowAnonymous } = channel;
 
-  if (!channel) {
-    // backwards compatibility
-    return isPostCreator(post, user);
-  }
-
   return (
     isPostCreator(post, user) &&
     isAuthorizedToModifyByLegacyPermissions(user, {
