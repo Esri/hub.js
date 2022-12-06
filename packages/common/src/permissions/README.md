@@ -2,12 +2,39 @@
 
 ## Permission Assertions
 
+Example Assertions
+
 ```js
-{
+// To look up property on the context... use context.
+const userIsAuthenticated: IPolicyAssertion = {
   property: "context.isAuthenticated",
   assertion: "eq",
   value: true,
-},
+};
+
+// To look up property on the entity... use entity.
+const mostlyComplete: IPolicyAssertion = {
+  property: "entity.item.properties.percentComplete",
+  assertion: "gt",
+  value: 75,
+};
+
+// Allow consuming code to pass in arbitrary structures
+// and make assertions between props in the structure
+// Example assumes an entity structured like {item:..., group:...}
+const itemCreatedAfterGroup: IPolicyAssertion = {
+  property: "entity.item.created",
+  assertion: "gt",
+  value: "entity.group.created",
+};
+
+// does not require changes to context, but can't
+// filter to "owned groups" or "groups the user manages"
+const userInGroup: IPolicyAssertion = {
+  property: "mapBy:id:context.currentUser.groups",
+  assertion: "contains",
+  value: "entity.group.id",
+};
 ```
 
 ### Property

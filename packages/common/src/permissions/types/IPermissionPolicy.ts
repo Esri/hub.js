@@ -107,15 +107,5 @@ const permsission = {
       assertion: "contains",
       value: "entity.group.id",
     },
-    {
-      property: "item.created",
-      assertion: "lt",
-      value: "group.created",
-    },
-    {
-      property: "modified",
-      assertion: "gt",
-      value: 1577836800000,
-    },
   ],
 };
