@@ -77,6 +77,19 @@ describe("canModifyPost", () => {
         const result = canModifyPost(post, user, channel);
         expect(result).toBe(false);
       });
+
+      it("returns false if channel and user groups are empty", () => {
+        const post = { id: "postId", creator: "john" } as IPost;
+        const user = {
+          username: "john",
+        } as IDiscussionsUser;
+        const channel = {
+          access: SharingAccess.PRIVATE,
+        } as IChannel;
+
+        const result = canModifyPost(post, user, channel);
+        expect(result).toBe(false);
+      });
     });
 
     describe("org channel", () => {
