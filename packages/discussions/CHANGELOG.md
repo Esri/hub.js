@@ -1,3 +1,16 @@
+# @esri/hub-discussions [18.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@17.1.0...@esri/hub-discussions@18.0.0) (2022-12-06)
+
+
+### Bug Fixes
+
+* **hub-discussions:** prevent post edit when user group is non-discussable ([ac90490](https://github.com/Esri/hub.js/commit/ac904907c942a695d896885846ea3e668e4e6d57))
+* **hub-discussions:** require channel as a param in canModifyPost ([f39b623](https://github.com/Esri/hub.js/commit/f39b6233ff4ff104a26161498941f2d7815bccfa))
+
+
+### BREAKING CHANGES
+
+* **hub-discussions:** canModifyPost now requires the channel to be passed in
+
 # @esri/hub-discussions [17.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@17.0.0...@esri/hub-discussions@17.1.0) (2022-12-05)
 
 
