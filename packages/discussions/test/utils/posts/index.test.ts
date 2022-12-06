@@ -1,6 +1,6 @@
 import { IItem } from "@esri/arcgis-rest-portal";
 import { IGroup, IUser } from "@esri/arcgis-rest-types";
-import { IChannel, IDiscussionParams, IPost } from "../../src/types";
+import { IChannel, IDiscussionParams, IPost } from "../../../src/types";
 import { IHubContent } from "@esri/hub-common";
 import {
   isDiscussable,
@@ -9,11 +9,14 @@ import {
   canModifyPostStatus,
   canDeletePost,
   parseMentionedUsers,
-} from "../../src/utils/posts";
-import { MENTION_ATTRIBUTE, CANNOT_DISCUSS } from "../../src/utils/constants";
-import * as viewGroup from "../../../common/test/mocks/groups/view-group.json";
-import * as formItem from "../../../common/test/mocks/items/form-item-draft.json";
-import * as channelUtils from "../../src/utils/channels";
+} from "../../../src/utils/posts";
+import {
+  MENTION_ATTRIBUTE,
+  CANNOT_DISCUSS,
+} from "../../../src/utils/constants";
+import * as viewGroup from "@esri/hub-common/test/mocks/groups/view-group.json";
+import * as formItem from "@esri/hub-common/test/mocks/items/form-item-draft.json";
+import * as channelUtils from "../../../src/utils/channels";
 
 describe("parseDiscussionURI", () => {
   it("returns DiscussionParams for valid discussion uri", () => {
@@ -88,22 +91,6 @@ describe("isDiscussable", () => {
       typeKeywords: [CANNOT_DISCUSS],
     } as any as IGroup;
     expect(isDiscussable(group)).toBeFalsy();
-  });
-});
-
-describe("canModifyPost", () => {
-  it("returns true when the user created the post", () => {
-    const post = { id: "post1", creator: "user1" } as IPost;
-    const user = { username: "user1" } as IUser;
-    const result = canModifyPost(post, user);
-    expect(result).toBe(true);
-  });
-
-  it("returns false when user did not create the post", () => {
-    const post = { id: "post1", creator: "user1" } as IPost;
-    const user = { username: "user2" } as IUser;
-    const result = canModifyPost(post, user);
-    expect(result).toBe(false);
   });
 });
 

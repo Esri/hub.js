@@ -1,9 +1,11 @@
 import { IGroup, IItem } from "@esri/arcgis-rest-portal";
-import { IChannel, IDiscussionParams, IPost } from "../types";
+import { IChannel, IDiscussionParams, IPost } from "../../types";
 import { parseDatasetId, IHubContent } from "@esri/hub-common";
 import { IUser } from "@esri/arcgis-rest-auth";
-import { canModifyChannel } from "./channels";
-import { CANNOT_DISCUSS, MENTION_ATTRIBUTE } from "./constants";
+import { canModifyChannel } from "../channels";
+import { CANNOT_DISCUSS, MENTION_ATTRIBUTE } from "../constants";
+
+export { canModifyPost } from "../posts/can-modify-post";
 
 /**
  * Utility that parses a discussion URI string into its component parts
@@ -55,17 +57,6 @@ export function isDiscussable(subject: IGroup | IItem | IHubContent) {
 }
 
 /**
- * Determines if the given user has sufficient privileges to modify a post's editable attributes
- * @param post An IPost object
- * @param channel An IChannel object
- * @param user An IUser object
- * @returns true if the user can modify the post
- */
-export function canModifyPost(post: IPost, user: IUser): boolean {
-  return post.creator === user.username;
-}
-
-/**
  * Determines if the given user has sufficient privileges to modify a post's status
  * @param post An IPost object
  * @param channel An IChannel object
@@ -88,7 +79,11 @@ export function canDeletePost(
   channel: IChannel,
   user: IUser
 ): boolean {
-  return canModifyPost(post, user) || canModifyChannel(channel, user);
+  return isPostCreator(post, user) || canModifyChannel(channel, user);
+}
+
+function isPostCreator(post: IPost, user: IUser) {
+  return post.creator === user.username;
 }
 
 const MENTION_ATTRIBUTE_AND_VALUE_PATTERN = new RegExp(
