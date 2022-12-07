@@ -1,5 +1,4 @@
 import { IArcGISContext } from "../../ArcGISContext";
-import { HubEntity } from "../../core";
 import { IPermissionPolicy, PolicyResponse, IPolicyCheck } from "../types";
 import { getPolicyResponseCode } from "./getPolicyResponseCode";
 
@@ -15,21 +14,24 @@ export function checkPrivileges(
   context: IArcGISContext,
   entity?: Record<string, any>
 ): IPolicyCheck[] {
-  const privs = policy.privileges || [];
+  let checks = [] as IPolicyCheck[];
+  // Only return a check if the policy is defined
+  if (policy.privileges?.length) {
+    checks = policy.privileges.map((privilege) => {
+      let response: PolicyResponse = "granted";
+      let value = "privilege present";
+      if (!context.currentUser.privileges.includes(privilege)) {
+        response = "privilege-required";
+        value = "privilege missing";
+      }
+      return {
+        name: `privilege required: ${privilege}`,
+        value,
+        response,
+        code: getPolicyResponseCode(response),
+      } as IPolicyCheck;
+    });
+  }
 
-  const checks = privs.map((privilege) => {
-    let response: PolicyResponse = "granted";
-    let value = "privilege present";
-    if (!context.currentUser.privileges.includes(privilege)) {
-      response = "privilege-required";
-      value = "privilege missing";
-    }
-    return {
-      name: `privilege required: ${privilege}`,
-      value,
-      response,
-      code: getPolicyResponseCode(response),
-    } as IPolicyCheck;
-  });
   return checks;
 }

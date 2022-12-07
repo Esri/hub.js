@@ -16,6 +16,7 @@ export type PolicyResponse =
   | "not-available" // permission not available in this context
   | "not-granted" // user does not have permission
   | "no-edit-access" // user does not have edit access
+  | "edit-access" // user has edit access but policy is for non-editors
   | "invalid-permission" // permission is invalid
   | "privilege-required" // user does not have required privilege
   | "system-offline" // subsystem is offline
@@ -28,7 +29,10 @@ export type PolicyResponse =
   | "array-contains-invalid-value" // assertion specifies a value not be included
   | "array-missing-required-value" // assertion specifies a value not be included
   | "property-mismatch"
-  | "entity-property-not-found"
-  | "entity-lookup-property-not-found"
-  | "context-lookup-property-not-found"
+  | "user-not-group-member"
+  | "user-not-group-manager"
+  | "user-not-group-owner"
+  | "assertion-property-not-found"
+  | "assertion-failed" // assertion condition was not met
+  | "assertion-requires-numeric-values" // assertion requires numeric values
   | "property-match";

@@ -46,7 +46,7 @@ describe("checkEdit:", () => {
     const chks = checkEdit(policy, ctx, entity);
     expect(chks.length).toBe(0);
   });
-  it("returns empty array if policy entityEdit is false", () => {
+  it("returns edit-access if policy entityEdit is false", () => {
     const ctx = {} as unknown as IArcGISContext;
     const policy = {
       entityEdit: false,
@@ -55,6 +55,7 @@ describe("checkEdit:", () => {
       canEdit: true,
     } as unknown as HubEntity;
     const chks = checkEdit(policy, ctx, entity);
-    expect(chks.length).toBe(0);
+    expect(chks.length).toBe(1);
+    expect(chks[0].response).toBe("edit-access");
   });
 });

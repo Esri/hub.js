@@ -13,46 +13,30 @@ const DiscussionPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "discussions:channel:createprivate",
     subsystems: ["discussions"],
+    authenticated: true,
+    licenses: ["hub-basic", "hub-premium"],
     assertions: [
       {
-        property: "context.isAuthenticated",
-        assertion: "eq",
-        value: true,
-      },
-      {
-        property: "context.license",
-        assertion: "included-in",
-        value: ["hub-basic", "hub-premium"],
-      },
-      {
-        property: "group.typekeywords",
-        assertion: "not-contains",
+        property: "entity:group.typekeywords",
+        assertion: "without",
         value: "cannotDiscuss",
       },
       {
-        property: "user.groupIds",
-        assertion: "contains",
-        value: "group.id",
+        property: "context:currentUser",
+        assertion: "is-group-admin",
+        value: "entity:group.id",
       },
     ],
   },
   {
     permission: "discussions:channel:create",
     subsystems: ["discussions"],
+    authenticated: true,
+    licenses: ["hub-basic", "hub-premium"],
     assertions: [
       {
-        property: "context.isAuthenticated",
-        assertion: "eq",
-        value: true,
-      },
-      {
-        property: "context.license",
-        assertion: "included-in",
-        value: ["hub-basic", "hub-premium"],
-      },
-      {
-        property: "typeKeywords",
-        assertion: "not-contains",
+        property: "entity:typeKeywords",
+        assertion: "without",
         value: "cannotDiscuss",
       },
     ],
@@ -60,20 +44,12 @@ const DiscussionPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "discussions:post:create",
     subsystems: ["discussions"],
+    authenticated: true,
+    licenses: ["hub-basic", "hub-premium"],
     assertions: [
       {
-        property: "context.isAuthenticated",
-        assertion: "eq",
-        value: true,
-      },
-      {
-        property: "context.license",
-        assertion: "included-in",
-        value: ["hub-basic", "hub-premium"],
-      },
-      {
-        property: "typeKeywords",
-        assertion: "not-contains",
+        property: "entity:typeKeywords",
+        assertion: "without",
         value: "cannotDiscuss",
       },
     ],

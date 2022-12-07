@@ -1,5 +1,4 @@
 import { IArcGISContext } from "../../ArcGISContext";
-import { HubEntity } from "../../core";
 import { IPermissionPolicy, PolicyResponse, IPolicyCheck } from "../types";
 import { getPolicyResponseCode } from "./getPolicyResponseCode";
 
@@ -15,20 +14,24 @@ export function checkAuthentication(
   context: IArcGISContext,
   entity?: Record<string, any>
 ): IPolicyCheck[] {
-  let response: PolicyResponse = "granted";
+  const checks = [] as IPolicyCheck[];
 
   // Only return a check if the policy is defined
-  if (policy.authenticated && !context.isAuthenticated) {
-    response = "not-authenticated";
+  if (policy.hasOwnProperty("authenticated")) {
+    let response: PolicyResponse = "granted";
+
+    if (policy.authenticated && !context.isAuthenticated) {
+      response = "not-authenticated";
+    }
+
+    // create the check
+    const check: IPolicyCheck = {
+      name: "authentication",
+      value: `required: ${policy.authenticated}`,
+      code: getPolicyResponseCode(response),
+      response,
+    };
+    checks.push(check);
   }
-
-  // create the check
-  const check: IPolicyCheck = {
-    name: "authentication",
-    value: `required: ${policy.authenticated}`,
-    code: getPolicyResponseCode(response),
-    response,
-  };
-
-  return [check];
+  return checks;
 }

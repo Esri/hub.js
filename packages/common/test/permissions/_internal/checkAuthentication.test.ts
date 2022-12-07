@@ -26,15 +26,14 @@ describe("checkAuthentication:", () => {
     expect(chks.length).toBe(1);
     expect(chks[0].response).toBe("granted");
   });
-  it("returns granted if policy does not define auth", () => {
+  it("returns no checks if policy does not define auth", () => {
     const ctx = {
       isAuthenticated: true,
     } as unknown as IArcGISContext;
     const policy = {} as unknown as IPermissionPolicy;
 
     const chks = checkAuthentication(policy, ctx);
-    expect(chks.length).toBe(1);
-    expect(chks[0].response).toBe("granted");
+    expect(chks.length).toBe(0);
   });
   it("returns not-authenticated if policy requires auth and user not authd", () => {
     const ctx = {

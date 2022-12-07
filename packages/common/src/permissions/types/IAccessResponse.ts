@@ -24,6 +24,11 @@ export interface IAccessResponse {
    */
   response: PolicyResponse;
   /**
+   * Message with details access response. Typically used to return additional
+   * information about assertion failures
+   */
+  message?: string;
+  /**
    * List of all the policies that were checked, and their responses
    * For debugging / observability
    */

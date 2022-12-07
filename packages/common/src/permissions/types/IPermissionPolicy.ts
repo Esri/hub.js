@@ -2,6 +2,7 @@ import { HubLicense } from "./HubLicense";
 import { HubSubsystem } from "../../core/types/ISystemStatus";
 import { Permission } from "./Permission";
 import { PlatformPrivilege } from "./PlatformPrivilege";
+import { IEntityPermissionPolicy } from "./IEntityPermissionPolicy";
 
 /**
  * Defines a system level policy for a specific permission.
@@ -36,76 +37,40 @@ export interface IPermissionPolicy {
   privileges?: PlatformPrivilege[];
 
   /**
+   * Is the user an owner of the entity being accessed?
+   */
+  entityEdit?: boolean;
+
+  /**
+   * Must the user be the owner of the entity being accessed?
+   */
+  entityOwner?: boolean;
+
+  /**
    * Is this gated to alpha orgs?
    */
   alpha?: boolean;
   /**
-   *
+   * More complex policies can be defined with a set of assertions
    */
   assertions?: IPolicyAssertion[];
 }
 
 export interface IPolicyAssertion {
   property: string;
-  assertion:
-    | "eq"
-    | "neq"
-    | "gt"
-    | "lt"
-    | "contains"
-    | "contains-all"
-    | "not-contains"
-    | "included-in";
+  assertion: AssertionType;
   value: any;
 }
 
-const userInGroup: IPolicyAssertion = {
-  property: "mapBy:id:context.currentUser.groups",
-  assertion: "contains",
-  value: "entity.group.id",
-};
-
-const mostlyComplete: IPolicyAssertion = {
-  property: "item.properties.percentComplete",
-  assertion: "gt",
-  value: 75,
-};
-
-const before2020: IPolicyAssertion = {
-  property: "item.modified",
-  assertion: "lt",
-  value: 1577836800000,
-};
-
-const itemCreatedAfterGroup: IPolicyAssertion = {
-  property: "item.created",
-  assertion: "gt",
-  value: "group.created",
-};
-
-const permsission = {
-  permission: "discussions:channel:createprivate",
-  subsystems: ["discussions"],
-  assertions: [
-    {
-      property: "context.isAuthenticated",
-      assertion: "eq",
-      value: true,
-    },
-    {
-      property: "typeKeywords",
-      assertion: "not-contains",
-      value: "cannotDiscuss",
-    },
-    {
-      property: "context.license",
-      assertion: "included-in",
-      value: ["hub-basic", "hub-premium"],
-    },
-    {
-      property: "mapBy:id:context.currentUser.groups",
-      assertion: "contains",
-      value: "entity.group.id",
-    },
-  ],
-};
+export type AssertionType =
+  | "eq"
+  | "neq"
+  | "gt"
+  | "lt"
+  | "contains"
+  | "contains-all"
+  | "without"
+  | "included-in"
+  | "is-group-admin"
+  | "is-group-member"
+  | "is-group-owner";

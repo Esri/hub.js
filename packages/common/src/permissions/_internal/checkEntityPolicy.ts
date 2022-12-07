@@ -1,12 +1,12 @@
 import { IArcGISContext } from "../../ArcGISContext";
-import { getProp } from "../../objects";
+import { getProp, getWithDefault } from "../../objects";
 import {
   IPolicyCheck,
   PolicyResponse,
   IEntityPermissionPolicy,
 } from "../types";
 import { getPolicyResponseCode } from "./getPolicyResponseCode";
-import { IGroup } from "@esri/arcgis-rest-portal";
+import { IGroup, IUser } from "@esri/arcgis-rest-portal";
 
 /**
  * Validate user meets entity policy
@@ -14,12 +14,11 @@ import { IGroup } from "@esri/arcgis-rest-portal";
  * @param context
  * @returns
  */
-
 export function checkEntityPolicy(
   policy: IEntityPermissionPolicy,
   context: IArcGISContext
 ): IPolicyCheck {
-  const user = context.currentUser;
+  const user = context.currentUser || ({ groups: [] } as IUser);
   const userGroups = user.groups || ([] as IGroup[]);
   let response: PolicyResponse = "not-granted";
   const type = policy.collaborationType;
@@ -51,7 +50,8 @@ export function checkEntityPolicy(
 
   if (type === "group-admin") {
     const group = userGroups.find((g: IGroup) => g.id === id);
-    if (getProp(group, "userMembership.memberType") === "admin") {
+    const memberType = getProp(group, "userMembership.memberType");
+    if (["admin", "owner"].includes(memberType)) {
       response = "granted";
     } else {
       response = "not-group-admin";
@@ -62,7 +62,7 @@ export function checkEntityPolicy(
     if (context.isAuthenticated) {
       response = "granted";
     } else {
-      response = "not-group-admin";
+      response = "not-authenticated";
     }
   }
 
