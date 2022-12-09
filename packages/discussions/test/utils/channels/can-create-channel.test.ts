@@ -65,12 +65,6 @@ function buildCompleteAcl() {
   ];
 }
 
-function buildLegacyChannel(overrides = {}) {
-  const legacyChannel = {};
-
-  return { ...legacyChannel, ...overrides } as IChannel;
-}
-
 describe("canCreateChannel", () => {
   describe("With ChannelAcl Permissions", () => {
     it("returns false if user not authenticated", () => {

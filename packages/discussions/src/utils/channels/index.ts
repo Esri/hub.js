@@ -7,11 +7,11 @@ export { canPostToChannel } from "./can-post-to-channel";
 export { canCreateChannel } from "./can-create-channel";
 
 function intersectGroups(
-  membershipTypes: GroupMembership[] // which user groups to allow
+  membershipTypes: GroupMembership[]
 ): (arg0: IUser, arg1: IChannel) => boolean {
   return (user: IUser, channel: IChannel): boolean => {
-    const { groups: sharedGroups } = channel; // channel groups
-    const { groups: userGroups } = user; // user groups
+    const { groups: sharedGroups } = channel;
+    const { groups: userGroups } = user;
     const eligibleUserGroups = userGroups.reduce(
       reduceByGroupMembership(membershipTypes),
       []
