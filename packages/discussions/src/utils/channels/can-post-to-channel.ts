@@ -35,7 +35,7 @@ export function canPostToChannel(
     return isAuthorizedToPostByAcl(user, acl);
   }
 
-  // Once ACL usage is enforce, we will remove authorization by legacy permissions
+  // Once ACL usage is enforced, we will remove authorization by legacy permissions
   return isAuthorizedToPostByLegacyPermissions(user, {
     access,
     groups,

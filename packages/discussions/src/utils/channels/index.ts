@@ -7,8 +7,7 @@ export { canPostToChannel } from "./can-post-to-channel";
 export { canCreateChannel } from "./can-create-channel";
 
 function intersectGroups(
-  membershipTypes: GroupMembership[], // which user groups to allow
-  strict?: boolean
+  membershipTypes: GroupMembership[] // which user groups to allow
 ): (arg0: IUser, arg1: IChannel) => boolean {
   return (user: IUser, channel: IChannel): boolean => {
     const { groups: sharedGroups } = channel; // channel groups
@@ -17,7 +16,7 @@ function intersectGroups(
       reduceByGroupMembership(membershipTypes),
       []
     );
-    const method = strict ? "every" : "some";
+    const method = "some";
     return sharedGroups[method](
       (group) => eligibleUserGroups.indexOf(group) > -1
     );
@@ -71,28 +70,6 @@ export function canModifyChannel(channel: IChannel, user: IUser): boolean {
   // if org or public channel, must be org admin
   return isChannelOrgAdmin(channel, user);
 }
-
-// /**
-//  * Utility to determine whether User can create Channel of provided IChannel properties
-//  *
-//  * @export
-//  * @param {IChannel} channel
-//  * @param {IUser} user
-//  * @return {*}  {boolean}
-//  */
-// export function canCreateChannel(
-//   channel: IChannel,
-//   user: IDiscussionsUser
-// ): boolean {
-//   if (channel.access === "private") {
-//     // ensure user is member of all groups included
-//     return intersectGroups(["owner", "admin", "member"], true)(user, channel);
-//   }
-//   // if org or public channel, must be org admin
-//   return isChannelOrgAdmin(channel, user);
-// }
-
-// export { canCreateChannel } from './can-create-channel';
 
 /**
  * Utility to determine whether a Channel definition (inner) is encapsulated by another Channel's definition (outer)
