@@ -1,3 +1,15 @@
+# @esri/hub-discussions [18.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@18.0.0...@esri/hub-discussions@18.1.0) (2022-12-12)
+
+
+### Bug Fixes
+
+* **hub-discussions:** acl to canCreateChannel wip ([113d7ee](https://github.com/Esri/hub.js/commit/113d7eedb5f53c699519c56d2f69fdde2ccbf52d))
+
+
+### Features
+
+* **hub-discussions:** add channelAcl support to canCreateChannel ([9204d26](https://github.com/Esri/hub.js/commit/9204d262d22bcb17a6ffc435f4a0ae146a90d4bc))
+
 # @esri/hub-discussions [18.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@17.1.0...@esri/hub-discussions@18.0.0) (2022-12-06)
 
 
