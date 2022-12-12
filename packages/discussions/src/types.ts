@@ -810,7 +810,7 @@ export interface IChannelAclPermissionDefinition {
   subCategory?: AclSubCategory;
   key?: string;
   role: Role;
-  restrictedBefore?: Date;
+  restrictedBefore?: string;
 }
 
 /**
@@ -837,7 +837,7 @@ export interface IChannelAclPermission
     IWithEditor,
     IWithTimestamps {
   id: string;
-  restrictedBefore: Date;
+  restrictedBefore: string;
 }
 
 /**
