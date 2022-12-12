@@ -6,9 +6,10 @@ import {
   IDiscussionsUser,
   SharingAccess,
 } from "../../types";
+import { CANNOT_DISCUSS } from "../constants";
 import { isOrgAdmin } from "../platform";
 
-const ALLOWED_USER_GROUP_ROLES = Object.freeze(["owner", "admin", "member"]);
+const ALLOWED_GROUP_ROLES = Object.freeze(["owner", "admin", "member"]);
 
 type ILegacyChannelPermissions = Pick<IChannel, "access" | "groups" | "orgs">;
 
@@ -90,35 +91,26 @@ function canAllowGroups(
   if (!groupPermissions) {
     return true;
   }
-  return isMemberOfAllChannelGroups(user.groups, groupPermissions);
-}
-
-function isMemberOfAllChannelGroups(
-  userGroups: IGroup[],
-  groupPermissions?: IChannelAclPermissionDefinition[]
-) {
-  const userGroupsById = buildUserGroupsById(userGroups);
 
   return groupPermissions.every((groupPermission) => {
-    const { key: groupId } = groupPermission;
+    const { key: channelGroupId } = groupPermission;
 
-    return userGroupsById[groupId];
+    const userGroup = user.groups.find((group) => group.id === channelGroupId);
+
+    return (
+      userGroup &&
+      isMemberTypeAuthorized(userGroup.userMembership.memberType) &&
+      isGroupDiscussable(userGroup.typeKeywords)
+    );
   });
 }
 
-function buildUserGroupsById(userGroups: IGroup[]) {
-  return userGroups.reduce((accum, userGroup) => {
-    const {
-      id: userGroupId,
-      userMembership: { memberType },
-    } = userGroup;
+function isMemberTypeAuthorized(memberType: string) {
+  return ALLOWED_GROUP_ROLES.includes(memberType);
+}
 
-    if (ALLOWED_USER_GROUP_ROLES.includes(memberType)) {
-      accum[userGroupId] = true;
-    }
-
-    return accum;
-  }, {} as Record<string, boolean>);
+function isGroupDiscussable(typeKeywords: string[] = []) {
+  return !typeKeywords.includes(CANNOT_DISCUSS);
 }
 
 function canAllowOrgs(
@@ -166,22 +158,26 @@ function isAuthorizedToCreateByLegacyPermissions(
   }
 
   if (access === SharingAccess.PRIVATE) {
-    return isMemberOfAllChanelGroupsLegacy(userGroups, channelGroupIds);
+    return canAllowGroupsLegacy(userGroups, channelGroupIds);
   }
 
   // public or org access
   return isOrgAdminAndInChannelOrgs(user, channelOrgs);
 }
 
-function isMemberOfAllChanelGroupsLegacy(
+function canAllowGroupsLegacy(
   userGroups: IGroup[],
   channelGroupIds: string[]
 ): boolean {
-  const userGroupsById = buildUserGroupsById(userGroups);
+  return channelGroupIds.every((channelGroupId) => {
+    const userGroup = userGroups.find((group) => group.id === channelGroupId);
 
-  return channelGroupIds.every(
-    (channelGroupId) => userGroupsById[channelGroupId]
-  );
+    return (
+      userGroup &&
+      isMemberTypeAuthorized(userGroup.userMembership.memberType) &&
+      isGroupDiscussable(userGroup.typeKeywords)
+    );
+  });
 }
 
 function isOrgAdminAndInChannelOrgs(

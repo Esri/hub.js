@@ -8,6 +8,7 @@ import {
   SharingAccess,
 } from "../../../src/types";
 import { canCreateChannel } from "../../../src/utils/channels";
+import { CANNOT_DISCUSS } from "../../../src/utils/constants";
 
 const orgId1 = "3ef";
 const groupId1 = "aaa";
@@ -25,10 +26,11 @@ function buildUser(overrides = {}) {
   return { ...defaultUser, ...overrides } as IDiscussionsUser;
 }
 
-function buildGroup(id: string, memberType: string) {
+function buildGroup(id: string, memberType: string, typeKeywords?: string[]) {
   return {
     id,
     userMembership: { memberType },
+    typeKeywords,
   } as any as IGroup;
 }
 
@@ -139,7 +141,7 @@ describe("canCreateChannel", () => {
     });
 
     describe("Group Permissions", () => {
-      it("returns true if user is a member of all groups and memberType is member or admin", async () => {
+      it("returns true if user is a member of all groups and memberType is member, admin, or owner", async () => {
         const channel = {
           channelAcl: [
             {
@@ -154,34 +156,19 @@ describe("canCreateChannel", () => {
               key: groupId2,
               role: Role.READ,
             },
-          ],
-        } as IChannel;
-        const user = buildUser();
-
-        expect(canCreateChannel(channel, user)).toEqual(true);
-      });
-
-      it("returns true is user is a member of all groups and memberType is owner", async () => {
-        const channel = {
-          channelAcl: [
-            {
-              category: AclCategory.GROUP,
-              subCategory: AclSubCategory.ADMIN,
-              key: groupId1,
-              role: Role.OWNER,
-            },
             {
               category: AclCategory.GROUP,
               subCategory: AclSubCategory.MEMBER,
-              key: groupId2,
+              key: groupId3,
               role: Role.READ,
             },
           ],
         } as IChannel;
         const user = buildUser({
           groups: [
-            buildGroup(groupId1, "admin"),
-            buildGroup(groupId2, "owner"),
+            buildGroup(groupId1, "member"),
+            buildGroup(groupId2, "admin"),
+            buildGroup(groupId3, "owner"),
           ],
         });
 
@@ -212,6 +199,33 @@ describe("canCreateChannel", () => {
         expect(canCreateChannel(channel, user)).toEqual(false);
       });
 
+      it("returns false is user is a member of all groups but group is not discussable", async () => {
+        const channel = {
+          channelAcl: [
+            {
+              category: AclCategory.GROUP,
+              subCategory: AclSubCategory.ADMIN,
+              key: groupId1,
+              role: Role.OWNER,
+            },
+            {
+              category: AclCategory.GROUP,
+              subCategory: AclSubCategory.MEMBER,
+              key: groupId2,
+              role: Role.READ,
+            },
+          ],
+        } as IChannel;
+        const user = buildUser({
+          groups: [
+            buildGroup(groupId1, "admin"),
+            buildGroup(groupId2, "member", [CANNOT_DISCUSS]),
+          ],
+        });
+
+        expect(canCreateChannel(channel, user)).toEqual(false);
+      });
+
       it("returns false if user is not a member of every group", async () => {
         const channel = {
           channelAcl: [
@@ -230,9 +244,9 @@ describe("canCreateChannel", () => {
             {
               category: AclCategory.GROUP,
               subCategory: AclSubCategory.ADMIN,
-              key: groupId3,
+              key: groupId3, // user not member here
               role: Role.READWRITE,
-            }, // user not member here
+            },
           ],
         } as IChannel;
         const user = buildUser();
@@ -355,9 +369,41 @@ describe("canCreateChannel", () => {
         const channel = {
           access: SharingAccess.PRIVATE,
           orgs: [orgId1],
-          groups: [groupId1, groupId2, groupId3], // groupId3
+          groups: [groupId1, groupId2, groupId3], // groupId3 not a user group
         } as IChannel;
         const user = buildUser();
+
+        expect(canCreateChannel(channel, user)).toEqual(false);
+      });
+
+      it("returns false if user is a member of all channel groups but memberType is not authorized", () => {
+        const channel = {
+          access: SharingAccess.PRIVATE,
+          orgs: [orgId1],
+          groups: [groupId1, groupId2],
+        } as IChannel;
+        const user = buildUser({
+          groups: [
+            buildGroup(groupId1, "member"),
+            buildGroup(groupId2, "none"), // memberType none not authorized
+          ],
+        });
+
+        expect(canCreateChannel(channel, user)).toEqual(false);
+      });
+
+      it("returns false if user is a member of all channel groups but group is not discussable", () => {
+        const channel = {
+          access: SharingAccess.PRIVATE,
+          orgs: [orgId1],
+          groups: [groupId1, groupId2],
+        } as IChannel;
+        const user = buildUser({
+          groups: [
+            buildGroup(groupId1, "member"),
+            buildGroup(groupId2, "admin", [CANNOT_DISCUSS]),
+          ],
+        });
 
         expect(canCreateChannel(channel, user)).toEqual(false);
       });
