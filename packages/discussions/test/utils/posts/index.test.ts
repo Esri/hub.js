@@ -1,7 +1,5 @@
-import { IItem } from "@esri/arcgis-rest-portal";
 import { IGroup, IUser } from "@esri/arcgis-rest-types";
 import { IChannel, IDiscussionParams, IPost } from "../../../src/types";
-import { IHubContent } from "@esri/hub-common";
 import {
   isDiscussable,
   parseDiscussionURI,

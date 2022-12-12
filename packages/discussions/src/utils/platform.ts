@@ -12,7 +12,7 @@ import { GroupMembership, IGroup, IUser } from "@esri/arcgis-rest-portal";
 export function reduceByGroupMembership(
   membershipTypes: GroupMembership[]
 ): (memo: string[], group: IGroup) => string[] {
-  return function(memo, group) {
+  return function (memo, group) {
     if (membershipTypes.indexOf(group.userMembership.memberType) > -1) {
       memo.push(group.id);
     }

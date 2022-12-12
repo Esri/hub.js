@@ -20,8 +20,10 @@ const ALLOWED_ROLES_FOR_POSTING = Object.freeze([
   Role.OWNER,
 ]);
 
-interface ILegacyChannelPermissions
-  extends Pick<IChannel, "groups" | "orgs" | "access" | "allowAnonymous"> {}
+type ILegacyChannelPermissions = Pick<
+  IChannel,
+  "groups" | "orgs" | "access" | "allowAnonymous"
+>;
 
 export function canPostToChannel(
   channel: IChannel,
@@ -33,7 +35,7 @@ export function canPostToChannel(
     return isAuthorizedToPostByAcl(user, acl);
   }
 
-  // Once ACL usage is enforce, we will remove authorization by legacy permissions
+  // Once ACL usage is enforced, we will remove authorization by legacy permissions
   return isAuthorizedToPostByLegacyPermissions(user, {
     access,
     groups,
