@@ -1,5 +1,4 @@
 import { IArcGISContext } from "../../ArcGISContext";
-import { HubEntity } from "../../core";
 import { IPermissionPolicy, PolicyResponse, IPolicyCheck } from "../types";
 import { getPolicyResponseCode } from "./getPolicyResponseCode";
 
