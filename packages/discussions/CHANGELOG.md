@@ -1,3 +1,10 @@
+## @esri/hub-discussions [18.1.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@18.1.0...@esri/hub-discussions@18.1.1) (2022-12-13)
+
+
+### Bug Fixes
+
+* **hub-discussions:** change restrictedBefore type to string ([1be358d](https://github.com/Esri/hub.js/commit/1be358d2e72a40ec5fa877682521f675f76f56b5))
+
 # @esri/hub-discussions [18.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@18.0.0...@esri/hub-discussions@18.1.0) (2022-12-12)
 
 
