@@ -24,7 +24,7 @@ describe("Check Permissions", () => {
         TEST_ITEM_ID,
         context
       );
-      debugger;
+
       // check permissions on a site
       // SYSTEM POLICY
       // {
@@ -54,7 +54,6 @@ describe("Check Permissions", () => {
       // },
       // ];
       const results = checkPermission("hub:site:edit", context, entity);
-      debugger;
 
       // Send Arbitrary Entity with cross lookups
       const group: IGroup = {
@@ -83,12 +82,11 @@ describe("Check Permissions", () => {
       //     },
       //   ],
       // },
-      const chk = checkPermission(
-        "discussions:channel:createprivate",
-        context,
-        { group, user }
-      );
-      debugger;
+      // const chk = checkPermission(
+      //   "discussions:channel:createprivate",
+      //   context,
+      //   { group, user }
+      // );
     });
   });
 });

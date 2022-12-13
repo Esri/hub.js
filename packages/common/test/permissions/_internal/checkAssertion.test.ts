@@ -6,7 +6,7 @@ describe("checkAssertion:", () => {
     it("if default entity property lookup fails, returns error", () => {
       const assertion: IPolicyAssertion = {
         property: "foo",
-        assertion: "eq",
+        type: "eq",
         value: "bar",
       };
       const ctx = {
@@ -19,7 +19,7 @@ describe("checkAssertion:", () => {
     it("if entity property lookup fails, returns error", () => {
       const assertion: IPolicyAssertion = {
         property: "entity:foo",
-        assertion: "eq",
+        type: "eq",
         value: "bar",
       };
       const ctx = {
@@ -32,7 +32,7 @@ describe("checkAssertion:", () => {
     it("if context property lookup fails, returns error", () => {
       const assertion: IPolicyAssertion = {
         property: "context:foo",
-        assertion: "eq",
+        type: "eq",
         value: "bar",
       };
       const ctx = {
@@ -45,7 +45,7 @@ describe("checkAssertion:", () => {
     it("if entity value lookup fails, returns error", () => {
       const assertion: IPolicyAssertion = {
         property: "foo",
-        assertion: "eq",
+        type: "eq",
         value: "entity:baz",
       };
       const ctx = {
@@ -63,7 +63,7 @@ describe("checkAssertion:", () => {
     it("entity prop eq val: granted", () => {
       const assertion: IPolicyAssertion = {
         property: "color",
-        assertion: "eq",
+        type: "eq",
         value: "red",
       };
       const ctx = {
@@ -78,7 +78,7 @@ describe("checkAssertion:", () => {
     it("entity prop neq val: granted", () => {
       const assertion: IPolicyAssertion = {
         property: "color",
-        assertion: "neq",
+        type: "neq",
         value: "blue",
       };
       const ctx = {
@@ -93,7 +93,7 @@ describe("checkAssertion:", () => {
     it("entity prop eq val: failed", () => {
       const assertion: IPolicyAssertion = {
         property: "color",
-        assertion: "eq",
+        type: "eq",
         value: "red",
       };
       const ctx = {
@@ -108,7 +108,7 @@ describe("checkAssertion:", () => {
     it("entity prop neq val: failed", () => {
       const assertion: IPolicyAssertion = {
         property: "color",
-        assertion: "neq",
+        type: "neq",
         value: "blue",
       };
       const ctx = {
@@ -123,7 +123,7 @@ describe("checkAssertion:", () => {
     it("entity: prop eq val: granted", () => {
       const assertion: IPolicyAssertion = {
         property: "entity:color",
-        assertion: "eq",
+        type: "eq",
         value: "red",
       };
       const ctx = {
@@ -138,7 +138,7 @@ describe("checkAssertion:", () => {
     it("entity: prop neq val: granted", () => {
       const assertion: IPolicyAssertion = {
         property: "entity:color",
-        assertion: "neq",
+        type: "neq",
         value: "blue",
       };
       const ctx = {
@@ -153,7 +153,7 @@ describe("checkAssertion:", () => {
     it("two props on entity eq: granted", () => {
       const assertion: IPolicyAssertion = {
         property: "entity:color",
-        assertion: "eq",
+        type: "eq",
         value: "entity:deep.color",
       };
       const ctx = {
@@ -169,7 +169,7 @@ describe("checkAssertion:", () => {
     it("two props on entity neq: granted", () => {
       const assertion: IPolicyAssertion = {
         property: "entity:color",
-        assertion: "neq",
+        type: "neq",
         value: "entity:deep.color",
       };
       const ctx = {
@@ -187,7 +187,7 @@ describe("checkAssertion:", () => {
     it("entity prop contains val", () => {
       const assertion: IPolicyAssertion = {
         property: "colors",
-        assertion: "contains",
+        type: "contains",
         value: "red",
       };
       const ctx = {
@@ -215,7 +215,7 @@ describe("checkAssertion:", () => {
     it("entity prop without val", () => {
       const assertion: IPolicyAssertion = {
         property: "colors",
-        assertion: "without",
+        type: "without",
         value: "red",
       };
       const ctx = {
@@ -242,7 +242,7 @@ describe("checkAssertion:", () => {
     it("prop not array error", () => {
       const assertion: IPolicyAssertion = {
         property: "colors",
-        assertion: "without",
+        type: "without",
         value: "red",
       };
       const ctx = {
@@ -263,7 +263,7 @@ describe("checkAssertion:", () => {
     it("prop gt val", () => {
       const assertion: IPolicyAssertion = {
         property: "count",
-        assertion: "gt",
+        type: "gt",
         value: 12,
       };
       const ctx = {
@@ -290,7 +290,7 @@ describe("checkAssertion:", () => {
     it("prop lt val", () => {
       const assertion: IPolicyAssertion = {
         property: "count",
-        assertion: "lt",
+        type: "lt",
         value: 12,
       };
       const ctx = {
@@ -317,7 +317,7 @@ describe("checkAssertion:", () => {
     it("non-numeric error", () => {
       const assertion: IPolicyAssertion = {
         property: "count",
-        assertion: "gt",
+        type: "gt",
         value: 12,
       };
       const ctx = {
@@ -338,7 +338,7 @@ describe("checkAssertion:", () => {
     it("entity prop included-in val", () => {
       const assertion: IPolicyAssertion = {
         property: "primaryColor",
-        assertion: "included-in",
+        type: "included-in",
         value: "entity:colors",
       };
       const ctx = {
@@ -367,7 +367,7 @@ describe("checkAssertion:", () => {
     it("non-array error", () => {
       const assertion: IPolicyAssertion = {
         property: "primaryColor",
-        assertion: "included-in",
+        type: "included-in",
         value: "entity:colors",
       };
       const ctx = {
@@ -399,7 +399,7 @@ describe("checkAssertion:", () => {
     it("is-group-manager", () => {
       const assertion: IPolicyAssertion = {
         property: "context:currentUser",
-        assertion: "is-group-admin",
+        type: "is-group-admin",
         value: "entity:group.id",
       };
 
@@ -431,7 +431,7 @@ describe("checkAssertion:", () => {
     it("is-group-member", () => {
       const assertion: IPolicyAssertion = {
         property: "context:currentUser",
-        assertion: "is-group-member",
+        type: "is-group-member",
         value: "entity:group.id",
       };
 
@@ -463,7 +463,7 @@ describe("checkAssertion:", () => {
     it("is-group-owner", () => {
       const assertion: IPolicyAssertion = {
         property: "context:currentUser",
-        assertion: "is-group-owner",
+        type: "is-group-owner",
         value: "entity:group.id",
       };
 
@@ -490,7 +490,7 @@ describe("checkAssertion:", () => {
       delete cloneCtx.currentUser.groups;
       const assertion: IPolicyAssertion = {
         property: "context:currentUser",
-        assertion: "is-group-member",
+        type: "is-group-member",
         value: "entity:group.id",
       };
 

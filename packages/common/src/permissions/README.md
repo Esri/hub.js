@@ -1,5 +1,7 @@
 # Permissions
 
+## TODO: Write general Permissions section and add to Guides
+
 ## Permission Assertions
 
 Example Assertions

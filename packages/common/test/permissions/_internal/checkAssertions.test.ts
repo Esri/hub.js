@@ -10,8 +10,8 @@ import { checkAssertions } from "../../../src/permissions/_internal/checkAsserti
 describe("checkAssertions:", () => {
   it("returns empty checks if no assertions present", () => {
     const policy: IPermissionPolicy = {
-      permission: "discussions:channel:create",
-      subsystems: ["discussions"],
+      permission: "hub:project:create",
+      subsystems: ["projects"],
     };
     const ctx = {
       isAuthenticated: true,
@@ -22,17 +22,17 @@ describe("checkAssertions:", () => {
   });
   it("maps over assertions", () => {
     const policy: IPermissionPolicy = {
-      permission: "discussions:channel:create",
-      subsystems: ["discussions"],
+      permission: "hub:project:create",
+      subsystems: ["projects"],
       assertions: [
         {
           property: "context:currentUser",
-          assertion: "is-group-owner",
+          type: "is-group-owner",
           value: "entity.group.id",
         },
         {
           property: "context:currentUser.username",
-          assertion: "eq",
+          type: "eq",
           value: "entity.owner",
         },
       ],

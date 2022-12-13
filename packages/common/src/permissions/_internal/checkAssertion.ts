@@ -1,3 +1,4 @@
+import { IGroup } from "@esri/arcgis-rest-portal";
 import { IArcGISContext } from "../../ArcGISContext";
 import { getProp } from "../../objects";
 import { mapBy } from "../../utils";
@@ -41,8 +42,8 @@ export function checkAssertion(
   // if we have the two values, we can make the assertion
   if (propValue !== undefined && val !== undefined) {
     // TODO: Should these fns return IPolicyCheck? or just the response?
-    // TODO: Should these fns inspect the assertion internally? or switch case here?
-    switch (assertion.assertion) {
+    // TODO: Should these fns inspect the type internally? or switch case here?
+    switch (assertion.type) {
       case "eq":
       case "neq":
         response = equalityAssertions(assertion, propValue, val);
@@ -67,7 +68,7 @@ export function checkAssertion(
   }
 
   const result: IPolicyCheck = {
-    name: `assertion: ${assertion.property} ${assertion.assertion} ${assertion.value}`,
+    name: `assertion: ${assertion.property} ${assertion.type} ${assertion.value}`,
     value: propValue,
     code: getPolicyResponseCode(response),
     response,
@@ -89,30 +90,22 @@ function groupAssertions(
   let groups = mapBy("id", userGroups);
   let failResponse: PolicyResponse = "user-not-group-member";
 
-  // if they are manage, filter to those groups
-  if (assertion.assertion === "is-group-admin") {
+  if (assertion.type === "is-group-member") {
+    failResponse = "user-not-group-member";
+    // no need to filter - this is anyone who's a member
+    groups = filterByMembershipType(userGroups, ["admin", "owner", "member"]);
+  }
+
+  if (assertion.type === "is-group-admin") {
     failResponse = "user-not-group-manager";
-    groups = userGroups.reduce((acc, grp) => {
-      if (grp.userMembership.memberType === "admin") {
-        acc.push(grp.id);
-      }
-      // if they are an owner, they are also a manager
-      if (grp.userMembership.memberType === "owner") {
-        acc.push(grp.id);
-      }
-      return acc;
-    }, []);
+    groups = filterByMembershipType(userGroups, ["admin", "owner"]);
   }
-  // if they are owner, filter to those groups
-  if (assertion.assertion === "is-group-owner") {
+
+  if (assertion.type === "is-group-owner") {
     failResponse = "user-not-group-owner";
-    groups = userGroups.reduce((acc, grp) => {
-      if (grp.userMembership.memberType === "owner") {
-        acc.push(grp.id);
-      }
-      return acc;
-    }, []);
+    groups = filterByMembershipType(userGroups, ["owner"]);
   }
+
   // now, see if the val is in the groups array
   if (!groups.includes(val)) {
     // send a specific response
@@ -120,6 +113,15 @@ function groupAssertions(
   }
 
   return response;
+}
+
+function filterByMembershipType(groups: IGroup[], types: string[]): IGroup[] {
+  return groups.reduce((acc, grp) => {
+    if (types.includes(grp.userMembership.memberType)) {
+      acc.push(grp.id);
+    }
+    return acc;
+  }, []);
 }
 
 /**
@@ -159,9 +161,9 @@ function equalityAssertions(
   val: any
 ): PolicyResponse {
   let response: PolicyResponse = "granted";
-  if (assertion.assertion === "eq" && propValue !== val) {
+  if (assertion.type === "eq" && propValue !== val) {
     response = "assertion-failed";
-  } else if (assertion.assertion === "neq" && propValue === val) {
+  } else if (assertion.type === "neq" && propValue === val) {
     response = "assertion-failed";
   }
   return response;
@@ -185,9 +187,9 @@ function rangeAssertions(
     response = "assertion-requires-numeric-values";
   }
 
-  if (assertion.assertion === "gt" && propValue < val) {
+  if (assertion.type === "gt" && propValue < val) {
     response = "assertion-failed";
-  } else if (assertion.assertion === "lt" && propValue > val) {
+  } else if (assertion.type === "lt" && propValue > val) {
     response = "assertion-failed";
   }
   return response;
@@ -211,10 +213,10 @@ function arrayAssertions(
   } else {
     const arrayProp = propValue as any[];
     const arrayContainsValue = arrayProp.includes(val);
-    if (assertion.assertion === "contains" && !arrayContainsValue) {
+    if (assertion.type === "contains" && !arrayContainsValue) {
       response = "array-missing-required-value";
     }
-    if (assertion.assertion === "without" && arrayContainsValue) {
+    if (assertion.type === "without" && arrayContainsValue) {
       response = "array-contains-invalid-value";
     }
   }

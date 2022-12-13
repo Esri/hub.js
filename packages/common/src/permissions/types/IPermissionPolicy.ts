@@ -58,7 +58,7 @@ export interface IPermissionPolicy {
 
 export interface IPolicyAssertion {
   property: string;
-  assertion: AssertionType;
+  type: AssertionType;
   value: any;
 }
 

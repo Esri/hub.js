@@ -1,21 +1,12 @@
+import { ProjectPermissions } from "../../projects/_internal/ProjectPermissionPolicies";
+import { SitePermissions } from "../../sites/_internal/SitesPermissionPolicies";
+
 /**
  * Defines the values for Permissions
- * Note: This needs to be managed as a single list or typechecking does not work
- * We use an array so we can check for valid permissions
+ * It's critical that the arrays defined in the modules use `as const`
+ * otherwise Permission devolves into just a string type
  */
-const validPermissions = [
-  "hub:site:create",
-  "hub:site:delete",
-  "hub:site:edit",
-  "hub:site:view",
-  "hub:project:create",
-  "hub:project:delete",
-  "hub:project:edit",
-  "hub:project:view",
-  "discussions:channel:create",
-  "discussions:post:create",
-  "discussions:channel:createprivate",
-] as const;
+const validPermissions = [...SitePermissions, ...ProjectPermissions] as const;
 
 /**
  * Defines the possible values for Permissions
