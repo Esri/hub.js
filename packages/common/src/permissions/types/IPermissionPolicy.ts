@@ -2,6 +2,7 @@ import { HubLicense } from "./HubLicense";
 import { HubSubsystem } from "../../core/types/ISystemStatus";
 import { Permission } from "./Permission";
 import { PlatformPrivilege } from "./PlatformPrivilege";
+import { IEntityPermissionPolicy } from "./IEntityPermissionPolicy";
 
 /**
  * Defines a system level policy for a specific permission.
@@ -22,33 +23,54 @@ export interface IPermissionPolicy {
   /**
    * Must the user authenticated?
    */
-  authenticated: boolean;
+  authenticated?: boolean;
   /**
    * What licenses are required for this permission to be granted.
    * This is checking the licese of the current user's org. It is not transitive to the entity being accessed.
    * e.g. If a user is in a Partner "hub-basic" org, they can not create "premium" entities (e.g. Projects)
    */
-  licenses: HubLicense[];
+  licenses?: HubLicense[];
   /**
    * Any platform level privileges required for this permission to be granted
    * e.g. "portal:user:createItem"
    */
   privileges?: PlatformPrivilege[];
+
   /**
-   * Does the user need to be in a specific platform role to be granted this permission?
-   * This is likely extremely rare.
-   */
-  roles?: string[];
-  /**
-   * Does the user require edit access to the entity to be granted this permission?
+   * Is the user an owner of the entity being accessed?
    */
   entityEdit?: boolean;
+
   /**
-   * Does the user need to be the owner of the entity to be granted this permission?
+   * Must the user be the owner of the entity being accessed?
    */
   entityOwner?: boolean;
+
   /**
    * Is this gated to alpha orgs?
    */
   alpha?: boolean;
+  /**
+   * More complex policies can be defined with a set of assertions
+   */
+  assertions?: IPolicyAssertion[];
 }
+
+export interface IPolicyAssertion {
+  property: string;
+  type: AssertionType;
+  value: any;
+}
+
+export type AssertionType =
+  | "eq"
+  | "neq"
+  | "gt"
+  | "lt"
+  | "contains"
+  | "contains-all"
+  | "without"
+  | "included-in"
+  | "is-group-admin"
+  | "is-group-member"
+  | "is-group-owner";

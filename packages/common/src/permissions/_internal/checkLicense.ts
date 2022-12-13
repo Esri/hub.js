@@ -11,27 +11,32 @@ import { getPolicyResponseCode } from "./getPolicyResponseCode";
  */
 export function checkLicense(
   policy: IPermissionPolicy,
-  context: IArcGISContext
+  context: IArcGISContext,
+  entity?: Record<string, any>
 ): IPolicyCheck[] {
-  let result: PolicyResponse = "granted";
+  const checks = [] as IPolicyCheck[];
+  // Only return a check if the policy is defined
+  if (policy.licenses?.length) {
+    let result: PolicyResponse = "granted";
 
-  if (!policy.licenses.includes(context.hubLicense)) {
-    result = "not-available";
-    // can we show an upgrade ux?
-    if (
-      policy.licenses[0] === "hub-premium" &&
-      context.hubLicense === "hub-basic"
-    ) {
-      result = "not-licensed"; // implies it could be licensed
+    if (!policy.licenses.includes(context.hubLicense)) {
+      result = "not-available";
+      // can we show an upgrade ux?
+      if (
+        policy.licenses[0] === "hub-premium" &&
+        context.hubLicense === "hub-basic"
+      ) {
+        result = "not-licensed"; // implies it could be licensed
+      }
     }
+
+    const check: IPolicyCheck = {
+      name: `license in ${policy.licenses.join(", ")}`,
+      value: context.hubLicense,
+      code: getPolicyResponseCode(result),
+      response: result,
+    };
+    checks.push(check);
   }
-
-  const check: IPolicyCheck = {
-    name: `license in ${policy.licenses.join(", ")}`,
-    value: context.hubLicense,
-    code: getPolicyResponseCode(result),
-    response: result,
-  };
-
-  return [check];
+  return checks;
 }

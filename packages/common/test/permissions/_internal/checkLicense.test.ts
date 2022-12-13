@@ -38,4 +38,13 @@ describe("checkLicense:", () => {
     expect(chks.length).toBe(1);
     expect(chks[0].response).toBe("granted");
   });
+  it("does not return check if licenses not defined", () => {
+    const ctx = {
+      hubLicense: "hub-basic",
+    } as unknown as IArcGISContext;
+    const policy = {} as unknown as IPermissionPolicy;
+
+    const chks = checkLicense(policy, ctx);
+    expect(chks.length).toBe(0);
+  });
 });

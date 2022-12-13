@@ -5,6 +5,13 @@ import { IPermissionPolicy } from "../../permissions/types";
  * These define the requirements any user must meet to perform related actions
  * @private
  */
+export const ProjectPermissions = [
+  "hub:project:create",
+  "hub:project:delete",
+  "hub:project:edit",
+  "hub:project:view",
+] as const;
+
 export const ProjectPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:project:create",
