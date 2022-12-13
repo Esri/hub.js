@@ -21,4 +21,10 @@ export interface IEntityPermissionPolicy {
 /**
  * Type of collaboration set. Used when associating a permission with a set of collaborators
  */
-export type CollaborationType = "user" | "group" | "group-admin" | "org";
+export type CollaborationType =
+  | "user"
+  | "group"
+  | "group-admin"
+  | "org"
+  | "authenticated"
+  | "anonymous";

@@ -13,7 +13,7 @@ import { getPolicyResponseCode } from "./getPolicyResponseCode";
 export function checkAlphaGating(
   policy: IPermissionPolicy,
   context: IArcGISContext,
-  entity?: HubEntity
+  entity?: Record<string, any>
 ): IPolicyCheck[] {
   const checks = [] as IPolicyCheck[];
   // Only return a check if the policy is defined

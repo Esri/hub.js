@@ -16,6 +16,7 @@ import { checkOwner } from "./_internal/checkOwner";
 import { checkEdit } from "./_internal/checkEdit";
 import { checkPrivileges } from "./_internal/checkPrivileges";
 import { checkEntityPolicy } from "./_internal/checkEntityPolicy";
+import { checkAssertions } from "./_internal/checkAssertions";
 
 /**
  * Check a permission against the system policies, and possibly an entity policy
@@ -27,7 +28,7 @@ import { checkEntityPolicy } from "./_internal/checkEntityPolicy";
 export function checkPermission(
   permission: Permission,
   context: IArcGISContext,
-  entity?: HubEntity
+  entity?: Record<string, any>
 ): IAccessResponse {
   // Early Exit: Is this even a valid permission?
   if (!isPermission(permission)) {
@@ -52,13 +53,13 @@ export function checkPermission(
     checks: [],
   };
 
-  // reduce over the check functions and collect all the checks
   const checks = [
     checkAuthentication,
     checkLicense,
     checkPrivileges,
-    checkEdit,
     checkOwner,
+    checkEdit,
+    checkAssertions,
   ].reduce((acc: IPolicyCheck[], fn) => {
     acc = [...acc, ...fn(systemPolicy, context, entity)];
     return acc;

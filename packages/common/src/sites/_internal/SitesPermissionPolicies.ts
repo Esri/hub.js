@@ -1,6 +1,17 @@
 import { IPermissionPolicy } from "../../permissions/types";
 
 /**
+ * Site Permissions
+ * This feeds into the Permissions type
+ */
+export const SitePermissions = [
+  "hub:site:create",
+  "hub:site:delete",
+  "hub:site:edit",
+  "hub:site:view",
+] as const;
+
+/**
  * Site permission policies
  * @private
  */

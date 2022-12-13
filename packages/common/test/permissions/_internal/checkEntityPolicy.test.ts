@@ -1,5 +1,5 @@
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
-import { IEntityPermissionPolicy } from "../../../src";
+import { IArcGISContext, IEntityPermissionPolicy } from "../../../src";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import { checkEntityPolicy } from "../../../src/permissions/_internal/checkEntityPolicy";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
@@ -25,6 +25,10 @@ describe("checkEntityPolicy:", () => {
           {
             id: "group2",
             userMembership: { memberType: "member" },
+          },
+          {
+            id: "group3",
+            userMembership: { memberType: "owner" },
           },
         ],
       } as unknown as IUser,
@@ -77,7 +81,7 @@ describe("checkEntityPolicy:", () => {
       const policy: IEntityPermissionPolicy = {
         permission: "hub:site:edit",
         collaborationType: "group",
-        collaborationId: "group3",
+        collaborationId: "group4",
       };
       const chk = checkEntityPolicy(policy, authdCtxMgr.context);
       expect(chk.response).toBe("not-group-member");
@@ -90,6 +94,15 @@ describe("checkEntityPolicy:", () => {
         permission: "hub:site:edit",
         collaborationType: "group-admin",
         collaborationId: "group1",
+      };
+      const chk = checkEntityPolicy(policy, authdCtxMgr.context);
+      expect(chk.response).toBe("granted");
+    });
+    it("grants if user is admin in group", () => {
+      const policy: IEntityPermissionPolicy = {
+        permission: "hub:site:edit",
+        collaborationType: "group-admin",
+        collaborationId: "group3",
       };
       const chk = checkEntityPolicy(policy, authdCtxMgr.context);
       expect(chk.response).toBe("granted");
@@ -107,7 +120,7 @@ describe("checkEntityPolicy:", () => {
       const policy: IEntityPermissionPolicy = {
         permission: "hub:site:edit",
         collaborationType: "group-admin",
-        collaborationId: "group3",
+        collaborationId: "group4",
       };
       const chk = checkEntityPolicy(policy, authdCtxMgr.context);
       expect(chk.response).toBe("not-group-admin");
@@ -143,6 +156,38 @@ describe("checkEntityPolicy:", () => {
       };
       const chk = checkEntityPolicy(policy, authdCtxMgr.context);
       expect(chk.response).toBe("not-org-member");
+    });
+  });
+  describe("authenticated and anao checks", () => {
+    it("if type anonymous always grant", () => {
+      const policy: IEntityPermissionPolicy = {
+        permission: "hub:site:edit",
+        collaborationType: "anonymous",
+        collaborationId: "not-used",
+      };
+      const chk = checkEntityPolicy(policy, authdCtxMgr.context);
+      expect(chk.response).toBe("granted");
+    });
+    it("if type authenticated grant if authenticated", () => {
+      const policy: IEntityPermissionPolicy = {
+        permission: "hub:site:edit",
+        collaborationType: "authenticated",
+        collaborationId: "not-used",
+      };
+      const chk = checkEntityPolicy(policy, authdCtxMgr.context);
+      expect(chk.response).toBe("granted");
+    });
+    it("if type authenticated reject if not authenticated", () => {
+      const policy: IEntityPermissionPolicy = {
+        permission: "hub:site:edit",
+        collaborationType: "authenticated",
+        collaborationId: "not-used",
+      };
+      const ctx = {
+        isAuthenticated: false,
+      } as unknown as IArcGISContext;
+      const chk = checkEntityPolicy(policy, ctx);
+      expect(chk.response).toBe("not-authenticated");
     });
   });
 });
