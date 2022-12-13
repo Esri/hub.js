@@ -1,3 +1,11 @@
+# @esri/hub-common [12.0.0-alpha.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.0.0-alpha.1...@esri/hub-common@12.0.0-alpha.2) (2022-12-13)
+
+
+### Features
+
+* add optional assertions to IPermissionPolicy ([#940](https://github.com/Esri/hub.js/issues/940)) ([be6d4af](https://github.com/Esri/hub.js/commit/be6d4af5354d45a14383e5a03a58d7edfead7684))
+* update policy response codes ([a0bb125](https://github.com/Esri/hub.js/commit/a0bb125450d0a4592546b2f3ef3123f62243d93d))
+
 # @esri/hub-common [12.0.0-alpha.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.23.2...@esri/hub-common@12.0.0-alpha.1) (2022-11-29)
 
 
