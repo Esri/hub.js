@@ -1,5 +1,5 @@
 import { IArcGISContext } from "../../ArcGISContext";
-import { getProp, getWithDefault } from "../../objects";
+import { getProp } from "../../objects";
 import {
   IPolicyCheck,
   PolicyResponse,

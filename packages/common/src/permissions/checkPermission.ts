@@ -1,5 +1,4 @@
 import { IArcGISContext } from "../ArcGISContext";
-import { HubEntity } from "../core";
 import { getWithDefault } from "../objects";
 import { checkLicense } from "./_internal/checkLicense";
 import { getPermissionPolicy } from "./HubPermissionPolicies";
