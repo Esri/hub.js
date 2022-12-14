@@ -265,8 +265,47 @@ describe("hubSearch Module:", () => {
           },
         };
 
-        const d = await hubSearch(qry, opts);
-        expect(d.results[0].type).toBe("Web Mapping Application");
+        const searchResult = await hubSearch(qry, opts);
+        expect(searchResult.results[0].type).toBe("Web Mapping Application");
+        expect(
+          searchResult.results[0].typeKeywords?.includes("hubSite")
+        ).toBeTruthy();
+      });
+      it("searches for old solution template", async () => {
+        const qry: IQuery = {
+          targetEntity: "item",
+          filters: [
+            {
+              operation: "AND",
+              predicates: [
+                {
+                  id: ["125f58a8beaf4105bd8fac02d331c8f9"],
+                },
+              ],
+            },
+          ],
+        };
+        const opts: IHubSearchOptions = {
+          num: 1,
+          sortField: "numviews",
+          sortOrder: "desc",
+          api: {
+            type: "arcgis",
+            url: "https://qaext.arcgis.com",
+          },
+          include: [],
+          requestOptions: {
+            isPortal: false,
+            hubApiUrl: "https://hubqa.arcgis.com",
+            portal: "https://qaext.arcgis.com/sharing/rest",
+          },
+        };
+
+        const searchResult = await hubSearch(qry, opts);
+        expect(searchResult.results[0].type).toBe("Web Mapping Application");
+        expect(
+          searchResult.results[0].typeKeywords?.includes("hubSite")
+        ).toBeFalsy();
       });
     });
   });
