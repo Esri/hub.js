@@ -234,5 +234,40 @@ describe("hubSearch Module:", () => {
         expect(options.requestOptions).toEqual(opts.requestOptions);
       });
     });
+    describe("other", () => {
+      it("searches for old hub site", async () => {
+        const qry: IQuery = {
+          targetEntity: "item",
+          filters: [
+            {
+              operation: "AND",
+              predicates: [
+                {
+                  id: ["2698f21f93a24fb087cbbd34125c8191"],
+                },
+              ],
+            },
+          ],
+        };
+        const opts: IHubSearchOptions = {
+          num: 1,
+          sortField: "numviews",
+          sortOrder: "desc",
+          api: {
+            type: "arcgis",
+            url: "https://dc.mapsqa.arcgis.com",
+          },
+          include: [],
+          requestOptions: {
+            isPortal: false,
+            hubApiUrl: "https://hubqa.arcgis.com",
+            portal: "https://dc.mapsqa.arcgis.com/sharing/rest",
+          },
+        };
+
+        const d = await hubSearch(qry, opts);
+        expect(d.results[0].type).toBe("Web Mapping Application");
+      });
+    });
   });
 });
