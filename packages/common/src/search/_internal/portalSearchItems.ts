@@ -148,6 +148,13 @@ async function itemToSearchResult(
     case "Hub Project":
       fn = enrichProjectSearchResult;
       break;
+
+    // handle old hub sites
+    case "Web Mapping Application":
+      if (item.typeKeywords.includes("hubSite")) {
+        fn = enrichSiteSearchResult;
+      }
+      break;
   }
   return fn(item, includes, requestOptions);
 }

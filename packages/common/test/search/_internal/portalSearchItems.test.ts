@@ -166,6 +166,80 @@ describe("portalSearchItems Module:", () => {
         "https://my-portal.com/gis/sharing/rest"
       );
     });
+    it("simple search for old site type", async () => {
+      const qry: IQuery = {
+        targetEntity: "item",
+        filters: [
+          {
+            operation: "AND",
+            predicates: [
+              {
+                id: ["2698f21f93a24fb087cbbd34125c8191"],
+              },
+            ],
+          },
+        ],
+      };
+      const opts: IHubSearchOptions = {
+        num: 1,
+        sortField: "numviews",
+        sortOrder: "desc",
+        api: {
+          type: "arcgis",
+          url: "https://dc.mapsqa.arcgis.com",
+        },
+        include: [],
+        requestOptions: {
+          isPortal: false,
+          hubApiUrl: "https://hubqa.arcgis.com",
+          portal: "https://dc.mapsqa.arcgis.com/sharing/rest",
+        },
+      };
+      const searchResult = await portalSearchItems(qry, opts);
+      expect(searchResult.results[0].type).toBe("Web Mapping Application");
+      expect(
+        searchResult.results[0].typeKeywords?.includes("hubSite")
+      ).toBeTruthy();
+      expect(searchResult?.results[0]?.links?.self).toBe(
+        "https://upsidedownbirds-dc.opendataqa.arcgis.com"
+      );
+    });
+    it("simple search for old solution template", async () => {
+      const qry: IQuery = {
+        targetEntity: "item",
+        filters: [
+          {
+            operation: "AND",
+            predicates: [
+              {
+                id: ["125f58a8beaf4105bd8fac02d331c8f9"],
+              },
+            ],
+          },
+        ],
+      };
+      const opts: IHubSearchOptions = {
+        num: 1,
+        sortField: "numviews",
+        sortOrder: "desc",
+        api: {
+          type: "arcgis",
+          url: "https://qaext.arcgis.com",
+        },
+        include: [],
+        requestOptions: {
+          isPortal: false,
+          hubApiUrl: "https://hubqa.arcgis.com",
+          portal: "https://qaext.arcgis.com/sharing/rest",
+        },
+      };
+
+      const searchResult = await portalSearchItems(qry, opts);
+      expect(searchResult.results[0].type).toBe("Web Mapping Application");
+      expect(
+        searchResult.results[0].typeKeywords?.includes("hubSite")
+      ).toBeFalsy();
+    });
     // xit("simple search next", async () => {
     //   const searchItemsSpy = spyOn(Portal, "searchItems").and.callFake(() => {
     //     return Promise.resolve(cloneObject(SimpleResponse));
