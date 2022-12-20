@@ -1,12 +1,8 @@
-import {
-  ArcGISContextManager,
-  Capability,
-  checkCapability,
-  IHubProject,
-} from "../../src/index";
+import { Capability, checkCapability, IHubProject } from "../../src/index";
+import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
-import * as checkCapAccessModule from "../../src/capabilities/_internal/checkCapabilityAccess";
+import * as checkCapAccessModule from "../../src/capabilities/_internal";
 
 describe("checkCapability:", () => {
   let authdCtxMgr: ArcGISContextManager;

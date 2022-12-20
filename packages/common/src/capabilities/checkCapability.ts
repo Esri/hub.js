@@ -3,10 +3,10 @@ import {
   HubEntity,
   HubEntityType,
   IArcGISContext,
-} from "..";
+} from "../index";
 import { Capability, ICapabilityAccessResponse, isCapability } from "./types";
 import { CapabilityPermissions } from "./getWorkspaceCapabilities";
-import { checkCapabilityAccess } from "./_internal/checkCapabilityAccess";
+import { checkCapabilityAccess } from "./_internal";
 
 /**
  * Check if a capability is enabled for a given entity and if the current user has necessary permissions to access it

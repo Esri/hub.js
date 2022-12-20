@@ -1,11 +1,11 @@
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
 import {
-  ArcGISContextManager,
   getWorkspaceCapabilities,
   ICapabilityAccessResponse,
   ICapabilityPermission,
   IHubProject,
 } from "../../src/index";
+import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as checkCapAccessModule from "../../src/capabilities/_internal/checkCapabilityAccess";
 
