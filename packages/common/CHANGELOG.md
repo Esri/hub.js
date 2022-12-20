@@ -1,3 +1,10 @@
+## @esri/hub-common [11.23.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.23.3...@esri/hub-common@11.23.4) (2022-12-20)
+
+
+### Bug Fixes
+
+* adds case for Web Mapping Application with hubSite typeKeyword ([29c7d8d](https://github.com/Esri/hub.js/commit/29c7d8dde5f7f84c1015aca9771f24c80e076e90))
+
 ## @esri/hub-common [11.23.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.23.2...@esri/hub-common@11.23.3) (2022-12-02)
 
 
