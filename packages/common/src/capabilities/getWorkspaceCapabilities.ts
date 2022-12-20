@@ -4,6 +4,7 @@ import { IWorkspaceCapabilityResponse, ICapabilityPermission } from "./types";
 import { ProjectCapabilityPermissions } from "../projects/_internal/ProjectBusinessRules";
 import { checkCapabilityAccess } from "./_internal/checkCapabilityAccess";
 import { InitiativeCapabilityPermissions } from "../initiatives/_internal/InitiativeBusinessRules";
+import { SiteCapabilityPermissions } from "../sites/_internal/SiteBusinessRules";
 
 /**
  * List of all the Capability Permissions in the Hub System
@@ -12,6 +13,7 @@ import { InitiativeCapabilityPermissions } from "../initiatives/_internal/Initia
 export const CapabilityPermissions: ICapabilityPermission[] = [
   ...ProjectCapabilityPermissions,
   ...InitiativeCapabilityPermissions,
+  ...SiteCapabilityPermissions,
 ];
 
 /**
