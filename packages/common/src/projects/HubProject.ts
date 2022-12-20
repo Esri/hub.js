@@ -7,6 +7,7 @@ import {
   IWithStoreBehavior,
   IWithSharingBehavior,
   UiSchemaElementOptions,
+  IWithCapabilityBehavior,
 } from "../core";
 
 import { Catalog } from "../search/Catalog";
@@ -28,6 +29,7 @@ export class HubProject
   implements
     IWithStoreBehavior<IHubProject>,
     IWithPermissionBehavior,
+    IWithCapabilityBehavior,
     IWithCatalogBehavior,
     IWithSharingBehavior
 {

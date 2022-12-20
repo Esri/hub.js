@@ -1,4 +1,40 @@
+import { EntityCapabilities, ICapabilityPermission } from "../../index";
 import { IPermissionPolicy } from "../../permissions/types";
+
+/**
+ * Default capabilities for a Site. If not listed here, the capability will not be available
+ * This hash is combined with the capabilities hash stored in the item data. Regardless of what
+ * properties are defined in the item data, only the capabilities defined here will be available
+ * @private
+ */
+export const SiteDefaultCapabilities: EntityCapabilities = {
+  overview: true,
+  details: true,
+  settings: true,
+};
+
+/**
+ * List of all the Site Capability Permissions
+ * These are considered Hub Business Rules and are not intended
+ * to be modified by consumers
+ */
+export const SiteCapabilityPermissions: ICapabilityPermission[] = [
+  {
+    entity: "site",
+    capability: "overview",
+    permissions: ["hub:site:view"],
+  },
+  {
+    entity: "site",
+    capability: "details",
+    permissions: ["hub:site:edit"],
+  },
+  {
+    entity: "site",
+    capability: "settings",
+    permissions: ["hub:site:edit"],
+  },
+];
 
 /**
  * Site Permissions

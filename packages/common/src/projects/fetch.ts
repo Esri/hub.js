@@ -19,7 +19,8 @@ import { IHubSearchResult } from "../search";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { IHubRequestOptions } from "../types";
 import { isGuid } from "../utils";
-import { computeProps, getPropertyMap } from "./_internal";
+import { computeProps } from "./_internal/computeProps";
+import { getPropertyMap } from "./_internal/getPropertyMap";
 
 /**
  * @private

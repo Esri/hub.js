@@ -1,12 +1,17 @@
-import { ProjectPermissions } from "../../projects/_internal/ProjectPermissionPolicies";
-import { SitePermissions } from "../../sites/_internal/SitesPermissionPolicies";
+import { ProjectPermissions } from "../../projects/_internal/ProjectBusinessRules";
+import { SitePermissions } from "../../sites/_internal/SiteBusinessRules";
+import { InitiativePermissions } from "../../initiatives/_internal/InitiativeBusinessRules";
 
 /**
  * Defines the values for Permissions
  * It's critical that the arrays defined in the modules use `as const`
  * otherwise Permission devolves into just a string type
  */
-const validPermissions = [...SitePermissions, ...ProjectPermissions] as const;
+const validPermissions = [
+  ...SitePermissions,
+  ...ProjectPermissions,
+  ...InitiativePermissions,
+] as const;
 
 /**
  * Defines the possible values for Permissions

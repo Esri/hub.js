@@ -22,7 +22,8 @@ import {
 } from "../core/schemas";
 import { filterSchemaToUiSchema } from "../core/schemas/internal";
 import { applyUiSchemaElementOptions } from "../core/schemas/internal/applyUiSchemaElementOptions";
-import { computeProps, getPropertyMap } from "./_internal";
+import { computeProps } from "./_internal/computeProps";
+import { getPropertyMap } from "./_internal/getPropertyMap";
 
 /**
  * @private
