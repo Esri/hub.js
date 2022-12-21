@@ -490,4 +490,25 @@ describe("HubItemEntity Class: ", () => {
       );
     });
   });
+
+  describe("capabilities behavior", () => {
+    it("checkCapability delegates to util", () => {
+      const entity = {
+        id: "00c",
+        owner: "deke",
+        capabilities: {
+          details: true,
+        },
+      } as IHubItemEntity;
+      const instance = new TestHarness(entity, authdCtxMgr.context);
+      const spy = spyOn(
+        require("../../src/capabilities"),
+        "checkCapability"
+      ).and.returnValue({ access: false, response: "nope" });
+      const chk = instance.checkCapability("details");
+      expect(chk.access).toBeFalsy();
+      expect(chk.response).toBe("nope");
+      expect(spy).toHaveBeenCalledWith("details", authdCtxMgr.context, entity);
+    });
+  });
 });

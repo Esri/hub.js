@@ -25,11 +25,6 @@ export interface IHubSite
    * Site Theme as json
    */
   theme: Record<string, any>;
-  // TODO: Type this based on the actual site capabilities
-  /**
-   * Array of capabilities enabled for the site
-   */
-  capabilities: string[];
 
   /**
    * Subdomain of the site
@@ -73,4 +68,8 @@ export interface IHubSite
    * Header CSS
    */
   headerSass: string;
+  /**
+   * Classic capabilities
+   */
+  classicCapabilities: string[];
 }

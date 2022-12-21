@@ -10,6 +10,7 @@ export * from "./auth";
 export * from "./categories";
 export * from "./content";
 export * from "./core";
+export * from "./capabilities";
 export * from "./downloads";
 export * from "./extent";
 export * from "./groups";

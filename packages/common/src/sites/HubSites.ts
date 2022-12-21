@@ -1,4 +1,4 @@
-import { IUserRequestOptions, UserSession } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { IItem, IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 
 import {
@@ -31,13 +31,15 @@ import {
 
 // having a separate import is important for testing
 import { fetchSiteModel } from "./fetchSiteModel";
-import { PropertyMapper, IPropertyMap } from "../core/_internal/PropertyMapper";
+import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { handleDomainChanges } from "./_internal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { fetchItemEnrichments } from "../items/_enrichments";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { getHubRelativeUrl } from "../content/_internal";
 import { applyPermissionMigration } from "./_internal/applyPermissionMigration";
+import { computeProps } from "./_internal/computeProps";
+import { getPropertyMap } from "./_internal/getPropertyMap";
 
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
@@ -49,7 +51,7 @@ const DEFAULT_SITE: Partial<IHubSite> = {
   name: "No title provided",
   tags: [],
   typeKeywords: ["Hub Site", "hubSite", "DELETEMESITE"],
-  capabilities: [
+  classicCapabilities: [
     "api_explorer",
     "pages",
     "my_data",
@@ -184,71 +186,6 @@ const DEFAULT_SITE_MODEL: IModel = {
   },
 };
 
-/**
- * Returns an Array of IPropertyMap objects
- * We could define these directly, but since the
- * properties of IHubSite map directly to properties
- * on item or data, it's slightly less verbose to
- * generate the structure.
- * @returns
- */
-function getSitePropertyMap(): IPropertyMap[] {
-  const itemProps = [
-    "created",
-    "culture",
-    "description",
-    "extent",
-    "id",
-    "modified",
-    "owner",
-    "snippet",
-    "tags",
-    "typeKeywords",
-    "url",
-    "type",
-    "access",
-  ];
-
-  const map: IPropertyMap[] = [];
-  itemProps.forEach((entry) => {
-    map.push({ objectKey: entry, modelKey: `item.${entry}` });
-  });
-  const dataProps = ["catalog", "feeds", "permissions"];
-  dataProps.forEach((entry) => {
-    map.push({ objectKey: entry, modelKey: `data.${entry}` });
-  });
-  const valueProps = [
-    "pages",
-    "theme",
-    "capabilities",
-    "subdomain",
-    "defaultHostname",
-    "customHostname",
-    "clientId",
-    "defaultExtent",
-    "map",
-    "telemetry",
-    "headerSass",
-  ];
-  valueProps.forEach((entry) => {
-    map.push({ objectKey: entry, modelKey: `data.values.${entry}` });
-  });
-  // Deeper/Indirect mappings
-  map.push({
-    objectKey: "slug",
-    modelKey: "item.properties.slug",
-  });
-  map.push({
-    objectKey: "orgUrlKey",
-    modelKey: "item.properties.orgUrlKey",
-  });
-  map.push({
-    objectKey: "name",
-    modelKey: "item.title",
-  });
-  return map;
-}
-
 // TODO: Add OperationStack & Error Handling
 
 /**
@@ -332,7 +269,7 @@ export async function createSite(
   }
 
   // Now convert the IHubSite into an IModel
-  const mapper = new PropertyMapper<Partial<IHubSite>>(getSitePropertyMap());
+  const mapper = new PropertyMapper<Partial<IHubSite>>(getPropertyMap());
   let model = mapper.objectToModel(site, cloneObject(DEFAULT_SITE_MODEL));
   // create the backing item
   model = await createModel(
@@ -371,7 +308,7 @@ export async function updateSite(
 ): Promise<IHubSite> {
   // Most of this work is done with an IModel, so first thing it to
   // convert IHubSite to model
-  const mapper = new PropertyMapper<IHubSite>(getSitePropertyMap());
+  const mapper = new PropertyMapper<IHubSite>(getPropertyMap());
   // applying the site onto the default model ensures that a minimum
   // set of properties exist, regardless what may have been done to
   // the site pojo
@@ -480,20 +417,10 @@ export function convertModelToSite(
   // we can do it here as there is no ux for managing permissions yet.
   const modelWithPermissions = applyPermissionMigration(model);
   // convert to site
-  const mapper = new PropertyMapper<Partial<IHubSite>>(getSitePropertyMap());
+  const mapper = new PropertyMapper<Partial<IHubSite>>(getPropertyMap());
   const site = mapper.modelToObject(modelWithPermissions, {}) as IHubSite;
-  let token: string;
-  if (requestOptions.authentication) {
-    const us: UserSession = requestOptions.authentication as UserSession;
-    token = us.token;
-  }
-
-  site.thumbnailUrl = getItemThumbnailUrl(
-    modelWithPermissions.item,
-    requestOptions,
-    token
-  );
-  return site;
+  // compute additional properties
+  return computeProps(model, site, requestOptions);
 }
 
 /**

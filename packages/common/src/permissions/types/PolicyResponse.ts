@@ -18,6 +18,7 @@ export type PolicyResponse =
   | "no-edit-access" // user does not have edit access
   | "edit-access" // user has edit access but policy is for non-editors
   | "invalid-permission" // permission is invalid
+  | "invalid-capability" // capability is invalid
   | "privilege-required" // user does not have required privilege
   | "system-offline" // subsystem is offline
   | "system-maintenance" // subsystem is in maintenance mode

@@ -1,8 +1,13 @@
 import {
-  IAccessResponse,
+  IPermissionAccessResponse,
   IEntityPermissionPolicy,
   Permission,
 } from "../../permissions";
+import {
+  Capability,
+  ICapabilityAccessResponse,
+  IWorkspaceCapabilityResponse,
+} from "../../capabilities";
 
 /**
  * Composable behavior that adds permissions to an entity
@@ -13,7 +18,7 @@ export interface IWithPermissionBehavior {
    * taking into account any entity specific policies
    * @param permission
    */
-  checkPermission(permission: Permission): IAccessResponse;
+  checkPermission(permission: Permission): IPermissionAccessResponse;
   /**
    * Get all policies for a specific permission
    * @param permission
@@ -30,4 +35,12 @@ export interface IWithPermissionBehavior {
    * @param id
    */
   removePermissionPolicy(permission: Permission, id: string): void;
+}
+
+export interface IWithCapabilityBehavior {
+  /**
+   * Is a specific capability available and enabled for the this entity?
+   * @param capability
+   */
+  checkCapability(capability: Capability): ICapabilityAccessResponse;
 }

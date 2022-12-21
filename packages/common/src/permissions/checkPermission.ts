@@ -3,7 +3,7 @@ import { getWithDefault } from "../objects";
 import { checkLicense } from "./_internal/checkLicense";
 import { getPermissionPolicy } from "./HubPermissionPolicies";
 import {
-  IAccessResponse,
+  IPermissionAccessResponse,
   Permission,
   isPermission,
   IPolicyCheck,
@@ -28,24 +28,26 @@ export function checkPermission(
   permission: Permission,
   context: IArcGISContext,
   entity?: Record<string, any>
-): IAccessResponse {
+): IPermissionAccessResponse {
   // Early Exit: Is this even a valid permission?
   if (!isPermission(permission)) {
     return {
-      permission,
+      policy: permission,
       access: false,
       response: "invalid-permission",
       code: getPolicyResponseCode("invalid-permission"),
       checks: [],
-    } as IAccessResponse;
+    } as IPermissionAccessResponse;
   }
 
   // Get the system policy for this permission
   const systemPolicy = getPermissionPolicy(permission);
 
+  // TODO: handle null systemPolicy
+
   // Default to granted
-  const response: IAccessResponse = {
-    permission,
+  const response: IPermissionAccessResponse = {
+    policy: permission,
     access: true,
     response: "granted",
     code: getPolicyResponseCode("granted"),

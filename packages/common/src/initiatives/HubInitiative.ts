@@ -6,9 +6,7 @@ import {
   IWithCatalogBehavior,
   IWithStoreBehavior,
   IWithSharingBehavior,
-  EditorConfigType,
-  UiSchemaElementOptions,
-  IEditorConfig,
+  IWithCapabilityBehavior,
 } from "../core";
 
 import {
@@ -30,6 +28,7 @@ export class HubInitiative
   implements
     IWithStoreBehavior<IHubInitiative>,
     IWithPermissionBehavior,
+    IWithCapabilityBehavior,
     IWithCatalogBehavior,
     IWithSharingBehavior
 {

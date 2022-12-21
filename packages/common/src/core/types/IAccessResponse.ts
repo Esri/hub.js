@@ -1,16 +1,7 @@
-import { Permission } from "./Permission";
-import { IPolicyCheck } from "./IPolicyCheck";
-import { PolicyResponse } from "./PolicyResponse";
-
-/**
- * Response from a permission check
- */
+import { IPolicyCheck } from "../../permissions/types/IPolicyCheck";
+import { PolicyResponse } from "../../permissions/types/PolicyResponse";
 
 export interface IAccessResponse {
-  /**
-   * Permission being checked
-   */
-  permission: Permission;
   /**
    * Is the user allowed to perform the action
    */
@@ -28,9 +19,4 @@ export interface IAccessResponse {
    * information about assertion failures
    */
   message?: string;
-  /**
-   * List of all the policies that were checked, and their responses
-   * For debugging / observability
-   */
-  checks: IPolicyCheck[];
 }
