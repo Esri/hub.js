@@ -1,3 +1,10 @@
+# @esri/hub-common [12.0.0-alpha.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.0.0-alpha.2...@esri/hub-common@12.0.0-alpha.3) (2022-12-21)
+
+
+### Features
+
+* capability subsystem ([#946](https://github.com/Esri/hub.js/issues/946)) ([d837fb4](https://github.com/Esri/hub.js/commit/d837fb4a73cd16763b29529eecf73e0d7952ea99))
+
 # @esri/hub-common [12.0.0-alpha.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.0.0-alpha.1...@esri/hub-common@12.0.0-alpha.2) (2022-12-13)
 
 
