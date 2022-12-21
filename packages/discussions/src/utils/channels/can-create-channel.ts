@@ -7,15 +7,11 @@ import {
   SharingAccess,
 } from "../../types";
 import { CANNOT_DISCUSS } from "../constants";
-import { isOrgAdmin } from "../platform";
+import { isOrgAdmin, mapPermissionDefinitionsByCategory } from "../platform";
 
 const ALLOWED_GROUP_ROLES = Object.freeze(["owner", "admin", "member"]);
 
 type ILegacyChannelPermissions = Pick<IChannel, "access" | "groups" | "orgs">;
-
-type PermissionsDefinitionsByAclCategoryMap = {
-  [key in AclCategory]?: IChannelAclPermissionDefinition[];
-};
 
 export function canCreateChannel(
   channel: IChannel,
@@ -44,7 +40,7 @@ function isAuthorizedToCreateByChannelAcl(
     return false;
   }
 
-  const permissions = mapByCategory(channelAcl);
+  const permissions = mapPermissionDefinitionsByCategory(channelAcl);
 
   return (
     canAllowAnonymous(user, permissions[AclCategory.ANONYMOUS_USER]) &&
@@ -53,15 +49,6 @@ function isAuthorizedToCreateByChannelAcl(
     canAllowOrgs(user, permissions[AclCategory.ORG]) &&
     canAllowUsers(user, permissions[AclCategory.USER])
   );
-}
-
-function mapByCategory(channelAcl: IChannelAclPermissionDefinition[]) {
-  return channelAcl.reduce((accum, permission) => {
-    const { category } = permission;
-
-    accum[category]?.push(permission) || (accum[category] = [permission]);
-    return accum;
-  }, {} as PermissionsDefinitionsByAclCategoryMap);
 }
 
 function canAllowAnonymous(
