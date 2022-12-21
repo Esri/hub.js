@@ -7,13 +7,18 @@ import {
   unshareItemWithGroup,
 } from "@esri/arcgis-rest-portal";
 import { IArcGISContext } from "../ArcGISContext";
+import {
+  Capability,
+  checkCapability,
+  ICapabilityAccessResponse,
+} from "../capabilities";
 import HubError from "../HubError";
 import { uploadImageResource } from "../items";
 import { setItemThumbnail } from "../items/setItemThumbnail";
 import {
   addPermissionPolicy,
   checkPermission,
-  IAccessResponse,
+  IPermissionAccessResponse,
   IEntityPermissionPolicy,
   Permission,
   removePermissionPolicy,
@@ -25,6 +30,7 @@ import {
   IWithStoreBehavior,
   IWithFeaturedImageBehavior,
   IWithPermissionBehavior,
+  IWithCapabilityBehavior,
 } from "./behaviors";
 
 import { IWithThumbnailBehavior } from "./behaviors/IWithThumbnailBehavior";
@@ -42,7 +48,8 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     IWithSharingBehavior,
     IWithThumbnailBehavior,
     IWithFeaturedImageBehavior,
-    IWithPermissionBehavior
+    IWithPermissionBehavior,
+    IWithCapabilityBehavior
 {
   protected context: IArcGISContext;
   protected entity: T;
@@ -60,7 +67,7 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * @param permission
    * @returns
    */
-  checkPermission(permission: Permission): IAccessResponse {
+  checkPermission(permission: Permission): IPermissionAccessResponse {
     return checkPermission(permission, this.context, this.entity);
   }
   /**
@@ -93,6 +100,14 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
       permission,
       id
     );
+  }
+
+  /**
+   * Check if the current user can access a specific capability
+   * @param capability
+   */
+  checkCapability(capability: Capability): ICapabilityAccessResponse {
+    return checkCapability(capability, this.context, this.entity);
   }
 
   // Although we don't expose all the properties, we do expose a few for convenience

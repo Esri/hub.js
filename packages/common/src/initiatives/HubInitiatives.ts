@@ -41,20 +41,8 @@ import { fetchItemEnrichments } from "../items/_enrichments";
 import { getHubRelativeUrl } from "../content/_internal";
 import { DEFAULT_INITIATIVE, DEFAULT_INITIATIVE_MODEL } from "./defaults";
 import { getBasePropertyMap } from "../core/_internal/getBasePropertyMap";
-
-/**
- * Returns an Array of IPropertyMap objects
- * that define the projection of properties from a IModel to an IHubInitiative
- * @returns
- */
-function getPropertyMap(): IPropertyMap[] {
-  const map = getBasePropertyMap();
-
-  // Type specific mappings
-  map.push({ objectKey: "catalog", modelKey: "data.catalog" });
-  map.push({ objectKey: "permissions", modelKey: "data.permissions" });
-  return map;
-}
+import { getPropertyMap } from "./_internal/getPropertyMap";
+import { computeProps } from "./_internal/computeProps";
 
 /**
  * @private
@@ -190,38 +178,6 @@ export async function convertItemToInitiative(
   const mapper = new PropertyMapper<Partial<IHubInitiative>>(getPropertyMap());
   const prj = mapper.modelToObject(model, {}) as IHubInitiative;
   return computeProps(model, prj, requestOptions);
-}
-
-/**
- * Given a model and an initiative, set various computed properties that can't be directly mapped
- * @param model
- * @param initiative
- * @param requestOptions
- * @returns
- */
-function computeProps(
-  model: IModel,
-  initiative: Partial<IHubInitiative>,
-  requestOptions: IRequestOptions
-): IHubInitiative {
-  let token: string;
-  if (requestOptions.authentication) {
-    const session: UserSession = requestOptions.authentication as UserSession;
-    token = session.token;
-  }
-  // thumbnail url
-  initiative.thumbnailUrl = getItemThumbnailUrl(
-    model.item,
-    requestOptions,
-    token
-  );
-  // Handle Dates
-  initiative.createdDate = new Date(model.item.created);
-  initiative.createdDateSource = "item.created";
-  initiative.updatedDate = new Date(model.item.modified);
-  initiative.updatedDateSource = "item.modified";
-  // cast b/c this takes a partial but returns a full initiative
-  return initiative as IHubInitiative;
 }
 
 /**

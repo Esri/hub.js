@@ -1,5 +1,5 @@
 export * from "./HubLicense";
-export * from "./IAccessResponse";
+export * from "./IPermissionAccessResponse";
 export * from "./IEntityPermissionPolicy";
 export * from "./IPermissionPolicy";
 export * from "./IPolicyCheck";

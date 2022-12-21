@@ -1,5 +1,6 @@
-import { ProjectPermissionPolicies } from "../projects/_internal/ProjectPermissionPolicies";
-import { SitesPermissionPolicies } from "../sites/_internal/SitesPermissionPolicies";
+import { InitiativePermissionPolicies } from "../initiatives/_internal/InitiativeBusinessRules";
+import { ProjectPermissionPolicies } from "../projects/_internal/ProjectBusinessRules";
+import { SitesPermissionPolicies } from "../sites/_internal/SiteBusinessRules";
 
 import { IPermissionPolicy, Permission } from "./types";
 
@@ -63,6 +64,7 @@ import { IPermissionPolicy, Permission } from "./types";
 export const HubPermissionsPolicies: IPermissionPolicy[] = [
   ...SitesPermissionPolicies,
   ...ProjectPermissionPolicies,
+  ...InitiativePermissionPolicies,
 ];
 
 /**
