@@ -1,18 +1,15 @@
 import { IGroup } from "@esri/arcgis-rest-types";
 import {
-  AclCategory,
-  AclSubCategory,
   IAclGroup,
   IAclPermission,
   IChannel,
   IChannelAclObject,
-  IChannelAclPermission,
   IDiscussionsUser,
   Role,
   SharingAccess,
 } from "../../types";
+import { ChannelPermission } from "../channel-permission";
 import { CANNOT_DISCUSS } from "../constants";
-import { mapPermissionsByCategory, mapUserGroupsById } from "../platform";
 
 const ALLOWED_GROUP_ROLES = Object.freeze(["owner", "admin", "member"]);
 
@@ -40,7 +37,8 @@ export function canPostToChannel(
   }
 
   if (channelAcl) {
-    return isAuthorizedToPostByChannelAcl(user, channelAcl);
+    const channelPermission = new ChannelPermission(channelAcl);
+    return channelPermission.canPostToChannel(user);
   }
 
   // Once channelAcl usage is enforced, we will remove authorization by legacy permissions
@@ -50,143 +48,6 @@ export function canPostToChannel(
     orgs,
     allowAnonymous,
   });
-}
-
-function isAuthorizedToPostByChannelAcl(
-  user: IDiscussionsUser,
-  channelAcl: IChannelAclPermission[]
-): boolean {
-  const permissions = mapPermissionsByCategory(channelAcl);
-
-  if (canAnyUserPost(permissions[AclCategory.ANONYMOUS_USER])) {
-    return true;
-  }
-
-  if (user.username === null) {
-    return false;
-  }
-
-  return (
-    canAnyAuthenticatedUserPost(permissions[AclCategory.AUTHENTICATED_USER]) ||
-    canThisUserPost(user, permissions[AclCategory.USER]) ||
-    isAllowedToPostByUsersGroups(user, permissions[AclCategory.GROUP]) ||
-    isAllowedToPostByUsersOrg(user, permissions[AclCategory.ORG])
-  );
-}
-
-function canAnyUserPost(channelAcl?: IChannelAclPermission[]) {
-  return isAuthorizedToPost(channelAcl?.[0].role);
-}
-
-function isAuthorizedToPost(role?: Role) {
-  return ALLOWED_ROLES_FOR_POSTING.includes(role);
-}
-
-function canAnyAuthenticatedUserPost(channelAcl?: IChannelAclPermission[]) {
-  return isAuthorizedToPost(channelAcl?.[0].role);
-}
-
-function canThisUserPost(
-  user: IDiscussionsUser,
-  channelAcl: IChannelAclPermission[] = []
-) {
-  const username = user.username;
-
-  return channelAcl.some((permission) => {
-    const { role, key } = permission;
-
-    return key === username && isAuthorizedToPost(role);
-  });
-}
-
-function isAllowedToPostByUsersGroups(
-  user: IDiscussionsUser,
-  channelAcl: IChannelAclPermission[] = []
-) {
-  const userGroupsById = mapUserGroupsById(user.groups);
-
-  return channelAcl.some((permission) => {
-    const userGroup = userGroupsById[permission.key];
-
-    return (
-      userGroup &&
-      isValidMemberType(userGroup) &&
-      isGroupDiscussable(userGroup) &&
-      (canAnyGroupMemberPost(permission) ||
-        isGroupAdminAndCanAdminsPost(userGroup, permission))
-    );
-  });
-}
-
-function isValidMemberType(userGroup: IGroup) {
-  const {
-    userMembership: { memberType },
-  } = userGroup;
-  return ALLOWED_GROUP_ROLES.includes(memberType);
-}
-
-function isGroupDiscussable(userGroup: IGroup) {
-  const { typeKeywords = [] } = userGroup;
-  return !typeKeywords.includes(CANNOT_DISCUSS);
-}
-
-function canAnyGroupMemberPost(permission: IChannelAclPermission) {
-  const { subCategory, role } = permission;
-  return subCategory === AclSubCategory.MEMBER && isAuthorizedToPost(role);
-}
-
-function isGroupAdminAndCanAdminsPost(
-  userGroup: IGroup,
-  permission: IChannelAclPermission
-) {
-  const { subCategory, role } = permission;
-  const {
-    userMembership: { memberType },
-  } = userGroup;
-
-  const isGroupAdmin = memberType === "admin" || memberType === "owner";
-
-  return (
-    isGroupAdmin &&
-    subCategory === AclSubCategory.ADMIN &&
-    isAuthorizedToPost(role)
-  );
-}
-
-function isAllowedToPostByUsersOrg(
-  user: IDiscussionsUser,
-  channelAcl: IChannelAclPermission[] = []
-) {
-  const { orgId: userOrgId } = user;
-
-  return channelAcl.some((permission) => {
-    const { key } = permission;
-
-    return (
-      key === userOrgId &&
-      (canAnyOrgMemberPost(permission) ||
-        isOrgAdminAndAdminsCanPost(permission, user))
-    );
-  });
-}
-
-function canAnyOrgMemberPost(permission: IChannelAclPermission) {
-  const { subCategory, role } = permission;
-  return subCategory === AclSubCategory.MEMBER && isAuthorizedToPost(role);
-}
-
-function isOrgAdminAndAdminsCanPost(
-  permission: IChannelAclPermission,
-  user: IDiscussionsUser
-) {
-  const { subCategory, role } = permission;
-  const isOrgAdmin = user.role === "org_admin";
-
-  return (
-    isOrgAdmin &&
-    subCategory === AclSubCategory.ADMIN &&
-    isAuthorizedToPost(role)
-  );
 }
 
 function isAuthorizedToPostByAcl(
