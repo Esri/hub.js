@@ -77,7 +77,7 @@ function buildCompleteAcl() {
 
 describe("ChannelPermission class", () => {
   describe("canPostToChannel", () => {
-    describe("all cases", () => {
+    describe("all permission cases", () => {
       it("returns false if user logged in and channel permissions are empty", async () => {
         const user = buildUser();
         const channelAcl = [] as IChannelAclPermission[];
@@ -97,7 +97,7 @@ describe("ChannelPermission class", () => {
       });
     });
 
-    describe("any anonymous user channel permissions", () => {
+    describe("Anonymous User Permissions", () => {
       it(`returns true if anonymous permission defined and role is allowed`, () => {
         const user = buildUser({ username: null });
 
@@ -124,7 +124,7 @@ describe("ChannelPermission class", () => {
       });
     });
 
-    describe("any authenticated user channel permissions", () => {
+    describe("Authenticated User Permissions", () => {
       it(`returns true if authenticated permission defined, user logged in, and role is allowed`, async () => {
         const user = buildUser();
 
@@ -162,38 +162,7 @@ describe("ChannelPermission class", () => {
       });
     });
 
-    describe("specific authenticated user channel permissions", () => {
-      it("returns true if user is in permissions list and role is allowed", () => {
-        const user = buildUser();
-
-        ALLOWED_ROLES_FOR_POSTING.forEach((allowedRole) => {
-          const channelAcl = [
-            {
-              category: AclCategory.USER,
-              key: user.username,
-              role: allowedRole,
-            },
-          ] as IChannelAclPermission[];
-
-          const channelPermission = new ChannelPermission(channelAcl);
-
-          expect(channelPermission.canPostToChannel(user)).toBe(true);
-        });
-      });
-
-      it("returns false if user is in permissions list but role is read", () => {
-        const user = buildUser();
-        const channelAcl = [
-          { category: AclCategory.USER, key: user.username, role: Role.READ },
-        ] as IChannelAclPermission[];
-
-        const channelPermission = new ChannelPermission(channelAcl);
-
-        expect(channelPermission.canPostToChannel(user)).toBe(false);
-      });
-    });
-
-    describe("group channel permissions", () => {
+    describe("Group Permissions", () => {
       it("returns true if user is group member in group permission list and role is allowed", async () => {
         ALLOWED_ROLES_FOR_POSTING.forEach((allowedRole) => {
           const channelAcl = [
@@ -417,7 +386,7 @@ describe("ChannelPermission class", () => {
       });
     });
 
-    describe("org channel permissions", () => {
+    describe("Org Permissions", () => {
       it("returns true if user is org member in permissions list and role is allowed", async () => {
         const user = buildUser();
 
@@ -483,6 +452,37 @@ describe("ChannelPermission class", () => {
             key: orgId1,
             role: Role.READWRITE, // admin write
           },
+        ] as IChannelAclPermission[];
+
+        const channelPermission = new ChannelPermission(channelAcl);
+
+        expect(channelPermission.canPostToChannel(user)).toBe(false);
+      });
+    });
+
+    describe("User Permissions", () => {
+      it("returns true if user is in permissions list and role is allowed", () => {
+        const user = buildUser();
+
+        ALLOWED_ROLES_FOR_POSTING.forEach((allowedRole) => {
+          const channelAcl = [
+            {
+              category: AclCategory.USER,
+              key: user.username,
+              role: allowedRole,
+            },
+          ] as IChannelAclPermission[];
+
+          const channelPermission = new ChannelPermission(channelAcl);
+
+          expect(channelPermission.canPostToChannel(user)).toBe(true);
+        });
+      });
+
+      it("returns false if user is in permissions list but role is read", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.READ },
         ] as IChannelAclPermission[];
 
         const channelPermission = new ChannelPermission(channelAcl);
