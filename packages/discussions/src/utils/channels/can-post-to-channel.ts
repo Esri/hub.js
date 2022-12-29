@@ -8,6 +8,7 @@ import {
   Role,
   SharingAccess,
 } from "../../types";
+import { ChannelPermission } from "../channel-permission";
 import { CANNOT_DISCUSS } from "../constants";
 
 const ALLOWED_GROUP_ROLES = Object.freeze(["owner", "admin", "member"]);
@@ -29,13 +30,18 @@ export function canPostToChannel(
   channel: IChannel,
   user: IDiscussionsUser
 ): boolean {
-  const { acl, access, groups, orgs, allowAnonymous } = channel;
+  const { acl, channelAcl, access, groups, orgs, allowAnonymous } = channel;
 
   if (acl) {
     return isAuthorizedToPostByAcl(user, acl);
   }
 
-  // Once ACL usage is enforced, we will remove authorization by legacy permissions
+  if (channelAcl) {
+    const channelPermission = new ChannelPermission(channelAcl);
+    return channelPermission.canPostToChannel(user);
+  }
+
+  // Once channelAcl usage is enforced, we will remove authorization by legacy permissions
   return isAuthorizedToPostByLegacyPermissions(user, {
     access,
     groups,
@@ -48,7 +54,7 @@ function isAuthorizedToPostByAcl(
   user: IDiscussionsUser,
   acl: IChannelAclObject
 ): boolean {
-  if (channelAllowsAnyUserToPost(acl)) {
+  if (channelAllowsAnyUserToPostAcl(acl)) {
     return true;
   }
 
@@ -57,24 +63,22 @@ function isAuthorizedToPostByAcl(
   }
 
   return (
-    channelAllowsAnyAuthenticatedUserToPost(acl) ||
-    channelAllowsThisUserToPost(user, acl) ||
-    channelAllowsPostsByThisUsersGroups(user, acl) ||
-    channelAllowsPostsByThisUsersOrg(user, acl)
+    channelAllowsAnyAuthenticatedUserToPostAcl(acl) ||
+    channelAllowsThisUserToPostAcl(user, acl) ||
+    channelAllowsPostsByThisUsersGroupsAcl(user, acl) ||
+    channelAllowsPostsByThisUsersOrgAcl(user, acl)
   );
 }
 
-function channelAllowsAnyUserToPost(channelAcl: IChannelAclObject) {
-  return isAuthorized(ALLOWED_ROLES_FOR_POSTING, channelAcl.anonymous);
+function channelAllowsAnyUserToPostAcl(acl: IChannelAclObject) {
+  return isAuthorizedAcl(ALLOWED_ROLES_FOR_POSTING, acl.anonymous);
 }
 
-function channelAllowsAnyAuthenticatedUserToPost(
-  channelAcl: IChannelAclObject
-) {
-  return isAuthorized(ALLOWED_ROLES_FOR_POSTING, channelAcl.authenticated);
+function channelAllowsAnyAuthenticatedUserToPostAcl(acl: IChannelAclObject) {
+  return isAuthorizedAcl(ALLOWED_ROLES_FOR_POSTING, acl.authenticated);
 }
 
-function channelAllowsThisUserToPost(
+function channelAllowsThisUserToPostAcl(
   user: IDiscussionsUser,
   acl: IChannelAclObject
 ) {
@@ -84,10 +88,10 @@ function channelAllowsThisUserToPost(
   const userLookup = acl.users || {};
   const userPermission = userLookup[username];
 
-  return isAuthorized(ALLOWED_ROLES_FOR_POSTING, userPermission);
+  return isAuthorizedAcl(ALLOWED_ROLES_FOR_POSTING, userPermission);
 }
 
-function channelAllowsPostsByThisUsersGroups(
+function channelAllowsPostsByThisUsersGroupsAcl(
   user: IDiscussionsUser,
   acl: IChannelAclObject
 ) {
@@ -108,7 +112,7 @@ function channelAllowsPostsByThisUsersGroups(
       return false;
     }
 
-    if (canGroupMembersPost(aclGroup)) {
+    if (canGroupMembersPostAcl(aclGroup)) {
       return true;
     }
 
@@ -119,22 +123,22 @@ function channelAllowsPostsByThisUsersGroups(
   });
 }
 
-function canGroupMembersPost(aclGroup: IAclGroup): boolean {
-  return isAuthorized(ALLOWED_ROLES_FOR_POSTING, aclGroup.member);
+function canGroupMembersPostAcl(aclGroup: IAclGroup): boolean {
+  return isAuthorizedAcl(ALLOWED_ROLES_FOR_POSTING, aclGroup.member);
 }
 
 function canGroupAdminsPost(aclGroup: IAclGroup): boolean {
-  return isAuthorized(ALLOWED_ROLES_FOR_POSTING, aclGroup.admin);
+  return isAuthorizedAcl(ALLOWED_ROLES_FOR_POSTING, aclGroup.admin);
 }
 
-function isAuthorized(
+function isAuthorizedAcl(
   allowedRoles: readonly Role[],
   permission?: IAclPermission
 ): boolean {
   return permission && allowedRoles.includes(permission.role);
 }
 
-function channelAllowsPostsByThisUsersOrg(
+function channelAllowsPostsByThisUsersOrgAcl(
   user: IDiscussionsUser,
   acl: IChannelAclObject
 ) {
@@ -152,8 +156,8 @@ function channelAllowsPostsByThisUsersOrg(
 
   return (
     (orgRole === "org_admin" &&
-      isAuthorized(ALLOWED_ROLES_FOR_POSTING, channelOrgPermission.admin)) ||
-    isAuthorized(ALLOWED_ROLES_FOR_POSTING, channelOrgPermission.member)
+      isAuthorizedAcl(ALLOWED_ROLES_FOR_POSTING, channelOrgPermission.admin)) ||
+    isAuthorizedAcl(ALLOWED_ROLES_FOR_POSTING, channelOrgPermission.member)
   );
 }
 

@@ -1,5 +1,35 @@
-import { IChannel, IDiscussionsUser } from "../../../src/types";
+import { IGroup } from "@esri/arcgis-rest-types";
+import {
+  AclCategory,
+  IChannel,
+  IDiscussionsUser,
+  Role,
+} from "../../../src/types";
+import { ChannelPermission } from "../../../src/utils/channel-permission";
 import { canPostToChannel } from "../../../src/utils/channels/can-post-to-channel";
+
+const orgId1 = "3ef";
+const groupId1 = "aaa";
+const groupId2 = "bbb";
+
+function buildUser(overrides = {}) {
+  const defaultUser = {
+    username: "john",
+    orgId: orgId1,
+    role: "org_user",
+    groups: [buildGroup(groupId1, "member"), buildGroup(groupId2, "admin")],
+  };
+
+  return { ...defaultUser, ...overrides } as IDiscussionsUser;
+}
+
+function buildGroup(id: string, memberType: string, typeKeywords?: string[]) {
+  return {
+    id,
+    userMembership: { memberType },
+    typeKeywords,
+  } as any as IGroup;
+}
 
 describe("canPostToChannel", () => {
   describe("with ACL", () => {
@@ -418,6 +448,49 @@ describe("canPostToChannel", () => {
 
         expect(canPostToChannel(channel, user)).toBe(false);
       });
+    });
+  });
+
+  describe("with channelAcl", () => {
+    let canPostToChannelSpy: jasmine.Spy;
+
+    beforeAll(() => {
+      canPostToChannelSpy = spyOn(
+        ChannelPermission.prototype,
+        "canPostToChannel"
+      );
+    });
+
+    beforeEach(() => {
+      canPostToChannelSpy.calls.reset();
+    });
+
+    it("return true if channelPermission.canPostToChannel is true", () => {
+      canPostToChannelSpy.and.callFake(() => true);
+
+      const user = buildUser();
+      const channel = {
+        channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
+      } as IChannel;
+
+      expect(canPostToChannel(channel, user)).toBe(true);
+
+      expect(canPostToChannelSpy.calls.count()).toBe(1);
+      const [arg] = canPostToChannelSpy.calls.allArgs()[0]; // arg for 1st call
+      expect(arg).toBe(user);
+    });
+
+    it("return false if channelPermission.canPostToChannel is false", () => {
+      canPostToChannelSpy.and.callFake(() => false);
+
+      const user = buildUser();
+      const channel = {
+        channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
+      } as IChannel;
+
+      expect(canPostToChannel(channel, user)).toBe(false);
+
+      expect(canPostToChannelSpy.calls.count()).toBe(1);
     });
   });
 
