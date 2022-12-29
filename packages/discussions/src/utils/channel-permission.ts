@@ -16,13 +16,9 @@ type PermissionsByAclCategoryMap = {
 
 export class ChannelPermission {
   private readonly ALLOWED_GROUP_MEMBER_TYPES = ["owner", "admin", "member"];
-  private readonly ALLOWED_ROLES_FOR_POSTING = [
-    Role.WRITE,
-    Role.READWRITE,
-    Role.MANAGE,
-    Role.MODERATE,
-    Role.OWNER,
-  ];
+  private readonly ALLOWED_ROLES_FOR_POSTING = Object.values(Role).filter(
+    (role) => role !== Role.READ
+  );
 
   private isChannelAclEmpty: boolean;
   private permissionsByCategory: PermissionsByAclCategoryMap;
@@ -43,7 +39,7 @@ export class ChannelPermission {
       return true;
     }
 
-    if (!this.isUserLoggedIn(user)) {
+    if (this.isUserUnAuthenticated(user)) {
       return false;
     }
 
@@ -56,7 +52,7 @@ export class ChannelPermission {
   }
 
   canCreateChannel(user: IDiscussionsUser) {
-    if (!this.isUserLoggedIn(user) || this.isChannelAclEmpty) {
+    if (this.isUserUnAuthenticated(user) || this.isChannelAclEmpty) {
       return false;
     }
 
@@ -79,8 +75,8 @@ export class ChannelPermission {
     return this.ALLOWED_ROLES_FOR_POSTING.includes(role);
   }
 
-  private isUserLoggedIn(user: IDiscussionsUser) {
-    return user.username !== null;
+  private isUserUnAuthenticated(user: IDiscussionsUser) {
+    return user.username === null || user.username === undefined;
   }
 
   private mapUserGroupsById(groups: IGroup[]) {
