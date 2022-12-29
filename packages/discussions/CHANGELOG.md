@@ -1,3 +1,10 @@
+# @esri/hub-discussions [18.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@18.1.2...@esri/hub-discussions@18.2.0) (2022-12-29)
+
+
+### Features
+
+* **hub-discussions:** add channelAcl support to canPostToChannel ([4414975](https://github.com/Esri/hub.js/commit/4414975af66cd247b72fae9f2c35f0ddfba142d4))
+
 ## @esri/hub-discussions [18.1.2](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@18.1.1...@esri/hub-discussions@18.1.2) (2022-12-20)
 
 
