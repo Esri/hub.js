@@ -2,7 +2,7 @@
 title: Composing Workflows
 navTitle: Composing Workflows
 description: Constructing Pipelines with createOperationPipeline.
-order: 50
+order: 90
 group: 4-advanced
 ---
 

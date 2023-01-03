@@ -16,5 +16,5 @@ In both environments, we use Hub.js to work with sites via the `HubSite` class, 
 
 #### API Links
 
-- Not Implemented yet [HubSite Class](/hub.js/api/common/HubSite)
+- [HubSite Class](/hub.js/api/common/HubSite)
 - [IHubSite](/hub.js/api/common/IHubSite)

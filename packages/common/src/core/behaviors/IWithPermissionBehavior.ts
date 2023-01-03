@@ -37,6 +37,9 @@ export interface IWithPermissionBehavior {
   removePermissionPolicy(permission: Permission, id: string): void;
 }
 
+/**
+ * Composable behavior that adds Capabilities to an entity
+ */
 export interface IWithCapabilityBehavior {
   /**
    * Is a specific capability available and enabled for the this entity?
