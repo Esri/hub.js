@@ -189,6 +189,7 @@ export const HubProjectEditUiSchema: IUiSchema = {
           options: {
             control: "hub-field-input-image-picker",
             maxWidth: 727,
+            maxHeight: 484,
             aspectRatio: 1.5,
             helperText: {
               labelKey: "{{i18nScope}}.featuredImage.helperText",
