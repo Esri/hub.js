@@ -1,3 +1,10 @@
+## @esri/hub-common [11.23.5](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.23.4...@esri/hub-common@11.23.5) (2023-01-04)
+
+
+### Bug Fixes
+
+* project edit schema image picker config has a maxHeight ([#950](https://github.com/Esri/hub.js/issues/950)) ([567ea2a](https://github.com/Esri/hub.js/commit/567ea2a507f0ea75edaa6f0f07b625b4a7bdd24a))
+
 ## @esri/hub-common [11.23.4](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.23.3...@esri/hub-common@11.23.4) (2022-12-20)
 
 
