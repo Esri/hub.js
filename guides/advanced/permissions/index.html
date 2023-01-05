@@ -110,13 +110,17 @@
           <li>Advanced</li>
           <ul class="list-plain margin-left-1">
             
-              <li><a href="/hub.js/guides/advanced/queries-and-filters/">Queries & Filters</a></li>
+              <li><a href="/hub.js/guides/advanced/access-control/">Access Control</a></li>
             
-              <li><a href="/hub.js/guides/advanced/catalog-collection/">Catalogs & Collections</a></li>
+              <li><a href="/hub.js/guides/advanced/capabilities/">Capabilities</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/operation-stack/">OperationStack</a></li>
             
               <li><a href="/hub.js/guides/advanced/permissions/" class="is-active">Permissions</a></li>
             
-              <li><a href="/hub.js/guides/advanced/operation-stack/">OperationStack</a></li>
+              <li><a href="/hub.js/guides/advanced/queries-and-filters/">Queries & Filters</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/catalog-collection/">Catalogs & Collections</a></li>
             
               <li><a href="/hub.js/guides/advanced/composing-workflows/">Composing Workflows</a></li>
             
@@ -143,37 +147,66 @@
 
     <div class="column-18">
       <div class="panel">
-        <h2>Permissions and Access Controls</h2>
-<p><strong>NOTE: This guide is under active development</strong></p>
-<h3>Quick Start</h3>
-<p>Client code can check permissions via entity classes <code>instance.checkPermission(permission)</code> or via free functions <code>checkPermission(permission, entity, context)</code>.</p>
-<p>These calls are optimized as we expect client code to use these permission checks to determine a lot of UI behaviors. Currently these calls take less than a millisecond to complete.</p>
+        <h2>Permissions</h2>
+<p>A Permission is a lower-level check than a <a href="../capabilities">Capability</a>. They can be system level, (checking if the user can create a new entity), or entity level, (checking if user can take some action related to the entity).</p>
+<p>Permissions are referenced by pre-defined string values such as <code>&quot;hub:site:create&quot;, &quot;hub:project:delete&quot;</code>etc. Please see the <code>Permission</code> type definition for the complete set of values</p>
+<p>A user is granted access if they:</p>
+<ul>
+<li>meet all the system-level requirements for the permission
+<ul>
+<li>is the required subsystem operational?</li>
+<li>are the license requirements met?</li>
+<li>are the platform access control requirements met?</li>
+</ul>
+</li>
+<li>meet at least one of the entity-level requirements (if defined) for the permission
+<ul>
+<li>is the user a member of a specified group?</li>
+<li>is the user a member of a specified org?</li>
+<li>is the user specifically granted access by name?</li>
+</ul>
+</li>
+</ul>
+<h3>Checking Permission Access</h3>
+<p>Permissions can be checked directly on an Entity instance via the <code>instance.checkPermission(permission)</code> method. If you don’t have access to an Entity Instance, the <code>checkPermission(permission, context, entity?)</code> function is also available.</p>
 <pre><code class="jsx"><span class="hljs-comment">// Check individual permission</span>
 checkPermission(<span class="hljs-string">"hub:events:create"</span>, entity, context);
 <span class="hljs-comment">//=&gt; {permission: "hub:events:create", access: false, response: "not-group-member", checks: [{"hub:events:create", value: "group:00c", response:"not-group-member"}]}</span>
-
 <span class="hljs-comment">// same function will be exposed on the class instances</span>
 site.checkPermission(<span class="hljs-string">"hub:pages:create"</span>);
 <span class="hljs-comment">//=&gt; {permission: "hub:pages:create", access: true, response: "group-member", checks: [{"hub:pages:create", value: "group:00c", response:"group-member"}]}</span>
 </code></pre>
-<p>The key part of the response is the <code>access</code> which denotes if the user has been granted access. The rest of the response structure (<code>IAccessResponse</code>) provides deeper information about why access was granted or denied.</p>
-<h2>Permissions Subsystem</h2>
-<p>ArcGIS Hub is a collaboration system, and thus determining what actions a user can takem, within a specific context is a common task.</p>
-<p>Hub.js provides a Permission subsystem which combines platform level access controls (Portal Privileges, item edit access, group membership etc) with Hub business logic, to provide a single, seamless</p>
-<h2>Permissions</h2>
-<p>A Permission is identified by a unique string, generally following this pattern:</p>
-<p><code>{namespace}:{capability-or-subsystem}:{action}:{sub-action}</code></p>
-<p>Examples: <code>hub:events:create</code> and <code>hub:project:edit</code></p>
-<p>The values are enforced by a typescript type, but effectively they can be anything, as long as they are unique, and consistent across the system.</p>
+<p>Both return an <code>IPermissionAccessResponse</code> . The most important property is <code>.access</code> which indicates if the current user has access to the capability. The other properties are for debugging and observability into why the system is returning the <code>.access</code> value, and can be used to display different messages to the user.</p>
+<h3>Defining Permissions</h3>
+<p>Permissions are defined on a per-entity basis, in the <code>&lt;EntityType&gt;BusinessRules</code> modules.</p>
+<p>They are made up of two parts:</p>
+<ul>
+<li>a string identifier e.g. <code>hub:site:create</code>, following the general pattern <code>{namespace}:{entity-or-subsystem}:{action}:{sub-action}</code></li>
+<li>a <code>IPermissionPolicy</code> which defines the requirements for access</li>
+</ul>
+<p>To define a new permission, the permission string must be added to the <code>&lt;EntityType&gt;Permissions</code> array (e.g. <code>SitePermissions</code>) and then the associated <code>IPermissionPolicy</code> must be added to the <code>&lt;EntityType&gt;PermissionPolicies</code> array.</p>
 <h3>Permission Policies</h3>
-<p>A Permission Policy defines the platform (authentication, edit access, privileges) and hub product requirements (licensing) that must be met by a user before they can be granted access to a permission.</p>
-<p>The <code>IPermissionPolicy</code> interface defines the structure. Permission Policies are built into Hub.js.</p>
+<p>An <code>IPermissionPolicy</code> defines the business rules that must be met in order for a user to be granted access. The current user must meet all these requirements, after which, entity level policies will be checked.</p>
+<pre><code class="jsx"><span class="hljs-comment">// Example definition</span>
+<span class="hljs-keyword">const</span> createSitePolicy: IPermissionPolicy = {
+  <span class="hljs-attr">permission</span>: <span class="hljs-string">"hub:site:create"</span>,
+  <span class="hljs-attr">subsystems</span>: [<span class="hljs-string">"sites"</span>],
+  <span class="hljs-attr">authenticated</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">privileges</span>: [<span class="hljs-string">"portal:user:createItem"</span>],
+  <span class="hljs-attr">licenses</span>: [<span class="hljs-string">"hub-basic"</span>, <span class="hljs-string">"hub-premium"</span>, <span class="hljs-string">"enterprise-sites"</span>],
+};
+</code></pre>
 <img src="/hub.js/img/IPermissionPolicy.png" width="250px">
 <p><strong>Permission</strong>: Permission Identifier. e.g. <code>hub:projects:create</code></p>
+<p><strong>Subsystems</strong>: What subsystems must be online for this policy?</p>
+<p><strong>Authenticated</strong>: must user be authenticated?</p>
 <p><strong>Privileges</strong>: Any Platform level privileges that may be required. e.g. <code>portal:user:createItem</code></p>
 <p><strong>entityOwner</strong>: Does this policy require that the user be the owner of the entity?</p>
 <p><strong>entityEditor</strong>: Does this policy require that the user be able to edit the entity?</p>
 <p><strong>licenses</strong>: What Hub Licenses are required?</p>
+<p><strong>alpha</strong>: Is this restricted to alpha organizations?</p>
+<p><strong>assertions</strong>: additional checks that can address custom scenarios not covered by the other properties.</p>
+<p>Please see the <a href="/hub.js/api/common/IPermissionPolicy/"><code>IPermissionPolicy</code> documentation</a> for list of all available properties and theur detailed definitions.</p>
 <h3>Example Permission Policies</h3>
 <pre><code class="jsx">[
   {
@@ -202,7 +235,7 @@ site.checkPermission(<span class="hljs-string">"hub:pages:create"</span>);
 <p>For some application level permissions - i.e. <code>hub:create:site</code>, is all that’s needed because Sites are not created in the context of any other “entities”.</p>
 <h3>Entity Permission Policies</h3>
 <p>Most permissions are context specific - <code>hub:site:edit</code> only makes sense in the context of a specific site entity. The Entity Permission Policy defines additional checks.</p>
-<p>These policies are stored with the entity.</p>
+<p>These policies are stored with the entity, and are checked after the system policies.</p>
 <p><strong>Entity Permission Policies</strong> are treated as “grants”, in that the user only needs to satisfy one of the conditions (in addition to the Permission Policies)</p>
 <img src="/hub.js/img/IEntityPermissionPolicy.png" width="250px">
 <h3>Entity Permission Structure</h3>
@@ -223,8 +256,10 @@ site.checkPermission(<span class="hljs-string">"hub:pages:create"</span>);
   },
 ];
 </code></pre>
+<p>The entity permission policies are stored in <code>data.permissions</code> and are automatically merged with the ArcGIS Hub Permission business rules at run-time.</p>
+<p>In the future, the “Collaboration” UX will be used to define Entity Permission Policies. Until that is available, for Sites we are utilizing a run-time migration which generates an Entity Permission Policy, granting access to <code>hub:site:edit</code> permission to members of the collaboration group associated with the Site.</p>
 <h2>System Status</h2>
-<p>In addition to being granted a permission, and having the necessary platform privs &amp; licensing, the capability subsystem must be operational.</p>
+<p>In addition to being granted a permission, and having the necessary platform privileges &amp; licensing, the underlying subsystem must be operational.</p>
 <p>For example, a permission like <code>hub:sites:manageDomains</code> needs to verify that the user has edit access to the Site item that’s the context, <strong><em>and</em></strong> that the System supports the domains service, <strong><em>and</em></strong> that it is operational.</p>
 <pre><code class="jsx">[
   {
@@ -242,10 +277,6 @@ site.checkPermission(<span class="hljs-string">"hub:pages:create"</span>);
 ];
 </code></pre>
 <p>For the first release, the system status is constructed by the host application, but eventually it will be fetched from the Hub API.</p>
-<h3>Permission Storage</h3>
-<p>Entity Permissions are stored with the entity to which they apply.</p>
-<p>The Permission Policies are defined at the system level and are stored either in Hub.js itself or could be served from an API.</p>
-<p>Ideally we want the Hub system behavior to be “configurable by default” - meaning that if at all possible, we should design and build things to determine what a user can do, in any situation, by querying the permission system. This will enable the system to dynamically adapt to different licensing strategies</p>
       </div>
     </div>
   </div>

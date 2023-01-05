@@ -110,13 +110,17 @@
           <li>Advanced</li>
           <ul class="list-plain margin-left-1">
             
-              <li><a href="/hub.js/guides/advanced/queries-and-filters/">Queries & Filters</a></li>
+              <li><a href="/hub.js/guides/advanced/access-control/">Access Control</a></li>
             
-              <li><a href="/hub.js/guides/advanced/catalog-collection/">Catalogs & Collections</a></li>
+              <li><a href="/hub.js/guides/advanced/capabilities/">Capabilities</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/operation-stack/">OperationStack</a></li>
             
               <li><a href="/hub.js/guides/advanced/permissions/">Permissions</a></li>
             
-              <li><a href="/hub.js/guides/advanced/operation-stack/">OperationStack</a></li>
+              <li><a href="/hub.js/guides/advanced/queries-and-filters/">Queries & Filters</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/catalog-collection/">Catalogs & Collections</a></li>
             
               <li><a href="/hub.js/guides/advanced/composing-workflows/">Composing Workflows</a></li>
             
@@ -178,7 +182,7 @@
 </tbody>
 </table>
 <h3>In an Application</h3>
-<p>We expect that most applications will leverage the <code>HubProjectManager</code> class, instantiated as needed with <code>IArcGISContext</code> from the application's <code>ArcGISContextManager.context</code>. The following example shows this pattern using Ember.js, but it would be generally the same in React etc.</p>
+<p>We expect that most applications will leverage the <code>HubProject</code> class, instantiated as needed with <code>IArcGISContext</code> from the application's <code>ArcGISContextManager.context</code>. The following example shows this pattern using Ember.js, but it would be generally the same in React etc.</p>
 <h3>Ember.js Example</h3>
 <p>Assuming the following routes in an app...</p>
 <pre><code class="js"><span class="hljs-comment">//...snip...</span>
