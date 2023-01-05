@@ -1,5 +1,4 @@
 import {
-  getUser,
   IGroup,
   IItem,
   removeItemResource,
@@ -8,16 +7,30 @@ import {
   unshareItemWithGroup,
 } from "@esri/arcgis-rest-portal";
 import { IArcGISContext } from "../ArcGISContext";
+import {
+  Capability,
+  checkCapability,
+  ICapabilityAccessResponse,
+} from "../capabilities";
 import HubError from "../HubError";
 import { uploadImageResource } from "../items";
 import { setItemThumbnail } from "../items/setItemThumbnail";
+import {
+  addPermissionPolicy,
+  checkPermission,
+  IPermissionAccessResponse,
+  IEntityPermissionPolicy,
+  Permission,
+  removePermissionPolicy,
+} from "../permissions";
 import { getItemThumbnailUrl, IThumbnailOptions } from "../resources";
 import { cloneObject } from "../util";
-import { mapBy } from "../utils";
 import {
   IWithSharingBehavior,
   IWithStoreBehavior,
   IWithFeaturedImageBehavior,
+  IWithPermissionBehavior,
+  IWithCapabilityBehavior,
 } from "./behaviors";
 
 import { IWithThumbnailBehavior } from "./behaviors/IWithThumbnailBehavior";
@@ -34,7 +47,9 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     IWithStoreBehavior<T>,
     IWithSharingBehavior,
     IWithThumbnailBehavior,
-    IWithFeaturedImageBehavior
+    IWithFeaturedImageBehavior,
+    IWithPermissionBehavior,
+    IWithCapabilityBehavior
 {
   protected context: IArcGISContext;
   protected entity: T;
@@ -44,6 +59,55 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
   constructor(entity: T, context: IArcGISContext) {
     this.context = context;
     this.entity = entity;
+  }
+
+  /**
+   * Check if current user has a specific permission, accounting for
+   * both system and entity level policies
+   * @param permission
+   * @returns
+   */
+  checkPermission(permission: Permission): IPermissionAccessResponse {
+    return checkPermission(permission, this.context, this.entity);
+  }
+  /**
+   * Get all policies related to a specific permission
+   * @param permission
+   * @returns
+   */
+  getPermissionPolicies(permission: Permission): IEntityPermissionPolicy[] {
+    const permissions = this.entity.permissions || [];
+    return permissions.filter((p) => p.permission === permission);
+  }
+  /**
+   * Add a policy to the entity
+   * @param policy
+   */
+  addPermissionPolicy(policy: IEntityPermissionPolicy): void {
+    this.entity.permissions = addPermissionPolicy(
+      this.entity.permissions,
+      policy
+    );
+  }
+  /**
+   * Remove a policy from the entity
+   * @param permission
+   * @param id
+   */
+  removePermissionPolicy(permission: Permission, id: string): void {
+    this.entity.permissions = removePermissionPolicy(
+      this.entity.permissions,
+      permission,
+      id
+    );
+  }
+
+  /**
+   * Check if the current user can access a specific capability
+   * @param capability
+   */
+  checkCapability(capability: Capability): ICapabilityAccessResponse {
+    return checkCapability(capability, this.context, this.entity);
   }
 
   // Although we don't expose all the properties, we do expose a few for convenience
@@ -83,42 +147,8 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * or be a member of a shared editing group, to which the item is shared.
    * @returns
    */
-  async canEdit(): Promise<boolean> {
-    const user = this.context.currentUser;
-    // owner can always edit
-    if (user.username === this.entity.owner) {
-      return Promise.resolve(true);
-    }
-
-    // Fetch the user's groups by fetching the user
-    // we do this each time to ensure we have the latest groups
-    const u = await getUser(user.username);
-    const usersGroups = u.groups;
-
-    if (!usersGroups.length) {
-      // if user is not owner and not in any groups they can't have edit access
-      return Promise.resolve(false);
-    }
-    // get the groups the entity is shared to
-    const entityGroups = await this.sharedWith();
-    // filter to shared edit groups
-    const editGroupIds = entityGroups
-      .filter((g) => {
-        const caps = (g.capabilities as string[]) || [];
-        return caps.includes("updateitemcontrol");
-      })
-      .map((g) => g.id);
-    // get the user's groups ids
-    const usersGroupsIds = mapBy("id", usersGroups) as string[];
-    // check for any overlap
-    let isMemberOfEditGroup = false;
-    for (const id of usersGroupsIds) {
-      isMemberOfEditGroup = editGroupIds.includes(id);
-      if (isMemberOfEditGroup) {
-        break;
-      }
-    }
-    return Promise.resolve(isMemberOfEditGroup);
+  get canEdit(): boolean {
+    return this.entity.canEdit;
   }
 
   /**
@@ -127,26 +157,8 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * in the owner's organization.
    * @returns
    */
-  async canDelete(): Promise<boolean> {
-    const user = this.context.currentUser;
-    // owner can always delete
-    if (user.username === this.entity.owner) {
-      return Promise.resolve(true);
-    }
-    // if not owner, check if user is org_admin in same org as owner
-    if (user.role === "org_admin" && !user.roleId) {
-      // need to get the owner, and see if the orgid matches
-      const ownerUser = await getUser({
-        username: this.entity.owner,
-        authentication: this.context.session,
-      });
-      // ensure owner orgId is not null and matched current user
-      const adminCanDelete = ownerUser.orgId && ownerUser.orgId === user.orgId;
-      return Promise.resolve(adminCanDelete);
-    } else {
-      // not org admin, can't edit
-      return Promise.resolve(false);
-    }
+  get canDelete() {
+    return this.entity.canDelete;
   }
 
   //#endregion IWithStoreBehavior

@@ -19,7 +19,7 @@ export enum PublisherSource {
  * Data model for content
  */
 export interface IHubContent
-  extends Omit<IHubItemEntity, "schemaVersion">,
+  extends Omit<IHubItemEntity, "schemaVersion" | "permissions">,
     IHubContentEnrichments,
     IItem {
   // NOTE: for content we keep and expose a reference to the underlying item
@@ -55,6 +55,7 @@ export interface IHubContent
 
   /**
    * Content visibility and access control, including groups
+   * NOTE: this needs to be reconciled with Hub permission system
    */
   permissions: {
     /** Visibility of the content */

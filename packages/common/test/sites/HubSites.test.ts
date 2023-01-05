@@ -49,6 +49,7 @@ const SITE_MODEL = {
 } as commonModule.IModel;
 
 const SITE: commonModule.IHubSite = {
+  itemControl: "edit",
   id: GUID,
   name: "Fake Site",
   tags: ["Transportation"],
@@ -72,7 +73,7 @@ const SITE: commonModule.IHubSite = {
   layout: { sections: [{}] },
   theme: {},
   subdomain: "site-org",
-  capabilities: [],
+  classicCapabilities: [],
   catalog: { schemaVersion: 0 },
   pages: [],
   defaultHostname: "site-org.hub.arcgis.com",
@@ -85,6 +86,8 @@ const SITE: commonModule.IHubSite = {
   thumbnailUrl: "",
   schemaVersion: 2,
   permissions: [],
+  canEdit: true,
+  canDelete: false,
 };
 
 const SITE_ITEM_ENRICH: portalModule.IItem = {

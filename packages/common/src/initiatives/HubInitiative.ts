@@ -4,12 +4,9 @@ import {
   IHubInitiative,
   IWithPermissionBehavior,
   IWithCatalogBehavior,
-  PermissionManager,
   IWithStoreBehavior,
   IWithSharingBehavior,
-  EditorConfigType,
-  UiSchemaElementOptions,
-  IEditorConfig,
+  IWithCapabilityBehavior,
 } from "../core";
 
 import {
@@ -31,11 +28,12 @@ export class HubInitiative
   implements
     IWithStoreBehavior<IHubInitiative>,
     IWithPermissionBehavior,
+    IWithCapabilityBehavior,
     IWithCatalogBehavior,
     IWithSharingBehavior
 {
   private _catalog: Catalog;
-  private _permissionManager: PermissionManager;
+
   /**
    * Private constructor so we don't have `new` all over the place. Allows for
    * more flexibility in how we create the HubInitiativeManager over time.
@@ -44,10 +42,6 @@ export class HubInitiative
   private constructor(entity: IHubInitiative, context: IArcGISContext) {
     super(entity, context);
     this._catalog = Catalog.fromJson(entity.catalog, this.context);
-    this._permissionManager = PermissionManager.fromJson(
-      entity.permissions,
-      this.context
-    );
   }
 
   /**
@@ -56,14 +50,6 @@ export class HubInitiative
    */
   get catalog(): Catalog {
     return this._catalog;
-  }
-
-  /**
-   * PermissionManager instance for this Initiative. Note: Do not hold direct references to this object; always access it from the Initiative.
-   * @returns PermissionManager
-   */
-  get permissions(): PermissionManager {
-    return this._permissionManager;
   }
 
   /**
@@ -175,12 +161,6 @@ export class HubInitiative
     if (changes.catalog) {
       this._catalog = Catalog.fromJson(this.entity.catalog, this.context);
     }
-    if (changes.permissions) {
-      this._permissionManager = PermissionManager.fromJson(
-        this.entity.permissions,
-        this.context
-      );
-    }
   }
 
   /**
@@ -194,7 +174,6 @@ export class HubInitiative
     }
     // get the catalog, and permission configs
     this.entity.catalog = this._catalog.toJson();
-    this.entity.permissions = this._permissionManager.toJson();
 
     if (this.entity.id) {
       // update it

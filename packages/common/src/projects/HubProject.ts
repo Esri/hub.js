@@ -4,10 +4,10 @@ import {
   IHubProject,
   IWithPermissionBehavior,
   IWithCatalogBehavior,
-  PermissionManager,
   IWithStoreBehavior,
   IWithSharingBehavior,
   UiSchemaElementOptions,
+  IWithCapabilityBehavior,
 } from "../core";
 
 import { Catalog } from "../search/Catalog";
@@ -29,12 +29,12 @@ export class HubProject
   implements
     IWithStoreBehavior<IHubProject>,
     IWithPermissionBehavior,
+    IWithCapabilityBehavior,
     IWithCatalogBehavior,
     IWithSharingBehavior
 {
-  // static IWithEditorBehavior
   private _catalog: Catalog;
-  private _permissionManager: PermissionManager;
+
   /**
    * Private constructor so we don't have `new` all over the place. Allows for
    * more flexibility in how we create the HubProjectManager over time.
@@ -43,10 +43,6 @@ export class HubProject
   private constructor(project: IHubProject, context: IArcGISContext) {
     super(project, context);
     this._catalog = Catalog.fromJson(project.catalog, this.context);
-    this._permissionManager = PermissionManager.fromJson(
-      project.permissions,
-      this.context
-    );
   }
 
   /**
@@ -55,14 +51,6 @@ export class HubProject
    */
   get catalog(): Catalog {
     return this._catalog;
-  }
-
-  /**
-   * PermissionManager instance for this project. Note: Do not hold direct references to this object; always access it from the project.
-   * @returns
-   */
-  get permissions(): PermissionManager {
-    return this._permissionManager;
   }
 
   /**
@@ -175,12 +163,6 @@ export class HubProject
     if (changes.catalog) {
       this._catalog = Catalog.fromJson(this.entity.catalog, this.context);
     }
-    if (changes.permissions) {
-      this._permissionManager = PermissionManager.fromJson(
-        this.entity.permissions,
-        this.context
-      );
-    }
   }
 
   /**
@@ -193,7 +175,6 @@ export class HubProject
     }
     // get the catalog, and permission configs
     this.entity.catalog = this._catalog.toJson();
-    this.entity.permissions = this._permissionManager.toJson();
 
     const { createProject, updateProject } = await import("./edit");
 

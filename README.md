@@ -18,7 +18,6 @@
 
 ## Table of Contents
 
-- [Example](#example)
 - [API Reference](#api-reference)
 - [Instructions](#instructions)
 - [Packages](#packages)
@@ -29,21 +28,6 @@
 - [Code of Conduct](/CODE_OF_CONDUCT.md)
 - [License](#license)
 
-### Example
-
-```bash
-npm install @esri/hub-initiatives
-```
-
-```js
-import { fetchInitiative  } from '@esri/hub-initiatives';
-
-// pass in an initiative id
-fetchInitiative("abc123")
-    .then(
-        response => // get back initiative metadata
-    );
-```
 
 ### API Reference
 
@@ -54,7 +38,7 @@ The documentation is published at http://esri.github.io/hub.js/ (source code [he
 You can install dependencies by cloning the repository and running:
 
 ```bash
-npm install
+npm install --legacy-peer-deps
 ```
 
 **Note:** This project uses [volta](https://volta.sh/) to manage node/npm versions. We strongly suggest you do to :)
