@@ -66,7 +66,7 @@
 		"lerna": "^3.22.1",
 		"lint-staged": "^4.3.0",
 		"minimatch": "^3.0.4",
-		"multi-semantic-release": "^2.11.0",
+		"multi-semantic-release": "^3.0.1",
 		"onchange": "^3.3.0",
 		"prettier": "^2.2.1",
 		"resolve": "^1.5.0",
