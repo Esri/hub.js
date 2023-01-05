@@ -65,12 +65,6 @@ export class ChannelPermission {
     );
   }
 
-  private aclAllowsAnyUserToPost() {
-    return this.isAuthorizedToPost(
-      this.permissionsByCategory[AclCategory.ANONYMOUS_USER]?.[0].role
-    );
-  }
-
   private isAuthorizedToPost(role?: Role) {
     return this.ALLOWED_ROLES_FOR_POSTING.includes(role);
   }
@@ -96,6 +90,12 @@ export class ChannelPermission {
   private isGroupDiscussable(userGroup: IGroup) {
     const { typeKeywords = [] } = userGroup;
     return !typeKeywords.includes(CANNOT_DISCUSS);
+  }
+
+  private aclAllowsAnyUserToPost() {
+    return this.isAuthorizedToPost(
+      this.permissionsByCategory[AclCategory.ANONYMOUS_USER]?.[0].role
+    );
   }
 
   private aclAllowsAnyAuthenticatedUserToPost() {
