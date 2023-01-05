@@ -2,7 +2,7 @@
 title: Catalogs and Collections
 navTitle: Catalogs & Collections
 description: Searching within Sites and other items
-order: 20
+order: 60
 group: 4-advanced
 ---
 

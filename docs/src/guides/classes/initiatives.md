@@ -6,4 +6,4 @@ order: 35
 group: 2-class-api
 ---
 
-## TODO Write this
+## Initiative Class is not ready for use.
