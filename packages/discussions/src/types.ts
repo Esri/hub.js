@@ -689,117 +689,6 @@ export enum ChannelRelation {
   SETTINGS = "settings",
 }
 
-//
-// /**
-//  * permission object that will populate ACL interface
-//  *
-//  * @export
-//  * @interface IAclPermissionDefinition
-//  */
-// export interface IAclPermissionDefinition {
-//   role: Role;
-//   accessibleAfter?: string;
-// }
-
-//
-// /**
-//  * ACL intra-group/org role definition
-//  *
-//  * @export
-//  * @interface IAclGroupDefinition
-//  */
-// export interface IAclGroupDefinition {
-//   admin?: IAclPermissionDefinition;
-//   member?: IAclPermissionDefinition;
-// }
-
-//
-// /**
-//  * key-value lookup for ACL group/org permission definitions
-//  * @export
-//  */
-// export type AclGroupDefinitionMap = Record<string, IAclGroupDefinition>;
-
-//
-// /**
-//  * key-value lookup for ACL user permission definitions
-//  * @export
-//  */
-// export type AclUserDefinitionMap = Record<string, IAclPermissionDefinition>;
-
-//
-// /**
-//  * request options for creating channel with ACL
-//  *
-//  * @export
-//  * @interface IChannelAclObjectDefinition
-//  */
-// export interface IChannelAclObjectDefinition {
-//   anonymous?: IAclPermissionDefinition;
-//   authenticated?: IAclPermissionDefinition;
-//   groups?: AclGroupDefinitionMap;
-//   orgs?: AclGroupDefinitionMap;
-//   users: {
-//     [key: string]: IAclPermissionDefinition;
-//   };
-// }
-
-//
-// /**
-//  * permission object that will populate ACL interface
-//  *
-//  * @export
-//  * @interface IAclPermission
-//  * @extends {Omit<IAclPermissionDefinition, "accessibleAfter">}
-//  */
-// export interface IAclPermission
-//   extends Omit<IAclPermissionDefinition, "accessibleAfter">,
-//     IWithTimestamps {
-//   accessibleAfter: string;
-// }
-
-//
-// /**
-//  * ACL intra-group/org roles
-//  *
-//  * @export
-//  * @interface IAclGroup
-//  */
-// export interface IAclGroup {
-//   admin?: IAclPermission;
-//   member?: IAclPermission;
-// }
-
-//
-// /**
-//  * key-value lookup for ACL group/org permission definitions
-//  * @export
-//  */
-// export type AclGroupMap = Record<string, IAclGroup>;
-
-//
-// /**
-//  * key-value lookup for ACL user permissions
-//  * @export
-//  */
-// export type AclUserMap = Record<string, IAclPermission>;
-
-// DONE
-// /**
-//  * channel access control list
-//  * DEPRECATING! Will be removed after permissions refactor
-//  *
-//  * @export
-//  * @interface IChannelAclObject
-//  */
-// export interface IChannelAclObject {
-//   anonymous?: IAclPermission;
-//   authenticated?: IAclPermission;
-//   groups?: AclGroupMap;
-//   orgs?: AclGroupMap;
-//   users: AclUserMap;
-// }
-
 export enum AclCategory {
   GROUP = "group",
   ORG = "org",
@@ -878,7 +767,6 @@ export interface ICreateChannelPermissions {
   access?: SharingAccess;
   groups?: string[];
   orgs?: string[];
-  // acl?: IChannelAclObjectDefinition;
   channelAclDefinition?: IChannelAclPermissionDefinition[];
 }
 
@@ -917,7 +805,6 @@ export interface IChannel extends IWithAuthor, IWithEditor, IWithTimestamps {
   access: SharingAccess;
   orgs: string[];
   groups: string[];
-  // acl: IChannelAclObject;
   channelAcl?: IChannelAclPermission[];
 }
 
