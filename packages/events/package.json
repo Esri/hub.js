@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-events",
-  "version": "11.23.5",
+  "version": "12.0.0",
   "description": "Module to interact with ArcGIS Hub Events in Node.js and modern browsers.",
   "main": "dist/node/index.js",
   "module": "dist/esm/index.js",
@@ -16,7 +16,7 @@
     "@esri/arcgis-rest-portal": "^2.15.0 || 3",
     "@esri/arcgis-rest-request": "^2.13.0 || 3",
     "@esri/arcgis-rest-types": "^2.13.0 || 3",
-    "@esri/hub-common": "11.23.5"
+    "@esri/hub-common": "12.0.0"
   },
   "devDependencies": {
     "@esri/arcgis-rest-auth": "^3.1.1",
@@ -24,7 +24,7 @@
     "@esri/arcgis-rest-portal": "^3.5.0",
     "@esri/arcgis-rest-request": "^3.1.1",
     "@esri/arcgis-rest-types": "^3.1.1",
-    "@esri/hub-common": "11.23.5",
+    "@esri/hub-common": "12.0.0",
     "typescript": "^3.8.1"
   },
   "files": [
