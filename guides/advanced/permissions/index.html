@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Permissions and Access Controls | Guide | @esri/hub.js</title>
+    
+    <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
+    
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css">
+    <link rel="stylesheet" href="/hub.js/css/style.css">
+    
+  </head>
+  <body>
+  <!-- Drawer -->
+    <div class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
+      <nav class="drawer-nav" role="navigation">
+        <aside class="side-nav">
+          <h2 class="side-nav-title">@esri/hub.js</h2>
+          <a href="/hub.js/guides/" class="is-active side-nav-link">Guides</a>
+          <a href="/hub.js/api/" class="side-nav-link">API Reference</a>
+        </aside>
+      </nav>
+    </div>
+
+    <div id="page" class="wrapper">
+      <!-- Sample HTML -->
+      <header class="top-nav">
+        <div class="grid-container">
+          <div class="column-24">
+            <!-- desktop sized navigation -->
+            <div class="tablet-hide">
+              <!-- logo / home -->
+              <a href="/hub.js/" class="top-nav-title">@esri/hub.js</a>
+              <!-- primary navigation sections -->
+              <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/guides/" class="is-active top-nav-link">Guides</a>
+                <a href="/hub.js/api/" class="top-nav-link">API Reference</a>
+                <a href="https://github.com/Esri/hub.js" class="top-nav-link">GitHub</a>
+              </nav>
+            </div>
+
+            <!-- tablet and mobile sized navigation -->
+            <div class="tablet-show top-nav-flex">
+              <!-- open primary navigation drawer -->
+              <nav class="top-nav-flex-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/" class="icon-ui-menu top-nav-link js-drawer-toggle" data-drawer="top-nav"><span class="phone-hide">Menu</span></a>
+              </nav>
+              <!-- logo / home -->
+              <header class="top-nav-flex-title">
+                <a href="/hub.js/" class="top-nav-link">@esri/hub.js</a>
+              </header>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+
+      <main id="#skip-to-content">
+        
+  <div class="grid-container trailer-1 leader-1">
+    <div class="column-6">
+      <ul class="list-plain">
+        
+          <li>Intro</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/intro/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/intro/getting-started/">Getting Started</a></li>
+            
+          </ul>
+        
+          <li>Class Api</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/classes/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/classes/arcgiscontext/">Authentication</a></li>
+            
+              <li><a href="/hub.js/guides/classes/sites/">Sites (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/pages/">Pages (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/initiatives/">Initiatives (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/projects/">Projects</a></li>
+            
+          </ul>
+        
+          <li>Functional Api</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/functional/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/functional/authentication/">Authentication</a></li>
+            
+              <li><a href="/hub.js/guides/functional/hub-search/">Hub Search</a></li>
+            
+              <li><a href="/hub.js/guides/functional/utilities/">Utilities</a></li>
+            
+              <li><a href="/hub.js/guides/functional/discussions/">Discussions</a></li>
+            
+              <li><a href="/hub.js/guides/functional/teams/">Teams</a></li>
+            
+          </ul>
+        
+          <li>Advanced</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/advanced/queries-and-filters/">Queries & Filters</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/catalog-collection/">Catalogs & Collections</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/permissions/" class="is-active">Permissions</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/operation-stack/">OperationStack</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/composing-workflows/">Composing Workflows</a></li>
+            
+          </ul>
+        
+          <li>Developers</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/developers/e2e-tests/">E2E Testing</a></li>
+            
+          </ul>
+        
+          <li>Legacy</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/legacy/content-search/">Search Service</a></li>
+            
+              <li><a href="/hub.js/guides/legacy/sites-and-pages/">Sites and Pages</a></li>
+            
+          </ul>
+        
+      </ul>
+    </div>
+
+    <div class="column-18">
+      <div class="panel">
+        <h2>Permissions and Access Controls</h2>
+<p><strong>NOTE: This guide is under active development</strong></p>
+<h3>Quick Start</h3>
+<p>Client code can check permissions via entity classes <code>instance.checkPermission(permission)</code> or via free functions <code>checkPermission(permission, entity, context)</code>.</p>
+<p>These calls are optimized as we expect client code to use these permission checks to determine a lot of UI behaviors. Currently these calls take less than a millisecond to complete.</p>
+<pre><code class="jsx"><span class="hljs-comment">// Check individual permission</span>
+checkPermission(<span class="hljs-string">"hub:events:create"</span>, entity, context);
+<span class="hljs-comment">//=&gt; {permission: "hub:events:create", access: false, response: "not-group-member", checks: [{"hub:events:create", value: "group:00c", response:"not-group-member"}]}</span>
+
+<span class="hljs-comment">// same function will be exposed on the class instances</span>
+site.checkPermission(<span class="hljs-string">"hub:pages:create"</span>);
+<span class="hljs-comment">//=&gt; {permission: "hub:pages:create", access: true, response: "group-member", checks: [{"hub:pages:create", value: "group:00c", response:"group-member"}]}</span>
+</code></pre>
+<p>The key part of the response is the <code>access</code> which denotes if the user has been granted access. The rest of the response structure (<code>IAccessResponse</code>) provides deeper information about why access was granted or denied.</p>
+<h2>Permissions Subsystem</h2>
+<p>ArcGIS Hub is a collaboration system, and thus determining what actions a user can takem, within a specific context is a common task.</p>
+<p>Hub.js provides a Permission subsystem which combines platform level access controls (Portal Privileges, item edit access, group membership etc) with Hub business logic, to provide a single, seamless</p>
+<h2>Permissions</h2>
+<p>A Permission is identified by a unique string, generally following this pattern:</p>
+<p><code>{namespace}:{capability-or-subsystem}:{action}:{sub-action}</code></p>
+<p>Examples: <code>hub:events:create</code> and <code>hub:project:edit</code></p>
+<p>The values are enforced by a typescript type, but effectively they can be anything, as long as they are unique, and consistent across the system.</p>
+<h3>Permission Policies</h3>
+<p>A Permission Policy defines the platform (authentication, edit access, privileges) and hub product requirements (licensing) that must be met by a user before they can be granted access to a permission.</p>
+<p>The <code>IPermissionPolicy</code> interface defines the structure. Permission Policies are built into Hub.js.</p>
+<img src="/hub.js/img/IPermissionPolicy.png" width="250px">
+<p><strong>Permission</strong>: Permission Identifier. e.g. <code>hub:projects:create</code></p>
+<p><strong>Privileges</strong>: Any Platform level privileges that may be required. e.g. <code>portal:user:createItem</code></p>
+<p><strong>entityOwner</strong>: Does this policy require that the user be the owner of the entity?</p>
+<p><strong>entityEditor</strong>: Does this policy require that the user be able to edit the entity?</p>
+<p><strong>licenses</strong>: What Hub Licenses are required?</p>
+<h3>Example Permission Policies</h3>
+<pre><code class="jsx">[
+  {
+    <span class="hljs-attr">permission</span>: <span class="hljs-string">"hub:projects:create"</span>,
+    <span class="hljs-attr">privileges</span>: [<span class="hljs-string">"portal:user:createItem"</span>],
+    <span class="hljs-attr">entityOwner</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">entityEditor</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">licenses</span>: [<span class="hljs-string">"hub-premium"</span>],
+  },
+  {
+    <span class="hljs-attr">permission</span>: <span class="hljs-string">"hub:projects:delete"</span>,
+    <span class="hljs-attr">privileges</span>: [],
+    <span class="hljs-attr">entityOwner</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">entityEditor</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">licenses</span>: [<span class="hljs-string">"hub-premium"</span>],
+  },
+  {
+    <span class="hljs-attr">permission</span>: <span class="hljs-string">"hub:projects:editCapabilities"</span>,
+    <span class="hljs-attr">privileges</span>: [],
+    <span class="hljs-attr">entityOwner</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">entityEditor</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">licenses</span>: [<span class="hljs-string">"hub-premium"</span>],
+  },
+];
+</code></pre>
+<p>For some application level permissions - i.e. <code>hub:create:site</code>, is all that’s needed because Sites are not created in the context of any other “entities”.</p>
+<h3>Entity Permission Policies</h3>
+<p>Most permissions are context specific - <code>hub:site:edit</code> only makes sense in the context of a specific site entity. The Entity Permission Policy defines additional checks.</p>
+<p>These policies are stored with the entity.</p>
+<p><strong>Entity Permission Policies</strong> are treated as “grants”, in that the user only needs to satisfy one of the conditions (in addition to the Permission Policies)</p>
+<img src="/hub.js/img/IEntityPermissionPolicy.png" width="250px">
+<h3>Entity Permission Structure</h3>
+<p><strong>Permission</strong>: What is being managed?</p>
+<p><strong>CollaborationType</strong>: Type of the context the grant is applied to - e.g. <code>user| group | org</code></p>
+<p><strong>CollaborationId:</strong> Identifier of what the grant applies to e.g. <code>jsmith</code> or <code>7deb8b7bdb4f4fab973513ebb55cd9a6</code></p>
+<h3>Example Entity Permission Policies</h3>
+<pre><code class="jsx">[
+  {
+    <span class="hljs-attr">id</span>: <span class="hljs-string">"hub:sites:create"</span>,
+    <span class="hljs-attr">collaborationType</span>: <span class="hljs-string">"org"</span>,
+    <span class="hljs-attr">collaborationId</span>: <span class="hljs-string">"BK0"</span>,
+  },
+  {
+    <span class="hljs-attr">id</span>: <span class="hljs-string">"hub:projects:create"</span>,
+    <span class="hljs-attr">collaborationType</span>: <span class="hljs-string">"item"</span>,
+    <span class="hljs-attr">collaborationId</span>: <span class="hljs-string">"00c"</span>,
+  },
+];
+</code></pre>
+<h2>System Status</h2>
+<p>In addition to being granted a permission, and having the necessary platform privs &amp; licensing, the capability subsystem must be operational.</p>
+<p>For example, a permission like <code>hub:sites:manageDomains</code> needs to verify that the user has edit access to the Site item that’s the context, <strong><em>and</em></strong> that the System supports the domains service, <strong><em>and</em></strong> that it is operational.</p>
+<pre><code class="jsx">[
+  {
+    <span class="hljs-attr">subsystem</span>: <span class="hljs-string">"sites"</span>,
+    <span class="hljs-attr">status</span>: <span class="hljs-string">"online"</span>,
+  },
+  {
+    <span class="hljs-attr">subsystem</span>: <span class="hljs-string">"domains"</span>,
+    <span class="hljs-attr">status</span>: <span class="hljs-string">"online"</span>,
+  },
+  {
+    <span class="hljs-attr">subsystem</span>: <span class="hljs-string">"events"</span>,
+    <span class="hljs-attr">status</span>: <span class="hljs-string">"not-available"</span>,
+  },
+];
+</code></pre>
+<p>For the first release, the system status is constructed by the host application, but eventually it will be fetched from the Hub API.</p>
+<h3>Permission Storage</h3>
+<p>Entity Permissions are stored with the entity to which they apply.</p>
+<p>The Permission Policies are defined at the system level and are stored either in Hub.js itself or could be served from an API.</p>
+<p>Ideally we want the Hub system behavior to be “configurable by default” - meaning that if at all possible, we should design and build things to determine what a user can do, in any situation, by querying the permission system. This will enable the system to dynamically adapt to different licensing strategies</p>
+      </div>
+    </div>
+  </div>
+
+      </main>
+    </div>
+
+    <footer class="footer">
+      
+      <div class="panel panel-white">
+        <div class="grid-container">
+          <div class="column-24">
+            <a href="https://github.com/Esri/hub.js" class="font-size--2">Fork this project</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/js/calcite-web.min.js"></script>
+
+    <script>
+       calcite.init()
+    </script>
+
+    
+  </body>
+</html>
