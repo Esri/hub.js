@@ -1,3 +1,19 @@
+# @esri/hub-common [12.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.23.5...@esri/hub-common@12.0.0) (2023-01-05)
+
+
+### Features
+
+* Permissions and Capabilities subsystems ([#952](https://github.com/Esri/hub.js/issues/952)) ([d52c124](https://github.com/Esri/hub.js/commit/d52c1240027113ba75fc0dd48619472128436a9b)), closes [#933](https://github.com/Esri/hub.js/issues/933)
+
+
+### BREAKING CHANGES
+
+* removes PermissionManager; permission fns are exposed
+on HubItemEntity
+* canEdit canDelete are now sync getters
+
+Co-authored-by: semantic-release-bot <semantic-release-bot@martynus.net>
+
 ## @esri/hub-common [11.23.5](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.23.4...@esri/hub-common@11.23.5) (2023-01-04)
 
 ### Bug Fixes
