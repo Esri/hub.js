@@ -33,7 +33,7 @@ To work with Projects, use the `HubProject` class. This class is instantiated vi
 
 ### In an Application
 
-We expect that most applications will leverage the `HubProjectManager` class, instantiated as needed with `IArcGISContext` from the application's `ArcGISContextManager.context`. The following example shows this pattern using Ember.js, but it would be generally the same in React etc.
+We expect that most applications will leverage the `HubProject` class, instantiated as needed with `IArcGISContext` from the application's `ArcGISContextManager.context`. The following example shows this pattern using Ember.js, but it would be generally the same in React etc.
 
 ### Ember.js Example
 
