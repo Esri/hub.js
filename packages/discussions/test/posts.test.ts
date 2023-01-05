@@ -10,9 +10,12 @@ import {
 } from "../src/posts";
 import * as req from "../src/request";
 import {
+  AclCategory,
+  AclSubCategory,
   IDiscussionsRequestOptions,
   IFetchPostParams,
   PostStatus,
+  Role,
   SharingAccess,
 } from "../src/types";
 
@@ -50,9 +53,23 @@ describe("posts", () => {
 
   it("creates post on unknown or non-existent channel", (done) => {
     const body = {
-      access: SharingAccess.PUBLIC,
-      groups: ["foo"],
+      access: SharingAccess.PRIVATE,
+      groups: ["groupId"],
       body: "foo",
+      channelAclDefinition: [
+        {
+          category: AclCategory.GROUP,
+          subCategory: AclSubCategory.ADMIN,
+          key: "groupId",
+          role: Role.OWNER,
+        },
+        {
+          category: AclCategory.GROUP,
+          subCategory: AclSubCategory.MEMBER,
+          key: "groupId",
+          role: Role.READ,
+        },
+      ],
     };
 
     const options = { ...baseOpts, data: body };
