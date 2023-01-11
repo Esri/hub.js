@@ -42,6 +42,7 @@ export * from "./_update-pages";
 export * from "./site-second-pass";
 export * from "./get-data-for-site-item";
 export * from "./is-site";
+export * from "./is-site-type";
 export * from "./get-members";
 export * from "./interpolate-site";
 
