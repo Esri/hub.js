@@ -1,3 +1,13 @@
+# @esri/hub-downloads [12.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-downloads@12.0.0...@esri/hub-downloads@12.1.0) (2023-01-12)
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 12.1.0
+
 # @esri/hub-downloads [12.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-downloads@11.23.5...@esri/hub-downloads@12.0.0) (2023-01-05)
 
 
