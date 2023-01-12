@@ -7,6 +7,7 @@ import {
   getTypes,
   normalizeItemType,
   isFeatureService,
+  isSiteType,
   getLayerIdFromUrl,
   getItemLayerId,
   getItemHubId,
@@ -35,7 +36,6 @@ import {
   getHubRelativeUrl,
   extractFirstContact,
   getPublisherInfo,
-  isSiteType,
 } from "../src/content/_internal";
 import { IModel } from "../src/types";
 import {
