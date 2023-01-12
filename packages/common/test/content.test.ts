@@ -35,6 +35,7 @@ import {
   getHubRelativeUrl,
   extractFirstContact,
   getPublisherInfo,
+  isSiteType,
 } from "../src/content/_internal";
 import { IModel } from "../src/types";
 import {
@@ -860,6 +861,11 @@ describe("internal", () => {
     it("should handle feedback", () => {
       const result = getHubRelativeUrl("Form", identifier);
       expect(result).toBe(`/feedback/surveys/${identifier}`);
+    });
+  });
+  describe("isSiteType", () => {
+    it("Should return false for web mapping application with no type keywords", () => {
+      expect(isSiteType("Web Mapping Application")).toBeFalsy();
     });
   });
 });

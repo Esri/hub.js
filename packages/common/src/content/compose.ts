@@ -35,6 +35,7 @@ import {
   getItemOrgId,
 } from "./_internal";
 import { getFamily } from "./get-family";
+import { isSiteType } from "./_internal";
 
 // helper fns - move this to _internal if needed elsewhere
 const getOnlyQueryLayer = (layers: ILayerDefinition[]) => {
@@ -417,11 +418,7 @@ export const isFeatureService = (type: string) => {
 export function normalizeItemType(item: any = {}): string {
   let ret = item.type;
   const typeKeywords = item.typeKeywords || [];
-  if (
-    item.type === "Site Application" ||
-    (item.type === "Web Mapping Application" &&
-      includes(typeKeywords, "hubSite"))
-  ) {
+  if (isSiteType(item.type, typeKeywords)) {
     ret = "Hub Site Application";
   }
   if (
