@@ -191,6 +191,7 @@ export const isPageType = (type: string, typeKeywords: string[] = []) =>
 export function isSiteType(type: string, typeKeywords: string[] = []) {
   return (
     type === "Site Application" ||
+    type === "Hub Site Application" ||
     (type === "Web Mapping Application" && typeKeywords.includes("hubSite"))
   );
 }
