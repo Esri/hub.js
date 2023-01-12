@@ -35,7 +35,7 @@ import {
   getItemOrgId,
 } from "./_internal";
 import { getFamily } from "./get-family";
-import { isSiteType } from "./_internal";
+import { isSiteType } from ".";
 
 // helper fns - move this to _internal if needed elsewhere
 const getOnlyQueryLayer = (layers: ILayerDefinition[]) => {

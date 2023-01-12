@@ -21,6 +21,7 @@ import {
   setContentType,
   getContentTypeIcon,
   getContentTypeLabel,
+  isSiteType,
 } from "../src/content";
 import {
   isProxiedCSV,
@@ -35,7 +36,6 @@ import {
   getHubRelativeUrl,
   extractFirstContact,
   getPublisherInfo,
-  isSiteType,
 } from "../src/content/_internal";
 import { IModel } from "../src/types";
 import {
