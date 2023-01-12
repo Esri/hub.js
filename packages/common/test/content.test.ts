@@ -7,6 +7,7 @@ import {
   getTypes,
   normalizeItemType,
   isFeatureService,
+  isSiteType,
   getLayerIdFromUrl,
   getItemLayerId,
   getItemHubId,
@@ -21,7 +22,6 @@ import {
   setContentType,
   getContentTypeIcon,
   getContentTypeLabel,
-  isSiteType,
 } from "../src/content";
 import {
   isProxiedCSV,
