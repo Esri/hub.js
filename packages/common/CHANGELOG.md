@@ -1,3 +1,11 @@
+# @esri/hub-common [12.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.0.0...@esri/hub-common@12.1.0) (2023-01-12)
+
+
+### Features
+
+* include Hub Site Application type and testing ([49e5df3](https://github.com/Esri/hub.js/commit/49e5df3d0e564bb7100268b47d8ba91396871552))
+* move isSiteType to hub-common and testing ([ea2dd90](https://github.com/Esri/hub.js/commit/ea2dd90b31dd945a33c2e01f4df4ae140b22723e))
+
 # @esri/hub-common [12.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.23.5...@esri/hub-common@12.0.0) (2023-01-05)
 
 
