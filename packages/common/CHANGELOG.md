@@ -1,3 +1,11 @@
+# @esri/hub-common [12.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.1.0...@esri/hub-common@12.2.0) (2023-01-13)
+
+
+### Features
+
+* move isSiteType to index to allow consumables to use ([caaedc3](https://github.com/Esri/hub.js/commit/caaedc3f0aace4a77ceebe14ba5b9a80c7a05290))
+* move to compose.ts ([6e2c642](https://github.com/Esri/hub.js/commit/6e2c642e6055f4c941157c584388d825b97860fe))
+
 # @esri/hub-common [12.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.0.0...@esri/hub-common@12.1.0) (2023-01-12)
 
 
