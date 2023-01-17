@@ -315,6 +315,13 @@ describe("HubProjects:", () => {
         schemaVersion: 1,
         canEdit: false,
         canDelete: false,
+        content: {
+          item: [],
+          group: [],
+          user: [],
+          groupMember: [],
+          event: [],
+        },
       };
       const chk = await updateProject(prj, { authentication: MOCK_AUTH });
       expect(chk.id).toBe(GUID);
