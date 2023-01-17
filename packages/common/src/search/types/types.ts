@@ -131,3 +131,10 @@ export interface IContainsResponse {
    */
   duration?: number;
 }
+
+/**
+ * A collection of entity IDs grouped by the entity types
+ */
+export type IGallerySelection = {
+  [key in EntityType]: string[];
+};
