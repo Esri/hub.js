@@ -1,4 +1,6 @@
-import { cloneObject, deepSet, getProp, IModel, setProp } from "../..";
+import { deepSet, getProp, setProp } from "../../objects";
+import { IModel } from "../../types";
+import { cloneObject } from "../../util";
 
 /**
  * @private

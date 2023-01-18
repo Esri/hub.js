@@ -1,9 +1,6 @@
-import {
-  checkPermission,
-  HubEntity,
-  IPermissionAccessResponse,
-  IArcGISContext,
-} from "../../index";
+import { IArcGISContext } from "../../ArcGISContext";
+import { HubEntity } from "../../core";
+import { checkPermission, IPermissionAccessResponse } from "../../permissions";
 import { ICapabilityAccessResponse, ICapabilityPermission } from "../types";
 
 /**

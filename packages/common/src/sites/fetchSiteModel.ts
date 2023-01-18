@@ -1,10 +1,8 @@
-import {
-  IHubRequestOptions,
-  isGuid,
-  stripProtocol,
-  getSiteById,
-  lookupDomain,
-} from "..";
+import { IHubRequestOptions } from "../types";
+import { stripProtocol } from "../urls";
+import { isGuid } from "../utils";
+import { lookupDomain } from "./domains";
+import { getSiteById } from "./get-site-by-id";
 
 /**
  * Returns site model given various kinds of identifier

@@ -1,6 +1,6 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { updateItem } from "@esri/arcgis-rest-portal";
-import { HubError } from "..";
+import HubError from "../HubError";
 
 /**
  * Upload a file to be used as the thumbnail for an item

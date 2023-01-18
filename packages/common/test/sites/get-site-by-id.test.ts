@@ -1,23 +1,23 @@
-import * as commonModule from "../../src";
-import * as schemaModule from "../../src/sites";
+import * as upgradeSchemaModule from "../../src/sites/upgrade-site-schema";
+import * as modelModule from "../../src/models";
+import { IHubRequestOptions, IModel } from "../../src/types";
+import { getSiteById } from "../../src/sites";
 
 describe("getDataForSiteItem", () => {
   it("gets the model and applies schema upgrades", async () => {
     const model = {
       verify: true,
-    } as unknown as commonModule.IModel;
+    } as unknown as IModel;
 
-    const getModelSpy = spyOn(commonModule, "getModel").and.returnValue(
+    const getModelSpy = spyOn(modelModule, "getModel").and.returnValue(
       Promise.resolve(model)
     );
-    const schemaSpy = spyOn(schemaModule, "upgradeSiteSchema").and.callFake(
-      (m: commonModule.IModel) => m
-    );
+    const schemaSpy = spyOn(
+      upgradeSchemaModule,
+      "upgradeSiteSchema"
+    ).and.callFake((m: IModel) => m);
 
-    const res = await commonModule.getSiteById(
-      "some-id",
-      {} as commonModule.IHubRequestOptions
-    );
+    const res = await getSiteById("some-id", {} as IHubRequestOptions);
 
     expect(res).toEqual(model);
     expect(getModelSpy).toHaveBeenCalledWith("some-id", {});

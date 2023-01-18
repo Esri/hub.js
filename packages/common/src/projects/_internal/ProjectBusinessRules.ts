@@ -1,8 +1,5 @@
-import {
-  EntityCapabilities,
-  ICapabilityPermission,
-  IPermissionPolicy,
-} from "../../index";
+import { EntityCapabilities, ICapabilityPermission } from "../../capabilities";
+import { IPermissionPolicy } from "../../permissions";
 
 /**
  * Default capabilities for a Project. If not listed here, the capability will not be available

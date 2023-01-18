@@ -1,4 +1,4 @@
-import { EntityCapabilities, ICapabilityPermission } from "../../index";
+import { EntityCapabilities, ICapabilityPermission } from "../../capabilities";
 import { IPermissionPolicy } from "../../permissions/types";
 
 /**

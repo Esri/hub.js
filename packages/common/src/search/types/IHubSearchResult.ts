@@ -1,5 +1,5 @@
-import { EntityType, HubFamily, IHubGeography } from "../..";
 import { AccessLevel, IHubEntityBase } from "../../core";
+import { HubFamily, IHubGeography } from "../../types";
 
 /**
  * Simple interface for Links

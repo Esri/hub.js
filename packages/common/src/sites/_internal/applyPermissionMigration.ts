@@ -1,11 +1,11 @@
+import { getProp } from "../../objects";
 import {
-  cloneObject,
   CollaborationType,
-  getProp,
   IEntityPermissionPolicy,
-  IModel,
   Permission,
-} from "../../index";
+} from "../../permissions";
+import { IModel } from "../../types";
+import { cloneObject } from "../../util";
 
 /**
  * Informal migration that creates default permission policies based on the

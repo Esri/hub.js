@@ -5,9 +5,12 @@ import {
   IArcGISContext,
   IArcGISContextOptions,
 } from "./ArcGISContext";
-import { cloneObject, Logger, Level, HubSystemStatus } from ".";
+
 import { getHubApiFromPortalUrl } from "./urls/getHubApiFromPortalUrl";
 import { getPortalBaseFromOrgUrl } from "./urls/getPortalBaseFromOrgUrl";
+import { Level, Logger } from "./utils/logger";
+import { HubSystemStatus } from "./core";
+import { cloneObject } from "./util";
 
 /**
  * Options that can be passed into `ArcGISContextManager.create`

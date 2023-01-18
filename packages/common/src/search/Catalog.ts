@@ -12,14 +12,12 @@ import {
   IHubSearchOptions,
   IHubSearchResponse,
   IHubSearchResult,
-} from "./types";
-import {
   EntityType,
   ICatalogScope,
   IHubCatalog,
   IPredicate,
   IQuery,
-} from "./types/IHubCatalog";
+} from "./types";
 import { upgradeCatalogSchema } from "./upgradeCatalogSchema";
 
 /**

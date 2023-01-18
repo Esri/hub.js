@@ -1,5 +1,4 @@
 import { IItem, ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
-import { cloneObject, enrichContentSearchResult, HubError } from "../..";
 
 import { serializeQueryForPortal } from "../serializeQueryForPortal";
 
@@ -19,6 +18,9 @@ import {
 import { getNextFunction } from "../utils";
 import { convertPortalAggregations } from "./portalSearchUtils";
 import { expandPredicate } from "./expandPredicate";
+import HubError from "../../HubError";
+import { enrichContentSearchResult } from "../../content";
+import { cloneObject } from "../../util";
 
 /**
  * @private

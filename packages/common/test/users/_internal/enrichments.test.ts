@@ -1,5 +1,5 @@
 import * as Portal from "@esri/arcgis-rest-portal";
-import * as FetchOrgModule from "../../../src";
+import * as FetchOrgModule from "../../../src/org/fetch-org";
 import {
   cloneObject,
   IEnrichmentErrorInfo,
@@ -54,8 +54,9 @@ describe("user enrichments:", () => {
       const chk = await fetchUserEnrichments(user, ["org"], ro);
 
       expect(chk.errors).toBeDefined();
-      expect(chk.errors.length).toBe(1);
-      expect(chk.errors[0]).toEqual({
+      expect(chk.errors?.length).toBe(1);
+      const errs = chk.errors || [];
+      expect(errs[0]).toEqual({
         type: "Other",
         message: "get portal failed",
       } as IEnrichmentErrorInfo);

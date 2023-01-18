@@ -1,9 +1,10 @@
-import * as commonModule from "@esri/hub-common";
+import * as addDomainModule from "../../../src/sites/domains/add-domain";
 import { IHubRequestOptions, IModel } from "@esri/hub-common";
+import { addSiteDomains } from "../../../src/sites/domains/addSiteDomains";
 
 describe("addSiteDomains", () => {
   it("adds site domains", async () => {
-    const addSpy = spyOn(commonModule, "addDomain").and.returnValue(
+    const addSpy = spyOn(addDomainModule, "addDomain").and.returnValue(
       Promise.resolve({})
     );
 
@@ -28,16 +29,16 @@ describe("addSiteDomains", () => {
       },
     } as unknown as IHubRequestOptions;
 
-    await commonModule.addSiteDomains(model, ro);
+    await addSiteDomains(model, ro);
 
     expect(addSpy.calls.count()).toBe(1);
     expect(addSpy.calls.argsFor(0)[0]).toEqual(
       {
         hostname: "default-hostname",
-        clientKey: model.data.values.clientId,
-        orgId: ro.portalSelf.id,
-        orgTitle: ro.portalSelf.name,
-        orgKey: ro.portalSelf.urlKey,
+        clientKey: model.data?.values.clientId,
+        orgId: ro.portalSelf?.id,
+        orgTitle: ro.portalSelf?.name,
+        orgKey: ro.portalSelf?.urlKey,
         siteId: model.item.id,
         siteTitle: model.item.title,
         sslOnly: true,
@@ -47,7 +48,7 @@ describe("addSiteDomains", () => {
   });
 
   it("does nothing on portal", async () => {
-    const addSpy = spyOn(commonModule, "addDomain").and.returnValue(
+    const addSpy = spyOn(addDomainModule, "addDomain").and.returnValue(
       Promise.resolve({})
     );
 
@@ -74,7 +75,7 @@ describe("addSiteDomains", () => {
       },
     } as unknown as IHubRequestOptions;
 
-    await commonModule.addSiteDomains(model, ro);
+    await addSiteDomains(model, ro);
 
     expect(addSpy.calls.count()).toBe(0);
   });

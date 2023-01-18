@@ -1,5 +1,4 @@
-import { IHubContent } from "../..";
-
+import { IHubContent } from "../../core";
 import { cloneObject } from "../../util";
 import {
   IHubSearchOptions,

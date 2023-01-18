@@ -1,6 +1,5 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { addItemPart } from "@esri/arcgis-rest-portal";
-import { IBatch } from "../..";
+import { IBatch } from "../../types";
 
 /**
  * Takes a file, file owner, and file AGO item id along with a size limit

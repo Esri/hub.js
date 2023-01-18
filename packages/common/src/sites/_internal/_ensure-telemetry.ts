@@ -1,11 +1,7 @@
-import {
-  IModel,
-  IDraft,
-  getProp,
-  cloneObject,
-  deleteProp,
-  setProp,
-} from "../..";
+import { deleteProp } from "../../items";
+import { getProp, setProp } from "../../objects";
+import { IDraft, IModel } from "../../types";
+import { cloneObject } from "../../util";
 
 /**
  * Add telemetry config object

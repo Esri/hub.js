@@ -4,8 +4,12 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { getProp, IArcGISContextManagerOptions } from "../../src";
-import { ArcGISContextManager } from "../../src/ArcGISContextManager";
+
+import {
+  ArcGISContextManager,
+  IArcGISContextManagerOptions,
+} from "../../src/ArcGISContextManager";
+import { getProp } from "../../src/objects";
 /**
  * @internal
  */

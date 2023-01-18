@@ -1,6 +1,8 @@
 import { handleDomainChanges } from "../../../src/sites/_internal/handleDomainChanges";
-import * as commonModule from "../../../src";
+import * as domainModule from "../../../src/sites/domains";
 import { MOCK_HUB_REQOPTS } from "../test-helpers.test";
+import { cloneObject } from "../../../src/util";
+import { IModel } from "../../../src/types";
 
 const currentModel = {
   item: {
@@ -13,7 +15,7 @@ const currentModel = {
       defaultHostname: "site-city.hub.arcgis.com",
     },
   },
-} as unknown as commonModule.IModel;
+} as unknown as IModel;
 const updatedModel = {
   item: {
     id: "bc3",
@@ -25,19 +27,19 @@ const updatedModel = {
       defaultHostname: "site-city.hub.arcgis.com",
     },
   },
-} as unknown as commonModule.IModel;
+} as unknown as IModel;
 
 describe("handleDomainChanges", () => {
   it("adds and removed changed domains", async () => {
-    const addSpy = spyOn(commonModule, "addDomain").and.returnValue(
+    const addSpy = spyOn(domainModule, "addDomain").and.returnValue(
       Promise.resolve()
     );
     const removeSpy = spyOn(
-      commonModule,
+      domainModule,
       "removeDomainByHostname"
     ).and.returnValue(Promise.resolve());
-    const c = commonModule.cloneObject(currentModel);
-    const u = commonModule.cloneObject(updatedModel);
+    const c = cloneObject(currentModel);
+    const u = cloneObject(updatedModel);
 
     await handleDomainChanges(u, c, MOCK_HUB_REQOPTS);
 

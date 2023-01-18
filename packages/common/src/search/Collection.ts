@@ -1,4 +1,4 @@
-import { cloneObject, IArcGISContext } from "..";
+import { cloneObject, IArcGISContext } from "../index";
 import {
   EntityType,
   IHubCollection,
