@@ -49,7 +49,7 @@ export const HubProjectCreateUiSchema: IUiSchema = {
   elements: [
     {
       type: "Section",
-      options: { section: "stepper", scale: "s" },
+      options: { section: "stepper", scale: "l" },
       elements: [
         {
           type: "Step",
