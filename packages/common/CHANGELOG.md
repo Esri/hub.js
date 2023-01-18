@@ -1,3 +1,18 @@
+# @esri/hub-common [12.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.2.1...@esri/hub-common@12.3.0) (2023-01-18)
+
+
+### Bug Fixes
+
+* add relatedItemIds to IWithViewSettings, add relatedItems to HubProjectSchema and HubProjectEdi ([15c0cf9](https://github.com/Esri/hub.js/commit/15c0cf994a3848075468077c0c2a00932da774bf))
+* address review comments ([7f06ce4](https://github.com/Esri/hub.js/commit/7f06ce4001f024f65018ed8495236f8b405e7378))
+* fix IHubProject test ([f7823a8](https://github.com/Esri/hub.js/commit/f7823a84b077ad1fc872370ce67f2fdfe3b239e1))
+* remove extra control in hub project schema ([e04483c](https://github.com/Esri/hub.js/commit/e04483c9d63edb537e4c326b797d4c6d07349096))
+
+
+### Features
+
+* add new IWithContent trait, extend various types to support storing content on hub project ([058d65b](https://github.com/Esri/hub.js/commit/058d65b7d1a72cc7a943cfa41551dc5b686145cd))
+
 ## @esri/hub-common [12.2.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.2.0...@esri/hub-common@12.2.1) (2023-01-18)
 
 
