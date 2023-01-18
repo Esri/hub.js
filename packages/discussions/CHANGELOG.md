@@ -1,3 +1,10 @@
+# @esri/hub-discussions [19.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@19.2.1...@esri/hub-discussions@19.3.0) (2023-01-18)
+
+
+### Features
+
+* **hub-discussions:** add channelAcl as a possible channel relation ([b96e63c](https://github.com/Esri/hub.js/commit/b96e63cb465311b46feea2d78478c2782ab28a89))
+
 ## @esri/hub-discussions [19.2.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@19.2.0...@esri/hub-discussions@19.2.1) (2023-01-18)
 
 
