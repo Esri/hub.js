@@ -36,7 +36,7 @@ export const HubProjectSchema: IConfigurationSchema = {
         featuredImage: {
           type: "object",
         },
-        relatedItems: {
+        relatedItemIds: {
           type: "array",
           items: {
             type: "string",
@@ -254,9 +254,15 @@ export const HubProjectEditUiSchema: IUiSchema = {
     {
       type: "Section",
       labelKey: "{{i18nScope}}.relatedItems.label",
+      options: {
+        control: "hub-field-input-gallery-picker",
+        helperText: {
+          labelKey: "{{i18nScope}}.relatedItems.helperText",
+        },
+      },
       elements: [
         {
-          scope: "/properties/relatedItems",
+          scope: "/properties/view/properties/relatedItemIds",
           type: "Control",
           options: {
             control: "hub-field-input-gallery-picker",
