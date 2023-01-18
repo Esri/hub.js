@@ -4,9 +4,7 @@ import {
   IWithPermissions,
   IWithSlug,
   IWithCatalog,
-  IWithContent,
 } from "../traits/index";
-import { IGallerySelection } from "../../search";
 
 /**
  * Defines the properties of a Hub Project object
@@ -15,7 +13,6 @@ export interface IHubProject
   extends IHubItemEntity,
     IWithSlug,
     IWithCatalog,
-    IWithContent,
     IWithLayout,
     IWithPermissions {
   /**
@@ -26,8 +23,6 @@ export interface IHubProject
    * Project Status
    */
   status: PROJECT_STATUSES;
-
-  content: IGallerySelection;
 }
 
 export enum PROJECT_STATUSES {

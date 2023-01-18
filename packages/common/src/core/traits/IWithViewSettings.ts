@@ -10,4 +10,6 @@ export interface IWithViewSettings {
    * Url of the items featured image
    */
   featuredImageUrl?: string;
+
+  relatedItemIds: string[];
 }
