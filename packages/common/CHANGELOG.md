@@ -1,3 +1,10 @@
+## @esri/hub-common [12.2.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.2.0...@esri/hub-common@12.2.1) (2023-01-18)
+
+
+### Bug Fixes
+
+* update stepper scale to l ([#961](https://github.com/Esri/hub.js/issues/961)) ([981e0e4](https://github.com/Esri/hub.js/commit/981e0e435d4267843c84942bf18197626d985ff2))
+
 # @esri/hub-common [12.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.1.0...@esri/hub-common@12.2.0) (2023-01-13)
 
 
