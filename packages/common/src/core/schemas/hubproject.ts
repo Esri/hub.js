@@ -36,6 +36,12 @@ export const HubProjectSchema: IConfigurationSchema = {
         featuredImage: {
           type: "object",
         },
+        relatedItemIds: {
+          type: "array",
+          items: {
+            type: "string",
+          },
+        },
       },
     },
   },
@@ -241,6 +247,26 @@ export const HubProjectEditUiSchema: IUiSchema = {
           type: "Control",
           options: {
             control: "arcgis-hub-timeline-editor",
+          },
+        },
+      ],
+    },
+    {
+      type: "Section",
+      labelKey: "{{i18nScope}}.relatedItems.label",
+      options: {
+        helperText: {
+          labelKey: "{{i18nScope}}.relatedItems.helperText",
+        },
+      },
+      elements: [
+        {
+          scope: "/properties/view/properties/relatedItemIds",
+          type: "Control",
+          options: {
+            control: "hub-field-input-gallery-picker",
+            targetEntity: "item",
+            limit: 4,
           },
         },
       ],
