@@ -1,6 +1,6 @@
 import { IArcGISContext } from "../../ArcGISContext";
 import { IContainsResponse, IDeepCatalogInfo } from "../../search";
-import { Catalog } from "../../search/Catalog";
+import { Catalog } from "../../search";
 import { asyncForEach } from "../../utils";
 
 /**

@@ -1,6 +1,6 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { IHubInitiative } from "../../src";
-import { Catalog } from "../../src/search/Catalog";
+import { Catalog } from "../../src/search";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubInitiative } from "../../src/initiatives/HubInitiative";
 import { MOCK_AUTH } from "../mocks/mock-auth";

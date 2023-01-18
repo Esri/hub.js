@@ -4,7 +4,7 @@ import { HubSite } from "../../src/sites/HubSite";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as HubSitesModule from "../../src/sites/HubSites";
 import { IDeepCatalogInfo, IHubCatalog, IHubSite } from "../../src";
-import { Catalog } from "../../src/search/Catalog";
+import { Catalog } from "../../src/search";
 import * as ContainsModule from "../../src/core/_internal/deepContains";
 describe("HubSite Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
