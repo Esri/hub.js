@@ -255,7 +255,6 @@ export const HubProjectEditUiSchema: IUiSchema = {
       type: "Section",
       labelKey: "{{i18nScope}}.relatedItems.label",
       options: {
-        control: "hub-field-input-gallery-picker",
         helperText: {
           labelKey: "{{i18nScope}}.relatedItems.helperText",
         },
