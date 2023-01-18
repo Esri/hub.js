@@ -687,6 +687,7 @@ export enum ChannelSort {
  */
 export enum ChannelRelation {
   SETTINGS = "settings",
+  CHANNEL_ACL = "channelAcl",
 }
 
 /**
