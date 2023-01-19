@@ -1,7 +1,6 @@
 import HubError from "../HubError";
 import { getProp } from "../objects";
 import { cloneObject } from "../util";
-
 import {
   IHubSearchOptions,
   IHubSearchResponse,

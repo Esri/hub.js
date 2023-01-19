@@ -1,61 +1,47 @@
-## @esri/hub-common [12.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.3.0...@esri/hub-common@12.3.1) (2023-01-19)
-
-
-### Bug Fixes
-
-* resolve issue with node imports ([#962](https://github.com/Esri/hub.js/issues/962)) ([79abe87](https://github.com/Esri/hub.js/commit/79abe872c28b4259906c65e3d72fd2a651f6a83b))
-
 # @esri/hub-common [12.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.2.1...@esri/hub-common@12.3.0) (2023-01-18)
 
-
 ### Bug Fixes
 
-* add relatedItemIds to IWithViewSettings, add relatedItems to HubProjectSchema and HubProjectEdi ([15c0cf9](https://github.com/Esri/hub.js/commit/15c0cf994a3848075468077c0c2a00932da774bf))
-* address review comments ([7f06ce4](https://github.com/Esri/hub.js/commit/7f06ce4001f024f65018ed8495236f8b405e7378))
-* fix IHubProject test ([f7823a8](https://github.com/Esri/hub.js/commit/f7823a84b077ad1fc872370ce67f2fdfe3b239e1))
-* remove extra control in hub project schema ([e04483c](https://github.com/Esri/hub.js/commit/e04483c9d63edb537e4c326b797d4c6d07349096))
-
+- add relatedItemIds to IWithViewSettings, add relatedItems to HubProjectSchema and HubProjectEdi ([15c0cf9](https://github.com/Esri/hub.js/commit/15c0cf994a3848075468077c0c2a00932da774bf))
+- address review comments ([7f06ce4](https://github.com/Esri/hub.js/commit/7f06ce4001f024f65018ed8495236f8b405e7378))
+- fix IHubProject test ([f7823a8](https://github.com/Esri/hub.js/commit/f7823a84b077ad1fc872370ce67f2fdfe3b239e1))
+- remove extra control in hub project schema ([e04483c](https://github.com/Esri/hub.js/commit/e04483c9d63edb537e4c326b797d4c6d07349096))
 
 ### Features
 
-* add new IWithContent trait, extend various types to support storing content on hub project ([058d65b](https://github.com/Esri/hub.js/commit/058d65b7d1a72cc7a943cfa41551dc5b686145cd))
+- add new IWithContent trait, extend various types to support storing content on hub project ([058d65b](https://github.com/Esri/hub.js/commit/058d65b7d1a72cc7a943cfa41551dc5b686145cd))
 
 ## @esri/hub-common [12.2.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.2.0...@esri/hub-common@12.2.1) (2023-01-18)
 
-
 ### Bug Fixes
 
-* update stepper scale to l ([#961](https://github.com/Esri/hub.js/issues/961)) ([981e0e4](https://github.com/Esri/hub.js/commit/981e0e435d4267843c84942bf18197626d985ff2))
+- update stepper scale to l ([#961](https://github.com/Esri/hub.js/issues/961)) ([981e0e4](https://github.com/Esri/hub.js/commit/981e0e435d4267843c84942bf18197626d985ff2))
 
 # @esri/hub-common [12.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.1.0...@esri/hub-common@12.2.0) (2023-01-13)
 
-
 ### Features
 
-* move isSiteType to index to allow consumables to use ([caaedc3](https://github.com/Esri/hub.js/commit/caaedc3f0aace4a77ceebe14ba5b9a80c7a05290))
-* move to compose.ts ([6e2c642](https://github.com/Esri/hub.js/commit/6e2c642e6055f4c941157c584388d825b97860fe))
+- move isSiteType to index to allow consumables to use ([caaedc3](https://github.com/Esri/hub.js/commit/caaedc3f0aace4a77ceebe14ba5b9a80c7a05290))
+- move to compose.ts ([6e2c642](https://github.com/Esri/hub.js/commit/6e2c642e6055f4c941157c584388d825b97860fe))
 
 # @esri/hub-common [12.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.0.0...@esri/hub-common@12.1.0) (2023-01-12)
 
-
 ### Features
 
-* include Hub Site Application type and testing ([49e5df3](https://github.com/Esri/hub.js/commit/49e5df3d0e564bb7100268b47d8ba91396871552))
-* move isSiteType to hub-common and testing ([ea2dd90](https://github.com/Esri/hub.js/commit/ea2dd90b31dd945a33c2e01f4df4ae140b22723e))
+- include Hub Site Application type and testing ([49e5df3](https://github.com/Esri/hub.js/commit/49e5df3d0e564bb7100268b47d8ba91396871552))
+- move isSiteType to hub-common and testing ([ea2dd90](https://github.com/Esri/hub.js/commit/ea2dd90b31dd945a33c2e01f4df4ae140b22723e))
 
 # @esri/hub-common [12.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@11.23.5...@esri/hub-common@12.0.0) (2023-01-05)
 
-
 ### Features
 
-* Permissions and Capabilities subsystems ([#952](https://github.com/Esri/hub.js/issues/952)) ([d52c124](https://github.com/Esri/hub.js/commit/d52c1240027113ba75fc0dd48619472128436a9b)), closes [#933](https://github.com/Esri/hub.js/issues/933)
-
+- Permissions and Capabilities subsystems ([#952](https://github.com/Esri/hub.js/issues/952)) ([d52c124](https://github.com/Esri/hub.js/commit/d52c1240027113ba75fc0dd48619472128436a9b)), closes [#933](https://github.com/Esri/hub.js/issues/933)
 
 ### BREAKING CHANGES
 
-* removes PermissionManager; permission fns are exposed
-on HubItemEntity
-* canEdit canDelete are now sync getters
+- removes PermissionManager; permission fns are exposed
+  on HubItemEntity
+- canEdit canDelete are now sync getters
 
 Co-authored-by: semantic-release-bot <semantic-release-bot@martynus.net>
 
