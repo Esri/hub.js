@@ -1,3 +1,18 @@
+## @esri/hub-discussions [19.4.2](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@19.4.1...@esri/hub-discussions@19.4.2) (2023-01-19)
+
+
+### Bug Fixes
+
+* resolve node import issues... take 3 ([0ee1260](https://github.com/Esri/hub.js/commit/0ee1260fbfc8e4e9ef3ad281db1132cefd2fdf05))
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 12.3.1
+
 # @esri/hub-discussions [19.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@19.2.1...@esri/hub-discussions@19.3.0) (2023-01-18)
 
 ### Features
