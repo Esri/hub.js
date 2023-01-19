@@ -1,4 +1,7 @@
-import * as commonModule from "../../src";
+import * as domainModule from "../../src/sites/domains";
+import * as getSiteModule from "../../src/sites/get-site-by-id";
+import { fetchSiteModel } from "../../src/sites/fetchSiteModel";
+import { IHubRequestOptions, IModel } from "../../src/types";
 
 describe("fetchSiteModel", () => {
   const siteId = "042584cf391c428e995e97eccdebb8f8";
@@ -6,33 +9,33 @@ describe("fetchSiteModel", () => {
   const site = {
     item: { id: siteId },
     data: {},
-  } as commonModule.IModel;
+  } as IModel;
 
   const domainRecord = { siteId };
 
-  const requestOptions = {} as commonModule.IHubRequestOptions;
+  const requestOptions = {} as IHubRequestOptions;
 
   let lookupDomainSpy: jasmine.Spy;
   let getSiteSpy: jasmine.Spy;
   beforeEach(() => {
-    lookupDomainSpy = spyOn(commonModule, "lookupDomain").and.returnValue(
+    lookupDomainSpy = spyOn(domainModule, "lookupDomain").and.returnValue(
       Promise.resolve(domainRecord)
     );
 
-    getSiteSpy = spyOn(commonModule, "getSiteById").and.returnValue(
+    getSiteSpy = spyOn(getSiteModule, "getSiteById").and.returnValue(
       Promise.resolve(site)
     );
   });
 
   it("accepts an item ID", async () => {
-    const chk = await commonModule.fetchSiteModel(siteId, requestOptions);
+    const chk = await fetchSiteModel(siteId, requestOptions);
     expect(chk).toEqual(site);
     expect(lookupDomainSpy).not.toHaveBeenCalled();
     expect(getSiteSpy).toHaveBeenCalledWith(siteId, requestOptions);
   });
 
   it("accepts a site URL", async () => {
-    const chk = await commonModule.fetchSiteModel(
+    const chk = await fetchSiteModel(
       "https://okokokko-dc.hubqa.arcgis.com/foo/bar",
       requestOptions
     );
@@ -45,7 +48,7 @@ describe("fetchSiteModel", () => {
   });
 
   it("accepts a site hostname", async () => {
-    const chk = await commonModule.fetchSiteModel(
+    const chk = await fetchSiteModel(
       "okokokko-dc.hubqa.arcgis.com",
       requestOptions
     );
@@ -58,8 +61,8 @@ describe("fetchSiteModel", () => {
   });
 
   it("accepts a site slug", async () => {
-    const portalRO = { isPortal: true } as commonModule.IHubRequestOptions;
-    const chk = await commonModule.fetchSiteModel("okokokko", portalRO);
+    const portalRO = { isPortal: true } as IHubRequestOptions;
+    const chk = await fetchSiteModel("okokokko", portalRO);
     expect(chk).toEqual(site);
     expect(lookupDomainSpy).toHaveBeenCalledWith("okokokko", portalRO);
     expect(getSiteSpy).toHaveBeenCalledWith(siteId, portalRO);

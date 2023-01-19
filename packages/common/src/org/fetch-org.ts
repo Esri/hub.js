@@ -10,7 +10,7 @@ import { getPortal } from "@esri/arcgis-rest-portal";
  * @param options request options
  * @returns
  */
-export const fetchOrg = (orgId: string, options?: IRequestOptions) => {
+export function fetchOrg(orgId: string, options?: IRequestOptions) {
   const orgPortalUrl =
     getProp(options, "portal") ||
     getProp(options, "authentication.portal") ||
@@ -21,4 +21,4 @@ export const fetchOrg = (orgId: string, options?: IRequestOptions) => {
   // **not** an org portal (i.e. org.maps.arcgis.com).
   const basePortalUrl = `${getPortalBaseFromOrgUrl(orgPortalUrl)}/sharing/rest`;
   return getPortal(orgId, { ...options, portal: basePortalUrl });
-};
+}

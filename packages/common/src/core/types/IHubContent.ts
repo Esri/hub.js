@@ -2,9 +2,10 @@ import { IItem, IGroup } from "@esri/arcgis-rest-portal";
 import { ILayerDefinition } from "@esri/arcgis-rest-feature-layer";
 import { AccessControl, HubFamily, IActionLink, Visibility } from "../../types";
 import { IStructuredLicense } from "../../items/get-structured-license";
-import { IHubItemEntity } from ".";
+
 import { IHubContentEnrichments } from "./IHubContentEnrichments";
 import { IHubAdditionalResource } from "./IHubAdditionalResource";
+import { IHubItemEntity } from "./IHubItemEntity";
 
 export enum PublisherSource {
   CitationContact = "metadata.resource.citation.contact",

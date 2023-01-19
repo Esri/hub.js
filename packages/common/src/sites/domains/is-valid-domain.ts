@@ -1,6 +1,6 @@
 import { _getAuthHeader } from "./_get-auth-header";
 import { IHubRequestOptions } from "../../types";
-import { _getDomainServiceUrl } from ".";
+import { _getDomainServiceUrl } from "./_get-domain-service-url";
 
 /**
  * Validate a custom domain

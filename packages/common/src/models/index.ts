@@ -12,7 +12,10 @@ import {
   updateItem,
 } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { cloneObject, IModel, getItemBySlug, bboxToString } from "..";
+import { bboxToString } from "../extent";
+import { getItemBySlug } from "../items";
+import { IModel } from "../types";
+import { cloneObject } from "../util";
 
 /**
  * Gets the full item/data model for an item id

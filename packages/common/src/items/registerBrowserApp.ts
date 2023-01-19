@@ -1,5 +1,5 @@
 import { IRequestOptions, request } from "@esri/arcgis-rest-request";
-import { getPortalApiUrl } from "..";
+import { getPortalApiUrl } from "../urls";
 
 /**
  * Register an Item as an application, enabling oAuth flows at custom

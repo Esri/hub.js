@@ -1,4 +1,6 @@
-import { IModel, cloneObject, getProp } from "../..";
+import { getProp } from "../../objects";
+import { IModel } from "../../types";
+import { cloneObject } from "../../util";
 
 /**
  * Migrates the site so it can store configurations for multiple feed formats

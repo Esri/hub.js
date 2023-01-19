@@ -1,7 +1,7 @@
 import { ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-types";
-import { slugify } from "..";
+import { slugify } from "../utils";
 
 // TODO: work out how to unify content slug fns
 // https: github.com/Esri/hub.js/blob/master/packages/common/src/content/index.ts#L301-L348

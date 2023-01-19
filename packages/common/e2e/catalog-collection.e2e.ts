@@ -1,5 +1,5 @@
 import { cloneObject, IHubCatalog, IHubCollection } from "../src";
-import { Catalog } from "../src/search/Catalog";
+import { Catalog } from "../src/search";
 import { Collection } from "../src/search/Collection";
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";

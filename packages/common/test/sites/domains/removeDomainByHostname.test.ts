@@ -1,4 +1,7 @@
-import * as domainModule from "../../../src/sites/domains";
+// we want to spy on these methods, so we need to import them
+// from the same path that's used in the fn under test
+import * as removeDomainModule from "../../../src/sites/domains/remove-domain";
+import * as lookupDomainModule from "../../../src/sites/domains/lookup-domain";
 import { getProp, removeDomainByHostname } from "../../../src";
 import {
   MOCK_HUB_REQOPTS,
@@ -9,13 +12,13 @@ describe("removeDomainByHostname:", () => {
   let lookupSpy: jasmine.Spy;
   let removeSpy: jasmine.Spy;
   beforeEach(() => {
-    removeSpy = spyOn(domainModule, "removeDomain").and.returnValue(
+    removeSpy = spyOn(removeDomainModule, "removeDomain").and.returnValue(
       Promise.resolve()
     );
   });
 
   it("removes domain thats found", async () => {
-    lookupSpy = spyOn(domainModule, "lookupDomain").and.returnValue(
+    lookupSpy = spyOn(lookupDomainModule, "lookupDomain").and.returnValue(
       Promise.resolve({
         id: 1234,
       })
@@ -25,7 +28,7 @@ describe("removeDomainByHostname:", () => {
     expect(removeSpy.calls.count()).toBe(1);
   });
   it("throws on portal", async () => {
-    lookupSpy = spyOn(domainModule, "lookupDomain").and.returnValue(
+    lookupSpy = spyOn(lookupDomainModule, "lookupDomain").and.returnValue(
       Promise.resolve({
         id: 1234,
       })
@@ -46,7 +49,7 @@ describe("removeDomainByHostname:", () => {
   });
 
   it("throws on error internally", async () => {
-    lookupSpy = spyOn(domainModule, "lookupDomain").and.returnValue(
+    lookupSpy = spyOn(lookupDomainModule, "lookupDomain").and.returnValue(
       Promise.reject({
         message: "blarg",
       })
@@ -64,7 +67,7 @@ describe("removeDomainByHostname:", () => {
   });
 
   it("skips domain not found", async () => {
-    lookupSpy = spyOn(domainModule, "lookupDomain").and.returnValue(
+    lookupSpy = spyOn(lookupDomainModule, "lookupDomain").and.returnValue(
       Promise.resolve({})
     );
     await removeDomainByHostname("fake.hostname.com", MOCK_HUB_REQOPTS);

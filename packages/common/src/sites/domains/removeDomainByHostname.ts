@@ -1,6 +1,9 @@
+// These will be spied on in tests
+import { lookupDomain } from "./lookup-domain";
+import { removeDomain } from "./remove-domain";
+
 import { IHubRequestOptions } from "../../types";
-import { lookupDomain, removeDomain } from ".";
-import { getProp } from "../..";
+import { getProp } from "../../objects";
 
 /**
  * Remove an entry from the domain service, based on a hostname

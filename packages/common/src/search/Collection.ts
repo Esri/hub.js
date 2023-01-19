@@ -1,4 +1,4 @@
-import { cloneObject, IArcGISContext } from "..";
+import { IArcGISContext } from "../ArcGISContext";
 import {
   EntityType,
   IHubCollection,
@@ -8,6 +8,7 @@ import {
   IQuery,
 } from "./types";
 import { hubSearch } from "./hubSearch";
+import { cloneObject } from "../util";
 /**
  * Collection Class
  *

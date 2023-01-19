@@ -4,11 +4,12 @@ import {
   IGroup,
   IUser,
 } from "@esri/arcgis-rest-portal";
-import { IGroupMembershipSummary } from "../..";
+
 import { getEnrichmentErrors } from "../../items/_enrichments";
 import OperationStack from "../../OperationStack";
 import { IEnrichmentErrorInfo, IHubRequestOptions } from "../../types";
 import { createOperationPipeline, IPipeable } from "../../utils";
+import { IGroupMembershipSummary } from "../types";
 
 /**
  * Possible additional properties available through enrichments

@@ -1,4 +1,6 @@
-import { IModel, getProp, cloneObject } from "../..";
+import { getProp } from "../../objects";
+import { IModel } from "../../types";
+import { cloneObject } from "../../util";
 
 /**
  * Move the data.values.groups array into the

@@ -7,27 +7,19 @@ import { Collection } from "./Collection";
 import { fetchCatalog } from "./fetchCatalog";
 import { hubSearch } from "./hubSearch";
 import {
+  EntityType,
+  ISearchResponseHash,
   IContainsOptions,
   IContainsResponse,
   IHubSearchOptions,
   IHubSearchResponse,
   IHubSearchResult,
-} from "./types";
-import {
-  EntityType,
   ICatalogScope,
   IHubCatalog,
   IPredicate,
   IQuery,
-} from "./types/IHubCatalog";
+} from "./types";
 import { upgradeCatalogSchema } from "./upgradeCatalogSchema";
-
-/**
- * Response from a Catalog search operation where the responses for different collections
- * or entities are grouped into a single object.
- */
-export interface ISearchResponseHash
-  extends Record<string, IHubSearchResponse<IHubSearchResult>> {}
 
 /**
  * Catalog Class
@@ -471,7 +463,7 @@ export class Catalog implements IHubCatalog {
    * @param targetEntity
    * @returns
    */
-  private search(
+  private async search(
     query: string | IQuery,
     options: IHubSearchOptions
   ): Promise<IHubSearchResponse<IHubSearchResult>> {

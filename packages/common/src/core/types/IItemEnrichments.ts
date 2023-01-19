@@ -1,5 +1,5 @@
 import { IUser, IPortal } from "@esri/arcgis-rest-portal";
-import { IEnrichmentErrorInfo } from "../..";
+import { IEnrichmentErrorInfo } from "../../types";
 
 export interface IItemEnrichments {
   /** The portal item's data (if any) */

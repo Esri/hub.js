@@ -1,7 +1,12 @@
 import { deepContains } from "../../../src/core/_internal/deepContains";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
-import { getProp, IArcGISContext, IHubCatalog } from "../../../src";
+import {
+  getProp,
+  IArcGISContext,
+  IDeepCatalogInfo,
+  IHubCatalog,
+} from "../../../src";
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
 import * as FetchCatalogModule from "../../../src/search/fetchCatalog";
 import * as HubSearchModule from "../../../src/search/hubSearch";
@@ -26,7 +31,11 @@ describe("deepContains:", () => {
     context = authdCtxMgr.context;
   });
   it("returns false if no hiearchy passed", async () => {
-    const response = await deepContains("3ef", null, context);
+    const response = await deepContains(
+      "3ef",
+      null as unknown as IDeepCatalogInfo[],
+      context
+    );
     expect(response.identifier).toBe("3ef");
     expect(response.isContained).toBe(false);
   });
@@ -40,7 +49,7 @@ describe("deepContains:", () => {
       FetchCatalogModule,
       "fetchCatalog"
     ).and.callFake(() => {
-      return Promise.resolve(createCatalog("ff1"));
+      return Promise.resolve(createMockCatalog("ff1"));
     });
     const hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(
       () => {
@@ -56,7 +65,7 @@ describe("deepContains:", () => {
     expect(response.identifier).toBe(AppItemId);
     expect(response.isContained).toBe(false);
     const cachedCatalog = getProp(response, `catalogInfo.00c.catalog`);
-    expect(cachedCatalog).toEqual(createCatalog("ff1"));
+    expect(cachedCatalog).toEqual(createMockCatalog("ff1"));
 
     expect(fetchCatalogSpy).toHaveBeenCalledTimes(1);
     expect(fetchCatalogSpy.calls.argsFor(0)[0]).toEqual(
@@ -70,7 +79,7 @@ describe("deepContains:", () => {
       FetchCatalogModule,
       "fetchCatalog"
     ).and.callFake(() => {
-      return Promise.resolve(createCatalog("ff1"));
+      return Promise.resolve(createMockCatalog("ff1"));
     });
     const hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(
       () => {
@@ -104,7 +113,7 @@ describe("deepContains:", () => {
       FetchCatalogModule,
       "fetchCatalog"
     ).and.callFake(() => {
-      return Promise.resolve(createCatalog("ff1"));
+      return Promise.resolve(createMockCatalog("ff1"));
     });
     const hubSearchSpy = spyOn(HubSearchModule, "hubSearch").and.callFake(
       () => {
@@ -114,7 +123,7 @@ describe("deepContains:", () => {
 
     const response = await deepContains(
       AppItemId,
-      [{ id: "00c", entityType: "item", catalog: createCatalog("ff1") }],
+      [{ id: "00c", entityType: "item", catalog: createMockCatalog("ff1") }],
       context
     );
     expect(response.identifier).toBe(AppItemId);
@@ -124,7 +133,7 @@ describe("deepContains:", () => {
   });
 });
 
-function createCatalog(groupId: string): IHubCatalog {
+function createMockCatalog(groupId: string): IHubCatalog {
   return {
     schemaVersion: 1,
     title: "Default Catalog",

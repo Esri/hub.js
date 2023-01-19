@@ -1,4 +1,4 @@
-import { getHubApiUrl } from ".";
+import { getHubApiUrl } from "./api";
 import { IHubRequestOptions } from "./types";
 import { buildUrl } from "./urls/build-url";
 

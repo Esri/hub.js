@@ -16,7 +16,7 @@ import {
   updateInitiative,
 } from "./HubInitiatives";
 
-import { Catalog } from "../search/Catalog";
+import { Catalog } from "../search";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
 

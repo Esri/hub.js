@@ -1,8 +1,9 @@
 import { IUser, IPortal } from "@esri/arcgis-rest-portal";
-import { getPortalBaseFromOrgUrl, fetchOrg } from "../..";
+import { fetchOrg } from "../../org/fetch-org";
 import { getEnrichmentErrors } from "../../items/_enrichments";
 import OperationStack from "../../OperationStack";
 import { IEnrichmentErrorInfo, IHubRequestOptions } from "../../types";
+import { getPortalBaseFromOrgUrl } from "../../urls";
 import { createOperationPipeline, IPipeable } from "../../utils";
 
 /**

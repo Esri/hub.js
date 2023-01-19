@@ -3,7 +3,7 @@ import { checkCapabilityAccess } from "../../../src/capabilities/_internal/check
 import { MOCK_AUTH } from "../../mocks/mock-auth";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import { ICapabilityPermission, IHubProject } from "../../../src";
-import * as coreModule from "../../../src/index";
+import * as permissionModule from "../../../src/permissions";
 describe("checkCapabilityAccess:", () => {
   let authdCtxMgr: ArcGISContextManager;
   beforeEach(async () => {
@@ -50,7 +50,7 @@ describe("checkCapabilityAccess:", () => {
   });
   it("denies access if a permission check fails", () => {
     const checkPermissionSpy = spyOn(
-      coreModule,
+      permissionModule,
       "checkPermission"
     ).and.returnValue({ access: false, code: "not-licensed" });
     const rule: ICapabilityPermission = {
@@ -71,7 +71,7 @@ describe("checkCapabilityAccess:", () => {
   });
   it("grants access if all permissions are met", () => {
     const checkPermissionSpy = spyOn(
-      coreModule,
+      permissionModule,
       "checkPermission"
     ).and.returnValue({ access: true, response: "granted" });
     const rule: ICapabilityPermission = {

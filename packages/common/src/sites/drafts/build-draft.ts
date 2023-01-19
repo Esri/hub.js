@@ -1,4 +1,5 @@
-import { IModel, IDraft, mergeObjects } from "../..";
+import { mergeObjects } from "../../objects";
+import { IDraft, IModel } from "../../types";
 
 /**
  * Builds a draft with a subset of the model properties

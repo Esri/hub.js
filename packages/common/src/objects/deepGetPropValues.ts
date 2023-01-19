@@ -1,5 +1,5 @@
-import { _deepMapValues } from ".";
 import { unique } from "../util";
+import { _deepMapValues } from "./_deep-map-values";
 
 /**
  * For a given property name, extract an array of the unique values of that property

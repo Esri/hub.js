@@ -11,7 +11,7 @@ import {
   IPredicate,
   IQuery,
 } from "../../src/search";
-import { Catalog } from "../../src/search/Catalog";
+import { Catalog } from "../../src/search";
 import * as FetchCatalogModule from "../../src/search/fetchCatalog";
 import * as HubSearchModule from "../../src/search/hubSearch";
 import { MOCK_AUTH } from "../mocks/mock-auth";

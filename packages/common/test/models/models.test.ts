@@ -1,6 +1,6 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
+import * as itemsModule from "../../src/items";
 
-import * as hubCommon from "../../src";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import {
   createModel,
@@ -14,7 +14,7 @@ describe("model utils:", () => {
   describe("getModelBySlug:", () => {
     it("getModelBySlug returns item and data", async () => {
       const getItemBySlugSpy = spyOn(
-        hubCommon,
+        itemsModule,
         "getItemBySlug"
       ).and.returnValue(Promise.resolve({ id: "3ef", owner: "vader" }));
 
@@ -33,7 +33,7 @@ describe("model utils:", () => {
     });
     it("returns null if not found", async () => {
       const getItemBySlugSpy = spyOn(
-        hubCommon,
+        itemsModule,
         "getItemBySlug"
       ).and.returnValue(Promise.resolve(null));
 
