@@ -1,9 +1,9 @@
-import { IArcGISContext } from "../ArcGISContext";
 import { fetchInitiative } from "../initiatives";
 import { fetchProject } from "../projects";
 import { fetchSite } from "../sites";
 import { HubEntity } from "./types/HubEntity";
 import { HubEntityType } from "./types/HubEntityType";
+import { IArcGISContext } from "../ArcGISContext";
 
 /**
  * Fetch a Hub entity by identifier (id or slug)

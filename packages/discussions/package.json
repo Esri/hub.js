@@ -13,13 +13,13 @@
   "peerDependencies": {
     "@esri/arcgis-rest-auth": "^2.14.0 || 3",
     "@esri/arcgis-rest-request": "^2.14.0 || 3",
-    "@esri/hub-common": "12.3.1"
+    "@esri/hub-common": "12.3.0"
   },
   "devDependencies": {
     "@esri/arcgis-rest-auth": "^3.1.1",
     "@esri/arcgis-rest-request": "^3.1.1",
     "@esri/arcgis-rest-types": "^3.1.1",
-    "@esri/hub-common": "12.3.1",
+    "@esri/hub-common": "12.3.0",
     "@types/geojson": "^7946.0.7",
     "typescript": "^3.8.1"
   },
