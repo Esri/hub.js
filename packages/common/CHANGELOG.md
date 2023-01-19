@@ -1,3 +1,12 @@
+## @esri/hub-common [12.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.3.0...@esri/hub-common@12.3.1) (2023-01-19)
+
+
+### Bug Fixes
+
+* resolve issue with node imports ([#962](https://github.com/Esri/hub.js/issues/962)) ([79abe87](https://github.com/Esri/hub.js/commit/79abe872c28b4259906c65e3d72fd2a651f6a83b))
+* resolve issues with node imports ([649e5da](https://github.com/Esri/hub.js/commit/649e5da76021038cd1c4ac79bd7eaf7db34fa76a))
+* resolve node import issues... take 3 ([0ee1260](https://github.com/Esri/hub.js/commit/0ee1260fbfc8e4e9ef3ad281db1132cefd2fdf05))
+
 # @esri/hub-common [12.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.2.1...@esri/hub-common@12.3.0) (2023-01-18)
 
 ### Bug Fixes
