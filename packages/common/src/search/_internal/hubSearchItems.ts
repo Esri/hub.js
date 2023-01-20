@@ -6,6 +6,7 @@ import {
   IHubSearchResult,
   IQuery,
 } from "../types";
+import { portalSearchItems } from "./portalSearchItems";
 
 // ##    ##  #######  ######## ########
 // ###   ## ##     ##    ##    ##
@@ -29,7 +30,98 @@ export async function hubSearchItems(
   query: IQuery,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
-  throw new Error("Not implemented");
+  let fn;
+
+  // If query definition leverages enrichments, use index
+  if (shouldOnlyUseHubIndex(query)) {
+    fn = hubSearchItemsIndex;
+    // If aggregations are requested, potentially reach out to
+    // both portal and our index and combine responses
+  } else if (isAggregationSearch(options)) {
+    fn = hubSearchItemsAggregations;
+    // Nothing special needed, just go to portal
+  } else {
+    fn = portalSearchItems;
+  }
+
+  // Nothing special needed, just go to portal
+  return fn(query, options);
+}
+
+export async function hubSearchItemsAggregations(
+  query: IQuery,
+  options: IHubSearchOptions
+): Promise<IHubSearchResponse<IHubSearchResult>> {
+  // If the query underlying the aggregations is only
+  // supported by the index, go to the index
+  if (shouldOnlyUseHubIndex(query)) {
+    return hubSearchItemsIndex(query, options);
+  }
+
+  // Fetch as many aggregations from Portal as possible. Fetch any remaining
+  // from the index and combine the responses
+  let promises = [];
+
+  const portalOptions = getPortalAggregationOptions(options);
+  portalOptions && promises.push(portalSearchItems(query, portalOptions));
+
+  const indexOptions = getIndexAggregationOptions(options);
+  indexOptions && promises.push(hubSearchItemsIndex(query, indexOptions));
+
+  const results = await Promise.all(promises);
+
+  return results.reduce(
+    (combinedResult, { aggregations = [], messages = [] }) => {
+      combinedResult.aggregations.push(...aggregations);
+      combinedResult.messages.push(...messages);
+      return combinedResult;
+    },
+    {
+      total: 0,
+      results: [],
+      hasNext: false,
+      next: null,
+      aggregations: [],
+      messages: [],
+    } as IHubSearchResponse<IHubSearchResult>
+  );
+}
+
+export function hubSearchItemsIndex(
+  query: IQuery,
+  options: IHubSearchOptions
+): Promise<IHubSearchResponse<IHubSearchResult>> {
+  return null;
+}
+
+export function isAggregationSearch(options: IHubSearchOptions) {
+  return options.aggFields?.length;
+}
+
+export function getPortalAggregationOptions(
+  options: IHubSearchOptions
+): IHubSearchOptions {
+  const portalCountFields = ["access", "categories", "tags", "type"];
+  const aggFields = options.aggFields.filter((f) =>
+    portalCountFields.includes(f)
+  );
+
+  return aggFields.length ? { ...options, aggFields } : null;
+}
+
+export function getIndexAggregationOptions(
+  options: IHubSearchOptions
+): IHubSearchOptions {
+  const enrichmentAggFields = ["source", "license"];
+  const aggFields = options.aggFields.filter((f) =>
+    enrichmentAggFields.includes(f)
+  );
+
+  return aggFields.length ? { ...options, aggFields } : null;
+}
+
+export function shouldOnlyUseHubIndex(query: IQuery) {
+  return false;
 }
 
 /**
