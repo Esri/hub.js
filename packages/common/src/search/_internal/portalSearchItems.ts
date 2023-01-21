@@ -130,7 +130,7 @@ async function searchPortal(
  * @param requestOptions
  * @returns
  */
-async function itemToSearchResult(
+export async function itemToSearchResult(
   item: IItem,
   includes: string[] = [],
   requestOptions?: IHubRequestOptions

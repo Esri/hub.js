@@ -1,5 +1,11 @@
 import * as Portal from "@esri/arcgis-rest-portal";
-import { cloneObject, IHubSearchOptions, IQuery } from "../../../src";
+import {
+  cloneObject,
+  IFilter,
+  IHubSearchOptions,
+  IPredicate,
+  IQuery,
+} from "../../../src";
 
 import * as SimpleResponse from "../../mocks/portal-search/simple-response.json";
 import * as AllTypesResponse from "../../mocks/portal-search/response-with-key-types.json";
@@ -9,6 +15,12 @@ import {
   portalSearchItems,
   WellKnownItemPredicates,
 } from "../../../src/search/_internal/portalSearchItems";
+import {
+  formatFilterBlock,
+  formatPredicate,
+  getOgcItemQueryParams,
+} from "../../../src/search/_internal/hubSearchItems";
+import { UserSession } from "@esri/arcgis-rest-auth";
 
 describe("portalSearchItems Module:", () => {
   describe("portalSearchItems:", () => {
