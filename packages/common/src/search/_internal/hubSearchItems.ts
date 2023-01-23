@@ -44,7 +44,7 @@ export async function hubSearchItems(
     : searchOgcItems(query, options);
 }
 
-interface IOgcItem {
+export interface IOgcItem {
   id: string;
   type: "Feature";
   geometry: any; // for simplification
@@ -60,7 +60,7 @@ interface IOgcLink {
   href: string;
 }
 
-interface IOgcResponse {
+export interface IOgcResponse {
   type: "FeatureCollection";
   features: IOgcItem[];
   timestamp: string;
@@ -209,8 +209,8 @@ export async function formatOgcSearchResponse(
   const formattedResults = await Promise.all(
     response.features.map((f) => ogcItemToSearchResult(f))
   );
-  const nextLink = response.links.find((l) => l.rel === "next");
   const next = getNextOgcCallback(response, originalQuery, originalOptions);
+  const nextLink = response.links.find((l) => l.rel === "next");
 
   return {
     total: response.numberMatched,
@@ -240,9 +240,9 @@ export function getNextOgcCallback(
   return callback;
 }
 
-async function ogcItemToSearchResult(
+export function ogcItemToSearchResult(
   ogcItem: IOgcItem,
-  includes: string[] = [],
+  includes?: string[],
   requestOptions?: IHubRequestOptions
 ): Promise<IHubSearchResult> {
   // OGC Api stuffs the item wholesale in  `.properties`
