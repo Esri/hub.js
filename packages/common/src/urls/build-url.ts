@@ -1,5 +1,6 @@
-interface IQueryParams {
-  [key: string]: string;
+export interface IQueryParams {
+  // TODO: Should I change this back?
+  [key: string]: string | number;
 }
 
 /**
@@ -19,7 +20,7 @@ export function buildUrl(params: {
 
 function buildQueryString(params: IQueryParams = {}): string {
   const queryParams = Object.keys(params)
-    .filter(key => {
+    .filter((key) => {
       return params[key] !== undefined;
     })
     .reduce((acc: any, key: string) => {
