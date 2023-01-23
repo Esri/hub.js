@@ -18,11 +18,13 @@ import {
   IOgcItem,
   IOgcResponse,
   ogcItemToSearchResult,
+  searchOgcItems,
 } from "../../../src/search/_internal/hubSearchItems";
 import { UserSession } from "@esri/arcgis-rest-auth";
 
 import * as portalSearchItemsModule from "../../../src/search/_internal/portalSearchItems";
 import { IItem } from "@esri/arcgis-rest-types";
+import * as fetchMock from "fetch-mock";
 
 describe("hubSearchItems Module:", () => {
   describe("Request Transformation Helpers", () => {
@@ -320,6 +322,117 @@ describe("hubSearchItems Module:", () => {
     });
   });
 
+  // TODO: move these to dedicated mock json files
+  const mockedResponse: IOgcResponse = {
+    type: "FeatureCollection",
+    features: [
+      {
+        id: "f4bcc",
+        type: "Feature",
+        geometry: {
+          type: "Polygon",
+          coordinates: [
+            [
+              [-121.11799999999793, 39.37030746927015],
+              [-119.00899999999801, 39.37030746927015],
+              [-119.00899999999801, 38.67499450446548],
+              [-121.11799999999793, 38.67499450446548],
+              [-121.11799999999793, 39.37030746927015],
+            ],
+          ],
+        },
+        properties: {
+          id: "f4bcc",
+          owner: "goku",
+          created: 1611934478000,
+          modified: 1671554653000,
+          guid: null,
+          name: "Training_Grounds",
+          title: "training grounds",
+          type: "Feature Service",
+          typeKeywords: [],
+          description: "Gotta get those reps in!",
+          tags: [],
+          snippet: "How else can I push past my limits?",
+          thumbnail: "thumbnail/hub_thumbnail_1658341016537.png",
+          documentation: null,
+          extent: {
+            type: "Polygon",
+            coordinates: [
+              [
+                [-121.11799999999793, 39.37030746927015],
+                [-119.00899999999801, 39.37030746927015],
+                [-119.00899999999801, 38.67499450446548],
+                [-121.11799999999793, 38.67499450446548],
+                [-121.11799999999793, 39.37030746927015],
+              ],
+            ],
+          },
+          categories: [],
+          spatialReference: "102100",
+          url: "https://servicesqa.arcgis.com/Xj56SBi2udA78cC9/arcgis/rest/services/Training_Grounds/FeatureServer",
+          access: "public",
+        },
+        time: null,
+        links: [
+          {
+            rel: "self",
+            type: "application/geo+json",
+            title: "This document as GeoJSON",
+            href: "https://foo-bar.com/api/search/v1/collections/datasets/items/f4bcc",
+          },
+          {
+            rel: "collection",
+            type: "application/json",
+            title: "All",
+            href: "https://foo-bar.com/api/search/v1/collections/all",
+          },
+        ],
+      },
+    ],
+    timestamp: "2023-01-23T18:53:40.715Z",
+    numberMatched: 2,
+    numberReturned: 1,
+    links: [
+      {
+        rel: "self",
+        type: "application/geo+json",
+        title: "This document as GeoJSON",
+        href: "https://foo-bar.com/api/search/v1/collections/all/items",
+      },
+      {
+        rel: "collection",
+        type: "application/json",
+        title: "All",
+        href: "https://foo-bar.com/api/search/v1/collections/all",
+      },
+    ],
+  };
+  const expectedResults: IHubSearchResult[] = [
+    {
+      access: "public",
+      id: "f4bcc",
+      type: "Feature Service",
+      name: "training grounds",
+      owner: "goku",
+      tags: [],
+      typeKeywords: [],
+      categories: [],
+      summary: "How else can I push past my limits?",
+      createdDate: new Date(1611934478000),
+      createdDateSource: "item.created",
+      updatedDate: new Date(1671554653000),
+      updatedDateSource: "item.modified",
+      family: "map",
+      links: {
+        self: "https://www.arcgis.com/home/item.html?id=f4bcc",
+        siteRelative: "/maps/f4bcc",
+        thumbnail:
+          "https://www.arcgis.com/sharing/rest/content/items/f4bcc/info/thumbnail/hub_thumbnail_1658341016537.png",
+      },
+    },
+  ];
+
   describe("Response Transformation Helpers", () => {
     describe("ogcItemToSearchResult", () => {
       const item = {
@@ -379,120 +492,9 @@ describe("hubSearchItems Module:", () => {
     // describe('getNextOgcCallback')
 
     describe("formatOgcSearchResponse", () => {
-      const response: IOgcResponse = {
-        type: "FeatureCollection",
-        features: [
-          {
-            id: "f4bcc",
-            type: "Feature",
-            geometry: {
-              type: "Polygon",
-              coordinates: [
-                [
-                  [-121.11799999999793, 39.37030746927015],
-                  [-119.00899999999801, 39.37030746927015],
-                  [-119.00899999999801, 38.67499450446548],
-                  [-121.11799999999793, 38.67499450446548],
-                  [-121.11799999999793, 39.37030746927015],
-                ],
-              ],
-            },
-            properties: {
-              id: "f4bcc",
-              owner: "goku",
-              created: 1611934478000,
-              modified: 1671554653000,
-              guid: null,
-              name: "Training_Grounds",
-              title: "training grounds",
-              type: "Feature Service",
-              typeKeywords: [],
-              description: "Gotta get those reps in!",
-              tags: [],
-              snippet: "How else can I push past my limits?",
-              thumbnail: "thumbnail/hub_thumbnail_1658341016537.png",
-              documentation: null,
-              extent: {
-                type: "Polygon",
-                coordinates: [
-                  [
-                    [-121.11799999999793, 39.37030746927015],
-                    [-119.00899999999801, 39.37030746927015],
-                    [-119.00899999999801, 38.67499450446548],
-                    [-121.11799999999793, 38.67499450446548],
-                    [-121.11799999999793, 39.37030746927015],
-                  ],
-                ],
-              },
-              categories: [],
-              spatialReference: "102100",
-              url: "https://servicesqa.arcgis.com/Xj56SBi2udA78cC9/arcgis/rest/services/Training_Grounds/FeatureServer",
-              access: "public",
-            },
-            time: null,
-            links: [
-              {
-                rel: "self",
-                type: "application/geo+json",
-                title: "This document as GeoJSON",
-                href: "https://foo-bar.com/api/search/v1/collections/datasets/items/f4bcc",
-              },
-              {
-                rel: "collection",
-                type: "application/json",
-                title: "All",
-                href: "https://foo-bar.com/api/search/v1/collections/all",
-              },
-            ],
-          },
-        ],
-        timestamp: "2023-01-23T18:53:40.715Z",
-        numberMatched: 2,
-        numberReturned: 1,
-        links: [
-          {
-            rel: "self",
-            type: "application/geo+json",
-            title: "This document as GeoJSON",
-            href: "https://foo-bar.com/api/search/v1/collections/all/items",
-          },
-          {
-            rel: "collection",
-            type: "application/json",
-            title: "All",
-            href: "https://foo-bar.com/api/search/v1/collections/all",
-          },
-        ],
-      };
-
-      const expectedResults: IHubSearchResult[] = [
-        {
-          access: "public",
-          id: "f4bcc",
-          type: "Feature Service",
-          name: "training grounds",
-          owner: "goku",
-          tags: [],
-          typeKeywords: [],
-          categories: [],
-          summary: "How else can I push past my limits?",
-          createdDate: new Date(1611934478000),
-          createdDateSource: "item.created",
-          updatedDate: new Date(1671554653000),
-          updatedDateSource: "item.modified",
-          family: "map",
-          links: {
-            self: "https://www.arcgis.com/home/item.html?id=f4bcc",
-            siteRelative: "/maps/f4bcc",
-            thumbnail:
-              "https://www.arcgis.com/sharing/rest/content/items/f4bcc/info/thumbnail/hub_thumbnail_1658341016537.png",
-          },
-        },
-      ];
-
       it("correctly handles when no next link is present", async () => {
         const formattedResponse = await formatOgcSearchResponse(
-          response,
+          mockedResponse,
           null,
           null
         );
@@ -503,7 +505,7 @@ describe("hubSearchItems Module:", () => {
       });
 
       it("correctly handles when the next link is present", async () => {
-        const responseWithNextLink = cloneObject(response);
+        const responseWithNextLink = cloneObject(mockedResponse);
         responseWithNextLink.links.push({
           rel: "next",
           type: "application/geo+json",
@@ -523,6 +525,43 @@ describe("hubSearchItems Module:", () => {
         // that the callback correctly delegates with updated args
         expect(formattedResponse.next).toBeDefined();
         expect(formattedResponse.results).toEqual(expectedResults);
+      });
+    });
+  });
+  describe("Main Search Functions", () => {
+    describe("searchOgcItems", () => {
+      afterEach(fetchMock.restore);
+      it("hits the items endpoint for the specified collection api url", async () => {
+        const query: IQuery = {
+          targetEntity: "item",
+          filters: [
+            {
+              predicates: [
+                {
+                  type: "Feature Service",
+                },
+              ],
+            },
+          ],
+        };
+
+        const options: IHubSearchOptions = {
+          api: {
+            type: "arcgis-hub",
+            url: "https://my-test-site.arcgis.com/api/v1/search/collections/all",
+          },
+          num: 1,
+          targetEntity: "item",
+        };
+
+        fetchMock.once(
+          "https://my-test-site.arcgis.com/api/v1/search/collections/all/items?filter=((type=Feature Service))&limit=1",
+          mockedResponse
+        );
+        const response = await searchOgcItems(query, options);
+        expect(response.total).toEqual(2);
+        expect(response.hasNext).toEqual(false);
+        expect(response.results).toEqual(expectedResults);
       });
     });
   });
