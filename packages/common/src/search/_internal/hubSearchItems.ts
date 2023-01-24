@@ -8,6 +8,7 @@ import { cloneObject } from "../../util";
 import {
   IApiDefinition,
   IFilter,
+  IHubAggregation,
   IHubSearchOptions,
   IHubSearchResponse,
   IHubSearchResult,
@@ -60,12 +61,25 @@ interface IOgcLink {
   href: string;
 }
 
-export interface IOgcResponse {
+export interface IOgcItemsResponse {
   type: "FeatureCollection";
   features: IOgcItem[];
   timestamp: string;
   numberMatched: number;
   numberReturned: number;
+  links: IOgcLink[];
+}
+
+interface IOgcItemFieldAggregation {
+  field: string;
+  aggregations: Array<{ label: string; value: any }>;
+}
+
+export interface IOgcAggregationsResponse {
+  aggregations: {
+    terms: IOgcItemFieldAggregation[];
+  };
+  timestamp: string;
   links: IOgcLink[];
 }
 
@@ -80,20 +94,26 @@ export async function searchOgcItems(
   const url = `${apiDefinition.url}/items`;
   const queryParams = getOgcItemQueryParams(query, options);
 
-  const rawResponse: IOgcResponse = await ogcApiRequest(
+  const rawResponse: IOgcItemsResponse = await ogcApiRequest(
     url,
     queryParams,
     options
   );
 
-  return formatOgcSearchResponse(rawResponse, query, options);
+  return formatOgcItemsResponse(rawResponse, query, options);
 }
 
 export async function searchOgcAggregations(
-  _query: IQuery,
-  _options: IHubSearchOptions
+  query: IQuery,
+  options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
-  return null;
+  const apiDefinition = options.api as IApiDefinition;
+  const url = `${apiDefinition.url}/aggregations`;
+  const queryParams = getOgcAggregationQueryParams(query, options);
+
+  const rawResponse = await ogcApiRequest(url, queryParams, options);
+
+  return formatOgcAggregationsResponse(rawResponse);
 }
 
 export async function ogcApiRequest(
@@ -121,7 +141,7 @@ export async function ogcApiRequest(
 // Request Transformation Helpers
 ////////////////////////////////////
 
-export function getOgcAggregrationsQueryParams(
+export function getOgcAggregationQueryParams(
   _query: IQuery,
   options: IHubSearchOptions
 ) {
@@ -201,8 +221,34 @@ export function formatPredicate(predicate: IPredicate) {
 //////////////////////////////////////
 // Response Transformation Helpers
 //////////////////////////////////////
-export async function formatOgcSearchResponse(
-  response: IOgcResponse,
+
+export function formatOgcAggregationsResponse(
+  response: IOgcAggregationsResponse
+): IHubSearchResponse<IHubSearchResult> {
+  const aggregations: IHubAggregation[] = response.aggregations.terms.map(
+    (ogcAgg) => ({
+      // What should it really be?
+      mode: "terms",
+      field: ogcAgg.field,
+      values: ogcAgg.aggregations.map((a) => ({
+        // Not confusing at all, right? Just some differences in terminology
+        value: a.label,
+        count: a.value,
+      })),
+    })
+  );
+
+  return {
+    total: 0,
+    results: [],
+    hasNext: false,
+    next: () => null,
+    aggregations,
+  };
+}
+
+export async function formatOgcItemsResponse(
+  response: IOgcItemsResponse,
   originalQuery: IQuery,
   originalOptions: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
@@ -221,7 +267,7 @@ export async function formatOgcSearchResponse(
 }
 
 export function getNextOgcCallback(
-  response: IOgcResponse,
+  response: IOgcItemsResponse,
   originalQuery: IQuery,
   originalOptions: IHubSearchOptions
 ): (params?: any) => Promise<IHubSearchResponse<IHubSearchResult>> {

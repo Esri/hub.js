@@ -9,15 +9,18 @@ import {
 } from "../../../src";
 import {
   formatFilterBlock,
-  formatOgcSearchResponse,
+  formatOgcAggregationsResponse,
+  formatOgcItemsResponse,
   formatPredicate,
   getFilterQueryParam,
-  getOgcAggregrationsQueryParams,
+  getOgcAggregationQueryParams,
   getOgcItemQueryParams,
   getQueryString,
+  IOgcAggregationsResponse,
   IOgcItem,
-  IOgcResponse,
+  IOgcItemsResponse,
   ogcItemToSearchResult,
+  searchOgcAggregations,
   searchOgcItems,
 } from "../../../src/search/_internal/hubSearchItems";
 import { UserSession } from "@esri/arcgis-rest-auth";
@@ -297,7 +300,7 @@ describe("hubSearchItems Module:", () => {
         const options: IHubSearchOptions = {
           aggFields: ["type", "tags", "categories"],
         };
-        const result = getOgcAggregrationsQueryParams(query, options);
+        const result = getOgcAggregationQueryParams(query, options);
         const queryString = getQueryString(result);
         expect(queryString).toEqual(
           "?aggregations=terms(fields=(type,tags,categories))"
@@ -313,7 +316,7 @@ describe("hubSearchItems Module:", () => {
             } as UserSession,
           },
         };
-        const result = getOgcAggregrationsQueryParams(query, options);
+        const result = getOgcAggregationQueryParams(query, options);
         const queryString = getQueryString(result);
         expect(queryString).toEqual(
           "?aggregations=terms(fields=(type,tags,categories))&token=abc"
@@ -323,7 +326,7 @@ describe("hubSearchItems Module:", () => {
   });
 
   // TODO: move these to dedicated mock json files
-  const mockedResponse: IOgcResponse = {
+  const mockedItemsResponse: IOgcItemsResponse = {
     type: "FeatureCollection",
     features: [
       {
@@ -408,7 +411,7 @@ describe("hubSearchItems Module:", () => {
       },
     ],
   };
-  const expectedResults: IHubSearchResult[] = [
+  const expectedItemResults: IHubSearchResult[] = [
     {
       access: "public",
       id: "f4bcc",
@@ -432,6 +435,44 @@ describe("hubSearchItems Module:", () => {
       },
     },
   ];
+
+  const mockedAggregationsResponse: IOgcAggregationsResponse = {
+    aggregations: {
+      terms: [
+        {
+          field: "access",
+          aggregations: [
+            {
+              label: "public",
+              value: 141,
+            },
+          ],
+        },
+        {
+          field: "type",
+          aggregations: [
+            {
+              label: "feature service",
+              value: 128,
+            },
+            {
+              label: "csv",
+              value: 8,
+            },
+          ],
+        },
+      ],
+    },
+    timestamp: "2023-01-23T23:43:42.523Z",
+    links: [
+      {
+        rel: "self",
+        type: "application/json",
+        title: "This document as JSON",
+        href: "https://my-test-site.arcgis.com/api/search/v1/collections/all/aggregations",
+      },
+    ],
+  };
 
   describe("Response Transformation Helpers", () => {
     describe("ogcItemToSearchResult", () => {
@@ -491,21 +532,21 @@ describe("hubSearchItems Module:", () => {
     // every helper from it's own file
     // describe('getNextOgcCallback')
 
-    describe("formatOgcSearchResponse", () => {
+    describe("formatOgcItemsResponse", () => {
       it("correctly handles when no next link is present", async () => {
-        const formattedResponse = await formatOgcSearchResponse(
-          mockedResponse,
+        const formattedResponse = await formatOgcItemsResponse(
+          mockedItemsResponse,
           null,
           null
         );
         expect(formattedResponse.total).toEqual(2);
         expect(formattedResponse.hasNext).toEqual(false);
         expect(formattedResponse.next).toBeDefined();
-        expect(formattedResponse.results).toEqual(expectedResults);
+        expect(formattedResponse.results).toEqual(expectedItemResults);
       });
 
       it("correctly handles when the next link is present", async () => {
-        const responseWithNextLink = cloneObject(mockedResponse);
+        const responseWithNextLink = cloneObject(mockedItemsResponse);
         responseWithNextLink.links.push({
           rel: "next",
           type: "application/geo+json",
@@ -513,7 +554,7 @@ describe("hubSearchItems Module:", () => {
           href: "https://foo-bar.com/api/search/v1/collections/all/items?limit=1&startindex=2",
         });
 
-        const formattedResponse = await formatOgcSearchResponse(
+        const formattedResponse = await formatOgcItemsResponse(
           responseWithNextLink,
           null,
           null
@@ -524,7 +565,48 @@ describe("hubSearchItems Module:", () => {
         // Because we cannot stub searchOgcItems, we can't check
         // that the callback correctly delegates with updated args
         expect(formattedResponse.next).toBeDefined();
-        expect(formattedResponse.results).toEqual(expectedResults);
+        expect(formattedResponse.results).toEqual(expectedItemResults);
+      });
+    });
+
+    describe("formatOgcAggregationsResponse", () => {
+      it("converts between OGC and Hub Aggregation interfaces", () => {
+        const formatted = formatOgcAggregationsResponse(
+          mockedAggregationsResponse
+        );
+
+        // Sets unnecessary props to defaults
+        expect(formatted.total).toBe(0);
+        expect(formatted.results).toEqual([]);
+        expect(formatted.hasNext).toEqual(false);
+        expect(formatted.next).toBeDefined();
+
+        // Test aggregation results
+        expect(formatted.aggregations.length).toEqual(2);
+
+        const accessAgg = formatted.aggregations.find(
+          (a) => a.field === "access"
+        );
+        expect(accessAgg).toEqual({
+          mode: "terms",
+          field: "access",
+          values: [
+            {
+              value: "public",
+              count: 141,
+            },
+          ],
+        });
+
+        const typeAgg = formatted.aggregations.find((a) => a.field === "type");
+        expect(typeAgg).toEqual({
+          mode: "terms",
+          field: "type",
+          values: [
+            { value: "feature service", count: 128 },
+            { value: "csv", count: 8 },
+          ],
+        });
       });
     });
   });
@@ -556,12 +638,67 @@ describe("hubSearchItems Module:", () => {
 
         fetchMock.once(
           "https://my-test-site.arcgis.com/api/v1/search/collections/all/items?filter=((type=Feature Service))&limit=1",
-          mockedResponse
+          mockedItemsResponse
         );
         const response = await searchOgcItems(query, options);
         expect(response.total).toEqual(2);
         expect(response.hasNext).toEqual(false);
-        expect(response.results).toEqual(expectedResults);
+        expect(response.results).toEqual(expectedItemResults);
+      });
+    });
+
+    describe("searchOgcAggregations", () => {
+      afterEach(fetchMock.restore);
+      it("hits the aggregations endpoint for the specified collection api url", async () => {
+        // TODO: add a query once the aggregations endpoint can handle arbitrary filters
+        const query: IQuery = null;
+        const options: IHubSearchOptions = {
+          api: {
+            type: "arcgis-hub",
+            url: "https://my-test-site.arcgis.com/api/v1/search/collections/all",
+          },
+          targetEntity: "item",
+          aggFields: ["access", "type"],
+          // TODO: include aggLimit once the aggregations endpoint can handle it
+          // aggLimit: 2,
+        };
+
+        fetchMock.once(
+          "https://my-test-site.arcgis.com/api/v1/search/collections/all/aggregations?aggregations=terms(fields=(access,type))",
+          mockedAggregationsResponse
+        );
+        const response = await searchOgcAggregations(query, options);
+
+        // Validate defaults
+        expect(response.total).toEqual(0);
+        expect(response.results).toEqual([]);
+        expect(response.hasNext).toEqual(false),
+          // Test aggregation results
+          expect(response.aggregations.length).toEqual(2);
+
+        const accessAgg = response.aggregations.find(
+          (a) => a.field === "access"
+        );
+        expect(accessAgg).toEqual({
+          mode: "terms",
+          field: "access",
+          values: [
+            {
+              value: "public",
+              count: 141,
+            },
+          ],
+        });
+
+        const typeAgg = response.aggregations.find((a) => a.field === "type");
+        expect(typeAgg).toEqual({
+          mode: "terms",
+          field: "type",
+          values: [
+            { value: "feature service", count: 128 },
+            { value: "csv", count: 8 },
+          ],
+        });
       });
     });
   });
