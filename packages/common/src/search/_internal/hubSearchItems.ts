@@ -195,16 +195,14 @@ export function formatPredicate(predicate: IPredicate) {
     .reduce((acc, [field, value]) => {
       let section;
       if (typeof value === "string") {
-        // TODO: do we add single quotes for string fields?
-        section = `${field}=${value}`;
+        section = `${field}=${maybeAddSingleQuotes(value)}`;
       } else if (Array.isArray(value)) {
-        section = `${field} IN (${value.join(", ")})`;
+        const wrappedValues = value.map(maybeAddSingleQuotes);
+        section = `${field} IN (${wrappedValues.join(", ")})`;
       } else {
-        const anys = value.any && `${field} IN (${value.any.join(", ")})`;
-        const alls =
-          value.all &&
-          value.all.map((v: string) => `${field}=${v}`).join(" AND ");
-        const nots = value.not && `${field} NOT IN (${value.not.join(", ")})`;
+        const anys = formatAnys(field, value.any);
+        const alls = formatAlls(field, value.all);
+        const nots = formatNots(field, value.not);
         section = [anys, alls, nots]
           .filter((subsection) => !!subsection)
           .join(" AND ");
@@ -216,6 +214,44 @@ export function formatPredicate(predicate: IPredicate) {
     .join(" AND ");
 
   return `(${formatted})`;
+}
+
+function formatAnys(field: string, values?: string[]): string {
+  let result: string;
+
+  if (values) {
+    const wrappedValues = values.map(maybeAddSingleQuotes);
+    result = `${field} IN (${wrappedValues.join(", ")})`;
+  }
+
+  return result;
+}
+
+function formatAlls(field: string, values?: string[]): string {
+  let result: string;
+
+  if (values) {
+    const wrappedValues = values.map(maybeAddSingleQuotes);
+    result = wrappedValues.map((v: string) => `${field}=${v}`).join(" AND ");
+  }
+
+  return result;
+}
+
+function formatNots(field: string, values?: string[]): string {
+  let result: string;
+
+  if (values) {
+    const wrappedValues = values.map(maybeAddSingleQuotes);
+    result = `${field} NOT IN (${wrappedValues.join(", ")})`;
+  }
+
+  return result;
+}
+
+function maybeAddSingleQuotes(value: string): string {
+  const whitespaceRegex: RegExp = /\s/;
+  return whitespaceRegex.test(value) ? `'${value}'` : value;
 }
 
 //////////////////////////////////////

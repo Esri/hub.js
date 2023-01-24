@@ -43,97 +43,97 @@ describe("hubSearchItems Module:", () => {
       it("handles a simple multi-predicate", () => {
         const predicate = {
           type: "typeA",
-          tags: "tagA",
+          tags: "tag A",
         };
         const result = formatPredicate(predicate);
-        expect(result).toEqual("(type=typeA AND tags=tagA)");
+        expect(result).toEqual("(type=typeA AND tags='tag A')");
       });
 
       it("handles a string array", () => {
         const predicate = {
-          type: ["typeA", "typeB"],
+          type: ["typeA", "type B"],
         };
         const result = formatPredicate(predicate);
-        expect(result).toEqual("(type IN (typeA, typeB))");
+        expect(result).toEqual("(type IN (typeA, 'type B'))");
       });
 
       it("handles a multiple string arrays", () => {
         const predicate = {
-          type: ["typeA", "typeB"],
-          tags: ["tagA", "tagB"],
+          type: ["typeA", "type B"],
+          tags: ["tagA", "tag B"],
         };
         const result = formatPredicate(predicate);
         expect(result).toEqual(
-          "(type IN (typeA, typeB) AND tags IN (tagA, tagB))"
+          "(type IN (typeA, 'type B') AND tags IN (tagA, 'tag B'))"
         );
       });
 
       it("handles a complex predicate with anys", () => {
         const predicate = {
           type: {
-            any: ["typeA", "typeB"],
+            any: ["typeA", "type B"],
           },
         };
         const result = formatPredicate(predicate);
-        expect(result).toEqual("(type IN (typeA, typeB))");
+        expect(result).toEqual("(type IN (typeA, 'type B'))");
       });
 
       it("handles a complex predicate with anys and alls", () => {
         const predicate = {
           tags: {
-            any: ["tagA", "tagB"],
-            all: ["tagC", "tagD"],
+            any: ["tagA", "tag B"],
+            all: ["tagC", "tag D"],
           },
         };
         const result = formatPredicate(predicate);
         expect(result).toEqual(
-          "(tags IN (tagA, tagB) AND tags=tagC AND tags=tagD)"
+          "(tags IN (tagA, 'tag B') AND tags=tagC AND tags='tag D')"
         );
       });
 
       it("handles a complex predicate with anys, alls and nots", () => {
         const predicate = {
           tags: {
-            any: ["tagA", "tagB"],
-            all: ["tagC", "tagD"],
-            not: ["tagE", "tagF"],
+            any: ["tag A", "tagB"],
+            all: ["tag C", "tagD"],
+            not: ["tag E", "tagF"],
           },
         };
         const result = formatPredicate(predicate);
         expect(result).toEqual(
-          "(tags IN (tagA, tagB) AND tags=tagC AND tags=tagD AND tags NOT IN (tagE, tagF))"
+          "(tags IN ('tag A', tagB) AND tags='tag C' AND tags=tagD AND tags NOT IN ('tag E', tagF))"
         );
       });
 
       it("handles multiple complex predicates", () => {
         const predicate = {
           tags: {
-            any: ["tagA", "tagB"],
-            all: ["tagC", "tagD"],
+            any: ["tag A", "tagB"],
+            all: ["tag C", "tagD"],
           },
           type: {
-            any: ["typeA", "typeB"],
-            not: ["typeC", "typeD"],
+            any: ["type A", "typeB"],
+            not: ["type C", "typeD"],
           },
         };
         const result = formatPredicate(predicate);
         expect(result).toEqual(
           "(" +
-            "tags IN (tagA, tagB) AND tags=tagC AND tags=tagD" +
+            "tags IN ('tag A', tagB) AND tags='tag C' AND tags=tagD" +
             " AND " +
-            "type IN (typeA, typeB) AND type NOT IN (typeC, typeD)" +
+            "type IN ('type A', typeB) AND type NOT IN ('type C', typeD)" +
             ")"
         );
       });
 
       it("handles all 3 kinds of predicates", () => {
         const predicate = {
-          type: "typeA",
-          tags: ["tagA", "tagB"],
+          type: "type A",
+          tags: ["tag A", "tagB"],
           categories: {
-            any: ["categoryA", "categoryB"],
-            all: ["categoryC", "categoryD"],
-            not: ["categoryE", "categoryF"],
+            any: ["category A", "categoryB"],
+            all: ["category C", "categoryD"],
+            not: ["category E", "categoryF"],
           },
         };
 
@@ -141,11 +141,11 @@ describe("hubSearchItems Module:", () => {
 
         expect(result).toEqual(
           "(" +
-            "type=typeA" +
+            "type='type A'" +
             " AND " +
-            "tags IN (tagA, tagB)" +
+            "tags IN ('tag A', tagB)" +
             " AND " +
-            "categories IN (categoryA, categoryB) AND categories=categoryC AND categories=categoryD AND categories NOT IN (categoryE, categoryF)" +
+            "categories IN ('category A', categoryB) AND categories='category C' AND categories=categoryD AND categories NOT IN ('category E', categoryF)" +
             ")"
         );
       });
@@ -637,7 +637,7 @@ describe("hubSearchItems Module:", () => {
         };
 
         fetchMock.once(
-          "https://my-test-site.arcgis.com/api/v1/search/collections/all/items?filter=((type=Feature Service))&limit=1",
+          "https://my-test-site.arcgis.com/api/v1/search/collections/all/items?filter=((type='Feature Service'))&limit=1",
           mockedItemsResponse
         );
         const response = await searchOgcItems(query, options);
