@@ -77,7 +77,7 @@ interface IOgcItemFieldAggregation {
 
 export interface IOgcAggregationsResponse {
   aggregations: {
-    terms: IOgcItemFieldAggregation[];
+    aggregations: IOgcItemFieldAggregation[];
   };
   timestamp: string;
   links: IOgcLink[];
@@ -225,8 +225,8 @@ export function formatPredicate(predicate: IPredicate) {
 export function formatOgcAggregationsResponse(
   response: IOgcAggregationsResponse
 ): IHubSearchResponse<IHubSearchResult> {
-  const aggregations: IHubAggregation[] = response.aggregations.terms.map(
-    (ogcAgg) => ({
+  const aggregations: IHubAggregation[] =
+    response.aggregations.aggregations.map((ogcAgg) => ({
       // What should it really be?
       mode: "terms",
       field: ogcAgg.field,
@@ -235,8 +235,7 @@ export function formatOgcAggregationsResponse(
         value: a.label,
         count: a.value,
       })),
-    })
-  );
+    }));
 
   return {
     total: 0,

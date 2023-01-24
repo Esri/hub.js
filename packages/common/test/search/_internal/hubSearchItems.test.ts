@@ -438,7 +438,7 @@ describe("hubSearchItems Module:", () => {
 
   const mockedAggregationsResponse: IOgcAggregationsResponse = {
     aggregations: {
-      terms: [
+      aggregations: [
         {
           field: "access",
           aggregations: [
