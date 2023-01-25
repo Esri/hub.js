@@ -31,7 +31,7 @@ import * as portalSearchItemsModule from "../../../src/search/_internal/portalSe
 import { IItem } from "@esri/arcgis-rest-types";
 import * as fetchMock from "fetch-mock";
 
-fdescribe("hubSearchItems Module:", () => {
+describe("hubSearchItems Module:", () => {
   describe("Request Transformation Helpers", () => {
     describe("formatPredicate", () => {
       it("handles a simple predicate", () => {
