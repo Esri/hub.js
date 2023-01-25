@@ -1,3 +1,10 @@
+## @esri/hub-common [12.3.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.3.1...@esri/hub-common@12.3.2) (2023-01-25)
+
+
+### Bug Fixes
+
+* rename relatedItem to featuredContent in project ([27b7086](https://github.com/Esri/hub.js/commit/27b70865905eaa0403591f13ce61336f73c7f79e))
+
 ## @esri/hub-common [12.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.3.0...@esri/hub-common@12.3.1) (2023-01-19)
 
 
