@@ -11,5 +11,5 @@ export interface IWithViewSettings {
    */
   featuredImageUrl?: string;
 
-  relatedItemIds: string[];
+  featuredContentIds: string[];
 }
