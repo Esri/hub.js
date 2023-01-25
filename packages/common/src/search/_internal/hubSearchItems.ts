@@ -190,8 +190,8 @@ export function formatFilterBlock(filter: IFilter) {
 
 export function formatPredicate(predicate: IPredicate) {
   const formatted = Object.entries(predicate)
-    // Remove undefined entries
-    .filter(([_field, value]) => !!value)
+    // Remove predicates that use `term` (handled in other function) and undefined entries
+    .filter(([field, value]) => field !== "term" && !!value)
     // Create sections for each field
     .reduce((acc, [field, value]) => {
       let section;

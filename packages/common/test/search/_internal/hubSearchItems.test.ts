@@ -29,7 +29,7 @@ import * as portalSearchItemsModule from "../../../src/search/_internal/portalSe
 import { IItem } from "@esri/arcgis-rest-types";
 import * as fetchMock from "fetch-mock";
 
-describe("hubSearchItems Module:", () => {
+fdescribe("hubSearchItems Module:", () => {
   describe("Request Transformation Helpers", () => {
     describe("formatPredicate", () => {
       it("handles a simple predicate", () => {
@@ -47,6 +47,15 @@ describe("hubSearchItems Module:", () => {
         };
         const result = formatPredicate(predicate);
         expect(result).toEqual("(type=typeA AND tags='tag A')");
+      });
+
+      it("ignores 'term' predicates", () => {
+        const predicate = {
+          type: "typeA",
+          term: "termA",
+        };
+        const result = formatPredicate(predicate);
+        expect(result).toEqual("(type=typeA)");
       });
 
       it("handles a string array", () => {
