@@ -68,7 +68,7 @@ describe("hubSearchItems Module:", () => {
         );
       });
 
-      it("handles a complex predicate with anys", () => {
+      it("handles a complex predicate with an anys array", () => {
         const predicate = {
           type: {
             any: ["typeA", "type B"],
@@ -78,7 +78,27 @@ describe("hubSearchItems Module:", () => {
         expect(result).toEqual("(type IN (typeA, 'type B'))");
       });
 
-      it("handles a complex predicate with anys and alls", () => {
+      it("handles a complex predicate with an anys string", () => {
+        const predicate = {
+          type: {
+            any: "typeA",
+          },
+        };
+        const result = formatPredicate(predicate);
+        expect(result).toEqual("(type=typeA)");
+      });
+
+      it("handles a complex predicate with an alls string", () => {
+        const predicate = {
+          tags: {
+            all: ["tagC"],
+          },
+        };
+        const result = formatPredicate(predicate);
+        expect(result).toEqual("(tags=tagC)");
+      });
+
+      it("handles a complex predicate with anys array and alls array", () => {
         const predicate = {
           tags: {
             any: ["tagA", "tag B"],
@@ -91,7 +111,17 @@ describe("hubSearchItems Module:", () => {
         );
       });
 
-      it("handles a complex predicate with anys, alls and nots", () => {
+      it("handles a complex predicate with a nots string", () => {
+        const predicate = {
+          tags: {
+            not: "tagA",
+          },
+        };
+        const result = formatPredicate(predicate);
+        expect(result).toEqual("(tags NOT IN (tagA))");
+      });
+
+      it("handles a complex predicate with anys array, alls array and nots array", () => {
         const predicate = {
           tags: {
             any: ["tag A", "tagB"],

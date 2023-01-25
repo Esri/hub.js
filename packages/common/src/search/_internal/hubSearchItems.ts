@@ -12,6 +12,7 @@ import {
   IHubSearchOptions,
   IHubSearchResponse,
   IHubSearchResult,
+  IMatchOptions,
   IPredicate,
   IQuery,
 } from "../types";
@@ -195,17 +196,11 @@ export function formatPredicate(predicate: IPredicate) {
     .reduce((acc, [field, value]) => {
       let section;
       if (typeof value === "string") {
-        section = `${field}=${maybeAddSingleQuotes(value)}`;
+        section = formatSimpleComparison(field, value);
       } else if (Array.isArray(value)) {
-        const wrappedValues = value.map(maybeAddSingleQuotes);
-        section = `${field} IN (${wrappedValues.join(", ")})`;
+        section = formatMultiStringPredicate(field, value);
       } else {
-        const anys = formatAnys(field, value.any);
-        const alls = formatAlls(field, value.all);
-        const nots = formatNots(field, value.not);
-        section = [anys, alls, nots]
-          .filter((subsection) => !!subsection)
-          .join(" AND ");
+        section = formatComplexPredicate(field, value);
       }
       acc.push(section);
       return acc;
@@ -216,33 +211,54 @@ export function formatPredicate(predicate: IPredicate) {
   return `(${formatted})`;
 }
 
-function formatAnys(field: string, values?: string[]): string {
+function formatSimpleComparison(field: string, value: string) {
+  return `${field}=${maybeAddSingleQuotes(value)}`;
+}
+
+function formatMultiStringPredicate(field: string, values: string[]) {
+  const wrappedValues = values.map(maybeAddSingleQuotes);
+  return `${field} IN (${wrappedValues.join(", ")})`;
+}
+
+function formatComplexPredicate(field: string, value: IMatchOptions) {
+  const anys = formatAnys(field, value.any);
+  const alls = formatAlls(field, value.all);
+  const nots = formatNots(field, value.not);
+  return [anys, alls, nots].filter((subsection) => !!subsection).join(" AND ");
+}
+
+function formatAnys(field: string, value: string | string[]): string {
   let result: string;
 
-  if (values) {
-    const wrappedValues = values.map(maybeAddSingleQuotes);
+  if (Array.isArray(value)) {
+    const wrappedValues = value.map(maybeAddSingleQuotes);
     result = `${field} IN (${wrappedValues.join(", ")})`;
+  } else if (value) {
+    result = formatSimpleComparison(field, value);
   }
 
   return result;
 }
 
-function formatAlls(field: string, values?: string[]): string {
+function formatAlls(field: string, value?: string | string[]): string {
   let result: string;
 
-  if (values) {
-    const wrappedValues = values.map(maybeAddSingleQuotes);
-    result = wrappedValues.map((v: string) => `${field}=${v}`).join(" AND ");
+  if (Array.isArray(value)) {
+    result = value
+      .map((v: string) => formatSimpleComparison(field, v))
+      .join(" AND ");
+  } else if (value) {
+    result = formatSimpleComparison(field, value);
   }
 
   return result;
 }
 
-function formatNots(field: string, values?: string[]): string {
+function formatNots(field: string, value?: string | string[]): string {
   let result: string;
-
-  if (values) {
-    const wrappedValues = values.map(maybeAddSingleQuotes);
+  if (value) {
+    const valueAsArray = Array.isArray(value) ? value : [value];
+    const wrappedValues = valueAsArray.map(maybeAddSingleQuotes);
     result = `${field} NOT IN (${wrappedValues.join(", ")})`;
   }
 
