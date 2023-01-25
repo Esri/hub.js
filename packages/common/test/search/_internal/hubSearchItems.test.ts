@@ -15,6 +15,8 @@ import {
   getFilterQueryParam,
   getOgcAggregationQueryParams,
   getOgcItemQueryParams,
+  getQPredicate,
+  getQQueryParam,
   getQueryString,
   IOgcAggregationsResponse,
   IOgcItem,
@@ -29,7 +31,7 @@ import * as portalSearchItemsModule from "../../../src/search/_internal/portalSe
 import { IItem } from "@esri/arcgis-rest-types";
 import * as fetchMock from "fetch-mock";
 
-describe("hubSearchItems Module:", () => {
+fdescribe("hubSearchItems Module:", () => {
   describe("Request Transformation Helpers", () => {
     describe("formatPredicate", () => {
       it("handles a simple predicate", () => {
@@ -256,6 +258,39 @@ describe("hubSearchItems Module:", () => {
             "((type=typeB) OR (tags=tagB))"
         );
       });
+      it("ignores term filters / predicates", () => {
+        const predicateA: IPredicate = { type: "typeA" };
+        const predicateB: IPredicate = { tags: "tagA" };
+        const termPredicate: IPredicate = { term: "term1" };
+        const filter1: IFilter = {
+          operation: "AND",
+          predicates: [predicateA, predicateB, termPredicate],
+        };
+
+        const predicateC: IPredicate = { type: "typeB" };
+        const predicateD: IPredicate = { tags: "tagB" };
+        const filter2: IFilter = {
+          operation: "OR",
+          predicates: [predicateC, predicateD],
+        };
+
+        const termFilter: IFilter = {
+          predicates: [{ term: "term2" }],
+        };
+
+        const query: IQuery = {
+          targetEntity: "item",
+          filters: [filter1, filter2, termFilter],
+        };
+
+        const result = getFilterQueryParam(query);
+
+        expect(result).toEqual(
+          "((type=typeA) AND (tags=tagA))" +
+            " AND " +
+            "((type=typeB) OR (tags=tagB))"
+        );
+      });
     });
 
     describe("getOgcItemQueryString", () => {
@@ -322,6 +357,27 @@ describe("hubSearchItems Module:", () => {
           "?filter=((type=typeA))&token=abc&limit=9&startindex=10"
         );
       });
+
+      it("handles query, auth, limit, startindex and q", () => {
+        const options: IHubSearchOptions = {
+          requestOptions: {
+            authentication: {
+              token: "abc",
+            } as UserSession,
+          },
+          num: 9,
+          start: 10,
+        };
+
+        const termQuery: IQuery = cloneObject(query);
+        termQuery.filters.push({ predicates: [{ term: "term1" }] });
+
+        const result = getOgcItemQueryParams(termQuery, options);
+        const queryString = getQueryString(result);
+        expect(queryString).toEqual(
+          "?filter=((type=typeA))&token=abc&limit=9&startindex=10&q=term1"
+        );
+      });
     });
 
     describe("getOgcAggregationsQueryString", () => {
@@ -360,6 +416,152 @@ describe("hubSearchItems Module:", () => {
         expect(queryString).toEqual(
           "?aggregations=terms(fields=(type,tags,categories))&token=abc"
         );
+      });
+    });
+
+    describe("getQPredicate", () => {
+      it("returns undefined when passed an empty array", () => {
+        const result = getQPredicate([]);
+        expect(result).toBeUndefined();
+      });
+      it("throws an error when more than 1 filter is passed in", () => {
+        const filters: IFilter[] = [
+          { predicates: [{ term: "term1" }] },
+          { predicates: [{ term: "term2" }] },
+        ];
+
+        try {
+          getQPredicate(filters);
+          expect(true).toBe(false);
+        } catch (err) {
+          expect(err.message).toEqual(
+            "IQuery can only have 1 IFilter with a 'term' predicate but 2 were detected"
+          );
+        }
+      });
+
+      it("throws an error when a filter with more than one term predicate is passed in", () => {
+        const filters: IFilter[] = [
+          {
+            predicates: [{ term: "term1" }, { term: "term2" }],
+          },
+        ];
+
+        try {
+          getQPredicate(filters);
+          expect(true).toBe(false);
+        } catch (err) {
+          expect(err.message).toEqual(
+            "IQuery can only have 1 'term' predicate but 2 were detected"
+          );
+        }
+      });
+
+      it("throws an error when a term predicate ORd with another predicate", () => {
+        const filters: IFilter[] = [
+          {
+            operation: "OR",
+            predicates: [{ term: "term1" }, { type: "typeA" }],
+          },
+        ];
+
+        try {
+          getQPredicate(filters);
+          expect(true).toBe(false);
+        } catch (err) {
+          expect(err.message).toEqual(
+            "'term' predicates cannot be OR'd to other predicates"
+          );
+        }
+      });
+
+      it("throws an error when a term predicate is an array", () => {
+        const filters: IFilter[] = [
+          {
+            predicates: [{ term: ["term1", "term2"] }],
+          },
+        ];
+
+        try {
+          getQPredicate(filters);
+          expect(true).toBe(false);
+        } catch (err) {
+          expect(err.message).toEqual(
+            "'term' predicate must have a string value, string[] and IMatchOptions are not allowed."
+          );
+        }
+      });
+
+      it("throws an error when a term predicate is an IMatchOptions", () => {
+        const filters: IFilter[] = [
+          {
+            predicates: [
+              {
+                term: {
+                  any: ["term1", "term2"],
+                },
+              },
+            ],
+          },
+        ];
+
+        try {
+          getQPredicate(filters);
+          expect(true).toBe(false);
+        } catch (err) {
+          expect(err.message).toEqual(
+            "'term' predicate must have a string value, string[] and IMatchOptions are not allowed."
+          );
+        }
+      });
+
+      it("returns the predicate when term is a string", () => {
+        const expected = { term: "term1" };
+        const filters: IFilter[] = [
+          {
+            predicates: [expected],
+          },
+        ];
+
+        const result = getQPredicate(filters);
+        expect(result).toBe(expected);
+      });
+    });
+
+    describe("getQQueryParam", () => {
+      it("returns the value of the term predicate", () => {
+        const query: IQuery = {
+          targetEntity: "item",
+          filters: [
+            {
+              operation: "AND",
+              predicates: [{ term: "term1" }, { tags: "tagA" }],
+            },
+            {
+              predicates: [{ tags: "tagB" }],
+            },
+          ],
+        };
+
+        const result = getQQueryParam(query);
+        expect(result).toBe("term1");
+      });
+
+      it("returns undefined when there is noterm predicate", () => {
+        const query: IQuery = {
+          targetEntity: "item",
+          filters: [
+            {
+              predicates: [{ tags: "tagA" }],
+            },
+            {
+              predicates: [{ tags: "tagB" }],
+            },
+          ],
+        };
+
+        const result = getQQueryParam(query);
+        expect(result).toBeUndefined();
       });
     });
   });
