@@ -7,25 +7,31 @@ import {
   IPredicate,
   IQuery,
 } from "../../../src";
+
+import { UserSession } from "@esri/arcgis-rest-auth";
+
 import {
-  formatFilterBlock,
-  formatOgcAggregationsResponse,
-  formatOgcItemsResponse,
   formatPredicate,
+  formatFilterBlock,
   getFilterQueryParam,
-  getOgcAggregationQueryParams,
-  getOgcItemQueryParams,
+} from "../../../src/search/_internal/hubSearchItemsHelpers/getFilterQueryParam";
+import { getOgcItemQueryParams } from "../../../src/search/_internal/hubSearchItemsHelpers/getOgcItemQueryParams";
+import { getQueryString } from "../../../src/search/_internal/hubSearchItemsHelpers/getQueryString";
+import { getOgcAggregationQueryParams } from "../../../src/search/_internal/hubSearchItemsHelpers/getOgcAggregationQueryParams";
+import {
   getQPredicate,
   getQQueryParam,
-  getQueryString,
-  IOgcAggregationsResponse,
-  IOgcItem,
+} from "../../../src/search/_internal/hubSearchItemsHelpers/getQQueryParam";
+import {
   IOgcItemsResponse,
-  ogcItemToSearchResult,
-  searchOgcAggregations,
-  searchOgcItems,
-} from "../../../src/search/_internal/hubSearchItems";
-import { UserSession } from "@esri/arcgis-rest-auth";
+  IOgcItem,
+  IOgcAggregationsResponse,
+} from "../../../src/search/_internal/hubSearchItemsHelpers/interfaces";
+import { ogcItemToSearchResult } from "../../../src/search/_internal/hubSearchItemsHelpers/ogcItemToSearchResult";
+import { formatOgcItemsResponse } from "../../../src/search/_internal/hubSearchItemsHelpers/formatOgcItemsResponse";
+import { formatOgcAggregationsResponse } from "../../../src/search/_internal/hubSearchItemsHelpers/formatOgcAggregationsResponse";
+import { searchOgcItems } from "../../../src/search/_internal/hubSearchItemsHelpers/searchOgcItems";
+import { searchOgcAggregations } from "../../../src/search/_internal/hubSearchItemsHelpers/searchOgcAggregations";
 
 import * as portalSearchItemsModule from "../../../src/search/_internal/portalSearchItems";
 import { IItem } from "@esri/arcgis-rest-types";
