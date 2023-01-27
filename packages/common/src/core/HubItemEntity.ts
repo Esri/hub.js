@@ -31,11 +31,23 @@ import {
   IWithFeaturedImageBehavior,
   IWithPermissionBehavior,
   IWithCapabilityBehavior,
+  IWithVersioningBehavior,
 } from "./behaviors";
 
 import { IWithThumbnailBehavior } from "./behaviors/IWithThumbnailBehavior";
 import { IHubItemEntity, SettableAccessLevel } from "./types";
 import { sharedWith } from "./_internal/sharedWith";
+
+import {
+  createVersion,
+  deleteVersion,
+  getVersion,
+  ICreateVersionOptions,
+  IVersion,
+  IVersionMetadata,
+  searchVersions,
+  updateVersion,
+} from "../versioning";
 
 const FEATURED_IMAGE_FILENAME = "featuredImage.png";
 
@@ -49,7 +61,8 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     IWithThumbnailBehavior,
     IWithFeaturedImageBehavior,
     IWithPermissionBehavior,
-    IWithCapabilityBehavior
+    IWithCapabilityBehavior,
+    IWithVersioningBehavior
 {
   protected context: IArcGISContext;
   protected entity: T;
@@ -330,4 +343,31 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     }
   }
   //#endregion IWithFeaturedImageBehavior
+
+  //#region IWithVersioningBehavior
+  async searchVersions(): Promise<IVersionMetadata[]> {
+    return searchVersions(this.entity.id, this.context);
+  }
+
+  async getVersion(versionId: string): Promise<IVersion> {
+    return getVersion(this.entity.id, versionId, this.context);
+  }
+
+  async createVersion(options: ICreateVersionOptions): Promise<IVersion> {
+    return createVersion(this.entity, this.context, options);
+  }
+
+  async updateVersion(versionId: IVersion): Promise<IVersion> {
+    return updateVersion(this.entity, versionId, this.context);
+  }
+
+  async deleteVersion(versionId: string): Promise<void> {
+    return deleteVersion(
+      this.entity.id,
+      versionId,
+      this.entity.owner,
+      this.context
+    );
+  }
+  //#endregion IWithVersioningBehavior
 }
