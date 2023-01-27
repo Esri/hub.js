@@ -70,4 +70,9 @@ export interface IHubSearchOptions {
    * The result number of the first entry in the result set response. The start parameter, along with the num parameter, can be used to paginate the search results.
    */
   start?: number;
+
+  /**
+   * Enables experimental functionality.
+   */
+  useBeta?: boolean;
 }

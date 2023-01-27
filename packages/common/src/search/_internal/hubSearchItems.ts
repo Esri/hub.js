@@ -19,29 +19,21 @@ import {
 } from "../types";
 import { itemToSearchResult } from "./portalSearchItems";
 
-// ##    ##  #######  ######## ########
-// ###   ## ##     ##    ##    ##
-// ####  ## ##     ##    ##    ##
-// ## ## ## ##     ##    ##    ######
-// ##  #### ##     ##    ##    ##
-// ##   ### ##     ##    ##    ##
-// ##    ##  #######     ##    ########
-//
-// Since Hub API is still in flux, there is no code coverage for this file
-/* istanbul ignore file */
-
 /**
  * @private
  * Execute item search against the Hub API
+ * TODO: Break all helper functions into their own files for easier mocking
  * @param query
  * @param options
  * @returns
  */
-/* istanbul ignore next */
 export async function hubSearchItems(
   query: IQuery,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
+  if (!options.useBeta) {
+    throw new Error("Not implemented");
+  }
   return options.aggFields?.length
     ? searchOgcAggregations(query, options)
     : searchOgcItems(query, options);
@@ -424,48 +416,4 @@ export function ogcItemToSearchResult(
   // as `license` and `source` if the OgcItem came from the index.
   const pseudoItem = ogcItem.properties as IItem;
   return itemToSearchResult(pseudoItem, includes, requestOptions);
-}
-
-// NOTE: don't use functions below this comment
-
-/**
- * Re-structure a jsonApi data entry into a flat object cast into
- * IHubContent
- * @param data
- * @returns
- */
-/* istanbul ignore next */
-export function jsonApiToHubContent(data: Record<string, any>): IHubContent {
-  const content = cloneObject(data.attributes) as unknown as IHubContent;
-  content.id = data.id;
-  return content;
-}
-
-/* istanbul ignore next */
-export function hubContentToSearchResult(
-  content: IHubContent
-): Promise<IHubSearchResult> {
-  const result: IHubSearchResult = {
-    access: content.access,
-    id: content.id,
-    type: content.type,
-    name: content.name,
-    owner: content.owner,
-    summary: content.snippet || content.description,
-    createdDate: new Date(content.createdDate),
-    createdDateSource: content.createdDateSource,
-    updatedDate: new Date(content.updatedDate),
-    updatedDateSource: content.updatedDateSource,
-    thumbnailUrl: content.thumbnailUrl,
-    metadata: [],
-    family: content.family,
-    urls: {
-      portalHome: "not-implemented",
-      relative: "not-implemented",
-    },
-  };
-
-  // TODO: Per-type plucking of props into the `meta` hash for use in the card components
-
-  return Promise.resolve(result);
 }
