@@ -7,6 +7,7 @@ import { IQueryParams } from "../../urls";
 import { cloneObject } from "../../util";
 import {
   IApiDefinition,
+  IDateRange,
   IFilter,
   IHubAggregation,
   IHubSearchOptions,
@@ -259,6 +260,8 @@ export function formatPredicate(predicate: IPredicate) {
         section = formatSimpleComparison(field, value);
       } else if (Array.isArray(value)) {
         section = formatMultiStringPredicate(field, value);
+      } else if (isDateRange(value)) {
+        section = formatDateRangePredicate(field, value);
       } else {
         section = formatComplexPredicate(field, value);
       }
@@ -269,6 +272,14 @@ export function formatPredicate(predicate: IPredicate) {
     .join(" AND ");
 
   return `(${formatted})`;
+}
+
+function isDateRange(x: any) {
+  return Number.isInteger(x.from) && Number.isInteger(x.to);
+}
+
+function formatDateRangePredicate(field: string, value: IDateRange<number>) {
+  return `${field} BETWEEN ${value.from} AND ${value.to}`;
 }
 
 function formatSimpleComparison(field: string, value: string) {

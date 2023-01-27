@@ -34,6 +34,17 @@ import * as fetchMock from "fetch-mock";
 describe("hubSearchItems Module:", () => {
   describe("Request Transformation Helpers", () => {
     describe("formatPredicate", () => {
+      it("handles a date range predicate", () => {
+        const predicate = {
+          modified: {
+            to: 3,
+            from: 1,
+          },
+        };
+        const result = formatPredicate(predicate);
+        expect(result).toEqual("(modified BETWEEN 1 AND 3)");
+      });
+
       it("handles a simple predicate", () => {
         const predicate = {
           type: "typeA",
