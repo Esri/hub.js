@@ -364,7 +364,13 @@ export async function formatOgcItemsResponse(
   originalOptions: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
   const formattedResults = await Promise.all(
-    response.features.map((f) => ogcItemToSearchResult(f))
+    response.features.map((f) =>
+      ogcItemToSearchResult(
+        f,
+        originalOptions.include,
+        originalOptions.requestOptions
+      )
+    )
   );
   const next = getNextOgcCallback(response, originalQuery, originalOptions);
   const nextLink = response.links.find((l) => l.rel === "next");

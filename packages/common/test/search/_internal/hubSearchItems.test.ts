@@ -774,11 +774,24 @@ describe("hubSearchItems Module:", () => {
     // describe('getNextOgcCallback')
 
     describe("formatOgcItemsResponse", () => {
+      const query: IQuery = {
+        targetEntity: "item",
+        filters: [
+          {
+            predicates: [
+              {
+                type: "Feature Service",
+              },
+            ],
+          },
+        ],
+      };
+      const requestOptions: IHubSearchOptions = {};
       it("correctly handles when no next link is present", async () => {
         const formattedResponse = await formatOgcItemsResponse(
           mockedItemsResponse,
-          null,
-          null
+          query,
+          requestOptions
         );
         expect(formattedResponse.total).toEqual(2);
         expect(formattedResponse.hasNext).toEqual(false);
@@ -797,8 +810,8 @@ describe("hubSearchItems Module:", () => {
 
         const formattedResponse = await formatOgcItemsResponse(
           responseWithNextLink,
-          null,
-          null
+          query,
+          requestOptions
         );
         expect(formattedResponse.total).toEqual(2);
         // Verify that hasNext is true this time
