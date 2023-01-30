@@ -3,6 +3,7 @@ import {
   IFilter,
   IHubRequestOptions,
   IHubSearchOptions,
+  IHubSearchResponse,
   IHubSearchResult,
   IPredicate,
   IQuery,
@@ -22,24 +23,26 @@ import {
   getQPredicate,
   getQQueryParam,
 } from "../../../src/search/_internal/hubSearchItemsHelpers/getQQueryParam";
-import {
-  IOgcItemsResponse,
-  IOgcItem,
-  IOgcAggregationsResponse,
-} from "../../../src/search/_internal/hubSearchItemsHelpers/interfaces";
-import { ogcItemToSearchResult } from "../../../src/search/_internal/hubSearchItemsHelpers/ogcItemToSearchResult";
+import { IOgcItem } from "../../../src/search/_internal/hubSearchItemsHelpers/interfaces";
+import * as ogcItemToSearchResultModule from "../../../src/search/_internal/hubSearchItemsHelpers/ogcItemToSearchResult";
 import { formatOgcItemsResponse } from "../../../src/search/_internal/hubSearchItemsHelpers/formatOgcItemsResponse";
 import { formatOgcAggregationsResponse } from "../../../src/search/_internal/hubSearchItemsHelpers/formatOgcAggregationsResponse";
-import { searchOgcItems } from "../../../src/search/_internal/hubSearchItemsHelpers/searchOgcItems";
-import { searchOgcAggregations } from "../../../src/search/_internal/hubSearchItemsHelpers/searchOgcAggregations";
+import * as searchOgcItemsModule from "../../../src/search/_internal/hubSearchItemsHelpers/searchOgcItems";
+import * as searchOgcAggregationsModule from "../../../src/search/_internal/hubSearchItemsHelpers/searchOgcAggregations";
 
 import * as portalSearchItemsModule from "../../../src/search/_internal/portalSearchItems";
 import { IItem } from "@esri/arcgis-rest-types";
 import * as fetchMock from "fetch-mock";
+import {
+  ogcItemsResponse,
+  ogcItemsResponseWithNext,
+} from "./mocks/ogcItemsResponse";
+import { ogcAggregationsResponse } from "./mocks/ogcAggregationsResponse";
+import * as getNextOgcCallbackModule from "../../../src/search/_internal/hubSearchItemsHelpers/getNextOgcCallback";
 
-describe("hubSearchItems Module:", () => {
-  describe("Request Transformation Helpers", () => {
-    describe("formatPredicate", () => {
+describe("hubSearchItems Module |", () => {
+  describe("Request Transformation Helpers |", () => {
+    describe("formatPredicate |", () => {
       it("handles a date range predicate", () => {
         const predicate = {
           modified: {
@@ -209,7 +212,7 @@ describe("hubSearchItems Module:", () => {
       });
     });
 
-    describe("formatFilterBlock", () => {
+    describe("formatFilterBlock |", () => {
       it("ORs together predicates by default", () => {
         const predicate1: IPredicate = { type: "typeA" };
         const predicate2: IPredicate = { tags: "tagA" };
@@ -246,7 +249,7 @@ describe("hubSearchItems Module:", () => {
       });
     });
 
-    describe("getFilterQueryParam", () => {
+    describe("getFilterQueryParam |", () => {
       it("ANDs together all filter blocks", () => {
         const predicateA: IPredicate = { type: "typeA" };
         const predicateB: IPredicate = { tags: "tagA" };
@@ -310,7 +313,7 @@ describe("hubSearchItems Module:", () => {
       });
     });
 
-    describe("getOgcItemQueryString", () => {
+    describe("getOgcItemQueryString |", () => {
       const query: IQuery = {
         targetEntity: "item",
         filters: [
@@ -397,7 +400,7 @@ describe("hubSearchItems Module:", () => {
       });
     });
 
-    describe("getOgcAggregationsQueryString", () => {
+    describe("getOgcAggregationsQueryString |", () => {
       const query: IQuery = {
         targetEntity: "item",
         filters: [
@@ -436,7 +439,7 @@ describe("hubSearchItems Module:", () => {
       });
     });
 
-    describe("getQPredicate", () => {
+    describe("getQPredicate |", () => {
       it("returns undefined when passed an empty array", () => {
         const result = getQPredicate([]);
         expect(result).toBeUndefined();
@@ -545,7 +548,7 @@ describe("hubSearchItems Module:", () => {
       });
     });
 
-    describe("getQQueryParam", () => {
+    describe("getQQueryParam |", () => {
       it("returns the value of the term predicate", () => {
         const query: IQuery = {
           targetEntity: "item",
@@ -583,92 +586,6 @@ describe("hubSearchItems Module:", () => {
     });
   });
 
-  // TODO: move these to dedicated mock json files
-  const mockedItemsResponse: IOgcItemsResponse = {
-    type: "FeatureCollection",
-    features: [
-      {
-        id: "f4bcc",
-        type: "Feature",
-        geometry: {
-          type: "Polygon",
-          coordinates: [
-            [
-              [-121.11799999999793, 39.37030746927015],
-              [-119.00899999999801, 39.37030746927015],
-              [-119.00899999999801, 38.67499450446548],
-              [-121.11799999999793, 38.67499450446548],
-              [-121.11799999999793, 39.37030746927015],
-            ],
-          ],
-        },
-        properties: {
-          id: "f4bcc",
-          owner: "goku",
-          created: 1611934478000,
-          modified: 1671554653000,
-          guid: null,
-          name: "Training_Grounds",
-          title: "training grounds",
-          type: "Feature Service",
-          typeKeywords: [],
-          description: "Gotta get those reps in!",
-          tags: [],
-          snippet: "How else can I push past my limits?",
-          thumbnail: "thumbnail/hub_thumbnail_1658341016537.png",
-          documentation: null,
-          extent: {
-            type: "Polygon",
-            coordinates: [
-              [
-                [-121.11799999999793, 39.37030746927015],
-                [-119.00899999999801, 39.37030746927015],
-                [-119.00899999999801, 38.67499450446548],
-                [-121.11799999999793, 38.67499450446548],
-                [-121.11799999999793, 39.37030746927015],
-              ],
-            ],
-          },
-          categories: [],
-          spatialReference: "102100",
-          url: "https://servicesqa.arcgis.com/Xj56SBi2udA78cC9/arcgis/rest/services/Training_Grounds/FeatureServer",
-          access: "public",
-        },
-        time: null,
-        links: [
-          {
-            rel: "self",
-            type: "application/geo+json",
-            title: "This document as GeoJSON",
-            href: "https://foo-bar.com/api/search/v1/collections/datasets/items/f4bcc",
-          },
-          {
-            rel: "collection",
-            type: "application/json",
-            title: "All",
-            href: "https://foo-bar.com/api/search/v1/collections/all",
-          },
-        ],
-      },
-    ],
-    timestamp: "2023-01-23T18:53:40.715Z",
-    numberMatched: 2,
-    numberReturned: 1,
-    links: [
-      {
-        rel: "self",
-        type: "application/geo+json",
-        title: "This document as GeoJSON",
-        href: "https://foo-bar.com/api/search/v1/collections/all/items",
-      },
-      {
-        rel: "collection",
-        type: "application/json",
-        title: "All",
-        href: "https://foo-bar.com/api/search/v1/collections/all",
-      },
-    ],
-  };
   const expectedItemResults: IHubSearchResult[] = [
     {
       access: "public",
@@ -694,46 +611,9 @@ describe("hubSearchItems Module:", () => {
     },
   ];
 
-  const mockedAggregationsResponse: IOgcAggregationsResponse = {
-    aggregations: {
-      aggregations: [
-        {
-          field: "access",
-          aggregations: [
-            {
-              label: "public",
-              value: 141,
-            },
-          ],
-        },
-        {
-          field: "type",
-          aggregations: [
-            {
-              label: "feature service",
-              value: 128,
-            },
-            {
-              label: "csv",
-              value: 8,
-            },
-          ],
-        },
-      ],
-    },
-    timestamp: "2023-01-23T23:43:42.523Z",
-    links: [
-      {
-        rel: "self",
-        type: "application/json",
-        title: "This document as JSON",
-        href: "https://my-test-site.arcgis.com/api/search/v1/collections/all/aggregations",
-      },
-    ],
-  };
-
-  describe("Response Transformation Helpers", () => {
-    describe("ogcItemToSearchResult", () => {
+  describe("Response Transformation Helpers |", () => {
+    describe("ogcItemToSearchResult |", () => {
+      const { ogcItemToSearchResult } = ogcItemToSearchResultModule;
       const item = {
         id: "9001",
         owner: "goku",
@@ -785,12 +665,51 @@ describe("hubSearchItems Module:", () => {
       });
     });
 
-    // We can't really test getNextOgcCallback because we can't stub
-    // `searchOgcItems`. I believe this could be fixed by exporting
-    // every helper from it's own file
-    // describe('getNextOgcCallback')
+    describe("getNextOgcCallback", () => {
+      const { getNextOgcCallback } = getNextOgcCallbackModule;
+      const query: IQuery = {
+        targetEntity: "item",
+        filters: [],
+      };
+      const options: IHubSearchOptions = { num: 1 };
+      const nextResponse: IHubSearchResponse<IHubSearchResult> = {
+        total: 0,
+        results: [],
+        hasNext: false,
+        next: () => null,
+      };
 
-    describe("formatOgcItemsResponse", () => {
+      let searchOgcItemsStub;
+      beforeEach(() => {
+        searchOgcItemsStub = spyOn(
+          searchOgcItemsModule,
+          "searchOgcItems"
+        ).and.returnValue(Promise.resolve(nextResponse));
+      });
+
+      it("returns an empty callback when no next link is present", async () => {
+        const callback = getNextOgcCallback(ogcItemsResponse, query, options);
+        const callbackResult = await callback();
+        expect(searchOgcItemsStub).toHaveBeenCalledTimes(0);
+        expect(callbackResult).toBeNull();
+      });
+
+      it("returns a callback with modified options when next link is present", async () => {
+        const callback = getNextOgcCallback(
+          ogcItemsResponseWithNext,
+          query,
+          options
+        );
+        const callbackResult = await callback();
+        expect(searchOgcItemsStub).toHaveBeenCalledWith(query, {
+          ...options,
+          start: 2,
+        });
+        expect(callbackResult).toBe(nextResponse);
+      });
+    });
+
+    describe("formatOgcItemsResponse |", () => {
       const query: IQuery = {
         targetEntity: "item",
         filters: [
@@ -803,47 +722,88 @@ describe("hubSearchItems Module:", () => {
           },
         ],
       };
-      const requestOptions: IHubSearchOptions = {};
+      const requestOptions: IHubSearchOptions = {
+        include: [],
+        requestOptions: {},
+      };
+      const mockedCallback = () => null;
+      let ogcItemToSearchResultSpy;
+      let getNextOgcCallbackSpy;
+
+      beforeEach(() => {
+        ogcItemToSearchResultSpy = spyOn(
+          ogcItemToSearchResultModule,
+          "ogcItemToSearchResult"
+        ).and.callThrough();
+        getNextOgcCallbackSpy = spyOn(
+          getNextOgcCallbackModule,
+          "getNextOgcCallback"
+        ).and.returnValue(mockedCallback);
+      });
+
       it("correctly handles when no next link is present", async () => {
         const formattedResponse = await formatOgcItemsResponse(
-          mockedItemsResponse,
+          ogcItemsResponse,
           query,
           requestOptions
         );
+
+        // Check spys
+        expect(ogcItemToSearchResultSpy).toHaveBeenCalledTimes(1);
+        expect(ogcItemToSearchResultSpy).toHaveBeenCalledWith(
+          ogcItemsResponse.features[0],
+          requestOptions.include,
+          requestOptions.requestOptions
+        );
+
+        expect(getNextOgcCallbackSpy).toHaveBeenCalledTimes(1);
+        expect(getNextOgcCallbackSpy).toHaveBeenCalledWith(
+          ogcItemsResponse,
+          query,
+          requestOptions
+        );
+
+        // Check response
         expect(formattedResponse.total).toEqual(2);
         expect(formattedResponse.hasNext).toEqual(false);
-        expect(formattedResponse.next).toBeDefined();
+        expect(formattedResponse.next).toEqual(mockedCallback);
         expect(formattedResponse.results).toEqual(expectedItemResults);
       });
 
       it("correctly handles when the next link is present", async () => {
-        const responseWithNextLink = cloneObject(mockedItemsResponse);
-        responseWithNextLink.links.push({
-          rel: "next",
-          type: "application/geo+json",
-          title: "items (next)",
-          href: "https://foo-bar.com/api/search/v1/collections/all/items?limit=1&startindex=2",
-        });
-
         const formattedResponse = await formatOgcItemsResponse(
-          responseWithNextLink,
+          ogcItemsResponseWithNext,
           query,
           requestOptions
         );
+
+        // Check spys
+        expect(ogcItemToSearchResultSpy).toHaveBeenCalledTimes(1);
+        expect(ogcItemToSearchResultSpy).toHaveBeenCalledWith(
+          ogcItemsResponseWithNext.features[0],
+          requestOptions.include,
+          requestOptions.requestOptions
+        );
+
+        expect(getNextOgcCallbackSpy).toHaveBeenCalledTimes(1);
+        expect(getNextOgcCallbackSpy).toHaveBeenCalledWith(
+          ogcItemsResponseWithNext,
+          query,
+          requestOptions
+        );
+
+        // Check response
         expect(formattedResponse.total).toEqual(2);
-        // Verify that hasNext is true this time
-        expect(formattedResponse.hasNext).toEqual(true);
-        // Because we cannot stub searchOgcItems, we can't check
-        // that the callback correctly delegates with updated args
-        expect(formattedResponse.next).toBeDefined();
+        expect(formattedResponse.hasNext).toEqual(true); // Verify that hasNext is true this time
+        expect(formattedResponse.next).toEqual(mockedCallback);
         expect(formattedResponse.results).toEqual(expectedItemResults);
       });
     });
 
-    describe("formatOgcAggregationsResponse", () => {
+    describe("formatOgcAggregationsResponse |", () => {
       it("converts between OGC and Hub Aggregation interfaces", () => {
         const formatted = formatOgcAggregationsResponse(
-          mockedAggregationsResponse
+          ogcAggregationsResponse
         );
 
         // Sets unnecessary props to defaults
@@ -881,8 +841,9 @@ describe("hubSearchItems Module:", () => {
       });
     });
   });
-  describe("Main Search Functions", () => {
-    describe("searchOgcItems", () => {
+  describe("Main Search Functions |", () => {
+    describe("searchOgcItems |", () => {
+      const { searchOgcItems } = searchOgcItemsModule;
       afterEach(fetchMock.restore);
       it("hits the items endpoint for the specified collection api url", async () => {
         const query: IQuery = {
@@ -909,7 +870,7 @@ describe("hubSearchItems Module:", () => {
 
         fetchMock.once(
           "https://my-test-site.arcgis.com/api/v1/search/collections/all/items?filter=((type='Feature Service'))&limit=1",
-          mockedItemsResponse
+          ogcItemsResponse
         );
         const response = await searchOgcItems(query, options);
         expect(response.total).toEqual(2);
@@ -918,7 +879,8 @@ describe("hubSearchItems Module:", () => {
       });
     });
 
-    describe("searchOgcAggregations", () => {
+    describe("searchOgcAggregations |", () => {
+      const { searchOgcAggregations } = searchOgcAggregationsModule;
       afterEach(fetchMock.restore);
       it("hits the aggregations endpoint for the specified collection api url", async () => {
         // TODO: add a query once the aggregations endpoint can handle arbitrary filters
@@ -936,7 +898,7 @@ describe("hubSearchItems Module:", () => {
 
         fetchMock.once(
           "https://my-test-site.arcgis.com/api/v1/search/collections/all/aggregations?aggregations=terms(fields=(access,type))",
-          mockedAggregationsResponse
+          ogcAggregationsResponse
         );
         const response = await searchOgcAggregations(query, options);
 
