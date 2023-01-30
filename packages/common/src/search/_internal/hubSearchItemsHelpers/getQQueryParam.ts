@@ -34,19 +34,17 @@ export function getQPredicate(filters: IFilter[]) {
       );
     }
 
-    if (qPredicates.length) {
-      if (filter.operation !== "AND" && filter.predicates.length > 1) {
-        throw new Error(`'term' predicates cannot be OR'd to other predicates`);
-      }
-
-      const qPredicate = qPredicates[0];
-      if (typeof qPredicate.term !== "string") {
-        throw new Error(
-          `'term' predicate must have a string value, string[] and IMatchOptions are not allowed.`
-        );
-      }
-      result = qPredicate;
+    if (filter.operation !== "AND" && filter.predicates.length > 1) {
+      throw new Error(`'term' predicates cannot be OR'd to other predicates`);
     }
+
+    const qPredicate = qPredicates[0];
+    if (typeof qPredicate.term !== "string") {
+      throw new Error(
+        `'term' predicate must have a string value, string[] and IMatchOptions are not allowed.`
+      );
+    }
+    result = qPredicate;
   }
 
   return result;
