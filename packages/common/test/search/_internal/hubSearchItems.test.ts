@@ -679,9 +679,9 @@ describe("hubSearchItems Module |", () => {
         next: () => null,
       };
 
-      let searchOgcItemsStub;
+      let searchOgcItemsSpy: jasmine.Spy;
       beforeEach(() => {
-        searchOgcItemsStub = spyOn(
+        searchOgcItemsSpy = spyOn(
           searchOgcItemsModule,
           "searchOgcItems"
         ).and.returnValue(Promise.resolve(nextResponse));
@@ -690,8 +690,11 @@ describe("hubSearchItems Module |", () => {
       it("returns an empty callback when no next link is present", async () => {
         const callback = getNextOgcCallback(ogcItemsResponse, query, options);
         const callbackResult = await callback();
-        expect(searchOgcItemsStub).toHaveBeenCalledTimes(0);
         expect(callbackResult).toBeNull();
+        // NOTE: using `toHaveBeenCalled` throws a fatal error ONLY in Karma
+        // Use this workaround for the time being
+        const numCalls = searchOgcItemsSpy.calls.count();
+        expect(numCalls).toBe(0);
       });
 
       it("returns a callback with modified options when next link is present", async () => {
@@ -701,11 +704,14 @@ describe("hubSearchItems Module |", () => {
           options
         );
         const callbackResult = await callback();
-        expect(searchOgcItemsStub).toHaveBeenCalledWith(query, {
-          ...options,
-          start: 2,
-        });
         expect(callbackResult).toBe(nextResponse);
+
+        // NOTE: using `toHaveBeenCalledWith` throws a fatal error ONLY in Karma
+        // Use this workaround for the time being
+        const numCalls = searchOgcItemsSpy.calls.count();
+        expect(numCalls).toBe(1);
+        const callInfo = searchOgcItemsSpy.calls.first();
+        expect(callInfo.args).toEqual([query, { ...options, start: 2 }]);
       });
     });
 
