@@ -1,13 +1,13 @@
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as portalModule from "@esri/arcgis-rest-portal";
-import { createResource } from "../../src/items/createResource";
+import { addResource } from "../../src/items/addResource";
 
 describe("createResource:", () => {
   it("calls addItemResource with expected params", async () => {
     const addSpy = spyOn(portalModule, "addItemResource").and.returnValues(
       Promise.resolve({ success: true })
     );
-    const resp = await createResource(
+    const resp = await addResource(
       "3ef",
       "bob",
       "fakeFile",
@@ -32,7 +32,7 @@ describe("createResource:", () => {
     const addSpy = spyOn(portalModule, "addItemResource").and.returnValues(
       Promise.resolve({ success: true })
     );
-    const resp = await createResource(
+    const resp = await addResource(
       "3ef",
       "bob",
       "fakeFile",
@@ -60,7 +60,7 @@ describe("createResource:", () => {
       const addSpy = spyOn(portalModule, "addItemResource").and.returnValues(
         Promise.resolve({ success: true })
       );
-      const resp = await createResource(
+      const resp = await addResource(
         "3ef",
         "bob",
         { foo: "bar" },
@@ -95,7 +95,7 @@ describe("createResource:", () => {
       const addSpy = spyOn(portalModule, "addItemResource").and.returnValues(
         Promise.resolve({ success: true })
       );
-      const resp = await createResource(
+      const resp = await addResource(
         "3ef",
         "bob",
         "some text",
@@ -130,7 +130,7 @@ describe("createResource:", () => {
       Promise.resolve({ success: false })
     );
     try {
-      await createResource("3ef", "bob", "fakeFile", "featuredImage.png", {
+      await addResource("3ef", "bob", "fakeFile", "featuredImage.png", {
         authentication: MOCK_AUTH,
       });
     } catch (err) {
@@ -143,7 +143,7 @@ describe("createResource:", () => {
       Promise.reject(new Error("Fake Rejection"))
     );
     try {
-      await createResource("3ef", "bob", "fakeFile", "featuredImage.png", {
+      await addResource("3ef", "bob", "fakeFile", "featuredImage.png", {
         authentication: MOCK_AUTH,
       });
     } catch (err) {
@@ -156,7 +156,7 @@ describe("createResource:", () => {
       Promise.reject("Fake Rejection")
     );
     try {
-      await createResource("3ef", "bob", "fakeFile", "featuredImage.png", {
+      await addResource("3ef", "bob", "fakeFile", "featuredImage.png", {
         authentication: MOCK_AUTH,
       });
     } catch (err) {

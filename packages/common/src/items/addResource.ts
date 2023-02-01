@@ -11,45 +11,46 @@ import { getPortalApiUrl } from "../urls";
  * @param {string} id
  * @param {string} owner
  * @param {*} resource
- * @param {string} resourceName
+ * @param {string} name
  * @param {IUserRequestOptions} ro
  * @param {string} [prefix=""]
  * @return {*}  {Promise<string>}
  */
-export async function createResource(
+export async function addResource(
   id: string,
   owner: string,
   resource: any,
-  resourceName: string,
+  name: string,
   ro: IUserRequestOptions,
   prefix: string = ""
 ): Promise<string> {
   try {
-    // Convert resource if needed
-    const extension = resourceName.split(".").pop();
-    const resourceToUpload =
-      // If a json object, convert to blob
-      extension === "json"
-        ? objectToJsonBlob(resource)
-        : // If a string, convert to blob
-        extension === "txt"
-        ? stringToBlob(resource)
-        : // Otherwise, assume it's a blob
-          resource;
+    let resourceToUpload = resource;
+    const extension = name.split(".").pop();
+
+    // JSON and text resources have....odd things happen
+    // to them when they are added as resources and NOT
+    // converted to blobs. Thus we convert them to blobs
+    if (extension === "json") {
+      resourceToUpload = objectToJsonBlob(resource);
+    }
+    if (extension === "txt") {
+      resourceToUpload = stringToBlob(resource);
+    }
     // Add item resource
     const response = await addItemResource({
       id,
       owner,
       resource: resourceToUpload,
-      name: resourceName,
+      name,
       prefix,
       ...ro,
     });
     // if err throw
     if (!response.success) {
       throw new HubError(
-        "Set Item Featured Image",
-        "Unknown error setting featured image."
+        "Add Item Resource",
+        `Error adding resource ${name} to item ${id}.`
       );
     }
     // return url
@@ -57,14 +58,14 @@ export async function createResource(
     if (prefix) {
       prefix = `${prefix}/`;
     }
-    return `${portalRestUrl}/content/items/${id}/resources/${prefix}${resourceName}`;
+    return `${portalRestUrl}/content/items/${id}/resources/${prefix}${name}`;
   } catch (err) {
     if (err instanceof Error) {
-      throw new HubError("Set Item Featured Image", err.message, err);
+      throw new HubError("Add Item Resource", err.message, err);
     } else {
       throw new HubError(
-        "Set Item Featured Image",
-        "Unknown error setting featured image."
+        "Add Item Resource",
+        `Error adding resource ${name} to item ${id}.`
       );
     }
   }
