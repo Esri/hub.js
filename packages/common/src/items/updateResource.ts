@@ -48,8 +48,8 @@ export async function updateResource(
     // if err throw
     if (!response.success) {
       throw new HubError(
-        "Set Item Featured Image",
-        "Unknown error setting featured image."
+        "Update Item Resource",
+        `Error updating resource ${name} to item ${id}.`
       );
     }
     // return url
@@ -60,11 +60,11 @@ export async function updateResource(
     return `${portalRestUrl}/content/items/${id}/resources/${prefix}${resourceName}`;
   } catch (err) {
     if (err instanceof Error) {
-      throw new HubError("Set Item Featured Image", err.message, err);
+      throw new HubError("Update Item Resource", err.message, err);
     } else {
       throw new HubError(
-        "Set Item Featured Image",
-        "Unknown error setting featured image."
+        "Update Item Resource",
+        `Error updating resource ${name} to item ${id}.`
       );
     }
   }
