@@ -7,7 +7,7 @@ import HubError from "../HubError";
  *
  * @export
  * @param {string} id item id
- * @param {string} resourceName resource name
+ * @param {string} name resource name
  * @param {string} owner item owner
  * @param {IUserRequestOptions} ro request options
  * @return {*}  {Promise<{
@@ -16,7 +16,7 @@ import HubError from "../HubError";
  */
 export async function removeResource(
   id: string,
-  resourceName: string,
+  name: string,
   owner: string,
   ro: IUserRequestOptions
 ): Promise<{
@@ -26,7 +26,7 @@ export async function removeResource(
     // Remove item resource
     const response = await removeItemResource({
       id,
-      resource: resourceName,
+      resource: name,
       owner,
       ...ro,
     });

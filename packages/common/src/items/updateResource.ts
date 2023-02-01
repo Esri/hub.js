@@ -11,7 +11,7 @@ import { getPortalApiUrl } from "../urls";
  * @param {string} id
  * @param {string} owner
  * @param {*} resource
- * @param {string} resourceName
+ * @param {string} name
  * @param {IUserRequestOptions} ro
  * @param {string} [prefix=""]
  * @return {*}  {Promise<string>}
@@ -20,13 +20,13 @@ export async function updateResource(
   id: string,
   owner: string,
   resource: any,
-  resourceName: string,
+  name: string,
   ro: IUserRequestOptions,
   prefix: string = ""
 ): Promise<string> {
   try {
     // Convert resource if needed
-    const extension = resourceName.split(".").pop();
+    const extension = name.split(".").pop();
     const resourceToUpload =
       // If a json object, convert to blob
       extension === "json"
@@ -41,7 +41,7 @@ export async function updateResource(
       id,
       owner,
       resource: resourceToUpload,
-      name: resourceName,
+      name,
       prefix,
       ...ro,
     });
@@ -57,7 +57,7 @@ export async function updateResource(
     if (prefix) {
       prefix = `${prefix}/`;
     }
-    return `${portalRestUrl}/content/items/${id}/resources/${prefix}${resourceName}`;
+    return `${portalRestUrl}/content/items/${id}/resources/${prefix}${name}`;
   } catch (err) {
     if (err instanceof Error) {
       throw new HubError("Update Item Resource", err.message, err);
