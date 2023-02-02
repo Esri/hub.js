@@ -10,25 +10,25 @@ export type WellKnownCatalog =
   | "world";
 
 export type WellKnownCollection =
-  | "app"
+  | "appAndMap"
   | "content"
   | "dataset"
   | "document"
   | "event"
   | "feedback"
   | "initiative"
-  | "map"
   | "project"
   | "site"
   | "solution"
   | "template";
 
 /**
- * @param {WellKnownCatalog} name name of the catalog requested
- * @param {EntityType} entityType entity type of the catalog
- * @param {IUser} user owner of the entity, optional but required for certain catalogs
- * @param {WellKnownCollection[]} collectionNames a list of collection names, optional, if passed in,
+ * @param name
+ * @param entityType
+ * @param user owner of the entity, optional but required for certain catalogs
+ * @param collectionNames a list of collection names, optional, if passed in,
  * only those collections in the catalog will be returned
+ * @returns a single IHubCatalog
  */
 export function getWellKnownCatalog(
   name: WellKnownCatalog,
@@ -41,15 +41,16 @@ export function getWellKnownCatalog(
       return getWellknownItemCatalog(name, user, collectionNames);
     /* Add more entity handling here, e.g. getWellknownEventCatalog */
     default:
-      throw new Error(`Wellknown catalog not implemented for "${entityType}".`);
+      throw new Error(`Wellknown catalog not implemented for "${entityType}"`);
   }
 }
 
 /**
- * @param {WellKnownCatalog} name name of the catalog requested
- * @param {IUser} user owner of the entity, optional but required for certain catalogs
- * @param {WellKnownCollection[]} collectionNames a list of collection names, optional, if passed in,
+ * @param name
+ * @param user owner of the entity, optional but required for certain catalogs
+ * @param collectionNames a list of collection names, optional, if passed in,
  * only those collections in the catalog will be returned
+ * @returns a single Item IHubCatalog
  */
 function getWellknownItemCatalog(
   name: WellKnownCatalog,
@@ -72,7 +73,7 @@ function getWellknownItemCatalog(
           collections: getWellknownCollections("item", collectionNames),
         };
       } else {
-        throw new Error(`User needed for getting "${name}" catalog`);
+        throw new Error(`User needed to get "${name}" catalog`);
       }
       break;
     case "favorites":
@@ -89,7 +90,7 @@ function getWellknownItemCatalog(
           collections: getWellknownCollections("item", collectionNames),
         };
       } else {
-        throw new Error(`User needed for getting "${name}" catalog`);
+        throw new Error(`User needed to get "${name}" catalog`);
       }
       break;
     case "organization":
@@ -123,9 +124,10 @@ function getWellknownItemCatalog(
 }
 
 /**
- * @param {EntityType} entityType entity type of the collections
- * @param {WellKnownCollection[]} names names of the list of collection requested, optional, if passed in,
+ * @param entityType
+ * @param names list of names of the requested collections, optional, if passed in,
  * only those collections will be returned
+ * @returns a list of IHubCollections
  */
 export function getWellknownCollections(
   entityType: EntityType,
@@ -133,7 +135,7 @@ export function getWellknownCollections(
 ): IHubCollection[] {
   const collections = [
     {
-      key: "appsAndMaps",
+      key: "appAndMap",
       label: "{{i18nScope.collection.appsAndMaps}}",
       targetEntity: entityType,
       include: [],
@@ -151,7 +153,7 @@ export function getWellknownCollections(
       },
     } as IHubCollection,
     {
-      key: "data",
+      key: "dataset",
       label: "{{i18nScope.collection.data}}",
       targetEntity: entityType,
       include: [],
@@ -181,7 +183,7 @@ export function getWellknownCollections(
       },
     } as IHubCollection,
     {
-      key: "sites",
+      key: "site",
       label: "{{i18nScope.collection.sites}}",
       targetEntity: entityType,
       include: [],
@@ -199,7 +201,7 @@ export function getWellknownCollections(
       },
     } as IHubCollection,
     {
-      key: "templates",
+      key: "template",
       label: "{{i18nScope.collection.templates}}",
       targetEntity: entityType,
       include: [],
