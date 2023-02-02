@@ -1,6 +1,6 @@
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as portalModule from "@esri/arcgis-rest-portal";
-import { removeResource } from "../../src/items/removeResource";
+import { removeResource } from "../../src/resources/removeResource";
 
 describe("removeResource:", () => {
   it("calls removeItemResource with expected params", async () => {

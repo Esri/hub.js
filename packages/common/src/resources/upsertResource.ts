@@ -1,11 +1,16 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { addItemResource } from "@esri/arcgis-rest-portal";
+import {
+  addItemResource,
+  getItemResources,
+  updateItemResource,
+} from "@esri/arcgis-rest-portal";
 import HubError from "../HubError";
-import { objectToJsonBlob, stringToBlob } from "../resources";
+import { objectToJsonBlob, stringToBlob } from ".";
 import { getPortalApiUrl } from "../urls";
 
 /**
- * Given an item, and owner, add a resource to the item and returns its url
+ * Given an item, and owner, Search for if the resource exists
+ * and if does, update it, otherwise add it. Returns a url for the item.
  *
  * @export
  * @param {string} id
@@ -16,7 +21,7 @@ import { getPortalApiUrl } from "../urls";
  * @param {string} [prefix=""]
  * @return {*}  {Promise<string>}
  */
-export async function addResource(
+export async function upsertResource(
   id: string,
   owner: string,
   resource: any,
@@ -25,12 +30,24 @@ export async function addResource(
   prefix: string = ""
 ): Promise<string> {
   try {
-    let resourceToUpload = resource;
     const extension = name.split(".").pop();
-
+    // Search against the item resources to see if the resource exists
+    const doesResourceExist: boolean = await getItemResources(id, ro).then(
+      (resp) => {
+        // if the resource exists, return true
+        return resp.resources.find((e: any) => {
+          return e.resource === name;
+        });
+      }
+    );
+    // if the resource exists, update it, otherwise add it
+    const resourceFunc = doesResourceExist
+      ? updateItemResource
+      : addItemResource;
     // JSON and text resources have....odd things happen
     // to them when they are added as resources and NOT
     // converted to blobs. Thus we convert them to blobs
+    let resourceToUpload = resource;
     if (extension === "json") {
       resourceToUpload = objectToJsonBlob(resource);
     }
@@ -38,7 +55,7 @@ export async function addResource(
       resourceToUpload = stringToBlob(resource);
     }
     // Add item resource
-    const response = await addItemResource({
+    const response = await resourceFunc({
       id,
       owner,
       resource: resourceToUpload,
