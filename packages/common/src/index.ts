@@ -33,6 +33,7 @@ export * from "./urls";
 export * from "./users";
 export * from "./util";
 export * from "./utils";
+export * from "./versioning";
 
 import OperationStack from "./OperationStack";
 import OperationError from "./OperationError";

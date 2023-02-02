@@ -4,11 +4,27 @@ import {
   IVersionMetadata,
 } from "../../versioning";
 
+/*
+  TODO:
+    - the property mapper does not have layout...
+    - test the classes???
+    - take a good look at the typing
+    - tests
+    - jsdoc comments
+    - guide / readme
+    - update the UML/Class model lucid, add that into the Architecture section and link out to the Hub.js API docs for the interfaces (vs the code blocks) as that will be auto-maintained
+    - test in poc app
+      - [X] search
+      - [X] get
+      - [X] create
+      - [X] update
+      - [X] delete
+*/
+
 /**
  * Composable behavior that adds versioning to an entity
  */
 export interface IWithVersioningBehavior {
-  
   searchVersions(): Promise<IVersionMetadata[]>;
 
   getVersion(versionId: string): Promise<IVersion>;
@@ -17,5 +33,5 @@ export interface IWithVersioningBehavior {
 
   updateVersion(version: IVersion): Promise<IVersion>;
 
-  deleteVersion(versionId: string): Promise<void>;
+  deleteVersion(versionId: string): Promise<{ success: boolean }>;
 }

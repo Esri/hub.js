@@ -4,4 +4,4 @@ export * from "./getVersion";
 export * from "./types";
 export * from "./searchVersions";
 export * from "./updateVersion";
-// export * from "./utils";
+export * from "./utils";

@@ -4,6 +4,7 @@ import {
   IWithCatalogBehavior,
   IWithStoreBehavior,
   IWithSharingBehavior,
+  IWithVersioningBehavior,
 } from "../core";
 
 import { Catalog } from "../search";
@@ -22,6 +23,22 @@ import {
 import { IContainsResponse, IDeepCatalogInfo, IHubCatalog } from "../search";
 import { deepContains } from "../core/_internal/deepContains";
 
+import {
+  createVersion,
+  deleteVersion,
+  getVersion,
+  ICreateVersionOptions,
+  IVersion,
+  IVersionMetadata,
+  searchVersions,
+  updateVersion,
+} from "../versioning";
+
+import { PropertyMapper } from "../core/_internal/PropertyMapper";
+import { getPropertyMap } from "./_internal/getPropertyMap";
+
+import { IModel } from "../index";
+
 /**
  * Hub Site Class
  * NOTE: This is a minimal implementation. Create operations are not supported at this time
@@ -32,7 +49,8 @@ export class HubSite
     IWithStoreBehavior<IHubSite>,
     IWithPermissionBehavior,
     IWithCatalogBehavior,
-    IWithSharingBehavior
+    IWithSharingBehavior,
+    IWithVersioningBehavior
 {
   private _catalog: Catalog;
 
@@ -262,4 +280,41 @@ export class HubSite
 
     return response;
   }
+
+  //#region IWithVersioningBehavior
+
+  async searchVersions(): Promise<IVersionMetadata[]> {
+    return searchVersions(this.entity.id, this.context.userRequestOptions);
+  }
+
+  async getVersion(versionId: string): Promise<IVersion> {
+    return getVersion(
+      this.entity.id,
+      versionId,
+      this.context.userRequestOptions
+    );
+  }
+
+  async createVersion(options: ICreateVersionOptions): Promise<IVersion> {
+    const mapper = new PropertyMapper<IHubSite>(getPropertyMap());
+    const model = mapper.objectToModel(this.entity, {} as IModel);
+    return createVersion(model, this.context.userRequestOptions, options);
+  }
+
+  async updateVersion(versionId: IVersion): Promise<IVersion> {
+    const mapper = new PropertyMapper<IHubSite>(getPropertyMap());
+    const model = mapper.objectToModel(this.entity, {} as IModel);
+    return updateVersion(model, versionId, this.context.userRequestOptions);
+  }
+
+  async deleteVersion(versionId: string): Promise<{ success: boolean }> {
+    return deleteVersion(
+      this.entity.id,
+      versionId,
+      this.entity.owner,
+      this.context.userRequestOptions
+    );
+  }
+
+  //#endregion IWithVersioningBehavior
 }
