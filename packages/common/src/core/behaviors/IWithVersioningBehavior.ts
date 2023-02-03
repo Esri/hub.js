@@ -8,11 +8,12 @@ import {
   TODO:
     - the property mapper does not have layout...
     - test the classes???
-    - take a good look at the typing
+    - take a good look at the implementation
     - tests
     - jsdoc comments
     - guide / readme
     - update the UML/Class model lucid, add that into the Architecture section and link out to the Hub.js API docs for the interfaces (vs the code blocks) as that will be auto-maintained
+    - what about pages?
     - test in poc app
       - [X] search
       - [X] get

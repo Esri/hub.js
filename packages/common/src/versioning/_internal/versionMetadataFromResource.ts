@@ -1,4 +1,8 @@
-export function versionMetadataFromResource(resource: Record<string, any>) {
+import { IVersionMetadata } from "../types";
+
+export function versionMetadataFromResource(
+  resource: Record<string, any>
+): IVersionMetadata {
   // we get access, path, and size from the resource itself
   const { access, resource: path, size } = resource;
 

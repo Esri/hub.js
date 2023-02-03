@@ -31,6 +31,8 @@ export function getPropertyMap(): IPropertyMap[] {
     "map",
     "telemetry",
     "headerSass",
+    "headContent",
+    "layout",
   ];
   valueProps.forEach((entry) => {
     map.push({ objectKey: entry, modelKey: `data.values.${entry}` });

@@ -2,27 +2,24 @@ import { cloneObject, IModel, mergeObjects } from "../index";
 import { IVersion } from "./types";
 import { isSiteType } from "../content";
 import { isPageType } from "../content/_internal";
+import { SiteVersionIncludeList } from "../sites/_internal/SiteBusinessRules";
+import { PageVersionIncludeList } from "../pages/_internal/PageBusinessRules";
 
 // applies the version to the model
 export function applyVersion(
   model: IModel,
   version: IVersion,
   includeList: string[]
-) {
+): Record<string, any> {
   return mergeObjects(version.data, cloneObject(model), includeList);
 }
 
 export function getIncludeListFromItemType(model: IModel): string[] {
-  const defaultIncludeList = [
-    "data.values.layout",
-    "data.values.theme",
-    "data.values.headContent",
-  ];
   let includeList;
   if (isSiteType(model.item.type, model.item.typeKeywords)) {
-    includeList = defaultIncludeList;
+    includeList = SiteVersionIncludeList;
   } else if (isPageType(model.item.type, model.item.typeKeywords)) {
-    includeList = ["data.values.layout", "data.values.headContent"];
+    includeList = PageVersionIncludeList;
   } else {
     throw TypeError("item type does not support versioning");
   }
