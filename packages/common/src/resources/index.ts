@@ -10,3 +10,5 @@ export * from "./upload-resources-from-url";
 export * from "./add-solution-resource-url-to-assets";
 export * from "./object-to-json-blob";
 export * from "./validate-url";
+export * from "./upsertResource";
+export * from "./removeResource";
