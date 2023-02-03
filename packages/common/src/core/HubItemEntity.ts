@@ -1,5 +1,4 @@
 import {
-  addItemResource,
   IGroup,
   IItem,
   removeItemResource,
@@ -24,12 +23,7 @@ import {
   Permission,
   removePermissionPolicy,
 } from "../permissions";
-import {
-  getItemThumbnailUrl,
-  IThumbnailOptions,
-  objectToJsonBlob,
-  stringToBlob,
-} from "../resources";
+import { getItemThumbnailUrl, IThumbnailOptions } from "../resources";
 import { cloneObject } from "../util";
 import {
   IWithSharingBehavior,

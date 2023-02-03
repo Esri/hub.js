@@ -35,9 +35,9 @@ export async function upsertResource(
     const doesResourceExist: boolean = await getItemResources(id, ro).then(
       (resp) => {
         // if the resource exists, return true
-        return resp.resources.find((e: any) => {
-          return e.resource === name;
-        });
+        return resp.resources.reduce((acc: any, e: any) => {
+          return acc ? acc : e.resource === name;
+        }, false);
       }
     );
     // if the resource exists, update it, otherwise add it
@@ -72,10 +72,9 @@ export async function upsertResource(
     }
     // return url
     const portalRestUrl = getPortalApiUrl(ro.portal);
-    if (prefix) {
-      prefix = `${prefix}/`;
-    }
-    return `${portalRestUrl}/content/items/${id}/resources/${prefix}${name}`;
+    const _prefix = prefix ? `${prefix}/` : "";
+
+    return `${portalRestUrl}/content/items/${id}/resources/${_prefix}${name}`;
   } catch (err) {
     if (err instanceof Error) {
       throw new HubError("Add Item Resource", err.message, err);
