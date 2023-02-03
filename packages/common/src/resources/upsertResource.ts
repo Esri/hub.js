@@ -35,9 +35,10 @@ export async function upsertResource(
     const doesResourceExist: boolean = await getItemResources(id, ro).then(
       (resp) => {
         // if the resource exists, return true
-        return resp.resources.reduce((acc: any, e: any) => {
-          return acc ? acc : e.resource === name;
-        }, false);
+        const foundResource = resp.resources.find((e: any) => {
+          return e.resource === name;
+        });
+        return !!foundResource;
       }
     );
     // if the resource exists, update it, otherwise add it
