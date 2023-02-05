@@ -7,13 +7,18 @@ export const HUB_PROJECT_ITEM_TYPE = "Hub Project";
  * Default values of a IHubProject
  */
 export const DEFAULT_PROJECT: Partial<IHubProject> = {
-  name: "No title provided",
-  tags: [],
-  typeKeywords: ["Hub Project"],
-  status: PROJECT_STATUSES.notStarted,
   catalog: { schemaVersion: 0 },
+  name: "No title provided",
   permissions: [],
   schemaVersion: 1,
+  status: PROJECT_STATUSES.notStarted,
+  tags: [],
+  typeKeywords: [HUB_PROJECT_ITEM_TYPE],
+  view: {
+    contacts: [],
+    featuredContentIds: [],
+    showMap: true,
+  },
 };
 
 /**
@@ -26,7 +31,7 @@ export const DEFAULT_PROJECT_MODEL: IModel = {
     description: "",
     snippet: "",
     tags: [],
-    typeKeywords: ["Hub Project"],
+    typeKeywords: [HUB_PROJECT_ITEM_TYPE],
     properties: {
       slug: "",
       schemaVersion: 1,
@@ -34,12 +39,12 @@ export const DEFAULT_PROJECT_MODEL: IModel = {
   },
   data: {
     display: "about",
-    timeline: {},
+    permissions: [],
     status: PROJECT_STATUSES.notStarted,
-    contacts: [],
     view: {
+      contacts: [],
+      featuredContentIds: [],
       showMap: true,
     },
-    permissions: [],
   },
 } as unknown as IModel;
