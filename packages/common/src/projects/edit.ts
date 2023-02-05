@@ -145,10 +145,10 @@ export async function getHubProjectEditorConfig(
     schema = filterSchemaToUiSchema(schema, uiSchema);
   }
 
-  // interpolate the i18n scope into the uiSchema
-  uiSchema = interpolate(uiSchema, { i18nScope });
   // apply the options
   uiSchema = applyUiSchemaElementOptions(uiSchema, options);
+  // interpolate the i18n scope into the uiSchema
+  uiSchema = interpolate(uiSchema, { i18nScope });
 
   return Promise.resolve({ schema, uiSchema });
 }
