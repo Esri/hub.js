@@ -1,15 +1,28 @@
+import { IHubTimeline } from "../types";
+
 /**
- * Hub Project view: defines the display properties of a project
+ * Properties to be exclusively displayed on an entity's
+ * pre-defined view
  */
 export interface IWithViewSettings {
   /**
-   * Should the map be shown or not
+   * array of contacts associated with an entity. Contact interface TBD
+   */
+  contacts?: any[];
+  /**
+   * array of entity's featured content ids to be rendered in a gallery
+   */
+  featuredContentIds?: string[];
+  /**
+   * entity's featured image url
+   */
+  featuredImageUrl?: string;
+  /**
+   * whether the entity should render it's location on a map
    */
   showMap?: boolean;
   /**
-   * Url of the items featured image
+   * timeline associated with an entity
    */
-  featuredImageUrl?: string;
-
-  featuredContentIds: string[];
+  timeline?: IHubTimeline;
 }
