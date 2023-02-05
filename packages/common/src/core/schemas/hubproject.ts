@@ -59,11 +59,11 @@ export const HubProjectCreateUiSchema: IUiSchema = {
       elements: [
         {
           type: "Step",
-          labelKey: "{{i18nScope}}.section.details.label",
+          labelKey: "{{i18nScope}}.sections.details.label",
           elements: [
             {
               type: "Section",
-              labelKey: "{{i18nScope}}.basicInfo.label",
+              labelKey: "{{i18nScope}}.sections.basicInfo.label",
               elements: [
                 {
                   labelKey: "{{i18nScope}}.fields.name.label",
@@ -78,7 +78,7 @@ export const HubProjectCreateUiSchema: IUiSchema = {
                     control: "hub-field-input-input",
                     type: "textarea",
                     helperText: {
-                      labelKey: "{{i18nScope}}.summary.helperText",
+                      labelKey: "{{i18nScope}}.fields.summary.helperText",
                     },
                   },
                 },
@@ -90,7 +90,7 @@ export const HubProjectCreateUiSchema: IUiSchema = {
                     control: "hub-field-input-input",
                     type: "textarea",
                     helperText: {
-                      labelKey: "{{i18nScope}}.description.helperText",
+                      labelKey: "{{i18nScope}}.fields.description.helperText",
                     },
                   },
                 },
@@ -180,39 +180,39 @@ export const HubProjectEditUiSchema: IUiSchema = {
   elements: [
     {
       type: "Section",
-      labelKey: "{{i18nScope}}.basicInfo.label",
+      labelKey: "{{i18nScope}}.sections.basicInfo.label",
       elements: [
         {
-          labelKey: "{{i18nScope}}.name.label",
+          labelKey: "{{i18nScope}}.fields.name.label",
           scope: "/properties/name",
           type: "Control",
         },
         {
-          labelKey: "{{i18nScope}}.summary.label",
+          labelKey: "{{i18nScope}}.fields.summary.label",
           scope: "/properties/summary",
           type: "Control",
           options: {
             control: "hub-field-input-input",
             type: "textarea",
             helperText: {
-              labelKey: "{{i18nScope}}.summary.helperText",
+              labelKey: "{{i18nScope}}.fields.summary.helperText",
             },
           },
         },
         {
-          labelKey: "{{i18nScope}}.description.label",
+          labelKey: "{{i18nScope}}.fields.description.label",
           scope: "/properties/description",
           type: "Control",
           options: {
             control: "hub-field-input-input",
             type: "textarea",
             helperText: {
-              labelKey: "{{i18nScope}}.description.helperText",
+              labelKey: "{{i18nScope}}.fields.description.helperText",
             },
           },
         },
         {
-          labelKey: "{{i18nScope}}.featuredImage.label",
+          labelKey: "{{i18nScope}}.fields.featuredImage.label",
           scope: "/properties/view/properties/featuredImage",
           type: "Control",
           options: {
@@ -221,7 +221,7 @@ export const HubProjectEditUiSchema: IUiSchema = {
             maxHeight: 484,
             aspectRatio: 1.5,
             helperText: {
-              labelKey: "{{i18nScope}}.featuredImage.helperText",
+              labelKey: "{{i18nScope}}.fields.featuredImage.helperText",
             },
           },
         },
@@ -229,7 +229,7 @@ export const HubProjectEditUiSchema: IUiSchema = {
     },
     {
       type: "Section",
-      labelKey: "{{i18nScope}}.location.label",
+      labelKey: "{{i18nScope}}.sections.location.label",
       elements: [
         {
           scope: "/properties/extent",
@@ -239,7 +239,7 @@ export const HubProjectEditUiSchema: IUiSchema = {
           },
         },
         {
-          labelKey: "{{i18nScope}}.showMap.label",
+          labelKey: "{{i18nScope}}.fields.showMap.label",
           scope: "/properties/view/properties/showMap",
           type: "Control",
         },
@@ -247,15 +247,16 @@ export const HubProjectEditUiSchema: IUiSchema = {
     },
     {
       type: "Section",
-      labelKey: "{{i18nScope}}.status.label",
+      labelKey: "{{i18nScope}}.sections.status.label",
       elements: [
         {
           scope: "/properties/status",
           type: "Control",
+          labelKey: "{{i18nScope}}.fields.status.label",
           options: {
             control: "hub-field-input-select",
             enum: {
-              i18nScope: "{{i18nScope}}.status.enum",
+              i18nScope: "{{i18nScope}}.fields.status.enum",
             },
           },
         },
@@ -263,7 +264,7 @@ export const HubProjectEditUiSchema: IUiSchema = {
     },
     {
       type: "Section",
-      labelKey: "{{i18nScope}}.timeline.label",
+      labelKey: "{{i18nScope}}.sections.timeline.label",
       elements: [
         {
           scope: "/properties/view/properties/timeline",
@@ -276,10 +277,10 @@ export const HubProjectEditUiSchema: IUiSchema = {
     },
     {
       type: "Section",
-      labelKey: "{{i18nScope}}.featuredContent.label",
+      labelKey: "{{i18nScope}}.sections.featuredContent.label",
       options: {
         helperText: {
-          labelKey: "{{i18nScope}}.featuredContent.helperText",
+          labelKey: "{{i18nScope}}.sections.featuredContent.helperText",
         },
       },
       elements: [
