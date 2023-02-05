@@ -24,23 +24,23 @@ export const HubProjectSchema: IConfigurationSchema = {
     extent: {
       type: "object",
     },
-    timeline: {
-      type: "object",
-    },
     view: {
       type: "object",
       properties: {
-        showMap: {
-          type: "boolean",
-        },
-        featuredImage: {
-          type: "object",
-        },
         featuredContentIds: {
           type: "array",
           items: {
             type: "string",
           },
+        },
+        featuredImage: {
+          type: "object",
+        },
+        showMap: {
+          type: "boolean",
+        },
+        timeline: {
+          type: "object",
         },
       },
     },
@@ -136,7 +136,7 @@ export const HubProjectCreateUiSchema: IUiSchema = {
             },
             {
               labelKey: "{{i18nScope}}.timeline.label",
-              scope: "/properties/timeline",
+              scope: "/properties/view/properties/timeline",
               type: "Control",
               options: {
                 control: "arcgis-hub-timeline-editor",
@@ -243,7 +243,7 @@ export const HubProjectEditUiSchema: IUiSchema = {
       labelKey: "{{i18nScope}}.timeline.label",
       elements: [
         {
-          scope: "/properties/timeline",
+          scope: "/properties/view/properties/timeline",
           type: "Control",
           options: {
             control: "arcgis-hub-timeline-editor",
