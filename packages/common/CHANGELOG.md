@@ -1,3 +1,28 @@
+# @esri/hub-common [12.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.3.2...@esri/hub-common@12.4.0) (2023-02-06)
+
+
+### Bug Fixes
+
+* interpolate uiSchema i18nScope after dynamic options are applied ([0f7edd7](https://github.com/Esri/hub.js/commit/0f7edd7895b01fc81bcc01a3fa25880121957c8c))
+* update and add comments to IWithViewSettings ([d26237f](https://github.com/Esri/hub.js/commit/d26237fd3a0740a05025a4de8aee092cfb789907))
+* update project create schema/uiSchema ([77bd7f9](https://github.com/Esri/hub.js/commit/77bd7f91255ea4d93eafa092f7e08598efd8bcfb))
+* update project edit schema/uiSchema ([4b29672](https://github.com/Esri/hub.js/commit/4b2967249de790e215519eeb7d890305c1089c44))
+* **hub-common:** add support for date-range predicates ([83b8877](https://github.com/Esri/hub.js/commit/83b8877b38af7f6da9ff979d583b998b3c9d98a5))
+* **hub-common:** fix error where result urls were not being generated properly ([3b2f3eb](https://github.com/Esri/hub.js/commit/3b2f3ebb0358e758452d37d767ca16ce16563d54))
+* **hub-common:** fix incorrect interface for ogc aggregations responses ([2e71f21](https://github.com/Esri/hub.js/commit/2e71f211ba717c4c56dcc51efd1f8f1d709248ea))
+* **hub-common:** handle cases where any / all / not is a string and not an array ([195aa3a](https://github.com/Esri/hub.js/commit/195aa3a2efc75fbdf783f5521b4657d77066a749))
+* **hub-common:** remove "term" from being used in the filter string as it is invalid ([e0826a2](https://github.com/Esri/hub.js/commit/e0826a2bd535433d3257eb403088ad2065ee81d3))
+* **hub-common:** remove unnecessary branch and add tests for 100% coverage ([ef66bfb](https://github.com/Esri/hub.js/commit/ef66bfb44ba6465e1932bb6ec4df44f6315d2322))
+* **hub-common:** wrap multi-word values in single quotes ([36ff80c](https://github.com/Esri/hub.js/commit/36ff80c177fdb32372746f1ac89012b20dbfd6ba))
+
+
+### Features
+
+* hubitementity can add/clear resources ([#965](https://github.com/Esri/hub.js/issues/965)) ([0b6b909](https://github.com/Esri/hub.js/commit/0b6b90991bd4e5070542077b6bf4b7fe407c4b5e))
+* **hub-common:** add beta flag to IHubSearchOptions that must be enabled for hubSearchItems to work ([ce47916](https://github.com/Esri/hub.js/commit/ce47916561a5c276977777942e2427a5066a0d65))
+* **hub-common:** add first pass helper functions to integrate with the OGC Api ([15d020b](https://github.com/Esri/hub.js/commit/15d020b3a869ac638915320618f10aae275ce0ea))
+* **hub-common:** add temporary logic to move term predicates into the q parameter ([f925242](https://github.com/Esri/hub.js/commit/f9252425947ca47982324e3477a1f3f8c8199cfb))
+
 ## @esri/hub-common [12.3.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.3.1...@esri/hub-common@12.3.2) (2023-01-25)
 
 
