@@ -24,23 +24,23 @@ export const HubProjectSchema: IConfigurationSchema = {
     extent: {
       type: "object",
     },
-    timeline: {
-      type: "object",
-    },
     view: {
       type: "object",
       properties: {
-        showMap: {
-          type: "boolean",
-        },
-        featuredImage: {
-          type: "object",
-        },
         featuredContentIds: {
           type: "array",
           items: {
             type: "string",
           },
+        },
+        featuredImage: {
+          type: "object",
+        },
+        showMap: {
+          type: "boolean",
+        },
+        timeline: {
+          type: "object",
         },
       },
     },
@@ -59,42 +59,48 @@ export const HubProjectCreateUiSchema: IUiSchema = {
       elements: [
         {
           type: "Step",
-          labelKey: "{{i18nScope}}.describeProject.label",
+          labelKey: "{{i18nScope}}.sections.details.label",
           elements: [
             {
-              labelKey: "{{i18nScope}}.name.label",
-              scope: "/properties/name",
-              type: "Control",
-            },
-            {
-              labelKey: "{{i18nScope}}.summary.label",
-              scope: "/properties/summary",
-              type: "Control",
-              options: {
-                control: "hub-field-input-input",
-                type: "textarea",
-                helperText: {
-                  labelKey: "{{i18nScope}}.summary.helperText",
+              type: "Section",
+              labelKey: "{{i18nScope}}.sections.basicInfo.label",
+              elements: [
+                {
+                  labelKey: "{{i18nScope}}.fields.name.label",
+                  scope: "/properties/name",
+                  type: "Control",
                 },
-              },
-            },
-            {
-              labelKey: "{{i18nScope}}.description.label",
-              scope: "/properties/description",
-              type: "Control",
-              options: {
-                control: "hub-field-input-input",
-                type: "textarea",
-                helperText: {
-                  labelKey: "{{i18nScope}}.description.helperText",
+                {
+                  labelKey: "{{i18nScope}}.fields.summary.label",
+                  scope: "/properties/summary",
+                  type: "Control",
+                  options: {
+                    control: "hub-field-input-input",
+                    type: "textarea",
+                    helperText: {
+                      labelKey: "{{i18nScope}}.fields.summary.helperText",
+                    },
+                  },
                 },
-              },
+                {
+                  labelKey: "{{i18nScope}}.fields.description.label",
+                  scope: "/properties/description",
+                  type: "Control",
+                  options: {
+                    control: "hub-field-input-input",
+                    type: "textarea",
+                    helperText: {
+                      labelKey: "{{i18nScope}}.fields.description.helperText",
+                    },
+                  },
+                },
+              ],
             },
           ],
         },
         {
           type: "Step",
-          labelKey: "{{i18nScope}}.setLocation.label",
+          labelKey: "{{i18nScope}}.sections.location.label",
           rule: {
             effect: UiSchemaRuleEffects.DISABLE,
             condition: {
@@ -104,17 +110,23 @@ export const HubProjectCreateUiSchema: IUiSchema = {
           },
           elements: [
             {
-              scope: "/properties/extent",
-              type: "Control",
-              options: {
-                control: "hub-field-input-boundary-picker",
-              },
+              type: "Section",
+              labelKey: "{{i18nScope}}.sections.location.label",
+              elements: [
+                {
+                  scope: "/properties/extent",
+                  type: "Control",
+                  options: {
+                    control: "hub-field-input-boundary-picker",
+                  },
+                },
+              ],
             },
           ],
         },
         {
           type: "Step",
-          labelKey: "{{i18nScope}}.statusAndTimeline.label",
+          labelKey: "{{i18nScope}}.sections.statusAndTimeline.label",
           rule: {
             effect: UiSchemaRuleEffects.DISABLE,
             condition: {
@@ -124,23 +136,34 @@ export const HubProjectCreateUiSchema: IUiSchema = {
           },
           elements: [
             {
-              labelKey: "{{i18nScope}}.status.label",
-              scope: "/properties/status",
-              type: "Control",
-              options: {
-                control: "hub-field-input-select",
-                enum: {
-                  i18nScope: "{{i18nScope}}.status.enum",
+              type: "Section",
+              labelKey: "{{i18nScope}}.sections.status.label",
+              elements: [
+                {
+                  labelKey: "{{i18nScope}}.fields.status.label",
+                  scope: "/properties/status",
+                  type: "Control",
+                  options: {
+                    control: "hub-field-input-select",
+                    enum: {
+                      i18nScope: "{{i18nScope}}.fields.status.enum",
+                    },
+                  },
                 },
-              },
+              ],
             },
             {
-              labelKey: "{{i18nScope}}.timeline.label",
-              scope: "/properties/timeline",
-              type: "Control",
-              options: {
-                control: "arcgis-hub-timeline-editor",
-              },
+              type: "Section",
+              labelKey: "{{i18nScope}}.sections.timeline.label",
+              elements: [
+                {
+                  scope: "/properties/view/properties/timeline",
+                  type: "Control",
+                  options: {
+                    control: "arcgis-hub-timeline-editor",
+                  },
+                },
+              ],
             },
           ],
         },
@@ -157,39 +180,39 @@ export const HubProjectEditUiSchema: IUiSchema = {
   elements: [
     {
       type: "Section",
-      labelKey: "{{i18nScope}}.basicInfo.label",
+      labelKey: "{{i18nScope}}.sections.basicInfo.label",
       elements: [
         {
-          labelKey: "{{i18nScope}}.name.label",
+          labelKey: "{{i18nScope}}.fields.name.label",
           scope: "/properties/name",
           type: "Control",
         },
         {
-          labelKey: "{{i18nScope}}.summary.label",
+          labelKey: "{{i18nScope}}.fields.summary.label",
           scope: "/properties/summary",
           type: "Control",
           options: {
             control: "hub-field-input-input",
             type: "textarea",
             helperText: {
-              labelKey: "{{i18nScope}}.summary.helperText",
+              labelKey: "{{i18nScope}}.fields.summary.helperText",
             },
           },
         },
         {
-          labelKey: "{{i18nScope}}.description.label",
+          labelKey: "{{i18nScope}}.fields.description.label",
           scope: "/properties/description",
           type: "Control",
           options: {
             control: "hub-field-input-input",
             type: "textarea",
             helperText: {
-              labelKey: "{{i18nScope}}.description.helperText",
+              labelKey: "{{i18nScope}}.fields.description.helperText",
             },
           },
         },
         {
-          labelKey: "{{i18nScope}}.featuredImage.label",
+          labelKey: "{{i18nScope}}.fields.featuredImage.label",
           scope: "/properties/view/properties/featuredImage",
           type: "Control",
           options: {
@@ -198,7 +221,10 @@ export const HubProjectEditUiSchema: IUiSchema = {
             maxHeight: 484,
             aspectRatio: 1.5,
             helperText: {
-              labelKey: "{{i18nScope}}.featuredImage.helperText",
+              labelKey: "{{i18nScope}}.fields.featuredImage.helperText",
+            },
+            sizeDescription: {
+              labelKey: "{{i18nScope}}.fields.featuredImage.sizeDescription",
             },
           },
         },
@@ -206,7 +232,7 @@ export const HubProjectEditUiSchema: IUiSchema = {
     },
     {
       type: "Section",
-      labelKey: "{{i18nScope}}.location.label",
+      labelKey: "{{i18nScope}}.sections.location.label",
       elements: [
         {
           scope: "/properties/extent",
@@ -216,7 +242,7 @@ export const HubProjectEditUiSchema: IUiSchema = {
           },
         },
         {
-          labelKey: "{{i18nScope}}.showMap.label",
+          labelKey: "{{i18nScope}}.fields.showMap.label",
           scope: "/properties/view/properties/showMap",
           type: "Control",
         },
@@ -224,15 +250,16 @@ export const HubProjectEditUiSchema: IUiSchema = {
     },
     {
       type: "Section",
-      labelKey: "{{i18nScope}}.status.label",
+      labelKey: "{{i18nScope}}.sections.status.label",
       elements: [
         {
           scope: "/properties/status",
           type: "Control",
+          labelKey: "{{i18nScope}}.fields.status.label",
           options: {
             control: "hub-field-input-select",
             enum: {
-              i18nScope: "{{i18nScope}}.status.enum",
+              i18nScope: "{{i18nScope}}.fields.status.enum",
             },
           },
         },
@@ -240,10 +267,10 @@ export const HubProjectEditUiSchema: IUiSchema = {
     },
     {
       type: "Section",
-      labelKey: "{{i18nScope}}.timeline.label",
+      labelKey: "{{i18nScope}}.sections.timeline.label",
       elements: [
         {
-          scope: "/properties/timeline",
+          scope: "/properties/view/properties/timeline",
           type: "Control",
           options: {
             control: "arcgis-hub-timeline-editor",
@@ -253,10 +280,10 @@ export const HubProjectEditUiSchema: IUiSchema = {
     },
     {
       type: "Section",
-      labelKey: "{{i18nScope}}.featuredContent.label",
+      labelKey: "{{i18nScope}}.sections.featuredContent.label",
       options: {
         helperText: {
-          labelKey: "{{i18nScope}}.featuredContent.helperText",
+          labelKey: "{{i18nScope}}.sections.featuredContent.helperText",
         },
       },
       elements: [
