@@ -153,10 +153,10 @@ function getWellknownItemCatalog(
 export function getWellknownCollections(
   i18nScope: string,
   entityType: EntityType,
-  names?: WellKnownCollection[]
+  collectionNames?: WellKnownCollection[]
 ): IHubCollection[] {
-  const collections = [
-    {
+  const allCollectionsMap = {
+    appAndMap: {
       key: "appAndMap",
       label: `${i18nScope}.collection.appsAndMaps:translate}`,
       targetEntity: entityType,
@@ -174,8 +174,8 @@ export function getWellknownCollections(
         ],
       },
     } as IHubCollection,
-    {
-      key: "dataset",
+    data: {
+      key: "data",
       label: `${i18nScope}.collection.data:translate}`,
       targetEntity: entityType,
       include: [],
@@ -184,7 +184,7 @@ export function getWellknownCollections(
         filters: [{ predicates: [{ type: getFamilyTypes("dataset") }] }],
       },
     } as IHubCollection,
-    {
+    document: {
       key: "document",
       label: `${i18nScope}.collection.document:translate}`,
       targetEntity: entityType,
@@ -194,7 +194,7 @@ export function getWellknownCollections(
         filters: [{ predicates: [{ type: getFamilyTypes("document") }] }],
       },
     } as IHubCollection,
-    {
+    feedback: {
       key: "feedback",
       label: `${i18nScope}.collection.feedback:translate}`,
       targetEntity: entityType,
@@ -204,7 +204,7 @@ export function getWellknownCollections(
         filters: [{ predicates: [{ type: getFamilyTypes("feedback") }] }],
       },
     } as IHubCollection,
-    {
+    site: {
       key: "site",
       label: `${i18nScope}.collection.sites:translate}`,
       targetEntity: entityType,
@@ -222,7 +222,7 @@ export function getWellknownCollections(
         ],
       },
     } as IHubCollection,
-    {
+    template: {
       key: "template",
       label: `${i18nScope}.collection.templates:translate}`,
       targetEntity: entityType,
@@ -240,17 +240,19 @@ export function getWellknownCollections(
         ],
       },
     } as IHubCollection,
+  } as any;
+  const defaultCollectionNames = [
+    "appAndMap",
+    "data",
+    "document",
+    "feedback",
+    "site",
   ];
-  if (names?.length) {
-    return collections.reduce((accum, collection) => {
-      names.forEach((name) => {
-        if (name === collection.key) {
-          accum.push(collection);
-        }
-      });
-      return accum;
-    }, [] as IHubCollection[]);
-  } else {
-    return collections;
-  }
+  const names = collectionNames.length
+    ? collectionNames
+    : defaultCollectionNames;
+  return names.reduce((accum, name) => {
+    accum.push(allCollectionsMap[name]);
+    return accum;
+  }, []);
 }
