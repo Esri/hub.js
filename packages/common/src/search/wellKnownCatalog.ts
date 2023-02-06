@@ -25,6 +25,7 @@ export type WellKnownCollection =
 /**
  * @param name
  * @param entityType
+ * @param i18nScope translation scope to be interpolated into the catalog
  * @param user owner of the entity, optional but required for certain catalogs
  * @param collectionNames a list of collection names, optional, if passed in,
  * only those collections in the catalog will be returned
@@ -33,12 +34,13 @@ export type WellKnownCollection =
 export function getWellKnownCatalog(
   name: WellKnownCatalog,
   entityType: EntityType,
+  i18nScope: string,
   user?: IUser,
   collectionNames?: WellKnownCollection[]
 ): IHubCatalog {
   switch (entityType) {
     case "item":
-      return getWellknownItemCatalog(name, user, collectionNames);
+      return getWellknownItemCatalog(name, i18nScope, user, collectionNames);
     /* Add more entity handling here, e.g. getWellknownEventCatalog */
     default:
       throw new Error(`Wellknown catalog not implemented for "${entityType}"`);
@@ -47,6 +49,7 @@ export function getWellKnownCatalog(
 
 /**
  * @param name
+ * @param i18nScope translation scope to be interpolated into the catalog
  * @param user owner of the entity, optional but required for certain catalogs
  * @param collectionNames a list of collection names, optional, if passed in,
  * only those collections in the catalog will be returned
@@ -54,6 +57,7 @@ export function getWellKnownCatalog(
  */
 function getWellknownItemCatalog(
   name: WellKnownCatalog,
+  i18nScope: string,
   user?: IUser,
   collectionNames?: WellKnownCollection[]
 ): IHubCatalog {
@@ -63,14 +67,18 @@ function getWellknownItemCatalog(
       if (user) {
         catalog = {
           schemaVersion: 1,
-          title: "{{i18nScope}}.catalog.myContent",
+          title: `{{${i18nScope}.catalog.myContent:translate}}`,
           scopes: {
             item: {
               targetEntity: "item" as EntityType,
               filters: [{ predicates: [{ owner: user.username }] }],
             },
           },
-          collections: getWellknownCollections("item", collectionNames),
+          collections: getWellknownCollections(
+            i18nScope,
+            "item",
+            collectionNames
+          ),
         };
       } else {
         throw new Error(`User needed to get "${name}" catalog`);
@@ -80,14 +88,18 @@ function getWellknownItemCatalog(
       if (user) {
         catalog = {
           schemaVersion: 1,
-          title: "{{i18nScope}}.catalog.favorites",
+          title: `${i18nScope}.catalog.favorites:translate`,
           scopes: {
             item: {
               targetEntity: "item" as EntityType,
               filters: [{ predicates: [{ group: user.favGroupId }] }],
             },
           },
-          collections: getWellknownCollections("item", collectionNames),
+          collections: getWellknownCollections(
+            i18nScope,
+            "item",
+            collectionNames
+          ),
         };
       } else {
         throw new Error(`User needed to get "${name}" catalog`);
@@ -96,27 +108,35 @@ function getWellknownItemCatalog(
     case "organization":
       catalog = {
         schemaVersion: 1,
-        title: "{{i18nScope}}.catalog.organization",
+        title: `${i18nScope}.catalog.organization:translate`,
         scopes: {
           item: {
             targetEntity: "item" as EntityType,
             filters: [{ predicates: [{ access: "org" }] }],
           },
         },
-        collections: getWellknownCollections("item", collectionNames),
+        collections: getWellknownCollections(
+          i18nScope,
+          "item",
+          collectionNames
+        ),
       };
       break;
     case "world":
       catalog = {
         schemaVersion: 1,
-        title: "{{i18nScope}}.catalog.world",
+        title: `${i18nScope}.catalog.world:translate`,
         scopes: {
           item: {
             targetEntity: "item" as EntityType,
             filters: [{ predicates: [{ access: "public" }] }],
           },
         },
-        collections: getWellknownCollections("item", collectionNames),
+        collections: getWellknownCollections(
+          i18nScope,
+          "item",
+          collectionNames
+        ),
       };
       break;
   }
@@ -124,19 +144,21 @@ function getWellknownItemCatalog(
 }
 
 /**
+ * @param i18nScope translation scope to be interpolated into the collections
  * @param entityType
  * @param names list of names of the requested collections, optional, if passed in,
  * only those collections will be returned
  * @returns a list of IHubCollections
  */
 export function getWellknownCollections(
+  i18nScope: string,
   entityType: EntityType,
   names?: WellKnownCollection[]
 ): IHubCollection[] {
   const collections = [
     {
       key: "appAndMap",
-      label: "{{i18nScope.collection.appsAndMaps}}",
+      label: `${i18nScope}.collection.appsAndMaps:translate}`,
       targetEntity: entityType,
       include: [],
       scope: {
@@ -154,7 +176,7 @@ export function getWellknownCollections(
     } as IHubCollection,
     {
       key: "dataset",
-      label: "{{i18nScope.collection.data}}",
+      label: `${i18nScope}.collection.data:translate}`,
       targetEntity: entityType,
       include: [],
       scope: {
@@ -164,7 +186,7 @@ export function getWellknownCollections(
     } as IHubCollection,
     {
       key: "document",
-      label: "{{i18nScope.collection.document}}",
+      label: `${i18nScope}.collection.document:translate}`,
       targetEntity: entityType,
       include: [],
       scope: {
@@ -174,7 +196,7 @@ export function getWellknownCollections(
     } as IHubCollection,
     {
       key: "feedback",
-      label: "{{i18nScope.collection.feedback}}",
+      label: `${i18nScope}.collection.feedback:translate}`,
       targetEntity: entityType,
       include: [],
       scope: {
@@ -184,7 +206,7 @@ export function getWellknownCollections(
     } as IHubCollection,
     {
       key: "site",
-      label: "{{i18nScope.collection.sites}}",
+      label: `${i18nScope}.collection.sites:translate}`,
       targetEntity: entityType,
       include: [],
       scope: {
@@ -202,7 +224,7 @@ export function getWellknownCollections(
     } as IHubCollection,
     {
       key: "template",
-      label: "{{i18nScope.collection.templates}}",
+      label: `${i18nScope}.collection.templates:translate}`,
       targetEntity: entityType,
       include: [],
       scope: {
