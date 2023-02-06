@@ -223,6 +223,9 @@ export const HubProjectEditUiSchema: IUiSchema = {
             helperText: {
               labelKey: "{{i18nScope}}.fields.featuredImage.helperText",
             },
+            sizeDescription: {
+              labelKey: "{{i18nScope}}.fields.featuredImage.sizeDescription",
+            },
           },
         },
       ],
