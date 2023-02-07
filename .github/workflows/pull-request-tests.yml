@@ -29,8 +29,8 @@ jobs:
         node: [14, 16]
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
       # Npm 7 is needed for workspaces, and it shipped w/ Node 16
