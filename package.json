@@ -140,9 +140,9 @@
 		"tsc:v": "lerna run tsc:v",
 		"y:publish": "lerna run y:publish",
 		"y:push": "lerna run y:push",
-		"release:dry": "multi-semantic-release --dry-run  --deps.release=inherit --ignore-private-packages --debug",
+		"release:dry": "multi-semantic-release --dry-run --deps.bump=satisfy --deps.release=inherit --ignore-private-packages --debug",
     "prerelease": "npm config set workspaces-update false",
-		"release": "multi-semantic-release --deps.release=inherit --ignore-private-packages"
+		"release": "multi-semantic-release --deps.bump=satisfy --deps.release=inherit --ignore-private-packages"
 	},
 	"husky": {
 		"hooks": {
