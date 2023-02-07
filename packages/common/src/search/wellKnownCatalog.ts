@@ -22,7 +22,7 @@ export type WellKnownCollection =
   | "solution"
   | "template";
 
-function getAllCollectionsMap(i18nScope: string, entityType: EntityType) {
+function getAllCollectionsMap(i18nScope: string, entityType: EntityType): any {
   return {
     appAndMap: {
       key: "appAndMap",
@@ -108,13 +108,17 @@ function getAllCollectionsMap(i18nScope: string, entityType: EntityType) {
         ],
       },
     } as IHubCollection,
-  } as any;
+  };
+}
+
+function getDefaultCollectionNames(): string[] {
+  return ["appAndMap", "dataset", "document", "feedback", "site"];
 }
 
 /**
  * Check if i18nScope is defined, if so add a `.` at the end
  */
-function validateI18nScope(i18nScope: string) {
+function validateI18nScope(i18nScope: string): string {
   return i18nScope ? `${i18nScope}.` : `${i18nScope}`;
 }
 
@@ -246,13 +250,10 @@ export function getWellknownCollections(
 
   const allCollectionsMap = getAllCollectionsMap(i18nScope, entityType);
 
-  const defaultCollectionNames = [
-    "appAndMap",
-    "dataset",
-    "document",
-    "feedback",
-    "site",
-  ];
+  const defaultCollectionNames = getDefaultCollectionNames();
+
+  // Return a list of collections from the passed collection names or
+  // return the default ones if not passed
   const names = collectionNames?.length
     ? collectionNames
     : defaultCollectionNames;
