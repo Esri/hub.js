@@ -1,6 +1,12 @@
-import { getFamilyTypes } from "../../src";
+import { getFamily, getFamilyTypes } from "../../src";
 
 describe("getFamily", () => {
+  describe("getFamily", () => {
+    it("works with an item", () => {
+      const item = { type: "Map Service" };
+      expect(getFamily(item as any)).toEqual("map");
+    });
+  });
   describe("getFamilyTypes", () => {
     it("can get 'content' types", () => {
       const types = getFamilyTypes("content");
