@@ -23,51 +23,55 @@ export type WellKnownCollection =
   | "template";
 
 /**
+ * @param i18nScope translation scope to be interpolated into the catalog
  * @param name
  * @param entityType
- * @param i18nScope translation scope to be interpolated into the catalog
  * @param user owner of the entity, optional but required for certain catalogs
  * @param collectionNames a list of collection names, optional, if passed in,
  * only those collections in the catalog will be returned
  * @returns a single IHubCatalog
  */
 export function getWellKnownCatalog(
+  i18nScope: string,
   name: WellKnownCatalog,
   entityType: EntityType,
-  i18nScope: string,
   user?: IUser,
   collectionNames?: WellKnownCollection[]
 ): IHubCatalog {
   switch (entityType) {
     case "item":
-      return getWellknownItemCatalog(name, i18nScope, user, collectionNames);
-    /* Add more entity handling here, e.g. getWellknownEventCatalog */
+      return getWellknownItemCatalog(i18nScope, name, user, collectionNames);
+    /* Add other entity handlers here, e.g. getWellknownEventCatalog */
     default:
       throw new Error(`Wellknown catalog not implemented for "${entityType}"`);
   }
 }
 
 /**
- * @param name
  * @param i18nScope translation scope to be interpolated into the catalog
+ * @param name
  * @param user owner of the entity, optional but required for certain catalogs
  * @param collectionNames a list of collection names, optional, if passed in,
  * only those collections in the catalog will be returned
  * @returns a single Item IHubCatalog
  */
 function getWellknownItemCatalog(
-  name: WellKnownCatalog,
   i18nScope: string,
+  name: WellKnownCatalog,
   user?: IUser,
   collectionNames?: WellKnownCollection[]
 ): IHubCatalog {
+  // Check if i18nScope is defined, if so add a `.` on the end
+  if (i18nScope !== "") {
+    i18nScope = `${i18nScope}.`;
+  }
   let catalog;
   switch (name) {
     case "myContent":
       if (user) {
         catalog = {
           schemaVersion: 1,
-          title: `{{${i18nScope}.catalog.myContent:translate}}`,
+          title: `{{${i18nScope}catalog.myContent:translate}}`,
           scopes: {
             item: {
               targetEntity: "item" as EntityType,
@@ -88,7 +92,7 @@ function getWellknownItemCatalog(
       if (user) {
         catalog = {
           schemaVersion: 1,
-          title: `${i18nScope}.catalog.favorites:translate`,
+          title: `{{${i18nScope}catalog.favorites:translate}}`,
           scopes: {
             item: {
               targetEntity: "item" as EntityType,
@@ -108,7 +112,7 @@ function getWellknownItemCatalog(
     case "organization":
       catalog = {
         schemaVersion: 1,
-        title: `${i18nScope}.catalog.organization:translate`,
+        title: `{{${i18nScope}catalog.organization:translate}}`,
         scopes: {
           item: {
             targetEntity: "item" as EntityType,
@@ -125,7 +129,7 @@ function getWellknownItemCatalog(
     case "world":
       catalog = {
         schemaVersion: 1,
-        title: `${i18nScope}.catalog.world:translate`,
+        title: `{{${i18nScope}catalog.world:translate}}`,
         scopes: {
           item: {
             targetEntity: "item" as EntityType,
@@ -155,10 +159,14 @@ export function getWellknownCollections(
   entityType: EntityType,
   collectionNames?: WellKnownCollection[]
 ): IHubCollection[] {
+  // Check if i18nScope is defined, if so add a `.` on the end
+  if (i18nScope !== "") {
+    i18nScope = `${i18nScope}.`;
+  }
   const allCollectionsMap = {
     appAndMap: {
       key: "appAndMap",
-      label: `${i18nScope}.collection.appsAndMaps:translate}`,
+      label: `{{${i18nScope}collection.appsAndMaps:translate}}`,
       targetEntity: entityType,
       include: [],
       scope: {
@@ -174,9 +182,9 @@ export function getWellknownCollections(
         ],
       },
     } as IHubCollection,
-    data: {
-      key: "data",
-      label: `${i18nScope}.collection.data:translate}`,
+    dataset: {
+      key: "dataset",
+      label: `{{${i18nScope}collection.dataset:translate}}`,
       targetEntity: entityType,
       include: [],
       scope: {
@@ -186,7 +194,7 @@ export function getWellknownCollections(
     } as IHubCollection,
     document: {
       key: "document",
-      label: `${i18nScope}.collection.document:translate}`,
+      label: `{{${i18nScope}collection.document:translate}}`,
       targetEntity: entityType,
       include: [],
       scope: {
@@ -196,7 +204,7 @@ export function getWellknownCollections(
     } as IHubCollection,
     feedback: {
       key: "feedback",
-      label: `${i18nScope}.collection.feedback:translate}`,
+      label: `{{${i18nScope}collection.feedback:translate}}`,
       targetEntity: entityType,
       include: [],
       scope: {
@@ -206,7 +214,7 @@ export function getWellknownCollections(
     } as IHubCollection,
     site: {
       key: "site",
-      label: `${i18nScope}.collection.sites:translate}`,
+      label: `{{${i18nScope}collection.sites:translate}}`,
       targetEntity: entityType,
       include: [],
       scope: {
@@ -224,7 +232,7 @@ export function getWellknownCollections(
     } as IHubCollection,
     template: {
       key: "template",
-      label: `${i18nScope}.collection.templates:translate}`,
+      label: `{{${i18nScope}collection.templates:translate}}`,
       targetEntity: entityType,
       include: [],
       scope: {
@@ -243,16 +251,18 @@ export function getWellknownCollections(
   } as any;
   const defaultCollectionNames = [
     "appAndMap",
-    "data",
+    "dataset",
     "document",
     "feedback",
     "site",
   ];
-  const names = collectionNames.length
+  const names = collectionNames?.length
     ? collectionNames
     : defaultCollectionNames;
   return names.reduce((accum, name) => {
-    accum.push(allCollectionsMap[name]);
+    if (allCollectionsMap[name]) {
+      accum.push(allCollectionsMap[name]);
+    }
     return accum;
   }, []);
 }
