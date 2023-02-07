@@ -22,6 +22,119 @@ export type WellKnownCollection =
   | "solution"
   | "template";
 
+/**
+ * Check if i18nScope is defined, if so add a `.` at the end
+ */
+function validateI18nScope(i18nScope: string): string {
+  return i18nScope ? `${i18nScope}.` : `${i18nScope}`;
+}
+
+/** This function returns a single IHubCatalog definition JSON object based on the
+ * name and entity type requested
+ * @param i18nScope Translation scope to be interpolated into the catalog
+ * @param name Name of the catalog requested
+ * @param entityType
+ * @param user Owner of the entity, optional but required for certain catalogs
+ * @param collectionNames A list of collection names, optional, if passed in,
+ * only those collections in the catalog will be returned
+ */
+export function getWellKnownCatalog(
+  i18nScope: string,
+  name: WellKnownCatalog,
+  entityType: EntityType,
+  user?: IUser,
+  collectionNames?: WellKnownCollection[]
+): IHubCatalog {
+  switch (entityType) {
+    case "item":
+      return getWellknownItemCatalog(i18nScope, name, user, collectionNames);
+    /* Add other entity handlers here, e.g. getWellknownEventCatalog */
+    default:
+      throw new Error(`Wellknown catalog not implemented for "${entityType}"`);
+  }
+}
+
+function buildCatalog(
+  i18nScope: string,
+  name: WellKnownCatalog,
+  predicates: any[],
+  collections: IHubCollection[]
+): IHubCatalog {
+  return {
+    schemaVersion: 1,
+    title: `{{${i18nScope}catalog.${name}:translate}}`,
+    scopes: {
+      item: {
+        targetEntity: "item" as EntityType,
+        filters: [{ predicates }],
+      },
+    },
+    collections,
+  };
+}
+
+/**
+ * @param i18nScope Translation scope to be interpolated into the catalog
+ * @param name Name of the catalog requested
+ * @param user Owner of the entity, optional but required for certain catalogs
+ * @param collectionNames A list of collection names, optional, if passed in,
+ * only those collections in the catalog will be returned
+ * @returns An Item IHubCatalog definition JSON object
+ */
+function getWellknownItemCatalog(
+  i18nScope: string,
+  name: WellKnownCatalog,
+  user?: IUser,
+  collectionNames?: WellKnownCollection[]
+): IHubCatalog {
+  i18nScope = validateI18nScope(i18nScope);
+
+  let catalog;
+  const collections = getWellknownCollections(
+    i18nScope,
+    "item",
+    collectionNames
+  );
+  switch (name) {
+    case "myContent":
+      if (user) {
+        catalog = buildCatalog(
+          i18nScope,
+          name,
+          [{ owner: user.username }],
+          collections
+        );
+      } else {
+        throw new Error(`User needed to get "${name}" catalog`);
+      }
+      break;
+    case "favorites":
+      if (user) {
+        catalog = buildCatalog(
+          i18nScope,
+          name,
+          [{ group: user.favGroupId }],
+          collections
+        );
+      } else {
+        throw new Error(`User needed to get "${name}" catalog`);
+      }
+      break;
+    case "organization":
+      catalog = buildCatalog(i18nScope, name, [{ access: "org" }], collections);
+      break;
+    case "world":
+      catalog = buildCatalog(
+        i18nScope,
+        name,
+        [{ access: "public" }],
+        collections
+      );
+      break;
+  }
+  return catalog;
+}
+
 function getAllCollectionsMap(i18nScope: string, entityType: EntityType): any {
   return {
     appAndMap: {
@@ -113,125 +226,6 @@ function getAllCollectionsMap(i18nScope: string, entityType: EntityType): any {
 
 function getDefaultCollectionNames(): string[] {
   return ["appAndMap", "dataset", "document", "feedback", "site"];
-}
-
-/**
- * Check if i18nScope is defined, if so add a `.` at the end
- */
-function validateI18nScope(i18nScope: string): string {
-  return i18nScope ? `${i18nScope}.` : `${i18nScope}`;
-}
-
-/** This function returns a single IHubCatalog definition JSON object based on the
- * name and entity type requested
- * @param i18nScope Translation scope to be interpolated into the catalog
- * @param name Name of the catalog requested
- * @param entityType
- * @param user Owner of the entity, optional but required for certain catalogs
- * @param collectionNames A list of collection names, optional, if passed in,
- * only those collections in the catalog will be returned
- */
-export function getWellKnownCatalog(
-  i18nScope: string,
-  name: WellKnownCatalog,
-  entityType: EntityType,
-  user?: IUser,
-  collectionNames?: WellKnownCollection[]
-): IHubCatalog {
-  switch (entityType) {
-    case "item":
-      return getWellknownItemCatalog(i18nScope, name, user, collectionNames);
-    /* Add other entity handlers here, e.g. getWellknownEventCatalog */
-    default:
-      throw new Error(`Wellknown catalog not implemented for "${entityType}"`);
-  }
-}
-
-/**
- * @param i18nScope Translation scope to be interpolated into the catalog
- * @param name Name of the catalog requested
- * @param user Owner of the entity, optional but required for certain catalogs
- * @param collectionNames A list of collection names, optional, if passed in,
- * only those collections in the catalog will be returned
- * @returns An Item IHubCatalog definition JSON object
- */
-function getWellknownItemCatalog(
-  i18nScope: string,
-  name: WellKnownCatalog,
-  user?: IUser,
-  collectionNames?: WellKnownCollection[]
-): IHubCatalog {
-  i18nScope = validateI18nScope(i18nScope);
-
-  let catalog;
-  const collections = getWellknownCollections(
-    i18nScope,
-    "item",
-    collectionNames
-  );
-  switch (name) {
-    case "myContent":
-      if (user) {
-        catalog = {
-          schemaVersion: 1,
-          title: `{{${i18nScope}catalog.myContent:translate}}`,
-          scopes: {
-            item: {
-              targetEntity: "item" as EntityType,
-              filters: [{ predicates: [{ owner: user.username }] }],
-            },
-          },
-          collections,
-        };
-      } else {
-        throw new Error(`User needed to get "${name}" catalog`);
-      }
-      break;
-    case "favorites":
-      if (user) {
-        catalog = {
-          schemaVersion: 1,
-          title: `{{${i18nScope}catalog.favorites:translate}}`,
-          scopes: {
-            item: {
-              targetEntity: "item" as EntityType,
-              filters: [{ predicates: [{ group: user.favGroupId }] }],
-            },
-          },
-          collections,
-        };
-      } else {
-        throw new Error(`User needed to get "${name}" catalog`);
-      }
-      break;
-    case "organization":
-      catalog = {
-        schemaVersion: 1,
-        title: `{{${i18nScope}catalog.organization:translate}}`,
-        scopes: {
-          item: {
-            targetEntity: "item" as EntityType,
-            filters: [{ predicates: [{ access: "org" }] }],
-          },
-        },
-        collections,
-      };
-      break;
-    case "world":
-      catalog = {
-        schemaVersion: 1,
-        title: `{{${i18nScope}catalog.world:translate}}`,
-        scopes: {
-          item: {
-            targetEntity: "item" as EntityType,
-            filters: [{ predicates: [{ access: "public" }] }],
-          },
-        },
-        collections,
-      };
-      break;
-  }
-  return catalog;
 }
 
 /**
