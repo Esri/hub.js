@@ -4,6 +4,14 @@ import { IHubSearchResult } from "../../types/IHubSearchResult";
 import { itemToSearchResult } from "../portalSearchItems";
 import { IOgcItem } from "./interfaces";
 
+/**
+ * Converts an OGC Item into an IHubSearchResult
+ *
+ * @param ogcItem ogcItem to be transformed
+ * @param includes additional fields to fetch on an item-by-item basis
+ * @param requestOptions request options for fetching any additional includes
+ * @returns the converted result
+ */
 export function ogcItemToSearchResult(
   ogcItem: IOgcItem,
   includes?: string[],

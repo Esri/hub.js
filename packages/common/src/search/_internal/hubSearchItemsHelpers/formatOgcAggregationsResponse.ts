@@ -3,6 +3,13 @@ import { IHubSearchResponse } from "../../types/IHubSearchResponse";
 import { IHubSearchResult } from "../../types/IHubSearchResult";
 import { IOgcAggregationsResponse } from "./interfaces";
 
+/**
+ * Transforms an aggregations response from the OGC API into a
+ * valid format IHubSearch response
+ *
+ * @param response aggregations response from the OGC API
+ * @returns a valid IHubSearch response
+ */
 export function formatOgcAggregationsResponse(
   response: IOgcAggregationsResponse
 ): IHubSearchResponse<IHubSearchResult> {

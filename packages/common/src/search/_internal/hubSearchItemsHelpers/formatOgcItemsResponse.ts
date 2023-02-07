@@ -6,6 +6,13 @@ import { getNextOgcCallback } from "./getNextOgcCallback";
 import { IOgcItemsResponse } from "./interfaces";
 import { ogcItemToSearchResult } from "./ogcItemToSearchResult";
 
+/**
+ * Transforms a search response from the OGC API into a
+ * valid format IHubSearch response
+ *
+ * @param response search response from the OGC API
+ * @returns a valid IHubSearch response
+ */
 export async function formatOgcItemsResponse(
   response: IOgcItemsResponse,
   originalQuery: IQuery,

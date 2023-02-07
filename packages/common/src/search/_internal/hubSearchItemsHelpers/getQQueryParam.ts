@@ -5,8 +5,18 @@
 
 import { IFilter, IQuery } from "../../types/IHubCatalog";
 
-// normally
-export function getQQueryParam(query: IQuery) {
+/**
+ * Extracts the value of the term predicate from a query. Also validates that limitations
+ * of the term predicate are not violated, namely:
+ *
+ * - There can only be one term predicate
+ * - The predicate cannot be OR'd with other predicates
+ * - The predicate must contain a simple string value, not an array or IMatchOptions
+ *
+ * @param query query to extract the term predicate from
+ * @returns the serialized q value
+ */
+export function getQQueryParam(query: IQuery): string {
   const qFilters: IFilter[] = query.filters.filter((f) => {
     return f.predicates.find((p) => !!p.term);
   });

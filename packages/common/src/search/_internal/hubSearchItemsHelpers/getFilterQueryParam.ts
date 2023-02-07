@@ -1,7 +1,14 @@
 import { IFilter, IPredicate, IQuery } from "../../types/IHubCatalog";
 import { IDateRange, IMatchOptions } from "../../types/types";
 
-export function getFilterQueryParam(query: IQuery) {
+/**
+ * Serializes an IQuery into a valid filter string that can be sent to the OGC API
+ * NOTE: Due to current limitations, any predicates that reference `term` will be ignored
+ *
+ * @param query an IQuery to be serialized
+ * @returns a serialized filter string
+ */
+export function getFilterQueryParam(query: IQuery): string {
   return (
     query.filters
       .map(formatFilterBlock)
@@ -11,7 +18,7 @@ export function getFilterQueryParam(query: IQuery) {
   );
 }
 
-export function formatFilterBlock(filter: IFilter) {
+export function formatFilterBlock(filter: IFilter): string {
   const operation = filter.operation || "OR";
   const formatted = filter.predicates
     .map(formatPredicate)
@@ -21,7 +28,7 @@ export function formatFilterBlock(filter: IFilter) {
   return `(${formatted})`;
 }
 
-export function formatPredicate(predicate: IPredicate) {
+export function formatPredicate(predicate: IPredicate): string {
   const formatted = Object.entries(predicate)
     // Remove predicates that use `term` (handled in `getQQueryParam`) and undefined entries
     .filter(([field, value]) => field !== "term" && !!value)
@@ -46,24 +53,27 @@ export function formatPredicate(predicate: IPredicate) {
   return `(${formatted})`;
 }
 
-function isDateRange(x: any) {
+function isDateRange(x: any): boolean {
   return Number.isInteger(x.from) && Number.isInteger(x.to);
 }
 
-function formatDateRangePredicate(field: string, value: IDateRange<number>) {
+function formatDateRangePredicate(
+  field: string,
+  value: IDateRange<number>
+): string {
   return `${field} BETWEEN ${value.from} AND ${value.to}`;
 }
 
-function formatSimpleComparison(field: string, value: string) {
+function formatSimpleComparison(field: string, value: string): string {
   return `${field}=${maybeAddSingleQuotes(value)}`;
 }
 
-function formatMultiStringPredicate(field: string, values: string[]) {
+function formatMultiStringPredicate(field: string, values: string[]): string {
   const wrappedValues = values.map(maybeAddSingleQuotes);
   return `${field} IN (${wrappedValues.join(", ")})`;
 }
 
-function formatComplexPredicate(field: string, value: IMatchOptions) {
+function formatComplexPredicate(field: string, value: IMatchOptions): string {
   const anys = formatAnys(field, value.any);
   const alls = formatAlls(field, value.all);
   const nots = formatNots(field, value.not);
@@ -108,6 +118,12 @@ function formatNots(field: string, value?: string | string[]): string {
   return result;
 }
 
+/**
+ * Wraps values with whitespace in single quotes, per requirements
+ * of the OGC API
+ *
+ * @private
+ */
 function maybeAddSingleQuotes(value: string): string {
   const whitespaceRegex: RegExp = /\s/;
   return whitespaceRegex.test(value) ? `'${value}'` : value;

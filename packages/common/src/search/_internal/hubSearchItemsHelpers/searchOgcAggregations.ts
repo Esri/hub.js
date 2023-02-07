@@ -7,6 +7,13 @@ import { formatOgcAggregationsResponse } from "./formatOgcAggregationsResponse";
 import { getOgcAggregationQueryParams } from "./getOgcAggregationQueryParams";
 import { ogcApiRequest } from "./ogcApiRequest";
 
+/**
+ * Grabs aggregations for a specific collection in the OGC API
+ *
+ * @param query query to serialize (not currently supported)
+ * @param options options for the search
+ * @returns
+ */
 export async function searchOgcAggregations(
   query: IQuery,
   options: IHubSearchOptions

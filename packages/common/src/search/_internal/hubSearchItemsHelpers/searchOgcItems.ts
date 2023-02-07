@@ -8,6 +8,13 @@ import { getOgcItemQueryParams } from "./getOgcItemQueryParams";
 import { IOgcItemsResponse } from "./interfaces";
 import { ogcApiRequest } from "./ogcApiRequest";
 
+/**
+ * Searchs for items within a specific collection in the OGC API
+ *
+ * @param query query to serialize
+ * @param options options for the search
+ * @returns
+ */
 export async function searchOgcItems(
   query: IQuery,
   options: IHubSearchOptions
