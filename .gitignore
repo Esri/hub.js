@@ -86,7 +86,8 @@ packages/*/debug/
 test.html
 
 .idea/
-.vscode/
+.vscode/*
+!.vscode/extensions.json
 
 ## ignore ultra build cache info
 /**/*/.ultra.cache.json

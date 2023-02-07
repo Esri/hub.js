@@ -25,6 +25,7 @@
 - [Issues](#issues)
 - [Versioning](#versioning)
 - [Contributing](#contributing)
+- [Recommended Extensions](#recommended-extensions)
 - [Code of Conduct](/CODE_OF_CONDUCT.md)
 - [License](#license)
 
@@ -167,6 +168,12 @@ BREAKING CHANGE: i18n strings must be loaded from a new location'
 Commit messages are run through `commitlint` using `husky` pre-commit hooks.
 
 Please do not use `--no-verify` unless you are _really_ sure you must.
+
+### Recommended Extensions
+
+To assist you in your development efforts, we have recommended certain extensions for VScode. On editor load, you should see a pop up in the bottom right that will direct you to the download point.
+
+If you have another useful extension that you'd like to recommend, add an entry to the `recommendations` array in `extensions.json` (hint: hitting `cmd+i` while in the array will bring up a list of all your installed extensions). Submit a PR with your changes through the normal process.
 
 ### License
 
