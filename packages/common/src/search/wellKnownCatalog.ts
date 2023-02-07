@@ -22,14 +22,14 @@ export type WellKnownCollection =
   | "solution"
   | "template";
 
-/**
- * @param i18nScope translation scope to be interpolated into the catalog
- * @param name
+/** This function returns a single IHubCatalog definition JSON object based on the
+ * name and entity type requested
+ * @param i18nScope Translation scope to be interpolated into the catalog
+ * @param name Name of the catalog requested
  * @param entityType
- * @param user owner of the entity, optional but required for certain catalogs
- * @param collectionNames a list of collection names, optional, if passed in,
+ * @param user Owner of the entity, optional but required for certain catalogs
+ * @param collectionNames A list of collection names, optional, if passed in,
  * only those collections in the catalog will be returned
- * @returns a single IHubCatalog
  */
 export function getWellKnownCatalog(
   i18nScope: string,
@@ -48,12 +48,12 @@ export function getWellKnownCatalog(
 }
 
 /**
- * @param i18nScope translation scope to be interpolated into the catalog
- * @param name
- * @param user owner of the entity, optional but required for certain catalogs
- * @param collectionNames a list of collection names, optional, if passed in,
+ * @param i18nScope Translation scope to be interpolated into the catalog
+ * @param name Name of the catalog requested
+ * @param user Owner of the entity, optional but required for certain catalogs
+ * @param collectionNames A list of collection names, optional, if passed in,
  * only those collections in the catalog will be returned
- * @returns a single Item IHubCatalog
+ * @returns An Item IHubCatalog definition JSON object
  */
 function getWellknownItemCatalog(
   i18nScope: string,
@@ -148,18 +148,18 @@ function getWellknownItemCatalog(
 }
 
 /**
- * @param i18nScope translation scope to be interpolated into the collections
+ * @param i18nScope Translation scope to be interpolated into the collections
  * @param entityType
- * @param names list of names of the requested collections, optional, if passed in,
+ * @param names List of names of the requested collections, optional, if passed in,
  * only those collections will be returned
- * @returns a list of IHubCollections
+ * @returns A list of IHubCollection definition JSON objects
  */
 export function getWellknownCollections(
   i18nScope: string,
   entityType: EntityType,
   collectionNames?: WellKnownCollection[]
 ): IHubCollection[] {
-  // Check if i18nScope is defined, if so add a `.` on the end
+  // Check if i18nScope is defined, if so add a '.' on the end
   if (i18nScope !== "") {
     i18nScope = `${i18nScope}.`;
   }
