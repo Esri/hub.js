@@ -25,7 +25,6 @@
     "@esri/hub-common": "12.4.0",
     "@esri/hub-initiatives": "12.4.0",
     "@esri/hub-teams": "12.4.0",
-    "@esri/hub-types": "^6.10.0",
     "typescript": "^3.8.1"
   },
   "files": [
