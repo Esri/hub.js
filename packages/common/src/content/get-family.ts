@@ -1,3 +1,4 @@
+import { IItem } from "@esri/arcgis-rest-portal";
 import { HubFamily } from "../types";
 import { getCollection, getCollectionTypes } from "../collections";
 
@@ -15,17 +16,17 @@ function collectionToFamily(collection: string): string {
  * @param type item type
  * @returns Hub family
  */
-export function getFamily(type: string) {
+export function getFamily(itemOrType: IItem | string) {
+  const item = itemOrType as IItem;
+  // TODO: should we call normalizeItemType on this?
+  const type = item.type || (itemOrType as string);
+  const typeKeywords = item.typeKeywords || [];
   let family;
   // override default behavior for the rows that are highlighted in yellow here:
   // https://esriis.sharepoint.com/:x:/r/sites/ArcGISHub/_layouts/15/Doc.aspx?sourcedoc=%7BADA1C9DC-4F6C-4DE4-92C6-693EF9571CFA%7D&file=Hub%20Routes.xlsx&nav=MTBfe0VENEREQzI4LUZFMDctNEI0Ri04NjcyLThCQUE2MTA0MEZGRn1fezIwMTIwMEJFLTA4MEQtNEExRC05QzA4LTE5MTAzOUQwMEE1RH0&action=default&mobileredirect=true&cid=df1c874b-c367-4cea-bc13-7bebfad3f2ac
   switch (type.toLowerCase()) {
-    // NOTE: we really want to put tiled image services in the maps family
-    // but we would need the typekeywords to differentiate them
-    // for now send them to the maps route here:
-    // https://github.com/ArcGIS/opendata-ui/blob/cdc0dac6b7e8c43afaa60ae219393a7d3aaa7433/packages/ember-arcgis-hub-components/addon/utils/content-routes.js#L39-L44
     case "image service":
-      family = "dataset";
+      family = typeKeywords?.includes("Tiled Imagery") ? "map" : "dataset";
       break;
     case "feature service":
     case "raster layer":

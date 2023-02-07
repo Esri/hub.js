@@ -1,6 +1,17 @@
-import { getFamilyTypes } from "../../src";
+import { getFamily, getFamilyTypes } from "../../src";
 
 describe("getFamily", () => {
+  describe("getFamily", () => {
+    describe("tiled image services", () => {
+      it("returns map when typeKeywords are passed in", () => {
+        const item = { type: "Image Service", typeKeywords: "Tiled Imagery" };
+        expect(getFamily(item as any)).toEqual("map");
+      });
+      it("otherwise returns dataset", () => {
+        expect(getFamily("Image Service")).toEqual("dataset");
+      });
+    });
+  });
   describe("getFamilyTypes", () => {
     it("can get 'content' types", () => {
       const types = getFamilyTypes("content");
