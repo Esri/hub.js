@@ -4,7 +4,7 @@ import { HubFamily } from "../types";
 import { EntityType, IHubCatalog, IHubCollection } from "./types";
 
 /**
- * This is used to determin what IHubCatalog definition JSON object
+ * This is used to determine what IHubCatalog definition JSON object
  * can be created
  */
 export type WellKnownCatalog =
@@ -15,7 +15,7 @@ export type WellKnownCatalog =
   | "world";
 
 /**
- * This is used to determin what IHubCollection definition JSON object
+ * This is used to determine what IHubCollection definition JSON object
  * can be created. We use HubFamily here to define most of the collections
  * to ensure consistency
  */
@@ -30,20 +30,22 @@ export type WellKnownCollection =
  * collectionNames is a list of names of the collections, only those collections
  * in the catalog will be returned
  */
-interface IGetWellKnownCatalogOptions {
+export interface IGetWellKnownCatalogOptions {
   user?: IUser;
   collectionNames?: WellKnownCollection[];
 }
 
 /**
- * Check if i18nScope is defined, if so add a "." at the end
+ * Check if i18nScope is defined and not ending with a ".", if so add a "." at the end.
+ * e.g. if the i18nScope is 'project.edit', the path is `${i18nScope}catalog.organization`,
+ * we will want "project.edit.catalog.organization" instead of "project.editcatalog.organization"
  * @param i18nScope
- * @returns i18nScope with a "." at the end if it is defined so it stays
- * as a valid i18nScope
- * e.g. "project.edit.catalog" vs "project.editcatalog"
+ * @returns i18nScope with a "." at the end if it is defined
  */
-function validateI18nScope(i18nScope: string): string {
-  return i18nScope ? `${i18nScope}.` : "";
+function dotifyString(i18nScope: string): string {
+  if (i18nScope && i18nScope.slice(-1) !== ".") {
+    return `${i18nScope}.`;
+  }
 }
 
 /** Get a single catalog based on the name, entity type and optional requests
@@ -97,17 +99,16 @@ function buildCatalog(
 }
 
 /**
- * Validate the arguments based on its type
- * @param type type of arg to validate
+ * Check if user is available in the passed options, throw an error if not
  * @param name name of the catalog
- * @param args arguments to validate
+ * @param options Options that contains user
  */
-function validateArgs(type: string, name: WellKnownCatalog, args: any): any {
-  switch (type) {
-    case "user":
-      if (!args?.user) {
-        throw new Error(`User needed to get "${name}" catalog`);
-      }
+function checkUser(
+  name: WellKnownCatalog,
+  options: IGetWellKnownCatalogOptions
+) {
+  if (!options || !options.user) {
+    throw new Error(`User needed to get "${name}" catalog`);
   }
 }
 
@@ -123,8 +124,7 @@ function getWellknownItemCatalog(
   name: WellKnownCatalog,
   options?: IGetWellKnownCatalogOptions
 ): IHubCatalog {
-  i18nScope = validateI18nScope(i18nScope);
-
+  i18nScope = dotifyString(i18nScope);
   let catalog;
   const collections = getWellknownCollections(
     i18nScope,
@@ -133,29 +133,29 @@ function getWellknownItemCatalog(
   );
   switch (name) {
     case "myContent":
-      validateArgs("user", name, options?.user);
+      checkUser(name, options);
       catalog = buildCatalog(
         i18nScope,
         name,
-        [{ owner: options?.user.username }],
+        [{ owner: options.user.username }],
         collections
       );
       break;
     case "favorites":
-      validateArgs("user", name, options?.user);
+      checkUser(name, options);
       catalog = buildCatalog(
         i18nScope,
         name,
-        [{ group: options?.user.favGroupId }],
+        [{ group: options.user.favGroupId }],
         collections
       );
       break;
     case "organization":
-      validateArgs("user", name, options?.user);
+      checkUser(name, options);
       catalog = buildCatalog(
         i18nScope,
         name,
-        [{ orgid: options?.user.orgId, access: "org" }],
+        [{ orgid: options.user.orgId, access: "org" }],
         collections
       );
       break;
@@ -288,7 +288,7 @@ export function getWellknownCollections(
   entityType: EntityType,
   collectionNames?: WellKnownCollection[]
 ): IHubCollection[] {
-  i18nScope = validateI18nScope(i18nScope);
+  i18nScope = dotifyString(i18nScope);
 
   const allCollectionsMap = getAllCollectionsMap(i18nScope, entityType);
 
@@ -310,15 +310,15 @@ export function getWellknownCollections(
 /**
  * Get a single collection based on the collection name and entity type
  * @param i18nScope
- * @param collectionName Name of the collection requested
  * @param entityType
+ * @param collectionName Name of the collection requested
  * @returns An IHubCollection definition JSON object
  */
 export function getWellknownCollection(
   i18nScope: string,
-  collectionName: WellKnownCollection,
-  entityType: EntityType
+  entityType: EntityType,
+  collectionName: WellKnownCollection
 ): IHubCollection {
-  i18nScope = validateI18nScope(i18nScope);
+  i18nScope = dotifyString(i18nScope);
   return getAllCollectionsMap(i18nScope, entityType)[collectionName];
 }
