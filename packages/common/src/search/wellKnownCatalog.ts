@@ -46,12 +46,12 @@ function validateI18nScope(i18nScope: string): string {
   return i18nScope ? `${i18nScope}.` : "";
 }
 
-/** Get a single IHubCatalog definition JSON object based on the
- * name, entity type and optional requests
+/** Get a single catalog based on the name, entity type and optional requests
  * @param i18nScope Translation scope to be interpolated into the catalog
  * @param name Name of the catalog requested
  * @param entityType
  * @param options An opitional IGetWellKnownCatalogOptions definition JSON object
+ * @returns An IHubCatalog definition JSON object
  */
 export function getWellKnownCatalog(
   i18nScope: string,
@@ -112,7 +112,7 @@ function validateArgs(type: string, name: WellKnownCatalog, args: any): any {
 }
 
 /**
- * Get an ITEM IHubCatalog definitely JSON object
+ * Get an ITEM catalog based on the name and optional requests
  * @param i18nScope Translation scope to be interpolated into the catalog
  * @param name Name of the catalog requested
  * @param options An opitional IGetWellKnownCatalogOptions definition JSON object
@@ -275,9 +275,8 @@ function getDefaultCollectionNames(): WellKnownCollection[] {
 }
 
 /**
- * Get a list of IHubCollection definition JSON objects based on the
- * entity type and an optional collection names, will return a list of
- * default collections if not passed
+ * Get a list of collections based on the entity type and an optional
+ * list of collection names, will return a list of default collections if none passed
  * @param i18nScope Translation scope to be interpolated into the collections
  * @param entityType
  * @param collectionNames List of names of the requested collections, optional, if passed in,
@@ -306,4 +305,20 @@ export function getWellknownCollections(
     }
     return accum;
   }, []);
+}
+
+/**
+ * Get a single collection based on the collection name and entity type
+ * @param i18nScope
+ * @param collectionName Name of the collection requested
+ * @param entityType
+ * @returns An IHubCollection definition JSON object
+ */
+export function getWellknownCollection(
+  i18nScope: string,
+  collectionName: WellKnownCollection,
+  entityType: EntityType
+): IHubCollection {
+  i18nScope = validateI18nScope(i18nScope);
+  return getAllCollectionsMap(i18nScope, entityType)[collectionName];
 }
