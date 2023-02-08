@@ -17,7 +17,6 @@ describe("WellKnownCatalog", () => {
         collectionNames: [],
       };
     });
-    it("throws if there is no ");
     it("returns the expected catalog", () => {
       let chk = getWellKnownCatalog(
         "mockI18nScope",

@@ -43,9 +43,7 @@ export interface IGetWellKnownCatalogOptions {
  * @returns i18nScope with a "." at the end if it is defined
  */
 function dotifyString(i18nScope: string): string {
-  if (i18nScope && i18nScope.slice(-1) !== ".") {
-    return `${i18nScope}.`;
-  }
+  return i18nScope && i18nScope.slice(-1) !== "." ? `${i18nScope}.` : "";
 }
 
 /** Get a single catalog based on the name, entity type and optional requests
@@ -209,7 +207,7 @@ function getAllCollectionsMap(i18nScope: string, entityType: EntityType): any {
     } as IHubCollection,
     document: {
       key: "document",
-      label: `{{${i18nScope}collection.document:translate}}`,
+      label: `{{${i18nScope}collection.documents:translate}}`,
       targetEntity: entityType,
       include: [],
       scope: {
