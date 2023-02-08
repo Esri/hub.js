@@ -26,6 +26,9 @@ export type WellKnownCollection =
 
 /**
  * A list of optional arguments to pass into getWellKnownCatalog
+ * user is the owner of the entity
+ * collectionNames is a list of names of the collections, only those collections
+ * in the catalog will be returned
  */
 interface IGetWellKnownCatalogOptions {
   user?: IUser;
@@ -44,13 +47,11 @@ function validateI18nScope(i18nScope: string): string {
 }
 
 /** Get a single IHubCatalog definition JSON object based on the
- * name and entity type requested
+ * name, entity type and optional requests
  * @param i18nScope Translation scope to be interpolated into the catalog
  * @param name Name of the catalog requested
  * @param entityType
- * @param user Owner of the entity, optional but required for certain catalogs
- * @param collectionNames A list of collection names, optional, if passed in,
- * only those collections in the catalog will be returned
+ * @param options An opitional IGetWellKnownCatalogOptions definition JSON object
  */
 export function getWellKnownCatalog(
   i18nScope: string,
@@ -69,7 +70,7 @@ export function getWellKnownCatalog(
 
 /**
  * Build an IHubCatalog definition JSON object based on the
- * catalog name, predicate and collections we want to use for each catalog
+ * catalog name, predicates and collections we want to use for each catalog
  * @param i18nScope
  * @param name Catalog name
  * @param predicates Predicates for the catalog
@@ -114,9 +115,7 @@ function validateArgs(type: string, name: WellKnownCatalog, args: any): any {
  * Get an ITEM IHubCatalog definitely JSON object
  * @param i18nScope Translation scope to be interpolated into the catalog
  * @param name Name of the catalog requested
- * @param user Owner of the entity, optional but required for certain catalogs
- * @param collectionNames A list of collection names, optional, if passed in,
- * only those collections in the catalog will be returned
+ * @param options An opitional IGetWellKnownCatalogOptions definition JSON object
  * @returns An ITEM IHubCatalog definition JSON object
  */
 function getWellknownItemCatalog(
@@ -281,7 +280,7 @@ function getDefaultCollectionNames(): WellKnownCollection[] {
  * default collections if not passed
  * @param i18nScope Translation scope to be interpolated into the collections
  * @param entityType
- * @param names List of names of the requested collections, optional, if passed in,
+ * @param collectionNames List of names of the requested collections, optional, if passed in,
  * only those collections will be returned
  * @returns A list of IHubCollection definition JSON objects
  */
