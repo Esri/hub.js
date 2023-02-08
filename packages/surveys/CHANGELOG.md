@@ -1,3 +1,10 @@
+## @esri/hub-surveys [12.4.1](https://github.com/Esri/hub.js/compare/@esri/hub-surveys@12.4.0...@esri/hub-surveys@12.4.1) (2023-02-08)
+
+
+### Bug Fixes
+
+* **hub-sites:** fix peerDependencies should not be fixed to a specific version ([b236ce0](https://github.com/Esri/hub.js/commit/b236ce051302b8aa5eba4b07c3d0b5100e0c4a6a))
+
 # @esri/hub-surveys [12.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-surveys@12.3.2...@esri/hub-surveys@12.4.0) (2023-02-06)
 
 
