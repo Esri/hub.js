@@ -1,7 +1,12 @@
 import { IUser } from "@esri/arcgis-rest-types";
 import { getFamilyTypes } from "../content";
+import { HubFamily } from "../types";
 import { EntityType, IHubCatalog, IHubCollection } from "./types";
 
+/**
+ * This is used to determin what IHubCatalog definition JSON object
+ * can be created
+ */
 export type WellKnownCatalog =
   | "myContent"
   | "myGroup"
@@ -9,27 +14,36 @@ export type WellKnownCatalog =
   | "organization"
   | "world";
 
+/**
+ * This is used to determin what IHubCollection definition JSON object
+ * can be created. We use HubFamily here to define most of the collections
+ * to ensure consistency
+ */
 export type WellKnownCollection =
+  | Exclude<HubFamily, "app" | "map">
   | "appAndMap"
-  | "content"
-  | "dataset"
-  | "document"
-  | "event"
-  | "feedback"
-  | "initiative"
-  | "project"
-  | "site"
-  | "solution"
-  | "template";
+  | "solution";
 
 /**
- * Check if i18nScope is defined, if so add a `.` at the end
+ * A list of optional arguments to pass into getWellKnownCatalog
  */
-function validateI18nScope(i18nScope: string): string {
-  return i18nScope ? `${i18nScope}.` : `${i18nScope}`;
+interface IGetWellKnownCatalogOptions {
+  user?: IUser;
+  collectionNames?: WellKnownCollection[];
 }
 
-/** This function returns a single IHubCatalog definition JSON object based on the
+/**
+ * Check if i18nScope is defined, if so add a "." at the end
+ * @param i18nScope
+ * @returns i18nScope with a "." at the end if it is defined so it stays
+ * as a valid i18nScope
+ * e.g. "project.edit.catalog" vs "project.editcatalog"
+ */
+function validateI18nScope(i18nScope: string): string {
+  return i18nScope ? `${i18nScope}.` : "";
+}
+
+/** Get a single IHubCatalog definition JSON object based on the
  * name and entity type requested
  * @param i18nScope Translation scope to be interpolated into the catalog
  * @param name Name of the catalog requested
@@ -42,18 +56,26 @@ export function getWellKnownCatalog(
   i18nScope: string,
   name: WellKnownCatalog,
   entityType: EntityType,
-  user?: IUser,
-  collectionNames?: WellKnownCollection[]
+  options?: IGetWellKnownCatalogOptions
 ): IHubCatalog {
   switch (entityType) {
     case "item":
-      return getWellknownItemCatalog(i18nScope, name, user, collectionNames);
+      return getWellknownItemCatalog(i18nScope, name, options);
     /* Add other entity handlers here, e.g. getWellknownEventCatalog */
     default:
       throw new Error(`Wellknown catalog not implemented for "${entityType}"`);
   }
 }
 
+/**
+ * Build an IHubCatalog definition JSON object based on the
+ * catalog name, predicate and collections we want to use for each catalog
+ * @param i18nScope
+ * @param name Catalog name
+ * @param predicates Predicates for the catalog
+ * @param collections Collections to include for the catalog
+ * @returns An IHubCatalog definition JSON object
+ */
 function buildCatalog(
   i18nScope: string,
   name: WellKnownCatalog,
@@ -74,18 +96,33 @@ function buildCatalog(
 }
 
 /**
+ * Validate the arguments based on its type
+ * @param type type of arg to validate
+ * @param name name of the catalog
+ * @param args arguments to validate
+ */
+function validateArgs(type: string, name: WellKnownCatalog, args: any): any {
+  switch (type) {
+    case "user":
+      if (!args?.user) {
+        throw new Error(`User needed to get "${name}" catalog`);
+      }
+  }
+}
+
+/**
+ * Get an ITEM IHubCatalog definitely JSON object
  * @param i18nScope Translation scope to be interpolated into the catalog
  * @param name Name of the catalog requested
  * @param user Owner of the entity, optional but required for certain catalogs
  * @param collectionNames A list of collection names, optional, if passed in,
  * only those collections in the catalog will be returned
- * @returns An Item IHubCatalog definition JSON object
+ * @returns An ITEM IHubCatalog definition JSON object
  */
 function getWellknownItemCatalog(
   i18nScope: string,
   name: WellKnownCatalog,
-  user?: IUser,
-  collectionNames?: WellKnownCollection[]
+  options?: IGetWellKnownCatalogOptions
 ): IHubCatalog {
   i18nScope = validateI18nScope(i18nScope);
 
@@ -93,35 +130,35 @@ function getWellknownItemCatalog(
   const collections = getWellknownCollections(
     i18nScope,
     "item",
-    collectionNames
+    options?.collectionNames
   );
   switch (name) {
     case "myContent":
-      if (user) {
-        catalog = buildCatalog(
-          i18nScope,
-          name,
-          [{ owner: user.username }],
-          collections
-        );
-      } else {
-        throw new Error(`User needed to get "${name}" catalog`);
-      }
+      validateArgs("user", name, options?.user);
+      catalog = buildCatalog(
+        i18nScope,
+        name,
+        [{ owner: options?.user.username }],
+        collections
+      );
       break;
     case "favorites":
-      if (user) {
-        catalog = buildCatalog(
-          i18nScope,
-          name,
-          [{ group: user.favGroupId }],
-          collections
-        );
-      } else {
-        throw new Error(`User needed to get "${name}" catalog`);
-      }
+      validateArgs("user", name, options?.user);
+      catalog = buildCatalog(
+        i18nScope,
+        name,
+        [{ group: options?.user.favGroupId }],
+        collections
+      );
       break;
     case "organization":
-      catalog = buildCatalog(i18nScope, name, [{ access: "org" }], collections);
+      validateArgs("user", name, options?.user);
+      catalog = buildCatalog(
+        i18nScope,
+        name,
+        [{ orgid: options?.user.orgId, access: "org" }],
+        collections
+      );
       break;
     case "world":
       catalog = buildCatalog(
@@ -135,6 +172,12 @@ function getWellknownItemCatalog(
   return catalog;
 }
 
+/**
+ * Get a complete collections map to use to build a collections list
+ * @param i18nScope
+ * @param entityType
+ * @returns an object that contains properties of all the collections
+ */
 function getAllCollectionsMap(i18nScope: string, entityType: EntityType): any {
   return {
     appAndMap: {
@@ -224,11 +267,18 @@ function getAllCollectionsMap(i18nScope: string, entityType: EntityType): any {
   };
 }
 
-function getDefaultCollectionNames(): string[] {
+/**
+ * Get a list of collection names we want to use to build the default collections if no specific collection names are passed
+ * @returns a list of WellKnownCollection definition strings
+ */
+function getDefaultCollectionNames(): WellKnownCollection[] {
   return ["appAndMap", "dataset", "document", "feedback", "site"];
 }
 
 /**
+ * Get a list of IHubCollection definition JSON objects based on the
+ * entity type and an optional collection names, will return a list of
+ * default collections if not passed
  * @param i18nScope Translation scope to be interpolated into the collections
  * @param entityType
  * @param names List of names of the requested collections, optional, if passed in,
