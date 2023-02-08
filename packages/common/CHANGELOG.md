@@ -1,3 +1,25 @@
+# @esri/hub-common [12.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.4.0...@esri/hub-common@12.5.0) (2023-02-08)
+
+
+### Bug Fixes
+
+* **hub-common:** comments ([3d15dc9](https://github.com/Esri/hub.js/commit/3d15dc9bde036dcfb7fc9a3f92ee8840ae7a8aea))
+* **hub-common:** i18n and tests ([948dc7a](https://github.com/Esri/hub.js/commit/948dc7a4961cc6c8e2b5f314d03e8e6ab4cd6af6))
+* **hub-common:** mooore cleanups ([aed770b](https://github.com/Esri/hub.js/commit/aed770ba3a46f3aeb30891701ff504fc084843f5))
+* **hub-common:** moore cleanups ([8aeb22b](https://github.com/Esri/hub.js/commit/8aeb22b5ea032225d377dfc8f8d667a4f1e6656a))
+* **hub-common:** more cleanups ([bfa1ba7](https://github.com/Esri/hub.js/commit/bfa1ba7a7a3fbce0ed50c0de857858ff148c79c3))
+* **hub-common:** more tests ([a84a7f2](https://github.com/Esri/hub.js/commit/a84a7f24de4eec50428719b24c3415a2795ff364))
+* **hub-common:** naming, refactor and fix tests ([b1408af](https://github.com/Esri/hub.js/commit/b1408afbe46d064481d6ca8238005f3d92da9e50))
+* **hub-common:** refactor ([180a2de](https://github.com/Esri/hub.js/commit/180a2de817ae5543a3ca08bc252f6aa68168be60))
+* update default collections ([37747a3](https://github.com/Esri/hub.js/commit/37747a35f2098dcc814add048a4979a2454692e8))
+
+
+### Features
+
+* **hub-common:** add getWellknownCollection and other comments ([a71eb35](https://github.com/Esri/hub.js/commit/a71eb350a805df618b10d5ecbb61ffb97d95d7ac))
+* add new getWellknownCatalog and getWellknownCollections ([ae74019](https://github.com/Esri/hub.js/commit/ae7401935dd6fba86cfc81f979232e39c1097bec))
+* add wellKnownCatalog ([c5a5143](https://github.com/Esri/hub.js/commit/c5a514364546a2d69faab580bcc56b7e2f95d153))
+
 # @esri/hub-common [12.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.3.2...@esri/hub-common@12.4.0) (2023-02-06)
 
 
