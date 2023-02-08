@@ -1,3 +1,10 @@
+## @esri/hub-common [12.5.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.5.0...@esri/hub-common@12.5.1) (2023-02-08)
+
+
+### Bug Fixes
+
+* **hub-common:** take care when i18nScope is undefined case in dotifyString ([d3a1054](https://github.com/Esri/hub.js/commit/d3a1054407569b5e489a83731b3dbba38e30a6f6))
+
 # @esri/hub-common [12.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.4.0...@esri/hub-common@12.5.0) (2023-02-08)
 
 
