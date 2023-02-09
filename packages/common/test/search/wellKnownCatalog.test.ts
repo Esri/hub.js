@@ -1,10 +1,12 @@
 import { EntityType } from "../../src";
+import * as wellKnownCatalog from "../../src/search/wellKnownCatalog";
 import {
   getWellKnownCatalog,
   getWellknownCollection,
   getWellknownCollections,
   IGetWellKnownCatalogOptions,
   WellKnownCollection,
+  dotifyString,
 } from "../../src/search/wellKnownCatalog";
 import { mockUser } from "../test-helpers/fake-user";
 
@@ -140,6 +142,17 @@ describe("WellKnownCatalog", () => {
     it("returns the correct collection requested", () => {
       const chk = getWellknownCollection("mockI18nScope", "item", "appAndMap");
       expect(chk.key).toEqual("appAndMap");
+    });
+  });
+
+  describe("dotifyString", () => {
+    it("returns the correct dotified strings", () => {
+      let chk = dotifyString("stringWithoutDot");
+      expect(chk).toEqual("stringWithoutDot.");
+      chk = dotifyString("stringWithDot.");
+      expect(chk).toEqual("stringWithDot.");
+      chk = dotifyString("");
+      expect(chk).toEqual("");
     });
   });
 });
