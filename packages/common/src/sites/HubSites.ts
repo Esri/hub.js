@@ -1,34 +1,6 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { IItem, IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
-
-// import {
-//   addSiteDomains,
-//   cloneObject,
-//   constructSlug,
-//   createModel,
-//   ensureUniqueDomainName,
-//   fetchModelFromItem,
-//   getHubApiUrl,
-//   getItemThumbnailUrl,
-//   getModel,
-//   getOrgDefaultTheme,
-//   getProp,
-//   IHubRequestOptions,
-//   IHubSearchResult,
-//   IHubSite,
-//   IModel,
-//   mapBy,
-//   registerSiteAsApplication,
-//   removeDomainsBySiteId,
-//   setProp,
-//   setSlugKeyword,
-//   slugify,
-//   stripProtocol,
-//   unique,
-//   updateModel,
-// } from "../index";
 import { getFamily } from "../content/get-family";
-// having a separate import is important for testing
 import { fetchSiteModel } from "./fetchSiteModel";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { handleDomainChanges } from "./_internal";
