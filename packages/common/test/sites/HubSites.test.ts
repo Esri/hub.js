@@ -1,7 +1,5 @@
 import * as commonModule from "../../src";
 import * as portalModule from "@esri/arcgis-rest-portal";
-import * as siteInternals from "../../src/sites/_internal";
-import * as FetchSiteModelModule from "../../src/sites/fetchSiteModel";
 import * as FetchEnrichments from "../../src/items/_enrichments";
 import {
   MOCK_AUTH,
@@ -14,9 +12,7 @@ import {
   enrichSiteSearchResult,
   fetchSite,
   IHubRequestOptions,
-  IHubSite,
 } from "../../src";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 const GUID = "00c77674e43cf4bbd9ecad5189b3f1fdc";
 const SITE_ITEM: portalModule.IItem = {
@@ -161,7 +157,7 @@ describe("HubSites:", () => {
   describe("fetchSite:", () => {
     it("gets by id, if passed a guid", async () => {
       const fetchSpy = spyOn(
-        FetchSiteModelModule,
+        require("../../src/sites/fetchSiteModel"),
         "fetchSiteModel"
       ).and.returnValue(Promise.resolve(SITE_MODEL));
 
@@ -176,7 +172,7 @@ describe("HubSites:", () => {
 
     it("gets by domain, without auth", async () => {
       const fetchSpy = spyOn(
-        FetchSiteModelModule,
+        require("../../src/sites/fetchSiteModel"),
         "fetchSiteModel"
       ).and.returnValue(Promise.resolve(SITE_MODEL));
 
@@ -196,7 +192,7 @@ describe("HubSites:", () => {
   describe("converItemToSite:", () => {
     it("fetches model and converts to site with auth", async () => {
       const fetchModelSpy = spyOn(
-        commonModule,
+        require("../../src/models"),
         "fetchModelFromItem"
       ).and.returnValue(Promise.resolve(SITE_MODEL));
       const site = await commonModule.convertItemToSite(
@@ -208,7 +204,7 @@ describe("HubSites:", () => {
     });
     it("fetches model and converts to site without auth", async () => {
       const fetchModelSpy = spyOn(
-        commonModule,
+        require("../../src/models"),
         "fetchModelFromItem"
       ).and.returnValue(Promise.resolve(SITE_MODEL));
       const site = await commonModule.convertItemToSite(
@@ -227,7 +223,7 @@ describe("HubSites:", () => {
       );
 
       const removeDomainSpy = spyOn(
-        commonModule,
+        require("../../src/sites/domains/remove-domains-by-site-id"),
         "removeDomainsBySiteId"
       ).and.returnValue(Promise.resolve());
 
@@ -264,18 +260,20 @@ describe("HubSites:", () => {
     let getModelSpy: jasmine.Spy;
     beforeEach(() => {
       domainChangeSpy = spyOn(
-        siteInternals,
+        require("../../src/sites/_internal"),
         "handleDomainChanges"
       ).and.returnValue(Promise.resolve());
-      updateModelSpy = spyOn(commonModule, "updateModel").and.callFake(
-        (m: commonModule.IModel) => {
-          return Promise.resolve(m);
-        }
-      );
+      updateModelSpy = spyOn(
+        require("../../src/models"),
+        "updateModel"
+      ).and.callFake((m: commonModule.IModel) => {
+        return Promise.resolve(m);
+      });
 
-      getModelSpy = spyOn(commonModule, "getModel").and.returnValue(
-        Promise.resolve(SITE_MODEL)
-      );
+      getModelSpy = spyOn(
+        require("../../src/models"),
+        "getModel"
+      ).and.returnValue(Promise.resolve(SITE_MODEL));
     });
     it("updates the backing model", async () => {
       const updatedSite = commonModule.cloneObject(SITE);
@@ -314,32 +312,35 @@ describe("HubSites:", () => {
     let addDomainsSpy: jasmine.Spy;
     beforeEach(() => {
       uniqueDomainSpy = spyOn(
-        commonModule,
+        require("../../src/sites/domains/ensure-unique-domain-name"),
         "ensureUniqueDomainName"
       ).and.callFake((subdomain: string) => {
         return subdomain;
       });
-      createModelSpy = spyOn(commonModule, "createModel").and.callFake(
-        (m: commonModule.IModel) => {
-          const newModel = commonModule.cloneObject(m);
-          newModel.item.id = GUID;
-          return Promise.resolve(newModel);
-        }
-      );
-      updateModelSpy = spyOn(commonModule, "updateModel").and.callFake(
-        (m: commonModule.IModel) => {
-          const newModel = commonModule.cloneObject(m);
-          return Promise.resolve(newModel);
-        }
-      );
+      createModelSpy = spyOn(
+        require("../../src/models"),
+        "createModel"
+      ).and.callFake((m: commonModule.IModel) => {
+        const newModel = commonModule.cloneObject(m);
+        newModel.item.id = GUID;
+        return Promise.resolve(newModel);
+      });
+      updateModelSpy = spyOn(
+        require("../../src/models"),
+        "updateModel"
+      ).and.callFake((m: commonModule.IModel) => {
+        const newModel = commonModule.cloneObject(m);
+        return Promise.resolve(newModel);
+      });
       registerAppSpy = spyOn(
-        commonModule,
+        require("../../src/sites/registerSiteAsApplication"),
         "registerSiteAsApplication"
       ).and.returnValue(Promise.resolve({ client_id: "FAKE_CLIENT_ID" }));
 
-      addDomainsSpy = spyOn(commonModule, "addSiteDomains").and.returnValue(
-        Promise.resolve()
-      );
+      addDomainsSpy = spyOn(
+        require("../../src/sites/domains/addSiteDomains"),
+        "addSiteDomains"
+      ).and.returnValue(Promise.resolve());
     });
     it("works with a sparse IHubSite", async () => {
       const sparseSite: Partial<commonModule.IHubSite> = {

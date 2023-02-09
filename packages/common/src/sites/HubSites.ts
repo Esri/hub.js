@@ -1,32 +1,32 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { IItem, IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 
-import {
-  addSiteDomains,
-  cloneObject,
-  constructSlug,
-  createModel,
-  ensureUniqueDomainName,
-  fetchModelFromItem,
-  getHubApiUrl,
-  getItemThumbnailUrl,
-  getModel,
-  getOrgDefaultTheme,
-  getProp,
-  IHubRequestOptions,
-  IHubSearchResult,
-  IHubSite,
-  IModel,
-  mapBy,
-  registerSiteAsApplication,
-  removeDomainsBySiteId,
-  setProp,
-  setSlugKeyword,
-  slugify,
-  stripProtocol,
-  unique,
-  updateModel,
-} from "../index";
+// import {
+//   addSiteDomains,
+//   cloneObject,
+//   constructSlug,
+//   createModel,
+//   ensureUniqueDomainName,
+//   fetchModelFromItem,
+//   getHubApiUrl,
+//   getItemThumbnailUrl,
+//   getModel,
+//   getOrgDefaultTheme,
+//   getProp,
+//   IHubRequestOptions,
+//   IHubSearchResult,
+//   IHubSite,
+//   IModel,
+//   mapBy,
+//   registerSiteAsApplication,
+//   removeDomainsBySiteId,
+//   setProp,
+//   setSlugKeyword,
+//   slugify,
+//   stripProtocol,
+//   unique,
+//   updateModel,
+// } from "../index";
 import { getFamily } from "../content/get-family";
 // having a separate import is important for testing
 import { fetchSiteModel } from "./fetchSiteModel";
@@ -39,6 +39,28 @@ import { getHubRelativeUrl } from "../content/_internal";
 import { applyPermissionMigration } from "./_internal/applyPermissionMigration";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
+import { IHubSite } from "../core/types/IHubSite";
+import { constructSlug, setSlugKeyword } from "../items/slugs";
+import { slugify } from "../utils/slugify";
+import { ensureUniqueDomainName } from "./domains/ensure-unique-domain-name";
+import { stripProtocol } from "../urls/strip-protocol";
+import { getHubApiUrl } from "../api";
+import { getOrgDefaultTheme } from "./themes";
+import { cloneObject, unique } from "../util";
+import {
+  createModel,
+  fetchModelFromItem,
+  getModel,
+  updateModel,
+} from "../models";
+import { registerSiteAsApplication } from "./registerSiteAsApplication";
+import { addSiteDomains } from "./domains/addSiteDomains";
+import { IHubRequestOptions, IModel } from "../types";
+import { removeDomainsBySiteId } from "./domains/remove-domains-by-site-id";
+import { IHubSearchResult } from "../search/types/IHubSearchResult";
+import { mapBy } from "../utils";
+import { getProp, setProp } from "../objects";
+import { getItemThumbnailUrl } from "../resources/get-item-thumbnail-url";
 
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
