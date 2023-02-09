@@ -1,3 +1,11 @@
+## @esri/hub-common [12.5.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.5.1...@esri/hub-common@12.5.2) (2023-02-09)
+
+
+### Bug Fixes
+
+* **hub-common:** add tests for dotifyString ([330a2e6](https://github.com/Esri/hub.js/commit/330a2e69b35b764b243f422be66b0c65eb772edd))
+* **hub-common:** fix what dotifyString returns when i18nScope is defined and ending with '.' ([7eea9df](https://github.com/Esri/hub.js/commit/7eea9df3f8832304a54f6954285eee5000e94e5f))
+
 ## @esri/hub-common [12.5.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.5.0...@esri/hub-common@12.5.1) (2023-02-08)
 
 
