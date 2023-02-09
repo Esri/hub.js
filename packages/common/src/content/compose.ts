@@ -4,7 +4,7 @@ import {
   IFeatureServiceDefinition,
   parseServiceUrl,
 } from "@esri/arcgis-rest-feature-layer";
-import { IHubRequestOptions } from "../types";
+import { BBox, IHubRequestOptions } from "../types";
 import { getHubApiUrl } from "../api";
 import { isDownloadable } from "../categories";
 import { IHubContentEnrichments, IHubContent } from "../core";
@@ -17,7 +17,6 @@ import { getItemApiUrl } from "../urls/get-item-api-url";
 import { getItemDataUrl } from "../urls/get-item-data-url";
 import { camelize, isNil } from "../util";
 import { includes } from "../utils";
-import { IHubExtent } from "./_fetch";
 import {
   DatePrecision,
   IMetadataPaths,
@@ -35,6 +34,13 @@ import {
   getItemOrgId,
 } from "./_internal";
 import { getFamily } from "./get-family";
+
+/**
+ * The extent returned by the Hub API
+ */
+export interface IHubExtent {
+  coordinates?: BBox;
+}
 
 // helper fns - move this to _internal if needed elsewhere
 const getOnlyQueryLayer = (layers: ILayerDefinition[]) => {

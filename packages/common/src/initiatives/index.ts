@@ -1,2 +1,2 @@
-export * from "./HubInitiatives";
 export * from "./HubInitiative";
+export * from "./HubInitiatives";

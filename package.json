@@ -65,6 +65,7 @@
 		"karma-typescript-es6-transform": "^5.5.0",
 		"lerna": "^3.22.1",
 		"lint-staged": "^4.3.0",
+		"madge": "^6.0.0",
 		"minimatch": "^3.0.4",
 		"multi-semantic-release": "^2.11.0",
 		"onchange": "^3.3.0",
@@ -116,6 +117,7 @@
 		"docs:srihash": "node docs/generate-srihashes.js",
 		"docs:typedoc": "node docs/build-typedoc.js",
 		"e2e:chrome:debug": "karma start karma.e2e.conf --auto-watch --no-single-run --browsers ChromeDevTools",
+		"e2e:edge:debug": "karma start karma.e2e.conf --auto-watch --no-single-run --browsers Edge",
 		"e2e:node:debug": "node --inspect-brk jasmine --config=jasmine.e2e.json",
 		"e2e:node": "jasmine --config=jasmine.e2e.json",
 		"format:check": "lerna run format:check",
@@ -132,7 +134,7 @@
 		"test:ci": "npm run test:node && npm run test:chrome:ci && npm run test:firefox",
 		"test:firefox:ci": "karma start --single-run --browsers=FirefoxHeadless",
 		"test:firefox": "karma start --single-run --browsers=Firefox",
-    "test:firefox:debug": "karma start --auto-watch --no-single-run --browsers=Firefox",
+		"test:firefox:debug": "karma start --auto-watch --no-single-run --browsers=Firefox",
 		"test:node:debug": "inspect jasmine --config=jasmine.json",
 		"test:node": "jasmine-ts --config=jasmine.json --project tsconfig.json",
 		"test:node1": "jasmine --config=jasmine.json ",
@@ -141,7 +143,7 @@
 		"y:publish": "lerna run y:publish",
 		"y:push": "lerna run y:push",
 		"release:dry": "multi-semantic-release --dry-run --deps.prefix=^ --deps.bump=satisfy --deps.release=inherit --ignore-private-packages --debug",
-    "prerelease": "npm config set workspaces-update false",
+		"prerelease": "npm config set workspaces-update false",
 		"release": "multi-semantic-release --deps.prefix=^ --deps.bump=satisfy --deps.release=inherit --ignore-private-packages"
 	},
 	"husky": {
@@ -192,7 +194,10 @@
 	"release": {
 		"branches": [
 			"master",
-			{ "name": "next", "prerelease": true },
+			{
+				"name": "next",
+				"prerelease": true
+			},
 			"next-major",
 			{
 				"name": "beta",
@@ -211,5 +216,14 @@
 			"@semantic-release/npm",
 			"@semantic-release/git"
 		]
+	},
+	"madge": {
+		"fontSize": "10px",
+		"tsConfig": "tsconfig.json",
+		"graphVizOptions": {
+			"G": {
+				"rankdir": "LR"
+			}
+		}
 	}
 }

@@ -5,7 +5,6 @@ import {
 } from "../items/_enrichments";
 import { hubApiRequest } from "../request";
 import {
-  BBox,
   IHubRequestOptions,
   IHubGeography,
   IEnrichmentErrorInfo,
@@ -13,7 +12,7 @@ import {
 import { isMapOrFeatureServerUrl } from "../urls";
 import { cloneObject } from "../util";
 import { includes } from "../utils";
-import { normalizeItemType } from "./compose";
+import { IHubExtent, normalizeItemType } from "./compose";
 import { getFamily } from "./get-family";
 import { parseDatasetId } from "./slugs";
 import { DatasetResource } from "./types";
@@ -51,13 +50,6 @@ export const getContentEnrichments = (item: IItem) => {
     ? enrichments.concat("server", "layers")
     : enrichments;
 };
-
-/**
- * The extent returned by the Hub API
- */
-export interface IHubExtent {
-  coordinates?: BBox;
-}
 
 /**
  * The set of enrichments that we fetch from the Hub API

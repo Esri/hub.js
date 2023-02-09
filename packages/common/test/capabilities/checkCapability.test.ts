@@ -1,8 +1,10 @@
-import { Capability, checkCapability, IHubProject } from "../../src/index";
+import { Capability, checkCapability } from "../../src";
+
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
 import * as checkCapAccessModule from "../../src/capabilities/_internal";
+import { IHubProject } from "../../src";
 
 describe("checkCapability:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -54,7 +56,7 @@ describe("checkCapability:", () => {
     expect(chk.access).toBe(false);
     expect(chk.response).toBe("not-available");
   });
-  it("denites access if capabilityAccess is denied", () => {
+  it("denies access if capabilityAccess is denied", () => {
     const spy = spyOn(
       checkCapAccessModule,
       "checkCapabilityAccess"

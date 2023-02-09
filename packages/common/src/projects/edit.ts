@@ -3,13 +3,7 @@ import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 // Note - we separate these imports so we can cleanly spy on things in tests
 import { createModel, getModel, updateModel } from "../models";
 import { constructSlug, getUniqueSlug, setSlugKeyword } from "../items/slugs";
-import {
-  cloneObject,
-  interpolate,
-  EditorConfigType,
-  UiSchemaElementOptions,
-  IEditorConfig,
-} from "../index";
+
 import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
@@ -19,11 +13,18 @@ import {
   HubProjectEditUiSchema,
   HubProjectCreateUiSchema,
   HubProjectSchema,
+  UiSchemaElementOptions,
 } from "../core/schemas";
 import { filterSchemaToUiSchema } from "../core/schemas/internal";
 import { applyUiSchemaElementOptions } from "../core/schemas/internal/applyUiSchemaElementOptions";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
+import { cloneObject } from "../util";
+import {
+  EditorConfigType,
+  IEditorConfig,
+} from "../core/behaviors/IWithEditorBehavior";
+import { interpolate } from "../items/interpolate";
 
 /**
  * @private

@@ -1,12 +1,14 @@
-import { IArcGISContext } from "../../src";
-import { fetchHubEntity, HubEntityType } from "../../src/core";
+import { IArcGISContext } from "../../src/ArcGISContext";
+import { fetchHubEntity } from "../../src/core/fetchHubEntity";
+import { HubEntityType } from "../../src/core/types/HubEntityType";
+import { getProp } from "../../src/objects/get-prop";
 
 describe("fetchHubEntity:", () => {
   it("throws for page", async () => {
     try {
       await fetchHubEntity("page", "123", {} as any);
     } catch (e) {
-      expect(e.message).toBe("FetchPage not implemented");
+      expect(getProp(e, "message")).toBe("FetchPage not implemented");
     }
   });
   it("returns undefined for non-hub types", async () => {
@@ -19,7 +21,7 @@ describe("fetchHubEntity:", () => {
       requestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
     const spy = spyOn(
-      require("../../src/projects"),
+      require("../../src/projects/fetch"),
       "fetchProject"
     ).and.returnValue(Promise.resolve({}));
     await fetchHubEntity("project", "123", ctx);
@@ -29,9 +31,10 @@ describe("fetchHubEntity:", () => {
     const ctx = {
       hubRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(require("../../src/sites"), "fetchSite").and.returnValue(
-      Promise.resolve({})
-    );
+    const spy = spyOn(
+      require("../../src/sites/HubSites"),
+      "fetchSite"
+    ).and.returnValue(Promise.resolve({}));
     await fetchHubEntity("site", "123", ctx);
     expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
   });
@@ -40,7 +43,7 @@ describe("fetchHubEntity:", () => {
       requestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
     const spy = spyOn(
-      require("../../src/initiatives"),
+      require("../../src/initiatives/HubInitiatives"),
       "fetchInitiative"
     ).and.returnValue(Promise.resolve({}));
     await fetchHubEntity("initiative", "123", ctx);

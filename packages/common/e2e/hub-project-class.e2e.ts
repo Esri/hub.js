@@ -73,7 +73,8 @@ describe("HubProject Class", () => {
 
       // verify that it works
       const canEditProject = project.checkPermission("hub:project:edit");
-      expect(canEditProject.access).toBe(true);
+      // current user is hub basic and edit project requires premium
+      expect(canEditProject.access).toBe(false);
 
       // save project and verify that the permission is there
       await project.save();

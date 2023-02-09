@@ -1,4 +1,4 @@
-import { IUserRequestOptions, UserSession } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 // Note - we separate these imports so we can cleanly spy on things in tests
 import {
@@ -14,7 +14,6 @@ import {
   setSlugKeyword,
 } from "../items/slugs";
 import {
-  IModel,
   isGuid,
   cloneObject,
   getItemThumbnailUrl,
@@ -33,14 +32,13 @@ import {
 } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
-import { IPropertyMap, PropertyMapper } from "../core/_internal/PropertyMapper";
+import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { IHubInitiative } from "../core/types";
 import { IHubSearchResult } from "../search";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { fetchItemEnrichments } from "../items/_enrichments";
 import { getHubRelativeUrl } from "../content/_internal";
 import { DEFAULT_INITIATIVE, DEFAULT_INITIATIVE_MODEL } from "./defaults";
-import { getBasePropertyMap } from "../core/_internal/getBasePropertyMap";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
 

@@ -5,13 +5,10 @@ import {
 } from "@esri/arcgis-rest-auth";
 import { IPortal } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import {
-  getProp,
-  getWithDefault,
-  HubSystemStatus,
-  IHubRequestOptions,
-} from "./index";
+import { HubSystemStatus } from "./core";
+import { getProp, getWithDefault } from "./objects";
 import { HubLicense } from "./permissions/types";
+import { IHubRequestOptions } from "./types";
 
 /**
  * Hash of Hub API end points so updates

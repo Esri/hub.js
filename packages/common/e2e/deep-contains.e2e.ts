@@ -2,7 +2,7 @@ import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
 import { deepContains } from "../src/core/_internal/deepContains";
 import { IDeepCatalogInfo, IHubCatalog } from "../src/search";
-import { getProp } from "../src";
+import { getProp } from "../src/objects/get-prop";
 
 // Fixtures
 //
