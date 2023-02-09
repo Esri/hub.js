@@ -1,13 +1,6 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getItem, IItem } from "@esri/arcgis-rest-portal";
-// TODO: import these from specific modules
-import {
-  getItemThumbnailUrl,
-  unique,
-  mapBy,
-  getProp,
-  getItemHomeUrl,
-} from "../index";
+
 import { getFamily } from "../content/get-family";
 import { getHubRelativeUrl } from "../content/_internal";
 import { IHubProject } from "../core/types";
@@ -18,9 +11,13 @@ import { fetchModelFromItem } from "../models";
 import { IHubSearchResult } from "../search";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { IHubRequestOptions } from "../types";
-import { isGuid } from "../utils";
+import { isGuid, mapBy } from "../utils";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
+import { unique } from "../util";
+import { getProp } from "../objects/get-prop";
+import { getItemThumbnailUrl } from "../resources/get-item-thumbnail-url";
+import { getItemHomeUrl } from "../urls/get-item-home-url";
 
 /**
  * @private
