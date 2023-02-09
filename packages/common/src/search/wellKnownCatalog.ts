@@ -43,7 +43,7 @@ export interface IGetWellKnownCatalogOptions {
  * @returns i18nScope with a "." at the end if it is defined
  */
 function dotifyString(i18nScope: string): string {
-  return i18nScope && i18nScope.slice(-1) !== "." ? `${i18nScope}.` : "";
+  return i18nScope && i18nScope.slice(-1) !== "." ? `${i18nScope}.` : i18nScope;
 }
 
 /** Get a single catalog based on the name, entity type and optional requests
