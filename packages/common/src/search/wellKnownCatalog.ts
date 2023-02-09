@@ -42,7 +42,7 @@ export interface IGetWellKnownCatalogOptions {
  * @param i18nScope
  * @returns i18nScope with a "." at the end if it is defined
  */
-function dotifyString(i18nScope: string): string {
+export function dotifyString(i18nScope: string): string {
   return i18nScope && i18nScope.slice(-1) !== "." ? `${i18nScope}.` : i18nScope;
 }
 
