@@ -4,13 +4,13 @@
 
 name: Notify Team on stale pull requests
 
-on: 
+on:
   issues:
     types: [labeled]
   pull_request_target:
-    types: [labeled]    
+    types: [labeled]
     # Use pull_request_target to handle PR with merge conflicts
-  
+
 jobs:
   notify:
     name: Send MS notifications for Stale PR/Issue
@@ -20,8 +20,8 @@ jobs:
       - name: Debug GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"         
-      - uses: actions/checkout@v2
+        run: echo "$GITHUB_CONTEXT"
+      - uses: actions/checkout@v3
       - name: Notify dedicated teams channel
         uses: skitionek/notify-microsoft-teams@master
         with:
