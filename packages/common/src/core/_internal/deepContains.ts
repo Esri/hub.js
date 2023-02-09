@@ -1,7 +1,7 @@
 import { IArcGISContext } from "../../ArcGISContext";
 import { IContainsResponse, IDeepCatalogInfo } from "../../search";
-import { Catalog } from "../../search";
-import { asyncForEach } from "../../utils";
+import { Catalog } from "../../search/Catalog";
+import { asyncForEach } from "../../utils/asyncForEach";
 
 /**
  * Check if a particular entity is contained in a catalog.

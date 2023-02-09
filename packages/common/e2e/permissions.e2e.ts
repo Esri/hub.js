@@ -1,14 +1,9 @@
-import { IGroup, IItem } from "@esri/arcgis-rest-portal";
 import { IArcGISContext } from "../src/ArcGISContext";
-import {
-  checkPermission,
-  fetchHubEntity,
-  HubEntity,
-  HubInitiative,
-  HubProject,
-  IHubInitiative,
-  IHubProject,
-} from "../src/index";
+import { fetchHubEntity } from "../src/core/fetchHubEntity";
+import { HubEntity } from "../src/core/types/HubEntity";
+import { IHubInitiative } from "../src/core/types/IHubInitiative";
+import { HubInitiative } from "../src/initiatives/HubInitiative";
+import { checkPermission } from "../src/permissions/checkPermission";
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
 

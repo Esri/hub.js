@@ -91,3 +91,7 @@ test.html
 
 ## ignore ultra build cache info
 /**/*/.ultra.cache.json
+
+# Madge graphs
+/graph.svg
+/**/*/graph.svg

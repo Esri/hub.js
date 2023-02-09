@@ -1,12 +1,13 @@
-import {
-  getTypeFromEntity,
-  HubEntity,
-  HubEntityType,
-  IArcGISContext,
-} from "../index";
 import { Capability, ICapabilityAccessResponse, isCapability } from "./types";
 import { CapabilityPermissions } from "./getWorkspaceCapabilities";
 import { checkCapabilityAccess } from "./_internal";
+import { IArcGISContext, HubEntity, HubEntityType } from "../index";
+// Any of these causes checkCapability to not be defined in tests
+// import { getTypeFromEntity } from "../index";
+// import { getTypeFromEntity } from "../core";
+// import { getTypeFromEntity } from "../core/index";
+// This direct import resolves the problem
+import { getTypeFromEntity } from "../core/getTypeFromEntity";
 
 /**
  * Check if a capability is enabled for a given entity and if the current user has necessary permissions to access it

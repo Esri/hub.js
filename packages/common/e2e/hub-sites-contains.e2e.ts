@@ -2,7 +2,7 @@ import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
 import { HubSite } from "../src/sites/HubSite";
 import { IDeepCatalogInfo, IHubCatalog } from "../src/search";
-import { ArcGISContextManager, IArcGISContext } from "../src";
+import { IArcGISContext } from "../src/ArcGISContext";
 
 // Fixtures - shared with deep-contains.e2e.ts
 //

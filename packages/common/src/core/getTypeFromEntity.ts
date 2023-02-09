@@ -1,5 +1,7 @@
-import { HubEntity } from "./types/HubEntity";
-import { HubEntityType } from "./types/HubEntityType";
+// import { HubEntity } from "./types/HubEntity";
+// import { HubEntityType } from "./types/HubEntityType";
+
+import { HubEntity, HubEntityType } from "./types";
 
 /**
  * Given a HubEntity, return it's HubEntityType

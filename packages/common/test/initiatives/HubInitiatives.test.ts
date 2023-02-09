@@ -1,21 +1,20 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as FetchEnrichments from "../../src/items/_enrichments";
-import {
-  cloneObject,
-  IModel,
-  fetchInitiative,
-  deleteInitiative,
-  IHubInitiative,
-  createInitiative,
-  updateInitiative,
-  IHubRequestOptions,
-  enrichInitiativeSearchResult,
-} from "../../src";
 
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as modelUtils from "../../src/models";
 import * as slugUtils from "../../src/items/slugs";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { IHubRequestOptions, IModel } from "../../src/types";
+import {
+  createInitiative,
+  enrichInitiativeSearchResult,
+  fetchInitiative,
+  deleteInitiative,
+  updateInitiative,
+} from "../../src/initiatives/HubInitiatives";
+import { IHubInitiative } from "../../src/core/types/IHubInitiative";
+import { cloneObject } from "../../src/util";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 const INITIATIVE_ITEM: portalModule.IItem = {

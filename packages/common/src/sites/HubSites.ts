@@ -8,7 +8,6 @@ import {
   createModel,
   ensureUniqueDomainName,
   fetchModelFromItem,
-  getFamily,
   getHubApiUrl,
   getItemThumbnailUrl,
   getModel,
@@ -28,7 +27,7 @@ import {
   unique,
   updateModel,
 } from "../index";
-
+import { getFamily } from "../content/get-family";
 // having a separate import is important for testing
 import { fetchSiteModel } from "./fetchSiteModel";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";

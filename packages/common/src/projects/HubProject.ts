@@ -28,8 +28,6 @@ export class HubProject
   extends HubItemEntity<IHubProject>
   implements
     IWithStoreBehavior<IHubProject>,
-    IWithPermissionBehavior,
-    IWithCapabilityBehavior,
     IWithCatalogBehavior,
     IWithSharingBehavior
 {

@@ -1,6 +1,6 @@
-import { fetchInitiative } from "../initiatives";
-import { fetchProject } from "../projects";
-import { fetchSite } from "../sites";
+import { fetchInitiative } from "../initiatives/HubInitiatives";
+import { fetchProject } from "../projects/fetch";
+import { fetchSite } from "../sites/HubSites";
 import { HubEntity } from "./types/HubEntity";
 import { HubEntityType } from "./types/HubEntityType";
 import { IArcGISContext } from "../ArcGISContext";

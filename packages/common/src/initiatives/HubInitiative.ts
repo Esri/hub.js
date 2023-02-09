@@ -2,11 +2,9 @@ import { DEFAULT_INITIATIVE } from "./defaults";
 
 import {
   IHubInitiative,
-  IWithPermissionBehavior,
   IWithCatalogBehavior,
   IWithStoreBehavior,
   IWithSharingBehavior,
-  IWithCapabilityBehavior,
 } from "../core";
 
 import {
@@ -27,8 +25,6 @@ export class HubInitiative
   extends HubItemEntity<IHubInitiative>
   implements
     IWithStoreBehavior<IHubInitiative>,
-    IWithPermissionBehavior,
-    IWithCapabilityBehavior,
     IWithCatalogBehavior,
     IWithSharingBehavior
 {

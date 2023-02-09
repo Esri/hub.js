@@ -6,11 +6,11 @@ import {
   unique,
   mapBy,
   getProp,
-  getFamily,
   getItemHomeUrl,
 } from "../index";
+import { getFamily } from "../content/get-family";
 import { getHubRelativeUrl } from "../content/_internal";
-import { IHubProject } from "../core";
+import { IHubProject } from "../core/types";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getItemBySlug } from "../items/slugs";
 import { fetchItemEnrichments } from "../items/_enrichments";
@@ -28,7 +28,7 @@ import { getPropertyMap } from "./_internal/getPropertyMap";
  * @param identifier item id or slug
  * @param requestOptions
  */
-export function fetchProject(
+export async function fetchProject(
   identifier: string,
   requestOptions: IRequestOptions
 ): Promise<IHubProject> {
