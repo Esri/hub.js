@@ -1,7 +1,12 @@
-import { IModel } from "../../index";
+import { IModel } from "../../types";
 import { mergeObjects } from "../../objects";
 
-// gets the version data (ie the part of the model that goes into the version data) from the model
+/**
+ * Returns the version data (ie the part of the model that gets versioned) from the model
+ * @param model
+ * @param includeList
+ * @private
+ */
 export function getVersionData(
   model: IModel,
   includeList: string[]

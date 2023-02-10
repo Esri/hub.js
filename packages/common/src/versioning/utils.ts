@@ -1,28 +1,23 @@
-import { cloneObject, IModel, mergeObjects } from "../index";
-import { IVersion } from "./types";
-import { isSiteType } from "../content";
-import { isPageType } from "../content/_internal";
-import { SiteVersionIncludeList } from "../sites/_internal/SiteBusinessRules";
-import { PageVersionIncludeList } from "../pages/_internal/PageBusinessRules";
+import { cloneObject } from "../util";
+import { mergeObjects } from "../objects/merge-objects";
+import { IModel } from "../types";
+import { IVersion } from "./types/IVersion";
+import { getIncludeListFromItemType } from "./_internal/getIncludeListFromItemType";
 
-// applies the version to the model
+/**
+ * Applies the versioned data to the model
+ * @param model
+ * @param version
+ * @param includeList
+ * @returns
+ */
 export function applyVersion(
   model: IModel,
   version: IVersion,
-  includeList: string[]
-): Record<string, any> {
-  return mergeObjects(version.data, cloneObject(model), includeList);
-}
-
-export function getIncludeListFromItemType(model: IModel): string[] {
-  let includeList;
-  if (isSiteType(model.item.type, model.item.typeKeywords)) {
-    includeList = SiteVersionIncludeList;
-  } else if (isPageType(model.item.type, model.item.typeKeywords)) {
-    includeList = PageVersionIncludeList;
-  } else {
-    throw TypeError("item type does not support versioning");
+  includeList?: string[]
+): IModel {
+  if (!includeList) {
+    includeList = getIncludeListFromItemType(model);
   }
-
-  return includeList;
+  return mergeObjects(version.data, cloneObject(model), includeList);
 }

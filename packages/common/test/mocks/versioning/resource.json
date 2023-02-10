@@ -1,0 +1,13 @@
+{
+  "created": 1675954801031,
+  "creator": "paige_pa",
+  "data": {
+    "foo": {
+      "bar": "baz"
+    }
+  },
+  "id": "abc123",
+  "name": "my version",
+  "path": "hubVersion_abc123/version.json",
+  "updated": 1675954801031
+}

@@ -1,9 +1,9 @@
-import { getResourceNameFromVersionId } from "./_internal";
+import { getResourceNameFromVersionId } from "./_internal/getResourceNameFromVersionId";
 import { removeItemResource } from "@esri/arcgis-rest-portal";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IHubUserRequestOptions } from "../types";
 
 /**
- * Return an array containing the versions of the item
+ * Deletes the version specified by the entity id and versionId
  * @param id
  * @param versionId
  * @param owner
@@ -14,7 +14,7 @@ export async function deleteVersion(
   id: string,
   versionId: string,
   owner: string,
-  requestOptions: IUserRequestOptions
+  requestOptions: IHubUserRequestOptions
 ): Promise<{ success: boolean }> {
   return removeItemResource({
     ...requestOptions,

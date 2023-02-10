@@ -1,5 +1,10 @@
 import { IVersionMetadata } from "../types";
 
+/**
+ * Returns an IVersionMetadata from the resource search result item
+ * @param resource
+ * @private
+ */
 export function versionMetadataFromResource(
   resource: Record<string, any>
 ): IVersionMetadata {
@@ -7,16 +12,12 @@ export function versionMetadataFromResource(
   const { access, resource: path, size } = resource;
 
   // the rest is on properties as a json string
-  let properties = resource.properties || {};
-  if (properties) {
-    if (typeof properties === "string") {
-      try {
-        properties = JSON.parse(properties);
-      } catch (e) {
-        // console.log("error parsing resource properties", e);
-        properties = {};
-      }
-    }
+  let properties;
+  const propertiesJson = resource.properties || "{}";
+  try {
+    properties = JSON.parse(propertiesJson);
+  } catch (e) {
+    properties = {};
   }
 
   return {

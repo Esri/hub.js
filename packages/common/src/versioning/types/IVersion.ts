@@ -6,5 +6,8 @@ import { IVersionMetadata } from "./IVersionMetadata";
  */
 
 export interface IVersion extends IVersionMetadata {
+  /**
+   * The versioned data
+   */
   data: Record<string, any>;
 }

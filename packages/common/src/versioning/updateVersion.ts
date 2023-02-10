@@ -1,28 +1,31 @@
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { getProp, IModel, mergeObjects, objectToJsonBlob } from "../index";
+import { IHubUserRequestOptions } from "../types";
+import { getProp } from "../objects/get-prop";
+import { mergeObjects } from "../objects/merge-objects";
+import { objectToJsonBlob } from "../resources/object-to-json-blob";
+import { IModel } from "../types";
 import { IVersion } from "./types";
+import { getPrefix } from "./_internal/getPrefix";
+import { getVersionData } from "./_internal/getVersionData";
 import {
-  getPrefix,
-  getVersionData,
   VERSION_RESOURCE_NAME,
   VERSION_RESOURCE_PROPERTIES,
-} from "./_internal";
-import { getIncludeListFromItemType } from "./utils";
+} from "./_internal/constants";
+import { getIncludeListFromItemType } from "./_internal/getIncludeListFromItemType";
 import { updateItemResource } from "@esri/arcgis-rest-portal";
 
 /**
- * Return an array containing the versions of the item
+ * Updates the specified version with with the state of the supplied model
  * @param model
- * @param versionId
+ * @param version
  * @param requestOptions
  * @returns
  */
 export async function updateVersion(
   model: IModel,
   version: IVersion,
-  requestOptions: IUserRequestOptions
+  requestOptions: IHubUserRequestOptions
 ): Promise<IVersion> {
-  // we expect the item to contain the changes that we want to apply to the version
+  // we expect the model to contain the changes that we want to apply to the version
   // but we also need the versionResource so we can preserve the created and creator props
 
   // TODO: we should fetch the version and ensure that its updated date is not newer than what we have in memory

@@ -295,7 +295,7 @@ export class HubSite
     );
   }
 
-  async createVersion(options: ICreateVersionOptions): Promise<IVersion> {
+  async createVersion(options?: ICreateVersionOptions): Promise<IVersion> {
     const mapper = new PropertyMapper<IHubSite>(getPropertyMap());
     const model = mapper.objectToModel(this.entity, {} as IModel);
     return createVersion(model, this.context.userRequestOptions, options);

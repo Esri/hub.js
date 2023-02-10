@@ -1,10 +1,10 @@
 import { getItemResource } from "@esri/arcgis-rest-portal";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IHubUserRequestOptions } from "../types";
 import { IVersion } from "./types";
-import { getResourceNameFromVersionId } from "./_internal";
+import { getResourceNameFromVersionId } from "./_internal/getResourceNameFromVersionId";
 
 /**
- * Return an array containing the versions of the item
+ * Returns an IVersion object for the specified entity id and versionId
  * @param id
  * @param versionId
  * @param requestOptions
@@ -13,7 +13,7 @@ import { getResourceNameFromVersionId } from "./_internal";
 export async function getVersion(
   id: string,
   versionId: string,
-  requestOptions: IUserRequestOptions
+  requestOptions: IHubUserRequestOptions
 ): Promise<IVersion> {
   return getItemResource(id, {
     ...requestOptions,
