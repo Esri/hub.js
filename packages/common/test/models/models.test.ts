@@ -1,14 +1,22 @@
 import * as portalModule from "@esri/arcgis-rest-portal";
 import * as itemsModule from "../../src/items";
+import * as resourcesModule from "../../src/resources";
 
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import {
   createModel,
   fetchModelFromItem,
   getModelBySlug,
+  IHubLocation,
   IModel,
   updateModel,
+  upsertModelResources,
 } from "../../src";
+
+const LOCATION: IHubLocation = {
+  provenance: "custom",
+  filename: "location.json",
+};
 
 describe("model utils:", () => {
   describe("getModelBySlug:", () => {
@@ -260,6 +268,51 @@ describe("model utils:", () => {
       );
       expect(chk.item).toEqual({ id: "3ef" } as portalModule.IItem);
       expect(chk.data).toEqual({ data: "values" });
+    });
+  });
+
+  describe("upsertModelResources", () => {
+    it("upserts model resources", async () => {
+      const upsertResourceSpy = spyOn(
+        resourcesModule,
+        "upsertResource"
+      ).and.returnValue(Promise.resolve("https://fake.com/123"));
+
+      const getResourcesByNameSpy = spyOn(
+        resourcesModule,
+        "getResourcesByName"
+      ).and.returnValue(
+        Promise.resolve([{ name: "location.json", resource: LOCATION }])
+      );
+
+      const m = {
+        item: {
+          id: "00c",
+          owner: "fakeOwner",
+          title: "My New Thing",
+          type: "Hub Project",
+          created: 1643663750004,
+          modified: 1643663750007,
+          extent: "1, 2, 3, 4" as unknown as number[][],
+        },
+        data: {
+          some: "data",
+        },
+      } as unknown as IModel;
+
+      const resources = {
+        location: LOCATION,
+      };
+
+      const chk = await upsertModelResources(m, resources, {
+        authentication: MOCK_AUTH,
+      });
+
+      expect(upsertResourceSpy.calls.count()).toBe(1);
+      expect(getResourcesByNameSpy.calls.count()).toBe(1);
+      expect(chk.resources).toEqual({
+        location: LOCATION,
+      });
     });
   });
 });

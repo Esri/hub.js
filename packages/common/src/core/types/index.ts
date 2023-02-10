@@ -8,6 +8,7 @@ export * from "./IHubImage";
 export * from "./IHubInitiative";
 export * from "./IHubItemEntity";
 export * from "./IHubLayout";
+export * from "./IHubLocation";
 export * from "./IHubPage";
 export * from "./IHubProject";
 export * from "./IHubSite";
