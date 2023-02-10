@@ -23,10 +23,8 @@ In order to work with Hub.js, typically you will want to install the `@esri/hub-
 
 ### Installing
 
-If you are using npm version 7+, you will need to pass `--legacy-peer-deps` and manually install package dependencies. We are working to resolve this issue.
-
 ```sh
-> npm i @esri/hub-common @esri/arcgis-rest-request @esri/arcgis-rest-auth @esri/arcgis-rest-portal --legacy-peer-deps
+> npm i @esri/hub-common
 ```
 
 ### Using ES modules
@@ -46,7 +44,7 @@ const myProject = await HubProject.fetch("smith-st-project", ctx);
 Make sure you have polyfills for [`fetch`](https://github.com/matthew-andrews/isomorphic-fetch) and [`FormData`](https://github.com/form-data/isomorphic-form-data) installed before using @esri/hub.js.
 
 ```sh
-> npm i @esri/hub-common @esri/arcgis-rest-request @esri/arcgis-rest-auth @esri/arcgis-rest-portal --legacy-peer-deps
+> npm i @esri/hub-common
 > npm i isomorphic-fetch isomorphic-form-data
 ```
 
