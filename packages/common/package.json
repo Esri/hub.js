@@ -28,11 +28,6 @@
     "@esri/arcgis-rest-types": "^2.15.0 || 3"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-auth": "^3.1.1",
-    "@esri/arcgis-rest-feature-layer": "^3.4.3",
-    "@esri/arcgis-rest-portal": "^3.5.0",
-    "@esri/arcgis-rest-request": "^3.1.1",
-    "@esri/arcgis-rest-types": "^3.1.1",
     "@types/adlib": "^3.0.1",
     "typescript": "^3.8.1"
   },

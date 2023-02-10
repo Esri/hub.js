@@ -63,7 +63,7 @@ Please do not use `--no-verify` unless you are _really_ sure you must.
 
 ## Updating peerDependencies
 
-When releasing a feature or a breaking change to a package, you may_ need to manually update the `peerDependencies` of any packages that depend on the package you are releasing. 
+When releasing a feature or a breaking change to a package, you _may_ need to manually update the `peerDependencies` of any packages that depend on the package you are releasing. 
 
 **Example**: you've added a function to `@esri/hub-common` and _also_ use the new function in another package like `@esri/hub-sites`. The new function will be included in the next release of `@esri/hub-common` with a minor version bump, so in order to use that function in `@esri/hub-sites` you need to update it's peer dependency to point to the new version, which will not yet be published. The _safest_ way to do this is via two pull requests, first one to add the new function to `@esri/hub-common`, and once that has been published, a follow on PR to `@esri/hub-sites` to update the peer dependency and use the new function.
 
