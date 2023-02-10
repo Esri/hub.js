@@ -178,8 +178,7 @@
 </table>
 <p><strong>Note</strong>: While there are other packages in the repository, those should not be used for new development. Instead, use the classes and functions exported from <code>@esri/hub-common</code>.</p>
 <h3>Installing</h3>
-<p>If you are using npm version 7+, you will need to pass <code>--legacy-peer-deps</code> and manually install package dependencies. We are working to resolve this issue.</p>
-<pre><code class="sh">&gt; npm i @esri/hub-common @esri/arcgis-rest-request @esri/arcgis-rest-auth @esri/arcgis-rest-portal --legacy-peer-deps
+<pre><code class="sh">&gt; npm i @esri/hub-common
 </code></pre>
 <h3>Using ES modules</h3>
 <p>Hub.js should work out-of-the-box with most popular bundlers that support ES modules.</p>
@@ -191,7 +190,7 @@
 </code></pre>
 <h3>Using Node.js</h3>
 <p>Make sure you have polyfills for <a href="https://github.com/matthew-andrews/isomorphic-fetch"><code>fetch</code></a> and <a href="https://github.com/form-data/isomorphic-form-data"><code>FormData</code></a> installed before using @esri/hub.js.</p>
-<pre><code class="sh">&gt; npm i @esri/hub-common @esri/arcgis-rest-request @esri/arcgis-rest-auth @esri/arcgis-rest-portal --legacy-peer-deps
+<pre><code class="sh">&gt; npm i @esri/hub-common
 &gt; npm i isomorphic-fetch isomorphic-form-data
 </code></pre>
 <p>Require the <code>isomorphic-fetch</code> and <code>isomorphic-form-data</code> modules before using any of the @esri/hub.js methods.</p>
