@@ -174,7 +174,7 @@ export function updateModel(
  * @export
  * @param {IModel} model
  * @param {Array<{
- *     resource: any;
+ *     resource: Record<string, any>;
  *     filename: string;
  *   }>} resources
  * @param {IUserRequestOptions} requestOptions
@@ -271,7 +271,7 @@ export async function fetchModelFromItem(
  *     [key: string]: string
  *   }} resourceNamePairs
  * @param {IRequestOptions} requestOptions
- * @return {*}  {Promise<any>}
+ * @return {*}  {Promise<Record<string, any>>}
  */
 export async function fetchModelResources(
   item: IItem,
