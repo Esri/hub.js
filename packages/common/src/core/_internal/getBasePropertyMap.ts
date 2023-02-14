@@ -1,3 +1,4 @@
+import { EntityResourceMap } from "../types";
 import { IPropertyMap } from "./PropertyMapper";
 
 /**
@@ -23,7 +24,7 @@ export function getBasePropertyMap(): IPropertyMap[] {
     "url",
   ];
   const dataProps = ["display", "geometry", "view"];
-  const resourceProps = ["location"];
+  const resourceProps = Object.keys(EntityResourceMap);
   const map: IPropertyMap[] = [];
   itemProps.forEach((entry) => {
     map.push({ objectKey: entry, modelKey: `item.${entry}` });

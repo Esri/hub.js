@@ -166,6 +166,20 @@ export function updateModel(
   });
 }
 
+/**
+ * Takes an IModel and an array of resources and upserts them to the
+ * backing item. Then searches for the resources that were upserted
+ * and attaches them to the model, which is returned.
+ *
+ * @export
+ * @param {IModel} model
+ * @param {Array<{
+ *     resource: any;
+ *     filename: string;
+ *   }>} resources
+ * @param {IUserRequestOptions} requestOptions
+ * @return {*}  {Promise<IModel>}
+ */
 export async function upsertModelResources(
   model: IModel,
   resources: Array<{

@@ -12,7 +12,7 @@ import { constructSlug, getUniqueSlug, setSlugKeyword } from "../items/slugs";
 import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
-import { IHubProject } from "../core/types";
+import { EntityResourceMap, IHubProject } from "../core/types";
 import { DEFAULT_PROJECT, DEFAULT_PROJECT_MODEL } from "./defaults";
 import {
   HubProjectEditUiSchema,
@@ -30,6 +30,7 @@ import {
   IEditorConfig,
 } from "../core/behaviors/IWithEditorBehavior";
 import { interpolate } from "../items/interpolate";
+import { configureBaseResources } from "../core/_internal/configureBaseResources";
 
 /**
  * @private
@@ -63,7 +64,10 @@ export async function createProject(
   let model = mapper.objectToModel(project, cloneObject(DEFAULT_PROJECT_MODEL));
   // if we have resources disconnect them from the model for now.
   if (model.resources) {
-    resources = configureProjectResources(cloneObject(model.resources));
+    resources = configureBaseResources(
+      cloneObject(model.resources),
+      EntityResourceMap
+    );
     delete model.resources;
   }
   // create the item
@@ -105,7 +109,10 @@ export async function updateProject(
   const modelToUpdate = mapper.objectToModel(project, model);
   // if we have resources disconnect them from the model for now.
   if (modelToUpdate.resources) {
-    resources = configureProjectResources(cloneObject(modelToUpdate.resources));
+    resources = configureBaseResources(
+      cloneObject(modelToUpdate.resources),
+      EntityResourceMap
+    );
     delete modelToUpdate.resources;
   }
   // update the backing item
@@ -181,32 +188,4 @@ export async function getHubProjectEditorConfig(
   uiSchema = interpolate(uiSchema, { i18nScope });
 
   return Promise.resolve({ schema, uiSchema });
-}
-
-/**
- * Takes the resources prop from a projects model and returns an array of
- * objects with a filename and resource to be created.
- *
- * @param {*} resources
- * @return {*}
- */
-/* istanbul ignore next */
-function configureProjectResources(resources: any) {
-  // Set up obj tracking resource prop && filename (KEEP IN SYNC WITH getPropertyMap()
-  // for additional resources!)
-  const resourceNameAndProp: {
-    [key: string]: string;
-  } = {
-    location: "location.json",
-  };
-  return Object.entries(resources).reduce((acc, resourceProp) => {
-    const fileName = resourceNameAndProp[resourceProp[0]];
-    if (fileName) {
-      acc.push({
-        filename: fileName,
-        resource: resourceProp[1],
-      });
-    }
-    return acc;
-  }, []);
 }
