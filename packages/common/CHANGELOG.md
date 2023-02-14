@@ -1,3 +1,10 @@
+# @esri/hub-common [12.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.5.2...@esri/hub-common@12.6.0) (2023-02-14)
+
+
+### Features
+
+* resources added to project ([#980](https://github.com/Esri/hub.js/issues/980)) ([c271356](https://github.com/Esri/hub.js/commit/c2713560e8613dfbd0f51e638c3c0b8f319da9b6))
+
 ## @esri/hub-common [12.5.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.5.1...@esri/hub-common@12.5.2) (2023-02-09)
 
 
