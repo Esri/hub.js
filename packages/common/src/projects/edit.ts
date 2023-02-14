@@ -63,7 +63,7 @@ export async function createProject(
   let model = mapper.objectToModel(project, cloneObject(DEFAULT_PROJECT_MODEL));
   // if we have resources disconnect them from the model for now.
   if (model.resources) {
-    resources = cloneObject(model.resources);
+    resources = configureProjectResources(cloneObject(model.resources));
     delete model.resources;
   }
   // create the item
@@ -105,7 +105,7 @@ export async function updateProject(
   const modelToUpdate = mapper.objectToModel(project, model);
   // if we have resources disconnect them from the model for now.
   if (modelToUpdate.resources) {
-    resources = cloneObject(modelToUpdate.resources);
+    resources = configureProjectResources(cloneObject(modelToUpdate.resources));
     delete modelToUpdate.resources;
   }
   // update the backing item
@@ -181,4 +181,32 @@ export async function getHubProjectEditorConfig(
   uiSchema = interpolate(uiSchema, { i18nScope });
 
   return Promise.resolve({ schema, uiSchema });
+}
+
+/**
+ * Takes the resources prop from a projects model and returns an array of
+ * objects with a filename and resource to be created.
+ *
+ * @param {*} resources
+ * @return {*}
+ */
+/* istanbul ignore next */
+function configureProjectResources(resources: any) {
+  // Set up obj tracking resource prop && filename (KEEP IN SYNC WITH getPropertyMap()
+  // for additional resources!)
+  const resourceNameAndProp: {
+    [key: string]: string;
+  } = {
+    location: "location.json",
+  };
+  return Object.entries(resources).reduce((acc, resourceProp) => {
+    const fileName = resourceNameAndProp[resourceProp[0]];
+    if (fileName) {
+      acc.push({
+        filename: fileName,
+        resource: resourceProp[1],
+      });
+    }
+    return acc;
+  }, []);
 }

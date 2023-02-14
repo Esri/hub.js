@@ -1,7 +1,6 @@
 import { ISpatialReference } from "@esri/arcgis-rest-types";
 
 export interface IHubLocation {
-  filename: string;
   // Where did the location come from originally?
   // This is used in the location picker component to determine
   // what source was used

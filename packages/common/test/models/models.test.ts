@@ -15,7 +15,6 @@ import {
 
 const LOCATION: IHubLocation = {
   provenance: "custom",
-  filename: "location.json",
 };
 
 describe("model utils:", () => {
@@ -278,12 +277,10 @@ describe("model utils:", () => {
         "upsertResource"
       ).and.returnValue(Promise.resolve("https://fake.com/123"));
 
-      const getResourcesByNameSpy = spyOn(
-        resourcesModule,
-        "getResourcesByName"
-      ).and.returnValue(
-        Promise.resolve([{ name: "location.json", resource: LOCATION }])
-      );
+      const getItemResourceSpy = spyOn(
+        portalModule,
+        "getItemResource"
+      ).and.returnValue(Promise.resolve(LOCATION));
 
       const m = {
         item: {
@@ -300,16 +297,19 @@ describe("model utils:", () => {
         },
       } as unknown as IModel;
 
-      const resources = {
-        location: LOCATION,
-      };
+      const resources = [
+        {
+          resource: LOCATION,
+          filename: "location.json",
+        },
+      ];
 
       const chk = await upsertModelResources(m, resources, {
         authentication: MOCK_AUTH,
       });
 
       expect(upsertResourceSpy.calls.count()).toBe(1);
-      expect(getResourcesByNameSpy.calls.count()).toBe(1);
+      expect(getItemResourceSpy.calls.count()).toBe(1);
       expect(chk.resources).toEqual({
         location: LOCATION,
       });

@@ -12,4 +12,3 @@ export * from "./object-to-json-blob";
 export * from "./validate-url";
 export * from "./upsertResource";
 export * from "./removeResource";
-export * from "./getResourcesByName";

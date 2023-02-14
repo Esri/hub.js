@@ -1,11 +1,12 @@
 export * from "./serializeModel";
 
-import { IUser, IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import {
   createItem,
+  FetchReadMethodName,
   getItem,
   getItemData,
-  getItemResources,
+  getItemResource,
   ICreateItemOptions,
   ICreateItemResponse,
   IItem,
@@ -15,7 +16,7 @@ import {
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { bboxToString } from "../extent";
 import { getItemBySlug } from "../items";
-import { upsertResource, getResourcesByName } from "../resources";
+import { upsertResource } from "../resources";
 import { IModel } from "../types";
 import { cloneObject } from "../util";
 
@@ -167,19 +168,22 @@ export function updateModel(
 
 export async function upsertModelResources(
   model: IModel,
-  resources: any,
+  resources: Array<{
+    resource: any;
+    filename: string;
+  }>,
   requestOptions: IUserRequestOptions
 ): Promise<IModel> {
   // Set up promises array
   const upsertPromises: Array<Promise<any>> = [];
   const expectedResourceNames: string[] = [];
   // loop through resources and create them
-  Object.entries(resources).forEach(([key, value]: any[]) => {
+  resources.forEach((value: any) => {
     upsertPromises.push(
       upsertResource(
         model.item.id,
         model.item.owner,
-        value,
+        value.resource,
         value.filename,
         requestOptions
       )
@@ -191,10 +195,18 @@ export async function upsertModelResources(
     .then(() => {
       // Once all resources are created, fetch them by name (getItemResources only returns the basic info on a resource)
       // getResourceByName returns the full resource for N resources.
-      return getResourcesByName(
-        model.item.id,
-        expectedResourceNames,
-        requestOptions
+      return Promise.all(
+        expectedResourceNames.map(async (name) => {
+          return {
+            name,
+            resource: await getItemResource(model.item.id, {
+              fileName: name,
+              // Must be "arrayBuffer" | "blob" | "formData" | "json" | "text";
+              readAs: name.split(".").pop() as FetchReadMethodName,
+              ...requestOptions,
+            }),
+          };
+        })
       );
     })
     .then((fetchedResources) => {
@@ -235,25 +247,35 @@ export async function fetchModelFromItem(
   } as IModel;
 }
 
+/**
+ * Given an item, and a list of resource name/prop pairs,
+ * fetch the resources and return as an object for the IModel
+ *
+ * @export
+ * @param {IItem} item
+ * @param {{
+ *     [key: string]: string
+ *   }} resourceNamePairs
+ * @param {IRequestOptions} requestOptions
+ * @return {*}  {Promise<any>}
+ */
 export async function fetchModelResources(
   item: IItem,
+  resourceNamePairs: {
+    [key: string]: string;
+  },
   requestOptions: IRequestOptions
 ): Promise<any> {
-  // get a list of all resources
-  const resourceList = await getItemResources(item.id, requestOptions);
-  // fetch all resources by name
-  const resources = await getResourcesByName(
-    item.id,
-    resourceList.resources.map((r: any) => r.resource),
-    requestOptions
-  );
-  // return resources as an object
-  return resources.reduce((acc: any, fetchedResource) => {
-    // Get the property name from the resource name
-    const prop = fetchedResource.name.split(".").shift();
+  // Iterate through the resource name/prop pairs and fetch the resources
+  return Object.entries(resourceNamePairs).reduce(async (acc, [key, value]) => {
     return {
       ...acc,
-      [prop]: fetchedResource.resource,
+      [key]: await getItemResource(item.id, {
+        fileName: value,
+        // Must be "arrayBuffer" | "blob" | "formData" | "json" | "text";
+        readAs: value.split(".").pop() as FetchReadMethodName,
+        ...requestOptions,
+      }),
     };
   }, {});
 }

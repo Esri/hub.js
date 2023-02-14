@@ -51,20 +51,8 @@ const PROJECT_DATA = {
   timeline: {},
 };
 
-const PROJECT_RESOURCE_LIST = {
-  resources: [
-    {
-      resource: "location.json",
-    },
-    {
-      resource: "test.json",
-    },
-  ],
-};
-
 const PROJECT_LOCATION: IHubLocation = {
   provenance: "custom",
-  filename: "location.json",
 };
 
 const PROJECT_MODEL = {
@@ -140,11 +128,6 @@ describe("HubProjects:", () => {
         Promise.resolve(PROJECT_DATA)
       );
 
-      const getItemResourcesSpy = spyOn(
-        portalModule,
-        "getItemResources"
-      ).and.returnValue(Promise.resolve(PROJECT_RESOURCE_LIST));
-
       const getItemResourceSpy = spyOn(
         portalModule,
         "getItemResource"
@@ -157,16 +140,13 @@ describe("HubProjects:", () => {
       expect(chk.owner).toBe("vader");
       expect(chk.location).toEqual({
         provenance: "custom",
-        filename: "location.json",
       });
 
       expect(getItemSpy.calls.count()).toBe(1);
       expect(getItemSpy.calls.argsFor(0)[0]).toBe(GUID);
       expect(getItemDataSpy.calls.count()).toBe(1);
       expect(getItemDataSpy.calls.argsFor(0)[0]).toBe(GUID);
-      expect(getItemResourcesSpy.calls.count()).toBe(1);
-      expect(getItemResourcesSpy.calls.argsFor(0)[0]).toBe(GUID);
-      expect(getItemResourceSpy.calls.count()).toBe(2);
+      expect(getItemResourceSpy.calls.count()).toBe(1);
       expect(getItemResourceSpy.calls.argsFor(0)[0]).toBe(GUID);
     });
 
@@ -177,10 +157,6 @@ describe("HubProjects:", () => {
       const getItemDataSpy = spyOn(portalModule, "getItemData").and.returnValue(
         Promise.resolve(PROJECT_DATA)
       );
-      const getItemResourcesSpy = spyOn(
-        portalModule,
-        "getItemResources"
-      ).and.returnValue(Promise.resolve(PROJECT_RESOURCE_LIST));
 
       const getItemResourceSpy = spyOn(
         portalModule,
@@ -199,9 +175,7 @@ describe("HubProjects:", () => {
       expect(getItemSpy.calls.argsFor(0)[0]).toBe(GUID);
       expect(getItemDataSpy.calls.count()).toBe(1);
       expect(getItemDataSpy.calls.argsFor(0)[0]).toBe(GUID);
-      expect(getItemResourcesSpy.calls.count()).toBe(1);
-      expect(getItemResourcesSpy.calls.argsFor(0)[0]).toBe(GUID);
-      expect(getItemResourceSpy.calls.count()).toBe(2);
+      expect(getItemResourceSpy.calls.count()).toBe(1);
       expect(getItemResourceSpy.calls.argsFor(0)[0]).toBe(GUID);
     });
 
@@ -213,11 +187,6 @@ describe("HubProjects:", () => {
       const getItemDataSpy = spyOn(portalModule, "getItemData").and.returnValue(
         Promise.resolve(PROJECT_DATA)
       );
-
-      const getItemResourcesSpy = spyOn(
-        portalModule,
-        "getItemResources"
-      ).and.returnValue(Promise.resolve(PROJECT_RESOURCE_LIST));
 
       const getItemResourceSpy = spyOn(
         portalModule,
@@ -231,9 +200,7 @@ describe("HubProjects:", () => {
       expect(getItemBySlugSpy.calls.argsFor(0)[0]).toBe("dcdev-34th-street");
       expect(getItemDataSpy.calls.count()).toBe(1);
       expect(getItemDataSpy.calls.argsFor(0)[0]).toBe(GUID);
-      expect(getItemResourcesSpy.calls.count()).toBe(1);
-      expect(getItemResourcesSpy.calls.argsFor(0)[0]).toBe(GUID);
-      expect(getItemResourceSpy.calls.count()).toBe(2);
+      expect(getItemResourceSpy.calls.count()).toBe(1);
       expect(getItemResourceSpy.calls.argsFor(0)[0]).toBe(GUID);
       expect(chk.id).toBe(GUID);
       expect(chk.owner).toBe("vader");
