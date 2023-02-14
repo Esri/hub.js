@@ -183,7 +183,7 @@ export function updateModel(
 export async function upsertModelResources(
   model: IModel,
   resources: Array<{
-    resource: any;
+    resource: Record<string, any>;
     filename: string;
   }>,
   requestOptions: IUserRequestOptions
@@ -279,7 +279,7 @@ export async function fetchModelResources(
     [key: string]: string;
   },
   requestOptions: IRequestOptions
-): Promise<any> {
+): Promise<Record<string, any>> {
   // Iterate through the resource name/prop pairs and fetch the resources
   return Object.entries(resourceNamePairs).reduce(async (acc, [key, value]) => {
     return {

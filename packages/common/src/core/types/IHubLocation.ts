@@ -1,5 +1,8 @@
 import { ISpatialReference } from "@esri/arcgis-rest-types";
 
+/**
+ * A location associated with an item and stored as a json resource.
+ */
 export interface IHubLocation {
   // Where did the location come from originally?
   // This is used in the location picker component to determine
