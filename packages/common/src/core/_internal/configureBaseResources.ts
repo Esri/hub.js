@@ -5,7 +5,10 @@
  * @param {*} resources
  * @return {*}
  */
-export function configureBaseResources(resources: any, entityResourceMap: any) {
+export function configureBaseResources(
+  resources: any,
+  entityResourceMap: any
+): Array<{ filename: string; resource: any }> {
   // Set up obj tracking resource prop && filename (KEEP IN SYNC WITH getPropertyMap()
   // for additional resources!)
   return Object.entries(resources).reduce((acc, resourceProp) => {
