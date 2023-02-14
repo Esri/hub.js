@@ -301,10 +301,10 @@ export class HubSite
     return createVersion(model, this.context.userRequestOptions, options);
   }
 
-  async updateVersion(versionId: IVersion): Promise<IVersion> {
+  async updateVersion(version: IVersion): Promise<IVersion> {
     const mapper = new PropertyMapper<IHubSite>(getPropertyMap());
     const model = mapper.objectToModel(this.entity, {} as IModel);
-    return updateVersion(model, versionId, this.context.userRequestOptions);
+    return updateVersion(model, version, this.context.userRequestOptions);
   }
 
   async deleteVersion(versionId: string): Promise<{ success: boolean }> {
