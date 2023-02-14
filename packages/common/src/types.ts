@@ -25,6 +25,9 @@ export interface IModel {
   data?: {
     [propName: string]: any;
   };
+  resources?: {
+    [propName: string]: any;
+  };
   [key: string]: any;
 }
 

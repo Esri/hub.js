@@ -3,8 +3,10 @@ export * from "./serializeModel";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import {
   createItem,
+  FetchReadMethodName,
   getItem,
   getItemData,
+  getItemResource,
   ICreateItemOptions,
   ICreateItemResponse,
   IItem,
@@ -14,6 +16,7 @@ import {
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { bboxToString } from "../extent";
 import { getItemBySlug } from "../items";
+import { upsertResource } from "../resources";
 import { IModel } from "../types";
 import { cloneObject } from "../util";
 
@@ -164,6 +167,84 @@ export function updateModel(
 }
 
 /**
+ * Takes an IModel and an array of resources and upserts them to the
+ * backing item. Then searches for the resources that were upserted
+ * and attaches them to the model, which is returned.
+ *
+ * @export
+ * @param {IModel} model
+ * @param {Array<{
+ *     resource: Record<string, any>;
+ *     filename: string;
+ *   }>} resources
+ * @param {IUserRequestOptions} requestOptions
+ * @return {*}  {Promise<IModel>}
+ */
+export async function upsertModelResources(
+  model: IModel,
+  resources: Array<{
+    resource: Record<string, any>;
+    filename: string;
+  }>,
+  requestOptions: IUserRequestOptions
+): Promise<IModel> {
+  // Set up promises array
+  const upsertPromises: Array<Promise<any>> = [];
+  const expectedResourceNames: string[] = [];
+  // loop through resources and create them
+  resources.forEach((value: any) => {
+    upsertPromises.push(
+      upsertResource(
+        model.item.id,
+        model.item.owner,
+        value.resource,
+        value.filename,
+        requestOptions
+      )
+    );
+    expectedResourceNames.push(value.filename);
+  });
+  // Promise.all to wait for all resources to be created
+  return Promise.all(upsertPromises)
+    .then(() => {
+      // Once all resources are created, fetch them by name (getItemResources only returns the basic info on a resource)
+      // getResourceByName returns the full resource for N resources.
+      return Promise.all(
+        expectedResourceNames.map(async (name) => {
+          return {
+            name,
+            resource: await getItemResource(model.item.id, {
+              fileName: name,
+              // Must be "arrayBuffer" | "blob" | "formData" | "json" | "text";
+              readAs: name.split(".").pop() as FetchReadMethodName,
+              ...requestOptions,
+            }),
+          };
+        })
+      );
+    })
+    .then((fetchedResources) => {
+      // Create a new object with the resources
+      const updatedResources = fetchedResources.reduce(
+        (acc: any, fetchedResource) => {
+          // Get the property name from the resource name
+          const prop = fetchedResource.name.split(".").shift();
+          return {
+            ...acc,
+            [prop]: fetchedResource.resource,
+          };
+        },
+        {}
+      );
+      // return updated model
+      return {
+        resources: updatedResources,
+        ...model,
+      };
+    });
+}
+
+/**
  * Given an Item, fetch the data json and return an IModel
  * @param item
  * @param requestOptions
@@ -178,6 +259,39 @@ export async function fetchModelFromItem(
     item,
     data,
   } as IModel;
+}
+
+/**
+ * Given an item, and a list of resource name/prop pairs,
+ * fetch the resources and return as an object for the IModel
+ *
+ * @export
+ * @param {IItem} item
+ * @param {{
+ *     [key: string]: string
+ *   }} resourceNamePairs
+ * @param {IRequestOptions} requestOptions
+ * @return {*}  {Promise<Record<string, any>>}
+ */
+export async function fetchModelResources(
+  item: IItem,
+  resourceNamePairs: {
+    [key: string]: string;
+  },
+  requestOptions: IRequestOptions
+): Promise<Record<string, any>> {
+  // Iterate through the resource name/prop pairs and fetch the resources
+  return Object.entries(resourceNamePairs).reduce(async (acc, [key, value]) => {
+    return {
+      ...acc,
+      [key]: await getItemResource(item.id, {
+        fileName: value,
+        // Must be "arrayBuffer" | "blob" | "formData" | "json" | "text";
+        readAs: value.split(".").pop() as FetchReadMethodName,
+        ...requestOptions,
+      }),
+    };
+  }, {});
 }
 
 /**
