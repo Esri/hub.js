@@ -277,11 +277,6 @@ describe("model utils:", () => {
         "upsertResource"
       ).and.returnValue(Promise.resolve("https://fake.com/123"));
 
-      const getItemResourceSpy = spyOn(
-        portalModule,
-        "getItemResource"
-      ).and.returnValue(Promise.resolve(LOCATION));
-
       const m = {
         item: {
           id: "00c",
@@ -309,7 +304,6 @@ describe("model utils:", () => {
       });
 
       expect(upsertResourceSpy.calls.count()).toBe(1);
-      expect(getItemResourceSpy.calls.count()).toBe(1);
       expect(chk.resources).toEqual({
         location: LOCATION,
       });

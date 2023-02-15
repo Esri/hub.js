@@ -19,6 +19,7 @@ import { getItemBySlug } from "../items";
 import { upsertResource } from "../resources";
 import { IModel } from "../types";
 import { cloneObject } from "../util";
+import { failSafe } from "../utils";
 
 /**
  * Gets the full item/data model for an item id
@@ -205,43 +206,19 @@ export async function upsertModelResources(
     expectedResourceNames.push(value.filename);
   });
   // Promise.all to wait for all resources to be created
-  return Promise.all(upsertPromises)
-    .then(() => {
-      // Once all resources are created, fetch them by name (getItemResources only returns the basic info on a resource)
-      // getResourceByName returns the full resource for N resources.
-      return Promise.all(
-        expectedResourceNames.map(async (name) => {
-          return {
-            name,
-            resource: await getItemResource(model.item.id, {
-              fileName: name,
-              // Must be "arrayBuffer" | "blob" | "formData" | "json" | "text";
-              readAs: name.split(".").pop() as FetchReadMethodName,
-              ...requestOptions,
-            }),
-          };
-        })
-      );
-    })
-    .then((fetchedResources) => {
-      // Create a new object with the resources
-      const updatedResources = fetchedResources.reduce(
-        (acc: any, fetchedResource) => {
-          // Get the property name from the resource name
-          const prop = fetchedResource.name.split(".").shift();
-          return {
-            ...acc,
-            [prop]: fetchedResource.resource,
-          };
-        },
-        {}
-      );
-      // return updated model
-      return {
-        resources: updatedResources,
-        ...model,
-      };
-    });
+  return Promise.all(upsertPromises).then(() => {
+    // Create a new object with the resources
+    const updatedResources = resources.reduce((acc: any, resource) => {
+      // Get the property name from the resource name
+      const prop = resource.filename.split(".").shift();
+      acc[prop] = resource.resource;
+      return acc;
+    }, {});
+    return {
+      resources: updatedResources,
+      ...model,
+    };
+  });
 }
 
 /**
@@ -281,17 +258,26 @@ export async function fetchModelResources(
   requestOptions: IRequestOptions
 ): Promise<Record<string, any>> {
   // Iterate through the resource name/prop pairs and fetch the resources
-  return Object.entries(resourceNamePairs).reduce(async (acc, [key, value]) => {
-    return {
-      ...acc,
-      [key]: await getItemResource(item.id, {
+  return Object.entries(resourceNamePairs).reduce(
+    async (acc: Record<string, any>, [key, value]) => {
+      // failsafe to prevent errors returns falsy if error
+      const failSafeGetResource = failSafe(getItemResource, null);
+      // get the resource
+      const resp = await failSafeGetResource(item.id, {
         fileName: value,
         // Must be "arrayBuffer" | "blob" | "formData" | "json" | "text";
         readAs: value.split(".").pop() as FetchReadMethodName,
         ...requestOptions,
-      }),
-    };
-  }, {});
+      });
+      // if the failsafe succeeds
+      if (resp) {
+        // Update the acc with the prop and resource
+        acc[key] = resp;
+      }
+      return acc;
+    },
+    {}
+  );
 }
 
 /**

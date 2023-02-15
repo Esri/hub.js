@@ -220,6 +220,34 @@ describe("HubProjects:", () => {
       // This next stuff is O_o but req'd by typescript
       expect(chk).toEqual(null as unknown as IHubProject);
     });
+
+    it("gets project even if resource is rejected", async () => {
+      const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
+        Promise.resolve(PROJECT_ITEM)
+      );
+      const getItemDataSpy = spyOn(portalModule, "getItemData").and.returnValue(
+        Promise.resolve(PROJECT_DATA)
+      );
+
+      const getItemResourceSpy = spyOn(
+        portalModule,
+        "getItemResource"
+      ).and.returnValue(Promise.reject());
+
+      const chk = await fetchProject(GUID, {
+        authentication: MOCK_AUTH,
+      });
+      expect(chk.id).toBe(GUID);
+      expect(chk.owner).toBe("vader");
+      expect(chk.location).toBe(undefined);
+
+      expect(getItemSpy.calls.count()).toBe(1);
+      expect(getItemSpy.calls.argsFor(0)[0]).toBe(GUID);
+      expect(getItemDataSpy.calls.count()).toBe(1);
+      expect(getItemDataSpy.calls.argsFor(0)[0]).toBe(GUID);
+      expect(getItemResourceSpy.calls.count()).toBe(1);
+      expect(getItemResourceSpy.calls.argsFor(0)[0]).toBe(GUID);
+    });
   });
 
   describe("destroyProject:", () => {
