@@ -1,3 +1,10 @@
+## @esri/hub-common [12.6.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.6.0...@esri/hub-common@12.6.1) (2023-02-15)
+
+
+### Bug Fixes
+
+* refactor fetchModelResources to failSafe ([#983](https://github.com/Esri/hub.js/issues/983)) ([708f0a5](https://github.com/Esri/hub.js/commit/708f0a54eadb17b124d690238d251a8f59c03c1b))
+
 # @esri/hub-common [12.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.5.2...@esri/hub-common@12.6.0) (2023-02-14)
 
 
