@@ -1,3 +1,6 @@
+/**
+ * Options for creating a new version of an entity
+ */
 export interface ICreateVersionOptions {
   /**
    * Optional name of the version

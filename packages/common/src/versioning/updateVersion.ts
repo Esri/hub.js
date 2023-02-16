@@ -28,8 +28,6 @@ export async function updateVersion(
   // we expect the model to contain the changes that we want to apply to the version
   // but we also need the versionResource so we can preserve the created and creator props
 
-  // TODO: we should fetch the version and ensure that its updated date is not newer than what we have in memory
-
   const includeList = getIncludeListFromItemType(model);
   version.data = getVersionData(model, includeList);
 

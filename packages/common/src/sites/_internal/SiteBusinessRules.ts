@@ -81,6 +81,9 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
   },
 ];
 
+/**
+ * Site versioning include list
+ */
 export const SiteVersionIncludeList = [
   "data.values.layout",
   "data.values.theme",

@@ -24,6 +24,7 @@ import { IContainsResponse, IDeepCatalogInfo, IHubCatalog } from "../search";
 import { deepContains } from "../core/_internal/deepContains";
 
 import {
+  applyVersion,
   createVersion,
   deleteVersion,
   getVersion,
@@ -283,10 +284,19 @@ export class HubSite
 
   //#region IWithVersioningBehavior
 
+  /**
+   * Gets all the versions of the site
+   * @returns
+   */
   async searchVersions(): Promise<IVersionMetadata[]> {
     return searchVersions(this.entity.id, this.context.userRequestOptions);
   }
 
+  /**
+   * Gets the specified version of the site
+   * @param versionId
+   * @returns
+   */
   async getVersion(versionId: string): Promise<IVersion> {
     return getVersion(
       this.entity.id,
@@ -295,18 +305,32 @@ export class HubSite
     );
   }
 
+  /**
+   * Creates a new version of the site
+   * @param options
+   * @returns
+   */
   async createVersion(options?: ICreateVersionOptions): Promise<IVersion> {
     const mapper = new PropertyMapper<IHubSite>(getPropertyMap());
     const model = mapper.objectToModel(this.entity, {} as IModel);
     return createVersion(model, this.context.userRequestOptions, options);
   }
 
+  /**
+   * Updates the specified version of the site
+   * @param version
+   * @returns
+   */
   async updateVersion(version: IVersion): Promise<IVersion> {
     const mapper = new PropertyMapper<IHubSite>(getPropertyMap());
     const model = mapper.objectToModel(this.entity, {} as IModel);
     return updateVersion(model, version, this.context.userRequestOptions);
   }
 
+  /**
+   * Deletes the specified version of the entity
+   * @returns
+   */
   async deleteVersion(versionId: string): Promise<{ success: boolean }> {
     return deleteVersion(
       this.entity.id,
