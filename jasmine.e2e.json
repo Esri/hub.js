@@ -1,6 +1,6 @@
 {
   "spec_dir": "packages",
-  "spec_files": ["*/e2e/**/*.e2ejupe.ts"],
+  "spec_files": ["*/e2e/**/*.e2e.ts"],
   "helpers": ["../support/e2e-test-helpers.js"],
   "stopSpecOnExpectationFailure": false,
   "random": false
