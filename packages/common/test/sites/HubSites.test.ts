@@ -84,7 +84,7 @@ const SITE: commonModule.IHubSite = {
   permissions: [],
   canEdit: true,
   canDelete: false,
-};
+} as unknown as commonModule.IHubSite;
 
 const SITE_ITEM_ENRICH: portalModule.IItem = {
   id: "ad5bace94384467b8712309ae8b68bfd",
