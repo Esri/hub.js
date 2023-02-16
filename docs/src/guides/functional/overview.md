@@ -23,3 +23,4 @@ The functional API provides the underlying implementation for Site, Page, Initia
 - [Working with Discussions & Posts](/hub.js/guides/functional/discussions)
 - [Working with Teams](/hub.js/guides/functional/teams)
 - [Functional Utilities](/hub.js/guides/functional/utilities)
+- [Versioning Entities](/hub.js/guides/functional/versioning/)

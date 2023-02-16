@@ -4,6 +4,7 @@ import {
   IWithCatalogBehavior,
   IWithStoreBehavior,
   IWithSharingBehavior,
+  IWithVersioningBehavior,
 } from "../core";
 
 import { Catalog } from "../search";
@@ -22,6 +23,23 @@ import {
 import { IContainsResponse, IDeepCatalogInfo, IHubCatalog } from "../search";
 import { deepContains } from "../core/_internal/deepContains";
 
+import {
+  applyVersion,
+  createVersion,
+  deleteVersion,
+  getVersion,
+  ICreateVersionOptions,
+  IVersion,
+  IVersionMetadata,
+  searchVersions,
+  updateVersion,
+} from "../versioning";
+
+import { PropertyMapper } from "../core/_internal/PropertyMapper";
+import { getPropertyMap } from "./_internal/getPropertyMap";
+
+import { IModel } from "../index";
+
 /**
  * Hub Site Class
  * NOTE: This is a minimal implementation. Create operations are not supported at this time
@@ -32,7 +50,8 @@ export class HubSite
     IWithStoreBehavior<IHubSite>,
     IWithPermissionBehavior,
     IWithCatalogBehavior,
-    IWithSharingBehavior
+    IWithSharingBehavior,
+    IWithVersioningBehavior
 {
   private _catalog: Catalog;
 
@@ -262,4 +281,78 @@ export class HubSite
 
     return response;
   }
+
+  //#region IWithVersioningBehavior
+
+  /*
+    NOTE: we will be further fleshing this out in the near future
+      we will want to make it easier to apply a version to a site and work with it
+      at a minimum, we will probably want something like this:
+      async applyVersion(versionOrIdentifier: string | IVersion) {
+        const version = typeof versionOrIdentifier === "string" ? await this.getVersion(versionOrIdentifier) : versionOrIdentifier;
+        const mapper = new PropertyMapper<IHubSite>(getPropertyMap());
+        const model = mapper.objectToModel(this.entity, {} as IModel);
+        const versionedModel = applyVersion(model, version);
+        const versionedEntity = mapper.modelToObject(versionedModel, this.entity);
+        return this.update(versionedEntity);
+      }
+  */
+
+  /**
+   * Gets all the versions of the site
+   * @returns
+   */
+  async searchVersions(): Promise<IVersionMetadata[]> {
+    return searchVersions(this.entity.id, this.context.userRequestOptions);
+  }
+
+  /**
+   * Gets the specified version of the site
+   * @param versionId
+   * @returns
+   */
+  async getVersion(versionId: string): Promise<IVersion> {
+    return getVersion(
+      this.entity.id,
+      versionId,
+      this.context.userRequestOptions
+    );
+  }
+
+  /**
+   * Creates a new version of the site
+   * @param options
+   * @returns
+   */
+  async createVersion(options?: ICreateVersionOptions): Promise<IVersion> {
+    const mapper = new PropertyMapper<IHubSite>(getPropertyMap());
+    const model = mapper.objectToModel(this.entity, {} as IModel);
+    return createVersion(model, this.context.userRequestOptions, options);
+  }
+
+  /**
+   * Updates the specified version of the site
+   * @param version
+   * @returns
+   */
+  async updateVersion(version: IVersion): Promise<IVersion> {
+    const mapper = new PropertyMapper<IHubSite>(getPropertyMap());
+    const model = mapper.objectToModel(this.entity, {} as IModel);
+    return updateVersion(model, version, this.context.userRequestOptions);
+  }
+
+  /**
+   * Deletes the specified version of the entity
+   * @returns
+   */
+  async deleteVersion(versionId: string): Promise<{ success: boolean }> {
+    return deleteVersion(
+      this.entity.id,
+      versionId,
+      this.entity.owner,
+      this.context.userRequestOptions
+    );
+  }
+
+  //#endregion IWithVersioningBehavior
 }

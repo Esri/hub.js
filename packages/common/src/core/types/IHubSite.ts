@@ -1,4 +1,5 @@
 import { IExtent } from "@esri/arcgis-rest-feature-layer";
+import { IWithVersioningBehavior } from "../behaviors";
 import {
   IWithCatalog,
   IWithLayout,
@@ -16,7 +17,8 @@ export interface IHubSite
     IWithSlug,
     IWithCatalog,
     IWithLayout,
-    IWithPermissions {
+    IWithPermissions,
+    IWithVersioningBehavior {
   /**
    * Array of minimal page objects
    */

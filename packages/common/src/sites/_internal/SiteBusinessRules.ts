@@ -80,3 +80,12 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
     licenses: ["hub-basic", "hub-premium", "enterprise-sites"],
   },
 ];
+
+/**
+ * Site versioning include list
+ */
+export const SiteVersionIncludeList = [
+  "data.values.layout",
+  "data.values.theme",
+  "data.values.headContent",
+];

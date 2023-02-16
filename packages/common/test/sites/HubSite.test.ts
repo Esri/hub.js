@@ -3,7 +3,8 @@ import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubSite } from "../../src/sites/HubSite";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as HubSitesModule from "../../src/sites/HubSites";
-import { IDeepCatalogInfo, IHubCatalog, IHubSite } from "../../src";
+import * as HubVersioningModule from "../../src/versioning";
+import { IDeepCatalogInfo, IHubCatalog, IHubSite, IVersion } from "../../src";
 import { Catalog } from "../../src/search";
 import * as ContainsModule from "../../src/core/_internal/deepContains";
 describe("HubSite Class:", () => {
@@ -355,6 +356,137 @@ describe("HubSite Class:", () => {
       expect(hiearchy2[1].catalog).toEqual(
         createCatalog("00a"),
         "should pass the site catalog"
+      );
+    });
+  });
+
+  describe(" versioning:", () => {
+    let chk: HubSite;
+    const model: any = {
+      data: {
+        catalog: {
+          schemaVersion: 0,
+        },
+        permissions: [],
+      },
+      item: {
+        id: "bc3",
+        owner: "casey",
+        properties: {
+          orgUrlKey: "fake-org",
+          schemaVersion: 1,
+        },
+        tags: [],
+        title: "Test Site",
+        type: "Hub Site Application",
+        typeKeywords: ["Hub Site", "hubSite"],
+      },
+    };
+    beforeEach(() => {
+      chk = HubSite.fromJson(
+        {
+          id: "bc3",
+          name: "Test Site",
+          owner: "casey",
+          catalog: { schemaVersion: 0 },
+        },
+        authdCtxMgr.context
+      );
+    });
+    it("searches versions", async () => {
+      const searchVersionsSpy = spyOn(
+        HubVersioningModule,
+        "searchVersions"
+      ).and.callFake(() => {
+        return Promise.resolve([{}, {}]);
+      });
+
+      const result = await chk.searchVersions();
+
+      expect(searchVersionsSpy).toHaveBeenCalledTimes(1);
+      expect(searchVersionsSpy).toHaveBeenCalledWith(
+        chk.id,
+        authdCtxMgr.context.userRequestOptions
+      );
+      expect(result.length).toBe(2);
+    });
+    it("gets a version", async () => {
+      const getVersionSpy = spyOn(
+        HubVersioningModule,
+        "getVersion"
+      ).and.callFake(() => {
+        return Promise.resolve({});
+      });
+
+      await chk.getVersion("abc123");
+
+      expect(getVersionSpy).toHaveBeenCalledTimes(1);
+      expect(getVersionSpy).toHaveBeenCalledWith(
+        chk.id,
+        "abc123",
+        authdCtxMgr.context.userRequestOptions
+      );
+    });
+    it("creates a version", async () => {
+      const createVersionSpy = spyOn(
+        HubVersioningModule,
+        "createVersion"
+      ).and.callFake(() => {
+        return Promise.resolve({});
+      });
+
+      const createVersionOptions = { name: "my special version" };
+      await chk.createVersion(createVersionOptions);
+
+      expect(createVersionSpy).toHaveBeenCalledTimes(1);
+      expect(createVersionSpy).toHaveBeenCalledWith(
+        model,
+        authdCtxMgr.context.userRequestOptions,
+        createVersionOptions
+      );
+    });
+    it("updates a version", async () => {
+      const updateVersionSpy = spyOn(
+        HubVersioningModule,
+        "updateVersion"
+      ).and.callFake(() => {
+        return Promise.resolve({});
+      });
+
+      const version: IVersion = {
+        created: 123456,
+        creator: "paige_pa",
+        data: {},
+        id: "abc123",
+        path: "",
+        updated: 123456,
+      };
+
+      await chk.updateVersion(version);
+
+      expect(updateVersionSpy).toHaveBeenCalledTimes(1);
+      expect(updateVersionSpy).toHaveBeenCalledWith(
+        model,
+        version,
+        authdCtxMgr.context.userRequestOptions
+      );
+    });
+    it("deletes a version", async () => {
+      const deleteVersionSpy = spyOn(
+        HubVersioningModule,
+        "deleteVersion"
+      ).and.callFake(() => {
+        return Promise.resolve({ success: true });
+      });
+
+      await chk.deleteVersion("def456");
+
+      expect(deleteVersionSpy).toHaveBeenCalledTimes(1);
+      expect(deleteVersionSpy).toHaveBeenCalledWith(
+        "bc3",
+        "def456",
+        "casey",
+        authdCtxMgr.context.userRequestOptions
       );
     });
   });
