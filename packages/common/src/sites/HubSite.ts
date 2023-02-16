@@ -284,6 +284,20 @@ export class HubSite
 
   //#region IWithVersioningBehavior
 
+  /*
+    NOTE: we will be further fleshing this out in the near future
+      we will want to make it easier to apply a version to a site and work with it
+      at a minimum, we will probably want something like this:
+      async applyVersion(versionOrIdentifier: string | IVersion) {
+        const version = typeof versionOrIdentifier === "string" ? await this.getVersion(versionOrIdentifier) : versionOrIdentifier;
+        const mapper = new PropertyMapper<IHubSite>(getPropertyMap());
+        const model = mapper.objectToModel(this.entity, {} as IModel);
+        const versionedModel = applyVersion(model, version);
+        const versionedEntity = mapper.modelToObject(versionedModel, this.entity);
+        return this.update(versionedEntity);
+      }
+  */
+
   /**
    * Gets all the versions of the site
    * @returns

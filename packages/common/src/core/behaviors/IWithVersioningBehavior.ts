@@ -4,12 +4,6 @@ import {
   IVersionMetadata,
 } from "../../versioning";
 
-/*
-  TODO:
-    - guide / readme
-    - update the UML/Class model lucid, add that into the Architecture section and link out to the Hub.js API docs for the interfaces (vs the code blocks) as that will be auto-maintained
-*/
-
 /**
  * Composable behavior that adds versioning to an entity
  */
