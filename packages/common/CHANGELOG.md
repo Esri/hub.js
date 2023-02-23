@@ -1,3 +1,11 @@
+# @esri/hub-common [12.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.6.1...@esri/hub-common@12.7.0) (2023-02-23)
+
+
+### Features
+
+* entity versioning ([063ab71](https://github.com/Esri/hub.js/commit/063ab7146e0b266ad7689c4f8dee68283287dc21))
+* first pass at entity versioning ([46a43e9](https://github.com/Esri/hub.js/commit/46a43e9f311e765033d14b798d709c8069abefca))
+
 ## @esri/hub-common [12.6.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.6.0...@esri/hub-common@12.6.1) (2023-02-15)
 
 
