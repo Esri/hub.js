@@ -1,5 +1,5 @@
 import { IItem } from "@esri/arcgis-rest-types";
-import { isMaster } from "cluster";
+import { extentToPolygon, bBoxToExtent, isBBox } from "../extent";
 import { fetchItemEnrichments } from "../items/_enrichments";
 import { getProp } from "../objects";
 import { getItemThumbnailUrl } from "../resources";
@@ -46,6 +46,16 @@ export async function enrichContentSearchResult(
       thumbnail: "not-implemented",
     },
   };
+
+  if (isBBox(item.extent)) {
+    const extent = bBoxToExtent(item.extent);
+    const geometryPolygon = extentToPolygon(extent);
+    result.geometry = {
+      geometry: { type: "polygon", ...geometryPolygon },
+      provenance: "item",
+      spatialReference: extent.spatialReference,
+    };
+  }
 
   // default includes
   const DEFAULTS: string[] = [];
