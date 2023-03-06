@@ -1,16 +1,6 @@
-import {
-  IModel,
-  cloneObject,
-  IDraft,
-  mergeObjects,
-  setProp,
-  buildDraft,
-} from "../../../src";
-import { _ensureEventListCard } from "../../../src/sites/_internal/_ensure-event-list-card";
-import {
-  draftModelOneThree,
-  oneThreeSiteDraftIncludeList,
-} from "../../fixtures/historical-site-draft-schemas/1-3";
+import { IModel, cloneObject, IDraft, setProp } from "../../../src";
+import { _migrateEventListCardConfigs } from "../../../src/sites/_internal/_migrate-event-list-card-configs";
+import { draftModelOneThree } from "../../fixtures/historical-site-draft-schemas/1-3";
 
 const siteModel = {
   item: {
@@ -92,7 +82,8 @@ describe("_ensure-event-list-card", () => {
         "list";
       delete expected.data.values.layout.sections[0].rows[0].cards[0].component
         .settings.calendarEnabled;
-      const results = _ensureEventListCard<IModel>(model);
+      setProp("item.properties.schemaVersion", 1.6, expected);
+      const results = _migrateEventListCardConfigs<IModel>(model);
       expect(results).toEqual(expected);
     });
     it("sets displayMode to calendar and deletes calendarEnabled when true", function () {
@@ -103,7 +94,14 @@ describe("_ensure-event-list-card", () => {
         "calendar";
       delete expected.data.values.layout.sections[0].rows[0].cards[0].component
         .settings.calendarEnabled;
-      const results = _ensureEventListCard<IModel>(model);
+      setProp("item.properties.schemaVersion", 1.6, expected);
+      const results = _migrateEventListCardConfigs<IModel>(model);
+      expect(results).toEqual(expected);
+    });
+    it("does not apply changes if schemaVersion is already 1.6", function () {
+      setProp("item.properties.schemaVersion", 1.6, model);
+      const expected: IModel = cloneObject(model);
+      const results = _migrateEventListCardConfigs<IModel>(model);
       expect(results).toEqual(expected);
     });
   });
@@ -123,7 +121,8 @@ describe("_ensure-event-list-card", () => {
         "list";
       delete expected.data.values.layout.sections[7].rows[0].cards[0].component
         .settings.calendarEnabled;
-      const results = _ensureEventListCard<IDraft>(model);
+      setProp("item.properties.schemaVersion", 1.6, expected);
+      const results = _migrateEventListCardConfigs<IDraft>(model);
       expect(results).toEqual(expected);
     });
     it("sets displayMode to calendar and deletes calendarEnabled when true", function () {
@@ -132,7 +131,14 @@ describe("_ensure-event-list-card", () => {
         "calendar";
       delete expected.data.values.layout.sections[7].rows[0].cards[0].component
         .settings.calendarEnabled;
-      const results = _ensureEventListCard<IDraft>(model);
+      setProp("item.properties.schemaVersion", 1.6, expected);
+      const results = _migrateEventListCardConfigs<IDraft>(model);
+      expect(results).toEqual(expected);
+    });
+    it("does not apply changes if schemaVersion is already 1.6", function () {
+      setProp("item.properties.schemaVersion", 1.6, model);
+      const expected: IDraft = cloneObject(model);
+      const results = _migrateEventListCardConfigs<IDraft>(model);
       expect(results).toEqual(expected);
     });
   });

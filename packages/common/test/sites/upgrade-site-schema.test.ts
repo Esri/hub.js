@@ -5,7 +5,7 @@ import * as _ensureCatalogModule from "../../src/sites/_internal/_ensure-catalog
 import * as _purgeNonGuidsFromCatalogModule from "../../src/sites/_internal/_purge-non-guids-from-catalog";
 import * as _ensureTelemetryModule from "../../src/sites/_internal/_ensure-telemetry";
 import * as _migrateFeedConfigModule from "../../src/sites/_internal/_migrate-feed-config";
-import * as _ensureEventListCard from "../../src/sites/_internal/_ensure-event-list-card";
+import * as _migrateEventListCardConfigs from "../../src/sites/_internal/_migrate-event-list-card-configs";
 import { IModel } from "../../src";
 import { SITE_SCHEMA_VERSION } from "../../src/sites/site-schema-version";
 import { expectAllCalled, expectAll } from "./test-helpers.test";
@@ -17,7 +17,7 @@ describe("upgradeSiteSchema", () => {
   let purgeNonGuidsSpy: jasmine.Spy;
   let ensureTelemetrySpy: jasmine.Spy;
   let migrateFeedConfigSpy: jasmine.Spy;
-  let ensureEventListCardSpy: jasmine.Spy;
+  let migrateEventListCardConfigsSpy: jasmine.Spy;
   beforeEach(() => {
     applySpy = spyOn(_applySiteSchemaModule, "_applySiteSchema").and.callFake(
       (model: IModel) => model
@@ -42,9 +42,9 @@ describe("upgradeSiteSchema", () => {
       _migrateFeedConfigModule,
       "_migrateFeedConfig"
     ).and.callFake((model: IModel) => model);
-    ensureEventListCardSpy = spyOn(
-      _ensureEventListCard,
-      "_ensureEventListCard"
+    migrateEventListCardConfigsSpy = spyOn(
+      _migrateEventListCardConfigs,
+      "_migrateEventListCardConfigs"
     ).and.callFake((model: IModel) => model);
   });
 
@@ -67,7 +67,7 @@ describe("upgradeSiteSchema", () => {
         purgeNonGuidsSpy,
         ensureTelemetrySpy,
         migrateFeedConfigSpy,
-        ensureEventListCardSpy,
+        migrateEventListCardConfigsSpy,
       ],
       expect
     );
@@ -92,7 +92,7 @@ describe("upgradeSiteSchema", () => {
         purgeNonGuidsSpy,
         ensureTelemetrySpy,
         migrateFeedConfigSpy,
-        ensureEventListCardSpy,
+        migrateEventListCardConfigsSpy,
       ],
       "toHaveBeenCalled",
       false,
