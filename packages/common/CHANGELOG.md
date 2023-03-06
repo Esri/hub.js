@@ -1,3 +1,11 @@
+# @esri/hub-common [12.8.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.7.0...@esri/hub-common@12.8.0) (2023-03-06)
+
+
+### Features
+
+* **hub-common:** add migration for event list card ([41c6c0a](https://github.com/Esri/hub.js/commit/41c6c0a3f66c1985a8cb36fc49fe58797e8c2b9d))
+* **hub-common:** pr feedback ([e3a9636](https://github.com/Esri/hub.js/commit/e3a96369cce343a201dea19fa0d6820ee5d7aba6))
+
 # @esri/hub-common [12.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.6.1...@esri/hub-common@12.7.0) (2023-02-23)
 
 
