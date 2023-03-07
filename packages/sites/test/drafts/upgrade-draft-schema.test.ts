@@ -34,7 +34,14 @@ describe("upgradeDraftSchema", () => {
 
     upgradeDraftSchema(draft);
 
-    expectAllCalled([ensureTelemetrySpy], expect);
+    expectAllCalled(
+      [
+        ensureTelemetrySpy,
+        migrateFeedConfigSpy,
+        migrateEventListCardConfigsSpy,
+      ],
+      expect
+    );
   });
 
   it("runs schema upgrades when no schema version", async () => {
@@ -46,7 +53,14 @@ describe("upgradeDraftSchema", () => {
 
     upgradeDraftSchema(draft);
 
-    expectAllCalled([ensureTelemetrySpy], expect);
+    expectAllCalled(
+      [
+        ensureTelemetrySpy,
+        migrateFeedConfigSpy,
+        migrateEventListCardConfigsSpy,
+      ],
+      expect
+    );
   });
 
   it("runs schema upgrades when schema", async () => {
@@ -60,7 +74,14 @@ describe("upgradeDraftSchema", () => {
 
     upgradeDraftSchema(draft);
 
-    expectAllCalled([ensureTelemetrySpy], expect);
+    expectAllCalled(
+      [
+        ensureTelemetrySpy,
+        migrateFeedConfigSpy,
+        migrateEventListCardConfigsSpy,
+      ],
+      expect
+    );
   });
 
   it("skips upgrade if already at current schema version", async () => {
@@ -74,6 +95,15 @@ describe("upgradeDraftSchema", () => {
 
     upgradeDraftSchema(draft);
 
-    expectAll([ensureTelemetrySpy], "toHaveBeenCalled", false, expect);
+    expectAll(
+      [
+        ensureTelemetrySpy,
+        migrateFeedConfigSpy,
+        migrateEventListCardConfigsSpy,
+      ],
+      "toHaveBeenCalled",
+      false,
+      expect
+    );
   });
 });
