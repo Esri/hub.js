@@ -1,3 +1,16 @@
+# @esri/hub-sites [12.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@12.4.1...@esri/hub-sites@12.5.0) (2023-03-07)
+
+
+### Bug Fixes
+
+* update tests ([dc039cd](https://github.com/Esri/hub.js/commit/dc039cd669183a435a7ad5e63758b9f622625c48))
+
+
+### Features
+
+* add feed migration ([8e3d3cf](https://github.com/Esri/hub.js/commit/8e3d3cf190c1ba3b209e0840d1f82be6932d7caf))
+* draft schema migration update ([8bf0e26](https://github.com/Esri/hub.js/commit/8bf0e264388d8bd0ddbd8d13b21ab2fe031e2d4e))
+
 ## @esri/hub-sites [12.4.1](https://github.com/Esri/hub.js/compare/@esri/hub-sites@12.4.0...@esri/hub-sites@12.4.1) (2023-02-08)
 
 
