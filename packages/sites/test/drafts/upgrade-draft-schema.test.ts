@@ -5,12 +5,22 @@ import { SITE_SCHEMA_VERSION } from "../../src/site-schema-version";
 import { expectAll, expectAllCalled } from "../test-helpers.test";
 import { IDraft } from "@esri/hub-common/src";
 
-describe("upgradeSiteSchema", () => {
+describe("upgradeDraftSchema", () => {
   let ensureTelemetrySpy: jasmine.Spy;
+  let migrateFeedConfigSpy: jasmine.Spy;
+  let migrateEventListCardConfigsSpy: jasmine.Spy;
   beforeEach(() => {
     ensureTelemetrySpy = spyOn(commonModule, "_ensureTelemetry").and.callFake(
       (model: IModel) => model
     );
+    migrateFeedConfigSpy = spyOn(
+      commonModule,
+      "_migrateFeedConfig"
+    ).and.callFake((model: IModel) => model);
+    migrateEventListCardConfigsSpy = spyOn(
+      commonModule,
+      "_migrateEventListCardConfigs"
+    ).and.callFake((model: IModel) => model);
   });
 
   it("runs schema upgrades when schema out of date", async () => {
@@ -24,7 +34,14 @@ describe("upgradeSiteSchema", () => {
 
     upgradeDraftSchema(draft);
 
-    expectAllCalled([ensureTelemetrySpy], expect);
+    expectAllCalled(
+      [
+        ensureTelemetrySpy,
+        migrateFeedConfigSpy,
+        migrateEventListCardConfigsSpy,
+      ],
+      expect
+    );
   });
 
   it("runs schema upgrades when no schema version", async () => {
@@ -36,7 +53,14 @@ describe("upgradeSiteSchema", () => {
 
     upgradeDraftSchema(draft);
 
-    expectAllCalled([ensureTelemetrySpy], expect);
+    expectAllCalled(
+      [
+        ensureTelemetrySpy,
+        migrateFeedConfigSpy,
+        migrateEventListCardConfigsSpy,
+      ],
+      expect
+    );
   });
 
   it("runs schema upgrades when schema", async () => {
@@ -50,7 +74,14 @@ describe("upgradeSiteSchema", () => {
 
     upgradeDraftSchema(draft);
 
-    expectAllCalled([ensureTelemetrySpy], expect);
+    expectAllCalled(
+      [
+        ensureTelemetrySpy,
+        migrateFeedConfigSpy,
+        migrateEventListCardConfigsSpy,
+      ],
+      expect
+    );
   });
 
   it("skips upgrade if already at current schema version", async () => {
@@ -64,6 +95,15 @@ describe("upgradeSiteSchema", () => {
 
     upgradeDraftSchema(draft);
 
-    expectAll([ensureTelemetrySpy], "toHaveBeenCalled", false, expect);
+    expectAll(
+      [
+        ensureTelemetrySpy,
+        migrateFeedConfigSpy,
+        migrateEventListCardConfigsSpy,
+      ],
+      "toHaveBeenCalled",
+      false,
+      expect
+    );
   });
 });

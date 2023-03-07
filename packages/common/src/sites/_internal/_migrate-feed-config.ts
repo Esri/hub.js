@@ -1,5 +1,5 @@
 import { getProp } from "../../objects";
-import { IModel } from "../../types";
+import { IDraft, IModel } from "../../types";
 import { cloneObject } from "../../util";
 
 /**
@@ -15,7 +15,7 @@ import { cloneObject } from "../../util";
  * @param {object} model Site Model
  * @private
  */
-export function _migrateFeedConfig(model: IModel) {
+export function _migrateFeedConfig<T extends IModel | IDraft>(model: T): T {
   if (getProp(model, "item.properties.schemaVersion") >= 1.5) return model;
 
   const clone = cloneObject(model);
