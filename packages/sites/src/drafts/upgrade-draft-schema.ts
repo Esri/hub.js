@@ -2,6 +2,7 @@ import { deepSet, getProp, IDraft } from "@esri/hub-common";
 import {
   SITE_SCHEMA_VERSION,
   _ensureTelemetry,
+  _migrateFeedConfig,
   _migrateEventListCardConfigs,
 } from "@esri/hub-common";
 
@@ -25,6 +26,7 @@ export function upgradeDraftSchema(draft: IDraft) {
     // don't have do do them all since drafts only got released
     // at version 1.3
     migrated = _ensureTelemetry<IDraft>(draft);
+    migrated = _migrateFeedConfig<IDraft>(draft);
     migrated = _migrateEventListCardConfigs<IDraft>(draft);
     return migrated;
   }

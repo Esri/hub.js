@@ -7,11 +7,16 @@ import { IDraft } from "@esri/hub-common/src";
 
 describe("upgradeDraftSchema", () => {
   let ensureTelemetrySpy: jasmine.Spy;
+  let migrateFeedConfigSpy: jasmine.Spy;
   let migrateEventListCardConfigsSpy: jasmine.Spy;
   beforeEach(() => {
     ensureTelemetrySpy = spyOn(commonModule, "_ensureTelemetry").and.callFake(
       (model: IModel) => model
     );
+    migrateFeedConfigSpy = spyOn(
+      commonModule,
+      "_migrateFeedConfig"
+    ).and.callFake((model: IModel) => model);
     migrateEventListCardConfigsSpy = spyOn(
       commonModule,
       "_migrateEventListCardConfigs"
