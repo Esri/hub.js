@@ -1,4 +1,5 @@
 export * from "./_internal/_ensure-telemetry";
+export * from "./_internal/_migrate-event-list-card-configs";
 export * from "./domains";
 export * from "./drafts";
 export * from "./fetchSiteModel";

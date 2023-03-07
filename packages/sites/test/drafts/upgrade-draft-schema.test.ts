@@ -5,12 +5,17 @@ import { SITE_SCHEMA_VERSION } from "../../src/site-schema-version";
 import { expectAll, expectAllCalled } from "../test-helpers.test";
 import { IDraft } from "@esri/hub-common/src";
 
-describe("upgradeSiteSchema", () => {
+describe("upgradeDraftSchema", () => {
   let ensureTelemetrySpy: jasmine.Spy;
+  let migrateEventListCardConfigsSpy: jasmine.Spy;
   beforeEach(() => {
     ensureTelemetrySpy = spyOn(commonModule, "_ensureTelemetry").and.callFake(
       (model: IModel) => model
     );
+    migrateEventListCardConfigsSpy = spyOn(
+      commonModule,
+      "_migrateEventListCardConfigs"
+    ).and.callFake((model: IModel) => model);
   });
 
   it("runs schema upgrades when schema out of date", async () => {
