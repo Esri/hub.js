@@ -1,3 +1,11 @@
+# @esri/hub-common [12.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.8.0...@esri/hub-common@12.9.0) (2023-03-07)
+
+
+### Features
+
+* add feed migration ([8e3d3cf](https://github.com/Esri/hub.js/commit/8e3d3cf190c1ba3b209e0840d1f82be6932d7caf))
+* draft schema migration update ([8bf0e26](https://github.com/Esri/hub.js/commit/8bf0e264388d8bd0ddbd8d13b21ab2fe031e2d4e))
+
 # @esri/hub-common [12.8.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.7.0...@esri/hub-common@12.8.0) (2023-03-06)
 
 
