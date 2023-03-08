@@ -113,6 +113,8 @@ describe("WellKnownCatalog", () => {
         "CSV",
         "Feature Collection",
         "Feature Layer",
+        // Changed as part of https://confluencewikidev.esri.com/x/KYJuDg
+        "Feature Service",
         "File Geodatabase",
         "GeoJSON",
         "GeoJson",
