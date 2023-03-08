@@ -59,7 +59,7 @@ const config = {
           orgUrl: "https://qa-pre-a-hub.mapsqa.arcgis.com",
           admin: {
             username: "paige_pa",
-            password: PWD,
+            password: "qa1hubtest",
           },
           user: {
             username: "e2e_pre_a_pub_publisher",

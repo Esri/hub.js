@@ -4,6 +4,7 @@ import {
   IWithSlug,
   IWithCatalog,
 } from "../traits/index";
+import { DynamicValueDefinition, DynamicValues } from "./DynamicValues";
 import { IHubItemEntity } from "./IHubItemEntity";
 import { IHubTimeline } from "./IHubTimeline";
 
@@ -24,6 +25,14 @@ export interface IHubProject
    * Project Status
    */
   status: PROJECT_STATUSES;
+  /**
+   * Definition of any dynamic values that can be resolved
+   */
+  dynamicValues?: DynamicValueDefinition[];
+  /**
+   * Container for values that can be the source for other dynamic values
+   */
+  values?: DynamicValues;
 }
 
 export enum PROJECT_STATUSES {

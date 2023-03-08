@@ -1,3 +1,4 @@
+export * from "./DynamicValues";
 export * from "./HubEntity";
 export * from "./HubEntityType";
 export * from "./IHubContent";

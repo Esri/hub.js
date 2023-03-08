@@ -23,7 +23,7 @@ export function getBasePropertyMap(): IPropertyMap[] {
     "thumbnail",
     "url",
   ];
-  const dataProps = ["display", "geometry", "view"];
+  const dataProps = ["display", "geometry", "view", "dynamicValues"];
   const resourceProps = Object.keys(EntityResourceMap);
   const map: IPropertyMap[] = [];
   itemProps.forEach((entry) => {
@@ -40,6 +40,7 @@ export function getBasePropertyMap(): IPropertyMap[] {
     objectKey: "slug",
     modelKey: "item.properties.slug",
   });
+
   map.push({
     objectKey: "summary",
     modelKey: "item.snippet",

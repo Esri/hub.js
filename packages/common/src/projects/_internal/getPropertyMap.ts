@@ -24,5 +24,14 @@ export function getPropertyMap(): IPropertyMap[] {
     modelKey: "data.settings.capabilities",
   });
 
+  map.push({
+    objectKey: "dynamicValues",
+    modelKey: "item.properties.dynamicValues",
+  });
+  map.push({
+    objectKey: "values",
+    modelKey: "item.properties.values",
+  });
+
   return map;
 }
