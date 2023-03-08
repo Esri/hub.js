@@ -54,24 +54,6 @@ const config = {
             },
           },
         },
-        hubPremiumAlpha: {
-          orgShort: "qa-pre-a-hub",
-          orgUrl: "https://qa-pre-a-hub.mapsqa.arcgis.com",
-          admin: {
-            username: "paige_pa",
-            password: "qa1hubtest",
-          },
-          user: {
-            username: "e2e_pre_a_pub_publisher",
-            password: PWD,
-          },
-          fixtures: {
-            items: {
-              sitePageMapViewsLayersTable: "5741debb4bd9476e9511035126c7edb6",
-              mapViewsLayersTable: "be81062c50534a8abddd5927f4f41316",
-            },
-          },
-        },
         hubBasic: {
           orgShort: "qa-bas-hub",
           orgUrl: "https://qa-bas-hub.mapsqa.arcgis.com",
