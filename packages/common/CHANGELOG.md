@@ -1,3 +1,10 @@
+# @esri/hub-common [12.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.9.0...@esri/hub-common@12.10.0) (2023-03-08)
+
+
+### Features
+
+* **hub-common:** modify getFamilyTypes to return "Feature Service" as part of the "Dataset" family ([75e3dd4](https://github.com/Esri/hub.js/commit/75e3dd457eab48d4c1305e08c514aeae88389c6b))
+
 # @esri/hub-common [12.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.8.0...@esri/hub-common@12.9.0) (2023-03-07)
 
 
