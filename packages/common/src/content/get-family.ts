@@ -79,7 +79,9 @@ export function getFamilyTypes(family: HubFamily): string[] {
       types = getCollectionTypes(family.toLowerCase()).filter(
         (type) =>
           type !== "Feature Collection Template" &&
-          type !== "Feature Service" &&
+          // Changed as part of https://confluencewikidev.esri.com/x/KYJuDg
+          // Remove when reclassification has been completed
+          // type !== "Feature Service" &&
           type !== "Raster Layer" &&
           type !== "Microsoft Excel"
       );
@@ -89,7 +91,12 @@ export function getFamilyTypes(family: HubFamily): string[] {
       types = getCollectionTypes(family.toLowerCase()).filter(
         (type) => type !== "Image Service"
       );
-      types = types.concat(["Feature Service", "Raster Layer"]);
+      types = types.concat([
+        // Changed as part of https://confluencewikidev.esri.com/x/KYJuDg
+        // Remove when reclassification has been completed
+        // "Feature Service",
+        "Raster Layer",
+      ]);
       break;
     case "document":
       types = getCollectionTypes(family.toLowerCase()).filter(

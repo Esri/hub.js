@@ -25,7 +25,10 @@ describe("getFamily", () => {
       expect(types.length > 0).toBeTruthy();
       expect(types.includes("Image Service")).toBeTruthy();
       expect(types.includes("Feature Collection Template")).toBeFalsy();
-      expect(types.includes("Feature Service")).toBeFalsy();
+      // Changed as part of https://confluencewikidev.esri.com/x/KYJuDg
+      // Remove when reclassification has been completed
+      // expect(types.includes("Feature Service")).toBeFalsy();
+      expect(types.includes("Feature Service")).toBeTruthy();
       expect(types.includes("Raster Layer")).toBeFalsy();
       expect(types.includes("Microsoft Excel")).toBeFalsy();
     });
@@ -35,7 +38,10 @@ describe("getFamily", () => {
       expect(Array.isArray(types)).toBeTruthy();
       expect(types.length > 0).toBeTruthy();
       expect(types.includes("Image Service")).toBeFalsy();
-      expect(types.includes("Feature Service")).toBeTruthy();
+      // Changed as part of https://confluencewikidev.esri.com/x/KYJuDg
+      // Remove when reclassification has been completed
+      // expect(types.includes("Feature Service")).toBeTruthy();
+      expect(types.includes("Feature Service")).toBeFalsy();
       expect(types.includes("Raster Layer")).toBeTruthy();
     });
 
