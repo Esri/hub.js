@@ -32,9 +32,11 @@ export async function resolveDynamicValues(
   context: IArcGISContext
 ): Promise<Record<string, any>> {
   let result: Record<string, any> = {};
+
   for (const valueDef of dynamicValues) {
     switch (valueDef.source) {
       case "item-query":
+        // TODO: We may want to abstract the sourcePath so the properties.values.<parentid> is added here and not in the definition
         const itemQueryValues = await resolveItemQueryValues(
           valueDef as IDynamicItemQueryDefinition,
           context

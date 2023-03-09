@@ -17,7 +17,9 @@ export interface IHubInitiative
    */
   dynamicValues?: DynamicValueDefinition[];
   /**
-   * Holds properties that are be the source dynamic values defined by a parent entity
+   * Holds a hash of DynamicValues, keyed by the id of the parent for which the values
+   * apply. These are the source values used when the parent resolves is own dynamic values.
+   * e.g. `values.00c.funding = 1029` is the funding value for the parent with id `00c`
    */
-  values?: DynamicValues;
+  values?: Record<string, DynamicValues>;
 }

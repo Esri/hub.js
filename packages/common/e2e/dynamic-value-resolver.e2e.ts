@@ -114,7 +114,7 @@ async function createItems(
   // Construct typed dynamic value definitions
   const treesDynamicValue: IDynamicItemQueryDefinition = {
     source: "item-query",
-    sourcePath: "properties.values.treesPlanted",
+    sourcePath: `properties.values.${instance.id}.treesPlanted`,
     outPath: "treesPlanted",
     options: {
       q: `type: "Hub Project" AND typekeywords: initiative|${instance.id}`,
@@ -124,7 +124,7 @@ async function createItems(
   };
   const statusDynamicValue: IDynamicItemQueryDefinition = {
     source: "item-query",
-    sourcePath: "properties.values.status",
+    sourcePath: `properties.values.${instance.id}.status`,
     outPath: "statusCounts",
     options: {
       q: `type: "Hub Project" AND typekeywords: initiative|${instance.id}`,
@@ -137,7 +137,7 @@ async function createItems(
     options: {
       q: `type: "Hub Project" AND typekeywords: initiative|${instance.id}`,
     },
-    sourcePath: "properties.values.surveyCount",
+    sourcePath: `properties.values.${instance.id}.surveyCount`,
     outPath: "surveyCounts",
     aggregation: "sum",
     required: false,
@@ -147,20 +147,19 @@ async function createItems(
     treesDynamicValue,
     statusDynamicValue,
     cascadeDynamicValue,
-
     {
       source: "portal",
-      sourcePath: "urlKey",
+      sourcePath: `urlKey`,
       outPath: "orgShort",
     } as IDynamicPortalQueryDefinition,
     {
       source: "portal",
-      sourcePath: "name",
+      sourcePath: `name`,
       outPath: "orgName",
     } as IDynamicPortalQueryDefinition,
     {
       source: "portal",
-      sourcePath: "defaultExtent",
+      sourcePath: `defaultExtent`,
       outPath: "extent",
     } as IDynamicPortalQueryDefinition,
   ];
@@ -181,8 +180,10 @@ async function createItems(
       orgUrlKey: context.portal.urlKey,
       typeKeywords: [connectingKeyword, "HubProject"],
       values: {
-        treesPlanted: i * 10,
-        status: i % 2 === 0 ? "planned" : "started",
+        [instance.id]: {
+          treesPlanted: i * 10,
+          status: i % 2 === 0 ? "planned" : "started",
+        },
       },
     };
     if (includeFSQuery) {
@@ -201,9 +202,9 @@ async function createItems(
         outPath: "surveyCount",
         required: false,
       };
-      setProp("values.surveyCount", sc, prj);
+      setProp(`values.${instance.id}.surveyCount`, sc, prj);
     } else {
-      setProp("values.surveyCount", i * 34, prj);
+      setProp(`values.${instance.id}.surveyCount`, i * 34, prj);
     }
     const project = await HubProject.create(prj, context, true);
     result.projects.push(project);
