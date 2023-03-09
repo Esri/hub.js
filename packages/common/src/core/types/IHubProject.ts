@@ -26,11 +26,11 @@ export interface IHubProject
    */
   status: PROJECT_STATUSES;
   /**
-   * Definition of any dynamic values that can be resolved
+   * Definition of any dynamic values that can be resolved from child entities, service queris or the portal
    */
   dynamicValues?: DynamicValueDefinition[];
   /**
-   * Container for values that can be the source for other dynamic values
+   * Holds properties that are be the source dynamic values defined by a parent entity
    */
   values?: DynamicValues;
 }

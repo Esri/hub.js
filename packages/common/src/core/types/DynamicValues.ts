@@ -9,12 +9,12 @@ export type DynamicValueSource = "item-query" | "service-query" | "portal";
 /**
  * Subset of the [ISearchOptions](https://esri.github.io/arcgis-rest-js/api/portal/ISearchOptions/) interface, used for item queries
  */
-export type ItemSearchOptions = Partial<Pick<ISearchOptions, "q" | "filter">>;
+export type ItemQueryOptions = Partial<Pick<ISearchOptions, "q" | "filter">>;
 
 /**
  * Options used to defined a feature service query
  */
-export interface IServiceSearchOptions {
+export interface IServiceQueryOptions {
   /**
    * The url of the feature service, including the layer
    */
@@ -88,7 +88,7 @@ export interface IDynamicItemQueryDefinition
   /**
    * Options used for the item search query
    */
-  options: ItemSearchOptions;
+  options: ItemQueryOptions;
   /**
    * The type of aggregation to apply to the set of results
    */
@@ -104,7 +104,7 @@ export interface IDynamicServiceQueryDefinition
   /**
    * Options used for the service query
    */
-  options: IServiceSearchOptions;
+  options: IServiceQueryOptions;
   /**
    * The type of aggregation to apply to the set of results
    */
