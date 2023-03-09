@@ -21,9 +21,10 @@ const memoizedItemSearch = memoize(searchItems);
 const memoizedPortalSelf = memoize(getSelf);
 
 /**
- * Resolve a set of dynamic values. If the result is a DynamicValueDefinition, it will be resolved recursively
- * @param dynamicValues
- * @param context
+ * Resolve a set of dynamic values. If the result is a DynamicValueDefinition, it will be resolved recursively.
+ * The individual definitions can be of many types (item-query, portal etc), each of which has their own logic for resolving the value.
+ * @param dynamicValues Array of dynamic value definitions to resolve
+ * @param context ArcGIS context of the current user.
  * @returns
  */
 export async function resolveDynamicValues(
@@ -70,8 +71,8 @@ function assertNever(x: never, source: string): never {
 /**
  * Resolve a set of dynamic values by extracting properties
  * from the current user's portal/self
- * @param valueDef
- * @param context
+ * @param valueDef Portal Query Definition that wil be resolved using properties from the current user's portal/self
+ * @param context ArcGIS context of the current user.
  * @returns
  */
 async function resolvePortalValues(
@@ -96,8 +97,8 @@ async function resolvePortalValues(
  * Resolve a set of dynamic values based on an item query.
  * This is used to query for a set of items, extract a specific value from each
  * then run an aggregation on the set of values.
- * @param valueDef
- * @param context
+ * @param valueDef Item Query Definition that will be resolved by querying for items and extracting a specific value from each
+ * @param context ArcGIS context of the current user.
  * @returns
  */
 async function resolveItemQueryValues(
@@ -142,8 +143,8 @@ async function resolveItemQueryValues(
 
 /**
  * Resolve a dynamic value that is derived from a service query
- * @param valueDef
- * @param context
+ * @param valueDef Service Query Definition that will be resolved by executing an aggregation querying on service and returning that value
+ * @param context ArcGIS context of the current user.
  * @returns
  */
 async function resolveServiceQueryValues(

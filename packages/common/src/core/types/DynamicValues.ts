@@ -7,7 +7,7 @@ import { IConfigurationSchema } from "../schemas";
 export type DynamicValueSource = "item-query" | "service-query" | "portal";
 
 /**
- * Subset of the ISearchOptions interface, used for item queries
+ * Subset of the [ISearchOptions](https://esri.github.io/arcgis-rest-js/api/portal/ISearchOptions/) interface, used for item queries
  */
 export type ItemSearchOptions = Partial<Pick<ISearchOptions, "q" | "filter">>;
 
@@ -47,8 +47,19 @@ export type DynamicAggregation = ServiceAggregation | "countByValue";
  * Properties shared by all DyanmicValueDefinitions
  */
 interface IBaseDynamicValueDefinition {
+  /**
+   * The property path used to connect the resolved value to the parent object
+   */
   outPath: string;
+  /**
+   * Indicates if the value is required. If true, the UX for adding the value will indicate that it is required
+   * but the system can not force a value to be provided.
+   */
   required: boolean;
+  /**
+   * JSON schema used to validate the value. If not provided, the value will not be validated
+   * NOTE: This may be swapped for a smaller set of props that would be used to generate the schema
+   */
   schema?: Partial<IConfigurationSchema>;
 }
 
@@ -58,6 +69,9 @@ interface IBaseDynamicValueDefinition {
 export interface IDynamicPortalQueryDefinition
   extends IBaseDynamicValueDefinition {
   source: "portal";
+  /**
+   * The path to the property on the portal/self response to return
+   */
   sourcePath: string;
 }
 
@@ -67,8 +81,17 @@ export interface IDynamicPortalQueryDefinition
 export interface IDynamicItemQueryDefinition
   extends IBaseDynamicValueDefinition {
   source: "item-query";
+  /**
+   * The path to the property on the item to return
+   */
   sourcePath: string;
+  /**
+   * Options used for the item search query
+   */
   options: ItemSearchOptions;
+  /**
+   * The type of aggregation to apply to the set of results
+   */
   aggregation: DynamicAggregation;
 }
 
@@ -78,7 +101,13 @@ export interface IDynamicItemQueryDefinition
 export interface IDynamicServiceQueryDefinition
   extends IBaseDynamicValueDefinition {
   source: "service-query";
+  /**
+   * Options used for the service query
+   */
   options: IServiceSearchOptions;
+  /**
+   * The type of aggregation to apply to the set of results
+   */
   aggregation: DynamicAggregation;
 }
 
