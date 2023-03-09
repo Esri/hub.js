@@ -29,7 +29,7 @@ fdescribe("catalog and collection e2e:", () => {
     try {
       // given the initiative, resolve it's dynamic values
       const start = Date.now();
-      const resolved = await resolveEntityDyanmicValues(
+      const resolved = await resolveEntityDynamicValues(
         items.initiative.toJson(),
         ctxMgr.context
       );
@@ -80,7 +80,7 @@ const timings: Record<string, number> = {
   queryValues: 0,
 };
 
-async function resolveEntityDyanmicValues(
+async function resolveEntityDynamicValues(
   initiative: IHubInitiative,
   context: IArcGISContext
 ): Promise<Record<string, any>> {

@@ -4,7 +4,7 @@ import { IConfigurationSchema } from "../schemas";
 /**
  * The source for a dyanmic value. Used to determine how to resolve the value
  */
-export type DyanmicValueSource = "item-query" | "service-query" | "portal";
+export type DynamicValueSource = "item-query" | "service-query" | "portal";
 
 /**
  * Subset of the ISearchOptions interface, used for item queries
