@@ -114,7 +114,7 @@ async function createItems(
   // Construct typed dynamic value definitions
   const treesDynamicValue: IDynamicItemQueryDefinition = {
     source: "item-query",
-    sourcePath: "properties.metrics.treesPlanted",
+    sourcePath: "properties.values.treesPlanted",
     outPath: "treesPlanted",
     options: {
       q: `type: "Hub Project" AND typekeywords: initiative|${instance.id}`,
@@ -124,7 +124,7 @@ async function createItems(
   };
   const statusDynamicValue: IDynamicItemQueryDefinition = {
     source: "item-query",
-    sourcePath: "properties.metrics.status",
+    sourcePath: "properties.values.status",
     outPath: "statusCounts",
     options: {
       q: `type: "Hub Project" AND typekeywords: initiative|${instance.id}`,
@@ -137,7 +137,7 @@ async function createItems(
     options: {
       q: `type: "Hub Project" AND typekeywords: initiative|${instance.id}`,
     },
-    sourcePath: "properties.metrics.surveyCount",
+    sourcePath: "properties.values.surveyCount",
     outPath: "surveyCounts",
     aggregation: "sum",
     required: false,
@@ -201,9 +201,9 @@ async function createItems(
         outPath: "surveyCount",
         required: false,
       };
-      setProp("metrics.surveyCount", sc, prj);
+      setProp("values.surveyCount", sc, prj);
     } else {
-      setProp("metrics.surveyCount", i * 34, prj);
+      setProp("values.surveyCount", i * 34, prj);
     }
     const project = await HubProject.create(prj, context, true);
     result.projects.push(project);
