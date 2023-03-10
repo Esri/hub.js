@@ -2,5 +2,5 @@
     "extends": "../../tsconfig.json",
     "include": [
         "src/**/*.ts"
-    ]
+, "../common/src/layout/upgrade-layout.ts"    ]
 }
