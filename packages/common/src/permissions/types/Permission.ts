@@ -2,6 +2,7 @@ import { ProjectPermissions } from "../../projects/_internal/ProjectBusinessRule
 import { SitePermissions } from "../../sites/_internal/SiteBusinessRules";
 import { InitiativePermissions } from "../../initiatives/_internal/InitiativeBusinessRules";
 import { DiscussionPermissions } from "../../discussions/_internal/DiscussionBusinessRules";
+import { ContentPermissions } from "../../content/_internal/ContentBusinessRules";
 
 /**
  * Defines the values for Permissions
@@ -13,6 +14,7 @@ const validPermissions = [
   ...ProjectPermissions,
   ...InitiativePermissions,
   ...DiscussionPermissions,
+  ...ContentPermissions,
 ] as const;
 
 /**

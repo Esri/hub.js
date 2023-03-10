@@ -1,145 +1,114 @@
-import { IItem } from "@esri/arcgis-rest-portal";
+import * as PortalModule from "@esri/arcgis-rest-portal";
+import { ArcGISContextManager } from "../../src/ArcGISContextManager";
+import { MOCK_AUTH } from "../mocks/mock-auth";
+import { IHubEditableContent } from "../../src/core/types";
+import { HubContent } from "../../src/content/HubContent";
+import * as editModule from "../../src/content/edit";
 
-import {
-  cloneObject,
-  enrichContentSearchResult,
-  IHubRequestOptions,
-  IHubSearchResult,
-} from "../../src";
-import * as FetchEnrichments from "../../src/items/_enrichments";
-
-const FEATURE_SERVICE_ITEM: IItem = {
-  id: "bbc0882d4713479c87bedcd6b3c41d1a",
-  owner: "andrewstauffer",
-  created: 1411060006000,
-  modified: 1429562151000,
-  guid: null,
-  name: null,
-  title: "  Lease Positions -  ",
-  type: "Feature Service",
-  typeKeywords: [
-    "ArcGIS Server",
-    "Data",
-    "Feature Access",
-    "Feature Service",
-    "Service",
-  ],
-  description: "<div>Active Lease Positions</div>",
-  tags: ["gaiaose", "leases", "railroads", "Greece"],
-  snippet: null,
-  thumbnail: "thumbnail/ago_downloaded.png",
-  documentation: null,
-  extent: [
-    [20.9847, 37.0075],
-    [26.6331, 41.7264],
-  ],
-  categories: ["category"],
-  spatialReference: null,
-  accessInformation: null,
-  licenseInfo: null,
-  culture: "en-us",
-  properties: null,
-  advancedSettings: null,
-  url: "http://gaiacloud.gaiaose.gr/arcgis/rest/services/Public/MisthoseisPlot/MapServer",
-  proxyFilter: null,
-  access: "public",
-  size: -1,
-  subInfo: 0,
-  appCategories: [],
-  industries: [],
-  languages: [],
-  largeThumbnail: null,
-  banner: null,
-  screenshots: [],
-  listed: false,
-  numComments: 4,
-  numRatings: 0,
-  avgRating: 0,
-  numViews: 121,
-  scoreCompleteness: 53,
-  groupDesignations: null,
-  contentOrigin: "other",
-};
-
-describe("HubContent module:", () => {
-  describe("enrichments:", () => {
-    let enrichmentSpy: jasmine.Spy;
-    let hubRo: IHubRequestOptions;
-    beforeEach(() => {
-      enrichmentSpy = spyOn(
-        FetchEnrichments,
-        "fetchItemEnrichments"
-      ).and.callFake(() => {
-        return Promise.resolve({
-          server: {
-            layers: [{ id: 1 }],
-          },
-        });
-      });
-      hubRo = {
-        portal: "https://some-server.com/gis/sharing/rest",
-      };
+describe("HubContent class", () => {
+  let authdCtxMgr: ArcGISContextManager;
+  // let unauthdCtxMgr: ArcGISContextManager;
+  beforeEach(async () => {
+    // unauthdCtxMgr = await ArcGISContextManager.create();
+    // When we pass in all this information, the context
+    // manager will not try to fetch anything, so no need
+    // to mock those calls
+    authdCtxMgr = await ArcGISContextManager.create({
+      authentication: MOCK_AUTH,
+      currentUser: {
+        username: "casey",
+      } as unknown as PortalModule.IUser,
+      portal: {
+        name: "DC R&D Center",
+        id: "BRXFAKE",
+        urlKey: "fake-org",
+      } as unknown as PortalModule.IPortal,
+      portalUrl: "https://myserver.com",
     });
-
-    it("converts item to search result", async () => {
-      const chk = await enrichContentSearchResult(
-        cloneObject(FEATURE_SERVICE_ITEM),
-        [],
-        hubRo
+  });
+  describe("ctor:", () => {
+    it("save calls createContent if object does not have an id", async () => {
+      const createSpy = spyOn(editModule, "createContent").and.callFake(
+        (p: IHubEditableContent) => {
+          return Promise.resolve(p);
+        }
       );
-
-      expect(enrichmentSpy.calls.count()).toBe(
-        0,
-        "should not fetch enrichments"
+      const chk = HubContent.fromJson(
+        { name: "Test Content" },
+        authdCtxMgr.context
       );
-
-      // verify expected output
-      const ITM = cloneObject(FEATURE_SERVICE_ITEM);
-      expect(chk.access).toEqual(ITM.access);
-      expect(chk.id).toEqual(ITM.id);
-      expect(chk.type).toEqual(ITM.type);
-      expect(chk.name).toEqual(ITM.title);
-      expect(chk.owner).toEqual(ITM.owner);
-      expect(chk.summary).toEqual(ITM.description);
-      expect(chk.createdDate).toEqual(new Date(ITM.created));
-      expect(chk.createdDateSource).toEqual("item.created");
-      expect(chk.updatedDate).toEqual(new Date(ITM.modified));
-      expect(chk.updatedDateSource).toEqual("item.modified");
-      expect(chk.family).toEqual("map");
-      expect(chk.tags).toEqual(ITM.tags);
-      expect(chk.categories).toEqual(ITM.categories);
-      expect(chk.links.self).toEqual(
-        `https://some-server.com/gis/home/item.html?id=${ITM.id}`
-      );
-      expect(chk.links.siteRelative).toEqual(`/maps/${ITM.id}`);
-      expect(chk.links.thumbnail).toEqual(
-        `${hubRo.portal}/content/items/${ITM.id}/info/${ITM.thumbnail}`
-      );
+      await chk.save();
+      expect(createSpy).toHaveBeenCalledTimes(1);
+      expect(chk.toJson().name).toEqual("Test Content");
     });
-
-    it("uses snippet if defined", async () => {
-      const itm = cloneObject(FEATURE_SERVICE_ITEM);
-      itm.snippet = "This should be used";
-      const chk = await enrichContentSearchResult(itm, [], hubRo);
-      expect(chk.summary).toEqual(itm.snippet);
-    });
-
-    it("fetches enrichments", async () => {
-      const chk = await enrichContentSearchResult(
-        cloneObject(FEATURE_SERVICE_ITEM),
-        ["server.layers.length AS layerCount"],
-        hubRo
+    it("save calls updateContent if object does not have an id", async () => {
+      const updateSpy = spyOn(editModule, "updateContent").and.callFake(
+        (p: IHubEditableContent) => {
+          return Promise.resolve(p);
+        }
       );
-
-      // verify the response
-      expect(chk.layerCount).toBe(1);
-
-      // verify the spy
-      expect(enrichmentSpy.calls.count()).toBe(1, "should fetch enrichments");
-      const [item, enrichments, ro] = enrichmentSpy.calls.argsFor(0);
-      expect(item).toEqual(FEATURE_SERVICE_ITEM);
-      expect(enrichments).toEqual(["server"]);
-      expect(ro).toBe(hubRo);
+      const chk = HubContent.fromJson(
+        {
+          id: "bc3",
+          name: "Test Content",
+        },
+        authdCtxMgr.context
+      );
+      await chk.save();
+      expect(updateSpy).toHaveBeenCalledTimes(1);
+      expect(chk.toJson().name).toEqual("Test Content");
     });
+  });
+  it("update applies partial changes to internal state", () => {
+    const chk = HubContent.fromJson(
+      {
+        id: "bc3",
+        name: "Test Content",
+      },
+      authdCtxMgr.context
+    );
+    chk.update({
+      name: "Test Content 2",
+    });
+    expect(chk.toJson().name).toEqual("Test Content 2");
+
+    chk.update({ tags: ["one", "two"] });
+    expect(chk.toJson().tags).toEqual(["one", "two"]);
+  });
+  it("delete", async () => {
+    const deleteSpy = spyOn(editModule, "deleteContent").and.callFake(() => {
+      return Promise.resolve();
+    });
+    const chk = HubContent.fromJson(
+      {
+        id: "bc3",
+        name: "Test Content",
+      },
+      authdCtxMgr.context
+    );
+    await chk.delete();
+    expect(deleteSpy).toHaveBeenCalledTimes(1);
+
+    // all fns should now throw an error
+    expect(() => {
+      chk.toJson();
+    }).toThrowError("Entity is already destroyed.");
+
+    expect(() => {
+      chk.update({ name: "Test Content 2" } as IHubEditableContent);
+    }).toThrowError("HubContent is already destroyed.");
+
+    // async calls
+    try {
+      await chk.delete();
+    } catch (e) {
+      expect(e.message).toEqual("HubContent is already destroyed.");
+    }
+
+    try {
+      await chk.save();
+    } catch (e) {
+      expect(e.message).toEqual("HubContent is already destroyed.");
+    }
   });
 });

@@ -7,6 +7,7 @@ import {
   IItemEnrichments,
   cloneObject,
   IPolygonProperties,
+  fetchHubContent,
 } from "../../src";
 import * as _enrichmentsModule from "../../src/items/_enrichments";
 import * as _fetchModule from "../../src/content/_fetch";
@@ -645,5 +646,21 @@ describe("fetchContent", () => {
         });
       });
     });
+  });
+});
+
+describe("fetchHubContent", () => {
+  it("defers to fetchContent", async () => {
+    const spy = spyOn(
+      require("../../src/content/fetch"),
+      "fetchContent"
+    ).and.returnValue(
+      Promise.resolve({
+        item: {},
+      })
+    );
+    const fakeRequestOptions = {};
+    await fetchHubContent("123", fakeRequestOptions);
+    expect(spy).toHaveBeenCalled();
   });
 });

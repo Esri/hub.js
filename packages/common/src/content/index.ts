@@ -25,7 +25,9 @@ export * from "./get-family";
 export * from "./slugs";
 export * from "./fetch";
 export * from "./types";
+export * from "./search";
 export * from "./HubContent";
+
 // TODO: remove this at next breaking version
 /**
  * ```js

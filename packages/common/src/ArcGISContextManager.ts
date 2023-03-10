@@ -300,6 +300,7 @@ function getSystemStatus(portalUrl: string): Promise<HubSystemStatus> {
 }
 
 const ENTERPRISE_SITES_STATUS: HubSystemStatus = {
+  content: "online",
   discussions: "not-available",
   events: "not-available",
   initiatives: "not-available",
@@ -313,6 +314,7 @@ const ENTERPRISE_SITES_STATUS: HubSystemStatus = {
 };
 
 const HUB_STATUS: HubSystemStatus = {
+  content: "online",
   discussions: "online",
   events: "online",
   initiatives: "online",

@@ -60,4 +60,15 @@ describe("fetchHubEntity:", () => {
     await fetchHubEntity("discussion", "123", ctx);
     expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
   });
+  it("fetches content", async () => {
+    const ctx = {
+      requestOptions: "fakeRequestOptions",
+    } as unknown as IArcGISContext;
+    const spy = spyOn(
+      require("../../src/content/fetch"),
+      "fetchHubContent"
+    ).and.returnValue(Promise.resolve({}));
+    await fetchHubEntity("content", "123", ctx);
+    expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
+  });
 });
