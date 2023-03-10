@@ -1,6 +1,7 @@
 // import { HubEntity } from "./types/HubEntity";
 // import { HubEntityType } from "./types/HubEntityType";
 
+import { getFamily } from "../content/get-family";
 import { HubEntity, HubEntityType } from "./types";
 
 /**
@@ -25,6 +26,12 @@ export function getTypeFromEntity(entity: HubEntity): HubEntityType {
     case "Hub Initiative":
       type = "initiative";
       break;
+    default:
+      // TODO: other families go here? feedback? solution? template?
+      const contentFamilies = ["app", "content", "dataset", "document", "map"];
+      if (contentFamilies.includes(getFamily(entity.type || ""))) {
+        type = "content";
+      }
   }
   return type;
 }

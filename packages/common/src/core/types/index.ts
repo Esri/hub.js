@@ -2,6 +2,7 @@ export * from "./HubEntity";
 export * from "./HubEntityType";
 export * from "./IHubContent";
 export * from "./IHubContentEnrichments";
+export * from "./IHubEditableContent";
 export * from "./IHubEntityBase";
 export * from "./IHubEvent";
 export * from "./IHubImage";

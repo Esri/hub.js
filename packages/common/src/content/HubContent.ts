@@ -1,90 +1,85 @@
-import { IItem } from "@esri/arcgis-rest-types";
-import { isMaster } from "cluster";
-import { fetchItemEnrichments } from "../items/_enrichments";
-import { getProp } from "../objects";
-import { getItemThumbnailUrl } from "../resources";
-import { IHubSearchResult } from "../search";
-import { parseInclude } from "../search/_internal/parseInclude";
-import { IHubRequestOptions } from "../types";
-import { getItemHomeUrl } from "../urls";
-import { unique } from "../util";
-import { mapBy } from "../utils";
-import { getFamily } from "./get-family";
-import { getHubRelativeUrl } from "./_internal";
+import { IArcGISContext } from "../ArcGISContext";
+import { HubItemEntity } from "../core/HubItemEntity";
+import { IHubEditableContent, IWithStoreBehavior } from "../core";
 
-/**
- * Enrich a generic search result
- * @param item
- * @param includes
- * @param requestOptions
- * @returns
- */
-export async function enrichContentSearchResult(
-  item: IItem,
-  include: string[],
-  requestOptions: IHubRequestOptions
-): Promise<IHubSearchResult> {
-  // Create the basic structure
-  const result: IHubSearchResult = {
-    access: item.access,
-    id: item.id,
-    type: item.type,
-    name: item.title,
-    owner: item.owner,
-    tags: item.tags,
-    typeKeywords: item.typeKeywords,
-    categories: item.categories,
-    summary: item.snippet || item.description,
-    createdDate: new Date(item.created),
-    createdDateSource: "item.created",
-    updatedDate: new Date(item.modified),
-    updatedDateSource: "item.modified",
-    family: getFamily(item.type),
-    links: {
-      self: "not-implemented",
-      siteRelative: "not-implemented",
-      thumbnail: "not-implemented",
-    },
-  };
-
-  // default includes
-  const DEFAULTS: string[] = [];
-
-  // Add any type-specific defaults here
-  // if (["Map Service", "Feature Service"].includes(item.type)) {
-  //   DEFAULTS = ["server.layers.length AS layerCount"];
-  // }
-
-  // if (item.type === "Web Map") {
-  //   DEFAULTS = ["data.operationalLayers.length AS layerCount"];
-  // }
-
-  // merge includes
-  include = [...DEFAULTS, ...include].filter(unique);
-  // Parse the includes into a valid set of enrichments
-  const specs = include.map(parseInclude);
-  // Extract out the low-level enrichments needed
-  const enrichments = mapBy("enrichment", specs).filter(unique);
-  // fetch the enrichments
-  let enriched = {};
-  if (enrichments.length) {
-    enriched = await fetchItemEnrichments(item, enrichments, requestOptions);
+export class HubContent
+  extends HubItemEntity<IHubEditableContent>
+  implements IWithStoreBehavior<IHubEditableContent>
+{
+  private constructor(content: IHubEditableContent, context: IArcGISContext) {
+    super(content, context);
   }
 
-  // map the enriched props onto the result
-  specs.forEach((spec) => {
-    result[spec.prop] = getProp(enriched, spec.path);
-  });
+  /**
+   * Create an instance from an IHubEditableContent object
+   * @param json - JSON object to create a HubContent from
+   * @param context - ArcGIS context
+   * @returns
+   */
+  static fromJson(
+    json: Partial<IHubEditableContent>,
+    context: IArcGISContext
+  ): HubContent {
+    // TODO: merge what we have with the default values
+    // const pojo = this.applyDefaults(json, context);
+    const pojo = json as IHubEditableContent;
+    return new HubContent(pojo, context);
+  }
 
-  // Handle links
-  // TODO: Link handling should be an enrichment
-  result.links.thumbnail = getItemThumbnailUrl(item, requestOptions);
-  result.links.self = getItemHomeUrl(result.id, requestOptions);
-  result.links.siteRelative = getHubRelativeUrl(
-    result.type,
-    result.id,
-    item.typeKeywords
-  );
+  /**
+   * Save the HubContent to the backing store. Currently Projects are stored as Items in Portal
+   * @returns
+   */
+  async save(): Promise<void> {
+    this._checkDestroyed();
+    const { createContent, updateContent } = await import("./edit");
 
-  return result;
+    if (this.entity.id) {
+      // update it
+      this.entity = await updateContent(
+        this.entity,
+        this.context.userRequestOptions
+      );
+    } else {
+      // create it
+      this.entity = await createContent(
+        this.entity,
+        this.context.userRequestOptions
+      );
+    }
+    // call the after save hook on superclass
+    await super.afterSave();
+
+    return;
+  }
+
+  /**
+   * Apply a new state to the instance
+   * @param changes
+   */
+  update(changes: Partial<IHubEditableContent>): void {
+    this._checkDestroyed();
+    // merge partial onto existing entity
+    this.entity = { ...this.entity, ...changes };
+  }
+
+  /**
+   * Delete the HubContent from the store
+   * set a flag to indicate that it is destroyed
+   * @returns
+   */
+  async delete(): Promise<void> {
+    this._checkDestroyed();
+    this.isDestroyed = true;
+    const { deleteContent } = await import("./edit");
+    // Delegate to module fn
+    await deleteContent(this.entity.id, this.context.userRequestOptions);
+  }
+
+  // TODO: move this to HubItemEntity
+  private _checkDestroyed() {
+    if (this.isDestroyed) {
+      throw new Error("HubContent is already destroyed.");
+    }
+  }
 }
