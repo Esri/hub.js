@@ -1,3 +1,15 @@
+# @esri/hub-discussions [20.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@19.5.1...@esri/hub-discussions@20.0.0) (2023-03-13)
+
+
+### Features
+
+* **hub-discussions:** remove support for acl permission object ([bd1ef95](https://github.com/Esri/hub.js/commit/bd1ef95402689673c2ee79b25d77a67e64cea2ea))
+
+
+### BREAKING CHANGES
+
+* **hub-discussions:** support for acl is removed from all channel functions (replaced with channelAcl)
+
 ## @esri/hub-discussions [19.5.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@19.5.0...@esri/hub-discussions@19.5.1) (2023-02-08)
 
 
