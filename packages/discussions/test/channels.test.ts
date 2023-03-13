@@ -11,10 +11,13 @@ import {
 } from "../src/channels";
 import * as req from "../src/request";
 import {
+  AclCategory,
+  AclSubCategory,
   IDiscussionsRequestOptions,
   IFetchChannelParams,
   PostReaction,
   PostStatus,
+  Role,
   SharingAccess,
 } from "../src/types";
 
@@ -52,8 +55,22 @@ describe("channels", () => {
 
   it("creates channel", (done) => {
     const body = {
-      access: SharingAccess.PUBLIC,
-      groups: ["foo"],
+      channelAclDefinition: [
+        {
+          category: AclCategory.GROUP,
+          subCategory: AclSubCategory.ADMIN,
+          key: "groupId",
+          role: Role.OWNER,
+        },
+        {
+          category: AclCategory.GROUP,
+          subCategory: AclSubCategory.MEMBER,
+          key: "groupId",
+          role: Role.READ,
+        },
+      ],
+      access: SharingAccess.PRIVATE,
+      groups: ["groupId"],
       allowReply: true,
       allowAnonymous: true,
       softDelete: true,
