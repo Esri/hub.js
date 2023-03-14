@@ -18,4 +18,11 @@ export interface IHubLocation {
 
   // An esri geometry: __esri.Geometry
   geometries?: __esri.Geometry[];
+
+  // DEPRECATED: the following will be removed at next breaking version
+  provenance?: "none" | "custom" | "existing";
+  center?: number[];
+  orgSpatialReference?: ISpatialReference;
+  graphic?: any;
+  geoJson?: any;
 }

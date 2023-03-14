@@ -18,4 +18,10 @@ export const EntityResourceMap: {
   location: "location.json",
 };
 
-export type IHubLocationType = "none" | "custom" | "default" | "org-extent";
+/**
+ * Where did the location come from originally?
+ * This is used in the location picker component to determine
+ * what source was used. The values are used in IHubLocation.type.
+ * Please note that adding more values will require changes in the location picker
+ */
+export type IHubLocationType = "none" | "custom" | "org" | "item";
