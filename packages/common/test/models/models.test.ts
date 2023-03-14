@@ -14,7 +14,7 @@ import {
 } from "../../src";
 
 const LOCATION: IHubLocation = {
-  provenance: "custom",
+  type: "custom",
 };
 
 describe("model utils:", () => {
