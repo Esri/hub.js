@@ -17,3 +17,5 @@ export const EntityResourceMap: {
 } = {
   location: "location.json",
 };
+
+export type IHubLocationType = "none" | "custom" | "default" | "org-extent";
