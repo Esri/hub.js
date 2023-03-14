@@ -1,3 +1,10 @@
+# @esri/hub-common [12.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.10.0...@esri/hub-common@12.11.0) (2023-03-14)
+
+
+### Features
+
+* add arcgis-js-api typings to repo & change IHubLocation interfa… ([#995](https://github.com/Esri/hub.js/issues/995)) ([47e6c52](https://github.com/Esri/hub.js/commit/47e6c52f7673745e87a08aa9070530bbce9c58a4))
+
 # @esri/hub-common [12.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.9.0...@esri/hub-common@12.10.0) (2023-03-08)
 
 
