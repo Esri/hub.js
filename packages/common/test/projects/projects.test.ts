@@ -52,7 +52,7 @@ const PROJECT_DATA = {
 };
 
 const PROJECT_LOCATION: IHubLocation = {
-  provenance: "custom",
+  type: "custom",
 };
 
 const PROJECT_MODEL = {
@@ -139,7 +139,7 @@ describe("HubProjects:", () => {
       expect(chk.id).toBe(GUID);
       expect(chk.owner).toBe("vader");
       expect(chk.location).toEqual({
-        provenance: "custom",
+        type: "custom",
       });
 
       expect(getItemSpy.calls.count()).toBe(1);
