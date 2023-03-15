@@ -9,10 +9,6 @@ type ILegacyChannelPermissions = Pick<
 
 /**
  * Determine if a user can modify an existing post
- * @param post
- * @param user
- * @param channel
- * @returns boolean
  */
 export function canModifyPost(
   post: IPost,
@@ -57,9 +53,6 @@ function isAuthorizedToModifyByLegacyPermissions(
 /**
  * Ensure the user is a member of one of the channel groups
  * and the group is not marked as non-discussable
- * @param channelGroups
- * @param userGroups
- * @returns
  */
 function isAuthorizedToModifyPostByLegacyGroup(
   channelGroups: string[] = [],
