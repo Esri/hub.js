@@ -1,7 +1,7 @@
 import { IUiSchema, UiSchemaControls } from "../types";
 import { DISABLE_IF_EMPTY } from "../shared";
 
-export const createUiSchema: IUiSchema = {
+export const uiSchema: IUiSchema = {
   type: "Layout",
   elements: [
     {

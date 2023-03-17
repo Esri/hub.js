@@ -1,6 +1,6 @@
 import { IUiSchema, UiSchemaControls } from "../types";
 
-export const editUiSchema: IUiSchema = {
+export const uiSchema: IUiSchema = {
   type: "Layout",
   elements: [
     {
