@@ -1,19 +1,23 @@
 import { JSONSchema } from "json-schema-typed";
 import Ajv from "ajv";
 
-export enum UiSchemaRuleEffects {
-  SHOW = "SHOW",
-  HIDE = "HIDE",
-  DISABLE = "DISABLE",
-  NONE = "",
-}
+export type UiSchemaRuleEffects = "SHOW" | "HIDE" | "DISABLE" | "NONE";
 
-export enum UiSchemaElementTypes {
-  section = "Section",
-  step = "Step",
-  control = "Control",
-  layout = "Layout",
-  slot = "Slot",
+export type UiSchemaElementTypes =
+  | "Section"
+  | "Step"
+  | "Control"
+  | "Layout"
+  | "Slot";
+
+export enum UiSchemaControls {
+  input = "hub-field-input-input",
+  select = "hub-field-input-select",
+  multiselect = "hub-field-input-multiselect",
+  boundaryPicker = "hub-field-input-boundary-picker",
+  timeline = "arcgis-hub-timeline-editor",
+  imagePicker = "hub-field-input-image-picker",
+  galleryPicker = "hub-field-input-gallery-picker",
 }
 
 export enum UiSchemaSectionTypes {
@@ -49,7 +53,7 @@ export interface IUiSchemaRule {
 }
 
 export interface IUiSchemaElement {
-  type: string;
+  type: UiSchemaElementTypes;
   labelKey?: string;
   label?: string;
   options?: {
