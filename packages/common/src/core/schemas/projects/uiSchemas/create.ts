@@ -1,7 +1,7 @@
-import { IUiSchema, UiSchemaControls } from "../types";
-import { DISABLE_IF_EMPTY } from "../shared";
+import { IUiSchema, UiSchemaControls } from "../../types";
+import { DISABLE_IF_EMPTY } from "../../shared";
 
-const createUiSchema: IUiSchema = {
+export const uiSchema: IUiSchema = {
   type: "Layout",
   elements: [
     {
@@ -110,5 +110,3 @@ const createUiSchema: IUiSchema = {
     },
   ],
 };
-
-export default createUiSchema;

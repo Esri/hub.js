@@ -1,6 +1,6 @@
-import { IUiSchema, UiSchemaControls } from "../types";
+import { IUiSchema, UiSchemaControls } from "../../types";
 
-const settingsUiSchema: IUiSchema = {
+export const uiSchema: IUiSchema = {
   type: "Layout",
   elements: [
     {
@@ -13,5 +13,3 @@ const settingsUiSchema: IUiSchema = {
     },
   ],
 };
-
-export default settingsUiSchema;
