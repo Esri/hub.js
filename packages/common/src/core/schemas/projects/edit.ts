@@ -1,0 +1,127 @@
+import { IUiSchema, UiSchemaControls } from "../types";
+
+export const editUiSchema: IUiSchema = {
+  type: "Layout",
+  elements: [
+    {
+      type: "Section",
+      labelKey: "{{i18nScope}}.sections.basicInfo.label",
+      elements: [
+        {
+          labelKey: "{{i18nScope}}.fields.name.label",
+          scope: "/properties/name",
+          type: "Control",
+        },
+        {
+          labelKey: "{{i18nScope}}.fields.summary.label",
+          scope: "/properties/summary",
+          type: "Control",
+          options: {
+            control: UiSchemaControls.input,
+            type: "textarea",
+            helperText: {
+              labelKey: "{{i18nScope}}.fields.summary.helperText",
+            },
+          },
+        },
+        {
+          labelKey: "{{i18nScope}}.fields.description.label",
+          scope: "/properties/description",
+          type: "Control",
+          options: {
+            control: UiSchemaControls.input,
+            type: "textarea",
+            helperText: {
+              labelKey: "{{i18nScope}}.fields.description.helperText",
+            },
+          },
+        },
+        {
+          labelKey: "{{i18nScope}}.fields.featuredImage.label",
+          scope: "/properties/view/properties/featuredImage",
+          type: "Control",
+          options: {
+            control: UiSchemaControls.imagePicker,
+            maxWidth: 727,
+            maxHeight: 484,
+            aspectRatio: 1.5,
+            helperText: {
+              labelKey: "{{i18nScope}}.fields.featuredImage.helperText",
+            },
+            sizeDescription: {
+              labelKey: "{{i18nScope}}.fields.featuredImage.sizeDescription",
+            },
+          },
+        },
+      ],
+    },
+    {
+      type: "Section",
+      labelKey: "{{i18nScope}}.sections.location.label",
+      elements: [
+        {
+          scope: "/properties/extent",
+          type: "Control",
+          options: {
+            control: UiSchemaControls.boundaryPicker,
+          },
+        },
+        {
+          labelKey: "{{i18nScope}}.fields.showMap.label",
+          scope: "/properties/view/properties/showMap",
+          type: "Control",
+        },
+      ],
+    },
+    {
+      type: "Section",
+      labelKey: "{{i18nScope}}.sections.status.label",
+      elements: [
+        {
+          scope: "/properties/status",
+          type: "Control",
+          labelKey: "{{i18nScope}}.fields.status.label",
+          options: {
+            control: UiSchemaControls.select,
+            enum: {
+              i18nScope: "{{i18nScope}}.fields.status.enum",
+            },
+          },
+        },
+      ],
+    },
+    {
+      type: "Section",
+      labelKey: "{{i18nScope}}.sections.timeline.label",
+      elements: [
+        {
+          scope: "/properties/view/properties/timeline",
+          type: "Control",
+          options: {
+            control: UiSchemaControls.timeline,
+          },
+        },
+      ],
+    },
+    {
+      type: "Section",
+      labelKey: "{{i18nScope}}.sections.featuredContent.label",
+      options: {
+        helperText: {
+          labelKey: "{{i18nScope}}.sections.featuredContent.helperText",
+        },
+      },
+      elements: [
+        {
+          scope: "/properties/view/properties/featuredContentIds",
+          type: "Control",
+          options: {
+            control: UiSchemaControls.galleryPicker,
+            targetEntity: "item",
+            limit: 4,
+          },
+        },
+      ],
+    },
+  ],
+};
