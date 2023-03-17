@@ -163,7 +163,7 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
 
   /**
    * The orgId of the Entity, if available
-   * @returns
+   * @returns the entity orgId, when available
    */
   get orgId() {
     return this.entity.orgId;
