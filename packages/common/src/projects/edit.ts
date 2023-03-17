@@ -158,7 +158,7 @@ export async function getHubProjectEditorConfig(
   // schema is always the entire schema
   let schema = cloneObject(HubProjectSchema);
   // uiSchema is the dynamically imported based on the provided "type"
-  let { default: uiSchema } = await {
+  let { uiSchema } = await {
     edit: () => import("../core/schemas/projects/uiSchemas/edit"),
     create: () => import("../core/schemas/projects/uiSchemas/create"),
     settings: () => import("../core/schemas/projects/uiSchemas/settings"),
