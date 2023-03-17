@@ -3,6 +3,7 @@ import { IWorkspaceCapabilityResponse, ICapabilityPermission } from "./types";
 import { ProjectCapabilityPermissions } from "../projects/_internal/ProjectBusinessRules";
 import { checkCapabilityAccess } from "./_internal/checkCapabilityAccess";
 import { InitiativeCapabilityPermissions } from "../initiatives/_internal/InitiativeBusinessRules";
+import { DiscussionCapabilityPermissions } from "../discussions/_internal/DiscussionBusinessRules";
 import { SiteCapabilityPermissions } from "../sites/_internal/SiteBusinessRules";
 import { HubEntity, HubEntityType } from "../core";
 import { IArcGISContext } from "../ArcGISContext";
@@ -15,6 +16,7 @@ export const CapabilityPermissions: ICapabilityPermission[] = [
   ...ProjectCapabilityPermissions,
   ...InitiativeCapabilityPermissions,
   ...SiteCapabilityPermissions,
+  ...DiscussionCapabilityPermissions,
 ];
 
 /**

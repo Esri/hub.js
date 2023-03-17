@@ -47,10 +47,11 @@ describe("HubItemEntity Class: ", () => {
   });
 
   describe("base properties", () => {
-    it("exposes id and owner", () => {
+    it("exposes id, owner, and orgId", () => {
       const instance = new TestHarness(
         {
           id: "00c",
+          orgId: "aba",
           owner: "deke",
           thumbnail: "thumbnail/ago_downloaded.png",
         },
@@ -58,6 +59,7 @@ describe("HubItemEntity Class: ", () => {
       );
       expect(instance.id).toBe("00c");
       expect(instance.owner).toBe("deke");
+      expect(instance.orgId).toBe("aba");
     });
   });
 

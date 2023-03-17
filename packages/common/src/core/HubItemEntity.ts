@@ -161,6 +161,14 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     return this.entity.canDelete;
   }
 
+  /**
+   * The orgId of the Entity, if available
+   * @returns
+   */
+  get orgId() {
+    return this.entity.orgId;
+  }
+
   //#endregion IWithStoreBehavior
 
   //#region IWithSharingBehavior

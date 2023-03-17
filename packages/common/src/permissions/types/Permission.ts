@@ -1,6 +1,7 @@
 import { ProjectPermissions } from "../../projects/_internal/ProjectBusinessRules";
 import { SitePermissions } from "../../sites/_internal/SiteBusinessRules";
 import { InitiativePermissions } from "../../initiatives/_internal/InitiativeBusinessRules";
+import { DiscussionPermissions } from "../../discussions/_internal/DiscussionBusinessRules";
 
 /**
  * Defines the values for Permissions
@@ -11,12 +12,13 @@ const validPermissions = [
   ...SitePermissions,
   ...ProjectPermissions,
   ...InitiativePermissions,
+  ...DiscussionPermissions,
 ] as const;
 
 /**
  * Defines the possible values for Permissions
  */
-export type Permission = typeof validPermissions[number];
+export type Permission = (typeof validPermissions)[number];
 
 /**
  * Validate a Permission

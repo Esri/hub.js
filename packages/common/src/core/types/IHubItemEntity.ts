@@ -98,4 +98,9 @@ export interface IHubItemEntity extends IHubEntityBase, IWithPermissions {
   canDelete: boolean;
 
   location?: IHubLocation;
+
+  /**
+   * The orgId of the Entity, if available
+   */
+  orgId?: string;
 }
