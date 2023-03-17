@@ -13,6 +13,7 @@ export type UiSchemaElementTypes =
 export enum UiSchemaControls {
   input = "hub-field-input-input",
   select = "hub-field-input-select",
+  multiselect = "hub-field-input-multiselect",
   boundaryPicker = "hub-field-input-boundary-picker",
   timeline = "arcgis-hub-timeline-editor",
   imagePicker = "hub-field-input-image-picker",

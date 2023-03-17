@@ -4,7 +4,7 @@ import {
   UiSchemaElementOptions,
 } from "../schemas";
 
-export type EditorConfigType = "create" | "edit";
+export type EditorConfigType = "create" | "edit" | "settings";
 
 export interface IEditorConfig {
   schema: IConfigurationSchema;

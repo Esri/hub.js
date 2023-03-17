@@ -1,8 +1,17 @@
-import { IUiSchema } from "../types";
+import { IUiSchema, UiSchemaControls } from "../types";
 
-const HubProjectSettingsUiSchema: IUiSchema = {
+const settingsUiSchema: IUiSchema = {
   type: "Layout",
-  elements: [],
+  elements: [
+    {
+      scope: "/properties/tags",
+      labelKey: "{{i18nScope}}.fields.tags.label",
+      type: "Control",
+      options: {
+        control: UiSchemaControls.multiselect,
+      },
+    },
+  ],
 };
 
-export default HubProjectSettingsUiSchema;
+export default settingsUiSchema;

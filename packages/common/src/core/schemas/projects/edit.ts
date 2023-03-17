@@ -1,6 +1,6 @@
 import { IUiSchema, UiSchemaControls } from "../types";
 
-const HubProjectEditUiSchema: IUiSchema = {
+const editUiSchema: IUiSchema = {
   type: "Layout",
   elements: [
     {
@@ -126,4 +126,4 @@ const HubProjectEditUiSchema: IUiSchema = {
   ],
 };
 
-export default HubProjectEditUiSchema;
+export default editUiSchema;

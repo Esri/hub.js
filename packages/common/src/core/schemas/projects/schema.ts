@@ -2,8 +2,9 @@ import { IConfigurationSchema } from "../types";
 import { PROJECT_STATUSES } from "../../types";
 import {
   ENTITY_NAME_SCHEMA,
-  ITEM_PICKER_SCHEMA,
+  GALLERY_PICKER_SCHEMA,
   EXTENT_SCHEMA,
+  TAGS_SCHEMA,
 } from "../shared";
 
 export const HubProjectSchema: IConfigurationSchema = {
@@ -22,11 +23,12 @@ export const HubProjectSchema: IConfigurationSchema = {
       default: PROJECT_STATUSES.notStarted,
       enum: Object.keys(PROJECT_STATUSES),
     },
+    tags: TAGS_SCHEMA,
     extent: EXTENT_SCHEMA,
     view: {
       type: "object",
       properties: {
-        featuredContentIds: ITEM_PICKER_SCHEMA,
+        featuredContentIds: GALLERY_PICKER_SCHEMA,
         featuredImage: {
           type: "object",
         },

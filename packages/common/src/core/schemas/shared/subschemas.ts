@@ -4,7 +4,14 @@ export const ENTITY_NAME_SCHEMA = {
   maxLength: 250,
 };
 
-export const ITEM_PICKER_SCHEMA = {
+export const TAGS_SCHEMA = {
+  type: "array",
+  items: {
+    type: "string",
+  },
+};
+
+export const GALLERY_PICKER_SCHEMA = {
   type: "array",
   items: {
     type: "string",

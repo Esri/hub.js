@@ -1,7 +1,7 @@
 import { IUiSchema, UiSchemaControls } from "../types";
 import { DISABLE_IF_EMPTY } from "../shared";
 
-const HubProjectCreateUiSchema: IUiSchema = {
+const createUiSchema: IUiSchema = {
   type: "Layout",
   elements: [
     {
@@ -111,4 +111,4 @@ const HubProjectCreateUiSchema: IUiSchema = {
   ],
 };
 
-export default HubProjectCreateUiSchema;
+export default createUiSchema;
