@@ -12,8 +12,5 @@ export const HubInitiativeSchema: IConfigurationSchema = {
     summary: {
       type: "string",
     },
-    description: {
-      type: "string",
-    },
   },
 } as unknown as IConfigurationSchema;

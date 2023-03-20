@@ -27,18 +27,6 @@ export const uiSchema: IUiSchema = {
             },
           },
         },
-        {
-          labelKey: "{{i18nScope}}.fields.description.label",
-          scope: "/properties/description",
-          type: "Control",
-          options: {
-            control: "hub-field-input-input",
-            type: "textarea",
-            helperText: {
-              labelKey: "{{i18nScope}}.fields.description.helperText",
-            },
-          },
-        },
       ],
     },
   ],
