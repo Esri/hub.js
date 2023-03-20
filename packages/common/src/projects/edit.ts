@@ -14,12 +14,7 @@ import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { EntityResourceMap, IHubProject } from "../core/types";
 import { DEFAULT_PROJECT, DEFAULT_PROJECT_MODEL } from "./defaults";
-import {
-  HubProjectEditUiSchema,
-  HubProjectCreateUiSchema,
-  HubProjectSchema,
-  UiSchemaElementOptions,
-} from "../core/schemas";
+import { HubProjectSchema, UiSchemaElementOptions } from "../core/schemas";
 import { filterSchemaToUiSchema } from "../core/schemas/internal";
 import { applyUiSchemaElementOptions } from "../core/schemas/internal/applyUiSchemaElementOptions";
 import { computeProps } from "./_internal/computeProps";
@@ -162,26 +157,15 @@ export async function getHubProjectEditorConfig(
 ): Promise<IEditorConfig> {
   // schema is always the entire schema
   let schema = cloneObject(HubProjectSchema);
-  // uiSchema is the complete (edit) schema, unless otherwise specified
-  let uiSchema = cloneObject(HubProjectEditUiSchema);
-  // by default we don't need to filter the schema b/c it's the entire schema
-  let filterSchema = false;
 
-  // if another schema is requested, we need to use that UI schema
-  // and the subset the overall schema down to just the properties
-  // used in the UI schema
-  switch (type) {
-    case "create":
-      uiSchema = cloneObject(HubProjectCreateUiSchema);
-      filterSchema = true;
-      break;
-  }
+  // uiSchema is the dynamically imported based on the provided "type"
+  let { uiSchema } = await {
+    edit: () => import("../core/schemas/projects/uiSchemas/edit"),
+    create: () => import("../core/schemas/projects/uiSchemas/create"),
+  }[type]();
 
-  if (filterSchema) {
-    // filter out properties not used in the UI schema
-    schema = filterSchemaToUiSchema(schema, uiSchema);
-  }
-
+  // filter out properties not used in the UI schema
+  schema = filterSchemaToUiSchema(schema, uiSchema);
   // apply the options
   uiSchema = applyUiSchemaElementOptions(uiSchema, options);
   // interpolate the i18n scope into the uiSchema
