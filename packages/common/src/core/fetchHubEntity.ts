@@ -4,6 +4,7 @@ import { fetchSite } from "../sites/HubSites";
 import { HubEntity } from "./types/HubEntity";
 import { HubEntityType } from "./types/HubEntityType";
 import { IArcGISContext } from "../ArcGISContext";
+import { fetchDiscussion } from "../discussions/fetch";
 
 /**
  * Fetch a Hub entity by identifier (id or slug)
@@ -27,6 +28,9 @@ export async function fetchHubEntity(
       break;
     case "initiative":
       result = await fetchInitiative(identifier, context.requestOptions);
+      break;
+    case "discussion":
+      result = await fetchDiscussion(identifier, context.hubRequestOptions);
       break;
     case "page":
       throw new Error(`FetchPage not implemented`);

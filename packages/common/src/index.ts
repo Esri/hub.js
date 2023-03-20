@@ -16,6 +16,7 @@ export * from "./extent";
 export * from "./groups";
 export * from "./i18n";
 export * from "./initiatives";
+export * from "./discussions";
 export * from "./items";
 export * from "./models";
 export * from "./objects";

@@ -25,6 +25,9 @@ export function getTypeFromEntity(entity: HubEntity): HubEntityType {
     case "Hub Initiative":
       type = "initiative";
       break;
+    case "Discussion":
+      type = "discussion";
+      break;
   }
   return type;
 }
