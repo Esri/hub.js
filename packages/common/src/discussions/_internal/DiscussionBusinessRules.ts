@@ -65,7 +65,7 @@ export const DiscussionPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:discussion:view",
     subsystems: ["discussions"],
     authenticated: false,
-    licenses: [],
+    licenses: ["hub-premium"],
   },
   {
     permission: "hub:discussion:edit",
