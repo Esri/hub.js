@@ -152,16 +152,19 @@ export async function deleteProject(
  */
 export async function getHubProjectEditorConfig(
   i18nScope: string,
-  type: EditorConfigType,
+  type: "details" | "create" | "settings" | "basics" | "location" | "status",
   options: UiSchemaElementOptions[] = []
 ): Promise<IEditorConfig> {
   // schema is always the entire schema
   let schema = cloneObject(HubProjectSchema);
   // uiSchema is the dynamically imported based on the provided "type"
   let { uiSchema } = await {
-    edit: () => import("../core/schemas/projects/uiSchemas/edit"),
+    details: () => import("../core/schemas/projects/uiSchemas/edit"),
     create: () => import("../core/schemas/projects/uiSchemas/create"),
     settings: () => import("../core/schemas/projects/uiSchemas/settings"),
+    basics: () => import("../core/schemas/projects/uiSchemas/basics"),
+    location: () => import("../core/schemas/projects/uiSchemas/location"),
+    status: () => import("../core/schemas/projects/uiSchemas/status"),
   }[type]();
 
   // filter out properties not used in the UI schema

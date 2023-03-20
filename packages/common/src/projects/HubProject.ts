@@ -125,7 +125,7 @@ export class HubProject
    */
   static async getEditorConfig(
     i18nScope: string,
-    type: EditorConfigType,
+    type: "details" | "create" | "settings" | "basics" | "location" | "status",
     options: UiSchemaElementOptions[] = []
   ): Promise<IEditorConfig> {
     const { getHubProjectEditorConfig } = await import("./edit");
