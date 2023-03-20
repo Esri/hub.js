@@ -28,6 +28,13 @@ interface IStaleVersionResponse {
   updated: number;
 }
 
+/**
+ * Checks if the upstream version is newer than the passed in version
+ * @param itemId
+ * @param version
+ * @param requestOptions
+ * @returns
+ */
 export async function checkForStaleVersion(
   itemId: string,
   version: IVersion,

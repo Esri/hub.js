@@ -14,6 +14,11 @@ import { getIncludeListFromItemType } from "./_internal/getIncludeListFromItemTy
 import { updateItemResource } from "@esri/arcgis-rest-portal";
 import { checkForStaleVersion } from "./utils";
 
+/**
+ * Custom error to be thrown when attempting to save a stale version
+ * @class StaleVersionError
+ * @extends {Error}
+ */
 class StaleVersionError extends Error {
   constructor(id: string, public updated: number) {
     super(`Version ${id} is stale. Use force to overwrite.`);
@@ -23,9 +28,11 @@ class StaleVersionError extends Error {
 
 /**
  * Updates the specified version with with the state of the supplied model
+ * throws an exception if the version is stale and force is not true
  * @param model
  * @param version
  * @param requestOptions
+ * @param force
  * @returns
  */
 export async function updateVersion(
