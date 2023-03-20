@@ -104,15 +104,15 @@ export class HubDiscussion
       throw new Error("HubDiscussion is already destroyed.");
     }
 
-    const { createDiscussion, updateDiscussion } = await import("./edit");
-
     if (this.entity.id) {
+      const { updateDiscussion } = await import("./edit");
       // update it
       this.entity = await updateDiscussion(
         this.entity,
         this.context.userRequestOptions
       );
     } else {
+      const { createDiscussion } = await import("./edit");
       // create it
       this.entity = await createDiscussion(
         this.entity,
