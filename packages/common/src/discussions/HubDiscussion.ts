@@ -3,12 +3,8 @@ import { IWithSharingBehavior, IWithStoreBehavior } from "../core/behaviors";
 import { IArcGISContext } from "../ArcGISContext";
 import { IHubDiscussion } from "../core/types";
 import { HubItemEntity } from "../core/HubItemEntity";
-import {
-  fetchDiscussion,
-  updateDiscussion,
-  createDiscussion,
-  deleteDiscussion,
-} from "./HubDiscussions";
+import { fetchDiscussion } from "./fetch";
+import { updateDiscussion, createDiscussion, deleteDiscussion } from "./edit";
 
 /**
  * Hub Discussion Class

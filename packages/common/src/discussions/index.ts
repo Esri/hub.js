@@ -1,2 +1,3 @@
 export * from "./HubDiscussion";
-export * from "./HubDiscussions";
+export * from "./edit";
+export * from "./fetch";

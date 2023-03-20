@@ -3,7 +3,8 @@ import { IHubDiscussion } from "../../src";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubDiscussion } from "../../src/discussions/HubDiscussion";
 import { MOCK_AUTH } from "../mocks/mock-auth";
-import * as HubDiscussionsModule from "../../src/discussions/HubDiscussions";
+import * as discussionsFetchModule from "../../src/discussions/fetch";
+import * as discussionsEditModule from "../../src/discussions/edit";
 
 describe("HubDiscussion Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -29,7 +30,7 @@ describe("HubDiscussion Class:", () => {
 
   describe("ctor:", () => {
     it("loads from minimal json", () => {
-      const createSpy = spyOn(HubDiscussionsModule, "createDiscussion");
+      const createSpy = spyOn(discussionsEditModule, "createDiscussion");
       const chk = HubDiscussion.fromJson(
         { name: "Test Discussion" },
         authdCtxMgr.context
@@ -43,7 +44,7 @@ describe("HubDiscussion Class:", () => {
     });
     it("loads based on identifier", async () => {
       const fetchSpy = spyOn(
-        HubDiscussionsModule,
+        discussionsFetchModule,
         "fetchDiscussion"
       ).and.callFake((id: string) => {
         return Promise.resolve({
@@ -60,7 +61,7 @@ describe("HubDiscussion Class:", () => {
 
     it("handle load missing Discussions", async () => {
       const fetchSpy = spyOn(
-        HubDiscussionsModule,
+        discussionsFetchModule,
         "fetchDiscussion"
       ).and.callFake((id: string) => {
         const err = new Error(
@@ -78,7 +79,7 @@ describe("HubDiscussion Class:", () => {
 
     it("handle load errors", async () => {
       const fetchSpy = spyOn(
-        HubDiscussionsModule,
+        discussionsFetchModule,
         "fetchDiscussion"
       ).and.callFake((id: string) => {
         const err = new Error("ZOMG!");
@@ -95,7 +96,7 @@ describe("HubDiscussion Class:", () => {
 
   it("save call createDiscussion if object does not have an id", async () => {
     const createSpy = spyOn(
-      HubDiscussionsModule,
+      discussionsEditModule,
       "createDiscussion"
     ).and.callFake((p: IHubDiscussion) => {
       return Promise.resolve(p);
@@ -110,7 +111,7 @@ describe("HubDiscussion Class:", () => {
   });
   it("create saves the instance if passed true", async () => {
     const createSpy = spyOn(
-      HubDiscussionsModule,
+      discussionsEditModule,
       "createDiscussion"
     ).and.callFake((p: IHubDiscussion) => {
       p.id = "3ef";
@@ -126,7 +127,7 @@ describe("HubDiscussion Class:", () => {
     expect(chk.toJson().name).toEqual("Test Discussion");
   });
   it("create does not save by default", async () => {
-    const createSpy = spyOn(HubDiscussionsModule, "createDiscussion");
+    const createSpy = spyOn(discussionsEditModule, "createDiscussion");
     const chk = await HubDiscussion.create(
       { name: "Test Discussion" },
       authdCtxMgr.context
@@ -159,7 +160,7 @@ describe("HubDiscussion Class:", () => {
 
   it("save updates if object has id", async () => {
     const updateSpy = spyOn(
-      HubDiscussionsModule,
+      discussionsEditModule,
       "updateDiscussion"
     ).and.callFake((p: IHubDiscussion) => {
       return Promise.resolve(p);
@@ -177,7 +178,7 @@ describe("HubDiscussion Class:", () => {
 
   it("delete", async () => {
     const deleteSpy = spyOn(
-      HubDiscussionsModule,
+      discussionsEditModule,
       "deleteDiscussion"
     ).and.callFake(() => {
       return Promise.resolve();

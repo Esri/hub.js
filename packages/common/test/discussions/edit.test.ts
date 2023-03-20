@@ -2,16 +2,14 @@ import * as portalModule from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as modelUtils from "../../src/models";
 import * as slugUtils from "../../src/items/slugs";
-import { IHubRequestOptions, IModel } from "../../src/types";
+import { IModel } from "../../src/types";
 import {
   createDiscussion,
-  fetchDiscussion,
   deleteDiscussion,
   updateDiscussion,
-} from "../../src/discussions/HubDiscussions";
+} from "../../src/discussions/edit";
 import { IHubDiscussion } from "../../src/core/types/IHubDiscussion";
 import { cloneObject } from "../../src/util";
-import { EntityCapabilities } from "../../src/capabilities/types";
 
 // TODO: update
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
@@ -43,104 +41,7 @@ const DISCUSSION_MODEL = {
   data: DISCUSSION_DATA,
 } as IModel;
 
-describe("HubDiscussions:", () => {
-  describe("fetchDiscussion:", () => {
-    it("gets by id, if passed a guid", async () => {
-      const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
-        Promise.resolve(DISCUSSION_ITEM)
-      );
-      const getItemDataSpy = spyOn(portalModule, "getItemData").and.returnValue(
-        Promise.resolve(DISCUSSION_DATA)
-      );
-
-      const chk = await fetchDiscussion(GUID, {
-        authentication: MOCK_AUTH,
-      });
-      expect(chk.id).toBe(GUID);
-      expect(chk.owner).toBe("vader");
-      expect(getItemSpy.calls.count()).toBe(1);
-      expect(getItemSpy.calls.argsFor(0)[0]).toBe(GUID);
-      expect(getItemDataSpy.calls.count()).toBe(1);
-      expect(getItemDataSpy.calls.argsFor(0)[0]).toBe(GUID);
-    });
-
-    it("supports not having data", async () => {
-      const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
-        Promise.resolve(DISCUSSION_ITEM)
-      );
-      const getItemDataSpy = spyOn(portalModule, "getItemData").and.returnValue(
-        Promise.resolve()
-      );
-
-      const chk = await fetchDiscussion(GUID, {
-        authentication: MOCK_AUTH,
-      });
-      expect(chk.id).toBe(GUID);
-      expect(chk.owner).toBe("vader");
-      expect(getItemSpy.calls.count()).toBe(1);
-      expect(getItemSpy.calls.argsFor(0)[0]).toBe(GUID);
-      expect(getItemDataSpy.calls.count()).toBe(1);
-      expect(getItemDataSpy.calls.argsFor(0)[0]).toBe(GUID);
-    });
-
-    it("gets without auth", async () => {
-      const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
-        Promise.resolve(DISCUSSION_ITEM)
-      );
-      const getItemDataSpy = spyOn(portalModule, "getItemData").and.returnValue(
-        Promise.resolve(DISCUSSION_DATA)
-      );
-      const ro: IHubRequestOptions = {
-        portal: "https://gis.myserver.com/portal/sharing/rest",
-      };
-      const chk = await fetchDiscussion(GUID, ro);
-      expect(chk.id).toBe(GUID);
-      expect(chk.owner).toBe("vader");
-      expect(chk.thumbnailUrl).toBe(
-        "https://gis.myserver.com/portal/sharing/rest/content/items/9b77674e43cf4bbd9ecad5189b3f1fdc/info/vader.png"
-      );
-      expect(getItemSpy.calls.count()).toBe(1);
-      expect(getItemSpy.calls.argsFor(0)[0]).toBe(GUID);
-      expect(getItemDataSpy.calls.count()).toBe(1);
-      expect(getItemDataSpy.calls.argsFor(0)[0]).toBe(GUID);
-    });
-
-    it("gets by slug if not passed guid", async () => {
-      const getItemBySlugSpy = spyOn(
-        slugUtils,
-        "getItemBySlug"
-      ).and.returnValue(Promise.resolve(DISCUSSION_ITEM));
-      const getItemDataSpy = spyOn(portalModule, "getItemData").and.returnValue(
-        Promise.resolve(DISCUSSION_DATA)
-      );
-
-      const chk = await fetchDiscussion("dcdev-34th-street", {
-        authentication: MOCK_AUTH,
-      });
-      expect(getItemBySlugSpy.calls.count()).toBe(1);
-      expect(getItemBySlugSpy.calls.argsFor(0)[0]).toBe("dcdev-34th-street");
-      expect(getItemDataSpy.calls.count()).toBe(1);
-      expect(getItemDataSpy.calls.argsFor(0)[0]).toBe(GUID);
-      expect(chk.id).toBe(GUID);
-      expect(chk.owner).toBe("vader");
-    });
-
-    it("returns null if no id found", async () => {
-      const getItemBySlugSpy = spyOn(
-        slugUtils,
-        "getItemBySlug"
-      ).and.returnValue(Promise.resolve(null));
-
-      const chk = await fetchDiscussion("dcdev-34th-street", {
-        authentication: MOCK_AUTH,
-      });
-      expect(getItemBySlugSpy.calls.count()).toBe(1);
-      expect(getItemBySlugSpy.calls.argsFor(0)[0]).toBe("dcdev-34th-street");
-      // This next stuff is O_o but req'd by typescript
-      expect(chk).toEqual(null as unknown as IHubDiscussion);
-    });
-  });
-
+describe("discussions edit:", () => {
   describe("deleteDiscussion:", () => {
     it("deletes the item", async () => {
       const removeSpy = spyOn(portalModule, "removeItem").and.returnValue(

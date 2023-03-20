@@ -54,7 +54,7 @@ describe("fetchHubEntity:", () => {
       hubRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
     const spy = spyOn(
-      require("../../src/discussions/HubDiscussions"),
+      require("../../src/discussions/fetch"),
       "fetchDiscussion"
     ).and.returnValue(Promise.resolve({}));
     await fetchHubEntity("discussion", "123", ctx);

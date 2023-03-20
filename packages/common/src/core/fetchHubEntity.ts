@@ -4,7 +4,7 @@ import { fetchSite } from "../sites/HubSites";
 import { HubEntity } from "./types/HubEntity";
 import { HubEntityType } from "./types/HubEntityType";
 import { IArcGISContext } from "../ArcGISContext";
-import { fetchDiscussion } from "../discussions/HubDiscussions";
+import { fetchDiscussion } from "../discussions/fetch";
 
 /**
  * Fetch a Hub entity by identifier (id or slug)
