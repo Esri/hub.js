@@ -1,4 +1,5 @@
 import { IUiSchema, UiSchemaControls } from "../../types";
+import { ENTITY_NAME_UI_SCHEMA, ENTITY_SUMMARY_UI_SCHEMA } from "../../shared";
 
 export const uiSchema: IUiSchema = {
   type: "Layout",
@@ -7,23 +8,8 @@ export const uiSchema: IUiSchema = {
       type: "Section",
       labelKey: "{{i18nScope}}.sections.basicInfo.label",
       elements: [
-        {
-          labelKey: "{{i18nScope}}.fields.name.label",
-          scope: "/properties/name",
-          type: "Control",
-        },
-        {
-          labelKey: "{{i18nScope}}.fields.summary.label",
-          scope: "/properties/summary",
-          type: "Control",
-          options: {
-            control: UiSchemaControls.input,
-            type: "textarea",
-            helperText: {
-              labelKey: "{{i18nScope}}.fields.summary.helperText",
-            },
-          },
-        },
+        ENTITY_NAME_UI_SCHEMA,
+        ENTITY_SUMMARY_UI_SCHEMA,
         {
           labelKey: "{{i18nScope}}.fields.description.label",
           scope: "/properties/description",

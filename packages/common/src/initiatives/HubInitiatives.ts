@@ -23,6 +23,10 @@ import {
   getFamily,
   IHubRequestOptions,
   getItemHomeUrl,
+  UiSchemaElementOptions,
+  IEditorConfig,
+  HubInitiativeSchema,
+  interpolate,
 } from "../index";
 import {
   IItem,
@@ -41,6 +45,10 @@ import { getHubRelativeUrl } from "../content/_internal";
 import { DEFAULT_INITIATIVE, DEFAULT_INITIATIVE_MODEL } from "./defaults";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
+import {
+  applyUiSchemaElementOptions,
+  filterSchemaToUiSchema,
+} from "../core/schemas/internal";
 
 /**
  * @private
@@ -241,4 +249,33 @@ export async function enrichInitiativeSearchResult(
   );
 
   return result;
+}
+
+/**
+ * Get the editor config for for the HubInitiative entity.
+ * @param i18nScope Translation scope to be interpolated into the schemas
+ * @param type
+ * @param options Optional hash of Element component options
+ * @returns
+ */
+export async function getHubInitiativeEditorConfig(
+  i18nScope: string,
+  type: "details",
+  options: UiSchemaElementOptions[] = []
+): Promise<IEditorConfig> {
+  // schema is always the entire schema
+  let schema = cloneObject(HubInitiativeSchema);
+  // uiSchema is the dynamically imported based on the provided "type"
+  let { uiSchema } = await {
+    details: () => import("../core/schemas/initiatives/uiSchemas/edit"),
+  }[type]();
+
+  // filter out properties not used in the UI schema
+  schema = filterSchemaToUiSchema(schema, uiSchema);
+  // apply the options
+  uiSchema = applyUiSchemaElementOptions(uiSchema, options);
+  // interpolate the i18n scope into the uiSchema
+  uiSchema = interpolate(uiSchema, { i18nScope });
+
+  return Promise.resolve({ schema, uiSchema });
 }
