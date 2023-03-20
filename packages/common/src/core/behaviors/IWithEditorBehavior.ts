@@ -2,9 +2,13 @@ import {
   IConfigurationSchema,
   IUiSchema,
   UiSchemaElementOptions,
+  HubProjectEditorConfigType,
+  HubInitiativeEditorConfigType,
 } from "../schemas";
 
-export type EditorConfigType = "create" | "edit";
+export type EditorConfigType =
+  | HubProjectEditorConfigType
+  | HubInitiativeEditorConfigType;
 
 export interface IEditorConfig {
   schema: IConfigurationSchema;

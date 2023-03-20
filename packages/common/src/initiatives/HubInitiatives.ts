@@ -27,6 +27,7 @@ import {
   IEditorConfig,
   HubInitiativeSchema,
   interpolate,
+  HubInitiativeEditorConfigType,
 } from "../index";
 import {
   IItem,
@@ -259,14 +260,14 @@ export async function enrichInitiativeSearchResult(
  */
 export async function getHubInitiativeEditorConfig(
   i18nScope: string,
-  type: "details",
+  type: HubInitiativeEditorConfigType,
   options: UiSchemaElementOptions[] = []
 ): Promise<IEditorConfig> {
   // schema is always the entire schema
   let schema = cloneObject(HubInitiativeSchema);
   // uiSchema is the dynamically imported based on the provided "type"
   let { uiSchema } = await {
-    details: () => import("../core/schemas/initiatives/uiSchemas/edit"),
+    edit: () => import("../core/schemas/initiatives/uiSchemas/edit"),
   }[type]();
 
   // filter out properties not used in the UI schema

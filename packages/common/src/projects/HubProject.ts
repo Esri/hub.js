@@ -8,15 +8,13 @@ import {
   IWithSharingBehavior,
   UiSchemaElementOptions,
   IWithCapabilityBehavior,
+  HubProjectEditorConfigType,
 } from "../core";
 
 import { Catalog } from "../search";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
-import {
-  EditorConfigType,
-  IEditorConfig,
-} from "../core/behaviors/IWithEditorBehavior";
+import { IEditorConfig } from "../core/behaviors/IWithEditorBehavior";
 
 // NOTE: this could be lazy-loaded just like the CUD functions
 import { fetchProject } from "./fetch";
@@ -125,7 +123,7 @@ export class HubProject
    */
   static async getEditorConfig(
     i18nScope: string,
-    type: EditorConfigType,
+    type: HubProjectEditorConfigType,
     options: UiSchemaElementOptions[] = []
   ): Promise<IEditorConfig> {
     const { getHubProjectEditorConfig } = await import("./edit");

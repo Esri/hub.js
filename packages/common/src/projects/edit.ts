@@ -14,16 +14,17 @@ import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { EntityResourceMap, IHubProject } from "../core/types";
 import { DEFAULT_PROJECT, DEFAULT_PROJECT_MODEL } from "./defaults";
-import { HubProjectSchema, UiSchemaElementOptions } from "../core/schemas";
+import {
+  HubProjectSchema,
+  HubProjectEditorConfigType,
+  UiSchemaElementOptions,
+} from "../core/schemas";
 import { filterSchemaToUiSchema } from "../core/schemas/internal";
 import { applyUiSchemaElementOptions } from "../core/schemas/internal/applyUiSchemaElementOptions";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { cloneObject } from "../util";
-import {
-  EditorConfigType,
-  IEditorConfig,
-} from "../core/behaviors/IWithEditorBehavior";
+import { IEditorConfig } from "../core/behaviors/IWithEditorBehavior";
 import { interpolate } from "../items/interpolate";
 import { configureBaseResources } from "../core/_internal/configureBaseResources";
 
@@ -152,7 +153,7 @@ export async function deleteProject(
  */
 export async function getHubProjectEditorConfig(
   i18nScope: string,
-  type: EditorConfigType,
+  type: HubProjectEditorConfigType,
   options: UiSchemaElementOptions[] = []
 ): Promise<IEditorConfig> {
   // schema is always the entire schema
