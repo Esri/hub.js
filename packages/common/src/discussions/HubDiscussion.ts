@@ -4,7 +4,6 @@ import { IArcGISContext } from "../ArcGISContext";
 import { IHubDiscussion } from "../core/types";
 import { HubItemEntity } from "../core/HubItemEntity";
 import { fetchDiscussion } from "./fetch";
-import { updateDiscussion, createDiscussion, deleteDiscussion } from "./edit";
 
 /**
  * Hub Discussion Class
@@ -43,7 +42,7 @@ export class HubDiscussion
   ): Promise<HubDiscussion> {
     const pojo = this.applyDefaults(partialDiscussion, context);
     // return an instance of HubDiscussion
-    const instance = HubDiscussion.fromJson(partialDiscussion, context);
+    const instance = HubDiscussion.fromJson(pojo, context);
     if (save) {
       await instance.save();
     }
@@ -105,6 +104,8 @@ export class HubDiscussion
       throw new Error("HubDiscussion is already destroyed.");
     }
 
+    const { createDiscussion, updateDiscussion } = await import("./edit");
+
     if (this.entity.id) {
       // update it
       this.entity = await updateDiscussion(
@@ -134,6 +135,7 @@ export class HubDiscussion
     if (this.isDestroyed) {
       throw new Error("HubDiscussion is already destroyed.");
     }
+    const { deleteDiscussion } = await import("./edit");
     this.isDestroyed = true;
     // Delegate to module fn
     await deleteDiscussion(this.entity.id, this.context.userRequestOptions);
