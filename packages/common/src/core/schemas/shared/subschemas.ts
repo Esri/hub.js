@@ -1,6 +1,6 @@
 /**
- * For consistency, leverage these commonly re-used subschemas
- * in your schema definitions
+ * For consistency and validation purposes, leverage these commonly
+ * re-used subschemas in your schema definitions
  */
 
 export const ENTITY_NAME_SCHEMA = {

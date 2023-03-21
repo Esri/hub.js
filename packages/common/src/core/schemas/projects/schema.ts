@@ -35,6 +35,8 @@ export const HubProjectSchema: IConfigurationSchema = {
         showMap: {
           type: "boolean",
         },
+        // TODO: extend this schema definition to provide
+        // appropriate validation for the timeline editor
         timeline: {
           type: "object",
         },
