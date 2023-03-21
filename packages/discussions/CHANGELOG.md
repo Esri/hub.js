@@ -1,3 +1,10 @@
+## @esri/hub-discussions [20.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@20.0.0...@esri/hub-discussions@20.0.1) (2023-03-21)
+
+
+### Bug Fixes
+
+* **hub-discussions:** remove channelAclDefinition as a channel and post create option ([ec36498](https://github.com/Esri/hub.js/commit/ec3649874938ed4798c0fc8a0aa64cc7744466f6))
+
 # @esri/hub-discussions [20.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@19.5.1...@esri/hub-discussions@20.0.0) (2023-03-13)
 
 
