@@ -1,3 +1,10 @@
+# @esri/hub-common [12.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.12.0...@esri/hub-common@12.13.0) (2023-03-21)
+
+
+### Features
+
+* throw error when attempting to update a stale version ([a36460b](https://github.com/Esri/hub.js/commit/a36460b7f189d390002dc8a067eadb073a0d1a22))
+
 # @esri/hub-common [12.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.11.0...@esri/hub-common@12.12.0) (2023-03-20)
 
 
