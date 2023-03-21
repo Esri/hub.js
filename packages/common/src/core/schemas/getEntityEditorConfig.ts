@@ -1,22 +1,22 @@
-import { interpolate } from "../../../items";
-import { cloneObject } from "../../../util";
-import { IEditorConfig } from "../../behaviors";
-import { UiSchemaElementOptions } from "../types";
-import { applyUiSchemaElementOptions } from "./applyUiSchemaElementOptions";
-import { filterSchemaToUiSchema } from "./filterSchemaToUiSchema";
+import { interpolate } from "../../items";
+import { cloneObject } from "../../util";
+import { IEditorConfig } from "../behaviors";
+import { UiSchemaElementOptions } from "./types";
+import { applyUiSchemaElementOptions } from "./internal/applyUiSchemaElementOptions";
+import { filterSchemaToUiSchema } from "./internal/filterSchemaToUiSchema";
 import {
   ProjectEditorTypes,
   ProjectEditorType,
   ProjectSchema,
   ProjectCreateUiSchema,
   ProjectEditUiSchema,
-} from "../../../projects/_internal/ProjectSchemas";
+} from "../../projects/_internal/ProjectSchemas";
 import {
   InitiativeEditorTypes,
   InitiativeEditorType,
   InitiativeSchema,
   InitiativeEditUiSchema,
-} from "../../../initiatives/_internal/InitiativeSchemas";
+} from "../../initiatives/_internal/InitiativeSchemas";
 
 export type EditorType = (typeof validEditorTypes)[number];
 const validEditorTypes = [
@@ -24,7 +24,7 @@ const validEditorTypes = [
   ...InitiativeEditorTypes,
 ] as const;
 
-export const getEditorConfig = async (
+export const getEntityEditorConfig = async (
   i18nScope: string,
   type: EditorType,
   options: UiSchemaElementOptions[] = []

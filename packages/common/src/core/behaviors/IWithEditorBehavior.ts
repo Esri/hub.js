@@ -1,8 +1,8 @@
-import { EditorType } from "../schemas/internal/getEditorConfig";
 import {
   IConfigurationSchema,
   IUiSchema,
   UiSchemaElementOptions,
+  EditorType,
 } from "../schemas";
 
 export interface IEditorConfig {

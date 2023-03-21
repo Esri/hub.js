@@ -7,6 +7,7 @@ import {
   IWithSharingBehavior,
   UiSchemaElementOptions,
   IEditorConfig,
+  getEntityEditorConfig,
 } from "../core";
 
 import {
@@ -20,7 +21,6 @@ import { Catalog } from "../search";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
 import { InitiativeEditorType } from "./_internal/InitiativeSchemas";
-import { getEditorConfig } from "../core/schemas/internal/getEditorConfig";
 
 /**
  * Hub Initiative Class
@@ -129,23 +129,8 @@ export class HubInitiative
     type: InitiativeEditorType,
     options: UiSchemaElementOptions[] = []
   ): Promise<IEditorConfig> {
-    return getEditorConfig(i18nScope, type, options);
+    return getEntityEditorConfig(i18nScope, type, options);
   }
-
-  /**
-   * Static method to get the editor config for for the HubProject entity.
-   * @param i18nScope Translation scope to be interpolated into the schemas
-   * @param type
-   * @param options Optional hash of Element component options
-   */
-  // static async getEditorConfig(
-  //   i18nScope: string,
-  //   type: EditorConfigType,
-  //   options: UiSchemaElementOptions[] = []
-  // ): Promise<IEditorConfig> {
-  //   // Delegate to module fn
-  //   throw new Error("getEditorConfig Not Implemented for Initiatives");
-  // }
 
   private static applyDefaults(
     partialInitiative: Partial<IHubInitiative>,

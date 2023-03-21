@@ -6,13 +6,13 @@ import {
   IWithStoreBehavior,
   IWithSharingBehavior,
   UiSchemaElementOptions,
+  getEntityEditorConfig,
 } from "../core";
 
 import { Catalog } from "../search";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
 import { IEditorConfig } from "../core/behaviors/IWithEditorBehavior";
-import { getEditorConfig } from "../core/schemas/internal/getEditorConfig";
 
 // NOTE: this could be lazy-loaded just like the CUD functions
 import { fetchProject } from "./fetch";
@@ -125,7 +125,7 @@ export class HubProject
     type: ProjectEditorType,
     options: UiSchemaElementOptions[] = []
   ): Promise<IEditorConfig> {
-    return getEditorConfig(i18nScope, type, options);
+    return getEntityEditorConfig(i18nScope, type, options);
   }
 
   private static applyDefaults(
