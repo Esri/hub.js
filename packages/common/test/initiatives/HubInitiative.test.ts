@@ -1,5 +1,5 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
-import { IHubInitiative } from "../../src";
+import { IHubInitiative, UiSchemaElementOptions } from "../../src";
 import { Catalog } from "../../src/search";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubInitiative } from "../../src/initiatives/HubInitiative";
@@ -92,6 +92,34 @@ describe("HubInitiative Class:", () => {
         expect(fetchSpy).toHaveBeenCalledTimes(1);
         expect(ex.message).toBe("ZOMG!");
       }
+    });
+
+    it("returns editorConfig", async () => {
+      const spy = spyOn(
+        HubInitiativesModule,
+        "getHubInitiativeEditorConfig"
+      ).and.callFake(() => {
+        return Promise.resolve({ schema: {}, uiSchema: {} });
+      });
+
+      await HubInitiative.getEditorConfig("test.scope", "edit");
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith("test.scope", "edit", []);
+    });
+
+    it("returns editorConfig integrating options", async () => {
+      const spy = spyOn(
+        HubInitiativesModule,
+        "getHubInitiativeEditorConfig"
+      ).and.callFake(() => {
+        return Promise.resolve({ schema: {}, uiSchema: {} });
+      });
+
+      const opts: UiSchemaElementOptions[] = [];
+
+      await HubInitiative.getEditorConfig("test.scope", "edit", opts);
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith("test.scope", "edit", opts);
     });
   });
 
