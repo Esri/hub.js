@@ -24,7 +24,7 @@ const validEditorTypes = [
   ...InitiativeEditorTypes,
 ] as const;
 
-export const getEntityEditorConfig = async (
+export const getEntityEditorSchemas = async (
   i18nScope: string,
   type: EditorType,
   options: UiSchemaElementOptions[] = []

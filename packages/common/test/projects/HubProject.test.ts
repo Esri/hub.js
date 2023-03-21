@@ -94,7 +94,7 @@ describe("HubProject Class:", () => {
     });
 
     it("returns editorConfig", async () => {
-      const spy = spyOn(schemasModule, "getEntityEditorConfig").and.callFake(
+      const spy = spyOn(schemasModule, "getEntityEditorSchemas").and.callFake(
         () => {
           return Promise.resolve({ schema: {}, uiSchema: {} });
         }
@@ -106,7 +106,7 @@ describe("HubProject Class:", () => {
     });
 
     it("returns editorConfig integrating options", async () => {
-      const spy = spyOn(schemasModule, "getEntityEditorConfig").and.callFake(
+      const spy = spyOn(schemasModule, "getEntityEditorSchemas").and.callFake(
         () => {
           return Promise.resolve({ schema: {}, uiSchema: {} });
         }

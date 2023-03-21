@@ -7,7 +7,7 @@ import {
   IWithSharingBehavior,
   UiSchemaElementOptions,
   IEditorConfig,
-  getEntityEditorConfig,
+  getEntityEditorSchemas,
 } from "../core";
 
 import {
@@ -129,7 +129,7 @@ export class HubInitiative
     type: InitiativeEditorType,
     options: UiSchemaElementOptions[] = []
   ): Promise<IEditorConfig> {
-    return getEntityEditorConfig(i18nScope, type, options);
+    return getEntityEditorSchemas(i18nScope, type, options);
   }
 
   private static applyDefaults(

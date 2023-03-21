@@ -6,7 +6,7 @@ import {
   IWithStoreBehavior,
   IWithSharingBehavior,
   UiSchemaElementOptions,
-  getEntityEditorConfig,
+  getEntityEditorSchemas,
 } from "../core";
 
 import { Catalog } from "../search";
@@ -125,7 +125,7 @@ export class HubProject
     type: ProjectEditorType,
     options: UiSchemaElementOptions[] = []
   ): Promise<IEditorConfig> {
-    return getEntityEditorConfig(i18nScope, type, options);
+    return getEntityEditorSchemas(i18nScope, type, options);
   }
 
   private static applyDefaults(
