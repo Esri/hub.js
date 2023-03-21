@@ -20,7 +20,7 @@ import {
 import { Catalog } from "../search";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
-import { InitiativeEditorType } from "./_internal/InitiativeSchemas";
+import { InitiativeEditorType } from "./_internal/InitiativeSchema";
 
 /**
  * Hub Initiative Class

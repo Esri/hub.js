@@ -16,7 +16,7 @@ import { IEditorConfig } from "../core/behaviors/IWithEditorBehavior";
 
 // NOTE: this could be lazy-loaded just like the CUD functions
 import { fetchProject } from "./fetch";
-import { ProjectEditorType } from "./_internal/ProjectSchemas";
+import { ProjectEditorType } from "./_internal/ProjectSchema";
 
 /**
  * Hub Project Class

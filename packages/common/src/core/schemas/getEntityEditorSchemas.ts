@@ -5,18 +5,13 @@ import { UiSchemaElementOptions } from "./types";
 import { applyUiSchemaElementOptions } from "./internal/applyUiSchemaElementOptions";
 import { filterSchemaToUiSchema } from "./internal/filterSchemaToUiSchema";
 import {
-  ProjectEditorTypes,
   ProjectEditorType,
-  ProjectSchema,
-  ProjectCreateUiSchema,
-  ProjectEditUiSchema,
-} from "../../projects/_internal/ProjectSchemas";
+  ProjectEditorTypes,
+} from "../../projects/_internal/ProjectSchema";
 import {
   InitiativeEditorTypes,
   InitiativeEditorType,
-  InitiativeSchema,
-  InitiativeEditUiSchema,
-} from "../../initiatives/_internal/InitiativeSchemas";
+} from "../../initiatives/_internal/InitiativeSchema";
 
 export type EditorType = (typeof validEditorTypes)[number];
 const validEditorTypes = [
@@ -31,23 +26,30 @@ export const getEntityEditorSchemas = async (
 ): Promise<IEditorConfig> => {
   const entityType = type.split(":")[1];
 
-  // schema and uiSchema are determined by the entity type
-  // and the provided editor type
+  // schema and uiSchema are dynamically imported based on
+  // the entity type and the provided editor type
   let schema;
   let uiSchema;
   switch (entityType) {
     case "project":
-      schema = cloneObject(ProjectSchema);
-      uiSchema = {
-        "hub:project:edit": ProjectEditUiSchema,
-        "hub:project:create": ProjectCreateUiSchema,
-      }[type as ProjectEditorType];
+      ({ ProjectSchema: schema } = cloneObject(
+        await import("../../projects/_internal/ProjectSchema")
+      ));
+      ({ uiSchema } = await {
+        "hub:project:edit": () =>
+          import("../../projects/_internal/ProjectUiSchemaEdit"),
+        "hub:project:create": () =>
+          import("../../projects/_internal/ProjectUiSchemaCreate"),
+      }[type as ProjectEditorType]());
       break;
     case "initiative":
-      schema = cloneObject(InitiativeSchema);
-      uiSchema = {
-        "hub:initiative:edit": InitiativeEditUiSchema,
-      }[type as InitiativeEditorType];
+      ({ InitiativeSchema: schema } = cloneObject(
+        await import("../../initiatives/_internal/InitiativeSchema")
+      ));
+      ({ uiSchema } = await {
+        "hub:initiative:edit": () =>
+          import("../../initiatives/_internal/InitiativeUiSchemaEdit"),
+      }[type as InitiativeEditorType]());
       break;
   }
 
