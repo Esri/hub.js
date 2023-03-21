@@ -1,3 +1,10 @@
+## @esri/hub-common [12.13.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.13.0...@esri/hub-common@12.13.1) (2023-03-21)
+
+
+### Bug Fixes
+
+* getItemBySlug returns full item via getItem ([#999](https://github.com/Esri/hub.js/issues/999)) ([7deae8b](https://github.com/Esri/hub.js/commit/7deae8b9a8ef3f78fa7d518a92ee6616286c7661))
+
 # @esri/hub-common [12.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.12.0...@esri/hub-common@12.13.0) (2023-03-21)
 
 
