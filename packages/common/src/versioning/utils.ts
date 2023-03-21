@@ -1,7 +1,8 @@
 import { cloneObject } from "../util";
 import { mergeObjects } from "../objects/merge-objects";
-import { IModel } from "../types";
+import { IHubUserRequestOptions, IModel } from "../types";
 import { IVersion } from "./types/IVersion";
+import { getVersion } from "./getVersion";
 import { getIncludeListFromItemType } from "./_internal/getIncludeListFromItemType";
 
 /**
@@ -20,4 +21,29 @@ export function applyVersion(
     includeList = getIncludeListFromItemType(model);
   }
   return mergeObjects(version.data, cloneObject(model), includeList);
+}
+
+interface IStaleVersionResponse {
+  isStale: boolean;
+  updated: number;
+}
+
+/**
+ * Checks if the upstream version is newer than the passed in version
+ * @param itemId
+ * @param version
+ * @param requestOptions
+ * @returns
+ */
+export async function checkForStaleVersion(
+  itemId: string,
+  version: IVersion,
+  requestOptions: IHubUserRequestOptions
+): Promise<IStaleVersionResponse> {
+  const upstream = await getVersion(itemId, version.id, requestOptions);
+  const isStale = upstream.updated > version.updated;
+  return {
+    isStale,
+    updated: upstream.updated,
+  };
 }
