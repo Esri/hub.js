@@ -5,6 +5,9 @@ import {
   IWithCatalogBehavior,
   IWithStoreBehavior,
   IWithSharingBehavior,
+  HubInitiativeEditorConfigType,
+  UiSchemaElementOptions,
+  IEditorConfig,
 } from "../core";
 
 import {
@@ -109,6 +112,25 @@ export class HubInitiative
         throw ex;
       }
     }
+  }
+
+  /**
+   * Static method to get the editor config for for the HubInitiative entity.
+   * @param i18nScope Translation scope to be interpolated into the schemas
+   * @param type
+   * @param options Optional hash of uiSchema element option overrides
+   * Note: typescript does not have a means to specify static methods in interfaces
+   * so while this is the implementation of IWithEditorBehavior, it is not enforced
+   * by the compiler.
+   */
+  static async getEditorConfig(
+    i18nScope: string,
+    type: HubInitiativeEditorConfigType,
+    options: UiSchemaElementOptions[] = []
+  ): Promise<IEditorConfig> {
+    const { getHubInitiativeEditorConfig } = await import("./HubInitiatives");
+
+    return getHubInitiativeEditorConfig(i18nScope, type, options);
   }
 
   /**
