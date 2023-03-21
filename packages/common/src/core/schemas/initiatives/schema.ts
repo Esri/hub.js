@@ -1,14 +1,11 @@
 import { IConfigurationSchema } from "../types";
+import { ENTITY_NAME_SCHEMA } from "../shared";
 
 export const HubInitiativeSchema: IConfigurationSchema = {
   required: ["name"],
   type: "object",
   properties: {
-    name: {
-      type: "string",
-      minLength: 1,
-      maxLength: 250,
-    },
+    name: ENTITY_NAME_SCHEMA,
     summary: {
       type: "string",
     },

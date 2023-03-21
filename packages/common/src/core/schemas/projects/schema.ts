@@ -1,15 +1,12 @@
 import { IConfigurationSchema } from "../types";
 import { PROJECT_STATUSES } from "../../types";
+import { ENTITY_NAME_SCHEMA, ENTITY_EXTENT_SCHEMA } from "../shared";
 
 export const HubProjectSchema: IConfigurationSchema = {
   required: ["name"],
   type: "object",
   properties: {
-    name: {
-      type: "string",
-      minLength: 1,
-      maxLength: 250,
-    },
+    name: ENTITY_NAME_SCHEMA,
     summary: {
       type: "string",
     },
@@ -21,14 +18,13 @@ export const HubProjectSchema: IConfigurationSchema = {
       default: PROJECT_STATUSES.notStarted,
       enum: Object.keys(PROJECT_STATUSES),
     },
-    extent: {
-      type: "object",
-    },
+    extent: ENTITY_EXTENT_SCHEMA,
     view: {
       type: "object",
       properties: {
         featuredContentIds: {
           type: "array",
+          maxItems: 4,
           items: {
             type: "string",
           },
