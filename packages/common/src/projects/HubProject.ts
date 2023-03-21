@@ -2,22 +2,21 @@ import { DEFAULT_PROJECT } from "./defaults";
 
 import {
   IHubProject,
-  IWithPermissionBehavior,
   IWithCatalogBehavior,
   IWithStoreBehavior,
   IWithSharingBehavior,
   UiSchemaElementOptions,
-  IWithCapabilityBehavior,
-  HubProjectEditorConfigType,
 } from "../core";
 
 import { Catalog } from "../search";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
 import { IEditorConfig } from "../core/behaviors/IWithEditorBehavior";
+import { getEditorConfig } from "../core/schemas/internal/getEditorConfig";
 
 // NOTE: this could be lazy-loaded just like the CUD functions
 import { fetchProject } from "./fetch";
+import { ProjectEditorType } from "./_internal/ProjectSchemas";
 
 /**
  * Hub Project Class
@@ -123,12 +122,10 @@ export class HubProject
    */
   static async getEditorConfig(
     i18nScope: string,
-    type: HubProjectEditorConfigType,
+    type: ProjectEditorType,
     options: UiSchemaElementOptions[] = []
   ): Promise<IEditorConfig> {
-    const { getHubProjectEditorConfig } = await import("./edit");
-    // Delegate to module fn
-    return getHubProjectEditorConfig(i18nScope, type, options);
+    return getEditorConfig(i18nScope, type, options);
   }
 
   private static applyDefaults(

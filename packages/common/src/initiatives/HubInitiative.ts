@@ -5,7 +5,6 @@ import {
   IWithCatalogBehavior,
   IWithStoreBehavior,
   IWithSharingBehavior,
-  HubInitiativeEditorConfigType,
   UiSchemaElementOptions,
   IEditorConfig,
 } from "../core";
@@ -20,6 +19,8 @@ import {
 import { Catalog } from "../search";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
+import { InitiativeEditorType } from "./_internal/InitiativeSchemas";
+import { getEditorConfig } from "../core/schemas/internal/getEditorConfig";
 
 /**
  * Hub Initiative Class
@@ -125,12 +126,10 @@ export class HubInitiative
    */
   static async getEditorConfig(
     i18nScope: string,
-    type: HubInitiativeEditorConfigType,
+    type: InitiativeEditorType,
     options: UiSchemaElementOptions[] = []
   ): Promise<IEditorConfig> {
-    const { getHubInitiativeEditorConfig } = await import("./HubInitiatives");
-
-    return getHubInitiativeEditorConfig(i18nScope, type, options);
+    return getEditorConfig(i18nScope, type, options);
   }
 
   /**
