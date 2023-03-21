@@ -8,24 +8,13 @@ import {
   upsertModelResources,
 } from "../models";
 import { constructSlug, getUniqueSlug, setSlugKeyword } from "../items/slugs";
-
 import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
-
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { EntityResourceMap, IHubProject } from "../core/types";
 import { DEFAULT_PROJECT, DEFAULT_PROJECT_MODEL } from "./defaults";
-import {
-  HubProjectSchema,
-  HubProjectEditorConfigType,
-  UiSchemaElementOptions,
-} from "../core/schemas";
-import { filterSchemaToUiSchema } from "../core/schemas/internal";
-import { applyUiSchemaElementOptions } from "../core/schemas/internal/applyUiSchemaElementOptions";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { cloneObject } from "../util";
-import { IEditorConfig } from "../core/behaviors/IWithEditorBehavior";
-import { interpolate } from "../items/interpolate";
 import { configureBaseResources } from "../core/_internal/configureBaseResources";
 
 /**
@@ -142,35 +131,4 @@ export async function deleteProject(
   const ro = { ...requestOptions, ...{ id } } as IUserItemOptions;
   await removeItem(ro);
   return;
-}
-
-/**
- * Get the editor config for for the HubProject entity.
- * @param i18nScope Translation scope to be interpolated into the schemas
- * @param type
- * @param options Optional hash of Element component options
- * @returns
- */
-export async function getHubProjectEditorConfig(
-  i18nScope: string,
-  type: HubProjectEditorConfigType,
-  options: UiSchemaElementOptions[] = []
-): Promise<IEditorConfig> {
-  // schema is always the entire schema
-  let schema = cloneObject(HubProjectSchema);
-
-  // uiSchema is the dynamically imported based on the provided "type"
-  let { uiSchema } = await {
-    edit: () => import("../core/schemas/projects/uiSchemas/edit"),
-    create: () => import("../core/schemas/projects/uiSchemas/create"),
-  }[type]();
-
-  // filter out properties not used in the UI schema
-  schema = filterSchemaToUiSchema(schema, uiSchema);
-  // apply the options
-  uiSchema = applyUiSchemaElementOptions(uiSchema, options);
-  // interpolate the i18n scope into the uiSchema
-  uiSchema = interpolate(uiSchema, { i18nScope });
-
-  return Promise.resolve({ schema, uiSchema });
 }
