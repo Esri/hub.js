@@ -742,7 +742,7 @@ export interface IChannelAclPermission
 }
 
 /**
- * parameters/options for creating a channel
+ * settings parameters for creating a channel
  *
  * @export
  * @interface ICreateChannelSettings
@@ -759,7 +759,7 @@ export interface ICreateChannelSettings {
 }
 
 /**
- * parameters/options for creating a channel
+ * permissions parameters for creating a channel
  *
  * @export
  * @interface ICreateChannelPermissions
@@ -768,11 +768,15 @@ export interface ICreateChannelPermissions {
   access?: SharingAccess;
   groups?: string[];
   orgs?: string[];
+  /**
+   * Not available until the V2 Api is released
+   * @hidden
+   */
   channelAclDefinition?: IChannelAclPermissionDefinition[];
 }
 
 /**
- * parameters/options for creating a channel
+ * permissions and settings options for creating a channel
  *
  * @export
  * @interface ICreateChannel
