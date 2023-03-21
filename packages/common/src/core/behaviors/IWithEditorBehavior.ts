@@ -1,14 +1,9 @@
+import { EditorType } from "../schemas/internal/getEditorConfig";
 import {
   IConfigurationSchema,
   IUiSchema,
   UiSchemaElementOptions,
-  HubProjectEditorConfigType,
-  HubInitiativeEditorConfigType,
 } from "../schemas";
-
-export type EditorConfigType =
-  | HubProjectEditorConfigType
-  | HubInitiativeEditorConfigType;
 
 export interface IEditorConfig {
   schema: IConfigurationSchema;
@@ -21,7 +16,7 @@ export interface IEditorConfig {
 export interface IWithEditorBehavior {
   getEditorConfig(
     i18nScope: string,
-    type: EditorConfigType,
+    type: EditorType,
     options: UiSchemaElementOptions[]
   ): Promise<IEditorConfig>;
 }
