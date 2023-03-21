@@ -32,9 +32,11 @@ export const getEntityEditorSchemas = async (
   let uiSchema;
   switch (entityType) {
     case "project":
-      ({ ProjectSchema: schema } = cloneObject(
-        await import("../../projects/_internal/ProjectSchema")
-      ));
+      const { ProjectSchema } = await import(
+        "../../projects/_internal/ProjectSchema"
+      );
+      schema = cloneObject(ProjectSchema);
+
       ({ uiSchema } = await {
         "hub:project:edit": () =>
           import("../../projects/_internal/ProjectUiSchemaEdit"),
@@ -43,9 +45,11 @@ export const getEntityEditorSchemas = async (
       }[type as ProjectEditorType]());
       break;
     case "initiative":
-      ({ InitiativeSchema: schema } = cloneObject(
-        await import("../../initiatives/_internal/InitiativeSchema")
-      ));
+      const { InitiativeSchema } = await import(
+        "../../initiatives/_internal/InitiativeSchema"
+      );
+      schema = cloneObject(InitiativeSchema);
+
       ({ uiSchema } = await {
         "hub:initiative:edit": () =>
           import("../../initiatives/_internal/InitiativeUiSchemaEdit"),
