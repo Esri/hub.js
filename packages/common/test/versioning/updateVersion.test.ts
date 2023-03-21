@@ -14,6 +14,7 @@ describe("updateVersion", () => {
   let portal: string;
   let hubApiUrl: string;
   let requestOpts: IHubUserRequestOptions;
+  let version: IVersion;
   let updateItemResourceSpy: jasmine.Spy;
 
   const model = {
@@ -30,24 +31,6 @@ describe("updateVersion", () => {
   } as unknown as IModel;
 
   const versionBlob = { size: 123 };
-
-  const version: IVersion = {
-    created: "9876543210",
-    creator: "casey",
-    data: {
-      data: {
-        values: {
-          layout: "layout",
-        },
-      },
-    },
-    id: "def456",
-    name: undefined,
-    parent: undefined,
-    path: "hubVersion_def456/version.json",
-    updated: "9876543210",
-    size: 123,
-  } as unknown as IVersion;
 
   let options: IItemResourceOptions;
 
@@ -79,6 +62,24 @@ describe("updateVersion", () => {
       resource: versionBlob,
     };
 
+    version = {
+      created: "9876543210",
+      creator: "casey",
+      data: {
+        data: {
+          values: {
+            layout: "layout",
+          },
+        },
+      },
+      id: "def456",
+      name: undefined,
+      parent: undefined,
+      path: "hubVersion_def456/version.json",
+      updated: "9876543210",
+      size: 123,
+    } as unknown as IVersion;
+
     updateItemResourceSpy = spyOn(
       portalModule,
       "updateItemResource"
@@ -100,11 +101,18 @@ describe("updateVersion", () => {
   });
 
   it("should update a version when force=true", async () => {
-    const result = await updateVersion(model, version, requestOpts, true);
+    await updateVersion(model, version, requestOpts, true);
 
     expect(updateItemResourceSpy).toHaveBeenCalledTimes(1);
     expect(updateItemResourceSpy).toHaveBeenCalledWith(options);
-    expect(result).toEqual(version);
+  });
+
+  it("should update a version that is not stale when force=false", async () => {
+    version.updated = 1675954801031;
+    await updateVersion(model, version, requestOpts, false);
+
+    expect(updateItemResourceSpy).toHaveBeenCalledTimes(1);
+    expect(updateItemResourceSpy).toHaveBeenCalledWith(options);
   });
 
   it("should throw when attempting to update a stale version", async () => {
