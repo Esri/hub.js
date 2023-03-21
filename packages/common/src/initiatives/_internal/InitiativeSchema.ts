@@ -12,8 +12,5 @@ export const InitiativeSchema: IConfigurationSchema = {
   type: "object",
   properties: {
     name: ENTITY_NAME_SCHEMA,
-    summary: {
-      type: "string",
-    },
   },
 } as unknown as IConfigurationSchema;
