@@ -29,23 +29,36 @@ describe("slug utils: ", () => {
 
   describe("getItemBySlug:", () => {
     it("searches by typekeyword", async () => {
+      const searchResult = {
+        id: "3ef",
+        title: "Fake",
+        typeKeywords: ["one", "slug|foo-bar"],
+      } as any as portalModule.IItem;
+      const itemResult = {
+        ...searchResult,
+        orgId: "ghi",
+      } as any as portalModule.IItem;
+      const requestOptions = {
+        authentication: MOCK_AUTH,
+      };
       const searchSpy = spyOn(portalModule, "searchItems").and.returnValue(
         Promise.resolve({
-          results: [
-            { id: "3ef", title: "Fake", typeKeywords: ["one", "slug|foo-bar"] },
-          ],
+          results: [searchResult],
         })
       );
+      const getByIdSpy = spyOn(portalModule, "getItem").and.returnValue(
+        Promise.resolve(itemResult)
+      );
 
-      const result = await slugModule.getItemBySlug("foo-bar", {
-        authentication: MOCK_AUTH,
-      });
-      expect(result.id).toBe("3ef");
+      const result = await slugModule.getItemBySlug("foo-bar", requestOptions);
+      expect(result).toBe(itemResult);
       // check if
       expect(searchSpy.calls.count()).toBe(1);
       const args = searchSpy.calls.argsFor(0)[0] as unknown as ISearchOptions;
       expect(args.filter).toBe(`typekeywords:"slug|foo-bar"`);
       expect(args.authentication).toBe(MOCK_AUTH);
+      expect(getByIdSpy).toHaveBeenCalledTimes(1);
+      expect(getByIdSpy).toHaveBeenCalledWith(searchResult.id, requestOptions);
     });
     it("returns null if no result found", async () => {
       const searchSpy = spyOn(portalModule, "searchItems").and.returnValue(
@@ -53,6 +66,7 @@ describe("slug utils: ", () => {
           results: [],
         })
       );
+      const getByIdSpy = spyOn(portalModule, "getItem");
 
       const result = await slugModule.getItemBySlug("foo-bar", {
         authentication: MOCK_AUTH,
@@ -63,6 +77,7 @@ describe("slug utils: ", () => {
       const args = searchSpy.calls.argsFor(0)[0] as unknown as ISearchOptions;
       expect(args.filter).toBe(`typekeywords:"slug|foo-bar"`);
       expect(args.authentication).toBe(MOCK_AUTH);
+      expect(getByIdSpy).not.toHaveBeenCalled();
     });
     it("throws lower level errors", async () => {
       const searchSpy = spyOn(portalModule, "searchItems").and.returnValue(

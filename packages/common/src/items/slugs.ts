@@ -1,4 +1,4 @@
-import { ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
+import { getItem, ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-types";
 import { slugify } from "../utils";
@@ -52,7 +52,9 @@ export function getItemBySlug(
 ): Promise<IItem> {
   return findItemsBySlug({ slug }, requestOptions).then((results) => {
     if (results.length) {
-      return results[0];
+      // search results only include a subset of properties of the item, so
+      // issue a subsequent call to getItem to get the full item details
+      return getItem(results[0].id, requestOptions);
     } else {
       return null;
     }
