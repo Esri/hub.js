@@ -6,7 +6,7 @@ import { HubProject } from "../../src/projects/HubProject";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as editModule from "../../src/projects/edit";
 import * as fetchModule from "../../src/projects/fetch";
-import * as schemasModule from "../../src/core/schemas";
+import * as schemasModule from "../../src/core/schemas/getEntityEditorSchemas";
 
 describe("HubProject Class:", () => {
   let authdCtxMgr: ArcGISContextManager;

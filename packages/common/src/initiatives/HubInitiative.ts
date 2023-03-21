@@ -7,9 +7,8 @@ import {
   IWithSharingBehavior,
   UiSchemaElementOptions,
   IEditorConfig,
-  getEntityEditorSchemas,
 } from "../core";
-
+import { getEntityEditorSchemas } from "../core/schemas/getEntityEditorSchemas";
 import {
   createInitiative,
   deleteInitiative,

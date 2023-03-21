@@ -5,7 +5,7 @@ import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubInitiative } from "../../src/initiatives/HubInitiative";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as HubInitiativesModule from "../../src/initiatives/HubInitiatives";
-import * as schemasModule from "../../src/core/schemas";
+import * as schemasModule from "../../src/core/schemas/getEntityEditorSchemas";
 
 describe("HubInitiative Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
