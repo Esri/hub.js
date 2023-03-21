@@ -6,6 +6,7 @@ import { HubProject } from "../../src/projects/HubProject";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as editModule from "../../src/projects/edit";
 import * as fetchModule from "../../src/projects/fetch";
+import * as editorModule from "../../src/core/schemas/internal/getEditorConfig";
 
 describe("HubProject Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -93,29 +94,25 @@ describe("HubProject Class:", () => {
     });
 
     it("returns editorConfig", async () => {
-      const spy = spyOn(editModule, "getHubProjectEditorConfig").and.callFake(
-        () => {
-          return Promise.resolve({ schema: {}, uiSchema: {} });
-        }
-      );
+      const spy = spyOn(editorModule, "getEditorConfig").and.callFake(() => {
+        return Promise.resolve({ schema: {}, uiSchema: {} });
+      });
 
-      await HubProject.getEditorConfig("test.scope", "edit");
+      await HubProject.getEditorConfig("test.scope", "hub:project:edit");
       expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith("test.scope", "edit", []);
+      expect(spy).toHaveBeenCalledWith("test.scope", "hub:project:edit", []);
     });
 
     it("returns editorConfig integrating options", async () => {
-      const spy = spyOn(editModule, "getHubProjectEditorConfig").and.callFake(
-        () => {
-          return Promise.resolve({ schema: {}, uiSchema: {} });
-        }
-      );
+      const spy = spyOn(editorModule, "getEditorConfig").and.callFake(() => {
+        return Promise.resolve({ schema: {}, uiSchema: {} });
+      });
 
       const opts: UiSchemaElementOptions[] = [];
 
-      await HubProject.getEditorConfig("test.scope", "edit", opts);
+      await HubProject.getEditorConfig("test.scope", "hub:project:edit", opts);
       expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith("test.scope", "edit", opts);
+      expect(spy).toHaveBeenCalledWith("test.scope", "hub:project:edit", opts);
     });
   });
 

@@ -12,15 +12,9 @@ import {
   fetchInitiative,
   deleteInitiative,
   updateInitiative,
-  getHubInitiativeEditorConfig,
 } from "../../src/initiatives/HubInitiatives";
 import { IHubInitiative } from "../../src/core/types/IHubInitiative";
 import { cloneObject } from "../../src/util";
-import {
-  deepFind,
-  HubInitiativeSchema,
-  UiSchemaElementOptions,
-} from "../../src";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 const INITIATIVE_ITEM: portalModule.IItem = {
@@ -399,39 +393,6 @@ describe("HubInitiatives:", () => {
       expect(item).toEqual(INITIATIVE_ITEM_ENRICH);
       expect(enrichments).toEqual(["data"]);
       expect(ro).toBe(hubRo);
-    });
-  });
-
-  describe("getHubInitiativeEditorConfig:", () => {
-    it("returns edit schema", async () => {
-      const chk = await getHubInitiativeEditorConfig("test.scope", "edit");
-      expect(chk.schema).toBeDefined();
-      expect(chk.schema).toEqual(HubInitiativeSchema);
-      expect(chk.uiSchema).toBeDefined();
-    });
-
-    it("returns edit schema with overrides", async () => {
-      const opts: UiSchemaElementOptions[] = [
-        {
-          scope: "/properties/name",
-          options: {
-            color: "red",
-          },
-        },
-      ];
-      const chk = await getHubInitiativeEditorConfig(
-        "test.scope",
-        "edit",
-        opts
-      );
-      expect(chk.schema).toBeDefined();
-      expect(chk.schema).toEqual(HubInitiativeSchema);
-      expect(chk.uiSchema).toBeDefined();
-
-      const target = deepFind(chk, (entry) => {
-        return entry.scope === "/properties/name";
-      });
-      expect(target.options.color).toBe("red");
     });
   });
 });

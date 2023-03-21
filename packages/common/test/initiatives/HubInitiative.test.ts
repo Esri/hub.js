@@ -5,6 +5,7 @@ import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubInitiative } from "../../src/initiatives/HubInitiative";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as HubInitiativesModule from "../../src/initiatives/HubInitiatives";
+import * as editorModule from "../../src/core/schemas/internal/getEditorConfig";
 
 describe("HubInitiative Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -95,31 +96,33 @@ describe("HubInitiative Class:", () => {
     });
 
     it("returns editorConfig", async () => {
-      const spy = spyOn(
-        HubInitiativesModule,
-        "getHubInitiativeEditorConfig"
-      ).and.callFake(() => {
+      const spy = spyOn(editorModule, "getEditorConfig").and.callFake(() => {
         return Promise.resolve({ schema: {}, uiSchema: {} });
       });
 
-      await HubInitiative.getEditorConfig("test.scope", "edit");
+      await HubInitiative.getEditorConfig("test.scope", "hub:initiative:edit");
       expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith("test.scope", "edit", []);
+      expect(spy).toHaveBeenCalledWith("test.scope", "hub:initiative:edit", []);
     });
 
     it("returns editorConfig integrating options", async () => {
-      const spy = spyOn(
-        HubInitiativesModule,
-        "getHubInitiativeEditorConfig"
-      ).and.callFake(() => {
+      const spy = spyOn(editorModule, "getEditorConfig").and.callFake(() => {
         return Promise.resolve({ schema: {}, uiSchema: {} });
       });
 
       const opts: UiSchemaElementOptions[] = [];
 
-      await HubInitiative.getEditorConfig("test.scope", "edit", opts);
+      await HubInitiative.getEditorConfig(
+        "test.scope",
+        "hub:initiative:edit",
+        opts
+      );
       expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith("test.scope", "edit", opts);
+      expect(spy).toHaveBeenCalledWith(
+        "test.scope",
+        "hub:initiative:edit",
+        opts
+      );
     });
   });
 
