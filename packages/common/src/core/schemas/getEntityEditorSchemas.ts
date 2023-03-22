@@ -13,12 +13,26 @@ import {
   InitiativeEditorType,
 } from "../../initiatives/_internal/InitiativeSchema";
 
+/**
+ * defines the possible editor type values - these correspond
+ * to the supported/defined uiSchema configurations
+ */
 export type EditorType = (typeof validEditorTypes)[number];
 const validEditorTypes = [
   ...ProjectEditorTypes,
   ...InitiativeEditorTypes,
 ] as const;
 
+/**
+ * get the editor schema and uiSchema defined for an entity.
+ * The schema and uiSchema that are returned can be used to
+ * render a form UI (using the configuration editor)
+ *
+ * @param i18nScope translation scope to be interpolated into the uiSchema
+ * @param type editor type - corresonds to the returned uiSchema
+ * @param options optional hash of dynamic uiSchema element options
+ * @returns
+ */
 export const getEntityEditorSchemas = async (
   i18nScope: string,
   type: EditorType,
