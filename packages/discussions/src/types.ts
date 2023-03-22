@@ -415,10 +415,6 @@ export enum PostType {
   Question = "question",
 }
 
-export type PostReactionSummary = {
-  [key in PostReaction]: string[];
-};
-
 /**
  * representation of post from service
  *
@@ -444,12 +440,11 @@ export interface IPost extends IWithAuthor, IWithEditor, IWithTimestamps {
   parent?: IPost | null;
   replies?: IPost[] | IPagedResponse<IPost>;
   replyCount?: number;
-  reactions?: PostReactionSummary;
-  userReactions?: IReaction[];
+  reactions?: IReaction[];
 }
 
 /**
- * base paramaters for creating a post
+ * base parameters for creating a post
  *
  * @export
  * @interface IPostOptions
