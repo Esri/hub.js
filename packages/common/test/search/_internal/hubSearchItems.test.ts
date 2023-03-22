@@ -20,17 +20,12 @@ import {
 import { getOgcItemQueryParams } from "../../../src/search/_internal/hubSearchItemsHelpers/getOgcItemQueryParams";
 import { getQueryString } from "../../../src/search/_internal/hubSearchItemsHelpers/getQueryString";
 import { getOgcAggregationQueryParams } from "../../../src/search/_internal/hubSearchItemsHelpers/getOgcAggregationQueryParams";
-import {
-  getQPredicate,
-  getQQueryParam,
-} from "../../../src/search/_internal/hubSearchItemsHelpers/getQQueryParam";
+import { getQQueryParam } from "../../../src/search/_internal/hubSearchItemsHelpers/getQQueryParam";
 import { IOgcItem } from "../../../src/search/_internal/hubSearchItemsHelpers/interfaces";
 import * as ogcItemToSearchResultModule from "../../../src/search/_internal/hubSearchItemsHelpers/ogcItemToSearchResult";
 import { formatOgcItemsResponse } from "../../../src/search/_internal/hubSearchItemsHelpers/formatOgcItemsResponse";
 import { formatOgcAggregationsResponse } from "../../../src/search/_internal/hubSearchItemsHelpers/formatOgcAggregationsResponse";
 import * as searchOgcItemsModule from "../../../src/search/_internal/hubSearchItemsHelpers/searchOgcItems";
-import * as searchOgcAggregationsModule from "../../../src/search/_internal/hubSearchItemsHelpers/searchOgcAggregations";
-
 import * as portalSearchItemsModule from "../../../src/search/_internal/portalSearchItems";
 import { IItem } from "@esri/arcgis-rest-types";
 import * as fetchMock from "fetch-mock";
@@ -439,115 +434,6 @@ describe("hubSearchItems Module |", () => {
         expect(queryString).toEqual(
           "?aggregations=terms(fields=(type,tags,categories))&token=abc"
         );
-      });
-    });
-
-    describe("getQPredicate |", () => {
-      it("returns undefined when passed an empty array", () => {
-        const result = getQPredicate([]);
-        expect(result).toBeUndefined();
-      });
-      it("throws an error when more than 1 filter is passed in", () => {
-        const filters: IFilter[] = [
-          { predicates: [{ term: "term1" }] },
-          { predicates: [{ term: "term2" }] },
-        ];
-
-        try {
-          getQPredicate(filters);
-          expect(true).toBe(false);
-        } catch (err) {
-          expect(err.message).toEqual(
-            "IQuery can only have 1 IFilter with a 'term' predicate but 2 were detected"
-          );
-        }
-      });
-
-      it("throws an error when a filter with more than one term predicate is passed in", () => {
-        const filters: IFilter[] = [
-          {
-            predicates: [{ term: "term1" }, { term: "term2" }],
-          },
-        ];
-
-        try {
-          getQPredicate(filters);
-          expect(true).toBe(false);
-        } catch (err) {
-          expect(err.message).toEqual(
-            "IQuery can only have 1 'term' predicate but 2 were detected"
-          );
-        }
-      });
-
-      it("throws an error when a term predicate ORd with another predicate", () => {
-        const filters: IFilter[] = [
-          {
-            operation: "OR",
-            predicates: [{ term: "term1" }, { type: "typeA" }],
-          },
-        ];
-
-        try {
-          getQPredicate(filters);
-          expect(true).toBe(false);
-        } catch (err) {
-          expect(err.message).toEqual(
-            "'term' predicates cannot be OR'd to other predicates"
-          );
-        }
-      });
-
-      it("throws an error when a term predicate is an array", () => {
-        const filters: IFilter[] = [
-          {
-            predicates: [{ term: ["term1", "term2"] }],
-          },
-        ];
-
-        try {
-          getQPredicate(filters);
-          expect(true).toBe(false);
-        } catch (err) {
-          expect(err.message).toEqual(
-            "'term' predicate must have a string value, string[] and IMatchOptions are not allowed."
-          );
-        }
-      });
-
-      it("throws an error when a term predicate is an IMatchOptions", () => {
-        const filters: IFilter[] = [
-          {
-            predicates: [
-              {
-                term: {
-                  any: ["term1", "term2"],
-                },
-              },
-            ],
-          },
-        ];
-
-        try {
-          getQPredicate(filters);
-          expect(true).toBe(false);
-        } catch (err) {
-          expect(err.message).toEqual(
-            "'term' predicate must have a string value, string[] and IMatchOptions are not allowed."
-          );
-        }
-      });
-
-      it("returns the predicate when term is a string", () => {
-        const expected = { term: "term1" };
-        const filters: IFilter[] = [
-          {
-            predicates: [expected],
-          },
-        ];
-
-        const result = getQPredicate(filters);
-        expect(result).toBe(expected);
       });
     });
 
