@@ -115,10 +115,11 @@ export class HubInitiative
   }
 
   /**
-   * Static method to get the editor config for for the HubInitiative entity.
-   * @param i18nScope Translation scope to be interpolated into the schemas
-   * @param type
-   * @param options Optional hash of uiSchema element option overrides
+   * Static method to get the editor config for the HubInitiative entity.
+   * @param i18nScope translation scope to be interpolated into the uiSchema
+   * @param type editor type - corresonds to the returned uiSchema
+   * @param options optional hash of dynamic uiSchema element options
+   *
    * Note: typescript does not have a means to specify static methods in interfaces
    * so while this is the implementation of IWithEditorBehavior, it is not enforced
    * by the compiler.
