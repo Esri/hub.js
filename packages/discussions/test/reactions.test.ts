@@ -7,7 +7,7 @@ describe("reactions", () => {
   const response = new Response("ok", { status: 200 });
   const baseOpts: IDiscussionsRequestOptions = {
     hubApiUrl: "https://hub.arcgis.com/api",
-    authentication: null,
+    authentication: undefined,
   };
 
   beforeEach(() => {
