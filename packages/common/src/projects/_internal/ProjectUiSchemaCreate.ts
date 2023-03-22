@@ -1,7 +1,9 @@
 import { IUiSchema, UiSchemaRuleEffects } from "../../core";
 
 /**
- * minimal create UI Schema for Hub Projects
+ * minimal create uiSchema for Hub Projects - this defines
+ * how the schema properties should be rendered in the
+ * project creation experience
  */
 export const uiSchema: IUiSchema = {
   type: "Layout",

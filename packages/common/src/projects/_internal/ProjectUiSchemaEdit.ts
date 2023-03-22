@@ -1,7 +1,9 @@
 import { IUiSchema } from "../../core";
 
 /**
- * complete edit UI Schema for Hub Projects
+ * complete edit uiSchema for Hub Projects - this defines
+ * how the schema properties should be rendered in the
+ * project editing experience
  */
 export const uiSchema: IUiSchema = {
   type: "Layout",
