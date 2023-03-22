@@ -23,7 +23,7 @@ const hubApiEndpoints = {
 /**
  * Defines the properties of the ArcGISContext.
  * Typically components or functions will get an instance
- * of `ArcGISContext` from `ArcGISContetManager`.
+ * of `ArcGISContext` from `ArcGISContextManager`.
  *
  * `ArcGISContext` implements this interface, and uses
  * getters to simplify the derivation of various complex properties.
