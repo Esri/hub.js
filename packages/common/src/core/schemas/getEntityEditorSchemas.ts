@@ -18,7 +18,7 @@ import {
  * to the supported/defined uiSchema configurations
  */
 export type EditorType = (typeof validEditorTypes)[number];
-const validEditorTypes = [
+export const validEditorTypes = [
   ...ProjectEditorTypes,
   ...InitiativeEditorTypes,
 ] as const;
