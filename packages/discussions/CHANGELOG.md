@@ -1,3 +1,15 @@
+# @esri/hub-discussions [21.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@20.0.1...@esri/hub-discussions@21.0.0) (2023-03-23)
+
+
+### Features
+
+* **hub-discussions:** consolidate post reactions to a single property - reactions ([4ff1356](https://github.com/Esri/hub.js/commit/4ff13566ac97d24051a04f1c7dc35c54feea18d8))
+
+
+### BREAKING CHANGES
+
+* **hub-discussions:** Remove IPost.userReactions. Change IPost.reactions to IReaction[]. Remove type PostReactionSummary
+
 ## @esri/hub-discussions [20.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@20.0.0...@esri/hub-discussions@20.0.1) (2023-03-21)
 
 
