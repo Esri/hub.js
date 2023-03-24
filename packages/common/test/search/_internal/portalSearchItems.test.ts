@@ -64,6 +64,38 @@ describe("portalSearchItems Module:", () => {
       expect(expectedParams.q).toEqual("(water)");
       expect(expectedParams.countFields).not.toBeDefined();
     });
+    it("simple search with bbox", async () => {
+      const searchItemsSpy = spyOn(Portal, "searchItems").and.callFake(() => {
+        return Promise.resolve(cloneObject(AllTypesResponse));
+      });
+      const qry: IQuery = {
+        targetEntity: "item",
+        filters: [
+          {
+            predicates: [
+              {
+                term: "water",
+                bbox: "1,2,3,4",
+              },
+            ],
+          },
+        ],
+      };
+      const opts: IHubSearchOptions = {
+        requestOptions: {
+          portal: "https://www.arcgis.com/sharing/rest",
+        },
+      };
+
+      await portalSearchItems(qry, opts);
+
+      expect(searchItemsSpy.calls.count()).toBe(1, "should call searchItems");
+      const [expectedParams] = searchItemsSpy.calls.argsFor(0);
+      expect(expectedParams.portal).toEqual(opts.requestOptions?.portal);
+      expect(expectedParams.q).toEqual("(water)");
+      expect(expectedParams.params.bbox).toEqual("1,2,3,4");
+      expect(expectedParams.countFields).not.toBeDefined();
+    });
     it("simple search with auth", async () => {
       const searchItemsSpy = spyOn(Portal, "searchItems").and.callFake(() => {
         return Promise.resolve(cloneObject(SimpleResponse));
