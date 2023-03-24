@@ -184,6 +184,7 @@ Although the `IPredicate` structure allows for any key, value combinations, the 
 | Property           | Entity                  | Allowed Types                         |
 | ------------------ | ----------------------- | ------------------------------------- |
 | `access`           | `item`, `group`, `user` | `string`, `string[]`, `IMatchOptions` |
+| `bbox`             | `item`                  | `string`                              |
 | `categories`       | `item`                  | `string`, `string[]`, `IMatchOptions` |
 | `created`          | `item`, `group`, `user` | `IDateRange<number>` `IRelativeDate`  |
 | `description`      | `item`, `group`         | `string`, `string[]`, `IMatchOptions` |
