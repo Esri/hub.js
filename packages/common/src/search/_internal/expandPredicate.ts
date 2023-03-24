@@ -20,6 +20,7 @@ export function expandPredicate(predicate: IPredicate): IPredicate {
     "searchUserAccess",
     "isopendata",
     "searchUserName",
+    "bbox",
   ];
   const nonMatchOptionsFields = [...dateProps, ...copyProps];
   // Do the conversion

@@ -6,6 +6,7 @@ import {
   IPredicate,
   IQuery,
 } from "./types";
+import { getTopLevelPredicate } from "./_internal/commonHelpers/getTopLevelPredicate";
 import { expandPredicate } from "./_internal/expandPredicate";
 
 /**
@@ -18,6 +19,11 @@ export function serializeQueryForPortal(query: IQuery): ISearchOptions {
   // remove any empty entries
   const nonEmptyOptions = filterSearchOptions.filter(removeEmptyEntries);
   const result = mergeSearchOptions(nonEmptyOptions, "AND");
+
+  const bboxPredicate = getTopLevelPredicate("bbox", query.filters);
+  if (bboxPredicate) {
+    result.params = { bbox: bboxPredicate.bbox };
+  }
 
   return result;
 }
@@ -92,6 +98,7 @@ function serializePredicate(predicate: IPredicate): ISearchOptions {
     "searchUserName",
     "categoriesAsParam",
     "categoryFilter",
+    "bbox",
   ];
   const specialProps = [
     "filterType",
