@@ -1,3 +1,10 @@
+# @esri/hub-common [12.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.13.1...@esri/hub-common@12.14.0) (2023-03-24)
+
+
+### Features
+
+* **hub-common:** add bbox as option for portal-based searches of hubSearch ([5eed36c](https://github.com/Esri/hub.js/commit/5eed36cd4f50a4602f23c12384c2d44b31620637))
+
 ## @esri/hub-common [12.13.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.13.0...@esri/hub-common@12.13.1) (2023-03-21)
 
 
