@@ -968,6 +968,7 @@ export const draftModelOneThree: IDraft = {
         "app_page",
         "globalNav",
         "socialSharing",
+        "disableDiscussions",
       ],
     },
   },

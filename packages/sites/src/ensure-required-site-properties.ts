@@ -67,6 +67,7 @@ export function ensureRequiredSiteProperties(
     "app_page",
     "underlinedLinks",
     "globalNav",
+    "disableDiscussions",
   ];
   if (!isPortal) {
     caps.push("socialSharing");

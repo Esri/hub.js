@@ -28,7 +28,7 @@ const siteModel = {
       "Ready To Use",
       "selfConfigured",
       "Web Map",
-      "Registered App"
+      "Registered App",
     ],
     description:
       "Create your own initiative by combining existing applications with a custom site. Use this initiative to form teams around a problem and invite your community to participate.",
@@ -39,7 +39,7 @@ const siteModel = {
     documentation: null,
     extent: [
       [-77.32808191324128, 38.74173655216708],
-      [-76.8191059305754, 39.08220981728297]
+      [-76.8191059305754, 39.08220981728297],
     ],
     categories: [],
     spatialReference: null,
@@ -57,7 +57,7 @@ const siteModel = {
       parentId: "embedded-premium-default-site",
       source: "embedded-premium-default-site",
       children: [],
-      teams: ["9efdf73400264b6388a71cda080922fc"]
+      teams: ["9efdf73400264b6388a71cda080922fc"],
     },
     url: "https://tate-test-5-dc.hubqa.arcgis.com",
     proxyFilter: null,
@@ -79,11 +79,11 @@ const siteModel = {
     numViews: 2243,
     itemControl: "admin",
     scoreCompleteness: 28,
-    groupDesignations: null
+    groupDesignations: null,
   },
   data: {
     catalog: {
-      groups: ["9a1361b7a6924950893017b4df7b58fa"]
+      groups: ["9a1361b7a6924950893017b4df7b58fa"],
     },
     values: {
       title: "tate-test-56",
@@ -101,16 +101,15 @@ const siteModel = {
               {
                 id: "World_Imagery_2017",
                 layerType: "ArcGISTiledMapServiceLayer",
-                url:
-                  "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer",
+                url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer",
                 visibility: true,
                 opacity: 1,
-                title: "World Imagery"
-              }
+                title: "World Imagery",
+              },
             ],
-            operationalLayers: []
-          }
-        }
+            operationalLayers: [],
+          },
+        },
       },
       defaultExtent: {
         xmin: -8608122.702602567,
@@ -118,56 +117,56 @@ const siteModel = {
         xmax: -8551463.755386196,
         ymax: 4733454.274071424,
         spatialReference: {
-          wkid: 102100
-        }
+          wkid: 102100,
+        },
       },
       pages: [
         {
           id: "36a1fc3d904e434488e8263b2f14f696",
           title: "New title",
-          slug: "boopbeep"
+          slug: "boopbeep",
         },
         {
           id: "19c34b88262c4eb8861a0e53f302534f",
           title: "New titl 1",
-          slug: "new-titl-1"
-        }
+          slug: "new-titl-1",
+        },
       ],
       layout: {
-        foo: "bar"
+        foo: "bar",
       },
       theme: {
         header: {
           background: "#004da8",
-          text: "#a3ff73"
+          text: "#a3ff73",
         },
         body: {
           background: "#ffffff",
           text: "#323232",
-          link: "#ff00c5"
+          link: "#ff00c5",
         },
         button: {
           background: "#0079c1",
-          text: "#ffffff"
+          text: "#ffffff",
         },
         logo: {
           small:
-            "https://user-images.githubusercontent.com/1218/34112930-11865eba-e3dc-11e7-82d6-4010f818e926.png"
+            "https://user-images.githubusercontent.com/1218/34112930-11865eba-e3dc-11e7-82d6-4010f818e926.png",
         },
         fonts: {
           base: {
             url: "",
-            family: "Avenir Next"
+            family: "Avenir Next",
           },
           heading: {
             url: "",
-            family: "Avenir Next"
-          }
+            family: "Avenir Next",
+          },
         },
         globalNav: {
           background: "#004da8",
-          text: "#a3ff73"
-        }
+          text: "#a3ff73",
+        },
       },
       headerSass:
         ".first-tier {\n  height: 80px;\n  margin-bottom: 0px;\n  background-color: #005e95;\n}\n\n.first-tier .nav > li > a {\n  margin-top: 5px;\n  padding: 3px 6px;\n  color: #fff;\n}\n\n.first-tier .nav > li > a:focus,\n.first-tier .nav>li>a:hover {\n  background-color: #136fbf;\n  color: #fff;\n}\n\n.first-tier .site-logo img {\n  vertical-align: middle;\n}\n\n.first-tier h1 {\n  display: inline;\n  font-size: 25px;\n}\n\n.second-tier {\n  margin-bottom: 0px;\n  background-color: #05466c;\n}\n\n.site-header .navbar-header img {\n  vertical-align: middle;\n  height: 50px;\n  padding: 5px;\n}\n\n@media (max-width: 768px) {\n  .first-tier {\n    height: 100px;\n  }\n}\n\n@media (max-width: 498px) {\n  .navbar-brand {\n    padding: 0px;\n  }\n}\n\n.navbar-inverse .navbar-toggle {\n  border-color: #ffffff;\n}\n\n.navbar-inverse .navbar-toggle:hover {\n  background-color: transparent;\n}\n\n.navbar-inverse .navbar-toggle .icon-bar {\n  background-color: #ffffff;\n}\n\n",
@@ -184,13 +183,14 @@ const siteModel = {
         "document_iframes",
         "items_view",
         "app_page",
-        "globalNav"
+        "globalNav",
+        "disableDiscussions",
       ],
       clientId: "jUGHjKmTpOdvZ8mG",
-      internalUrl: "tate-test-5-dc.hubqa.arcgis.com"
+      internalUrl: "tate-test-5-dc.hubqa.arcgis.com",
     },
-    source: "embedded-premium-default-site"
-  }
+    source: "embedded-premium-default-site",
+  },
 } as IModel;
 
 describe("saveDraft", () => {
@@ -210,7 +210,7 @@ describe("saveDraft", () => {
     expect(addSpy).toHaveBeenCalled();
 
     const draftResource = blobSpy.calls.argsFor(0)[0];
-    SITE_DRAFT_INCLUDE_LIST.forEach(path => {
+    SITE_DRAFT_INCLUDE_LIST.forEach((path) => {
       expect(getProp(draftResource, path)).toEqual(
         getProp(siteModel, path),
         `${path} should equal original`

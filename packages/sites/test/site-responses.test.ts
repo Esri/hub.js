@@ -397,6 +397,7 @@ export const SITE_DATA_RESPONSE = {
       "items_view",
       "app_page",
       "globalNav",
+      "disableDiscussions",
     ],
     clientId: "aMsMKCkCQZ5V5124",
     siteId: "72084",

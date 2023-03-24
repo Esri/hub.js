@@ -56,6 +56,7 @@ const DEFAULT_SITE: Partial<IHubSite> = {
     "underlinedLinks",
     "globalNav",
     "socialSharing",
+    "disableDiscussions",
   ],
   catalog: {
     schemaVersion: 1,

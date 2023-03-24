@@ -750,6 +750,7 @@ const data: any = {
       "json_chart_card",
       "document_iframes",
       "items_view",
+      "disableDiscussions",
     ],
     defaultHostname: "data-middlesex.opendata.arcgis.com",
     updatedAt: "2021-02-08T14:04:20.069Z",
