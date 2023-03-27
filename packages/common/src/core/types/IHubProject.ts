@@ -16,13 +16,6 @@ export interface IHubProject
     IWithCatalog,
     IWithLayout,
     IWithPermissions {
-  /**
-   * Timeline for the project
-   */
-  timeline?: IHubTimeline;
-  /**
-   * Project Status
-   */
   status: PROJECT_STATUSES;
 }
 

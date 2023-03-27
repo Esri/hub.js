@@ -5,8 +5,10 @@ import {
   IWithCatalogBehavior,
   IWithStoreBehavior,
   IWithSharingBehavior,
+  UiSchemaElementOptions,
+  IEditorConfig,
 } from "../core";
-
+import { getEntityEditorSchemas } from "../core/schemas/getEntityEditorSchemas";
 import {
   createInitiative,
   deleteInitiative,
@@ -17,6 +19,7 @@ import {
 import { Catalog } from "../search";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
+import { InitiativeEditorType } from "./_internal/InitiativeSchema";
 
 /**
  * Hub Initiative Class
@@ -112,19 +115,22 @@ export class HubInitiative
   }
 
   /**
-   * Static method to get the editor config for for the HubProject entity.
-   * @param i18nScope Translation scope to be interpolated into the schemas
-   * @param type
-   * @param options Optional hash of Element component options
+   * Static method to get the editor config for the HubInitiative entity.
+   * @param i18nScope translation scope to be interpolated into the uiSchema
+   * @param type editor type - corresonds to the returned uiSchema
+   * @param options optional hash of dynamic uiSchema element options
+   *
+   * Note: typescript does not have a means to specify static methods in interfaces
+   * so while this is the implementation of IWithEditorBehavior, it is not enforced
+   * by the compiler.
    */
-  // static async getEditorConfig(
-  //   i18nScope: string,
-  //   type: EditorConfigType,
-  //   options: UiSchemaElementOptions[] = []
-  // ): Promise<IEditorConfig> {
-  //   // Delegate to module fn
-  //   throw new Error("getEditorConfig Not Implemented for Initiatives");
-  // }
+  static async getEditorConfig(
+    i18nScope: string,
+    type: InitiativeEditorType,
+    options: UiSchemaElementOptions[] = []
+  ): Promise<IEditorConfig> {
+    return getEntityEditorSchemas(i18nScope, type, options);
+  }
 
   private static applyDefaults(
     partialInitiative: Partial<IHubInitiative>,

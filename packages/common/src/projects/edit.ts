@@ -8,29 +8,23 @@ import {
   upsertModelResources,
 } from "../models";
 import { constructSlug, getUniqueSlug, setSlugKeyword } from "../items/slugs";
-
 import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
-
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { EntityResourceMap, IHubProject } from "../core/types";
 import { DEFAULT_PROJECT, DEFAULT_PROJECT_MODEL } from "./defaults";
-import {
-  HubProjectEditUiSchema,
-  HubProjectCreateUiSchema,
-  HubProjectSchema,
-  UiSchemaElementOptions,
-} from "../core/schemas";
-import { filterSchemaToUiSchema } from "../core/schemas/internal";
-import { applyUiSchemaElementOptions } from "../core/schemas/internal/applyUiSchemaElementOptions";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
+import { ProjectEditorType } from "./_internal/ProjectSchema";
 import { cloneObject } from "../util";
+import { configureBaseResources } from "../core/_internal/configureBaseResources";
+import {
+  getEntityEditorSchemas,
+  UiSchemaElementOptions,
+} from "../core/schemas";
 import {
   EditorConfigType,
   IEditorConfig,
 } from "../core/behaviors/IWithEditorBehavior";
-import { interpolate } from "../items/interpolate";
-import { configureBaseResources } from "../core/_internal/configureBaseResources";
 
 /**
  * @private
@@ -149,43 +143,22 @@ export async function deleteProject(
 }
 
 /**
+ * DEPRECATED: the following will be removed at next breaking version
+ * use the getEntityEditorSchemas function instead (which this function
+ * has already been refactored to consume)
+ *
  * Get the editor config for for the HubProject entity.
- * @param i18nScope Translation scope to be interpolated into the schemas
- * @param type
- * @param options Optional hash of Element component options
- * @returns
+ * @param i18nScope translation scope to be interpolated into the uiSchema
+ * @param type editor type - corresonds to the returned uiSchema
+ * @param options optional hash of dynamic uiSchema element options
  */
+/* istanbul ignore next deprecated */
 export async function getHubProjectEditorConfig(
   i18nScope: string,
   type: EditorConfigType,
   options: UiSchemaElementOptions[] = []
 ): Promise<IEditorConfig> {
-  // schema is always the entire schema
-  let schema = cloneObject(HubProjectSchema);
-  // uiSchema is the complete (edit) schema, unless otherwise specified
-  let uiSchema = cloneObject(HubProjectEditUiSchema);
-  // by default we don't need to filter the schema b/c it's the entire schema
-  let filterSchema = false;
+  const editorType = `hub:project:${type}` as ProjectEditorType;
 
-  // if another schema is requested, we need to use that UI schema
-  // and the subset the overall schema down to just the properties
-  // used in the UI schema
-  switch (type) {
-    case "create":
-      uiSchema = cloneObject(HubProjectCreateUiSchema);
-      filterSchema = true;
-      break;
-  }
-
-  if (filterSchema) {
-    // filter out properties not used in the UI schema
-    schema = filterSchemaToUiSchema(schema, uiSchema);
-  }
-
-  // apply the options
-  uiSchema = applyUiSchemaElementOptions(uiSchema, options);
-  // interpolate the i18n scope into the uiSchema
-  uiSchema = interpolate(uiSchema, { i18nScope });
-
-  return Promise.resolve({ schema, uiSchema });
+  return getEntityEditorSchemas(i18nScope, editorType, options);
 }

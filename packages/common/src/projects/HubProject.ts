@@ -2,24 +2,20 @@ import { DEFAULT_PROJECT } from "./defaults";
 
 import {
   IHubProject,
-  IWithPermissionBehavior,
   IWithCatalogBehavior,
   IWithStoreBehavior,
   IWithSharingBehavior,
   UiSchemaElementOptions,
-  IWithCapabilityBehavior,
 } from "../core";
-
+import { getEntityEditorSchemas } from "../core/schemas/getEntityEditorSchemas";
 import { Catalog } from "../search";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
-import {
-  EditorConfigType,
-  IEditorConfig,
-} from "../core/behaviors/IWithEditorBehavior";
+import { IEditorConfig } from "../core/behaviors/IWithEditorBehavior";
 
 // NOTE: this could be lazy-loaded just like the CUD functions
 import { fetchProject } from "./fetch";
+import { ProjectEditorType } from "./_internal/ProjectSchema";
 
 /**
  * Hub Project Class
@@ -115,22 +111,21 @@ export class HubProject
   }
 
   /**
-   * Static method to get the editor config for for the HubProject entity.
-   * @param i18nScope Translation scope to be interpolated into the schemas
-   * @param type
-   * @param options Optional hash of uiSchema element option overrides
+   * Static method to get the editor config for the HubProject entity.
+   * @param i18nScope translation scope to be interpolated into the uiSchema
+   * @param type editor type - corresonds to the returned uiSchema
+   * @param options optional hash of dynamic uiSchema element options
+   *
    * Note: typescript does not have a means to specify static methods in interfaces
    * so while this is the implementation of IWithEditorBehavior, it is not enforced
    * by the compiler.
    */
   static async getEditorConfig(
     i18nScope: string,
-    type: EditorConfigType,
+    type: ProjectEditorType,
     options: UiSchemaElementOptions[] = []
   ): Promise<IEditorConfig> {
-    const { getHubProjectEditorConfig } = await import("./edit");
-    // Delegate to module fn
-    return getHubProjectEditorConfig(i18nScope, type, options);
+    return getEntityEditorSchemas(i18nScope, type, options);
   }
 
   private static applyDefaults(
