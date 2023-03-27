@@ -1,3 +1,32 @@
+# @esri/hub-common [12.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.14.0...@esri/hub-common@12.15.0) (2023-03-27)
+
+
+### Bug Fixes
+
+* add entity-specific editor config types ([0cc9148](https://github.com/Esri/hub.js/commit/0cc9148c9a3d0211c554ed83be0ea8d8716e76f2))
+* export initiatives schema ([d645cf4](https://github.com/Esri/hub.js/commit/d645cf442d8113353421254d57aed74a7c3990ab))
+* export named uiSchemas - resolves project getEditorConfig test ([7624c01](https://github.com/Esri/hub.js/commit/7624c013ab45c1f75b861cc4ea3a6682dba0a1d5))
+* failing tests ([58088eb](https://github.com/Esri/hub.js/commit/58088eb96adca403693f67b1503874b9ad99de36))
+* remove change ([fa52bef](https://github.com/Esri/hub.js/commit/fa52befb1f3311057d1c166269d88002a9597624))
+* remove timeline as top-level property of IHubProject ([d4395f4](https://github.com/Esri/hub.js/commit/d4395f44ca32c1d60c119415aa285aea7544fe98))
+* rename and move getEditorConfig out of internal directory and export for external consumption ([df24114](https://github.com/Esri/hub.js/commit/df24114fdf9d8281d7f0076b53ad95d6868c41fb))
+* replace getHubProjectEditorConfig and mark as deprecated ([2a62c0c](https://github.com/Esri/hub.js/commit/2a62c0c8c0b0172c4c15386bbe07981620ac9e5f))
+* schema dynamic import ([1e6f5e5](https://github.com/Esri/hub.js/commit/1e6f5e55f60f1c288eae032aba31ec8ee73c51ab))
+* temporarily remove description from initiative schema ([cfd6004](https://github.com/Esri/hub.js/commit/cfd6004d1aced90dca3eb0f1a15c310c42336559))
+* update existing tests ([65ad791](https://github.com/Esri/hub.js/commit/65ad79141bce81f0175a404794d223f1efa1a911))
+* update IWithEditorBehavior interface ([9788502](https://github.com/Esri/hub.js/commit/97885027f920740f3872d8207717f50939ba7023))
+
+
+### Features
+
+* add basic schema and edit uiSchema for initiatives ([d220df3](https://github.com/Esri/hub.js/commit/d220df37ef1b719d2a46eb6a9618ebfc886094d6))
+* add static getEditorConfig method to HubInitiative class ([9d3606b](https://github.com/Esri/hub.js/commit/9d3606bfe9b9234cb3ffae073c0d075c428fa7ce))
+* create directory and separate files for project schemas ([bb64522](https://github.com/Esri/hub.js/commit/bb64522d636cf0a87d1d5d4a883f5d38557aa2b3))
+* create generic shared getEditorConfig function ([da47f5e](https://github.com/Esri/hub.js/commit/da47f5e6a67c91898c25f57b09cc36d923af76ed))
+* dynamically import uiSchema based on type passed into getHubProjectEditorConfig ([4dfa995](https://github.com/Esri/hub.js/commit/4dfa99521646298e91fbe77b889d589234fdee0c))
+* implement the getHubInitiativeEditorConfig functionality ([c505ec5](https://github.com/Esri/hub.js/commit/c505ec54c07bb1273c6349e6bbb50c08b1615bd8))
+* leverage dynamic imports in getEntityEditorSchemas function ([a05eae7](https://github.com/Esri/hub.js/commit/a05eae74a0016e7ab937b00cbe207f572c2a4dcf))
+
 # @esri/hub-common [12.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.13.1...@esri/hub-common@12.14.0) (2023-03-24)
 
 
