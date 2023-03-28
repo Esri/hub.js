@@ -110,4 +110,21 @@ describe("ensureRequiredSiteProperties", () => {
     );
     expect(chk.data.values.capabilities).not.toContain("socialSharing");
   });
+
+  it("keeps capabilities in model while ensuring default capabilities", function () {
+    const model = {
+      item: {},
+      data: {
+        values: {
+          subdomain: "name-org",
+          defaultHostname: "name-org.hub.arcgis.com",
+          capabilities: ["my_data", "disableDiscussions"],
+        },
+      },
+    } as unknown as IModel;
+
+    const chk = ensureRequiredSiteProperties(model, "vader");
+    expect(chk.data.values.capabilities).toContain("my_data");
+    expect(chk.data.values.capabilities).toContain("disableDiscussions");
+  });
 });
