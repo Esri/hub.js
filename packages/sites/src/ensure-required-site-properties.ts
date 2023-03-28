@@ -68,7 +68,7 @@ export function ensureRequiredSiteProperties(
     "underlinedLinks",
     "globalNav",
   ];
-  const caps = (model.data?.values?.capabilities || []).reduce(
+  const caps = (model.data.values.capabilities || []).reduce(
     (acc: string, capability: string) =>
       acc.includes(capability) ? acc : [...acc, capability],
     defaultCaps
