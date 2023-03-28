@@ -4,6 +4,8 @@ import { cloneObject, IEnrichmentErrorInfo } from "../../src";
 import { fetchItemEnrichments } from "../../src/items/_enrichments";
 import * as featureServiceItem from "../mocks/items/feature-service-item.json";
 import * as datasetWithMetadata from "../mocks/datasets/feature-layer-with-metadata.json";
+import * as servicesDirectory from "../../src/items/is-services-directory-disabled";
+import { IFeatureServiceDefinition } from "@esri/arcgis-rest-types";
 
 describe("_enrichments", () => {
   describe("fetchItemEnrichments", () => {
@@ -130,15 +132,39 @@ describe("_enrichments", () => {
     });
     describe("enrichServer", () => {
       it("fetches server", async () => {
+        spyOn(servicesDirectory, "isServicesDirectoryDisabled").and.returnValue(
+          Promise.resolve(false)
+        );
         const server = {
           currentVersion: 10.71,
           serviceDescription: "For demo purposes only.",
         };
         fetchMock.once("*", server);
         const result = await fetchItemEnrichments(item, ["server"]);
-        expect(result.server).toEqual(server);
+        expect(result.server).toEqual({
+          ...server,
+          servicesDirectoryDisabled: false,
+        } as Partial<IFeatureServiceDefinition>);
+      });
+      it("fetches server with servicesDirectoryDisabled true", async () => {
+        spyOn(servicesDirectory, "isServicesDirectoryDisabled").and.returnValue(
+          Promise.resolve(true)
+        );
+        const server = {
+          currentVersion: 10.71,
+          serviceDescription: "For demo purposes only.",
+        };
+        fetchMock.once("*", server);
+        const result = await fetchItemEnrichments(item, ["server"]);
+        expect(result.server).toEqual({
+          ...server,
+          servicesDirectoryDisabled: true,
+        } as Partial<IFeatureServiceDefinition>);
       });
       it("removes /:layer from url", async () => {
+        spyOn(servicesDirectory, "isServicesDirectoryDisabled").and.returnValue(
+          Promise.resolve(false)
+        );
         fetchMock.once("*", {});
         const serviceRootUrl =
           "https://servicesqa.arcgis.com/Xj56SBi2udA78cC9/arcgis/rest/services/survey123_a5db32e043f14f6a9edfec7075288df6/FeatureServer";
@@ -149,6 +175,9 @@ describe("_enrichments", () => {
         expect(fetchMock.lastUrl()).toEqual(serviceRootUrl);
       });
       it("handles errors", async () => {
+        spyOn(servicesDirectory, "isServicesDirectoryDisabled").and.returnValue(
+          Promise.resolve(false)
+        );
         fetchMock.once("*", 404);
         const result = await fetchItemEnrichments(item, ["server"]);
         expect(result.server).toBeUndefined();

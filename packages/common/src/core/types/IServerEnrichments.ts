@@ -13,4 +13,7 @@ export interface IServerEnrichments {
   // TODO: should we remove this once fetchContent() no longer fetches it?
   /** The count of records for the layer referenced by this content */
   recordCount?: number | null;
+
+  /** If the server's services directory is disabled. See https://enterprise.arcgis.com/en/server/latest/administer/linux/disabling-the-services-directory.htm */
+  servicesDirectoryDisabled?: boolean;
 }
