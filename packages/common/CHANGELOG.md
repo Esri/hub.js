@@ -1,3 +1,10 @@
+# @esri/hub-common [12.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.15.0...@esri/hub-common@12.16.0) (2023-03-29)
+
+
+### Features
+
+* add servicesDirectoryDisabled property to content server object ([#1005](https://github.com/Esri/hub.js/issues/1005)) ([aa16f54](https://github.com/Esri/hub.js/commit/aa16f5428e6fde181631ad8548a418e5451049d0))
+
 # @esri/hub-common [12.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.14.0...@esri/hub-common@12.15.0) (2023-03-27)
 
 
