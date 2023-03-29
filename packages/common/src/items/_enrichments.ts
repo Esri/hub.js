@@ -17,6 +17,7 @@ import OperationStack from "../OperationStack";
 import { getItemMetadata } from "@esri/arcgis-rest-portal";
 import { getItemOrgId } from "../content/_internal";
 import { fetchOrg } from "../org";
+import { isServicesDirectoryDisabled } from "./is-services-directory-disabled";
 
 /**
  * An object containing the item and fetched enrichments
@@ -190,10 +191,23 @@ const enrichServer = (
     ...requestOptions,
     url,
   };
-  return getService(options)
-    .then((server) => {
+  return Promise.all([
+    getService(options),
+    isServicesDirectoryDisabled(data.item, requestOptions),
+  ])
+    .then(([server, servicesDirectoryDisabled]) => {
       stack.finish(opId);
-      return { data: { ...data, server }, stack, requestOptions };
+      return {
+        data: {
+          ...data,
+          server: {
+            ...server,
+            servicesDirectoryDisabled,
+          },
+        },
+        stack,
+        requestOptions,
+      };
     })
     .catch((error) => handleEnrichmentError(error, input, opId));
 };
