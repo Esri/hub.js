@@ -1,3 +1,10 @@
+# @esri/hub-common [12.19.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.18.0...@esri/hub-common@12.19.0) (2023-03-30)
+
+
+### Features
+
+* add portalSearchItemsAsItems function ([#1009](https://github.com/Esri/hub.js/issues/1009)) ([519e3e0](https://github.com/Esri/hub.js/commit/519e3e01ef7912f482f449662c0bcf4a2a450c5a))
+
 # @esri/hub-common [12.18.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.17.0...@esri/hub-common@12.18.0) (2023-03-30)
 
 
