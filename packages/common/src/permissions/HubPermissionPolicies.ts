@@ -2,6 +2,7 @@ import { InitiativePermissionPolicies } from "../initiatives/_internal/Initiativ
 import { ProjectPermissionPolicies } from "../projects/_internal/ProjectBusinessRules";
 import { SitesPermissionPolicies } from "../sites/_internal/SiteBusinessRules";
 import { DiscussionPermissionPolicies } from "../discussions/_internal/DiscussionBusinessRules";
+import { ContentPermissionPolicies } from "../content/_internal/ContentBusinessRules";
 
 import { IPermissionPolicy, Permission } from "./types";
 
@@ -67,6 +68,7 @@ export const HubPermissionsPolicies: IPermissionPolicy[] = [
   ...ProjectPermissionPolicies,
   ...InitiativePermissionPolicies,
   ...DiscussionPermissionPolicies,
+  ...ContentPermissionPolicies,
 ];
 
 /**

@@ -5,6 +5,7 @@ import { HubEntity } from "./types/HubEntity";
 import { HubEntityType } from "./types/HubEntityType";
 import { IArcGISContext } from "../ArcGISContext";
 import { fetchDiscussion } from "../discussions/fetch";
+import { fetchHubContent } from "../content/fetch";
 
 /**
  * Fetch a Hub entity by identifier (id or slug)
@@ -34,6 +35,8 @@ export async function fetchHubEntity(
       break;
     case "page":
       throw new Error(`FetchPage not implemented`);
+    case "content":
+      result = await fetchHubContent(identifier, context.requestOptions);
   }
   return result;
 }

@@ -15,6 +15,7 @@ export type HubSystemStatus = {
 };
 
 const validSubsystems = [
+  "content",
   "discussions",
   "events",
   "initiatives",
@@ -29,7 +30,7 @@ const validSubsystems = [
 /**
  * Defines values for HubSubsystem
  */
-export type HubSubsystem = typeof validSubsystems[number];
+export type HubSubsystem = (typeof validSubsystems)[number];
 
 /**
  * Validate a Subsystem

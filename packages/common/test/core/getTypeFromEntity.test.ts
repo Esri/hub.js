@@ -1,10 +1,16 @@
 import { getTypeFromEntity, HubEntity } from "../../src/core";
 
-describe("getEntityType:", () => {
-  it("defaults to null", () => {
+describe("getTypeFromEntity:", () => {
+  it("defaults to undefined", () => {
     const entity = {} as unknown as HubEntity;
     const type = getTypeFromEntity(entity);
     expect(type).toBeUndefined();
+  });
+
+  it("works for content", () => {
+    const entity = { type: "PDF" } as unknown as HubEntity;
+    const entityType = getTypeFromEntity(entity);
+    expect(entityType).toBe("content");
   });
 
   it("works for hub types", () => {

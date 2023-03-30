@@ -15,22 +15,22 @@ import {
   ISpatialReference,
   IUser,
 } from "@esri/arcgis-rest-types";
-import { IHubContent, PublisherSource } from "../core";
+import { IHubContent, PublisherSource } from "../../core";
 import {
   IHubGeography,
   GeographyProvenance,
   IHubRequestOptions,
-} from "../types";
+} from "../../types";
 import {
   bBoxToExtent,
   extentToBBox,
   extentToPolygon,
   getExtentCenter,
   isBBox,
-} from "../extent";
-import { getFamily } from "./get-family";
-import { getProp } from "../objects";
-import { IHubAdditionalResource } from "../core/types/IHubAdditionalResource";
+} from "../../extent";
+import { getFamily } from "../get-family";
+import { getProp } from "../../objects";
+import { IHubAdditionalResource } from "../../core/types/IHubAdditionalResource";
 
 /**
  * Create a new content with updated boundary properties

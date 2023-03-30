@@ -5,6 +5,7 @@ import { checkCapabilityAccess } from "./_internal/checkCapabilityAccess";
 import { InitiativeCapabilityPermissions } from "../initiatives/_internal/InitiativeBusinessRules";
 import { DiscussionCapabilityPermissions } from "../discussions/_internal/DiscussionBusinessRules";
 import { SiteCapabilityPermissions } from "../sites/_internal/SiteBusinessRules";
+import { ContentCapabilityPermissions } from "../content/_internal/ContentBusinessRules";
 import { HubEntity, HubEntityType } from "../core";
 import { IArcGISContext } from "../ArcGISContext";
 
@@ -17,6 +18,7 @@ export const CapabilityPermissions: ICapabilityPermission[] = [
   ...InitiativeCapabilityPermissions,
   ...SiteCapabilityPermissions,
   ...DiscussionCapabilityPermissions,
+  ...ContentCapabilityPermissions,
 ];
 
 /**
