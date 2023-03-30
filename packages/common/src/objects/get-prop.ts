@@ -8,6 +8,7 @@
  * getProp({a: {b: {c: 1}}}, "a.b.d") => undefined
  * getProp({a: {b: {c: 1}}}, "a.b") => {c: 1}
  * getProp({a: {b: [1,2]}}, "a.b[0]") => 1
+ * getProp({a: {b: {c: 1}, b2: { $use: "a.b"}}, "a.b2") => {c: 1}
  * getProp({a: [{key: "x", val:1}, {key: "y", val:3}]}, "a[1]") => {key: "y", val:3}
  * getProp({a: [{key: "x", val:1}, {key: "y", val:3}]}, "a[1].val") => 3
  * getProp({a: [{key: "x", val:1}, {key: "y", val:3}]}, "a[findBy(key,y)].val") => 3
