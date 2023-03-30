@@ -3705,6 +3705,23 @@
 </div>
 
 
+  <p>Get a property out of a deeply nested object. Supports array indexing
+and property matching.</p>
+
+
+
+
+  <p>Examples:</p>
+<pre><code class="js">getProp({<span class="hljs-attr">a</span>: {<span class="hljs-attr">b</span>: {<span class="hljs-attr">c</span>: <span class="hljs-number">1</span>}}}, <span class="hljs-string">"a.b.c"</span>) =&gt; <span class="hljs-number">1</span>
+getProp({<span class="hljs-attr">a</span>: {<span class="hljs-attr">b</span>: {<span class="hljs-attr">c</span>: <span class="hljs-number">1</span>}}}, <span class="hljs-string">"a.b.d"</span>) =&gt; <span class="hljs-literal">undefined</span>
+getProp({<span class="hljs-attr">a</span>: {<span class="hljs-attr">b</span>: {<span class="hljs-attr">c</span>: <span class="hljs-number">1</span>}}}, <span class="hljs-string">"a.b"</span>) =&gt; {<span class="hljs-attr">c</span>: <span class="hljs-number">1</span>}
+getProp({<span class="hljs-attr">a</span>: {<span class="hljs-attr">b</span>: [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>]}}, <span class="hljs-string">"a.b[0]"</span>) =&gt; <span class="hljs-number">1</span>
+getProp({<span class="hljs-attr">a</span>: {<span class="hljs-attr">b</span>: {<span class="hljs-attr">c</span>: <span class="hljs-number">1</span>}, <span class="hljs-attr">b2</span>: { <span class="hljs-attr">$use</span>: <span class="hljs-string">"a.b"</span>}}, <span class="hljs-string">"a.b2"</span>) =&gt; {<span class="hljs-attr">c</span>: <span class="hljs-number">1</span>}
+getProp({<span class="hljs-attr">a</span>: [{<span class="hljs-attr">key</span>: <span class="hljs-string">"x"</span>, <span class="hljs-attr">val</span>:<span class="hljs-number">1</span>}, {<span class="hljs-attr">key</span>: <span class="hljs-string">"y"</span>, <span class="hljs-attr">val</span>:<span class="hljs-number">3</span>}]}, <span class="hljs-string">"a[1]"</span>) =&gt; {<span class="hljs-attr">key</span>: <span class="hljs-string">"y"</span>, <span class="hljs-attr">val</span>:<span class="hljs-number">3</span>}
+getProp({<span class="hljs-attr">a</span>: [{<span class="hljs-attr">key</span>: <span class="hljs-string">"x"</span>, <span class="hljs-attr">val</span>:<span class="hljs-number">1</span>}, {<span class="hljs-attr">key</span>: <span class="hljs-string">"y"</span>, <span class="hljs-attr">val</span>:<span class="hljs-number">3</span>}]}, <span class="hljs-string">"a[1].val"</span>) =&gt; <span class="hljs-number">3</span>
+getProp({<span class="hljs-attr">a</span>: [{<span class="hljs-attr">key</span>: <span class="hljs-string">"x"</span>, <span class="hljs-attr">val</span>:<span class="hljs-number">1</span>}, {<span class="hljs-attr">key</span>: <span class="hljs-string">"y"</span>, <span class="hljs-attr">val</span>:<span class="hljs-number">3</span>}]}, <span class="hljs-string">"a[findBy(key,y)].val"</span>) =&gt; <span class="hljs-number">3</span>
+getProp({<span class="hljs-attr">a</span>: [{<span class="hljs-attr">key</span>: <span class="hljs-string">"x"</span>, <span class="hljs-attr">val</span>:<span class="hljs-number">1</span>}, {<span class="hljs-attr">key</span>: <span class="hljs-string">"y"</span>, <span class="hljs-attr">val</span>:<span class="hljs-number">3</span>}]}, <span class="hljs-string">"a[findBy(val,1)].key"</span>) =&gt; <span class="hljs-string">"x"</span>
+</code></pre>
 
 
 
@@ -3719,9 +3736,22 @@
 
 
 
-  <p>Get a property out of a deeply nested object
-Does not handle anything but nested object graph</p>
+  <p>Get a property out of a deeply nested object. Supports array indexing
+and property matching.</p>
 
+
+  
+    <p>Examples:</p>
+<pre><code class="js">getProp({<span class="hljs-attr">a</span>: {<span class="hljs-attr">b</span>: {<span class="hljs-attr">c</span>: <span class="hljs-number">1</span>}}}, <span class="hljs-string">"a.b.c"</span>) =&gt; <span class="hljs-number">1</span>
+getProp({<span class="hljs-attr">a</span>: {<span class="hljs-attr">b</span>: {<span class="hljs-attr">c</span>: <span class="hljs-number">1</span>}}}, <span class="hljs-string">"a.b.d"</span>) =&gt; <span class="hljs-literal">undefined</span>
+getProp({<span class="hljs-attr">a</span>: {<span class="hljs-attr">b</span>: {<span class="hljs-attr">c</span>: <span class="hljs-number">1</span>}}}, <span class="hljs-string">"a.b"</span>) =&gt; {<span class="hljs-attr">c</span>: <span class="hljs-number">1</span>}
+getProp({<span class="hljs-attr">a</span>: {<span class="hljs-attr">b</span>: [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>]}}, <span class="hljs-string">"a.b[0]"</span>) =&gt; <span class="hljs-number">1</span>
+getProp({<span class="hljs-attr">a</span>: {<span class="hljs-attr">b</span>: {<span class="hljs-attr">c</span>: <span class="hljs-number">1</span>}, <span class="hljs-attr">b2</span>: { <span class="hljs-attr">$use</span>: <span class="hljs-string">"a.b"</span>}}, <span class="hljs-string">"a.b2"</span>) =&gt; {<span class="hljs-attr">c</span>: <span class="hljs-number">1</span>}
+getProp({<span class="hljs-attr">a</span>: [{<span class="hljs-attr">key</span>: <span class="hljs-string">"x"</span>, <span class="hljs-attr">val</span>:<span class="hljs-number">1</span>}, {<span class="hljs-attr">key</span>: <span class="hljs-string">"y"</span>, <span class="hljs-attr">val</span>:<span class="hljs-number">3</span>}]}, <span class="hljs-string">"a[1]"</span>) =&gt; {<span class="hljs-attr">key</span>: <span class="hljs-string">"y"</span>, <span class="hljs-attr">val</span>:<span class="hljs-number">3</span>}
+getProp({<span class="hljs-attr">a</span>: [{<span class="hljs-attr">key</span>: <span class="hljs-string">"x"</span>, <span class="hljs-attr">val</span>:<span class="hljs-number">1</span>}, {<span class="hljs-attr">key</span>: <span class="hljs-string">"y"</span>, <span class="hljs-attr">val</span>:<span class="hljs-number">3</span>}]}, <span class="hljs-string">"a[1].val"</span>) =&gt; <span class="hljs-number">3</span>
+getProp({<span class="hljs-attr">a</span>: [{<span class="hljs-attr">key</span>: <span class="hljs-string">"x"</span>, <span class="hljs-attr">val</span>:<span class="hljs-number">1</span>}, {<span class="hljs-attr">key</span>: <span class="hljs-string">"y"</span>, <span class="hljs-attr">val</span>:<span class="hljs-number">3</span>}]}, <span class="hljs-string">"a[findBy(key,y)].val"</span>) =&gt; <span class="hljs-number">3</span>
+getProp({<span class="hljs-attr">a</span>: [{<span class="hljs-attr">key</span>: <span class="hljs-string">"x"</span>, <span class="hljs-attr">val</span>:<span class="hljs-number">1</span>}, {<span class="hljs-attr">key</span>: <span class="hljs-string">"y"</span>, <span class="hljs-attr">val</span>:<span class="hljs-number">3</span>}]}, <span class="hljs-string">"a[findBy(val,1)].key"</span>) =&gt; <span class="hljs-string">"x"</span>
+</code></pre>
 
   
 
@@ -3838,7 +3868,7 @@ Does not handle anything but nested object graph</p>
 
 
 
-<small class="font-size--2">Function defined in <a href="https://github.com/Esri/hub.js/blob/master/common/src/objects/get-prop.ts#L5">common/src/objects/get-prop.ts:5</a></small>
+<small class="font-size--2">Function defined in <a href="https://github.com/Esri/hub.js/blob/master/common/src/objects/get-prop.ts#L18">common/src/objects/get-prop.ts:18</a></small>
 
 
     </div>
