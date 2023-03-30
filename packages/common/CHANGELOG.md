@@ -1,3 +1,10 @@
+# @esri/hub-common [12.17.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.16.0...@esri/hub-common@12.17.0) (2023-03-30)
+
+
+### Features
+
+* **hub-common:** add min viable HubContent class and supporting functions ([6ed4fc5](https://github.com/Esri/hub.js/commit/6ed4fc50c80967b802d7255ffc07a79786f2980c))
+
 # @esri/hub-common [12.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.15.0...@esri/hub-common@12.16.0) (2023-03-29)
 
 
