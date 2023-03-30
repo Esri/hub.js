@@ -7,6 +7,7 @@ import { MOCK_AUTH } from "../../mocks/mock-auth";
 import {
   applyWellKnownItemPredicates,
   portalSearchItems,
+  portalSearchItemsAsItems,
   WellKnownItemPredicates,
 } from "../../../src/search/_internal/portalSearchItems";
 
@@ -38,6 +39,7 @@ describe("portalSearchItems Module:", () => {
       const searchItemsSpy = spyOn(Portal, "searchItems").and.callFake(() => {
         return Promise.resolve(cloneObject(AllTypesResponse));
       });
+
       const qry: IQuery = {
         targetEntity: "item",
         filters: [
@@ -56,7 +58,13 @@ describe("portalSearchItems Module:", () => {
         },
       };
 
-      await portalSearchItems(qry, opts);
+      const resp = await portalSearchItems(qry, opts);
+
+      // find the hubsite entry and ensure that it does not have .properties
+      const hubSite = resp.results.find(
+        (e) => e.type === "Hub Site Application"
+      );
+      expect(hubSite?.properties).not.toBeDefined();
 
       expect(searchItemsSpy.calls.count()).toBe(1, "should call searchItems");
       const [expectedParams] = searchItemsSpy.calls.argsFor(0);
@@ -458,6 +466,44 @@ describe("portalSearchItems Module:", () => {
         expect(chk.filters[0].predicates[0].type).toEqual(expected);
         expect(chk.filters[0].predicates[0].owner).not.toBeDefined();
       });
+    });
+  });
+
+  describe("portalSearchItemsAsItems:", () => {
+    it("simple search", async () => {
+      const searchItemsSpy = spyOn(Portal, "searchItems").and.callFake(() => {
+        return Promise.resolve(cloneObject(AllTypesResponse));
+      });
+      const qry: IQuery = {
+        targetEntity: "item",
+        filters: [
+          {
+            predicates: [
+              {
+                term: "water",
+              },
+            ],
+          },
+        ],
+      };
+      const opts: IHubSearchOptions = {
+        requestOptions: {
+          portal: "https://www.arcgis.com/sharing/rest",
+        },
+      };
+
+      const resp = await portalSearchItemsAsItems(qry, opts);
+      // find the hubsite entry and ensure that it does not have .properties
+      const hubSite = resp.results.find(
+        (e) => e.type === "Hub Site Application"
+      );
+      expect(hubSite?.properties).toBeDefined();
+
+      expect(searchItemsSpy.calls.count()).toBe(1, "should call searchItems");
+      const [expectedParams] = searchItemsSpy.calls.argsFor(0);
+      expect(expectedParams.portal).toEqual(opts.requestOptions?.portal);
+      expect(expectedParams.q).toEqual("(water)");
+      expect(expectedParams.countFields).not.toBeDefined();
     });
   });
 });
