@@ -1,3 +1,10 @@
+# @esri/hub-common [12.18.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.17.0...@esri/hub-common@12.18.0) (2023-03-30)
+
+
+### Features
+
+* update getProp to support array indexing, find and $use ([#1008](https://github.com/Esri/hub.js/issues/1008)) ([3644d1c](https://github.com/Esri/hub.js/commit/3644d1c9ffc3a7e7c58e86ca6da58c4e33ab83d6))
+
 # @esri/hub-common [12.17.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.16.0...@esri/hub-common@12.17.0) (2023-03-30)
 
 
