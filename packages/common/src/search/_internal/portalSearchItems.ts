@@ -23,7 +23,7 @@ import { enrichContentSearchResult } from "../../content";
 import { cloneObject } from "../../util";
 
 /**
- * @private
+ * @internal
  * Portal Search Implementation for Items
  * @param query
  * @param options
@@ -33,6 +33,32 @@ export async function portalSearchItems(
   query: IQuery,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
+  const so = processSearchParams(options, query);
+  return searchPortalAsHubSearchResult(so);
+}
+
+/**
+ * @internal
+ * Portal Search for Items using IQuery and IHubSearchOptions
+ * @param query
+ * @param options
+ * @returns
+ */
+export function portalSearchItemsAsItems(
+  query: IQuery,
+  options: IHubSearchOptions
+): Promise<IHubSearchResponse<IItem>> {
+  const so = processSearchParams(options, query);
+  return searchPortalAsItem(so);
+}
+
+/**
+ * Common preprocessing for search options and the query
+ * @param options
+ * @param query
+ * @returns
+ */
+function processSearchParams(options: IHubSearchOptions, query: IQuery) {
   if (!options.requestOptions) {
     throw new HubError(
       "portalSearchItems",
@@ -76,7 +102,38 @@ export async function portalSearchItems(
     so.countFields = options.aggFields.join(",");
     so.countSize = options.aggLimit || 10;
   }
-  return searchPortal(so);
+  return so;
+}
+
+/**
+ * Internal portal search, which just returns IItems witn no conversion
+ * Due to typescript complexity when adding multiple returns types to a function
+ * it is simpler to have two functions that do the almost the same thing.
+ * @param searchOptions
+ * @returns
+ */
+async function searchPortalAsItem(
+  searchOptions: ISearchOptions
+): Promise<IHubSearchResponse<IItem>> {
+  // Execute portal search
+  const resp = await searchItems(searchOptions);
+
+  // convert portal  aggregations into hub aggregations
+  const aggregations = convertPortalAggregations(resp);
+
+  // Construct the return
+  return {
+    total: resp.total,
+    results: resp.results,
+    aggregations,
+    hasNext: resp.nextStart > -1,
+    next: getNextFunction<IItem>(
+      searchOptions,
+      resp.nextStart,
+      resp.total,
+      searchPortalAsItem
+    ),
+  };
 }
 
 /**
@@ -86,7 +143,7 @@ export async function portalSearchItems(
  * @param searchOptions
  * @returns
  */
-async function searchPortal(
+async function searchPortalAsHubSearchResult(
   searchOptions: ISearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
   // Execute portal search
@@ -117,7 +174,7 @@ async function searchPortal(
       searchOptions,
       resp.nextStart,
       resp.total,
-      searchPortal
+      searchPortalAsHubSearchResult
     ),
   };
 }
