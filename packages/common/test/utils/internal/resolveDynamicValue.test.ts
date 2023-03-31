@@ -1,5 +1,4 @@
 import { IPortal, IUser } from "@esri/arcgis-rest-portal";
-import M from "minimatch";
 import {
   ArcGISContextManager,
   IArcGISContext,
@@ -8,7 +7,7 @@ import {
 import { resolveDynamicValue } from "../../../src/utils/internal/resolveDynamicValue";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
 
-fdescribe("resolveDynamicValue:", () => {
+describe("resolveDynamicValue:", () => {
   let context: IArcGISContext;
   let itemQrySpy: jasmine.Spy;
   let portalSpy: jasmine.Spy;

@@ -4,10 +4,11 @@ import {
   IArcGISContext,
   DynamicValueDefinition,
 } from "../../../src";
-import { resolveDynamicValues } from "../../../src/utils/internal/resolveDynamicValues";
+import { resolvePortalValues } from "../../../src/utils/internal/resolvePortalValues";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
+import * as portal from "@esri/arcgis-rest-portal";
 
-describe("resolveDynamicValues:", () => {
+describe("resolvePortalValues:", () => {
   let context: IArcGISContext;
   beforeEach(async () => {
     // When we pass in all this information, the context
@@ -34,19 +35,24 @@ describe("resolveDynamicValues:", () => {
     context = authdCtxMgr.context;
   });
 
-  it("delegates to resolveDynamicValue", () => {
-    const fnSpy = spyOn(
-      require("../../../src/utils/internal/resolveDynamicValue"),
-      "resolveDynamicValue"
-    ).and.callFake(() => Promise.resolve({}));
+  it("calls memoized portalSelf", async () => {
     const def: DynamicValueDefinition = {
-      type: "static-value",
-      value: 12,
-      outPath: "cost",
+      type: "portal",
+      sourcePath: "orgKey",
+      outPath: "urlKey",
     };
-    const result = resolveDynamicValues([def], context);
+    const fnSpy = spyOn(portal, "getSelf").and.callFake(() =>
+      Promise.resolve({
+        fake: "portal",
+        orgKey: "fake",
+      })
+    );
+
+    const result = await resolvePortalValues(def, context);
+    expect(result).toEqual({ urlKey: "fake" });
     expect(fnSpy).toHaveBeenCalled();
-    const chkDef = fnSpy.calls.mostRecent().args[0];
-    expect(chkDef).toEqual(def);
+    await resolvePortalValues(def, context);
+    await resolvePortalValues(def, context);
+    expect(fnSpy.calls.count()).toBe(1);
   });
 });

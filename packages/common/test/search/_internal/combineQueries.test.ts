@@ -42,7 +42,7 @@ const harnessQueries: IQuery[] = [
   },
 ];
 
-fdescribe("combineQueries:", () => {
+describe("combineQueries:", () => {
   it("works with one query", () => {
     const qry = cloneObject(harnessQueries[0]);
     const result = combineQueries([qry]);

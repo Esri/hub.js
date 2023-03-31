@@ -2,7 +2,7 @@
 // Generated on Thu Jul 13 2017 11:01:30 GMT-0700 (PDT)
 const fs = require("fs");
 
-module.exports = function(config) {
+module.exports = function (config) {
   const configObj = {
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: "",
@@ -22,15 +22,14 @@ module.exports = function(config) {
         // uncomment the next flag to disable coverage, and
         // enable debugging in the browser
         // if left true, the source maps won't actually match up
-       //  instrumentation: false,
+        // instrumentation: false,
 
         // don't report coverage on fixtures or tests
         exclude: [
           /\.(d|spec|test|e2e|node-utils)\.ts$/i,
           /fixture*/,
-          /mocks*/, 
-          /test-helpers*/
-          
+          /mocks*/,
+          /test-helpers*/,
         ],
         threshold: {
           global: {
@@ -39,22 +38,19 @@ module.exports = function(config) {
             functions: 100,
             lines: 100,
             // don't compute coverage for the tests themselves
-            excludes: [
-              'packages/*/test/**/*.ts',
-              'packages/*/e2e/**/*.ts',
-            ]
-          }
-        }
+            excludes: ["packages/*/test/**/*.ts", "packages/*/e2e/**/*.ts"],
+          },
+        },
       },
       reports: {
-        "json": {
-          "directory": "coverage",
-          "filename": "coverage.json"
+        json: {
+          directory: "coverage",
+          filename: "coverage.json",
         },
-        "html": "coverage"
+        html: "coverage",
       },
       compilerOptions: {
-        module: "commonjs"
+        module: "commonjs",
       },
       tsconfig: "./tsconfig.json",
       bundlerOptions: {
@@ -65,19 +61,19 @@ module.exports = function(config) {
           // so we need to manually alias each package here.
           alias: fs
             .readdirSync("packages")
-            .filter(p => p[0] !== ".")
+            .filter((p) => p[0] !== ".")
             .reduce((alias, p) => {
               alias[`@esri/hub-${p}`] = `packages/${p}/src/index.ts`;
               return alias;
-            }, {})
-        }
-      }
+            }, {}),
+        },
+      },
     },
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      "**/*.ts": ["karma-typescript"] // *.tsx for React Jsx
+      "**/*.ts": ["karma-typescript"], // *.tsx for React Jsx
     },
 
     // test results reporter to use
@@ -87,7 +83,7 @@ module.exports = function(config) {
       // replace "dots" with "spec" to get verbose info on tests, including timing
       "dots",
       "jasmine-diff",
-      "karma-typescript"
+      "karma-typescript",
     ],
 
     // NOTE: this is only used when when reporters includes "spec"
@@ -130,9 +126,9 @@ module.exports = function(config) {
     concurrency: Infinity,
     customLaunchers: {
       ChromeHeadlessCI: {
-        base: 'ChromeHeadless',
-        flags: ['--no-sandbox']
-      }
+        base: "ChromeHeadless",
+        flags: ["--no-sandbox"],
+      },
     },
   };
 

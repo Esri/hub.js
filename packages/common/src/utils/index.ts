@@ -19,3 +19,4 @@ export * from "./revertable-tasks";
 export * from "./sessionLocalStorage";
 export * from "./dasherize";
 export * from "./titleize";
+export * from "./memoize";

@@ -1,6 +1,6 @@
 import { aggregateValues } from "../../../src/utils/internal/aggregateValues";
 
-fdescribe("aggregateValues:", () => {
+describe("aggregateValues:", () => {
   it("can sum values", () => {
     const values = [1, 2, 3, 4, 5];
     const result = aggregateValues(values, "sum");
