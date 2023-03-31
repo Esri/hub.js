@@ -1,3 +1,10 @@
+# @esri/hub-common [12.20.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.19.0...@esri/hub-common@12.20.0) (2023-03-31)
+
+
+### Features
+
+* dynamic value implementation ([#1011](https://github.com/Esri/hub.js/issues/1011)) ([e637968](https://github.com/Esri/hub.js/commit/e63796852397585abbb723f3710294bc3bc4a277))
+
 # @esri/hub-common [12.19.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.18.0...@esri/hub-common@12.19.0) (2023-03-30)
 
 
