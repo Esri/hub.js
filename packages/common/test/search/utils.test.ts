@@ -1,13 +1,21 @@
 import { IGroup, ISearchOptions, IUser } from "@esri/arcgis-rest-portal";
 import { ISearchResponse } from "../../src";
-import { IHubSearchResult, IRelativeDate } from "../../src/search";
 import {
+  IHubSearchOptions,
+  IHubSearchResult,
+  IRelativeDate,
+  NamedApis,
+} from "../../src/search";
+import {
+  shouldUseOgcApi,
+  getApi,
   expandApis,
   getUserThumbnailUrl,
   valueToMatchOptions,
   relativeDateToDateRange,
   getGroupThumbnailUrl,
   getNextFunction,
+  SEARCH_APIS,
 } from "../../src/search/utils";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import { mockUserSession } from "../test-helpers/fake-user-session";
@@ -25,6 +33,93 @@ describe("Search Utils:", () => {
       ]);
       expect(chk.length).toBe(1);
       expect(chk[0].type).toBe("arcgis");
+    });
+  });
+
+  describe("shouldUseOgcApi", () => {
+    const siteUrl = "https://my-site.hub.arcgis-com";
+    it("returns false when targetEntity isn't item", () => {
+      const targetEntity = "group";
+      const options = {
+        siteUrl,
+        requestOptions: {
+          isPortal: false,
+        },
+      } as unknown as IHubSearchOptions;
+      expect(shouldUseOgcApi(targetEntity, options)).toBeFalsy();
+    });
+
+    it("returns false when no siteUrl is provided", () => {
+      const targetEntity = "item";
+      const options = {
+        requestOptions: {
+          isPortal: false,
+        },
+      } as unknown as IHubSearchOptions;
+      expect(shouldUseOgcApi(targetEntity, options)).toBeFalsy();
+    });
+
+    it("returns false when in an enterprise environment", () => {
+      const targetEntity = "item";
+      const options = {
+        siteUrl,
+        requestOptions: {
+          isPortal: true,
+        },
+      } as unknown as IHubSearchOptions;
+      expect(shouldUseOgcApi(targetEntity, options)).toBeFalsy();
+    });
+
+    it("returns true otherwise", () => {
+      const targetEntity = "item";
+      const options = {
+        siteUrl,
+        requestOptions: {
+          isPortal: false,
+        },
+      } as unknown as IHubSearchOptions;
+      expect(shouldUseOgcApi(targetEntity, options)).toBeTruthy();
+    });
+  });
+
+  describe("getApi", () => {
+    const siteUrl = "https://my-site.hub.arcgis-com";
+    const targetEntity = "item";
+    it("returns the expanded options.api if available", () => {
+      const options = {
+        api: "hubQA" as NamedApis,
+        siteUrl,
+        requestOptions: {
+          isPortal: false,
+        },
+      } as unknown as IHubSearchOptions;
+      expect(getApi(targetEntity, options)).toBe(SEARCH_APIS.hubQA);
+    });
+    it("otherwise returns reference to OGC API if possible", () => {
+      const options = {
+        siteUrl,
+        requestOptions: {
+          isPortal: false,
+        },
+      } as unknown as IHubSearchOptions;
+      expect(getApi(targetEntity, options)).toEqual({
+        type: "arcgis-hub",
+        url: `${siteUrl}/api/search/v1/collections/all`,
+      });
+    });
+    it("otherwise returns a reference to the Portal API from requestOptions", () => {
+      const portal = "https://my-enterprise-server.com/sharing/rest";
+      const options = {
+        siteUrl,
+        requestOptions: {
+          isPortal: true,
+          portal,
+        },
+      } as unknown as IHubSearchOptions;
+      expect(getApi(targetEntity, options)).toEqual({
+        type: "arcgis",
+        url: portal,
+      });
     });
   });
 

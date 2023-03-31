@@ -5,6 +5,7 @@ import { IUser, UserSession } from "@esri/arcgis-rest-auth";
 import { IGroup, ISearchOptions } from "@esri/arcgis-rest-portal";
 import { ISearchResponse } from "../types";
 import { cloneObject } from "../util";
+import { EntityType, IHubSearchOptions } from "./types";
 import {
   IMatchOptions,
   IDateRange,
@@ -77,6 +78,59 @@ export function expandApi(api: NamedApis | IApiDefinition): IApiDefinition {
     // it's an object, so we trust that it's well formed
     return api as IApiDefinition;
   }
+}
+
+/**
+ * @private
+ * Determines Which API should be hit for the given search parameters.
+ * Hierarchy:
+ * - Target options.api if available
+ * - Target the OGC API current parameters allow
+ * - Target the Portal API based off options.requestOptions.portal
+ * @param targetEntity target entity of the query
+ * @param options search options
+ * @returns an API Definition object describing what should be targeted
+ */
+export function getApi(
+  targetEntity: EntityType,
+  options: IHubSearchOptions
+): IApiDefinition {
+  const {
+    api,
+    siteUrl,
+    requestOptions: { portal },
+  } = options;
+
+  let result: IApiDefinition;
+  if (api) {
+    result = expandApi(api);
+  } else if (shouldUseOgcApi(targetEntity, options)) {
+    result = {
+      type: "arcgis-hub",
+      url: `${siteUrl}/api/search/v1/collections/all`,
+    };
+  } else {
+    result = { type: "arcgis", url: portal };
+  }
+
+  return result;
+}
+
+/**
+ * @private
+ * Determines whether the OGC API can be targeted with the given search parameters
+ * @param targetEntity target entity of the query
+ * @param options search options
+ */
+export function shouldUseOgcApi(
+  targetEntity: EntityType,
+  options: IHubSearchOptions
+): boolean {
+  const {
+    siteUrl,
+    requestOptions: { isPortal },
+  } = options;
+  return targetEntity === "item" && !!siteUrl && !isPortal;
 }
 
 /**

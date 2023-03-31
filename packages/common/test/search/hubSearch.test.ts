@@ -1,4 +1,4 @@
-import { IHubSearchOptions, IQuery } from "../../src";
+import { IHubSearchOptions, IQuery, SEARCH_APIS } from "../../src";
 import { hubSearch } from "../../src/search/hubSearch";
 
 import * as SearchFunctionModule from "../../src/search/_internal";
@@ -191,10 +191,11 @@ describe("hubSearch Module:", () => {
           ],
         };
         const opts: IHubSearchOptions = {
+          siteUrl: "https://my-site.hub.arcgis.com",
           requestOptions: {
+            isPortal: false,
             portal: "https://qaext.arcgis.com/sharing/rest",
           },
-          api: "hubDEV",
           include: ["server"],
         };
         const chk = await hubSearch(qry, opts);
@@ -206,6 +207,10 @@ describe("hubSearch Module:", () => {
         expect(query).toEqual(qry);
         expect(options.include).toBeDefined();
         expect(options.requestOptions).toEqual(opts.requestOptions);
+        expect(options.api).toEqual({
+          type: "arcgis-hub",
+          url: "https://my-site.hub.arcgis.com/api/search/v1/collections/all",
+        });
       });
       it("groups + arcgis: portalSearchGroups", async () => {
         const qry: IQuery = {

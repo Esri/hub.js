@@ -23,9 +23,17 @@ export interface IHubSearchOptions {
   aggLimit?: number;
 
   /**
+   * TODO: Deprecate in favor of `requestOptions` and `siteUrl`
    * Specify API to call. Defaults to ArcGIS Online Portal API
    */
   api?: NamedApis | IApiDefinition;
+
+  /**
+   * Site whose API should be targeted. Ignored in an enterprise context.
+   * e.g., https://my-site.hub.arcgis.com
+   */
+  siteUrl?: string;
+
   /**
    * DEPRECATE in favor of requestOptions
    */
