@@ -2,7 +2,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getItem, IItem } from "@esri/arcgis-rest-portal";
 
 import { getFamily } from "../content/get-family";
-import { getHubRelativeUrl } from "../content/_internal";
+import { getHubRelativeUrl } from "../content/_internal/internalContentUtils";
 import { EntityResourceMap, IHubProject } from "../core/types";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getItemBySlug } from "../items/slugs";

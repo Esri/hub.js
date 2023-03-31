@@ -10,7 +10,7 @@ import { getItemHomeUrl } from "../urls";
 import { unique } from "../util";
 import { mapBy } from "../utils";
 import { getFamily } from "./get-family";
-import { getHubRelativeUrl } from "./_internal";
+import { getHubRelativeUrl } from "./_internal/internalContentUtils";
 
 /**
  * Enrich a generic search result

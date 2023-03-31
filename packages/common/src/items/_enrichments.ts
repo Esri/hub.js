@@ -15,7 +15,7 @@ import { IPipeable, createOperationPipeline } from "../utils";
 import OperationStack from "../OperationStack";
 // TODO: move these functions here under /items
 import { getItemMetadata } from "@esri/arcgis-rest-portal";
-import { getItemOrgId } from "../content/_internal";
+import { getItemOrgId } from "../content/_internal/internalContentUtils";
 import { fetchOrg } from "../org";
 import { isServicesDirectoryDisabled } from "./is-services-directory-disabled";
 

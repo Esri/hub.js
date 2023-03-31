@@ -1,6 +1,6 @@
 import { IItem } from "@esri/arcgis-rest-types";
-import { getFamily } from "../content";
-import { getHubRelativeUrl } from "../content/_internal";
+import { getFamily } from "../content/get-family";
+import { getHubRelativeUrl } from "../content/_internal/internalContentUtils";
 import { fetchItemEnrichments } from "../items/_enrichments";
 import { getProp } from "../objects";
 import { getItemThumbnailUrl } from "../resources";

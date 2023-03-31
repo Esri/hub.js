@@ -22,7 +22,11 @@ import {
   setContentType,
   getContentTypeIcon,
   getContentTypeLabel,
-} from "../src/content";
+  getProxyUrl,
+  IHubContent,
+  IHubRequestOptions,
+  PublisherSource,
+} from "../../src";
 import {
   isProxiedCSV,
   setContentBoundary,
@@ -36,18 +40,12 @@ import {
   getHubRelativeUrl,
   extractFirstContact,
   getPublisherInfo,
-} from "../src/content/_internal";
-import { IModel } from "../src/types";
-import {
-  getProxyUrl,
-  IHubContent,
-  IHubRequestOptions,
-  PublisherSource,
-} from "../src";
-import { cloneObject } from "../src/util";
-import * as documentItem from "./mocks/items/document.json";
-import * as documentsJson from "./mocks/datasets/document.json";
-import * as featureLayerJson from "./mocks/datasets/feature-layer.json";
+} from "../../src/content/_internal/internalContentUtils";
+
+import { cloneObject } from "../../src/util";
+import * as documentItem from "../mocks/items/document.json";
+import * as documentsJson from "../mocks/datasets/document.json";
+import * as featureLayerJson from "../mocks/datasets/feature-layer.json";
 
 describe("getTypes", () => {
   it("can abort", () => {
