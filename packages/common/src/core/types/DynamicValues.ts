@@ -1,31 +1,14 @@
-import { ISearchOptions } from "@esri/arcgis-rest-portal";
-
 import { IQuery } from "../../search/types/IHubCatalog";
 import { IConfigurationSchema } from "../schemas";
 
 /**
- * The source for a dyanmic value. Used to determine how to resolve the value
+ * The source for a dynamic value. Used to determine how to resolve the value
  */
 export type DynamicValueSource =
   | "static-value"
   | "item-query"
   | "service-query"
   | "portal";
-
-export interface IItemQueryOptions {
-  /**
-   * Query that is specific to this dynamic value
-   */
-  query: IQuery;
-  /**
-   * Additional scoping query e.g. Projects Collection
-   */
-  scope?: IQuery;
-  /**
-   * Name of the collection to use as the source of a scoping query
-   */
-  collection?: string;
-}
 
 /**
  * Options used to defined a feature service query
@@ -60,7 +43,7 @@ export type ServiceAggregation = "count" | "sum" | "min" | "max" | "avg";
 export type DynamicAggregation = ServiceAggregation | "countByValue";
 
 /**
- * Properties shared by all DyanmicValueDefinitions
+ * Properties shared by all DynamicValueDefinitions
  */
 interface IBaseValueDefinition {
   type: DynamicValueSource;
@@ -98,6 +81,10 @@ export interface IDynamicPortalQueryDefinition extends IBaseValueDefinition {
   sourcePath: string;
 }
 
+/**
+ * Interface for a reference to another value in the same object graph.
+ * Can be used with `getProp(obj, ref.$use)` to get the value of the referenced property
+ */
 export interface IReference {
   $use: string;
 }
@@ -164,6 +151,12 @@ export type DynamicValueDefinition =
   | IDynamicItemQueryDefinition
   | IDynamicServiceQueryDefinition;
 
+/**
+ * Type to hold a count-by-value result
+ * ```js
+ * { "value1": 2, "value2": 1}
+ * ```
+ */
 export type CountByValue = Record<string, number>;
 
 /**
