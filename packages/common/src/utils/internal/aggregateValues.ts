@@ -1,6 +1,7 @@
 import { DynamicAggregation } from "../../core/types/DynamicValues";
 
 /**
+ * @internal
  * Aggregate a set of values based on the aggregation type
  * @param values
  * @param aggregation

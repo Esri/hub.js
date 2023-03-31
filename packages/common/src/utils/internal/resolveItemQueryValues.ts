@@ -1,4 +1,3 @@
-import { IItem } from "@esri/arcgis-rest-types";
 import { IArcGISContext } from "../../ArcGISContext";
 import {
   DynamicValues,
@@ -16,10 +15,7 @@ import { memoize } from "../memoize";
 import { resolveDynamicValue } from "./resolveDynamicValue";
 
 /**
- * Memoized version of portalSearchItemsAsItems
- */
-
-/**
+ * @internal
  * Resolve a set of dynamic values based on an item query.
  * This is used to query for a set of items, extract a specific value from each
  * then run an aggregation on the set of values.
@@ -32,7 +28,6 @@ export async function resolveItemQueryValues(
   context: IArcGISContext
 ): Promise<DynamicValues> {
   const result = {};
-  // const start = Date.now();
   // execute the query
   // TODO: Error if neither query or scope are defined
   // Combine the query and scope into a single query;
@@ -78,7 +73,7 @@ export async function resolveItemQueryValues(
         } else if (valueFromItem.type === "static-value") {
           vals.push(Promise.resolve(valueFromItem.value));
         } else {
-          // v is itself a valueDefinition so we call resolveDynamicValues again
+          // valueFromItem is itself a valueDefinition so we call resolveDynamicValues again
           const vResult = await resolveDynamicValue(valueFromItem, context);
           // vals needs just the value - the number or string but vResult is an object
           // so we need to get it out of the object
@@ -93,6 +88,5 @@ export async function resolveItemQueryValues(
   const aggretate = aggregateValues(values, valueDef.aggregation);
   setProp(valueDef.outPath, aggretate, result);
 
-  // timings.staticValues = timings.staticValues + (Date.now() - start);
   return result;
 }

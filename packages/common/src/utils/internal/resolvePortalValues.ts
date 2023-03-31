@@ -9,13 +9,13 @@ import { getProp } from "../../objects/get-prop";
 import { memoize } from "../memoize";
 
 /**
+ * @internal
  * Resolve a set of dynamic values by extracting properties
  * from the current user's portal/self
  * @param valueDef Portal Query Definition that wil be resolved using properties from the current user's portal/self
  * @param context ArcGIS context of the current user.
  * @returns
  */
-
 export async function resolvePortalValues(
   valueDef: IDynamicPortalQueryDefinition,
   context: IArcGISContext

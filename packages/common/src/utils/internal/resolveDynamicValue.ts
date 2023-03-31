@@ -13,9 +13,11 @@ import { resolveServiceQueryValues } from "./resolveServiceQueryValues";
 
 /**
  * @internal
- * Resolve a single dynamic value. If the result is a DynamicValueDefinition, it will be resolved recursively.
+ * Resolve a single dynamic value. The definition can be of many types (item-query, portal etc), each of which has their own logic for resolving the value.
+ * @param valueDef
+ * @param context
+ * @returns
  */
-
 export async function resolveDynamicValue(
   valueDef: DynamicValueDefinition,
   context: IArcGISContext

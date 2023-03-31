@@ -9,12 +9,12 @@ import { setProp } from "../../objects";
 import { getProp } from "../../objects/get-prop";
 
 /**
+ * @internal
  * Resolve a dynamic value that is derived from a service query
  * @param valueDef Service Query Definition that will be resolved by executing an aggregation querying on service and returning that value
  * @param context ArcGIS context of the current user.
  * @returns
  */
-
 export const resolveServiceQueryValues = async (
   valueDef: IDynamicServiceQueryDefinition,
   context: IArcGISContext

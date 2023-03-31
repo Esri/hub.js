@@ -14,7 +14,8 @@ const createCacheKeyFromArgs = (args: any[]) =>
 
 const memoizedFnCache: Record<string, any> = {};
 /**
- * Wrap a function into a memoized version of itself
+ * Wrap a function into a memoized version of itself. Multiple calls for the same function
+ * will return the same memoized function - thus enabling a shared cache of results.
  * `const memoizedItemSearch = memoize(searchItems);`
  * @param fn
  * @returns
