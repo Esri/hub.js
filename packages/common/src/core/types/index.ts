@@ -20,3 +20,4 @@ export * from "./IItemEnrichments";
 export * from "./IServerEnrichments";
 export * from "./ISystemStatus";
 export * from "./types";
+export * from "./DynamicValues";

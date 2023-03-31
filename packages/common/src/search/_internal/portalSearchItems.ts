@@ -24,7 +24,7 @@ import { cloneObject } from "../../util";
 
 /**
  * @internal
- * Portal Search Implementation for Items
+ * Portal Search Implementation for Items returning IHubSearchResults
  * @param query
  * @param options
  * @returns
