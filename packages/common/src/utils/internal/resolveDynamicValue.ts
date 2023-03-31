@@ -3,7 +3,7 @@ import {
   DynamicValueDefinition,
   DynamicValueResult,
   IDynamicItemQueryDefinition,
-  IDynamicPortalQueryDefinition,
+  IDynamicPortalSelfDefinition,
   IDynamicServiceQueryDefinition,
 } from "../../core/types/DynamicValues";
 import { getProp } from "../../objects/get-prop";
@@ -37,7 +37,7 @@ export async function resolveDynamicValue(
       break;
     case "portal":
       result = await resolvePortalValues(
-        valueDef as IDynamicPortalQueryDefinition,
+        valueDef as IDynamicPortalSelfDefinition,
         context
       );
       break;

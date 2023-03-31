@@ -4,7 +4,7 @@ import { IConfigurationSchema } from "../schemas";
 /**
  * The source for a dynamic value. Used to determine how to resolve the value
  */
-export type DynamicValueSource =
+export type DynamicValueType =
   | "static-value"
   | "item-query"
   | "service-query"
@@ -46,7 +46,7 @@ export type DynamicAggregation = ServiceAggregation | "countByValue";
  * Properties shared by all DynamicValueDefinitions
  */
 interface IBaseValueDefinition {
-  type: DynamicValueSource;
+  type: DynamicValueType;
   /**
    * The property path used to connect the resolved value to the parent object
    */
@@ -73,7 +73,7 @@ export interface IStaticValueDefinition extends IBaseValueDefinition {
 /**
  * Definition for a dynamic value that is resolved from the portal/self
  */
-export interface IDynamicPortalQueryDefinition extends IBaseValueDefinition {
+export interface IDynamicPortalSelfDefinition extends IBaseValueDefinition {
   type: "portal";
   /**
    * The path to the property on the portal/self response to return
@@ -147,7 +147,7 @@ export interface IDynamicServiceQueryDefinition extends IBaseValueDefinition {
  */
 export type DynamicValueDefinition =
   | IStaticValueDefinition
-  | IDynamicPortalQueryDefinition
+  | IDynamicPortalSelfDefinition
   | IDynamicItemQueryDefinition
   | IDynamicServiceQueryDefinition;
 

@@ -19,10 +19,13 @@ export const resolveDynamicValues = async (
 ): Promise<Record<string, DynamicValueResult>> => {
   let result: Record<string, any> = {};
 
-  for (const valueDef of dynamicValues) {
-    const val = await resolveDynamicValue(valueDef, context);
-    result = { ...result, ...val };
-  }
+  // iterate over the dynamic values and resolve each one via Promise.all
+  // this will allow us to resolve all the values in parallel
+  const resolvedValues = await Promise.all(
+    dynamicValues.map((valueDef) => resolveDynamicValue(valueDef, context))
+  );
+  // merge the resolved values into a single object
+  result = resolvedValues.reduce((acc, val) => ({ ...acc, ...val }), {});
 
   return result;
 };

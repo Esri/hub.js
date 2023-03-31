@@ -2,7 +2,7 @@ import { getSelf } from "@esri/arcgis-rest-portal";
 import { IArcGISContext } from "../../ArcGISContext";
 import {
   DynamicValues,
-  IDynamicPortalQueryDefinition,
+  IDynamicPortalSelfDefinition,
 } from "../../core/types/DynamicValues";
 import { setProp } from "../../objects";
 import { getProp } from "../../objects/get-prop";
@@ -17,7 +17,7 @@ import { memoize } from "../memoize";
  * @returns
  */
 export async function resolvePortalValues(
-  valueDef: IDynamicPortalQueryDefinition,
+  valueDef: IDynamicPortalSelfDefinition,
   context: IArcGISContext
 ): Promise<DynamicValues> {
   const result = {};
