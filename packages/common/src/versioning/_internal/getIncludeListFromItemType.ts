@@ -1,6 +1,6 @@
 import { IModel } from "../../types";
 import { isSiteType } from "../../content/compose";
-import { isPageType } from "../../content/_internal";
+import { isPageType } from "../../content/_internal/internalContentUtils";
 import { SiteVersionIncludeList } from "../../sites/_internal/SiteBusinessRules";
 import { PageVersionIncludeList } from "../../pages/_internal/PageBusinessRules";
 

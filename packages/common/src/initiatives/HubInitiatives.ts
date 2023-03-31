@@ -37,7 +37,7 @@ import { IHubInitiative } from "../core/types";
 import { IHubSearchResult } from "../search";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { fetchItemEnrichments } from "../items/_enrichments";
-import { getHubRelativeUrl } from "../content/_internal";
+import { getHubRelativeUrl } from "../content/_internal/internalContentUtils";
 import { DEFAULT_INITIATIVE, DEFAULT_INITIATIVE_MODEL } from "./defaults";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";

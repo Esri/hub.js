@@ -19,7 +19,7 @@ import {
   fetchHubEnrichmentsBySlug,
   getContentEnrichments,
 } from "./_fetch";
-import { canUseHubApiForItem } from "./_internal";
+import { canUseHubApiForItem } from "./_internal/internalContentUtils";
 import {
   composeContent,
   getItemLayer,

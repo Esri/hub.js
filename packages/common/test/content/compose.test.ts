@@ -8,9 +8,9 @@ import {
   IHubGeography,
   IHubRequestOptions,
   PublisherSource,
-} from "../src";
-import * as documentItem from "./mocks/items/document.json";
-import * as mapServiceItem from "./mocks/items/map-service.json";
+} from "../../src";
+import * as documentItem from "../mocks/items/document.json";
+import * as mapServiceItem from "../mocks/items/map-service.json";
 
 const featureServiceItem = {
   id: "3ae",

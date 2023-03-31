@@ -19,7 +19,7 @@ import { getNextFunction } from "../utils";
 import { convertPortalAggregations } from "./portalSearchUtils";
 import { expandPredicate } from "./expandPredicate";
 import HubError from "../../HubError";
-import { enrichContentSearchResult } from "../../content";
+import { enrichContentSearchResult } from "../../content/search";
 import { cloneObject } from "../../util";
 
 /**

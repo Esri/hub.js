@@ -7,7 +7,7 @@ import { handleDomainChanges } from "./_internal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { fetchItemEnrichments } from "../items/_enrichments";
 import { parseInclude } from "../search/_internal/parseInclude";
-import { getHubRelativeUrl } from "../content/_internal";
+import { getHubRelativeUrl } from "../content/_internal/internalContentUtils";
 import { applyPermissionMigration } from "./_internal/applyPermissionMigration";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";

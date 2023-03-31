@@ -1,5 +1,5 @@
 import { IUser } from "@esri/arcgis-rest-types";
-import { getFamilyTypes } from "../content";
+import { getFamilyTypes } from "../content/get-family";
 import { HubFamily } from "../types";
 import { EntityType, IHubCatalog, IHubCollection } from "./types";
 

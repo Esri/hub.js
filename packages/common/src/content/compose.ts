@@ -32,7 +32,7 @@ import {
   determineExtent,
   getPublisherInfo,
   getItemOrgId,
-} from "./_internal";
+} from "./_internal/internalContentUtils";
 import { getFamily } from "./get-family";
 
 /**
