@@ -1,4 +1,4 @@
-import { IGroup } from "@esri/arcgis-rest-types";
+import { IGroup } from "@esri/arcgis-rest-portal";
 import { fetchGroupEnrichments } from "./_internal/enrichments";
 import { getProp } from "../objects";
 import { getGroupThumbnailUrl, IHubSearchResult } from "../search";

@@ -12,7 +12,8 @@ import {
 import { isMapOrFeatureServerUrl } from "../urls";
 import { cloneObject } from "../util";
 import { includes } from "../utils";
-import { IHubExtent, normalizeItemType } from "./compose";
+import { IHubExtent } from "./compose";
+import { normalizeItemType } from "./normalizeItemType";
 import { getFamily } from "./get-family";
 import { parseDatasetId } from "./slugs";
 import { DatasetResource } from "./types";
@@ -33,7 +34,7 @@ const shouldFetchData = (item: IItem) => {
  * @returns the default list of enrichments to fetch for content
  * @private
  */
-export const getContentEnrichments = (item: IItem) => {
+export function getContentEnrichments(item: IItem) {
   // we fetch these enrichments for all content types
   const enrichments: ItemOrServerEnrichment[] = [
     "groupIds",
@@ -49,7 +50,7 @@ export const getContentEnrichments = (item: IItem) => {
   return isMapOrFeatureServerUrl(item.url)
     ? enrichments.concat("server", "layers")
     : enrichments;
-};
+}
 
 /**
  * The set of enrichments that we fetch from the Hub API
@@ -141,10 +142,10 @@ const getDatasetEnrichments = (dataset: DatasetResource) => {
  * @returns enrichments from the Hub API (slug, boundary, statistic, etc)
  * @private
  */
-export const fetchHubEnrichmentsBySlug = async (
+export async function fetchHubEnrichmentsBySlug(
   slug: string,
   requestOptions?: IHubRequestOptions
-) => {
+) {
   // NOTE: we don't catch errors here b/c
   // searching by slug is the first step in fetchContent()
   // and if this fails, we don't have an id to fall back on
@@ -153,7 +154,7 @@ export const fetchHubEnrichmentsBySlug = async (
     getHubEnrichmentsOptions(requestOptions, slug)
   );
   return getDatasetEnrichments(response.data[0]);
-};
+}
 
 /**
  * fetch enrichment from the Hub API by id
@@ -162,10 +163,10 @@ export const fetchHubEnrichmentsBySlug = async (
  * @returns enrichments from the Hub API (slug, boundary, statistic, etc)
  * @private
  */
-export const fetchHubEnrichmentsById = async (
+export async function fetchHubEnrichmentsById(
   hubId: string,
   requestOptions?: IHubRequestOptions
-) => {
+) {
   try {
     const response = await hubApiRequest(
       `/datasets/${hubId}`,
@@ -177,4 +178,4 @@ export const fetchHubEnrichmentsById = async (
     // b/c we can still look up the item and enrichments by id
     return { errors: getEnrichmentErrors(e as Error) };
   }
-};
+}

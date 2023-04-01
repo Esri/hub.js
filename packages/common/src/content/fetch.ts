@@ -4,7 +4,7 @@ import {
   queryFeatures,
 } from "@esri/arcgis-rest-feature-layer";
 import { getItem } from "@esri/arcgis-rest-portal";
-import { IHubContent, IHubEditableContent } from "../core";
+import { IHubContent } from "../core";
 import {
   ItemOrServerEnrichment,
   fetchItemEnrichments,
@@ -27,11 +27,10 @@ import {
   isLayerView,
 } from "./compose";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { PropertyMapper } from "../core/_internal/PropertyMapper";
-import { getPropertyMap } from "./_internal/getPropertyMap";
 
-const hasFeatures = (contentType: string) =>
-  ["Feature Layer", "Table"].includes(contentType);
+function hasFeatures(contentType: string): boolean {
+  return ["Feature Layer", "Table"].includes(contentType);
+}
 
 interface IFetchItemAndEnrichmentsOptions extends IHubRequestOptions {
   enrichments?: ItemOrServerEnrichment[];
@@ -42,10 +41,10 @@ export interface IFetchContentOptions extends IFetchItemAndEnrichmentsOptions {
   siteOrgKey?: string;
 }
 
-const maybeFetchLayerEnrichments = async (
+async function maybeFetchLayerEnrichments(
   itemAndEnrichments: IItemAndEnrichments,
   options?: IFetchContentOptions
-) => {
+) {
   // determine if this is a client-side feature layer view
   const { item, data } = itemAndEnrichments;
   let { layers } = itemAndEnrichments;
@@ -82,12 +81,12 @@ const maybeFetchLayerEnrichments = async (
     // Also remove once we stop supporting ArcGIS Servers below version 10.5
     layers,
   };
-};
+}
 
-const fetchItemAndEnrichments = async (
+async function fetchItemAndEnrichments(
   itemId: string,
   options?: IFetchContentOptions
-) => {
+) {
   // fetch the item
   const item = await getItem(itemId, options);
 
@@ -105,12 +104,9 @@ const fetchItemAndEnrichments = async (
     options
   );
   return maybeFetchLayerEnrichments({ ...enrichments, item }, options);
-};
+}
 
-const fetchContentById = async (
-  hubId: string,
-  options?: IFetchContentOptions
-) => {
+async function fetchContentById(hubId: string, options?: IFetchContentOptions) {
   // start by fetching the item and item enrichments
   const { itemId } = parseDatasetId(hubId);
   const { item, ...itemEnrichments } = await fetchItemAndEnrichments(
@@ -136,12 +132,12 @@ const fetchContentById = async (
     // merge error arrays
     errors: maybeConcat([itemEnrichments.errors, hubEnrichments.errors]),
   });
-};
+}
 
-const fetchContentBySlug = async (
+async function fetchContentBySlug(
   fullyQualifiedSlug: string,
   options?: IFetchContentOptions
-) => {
+) {
   // we only have a slug, not an item id, so we start by
   // fetching the item id (and enrichments) from the Hub API
   // NOTE: if we are in enterprise this will throw an error
@@ -184,12 +180,12 @@ const fetchContentBySlug = async (
     // merge error arrays
     errors: maybeConcat([itemEnrichments.errors, hubEnrichments.errors]),
   });
-};
+}
 
-const fetchContentRecordCount = async (
+async function fetchContentRecordCount(
   content: IHubContent,
   requestOptions: IRequestOptions
-) => {
+) {
   const { url, viewDefinition } = content;
   const where = viewDefinition?.definitionExpression;
   try {
@@ -207,7 +203,7 @@ const fetchContentRecordCount = async (
     // however, we should probably push the error message into content.errors instead
     return Infinity;
   }
-};
+}
 
 /**
  * Fetch enriched content from the Portal and Hub APIs.
@@ -221,10 +217,10 @@ const fetchContentRecordCount = async (
  * const content = await fetchContent('my-org::item-name')
  * ```
  */
-export const fetchContent = async (
+export async function fetchContent(
   identifier: string,
   options?: IFetchContentOptions
-) => {
+) {
   const content = isSlug(identifier)
     ? await fetchContentBySlug(
         addContextToSlug(identifier, options?.siteOrgKey),
@@ -245,26 +241,4 @@ export const fetchContent = async (
         await fetchContentRecordCount(content, options)
       : content.recordCount;
   return content;
-};
-
-export const fetchHubContent = async (
-  identifier: string,
-  requestOptions: IRequestOptions
-): Promise<IHubEditableContent> => {
-  // TODO: fetch data? org? ownerUser? metadata?
-  // could use getItemEnrichments() and remove server, layers, etc
-  // but we'd have to do that _after_ fetching the item first
-  const enrichments = [] as ItemOrServerEnrichment[];
-  const options = { ...requestOptions, enrichments } as IFetchContentOptions;
-  // for now we call fetchContent(), which returns a superset of IHubEditableContent
-  // in the long run we probably want to replace this w/ fetchItemAndEnrichments()
-  // and then use the property mapper and computeProps() to compose the object
-  const model = await fetchContent(identifier, options);
-  // for now we still need property mapper to get defaults not set by composeContent()
-  const mapper = new PropertyMapper<Partial<IHubEditableContent>>(
-    getPropertyMap()
-  );
-  const content = mapper.modelToObject(model, {}) as IHubEditableContent;
-  // TODO: computeProps if we end up using fetchItemAndEnrichments()
-  return content;
-};
+}

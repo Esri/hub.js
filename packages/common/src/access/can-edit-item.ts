@@ -1,4 +1,4 @@
-import { IItem, IUser, IGroup } from "@esri/arcgis-rest-types";
+import { IItem, IUser, IGroup } from "@esri/arcgis-rest-portal";
 import { isUpdateGroup, includes } from "../utils";
 import { getProp } from "../objects";
 import { hasBasePriv } from "./has-base-priv";
@@ -25,7 +25,7 @@ export function canEditItem(item: IItem, user: IUser): boolean {
   } else if (hasPriv) {
     const itemGroups = [
       ...(getProp(item, "groupIds") || []),
-      getProp(item, "properties.collaborationGroupId")
+      getProp(item, "properties.collaborationGroupId"),
     ];
     const isGroupEditable = (group: IGroup): boolean =>
       isUpdateGroup(group) && includes(itemGroups, group.id);

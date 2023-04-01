@@ -9,3 +9,6 @@ export * from "./HubContent";
 export * from "./search";
 export * from "./slugs";
 export * from "./types";
+export * from "./normalizeItemType";
+export * from "./fetchHubContent";
+export * from "./isSiteType";

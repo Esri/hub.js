@@ -1,4 +1,4 @@
-import { IItem } from "@esri/arcgis-rest-types";
+import { IItem } from "@esri/arcgis-rest-portal";
 import { getFamily } from "../content/get-family";
 import { getHubRelativeUrl } from "../content/_internal/internalContentUtils";
 import { fetchItemEnrichments } from "../items/_enrichments";

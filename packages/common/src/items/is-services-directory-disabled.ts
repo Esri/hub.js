@@ -1,7 +1,6 @@
 import { parseServiceUrl } from "@esri/arcgis-rest-feature-layer";
-import { getItem } from "@esri/arcgis-rest-portal";
+import { getItem, IItem } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IItem } from "@esri/arcgis-rest-types";
 
 /**
  * Checks if a server's services directory is disabled. Consider hoisting this to RESTJS
@@ -9,10 +8,10 @@ import { IItem } from "@esri/arcgis-rest-types";
  * @param requestOptions Request options
  * @returns Promise that resolves boolean
  */
-export const isServicesDirectoryDisabled = async (
+export async function isServicesDirectoryDisabled(
   idOrItem: string | IItem,
   requestOptions: IRequestOptions
-): Promise<boolean> => {
+): Promise<boolean> {
   let disabled;
   try {
     const item =
@@ -39,4 +38,4 @@ export const isServicesDirectoryDisabled = async (
     disabled = true;
   }
   return disabled;
-};
+}

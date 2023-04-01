@@ -1,4 +1,4 @@
-import { IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-portal";
 import { fetchUserEnrichments } from "./_internal/enrichments";
 import { getProp } from "../objects";
 import { getUserThumbnailUrl, IHubSearchResult } from "../search";

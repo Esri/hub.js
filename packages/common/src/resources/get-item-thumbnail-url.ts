@@ -1,6 +1,6 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IItem } from "@esri/arcgis-rest-types";
-import { IPortal } from "@esri/arcgis-rest-portal";
+
+import { IPortal, IItem } from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions } from "../types";
 import { getItemApiUrl } from "../urls/get-item-api-url";
 

@@ -9,12 +9,8 @@
  * move them to index.ts only when they are needed by a consumer.
  */
 import { parseServiceUrl } from "@esri/arcgis-rest-feature-layer";
-import { IItem, IPortal } from "@esri/arcgis-rest-portal";
-import {
-  ILayerDefinition,
-  ISpatialReference,
-  IUser,
-} from "@esri/arcgis-rest-types";
+import { IItem, IPortal, IUser } from "@esri/arcgis-rest-portal";
+import { ILayerDefinition, ISpatialReference } from "@esri/arcgis-rest-types";
 import { IHubContent, PublisherSource } from "../../core";
 import {
   IHubGeography,
@@ -33,22 +29,33 @@ import { getProp } from "../../objects";
 import { IHubAdditionalResource } from "../../core/types/IHubAdditionalResource";
 
 /**
+ * Determines the correct orgId for an item.
+ * Note: it's undocumented, but the portal API will return orgId for items... sometimes.
+ *
+ * @param item
+ * @param ownerUser item owner's hydrated user object
+ */
+export function getItemOrgId(item: IItem, ownerUser?: IUser) {
+  return item.orgId || ownerUser?.orgId;
+}
+
+/**
  * Create a new content with updated boundary properties
  * @param content original content
  * @param boundary boundary provenance
  * @returns
  * @private
  */
-export const setContentBoundary = (
+export function setContentBoundary(
   content: IHubContent,
   boundary: GeographyProvenance
-) => {
+): IHubContent {
   // update content's item and boundary
   const properties = { ...(content.item.properties || {}), boundary };
   const item = { ...content.item, properties };
   const updated = { ...content, item };
   return { ...updated, boundary: getContentBoundary(item) };
-};
+}
 
 /**
  * get a content's boundary based on the item's boundary property
@@ -56,7 +63,7 @@ export const setContentBoundary = (
  * @returns
  * @private
  */
-export const getContentBoundary = (item: IItem): IHubGeography => {
+export function getContentBoundary(item: IItem): IHubGeography {
   const bBox = item.extent;
   const isValidItemExtent = isBBox(bBox);
   // user specified provenance is stored in item.properties
@@ -79,7 +86,7 @@ export const getContentBoundary = (item: IItem): IHubGeography => {
     boundary.spatialReference = boundary.geometry.spatialReference;
   }
   return boundary;
-};
+}
 
 /**
  * Determine if we are in an enterprise environment
@@ -90,9 +97,9 @@ export const getContentBoundary = (item: IItem): IHubGeography => {
  * @returns
  * @private
  */
-export const isPortal = (requestOptions?: IHubRequestOptions) => {
+export function isPortal(requestOptions?: IHubRequestOptions) {
   return requestOptions && requestOptions.isPortal;
-};
+}
 
 /**
  * Determine if we can use the Hub API for an item, i.e.
@@ -102,12 +109,12 @@ export const isPortal = (requestOptions?: IHubRequestOptions) => {
  * @returns
  * @private
  */
-export const canUseHubApiForItem = (
+export function canUseHubApiForItem(
   item: IItem,
   requestOptions?: IHubRequestOptions
-) => {
+): boolean {
   return !!item && item.access === "public" && !isPortal(requestOptions);
-};
+}
 
 /**
  * Returns whether or not an item is a proxied csv
@@ -117,15 +124,14 @@ export const canUseHubApiForItem = (
  * @returns
  * @private
  */
-export const isProxiedCSV = (
-  item: IItem,
-  requestOptions?: IHubRequestOptions
-) =>
-  !isPortal(requestOptions) &&
-  item.access === "public" &&
-  item.type === "CSV" &&
-  item.size <= 5000000;
-
+export function isProxiedCSV(item: IItem, requestOptions?: IHubRequestOptions) {
+  return (
+    !isPortal(requestOptions) &&
+    item.access === "public" &&
+    item.type === "CSV" &&
+    item.size <= 5000000
+  );
+}
 /**
  * Get the relative URL to use for the item in a hub site
  * @param type
@@ -134,11 +140,11 @@ export const isProxiedCSV = (
  * @returns
  * @private
  */
-export const getHubRelativeUrl = (
+export function getHubRelativeUrl(
   type: string,
   identifier: string,
   typeKeywords?: string[]
-): string => {
+): string {
   // solution types have their own logic
   let contentUrl =
     getSolutionUrl(type, identifier, typeKeywords) ||
@@ -170,7 +176,7 @@ export const getHubRelativeUrl = (
     contentUrl = `${path}/${identifier}`;
   }
   return contentUrl;
-};
+}
 
 /**
  * Is this content type a page?
@@ -178,14 +184,17 @@ export const getHubRelativeUrl = (
  * @returns
  * @private
  */
-export const isPageType = (type: string, typeKeywords: string[] = []) =>
-  ["Hub Page", "Site Page"].includes(type) || typeKeywords.includes("hubPage");
+export function isPageType(type: string, typeKeywords: string[] = []) {
+  return (
+    ["Hub Page", "Site Page"].includes(type) || typeKeywords.includes("hubPage")
+  );
+}
 
-const getSolutionUrl = (
+function getSolutionUrl(
   type: string,
   identifier: string,
   typeKeywords?: string[]
-): string => {
+): string {
   let hubUrl;
   if (type === "Solution") {
     // solution types are now in the Template family
@@ -203,13 +212,13 @@ const getSolutionUrl = (
     hubUrl = `/templates/${identifier}/about`;
   }
   return hubUrl;
-};
+}
 
-const getInitiativeTemplateUrl = (
+function getInitiativeTemplateUrl(
   type: string,
   identifier: string,
   typeKeywords?: string[]
-): string => {
+): string {
   if (
     (type === "Hub Initiative" &&
       typeKeywords?.indexOf("hubInitiativeTemplate") > -1) ||
@@ -217,7 +226,7 @@ const getInitiativeTemplateUrl = (
   ) {
     return `/initiatives/templates/${identifier}/about`;
   }
-};
+}
 
 // metadata
 
@@ -330,7 +339,7 @@ export function parseISODateString(isoString: string) {
  * @returns spatial reference object
  * @private
  */
-export const getItemSpatialReference = (item: IItem): ISpatialReference => {
+export function getItemSpatialReference(item: IItem): ISpatialReference {
   const spatialReference = item.spatialReference as unknown;
   if (!spatialReference || typeof spatialReference === "object") {
     // no need to try and transform this into an ISpatialReference
@@ -346,7 +355,7 @@ export const getItemSpatialReference = (item: IItem): ISpatialReference => {
       null
     : //
       { wkid };
-};
+}
 
 /**
  * Data model for additional resources that are extracted
@@ -368,11 +377,11 @@ interface IAGOAdditionalResource {
  * @returns
  * @private
  */
-export const getAdditionalResources = (
+export function getAdditionalResources(
   item: IItem,
   metadata?: any,
   requestOptions?: IHubRequestOptions
-): IHubAdditionalResource[] => {
+): IHubAdditionalResource[] {
   const rawResources: IAGOAdditionalResource[] = extractRawResources(metadata);
   return (
     rawResources &&
@@ -384,7 +393,7 @@ export const getAdditionalResources = (
       })
     )
   );
-};
+}
 
 /**
  * @private
@@ -395,9 +404,7 @@ export const getAdditionalResources = (
  * @param metadata the formal item metadata
  * @returns an array of all additional resources, or null
  */
-export const extractRawResources = (
-  metadata?: any
-): IAGOAdditionalResource[] => {
+export function extractRawResources(metadata?: any): IAGOAdditionalResource[] {
   const rawResources: IAGOAdditionalResource[] = [];
 
   // The property path to additional resources should be fairly simple.
@@ -417,7 +424,7 @@ export const extractRawResources = (
   );
 
   return rawResources.length ? rawResources : null;
-};
+}
 
 /**
  * @private
@@ -428,9 +435,9 @@ export const extractRawResources = (
  * @param objectOrArray
  * @returns the casted array
  */
-const castToArray = (objectOrArray: any) => {
+function castToArray(objectOrArray: any) {
   return Array.isArray(objectOrArray) ? objectOrArray : [objectOrArray];
-};
+}
 
 /**
  * Determines whether a raw additional resource (i.e. extracted out of formal
@@ -442,15 +449,15 @@ const castToArray = (objectOrArray: any) => {
  * @returns
  * @private
  */
-export const isDataSourceOfItem = (
+export function isDataSourceOfItem(
   resource: IAGOAdditionalResource,
   item: IItem
-) => {
+): boolean {
   const serviceUrl = item.url && parseServiceUrl(item.url);
   return (
     serviceUrl && resource.linkage && resource.linkage.includes(serviceUrl)
   );
-};
+}
 
 /**
  * Returns the url for an additional resource.
@@ -464,11 +471,11 @@ export const isDataSourceOfItem = (
  * @returns
  * @private
  */
-export const getAdditionalResourceUrl = (
+export function getAdditionalResourceUrl(
   resource: IAGOAdditionalResource,
   item: IItem,
   requestOptions?: IHubRequestOptions
-) => {
+) {
   let result = resource.linkage;
   const token = getProp(requestOptions, "authentication.token");
   if (token && isDataSourceOfItem(resource, item)) {
@@ -480,7 +487,7 @@ export const getAdditionalResourceUrl = (
   }
 
   return result;
-};
+}
 
 /**
  * @private
@@ -499,11 +506,11 @@ export const getAdditionalResourceUrl = (
  * @param extentEnrichment
  * @returns the correct extent in a bbox format, or undefined
  */
-export const determineExtent = (
+export function determineExtent(
   item: IItem,
   extentEnrichment?: any,
   layer?: ILayerDefinition
-) => {
+) {
   const itemExtent = isBBox(item.extent) ? item.extent : undefined;
   const extentEnrichmentCoordinates = isBBox(extentEnrichment?.coordinates)
     ? extentEnrichment.coordinates
@@ -513,7 +520,7 @@ export const determineExtent = (
       ? extentToBBox(layer.extent)
       : undefined;
   return itemExtent || extentEnrichmentCoordinates || layerExtent;
-};
+}
 
 /**
  * @private
@@ -529,23 +536,13 @@ export const determineExtent = (
  * @param path path to the contact object/array
  * @returns
  */
-export const extractFirstContact = (metadata: any, path: string) => {
+export function extractFirstContact(metadata: any, path: string) {
   const rawContacts = getProp(metadata, path) || {};
   const { rpIndName, rpOrgName } = Array.isArray(rawContacts)
     ? rawContacts[0]
     : rawContacts;
   return { individualName: rpIndName, organizationName: rpOrgName };
-};
-
-/**
- * Determines the correct orgId for an item.
- * Note: it's undocumented, but the portal API will return orgId for items... sometimes.
- *
- * @param item
- * @param ownerUser item owner's hydrated user object
- */
-export const getItemOrgId = (item: IItem, ownerUser?: IUser) =>
-  item.orgId || ownerUser?.orgId;
+}
 
 /**
  * Calculates the Publisher display info for the given item.
@@ -561,16 +558,17 @@ export const getItemOrgId = (item: IItem, ownerUser?: IUser) =>
  * @param ownerUser the item owner's hydrated user
  * @returns
  */
-export const getPublisherInfo = (
+export function getPublisherInfo(
   item: IItem,
   metadata?: any,
   org?: Partial<IPortal>,
   ownerUser?: IUser
-) => {
+) {
   const result: any = {
     nameSource: PublisherSource.None,
     organizationSource: PublisherSource.None,
   };
+
   const citationContact = extractFirstContact(
     metadata,
     "metadata.dataIdInfo.idCitation.citRespParty"
@@ -623,4 +621,4 @@ export const getPublisherInfo = (
     item.access !== "public";
 
   return result;
-};
+}

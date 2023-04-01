@@ -1,6 +1,10 @@
-import { getItem, ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
+import {
+  getItem,
+  ISearchOptions,
+  searchItems,
+  IItem,
+} from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IItem } from "@esri/arcgis-rest-types";
 import { slugify } from "../utils";
 
 // TODO: work out how to unify content slug fns

@@ -3,6 +3,7 @@ import {
   getItemData,
   getItemGroups,
   getUser,
+  getItemMetadata,
 } from "@esri/arcgis-rest-portal";
 import {
   getAllLayersAndTables,
@@ -13,11 +14,9 @@ import { IItemEnrichments, IServerEnrichments } from "../core";
 import { IEnrichmentErrorInfo, IHubRequestOptions } from "../types";
 import { IPipeable, createOperationPipeline } from "../utils";
 import OperationStack from "../OperationStack";
-// TODO: move these functions here under /items
-import { getItemMetadata } from "@esri/arcgis-rest-portal";
-import { getItemOrgId } from "../content/_internal/internalContentUtils";
-import { fetchOrg } from "../org";
+
 import { isServicesDirectoryDisabled } from "./is-services-directory-disabled";
+import { enrichOrg } from "./enrichOrg";
 
 /**
  * An object containing the item and fetched enrichments
@@ -78,9 +77,9 @@ async function fetchContentMetadata(
   }
 }
 
-const enrichGroupIds = (
+function enrichGroupIds(
   input: IPipeable<IItemAndEnrichments>
-): Promise<IPipeable<IItemAndEnrichments>> => {
+): Promise<IPipeable<IItemAndEnrichments>> {
   const { data, stack, requestOptions } = input;
   const opId = stack.start("enrichGroupIds");
   return getItemGroups(data.item.id, requestOptions)
@@ -95,11 +94,11 @@ const enrichGroupIds = (
       };
     })
     .catch((error) => handleEnrichmentError(error, input, opId));
-};
+}
 
-const enrichMetadata = (
+function enrichMetadata(
   input: IPipeable<IItemAndEnrichments>
-): Promise<IPipeable<IItemAndEnrichments>> => {
+): Promise<IPipeable<IItemAndEnrichments>> {
   const { data, stack, requestOptions } = input;
   const opId = stack.start("enrichMetadata");
   return fetchContentMetadata(
@@ -116,11 +115,11 @@ const enrichMetadata = (
   // TODO: currently fetchContentMetadata will never throw, but
   // if we update it to throw for non-404 errors, need to uncomment this:
   // .catch((error) => handleEnrichmentError(error, input, opId));
-};
+}
 
-const enrichOwnerUser = (
+function enrichOwnerUser(
   input: IPipeable<IItemAndEnrichments>
-): Promise<IPipeable<IItemAndEnrichments>> => {
+): Promise<IPipeable<IItemAndEnrichments>> {
   const { data, stack, requestOptions } = input;
   const opId = stack.start("enrichOwner");
   // w/o the : any here, I get a compile error about
@@ -139,38 +138,11 @@ const enrichOwnerUser = (
       };
     })
     .catch((error) => handleEnrichmentError(error, input, opId));
-};
+}
 
-// Note, this MUST be run after `enrichOwnerUser` to access the correct orgId during processing.
-// `item.orgId` is only SOMETIMES returned by Portal, so we need the ownerUser's orgId as a backup.
-//
-// If an orgId isn't present on either the item or the ownerUser, this operation will be skipped.
-const enrichOrg = (
+function enrichData(
   input: IPipeable<IItemAndEnrichments>
-): Promise<IPipeable<IItemAndEnrichments>> => {
-  const { data, stack, requestOptions } = input;
-  const opId = stack.start("enrichOrg");
-  const orgId = getItemOrgId(data.item, data.ownerUser);
-
-  // Only fetch the org if an explicit orgId is present
-  const orgPromise = orgId
-    ? fetchOrg(orgId, requestOptions)
-    : Promise.resolve(undefined);
-  return orgPromise
-    .then((org) => {
-      stack.finish(opId);
-      return {
-        data: { ...data, org },
-        stack,
-        requestOptions,
-      };
-    })
-    .catch((error) => handleEnrichmentError(error, input, opId));
-};
-
-const enrichData = (
-  input: IPipeable<IItemAndEnrichments>
-): Promise<IPipeable<IItemAndEnrichments>> => {
+): Promise<IPipeable<IItemAndEnrichments>> {
   const { data, stack, requestOptions } = input;
   const opId = stack.start("enrichData");
   return getItemData(data.item.id, requestOptions)
@@ -179,11 +151,11 @@ const enrichData = (
       return { data: { ...data, data: itemData }, stack, requestOptions };
     })
     .catch((error) => handleEnrichmentError(error, input, opId));
-};
+}
 
-const enrichServer = (
+function enrichServer(
   input: IPipeable<IItemAndEnrichments>
-): Promise<IPipeable<IItemAndEnrichments>> => {
+): Promise<IPipeable<IItemAndEnrichments>> {
   const { data, stack, requestOptions } = input;
   const opId = stack.start("enrichServer");
   const url = parseServiceUrl(data.item.url);
@@ -210,11 +182,11 @@ const enrichServer = (
       };
     })
     .catch((error) => handleEnrichmentError(error, input, opId));
-};
+}
 
-const enrichLayers = (
+function enrichLayers(
   input: IPipeable<IItemAndEnrichments>
-): Promise<IPipeable<IItemAndEnrichments>> => {
+): Promise<IPipeable<IItemAndEnrichments>> {
   const { data, stack, requestOptions } = input;
   const opId = stack.start("enrichLayers");
   const url = data.item.url;
@@ -238,16 +210,16 @@ const enrichLayers = (
       })
       .catch((error) => handleEnrichmentError(error, input, opId))
   );
-};
+}
 
 // add the error to the content.errors,
 // log current stack operation as finished with an error
 // and return output that can be piped into the next operation
-const handleEnrichmentError = (
+export function handleEnrichmentError(
   error: Error | string,
   input: IPipeable<IItemAndEnrichments>,
   opId: string
-): IPipeable<IItemAndEnrichments> => {
+): IPipeable<IItemAndEnrichments> {
   const { data, stack, requestOptions } = input;
   stack.finish(opId, { error });
   return {
@@ -258,7 +230,7 @@ const handleEnrichmentError = (
     stack,
     requestOptions,
   };
-};
+}
 
 // map of all enrichment operations
 interface IEnrichmentOperations {
@@ -285,10 +257,10 @@ const enrichmentOperations: IEnrichmentOperations = {
  * @returns a new array of enrichment error info
  * @private
  */
-export const getEnrichmentErrors = (
+export function getEnrichmentErrors(
   error: Error | string,
   errors: IEnrichmentErrorInfo[] = []
-) => {
+) {
   const message =
     typeof error === "string"
       ? /* istanbul ignore next our tests only throw Error objects */
@@ -304,7 +276,7 @@ export const getEnrichmentErrors = (
       message,
     } as IEnrichmentErrorInfo,
   ];
-};
+}
 
 /**
  * Fetch enrichments for an item
@@ -314,11 +286,11 @@ export const getEnrichmentErrors = (
  * @returns an object with the item and enrichments
  * @private
  */
-export const fetchItemEnrichments = (
+export function fetchItemEnrichments(
   item: IItem,
   enrichments: ItemOrServerEnrichment[],
   requestOptions?: IHubRequestOptions
-) => {
+) {
   // create a pipeline of enrichment operations
   const operations = enrichments.reduce((ops, enrichment) => {
     const operation = enrichmentOperations[enrichment];
@@ -336,4 +308,4 @@ export const fetchItemEnrichments = (
     // TODO: send telemetry so we have info on what enrichments are requested and possible errors
     return output.data;
   });
-};
+}

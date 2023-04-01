@@ -4,8 +4,9 @@ import {
   ISharingResponse,
   setItemAccess,
   shareItemWithGroup,
+  IGroup,
 } from "@esri/arcgis-rest-portal";
-import { IGroup, IItemAdd } from "@esri/arcgis-rest-types";
+import { IItemAdd } from "@esri/arcgis-rest-types";
 import { failSafe, isUpdateGroup } from "../utils";
 import { createItemFromFile } from "./create-item-from-file";
 import { createItemFromUrl } from "./create-item-from-url";

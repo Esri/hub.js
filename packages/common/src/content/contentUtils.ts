@@ -13,11 +13,8 @@ import {
   isPageType,
 } from "./_internal/internalContentUtils";
 import { camelize } from "../util";
-import {
-  normalizeItemType,
-  getContentTypeIcon,
-  composeContent,
-} from "./compose";
+import { getContentTypeIcon, composeContent } from "./compose";
+import { normalizeItemType } from "./normalizeItemType";
 import { getFamily } from "./get-family";
 import { parseDatasetId, removeContextFromSlug } from "./slugs";
 import { DatasetResource } from "./types";
@@ -378,10 +375,10 @@ export function datasetToItem(dataset: DatasetResource): IItem {
  * @param type new type
  * @returns new content
  */
-export const setContentType = (
+export function setContentType(
   content: IHubContent,
   type: string
-): IHubContent => {
+): IHubContent {
   // get family and normalized type based on new type
   const normalizedType = normalizeItemType({ ...content.item, type });
   const family = getFamily(normalizedType);
@@ -402,7 +399,7 @@ export const setContentType = (
   return appendContentUrls(updated, {
     relative: getContentRelativeUrl(updated),
   });
-};
+}
 
 /**
  * Compute the content type label
@@ -410,30 +407,24 @@ export const setContentType = (
  * @param isProxied
  * @returns content type label
  */
-export const getContentTypeLabel = (
-  contentType: string,
-  isProxied: boolean
-) => {
+export function getContentTypeLabel(contentType: string, isProxied: boolean) {
   return isProxied ? "CSV" : camelize(contentType || "");
-};
+}
 
 // URL helpers
-const appendContentUrls = (
+function appendContentUrls(
   content: IHubContent,
   newUrls: Record<string, string>
-): IHubContent => {
+): IHubContent {
   // merge new urls into existing ones and return a new content
   const urls = { ...content.urls, ...newUrls };
   return { ...content, urls };
-};
+}
 
-const getContentRelativeUrl = (
-  content: IHubContent,
-  siteIdentifier?: string
-) => {
+function getContentRelativeUrl(content: IHubContent, siteIdentifier?: string) {
   return getHubRelativeUrl(
     content.type,
     siteIdentifier || content.identifier,
     content.typeKeywords
   );
-};
+}

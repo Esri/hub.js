@@ -1,4 +1,4 @@
-import { IItem } from "@esri/arcgis-rest-portal";
+import { IItem, IUser } from "@esri/arcgis-rest-portal";
 import {
   ILayerDefinition,
   IFeatureServiceDefinition,
@@ -31,11 +31,15 @@ import {
   getAdditionalResources,
   determineExtent,
   getPublisherInfo,
-  getItemOrgId,
 } from "./_internal/internalContentUtils";
+
+import { getItemOrgId } from "./_internal/getItemOrgId";
+
 import { getFamily } from "./get-family";
+import { normalizeItemType } from "./normalizeItemType";
 
 /**
+ *
  * The extent returned by the Hub API
  */
 export interface IHubExtent {
@@ -224,7 +228,7 @@ const getMetadataUpdatedDateInfo = (item: IItem, metadata?: any) => {
  * @param content type
  * @returns content type icon
  */
-export const getContentTypeIcon = (contentType: string) => {
+export function getContentTypeIcon(contentType: string) {
   const type = camelize(contentType);
   const iconMap = {
     appbuilderExtension: "file",
@@ -334,7 +338,7 @@ export const getContentTypeIcon = (contentType: string) => {
     workforceProject: "list-check",
   } as any;
   return iconMap[type] ?? "file";
-};
+}
 
 /**
  * get portal URLs (home, API, data, and thumbnail) for an item
@@ -344,10 +348,7 @@ export const getContentTypeIcon = (contentType: string) => {
  * @returns a hash with the portal URLs
  * @export
  */
-export const getPortalUrls = (
-  item: IItem,
-  requestOptions: IHubRequestOptions
-) => {
+export function getPortalUrls(item: IItem, requestOptions: IHubRequestOptions) {
   const authentication = requestOptions.authentication;
   const token = authentication && authentication.token;
   // add properties that depend on portal
@@ -366,7 +367,7 @@ export const getPortalUrls = (
     portalData,
     thumbnail,
   };
-};
+}
 
 /**
  * If an item is a proxied csv, returns the url for the proxying feature layer.
@@ -376,10 +377,7 @@ export const getPortalUrls = (
  * @param requestOptions Hub Request Options (including whether we're in portal)
  * @returns
  */
-export const getProxyUrl = (
-  item: IItem,
-  requestOptions?: IHubRequestOptions
-) => {
+export function getProxyUrl(item: IItem, requestOptions?: IHubRequestOptions) {
   let result;
   if (isProxiedCSV(item, requestOptions)) {
     // Sometimes hubApiUrl includes /api/v3, sometimes it doesn't
@@ -387,80 +385,26 @@ export const getProxyUrl = (
     result = `${baseUrl}/datasets/${item.id}_0/FeatureServer/0`;
   }
   return result;
-};
+}
 
 /**
  * parse layer id from a service URL
  * @param {string} url
  * @returns {string} layer id
  */
-export const getLayerIdFromUrl = (url: string) => {
+export function getLayerIdFromUrl(url: string) {
   const endsWithNumberSegmentRegEx = /\/\d+$/;
   const matched = url && url.match(endsWithNumberSegmentRegEx);
   return matched && matched[0].slice(1);
-};
+}
 
 /**
  * Case-insensitive check if the type is "Feature Service"
  * @param {string} type - item's type
  * @returns {boolean}
  */
-export const isFeatureService = (type: string) => {
+export function isFeatureService(type: string) {
   return type && type.toLowerCase() === "feature service";
-};
-
-/**
- * Determines whether, given a type and typekeywords, the input is
- * a site item type or not
- * @param type - the type value on the item
- * @param typeKeywords - the typeKeywords on the item
- */
-
-export function isSiteType(type: string, typeKeywords: string[] = []) {
-  return (
-    type === "Site Application" ||
-    type === "Hub Site Application" ||
-    (type === "Web Mapping Application" && typeKeywords.includes("hubSite"))
-  );
-}
-
-/**
- * ```js
- * import { normalizeItemType } from "@esri/hub-common";
- * //
- * normalizeItemType(item)
- * > [ 'Hub Site Application' ]
- * ```
- * @param item Item object.
- * @returns type of the input item.
- *
- */
-export function normalizeItemType(item: any = {}): string {
-  let ret = item.type;
-  const typeKeywords = item.typeKeywords || [];
-  if (isSiteType(item.type, typeKeywords)) {
-    ret = "Hub Site Application";
-  }
-  if (
-    item.type === "Site Page" ||
-    (item.type === "Web Mapping Application" &&
-      includes(typeKeywords, "hubPage"))
-  ) {
-    ret = "Hub Page";
-  }
-  if (
-    item.type === "Hub Initiative" &&
-    includes(typeKeywords, "hubInitiativeTemplate")
-  ) {
-    ret = "Hub Initiative Template";
-  }
-  if (
-    item.type === "Web Mapping Application" &&
-    includes(typeKeywords, "hubSolutionTemplate")
-  ) {
-    ret = "Solution";
-  }
-  return ret;
 }
 
 /**
@@ -468,7 +412,7 @@ export function normalizeItemType(item: any = {}): string {
  * @param {*} item from AGO
  * @returns {string} layer id
  */
-export const getItemLayerId = (item: IItem) => {
+export function getItemLayerId(item: IItem) {
   // try to parse it from the URL, but failing that we check for
   // the Singlelayer typeKeyword, which I think is set when you create the item in AGO
   // but have not verified that, nor that we should alway return '0' in that case
@@ -479,14 +423,14 @@ export const getItemLayerId = (item: IItem) => {
       includes(item.typeKeywords, "Singlelayer") &&
       "0")
   );
-};
+}
 
 /**
  * given an item, get the id to use w/ the Hub API
  * @param item
  * @returns Hub API id (hubId)
  */
-export const getItemHubId = (item: IItem) => {
+export function getItemHubId(item: IItem) {
   if (item.access !== "public") {
     // the hub only indexes public items
     return;
@@ -494,7 +438,7 @@ export const getItemHubId = (item: IItem) => {
   const id = item.id;
   const layerId = getItemLayerId(item);
   return layerId ? `${id}_${layerId}` : id;
-};
+}
 
 /**
  * Splits item category strings at slashes and discards the "Categories" keyword
@@ -546,11 +490,11 @@ export interface IComposeContentOptions extends IHubContentEnrichments {
  * @returns layer definition
  * @private
  */
-export const getItemLayer = (
+export function getItemLayer(
   item: IItem,
   layers: ILayerDefinition[],
   layerId?: number
-) => {
+) {
   // if item refers to a layer we always want to use that layer id
   // otherwise use the layer id that was passed in (if any)
   const _layerIdFromUrl = getLayerIdFromUrl(item.url);
@@ -563,7 +507,7 @@ export const getItemLayer = (
       : // for feature servers with a single layer always show the layer
         isFeatureService(item.type) && getOnlyQueryLayer(layers))
   );
-};
+}
 
 // TODO: we should re-define ILayerDefinition
 // in IServerEnrichments.ts to include isView
@@ -577,14 +521,15 @@ interface ILayerViewDefinition extends ILayerDefinition {
  * @returns
  * @private
  */
-export const isLayerView = (layer: ILayerDefinition) =>
-  (layer as ILayerViewDefinition).isView;
+export function isLayerView(layer: ILayerDefinition) {
+  return (layer as ILayerViewDefinition).isView;
+}
 
-const determineHubId = (
+function determineHubId(
   item: IItem,
   layer?: ILayerDefinition,
   requestOptions?: IHubRequestOptions
-) => {
+) {
   // Proxied CSVs are one offs in that we don't index the proxied layer,
   // so we cannot append _0. Return item id instead.
   if (isProxiedCSV(item, requestOptions)) {
@@ -596,7 +541,7 @@ const determineHubId = (
       ? `${item.id}_${layer.id}`
       : getItemHubId(item)
     : undefined;
-};
+}
 
 /**
  * Compose a new content object out of an item, enrichments, and context
@@ -604,10 +549,10 @@ const determineHubId = (
  * @param options any enrichments, current state (selected layerId), or context (requestOptions)
  * @returns new content object
  */
-export const composeContent = (
+export function composeContent(
   item: IItem,
   options?: IComposeContentOptions
-) => {
+): IHubContent {
   // extract enrichments and context out of the options
   const {
     slug,
@@ -855,4 +800,4 @@ export const composeContent = (
       return item.itemControl || "view";
     },
   } as IHubContent;
-};
+}

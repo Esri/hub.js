@@ -1,4 +1,4 @@
-import { IItem } from "@esri/arcgis-rest-types";
+import { IItem } from "@esri/arcgis-rest-portal";
 import { isMaster } from "cluster";
 import { fetchItemEnrichments } from "../items/_enrichments";
 import { getProp } from "../objects";
