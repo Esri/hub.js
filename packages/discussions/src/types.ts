@@ -574,6 +574,10 @@ export interface IUpdatePostStatus {
 export interface IUpdatePost {
   title?: string;
   body?: string;
+  discussion?: string | null;
+  geometry?: Geometry | null;
+  featureGeometry?: Geometry | null;
+  appInfo?: string | null;
 }
 
 /**
