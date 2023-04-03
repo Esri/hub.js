@@ -42,7 +42,7 @@ You can install dependencies by cloning the repository and running:
 npm install
 ```
 
-**Note:** This project uses [volta](https://volta.sh/) to manage node/npm versions. We strongly suggest you do to :)
+**Note:** This project uses [volta](https://volta.sh/) to manage node/npm versions. We strongly suggest you do, too :)
 
 Afterward, for a list of all available commands run `npm run`.
 

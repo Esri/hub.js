@@ -56,7 +56,7 @@ export function ensureRequiredSiteProperties(
   // ensure the type and tags...
   model = _ensureTypeAndTags(model, isPortal);
   // ensure the capabilities...
-  const caps = [
+  const defaultCaps = [
     "api_explorer",
     "pages",
     "my_data",
@@ -68,7 +68,12 @@ export function ensureRequiredSiteProperties(
     "underlinedLinks",
     "globalNav",
   ];
-  if (!isPortal) {
+  const caps = (model.data.values.capabilities || []).reduce(
+    (acc: string, capability: string) =>
+      acc.includes(capability) ? acc : [...acc, capability],
+    defaultCaps
+  );
+  if (!isPortal && !caps.includes("socialSharing")) {
     caps.push("socialSharing");
   }
   deepSet(model, "data.values.capabilities", caps);
