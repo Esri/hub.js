@@ -5,7 +5,6 @@ import {
   datasetToContent,
   datasetToItem,
   getTypes,
-  normalizeItemType,
   isFeatureService,
   isSiteType,
   getLayerIdFromUrl,
@@ -40,7 +39,6 @@ import {
   getHubRelativeUrl,
   extractFirstContact,
   getPublisherInfo,
-  getItemOrgId,
 } from "../../src/content/_internal/internalContentUtils";
 
 import { cloneObject } from "../../src/util";
@@ -57,82 +55,6 @@ describe("getTypes", () => {
       "Hub Site Application",
       "Site Application",
     ]);
-  });
-});
-
-describe("getItemOrgId", () => {
-  it("returns itemId by default", () => {
-    const user = { orgId: "userOrgId" };
-    const item = { id: "itemId", orgId: "itemOrgId" } as unknown as IItem;
-    expect(getItemOrgId(item, user)).toEqual("itemOrgId");
-  });
-  it("returns user.orgId if item.org is undefined", () => {
-    const user = { orgId: "userOrgId" };
-    const item = { id: "itemId" } as unknown as IItem;
-    expect(getItemOrgId(item, user)).toEqual("userOrgId");
-  });
-  it("returns undefined if neither have orgId", () => {
-    const user = { username: "dave" };
-    const item = { id: "itemId" } as unknown as IItem;
-    expect(getItemOrgId(item, user)).toBeUndefined();
-  });
-  it("returns undefined if neither have orgId and user is not passed", () => {
-    const item = { id: "itemId" } as unknown as IItem;
-    expect(getItemOrgId(item)).toBeUndefined();
-  });
-});
-
-describe("normalizeItemType", () => {
-  it("can get type from item.type if typeKeywords is not defined", () => {
-    expect(normalizeItemType({ type: "type from item" })).toEqual(
-      "type from item"
-    );
-  });
-  it("can get type from item.type without typeKeywords", () => {
-    expect(normalizeItemType({ type: "Web Mapping Application" })).toEqual(
-      "Web Mapping Application"
-    );
-  });
-  it("normalizes sites", () => {
-    expect(
-      normalizeItemType({
-        type: "Web Mapping Application",
-        typeKeywords: ["hubSite"],
-      })
-    ).toEqual("Hub Site Application");
-    expect(
-      normalizeItemType({ type: "Site Application", typeKeywords: [] })
-    ).toEqual("Hub Site Application");
-  });
-  it("normalizes pages", () => {
-    expect(
-      normalizeItemType({
-        type: "Web Mapping Application",
-        typeKeywords: ["hubPage"],
-      })
-    ).toEqual("Hub Page");
-    expect(
-      normalizeItemType({ type: "Site Page", typeKeywords: ["hubPage"] })
-    ).toEqual("Hub Page");
-  });
-  it("normalizes initiative templates", () => {
-    expect(
-      normalizeItemType({
-        type: "Hub Initiative",
-        typeKeywords: ["hubInitiativeTemplate"],
-      })
-    ).toEqual("Hub Initiative Template");
-  });
-  it("normalizes solution templates", () => {
-    expect(
-      normalizeItemType({
-        type: "Web Mapping Application",
-        typeKeywords: ["hubSolutionTemplate"],
-      })
-    ).toEqual("Solution");
-  });
-  it("can work with blank inputs", () => {
-    expect(normalizeItemType()).toBe(undefined);
   });
 });
 

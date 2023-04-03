@@ -3,10 +3,10 @@
  * but may be shared between hub.js modules, and/or need to be tested
  * to get 100% coverage w/o writing cumbersome tests of higher level functions.
  *
- * Consuming will not be able to import these functions.
+ * Consuming apps will not be able to import these functions.
  *
  * It's probably a good pattern to add functions here first and then
- * move them to index.ts only when they are needed by a consumer.
+ * move them up a level and export them only when they are needed by a consumer.
  */
 import { parseServiceUrl } from "@esri/arcgis-rest-feature-layer";
 import { IItem, IPortal, IUser } from "@esri/arcgis-rest-portal";
@@ -27,17 +27,7 @@ import {
 import { getFamily } from "../get-family";
 import { getProp } from "../../objects";
 import { IHubAdditionalResource } from "../../core/types/IHubAdditionalResource";
-
-/**
- * Determines the correct orgId for an item.
- * Note: it's undocumented, but the portal API will return orgId for items... sometimes.
- *
- * @param item
- * @param ownerUser item owner's hydrated user object
- */
-export function getItemOrgId(item: IItem, ownerUser?: IUser) {
-  return item.orgId || ownerUser?.orgId;
-}
+import { getItemOrgId } from "./getItemOrgId";
 
 /**
  * Create a new content with updated boundary properties

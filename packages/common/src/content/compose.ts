@@ -36,7 +36,7 @@ import {
 import { getItemOrgId } from "./_internal/getItemOrgId";
 
 import { getFamily } from "./get-family";
-import { normalizeItemType } from "./normalizeItemType";
+import { normalizeItemType } from "./_internal/normalizeItemType";
 
 /**
  *

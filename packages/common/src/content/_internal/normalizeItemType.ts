@@ -1,5 +1,5 @@
-import { includes } from "../utils";
-import { isSiteType } from "./isSiteType";
+import { includes } from "../../utils";
+import { isSiteType } from "../isSiteType";
 
 /**
  * ```js

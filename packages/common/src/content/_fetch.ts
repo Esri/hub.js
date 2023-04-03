@@ -13,7 +13,7 @@ import { isMapOrFeatureServerUrl } from "../urls";
 import { cloneObject } from "../util";
 import { includes } from "../utils";
 import { IHubExtent } from "./compose";
-import { normalizeItemType } from "./normalizeItemType";
+import { normalizeItemType } from "./_internal/normalizeItemType";
 import { getFamily } from "./get-family";
 import { parseDatasetId } from "./slugs";
 import { DatasetResource } from "./types";

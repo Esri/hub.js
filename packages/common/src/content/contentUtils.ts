@@ -14,7 +14,7 @@ import {
 } from "./_internal/internalContentUtils";
 import { camelize } from "../util";
 import { getContentTypeIcon, composeContent } from "./compose";
-import { normalizeItemType } from "./normalizeItemType";
+import { normalizeItemType } from "./_internal/normalizeItemType";
 import { getFamily } from "./get-family";
 import { parseDatasetId, removeContextFromSlug } from "./slugs";
 import { DatasetResource } from "./types";
