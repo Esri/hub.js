@@ -1,3 +1,10 @@
+## @esri/hub-discussions [21.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@21.0.0...@esri/hub-discussions@21.0.1) (2023-04-03)
+
+
+### Bug Fixes
+
+* **hub-discussions:** add optional properties to IUpdatePost ([3bdbccb](https://github.com/Esri/hub.js/commit/3bdbccbae8d9fd0beacd58ba977ab691797d49a0))
+
 # @esri/hub-discussions [21.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@20.0.1...@esri/hub-discussions@21.0.0) (2023-03-23)
 
 
