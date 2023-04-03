@@ -1,3 +1,10 @@
+# @esri/hub-sites [12.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@12.5.0...@esri/hub-sites@12.6.0) (2023-04-03)
+
+
+### Features
+
+* keep capabilities in model while ensuring default capabilities ([#1006](https://github.com/Esri/hub.js/issues/1006)) ([d0e2ebd](https://github.com/Esri/hub.js/commit/d0e2ebd3ce83f93d0f2795499b7b393423ed50aa))
+
 # @esri/hub-sites [12.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@12.4.1...@esri/hub-sites@12.5.0) (2023-03-07)
 
 
