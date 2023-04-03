@@ -35,6 +35,7 @@ export * from "./users";
 export * from "./util";
 export * from "./utils";
 export * from "./versioning";
+export * from "./metrics";
 
 import OperationStack from "./OperationStack";
 import OperationError from "./OperationError";

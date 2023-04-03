@@ -1,6 +1,13 @@
-import { IConfigurationSchema, IUiSchema } from "../schemas";
-import { DynamicValueDefinition, CountByValue } from "./DynamicValues";
+import { IConfigurationSchema, IUiSchema } from "../core/schemas";
+import {
+  DynamicValueDefinition,
+  CountByValue,
+} from "../core/types/DynamicValues";
 
+/**
+ * Definition of a Metric
+ * includes the source, display and editor configurations
+ */
 export interface IMetric {
   id: string;
   source: DynamicValueDefinition;
@@ -9,14 +16,18 @@ export interface IMetric {
   required: boolean;
 }
 
-export interface IMetricSourceValue {
-  id: string;
-  value: number | string;
-}
+// export interface IMetricSourceValue {
+//   id: string;
+//   value: number | string;
+// }
 
+/**
+ * Defines the properties used to edit a Metric in the UX
+ */
 export interface IMetricEditor {
-  schema?: IConfigurationSchema;
-  uiSchema?: IUiSchema;
+  type: "number" | "text" | "select" | "checkbox";
+  label: string;
+  description?: string;
 }
 
 /**
@@ -25,6 +36,7 @@ export interface IMetricEditor {
 export interface IMetricDisplay {
   title: string;
   order: number;
+  type?: "stat-card"; // as we add more display types, add them here
   subtitle?: string;
   unit?: string;
   unitPosition?: "before" | "after" | "below";
