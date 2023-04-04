@@ -171,6 +171,39 @@ export type DynamicValue = string | number | DynamicValueDefinition;
 export type DynamicValueResult = string | number | CountByValue;
 
 /**
+ * The output of the resolution of a dynamic value
+ */
+export interface IDynamicValueOutput {
+  /**
+   * Aggregated value
+   */
+  value: DynamicValueResult;
+  /**
+   * Raw values used to generate the aggregated value
+   */
+  sourceValues: ISourceValue[];
+}
+
+/**
+ * The source of a dynamic value. This allows the aggregated value to be
+ * traced back to the source of the value.
+ */
+export interface ISourceValue {
+  /**
+   * The id of the entity from which the value was computed
+   */
+  id: string;
+  /**
+   * Name / title of the entity from which the value was computed
+   */
+  name: string;
+  /**
+   * The value which was computed
+   */
+  value: DynamicValueResult;
+}
+
+/**
  * A set of dynamic values, keyed by the outPath
  */
 export type DynamicValues = Record<string, DynamicValue>;

@@ -19,6 +19,7 @@ export * from "./initiatives";
 export * from "./discussions";
 export * from "./items";
 export * from "./models";
+export * from "./metrics";
 export * from "./objects";
 export * from "./org";
 export * from "./pages";

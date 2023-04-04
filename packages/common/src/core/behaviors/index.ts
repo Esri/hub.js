@@ -5,3 +5,4 @@ export * from "./IWithSharingBehavior";
 export * from "./IWithEditorBehavior";
 export * from "./IWithFeaturedImageBehavior";
 export * from "./IWithVersioningBehavior";
+export * from "./IWithMetricsBehavior";

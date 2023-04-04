@@ -31,7 +31,6 @@ import {
   getItem,
 } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { IHubInitiative } from "../core/types";
 import { IHubSearchResult } from "../search";

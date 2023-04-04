@@ -1,8 +1,8 @@
 import {
   IWithSlug,
-  IWithLayout,
   IWithPermissions,
   IWithCatalog,
+  IWithMetrics,
 } from "../traits";
 import {} from "../traits/IWithCatalog";
 import { IHubItemEntity } from "./IHubItemEntity";
@@ -15,4 +15,5 @@ export interface IHubInitiative
   extends IHubItemEntity,
     IWithSlug,
     IWithCatalog,
-    IWithPermissions {}
+    IWithPermissions,
+    IWithMetrics {}

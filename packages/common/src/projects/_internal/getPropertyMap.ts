@@ -23,6 +23,10 @@ export function getPropertyMap(): IPropertyMap[] {
     objectKey: "capabilities",
     modelKey: "data.settings.capabilities",
   });
+  map.push({
+    objectKey: "metrics",
+    modelKey: "item.properties.metrics",
+  });
 
   return map;
 }

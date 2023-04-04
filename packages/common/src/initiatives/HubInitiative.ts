@@ -7,6 +7,7 @@ import {
   IWithSharingBehavior,
   UiSchemaElementOptions,
   IEditorConfig,
+  IWithMetricsBehavior,
 } from "../core";
 import { getEntityEditorSchemas } from "../core/schemas/getEntityEditorSchemas";
 import {
@@ -15,11 +16,16 @@ import {
   fetchInitiative,
   updateInitiative,
 } from "./HubInitiatives";
+import { resolveInitiativeMetrics } from "./resolveInitiativeMetrics";
 
 import { Catalog } from "../search";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
 import { InitiativeEditorType } from "./_internal/InitiativeSchema";
+import { ResolvedMetrics } from "../metrics/metricsTypes";
+import { dereferenceProjectMetrics } from "../projects/dereferenceProjectMetrics";
+import { dereferenceInitiativeMetrics } from "./dereferenceInitiativeMetrics";
+import { resolveMetrics } from "../metrics/resolveMetrics";
 
 /**
  * Hub Initiative Class
@@ -29,7 +35,8 @@ export class HubInitiative
   implements
     IWithStoreBehavior<IHubInitiative>,
     IWithCatalogBehavior,
-    IWithSharingBehavior
+    IWithSharingBehavior,
+    IWithMetricsBehavior
 {
   private _catalog: Catalog;
 
@@ -209,5 +216,12 @@ export class HubInitiative
     this.isDestroyed = true;
     // Delegate to module fn
     await deleteInitiative(this.entity.id, this.context.userRequestOptions);
+  }
+
+  /**
+   * Resolve the metrics for this Initiative
+   */
+  resolveMetrics(): Promise<ResolvedMetrics> {
+    return resolveInitiativeMetrics(this.entity, this.context);
   }
 }

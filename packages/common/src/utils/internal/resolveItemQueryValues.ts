@@ -13,6 +13,7 @@ import { portalSearchItemsAsItems } from "../../search/_internal/portalSearchIte
 import { aggregateValues } from "./aggregateValues";
 import { memoize } from "../memoize";
 import { resolveDynamicValue } from "./resolveDynamicValue";
+import { IItem } from "@esri/arcgis-rest-portal";
 
 /**
  * @internal
@@ -59,9 +60,15 @@ export async function resolveItemQueryValues(
   // resolved.
 
   const promises = await response.results.reduce(
-    async (valsPromise: any, r: any) => {
+    async (valsPromise: any, item: IItem) => {
       const vals = await valsPromise;
-      const valueFromItem = getProp(r, valueDef.sourcePath);
+      const valueFromItem = getProp(item, valueDef.sourcePath);
+
+      const itemInfo = {
+        id: item.id,
+        name: item.title,
+        type: item.type,
+      };
       // Handle case where value is not found...
       // e.g. the project exists but the metric is not defined yet
       if (valueFromItem) {

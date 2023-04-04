@@ -9,7 +9,6 @@ import { resolveDynamicValue } from "../utils/internal/resolveDynamicValue";
  * @param context
  * @returns
  */
-
 export async function resolveMetric(
   metric: IMetric,
   context: IArcGISContext

@@ -21,6 +21,9 @@ export function getPropertyMap(): IPropertyMap[] {
   });
   map.push({ objectKey: "contacts", modelKey: "data.contacts" });
   map.push({ objectKey: "timeline", modelKey: "data.timeline" });
-
+  map.push({
+    objectKey: "metrics",
+    modelKey: "item.properties.metrics",
+  });
   return map;
 }

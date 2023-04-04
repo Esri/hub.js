@@ -6,6 +6,7 @@ import {
   IWithStoreBehavior,
   IWithSharingBehavior,
   UiSchemaElementOptions,
+  IWithMetricsBehavior,
 } from "../core";
 import { getEntityEditorSchemas } from "../core/schemas/getEntityEditorSchemas";
 import { Catalog } from "../search";
@@ -15,7 +16,11 @@ import { IEditorConfig } from "../core/behaviors/IWithEditorBehavior";
 
 // NOTE: this could be lazy-loaded just like the CUD functions
 import { fetchProject } from "./fetch";
+import { resolveProjectMetrics } from "./resolveProjectMetrics";
 import { ProjectEditorType } from "./_internal/ProjectSchema";
+import { ResolvedMetrics } from "../metrics/metricsTypes";
+import { resolveMetrics } from "../metrics/resolveMetrics";
+import { dereferenceProjectMetrics } from "./dereferenceProjectMetrics";
 
 /**
  * Hub Project Class
@@ -25,7 +30,8 @@ export class HubProject
   implements
     IWithStoreBehavior<IHubProject>,
     IWithCatalogBehavior,
-    IWithSharingBehavior
+    IWithSharingBehavior,
+    IWithMetricsBehavior
 {
   private _catalog: Catalog;
 
@@ -203,5 +209,12 @@ export class HubProject
     const { deleteProject } = await import("./edit");
     // Delegate to module fn
     await deleteProject(this.entity.id, this.context.userRequestOptions);
+  }
+
+  /**
+   * Resolve the metrics for this Initiative
+   */
+  resolveMetrics(): Promise<ResolvedMetrics> {
+    return resolveProjectMetrics(this.entity, this.context);
   }
 }

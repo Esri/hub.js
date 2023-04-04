@@ -6,6 +6,7 @@ import { HubInitiative } from "../../src/initiatives/HubInitiative";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as HubInitiativesModule from "../../src/initiatives/HubInitiatives";
 import * as schemasModule from "../../src/core/schemas/getEntityEditorSchemas";
+import * as ResolveMetricsModule from "../../src/initiatives/resolveInitiativeMetrics";
 
 describe("HubInitiative Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -268,5 +269,21 @@ describe("HubInitiative Class:", () => {
     chk.update({ catalog: { schemaVersion: 2 } });
     expect(chk.toJson().catalog).toEqual({ schemaVersion: 2 });
     expect(chk.catalog.schemaVersion).toEqual(2);
+  });
+  it("resolving metrics delegates to function", async () => {
+    const chk = HubInitiative.fromJson(
+      { name: "Test Initiative", catalog: { schemaVersion: 0 } },
+      authdCtxMgr.context
+    );
+    const spy = spyOn(
+      ResolveMetricsModule,
+      "resolveInitiativeMetrics"
+    ).and.returnValue(Promise.resolve({}));
+    await chk.resolveMetrics();
+    expect(spy).toHaveBeenCalledTimes(1);
+    const entity = spy.calls.mostRecent().args[0];
+    const ctx = spy.calls.mostRecent().args[1];
+    expect(entity).toEqual(chk.toJson());
+    expect(ctx).toEqual(authdCtxMgr.context);
   });
 });
