@@ -1,3 +1,10 @@
+# @esri/hub-common [12.21.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.20.0...@esri/hub-common@12.21.0) (2023-04-05)
+
+
+### Features
+
+* versions have descriptions ([5cc83f3](https://github.com/Esri/hub.js/commit/5cc83f3600427f0546f77cb910fa87b26ba45c9a))
+
 # @esri/hub-common [12.20.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.19.0...@esri/hub-common@12.20.0) (2023-03-31)
 
 
