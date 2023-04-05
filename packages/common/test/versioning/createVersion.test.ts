@@ -40,6 +40,7 @@ describe("createVersion", () => {
     },
     id: "def456",
     name: undefined,
+    description: undefined,
     parent: undefined,
     path: "hubVersion_def456/version.json",
     updated: "9876543210",
@@ -102,12 +103,14 @@ describe("createVersion", () => {
 
   it("should create a version when provided options object", async () => {
     const result = await createVersion(model, requestOpts, {
+      description: "this is the description",
       name: "my special version",
       parentId: "ghi789",
     });
 
     const versionResult: IVersion = {
       ...expectedVersionResult,
+      description: "this is the description",
       name: "my special version",
       parent: "ghi789",
     } as unknown as IVersion;
@@ -118,6 +121,7 @@ describe("createVersion", () => {
         properties: {
           created: "9876543210",
           creator: "casey",
+          description: "this is the description",
           id: "def456",
           name: "my special version",
           parent: "ghi789",

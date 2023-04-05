@@ -3,6 +3,10 @@
  */
 export interface ICreateVersionOptions {
   /**
+   * Optional description of the version
+   */
+  description?: string;
+  /**
    * Optional name of the version
    */
   name?: string;

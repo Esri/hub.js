@@ -30,6 +30,7 @@ export async function createVersion(
   // TODO: in the future, we could make the data a separate resource file and reference it here with jsonref or something: { data: "#resources/data.json" }
   const data = getVersionData(model, includeList);
   const name = options?.name;
+  const description = options?.description;
   const parent = options?.parentId;
   const id = createId();
 
@@ -39,6 +40,7 @@ export async function createVersion(
     created: now,
     creator: getProp(requestOptions, "authentication.username"),
     data,
+    description,
     id,
     name,
     parent,

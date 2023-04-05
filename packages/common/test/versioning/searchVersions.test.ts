@@ -39,5 +39,14 @@ describe("searchVersions", () => {
     expect(getItemResourcesSpy).toHaveBeenCalledTimes(1);
     expect(getItemResourcesSpy).toHaveBeenCalledWith(id, options);
     expect(result.length).toEqual(7);
+
+    expect(result[0].description).toBe("this is the description");
+    expect(result[0].name).toBeUndefined();
+
+    expect(result[1].description).toBeUndefined();
+    expect(result[1].name).toBeUndefined();
+
+    expect(result[2].description).toBeUndefined();
+    expect(result[2].name).toBe("jupe");
   });
 });
