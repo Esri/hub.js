@@ -2,8 +2,8 @@ import { queryFeatures } from "@esri/arcgis-rest-feature-layer";
 import { IStatisticDefinition } from "@esri/arcgis-rest-types";
 import { IArcGISContext } from "../../ArcGISContext";
 import {
-  DynamicValues,
   IDynamicServiceQueryDefinition,
+  IDynamicValueOutput,
 } from "../../core/types/DynamicValues";
 import { setProp } from "../../objects";
 import { getProp } from "../../objects/get-prop";
@@ -18,11 +18,9 @@ import { getProp } from "../../objects/get-prop";
 export const resolveServiceQueryValues = async (
   valueDef: IDynamicServiceQueryDefinition,
   context: IArcGISContext
-): Promise<DynamicValues> => {
+): Promise<Record<string, IDynamicValueOutput>> => {
   // If no where is provided, default to "1=1"
   valueDef.options.where = valueDef.options.where || "1=1";
-  // construct the result object
-  const result: DynamicValues = {};
 
   // Construct the stats definition
   const statsDef: IStatisticDefinition = {
@@ -45,8 +43,13 @@ export const resolveServiceQueryValues = async (
   const aggregate =
     getProp(firstEntry, `attributes.${valueDef.options.field}`) || 0;
 
-  // set that on the result
-  setProp(valueDef.outPath, aggregate, result);
+  // construct the result object
+  const result: Record<string, IDynamicValueOutput> = {
+    [valueDef.outPath]: {
+      value: aggregate,
+      sources: [{ ...valueDef.source, value: aggregate }],
+    },
+  };
 
   return result;
 };

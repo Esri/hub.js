@@ -53,9 +53,17 @@ describe("resolveServiceQueryValues:", () => {
         statisticType: "sum",
       },
       aggregation: "count",
+      source: {
+        type: "Hub Initiative",
+        id: "abc123",
+        label: "Test Item",
+      },
     };
     const result = await resolveServiceQueryValues(def, context);
-    expect(result.views).toEqual(19);
+    expect(result.views).toBeDefined();
+    expect(result.views.sources).toBeDefined();
+    expect(result.views.sources.length).toEqual(1);
+    expect(result.views.value).toEqual(19);
     expect(serviceSpy.calls.count()).toEqual(1);
     const opts = serviceSpy.calls.argsFor(0)[0];
     expect(opts.url).toEqual(def.options.url);
@@ -83,9 +91,17 @@ describe("resolveServiceQueryValues:", () => {
         statisticType: "sum",
       },
       aggregation: "count",
+      source: {
+        type: "item",
+        id: "abc123",
+        label: "Test Item",
+      },
     };
     const result = await resolveServiceQueryValues(def, context);
-    expect(result.views).toEqual(19);
+    expect(result.views).toBeDefined();
+    expect(result.views.sources).toBeDefined();
+    expect(result.views.sources.length).toEqual(1);
+    expect(result.views.value).toEqual(19);
     expect(serviceSpy.calls.count()).toEqual(1);
     const opts = serviceSpy.calls.argsFor(0)[0];
     expect(opts.url).toEqual(def.options.url);
@@ -111,9 +127,17 @@ describe("resolveServiceQueryValues:", () => {
         statisticType: "sum",
       },
       aggregation: "count",
+      source: {
+        type: "item",
+        id: "abc123",
+        label: "Test Item",
+      },
     };
     const result = await resolveServiceQueryValues(def, context);
-    expect(result.views).toEqual(0);
+    expect(result.views).toBeDefined();
+    expect(result.views.sources).toBeDefined();
+    expect(result.views.sources.length).toEqual(1);
+    expect(result.views.value).toEqual(0);
     expect(serviceSpy.calls.count()).toEqual(1);
     const opts = serviceSpy.calls.argsFor(0)[0];
     expect(opts.url).toEqual(def.options.url);

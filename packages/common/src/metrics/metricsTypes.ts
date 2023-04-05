@@ -2,6 +2,7 @@ import { IConfigurationSchema, IUiSchema } from "../core/schemas";
 import {
   DynamicValueDefinition,
   CountByValue,
+  IValueSource,
 } from "../core/types/DynamicValues";
 
 /**
@@ -10,7 +11,7 @@ import {
  */
 export interface IMetric {
   id: string;
-  source: DynamicValueDefinition;
+  definition: DynamicValueDefinition;
   display: IMetricDisplay;
   editor: IMetricEditor;
   required: boolean;
@@ -68,9 +69,12 @@ export type MetricValues = Record<string, MetricValue>;
 export type MetricValueResult = number | string | CountByValue;
 
 /**
- * A MetricValueResult with the display properties
+ * A MetricValueResult with the display properties, and the value sources
  */
-export type MetricValueDisplay = IMetricDisplay & { value: MetricValueResult };
+export type MetricValueDisplay = IMetricDisplay & {
+  value: MetricValueResult;
+  sources: IValueSource[];
+};
 
 /**
  * The strucure returned once a metric has been resolved

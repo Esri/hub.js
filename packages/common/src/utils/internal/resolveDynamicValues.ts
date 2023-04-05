@@ -1,7 +1,7 @@
 import { IArcGISContext } from "../../ArcGISContext";
 import {
   DynamicValueDefinition,
-  DynamicValueResult,
+  IDynamicValueOutput,
 } from "../../core/types/DynamicValues";
 import { resolveDynamicValue } from "./resolveDynamicValue";
 
@@ -16,7 +16,7 @@ import { resolveDynamicValue } from "./resolveDynamicValue";
 export const resolveDynamicValues = async (
   dynamicValues: DynamicValueDefinition[],
   context: IArcGISContext
-): Promise<Record<string, DynamicValueResult>> => {
+): Promise<Record<string, IDynamicValueOutput>> => {
   let result: Record<string, any> = {};
 
   // iterate over the dynamic values and resolve each one via Promise.all

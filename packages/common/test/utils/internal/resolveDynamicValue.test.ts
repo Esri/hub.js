@@ -39,15 +39,21 @@ describe("resolveDynamicValue:", () => {
     itemQrySpy = spyOn(
       require("../../../src/utils/internal/resolveItemQueryValues"),
       "resolveItemQueryValues"
-    ).and.callFake(() => Promise.resolve({ item: "spy" }));
+    ).and.callFake(() =>
+      Promise.resolve({ item: { value: "spy", sources: [] } })
+    );
     portalSpy = spyOn(
       require("../../../src/utils/internal/resolvePortalValues"),
       "resolvePortalValues"
-    ).and.callFake(() => Promise.resolve({ portal: "spy" }));
+    ).and.callFake(() =>
+      Promise.resolve({ portal: { value: "spy", sources: [] } })
+    );
     serviceSpy = spyOn(
       require("../../../src/utils/internal/resolveServiceQueryValues"),
       "resolveServiceQueryValues"
-    ).and.callFake(() => Promise.resolve({ service: "spy" }));
+    ).and.callFake(() =>
+      Promise.resolve({ service: { value: "spy", sources: [] } })
+    );
   });
 
   it("handles static-value internally", async () => {
@@ -55,9 +61,16 @@ describe("resolveDynamicValue:", () => {
       type: "static-value",
       value: 12,
       outPath: "cost",
+      source: {
+        type: "Hub Project",
+        id: "ff3",
+        label: "Test Item Source",
+      },
     };
     const result = await resolveDynamicValue(def, context);
-    expect(result).toEqual({ cost: 12 });
+    expect(result).toEqual({
+      cost: { value: 12, sources: [{ ...def.source, value: 12 }] },
+    });
     expect(itemQrySpy).not.toHaveBeenCalled();
     expect(portalSpy).not.toHaveBeenCalled();
     expect(serviceSpy).not.toHaveBeenCalled();
@@ -79,7 +92,7 @@ describe("resolveDynamicValue:", () => {
       aggregation: "count",
     };
     const result = await resolveDynamicValue(def, context);
-    expect(result).toEqual({ item: "spy" });
+    expect(result).toEqual({ item: { value: "spy", sources: [] } });
     expect(itemQrySpy).toHaveBeenCalled();
     expect(portalSpy).not.toHaveBeenCalled();
     expect(serviceSpy).not.toHaveBeenCalled();
@@ -95,9 +108,14 @@ describe("resolveDynamicValue:", () => {
         statisticType: "sum",
       },
       aggregation: "count",
+      source: {
+        type: "Hub Project",
+        id: "ff3",
+        label: "Test Item Source",
+      },
     };
     const result = await resolveDynamicValue(def, context);
-    expect(result).toEqual({ service: "spy" });
+    expect(result).toEqual({ service: { value: "spy", sources: [] } });
     expect(itemQrySpy).not.toHaveBeenCalled();
     expect(portalSpy).not.toHaveBeenCalled();
     expect(serviceSpy).toHaveBeenCalled();
@@ -109,7 +127,7 @@ describe("resolveDynamicValue:", () => {
       outPath: "urlKey",
     };
     const result = await resolveDynamicValue(def, context);
-    expect(result).toEqual({ portal: "spy" });
+    expect(result).toEqual({ portal: { value: "spy", sources: [] } });
     expect(itemQrySpy).not.toHaveBeenCalled();
     expect(portalSpy).toHaveBeenCalled();
     expect(serviceSpy).not.toHaveBeenCalled();

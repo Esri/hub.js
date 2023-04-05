@@ -2,19 +2,18 @@ import { IHubProject } from "../core/types";
 import { IArcGISContext } from "../ArcGISContext";
 import { ResolvedMetrics } from "../metrics/metricsTypes";
 import { resolveMetrics } from "../metrics/resolveMetrics";
-import { dereferenceProjectMetrics } from "./dereferenceProjectMetrics";
+import { preprocessMetrics } from "../metrics/preprocessMetrics";
 
 /**
  * Resolve metrics for a Hub Project.
- * @param initiative
+ * @param project
  * @param context
  * @returns
  */
-
 export function resolveProjectMetrics(
-  initiative: IHubProject,
+  project: IHubProject,
   context: IArcGISContext
 ): Promise<ResolvedMetrics> {
-  const metrics = dereferenceProjectMetrics(initiative);
+  const metrics = preprocessMetrics(project);
   return resolveMetrics(metrics, context);
 }

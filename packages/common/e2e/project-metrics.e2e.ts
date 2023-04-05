@@ -2,7 +2,7 @@ import {
   HubProject,
   IArcGISContext,
   IHubProject,
-  dereferenceProjectMetrics,
+  preprocessMetrics,
   resolveProjectMetrics,
   resolveMetric,
 } from "../src";
@@ -11,17 +11,20 @@ import config from "./helpers/config";
 
 const HARNESS_ID = "69da6b84ffe84fec86c6699d47f62a51";
 
-fdescribe("Project Metrics:", () => {
+describe("Project Metrics:", () => {
   let factory: Artifactory;
   const orgName = "hubPremium";
   beforeAll(() => {
     factory = new Artifactory(config);
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;
   });
+  // NOTE: to re-create the harness item, uncomment the xdescribe block below
+  // and run the tests. Then comment out the xdescribe block again.
   xdescribe("create harness item", () => {
     it("create a project with metrics", async () => {
       const ctxMgr = await factory.getContextManager(orgName, "admin");
       const project = await createTestProject(ctxMgr.context);
+      // UNCOMMENT THIS LINE SO YOU CAN GET THE HARNESS ID!
       // console.info(`Created project ${project.id}`);
     });
     // it("destroy harness item", async () => {
@@ -45,12 +48,28 @@ fdescribe("Project Metrics:", () => {
           unit: "$",
           unitPosition: "before",
           order: 3,
+          sources: [
+            {
+              type: "Hub Project",
+              id: "69da6b84ffe84fec86c6699d47f62a51",
+              label: "Test Project for Metrics",
+              value: 30400,
+            },
+          ],
         },
         surveyCount: {
           value: 20,
           type: "stat-card",
           title: "Completed Surveys",
           order: 4,
+          sources: [
+            {
+              type: "Hub Project",
+              id: "69da6b84ffe84fec86c6699d47f62a51",
+              label: "Test Project for Metrics",
+              value: 20,
+            },
+          ],
         },
       });
     });
@@ -68,12 +87,28 @@ fdescribe("Project Metrics:", () => {
           unit: "$",
           unitPosition: "before",
           order: 3,
+          sources: [
+            {
+              type: "Hub Project",
+              id: "69da6b84ffe84fec86c6699d47f62a51",
+              label: "Test Project for Metrics",
+              value: 30400,
+            },
+          ],
         },
         surveyCount: {
           value: 20,
           type: "stat-card",
           title: "Completed Surveys",
           order: 4,
+          sources: [
+            {
+              type: "Hub Project",
+              id: "69da6b84ffe84fec86c6699d47f62a51",
+              label: "Test Project for Metrics",
+              value: 20,
+            },
+          ],
         },
       });
     });
@@ -82,7 +117,7 @@ fdescribe("Project Metrics:", () => {
       const context = ctxMgr.context;
       const project = await HubProject.fetch(HARNESS_ID, context);
       // dereference the metrics
-      const metrics = dereferenceProjectMetrics(project.toJson());
+      const metrics = preprocessMetrics(project.toJson());
       // resolve the metrics separately
       const cfMetric = await resolveMetric(metrics.cityFunding, context);
       expect(cfMetric).toEqual({
@@ -93,6 +128,14 @@ fdescribe("Project Metrics:", () => {
           unit: "$",
           unitPosition: "before",
           order: 3,
+          sources: [
+            {
+              type: "Hub Project",
+              id: "69da6b84ffe84fec86c6699d47f62a51",
+              label: "Test Project for Metrics",
+              value: 30400,
+            },
+          ],
         },
       });
       const scMetric = await resolveMetric(metrics.surveysCompleted, context);
@@ -102,6 +145,14 @@ fdescribe("Project Metrics:", () => {
           type: "stat-card",
           title: "Completed Surveys",
           order: 4,
+          sources: [
+            {
+              type: "Hub Project",
+              id: "69da6b84ffe84fec86c6699d47f62a51",
+              label: "Test Project for Metrics",
+              value: 20,
+            },
+          ],
         },
       });
     });
@@ -138,15 +189,14 @@ async function createTestProject(context: IArcGISContext): Promise<HubProject> {
       description: "City funding for this project",
     },
   };
-
-  const colors = ["red", "orange", "yellow", "blue", "green"];
-  const color = colors[Math.floor(Math.random() * colors.length)];
+  // The feature service used here is a fixture so it's not very realistic
+  // beyond being a feature service.
   metrics.surveysCompleted = {
     source: {
       type: "service-query",
       options: {
         url: "https://servicesqa.arcgis.com/T5cZDlfUaBpDnk6P/arcgis/rest/services/hub_e2e_fixture_tc121302_simple_point_100/FeatureServer/0",
-        where: `expected_color = '${color}'`,
+        where: `expected_color = 'red'`,
         field: "quant_val",
         statisticType: "count",
       },

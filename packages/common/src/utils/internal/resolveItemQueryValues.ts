@@ -2,6 +2,8 @@ import { IArcGISContext } from "../../ArcGISContext";
 import {
   DynamicValues,
   IDynamicItemQueryDefinition,
+  IDynamicValueOutput,
+  IValueSource,
 } from "../../core/types/DynamicValues";
 import { setProp } from "../../objects";
 import { getProp } from "../../objects/get-prop";
@@ -27,8 +29,8 @@ import { IItem } from "@esri/arcgis-rest-portal";
 export async function resolveItemQueryValues(
   valueDef: IDynamicItemQueryDefinition,
   context: IArcGISContext
-): Promise<DynamicValues> {
-  const result = {};
+): Promise<Record<string, IDynamicValueOutput>> {
+  const result: Record<string, IDynamicValueOutput> = {};
   // execute the query
   // TODO: Error if neither query or scope are defined
   // Combine the query and scope into a single query;
@@ -53,7 +55,8 @@ export async function resolveItemQueryValues(
   // Execute the query
   const response = await memoizedPortalSearch(combined, opts);
 
-  // TODO: dereference metrics so we can delegate one to another
+  // Preprocess the items in the response so they source information is present
+  // and can be carried forward
 
   // This next section is all promise based so that a dynamic value
   // can itself be a dynamic value definition, which then needs to be
@@ -64,26 +67,40 @@ export async function resolveItemQueryValues(
       const vals = await valsPromise;
       const valueFromItem = getProp(item, valueDef.sourcePath);
 
-      const itemInfo = {
+      const valueSource: IValueSource = {
         id: item.id,
-        name: item.title,
+        label: item.title,
         type: item.type,
       };
       // Handle case where value is not found...
       // e.g. the project exists but the metric is not defined yet
       if (valueFromItem) {
+        // This block is needed if we are just plucking a value from the item
+        // e.g. item.views or item.access
         if (
           typeof valueFromItem === "string" ||
           typeof valueFromItem === "number"
         ) {
-          vals.push(Promise.resolve(valueFromItem));
+          valueSource.value = valueFromItem;
+          vals.push(
+            Promise.resolve({
+              value: valueFromItem,
+              sources: [valueSource],
+            })
+          );
         } else if (valueFromItem.type === "static-value") {
-          vals.push(Promise.resolve(valueFromItem.value));
+          valueSource.value = valueFromItem.value;
+          vals.push(
+            Promise.resolve({
+              value: valueFromItem.value,
+              sources: [valueSource],
+            })
+          );
         } else {
           // valueFromItem is itself a valueDefinition so we call resolveDynamicValues again
+          // attach in the value source, so it's present for the next level of recursion
+          valueFromItem.source = valueSource;
           const vResult = await resolveDynamicValue(valueFromItem, context);
-          // vals needs just the value - the number or string but vResult is an object
-          // so we need to get it out of the object
           vals.push(getProp(vResult, valueFromItem.outPath));
         }
       }
@@ -91,9 +108,17 @@ export async function resolveItemQueryValues(
     },
     Promise.resolve([] as any[])
   );
-  const values = await Promise.all(promises);
+  const outputs = (await Promise.all(promises)) as IDynamicValueOutput[];
+  // aggregate the values
+  const values = outputs.map((o) => o.value);
   const aggretate = aggregateValues(values, valueDef.aggregation);
-  setProp(valueDef.outPath, aggretate, result);
+  // construct the output
+  const output: IDynamicValueOutput = {
+    value: aggretate,
+    sources: outputs.reduce((acc, o) => acc.concat(o.sources), []),
+  };
+  // assign into the result
+  setProp(valueDef.outPath, output, result);
 
   return result;
 }

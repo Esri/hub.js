@@ -25,7 +25,7 @@ import {
 
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
-import { dereferenceInitiativeMetrics } from "../src/initiatives/dereferenceInitiativeMetrics";
+import { preprocessMetrics } from "../src/metrics/preprocessMetrics";
 import {
   createInitiative,
   createProjects,
@@ -35,7 +35,7 @@ import {
 
 const HARNESS_ID = "1c612455c49147fda5e4b86baf4f51d9";
 
-fdescribe("Initiative Metrics:", () => {
+describe("Initiative Metrics:", () => {
   let factory: Artifactory;
   const orgName = "hubPremium";
   beforeAll(() => {
@@ -128,7 +128,6 @@ fdescribe("Initiative Metrics:", () => {
       const initiative = await HubInitiative.fetch(HARNESS_ID, context);
 
       const resolved = await initiative.resolveMetrics();
-
       expect(resolved).toEqual({
         countyFunding: {
           value: 400201,
@@ -136,11 +135,39 @@ fdescribe("Initiative Metrics:", () => {
           unit: "$",
           unitPosition: "before",
           order: 3,
+          sources: [
+            {
+              id: "1117fc7804d94318a5ae9b11350ba28c",
+              label: "Test Water Project 1",
+              type: "Hub Project",
+              value: 300201,
+            },
+            {
+              id: "87323a82187d4526bc85e6078111ec41",
+              label: "Test Water Project 0",
+              type: "Hub Project",
+              value: 100000,
+            },
+          ],
         },
         surveysCompleted: {
           value: 40,
           title: "Customer Surveys",
           order: 1,
+          sources: [
+            {
+              id: "1117fc7804d94318a5ae9b11350ba28c",
+              label: "Test Water Project 1",
+              type: "Hub Project",
+              value: 20,
+            },
+            {
+              id: "87323a82187d4526bc85e6078111ec41",
+              label: "Test Water Project 0",
+              type: "Hub Project",
+              value: 20,
+            },
+          ],
         },
       });
     });
@@ -161,11 +188,39 @@ fdescribe("Initiative Metrics:", () => {
           unit: "$",
           unitPosition: "before",
           order: 3,
+          sources: [
+            {
+              id: "1117fc7804d94318a5ae9b11350ba28c",
+              label: "Test Water Project 1",
+              type: "Hub Project",
+              value: 300201,
+            },
+            {
+              id: "87323a82187d4526bc85e6078111ec41",
+              label: "Test Water Project 0",
+              type: "Hub Project",
+              value: 100000,
+            },
+          ],
         },
         surveysCompleted: {
           value: 40,
           title: "Customer Surveys",
           order: 1,
+          sources: [
+            {
+              id: "1117fc7804d94318a5ae9b11350ba28c",
+              label: "Test Water Project 1",
+              type: "Hub Project",
+              value: 20,
+            },
+            {
+              id: "87323a82187d4526bc85e6078111ec41",
+              label: "Test Water Project 0",
+              type: "Hub Project",
+              value: 20,
+            },
+          ],
         },
       });
     });
@@ -174,7 +229,7 @@ fdescribe("Initiative Metrics:", () => {
       const context = ctxMgr.context;
       const initiative = await HubInitiative.fetch(HARNESS_ID, context);
       // dereference the metrics
-      const metrics = dereferenceInitiativeMetrics(initiative.toJson());
+      const metrics = preprocessMetrics(initiative.toJson());
       // now we can resolve them individually
       const cfMetric = await resolveMetric(metrics.countyFunding, context);
 
@@ -187,6 +242,20 @@ fdescribe("Initiative Metrics:", () => {
           unit: "$",
           unitPosition: "before",
           order: 3,
+          sources: [
+            {
+              id: "1117fc7804d94318a5ae9b11350ba28c",
+              label: "Test Water Project 1",
+              type: "Hub Project",
+              value: 300201,
+            },
+            {
+              id: "87323a82187d4526bc85e6078111ec41",
+              label: "Test Water Project 0",
+              type: "Hub Project",
+              value: 100000,
+            },
+          ],
         },
       });
       expect(scMetric).toEqual({
@@ -194,6 +263,20 @@ fdescribe("Initiative Metrics:", () => {
           value: 40,
           title: "Customer Surveys",
           order: 1,
+          sources: [
+            {
+              id: "1117fc7804d94318a5ae9b11350ba28c",
+              label: "Test Water Project 1",
+              type: "Hub Project",
+              value: 20,
+            },
+            {
+              id: "87323a82187d4526bc85e6078111ec41",
+              label: "Test Water Project 0",
+              type: "Hub Project",
+              value: 20,
+            },
+          ],
         },
       });
     });

@@ -5,7 +5,7 @@ import {
   ResolvedMetrics,
   resolveProjectMetrics,
 } from "../../src";
-import * as DerefModule from "../../src/projects/dereferenceProjectMetrics";
+import * as PreprocessModule from "../../src/metrics/preprocessMetrics";
 import * as ResolveMetricsModule from "../../src/metrics/resolveMetrics";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 
@@ -34,8 +34,8 @@ describe("resolveProjectMetrics:", () => {
       "resolveMetrics"
     ).and.returnValue(Promise.resolve({ from: "spy" }));
     derefMetricsSpy = spyOn(
-      DerefModule,
-      "dereferenceProjectMetrics"
+      PreprocessModule,
+      "preprocessMetrics"
     ).and.callThrough();
   });
   it("dereferences and resolves if no metrics defined", async () => {
@@ -53,9 +53,10 @@ describe("resolveProjectMetrics:", () => {
     const project: IHubProject = {
       id: "00c",
       name: "Fake project",
+      type: "Hub Project",
       metrics: {
         budget: {
-          source: {
+          definition: {
             type: "static-value",
             value: 1000000,
             outPath: "budget",

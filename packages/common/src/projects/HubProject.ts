@@ -19,8 +19,6 @@ import { fetchProject } from "./fetch";
 import { resolveProjectMetrics } from "./resolveProjectMetrics";
 import { ProjectEditorType } from "./_internal/ProjectSchema";
 import { ResolvedMetrics } from "../metrics/metricsTypes";
-import { resolveMetrics } from "../metrics/resolveMetrics";
-import { dereferenceProjectMetrics } from "./dereferenceProjectMetrics";
 
 /**
  * Hub Project Class

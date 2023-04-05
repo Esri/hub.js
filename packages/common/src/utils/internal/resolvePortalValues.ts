@@ -3,6 +3,8 @@ import { IArcGISContext } from "../../ArcGISContext";
 import {
   DynamicValues,
   IDynamicPortalSelfDefinition,
+  IDynamicValueOutput,
+  IValueSource,
 } from "../../core/types/DynamicValues";
 import { setProp } from "../../objects";
 import { getProp } from "../../objects/get-prop";
@@ -19,8 +21,8 @@ import { memoize } from "../memoize";
 export async function resolvePortalValues(
   valueDef: IDynamicPortalSelfDefinition,
   context: IArcGISContext
-): Promise<DynamicValues> {
-  const result = {};
+): Promise<Record<string, IDynamicValueOutput>> {
+  const result: Record<string, IDynamicValueOutput> = {};
   const memoizedPortalSelf = memoize(getSelf);
   // TODO: This could use the context.portal values to skip even a single request
   // get the portalSelf via memoized function
@@ -30,7 +32,21 @@ export async function resolvePortalValues(
 
   // get the value from the portal and attach into the result
   const value = getProp(portal, valueDef.sourcePath);
-  setProp(valueDef.outPath, value, result);
+  // For portal, we create the source on the fly
+  const source: IValueSource = {
+    type: "portal",
+    label: portal.name,
+    id: portal.id,
+    value,
+  };
+  setProp(
+    valueDef.outPath,
+    {
+      value,
+      sources: [source],
+    },
+    result
+  );
 
   return result;
 }

@@ -23,9 +23,6 @@ import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
 import { InitiativeEditorType } from "./_internal/InitiativeSchema";
 import { ResolvedMetrics } from "../metrics/metricsTypes";
-import { dereferenceProjectMetrics } from "../projects/dereferenceProjectMetrics";
-import { dereferenceInitiativeMetrics } from "./dereferenceInitiativeMetrics";
-import { resolveMetrics } from "../metrics/resolveMetrics";
 
 /**
  * Hub Initiative Class

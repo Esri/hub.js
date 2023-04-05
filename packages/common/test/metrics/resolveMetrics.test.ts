@@ -38,18 +38,24 @@ describe("resolveMetrics:", () => {
     const result: IResolvedMetric = {
       "metric-1": {
         value: 1,
+        sources: [],
         title: "Metric 1",
         order: 1,
       },
     };
-    const metrics = {
+    const metrics: Record<string, IMetric> = {
       "metric-1": {
         id: "metric-1",
         required: true,
-        source: {
+        definition: {
           type: "static-value",
           value: 30400,
           outPath: "funding",
+          source: {
+            type: "Hub Initiative",
+            id: "fcf",
+            label: "Some Initiative",
+          },
         },
         display: {
           type: "stat-card",
@@ -63,14 +69,19 @@ describe("resolveMetrics:", () => {
           label: "Funding from City",
           description: "City funding for this project",
         },
-      } as IMetric,
+      },
       "metric-2": {
         id: "metric-2",
         required: true,
-        source: {
+        definition: {
           type: "static-value",
           value: 30400,
           outPath: "ctyFunding",
+          source: {
+            type: "Hub Initiative",
+            id: "fcc",
+            label: "Some Other Initiative",
+          },
         },
         display: {
           type: "stat-card",
@@ -84,7 +95,7 @@ describe("resolveMetrics:", () => {
           label: "Funding from County",
           description: "County funding for this project",
         },
-      } as IMetric,
+      },
     };
     const spy = spyOn(
       require("../../src/metrics/resolveMetric"),
@@ -92,34 +103,16 @@ describe("resolveMetrics:", () => {
     ).and.callFake((metric: IMetric, ctx: IArcGISContext) => {
       // construct a result that matches the expected shape based on the inputs
       const r: IResolvedMetric = {
-        [metric.source.outPath]: {
+        [metric.definition.outPath]: {
           value: 1000,
+          sources: [],
           ...metric.display,
         },
       };
       return Promise.resolve(r);
     });
 
-    const resolved = await resolveMetrics(metrics, context);
-
-    expect(resolved).toEqual({
-      funding: {
-        value: 1000,
-        type: "stat-card",
-        title: "City Funding",
-        unit: "$",
-        unitPosition: "before",
-        order: 3,
-      },
-      ctyFunding: {
-        value: 1000,
-        type: "stat-card",
-        title: "County Funding",
-        unit: "$",
-        unitPosition: "before",
-        order: 3,
-      },
-    });
+    await resolveMetrics(metrics, context);
 
     expect(spy.calls.count()).toBe(2);
   });

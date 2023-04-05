@@ -45,12 +45,23 @@ describe("resolvePortalValues:", () => {
       Promise.resolve({
         fake: "portal",
         orgKey: "fake",
+        id: "ABC",
+        name: "Fake Org",
       })
     );
 
     const result = await resolvePortalValues(def, context);
-    expect(result).toEqual({ urlKey: "fake" });
+
+    expect(result).toEqual({
+      urlKey: {
+        value: "fake",
+        sources: [
+          { type: "portal", label: "Fake Org", id: "ABC", value: "fake" },
+        ],
+      },
+    });
     expect(fnSpy).toHaveBeenCalled();
+
     await resolvePortalValues(def, context);
     await resolvePortalValues(def, context);
     expect(fnSpy.calls.count()).toBe(1);

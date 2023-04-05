@@ -13,14 +13,14 @@ export async function resolveMetric(
   metric: IMetric,
   context: IArcGISContext
 ): Promise<IResolvedMetric> {
-  const dvSource = cloneObject(metric.source);
+  const dvSource = cloneObject(metric.definition);
   // Delegate to dynamic value subsystem
   const resolvedValue = await resolveDynamicValue(dvSource, context);
 
   // construct the resolved metric
   const result: IResolvedMetric = {
-    [metric.source.outPath]: {
-      value: resolvedValue[metric.source.outPath],
+    [metric.definition.outPath]: {
+      ...resolvedValue[metric.definition.outPath],
       ...metric.display,
     },
   };

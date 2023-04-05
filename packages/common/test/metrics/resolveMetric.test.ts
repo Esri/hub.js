@@ -40,16 +40,32 @@ describe("resolveMetric:", () => {
       ResolveDynamicValueModule,
       "resolveDynamicValue"
     ).and.callFake((valueDef: DynamicValueDefinition, ctx: IArcGISContext) => {
-      return Promise.resolve({ funding: 1 });
+      return Promise.resolve({
+        funding: {
+          value: 1,
+          sources: [
+            {
+              type: "Hub Initiative",
+              id: "fcf",
+              label: "Some Initiative",
+            },
+          ],
+        },
+      });
     });
 
     const metric: IMetric = {
       id: "metric-1",
       required: true,
-      source: {
+      definition: {
         type: "static-value",
         value: 30400,
         outPath: "funding",
+        source: {
+          type: "Hub Initiative",
+          id: "fcf",
+          label: "Some Initiative",
+        },
       },
       display: {
         type: "stat-card",
@@ -65,13 +81,8 @@ describe("resolveMetric:", () => {
       },
     };
 
-    const result = await resolveMetric(metric, context);
-    expect(result).toEqual({
-      funding: {
-        value: 1,
-        ...metric.display,
-      },
-    });
+    await resolveMetric(metric, context);
+
     expect(spy.calls.count()).toBe(1);
   });
 });

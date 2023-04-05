@@ -1,28 +1,31 @@
 import {
   IDynamicItemQueryDefinition,
+  IHubInitiative,
   IHubProject,
   IMetric,
   IQuery,
-  dereferenceProjectMetrics,
+  preprocessMetrics,
 } from "../../src";
 
-describe("dereferenceProjectMetrics:", () => {
+describe("preprocessProjectMetrics:", () => {
   it("returns empty object if no metrics defined", () => {
     const obj: IHubProject = {
       id: "00c",
       name: "Fake Project",
+      type: "Hub Project",
     } as unknown as IHubProject;
 
-    const metrics = dereferenceProjectMetrics(obj);
+    const metrics = preprocessMetrics(obj);
     expect(metrics).toEqual({});
   });
   it("metrics without references pass through", () => {
     const obj: IHubProject = {
       id: "00c",
       name: "Fake Project",
+      type: "Hub Project",
       metrics: {
         budget: {
-          source: {
+          definition: {
             type: "static-value",
             value: 1000000,
             outPath: "budget",
@@ -31,19 +34,35 @@ describe("dereferenceProjectMetrics:", () => {
       },
     } as unknown as IHubProject;
 
-    const metrics = dereferenceProjectMetrics(obj);
-    expect(metrics).toEqual(obj.metrics as Record<string, IMetric>);
+    const metrics = preprocessMetrics(obj);
+    const expected: Record<string, IMetric> = {
+      budget: {
+        definition: {
+          type: "static-value",
+          value: 1000000,
+          outPath: "budget",
+          source: {
+            id: "00c",
+            type: "Hub Project",
+            label: "Fake Project",
+          },
+        },
+      } as IMetric, // used so we can keep this lean
+    };
+
+    expect(metrics).toEqual(expected);
   });
   it("handles delegation to another metric", () => {
     const initiative: IHubProject = {
       id: "00c",
       name: "Fake Project",
+      type: "Hub Project",
       metrics: {
         countyBudget: {
           $use: "metrics.budget",
         },
         budget: {
-          source: {
+          definition: {
             type: "static-value",
             value: 1000000,
             outPath: "budget",
@@ -52,17 +71,32 @@ describe("dereferenceProjectMetrics:", () => {
       },
     } as unknown as IHubProject;
 
-    const metrics = dereferenceProjectMetrics(initiative);
-    expect(metrics.budget).toEqual(initiative.metrics?.budget as IMetric);
-    expect(metrics.countyBudget).toEqual(initiative.metrics?.budget as IMetric);
+    const metrics = preprocessMetrics(initiative);
+    const expected: Record<string, IMetric> = {
+      budget: {
+        definition: {
+          type: "static-value",
+          value: 1000000,
+          outPath: "budget",
+          source: {
+            id: "00c",
+            type: "Hub Project",
+            label: "Fake Project",
+          },
+        },
+      } as IMetric, // used so we can keep this lean
+    };
+    expect(metrics.budget).toEqual(expected.budget as IMetric);
+    expect(metrics.countyBudget).toEqual(expected.budget as IMetric);
   });
   it("passed through item query scope that does not have $use", () => {
     const initiative: IHubProject = {
       id: "00c",
       name: "Fake Project",
+      type: "Hub Project",
       metrics: {
         budget: {
-          source: {
+          definition: {
             type: "item-query",
             scope: {
               hello: "world",
@@ -83,19 +117,20 @@ describe("dereferenceProjectMetrics:", () => {
       },
     } as unknown as IHubProject;
 
-    const metrics = dereferenceProjectMetrics(initiative);
-    const itemQuery = metrics.budget.source as IDynamicItemQueryDefinition;
-    expect(itemQuery.scope).toEqual({
+    const metrics = preprocessMetrics(initiative);
+    const def = metrics.budget.definition as IDynamicItemQueryDefinition;
+    expect(def.scope).toEqual({
       hello: "world",
     } as unknown as IQuery);
   });
   it("dereferences item query scope", () => {
-    const obj: IHubProject = {
+    const obj: IHubInitiative = {
       id: "00c",
-      name: "Fake Project",
+      name: "Fake Initiative",
+      type: "Hub Initiative",
       metrics: {
         budget: {
-          source: {
+          definition: {
             type: "item-query",
             scope: {
               $use: "catalog.collections[findBy(key,projects)].scope",
@@ -114,10 +149,10 @@ describe("dereferenceProjectMetrics:", () => {
           },
         ],
       },
-    } as unknown as IHubProject;
+    } as unknown as IHubInitiative;
 
-    const metrics = dereferenceProjectMetrics(obj);
-    const itemQuery = metrics.budget.source as IDynamicItemQueryDefinition;
+    const metrics = preprocessMetrics(obj);
+    const itemQuery = metrics.budget.definition as IDynamicItemQueryDefinition;
     expect(itemQuery.scope).toEqual({
       id: "abc",
     } as unknown as IQuery);

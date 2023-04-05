@@ -5,6 +5,8 @@ import {
   IDynamicItemQueryDefinition,
   IDynamicPortalSelfDefinition,
   IDynamicServiceQueryDefinition,
+  IDynamicValueOutput,
+  IValueSource,
 } from "../../core/types/DynamicValues";
 import { getProp } from "../../objects/get-prop";
 import { resolveItemQueryValues } from "./resolveItemQueryValues";
@@ -21,13 +23,16 @@ import { resolveServiceQueryValues } from "./resolveServiceQueryValues";
 export async function resolveDynamicValue(
   valueDef: DynamicValueDefinition,
   context: IArcGISContext
-): Promise<Record<string, DynamicValueResult>> {
-  let result: Record<string, any> = {};
+): Promise<Record<string, IDynamicValueOutput>> {
+  let result: Record<string, IDynamicValueOutput> = {};
   switch (valueDef.type) {
     case "static-value":
       const val = getProp(valueDef, "value");
       const outPath = getProp(valueDef, "outPath");
-      result[outPath] = val;
+      result[outPath] = {
+        value: val,
+        sources: [{ ...valueDef.source, value: val }],
+      };
       break;
     case "item-query":
       result = await resolveItemQueryValues(

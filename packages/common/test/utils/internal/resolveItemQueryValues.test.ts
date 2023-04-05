@@ -2,7 +2,7 @@ import { IPortal, IUser } from "@esri/arcgis-rest-portal";
 import {
   ArcGISContextManager,
   IArcGISContext,
-  DynamicValueDefinition,
+  IDynamicItemQueryDefinition,
 } from "../../../src";
 import { resolveItemQueryValues } from "../../../src/utils/internal/resolveItemQueryValues";
 import * as ResolveDynamicValueModule from "../../../src/utils/internal/resolveDynamicValue";
@@ -42,20 +42,21 @@ describe("resolveItemQueryValues:", () => {
     const fnSpy = spyOn(portal, "searchItems").and.callFake(() =>
       Promise.resolve({
         results: [
-          { id: "00c", views: 10 },
-          { id: "00c", views: 20 },
+          { id: "001", views: 10, title: "One" },
+          { id: "002", views: 20, title: "Two" },
           {
-            id: "00c",
+            id: "003",
+            title: "Three",
             views: {
               type: "static-value",
               value: 23,
             },
           },
-          { id: "00c" },
+          { id: "004", title: "Four" },
         ],
       })
     );
-    const def: DynamicValueDefinition = {
+    const def: IDynamicItemQueryDefinition = {
       type: "item-query",
       outPath: "views",
       query: {
@@ -71,27 +72,29 @@ describe("resolveItemQueryValues:", () => {
       aggregation: "sum",
     };
     const result = await resolveItemQueryValues(def, context);
-    expect(result.views).toEqual(53);
+    expect(result.views.value).toEqual(53);
+    expect(result.views.sources.length).toEqual(3);
     clearMemoizedCache("portalSearchItemsAsItems");
   });
   it("handles no query", async () => {
     const fnSpy = spyOn(portal, "searchItems").and.callFake(() =>
       Promise.resolve({
         results: [
-          { id: "00c", views: 10 },
-          { id: "00c", views: 20 },
+          { id: "001", views: 10, title: "One" },
+          { id: "002", views: 20, title: "Two" },
           {
-            id: "00c",
+            id: "003",
+            title: "Three",
             views: {
               type: "static-value",
               value: 23,
             },
           },
-          { id: "00c" },
+          { id: "004", title: "Four" },
         ],
       })
     );
-    const def: DynamicValueDefinition = {
+    const def: IDynamicItemQueryDefinition = {
       type: "item-query",
       outPath: "views",
       // query: {
@@ -107,17 +110,19 @@ describe("resolveItemQueryValues:", () => {
       aggregation: "sum",
     };
     const result = await resolveItemQueryValues(def, context);
-    expect(result.views).toEqual(53);
+    expect(result.views.value).toEqual(53);
+    expect(result.views.sources.length).toEqual(3);
     clearMemoizedCache("portalSearchItemsAsItems");
   });
   it("handles recursive definitions", async () => {
     const fnSpy = spyOn(portal, "searchItems").and.callFake(() =>
       Promise.resolve({
         results: [
-          { id: "00c", views: 10 },
-          { id: "00d", views: 20 },
+          { id: "001", views: 10, title: "One" },
+          { id: "002", views: 20, title: "Two" },
           {
-            id: "00e",
+            id: "003",
+            title: "Three",
             views: {
               // NOTE: this must be a service query, not an item-query
               // otherwise it will loop infinitely because of the spy
@@ -132,7 +137,7 @@ describe("resolveItemQueryValues:", () => {
               aggregation: "count",
             },
           },
-          { id: "00c" },
+          { id: "004", title: "Four" },
         ],
       })
     );
@@ -140,9 +145,18 @@ describe("resolveItemQueryValues:", () => {
     const recurseSpy = spyOn(
       ResolveDynamicValueModule,
       "resolveDynamicValue"
-    ).and.callFake(() => Promise.resolve({ views: 19 }));
+    ).and.callFake(() =>
+      Promise.resolve({
+        views: {
+          value: 19,
+          sources: [
+            { id: "003", label: "Three", type: "Hub Project", value: 19 },
+          ],
+        },
+      })
+    );
 
-    const def: DynamicValueDefinition = {
+    const def: IDynamicItemQueryDefinition = {
       type: "item-query",
       outPath: "views",
       query: {
@@ -158,7 +172,8 @@ describe("resolveItemQueryValues:", () => {
       aggregation: "sum",
     };
     const result = await resolveItemQueryValues(def, context);
-    expect(result.views).toEqual(49);
+    expect(result.views.value).toEqual(49);
+    expect(result.views.sources.length).toEqual(3);
     expect(recurseSpy).toHaveBeenCalled();
     expect(fnSpy).toHaveBeenCalled();
     clearMemoizedCache("portalSearchItemsAsItems");

@@ -43,6 +43,11 @@ describe("resolveDynamicValues:", () => {
       type: "static-value",
       value: 12,
       outPath: "cost",
+      source: {
+        type: "Hub Project",
+        id: "ff3",
+        label: "Test Item Source",
+      },
     };
     const result = resolveDynamicValues([def], context);
     expect(fnSpy).toHaveBeenCalled();
