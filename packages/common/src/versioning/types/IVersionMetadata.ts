@@ -16,6 +16,10 @@ export interface IVersionMetadata {
    */
   creator: string;
   /**
+   * The description of the version
+   */
+  description?: string;
+  /**
    * The id of the version
    */
   id: string;

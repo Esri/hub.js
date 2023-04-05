@@ -32,6 +32,25 @@ describe("versionMetadataFromResource", () => {
     expect(result).toEqual(expected);
   });
 
+  it("handles expected resource structure with name and description", async () => {
+    const resource = {
+      ...baseResource,
+      properties:
+        '{"created":1675967213542,"creator":"paige_pa","description":"this is the description","id":"abc123","name":"this is the name","updated":1675967213542}',
+    };
+    const result = versionMetadataFromResource(resource);
+    const expected = {
+      ...baseExpected,
+      created: 1675967213542,
+      creator: "paige_pa",
+      description: "this is the description",
+      id: "abc123",
+      name: "this is the name",
+      updated: 1675967213542,
+    };
+    expect(result).toEqual(expected);
+  });
+
   it("handles missing properties key", async () => {
     const result = versionMetadataFromResource(baseResource);
     expect(result).toEqual(baseExpected);
