@@ -37,6 +37,10 @@ The [`createVersion`](/hub.js/api/common/HubSite#createVersion) method can be us
 
 The [`updateVersion`](/hub.js/api/common/HubSite#updateVersion) method can be used to update a version of an entity based on the current state of the entity. It takes an [`IVersion`](/hub.js/api/common/IVersion) and returns an [`IVersion`](/hub.js/api/common/IVersion).
 
+#### Updating the metadata of an entity version
+
+The [`updateVersionMetadata`](/hub.js/api/common/HubSite#updateVersionMetadata) method can be used to update the metadata (primarily name and description) of an entity version. It takes an [`IVersionMetadata`](/hub.js/api/common/IVersionMetadata) and returns an [`IVersionMetadata`](/hub.js/api/common/IVersionMetadata).
+
 #### Deleting a version of an entity
 
 The [`deleteVersion`](/hub.js/api/common/HubSite#deleteVersion) method can be used to delete a version of an entity. It takes a version id.
@@ -62,6 +66,10 @@ The [`createVersion`](/hub.js/api/common/createVersion) function can be used to 
 #### Updating a version of an entity
 
 The [`updateVersion`](/hub.js/api/common/updateVersion) function can be used to update a version of an entity based on the current state of the entity. It takes an [`IModel`](/hub.js/api/common/IModel), an [`IVersion`](/hub.js/api/common/IVersion), and an [`IHubUserRequestOptions`](/hub.js/api/common/IHubUserRequestOptions) and returns an [`IVersion`](/hub.js/api/common/IVersion).
+
+#### Updating the metadata of an entity version
+
+The [`updateVersionMetadata`](/hub.js/api/common/updateVersionMetadata) function can be used to update the metadata (primarily name and description) of an entity version. It takes an item id, an [`IVersionMetadata`](/hub.js/api/common/IVersionMetadata), and an [`IHubUserRequestOptions`](/hub.js/api/common/IHubUserRequestOptions) and returns an [`IVersionMetadata`](/hub.js/api/common/IVersionMetadata).
 
 #### Deleting a version of an entity
 

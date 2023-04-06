@@ -4,7 +4,13 @@ import { HubSite } from "../../src/sites/HubSite";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as HubSitesModule from "../../src/sites/HubSites";
 import * as HubVersioningModule from "../../src/versioning";
-import { IDeepCatalogInfo, IHubCatalog, IHubSite, IVersion } from "../../src";
+import {
+  IDeepCatalogInfo,
+  IHubCatalog,
+  IHubSite,
+  IVersion,
+  IVersionMetadata,
+} from "../../src";
 import { Catalog } from "../../src/search";
 import * as ContainsModule from "../../src/core/_internal/deepContains";
 describe("HubSite Class:", () => {
@@ -471,6 +477,34 @@ describe("HubSite Class:", () => {
         authdCtxMgr.context.userRequestOptions
       );
     });
+
+    it("updates version metadata", async () => {
+      const updateVersionMetadataSpy = spyOn(
+        HubVersioningModule,
+        "updateVersionMetadata"
+      ).and.callFake(() => {
+        return Promise.resolve({});
+      });
+
+      const version: IVersionMetadata = {
+        created: 123456,
+        creator: "paige_pa",
+        id: "abc123",
+        name: "my special version",
+        path: "",
+        updated: 123456,
+      };
+
+      await chk.updateVersionMetadata(version);
+
+      expect(updateVersionMetadataSpy).toHaveBeenCalledTimes(1);
+      expect(updateVersionMetadataSpy).toHaveBeenCalledWith(
+        model.item.id,
+        version,
+        authdCtxMgr.context.userRequestOptions
+      );
+    });
+
     it("deletes a version", async () => {
       const deleteVersionSpy = spyOn(
         HubVersioningModule,
