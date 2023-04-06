@@ -4,7 +4,7 @@ import {
   ENTITY_NAME_SCHEMA,
 } from "../../core/schemas/shared";
 
-export type ProjectEditorType = (typeof ProjectEditorTypes)[number];
+export type ProjectEditorType = typeof ProjectEditorTypes[number];
 export const ProjectEditorTypes = [
   "hub:project:create",
   "hub:project:edit",
@@ -50,6 +50,18 @@ export const ProjectSchema: IConfigurationSchema = {
         // appropriate validation for the timeline editor
         timeline: {
           type: "object",
+        },
+        tags: {
+          type: "array",
+          items: {
+            type: "string",
+          },
+        },
+        categories: {
+          type: "array",
+          items: {
+            type: "string",
+          },
         },
       },
     },

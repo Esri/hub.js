@@ -58,6 +58,22 @@ export const uiSchema: IUiSchema = {
             },
           },
         },
+        {
+          labelKey: "{{i18nScope}}.fields.combobox.label",
+          scope: "/properties/view/properties/combobox",
+          type: "Control",
+          options: {
+            control: "hub-field-input-combobox",
+          },
+        },
+        {
+          labelKey: "{{i18nScope}}.fields.categories.label",
+          scope: "/properties/view/properties/categories",
+          type: "Control",
+          options: {
+            control: "hub-field-input-combobox",
+          },
+        },
       ],
     },
     {
