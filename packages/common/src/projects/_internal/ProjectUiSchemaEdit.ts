@@ -59,19 +59,23 @@ export const uiSchema: IUiSchema = {
           },
         },
         {
-          labelKey: "{{i18nScope}}.fields.combobox.label",
-          scope: "/properties/view/properties/combobox",
+          labelKey: "{{i18nScope}}.fields.tags.label",
+          scope: "/properties/tags",
           type: "Control",
           options: {
             control: "hub-field-input-combobox",
+            allowCustomValues: true,
+            selectionMode: "multiple",
           },
         },
         {
           labelKey: "{{i18nScope}}.fields.categories.label",
-          scope: "/properties/view/properties/categories",
+          scope: "/properties/categories",
           type: "Control",
           options: {
             control: "hub-field-input-combobox",
+            allowCustomValues: false,
+            selectionMode: "multiple",
           },
         },
       ],

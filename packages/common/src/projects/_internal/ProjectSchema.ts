@@ -30,6 +30,18 @@ export const ProjectSchema: IConfigurationSchema = {
       enum: Object.keys(PROJECT_STATUSES),
     },
     extent: ENTITY_EXTENT_SCHEMA,
+    tags: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
+    categories: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
     view: {
       type: "object",
       properties: {
@@ -50,18 +62,6 @@ export const ProjectSchema: IConfigurationSchema = {
         // appropriate validation for the timeline editor
         timeline: {
           type: "object",
-        },
-        tags: {
-          type: "array",
-          items: {
-            type: "string",
-          },
-        },
-        categories: {
-          type: "array",
-          items: {
-            type: "string",
-          },
         },
       },
     },
