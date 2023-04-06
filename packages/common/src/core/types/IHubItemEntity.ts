@@ -21,6 +21,11 @@ export interface IHubItemEntity extends IHubEntityBase, IWithPermissions {
   boundary?: IHubGeography;
 
   /**
+   * Parsed item categories (see parseItemCategories)
+   */
+  categories?: string[];
+
+  /**
    * Culture code of the content
    * i.e. `en-us`
    */
