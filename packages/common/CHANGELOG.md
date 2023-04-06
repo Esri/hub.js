@@ -1,3 +1,11 @@
+# @esri/hub-common [12.23.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.22.0...@esri/hub-common@12.23.0) (2023-04-06)
+
+
+### Features
+
+* **hub-common:** add optional categories prop to IHubItemEntity ([49db9e9](https://github.com/Esri/hub.js/commit/49db9e9876870b873547e15cc92f5b482db102e8))
+* **hub-common:** add tags and categories to ProjectSchema and ProjectUiSchemaEdit ([8aa1d35](https://github.com/Esri/hub.js/commit/8aa1d351b75155d26f681d284ba486ab50ccee48))
+
 # @esri/hub-common [12.22.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.21.0...@esri/hub-common@12.22.0) (2023-04-06)
 
 
