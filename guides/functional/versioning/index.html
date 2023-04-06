@@ -167,6 +167,8 @@
 <p>The <a href="/hub.js/api/common/HubSite#createVersion"><code>createVersion</code></a> method can be used to create a new version of an entity based on the current state of the entity. It takes an optional <a href="/hub.js/api/common/ICreateVersionOptions"><code>ICreateVersionOptions</code></a> and returns an <a href="/hub.js/api/common/IVersion"><code>IVersion</code></a>.</p>
 <h4>Updating a version of an entity</h4>
 <p>The <a href="/hub.js/api/common/HubSite#updateVersion"><code>updateVersion</code></a> method can be used to update a version of an entity based on the current state of the entity. It takes an <a href="/hub.js/api/common/IVersion"><code>IVersion</code></a> and returns an <a href="/hub.js/api/common/IVersion"><code>IVersion</code></a>.</p>
+<h4>Updating the metadata of an entity version</h4>
+<p>The <a href="/hub.js/api/common/HubSite#updateVersionMetadata"><code>updateVersionMetadata</code></a> method can be used to update the metadata (primarily name and description) of an entity version. It takes an <a href="/hub.js/api/common/IVersionMetadata"><code>IVersionMetadata</code></a> and returns an <a href="/hub.js/api/common/IVersionMetadata"><code>IVersionMetadata</code></a>.</p>
 <h4>Deleting a version of an entity</h4>
 <p>The <a href="/hub.js/api/common/HubSite#deleteVersion"><code>deleteVersion</code></a> method can be used to delete a version of an entity. It takes a version id.</p>
 <hr>
@@ -180,6 +182,8 @@
 <p>The <a href="/hub.js/api/common/createVersion"><code>createVersion</code></a> function can be used to create a new version of an entity based on the current state of the entity. It takes an <a href="/hub.js/api/common/IModel"><code>IModel</code></a>, an <a href="/hub.js/api/common/IHubUserRequestOptions"><code>IHubUserRequestOptions</code></a>, and an optional <a href="/hub.js/api/common/ICreateVersionOptions"><code>ICreateVersionOptions</code></a> and returns an <a href="/hub.js/api/common/IVersion"><code>IVersion</code></a>.</p>
 <h4>Updating a version of an entity</h4>
 <p>The <a href="/hub.js/api/common/updateVersion"><code>updateVersion</code></a> function can be used to update a version of an entity based on the current state of the entity. It takes an <a href="/hub.js/api/common/IModel"><code>IModel</code></a>, an <a href="/hub.js/api/common/IVersion"><code>IVersion</code></a>, and an <a href="/hub.js/api/common/IHubUserRequestOptions"><code>IHubUserRequestOptions</code></a> and returns an <a href="/hub.js/api/common/IVersion"><code>IVersion</code></a>.</p>
+<h4>Updating the metadata of an entity version</h4>
+<p>The <a href="/hub.js/api/common/updateVersionMetadata"><code>updateVersionMetadata</code></a> function can be used to update the metadata (primarily name and description) of an entity version. It takes an item id, an <a href="/hub.js/api/common/IVersionMetadata"><code>IVersionMetadata</code></a>, and an <a href="/hub.js/api/common/IHubUserRequestOptions"><code>IHubUserRequestOptions</code></a> and returns an <a href="/hub.js/api/common/IVersionMetadata"><code>IVersionMetadata</code></a>.</p>
 <h4>Deleting a version of an entity</h4>
 <p>The <a href="/hub.js/api/common/deleteVersion"><code>deleteVersion</code></a> function can be used to delete a version of an entity. It takes an item id, a version id, and an <a href="/hub.js/api/common/IHubUserRequestOptions"><code>IHubUserRequestOptions</code></a>.</p>
       </div>
