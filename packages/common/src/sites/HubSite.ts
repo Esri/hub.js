@@ -33,6 +33,7 @@ import {
   IVersionMetadata,
   searchVersions,
   updateVersion,
+  updateVersionMetadata,
 } from "../versioning";
 
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
@@ -339,6 +340,21 @@ export class HubSite
     const mapper = new PropertyMapper<IHubSite>(getPropertyMap());
     const model = mapper.objectToModel(this.entity, {} as IModel);
     return updateVersion(model, version, this.context.userRequestOptions);
+  }
+
+  /**
+   * Updates the specified version's metadata
+   * @param version
+   * @returns
+   */
+  async updateVersionMetadata(
+    version: IVersionMetadata
+  ): Promise<IVersionMetadata> {
+    return updateVersionMetadata(
+      this.entity.id,
+      version,
+      this.context.userRequestOptions
+    );
   }
 
   /**

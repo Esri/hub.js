@@ -36,6 +36,13 @@ export interface IWithVersioningBehavior {
   updateVersion(version: IVersion): Promise<IVersion>;
 
   /**
+   * Updates the specified entity version's metadata
+   * @param version
+   * @returns
+   */
+  updateVersionMetadata(version: IVersionMetadata): Promise<IVersionMetadata>;
+
+  /**
    * Deletes the specified version of the entity
    * @returns
    */
