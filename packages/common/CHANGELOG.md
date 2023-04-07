@@ -1,3 +1,10 @@
+## @esri/hub-common [12.23.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.23.0...@esri/hub-common@12.23.1) (2023-04-07)
+
+
+### Bug Fixes
+
+* **hub-common:** adjust event list card migration to work with alternative site models ([20700a3](https://github.com/Esri/hub.js/commit/20700a35f88c4518a07c4f5ae32c5dd883842de3))
+
 # @esri/hub-common [12.23.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.22.0...@esri/hub-common@12.23.0) (2023-04-06)
 
 
