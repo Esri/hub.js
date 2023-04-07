@@ -18,9 +18,9 @@ export function _migrateEventListCardConfigs<T extends IModel | IDraft>(
   const clone = cloneObject(model);
   clone.data.values.layout.sections.map((section: any) => ({
     ...section,
-    rows: section.rows.map((row: any) => ({
+    rows: (section.rows || []).map((row: any) => ({
       ...row,
-      cards: row.cards.map((card: any) => {
+      cards: (row.cards || []).map((card: any) => {
         if (card.component.name === "event-list-card") {
           card.component.settings.displayMode = card.component.settings
             .calendarEnabled

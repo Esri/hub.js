@@ -68,6 +68,37 @@ const siteModel = {
   },
 } as unknown as IModel;
 
+const modelWithBadLayout = {
+  item: {
+    properties: {
+      schemaVersion: 1.5,
+    },
+  },
+  data: {
+    values: {
+      layout: {
+        sections: [
+          {
+            rows: [
+              {
+                cards: [],
+              },
+              {
+                otherProp:
+                  "This is an invalid row, lacking a .cards prop - it should be ignored",
+              },
+            ],
+          },
+          {
+            otherProp:
+              "this is an invalid section lacking a .rows prop - it should just be ignored",
+          },
+        ],
+      },
+    },
+  },
+} as unknown as IModel;
+
 describe("_ensure-event-list-card", () => {
   describe("Site model", function () {
     let model: IModel;
@@ -102,6 +133,12 @@ describe("_ensure-event-list-card", () => {
       setProp("item.properties.schemaVersion", 1.6, model);
       const expected: IModel = cloneObject(model);
       const results = _migrateEventListCardConfigs<IModel>(model);
+      expect(results).toEqual(expected);
+    });
+    it("does not apply changes if invalid model", function () {
+      const expected: IModel = cloneObject(modelWithBadLayout);
+      setProp("item.properties.schemaVersion", 1.6, expected);
+      const results = _migrateEventListCardConfigs<IModel>(modelWithBadLayout);
       expect(results).toEqual(expected);
     });
   });
