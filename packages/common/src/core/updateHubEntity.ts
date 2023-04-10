@@ -17,6 +17,10 @@ import {
 /**
  * centralized function to update a Hub entity - delegates
  * to the appropriate update function by entity type
+ * @param type
+ * @param entity
+ * @param context
+ * @returns
  */
 export async function updateHubEntity(
   type: HubEntityType,
