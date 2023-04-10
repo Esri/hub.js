@@ -4,3 +4,4 @@ export * from "./behaviors";
 export * from "./schemas";
 export * from "./fetchHubEntity";
 export * from "./getTypeFromEntity";
+export * from "./updateHubEntity";
