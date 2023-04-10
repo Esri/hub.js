@@ -1,7 +1,7 @@
 import { IArcGISContext } from "../../src/ArcGISContext";
 import { updateHubEntity } from "../../src/core/updateHubEntity";
 import { HubEntityType } from "../../src/core/types/HubEntityType";
-import { HubEntity } from "../../src";
+import { HubEntity } from "../../src/core/types/HubEntity";
 
 describe("updateHubEntity:", () => {
   it("returns undefined for non-hub types", async () => {
@@ -24,9 +24,10 @@ describe("updateHubEntity:", () => {
     const ctx = {
       hubRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
-    const spy = spyOn(require("../../src/sites"), "updateSite").and.returnValue(
-      Promise.resolve({})
-    );
+    const spy = spyOn(
+      require("../../src/sites/HubSites"),
+      "updateSite"
+    ).and.returnValue(Promise.resolve({}));
     await updateHubEntity("site", {} as HubEntity, ctx);
     expect(spy).toHaveBeenCalledWith({}, "fakeRequestOptions");
   });
@@ -35,7 +36,7 @@ describe("updateHubEntity:", () => {
       userRequestOptions: "fakeRequestOptions",
     } as unknown as IArcGISContext;
     const spy = spyOn(
-      require("../../src/initiatives"),
+      require("../../src/initiatives/HubInitiatives"),
       "updateInitiative"
     ).and.returnValue(Promise.resolve({}));
     await updateHubEntity("initiative", {} as HubEntity, ctx);

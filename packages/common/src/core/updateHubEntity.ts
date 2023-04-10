@@ -1,9 +1,9 @@
 import { IArcGISContext } from "..";
-import { updateContent } from "../content";
-import { updateDiscussion } from "../discussions";
-import { updateInitiative } from "../initiatives";
-import { updateProject } from "../projects";
-import { updateSite } from "../sites";
+import { updateContent } from "../content/edit";
+import { updateDiscussion } from "../discussions/edit";
+import { updateInitiative } from "../initiatives/HubInitiatives";
+import { updateProject } from "../projects/edit";
+import { updateSite } from "../sites/HubSites";
 import {
   HubEntity,
   HubEntityType,
@@ -22,11 +22,11 @@ import {
  * @param context
  * @returns
  */
-export async function updateHubEntity(
+export const updateHubEntity = async (
   type: HubEntityType,
   entity: HubEntity,
   context: IArcGISContext
-): Promise<HubEntity> {
+): Promise<HubEntity> => {
   let result: HubEntity;
   switch (type) {
     case "project":
@@ -57,4 +57,4 @@ export async function updateHubEntity(
       );
   }
   return result;
-}
+};
