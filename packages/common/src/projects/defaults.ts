@@ -13,7 +13,6 @@ export const DEFAULT_PROJECT: Partial<IHubProject> = {
   schemaVersion: 1,
   status: PROJECT_STATUSES.notStarted,
   tags: [],
-  categories: [],
   typeKeywords: [HUB_PROJECT_ITEM_TYPE],
   view: {
     contacts: [],
@@ -32,7 +31,6 @@ export const DEFAULT_PROJECT_MODEL: IModel = {
     description: "",
     snippet: "",
     tags: [],
-    categories: [],
     typeKeywords: [HUB_PROJECT_ITEM_TYPE],
     properties: {
       slug: "",

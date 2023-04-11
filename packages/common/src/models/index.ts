@@ -286,9 +286,8 @@ export async function fetchModelResources(
  * @param {IItem} item
  * @return {*} boolean
  */
-function shouldClearEmptyFields(item: IItem) {
+function shouldClearEmptyFields(item: IItem): boolean {
   return ["description", "snippet", "tags", "categories"].some(
-    (field) =>
-      item[field] === "" || (item[field]?.length === 1 && item[field][0] === "")
+    (field) => !item[field]?.length
   );
 }
