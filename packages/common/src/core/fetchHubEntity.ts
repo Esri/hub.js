@@ -1,11 +1,11 @@
+import { fetchDiscussion } from "../discussions/fetch";
+import { fetchHubContent } from "../content/fetch";
 import { fetchInitiative } from "../initiatives/HubInitiatives";
 import { fetchProject } from "../projects/fetch";
 import { fetchSite } from "../sites/HubSites";
 import { HubEntity } from "./types/HubEntity";
 import { HubEntityType } from "./types/HubEntityType";
 import { IArcGISContext } from "../ArcGISContext";
-import { fetchDiscussion } from "../discussions/fetch";
-import { fetchHubContent } from "../content/fetch";
 
 /**
  * Fetch a Hub entity by identifier (id or slug)
