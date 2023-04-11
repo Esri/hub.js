@@ -38,6 +38,7 @@ const PROJECT_ITEM: portalModule.IItem = {
   created: 1643646881000,
   modified: 1643646881000,
   tags: [],
+  categories: [],
   typeKeywords: [],
   thumbnail: "vader.png",
   numViews: 10,
