@@ -179,6 +179,8 @@ describe("model utils:", () => {
             [1, 2],
             [3, 4],
           ],
+          tags: [],
+          categories: [],
         },
         data: {
           some: "data",
@@ -205,6 +207,8 @@ describe("model utils:", () => {
       expect(opts.item.data).toBeDefined();
       expect(opts.item.extent).toBe("1, 2, 3, 4" as unknown as number[][]);
       expect(opts.item.description).toBe("");
+      expect(opts.item.tags).toBe([]);
+      expect(opts.item.categories).toBe([]);
     });
     it("updates a model w/ extent as string", async () => {
       const updateItemSpy = spyOn(portalModule, "updateItem").and.returnValue(
