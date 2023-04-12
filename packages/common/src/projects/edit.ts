@@ -33,7 +33,6 @@ export async function createProject(
   partialProject: Partial<IHubProject>,
   requestOptions: IUserRequestOptions
 ): Promise<IHubProject> {
-  // let resources;
   // merge incoming with the default
   // this expansion solves the typing somehow
   const project = { ...DEFAULT_PROJECT, ...partialProject };
@@ -69,7 +68,6 @@ export async function updateProject(
   project: IHubProject,
   requestOptions: IUserRequestOptions
 ): Promise<IHubProject> {
-  // let resources;
   // verify that the slug is unique, excluding the current project
   project.slug = await getUniqueSlug(
     { slug: project.slug, existingId: project.id },
