@@ -1,3 +1,10 @@
+# @esri/hub-common [12.25.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.24.0...@esri/hub-common@12.25.0) (2023-04-12)
+
+
+### Features
+
+* project.location is stored in item.properties.location ([#1023](https://github.com/Esri/hub.js/issues/1023)) ([3a8a35b](https://github.com/Esri/hub.js/commit/3a8a35b395c548d3a4cd90acb1675c737d809aa0))
+
 # @esri/hub-common [12.24.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.23.1...@esri/hub-common@12.24.0) (2023-04-12)
 
 
