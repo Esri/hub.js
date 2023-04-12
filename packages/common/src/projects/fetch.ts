@@ -55,12 +55,6 @@ export async function convertItemToProject(
   requestOptions: IRequestOptions
 ): Promise<IHubProject> {
   const model = await fetchModelFromItem(item, requestOptions);
-  // Fetch resources based on above obj
-  // model.resources = await fetchModelResources(
-  //   item,
-  //   {}, // EntityResourceMap,
-  //   requestOptions
-  // );
   // TODO: In the future we will handle the boundary fetching from resource
   const mapper = new PropertyMapper<Partial<IHubProject>>(getPropertyMap());
   const prj = mapper.modelToObject(model, {}) as IHubProject;
