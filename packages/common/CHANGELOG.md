@@ -1,3 +1,16 @@
+# @esri/hub-common [12.24.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.23.1...@esri/hub-common@12.24.0) (2023-04-12)
+
+
+### Bug Fixes
+
+* resolve failing tests ([18be524](https://github.com/Esri/hub.js/commit/18be524f78f70c057a6451ecb0c47a1c203facad))
+* update imports in test ([a54a047](https://github.com/Esri/hub.js/commit/a54a047b9e128fb88ff6cc6765239c323325929f))
+
+
+### Features
+
+* add centralized updateHubEntity function ([a89fecf](https://github.com/Esri/hub.js/commit/a89fecf4316e1fc052f8af60cddca30845cb89af))
+
 ## @esri/hub-common [12.23.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.23.0...@esri/hub-common@12.23.1) (2023-04-07)
 
 
