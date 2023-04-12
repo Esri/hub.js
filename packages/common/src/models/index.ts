@@ -288,6 +288,6 @@ export async function fetchModelResources(
  */
 function shouldClearEmptyFields(item: IItem): boolean {
   return ["description", "snippet", "tags", "categories"].some(
-    (field) => !item[field] || !item[field].length
+    (field) => item[field] === "" || item[field]?.length === 0
   );
 }
