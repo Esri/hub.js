@@ -3,7 +3,7 @@ import { getItem, IItem } from "@esri/arcgis-rest-portal";
 
 import { getFamily } from "../content/get-family";
 import { getHubRelativeUrl } from "../content/_internal/internalContentUtils";
-import { EntityResourceMap, IHubProject } from "../core/types";
+import { IHubProject } from "../core/types";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getItemBySlug } from "../items/slugs";
 import { fetchItemEnrichments } from "../items/_enrichments";
@@ -55,12 +55,6 @@ export async function convertItemToProject(
   requestOptions: IRequestOptions
 ): Promise<IHubProject> {
   const model = await fetchModelFromItem(item, requestOptions);
-  // Fetch resources based on above obj
-  model.resources = await fetchModelResources(
-    item,
-    EntityResourceMap,
-    requestOptions
-  );
   // TODO: In the future we will handle the boundary fetching from resource
   const mapper = new PropertyMapper<Partial<IHubProject>>(getPropertyMap());
   const prj = mapper.modelToObject(model, {}) as IHubProject;
