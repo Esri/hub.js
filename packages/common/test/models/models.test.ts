@@ -11,6 +11,8 @@ import {
   IModel,
   updateModel,
   upsertModelResources,
+  fetchModelResources,
+  EntityResourceMap,
 } from "../../src";
 
 const LOCATION: IHubLocation = {
@@ -307,6 +309,58 @@ describe("model utils:", () => {
       expect(chk.resources).toEqual({
         location: LOCATION,
       });
+    });
+  });
+
+  describe("fetchModelResources", () => {
+    it("fetches model resources", async () => {
+      const fetchResourceSpy = spyOn(
+        portalModule,
+        "getItemResource"
+      ).and.returnValue(Promise.resolve(LOCATION));
+
+      const i = {
+        id: "00c",
+        owner: "fakeOwner",
+        title: "My New Thing",
+        type: "Hub Project",
+        created: 1643663750004,
+        modified: 1643663750007,
+        extent: "1, 2, 3, 4" as unknown as number[][],
+      } as unknown as portalModule.IItem;
+
+      const chk = await fetchModelResources(i, EntityResourceMap, {
+        authentication: MOCK_AUTH,
+      });
+
+      expect(fetchResourceSpy.calls.count()).toBe(1);
+      expect(chk).toEqual({
+        location: LOCATION,
+      });
+    });
+
+    it("rejects model resources", async () => {
+      const fetchResourceSpy = spyOn(
+        portalModule,
+        "getItemResource"
+      ).and.returnValue(Promise.reject("nope"));
+
+      const i = {
+        id: "00c",
+        owner: "fakeOwner",
+        title: "My New Thing",
+        type: "Hub Project",
+        created: 1643663750004,
+        modified: 1643663750007,
+        extent: "1, 2, 3, 4" as unknown as number[][],
+      } as unknown as portalModule.IItem;
+
+      const chk = await fetchModelResources(i, EntityResourceMap, {
+        authentication: MOCK_AUTH,
+      });
+
+      expect(fetchResourceSpy.calls.count()).toBe(1);
+      expect(chk).toEqual({});
     });
   });
 });

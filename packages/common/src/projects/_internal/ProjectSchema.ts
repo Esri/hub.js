@@ -1,10 +1,7 @@
 import { PROJECT_STATUSES, IConfigurationSchema } from "../../core";
-import {
-  ENTITY_EXTENT_SCHEMA,
-  ENTITY_NAME_SCHEMA,
-} from "../../core/schemas/shared";
+import { ENTITY_NAME_SCHEMA } from "../../core/schemas/shared";
 
-export type ProjectEditorType = typeof ProjectEditorTypes[number];
+export type ProjectEditorType = (typeof ProjectEditorTypes)[number];
 export const ProjectEditorTypes = [
   "hub:project:create",
   "hub:project:edit",
@@ -29,7 +26,9 @@ export const ProjectSchema: IConfigurationSchema = {
       default: PROJECT_STATUSES.notStarted,
       enum: Object.keys(PROJECT_STATUSES),
     },
-    extent: ENTITY_EXTENT_SCHEMA,
+    location: {
+      type: "object",
+    },
     tags: {
       type: "array",
       items: {

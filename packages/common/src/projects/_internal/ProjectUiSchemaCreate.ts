@@ -69,10 +69,10 @@ export const uiSchema: IUiSchema = {
               labelKey: "{{i18nScope}}.sections.location.label",
               elements: [
                 {
-                  scope: "/properties/extent",
+                  scope: "/properties/location",
                   type: "Control",
                   options: {
-                    control: "hub-field-input-boundary-picker",
+                    control: "hub-field-input-location-picker",
                   },
                 },
               ],

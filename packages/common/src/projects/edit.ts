@@ -5,7 +5,7 @@ import {
   createModel,
   getModel,
   updateModel,
-  upsertModelResources,
+  // upsertModelResources,
 } from "../models";
 import { constructSlug, getUniqueSlug, setSlugKeyword } from "../items/slugs";
 import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
@@ -39,7 +39,7 @@ export async function createProject(
   partialProject: Partial<IHubProject>,
   requestOptions: IUserRequestOptions
 ): Promise<IHubProject> {
-  let resources;
+  // let resources;
   // merge incoming with the default
   // this expansion solves the typing somehow
   const project = { ...DEFAULT_PROJECT, ...partialProject };
@@ -57,19 +57,19 @@ export async function createProject(
   // create model from object, using the default model as a starting point
   let model = mapper.objectToModel(project, cloneObject(DEFAULT_PROJECT_MODEL));
   // if we have resources disconnect them from the model for now.
-  if (model.resources) {
-    resources = configureBaseResources(
-      cloneObject(model.resources),
-      EntityResourceMap
-    );
-    delete model.resources;
-  }
+  // if (model.resources) {
+  //   resources = configureBaseResources(
+  //     cloneObject(model.resources),
+  //     EntityResourceMap
+  //   );
+  //   delete model.resources;
+  // }
   // create the item
   model = await createModel(model, requestOptions);
   // if we have resources, create them, then re-attach them to the model
-  if (resources) {
-    model = await upsertModelResources(model, resources, requestOptions);
-  }
+  // if (resources) {
+  //   model = await upsertModelResources(model, resources, requestOptions);
+  // }
   // map the model back into a IHubProject
   let newProject = mapper.modelToObject(model, {});
   newProject = computeProps(model, newProject, requestOptions);
@@ -87,7 +87,7 @@ export async function updateProject(
   project: IHubProject,
   requestOptions: IUserRequestOptions
 ): Promise<IHubProject> {
-  let resources;
+  // let resources;
   // verify that the slug is unique, excluding the current project
   project.slug = await getUniqueSlug(
     { slug: project.slug, existingId: project.id },
@@ -102,23 +102,23 @@ export async function updateProject(
   // but this is where we would apply that sort of logic
   const modelToUpdate = mapper.objectToModel(project, model);
   // if we have resources disconnect them from the model for now.
-  if (modelToUpdate.resources) {
-    resources = configureBaseResources(
-      cloneObject(modelToUpdate.resources),
-      EntityResourceMap
-    );
-    delete modelToUpdate.resources;
-  }
+  // if (modelToUpdate.resources) {
+  //   resources = configureBaseResources(
+  //     cloneObject(modelToUpdate.resources),
+  //     EntityResourceMap
+  //   );
+  //   delete modelToUpdate.resources;
+  // }
   // update the backing item
-  let updatedModel = await updateModel(modelToUpdate, requestOptions);
+  const updatedModel = await updateModel(modelToUpdate, requestOptions);
   // if we have resources, create them, then re-attach them to the model
-  if (resources) {
-    updatedModel = await upsertModelResources(
-      updatedModel,
-      resources,
-      requestOptions
-    );
-  }
+  // if (resources) {
+  //   updatedModel = await upsertModelResources(
+  //     updatedModel,
+  //     resources,
+  //     requestOptions
+  //   );
+  // }
   // now map back into a project and return that
   let updatedProject = mapper.modelToObject(updatedModel, project);
   updatedProject = computeProps(model, updatedProject, requestOptions);

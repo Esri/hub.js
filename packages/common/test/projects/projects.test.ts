@@ -24,6 +24,10 @@ import * as slugUtils from "../../src/items/slugs";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { filterSchemaToUiSchema } from "../../src/core/schemas/internal";
 
+const PROJECT_LOCATION: IHubLocation = {
+  type: "custom",
+};
+
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 const PROJECT_ITEM: portalModule.IItem = {
   id: GUID,
@@ -32,6 +36,7 @@ const PROJECT_ITEM: portalModule.IItem = {
   snippet: "fake snippet",
   properties: {
     schemaVersion: 1,
+    location: PROJECT_LOCATION,
   },
   owner: "vader",
   type: "Hub Project",
@@ -46,10 +51,6 @@ const PROJECT_ITEM: portalModule.IItem = {
 
 const PROJECT_DATA = {
   timeline: {},
-};
-
-const PROJECT_LOCATION: IHubLocation = {
-  type: "custom",
 };
 
 const PROJECT_MODEL = {
@@ -125,11 +126,6 @@ describe("HubProjects:", () => {
         Promise.resolve(PROJECT_DATA)
       );
 
-      const getItemResourceSpy = spyOn(
-        portalModule,
-        "getItemResource"
-      ).and.returnValue(Promise.resolve(PROJECT_LOCATION));
-
       const chk = await fetchProject(GUID, {
         authentication: MOCK_AUTH,
       });
@@ -143,8 +139,6 @@ describe("HubProjects:", () => {
       expect(getItemSpy.calls.argsFor(0)[0]).toBe(GUID);
       expect(getItemDataSpy.calls.count()).toBe(1);
       expect(getItemDataSpy.calls.argsFor(0)[0]).toBe(GUID);
-      expect(getItemResourceSpy.calls.count()).toBe(1);
-      expect(getItemResourceSpy.calls.argsFor(0)[0]).toBe(GUID);
     });
 
     it("gets without auth", async () => {
@@ -154,11 +148,6 @@ describe("HubProjects:", () => {
       const getItemDataSpy = spyOn(portalModule, "getItemData").and.returnValue(
         Promise.resolve(PROJECT_DATA)
       );
-
-      const getItemResourceSpy = spyOn(
-        portalModule,
-        "getItemResource"
-      ).and.returnValue(Promise.resolve({}));
       const ro: IRequestOptions = {
         portal: "https://gis.myserver.com/portal/sharing/rest",
       };
@@ -172,8 +161,6 @@ describe("HubProjects:", () => {
       expect(getItemSpy.calls.argsFor(0)[0]).toBe(GUID);
       expect(getItemDataSpy.calls.count()).toBe(1);
       expect(getItemDataSpy.calls.argsFor(0)[0]).toBe(GUID);
-      expect(getItemResourceSpy.calls.count()).toBe(1);
-      expect(getItemResourceSpy.calls.argsFor(0)[0]).toBe(GUID);
     });
 
     it("gets by slug if not passed guid", async () => {
@@ -185,11 +172,6 @@ describe("HubProjects:", () => {
         Promise.resolve(PROJECT_DATA)
       );
 
-      const getItemResourceSpy = spyOn(
-        portalModule,
-        "getItemResource"
-      ).and.returnValue(Promise.resolve({}));
-
       const chk = await fetchProject("dcdev-34th-street", {
         authentication: MOCK_AUTH,
       });
@@ -197,8 +179,6 @@ describe("HubProjects:", () => {
       expect(getItemBySlugSpy.calls.argsFor(0)[0]).toBe("dcdev-34th-street");
       expect(getItemDataSpy.calls.count()).toBe(1);
       expect(getItemDataSpy.calls.argsFor(0)[0]).toBe(GUID);
-      expect(getItemResourceSpy.calls.count()).toBe(1);
-      expect(getItemResourceSpy.calls.argsFor(0)[0]).toBe(GUID);
       expect(chk.id).toBe(GUID);
       expect(chk.owner).toBe("vader");
     });
@@ -216,34 +196,6 @@ describe("HubProjects:", () => {
       expect(getItemBySlugSpy.calls.argsFor(0)[0]).toBe("dcdev-34th-street");
       // This next stuff is O_o but req'd by typescript
       expect(chk).toEqual(null as unknown as IHubProject);
-    });
-
-    it("gets project even if resource is rejected", async () => {
-      const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
-        Promise.resolve(PROJECT_ITEM)
-      );
-      const getItemDataSpy = spyOn(portalModule, "getItemData").and.returnValue(
-        Promise.resolve(PROJECT_DATA)
-      );
-
-      const getItemResourceSpy = spyOn(
-        portalModule,
-        "getItemResource"
-      ).and.returnValue(Promise.reject());
-
-      const chk = await fetchProject(GUID, {
-        authentication: MOCK_AUTH,
-      });
-      expect(chk.id).toBe(GUID);
-      expect(chk.owner).toBe("vader");
-      expect(chk.location).toBe(undefined);
-
-      expect(getItemSpy.calls.count()).toBe(1);
-      expect(getItemSpy.calls.argsFor(0)[0]).toBe(GUID);
-      expect(getItemDataSpy.calls.count()).toBe(1);
-      expect(getItemDataSpy.calls.argsFor(0)[0]).toBe(GUID);
-      expect(getItemResourceSpy.calls.count()).toBe(1);
-      expect(getItemResourceSpy.calls.argsFor(0)[0]).toBe(GUID);
     });
   });
 
@@ -308,16 +260,6 @@ describe("HubProjects:", () => {
           return Promise.resolve(newModel);
         }
       );
-      const resourcesSpy = spyOn(
-        modelUtils,
-        "upsertModelResources"
-      ).and.callFake((m: IModel) => {
-        const newModel = cloneObject(m);
-        newModel.resources = {
-          location: PROJECT_LOCATION,
-        };
-        return Promise.resolve(newModel);
-      });
       const chk = await createProject(
         {
           name: "Hello World",
@@ -343,7 +285,6 @@ describe("HubProjects:", () => {
       expect(modelToCreate.item.properties.slug).toBe("dcdev|hello-world");
       expect(modelToCreate.item.properties.orgUrlKey).toBe("dcdev");
 
-      expect(resourcesSpy.calls.count()).toBe(1);
       expect(chk.location).toEqual(PROJECT_LOCATION);
     });
   });
@@ -401,74 +342,6 @@ describe("HubProjects:", () => {
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.item.description).toBe(prj.description);
       expect(modelToUpdate.item.properties.slug).toBe("dcdev-wat-blarg-1");
-    });
-
-    it("updates backing model w/ resources", async () => {
-      const slugSpy = spyOn(slugUtils, "getUniqueSlug").and.returnValue(
-        Promise.resolve("dcdev-wat-blarg-1")
-      );
-      const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
-        Promise.resolve(PROJECT_MODEL)
-      );
-      const updateModelSpy = spyOn(modelUtils, "updateModel").and.callFake(
-        (m: IModel) => {
-          return Promise.resolve(m);
-        }
-      );
-      const resourcesSpy = spyOn(
-        modelUtils,
-        "upsertModelResources"
-      ).and.callFake((m: IModel) => {
-        const newModel = cloneObject(m);
-        newModel.resources = {
-          location: PROJECT_LOCATION,
-        };
-        return Promise.resolve(newModel);
-      });
-
-      const prj: IHubProject = {
-        itemControl: "edit",
-        id: GUID,
-        name: "Hello World",
-        tags: ["Transportation"],
-        description: "Some longer description",
-        slug: "dcdev-wat-blarg",
-        orgUrlKey: "dcdev",
-        owner: "dcdev_dude",
-        type: "Hub Project",
-        createdDate: new Date(1595878748000),
-        createdDateSource: "item.created",
-        updatedDate: new Date(1595878750000),
-        updatedDateSource: "item.modified",
-        status: PROJECT_STATUSES.inProgress,
-        thumbnailUrl: "",
-        permissions: [],
-        catalog: {
-          schemaVersion: 0,
-        },
-        schemaVersion: 1,
-        canEdit: false,
-        canDelete: false,
-        location: PROJECT_LOCATION,
-      };
-      const chk = await updateProject(prj, { authentication: MOCK_AUTH });
-      expect(chk.id).toBe(GUID);
-      expect(chk.name).toBe("Hello World");
-      expect(chk.description).toBe("Some longer description");
-      // should ensure unique slug
-      expect(slugSpy.calls.count()).toBe(1);
-      expect(slugSpy.calls.argsFor(0)[0]).toEqual(
-        { slug: "dcdev-wat-blarg", existingId: GUID },
-        "should recieve slug"
-      );
-      expect(getModelSpy.calls.count()).toBe(1);
-      expect(updateModelSpy.calls.count()).toBe(1);
-      const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
-      expect(modelToUpdate.item.description).toBe(prj.description);
-      expect(modelToUpdate.item.properties.slug).toBe("dcdev-wat-blarg-1");
-
-      expect(resourcesSpy.calls.count()).toBe(1);
-      expect(chk.location).toEqual(PROJECT_LOCATION);
     });
   });
 
