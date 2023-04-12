@@ -1,235 +1,236 @@
 {
-	"name": "@esri/hub.js",
-	"version": "9.10.0",
-	"description": "compact, modular JavaScript wrappers for ArcGIS Hub that run in Node.js and modern browsers.",
-	"private": true,
-	"workspaces": [
-		"packages/common",
-		"packages/discussions",
-		"packages/downloads",
-		"packages/events",
-		"packages/initiatives",
-		"packages/surveys",
-		"packages/teams",
-		"packages/sites",
-		"packages/surveys",
-		"packages/search",
-		"./demos/*"
-	],
-	"devDependencies": {
-		"@chiragrupani/karma-chromium-edge-launcher": "^2.0.0",
-		"@commitlint/cli": "^11.0.0",
-		"@commitlint/config-conventional": "^11.0.0",
-		"@commitlint/config-lerna-scopes": "^11.0.0",
-		"@commitlint/prompt": "^11.0.0",
+    "name": "@esri/hub.js",
+    "version": "9.10.0",
+    "description": "compact, modular JavaScript wrappers for ArcGIS Hub that run in Node.js and modern browsers.",
+    "private": true,
+    "workspaces": [
+        "packages/common",
+        "packages/discussions",
+        "packages/downloads",
+        "packages/events",
+        "packages/initiatives",
+        "packages/surveys",
+        "packages/teams",
+        "packages/sites",
+        "packages/surveys",
+        "packages/search",
+        "./demos/*"
+    ],
+    "devDependencies": {
+        "@chiragrupani/karma-chromium-edge-launcher": "^2.0.0",
+        "@commitlint/cli": "^11.0.0",
+        "@commitlint/config-conventional": "^11.0.0",
+        "@commitlint/config-lerna-scopes": "^11.0.0",
+        "@commitlint/prompt": "^11.0.0",
     "@esri/arcgis-rest-auth": "^3.1.1",
     "@esri/arcgis-rest-feature-layer": "^3.4.3",
     "@esri/arcgis-rest-portal": "^3.5.0",
     "@esri/arcgis-rest-request": "^3.1.1",
     "@esri/arcgis-rest-types": "^3.1.1",
-		"@semantic-release/changelog": "^6.0.1",
-		"@semantic-release/git": "^10.0.1",
-		"@types/arcgis-js-api": "~4.26.0",
-		"@types/es6-promise": "0.0.32",
-		"@types/fetch-mock": "^7.0.0",
-		"@types/isomorphic-fetch": "0.0.34",
-		"@types/jasmine": "^2.8.2",
-		"@types/node": "^6.0.95",
-		"acetate": "^2.1.0",
-		"acetate-cli": "^1.0.1",
-		"babel-plugin-istanbul": "^6.0.0",
-		"changelog-parser": "^2.1.0",
-		"cheerio": "^1.0.0-rc.2",
-		"codecov": "^3.1.0",
-		"commitizen": "^4.2.1",
-		"concurrently": "^3.5.1",
-		"cpx": "^1.5.0",
-		"cross-spawn": "^5.1.0",
-		"cz-conventional-changelog": "^3.3.0",
-		"cz-lerna-changelog": "^2.0.3",
-		"dasherize": "^2.0.0",
-		"date-fns": "^1.29.0",
-		"dotenv": "^8.2.0",
-		"fetch-mock": "^7.0.0",
-		"gh-pages": "^1.2.0",
-		"gh-release": "^3.4.0",
-		"husky": "^4.3.0",
-		"jasmine": "^3.6.4",
-		"jasmine-core": "3.4.0",
-		"jasmine-ts": "^0.4.0",
-		"karma": "^6.1.0",
-		"karma-chrome-launcher": "^2.2.0",
-		"karma-coverage": "^2.0.3",
-		"karma-env-preprocessor": "^0.1.1",
-		"karma-firefox-launcher": "^1.1.0",
-		"karma-ie-launcher": "^1.0.0",
-		"karma-jasmine": "^2.0.1",
-		"karma-jasmine-diff-reporter": "^1.1.1",
-		"karma-safari-launcher": "^1.0.0",
-		"karma-spec-reporter": "^0.0.32",
-		"karma-typescript": "^5.5.0",
-		"karma-typescript-es6-transform": "^5.5.0",
-		"lerna": "^3.22.1",
-		"lint-staged": "^4.3.0",
-		"madge": "^6.0.0",
-		"minimatch": "^3.0.4",
-		"multi-semantic-release": "^2.11.0",
-		"onchange": "^3.3.0",
-		"prettier": "^2.2.1",
-		"resolve": "^1.5.0",
-		"rimraf": "^2.6.2",
-		"shelljs": "^0.7.8",
-		"slug": "^0.9.1",
-		"ts-node": "^10.2.1",
-		"tslint": "^5.8.0",
-		"tslint-config-prettier": "^1.6.0",
-		"tslint-config-standard": "^6.0.1",
-		"typedoc": "^0.14.2",
-		"typescript": "^3.8.1",
-		"yo": "^3.1.1"
-	},
-	"dependencies": {
-		"cross-fetch": "^3.0.6",
-		"es6-promise": "^4.2.1",
-		"isomorphic-fetch": "^2.2.1",
-		"isomorphic-form-data": "^1.0.0",
-		"node-fetch": "^2.0.1",
-		"tslib": "^1.13.0",
-		"ultra-runner": "^3.10.5"
-	},
-	"scripts": {
-		"build:esm": "npx ultra --build -r filter=\"packages/*\"  build:esm",
-		"build:node": "npx ultra --build -r filter=\"packages/*\"  build:node",
-		"build:tests": "npm run build:esm && npm run build:node",
-		"build": "npm run build:esm && npm run build:node",
-		"c": "npm run precommit && git-cz",
-		"clean:deps": "rm -rf node_modules && rm -rf packages/*/node_modules/",
-		"clean:dist": "rm -rf packages/*/dist/",
-		"clean": "npm run clean:dist & npm run clean:deps",
-		"dev:ember": "npm run dev -- esm \"@esri/hub-common\" & lerna run dev --scope ember-app --parallel",
-		"dev": "support/dev.sh",
-		"docs:build:acetate": "ENV=prod acetate build --config docs/acetate.config.js",
-		"docs:build:css": "cpx \"docs/src/css/*.css\" docs/build/hub.js/css",
-		"docs:build:images": "cpx \"docs/src/**/*.{png,jpg,jpeg,gif,svg,webm,ogg}\" docs/build/hub.js",
-		"docs:build:js": "cpx \"docs/src/**/{api-search,nav-toggle}.js\" docs/build/hub.js",
-		"docs:build": "rimraf docs/build && npm run docs:typedoc && npm run docs:build:acetate && npm run docs:build:css && npm run docs:build:images && npm run docs:build:js",
-		"docs:deploy": "npm run docs:build && node support/deploy-doc-site.js",
-		"docs:dev:acetate": "acetate server --log=debug --config docs/acetate.config.js --startPath hub.js/index.html",
-		"docs:dev:css": "cpx \"docs/src/css/*.css\" docs/build/hub.js/css",
-		"docs:dev:images": "cpx \"docs/src/**/*.{png,jpg,jpeg,gif,svg,webm,ogg}\" docs/build/hub.js -w",
-		"docs:dev:js": "cpx \"docs/src/**/{api-search,nav-toggle}.js\" docs/build/hub.js -w",
-		"docs:dev:typedoc": "onchange -v 'packages/*/src/**/*.ts' -- npm run docs:typedoc",
-		"docs:serve": "rimraf docs/build && concurrently \"npm run docs:dev:js\" \"npm run docs:dev:images\" \"npm run docs:dev:acetate\" \"npm run docs:dev:css\" \"npm run docs:dev:typedoc\"",
-		"docs:srihash": "node docs/generate-srihashes.js",
-		"docs:typedoc": "node docs/build-typedoc.js",
-		"e2e:chrome:debug": "karma start karma.e2e.conf --auto-watch --no-single-run --browsers ChromeDevTools",
-		"e2e:edge:debug": "karma start karma.e2e.conf --auto-watch --no-single-run --browsers Edge",
-		"e2e:node:debug": "node --inspect-brk jasmine --config=jasmine.e2e.json",
-		"e2e:node": "jasmine --config=jasmine.e2e.json",
-		"format:check": "lerna run format:check",
-		"format": "lerna run format",
-		"gen-util": "yo ./scaffolder/index.js",
-		"lint:fix": "tslint --project tsconfig.json --fix",
-		"lint": "tslint --project tsconfig.json",
-		"precommit": "node exit-if-no-staged.js && lint-staged",
-		"predocs:serve": "npm run docs:typedoc",
-		"test:all": "npm run test:node && npm run test:firefox && npm run test:chrome",
-		"test:chrome:ci": "karma start --single-run --browsers ChromeHeadlessCI karma.conf.js",
-		"test:chrome:debug": "karma start --auto-watch --no-single-run --browsers=Chrome",
-		"test:chrome": "karma start --single-run --browsers=Chrome",
-		"test:ci": "npm run test:node && npm run test:chrome:ci && npm run test:firefox",
-		"test:firefox:ci": "karma start --single-run --browsers=FirefoxHeadless",
-		"test:firefox": "karma start --single-run --browsers=Firefox",
-		"test:firefox:debug": "karma start --auto-watch --no-single-run --browsers=Firefox",
-		"test:node:debug": "inspect jasmine --config=jasmine.json",
-		"test:node": "jasmine-ts --config=jasmine.json --project tsconfig.json",
-		"test:node1": "jasmine --config=jasmine.json ",
-		"test": "npm run test:node && npm run test:chrome",
-		"tsc:v": "lerna run tsc:v",
-		"y:publish": "lerna run y:publish",
-		"y:push": "lerna run y:push",
-		"release:dry": "multi-semantic-release --dry-run --deps.prefix=^ --deps.bump=satisfy --deps.release=inherit --ignore-private-packages --debug",
-		"prerelease": "npm config set workspaces-update false",
-		"release": "multi-semantic-release --deps.prefix=^ --deps.bump=satisfy --deps.release=inherit --ignore-private-packages"
-	},
-	"husky": {
-		"hooks": {
-			"commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-			"pre-commit": "npm run precommit"
-		}
-	},
-	"lint-staged": {
-		"*.ts": [
-			"prettier --write --parser typescript --tab-width 2 --use-tabs false",
-			"tslint",
-			"git add"
-		]
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/Esri/hub.js.git"
-	},
-	"contributors": [
-		{
-			"name": "Dave Bouwman",
-			"email": "dbouwman@esri.com"
-		},
-		{
-			"name": "Tom Wayson",
-			"email": "twayson@esri.com"
-		},
-		{
-			"name": "John Gravois",
-			"email": "john@esri.com"
-		}
-	],
-	"license": "Apache-2.0",
-	"bugs": {
-		"url": "https://github.com/Esri/hub.js/issues"
-	},
-	"homepage": "https://github.com/Esri/hub.js#readme",
-	"config": {
-		"commitizen": {
-			"path": "cz-lerna-changelog"
-		}
-	},
-	"volta": {
-		"node": "16.19.0",
-		"npm": "7.24.2"
-	},
-	"release": {
-		"branches": [
-			"master",
-			{
-				"name": "next",
-				"prerelease": true
-			},
-			"next-major",
-			{
-				"name": "beta",
-				"prerelease": true
-			},
-			{
-				"name": "alpha",
-				"prerelease": true
-			}
-		],
-		"tagFormat": "${name}@${version}",
-		"plugins": [
-			"@semantic-release/commit-analyzer",
-			"@semantic-release/release-notes-generator",
-			"@semantic-release/changelog",
-			"@semantic-release/npm",
-			"@semantic-release/git"
-		]
-	},
-	"madge": {
-		"fontSize": "10px",
-		"tsConfig": "tsconfig.json",
-		"graphVizOptions": {
-			"G": {
-				"rankdir": "LR"
-			}
-		}
-	}
+        "@semantic-release/changelog": "^6.0.1",
+        "@semantic-release/git": "^10.0.1",
+        "@types/arcgis-js-api": "~4.26.0",
+        "@types/es6-promise": "0.0.32",
+        "@types/fetch-mock": "^7.0.0",
+        "@types/isomorphic-fetch": "0.0.34",
+        "@types/jasmine": "^2.8.2",
+        "@types/node": "^6.0.95",
+        "acetate": "^2.1.0",
+        "acetate-cli": "^1.0.1",
+        "babel-plugin-istanbul": "^6.0.0",
+        "changelog-parser": "^2.1.0",
+        "cheerio": "^1.0.0-rc.2",
+        "codecov": "^3.1.0",
+        "commitizen": "^4.2.1",
+        "concurrently": "^3.5.1",
+        "cpx": "^1.5.0",
+        "cross-spawn": "^5.1.0",
+        "cz-conventional-changelog": "^3.3.0",
+        "cz-lerna-changelog": "^2.0.3",
+        "dasherize": "^2.0.0",
+        "date-fns": "^1.29.0",
+        "dotenv": "^8.2.0",
+        "fast-xml-parser": "^4.2.0",
+        "fetch-mock": "^7.0.0",
+        "gh-pages": "^1.2.0",
+        "gh-release": "^3.4.0",
+        "husky": "^4.3.0",
+        "jasmine": "^3.6.4",
+        "jasmine-core": "3.4.0",
+        "jasmine-ts": "^0.4.0",
+        "karma": "^6.1.0",
+        "karma-chrome-launcher": "^2.2.0",
+        "karma-coverage": "^2.0.3",
+        "karma-env-preprocessor": "^0.1.1",
+        "karma-firefox-launcher": "^1.1.0",
+        "karma-ie-launcher": "^1.0.0",
+        "karma-jasmine": "^2.0.1",
+        "karma-jasmine-diff-reporter": "^1.1.1",
+        "karma-safari-launcher": "^1.0.0",
+        "karma-spec-reporter": "^0.0.32",
+        "karma-typescript": "^5.5.0",
+        "karma-typescript-es6-transform": "^5.5.0",
+        "lerna": "^3.22.1",
+        "lint-staged": "^4.3.0",
+        "madge": "^6.0.0",
+        "minimatch": "^3.0.4",
+        "multi-semantic-release": "^2.11.0",
+        "onchange": "^3.3.0",
+        "prettier": "^2.2.1",
+        "resolve": "^1.5.0",
+        "rimraf": "^2.6.2",
+        "shelljs": "^0.7.8",
+        "slug": "^0.9.1",
+        "ts-node": "^10.2.1",
+        "tslint": "^5.8.0",
+        "tslint-config-prettier": "^1.6.0",
+        "tslint-config-standard": "^6.0.1",
+        "typedoc": "^0.14.2",
+        "typescript": "^3.8.1",
+        "yo": "^3.1.1"
+    },
+    "dependencies": {
+        "cross-fetch": "^3.0.6",
+        "es6-promise": "^4.2.1",
+        "isomorphic-fetch": "^2.2.1",
+        "isomorphic-form-data": "^1.0.0",
+        "node-fetch": "^2.0.1",
+        "tslib": "^1.13.0",
+        "ultra-runner": "^3.10.5"
+    },
+    "scripts": {
+        "build:esm": "npx ultra --build -r filter=\"packages/*\"  build:esm",
+        "build:node": "npx ultra --build -r filter=\"packages/*\"  build:node",
+        "build:tests": "npm run build:esm && npm run build:node",
+        "build": "npm run build:esm && npm run build:node",
+        "c": "npm run precommit && git-cz",
+        "clean:deps": "rm -rf node_modules && rm -rf packages/*/node_modules/",
+        "clean:dist": "rm -rf packages/*/dist/",
+        "clean": "npm run clean:dist & npm run clean:deps",
+        "dev:ember": "npm run dev -- esm \"@esri/hub-common\" & lerna run dev --scope ember-app --parallel",
+        "dev": "support/dev.sh",
+        "docs:build:acetate": "ENV=prod acetate build --config docs/acetate.config.js",
+        "docs:build:css": "cpx \"docs/src/css/*.css\" docs/build/hub.js/css",
+        "docs:build:images": "cpx \"docs/src/**/*.{png,jpg,jpeg,gif,svg,webm,ogg}\" docs/build/hub.js",
+        "docs:build:js": "cpx \"docs/src/**/{api-search,nav-toggle}.js\" docs/build/hub.js",
+        "docs:build": "rimraf docs/build && npm run docs:typedoc && npm run docs:build:acetate && npm run docs:build:css && npm run docs:build:images && npm run docs:build:js",
+        "docs:deploy": "npm run docs:build && node support/deploy-doc-site.js",
+        "docs:dev:acetate": "acetate server --log=debug --config docs/acetate.config.js --startPath hub.js/index.html",
+        "docs:dev:css": "cpx \"docs/src/css/*.css\" docs/build/hub.js/css",
+        "docs:dev:images": "cpx \"docs/src/**/*.{png,jpg,jpeg,gif,svg,webm,ogg}\" docs/build/hub.js -w",
+        "docs:dev:js": "cpx \"docs/src/**/{api-search,nav-toggle}.js\" docs/build/hub.js -w",
+        "docs:dev:typedoc": "onchange -v 'packages/*/src/**/*.ts' -- npm run docs:typedoc",
+        "docs:serve": "rimraf docs/build && concurrently \"npm run docs:dev:js\" \"npm run docs:dev:images\" \"npm run docs:dev:acetate\" \"npm run docs:dev:css\" \"npm run docs:dev:typedoc\"",
+        "docs:srihash": "node docs/generate-srihashes.js",
+        "docs:typedoc": "node docs/build-typedoc.js",
+        "e2e:chrome:debug": "karma start karma.e2e.conf --auto-watch --no-single-run --browsers ChromeDevTools",
+        "e2e:edge:debug": "karma start karma.e2e.conf --auto-watch --no-single-run --browsers Edge",
+        "e2e:node:debug": "node --inspect-brk jasmine --config=jasmine.e2e.json",
+        "e2e:node": "jasmine --config=jasmine.e2e.json",
+        "format:check": "lerna run format:check",
+        "format": "lerna run format",
+        "gen-util": "yo ./scaffolder/index.js",
+        "lint:fix": "tslint --project tsconfig.json --fix",
+        "lint": "tslint --project tsconfig.json",
+        "precommit": "node exit-if-no-staged.js && lint-staged",
+        "predocs:serve": "npm run docs:typedoc",
+        "test:all": "npm run test:node && npm run test:firefox && npm run test:chrome",
+        "test:chrome:ci": "karma start --single-run --browsers ChromeHeadlessCI karma.conf.js",
+        "test:chrome:debug": "karma start --auto-watch --no-single-run --browsers=Chrome",
+        "test:chrome": "karma start --single-run --browsers=Chrome",
+        "test:ci": "npm run test:node && npm run test:chrome:ci && npm run test:firefox",
+        "test:firefox:ci": "karma start --single-run --browsers=FirefoxHeadless",
+        "test:firefox": "karma start --single-run --browsers=Firefox",
+        "test:firefox:debug": "karma start --auto-watch --no-single-run --browsers=Firefox",
+        "test:node:debug": "inspect jasmine --config=jasmine.json",
+        "test:node": "jasmine-ts --config=jasmine.json --project tsconfig.json",
+        "test:node1": "jasmine --config=jasmine.json ",
+        "test": "npm run test:node && npm run test:chrome",
+        "tsc:v": "lerna run tsc:v",
+        "y:publish": "lerna run y:publish",
+        "y:push": "lerna run y:push",
+        "release:dry": "multi-semantic-release --dry-run --deps.prefix=^ --deps.bump=satisfy --deps.release=inherit --ignore-private-packages --debug",
+        "prerelease": "npm config set workspaces-update false",
+        "release": "multi-semantic-release --deps.prefix=^ --deps.bump=satisfy --deps.release=inherit --ignore-private-packages"
+    },
+    "husky": {
+        "hooks": {
+            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+            "pre-commit": "npm run precommit"
+        }
+    },
+    "lint-staged": {
+        "*.ts": [
+            "prettier --write --parser typescript --tab-width 2 --use-tabs false",
+            "tslint",
+            "git add"
+        ]
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Esri/hub.js.git"
+    },
+    "contributors": [
+        {
+            "name": "Dave Bouwman",
+            "email": "dbouwman@esri.com"
+        },
+        {
+            "name": "Tom Wayson",
+            "email": "twayson@esri.com"
+        },
+        {
+            "name": "John Gravois",
+            "email": "john@esri.com"
+        }
+    ],
+    "license": "Apache-2.0",
+    "bugs": {
+        "url": "https://github.com/Esri/hub.js/issues"
+    },
+    "homepage": "https://github.com/Esri/hub.js#readme",
+    "config": {
+        "commitizen": {
+            "path": "cz-lerna-changelog"
+        }
+    },
+    "volta": {
+        "node": "16.19.0",
+        "npm": "7.24.2"
+    },
+    "release": {
+        "branches": [
+            "master",
+            {
+                "name": "next",
+                "prerelease": true
+            },
+            "next-major",
+            {
+                "name": "beta",
+                "prerelease": true
+            },
+            {
+                "name": "alpha",
+                "prerelease": true
+            }
+        ],
+        "tagFormat": "${name}@${version}",
+        "plugins": [
+            "@semantic-release/commit-analyzer",
+            "@semantic-release/release-notes-generator",
+            "@semantic-release/changelog",
+            "@semantic-release/npm",
+            "@semantic-release/git"
+        ]
+    },
+    "madge": {
+        "fontSize": "10px",
+        "tsConfig": "tsconfig.json",
+        "graphVizOptions": {
+            "G": {
+                "rankdir": "LR"
+            }
+        }
+    }
 }
