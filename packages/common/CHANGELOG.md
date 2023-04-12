@@ -1,3 +1,17 @@
+# @esri/hub-common [12.26.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.25.0...@esri/hub-common@12.26.0) (2023-04-12)
+
+
+### Bug Fixes
+
+* fix tests ([0c21983](https://github.com/Esri/hub.js/commit/0c219834110e08e7a6c1bd73407fb294cbc48f1a))
+* fix tests ([e081cee](https://github.com/Esri/hub.js/commit/e081cee3d9c9f116f7feda29a732992c9cdb614b))
+* tests ([21016d3](https://github.com/Esri/hub.js/commit/21016d3725fbea76cd5697b1c8baba1a12fc3998))
+
+
+### Features
+
+* **hub-common:** add default categories to project and handlers for clearing tags and categories ([816ff81](https://github.com/Esri/hub.js/commit/816ff818582998515a7e933d155012b9da1ff245))
+
 # @esri/hub-common [12.25.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.24.0...@esri/hub-common@12.25.0) (2023-04-12)
 
 
