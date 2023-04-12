@@ -208,7 +208,7 @@ describe("model utils:", () => {
       expect(opts.item.extent).toBe("1, 2, 3, 4" as unknown as number[][]);
       expect(opts.item.description).toBe("");
 
-      m.item.description = "mock description";
+      m.item.description = "This is a description";
       chk = await updateModel(m, {
         authentication: MOCK_AUTH,
       });
