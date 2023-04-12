@@ -6,8 +6,8 @@
  * @return {*}
  */
 export function configureBaseResources(
-  resources: any,
-  entityResourceMap: any
+  resources: Record<string, any>,
+  entityResourceMap: Record<string, string>
 ): Array<{ filename: string; resource: any }> {
   return Object.entries(resources).reduce((acc, resourceProp) => {
     const fileName = entityResourceMap[resourceProp[0]];
