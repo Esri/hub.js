@@ -18,6 +18,7 @@ export function getBasePropertyMap(): IPropertyMap[] {
     "modified",
     "owner",
     "tags",
+    "categories",
     "type",
     "typeKeywords",
     "thumbnail",

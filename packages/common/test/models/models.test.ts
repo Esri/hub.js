@@ -181,6 +181,8 @@ describe("model utils:", () => {
             [1, 2],
             [3, 4],
           ],
+          tags: [],
+          categories: [],
         },
         data: {
           some: "data",
@@ -188,7 +190,7 @@ describe("model utils:", () => {
       } as unknown as IModel;
       // depending how fast tests run, the modified date we're faking may be a bit off
       const ts = new Date().getTime() - 100;
-      const chk = await updateModel(m, {
+      let chk = await updateModel(m, {
         authentication: MOCK_AUTH,
       });
       expect(chk.item.id).toBe("00c");
@@ -197,7 +199,7 @@ describe("model utils:", () => {
       expect(getItemSpy.calls.count()).toBe(1);
       expect(getItemDataSpy.calls.count()).toBe(1);
       expect(updateItemSpy.calls.count()).toBe(1);
-      const opts = updateItemSpy.calls.argsFor(
+      let opts = updateItemSpy.calls.argsFor(
         0
       )[0] as unknown as portalModule.IUpdateItemOptions;
 
@@ -207,6 +209,17 @@ describe("model utils:", () => {
       expect(opts.item.data).toBeDefined();
       expect(opts.item.extent).toBe("1, 2, 3, 4" as unknown as number[][]);
       expect(opts.item.description).toBe("");
+
+      m.item.description = "This is a description";
+      chk = await updateModel(m, {
+        authentication: MOCK_AUTH,
+      });
+      opts = updateItemSpy.calls.argsFor(
+        0
+      )[0] as unknown as portalModule.IUpdateItemOptions;
+      expect(opts?.params?.clearEmptyFields).toBeTruthy();
+      expect(opts.item.tags).toEqual([]);
+      expect(opts.item.categories).toEqual([]);
     });
     it("updates a model w/ extent as string", async () => {
       const updateItemSpy = spyOn(portalModule, "updateItem").and.returnValue(
