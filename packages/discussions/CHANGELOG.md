@@ -1,3 +1,15 @@
+# @esri/hub-discussions [22.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@21.0.1...@esri/hub-discussions@22.0.0) (2023-04-14)
+
+
+### Features
+
+* **hub-discussions:** remove settings from ChannelRelation ([a780eb3](https://github.com/Esri/hub.js/commit/a780eb3f0829d53b7ee507b89d490d30c595b3fd))
+
+
+### BREAKING CHANGES
+
+* **hub-discussions:** settings is no longer an available ChannelRelation
+
 ## @esri/hub-discussions [21.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@21.0.0...@esri/hub-discussions@21.0.1) (2023-04-03)
 
 
