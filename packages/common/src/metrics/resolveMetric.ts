@@ -1,0 +1,197 @@
+import { IArcGISContext } from "../ArcGISContext";
+import {
+  IItemQueryMetricSource,
+  IMetric,
+  IMetricResult,
+  IServiceQueryMetricSource,
+  IStaticValueMetricSource,
+  MetricSource,
+} from "../core/types/Metrics";
+import { queryFeatures } from "@esri/arcgis-rest-feature-layer";
+import { IItem, IStatisticDefinition } from "@esri/arcgis-rest-types";
+import { getProp } from "../objects/get-prop";
+import { IPredicate, IQuery } from "../search/types/IHubCatalog";
+import { combineQueries } from "../search/_internal/combineQueries";
+import { IHubSearchOptions } from "../search/types/IHubSearchOptions";
+import { memoize } from "../utils/memoize";
+import { portalSearchItemsAsItems } from "../search/_internal/portalSearchItems";
+
+/**
+ * Resolve a Metric into an array of `IMetricResult` objects.
+ * This implementation is similar to DynamicValues, but is just different
+ * enough to warrant a separate implementation.
+ * @param metric
+ * @param context
+ * @returns
+ */
+export async function resolveMetric(
+  metric: IMetric,
+  context: IArcGISContext
+): Promise<IMetricResult[]> {
+  // At this point the source references should have been resolved
+  // so we can force case to a MetricSource and switch on the type
+  const source = metric.source as MetricSource;
+
+  // call the appropriate resolver
+  switch (source.metricType) {
+    case "static-value":
+      return resolveStaticValueMetric(metric, context);
+
+    case "service-query":
+      return resolveServiceQueryMetric(metric, context);
+
+    case "item-query":
+      return resolveItemQueryMetric(metric, context);
+
+    default:
+      throw new Error(`Unknown metric type passed in.`);
+  }
+}
+
+/**
+ * Resolve a static value metric
+ * @param metric
+ * @param context
+ * @returns
+ */
+function resolveStaticValueMetric(
+  metric: IMetric,
+  context: IArcGISContext
+): Promise<IMetricResult[]> {
+  const source = metric.source as IStaticValueMetricSource;
+  const result: IMetricResult = {
+    ...metric.sourceInfo,
+    value: source.value,
+  };
+  return Promise.resolve([result]);
+}
+
+/**
+ * Exequte a query against a service and return the aggregate value
+ * in an `IMetricResult`
+ * @param metric
+ * @param context
+ * @returns
+ */
+async function resolveServiceQueryMetric(
+  metric: IMetric,
+  context: IArcGISContext
+): Promise<IMetricResult[]> {
+  const source = metric.source as IServiceQueryMetricSource;
+  // If no where is provided, default to "1=1"
+  source.where = source.where || "1=1";
+
+  // Construct the stats definition
+  const statsDef: IStatisticDefinition = {
+    onStatisticField: source.field,
+    statisticType: source.statistic,
+    outStatisticFieldName: source.field,
+  };
+  // construct the url by appending the layer id if provided
+  const serviceUrl = source.serviceUrl + `/${source.layerId}`;
+  // Execute the query
+  const response = await queryFeatures({
+    url: serviceUrl,
+    where: source.where as string,
+    f: "json",
+    outStatistics: [statsDef],
+    authentication: context.requestOptions.authentication,
+  });
+
+  // TODO: If we enable more stats, we will need to update
+  // how we fetch the values out of the response
+  const aggregate = getProp(response, `features[0].attributes.${source.field}`);
+
+  const result: IMetricResult = {
+    ...metric.sourceInfo,
+    value: aggregate,
+  };
+
+  return [result];
+}
+
+async function resolveItemQueryMetric(
+  metric: IMetric,
+  context: IArcGISContext
+): Promise<IMetricResult[]> {
+  const source = metric.source as IItemQueryMetricSource;
+
+  // create the query from the source properties
+  const predicate: IPredicate = {
+    typekeywords: source.keywords,
+  };
+  if (source.itemTypes) {
+    predicate.type = source.itemTypes;
+  }
+
+  const baseQuery: IQuery = {
+    targetEntity: "item",
+    filters: [
+      {
+        operation: "AND",
+        predicates: [predicate],
+      },
+    ],
+  };
+
+  const scope = (source.scope as IQuery) || {
+    targetEntity: "item",
+    filters: [],
+  };
+
+  const combined = combineQueries([baseQuery, scope]);
+
+  const opts: IHubSearchOptions = {
+    requestOptions: context.hubRequestOptions,
+    num: 100,
+  };
+  // create/get memoized version of portalSearchItemsAsItems
+  const memoizedPortalSearch = memoize(portalSearchItemsAsItems);
+  // Execute the query
+  const response = await memoizedPortalSearch(combined, opts);
+
+  // This next section is all promise based so that a dynamic value
+  // can itself be a dynamic value definition, which then needs to be
+  // resolved.
+
+  const promises = await response.results.reduce(
+    async (valsPromise: any, item: IItem) => {
+      const vals = await valsPromise;
+      const valueFromItem = getProp(item, source.propertyPath);
+
+      const result: IMetricResult = {
+        metricId: metric.id,
+        id: item.id,
+        label: item.title,
+        type: item.type,
+        value: null,
+      };
+      // Handle case where value is not found...
+      // e.g. the project exists but the metric is not defined yet
+      if (valueFromItem) {
+        // This block is needed if we are just plucking a value from the item
+        // e.g. item.views or item.access
+        if (
+          typeof valueFromItem === "string" ||
+          typeof valueFromItem === "number"
+        ) {
+          result.value = valueFromItem;
+          vals.push(Promise.resolve([result]));
+        } else {
+          // valueFromItem is itself a metric so we call resolveDynamicValues again
+          // attach in the value source, so it's present for the next level of recursion
+          valueFromItem.sourceInfo = result;
+          const vResult = await resolveMetric(valueFromItem, context);
+          vals.push(...vResult);
+        }
+      }
+      return vals;
+    },
+    Promise.resolve([] as any[])
+  );
+
+  // let everything resolve
+  const outputs = (await Promise.all(promises)) as IMetricResult[];
+  // return the results
+  return outputs;
+}

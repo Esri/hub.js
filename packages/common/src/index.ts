@@ -35,6 +35,7 @@ export * from "./users";
 export * from "./util";
 export * from "./utils";
 export * from "./versioning";
+export * from "./metrics";
 // Unclear _why_ this needs to be here vs in core/index.ts
 // but if it's not here, the function is not exported
 export * from "./core/updateHubEntity";

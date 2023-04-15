@@ -1,5 +1,6 @@
 import { IQuery } from "../../search/types/IHubCatalog";
 import { IConfigurationSchema } from "../schemas";
+import { IReference } from "./IReference";
 
 /**
  * The source for a dynamic value. Used to determine how to resolve the value
@@ -79,14 +80,6 @@ export interface IDynamicPortalSelfDefinition extends IBaseValueDefinition {
    * The path to the property on the portal/self response to return
    */
   sourcePath: string;
-}
-
-/**
- * Interface for a reference to another value in the same object graph.
- * Can be used with `getProp(obj, ref.$use)` to get the value of the referenced property
- */
-export interface IReference {
-  $use: string;
 }
 
 /**

@@ -21,3 +21,5 @@ export * from "./IServerEnrichments";
 export * from "./ISystemStatus";
 export * from "./types";
 export * from "./DynamicValues";
+export * from "./IReference";
+export * from "./Metrics";
