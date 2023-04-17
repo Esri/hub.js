@@ -64,7 +64,7 @@ describe("WellKnownCatalog", () => {
     it("does not throw if not passing a user for a catalog that does not require it", () => {
       const chk = getWellKnownCatalog("mockI18nScope", "world", "item");
       expect(chk.scopes?.item?.filters).toEqual([
-        { predicates: [{ access: "public" }] },
+        { predicates: [{ type: { not: ["code attachment"] } }] },
       ]);
     });
     it("throws if passed an invalid entity type", () => {
