@@ -153,7 +153,7 @@ function getWellknownItemCatalog(
       catalog = buildCatalog(
         i18nScope,
         name,
-        [{ orgid: options.user.orgId, access: "org" }],
+        [{ orgid: options.user.orgId }],
         collections
       );
       break;
@@ -161,7 +161,7 @@ function getWellknownItemCatalog(
       catalog = buildCatalog(
         i18nScope,
         name,
-        [{ access: "public" }],
+        [{ type: { not: ["code attachment"] } }],
         collections
       );
       break;
