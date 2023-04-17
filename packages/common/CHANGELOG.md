@@ -1,3 +1,10 @@
+## @esri/hub-common [12.27.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.27.0...@esri/hub-common@12.27.1) (2023-04-17)
+
+
+### Bug Fixes
+
+* remove access lines and update tests ([e1db890](https://github.com/Esri/hub.js/commit/e1db89012f7a43574d4f1de5309219baffbeb2bc))
+
 # @esri/hub-common [12.27.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.26.0...@esri/hub-common@12.27.0) (2023-04-17)
 
 
