@@ -10,3 +10,4 @@ export * from "./deep-string-replace";
 export * from "./merge-objects";
 export * from "./set-prop";
 export * from "./deepFind";
+export * from "./resolveReferences";
