@@ -3,6 +3,7 @@ import {
   ArcGISContextManager,
   IArcGISContext,
   DynamicValueDefinition,
+  clearMemoizedCache,
 } from "../../../src";
 import { resolvePortalValues } from "../../../src/utils/internal/resolvePortalValues";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
@@ -41,6 +42,9 @@ describe("resolvePortalValues:", () => {
       sourcePath: "orgKey",
       outPath: "urlKey",
     };
+    // since spies don't have a `.name` property the
+    // memoization cache just have an entry for ``
+    clearMemoizedCache("");
     const fnSpy = spyOn(portal, "getSelf").and.callFake(() =>
       Promise.resolve({
         fake: "portal",

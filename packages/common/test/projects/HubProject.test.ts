@@ -1,5 +1,5 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
-import { IHubProject, UiSchemaElementOptions } from "../../src";
+import { IHubProject, IMetricFeature, UiSchemaElementOptions } from "../../src";
 import { Catalog } from "../../src/search";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubProject } from "../../src/projects/HubProject";
@@ -7,7 +7,7 @@ import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as editModule from "../../src/projects/edit";
 import * as fetchModule from "../../src/projects/fetch";
 import * as schemasModule from "../../src/core/schemas/getEntityEditorSchemas";
-
+import * as ResolveMetricModule from "../../src/metrics/resolveMetric";
 describe("HubProject Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
   let unauthdCtxMgr: ArcGISContextManager;
@@ -252,5 +252,54 @@ describe("HubProject Class:", () => {
     chk.update({ catalog: { schemaVersion: 2 } });
     expect(chk.toJson().catalog).toEqual({ schemaVersion: 2 });
     expect(chk.catalog.schemaVersion).toEqual(2);
+  });
+  describe("resolveMetrics:", () => {
+    it("throws if requested metric is not found", async () => {
+      const chk = HubProject.fromJson(
+        {
+          name: "Test Project",
+        },
+        authdCtxMgr.context
+      );
+      try {
+        await chk.resolveMetric("projectBudget_00c");
+      } catch (e) {
+        expect(e.message).toEqual("Metric projectBudget_00c not found.");
+      }
+    });
+
+    it("delegates to resolveMetric", async () => {
+      const spy = spyOn(ResolveMetricModule, "resolveMetric").and.callFake(
+        () => {
+          return Promise.resolve([] as IMetricFeature[]);
+        }
+      );
+      const chk = HubProject.fromJson(
+        {
+          name: "Test Project",
+          metrics: [
+            {
+              id: "projectBudget_00c",
+              name: "Project Budget",
+              source: {
+                metricType: "static-value",
+                value: 100000,
+              },
+              sourceInfo: {
+                metricId: "projectBudget_00c",
+                id: "00c",
+                label: "Some Project Name",
+                type: "Hub Project",
+              },
+            },
+          ],
+        },
+        authdCtxMgr.context
+      );
+
+      const result = await chk.resolveMetric("projectBudget_00c");
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(result).toEqual([]);
+    });
   });
 });

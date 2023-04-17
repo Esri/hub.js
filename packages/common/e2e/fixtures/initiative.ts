@@ -30,8 +30,8 @@ const model: IModel = {
           description: "Initiative Contractor",
           source: {
             metricType: "item-query",
-            keyword: ["initiative|00c"],
-            types: ["Hub Project"],
+            keywords: ["initiative|00c"],
+            itemTypes: ["Hub Project"],
             collectionKey: "projects",
           },
         },
@@ -42,8 +42,8 @@ const model: IModel = {
           units: "USD",
           source: {
             metricType: "item-query",
-            keyword: ["initiative|00c"],
-            types: ["Hub Project"],
+            keywords: ["initiative|00c"],
+            itemTypes: ["Hub Project"],
             collectionKey: "projects",
           },
         },

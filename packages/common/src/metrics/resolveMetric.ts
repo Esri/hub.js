@@ -64,7 +64,9 @@ function resolveStaticValueMetric(
   const fieldName = metric.id.split("_")[0];
   const result: IMetricFeature = {
     attributes: {
-      ...metric.sourceInfo,
+      id: metric.sourceInfo.id,
+      label: metric.sourceInfo.label,
+      type: metric.sourceInfo.type,
       [fieldName]: source.value,
     },
   };
@@ -112,7 +114,9 @@ async function resolveServiceQueryMetric(
 
   const result: IMetricFeature = {
     attributes: {
-      ...metric.sourceInfo,
+      id: metric.sourceInfo.id,
+      label: metric.sourceInfo.label,
+      type: metric.sourceInfo.type,
       [fieldName]: aggregate,
     },
   };
@@ -189,7 +193,7 @@ async function resolveItemQueryMetric(
           typeof valueFromItem === "number"
         ) {
           result.attributes[fieldName] = valueFromItem;
-          vals.push(Promise.resolve([result]));
+          vals.push(Promise.resolve(result));
         } else {
           // valueFromItem is itself a metric so we call resolveDynamicValues again
           // attach in the value source, so it's present for the next level of recursion

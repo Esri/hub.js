@@ -142,7 +142,7 @@ export interface IItemQueryMetricSource {
   /**
    * Item types to limit the search
    */
-  itemTypes: string[];
+  itemTypes?: string[];
   /**
    * Key of the collection to further limit the search
    * This is resolved into an `IQuery` in the pre-processing step.

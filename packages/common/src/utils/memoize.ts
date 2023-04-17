@@ -23,12 +23,11 @@ const memoizedFnCache: Record<string, any> = {};
 export const memoize = <ARGS extends unknown[], RET>(
   fn: (...args: ARGS) => RET
 ) => {
-  if (!memoizedFnCache[fn.name]) {
+  if (!memoizedFnCache[`_${fn.name}`]) {
     const cache: Record<string, RET> = {};
 
     const memoizedFn = (...args: ARGS) => {
       const cacheKey = createCacheKeyFromArgs(args);
-
       if (cache[cacheKey]) {
         return cache[cacheKey];
       }
@@ -37,9 +36,9 @@ export const memoize = <ARGS extends unknown[], RET>(
       cache[cacheKey] = asyncFn;
       return asyncFn;
     };
-    memoizedFnCache[fn.name] = memoizedFn;
+    memoizedFnCache[`_${fn.name}`] = memoizedFn;
   }
-  return memoizedFnCache[fn.name];
+  return memoizedFnCache[`_${fn.name}`];
 };
 
 /**
@@ -47,5 +46,5 @@ export const memoize = <ARGS extends unknown[], RET>(
  * @param fn
  */
 export const clearMemoizedCache = (fnName: string) => {
-  delete memoizedFnCache[fnName];
+  delete memoizedFnCache[`_${fnName}`];
 };
