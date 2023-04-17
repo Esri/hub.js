@@ -1,3 +1,10 @@
+# @esri/hub-common [12.27.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.26.0...@esri/hub-common@12.27.0) (2023-04-17)
+
+
+### Features
+
+* add resolveReferences function ([#1027](https://github.com/Esri/hub.js/issues/1027)) ([d973238](https://github.com/Esri/hub.js/commit/d973238d1119cb12d8b774b82798de5d3926e298))
+
 # @esri/hub-common [12.26.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.25.0...@esri/hub-common@12.26.0) (2023-04-12)
 
 
