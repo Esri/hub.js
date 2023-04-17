@@ -155,9 +155,14 @@ export interface IItemQueryMetricSource {
   scope?: IQuery;
 }
 
+export interface IMetricAttributes extends IMetricSourceInfo {
+  [key: string]: number | string | null;
+}
+
 /**
  * Output of a metric, which merges the source info (id, label, type) with the value
  */
-export interface IMetricResult extends IMetricSourceInfo {
-  value: number | string;
+export interface IMetricFeature {
+  attributes: IMetricAttributes;
+  geometry?: __esri.Geometry;
 }

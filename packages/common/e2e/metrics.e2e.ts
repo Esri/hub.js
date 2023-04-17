@@ -88,9 +88,9 @@ fdescribe("metrics development harness:", () => {
       const resolved = await resolveMetric(metrics[0], context);
       expect(resolved).toBeDefined();
       const resolvedMetric = resolved[0];
-      expect(resolvedMetric.id).toEqual(ITEMS.projects[0]);
-      expect(resolvedMetric.metricId).toEqual(metrics[0].id);
-      expect(resolvedMetric.type).toEqual("Hub Project");
+      expect(resolvedMetric.attributes.id).toEqual(ITEMS.projects[0]);
+      expect(resolvedMetric.attributes.contractor).toBeDefined();
+      expect(resolvedMetric.attributes.type).toEqual("Hub Project");
     });
     it("resolve dynamic via function:", async () => {
       const ctxMgr = await factory.getContextManager(orgName, "admin");
@@ -101,9 +101,9 @@ fdescribe("metrics development harness:", () => {
       const resolved = await resolveMetric(metrics[1], context);
       expect(resolved).toBeDefined();
       const resolvedMetric = resolved[0];
-      expect(resolvedMetric.id).toEqual(ITEMS.projects[0]);
-      expect(resolvedMetric.metricId).toEqual(metrics[1].id);
-      expect(resolvedMetric.type).toEqual("Hub Project");
+      expect(resolvedMetric.attributes.id).toEqual(ITEMS.projects[0]);
+      expect(resolvedMetric.attributes.countyFunding).toBeDefined();
+      expect(resolvedMetric.attributes.type).toEqual("Hub Project");
     });
     it("resolve static via class method", async () => {
       const ctxMgr = await factory.getContextManager(orgName, "admin");
@@ -112,6 +112,7 @@ fdescribe("metrics development harness:", () => {
       const cityFundingMetric = await project.resolveMetric("cityFunding");
       expect(cityFundingMetric).toBeDefined();
       expect(cityFundingMetric.length).toBe(1);
+      expect(cityFundingMetric[0].attributes.cityFunding).toBeGreaterThan(0);
     });
     it("resolve dynamic via class method", async () => {
       const ctxMgr = await factory.getContextManager(orgName, "admin");
@@ -122,7 +123,7 @@ fdescribe("metrics development harness:", () => {
       );
       expect(metric).toBeDefined();
       expect(metric.length).toBe(1);
-      expect(metric[0].value).toBeGreaterThan(0);
+      expect(metric[0].attributes.surveysCompleted).toBeGreaterThan(0);
     });
   });
   describe("resolve initiative metrics:", () => {
@@ -138,10 +139,9 @@ fdescribe("metrics development harness:", () => {
       const resolved = await resolveMetric(budgetMetric, context);
       expect(resolved).toBeDefined();
       const resolvedMetric = resolved[0];
-      expect(resolvedMetric.id).toEqual(ITEMS.initiative);
-      expect(resolvedMetric.metricId).toEqual(budgetMetric.id);
-      expect(resolvedMetric.type).toEqual("Hub Initiative");
-      expect(resolvedMetric.value).toEqual(203000);
+      expect(resolvedMetric.attributes.id).toEqual(ITEMS.initiative);
+      expect(resolvedMetric.attributes.type).toEqual("Hub Initiative");
+      expect(resolvedMetric.attributes.budget).toEqual(203000);
     });
     it("resolve dynamic via function:", async () => {
       const ctxMgr = await factory.getContextManager(orgName, "admin");
@@ -158,14 +158,14 @@ fdescribe("metrics development harness:", () => {
       expect(resolved.length).toEqual(12);
 
       resolved.forEach((metric) => {
-        expect(metric.type).toEqual("Hub Project");
-        expect(metric.metricId).toEqual(countyFunding.id);
+        expect(metric.attributes.type).toEqual("Hub Project");
+        expect(metric.attributes.countyFunding).toBeDefined();
       });
-      const sum = aggregateMetrics(resolved, "sum");
-      const count = aggregateMetrics(resolved, "count");
-      const min = aggregateMetrics(resolved, "min");
-      const max = aggregateMetrics(resolved, "max");
-      const avg = aggregateMetrics(resolved, "avg");
+      const sum = aggregateMetrics(resolved, "countyFunding", "sum");
+      const count = aggregateMetrics(resolved, "countyFunding", "count");
+      const min = aggregateMetrics(resolved, "countyFunding", "min");
+      const max = aggregateMetrics(resolved, "countyFunding", "max");
+      const avg = aggregateMetrics(resolved, "countyFunding", "avg");
 
       expect(avg).toBeCloseTo(106502.9, 1);
       expect(min).toEqual(15905);
@@ -184,20 +184,22 @@ fdescribe("metrics development harness:", () => {
       const contractor = findBy(metrics, "id", "contractor");
 
       const resolved = await resolveMetric(contractor, context);
+
       expect(resolved).toBeDefined();
       expect(resolved.length).toEqual(12);
 
       resolved.forEach((metric) => {
-        expect(metric.type).toEqual("Hub Project");
-        expect(metric.metricId).toEqual(contractor.id);
-        expect(metric.value).toBeDefined();
+        expect(metric.attributes.type).toEqual("Hub Project");
+        expect(metric.attributes.contractor).toBeDefined();
         expect(
-          ["KPMG", "PWC", "HDR", "Timmons"].includes(metric.value as string)
+          ["KPMG", "PWC", "HDR", "Timmons"].includes(
+            metric.attributes.contractor as string
+          )
         ).toBeTruthy();
       });
-      const count = aggregateMetrics(resolved, "count");
+      const count = aggregateMetrics(resolved, "contractor", "count");
       expect(count).toEqual(12);
-      const cbv = aggregateMetrics(resolved, "countByValue");
+      const cbv = aggregateMetrics(resolved, "contractor", "countByValue");
       expect(cbv).toEqual({
         KPMG: 4,
         HDR: 4,
@@ -214,24 +216,25 @@ fdescribe("metrics development harness:", () => {
       const metrics = getEntityMetrics(initiative.toJson());
       // static metric
       const surveysCompleted = findBy(metrics, "id", "surveysCompleted");
-      const start = Date.now();
+      // const start = Date.now();
       const resolved = await resolveMetric(surveysCompleted, context);
-      const timing = Date.now() - start;
+      // const timing = Date.now() - start;
       // console.info(`12 projects querying feature service timing: ${timing}ms`);
       expect(resolved).toBeDefined();
       expect(resolved.length).toEqual(12);
 
       resolved.forEach((metric) => {
-        expect(metric.type).toEqual("Hub Project");
-        expect(metric.metricId).toEqual(surveysCompleted.id);
-        expect(metric.value).toEqual(20);
+        expect(metric.attributes.type).toEqual("Hub Project");
+        expect(metric.attributes.surveysCompleted).toEqual(20);
       });
+
+      const field = "surveysCompleted";
       // aggregate the values
-      const sum = aggregateMetrics(resolved, "sum");
-      const count = aggregateMetrics(resolved, "count");
-      const min = aggregateMetrics(resolved, "min");
-      const max = aggregateMetrics(resolved, "max");
-      const avg = aggregateMetrics(resolved, "avg");
+      const sum = aggregateMetrics(resolved, field, "sum");
+      const count = aggregateMetrics(resolved, field, "count");
+      const min = aggregateMetrics(resolved, field, "min");
+      const max = aggregateMetrics(resolved, field, "max");
+      const avg = aggregateMetrics(resolved, field, "avg");
       expect(avg).toEqual(20);
       expect(min).toEqual(20);
       expect(max).toEqual(20);

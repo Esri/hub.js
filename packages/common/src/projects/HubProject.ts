@@ -6,7 +6,7 @@ import {
   IWithStoreBehavior,
   IWithSharingBehavior,
   UiSchemaElementOptions,
-  IMetricResult,
+  IMetricFeature,
 } from "../core";
 import { getEntityEditorSchemas } from "../core/schemas/getEntityEditorSchemas";
 import { Catalog } from "../search";
@@ -20,7 +20,6 @@ import { ProjectEditorType } from "./_internal/ProjectSchema";
 import { IWithMetricsBehavior } from "../core/behaviors/IWithMetricsBehavior";
 import { getEntityMetrics } from "../metrics/getEntityMetrics";
 import { resolveMetric } from "../metrics/resolveMetric";
-import { resolveMetrics } from "../metrics/resolveMetrics";
 
 /**
  * Hub Project Class
@@ -212,22 +211,14 @@ export class HubProject
   }
 
   /**
-   * Resolve all metrics for this entity
-   * @returns
-   */
-  resolveMetrics(): Promise<IMetricResult[]> {
-    const metrics = getEntityMetrics(this.entity);
-    return resolveMetrics(metrics, this.context);
-  }
-
-  /**
    * Resolve a single metric for this metric
    * @param metricId
    * @returns
    */
-  resolveMetric(metricId: string): Promise<IMetricResult[]> {
+  resolveMetric(metricId: string): Promise<IMetricFeature[]> {
     const metrics = getEntityMetrics(this.entity);
     const metric = metrics.find((m) => m.id === metricId);
+    // TODO: add caching
     if (metric) {
       return resolveMetric(metric, this.context);
     } else {

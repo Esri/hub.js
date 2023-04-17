@@ -66,7 +66,8 @@ const projectmodel: IModel = {
           metricId: "fundsSpent_00c",
           metric: {
             // storing as an object would allow the metric
-            // to be resolved at load time
+            // to be resolved at load time, but makes the editing more complex
+            // b/c it would be parsing the $use syntax
             $use: "properties.metrics[findBy(id, 'fundsSpent_00c')]",
           },
           aggregation: "sum",

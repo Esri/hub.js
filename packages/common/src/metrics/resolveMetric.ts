@@ -2,7 +2,7 @@ import { IArcGISContext } from "../ArcGISContext";
 import {
   IItemQueryMetricSource,
   IMetric,
-  IMetricResult,
+  IMetricFeature,
   IServiceQueryMetricSource,
   IStaticValueMetricSource,
   MetricSource,
@@ -17,7 +17,7 @@ import { memoize } from "../utils/memoize";
 import { portalSearchItemsAsItems } from "../search/_internal/portalSearchItems";
 
 /**
- * Resolve a Metric into an array of `IMetricResult` objects.
+ * Resolve a Metric into an array of `IMetricFeature` objects.
  * This implementation is similar to DynamicValues, but is just different
  * enough to warrant a separate implementation.
  * @param metric
@@ -27,7 +27,7 @@ import { portalSearchItemsAsItems } from "../search/_internal/portalSearchItems"
 export async function resolveMetric(
   metric: IMetric,
   context: IArcGISContext
-): Promise<IMetricResult[]> {
+): Promise<IMetricFeature[]> {
   // At this point the source references should have been resolved
   // so we can force case to a MetricSource and switch on the type
   const source = metric.source as MetricSource;
@@ -57,18 +57,23 @@ export async function resolveMetric(
 function resolveStaticValueMetric(
   metric: IMetric,
   context: IArcGISContext
-): Promise<IMetricResult[]> {
+): Promise<IMetricFeature[]> {
   const source = metric.source as IStaticValueMetricSource;
-  const result: IMetricResult = {
-    ...metric.sourceInfo,
-    value: source.value,
+  // cut off the parent identifier from the metric id and use that
+  // as the output field name
+  const fieldName = metric.id.split("_")[0];
+  const result: IMetricFeature = {
+    attributes: {
+      ...metric.sourceInfo,
+      [fieldName]: source.value,
+    },
   };
   return Promise.resolve([result]);
 }
 
 /**
  * Exequte a query against a service and return the aggregate value
- * in an `IMetricResult`
+ * in an `IMetricFeature`
  * @param metric
  * @param context
  * @returns
@@ -76,8 +81,11 @@ function resolveStaticValueMetric(
 async function resolveServiceQueryMetric(
   metric: IMetric,
   context: IArcGISContext
-): Promise<IMetricResult[]> {
+): Promise<IMetricFeature[]> {
   const source = metric.source as IServiceQueryMetricSource;
+  // cut off the parent identifier from the metric id and use that
+  // as the output field name
+  const fieldName = metric.id.split("_")[0];
   // If no where is provided, default to "1=1"
   source.where = source.where || "1=1";
 
@@ -102,9 +110,11 @@ async function resolveServiceQueryMetric(
   // how we fetch the values out of the response
   const aggregate = getProp(response, `features[0].attributes.${source.field}`);
 
-  const result: IMetricResult = {
-    ...metric.sourceInfo,
-    value: aggregate,
+  const result: IMetricFeature = {
+    attributes: {
+      ...metric.sourceInfo,
+      [fieldName]: aggregate,
+    },
   };
 
   return [result];
@@ -113,9 +123,11 @@ async function resolveServiceQueryMetric(
 async function resolveItemQueryMetric(
   metric: IMetric,
   context: IArcGISContext
-): Promise<IMetricResult[]> {
+): Promise<IMetricFeature[]> {
   const source = metric.source as IItemQueryMetricSource;
-
+  // cut off the parent identifier from the metric id and use that
+  // as the output field name
+  const fieldName = metric.id.split("_")[0];
   // create the query from the source properties
   const predicate: IPredicate = {
     typekeywords: source.keywords,
@@ -159,12 +171,13 @@ async function resolveItemQueryMetric(
       const vals = await valsPromise;
       const valueFromItem = getProp(item, source.propertyPath);
 
-      const result: IMetricResult = {
-        metricId: metric.id,
-        id: item.id,
-        label: item.title,
-        type: item.type,
-        value: null,
+      const result: IMetricFeature = {
+        attributes: {
+          id: item.id,
+          label: item.title,
+          type: item.type,
+          [fieldName]: null,
+        },
       };
       // Handle case where value is not found...
       // e.g. the project exists but the metric is not defined yet
@@ -175,12 +188,12 @@ async function resolveItemQueryMetric(
           typeof valueFromItem === "string" ||
           typeof valueFromItem === "number"
         ) {
-          result.value = valueFromItem;
+          result.attributes[fieldName] = valueFromItem;
           vals.push(Promise.resolve([result]));
         } else {
           // valueFromItem is itself a metric so we call resolveDynamicValues again
           // attach in the value source, so it's present for the next level of recursion
-          valueFromItem.sourceInfo = result;
+          valueFromItem.sourceInfo = result.attributes;
           const vResult = await resolveMetric(valueFromItem, context);
           vals.push(...vResult);
         }
@@ -191,7 +204,7 @@ async function resolveItemQueryMetric(
   );
 
   // let everything resolve
-  const outputs = (await Promise.all(promises)) as IMetricResult[];
+  const outputs = (await Promise.all(promises)) as IMetricFeature[];
   // return the results
   return outputs;
 }

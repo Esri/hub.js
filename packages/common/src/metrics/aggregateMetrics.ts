@@ -1,4 +1,4 @@
-import { IMetricResult } from "../core";
+import { IMetricFeature } from "../core";
 import { DynamicAggregation } from "../core/types/DynamicValues";
 
 /**
@@ -9,12 +9,13 @@ import { DynamicAggregation } from "../core/types/DynamicValues";
  * @returns
  */
 export function aggregateMetrics(
-  metrics: IMetricResult[],
+  metrics: IMetricFeature[],
+  field: string,
   aggregation: DynamicAggregation
 ): any {
   // Get the values from the metrics, we use any so
   // we can keep the rest of the code simpler
-  const values = metrics.map((m) => m.value as any);
+  const values = metrics.map((m) => m.attributes[field] as any);
 
   let aggregate = null;
 

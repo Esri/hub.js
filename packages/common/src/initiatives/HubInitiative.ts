@@ -7,7 +7,7 @@ import {
   IWithSharingBehavior,
   UiSchemaElementOptions,
   IEditorConfig,
-  IMetricResult,
+  IMetricFeature,
 } from "../core";
 import { getEntityEditorSchemas } from "../core/schemas/getEntityEditorSchemas";
 import {
@@ -24,7 +24,6 @@ import { InitiativeEditorType } from "./_internal/InitiativeSchema";
 import { IWithMetricsBehavior } from "../core/behaviors/IWithMetricsBehavior";
 import { getEntityMetrics } from "../metrics/getEntityMetrics";
 import { resolveMetric } from "../metrics/resolveMetric";
-import { resolveMetrics } from "../metrics/resolveMetrics";
 
 /**
  * Hub Initiative Class
@@ -218,22 +217,14 @@ export class HubInitiative
   }
 
   /**
-   * Resolve all metrics for this entity
-   * @returns
-   */
-  resolveMetrics(): Promise<IMetricResult[]> {
-    const metrics = getEntityMetrics(this.entity);
-    return resolveMetrics(metrics, this.context);
-  }
-
-  /**
    * Resolve a single metric for this metric
    * @param metricId
    * @returns
    */
-  resolveMetric(metricId: string): Promise<IMetricResult[]> {
+  resolveMetric(metricId: string): Promise<IMetricFeature[]> {
     const metrics = getEntityMetrics(this.entity);
     const metric = metrics.find((m) => m.id === metricId);
+    // TODO: Add caching
     if (metric) {
       return resolveMetric(metric, this.context);
     } else {
