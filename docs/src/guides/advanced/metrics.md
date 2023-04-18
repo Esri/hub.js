@@ -67,6 +67,10 @@ Metrics are defined on the Hub Entity objects in the `.metrics` property. When s
 
 That said, <strong>Metrics must be processed prior to resolution</strong> - more on this later.
 
+## Metrics Object Model
+
+![Metrics Object model](/hub.js/img/metrics-object-model.png)
+
 A Metric has the following structure:
 
 ```typescript
@@ -82,23 +86,14 @@ const myBudgetMetric: IMetric = {
   // in the metric definition UI
   description: "Budget for the project",
   // Units can also be defined, when it makes sense
-  // currenty it's a string, but will be extended to be a list of
-  // well known units
   units: "USD",
   // Source is where we define the details of the metric.
-  // Three types are supported:
-  // IStaticValueMetricSource - static value
-  // IServiceQueryMetricSource - value from feature service query
-  // IItemQueryMetricSource - value from item query
-  // Depending on the type, different properties are required
-  // More details below
   source: {...}
-
 }
 
 ```
 
-### Static Value Metrics
+<h3 id="static-value-metrics">Static Value Metrics</h3>
 
 As the name implies this is a static value. Many times organizations will want to use a static value to ensure their numbers match "official" numbers.
 
@@ -113,7 +108,7 @@ const exampleStaticValue: IMetric = {
 };
 ```
 
-### Service Query Metrics
+<h3 id="service-query-metrics">Service Query Metrics</h3>
 
 These metrics issue an "out statistics" query to a feature service and return the aggregate in the response.
 
@@ -135,7 +130,7 @@ const serviceMetric: IMetric = {
 
 The query will be executed with the credentials of the current user, this the access level of the service should be kept in sync with the access level of the item defining this type of metric. If the service is unavailable, the metric resolution will fail, throwing an error.
 
-### Item Query Metrics
+<h3 id="item-query-metrics">Item Query Metrics</h3>
 
 These metrics issue an item query and then pluck values out of the returned items. This is also the type of metric used to "cascade" metric look ups, from an Initiative, down to a set of Projects.
 
@@ -177,15 +172,17 @@ This will use `getProp` to locate the metric with id `usdotBudget_00c` in the it
 
 For the most part this should be transparent to the developer and end-user, but it's useful to understand this when debugging.
 
-## Pre-Processing Metrics
+<h2 id="pre-processing-metrics"> Pre-Processing Metrics</h2>
 
 The resolved metric requires information from the host entity (typically an Item). The `getEntityMetric(entity, metricId)` function merges this information into `IMetric.entityInfo` and returns the fully populated `IMetric` that is ready to be processed by the `resolveMetric(metric, context)` function.
 
 <strong>Failing to pre-process the metric will result in mal-formed output.</strong>
 
+Using the `.resolveMetric(metricId)` function on the Initiative and Project classes will automatically do this. If you are not working with a class instance, call the `getEntityMetric(..)` function directly, and then resolve the metric.
+
 ## Resolved Metrics
 
-A resolved metric is an array of `IMetricFeature` objects. This object is structed like a `Feature` to enable easy inter-operability with the ArcGIS API for Javascript, and the ArcGIS Charts library.
+A resolved metric is an array of `IMetricFeature` objects. This object is structed like a `Feature` in order to inter-operate with the ArcGIS API for Javascript, and the ArcGIS Charts library.
 
 <strong>Note: At this time, geometry is not returned. This will be a future addition once Projects have `IHubLocation` added.</strong>
 
@@ -203,11 +200,15 @@ const example: IMetricFeature[] = [
 ];
 ```
 
-Now - it's clear that there are properies in the result that are not in the `IMetric` itself. This is where `IMetric.sourceInfo` and the [pre-processing step](#pre-processing-metrics) come in.
+We can see that there are properies in the result that are not in the `IMetric` itself. This is where `IMetric.sourceInfo` and the [pre-processing step](#pre-processing-metrics) come in.
 
 ## Resolving Metrics
 
 The process of getting the values that correspond to a metric definition is called "resovling the metric".
+
+The following diagram represents the high-level logic.
+
+![Metric Resolution Process](/hub.js/img/metric-resolution-flow.png)
 
 If working with the Hub Entity classes, the Project and Initiative classes implement `IWithMetricBehavior` and thus have a `resolveMetric(idOfMetric):Promise<IMetricFeature[]>` method.
 

@@ -284,7 +284,7 @@ describe("HubProject Class:", () => {
               id: "projectBudget_00c",
               name: "Project Budget",
               source: {
-                metricType: "static-value",
+                type: "static-value",
                 value: 100000,
               },
               entityInfo: {

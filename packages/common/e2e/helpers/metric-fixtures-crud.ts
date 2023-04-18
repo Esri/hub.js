@@ -51,7 +51,7 @@ export async function createInitiative(
     description: "Total budget for the initiative",
     units: "$",
     source: {
-      metricType: "static-value",
+      type: "static-value",
       value: 203000,
     },
   });
@@ -62,7 +62,7 @@ export async function createInitiative(
     description: "Total funding from Larimer County",
     units: "USD",
     source: {
-      metricType: "item-query",
+      type: "item-query",
       propertyPath: `properties.metrics[findBy(id,countyFunding_${initiativeId})]`,
       keywords: [`initiative|${initiativeId}`],
       itemTypes: ["Hub Project"],
@@ -75,7 +75,7 @@ export async function createInitiative(
     name: "Surveys Completed",
     description: "Total number of surveys completed",
     source: {
-      metricType: "item-query",
+      type: "item-query",
       propertyPath: `properties.metrics[findBy(id,surveysCompleted_${initiativeId})]`,
       keywords: [`initiative|${initiativeId}`],
       itemTypes: ["Hub Project"],
@@ -88,7 +88,7 @@ export async function createInitiative(
     name: "Project Constractor",
     description: "Contractor for the project",
     source: {
-      metricType: "item-query",
+      type: "item-query",
       propertyPath: `properties.metrics[findBy(id,contractor_${initiativeId})]`,
       keywords: [`initiative|${initiativeId}`],
       itemTypes: ["Hub Project"],
@@ -170,7 +170,7 @@ export async function createChildProject(
   metrics.push({
     id: `contractor_${parentId}`,
     source: {
-      metricType: "static-value",
+      type: "static-value",
       value: contractor,
     },
   });
@@ -180,7 +180,7 @@ export async function createChildProject(
   metrics.push({
     id: `countyFunding_${parentId}`,
     source: {
-      metricType: "static-value",
+      type: "static-value",
       value: countyFunding,
     },
   });
@@ -189,7 +189,7 @@ export async function createChildProject(
   metrics.push({
     id: "cityFunding",
     source: {
-      metricType: "static-value",
+      type: "static-value",
       value: cityFunding,
     },
   });
@@ -200,7 +200,7 @@ export async function createChildProject(
   metrics.push({
     id: `surveysCompleted_${parentId}`,
     source: {
-      metricType: "service-query",
+      type: "service-query",
       serviceUrl:
         "https://servicesqa.arcgis.com/T5cZDlfUaBpDnk6P/arcgis/rest/services/hub_e2e_fixture_tc121302_simple_point_100/FeatureServer",
       layerId: 0,

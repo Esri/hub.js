@@ -31,7 +31,7 @@ export function getEntityMetrics(
     const source = metric.source as MetricSource;
     // If the metric is an item query and the catalog key is defined
     // get the scope from the specified collection in the catalog.
-    if (source.metricType === "item-query" && source.collectionKey) {
+    if (source.type === "item-query" && source.collectionKey) {
       const key = source.collectionKey;
       const query = getProp(
         entity.catalog,

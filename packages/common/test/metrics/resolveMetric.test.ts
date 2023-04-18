@@ -41,7 +41,7 @@ describe("resolveMetric:", () => {
         id: "initiativeBudget_00c",
         name: "Initiative Budget",
         source: {
-          metricType: "invalid-type",
+          type: "invalid-type",
           value: 100000,
         } as unknown as IItemQueryMetricSource,
       };
@@ -58,7 +58,7 @@ describe("resolveMetric:", () => {
       id: "initiativeBudget_00c",
       name: "Initiative Budget",
       source: {
-        metricType: "static-value",
+        type: "static-value",
         value: 100000,
       },
       entityInfo: {
@@ -87,7 +87,7 @@ describe("resolveMetric:", () => {
       id: "initiativeBudget_00c",
       name: "Initiative Budget",
       source: {
-        metricType: "service-query",
+        type: "service-query",
         serviceUrl:
           "https://services.arcgis.com/abc/arcgis/rest/services/a/FeatureServer",
         layerId: 0,
@@ -157,7 +157,7 @@ describe("resolveMetric:", () => {
       id: "initiativeBudget_00f",
       name: "Initiative Budget",
       source: {
-        metricType: "item-query",
+        type: "item-query",
         keywords: ["initiative|00f"],
         itemTypes: ["Hub Project"],
         propertyPath: "properties.budget",
@@ -276,7 +276,7 @@ describe("resolveMetric:", () => {
                 id: "projectFunding",
                 name: "Project Funding",
                 source: {
-                  metricType: "static-value",
+                  type: "static-value",
                   value: 20000,
                 },
               },

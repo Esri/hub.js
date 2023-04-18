@@ -17,7 +17,7 @@ const project: IHubProject = {
       id: "projectFunding",
       name: "Project Funding",
       source: {
-        metricType: "static-value",
+        type: "static-value",
         value: 20000,
       },
     },
@@ -26,7 +26,7 @@ const project: IHubProject = {
       name: "Survey Completed",
       description: "Total number of surveys completed",
       source: {
-        metricType: "item-query",
+        type: "item-query",
         keyword: ["initiative|00c"],
         types: ["Hub Project"],
       },
@@ -37,7 +37,7 @@ const project: IHubProject = {
       description: "Funds spent thus far",
       units: "USD",
       source: {
-        metricType: "item-query",
+        type: "item-query",
         keyword: ["initiative|00c"],
         types: ["Hub Project"],
         collectionKey: "projects",

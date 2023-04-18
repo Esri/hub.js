@@ -304,7 +304,7 @@ describe("HubInitiative Class:", () => {
               id: "initiativeBudget_00c",
               name: "Initiative Budget",
               source: {
-                metricType: "static-value",
+                type: "static-value",
                 value: 100000,
               },
               entityInfo: {

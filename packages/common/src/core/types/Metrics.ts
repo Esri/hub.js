@@ -114,7 +114,7 @@ export type MetricSource =
  * Defines a metric source that is a static value
  */
 export interface IStaticValueMetricSource {
-  metricType: "static-value";
+  type: "static-value";
   /**
    * Static value to use
    */
@@ -125,14 +125,14 @@ export interface IStaticValueMetricSource {
  * Defines a metric source that is a query to a service.
  */
 export interface IServiceQueryMetricSource extends IServiceQuery {
-  metricType: "service-query";
+  type: "service-query";
 }
 
 /**
  * Defines a metric source that fetches values from a set of items.
  */
 export interface IItemQueryMetricSource {
-  metricType: "item-query";
+  type: "item-query";
   /**
    * Property path to get the value from the item
    * e.g. `properties.numComments` or `properties.metrics[findBy(id,'funding_00c')].source`

@@ -33,7 +33,7 @@ export async function resolveMetric(
   const source = metric.source as MetricSource;
 
   // call the appropriate resolver
-  switch (source.metricType) {
+  switch (source.type) {
     case "static-value":
       return resolveStaticValueMetric(metric, context);
 
