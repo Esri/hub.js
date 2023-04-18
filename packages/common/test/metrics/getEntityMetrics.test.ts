@@ -63,16 +63,15 @@ describe("getEntityMetrics:", () => {
     expect(chk.length).toBe(3);
     // Verify sourceInfo is added to metric
     const projectFundingMetric = chk.find((m) => m.id === "projectFunding");
-    expect(projectFundingMetric.sourceInfo).toEqual({
+    expect(projectFundingMetric?.entityInfo).toEqual({
       id: "3ef",
-      label: "My Project",
+      name: "My Project",
       type: "Hub Project",
-      metricId: "projectFunding",
     });
 
     // verify collection is added to metric as source
     const spendMetric = chk.find((m) => m.id === "fundsSpent");
-    const src = spendMetric.source as IItemQueryMetricSource;
+    const src = spendMetric?.source as IItemQueryMetricSource;
     expect(src.scope).toEqual({
       chk: "This is the collection for projects",
     } as unknown as IQuery);
@@ -83,7 +82,7 @@ describe("getEntityMetrics:", () => {
     const chk = getEntityMetrics(p2);
     expect(chk.length).toBe(3);
     const spendMetric = chk.find((m) => m.id === "fundsSpent");
-    const src = spendMetric.source as IItemQueryMetricSource;
+    const src = spendMetric?.source as IItemQueryMetricSource;
     expect(src.scope).not.toBeDefined();
   });
   it("handles missing metrics prop", () => {

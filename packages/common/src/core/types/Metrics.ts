@@ -7,7 +7,9 @@ import { IReference } from "./IReference";
  */
 export interface IMetric {
   /**
-   * Identifier for the metric. Typically generated via `createId("m")`
+   * Identifier for the metric. This must be static over time or linkages
+   * between items will break. Can be the camelCase version of the name
+   * as long as it's a valid Javascript property name (can't start with numbers).
    */
   id: string;
   /**
@@ -20,33 +22,34 @@ export interface IMetric {
    */
   description?: string;
   /**
-   * Unit of the value.
+   * Unit of the value. In the future this will be a list of well-known units
    */
-  units?: string; // TODO: this should be a list of units
+  units?: string;
   /**
-   * Source definition
+   * Source definition. This can be an `IReference` to another metric to enable
+   * re-use of the same metric source for multiple metrics.
    */
   source: MetricSource | IReference;
 
   /**
-   * Information that will be attached to the metric when it's resolved
+   * Information about the source entity that will be attached to the `IMetricFeature` when it's resolved.
+   * This will be added to the `IMetric` as it's processed.
    */
-  sourceInfo?: IMetricSourceInfo;
+  entityInfo?: IEntityInfo;
 }
 
 /**
- * Defines the information that will be attached to the metric when it's resolved
+ * Basic information about the source of the metric, that will be added to the `IMetricFeature` when it's resolved
  */
-export interface IMetricSourceInfo {
-  metricId?: string;
+export interface IEntityInfo {
   /**
-   * The id of the entity from which the value was computed
+   * The id of the entity from which the Metric was computed
    */
   id: string;
   /**
-   * Name / title of the entity from which the value was computed
+   * Name of the entity from which the value was computed
    */
-  label: string;
+  name: string;
   /**
    * The type of entity from which the value was computed
    */
@@ -155,7 +158,7 @@ export interface IItemQueryMetricSource {
   scope?: IQuery;
 }
 
-export interface IMetricAttributes extends IMetricSourceInfo {
+export interface IMetricAttributes extends IEntityInfo {
   [key: string]: number | string | null;
 }
 

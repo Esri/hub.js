@@ -6,17 +6,68 @@ order: 45
 group: 4-advanced
 ---
 
-# Metrics
+# Initiative and Project Metrics
 
-- What is a metric?
-- Why is it useful?
-- Common workflows?
+Metrics are a means of declaring and reporting status information. Typically, an Initiative defines a set of metrics, for which it's associated Projects will provide values. However, it's also possible for a Project or Initiative to simply define it's own metrics.
+
+The metric values can be numbers, categorical strings, dates, aggregated statistics, or tables of information for use in charts (future).
+
+The source of a Metric can be [Static Values](#static-value-metrics), derived from [Service Queries](#service-query-metrics) or derived from [Item Queries](#item-query-metrics). In the future additional metric providers will be created to fetch metrics from the ArcGIS Telemetry system or the ArcGIS Hub API.
+
+Metric values are returned as an array of objects, each of which contain the source entity id, it's title, and type, in addition to any metric properties that were requested.
+
+In the case of static or service query metrics, a single entry will be present in the array. For Item Query metrics, there will be one entry for every item returned in the query. This model allows the client to compute various statistics on the set of metrics without making multiple requests.
+
+## Example
+
+```js
+// Create anonymous context
+const ctxMgr = await ArcGISContextManager.create();
+// fetch initiative
+const initiative = await HubInitiative.fetch(
+  "93114ab97bd8524afa7df575065c08cc",
+  ctxMgr.context
+);
+// resolveMetric(...)
+const budgetMetric = await initiative.resolveMetric("budget");
+```
+
+This will return a structure like this:
+
+```js
+[
+  {
+    attributes: {
+      id: "de08aa6ad2f647109afa7df575065c08",
+      name: "Test Vision Zero Project 5",
+      type: "Hub Project",
+      budget: 22546,
+    },
+  },
+  {
+    attributes: {
+      id: "422e1e548dc54009993114ab97bd8524",
+      name: "Test Vision Zero Project 7",
+      type: "Hub Project",
+      budget: 132900,
+    },
+  },
+];
+```
+
+The array can be used to show a table of values, or further processed to show aggregations or other computed metrics (e.g. percent of total).
+
+The `aggregateMetrics(metrics, "budget", "sum")` exists to return aggregations from the output array.
+
+In the future, each entry will contain a geometry property, containing the location defined for the entity, thus enabling a map display.
 
 ## Defining Metrics
 
 Metrics are defined on the Hub Entity objects in the `.metrics` property. When stored into items, they are placed into `item.properties.metrics`, as this allows then to be retrieved via item queries without incurring N+1 queries.
 
-A Metric has this structure:
+That said, <strong>Metrics must be processed prior to resolution</strong> - more on this later.
+
+A Metric has the following structure:
 
 ```typescript
 const myBudgetMetric: IMetric = {
@@ -49,7 +100,7 @@ const myBudgetMetric: IMetric = {
 
 ### Static Value Metrics
 
-As the name implies this is a static value defined for the entity.
+As the name implies this is a static value. Many times organizations will want to use a static value to ensure their numbers match "official" numbers.
 
 ```typescript
 const exampleStaticValue: IMetric = {
@@ -82,6 +133,8 @@ const serviceMetric: IMetric = {
 };
 ```
 
+The query will be executed with the credentials of the current user, this the access level of the service should be kept in sync with the access level of the item defining this type of metric. If the service is unavailable, the metric resolution will fail, throwing an error.
+
 ### Item Query Metrics
 
 These metrics issue an item query and then pluck values out of the returned items. This is also the type of metric used to "cascade" metric look ups, from an Initiative, down to a set of Projects.
@@ -96,7 +149,7 @@ const itemMetric: IMetric = {
     metricType: "item-query",
     keywords: ["initiative|00f"], // typekeywords to query for
     itemTypes: ["Hub Project"], // list of item types to return
-    // propertyPath is a description of where on the item to find
+    // propertyPath is a description of where on the retrieved item to find
     // the property. If we are targeting a metric defined by the
     // item, we use a "findBy" statement.
     propertyPath: "properties.metrics[findBy(id,'usdotBudget_00c')].source",
@@ -104,49 +157,58 @@ const itemMetric: IMetric = {
 };
 ```
 
-- when a child defines a metric for consuption by a parent, it must append the parent's item id to the metric id.
+#### Metric Id's and Property Paths
 
-For example, aProject `00c` defined a `budget` metric being requested by Initiative `3a1`. The project defines that metric in it's metrics array, with `id: "budget_3a1"`, and the Initiative defined the property path for that metric as `"properties.metrics[findBy(id,'budget_3a1')].source"`. This ensures that there are no collisions if a project is associated to multiple metrics, all requesting a metric with the same id. Additionally, that `.source` property could be either a static value metric or a service query metric, and that will be resolved correctly.
+When a Project (child) defines a metric for consuption by an Initiative (parent), it must append the parent's item id to the metric id.
+
+For example, Project `00c` defined a `budget` metric being requested by Initiative `3a1`. The project defines that metric in it's metrics array, with `id: "budget_3a1"`, and the Initiative defined the property path for that [Item Query](#item-query-metrics) metric as `"properties.metrics[findBy(id,'budget_3a1')].source"`.
+
+This ensures that there are no collisions if a project is associated to multiple Initiatives, all requesting a metric with the same id.
+
+## Recursive Metrics
+
+In order for an Initiative to fetch metrics from Projects, it must define those metrics as [Item Query](#item-query-metrics) metrics. The `propertyPath` in the `IItemQueryMetricSource` may point to a property on the retrived item (e.g. `owner` or `type`), or may reference a formal Metric, located in the item's `properties.metrics` array. The latter is specified as a `findBy` specifier, as described in the `getProp` documentation. The general pattern is shown below.
+
+```js
+const propPath = "properties.metrics[findBy(id,'usdotBudget_00c')].source";
+```
+
+This will use `getProp` to locate the metric with id `usdotBudget_00c` in the item's metrics array, and then grab the `.source` property from that. The `.source` must be one of the valid `MetricSource`s - [Static Value](#static-value-metrics), [Service Query](#service-query-metrics) or an [Item Query](#item-query-metrics) metric. In call cases, the resolution of the value recurses to resolve the value.
+
+For the most part this should be transparent to the developer and end-user, but it's useful to understand this when debugging.
+
+## Pre-Processing Metrics
+
+The resolved metric requires information from the host entity (typically an Item). The `getEntityMetric(entity, metricId)` function merges this information into `IMetric.entityInfo` and returns the fully populated `IMetric` that is ready to be processed by the `resolveMetric(metric, context)` function.
+
+<strong>Failing to pre-process the metric will result in mal-formed output.</strong>
 
 ## Resolved Metrics
 
-When resolved, the return object will look like this...
+A resolved metric is an array of `IMetricFeature` objects. This object is structed like a `Feature` to enable easy inter-operability with the ArcGIS API for Javascript, and the ArcGIS Charts library.
+
+<strong>Note: At this time, geometry is not returned. This will be a future addition once Projects have `IHubLocation` added.</strong>
 
 ```typescript
 const example: IMetricFeature[] = [
   {
-    id: "00c",
-    type: "Hub Project",
-    label: "Oak St Project",
-    budget: 100000,
+    attributes: {
+      id: "00c",
+      type: "Hub Project",
+      label: "Oak St Project",
+      budget: 100000,
+    },
+    // geometry: {...}, in the future this will be populated
   },
 ];
 ```
 
-Now - it's clear that there are properies in the result that are not in the `IMetric` itself. This is where `IMetric.sourceInfo` and a pre-processing step come in.
-
-- service query metrics - these metrics issue a query to a feature service and apply some aggregation to the response.
-- item query metrics - these metrics issue an item query, and pluck a value from the return `IItem` objects.
+Now - it's clear that there are properies in the result that are not in the `IMetric` itself. This is where `IMetric.sourceInfo` and the [pre-processing step](#pre-processing-metrics) come in.
 
 ## Resolving Metrics
 
-The process of getting the values that correspond to a metric definition is called "resovling the metric". If working with the Hub Entity classes, the Project and Initiative classes implement `IWithMetricBehavior` and thus have a `resolveMetric(idOfMetric)` method. For functional developers there is `resolveMetric(metric: IMetric, context:IArcGISContext):Promise<IMetricFeature[]>`
+The process of getting the values that correspond to a metric definition is called "resovling the metric".
 
-## Resolved Metric Structure
+If working with the Hub Entity classes, the Project and Initiative classes implement `IWithMetricBehavior` and thus have a `resolveMetric(idOfMetric):Promise<IMetricFeature[]>` method.
 
-In order to work smoothly with other parts of the ArcGIS ecosystem, a resolved metric returns and array of "Feature-like" structures, typed as `IMetricFeature`.
-Static Value and Service Query metrics will contain a single entry in the array. However, Item Query metrics will have an entry for every item returned from the query. This is how an Initiative can get metrics from a set of associated Projects. We return the array of `IMetricFeature`s so that the display system can decide what aggregation to apply, vs having to define the aggregation as part of the metric itself.
-
-```typescript
-const example: IMetricFeature = {
-  attributes: {
-    id: "00c", // id of the entity the value is derived from
-    label: "Oak St Project", // title of the entity
-    type: "Hub Project", // type of the entity
-    funding: 102900, // the key is the metric id, value is the static value of service query aggregate
-    // typed as [key: string]: number | string
-  },
-  // geometry is not used at this point, but here in prep for additional work
-  geometry: {},
-};
-```
+For functional developers there is `resolveMetric(metric: IMetric, context:IArcGISContext):Promise<IMetricFeature[]>`

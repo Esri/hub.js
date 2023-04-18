@@ -48,12 +48,12 @@ describe("resolveMetric:", () => {
       try {
         await resolveMetric(metric, ctx);
       } catch (ex) {
-        expect(ex.message).toBe("Unknown metric type passed in.");
+        expect((ex as any).message).toBe("Unknown metric type passed in.");
       }
     });
   });
 
-  describe("static-value", () => {
+  describe("static-value: ", () => {
     const metric: IMetric = {
       id: "initiativeBudget_00c",
       name: "Initiative Budget",
@@ -61,10 +61,9 @@ describe("resolveMetric:", () => {
         metricType: "static-value",
         value: 100000,
       },
-      sourceInfo: {
-        metricId: "initiativeBudget_00c",
+      entityInfo: {
         id: "00c",
-        label: "Some Project Name",
+        name: "Some Project Name",
         type: "Hub Project",
       },
     };
@@ -74,7 +73,7 @@ describe("resolveMetric:", () => {
         {
           attributes: {
             id: "00c",
-            label: "Some Project Name",
+            name: "Some Project Name",
             type: "Hub Project",
             initiativeBudget: 100000,
           },
@@ -83,7 +82,7 @@ describe("resolveMetric:", () => {
     });
   });
 
-  describe("service-query", () => {
+  describe("service-query: ", () => {
     const serviceMetric: IMetric = {
       id: "initiativeBudget_00c",
       name: "Initiative Budget",
@@ -96,10 +95,9 @@ describe("resolveMetric:", () => {
         statistic: "sum",
         where: "status = 'complete'",
       } as IServiceQueryMetricSource,
-      sourceInfo: {
-        metricId: "initiativeBudget",
+      entityInfo: {
         id: "00c",
-        label: "Some Project Name",
+        name: "Some Project Name",
         type: "Hub Project",
       },
     };
@@ -130,7 +128,7 @@ describe("resolveMetric:", () => {
       expect(chk.length).toEqual(1);
       expect(chk[0].attributes).toEqual({
         id: "00c",
-        label: "Some Project Name",
+        name: "Some Project Name",
         type: "Hub Project",
         initiativeBudget: 1230,
       });
@@ -154,7 +152,7 @@ describe("resolveMetric:", () => {
     });
   });
 
-  describe("item-query", () => {
+  describe("item-query: ", () => {
     const itemMetricWithScope: IMetric = {
       id: "initiativeBudget_00f",
       name: "Initiative Budget",
@@ -168,10 +166,9 @@ describe("resolveMetric:", () => {
           filters: [{ operation: "AND", predicates: [{ orgid: "FAKEORG" }] }],
         },
       } as IItemQueryMetricSource,
-      sourceInfo: {
-        metricId: "initiativeBudget",
+      entityInfo: {
         id: "00c",
-        label: "Some Project Name",
+        name: "Some Project Name",
         type: "Hub Project",
       },
     };
@@ -228,7 +225,7 @@ describe("resolveMetric:", () => {
         });
         expect(chk[0].attributes).toEqual({
           id: "cc0",
-          label: "Search Result 1",
+          name: "Search Result 1",
           type: "Hub Project",
           initiativeBudget: 1230,
         });
@@ -305,6 +302,7 @@ describe("resolveMetric:", () => {
         (changed.source as IItemQueryMetricSource).itemTypes = [
           "Hub Initiative",
         ];
+
         await resolveMetric(itemMetricWithScope, ctx);
         // Since this is using memoization, we can't get reliable
         // call counts out, even though we're clearing the cache
@@ -327,10 +325,9 @@ const itemMetric: IMetric = {
       filters: [{ operation: "AND", predicates: [{ orgid: "FAKEORG" }] }],
     },
   } as IItemQueryMetricSource,
-  sourceInfo: {
-    metricId: "initiativeBudget",
+  entityInfo: {
     id: "00c",
-    label: "Some Project Name",
+    name: "Some Project Name",
     type: "Hub Project",
   },
 };

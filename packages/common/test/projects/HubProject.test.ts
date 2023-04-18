@@ -74,7 +74,7 @@ describe("HubProject Class:", () => {
         await HubProject.fetch("3ef", authdCtxMgr.context);
       } catch (ex) {
         expect(fetchSpy).toHaveBeenCalledTimes(1);
-        expect(ex.message).toBe("Project not found.");
+        expect((ex as any).message).toBe("Project not found.");
       }
     });
 
@@ -89,7 +89,7 @@ describe("HubProject Class:", () => {
         await HubProject.fetch("3ef", authdCtxMgr.context);
       } catch (ex) {
         expect(fetchSpy).toHaveBeenCalledTimes(1);
-        expect(ex.message).toBe("ZOMG!");
+        expect((ex as any).message).toBe("ZOMG!");
       }
     });
 
@@ -225,13 +225,13 @@ describe("HubProject Class:", () => {
     try {
       await chk.delete();
     } catch (e) {
-      expect(e.message).toEqual("HubProject is already destroyed.");
+      expect((e as any).message).toEqual("HubProject is already destroyed.");
     }
 
     try {
       await chk.save();
     } catch (e) {
-      expect(e.message).toEqual("HubProject is already destroyed.");
+      expect((e as any).message).toEqual("HubProject is already destroyed.");
     }
   });
 
@@ -264,7 +264,9 @@ describe("HubProject Class:", () => {
       try {
         await chk.resolveMetric("projectBudget_00c");
       } catch (e) {
-        expect(e.message).toEqual("Metric projectBudget_00c not found.");
+        expect((e as any).message).toEqual(
+          "Metric projectBudget_00c not found."
+        );
       }
     });
 
@@ -285,10 +287,9 @@ describe("HubProject Class:", () => {
                 metricType: "static-value",
                 value: 100000,
               },
-              sourceInfo: {
-                metricId: "projectBudget_00c",
+              entityInfo: {
                 id: "00c",
-                label: "Some Project Name",
+                name: "Some Project Name",
                 type: "Hub Project",
               },
             },

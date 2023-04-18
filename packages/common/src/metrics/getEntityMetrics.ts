@@ -1,10 +1,6 @@
 import { IHubInitiative } from "../core/types/IHubInitiative";
 import { IHubProject } from "../core/types/IHubProject";
-import {
-  IMetric,
-  IMetricSourceInfo,
-  MetricSource,
-} from "../core/types/Metrics";
+import { IMetric, IEntityInfo, MetricSource } from "../core/types/Metrics";
 import { getProp } from "../objects/get-prop";
 import { cloneObject } from "../util";
 
@@ -18,9 +14,9 @@ export function getEntityMetrics(
   entity: IHubProject | IHubInitiative
 ): IMetric[] {
   // Create the source info that will attach into each metric
-  const sourceInfo: IMetricSourceInfo = {
+  const sourceInfo: IEntityInfo = {
     id: entity.id,
-    label: entity.name,
+    name: entity.name,
     type: entity.type,
   };
 
@@ -28,7 +24,7 @@ export function getEntityMetrics(
 
   const metrics = entityMetrics.map((metric) => {
     // assign the source info to the metric
-    metric.sourceInfo = { ...sourceInfo, metricId: metric.id };
+    metric.entityInfo = { ...sourceInfo };
 
     // at this point the source references should have been resolved
     // so we can cast the source to a MetricSource

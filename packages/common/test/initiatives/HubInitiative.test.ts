@@ -307,10 +307,9 @@ describe("HubInitiative Class:", () => {
                 metricType: "static-value",
                 value: 100000,
               },
-              sourceInfo: {
-                metricId: "initiativeBudget_00c",
+              entityInfo: {
                 id: "00c",
-                label: "Some Project Name",
+                name: "Some Project Name",
                 type: "Hub Project",
               },
             },
