@@ -1,3 +1,10 @@
+# @esri/hub-discussions [22.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@22.0.0...@esri/hub-discussions@22.1.0) (2023-04-18)
+
+
+### Features
+
+* add additional reactions to PostReaction enum ([#1030](https://github.com/Esri/hub.js/issues/1030)) ([426c305](https://github.com/Esri/hub.js/commit/426c3053fc20573b2df9bc37305b0170fded27e9))
+
 # @esri/hub-discussions [22.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@21.0.1...@esri/hub-discussions@22.0.0) (2023-04-14)
 
 
