@@ -50,6 +50,7 @@ describe("updateVersionMetadata", () => {
           updated: 456,
         },
       },
+      owner: "jupe",
       prefix: "hubVersion_def456",
     };
 
