@@ -107,7 +107,7 @@ export function getApi(
   } else if (shouldUseOgcApi(targetEntity, options)) {
     result = {
       type: "arcgis-hub",
-      url: `${siteUrl}/api/search/v1/collections/all`,
+      url: `${siteUrl}/api/search/v1`,
     };
   } else {
     result = { type: "arcgis", url: portal };

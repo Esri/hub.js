@@ -104,7 +104,7 @@ describe("Search Utils:", () => {
       } as unknown as IHubSearchOptions;
       expect(getApi(targetEntity, options)).toEqual({
         type: "arcgis-hub",
-        url: `${siteUrl}/api/search/v1/collections/all`,
+        url: `${siteUrl}/api/search/v1`,
       });
     });
     it("otherwise returns a reference to the Portal API from requestOptions", () => {

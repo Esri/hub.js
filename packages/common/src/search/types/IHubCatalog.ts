@@ -65,6 +65,9 @@ export interface IQuery {
    * ensure we query the correct API
    */
   targetEntity: EntityType;
+
+  wellKnownQueryId?: string;
+
   /**
    * Filters that make up the query
    */

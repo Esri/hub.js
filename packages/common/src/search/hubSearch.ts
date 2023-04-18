@@ -32,8 +32,11 @@ export async function hubSearch(
   if (!query) {
     throw new HubError("hubSearch", "Query is required.");
   }
-  if (!query.filters || !query.filters.length) {
-    throw new HubError("hubSearch", "Query must contain at least one Filter.");
+  if ((!query.filters || !query.filters.length) && !query.wellKnownQueryId) {
+    throw new HubError(
+      "hubSearch",
+      "Query must contain at least one Filter or wellKnownQueryId"
+    );
   }
 
   if (!options.requestOptions) {

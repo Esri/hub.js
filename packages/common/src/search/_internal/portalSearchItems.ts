@@ -8,6 +8,7 @@ import { enrichSiteSearchResult } from "../../sites";
 import { IHubRequestOptions } from "../../types";
 
 import {
+  IHubCollection,
   IHubSearchOptions,
   IHubSearchResponse,
   IHubSearchResult,
@@ -21,6 +22,10 @@ import { expandPredicate } from "./expandPredicate";
 import HubError from "../../HubError";
 import { enrichContentSearchResult } from "../../content/search";
 import { cloneObject } from "../../util";
+import {
+  getWellknownCollection,
+  WellKnownCollection,
+} from "../wellKnownCatalog";
 
 /**
  * @internal
@@ -65,8 +70,23 @@ function processSearchParams(options: IHubSearchOptions, query: IQuery) {
       "options.requestOptions is required."
     );
   }
+
+  let updatedQuery = cloneObject(query);
+  if (query.wellKnownQueryId) {
+    const { wellKnownQueryId, targetEntity, filters: queryFilters } = query;
+    const {
+      scope: { filters: wellKnownFilters },
+    } =
+      getWellknownCollection(
+        "",
+        targetEntity,
+        wellKnownQueryId as WellKnownCollection
+      ) || ({ scope: { filters: [] } } as Partial<IHubCollection>);
+    updatedQuery.filters = [...queryFilters, ...wellKnownFilters];
+  }
   // Expand well-known filterGroups
-  const updatedQuery = applyWellKnownItemPredicates(query);
+  // TODO: Should we remove this with the whole idea of collections?
+  updatedQuery = applyWellKnownItemPredicates(updatedQuery);
   // Expand the individual predicates in each filter
   updatedQuery.filters = updatedQuery.filters.map((filter) => {
     filter.predicates = filter.predicates.map(expandPredicate);

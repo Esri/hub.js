@@ -2,8 +2,8 @@ import { IQuery } from "../../types/IHubCatalog";
 import { IHubSearchOptions } from "../../types/IHubSearchOptions";
 import { IHubSearchResponse } from "../../types/IHubSearchResponse";
 import { IHubSearchResult } from "../../types/IHubSearchResult";
-import { IApiDefinition } from "../../types/types";
 import { formatOgcItemsResponse } from "./formatOgcItemsResponse";
+import { getOgcCollectionUrl } from "./getOgcCollectionUrl";
 import { getOgcItemQueryParams } from "./getOgcItemQueryParams";
 import { IOgcItemsResponse } from "./interfaces";
 import { ogcApiRequest } from "./ogcApiRequest";
@@ -12,8 +12,7 @@ export async function searchOgcItems(
   query: IQuery,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
-  const apiDefinition = options.api as IApiDefinition;
-  const url = `${apiDefinition.url}/items`;
+  const url = `${getOgcCollectionUrl(query, options)}/items`;
   const queryParams = getOgcItemQueryParams(query, options);
 
   const rawResponse: IOgcItemsResponse = await ogcApiRequest(
