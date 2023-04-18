@@ -43,8 +43,17 @@ export const memoize = <ARGS extends unknown[], RET>(
 
 /**
  * Clear the cache of a memoized function
+ * If no function name is provided, the entire cache is cleared
+ * This is useful for testing, but should not be used in production
  * @param fn
  */
-export const clearMemoizedCache = (fnName: string) => {
-  delete memoizedFnCache[`_${fnName}`];
+export const clearMemoizedCache = (fnName?: string) => {
+  if (!fnName) {
+    Object.keys(memoizedFnCache).forEach((key) => {
+      delete memoizedFnCache[key];
+    });
+    return;
+  } else {
+    delete memoizedFnCache[`_${fnName}`];
+  }
 };

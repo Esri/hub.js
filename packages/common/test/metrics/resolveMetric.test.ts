@@ -189,7 +189,7 @@ describe("resolveMetric:", () => {
       beforeEach(() => {
         // since spies don't have a `.name` property the
         // memoization cache just have an entry for ``
-        clearMemoizedCache("");
+        clearMemoizedCache();
         querySpy = spyOn(PSModule, "portalSearchItemsAsItems").and.callFake(
           () => {
             return Promise.resolve(MockResponse);
@@ -288,7 +288,7 @@ describe("resolveMetric:", () => {
       beforeEach(() => {
         // since spies don't have a `.name` property the
         // memoization cache just have an entry for ``
-        clearMemoizedCache("");
+        clearMemoizedCache();
         querySpy = spyOn(PSModule, "portalSearchItemsAsItems").and.callFake(
           (opts: any) => {
             return Promise.resolve(ResponseWithStaticValue);
@@ -311,23 +311,3 @@ describe("resolveMetric:", () => {
     });
   });
 });
-
-const itemMetric: IMetric = {
-  id: "initiativeBudget_00f",
-  name: "Initiative Budget",
-  source: {
-    metricType: "item-query",
-    keywords: ["initiative|00f"],
-    itemTypes: ["Hub Project"],
-    propertyPath: "properties.budget",
-    scope: {
-      targetEntity: "item",
-      filters: [{ operation: "AND", predicates: [{ orgid: "FAKEORG" }] }],
-    },
-  } as IItemQueryMetricSource,
-  entityInfo: {
-    id: "00c",
-    name: "Some Project Name",
-    type: "Hub Project",
-  },
-};

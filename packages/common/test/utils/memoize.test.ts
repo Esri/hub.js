@@ -37,8 +37,8 @@ describe("memoize:", () => {
     expect(memoizedFn(9, 1)).toEqual(10);
     expect(callCount).toBe(3);
 
-    // End test - nuke the cached function
-    clearMemoizedCache(fnToMemoize.name);
+    // End test - nuke the entire cache
+    clearMemoizedCache();
   });
   it("works with complex args", () => {
     let callCount = 0;
