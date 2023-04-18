@@ -6,6 +6,7 @@ import {
   IWithStoreBehavior,
   IWithSharingBehavior,
   UiSchemaElementOptions,
+  IMetricFeature,
 } from "../core";
 import { getEntityEditorSchemas } from "../core/schemas/getEntityEditorSchemas";
 import { Catalog } from "../search";
@@ -16,6 +17,9 @@ import { IEditorConfig } from "../core/behaviors/IWithEditorBehavior";
 // NOTE: this could be lazy-loaded just like the CUD functions
 import { fetchProject } from "./fetch";
 import { ProjectEditorType } from "./_internal/ProjectSchema";
+import { IWithMetricsBehavior } from "../core/behaviors/IWithMetricsBehavior";
+import { getEntityMetrics } from "../metrics/getEntityMetrics";
+import { resolveMetric } from "../metrics/resolveMetric";
 
 /**
  * Hub Project Class
@@ -25,6 +29,7 @@ export class HubProject
   implements
     IWithStoreBehavior<IHubProject>,
     IWithCatalogBehavior,
+    IWithMetricsBehavior,
     IWithSharingBehavior
 {
   private _catalog: Catalog;
@@ -203,5 +208,21 @@ export class HubProject
     const { deleteProject } = await import("./edit");
     // Delegate to module fn
     await deleteProject(this.entity.id, this.context.userRequestOptions);
+  }
+
+  /**
+   * Resolve a single metric for this metric
+   * @param metricId
+   * @returns
+   */
+  resolveMetric(metricId: string): Promise<IMetricFeature[]> {
+    const metrics = getEntityMetrics(this.entity);
+    const metric = metrics.find((m) => m.id === metricId);
+    // TODO: add caching
+    if (metric) {
+      return resolveMetric(metric, this.context);
+    } else {
+      throw new Error(`Metric ${metricId} not found.`);
+    }
   }
 }

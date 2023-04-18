@@ -27,6 +27,7 @@ export function getPropertyMap(): IPropertyMap[] {
     objectKey: "location",
     modelKey: "item.properties.location",
   });
+  map.push({ objectKey: "metrics", modelKey: "item.properties.metrics" });
 
   return map;
 }

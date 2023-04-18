@@ -23,12 +23,11 @@ const memoizedFnCache: Record<string, any> = {};
 export const memoize = <ARGS extends unknown[], RET>(
   fn: (...args: ARGS) => RET
 ) => {
-  if (!memoizedFnCache[fn.name]) {
+  if (!memoizedFnCache[`_${fn.name}`]) {
     const cache: Record<string, RET> = {};
 
     const memoizedFn = (...args: ARGS) => {
       const cacheKey = createCacheKeyFromArgs(args);
-
       if (cache[cacheKey]) {
         return cache[cacheKey];
       }
@@ -37,15 +36,24 @@ export const memoize = <ARGS extends unknown[], RET>(
       cache[cacheKey] = asyncFn;
       return asyncFn;
     };
-    memoizedFnCache[fn.name] = memoizedFn;
+    memoizedFnCache[`_${fn.name}`] = memoizedFn;
   }
-  return memoizedFnCache[fn.name];
+  return memoizedFnCache[`_${fn.name}`];
 };
 
 /**
  * Clear the cache of a memoized function
+ * If no function name is provided, the entire cache is cleared
+ * This is useful for testing, but should not be used in production
  * @param fn
  */
-export const clearMemoizedCache = (fnName: string) => {
-  delete memoizedFnCache[fnName];
+export const clearMemoizedCache = (fnName?: string) => {
+  if (!fnName) {
+    Object.keys(memoizedFnCache).forEach((key) => {
+      delete memoizedFnCache[key];
+    });
+    return;
+  } else {
+    delete memoizedFnCache[`_${fnName}`];
+  }
 };

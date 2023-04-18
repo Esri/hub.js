@@ -1,3 +1,4 @@
+import { IWithMetrics } from "../traits/IWithMetrics";
 import {
   IWithLayout,
   IWithPermissions,
@@ -5,7 +6,6 @@ import {
   IWithCatalog,
 } from "../traits/index";
 import { IHubItemEntity } from "./IHubItemEntity";
-import { IHubTimeline } from "./IHubTimeline";
 
 /**
  * Defines the properties of a Hub Project object
@@ -15,6 +15,7 @@ export interface IHubProject
     IWithSlug,
     IWithCatalog,
     IWithLayout,
+    IWithMetrics,
     IWithPermissions {
   status: PROJECT_STATUSES;
 }
