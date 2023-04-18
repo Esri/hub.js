@@ -26,6 +26,27 @@ import { filterSchemaToUiSchema } from "../../src/core/schemas/internal";
 
 const PROJECT_LOCATION: IHubLocation = {
   type: "custom",
+  extent: [
+    [-77.32808191324128, 38.74173655216708],
+    [-76.8191059305754, 39.08220981728297],
+  ],
+  spatialReference: {
+    wkid: 4326,
+  },
+  geometries: [
+    {
+      type: "polygon",
+      spatialReference: {
+        wkid: 4326,
+      },
+      rings: [
+        [
+          [-77.32808191324128, 38.74173655216708],
+          [-76.8191059305754, 39.08220981728297],
+        ],
+      ],
+    } as unknown as __esri.Geometry,
+  ],
 };
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
@@ -131,9 +152,7 @@ describe("HubProjects:", () => {
       });
       expect(chk.id).toBe(GUID);
       expect(chk.owner).toBe("vader");
-      expect(chk.location).toEqual({
-        type: "custom",
-      });
+      expect(chk.location).toEqual(PROJECT_LOCATION);
 
       expect(getItemSpy.calls.count()).toBe(1);
       expect(getItemSpy.calls.argsFor(0)[0]).toBe(GUID);
@@ -326,11 +345,17 @@ describe("HubProjects:", () => {
         schemaVersion: 1,
         canEdit: false,
         canDelete: false,
+        location: {
+          type: "none",
+        },
       };
       const chk = await updateProject(prj, { authentication: MOCK_AUTH });
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Hello World");
       expect(chk.description).toBe("Some longer description");
+      expect(chk.location).toEqual({
+        type: "none",
+      });
       // should ensure unique slug
       expect(slugSpy.calls.count()).toBe(1);
       expect(slugSpy.calls.argsFor(0)[0]).toEqual(
