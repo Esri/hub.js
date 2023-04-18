@@ -1,3 +1,10 @@
+# @esri/hub-common [12.28.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.27.1...@esri/hub-common@12.28.0) (2023-04-18)
+
+
+### Features
+
+* deepSet and setProp support replace for objects ([#1031](https://github.com/Esri/hub.js/issues/1031)) ([bf9a6a3](https://github.com/Esri/hub.js/commit/bf9a6a33a3afc631c7d581a869d53ed2a7c119da))
+
 ## @esri/hub-common [12.27.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.27.0...@esri/hub-common@12.27.1) (2023-04-17)
 
 
