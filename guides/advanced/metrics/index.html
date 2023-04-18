@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Working with Metrics | Guide | @esri/hub.js</title>
+    
+    <meta name="description" content="A modular, high quality toolkit for working with ArcGIS Hub">
+    
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css">
+    <link rel="stylesheet" href="/hub.js/css/style.css">
+    
+  </head>
+  <body>
+  <!-- Drawer -->
+    <div class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
+      <nav class="drawer-nav" role="navigation">
+        <aside class="side-nav">
+          <h2 class="side-nav-title">@esri/hub.js</h2>
+          <a href="/hub.js/guides/" class="is-active side-nav-link">Guides</a>
+          <a href="/hub.js/api/" class="side-nav-link">API Reference</a>
+        </aside>
+      </nav>
+    </div>
+
+    <div id="page" class="wrapper">
+      <!-- Sample HTML -->
+      <header class="top-nav">
+        <div class="grid-container">
+          <div class="column-24">
+            <!-- desktop sized navigation -->
+            <div class="tablet-hide">
+              <!-- logo / home -->
+              <a href="/hub.js/" class="top-nav-title">@esri/hub.js</a>
+              <!-- primary navigation sections -->
+              <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/guides/" class="is-active top-nav-link">Guides</a>
+                <a href="/hub.js/api/" class="top-nav-link">API Reference</a>
+                <a href="https://github.com/Esri/hub.js" class="top-nav-link">GitHub</a>
+              </nav>
+            </div>
+
+            <!-- tablet and mobile sized navigation -->
+            <div class="tablet-show top-nav-flex">
+              <!-- open primary navigation drawer -->
+              <nav class="top-nav-flex-list" role="navigation" aria-labelledby="topnav">
+                <a href="/hub.js/" class="icon-ui-menu top-nav-link js-drawer-toggle" data-drawer="top-nav"><span class="phone-hide">Menu</span></a>
+              </nav>
+              <!-- logo / home -->
+              <header class="top-nav-flex-title">
+                <a href="/hub.js/" class="top-nav-link">@esri/hub.js</a>
+              </header>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+
+      <main id="#skip-to-content">
+        
+  <div class="grid-container trailer-1 leader-1">
+    <div class="column-6">
+      <ul class="list-plain">
+        
+          <li>Intro</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/intro/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/intro/getting-started/">Getting Started</a></li>
+            
+          </ul>
+        
+          <li>Class Api</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/classes/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/classes/arcgiscontext/">Authentication</a></li>
+            
+              <li><a href="/hub.js/guides/classes/sites/">Sites (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/pages/">Pages (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/initiatives/">Initiatives (WIP)</a></li>
+            
+              <li><a href="/hub.js/guides/classes/projects/">Projects</a></li>
+            
+          </ul>
+        
+          <li>Functional Api</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/functional/overview/">Overview</a></li>
+            
+              <li><a href="/hub.js/guides/functional/authentication/">Authentication</a></li>
+            
+              <li><a href="/hub.js/guides/functional/hub-search/">Hub Search</a></li>
+            
+              <li><a href="/hub.js/guides/functional/utilities/">Utilities</a></li>
+            
+              <li><a href="/hub.js/guides/functional/discussions/">Discussions</a></li>
+            
+              <li><a href="/hub.js/guides/functional/teams/">Teams</a></li>
+            
+              <li><a href="/hub.js/guides/functional/versioning/">Versioning</a></li>
+            
+          </ul>
+        
+          <li>Advanced</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/advanced/access-control/">Access Control</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/capabilities/">Capabilities</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/operation-stack/">OperationStack</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/permissions/">Permissions</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/metrics/" class="is-active">Metrics</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/queries-and-filters/">Queries & Filters</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/catalog-collection/">Catalogs & Collections</a></li>
+            
+              <li><a href="/hub.js/guides/advanced/composing-workflows/">Composing Workflows</a></li>
+            
+          </ul>
+        
+          <li>Developers</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/developers/e2e-tests/">E2E Testing</a></li>
+            
+          </ul>
+        
+          <li>Legacy</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/hub.js/guides/legacy/content-search/">Search Service</a></li>
+            
+              <li><a href="/hub.js/guides/legacy/sites-and-pages/">Sites and Pages</a></li>
+            
+          </ul>
+        
+      </ul>
+    </div>
+
+    <div class="column-18">
+      <div class="panel">
+        <h1>Initiative and Project Metrics</h1>
+<p>Metrics are a means of declaring and reporting status information. Typically, an Initiative defines a set of metrics, for which it's associated Projects will provide values. However, it's also possible for a Project or Initiative to simply define it's own metrics.</p>
+<p>The metric values can be numbers, categorical strings, dates, aggregated statistics, or tables of information for use in charts (future).</p>
+<p>The source of a Metric can be <a href="#static-value-metrics">Static Values</a>, derived from <a href="#service-query-metrics">Service Queries</a> or derived from <a href="#item-query-metrics">Item Queries</a>. In the future additional metric providers will be created to fetch metrics from the ArcGIS Telemetry system or the ArcGIS Hub API.</p>
+<p>Metric values are returned as an array of objects, each of which contain the source entity id, it's title, and type, in addition to any metric properties that were requested.</p>
+<p>In the case of static or service query metrics, a single entry will be present in the array. For Item Query metrics, there will be one entry for every item returned in the query. This model allows the client to compute various statistics on the set of metrics without making multiple requests.</p>
+<h2>Example</h2>
+<pre><code class="js"><span class="hljs-comment">// Create anonymous context</span>
+<span class="hljs-keyword">const</span> ctxMgr = <span class="hljs-keyword">await</span> ArcGISContextManager.create();
+<span class="hljs-comment">// fetch initiative</span>
+<span class="hljs-keyword">const</span> initiative = <span class="hljs-keyword">await</span> HubInitiative.fetch(
+  <span class="hljs-string">"93114ab97bd8524afa7df575065c08cc"</span>,
+  ctxMgr.context
+);
+<span class="hljs-comment">// resolveMetric(...)</span>
+<span class="hljs-keyword">const</span> budgetMetric = <span class="hljs-keyword">await</span> initiative.resolveMetric(<span class="hljs-string">"budget"</span>);
+</code></pre>
+<p>This will return a structure like this:</p>
+<pre><code class="js">[
+  {
+    <span class="hljs-attr">attributes</span>: {
+      <span class="hljs-attr">id</span>: <span class="hljs-string">"de08aa6ad2f647109afa7df575065c08"</span>,
+      <span class="hljs-attr">name</span>: <span class="hljs-string">"Test Vision Zero Project 5"</span>,
+      <span class="hljs-attr">type</span>: <span class="hljs-string">"Hub Project"</span>,
+      <span class="hljs-attr">budget</span>: <span class="hljs-number">22546</span>,
+    },
+  },
+  {
+    <span class="hljs-attr">attributes</span>: {
+      <span class="hljs-attr">id</span>: <span class="hljs-string">"422e1e548dc54009993114ab97bd8524"</span>,
+      <span class="hljs-attr">name</span>: <span class="hljs-string">"Test Vision Zero Project 7"</span>,
+      <span class="hljs-attr">type</span>: <span class="hljs-string">"Hub Project"</span>,
+      <span class="hljs-attr">budget</span>: <span class="hljs-number">132900</span>,
+    },
+  },
+];
+</code></pre>
+<p>The array can be used to show a table of values, or further processed to show aggregations or other computed metrics (e.g. percent of total).</p>
+<p>The <code>aggregateMetrics(metrics, &quot;budget&quot;, &quot;sum&quot;)</code> exists to return aggregations from the output array.</p>
+<p>In the future, each entry will contain a geometry property, containing the location defined for the entity, thus enabling a map display.</p>
+<h2>Defining Metrics</h2>
+<p>Metrics are defined on the Hub Entity objects in the <code>.metrics</code> property. When stored into items, they are placed into <code>item.properties.metrics</code>, as this allows then to be retrieved via item queries without incurring N+1 queries.</p>
+<p>That said, <strong>Metrics must be processed prior to resolution</strong> - more on this later.</p>
+<h2>Metrics Object Model</h2>
+<p><img src="/hub.js/img/metrics-object-model.png" alt="Metrics Object model"></p>
+<p>A Metric has the following structure:</p>
+<pre><code class="typescript"><span class="hljs-keyword">const</span> myBudgetMetric: IMetric = {
+  <span class="hljs-comment">// a string that can be used as a property name in javascript</span>
+  <span class="hljs-comment">// this should not be changed once it's defined.</span>
+  id: <span class="hljs-string">"budget"</span>,
+  <span class="hljs-comment">// name of the metric - this will be shown in UIs, and can change</span>
+  <span class="hljs-comment">// over the lifetime of the Metric</span>
+  name: <span class="hljs-string">"Project Budget"</span>,
+  <span class="hljs-comment">// Description - optional but suggested when working with Item Query</span>
+  <span class="hljs-comment">// metrics, as the Items which are providing the metric will see this</span>
+  <span class="hljs-comment">// in the metric definition UI</span>
+  description: <span class="hljs-string">"Budget for the project"</span>,
+  <span class="hljs-comment">// Units can also be defined, when it makes sense</span>
+  units: <span class="hljs-string">"USD"</span>,
+  <span class="hljs-comment">// Source is where we define the details of the metric.</span>
+  source: {...}
+}
+
+</code></pre>
+<h3 id="static-value-metrics">Static Value Metrics</h3>
+<p>As the name implies this is a static value. Many times organizations will want to use a static value to ensure their numbers match &quot;official&quot; numbers.</p>
+<pre><code class="typescript"><span class="hljs-keyword">const</span> exampleStaticValue: IMetric = {
+  id: <span class="hljs-string">"budget"</span>,
+  name: <span class="hljs-string">"Budget"</span>,
+  source: {
+    metricType: <span class="hljs-string">"static-value"</span>,
+    value: <span class="hljs-number">100000</span>,
+  },
+};
+</code></pre>
+<h3 id="service-query-metrics">Service Query Metrics</h3>
+<p>These metrics issue an &quot;out statistics&quot; query to a feature service and return the aggregate in the response.</p>
+<pre><code class="typescript"><span class="hljs-keyword">const</span> serviceMetric: IMetric = {
+  id: <span class="hljs-string">"spentBudget"</span>,
+  name: <span class="hljs-string">"Spent Budget"</span>,
+  source: {
+    metricType: <span class="hljs-string">"service-query"</span>,
+    serviceUrl:
+      <span class="hljs-string">"https://services.arcgis.com/orgid/arcgis/rest/services/serviceName/FeatureServer"</span>,
+    layerId: <span class="hljs-number">3</span>,
+    field: <span class="hljs-string">"budget"</span>,
+    statistic: <span class="hljs-string">"sum"</span>,
+    where: <span class="hljs-string">"status = 'complete'"</span>,
+  },
+};
+</code></pre>
+<p>The query will be executed with the credentials of the current user, this the access level of the service should be kept in sync with the access level of the item defining this type of metric. If the service is unavailable, the metric resolution will fail, throwing an error.</p>
+<h3 id="item-query-metrics">Item Query Metrics</h3>
+<p>These metrics issue an item query and then pluck values out of the returned items. This is also the type of metric used to &quot;cascade&quot; metric look ups, from an Initiative, down to a set of Projects.</p>
+<pre><code class="typescript"><span class="hljs-keyword">const</span> itemMetric: IMetric = {
+  id: <span class="hljs-string">"usdotBudget"</span>,
+  name: <span class="hljs-string">"USDOT Budget"</span>,
+  description: <span class="hljs-string">"USDOT Funding for the project"</span>,
+  units: <span class="hljs-string">"USD"</span>,
+  source: {
+    metricType: <span class="hljs-string">"item-query"</span>,
+    keywords: [<span class="hljs-string">"initiative|00f"</span>], <span class="hljs-comment">// typekeywords to query for</span>
+    itemTypes: [<span class="hljs-string">"Hub Project"</span>], <span class="hljs-comment">// list of item types to return</span>
+    <span class="hljs-comment">// propertyPath is a description of where on the retrieved item to find</span>
+    <span class="hljs-comment">// the property. If we are targeting a metric defined by the</span>
+    <span class="hljs-comment">// item, we use a "findBy" statement.</span>
+    propertyPath: <span class="hljs-string">"properties.metrics[findBy(id,'usdotBudget_00c')].source"</span>,
+  },
+};
+</code></pre>
+<h4>Metric Id's and Property Paths</h4>
+<p>When a Project (child) defines a metric for consuption by an Initiative (parent), it must append the parent's item id to the metric id.</p>
+<p>For example, Project <code>00c</code> defined a <code>budget</code> metric being requested by Initiative <code>3a1</code>. The project defines that metric in it's metrics array, with <code>id: &quot;budget_3a1&quot;</code>, and the Initiative defined the property path for that <a href="#item-query-metrics">Item Query</a> metric as <code>&quot;properties.metrics[findBy(id,'budget_3a1')].source&quot;</code>.</p>
+<p>This ensures that there are no collisions if a project is associated to multiple Initiatives, all requesting a metric with the same id.</p>
+<h2>Recursive Metrics</h2>
+<p>In order for an Initiative to fetch metrics from Projects, it must define those metrics as <a href="#item-query-metrics">Item Query</a> metrics. The <code>propertyPath</code> in the <code>IItemQueryMetricSource</code> may point to a property on the retrived item (e.g. <code>owner</code> or <code>type</code>), or may reference a formal Metric, located in the item's <code>properties.metrics</code> array. The latter is specified as a <code>findBy</code> specifier, as described in the <code>getProp</code> documentation. The general pattern is shown below.</p>
+<pre><code class="js"><span class="hljs-keyword">const</span> propPath = <span class="hljs-string">"properties.metrics[findBy(id,'usdotBudget_00c')].source"</span>;
+</code></pre>
+<p>This will use <code>getProp</code> to locate the metric with id <code>usdotBudget_00c</code> in the item's metrics array, and then grab the <code>.source</code> property from that. The <code>.source</code> must be one of the valid <code>MetricSource</code>s - <a href="#static-value-metrics">Static Value</a>, <a href="#service-query-metrics">Service Query</a> or an <a href="#item-query-metrics">Item Query</a> metric. In call cases, the resolution of the value recurses to resolve the value.</p>
+<p>For the most part this should be transparent to the developer and end-user, but it's useful to understand this when debugging.</p>
+<h2 id="pre-processing-metrics"> Pre-Processing Metrics</h2>
+<p>The resolved metric requires information from the host entity (typically an Item). The <code>getEntityMetric(entity, metricId)</code> function merges this information into <code>IMetric.entityInfo</code> and returns the fully populated <code>IMetric</code> that is ready to be processed by the <code>resolveMetric(metric, context)</code> function.</p>
+<p><strong>Failing to pre-process the metric will result in mal-formed output.</strong></p>
+<p>Using the <code>.resolveMetric(metricId)</code> function on the Initiative and Project classes will automatically do this. If you are not working with a class instance, call the <code>getEntityMetric(..)</code> function directly, and then resolve the metric.</p>
+<h2>Resolved Metrics</h2>
+<p>A resolved metric is an array of <code>IMetricFeature</code> objects. This object is structed like a <code>Feature</code> in order to inter-operate with the ArcGIS API for Javascript, and the ArcGIS Charts library.</p>
+<p><strong>Note: At this time, geometry is not returned. This will be a future addition once Projects have <code>IHubLocation</code> added.</strong></p>
+<pre><code class="typescript"><span class="hljs-keyword">const</span> example: IMetricFeature[] = [
+  {
+    attributes: {
+      id: <span class="hljs-string">"00c"</span>,
+      <span class="hljs-keyword">type</span>: <span class="hljs-string">"Hub Project"</span>,
+      label: <span class="hljs-string">"Oak St Project"</span>,
+      budget: <span class="hljs-number">100000</span>,
+    },
+    <span class="hljs-comment">// geometry: {...}, in the future this will be populated</span>
+  },
+];
+</code></pre>
+<p>We can see that there are properies in the result that are not in the <code>IMetric</code> itself. This is where <code>IMetric.sourceInfo</code> and the <a href="#pre-processing-metrics">pre-processing step</a> come in.</p>
+<h2>Resolving Metrics</h2>
+<p>The process of getting the values that correspond to a metric definition is called &quot;resovling the metric&quot;.</p>
+<p>The following diagram represents the high-level logic.</p>
+<p><img src="/hub.js/img/metric-resolution-flow.png" alt="Metric Resolution Process"></p>
+<p>If working with the Hub Entity classes, the Project and Initiative classes implement <code>IWithMetricBehavior</code> and thus have a <code>resolveMetric(idOfMetric):Promise&lt;IMetricFeature[]&gt;</code> method.</p>
+<p>For functional developers there is <code>resolveMetric(metric: IMetric, context:IArcGISContext):Promise&lt;IMetricFeature[]&gt;</code></p>
+      </div>
+    </div>
+  </div>
+
+      </main>
+    </div>
+
+    <footer class="footer">
+      
+      <div class="panel panel-white">
+        <div class="grid-container">
+          <div class="column-24">
+            <a href="https://github.com/Esri/hub.js" class="font-size--2">Fork this project</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/js/calcite-web.min.js"></script>
+
+    <script>
+       calcite.init()
+    </script>
+
+    
+  </body>
+</html>
