@@ -6,7 +6,7 @@ import { deepSet } from "./deep-set";
  * @param path - the path to the property we want to set
  * @param val - the value we want to set it to
  * @param obj - the target object
- * @param replace - if true, replace the value at the path with the new value instead of set
+ * @param replace - if true, replace the value at the path with the new value instead of merging
  */
 export function setProp(
   path: string | string[],

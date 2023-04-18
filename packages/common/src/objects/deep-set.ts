@@ -5,7 +5,7 @@ import { cloneObject } from "../util";
  * @param {Object} target Object we want to set the property on
  * @param {String} path Dotted path to the property we want to set
  * @param {Any} value Value we want to assign to the property
- * @param {Boolean} replace If true, replace the value at the path with the new value instead of set
+ * @param {Boolean} replace If true, replace the value at the path with the new value instead of merging
  */
 export function deepSet(
   target: Record<string, any>,
