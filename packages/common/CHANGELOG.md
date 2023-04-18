@@ -1,3 +1,10 @@
+# @esri/hub-common [12.30.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.29.0...@esri/hub-common@12.30.0) (2023-04-18)
+
+
+### Features
+
+* implement metrics ([#1028](https://github.com/Esri/hub.js/issues/1028)) ([695493d](https://github.com/Esri/hub.js/commit/695493d34e3c05474250642fa13a726eeac5ea2d))
+
 # @esri/hub-common [12.29.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.28.0...@esri/hub-common@12.29.0) (2023-04-18)
 
 
