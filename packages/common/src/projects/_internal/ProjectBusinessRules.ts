@@ -33,7 +33,7 @@ export const ProjectCapabilityPermissions: ICapabilityPermission[] = [
   {
     entity: "project",
     capability: "settings",
-    permissions: ["hub:project:edit"],
+    permissions: ["hub:project:owner"],
   },
 ];
 
@@ -47,6 +47,7 @@ export const ProjectPermissions = [
   "hub:project:delete",
   "hub:project:edit",
   "hub:project:view",
+  "hub:project:owner",
 ] as const;
 
 /**
@@ -76,6 +77,13 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:project:delete",
+    authenticated: true,
+    subsystems: ["projects"],
+    entityOwner: true,
+    licenses: ["hub-premium"],
+  },
+  {
+    permission: "hub:project:owner",
     authenticated: true,
     subsystems: ["projects"],
     entityOwner: true,
