@@ -24,4 +24,10 @@ describe("setProp", () => {
     setProp("foo.bar", true, obj);
     expect(obj).toEqual({ foo: { bar: true } });
   });
+
+  it("handles replace option", () => {
+    const obj = { foo: { bar: "org", extent: [], geometries: {} } } as any;
+    setProp("foo", { bar: "none" }, obj, true);
+    expect(obj).toEqual({ foo: { bar: "none" } });
+  });
 });

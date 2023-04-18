@@ -136,7 +136,7 @@ function mapProps<S, T>(
     // if it's not null or undefined
     if (sourceVal !== null && sourceVal !== undefined) {
       // set it
-      deepSet(clone, targetPath, sourceVal);
+      deepSet(clone, targetPath, sourceVal, true);
     }
   });
 
