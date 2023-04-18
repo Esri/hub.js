@@ -1,3 +1,10 @@
+# @esri/hub-common [12.29.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.28.0...@esri/hub-common@12.29.0) (2023-04-18)
+
+
+### Features
+
+* add new hub:project:owner permission and update project settings with it ([97a0b7f](https://github.com/Esri/hub.js/commit/97a0b7fb583c87d041986b7f7cc61d65d0ebface))
+
 # @esri/hub-common [12.28.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.27.1...@esri/hub-common@12.28.0) (2023-04-18)
 
 
