@@ -43,7 +43,7 @@ describe("posts", () => {
         expect(url).toEqual(`/posts`);
         expect(opts).toEqual({
           ...options,
-          data: undefined,
+          data: {},
           httpMethod: "GET",
         });
         done();
