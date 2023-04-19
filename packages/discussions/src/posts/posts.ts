@@ -25,7 +25,6 @@ export function searchPosts(
   options: ISearchPostsParams
 ): Promise<IPagedResponse<IPost>> {
   const url = `/posts`;
-  options.httpMethod = "GET";
   // need to serialize geometry and featureGeometry since this
   // is a GET request. we should consider requiring this to be
   // a base64 string to safeguard against large geometries that
@@ -37,7 +36,11 @@ export function searchPosts(
         : acc,
     { ...(options.data ?? {}) } as any
   );
-  return request(url, { ...options, data });
+  return request(url, {
+    ...options,
+    data,
+    httpMethod: "GET",
+  });
 }
 
 /**
