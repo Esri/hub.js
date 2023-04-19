@@ -1,3 +1,10 @@
+## @esri/hub-common [12.30.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.30.0...@esri/hub-common@12.30.1) (2023-04-19)
+
+
+### Bug Fixes
+
+* updateVersionMetadata sends owner param ([065807d](https://github.com/Esri/hub.js/commit/065807de1541dd62597e8872de54474a82f06071))
+
 # @esri/hub-common [12.30.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.29.0...@esri/hub-common@12.30.0) (2023-04-18)
 
 
