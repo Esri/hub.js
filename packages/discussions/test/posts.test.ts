@@ -1,3 +1,4 @@
+import { Geometry } from "geojson";
 import {
   createPost,
   searchPosts,
@@ -33,7 +34,24 @@ describe("posts", () => {
     );
   });
 
-  it("queries posts", (done) => {
+  it("queries posts with no parameters", (done) => {
+    const options = { ...baseOpts };
+    searchPosts(options)
+      .then(() => {
+        expect(requestSpy.calls.count()).toEqual(1);
+        const [url, opts] = requestSpy.calls.argsFor(0);
+        expect(url).toEqual(`/posts`);
+        expect(opts).toEqual({
+          ...options,
+          data: undefined,
+          httpMethod: "GET",
+        });
+        done();
+      })
+      .catch(() => fail());
+  });
+
+  it("queries posts with parameters", (done) => {
     const query = {
       access: [SharingAccess.PUBLIC],
       groups: ["foo"],
@@ -46,6 +64,83 @@ describe("posts", () => {
         const [url, opts] = requestSpy.calls.argsFor(0);
         expect(url).toEqual(`/posts`);
         expect(opts).toEqual({ ...options, httpMethod: "GET" });
+        done();
+      })
+      .catch(() => fail());
+  });
+
+  it("queries posts with geometry", (done) => {
+    const geometry: Geometry = {
+      type: "Polygon",
+      coordinates: [
+        [
+          [180, -90],
+          [180, 90],
+          [-180, 90],
+          [-180, -90],
+          [180, -90],
+        ],
+      ],
+    };
+    const query = {
+      access: [SharingAccess.PUBLIC],
+      groups: ["foo"],
+      geometry,
+    };
+
+    const options = { ...baseOpts, data: query };
+    searchPosts(options)
+      .then(() => {
+        expect(requestSpy.calls.count()).toEqual(1);
+        const [url, opts] = requestSpy.calls.argsFor(0);
+        expect(url).toEqual(`/posts`);
+        expect(opts).toEqual({
+          ...{
+            ...options,
+            data: { ...query, geometry: JSON.stringify(query.geometry) },
+          },
+          httpMethod: "GET",
+        });
+        done();
+      })
+      .catch(() => fail());
+  });
+
+  it("queries posts with featureGeometry", (done) => {
+    const geometry: Geometry = {
+      type: "Polygon",
+      coordinates: [
+        [
+          [180, -90],
+          [180, 90],
+          [-180, 90],
+          [-180, -90],
+          [180, -90],
+        ],
+      ],
+    };
+    const query = {
+      access: [SharingAccess.PUBLIC],
+      groups: ["foo"],
+      featureGeometry: geometry,
+    };
+
+    const options = { ...baseOpts, data: query };
+    searchPosts(options)
+      .then(() => {
+        expect(requestSpy.calls.count()).toEqual(1);
+        const [url, opts] = requestSpy.calls.argsFor(0);
+        expect(url).toEqual(`/posts`);
+        expect(opts).toEqual({
+          ...{
+            ...options,
+            data: {
+              ...query,
+              featureGeometry: JSON.stringify(query.featureGeometry),
+            },
+          },
+          httpMethod: "GET",
+        });
         done();
       })
       .catch(() => fail());

@@ -1,4 +1,5 @@
 /* tslint:disable unified-signatures */
+import { cloneObject } from "@esri/hub-common";
 import { request } from "../request";
 import {
   ICreatePostParams,
@@ -25,8 +26,20 @@ export function searchPosts(
   options: ISearchPostsParams
 ): Promise<IPagedResponse<IPost>> {
   const url = `/posts`;
-  options.httpMethod = "GET";
-  return request(url, options);
+  const opts = cloneObject(options);
+  opts.httpMethod = "GET";
+  // need to serialize geometry and featureGeometry since this
+  // is a GET request. we should consider requiring this to be
+  // a base64 string to safeguard against large geometries that
+  // will exceed URL character limits
+  const data = ["geometry", "featureGeometry"].reduce(
+    (acc, property) =>
+      acc?.[property]
+        ? { ...acc, [property]: JSON.stringify(acc[property]) }
+        : acc,
+    opts.data as any
+  );
+  return request(url, { ...opts, data });
 }
 
 /**
