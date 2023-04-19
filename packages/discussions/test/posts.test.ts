@@ -106,6 +106,46 @@ describe("posts", () => {
       .catch(() => fail());
   });
 
+  it("queries posts with featureGeometry", (done) => {
+    const geometry: Geometry = {
+      type: "Polygon",
+      coordinates: [
+        [
+          [180, -90],
+          [180, 90],
+          [-180, 90],
+          [-180, -90],
+          [180, -90],
+        ],
+      ],
+    };
+    const query = {
+      access: [SharingAccess.PUBLIC],
+      groups: ["foo"],
+      featureGeometry: geometry,
+    };
+
+    const options = { ...baseOpts, data: query };
+    searchPosts(options)
+      .then(() => {
+        expect(requestSpy.calls.count()).toEqual(1);
+        const [url, opts] = requestSpy.calls.argsFor(0);
+        expect(url).toEqual(`/posts`);
+        expect(opts).toEqual({
+          ...{
+            ...options,
+            data: {
+              ...query,
+              featureGeometry: JSON.stringify(query.featureGeometry),
+            },
+          },
+          httpMethod: "GET",
+        });
+        done();
+      })
+      .catch(() => fail());
+  });
+
   it("creates post on unknown or non-existent channel", (done) => {
     const body = {
       access: SharingAccess.PRIVATE,
