@@ -1,3 +1,10 @@
+## @esri/hub-discussions [22.1.2](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@22.1.1...@esri/hub-discussions@22.1.2) (2023-04-19)
+
+
+### Bug Fixes
+
+* auth issue in searchPosts ([#1035](https://github.com/Esri/hub.js/issues/1035)) ([a7465d6](https://github.com/Esri/hub.js/commit/a7465d601f316950a2069a4684b034908161e977))
+
 ## @esri/hub-discussions [22.1.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@22.1.0...@esri/hub-discussions@22.1.1) (2023-04-19)
 
 
