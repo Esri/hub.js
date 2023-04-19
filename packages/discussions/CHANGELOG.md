@@ -1,3 +1,10 @@
+## @esri/hub-discussions [22.1.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@22.1.0...@esri/hub-discussions@22.1.1) (2023-04-19)
+
+
+### Bug Fixes
+
+* serialize geometry parameter for searchPosts call ([#1034](https://github.com/Esri/hub.js/issues/1034)) ([4912bac](https://github.com/Esri/hub.js/commit/4912bacd85042cece2a8bb09150cbc475f4df7ff))
+
 # @esri/hub-discussions [22.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@22.0.0...@esri/hub-discussions@22.1.0) (2023-04-18)
 
 
