@@ -26,7 +26,6 @@ export function searchPosts(
 ): Promise<IPagedResponse<IPost>> {
   const url = `/posts`;
   options.httpMethod = "GET";
-  // let data: any = options.data;
   // need to serialize geometry since this is a GET request.
   // we should consider requiring this to be a base64 string
   // to safeguard against large geometries that will exceed
