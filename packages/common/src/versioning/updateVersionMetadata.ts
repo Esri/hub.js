@@ -27,6 +27,7 @@ export async function updateVersionMetadata(
     ...requestOptions,
     id,
     name: VERSION_RESOURCE_NAME,
+    owner: properties.creator,
     params: { properties },
     prefix,
   });
