@@ -1,3 +1,5 @@
+import { WellKnownCollection } from "../wellKnownCatalog";
+
 export interface IHubCatalog {
   /**
    * Title for the Gallery
@@ -65,9 +67,13 @@ export interface IQuery {
    * ensure we query the correct API
    */
   targetEntity: EntityType;
-
-  wellKnownQueryId?: string;
-
+  /**
+   * An id for a well known collection that the query should use.
+   *
+   * Note: The well known collection's filters will be used _in addition_ to
+   * any existing filters within the IQuery.filters array
+   */
+  wellKnownCollectionId?: WellKnownCollection;
   /**
    * Filters that make up the query
    */

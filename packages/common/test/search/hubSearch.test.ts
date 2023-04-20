@@ -1,4 +1,4 @@
-import { IHubSearchOptions, IQuery, SEARCH_APIS } from "../../src";
+import { IHubSearchOptions, IQuery } from "../../src";
 import { hubSearch } from "../../src/search/hubSearch";
 
 import * as SearchFunctionModule from "../../src/search/_internal";
@@ -17,7 +17,7 @@ describe("hubSearch Module:", () => {
           expect(err.message).toBe("Query is required.");
         }
       });
-      it("throws if Query does not have filters prop", async () => {
+      it("throws if Query does not have filters or wellKnownCollectionId props", async () => {
         try {
           await hubSearch(
             {} as unknown as IQuery,
@@ -25,7 +25,9 @@ describe("hubSearch Module:", () => {
           );
         } catch (err) {
           expect(err.name).toBe("HubError");
-          expect(err.message).toBe("Query must contain at least one Filter.");
+          expect(err.message).toBe(
+            "Query must contain at least one Filter or a wellKnownCollectionId."
+          );
         }
       });
       it("throws if Query does not have filters with entries", async () => {
@@ -36,7 +38,9 @@ describe("hubSearch Module:", () => {
           );
         } catch (err) {
           expect(err.name).toBe("HubError");
-          expect(err.message).toBe("Query must contain at least one Filter.");
+          expect(err.message).toBe(
+            "Query must contain at least one Filter or a wellKnownCollectionId."
+          );
         }
       });
       it("throws if options does not have requestOptions", async () => {
@@ -184,6 +188,7 @@ describe("hubSearch Module:", () => {
       it("items + arcgis-hub: hubSearchItems", async () => {
         const qry: IQuery = {
           targetEntity: "item",
+          wellKnownCollectionId: "dataset",
           filters: [
             {
               predicates: [{ term: "water" }],
@@ -209,7 +214,7 @@ describe("hubSearch Module:", () => {
         expect(options.requestOptions).toEqual(opts.requestOptions);
         expect(options.api).toEqual({
           type: "arcgis-hub",
-          url: "https://my-site.hub.arcgis.com/api/search/v1/collections/all",
+          url: "https://my-site.hub.arcgis.com/api/search/v1",
         });
       });
       it("groups + arcgis: portalSearchGroups", async () => {

@@ -8,7 +8,7 @@ import { enrichSiteSearchResult } from "../../sites";
 import { IHubRequestOptions } from "../../types";
 
 import {
-  IHubCollection,
+  IFilter,
   IHubSearchOptions,
   IHubSearchResponse,
   IHubSearchResult,
@@ -22,10 +22,8 @@ import { expandPredicate } from "./expandPredicate";
 import HubError from "../../HubError";
 import { enrichContentSearchResult } from "../../content/search";
 import { cloneObject } from "../../util";
-import {
-  getWellknownCollection,
-  WellKnownCollection,
-} from "../wellKnownCatalog";
+import { getWellknownCollection } from "../wellKnownCatalog";
+import { getProp } from "../../objects";
 
 /**
  * @internal
@@ -71,19 +69,7 @@ function processSearchParams(options: IHubSearchOptions, query: IQuery) {
     );
   }
 
-  let updatedQuery = cloneObject(query);
-  if (query.wellKnownQueryId) {
-    const { wellKnownQueryId, targetEntity, filters: queryFilters } = query;
-    const {
-      scope: { filters: wellKnownFilters },
-    } =
-      getWellknownCollection(
-        "",
-        targetEntity,
-        wellKnownQueryId as WellKnownCollection
-      ) || ({ scope: { filters: [] } } as Partial<IHubCollection>);
-    updatedQuery.filters = [...queryFilters, ...wellKnownFilters];
-  }
+  let updatedQuery = applyWellKnownCollectionFilters(query);
   // Expand well-known filterGroups
   // TODO: Should we remove this with the whole idea of collections?
   updatedQuery = applyWellKnownItemPredicates(updatedQuery);
@@ -398,6 +384,36 @@ export const WellKnownItemPredicates: IWellKnownItemPredicates = {
 
 /**
  * @private
+ * Add filter blocks from a well-known item collection if indicated.
+ * This is meant to simplify query construction for common use cases.
+ *
+ * Only exported for testing.
+ *
+ * @param query
+ * @returns
+ */
+export function applyWellKnownCollectionFilters(query: IQuery): IQuery {
+  const updated = cloneObject(query);
+  if (updated.wellKnownCollectionId) {
+    const {
+      wellKnownCollectionId,
+      targetEntity,
+      filters: queryFilters,
+    } = query;
+    const wellKnownCollection = getWellknownCollection(
+      "",
+      targetEntity,
+      wellKnownCollectionId
+    );
+    const wellKnownFilters: IFilter[] =
+      getProp(wellKnownCollection, "scope.filters") || [];
+    updated.filters = [...queryFilters, ...wellKnownFilters];
+  }
+  return updated;
+}
+
+/**
+ * @private
  * Convert a Filter Group to expand well-known type filters
  *
  * The purpose of this function is to allow for the use of short-hand
@@ -411,7 +427,7 @@ export const WellKnownItemPredicates: IWellKnownItemPredicates = {
  * NOTE: Any other properties specified in a filter will be removed
  *
  * Only exported to enable extensive testing
- * @param filterGroups
+ * @param query
  */
 export function applyWellKnownItemPredicates(query: IQuery): IQuery {
   const queryClone = cloneObject(query);
