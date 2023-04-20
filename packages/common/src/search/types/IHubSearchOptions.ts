@@ -32,7 +32,7 @@ export interface IHubSearchOptions {
    * Site whose API should be targeted. Ignored in an enterprise context.
    * e.g., https://my-site.hub.arcgis.com
    */
-  siteUrl?: string;
+  site?: string;
 
   /**
    * DEPRECATE in favor of requestOptions

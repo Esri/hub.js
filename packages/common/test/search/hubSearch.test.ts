@@ -194,7 +194,7 @@ describe("hubSearch Module:", () => {
           ],
         };
         const opts: IHubSearchOptions = {
-          siteUrl: "https://my-site.hub.arcgis.com",
+          site: "https://my-site.hub.arcgis.com",
           requestOptions: {
             isPortal: false,
             portal: "https://qaext.arcgis.com/sharing/rest",

@@ -97,7 +97,7 @@ export function getApi(
 ): IApiDefinition {
   const {
     api,
-    siteUrl,
+    site,
     requestOptions: { portal },
   } = options;
 
@@ -107,7 +107,7 @@ export function getApi(
   } else if (shouldUseOgcApi(targetEntity, options)) {
     result = {
       type: "arcgis-hub",
-      url: `${siteUrl}/api/search/v1`,
+      url: `${site}/api/search/v1`,
     };
   } else {
     result = { type: "arcgis", url: portal };
@@ -127,10 +127,10 @@ export function shouldUseOgcApi(
   options: IHubSearchOptions
 ): boolean {
   const {
-    siteUrl,
+    site,
     requestOptions: { isPortal },
   } = options;
-  return targetEntity === "item" && !!siteUrl && !isPortal;
+  return targetEntity === "item" && !!site && !isPortal;
 }
 
 /**

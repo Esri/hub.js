@@ -37,11 +37,11 @@ describe("Search Utils:", () => {
   });
 
   describe("shouldUseOgcApi", () => {
-    const siteUrl = "https://my-site.hub.arcgis-com";
+    const site = "https://my-site.hub.arcgis-com";
     it("returns false when targetEntity isn't item", () => {
       const targetEntity = "group";
       const options = {
-        siteUrl,
+        site,
         requestOptions: {
           isPortal: false,
         },
@@ -62,7 +62,7 @@ describe("Search Utils:", () => {
     it("returns false when in an enterprise environment", () => {
       const targetEntity = "item";
       const options = {
-        siteUrl,
+        site,
         requestOptions: {
           isPortal: true,
         },
@@ -73,7 +73,7 @@ describe("Search Utils:", () => {
     it("returns true otherwise", () => {
       const targetEntity = "item";
       const options = {
-        siteUrl,
+        site,
         requestOptions: {
           isPortal: false,
         },
@@ -83,12 +83,12 @@ describe("Search Utils:", () => {
   });
 
   describe("getApi", () => {
-    const siteUrl = "https://my-site.hub.arcgis-com";
+    const site = "https://my-site.hub.arcgis-com";
     const targetEntity = "item";
     it("returns the expanded options.api if available", () => {
       const options = {
         api: "hubQA" as NamedApis,
-        siteUrl,
+        site,
         requestOptions: {
           isPortal: false,
         },
@@ -97,20 +97,20 @@ describe("Search Utils:", () => {
     });
     it("otherwise returns reference to OGC API if possible", () => {
       const options = {
-        siteUrl,
+        site,
         requestOptions: {
           isPortal: false,
         },
       } as unknown as IHubSearchOptions;
       expect(getApi(targetEntity, options)).toEqual({
         type: "arcgis-hub",
-        url: `${siteUrl}/api/search/v1`,
+        url: `${site}/api/search/v1`,
       });
     });
     it("otherwise returns a reference to the Portal API from requestOptions", () => {
       const portal = "https://my-enterprise-server.com/sharing/rest";
       const options = {
-        siteUrl,
+        site,
         requestOptions: {
           isPortal: true,
           portal,
