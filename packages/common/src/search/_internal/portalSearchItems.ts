@@ -389,8 +389,8 @@ export const WellKnownItemPredicates: IWellKnownItemPredicates = {
  *
  * Only exported for testing.
  *
- * @param query
- * @returns
+ * @param query query to add collection filters to
+ * @returns a copy of the query with the additional filters
  */
 export function applyWellKnownCollectionFilters(query: IQuery): IQuery {
   const updated = cloneObject(query);

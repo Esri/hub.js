@@ -17,7 +17,7 @@ describe("hubSearch Module:", () => {
           expect(err.message).toBe("Query is required.");
         }
       });
-      it("throws if Query does not have filters or wellKnownCollectionId props", async () => {
+      it("throws if Query does not have filters", async () => {
         try {
           await hubSearch(
             {} as unknown as IQuery,
@@ -25,12 +25,10 @@ describe("hubSearch Module:", () => {
           );
         } catch (err) {
           expect(err.name).toBe("HubError");
-          expect(err.message).toBe(
-            "Query must contain at least one Filter or a wellKnownCollectionId."
-          );
+          expect(err.message).toBe("Query must have a filters array.");
         }
       });
-      it("throws if Query does not have filters with entries", async () => {
+      it("throws if Query has an empty filters array and no wellKnownCollectionId props", async () => {
         try {
           await hubSearch(
             { filters: [] } as unknown as IQuery,
