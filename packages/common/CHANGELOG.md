@@ -1,3 +1,11 @@
+# @esri/hub-common [12.31.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.30.1...@esri/hub-common@12.31.0) (2023-04-21)
+
+
+### Features
+
+* **hub-common:** add support for wellKnown collections in hubSearch and add automatic api detection ([8e45163](https://github.com/Esri/hub.js/commit/8e451635eabdf41f6dc8e2930a23690a9e6d556b))
+* **hub-common:** change how we pass api info to hubSearch ([6c0cee9](https://github.com/Esri/hub.js/commit/6c0cee9570daa2dd62e70b3114d7513e1269bbba))
+
 ## @esri/hub-common [12.30.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.30.0...@esri/hub-common@12.30.1) (2023-04-19)
 
 
