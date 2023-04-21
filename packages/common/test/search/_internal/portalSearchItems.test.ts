@@ -1,10 +1,17 @@
 import * as Portal from "@esri/arcgis-rest-portal";
-import { cloneObject, IHubSearchOptions, IQuery } from "../../../src";
+import {
+  cloneObject,
+  getWellknownCollection,
+  IHubSearchOptions,
+  IQuery,
+  WellKnownCollection,
+} from "../../../src";
 
 import * as SimpleResponse from "../../mocks/portal-search/simple-response.json";
 import * as AllTypesResponse from "../../mocks/portal-search/response-with-key-types.json";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
 import {
+  applyWellKnownCollectionFilters,
   applyWellKnownItemPredicates,
   portalSearchItems,
   portalSearchItemsAsItems,
@@ -465,6 +472,47 @@ describe("portalSearchItems Module:", () => {
         expect(chk.filters[0].operation).toBe("OR");
         expect(chk.filters[0].predicates[0].type).toEqual(expected);
         expect(chk.filters[0].predicates[0].owner).not.toBeDefined();
+      });
+    });
+    describe("applyWellKnownCollectionFilters", () => {
+      const baseQuery: IQuery = {
+        targetEntity: "item",
+        filters: [
+          {
+            predicates: [
+              {
+                term: "My Search Terms",
+              },
+            ],
+          },
+        ],
+      };
+      it("performs a no-op when no collection collection is indicated", () => {
+        const query = cloneObject(baseQuery);
+        const result = applyWellKnownCollectionFilters(query);
+        expect(result).toEqual(query);
+      });
+
+      it("performs a no-op when an invalid collection id is indicated", () => {
+        const query = cloneObject(baseQuery);
+        query.collection = "fake" as WellKnownCollection;
+        const result = applyWellKnownCollectionFilters(query);
+        expect(result).toEqual(query);
+      });
+
+      it("appends the a collection's filters when available", () => {
+        const query = cloneObject(baseQuery);
+        query.collection = "dataset";
+        const result = applyWellKnownCollectionFilters(query);
+
+        const datasetCollection = getWellknownCollection("", "item", "dataset");
+        const expected = cloneObject(query);
+        expected.filters = [
+          ...expected.filters,
+          ...datasetCollection.scope.filters,
+        ];
+
+        expect(result).toEqual(expected);
       });
     });
   });

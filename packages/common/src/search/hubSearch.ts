@@ -7,7 +7,7 @@ import {
   IHubSearchResult,
   IQuery,
 } from "./types";
-import { expandApi } from "./utils";
+import { getApi } from "./_internal/commonHelpers/getApi";
 import {
   hubSearchItems,
   portalSearchItems,
@@ -32,8 +32,16 @@ export async function hubSearch(
   if (!query) {
     throw new HubError("hubSearch", "Query is required.");
   }
-  if (!query.filters || !query.filters.length) {
-    throw new HubError("hubSearch", "Query must contain at least one Filter.");
+
+  if (!Array.isArray(query.filters)) {
+    throw new HubError("hubSearch", "Query must have a filters array.");
+  }
+
+  if (!query.filters.length && !query.collection) {
+    throw new HubError(
+      "hubSearch",
+      "Query must contain at least one Filter or a collection."
+    );
   }
 
   if (!options.requestOptions) {
@@ -50,8 +58,9 @@ export async function hubSearch(
 
   // Get the type of the first filterGroup
   const filterType = query.targetEntity;
-  // get the API
-  const apiType = expandApi(options.api || "arcgis").type;
+
+  const formattedOptions = cloneObject(options);
+  formattedOptions.api = getApi(filterType, options);
 
   const fnHash = {
     arcgis: {
@@ -64,12 +73,12 @@ export async function hubSearch(
     },
   };
 
-  const fn = getProp(fnHash, `${apiType}.${filterType}`);
+  const fn = getProp(fnHash, `${formattedOptions.api.type}.${filterType}`);
   if (!fn) {
     throw new HubError(
       `hubSearch`,
-      `Search via "${filterType}" filter against "${apiType}" api is not implemented. Please ensure "targetEntity" is defined on the query.`
+      `Search via "${filterType}" filter against "${formattedOptions.api.type}" api is not implemented. Please ensure "targetEntity" is defined on the query.`
     );
   }
-  return fn(cloneObject(query), options);
+  return fn(cloneObject(query), formattedOptions);
 }

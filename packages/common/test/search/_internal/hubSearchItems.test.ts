@@ -37,9 +37,43 @@ import { ogcAggregationsResponse } from "./mocks/ogcAggregationsResponse";
 import * as getNextOgcCallbackModule from "../../../src/search/_internal/hubSearchItemsHelpers/getNextOgcCallback";
 import { hubSearchItems } from "../../../src/search/_internal/hubSearchItems";
 import { ogcApiRequest } from "../../../src/search/_internal/hubSearchItemsHelpers/ogcApiRequest";
+import { getOgcCollectionUrl } from "../../../src/search/_internal/hubSearchItemsHelpers/getOgcCollectionUrl";
 
 describe("hubSearchItems Module |", () => {
   describe("Request Transformation Helpers |", () => {
+    describe("getOgcCollectionUrl", () => {
+      it("defaults to the all collection if a collection id is not present", () => {
+        const query: IQuery = {
+          targetEntity: "item",
+          filters: [],
+        };
+        const options: IHubSearchOptions = {
+          api: {
+            type: "arcgis-hub",
+            url: "https://my-hub.com/api/search/v1",
+          },
+        };
+        const result = getOgcCollectionUrl(query, options);
+        expect(result).toBe("https://my-hub.com/api/search/v1/collections/all");
+      });
+      it("points to the provided collection if a collection id is present", () => {
+        const query: IQuery = {
+          targetEntity: "item",
+          collection: "dataset",
+          filters: [],
+        };
+        const options: IHubSearchOptions = {
+          api: {
+            type: "arcgis-hub",
+            url: "https://my-hub.com/api/search/v1",
+          },
+        };
+        const result = getOgcCollectionUrl(query, options);
+        expect(result).toBe(
+          "https://my-hub.com/api/search/v1/collections/dataset"
+        );
+      });
+    });
     describe("formatPredicate |", () => {
       it("handles a date range predicate", () => {
         const predicate = {
@@ -729,9 +763,10 @@ describe("hubSearchItems Module |", () => {
       });
       describe("searchOgcItems |", () => {
         afterEach(fetchMock.restore);
-        it("hits the items endpoint for the specified collection api url", async () => {
+        it("hits the items endpoint for the specified collection", async () => {
           const query: IQuery = {
             targetEntity: "item",
+            collection: "dataset",
             filters: [
               {
                 predicates: [
@@ -746,7 +781,7 @@ describe("hubSearchItems Module |", () => {
           const options: IHubSearchOptions = {
             api: {
               type: "arcgis-hub",
-              url: "https://my-test-site.arcgis.com/api/v1/search/collections/all",
+              url: "https://my-test-site.arcgis.com/api/v1/search",
             },
             num: 1,
             targetEntity: "item",
@@ -754,7 +789,7 @@ describe("hubSearchItems Module |", () => {
           };
 
           fetchMock.once(
-            "https://my-test-site.arcgis.com/api/v1/search/collections/all/items?filter=((type='Feature Service'))&limit=1",
+            "https://my-test-site.arcgis.com/api/v1/search/collections/dataset/items?filter=((type='Feature Service'))&limit=1",
             ogcItemsResponse
           );
           const response = await hubSearchItems(query, options);
@@ -768,11 +803,15 @@ describe("hubSearchItems Module |", () => {
         afterEach(fetchMock.restore);
         it("hits the aggregations endpoint for the specified collection api url", async () => {
           // TODO: add a query once the aggregations endpoint can handle arbitrary filters
-          const query: IQuery = null;
+          const query: IQuery = {
+            targetEntity: "item",
+            collection: "dataset",
+            filters: [],
+          };
           const options: IHubSearchOptions = {
             api: {
               type: "arcgis-hub",
-              url: "https://my-test-site.arcgis.com/api/v1/search/collections/all",
+              url: "https://my-test-site.arcgis.com/api/v1/search",
             },
             targetEntity: "item",
             aggFields: ["access", "type"],
@@ -782,7 +821,7 @@ describe("hubSearchItems Module |", () => {
           };
 
           fetchMock.once(
-            "https://my-test-site.arcgis.com/api/v1/search/collections/all/aggregations?aggregations=terms(fields=(access,type))",
+            "https://my-test-site.arcgis.com/api/v1/search/collections/dataset/aggregations?aggregations=terms(fields=(access,type))",
             ogcAggregationsResponse
           );
           const response = await hubSearchItems(query, options);

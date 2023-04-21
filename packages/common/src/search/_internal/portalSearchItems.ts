@@ -8,6 +8,7 @@ import { enrichSiteSearchResult } from "../../sites";
 import { IHubRequestOptions } from "../../types";
 
 import {
+  IFilter,
   IHubSearchOptions,
   IHubSearchResponse,
   IHubSearchResult,
@@ -21,6 +22,8 @@ import { expandPredicate } from "./expandPredicate";
 import HubError from "../../HubError";
 import { enrichContentSearchResult } from "../../content/search";
 import { cloneObject } from "../../util";
+import { getWellknownCollection } from "../wellKnownCatalog";
+import { getProp } from "../../objects";
 
 /**
  * @internal
@@ -65,8 +68,11 @@ function processSearchParams(options: IHubSearchOptions, query: IQuery) {
       "options.requestOptions is required."
     );
   }
+
+  let updatedQuery = applyWellKnownCollectionFilters(query);
   // Expand well-known filterGroups
-  const updatedQuery = applyWellKnownItemPredicates(query);
+  // TODO: Should we remove this with the whole idea of collections?
+  updatedQuery = applyWellKnownItemPredicates(updatedQuery);
   // Expand the individual predicates in each filter
   updatedQuery.filters = updatedQuery.filters.map((filter) => {
     filter.predicates = filter.predicates.map(expandPredicate);
@@ -378,6 +384,32 @@ export const WellKnownItemPredicates: IWellKnownItemPredicates = {
 
 /**
  * @private
+ * Add filter blocks from a well-known item collection if indicated.
+ * This is meant to simplify query construction for common use cases.
+ *
+ * Only exported for testing.
+ *
+ * @param query query to add collection filters to
+ * @returns a copy of the query with the additional filters
+ */
+export function applyWellKnownCollectionFilters(query: IQuery): IQuery {
+  const updated = cloneObject(query);
+  if (updated.collection) {
+    const { collection, targetEntity, filters: queryFilters } = query;
+    const wellKnownCollection = getWellknownCollection(
+      "",
+      targetEntity,
+      collection
+    );
+    const wellKnownFilters: IFilter[] =
+      getProp(wellKnownCollection, "scope.filters") || [];
+    updated.filters = [...queryFilters, ...wellKnownFilters];
+  }
+  return updated;
+}
+
+/**
+ * @private
  * Convert a Filter Group to expand well-known type filters
  *
  * The purpose of this function is to allow for the use of short-hand
@@ -391,7 +423,7 @@ export const WellKnownItemPredicates: IWellKnownItemPredicates = {
  * NOTE: Any other properties specified in a filter will be removed
  *
  * Only exported to enable extensive testing
- * @param filterGroups
+ * @param query
  */
 export function applyWellKnownItemPredicates(query: IQuery): IQuery {
   const queryClone = cloneObject(query);

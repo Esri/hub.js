@@ -1,6 +1,8 @@
 /* Copyright (c) 2018-2021 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+// TODO: deprecate all private functions in this file and more them to ./_internal
+
 import { IUser, UserSession } from "@esri/arcgis-rest-auth";
 import { IGroup, ISearchOptions } from "@esri/arcgis-rest-portal";
 import { ISearchResponse } from "../types";
@@ -155,6 +157,7 @@ export function relativeDateToDateRange(
 }
 
 /**
+ * @private
  * Create a `.next()` function for a type
  * @param request
  * @param nextStart

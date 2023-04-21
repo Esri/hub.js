@@ -17,7 +17,7 @@ describe("hubSearch Module:", () => {
           expect(err.message).toBe("Query is required.");
         }
       });
-      it("throws if Query does not have filters prop", async () => {
+      it("throws if Query does not have filters", async () => {
         try {
           await hubSearch(
             {} as unknown as IQuery,
@@ -25,10 +25,10 @@ describe("hubSearch Module:", () => {
           );
         } catch (err) {
           expect(err.name).toBe("HubError");
-          expect(err.message).toBe("Query must contain at least one Filter.");
+          expect(err.message).toBe("Query must have a filters array.");
         }
       });
-      it("throws if Query does not have filters with entries", async () => {
+      it("throws if Query has an empty filters array and no collection prop", async () => {
         try {
           await hubSearch(
             { filters: [] } as unknown as IQuery,
@@ -36,7 +36,9 @@ describe("hubSearch Module:", () => {
           );
         } catch (err) {
           expect(err.name).toBe("HubError");
-          expect(err.message).toBe("Query must contain at least one Filter.");
+          expect(err.message).toBe(
+            "Query must contain at least one Filter or a collection."
+          );
         }
       });
       it("throws if options does not have requestOptions", async () => {
@@ -184,6 +186,7 @@ describe("hubSearch Module:", () => {
       it("items + arcgis-hub: hubSearchItems", async () => {
         const qry: IQuery = {
           targetEntity: "item",
+          collection: "dataset",
           filters: [
             {
               predicates: [{ term: "water" }],
@@ -191,10 +194,11 @@ describe("hubSearch Module:", () => {
           ],
         };
         const opts: IHubSearchOptions = {
+          site: "https://my-site.hub.arcgis.com",
           requestOptions: {
+            isPortal: false,
             portal: "https://qaext.arcgis.com/sharing/rest",
           },
-          api: "hubDEV",
           include: ["server"],
         };
         const chk = await hubSearch(qry, opts);
@@ -206,6 +210,10 @@ describe("hubSearch Module:", () => {
         expect(query).toEqual(qry);
         expect(options.include).toBeDefined();
         expect(options.requestOptions).toEqual(opts.requestOptions);
+        expect(options.api).toEqual({
+          type: "arcgis-hub",
+          url: "https://my-site.hub.arcgis.com/api/search/v1",
+        });
       });
       it("groups + arcgis: portalSearchGroups", async () => {
         const qry: IQuery = {
