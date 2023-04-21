@@ -487,22 +487,22 @@ describe("portalSearchItems Module:", () => {
           },
         ],
       };
-      it("performs a no-op when no well-known collection is indicated", () => {
+      it("performs a no-op when no collection collection is indicated", () => {
         const query = cloneObject(baseQuery);
         const result = applyWellKnownCollectionFilters(query);
         expect(result).toEqual(query);
       });
 
-      it("performs a no-op when an invalid well-known collection is indicated", () => {
+      it("performs a no-op when an invalid collection id is indicated", () => {
         const query = cloneObject(baseQuery);
-        query.wellKnownCollectionId = "fake" as WellKnownCollection;
+        query.collection = "fake" as WellKnownCollection;
         const result = applyWellKnownCollectionFilters(query);
         expect(result).toEqual(query);
       });
 
-      it("appends the a well-known collection's filters when available", () => {
+      it("appends the a collection's filters when available", () => {
         const query = cloneObject(baseQuery);
-        query.wellKnownCollectionId = "dataset";
+        query.collection = "dataset";
         const result = applyWellKnownCollectionFilters(query);
 
         const datasetCollection = getWellknownCollection("", "item", "dataset");

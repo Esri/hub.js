@@ -394,16 +394,12 @@ export const WellKnownItemPredicates: IWellKnownItemPredicates = {
  */
 export function applyWellKnownCollectionFilters(query: IQuery): IQuery {
   const updated = cloneObject(query);
-  if (updated.wellKnownCollectionId) {
-    const {
-      wellKnownCollectionId,
-      targetEntity,
-      filters: queryFilters,
-    } = query;
+  if (updated.collection) {
+    const { collection, targetEntity, filters: queryFilters } = query;
     const wellKnownCollection = getWellknownCollection(
       "",
       targetEntity,
-      wellKnownCollectionId
+      collection
     );
     const wellKnownFilters: IFilter[] =
       getProp(wellKnownCollection, "scope.filters") || [];

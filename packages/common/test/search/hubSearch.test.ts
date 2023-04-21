@@ -28,7 +28,7 @@ describe("hubSearch Module:", () => {
           expect(err.message).toBe("Query must have a filters array.");
         }
       });
-      it("throws if Query has an empty filters array and no wellKnownCollectionId props", async () => {
+      it("throws if Query has an empty filters array and no collection prop", async () => {
         try {
           await hubSearch(
             { filters: [] } as unknown as IQuery,
@@ -37,7 +37,7 @@ describe("hubSearch Module:", () => {
         } catch (err) {
           expect(err.name).toBe("HubError");
           expect(err.message).toBe(
-            "Query must contain at least one Filter or a wellKnownCollectionId."
+            "Query must contain at least one Filter or a collection."
           );
         }
       });
@@ -186,7 +186,7 @@ describe("hubSearch Module:", () => {
       it("items + arcgis-hub: hubSearchItems", async () => {
         const qry: IQuery = {
           targetEntity: "item",
-          wellKnownCollectionId: "dataset",
+          collection: "dataset",
           filters: [
             {
               predicates: [{ term: "water" }],

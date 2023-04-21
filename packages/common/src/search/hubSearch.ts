@@ -37,10 +37,10 @@ export async function hubSearch(
     throw new HubError("hubSearch", "Query must have a filters array.");
   }
 
-  if (!query.filters.length && !query.wellKnownCollectionId) {
+  if (!query.filters.length && !query.collection) {
     throw new HubError(
       "hubSearch",
-      "Query must contain at least one Filter or a wellKnownCollectionId."
+      "Query must contain at least one Filter or a collection."
     );
   }
 

@@ -70,10 +70,10 @@ export interface IQuery {
   /**
    * An id for a well known collection that the query should use.
    *
-   * Note: The well known collection's filters will be used _in addition_ to
+   * Note: The collection's filters will be used _in addition_ to
    * any existing filters within the IQuery.filters array
    */
-  wellKnownCollectionId?: WellKnownCollection;
+  collection?: WellKnownCollection;
   /**
    * Filters that make up the query
    */

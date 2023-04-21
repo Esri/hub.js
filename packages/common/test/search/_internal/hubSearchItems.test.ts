@@ -42,7 +42,7 @@ import { getOgcCollectionUrl } from "../../../src/search/_internal/hubSearchItem
 describe("hubSearchItems Module |", () => {
   describe("Request Transformation Helpers |", () => {
     describe("getOgcCollectionUrl", () => {
-      it("defaults to the all collection if a wellKnown id is not present", () => {
+      it("defaults to the all collection if a collection id is not present", () => {
         const query: IQuery = {
           targetEntity: "item",
           filters: [],
@@ -56,10 +56,10 @@ describe("hubSearchItems Module |", () => {
         const result = getOgcCollectionUrl(query, options);
         expect(result).toBe("https://my-hub.com/api/search/v1/collections/all");
       });
-      it("points to the provided collection if a wellKnown id is present", () => {
+      it("points to the provided collection if a collection id is present", () => {
         const query: IQuery = {
           targetEntity: "item",
-          wellKnownCollectionId: "dataset",
+          collection: "dataset",
           filters: [],
         };
         const options: IHubSearchOptions = {
@@ -766,7 +766,7 @@ describe("hubSearchItems Module |", () => {
         it("hits the items endpoint for the specified collection", async () => {
           const query: IQuery = {
             targetEntity: "item",
-            wellKnownCollectionId: "dataset",
+            collection: "dataset",
             filters: [
               {
                 predicates: [
@@ -805,7 +805,7 @@ describe("hubSearchItems Module |", () => {
           // TODO: add a query once the aggregations endpoint can handle arbitrary filters
           const query: IQuery = {
             targetEntity: "item",
-            wellKnownCollectionId: "dataset",
+            collection: "dataset",
             filters: [],
           };
           const options: IHubSearchOptions = {
