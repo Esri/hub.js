@@ -1,11 +1,12 @@
 /* Copyright (c) 2018-2021 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+// TODO: deprecate all private functions in this file and more them to ./_internal
+
 import { IUser, UserSession } from "@esri/arcgis-rest-auth";
 import { IGroup, ISearchOptions } from "@esri/arcgis-rest-portal";
 import { ISearchResponse } from "../types";
 import { cloneObject } from "../util";
-import { EntityType, IHubSearchOptions } from "./types";
 import {
   IMatchOptions,
   IDateRange,
@@ -78,59 +79,6 @@ export function expandApi(api: NamedApis | IApiDefinition): IApiDefinition {
     // it's an object, so we trust that it's well formed
     return api as IApiDefinition;
   }
-}
-
-/**
- * @private
- * Determines Which API should be hit for the given search parameters.
- * Hierarchy:
- * - Target options.api if available
- * - Target the OGC API current parameters allow
- * - Target the Portal API based off options.requestOptions.portal
- * @param targetEntity target entity of the query
- * @param options search options
- * @returns an API Definition object describing what should be targeted
- */
-export function getApi(
-  targetEntity: EntityType,
-  options: IHubSearchOptions
-): IApiDefinition {
-  const {
-    api,
-    site,
-    requestOptions: { portal },
-  } = options;
-
-  let result: IApiDefinition;
-  if (api) {
-    result = expandApi(api);
-  } else if (shouldUseOgcApi(targetEntity, options)) {
-    result = {
-      type: "arcgis-hub",
-      url: `${site}/api/search/v1`,
-    };
-  } else {
-    result = { type: "arcgis", url: portal };
-  }
-
-  return result;
-}
-
-/**
- * @private
- * Determines whether the OGC API can be targeted with the given search parameters
- * @param targetEntity target entity of the query
- * @param options search options
- */
-export function shouldUseOgcApi(
-  targetEntity: EntityType,
-  options: IHubSearchOptions
-): boolean {
-  const {
-    site,
-    requestOptions: { isPortal },
-  } = options;
-  return targetEntity === "item" && !!site && !isPortal;
 }
 
 /**
@@ -209,6 +157,7 @@ export function relativeDateToDateRange(
 }
 
 /**
+ * @private
  * Create a `.next()` function for a type
  * @param request
  * @param nextStart

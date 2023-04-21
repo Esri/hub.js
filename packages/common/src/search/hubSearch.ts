@@ -7,7 +7,7 @@ import {
   IHubSearchResult,
   IQuery,
 } from "./types";
-import { getApi } from "./utils";
+import { getApi } from "./_internal/commonHelpers/getApi";
 import {
   hubSearchItems,
   portalSearchItems,
