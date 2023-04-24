@@ -155,7 +155,8 @@ describe("hubSearch Module:", () => {
         const [query, options] = portalSearchItemsSpy.calls.argsFor(0);
         expect(query).toEqual(qry);
         expect(options.include).toBeDefined();
-        expect(options.requestOptions).toEqual(opts.requestOptions);
+        // Any cloning of auth can break downstream functions
+        expect(options.requestOptions).toBe(opts.requestOptions);
       });
       it("items + arcgis: portalSearchItems", async () => {
         const qry: IQuery = {
@@ -181,7 +182,8 @@ describe("hubSearch Module:", () => {
         const [query, options] = portalSearchItemsSpy.calls.argsFor(0);
         expect(query).toEqual(qry);
         expect(options.include).toBeDefined();
-        expect(options.requestOptions).toEqual(opts.requestOptions);
+        // Any cloning of auth can break downstream functions
+        expect(options.requestOptions).toBe(opts.requestOptions);
       });
       it("items + arcgis-hub: hubSearchItems", async () => {
         const qry: IQuery = {
@@ -209,7 +211,8 @@ describe("hubSearch Module:", () => {
         const [query, options] = hubSearchItemsSpy.calls.argsFor(0);
         expect(query).toEqual(qry);
         expect(options.include).toBeDefined();
-        expect(options.requestOptions).toEqual(opts.requestOptions);
+        // Any cloning of auth can break downstream functions
+        expect(options.requestOptions).toBe(opts.requestOptions);
         expect(options.api).toEqual({
           type: "arcgis-hub",
           url: "https://my-site.hub.arcgis.com/api/search/v1",
@@ -239,7 +242,8 @@ describe("hubSearch Module:", () => {
         const [query, options] = portalSearchGroupsSpy.calls.argsFor(0);
         expect(query).toEqual(qry);
         expect(options.include).toBeDefined();
-        expect(options.requestOptions).toEqual(opts.requestOptions);
+        // Any cloning of auth can break downstream functions
+        expect(options.requestOptions).toBe(opts.requestOptions);
       });
     });
   });
