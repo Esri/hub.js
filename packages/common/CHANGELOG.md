@@ -1,3 +1,10 @@
+## @esri/hub-common [12.31.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.31.0...@esri/hub-common@12.31.1) (2023-04-24)
+
+
+### Bug Fixes
+
+* **hub-common:** stop cloning authentication object in hubSearch as it breaks downstream functions ([4c48ec8](https://github.com/Esri/hub.js/commit/4c48ec8ce96b79690922b7d55b99dd1b499c4a9b))
+
 # @esri/hub-common [12.31.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.30.1...@esri/hub-common@12.31.0) (2023-04-21)
 
 
