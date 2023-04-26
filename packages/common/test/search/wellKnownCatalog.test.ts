@@ -78,7 +78,7 @@ describe("WellKnownCatalog", () => {
       chk = getWellKnownCatalog("mockI18nScope", "allGroups", "group", options);
       expect(chk.scopes).toBeDefined();
       expect(chk.scopes?.group?.filters).toEqual([
-        { predicates: [{ group: "theClub" }] },
+        { predicates: [{ group: "theClubId" }] },
       ]);
       expect(chk.collections).toEqual([
         {

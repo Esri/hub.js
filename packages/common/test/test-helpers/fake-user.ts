@@ -10,5 +10,5 @@ export const mockUser = {
   role: "org_admin",
   created: 1609559200000,
   modified: 1612167600000,
-  orgId: "theClub",
+  orgId: "theClubId",
 } as IUser;
