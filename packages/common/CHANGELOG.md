@@ -1,3 +1,13 @@
+# @esri/hub-common [12.32.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.31.1...@esri/hub-common@12.32.0) (2023-04-26)
+
+
+### Features
+
+* fix tests ([e386aa3](https://github.com/Esri/hub.js/commit/e386aa3b23ba39bdfa4a008b0c6aa750ba4ee55e))
+* name change ([4334299](https://github.com/Esri/hub.js/commit/43342995e97f6f0c42626d017e3cf529b88682cd))
+* update the predicates for allGroups ([0e7a8c6](https://github.com/Esri/hub.js/commit/0e7a8c69c587bad3cadf21d81e49817afe706008))
+* **hub-common:** add getWellknownGroupCatalog function to get well known group catalogs ([2925d9f](https://github.com/Esri/hub.js/commit/2925d9fa705e9f0c181bee8eaa62b239ad146991))
+
 ## @esri/hub-common [12.31.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.31.0...@esri/hub-common@12.31.1) (2023-04-24)
 
 
