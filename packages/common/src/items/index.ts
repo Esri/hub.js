@@ -16,9 +16,13 @@ export * from "./get-structured-license";
 export * from "./slugs";
 export * from "./normalize-solution-template-item";
 export * from "./setItemThumbnail";
-export * from "./registerBrowserApp";
+
 export * from "./create-item-from-file";
 export * from "./create-item-from-url";
 export * from "./create-item-from-url-or-file";
 export * from "./uploadImageResource";
 export * from "./is-services-directory-disabled";
+// No longer exported as the only App Hub needed this for was a Site
+// and that registration is now done in the domain service with a
+// signed HMAC request.
+// export * from "./registerBrowserApp";
