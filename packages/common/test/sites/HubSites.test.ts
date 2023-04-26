@@ -216,7 +216,7 @@ describe("HubSites:", () => {
     });
   });
 
-  describe("destroySite:", () => {
+  describe("deleteSite:", () => {
     it("removes item and domains in AGO", async () => {
       const removeSpy = spyOn(portalModule, "removeItem").and.returnValue(
         Promise.resolve({ success: true })
@@ -227,7 +227,7 @@ describe("HubSites:", () => {
         "removeDomainsBySiteId"
       ).and.returnValue(Promise.resolve());
 
-      const result = await commonModule.destroySite("3ef", {
+      const result = await commonModule.deleteSite("3ef", {
         authentication: MOCK_AUTH,
       });
       expect(result).toBeUndefined();
@@ -242,7 +242,7 @@ describe("HubSites:", () => {
         Promise.resolve({ success: true })
       );
 
-      const result = await commonModule.destroySite(
+      const result = await commonModule.deleteSite(
         "3ef",
         MOCK_ENTERPRISE_REQOPTS
       );

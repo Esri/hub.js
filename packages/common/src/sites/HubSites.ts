@@ -336,26 +336,6 @@ export async function updateSite(
 }
 
 /**
- * @private
- * Remove a Hub Site
- *
- * This simply removes the Site item, and it's associated domain records.
- * This does not remove any Teams/Groups or content associated with the
- * Site
- * @param id
- * @param requestOptions
- * @returns
- */
-export async function destroySite(
-  id: string,
-  requestOptions: IHubRequestOptions
-): Promise<void> {
-  // tslint:disable-next-line:no-console
-  console.warn(`destroySite is deprecated, use deleteSite instead`);
-  return deleteSite(id, requestOptions);
-}
-
-/**
  * Remove a Hub Site
  *
  * This simply removes the Site item, and it's associated domain records.
