@@ -13,7 +13,7 @@
   "peerDependencies": {
     "@esri/arcgis-rest-auth": "^2.14.0 || 3",
     "@esri/arcgis-rest-request": "^2.14.0 || 3",
-    "@esri/hub-common": "^12.4.0"
+    "@esri/hub-common": "^12.4.0 || 13"
   },
   "devDependencies": {
     "@esri/hub-common": "*",
