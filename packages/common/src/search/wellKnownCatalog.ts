@@ -239,7 +239,7 @@ function getWellknownGroupCatalog(
       catalog = buildCatalog(
         i18nScope,
         catalogName,
-        [{ group: options.user.orgId }],
+        [{ capabilities: [""] }],
         [],
         "group"
       );
