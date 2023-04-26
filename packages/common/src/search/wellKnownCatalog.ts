@@ -9,10 +9,11 @@ import { EntityType, IHubCatalog, IHubCollection } from "./types";
  */
 export type WellKnownCatalog =
   | "myContent"
-  | "myGroup"
   | "favorites"
   | "organization"
-  | "world";
+  | "world"
+  | "editGroups"
+  | "allGroups";
 
 /**
  * This is used to determine what IHubCollection definition JSON object
@@ -46,7 +47,7 @@ export function dotifyString(i18nScope: string): string {
   return i18nScope && i18nScope.slice(-1) !== "." ? `${i18nScope}.` : i18nScope;
 }
 
-/** Get a single catalog based on the name, entity type and optional requests
+/** Get a single catalog based on the catalog name, entity type and optional requests
  * @param i18nScope Translation scope to be interpolated into the catalog
  * @param name Name of the catalog requested
  * @param entityType
@@ -55,13 +56,15 @@ export function dotifyString(i18nScope: string): string {
  */
 export function getWellKnownCatalog(
   i18nScope: string,
-  name: WellKnownCatalog,
+  catalogName: WellKnownCatalog,
   entityType: EntityType,
   options?: IGetWellKnownCatalogOptions
 ): IHubCatalog {
   switch (entityType) {
     case "item":
-      return getWellknownItemCatalog(i18nScope, name, options);
+      return getWellknownItemCatalog(i18nScope, catalogName, options);
+    case "group":
+      return getWellknownGroupCatalog(i18nScope, catalogName, options);
     /* Add other entity handlers here, e.g. getWellknownEventCatalog */
     default:
       throw new Error(`Wellknown catalog not implemented for "${entityType}"`);
@@ -72,54 +75,69 @@ export function getWellKnownCatalog(
  * Build an IHubCatalog definition JSON object based on the
  * catalog name, predicates and collections we want to use for each catalog
  * @param i18nScope
- * @param name Catalog name
+ * @param catalogName
  * @param predicates Predicates for the catalog
  * @param collections Collections to include for the catalog
  * @returns An IHubCatalog definition JSON object
  */
 function buildCatalog(
   i18nScope: string,
-  name: WellKnownCatalog,
+  catalogName: WellKnownCatalog,
   predicates: any[],
-  collections: IHubCollection[]
+  collections: IHubCollection[],
+  entityType: EntityType
 ): IHubCatalog {
+  let scopes;
+  switch (entityType) {
+    case "item":
+      scopes = {
+        item: {
+          targetEntity: "item" as EntityType,
+          filters: [{ predicates }],
+        },
+      };
+      break;
+    case "group":
+      scopes = {
+        group: {
+          targetEntity: "group" as EntityType,
+          filters: [{ predicates }],
+        },
+      };
+      break;
+  }
   return {
     schemaVersion: 1,
-    title: `{{${i18nScope}catalog.${name}:translate}}`,
-    scopes: {
-      item: {
-        targetEntity: "item" as EntityType,
-        filters: [{ predicates }],
-      },
-    },
+    title: `{{${i18nScope}catalog.${catalogName}:translate}}`,
+    scopes,
     collections,
   };
 }
 
 /**
  * Check if user is available in the passed options, throw an error if not
- * @param name name of the catalog
+ * @param catalogName
  * @param options Options that contains user
  */
-function checkUser(
-  name: WellKnownCatalog,
+function validateUserExistence(
+  catalogName: WellKnownCatalog,
   options: IGetWellKnownCatalogOptions
 ) {
   if (!options || !options.user) {
-    throw new Error(`User needed to get "${name}" catalog`);
+    throw new Error(`User needed to get "${catalogName}" catalog`);
   }
 }
 
 /**
  * Get an ITEM catalog based on the name and optional requests
  * @param i18nScope Translation scope to be interpolated into the catalog
- * @param name Name of the catalog requested
+ * @param catalogName Name of the catalog requested
  * @param options An opitional IGetWellKnownCatalogOptions definition JSON object
  * @returns An ITEM IHubCatalog definition JSON object
  */
 function getWellknownItemCatalog(
   i18nScope: string,
-  name: WellKnownCatalog,
+  catalogName: WellKnownCatalog,
   options?: IGetWellKnownCatalogOptions
 ): IHubCatalog {
   i18nScope = dotifyString(i18nScope);
@@ -129,41 +147,117 @@ function getWellknownItemCatalog(
     "item",
     options?.collectionNames
   );
-  switch (name) {
+  switch (catalogName) {
     case "myContent":
-      checkUser(name, options);
+      validateUserExistence(catalogName, options);
       catalog = buildCatalog(
         i18nScope,
-        name,
+        catalogName,
         [{ owner: options.user.username }],
-        collections
+        collections,
+        "item"
       );
       break;
     case "favorites":
-      checkUser(name, options);
+      validateUserExistence(catalogName, options);
       catalog = buildCatalog(
         i18nScope,
-        name,
+        catalogName,
         [{ group: options.user.favGroupId }],
-        collections
+        collections,
+        "item"
       );
       break;
     case "organization":
-      checkUser(name, options);
+      validateUserExistence(catalogName, options);
       catalog = buildCatalog(
         i18nScope,
-        name,
+        catalogName,
         [{ orgid: options.user.orgId }],
-        collections
+        collections,
+        "item"
       );
       break;
     case "world":
       catalog = buildCatalog(
         i18nScope,
-        name,
+        catalogName,
         [{ type: { not: ["code attachment"] } }],
-        collections
+        collections,
+        "item"
       );
+      break;
+  }
+  return catalog;
+}
+
+/**
+ * Get a group catalog based on the name and optional requests
+ * @param i18nScope Translation scope to be interpolated into the catalog
+ * @param catalogName Name of the catalog requested
+ * @param options An opitional IGetWellKnownCatalogOptions definition JSON object
+ * @returns A group IHubCatalog definition JSON object
+ */
+function getWellknownGroupCatalog(
+  i18nScope: string,
+  catalogName: WellKnownCatalog,
+  options?: IGetWellKnownCatalogOptions
+): IHubCatalog {
+  i18nScope = dotifyString(i18nScope);
+  let catalog;
+
+  switch (catalogName) {
+    case "editGroups":
+      validateUserExistence(catalogName, options);
+      catalog = buildCatalog(
+        i18nScope,
+        catalogName,
+        [{ capabilities: ["updateitemcontrol"] }],
+        [],
+        "group"
+      );
+      // because collections are needed in arcgis-hub-catalog and
+      // "searchGroups" allows 'q: "*"', we use this as the collection
+      catalog.collections = [
+        {
+          targetEntity: "group",
+          key: catalogName,
+          label: catalogName,
+          scope: {
+            targetEntity: "group",
+            filters: [
+              {
+                predicates: [{ q: "*" }],
+              },
+            ],
+          },
+        },
+      ];
+      break;
+    case "allGroups":
+      validateUserExistence(catalogName, options);
+      catalog = buildCatalog(
+        i18nScope,
+        catalogName,
+        [{ group: options.user.orgId }],
+        [],
+        "group"
+      );
+      catalog.collections = [
+        {
+          targetEntity: "group",
+          key: catalogName,
+          label: catalogName,
+          scope: {
+            targetEntity: "group",
+            filters: [
+              {
+                predicates: [{ q: "*" }],
+              },
+            ],
+          },
+        },
+      ];
       break;
   }
   return catalog;
