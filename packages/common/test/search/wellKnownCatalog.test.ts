@@ -1,5 +1,4 @@
 import { EntityType } from "../../src";
-import * as wellKnownCatalog from "../../src/search/wellKnownCatalog";
 import {
   getWellKnownCatalog,
   getWellknownCollection,
@@ -19,7 +18,7 @@ describe("WellKnownCatalog", () => {
         collectionNames: [],
       };
     });
-    it("returns the expected catalog", () => {
+    it("returns the expected catalog for items", () => {
       let chk = getWellKnownCatalog(
         "mockI18nScope",
         "myContent",
@@ -48,6 +47,53 @@ describe("WellKnownCatalog", () => {
         "document",
         "feedback",
         "site",
+      ]);
+    });
+    it("returns the expected catalog for groups", () => {
+      let chk = getWellKnownCatalog(
+        "mockI18nScope",
+        "editGroups",
+        "group",
+        options
+      );
+      expect(chk.scopes).toBeDefined();
+      expect(chk.scopes?.group?.filters).toEqual([
+        { predicates: [{ capabilities: ["updateitemcontrol"] }] },
+      ]);
+      expect(chk.collections).toEqual([
+        {
+          targetEntity: "group",
+          key: "editGroups",
+          label: "editGroups",
+          scope: {
+            targetEntity: "group",
+            filters: [
+              {
+                predicates: [{ q: "*" }],
+              },
+            ],
+          },
+        },
+      ]);
+      chk = getWellKnownCatalog("mockI18nScope", "allGroups", "group", options);
+      expect(chk.scopes).toBeDefined();
+      expect(chk.scopes?.group?.filters).toEqual([
+        { predicates: [{ capabilities: [""] }] },
+      ]);
+      expect(chk.collections).toEqual([
+        {
+          targetEntity: "group",
+          key: "allGroups",
+          label: "allGroups",
+          scope: {
+            targetEntity: "group",
+            filters: [
+              {
+                predicates: [{ q: "*" }],
+              },
+            ],
+          },
+        },
       ]);
     });
     it("throws if not passing a user for a catalog that requires it", () => {
