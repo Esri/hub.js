@@ -6,27 +6,9 @@ import * as initiativesModule from "@esri/hub-initiatives";
 import { IModel } from "@esri/hub-common";
 
 describe("create site :: ", function () {
-  const APP_REGISTRATION_RESPONSE: any = {
-    itemId: "3ef",
-    client_id: "031AYEM9fd1X1ac9",
-    client_secret: "f44501a0ab744463af5ce338429833db",
-    appType: "browser",
-    redirect_uris: [
-      "http://my-site.com",
-      "https://my-site.com",
-      "https://name-org.hub.arcgis.com",
-      "http://name-org.hub.arcgis.com",
-    ],
-    registered: 1580932896000,
-    modified: 1580932896000,
-    apnsProdCert: null,
-    apnsSandboxCert: null,
-    gcmApiKey: null,
-  };
-
   let createSpy: jasmine.Spy;
   let protectSpy: jasmine.Spy;
-  let registerSpy: jasmine.Spy;
+  // let registerSpy: jasmine.Spy;
   let updateSpy: jasmine.Spy;
   let domainsSpy: jasmine.Spy;
   let uploadResourcesSpy: jasmine.Spy;
@@ -38,15 +20,16 @@ describe("create site :: ", function () {
     protectSpy = spyOn(portalModule, "protectItem").and.returnValue(
       Promise.resolve({ success: true, id: "3ef" })
     );
-    registerSpy = spyOn(
-      commonModule,
-      "registerSiteAsApplication"
-    ).and.returnValue(Promise.resolve(APP_REGISTRATION_RESPONSE));
+
     updateSpy = spyOn(portalModule, "updateItem").and.returnValue(
       Promise.resolve({ success: true, id: "3ef" })
     );
     domainsSpy = spyOn(commonModule, "addSiteDomains").and.returnValue(
-      Promise.resolve({})
+      Promise.resolve([
+        {
+          clientKey: "FAKECLIENTKEY",
+        },
+      ])
     );
     uploadResourcesSpy = spyOn(
       commonModule,
@@ -79,15 +62,15 @@ describe("create site :: ", function () {
     const result = await createSite(site, {}, ro);
 
     expect(result.item.id).toBe("3ef", "should attach id into returned model");
-    expect(result.data.values.clientId).toBe(
-      "031AYEM9fd1X1ac9",
+    expect(result.data?.values.clientId).toBe(
+      "FAKECLIENTKEY",
       "should attach client Id into returned model"
     );
     expect(result.item.typeKeywords).toContain(
       "hubSite",
       "should add missing typeKeywords array and add hubSite"
     );
-    expect(result.data.values.verifySecondPass).toBe(
+    expect(result.data?.values.verifySecondPass).toBe(
       "this should be 3ef interpolated",
       "should do second pass appid interpolation"
     );
@@ -95,14 +78,7 @@ describe("create site :: ", function () {
     // no collab group, so no sharing call
     expect(shareSpy).not.toHaveBeenCalled();
     expectAllCalled(
-      [
-        createSpy,
-        protectSpy,
-        registerSpy,
-        updateSpy,
-        domainsSpy,
-        uploadResourcesSpy,
-      ],
+      [createSpy, protectSpy, updateSpy, domainsSpy, uploadResourcesSpy],
       expect
     );
   });
@@ -143,14 +119,7 @@ describe("create site :: ", function () {
     expect(call[0]).toBe("bc7", "should send the initiative id");
     expect(call[1]).toBe("3ef", "should send the site id");
     expectAllCalled(
-      [
-        createSpy,
-        protectSpy,
-        registerSpy,
-        updateSpy,
-        domainsSpy,
-        uploadResourcesSpy,
-      ],
+      [createSpy, protectSpy, updateSpy, domainsSpy, uploadResourcesSpy],
       expect
     );
   });
@@ -176,15 +145,15 @@ describe("create site :: ", function () {
     const result = await createSite(site, {}, ro);
 
     expect(result.item.id).toBe("3ef", "should attach id into returned model");
-    expect(result.data.values.clientId).toBe(
-      "031AYEM9fd1X1ac9",
+    expect(result.data?.values.clientId).toBe(
+      "FAKECLIENTKEY",
       "should attach client Id into returned model"
     );
     expect(result.item.typeKeywords).toContain(
       "hubSite",
       "should add missing typeKeywords array and add hubSite"
     );
-    expect(result.data.values.verifySecondPass).toBe(
+    expect(result.data?.values.verifySecondPass).toBe(
       "this should be 3ef interpolated",
       "should do second pass appid interpolation"
     );
@@ -193,14 +162,7 @@ describe("create site :: ", function () {
     expect(shareSpy).toHaveBeenCalled();
     expect(shareSpy.calls.argsFor(0)[0].groupId).toBe("foo-bar-baz");
     expectAllCalled(
-      [
-        createSpy,
-        protectSpy,
-        registerSpy,
-        updateSpy,
-        domainsSpy,
-        uploadResourcesSpy,
-      ],
+      [createSpy, protectSpy, updateSpy, domainsSpy, uploadResourcesSpy],
       expect
     );
   });
@@ -228,7 +190,7 @@ describe("create site :: ", function () {
 
     const result = await createSite(site, {}, ro);
 
-    expect(result.data.values.dcatConfig.foo).toBe(
+    expect(result.data?.values.dcatConfig.foo).toBe(
       "{{some.undefined.thing}}",
       "dcatConfig not interpolated"
     );
@@ -258,14 +220,7 @@ describe("create site :: ", function () {
 
     expect(createSpy).toHaveBeenCalled();
     expectAll(
-      [
-        protectSpy,
-        registerSpy,
-        updateSpy,
-        domainsSpy,
-        uploadResourcesSpy,
-        shareSpy,
-      ],
+      [protectSpy, updateSpy, domainsSpy, uploadResourcesSpy, shareSpy],
       "toHaveBeenCalled",
       false,
       expect

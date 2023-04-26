@@ -1,4 +1,4 @@
-import { updateAppRedirectUris } from "../src";
+import { updateAppRedirectUris } from "../src/update-app-redirect-uris";
 import * as requestModule from "@esri/arcgis-rest-request";
 import { IHubRequestOptions } from "@esri/hub-common";
 
@@ -12,8 +12,8 @@ describe("updateAppRedirectUris", () => {
 
     const ro = {
       authentication: {
-        token: "token"
-      }
+        token: "token",
+      },
     } as IHubRequestOptions;
 
     const clientId = "abc-clientid";
@@ -31,8 +31,8 @@ describe("updateAppRedirectUris", () => {
         authentication: ro.authentication,
         params: {
           client_id: clientId,
-          redirect_uris: JSON.stringify(redirectUris)
-        }
+          redirect_uris: JSON.stringify(redirectUris),
+        },
       },
       "request called with correct config"
     );

@@ -2,6 +2,8 @@ import { IRequestOptions, request } from "@esri/arcgis-rest-request";
 import { getPortalApiUrl } from "../urls";
 
 /**
+ * @private
+ * @internal
  * Register an Item as an application, enabling oAuth flows at custom
  * domains. Only item types with "Application" in the name are valid
  * with this API call.
