@@ -491,7 +491,6 @@ export class Catalog implements IHubCatalog {
 
     const opts = cloneObject(options);
     // An Catalog instance always uses the context so we remove/replace any passed in auth
-    delete opts.authentication;
     opts.requestOptions = this._context.hubRequestOptions;
 
     return hubSearch(qry, opts);
