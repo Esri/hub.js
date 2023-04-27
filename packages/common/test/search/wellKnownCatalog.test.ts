@@ -75,6 +75,31 @@ describe("WellKnownCatalog", () => {
           },
         },
       ]);
+      chk = getWellKnownCatalog(
+        "mockI18nScope",
+        "viewGroups",
+        "group",
+        options
+      );
+      expect(chk.scopes).toBeDefined();
+      expect(chk.scopes?.group?.filters).toEqual([
+        { predicates: [{ capabilities: { not: ["updateitemcontrol"] } }] },
+      ]);
+      expect(chk.collections).toEqual([
+        {
+          targetEntity: "group",
+          key: "viewGroups",
+          label: "viewGroups",
+          scope: {
+            targetEntity: "group",
+            filters: [
+              {
+                predicates: [{ q: "*" }],
+              },
+            ],
+          },
+        },
+      ]);
       chk = getWellKnownCatalog("mockI18nScope", "allGroups", "group", options);
       expect(chk.scopes).toBeDefined();
       expect(chk.scopes?.group?.filters).toEqual([
