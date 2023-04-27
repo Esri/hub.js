@@ -1,7 +1,7 @@
 import { EntityType } from "../../types/IHubCatalog";
 import { IHubSearchOptions } from "../../types/IHubSearchOptions";
 import { IApiDefinition } from "../../types/types";
-import { expandApi } from "../../utils";
+import { expandApi } from "./expandApi";
 import { shouldUseOgcApi } from "./shouldUseOgcApi";
 
 /**

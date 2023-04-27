@@ -1,6 +1,6 @@
 import { IHubSearchOptions } from "../../../src/search/types/IHubSearchOptions";
 import { NamedApis } from "../../../src/search/types/types";
-import { SEARCH_APIS } from "../../../src/search/utils";
+import { SEARCH_APIS } from "../../../src/search/_internal/commonHelpers/expandApi";
 import { getApi } from "../../../src/search/_internal/commonHelpers/getApi";
 
 describe("getApi", () => {
