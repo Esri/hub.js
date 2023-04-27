@@ -1,3 +1,10 @@
+## @esri/hub-discussions [22.1.3](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@22.1.2...@esri/hub-discussions@22.1.3) (2023-04-27)
+
+
+### Bug Fixes
+
+* parseMentionedUsers supports usernames containing @ . and - characters ([#1042](https://github.com/Esri/hub.js/issues/1042)) ([61a36ad](https://github.com/Esri/hub.js/commit/61a36ade0cd30b62bbec5caa756ec1eecc81c49d))
+
 ## @esri/hub-discussions [22.1.2](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@22.1.1...@esri/hub-discussions@22.1.2) (2023-04-19)
 
 
