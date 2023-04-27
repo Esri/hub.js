@@ -1,3 +1,10 @@
+# @esri/hub-common [12.33.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.32.0...@esri/hub-common@12.33.0) (2023-04-27)
+
+
+### Features
+
+* **hub-common:** handle viewGroups in getWellknownGroupCatalog ([1d53fdc](https://github.com/Esri/hub.js/commit/1d53fdca64e592c47a1c8a6fb174d7beebc58333))
+
 # @esri/hub-common [12.32.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.31.1...@esri/hub-common@12.32.0) (2023-04-26)
 
 
