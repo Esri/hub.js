@@ -2,29 +2,24 @@ import { IGroup, ISearchOptions, IUser } from "@esri/arcgis-rest-portal";
 import { ISearchResponse } from "../../src";
 import { IHubSearchResult, IRelativeDate } from "../../src/search";
 import {
-  expandApis,
   getUserThumbnailUrl,
   valueToMatchOptions,
   relativeDateToDateRange,
   getGroupThumbnailUrl,
   getNextFunction,
 } from "../../src/search/utils";
+import { expandApi } from "../../src/search/_internal/utils";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import { mockUserSession } from "../test-helpers/fake-user-session";
 
 describe("Search Utils:", () => {
-  describe("expandApis", () => {
-    it("expands well known apis", () => {
-      const chk = expandApis(["arcgis", "hub"]);
-      expect(chk.length).toBe(2);
-    });
-
+  describe("expandApi", () => {
     it("passes through objects", () => {
-      const chk = expandApis([
-        { url: "https://my.enterprise.com/instance", type: "arcgis" },
-      ]);
-      expect(chk.length).toBe(1);
-      expect(chk[0].type).toBe("arcgis");
+      const chk = expandApi({
+        url: "https://my.enterprise.com/instance",
+        type: "arcgis",
+      });
+      expect(chk.type).toBe("arcgis");
     });
   });
 
