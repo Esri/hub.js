@@ -13,6 +13,7 @@ export type WellKnownCatalog =
   | "organization"
   | "world"
   | "editGroups"
+  | "viewGroups"
   | "allGroups";
 
 /**
@@ -205,6 +206,23 @@ function getWellknownGroupCatalog(
 ): IHubCatalog {
   i18nScope = dotifyString(i18nScope);
   let catalog;
+  // because collections are needed in arcgis-hub-catalog and
+  // "searchGroups" allows 'q: "*"', we use this as the collection
+  const collections = [
+    {
+      targetEntity: "group" as EntityType,
+      key: catalogName,
+      label: catalogName,
+      scope: {
+        targetEntity: "group" as EntityType,
+        filters: [
+          {
+            predicates: [{ q: "*" }],
+          },
+        ],
+      },
+    },
+  ];
 
   switch (catalogName) {
     case "editGroups":
@@ -213,26 +231,19 @@ function getWellknownGroupCatalog(
         i18nScope,
         catalogName,
         [{ capabilities: ["updateitemcontrol"] }],
-        [],
+        collections,
         "group"
       );
-      // because collections are needed in arcgis-hub-catalog and
-      // "searchGroups" allows 'q: "*"', we use this as the collection
-      catalog.collections = [
-        {
-          targetEntity: "group",
-          key: catalogName,
-          label: catalogName,
-          scope: {
-            targetEntity: "group",
-            filters: [
-              {
-                predicates: [{ q: "*" }],
-              },
-            ],
-          },
-        },
-      ];
+      break;
+    case "viewGroups":
+      validateUserExistence(catalogName, options);
+      catalog = buildCatalog(
+        i18nScope,
+        catalogName,
+        [{ capabilities: { not: ["updateitemcontrol"] } }],
+        collections,
+        "group"
+      );
       break;
     case "allGroups":
       validateUserExistence(catalogName, options);
@@ -240,24 +251,9 @@ function getWellknownGroupCatalog(
         i18nScope,
         catalogName,
         [{ capabilities: [""] }],
-        [],
+        collections,
         "group"
       );
-      catalog.collections = [
-        {
-          targetEntity: "group",
-          key: catalogName,
-          label: catalogName,
-          scope: {
-            targetEntity: "group",
-            filters: [
-              {
-                predicates: [{ q: "*" }],
-              },
-            ],
-          },
-        },
-      ];
       break;
   }
   return catalog;
