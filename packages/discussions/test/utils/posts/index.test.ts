@@ -177,17 +177,20 @@ describe("parseMentionedUsers", () => {
       <p>
         Hello <span data-mention="juliana_pa">@juliana_pa</span>!
         <br />
-        How are you <em data-mention="paige_pa">@paige_pa</em>?
+        How are you <em data-mention="paige-pa">@paige-pa</em>?
         <br />
-        How about you <strong data-mention="cory_pa">@cory_pa</strong>?
+        How about you <strong data-mention="cory.pa">@cory.pa</strong>?
+        <br />
+        And you <b data-mention="chezelle@pa">@chezelle@pa</b>?
         <br />
         And back to you <b data-mention="juliana_pa">@juliana_pa</b>
       </p>
     `;
     expect(parseMentionedUsers(text)).toEqual([
       "juliana_pa",
-      "paige_pa",
-      "cory_pa",
+      "paige-pa",
+      "cory.pa",
+      "chezelle@pa",
     ]);
   });
 });
