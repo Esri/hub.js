@@ -1,12 +1,7 @@
-import { UserSession } from "@esri/arcgis-rest-auth";
 import { IHubRequestOptions } from "../../types";
 import { EntityType } from "./IHubCatalog";
 
 import { NamedApis, IApiDefinition } from "./types";
-
-// @private
-// TODO Deprecate in favor of Includable
-export type Enrichments = "data" | "metadata" | "org" | "service" | "layers";
 
 /**
  * Search Options
@@ -34,10 +29,6 @@ export interface IHubSearchOptions {
    */
   site?: string;
 
-  /**
-   * DEPRECATE in favor of requestOptions
-   */
-  authentication?: UserSession;
   /**
    * While hubSearch requires requestOptions, it is not marked
    * required because that is a breaking change to this
