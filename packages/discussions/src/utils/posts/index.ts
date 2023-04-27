@@ -87,11 +87,11 @@ function isPostCreator(post: IPost, user: IUser) {
 }
 
 const MENTION_ATTRIBUTE_AND_VALUE_PATTERN = new RegExp(
-  `${MENTION_ATTRIBUTE}=('|")(\\w)+('|")`,
+  `${MENTION_ATTRIBUTE}=('|")[\\w@\\.-]+('|")`,
   "g"
 );
 const MENTION_ATTRIBUTE_PATTERN = new RegExp(`${MENTION_ATTRIBUTE}=`, "g");
-const NON_WORDS_PATTERN = new RegExp("[^\\w]", "g");
+const NON_WORDS_PATTERN = new RegExp("[^\\w@\\.-]", "g");
 
 /**
  * Parses mentioned users
@@ -101,13 +101,17 @@ const NON_WORDS_PATTERN = new RegExp("[^\\w]", "g");
 export function parseMentionedUsers(text = ""): string[] {
   const toReplaced = (input: string, pattern: RegExp) =>
     input.replace(pattern, "");
-  const toMentionedUsers = (acc: string[], match: string) => {
+  const toMentionedUsers = (
+    acc: RegExpMatchArray | string[],
+    match: string
+  ) => {
     const username = [MENTION_ATTRIBUTE_PATTERN, NON_WORDS_PATTERN].reduce(
       toReplaced,
       match
     );
     return acc.indexOf(username) < 0 ? [...acc, username] : acc;
   };
-  const matches = text.match(MENTION_ATTRIBUTE_AND_VALUE_PATTERN) || [];
+  const matches =
+    text.match(MENTION_ATTRIBUTE_AND_VALUE_PATTERN) || ([] as string[]);
   return matches.reduce(toMentionedUsers, []);
 }
