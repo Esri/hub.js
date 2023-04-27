@@ -58,7 +58,6 @@ export async function createVersion(
     owner: getProp(model, "item.owner"),
     params: { properties },
     prefix,
-    private: true,
     resource: versionBlob,
   });
 

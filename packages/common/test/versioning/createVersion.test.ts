@@ -75,7 +75,6 @@ describe("createVersion", () => {
         },
       },
       prefix: "hubVersion_def456",
-      private: true,
       resource: versionBlob,
     };
 
