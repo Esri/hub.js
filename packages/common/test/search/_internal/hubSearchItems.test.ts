@@ -592,6 +592,10 @@ describe("hubSearchItems Module |", () => {
         filters: [],
       };
       const options: IHubSearchOptions = { num: 1 };
+      const api: IApiDefinition = {
+        type: "arcgis-hub",
+        url: "https://hub.arcgis.com/api/search/v1",
+      };
       const nextResponse: IHubSearchResponse<IHubSearchResult> = {
         total: 0,
         results: [],
@@ -608,7 +612,12 @@ describe("hubSearchItems Module |", () => {
       });
 
       it("returns an empty callback when no next link is present", async () => {
-        const callback = getNextOgcCallback(ogcItemsResponse, query, options);
+        const callback = getNextOgcCallback(
+          ogcItemsResponse,
+          query,
+          options,
+          api
+        );
         const callbackResult = await callback();
         expect(callbackResult).toBeNull();
         // NOTE: using `toHaveBeenCalled` throws a fatal error ONLY in Karma
@@ -621,7 +630,8 @@ describe("hubSearchItems Module |", () => {
         const callback = getNextOgcCallback(
           ogcItemsResponseWithNext,
           query,
-          options
+          options,
+          api
         );
         const callbackResult = await callback();
         expect(callbackResult).toBe(nextResponse);
@@ -631,7 +641,7 @@ describe("hubSearchItems Module |", () => {
         const numCalls = searchOgcItemsSpy.calls.count();
         expect(numCalls).toBe(1);
         const callInfo = searchOgcItemsSpy.calls.first();
-        expect(callInfo.args).toEqual([query, { ...options, start: 2 }]);
+        expect(callInfo.args).toEqual([query, { ...options, start: 2 }, api]);
       });
     });
 
@@ -647,12 +657,17 @@ describe("hubSearchItems Module |", () => {
         include: [],
         requestOptions: {},
       };
+      const api: IApiDefinition = {
+        type: "arcgis-hub",
+        url: "https://hub.arcgis.com/api/search/v1",
+      };
 
       it("correctly handles when no next link is present", async () => {
         const formattedResponse = await formatOgcItemsResponse(
           ogcItemsResponse,
           query,
-          requestOptions
+          requestOptions,
+          api
         );
         expect(formattedResponse).toBeDefined();
         expect(formattedResponse.total).toBe(2);
@@ -663,7 +678,8 @@ describe("hubSearchItems Module |", () => {
         const formattedResponse = await formatOgcItemsResponse(
           ogcItemsResponseWithNext,
           query,
-          requestOptions
+          requestOptions,
+          api
         );
 
         expect(formattedResponse).toBeDefined();

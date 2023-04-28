@@ -23,5 +23,5 @@ export async function searchOgcItems(
     options
   );
 
-  return formatOgcItemsResponse(rawResponse, query, options);
+  return formatOgcItemsResponse(rawResponse, query, options, api);
 }

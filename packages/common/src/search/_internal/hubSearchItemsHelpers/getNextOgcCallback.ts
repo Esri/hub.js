@@ -1,3 +1,4 @@
+import { IApiDefinition } from "../../types";
 import { IQuery } from "../../types/IHubCatalog";
 import { IHubSearchOptions } from "../../types/IHubSearchOptions";
 import { IHubSearchResponse } from "../../types/IHubSearchResponse";
@@ -8,7 +9,8 @@ import { searchOgcItems } from "./searchOgcItems";
 export function getNextOgcCallback(
   response: IOgcItemsResponse,
   originalQuery: IQuery,
-  originalOptions: IHubSearchOptions
+  originalOptions: IHubSearchOptions,
+  api: IApiDefinition
 ): (params?: any) => Promise<IHubSearchResponse<IHubSearchResult>> {
   const nextLink = response.links.find((l) => l.rel === "next");
 
@@ -18,7 +20,7 @@ export function getNextOgcCallback(
       const nextUrl = new URL(nextLink.href);
       const start = +nextUrl.searchParams.get("startindex");
       const nextOptions: IHubSearchOptions = { ...originalOptions, start };
-      return searchOgcItems(originalQuery, nextOptions);
+      return searchOgcItems(originalQuery, nextOptions, api);
     };
   }
 
