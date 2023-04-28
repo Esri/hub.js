@@ -7,6 +7,8 @@ import {
   IWithSharingBehavior,
   UiSchemaElementOptions,
   IMetricFeature,
+  IAssociationInfo,
+  IEntityInfo,
 } from "../core";
 import { getEntityEditorSchemas } from "../core/schemas/getEntityEditorSchemas";
 import { Catalog } from "../search";
@@ -20,6 +22,12 @@ import { ProjectEditorType } from "./_internal/ProjectSchema";
 import { IWithMetricsBehavior } from "../core/behaviors/IWithMetricsBehavior";
 import { getEntityMetrics } from "../metrics/getEntityMetrics";
 import { resolveMetric } from "../metrics/resolveMetric";
+import {
+  addAssociation,
+  fetchAssociatedInitiatives,
+  listAssociations,
+  removeAssociation,
+} from "../items/associations";
 
 /**
  * Hub Project Class
@@ -224,5 +232,58 @@ export class HubProject
     } else {
       throw new Error(`Metric ${metricId} not found.`);
     }
+  }
+
+  /**
+   * Add an association to the Project.
+   * Typically this is used to associate an Initiative with the Project
+   * This does not persist the Project to the backing store. Developers must call
+   * `save()` to persist the Project.
+   * @param association
+   * @returns
+   */
+  addAssociation(association: IAssociationInfo): void {
+    if (this.isDestroyed) {
+      throw new Error("HubProject is already destroyed.");
+    }
+    return addAssociation(association, this.entity);
+  }
+
+  /**
+   * Remove an association from the Project.
+   * Typically this is used to remove an Initiative association from the Project
+   * This does not persist the Project to the backing store. Developers must call
+   * `save()` to persist the Project.
+   * @param association
+   * @returns
+   */
+  removeAssociation(association: IAssociationInfo): void {
+    if (this.isDestroyed) {
+      throw new Error("HubProject is already destroyed.");
+    }
+    return removeAssociation(association, this.entity);
+  }
+
+  /**
+   * Get a list of the current associations on the Project
+   * This is extracted from the `initiative|<initiative-id>` typekeywords
+   * @returns
+   */
+  listAssociations(): IAssociationInfo[] {
+    return listAssociations(this.entity, "initiative");
+  }
+
+  /**
+   * Fetch the Initiatives that a Project has been associated
+   * Extracts id's from the `initiative|<initiative-id>` typekeywords
+   * and issues a search for those items. System will only return items
+   * the current user has access to, regardless of the access level of the Project
+   * @returns
+   */
+  fetchAssociatedInitiatives(): Promise<IEntityInfo[]> {
+    if (this.isDestroyed) {
+      throw new Error("HubProject is already destroyed.");
+    }
+    return fetchAssociatedInitiatives(this.entity, this.context.requestOptions);
   }
 }

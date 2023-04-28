@@ -78,6 +78,35 @@ fdescribe("metrics development harness:", () => {
     ],
   };
 
+  fdescribe("association validation", () => {
+    describe("initiative associations", () => {
+      it("initiative should get all projects", async () => {
+        const ctxMgr = await factory.getContextManager(orgName, "admin");
+        const context = ctxMgr.context;
+        const initiative = await HubInitiative.fetch(ITEMS.initiative, context);
+        const projects = await initiative.fetchAssociatedProjects();
+        expect(projects).toBeDefined();
+        expect(projects.length).toBe(ITEMS.projects.length);
+        // ensure each project is in the list
+        for (const project of projects) {
+          expect(ITEMS.projects).toContain(project.id);
+        }
+      });
+    });
+
+    describe("project associations", () => {
+      it("a project can list its associations", async () => {
+        const ctxMgr = await factory.getContextManager(orgName, "admin");
+        const context = ctxMgr.context;
+        const project = await HubProject.fetch(ITEMS.projects[0], context);
+        const associations = await project.fetchAssociatedInitiatives();
+        expect(associations).toBeDefined();
+        expect(associations.length).toBe(1);
+        expect(associations[0].id).toBe(ITEMS.initiative);
+      });
+    });
+  });
+
   describe("resolve project metrics:", () => {
     it("resolve static via function:", async () => {
       const ctxMgr = await factory.getContextManager(orgName, "admin");

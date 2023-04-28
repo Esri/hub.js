@@ -8,6 +8,7 @@ import {
   UiSchemaElementOptions,
   IEditorConfig,
   IMetricFeature,
+  IEntityInfo,
 } from "../core";
 import { getEntityEditorSchemas } from "../core/schemas/getEntityEditorSchemas";
 import {
@@ -24,6 +25,7 @@ import { InitiativeEditorType } from "./_internal/InitiativeSchema";
 import { IWithMetricsBehavior } from "../core/behaviors/IWithMetricsBehavior";
 import { getEntityMetrics } from "../metrics/getEntityMetrics";
 import { resolveMetric } from "../metrics/resolveMetric";
+import { fetchAssociatedProjects } from "../items/associations";
 
 /**
  * Hub Initiative Class
@@ -230,5 +232,18 @@ export class HubInitiative
     } else {
       throw new Error(`Metric ${metricId} not found.`);
     }
+  }
+
+  /**
+   * Fetch the Projects that are associated with this Initiative
+   * Executes a query for Hub Projects that have typekeywords of "initiative|<initiative-id>"
+   * System will only return Projects the current user has access to, regardless of the access level of the Initiative
+   * @returns
+   */
+  fetchAssociatedProjects(): Promise<IEntityInfo[]> {
+    if (this.isDestroyed) {
+      throw new Error("HubInitiative is already destroyed.");
+    }
+    return fetchAssociatedProjects(this.entity, this.context.requestOptions);
   }
 }
