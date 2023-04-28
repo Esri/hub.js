@@ -1,3 +1,4 @@
+import { IApiDefinition } from "../../types";
 import { IQuery } from "../../types/IHubCatalog";
 import { IHubSearchOptions } from "../../types/IHubSearchOptions";
 import { IHubSearchResponse } from "../../types/IHubSearchResponse";
@@ -9,7 +10,8 @@ import { ogcItemToSearchResult } from "./ogcItemToSearchResult";
 export async function formatOgcItemsResponse(
   response: IOgcItemsResponse,
   originalQuery: IQuery,
-  originalOptions: IHubSearchOptions
+  originalOptions: IHubSearchOptions,
+  api: IApiDefinition
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
   const formattedResults = await Promise.all(
     response.features.map((f) =>
@@ -20,7 +22,12 @@ export async function formatOgcItemsResponse(
       )
     )
   );
-  const next = getNextOgcCallback(response, originalQuery, originalOptions);
+  const next = getNextOgcCallback(
+    response,
+    originalQuery,
+    originalOptions,
+    api
+  );
   const nextLink = response.links.find((l) => l.rel === "next");
 
   return {

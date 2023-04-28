@@ -231,10 +231,6 @@ describe("portalSearchItems Module:", () => {
         num: 1,
         sortField: "numviews",
         sortOrder: "desc",
-        api: {
-          type: "arcgis",
-          url: "https://dc.mapsqa.arcgis.com",
-        },
         include: [],
         requestOptions: {
           isPortal: false,
@@ -269,10 +265,6 @@ describe("portalSearchItems Module:", () => {
         num: 1,
         sortField: "numviews",
         sortOrder: "desc",
-        api: {
-          type: "arcgis",
-          url: "https://qaext.arcgis.com",
-        },
         include: [],
         requestOptions: {
           isPortal: false,
