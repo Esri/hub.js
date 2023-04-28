@@ -1,5 +1,4 @@
 import { IQuery } from "../../types/IHubCatalog";
-import { IHubSearchOptions } from "../../types/IHubSearchOptions";
 import { IApiDefinition } from "../../types/types";
 
 /**
@@ -10,11 +9,10 @@ import { IApiDefinition } from "../../types/types";
  * the all collection is targeted.
  *
  * @param query the query the request is based on
- * @param options request options, including the base OGC api url
+ * @param api definition object for the OGC API to be targeted
  * @returns the collection url
  */
-export function getOgcCollectionUrl(query: IQuery, options: IHubSearchOptions) {
-  const apiDefinition = options.api as IApiDefinition;
+export function getOgcCollectionUrl(query: IQuery, api: IApiDefinition) {
   const collectionId = query.collection || "all";
-  return `${apiDefinition.url}/collections/${collectionId}`;
+  return `${api.url}/collections/${collectionId}`;
 }

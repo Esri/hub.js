@@ -1,4 +1,5 @@
 import {
+  IApiDefinition,
   IHubSearchOptions,
   IHubSearchResponse,
   IHubSearchResult,
@@ -16,12 +17,13 @@ import { searchOgcItems } from "./hubSearchItemsHelpers/searchOgcItems";
  */
 export async function hubSearchItems(
   query: IQuery,
-  options: IHubSearchOptions
+  options: IHubSearchOptions,
+  api: IApiDefinition
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
   if (!options.useBeta) {
     throw new Error("Not implemented");
   }
   return options.aggFields?.length
-    ? searchOgcAggregations(query, options)
-    : searchOgcItems(query, options);
+    ? searchOgcAggregations(query, options, api)
+    : searchOgcItems(query, options, api);
 }

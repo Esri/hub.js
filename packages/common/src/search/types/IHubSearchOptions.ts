@@ -1,8 +1,6 @@
 import { IHubRequestOptions } from "../../types";
 import { EntityType } from "./IHubCatalog";
 
-import { NamedApis, IApiDefinition } from "./types";
-
 /**
  * Search Options
  */
@@ -16,12 +14,6 @@ export interface IHubSearchOptions {
    * Portal API only supports a single value
    */
   aggLimit?: number;
-
-  /**
-   * TODO: Deprecate in favor of `requestOptions` and `siteUrl`
-   * Specify API to call. Defaults to ArcGIS Online Portal API
-   */
-  api?: NamedApis | IApiDefinition;
 
   /**
    * Site whose API should be targeted. Ignored in an enterprise context.

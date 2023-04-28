@@ -1,5 +1,6 @@
 import {
   cloneObject,
+  IApiDefinition,
   IFilter,
   IHubRequestOptions,
   IHubSearchOptions,
@@ -47,13 +48,11 @@ describe("hubSearchItems Module |", () => {
           targetEntity: "item",
           filters: [],
         };
-        const options: IHubSearchOptions = {
-          api: {
-            type: "arcgis-hub",
-            url: "https://my-hub.com/api/search/v1",
-          },
+        const api: IApiDefinition = {
+          type: "arcgis-hub",
+          url: "https://my-hub.com/api/search/v1",
         };
-        const result = getOgcCollectionUrl(query, options);
+        const result = getOgcCollectionUrl(query, api);
         expect(result).toBe("https://my-hub.com/api/search/v1/collections/all");
       });
       it("points to the provided collection if a collection id is present", () => {
@@ -62,13 +61,11 @@ describe("hubSearchItems Module |", () => {
           collection: "dataset",
           filters: [],
         };
-        const options: IHubSearchOptions = {
-          api: {
-            type: "arcgis-hub",
-            url: "https://my-hub.com/api/search/v1",
-          },
+        const api: IApiDefinition = {
+          type: "arcgis-hub",
+          url: "https://my-hub.com/api/search/v1",
         };
-        const result = getOgcCollectionUrl(query, options);
+        const result = getOgcCollectionUrl(query, api);
         expect(result).toBe(
           "https://my-hub.com/api/search/v1/collections/dataset"
         );
@@ -751,11 +748,16 @@ describe("hubSearchItems Module |", () => {
       });
     });
     describe("hubSearchItems", () => {
+      const api: IApiDefinition = {
+        type: "arcgis-hub",
+        url: "https://my-test-site.arcgis.com/api/v1/search",
+      };
+
       it("throws an error if beta flag isn't enabled", async () => {
         const query: IQuery = { targetEntity: "item", filters: [] };
         const options: IHubSearchOptions = {};
         try {
-          await hubSearchItems(query, options);
+          await hubSearchItems(query, options, api);
           expect(true).toBe(false);
         } catch (err) {
           expect(err.message).toBe("Not implemented");
@@ -779,10 +781,6 @@ describe("hubSearchItems Module |", () => {
           };
 
           const options: IHubSearchOptions = {
-            api: {
-              type: "arcgis-hub",
-              url: "https://my-test-site.arcgis.com/api/v1/search",
-            },
             num: 1,
             targetEntity: "item",
             useBeta: true, // TODO: remove once beta flag is gone
@@ -792,7 +790,7 @@ describe("hubSearchItems Module |", () => {
             "https://my-test-site.arcgis.com/api/v1/search/collections/dataset/items?filter=((type='Feature Service'))&limit=1",
             ogcItemsResponse
           );
-          const response = await hubSearchItems(query, options);
+          const response = await hubSearchItems(query, options, api);
           expect(response.total).toEqual(2);
           expect(response.hasNext).toEqual(false);
           expect(response.results).toEqual(expectedItemResults);
@@ -809,10 +807,6 @@ describe("hubSearchItems Module |", () => {
             filters: [],
           };
           const options: IHubSearchOptions = {
-            api: {
-              type: "arcgis-hub",
-              url: "https://my-test-site.arcgis.com/api/v1/search",
-            },
             targetEntity: "item",
             aggFields: ["access", "type"],
             useBeta: true, // TODO: remove once beta flag is gone
@@ -824,7 +818,7 @@ describe("hubSearchItems Module |", () => {
             "https://my-test-site.arcgis.com/api/v1/search/collections/dataset/aggregations?aggregations=terms(fields=(access,type))",
             ogcAggregationsResponse
           );
-          const response = await hubSearchItems(query, options);
+          const response = await hubSearchItems(query, options, api);
 
           // Validate defaults
           expect(response.total).toEqual(0);
