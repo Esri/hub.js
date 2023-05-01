@@ -9,6 +9,26 @@ export const ENTITY_NAME_SCHEMA = {
   maxLength: 250,
 };
 
+export const ENTITY_ACCESS_SCHEMA = {
+  type: "string",
+  enum: ["public", "org", "private"],
+  default: "private",
+};
+
+export const ENTITY_TAGS_SCHEMA = {
+  type: "array",
+  items: {
+    type: "string",
+  },
+};
+
+export const ENTITY_CATEGORIES_SCHEMA = {
+  type: "array",
+  items: {
+    type: "string",
+  },
+};
+
 export const ENTITY_EXTENT_SCHEMA = {
   type: "object",
   properties: {
