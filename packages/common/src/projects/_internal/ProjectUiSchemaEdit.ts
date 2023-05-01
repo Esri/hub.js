@@ -66,6 +66,8 @@ export const uiSchema: IUiSchema = {
             control: "hub-field-input-combobox",
             allowCustomValues: true,
             selectionMode: "multiple",
+            placeholderIcon: "label",
+            helperText: { labelKey: "{{i18nScope}}.sections.tags.helperText" },
           },
         },
         {
@@ -76,6 +78,10 @@ export const uiSchema: IUiSchema = {
             control: "hub-field-input-combobox",
             allowCustomValues: false,
             selectionMode: "multiple",
+            placeholderIcon: "select-category",
+            helperText: {
+              labelKey: "{{i18nScope}}.sections.categories.helperText",
+            },
           },
         },
       ],
@@ -143,6 +149,27 @@ export const uiSchema: IUiSchema = {
           options: {
             control: "hub-field-input-gallery-picker",
             targetEntity: "item",
+            facets: [
+              {
+                label:
+                  "{{{{i18nScope}}.fields.featuredContent.facets.type:translate}}",
+                key: "type",
+                display: "multi-select",
+                field: "type",
+                options: [],
+                operation: "OR",
+                aggLimit: 100,
+              },
+              {
+                label:
+                  "{{{{i18nScope}}.fields.featuredContent.facets.sharing:translate}}",
+                key: "access",
+                display: "multi-select",
+                field: "access",
+                options: [],
+                operation: "OR",
+              },
+            ],
           },
         },
       ],
