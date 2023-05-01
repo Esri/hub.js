@@ -1,5 +1,10 @@
 import { PROJECT_STATUSES, IConfigurationSchema } from "../../core";
-import { ENTITY_NAME_SCHEMA } from "../../core/schemas/shared";
+import {
+  ENTITY_ACCESS_SCHEMA,
+  ENTITY_CATEGORIES_SCHEMA,
+  ENTITY_NAME_SCHEMA,
+  ENTITY_TAGS_SCHEMA,
+} from "../../core/schemas/shared";
 
 export type ProjectEditorType = (typeof ProjectEditorTypes)[number];
 export const ProjectEditorTypes = [
@@ -21,6 +26,13 @@ export const ProjectSchema: IConfigurationSchema = {
     description: {
       type: "string",
     },
+    access: ENTITY_ACCESS_SCHEMA,
+    groups: {
+      type: "array",
+      items: {
+        type: "string",
+      },
+    },
     status: {
       type: "string",
       default: PROJECT_STATUSES.notStarted,
@@ -29,18 +41,8 @@ export const ProjectSchema: IConfigurationSchema = {
     location: {
       type: "object",
     },
-    tags: {
-      type: "array",
-      items: {
-        type: "string",
-      },
-    },
-    categories: {
-      type: "array",
-      items: {
-        type: "string",
-      },
-    },
+    tags: ENTITY_TAGS_SCHEMA,
+    categories: ENTITY_CATEGORIES_SCHEMA,
     view: {
       type: "object",
       properties: {
