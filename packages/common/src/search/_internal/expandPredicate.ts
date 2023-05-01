@@ -1,7 +1,7 @@
 import { getProp, setProp } from "../../objects";
 import { cloneObject } from "../../util";
 import { IPredicate } from "../types";
-import { relativeDateToDateRange, valueToMatchOptions } from "../utils";
+import { relativeDateToDateRange, valueToMatchOptions } from "./utils";
 
 /**
  * @private

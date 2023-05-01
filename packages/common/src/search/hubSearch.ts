@@ -58,16 +58,7 @@ export async function hubSearch(
 
   // Get the type of the first filterGroup
   const filterType = query.targetEntity;
-
-  // NOTE: We want to clone the `options` object to do some expansion operations,
-  // But if we clone `options.requestOptions`, the underlying `UserSession` will
-  // lose some fundamental functions like `getToken`. As a workaround, we just
-  // clone everything else on the `options` object.
-  const { requestOptions, ...remainder } = options;
-  const formattedOptions: IHubSearchOptions = cloneObject(remainder);
-  formattedOptions.requestOptions = requestOptions;
-
-  formattedOptions.api = getApi(filterType, formattedOptions);
+  const api = getApi(filterType, options);
 
   const fnHash = {
     arcgis: {
@@ -80,12 +71,12 @@ export async function hubSearch(
     },
   };
 
-  const fn = getProp(fnHash, `${formattedOptions.api.type}.${filterType}`);
+  const fn = getProp(fnHash, `${api.type}.${filterType}`);
   if (!fn) {
     throw new HubError(
       `hubSearch`,
-      `Search via "${filterType}" filter against "${formattedOptions.api.type}" api is not implemented. Please ensure "targetEntity" is defined on the query.`
+      `Search via "${filterType}" filter against "${api.type}" api is not implemented. Please ensure "targetEntity" is defined on the query.`
     );
   }
-  return fn(cloneObject(query), formattedOptions);
+  return fn(cloneObject(query), options, api);
 }

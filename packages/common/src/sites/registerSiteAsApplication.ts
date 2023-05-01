@@ -2,7 +2,10 @@ import { registerBrowserApp } from "../items/registerBrowserApp";
 import { getProp } from "../objects";
 import { IHubRequestOptions, IModel } from "../types";
 import { _getHttpAndHttpsUris } from "../urls";
+
 /**
+ * @private
+ * @internal
  * Register the Site item as an application so we can oauth against it
  * @param {string} siteId Item Id of the site
  * @param {Array} uris Arrayf valid uris for the site

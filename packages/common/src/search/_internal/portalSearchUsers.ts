@@ -14,7 +14,7 @@ import {
   IHubSearchResult,
   IQuery,
 } from "../types";
-import { getNextFunction } from "../utils";
+import { getNextFunction } from "./utils";
 import { expandPredicate } from "./expandPredicate";
 
 /**

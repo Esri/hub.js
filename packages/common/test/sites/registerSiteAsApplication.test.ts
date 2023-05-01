@@ -1,4 +1,5 @@
 import * as commonModule from "../../src";
+import { registerSiteAsApplication } from "../../src/sites/registerSiteAsApplication";
 import * as regiserBrowserAppModule from "../../src/items/registerBrowserApp";
 
 describe("registerSiteAsApplication", () => {
@@ -19,7 +20,7 @@ describe("registerSiteAsApplication", () => {
       },
     } as unknown as commonModule.IModel;
 
-    await commonModule.registerSiteAsApplication(
+    await registerSiteAsApplication(
       model,
       {} as commonModule.IHubRequestOptions
     );
@@ -58,7 +59,7 @@ describe("registerSiteAsApplication", () => {
       },
     } as unknown as commonModule.IModel;
 
-    await commonModule.registerSiteAsApplication(
+    await registerSiteAsApplication(
       model,
       {} as commonModule.IHubRequestOptions
     );
@@ -97,7 +98,7 @@ describe("registerSiteAsApplication", () => {
       },
     } as unknown as commonModule.IModel;
 
-    await commonModule.registerSiteAsApplication(model, {
+    await registerSiteAsApplication(model, {
       isPortal: true,
     } as commonModule.IHubRequestOptions);
 

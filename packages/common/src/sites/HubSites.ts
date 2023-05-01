@@ -271,11 +271,12 @@ export async function createSite(
   );
 
   // Register as an app
-  const registration = await registerSiteAsApplication(model, requestOptions);
-  model.data.values.clientId = registration.client_id;
+  // NOTE: Site registration needs to happen via the hub api domain api calls
+  // See https://devtopia.esri.com/dc/hub/issues/6390 for info
 
-  // Register domains
-  await addSiteDomains(model, requestOptions);
+  // Register domain and at the same time register the site as an application
+  const domainResponses = await addSiteDomains(model, requestOptions);
+  model.data.values.clientId = domainResponses[0].client_id;
 
   // update the model
   const updatedModel = await updateModel(
@@ -332,26 +333,6 @@ export async function updateSite(
   // fetch updated model
   const updatedSite = mapper.modelToObject(updatedSiteModel, site);
   return updatedSite;
-}
-
-/**
- * @private
- * Remove a Hub Site
- *
- * This simply removes the Site item, and it's associated domain records.
- * This does not remove any Teams/Groups or content associated with the
- * Site
- * @param id
- * @param requestOptions
- * @returns
- */
-export async function destroySite(
-  id: string,
-  requestOptions: IHubRequestOptions
-): Promise<void> {
-  // tslint:disable-next-line:no-console
-  console.warn(`destroySite is deprecated, use deleteSite instead`);
-  return deleteSite(id, requestOptions);
 }
 
 /**

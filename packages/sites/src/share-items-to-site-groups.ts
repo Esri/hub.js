@@ -4,25 +4,6 @@ import { _getSecondPassSharingOptions } from "./_get-second-pass-sharing-options
 import { _getSharingEligibleModels } from "./_get-sharing-eligible-models";
 
 /**
- * **DEPRECATED: Use shareItemsToSiteGroups() instead**
- * this is only needed in order to support solutions.js < v1.4.1
- * and we currently use v1.1.5 in opendata-ui
- * @private
- */
-/* istanbul ignore next - deprecated */
-export function _shareItemsToSiteGroups(
-  siteModel: IModel,
-  solutionModels: IModel[],
-  hubRequestOptions: IHubRequestOptions
-) {
-  /* tslint:disable no-console */
-  console.info(
-    `DEPRECATED: _shareItemsToSiteGroups will be removed at the next breaking version. Use shareItemsToSiteGroups instead.`
-  );
-  return shareItemsToSiteGroups(siteModel, solutionModels, hubRequestOptions);
-}
-
-/**
  * Share all the other models to the Site's content and collaboration groups, if
  * those groups were created for the site (depends on user's privs)
  * @param {object} siteModel Site Model

@@ -5,13 +5,6 @@ import {
   EditorType,
 } from "../schemas";
 
-/**
- * DEPRECATED: the following will be removed at next breaking version
- * we will be shifting towards the EditorType defined in the schemas
- * directory
- */
-export type EditorConfigType = "create" | "edit";
-
 export interface IEditorConfig {
   schema: IConfigurationSchema;
   uiSchema: IUiSchema;
