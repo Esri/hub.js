@@ -1,3 +1,83 @@
+# @esri/hub-sites [13.0.0-next.1](https://github.com/Esri/hub.js/compare/@esri/hub-sites@12.6.0...@esri/hub-sites@13.0.0-next.1) (2023-05-01)
+
+
+### Features
+
+* remove calls to register or update app ([#1046](https://github.com/Esri/hub.js/issues/1046)) ([ee9adc2](https://github.com/Esri/hub.js/commit/ee9adc29a80de1b3f09b3c3dc1384c3fbb9be184))
+
+
+### BREAKING CHANGES
+
+* Client code no longer makes calls to
+register site as application or to update application redirect
+uris. This is all expected to be handled server-side by the Hub Domain
+service.
+* remove deprecated destroySite()
+
+* remove(hub-common): remove deprecated getHubProjectEditorConfig()
+
+affects: @esri/hub-common
+* remove deprecated getHubProjectEditorConfig()
+
+* remove(hub-common): remove deprecated properites from IHubLocation
+
+affects: @esri/hub-common
+* remove deprecated properites from IHubLocation
+
+* refactor: update peer dependency ranges for release
+
+* remove(hub-sites): remove deprecated _shareItemsToSiteGroups()
+
+affects: @esri/hub-sites
+* remove deprecated _shareItemsToSiteGroups()
+
+* remove(hub-common): remove deprecated Enrichments and IHubSearchOptions.authentication
+
+affects: @esri/hub-common
+* remove deprecated Enrichments and IHubSearchOptions.authentication
+
+* feat(hub-common): make clientKey optional on IDomainEntry
+* clientKey property is optional on IDomainEntry
+
+* remove(hub-common): remove unused private expandApis()
+
+affects: @esri/hub-common
+* remove unused private expandApis()
+
+* remove(hub-common): do not export private search utils
+
+affects: @esri/hub-common
+* do not export private search utils
+
+* remove(hub-common): remove the unused IHubSearchOptions.api field
+
+affects: @esri/hub-common
+
+The functionality of the  IHubSearchOptions.api field had already been replaced
+by
+IHubSearchOptions.site and IHubSearchOptions.requestOptions.portal
+This commit just officially
+removes it. In addition, internal helpers have been
+refactored to take an additional "api" argument
+instead of relying
+on IHubSearchOptions.api. Also note, the internal "expandApi" helper has been
+removed
+as it was no longer needed.
+
+affects: @esri/hub-common
+
+affects: @esri/hub-common
+
+
+
+
+
+### Dependencies
+
+* **@esri/hub-common:** upgraded to 13.0.0-next.1
+* **@esri/hub-initiatives:** upgraded to 13.0.0-next.1
+* **@esri/hub-teams:** upgraded to 13.0.0-next.1
+
 # @esri/hub-sites [12.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@12.5.0...@esri/hub-sites@12.6.0) (2023-04-03)
 
 
