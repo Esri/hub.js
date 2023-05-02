@@ -1,3 +1,11 @@
+# @esri/hub-common [12.34.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.33.0...@esri/hub-common@12.34.0) (2023-05-02)
+
+
+### Features
+
+* add access and groups to project create uiSchema ([7cfa4e0](https://github.com/Esri/hub.js/commit/7cfa4e08c034118b351cafa5a5e01a6aa27b76ba))
+* add access and groups to project schema ([6571df9](https://github.com/Esri/hub.js/commit/6571df9c483a0080b566ea2eee21bad0f3750f25))
+
 # @esri/hub-common [12.33.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.32.0...@esri/hub-common@12.33.0) (2023-04-27)
 
 
