@@ -1,3 +1,10 @@
+## @esri/hub-common [12.34.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.34.1...@esri/hub-common@12.34.2) (2023-05-02)
+
+
+### Bug Fixes
+
+* update resolveMetric to return IResolvedMetric ([#1049](https://github.com/Esri/hub.js/issues/1049)) ([0bb5145](https://github.com/Esri/hub.js/commit/0bb5145478aec702f3133900efff7285172ceebf))
+
 ## @esri/hub-common [12.34.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.34.0...@esri/hub-common@12.34.1) (2023-05-02)
 
 
