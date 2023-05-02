@@ -7,7 +7,7 @@ import {
   IWithSharingBehavior,
   UiSchemaElementOptions,
   IEditorConfig,
-  IMetricFeature,
+  IResolvedMetric,
 } from "../core";
 import { getEntityEditorSchemas } from "../core/schemas/getEntityEditorSchemas";
 import {
@@ -221,7 +221,7 @@ export class HubInitiative
    * @param metricId
    * @returns
    */
-  resolveMetric(metricId: string): Promise<IMetricFeature[]> {
+  resolveMetric(metricId: string): Promise<IResolvedMetric> {
     const metrics = getEntityMetrics(this.entity);
     const metric = metrics.find((m) => m.id === metricId);
     // TODO: Add caching

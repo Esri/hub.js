@@ -3,6 +3,7 @@ import {
   IItemQueryMetricSource,
   IMetric,
   IMetricFeature,
+  IResolvedMetric,
   IServiceQueryMetricSource,
   IStaticValueMetricSource,
   MetricSource,
@@ -27,7 +28,7 @@ import { portalSearchItemsAsItems } from "../search/_internal/portalSearchItems"
 export async function resolveMetric(
   metric: IMetric,
   context: IArcGISContext
-): Promise<IMetricFeature[]> {
+): Promise<IResolvedMetric> {
   // At this point the source references should have been resolved
   // so we can force case to a MetricSource and switch on the type
   const source = metric.source as MetricSource;
@@ -57,7 +58,7 @@ export async function resolveMetric(
 function resolveStaticValueMetric(
   metric: IMetric,
   context: IArcGISContext
-): Promise<IMetricFeature[]> {
+): Promise<IResolvedMetric> {
   const source = metric.source as IStaticValueMetricSource;
   // cut off the parent identifier from the metric id and use that
   // as the output field name
@@ -70,7 +71,10 @@ function resolveStaticValueMetric(
       [fieldName]: source.value,
     },
   };
-  return Promise.resolve([result]);
+  return Promise.resolve({
+    features: [result],
+    generatedAt: new Date().getTime(),
+  });
 }
 
 /**
@@ -83,7 +87,7 @@ function resolveStaticValueMetric(
 async function resolveServiceQueryMetric(
   metric: IMetric,
   context: IArcGISContext
-): Promise<IMetricFeature[]> {
+): Promise<IResolvedMetric> {
   const source = metric.source as IServiceQueryMetricSource;
   // cut off the parent identifier from the metric id and use that
   // as the output field name
@@ -121,13 +125,16 @@ async function resolveServiceQueryMetric(
     },
   };
 
-  return [result];
+  return {
+    features: [result],
+    generatedAt: new Date().getTime(),
+  };
 }
 
 async function resolveItemQueryMetric(
   metric: IMetric,
   context: IArcGISContext
-): Promise<IMetricFeature[]> {
+): Promise<IResolvedMetric> {
   const source = metric.source as IItemQueryMetricSource;
   // cut off the parent identifier from the metric id and use that
   // as the output field name
@@ -199,7 +206,7 @@ async function resolveItemQueryMetric(
           // attach in the entity info, so it's present for the next level of recursion
           valueFromItem.entityInfo = result.attributes;
           const vResult = await resolveMetric(valueFromItem, context);
-          vals.push(...vResult);
+          vals.push(...vResult.features);
         }
       }
       return vals;
@@ -209,6 +216,10 @@ async function resolveItemQueryMetric(
 
   // let everything resolve
   const outputs = (await Promise.all(promises)) as IMetricFeature[];
+
   // return the results
-  return outputs;
+  return {
+    features: outputs,
+    generatedAt: new Date().getTime(),
+  };
 }

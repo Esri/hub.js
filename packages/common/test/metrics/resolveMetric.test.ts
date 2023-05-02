@@ -69,7 +69,7 @@ describe("resolveMetric:", () => {
     };
     it("returns array with single value", async () => {
       const chk = await resolveMetric(metric, ctx);
-      expect(chk).toEqual([
+      expect(chk.features).toEqual([
         {
           attributes: {
             id: "00c",
@@ -79,6 +79,7 @@ describe("resolveMetric:", () => {
           },
         },
       ]);
+      expect(chk.generatedAt).toBeDefined();
     });
   });
 
@@ -125,8 +126,8 @@ describe("resolveMetric:", () => {
       expect(opts.outStatistics).toEqual([statsDef]);
       expect(opts.authentication).toEqual(MOCK_AUTH);
       // inspect the result
-      expect(chk.length).toEqual(1);
-      expect(chk[0].attributes).toEqual({
+      expect(chk.features.length).toEqual(1);
+      expect(chk.features[0].attributes).toEqual({
         id: "00c",
         name: "Some Project Name",
         type: "Hub Project",
@@ -223,7 +224,7 @@ describe("resolveMetric:", () => {
             },
           ],
         });
-        expect(chk[0].attributes).toEqual({
+        expect(chk.features[0].attributes).toEqual({
           id: "cc0",
           name: "Search Result 1",
           type: "Hub Project",
