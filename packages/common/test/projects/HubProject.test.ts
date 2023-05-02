@@ -1,5 +1,10 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
-import { IHubProject, IMetricFeature, UiSchemaElementOptions } from "../../src";
+import {
+  IHubProject,
+  IMetricFeature,
+  IResolvedMetric,
+  UiSchemaElementOptions,
+} from "../../src";
 import { Catalog } from "../../src/search";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubProject } from "../../src/projects/HubProject";
@@ -273,7 +278,10 @@ describe("HubProject Class:", () => {
     it("delegates to resolveMetric", async () => {
       const spy = spyOn(ResolveMetricModule, "resolveMetric").and.callFake(
         () => {
-          return Promise.resolve([] as IMetricFeature[]);
+          return Promise.resolve({
+            features: [],
+            generatedAt: 1683060547818,
+          } as IResolvedMetric);
         }
       );
       const chk = HubProject.fromJson(
@@ -300,7 +308,7 @@ describe("HubProject Class:", () => {
 
       const result = await chk.resolveMetric("projectBudget_00c");
       expect(spy).toHaveBeenCalledTimes(1);
-      expect(result).toEqual([]);
+      expect(result).toEqual({ features: [], generatedAt: 1683060547818 });
     });
   });
 });

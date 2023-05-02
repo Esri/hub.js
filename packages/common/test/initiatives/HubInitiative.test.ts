@@ -2,6 +2,7 @@ import * as PortalModule from "@esri/arcgis-rest-portal";
 import {
   IHubInitiative,
   IMetricFeature,
+  IResolvedMetric,
   UiSchemaElementOptions,
 } from "../../src";
 import { Catalog } from "../../src/search";
@@ -293,7 +294,10 @@ describe("HubInitiative Class:", () => {
     it("delegates to resolveMetric", async () => {
       const spy = spyOn(ResolveMetricModule, "resolveMetric").and.callFake(
         () => {
-          return Promise.resolve([] as IMetricFeature[]);
+          return Promise.resolve({
+            features: [],
+            generatedAt: 1683060547818,
+          } as IResolvedMetric);
         }
       );
       const chk = HubInitiative.fromJson(
@@ -320,7 +324,7 @@ describe("HubInitiative Class:", () => {
 
       const result = await chk.resolveMetric("initiativeBudget_00c");
       expect(spy).toHaveBeenCalledTimes(1);
-      expect(result).toEqual([]);
+      expect(result).toEqual({ features: [], generatedAt: 1683060547818 });
     });
   });
 });

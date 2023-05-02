@@ -169,3 +169,11 @@ export interface IMetricFeature {
   attributes: IMetricAttributes;
   geometry?: __esri.Geometry;
 }
+
+/**
+ * Result of resolving a metric
+ */
+export interface IResolvedMetric {
+  features: IMetricFeature[];
+  generatedAt: number;
+}

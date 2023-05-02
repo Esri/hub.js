@@ -6,7 +6,7 @@ import {
   IWithStoreBehavior,
   IWithSharingBehavior,
   UiSchemaElementOptions,
-  IMetricFeature,
+  IResolvedMetric,
 } from "../core";
 import { getEntityEditorSchemas } from "../core/schemas/getEntityEditorSchemas";
 import { Catalog } from "../search";
@@ -215,7 +215,7 @@ export class HubProject
    * @param metricId
    * @returns
    */
-  resolveMetric(metricId: string): Promise<IMetricFeature[]> {
+  resolveMetric(metricId: string): Promise<IResolvedMetric> {
     const metrics = getEntityMetrics(this.entity);
     const metric = metrics.find((m) => m.id === metricId);
     // TODO: add caching
