@@ -8,6 +8,7 @@ import {
   UiSchemaElementOptions,
   IEditorConfig,
   IResolvedMetric,
+  IEntityInfo,
 } from "../core";
 import { getEntityEditorSchemas } from "../core/schemas/getEntityEditorSchemas";
 import {
@@ -17,13 +18,17 @@ import {
   updateInitiative,
 } from "./HubInitiatives";
 
-import { Catalog } from "../search";
+import { Catalog, IQuery } from "../search";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
 import { InitiativeEditorType } from "./_internal/InitiativeSchema";
 import { IWithMetricsBehavior } from "../core/behaviors/IWithMetricsBehavior";
 import { getEntityMetrics } from "../metrics/getEntityMetrics";
 import { resolveMetric } from "../metrics/resolveMetric";
+import {
+  fetchApprovedProjects,
+  fetchAssociatedProjects,
+} from "../items/associations";
 
 /**
  * Hub Initiative Class
@@ -229,6 +234,54 @@ export class HubInitiative
       return resolveMetric(metric, this.context);
     } else {
       throw new Error(`Metric ${metricId} not found.`);
+    }
+  }
+
+  /**
+   * Fetch the Projects that are associated with this Initiative
+   * Executes a query for Hub Projects that have typekeywords of "initiative|<initiative-id>"
+   * System will only return Projects the current user has access to, regardless of the access level of the Initiative
+   * @returns
+   */
+  fetchAssociatedProjects(): Promise<IEntityInfo[]> {
+    if (this.isDestroyed) {
+      throw new Error("HubInitiative is already destroyed.");
+    }
+    return fetchAssociatedProjects(this.entity, this.context.requestOptions);
+  }
+
+  /**
+   * Fetch the Projects that are associated with this Initiative
+   * Executes a query for Hub Projects that have typekeywords of "initiative|<initiative-id>" and are included in the
+   * Projects collection in the Initiative's Catalog
+   * System will only return Projects the current user has access to, regardless of the access level of the Initiative
+   * @returns
+   */
+  fetchApprovedProjects(): Promise<IEntityInfo[]> {
+    if (this.isDestroyed) {
+      throw new Error("HubInitiative is already destroyed.");
+    }
+    return fetchApprovedProjects(this.entity, this.context.requestOptions);
+  }
+
+  async isProjectApproved(id: string): Promise<boolean> {
+    if (this.isDestroyed) {
+      throw new Error("HubInitiative is already destroyed.");
+    }
+    const qry: IQuery = {
+      targetEntity: "item",
+      filters: [{ operation: "AND", predicates: [{ id }] }],
+    };
+
+    const result = await fetchApprovedProjects(
+      this.entity,
+      this.context.requestOptions,
+      qry
+    );
+    if (result.length > 0) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

@@ -25,3 +25,21 @@ export const EntityResourceMap: {
  * Please note that adding more values will require changes in the location picker
  */
 export type IHubLocationType = "none" | "custom" | "org" | "item";
+
+/**
+ * Simple definition of an Association
+ * This will be persisted in the item's typekeywords
+ * as `type|id`
+ */
+export interface IAssociationInfo {
+  // Type of the association. Currently only initiative is supported
+  type: AssociationType;
+  // Id of the associated item
+  id: string;
+}
+
+/**
+ * Association type. Currently only initiative is supported
+ * but as we add more types, we can add them here
+ */
+export type AssociationType = "initiative";

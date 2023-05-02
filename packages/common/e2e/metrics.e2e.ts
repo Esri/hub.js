@@ -78,6 +78,52 @@ fdescribe("metrics development harness:", () => {
     ],
   };
 
+  fdescribe("association validation", () => {
+    describe("initiative associations", () => {
+      it("initiative should get all projects", async () => {
+        const ctxMgr = await factory.getContextManager(orgName, "admin");
+        const context = ctxMgr.context;
+        const initiative = await HubInitiative.fetch(ITEMS.initiative, context);
+        const projects = await initiative.fetchAssociatedProjects();
+        expect(projects).toBeDefined();
+        expect(projects.length).toBe(ITEMS.projects.length);
+        // ensure each project is in the list
+        for (const project of projects) {
+          expect(ITEMS.projects).toContain(project.id);
+        }
+        const approved = await initiative.fetchApprovedProjects();
+        expect(approved).toBeDefined();
+        expect(approved.length).toBe(ITEMS.projects.length);
+        // ensure each project is in the list
+        for (const project of approved) {
+          expect(ITEMS.projects).toContain(project.id);
+        }
+      });
+    });
+
+    describe("project associations:", () => {
+      it("can list its associations", async () => {
+        const ctxMgr = await factory.getContextManager(orgName, "admin");
+        const context = ctxMgr.context;
+        const project = await HubProject.fetch(ITEMS.projects[0], context);
+        const associations = await project.fetchAssociatedInitiatives();
+        expect(associations).toBeDefined();
+        expect(associations.length).toBe(1);
+        expect(associations[0].id).toBe(ITEMS.initiative);
+      });
+      fit("can list approved Initiatives", async () => {
+        const ctxMgr = await factory.getContextManager(orgName, "admin");
+        const context = ctxMgr.context;
+        const project = await HubProject.fetch(ITEMS.projects[0], context);
+        const associations = await project.fetchApprovedInitiatives();
+
+        expect(associations).toBeDefined();
+        expect(associations.length).toBe(1);
+        expect(associations[0].id).toBe(ITEMS.initiative);
+      });
+    });
+  });
+
   describe("resolve project metrics:", () => {
     it("resolve static via function:", async () => {
       const ctxMgr = await factory.getContextManager(orgName, "admin");

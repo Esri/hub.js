@@ -1,6 +1,7 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import {
   IHubInitiative,
+  IHubProject,
   IMetricFeature,
   IResolvedMetric,
   UiSchemaElementOptions,
@@ -12,6 +13,7 @@ import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as HubInitiativesModule from "../../src/initiatives/HubInitiatives";
 import * as schemasModule from "../../src/core/schemas/getEntityEditorSchemas";
 import * as ResolveMetricModule from "../../src/metrics/resolveMetric";
+import * as associationModule from "../../src/items/associations";
 
 describe("HubInitiative Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -255,6 +257,23 @@ describe("HubInitiative Class:", () => {
     } catch (e) {
       expect(e.message).toEqual("HubInitiative is already destroyed.");
     }
+
+    try {
+      await chk.fetchAssociatedProjects();
+    } catch (e) {
+      expect(e.message).toEqual("HubInitiative is already destroyed.");
+    }
+
+    try {
+      await chk.fetchApprovedProjects();
+    } catch (e) {
+      expect(e.message).toEqual("HubInitiative is already destroyed.");
+    }
+    try {
+      await chk.isProjectApproved("00c");
+    } catch (e) {
+      expect(e.message).toEqual("HubInitiative is already destroyed.");
+    }
   });
 
   it("internal instance accessors", () => {
@@ -325,6 +344,81 @@ describe("HubInitiative Class:", () => {
       const result = await chk.resolveMetric("initiativeBudget_00c");
       expect(spy).toHaveBeenCalledTimes(1);
       expect(result).toEqual({ features: [], generatedAt: 1683060547818 });
+    });
+  });
+
+  describe("associations:", () => {
+    it("returns associated projects", async () => {
+      const instance = HubInitiative.fromJson(
+        { id: "00c", name: "Test Initiative", catalog: { schemaVersion: 0 } },
+        authdCtxMgr.context
+      );
+      const spy = spyOn(
+        associationModule,
+        "fetchAssociatedProjects"
+      ).and.callFake(() => {
+        return Promise.resolve([] as IHubProject[]);
+      });
+
+      const projects = await instance.fetchAssociatedProjects();
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(projects).toEqual([]);
+    });
+
+    it("returns approved projects", async () => {
+      const instance = HubInitiative.fromJson(
+        { id: "00c", name: "Test Initiative", catalog: { schemaVersion: 0 } },
+        authdCtxMgr.context
+      );
+      const spy = spyOn(
+        associationModule,
+        "fetchApprovedProjects"
+      ).and.callFake(() => {
+        return Promise.resolve([] as IHubProject[]);
+      });
+
+      const projects = await instance.fetchApprovedProjects();
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(projects).toEqual([]);
+    });
+
+    describe("check if project is approved", () => {
+      it("returns false if result set is empty", async () => {
+        const instance = HubInitiative.fromJson(
+          { id: "00c", name: "Test Initiative", catalog: { schemaVersion: 0 } },
+          authdCtxMgr.context
+        );
+        const spy = spyOn(
+          associationModule,
+          "fetchApprovedProjects"
+        ).and.callFake(() => {
+          return Promise.resolve([] as IHubProject[]);
+        });
+
+        const chk = await instance.isProjectApproved("00f");
+        expect(spy).toHaveBeenCalledTimes(1);
+        expect(chk).toEqual(false);
+      });
+      it("returns true if results have length", async () => {
+        const instance = HubInitiative.fromJson(
+          { id: "00c", name: "Test Initiative", catalog: { schemaVersion: 0 } },
+          authdCtxMgr.context
+        );
+        const spy = spyOn(
+          associationModule,
+          "fetchApprovedProjects"
+        ).and.callFake(() => {
+          return Promise.resolve([{}] as IHubProject[]);
+        });
+
+        const chk = await instance.isProjectApproved("00f");
+        expect(spy).toHaveBeenCalledTimes(1);
+        expect(chk).toEqual(true);
+
+        // verify the query params
+        const qry = spy.calls.argsFor(0)[2];
+        expect(qry.filters[0].predicates[0].id).toEqual("00f");
+      });
     });
   });
 });

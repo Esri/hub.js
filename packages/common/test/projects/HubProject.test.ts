@@ -1,8 +1,12 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import {
-  IHubProject,
-  IMetricFeature,
+  
+  
   IResolvedMetric,
+  HubInitiative,
+  IEntityInfo,
+  IHubProject,
+  
   UiSchemaElementOptions,
 } from "../../src";
 import { Catalog } from "../../src/search";
@@ -13,6 +17,7 @@ import * as editModule from "../../src/projects/edit";
 import * as fetchModule from "../../src/projects/fetch";
 import * as schemasModule from "../../src/core/schemas/getEntityEditorSchemas";
 import * as ResolveMetricModule from "../../src/metrics/resolveMetric";
+import * as associationModule from "../../src/items/associations";
 describe("HubProject Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
   let unauthdCtxMgr: ArcGISContextManager;
@@ -238,6 +243,29 @@ describe("HubProject Class:", () => {
     } catch (e) {
       expect((e as any).message).toEqual("HubProject is already destroyed.");
     }
+
+    try {
+      chk.addAssociation({ type: "initiative", id: "123" });
+    } catch (e) {
+      expect((e as any).message).toEqual("HubProject is already destroyed.");
+    }
+    try {
+      chk.removeAssociation({ type: "initiative", id: "123" });
+    } catch (e) {
+      expect((e as any).message).toEqual("HubProject is already destroyed.");
+    }
+
+    try {
+      await chk.fetchAssociatedInitiatives();
+    } catch (e) {
+      expect((e as any).message).toEqual("HubProject is already destroyed.");
+    }
+
+    try {
+      await chk.fetchApprovedInitiatives();
+    } catch (e) {
+      expect((e as any).message).toEqual("HubProject is already destroyed.");
+    }
   });
 
   it("internal instance accessors", () => {
@@ -309,6 +337,137 @@ describe("HubProject Class:", () => {
       const result = await chk.resolveMetric("projectBudget_00c");
       expect(spy).toHaveBeenCalledTimes(1);
       expect(result).toEqual({ features: [], generatedAt: 1683060547818 });
+    });
+  });
+  describe("associations:", () => {
+    it("can add, remove and list associations", () => {
+      const instance = HubProject.fromJson(
+        {
+          id: "bc3",
+          name: "Test Project",
+          typeKeywords: ["hubProject"],
+        },
+        authdCtxMgr.context
+      );
+      instance.addAssociation({ type: "initiative", id: "123" });
+      instance.addAssociation({ type: "initiative", id: "456" });
+      const chk = instance.toJson();
+      expect(chk.typeKeywords?.includes("initiative|123")).toBeTruthy();
+      expect(chk.typeKeywords?.includes("initiative|456")).toBeTruthy();
+      instance.removeAssociation({ type: "initiative", id: "123" });
+      expect(
+        instance.toJson().typeKeywords?.includes("initiative|123")
+      ).toBeFalsy();
+      const list = instance.listAssociations();
+      expect(list.length).toEqual(1);
+      expect(list[0].id).toEqual("456");
+    });
+    it("can fetch associated initiatives", async () => {
+      const instance = HubProject.fromJson(
+        {
+          id: "bc3",
+          name: "Test Project",
+          typeKeywords: ["hubProject"],
+        },
+        authdCtxMgr.context
+      );
+      const spy = spyOn(
+        associationModule,
+        "fetchAssociatedInitiatives"
+      ).and.callFake(() => {
+        return Promise.resolve([] as IHubProject[]);
+      });
+      const chk = await instance.fetchAssociatedInitiatives();
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(chk).toEqual([]);
+    });
+
+    it("returns initiatives that have approved the project", async () => {
+      const instance = HubProject.fromJson(
+        {
+          id: "bc3",
+          name: "Test Project",
+          typeKeywords: ["hubProject", "initiative|00c"],
+        },
+        authdCtxMgr.context
+      );
+      const spyFetchAssociatedInitiatives = spyOn(
+        associationModule,
+        "fetchAssociatedInitiatives"
+      ).and.callFake(() => {
+        return Promise.resolve([
+          { id: "00c", name: "Fake", type: "Hub Initiative" },
+        ] as IEntityInfo[]);
+      });
+      const spyFetchApprovedProjects = spyOn(
+        associationModule,
+        "fetchApprovedProjects"
+      ).and.callFake(() => {
+        return Promise.resolve([
+          { id: "bc3", name: "Test Project", type: "Hub Project" },
+        ] as IHubProject[]);
+      });
+
+      const fetchSpy = spyOn(HubInitiative, "fetch").and.callFake(() => {
+        return HubInitiative.fromJson(
+          {
+            id: "00c",
+            name: "Fake",
+            catalog: { schemaVersion: 0, collections: [] },
+          },
+          authdCtxMgr.context
+        );
+      });
+
+      const chk = await instance.fetchApprovedInitiatives();
+      expect(spyFetchAssociatedInitiatives).toHaveBeenCalledTimes(1);
+      expect(spyFetchApprovedProjects).toHaveBeenCalledTimes(1);
+      expect(fetchSpy).toHaveBeenCalledTimes(1);
+      expect(chk).toEqual([
+        { id: "00c", name: "Fake", type: "Hub Initiative" },
+      ]);
+    });
+
+    it("works if no initiatives have approved the project", async () => {
+      const instance = HubProject.fromJson(
+        {
+          id: "bc3",
+          name: "Test Project",
+          typeKeywords: ["hubProject", "initiative|00c"],
+        },
+        authdCtxMgr.context
+      );
+      const spyFetchAssociatedInitiatives = spyOn(
+        associationModule,
+        "fetchAssociatedInitiatives"
+      ).and.callFake(() => {
+        return Promise.resolve([
+          { id: "00c", name: "Fake", type: "Hub Initiative" },
+        ] as IEntityInfo[]);
+      });
+      const spyFetchApprovedProjects = spyOn(
+        associationModule,
+        "fetchApprovedProjects"
+      ).and.callFake(() => {
+        return Promise.resolve([] as IHubProject[]);
+      });
+
+      const fetchSpy = spyOn(HubInitiative, "fetch").and.callFake(() => {
+        return HubInitiative.fromJson(
+          {
+            id: "00c",
+            name: "Fake",
+            catalog: { schemaVersion: 0, collections: [] },
+          },
+          authdCtxMgr.context
+        );
+      });
+
+      const chk = await instance.fetchApprovedInitiatives();
+      expect(spyFetchAssociatedInitiatives).toHaveBeenCalledTimes(1);
+      expect(spyFetchApprovedProjects).toHaveBeenCalledTimes(1);
+      expect(fetchSpy).toHaveBeenCalledTimes(1);
+      expect(chk).toEqual([]);
     });
   });
 });
