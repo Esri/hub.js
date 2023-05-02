@@ -238,7 +238,7 @@ export class HubInitiative
   }
 
   /**
-   * Fetch the Projects that are associated with this Initiative
+   * Fetch the Projects that are associated with this Initiative.
    * Executes a query for Hub Projects that have typekeywords of "initiative|<initiative-id>"
    * System will only return Projects the current user has access to, regardless of the access level of the Initiative
    * @returns
@@ -251,7 +251,7 @@ export class HubInitiative
   }
 
   /**
-   * Fetch the Projects that are associated with this Initiative
+   * Fetch the Projects that are associated with this Initiative.
    * Executes a query for Hub Projects that have typekeywords of "initiative|<initiative-id>" and are included in the
    * Projects collection in the Initiative's Catalog
    * System will only return Projects the current user has access to, regardless of the access level of the Initiative
@@ -264,6 +264,14 @@ export class HubInitiative
     return fetchApprovedProjects(this.entity, this.context.requestOptions);
   }
 
+  /**
+   * Check if a Project is an Approved part of this Initiative.
+   * To be "approved", the project must have the Initiative's id
+   * in its typeKeywords and be included in the Initiative's Projects collection
+   * in the Initiative's Catalog
+   * @param id
+   * @returns
+   */
   async isProjectApproved(id: string): Promise<boolean> {
     if (this.isDestroyed) {
       throw new Error("HubInitiative is already destroyed.");
