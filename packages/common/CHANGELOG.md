@@ -1,3 +1,10 @@
+## @esri/hub-common [12.34.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.34.0...@esri/hub-common@12.34.1) (2023-05-02)
+
+
+### Bug Fixes
+
+* problem with updateVersionMetadata implementation ([04b66cd](https://github.com/Esri/hub.js/commit/04b66cd761c36fa5c53099bd28b5027cf40f2a85))
+
 # @esri/hub-common [12.34.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.33.0...@esri/hub-common@12.34.0) (2023-05-02)
 
 
