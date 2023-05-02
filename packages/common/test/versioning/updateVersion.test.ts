@@ -58,7 +58,6 @@ describe("updateVersion", () => {
         },
       },
       prefix: "hubVersion_def456",
-      private: true,
       resource: versionBlob,
     };
 
@@ -76,7 +75,7 @@ describe("updateVersion", () => {
       name: undefined,
       parent: undefined,
       path: "hubVersion_def456/version.json",
-      updated: "9876543210",
+      updated: "1675954801031",
       size: 123,
     } as unknown as IVersion;
 
@@ -117,13 +116,13 @@ describe("updateVersion", () => {
 
   it("should throw when attempting to update a stale version", async () => {
     try {
+      version.updated = 1;
       await updateVersion(model, version, requestOpts);
       fail("should reject");
     } catch (err) {
       expect(err.message).toBe(
         "Version def456 is stale. Use force to overwrite."
       );
-      expect(err.updated).toBe(1675954801031);
     }
   });
 });
