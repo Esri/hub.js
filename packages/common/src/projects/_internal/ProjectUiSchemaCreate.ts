@@ -38,14 +38,13 @@ export const uiSchema: IUiSchema = {
                   },
                 },
                 {
-                  labelKey: "{{i18nScope}}.fields.description.label",
-                  scope: "/properties/description",
+                  labelKey: "{{i18nScope}}.fields.status.label",
+                  scope: "/properties/status",
                   type: "Control",
                   options: {
-                    control: "hub-field-input-input",
-                    type: "textarea",
-                    helperText: {
-                      labelKey: "{{i18nScope}}.fields.description.helperText",
+                    control: "hub-field-input-select",
+                    enum: {
+                      i18nScope: "{{i18nScope}}.fields.status.enum",
                     },
                   },
                 },
@@ -81,7 +80,7 @@ export const uiSchema: IUiSchema = {
         },
         {
           type: "Step",
-          labelKey: "{{i18nScope}}.sections.statusAndTimeline.label",
+          labelKey: "{{i18nScope}}.sections.sharing.label",
           rule: {
             effect: UiSchemaRuleEffects.DISABLE,
             condition: {
@@ -91,34 +90,22 @@ export const uiSchema: IUiSchema = {
           },
           elements: [
             {
-              type: "Section",
-              labelKey: "{{i18nScope}}.sections.status.label",
-              elements: [
-                {
-                  labelKey: "{{i18nScope}}.fields.status.label",
-                  scope: "/properties/status",
-                  type: "Control",
-                  options: {
-                    control: "hub-field-input-select",
-                    enum: {
-                      i18nScope: "{{i18nScope}}.fields.status.enum",
-                    },
-                  },
-                },
-              ],
+              scope: "/properties/access",
+              type: "Control",
+              options: {
+                control: "arcgis-hub-access-level-controls",
+                itemType: "{{{{i18nScope}}.fields.access.itemType:translate}}",
+              },
             },
             {
-              type: "Section",
-              labelKey: "{{i18nScope}}.sections.timeline.label",
-              elements: [
-                {
-                  scope: "/properties/view/properties/timeline",
-                  type: "Control",
-                  options: {
-                    control: "arcgis-hub-timeline-editor",
-                  },
-                },
-              ],
+              labelKey: "{{i18nScope}}.fields.groups.label",
+              scope: "/properties/groups",
+              type: "Control",
+              options: {
+                control: "hub-field-input-combobox",
+                allowCustomValues: false,
+                selectionMode: "multiple",
+              },
             },
           ],
         },
