@@ -1,3 +1,10 @@
+# @esri/hub-common [12.35.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.34.2...@esri/hub-common@12.35.0) (2023-05-03)
+
+
+### Features
+
+* **hub-common:** enable isviewonly to be able to added to the q for portal ([9fad647](https://github.com/Esri/hub.js/commit/9fad64721149f59009f897769c88d4b01d9f7a05))
+
 ## @esri/hub-common [12.34.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.34.1...@esri/hub-common@12.34.2) (2023-05-02)
 
 
