@@ -92,7 +92,7 @@ function serializeFilter(filter: IFilter): ISearchOptions {
  */
 function serializePredicate(predicate: IPredicate): ISearchOptions {
   const dateProps = ["created", "modified"];
-  const boolProps = ["isopendata"];
+  const boolProps = ["isopendata", "isviewonly"];
   const passThroughProps = [
     "searchUserAccess",
     "searchUserName",
@@ -145,6 +145,7 @@ function serializePredicate(predicate: IPredicate): ISearchOptions {
     "typekeywords",
     "userlicensetype",
     "username",
+    "isviewonly",
   ];
 
   // TODO: Look at using reduce vs .map and remove the `.filter`
