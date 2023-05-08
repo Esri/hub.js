@@ -38,6 +38,7 @@ import * as getNextOgcCallbackModule from "../../../src/search/_internal/hubSear
 import { hubSearchItems } from "../../../src/search/_internal/hubSearchItems";
 import { ogcApiRequest } from "../../../src/search/_internal/hubSearchItemsHelpers/ogcApiRequest";
 import { getOgcCollectionUrl } from "../../../src/search/_internal/hubSearchItemsHelpers/getOgcCollectionUrl";
+import { getSortByQueryParam } from "../../../src/search/_internal/hubSearchItemsHelpers/getSortByQueryParam";
 
 describe("hubSearchItems Module |", () => {
   describe("Request Transformation Helpers |", () => {
@@ -460,6 +461,33 @@ describe("hubSearchItems Module |", () => {
           )}&token=abc&limit=9&startindex=10&q=term1`
         );
       });
+
+      it("handles query, auth, limit, startindex, q and sortBy", () => {
+        const options: IHubSearchOptions = {
+          requestOptions: {
+            authentication: {
+              token: "abc",
+            } as UserSession,
+          },
+          num: 9,
+          start: 10,
+          sortField: "title",
+          sortOrder: "asc",
+        };
+
+        const termQuery: IQuery = cloneObject(query);
+        termQuery.filters.push({ predicates: [{ term: "term1" }] });
+
+        const result = getOgcItemQueryParams(termQuery, options);
+        const queryString = getQueryString(result);
+        expect(queryString).toEqual(
+          `?filter=${encodeURIComponent(
+            "((type=typeA))"
+          )}&token=abc&limit=9&startindex=10&q=term1&sortBy=${encodeURIComponent(
+            "properties.title"
+          )}`
+        );
+      });
     });
 
     describe("getOgcAggregationsQueryString |", () => {
@@ -539,6 +567,24 @@ describe("hubSearchItems Module |", () => {
 
         const result = getQQueryParam(query);
         expect(result).toBeUndefined();
+      });
+    });
+
+    describe("getSortByQueryParam |", () => {
+      it("returns null if no sortField is provided", () => {
+        const options: IHubSearchOptions = {
+          sortOrder: "asc",
+        };
+        const result = getSortByQueryParam(options);
+        expect(result).toBeNull();
+      });
+      it("handles sorting in descending order", () => {
+        const options: IHubSearchOptions = {
+          sortField: "title",
+          sortOrder: "desc",
+        };
+        const result = getSortByQueryParam(options);
+        expect(result).toBe("-properties.title");
       });
     });
   });
