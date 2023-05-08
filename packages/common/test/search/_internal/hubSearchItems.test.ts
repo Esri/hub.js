@@ -360,7 +360,29 @@ describe("hubSearchItems Module |", () => {
         const options: IHubSearchOptions = {};
         const result = getOgcItemQueryParams(query, options);
         const queryString = getQueryString(result);
-        expect(queryString).toEqual("?filter=((type=typeA))");
+        expect(queryString).toEqual(
+          `?filter=${encodeURIComponent("((type=typeA))")}`
+        );
+      });
+
+      it("handles query with special characters", () => {
+        const specialCharQuery: IQuery = {
+          targetEntity: "item",
+          filters: [
+            {
+              operation: "OR",
+              predicates: [{ source: "Anytown, USA R&D Center (2nd)" }],
+            },
+          ],
+        };
+        const options: IHubSearchOptions = {};
+        const result = getOgcItemQueryParams(specialCharQuery, options);
+        const queryString = getQueryString(result);
+        expect(queryString).toEqual(
+          `?filter=${encodeURIComponent(
+            "((source='Anytown, USA R&D Center (2nd)'))"
+          )}`
+        );
       });
 
       it("handles query and auth", () => {
@@ -374,7 +396,9 @@ describe("hubSearchItems Module |", () => {
 
         const result = getOgcItemQueryParams(query, options);
         const queryString = getQueryString(result);
-        expect(queryString).toEqual("?filter=((type=typeA))&token=abc");
+        expect(queryString).toEqual(
+          `?filter=${encodeURIComponent("((type=typeA))")}&token=abc`
+        );
       });
 
       it("handles query, auth and limit", () => {
@@ -389,7 +413,9 @@ describe("hubSearchItems Module |", () => {
 
         const result = getOgcItemQueryParams(query, options);
         const queryString = getQueryString(result);
-        expect(queryString).toEqual("?filter=((type=typeA))&token=abc&limit=9");
+        expect(queryString).toEqual(
+          `?filter=${encodeURIComponent("((type=typeA))")}&token=abc&limit=9`
+        );
       });
 
       it("handles query, auth, limit and startindex", () => {
@@ -406,7 +432,9 @@ describe("hubSearchItems Module |", () => {
         const result = getOgcItemQueryParams(query, options);
         const queryString = getQueryString(result);
         expect(queryString).toEqual(
-          "?filter=((type=typeA))&token=abc&limit=9&startindex=10"
+          `?filter=${encodeURIComponent(
+            "((type=typeA))"
+          )}&token=abc&limit=9&startindex=10`
         );
       });
 
@@ -427,7 +455,9 @@ describe("hubSearchItems Module |", () => {
         const result = getOgcItemQueryParams(termQuery, options);
         const queryString = getQueryString(result);
         expect(queryString).toEqual(
-          "?filter=((type=typeA))&token=abc&limit=9&startindex=10&q=term1"
+          `?filter=${encodeURIComponent(
+            "((type=typeA))"
+          )}&token=abc&limit=9&startindex=10&q=term1`
         );
       });
     });
@@ -450,7 +480,9 @@ describe("hubSearchItems Module |", () => {
         const result = getOgcAggregationQueryParams(query, options);
         const queryString = getQueryString(result);
         expect(queryString).toEqual(
-          "?aggregations=terms(fields=(type,tags,categories))"
+          `?aggregations=${encodeURIComponent(
+            "terms(fields=(type,tags,categories))"
+          )}`
         );
       });
 
@@ -466,7 +498,9 @@ describe("hubSearchItems Module |", () => {
         const result = getOgcAggregationQueryParams(query, options);
         const queryString = getQueryString(result);
         expect(queryString).toEqual(
-          "?aggregations=terms(fields=(type,tags,categories))&token=abc"
+          `?aggregations=${encodeURIComponent(
+            "terms(fields=(type,tags,categories))"
+          )}&token=abc`
         );
       });
     });
@@ -789,7 +823,9 @@ describe("hubSearchItems Module |", () => {
           };
 
           fetchMock.once(
-            "https://my-test-site.arcgis.com/api/v1/search/collections/dataset/items?filter=((type='Feature Service'))&limit=1",
+            `https://my-test-site.arcgis.com/api/v1/search/collections/dataset/items?filter=${encodeURIComponent(
+              "((type='Feature Service'))"
+            )}&limit=1`,
             ogcItemsResponse
           );
           const response = await hubSearchItems(query, options);
@@ -821,7 +857,9 @@ describe("hubSearchItems Module |", () => {
           };
 
           fetchMock.once(
-            "https://my-test-site.arcgis.com/api/v1/search/collections/dataset/aggregations?aggregations=terms(fields=(access,type))",
+            `https://my-test-site.arcgis.com/api/v1/search/collections/dataset/aggregations?aggregations=${encodeURIComponent(
+              "terms(fields=(access,type))"
+            )}`,
             ogcAggregationsResponse
           );
           const response = await hubSearchItems(query, options);
