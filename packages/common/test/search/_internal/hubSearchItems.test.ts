@@ -848,16 +848,6 @@ describe("hubSearchItems Module |", () => {
       });
     });
     describe("hubSearchItems", () => {
-      it("throws an error if beta flag isn't enabled", async () => {
-        const query: IQuery = { targetEntity: "item", filters: [] };
-        const options: IHubSearchOptions = {};
-        try {
-          await hubSearchItems(query, options);
-          expect(true).toBe(false);
-        } catch (err) {
-          expect(err.message).toBe("Not implemented");
-        }
-      });
       describe("searchOgcItems |", () => {
         afterEach(fetchMock.restore);
         it("hits the items endpoint for the specified collection", async () => {
@@ -882,7 +872,6 @@ describe("hubSearchItems Module |", () => {
             },
             num: 1,
             targetEntity: "item",
-            useBeta: true, // TODO: remove once beta flag is gone
           };
 
           fetchMock.once(
@@ -914,7 +903,6 @@ describe("hubSearchItems Module |", () => {
             },
             targetEntity: "item",
             aggFields: ["access", "type"],
-            useBeta: true, // TODO: remove once beta flag is gone
             // TODO: include aggLimit once the aggregations endpoint can handle it
             // aggLimit: 2,
           };

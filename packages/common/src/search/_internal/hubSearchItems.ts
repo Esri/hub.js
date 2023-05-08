@@ -18,9 +18,6 @@ export async function hubSearchItems(
   query: IQuery,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
-  if (!options.useBeta) {
-    throw new Error("Not implemented");
-  }
   return options.aggFields?.length
     ? searchOgcAggregations(query, options)
     : searchOgcItems(query, options);
