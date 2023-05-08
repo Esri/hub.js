@@ -346,7 +346,7 @@ describe("hubSearchItems Module |", () => {
       });
     });
 
-    describe("getOgcItemQueryString |", () => {
+    describe("getOgcItemQueryParams |", () => {
       const query: IQuery = {
         targetEntity: "item",
         filters: [
@@ -360,30 +360,15 @@ describe("hubSearchItems Module |", () => {
       it("handles query", () => {
         const options: IHubSearchOptions = {};
         const result = getOgcItemQueryParams(query, options);
-        const queryString = getQueryString(result);
-        expect(queryString).toEqual(
-          `?filter=${encodeURIComponent("((type=typeA))")}`
-        );
-      });
-
-      it("handles query with special characters", () => {
-        const specialCharQuery: IQuery = {
-          targetEntity: "item",
-          filters: [
-            {
-              operation: "OR",
-              predicates: [{ source: "Anytown, USA R&D Center (2nd)" }],
-            },
-          ],
+        const expected = {
+          filter: "((type=typeA))",
+          token: undefined,
+          limit: undefined,
+          startindex: undefined,
+          q: undefined,
+          sortBy: undefined,
         };
-        const options: IHubSearchOptions = {};
-        const result = getOgcItemQueryParams(specialCharQuery, options);
-        const queryString = getQueryString(result);
-        expect(queryString).toEqual(
-          `?filter=${encodeURIComponent(
-            "((source='Anytown, USA R&D Center (2nd)'))"
-          )}`
-        );
+        expect(result).toEqual(expected);
       });
 
       it("handles query and auth", () => {
@@ -396,10 +381,15 @@ describe("hubSearchItems Module |", () => {
         };
 
         const result = getOgcItemQueryParams(query, options);
-        const queryString = getQueryString(result);
-        expect(queryString).toEqual(
-          `?filter=${encodeURIComponent("((type=typeA))")}&token=abc`
-        );
+        const expected = {
+          filter: "((type=typeA))",
+          token: "abc",
+          limit: undefined,
+          startindex: undefined,
+          q: undefined,
+          sortBy: undefined,
+        };
+        expect(result).toEqual(expected);
       });
 
       it("handles query, auth and limit", () => {
@@ -413,10 +403,15 @@ describe("hubSearchItems Module |", () => {
         };
 
         const result = getOgcItemQueryParams(query, options);
-        const queryString = getQueryString(result);
-        expect(queryString).toEqual(
-          `?filter=${encodeURIComponent("((type=typeA))")}&token=abc&limit=9`
-        );
+        const expected = {
+          filter: "((type=typeA))",
+          token: "abc",
+          limit: 9,
+          startindex: undefined,
+          q: undefined,
+          sortBy: undefined,
+        };
+        expect(result).toEqual(expected);
       });
 
       it("handles query, auth, limit and startindex", () => {
@@ -431,12 +426,15 @@ describe("hubSearchItems Module |", () => {
         };
 
         const result = getOgcItemQueryParams(query, options);
-        const queryString = getQueryString(result);
-        expect(queryString).toEqual(
-          `?filter=${encodeURIComponent(
-            "((type=typeA))"
-          )}&token=abc&limit=9&startindex=10`
-        );
+        const expected = {
+          filter: "((type=typeA))",
+          token: "abc",
+          limit: 9,
+          startindex: 10,
+          q: undefined,
+          sortBy: undefined,
+        };
+        expect(result).toEqual(expected);
       });
 
       it("handles query, auth, limit, startindex and q", () => {
@@ -454,12 +452,15 @@ describe("hubSearchItems Module |", () => {
         termQuery.filters.push({ predicates: [{ term: "term1" }] });
 
         const result = getOgcItemQueryParams(termQuery, options);
-        const queryString = getQueryString(result);
-        expect(queryString).toEqual(
-          `?filter=${encodeURIComponent(
-            "((type=typeA))"
-          )}&token=abc&limit=9&startindex=10&q=term1`
-        );
+        const expected = {
+          filter: "((type=typeA))",
+          token: "abc",
+          limit: 9,
+          startindex: 10,
+          q: "term1",
+          sortBy: undefined,
+        };
+        expect(result).toEqual(expected);
       });
 
       it("handles query, auth, limit, startindex, q and sortBy", () => {
@@ -479,13 +480,29 @@ describe("hubSearchItems Module |", () => {
         termQuery.filters.push({ predicates: [{ term: "term1" }] });
 
         const result = getOgcItemQueryParams(termQuery, options);
-        const queryString = getQueryString(result);
+        const expected = {
+          filter: "((type=typeA))",
+          token: "abc",
+          limit: 9,
+          startindex: 10,
+          q: "term1",
+          sortBy: "properties.title",
+        };
+        expect(result).toEqual(expected);
+      });
+    });
+
+    describe("getQueryString", () => {
+      it("encodes query string values", () => {
+        const queryParams = {
+          filter: "((source='Anytown, USA R&D Center (2nd)'))",
+          sortBy: "-properties.created",
+        };
+        const queryString = getQueryString(queryParams);
         expect(queryString).toEqual(
           `?filter=${encodeURIComponent(
-            "((type=typeA))"
-          )}&token=abc&limit=9&startindex=10&q=term1&sortBy=${encodeURIComponent(
-            "properties.title"
-          )}`
+            "((source='Anytown, USA R&D Center (2nd)'))"
+          )}&sortBy=${encodeURIComponent("-properties.created")}`
         );
       });
     });
@@ -571,12 +588,12 @@ describe("hubSearchItems Module |", () => {
     });
 
     describe("getSortByQueryParam |", () => {
-      it("returns null if no sortField is provided", () => {
+      it("returns undefined if no sortField is provided", () => {
         const options: IHubSearchOptions = {
           sortOrder: "asc",
         };
         const result = getSortByQueryParam(options);
-        expect(result).toBeNull();
+        expect(result).toBeUndefined();
       });
       it("handles sorting in descending order", () => {
         const options: IHubSearchOptions = {

@@ -2,7 +2,7 @@ import { IHubSearchOptions } from "../../types/IHubSearchOptions";
 
 export function getSortByQueryParam(options: IHubSearchOptions) {
   const { sortField, sortOrder } = options;
-  let result = null;
+  let result;
   if (sortField) {
     result =
       sortOrder === "desc"
