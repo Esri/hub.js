@@ -22,8 +22,8 @@ import { DatasetResource } from "./types";
 const shouldFetchData = (item: IItem) => {
   const type = normalizeItemType(item);
   const family = getFamily(type);
-  const dataFamilies = ["template", "solution"];
-  const dataTypes = ["Web Map", "Web Scene"];
+  const dataFamilies = ["template", "solution", "map"];
+  const dataTypes = ["Web Map", "Web Scene", "Feature Layer"];
   return includes(dataFamilies, family) || includes(dataTypes, type);
 };
 

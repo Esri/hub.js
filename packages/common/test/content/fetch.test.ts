@@ -196,7 +196,15 @@ describe("fetchContent", () => {
         expect(fetchItemEnrichmentsSpy).toHaveBeenCalledTimes(1);
         expect(fetchItemEnrichmentsSpy).toHaveBeenCalledWith(
           multiLayerFeatureServiceItem,
-          ["groupIds", "metadata", "ownerUser", "org", "server", "layers"],
+          [
+            "groupIds",
+            "metadata",
+            "ownerUser",
+            "org",
+            "data",
+            "server",
+            "layers",
+          ],
           options
         );
         expect(fetchLayerHubEnrichmentsSpy).toHaveBeenCalledTimes(1);
@@ -299,6 +307,7 @@ describe("fetchContent", () => {
           "metadata",
           "ownerUser",
           "org",
+          "data",
           "server",
           "layers",
         ]);
@@ -405,6 +414,7 @@ describe("fetchContent", () => {
           "metadata",
           "ownerUser",
           "org",
+          "data",
           "server",
           "layers",
         ]);
@@ -626,7 +636,15 @@ describe("fetchContent", () => {
           expect(fetchItemEnrichmentsSpy).toHaveBeenCalledTimes(1);
           expect(fetchItemEnrichmentsSpy).toHaveBeenCalledWith(
             multiLayerFeatureServiceItem,
-            ["groupIds", "metadata", "ownerUser", "org", "server", "layers"],
+            [
+              "groupIds",
+              "metadata",
+              "ownerUser",
+              "org",
+              "data",
+              "server",
+              "layers",
+            ],
             options
           );
           expect(queryFeaturesSpy).toHaveBeenCalledTimes(1);
