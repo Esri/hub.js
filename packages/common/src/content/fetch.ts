@@ -46,8 +46,7 @@ const maybeFetchLayerEnrichments = async (
   itemAndEnrichments: IItemAndEnrichments,
   options?: IFetchContentOptions
 ) => {
-  // determine if this is a client-side feature layer view
-  const { item, data } = itemAndEnrichments;
+  const { item } = itemAndEnrichments;
   let { layers } = itemAndEnrichments;
 
   let layer = layers && getItemLayer(item, layers, options && options.layerId);
@@ -65,21 +64,8 @@ const maybeFetchLayerEnrichments = async (
       return unhydratedLayer.id === layer.id ? layer : unhydratedLayer;
     });
   }
-
-  const layerEnrichments =
-    layer && isLayerView(layer) && !data
-      ? // NOTE: I'm not sure what conditions causes a layer view
-        // to store (at least part of) it's view definition in item data
-        // it seems that most do not, but until we have a reliable signal
-        // we just fetch the item data for all layer views
-        await fetchItemEnrichments(item, ["data"], options)
-      : undefined;
   return {
     ...itemAndEnrichments,
-    ...layerEnrichments,
-    // merge error arrays
-    errors: maybeConcat([itemAndEnrichments.errors, layerEnrichments?.errors]),
-    // Also remove once we stop supporting ArcGIS Servers below version 10.5
     layers,
   };
 };
