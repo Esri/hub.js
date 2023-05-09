@@ -1,3 +1,12 @@
+# @esri/hub-common [12.37.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.36.0...@esri/hub-common@12.37.0) (2023-05-09)
+
+
+### Features
+
+* **hub-common:** add serialization support for sorting in hubSearchItems ([1f150e4](https://github.com/Esri/hub.js/commit/1f150e48829b7cdac5bb3c1101666265e51c1bdf))
+* **hub-common:** encode query param values for all OGC API requests ([227901f](https://github.com/Esri/hub.js/commit/227901f82eb257d6e8d85cfb1885f8eba8822d11))
+* **hub-common:** remove beta gating previously needed for using hubSearchItems ([eb64aa2](https://github.com/Esri/hub.js/commit/eb64aa21e2e9a0ede9aff8efc1739d20ed265f49))
+
 # @esri/hub-common [12.36.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.35.0...@esri/hub-common@12.36.0) (2023-05-09)
 
 
