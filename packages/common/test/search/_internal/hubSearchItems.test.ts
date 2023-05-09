@@ -17,7 +17,10 @@ import {
   formatFilterBlock,
   getFilterQueryParam,
 } from "../../../src/search/_internal/hubSearchItemsHelpers/getFilterQueryParam";
-import { getOgcItemQueryParams } from "../../../src/search/_internal/hubSearchItemsHelpers/getOgcItemQueryParams";
+import {
+  getOgcItemQueryParams,
+  IOgcItemQueryParams,
+} from "../../../src/search/_internal/hubSearchItemsHelpers/getOgcItemQueryParams";
 import { getQueryString } from "../../../src/search/_internal/hubSearchItemsHelpers/getQueryString";
 import { getOgcAggregationQueryParams } from "../../../src/search/_internal/hubSearchItemsHelpers/getOgcAggregationQueryParams";
 import { getQQueryParam } from "../../../src/search/_internal/hubSearchItemsHelpers/getQQueryParam";
@@ -38,6 +41,7 @@ import * as getNextOgcCallbackModule from "../../../src/search/_internal/hubSear
 import { hubSearchItems } from "../../../src/search/_internal/hubSearchItems";
 import { ogcApiRequest } from "../../../src/search/_internal/hubSearchItemsHelpers/ogcApiRequest";
 import { getOgcCollectionUrl } from "../../../src/search/_internal/hubSearchItemsHelpers/getOgcCollectionUrl";
+import { getSortByQueryParam } from "../../../src/search/_internal/hubSearchItemsHelpers/getSortByQueryParam";
 
 describe("hubSearchItems Module |", () => {
   describe("Request Transformation Helpers |", () => {
@@ -345,7 +349,7 @@ describe("hubSearchItems Module |", () => {
       });
     });
 
-    describe("getOgcItemQueryString |", () => {
+    describe("getOgcItemQueryParams |", () => {
       const query: IQuery = {
         targetEntity: "item",
         filters: [
@@ -359,8 +363,15 @@ describe("hubSearchItems Module |", () => {
       it("handles query", () => {
         const options: IHubSearchOptions = {};
         const result = getOgcItemQueryParams(query, options);
-        const queryString = getQueryString(result);
-        expect(queryString).toEqual("?filter=((type=typeA))");
+        const expected = {
+          filter: "((type=typeA))",
+          token: undefined,
+          limit: undefined,
+          startindex: undefined,
+          q: undefined,
+          sortBy: undefined,
+        } as IOgcItemQueryParams;
+        expect(result).toEqual(expected);
       });
 
       it("handles query and auth", () => {
@@ -373,8 +384,15 @@ describe("hubSearchItems Module |", () => {
         };
 
         const result = getOgcItemQueryParams(query, options);
-        const queryString = getQueryString(result);
-        expect(queryString).toEqual("?filter=((type=typeA))&token=abc");
+        const expected = {
+          filter: "((type=typeA))",
+          token: "abc",
+          limit: undefined,
+          startindex: undefined,
+          q: undefined,
+          sortBy: undefined,
+        } as IOgcItemQueryParams;
+        expect(result).toEqual(expected);
       });
 
       it("handles query, auth and limit", () => {
@@ -388,8 +406,15 @@ describe("hubSearchItems Module |", () => {
         };
 
         const result = getOgcItemQueryParams(query, options);
-        const queryString = getQueryString(result);
-        expect(queryString).toEqual("?filter=((type=typeA))&token=abc&limit=9");
+        const expected = {
+          filter: "((type=typeA))",
+          token: "abc",
+          limit: 9,
+          startindex: undefined,
+          q: undefined,
+          sortBy: undefined,
+        } as IOgcItemQueryParams;
+        expect(result).toEqual(expected);
       });
 
       it("handles query, auth, limit and startindex", () => {
@@ -404,10 +429,15 @@ describe("hubSearchItems Module |", () => {
         };
 
         const result = getOgcItemQueryParams(query, options);
-        const queryString = getQueryString(result);
-        expect(queryString).toEqual(
-          "?filter=((type=typeA))&token=abc&limit=9&startindex=10"
-        );
+        const expected = {
+          filter: "((type=typeA))",
+          token: "abc",
+          limit: 9,
+          startindex: 10,
+          q: undefined,
+          sortBy: undefined,
+        } as IOgcItemQueryParams;
+        expect(result).toEqual(expected);
       });
 
       it("handles query, auth, limit, startindex and q", () => {
@@ -425,9 +455,57 @@ describe("hubSearchItems Module |", () => {
         termQuery.filters.push({ predicates: [{ term: "term1" }] });
 
         const result = getOgcItemQueryParams(termQuery, options);
-        const queryString = getQueryString(result);
+        const expected = {
+          filter: "((type=typeA))",
+          token: "abc",
+          limit: 9,
+          startindex: 10,
+          q: "term1",
+          sortBy: undefined,
+        } as IOgcItemQueryParams;
+        expect(result).toEqual(expected);
+      });
+
+      it("handles query, auth, limit, startindex, q and sortBy", () => {
+        const options: IHubSearchOptions = {
+          requestOptions: {
+            authentication: {
+              token: "abc",
+            } as UserSession,
+          },
+          num: 9,
+          start: 10,
+          sortField: "title",
+          sortOrder: "asc",
+        };
+
+        const termQuery: IQuery = cloneObject(query);
+        termQuery.filters.push({ predicates: [{ term: "term1" }] });
+
+        const result = getOgcItemQueryParams(termQuery, options);
+        const expected = {
+          filter: "((type=typeA))",
+          token: "abc",
+          limit: 9,
+          startindex: 10,
+          q: "term1",
+          sortBy: "properties.title",
+        } as IOgcItemQueryParams;
+        expect(result).toEqual(expected);
+      });
+    });
+
+    describe("getQueryString", () => {
+      it("encodes query string values", () => {
+        const queryParams = {
+          filter: "((source='Anytown, USA R&D Center (2nd)'))",
+          sortBy: "-properties.created",
+        };
+        const queryString = getQueryString(queryParams);
         expect(queryString).toEqual(
-          "?filter=((type=typeA))&token=abc&limit=9&startindex=10&q=term1"
+          `?filter=${encodeURIComponent(
+            "((source='Anytown, USA R&D Center (2nd)'))"
+          )}&sortBy=${encodeURIComponent("-properties.created")}`
         );
       });
     });
@@ -450,7 +528,9 @@ describe("hubSearchItems Module |", () => {
         const result = getOgcAggregationQueryParams(query, options);
         const queryString = getQueryString(result);
         expect(queryString).toEqual(
-          "?aggregations=terms(fields=(type,tags,categories))"
+          `?aggregations=${encodeURIComponent(
+            "terms(fields=(type,tags,categories))"
+          )}`
         );
       });
 
@@ -466,7 +546,9 @@ describe("hubSearchItems Module |", () => {
         const result = getOgcAggregationQueryParams(query, options);
         const queryString = getQueryString(result);
         expect(queryString).toEqual(
-          "?aggregations=terms(fields=(type,tags,categories))&token=abc"
+          `?aggregations=${encodeURIComponent(
+            "terms(fields=(type,tags,categories))"
+          )}&token=abc`
         );
       });
     });
@@ -505,6 +587,24 @@ describe("hubSearchItems Module |", () => {
 
         const result = getQQueryParam(query);
         expect(result).toBeUndefined();
+      });
+    });
+
+    describe("getSortByQueryParam |", () => {
+      it("returns undefined if no sortField is provided", () => {
+        const options: IHubSearchOptions = {
+          sortOrder: "asc",
+        };
+        const result = getSortByQueryParam(options);
+        expect(result).toBeUndefined();
+      });
+      it("handles sorting in descending order", () => {
+        const options: IHubSearchOptions = {
+          sortField: "title",
+          sortOrder: "desc",
+        };
+        const result = getSortByQueryParam(options);
+        expect(result).toBe("-properties.title");
       });
     });
   });
@@ -751,16 +851,6 @@ describe("hubSearchItems Module |", () => {
       });
     });
     describe("hubSearchItems", () => {
-      it("throws an error if beta flag isn't enabled", async () => {
-        const query: IQuery = { targetEntity: "item", filters: [] };
-        const options: IHubSearchOptions = {};
-        try {
-          await hubSearchItems(query, options);
-          expect(true).toBe(false);
-        } catch (err) {
-          expect(err.message).toBe("Not implemented");
-        }
-      });
       describe("searchOgcItems |", () => {
         afterEach(fetchMock.restore);
         it("hits the items endpoint for the specified collection", async () => {
@@ -785,11 +875,12 @@ describe("hubSearchItems Module |", () => {
             },
             num: 1,
             targetEntity: "item",
-            useBeta: true, // TODO: remove once beta flag is gone
           };
 
           fetchMock.once(
-            "https://my-test-site.arcgis.com/api/v1/search/collections/dataset/items?filter=((type='Feature Service'))&limit=1",
+            `https://my-test-site.arcgis.com/api/v1/search/collections/dataset/items?filter=${encodeURIComponent(
+              "((type='Feature Service'))"
+            )}&limit=1`,
             ogcItemsResponse
           );
           const response = await hubSearchItems(query, options);
@@ -815,13 +906,14 @@ describe("hubSearchItems Module |", () => {
             },
             targetEntity: "item",
             aggFields: ["access", "type"],
-            useBeta: true, // TODO: remove once beta flag is gone
             // TODO: include aggLimit once the aggregations endpoint can handle it
             // aggLimit: 2,
           };
 
           fetchMock.once(
-            "https://my-test-site.arcgis.com/api/v1/search/collections/dataset/aggregations?aggregations=terms(fields=(access,type))",
+            `https://my-test-site.arcgis.com/api/v1/search/collections/dataset/aggregations?aggregations=${encodeURIComponent(
+              "terms(fields=(access,type))"
+            )}`,
             ogcAggregationsResponse
           );
           const response = await hubSearchItems(query, options);
