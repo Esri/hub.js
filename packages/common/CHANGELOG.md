@@ -1,3 +1,11 @@
+# @esri/hub-common [12.36.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.35.0...@esri/hub-common@12.36.0) (2023-05-09)
+
+
+### Features
+
+* add data enrichment to feature layers ([0e5da8d](https://github.com/Esri/hub.js/commit/0e5da8d91ebf37282f418597f97ed79fe7b679ec))
+* pr feedback ([9b57f26](https://github.com/Esri/hub.js/commit/9b57f2638e4d876a8d2627f8881891b7432a0d7a))
+
 # @esri/hub-common [12.35.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.34.2...@esri/hub-common@12.35.0) (2023-05-03)
 
 
