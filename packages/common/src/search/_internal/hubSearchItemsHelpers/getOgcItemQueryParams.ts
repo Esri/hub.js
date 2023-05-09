@@ -14,6 +14,15 @@ export interface IOgcItemQueryParams {
   sortBy?: string;
 }
 
+/**
+ * @private
+ * Derives a hash of query params that should be included with a request
+ * to the /items endpoint of an OGC API collection
+ *
+ * @param query an IQuery to derive query params from
+ * @param options an IHubSearchOptions object to derive query params from
+ * @returns a hash of query params to be included in the request
+ */
 export function getOgcItemQueryParams(
   query: IQuery,
   options: IHubSearchOptions
