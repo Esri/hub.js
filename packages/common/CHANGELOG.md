@@ -1,3 +1,10 @@
+## @esri/hub-common [12.37.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.37.0...@esri/hub-common@12.37.1) (2023-05-09)
+
+
+### Bug Fixes
+
+* remove showMap from project schema/uiSchema ([36586c5](https://github.com/Esri/hub.js/commit/36586c5f9983dd3a1152c5ee605f30939b5e1d1a))
+
 # @esri/hub-common [12.37.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.36.0...@esri/hub-common@12.37.0) (2023-05-09)
 
 
