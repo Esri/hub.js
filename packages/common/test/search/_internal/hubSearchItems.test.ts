@@ -17,7 +17,10 @@ import {
   formatFilterBlock,
   getFilterQueryParam,
 } from "../../../src/search/_internal/hubSearchItemsHelpers/getFilterQueryParam";
-import { getOgcItemQueryParams } from "../../../src/search/_internal/hubSearchItemsHelpers/getOgcItemQueryParams";
+import {
+  getOgcItemQueryParams,
+  IOgcItemQueryParams,
+} from "../../../src/search/_internal/hubSearchItemsHelpers/getOgcItemQueryParams";
 import { getQueryString } from "../../../src/search/_internal/hubSearchItemsHelpers/getQueryString";
 import { getOgcAggregationQueryParams } from "../../../src/search/_internal/hubSearchItemsHelpers/getOgcAggregationQueryParams";
 import { getQQueryParam } from "../../../src/search/_internal/hubSearchItemsHelpers/getQQueryParam";
@@ -367,7 +370,7 @@ describe("hubSearchItems Module |", () => {
           startindex: undefined,
           q: undefined,
           sortBy: undefined,
-        };
+        } as IOgcItemQueryParams;
         expect(result).toEqual(expected);
       });
 
@@ -388,7 +391,7 @@ describe("hubSearchItems Module |", () => {
           startindex: undefined,
           q: undefined,
           sortBy: undefined,
-        };
+        } as IOgcItemQueryParams;
         expect(result).toEqual(expected);
       });
 
@@ -410,7 +413,7 @@ describe("hubSearchItems Module |", () => {
           startindex: undefined,
           q: undefined,
           sortBy: undefined,
-        };
+        } as IOgcItemQueryParams;
         expect(result).toEqual(expected);
       });
 
@@ -433,7 +436,7 @@ describe("hubSearchItems Module |", () => {
           startindex: 10,
           q: undefined,
           sortBy: undefined,
-        };
+        } as IOgcItemQueryParams;
         expect(result).toEqual(expected);
       });
 
@@ -459,7 +462,7 @@ describe("hubSearchItems Module |", () => {
           startindex: 10,
           q: "term1",
           sortBy: undefined,
-        };
+        } as IOgcItemQueryParams;
         expect(result).toEqual(expected);
       });
 
@@ -487,7 +490,7 @@ describe("hubSearchItems Module |", () => {
           startindex: 10,
           q: "term1",
           sortBy: "properties.title",
-        };
+        } as IOgcItemQueryParams;
         expect(result).toEqual(expected);
       });
     });

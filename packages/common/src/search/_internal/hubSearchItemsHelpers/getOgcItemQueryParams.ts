@@ -5,10 +5,19 @@ import { getFilterQueryParam } from "./getFilterQueryParam";
 import { getQQueryParam } from "./getQQueryParam";
 import { getSortByQueryParam } from "./getSortByQueryParam";
 
+export interface IOgcItemQueryParams {
+  filter?: string;
+  token?: string;
+  limit?: number;
+  startindex?: number;
+  q?: string;
+  sortBy?: string;
+}
+
 export function getOgcItemQueryParams(
   query: IQuery,
   options: IHubSearchOptions
-) {
+): IOgcItemQueryParams {
   const filter = getFilterQueryParam(query);
   const token = getProp(options, "requestOptions.authentication.token");
   const limit = options.num;
