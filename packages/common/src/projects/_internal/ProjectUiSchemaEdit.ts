@@ -97,11 +97,6 @@ export const uiSchema: IUiSchema = {
             control: "hub-field-input-location-picker",
           },
         },
-        {
-          labelKey: "{{i18nScope}}.fields.showMap.label",
-          scope: "/properties/view/properties/showMap",
-          type: "Control",
-        },
       ],
     },
     {
