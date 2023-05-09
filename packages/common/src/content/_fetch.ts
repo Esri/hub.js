@@ -23,7 +23,13 @@ const shouldFetchData = (item: IItem) => {
   const type = normalizeItemType(item);
   const family = getFamily(type);
   const dataFamilies = ["template", "solution"];
-  const dataTypes = ["Web Map", "Web Scene"];
+  const dataTypes = [
+    // needed for web map/scene definition
+    "Web Map",
+    "Web Scene",
+    // needed for popup template definition
+    "Feature Service",
+  ];
   return includes(dataFamilies, family) || includes(dataTypes, type);
 };
 

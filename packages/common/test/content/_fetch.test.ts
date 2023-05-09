@@ -44,6 +44,7 @@ describe("_fetch", () => {
         "metadata",
         "ownerUser",
         "org",
+        "data",
         "server",
         "layers",
       ]);

@@ -196,7 +196,15 @@ describe("fetchContent", () => {
         expect(fetchItemEnrichmentsSpy).toHaveBeenCalledTimes(1);
         expect(fetchItemEnrichmentsSpy).toHaveBeenCalledWith(
           multiLayerFeatureServiceItem,
-          ["groupIds", "metadata", "ownerUser", "org", "server", "layers"],
+          [
+            "groupIds",
+            "metadata",
+            "ownerUser",
+            "org",
+            "data",
+            "server",
+            "layers",
+          ],
           options
         );
         expect(fetchLayerHubEnrichmentsSpy).toHaveBeenCalledTimes(1);
@@ -224,7 +232,7 @@ describe("fetchContent", () => {
         const definitionExpression = "1=2";
         const count = 0;
         // mock the data response for a client-side layer view
-        const data = {
+        itemEnrichments.data = {
           layers: [
             {
               id: layerId,
@@ -257,18 +265,7 @@ describe("fetchContent", () => {
         const fetchItemEnrichmentsSpy = spyOn(
           _enrichmentsModule,
           "fetchItemEnrichments"
-        ).and.callFake(
-          (
-            item: any,
-            enrichments: _enrichmentsModule.ItemOrServerEnrichment[]
-          ) => {
-            return Promise.resolve(
-              enrichments.length === 1 && enrichments[0] === "data"
-                ? { data }
-                : itemEnrichments
-            );
-          }
-        );
+        ).and.callFake(() => Promise.resolve(itemEnrichments));
         const fetchHubEnrichmentsSpy = spyOn(
           _fetchModule,
           "fetchHubEnrichmentsBySlug"
@@ -293,16 +290,16 @@ describe("fetchContent", () => {
         expect(fetchHubEnrichmentsSpy).toHaveBeenCalledWith(slug, options);
         expect(getItemSpy).toHaveBeenCalledTimes(1);
         expect(getItemSpy).toHaveBeenCalledWith(itemId, options);
-        expect(fetchItemEnrichmentsSpy).toHaveBeenCalledTimes(2);
+        expect(fetchItemEnrichmentsSpy).toHaveBeenCalledTimes(1);
         expect(fetchItemEnrichmentsSpy.calls.argsFor(0)[1]).toEqual([
           "groupIds",
           "metadata",
           "ownerUser",
           "org",
+          "data",
           "server",
           "layers",
         ]);
-        expect(fetchItemEnrichmentsSpy.calls.argsFor(1)[1]).toEqual(["data"]);
         expect(queryFeaturesSpy).toHaveBeenCalledTimes(1);
         const queryFeaturesArg = queryFeaturesSpy.calls.argsFor(0)[0] as any;
         expect(queryFeaturesArg.url).toEqual(result.url);
@@ -405,6 +402,7 @@ describe("fetchContent", () => {
           "metadata",
           "ownerUser",
           "org",
+          "data",
           "server",
           "layers",
         ]);
@@ -626,7 +624,15 @@ describe("fetchContent", () => {
           expect(fetchItemEnrichmentsSpy).toHaveBeenCalledTimes(1);
           expect(fetchItemEnrichmentsSpy).toHaveBeenCalledWith(
             multiLayerFeatureServiceItem,
-            ["groupIds", "metadata", "ownerUser", "org", "server", "layers"],
+            [
+              "groupIds",
+              "metadata",
+              "ownerUser",
+              "org",
+              "data",
+              "server",
+              "layers",
+            ],
             options
           );
           expect(queryFeaturesSpy).toHaveBeenCalledTimes(1);
