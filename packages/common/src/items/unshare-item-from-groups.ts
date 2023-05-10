@@ -28,9 +28,10 @@ export function unshareItemFromGroups(
       if (owner) {
         opt.owner = owner;
       }
-      // Because we are using Promise.all, we need to wrapping
-      // each individual call in another try/catch block to
-      // make sure it catches before all promises finishes
+      // Because we are using Promise.all, we need to
+      // mark the callback fn as async and wrap each
+      // individual call in another try/catch block to
+      // make sure it catches before all promises finish
       try {
         return unshareItemWithGroup(opt);
       } catch (err) {
