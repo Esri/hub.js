@@ -253,6 +253,11 @@ describe("HubProjects:", () => {
 
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Hello World");
+      expect(chk.typeKeywords).toEqual([
+        "Hub Project",
+        "slug|dcdev|hello-world",
+        "status|notStarted",
+      ]);
       // should ensure unique slug
       expect(slugSpy.calls.count()).toBe(1);
       expect(slugSpy.calls.argsFor(0)[0]).toEqual(
@@ -286,12 +291,18 @@ describe("HubProjects:", () => {
           description: "my desc",
           orgUrlKey: "dcdev",
           location: PROJECT_LOCATION,
+          status: PROJECT_STATUSES.inProgress,
         },
         { authentication: MOCK_AUTH }
       );
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Hello World");
       expect(chk.description).toBe("my desc");
+      expect(chk.typeKeywords).toEqual([
+        "Hub Project",
+        "slug|dcdev|hello-world",
+        "status|inProgress",
+      ]);
       // should ensure unique slug
       expect(slugSpy.calls.count()).toBe(1);
       expect(slugSpy.calls.argsFor(0)[0]).toEqual(
@@ -348,11 +359,21 @@ describe("HubProjects:", () => {
         location: {
           type: "none",
         },
+        typeKeywords: [
+          "Hub Project",
+          "slug|dcdev-wat-blarg",
+          "status|notStarted",
+        ],
       };
       const chk = await updateProject(prj, { authentication: MOCK_AUTH });
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Hello World");
       expect(chk.description).toBe("Some longer description");
+      expect(chk.typeKeywords).toEqual([
+        "Hub Project",
+        "slug|dcdev-wat-blarg",
+        "status|inProgress",
+      ]);
       expect(chk.location).toEqual({
         type: "none",
       });
