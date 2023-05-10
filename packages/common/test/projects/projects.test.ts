@@ -359,11 +359,21 @@ describe("HubProjects:", () => {
         location: {
           type: "none",
         },
+        typeKeywords: [
+          "Hub Project",
+          "slug|dcdev-wat-blarg",
+          "status|notStarted",
+        ],
       };
       const chk = await updateProject(prj, { authentication: MOCK_AUTH });
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Hello World");
       expect(chk.description).toBe("Some longer description");
+      expect(chk.typeKeywords).toEqual([
+        "Hub Project",
+        "slug|dcdev-wat-blarg",
+        "status|inProgress",
+      ]);
       expect(chk.location).toEqual({
         type: "none",
       });
