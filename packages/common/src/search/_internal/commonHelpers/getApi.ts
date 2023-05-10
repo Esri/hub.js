@@ -3,6 +3,7 @@ import { IHubSearchOptions } from "../../types/IHubSearchOptions";
 import { IApiDefinition } from "../../types/types";
 import { expandApi } from "../../utils";
 import { shouldUseOgcApi } from "./shouldUseOgcApi";
+import { getOgcApiDefinition } from "./getOgcApiDefinition";
 
 /**
  * @private
@@ -21,7 +22,6 @@ export function getApi(
 ): IApiDefinition {
   const {
     api,
-    site,
     requestOptions: { portal },
   } = options;
 
@@ -29,10 +29,7 @@ export function getApi(
   if (api) {
     result = expandApi(api);
   } else if (shouldUseOgcApi(targetEntity, options)) {
-    result = {
-      type: "arcgis-hub",
-      url: `${site}/api/search/v1`,
-    };
+    result = getOgcApiDefinition(options);
   } else {
     result = { type: "arcgis", url: portal };
   }
