@@ -10,6 +10,7 @@ import { DEFAULT_PROJECT, DEFAULT_PROJECT_MODEL } from "./defaults";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { ProjectEditorType } from "./_internal/ProjectSchema";
+import { setStatusKeyword } from "./_internal/setStatusKeyword";
 import { cloneObject } from "../util";
 import {
   getEntityEditorSchemas,
@@ -45,7 +46,7 @@ export async function createProject(
   project.slug = await getUniqueSlug({ slug: project.slug }, requestOptions);
   // add slug and status to keywords
   project.typeKeywords = setSlugKeyword(project.typeKeywords, project.slug);
-  project.typeKeywords = [...project.typeKeywords, `status|${project.status}`];
+  project.typeKeywords = setStatusKeyword(project.typeKeywords, project.status);
   // Map project object onto a default project Model
   const mapper = new PropertyMapper<Partial<IHubProject>>(getPropertyMap());
   // create model from object, using the default model as a starting point
@@ -74,6 +75,8 @@ export async function updateProject(
     { slug: project.slug, existingId: project.id },
     requestOptions
   );
+  // update the status keyword
+  project.typeKeywords = setStatusKeyword(project.typeKeywords, project.status);
   // get the backing item & data
   const model = await getModel(project.id, requestOptions);
   // create the PropertyMapper
