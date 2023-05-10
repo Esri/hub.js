@@ -1,3 +1,11 @@
+# @esri/hub-common [12.38.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.37.1...@esri/hub-common@12.38.0) (2023-05-10)
+
+
+### Features
+
+* add status as a typekeyword on project creation ([cde7417](https://github.com/Esri/hub.js/commit/cde741753e69d68528cae9457f6a64462166c66f))
+* update status typekeyword on project edit ([e0961b1](https://github.com/Esri/hub.js/commit/e0961b175dcc25259d27328bc2ba36b2ce89b61d))
+
 ## @esri/hub-common [12.37.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.37.0...@esri/hub-common@12.37.1) (2023-05-09)
 
 
