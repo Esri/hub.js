@@ -210,7 +210,7 @@ export class HubSite
     }
     this.isDestroyed = true;
     // Delegate to module fn
-    await deleteSite(this.entity.id, this.context.userRequestOptions);
+    await deleteSite(this.entity.id, this.context.hubRequestOptions);
   }
 
   /**

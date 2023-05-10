@@ -16,7 +16,7 @@ import {
   createScopeGroup,
 } from "./helpers/metric-fixtures-crud";
 
-fdescribe("metrics development harness:", () => {
+describe("metrics development harness:", () => {
   let factory: Artifactory;
   const orgName = "hubPremium";
   beforeAll(() => {

@@ -18,10 +18,10 @@ export default class Artifactory {
   public orgs: any[];
   public agoBaseDomain: string;
 
-  constructor(config: any) {
+  constructor(config: any, env?: string) {
     // qaext | prod
     // console.info(`Artifactory configured for qaext`);
-    this.env = "qaext";
+    this.env = env || "qaext";
     // hold the orgs...
     this.orgs = config.envs[this.env].orgs;
     // Copy over a set of other properties...
