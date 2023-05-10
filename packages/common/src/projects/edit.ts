@@ -43,8 +43,9 @@ export async function createProject(
   }
   // Ensure slug is  unique
   project.slug = await getUniqueSlug({ slug: project.slug }, requestOptions);
-  // add slug to keywords
+  // add slug and status to keywords
   project.typeKeywords = setSlugKeyword(project.typeKeywords, project.slug);
+  project.typeKeywords = [...project.typeKeywords, `status|${project.status}`];
   // Map project object onto a default project Model
   const mapper = new PropertyMapper<Partial<IHubProject>>(getPropertyMap());
   // create model from object, using the default model as a starting point
