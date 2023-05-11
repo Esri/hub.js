@@ -15,6 +15,11 @@ import {
   IApiDefinition,
   NamedApis,
 } from "./types/types";
+import {
+  isLegacySearchCategory,
+  LegacySearchCategory,
+} from "./_internal/commonHelpers/isLegacySearchCategory";
+import { toCollectionKey } from "./_internal/commonHelpers/toCollectionKey";
 
 /**
  * Well known APIs
@@ -239,30 +244,6 @@ export function getUserThumbnailUrl(
     }
   }
   return thumbnailUrl;
-}
-
-type LegacySearchCategory =
-  | "Site"
-  | "Event"
-  | "Dataset"
-  | "Document"
-  | "App,Map";
-
-export function isLegacySearchCategory(value: any) {
-  const categories: LegacySearchCategory[] = [
-    "Site",
-    "Event",
-    "Dataset",
-    "Document",
-    "App,Map",
-  ];
-  return categories.includes(value);
-}
-
-export function toCollectionKey(legacySearchCategory: LegacySearchCategory) {
-  return legacySearchCategory === "App,Map"
-    ? "appAndMap"
-    : legacySearchCategory.toLowerCase();
 }
 
 export function migrateToCollectionKey(collectionOrSearchCategory: string) {
