@@ -19,7 +19,7 @@ export function unshareItemFromGroups(
   owner?: string
 ): Promise<ISharingResponse[]> {
   return Promise.all(
-    groups.map((groupId) => {
+    groups.map(async (groupId) => {
       const opt = Object.assign(
         {},
         { id: itemId, groupId },
@@ -28,7 +28,15 @@ export function unshareItemFromGroups(
       if (owner) {
         opt.owner = owner;
       }
-      return unshareItemWithGroup(opt);
+      // Because we are using Promise.all, we need to
+      // mark the callback fn as async and wrap each
+      // individual call in another try/catch block to
+      // make sure it catches before all promises finish
+      try {
+        return await unshareItemWithGroup(opt);
+      } catch (err) {
+        throw Error(`Error unsharing item: ${itemId} with group: ${groupId}`);
+      }
     })
   );
 }
