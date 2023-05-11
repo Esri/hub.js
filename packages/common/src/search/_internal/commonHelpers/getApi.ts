@@ -10,7 +10,7 @@ import { getOgcApiDefinition } from "./getOgcApiDefinition";
  * Determines Which API should be hit for the given search parameters.
  * Hierarchy:
  * - Target options.api if available
- * - Target the OGC API current parameters allow
+ * - Target the environment-level OGC API if current parameters allow
  * - Target the Portal API based off options.requestOptions.portal
  * @param targetEntity target entity of the query
  * @param options search options
