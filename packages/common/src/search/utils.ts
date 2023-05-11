@@ -264,3 +264,9 @@ export function toCollectionKey(legacySearchCategory: LegacySearchCategory) {
     ? "appAndMap"
     : legacySearchCategory.toLowerCase();
 }
+
+export function migrateToCollectionKey(collectionOrSearchCategory: string) {
+  return isLegacySearchCategory(collectionOrSearchCategory)
+    ? toCollectionKey(collectionOrSearchCategory as LegacySearchCategory)
+    : collectionOrSearchCategory;
+}
