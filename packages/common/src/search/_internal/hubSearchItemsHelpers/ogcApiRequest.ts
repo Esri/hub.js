@@ -2,7 +2,6 @@ import { RemoteServerError } from "../../../request";
 import { cloneObject } from "../../../util";
 import { IHubSearchOptions } from "../../types/IHubSearchOptions";
 import { getQueryString } from "./getQueryString";
-import { isOpendataDomain } from "./toOpendataDomain";
 
 export async function ogcApiRequest(
   url: string,
@@ -12,7 +11,8 @@ export async function ogcApiRequest(
   const updatedQueryParams = cloneObject(queryParams);
 
   const targetDomain = new URL(options.site).hostname;
-  if (!isOpendataDomain(targetDomain)) {
+  const umbrellaDomain = new URL(options.requestOptions.hubApiUrl).hostname;
+  if (targetDomain !== umbrellaDomain) {
     updatedQueryParams.target = targetDomain;
   }
 
