@@ -12,7 +12,7 @@ export const DEFAULT_INITIATIVE: Partial<IHubInitiative> = {
   typeKeywords: ["Hub Initiative"],
   catalog: { schemaVersion: 0 },
   permissions: [],
-  schemaVersion: 3,
+  schemaVersion: 2,
 };
 
 /**
@@ -28,7 +28,7 @@ export const DEFAULT_INITIATIVE_MODEL: IModel = {
     typeKeywords: ["Hub Initiative"],
     properties: {
       slug: "",
-      schemaVersion: 3,
+      schemaVersion: 2,
     },
   },
   data: {},

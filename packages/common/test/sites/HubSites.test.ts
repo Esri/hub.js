@@ -35,6 +35,7 @@ const SITE_ITEM: portalModule.IItem = {
 };
 const SITE_DATA = {
   values: {
+    catalog: { groups: ["00c"] },
     customHostname: "site-org.hub.arcgis.com",
     defaultHostname: "",
   },
@@ -168,6 +169,21 @@ describe("HubSites:", () => {
       expect(chk.owner).toBe("vader");
       expect(fetchSpy.calls.count()).toBe(1);
       expect(fetchSpy.calls.argsFor(0)[0]).toBe(GUID);
+    });
+
+    it("applies catalog migration if needed", async () => {
+      spyOn(
+        require("../../src/sites/fetchSiteModel"),
+        "fetchSiteModel"
+      ).and.returnValue(Promise.resolve(SITE_MODEL));
+
+      const chk = await fetchSite(GUID, {
+        authentication: MOCK_AUTH,
+      });
+      expect(chk.id).toBe(GUID);
+      expect(chk.owner).toBe("vader");
+      expect(chk.catalog).toBeDefined();
+      expect(chk.catalog.schemaVersion).toBeDefined();
     });
 
     it("gets by domain, without auth", async () => {

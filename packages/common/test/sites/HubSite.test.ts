@@ -77,7 +77,7 @@ describe("HubSite Class:", () => {
       expect(chk.toJson().name).toBe("Test Site");
     });
 
-    it("handle load missing projects", async () => {
+    it("throws if site not found", async () => {
       const fetchSpy = spyOn(HubSitesModule, "fetchSite").and.callFake(
         (id: string) => {
           const err = new Error(
@@ -370,7 +370,14 @@ describe("HubSite Class:", () => {
     let chk: HubSite;
     const model: any = {
       data: {
-        catalog: {
+        // Since this is not testing catalog, we don't need to
+        // we just need to pass in enough to make this work.
+        // Catalog v2 is the default now, so we'll use that
+        // and leave the older catalog out
+        // catalog: {
+        //   schemaVersion: 0,
+        // },
+        catalogv2: {
           schemaVersion: 0,
         },
         permissions: [],
@@ -445,11 +452,11 @@ describe("HubSite Class:", () => {
       await chk.createVersion(createVersionOptions);
 
       expect(createVersionSpy).toHaveBeenCalledTimes(1);
-      expect(createVersionSpy).toHaveBeenCalledWith(
-        model,
-        authdCtxMgr.context.userRequestOptions,
-        createVersionOptions
-      );
+      const args = createVersionSpy.calls.argsFor(0);
+      const modelArg = args[0];
+      expect(modelArg).toEqual(model);
+      expect(args[1]).toEqual(authdCtxMgr.context.userRequestOptions);
+      expect(args[2]).toEqual(createVersionOptions);
     });
     it("updates a version", async () => {
       const updateVersionSpy = spyOn(
@@ -471,11 +478,11 @@ describe("HubSite Class:", () => {
       await chk.updateVersion(version);
 
       expect(updateVersionSpy).toHaveBeenCalledTimes(1);
-      expect(updateVersionSpy).toHaveBeenCalledWith(
-        model,
-        version,
-        authdCtxMgr.context.userRequestOptions
-      );
+      const args = updateVersionSpy.calls.argsFor(0);
+      const modelArg = args[0];
+      expect(modelArg).toEqual(model);
+      expect(args[2]).toEqual(authdCtxMgr.context.userRequestOptions);
+      expect(args[1]).toEqual(version);
     });
 
     it("updates version metadata", async () => {
