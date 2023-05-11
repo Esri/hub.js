@@ -1,3 +1,10 @@
+## @esri/hub-common [12.38.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.38.0...@esri/hub-common@12.38.1) (2023-05-11)
+
+
+### Bug Fixes
+
+* **hub-common:** make sure error gets caught when unshare an item from groups ([48a1bc7](https://github.com/Esri/hub.js/commit/48a1bc79bf618b650bcad4f5706b5d154eb7866d))
+
 # @esri/hub-common [12.38.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.37.1...@esri/hub-common@12.38.0) (2023-05-10)
 
 
