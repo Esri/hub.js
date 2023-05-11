@@ -52,7 +52,7 @@ describe("unshareItemFromGroups", function () {
       () => Promise.reject(new Error("unshare from groups failed"))
     );
     try {
-      await unshareItemFromGroups("item-id", ["grp1", "grp2"], {
+      await unshareItemFromGroups("item-id", ["grp1"], {
         authentication: mockUserSession,
       });
     } catch (err) {
