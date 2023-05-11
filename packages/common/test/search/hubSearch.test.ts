@@ -200,6 +200,7 @@ describe("hubSearch Module:", () => {
           requestOptions: {
             isPortal: false,
             portal: "https://qaext.arcgis.com/sharing/rest",
+            hubApiUrl: "https://hubqa.arcgis.com",
           },
           include: ["server"],
         };
@@ -215,7 +216,7 @@ describe("hubSearch Module:", () => {
         expect(options.requestOptions).toBe(opts.requestOptions);
         expect(options.api).toEqual({
           type: "arcgis-hub",
-          url: "https://my-site.hub.arcgis.com/api/search/v1",
+          url: "https://hubqa.arcgis.com/api/search/v1",
         });
       });
       it("groups + arcgis: portalSearchGroups", async () => {

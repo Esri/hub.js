@@ -11,8 +11,8 @@ export async function ogcApiRequest(
   const updatedQueryParams = cloneObject(queryParams);
 
   const targetDomain = new URL(options.site).hostname;
-  const umbrellaDomain = new URL(options.requestOptions.hubApiUrl).hostname;
-  if (targetDomain !== umbrellaDomain) {
+  const urlDomain = new URL(url).hostname;
+  if (targetDomain !== urlDomain) {
     updatedQueryParams.target = targetDomain;
   }
 

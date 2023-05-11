@@ -4,13 +4,15 @@ import { SEARCH_APIS } from "../../../src/search/utils";
 import { getApi } from "../../../src/search/_internal/commonHelpers/getApi";
 
 describe("getApi", () => {
-  const site = "https://my-site.hub.arcgis-com";
+  const site = "https://my-site.hub.arcgis.com";
+  const hubApiUrl = "https://hub.arcgis.com";
   const targetEntity = "item";
   it("returns the expanded options.api if available", () => {
     const options = {
       api: "hubQA" as NamedApis,
       site,
       requestOptions: {
+        hubApiUrl,
         isPortal: false,
       },
     } as unknown as IHubSearchOptions;
@@ -20,12 +22,13 @@ describe("getApi", () => {
     const options = {
       site,
       requestOptions: {
+        hubApiUrl,
         isPortal: false,
       },
     } as unknown as IHubSearchOptions;
     expect(getApi(targetEntity, options)).toEqual({
       type: "arcgis-hub",
-      url: `${site}/api/search/v1`,
+      url: `${hubApiUrl}/api/search/v1`,
     });
   });
   it("otherwise returns a reference to the Portal API from requestOptions", () => {
