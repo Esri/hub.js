@@ -5,7 +5,8 @@ import { IUser } from "@esri/arcgis-rest-auth";
 import { canModifyChannel } from "../channels";
 import { CANNOT_DISCUSS, MENTION_ATTRIBUTE } from "../constants";
 
-export { canModifyPost } from "../posts/can-modify-post";
+export { canModifyPost } from "./can-modify-post";
+export { canModifyPostStatus } from "./can-modify-post-status";
 
 /**
  * Utility that parses a discussion URI string into its component parts
@@ -54,17 +55,6 @@ export function parseDiscussionURI(discussion: string): IDiscussionParams {
  */
 export function isDiscussable(subject: IGroup | IItem | IHubContent) {
   return !(subject.typeKeywords ?? []).includes(CANNOT_DISCUSS);
-}
-
-/**
- * Determines if the given user has sufficient privileges to modify a post's status
- * @param post An IPost object
- * @param channel An IChannel object
- * @param user An IUser object
- * @returns true if the user can modify the post
- */
-export function canModifyPostStatus(channel: IChannel, user: IUser): boolean {
-  return canModifyChannel(channel, user);
 }
 
 /**

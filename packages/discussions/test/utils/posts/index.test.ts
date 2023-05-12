@@ -92,34 +92,6 @@ describe("isDiscussable", () => {
   });
 });
 
-describe("canModifyPostStatus", () => {
-  it("returns true when user can modify channel", () => {
-    const canModifyChannelSpy = spyOn(
-      channelUtils,
-      "canModifyChannel"
-    ).and.returnValue(true);
-    const user = { username: "user2" } as IUser;
-    const channel = { id: "channel1" } as IChannel;
-    const result = canModifyPostStatus(channel, user);
-    expect(result).toBe(true);
-    expect(canModifyChannelSpy).toHaveBeenCalledTimes(1);
-    expect(canModifyChannelSpy).toHaveBeenCalledWith(channel, user);
-  });
-
-  it("returns false when user cannot modify channel", () => {
-    const canModifyChannelSpy = spyOn(
-      channelUtils,
-      "canModifyChannel"
-    ).and.returnValue(false);
-    const user = { username: "user2" } as IUser;
-    const channel = { id: "channel1" } as IChannel;
-    const result = canModifyPostStatus(channel, user);
-    expect(result).toBe(false);
-    expect(canModifyChannelSpy).toHaveBeenCalledTimes(1);
-    expect(canModifyChannelSpy).toHaveBeenCalledWith(channel, user);
-  });
-});
-
 describe("canDeletePost", () => {
   it("returns true when the user created the post", () => {
     const canModifyChannelSpy = spyOn(channelUtils, "canModifyChannel");
