@@ -1,3 +1,10 @@
+## @esri/hub-common [12.38.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.38.1...@esri/hub-common@12.38.2) (2023-05-12)
+
+
+### Bug Fixes
+
+* update project uiSchemas for translation purposes ([dc5fbdd](https://github.com/Esri/hub.js/commit/dc5fbdd1ed24575557f376996582e9a21ae31127))
+
 ## @esri/hub-common [12.38.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.38.0...@esri/hub-common@12.38.1) (2023-05-11)
 
 
