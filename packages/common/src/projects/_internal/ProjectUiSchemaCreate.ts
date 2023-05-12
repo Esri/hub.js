@@ -24,6 +24,16 @@ export const uiSchema: IUiSchema = {
                   labelKey: "{{i18nScope}}.fields.name.label",
                   scope: "/properties/name",
                   type: "Control",
+                  options: {
+                    messages: [
+                      {
+                        type: "ERROR",
+                        keyword: "required",
+                        icon: true,
+                        labelKey: "{{i18nScope}}.fields.name.requiredError",
+                      },
+                    ],
+                  },
                 },
                 {
                   labelKey: "{{i18nScope}}.fields.summary.label",
