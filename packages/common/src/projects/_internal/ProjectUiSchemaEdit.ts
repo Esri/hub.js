@@ -16,6 +16,16 @@ export const uiSchema: IUiSchema = {
           labelKey: "{{i18nScope}}.fields.name.label",
           scope: "/properties/name",
           type: "Control",
+          options: {
+            messages: [
+              {
+                type: "ERROR",
+                keyword: "required",
+                icon: true,
+                labelKey: "{{i18nScope}}.fields.name.requiredError",
+              },
+            ],
+          },
         },
         {
           labelKey: "{{i18nScope}}.fields.summary.label",
@@ -67,7 +77,7 @@ export const uiSchema: IUiSchema = {
             allowCustomValues: true,
             selectionMode: "multiple",
             placeholderIcon: "label",
-            helperText: { labelKey: "{{i18nScope}}.sections.tags.helperText" },
+            helperText: { labelKey: "{{i18nScope}}.fields.tags.helperText" },
           },
         },
         {
@@ -80,7 +90,7 @@ export const uiSchema: IUiSchema = {
             selectionMode: "multiple",
             placeholderIcon: "select-category",
             helperText: {
-              labelKey: "{{i18nScope}}.sections.categories.helperText",
+              labelKey: "{{i18nScope}}.fields.categories.helperText",
             },
           },
         },
@@ -89,6 +99,11 @@ export const uiSchema: IUiSchema = {
     {
       type: "Section",
       labelKey: "{{i18nScope}}.sections.location.label",
+      options: {
+        helperText: {
+          labelKey: "{{i18nScope}}.sections.location.helperText",
+        },
+      },
       elements: [
         {
           scope: "/properties/location",
