@@ -499,6 +499,59 @@ describe("ChannelPermission class", () => {
     });
   });
 
+  describe("canModifyPostStatus", () => {
+    let canModifyChannelSpy: jasmine.Spy;
+
+    beforeAll(() => {
+      canModifyChannelSpy = spyOn(
+        ChannelPermission.prototype,
+        "canModifyChannel"
+      );
+    });
+
+    beforeEach(() => {
+      canModifyChannelSpy.calls.reset();
+    });
+
+    it("should return true if canModifyChannel returns true", () => {
+      canModifyChannelSpy.and.callFake(() => true);
+
+      const user = buildUser();
+      const channelCreator = user.username;
+      const channelAcl = [] as IChannelAclPermission[];
+
+      const channelPermission = new ChannelPermission(channelAcl);
+
+      expect(channelPermission.canModifyPostStatus(user, channelCreator)).toBe(
+        true
+      );
+
+      expect(canModifyChannelSpy.calls.count()).toBe(1);
+      const [arg1, arg2] = canModifyChannelSpy.calls.allArgs()[0]; // args for 1st call
+      expect(arg1).toBe(user);
+      expect(arg2).toBe(channelCreator);
+    });
+
+    it("should return false if canModifyChannel returns false", () => {
+      canModifyChannelSpy.and.callFake(() => false);
+
+      const user = buildUser();
+      const channelCreator = user.username;
+      const channelAcl = [] as IChannelAclPermission[];
+
+      const channelPermission = new ChannelPermission(channelAcl);
+
+      expect(channelPermission.canModifyPostStatus(user, channelCreator)).toBe(
+        false
+      );
+
+      expect(canModifyChannelSpy.calls.count()).toBe(1);
+      const [arg1, arg2] = canModifyChannelSpy.calls.allArgs()[0]; // args for 1st call
+      expect(arg1).toBe(user);
+      expect(arg2).toBe(channelCreator);
+    });
+  });
+
   describe("canCreateChannel", () => {
     describe("all permissions cases", () => {
       it("returns false if user not authenticated", () => {
