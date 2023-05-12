@@ -1,3 +1,15 @@
+# @esri/hub-common [12.39.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.38.2...@esri/hub-common@12.39.0) (2023-05-12)
+
+
+### Features
+
+* **hub-common:** add migrateToCollectionKey helper ([ab2aa0c](https://github.com/Esri/hub.js/commit/ab2aa0c4388803aac4500fdf4eaaaec603e71065))
+* **hub-common:** add utils for detecting and transforming legacy search categories ([34de91b](https://github.com/Esri/hub.js/commit/34de91bbe2d2dd44a83e4543a5a745b1b2295339))
+* **hub-common:** change ogcApiRequest to target the umbrella domain, not the opendata root domain ([1dada4c](https://github.com/Esri/hub.js/commit/1dada4c21360638f2f69440e3f7424388a190716))
+* **hub-common:** have hubSearchItems hit the OGC API of the root opendata domain ([c4f9411](https://github.com/Esri/hub.js/commit/c4f9411e555d96dae1f8ee1ef8dde18ca59e301f))
+* **hub-common:** move isLegacySearchCategory and toCollectionKey into internal helper folders ([26feb67](https://github.com/Esri/hub.js/commit/26feb67e2fcc6d7da47965b82afc2bd76f645715))
+* **hub-common:** omit ?target when item.site matches url (not requestOptions.hubApiUrl), fix tests ([8c5d8c7](https://github.com/Esri/hub.js/commit/8c5d8c789236d70ad6a72d51c3a509956a23788f))
+
 ## @esri/hub-common [12.38.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.38.1...@esri/hub-common@12.38.2) (2023-05-12)
 
 
