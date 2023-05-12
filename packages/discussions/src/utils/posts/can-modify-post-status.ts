@@ -3,7 +3,7 @@ import { IChannel, IDiscussionsUser, SharingAccess } from "../../types";
 import { isOrgAdmin } from "../platform";
 import { ChannelPermission } from "../channel-permission";
 
-const ALLOWED_GROUP_ROLES = Object.freeze(["owner", "admin"]);
+const ADMIN_GROUP_ROLES = Object.freeze(["owner", "admin"]);
 
 export function canModifyPostStatus(
   channel: IChannel,
@@ -51,7 +51,7 @@ function isAuthorizedToModifyStatusByLegacyPermissions(
  * Ensure the user is an owner/admin of one of the channel groups
  */
 function isAuthorizedToModifyStatusByLegacyGroup(
-  channelGroups: string[] = [],
+  channelGroups: string[],
   userGroups: IGroup[] = []
 ) {
   return channelGroups.some((channelGroupId: string) => {
@@ -63,7 +63,7 @@ function isAuthorizedToModifyStatusByLegacyGroup(
 
       return (
         channelGroupId === userGroupId &&
-        ALLOWED_GROUP_ROLES.includes(userMemberType)
+        ADMIN_GROUP_ROLES.includes(userMemberType)
       );
     });
   });

@@ -847,14 +847,14 @@ describe("ChannelPermission class", () => {
       });
 
       it("returns true if the user created the channel", async () => {
-        const user = buildUser({ username: null });
+        const user = buildUser();
         const channelCreator = user.username;
         const channelAcl = [] as IChannelAclPermission[];
 
         const channelPermission = new ChannelPermission(channelAcl);
 
         expect(channelPermission.canModifyChannel(user, channelCreator)).toBe(
-          false
+          true
         );
       });
     });
