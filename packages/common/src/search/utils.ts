@@ -15,6 +15,12 @@ import {
   IApiDefinition,
   NamedApis,
 } from "./types/types";
+import { WellKnownCollection } from "./wellKnownCatalog";
+import {
+  isLegacySearchCategory,
+  LegacySearchCategory,
+} from "./_internal/commonHelpers/isLegacySearchCategory";
+import { toCollectionKey } from "./_internal/commonHelpers/toCollectionKey";
 
 /**
  * Well known APIs
@@ -239,4 +245,22 @@ export function getUserThumbnailUrl(
     }
   }
   return thumbnailUrl;
+}
+
+/**
+ * Function that can migrate a legacy search category to a wellknown
+ * collection key. Useful when the caller has an unknown value that
+ * could either be a search category or wellknown collection.
+ *
+ * If the value passed is not a search category, it is returned as-is.
+ *
+ * @param collectionOrSearchCategory key to be migrated
+ * @returns the migrated wellknown collection key
+ */
+export function migrateToCollectionKey(
+  collectionOrSearchCategory: LegacySearchCategory | WellKnownCollection
+): WellKnownCollection {
+  return isLegacySearchCategory(collectionOrSearchCategory)
+    ? toCollectionKey(collectionOrSearchCategory as LegacySearchCategory)
+    : (collectionOrSearchCategory as WellKnownCollection);
 }

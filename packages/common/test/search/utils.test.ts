@@ -8,6 +8,7 @@ import {
   relativeDateToDateRange,
   getGroupThumbnailUrl,
   getNextFunction,
+  migrateToCollectionKey,
 } from "../../src/search/utils";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import { mockUserSession } from "../test-helpers/fake-user-session";
@@ -237,6 +238,19 @@ describe("Search Utils:", () => {
       await chk(mockUserSession);
       const opts2 = fnSpy.calls.mostRecent().args[0];
       expect(opts2.authentication).toEqual(mockUserSession);
+    });
+  });
+
+  describe("migrateToCollectionKey", () => {
+    it("returns the key as-is if not a legacy search category", () => {
+      const key = "dataset";
+      const result = migrateToCollectionKey(key);
+      expect(result).toBe(key);
+    });
+
+    it("returns a converted value if the key is a legacy search category", () => {
+      const result = migrateToCollectionKey("App,Map");
+      expect(result).toBe("appAndMap");
     });
   });
 });
