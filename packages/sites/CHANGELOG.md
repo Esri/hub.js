@@ -1,3 +1,10 @@
+# @esri/hub-sites [13.0.0-next.2](https://github.com/Esri/hub.js/compare/@esri/hub-sites@13.0.0-next.1...@esri/hub-sites@13.0.0-next.2) (2023-05-15)
+
+
+### Bug Fixes
+
+* re-export _shareItemsToSiteGroups to avoid update to solution.js ([#1061](https://github.com/Esri/hub.js/issues/1061)) ([b386b64](https://github.com/Esri/hub.js/commit/b386b64d4182a6a373bad2d0ab0862c70e6e8020))
+
 # @esri/hub-sites [13.0.0-next.1](https://github.com/Esri/hub.js/compare/@esri/hub-sites@12.6.0...@esri/hub-sites@13.0.0-next.1) (2023-05-01)
 
 
