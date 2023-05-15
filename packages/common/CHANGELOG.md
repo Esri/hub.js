@@ -1,3 +1,10 @@
+# @esri/hub-common [12.40.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.39.1...@esri/hub-common@12.40.0) (2023-05-15)
+
+
+### Features
+
+* **hub-common:** support bbox serialization when querying the OGC API via hubSearch ([#1063](https://github.com/Esri/hub.js/issues/1063)) ([52af191](https://github.com/Esri/hub.js/commit/52af1912546d964a1722941f104990ff1bd40e1d))
+
 ## @esri/hub-common [12.39.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.39.0...@esri/hub-common@12.39.1) (2023-05-15)
 
 
