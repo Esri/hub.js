@@ -96,7 +96,7 @@ export class ChannelPermission {
     return this.ALLOWED_ROLES_FOR_POSTING.includes(role);
   }
 
-  private isAuthorizedToModerate(role?: Role) {
+  private isAuthorizedToModerate(role: Role) {
     return this.ALLOWED_ROLES_FOR_MODERATION.includes(role);
   }
 
