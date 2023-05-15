@@ -32,7 +32,7 @@ export function catalogMigration(model: IModel): IModel {
       siteCatalog.scopes.item.filters.push({
         predicates: [
           {
-            groups: [...groups],
+            group: [...groups],
           },
         ],
       });

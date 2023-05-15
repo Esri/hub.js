@@ -2,6 +2,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getProp } from "../../objects/get-prop";
 import { IHubCatalog } from "../../search/types/IHubCatalog";
 import { IModel } from "../../types";
+import { cloneObject } from "../../util";
 
 export const INITIATIVE_SCHEMA_VERSION = 2;
 
@@ -36,12 +37,17 @@ function addDefaultCatalog(model: IModel): IModel {
   if (getProp(model, "item.properties.schemaVersion") >= 1.1) {
     return model;
   } else {
+    const clone = cloneObject(model);
     // ----------------------------------
     // TODO: Decide if we want to fetch the catalog from the site and use that
     // or if we just use the contentGroupId
     // ----------------------------------
     // v0 of initiatives did not have a catalog, so we need to add one
     // based on the content group associated with the initiative
+
+    const groupId = getProp(clone, "item.properties.contentGroupId");
+    const group = groupId ? [groupId] : [];
+
     const catalog: IHubCatalog = {
       schemaVersion: 1,
       title: "Default Initiative Catalog",
@@ -52,7 +58,7 @@ function addDefaultCatalog(model: IModel): IModel {
             {
               predicates: [
                 {
-                  groups: [model.item.properties?.contentGroupId],
+                  group,
                 },
               ],
             },
@@ -62,11 +68,11 @@ function addDefaultCatalog(model: IModel): IModel {
       collections: [],
     };
 
-    model.data.catalog = catalog;
+    clone.data.catalog = catalog;
 
     // set the schema version
-    model.item.properties.schemaVersion = 1.1;
+    clone.item.properties.schemaVersion = 1.1;
 
-    return model;
+    return clone;
   }
 }

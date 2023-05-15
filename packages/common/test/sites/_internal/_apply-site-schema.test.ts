@@ -21,13 +21,13 @@ describe("_applySiteSchema", () => {
       1,
       "should apply a schema version"
     );
-    expect(chk.data.values.groups.length).toBe(
+    expect(chk.data?.values.groups.length).toBe(
       4,
       "should have 4 groups in the array"
     );
-    expect(chk.data.values.groupId).toBeFalsy("should remove groupId");
-    expect(chk.data.values.title).toBeFalsy("should remove title");
-    expect(chk.data.values.groups.includes("fromObj")).toBeTruthy(
+    expect(chk.data?.values.groupId).toBeFalsy("should remove groupId");
+    expect(chk.data?.values.title).toBeFalsy("should remove title");
+    expect(chk.data?.values.groups.includes("fromObj")).toBeTruthy(
       "should extract the id from the object"
     );
   });
