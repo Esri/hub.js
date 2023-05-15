@@ -353,6 +353,7 @@ export class HubSite
     return updateVersionMetadata(
       this.entity.id,
       version,
+      this.entity.owner,
       this.context.userRequestOptions
     );
   }

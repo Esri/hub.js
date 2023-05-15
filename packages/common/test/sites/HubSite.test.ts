@@ -501,6 +501,7 @@ describe("HubSite Class:", () => {
       expect(updateVersionMetadataSpy).toHaveBeenCalledWith(
         model.item.id,
         version,
+        model.item.owner,
         authdCtxMgr.context.userRequestOptions
       );
     });

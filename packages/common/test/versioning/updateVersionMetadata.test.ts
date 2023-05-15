@@ -49,7 +49,12 @@ describe("updateVersionMetadata", () => {
       versionBlob
     );
 
-    const result = await updateVersionMetadata(id, version, requestOpts);
+    const result = await updateVersionMetadata(
+      id,
+      version,
+      "casey",
+      requestOpts
+    );
 
     const options = {
       ...requestOpts,
@@ -64,7 +69,7 @@ describe("updateVersionMetadata", () => {
           updated: 456,
         },
       },
-      owner: "jupe",
+      owner: "casey",
       prefix: "hubVersion_def456",
       resource: versionBlob,
     };
