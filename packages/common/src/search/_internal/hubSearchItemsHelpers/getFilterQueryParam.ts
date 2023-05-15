@@ -2,23 +2,17 @@ import { IFilter, IPredicate, IQuery } from "../../types/IHubCatalog";
 import { IDateRange, IMatchOptions } from "../../types/types";
 
 export function getFilterQueryParam(query: IQuery) {
-  return (
-    query.filters
-      .map(formatFilterBlock)
-      // TODO: this a bandaid fix, remove once q can be passed into the filter query string
-      // TODO: we also need this as a workaround for bbox. I wonder if there's a better way...
-      .filter((f) => f !== "()")
-      .join(" AND ")
-  );
+  return query.filters
+    .map(formatFilterBlock)
+    .filter(removeEmptyClauses)
+    .join(" AND ");
 }
 
 export function formatFilterBlock(filter: IFilter) {
   const operation = filter.operation || "OR";
   const formatted = filter.predicates
     .map(formatPredicate)
-    // TODO: this a bandaid fix, remove once q can be passed into the filter query string
-    // TODO: we also need this as a workaround for bbox. I wonder if there's a better way...
-    .filter((p) => p !== "()")
+    .filter(removeEmptyClauses)
     .join(` ${operation} `);
   return `(${formatted})`;
 }
@@ -114,4 +108,18 @@ function formatNots(field: string, value?: string | string[]): string {
 function maybeAddSingleQuotes(value: string): string {
   const whitespaceRegex: RegExp = /\s/;
   return whitespaceRegex.test(value) ? `'${value}'` : value;
+}
+
+/**
+ * Returns whether a clause is non-empty and should be included in the
+ * final serialized string.
+ *
+ * Empty clauses appear when certain predicates are detected that are invalid
+ * in the OGC API's ?filter string (i.e. `term`, `bbox`)
+ *
+ * @param clause stringified clause to inspect
+ * @returns whether the clause should be included in the final serialization
+ */
+function removeEmptyClauses(clause: string) {
+  return clause !== "()";
 }
