@@ -14,12 +14,14 @@ import { updateItemResource } from "@esri/arcgis-rest-portal";
  * Updates the specified version's metadata
  * @param id
  * @param versionMetadata
+ * @param owner
  * @param requestOptions
  * @returns
  */
 export async function updateVersionMetadata(
   id: string,
   versionMetadata: IVersionMetadata,
+  owner: string,
   requestOptions: IHubUserRequestOptions
 ): Promise<IVersionMetadata> {
   const prefix = getPrefix(versionMetadata.id);
@@ -39,7 +41,7 @@ export async function updateVersionMetadata(
     ...requestOptions,
     id,
     name: VERSION_RESOURCE_NAME,
-    owner: properties.creator,
+    owner,
     params: { properties },
     prefix,
     resource: versionBlob,
