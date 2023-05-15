@@ -6,6 +6,7 @@ export function getFilterQueryParam(query: IQuery) {
     query.filters
       .map(formatFilterBlock)
       // TODO: this a bandaid fix, remove once q can be passed into the filter query string
+      // TODO: we also need this as a workaround for bbox. I wonder if there's a better way...
       .filter((f) => f !== "()")
       .join(" AND ")
   );
@@ -16,6 +17,7 @@ export function formatFilterBlock(filter: IFilter) {
   const formatted = filter.predicates
     .map(formatPredicate)
     // TODO: this a bandaid fix, remove once q can be passed into the filter query string
+    // TODO: we also need this as a workaround for bbox. I wonder if there's a better way...
     .filter((p) => p !== "()")
     .join(` ${operation} `);
   return `(${formatted})`;
@@ -23,8 +25,9 @@ export function formatFilterBlock(filter: IFilter) {
 
 export function formatPredicate(predicate: IPredicate) {
   const formatted = Object.entries(predicate)
-    // Remove predicates that use `term` (handled in `getQQueryParam`) and undefined entries
-    .filter(([field, value]) => field !== "term" && !!value)
+    // Remove predicates that use `term` (handled in `getQQueryParam`),
+    // `bbox` (handled in `getBboxQueryParam) or have undefined entries
+    .filter(([field, value]) => field !== "term" && field !== "bbox" && !!value)
     // Create sections for each field
     .reduce((acc, [field, value]) => {
       let section;

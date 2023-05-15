@@ -1,6 +1,7 @@
 import { getProp } from "../../../objects/get-prop";
 import { IQuery } from "../../types/IHubCatalog";
 import { IHubSearchOptions } from "../../types/IHubSearchOptions";
+import { getBboxQueryParam } from "./getBboxQueryParam";
 import { getFilterQueryParam } from "./getFilterQueryParam";
 import { getQQueryParam } from "./getQQueryParam";
 import { getSortByQueryParam } from "./getSortByQueryParam";
@@ -12,6 +13,7 @@ export interface IOgcItemQueryParams {
   startindex?: number;
   q?: string;
   sortBy?: string;
+  bbox?: string;
 }
 
 /**
@@ -34,6 +36,7 @@ export function getOgcItemQueryParams(
   const startindex = options.start;
   const q = getQQueryParam(query);
   const sortBy = getSortByQueryParam(options);
+  const bbox = getBboxQueryParam(query);
 
   return {
     filter,
@@ -42,5 +45,6 @@ export function getOgcItemQueryParams(
     startindex,
     q,
     sortBy,
+    bbox,
   };
 }
