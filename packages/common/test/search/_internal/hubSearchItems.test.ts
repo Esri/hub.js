@@ -370,6 +370,7 @@ describe("hubSearchItems Module |", () => {
           startindex: undefined,
           q: undefined,
           sortBy: undefined,
+          bbox: undefined,
         } as IOgcItemQueryParams;
         expect(result).toEqual(expected);
       });
@@ -391,6 +392,7 @@ describe("hubSearchItems Module |", () => {
           startindex: undefined,
           q: undefined,
           sortBy: undefined,
+          bbox: undefined,
         } as IOgcItemQueryParams;
         expect(result).toEqual(expected);
       });
@@ -413,6 +415,7 @@ describe("hubSearchItems Module |", () => {
           startindex: undefined,
           q: undefined,
           sortBy: undefined,
+          bbox: undefined,
         } as IOgcItemQueryParams;
         expect(result).toEqual(expected);
       });
@@ -436,6 +439,7 @@ describe("hubSearchItems Module |", () => {
           startindex: 10,
           q: undefined,
           sortBy: undefined,
+          bbox: undefined,
         } as IOgcItemQueryParams;
         expect(result).toEqual(expected);
       });
@@ -462,6 +466,7 @@ describe("hubSearchItems Module |", () => {
           startindex: 10,
           q: "term1",
           sortBy: undefined,
+          bbox: undefined,
         } as IOgcItemQueryParams;
         expect(result).toEqual(expected);
       });
@@ -480,7 +485,10 @@ describe("hubSearchItems Module |", () => {
         };
 
         const termQuery: IQuery = cloneObject(query);
-        termQuery.filters.push({ predicates: [{ term: "term1" }] });
+        termQuery.filters.push({
+          operation: "AND",
+          predicates: [{ term: "term1" }, { bbox: "1,2,3,4" }],
+        });
 
         const result = getOgcItemQueryParams(termQuery, options);
         const expected = {
@@ -490,6 +498,7 @@ describe("hubSearchItems Module |", () => {
           startindex: 10,
           q: "term1",
           sortBy: "properties.title",
+          bbox: "1,2,3,4",
         } as IOgcItemQueryParams;
         expect(result).toEqual(expected);
       });
