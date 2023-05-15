@@ -46,3 +46,7 @@ export function shareItemsToSiteGroups(
     )
   );
 }
+
+// Temporary to avoid a complex multi-project update
+// @private
+export { shareItemsToSiteGroups as _shareItemsToSiteGroups };
