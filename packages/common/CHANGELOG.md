@@ -1,3 +1,10 @@
+## @esri/hub-common [12.39.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.39.0...@esri/hub-common@12.39.1) (2023-05-15)
+
+
+### Bug Fixes
+
+* updateVersionMetadata takes item owner ([#1062](https://github.com/Esri/hub.js/issues/1062)) ([2833903](https://github.com/Esri/hub.js/commit/2833903034596988769ff762b4bbbee91caf62a3))
+
 # @esri/hub-common [12.39.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.38.2...@esri/hub-common@12.39.0) (2023-05-12)
 
 
