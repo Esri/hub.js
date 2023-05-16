@@ -1,3 +1,10 @@
+# @esri/hub-common [12.41.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.40.0...@esri/hub-common@12.41.0) (2023-05-16)
+
+
+### Features
+
+* ensure catalogs on entity fetch ([#1064](https://github.com/Esri/hub.js/issues/1064)) ([b9fc6e3](https://github.com/Esri/hub.js/commit/b9fc6e344b8c3fc2675616340838d47975673ab1))
+
 # @esri/hub-common [12.40.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.39.1...@esri/hub-common@12.40.0) (2023-05-15)
 
 
