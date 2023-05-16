@@ -5,6 +5,7 @@ import { IHubSite } from "../../core";
 import { IModel } from "../../types";
 import { SiteDefaultCapabilities } from "./SiteBusinessRules";
 import { processEntityCapabilities } from "../../capabilities";
+import { upgradeCatalogSchema } from "../../search/upgradeCatalogSchema";
 
 /**
  * Given a model and a site, set various computed properties that can't be directly mapped
@@ -39,6 +40,9 @@ export function computeProps(
     model.data.settings?.capabilities || {},
     SiteDefaultCapabilities
   );
+
+  // handle catalog
+  site.catalog = upgradeCatalogSchema(model.data.catalog || { groups: [] });
 
   // cast b/c this takes a partial but returns a full site
   return site as IHubSite;

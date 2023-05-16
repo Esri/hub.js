@@ -12,7 +12,6 @@ import { getBasePropertyMap } from "../../core/_internal/getBasePropertyMap";
 export function getPropertyMap(): IPropertyMap[] {
   const map = getBasePropertyMap();
   // Site specific mappings
-  map.push({ objectKey: "catalog", modelKey: "data.catalog" });
   map.push({ objectKey: "feeds", modelKey: "data.feeds" });
   map.push({ objectKey: "permissions", modelKey: "data.permissions" });
   map.push({
@@ -58,6 +57,12 @@ export function getPropertyMap(): IPropertyMap[] {
     objectKey: "name",
     modelKey: "item.title",
   });
+  // Catalog mappings
+  // Since v1.x sites use data.catalog, which is really just `{groiups: []}`
+  // we can't overtly migrate data.catalog, but we can map the properties
+  // so they don't collide
+  map.push({ objectKey: "catalog", modelKey: "data.catalogv2" });
+  map.push({ objectKey: "legacyCatalog", modelKey: "data.catalog" });
 
   return map;
 }

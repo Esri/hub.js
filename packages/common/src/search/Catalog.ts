@@ -18,6 +18,8 @@ import {
   IHubCatalog,
   IPredicate,
   IQuery,
+  IFilter,
+  IHubCollection,
 } from "./types";
 import { upgradeCatalogSchema } from "./upgradeCatalogSchema";
 
@@ -160,6 +162,16 @@ export class Catalog implements IHubCatalog {
    * @returns
    */
   getCollection(name: string): Collection {
+    const json = this.getCollectionJson(name);
+    return Collection.fromJson(json, this._context);
+  }
+
+  /**
+   * Get the Collection json by name
+   * @param name
+   * @returns
+   */
+  getCollectionJson(name: string): IHubCollection {
     const json = this.collections.find((entry) => entry.key === name);
     if (json) {
       // clone it then merge in the associated scope filter
@@ -168,13 +180,56 @@ export class Catalog implements IHubCatalog {
       if (catalogScope?.filters) {
         clone.scope.filters = [...clone.scope.filters, ...catalogScope.filters];
       }
-      return Collection.fromJson(clone, this._context);
+      return clone;
     } else {
       throw new HubError(
-        "getCollection",
+        "getCollectionJson",
         `Collection "${name}" is not present in the Catalog`
       );
     }
+  }
+
+  /**
+   * Get a Collection instance, based on a specific entity type and filters
+   * This extends from the base scope for the entity type
+   * @param type
+   * @param filters
+   * @returns
+   */
+  getCustomCollection(type: EntityType, filters: IFilter[]): Collection {
+    // create the collection
+    const collection: IHubCollection = this.getCustomCollectionJson(
+      type,
+      filters
+    );
+    // create instance
+    return Collection.fromJson(collection, this._context);
+  }
+
+  /**
+   * Create a custom collection based on a specific entity type and filters
+   * Returned collection extends from the base scope for the entity type
+   * @param type
+   * @param filters
+   * @returns
+   */
+  getCustomCollectionJson(
+    type: EntityType,
+    filters: IFilter[]
+  ): IHubCollection {
+    // get the scope
+    const scopeQuery = this.getScope(type);
+    // create the collection
+    const collection: IHubCollection = {
+      key: `${type}-custom`,
+      label: `${type} Custom`,
+      targetEntity: type,
+      scope: {
+        targetEntity: type,
+        filters: [...(scopeQuery?.filters || []), ...filters],
+      },
+    };
+    return collection;
   }
 
   /**

@@ -2,6 +2,7 @@ import { IPortal, IUser } from "@esri/arcgis-rest-portal";
 import { cloneObject, getProp, IArcGISContext } from "../../src";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import {
+  EntityType,
   ICatalogScope,
   IFilter,
   IHubCatalog,
@@ -196,6 +197,38 @@ describe("Catalog Class:", () => {
       const instance = Catalog.fromJson(cat, context);
       const teamsCollection = instance.getCollection("teams");
       expect(teamsCollection.scope.filters.length).toBe(1);
+    });
+  });
+  describe("getCustomCollection:", () => {
+    it("returns base scope if no filters passed", () => {
+      const instance = Catalog.fromJson(cloneObject(catalogJson), context);
+      const collection = instance.getCustomCollection("item", []);
+      expect(collection).toBeDefined();
+      expect(collection?.key).toBe("item-custom");
+      const json = collection?.toJson();
+      expect(json?.scope).toEqual(catalogJson.scopes?.item as IQuery);
+    });
+
+    it("adds passed filters to base scope", () => {
+      const instance = Catalog.fromJson(cloneObject(catalogJson), context);
+      const f: IFilter[] = [{ predicates: [{ type: "Web Map" }] }];
+      const collection = instance.getCustomCollection("item", f);
+      expect(collection).toBeDefined();
+      expect(collection?.key).toBe("item-custom");
+      const json = collection?.toJson();
+      expect(json?.scope.filters.length).toEqual(2);
+    });
+
+    it("if no base scope just uses passed filters", () => {
+      const jsonCat = cloneObject(catalogJson);
+      delete jsonCat.scopes?.item;
+      const instance = Catalog.fromJson(jsonCat, context);
+      const f: IFilter[] = [{ predicates: [{ type: "Web Map" }] }];
+      const collection = instance.getCustomCollection("item", f);
+      expect(collection).toBeDefined();
+      expect(collection?.key).toBe("item-custom");
+      const json = collection?.toJson();
+      expect(json?.scope.filters.length).toEqual(1);
     });
   });
 

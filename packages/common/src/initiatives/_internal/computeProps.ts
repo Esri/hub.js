@@ -5,6 +5,8 @@ import { processEntityCapabilities } from "../../capabilities";
 import { IModel } from "../../types";
 import { InitiativeDefaultCapabilities } from "./InitiativeBusinessRules";
 import { IHubInitiative } from "../../core";
+import { upgradeCatalogSchema } from "../../search/upgradeCatalogSchema";
+import { IHubCatalog } from "../../search/types/IHubCatalog";
 
 /**
  * Given a model and an Initiative, set various computed properties that can't be directly mapped

@@ -41,6 +41,7 @@ import { getHubRelativeUrl } from "../content/_internal/internalContentUtils";
 import { DEFAULT_INITIATIVE, DEFAULT_INITIATIVE_MODEL } from "./defaults";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
+import { applyInitiativeMigrations } from "./_internal/applyInitiativeMigrations";
 
 /**
  * @private
@@ -172,7 +173,9 @@ export async function convertItemToInitiative(
   item: IItem,
   requestOptions: IRequestOptions
 ): Promise<IHubInitiative> {
-  const model = await fetchModelFromItem(item, requestOptions);
+  let model = await fetchModelFromItem(item, requestOptions);
+  // apply migrations
+  model = await applyInitiativeMigrations(model, requestOptions);
   const mapper = new PropertyMapper<Partial<IHubInitiative>>(getPropertyMap());
   const prj = mapper.modelToObject(model, {}) as IHubInitiative;
   return computeProps(model, prj, requestOptions);

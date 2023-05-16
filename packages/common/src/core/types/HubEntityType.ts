@@ -4,4 +4,5 @@ export type HubEntityType =
   | "initiative"
   | "page"
   | "discussion"
-  | "content";
+  | "content"
+  | "org";

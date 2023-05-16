@@ -33,6 +33,8 @@ import { IHubSearchResult } from "../search/types/IHubSearchResult";
 import { mapBy } from "../utils";
 import { getProp, setProp } from "../objects";
 import { getItemThumbnailUrl } from "../resources/get-item-thumbnail-url";
+import { upgradeCatalogSchema } from "../search/upgradeCatalogSchema";
+import { catalogMigration } from "./_internal/catalogMigration";
 
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
@@ -408,10 +410,14 @@ export function convertModelToSite(
   // Add permissions based on Groups
   // This may get moved to a formal schema migration in the future but for now
   // we can do it here as there is no ux for managing permissions yet.
-  const modelWithPermissions = applyPermissionMigration(model);
+  let migrated = applyPermissionMigration(model);
+
+  // Ensure we have a Catalog structure
+  migrated = catalogMigration(migrated);
+
   // convert to site
   const mapper = new PropertyMapper<Partial<IHubSite>>(getPropertyMap());
-  const site = mapper.modelToObject(modelWithPermissions, {}) as IHubSite;
+  const site = mapper.modelToObject(migrated, {}) as IHubSite;
   // compute additional properties
   return computeProps(model, site, requestOptions);
 }
