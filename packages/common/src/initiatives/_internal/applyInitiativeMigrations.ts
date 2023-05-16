@@ -38,13 +38,8 @@ function addDefaultCatalog(model: IModel): IModel {
     return model;
   } else {
     const clone = cloneObject(model);
-    // ----------------------------------
-    // TODO: Decide if we want to fetch the catalog from the site and use that
-    // or if we just use the contentGroupId
-    // ----------------------------------
     // v0 of initiatives did not have a catalog, so we need to add one
     // based on the content group associated with the initiative
-
     const groupId = getProp(clone, "item.properties.contentGroupId");
     const group = groupId ? [groupId] : [];
 
