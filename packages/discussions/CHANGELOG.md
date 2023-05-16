@@ -1,3 +1,10 @@
+# @esri/hub-discussions [22.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@22.1.3...@esri/hub-discussions@22.2.0) (2023-05-16)
+
+
+### Features
+
+* **hub-discussions:** update canModifyPostStatus to use channelAcl i… ([#1060](https://github.com/Esri/hub.js/issues/1060)) ([b003bb4](https://github.com/Esri/hub.js/commit/b003bb4e8f8d6e3c9d81f9536d2dff8ea438c3ae))
+
 ## @esri/hub-discussions [22.1.3](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@22.1.2...@esri/hub-discussions@22.1.3) (2023-04-27)
 
 
