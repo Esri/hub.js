@@ -33,6 +33,7 @@ import { IHubSearchResult } from "../search/types/IHubSearchResult";
 import { mapBy } from "../utils";
 import { getProp, setProp } from "../objects";
 import { getItemThumbnailUrl } from "../resources/get-item-thumbnail-url";
+import { getDomainsForSite, removeDomainByHostname } from "./domains";
 
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
@@ -276,7 +277,7 @@ export async function createSite(
 
   // Register domain and at the same time register the site as an application
   const domainResponses = await addSiteDomains(model, requestOptions);
-  model.data.values.clientId = domainResponses[0].client_id;
+  model.data.values.clientId = domainResponses[0].clientKey;
 
   // update the model
   const updatedModel = await updateModel(

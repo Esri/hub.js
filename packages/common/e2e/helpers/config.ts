@@ -104,6 +104,24 @@ const config = {
         },
       },
     },
+    devext: {
+      agoBaseDomain: "mapsdevext.arcgis.com",
+      hubBaseDomain: "hubdev.arcgis.com",
+      orgs: {
+        hubPremium: {
+          orgShort: "dev-pre-hub",
+          orgUrl: "https://dev-pre-hub.mapsdevext.arcgis.com",
+          admin: {
+            username: "e2e_pre_pub_admin",
+            password: PWD,
+          },
+          user: {
+            username: "e2e_pre_pub_publisher",
+            password: PWD,
+          },
+        },
+      },
+    },
   },
 };
 
