@@ -1,3 +1,10 @@
+# @esri/hub-common [13.0.0-next.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.0.0-next.1...@esri/hub-common@13.0.0-next.2) (2023-05-16)
+
+
+### Bug Fixes
+
+* use correct prop for clientKey, send correct options, add e2e harness and devext config ([#1056](https://github.com/Esri/hub.js/issues/1056)) ([954b57c](https://github.com/Esri/hub.js/commit/954b57c55ca4d693a93af3c42c188142c8c591c8))
+
 # @esri/hub-common [13.0.0-next.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.33.0...@esri/hub-common@13.0.0-next.1) (2023-05-01)
 
 
