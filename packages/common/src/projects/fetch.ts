@@ -120,9 +120,13 @@ export async function enrichProjectSearchResult(
   // TODO: Link handling should be an enrichment
   result.links.thumbnail = getItemThumbnailUrl(item, requestOptions);
   result.links.self = getItemHomeUrl(result.id, requestOptions);
+  let slugOrId = item.id;
+  if (item.properties?.slug) {
+    slugOrId = item.properties.slug.replace("|", "::");
+  }
   result.links.siteRelative = getHubRelativeUrl(
     result.type,
-    result.id,
+    slugOrId,
     item.typeKeywords
   );
 

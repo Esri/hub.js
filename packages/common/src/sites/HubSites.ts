@@ -46,7 +46,7 @@ const DEFAULT_SITE: Partial<IHubSite> = {
   name: "No title provided",
   tags: [],
   typeKeywords: ["Hub Site", "hubSite", "DELETEMESITE"],
-  classicCapabilities: [
+  legacyCapabilities: [
     "api_explorer",
     "pages",
     "my_data",

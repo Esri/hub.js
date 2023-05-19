@@ -42,7 +42,7 @@ export function getPropertyMap(): IPropertyMap[] {
     modelKey: "item.properties.slug",
   });
   map.push({
-    objectKey: "classicCapabilities",
+    objectKey: "legacyCapabilities",
     modelKey: "data.values.capabilities",
   });
   map.push({
@@ -57,6 +57,11 @@ export function getPropertyMap(): IPropertyMap[] {
     objectKey: "name",
     modelKey: "item.title",
   });
+  map.push({
+    objectKey: "location",
+    modelKey: "item.properties.location",
+  });
+
   // Catalog mappings
   // Since v1.x sites use data.catalog, which is really just `{groiups: []}`
   // we can't overtly migrate data.catalog, but we can map the properties

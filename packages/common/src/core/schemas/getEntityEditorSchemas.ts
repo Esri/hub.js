@@ -12,7 +12,10 @@ import {
   InitiativeEditorTypes,
   InitiativeEditorType,
 } from "../../initiatives/_internal/InitiativeSchema";
-import { SiteEditorType } from "../../sites/_internal/SiteSchema";
+import {
+  SiteEditorType,
+  SiteEditorTypes,
+} from "../../sites/_internal/SiteSchema";
 
 /**
  * defines the possible editor type values - these correspond
@@ -22,6 +25,7 @@ export type EditorType = (typeof validEditorTypes)[number];
 export const validEditorTypes = [
   ...ProjectEditorTypes,
   ...InitiativeEditorTypes,
+  ...SiteEditorTypes,
 ] as const;
 
 /**
