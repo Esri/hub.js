@@ -392,7 +392,7 @@ export class ArcGISContext implements IArcGISContext {
     } else {
       if (this.isAuthenticated) {
         const hubHostname = this._hubUrl.replace("https://", "");
-        return `https://${this._portalSelf.urlKey}-hub.${hubHostname}`;
+        return `https://${this._portalSelf.urlKey}.${hubHostname}`;
       } else {
         return this._hubUrl;
       }

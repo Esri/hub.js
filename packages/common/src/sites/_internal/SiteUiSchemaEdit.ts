@@ -51,23 +51,7 @@ export const uiSchema: IUiSchema = {
             },
           },
         },
-        // {
-        //   labelKey: "{{i18nScope}}.fields.featuredImage.label",
-        //   scope: "/properties/view/properties/featuredImage",
-        //   type: "Control",
-        //   options: {
-        //     control: "hub-field-input-image-picker",
-        //     maxWidth: 727,
-        //     maxHeight: 484,
-        //     aspectRatio: 1.5,
-        //     helperText: {
-        //       labelKey: "{{i18nScope}}.fields.featuredImage.helperText",
-        //     },
-        //     sizeDescription: {
-        //       labelKey: "{{i18nScope}}.fields.featuredImage.sizeDescription",
-        //     },
-        //   },
-        // },
+
         {
           labelKey: "{{i18nScope}}.fields.tags.label",
           scope: "/properties/tags",
@@ -110,76 +94,6 @@ export const uiSchema: IUiSchema = {
           type: "Control",
           options: {
             control: "hub-field-input-location-picker",
-          },
-        },
-      ],
-    },
-    // {
-    //   type: "Section",
-    //   labelKey: "{{i18nScope}}.sections.status.label",
-    //   elements: [
-    //     {
-    //       scope: "/properties/status",
-    //       type: "Control",
-    //       labelKey: "{{i18nScope}}.fields.status.label",
-    //       options: {
-    //         control: "hub-field-input-select",
-    //         enum: {
-    //           i18nScope: "{{i18nScope}}.fields.status.enum",
-    //         },
-    //       },
-    //     },
-    //   ],
-    // },
-    // {
-    //   type: "Section",
-    //   labelKey: "{{i18nScope}}.sections.timeline.label",
-    //   elements: [
-    //     {
-    //       scope: "/properties/view/properties/timeline",
-    //       type: "Control",
-    //       options: {
-    //         control: "arcgis-hub-timeline-editor",
-    //       },
-    //     },
-    //   ],
-    // },
-    {
-      type: "Section",
-      labelKey: "{{i18nScope}}.sections.featuredContent.label",
-      options: {
-        helperText: {
-          labelKey: "{{i18nScope}}.sections.featuredContent.helperText",
-        },
-      },
-      elements: [
-        {
-          scope: "/properties/view/properties/featuredContentIds",
-          type: "Control",
-          options: {
-            control: "hub-field-input-gallery-picker",
-            targetEntity: "item",
-            facets: [
-              {
-                label:
-                  "{{{{i18nScope}}.fields.featuredContent.facets.type:translate}}",
-                key: "type",
-                display: "multi-select",
-                field: "type",
-                options: [],
-                operation: "OR",
-                aggLimit: 100,
-              },
-              {
-                label:
-                  "{{{{i18nScope}}.fields.featuredContent.facets.sharing:translate}}",
-                key: "access",
-                display: "multi-select",
-                field: "access",
-                options: [],
-                operation: "OR",
-              },
-            ],
           },
         },
       ],

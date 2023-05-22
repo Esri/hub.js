@@ -30,35 +30,10 @@ export const SiteSchema: IConfigurationSchema = {
         type: "string",
       },
     },
-    // status: {
-    //   type: "string",
-    //   default: PROJECT_STATUSES.notStarted,
-    //   enum: Object.keys(PROJECT_STATUSES),
-    // },
     location: {
       type: "object",
     },
     tags: ENTITY_TAGS_SCHEMA,
     categories: ENTITY_CATEGORIES_SCHEMA,
-    view: {
-      type: "object",
-      properties: {
-        featuredContentIds: {
-          type: "array",
-          maxItems: 4,
-          items: {
-            type: "string",
-          },
-        },
-        featuredImage: {
-          type: "object",
-        },
-        // TODO: extend this schema definition to provide
-        // appropriate validation for the timeline editor
-        timeline: {
-          type: "object",
-        },
-      },
-    },
   },
 } as unknown as IConfigurationSchema;

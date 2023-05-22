@@ -171,7 +171,7 @@ describe("ArcGISContext:", () => {
 
       expect(mgr.context.sharingApiUrl).toBe(MOCK_AUTH.portal);
       expect(mgr.context.hubUrl).toBe("https://hub.arcgis.com");
-      expect(mgr.context.hubHomeUrl).toBe("https://myorg-hub.hub.arcgis.com");
+      expect(mgr.context.hubHomeUrl).toBe("https://myorg.hub.arcgis.com");
       expect(mgr.context.session).toBe(MOCK_AUTH);
       expect(mgr.context.isAuthenticated).toBe(true);
       // RequestOptions
@@ -193,7 +193,7 @@ describe("ArcGISContext:", () => {
         "https://hub.arcgis.com"
       );
 
-      expect(mgr.context.hubHomeUrl).toBe("https://myorg-hub.hub.arcgis.com");
+      expect(mgr.context.hubHomeUrl).toBe("https://myorg.hub.arcgis.com");
 
       // Hub Urls
       const base = mgr.context.hubUrl;
