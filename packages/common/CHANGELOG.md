@@ -1,3 +1,10 @@
+# @esri/hub-common [12.42.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.41.0...@esri/hub-common@12.42.0) (2023-05-22)
+
+
+### Features
+
+* add Site Edit Schema ([#1065](https://github.com/Esri/hub.js/issues/1065)) ([80b2a4e](https://github.com/Esri/hub.js/commit/80b2a4e66585f05d7da99ce2459d1e845ff65921))
+
 # @esri/hub-common [12.41.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.40.0...@esri/hub-common@12.41.0) (2023-05-16)
 
 
