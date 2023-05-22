@@ -12,6 +12,10 @@ import {
   InitiativeEditorTypes,
   InitiativeEditorType,
 } from "../../initiatives/_internal/InitiativeSchema";
+import {
+  SiteEditorType,
+  SiteEditorTypes,
+} from "../../sites/_internal/SiteSchema";
 
 /**
  * defines the possible editor type values - these correspond
@@ -21,6 +25,7 @@ export type EditorType = (typeof validEditorTypes)[number];
 export const validEditorTypes = [
   ...ProjectEditorTypes,
   ...InitiativeEditorTypes,
+  ...SiteEditorTypes,
 ] as const;
 
 /**
@@ -68,6 +73,14 @@ export const getEntityEditorSchemas = async (
         "hub:initiative:edit": () =>
           import("../../initiatives/_internal/InitiativeUiSchemaEdit"),
       }[type as InitiativeEditorType]());
+      break;
+    case "site":
+      const { SiteSchema } = await import("../../sites/_internal/SiteSchema");
+      schema = cloneObject(SiteSchema);
+
+      ({ uiSchema } = await {
+        "hub:site:edit": () => import("../../sites/_internal/SiteUiSchemaEdit"),
+      }[type as SiteEditorType]());
       break;
   }
 

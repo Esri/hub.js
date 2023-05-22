@@ -70,7 +70,7 @@ const SITE: commonModule.IHubSite = {
   layout: { sections: [{}] },
   theme: {},
   subdomain: "site-org",
-  classicCapabilities: [],
+  legacyCapabilities: [],
   catalog: { schemaVersion: 0 },
   pages: [],
   defaultHostname: "site-org.hub.arcgis.com",

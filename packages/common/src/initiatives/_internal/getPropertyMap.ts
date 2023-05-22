@@ -23,5 +23,10 @@ export function getPropertyMap(): IPropertyMap[] {
   map.push({ objectKey: "timeline", modelKey: "data.timeline" });
   map.push({ objectKey: "metrics", modelKey: "item.properties.metrics" });
 
+  map.push({
+    objectKey: "location",
+    modelKey: "item.properties.location",
+  });
+
   return map;
 }

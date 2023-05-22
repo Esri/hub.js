@@ -66,6 +66,7 @@ export class HubSite
     super(site, context);
     this._catalog = Catalog.fromJson(site.catalog, this.context);
   }
+
   /**
    * Catalog instance for this site. Note: Do not hold direct references to this object; always access it from the site.
    * @returns

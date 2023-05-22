@@ -12,8 +12,6 @@ import {
   updateProject,
   IHubRequestOptions,
   enrichProjectSearchResult,
-  UiSchemaElementOptions,
-  deepFind,
   PROJECT_STATUSES,
   IHubLocation,
 } from "../../src";
@@ -22,7 +20,6 @@ import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as modelUtils from "../../src/models";
 import * as slugUtils from "../../src/items/slugs";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { filterSchemaToUiSchema } from "../../src/core/schemas/internal";
 
 const PROJECT_LOCATION: IHubLocation = {
   type: "custom",
@@ -449,6 +446,12 @@ describe("HubProjects:", () => {
       itm.snippet = "This should be used";
       const chk = await enrichProjectSearchResult(itm, [], hubRo);
       expect(chk.summary).toEqual(itm.snippet);
+    });
+    it("uses slug in site-relative link if defined", async () => {
+      const itm = cloneObject(PROJECT_ITEM_ENRICH);
+      itm.properties = { slug: "myorg|my-slug" };
+      const chk = await enrichProjectSearchResult(itm, [], hubRo);
+      expect(chk.links?.siteRelative).toEqual("/projects/myorg::my-slug");
     });
     it("fetches enrichments", async () => {
       const chk = await enrichProjectSearchResult(

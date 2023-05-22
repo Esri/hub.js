@@ -70,8 +70,10 @@ export interface IHubSite
    * Header CSS
    */
   headerSass: string;
+
   /**
-   * Classic capabilities
+   * Legacy capabilities
+   * @internal
    */
-  classicCapabilities: string[];
+  legacyCapabilities: string[];
 }

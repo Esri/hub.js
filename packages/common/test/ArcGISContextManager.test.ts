@@ -93,6 +93,7 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.portalUrl).toBe("https://www.arcgis.com");
       expect(mgr.context.isPortal).toBe(false);
       expect(mgr.context.hubUrl).toBe("https://hub.arcgis.com");
+      expect(mgr.context.hubHomeUrl).toBe("https://hub.arcgis.com");
       expect(mgr.context.requestOptions).toEqual({
         portal: mgr.context.sharingApiUrl,
       });
@@ -167,8 +168,10 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.portalUrl).toBe(
         MOCK_AUTH.portal.replace(`/sharing/rest`, "")
       );
+
       expect(mgr.context.sharingApiUrl).toBe(MOCK_AUTH.portal);
       expect(mgr.context.hubUrl).toBe("https://hub.arcgis.com");
+      expect(mgr.context.hubHomeUrl).toBe("https://myorg.hub.arcgis.com");
       expect(mgr.context.session).toBe(MOCK_AUTH);
       expect(mgr.context.isAuthenticated).toBe(true);
       // RequestOptions
@@ -189,6 +192,8 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.hubRequestOptions.hubApiUrl).toBe(
         "https://hub.arcgis.com"
       );
+
+      expect(mgr.context.hubHomeUrl).toBe("https://myorg.hub.arcgis.com");
 
       // Hub Urls
       const base = mgr.context.hubUrl;
@@ -316,6 +321,7 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.isPortal).toBe(true);
 
       expect(mgr.context.hubUrl).toBeUndefined();
+      expect(mgr.context.hubHomeUrl).toBeUndefined();
       expect(mgr.context.discussionsServiceUrl).toBeUndefined();
       expect(mgr.context.hubSearchServiceUrl).toBeUndefined();
       expect(mgr.context.domainServiceUrl).toBeUndefined();

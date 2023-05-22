@@ -6,13 +6,13 @@ import {
   ENTITY_TAGS_SCHEMA,
 } from "../../core/schemas/shared";
 
-export type InitiativeEditorType = (typeof InitiativeEditorTypes)[number];
-export const InitiativeEditorTypes = ["hub:initiative:edit"] as const;
+export type SiteEditorType = (typeof SiteEditorTypes)[number];
+export const SiteEditorTypes = ["hub:site:edit"] as const;
 
 /**
- * defines the JSON schema for a Hub Initiative's editable fields
+ * defines the JSON schema for a Hub Site's editable fields
  */
-export const InitiativeSchema: IConfigurationSchema = {
+export const SiteSchema: IConfigurationSchema = {
   required: ["name"],
   type: "object",
   properties: {
@@ -30,7 +30,6 @@ export const InitiativeSchema: IConfigurationSchema = {
         type: "string",
       },
     },
-
     location: {
       type: "object",
     },

@@ -89,6 +89,11 @@ export interface IArcGISContext {
    */
   hubUrl: string;
   /**
+   * Returns the current user's hub-home url. If not authenticated,
+   * returns the Hub Url. If portal, returns undefined
+   */
+  hubHomeUrl: string;
+  /**
    * Returns boolean indicating if the backing system
    * is ArcGIS Enterprise (formerly ArcGIS Portal) or not
    */
@@ -241,6 +246,8 @@ export class ArcGISContext implements IArcGISContext {
 
   private _hubUrl: string;
 
+  private _hubHomeUrl: string;
+
   private _portalSelf: IPortal;
 
   private _currentUser: IUser;
@@ -372,6 +379,23 @@ export class ArcGISContext implements IArcGISContext {
       }
     } else {
       return this._portalUrl;
+    }
+  }
+
+  /**
+   * Returns the current user's hub-home url. If not authenticated,
+   * returns the Hub Url. If portal, returns undefined
+   */
+  public get hubHomeUrl(): string {
+    if (this.isPortal) {
+      return undefined;
+    } else {
+      if (this.isAuthenticated) {
+        const hubHostname = this._hubUrl.replace("https://", "");
+        return `https://${this._portalSelf.urlKey}.${hubHostname}`;
+      } else {
+        return this._hubUrl;
+      }
     }
   }
 

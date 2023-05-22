@@ -1,23 +1,26 @@
 import { getEntityEditorSchemas } from "../../../src/core/schemas/getEntityEditorSchemas";
 import { ProjectEditorTypes } from "../../../src/projects/_internal/ProjectSchema";
 import { InitiativeEditorTypes } from "../../../src/initiatives/_internal/InitiativeSchema";
+import { SiteEditorTypes } from "../../../src/sites/_internal/SiteSchema";
 import * as applyOptionsModule from "../../../src/core/schemas/internal/applyUiSchemaElementOptions";
 import * as filterSchemaModule from "../../../src/core/schemas/internal/filterSchemaToUiSchema";
 import * as itemsModule from "../../../src/items";
 
 describe("getEntityEditorSchemas", () => {
   it("returns a schema & uiSchema for a given entity and editor type", () => {
-    [...ProjectEditorTypes, ...InitiativeEditorTypes].forEach(
-      async (type, idx) => {
-        const { schema, uiSchema } = await getEntityEditorSchemas(
-          "some.scope",
-          type
-        );
+    [
+      ...ProjectEditorTypes,
+      ...InitiativeEditorTypes,
+      ...SiteEditorTypes,
+    ].forEach(async (type, idx) => {
+      const { schema, uiSchema } = await getEntityEditorSchemas(
+        "some.scope",
+        type
+      );
 
-        expect(schema).toBeDefined();
-        expect(uiSchema).toBeDefined();
-      }
-    );
+      expect(schema).toBeDefined();
+      expect(uiSchema).toBeDefined();
+    });
   });
   it("filters, and applies dynamic options to the schemas before returning", async () => {
     const filterSchemaToUiSchemaSpy = spyOn(

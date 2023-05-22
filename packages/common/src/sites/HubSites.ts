@@ -46,7 +46,7 @@ const DEFAULT_SITE: Partial<IHubSite> = {
   name: "No title provided",
   tags: [],
   typeKeywords: ["Hub Site", "hubSite", "DELETEMESITE"],
-  classicCapabilities: [
+  legacyCapabilities: [
     "api_explorer",
     "pages",
     "my_data",
@@ -301,38 +301,28 @@ export async function updateSite(
   site: IHubSite,
   requestOptions: IHubRequestOptions
 ): Promise<IHubSite> {
-  // Most of this work is done with an IModel, so first thing it to
   // convert IHubSite to model
-  const mapper = new PropertyMapper<IHubSite>(getPropertyMap());
-  // applying the site onto the default model ensures that a minimum
-  // set of properties exist, regardless what may have been done to
-  // the site pojo
-  const updatedModel = mapper.objectToModel(
-    site,
-    cloneObject(DEFAULT_SITE_MODEL)
-  );
+  const siteModel = convertSiteToModel(site, requestOptions);
   // Fetch backing model from the portal
   const currentModel = await getModel(site.id, requestOptions);
   // handle any domain changes
-  await handleDomainChanges(updatedModel, currentModel, requestOptions);
+  await handleDomainChanges(siteModel, currentModel, requestOptions);
 
-  if (updatedModel.item.properties.slug !== currentModel.item.properties.slug) {
+  if (siteModel.item.properties.slug !== currentModel.item.properties.slug) {
     // ensure slug to keywords
-    updatedModel.item.typeKeywords = setSlugKeyword(
-      updatedModel.item.typeKeywords,
-      updatedModel.item.properties.slug
+    siteModel.item.typeKeywords = setSlugKeyword(
+      siteModel.item.typeKeywords,
+      siteModel.item.properties.slug
     );
   }
 
-  // merge the updated site onto the current model
-  const modelToStore = mapper.objectToModel(site, currentModel);
-  // update the model
+  // send updates to the Portal API and get back the updated site model
   const updatedSiteModel = await updateModel(
-    modelToStore,
+    siteModel,
     requestOptions as unknown as IUserItemOptions
   );
-  // fetch updated model
-  const updatedSite = mapper.modelToObject(updatedSiteModel, site);
+  // convert that back into a IHubSite and return it
+  const updatedSite = convertModelToSite(updatedSiteModel, requestOptions);
   return updatedSite;
 }
 
@@ -398,6 +388,7 @@ export async function fetchSite(
 }
 
 /**
+ * @internal
  * Convert an IModel for a Hub Site Item into an IHubSite
  * @param model
  * @param requestOptions
@@ -420,6 +411,25 @@ export function convertModelToSite(
   const site = mapper.modelToObject(migrated, {}) as IHubSite;
   // compute additional properties
   return computeProps(model, site, requestOptions);
+}
+
+/**
+ * @internal
+ * Convert an IHubSite into an IModel
+ * @param site
+ * @param requestOptions
+ * @returns
+ */
+export function convertSiteToModel(
+  site: IHubSite,
+  requestOptions: IRequestOptions
+): IModel {
+  // create the mapper
+  const mapper = new PropertyMapper<IHubSite>(getPropertyMap());
+  // applying the site onto the default model ensures that a minimum
+  // set of properties exist, regardless what may have been done to
+  // the IHubSite pojo
+  return mapper.objectToModel(site, cloneObject(DEFAULT_SITE_MODEL));
 }
 
 /**
