@@ -1,3 +1,10 @@
+# @esri/hub-common [12.43.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.42.0...@esri/hub-common@12.43.0) (2023-05-23)
+
+
+### Features
+
+* project featured image alt text ([#1067](https://github.com/Esri/hub.js/issues/1067)) ([7405550](https://github.com/Esri/hub.js/commit/7405550b77c8d3f855daba35d31e077a51678db0))
+
 # @esri/hub-common [12.42.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.41.0...@esri/hub-common@12.42.0) (2023-05-22)
 
 
