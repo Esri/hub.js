@@ -18,6 +18,10 @@ export interface IWithViewSettings {
    */
   featuredImageUrl?: string;
   /**
+   * alt text of an entity's featured image
+   */
+  featuredImageAltText?: string;
+  /**
    * whether the entity should render it's location on a map
    */
   showMap?: boolean;

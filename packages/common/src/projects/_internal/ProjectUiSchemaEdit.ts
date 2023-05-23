@@ -69,6 +69,16 @@ export const uiSchema: IUiSchema = {
           },
         },
         {
+          labelKey: "{{i18nScope}}.fields.featuredImageAltText.label",
+          scope: "/properties/view/properties/featuredImageAltText",
+          type: "Control",
+          options: {
+            helperText: {
+              labelKey: "{{i18nScope}}.fields.featuredImageAltText.helperText",
+            },
+          },
+        },
+        {
           labelKey: "{{i18nScope}}.fields.tags.label",
           scope: "/properties/tags",
           type: "Control",

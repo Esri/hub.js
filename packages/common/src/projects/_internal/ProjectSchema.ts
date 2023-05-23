@@ -56,6 +56,9 @@ export const ProjectSchema: IConfigurationSchema = {
         featuredImage: {
           type: "object",
         },
+        featuredImageAltText: {
+          type: "string",
+        },
         // TODO: extend this schema definition to provide
         // appropriate validation for the timeline editor
         timeline: {
