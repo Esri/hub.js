@@ -69,12 +69,12 @@ export const uiSchema: IUiSchema = {
           },
         },
         {
-          labelKey: "{{i18nScope}}.fields.featuredImageAltText.label",
+          labelKey: "{{i18nScope}}.fields.featuredImage.altText.label",
           scope: "/properties/view/properties/featuredImageAltText",
           type: "Control",
           options: {
             helperText: {
-              labelKey: "{{i18nScope}}.fields.featuredImageAltText.helperText",
+              labelKey: "{{i18nScope}}.fields.featuredImage.altText.helperText",
             },
           },
         },
