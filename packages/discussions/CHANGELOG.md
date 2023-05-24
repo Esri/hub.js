@@ -1,3 +1,15 @@
+# @esri/hub-discussions [23.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@22.2.0...@esri/hub-discussions@23.0.0) (2023-05-24)
+
+
+### Features
+
+* **hub-discussions:** updated IPost and IPostOptions to support anonymous ([#1066](https://github.com/Esri/hub.js/issues/1066)) ([ca61c57](https://github.com/Esri/hub.js/commit/ca61c573639e2d1b74ad08f1af440cb2b0b36c52))
+
+
+### BREAKING CHANGES
+
+* **hub-discussions:** Makes editor and creator optional on IPost interface
+
 # @esri/hub-discussions [22.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@22.1.3...@esri/hub-discussions@22.2.0) (2023-05-16)
 
 
