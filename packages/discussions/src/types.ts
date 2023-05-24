@@ -441,7 +441,10 @@ export enum PostType {
  * @extends {IWithEditor}
  * @extends {IWithTimestamps}
  */
-export interface IPost extends IWithAuthor, IWithEditor, IWithTimestamps {
+export interface IPost
+  extends Partial<IWithAuthor>,
+    Partial<IWithEditor>,
+    IWithTimestamps {
   id: string;
   title: string | null;
   body: string;
@@ -473,6 +476,7 @@ export interface IPostOptions {
   geometry?: Geometry;
   featureGeometry?: Geometry;
   appInfo?: string;
+  asAnonymous?: boolean;
 }
 
 /**
