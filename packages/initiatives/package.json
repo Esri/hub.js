@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-initiatives",
-  "version": "12.4.1",
+  "version": "13.0.0",
   "description": "Module to interact with ArcGIS Hub Initiatives in Node.js and modern browsers.",
   "main": "dist/node/index.js",
   "module": "dist/esm/index.js",

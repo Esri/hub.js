@@ -1,3 +1,21 @@
+# @esri/hub-initiatives [13.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-initiatives@12.4.1...@esri/hub-initiatives@13.0.0) (2023-05-26)
+
+
+### Features
+
+* remove calls to register or update app ([#1069](https://github.com/Esri/hub.js/issues/1069)) ([1aa361f](https://github.com/Esri/hub.js/commit/1aa361ff75d1bb5017871de2470d3381bfe27c5d))
+
+
+### BREAKING CHANGES
+
+* Client code no longer makes calls to
+register site as application or to update application redirect
+uris. This is all expected to be handled server-side by the Hub Domain
+service.
+* remove deprecated destroySite()
+
+* fix: update peerDeps'
+
 ## @esri/hub-initiatives [12.4.1](https://github.com/Esri/hub.js/compare/@esri/hub-initiatives@12.4.0...@esri/hub-initiatives@12.4.1) (2023-02-08)
 
 
