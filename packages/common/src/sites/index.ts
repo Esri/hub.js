@@ -7,7 +7,9 @@ export * from "./fetchSiteModel";
 export * from "./get-site-by-id";
 export * from "./HubSite";
 export * from "./HubSites";
-export * from "./registerSiteAsApplication";
 export * from "./site-schema-version";
 export * from "./themes";
 export * from "./upgrade-site-schema";
+// No longer exported b/c site app registration is now handled
+// by the domain service due to requirement to send signed HMAC request
+// export * from "./registerSiteAsApplication";

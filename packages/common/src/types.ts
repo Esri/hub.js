@@ -299,7 +299,7 @@ export interface IUpdatePageOptions extends IHubUserRequestOptions {
 }
 
 export interface IDomainEntry {
-  clientKey: string;
+  clientKey?: string;
   createdAt?: string;
   hostname: string;
   id: string;

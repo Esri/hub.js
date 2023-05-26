@@ -232,7 +232,7 @@ describe("HubSites:", () => {
     });
   });
 
-  describe("destroySite:", () => {
+  describe("deleteSite:", () => {
     it("removes item and domains in AGO", async () => {
       const removeSpy = spyOn(portalModule, "removeItem").and.returnValue(
         Promise.resolve({ success: true })
@@ -243,7 +243,7 @@ describe("HubSites:", () => {
         "removeDomainsBySiteId"
       ).and.returnValue(Promise.resolve());
 
-      const result = await commonModule.destroySite("3ef", {
+      const result = await commonModule.deleteSite("3ef", {
         authentication: MOCK_AUTH,
       });
       expect(result).toBeUndefined();
@@ -258,7 +258,7 @@ describe("HubSites:", () => {
         Promise.resolve({ success: true })
       );
 
-      const result = await commonModule.destroySite(
+      const result = await commonModule.deleteSite(
         "3ef",
         MOCK_ENTERPRISE_REQOPTS
       );
@@ -324,7 +324,7 @@ describe("HubSites:", () => {
     let uniqueDomainSpy: jasmine.Spy;
     let createModelSpy: jasmine.Spy;
     let updateModelSpy: jasmine.Spy;
-    let registerAppSpy: jasmine.Spy;
+
     let addDomainsSpy: jasmine.Spy;
     beforeEach(() => {
       uniqueDomainSpy = spyOn(
@@ -348,15 +348,11 @@ describe("HubSites:", () => {
         const newModel = commonModule.cloneObject(m);
         return Promise.resolve(newModel);
       });
-      registerAppSpy = spyOn(
-        require("../../src/sites/registerSiteAsApplication"),
-        "registerSiteAsApplication"
-      ).and.returnValue(Promise.resolve({ client_id: "FAKE_CLIENT_ID" }));
 
       addDomainsSpy = spyOn(
         require("../../src/sites/domains/addSiteDomains"),
         "addSiteDomains"
-      ).and.returnValue(Promise.resolve());
+      ).and.returnValue(Promise.resolve([{ clientKey: "FAKE_CLIENT_KEY" }]));
     });
     it("works with a sparse IHubSite", async () => {
       const sparseSite: Partial<commonModule.IHubSite> = {
@@ -369,7 +365,7 @@ describe("HubSites:", () => {
       expect(uniqueDomainSpy.calls.count()).toBe(1);
       expect(createModelSpy.calls.count()).toBe(1);
       expect(updateModelSpy.calls.count()).toBe(1);
-      expect(registerAppSpy.calls.count()).toBe(1);
+
       expect(addDomainsSpy.calls.count()).toBe(1);
 
       const modelToCreate = createModelSpy.calls.argsFor(0)[0];
@@ -425,7 +421,7 @@ describe("HubSites:", () => {
       expect(uniqueDomainSpy.calls.count()).toBe(1);
       expect(createModelSpy.calls.count()).toBe(1);
       expect(updateModelSpy.calls.count()).toBe(1);
-      expect(registerAppSpy.calls.count()).toBe(1);
+
       expect(addDomainsSpy.calls.count()).toBe(1);
 
       expect(chk.name).toBe("Special Site");
@@ -449,7 +445,7 @@ describe("HubSites:", () => {
       expect(uniqueDomainSpy.calls.count()).toBe(1);
       expect(createModelSpy.calls.count()).toBe(1);
       expect(updateModelSpy.calls.count()).toBe(1);
-      expect(registerAppSpy.calls.count()).toBe(1);
+
       expect(addDomainsSpy.calls.count()).toBe(1);
 
       const modelToCreate = createModelSpy.calls.argsFor(0)[0];
