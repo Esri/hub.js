@@ -24,16 +24,10 @@ describe("updateSiteApplicationUris", () => {
     },
   } as unknown as IHubRequestOptions;
 
-  let updateRedirectSpy: jasmine.Spy;
   let removeSpy: jasmine.Spy;
   let addSpy: jasmine.Spy;
   let getDomainsSpy: jasmine.Spy;
   beforeEach(() => {
-    updateRedirectSpy = spyOn(
-      updateRedirectModule,
-      "updateAppRedirectUris"
-    ).and.returnValue(Promise.resolve());
-
     getDomainsSpy = spyOn(commonModule, "getDomainsForSite").and.returnValue(
       Promise.resolve([
         { id: "foo-id", hostname: "foo", sslOnly: false },
@@ -55,7 +49,6 @@ describe("updateSiteApplicationUris", () => {
 
     await updateSiteApplicationUris(site, uris, ro);
 
-    expect(updateRedirectSpy).toHaveBeenCalled();
     expect(getDomainsSpy).toHaveBeenCalled();
 
     expect(removeSpy.calls.count()).toBe(1, "one domain removed");
@@ -71,13 +64,13 @@ describe("updateSiteApplicationUris", () => {
     );
     expect(addSpy.calls.argsFor(0)[0]).toEqual(
       {
-        orgKey: ro.portalSelf.urlKey,
-        orgId: ro.portalSelf.id,
-        orgTitle: ro.portalSelf.name,
+        orgKey: ro.portalSelf?.urlKey,
+        orgId: ro.portalSelf?.id,
+        orgTitle: ro.portalSelf?.name,
         hostname: "bar",
         siteId: site.item.id,
         siteTitle: site.item.title,
-        clientKey: site.data.values.clientId,
+        clientKey: site.data?.values.clientId,
         sslOnly: false,
       },
       "correct parameters for addDomain"
@@ -103,7 +96,6 @@ describe("updateSiteApplicationUris", () => {
       isPortal: true,
     } as IHubRequestOptions);
 
-    expect(updateRedirectSpy).not.toHaveBeenCalled();
     expect(getDomainsSpy).not.toHaveBeenCalled();
     expect(removeSpy).not.toHaveBeenCalled();
     expect(addSpy).not.toHaveBeenCalled();

@@ -1,4 +1,4 @@
-import { registerBrowserApp } from "../../src";
+import { registerBrowserApp } from "../../src/items/registerBrowserApp";
 import * as requestModule from "@esri/arcgis-rest-request";
 
 describe("registerBrowserApp", () => {

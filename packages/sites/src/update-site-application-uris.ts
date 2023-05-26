@@ -23,21 +23,11 @@ export function updateSiteApplicationUris(
   hubRequestOptions: IHubRequestOptions
 ) {
   if (hubRequestOptions.isPortal) return Promise.resolve({});
-  // get http and https versions of all uris
-  const redirectUris = uris.reduce((acc, uri) => {
-    return acc.concat(_getHttpAndHttpsUris(uri));
-  }, []);
-  // update the redirect uris for the application
-  return updateAppRedirectUris(
-    site.data.values.clientId,
-    redirectUris,
-    hubRequestOptions
-  )
-    .then(() => {
-      // now we update the domains, removing any that are no longer used
-      return getDomainsForSite(site.item.id, hubRequestOptions);
-    })
-    .then((domainInfos: IDomainEntry[]) => {
+
+  // Domain service handles updating the app redirect uris for sites
+  // First, get the domain records associated with the site
+  return getDomainsForSite(site.item.id, hubRequestOptions).then(
+    (domainInfos: IDomainEntry[]) => {
       // get all domains that are no longer associated with the site
       const domainsToRemove = domainInfos.filter(
         (domain) => !includes(uris, domain.hostname)
@@ -69,5 +59,6 @@ export function updateSiteApplicationUris(
         )
       );
       return Promise.all(domainPromises);
-    });
+    }
+  );
 }
