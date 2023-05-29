@@ -29,7 +29,7 @@ export function canModifyPost(
 }
 
 function isPostCreator(post: IPost, user: IDiscussionsUser) {
-  return post.creator === user.username;
+  return user.username && post.creator === user.username;
 }
 
 function isAuthorizedToModifyByLegacyPermissions(
@@ -37,16 +37,20 @@ function isAuthorizedToModifyByLegacyPermissions(
   channelParams: ILegacyChannelPermissions
 ) {
   const { groups: userGroups, orgId: userOrgId } = user;
-  const { access, groups: channelGroups, orgs } = channelParams;
+  const { access, groups: channelGroups = [], orgs = [] } = channelParams;
 
   if (access === SharingAccess.PUBLIC) {
     return true;
   }
 
   if (access === SharingAccess.ORG) {
-    return orgs.includes(userOrgId);
+    return (
+      isAuthorizedToModifyPostByLegacyGroup(channelGroups, userGroups) ||
+      orgs.includes(userOrgId)
+    );
   }
 
+  // private
   return isAuthorizedToModifyPostByLegacyGroup(channelGroups, userGroups);
 }
 

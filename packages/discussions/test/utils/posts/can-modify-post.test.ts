@@ -18,6 +18,15 @@ describe("canModifyPost", () => {
     expect(result).toBe(false);
   });
 
+  it("returns false if the user is not logged in", () => {
+    const post = { id: "postId" } as IPost; // asAnonymous post
+    const user = {} as IDiscussionsUser;
+    const channel = { access: SharingAccess.PUBLIC } as IChannel;
+
+    const result = canModifyPost(post, user, channel);
+    expect(result).toBe(false);
+  });
+
   describe("Legacy Permissions", () => {
     describe("public channel", () => {
       it("returns true if user is creator", () => {
@@ -93,7 +102,69 @@ describe("canModifyPost", () => {
     });
 
     describe("org channel", () => {
-      it("returns true if user is creator and is a member of one of the channel orgs", () => {
+      it("returns true if user is creator and is a member of one of the channel groups", () => {
+        const post = { id: "postId", creator: "john" } as IPost;
+        const user = {
+          username: "john",
+          groups: [{ id: "bbb" }],
+        } as IDiscussionsUser;
+        const channel = {
+          access: SharingAccess.ORG,
+          groups: ["bbb"],
+          orgs: ["zzz"], // not user's org
+        } as IChannel;
+
+        const result = canModifyPost(post, user, channel);
+        expect(result).toBe(true);
+      });
+
+      it("returns false if user is creator, is a member of one of the channel groups, but group is non-discussable", () => {
+        const post = { id: "postId", creator: "john" } as IPost;
+        const user = {
+          username: "john",
+          groups: [
+            { id: "bbb", typeKeywords: [CANNOT_DISCUSS] },
+          ] as any as IGroup[],
+          orgs: ["zzz"], // not user's org
+        } as IDiscussionsUser;
+        const channel = {
+          access: SharingAccess.ORG,
+          groups: ["bbb"],
+        } as IChannel;
+
+        const result = canModifyPost(post, user, channel);
+        expect(result).toBe(false);
+      });
+
+      it("returns false if user is creator, is not a member of one of the channel groups, and not in channel orgs", () => {
+        const post = { id: "postId", creator: "john" } as IPost;
+        const user = {
+          username: "john",
+          groups: [{ id: "bbb" }],
+        } as IDiscussionsUser;
+        const channel = {
+          access: SharingAccess.ORG,
+          groups: ["zzz"], // user's group not included
+        } as IChannel;
+
+        const result = canModifyPost(post, user, channel);
+        expect(result).toBe(false);
+      });
+
+      it("returns false if user is creator, channel and user groups are empty, and user not in channel orgs", () => {
+        const post = { id: "postId", creator: "john" } as IPost;
+        const user = {
+          username: "john",
+        } as IDiscussionsUser;
+        const channel = {
+          access: SharingAccess.ORG,
+        } as IChannel;
+
+        const result = canModifyPost(post, user, channel);
+        expect(result).toBe(false);
+      });
+
+      it("returns true if user is creator and is a member of one of the channel orgs (no channel groups)", () => {
         const post = { id: "postId", creator: "john" } as IPost;
         const user = {
           username: "john",
@@ -108,7 +179,7 @@ describe("canModifyPost", () => {
         expect(result).toBe(true);
       });
 
-      it("returns false if user is creator and is not a member of one of the channel orgs", () => {
+      it("returns false if user is creator and is not a member of one of the channel orgs (no channel groups)", () => {
         const post = { id: "postId", creator: "john" } as IPost;
         const user = {
           username: "john",
@@ -116,8 +187,8 @@ describe("canModifyPost", () => {
         } as IDiscussionsUser;
         const channel = {
           access: SharingAccess.ORG,
-          orgs: ["zzz"],
-        } as IChannel; // user's org not included
+          orgs: ["zzz"], // user's org not included
+        } as IChannel;
 
         const result = canModifyPost(post, user, channel);
         expect(result).toBe(false);
