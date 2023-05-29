@@ -10,8 +10,8 @@ function intersectGroups(
   membershipTypes: GroupMembership[]
 ): (arg0: IUser, arg1: IChannel) => boolean {
   return (user: IUser, channel: IChannel): boolean => {
-    const { groups: sharedGroups } = channel;
-    const { groups: userGroups } = user;
+    const { groups: sharedGroups = [] } = channel;
+    const { groups: userGroups = [] } = user;
     const eligibleUserGroups = userGroups.reduce(
       reduceByGroupMembership(membershipTypes),
       []
@@ -45,8 +45,12 @@ export function canReadFromChannel(channel: IChannel, user: IUser): boolean {
     // ensure user is member of at least one group
     return intersectGroups(["member", "owner", "admin"])(user, channel);
   } else if (channel.access === "org") {
-    return isChannelOrgMember(channel, user);
+    return (
+      intersectGroups(["member", "owner", "admin"])(user, channel) ||
+      isChannelOrgMember(channel, user)
+    );
   }
+  // public channel
   return true;
 }
 
