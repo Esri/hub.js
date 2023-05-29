@@ -44,12 +44,15 @@ export function canReadFromChannel(channel: IChannel, user: IUser): boolean {
   if (channel.access === "private") {
     // ensure user is member of at least one group
     return intersectGroups(["member", "owner", "admin"])(user, channel);
-  } else if (channel.access === "org") {
+  }
+
+  if (channel.access === "org") {
     return (
       intersectGroups(["member", "owner", "admin"])(user, channel) ||
       isChannelOrgMember(channel, user)
     );
   }
+
   // public channel
   return true;
 }
@@ -71,8 +74,12 @@ export function canModifyChannel(channel: IChannel, user: IUser): boolean {
     // ensure user is owner/admin of at least one group
     return intersectGroups(["owner", "admin"])(user, channel);
   }
-  // if org or public channel, must be org admin
-  return isChannelOrgAdmin(channel, user);
+
+  // org or public channel
+  return (
+    intersectGroups(["owner", "admin"])(user, channel) ||
+    isChannelOrgAdmin(channel, user)
+  );
 }
 
 /**

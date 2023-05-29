@@ -146,7 +146,7 @@ describe("Util: isChannelInclusive", () => {
   });
 });
 
-fdescribe("Util: Channel Access", () => {
+describe("Util: Channel Access", () => {
   let user = fakeUser();
   let user3 = fakeUser();
 
@@ -164,7 +164,7 @@ fdescribe("Util: Channel Access", () => {
 
     // org3 member, member in groupId1, admin in groupId2, owner in groupId3
     user3 = fakeUser({
-      username: "janedoe",
+      username: "mrBurrito",
       orgId: orgId3,
       groups: [
         fakeGroup(groupId1, "member"),
@@ -264,70 +264,187 @@ fdescribe("Util: Channel Access", () => {
   });
 
   describe("canModifyChannel", () => {
-    it("returns true for channel owner but not an admin/owner of groups included within private channel access", () => {
-      const channel = fakeChannel({
-        access: SharingAccess.PRIVATE,
-        orgs: [orgId1],
-        groups: [groupId1],
-        creator: "jdoe2",
+    describe("Private channel", () => {
+      it("returns true for user that is channel owner but not an admin/owner of channel groups", () => {
+        const channelOwner = fakeUser({
+          username: "user-channelCreator",
+          orgId: orgId2,
+          groups: [fakeGroup(groupId1, "member")],
+        });
+        const channel = fakeChannel({
+          access: SharingAccess.PRIVATE,
+          orgs: [orgId1],
+          groups: [groupId1], // member here
+          creator: "user-channelCreator",
+        });
+        expect(canModifyChannel(channel, channelOwner)).toBeTruthy();
+      });
+      it("returns true for user that is admin of channel group", () => {
+        const channel = fakeChannel({
+          access: SharingAccess.PRIVATE,
+          orgs: [orgId1],
+          groups: [groupId2], // admin here
+        });
+        expect(canModifyChannel(channel, user)).toBeTruthy();
+      });
+      it("returns true for user that is owner of channel group", () => {
+        const channel = fakeChannel({
+          access: SharingAccess.PRIVATE,
+          orgs: [orgId1],
+          groups: [groupId3], // owner here
+        });
+        expect(canModifyChannel(channel, user)).toBeTruthy();
+      });
+      it("returns false for user that is member of channel group", () => {
+        const channel = fakeChannel({
+          access: SharingAccess.PRIVATE,
+          orgs: [orgId1],
+          groups: [groupId1], // member here
+        });
+        expect(canModifyChannel(channel, user)).toBeFalsy();
+      });
+    });
+
+    describe("Org channel", () => {
+      it("returns true for user that is channel owner but not an admin/owner of channel groups and not channel org_admin", () => {
+        // not org_admin
+        const channelOwner = fakeUser({
+          username: "user-channelCreator",
+          orgId: orgId2,
+          groups: [fakeGroup(groupId1, "member")],
+        });
+        const channel = fakeChannel({
+          access: SharingAccess.ORG,
+          orgs: [orgId1],
+          groups: [groupId1], // member here
+          creator: "user-channelCreator",
+        });
+        expect(canModifyChannel(channel, channelOwner)).toBeTruthy();
       });
 
-      const channelOwner = fakeUser({
-        username: "jdoe2",
-        orgId: orgId2,
-        groups: [fakeGroup(groupId1, "member")],
+      it("returns true for user that is admin of channel group and not channel org_admin", () => {
+        const channel = fakeChannel({
+          access: SharingAccess.ORG,
+          orgs: [orgId1],
+          groups: [groupId2], // admin here
+        });
+        expect(canModifyChannel(channel, user)).toBeTruthy();
+      });
+      it("returns true for user that is owner of channel group and not channel org_admin", () => {
+        const channel = fakeChannel({
+          access: SharingAccess.ORG,
+          orgs: [orgId1],
+          groups: [groupId3], // owner here
+        });
+        expect(canModifyChannel(channel, user)).toBeTruthy();
+      });
+      it("returns false for user that is member of channel group and not channel org_admin", () => {
+        const channel = fakeChannel({
+          access: SharingAccess.ORG,
+          orgs: [orgId1],
+          groups: [groupId1], // member here
+        });
+        expect(canModifyChannel(channel, user)).toBeFalsy();
+      });
+      it("returns true for user that is channel org_admin", () => {
+        user.role = "org_admin";
+        const channel = fakeChannel({
+          access: SharingAccess.ORG,
+          orgs: [orgId1],
+          groups: [],
+        });
+        expect(canModifyChannel(channel, user)).toBeTruthy();
+      });
+      it("returns false for user with channel org_admin role but has a roleId", () => {
+        user.role = "org_admin";
+        user.roleId = "aaa";
+        const channel = fakeChannel({
+          access: SharingAccess.ORG,
+          orgs: [orgId1],
+          groups: [],
+        });
+        expect(canModifyChannel(channel, user)).toBeFalsy();
+      });
+      it("returns false for user not owner/admin in chanel groups, is org_admin, but not in channel orgs", () => {
+        user.role = "org_admin";
+        const channel = fakeChannel({
+          access: SharingAccess.ORG,
+          orgs: [orgId2], // user not in orgId2
+          groups: [],
+        });
+        expect(canModifyChannel(channel, user)).toBeFalsy();
+      });
+    });
+
+    describe("Public channel", () => {
+      it("returns true for user that is channel owner but not an admin/owner of channel groups and not channel org_admin", () => {
+        // not org_admin
+        const channelOwner = fakeUser({
+          username: "user-channelCreator",
+          orgId: orgId2,
+          groups: [fakeGroup(groupId1, "member")],
+        });
+        const channel = fakeChannel({
+          access: SharingAccess.PUBLIC,
+          orgs: [orgId1],
+          groups: [groupId1], // member here
+          creator: "user-channelCreator",
+        });
+        expect(canModifyChannel(channel, channelOwner)).toBeTruthy();
       });
 
-      expect(canModifyChannel(channel, channelOwner)).toBeTruthy();
-    });
-    it("returns true for group admins included within private channel access", () => {
-      const channel = fakeChannel({
-        access: SharingAccess.PRIVATE,
-        orgs: [orgId1],
-        groups: [groupId2],
+      it("returns true for user that is admin of channel group and not channel org_admin", () => {
+        const channel = fakeChannel({
+          access: SharingAccess.PUBLIC,
+          orgs: [orgId1],
+          groups: [groupId2], // admin here
+        });
+        expect(canModifyChannel(channel, user)).toBeTruthy();
       });
-      expect(canModifyChannel(channel, user)).toBeTruthy();
-    });
-    it("returns false for group members included within private channel access", () => {
-      const channel = fakeChannel({
-        access: SharingAccess.PRIVATE,
-        orgs: [orgId1],
-        groups: [groupId1],
+      it("returns true for user that is owner of channel group and not channel org_admin", () => {
+        const channel = fakeChannel({
+          access: SharingAccess.PUBLIC,
+          orgs: [orgId1],
+          groups: [groupId3], // owner here
+        });
+        expect(canModifyChannel(channel, user)).toBeTruthy();
       });
-      expect(canModifyChannel(channel, user)).toBeFalsy();
-    });
-    it("returns true for org admins included within org channel access", () => {
-      const channel = fakeChannel({
-        access: SharingAccess.ORG,
-        orgs: [orgId1],
+      it("returns false for user that is member of channel group and not channel org_admin", () => {
+        const channel = fakeChannel({
+          access: SharingAccess.PUBLIC,
+          orgs: [orgId1],
+          groups: [groupId1], // member here
+        });
+        expect(canModifyChannel(channel, user)).toBeFalsy();
       });
-      user.role = "org_admin";
-      expect(canModifyChannel(channel, user)).toBeTruthy();
-    });
-    it("returns true for org admins included within public channel access", () => {
-      const channel = fakeChannel({
-        access: SharingAccess.PUBLIC,
-        orgs: [orgId1],
+      it("returns true for user that is channel org_admin", () => {
+        user.role = "org_admin";
+        const channel = fakeChannel({
+          access: SharingAccess.PUBLIC,
+          orgs: [orgId1],
+          groups: [],
+        });
+        expect(canModifyChannel(channel, user)).toBeTruthy();
       });
-      user.role = "org_admin";
-      expect(canModifyChannel(channel, user)).toBeTruthy();
-    });
-    it("returns false for non-admin org members included within org channel access", () => {
-      const channel = fakeChannel({
-        access: SharingAccess.ORG,
-        orgs: [orgId1],
+      it("returns false for user with channel org_admin role but has a roleId", () => {
+        user.role = "org_admin";
+        user.roleId = "aaa";
+        const channel = fakeChannel({
+          access: SharingAccess.PUBLIC,
+          orgs: [orgId1],
+          groups: [],
+        });
+        expect(canModifyChannel(channel, user)).toBeFalsy();
       });
-      user.role = "org_admin";
-      user.roleId = "123abc";
-      expect(canModifyChannel(channel, user)).toBeFalsy();
-    });
-    it("returns false for all else", () => {
-      const channel = fakeChannel({
-        access: SharingAccess.PUBLIC,
-        orgs: [orgId1],
-        groups: [groupId3],
+      it("returns false for user not owner/admin in chanel groups, is org_admin, but not in channel orgs", () => {
+        user.role = "org_admin";
+        const channel = fakeChannel({
+          access: SharingAccess.PUBLIC,
+          orgs: [orgId2], // user not in orgId2
+          groups: [],
+        });
+        expect(canModifyChannel(channel, user)).toBeFalsy();
       });
-      expect(canModifyChannel(channel, user)).toBeFalsy();
     });
   });
 });
