@@ -23,11 +23,11 @@ function isAuthorizedToModifyStatusByLegacyPermissions(
   user: IDiscussionsUser,
   channel: IChannel
 ): boolean {
-  const { username, groups: userGroups, orgId: userOrgId } = user;
+  const { username, groups: userGroups = [], orgId: userOrgId } = user;
   const {
     access,
-    groups: channelGroups,
-    orgs: channelOrgs,
+    groups: channelGroups = [],
+    orgs: channelOrgs = [],
     creator: channelCreator,
   } = channel;
 
@@ -54,8 +54,8 @@ function isAuthorizedToModifyStatusByLegacyPermissions(
  * Ensure the user is an owner/admin of one of the channel groups
  */
 function isAuthorizedToModifyStatusByLegacyGroup(
-  channelGroups: string[] = [],
-  userGroups: IGroup[] = []
+  channelGroups: string[],
+  userGroups: IGroup[]
 ) {
   return channelGroups.some((channelGroupId: string) => {
     return userGroups.some((group: IGroup) => {
@@ -72,6 +72,6 @@ function isAuthorizedToModifyStatusByLegacyGroup(
   });
 }
 
-function isChannelOrgAdmin(channelOrgs: string[] = [], user: IUser): boolean {
+function isChannelOrgAdmin(channelOrgs: string[], user: IUser): boolean {
   return isOrgAdmin(user) && channelOrgs.includes(user.orgId);
 }

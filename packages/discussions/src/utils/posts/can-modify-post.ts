@@ -36,7 +36,7 @@ function isAuthorizedToModifyByLegacyPermissions(
   user: IDiscussionsUser,
   channelParams: ILegacyChannelPermissions
 ) {
-  const { groups: userGroups, orgId: userOrgId } = user;
+  const { groups: userGroups = [], orgId: userOrgId } = user;
   const { access, groups: channelGroups = [], orgs = [] } = channelParams;
 
   if (access === SharingAccess.PUBLIC) {
@@ -59,8 +59,8 @@ function isAuthorizedToModifyByLegacyPermissions(
  * and the group is not marked as non-discussable
  */
 function isAuthorizedToModifyPostByLegacyGroup(
-  channelGroups: string[] = [],
-  userGroups: IGroup[] = []
+  channelGroups: string[],
+  userGroups: IGroup[]
 ) {
   return channelGroups.some((channelGroupId: string) => {
     return userGroups.some((group: IGroup) => {

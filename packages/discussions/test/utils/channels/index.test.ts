@@ -208,6 +208,15 @@ describe("Util: Channel Access", () => {
         });
         expect(canReadFromChannel(channel, user)).toBeFalsy();
       });
+      it("returns false for user that has no groups", () => {
+        const userNoGroups = fakeUser();
+        const channel = fakeChannel({
+          access: SharingAccess.PRIVATE,
+          orgs: [orgId1],
+          groups: ["unknown"],
+        });
+        expect(canReadFromChannel(channel, userNoGroups)).toBeFalsy();
+      });
     });
 
     describe("Org channel", () => {
