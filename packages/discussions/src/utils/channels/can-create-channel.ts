@@ -35,8 +35,12 @@ function isAuthorizedToCreateByLegacyPermissions(
   user: IDiscussionsUser,
   channelParams: ILegacyChannelPermissions
 ): boolean {
-  const { username, groups: userGroups } = user;
-  const { access, groups: channelGroupIds, orgs: channelOrgs } = channelParams;
+  const { username, groups: userGroups = [] } = user;
+  const {
+    access,
+    groups: channelGroupIds = [],
+    orgs: channelOrgs,
+  } = channelParams;
 
   // ensure authenticated
   if (username === null) {
@@ -48,7 +52,10 @@ function isAuthorizedToCreateByLegacyPermissions(
   }
 
   // public or org access
-  return isOrgAdminAndInChannelOrgs(user, channelOrgs);
+  return (
+    canAllowGroupsLegacy(userGroups, channelGroupIds) &&
+    isChannelOrgAdmin(user, channelOrgs)
+  );
 }
 
 function canAllowGroupsLegacy(
@@ -78,7 +85,7 @@ function isGroupDiscussable(userGroup: IGroup) {
   return !typeKeywords.includes(CANNOT_DISCUSS);
 }
 
-function isOrgAdminAndInChannelOrgs(
+function isChannelOrgAdmin(
   user: IDiscussionsUser,
   channelOrgs: string[]
 ): boolean {
