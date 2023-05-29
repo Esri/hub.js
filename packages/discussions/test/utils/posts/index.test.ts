@@ -103,7 +103,7 @@ describe("canDeletePost", () => {
     expect(canModifyChannelSpy).not.toHaveBeenCalled();
   });
 
-  it("returns when user can modify channel", () => {
+  it("returns true when user did not create the post and user can modify channel", () => {
     const canModifyChannelSpy = spyOn(
       channelUtils,
       "canModifyChannel"
