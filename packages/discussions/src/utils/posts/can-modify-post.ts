@@ -29,7 +29,7 @@ export function canModifyPost(
 }
 
 function isPostCreator(post: IPost, user: IDiscussionsUser) {
-  return user.username && post.creator === user.username;
+  return !!user.username && post.creator === user.username;
 }
 
 function isAuthorizedToModifyByLegacyPermissions(

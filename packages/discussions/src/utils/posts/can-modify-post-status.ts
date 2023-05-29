@@ -1,4 +1,4 @@
-import { IGroup } from "@esri/arcgis-rest-types";
+import { IGroup, IUser } from "@esri/arcgis-rest-types";
 import { IChannel, IDiscussionsUser, SharingAccess } from "../../types";
 import { isOrgAdmin } from "../platform";
 import { ChannelPermission } from "../channel-permission";
@@ -44,14 +44,17 @@ function isAuthorizedToModifyStatusByLegacyPermissions(
   }
 
   // public or org access
-  return channelOrgs.includes(userOrgId) && isOrgAdmin(user);
+  return (
+    isAuthorizedToModifyStatusByLegacyGroup(channelGroups, userGroups) ||
+    isChannelOrgAdmin(channelOrgs, user)
+  );
 }
 
 /**
  * Ensure the user is an owner/admin of one of the channel groups
  */
 function isAuthorizedToModifyStatusByLegacyGroup(
-  channelGroups: string[],
+  channelGroups: string[] = [],
   userGroups: IGroup[] = []
 ) {
   return channelGroups.some((channelGroupId: string) => {
@@ -67,4 +70,8 @@ function isAuthorizedToModifyStatusByLegacyGroup(
       );
     });
   });
+}
+
+function isChannelOrgAdmin(channelOrgs: string[] = [], user: IUser): boolean {
+  return isOrgAdmin(user) && channelOrgs.includes(user.orgId);
 }

@@ -75,7 +75,7 @@ export function canDeletePost(
 }
 
 function isPostCreator(post: IPost, user: IUser) {
-  return user.username && post.creator === user.username;
+  return !!user.username && post.creator === user.username;
 }
 
 const MENTION_ATTRIBUTE_AND_VALUE_PATTERN = new RegExp(
