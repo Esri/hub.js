@@ -33,6 +33,8 @@ export const ogcItemsResponse: IOgcItemsResponse = {
         snippet: "How else can I push past my limits?",
         thumbnail: "thumbnail/hub_thumbnail_1658341016537.png",
         documentation: null,
+        source: "my-source",
+        license: "CC-BY-4.0",
         extent: {
           type: "Polygon",
           coordinates: [
