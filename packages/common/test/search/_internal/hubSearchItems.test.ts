@@ -634,6 +634,8 @@ describe("hubSearchItems Module |", () => {
       updatedDate: new Date(1671554653000),
       updatedDateSource: "item.modified",
       family: "map",
+      source: "my-source",
+      license: "CC-BY-4.0",
       links: {
         self: "https://www.arcgis.com/home/item.html?id=f4bcc",
         siteRelative: "/maps/f4bcc",
@@ -646,7 +648,7 @@ describe("hubSearchItems Module |", () => {
   describe("Response Transformation Helpers |", () => {
     describe("ogcItemToSearchResult |", () => {
       const { ogcItemToSearchResult } = ogcItemToSearchResultModule;
-      const item = {
+      const ogcItemProperties: any = {
         id: "9001",
         owner: "goku",
         created: 1006,
@@ -659,10 +661,12 @@ describe("hubSearchItems Module |", () => {
         typeKeywords: [],
         tags: [],
         categories: [],
-      } as unknown as IItem;
+        source: "my-source",
+        license: "CC-BY-4.0",
+      };
 
-      it("delegates to itemToSearchResult", async () => {
-        const mockedResult = {
+      it("delegates to itemToSearchResult, then tacks on enrichment fields", async () => {
+        const mockedItemToSearchResultResponse = {
           id: "9001",
           type: "Feature Service",
           family: "map",
@@ -670,14 +674,16 @@ describe("hubSearchItems Module |", () => {
         const delegateSpy = spyOn(
           portalSearchItemsModule,
           "itemToSearchResult"
-        ).and.returnValue(Promise.resolve(mockedResult));
+        ).and.returnValue(
+          Promise.resolve(cloneObject(mockedItemToSearchResultResponse))
+        );
         const ogcItem: IOgcItem = {
           id: "9001",
           type: "Feature",
           geometry: null, // for simplicity
           time: null, // for simplicity
           links: [], // for simplicity
-          properties: item,
+          properties: cloneObject(ogcItemProperties),
         };
         const includes: string[] = [];
         const requestOptions: IHubRequestOptions = {};
@@ -689,11 +695,15 @@ describe("hubSearchItems Module |", () => {
         );
         expect(delegateSpy).toHaveBeenCalledTimes(1);
         expect(delegateSpy).toHaveBeenCalledWith(
-          item,
+          ogcItemProperties,
           includes,
           requestOptions
         );
-        expect(result).toEqual(mockedResult);
+        expect(result).toEqual({
+          ...mockedItemToSearchResultResponse,
+          source: "my-source",
+          license: "CC-BY-4.0",
+        });
       });
     });
 
