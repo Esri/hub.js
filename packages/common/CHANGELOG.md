@@ -1,3 +1,10 @@
+# @esri/hub-common [13.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.0.0...@esri/hub-common@13.1.0) (2023-05-31)
+
+
+### Features
+
+* **hub-common:** return "license" and "source" as part of results from hubSearchItems ([#1072](https://github.com/Esri/hub.js/issues/1072)) ([9d086ed](https://github.com/Esri/hub.js/commit/9d086ed518db0d7d95b58971bf9e3d3768baf04e))
+
 # @esri/hub-common [13.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@12.43.0...@esri/hub-common@13.0.0) (2023-05-26)
 
 
