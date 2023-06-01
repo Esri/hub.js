@@ -1,3 +1,10 @@
+# @esri/hub-common [13.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.2.0...@esri/hub-common@13.3.0) (2023-06-01)
+
+
+### Features
+
+* small project enhancements ([#1074](https://github.com/Esri/hub.js/issues/1074)) ([3085a6b](https://github.com/Esri/hub.js/commit/3085a6bc85af9045cf989f15c5ac446eff2a29a5))
+
 # @esri/hub-common [13.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.1.0...@esri/hub-common@13.2.0) (2023-06-01)
 
 
