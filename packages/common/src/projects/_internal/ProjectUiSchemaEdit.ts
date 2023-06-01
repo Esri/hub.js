@@ -150,6 +150,7 @@ export const uiSchema: IUiSchema = {
           type: "Control",
           options: {
             control: "arcgis-hub-timeline-editor",
+            showTitleAndDescription: false,
           },
         },
       ],

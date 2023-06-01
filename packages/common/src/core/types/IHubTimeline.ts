@@ -16,7 +16,7 @@ export interface IHubStage {
   /**
    * Stage identifier
    */
-  key: number;
+  key: string;
   /**
    * Stage Title
    */
@@ -37,7 +37,7 @@ export interface IHubStage {
   /**
    * Stage status
    */
-  status: string;
+  status: TimelineStageStatus;
 }
 
 export interface IHubStageLink {
@@ -49,4 +49,13 @@ export interface IHubStageLink {
    * Link display title text
    */
   title?: string;
+}
+
+type TimelineStageStatus = keyof typeof TIMELINE_STAGE_STATUSES;
+export enum TIMELINE_STAGE_STATUSES {
+  notStarted = "notStarted",
+  inProgress = "inProgress",
+  skipped = "skipped",
+  onHold = "onHold",
+  complete = "complete",
 }

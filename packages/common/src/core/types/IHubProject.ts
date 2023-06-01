@@ -23,5 +23,6 @@ export interface IHubProject
 export enum PROJECT_STATUSES {
   notStarted = "notStarted",
   inProgress = "inProgress",
+  onHold = "onHold",
   complete = "complete",
 }
