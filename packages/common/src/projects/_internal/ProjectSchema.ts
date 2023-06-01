@@ -4,6 +4,7 @@ import {
   ENTITY_CATEGORIES_SCHEMA,
   ENTITY_NAME_SCHEMA,
   ENTITY_TAGS_SCHEMA,
+  ENTITY_TIMELINE_SCHEMA,
 } from "../../core/schemas/shared";
 
 export type ProjectEditorType = (typeof ProjectEditorTypes)[number];
@@ -59,11 +60,7 @@ export const ProjectSchema: IConfigurationSchema = {
         featuredImageAltText: {
           type: "string",
         },
-        // TODO: extend this schema definition to provide
-        // appropriate validation for the timeline editor
-        timeline: {
-          type: "object",
-        },
+        timeline: ENTITY_TIMELINE_SCHEMA,
       },
     },
   },
