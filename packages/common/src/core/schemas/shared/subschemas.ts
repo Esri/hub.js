@@ -51,14 +51,18 @@ export const ENTITY_TIMELINE_SCHEMA = {
       items: {
         type: "object",
         properties: {
-          title: { type: "string" }, // we should make this required or add minLength: 1 once we know how to handle in the UI
+          // we should make title required or add minLength: 1
+          // once we know how to handle in the UI
+          title: { type: "string" },
           timeframe: { type: "string" },
           stageDescription: { type: "string" },
           status: { type: "string" },
           link: {
             type: "object",
             properties: {
-              href: { type: "string" }, // we should add format: uri here once we know how to handle this in the UI
+              // we should add format: url here once we know how
+              // to handle this in the UI
+              href: { type: "string" },
               title: { type: "string" },
             },
           },
