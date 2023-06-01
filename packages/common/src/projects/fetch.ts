@@ -5,7 +5,8 @@ import { getFamily } from "../content/get-family";
 import { getHubRelativeUrl } from "../content/_internal/internalContentUtils";
 import { IHubProject } from "../core/types";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
-import { getItemBySlug, keywordSlugToUriSlug } from "../items/slugs";
+import { getItemBySlug } from "../items/slugs";
+
 import { fetchItemEnrichments } from "../items/_enrichments";
 import { fetchModelFromItem, fetchModelResources } from "../models";
 import { IHubSearchResult } from "../search";
@@ -18,6 +19,7 @@ import { unique } from "../util";
 import { getProp } from "../objects/get-prop";
 import { getItemThumbnailUrl } from "../resources/get-item-thumbnail-url";
 import { getItemHomeUrl } from "../urls/get-item-home-url";
+import { getItemIdentifier } from "../items";
 
 /**
  * @private
@@ -120,13 +122,10 @@ export async function enrichProjectSearchResult(
   // TODO: Link handling should be an enrichment
   result.links.thumbnail = getItemThumbnailUrl(item, requestOptions);
   result.links.self = getItemHomeUrl(result.id, requestOptions);
-  let slugOrId = item.id;
-  if (item.properties?.slug) {
-    slugOrId = keywordSlugToUriSlug(item.properties.slug);
-  }
+  const identifier = getItemIdentifier(item);
   result.links.siteRelative = getHubRelativeUrl(
     result.type,
-    slugOrId,
+    identifier,
     item.typeKeywords
   );
 

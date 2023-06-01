@@ -11,9 +11,9 @@ import {
   constructSlug,
   getItemBySlug,
   getUniqueSlug,
-  keywordSlugToUriSlug,
   setSlugKeyword,
 } from "../items/slugs";
+
 import {
   isGuid,
   cloneObject,
@@ -238,17 +238,15 @@ export async function enrichInitiativeSearchResult(
   // TODO: Link handling should be an enrichment
   result.links.thumbnail = getItemThumbnailUrl(item, requestOptions);
   result.links.self = getItemHomeUrl(result.id, requestOptions);
-  const slugOrId = item.id;
+  const identifier = item.id;
   // Until the new initiatives route is in place we need to
   // route using the id. Once the route is in place we can
   // un-comment this
-  // if (item.properties?.slug) {
-  //   slugOrId = keywordSlugToUriSlug(item.properties.slug);
-  // }
+  // const identifier = getItemIdentifier(item);
 
   result.links.siteRelative = getHubRelativeUrl(
     result.type,
-    slugOrId,
+    identifier,
     item.typeKeywords
   );
 

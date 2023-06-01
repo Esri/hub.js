@@ -2,24 +2,8 @@ import * as portalModule from "@esri/arcgis-rest-portal";
 import * as slugModule from "../../src/items/slugs";
 import { MOCK_AUTH } from "../groups/add-users-workflow/fixtures";
 import { ISearchOptions } from "@esri/arcgis-rest-portal";
-import {
-  keywordSlugToUriSlug,
-  uriSlugToKeywordSlug,
-} from "../../src/items/slugs";
 
 describe("slug utils: ", () => {
-  describe("uri slugs:", () => {
-    it("converts kwd slug to uri slugs", () => {
-      expect(keywordSlugToUriSlug("slug|foo-bar")).toBe("slug::foo-bar");
-      expect(keywordSlugToUriSlug("slug::foo-bar")).toBe("slug::foo-bar");
-      expect(keywordSlugToUriSlug("foo-bar")).toBe("foo-bar");
-    });
-
-    it("converts uri slug to kwd slugs", () => {
-      expect(uriSlugToKeywordSlug("foo-bar")).toBe("foo-bar");
-      expect(uriSlugToKeywordSlug("slug::foo-bar")).toBe("slug|foo-bar");
-    });
-  });
   describe("createSlug:", () => {
     it("combined org and dasherized title", () => {
       expect(slugModule.constructSlug("Hello World", "DCdev")).toBe(
