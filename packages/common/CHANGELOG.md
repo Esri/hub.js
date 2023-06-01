@@ -1,3 +1,10 @@
+# @esri/hub-common [13.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.1.0...@esri/hub-common@13.2.0) (2023-06-01)
+
+
+### Features
+
+* add slug uri conversion functions and use in getItemBySlug ([#1073](https://github.com/Esri/hub.js/issues/1073)) ([db9addb](https://github.com/Esri/hub.js/commit/db9addb3347fae587ffc5ce35cfa44eb720cb1f7))
+
 # @esri/hub-common [13.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.0.0...@esri/hub-common@13.1.0) (2023-05-31)
 
 
