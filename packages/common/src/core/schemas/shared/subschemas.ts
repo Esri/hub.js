@@ -39,3 +39,31 @@ export const ENTITY_EXTENT_SCHEMA = {
     ymin: { type: ["number", "null"] },
   },
 };
+
+export const ENTITY_TIMELINE_SCHEMA = {
+  type: "object",
+  properties: {
+    title: { type: "string" },
+    description: { type: "string" },
+    canCollapse: { type: "boolean" },
+    stages: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          title: { type: "string" }, // we should make this required or add minLength: 1 once we know how to handle in the UI
+          timeframe: { type: "string" },
+          stageDescription: { type: "string" },
+          status: { type: "string" },
+          link: {
+            type: "object",
+            properties: {
+              href: { type: "string" }, // we should add format: uri here once we know how to handle this in the UI
+              title: { type: "string" },
+            },
+          },
+        },
+      },
+    },
+  },
+};
