@@ -60,6 +60,41 @@ describe("slug utils: ", () => {
       expect(getByIdSpy).toHaveBeenCalledTimes(1);
       expect(getByIdSpy).toHaveBeenCalledWith(searchResult.id, requestOptions);
     });
+    it("searches by converted uri typekeyword", async () => {
+      const searchResult = {
+        id: "3ef",
+        title: "Fake",
+        typeKeywords: ["one", "slug|my-org|foo-bar"],
+      } as any as portalModule.IItem;
+      const itemResult = {
+        ...searchResult,
+        orgId: "ghi",
+      } as any as portalModule.IItem;
+      const requestOptions = {
+        authentication: MOCK_AUTH,
+      };
+      const searchSpy = spyOn(portalModule, "searchItems").and.returnValue(
+        Promise.resolve({
+          results: [searchResult],
+        })
+      );
+      const getByIdSpy = spyOn(portalModule, "getItem").and.returnValue(
+        Promise.resolve(itemResult)
+      );
+
+      const result = await slugModule.getItemBySlug(
+        "myorg::foo-bar",
+        requestOptions
+      );
+      expect(result).toBe(itemResult);
+      // check if
+      expect(searchSpy.calls.count()).toBe(1);
+      const args = searchSpy.calls.argsFor(0)[0] as unknown as ISearchOptions;
+      expect(args.filter).toBe(`typekeywords:"slug|myorg|foo-bar"`);
+      expect(args.authentication).toBe(MOCK_AUTH);
+      expect(getByIdSpy).toHaveBeenCalledTimes(1);
+      expect(getByIdSpy).toHaveBeenCalledWith(searchResult.id, requestOptions);
+    });
     it("returns null if no result found", async () => {
       const searchSpy = spyOn(portalModule, "searchItems").and.returnValue(
         Promise.resolve({
