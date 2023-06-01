@@ -377,6 +377,12 @@ describe("HubInitiatives:", () => {
       const chk = await enrichInitiativeSearchResult(itm, [], hubRo);
       expect(chk.summary).toEqual(itm.snippet);
     });
+    it("uses converts and uses slug if defined", async () => {
+      const itm = cloneObject(INITIATIVE_ITEM_ENRICH);
+      itm.properties = { slug: "myorg|my-slug" };
+      const chk = await enrichInitiativeSearchResult(itm, [], hubRo);
+      expect(chk.links?.siteRelative).toEqual("/content/myorg::my-slug");
+    });
     it("fetches enrichments", async () => {
       const chk = await enrichInitiativeSearchResult(
         cloneObject(INITIATIVE_ITEM_ENRICH),

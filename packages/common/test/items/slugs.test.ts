@@ -2,8 +2,24 @@ import * as portalModule from "@esri/arcgis-rest-portal";
 import * as slugModule from "../../src/items/slugs";
 import { MOCK_AUTH } from "../groups/add-users-workflow/fixtures";
 import { ISearchOptions } from "@esri/arcgis-rest-portal";
+import {
+  keywordSlugToUriSlug,
+  uriSlugToKeywordSlug,
+} from "../../src/items/slugs";
 
 describe("slug utils: ", () => {
+  describe("uri slugs:", () => {
+    it("converts kwd slug to uri slugs", () => {
+      expect(keywordSlugToUriSlug("slug|foo-bar")).toBe("slug::foo-bar");
+      expect(keywordSlugToUriSlug("slug::foo-bar")).toBe("slug::foo-bar");
+      expect(keywordSlugToUriSlug("foo-bar")).toBe("foo-bar");
+    });
+
+    it("converts uri slug to kwd slugs", () => {
+      expect(uriSlugToKeywordSlug("foo-bar")).toBe("foo-bar");
+      expect(uriSlugToKeywordSlug("slug::foo-bar")).toBe("slug|foo-bar");
+    });
+  });
   describe("createSlug:", () => {
     it("combined org and dasherized title", () => {
       expect(slugModule.constructSlug("Hello World", "DCdev")).toBe(
@@ -56,6 +72,41 @@ describe("slug utils: ", () => {
       expect(searchSpy.calls.count()).toBe(1);
       const args = searchSpy.calls.argsFor(0)[0] as unknown as ISearchOptions;
       expect(args.filter).toBe(`typekeywords:"slug|foo-bar"`);
+      expect(args.authentication).toBe(MOCK_AUTH);
+      expect(getByIdSpy).toHaveBeenCalledTimes(1);
+      expect(getByIdSpy).toHaveBeenCalledWith(searchResult.id, requestOptions);
+    });
+    it("searches by converted uri typekeyword", async () => {
+      const searchResult = {
+        id: "3ef",
+        title: "Fake",
+        typeKeywords: ["one", "slug|my-org|foo-bar"],
+      } as any as portalModule.IItem;
+      const itemResult = {
+        ...searchResult,
+        orgId: "ghi",
+      } as any as portalModule.IItem;
+      const requestOptions = {
+        authentication: MOCK_AUTH,
+      };
+      const searchSpy = spyOn(portalModule, "searchItems").and.returnValue(
+        Promise.resolve({
+          results: [searchResult],
+        })
+      );
+      const getByIdSpy = spyOn(portalModule, "getItem").and.returnValue(
+        Promise.resolve(itemResult)
+      );
+
+      const result = await slugModule.getItemBySlug(
+        "myorg::foo-bar",
+        requestOptions
+      );
+      expect(result).toBe(itemResult);
+      // check if
+      expect(searchSpy.calls.count()).toBe(1);
+      const args = searchSpy.calls.argsFor(0)[0] as unknown as ISearchOptions;
+      expect(args.filter).toBe(`typekeywords:"slug|myorg|foo-bar"`);
       expect(args.authentication).toBe(MOCK_AUTH);
       expect(getByIdSpy).toHaveBeenCalledTimes(1);
       expect(getByIdSpy).toHaveBeenCalledWith(searchResult.id, requestOptions);

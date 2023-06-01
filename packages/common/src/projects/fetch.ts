@@ -5,7 +5,7 @@ import { getFamily } from "../content/get-family";
 import { getHubRelativeUrl } from "../content/_internal/internalContentUtils";
 import { IHubProject } from "../core/types";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
-import { getItemBySlug } from "../items/slugs";
+import { getItemBySlug, keywordSlugToUriSlug } from "../items/slugs";
 import { fetchItemEnrichments } from "../items/_enrichments";
 import { fetchModelFromItem, fetchModelResources } from "../models";
 import { IHubSearchResult } from "../search";
@@ -122,7 +122,7 @@ export async function enrichProjectSearchResult(
   result.links.self = getItemHomeUrl(result.id, requestOptions);
   let slugOrId = item.id;
   if (item.properties?.slug) {
-    slugOrId = item.properties.slug.replace("|", "::");
+    slugOrId = keywordSlugToUriSlug(item.properties.slug);
   }
   result.links.siteRelative = getHubRelativeUrl(
     result.type,
