@@ -1,3 +1,10 @@
+## @esri/hub-discussions [24.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@24.0.0...@esri/hub-discussions@24.0.1) (2023-06-02)
+
+
+### Bug Fixes
+
+* **hub-discussions:** move allowAnonymous to channel permissions interface and add access to channel ([#1075](https://github.com/Esri/hub.js/issues/1075)) ([82c59ad](https://github.com/Esri/hub.js/commit/82c59ad7083971aafca0c5f2360030815dd7bd8c))
+
 # @esri/hub-discussions [24.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@23.0.0...@esri/hub-discussions@24.0.0) (2023-05-26)
 
 
