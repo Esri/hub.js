@@ -66,14 +66,12 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:project:view",
     subsystems: ["projects"],
     authenticated: false,
-    licenses: ["hub-premium"],
   },
   {
     permission: "hub:project:edit",
     authenticated: true,
     subsystems: ["projects"],
     entityEdit: true,
-    licenses: ["hub-premium"],
   },
   {
     permission: "hub:project:delete",
