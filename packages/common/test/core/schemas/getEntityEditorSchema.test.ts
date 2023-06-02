@@ -2,6 +2,7 @@ import { getEntityEditorSchemas } from "../../../src/core/schemas/getEntityEdito
 import { ProjectEditorTypes } from "../../../src/projects/_internal/ProjectSchema";
 import { InitiativeEditorTypes } from "../../../src/initiatives/_internal/InitiativeSchema";
 import { SiteEditorTypes } from "../../../src/sites/_internal/SiteSchema";
+import { DiscussionEditorTypes } from "../../../src/discussions/_internal/DiscussionSchema";
 import * as applyOptionsModule from "../../../src/core/schemas/internal/applyUiSchemaElementOptions";
 import * as filterSchemaModule from "../../../src/core/schemas/internal/filterSchemaToUiSchema";
 import * as itemsModule from "../../../src/items";
@@ -12,6 +13,7 @@ describe("getEntityEditorSchemas", () => {
       ...ProjectEditorTypes,
       ...InitiativeEditorTypes,
       ...SiteEditorTypes,
+      ...DiscussionEditorTypes,
     ].forEach(async (type, idx) => {
       const { schema, uiSchema } = await getEntityEditorSchemas(
         "some.scope",
