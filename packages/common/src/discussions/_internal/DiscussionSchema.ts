@@ -23,13 +23,6 @@ export const DiscussionSchema: IConfigurationSchema = {
     description: {
       type: "string",
     },
-    access: ENTITY_ACCESS_SCHEMA,
-    groups: {
-      type: "array",
-      items: {
-        type: "string",
-      },
-    },
     location: {
       type: "object",
     },
