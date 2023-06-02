@@ -767,13 +767,14 @@ export interface IChannelAclPermission
  * @interface ICreateChannelSettings
  */
 export interface ICreateChannelSettings {
-  allowReply?: boolean;
-  softDelete?: boolean;
-  defaultPostStatus?: PostStatus;
-  allowReaction?: boolean;
-  name?: string;
   allowedReactions?: PostReaction[];
+  allowReaction?: boolean;
+  allowReply?: boolean;
   blockWords?: string[];
+  defaultPostStatus?: PostStatus;
+  guidelineUrl?: string;
+  name?: string;
+  softDelete?: boolean;
 }
 
 /**
@@ -827,20 +828,21 @@ export interface ICreateChannel
  * @extends {IWithTimestamps}
  */
 export interface IChannel extends IWithAuthor, IWithEditor, IWithTimestamps {
-  id: string;
-  posts?: IPost[];
-  allowReply: boolean;
-  allowAnonymous: boolean;
-  softDelete: boolean;
-  defaultPostStatus: PostStatus;
-  allowReaction: boolean;
-  allowedReactions: PostReaction[] | null;
-  blockWords: string[] | null;
-  name: string | null;
   access: SharingAccess;
-  orgs: string[];
-  groups: string[];
+  allowAnonymous: boolean;
+  allowedReactions: PostReaction[] | null;
+  allowReaction: boolean;
+  allowReply: boolean;
+  blockWords: string[] | null;
   channelAcl?: IChannelAclPermission[];
+  defaultPostStatus: PostStatus;
+  groups: string[];
+  guidelineUrl: string | null;
+  id: string;
+  name: string | null;
+  orgs: string[];
+  posts?: IPost[];
+  softDelete: boolean;
 }
 
 /**
