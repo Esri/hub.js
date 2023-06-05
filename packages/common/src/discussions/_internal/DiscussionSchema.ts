@@ -13,10 +13,10 @@ export const DiscussionEditorTypes = ["hub:discussion:edit"] as const;
  * defines the JSON schema for a Discussion's editable fields
  */
 export const DiscussionSchema: IConfigurationSchema = {
-  required: ["title", "prompt"],
+  required: ["name", "prompt"],
   type: "object",
   properties: {
-    title: ENTITY_NAME_SCHEMA,
+    name: ENTITY_NAME_SCHEMA,
     prompt: {
       type: "string",
     },

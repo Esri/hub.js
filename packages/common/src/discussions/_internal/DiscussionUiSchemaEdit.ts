@@ -13,8 +13,8 @@ export const uiSchema: IUiSchema = {
       labelKey: "{{i18nScope}}.sections.basicInfo.label",
       elements: [
         {
-          labelKey: "{{i18nScope}}.fields.title.label",
-          scope: "/properties/title",
+          labelKey: "{{i18nScope}}.fields.name.label",
+          scope: "/properties/name",
           type: "Control",
           options: {
             messages: [
@@ -22,7 +22,7 @@ export const uiSchema: IUiSchema = {
                 type: "ERROR",
                 keyword: "required",
                 icon: true,
-                labelKey: "{{i18nScope}}.fields.title.requiredError",
+                labelKey: "{{i18nScope}}.fields.name.requiredError",
               },
             ],
           },
