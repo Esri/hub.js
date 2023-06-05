@@ -1,3 +1,10 @@
+## @esri/hub-common [13.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.3.0...@esri/hub-common@13.3.1) (2023-06-05)
+
+
+### Bug Fixes
+
+* remove license checks on view and edit project permission policies ([#1077](https://github.com/Esri/hub.js/issues/1077)) ([76918b7](https://github.com/Esri/hub.js/commit/76918b7b9cd3b2cca73cf0a48d35038653412002))
+
 # @esri/hub-common [13.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.2.0...@esri/hub-common@13.3.0) (2023-06-01)
 
 
