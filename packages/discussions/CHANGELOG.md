@@ -1,3 +1,10 @@
+# @esri/hub-discussions [24.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@24.0.1...@esri/hub-discussions@24.1.0) (2023-06-06)
+
+
+### Features
+
+* **hub-discussions:** expand isDiscussable ([#1079](https://github.com/Esri/hub.js/issues/1079)) ([73db7f1](https://github.com/Esri/hub.js/commit/73db7f1c9f7edd3c2bf402b95b87329886877173))
+
 ## @esri/hub-discussions [24.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@24.0.0...@esri/hub-discussions@24.0.1) (2023-06-02)
 
 
