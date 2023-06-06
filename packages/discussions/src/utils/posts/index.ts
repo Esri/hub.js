@@ -1,6 +1,6 @@
 import { IGroup, IItem } from "@esri/arcgis-rest-portal";
 import { IChannel, IDiscussionParams, IPost } from "../../types";
-import { parseDatasetId, IHubContent } from "@esri/hub-common";
+import { parseDatasetId, IHubContent, IHubItemEntity } from "@esri/hub-common";
 import { IUser } from "@esri/arcgis-rest-auth";
 import { canModifyChannel } from "../channels";
 import { CANNOT_DISCUSS, MENTION_ATTRIBUTE } from "../constants";
@@ -47,13 +47,15 @@ export function parseDiscussionURI(discussion: string): IDiscussionParams {
 }
 
 /**
- * Utility to determine if a given IGroup, IItem or IHubContent
+ * Utility to determine if a given IGroup, IItem, IHubContent, or IHubItemEntity
  * is discussable.
  * @export
- * @param {IGroup|IItem|IHubContent} The subject to evaluate
+ * @param {IGroup|IItem|IHubContent|IHubItemEntity} The subject to evaluate
  * @return {boolean}
  */
-export function isDiscussable(subject: IGroup | IItem | IHubContent) {
+export function isDiscussable(
+  subject: IGroup | IItem | IHubContent | IHubItemEntity
+) {
   return !(subject.typeKeywords ?? []).includes(CANNOT_DISCUSS);
 }
 
