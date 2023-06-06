@@ -123,6 +123,16 @@ describe("canCreateChannel", () => {
       expect(canCreateChannel(channel, user)).toEqual(false);
     });
 
+    it("returns false if user undefined", () => {
+      const channel = {
+        access: SharingAccess.PRIVATE,
+        orgs: [orgId1],
+        groups: [groupId1, groupId2],
+      } as IChannel;
+
+      expect(canCreateChannel(channel)).toEqual(false);
+    });
+
     describe("Private access channel", () => {
       it("returns true if user is member of all channel groups", () => {
         const channel = {

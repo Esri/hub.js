@@ -208,6 +208,14 @@ describe("Util: Channel Access", () => {
         });
         expect(canReadFromChannel(channel, user)).toBeFalsy();
       });
+      it("returns false undefined user", () => {
+        const channel = fakeChannel({
+          access: SharingAccess.PRIVATE,
+          orgs: [orgId1],
+          groups: ["unknown"],
+        });
+        expect(canReadFromChannel(channel)).toBeFalsy();
+      });
       it("returns false for user that has no groups", () => {
         const userNoGroups = fakeUser();
         const channel = fakeChannel({
@@ -273,6 +281,15 @@ describe("Util: Channel Access", () => {
   });
 
   describe("canModifyChannel", () => {
+    it("returns false undefined user", () => {
+      const channel = fakeChannel({
+        access: SharingAccess.PRIVATE,
+        orgs: [orgId1],
+        groups: [groupId1], // member here
+      });
+      expect(canModifyChannel(channel)).toBeFalsy();
+    });
+
     describe("Private channel", () => {
       it("returns true for user that is channel owner but not an admin/owner of channel groups", () => {
         const channelOwner = fakeUser({

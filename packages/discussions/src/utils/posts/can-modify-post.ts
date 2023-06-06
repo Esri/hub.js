@@ -1,4 +1,4 @@
-import { IGroup } from "@esri/arcgis-rest-types";
+import { IGroup, IUser } from "@esri/arcgis-rest-types";
 import { IChannel, IDiscussionsUser, IPost, SharingAccess } from "../../types";
 import { CANNOT_DISCUSS } from "../constants";
 
@@ -12,7 +12,7 @@ type ILegacyChannelPermissions = Pick<
  */
 export function canModifyPost(
   post: IPost,
-  user: IDiscussionsUser,
+  user: IUser | IDiscussionsUser = {},
   channel: IChannel
 ) {
   const { access, groups, orgs, allowAnonymous } = channel;
@@ -28,12 +28,12 @@ export function canModifyPost(
   );
 }
 
-function isPostCreator(post: IPost, user: IDiscussionsUser) {
+function isPostCreator(post: IPost, user: IUser | IDiscussionsUser) {
   return !!user.username && post.creator === user.username;
 }
 
 function isAuthorizedToModifyByLegacyPermissions(
-  user: IDiscussionsUser,
+  user: IUser | IDiscussionsUser,
   channelParams: ILegacyChannelPermissions
 ) {
   const { groups: userGroups = [], orgId: userOrgId } = user;

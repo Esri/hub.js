@@ -1,6 +1,11 @@
 import { IGroup, IItem } from "@esri/arcgis-rest-portal";
-import { IChannel, IDiscussionParams, IPost } from "../../types";
 import { parseDatasetId, IHubContent, IHubItemEntity } from "@esri/hub-common";
+import {
+  IChannel,
+  IDiscussionParams,
+  IDiscussionsUser,
+  IPost,
+} from "../../types";
 import { IUser } from "@esri/arcgis-rest-auth";
 import { canModifyChannel } from "../channels";
 import { CANNOT_DISCUSS, MENTION_ATTRIBUTE } from "../constants";
@@ -69,12 +74,12 @@ export function isDiscussable(
 export function canDeletePost(
   post: IPost,
   channel: IChannel,
-  user: IUser
+  user: IUser | IDiscussionsUser = {}
 ): boolean {
   return isPostCreator(post, user) || canModifyChannel(channel, user);
 }
 
-function isPostCreator(post: IPost, user: IUser) {
+function isPostCreator(post: IPost, user: IUser | IDiscussionsUser) {
   return !!user.username && post.creator === user.username;
 }
 

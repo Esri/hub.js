@@ -7,20 +7,23 @@ const ADMIN_GROUP_ROLES = Object.freeze(["owner", "admin"]);
 
 export function canModifyPostStatus(
   channel: IChannel,
-  user: IDiscussionsUser
+  user: IUser | IDiscussionsUser = {}
 ): boolean {
   const { channelAcl } = channel;
 
   if (channelAcl) {
     const channelPermission = new ChannelPermission(channelAcl);
-    return channelPermission.canModifyPostStatus(user, channel.creator);
+    return channelPermission.canModifyPostStatus(
+      user as IDiscussionsUser,
+      channel.creator
+    );
   }
 
   return isAuthorizedToModifyStatusByLegacyPermissions(user, channel);
 }
 
 function isAuthorizedToModifyStatusByLegacyPermissions(
-  user: IDiscussionsUser,
+  user: IUser | IDiscussionsUser,
   channel: IChannel
 ): boolean {
   const { username, groups: userGroups = [], orgId: userOrgId } = user;
@@ -72,6 +75,9 @@ function isAuthorizedToModifyStatusByLegacyGroup(
   });
 }
 
-function isChannelOrgAdmin(channelOrgs: string[], user: IUser): boolean {
+function isChannelOrgAdmin(
+  channelOrgs: string[],
+  user: IUser | IDiscussionsUser
+): boolean {
   return isOrgAdmin(user) && channelOrgs.includes(user.orgId);
 }

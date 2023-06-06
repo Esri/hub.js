@@ -69,6 +69,12 @@ describe("canModifyPostStatus", () => {
       expect(canModifyPostStatus(channel, userNull)).toBe(false);
     });
 
+    it("returns false if the user is undefined", () => {
+      const channel = { access: SharingAccess.PUBLIC } as IChannel;
+
+      expect(canModifyPostStatus(channel)).toBe(false);
+    });
+
     it("returns true if the user created the channel", () => {
       const user = { username: "john" } as IDiscussionsUser;
       const channel = { creator: "john" } as IChannel;

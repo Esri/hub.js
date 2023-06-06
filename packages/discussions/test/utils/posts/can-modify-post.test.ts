@@ -27,6 +27,15 @@ describe("canModifyPost", () => {
     expect(result).toBe(false);
   });
 
+  it("returns false if the user undefined", () => {
+    const post = { id: "postId" } as IPost; // asAnonymous post
+    const user = undefined as unknown as IDiscussionsUser;
+    const channel = { access: SharingAccess.PUBLIC } as IChannel;
+
+    const result = canModifyPost(post, user, channel);
+    expect(result).toBe(false);
+  });
+
   describe("Legacy Permissions", () => {
     describe("public channel", () => {
       it("returns true if user is creator", () => {

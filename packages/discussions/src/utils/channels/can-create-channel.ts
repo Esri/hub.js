@@ -1,11 +1,5 @@
 import { IGroup, IUser } from "@esri/arcgis-rest-types";
-import {
-  AclCategory,
-  IChannel,
-  IChannelAclPermissionDefinition,
-  IDiscussionsUser,
-  SharingAccess,
-} from "../../types";
+import { IChannel, IDiscussionsUser, SharingAccess } from "../../types";
 import { ChannelPermission } from "../channel-permission";
 import { CANNOT_DISCUSS } from "../constants";
 import { isOrgAdmin } from "../platform";
@@ -14,13 +8,13 @@ type ILegacyChannelPermissions = Pick<IChannel, "access" | "groups" | "orgs">;
 
 export function canCreateChannel(
   channel: IChannel,
-  user: IDiscussionsUser
+  user: IUser | IDiscussionsUser = {}
 ): boolean {
   const { channelAcl, access, groups, orgs } = channel;
 
   if (channelAcl) {
     const channelPermission = new ChannelPermission(channelAcl);
-    return channelPermission.canCreateChannel(user);
+    return channelPermission.canCreateChannel(user as IDiscussionsUser);
   }
 
   return isAuthorizedToCreateByLegacyPermissions(user, {
@@ -32,7 +26,7 @@ export function canCreateChannel(
 
 // Once ACL usage is enforced, we will remove authorization by legacy permissions
 function isAuthorizedToCreateByLegacyPermissions(
-  user: IDiscussionsUser,
+  user: IUser | IDiscussionsUser,
   channelParams: ILegacyChannelPermissions
 ): boolean {
   const { username, groups: userGroups = [] } = user;
@@ -43,7 +37,7 @@ function isAuthorizedToCreateByLegacyPermissions(
   } = channelParams;
 
   // ensure authenticated
-  if (username === null) {
+  if (!username) {
     return false;
   }
 
@@ -86,7 +80,7 @@ function isGroupDiscussable(userGroup: IGroup) {
 }
 
 function isChannelOrgAdmin(
-  user: IDiscussionsUser,
+  user: IUser | IDiscussionsUser,
   channelOrgs: string[]
 ): boolean {
   return isOrgAdmin(user) && channelOrgs.includes(user.orgId);
