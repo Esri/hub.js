@@ -12,6 +12,6 @@ export function getPropertyMap(): IPropertyMap[] {
   const map = getBasePropertyMap();
 
   // Type specific mappings
-
+  map.push({ objectKey: "prompt", modelKey: "data.prompt" });
   return map;
 }
