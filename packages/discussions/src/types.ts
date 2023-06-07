@@ -772,9 +772,13 @@ export interface ICreateChannelSettings {
   allowReply?: boolean;
   blockWords?: string[];
   defaultPostStatus?: PostStatus;
-  guidelineUrl?: string;
+  metadata?: IChannelMetadata;
   name?: string;
   softDelete?: boolean;
+}
+
+export interface IChannelMetadata {
+  guidelineUrl?: string;
 }
 
 /**
@@ -837,7 +841,7 @@ export interface IChannel extends IWithAuthor, IWithEditor, IWithTimestamps {
   channelAcl?: IChannelAclPermission[];
   defaultPostStatus: PostStatus;
   groups: string[];
-  guidelineUrl: string | null;
+  metadata: IChannelMetadata | null;
   id: string;
   name: string | null;
   orgs: string[];
