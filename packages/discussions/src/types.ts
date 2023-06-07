@@ -778,7 +778,7 @@ export interface ICreateChannelSettings {
 }
 
 export interface IChannelMetadata {
-  guidelineUrl?: string;
+  guidelineUrl?: string | null;
 }
 
 /**
