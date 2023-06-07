@@ -1,3 +1,10 @@
+# @esri/hub-common [13.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.3.1...@esri/hub-common@13.4.0) (2023-06-07)
+
+
+### Features
+
+* adds discussion create ui schema ([#1082](https://github.com/Esri/hub.js/issues/1082)) ([e463998](https://github.com/Esri/hub.js/commit/e4639987d391fca36d709d888a724afae042dcbf)), closes [#6876](https://github.com/Esri/hub.js/issues/6876)
+
 ## @esri/hub-common [13.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.3.0...@esri/hub-common@13.3.1) (2023-06-05)
 
 
