@@ -16,6 +16,10 @@ import {
   SiteEditorType,
   SiteEditorTypes,
 } from "../../sites/_internal/SiteSchema";
+import {
+  DiscussionEditorType,
+  DiscussionEditorTypes,
+} from "../../discussions/_internal/DiscussionSchema";
 
 /**
  * defines the possible editor type values - these correspond
@@ -26,6 +30,7 @@ export const validEditorTypes = [
   ...ProjectEditorTypes,
   ...InitiativeEditorTypes,
   ...SiteEditorTypes,
+  ...DiscussionEditorTypes,
 ] as const;
 
 /**
@@ -81,6 +86,19 @@ export const getEntityEditorSchemas = async (
       ({ uiSchema } = await {
         "hub:site:edit": () => import("../../sites/_internal/SiteUiSchemaEdit"),
       }[type as SiteEditorType]());
+      break;
+    case "discussion":
+      const { DiscussionSchema } = await import(
+        "../../discussions/_internal/DiscussionSchema"
+      );
+      schema = cloneObject(DiscussionSchema);
+
+      ({ uiSchema } = await {
+        "hub:discussion:edit": () =>
+          import("../../discussions/_internal/DiscussionUiSchemaEdit"),
+        "hub:discussion:create": () =>
+          import("../../discussions/_internal/DiscussionUiSchemaCreate"),
+      }[type as DiscussionEditorType]());
       break;
   }
 
