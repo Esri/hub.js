@@ -1,3 +1,10 @@
+# @esri/hub-discussions [24.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@24.1.0...@esri/hub-discussions@24.2.0) (2023-06-07)
+
+
+### Features
+
+* **hub-discussions:** legacy permission checks mixed channels ([#1070](https://github.com/Esri/hub.js/issues/1070)) ([07ae63d](https://github.com/Esri/hub.js/commit/07ae63d1cd0e8f039c569d13c86aae89a8421fca))
+
 # @esri/hub-discussions [24.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@24.0.1...@esri/hub-discussions@24.1.0) (2023-06-06)
 
 
