@@ -1,4 +1,4 @@
-import { IModel } from "../../../src";
+import { CANNOT_DISCUSS, IModel } from "../../../src";
 import {
   IPropertyMap,
   mapObjectToModel,
@@ -10,9 +10,10 @@ describe("PropertyMapper:", () => {
   describe("mapObjectToModel:", () => {
     const obj = {
       color: "red",
+      isDiscussable: false,
     };
     const model = {
-      item: { id: "3ef", properties: { other: "prop" } },
+      item: { id: "3ef", properties: { other: "prop" }, typeKeywords: [] },
       data: {},
     } as unknown as IModel;
     it("maps deep properties into model", () => {
@@ -41,6 +42,19 @@ describe("PropertyMapper:", () => {
       expect(chk.item.properties.color).toBe("red");
       expect(chk.item.properties.other).toBe("prop");
       expect(chk.item.properties.missing).toBeUndefined();
+    });
+    it("removes CANNOT_DISCUSS from typeKeywords when isDiscussable is true", () => {
+      obj.isDiscussable = true;
+      model.item.typeKeywords = [CANNOT_DISCUSS, "another prop"];
+      const mappings: IPropertyMap[] = [];
+      const chk = mapObjectToModel(obj, model, mappings);
+      expect(chk.item.typeKeywords?.includes(CANNOT_DISCUSS)).toBeFalsy();
+    });
+    it("adds CANNOT_DISCUSS to typeKeywords when isDiscussable is false", () => {
+      obj.isDiscussable = false;
+      const mappings: IPropertyMap[] = [];
+      const chk = mapObjectToModel(obj, model, mappings);
+      expect(chk.item.typeKeywords?.includes(CANNOT_DISCUSS)).toBeTruthy();
     });
   });
   describe("mapModelToObject:", () => {
@@ -73,6 +87,13 @@ describe("PropertyMapper:", () => {
       const chk = mapModelToObject(model, obj, mappings);
       expect(chk.color).toBe("blue");
       expect(chk.missing).toBeUndefined();
+    });
+    it("sets isDiscussable to false when typeKeywords contains CANNOT_DISCUSS", () => {
+      model.item.typeKeywords = [CANNOT_DISCUSS];
+      obj.isDiscussable = true;
+      const mappings: IPropertyMap[] = [];
+      const chk = mapModelToObject(model, obj, mappings);
+      expect(chk.isDiscussable).toBeFalsy();
     });
   });
   describe("PropertyMapper", () => {

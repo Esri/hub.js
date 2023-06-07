@@ -9,7 +9,7 @@ import {
 } from "../../../src/types";
 import { ChannelPermission } from "../../../src/utils/channel-permission";
 import { canCreateChannel } from "../../../src/utils/channels";
-import { CANNOT_DISCUSS } from "../../../src/utils/constants";
+import { CANNOT_DISCUSS } from "@esri/hub-common";
 
 const orgId1 = "3ef";
 const groupId1 = "aaa";

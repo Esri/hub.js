@@ -1,9 +1,9 @@
 import { IGroup, IItem } from "@esri/arcgis-rest-portal";
 import { IChannel, IDiscussionParams, IPost } from "../../types";
-import { parseDatasetId, IHubContent } from "@esri/hub-common";
+import { parseDatasetId, IHubContent, CANNOT_DISCUSS } from "@esri/hub-common";
 import { IUser } from "@esri/arcgis-rest-auth";
 import { canModifyChannel } from "../channels";
-import { CANNOT_DISCUSS, MENTION_ATTRIBUTE } from "../constants";
+import { MENTION_ATTRIBUTE } from "../constants";
 
 export { canModifyPost } from "./can-modify-post";
 export { canModifyPostStatus } from "./can-modify-post-status";

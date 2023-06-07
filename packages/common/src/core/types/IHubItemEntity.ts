@@ -42,6 +42,11 @@ export interface IHubItemEntity extends IHubEntityBase, IWithPermissions {
   extent?: number[][];
 
   /**
+   * If the item has discussions enabled
+   */
+  isDiscussable?: boolean;
+
+  /**
    * Platform derived based on current user's access to the entity
    * if defined, it means the user can edit the entity
    */

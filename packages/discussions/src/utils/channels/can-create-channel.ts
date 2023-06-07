@@ -7,7 +7,7 @@ import {
   SharingAccess,
 } from "../../types";
 import { ChannelPermission } from "../channel-permission";
-import { CANNOT_DISCUSS } from "../constants";
+import { CANNOT_DISCUSS } from "@esri/hub-common";
 import { isOrgAdmin } from "../platform";
 
 type ILegacyChannelPermissions = Pick<IChannel, "access" | "groups" | "orgs">;

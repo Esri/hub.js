@@ -7,7 +7,7 @@ import {
   IDiscussionsUser,
   Role,
 } from "../types";
-import { CANNOT_DISCUSS } from "./constants";
+import { CANNOT_DISCUSS } from "@esri/hub-common";
 import { isOrgAdmin } from "./platform";
 
 type PermissionsByAclCategoryMap = {

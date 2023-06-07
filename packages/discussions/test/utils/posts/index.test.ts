@@ -3,18 +3,13 @@ import { IChannel, IDiscussionParams, IPost } from "../../../src/types";
 import {
   isDiscussable,
   parseDiscussionURI,
-  canModifyPost,
-  canModifyPostStatus,
   canDeletePost,
   parseMentionedUsers,
 } from "../../../src/utils/posts";
-import {
-  MENTION_ATTRIBUTE,
-  CANNOT_DISCUSS,
-} from "../../../src/utils/constants";
+import { MENTION_ATTRIBUTE } from "../../../src/utils/constants";
 import * as viewGroup from "@esri/hub-common/test/mocks/groups/view-group.json";
-import * as formItem from "@esri/hub-common/test/mocks/items/form-item-draft.json";
 import * as channelUtils from "../../../src/utils/channels";
+import { CANNOT_DISCUSS } from "@esri/hub-common";
 
 describe("parseDiscussionURI", () => {
   it("returns DiscussionParams for valid discussion uri", () => {

@@ -1,3 +1,4 @@
+import { CANNOT_DISCUSS } from "../../discussions";
 import { deepSet, getProp, setProp } from "../../objects";
 import { IModel } from "../../types";
 import { cloneObject } from "../../util";
@@ -88,6 +89,19 @@ export function mapObjectToModel<T>(
   model: IModel,
   mappings: IPropertyMap[]
 ): IModel {
+  if (model.item?.typeKeywords) {
+    if (
+      object.hasOwnProperty("isDiscussable") &&
+      getProp(object, "isDiscussable") === true &&
+      model.item.typeKeywords.includes(CANNOT_DISCUSS)
+    ) {
+      model.item.typeKeywords = model.item.typeKeywords.filter(
+        (keyword) => keyword !== CANNOT_DISCUSS
+      );
+    } else {
+      model.item.typeKeywords.push(CANNOT_DISCUSS);
+    }
+  }
   return mapProps(object, "objectKey", model, "modelKey", mappings);
 }
 
@@ -104,6 +118,11 @@ export function mapModelToObject<T>(
   object: T,
   mappings: IPropertyMap[]
 ): T {
+  if (model.item.typeKeywords?.includes(CANNOT_DISCUSS)) {
+    deepSet(object, "isDiscussable", false, true);
+  } else {
+    deepSet(object, "isDiscussable", true, true);
+  }
   return mapProps(model, "modelKey", object, "objectKey", mappings);
 }
 

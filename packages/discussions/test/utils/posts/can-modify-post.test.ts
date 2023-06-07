@@ -5,7 +5,7 @@ import {
   IPost,
   SharingAccess,
 } from "../../../src/types";
-import { CANNOT_DISCUSS } from "../../../src/utils/constants";
+import { CANNOT_DISCUSS } from "@esri/hub-common";
 import { canModifyPost } from "../../../src/utils/posts";
 
 describe("canModifyPost", () => {

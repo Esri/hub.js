@@ -6,7 +6,7 @@ import * as SharedWithModule from "../../src/core/_internal/sharedWith";
 import * as setItemThumbnailModule from "../../src/items/setItemThumbnail";
 import * as ItemsModule from "../../src/items";
 import { IEntityPermissionPolicy } from "../../src/permissions";
-import { IHubItemEntity } from "../../src";
+import { CANNOT_DISCUSS, IHubItemEntity } from "../../src";
 
 // To test the abstract class, we need to create a
 // concrete class that extends it
@@ -15,7 +15,7 @@ class TestHarness extends HubItemEntity<any> {
     super(entity, context);
   }
   update(changes: Partial<any>): void {
-    throw new Error("Method not implemented.");
+    this.entity = changes;
   }
   save(): Promise<void> {
     return super.afterSave();
@@ -511,6 +511,39 @@ describe("HubItemEntity Class: ", () => {
       expect(chk.access).toBeFalsy();
       expect(chk.response).toBe("nope");
       expect(spy).toHaveBeenCalledWith("details", authdCtxMgr.context, entity);
+    });
+  });
+
+  describe("discussions behavior", () => {
+    it("enables discussions", () => {
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+          isDiscussable: false,
+          typeKeywords: [CANNOT_DISCUSS],
+        },
+        authdCtxMgr.context
+      );
+      instance.updateIsDiscussable(true);
+      const chk = instance.toJson();
+      expect(chk.isDiscussable).toBeTruthy();
+      expect(chk.typeKeywords.includes(CANNOT_DISCUSS)).toBeFalsy();
+    });
+    it("disables discussions", () => {
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+          isDiscussable: true,
+          typeKeywords: [],
+        },
+        authdCtxMgr.context
+      );
+      instance.updateIsDiscussable(false);
+      const chk = instance.toJson();
+      expect(chk.isDiscussable).toBeFalsy();
+      expect(chk.typeKeywords.includes(CANNOT_DISCUSS)).toBeTruthy();
     });
   });
 });
