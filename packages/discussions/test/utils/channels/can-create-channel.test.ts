@@ -123,6 +123,16 @@ describe("canCreateChannel", () => {
       expect(canCreateChannel(channel, user)).toEqual(false);
     });
 
+    it("returns false if user undefined", () => {
+      const channel = {
+        access: SharingAccess.PRIVATE,
+        orgs: [orgId1],
+        groups: [groupId1, groupId2],
+      } as IChannel;
+
+      expect(canCreateChannel(channel)).toEqual(false);
+    });
+
     describe("Private access channel", () => {
       it("returns true if user is member of all channel groups", () => {
         const channel = {
@@ -142,6 +152,17 @@ describe("canCreateChannel", () => {
           groups: [groupId1, groupId2, groupId3], // groupId3 not a user group
         } as IChannel;
         const user = buildUser();
+
+        expect(canCreateChannel(channel, user)).toEqual(false);
+      });
+
+      it("returns false if user does not have groups", () => {
+        const channel = {
+          access: SharingAccess.PRIVATE,
+          orgs: [orgId1],
+          groups: [groupId1, groupId2, groupId3], // groupId3 not a user group
+        } as IChannel;
+        const user = buildUser({ groups: undefined });
 
         expect(canCreateChannel(channel, user)).toEqual(false);
       });
@@ -180,6 +201,72 @@ describe("canCreateChannel", () => {
     });
 
     describe("Org access channel", () => {
+      it("returns true if user is member of all channel groups and user is org_admin", () => {
+        const channel = {
+          access: SharingAccess.ORG,
+          orgs: [orgId1],
+          groups: [groupId1, groupId2],
+        } as IChannel;
+        const user = buildUser({ role: "org_admin" });
+
+        expect(canCreateChannel(channel, user)).toEqual(true);
+      });
+
+      it("returns false if user is member of all channel groups but user is not org_admin", () => {
+        const channel = {
+          access: SharingAccess.ORG,
+          orgs: [orgId1],
+          groups: [groupId1, groupId2],
+        } as IChannel;
+        const user = buildUser();
+
+        expect(canCreateChannel(channel, user)).toEqual(false);
+      });
+
+      it("returns false if user is not member of all channel groups and user is org_admin", () => {
+        const channel = {
+          access: SharingAccess.ORG,
+          orgs: [orgId1],
+          groups: [groupId1, groupId2, groupId3], // groupId3 not a user group
+        } as IChannel;
+        const user = buildUser({ role: "org_admin" });
+
+        expect(canCreateChannel(channel, user)).toEqual(false);
+      });
+
+      it("returns false if user is a member of all channel groups but memberType is not authorized and user is org_admin", () => {
+        const channel = {
+          access: SharingAccess.ORG,
+          orgs: [orgId1],
+          groups: [groupId1, groupId2],
+        } as IChannel;
+        const user = buildUser({
+          role: "org_admin",
+          groups: [
+            buildGroup(groupId1, "member"),
+            buildGroup(groupId2, "none"), // memberType none not authorized
+          ],
+        });
+
+        expect(canCreateChannel(channel, user)).toEqual(false);
+      });
+
+      it("returns false if user is a member of all channel groups but group is not discussable and user is org_admin", () => {
+        const channel = {
+          access: SharingAccess.ORG,
+          orgs: [orgId1],
+          groups: [groupId1, groupId2],
+        } as IChannel;
+        const user = buildUser({
+          groups: [
+            buildGroup(groupId1, "member"),
+            buildGroup(groupId2, "admin", [CANNOT_DISCUSS]),
+          ],
+        });
+
+        expect(canCreateChannel(channel, user)).toEqual(false);
+      });
+
       it("returns true if user is org admin included within orgs list", () => {
         const channel = {
           access: SharingAccess.ORG,
@@ -212,6 +299,72 @@ describe("canCreateChannel", () => {
     });
 
     describe("Public Access channel", () => {
+      it("returns true if user is member of all channel groups and user is org_admin", () => {
+        const channel = {
+          access: SharingAccess.PUBLIC,
+          orgs: [orgId1],
+          groups: [groupId1, groupId2],
+        } as IChannel;
+        const user = buildUser({ role: "org_admin" });
+
+        expect(canCreateChannel(channel, user)).toEqual(true);
+      });
+
+      it("returns false if user is member of all channel groups but user is not org_admin", () => {
+        const channel = {
+          access: SharingAccess.PUBLIC,
+          orgs: [orgId1],
+          groups: [groupId1, groupId2],
+        } as IChannel;
+        const user = buildUser();
+
+        expect(canCreateChannel(channel, user)).toEqual(false);
+      });
+
+      it("returns false if user is not member of all channel groups and user is org_admin", () => {
+        const channel = {
+          access: SharingAccess.PUBLIC,
+          orgs: [orgId1],
+          groups: [groupId1, groupId2, groupId3], // groupId3 not a user group
+        } as IChannel;
+        const user = buildUser({ role: "org_admin" });
+
+        expect(canCreateChannel(channel, user)).toEqual(false);
+      });
+
+      it("returns false if user is a member of all channel groups but memberType is not authorized and user is org_admin", () => {
+        const channel = {
+          access: SharingAccess.PUBLIC,
+          orgs: [orgId1],
+          groups: [groupId1, groupId2],
+        } as IChannel;
+        const user = buildUser({
+          role: "org_admin",
+          groups: [
+            buildGroup(groupId1, "member"),
+            buildGroup(groupId2, "none"), // memberType none not authorized
+          ],
+        });
+
+        expect(canCreateChannel(channel, user)).toEqual(false);
+      });
+
+      it("returns false if user is a member of all channel groups but group is not discussable and user is org_admin", () => {
+        const channel = {
+          access: SharingAccess.PUBLIC,
+          orgs: [orgId1],
+          groups: [groupId1, groupId2],
+        } as IChannel;
+        const user = buildUser({
+          groups: [
+            buildGroup(groupId1, "member"),
+            buildGroup(groupId2, "admin", [CANNOT_DISCUSS]),
+          ],
+        });
+
+        expect(canCreateChannel(channel, user)).toEqual(false);
+      });
+
       it("returns true if user is org admin included within orgs list", () => {
         const channel = {
           access: SharingAccess.PUBLIC,

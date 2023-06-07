@@ -1,3 +1,17 @@
+# @esri/hub-discussions [24.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@24.1.0...@esri/hub-discussions@24.2.0) (2023-06-07)
+
+
+### Features
+
+* **hub-discussions:** legacy permission checks mixed channels ([#1070](https://github.com/Esri/hub.js/issues/1070)) ([07ae63d](https://github.com/Esri/hub.js/commit/07ae63d1cd0e8f039c569d13c86aae89a8421fca))
+
+# @esri/hub-discussions [24.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@24.0.1...@esri/hub-discussions@24.1.0) (2023-06-06)
+
+
+### Features
+
+* **hub-discussions:** expand isDiscussable ([#1079](https://github.com/Esri/hub.js/issues/1079)) ([73db7f1](https://github.com/Esri/hub.js/commit/73db7f1c9f7edd3c2bf402b95b87329886877173))
+
 ## @esri/hub-discussions [24.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@24.0.0...@esri/hub-discussions@24.0.1) (2023-06-02)
 
 

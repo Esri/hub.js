@@ -1,4 +1,4 @@
-import { IGroup } from "@esri/arcgis-rest-types";
+import { IGroup, IUser } from "@esri/arcgis-rest-types";
 import { IChannel, IDiscussionsUser, IPost, SharingAccess } from "../../types";
 import { CANNOT_DISCUSS } from "@esri/hub-common";
 
@@ -12,7 +12,7 @@ type ILegacyChannelPermissions = Pick<
  */
 export function canModifyPost(
   post: IPost,
-  user: IDiscussionsUser,
+  user: IUser | IDiscussionsUser = {},
   channel: IChannel
 ) {
   const { access, groups, orgs, allowAnonymous } = channel;
@@ -28,25 +28,29 @@ export function canModifyPost(
   );
 }
 
-function isPostCreator(post: IPost, user: IDiscussionsUser) {
-  return post.creator === user.username;
+function isPostCreator(post: IPost, user: IUser | IDiscussionsUser) {
+  return !!user.username && post.creator === user.username;
 }
 
 function isAuthorizedToModifyByLegacyPermissions(
-  user: IDiscussionsUser,
+  user: IUser | IDiscussionsUser,
   channelParams: ILegacyChannelPermissions
 ) {
-  const { groups: userGroups, orgId: userOrgId } = user;
-  const { access, groups: channelGroups, orgs } = channelParams;
+  const { groups: userGroups = [], orgId: userOrgId } = user;
+  const { access, groups: channelGroups = [], orgs = [] } = channelParams;
 
   if (access === SharingAccess.PUBLIC) {
     return true;
   }
 
   if (access === SharingAccess.ORG) {
-    return orgs.includes(userOrgId);
+    return (
+      isAuthorizedToModifyPostByLegacyGroup(channelGroups, userGroups) ||
+      orgs.includes(userOrgId)
+    );
   }
 
+  // private
   return isAuthorizedToModifyPostByLegacyGroup(channelGroups, userGroups);
 }
 
@@ -55,8 +59,8 @@ function isAuthorizedToModifyByLegacyPermissions(
  * and the group is not marked as non-discussable
  */
 function isAuthorizedToModifyPostByLegacyGroup(
-  channelGroups: string[] = [],
-  userGroups: IGroup[] = []
+  channelGroups: string[],
+  userGroups: IGroup[]
 ) {
   return channelGroups.some((channelGroupId: string) => {
     return userGroups.some((group: IGroup) => {

@@ -1,6 +1,16 @@
 import { IGroup, IItem } from "@esri/arcgis-rest-portal";
-import { IChannel, IDiscussionParams, IPost } from "../../types";
-import { parseDatasetId, IHubContent, CANNOT_DISCUSS } from "@esri/hub-common";
+import {
+  parseDatasetId,
+  IHubContent,
+  CANNOT_DISCUSS,
+  IHubItemEntity,
+} from "@esri/hub-common";
+import {
+  IChannel,
+  IDiscussionParams,
+  IDiscussionsUser,
+  IPost,
+} from "../../types";
 import { IUser } from "@esri/arcgis-rest-auth";
 import { canModifyChannel } from "../channels";
 import { MENTION_ATTRIBUTE } from "../constants";
@@ -47,13 +57,15 @@ export function parseDiscussionURI(discussion: string): IDiscussionParams {
 }
 
 /**
- * Utility to determine if a given IGroup, IItem or IHubContent
+ * Utility to determine if a given IGroup, IItem, IHubContent, or IHubItemEntity
  * is discussable.
  * @export
- * @param {IGroup|IItem|IHubContent} The subject to evaluate
+ * @param {IGroup|IItem|IHubContent|IHubItemEntity} The subject to evaluate
  * @return {boolean}
  */
-export function isDiscussable(subject: IGroup | IItem | IHubContent) {
+export function isDiscussable(
+  subject: IGroup | IItem | IHubContent | IHubItemEntity
+) {
   return !(subject.typeKeywords ?? []).includes(CANNOT_DISCUSS);
 }
 
@@ -67,13 +79,13 @@ export function isDiscussable(subject: IGroup | IItem | IHubContent) {
 export function canDeletePost(
   post: IPost,
   channel: IChannel,
-  user: IUser
+  user: IUser | IDiscussionsUser = {}
 ): boolean {
   return isPostCreator(post, user) || canModifyChannel(channel, user);
 }
 
-function isPostCreator(post: IPost, user: IUser) {
-  return post.creator === user.username;
+function isPostCreator(post: IPost, user: IUser | IDiscussionsUser) {
+  return !!user.username && post.creator === user.username;
 }
 
 const MENTION_ATTRIBUTE_AND_VALUE_PATTERN = new RegExp(

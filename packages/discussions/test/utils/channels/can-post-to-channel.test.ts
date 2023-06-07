@@ -76,6 +76,14 @@ describe("canPostToChannel", () => {
   });
 
   describe("with legacy permissions", () => {
+    it("returns true if undefined user attempts to create post in allowAnonymous === true channel", () => {
+      const channel = {
+        allowAnonymous: true,
+      } as IChannel;
+
+      expect(canPostToChannel(channel)).toBe(true);
+    });
+
     it("returns true if anonymous user attempts to create post in allowAnonymous === true channel", () => {
       const user: IDiscussionsUser = { username: null };
       const channel = {
