@@ -768,7 +768,6 @@ export interface IChannelAclPermission
  */
 export interface ICreateChannelSettings {
   allowReply?: boolean;
-  allowAnonymous?: boolean;
   softDelete?: boolean;
   defaultPostStatus?: PostStatus;
   allowReaction?: boolean;
@@ -785,6 +784,7 @@ export interface ICreateChannelSettings {
  */
 export interface ICreateChannelPermissions {
   access?: SharingAccess;
+  allowAnonymous?: boolean;
   groups?: string[];
   orgs?: string[];
   /**
@@ -792,6 +792,17 @@ export interface ICreateChannelPermissions {
    * @hidden
    */
   channelAclDefinition?: IChannelAclPermissionDefinition[];
+}
+
+/**
+ * permissions parameters for updating a channel
+ *
+ * @export
+ * @interface IUpdateChannelPermissions
+ */
+export interface IUpdateChannelPermissions {
+  access?: SharingAccess;
+  allowAnonymous?: boolean;
 }
 
 /**
@@ -838,10 +849,12 @@ export interface IChannel extends IWithAuthor, IWithEditor, IWithTimestamps {
  * @export
  * @interface IUpdateChannel
  * @extends {ICreateChannelSettings}
+ * @extends { IUpdateChannelPermissions}
  * @extends {Partial<IWithAuthor>}
  */
 export interface IUpdateChannel
   extends ICreateChannelSettings,
+    IUpdateChannelPermissions,
     Partial<IWithAuthor> {}
 
 /**

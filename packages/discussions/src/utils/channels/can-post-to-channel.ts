@@ -1,4 +1,4 @@
-import { IGroup } from "@esri/arcgis-rest-types";
+import { IGroup, IUser } from "@esri/arcgis-rest-types";
 import { IChannel, IDiscussionsUser, Role, SharingAccess } from "../../types";
 import { ChannelPermission } from "../channel-permission";
 import { CANNOT_DISCUSS } from "../constants";
@@ -20,13 +20,13 @@ type ILegacyChannelPermissions = Pick<
 
 export function canPostToChannel(
   channel: IChannel,
-  user: IDiscussionsUser
+  user: IUser | IDiscussionsUser = {}
 ): boolean {
   const { channelAcl, access, groups, orgs, allowAnonymous } = channel;
 
   if (channelAcl) {
     const channelPermission = new ChannelPermission(channelAcl);
-    return channelPermission.canPostToChannel(user);
+    return channelPermission.canPostToChannel(user as IDiscussionsUser);
   }
 
   // Once channelAcl usage is enforced, we will remove authorization by legacy permissions
@@ -39,7 +39,7 @@ export function canPostToChannel(
 }
 
 function isAuthorizedToPostByLegacyPermissions(
-  user: IDiscussionsUser,
+  user: IUser | IDiscussionsUser,
   channelParams: ILegacyChannelPermissions
 ): boolean {
   const { username, groups: userGroups, orgId: userOrgId } = user;
@@ -50,7 +50,7 @@ function isAuthorizedToPostByLegacyPermissions(
     return true;
   }
 
-  if (username === null) {
+  if (!username) {
     return false;
   }
 

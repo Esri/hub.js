@@ -96,6 +96,8 @@ export const getEntityEditorSchemas = async (
       ({ uiSchema } = await {
         "hub:discussion:edit": () =>
           import("../../discussions/_internal/DiscussionUiSchemaEdit"),
+        "hub:discussion:create": () =>
+          import("../../discussions/_internal/DiscussionUiSchemaCreate"),
       }[type as DiscussionEditorType]());
       break;
   }

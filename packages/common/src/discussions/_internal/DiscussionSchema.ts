@@ -7,19 +7,19 @@ import {
 } from "../../core/schemas/shared";
 
 export type DiscussionEditorType = (typeof DiscussionEditorTypes)[number];
-export const DiscussionEditorTypes = ["hub:discussion:edit"] as const;
+export const DiscussionEditorTypes = [
+  "hub:discussion:edit",
+  "hub:discussion:create",
+] as const;
 
 /**
  * defines the JSON schema for a Discussion's editable fields
  */
 export const DiscussionSchema: IConfigurationSchema = {
-  required: ["name", "prompt"],
+  required: ["name"],
   type: "object",
   properties: {
     name: ENTITY_NAME_SCHEMA,
-    prompt: {
-      type: "string",
-    },
     summary: {
       type: "string",
     },

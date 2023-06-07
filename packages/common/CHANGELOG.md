@@ -1,3 +1,31 @@
+# @esri/hub-common [13.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.3.1...@esri/hub-common@13.4.0) (2023-06-07)
+
+
+### Features
+
+* adds discussion create ui schema ([#1082](https://github.com/Esri/hub.js/issues/1082)) ([e463998](https://github.com/Esri/hub.js/commit/e4639987d391fca36d709d888a724afae042dcbf)), closes [#6876](https://github.com/Esri/hub.js/issues/6876)
+
+## @esri/hub-common [13.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.3.0...@esri/hub-common@13.3.1) (2023-06-05)
+
+
+### Bug Fixes
+
+* remove license checks on view and edit project permission policies ([#1077](https://github.com/Esri/hub.js/issues/1077)) ([76918b7](https://github.com/Esri/hub.js/commit/76918b7b9cd3b2cca73cf0a48d35038653412002))
+
+# @esri/hub-common [13.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.2.0...@esri/hub-common@13.3.0) (2023-06-01)
+
+
+### Features
+
+* small project enhancements ([#1074](https://github.com/Esri/hub.js/issues/1074)) ([3085a6b](https://github.com/Esri/hub.js/commit/3085a6bc85af9045cf989f15c5ac446eff2a29a5))
+
+# @esri/hub-common [13.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.1.0...@esri/hub-common@13.2.0) (2023-06-01)
+
+
+### Features
+
+* add slug uri conversion functions and use in getItemBySlug ([#1073](https://github.com/Esri/hub.js/issues/1073)) ([db9addb](https://github.com/Esri/hub.js/commit/db9addb3347fae587ffc5ce35cfa44eb720cb1f7))
+
 # @esri/hub-common [13.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.0.0...@esri/hub-common@13.1.0) (2023-05-31)
 
 

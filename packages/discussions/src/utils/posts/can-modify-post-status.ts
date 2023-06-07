@@ -1,4 +1,4 @@
-import { IGroup } from "@esri/arcgis-rest-types";
+import { IGroup, IUser } from "@esri/arcgis-rest-types";
 import { IChannel, IDiscussionsUser, SharingAccess } from "../../types";
 import { isOrgAdmin } from "../platform";
 import { ChannelPermission } from "../channel-permission";
@@ -7,27 +7,30 @@ const ADMIN_GROUP_ROLES = Object.freeze(["owner", "admin"]);
 
 export function canModifyPostStatus(
   channel: IChannel,
-  user: IDiscussionsUser
+  user: IUser | IDiscussionsUser = {}
 ): boolean {
   const { channelAcl } = channel;
 
   if (channelAcl) {
     const channelPermission = new ChannelPermission(channelAcl);
-    return channelPermission.canModifyPostStatus(user, channel.creator);
+    return channelPermission.canModifyPostStatus(
+      user as IDiscussionsUser,
+      channel.creator
+    );
   }
 
   return isAuthorizedToModifyStatusByLegacyPermissions(user, channel);
 }
 
 function isAuthorizedToModifyStatusByLegacyPermissions(
-  user: IDiscussionsUser,
+  user: IUser | IDiscussionsUser,
   channel: IChannel
 ): boolean {
-  const { username, groups: userGroups, orgId: userOrgId } = user;
+  const { username, groups: userGroups = [], orgId: userOrgId } = user;
   const {
     access,
-    groups: channelGroups,
-    orgs: channelOrgs,
+    groups: channelGroups = [],
+    orgs: channelOrgs = [],
     creator: channelCreator,
   } = channel;
 
@@ -44,7 +47,10 @@ function isAuthorizedToModifyStatusByLegacyPermissions(
   }
 
   // public or org access
-  return channelOrgs.includes(userOrgId) && isOrgAdmin(user);
+  return (
+    isAuthorizedToModifyStatusByLegacyGroup(channelGroups, userGroups) ||
+    isChannelOrgAdmin(channelOrgs, user)
+  );
 }
 
 /**
@@ -52,7 +58,7 @@ function isAuthorizedToModifyStatusByLegacyPermissions(
  */
 function isAuthorizedToModifyStatusByLegacyGroup(
   channelGroups: string[],
-  userGroups: IGroup[] = []
+  userGroups: IGroup[]
 ) {
   return channelGroups.some((channelGroupId: string) => {
     return userGroups.some((group: IGroup) => {
@@ -67,4 +73,11 @@ function isAuthorizedToModifyStatusByLegacyGroup(
       );
     });
   });
+}
+
+function isChannelOrgAdmin(
+  channelOrgs: string[],
+  user: IUser | IDiscussionsUser
+): boolean {
+  return isOrgAdmin(user) && channelOrgs.includes(user.orgId);
 }

@@ -76,6 +76,11 @@ export const uiSchema: IUiSchema = {
             {
               type: "Section",
               labelKey: "{{i18nScope}}.sections.location.label",
+              options: {
+                helperText: {
+                  labelKey: "{{i18nScope}}.sections.location.helperText",
+                },
+              },
               elements: [
                 {
                   scope: "/properties/location",
