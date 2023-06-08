@@ -75,7 +75,12 @@ describe("addSiteDomains", () => {
       },
     } as unknown as IHubRequestOptions;
 
-    await addSiteDomains(model, ro);
+    const result = await addSiteDomains(model, ro);
+
+    expect(result[0].clientKey).toBe(
+      "arcgisonline",
+      "returns portal client key"
+    );
 
     expect(addSpy.calls.count()).toBe(0);
   });

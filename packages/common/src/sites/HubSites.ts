@@ -273,14 +273,13 @@ export async function createSite(
   );
 
   // Register as an app
-  // const registration = await registerSiteAsApplication(model, requestOptions);
-  // model.data.values.clientId = registration.client_id;
   // NOTE: Site registration needs to happen via the hub api domain api calls
   // See https://devtopia.esri.com/dc/hub/issues/6390 for info
 
   // Register domain and at the same time register the site as an application
+  // for portal, this will return a single entry with just the clientKey
   const domainResponses = await addSiteDomains(model, requestOptions);
-  model.data.values.clientId = domainResponses[0].client_id;
+  model.data.values.clientId = domainResponses[0].clientKey;
 
   // update the model
   const updatedModel = await updateModel(
