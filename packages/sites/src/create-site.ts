@@ -17,7 +17,6 @@ import {
 } from "@esri/arcgis-rest-portal";
 
 import { updateInitiativeSiteId } from "@esri/hub-initiatives";
-import { domain } from "process";
 
 /**
  * Create a New Site

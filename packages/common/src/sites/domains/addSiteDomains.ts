@@ -5,6 +5,8 @@ import { addDomain } from "./add-domain";
 /**
  * Given a Site Model, register the domains with the Domain Service.
  *
+ * For Portal, this will return a sparse entry that contains just the portal clientKey
+ *
  * This should only be used when creating a site. To update domains related
  * to a site, use the `addDomain` and `removeDomain` functions directly
  *
@@ -16,7 +18,8 @@ export function addSiteDomains(
   hubRequestOptions: IHubRequestOptions
 ): Promise<any[]> {
   if (hubRequestOptions.isPortal) {
-    // For enterprise we don't register the domain, and we don't
+    // For enterprise we don't register the domain, but we do return a sparse entry
+    // that contains just the portal clientKey so that the caller can use it.
     return Promise.resolve([{ clientKey: "arcgisonline" }]);
   } else {
     const props = ["defaultHostname", "customHostname"];
