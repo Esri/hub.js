@@ -1,3 +1,10 @@
+## @esri/hub-sites [13.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-sites@13.0.0...@esri/hub-sites@13.0.1) (2023-06-08)
+
+
+### Bug Fixes
+
+* address issue creating sites on portal ([#1085](https://github.com/Esri/hub.js/issues/1085)) ([7243db8](https://github.com/Esri/hub.js/commit/7243db889c33d318e03471045539dd2988cd910a))
+
 # @esri/hub-sites [13.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-sites@12.6.0...@esri/hub-sites@13.0.0) (2023-05-26)
 
 
