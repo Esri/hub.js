@@ -1,3 +1,10 @@
+## @esri/hub-common [13.4.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.4.0...@esri/hub-common@13.4.1) (2023-06-08)
+
+
+### Bug Fixes
+
+* address issue creating sites on portal ([#1085](https://github.com/Esri/hub.js/issues/1085)) ([7243db8](https://github.com/Esri/hub.js/commit/7243db889c33d318e03471045539dd2988cd910a))
+
 # @esri/hub-common [13.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.3.1...@esri/hub-common@13.4.0) (2023-06-07)
 
 
