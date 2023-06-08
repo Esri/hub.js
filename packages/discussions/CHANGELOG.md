@@ -1,3 +1,10 @@
+# @esri/hub-discussions [24.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@24.2.0...@esri/hub-discussions@24.3.0) (2023-06-08)
+
+
+### Features
+
+* **hub-discussions:** add optional guidelineUrl to IChannel and ICre… ([#1078](https://github.com/Esri/hub.js/issues/1078)) ([6f889a3](https://github.com/Esri/hub.js/commit/6f889a30546a6a3fe7c796a3550a6db5dc67ba81))
+
 # @esri/hub-discussions [24.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@24.1.0...@esri/hub-discussions@24.2.0) (2023-06-07)
 
 
