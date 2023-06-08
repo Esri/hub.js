@@ -16,7 +16,8 @@ export function addSiteDomains(
   hubRequestOptions: IHubRequestOptions
 ): Promise<any[]> {
   if (hubRequestOptions.isPortal) {
-    return Promise.resolve([]);
+    // For enterprise we don't register the domain, and we don't
+    return Promise.resolve([{ clientKey: "arcgisonline" }]);
   } else {
     const props = ["defaultHostname", "customHostname"];
     return Promise.all(

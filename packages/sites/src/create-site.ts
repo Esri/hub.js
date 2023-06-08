@@ -17,6 +17,7 @@ import {
 } from "@esri/arcgis-rest-portal";
 
 import { updateInitiativeSiteId } from "@esri/hub-initiatives";
+import { domain } from "process";
 
 /**
  * Create a New Site
@@ -64,9 +65,8 @@ export function createSite(
     })
     .then((domainResponses) => {
       // client id will be the same for all domain resonses so we can just grab the first one
-      // no guard clause because the only way we don't get a response is if addSiteDomains throws
-      // which would not hit this code
       model.data.values.clientId = domainResponses[0].clientKey;
+
       // If we have a dcat section, hoist it out as it may contain complex adlib
       // templates that are needed at run-time
       // If we have data.values.dcatConfig, yank it off b/c that may have adlib template stuff in it

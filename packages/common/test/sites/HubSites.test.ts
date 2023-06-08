@@ -348,114 +348,125 @@ describe("HubSites:", () => {
         const newModel = commonModule.cloneObject(m);
         return Promise.resolve(newModel);
       });
-
-      addDomainsSpy = spyOn(
-        require("../../src/sites/domains/addSiteDomains"),
-        "addSiteDomains"
-      ).and.returnValue(Promise.resolve([{ clientKey: "FAKE_CLIENT_KEY" }]));
     });
-    it("works with a sparse IHubSite", async () => {
-      const sparseSite: Partial<commonModule.IHubSite> = {
-        name: "my site",
-        orgUrlKey: "dcdev",
-      };
+    describe("online: ", () => {
+      beforeEach(() => {
+        addDomainsSpy = spyOn(
+          require("../../src/sites/domains/addSiteDomains"),
+          "addSiteDomains"
+        ).and.returnValue(Promise.resolve([{ clientKey: "FAKE_CLIENT_KEY" }]));
+      });
+      it("works with a sparse IHubSite", async () => {
+        const sparseSite: Partial<commonModule.IHubSite> = {
+          name: "my site",
+          orgUrlKey: "dcdev",
+        };
 
-      const chk = await commonModule.createSite(sparseSite, MOCK_HUB_REQOPTS);
+        const chk = await commonModule.createSite(sparseSite, MOCK_HUB_REQOPTS);
 
-      expect(uniqueDomainSpy.calls.count()).toBe(1);
-      expect(createModelSpy.calls.count()).toBe(1);
-      expect(updateModelSpy.calls.count()).toBe(1);
+        expect(uniqueDomainSpy.calls.count()).toBe(1);
+        expect(createModelSpy.calls.count()).toBe(1);
+        expect(updateModelSpy.calls.count()).toBe(1);
 
-      expect(addDomainsSpy.calls.count()).toBe(1);
+        expect(addDomainsSpy.calls.count()).toBe(1);
 
-      const modelToCreate = createModelSpy.calls.argsFor(0)[0];
-      expect(modelToCreate.item.title).toBe("my site");
-      expect(modelToCreate.item.type).toBe("Hub Site Application");
-      expect(modelToCreate.item.properties.slug).toBe("dcdev|my-site");
-      expect(modelToCreate.item.properties.orgUrlKey).toBe("org");
+        const modelToCreate = createModelSpy.calls.argsFor(0)[0];
+        expect(modelToCreate.item.title).toBe("my site");
+        expect(modelToCreate.item.type).toBe("Hub Site Application");
+        expect(modelToCreate.item.properties.slug).toBe("dcdev|my-site");
+        expect(modelToCreate.item.properties.orgUrlKey).toBe("org");
+        const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+        expect(modelToUpdate.data.values.clientId).toBe("FAKE_CLIENT_KEY");
 
-      expect(chk.name).toBe("my site");
-      expect(chk.url).toBe("https://my-site-org.hubqa.arcgis.com");
-    });
-    it("works with a full IHubSite", async () => {
-      const site: Partial<commonModule.IHubSite> = {
-        name: "Special Site",
-        slug: "CuStOm-Slug",
-        subdomain: "custom-subdomain",
-        customHostname: "site.myorg.com",
-        theme: {
-          fake: "theme",
-        },
-        defaultExtent: {
-          xmax: 10,
-          ymax: 10,
-          xmin: 5,
-          ymin: 5,
-          spatialReference: {
-            wkid: 4326,
+        expect(chk.name).toBe("my site");
+        expect(chk.url).toBe("https://my-site-org.hubqa.arcgis.com");
+      });
+      it("works with a full IHubSite", async () => {
+        const site: Partial<commonModule.IHubSite> = {
+          name: "Special Site",
+          slug: "CuStOm-Slug",
+          subdomain: "custom-subdomain",
+          customHostname: "site.myorg.com",
+          theme: {
+            fake: "theme",
           },
-        },
-        culture: "fr-ca",
-        map: {
-          basemaps: {
-            primary: {
-              fake: "basemap",
+          defaultExtent: {
+            xmax: 10,
+            ymax: 10,
+            xmin: 5,
+            ymin: 5,
+            spatialReference: {
+              wkid: 4326,
             },
           },
-        },
-        orgUrlKey: "dcdev",
-        layout: {
-          sections: [{}],
-          header: {
-            component: {
-              settings: {
-                title: "Title that is already set",
+          culture: "fr-ca",
+          map: {
+            basemaps: {
+              primary: {
+                fake: "basemap",
               },
             },
           },
-        },
-      };
+          orgUrlKey: "dcdev",
+          layout: {
+            sections: [{}],
+            header: {
+              component: {
+                settings: {
+                  title: "Title that is already set",
+                },
+              },
+            },
+          },
+        };
 
-      const chk = await commonModule.createSite(site, MOCK_HUB_REQOPTS);
+        const chk = await commonModule.createSite(site, MOCK_HUB_REQOPTS);
 
-      expect(uniqueDomainSpy.calls.count()).toBe(1);
-      expect(createModelSpy.calls.count()).toBe(1);
-      expect(updateModelSpy.calls.count()).toBe(1);
+        expect(uniqueDomainSpy.calls.count()).toBe(1);
+        expect(createModelSpy.calls.count()).toBe(1);
+        expect(updateModelSpy.calls.count()).toBe(1);
 
-      expect(addDomainsSpy.calls.count()).toBe(1);
+        expect(addDomainsSpy.calls.count()).toBe(1);
 
-      expect(chk.name).toBe("Special Site");
-      expect(chk.url).toBe("https://site.myorg.com");
-      expect(chk.culture).toBe("fr-ca");
-      expect(chk.theme).toEqual({ fake: "theme" });
-      expect(chk.defaultExtent.xmax).toBe(10);
-      expect(chk.map.basemaps.primary).toEqual({ fake: "basemap" });
+        const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+        expect(modelToUpdate.data.values.clientId).toBe("FAKE_CLIENT_KEY");
+        expect(chk.name).toBe("Special Site");
+        expect(chk.url).toBe("https://site.myorg.com");
+        expect(chk.culture).toBe("fr-ca");
+        expect(chk.theme).toEqual({ fake: "theme" });
+        expect(chk.defaultExtent.xmax).toBe(10);
+        expect(chk.map.basemaps.primary).toEqual({ fake: "basemap" });
+      });
     });
-    it("works in portal", async () => {
-      const sparseSite: Partial<commonModule.IHubSite> = {
-        name: "my site",
-        orgUrlKey: "dcdev",
-      };
+    describe("portal:", () => {
+      it("works in portal", async () => {
+        const sparseSite: Partial<commonModule.IHubSite> = {
+          name: "my site",
+          orgUrlKey: "dcdev",
+        };
 
-      const chk = await commonModule.createSite(
-        sparseSite,
-        MOCK_ENTERPRISE_REQOPTS
-      );
+        const chk = await commonModule.createSite(
+          sparseSite,
+          MOCK_ENTERPRISE_REQOPTS
+        );
 
-      expect(uniqueDomainSpy.calls.count()).toBe(1);
-      expect(createModelSpy.calls.count()).toBe(1);
-      expect(updateModelSpy.calls.count()).toBe(1);
+        expect(uniqueDomainSpy.calls.count()).toBe(1);
+        expect(createModelSpy.calls.count()).toBe(1);
+        expect(updateModelSpy.calls.count()).toBe(1);
 
-      expect(addDomainsSpy.calls.count()).toBe(1);
-
-      const modelToCreate = createModelSpy.calls.argsFor(0)[0];
-      expect(modelToCreate.item.title).toBe("my site");
-      expect(modelToCreate.item.type).toBe("Site Application");
-      expect(modelToCreate.item.properties.slug).toBe("dcdev|my-site");
-      expect(modelToCreate.item.properties.orgUrlKey).toBe("org");
-      expect(chk.url).toBe("https://my-server.com/portal/apps/sites/#/my-site");
-      expect(chk.typeKeywords).toContain(`hubsubdomain|${chk.subdomain}`);
-      expect(chk.subdomain).toBe(`my-site`);
+        const modelToCreate = createModelSpy.calls.argsFor(0)[0];
+        expect(modelToCreate.item.title).toBe("my site");
+        expect(modelToCreate.item.type).toBe("Site Application");
+        expect(modelToCreate.item.properties.slug).toBe("dcdev|my-site");
+        expect(modelToCreate.item.properties.orgUrlKey).toBe("org");
+        const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+        expect(modelToUpdate.data.values.clientId).toBe("arcgisonline");
+        expect(chk.url).toBe(
+          "https://my-server.com/portal/apps/sites/#/my-site"
+        );
+        expect(chk.typeKeywords).toContain(`hubsubdomain|${chk.subdomain}`);
+        expect(chk.subdomain).toBe(`my-site`);
+      });
     });
   });
   describe("enrichments:", () => {
