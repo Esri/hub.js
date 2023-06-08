@@ -1,7 +1,7 @@
 import { IGroup, IUser } from "@esri/arcgis-rest-types";
 import { IChannel, IDiscussionsUser, SharingAccess } from "../../types";
 import { ChannelPermission } from "../channel-permission";
-import { CANNOT_DISCUSS } from "@esri/hub-common";
+import { CANNOT_DISCUSS } from "../constants";
 import { isOrgAdmin } from "../platform";
 
 type ILegacyChannelPermissions = Pick<IChannel, "access" | "groups" | "orgs">;

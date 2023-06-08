@@ -1,13 +1,20 @@
 import { IHubEntityBase } from "./IHubEntityBase";
 import { IHubGeography } from "../../types";
 import { AccessLevel } from "./types";
-import { IWithPermissions, IWithViewSettings } from "../traits";
+import {
+  IWithPermissions,
+  IWithViewSettings,
+  IWithDiscussions,
+} from "../traits";
 import { IHubLocation } from "./IHubLocation";
 
 /**
  * Properties exposed by Entities that are backed by Items
  */
-export interface IHubItemEntity extends IHubEntityBase, IWithPermissions {
+export interface IHubItemEntity
+  extends IHubEntityBase,
+    IWithPermissions,
+    IWithDiscussions {
   /**
    * Access level of the item ("private" | "org" | "public")
    */
@@ -40,11 +47,6 @@ export interface IHubItemEntity extends IHubEntityBase, IWithPermissions {
    * Extent of the Entity
    */
   extent?: number[][];
-
-  /**
-   * If the item has discussions enabled
-   */
-  isDiscussable?: boolean;
 
   /**
    * Platform derived based on current user's access to the entity

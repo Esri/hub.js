@@ -14,7 +14,7 @@ import {
 import { MENTION_ATTRIBUTE } from "../../../src/utils/constants";
 import * as viewGroup from "@esri/hub-common/test/mocks/groups/view-group.json";
 import * as channelUtils from "../../../src/utils/channels";
-import { CANNOT_DISCUSS } from "@esri/hub-common";
+import { CANNOT_DISCUSS } from "../../../src/utils/constants";
 
 describe("parseDiscussionURI", () => {
   it("returns DiscussionParams for valid discussion uri", () => {

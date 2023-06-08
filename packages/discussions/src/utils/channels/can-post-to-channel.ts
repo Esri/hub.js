@@ -1,7 +1,7 @@
 import { IGroup, IUser } from "@esri/arcgis-rest-types";
 import { IChannel, IDiscussionsUser, Role, SharingAccess } from "../../types";
 import { ChannelPermission } from "../channel-permission";
-import { CANNOT_DISCUSS } from "@esri/hub-common";
+import { CANNOT_DISCUSS } from "../constants";
 
 const ALLOWED_GROUP_ROLES = Object.freeze(["owner", "admin", "member"]);
 

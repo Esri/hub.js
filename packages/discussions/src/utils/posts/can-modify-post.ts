@@ -1,6 +1,6 @@
 import { IGroup, IUser } from "@esri/arcgis-rest-types";
 import { IChannel, IDiscussionsUser, IPost, SharingAccess } from "../../types";
-import { CANNOT_DISCUSS } from "@esri/hub-common";
+import { CANNOT_DISCUSS } from "../constants";
 
 type ILegacyChannelPermissions = Pick<
   IChannel,

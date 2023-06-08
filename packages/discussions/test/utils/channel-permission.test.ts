@@ -7,7 +7,7 @@ import {
   Role,
 } from "../../src/types";
 import { ChannelPermission } from "../../src/utils/channel-permission";
-import { CANNOT_DISCUSS } from "@esri/hub-common";
+import { CANNOT_DISCUSS } from "../../src/utils/constants";
 
 const ALLOWED_GROUP_ROLES = Object.freeze(["owner", "admin", "member"]);
 const ADMIN_GROUP_MEMBER_TYPES = Object.freeze(["owner", "admin"]);
