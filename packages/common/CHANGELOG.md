@@ -1,3 +1,10 @@
+## @esri/hub-common [13.4.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.4.1...@esri/hub-common@13.4.2) (2023-06-09)
+
+
+### Bug Fixes
+
+* **hub-common:** have capitalize() handle the empty string, change titlelize() to stop stripping whi ([#1084](https://github.com/Esri/hub.js/issues/1084)) ([9a16208](https://github.com/Esri/hub.js/commit/9a162084a7e75523a09247f2147499cfde9aa0da))
+
 ## @esri/hub-common [13.4.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.4.0...@esri/hub-common@13.4.1) (2023-06-08)
 
 
