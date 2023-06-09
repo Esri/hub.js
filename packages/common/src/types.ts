@@ -416,6 +416,7 @@ export enum FileExtension {
 
 /**
  * ENUM which defines human readable Item Type names
+ * DO **NOT** UPDATE THIS ENUM W/O RESOLVING https://devtopia.esri.com/dc/hub/issues/6990
  */
 export enum ItemType {
   "360 VR Experience" = "360 VR Experience",
