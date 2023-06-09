@@ -336,6 +336,13 @@ export interface ISearchResponse<T> {
 }
 
 /**
+ * BEGIN CONTENT UPLOAD RELATED TYPES
+ * Please note that the below enum/types are duplicated from the AGO
+ * content upload modal. They were brought over for forward compability purposes and changes
+ * to them may impact how our content upload works.
+ */
+
+/**
  * ENUM which defines File extensions.
  */
 export enum FileExtension {
@@ -1214,3 +1221,6 @@ export const addCreateItemTypes: Record<string, IFileType> = {
     typeKeywords: ["Insights", "Insights Workbook Package"],
   },
 };
+/**
+ * END CONTENT UPLOAD TYPES/ENUMS
+ */

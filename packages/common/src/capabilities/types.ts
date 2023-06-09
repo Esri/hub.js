@@ -18,12 +18,13 @@ const validCapabilities = [
   "overview",
   "settings",
   "teams",
+  "metrics",
 ] as const;
 
 /**
  * Defines the possible values for Capability
  */
-export type Capability = typeof validCapabilities[number];
+export type Capability = (typeof validCapabilities)[number];
 
 /**
  * Validate a capability. This is used because the libary can be used outside of typescript and we want to be able to return a message is the string passed in is not a valid capability
