@@ -403,9 +403,11 @@ export const isNil = (value: unknown) => value == null;
  * @returns Word
  */
 export const capitalize = (word: string) => {
-  // upper case first letter and return as element in array for backwards compatibility
   const chars = Array.from(word);
-  chars[0] = chars[0].toUpperCase();
+  // account for the empty string
+  if (chars.length) {
+    chars[0] = chars[0].toUpperCase();
+  }
   return chars.join("");
 };
 
