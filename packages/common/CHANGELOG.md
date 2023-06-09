@@ -1,3 +1,10 @@
+# @esri/hub-common [13.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.5.0...@esri/hub-common@13.6.0) (2023-06-09)
+
+
+### Features
+
+* add metrics to project capability permissions ([#1086](https://github.com/Esri/hub.js/issues/1086)) ([f67c836](https://github.com/Esri/hub.js/commit/f67c8368b3593bb06a38aefb471ff93a37e80983))
+
 # @esri/hub-common [13.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.4.2...@esri/hub-common@13.5.0) (2023-06-09)
 
 
