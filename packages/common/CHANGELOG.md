@@ -1,3 +1,10 @@
+# @esri/hub-common [13.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.4.2...@esri/hub-common@13.5.0) (2023-06-09)
+
+
+### Features
+
+* **hub-common:** create an array of valid item types ([#1083](https://github.com/Esri/hub.js/issues/1083)) ([ed1d509](https://github.com/Esri/hub.js/commit/ed1d509dd21645cfb07cb0eaa0dcce853a90a8bb))
+
 ## @esri/hub-common [13.4.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.4.1...@esri/hub-common@13.4.2) (2023-06-09)
 
 
