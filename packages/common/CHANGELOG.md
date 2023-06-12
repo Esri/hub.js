@@ -1,3 +1,10 @@
+# @esri/hub-common [13.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.6.0...@esri/hub-common@13.7.0) (2023-06-12)
+
+
+### Features
+
+* **hub-common:** add Discussion entity schemas ([#1076](https://github.com/Esri/hub.js/issues/1076)) ([5b6b704](https://github.com/Esri/hub.js/commit/5b6b704d5a0ae825977b5368c39eef7f77a4234c))
+
 # @esri/hub-common [13.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.5.0...@esri/hub-common@13.6.0) (2023-06-09)
 
 
