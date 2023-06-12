@@ -12,6 +12,10 @@ export function getPropertyMap(): IPropertyMap[] {
   const map = getBasePropertyMap();
 
   // Type specific mappings
-
+  map.push({ objectKey: "prompt", modelKey: "data.prompt" });
+  map.push({
+    objectKey: "location",
+    modelKey: "item.properties.location",
+  });
   return map;
 }

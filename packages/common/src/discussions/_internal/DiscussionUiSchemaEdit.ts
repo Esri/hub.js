@@ -28,6 +28,24 @@ export const uiSchema: IUiSchema = {
           },
         },
         {
+          labelKey: "{{i18nScope}}.fields.prompt.label",
+          scope: "/properties/prompt",
+          type: "Control",
+          options: {
+            helperText: {
+              labelKey: "{{i18nScope}}.fields.prompt.helperText",
+            },
+            messages: [
+              {
+                type: "ERROR",
+                keyword: "required",
+                icon: true,
+                labelKey: "{{i18nScope}}.fields.prompt.requiredError",
+              },
+            ],
+          },
+        },
+        {
           labelKey: "{{i18nScope}}.fields.summary.label",
           scope: "/properties/summary",
           type: "Control",
@@ -74,6 +92,11 @@ export const uiSchema: IUiSchema = {
               labelKey: "{{i18nScope}}.fields.featuredImage.altText.helperText",
             },
           },
+        },
+        {
+          labelKey: "{{i18nScope}}.fields.featuredImage.name.label",
+          scope: "/properties/view/properties/featuredImageName",
+          type: "Control",
         },
         {
           labelKey: "{{i18nScope}}.fields.tags.label",

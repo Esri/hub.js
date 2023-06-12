@@ -16,10 +16,13 @@ export const DiscussionEditorTypes = [
  * defines the JSON schema for a Discussion's editable fields
  */
 export const DiscussionSchema: IConfigurationSchema = {
-  required: ["name"],
+  required: ["name", "prompt"],
   type: "object",
   properties: {
     name: ENTITY_NAME_SCHEMA,
+    prompt: {
+      type: "string",
+    },
     summary: {
       type: "string",
     },
@@ -36,6 +39,9 @@ export const DiscussionSchema: IConfigurationSchema = {
       properties: {
         featuredImage: {
           type: "object",
+        },
+        featuredImageName: {
+          type: "string",
         },
         featuredImageAltText: {
           type: "string",
