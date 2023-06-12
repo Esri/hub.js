@@ -1,3 +1,10 @@
+# @esri/hub-common [13.8.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.7.0...@esri/hub-common@13.8.0) (2023-06-12)
+
+
+### Features
+
+* **hub-common:** remove required property prompt ([#1087](https://github.com/Esri/hub.js/issues/1087)) ([6b7c28e](https://github.com/Esri/hub.js/commit/6b7c28e94df2f6975fd7600fd5e9c1012e5afa9c))
+
 # @esri/hub-common [13.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.6.0...@esri/hub-common@13.7.0) (2023-06-12)
 
 
