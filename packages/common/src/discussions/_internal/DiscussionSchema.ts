@@ -16,12 +16,13 @@ export const DiscussionEditorTypes = [
  * defines the JSON schema for a Discussion's editable fields
  */
 export const DiscussionSchema: IConfigurationSchema = {
-  required: ["name", "prompt"],
+  required: ["name"],
   type: "object",
   properties: {
     name: ENTITY_NAME_SCHEMA,
     prompt: {
       type: "string",
+      default: "We want to hear from you!",
     },
     summary: {
       type: "string",

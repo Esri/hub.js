@@ -30,5 +30,7 @@ export const DEFAULT_DISCUSSION_MODEL: IModel = {
       schemaVersion: 1,
     },
   },
-  data: {},
+  data: {
+    prompt: "We want to hear from you!",
+  },
 } as unknown as IModel;
