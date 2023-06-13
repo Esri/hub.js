@@ -36,6 +36,8 @@ import {
 import { IWithThumbnailBehavior } from "./behaviors/IWithThumbnailBehavior";
 import { IHubItemEntity, SettableAccessLevel } from "./types";
 import { sharedWith } from "./_internal/sharedWith";
+import { IWithDiscussionsBehavior } from "./behaviors/IWithDiscussionsBehavior";
+import { CANNOT_DISCUSS } from "../discussions";
 
 const FEATURED_IMAGE_FILENAME = "featuredImage.png";
 
@@ -49,7 +51,8 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     IWithThumbnailBehavior,
     IWithFeaturedImageBehavior,
     IWithPermissionBehavior,
-    IWithCapabilityBehavior
+    IWithCapabilityBehavior,
+    IWithDiscussionsBehavior
 {
   protected context: IArcGISContext;
   protected entity: T;
@@ -338,4 +341,17 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     }
   }
   //#endregion IWithFeaturedImageBehavior
+
+  /**
+   * Updates the isDiscussable property
+   * @param isDiscussable whether to enable or disable discussions
+   */
+  updateIsDiscussable(isDiscussable: boolean): void {
+    const typeKeywords = isDiscussable
+      ? this.entity.typeKeywords.filter(
+          (typeKeyword) => typeKeyword !== CANNOT_DISCUSS
+        )
+      : [...this.entity.typeKeywords, CANNOT_DISCUSS];
+    this.update({ typeKeywords, isDiscussable } as Partial<T>);
+  }
 }

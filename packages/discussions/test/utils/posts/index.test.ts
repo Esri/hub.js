@@ -8,17 +8,14 @@ import {
 import {
   isDiscussable,
   parseDiscussionURI,
-  canModifyPost,
-  canModifyPostStatus,
   canDeletePost,
   parseMentionedUsers,
 } from "../../../src/utils/posts";
 import {
-  MENTION_ATTRIBUTE,
   CANNOT_DISCUSS,
+  MENTION_ATTRIBUTE,
 } from "../../../src/utils/constants";
 import * as viewGroup from "@esri/hub-common/test/mocks/groups/view-group.json";
-import * as formItem from "@esri/hub-common/test/mocks/items/form-item-draft.json";
 import * as channelUtils from "../../../src/utils/channels";
 
 describe("parseDiscussionURI", () => {

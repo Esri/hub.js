@@ -98,6 +98,7 @@ export enum PostStatus {
 export enum DiscussionType {
   GROUP = "group",
   CONTENT = "content",
+  BOARD = "board",
 }
 
 /**

@@ -6,7 +6,7 @@ import * as SharedWithModule from "../../src/core/_internal/sharedWith";
 import * as setItemThumbnailModule from "../../src/items/setItemThumbnail";
 import * as ItemsModule from "../../src/items";
 import { IEntityPermissionPolicy } from "../../src/permissions";
-import { IHubItemEntity } from "../../src";
+import { CANNOT_DISCUSS, IHubItemEntity } from "../../src";
 
 // To test the abstract class, we need to create a
 // concrete class that extends it
@@ -511,6 +511,45 @@ describe("HubItemEntity Class: ", () => {
       expect(chk.access).toBeFalsy();
       expect(chk.response).toBe("nope");
       expect(spy).toHaveBeenCalledWith("details", authdCtxMgr.context, entity);
+    });
+  });
+
+  describe("discussions behavior", () => {
+    it("enables discussions", () => {
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+          isDiscussable: false,
+          typeKeywords: [CANNOT_DISCUSS],
+        },
+        authdCtxMgr.context
+      );
+      const updateSpy = spyOn(instance, "update").and.returnValue(null);
+      instance.updateIsDiscussable(true);
+      expect(updateSpy).toHaveBeenCalledTimes(1);
+      expect(updateSpy).toHaveBeenCalledWith({
+        typeKeywords: [],
+        isDiscussable: true,
+      });
+    });
+    it("disables discussions", () => {
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+          isDiscussable: true,
+          typeKeywords: [],
+        },
+        authdCtxMgr.context
+      );
+      const updateSpy = spyOn(instance, "update").and.returnValue(null);
+      instance.updateIsDiscussable(false);
+      expect(updateSpy).toHaveBeenCalledTimes(1);
+      expect(updateSpy).toHaveBeenCalledWith({
+        typeKeywords: [CANNOT_DISCUSS],
+        isDiscussable: false,
+      });
     });
   });
 });
