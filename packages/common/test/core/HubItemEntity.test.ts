@@ -15,7 +15,7 @@ class TestHarness extends HubItemEntity<any> {
     super(entity, context);
   }
   update(changes: Partial<any>): void {
-    this.entity = changes;
+    throw new Error("Method not implemented.");
   }
   save(): Promise<void> {
     return super.afterSave();
@@ -525,10 +525,13 @@ describe("HubItemEntity Class: ", () => {
         },
         authdCtxMgr.context
       );
+      const updateSpy = spyOn(instance, "update").and.returnValue(null);
       instance.updateIsDiscussable(true);
-      const chk = instance.toJson();
-      expect(chk.isDiscussable).toBeTruthy();
-      expect(chk.typeKeywords.includes(CANNOT_DISCUSS)).toBeFalsy();
+      expect(updateSpy).toHaveBeenCalledTimes(1);
+      expect(updateSpy).toHaveBeenCalledWith({
+        typeKeywords: [],
+        isDiscussable: true,
+      });
     });
     it("disables discussions", () => {
       const instance = new TestHarness(
@@ -540,10 +543,13 @@ describe("HubItemEntity Class: ", () => {
         },
         authdCtxMgr.context
       );
+      const updateSpy = spyOn(instance, "update").and.returnValue(null);
       instance.updateIsDiscussable(false);
-      const chk = instance.toJson();
-      expect(chk.isDiscussable).toBeFalsy();
-      expect(chk.typeKeywords.includes(CANNOT_DISCUSS)).toBeTruthy();
+      expect(updateSpy).toHaveBeenCalledTimes(1);
+      expect(updateSpy).toHaveBeenCalledWith({
+        typeKeywords: [CANNOT_DISCUSS],
+        isDiscussable: false,
+      });
     });
   });
 });
