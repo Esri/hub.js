@@ -1,3 +1,10 @@
+# @esri/hub-discussions [24.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@24.3.0...@esri/hub-discussions@24.4.0) (2023-06-13)
+
+
+### Features
+
+* **hub-discussions:** expanded enum ([#1080](https://github.com/Esri/hub.js/issues/1080)) ([2a121b4](https://github.com/Esri/hub.js/commit/2a121b49e36f07f326918a5b67b1da2d73e7841f))
+
 # @esri/hub-discussions [24.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@24.2.0...@esri/hub-discussions@24.3.0) (2023-06-08)
 
 
