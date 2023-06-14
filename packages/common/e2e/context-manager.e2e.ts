@@ -7,7 +7,7 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;
 function delay(milliseconds: number) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
-describe("context-manager:", () => {
+fdescribe("context-manager:", () => {
   let factory: Artifactory;
   beforeAll(() => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;

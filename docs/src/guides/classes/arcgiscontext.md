@@ -42,7 +42,7 @@ The application can then pass that updated `.context` into it's normal state/cha
 
 ### ArcGISContextManager Class
 
-This class should be created by your application - i.e. the React/Ember/Vue etc and maintained for the lifetime of the application. As your application allows the user to sign in/out, your app should call the `.setAuthentication(...)` or `.clearAuthentication()` methods as needed. If your application loads a serialized session from localStorage or a cookie, then it can pass the hydrated `UserSession` into the `.create(...)` static factory function, thus saving some xhrs.
+This class should be created by your application - i.e. the React/Ember/Vue etc and maintained for the lifetime of the application. As your application allows the user to sign in/out, your app should call the `.setAuthentication(...)` or `.clearAuthentication()` methods as needed. If your application needs to store the session into localStorage or other type of store, `ArcGISContextManager.serialize()` will return the current context as an encoded string. When the app boots, and loads this string from whatever store it chose to use, it can then use `ArcGISContextManager.deserialize(encodedContextString)` to get a fully re-hydrated `ArcGISContextManager` instance.
 
 #### Example
 

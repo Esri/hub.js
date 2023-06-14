@@ -1,5 +1,9 @@
 import { getSelf, getUser, IPortal } from "@esri/arcgis-rest-portal";
-import { IUser, UserSession } from "@esri/arcgis-rest-auth";
+import {
+  IUser,
+  IUserSessionOptions,
+  UserSession,
+} from "@esri/arcgis-rest-auth";
 import {
   ArcGISContext,
   IArcGISContext,
@@ -183,30 +187,40 @@ export class ArcGISContextManager {
   ): Promise<ArcGISContextManager> {
     const decoded = atob(serializedContext);
 
-    const state: Partial<IArcGISContextManagerOptions> & { session?: string } =
-      JSON.parse(decoded);
+    const state: Partial<IArcGISContextManagerOptions> & {
+      session?: string;
+    } = JSON.parse(decoded);
 
     // create opts and populate from state
     const opts: IArcGISContextManagerOptions = {
       portalUrl: state.portalUrl,
     };
     if (state.session) {
-      opts.authentication = UserSession.deserialize(state.session);
-    }
-    if (state.portal) {
-      opts.portal = state.portal;
-    }
-    if (state.currentUser) {
-      opts.currentUser = state.currentUser;
-    }
-    if (state.properties) {
-      opts.properties = state.properties;
-    }
-    if (state.systemStatus) {
-      opts.systemStatus = state.systemStatus;
-    }
+      // re-create the session
+      const userSession = UserSession.deserialize(state.session);
+      // if the session is still valid, use it and the other properties
+      if (userSession.tokenExpires.getTime() > Date.now()) {
+        opts.authentication = userSession;
 
-    // if we got a serialized session, create that
+        if (state.portal) {
+          opts.portal = state.portal;
+        }
+        if (state.currentUser) {
+          opts.currentUser = state.currentUser;
+        }
+        if (state.properties) {
+          opts.properties = state.properties;
+        }
+      }
+    } else {
+      // if the session is expired, we can still carry forward the portalUrl
+      // we don't need this when auth is passed b/c it will use that instead
+      // of portalUrl
+      opts.portalUrl = state.portalUrl;
+    }
+    // system status is safe to carry forward even if session is expired
+    opts.systemStatus = state.systemStatus;
+
     return ArcGISContextManager.create(opts);
   }
 
@@ -266,13 +280,15 @@ export class ArcGISContextManager {
    * @returns encoded string representation of the context
    */
   serialize(): string {
-    const state: Partial<IArcGISContextManagerOptions> & { session?: string } =
-      {};
+    const state: Partial<IArcGISContextManagerOptions> & {
+      session?: string;
+    } = {
+      portalUrl: this._portalUrl,
+      systemStatus: this._systemStatus,
+    };
+
     if (this._authentication) {
       state.session = this._authentication.serialize();
-    }
-    if (this._portalUrl) {
-      state.portalUrl = this._portalUrl;
     }
     if (this._portalSelf) {
       state.portal = this._portalSelf;
@@ -282,9 +298,6 @@ export class ArcGISContextManager {
     }
     if (this._properties) {
       state.properties = this._properties;
-    }
-    if (this._systemStatus) {
-      state.systemStatus = this._systemStatus;
     }
 
     return btoa(JSON.stringify(state));
