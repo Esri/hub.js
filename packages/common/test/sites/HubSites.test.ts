@@ -55,6 +55,7 @@ const SITE: commonModule.IHubSite = {
   orgUrlKey: "dcdev",
   owner: "dcdev_dude",
   type: "Hub Site Application",
+  typeKeywords: [],
   createdDate: new Date(1595878748000),
   createdDateSource: "item.created",
   updatedDate: new Date(1595878750000),

@@ -6,6 +6,7 @@ import { IModel } from "../../types";
 import { SiteDefaultCapabilities } from "./SiteBusinessRules";
 import { processEntityCapabilities } from "../../capabilities";
 import { upgradeCatalogSchema } from "../../search/upgradeCatalogSchema";
+import { isDiscussable } from "../../discussions";
 
 /**
  * Given a model and a site, set various computed properties that can't be directly mapped
@@ -33,6 +34,7 @@ export function computeProps(
   site.createdDateSource = "item.created";
   site.updatedDate = new Date(model.item.modified);
   site.updatedDateSource = "item.modified";
+  site.isDiscussable = isDiscussable(site);
 
   // Handle capabilities
   // NOTE: This does not currently contain the older "capabilities" values!

@@ -161,6 +161,7 @@ describe("discussions edit:", () => {
         schemaVersion: 1,
         canEdit: false,
         canDelete: false,
+        typeKeywords: [],
       };
       const chk = await updateDiscussion(prj, { authentication: MOCK_AUTH });
       expect(chk.id).toBe(GUID);

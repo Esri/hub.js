@@ -20,6 +20,7 @@ import {
   EditorConfigType,
   IEditorConfig,
 } from "../core/behaviors/IWithEditorBehavior";
+import { setDiscussableKeyword } from "../discussions";
 
 /**
  * @private
@@ -47,6 +48,10 @@ export async function createProject(
   // add slug and status to keywords
   project.typeKeywords = setSlugKeyword(project.typeKeywords, project.slug);
   project.typeKeywords = setStatusKeyword(project.typeKeywords, project.status);
+  project.typeKeywords = setDiscussableKeyword(
+    project.typeKeywords,
+    project.isDiscussable
+  );
   // Map project object onto a default project Model
   const mapper = new PropertyMapper<Partial<IHubProject>>(getPropertyMap());
   // create model from object, using the default model as a starting point
@@ -77,6 +82,10 @@ export async function updateProject(
   );
   // update the status keyword
   project.typeKeywords = setStatusKeyword(project.typeKeywords, project.status);
+  project.typeKeywords = setDiscussableKeyword(
+    project.typeKeywords,
+    project.isDiscussable
+  );
   // get the backing item & data
   const model = await getModel(project.id, requestOptions);
   // create the PropertyMapper

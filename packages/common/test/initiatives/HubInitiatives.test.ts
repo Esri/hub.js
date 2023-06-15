@@ -301,6 +301,7 @@ describe("HubInitiatives:", () => {
         schemaVersion: 1,
         canEdit: false,
         canDelete: false,
+        typeKeywords: [],
       };
       const chk = await updateInitiative(prj, { authentication: MOCK_AUTH });
       expect(chk.id).toBe(GUID);

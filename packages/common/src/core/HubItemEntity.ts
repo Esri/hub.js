@@ -37,7 +37,7 @@ import { IWithThumbnailBehavior } from "./behaviors/IWithThumbnailBehavior";
 import { IHubItemEntity, SettableAccessLevel } from "./types";
 import { sharedWith } from "./_internal/sharedWith";
 import { IWithDiscussionsBehavior } from "./behaviors/IWithDiscussionsBehavior";
-import { CANNOT_DISCUSS } from "../discussions";
+import { setDiscussableKeyword } from "../discussions";
 
 const FEATURED_IMAGE_FILENAME = "featuredImage.png";
 
@@ -347,11 +347,10 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * @param isDiscussable whether to enable or disable discussions
    */
   updateIsDiscussable(isDiscussable: boolean): void {
-    const typeKeywords = isDiscussable
-      ? this.entity.typeKeywords.filter(
-          (typeKeyword) => typeKeyword !== CANNOT_DISCUSS
-        )
-      : [...this.entity.typeKeywords, CANNOT_DISCUSS];
+    const typeKeywords = setDiscussableKeyword(
+      this.entity.typeKeywords,
+      isDiscussable
+    );
     this.update({ typeKeywords, isDiscussable } as Partial<T>);
   }
 }

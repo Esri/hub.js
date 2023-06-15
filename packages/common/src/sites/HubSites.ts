@@ -35,6 +35,7 @@ import { getProp, setProp } from "../objects";
 import { getItemThumbnailUrl } from "../resources/get-item-thumbnail-url";
 import { upgradeCatalogSchema } from "../search/upgradeCatalogSchema";
 import { catalogMigration } from "./_internal/catalogMigration";
+import { setDiscussableKeyword } from "../discussions";
 
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
@@ -263,6 +264,11 @@ export async function createSite(
     setProp("layout.header.component.settings.title", site.name, site);
   }
 
+  site.typeKeywords = setDiscussableKeyword(
+    site.typeKeywords,
+    site.isDiscussable
+  );
+
   // Now convert the IHubSite into an IModel
   const mapper = new PropertyMapper<Partial<IHubSite>>(getPropertyMap());
   let model = mapper.objectToModel(site, cloneObject(DEFAULT_SITE_MODEL));
@@ -303,6 +309,10 @@ export async function updateSite(
   site: IHubSite,
   requestOptions: IHubRequestOptions
 ): Promise<IHubSite> {
+  site.typeKeywords = setDiscussableKeyword(
+    site.typeKeywords,
+    site.isDiscussable
+  );
   // convert IHubSite to model
   const siteModel = convertSiteToModel(site, requestOptions);
   // Fetch backing model from the portal
