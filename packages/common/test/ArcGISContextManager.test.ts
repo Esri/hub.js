@@ -5,6 +5,7 @@ import {
   IHubRequestOptionsPortalSelf,
   Level,
 } from "../src";
+import { atob, btoa } from "abab";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH, MOCK_ENTERPRISE_AUTH } from "./mocks/mock-auth";
 import { IPortal } from "@esri/arcgis-rest-portal";
@@ -77,6 +78,101 @@ const enterpriseUserResponse = {
   description: "Runs the Rebels",
   email: "lskywalker@rebelalliance.com",
 };
+
+const past = new Date(new Date().getTime() - 1000000).toISOString();
+const expiredSession = {
+  clientId: "clientId",
+  refreshToken: "refreshToken",
+  refreshTokenExpires: past,
+  username: "casey",
+  password: "123456",
+  token: "fake-token",
+  tokenExpires: past,
+  portal: "https://myorg.maps.arcgis.com/sharing/rest",
+  tokenDuration: 20160,
+  redirectUri: "https://example-app.com/redirect-uri",
+  refreshTokenTTL: 1440,
+};
+const future = new Date(new Date().getTime() + 1000000).toISOString();
+const validSession = {
+  clientId: "clientId",
+  refreshToken: "refreshToken",
+  refreshTokenExpires: future,
+  username: "casey",
+  password: "123456",
+  token: "fake-token",
+  tokenExpires: future,
+  portal: "https://myorg.maps.arcgis.com/sharing/rest",
+  tokenDuration: 20160,
+  redirectUri: "https://example-app.com/redirect-uri",
+  refreshTokenTTL: 1440,
+};
+
+const serializedContext = {
+  portalUrl: "https://myorg.maps.arcgis.com",
+  systemStatus: {
+    content: "online",
+    discussions: "online",
+    events: "online",
+    initiatives: "online",
+    items: "online",
+    metrics: "online",
+    notifications: "online",
+    pages: "online",
+    projects: "online",
+    search: "online",
+    sites: "online",
+  },
+  session: JSON.stringify(expiredSession),
+  portal: {
+    id: "FAKEID",
+    name: "My Org",
+    urlKey: "myorg",
+    customBaseUrl: "maps.arcgis.com",
+    isPortal: false,
+    helperServices: {
+      big: "hash of things",
+    },
+    portalProperties: {
+      hub: {
+        enabled: true,
+        settings: {
+          events: {
+            publicViewId: "54cb8ca07c7e4980a554ce9b2a6b0c0a",
+            serviceId: "bde7428c5199419d9c62f20367a71126",
+          },
+          communityOrg: {
+            orgId: "FAKE_C_ORGID",
+            portalHostname: "my-community.maps.arcgis.com",
+          },
+        },
+      },
+    },
+    user: {
+      username: "jvader",
+      firstName: "Jeff",
+      lastName: "Vader",
+      description: "Runs the Deathstar",
+      email: "jvader@deathstar.com",
+    },
+  },
+  currentUser: {
+    username: "jvader",
+    firstName: "Jeff",
+    lastName: "Vader",
+    description: "Runs the Deathstar",
+    email: "jvader@deathstar.com",
+  },
+  properties: {
+    foo: "bar",
+  },
+};
+
+const validSerializedContext = cloneObject(serializedContext);
+validSerializedContext.session = JSON.stringify(validSession);
+
+const expiredSerializedContext = cloneObject(serializedContext);
+expiredSerializedContext.session = JSON.stringify(expiredSession);
 
 /**
  * NOTE: Throughout these tests we pass in a second arg to ArcGISContextManager.create
@@ -304,6 +400,113 @@ describe("ArcGISContext:", () => {
       } catch (ex) {
         expect(ex).toBeDefined();
       }
+    });
+    it("serializes anon manager to string", async () => {
+      const mgr = await ArcGISContextManager.create();
+      const serialized = mgr.serialize();
+      const decoded = JSON.parse(atob(serialized));
+      expect(decoded.session).not.toBeDefined();
+      expect(decoded.portal).not.toBeDefined();
+      expect(decoded.currentUser).not.toBeDefined();
+      expect(decoded.properties).not.toBeDefined();
+      expect(decoded.portalUrl).toEqual("https://www.arcgis.com");
+    });
+    it("serializes all props to encoded string", async () => {
+      const t = new Date().getTime();
+      spyOn(portalModule, "getSelf").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+      });
+      spyOn(portalModule, "getUser").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlineUserResponse));
+      });
+
+      const mgr = await ArcGISContextManager.create({
+        authentication: MOCK_AUTH,
+        properties: { foo: "bar" },
+      });
+      const serialized = mgr.serialize();
+      // verify that the serialized session is encoded by decoding it
+      // and converting back into json
+      const decoded = JSON.parse(atob(serialized));
+      expect(decoded.session).toEqual(MOCK_AUTH.serialize());
+      expect(decoded.portal).toEqual(onlinePortalSelfResponse);
+      expect(decoded.currentUser).toEqual(onlineUserResponse);
+      expect(decoded.properties).toEqual({ foo: "bar" });
+    });
+    it("can deserialize minimal context", async () => {
+      const serialized = btoa(
+        JSON.stringify({ portalUrl: "https://www.arcgis.com" })
+      );
+      const mgr = await ArcGISContextManager.deserialize(serialized);
+      expect(mgr.context.portalUrl).toBe("https://www.arcgis.com");
+      expect(mgr.context.isAuthenticated).toBeFalsy();
+    });
+    it("can deserialize full, valid context", async () => {
+      const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+      });
+      const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlineUserResponse));
+      });
+      const serialized = btoa(JSON.stringify(validSerializedContext));
+      const mgr = await ArcGISContextManager.deserialize(serialized);
+      expect(selfSpy.calls.count()).toBe(0);
+      expect(userSpy.calls.count()).toBe(0);
+      expect(mgr.context.portalUrl).toBe(
+        MOCK_AUTH.portal.replace(`/sharing/rest`, "")
+      );
+      expect(mgr.context.isAuthenticated).toBeTruthy();
+      expect(mgr.context.currentUser).toEqual(
+        validSerializedContext.currentUser
+      );
+      expect(mgr.context.portal).toEqual(validSerializedContext.portal);
+      expect(mgr.context.currentUser).toEqual(
+        validSerializedContext.currentUser
+      );
+      expect(mgr.context.session.token).toEqual(validSession.token);
+    });
+    it("can deserialize sparse, valid context", async () => {
+      const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+      });
+      const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlineUserResponse));
+      });
+      const sparseValidContext = cloneObject(validSerializedContext) as any;
+      delete sparseValidContext.currentUser;
+      delete sparseValidContext.portal;
+      delete sparseValidContext.properties;
+
+      const serialized = btoa(JSON.stringify(sparseValidContext));
+      const mgr = await ArcGISContextManager.deserialize(serialized);
+      expect(selfSpy.calls.count()).toBe(1);
+      expect(userSpy.calls.count()).toBe(1);
+      expect(mgr.context.portalUrl).toBe(
+        MOCK_AUTH.portal.replace(`/sharing/rest`, "")
+      );
+      expect(mgr.context.isAuthenticated).toBeTruthy();
+      expect(mgr.context.currentUser).toEqual(onlineUserResponse);
+      expect(mgr.context.portal).toEqual(onlinePortalSelfResponse);
+      expect(mgr.context.session.token).toEqual(validSession.token);
+    });
+    it("can deserialize full, expired context", async () => {
+      const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlinePortalSelfResponse));
+      });
+      const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
+        return Promise.resolve(cloneObject(onlineUserResponse));
+      });
+      const serialized = btoa(JSON.stringify(expiredSerializedContext));
+      const mgr = await ArcGISContextManager.deserialize(serialized);
+      expect(selfSpy.calls.count()).toBe(0);
+      expect(userSpy.calls.count()).toBe(0);
+      expect(mgr.context.portalUrl).toBe(
+        MOCK_AUTH.portal.replace(`/sharing/rest`, "")
+      );
+      expect(mgr.context.isAuthenticated).toBeFalsy();
+      expect(mgr.context.currentUser).not.toBeDefined();
+      expect(mgr.context.portal).not.toBeDefined();
+      expect(mgr.context.session).not.toBeDefined();
     });
   });
 

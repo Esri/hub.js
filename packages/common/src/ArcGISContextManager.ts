@@ -1,10 +1,15 @@
 import { getSelf, getUser, IPortal } from "@esri/arcgis-rest-portal";
-import { IUser, UserSession } from "@esri/arcgis-rest-auth";
+import {
+  IUser,
+  IUserSessionOptions,
+  UserSession,
+} from "@esri/arcgis-rest-auth";
 import {
   ArcGISContext,
   IArcGISContext,
   IArcGISContextOptions,
 } from "./ArcGISContext";
+import { atob, btoa } from "abab";
 
 import { getHubApiFromPortalUrl } from "./urls/getHubApiFromPortalUrl";
 import { getPortalBaseFromOrgUrl } from "./urls/getPortalBaseFromOrgUrl";
@@ -172,6 +177,55 @@ export class ArcGISContextManager {
   }
 
   /**
+   * Create a new instance of the ArcGISContextManager from a serialized
+   * string. This is useful when you want to store the context in a
+   * browser's local storage or server side session.
+   * @param serializedContext
+   * @returns
+   */
+  public static async deserialize(
+    serializedContext: string
+  ): Promise<ArcGISContextManager> {
+    const decoded = atob(serializedContext);
+
+    const state: Partial<IArcGISContextManagerOptions> & {
+      session?: string;
+    } = JSON.parse(decoded);
+
+    // create opts and populate from state
+    const opts: IArcGISContextManagerOptions = {
+      portalUrl: state.portalUrl,
+    };
+    if (state.session) {
+      // re-create the session
+      const userSession = UserSession.deserialize(state.session);
+      // if the session is still valid, use it and the other properties
+      if (userSession.tokenExpires.getTime() > Date.now()) {
+        opts.authentication = userSession;
+
+        if (state.portal) {
+          opts.portal = state.portal;
+        }
+        if (state.currentUser) {
+          opts.currentUser = state.currentUser;
+        }
+        if (state.properties) {
+          opts.properties = state.properties;
+        }
+      }
+    } else {
+      // if the session is expired, we can still carry forward the portalUrl
+      // we don't need this when auth is passed b/c it will use that instead
+      // of portalUrl
+      opts.portalUrl = state.portalUrl;
+    }
+    // system status is safe to carry forward even if session is expired
+    opts.systemStatus = state.systemStatus;
+
+    return ArcGISContextManager.create(opts);
+  }
+
+  /**
    * Set the Authentication (UserSession) for the context.
    * This should be called when a user signs into a running
    * application.
@@ -218,6 +272,36 @@ export class ArcGISContextManager {
    */
   get context(): IArcGISContext {
     return this._context;
+  }
+
+  /**
+   * Serialize the context into a string that can be stored
+   * in a browser's local storage or server side session
+   *
+   * @returns encoded string representation of the context
+   */
+  serialize(): string {
+    const state: Partial<IArcGISContextManagerOptions> & {
+      session?: string;
+    } = {
+      portalUrl: this._portalUrl,
+      systemStatus: this._systemStatus,
+    };
+
+    if (this._authentication) {
+      state.session = this._authentication.serialize();
+    }
+    if (this._portalSelf) {
+      state.portal = this._portalSelf;
+    }
+    if (this._currentUser) {
+      state.currentUser = this._currentUser;
+    }
+    if (this._properties) {
+      state.properties = this._properties;
+    }
+
+    return btoa(JSON.stringify(state));
   }
 
   /**
