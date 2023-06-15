@@ -1,3 +1,10 @@
+## @esri/hub-common [13.10.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.10.0...@esri/hub-common@13.10.1) (2023-06-15)
+
+
+### Bug Fixes
+
+* limit project summary (purpose) to 2048 chars and abstract as reusable subschema ([#1090](https://github.com/Esri/hub.js/issues/1090)) ([83c7a61](https://github.com/Esri/hub.js/commit/83c7a61730a29b29589a1049988f82830fd3a629))
+
 # @esri/hub-common [13.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.9.0...@esri/hub-common@13.10.0) (2023-06-15)
 
 
