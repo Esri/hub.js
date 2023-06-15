@@ -1,3 +1,10 @@
+# @esri/hub-common [13.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.9.0...@esri/hub-common@13.10.0) (2023-06-15)
+
+
+### Features
+
+* context manager serialize / deserialize ([#1088](https://github.com/Esri/hub.js/issues/1088)) ([f972516](https://github.com/Esri/hub.js/commit/f972516f39432e477c2f4b999d5b25e5278fd339))
+
 # @esri/hub-common [13.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.8.0...@esri/hub-common@13.9.0) (2023-06-13)
 
 
