@@ -9,6 +9,7 @@ import {
   IArcGISContext,
   IArcGISContextOptions,
 } from "./ArcGISContext";
+import { atob, btoa } from "abab";
 
 import { getHubApiFromPortalUrl } from "./urls/getHubApiFromPortalUrl";
 import { getPortalBaseFromOrgUrl } from "./urls/getPortalBaseFromOrgUrl";
