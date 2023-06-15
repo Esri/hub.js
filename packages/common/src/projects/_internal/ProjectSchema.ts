@@ -3,6 +3,7 @@ import {
   ENTITY_ACCESS_SCHEMA,
   ENTITY_CATEGORIES_SCHEMA,
   ENTITY_NAME_SCHEMA,
+  ENTITY_SUMMARY_SCHEMA,
   ENTITY_TAGS_SCHEMA,
   ENTITY_TIMELINE_SCHEMA,
 } from "../../core/schemas/shared";
@@ -21,9 +22,7 @@ export const ProjectSchema: IConfigurationSchema = {
   type: "object",
   properties: {
     name: ENTITY_NAME_SCHEMA,
-    summary: {
-      type: "string",
-    },
+    summary: ENTITY_SUMMARY_SCHEMA,
     description: {
       type: "string",
     },

@@ -9,6 +9,11 @@ export const ENTITY_NAME_SCHEMA = {
   maxLength: 250,
 };
 
+export const ENTITY_SUMMARY_SCHEMA = {
+  type: "string",
+  maxLength: 2048,
+};
+
 export const ENTITY_ACCESS_SCHEMA = {
   type: "string",
   enum: ["public", "org", "private"],
