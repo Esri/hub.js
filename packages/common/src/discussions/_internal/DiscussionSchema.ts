@@ -35,6 +35,11 @@ export const DiscussionSchema: IConfigurationSchema = {
     },
     tags: ENTITY_TAGS_SCHEMA,
     categories: ENTITY_CATEGORIES_SCHEMA,
+    isDiscussable: {
+      type: "boolean",
+      enum: [true, false],
+      default: true,
+    },
     view: {
       type: "object",
       properties: {
