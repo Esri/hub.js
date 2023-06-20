@@ -27,10 +27,11 @@ export function setDiscussableKeyword(
   typeKeywords: string[],
   discussable: boolean
 ): string[] {
-  const updatedTypeKeywords = discussable
-    ? typeKeywords.filter(
-        (typeKeyword: string) => typeKeyword !== CANNOT_DISCUSS
-      )
-    : [...typeKeywords, CANNOT_DISCUSS];
+  const updatedTypeKeywords = typeKeywords.filter(
+    (typeKeyword: string) => typeKeyword !== CANNOT_DISCUSS
+  );
+  if (!discussable) {
+    updatedTypeKeywords.push(CANNOT_DISCUSS);
+  }
   return updatedTypeKeywords;
 }
