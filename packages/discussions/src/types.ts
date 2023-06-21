@@ -567,17 +567,6 @@ export interface ISearchPosts
 }
 
 /**
- * dto for updating a post's channel
- *
- * @export
- * @interface IUpdatePostSharing
- * @extends {ICreateChannelPermissions}
- */
-export interface IUpdatePostSharing extends ICreateChannelPermissions {
-  channelId?: string;
-}
-
-/**
  * dto for updating a post's status
  *
  * @export
@@ -636,18 +625,6 @@ export interface IUpdatePostParams extends IDiscussionsRequestOptions {
   postId: string;
   data: IUpdatePost;
   mentionUrl?: string;
-}
-
-/**
- * request options for updating a post's channel
- *
- * @export
- * @interface IUpdatePostSharingParams
- * @extends {IHubRequestOptions}
- */
-export interface IUpdatePostSharingParams extends IDiscussionsRequestOptions {
-  postId: string;
-  data: IUpdatePostSharing;
 }
 
 /**
