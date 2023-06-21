@@ -1,3 +1,10 @@
+# @esri/hub-common [13.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.10.1...@esri/hub-common@13.11.0) (2023-06-21)
+
+
+### Features
+
+* **hub-common:** add isDiscussable mapping ([#1089](https://github.com/Esri/hub.js/issues/1089)) ([0f4a84a](https://github.com/Esri/hub.js/commit/0f4a84a04458f159efdd270d66a0075d980e800c))
+
 ## @esri/hub-common [13.10.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.10.0...@esri/hub-common@13.10.1) (2023-06-15)
 
 
