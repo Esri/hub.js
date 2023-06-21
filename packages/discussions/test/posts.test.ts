@@ -6,7 +6,6 @@ import {
   updatePost,
   removePost,
   createReply,
-  updatePostSharing,
   updatePostStatus,
 } from "../src/posts";
 import * as req from "../src/request";
@@ -370,23 +369,6 @@ describe("posts", () => {
           httpMethod: "PATCH",
           headers: { "mention-url": "https://some.hub.arcgis.com" },
         });
-        done();
-      })
-      .catch(() => fail());
-  });
-
-  it("updates post sharing", (done) => {
-    const postId = "postId";
-
-    const body = { access: SharingAccess.ORG };
-
-    const options = { ...baseOpts, postId, data: body };
-    updatePostSharing(options)
-      .then(() => {
-        expect(requestSpy.calls.count()).toEqual(1);
-        const [url, opts] = requestSpy.calls.argsFor(0);
-        expect(url).toEqual(`/posts/${postId}/sharing`);
-        expect(opts).toEqual({ ...options, httpMethod: "PATCH" });
         done();
       })
       .catch(() => fail());
