@@ -5,8 +5,7 @@ import { processEntityCapabilities } from "../../capabilities";
 import { IModel } from "../../types";
 import { InitiativeDefaultCapabilities } from "./InitiativeBusinessRules";
 import { IHubInitiative } from "../../core";
-import { upgradeCatalogSchema } from "../../search/upgradeCatalogSchema";
-import { IHubCatalog } from "../../search/types/IHubCatalog";
+import { isDiscussable } from "../../discussions";
 
 /**
  * Given a model and an Initiative, set various computed properties that can't be directly mapped
@@ -38,6 +37,7 @@ export function computeProps(
   initiative.createdDateSource = "item.created";
   initiative.updatedDate = new Date(model.item.modified);
   initiative.updatedDateSource = "item.modified";
+  initiative.isDiscussable = isDiscussable(initiative);
 
   // Handle capabilities
   initiative.capabilities = processEntityCapabilities(

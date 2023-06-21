@@ -254,6 +254,7 @@ describe("HubProjects:", () => {
         "Hub Project",
         "slug|dcdev|hello-world",
         "status|notStarted",
+        "cannotDiscuss",
       ]);
       // should ensure unique slug
       expect(slugSpy.calls.count()).toBe(1);
@@ -299,6 +300,7 @@ describe("HubProjects:", () => {
         "Hub Project",
         "slug|dcdev|hello-world",
         "status|inProgress",
+        "cannotDiscuss",
       ]);
       // should ensure unique slug
       expect(slugSpy.calls.count()).toBe(1);
@@ -370,6 +372,7 @@ describe("HubProjects:", () => {
         "Hub Project",
         "slug|dcdev-wat-blarg",
         "status|inProgress",
+        "cannotDiscuss",
       ]);
       expect(chk.location).toEqual({
         type: "none",

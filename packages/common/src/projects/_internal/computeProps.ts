@@ -5,6 +5,7 @@ import { IHubProject } from "../../core";
 import { IModel } from "../../types";
 import { ProjectDefaultCapabilities } from "./ProjectBusinessRules";
 import { processEntityCapabilities } from "../../capabilities";
+import { isDiscussable } from "../../discussions";
 
 /**
  * Given a model and a project, set various computed properties that can't be directly mapped
@@ -32,6 +33,7 @@ export function computeProps(
   project.createdDateSource = "item.created";
   project.updatedDate = new Date(model.item.modified);
   project.updatedDateSource = "item.modified";
+  project.isDiscussable = isDiscussable(project);
 
   // Handle capabilities
   project.capabilities = processEntityCapabilities(

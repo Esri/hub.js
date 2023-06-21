@@ -5,6 +5,7 @@ import { IModel } from "../../types";
 import { DiscussionDefaultCapabilities } from "./DiscussionBusinessRules";
 import { IHubDiscussion } from "../../core";
 import { processEntityCapabilities } from "../../capabilities";
+import { isDiscussable } from "../utils";
 
 /**
  * Given a model and a Discussion, set various computed properties that can't be directly mapped
@@ -36,6 +37,7 @@ export function computeProps(
   discussion.createdDateSource = "item.created";
   discussion.updatedDate = new Date(model.item.modified);
   discussion.updatedDateSource = "item.modified";
+  discussion.isDiscussable = isDiscussable(discussion);
 
   // Handle capabilities
   discussion.capabilities = processEntityCapabilities(

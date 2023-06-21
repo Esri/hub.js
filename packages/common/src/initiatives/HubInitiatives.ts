@@ -24,6 +24,7 @@ import {
   getFamily,
   IHubRequestOptions,
   getItemHomeUrl,
+  setDiscussableKeyword,
 } from "../index";
 import {
   IItem,
@@ -75,6 +76,10 @@ export async function createInitiative(
     initiative.typeKeywords,
     initiative.slug
   );
+  initiative.typeKeywords = setDiscussableKeyword(
+    initiative.typeKeywords,
+    initiative.isDiscussable
+  );
   // Map initiative object onto a default initiative Model
   const mapper = new PropertyMapper<Partial<IHubInitiative>>(getPropertyMap());
   // create model from object, using the default model as a starting point
@@ -105,6 +110,10 @@ export async function updateInitiative(
   initiative.slug = await getUniqueSlug(
     { slug: initiative.slug, existingId: initiative.id },
     requestOptions
+  );
+  initiative.typeKeywords = setDiscussableKeyword(
+    initiative.typeKeywords,
+    initiative.isDiscussable
   );
   // get the backing item & data
   const model = await getModel(initiative.id, requestOptions);

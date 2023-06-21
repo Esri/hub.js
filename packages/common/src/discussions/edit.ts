@@ -3,7 +3,7 @@ import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 import { IHubDiscussion } from "../core/types";
 import { createModel, getModel, updateModel } from "../models";
 import { constructSlug, getUniqueSlug, setSlugKeyword } from "../items/slugs";
-import { cloneObject } from "../index";
+import { cloneObject, setDiscussableKeyword } from "../index";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
@@ -41,6 +41,10 @@ export async function createDiscussion(
     discussion.typeKeywords,
     discussion.slug
   );
+  discussion.typeKeywords = setDiscussableKeyword(
+    discussion.typeKeywords,
+    discussion.isDiscussable
+  );
   // Map discussion object onto a default discussion Model
   const mapper = new PropertyMapper<Partial<IHubDiscussion>>(getPropertyMap());
   // create model from object, using the default model as a starting point
@@ -72,6 +76,10 @@ export async function updateDiscussion(
   discussion.slug = await getUniqueSlug(
     { slug: discussion.slug, existingId: discussion.id },
     requestOptions
+  );
+  discussion.typeKeywords = setDiscussableKeyword(
+    discussion.typeKeywords,
+    discussion.isDiscussable
   );
   // get the backing item & data
   const model = await getModel(discussion.id, requestOptions);
