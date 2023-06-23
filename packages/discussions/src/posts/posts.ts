@@ -8,7 +8,6 @@ import {
   IFetchPostParams,
   IRemovePostParams,
   IRemovePostResponse,
-  IUpdatePostSharingParams,
   IUpdatePostParams,
   IUpdatePostStatusParams,
   IPagedResponse,
@@ -116,22 +115,6 @@ export function updatePost(options: IUpdatePostParams): Promise<IPost> {
     httpMethod: "PATCH",
     ...getCreateUpdateRequestParams(options),
   });
-}
-
-/**
- * update post channel
- * NOTE: this method will change the channel a post belongs to
- *
- * @export
- * @param {IUpdatePostSharingParams} options
- * @return {*}  {Promise<IPost>}
- */
-export function updatePostSharing(
-  options: IUpdatePostSharingParams
-): Promise<IPost> {
-  const url = `/posts/${options.postId}/sharing`;
-  options.httpMethod = "PATCH";
-  return request(url, options);
 }
 
 /**
