@@ -16,7 +16,7 @@ import {
   MENTION_ATTRIBUTE,
 } from "../../../src/utils/constants";
 import * as viewGroup from "@esri/hub-common/test/mocks/groups/view-group.json";
-import * as channelUtils from "../../../src/utils/channels";
+import * as canModifyChannelModule from "../../../src/utils/channels/can-modify-channel";
 
 describe("parseDiscussionURI", () => {
   it("returns DiscussionParams for valid discussion uri", () => {
@@ -96,7 +96,10 @@ describe("isDiscussable", () => {
 
 describe("canDeletePost", () => {
   it("returns true when the user created the post", () => {
-    const canModifyChannelSpy = spyOn(channelUtils, "canModifyChannel");
+    const canModifyChannelSpy = spyOn(
+      canModifyChannelModule,
+      "canModifyChannel"
+    );
     const post = { id: "post1", creator: "user1" } as IPost;
     const user = { username: "user1" } as IUser;
     const channel = { id: "channel1" } as IChannel;
@@ -107,7 +110,7 @@ describe("canDeletePost", () => {
 
   it("returns true when user did not create the post and user can modify channel", () => {
     const canModifyChannelSpy = spyOn(
-      channelUtils,
+      canModifyChannelModule,
       "canModifyChannel"
     ).and.returnValue(true);
     const post = { id: "post1", creator: "user1" } as IPost;
@@ -121,7 +124,7 @@ describe("canDeletePost", () => {
 
   it("returns false when user did not create the post and user cannot modify channel", () => {
     const canModifyChannelSpy = spyOn(
-      channelUtils,
+      canModifyChannelModule,
       "canModifyChannel"
     ).and.returnValue(false);
     const post = { id: "post1", creator: "user1" } as IPost;
@@ -135,7 +138,7 @@ describe("canDeletePost", () => {
 
   it("returns false when the user is unauthenticated", () => {
     const canModifyChannelSpy = spyOn(
-      channelUtils,
+      canModifyChannelModule,
       "canModifyChannel"
     ).and.returnValue(false);
     const post = { id: "post1", creator: "user1" } as IPost;
@@ -149,7 +152,7 @@ describe("canDeletePost", () => {
 
   it("returns false when the user is undefined", () => {
     const canModifyChannelSpy = spyOn(
-      channelUtils,
+      canModifyChannelModule,
       "canModifyChannel"
     ).and.returnValue(false);
     const post = { id: "post1", creator: "user1" } as IPost;

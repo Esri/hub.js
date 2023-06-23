@@ -8,13 +8,17 @@ type ILegacyChannelPermissions = Pick<
 >;
 
 /**
- * Determine if a user can modify an existing post
+ * Utility to determine if User has privileges to modify a post
+ * @param post
+ * @param user
+ * @param channel
+ * @returns {boolean}
  */
 export function canModifyPost(
   post: IPost,
   user: IUser | IDiscussionsUser = {},
   channel: IChannel
-) {
+): boolean {
   const { access, groups, orgs, allowAnonymous } = channel;
 
   return (

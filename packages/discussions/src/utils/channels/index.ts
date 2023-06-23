@@ -1,10 +1,11 @@
 import { IUser } from "@esri/arcgis-rest-auth";
 import { GroupMembership } from "@esri/arcgis-rest-portal";
-import { IChannel, IDiscussionsUser, IPlatformSharing } from "../../types";
-import { isOrgAdmin, reduceByGroupMembership } from "../platform";
+import { IChannel, IDiscussionsUser } from "../../types";
+import { reduceByGroupMembership } from "../platform";
 
 export { canPostToChannel } from "./can-post-to-channel";
 export { canCreateChannel } from "./can-create-channel";
+export { canModifyChannel } from "./can-modify-channel";
 
 function intersectGroups(
   membershipTypes: GroupMembership[]
@@ -29,13 +30,6 @@ function isChannelOrgMember(
 ): boolean {
   // orgs.length = 1 until collaboration/discussion between many orgs is ideated
   return channel.orgs.length === 1 && channel.orgs.indexOf(user.orgId) > -1;
-}
-
-function isChannelOrgAdmin(
-  channel: IChannel,
-  user: IUser | IDiscussionsUser
-): boolean {
-  return isOrgAdmin(user) && channel.orgs.indexOf(user.orgId) > -1;
 }
 
 /**
@@ -64,36 +58,4 @@ export function canReadFromChannel(
 
   // public channel
   return true;
-}
-
-/**
- * Utility to determine whether User can modify channel settings and posts belonging to Channel
- *
- * @export
- * @param {IChannel} channel
- * @param {IUser} user
- * @return {*}  {boolean}
- */
-export function canModifyChannel(
-  channel: IChannel,
-  user: IUser | IDiscussionsUser = {}
-): boolean {
-  if (!user.username) {
-    return false;
-  }
-
-  if (channel.creator === user.username) {
-    return true;
-  }
-
-  if (channel.access === "private") {
-    // ensure user is owner/admin of at least one group
-    return intersectGroups(["owner", "admin"])(user, channel);
-  }
-
-  // org or public channel
-  return (
-    intersectGroups(["owner", "admin"])(user, channel) ||
-    isChannelOrgAdmin(channel, user)
-  );
 }

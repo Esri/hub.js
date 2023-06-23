@@ -1,17 +1,17 @@
 import { IGroup, IUser } from "@esri/arcgis-rest-types";
 import { IChannel, IDiscussionsUser, SharingAccess } from "../../types";
-import { isOrgAdmin } from "../platform";
 import { ChannelPermission } from "../channel-permission";
+import { isOrgAdmin } from "../platform";
 
 const ADMIN_GROUP_ROLES = Object.freeze(["owner", "admin"]);
 
 /**
- * Utility to determine if User has privileges to modify the status of a post
+ * Utility to determine if User has privileges to modify a channel
  * @param channel
  * @param user
  * @returns {boolean}
  */
-export function canModifyPostStatus(
+export function canModifyChannel(
   channel: IChannel,
   user: IUser | IDiscussionsUser = {}
 ): boolean {
@@ -19,17 +19,17 @@ export function canModifyPostStatus(
 
   if (channelAcl) {
     const channelPermission = new ChannelPermission(channelAcl);
-    return channelPermission.canModifyPostStatus(
+    return channelPermission.canModifyChannel(
       user as IDiscussionsUser,
       channel.creator
     );
   }
 
-  return isAuthorizedToModifyStatusByLegacyPermissions(user, channel);
+  return isAuthorizedToModifyChannelByLegacyPermissions(user, channel);
 }
 
-function isAuthorizedToModifyStatusByLegacyPermissions(
-  user: IUser | IDiscussionsUser,
+function isAuthorizedToModifyChannelByLegacyPermissions(
+  user: IUser,
   channel: IChannel
 ): boolean {
   const { username, groups: userGroups = [] } = user;
@@ -40,21 +40,22 @@ function isAuthorizedToModifyStatusByLegacyPermissions(
     creator: channelCreator,
   } = channel;
 
+  // ensure authenticated
   if (!username) {
     return false;
   }
 
-  if (channelCreator === username) {
+  if (username === channelCreator) {
     return true;
   }
 
   if (access === SharingAccess.PRIVATE) {
-    return isAuthorizedToModifyStatusByLegacyGroup(channelGroups, userGroups);
+    return isAuthorizedToModifyChannelByLegacyGroup(channelGroups, userGroups);
   }
 
   // public or org access
   return (
-    isAuthorizedToModifyStatusByLegacyGroup(channelGroups, userGroups) ||
+    isAuthorizedToModifyChannelByLegacyGroup(channelGroups, userGroups) ||
     isChannelOrgAdmin(channelOrgs, user)
   );
 }
@@ -62,7 +63,7 @@ function isAuthorizedToModifyStatusByLegacyPermissions(
 /**
  * Ensure the user is an owner/admin of one of the channel groups
  */
-function isAuthorizedToModifyStatusByLegacyGroup(
+function isAuthorizedToModifyChannelByLegacyGroup(
   channelGroups: string[],
   userGroups: IGroup[]
 ) {
