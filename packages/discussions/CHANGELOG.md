@@ -1,3 +1,28 @@
+# @esri/hub-discussions [25.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@24.4.0...@esri/hub-discussions@25.0.0) (2023-06-23)
+
+
+### Features
+
+* **hub-discussions:** remove channel util function isChannelInclusive ([#1091](https://github.com/Esri/hub.js/issues/1091)) ([5d36f9b](https://github.com/Esri/hub.js/commit/5d36f9b81e5bfefdbe8ec5867fe7b542388a658a))
+
+
+### BREAKING CHANGES
+
+* **hub-discussions:** remove channel util function isChannelInclusive
+
+* refactor(hub-discussions): remove function updatePostSharing and associated interfaces
+
+affects: @esri/hub-discussions
+* **hub-discussions:** remove function updatePostSharing and associated interfaces
+
+* test(hub-discussions): remove tests for updatePostSharing function
+
+affects: @esri/hub-discussions
+
+* fix(hub-discussions): bump hub-common peerDependency to ^13.0.0
+
+affects: @esri/hub-discussions
+
 # @esri/hub-discussions [24.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@24.3.0...@esri/hub-discussions@24.4.0) (2023-06-13)
 
 
