@@ -1,15 +1,10 @@
 import { getSelf, getUser, IPortal } from "@esri/arcgis-rest-portal";
-import {
-  IUser,
-  IUserSessionOptions,
-  UserSession,
-} from "@esri/arcgis-rest-auth";
+import { IUser, UserSession } from "@esri/arcgis-rest-auth";
 import {
   ArcGISContext,
   IArcGISContext,
   IArcGISContextOptions,
 } from "./ArcGISContext";
-import { atob, btoa } from "abab";
 
 import { getHubApiFromPortalUrl } from "./urls/getHubApiFromPortalUrl";
 import { getPortalBaseFromOrgUrl } from "./urls/getPortalBaseFromOrgUrl";

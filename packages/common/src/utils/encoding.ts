@@ -1,3 +1,5 @@
+import { atob, btoa } from "abab";
+
 // these were copied from:
 // https://developer.mozilla.org/en-US/docs/Glossary/Base64#the_unicode_problem
 function base64ToBytes(base64: string) {
