@@ -1,6 +1,5 @@
 import { SearchQueryBuilder } from "@esri/arcgis-rest-portal";
 import { ISpatialReference } from "@esri/arcgis-rest-types";
-import { btoa } from "abab";
 import { flattenArray } from "../util";
 
 export const WGS84_WKID = "4326";
