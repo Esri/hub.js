@@ -5,7 +5,7 @@ import {
   IHubRequestOptionsPortalSelf,
   Level,
 } from "../src";
-import { atob, btoa } from "abab";
+import { base64ToUnicode, unicodeToBase64 } from "../src/utils/encoding";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH, MOCK_ENTERPRISE_AUTH } from "./mocks/mock-auth";
 import { IPortal } from "@esri/arcgis-rest-portal";
@@ -404,7 +404,7 @@ describe("ArcGISContext:", () => {
     it("serializes anon manager to string", async () => {
       const mgr = await ArcGISContextManager.create();
       const serialized = mgr.serialize();
-      const decoded = JSON.parse(atob(serialized));
+      const decoded = JSON.parse(base64ToUnicode(serialized));
       expect(decoded.session).not.toBeDefined();
       expect(decoded.portal).not.toBeDefined();
       expect(decoded.currentUser).not.toBeDefined();
@@ -427,17 +427,17 @@ describe("ArcGISContext:", () => {
       const serialized = mgr.serialize();
       // verify that the serialized session is encoded by decoding it
       // and converting back into json
-      const decoded = JSON.parse(atob(serialized));
+      const decoded = JSON.parse(base64ToUnicode(serialized));
       expect(decoded.session).toEqual(MOCK_AUTH.serialize());
       expect(decoded.portal).toEqual(onlinePortalSelfResponse);
       expect(decoded.currentUser).toEqual(onlineUserResponse);
       expect(decoded.properties).toEqual({ foo: "bar" });
     });
     it("can deserialize minimal context", async () => {
-      const serialized = btoa(
+      const serialized = unicodeToBase64(
         JSON.stringify({ portalUrl: "https://www.arcgis.com" })
       );
-      const mgr = await ArcGISContextManager.deserialize(serialized);
+      const mgr = await ArcGISContextManager.deserialize(serialized!);
       expect(mgr.context.portalUrl).toBe("https://www.arcgis.com");
       expect(mgr.context.isAuthenticated).toBeFalsy();
     });
@@ -448,8 +448,10 @@ describe("ArcGISContext:", () => {
       const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
       });
-      const serialized = btoa(JSON.stringify(validSerializedContext));
-      const mgr = await ArcGISContextManager.deserialize(serialized);
+      const serialized = unicodeToBase64(
+        JSON.stringify(validSerializedContext)
+      );
+      const mgr = await ArcGISContextManager.deserialize(serialized!);
       expect(selfSpy.calls.count()).toBe(0);
       expect(userSpy.calls.count()).toBe(0);
       expect(mgr.context.portalUrl).toBe(
@@ -477,8 +479,8 @@ describe("ArcGISContext:", () => {
       delete sparseValidContext.portal;
       delete sparseValidContext.properties;
 
-      const serialized = btoa(JSON.stringify(sparseValidContext));
-      const mgr = await ArcGISContextManager.deserialize(serialized);
+      const serialized = unicodeToBase64(JSON.stringify(sparseValidContext));
+      const mgr = await ArcGISContextManager.deserialize(serialized!);
       expect(selfSpy.calls.count()).toBe(1);
       expect(userSpy.calls.count()).toBe(1);
       expect(mgr.context.portalUrl).toBe(
@@ -496,8 +498,10 @@ describe("ArcGISContext:", () => {
       const userSpy = spyOn(portalModule, "getUser").and.callFake(() => {
         return Promise.resolve(cloneObject(onlineUserResponse));
       });
-      const serialized = btoa(JSON.stringify(expiredSerializedContext));
-      const mgr = await ArcGISContextManager.deserialize(serialized);
+      const serialized = unicodeToBase64(
+        JSON.stringify(expiredSerializedContext)
+      );
+      const mgr = await ArcGISContextManager.deserialize(serialized!);
       expect(selfSpy.calls.count()).toBe(0);
       expect(userSpy.calls.count()).toBe(0);
       expect(mgr.context.portalUrl).toBe(
