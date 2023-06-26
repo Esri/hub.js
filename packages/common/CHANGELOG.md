@@ -1,3 +1,10 @@
+# @esri/hub-common [13.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.11.1...@esri/hub-common@13.12.0) (2023-06-26)
+
+
+### Features
+
+* **hub-common:** add unicodeToBase64 and base64ToUnicode utils ([#1095](https://github.com/Esri/hub.js/issues/1095)) ([82bd6e9](https://github.com/Esri/hub.js/commit/82bd6e9ecfcacb7d8c4e56d6cecfb956dfc7cbdf))
+
 ## @esri/hub-common [13.11.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.11.0...@esri/hub-common@13.11.1) (2023-06-26)
 
 
