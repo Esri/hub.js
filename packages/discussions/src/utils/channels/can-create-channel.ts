@@ -6,6 +6,12 @@ import { isOrgAdmin } from "../platform";
 
 type ILegacyChannelPermissions = Pick<IChannel, "access" | "groups" | "orgs">;
 
+/**
+ * Utility to determine if User has privileges to create a channel with the defined permissions
+ * @param channel
+ * @param user
+ * @returns {boolean}
+ */
 export function canCreateChannel(
   channel: IChannel,
   user: IUser | IDiscussionsUser = {}
