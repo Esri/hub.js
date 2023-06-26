@@ -1,5 +1,6 @@
 export * from "./asyncForEach";
 export * from "./batch";
+export * from "./encoding";
 export * from "./ensure-unique-string";
 export * from "./create-operation-pipeline";
 export * from "./fail-safe";
