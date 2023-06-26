@@ -11,6 +11,7 @@ import { getPortalBaseFromOrgUrl } from "./urls/getPortalBaseFromOrgUrl";
 import { Level, Logger } from "./utils/logger";
 import { HubSystemStatus } from "./core";
 import { cloneObject } from "./util";
+import { base64ToUnicode, unicodeToBase64 } from "./utils/encoding";
 
 /**
  * Options that can be passed into `ArcGISContextManager.create`
@@ -181,7 +182,7 @@ export class ArcGISContextManager {
   public static async deserialize(
     serializedContext: string
   ): Promise<ArcGISContextManager> {
-    const decoded = atob(serializedContext);
+    const decoded = base64ToUnicode(serializedContext);
 
     const state: Partial<IArcGISContextManagerOptions> & {
       session?: string;
@@ -296,7 +297,7 @@ export class ArcGISContextManager {
       state.properties = this._properties;
     }
 
-    return btoa(JSON.stringify(state));
+    return unicodeToBase64(JSON.stringify(state));
   }
 
   /**
