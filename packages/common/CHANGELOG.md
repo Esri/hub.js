@@ -1,3 +1,10 @@
+## @esri/hub-common [13.11.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.11.0...@esri/hub-common@13.11.1) (2023-06-26)
+
+
+### Bug Fixes
+
+* add default to project schema for location ([#1093](https://github.com/Esri/hub.js/issues/1093)) ([439a317](https://github.com/Esri/hub.js/commit/439a317e8d2ec8906983a1e8b1910f30aca92a2e))
+
 # @esri/hub-common [13.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.10.1...@esri/hub-common@13.11.0) (2023-06-21)
 
 
