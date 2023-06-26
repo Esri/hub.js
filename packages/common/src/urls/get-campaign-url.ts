@@ -2,6 +2,7 @@ import { IHubRequestOptions } from "../types";
 import { getPortalUrl } from "./get-portal-url";
 import { IPortal } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { btoa } from "abab";
 import { _getHubUrlFromPortalHostname } from "./_get-hub-url-from-portal-hostname";
 
 interface IBuildHubCampaignUrl {

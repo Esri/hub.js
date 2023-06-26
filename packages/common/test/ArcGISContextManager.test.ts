@@ -5,6 +5,7 @@ import {
   IHubRequestOptionsPortalSelf,
   Level,
 } from "../src";
+import { atob, btoa } from "abab";
 import * as portalModule from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH, MOCK_ENTERPRISE_AUTH } from "./mocks/mock-auth";
 import { IPortal } from "@esri/arcgis-rest-portal";

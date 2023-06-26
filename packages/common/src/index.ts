@@ -46,5 +46,4 @@ import HubError from "./HubError";
 
 // Re-exports
 export { OperationStack, OperationError, HubError };
-// DEPRECATED: remove at next breaking change
 export { btoa, atob } from "abab";
