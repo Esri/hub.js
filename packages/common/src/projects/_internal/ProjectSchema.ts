@@ -40,6 +40,7 @@ export const ProjectSchema: IConfigurationSchema = {
     },
     location: {
       type: "object",
+      default: { type: "none" },
     },
     tags: ENTITY_TAGS_SCHEMA,
     categories: ENTITY_CATEGORIES_SCHEMA,
