@@ -1,3 +1,10 @@
+# @esri/hub-discussions [25.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@25.0.0...@esri/hub-discussions@25.1.0) (2023-06-26)
+
+
+### Features
+
+* **hub-discussions:** add acl authentication to channel util function canModifyChannel ([#1092](https://github.com/Esri/hub.js/issues/1092)) ([f4190a4](https://github.com/Esri/hub.js/commit/f4190a4167f6926b37b9aa24760d40533f6aa108))
+
 # @esri/hub-discussions [25.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@24.4.0...@esri/hub-discussions@25.0.0) (2023-06-23)
 
 
