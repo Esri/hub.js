@@ -37,9 +37,13 @@ export async function enrichUserSearchResult(
     links: {
       self: "not-implemented",
       siteRelative: "not-implemented",
-      thumbnail: "not-implemented",
+      thumbnail: null,
     },
   };
+  // Group Memberships need this prop
+  if (getProp(user, "memberType")) {
+    result.memberType = getProp(user, "memberType");
+  }
 
   // Informal Enrichments - basically adding type-specific props
   // derived directly from the entity
@@ -67,14 +71,17 @@ export async function enrichUserSearchResult(
     result[spec.prop] = getProp(enriched, spec.path);
   });
 
-  const token = requestOptions.authentication.token;
+  const token = requestOptions.authentication?.token;
 
-  // Handle links
-  result.links.thumbnail = getUserThumbnailUrl(
-    requestOptions.portal,
-    user,
-    token
-  );
+  // only construct thumbnail url if we have a thumbnail value
+  // ui layer can decide how to handle a null thumbnail
+  if (user.thumbnail) {
+    result.links.thumbnail = getUserThumbnailUrl(
+      requestOptions.portal,
+      user,
+      token
+    );
+  }
   result.links.self = getUserHomeUrl(result.id, requestOptions);
   result.links.siteRelative = `/people/${result.id}`;
 

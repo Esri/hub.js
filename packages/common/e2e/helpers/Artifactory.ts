@@ -82,6 +82,14 @@ export default class Artifactory {
     };
     return ArcGISContextManager.create(opts);
   }
+
+  async getAnonContextManager(orgType: string): Promise<ArcGISContextManager> {
+    const org = this.getOrg(orgType);
+    const opts: IArcGISContextManagerOptions = {
+      portalUrl: org.orgUrl as unknown as string,
+    };
+    return ArcGISContextManager.create(opts);
+  }
   /**
    * Get the org-short
    */

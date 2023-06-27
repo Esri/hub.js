@@ -129,7 +129,7 @@ async function userToSearchResult(
   include: string[] = [],
   requestOptions?: IHubRequestOptions
 ): Promise<IHubSearchResult> {
-  // Delegate to HubGroups module
+  // Delegate to HubUsers module
   // This layer of indirection is not necessary but
   // aligns with how the items search works and
   // allows for future specialization

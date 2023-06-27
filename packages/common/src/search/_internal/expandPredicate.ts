@@ -13,15 +13,17 @@ export function expandPredicate(predicate: IPredicate): IPredicate {
   const result: IPredicate = {};
   const dateProps = ["created", "modified", "lastlogin"];
   const copyProps = [
-    "filterType",
+    "bbox",
     "categoriesAsParam",
     "categoryFilter",
-    "term",
-    "searchUserAccess",
+    "filterType",
     "isopendata",
-    "searchUserName",
-    "bbox",
     "isviewonly",
+    "memberType",
+    "name",
+    "searchUserAccess",
+    "searchUserName",
+    "term",
   ];
   const nonMatchOptionsFields = [...dateProps, ...copyProps];
   // Do the conversion
