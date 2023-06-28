@@ -129,13 +129,18 @@ async function searchGroupMembers(
   };
 }
 
-export interface IGroupMember {
+/**
+ * @private
+ * Rest.js does not have a type for the response from searchGroupUsers
+ * so we create one here vs just using `any`
+ */
+interface IGroupMember {
   username: string;
-  fullName: string;
-  memberType: string;
-  joined: number;
-  orgId: string;
-  thumbnail: string;
+  fullName?: string;
+  memberType?: string;
+  joined?: number;
+  orgId?: string;
+  thumbnail?: string;
 }
 
 /**
@@ -177,9 +182,9 @@ async function memberToSearchResult(
     portal: requestOptions.portal,
   });
   // Map props from the fetched user, onto the user
-  // this is done because the api returns a sparse user under some conditions
-  // and we'd rather have the default user with i18n keys present than a structure
-  // with empty strings and missing keys
+  // this is done because the api returns a sparse IGroupMember under some conditions
+  // and we'd rather have the default user with keys present than a structure
+  // with missing keys
   Object.keys(user).forEach((key) => {
     if (fetchedUser.hasOwnProperty(key) && fetchedUser[key] !== "") {
       setProp(key, fetchedUser[key], user);
