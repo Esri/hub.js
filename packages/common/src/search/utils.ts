@@ -4,7 +4,11 @@
 // TODO: deprecate all private functions in this file and more them to ./_internal
 
 import { IUser, UserSession } from "@esri/arcgis-rest-auth";
-import { IGroup, ISearchOptions } from "@esri/arcgis-rest-portal";
+import {
+  IGroup,
+  ISearchGroupUsersOptions,
+  ISearchOptions,
+} from "@esri/arcgis-rest-portal";
 import { ISearchResponse } from "../types";
 import { cloneObject } from "../util";
 import {
@@ -172,7 +176,7 @@ export function relativeDateToDateRange(
  * @returns
  */
 export function getNextFunction<T>(
-  request: ISearchOptions,
+  request: ISearchOptions | ISearchGroupUsersOptions,
   nextStart: number,
   total: number,
   fn: (r: any) => Promise<ISearchResponse<T>>

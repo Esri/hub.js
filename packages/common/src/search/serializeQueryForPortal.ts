@@ -93,9 +93,13 @@ function serializeFilter(filter: IFilter): ISearchOptions {
 function serializePredicate(predicate: IPredicate): ISearchOptions {
   const dateProps = ["created", "modified"];
   const boolProps = ["isopendata", "isviewonly"];
+  // In order to not get "expanded", these also need to be listed
+  // in the `expandPredicate` function
   const passThroughProps = [
     "searchUserAccess",
     "searchUserName",
+    "memberType",
+    "name",
     "categoriesAsParam",
     "categoryFilter",
     "bbox",

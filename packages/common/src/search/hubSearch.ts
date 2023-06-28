@@ -14,6 +14,7 @@ import {
   portalSearchGroups,
   portalSearchUsers,
 } from "./_internal";
+import { portalSearchGroupMembers } from "./_internal/portalSearchGroupMembers";
 
 /**
  * Main entrypoint for searching via Hub
@@ -74,6 +75,7 @@ export async function hubSearch(
       item: portalSearchItems,
       group: portalSearchGroups,
       user: portalSearchUsers,
+      groupMember: portalSearchGroupMembers,
     },
     "arcgis-hub": {
       item: hubSearchItems,

@@ -41,36 +41,45 @@ const enrichUserOrg = (
 ): Promise<IPipeable<IUserAndEnrichments>> => {
   const { data, stack, requestOptions } = input;
   const opId = stack.start("enrichUserOrg");
-  const options = {
-    ...requestOptions,
-    // In order to get the correct response, we must pass options.portal
-    // as a base portal url (e.g., www.arcgis.com, qaext.arcgis.com, etc)
-    // **not** an org portal (i.e. org.maps.arcgis.com).
-    portal: `${getPortalBaseFromOrgUrl(requestOptions.portal)}/sharing/rest`,
-  };
-  // TODO: Add Caching
-  // Had implemented a simple caching system, but it leads to unstable
-  // tests because we can't deterministically clear it
-  // if (!orgCache[data.user.orgId]) {
-  //   orgCache[data.user.orgId] = fetchOrg(data.user.orgId, options);
-  // }
-
-  // return (orgCache[data.user.orgId] as Promise<IPortal>)
-  return fetchOrg(data.user.orgId, options)
-    .then((results) => {
-      stack.finish(opId);
-      return {
-        data: {
-          ...data,
-          ...{
-            org: results,
-          },
+  // if no orgId, then we can't fetch it so just return null
+  if (!data.user.orgId) {
+    stack.finish(opId);
+    return Promise.resolve({
+      data: {
+        ...data,
+        ...{
+          org: null,
         },
-        stack,
-        requestOptions,
-      };
-    })
-    .catch((error) => handleEnrichmentError(error, input, opId));
+      },
+      stack,
+      requestOptions,
+    });
+  } else {
+    const options = {
+      ...requestOptions,
+      // In order to get the correct response, we must pass options.portal
+      // as a base portal url (e.g., www.arcgis.com, qaext.arcgis.com, etc)
+      // **not** an org portal (i.e. org.maps.arcgis.com).
+      portal: `${getPortalBaseFromOrgUrl(requestOptions.portal)}/sharing/rest`,
+    };
+    // TODO: Add Caching
+
+    return fetchOrg(data.user.orgId, options)
+      .then((results) => {
+        stack.finish(opId);
+        return {
+          data: {
+            ...data,
+            ...{
+              org: results,
+            },
+          },
+          stack,
+          requestOptions,
+        };
+      })
+      .catch((error) => handleEnrichmentError(error, input, opId));
+  }
 };
 
 /**

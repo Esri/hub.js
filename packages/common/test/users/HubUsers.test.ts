@@ -7,7 +7,7 @@ import {
 import * as FetchEnrichments from "../../src/users/_internal/enrichments";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 
-const TEST_USER: IUser = {
+const TEST_USER: IUser & Record<string, any> = {
   username: "juliana_p",
   fullName: "Juliana Mascasa",
 
@@ -40,7 +40,7 @@ const TEST_USER: IUser = {
   modified: 1654549320000,
   provider: "arcgis",
   groups: [],
-};
+} as unknown as IUser;
 
 describe("HubUsers Module:", () => {
   describe("enrichments:", () => {
@@ -84,6 +84,7 @@ describe("HubUsers Module:", () => {
       expect(chk.updatedDate).toEqual(new Date(USR.modified));
       expect(chk.updatedDateSource).toEqual("user.modified");
       expect(chk.family).toEqual("people");
+
       expect(chk.links.self).toEqual(
         `https://some-server.com/gis/home/user.html?user=${USR.username}`
       );
@@ -91,6 +92,12 @@ describe("HubUsers Module:", () => {
       expect(chk.links.thumbnail).toEqual(
         `${hubRo.portal}/community/users/${USR.username}/info/${USR.thumbnail}?token=fake-token`
       );
+    });
+    it("handles memberType", async () => {
+      const USR = cloneObject(TEST_USER);
+      USR.memberType = "admin";
+      const chk = await enrichUserSearchResult(USR, [], hubRo);
+      expect(chk.memberType).toEqual("admin");
     });
     it("handles enrichments", async () => {
       const chk = await enrichUserSearchResult(
