@@ -1,3 +1,10 @@
+# @esri/hub-common [13.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.12.0...@esri/hub-common@13.13.0) (2023-06-28)
+
+
+### Features
+
+* hubSearch supports groupMember entity type ([#1096](https://github.com/Esri/hub.js/issues/1096)) ([2327cce](https://github.com/Esri/hub.js/commit/2327ccef4295e1416043241f8c155e69b4fe9cb1))
+
 # @esri/hub-common [13.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.11.1...@esri/hub-common@13.12.0) (2023-06-26)
 
 
