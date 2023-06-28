@@ -17,7 +17,7 @@ import { AccessLevel } from "../core";
  * @returns
  */
 export async function enrichUserSearchResult(
-  user: IUser,
+  user: IUser & Record<string, any>,
   include: string[],
   requestOptions: IHubRequestOptions
 ): Promise<IHubSearchResult> {
@@ -41,8 +41,8 @@ export async function enrichUserSearchResult(
     },
   };
   // Group Memberships need this prop
-  if (getProp(user, "memberType")) {
-    result.memberType = getProp(user, "memberType");
+  if (user.memberType) {
+    result.memberType = user.memberType;
   }
 
   // Informal Enrichments - basically adding type-specific props
