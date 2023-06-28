@@ -1,3 +1,10 @@
+## @esri/hub-common [13.13.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.13.0...@esri/hub-common@13.13.1) (2023-06-28)
+
+
+### Bug Fixes
+
+* make scope optional for IUiSchemaRule ([#1097](https://github.com/Esri/hub.js/issues/1097)) ([1cef34b](https://github.com/Esri/hub.js/commit/1cef34bcb547bbc2d75d9283fc74eb8a765966e6))
+
 # @esri/hub-common [13.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.12.0...@esri/hub-common@13.13.0) (2023-06-28)
 
 
