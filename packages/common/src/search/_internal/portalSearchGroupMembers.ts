@@ -52,7 +52,7 @@ export async function portalSearchGroupMembers(
     const validPredicateKeys = ["name", "memberType"];
     filter.predicates = filter.predicates
       // remove any keys that aren't supported
-      .filter((p) => {
+      .map((p) => {
         return pickProps(p, validPredicateKeys);
       })
       // remove any empty predicates

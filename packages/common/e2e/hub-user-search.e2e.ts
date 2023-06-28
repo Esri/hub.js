@@ -2,7 +2,7 @@ import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
 import { IQuery, hubSearch } from "../src/search";
 
-fdescribe("Hub User search", () => {
+describe("Hub User search", () => {
   let factory: Artifactory;
   beforeAll(() => {
     factory = new Artifactory(config);

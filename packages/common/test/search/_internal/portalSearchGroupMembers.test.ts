@@ -103,6 +103,7 @@ describe("portalSearchGroupMembers:", () => {
       )[1] as Portal.ISearchGroupUsersOptions;
       expect(callOpts.memberType).toBe("admin");
       expect(callOpts.name).toBe("steve");
+      expect(callOpts.remove).not.toBeDefined();
       expect(response.results.length).toBe(2);
       const user1 = response.results[0];
       expect(user1.owner).toBe("e2e_pre_hub_c_member");
