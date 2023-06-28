@@ -43,7 +43,7 @@ export interface IValidationResult {
 export interface IUiSchemaRule {
   effect: UiSchemaRuleEffects;
   condition: {
-    scope: string;
+    scope?: string;
     schema: IConfigurationSchema;
   };
 }
