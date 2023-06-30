@@ -25,6 +25,7 @@ import {
   IHubRequestOptions,
   getItemHomeUrl,
   setDiscussableKeyword,
+  IModel,
 } from "../index";
 import {
   IItem,
@@ -81,7 +82,9 @@ export async function createInitiative(
     initiative.isDiscussable
   );
   // Map initiative object onto a default initiative Model
-  const mapper = new PropertyMapper<Partial<IHubInitiative>>(getPropertyMap());
+  const mapper = new PropertyMapper<Partial<IHubInitiative>, IModel>(
+    getPropertyMap()
+  );
   // create model from object, using the default model as a starting point
   let model = mapper.objectToModel(
     initiative,
@@ -118,7 +121,9 @@ export async function updateInitiative(
   // get the backing item & data
   const model = await getModel(initiative.id, requestOptions);
   // create the PropertyMapper
-  const mapper = new PropertyMapper<Partial<IHubInitiative>>(getPropertyMap());
+  const mapper = new PropertyMapper<Partial<IHubInitiative>, IModel>(
+    getPropertyMap()
+  );
   // Note: Although we are fetching the model, and applying changes onto it,
   // we are not attempting to handle "concurrent edit" conflict resolution
   // but this is where we would apply that sort of logic
@@ -186,7 +191,9 @@ export async function convertItemToInitiative(
   let model = await fetchModelFromItem(item, requestOptions);
   // apply migrations
   model = await applyInitiativeMigrations(model, requestOptions);
-  const mapper = new PropertyMapper<Partial<IHubInitiative>>(getPropertyMap());
+  const mapper = new PropertyMapper<Partial<IHubInitiative>, IModel>(
+    getPropertyMap()
+  );
   const prj = mapper.modelToObject(model, {}) as IHubInitiative;
   return computeProps(model, prj, requestOptions);
 }

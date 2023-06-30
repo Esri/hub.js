@@ -1,3 +1,4 @@
+import { IGroup } from "@esri/arcgis-rest-portal";
 import { CANNOT_DISCUSS, IModel } from "../../../src";
 import {
   IPropertyMap,
@@ -96,13 +97,17 @@ describe("PropertyMapper:", () => {
       expect(chk.isDiscussable).toBeFalsy();
     });
   });
-  describe("PropertyMapper", () => {
-    let pm: PropertyMapper<any>;
+  describe("PropertyMapper works with IModel", () => {
+    let pm: PropertyMapper<any, IModel>;
     const obj = {
       size: "large",
     } as any;
     const model = {
-      item: { id: "3ef", properties: { other: "prop", color: "blue" } },
+      item: {
+        id: "3ef",
+        properties: { other: "prop", color: "blue" },
+        itemControl: "update",
+      },
       data: {},
     } as unknown as IModel;
     beforeEach(() => {
@@ -125,6 +130,38 @@ describe("PropertyMapper:", () => {
     it("maps object to model", () => {
       const chk = pm.objectToModel(obj, model);
       expect(chk.item.properties.size).toBe("large");
+    });
+  });
+  describe("PropertyMapper work with IGroup", () => {
+    let pm: PropertyMapper<any, IGroup>;
+    const obj = {
+      tags: ["one", "two"],
+      name: "Red Roses",
+    } as any;
+    const grp = {
+      title: "Blue Roses",
+      tags: ["three", "four"],
+    } as unknown as IGroup;
+    beforeEach(() => {
+      const mappings: IPropertyMap[] = [
+        {
+          objectKey: "name",
+          modelKey: "title",
+        },
+        {
+          objectKey: "tags",
+          modelKey: "tags",
+        },
+      ];
+      pm = new PropertyMapper(mappings);
+    });
+    it("maps model to group", () => {
+      const chk = pm.modelToObject(grp, obj);
+      expect(chk.name).toBe("Blue Roses");
+    });
+    it("maps group to model", () => {
+      const chk = pm.objectToModel(obj, grp);
+      expect(chk.title).toBe("Red Roses");
     });
   });
 });

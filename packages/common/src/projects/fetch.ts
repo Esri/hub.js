@@ -11,7 +11,7 @@ import { fetchItemEnrichments } from "../items/_enrichments";
 import { fetchModelFromItem, fetchModelResources } from "../models";
 import { IHubSearchResult } from "../search";
 import { parseInclude } from "../search/_internal/parseInclude";
-import { IHubRequestOptions } from "../types";
+import { IHubRequestOptions, IModel } from "../types";
 import { isGuid, mapBy } from "../utils";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
@@ -58,7 +58,9 @@ export async function convertItemToProject(
 ): Promise<IHubProject> {
   const model = await fetchModelFromItem(item, requestOptions);
   // TODO: In the future we will handle the boundary fetching from resource
-  const mapper = new PropertyMapper<Partial<IHubProject>>(getPropertyMap());
+  const mapper = new PropertyMapper<Partial<IHubProject>, IModel>(
+    getPropertyMap()
+  );
   const prj = mapper.modelToObject(model, {}) as IHubProject;
   return computeProps(model, prj, requestOptions);
 }
