@@ -44,7 +44,7 @@ export async function createContent(
   const content = { /* ...DEFAULT_PROJECT, */ ...partialContent };
 
   // Map project object onto a default project Model
-  const mapper = new PropertyMapper<Partial<IHubEditableContent>, IModel>(
+  const mapper = new PropertyMapper<Partial<IHubEditableContent>>(
     getPropertyMap()
   );
   // create model from object, using the default model as a starting point
@@ -88,7 +88,7 @@ export async function updateContent(
   // get the backing item & data
   const model = await getModel(content.id, requestOptions);
   // create the PropertyMapper
-  const mapper = new PropertyMapper<Partial<IHubEditableContent>, IModel>(
+  const mapper = new PropertyMapper<Partial<IHubEditableContent>>(
     getPropertyMap()
   );
   // Note: Although we are fetching the model, and applying changes onto it,

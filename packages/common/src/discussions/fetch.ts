@@ -3,7 +3,7 @@ import { IItem, getItem } from "@esri/arcgis-rest-portal";
 import { IHubDiscussion } from "../core/types";
 import { fetchModelFromItem } from "../models";
 import { getItemBySlug } from "../items/slugs";
-import { IModel, isGuid } from "../index";
+import { isGuid } from "../index";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
@@ -45,9 +45,7 @@ export async function convertItemToDiscussion(
   requestOptions: IRequestOptions
 ): Promise<IHubDiscussion> {
   const model = await fetchModelFromItem(item, requestOptions);
-  const mapper = new PropertyMapper<Partial<IHubDiscussion>, IModel>(
-    getPropertyMap()
-  );
+  const mapper = new PropertyMapper<Partial<IHubDiscussion>>(getPropertyMap());
   const discussion = mapper.modelToObject(model, {}) as IHubDiscussion;
   return computeProps(model, discussion, requestOptions);
 }

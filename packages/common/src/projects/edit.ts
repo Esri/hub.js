@@ -21,7 +21,6 @@ import {
   IEditorConfig,
 } from "../core/behaviors/IWithEditorBehavior";
 import { setDiscussableKeyword } from "../discussions";
-import { IModel } from "../types";
 
 /**
  * @private
@@ -54,9 +53,7 @@ export async function createProject(
     project.isDiscussable
   );
   // Map project object onto a default project Model
-  const mapper = new PropertyMapper<Partial<IHubProject>, IModel>(
-    getPropertyMap()
-  );
+  const mapper = new PropertyMapper<Partial<IHubProject>>(getPropertyMap());
   // create model from object, using the default model as a starting point
   let model = mapper.objectToModel(project, cloneObject(DEFAULT_PROJECT_MODEL));
   // create the item
@@ -92,9 +89,7 @@ export async function updateProject(
   // get the backing item & data
   const model = await getModel(project.id, requestOptions);
   // create the PropertyMapper
-  const mapper = new PropertyMapper<Partial<IHubProject>, IModel>(
-    getPropertyMap()
-  );
+  const mapper = new PropertyMapper<Partial<IHubProject>>(getPropertyMap());
   // Note: Although we are fetching the model, and applying changes onto it,
   // we are not attempting to handle "concurrent edit" conflict resolution
   // but this is where we would apply that sort of logic
