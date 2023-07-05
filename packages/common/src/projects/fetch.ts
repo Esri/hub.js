@@ -61,7 +61,7 @@ export async function convertItemToProject(
   const mapper = new PropertyMapper<Partial<IHubProject>, IModel>(
     getPropertyMap()
   );
-  const prj = mapper.modelToObject(model, {}) as IHubProject;
+  const prj = mapper.storeToEntity(model, {}) as IHubProject;
   return computeProps(model, prj, requestOptions);
 }
 

@@ -29,38 +29,38 @@ export function getBasePropertyMap(): IPropertyMap[] {
   const resourceProps = Object.keys(EntityResourceMap);
   const map: IPropertyMap[] = [];
   itemProps.forEach((entry) => {
-    map.push({ objectKey: entry, modelKey: `item.${entry}` });
+    map.push({ entityKey: entry, storeKey: `item.${entry}` });
   });
   dataProps.forEach((entry) => {
-    map.push({ objectKey: entry, modelKey: `data.${entry}` });
+    map.push({ entityKey: entry, storeKey: `data.${entry}` });
   });
   resourceProps.forEach((entry) => {
-    map.push({ objectKey: entry, modelKey: `resources.${entry}` });
+    map.push({ entityKey: entry, storeKey: `resources.${entry}` });
   });
   // Deeper mappings
   map.push({
-    objectKey: "slug",
-    modelKey: "item.properties.slug",
+    entityKey: "slug",
+    storeKey: "item.properties.slug",
   });
   map.push({
-    objectKey: "summary",
-    modelKey: "item.snippet",
+    entityKey: "summary",
+    storeKey: "item.snippet",
   });
   map.push({
-    objectKey: "schemaVersion",
-    modelKey: "item.properties.schemaVersion",
+    entityKey: "schemaVersion",
+    storeKey: "item.properties.schemaVersion",
   });
   map.push({
-    objectKey: "orgUrlKey",
-    modelKey: "item.properties.orgUrlKey",
+    entityKey: "orgUrlKey",
+    storeKey: "item.properties.orgUrlKey",
   });
   map.push({
-    objectKey: "name",
-    modelKey: "item.title",
+    entityKey: "name",
+    storeKey: "item.title",
   });
   map.push({
-    objectKey: "boundary",
-    modelKey: "item.properties.boundary",
+    entityKey: "boundary",
+    storeKey: "item.properties.boundary",
   });
   return map;
 }

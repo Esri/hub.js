@@ -16,18 +16,18 @@ export function getPropertyMap(): IPropertyMap[] {
    * properties from the project item's data.view into the entity's view
    * because that mapping is already defined in the base property map
    */
-  map.push({ objectKey: "status", modelKey: "data.status" });
-  map.push({ objectKey: "catalog", modelKey: "data.catalog" });
-  map.push({ objectKey: "permissions", modelKey: "data.permissions" });
+  map.push({ entityKey: "status", storeKey: "data.status" });
+  map.push({ entityKey: "catalog", storeKey: "data.catalog" });
+  map.push({ entityKey: "permissions", storeKey: "data.permissions" });
   map.push({
-    objectKey: "capabilities",
-    modelKey: "data.settings.capabilities",
+    entityKey: "capabilities",
+    storeKey: "data.settings.capabilities",
   });
   map.push({
-    objectKey: "location",
-    modelKey: "item.properties.location",
+    entityKey: "location",
+    storeKey: "item.properties.location",
   });
-  map.push({ objectKey: "metrics", modelKey: "item.properties.metrics" });
+  map.push({ entityKey: "metrics", storeKey: "item.properties.metrics" });
 
   return map;
 }

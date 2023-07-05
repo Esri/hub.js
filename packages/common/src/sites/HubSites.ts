@@ -273,7 +273,7 @@ export async function createSite(
   const mapper = new PropertyMapper<Partial<IHubSite>, IModel>(
     getPropertyMap()
   );
-  let model = mapper.objectToModel(site, cloneObject(DEFAULT_SITE_MODEL));
+  let model = mapper.entityToStore(site, cloneObject(DEFAULT_SITE_MODEL));
   // create the backing item
   model = await createModel(
     model,
@@ -296,7 +296,7 @@ export async function createSite(
   );
 
   // convert the model into a IHubSite and return
-  return mapper.modelToObject(updatedModel, {}) as IHubSite;
+  return mapper.storeToEntity(updatedModel, {}) as IHubSite;
 }
 
 /**
@@ -404,7 +404,7 @@ export function convertModelToSite(
   const mapper = new PropertyMapper<Partial<IHubSite>, IModel>(
     getPropertyMap()
   );
-  const site = mapper.modelToObject(migrated, {}) as IHubSite;
+  const site = mapper.storeToEntity(migrated, {}) as IHubSite;
   // compute additional properties
   return computeProps(model, site, requestOptions);
 }
@@ -425,7 +425,7 @@ export function convertSiteToModel(
   // applying the site onto the default model ensures that a minimum
   // set of properties exist, regardless what may have been done to
   // the IHubSite pojo
-  return mapper.objectToModel(site, cloneObject(DEFAULT_SITE_MODEL));
+  return mapper.entityToStore(site, cloneObject(DEFAULT_SITE_MODEL));
 }
 
 /**

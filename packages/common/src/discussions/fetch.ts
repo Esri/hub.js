@@ -48,6 +48,6 @@ export async function convertItemToDiscussion(
   const mapper = new PropertyMapper<Partial<IHubDiscussion>, IModel>(
     getPropertyMap()
   );
-  const discussion = mapper.modelToObject(model, {}) as IHubDiscussion;
+  const discussion = mapper.storeToEntity(model, {}) as IHubDiscussion;
   return computeProps(model, discussion, requestOptions);
 }

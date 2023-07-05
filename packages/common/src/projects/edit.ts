@@ -58,11 +58,11 @@ export async function createProject(
     getPropertyMap()
   );
   // create model from object, using the default model as a starting point
-  let model = mapper.objectToModel(project, cloneObject(DEFAULT_PROJECT_MODEL));
+  let model = mapper.entityToStore(project, cloneObject(DEFAULT_PROJECT_MODEL));
   // create the item
   model = await createModel(model, requestOptions);
   // map the model back into a IHubProject
-  let newProject = mapper.modelToObject(model, {});
+  let newProject = mapper.storeToEntity(model, {});
   newProject = computeProps(model, newProject, requestOptions);
   // and return it
   return newProject as IHubProject;
@@ -98,11 +98,11 @@ export async function updateProject(
   // Note: Although we are fetching the model, and applying changes onto it,
   // we are not attempting to handle "concurrent edit" conflict resolution
   // but this is where we would apply that sort of logic
-  const modelToUpdate = mapper.objectToModel(project, model);
+  const modelToUpdate = mapper.entityToStore(project, model);
   // update the backing item
   const updatedModel = await updateModel(modelToUpdate, requestOptions);
   // now map back into a project and return that
-  let updatedProject = mapper.modelToObject(updatedModel, project);
+  let updatedProject = mapper.storeToEntity(updatedModel, project);
   updatedProject = computeProps(model, updatedProject, requestOptions);
   // the casting is needed because modelToObject returns a `Partial<T>`
   // where as this function returns a `T`

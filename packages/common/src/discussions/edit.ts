@@ -50,14 +50,14 @@ export async function createDiscussion(
     getPropertyMap()
   );
   // create model from object, using the default model as a starting point
-  let model = mapper.objectToModel(
+  let model = mapper.entityToStore(
     discussion,
     cloneObject(DEFAULT_DISCUSSION_MODEL)
   );
   // create the item
   model = await createModel(model, requestOptions);
   // map the model back into a IHubDiscussion
-  let newDiscussion = mapper.modelToObject(model, {});
+  let newDiscussion = mapper.storeToEntity(model, {});
   newDiscussion = computeProps(model, newDiscussion, requestOptions);
   // and return it
   return newDiscussion as IHubDiscussion;
@@ -92,11 +92,11 @@ export async function updateDiscussion(
   // Note: Although we are fetching the model, and applying changes onto it,
   // we are not attempting to handle "concurrent edit" conflict resolution
   // but this is where we would apply that sort of logic
-  const modelToUpdate = mapper.objectToModel(discussion, model);
+  const modelToUpdate = mapper.entityToStore(discussion, model);
   // update the backing item
   const updatedModel = await updateModel(modelToUpdate, requestOptions);
   // now map back into a discussion and return that
-  let updatedDiscussion = mapper.modelToObject(updatedModel, discussion);
+  let updatedDiscussion = mapper.storeToEntity(updatedModel, discussion);
   updatedDiscussion = computeProps(model, updatedDiscussion, requestOptions);
   // the casting is needed because modelToObject returns a `Partial<T>`
   // where as this function returns a `T`
