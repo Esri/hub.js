@@ -20,6 +20,7 @@ import { getProp } from "../objects/get-prop";
 import { getItemThumbnailUrl } from "../resources/get-item-thumbnail-url";
 import { getItemHomeUrl } from "../urls/get-item-home-url";
 import { getItemIdentifier } from "../items";
+import { getRelativeWorkspaceUrl } from "../core/_internal/getRelativeWorkspaceUrl";
 
 /**
  * @private
@@ -96,6 +97,7 @@ export async function enrichProjectSearchResult(
       self: "not-implemented",
       siteRelative: "not-implemented",
       thumbnail: "not-implemented",
+      workspaceRelative: "not-implemented",
     },
   };
 
@@ -127,6 +129,10 @@ export async function enrichProjectSearchResult(
     result.type,
     identifier,
     item.typeKeywords
+  );
+  result.links.workspaceRelative = getRelativeWorkspaceUrl(
+    result.type,
+    identifier
   );
 
   return result;
