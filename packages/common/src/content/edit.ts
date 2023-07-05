@@ -44,11 +44,11 @@ export async function createContent(
   const content = { /* ...DEFAULT_PROJECT, */ ...partialContent };
 
   // Map project object onto a default project Model
-  const mapper = new PropertyMapper<Partial<IHubEditableContent>>(
+  const mapper = new PropertyMapper<Partial<IHubEditableContent>, IModel>(
     getPropertyMap()
   );
   // create model from object, using the default model as a starting point
-  let model = mapper.objectToModel(content, cloneObject(DEFAULT_CONTENT_MODEL));
+  let model = mapper.entityToStore(content, cloneObject(DEFAULT_CONTENT_MODEL));
 
   // TODO: if we have resources disconnect them from the model for now.
   // if (model.resources) {
@@ -66,7 +66,7 @@ export async function createContent(
   //   model = await upsertModelResources(model, resources, requestOptions);
   // }
   // map the model back into a IHubEditableContent
-  const newContent = mapper.modelToObject(model, {});
+  const newContent = mapper.storeToEntity(model, {});
   // TODO:
   // newContent = computeProps(model, newContent, requestOptions);
   // and return it
@@ -88,13 +88,13 @@ export async function updateContent(
   // get the backing item & data
   const model = await getModel(content.id, requestOptions);
   // create the PropertyMapper
-  const mapper = new PropertyMapper<Partial<IHubEditableContent>>(
+  const mapper = new PropertyMapper<Partial<IHubEditableContent>, IModel>(
     getPropertyMap()
   );
   // Note: Although we are fetching the model, and applying changes onto it,
   // we are not attempting to handle "concurrent edit" conflict resolution
   // but this is where we would apply that sort of logic
-  const modelToUpdate = mapper.objectToModel(content, model);
+  const modelToUpdate = mapper.entityToStore(content, model);
   // TODO: if we have resources disconnect them from the model for now.
   // if (modelToUpdate.resources) {
   //   resources = configureBaseResources(
@@ -114,7 +114,7 @@ export async function updateContent(
   //   );
   // }
   // now map back into a project and return that
-  const updatedContent = mapper.modelToObject(updatedModel, content);
+  const updatedContent = mapper.storeToEntity(updatedModel, content);
   // updatedContent = computeProps(model, updatedContent, requestOptions);
   // the casting is needed because modelToObject returns a `Partial<T>`
   // where as this function returns a `T`

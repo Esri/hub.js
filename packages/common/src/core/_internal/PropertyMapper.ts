@@ -1,16 +1,15 @@
 import { CANNOT_DISCUSS } from "../../discussions";
 import { isDiscussable } from "../../discussions/utils";
 import { deepSet, getProp, setProp } from "../../objects";
-import { IModel } from "../../types";
 import { cloneObject } from "../../util";
 
 /**
  * @private
  * Manage forward and backward property mappings to
- * streamline conversion between the Hub entities, and
- * the backing IModel
+ * streamline conversion between the Hub Entities, and
+ * the backing Store objects.
  */
-export class PropertyMapper<T> {
+export class PropertyMapper<E, S> {
   public mappings: IPropertyMap[];
   /**
    * Pass in the mappings between the Entity and
@@ -21,31 +20,31 @@ export class PropertyMapper<T> {
     this.mappings = mappings;
   }
   /**
-   * Map properties from a model on to the entity object.
+   * Map properties from a Store object, on to an Entity object.
    *
-   * Used when constructing an entity can from a fetched model,
-   * in which case the entity should be an empty object (`{}`).
+   * Used when constructing an Entity from a fetched Store object,
+   * in which case the Entity should be an empty object (`{}`).
    *
-   * Can also be used to apply changes to an entity from a model,
-   * in which case an existing entity can be passed in.
-   * @param model
-   * @param object
+   * Can also be used to apply changes to an Entity from a Store,
+   * in which case an existing Entity can be passed in.
+   * @param store
+   * @param entity
    * @returns
    */
-  modelToObject(model: IModel, object: T): T {
-    const obj = mapModelToObject(model, object, this.mappings);
+  storeToEntity(store: S, entity: E): E {
+    const obj = mapStoreToEntity(store, entity, this.mappings);
     // Additional Read-Only Model Level Property Mappings
 
     // ------------------------------
     // canEdit and canDelete
     // ------------------------------
     // use setProp to side-step typechecking
-    setProp(
-      "canEdit",
-      ["admin", "update"].includes(model.item.itemControl),
-      obj
-    );
-    setProp("canDelete", model.item.itemControl === "admin", obj);
+    if (getProp(store, "item")) {
+      const itm = getProp(store, "item");
+      setProp("canEdit", ["admin", "update"].includes(itm.itemControl), obj);
+      setProp("canDelete", itm.itemControl === "admin", obj);
+    }
+
     return obj;
   }
 
@@ -55,66 +54,76 @@ export class PropertyMapper<T> {
    * Typically the model will already exist, and this
    * method is used to transfer changes to the model
    * prior to storage.
-   * @param object
-   * @param model
+   * @param entity
+   * @param store
    * @returns
    */
-  objectToModel(object: T, model: IModel): IModel {
-    return mapObjectToModel(object, model, this.mappings);
+  entityToStore(entity: E, store: S): S {
+    return mapEntityToStore(entity, store, this.mappings);
   }
 }
 
 /**
  * Property Map Entry that provides a cross-walk
- * between a property path (`name`) on the "object"
- * to a property path on a model (`item.title`).
+ * between a property path (`name`) on the entity
+ * to a property path on a store (`item.title`).
  *
  * This enables autmatic mapping of properties between
  * the two types of objects.
  */
 export interface IPropertyMap {
-  objectKey: string;
-  modelKey: string;
+  entityKey: string;
+  storeKey: string;
 }
 
 /**
  * Generic function to apply properties from an Object
  * (i.e. IHubProject) onto a Model that can be persisted to an Item
- * @param object
- * @param model
+ * @param entity
+ * @param store
  * @param mappings
  * @returns
  */
-export function mapObjectToModel<T>(
-  object: T,
-  model: IModel,
+export function mapEntityToStore<E, S>(
+  entity: E,
+  store: S,
   mappings: IPropertyMap[]
-): IModel {
-  if (model.item?.typeKeywords) {
-    model.item.typeKeywords = getProp(object, "isDiscussable")
-      ? model.item.typeKeywords.filter(
-          (typeKeyword) => typeKeyword !== CANNOT_DISCUSS
-        )
-      : [...model.item.typeKeywords, CANNOT_DISCUSS];
+): S {
+  if (getProp(store, "item")) {
+    const item = getProp(store, "item");
+    if (item.typeKeywords) {
+      item.typeKeywords = getProp(entity, "isDiscussable")
+        ? item.typeKeywords.filter(
+            (typeKeyword: string) => typeKeyword !== CANNOT_DISCUSS
+          )
+        : [...item.typeKeywords, CANNOT_DISCUSS];
+      setProp("item.typeKeywords", item.typeKeywords, store);
+    }
   }
-  return mapProps(object, "objectKey", model, "modelKey", mappings);
+
+  return mapProps(entity, "entityKey", store, "storeKey", mappings);
 }
 
 /**
  * Generic function to apply properties from a Model
  * onto an Object (i.e. IHubProject etc)
- * @param model
- * @param object
+ * @param store
+ * @param entity
  * @param mappings
  * @returns
  */
-export function mapModelToObject<T>(
-  model: IModel,
-  object: T,
+export function mapStoreToEntity<S, E>(
+  store: S,
+  entity: E,
   mappings: IPropertyMap[]
-): T {
-  setProp("isDiscussable", isDiscussable(model.item), object);
-  return mapProps(model, "modelKey", object, "objectKey", mappings);
+): E {
+  // Item specific logic...
+  if (getProp(store, "item")) {
+    const item = getProp(store, "item");
+    setProp("isDiscussable", isDiscussable(item), entity);
+  }
+
+  return mapProps(store, "storeKey", entity, "entityKey", mappings);
 }
 
 /**
@@ -138,7 +147,7 @@ function mapProps<S, T>(
   // walk the property map array
   mappings.forEach((entry: IPropertyMap) => {
     // Verbose b/c typescript hates the use of property indexing with generics
-    // i.e. entry<T>[sourceKey] make typescript angry
+    // i.e. entry<T>[sourceKey] makes typescript angry
     const sourcePath = getProp(entry, sourceKey);
     const targetPath = getProp(entry, targetKey);
     // get the value from the source

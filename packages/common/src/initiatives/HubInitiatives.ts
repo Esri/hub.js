@@ -25,6 +25,7 @@ import {
   IHubRequestOptions,
   getItemHomeUrl,
   setDiscussableKeyword,
+  IModel,
 } from "../index";
 import {
   IItem,
@@ -81,16 +82,18 @@ export async function createInitiative(
     initiative.isDiscussable
   );
   // Map initiative object onto a default initiative Model
-  const mapper = new PropertyMapper<Partial<IHubInitiative>>(getPropertyMap());
+  const mapper = new PropertyMapper<Partial<IHubInitiative>, IModel>(
+    getPropertyMap()
+  );
   // create model from object, using the default model as a starting point
-  let model = mapper.objectToModel(
+  let model = mapper.entityToStore(
     initiative,
     cloneObject(DEFAULT_INITIATIVE_MODEL)
   );
   // create the item
   model = await createModel(model, requestOptions);
   // map the model back into a IHubInitiative
-  let newInitiative = mapper.modelToObject(model, {});
+  let newInitiative = mapper.storeToEntity(model, {});
   newInitiative = computeProps(model, newInitiative, requestOptions);
   // and return it
   return newInitiative as IHubInitiative;
@@ -118,15 +121,17 @@ export async function updateInitiative(
   // get the backing item & data
   const model = await getModel(initiative.id, requestOptions);
   // create the PropertyMapper
-  const mapper = new PropertyMapper<Partial<IHubInitiative>>(getPropertyMap());
+  const mapper = new PropertyMapper<Partial<IHubInitiative>, IModel>(
+    getPropertyMap()
+  );
   // Note: Although we are fetching the model, and applying changes onto it,
   // we are not attempting to handle "concurrent edit" conflict resolution
   // but this is where we would apply that sort of logic
-  const modelToUpdate = mapper.objectToModel(initiative, model);
+  const modelToUpdate = mapper.entityToStore(initiative, model);
   // update the backing item
   const updatedModel = await updateModel(modelToUpdate, requestOptions);
   // now map back into an initiative and return that
-  let updatedInitiative = mapper.modelToObject(updatedModel, initiative);
+  let updatedInitiative = mapper.storeToEntity(updatedModel, initiative);
   updatedInitiative = computeProps(model, updatedInitiative, requestOptions);
   // the casting is needed because modelToObject returns a `Partial<T>`
   // where as this function returns a `T`
@@ -186,8 +191,10 @@ export async function convertItemToInitiative(
   let model = await fetchModelFromItem(item, requestOptions);
   // apply migrations
   model = await applyInitiativeMigrations(model, requestOptions);
-  const mapper = new PropertyMapper<Partial<IHubInitiative>>(getPropertyMap());
-  const prj = mapper.modelToObject(model, {}) as IHubInitiative;
+  const mapper = new PropertyMapper<Partial<IHubInitiative>, IModel>(
+    getPropertyMap()
+  );
+  const prj = mapper.storeToEntity(model, {}) as IHubInitiative;
   return computeProps(model, prj, requestOptions);
 }
 

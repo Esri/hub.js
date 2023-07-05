@@ -3,7 +3,7 @@ import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
 import { IHubDiscussion } from "../core/types";
 import { createModel, getModel, updateModel } from "../models";
 import { constructSlug, getUniqueSlug, setSlugKeyword } from "../items/slugs";
-import { cloneObject, setDiscussableKeyword } from "../index";
+import { IModel, cloneObject, setDiscussableKeyword } from "../index";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
@@ -46,16 +46,18 @@ export async function createDiscussion(
     discussion.isDiscussable
   );
   // Map discussion object onto a default discussion Model
-  const mapper = new PropertyMapper<Partial<IHubDiscussion>>(getPropertyMap());
+  const mapper = new PropertyMapper<Partial<IHubDiscussion>, IModel>(
+    getPropertyMap()
+  );
   // create model from object, using the default model as a starting point
-  let model = mapper.objectToModel(
+  let model = mapper.entityToStore(
     discussion,
     cloneObject(DEFAULT_DISCUSSION_MODEL)
   );
   // create the item
   model = await createModel(model, requestOptions);
   // map the model back into a IHubDiscussion
-  let newDiscussion = mapper.modelToObject(model, {});
+  let newDiscussion = mapper.storeToEntity(model, {});
   newDiscussion = computeProps(model, newDiscussion, requestOptions);
   // and return it
   return newDiscussion as IHubDiscussion;
@@ -84,15 +86,17 @@ export async function updateDiscussion(
   // get the backing item & data
   const model = await getModel(discussion.id, requestOptions);
   // create the PropertyMapper
-  const mapper = new PropertyMapper<Partial<IHubDiscussion>>(getPropertyMap());
+  const mapper = new PropertyMapper<Partial<IHubDiscussion>, IModel>(
+    getPropertyMap()
+  );
   // Note: Although we are fetching the model, and applying changes onto it,
   // we are not attempting to handle "concurrent edit" conflict resolution
   // but this is where we would apply that sort of logic
-  const modelToUpdate = mapper.objectToModel(discussion, model);
+  const modelToUpdate = mapper.entityToStore(discussion, model);
   // update the backing item
   const updatedModel = await updateModel(modelToUpdate, requestOptions);
   // now map back into a discussion and return that
-  let updatedDiscussion = mapper.modelToObject(updatedModel, discussion);
+  let updatedDiscussion = mapper.storeToEntity(updatedModel, discussion);
   updatedDiscussion = computeProps(model, updatedDiscussion, requestOptions);
   // the casting is needed because modelToObject returns a `Partial<T>`
   // where as this function returns a `T`

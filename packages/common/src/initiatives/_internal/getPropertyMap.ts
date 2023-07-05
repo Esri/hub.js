@@ -12,20 +12,20 @@ export function getPropertyMap(): IPropertyMap[] {
   const map = getBasePropertyMap();
 
   // Type specific mappings
-  map.push({ objectKey: "status", modelKey: "data.status" });
-  map.push({ objectKey: "catalog", modelKey: "data.catalog" });
-  map.push({ objectKey: "permissions", modelKey: "data.permissions" });
+  map.push({ entityKey: "status", storeKey: "data.status" });
+  map.push({ entityKey: "catalog", storeKey: "data.catalog" });
+  map.push({ entityKey: "permissions", storeKey: "data.permissions" });
   map.push({
-    objectKey: "capabilities",
-    modelKey: "data.settings.capabilities",
+    entityKey: "capabilities",
+    storeKey: "data.settings.capabilities",
   });
-  map.push({ objectKey: "contacts", modelKey: "data.contacts" });
-  map.push({ objectKey: "timeline", modelKey: "data.timeline" });
-  map.push({ objectKey: "metrics", modelKey: "item.properties.metrics" });
+  map.push({ entityKey: "contacts", storeKey: "data.contacts" });
+  map.push({ entityKey: "timeline", storeKey: "data.timeline" });
+  map.push({ entityKey: "metrics", storeKey: "item.properties.metrics" });
 
   map.push({
-    objectKey: "location",
-    modelKey: "item.properties.location",
+    entityKey: "location",
+    storeKey: "item.properties.location",
   });
 
   return map;

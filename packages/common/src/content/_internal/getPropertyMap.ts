@@ -18,10 +18,10 @@ export function getPropertyMap(): IPropertyMap[] {
    */
   // NOTE: we may want to move these into getBaseProprtyMap(), see:
   // https://github.com/Esri/hub.js/pull/993#discussion_r1134005511
-  map.push({ objectKey: "permissions", modelKey: "data.permissions" });
+  map.push({ entityKey: "permissions", storeKey: "data.permissions" });
   map.push({
-    objectKey: "capabilities",
-    modelKey: "data.settings.capabilities",
+    entityKey: "capabilities",
+    storeKey: "data.settings.capabilities",
   });
 
   // TODO: look into composeContent() for what we can add here

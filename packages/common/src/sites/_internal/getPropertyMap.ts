@@ -12,11 +12,11 @@ import { getBasePropertyMap } from "../../core/_internal/getBasePropertyMap";
 export function getPropertyMap(): IPropertyMap[] {
   const map = getBasePropertyMap();
   // Site specific mappings
-  map.push({ objectKey: "feeds", modelKey: "data.feeds" });
-  map.push({ objectKey: "permissions", modelKey: "data.permissions" });
+  map.push({ entityKey: "feeds", storeKey: "data.feeds" });
+  map.push({ entityKey: "permissions", storeKey: "data.permissions" });
   map.push({
-    objectKey: "capabilities",
-    modelKey: "data.capabilities",
+    entityKey: "capabilities",
+    storeKey: "data.capabilities",
   });
   // Props stored below `data.values`
   const valueProps = [
@@ -34,40 +34,40 @@ export function getPropertyMap(): IPropertyMap[] {
     "layout",
   ];
   valueProps.forEach((entry) => {
-    map.push({ objectKey: entry, modelKey: `data.values.${entry}` });
+    map.push({ entityKey: entry, storeKey: `data.values.${entry}` });
   });
   // Deeper/Indirect mappings
   map.push({
-    objectKey: "slug",
-    modelKey: "item.properties.slug",
+    entityKey: "slug",
+    storeKey: "item.properties.slug",
   });
   map.push({
-    objectKey: "legacyCapabilities",
-    modelKey: "data.values.capabilities",
+    entityKey: "legacyCapabilities",
+    storeKey: "data.values.capabilities",
   });
   map.push({
-    objectKey: "capabilities",
-    modelKey: "data.settings.capabilities",
+    entityKey: "capabilities",
+    storeKey: "data.settings.capabilities",
   });
   map.push({
-    objectKey: "orgUrlKey",
-    modelKey: "item.properties.orgUrlKey",
+    entityKey: "orgUrlKey",
+    storeKey: "item.properties.orgUrlKey",
   });
   map.push({
-    objectKey: "name",
-    modelKey: "item.title",
+    entityKey: "name",
+    storeKey: "item.title",
   });
   map.push({
-    objectKey: "location",
-    modelKey: "item.properties.location",
+    entityKey: "location",
+    storeKey: "item.properties.location",
   });
 
   // Catalog mappings
   // Since v1.x sites use data.catalog, which is really just `{groiups: []}`
   // we can't overtly migrate data.catalog, but we can map the properties
   // so they don't collide
-  map.push({ objectKey: "catalog", modelKey: "data.catalogv2" });
-  map.push({ objectKey: "legacyCatalog", modelKey: "data.catalog" });
+  map.push({ entityKey: "catalog", storeKey: "data.catalogv2" });
+  map.push({ entityKey: "legacyCatalog", storeKey: "data.catalog" });
 
   return map;
 }
