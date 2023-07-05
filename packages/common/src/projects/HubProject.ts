@@ -7,6 +7,7 @@ import {
   IWithSharingBehavior,
   UiSchemaElementOptions,
   IResolvedMetric,
+  IWithCardBehavior,
 } from "../core";
 import { getEntityEditorSchemas } from "../core/schemas/getEntityEditorSchemas";
 import { Catalog } from "../search";
@@ -20,6 +21,8 @@ import { ProjectEditorType } from "./_internal/ProjectSchema";
 import { IWithMetricsBehavior } from "../core/behaviors/IWithMetricsBehavior";
 import { getEntityMetrics } from "../metrics/getEntityMetrics";
 import { resolveMetric } from "../metrics/resolveMetric";
+import { IHubCardViewModel } from "../core/types/IHubCardViewModel";
+import { getCardViewModelFromProjectEntity } from "./view";
 
 /**
  * Hub Project Class
@@ -30,7 +33,8 @@ export class HubProject
     IWithStoreBehavior<IHubProject>,
     IWithCatalogBehavior,
     IWithMetricsBehavior,
-    IWithSharingBehavior
+    IWithSharingBehavior,
+    IWithCardBehavior
 {
   private _catalog: Catalog;
 
@@ -133,6 +137,24 @@ export class HubProject
     return getEntityEditorSchemas(i18nScope, type, options);
   }
 
+  /**
+   * Convert the project entity into a card view model that can
+   * be consumed by the gallery suite of components
+   *
+   * @param project project entity
+   * @param context auth & portal information
+   * @param target card link contextual target
+   * @param locale internationalization locale
+   */
+  static convertToCardViewModel(
+    project: IHubProject,
+    context: IArcGISContext,
+    target: "ago" | "view" | "workspace",
+    locale: string = "en-US"
+  ): IHubCardViewModel {
+    return getCardViewModelFromProjectEntity(project, context, target, locale);
+  }
+
   private static applyDefaults(
     partialProject: Partial<IHubProject>,
     context: IArcGISContext
@@ -144,6 +166,28 @@ export class HubProject
     // extend the partial over the defaults
     const pojo = { ...DEFAULT_PROJECT, ...partialProject } as IHubProject;
     return pojo;
+  }
+
+  /**
+   * Note: typescript does not have a means to enforce static methods
+   * defined on an interface; therefore, we define another (non-static)
+   * method that simply delegates to the similarly-named static method,
+   * and we enforce this method on the class by implementing
+   * IWithCardBehavior
+   *
+   * @param target card link contextual target
+   * @param locale internationalization locale
+   */
+  convertToCardViewModel(
+    target: "ago" | "view" | "workspace",
+    locale: string
+  ): IHubCardViewModel {
+    return HubProject.convertToCardViewModel(
+      this.entity,
+      this.context,
+      target,
+      locale
+    );
   }
 
   /**
