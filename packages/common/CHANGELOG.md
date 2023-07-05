@@ -1,3 +1,15 @@
+# @esri/hub-common [13.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.13.1...@esri/hub-common@13.14.0) (2023-07-05)
+
+
+### Features
+
+* make propertyMapper more generic ([#1098](https://github.com/Esri/hub.js/issues/1098)) ([09a8d3f](https://github.com/Esri/hub.js/commit/09a8d3fa3d9629072cce4ad9021a63e7104e1cdf))
+
+
+### Reverts
+
+* Revert "feat: make propertyMapper more generic (#1098)" (#1099) ([272c645](https://github.com/Esri/hub.js/commit/272c6455fa95d0f0e58e86299b3a02c8a51affb0)), closes [#1098](https://github.com/Esri/hub.js/issues/1098) [#1099](https://github.com/Esri/hub.js/issues/1099)
+
 ## @esri/hub-common [13.13.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.13.0...@esri/hub-common@13.13.1) (2023-06-28)
 
 
