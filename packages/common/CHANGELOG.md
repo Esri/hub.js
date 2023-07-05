@@ -1,3 +1,10 @@
+# @esri/hub-common [13.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.14.0...@esri/hub-common@13.15.0) (2023-07-05)
+
+
+### Features
+
+* Generic property mapper  ([#1100](https://github.com/Esri/hub.js/issues/1100)) ([1f58fa9](https://github.com/Esri/hub.js/commit/1f58fa9b235d0f988f9a7eb79a937f8a75f5f6e8))
+
 # @esri/hub-common [13.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.13.1...@esri/hub-common@13.14.0) (2023-07-05)
 
 
