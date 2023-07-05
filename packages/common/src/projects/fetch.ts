@@ -20,7 +20,7 @@ import { getProp } from "../objects/get-prop";
 import { getItemThumbnailUrl } from "../resources/get-item-thumbnail-url";
 import { getItemHomeUrl } from "../urls/get-item-home-url";
 import { getItemIdentifier } from "../items";
-import { getRelativeWorkspaceUrl } from "../core/_internal/getRelativeWorkspaceUrl";
+import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
 
 /**
  * @private

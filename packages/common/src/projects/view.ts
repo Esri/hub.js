@@ -5,7 +5,7 @@ import {
   getShortenedCategories,
 } from "../content/_internal/internalContentUtils";
 import { IHubProject } from "../core";
-import { getRelativeWorkspaceUrl } from "../core/_internal/getRelativeWorkspaceUrl";
+import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
 import { IHubCardViewModel } from "../core/types/IHubCardViewModel";
 import { getItemHomeUrl } from "../urls";
 
