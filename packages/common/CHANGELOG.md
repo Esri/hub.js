@@ -1,3 +1,10 @@
+## @esri/hub-common [13.15.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.15.0...@esri/hub-common@13.15.1) (2023-07-05)
+
+
+### Bug Fixes
+
+* defaultHostname and customHostname editing on site entity ([#1102](https://github.com/Esri/hub.js/issues/1102)) ([9e1496d](https://github.com/Esri/hub.js/commit/9e1496d2c655e9410b7f8722565cec8efb2cdc42))
+
 # @esri/hub-common [13.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.14.0...@esri/hub-common@13.15.0) (2023-07-05)
 
 
