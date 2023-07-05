@@ -76,6 +76,38 @@ const getSharedProjectCardViewModel = (
   entityOrSearchResult: IHubProject | IHubSearchResult,
   locale: string = "en-US"
 ): IHubCardViewModel => {
+  const additionalInfo = [];
+  if (entityOrSearchResult.type) {
+    additionalInfo.push({
+      i18nKey: "type",
+      value: entityOrSearchResult.type,
+    });
+  }
+  if (entityOrSearchResult.updatedDate) {
+    additionalInfo.push({
+      i18nKey: "dateUpdated",
+      value: entityOrSearchResult.updatedDate.toLocaleDateString(locale),
+    });
+  }
+  if (entityOrSearchResult.tags?.length) {
+    additionalInfo.push({
+      i18nKey: "tags",
+      value: entityOrSearchResult.tags.join(", "),
+    });
+  }
+  if (entityOrSearchResult.categories?.length) {
+    additionalInfo.push({
+      i18nKey: "categories",
+      value: getShortenedCategories(entityOrSearchResult.categories).join(", "),
+    });
+  }
+  if (entityOrSearchResult.createdDate) {
+    additionalInfo.push({
+      i18nKey: "type",
+      value: entityOrSearchResult.createdDate.toLocaleDateString(locale),
+    });
+  }
+
   return {
     access: entityOrSearchResult.access,
     badges: [],
@@ -85,41 +117,6 @@ const getSharedProjectCardViewModel = (
     summary: entityOrSearchResult.summary,
     title: entityOrSearchResult.name,
     type: entityOrSearchResult.type,
-    additionalInfo: [
-      ...(entityOrSearchResult.type
-        ? [{ i18nKey: "type", value: entityOrSearchResult.type }]
-        : []),
-      ...(entityOrSearchResult.updatedDate
-        ? [
-            {
-              i18nKey: "dateUpdated",
-              value:
-                entityOrSearchResult.updatedDate.toLocaleDateString(locale),
-            },
-          ]
-        : []),
-      ...(entityOrSearchResult.tags?.length
-        ? [{ i18nKey: "tags", value: entityOrSearchResult.tags.join(", ") }]
-        : []),
-      ...(entityOrSearchResult.categories?.length
-        ? [
-            {
-              i18nKey: "categories",
-              value: getShortenedCategories(
-                entityOrSearchResult.categories
-              ).join(", "),
-            },
-          ]
-        : []),
-      ...(entityOrSearchResult.createdDate
-        ? [
-            {
-              i18nKey: "type",
-              value:
-                entityOrSearchResult.createdDate.toLocaleDateString(locale),
-            },
-          ]
-        : []),
-    ],
+    additionalInfo,
   };
 };
