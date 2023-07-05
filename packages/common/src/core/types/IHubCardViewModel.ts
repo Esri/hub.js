@@ -1,5 +1,6 @@
 import { AccessLevel } from "./types";
 
+// structure the arcgis-hub-card expects to receive
 export interface IHubCardViewModel {
   access?: AccessLevel;
   id?: string;

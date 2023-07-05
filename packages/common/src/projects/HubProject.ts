@@ -139,7 +139,7 @@ export class HubProject
 
   /**
    * Convert the project entity into a card view model that can
-   * be consumed by the gallery suite of components
+   * be consumed by the suite of hug gallery components
    *
    * @param project project entity
    * @param context auth & portal information

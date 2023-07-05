@@ -9,6 +9,15 @@ import { getRelativeWorkspaceUrl } from "../core/_internal/getRelativeWorkspaceU
 import { IHubCardViewModel } from "../core/types/IHubCardViewModel";
 import { getItemHomeUrl } from "../urls";
 
+/**
+ * Convert a project entity into a card view model that can
+ * be consumed by the suite of hub gallery components
+ *
+ * @param project project entity
+ * @param context auth & portal information
+ * @param target card link contextual target
+ * @param locale internationalization locale
+ */
 export const getCardViewModelFromProjectEntity = (
   project: IHubProject,
   context: IArcGISContext,
@@ -28,6 +37,14 @@ export const getCardViewModelFromProjectEntity = (
   };
 };
 
+/**
+ * Convert a project hub search result into a card view model that
+ * can be consumed by the suite of hub gallery components
+ *
+ * @param searchResult hub project search result
+ * @param target card link contextual target
+ * @param locale internationalization locale
+ */
 export const getCardViewModelFromProjectSearchResult = (
   searchResult: IHubSearchResult,
   target: "ago" | "view" | "workspace" = "ago",
@@ -48,6 +65,13 @@ export const getCardViewModelFromProjectSearchResult = (
   };
 };
 
+/**
+ * Given a project entity OR hub serach result, construct the
+ * project's shared card view model properties
+ *
+ * @param entityOrSearchResult project entity or hub search result
+ * @param locale internationalization locale
+ */
 const getSharedProjectCardViewModel = (
   entityOrSearchResult: IHubProject | IHubSearchResult,
   locale: string = "en-US"

@@ -4,6 +4,7 @@ import { HubEntity } from "../types";
 /**
  * From within the context of a hub site, the following util
  * returns an entity's relative workspace URL
+ *
  * @param type entity type
  * @param identifier entity id or slug
  */
