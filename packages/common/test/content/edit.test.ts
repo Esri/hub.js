@@ -12,8 +12,8 @@ import { cloneObject } from "../../src/util";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 
-describe("content editing:", () => {
-  describe("create content:", () => {
+describe("content editing", () => {
+  describe("create content", () => {
     it("converts to a model and creates the item", async () => {
       const createSpy = spyOn(modelUtils, "createModel").and.callFake(
         (m: IModel) => {
@@ -37,13 +37,11 @@ describe("content editing:", () => {
       expect(modelToCreate.item.properties.orgUrlKey).toBe("dcdev");
     });
   });
-  describe("update content:", () => {
+  describe("update content", () => {
     it("converts to a model and updates the item", async () => {
       const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
         Promise.resolve({
-          item: {
-            typeKeywords: [],
-          },
+          item: {},
           data: {},
         })
       );

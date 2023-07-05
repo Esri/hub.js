@@ -10,7 +10,7 @@ import {
   fetchItemEnrichments,
   IItemAndEnrichments,
 } from "../items/_enrichments";
-import { IHubRequestOptions, IModel } from "../types";
+import { IHubRequestOptions } from "../types";
 import { isNil } from "../util";
 import { maybeConcat } from "../utils/_array";
 import { addContextToSlug, isSlug, parseDatasetId } from "./slugs";
@@ -247,7 +247,7 @@ export const fetchHubContent = async (
   // and then use the property mapper and computeProps() to compose the object
   const model = await fetchContent(identifier, options);
   // for now we still need property mapper to get defaults not set by composeContent()
-  const mapper = new PropertyMapper<Partial<IHubEditableContent>, IModel>(
+  const mapper = new PropertyMapper<Partial<IHubEditableContent>>(
     getPropertyMap()
   );
   const content = mapper.modelToObject(model, {}) as IHubEditableContent;

@@ -10,7 +10,7 @@ import { cloneObject } from "../../util";
  * streamline conversion between the Hub entities, and
  * the backing IModel
  */
-export class PropertyMapper<O, M> {
+export class PropertyMapper<T> {
   public mappings: IPropertyMap[];
   /**
    * Pass in the mappings between the Entity and
@@ -32,7 +32,7 @@ export class PropertyMapper<O, M> {
    * @param object
    * @returns
    */
-  modelToObject(model: M, object: O): O {
+  modelToObject(model: IModel, object: T): T {
     const obj = mapModelToObject(model, object, this.mappings);
     // Additional Read-Only Model Level Property Mappings
 
@@ -40,12 +40,12 @@ export class PropertyMapper<O, M> {
     // canEdit and canDelete
     // ------------------------------
     // use setProp to side-step typechecking
-    if (getProp(model, "item")) {
-      const itm = getProp(model, "item");
-      setProp("canEdit", ["admin", "update"].includes(itm.itemControl), obj);
-      setProp("canDelete", itm.itemControl === "admin", obj);
-    }
-
+    setProp(
+      "canEdit",
+      ["admin", "update"].includes(model.item.itemControl),
+      obj
+    );
+    setProp("canDelete", model.item.itemControl === "admin", obj);
     return obj;
   }
 
@@ -59,7 +59,7 @@ export class PropertyMapper<O, M> {
    * @param model
    * @returns
    */
-  objectToModel(object: O, model: M): M {
+  objectToModel(object: T, model: IModel): IModel {
     return mapObjectToModel(object, model, this.mappings);
   }
 }
@@ -85,23 +85,18 @@ export interface IPropertyMap {
  * @param mappings
  * @returns
  */
-export function mapObjectToModel<O, M>(
-  object: O,
-  model: M,
+export function mapObjectToModel<T>(
+  object: T,
+  model: IModel,
   mappings: IPropertyMap[]
-): M {
-  if (getProp(model, "item")) {
-    const item = getProp(model, "item");
-    if (item.typeKeywords) {
-      item.typeKeywords = getProp(object, "isDiscussable")
-        ? item.typeKeywords.filter(
-            (typeKeyword: string) => typeKeyword !== CANNOT_DISCUSS
-          )
-        : [...item.typeKeywords, CANNOT_DISCUSS];
-      setProp("item.typeKeywords", item.typeKeywords, model);
-    }
+): IModel {
+  if (model.item?.typeKeywords) {
+    model.item.typeKeywords = getProp(object, "isDiscussable")
+      ? model.item.typeKeywords.filter(
+          (typeKeyword) => typeKeyword !== CANNOT_DISCUSS
+        )
+      : [...model.item.typeKeywords, CANNOT_DISCUSS];
   }
-
   return mapProps(object, "objectKey", model, "modelKey", mappings);
 }
 
@@ -113,16 +108,12 @@ export function mapObjectToModel<O, M>(
  * @param mappings
  * @returns
  */
-export function mapModelToObject<M, O>(
-  model: M,
-  object: O,
+export function mapModelToObject<T>(
+  model: IModel,
+  object: T,
   mappings: IPropertyMap[]
-): O {
-  if (getProp(model, "item")) {
-    const item = getProp(model, "item");
-    setProp("isDiscussable", isDiscussable(item), object);
-  }
-
+): T {
+  setProp("isDiscussable", isDiscussable(model.item), object);
   return mapProps(model, "modelKey", object, "objectKey", mappings);
 }
 
