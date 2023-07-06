@@ -76,6 +76,39 @@ const getSharedProjectCardViewModel = (
   entityOrSearchResult: IHubProject | IHubSearchResult,
   locale: string
 ): IHubCardViewModel => {
+  const additionalInfo = [
+    {
+      i18nKey: "type",
+      value: entityOrSearchResult.type,
+    },
+    {
+      i18nKey: "dateUpdated",
+      value: entityOrSearchResult.updatedDate.toLocaleDateString(locale),
+    },
+    ...(entityOrSearchResult.tags?.length
+      ? [
+          {
+            i18nKey: "tags",
+            value: entityOrSearchResult.tags.join(", "),
+          },
+        ]
+      : []),
+    ...(entityOrSearchResult.categories?.length
+      ? [
+          {
+            i18nKey: "categories",
+            value: getShortenedCategories(entityOrSearchResult.categories).join(
+              ", "
+            ),
+          },
+        ]
+      : []),
+    {
+      i18nKey: "dateCreated",
+      value: entityOrSearchResult.createdDate.toLocaleDateString(locale),
+    },
+  ];
+
   return {
     access: entityOrSearchResult.access,
     badges: [],
@@ -85,37 +118,6 @@ const getSharedProjectCardViewModel = (
     summary: entityOrSearchResult.summary,
     title: entityOrSearchResult.name,
     type: entityOrSearchResult.type,
-    additionalInfo: [
-      {
-        i18nKey: "type",
-        value: entityOrSearchResult.type,
-      },
-      {
-        i18nKey: "dateUpdated",
-        value: entityOrSearchResult.updatedDate.toLocaleDateString(locale),
-      },
-      ...(entityOrSearchResult.tags?.length
-        ? [
-            {
-              i18nKey: "tags",
-              value: entityOrSearchResult.tags.join(", "),
-            },
-          ]
-        : []),
-      ...(entityOrSearchResult.categories?.length
-        ? [
-            {
-              i18nKey: "categories",
-              value: getShortenedCategories(
-                entityOrSearchResult.categories
-              ).join(", "),
-            },
-          ]
-        : []),
-      {
-        i18nKey: "dateCreated",
-        value: entityOrSearchResult.createdDate.toLocaleDateString(locale),
-      },
-    ],
+    additionalInfo,
   };
 };

@@ -632,8 +632,11 @@ export const getPublisherInfo = (
  * @param categories an item's categories
  */
 export const getShortenedCategories = (categories: string[]) => {
-  return categories.map((category) => {
+  return categories.reduce((acc: string[], category: string) => {
     const segments = category.split("/");
-    return segments[segments.length - 1];
-  });
+    const shortenedCategory = segments[segments.length - 1];
+
+    shortenedCategory && acc.push(shortenedCategory);
+    return acc;
+  }, []);
 };

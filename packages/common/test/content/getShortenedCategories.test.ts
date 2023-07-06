@@ -13,4 +13,13 @@ describe("getShortenedCategories", () => {
     const result = getShortenedCategories(mockCategories);
     expect(result).toEqual(["agriculture", "imagery"]);
   });
+  it("removes empty categories", () => {
+    const mockCategories = [
+      "/categories/infrastructure/agriculture",
+      "/categories/imagery",
+      "",
+    ];
+    const result = getShortenedCategories(mockCategories);
+    expect(result).toEqual(["agriculture", "imagery"]);
+  });
 });
