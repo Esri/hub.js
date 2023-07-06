@@ -1,4 +1,5 @@
 import {
+  cloneObject,
   getCardViewModelFromProjectEntity,
   getCardViewModelFromProjectSearchResult,
 } from "../../src";
@@ -38,12 +39,7 @@ describe("project view module:", () => {
     });
 
     it("returns the card view model from the project entity", () => {
-      const result = getCardViewModelFromProjectEntity(
-        PROJECT_ENTITY,
-        CONTEXT,
-        "ago",
-        "en-US"
-      );
+      const result = getCardViewModelFromProjectEntity(PROJECT_ENTITY, CONTEXT);
 
       expect(getItemHomeUrlSpy).toHaveBeenCalledTimes(1);
       expect(getItemHomeUrlSpy).toHaveBeenCalledWith(
@@ -91,12 +87,20 @@ describe("project view module:", () => {
         ],
       });
     });
+    it("does not include tags/categories in the view model's additional info if none are defined", () => {
+      const modifiedEntity = cloneObject(PROJECT_ENTITY);
+      modifiedEntity.tags = [];
+      modifiedEntity.categories = [];
+
+      const result = getCardViewModelFromProjectEntity(modifiedEntity, CONTEXT);
+
+      expect(result.additionalInfo?.length).toBe(3);
+    });
     it('target = "view": returns the correct title url', () => {
       const result = getCardViewModelFromProjectEntity(
         PROJECT_ENTITY,
         CONTEXT,
-        "view",
-        "en-US"
+        "view"
       );
       expect(result.titleUrl).toBe("/mock-hub-relative-url");
     });
@@ -104,8 +108,7 @@ describe("project view module:", () => {
       const result = getCardViewModelFromProjectEntity(
         PROJECT_ENTITY,
         CONTEXT,
-        "workspace",
-        "en-US"
+        "workspace"
       );
       expect(result.titleUrl).toBe("/mock-relative-workspace-url");
     });
@@ -114,9 +117,7 @@ describe("project view module:", () => {
   describe("getCardViewModelFromProjectSearchResult", () => {
     it("returns the card view model from the hub search result", () => {
       const result = getCardViewModelFromProjectSearchResult(
-        PROJECT_HUB_SEARCH_RESULT,
-        "ago",
-        "en-US"
+        PROJECT_HUB_SEARCH_RESULT
       );
 
       expect(result).toEqual({
@@ -145,19 +146,27 @@ describe("project view module:", () => {
         ],
       });
     });
+    it("does not include tags/categories in the view model's additional info if none are defined", () => {
+      const modifiedSearchResult = cloneObject(PROJECT_HUB_SEARCH_RESULT);
+      modifiedSearchResult.tags = undefined;
+      modifiedSearchResult.categories = undefined;
+
+      const result =
+        getCardViewModelFromProjectSearchResult(modifiedSearchResult);
+
+      expect(result.additionalInfo?.length).toBe(3);
+    });
     it('target = "view": returns the correct title url', () => {
       const result = getCardViewModelFromProjectSearchResult(
         PROJECT_HUB_SEARCH_RESULT,
-        "view",
-        "en-US"
+        "view"
       );
       expect(result.titleUrl).toBe("/mock-hub-relative-url");
     });
     it('target = "workspace": returns the correct title url', () => {
       const result = getCardViewModelFromProjectSearchResult(
         PROJECT_HUB_SEARCH_RESULT,
-        "workspace",
-        "en-US"
+        "workspace"
       );
       expect(result.titleUrl).toBe("/mock-relative-workspace-url");
     });

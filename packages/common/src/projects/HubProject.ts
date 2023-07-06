@@ -149,7 +149,7 @@ export class HubProject
   static convertToCardViewModel(
     project: IHubProject,
     context: IArcGISContext,
-    target: "ago" | "view" | "workspace",
+    target: "ago" | "view" | "workspace" = "ago",
     locale: string = "en-US"
   ): IHubCardViewModel {
     return getCardViewModelFromProjectEntity(project, context, target, locale);

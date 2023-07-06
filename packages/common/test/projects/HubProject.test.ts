@@ -129,12 +129,7 @@ describe("HubProject Class:", () => {
         "getCardViewModelFromProjectEntity"
       ).and.returnValue({});
 
-      HubProject.convertToCardViewModel(
-        {} as IHubProject,
-        authdCtxMgr.context,
-        "ago",
-        "en-US"
-      );
+      HubProject.convertToCardViewModel({} as IHubProject, authdCtxMgr.context);
       expect(spy).toHaveBeenCalledTimes(1);
       expect(spy).toHaveBeenCalledWith({}, authdCtxMgr.context, "ago", "en-US");
     });
