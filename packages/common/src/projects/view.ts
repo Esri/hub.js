@@ -7,7 +7,7 @@ import {
 import { IHubProject } from "../core";
 import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
 import { IHubCardViewModel } from "../core/types/IHubCardViewModel";
-import { getItemHomeUrl } from "../urls";
+import { getItemHomeUrl } from "../urls/get-item-home-url";
 
 /**
  * Convert a project entity into a card view model that can
@@ -103,7 +103,7 @@ const getSharedProjectCardViewModel = (
   }
   if (entityOrSearchResult.createdDate) {
     additionalInfo.push({
-      i18nKey: "type",
+      i18nKey: "dateCreated",
       value: entityOrSearchResult.createdDate.toLocaleDateString(locale),
     });
   }
