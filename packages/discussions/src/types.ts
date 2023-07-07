@@ -985,3 +985,43 @@ export interface IRemoveChannelActivityParams
   extends IDiscussionsRequestOptions {
   channelId: string;
 }
+
+/**
+ * representation of a discussion setting record from the service
+ *
+ * @export
+ * @interface IDiscussionSetting
+ * @extends {IWithAuthor}
+ * @extends {IWithEditor}
+ * @extends {IWithTimestamps}
+ */
+export interface IDiscussionSetting
+  extends IWithAuthor,
+    IWithEditor,
+    IWithTimestamps {
+  id: string;
+  type: DiscussionSettingType;
+  settings: ISettings;
+}
+
+export enum DiscussionSettingType {
+  CONTENT = "content",
+}
+
+export interface ISettings {
+  allowedChannelIds: string[] | null;
+}
+
+/**
+ * parameters for creating a discussionSetting
+ */
+export interface ICreateDiscussionSetting {
+  id: string;
+  type: DiscussionSettingType;
+  settings: ISettings;
+}
+
+export interface ICreateDiscussionSettingParams
+  extends IDiscussionsRequestOptions {
+  data: ICreateDiscussionSetting;
+}
