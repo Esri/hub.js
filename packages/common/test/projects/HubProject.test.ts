@@ -1,7 +1,6 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import {
   IHubProject,
-  IMetricFeature,
   IResolvedMetric,
   UiSchemaElementOptions,
 } from "../../src";
@@ -11,6 +10,7 @@ import { HubProject } from "../../src/projects/HubProject";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as editModule from "../../src/projects/edit";
 import * as fetchModule from "../../src/projects/fetch";
+import * as viewModule from "../../src/projects/view";
 import * as schemasModule from "../../src/core/schemas/getEntityEditorSchemas";
 import * as ResolveMetricModule from "../../src/metrics/resolveMetric";
 describe("HubProject Class:", () => {
@@ -123,6 +123,18 @@ describe("HubProject Class:", () => {
       expect(spy).toHaveBeenCalledTimes(1);
       expect(spy).toHaveBeenCalledWith("test.scope", "hub:project:edit", opts);
     });
+  });
+
+  it("convertToCardViewModel: delegates to the convertProjectEntityToCardViewModel util", async () => {
+    const spy = spyOn(viewModule, "convertProjectEntityToCardViewModel");
+
+    const chk = await HubProject.fromJson(
+      { name: "Test Project" },
+      authdCtxMgr.context
+    );
+    await chk.convertToCardViewModel("ago", "en-US");
+
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it("save call createProject if object does not have an id", async () => {

@@ -7,6 +7,7 @@ import {
   IWithSharingBehavior,
   UiSchemaElementOptions,
   IResolvedMetric,
+  IWithCardBehavior,
 } from "../core";
 import { getEntityEditorSchemas } from "../core/schemas/getEntityEditorSchemas";
 import { Catalog } from "../search";
@@ -20,6 +21,8 @@ import { ProjectEditorType } from "./_internal/ProjectSchema";
 import { IWithMetricsBehavior } from "../core/behaviors/IWithMetricsBehavior";
 import { getEntityMetrics } from "../metrics/getEntityMetrics";
 import { resolveMetric } from "../metrics/resolveMetric";
+import { IHubCardViewModel } from "../core/types/IHubCardViewModel";
+import { convertProjectEntityToCardViewModel } from "./view";
 
 /**
  * Hub Project Class
@@ -30,7 +33,8 @@ export class HubProject
     IWithStoreBehavior<IHubProject>,
     IWithCatalogBehavior,
     IWithMetricsBehavior,
-    IWithSharingBehavior
+    IWithSharingBehavior,
+    IWithCardBehavior
 {
   private _catalog: Catalog;
 
@@ -144,6 +148,25 @@ export class HubProject
     // extend the partial over the defaults
     const pojo = { ...DEFAULT_PROJECT, ...partialProject } as IHubProject;
     return pojo;
+  }
+
+  /**
+   * Convert the project entity into a card view model that can
+   * be consumed by the suite of hub gallery components
+   *
+   * @param target card link contextual target
+   * @param locale internationalization locale
+   */
+  convertToCardViewModel(
+    target: "ago" | "view" | "workspace",
+    locale: string
+  ): IHubCardViewModel {
+    return convertProjectEntityToCardViewModel(
+      this.entity,
+      this.context,
+      target,
+      locale
+    );
   }
 
   /**

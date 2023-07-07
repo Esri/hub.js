@@ -69,6 +69,10 @@ export interface IHubSearchResult extends IHubEntityBase {
      */
     siteRelative: string;
     /**
+     * Relative workspace url of the entity, within a site
+     */
+    workspaceRelative?: string;
+    /**
      * Additional urls
      */
     [key: string]: string | ILink;
