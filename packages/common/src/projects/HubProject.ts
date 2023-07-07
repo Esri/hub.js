@@ -22,7 +22,7 @@ import { IWithMetricsBehavior } from "../core/behaviors/IWithMetricsBehavior";
 import { getEntityMetrics } from "../metrics/getEntityMetrics";
 import { resolveMetric } from "../metrics/resolveMetric";
 import { IHubCardViewModel } from "../core/types/IHubCardViewModel";
-import { getCardViewModelFromProjectEntity } from "./view";
+import { convertProjectEntityToCardViewModel } from "./view";
 
 /**
  * Hub Project Class
@@ -161,7 +161,7 @@ export class HubProject
     target: "ago" | "view" | "workspace",
     locale: string
   ): IHubCardViewModel {
-    return getCardViewModelFromProjectEntity(
+    return convertProjectEntityToCardViewModel(
       this.entity,
       this.context,
       target,

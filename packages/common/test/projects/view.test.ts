@@ -1,7 +1,7 @@
 import {
   cloneObject,
-  getCardViewModelFromProjectEntity,
-  getCardViewModelFromProjectSearchResult,
+  convertProjectEntityToCardViewModel,
+  convertProjectSearchResultToCardViewModel,
 } from "../../src";
 import { CONTEXT, PROJECT_ENTITY, PROJECT_HUB_SEARCH_RESULT } from "./fixtures";
 import * as getItemHomeUrlModule from "../../src/urls/get-item-home-url";
@@ -18,7 +18,7 @@ describe("project view module:", () => {
     ).and.returnValue(["category1", "category2"]);
   });
 
-  describe("getCardViewModelFromProjectEntity:", () => {
+  describe("convertProjectEntityToCardViewModel:", () => {
     let getItemHomeUrlSpy: any;
     let getRelativeWorkspaceUrlSpy: any;
     let getHubRelativeUrlSpy: any;
@@ -39,7 +39,10 @@ describe("project view module:", () => {
     });
 
     it("returns the card view model from the project entity", () => {
-      const result = getCardViewModelFromProjectEntity(PROJECT_ENTITY, CONTEXT);
+      const result = convertProjectEntityToCardViewModel(
+        PROJECT_ENTITY,
+        CONTEXT
+      );
 
       expect(getItemHomeUrlSpy).toHaveBeenCalledTimes(1);
       expect(getItemHomeUrlSpy).toHaveBeenCalledWith(
@@ -92,12 +95,15 @@ describe("project view module:", () => {
       modifiedEntity.tags = [];
       modifiedEntity.categories = [];
 
-      const result = getCardViewModelFromProjectEntity(modifiedEntity, CONTEXT);
+      const result = convertProjectEntityToCardViewModel(
+        modifiedEntity,
+        CONTEXT
+      );
 
       expect(result.additionalInfo?.length).toBe(3);
     });
     it('target = "view": returns the correct title url', () => {
-      const result = getCardViewModelFromProjectEntity(
+      const result = convertProjectEntityToCardViewModel(
         PROJECT_ENTITY,
         CONTEXT,
         "view"
@@ -105,7 +111,7 @@ describe("project view module:", () => {
       expect(result.titleUrl).toBe("/mock-hub-relative-url");
     });
     it('target = "workspace": returns the correct title url', () => {
-      const result = getCardViewModelFromProjectEntity(
+      const result = convertProjectEntityToCardViewModel(
         PROJECT_ENTITY,
         CONTEXT,
         "workspace"
@@ -114,9 +120,9 @@ describe("project view module:", () => {
     });
   });
 
-  describe("getCardViewModelFromProjectSearchResult", () => {
+  describe("convertProjectSearchResultToCardViewModel", () => {
     it("returns the card view model from the hub search result", () => {
-      const result = getCardViewModelFromProjectSearchResult(
+      const result = convertProjectSearchResultToCardViewModel(
         PROJECT_HUB_SEARCH_RESULT
       );
 
@@ -152,19 +158,19 @@ describe("project view module:", () => {
       modifiedSearchResult.categories = undefined;
 
       const result =
-        getCardViewModelFromProjectSearchResult(modifiedSearchResult);
+        convertProjectSearchResultToCardViewModel(modifiedSearchResult);
 
       expect(result.additionalInfo?.length).toBe(3);
     });
     it('target = "view": returns the correct title url', () => {
-      const result = getCardViewModelFromProjectSearchResult(
+      const result = convertProjectSearchResultToCardViewModel(
         PROJECT_HUB_SEARCH_RESULT,
         "view"
       );
       expect(result.titleUrl).toBe("/mock-hub-relative-url");
     });
     it('target = "workspace": returns the correct title url', () => {
-      const result = getCardViewModelFromProjectSearchResult(
+      const result = convertProjectSearchResultToCardViewModel(
         PROJECT_HUB_SEARCH_RESULT,
         "workspace"
       );

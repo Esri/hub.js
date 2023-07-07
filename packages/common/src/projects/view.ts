@@ -18,7 +18,7 @@ import { getItemHomeUrl } from "../urls/get-item-home-url";
  * @param target card link contextual target
  * @param locale internationalization locale
  */
-export const getCardViewModelFromProjectEntity = (
+export const convertProjectEntityToCardViewModel = (
   project: IHubProject,
   context: IArcGISContext,
   target: "ago" | "view" | "workspace" = "ago",
@@ -45,7 +45,7 @@ export const getCardViewModelFromProjectEntity = (
  * @param target card link contextual target
  * @param locale internationalization locale
  */
-export const getCardViewModelFromProjectSearchResult = (
+export const convertProjectSearchResultToCardViewModel = (
   searchResult: IHubSearchResult,
   target: "ago" | "view" | "workspace" = "ago",
   locale: string = "en-US"
