@@ -833,7 +833,7 @@ export interface IChannel extends IWithAuthor, IWithEditor, IWithTimestamps {
  * @export
  * @interface IUpdateChannel
  * @extends {ICreateChannelSettings}
- * @extends { IUpdateChannelPermissions}
+ * @extends {IUpdateChannelPermissions}
  * @extends {Partial<IWithAuthor>}
  */
 export interface IUpdateChannel
