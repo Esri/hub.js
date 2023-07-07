@@ -1,3 +1,10 @@
+# @esri/hub-common [13.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.15.1...@esri/hub-common@13.16.0) (2023-07-07)
+
+
+### Features
+
+* add project card view model functionality  ([#1101](https://github.com/Esri/hub.js/issues/1101)) ([85a8201](https://github.com/Esri/hub.js/commit/85a82015d15e0363aea631ca563742822794cb08))
+
 ## @esri/hub-common [13.15.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.15.0...@esri/hub-common@13.15.1) (2023-07-05)
 
 
