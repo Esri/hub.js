@@ -123,20 +123,10 @@ describe("HubProject Class:", () => {
       expect(spy).toHaveBeenCalledTimes(1);
       expect(spy).toHaveBeenCalledWith("test.scope", "hub:project:edit", opts);
     });
-    it("converts the entity to a card view model", () => {
-      const spy = spyOn(
-        viewModule,
-        "getCardViewModelFromProjectEntity"
-      ).and.returnValue({});
-
-      HubProject.convertToCardViewModel({} as IHubProject, authdCtxMgr.context);
-      expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith({}, authdCtxMgr.context, "ago", "en-US");
-    });
   });
 
-  it("convertToCardViewModel: delegates to the convertToCardViewModel static method", async () => {
-    const spy = spyOn(HubProject, "convertToCardViewModel");
+  it("convertToCardViewModel: delegates to the getCardViewModelFromProjectEntity util", async () => {
+    const spy = spyOn(viewModule, "getCardViewModelFromProjectEntity");
 
     const chk = await HubProject.fromJson(
       { name: "Test Project" },

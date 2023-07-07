@@ -137,24 +137,6 @@ export class HubProject
     return getEntityEditorSchemas(i18nScope, type, options);
   }
 
-  /**
-   * Convert the project entity into a card view model that can
-   * be consumed by the suite of hub gallery components
-   *
-   * @param project project entity
-   * @param context auth & portal information
-   * @param target card link contextual target
-   * @param locale internationalization locale
-   */
-  static convertToCardViewModel(
-    project: IHubProject,
-    context: IArcGISContext,
-    target: "ago" | "view" | "workspace" = "ago",
-    locale: string = "en-US"
-  ): IHubCardViewModel {
-    return getCardViewModelFromProjectEntity(project, context, target, locale);
-  }
-
   private static applyDefaults(
     partialProject: Partial<IHubProject>,
     context: IArcGISContext
@@ -169,11 +151,8 @@ export class HubProject
   }
 
   /**
-   * Note: typescript does not have a means to enforce static methods
-   * defined on an interface; therefore, we define another (non-static)
-   * method that simply delegates to the similarly-named static method,
-   * and we enforce this method on the class by implementing
-   * IWithCardBehavior
+   * Convert the project entity into a card view model that can
+   * be consumed by the suite of hub gallery components
    *
    * @param target card link contextual target
    * @param locale internationalization locale
@@ -182,7 +161,7 @@ export class HubProject
     target: "ago" | "view" | "workspace",
     locale: string
   ): IHubCardViewModel {
-    return HubProject.convertToCardViewModel(
+    return getCardViewModelFromProjectEntity(
       this.entity,
       this.context,
       target,
