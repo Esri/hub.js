@@ -1,3 +1,10 @@
+# @esri/hub-discussions [25.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@25.1.0...@esri/hub-discussions@25.2.0) (2023-07-07)
+
+
+### Features
+
+* **hub-discussions:** add createDiscussionSetting function and associated interfaces ([#1103](https://github.com/Esri/hub.js/issues/1103)) ([0183121](https://github.com/Esri/hub.js/commit/0183121000ab49899d2f627014fe051b2b50694c))
+
 # @esri/hub-discussions [25.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@25.0.0...@esri/hub-discussions@25.1.0) (2023-06-26)
 
 
