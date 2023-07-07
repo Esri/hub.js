@@ -1,3 +1,10 @@
+## @esri/hub-discussions [25.2.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@25.2.0...@esri/hub-discussions@25.2.1) (2023-07-07)
+
+
+### Bug Fixes
+
+* **hub-discussions:** remove whitespace from IUpdateChannel documentation ([#1104](https://github.com/Esri/hub.js/issues/1104)) ([5e9859c](https://github.com/Esri/hub.js/commit/5e9859c718f9673b624b54ceae7f827d17556517))
+
 # @esri/hub-discussions [25.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@25.1.0...@esri/hub-discussions@25.2.0) (2023-07-07)
 
 
