@@ -1048,6 +1048,10 @@ export interface ISettings {
   allowedChannelIds: string[] | null;
 }
 
+/**
+ * @export
+ * @interface IRemoveDiscussionSettingResponse
+ */
 export interface IRemoveDiscussionSettingResponse {
   id: string;
   success: boolean;
