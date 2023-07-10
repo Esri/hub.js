@@ -1,32 +1,35 @@
-import {
-  IHubPage,
-  // IWithPermissionBehavior,
-  // IWithStoreBehavior,
-  // IWithSharingBehavior,
-} from "../core";
+import { IHubPage, IWithStoreBehavior, IWithSharingBehavior } from "../core";
 
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
 
-// import { DEFAULT_PAGE } from "./defaults";
 import {
-  // createPage,
-  deletePage,
-  //   ENTERPRISE_PAGE_ITEM_TYPE,
-  fetchPage,
-  //   HUB_PAGE_ITEM_TYPE,
-  // updatePage,
-} from "./HubPages";
+  DEFAULT_PAGE,
+  ENTERPRISE_PAGE_ITEM_TYPE,
+  HUB_PAGE_ITEM_TYPE,
+} from "./defaults";
+
+import { createPage, deletePage, fetchPage, updatePage } from "./HubPages";
+
+/*
+  TODO:
+  - slug stuff
+  - default stuff
+  - what about page-site lingage?
+  - permissions?
+  - capabilities?
+  - need to look at what is being done in the old HubSites package
+  - marvin does not have access to class diagram
+*/
 
 /**
  * Hub Page Class
  * NOTE: This is a minimal implementation. Create operations are not supported at this time
  */
-export class HubPage extends HubItemEntity<IHubPage> {
-  // implements
-  //   IWithStoreBehavior<IHubPage>,
-  //   IWithPermissionBehavior,
-  //   IWithSharingBehavior,
+export class HubPage
+  extends HubItemEntity<IHubPage>
+  implements IWithStoreBehavior<IHubPage>, IWithSharingBehavior
+{
   /**
    * Private constructor so we don't have `new` all over the place. Allows for
    * more flexibility in how we create the HubPageManager over time.
@@ -102,14 +105,14 @@ export class HubPage extends HubItemEntity<IHubPage> {
     context: IArcGISContext
   ): IHubPage {
     // ensure we have the orgUrlKey
-    // if (!partialPage.orgUrlKey) {
-    //   partialPage.orgUrlKey = context.portal.urlKey;
-    // }
+    if (!partialPage.orgUrlKey) {
+      partialPage.orgUrlKey = context.portal.urlKey;
+    }
     // extend the partial over the defaults
     const pojo = { ...DEFAULT_PAGE, ...partialPage } as IHubPage;
-    // pojo.type = context.isPortal
-    //   ? ENTERPRISE_PAGE_ITEM_TYPE
-    //   : HUB_PAGE_ITEM_TYPE;
+    pojo.type = context.isPortal
+      ? ENTERPRISE_PAGE_ITEM_TYPE
+      : HUB_PAGE_ITEM_TYPE;
     return pojo;
   }
 
@@ -139,13 +142,13 @@ export class HubPage extends HubItemEntity<IHubPage> {
       // update it
       this.entity = await updatePage(
         this.entity,
-        this.context.hubRequestOptions
+        this.context.userRequestOptions
       );
     } else {
       // create it
       this.entity = await createPage(
         this.entity,
-        this.context.hubRequestOptions
+        this.context.userRequestOptions
       );
     }
     // call the after save hook on superclass

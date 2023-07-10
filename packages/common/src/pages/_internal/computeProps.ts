@@ -5,7 +5,7 @@ import { IHubPage } from "../../core";
 import { IModel } from "../../types";
 // import { PageDefaultCapabilities } from "./ProjectBusinessRules";
 // import { processEntityCapabilities } from "../../capabilities";
-import { isDiscussable } from "../../discussions";
+// import { isDiscussable } from "../../discussions";
 
 /**
  * Given a model and a page, set various computed properties that can't be directly mapped
@@ -33,7 +33,7 @@ export function computeProps(
   page.createdDateSource = "item.created";
   page.updatedDate = new Date(model.item.modified);
   page.updatedDateSource = "item.modified";
-  page.isDiscussable = isDiscussable(page);
+  // page.isDiscussable = isDiscussable(page);
 
   // // Handle capabilities
   // page.capabilities = processEntityCapabilities(

@@ -9,16 +9,109 @@ import { IHubRequestOptions, IModel } from "../types";
 import { getItemHomeUrl } from "../urls";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { getItem, IItem } from "@esri/arcgis-rest-portal";
-import { unique } from "../util";
+import { cloneObject, unique } from "../util";
 import { mapBy, isGuid } from "../utils";
-import { getItemBySlug } from "../items/slugs";
+import {
+  constructSlug,
+  getItemBySlug,
+  getUniqueSlug,
+  setSlugKeyword,
+} from "../items/slugs";
 import { IHubPage } from "../core";
-import { fetchModelFromItem } from "../models";
+import {
+  createModel,
+  fetchModelFromItem,
+  getModel,
+  updateModel,
+} from "../models";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
+import {
+  DEFAULT_PAGE,
+  DEFAULT_PAGE_MODEL,
+  HUB_PAGE_ITEM_TYPE,
+  ENTERPRISE_PAGE_ITEM_TYPE,
+} from "./defaults";
+
+/**
+ * @private
+ * Create a new Hub Project item
+ *
+ * Minimal properties are name and org
+ *
+ * @param project
+ * @param requestOptions
+ */
+export async function createPage(
+  partialPage: Partial<IHubPage>,
+  requestOptions: IUserRequestOptions
+): Promise<IHubPage> {
+  // merge incoming with the default
+  // this expansion solves the typing somehow
+  const page = { ...DEFAULT_PAGE, ...partialPage };
+
+  // Create a slug from the title if one is not passed in
+  if (!page.slug) {
+    page.slug = constructSlug(page.name, page.orgUrlKey);
+  }
+  // Ensure slug is  unique
+  page.slug = await getUniqueSlug({ slug: page.slug }, requestOptions);
+  // add slug and status to keywords
+  page.typeKeywords = setSlugKeyword(page.typeKeywords, page.slug);
+
+  // Map project object onto a default project Model
+  const mapper = new PropertyMapper<Partial<IHubPage>, IModel>(
+    getPropertyMap()
+  );
+  // create model from object, using the default model as a starting point
+  let model = mapper.entityToStore(page, cloneObject(DEFAULT_PAGE_MODEL));
+  // create the item
+  model = await createModel(model, requestOptions);
+  // map the model back into a IHubProject
+  let newProject = mapper.storeToEntity(model, {});
+  newProject = computeProps(model, newProject, requestOptions);
+  // and return it
+  return newProject as IHubPage;
+}
+
+/**
+ * @private
+ * Update a Hub Project
+ * @param page
+ * @param requestOptions
+ */
+export async function updatePage(
+  page: IHubPage,
+  requestOptions: IUserRequestOptions
+): Promise<IHubPage> {
+  // verify that the slug is unique, excluding the current project
+  page.slug = await getUniqueSlug(
+    { slug: page.slug, existingId: page.id },
+    requestOptions
+  );
+
+  // get the backing item & data
+  const model = await getModel(page.id, requestOptions);
+  // create the PropertyMapper
+  const mapper = new PropertyMapper<Partial<IHubPage>, IModel>(
+    getPropertyMap()
+  );
+  // Note: Although we are fetching the model, and applying changes onto it,
+  // we are not attempting to handle "concurrent edit" conflict resolution
+  // but this is where we would apply that sort of logic
+  const modelToUpdate = mapper.entityToStore(page, model);
+  // update the backing item
+  const updatedModel = await updateModel(modelToUpdate, requestOptions);
+  // now map back into a project and return that
+  let updatedProject = mapper.storeToEntity(updatedModel, page);
+  updatedProject = computeProps(model, updatedProject, requestOptions);
+  // the casting is needed because modelToObject returns a `Partial<T>`
+  // where as this function returns a `T`
+  return updatedProject as IHubPage;
+}
 
 /**
  * @private
