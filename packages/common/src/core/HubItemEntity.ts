@@ -180,9 +180,18 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * @param groupId
    */
   async shareWithGroup(groupId: string): Promise<void> {
+    // group must be in current user's group collection
+    // so we get that to check if it's a sharedEdit group
+    const group = this.context.currentUser?.groups?.find(
+      (g) => g.id === groupId
+    );
+    // and see if it's an edit group b/c we need to send an additional param
+    const isEditGroup = group.capabilities.includes("updateitemcontrol");
+
     await shareItemWithGroup({
       id: this.entity.id,
       groupId,
+      confirmItemControl: isEditGroup,
       owner: this.entity.owner,
       authentication: this.context.session,
     });

@@ -3,9 +3,17 @@ import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 // Note - we separate these imports so we can cleanly spy on things in tests
 import { createModel, getModel, updateModel } from "../models";
 import { constructSlug, getUniqueSlug, setSlugKeyword } from "../items/slugs";
-import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
+import {
+  IPortal,
+  IUserItemOptions,
+  removeItem,
+} from "@esri/arcgis-rest-portal";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
-import { EntityResourceMap, IHubProject } from "../core/types";
+import {
+  EntityResourceMap,
+  IHubProject,
+  IHubProjectEditor,
+} from "../core/types";
 import { DEFAULT_PROJECT, DEFAULT_PROJECT_MODEL } from "./defaults";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
@@ -16,10 +24,7 @@ import {
   getEntityEditorSchemas,
   UiSchemaElementOptions,
 } from "../core/schemas";
-import {
-  EditorConfigType,
-  IEditorConfig,
-} from "../core/behaviors/IWithEditorBehavior";
+import { IEditorConfig } from "../core/behaviors/IWithEditorBehavior";
 import { setDiscussableKeyword } from "../discussions";
 import { IModel } from "../types";
 
@@ -66,6 +71,30 @@ export async function createProject(
   newProject = computeProps(model, newProject, requestOptions);
   // and return it
   return newProject as IHubProject;
+}
+
+/**
+ * Convert a IHubProjectEditor back to an IHubProject
+ * @param editor
+ * @param portal
+ * @returns
+ */
+export function editorToProject(
+  editor: IHubProjectEditor,
+  portal: IPortal
+): IHubProject {
+  const project = cloneObject(editor);
+  // ensure there's an org url key
+  project.orgUrlKey = editor.orgUrlKey ? editor.orgUrlKey : portal.urlKey;
+
+  // copy the location extent up one level
+  project.extent = editor.location?.extent;
+
+  // remove the props we graft on for the editor
+  delete project.groups;
+
+  // return with a cast
+  return project as IHubProject;
 }
 
 /**
@@ -125,10 +154,6 @@ export async function deleteProject(
 }
 
 /**
- * DEPRECATED: the following will be removed at next breaking version
- * use the getEntityEditorSchemas function instead (which this function
- * has already been refactored to consume)
- *
  * Get the editor config for for the HubProject entity.
  * @param i18nScope translation scope to be interpolated into the uiSchema
  * @param type editor type - corresonds to the returned uiSchema
@@ -137,10 +162,10 @@ export async function deleteProject(
 /* istanbul ignore next deprecated */
 export async function getHubProjectEditorConfig(
   i18nScope: string,
-  type: EditorConfigType,
+  type: ProjectEditorType,
   options: UiSchemaElementOptions[] = []
 ): Promise<IEditorConfig> {
-  const editorType = `hub:project:${type}` as ProjectEditorType;
-
-  return getEntityEditorSchemas(i18nScope, editorType, options);
+  // Still mulling if we should call out to this, or
+  // just pull that code in here...
+  return getEntityEditorSchemas(i18nScope, type, options);
 }
