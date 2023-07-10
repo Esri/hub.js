@@ -13,8 +13,9 @@ import {
 } from "./subschemas";
 
 /**
- * Defines a shared schema for an IHubItemEntity's editiable
- * fields. All item entity schemas should "extend" this schema
+ * Defines a default schema for an IHubItemEntity's editiable fields.
+ * All item entity schemas should leverage this base schema.
+ * Reference the Project or Initiative schemas as an example
  */
 export const HubItemEntitySchema: IConfigurationSchema = {
   type: "object",
