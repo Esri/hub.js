@@ -13,8 +13,8 @@ import {
 } from "./subschemas";
 
 /**
- * Defines a shared subschema for an IHubItemEntity's editiable
- * fields. All item entity schemas should "extend" this subschema
+ * Defines a shared schema for an IHubItemEntity's editiable
+ * fields. All item entity schemas should "extend" this schema
  */
 export const HubItemEntitySchema: IConfigurationSchema = {
   type: "object",
