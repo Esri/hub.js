@@ -17,7 +17,7 @@ import HubError from "../../HubError";
 import { IHubRequestOptions } from "../../types";
 import { enrichUserSearchResult } from "../../users";
 import { failSafe } from "../../utils";
-import { pickProps, setProp } from "../../objects";
+import { getProp, pickProps, setProp } from "../../objects";
 
 /**
  * Search for members of a group.
@@ -37,14 +37,28 @@ export async function portalSearchGroupMembers(
   query: IQuery,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
-  if (!query.properties?.groupId) {
+  // Requires that the query have a filter with a group predicate
+  let groupId: string;
+  query.filters.forEach((filter) => {
+    filter.predicates.forEach((predicate) => {
+      const prop = getProp(predicate, "group");
+      if (Array.isArray(prop)) {
+        // get first entry from array
+        groupId = prop[0];
+      }
+      if (typeof prop === "string") {
+        // get the value as a string
+        groupId = prop;
+      }
+    });
+  });
+
+  if (!groupId) {
     throw new HubError(
       "portalSearchGroupMembers",
-      "Group Id required. Please pass as query.properties.groupId"
+      "Group Id required. Please pass as a predicate in the query."
     );
   }
-
-  const groupId = query.properties.groupId;
 
   // Expand the individual predicates in each filter
   query.filters = query.filters.map((filter) => {
