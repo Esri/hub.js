@@ -16,7 +16,7 @@ import {
  * Defines a shared subschema for an IHubItemEntity's editiable
  * fields. All item entity schemas should "extend" this subschema
  */
-export const HubItemEntitySubschema: IConfigurationSchema = {
+export const HubItemEntitySchema: IConfigurationSchema = {
   type: "object",
   required: ["name"],
   properties: {

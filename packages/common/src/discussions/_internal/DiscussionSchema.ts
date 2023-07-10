@@ -1,5 +1,5 @@
 import { IConfigurationSchema } from "../../core";
-import { HubItemEntitySubschema } from "../../core/schemas/shared/hubItemEntitySubschema";
+import { HubItemEntitySchema } from "../../core/schemas/shared/HubItemEntitySchema";
 
 export type DiscussionEditorType = (typeof DiscussionEditorTypes)[number];
 export const DiscussionEditorTypes = [
@@ -11,9 +11,9 @@ export const DiscussionEditorTypes = [
  * defines the JSON schema for a Discussion's editable fields
  */
 export const DiscussionSchema: IConfigurationSchema = {
-  ...HubItemEntitySubschema,
+  ...HubItemEntitySchema,
   properties: {
-    ...HubItemEntitySubschema.properties,
+    ...HubItemEntitySchema.properties,
     prompt: {
       type: "string",
       default: "We want to hear from you!",
