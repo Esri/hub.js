@@ -21,7 +21,10 @@ import { ProjectEditorType } from "./_internal/ProjectSchema";
 import { IWithMetricsBehavior } from "../core/behaviors/IWithMetricsBehavior";
 import { getEntityMetrics } from "../metrics/getEntityMetrics";
 import { resolveMetric } from "../metrics/resolveMetric";
-import { IHubCardViewModel } from "../core/types/IHubCardViewModel";
+import {
+  ICardActionLink,
+  IHubCardViewModel,
+} from "../core/types/IHubCardViewModel";
 import { convertProjectEntityToCardViewModel } from "./view";
 
 /**
@@ -159,12 +162,18 @@ export class HubProject
    */
   convertToCardViewModel(
     target: "ago" | "view" | "workspace",
+    actionLinks: ICardActionLink[],
+    /**
+     * TODO: move transform logic to FE so we don't need to pass
+     * locale down (follow https://devtopia.esri.com/dc/hub/issues/7255)
+     */
     locale: string
   ): IHubCardViewModel {
     return convertProjectEntityToCardViewModel(
       this.entity,
       this.context,
       target,
+      actionLinks,
       locale
     );
   }

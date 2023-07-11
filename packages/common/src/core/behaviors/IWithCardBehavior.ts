@@ -1,4 +1,4 @@
-import { IHubCardViewModel } from "../types/IHubCardViewModel";
+import { ICardActionLink, IHubCardViewModel } from "../types/IHubCardViewModel";
 
 export interface IWithCardBehavior {
   /**
@@ -10,6 +10,11 @@ export interface IWithCardBehavior {
    */
   convertToCardViewModel(
     target: "ago" | "view" | "workspace",
+    actionLinks: ICardActionLink[],
+    /**
+     * TODO: move transform logic to FE so we don't need to pass
+     * locale down (follow https://devtopia.esri.com/dc/hub/issues/7255)
+     */
     locale: string
   ): IHubCardViewModel;
 }

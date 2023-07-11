@@ -18,7 +18,7 @@ export interface IHubCardViewModel {
 }
 
 // structure defining a hub card badge
-interface IBadgeConfig {
+export interface IBadgeConfig {
   i18nKey?: string;
   label?: string;
   icon?: string;
@@ -26,14 +26,14 @@ interface IBadgeConfig {
 }
 
 // structure defining the additional info for a hub card
-interface IInfoConfig {
+export interface IInfoConfig {
   i18nKey?: string;
   label?: string;
   value: string;
 }
 
 // structure defining a hub card action link
-interface ICardActionLink {
+export interface ICardActionLink {
   action?: string;
   href?: string;
   i18nKey?: string;
