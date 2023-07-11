@@ -1,3 +1,10 @@
+# @esri/hub-discussions [25.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@25.2.1...@esri/hub-discussions@25.3.0) (2023-07-11)
+
+
+### Features
+
+* **hub-discussions:** add function removeDiscussionSetting with asso… ([#1108](https://github.com/Esri/hub.js/issues/1108)) ([d90aac2](https://github.com/Esri/hub.js/commit/d90aac2ed72c1d097fd9393ecf91da864598c627))
+
 ## @esri/hub-discussions [25.2.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@25.2.0...@esri/hub-discussions@25.2.1) (2023-07-07)
 
 
