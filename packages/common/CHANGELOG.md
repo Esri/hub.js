@@ -1,3 +1,10 @@
+## @esri/hub-common [13.17.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.17.1...@esri/hub-common@13.17.2) (2023-07-11)
+
+
+### Bug Fixes
+
+* get group from predicate not query.properties ([#1107](https://github.com/Esri/hub.js/issues/1107)) ([138af9c](https://github.com/Esri/hub.js/commit/138af9c18c1c193c770f23c1f7991bc3b0e59a0c))
+
 ## @esri/hub-common [13.17.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.17.0...@esri/hub-common@13.17.1) (2023-07-11)
 
 
