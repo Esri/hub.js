@@ -3,6 +3,7 @@ import {
   deleteHubGroup,
   fetchHubGroup,
   updateHubGroup,
+  HubGroup,
 } from "../src";
 import { IHubGroup } from "../src/core/types/IHubGroup";
 import Artifactory from "./helpers/Artifactory";
@@ -50,6 +51,51 @@ describe("Hub Groups", () => {
         expect(err.message).toBe(
           "COM_0003: Group does not exist or is inaccessible."
         );
+      }
+    });
+  });
+});
+
+describe("HubGroup Class", () => {
+  let factory: Artifactory;
+  beforeAll(() => {
+    factory = new Artifactory(config);
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;
+  });
+  describe("CRUD group", () => {
+    it("creates, read, update and delete a group", async () => {
+      const ctxMgr = await factory.getContextManager("hubBasic", "admin");
+      const newHubGroup: Partial<IHubGroup> = {
+        name: `A new group ${new Date().getTime()}`,
+        summary: "New group summary.",
+      };
+      // create a group
+      const group = await HubGroup.create(newHubGroup, ctxMgr.context);
+      // update the group
+      group.update({
+        name: `Oak Street Plaza group ${new Date().getTime()}`,
+        tags: ["tag1", "tag2"],
+      });
+      // save the group
+      await group.save();
+      // verify some server set props are set
+      const pojo = group.toJson();
+      expect(pojo.owner).toBe(ctxMgr.context.currentUser.username || "");
+      expect(pojo.createdDate).toBeDefined();
+      expect(pojo.summary).toBe("New group summary.");
+
+      // Get the group by id, from Hub
+      const groupById = await HubGroup.fetch(pojo.id, ctxMgr.context);
+      expect(groupById.toJson().id).toBe(pojo.id);
+      // ensure differnet instance
+      expect(groupById).not.toBe(group);
+      const id = groupById.toJson().id;
+      await group.delete();
+      // try to get it again - should fail
+      try {
+        await HubGroup.fetch(id, ctxMgr.context);
+      } catch (ex) {
+        expect(ex.message).toBe("Group not found.");
       }
     });
   });
