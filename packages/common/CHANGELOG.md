@@ -1,3 +1,10 @@
+## @esri/hub-common [13.17.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.17.2...@esri/hub-common@13.17.3) (2023-07-11)
+
+
+### Bug Fixes
+
+* rename term to name for groupMember queries ([#1110](https://github.com/Esri/hub.js/issues/1110)) ([8fdeca4](https://github.com/Esri/hub.js/commit/8fdeca4f8dbe8fcdd50b9355781fc73149348d99))
+
 ## @esri/hub-common [13.17.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.17.1...@esri/hub-common@13.17.2) (2023-07-11)
 
 
