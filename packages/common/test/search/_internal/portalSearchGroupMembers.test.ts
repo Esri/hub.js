@@ -31,18 +31,18 @@ describe("portalSearchGroupMembers:", () => {
         );
       }
     });
-    // it("passing query.properties", async () => {
-    //   const opts: IHubSearchOptions = {};
-    //   const cloneQry = cloneObject(qry);
-    //   delete cloneQry.filters[0].predicates[0];
-    //   try {
-    //     await portalSearchGroupMembers(qry, opts);
-    //   } catch (err) {
-    //     expect(err.message).toEqual(
-    //       "Group Id required. Please pass as a predicate in the query."
-    //     );
-    //   }
-    // });
+    it("passing query.properties", async () => {
+      const opts: IHubSearchOptions = {};
+      const cloneQry = cloneObject(qry);
+      cloneQry.filters[0].predicates.push({ group: { any: ["3ef"] } });
+      try {
+        await portalSearchGroupMembers(qry, opts);
+      } catch (err) {
+        expect(err.message).toEqual(
+          "Group Id required. Please pass as a predicate in the query."
+        );
+      }
+    });
   });
   describe("executes search:", () => {
     let qry: IQuery;
@@ -111,6 +111,56 @@ describe("portalSearchGroupMembers:", () => {
       expect(user1.orgName).not.toBeDefined();
       expect(user1.memberType).toBe("admin");
       expect(user1.family).toBe("people");
+    });
+    it("accepts IMatchOptions: any", async () => {
+      const searchSpy = spyOn(Portal, "searchGroupUsers").and.callFake(() => {
+        return Promise.resolve(cloneObject(GroupMembersResponse));
+      });
+      spyOn(Portal, "getUser").and.callFake((options: any) => {
+        const resp = cloneObject(SparseUser);
+        resp.username = options.username;
+        return Promise.resolve(resp);
+      });
+      // NOTE: enrichUserSearchResult is tested elsewhere so we don't assert on the results here
+      spyOn(users, "enrichUserSearchResult").and.callThrough();
+      const opts: IHubSearchOptions = {
+        num: 2,
+        requestOptions: {
+          portal: "https://www.arcgis.com/sharing/rest",
+          authentication: MOCK_AUTH,
+        },
+      };
+      const cloneQry = cloneObject(qry);
+      cloneQry.filters[0].predicates.push({ group: { any: ["3ef", "fff"] } });
+      await portalSearchGroupMembers(cloneQry, opts);
+      // validate call args
+      const groupId = searchSpy.calls.argsFor(0)[0];
+      expect(groupId).toBe("3ef");
+    });
+    it("accepts IMatchOptions: all", async () => {
+      const searchSpy = spyOn(Portal, "searchGroupUsers").and.callFake(() => {
+        return Promise.resolve(cloneObject(GroupMembersResponse));
+      });
+      spyOn(Portal, "getUser").and.callFake((options: any) => {
+        const resp = cloneObject(SparseUser);
+        resp.username = options.username;
+        return Promise.resolve(resp);
+      });
+      // NOTE: enrichUserSearchResult is tested elsewhere so we don't assert on the results here
+      spyOn(users, "enrichUserSearchResult").and.callThrough();
+      const opts: IHubSearchOptions = {
+        num: 2,
+        requestOptions: {
+          portal: "https://www.arcgis.com/sharing/rest",
+          authentication: MOCK_AUTH,
+        },
+      };
+      const cloneQry = cloneObject(qry);
+      cloneQry.filters[0].predicates.push({ group: { all: ["3ef", "00c"] } });
+      await portalSearchGroupMembers(cloneQry, opts);
+      // validate call args
+      const groupId = searchSpy.calls.argsFor(0)[0];
+      expect(groupId).toBe("3ef");
     });
     it("search without auth", async () => {
       const searchSpy = spyOn(Portal, "searchGroupUsers").and.callFake(() => {

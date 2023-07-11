@@ -45,10 +45,13 @@ export async function portalSearchGroupMembers(
       if (Array.isArray(prop)) {
         // get first entry from array
         groupId = prop[0];
-      }
-      if (typeof prop === "string") {
+      } else if (typeof prop === "string") {
         // get the value as a string
         groupId = prop;
+      } else if (typeof prop === "object") {
+        // get the value from the object
+        // get first entry from any or all array
+        groupId = getProp(prop, "any[0]") || getProp(prop, "all[0]");
       }
     });
   });
