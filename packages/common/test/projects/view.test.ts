@@ -66,6 +66,7 @@ describe("project view module:", () => {
 
       expect(result).toEqual({
         access: PROJECT_ENTITY.access,
+        actionLinks: [],
         badges: [],
         id: PROJECT_ENTITY.id,
         family: "project",
@@ -128,6 +129,7 @@ describe("project view module:", () => {
 
       expect(result).toEqual({
         access: PROJECT_ENTITY.access,
+        actionLinks: [],
         badges: [],
         id: PROJECT_ENTITY.id,
         family: "project",

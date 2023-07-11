@@ -6,7 +6,10 @@ import {
 } from "../content/_internal/internalContentUtils";
 import { IHubProject } from "../core";
 import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
-import { IHubCardViewModel } from "../core/types/IHubCardViewModel";
+import {
+  ICardActionLink,
+  IHubCardViewModel,
+} from "../core/types/IHubCardViewModel";
 import { getItemHomeUrl } from "../urls/get-item-home-url";
 
 /**
@@ -16,12 +19,18 @@ import { getItemHomeUrl } from "../urls/get-item-home-url";
  * @param project project entity
  * @param context auth & portal information
  * @param target card link contextual target
+ * @param actionLinks card action links
  * @param locale internationalization locale
  */
 export const convertProjectEntityToCardViewModel = (
   project: IHubProject,
   context: IArcGISContext,
   target: "ago" | "view" | "workspace" = "ago",
+  actionLinks: ICardActionLink[] = [],
+  /**
+   * TODO: move transform logic to FE so we don't need to pass
+   * locale down (follow https://devtopia.esri.com/dc/hub/issues/7255)
+   */
   locale: string = "en-US"
 ): IHubCardViewModel => {
   const titleUrl = {
@@ -32,6 +41,7 @@ export const convertProjectEntityToCardViewModel = (
 
   return {
     ...getSharedProjectCardViewModel(project, locale),
+    actionLinks,
     titleUrl,
     ...(project.thumbnailUrl && { thumbnailUrl: project.thumbnailUrl }),
   };
@@ -43,11 +53,17 @@ export const convertProjectEntityToCardViewModel = (
  *
  * @param searchResult hub project search result
  * @param target card link contextual target
+ * @param actionLinks card action links
  * @param locale internationalization locale
  */
 export const convertProjectSearchResultToCardViewModel = (
   searchResult: IHubSearchResult,
   target: "ago" | "view" | "workspace" = "ago",
+  actionLinks: ICardActionLink[] = [],
+  /**
+   * TODO: move transform logic to FE so we don't need to pass
+   * locale down (follow https://devtopia.esri.com/dc/hub/issues/7255)
+   */
   locale: string = "en-US"
 ): IHubCardViewModel => {
   const titleUrl = {
@@ -58,6 +74,7 @@ export const convertProjectSearchResultToCardViewModel = (
 
   return {
     ...getSharedProjectCardViewModel(searchResult, locale),
+    actionLinks,
     titleUrl,
     ...(searchResult.links.thumbnail && {
       thumbnailUrl: searchResult.links.thumbnail,
