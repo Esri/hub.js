@@ -1,10 +1,14 @@
 import * as req from "../src/request";
-import { createDiscussionSetting } from "../src/discussion-settings";
+import {
+  createDiscussionSetting,
+  removeDiscussionSetting,
+} from "../src/discussion-settings";
 import {
   DiscussionSettingType,
   ICreateDiscussionSetting,
   ICreateDiscussionSettingParams,
   IDiscussionsRequestOptions,
+  IRemoveDiscussionSettingParams,
 } from "../src/types";
 
 describe("discussion-settings", () => {
@@ -21,7 +25,7 @@ describe("discussion-settings", () => {
     );
   });
 
-  it("creates a discussionSetting", async () => {
+  it("createDiscussionSetting", async () => {
     const body: ICreateDiscussionSetting = {
       id: "uuidv4",
       type: DiscussionSettingType.CONTENT,
@@ -37,5 +41,17 @@ describe("discussion-settings", () => {
     const [url, opts] = requestSpy.calls.argsFor(0);
     expect(url).toEqual(`/discussion_settings`);
     expect(opts).toEqual({ ...options, httpMethod: "POST" });
+  });
+
+  it("removeDiscussionSetting", async () => {
+    const id = "uuidv4";
+    const options: IRemoveDiscussionSettingParams = { ...baseOpts, id };
+
+    await removeDiscussionSetting(options);
+
+    expect(requestSpy.calls.count()).toEqual(1);
+    const [url, opts] = requestSpy.calls.argsFor(0);
+    expect(url).toEqual(`/discussion_settings/${id}`);
+    expect(opts).toEqual({ ...options, httpMethod: "DELETE" });
   });
 });

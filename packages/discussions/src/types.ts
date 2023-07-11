@@ -167,10 +167,9 @@ export enum ChannelFilter {
   HAS_USER_POSTS = "has_user_posts",
 }
 
-// sorting
-
 /**
- * Common sorting fields
+ * @export
+ * @enum {string}
  */
 export enum CommonSort {
   CREATED_AT = "createdAt",
@@ -296,7 +295,7 @@ export interface IChannelNotificationOptOut {
  * options for making requests against Discussion API
  *
  * @export
- * @interface IRequestOptions
+ * @interface IDiscussionsRequestOptions
  * @extends {RequestInit}
  */
 // NOTE: this is as close to implementing @esri/hub-common IHubRequestOptions as possible
@@ -330,6 +329,9 @@ export enum Role {
 /**
  * Interface representing the meta data associated with a discussions
  * mention email
+ *
+ * @export
+ * @interface IDiscussionsMentionMeta
  */
 export interface IDiscussionsMentionMeta {
   channelId: string;
@@ -338,6 +340,11 @@ export interface IDiscussionsMentionMeta {
   replyId?: string;
 }
 
+/**
+ * @export
+ * @interface IDiscussionsUser
+ * @extends {IUser}
+ */
 export interface IDiscussionsUser extends IUser {
   username?: string | null;
 }
@@ -405,6 +412,7 @@ export interface IRemoveReactionResponse {
 /**
  * Post sorting fields
  *
+ * @export
  * @enum {string}
  */
 export enum PostSort {
@@ -424,6 +432,7 @@ export enum PostSort {
 /**
  * Post types
  *
+ * @export
  * @enum{string}
  */
 export enum PostType {
@@ -596,7 +605,7 @@ export interface IUpdatePost {
  *
  * @export
  * @interface ISearchPostsParams
- * @extends {IHubRequestOptions}
+ * @extends {IDiscussionsRequestOptions}
  */
 export interface ISearchPostsParams extends IDiscussionsRequestOptions {
   data?: ISearchPosts;
@@ -607,7 +616,7 @@ export interface ISearchPostsParams extends IDiscussionsRequestOptions {
  *
  * @export
  * @interface IFetchPostParams
- * @extends {IHubRequestOptions}
+ * @extends {IDiscussionsRequestOptions}
  */
 export interface IFetchPostParams extends IDiscussionsRequestOptions {
   postId: string;
@@ -619,7 +628,7 @@ export interface IFetchPostParams extends IDiscussionsRequestOptions {
  *
  * @export
  * @interface IUpdatePostParams
- * @extends {IHubRequestOptions}
+ * @extends {IDiscussionsRequestOptions}
  */
 export interface IUpdatePostParams extends IDiscussionsRequestOptions {
   postId: string;
@@ -632,7 +641,7 @@ export interface IUpdatePostParams extends IDiscussionsRequestOptions {
  *
  * @export
  * @interface IUpdatePostStatusParams
- * @extends {IHubRequestOptions}
+ * @extends {IDiscussionsRequestOptions}
  */
 export interface IUpdatePostStatusParams extends IDiscussionsRequestOptions {
   postId: string;
@@ -644,7 +653,7 @@ export interface IUpdatePostStatusParams extends IDiscussionsRequestOptions {
  *
  * @export
  * @interface IRemovePostParams
- * @extends {IHubRequestOptions}
+ * @extends {IDiscussionsRequestOptions}
  */
 export interface IRemovePostParams extends IDiscussionsRequestOptions {
   postId: string;
@@ -687,6 +696,10 @@ export enum ChannelRelation {
   CHANNEL_ACL = "channelAcl",
 }
 
+/**
+ * @export
+ * @enum {string}
+ */
 export enum AclCategory {
   GROUP = "group",
   ORG = "org",
@@ -695,6 +708,10 @@ export enum AclCategory {
   AUTHENTICATED_USER = "authenticatedUser",
 }
 
+/**
+ * @export
+ * @enum {string}
+ */
 export enum AclSubCategory {
   ADMIN = "admin",
   MEMBER = "member",
@@ -702,6 +719,9 @@ export enum AclSubCategory {
 
 /**
  * request option for creating a channel ACL permission
+ *
+ * @export
+ * @interface IChannelAclPermissionDefinition
  */
 export interface IChannelAclPermissionDefinition {
   category: AclCategory;
@@ -713,6 +733,10 @@ export interface IChannelAclPermissionDefinition {
 
 /**
  * request option for updating a channel ACL permission
+ *
+ * @export
+ * @interface IChannelAclPermissionUpdateDefinition
+ * @extends {IChannelAclPermissionDefinition}
  */
 export interface IChannelAclPermissionUpdateDefinition
   extends IChannelAclPermissionDefinition {
@@ -755,6 +779,10 @@ export interface ICreateChannelSettings {
   softDelete?: boolean;
 }
 
+/**
+ * @export
+ * @interface IChannelMetadata
+ */
 export interface IChannelMetadata {
   guidelineUrl?: string | null;
 }
@@ -1004,16 +1032,34 @@ export interface IDiscussionSetting
   settings: ISettings;
 }
 
+/**
+ * @export
+ * @enum {string}
+ */
 export enum DiscussionSettingType {
   CONTENT = "content",
 }
 
+/**
+ * @export
+ * @interface ISettings
+ */
 export interface ISettings {
   allowedChannelIds: string[] | null;
 }
 
 /**
- * parameters for creating a discussionSetting
+ * @export
+ * @interface IRemoveDiscussionSettingResponse
+ */
+export interface IRemoveDiscussionSettingResponse {
+  id: string;
+  success: boolean;
+}
+
+/**
+ * @export
+ * @interface ICreateDiscussionSetting
  */
 export interface ICreateDiscussionSetting {
   id: string;
@@ -1021,7 +1067,26 @@ export interface ICreateDiscussionSetting {
   settings: ISettings;
 }
 
+/**
+ * parameters for creating a discussionSetting
+ *
+ * @export
+ * @interface ICreateDiscussionSettingParams
+ * @extends {IDiscussionsRequestOptions}
+ */
 export interface ICreateDiscussionSettingParams
   extends IDiscussionsRequestOptions {
   data: ICreateDiscussionSetting;
+}
+
+/**
+ * parameters for removing a discussionSetting
+ *
+ * @export
+ * @interface IRemoveDiscussionSettingParams
+ * @extends {IDiscussionsRequestOptions}
+ */
+export interface IRemoveDiscussionSettingParams
+  extends IDiscussionsRequestOptions {
+  id: string;
 }
