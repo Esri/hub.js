@@ -1,3 +1,10 @@
+# @esri/hub-common [13.17.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.16.0...@esri/hub-common@13.17.0) (2023-07-11)
+
+
+### Features
+
+* add a base item entity schema ([#1106](https://github.com/Esri/hub.js/issues/1106)) ([7b4606b](https://github.com/Esri/hub.js/commit/7b4606b4ad9db407e04501422679e7968b42ca65))
+
 # @esri/hub-common [13.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.15.1...@esri/hub-common@13.16.0) (2023-07-07)
 
 
