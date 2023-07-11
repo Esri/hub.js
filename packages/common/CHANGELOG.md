@@ -1,3 +1,10 @@
+## @esri/hub-common [13.17.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.17.0...@esri/hub-common@13.17.1) (2023-07-11)
+
+
+### Bug Fixes
+
+* add actionLinks arg to project view model functions ([#1109](https://github.com/Esri/hub.js/issues/1109)) ([cef335d](https://github.com/Esri/hub.js/commit/cef335d7eb2bf37fba6485bf1df137c17e90952a))
+
 # @esri/hub-common [13.17.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.16.0...@esri/hub-common@13.17.0) (2023-07-11)
 
 
