@@ -21,7 +21,8 @@ import { getProp, pickProps, setProp } from "../../objects";
 
 /**
  * Search for members of a group.
- * The group is specified via `IQuery.properties.groupId`
+ * The groupId is specified via a `group` predicate.
+ * Any `term` predicate will be re-mapped to `name`.
  *
  * The backing API is very limited in what
  * it returns so this method executes the search and then tries to fetch
