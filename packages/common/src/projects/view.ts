@@ -19,6 +19,7 @@ import { getItemHomeUrl } from "../urls/get-item-home-url";
  * @param project project entity
  * @param context auth & portal information
  * @param target card link contextual target
+ * @param actionLinks card action links
  * @param locale internationalization locale
  */
 export const convertProjectEntityToCardViewModel = (
@@ -52,6 +53,7 @@ export const convertProjectEntityToCardViewModel = (
  *
  * @param searchResult hub project search result
  * @param target card link contextual target
+ * @param actionLinks card action links
  * @param locale internationalization locale
  */
 export const convertProjectSearchResultToCardViewModel = (

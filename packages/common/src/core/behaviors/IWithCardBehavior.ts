@@ -6,6 +6,7 @@ export interface IWithCardBehavior {
    * be consumed by the suite of hub gallery components
    *
    * @param target card link contextual target
+   * @param actionLinks card action links
    * @param locale internationalization locale
    */
   convertToCardViewModel(
