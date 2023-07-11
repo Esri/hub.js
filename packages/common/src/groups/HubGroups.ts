@@ -3,10 +3,24 @@ import { fetchGroupEnrichments } from "./_internal/enrichments";
 import { getProp } from "../objects";
 import { getGroupThumbnailUrl, IHubSearchResult } from "../search";
 import { parseInclude } from "../search/_internal/parseInclude";
-import { IHubRequestOptions } from "../types";
+import { IHubRequestOptions, IModel } from "../types";
 import { getGroupHomeUrl } from "../urls";
 import { unique } from "../util";
-import { mapBy } from "../utils";
+import { isGuid, mapBy } from "../utils";
+import { PropertyMapper } from "../core/_internal/PropertyMapper";
+import {
+  getGroup,
+  IUserGroupOptions,
+  removeGroup,
+  createGroup,
+  updateGroup,
+} from "@esri/arcgis-rest-portal";
+import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { IHubGroup } from "../core/types/IHubGroup";
+import { computeProps } from "./_internal/computeProps";
+import { getPropertyMap } from "./_internal/getPropertyMap";
+import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { DEFAULT_GROUP } from "./defaults";
 
 /**
  * Enrich a generic search result
@@ -74,4 +88,95 @@ export async function enrichGroupSearchResult(
   result.links.siteRelative = `/teams/${result.id}`;
 
   return result;
+}
+
+// take an IGroup or details of the group, i.e. name, description etc?
+export async function createHubGroup(
+  partialGroup: Partial<IHubGroup>,
+  requestOptions: IUserRequestOptions
+): Promise<IHubGroup> {
+  // Map project object onto a default project Model
+  const mapper = new PropertyMapper<Partial<IHubGroup>, IModel>(
+    getPropertyMap()
+  );
+  const hubGroup = { ...DEFAULT_GROUP, ...partialGroup } as IHubGroup;
+  const group = convertHubGroupToGroup(hubGroup, requestOptions);
+  const opts = {
+    group,
+    authentication: requestOptions.authentication,
+  };
+  const result = await createGroup(opts);
+  return convertGroupToHubGroup(result.group, requestOptions);
+}
+
+export async function fetchHubGroup(
+  identifier: string,
+  requestOptions: IUserRequestOptions
+): Promise<IHubGroup> {
+  let getPrms;
+  if (isGuid(identifier)) {
+    getPrms = getGroup(identifier, requestOptions);
+  }
+  return getPrms.then((group: IGroup) => {
+    if (!group) return null;
+    return convertGroupToHubGroup(group, requestOptions);
+  });
+}
+
+/**
+ * @private
+ * Update a Hub Group
+ * @param hubGroup
+ * @param requestOptions
+ */
+export async function updateHubGroup(
+  hubGroup: IHubGroup,
+  requestOptions: IRequestOptions
+): Promise<IHubGroup> {
+  let group = await getGroup(hubGroup.id, requestOptions);
+  const mapper = new PropertyMapper<Partial<IHubGroup>, IGroup>(
+    getPropertyMap()
+  );
+  group = mapper.entityToStore(hubGroup, group);
+  await updateGroup({ group, authentication: requestOptions.authentication });
+  return hubGroup;
+}
+
+/**
+ * @private
+ * Remove a Hub Group
+ * @param id
+ * @param requestOptions
+ */
+export async function deleteHubGroup(
+  id: string,
+  requestOptions: IUserRequestOptions
+): Promise<void> {
+  const ro = { ...requestOptions, ...{ id } };
+  await removeGroup(ro);
+}
+
+function convertGroupToHubGroup(
+  group: IGroup,
+  requestOptions: IUserRequestOptions
+): IHubGroup {
+  const mapper = new PropertyMapper<Partial<IHubGroup>, IGroup>(
+    getPropertyMap()
+  );
+  const hubGroup = mapper.storeToEntity(group, {}) as IHubGroup;
+  return computeProps(group, hubGroup, requestOptions);
+}
+
+function convertHubGroupToGroup(
+  hubGroup: IHubGroup,
+  requestOptions: IUserRequestOptions
+): IGroup {
+  const mapper = new PropertyMapper<Partial<IHubGroup>, IGroup>(
+    getPropertyMap()
+  );
+  const group = mapper.entityToStore(
+    hubGroup,
+    {} as unknown as IGroup
+  ) as IGroup;
+  return group;
 }
