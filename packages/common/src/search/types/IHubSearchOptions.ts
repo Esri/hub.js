@@ -73,7 +73,7 @@ export interface IHubSearchOptions {
   /**
    * Sort direction
    */
-  sortOrder?: "desc" | "asc";
+  sortOrder?: "desc" | "asc" | "DESC" | "ASC";
   /**
    * The result number of the first entry in the result set response. The start parameter, along with the num parameter, can be used to paginate the search results.
    */

@@ -13,6 +13,7 @@ import {
   portalSearchItems,
   portalSearchGroups,
   portalSearchUsers,
+  discussionsSearchChannels,
 } from "./_internal";
 import { portalSearchGroupMembers } from "./_internal/portalSearchGroupMembers";
 
@@ -79,6 +80,9 @@ export async function hubSearch(
     },
     "arcgis-hub": {
       item: hubSearchItems,
+    },
+    discussions: {
+      channel: discussionsSearchChannels,
     },
   };
 

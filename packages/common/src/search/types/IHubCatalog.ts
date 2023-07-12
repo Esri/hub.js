@@ -53,7 +53,13 @@ export interface IHubCollection {
   targetEntity: EntityType;
 }
 
-export type EntityType = "item" | "group" | "user" | "groupMember" | "event";
+export type EntityType =
+  | "item"
+  | "group"
+  | "user"
+  | "groupMember"
+  | "event"
+  | "channel";
 
 /**
  * IQuery is the fundamental unit used to execute a search. By composing

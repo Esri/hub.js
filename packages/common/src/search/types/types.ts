@@ -82,7 +82,7 @@ export interface IApiDefinition {
   // - for "arcgis-hub", the /v3/search will be added
   url: string;
   // We can add types as we add support for more
-  type: "arcgis" | "arcgis-hub";
+  type: "arcgis" | "arcgis-hub" | "discussions";
 }
 /**
  * Base options when checking catalog containment
