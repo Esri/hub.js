@@ -1068,6 +1068,14 @@ export interface ICreateDiscussionSetting {
 }
 
 /**
+ * @export
+ * @interface IUpdateDiscussionSetting
+ */
+export interface IUpdateDiscussionSetting {
+  settings: Partial<ISettings>;
+}
+
+/**
  * parameters for creating a discussionSetting
  *
  * @export
@@ -1089,6 +1097,19 @@ export interface ICreateDiscussionSettingParams
 export interface IFetchDiscussionSettingParams
   extends IDiscussionsRequestOptions {
   id: string;
+}
+
+/**
+ * parameters for updating a discussionSetting
+ *
+ * @export
+ * @interface IUpdateDiscussionSettingParams
+ * @extends {IDiscussionsRequestOptions}
+ */
+export interface IUpdateDiscussionSettingParams
+  extends IDiscussionsRequestOptions {
+  id: string;
+  data: IUpdateDiscussionSetting;
 }
 
 /**
