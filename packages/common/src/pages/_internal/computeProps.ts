@@ -3,9 +3,8 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { getItemThumbnailUrl } from "../../resources";
 import { IHubPage } from "../../core";
 import { IModel } from "../../types";
-// import { PageDefaultCapabilities } from "./ProjectBusinessRules";
-// import { processEntityCapabilities } from "../../capabilities";
-// import { isDiscussable } from "../../discussions";
+import { PageDefaultCapabilities } from "./PageBusinessRules";
+import { processEntityCapabilities } from "../../capabilities";
 
 /**
  * Given a model and a page, set various computed properties that can't be directly mapped
@@ -33,13 +32,12 @@ export function computeProps(
   page.createdDateSource = "item.created";
   page.updatedDate = new Date(model.item.modified);
   page.updatedDateSource = "item.modified";
-  // page.isDiscussable = isDiscussable(page);
 
   // // Handle capabilities
-  // page.capabilities = processEntityCapabilities(
-  //   model.data.settings?.capabilities || {},
-  //   PageDefaultCapabilities
-  // );
+  page.capabilities = processEntityCapabilities(
+    model.data.settings?.capabilities || {},
+    PageDefaultCapabilities
+  );
 
   // cast b/c this takes a partial but returns a full page
   return page as IHubPage;

@@ -65,7 +65,7 @@ const PAGE_ITEM: IItem = {
   contentOrigin: "other",
 };
 
-describe("HubPages Module", () => {
+fdescribe("HubPages Module", () => {
   describe("enrichments:", () => {
     let enrichmentSpy: jasmine.Spy;
     let hubRo: IHubRequestOptions;

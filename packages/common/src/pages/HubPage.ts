@@ -1,30 +1,36 @@
-import { IHubPage, IWithStoreBehavior, IWithSharingBehavior } from "../core";
-
-import { IArcGISContext } from "../ArcGISContext";
-import { HubItemEntity } from "../core/HubItemEntity";
-
 import {
   DEFAULT_PAGE,
   ENTERPRISE_PAGE_ITEM_TYPE,
   HUB_PAGE_ITEM_TYPE,
 } from "./defaults";
 
+import {
+  IHubPage,
+  IWithStoreBehavior,
+  IWithSharingBehavior,
+  UiSchemaElementOptions,
+} from "../core";
+
+import { getEntityEditorSchemas } from "../core/schemas/getEntityEditorSchemas";
+import { IArcGISContext } from "../ArcGISContext";
+import { HubItemEntity } from "../core/HubItemEntity";
+import { IEditorConfig } from "../core/behaviors/IWithEditorBehavior";
+
 import { createPage, deletePage, fetchPage, updatePage } from "./HubPages";
+
+import { PageEditorType } from "./_internal/PageSchema";
 
 /*
   TODO:
-  - slug stuff
-  - default stuff
-  - what about page-site lingage?
-  - permissions?
-  - capabilities?
-  - need to look at what is being done in the old HubSites package
-  - marvin does not have access to class diagram
+  - when creating a site, we currently do some stuff we probably don't want to do anymore:
+    - protect the item
+    - allow for uploading assets - i think this is not used
+    - sharing to the collaboration group if it exists
 */
 
 /**
  * Hub Page Class
- * NOTE: This is a minimal implementation. Create operations are not supported at this time
+ * NOTE: This is a minimal implementation.
  */
 export class HubPage
   extends HubItemEntity<IHubPage>
@@ -98,6 +104,14 @@ export class HubPage
         throw ex;
       }
     }
+  }
+
+  static async getEditorConfig(
+    i18nScope: string,
+    type: PageEditorType,
+    options: UiSchemaElementOptions[] = []
+  ): Promise<IEditorConfig> {
+    return getEntityEditorSchemas(i18nScope, type, options);
   }
 
   private static applyDefaults(

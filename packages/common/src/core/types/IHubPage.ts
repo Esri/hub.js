@@ -1,10 +1,5 @@
 import { IHubItemEntity } from "./IHubItemEntity";
-// import { IWithVersioningBehavior } from "../behaviors";
-import {
-  IWithLayout,
-  // IWithPermissions,
-  IWithSlug,
-} from "../traits/index";
+import { IWithLayout, IWithPermissions, IWithSlug } from "../traits";
 /**
  * DRAFT: Under development and more properties will likely be added
  * @internal
@@ -12,6 +7,5 @@ import {
 export interface IHubPage
   extends IHubItemEntity,
     IWithLayout,
-    // IWithPermissions,
-    // IWithVersioningBehavior
+    IWithPermissions,
     IWithSlug {}

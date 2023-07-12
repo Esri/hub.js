@@ -3,13 +3,8 @@ import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubPage } from "../../src/pages/HubPage";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as HubPagesModule from "../../src/pages/HubPages";
-import {
-  // IDeepCatalogInfo,
-  // IHubCatalog,
-  IHubPage,
-} from "../../src";
-// import { Catalog } from "../../src/search";
-import * as ContainsModule from "../../src/core/_internal/deepContains";
+import { IHubPage } from "../../src";
+
 describe("HubPage Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
   let portalCtxMgr: ArcGISContextManager;
@@ -37,7 +32,7 @@ describe("HubPage Class:", () => {
         username: "casey",
       } as unknown as PortalModule.IUser,
       portal: {
-        isPortal: true,
+        isPortal: false,
         name: "My Portal Install",
         id: "BRXFAKE",
         urlKey: "fake-org",
@@ -56,7 +51,6 @@ describe("HubPage Class:", () => {
       // adds empty permissions and catalog
       const json = chk.toJson();
       expect(json.permissions).toEqual([]);
-      // expect(json.catalog).toEqual({ schemaVersion: 0 });
     });
     it("loads based on identifier", async () => {
       const fetchSpy = spyOn(HubPagesModule, "fetchPage").and.callFake(
@@ -74,7 +68,7 @@ describe("HubPage Class:", () => {
       expect(chk.toJson().name).toBe("Test Page");
     });
 
-    it("throws if site not found", async () => {
+    it("throws if page not found", async () => {
       const fetchSpy = spyOn(HubPagesModule, "fetchPage").and.callFake(
         (id: string) => {
           const err = new Error(
@@ -87,7 +81,7 @@ describe("HubPage Class:", () => {
         await HubPage.fetch("3ef", authdCtxMgr.context);
       } catch (ex) {
         expect(fetchSpy).toHaveBeenCalledTimes(1);
-        expect(ex.message).toBe("Page not found.");
+        expect((ex as any).message).toBe("Page not found.");
       }
     });
 
@@ -102,7 +96,7 @@ describe("HubPage Class:", () => {
         await HubPage.fetch("3ef", authdCtxMgr.context);
       } catch (ex) {
         expect(fetchSpy).toHaveBeenCalledTimes(1);
-        expect(ex.message).toBe("ZOMG!");
+        expect((ex as any).message).toBe("ZOMG!");
       }
     });
   });
@@ -137,7 +131,7 @@ describe("HubPage Class:", () => {
 
     expect(createSpy).toHaveBeenCalledTimes(1);
     expect(chk.toJson().name).toEqual("Test Page");
-    expect(chk.toJson().type).toEqual("Hub Site Application");
+    expect(chk.toJson().type).toEqual("Hub Page");
   });
   it("create does not save by default", async () => {
     const createSpy = spyOn(HubPagesModule, "createPage");
@@ -148,49 +142,36 @@ describe("HubPage Class:", () => {
 
     expect(createSpy).not.toHaveBeenCalled();
     expect(chk.toJson().name).toEqual("Test Page");
-    expect(chk.toJson().type).toEqual("Site Application");
+    expect(chk.toJson().type).toEqual("Hub Page");
   });
 
-  // it("update applies partial chagnes to internal state", () => {
-  //   const chk = HubPage.fromJson(
-  //     { name: "Test Page", catalog: { schemaVersion: 0 } },
-  //     authdCtxMgr.context
-  //   );
-  //   chk.update({
-  //     name: "Test Site 2",
-  //     permissions: [
-  //       {
-  //         permission: "hub:project:create",
-  //         collaborationType: "group",
-  //         collaborationId: "3ef",
-  //       },
-  //     ],
-  //     catalog: { schemaVersion: 2 },
-  //   });
-  //   expect(chk.toJson().name).toEqual("Test Site 2");
-  //   expect(chk.toJson().catalog).toEqual({ schemaVersion: 2 });
+  it("update applies partial chagnes to internal state", () => {
+    const chk = HubPage.fromJson({ name: "Test Page" }, authdCtxMgr.context);
+    chk.update({
+      name: "Test Page 2",
+    });
+    expect(chk.toJson().name).toEqual("Test Page 2");
 
-  //   chk.update({ tags: ["one", "two"] });
-  //   expect(chk.toJson().tags).toEqual(["one", "two"]);
-  // });
+    chk.update({ tags: ["one", "two"] });
+    expect(chk.toJson().tags).toEqual(["one", "two"]);
+  });
 
-  // it("save updates if object has id", async () => {
-  //   const updateSpy = spyOn(HubPagesModule, "updatePage").and.callFake(
-  //     (p: IHubPage) => {
-  //       return Promise.resolve(p);
-  //     }
-  //   );
-  //   const chk = HubPage.fromJson(
-  //     {
-  //       id: "bc3",
-  //       name: "Test Page",
-  //       catalog: { schemaVersion: 0 },
-  //     },
-  //     authdCtxMgr.context
-  //   );
-  //   await chk.save();
-  //   expect(updateSpy).toHaveBeenCalledTimes(1);
-  // });
+  it("save updates if object has id", async () => {
+    const updateSpy = spyOn(HubPagesModule, "updatePage").and.callFake(
+      (p: IHubPage) => {
+        return Promise.resolve(p);
+      }
+    );
+    const chk = HubPage.fromJson(
+      {
+        id: "bc3",
+        name: "Test Page",
+      },
+      authdCtxMgr.context
+    );
+    await chk.save();
+    expect(updateSpy).toHaveBeenCalledTimes(1);
+  });
 
   it("delete", async () => {
     const deleteSpy = spyOn(HubPagesModule, "deletePage").and.callFake(() => {
@@ -205,161 +186,20 @@ describe("HubPage Class:", () => {
     }).toThrowError("Entity is already destroyed.");
 
     expect(() => {
-      chk.update({ name: "Test Site 2" } as IHubPage);
+      chk.update({ name: "Test Page 2" } as IHubPage);
     }).toThrowError("HubPage is already destroyed.");
 
     // async calls
     try {
       await chk.delete();
     } catch (e) {
-      expect(e.message).toEqual("HubPage is already destroyed.");
+      expect((e as any).message).toEqual("HubPage is already destroyed.");
     }
 
     try {
       await chk.save();
     } catch (e) {
-      expect(e.message).toEqual("HubPage is already destroyed.");
+      expect((e as any).message).toEqual("HubPage is already destroyed.");
     }
   });
-
-  // it("internal instance accessors", () => {
-  //   const chk = HubPage.fromJson(
-  //     { name: "Test Page", catalog: { schemaVersion: 0 } },
-  //     authdCtxMgr.context
-  //   );
-
-  //   expect(chk.catalog instanceof Catalog).toBeTruthy();
-  // });
-
-  // it("setting catalog updates catalog instance", () => {
-  //   const chk = HubPage.fromJson(
-  //     { name: "Test Page", catalog: { schemaVersion: 0 } },
-  //     authdCtxMgr.context
-  //   );
-  //   chk.update({ catalog: { schemaVersion: 2 } });
-  //   expect(chk.toJson().catalog).toEqual({ schemaVersion: 2 });
-  //   expect(chk.catalog.schemaVersion).toEqual(2);
-  // });
-  // describe(" contains:", () => {
-  //   it("checks site catalog by default", async () => {
-  //     const containsSpy = spyOn(ContainsModule, "deepContains").and.callFake(
-  //       (id: string, h: IDeepCatalogInfo[]) => {
-  //         return Promise.resolve({
-  //           identifier: id,
-  //           isContained: true,
-  //           catalogInfo: {},
-  //         });
-  //       }
-  //     );
-  //     const chk = HubPage.fromJson(
-  //       {
-  //         id: "3ef",
-  //         catalog: createCatalog("00a"),
-  //       },
-  //       authdCtxMgr.context
-  //     );
-  //     const result = await chk.contains("cc0");
-  //     expect(containsSpy).toHaveBeenCalledTimes(1);
-  //     const hiearchy = containsSpy.calls.argsFor(0)[1];
-  //     expect(hiearchy.length).toBe(1);
-  //     expect(hiearchy[0].catalog).toEqual(
-  //       createCatalog("00a"),
-  //       "should pass the site catalog"
-  //     );
-  //     expect(result).toEqual({
-  //       identifier: "cc0",
-  //       isContained: true,
-  //       catalogInfo: {},
-  //     });
-  //   });
-
-  //   it("adds site catalog to others", async () => {
-  //     const containsSpy = spyOn(ContainsModule, "deepContains").and.callFake(
-  //       (id: string, h: IDeepCatalogInfo[]) => {
-  //         return Promise.resolve({
-  //           identifier: id,
-  //           isContained: true,
-  //           catalogInfo: {},
-  //         });
-  //       }
-  //     );
-  //     const chk = HubPage.fromJson(
-  //       {
-  //         id: "3ef",
-  //         catalog: createCatalog("00a"),
-  //       },
-  //       authdCtxMgr.context
-  //     );
-  //     // pass in a project catalog
-  //     const result = await chk.contains("cc0", [
-  //       { id: "4ef", entityType: "item", catalog: createCatalog("00b") },
-  //     ]);
-  //     expect(containsSpy).toHaveBeenCalledTimes(1);
-  //     const hiearchy = containsSpy.calls.argsFor(0)[1];
-  //     expect(hiearchy.length).toBe(2);
-  //     expect(hiearchy[0].catalog).toEqual(
-  //       createCatalog("00b"),
-  //       "should pass the project catalog"
-  //     );
-  //     expect(hiearchy[1].catalog).toEqual(
-  //       createCatalog("00a"),
-  //       "should pass the site catalog"
-  //     );
-  //     expect(result).toEqual({
-  //       identifier: "cc0",
-  //       isContained: true,
-  //       catalogInfo: {},
-  //     });
-  //   });
-
-  //   it("caches catalogs", async () => {
-  //     const containsSpy = spyOn(ContainsModule, "deepContains").and.callFake(
-  //       (id: string, h: IDeepCatalogInfo[]) => {
-  //         return Promise.resolve({
-  //           identifier: id,
-  //           isContained: true,
-  //           catalogInfo: {
-  //             "3ef": {
-  //               catalog: createCatalog("00a"),
-  //             },
-  //             "4ef": {
-  //               catalog: createCatalog("00b"),
-  //             },
-  //           },
-  //         });
-  //       }
-  //     );
-  //     const chk = HubPage.fromJson(
-  //       {
-  //         id: "3ef",
-  //         catalog: createCatalog("00a"),
-  //       },
-  //       authdCtxMgr.context
-  //     );
-  //     // First call will warm the cache
-  //     await chk.contains("cc0", [{ id: "4ef", entityType: "item" }]);
-  //     // second call will use the cache
-  //     await chk.contains("cc1", [{ id: "4ef", entityType: "item" }]);
-  //     expect(containsSpy).toHaveBeenCalledTimes(2);
-  //     // verify first call does not send the 4ef catalog
-  //     const hiearchy = containsSpy.calls.argsFor(0)[1];
-  //     expect(hiearchy.length).toBe(2);
-  //     expect(hiearchy[0].catalog).not.toBeDefined();
-  //     expect(hiearchy[1].catalog).toEqual(
-  //       createCatalog("00a"),
-  //       "should pass the site catalog"
-  //     );
-  //     // verify second call does send the 4ef catalog
-  //     const hiearchy2 = containsSpy.calls.argsFor(1)[1];
-  //     expect(hiearchy2.length).toBe(2);
-  //     expect(hiearchy2[0].catalog).toEqual(
-  //       createCatalog("00b"),
-  //       "should pass the project catalog"
-  //     );
-  //     expect(hiearchy2[1].catalog).toEqual(
-  //       createCatalog("00a"),
-  //       "should pass the site catalog"
-  //     );
-  //   });
-  // });
 });

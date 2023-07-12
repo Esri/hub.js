@@ -1,5 +1,5 @@
 import { IArcGISContext } from "../../ArcGISContext";
-import { HubEntity } from "../../core";
+import { HubEntity, IHubItemEntity } from "../../core";
 import { checkPermission, IPermissionAccessResponse } from "../../permissions";
 import { ICapabilityAccessResponse, ICapabilityPermission } from "../types";
 
@@ -13,7 +13,7 @@ import { ICapabilityAccessResponse, ICapabilityPermission } from "../types";
 export function checkCapabilityAccess(
   rule: ICapabilityPermission,
   context: IArcGISContext,
-  entity: HubEntity
+  entity: IHubItemEntity | HubEntity
 ): ICapabilityAccessResponse {
   // check if the capability is disabled for the entity; we default to false
   const value = entity.capabilities[rule.capability] || false;
