@@ -1,6 +1,7 @@
 import * as req from "../src/request";
 import {
   createDiscussionSetting,
+  fetchDiscussionSetting,
   removeDiscussionSetting,
 } from "../src/discussion-settings";
 import {
@@ -41,6 +42,18 @@ describe("discussion-settings", () => {
     const [url, opts] = requestSpy.calls.argsFor(0);
     expect(url).toEqual(`/discussion_settings`);
     expect(opts).toEqual({ ...options, httpMethod: "POST" });
+  });
+
+  it("fetchDiscussionSetting", async () => {
+    const id = "uuidv4";
+    const options: IRemoveDiscussionSettingParams = { ...baseOpts, id };
+
+    await fetchDiscussionSetting(options);
+
+    expect(requestSpy.calls.count()).toEqual(1);
+    const [url, opts] = requestSpy.calls.argsFor(0);
+    expect(url).toEqual(`/discussion_settings/${id}`);
+    expect(opts).toEqual({ ...options, httpMethod: "GET" });
   });
 
   it("removeDiscussionSetting", async () => {
