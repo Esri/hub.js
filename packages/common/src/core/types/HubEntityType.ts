@@ -5,4 +5,5 @@ export type HubEntityType =
   | "page"
   | "discussion"
   | "content"
-  | "org";
+  | "org"
+  | "group";

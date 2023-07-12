@@ -1,12 +1,11 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { getItemThumbnailUrl } from "../../resources";
-import { IModel } from "../../types";
 import { processEntityCapabilities } from "../../capabilities";
 import { IHubGroup } from "../../core/types/IHubGroup";
 import { IGroup } from "@esri/arcgis-rest-types";
 import { isDiscussable } from "../../discussions";
 import { getGroupThumbnailUrl } from "../../search";
+import { GroupDefaultCapabilities } from "./GroupBusinessRules";
 
 /**
  * Given a model and a group, set various computed properties that can't be directly mapped
@@ -42,6 +41,13 @@ export function computeProps(
   hubGroup.type = "Group";
 
   hubGroup.isDiscussable = isDiscussable(group);
+
+  // Handle capabilities
+  group.capabilities = processEntityCapabilities(
+    group.capabilities || {},
+    GroupDefaultCapabilities
+  );
+
   // cast b/c this takes a partial but returns a full group
   return hubGroup as IHubGroup;
 }

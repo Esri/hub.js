@@ -10,7 +10,6 @@ import { isGuid, mapBy } from "../utils";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import {
   getGroup,
-  IUserGroupOptions,
   removeGroup,
   createGroup,
   updateGroup,

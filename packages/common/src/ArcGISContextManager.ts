@@ -391,6 +391,7 @@ const ENTERPRISE_SITES_STATUS: HubSystemStatus = {
   projects: "not-available",
   search: "online",
   sites: "online",
+  groups: "online",
 };
 
 const HUB_STATUS: HubSystemStatus = {
@@ -405,4 +406,5 @@ const HUB_STATUS: HubSystemStatus = {
   projects: "online",
   search: "online",
   sites: "online",
+  groups: "online",
 };

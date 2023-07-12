@@ -15,8 +15,7 @@ describe("Hub Groups", () => {
     factory = new Artifactory(config);
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;
   });
-  // add coverage for the class
-  fdescribe("CRUD", () => {
+  describe("CRUD", () => {
     it("creates, read, update and delete a group", async () => {
       const ctxMgr = await factory.getContextManager("hubBasic", "admin");
       const hubGroup: Partial<IHubGroup> = {
@@ -78,11 +77,29 @@ describe("HubGroup Class", () => {
       });
       // save the group
       await group.save();
+
       // verify some server set props are set
       const pojo = group.toJson();
       expect(pojo.owner).toBe(ctxMgr.context.currentUser.username || "");
       expect(pojo.createdDate).toBeDefined();
       expect(pojo.summary).toBe("New group summary.");
+
+      // permissions
+      group.addPermissionPolicy({
+        permission: "hub:group:edit",
+        collaborationType: "group",
+        collaborationId: pojo.id,
+      });
+      // verify that it works
+      const canEditGroup = group.checkPermission("hub:group:edit");
+      // current user is hub basic and edit group requires premium
+      expect(canEditGroup.access).toBe(false);
+      // save group and verify that the permission is there
+      await group.save();
+      const json = group.toJson();
+      expect(json.permissions).toBeDefined();
+      const p = json.permissions || [];
+      expect(p[0].collaborationId).toBe(pojo.id);
 
       // Get the group by id, from Hub
       const groupById = await HubGroup.fetch(pojo.id, ctxMgr.context);
@@ -90,6 +107,8 @@ describe("HubGroup Class", () => {
       // ensure differnet instance
       expect(groupById).not.toBe(group);
       const id = groupById.toJson().id;
+
+      // clean up
       await group.delete();
       // try to get it again - should fail
       try {

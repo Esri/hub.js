@@ -19,6 +19,8 @@ const validCapabilities = [
   "settings",
   "teams",
   "metrics",
+  "members",
+  "content",
 ] as const;
 
 /**

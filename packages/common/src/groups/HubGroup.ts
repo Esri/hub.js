@@ -6,11 +6,29 @@ import {
   updateHubGroup,
   fetchHubGroup,
   deleteHubGroup,
+  IWithPermissionBehavior,
+  IEntityPermissionPolicy,
+  addPermissionPolicy,
+  removePermissionPolicy,
+  Capability,
+  checkCapability,
+  ICapabilityAccessResponse,
+  IWithCapabilityBehavior,
 } from "..";
 import { IHubGroup } from "../core/types/IHubGroup";
 import { DEFAULT_GROUP } from "./defaults";
+import {
+  IPermissionAccessResponse,
+  Permission,
+  checkPermission,
+} from "../permissions";
 
-export class HubGroup implements IWithStoreBehavior<IHubGroup> {
+export class HubGroup
+  implements
+    IWithStoreBehavior<IHubGroup>,
+    IWithPermissionBehavior,
+    IWithCapabilityBehavior
+{
   protected context: IArcGISContext;
   protected entity: IHubGroup;
   protected isDestroyed = false;
@@ -18,6 +36,24 @@ export class HubGroup implements IWithStoreBehavior<IHubGroup> {
   private constructor(group: IHubGroup, context: IArcGISContext) {
     this.entity = group;
     this.context = context;
+  }
+
+  get canEdit(): boolean {
+    const memberType = this.entity.userMembership?.memberType;
+    const userName = this.entity.userMembership?.username;
+    return (
+      userName === this.context.currentUser.username &&
+      (memberType === "owner" || memberType === "admin")
+    );
+  }
+
+  get canDelete(): boolean {
+    const memberType = this.entity.userMembership?.memberType;
+    const userName = this.entity.userMembership?.username;
+    return (
+      userName === this.context.currentUser.username &&
+      (memberType === "owner" || memberType === "admin")
+    );
   }
 
   static fromJson(json: Partial<IHubGroup>, context: IArcGISContext): HubGroup {
@@ -79,24 +115,6 @@ export class HubGroup implements IWithStoreBehavior<IHubGroup> {
     return pojo;
   }
 
-  get canEdit(): boolean {
-    const memberType = this.entity.userMembership?.memberType;
-    const userName = this.entity.userMembership?.username;
-    return (
-      userName === this.context.currentUser.username &&
-      (memberType === "owner" || memberType === "admin")
-    );
-  }
-
-  get canDelete(): boolean {
-    const memberType = this.entity.userMembership?.memberType;
-    const userName = this.entity.userMembership?.username;
-    return (
-      userName === this.context.currentUser.username &&
-      (memberType === "owner" || memberType === "admin")
-    );
-  }
-
   toJson(): IHubGroup {
     return cloneObject(this.entity);
   }
@@ -150,5 +168,57 @@ export class HubGroup implements IWithStoreBehavior<IHubGroup> {
     this.isDestroyed = true;
     // Delegate to module fn
     await deleteHubGroup(this.entity.id, this.context.userRequestOptions);
+  }
+
+  /**
+   * Check if current user has a specific permission, accounting for
+   * both system and entity level policies
+   * @param permission
+   * @returns
+   */
+  checkPermission(permission: Permission): IPermissionAccessResponse {
+    return checkPermission(permission, this.context, this.entity);
+  }
+
+  /**
+   * Get all policies related to a specific permission
+   * @param permission
+   * @returns
+   */
+  getPermissionPolicies(permission: Permission): IEntityPermissionPolicy[] {
+    const permissions = this.entity.permissions || [];
+    return permissions.filter((p) => p.permission === permission);
+  }
+
+  /**
+   * Add a policy to the entity
+   * @param policy
+   */
+  addPermissionPolicy(policy: IEntityPermissionPolicy): void {
+    this.entity.permissions = addPermissionPolicy(
+      this.entity.permissions,
+      policy
+    );
+  }
+
+  /**
+   * Remove a policy from the entity
+   * @param permission
+   * @param id
+   */
+  removePermissionPolicy(permission: Permission, id: string): void {
+    this.entity.permissions = removePermissionPolicy(
+      this.entity.permissions,
+      permission,
+      id
+    );
+  }
+
+  /**
+   * Check if the current user can access a specific capability
+   * @param capability
+   */
+  checkCapability(capability: Capability): ICapabilityAccessResponse {
+    return checkCapability(capability, this.context, this.entity);
   }
 }
