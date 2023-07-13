@@ -2,7 +2,9 @@ import { request } from "../request";
 import {
   ICreateDiscussionSettingParams,
   IDiscussionSetting,
+  IFetchDiscussionSettingParams,
   IRemoveDiscussionSettingParams,
+  IRemoveDiscussionSettingResponse,
 } from "../types";
 
 /**
@@ -20,15 +22,29 @@ export function createDiscussionSetting(
 }
 
 /**
+ * fetch discussion settings
+ *
+ * @export
+ * @param {IFetchDiscussionSettingParams} options
+ * @return {*} {Promise<IDiscussionSetting>}
+ */
+export function fetchDiscussionSetting(
+  options: IFetchDiscussionSettingParams
+): Promise<IDiscussionSetting> {
+  options.httpMethod = "GET";
+  return request(`/discussion_settings/${options.id}`, options);
+}
+
+/**
  * remove discussion settings
  *
  * @export
  * @param {IRemoveDiscussionSettingParams} options
- * @return {*} {Promise<IDiscussionSetting>}
+ * @return {*} {Promise<IRemoveDiscussionSettingResponse>}
  */
 export function removeDiscussionSetting(
   options: IRemoveDiscussionSettingParams
-): Promise<IDiscussionSetting> {
+): Promise<IRemoveDiscussionSettingResponse> {
   options.httpMethod = "DELETE";
   return request(`/discussion_settings/${options.id}`, options);
 }
