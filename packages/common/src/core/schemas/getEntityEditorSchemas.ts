@@ -20,6 +20,10 @@ import {
   DiscussionEditorType,
   DiscussionEditorTypes,
 } from "../../discussions/_internal/DiscussionSchema";
+import {
+  ContentEditorType,
+  ContentEditorTypes,
+} from "../../content/_internal/ContentSchema";
 
 /**
  * defines the possible editor type values - these correspond
@@ -28,6 +32,7 @@ import {
 export type EditorType = (typeof validEditorTypes)[number];
 export const validEditorTypes = [
   ...ProjectEditorTypes,
+  ...ContentEditorTypes,
   ...InitiativeEditorTypes,
   ...SiteEditorTypes,
   ...DiscussionEditorTypes,
@@ -67,6 +72,17 @@ export const getEntityEditorSchemas = async (
         "hub:project:create": () =>
           import("../../projects/_internal/ProjectUiSchemaCreate"),
       }[type as ProjectEditorType]());
+      break;
+    case "content":
+      const { ContentSchema } = await import(
+        "../../content/_internal/ContentSchema"
+      );
+      schema = cloneObject(ContentSchema);
+
+      ({ uiSchema } = await {
+        "hub:content:edit": () =>
+          import("../../content/_internal/ContentUiSchemaEdit"),
+      }[type as ContentEditorType]());
       break;
     case "initiative":
       const { InitiativeSchema } = await import(
