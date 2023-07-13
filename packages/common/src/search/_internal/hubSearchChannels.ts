@@ -1,4 +1,9 @@
-import { IHubSearchOptions, IHubSearchResponse, IQuery } from "../types";
+import {
+  IHubSearchOptions,
+  IHubSearchResponse,
+  IHubSearchResult,
+  IQuery,
+} from "../types";
 import HubError from "../../HubError";
 import { searchChannels } from "../../discussions/api/channels";
 import {
@@ -88,17 +93,33 @@ export const processSearchParams = (
  * @param {IPagedResponse{IChannel}} channelsResponse
  * @param {IQuery} query
  * @param {IHubSearchOptions} options
- * @returns IHubSearchResponse<IChannel>
+ * @returns IHubSearchResponse<IHubSearchResult>
  */
 export const toHubSearchResult = (
   channelsResponse: IPagedResponse<IChannel>,
   query: IQuery,
   options: IHubSearchOptions
-): IHubSearchResponse<IChannel> => {
+): IHubSearchResponse<IHubSearchResult> => {
   const { total, items, nextStart } = channelsResponse;
+  // Convert IChannel to IHubSearchResult
+  const channelToSearchResult = (channel: IChannel): IHubSearchResult => {
+    return {
+      id: channel.id,
+      name: channel.name,
+      createdDate: channel.createdAt,
+      createdDateSource: "channel",
+      updatedDate: channel.updatedAt,
+      updatedDateSource: "channel",
+      type: "channel",
+      access: channel.access,
+      family: "channel",
+      owner: channel.creator,
+      ...channel,
+    };
+  };
   return {
     total,
-    results: items,
+    results: items.map(channelToSearchResult),
     hasNext: nextStart > -1,
     next: () => {
       return hubSearchChannels(query, {
@@ -119,7 +140,7 @@ export const toHubSearchResult = (
 export const hubSearchChannels = async (
   query: IQuery,
   options: IHubSearchOptions
-): Promise<IHubSearchResponse<IChannel>> => {
+): Promise<IHubSearchResponse<IHubSearchResult>> => {
   // Pull useful info out of query
   const searchOptions = processSearchParams(options, query);
   // Call to searchChannels
