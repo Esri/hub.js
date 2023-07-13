@@ -1,3 +1,10 @@
+# @esri/hub-discussions [25.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@25.3.0...@esri/hub-discussions@25.4.0) (2023-07-13)
+
+
+### Features
+
+* **hub-discussions:** add function fetchDiscussionSetting and associated interfaces ([#1114](https://github.com/Esri/hub.js/issues/1114)) ([080b70c](https://github.com/Esri/hub.js/commit/080b70c1371d0eeb5472681791eb28eda9262624))
+
 # @esri/hub-discussions [25.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@25.2.1...@esri/hub-discussions@25.3.0) (2023-07-11)
 
 
