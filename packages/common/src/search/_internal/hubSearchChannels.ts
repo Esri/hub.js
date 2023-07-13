@@ -9,6 +9,7 @@ import {
 } from "../../discussions";
 
 /**
+ * @private
  * Convert hubSearch IHubSearchOptions and IQuery interfaces to a
  * ISearchChannelsParams structure that is needed for the Discussions API
  * searchChannels(searchOptions: ISearchCHannelsParams) function
@@ -22,7 +23,7 @@ export const processSearchParams = (
 ): ISearchChannelsParams => {
   if (!options.requestOptions) {
     throw new HubError(
-      "discussionsSearchChannels",
+      "hubSearchChannels",
       "options.requestOptions is required"
     );
   }
@@ -81,6 +82,7 @@ export const processSearchParams = (
 };
 
 /**
+ * @private
  * Convert the Discussions API searchChannels response into an
  * IHubSearchResponse necessary for supporting hubSearch results
  * @param {IPagedResponse{IChannel}} channelsResponse
@@ -99,7 +101,7 @@ export const toHubSearchResult = (
     results: items,
     hasNext: nextStart > -1,
     next: () => {
-      return discussionsSearchChannels(query, {
+      return hubSearchChannels(query, {
         ...options,
         start: nextStart,
       });
@@ -114,7 +116,7 @@ export const toHubSearchResult = (
  * @param options
  * @returns
  */
-export const discussionsSearchChannels = async (
+export const hubSearchChannels = async (
   query: IQuery,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IChannel>> => {

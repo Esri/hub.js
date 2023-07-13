@@ -4,6 +4,8 @@ import { IApiDefinition } from "../../types/types";
 import { expandApi } from "../../utils";
 import { shouldUseOgcApi } from "./shouldUseOgcApi";
 import { getOgcApiDefinition } from "./getOgcApiDefinition";
+import { shouldUseDiscussionsApi } from "./shouldUseDiscussionsApi";
+import { getDiscussionsApiDefinition } from "./getDiscussionsApiDefinition";
 
 /**
  * @private
@@ -28,6 +30,8 @@ export function getApi(
   let result: IApiDefinition;
   if (api) {
     result = expandApi(api);
+  } else if (shouldUseDiscussionsApi(targetEntity, options)) {
+    result = getDiscussionsApiDefinition();
   } else if (shouldUseOgcApi(targetEntity, options)) {
     result = getOgcApiDefinition(options);
   } else {

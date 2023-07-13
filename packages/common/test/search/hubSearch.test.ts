@@ -90,7 +90,7 @@ describe("hubSearch Module:", () => {
       let portalSearchItemsSpy: jasmine.Spy;
       let portalSearchGroupsSpy: jasmine.Spy;
       let hubSearchItemsSpy: jasmine.Spy;
-      let discussionsSearchChannelsSpy: jasmine.Spy;
+      let hubSearchChannelsSpy: jasmine.Spy;
       beforeEach(() => {
         // we are only interested in verifying that the fn was called with specific args
         // so all the responses are fake
@@ -124,9 +124,9 @@ describe("hubSearch Module:", () => {
             total: 99,
           });
         });
-        discussionsSearchChannelsSpy = spyOn(
+        hubSearchChannelsSpy = spyOn(
           SearchFunctionModule,
-          "discussionsSearchChannels"
+          "hubSearchChannels"
         ).and.callFake(() => {
           return Promise.resolve({
             hasNext: false,
@@ -257,7 +257,7 @@ describe("hubSearch Module:", () => {
         // Any cloning of auth can break downstream functions
         expect(options.requestOptions).toBe(opts.requestOptions);
       });
-      it("channels + discussions: discussionsSearchChannels", async () => {
+      it("channels + discussions: hubSearchChannels", async () => {
         const qry: IQuery = {
           targetEntity: "channel",
           filters: [
@@ -271,14 +271,14 @@ describe("hubSearch Module:", () => {
             hubApiUrl: "https://hubqa.arcgis.com/api",
           },
           api: {
-            type: "discussions",
-            url: "/api/discussions/v1/channels",
-          },
+            type: "arcgis-hub",
+            url: null,
+          } as any,
         };
         const chk = await hubSearch(qry, opts);
         expect(chk.total).toBe(99);
-        expect(discussionsSearchChannelsSpy.calls.count()).toBe(1);
-        const [query, options] = discussionsSearchChannelsSpy.calls.argsFor(0);
+        expect(hubSearchChannelsSpy.calls.count()).toBe(1);
+        const [query, options] = hubSearchChannelsSpy.calls.argsFor(0);
         expect(query).toEqual(qry);
         expect(options).toEqual(opts);
       });

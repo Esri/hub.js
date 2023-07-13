@@ -1,6 +1,6 @@
-import * as discussionsSearchChannels from "../../../src/search/_internal/discussionsSearchChannels";
+import * as hubSearchChannels from "../../../src/search/_internal/hubSearchChannels";
 import * as API from "../../../src/discussions/api/channels";
-import { IQuery, IHubSearchOptions } from "../../../src";
+import { IQuery, IHubSearchOptions, IHubRequestOptions } from "../../../src";
 import SEARCH_CHANNELS_RESPONSE from "./mocks/searchChannelsResponse";
 
 describe("discussionsSearchItems Module |", () => {
@@ -10,11 +10,11 @@ describe("discussionsSearchItems Module |", () => {
 
   beforeEach(() => {
     processSearchParamsSpy = spyOn(
-      discussionsSearchChannels,
+      hubSearchChannels,
       "processSearchParams"
     ).and.callThrough();
     toHubSearchResultSpy = spyOn(
-      discussionsSearchChannels,
+      hubSearchChannels,
       "toHubSearchResult"
     ).and.callThrough();
     searchChannelsSpy = spyOn(API, "searchChannels").and.callFake(() => {
@@ -39,20 +39,14 @@ describe("discussionsSearchItems Module |", () => {
     const opts: IHubSearchOptions = {
       num: 10,
       sortField: "createdAt",
-      sortOrder: "DESC",
-      api: {
-        type: "discussions",
-        url: "/api/discussions/v1/channels",
-      },
+      sortOrder: "desc",
       requestOptions: {
+        isPortal: false,
         hubApiUrl: "https://hubqa.arcgis.com/api",
         token: "my-secret-token",
-      } as any,
+      } as IHubRequestOptions,
     };
-    const result = await discussionsSearchChannels.discussionsSearchChannels(
-      qry,
-      opts
-    );
+    const result = await hubSearchChannels.hubSearchChannels(qry, opts);
     expect(processSearchParamsSpy).toHaveBeenCalledTimes(1);
     expect(toHubSearchResultSpy).toHaveBeenCalledTimes(1);
     expect(searchChannelsSpy).toHaveBeenCalledTimes(1);
