@@ -2,7 +2,8 @@ import { request } from "../request";
 import { IChannel, IPagedResponse, ISearchChannelsParams } from "../types";
 
 /**
- * search channels
+ * Search for Channels in the Discussions API.  Channels define the capabilities,
+ * permissions, and configuration for Discussion posts.
  *
  * @export
  * @param {ISearchChannelsParams} options

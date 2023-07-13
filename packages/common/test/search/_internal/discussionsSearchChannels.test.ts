@@ -1,5 +1,4 @@
-import { discussionsSearchChannels } from "../../../src/search/_internal";
-import * as helpers from "../../../src/search/_internal/discussionsSearchChannelsHelpers";
+import * as discussionsSearchChannels from "../../../src/search/_internal/discussionsSearchChannels";
 import * as API from "../../../src/discussions/api/channels";
 import { IQuery, IHubSearchOptions } from "../../../src";
 import SEARCH_CHANNELS_RESPONSE from "./mocks/searchChannelsResponse";
@@ -11,11 +10,11 @@ describe("discussionsSearchItems Module |", () => {
 
   beforeEach(() => {
     processSearchParamsSpy = spyOn(
-      helpers,
+      discussionsSearchChannels,
       "processSearchParams"
     ).and.callThrough();
     toHubSearchResultSpy = spyOn(
-      helpers,
+      discussionsSearchChannels,
       "toHubSearchResult"
     ).and.callThrough();
     searchChannelsSpy = spyOn(API, "searchChannels").and.callFake(() => {
@@ -50,7 +49,10 @@ describe("discussionsSearchItems Module |", () => {
         token: "my-secret-token",
       } as any,
     };
-    const result = await discussionsSearchChannels(qry, opts);
+    const result = await discussionsSearchChannels.discussionsSearchChannels(
+      qry,
+      opts
+    );
     expect(processSearchParamsSpy).toHaveBeenCalledTimes(1);
     expect(toHubSearchResultSpy).toHaveBeenCalledTimes(1);
     expect(searchChannelsSpy).toHaveBeenCalledTimes(1);
