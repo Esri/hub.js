@@ -104,6 +104,7 @@ export const toHubSearchResult = (
   // Convert IChannel to IHubSearchResult
   const channelToSearchResult = (channel: IChannel): IHubSearchResult => {
     return {
+      ...channel,
       id: channel.id,
       name: channel.name,
       createdDate: channel.createdAt,
@@ -114,7 +115,6 @@ export const toHubSearchResult = (
       access: channel.access,
       family: "channel",
       owner: channel.creator,
-      ...channel,
     };
   };
   return {
