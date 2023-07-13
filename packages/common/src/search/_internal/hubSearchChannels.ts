@@ -115,6 +115,12 @@ export const toHubSearchResult = (
       access: channel.access,
       family: "channel",
       owner: channel.creator,
+      links: {
+        // TODO: add links
+        thumbnail: null,
+        self: null,
+        siteRelative: null,
+      },
     };
   };
   return {
