@@ -34,19 +34,27 @@ export const processSearchParams = (
     "sortField",
     "sortOrder",
   ];
-  // Map IHubSearchOptions field to ISearchChannels field
-  const standardizeKeyName = (
-    key: keyof IHubSearchOptions
-  ): keyof ISearchChannels => {
+  // Map ISearchOptions key to ISearchChannels key
+  const mapKey = (key: keyof IHubSearchOptions): keyof ISearchChannels => {
     if (key === "sortField") {
       return "sortBy";
     }
     return key as keyof ISearchChannels;
   };
+  // Map any values that originated from ISearchOptions
+  // into a correct ISearchChannels value
+  const mapValue = (key: keyof ISearchChannels, value: any): string => {
+    let _value = value;
+    if (key === "sortOrder") {
+      _value = value.toUpperCase();
+    }
+    return _value;
+  };
   allowedPaginationProps.forEach((prop) => {
     if (options.hasOwnProperty(prop)) {
-      const key = standardizeKeyName(prop);
-      paginationProps[key] = options[prop];
+      const key = mapKey(prop);
+      const value = mapValue(key, options[prop]);
+      paginationProps[key] = value;
     }
   });
   // Acceptable fields to use as filters

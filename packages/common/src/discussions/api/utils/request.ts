@@ -38,7 +38,7 @@ export function authenticateRequest(
 }
 
 /**
- * parses IHubRequestOptions and makes request against Discussions API
+ * parses IDiscussionsRequestOptions and makes request against Discussions API
  *
  * @export
  * @template T
