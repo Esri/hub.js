@@ -29,12 +29,10 @@ export class ChannelPermission {
 
   private isChannelAclEmpty: boolean;
   private permissionsByCategory: PermissionsByAclCategoryMap;
-  private channelCreator: string;
 
-  constructor(channelAcl: IChannelAclPermission[], creator: string) {
+  constructor(channelAcl: IChannelAclPermission[]) {
     this.isChannelAclEmpty = channelAcl.length === 0;
     this.permissionsByCategory = {};
-    this.channelCreator = creator;
 
     channelAcl.forEach((permission) => {
       const { category } = permission;
@@ -44,7 +42,7 @@ export class ChannelPermission {
   }
 
   canPostToChannel(user: IDiscussionsUser) {
-    if (this.canAnyUserWrite()) {
+    if (this.aclAllowsAnyUserToPost()) {
       return true;
     }
 
@@ -53,11 +51,15 @@ export class ChannelPermission {
     }
 
     return (
-      this.canAnyAuthenticatedUserWrite() ||
-      this.isUserAWriteUser(user) ||
-      this.isUserPartOfWriteGroup(user) ||
-      this.isUserPartOfWriteOrg(user)
+      this.aclAllowsAnyAuthenticatedUserToPost() ||
+      this.aclAllowsThisUserToPost(user) ||
+      this.aclAllowsThisUserToPostByGroups(user) ||
+      this.aclAllowsThisUserToPostByOrg(user)
     );
+  }
+
+  canModifyPostStatus(user: IDiscussionsUser, channelCreator: string) {
+    return this.canModifyChannel(user, channelCreator);
   }
 
   canCreateChannel(user: IDiscussionsUser) {
@@ -74,16 +76,207 @@ export class ChannelPermission {
     );
   }
 
-  canModerateChannel(user: IDiscussionsUser) {
+  canModifyChannel(user: IDiscussionsUser, channelCreator: string) {
     if (this.isUserUnAuthenticated(user)) {
       return false;
     }
 
+    if (user.username === channelCreator) {
+      return true;
+    }
+
     return (
-      user.username === this.channelCreator ||
-      this.isUserAModeratorUser(user) ||
-      this.isUserPartOfModeratorGroup(user) ||
-      this.isUserPartOfModeratorOrg(user)
+      this.aclAllowsThisUserToModifyChannel(user) ||
+      this.aclAllowsThisUserToModifyChannelByGroups(user) ||
+      this.aclAllowsThisUserToModifyChannelByOrg(user)
+    );
+  }
+
+  private isAuthorizedToPost(role?: Role) {
+    return this.ALLOWED_ROLES_FOR_POSTING.includes(role);
+  }
+
+  private isAuthorizedToModerate(role: Role) {
+    return this.ALLOWED_ROLES_FOR_MODERATION.includes(role);
+  }
+
+  private isUserUnAuthenticated(user: IDiscussionsUser) {
+    return user.username === null || user.username === undefined;
+  }
+
+  private mapUserGroupsById(groups: IGroup[]) {
+    return groups.reduce((accum, userGroup) => {
+      accum[userGroup.id] = userGroup;
+      return accum;
+    }, {} as Record<string, IGroup>);
+  }
+
+  private isMemberTypeAuthorized(userGroup: IGroup) {
+    const {
+      userMembership: { memberType },
+    } = userGroup;
+    return this.ALLOWED_GROUP_MEMBER_TYPES.includes(memberType);
+  }
+
+  private isMemberTypeAdmin(userGroup: IGroup) {
+    const {
+      userMembership: { memberType },
+    } = userGroup;
+    return this.ADMIN_GROUP_MEMBER_TYPES.includes(memberType);
+  }
+
+  private isGroupDiscussable(userGroup: IGroup) {
+    const { typeKeywords = [] } = userGroup;
+    return !typeKeywords.includes(CANNOT_DISCUSS);
+  }
+
+  /**
+   * canPostToChannel helpers
+   */
+  private aclAllowsAnyUserToPost() {
+    const role =
+      this.permissionsByCategory[AclCategory.ANONYMOUS_USER]?.[0].role;
+    return this.isAuthorizedToPost(role);
+  }
+
+  private aclAllowsAnyAuthenticatedUserToPost() {
+    const role =
+      this.permissionsByCategory[AclCategory.AUTHENTICATED_USER]?.[0].role;
+    return this.isAuthorizedToPost(role);
+  }
+
+  private aclAllowsThisUserToPost(user: IDiscussionsUser) {
+    const userPermissions = this.permissionsByCategory[AclCategory.USER] ?? [];
+    const username = user.username;
+
+    return userPermissions.some((permission) => {
+      const { role, key } = permission;
+
+      return key === username && this.isAuthorizedToPost(role);
+    });
+  }
+
+  private aclAllowsThisUserToPostByGroups(user: IDiscussionsUser) {
+    const groupPermissions =
+      this.permissionsByCategory[AclCategory.GROUP] ?? [];
+    const userGroupsById = this.mapUserGroupsById(user.groups);
+
+    return groupPermissions.some((permission) => {
+      const userGroup = userGroupsById[permission.key];
+
+      return (
+        userGroup &&
+        this.isMemberTypeAuthorized(userGroup) &&
+        this.isGroupDiscussable(userGroup) &&
+        (this.canAnyGroupMemberPost(permission) ||
+          (this.isMemberTypeAdmin(userGroup) && this.canAdminsPost(permission)))
+      );
+    });
+  }
+
+  private canAnyGroupMemberPost(permission: IChannelAclPermission) {
+    const { subCategory, role } = permission;
+    return (
+      subCategory === AclSubCategory.MEMBER && this.isAuthorizedToPost(role)
+    );
+  }
+
+  private canAdminsPost(permission: IChannelAclPermission) {
+    const { subCategory, role } = permission;
+
+    return (
+      subCategory === AclSubCategory.ADMIN && this.isAuthorizedToPost(role)
+    );
+  }
+
+  private aclAllowsThisUserToPostByOrg(user: IDiscussionsUser) {
+    const orgPermissions = this.permissionsByCategory[AclCategory.ORG] ?? [];
+    const { orgId: userOrgId } = user;
+
+    return orgPermissions.some((permission) => {
+      const { key } = permission;
+
+      return (
+        key === userOrgId &&
+        (this.canAnyOrgMemberPost(permission) ||
+          (isOrgAdmin(user) && this.canAdminsPost(permission)))
+      );
+    });
+  }
+
+  private canAnyOrgMemberPost(permission: IChannelAclPermission) {
+    const { subCategory, role } = permission;
+    return (
+      subCategory === AclSubCategory.MEMBER && this.isAuthorizedToPost(role)
+    );
+  }
+
+  /**
+   * canModifyChannel helpers
+   */
+  private aclAllowsThisUserToModifyChannel(user: IDiscussionsUser) {
+    const userPermissions = this.permissionsByCategory[AclCategory.USER] ?? [];
+    const username = user.username;
+
+    return userPermissions.some((permission) => {
+      const { role, key } = permission;
+
+      return key === username && this.isAuthorizedToModerate(role);
+    });
+  }
+
+  private aclAllowsThisUserToModifyChannelByGroups(user: IDiscussionsUser) {
+    const groupPermissions =
+      this.permissionsByCategory[AclCategory.GROUP] ?? [];
+    const userGroupsById = this.mapUserGroupsById(user.groups);
+
+    return groupPermissions.some((permission) => {
+      const userGroup = userGroupsById[permission.key];
+
+      return (
+        userGroup &&
+        this.isMemberTypeAuthorized(userGroup) &&
+        (this.canAnyGroupMemberModerate(permission) ||
+          (this.isMemberTypeAdmin(userGroup) &&
+            this.canAdminsModerate(permission)))
+      );
+    });
+  }
+
+  private canAnyGroupMemberModerate(permission: IChannelAclPermission) {
+    const { subCategory, role } = permission;
+    return (
+      subCategory === AclSubCategory.MEMBER && this.isAuthorizedToModerate(role)
+    );
+  }
+
+  private canAdminsModerate(permission: IChannelAclPermission) {
+    const { subCategory, role } = permission;
+
+    return (
+      subCategory === AclSubCategory.ADMIN && this.isAuthorizedToModerate(role)
+    );
+  }
+
+  private aclAllowsThisUserToModifyChannelByOrg(user: IDiscussionsUser) {
+    const orgPermissions = this.permissionsByCategory[AclCategory.ORG] ?? [];
+    const { orgId: userOrgId } = user;
+
+    return orgPermissions.some((permission) => {
+      const { key } = permission;
+
+      return (
+        key === userOrgId &&
+        (this.canAnyOrgMemberModerate(permission) ||
+          (isOrgAdmin(user) && this.canAdminsModerate(permission)))
+      );
+    });
+  }
+
+  private canAnyOrgMemberModerate(permission: IChannelAclPermission) {
+    const { subCategory, role } = permission;
+    return (
+      subCategory === AclSubCategory.MEMBER && this.isAuthorizedToModerate(role)
     );
   }
 
@@ -151,189 +344,5 @@ export class ChannelPermission {
   private userCanAddUsersToAcl(user: IDiscussionsUser) {
     const userPermissions = this.permissionsByCategory[AclCategory.USER];
     return !userPermissions;
-  }
-
-  private canAnyUserWrite() {
-    const role =
-      this.permissionsByCategory[AclCategory.ANONYMOUS_USER]?.[0].role;
-    return this.isAuthorizedToWritePost(role);
-  }
-
-  private canAnyAuthenticatedUserWrite() {
-    const role =
-      this.permissionsByCategory[AclCategory.AUTHENTICATED_USER]?.[0].role;
-    return this.isAuthorizedToWritePost(role);
-  }
-
-  private isUserAWriteUser(user: IDiscussionsUser) {
-    const userPermissions = this.permissionsByCategory[AclCategory.USER] ?? [];
-    const username = user.username;
-
-    return userPermissions.some((permission) => {
-      const { role, key } = permission;
-
-      return key === username && this.isAuthorizedToWritePost(role);
-    });
-  }
-
-  private isUserPartOfWriteGroup(user: IDiscussionsUser) {
-    const groupPermissions =
-      this.permissionsByCategory[AclCategory.GROUP] ?? [];
-    const userGroupsById = this.mapUserGroupsById(user.groups);
-
-    return groupPermissions.some((permission) => {
-      const userGroup = userGroupsById[permission.key];
-
-      return (
-        userGroup &&
-        this.isMemberTypeAuthorized(userGroup) &&
-        this.isGroupDiscussable(userGroup) &&
-        (this.canAnyGroupMemberPost(permission) ||
-          (this.isMemberTypeAdmin(userGroup) && this.canAdminsPost(permission)))
-      );
-    });
-  }
-
-  private canAnyGroupMemberPost(permission: IChannelAclPermission) {
-    const { subCategory, role } = permission;
-    return (
-      subCategory === AclSubCategory.MEMBER &&
-      this.isAuthorizedToWritePost(role)
-    );
-  }
-
-  private canAdminsPost(permission: IChannelAclPermission) {
-    const { subCategory, role } = permission;
-
-    return (
-      subCategory === AclSubCategory.ADMIN && this.isAuthorizedToWritePost(role)
-    );
-  }
-
-  private isUserPartOfWriteOrg(user: IDiscussionsUser) {
-    const orgPermissions = this.permissionsByCategory[AclCategory.ORG] ?? [];
-    const { orgId: userOrgId } = user;
-
-    return orgPermissions.some((permission) => {
-      const { key } = permission;
-
-      return (
-        key === userOrgId &&
-        (this.canAnyOrgMemberPost(permission) ||
-          (isOrgAdmin(user) && this.canAdminsPost(permission)))
-      );
-    });
-  }
-
-  private canAnyOrgMemberPost(permission: IChannelAclPermission) {
-    const { subCategory, role } = permission;
-    return (
-      subCategory === AclSubCategory.MEMBER &&
-      this.isAuthorizedToWritePost(role)
-    );
-  }
-
-  private isAuthorizedToWritePost(role?: Role) {
-    return this.ALLOWED_ROLES_FOR_POSTING.includes(role);
-  }
-
-  private isUserUnAuthenticated(user: IDiscussionsUser) {
-    return user.username === null || user.username === undefined;
-  }
-
-  private mapUserGroupsById(groups: IGroup[]) {
-    return groups.reduce((accum, userGroup) => {
-      accum[userGroup.id] = userGroup;
-      return accum;
-    }, {} as Record<string, IGroup>);
-  }
-
-  private isMemberTypeAuthorized(userGroup: IGroup) {
-    const {
-      userMembership: { memberType },
-    } = userGroup;
-    return this.ALLOWED_GROUP_MEMBER_TYPES.includes(memberType);
-  }
-
-  private isMemberTypeAdmin(userGroup: IGroup) {
-    const {
-      userMembership: { memberType },
-    } = userGroup;
-    return this.ADMIN_GROUP_MEMBER_TYPES.includes(memberType);
-  }
-
-  private isGroupDiscussable(userGroup: IGroup) {
-    const { typeKeywords = [] } = userGroup;
-    return !typeKeywords.includes(CANNOT_DISCUSS);
-  }
-
-  private isAuthorizedToModerate(role: Role) {
-    return this.ALLOWED_ROLES_FOR_MODERATION.includes(role);
-  }
-
-  private isUserAModeratorUser(user: IDiscussionsUser) {
-    const userPermissions = this.permissionsByCategory[AclCategory.USER] ?? [];
-    const username = user.username;
-
-    return userPermissions.some((permission) => {
-      const { role, key } = permission;
-
-      return key === username && this.isAuthorizedToModerate(role);
-    });
-  }
-
-  private isUserPartOfModeratorGroup(user: IDiscussionsUser) {
-    const groupPermissions =
-      this.permissionsByCategory[AclCategory.GROUP] ?? [];
-    const userGroupsById = this.mapUserGroupsById(user.groups);
-
-    return groupPermissions.some((permission) => {
-      const userGroup = userGroupsById[permission.key];
-
-      return (
-        userGroup &&
-        this.isMemberTypeAuthorized(userGroup) &&
-        (this.canAnyGroupMemberModerate(permission) ||
-          (this.isMemberTypeAdmin(userGroup) &&
-            this.canAdminsModerate(permission)))
-      );
-    });
-  }
-
-  private canAnyGroupMemberModerate(permission: IChannelAclPermission) {
-    const { subCategory, role } = permission;
-    return (
-      subCategory === AclSubCategory.MEMBER && this.isAuthorizedToModerate(role)
-    );
-  }
-
-  private canAdminsModerate(permission: IChannelAclPermission) {
-    const { subCategory, role } = permission;
-
-    return (
-      subCategory === AclSubCategory.ADMIN && this.isAuthorizedToModerate(role)
-    );
-  }
-
-  private isUserPartOfModeratorOrg(user: IDiscussionsUser) {
-    const orgPermissions = this.permissionsByCategory[AclCategory.ORG] ?? [];
-    const { orgId: userOrgId } = user;
-
-    return orgPermissions.some((permission) => {
-      const { key } = permission;
-
-      return (
-        key === userOrgId &&
-        (this.canAnyOrgMemberModerate(permission) ||
-          (isOrgAdmin(user) && this.canAdminsModerate(permission)))
-      );
-    });
-  }
-
-  private canAnyOrgMemberModerate(permission: IChannelAclPermission) {
-    const { subCategory, role } = permission;
-    return (
-      subCategory === AclSubCategory.MEMBER && this.isAuthorizedToModerate(role)
-    );
   }
 }
