@@ -1,3 +1,10 @@
+## @esri/hub-discussions [25.4.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@25.4.0...@esri/hub-discussions@25.4.1) (2023-07-14)
+
+
+### Reverts
+
+* Revert "refactor: post-mod and post-delete utils for ACL (#1117)" (#1118) ([d13b2f9](https://github.com/Esri/hub.js/commit/d13b2f976d6c5aae9213ce6e08c74950ce34f9a9)), closes [#1117](https://github.com/Esri/hub.js/issues/1117) [#1118](https://github.com/Esri/hub.js/issues/1118)
+
 # @esri/hub-discussions [25.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@25.3.0...@esri/hub-discussions@25.4.0) (2023-07-13)
 
 
