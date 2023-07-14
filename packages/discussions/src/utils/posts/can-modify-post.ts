@@ -1,6 +1,7 @@
 import { IGroup, IUser } from "@esri/arcgis-rest-types";
 import { IChannel, IDiscussionsUser, IPost, SharingAccess } from "../../types";
 import { CANNOT_DISCUSS } from "../constants";
+import { ChannelPermission } from "../channel-permission";
 
 type ILegacyChannelPermissions = Pick<
   IChannel,
@@ -19,7 +20,13 @@ export function canModifyPost(
   user: IUser | IDiscussionsUser = {},
   channel: IChannel
 ): boolean {
-  const { access, groups, orgs, allowAnonymous } = channel;
+  const { access, groups, orgs, allowAnonymous, channelAcl, creator } = channel;
+  if (channelAcl) {
+    const channelPermission = new ChannelPermission(channelAcl, creator);
+    return (
+      isPostCreator(post, user) && channelPermission.canPostToChannel(user)
+    );
+  }
 
   return (
     isPostCreator(post, user) &&

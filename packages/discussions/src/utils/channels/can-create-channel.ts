@@ -16,10 +16,10 @@ export function canCreateChannel(
   channel: IChannel,
   user: IUser | IDiscussionsUser = {}
 ): boolean {
-  const { channelAcl, access, groups, orgs } = channel;
+  const { channelAcl, access, groups, orgs, creator } = channel;
 
   if (channelAcl) {
-    const channelPermission = new ChannelPermission(channelAcl);
+    const channelPermission = new ChannelPermission(channelAcl, creator);
     return channelPermission.canCreateChannel(user as IDiscussionsUser);
   }
 
