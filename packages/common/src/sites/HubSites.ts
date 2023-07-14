@@ -25,7 +25,6 @@ import {
   getModel,
   updateModel,
 } from "../models";
-import { registerSiteAsApplication } from "./registerSiteAsApplication";
 import { addSiteDomains } from "./domains/addSiteDomains";
 import { IHubRequestOptions, IModel } from "../types";
 import { removeDomainsBySiteId } from "./domains/remove-domains-by-site-id";
@@ -33,9 +32,10 @@ import { IHubSearchResult } from "../search/types/IHubSearchResult";
 import { mapBy } from "../utils";
 import { getProp, setProp } from "../objects";
 import { getItemThumbnailUrl } from "../resources/get-item-thumbnail-url";
-import { upgradeCatalogSchema } from "../search/upgradeCatalogSchema";
-import { catalogMigration } from "./_internal/catalogMigration";
+import { applyCatalogStructureMigration } from "./_internal/applyCatalogStructureMigration";
 import { setDiscussableKeyword } from "../discussions";
+import { applyDefaultCollectionMigration } from "./_internal/applyDefaultCollectionMigration";
+import { reflectCollectionsToSearchCategories } from "./_internal/reflectCollectionsToSearchCategories";
 
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
@@ -397,8 +397,11 @@ export function convertModelToSite(
   // we can do it here as there is no ux for managing permissions yet.
   let migrated = applyPermissionMigration(model);
 
-  // Ensure we have a Catalog structure
-  migrated = catalogMigration(migrated);
+  // Ensure we have the new Catalog structure
+  migrated = applyCatalogStructureMigration(migrated);
+
+  // Add default collections while preserving configuration from `data.values.searchCategories`
+  migrated = applyDefaultCollectionMigration(migrated);
 
   // convert to site
   const mapper = new PropertyMapper<Partial<IHubSite>, IModel>(
@@ -418,14 +421,19 @@ export function convertModelToSite(
  */
 export function convertSiteToModel(
   site: IHubSite,
-  requestOptions: IRequestOptions
+  _requestOptions: IRequestOptions
 ): IModel {
   // create the mapper
   const mapper = new PropertyMapper<IHubSite, IModel>(getPropertyMap());
   // applying the site onto the default model ensures that a minimum
   // set of properties exist, regardless what may have been done to
   // the IHubSite pojo
-  return mapper.entityToStore(site, cloneObject(DEFAULT_SITE_MODEL));
+  const result = mapper.entityToStore(site, cloneObject(DEFAULT_SITE_MODEL));
+
+  // Due to current release timing, we still need to reflect any changes made
+  // to the site's collections to the legacy `data.values.searchCategories`
+  // TODO: Remove once the legacy search view has been officially removed
+  return reflectCollectionsToSearchCategories(result);
 }
 
 /**

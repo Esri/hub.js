@@ -9,7 +9,7 @@ import { IModel } from "../../types";
  * @param model
  * @returns
  */
-export function catalogMigration(model: IModel): IModel {
+export function applyCatalogStructureMigration(model: IModel): IModel {
   if (getProp(model, "item.properties.schemaVersion") >= 1.7) {
     return model;
   } else {
@@ -46,6 +46,8 @@ export function catalogMigration(model: IModel): IModel {
       model.data.catalogv2 = siteCatalog;
     }
     // set the schema version
+    // TODO: Should we really be changing the schema version of a site
+    // outside the `upgradeSiteSchema` helper?
     model.item.properties.schemaVersion = 1.7;
 
     return model;
