@@ -28,10 +28,10 @@ export function canPostToChannel(
   channel: IChannel,
   user: IUser | IDiscussionsUser = {}
 ): boolean {
-  const { channelAcl, access, groups, orgs, allowAnonymous } = channel;
+  const { channelAcl, access, groups, orgs, allowAnonymous, creator } = channel;
 
   if (channelAcl) {
-    const channelPermission = new ChannelPermission(channelAcl);
+    const channelPermission = new ChannelPermission(channelAcl, creator);
     return channelPermission.canPostToChannel(user as IDiscussionsUser);
   }
 
