@@ -11,21 +11,21 @@ import { ChannelPermission } from "../../../src/utils/channel-permission";
 
 describe("canModifyPostStatus", () => {
   describe("With channelAcl Permissions", () => {
-    let canModerateChannelSpy: jasmine.Spy;
+    let canModifyPostStatusSpy: jasmine.Spy;
 
     beforeAll(() => {
-      canModerateChannelSpy = spyOn(
+      canModifyPostStatusSpy = spyOn(
         ChannelPermission.prototype,
-        "canModerateChannel"
+        "canModifyPostStatus"
       );
     });
 
     beforeEach(() => {
-      canModerateChannelSpy.calls.reset();
+      canModifyPostStatusSpy.calls.reset();
     });
 
     it("return true if channelPermission.canModifyPostStatus is true", () => {
-      canModerateChannelSpy.and.callFake(() => true);
+      canModifyPostStatusSpy.and.callFake(() => true);
 
       const user = {} as IDiscussionsUser;
       const channel = {
@@ -35,13 +35,14 @@ describe("canModifyPostStatus", () => {
 
       expect(canModifyPostStatus(channel, user)).toBe(true);
 
-      expect(canModerateChannelSpy.calls.count()).toBe(1);
-      const [arg1] = canModerateChannelSpy.calls.allArgs()[0]; // args for 1st call
+      expect(canModifyPostStatusSpy.calls.count()).toBe(1);
+      const [arg1, arg2] = canModifyPostStatusSpy.calls.allArgs()[0]; // args for 1st call
       expect(arg1).toBe(user);
+      expect(arg2).toBe(channel.creator);
     });
 
     it("return false if channelPermission.canModifyPostStatus is false", () => {
-      canModerateChannelSpy.and.callFake(() => false);
+      canModifyPostStatusSpy.and.callFake(() => false);
 
       const user = {} as IDiscussionsUser;
       const channel = {
@@ -51,9 +52,10 @@ describe("canModifyPostStatus", () => {
 
       expect(canModifyPostStatus(channel, user)).toBe(false);
 
-      expect(canModerateChannelSpy.calls.count()).toBe(1);
-      const [arg1] = canModerateChannelSpy.calls.allArgs()[0]; // args for 1st call
+      expect(canModifyPostStatusSpy.calls.count()).toBe(1);
+      const [arg1, arg2] = canModifyPostStatusSpy.calls.allArgs()[0]; // args for 1st call
       expect(arg1).toBe(user);
+      expect(arg2).toBe(channel.creator);
     });
   });
 

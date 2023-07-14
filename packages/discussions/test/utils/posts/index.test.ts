@@ -1,8 +1,14 @@
 import { IGroup, IUser } from "@esri/arcgis-rest-types";
-import { IDiscussionParams } from "../../../src/types";
+import {
+  IChannel,
+  IDiscussionParams,
+  IDiscussionsUser,
+  IPost,
+} from "../../../src/types";
 import {
   isDiscussable,
   parseDiscussionURI,
+  canDeletePost,
   parseMentionedUsers,
 } from "../../../src/utils/posts";
 import {
@@ -10,6 +16,7 @@ import {
   MENTION_ATTRIBUTE,
 } from "../../../src/utils/constants";
 import * as viewGroup from "@esri/hub-common/test/mocks/groups/view-group.json";
+import * as canModifyChannelModule from "../../../src/utils/channels/can-modify-channel";
 
 describe("parseDiscussionURI", () => {
   it("returns DiscussionParams for valid discussion uri", () => {
@@ -84,6 +91,76 @@ describe("isDiscussable", () => {
       typeKeywords: [CANNOT_DISCUSS],
     } as any as IGroup;
     expect(isDiscussable(group)).toBeFalsy();
+  });
+});
+
+describe("canDeletePost", () => {
+  it("returns true when the user created the post", () => {
+    const canModifyChannelSpy = spyOn(
+      canModifyChannelModule,
+      "canModifyChannel"
+    );
+    const post = { id: "post1", creator: "user1" } as IPost;
+    const user = { username: "user1" } as IUser;
+    const channel = { id: "channel1" } as IChannel;
+    const result = canDeletePost(post, channel, user);
+    expect(result).toBe(true);
+    expect(canModifyChannelSpy).not.toHaveBeenCalled();
+  });
+
+  it("returns true when user did not create the post and user can modify channel", () => {
+    const canModifyChannelSpy = spyOn(
+      canModifyChannelModule,
+      "canModifyChannel"
+    ).and.returnValue(true);
+    const post = { id: "post1", creator: "user1" } as IPost;
+    const user = { username: "user2" } as IUser;
+    const channel = { id: "channel1" } as IChannel;
+    const result = canDeletePost(post, channel, user);
+    expect(result).toBe(true);
+    expect(canModifyChannelSpy).toHaveBeenCalledTimes(1);
+    expect(canModifyChannelSpy).toHaveBeenCalledWith(channel, user);
+  });
+
+  it("returns false when user did not create the post and user cannot modify channel", () => {
+    const canModifyChannelSpy = spyOn(
+      canModifyChannelModule,
+      "canModifyChannel"
+    ).and.returnValue(false);
+    const post = { id: "post1", creator: "user1" } as IPost;
+    const user = { username: "user2" } as IUser;
+    const channel = { id: "channel1" } as IChannel;
+    const result = canDeletePost(post, channel, user);
+    expect(result).toBe(false);
+    expect(canModifyChannelSpy).toHaveBeenCalledTimes(1);
+    expect(canModifyChannelSpy).toHaveBeenCalledWith(channel, user);
+  });
+
+  it("returns false when the user is unauthenticated", () => {
+    const canModifyChannelSpy = spyOn(
+      canModifyChannelModule,
+      "canModifyChannel"
+    ).and.returnValue(false);
+    const post = { id: "post1", creator: "user1" } as IPost;
+    const user = { username: null } as IDiscussionsUser;
+    const channel = { id: "channel1" } as IChannel;
+    const result = canDeletePost(post, channel, user);
+    expect(result).toBe(false);
+    expect(canModifyChannelSpy).toHaveBeenCalledTimes(1);
+    expect(canModifyChannelSpy).toHaveBeenCalledWith(channel, user);
+  });
+
+  it("returns false when the user is undefined", () => {
+    const canModifyChannelSpy = spyOn(
+      canModifyChannelModule,
+      "canModifyChannel"
+    ).and.returnValue(false);
+    const post = { id: "post1", creator: "user1" } as IPost;
+    const channel = { id: "channel1" } as IChannel;
+    const result = canDeletePost(post, channel);
+    expect(result).toBe(false);
+    expect(canModifyChannelSpy).toHaveBeenCalledTimes(1);
+    expect(canModifyChannelSpy).toHaveBeenCalledWith(channel, {});
   });
 });
 

@@ -9,39 +9,40 @@ import {
 import { canModifyChannel } from "../../../src/utils/channels";
 import { ChannelPermission } from "../../../src/utils/channel-permission";
 
-describe("canModerateChannel", () => {
+describe("canModifyChannel", () => {
   describe("With channelAcl Permissions", () => {
-    let canModerateChannelSpy: jasmine.Spy;
+    let canModifyChannelSpy: jasmine.Spy;
 
     beforeAll(() => {
-      canModerateChannelSpy = spyOn(
+      canModifyChannelSpy = spyOn(
         ChannelPermission.prototype,
-        "canModerateChannel"
+        "canModifyChannel"
       );
     });
 
     beforeEach(() => {
-      canModerateChannelSpy.calls.reset();
+      canModifyChannelSpy.calls.reset();
     });
 
-    it("return true if channelPermission.canModerateChannel is true", () => {
-      canModerateChannelSpy.and.callFake(() => true);
+    it("return true if channelPermission.canModifyChannel is true", () => {
+      canModifyChannelSpy.and.callFake(() => true);
 
       const user = {} as IDiscussionsUser;
       const channel = {
-        channelAcl: [{ category: AclCategory.GROUP, role: Role.MANAGE }],
+        channelAcl: [{ category: AclCategory.ANONYMOUS_USER, role: Role.READ }],
         creator: "john",
       } as IChannel;
 
       expect(canModifyChannel(channel, user)).toBe(true);
 
-      expect(canModerateChannelSpy.calls.count()).toBe(1);
-      const [arg1] = canModerateChannelSpy.calls.allArgs()[0]; // args for 1st call
+      expect(canModifyChannelSpy.calls.count()).toBe(1);
+      const [arg1, arg2] = canModifyChannelSpy.calls.allArgs()[0]; // args for 1st call
       expect(arg1).toBe(user);
+      expect(arg2).toBe(channel.creator);
     });
 
-    it("return false if channelPermission.canModerateChannel is false", () => {
-      canModerateChannelSpy.and.callFake(() => false);
+    it("return false if channelPermission.canModifyChannel is false", () => {
+      canModifyChannelSpy.and.callFake(() => false);
 
       const user = {} as IDiscussionsUser;
       const channel = {
@@ -51,9 +52,10 @@ describe("canModerateChannel", () => {
 
       expect(canModifyChannel(channel, user)).toBe(false);
 
-      expect(canModerateChannelSpy.calls.count()).toBe(1);
-      const [arg1] = canModerateChannelSpy.calls.allArgs()[0]; // args for 1st call
+      expect(canModifyChannelSpy.calls.count()).toBe(1);
+      const [arg1, arg2] = canModifyChannelSpy.calls.allArgs()[0]; // args for 1st call
       expect(arg1).toBe(user);
+      expect(arg2).toBe(channel.creator);
     });
   });
 

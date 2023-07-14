@@ -15,11 +15,14 @@ export function canModifyChannel(
   channel: IChannel,
   user: IUser | IDiscussionsUser = {}
 ): boolean {
-  const { channelAcl, creator } = channel;
+  const { channelAcl } = channel;
 
   if (channelAcl) {
-    const channelPermission = new ChannelPermission(channelAcl, creator);
-    return channelPermission.canModerateChannel(user as IDiscussionsUser);
+    const channelPermission = new ChannelPermission(channelAcl);
+    return channelPermission.canModifyChannel(
+      user as IDiscussionsUser,
+      channel.creator
+    );
   }
 
   return isAuthorizedToModifyChannelByLegacyPermissions(user, channel);
