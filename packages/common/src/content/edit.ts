@@ -14,6 +14,7 @@ import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { cloneObject } from "../util";
 import { IModel } from "../types";
+import { computeProps } from "./_internal/computeProps";
 
 // TODO: move this to defaults?
 const DEFAULT_CONTENT_MODEL: IModel = {
@@ -114,8 +115,8 @@ export async function updateContent(
   //   );
   // }
   // now map back into a project and return that
-  const updatedContent = mapper.storeToEntity(updatedModel, content);
-  // updatedContent = computeProps(model, updatedContent, requestOptions);
+  let updatedContent = mapper.storeToEntity(updatedModel, content);
+  updatedContent = computeProps(model, updatedContent, requestOptions);
   // the casting is needed because modelToObject returns a `Partial<T>`
   // where as this function returns a `T`
   return updatedContent as IHubEditableContent;
