@@ -1,3 +1,10 @@
+# @esri/hub-discussions [25.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@25.4.1...@esri/hub-discussions@25.5.0) (2023-07-14)
+
+
+### Features
+
+* post-mod and post-delete utils for ACL ([#1119](https://github.com/Esri/hub.js/issues/1119)) ([0a6292f](https://github.com/Esri/hub.js/commit/0a6292f227f1981689a81eeae63850f913c47800))
+
 ## @esri/hub-discussions [25.4.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@25.4.0...@esri/hub-discussions@25.4.1) (2023-07-14)
 
 
