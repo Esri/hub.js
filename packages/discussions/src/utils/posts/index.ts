@@ -3,6 +3,7 @@ import { IDiscussionParams } from "../../types";
 import { MENTION_ATTRIBUTE } from "../constants";
 
 export { canModifyPost } from "./can-modify-post";
+export { canDeletePost } from "./can-delete-post";
 export { canModifyPostStatus } from "./can-modify-post-status";
 export { isDiscussable } from "@esri/hub-common";
 
