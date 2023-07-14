@@ -1,14 +1,14 @@
 import { IItem } from "@esri/arcgis-rest-portal";
-import { catalogMigration } from "../../../src/sites/_internal/catalogMigration";
+import { applyCatalogStructureMigration } from "../../../src/sites/_internal/applyCatalogStructureMigration";
 import { IModel } from "../../../src";
 
-describe("catalogMigration:", () => {
+describe("applyCatalogStructureMigration:", () => {
   it("skips if schema >= 1.7", () => {
     const model = {
       item: { properties: { schemaVersion: 1.7 } } as IItem,
       data: {},
     } as IModel;
-    const chk = catalogMigration(model);
+    const chk = applyCatalogStructureMigration(model);
     expect(chk).toBe(model, "should return the same model");
   });
 
@@ -23,7 +23,7 @@ describe("catalogMigration:", () => {
         catalog: { groups: ["00c", "00d"] },
       },
     } as IModel;
-    const chk = catalogMigration(model);
+    const chk = applyCatalogStructureMigration(model);
 
     expect(chk.item.properties.schemaVersion).toBe(
       1.7,
@@ -46,7 +46,7 @@ describe("catalogMigration:", () => {
         catalog: {},
       },
     } as IModel;
-    const chk = catalogMigration(model);
+    const chk = applyCatalogStructureMigration(model);
 
     expect(chk.item.properties.schemaVersion).toBe(
       1.7,
@@ -67,7 +67,7 @@ describe("catalogMigration:", () => {
       } as IItem,
       data: {},
     } as IModel;
-    const chk = catalogMigration(model);
+    const chk = applyCatalogStructureMigration(model);
 
     expect(chk.item.properties.schemaVersion).toBe(
       1.7,
@@ -89,7 +89,7 @@ describe("catalogMigration:", () => {
         },
       },
     } as IModel;
-    const chk = catalogMigration(model);
+    const chk = applyCatalogStructureMigration(model);
 
     expect(chk.item.properties.schemaVersion).toBe(
       1.7,
