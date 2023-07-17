@@ -28,7 +28,7 @@ import {
   ICardActionLink,
   IHubCardViewModel,
 } from "../core/types/IHubCardViewModel";
-import { convertInitiativeToCardViewModel } from "./view";
+import { convertInitiativeEntityToCardViewModel } from "./view";
 
 /**
  * Hub Initiative Class
@@ -254,7 +254,7 @@ export class HubInitiative
      */
     locale: string
   ): IHubCardViewModel {
-    return convertInitiativeToCardViewModel(
+    return convertInitiativeEntityToCardViewModel(
       this.entity,
       this.context,
       target,

@@ -12,6 +12,7 @@ import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as HubInitiativesModule from "../../src/initiatives/HubInitiatives";
 import * as schemasModule from "../../src/core/schemas/getEntityEditorSchemas";
 import * as ResolveMetricModule from "../../src/metrics/resolveMetric";
+import * as viewModule from "../../src/initiatives/view";
 
 describe("HubInitiative Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -274,6 +275,18 @@ describe("HubInitiative Class:", () => {
     chk.update({ catalog: { schemaVersion: 2 } });
     expect(chk.toJson().catalog).toEqual({ schemaVersion: 2 });
     expect(chk.catalog.schemaVersion).toEqual(2);
+  });
+
+  it("convertToCardViewModel: delegates to the convertInitiativeEntityToCardViewModel util", async () => {
+    const spy = spyOn(viewModule, "convertInitiativeEntityToCardViewModel");
+
+    const chk = await HubInitiative.fromJson(
+      { name: "Test Initiative" },
+      authdCtxMgr.context
+    );
+    await chk.convertToCardViewModel("ago", [], "en-us");
+
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   describe("resolveMetrics:", () => {

@@ -21,7 +21,7 @@ import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
  * @param actionLinks card action links
  * @param locale internationalization locale
  */
-export const convertInitiativeToCardViewModel = (
+export const convertInitiativeEntityToCardViewModel = (
   initiative: IHubInitiative,
   context: IArcGISContext,
   target: "ago" | "view" | "workspace" = "ago",
@@ -66,17 +66,17 @@ export const convertInitiativeSearchResultToCardViewModel = (
   locale: string = "en-US"
 ): IHubCardViewModel => {
   const titleUrl = {
-    ago: searchResult.links?.self,
-    view: searchResult.links?.siteRelative,
-    workspace: searchResult.links?.workspaceRelative,
+    ago: searchResult.links.self,
+    view: searchResult.links.siteRelative,
+    workspace: searchResult.links.workspaceRelative,
   }[target];
 
   return {
     ...getSharedInitiativeCardViewModel(searchResult, locale),
     actionLinks,
     titleUrl,
-    ...(searchResult.links?.thumbnail && {
-      thumbnailUrl: searchResult.links?.thumbnail,
+    ...(searchResult.links.thumbnail && {
+      thumbnailUrl: searchResult.links.thumbnail,
     }),
   };
 };

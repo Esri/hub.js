@@ -110,6 +110,9 @@ export function getFamilyTypes(family: HubFamily): string[] {
     case "project":
       types = ["Hub Project"];
       break;
+    case "initiative":
+      types = ["Hub Initiative"];
+      break;
     default:
       types = getCollectionTypes(family.toLowerCase());
   }
