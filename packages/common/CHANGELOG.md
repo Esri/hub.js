@@ -1,3 +1,38 @@
+# @esri/hub-common [13.18.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.17.3...@esri/hub-common@13.18.0) (2023-07-17)
+
+
+### Features
+
+* 7162 initiative card funcs ([#1121](https://github.com/Esri/hub.js/issues/1121)) ([567cfc3](https://github.com/Esri/hub.js/commit/567cfc307fd127d04a29ce8cb2e85998b3ea728e))
+
+## @esri/hub-common [13.17.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.17.2...@esri/hub-common@13.17.3) (2023-07-11)
+
+
+### Bug Fixes
+
+* rename term to name for groupMember queries ([#1110](https://github.com/Esri/hub.js/issues/1110)) ([8fdeca4](https://github.com/Esri/hub.js/commit/8fdeca4f8dbe8fcdd50b9355781fc73149348d99))
+
+## @esri/hub-common [13.17.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.17.1...@esri/hub-common@13.17.2) (2023-07-11)
+
+
+### Bug Fixes
+
+* get group from predicate not query.properties ([#1107](https://github.com/Esri/hub.js/issues/1107)) ([138af9c](https://github.com/Esri/hub.js/commit/138af9c18c1c193c770f23c1f7991bc3b0e59a0c))
+
+## @esri/hub-common [13.17.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.17.0...@esri/hub-common@13.17.1) (2023-07-11)
+
+
+### Bug Fixes
+
+* add actionLinks arg to project view model functions ([#1109](https://github.com/Esri/hub.js/issues/1109)) ([cef335d](https://github.com/Esri/hub.js/commit/cef335d7eb2bf37fba6485bf1df137c17e90952a))
+
+# @esri/hub-common [13.17.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.16.0...@esri/hub-common@13.17.0) (2023-07-11)
+
+
+### Features
+
+* add a base item entity schema ([#1106](https://github.com/Esri/hub.js/issues/1106)) ([7b4606b](https://github.com/Esri/hub.js/commit/7b4606b4ad9db407e04501422679e7968b42ca65))
+
 # @esri/hub-common [13.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.15.1...@esri/hub-common@13.16.0) (2023-07-07)
 
 

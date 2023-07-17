@@ -1,29 +1,28 @@
-import { IArcGISContext, IHubSearchResult } from "..";
-import { getFamily } from "../content";
+import { IArcGISContext, IHubSearchResult, getFamily } from "..";
 import {
   getHubRelativeUrl,
   getShortenedCategories,
 } from "../content/_internal/internalContentUtils";
-import { IHubProject } from "../core";
-import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
+import { IHubInitiative } from "../core";
 import {
   ICardActionLink,
   IHubCardViewModel,
 } from "../core/types/IHubCardViewModel";
 import { getItemHomeUrl } from "../urls/get-item-home-url";
+import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
 
 /**
- * Convert a project entity into a card view model that can
- * be consumed by the suite of hub gallery components
+ * Convert an initiative entity in a card view model
+ * that can be consumed by the suite of hub gallery components
  *
- * @param project project entity
+ * @param initiative initiative entity
  * @param context auth & portal information
  * @param target card link contextual target
  * @param actionLinks card action links
  * @param locale internationalization locale
  */
-export const convertProjectEntityToCardViewModel = (
-  project: IHubProject,
+export const convertInitiativeEntityToCardViewModel = (
+  initiative: IHubInitiative,
   context: IArcGISContext,
   target: "ago" | "view" | "workspace" = "ago",
   actionLinks: ICardActionLink[] = [],
@@ -34,29 +33,29 @@ export const convertProjectEntityToCardViewModel = (
   locale: string = "en-US"
 ): IHubCardViewModel => {
   const titleUrl = {
-    ago: getItemHomeUrl(project.id, context.hubRequestOptions),
-    view: getHubRelativeUrl(project.type, project.id),
-    workspace: getRelativeWorkspaceUrl(project.type, project.id),
+    ago: getItemHomeUrl(initiative.id, context.hubRequestOptions),
+    view: getHubRelativeUrl(initiative.type, initiative.id),
+    workspace: getRelativeWorkspaceUrl(initiative.type, initiative.id),
   }[target];
 
   return {
-    ...getSharedProjectCardViewModel(project, locale),
+    ...getSharedInitiativeCardViewModel(initiative, locale),
     actionLinks,
     titleUrl,
-    ...(project.thumbnailUrl && { thumbnailUrl: project.thumbnailUrl }),
+    ...(initiative.thumbnailUrl && { thumbnailUrl: initiative.thumbnailUrl }),
   };
 };
 
 /**
- * Convert a project hub search result into a card view model that
- * can be consumed by the suite of hub gallery components
+ * Conver an initiative search result into a card view model
+ * that can be consumed by the suite of hub gallery components
  *
- * @param searchResult hub project search result
+ * @param searchResult hub initiative search result
  * @param target card link contextual target
  * @param actionLinks card action links
  * @param locale internationalization locale
  */
-export const convertProjectSearchResultToCardViewModel = (
+export const convertInitiativeSearchResultToCardViewModel = (
   searchResult: IHubSearchResult,
   target: "ago" | "view" | "workspace" = "ago",
   actionLinks: ICardActionLink[] = [],
@@ -73,7 +72,7 @@ export const convertProjectSearchResultToCardViewModel = (
   }[target];
 
   return {
-    ...getSharedProjectCardViewModel(searchResult, locale),
+    ...getSharedInitiativeCardViewModel(searchResult, locale),
     actionLinks,
     titleUrl,
     ...(searchResult.links.thumbnail && {
@@ -83,14 +82,14 @@ export const convertProjectSearchResultToCardViewModel = (
 };
 
 /**
- * Given a project entity OR hub serach result, construct the
- * project's shared card view model properties
+ * Given an initiative entiy OR hub search result, construct the
+ * initiative's shared card view model properties
  *
- * @param entityOrSearchResult project entity or hub search result
+ * @param entityOrSearchResult intiative entity or hub search result
  * @param locale internationalization locale
  */
-const getSharedProjectCardViewModel = (
-  entityOrSearchResult: IHubProject | IHubSearchResult,
+const getSharedInitiativeCardViewModel = (
+  entityOrSearchResult: IHubInitiative | IHubSearchResult,
   locale: string
 ): IHubCardViewModel => {
   const additionalInfo = [

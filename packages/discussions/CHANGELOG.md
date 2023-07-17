@@ -1,3 +1,38 @@
+# @esri/hub-discussions [25.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@25.4.1...@esri/hub-discussions@25.5.0) (2023-07-14)
+
+
+### Features
+
+* post-mod and post-delete utils for ACL ([#1119](https://github.com/Esri/hub.js/issues/1119)) ([0a6292f](https://github.com/Esri/hub.js/commit/0a6292f227f1981689a81eeae63850f913c47800))
+
+## @esri/hub-discussions [25.4.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@25.4.0...@esri/hub-discussions@25.4.1) (2023-07-14)
+
+
+### Reverts
+
+* Revert "refactor: post-mod and post-delete utils for ACL (#1117)" (#1118) ([d13b2f9](https://github.com/Esri/hub.js/commit/d13b2f976d6c5aae9213ce6e08c74950ce34f9a9)), closes [#1117](https://github.com/Esri/hub.js/issues/1117) [#1118](https://github.com/Esri/hub.js/issues/1118)
+
+# @esri/hub-discussions [25.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@25.3.0...@esri/hub-discussions@25.4.0) (2023-07-13)
+
+
+### Features
+
+* **hub-discussions:** add function fetchDiscussionSetting and associated interfaces ([#1114](https://github.com/Esri/hub.js/issues/1114)) ([080b70c](https://github.com/Esri/hub.js/commit/080b70c1371d0eeb5472681791eb28eda9262624))
+
+# @esri/hub-discussions [25.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@25.2.1...@esri/hub-discussions@25.3.0) (2023-07-11)
+
+
+### Features
+
+* **hub-discussions:** add function removeDiscussionSetting with asso… ([#1108](https://github.com/Esri/hub.js/issues/1108)) ([d90aac2](https://github.com/Esri/hub.js/commit/d90aac2ed72c1d097fd9393ecf91da864598c627))
+
+## @esri/hub-discussions [25.2.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@25.2.0...@esri/hub-discussions@25.2.1) (2023-07-07)
+
+
+### Bug Fixes
+
+* **hub-discussions:** remove whitespace from IUpdateChannel documentation ([#1104](https://github.com/Esri/hub.js/issues/1104)) ([5e9859c](https://github.com/Esri/hub.js/commit/5e9859c718f9673b624b54ceae7f827d17556517))
+
 # @esri/hub-discussions [25.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@25.1.0...@esri/hub-discussions@25.2.0) (2023-07-07)
 
 

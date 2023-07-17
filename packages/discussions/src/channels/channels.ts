@@ -45,8 +45,8 @@ export function fetchChannel(options: IFetchChannelParams): Promise<IChannel> {
 
 /**
  * update channel
- * NOTE: only updates channel settings properties (softDelete, allowedReactions, etc). A Channel's
- * access and groups cannot be updated.
+ * NOTE: only updates channel settings properties and access (softDelete, allowedReactions, etc). A Channel's
+ * groups cannot be updated.
  *
  * @export
  * @param {IUpdateChannelParams} options

@@ -17,11 +17,12 @@ import HubError from "../../HubError";
 import { IHubRequestOptions } from "../../types";
 import { enrichUserSearchResult } from "../../users";
 import { failSafe } from "../../utils";
-import { pickProps, setProp } from "../../objects";
+import { getProp, pickProps, setProp } from "../../objects";
 
 /**
  * Search for members of a group.
- * The group is specified via `IQuery.properties.groupId`
+ * The groupId is specified via a `group` predicate.
+ * Any `term` predicate will be re-mapped to `name`.
  *
  * The backing API is very limited in what
  * it returns so this method executes the search and then tries to fetch
@@ -37,20 +38,45 @@ export async function portalSearchGroupMembers(
   query: IQuery,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
-  if (!query.properties?.groupId) {
+  // Requires that the query have a filter with a group predicate
+  let groupId: string;
+  query.filters.forEach((filter) => {
+    filter.predicates.forEach((predicate) => {
+      const prop = getProp(predicate, "group");
+      if (Array.isArray(prop)) {
+        // get first entry from array
+        groupId = prop[0];
+      } else if (typeof prop === "string") {
+        // get the value as a string
+        groupId = prop;
+      } else if (typeof prop === "object") {
+        // get the value from the object
+        // get first entry from any or all array
+        groupId = getProp(prop, "any[0]") || getProp(prop, "all[0]");
+      }
+    });
+  });
+
+  if (!groupId) {
     throw new HubError(
       "portalSearchGroupMembers",
-      "Group Id required. Please pass as query.properties.groupId"
+      "Group Id required. Please pass as a predicate in the query."
     );
   }
-
-  const groupId = query.properties.groupId;
 
   // Expand the individual predicates in each filter
   query.filters = query.filters.map((filter) => {
     // only `name` and `memberType` are supported
     const validPredicateKeys = ["name", "memberType"];
     filter.predicates = filter.predicates
+      .map((p) => {
+        // convert `term` to `name`
+        if (p.term) {
+          p.name = p.term;
+          delete p.term;
+        }
+        return p;
+      })
       // remove any keys that aren't supported
       .map((p) => {
         return pickProps(p, validPredicateKeys);

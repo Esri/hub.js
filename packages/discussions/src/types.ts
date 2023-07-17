@@ -77,6 +77,9 @@ export {
   IDiscussionSetting,
   DiscussionSettingType,
   ISettings,
+  IRemoveDiscussionSettingResponse,
   ICreateDiscussionSetting,
   ICreateDiscussionSettingParams,
+  IFetchDiscussionSettingParams,
+  IRemoveDiscussionSettingParams,
 } from "@esri/hub-common";

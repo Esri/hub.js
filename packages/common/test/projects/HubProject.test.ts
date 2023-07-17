@@ -132,7 +132,7 @@ describe("HubProject Class:", () => {
       { name: "Test Project" },
       authdCtxMgr.context
     );
-    await chk.convertToCardViewModel("ago", "en-US");
+    await chk.convertToCardViewModel("ago", [], "en-US");
 
     expect(spy).toHaveBeenCalledTimes(1);
   });

@@ -5,7 +5,7 @@ import { MOCK_AUTH } from "../../mocks/mock-auth";
 import * as users from "../../../src/users";
 
 describe("portalSearchGroupMembers:", () => {
-  describe("throws if not passed IQuery.properties.group:", () => {
+  describe("throws if not passed group:", () => {
     let qry: IQuery;
     beforeEach(() => {
       qry = {
@@ -27,18 +27,19 @@ describe("portalSearchGroupMembers:", () => {
         await portalSearchGroupMembers(qry, opts);
       } catch (err) {
         expect(err.message).toEqual(
-          "Group Id required. Please pass as query.properties.groupId"
+          "Group Id required. Please pass as a predicate in the query."
         );
       }
     });
     it("passing query.properties", async () => {
       const opts: IHubSearchOptions = {};
-      qry.properties = {};
+      const cloneQry = cloneObject(qry);
+      cloneQry.filters[0].predicates.push({ group: { any: ["3ef"] } });
       try {
         await portalSearchGroupMembers(qry, opts);
       } catch (err) {
         expect(err.message).toEqual(
-          "Group Id required. Please pass as query.properties.groupId"
+          "Group Id required. Please pass as a predicate in the query."
         );
       }
     });
@@ -61,9 +62,6 @@ describe("portalSearchGroupMembers:", () => {
             ],
           },
         ],
-        properties: {
-          groupId: "3ef",
-        },
       };
     });
     it("simple search", async () => {
@@ -87,7 +85,9 @@ describe("portalSearchGroupMembers:", () => {
           authentication: MOCK_AUTH,
         },
       };
-      const response = await portalSearchGroupMembers(qry, opts);
+      const cloneQry = cloneObject(qry);
+      cloneQry.filters[0].predicates.push({ group: "3ef" });
+      const response = await portalSearchGroupMembers(cloneQry, opts);
       // validate spy calls
       expect(searchSpy.calls.count()).toBe(1, "should call searchGroupUsers");
       expect(userSpy.calls.count()).toBe(2, "should get each user");
@@ -112,6 +112,87 @@ describe("portalSearchGroupMembers:", () => {
       expect(user1.memberType).toBe("admin");
       expect(user1.family).toBe("people");
     });
+    it("accepts IMatchOptions: any", async () => {
+      const searchSpy = spyOn(Portal, "searchGroupUsers").and.callFake(() => {
+        return Promise.resolve(cloneObject(GroupMembersResponse));
+      });
+      spyOn(Portal, "getUser").and.callFake((options: any) => {
+        const resp = cloneObject(SparseUser);
+        resp.username = options.username;
+        return Promise.resolve(resp);
+      });
+      // NOTE: enrichUserSearchResult is tested elsewhere so we don't assert on the results here
+      spyOn(users, "enrichUserSearchResult").and.callThrough();
+      const opts: IHubSearchOptions = {
+        num: 2,
+        requestOptions: {
+          portal: "https://www.arcgis.com/sharing/rest",
+          authentication: MOCK_AUTH,
+        },
+      };
+      const cloneQry = cloneObject(qry);
+      cloneQry.filters[0].predicates.push({ group: { any: ["3ef", "fff"] } });
+      await portalSearchGroupMembers(cloneQry, opts);
+      // validate call args
+      const groupId = searchSpy.calls.argsFor(0)[0];
+      expect(groupId).toBe("3ef");
+    });
+    it("accepts IMatchOptions: all", async () => {
+      const searchSpy = spyOn(Portal, "searchGroupUsers").and.callFake(() => {
+        return Promise.resolve(cloneObject(GroupMembersResponse));
+      });
+      spyOn(Portal, "getUser").and.callFake((options: any) => {
+        const resp = cloneObject(SparseUser);
+        resp.username = options.username;
+        return Promise.resolve(resp);
+      });
+      // NOTE: enrichUserSearchResult is tested elsewhere so we don't assert on the results here
+      spyOn(users, "enrichUserSearchResult").and.callThrough();
+      const opts: IHubSearchOptions = {
+        num: 2,
+        requestOptions: {
+          portal: "https://www.arcgis.com/sharing/rest",
+          authentication: MOCK_AUTH,
+        },
+      };
+      const cloneQry = cloneObject(qry);
+      cloneQry.filters[0].predicates.push({ group: { all: ["3ef", "00c"] } });
+      await portalSearchGroupMembers(cloneQry, opts);
+      // validate call args
+      const groupId = searchSpy.calls.argsFor(0)[0];
+      expect(groupId).toBe("3ef");
+    });
+    it("maps term to name", async () => {
+      const searchSpy = spyOn(Portal, "searchGroupUsers").and.callFake(() => {
+        return Promise.resolve(cloneObject(GroupMembersResponse));
+      });
+      spyOn(Portal, "getUser").and.callFake((options: any) => {
+        const resp = cloneObject(SparseUser);
+        resp.username = options.username;
+        return Promise.resolve(resp);
+      });
+      // NOTE: enrichUserSearchResult is tested elsewhere so we don't assert on the results here
+      spyOn(users, "enrichUserSearchResult").and.callThrough();
+      const opts: IHubSearchOptions = {
+        num: 2,
+        requestOptions: {
+          portal: "https://www.arcgis.com/sharing/rest",
+          authentication: MOCK_AUTH,
+        },
+      };
+      const cloneQry = cloneObject(qry);
+      cloneQry.filters[0].predicates.push({ group: "3ef" });
+      cloneQry.filters[0].predicates[0].term = "steve";
+      delete cloneQry.filters[0].predicates[0].name;
+      await portalSearchGroupMembers(cloneQry, opts);
+      // validate call args
+      const groupId = searchSpy.calls.argsFor(0)[0];
+      expect(groupId).toBe("3ef");
+      const callOpts = searchSpy.calls.argsFor(
+        0
+      )[1] as Portal.ISearchGroupUsersOptions;
+      expect(callOpts.name).toBe("steve");
+    });
     it("search without auth", async () => {
       const searchSpy = spyOn(Portal, "searchGroupUsers").and.callFake(() => {
         return Promise.resolve(cloneObject(SparseGroupMembersResponse));
@@ -132,7 +213,9 @@ describe("portalSearchGroupMembers:", () => {
           portal: "https://www.arcgis.com/sharing/rest",
         },
       };
-      const response = await portalSearchGroupMembers(qry, opts);
+      const cloneQry = cloneObject(qry);
+      cloneQry.filters[0].predicates.push({ group: ["3ef"] });
+      const response = await portalSearchGroupMembers(cloneQry, opts);
       // validate spy calls
       expect(searchSpy.calls.count()).toBe(1, "should call searchGroupUsers");
       expect(userSpy.calls.count()).toBe(2, "should get each user");

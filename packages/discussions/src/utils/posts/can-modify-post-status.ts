@@ -15,14 +15,11 @@ export function canModifyPostStatus(
   channel: IChannel,
   user: IUser | IDiscussionsUser = {}
 ): boolean {
-  const { channelAcl } = channel;
+  const { channelAcl, creator } = channel;
 
   if (channelAcl) {
-    const channelPermission = new ChannelPermission(channelAcl);
-    return channelPermission.canModifyPostStatus(
-      user as IDiscussionsUser,
-      channel.creator
-    );
+    const channelPermission = new ChannelPermission(channelAcl, creator);
+    return channelPermission.canModerateChannel(user as IDiscussionsUser);
   }
 
   return isAuthorizedToModifyStatusByLegacyPermissions(user, channel);
