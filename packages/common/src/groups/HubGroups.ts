@@ -20,6 +20,7 @@ import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { DEFAULT_GROUP } from "./defaults";
+// import unprotectGroup as portalUnprotectGroup
 
 /**
  * Enrich a generic search result
@@ -89,17 +90,12 @@ export async function enrichGroupSearchResult(
   return result;
 }
 
-// take an IGroup or details of the group, i.e. name, description etc?
 export async function createHubGroup(
   partialGroup: Partial<IHubGroup>,
   requestOptions: IUserRequestOptions
 ): Promise<IHubGroup> {
-  // Map project object onto a default project Model
-  const mapper = new PropertyMapper<Partial<IHubGroup>, IModel>(
-    getPropertyMap()
-  );
   const hubGroup = { ...DEFAULT_GROUP, ...partialGroup } as IHubGroup;
-  const group = convertHubGroupToGroup(hubGroup, requestOptions);
+  const group = convertHubGroupToGroup(hubGroup);
   const opts = {
     group,
     authentication: requestOptions.authentication,
@@ -133,10 +129,7 @@ export async function updateHubGroup(
   requestOptions: IRequestOptions
 ): Promise<IHubGroup> {
   let group = await getGroup(hubGroup.id, requestOptions);
-  const mapper = new PropertyMapper<Partial<IHubGroup>, IGroup>(
-    getPropertyMap()
-  );
-  group = mapper.entityToStore(hubGroup, group);
+  group = convertHubGroupToGroup(hubGroup);
   await updateGroup({ group, authentication: requestOptions.authentication });
   return hubGroup;
 }
@@ -166,10 +159,7 @@ function convertGroupToHubGroup(
   return computeProps(group, hubGroup, requestOptions);
 }
 
-function convertHubGroupToGroup(
-  hubGroup: IHubGroup,
-  requestOptions: IUserRequestOptions
-): IGroup {
+function convertHubGroupToGroup(hubGroup: IHubGroup): IGroup {
   const mapper = new PropertyMapper<Partial<IHubGroup>, IGroup>(
     getPropertyMap()
   );

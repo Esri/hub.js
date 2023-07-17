@@ -1,56 +1,41 @@
 import { IGroup } from "@esri/arcgis-rest-portal";
-
+import * as PortalModule from "@esri/arcgis-rest-portal";
+import { MOCK_AUTH } from "../mocks/mock-auth";
 import {
+  ArcGISContextManager,
   cloneObject,
   enrichGroupSearchResult,
   IHubRequestOptions,
 } from "../../src";
+import * as HubGroupsModule from "../../src/groups/HubGroups";
 import * as FetchEnrichments from "../../src/groups/_internal/enrichments";
+import { IHubGroup } from "../../src/core/types/IHubGroup";
+import * as TEST_GROUP from "../mocks/groups/group.json";
+import * as TEST_HUB_GROUP from "../mocks/groups/hub-group.json";
 
-const TEST_GROUP: IGroup = {
-  id: "23b988acd113446798b0db7a11d27a56",
-  title: "dev followers Content",
-  isInvitationOnly: false,
-  owner: "dev_pre_hub_admin",
-  description: "dev followers Content",
-  snippet: null,
-  tags: ["Hub Initiative Group", "Open Data"],
-  typeKeywords: [],
-  phone: null,
-  sortField: "title",
-  sortOrder: "asc",
-  isViewOnly: false,
-  isOpenData: true,
-  featuredItemsId: null,
-  thumbnail: "thumbnail/my-group.png",
-  created: 1563555829000,
-  modified: 1563555830000,
-  access: "public",
-  capabilities: ["updateitemcontrol"],
-  isFav: false,
-  isReadOnly: false,
-  protected: true,
-  autoJoin: false,
-  notificationsEnabled: false,
-  provider: null,
-  providerGroupName: null,
-  leavingDisallowed: false,
-  hiddenMembers: false,
-  membershipAccess: "org",
-  displaySettings: {
-    itemTypes: "",
-  },
-  orgId: "ATCRG96GAegBiycU",
-  properties: null,
-  userMembership: {
-    username: "dev_pre_hub_admin",
-    memberType: "owner",
-    applications: 0,
-  },
-  collaborationInfo: {},
-};
+const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 
 describe("HubGroups Module:", () => {
+  let authdCtxMgr: ArcGISContextManager;
+  let unauthdCtxMgr: ArcGISContextManager;
+  beforeEach(async () => {
+    unauthdCtxMgr = await ArcGISContextManager.create();
+    // When we pass in all this information, the context
+    // manager will not try to fetch anything, so no need
+    // to mock those calls
+    authdCtxMgr = await ArcGISContextManager.create({
+      authentication: MOCK_AUTH,
+      currentUser: {
+        username: "casey",
+      } as unknown as PortalModule.IUser,
+      portal: {
+        name: "DC R&D Center",
+        id: "BRXFAKE",
+        urlKey: "fake-org",
+      } as unknown as PortalModule.IPortal,
+      portalUrl: "https://myserver.com",
+    });
+  });
   describe("enrichments:", () => {
     let enrichmentSpy: jasmine.Spy;
     let hubRo: IHubRequestOptions;
@@ -70,7 +55,7 @@ describe("HubGroups Module:", () => {
 
     it("converts item to search result", async () => {
       const chk = await enrichGroupSearchResult(
-        cloneObject(TEST_GROUP),
+        cloneObject(TEST_GROUP as IGroup),
         [],
         hubRo
       );
@@ -81,7 +66,7 @@ describe("HubGroups Module:", () => {
       );
 
       // verify expected output
-      const GRP = cloneObject(TEST_GROUP);
+      const GRP = cloneObject(TEST_GROUP as IGroup);
       expect(chk.access).toEqual(GRP.access);
       expect(chk.id).toEqual(GRP.id);
       expect(chk.type).toEqual("Group");
@@ -107,14 +92,14 @@ describe("HubGroups Module:", () => {
     });
 
     it("handles missing capabilities array", async () => {
-      const itm = cloneObject(TEST_GROUP);
+      const itm = cloneObject(TEST_GROUP as IGroup);
       delete itm.capabilities;
       const chk = await enrichGroupSearchResult(itm, [], hubRo);
       expect(chk.isSharedUpdate).toBe(false);
     });
 
     it("uses snippet if defined", async () => {
-      const itm = cloneObject(TEST_GROUP);
+      const itm = cloneObject(TEST_GROUP as IGroup);
       itm.snippet = "This should be used";
       const chk = await enrichGroupSearchResult(itm, [], hubRo);
       expect(chk.summary).toEqual(itm.snippet);
@@ -122,7 +107,7 @@ describe("HubGroups Module:", () => {
 
     it("fetches enrichments", async () => {
       const chk = await enrichGroupSearchResult(
-        cloneObject(TEST_GROUP),
+        cloneObject(TEST_GROUP as IGroup),
         ["contentCount AS itemCount"],
         hubRo
       );
@@ -133,9 +118,75 @@ describe("HubGroups Module:", () => {
       // verify the spy
       expect(enrichmentSpy.calls.count()).toBe(1, "should fetch enrichments");
       const [item, enrichments, ro] = enrichmentSpy.calls.argsFor(0);
-      expect(item).toEqual(TEST_GROUP);
+      expect(item).toEqual(TEST_GROUP as IGroup);
       expect(enrichments).toEqual(["contentCount"]);
       expect(ro).toBe(hubRo);
+    });
+  });
+
+  describe("createHubGroup", () => {
+    it("creates a HubGroup from an IGroup", async () => {
+      const portalCreateGroupSpy = spyOn(
+        PortalModule,
+        "createGroup"
+      ).and.callFake((group: IGroup) => {
+        group.id = TEST_GROUP.id;
+        group.description = TEST_GROUP.description;
+        return Promise.resolve(group);
+      });
+      const chk = await HubGroupsModule.createHubGroup(
+        { name: TEST_GROUP.title },
+        { authentication: MOCK_AUTH }
+      );
+      expect(chk.name).toBe("dev followers Content");
+      expect(portalCreateGroupSpy.calls.count()).toBe(1);
+    });
+  });
+
+  describe("fetchHubGroup", () => {
+    it("fetches a HubGroup", async () => {
+      const portalGetGroupSpy = spyOn(PortalModule, "getGroup").and.returnValue(
+        Promise.resolve(TEST_GROUP)
+      );
+      const chk = await HubGroupsModule.fetchHubGroup(GUID, {
+        authentication: MOCK_AUTH,
+      });
+      expect(chk.name).toBe("dev followers Content");
+      expect(chk.description).toBe("dev followers Content summary");
+      expect(portalGetGroupSpy.calls.count()).toBe(1);
+    });
+  });
+
+  describe("updateHubGroup", () => {
+    it("updates a HubGroup", async () => {
+      const portalGetGroupSpy = spyOn(PortalModule, "getGroup").and.returnValue(
+        Promise.resolve(TEST_GROUP)
+      );
+      const portalUpdateGroupSpy = spyOn(
+        PortalModule,
+        "updateGroup"
+      ).and.returnValue(Promise.resolve(TEST_HUB_GROUP));
+      const chk = await HubGroupsModule.updateHubGroup(
+        TEST_HUB_GROUP as IHubGroup,
+        { authentication: MOCK_AUTH }
+      );
+      expect(chk.name).toBe("A new hub group");
+      expect(chk.summary).toBe("New hub group summary");
+      expect(portalGetGroupSpy.calls.count()).toBe(1);
+      expect(portalUpdateGroupSpy.calls.count()).toBe(1);
+    });
+  });
+
+  describe("deleteHubGroup", () => {
+    it("delete a HubGroup", async () => {
+      const portalRemoveGroupSpy = spyOn(
+        PortalModule,
+        "removeGroup"
+      ).and.returnValue(Promise.resolve({ success: true }));
+      const chk = await HubGroupsModule.deleteHubGroup(TEST_HUB_GROUP.id, {
+        authentication: MOCK_AUTH,
+      });
+      expect(portalRemoveGroupSpy.calls.count()).toBe(1);
     });
   });
 });

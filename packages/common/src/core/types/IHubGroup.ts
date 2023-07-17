@@ -16,7 +16,7 @@ export interface IHubGroup extends IHubEntityBase, IWithPermissions {
   isViewOnly?: boolean;
   membershipAccess?: string;
   owner?: string;
-  protected: boolean;
+  protected?: boolean;
   sortField?:
     | "title"
     | "owner"

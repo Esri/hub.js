@@ -1,27 +1,28 @@
 import {
-  IArcGISContext,
-  IWithStoreBehavior,
-  cloneObject,
   createHubGroup,
   updateHubGroup,
   fetchHubGroup,
   deleteHubGroup,
-  IWithPermissionBehavior,
-  IEntityPermissionPolicy,
-  addPermissionPolicy,
-  removePermissionPolicy,
-  Capability,
-  checkCapability,
-  ICapabilityAccessResponse,
-  IWithCapabilityBehavior,
-} from "..";
+} from "./HubGroups";
 import { IHubGroup } from "../core/types/IHubGroup";
 import { DEFAULT_GROUP } from "./defaults";
 import {
+  IEntityPermissionPolicy,
   IPermissionAccessResponse,
   Permission,
+  addPermissionPolicy,
   checkPermission,
+  removePermissionPolicy,
 } from "../permissions";
+import { IWithStoreBehavior } from "../core/behaviors/IWithStoreBehavior";
+import {
+  IWithCapabilityBehavior,
+  IWithPermissionBehavior,
+} from "../core/behaviors/IWithPermissionBehavior";
+import { IArcGISContext } from "../ArcGISContext";
+import { cloneObject } from "../util";
+import { Capability, ICapabilityAccessResponse } from "../capabilities/types";
+import { checkCapability } from "../capabilities/checkCapability";
 
 export class HubGroup
   implements
