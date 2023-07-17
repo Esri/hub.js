@@ -31,7 +31,6 @@ export function applyDefaultCollectionMigration(model: IModel): IModel {
       "document",
       "site",
       "appAndMap",
-      "document",
     ];
     const baseCollectionMap = baseCollectionKeys.reduce((map, key) => {
       map[key] = {
