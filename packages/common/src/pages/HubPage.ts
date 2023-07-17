@@ -59,7 +59,7 @@ export class HubPage
 
   /**
    *
-   * NOT IMPLEMENTED YET: Create a new HubPage, returning a HubPage instance.
+   * Create a new HubPage, returning a HubPage instance.
    * By default, this does not save the page to the backing store.
    * @param partialPage
    * @param context

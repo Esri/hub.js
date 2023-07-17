@@ -38,11 +38,11 @@ import {
 
 /**
  * @private
- * Create a new Hub Project item
+ * Create a new Hub Page item
  *
  * Minimal properties are name and org
  *
- * @param project
+ * @param partialPage
  * @param requestOptions
  */
 export async function createPage(
@@ -62,7 +62,7 @@ export async function createPage(
   // add slug and status to keywords
   page.typeKeywords = setSlugKeyword(page.typeKeywords, page.slug);
 
-  // Map project object onto a default project Model
+  // Map page object onto a default page Model
   const mapper = new PropertyMapper<Partial<IHubPage>, IModel>(
     getPropertyMap()
   );
@@ -70,16 +70,16 @@ export async function createPage(
   let model = mapper.entityToStore(page, cloneObject(DEFAULT_PAGE_MODEL));
   // create the item
   model = await createModel(model, requestOptions);
-  // map the model back into a IHubProject
-  let newProject = mapper.storeToEntity(model, {});
-  newProject = computeProps(model, newProject, requestOptions);
+  // map the model back into a IHubPage
+  let newPage = mapper.storeToEntity(model, {});
+  newPage = computeProps(model, newPage, requestOptions);
   // and return it
-  return newProject as IHubPage;
+  return newPage as IHubPage;
 }
 
 /**
  * @private
- * Update a Hub Project
+ * Update a Hub Page
  * @param page
  * @param requestOptions
  */
@@ -87,7 +87,7 @@ export async function updatePage(
   page: IHubPage,
   requestOptions: IUserRequestOptions
 ): Promise<IHubPage> {
-  // verify that the slug is unique, excluding the current project
+  // verify that the slug is unique, excluding the current page
   page.slug = await getUniqueSlug(
     { slug: page.slug, existingId: page.id },
     requestOptions
@@ -105,12 +105,12 @@ export async function updatePage(
   const modelToUpdate = mapper.entityToStore(page, model);
   // update the backing item
   const updatedModel = await updateModel(modelToUpdate, requestOptions);
-  // now map back into a project and return that
-  let updatedProject = mapper.storeToEntity(updatedModel, page);
-  updatedProject = computeProps(model, updatedProject, requestOptions);
+  // now map back into a page and return that
+  let updatedPage = mapper.storeToEntity(updatedModel, page);
+  updatedPage = computeProps(model, updatedPage, requestOptions);
   // the casting is needed because modelToObject returns a `Partial<T>`
   // where as this function returns a `T`
-  return updatedProject as IHubPage;
+  return updatedPage as IHubPage;
 }
 
 /**
@@ -138,7 +138,7 @@ export async function fetchPage(
 
 /**
  * @private
- * Convert an Hub Page Item into a Hub Project, fetching any additional
+ * Convert an Hub Page Item into a Hub Page, fetching any additional
  * information that may be required
  * @param item
  * @param auth
