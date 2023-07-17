@@ -37,12 +37,8 @@ export const DEFAULT_PAGE_MODEL: IModel = {
     },
   },
   data: {
-    display: "about",
-    permissions: [],
-    view: {
-      contacts: [],
-      featuredContentIds: [],
-      showMap: true,
+    values: {
+      layout: {},
     },
   },
 } as unknown as IModel;

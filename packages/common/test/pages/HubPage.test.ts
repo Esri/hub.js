@@ -3,7 +3,8 @@ import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubPage } from "../../src/pages/HubPage";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as HubPagesModule from "../../src/pages/HubPages";
-import { IHubPage } from "../../src";
+import { IHubPage, UiSchemaElementOptions } from "../../src";
+import * as schemasModule from "../../src/core/schemas/getEntityEditorSchemas";
 
 describe("HubPage Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -32,7 +33,7 @@ describe("HubPage Class:", () => {
         username: "casey",
       } as unknown as PortalModule.IUser,
       portal: {
-        isPortal: false,
+        isPortal: true,
         name: "My Portal Install",
         id: "BRXFAKE",
         urlKey: "fake-org",
@@ -99,6 +100,31 @@ describe("HubPage Class:", () => {
         expect((ex as any).message).toBe("ZOMG!");
       }
     });
+    it("returns editorConfig", async () => {
+      const spy = spyOn(schemasModule, "getEntityEditorSchemas").and.callFake(
+        () => {
+          return Promise.resolve({ schema: {}, uiSchema: {} });
+        }
+      );
+
+      await HubPage.getEditorConfig("test.scope", "hub:page:edit");
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith("test.scope", "hub:page:edit", []);
+    });
+
+    it("returns editorConfig integrating options", async () => {
+      const spy = spyOn(schemasModule, "getEntityEditorSchemas").and.callFake(
+        () => {
+          return Promise.resolve({ schema: {}, uiSchema: {} });
+        }
+      );
+
+      const opts: UiSchemaElementOptions[] = [];
+
+      await HubPage.getEditorConfig("test.scope", "hub:page:edit", opts);
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith("test.scope", "hub:page:edit", opts);
+    });
   });
 
   it("save calls createPage if object does not have an id", async () => {
@@ -142,10 +168,10 @@ describe("HubPage Class:", () => {
 
     expect(createSpy).not.toHaveBeenCalled();
     expect(chk.toJson().name).toEqual("Test Page");
-    expect(chk.toJson().type).toEqual("Hub Page");
+    expect(chk.toJson().type).toEqual("Site Page");
   });
 
-  it("update applies partial chagnes to internal state", () => {
+  it("update applies partial changes to internal state", () => {
     const chk = HubPage.fromJson({ name: "Test Page" }, authdCtxMgr.context);
     chk.update({
       name: "Test Page 2",
