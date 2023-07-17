@@ -1,3 +1,10 @@
+# @esri/hub-common [13.19.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.18.0...@esri/hub-common@13.19.0) (2023-07-17)
+
+
+### Features
+
+* page entity ([#1112](https://github.com/Esri/hub.js/issues/1112)) ([50e7280](https://github.com/Esri/hub.js/commit/50e7280486cecc82d39170e8f625e702900b9f04))
+
 # @esri/hub-common [13.18.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.17.3...@esri/hub-common@13.18.0) (2023-07-17)
 
 
