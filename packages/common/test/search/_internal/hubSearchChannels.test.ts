@@ -31,6 +31,7 @@ describe("discussionsSearchItems Module |", () => {
             {
               access: "private",
               groups: ["cb0ddfc90f4f45b899c076c88d3fdc84"],
+              foo: "bar",
             },
           ],
         },
@@ -51,5 +52,32 @@ describe("discussionsSearchItems Module |", () => {
     expect(toHubSearchResultSpy).toHaveBeenCalledTimes(1);
     expect(searchChannelsSpy).toHaveBeenCalledTimes(1);
     expect(result).toBeTruthy();
+    const nextResult = await result.next();
+    expect(nextResult).toBeTruthy();
+  });
+  it("throws error if requestOptions not provided", async () => {
+    const qry: IQuery = {
+      targetEntity: "channel",
+      filters: [
+        {
+          predicates: [
+            {
+              access: "private",
+              groups: ["cb0ddfc90f4f45b899c076c88d3fdc84"],
+            },
+          ],
+        },
+      ],
+    };
+    const opts: IHubSearchOptions = {
+      num: 10,
+      sortField: "createdAt",
+      sortOrder: "desc",
+    };
+    try {
+      await hubSearchChannels.hubSearchChannels(qry, opts);
+    } catch (err) {
+      expect(err.name).toBe("HubError");
+    }
   });
 });
