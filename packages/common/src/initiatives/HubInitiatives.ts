@@ -45,6 +45,7 @@ import { DEFAULT_INITIATIVE, DEFAULT_INITIATIVE_MODEL } from "./defaults";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
 import { applyInitiativeMigrations } from "./_internal/applyInitiativeMigrations";
+import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
 
 /**
  * @private
@@ -228,6 +229,7 @@ export async function enrichInitiativeSearchResult(
       self: "not-implemented",
       siteRelative: "not-implemented",
       thumbnail: "not-implemented",
+      workspaceRelative: "not-implemented",
     },
   };
 
@@ -264,6 +266,10 @@ export async function enrichInitiativeSearchResult(
     result.type,
     identifier,
     item.typeKeywords
+  );
+  result.links.workspaceRelative = getRelativeWorkspaceUrl(
+    result.type,
+    identifier
   );
 
   return result;

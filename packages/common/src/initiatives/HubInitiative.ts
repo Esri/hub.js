@@ -24,6 +24,11 @@ import { InitiativeEditorType } from "./_internal/InitiativeSchema";
 import { IWithMetricsBehavior } from "../core/behaviors/IWithMetricsBehavior";
 import { getEntityMetrics } from "../metrics/getEntityMetrics";
 import { resolveMetric } from "../metrics/resolveMetric";
+import {
+  ICardActionLink,
+  IHubCardViewModel,
+} from "../core/types/IHubCardViewModel";
+import { convertInitiativeEntityToCardViewModel } from "./view";
 
 /**
  * Hub Initiative Class
@@ -230,5 +235,31 @@ export class HubInitiative
     } else {
       throw new Error(`Metric ${metricId} not found.`);
     }
+  }
+
+  /**
+   * Convert the initiative entity into a card view model that
+   * can be consumed by the suit of hub gallery components
+   *
+   * @param target card link contextual target
+   * @param actionLinks card action links
+   * @param locale internationalization locale
+   */
+  convertToCardViewModel(
+    target: "ago" | "view" | "workspace",
+    actionLinks: ICardActionLink[],
+    /**
+     * TODO: move transform logic to FE so we don't need to pass
+     * locale down (follow https://devtopia.esri.com/dc/hub/issues/7255)
+     */
+    locale: string
+  ): IHubCardViewModel {
+    return convertInitiativeEntityToCardViewModel(
+      this.entity,
+      this.context,
+      target,
+      actionLinks,
+      locale
+    );
   }
 }
