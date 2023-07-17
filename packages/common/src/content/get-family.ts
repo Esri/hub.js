@@ -43,6 +43,9 @@ export function getFamily(type: string) {
     case "hub project":
       family = "project";
       break;
+    case "hub initiative":
+      family = "initiative";
+      break;
     default:
       // by default derive from collection
       family = collectionToFamily(getCollection(type));
