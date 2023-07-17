@@ -18,7 +18,7 @@ const response = {
       orgs: ["Xj56SBi2udA78cC9"],
       softDelete: true,
       updatedAt: "2023-04-10T04:17:32.704Z",
-    },
+    } as any,
   ],
   total: 1,
   nextStart: -1,
