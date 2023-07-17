@@ -66,4 +66,15 @@ describe("updateHubEntity:", () => {
     await updateHubEntity("content", {} as HubEntity, ctx);
     expect(spy).toHaveBeenCalledWith({}, "fakeRequestOptions");
   });
+  it("updates page", async () => {
+    const ctx = {
+      userRequestOptions: "fakeRequestOptions",
+    } as unknown as IArcGISContext;
+    const spy = spyOn(
+      require("../../src/pages/HubPages"),
+      "updatePage"
+    ).and.returnValue(Promise.resolve({}));
+    await updateHubEntity("page", {} as HubEntity, ctx);
+    expect(spy).toHaveBeenCalledWith({}, "fakeRequestOptions");
+  });
 });

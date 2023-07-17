@@ -1,16 +1,8 @@
 import { IArcGISContext } from "../../src/ArcGISContext";
 import { fetchHubEntity } from "../../src/core/fetchHubEntity";
 import { HubEntityType } from "../../src/core/types/HubEntityType";
-import { getProp } from "../../src/objects/get-prop";
 
 describe("fetchHubEntity:", () => {
-  it("throws for page", async () => {
-    try {
-      await fetchHubEntity("page", "123", {} as any);
-    } catch (e) {
-      expect(getProp(e, "message")).toBe("FetchPage not implemented");
-    }
-  });
   it("returns undefined for non-hub types", async () => {
     expect(
       await fetchHubEntity("foo" as HubEntityType, "123", {} as any)
@@ -69,6 +61,17 @@ describe("fetchHubEntity:", () => {
       "fetchHubContent"
     ).and.returnValue(Promise.resolve({}));
     await fetchHubEntity("content", "123", ctx);
+    expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
+  });
+  it("fetches page", async () => {
+    const ctx = {
+      hubRequestOptions: "fakeRequestOptions",
+    } as unknown as IArcGISContext;
+    const spy = spyOn(
+      require("../../src/pages/HubPages"),
+      "fetchPage"
+    ).and.returnValue(Promise.resolve({}));
+    await fetchHubEntity("page", "123", ctx);
     expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
   });
 });
