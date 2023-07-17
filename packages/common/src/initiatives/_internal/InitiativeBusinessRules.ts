@@ -11,6 +11,7 @@ export const InitiativeDefaultCapabilities: EntityCapabilities = {
   overview: true,
   details: true,
   settings: true,
+  content: true,
 };
 
 /**
@@ -33,6 +34,11 @@ export const InitiativeCapabilityPermissions: ICapabilityPermission[] = [
   {
     entity: "initiative",
     capability: "settings",
+    permissions: ["hub:initiative:edit"],
+  },
+  {
+    entity: "initiative",
+    capability: "content",
     permissions: ["hub:initiative:edit"],
   },
 ];
