@@ -1,3 +1,10 @@
+# @esri/hub-common [13.18.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.17.3...@esri/hub-common@13.18.0) (2023-07-17)
+
+
+### Features
+
+* 7162 initiative card funcs ([#1121](https://github.com/Esri/hub.js/issues/1121)) ([567cfc3](https://github.com/Esri/hub.js/commit/567cfc307fd127d04a29ce8cb2e85998b3ea728e))
+
 ## @esri/hub-common [13.17.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.17.2...@esri/hub-common@13.17.3) (2023-07-11)
 
 
