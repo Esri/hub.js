@@ -22,7 +22,7 @@ import { IWithMetricsBehavior } from "../core/behaviors/IWithMetricsBehavior";
 import { getEntityMetrics } from "../metrics/getEntityMetrics";
 import { resolveMetric } from "../metrics/resolveMetric";
 import {
-  ICardActionLink,
+  IConvertToCardViewModelOpts,
   IHubCardViewModel,
 } from "../core/types/IHubCardViewModel";
 import { convertProjectEntityToCardViewModel } from "./view";
@@ -157,26 +157,12 @@ export class HubProject
    * Convert the project entity into a card view model that can
    * be consumed by the suite of hub gallery components
    *
-   * @param target card link contextual target
-   * @param actionLinks card action links
-   * @param locale internationalization locale
+   * @param opts view model options
    */
   convertToCardViewModel(
-    target: "ago" | "view" | "workspace",
-    actionLinks: ICardActionLink[],
-    /**
-     * TODO: move transform logic to FE so we don't need to pass
-     * locale down (follow https://devtopia.esri.com/dc/hub/issues/7255)
-     */
-    locale: string
+    opts?: IConvertToCardViewModelOpts
   ): IHubCardViewModel {
-    return convertProjectEntityToCardViewModel(
-      this.entity,
-      this.context,
-      target,
-      actionLinks,
-      locale
-    );
+    return convertProjectEntityToCardViewModel(this.entity, this.context, opts);
   }
 
   /**

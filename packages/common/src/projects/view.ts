@@ -1,16 +1,17 @@
 import { IArcGISContext, IHubSearchResult } from "..";
 import { getFamily } from "../content";
-import {
-  getHubRelativeUrl,
-  getShortenedCategories,
-} from "../content/_internal/internalContentUtils";
 import { IHubProject } from "../core";
-import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
+import { getShortenedCategories } from "../content/_internal/internalContentUtils";
 import {
-  ICardActionLink,
   IHubCardViewModel,
+  IConvertToCardViewModelOpts,
+  ConvertSearchResultToCardViewModelFn,
+  ConvertEntityToCardViewModelFn,
 } from "../core/types/IHubCardViewModel";
-import { getItemHomeUrl } from "../urls/get-item-home-url";
+import {
+  getCardViewModelTitleUrlFromEntity,
+  getCardViewModelTitleUrlFromSearchResult,
+} from "../urls/getCardViewModelTitleUrl";
 
 /**
  * Convert a project entity into a card view model that can
@@ -18,26 +19,28 @@ import { getItemHomeUrl } from "../urls/get-item-home-url";
  *
  * @param project project entity
  * @param context auth & portal information
- * @param target card link contextual target
- * @param actionLinks card action links
- * @param locale internationalization locale
+ * @param opts view model options
  */
-export const convertProjectEntityToCardViewModel = (
+export const convertProjectEntityToCardViewModel: ConvertEntityToCardViewModelFn<
+  IHubProject
+> = (
   project: IHubProject,
   context: IArcGISContext,
-  target: "ago" | "view" | "workspace" = "ago",
-  actionLinks: ICardActionLink[] = [],
-  /**
-   * TODO: move transform logic to FE so we don't need to pass
-   * locale down (follow https://devtopia.esri.com/dc/hub/issues/7255)
-   */
-  locale: string = "en-US"
+  opts?: IConvertToCardViewModelOpts
 ): IHubCardViewModel => {
-  const titleUrl = {
-    ago: getItemHomeUrl(project.id, context.hubRequestOptions),
-    view: getHubRelativeUrl(project.type, project.id),
-    workspace: getRelativeWorkspaceUrl(project.type, project.id),
-  }[target];
+  const {
+    actionLinks = [],
+    baseUrl = "",
+    locale = "en-US",
+    target = "self",
+  } = opts || {};
+
+  const titleUrl = getCardViewModelTitleUrlFromEntity(
+    project,
+    context,
+    target,
+    baseUrl
+  );
 
   return {
     ...getSharedProjectCardViewModel(project, locale),
@@ -52,35 +55,35 @@ export const convertProjectEntityToCardViewModel = (
  * can be consumed by the suite of hub gallery components
  *
  * @param searchResult hub project search result
- * @param target card link contextual target
- * @param actionLinks card action links
- * @param locale internationalization locale
+ * @param opts view model options
  */
-export const convertProjectSearchResultToCardViewModel = (
-  searchResult: IHubSearchResult,
-  target: "ago" | "view" | "workspace" = "ago",
-  actionLinks: ICardActionLink[] = [],
-  /**
-   * TODO: move transform logic to FE so we don't need to pass
-   * locale down (follow https://devtopia.esri.com/dc/hub/issues/7255)
-   */
-  locale: string = "en-US"
-): IHubCardViewModel => {
-  const titleUrl = {
-    ago: searchResult.links.self,
-    view: searchResult.links.siteRelative,
-    workspace: searchResult.links.workspaceRelative,
-  }[target];
+export const convertProjectSearchResultToCardViewModel: ConvertSearchResultToCardViewModelFn =
+  (
+    searchResult: IHubSearchResult,
+    opts?: IConvertToCardViewModelOpts
+  ): IHubCardViewModel => {
+    const {
+      actionLinks = [],
+      baseUrl = "",
+      locale = "en-US",
+      target = "self",
+    } = opts || {};
 
-  return {
-    ...getSharedProjectCardViewModel(searchResult, locale),
-    actionLinks,
-    titleUrl,
-    ...(searchResult.links.thumbnail && {
-      thumbnailUrl: searchResult.links.thumbnail,
-    }),
+    const titleUrl = getCardViewModelTitleUrlFromSearchResult(
+      searchResult,
+      target,
+      baseUrl
+    );
+
+    return {
+      ...getSharedProjectCardViewModel(searchResult, locale),
+      actionLinks,
+      titleUrl,
+      ...(searchResult.links.thumbnail && {
+        thumbnailUrl: searchResult.links.thumbnail,
+      }),
+    };
   };
-};
 
 /**
  * Given a project entity OR hub serach result, construct the
