@@ -5,10 +5,12 @@ export const HUB_GROUP_TYPE = "Hub Group";
 
 /**
  * Default values of a IHubGroup
+ * TODO: what do we need here? permissions? typekeywords? tags, schemaVersion?
  */
 export const DEFAULT_GROUP: Partial<IHubGroup> = {
   name: "No title provided",
   access: "private",
+  permissions: [],
 };
 
 /**

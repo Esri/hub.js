@@ -46,8 +46,8 @@ describe("Hub Groups", () => {
       try {
         await fetchHubGroup(newGroup.id, ctxMgr.context.userRequestOptions);
         fail("should have thrown error");
-      } catch (err) {
-        expect(err.message).toBe(
+      } catch (e) {
+        expect((e as any).message).toBe(
           "COM_0003: Group does not exist or is inaccessible."
         );
       }
@@ -113,8 +113,8 @@ describe("HubGroup Class", () => {
       // try to get it again - should fail
       try {
         await HubGroup.fetch(id, ctxMgr.context);
-      } catch (ex) {
-        expect(ex.message).toBe("Group not found.");
+      } catch (e) {
+        expect((e as any).message).toBe("Group not found.");
       }
     });
   });

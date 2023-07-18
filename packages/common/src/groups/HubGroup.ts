@@ -117,6 +117,9 @@ export class HubGroup
   }
 
   toJson(): IHubGroup {
+    if (this.isDestroyed) {
+      throw new Error("HubGroup is already destroyed.");
+    }
     return cloneObject(this.entity);
   }
 
