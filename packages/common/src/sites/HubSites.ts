@@ -35,8 +35,6 @@ import { getItemThumbnailUrl } from "../resources/get-item-thumbnail-url";
 import { applyCatalogStructureMigration } from "./_internal/applyCatalogStructureMigration";
 import { setDiscussableKeyword } from "../discussions";
 import { applyDefaultCollectionMigration } from "./_internal/applyDefaultCollectionMigration";
-import { reflectCollectionsToSearchCategories } from "./_internal/reflectCollectionsToSearchCategories";
-
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
 
@@ -330,6 +328,13 @@ export async function updateSite(
     );
   }
 
+  // The following props are currently affected by in-memory migrations,
+  // so we replace them with their canonical values so as to not overwrite
+  // them. Eventually these changes will be persisted in AGO.
+  siteModel.data.catalog = currentModel.data.catalog;
+  siteModel.data.values.searchCategories =
+    currentModel.data.values.searchCategories;
+
   // send updates to the Portal API and get back the updated site model
   const updatedSiteModel = await updateModel(
     siteModel,
@@ -428,12 +433,7 @@ export function convertSiteToModel(
   // applying the site onto the default model ensures that a minimum
   // set of properties exist, regardless what may have been done to
   // the IHubSite pojo
-  const result = mapper.entityToStore(site, cloneObject(DEFAULT_SITE_MODEL));
-
-  // Due to current release timing, we still need to reflect any changes made
-  // to the site's collections to the legacy `data.values.searchCategories`
-  // TODO: Remove once the legacy search view has been officially removed
-  return reflectCollectionsToSearchCategories(result);
+  return mapper.entityToStore(site, cloneObject(DEFAULT_SITE_MODEL));
 }
 
 /**

@@ -3,60 +3,34 @@ import { applyCatalogStructureMigration } from "../../../src/sites/_internal/app
 import { IModel } from "../../../src";
 
 describe("applyCatalogStructureMigration:", () => {
-  it("skips if schema >= 1.7", () => {
+  it("adds a catalog based off the old structure", () => {
     const model = {
-      item: { properties: { schemaVersion: 1.7 } } as IItem,
-      data: {},
-    } as IModel;
-    const chk = applyCatalogStructureMigration(model);
-    expect(chk).toBe(model, "should return the same model");
-  });
-
-  it("adds a catalog if schema < 1.7", () => {
-    const model = {
-      item: {
-        properties: {
-          schemaVersion: 1.6,
-        },
-      } as IItem,
+      item: {} as IItem,
       data: {
         catalog: { groups: ["00c", "00d"] },
       },
     } as IModel;
     const chk = applyCatalogStructureMigration(model);
 
-    expect(chk.item.properties.schemaVersion).toBe(
-      1.7,
-      "should set schemaVersion"
-    );
-    expect(chk.data?.catalogv2).toBeDefined("should add catalogv2");
-    expect(chk.data?.catalog).toEqual(
-      model.data?.catalog,
-      "should not modify catalog"
-    );
-  });
-  it("handles no catalog.groups", () => {
-    const model = {
-      item: {
-        properties: {
-          schemaVersion: 1.6,
+    expect(chk.data?.catalog).toEqual({
+      schemaVersion: 1,
+      title: "Default Site Catalog",
+      scopes: {
+        item: {
+          targetEntity: "item",
+          filters: [
+            {
+              predicates: [
+                {
+                  group: ["00c", "00d"],
+                },
+              ],
+            },
+          ],
         },
-      } as IItem,
-      data: {
-        catalog: {},
       },
-    } as IModel;
-    const chk = applyCatalogStructureMigration(model);
-
-    expect(chk.item.properties.schemaVersion).toBe(
-      1.7,
-      "should set schemaVersion"
-    );
-    expect(chk.data?.catalogv2).toBeDefined("should add catalogv2");
-    expect(chk.data?.catalog).toEqual(
-      model.data?.catalog,
-      "should not modify catalog"
-    );
+      collections: [],
+    });
   });
   it("handles no catalog", () => {
     const model = {
@@ -68,21 +42,11 @@ describe("applyCatalogStructureMigration:", () => {
       data: {},
     } as IModel;
     const chk = applyCatalogStructureMigration(model);
-
-    expect(chk.item.properties.schemaVersion).toBe(
-      1.7,
-      "should set schemaVersion"
-    );
-    expect(chk.data?.catalogv2).toBeDefined("should add catalogv2");
-    expect(chk.data?.catalog).not.toBeDefined();
+    expect(chk.data?.catalog).toBeDefined("should add data.catalog");
   });
   it("leaves existing catalog with schema", () => {
     const model = {
-      item: {
-        properties: {
-          schemaVersion: 1.6,
-        },
-      } as IItem,
+      item: {} as IItem,
       data: {
         catalog: {
           schemaVersion: 1,
@@ -91,11 +55,9 @@ describe("applyCatalogStructureMigration:", () => {
     } as IModel;
     const chk = applyCatalogStructureMigration(model);
 
-    expect(chk.item.properties.schemaVersion).toBe(
-      1.7,
-      "should set schemaVersion"
+    expect(chk.data?.catalog).toBe(
+      model.data.catalog,
+      "data.catalog should not be modified"
     );
-    expect(chk.data?.catalogv2).not.toBeDefined("should not add catalogv2");
-    expect(chk.data?.catalog).toBeDefined();
   });
 });
