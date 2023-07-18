@@ -208,7 +208,7 @@ export class HubProject
    * @param editor
    * @returns
    */
-  async fromEditor(editor: IHubProjectEditor): Promise<void> {
+  async fromEditor(editor: IHubProjectEditor): Promise<IHubProject> {
     const autoShareGroups = editor.groups || [];
     const isProjectCreate = !editor.id;
     // convert back to an entity
@@ -303,7 +303,7 @@ export class HubProject
       }
     }
 
-    return;
+    return this.entity;
   }
 
   /**

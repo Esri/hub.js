@@ -3,7 +3,7 @@ import { IHubProjectEditor } from "./IHubProject";
 /**
  * Unified type for all Hub entity editors
  */
-export type HubEntityEditor = IHubProjectEditor; // | IHubSiteEditor | IHubInitiativeEditor | IHubPageEditor | IHubDiscussionEditor;
+export type HubEntityEditor = Record<string, any>; // IHubProjectEditor; // | IHubSiteEditor | IHubInitiativeEditor | IHubPageEditor | IHubDiscussionEditor;
 
 /**
  * Additional context that can be passed to `toEditor()` functions
