@@ -280,10 +280,6 @@ function permissionMatchesOrgRole(
 }
 
 function channelActionLookup(action: ChannelAction): Role[] {
-  if (action === ChannelAction.READ_POSTS) {
-    return [Role.READ, Role.READWRITE, Role.MODERATE, Role.MANAGE, Role.OWNER];
-  }
-
   if (action === ChannelAction.WRITE_POSTS) {
     return [Role.WRITE, Role.READWRITE, Role.MODERATE, Role.MANAGE, Role.OWNER];
   }
@@ -292,5 +288,6 @@ function channelActionLookup(action: ChannelAction): Role[] {
     return [Role.MODERATE, Role.MANAGE, Role.OWNER];
   }
 
-  throw new Error("Unsupported ChannelAction");
+  // default to read action
+  return [Role.READ, Role.READWRITE, Role.MODERATE, Role.MANAGE, Role.OWNER];
 }

@@ -12,6 +12,14 @@ import { CANNOT_DISCUSS } from "../../src/utils/constants";
 const ALLOWED_GROUP_ROLES = Object.freeze(["owner", "admin", "member"]);
 const ADMIN_GROUP_MEMBER_TYPES = Object.freeze(["owner", "admin"]);
 
+const ALLOWED_ROLES_FOR_READING = Object.freeze([
+  Role.READ,
+  Role.READWRITE,
+  Role.MANAGE,
+  Role.MODERATE,
+  Role.OWNER,
+]);
+
 const ALLOWED_ROLES_FOR_POSTING = Object.freeze([
   Role.WRITE,
   Role.READWRITE,
@@ -1083,6 +1091,838 @@ describe("ChannelPermission class", () => {
         const channelPermission = new ChannelPermission(channelAcl, "foo");
 
         expect(channelPermission.canModerateChannel(user)).toBe(false);
+      });
+    });
+  });
+
+  describe("canPostToChannel", () => {
+    describe("all permission cases", () => {
+      it("returns false if user logged in and channel permissions are empty", async () => {
+        const user = buildUser();
+        const channelAcl = [] as IChannelAclPermission[];
+
+        const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+        expect(channelPermission.canPostToChannel(user)).toBe(false);
+      });
+
+      it("returns false if user not logged in and channel permissions are empty", async () => {
+        const user = buildUser({ username: null });
+        const channelAcl = [] as IChannelAclPermission[];
+
+        const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+        expect(channelPermission.canPostToChannel(user)).toBe(false);
+      });
+    });
+
+    describe("Anonymous User Permissions", () => {
+      it(`returns true if anonymous permission defined and role is allowed`, () => {
+        const user = buildUser({ username: null });
+
+        ALLOWED_ROLES_FOR_POSTING.forEach((allowedRole) => {
+          const channelAcl = [
+            { category: AclCategory.ANONYMOUS_USER, role: allowedRole },
+          ] as IChannelAclPermission[];
+
+          const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+          expect(channelPermission.canPostToChannel(user)).toBe(true);
+        });
+      });
+
+      it("returns false if anonymous permission defined but role is read", () => {
+        const user = buildUser({ username: null });
+        const channelAcl = [
+          { category: AclCategory.ANONYMOUS_USER, role: Role.READ },
+        ] as IChannelAclPermission[];
+
+        const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+        expect(channelPermission.canPostToChannel(user)).toBe(false);
+      });
+    });
+
+    describe("Authenticated User Permissions", () => {
+      it(`returns true if authenticated permission defined, user logged in, and role is allowed`, async () => {
+        const user = buildUser();
+
+        ALLOWED_ROLES_FOR_POSTING.forEach((allowedRole) => {
+          const channelAcl = [
+            { category: AclCategory.AUTHENTICATED_USER, role: allowedRole },
+          ] as IChannelAclPermission[];
+
+          const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+          expect(channelPermission.canPostToChannel(user)).toBe(true);
+        });
+      });
+
+      it("returns false if authenticated permission defined, user logged in, and role is read", async () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.AUTHENTICATED_USER, role: Role.READ },
+        ] as IChannelAclPermission[];
+
+        const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+        expect(channelPermission.canPostToChannel(user)).toBe(false);
+      });
+
+      it("returns false if authenticated permission defined and user is not logged in", async () => {
+        const user = buildUser({ username: null });
+        const channelAcl = [
+          { category: AclCategory.AUTHENTICATED_USER, role: Role.READWRITE },
+        ] as IChannelAclPermission[];
+
+        const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+        expect(channelPermission.canPostToChannel(user)).toBe(false);
+      });
+    });
+
+    describe("Group Permissions", () => {
+      it("returns true if user is group member in group permission list and role is allowed", async () => {
+        ALLOWED_ROLES_FOR_POSTING.forEach((allowedRole) => {
+          const channelAcl = [
+            {
+              category: AclCategory.GROUP,
+              subCategory: AclSubCategory.MEMBER,
+              key: groupId1,
+              role: allowedRole, // members write
+            },
+            {
+              category: AclCategory.GROUP,
+              subCategory: AclSubCategory.ADMIN,
+              key: groupId1,
+              role: Role.READ,
+            },
+          ] as IChannelAclPermission[];
+
+          ALLOWED_GROUP_ROLES.forEach((memberType) => {
+            const user = buildUser({
+              orgId: orgId1,
+              groups: [buildGroup(groupId1, memberType)], // member in groupId1
+            });
+
+            const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+            expect(channelPermission.canPostToChannel(user)).toBe(true);
+          });
+        });
+      });
+
+      it("returns false if user is group member in group permission list and role is NOT allowed", async () => {
+        const user = buildUser(); // member in groupId1
+        const channelAcl = [
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.MEMBER,
+            key: groupId1,
+            role: Role.READ, // members read
+          },
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.ADMIN,
+            key: groupId1,
+            role: Role.READ,
+          },
+        ] as IChannelAclPermission[];
+
+        const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+        expect(channelPermission.canPostToChannel(user)).toBe(false);
+      });
+
+      it("returns false if user is group member in group permission list, role is allowed, but userMemberType is none", async () => {
+        const user = buildUser({
+          groups: [buildGroup(groupId1, "none")], // none in groupId1
+        });
+        const channelAcl = [
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.MEMBER,
+            key: groupId1,
+            role: Role.READWRITE, // members read
+          },
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.ADMIN,
+            key: groupId1,
+            role: Role.READWRITE, // admins read
+          },
+        ] as IChannelAclPermission[];
+
+        const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+        expect(channelPermission.canPostToChannel(user)).toBe(false);
+      });
+
+      it("returns true if user is group owner/admin in group permission list and role is allowed", async () => {
+        ALLOWED_ROLES_FOR_POSTING.forEach((allowedRole) => {
+          const channelAcl = [
+            {
+              category: AclCategory.GROUP,
+              subCategory: AclSubCategory.MEMBER,
+              key: groupId1,
+              role: Role.READ,
+            },
+            {
+              category: AclCategory.GROUP,
+              subCategory: AclSubCategory.ADMIN,
+              key: groupId1,
+              role: allowedRole, // admins write
+            },
+          ] as IChannelAclPermission[];
+
+          ["owner", "admin"].forEach((memberType) => {
+            const user = buildUser({
+              orgId: orgId1,
+              groups: [buildGroup(groupId1, memberType)], // admin in groupId1
+            });
+
+            const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+            expect(channelPermission.canPostToChannel(user)).toBe(true);
+          });
+        });
+      });
+
+      it("returns false if user is group owner/admin in group permission list and role is NOT allowed", async () => {
+        const user = buildUser(); // admin in groupId2
+        const channelAcl = [
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.MEMBER,
+            key: groupId2,
+            role: Role.READ,
+          },
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.ADMIN,
+            key: groupId2,
+            role: Role.READ, // admins read
+          },
+        ] as IChannelAclPermission[];
+
+        const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+        expect(channelPermission.canPostToChannel(user)).toBe(false);
+      });
+
+      it("returns true if user is group member of at least one group in permissions list that is discussable", async () => {
+        const user = buildUser({
+          orgId: orgId1,
+          groups: [
+            buildGroup(groupId1, "member"), // member in groupId1
+            buildGroup(groupId2, "member", [CANNOT_DISCUSS]), // member in groupId2
+          ],
+        });
+        const channelAcl = [
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.MEMBER,
+            key: groupId1,
+            role: Role.READWRITE, // members write
+          },
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.ADMIN,
+            key: groupId1,
+            role: Role.READ,
+          },
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.MEMBER,
+            key: groupId2,
+            role: Role.READWRITE, // members write, group CANNOT_DISCUSS
+          },
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.ADMIN,
+            key: groupId2,
+            role: Role.READ,
+          },
+        ] as IChannelAclPermission[];
+
+        const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+        expect(channelPermission.canPostToChannel(user)).toBe(true);
+      });
+
+      it("returns false if user is group member in permissions list but the group is not discussable", async () => {
+        const user = buildUser({
+          orgId: orgId1,
+          groups: [
+            buildGroup(groupId1, "member", [CANNOT_DISCUSS]), // member in groupId1
+          ],
+        });
+        const channelAcl = [
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.MEMBER,
+            key: groupId1,
+            role: Role.READWRITE, // members write
+          },
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.ADMIN,
+            key: groupId1,
+            role: Role.READ,
+          },
+        ] as IChannelAclPermission[];
+
+        const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+        expect(channelPermission.canPostToChannel(user)).toBe(false);
+      });
+
+      it("returns false if user is group admin but group is not in permissions list", async () => {
+        const user = buildUser({
+          orgId: orgId1,
+          groups: [
+            buildGroup("unknownGroupId", "admin"), // admin in unknownGroupId
+          ],
+        });
+        const channelAcl = [
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.MEMBER,
+            key: groupId1,
+            role: Role.READWRITE, // members write
+          },
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.ADMIN,
+            key: groupId1,
+            role: Role.READWRITE, // admin write
+          },
+        ] as IChannelAclPermission[];
+
+        const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+        expect(channelPermission.canPostToChannel(user)).toBe(false);
+      });
+    });
+
+    describe("Org Permissions", () => {
+      it("returns true if user is org member in permissions list and member role is allowed", async () => {
+        const user = buildUser();
+
+        ALLOWED_ROLES_FOR_POSTING.forEach((allowedRole) => {
+          const channelAcl = [
+            {
+              category: AclCategory.ORG,
+              subCategory: AclSubCategory.MEMBER,
+              key: user.orgId,
+              role: allowedRole, // members write
+            },
+            {
+              category: AclCategory.ORG,
+              subCategory: AclSubCategory.ADMIN,
+              key: user.orgId,
+              role: Role.READ, // admin read
+            },
+          ] as IChannelAclPermission[];
+
+          const channelPermission = new ChannelPermission(channelAcl, "joker");
+
+          expect(channelPermission.canPostToChannel(user)).toBe(true);
+        });
+      });
+
+      it("returns true if user is org_admin in permissions list and admin role is allowed", async () => {
+        const user = buildUser({ role: "org_admin" });
+
+        ALLOWED_ROLES_FOR_POSTING.forEach((allowedRole) => {
+          const channelAcl = [
+            {
+              category: AclCategory.ORG,
+              subCategory: AclSubCategory.MEMBER,
+              key: user.orgId,
+              role: Role.READ, // members read
+            },
+            {
+              category: AclCategory.ORG,
+              subCategory: AclSubCategory.ADMIN,
+              key: user.orgId,
+              role: allowedRole, // admin write
+            },
+          ] as IChannelAclPermission[];
+
+          const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+          expect(channelPermission.canPostToChannel(user)).toBe(true);
+        });
+      });
+
+      it("returns false if user is not in the permissions org", async () => {
+        const user = buildUser({ orgId: "unknownOrgId" });
+        const channelAcl = [
+          {
+            category: AclCategory.ORG,
+            subCategory: AclSubCategory.MEMBER,
+            key: orgId1,
+            role: Role.READ, // members read
+          },
+          {
+            category: AclCategory.ORG,
+            subCategory: AclSubCategory.ADMIN,
+            key: orgId1,
+            role: Role.READWRITE, // admin write
+          },
+        ] as IChannelAclPermission[];
+
+        const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+        expect(channelPermission.canPostToChannel(user)).toBe(false);
+      });
+    });
+
+    describe("User Permissions", () => {
+      it("returns true if user is in permissions list and role is allowed", () => {
+        const user = buildUser();
+
+        ALLOWED_ROLES_FOR_POSTING.forEach((allowedRole) => {
+          const channelAcl = [
+            {
+              category: AclCategory.USER,
+              key: user.username,
+              role: allowedRole,
+            },
+          ] as IChannelAclPermission[];
+
+          const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+          expect(channelPermission.canPostToChannel(user)).toBe(true);
+        });
+      });
+
+      it("returns false if user is in permissions list but role is read", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.READ },
+        ] as IChannelAclPermission[];
+
+        const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+        expect(channelPermission.canPostToChannel(user)).toBe(false);
+      });
+    });
+  });
+
+  describe("canReadChannel", () => {
+    describe("no channel permissions defined", () => {
+      it("returns false if user logged in and channel permissions are empty", async () => {
+        const user = buildUser();
+        const channelAcl = [] as IChannelAclPermission[];
+
+        const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+        expect(channelPermission.canReadChannel(user)).toBe(false);
+      });
+
+      it("returns false if user not logged in and channel permissions are empty", async () => {
+        const user = buildUser({ username: null });
+        const channelAcl = [] as IChannelAclPermission[];
+
+        const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+        expect(channelPermission.canReadChannel(user)).toBe(false);
+      });
+    });
+
+    describe("Anonymous User Permissions", () => {
+      it(`returns true if anonymous permission defined and role is allowed`, () => {
+        const user = buildUser({ username: null });
+
+        ALLOWED_ROLES_FOR_READING.forEach((allowedRole) => {
+          const channelAcl = [
+            { category: AclCategory.ANONYMOUS_USER, role: allowedRole },
+          ] as IChannelAclPermission[];
+
+          const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+          expect(channelPermission.canReadChannel(user)).toBe(true);
+        });
+      });
+
+      it("returns false if anonymous permission defined but role is write", () => {
+        const user = buildUser({ username: null });
+        const channelAcl = [
+          { category: AclCategory.ANONYMOUS_USER, role: Role.WRITE },
+        ] as IChannelAclPermission[];
+
+        const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+        expect(channelPermission.canReadChannel(user)).toBe(false);
+      });
+    });
+
+    describe("Authenticated User Permissions", () => {
+      it(`returns true if authenticated permission defined, user logged in, and role is allowed`, async () => {
+        const user = buildUser();
+
+        ALLOWED_ROLES_FOR_READING.forEach((allowedRole) => {
+          const channelAcl = [
+            { category: AclCategory.AUTHENTICATED_USER, role: allowedRole },
+          ] as IChannelAclPermission[];
+
+          const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+          expect(channelPermission.canReadChannel(user)).toBe(true);
+        });
+      });
+
+      it("returns false if authenticated permission defined, user logged in, and role is write", async () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.AUTHENTICATED_USER, role: Role.WRITE },
+        ] as IChannelAclPermission[];
+
+        const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+        expect(channelPermission.canReadChannel(user)).toBe(false);
+      });
+
+      it("returns false if authenticated permission defined and user is not logged in", async () => {
+        const user = buildUser({ username: null });
+        const channelAcl = [
+          { category: AclCategory.AUTHENTICATED_USER, role: Role.READWRITE },
+        ] as IChannelAclPermission[];
+
+        const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+        expect(channelPermission.canReadChannel(user)).toBe(false);
+      });
+    });
+
+    describe("Group Permissions", () => {
+      it("returns true if user is group member in group permission list and role is allowed", async () => {
+        ALLOWED_ROLES_FOR_READING.forEach((allowedRole) => {
+          const channelAcl = [
+            {
+              category: AclCategory.GROUP,
+              subCategory: AclSubCategory.MEMBER,
+              key: groupId1,
+              role: allowedRole, // members write
+            },
+            {
+              category: AclCategory.GROUP,
+              subCategory: AclSubCategory.ADMIN,
+              key: groupId1,
+              role: Role.READ,
+            },
+          ] as IChannelAclPermission[];
+
+          ALLOWED_GROUP_ROLES.forEach((memberType) => {
+            const user = buildUser({
+              orgId: orgId1,
+              groups: [buildGroup(groupId1, memberType)], // member in groupId1
+            });
+
+            const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+            expect(channelPermission.canReadChannel(user)).toBe(true);
+          });
+        });
+      });
+
+      it("returns false if user is group member in group permission list and role is NOT allowed", async () => {
+        const user = buildUser(); // member in groupId1
+        const channelAcl = [
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.MEMBER,
+            key: groupId1,
+            role: Role.WRITE,
+          },
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.ADMIN,
+            key: groupId1,
+            role: Role.WRITE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+        expect(channelPermission.canReadChannel(user)).toBe(false);
+      });
+
+      it("returns false if user is group member in group permission list, role is allowed, but userMemberType is none", async () => {
+        const user = buildUser({
+          groups: [buildGroup(groupId1, "none")], // none in groupId1
+        });
+        const channelAcl = [
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.MEMBER,
+            key: groupId1,
+            role: Role.READWRITE, // members read
+          },
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.ADMIN,
+            key: groupId1,
+            role: Role.READWRITE, // admins read
+          },
+        ] as IChannelAclPermission[];
+
+        const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+        expect(channelPermission.canReadChannel(user)).toBe(false);
+      });
+
+      it("returns true if user is group owner/admin in group permission list and role is allowed", async () => {
+        ALLOWED_ROLES_FOR_READING.forEach((allowedRole) => {
+          const channelAcl = [
+            {
+              category: AclCategory.GROUP,
+              subCategory: AclSubCategory.MEMBER,
+              key: groupId1,
+              role: Role.READ,
+            },
+            {
+              category: AclCategory.GROUP,
+              subCategory: AclSubCategory.ADMIN,
+              key: groupId1,
+              role: allowedRole, // admins write
+            },
+          ] as IChannelAclPermission[];
+
+          ["owner", "admin"].forEach((memberType) => {
+            const user = buildUser({
+              orgId: orgId1,
+              groups: [buildGroup(groupId1, memberType)], // admin in groupId1
+            });
+
+            const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+            expect(channelPermission.canReadChannel(user)).toBe(true);
+          });
+        });
+      });
+
+      it("returns false if user is group owner/admin in group permission list and role is NOT allowed", async () => {
+        const user = buildUser(); // admin in groupId2
+        const channelAcl = [
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.MEMBER,
+            key: groupId2,
+            role: Role.WRITE,
+          },
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.ADMIN,
+            key: groupId2,
+            role: Role.WRITE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+        expect(channelPermission.canReadChannel(user)).toBe(false);
+      });
+
+      it("returns true if user is group member of at least one group in permissions list that is discussable", async () => {
+        const user = buildUser({
+          orgId: orgId1,
+          groups: [
+            buildGroup(groupId1, "member"), // member in groupId1
+            buildGroup(groupId2, "member", [CANNOT_DISCUSS]), // member in groupId2
+          ],
+        });
+        const channelAcl = [
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.MEMBER,
+            key: groupId1,
+            role: Role.READWRITE, // members write
+          },
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.ADMIN,
+            key: groupId1,
+            role: Role.READ,
+          },
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.MEMBER,
+            key: groupId2,
+            role: Role.READWRITE, // members write, group CANNOT_DISCUSS
+          },
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.ADMIN,
+            key: groupId2,
+            role: Role.READ,
+          },
+        ] as IChannelAclPermission[];
+
+        const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+        expect(channelPermission.canReadChannel(user)).toBe(true);
+      });
+
+      it("returns false if user is group member in permissions list but the group is not discussable", async () => {
+        const user = buildUser({
+          orgId: orgId1,
+          groups: [
+            buildGroup(groupId1, "member", [CANNOT_DISCUSS]), // member in groupId1
+          ],
+        });
+        const channelAcl = [
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.MEMBER,
+            key: groupId1,
+            role: Role.READWRITE, // members write
+          },
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.ADMIN,
+            key: groupId1,
+            role: Role.WRITE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+        expect(channelPermission.canReadChannel(user)).toBe(false);
+      });
+
+      it("returns false if user is group admin but group is not in permissions list", async () => {
+        const user = buildUser({
+          orgId: orgId1,
+          groups: [
+            buildGroup("unknownGroupId", "admin"), // admin in unknownGroupId
+          ],
+        });
+        const channelAcl = [
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.MEMBER,
+            key: groupId1,
+            role: Role.READWRITE, // members write
+          },
+          {
+            category: AclCategory.GROUP,
+            subCategory: AclSubCategory.ADMIN,
+            key: groupId1,
+            role: Role.READWRITE, // admin write
+          },
+        ] as IChannelAclPermission[];
+
+        const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+        expect(channelPermission.canReadChannel(user)).toBe(false);
+      });
+    });
+
+    describe("Org Permissions", () => {
+      it("returns true if user is org member in permissions list and member role is allowed", async () => {
+        const user = buildUser();
+
+        ALLOWED_ROLES_FOR_READING.forEach((allowedRole) => {
+          const channelAcl = [
+            {
+              category: AclCategory.ORG,
+              subCategory: AclSubCategory.MEMBER,
+              key: user.orgId,
+              role: allowedRole, // members write
+            },
+            {
+              category: AclCategory.ORG,
+              subCategory: AclSubCategory.ADMIN,
+              key: user.orgId,
+              role: Role.READ, // admin read
+            },
+          ] as IChannelAclPermission[];
+
+          const channelPermission = new ChannelPermission(channelAcl, "joker");
+
+          expect(channelPermission.canReadChannel(user)).toBe(true);
+        });
+      });
+
+      it("returns true if user is org_admin in permissions list and admin role is allowed", async () => {
+        const user = buildUser({ role: "org_admin" });
+
+        ALLOWED_ROLES_FOR_READING.forEach((allowedRole) => {
+          const channelAcl = [
+            {
+              category: AclCategory.ORG,
+              subCategory: AclSubCategory.MEMBER,
+              key: user.orgId,
+              role: Role.READ, // members read
+            },
+            {
+              category: AclCategory.ORG,
+              subCategory: AclSubCategory.ADMIN,
+              key: user.orgId,
+              role: allowedRole, // admin write
+            },
+          ] as IChannelAclPermission[];
+
+          const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+          expect(channelPermission.canReadChannel(user)).toBe(true);
+        });
+      });
+
+      it("returns false if user is not in the permissions org", async () => {
+        const user = buildUser({ orgId: "unknownOrgId" });
+        const channelAcl = [
+          {
+            category: AclCategory.ORG,
+            subCategory: AclSubCategory.MEMBER,
+            key: orgId1,
+            role: Role.WRITE,
+          },
+          {
+            category: AclCategory.ORG,
+            subCategory: AclSubCategory.ADMIN,
+            key: orgId1,
+            role: Role.READWRITE,
+          },
+        ] as IChannelAclPermission[];
+
+        const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+        expect(channelPermission.canReadChannel(user)).toBe(false);
+      });
+    });
+
+    describe("User Permissions", () => {
+      it("returns true if user is in permissions list and role is allowed", () => {
+        const user = buildUser();
+
+        ALLOWED_ROLES_FOR_READING.forEach((allowedRole) => {
+          const channelAcl = [
+            {
+              category: AclCategory.USER,
+              key: user.username,
+              role: allowedRole,
+            },
+          ] as IChannelAclPermission[];
+
+          const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+          expect(channelPermission.canReadChannel(user)).toBe(true);
+        });
+      });
+
+      it("returns false if user is in permissions list but role is write", () => {
+        const user = buildUser();
+        const channelAcl = [
+          { category: AclCategory.USER, key: user.username, role: Role.WRITE },
+        ] as IChannelAclPermission[];
+
+        const channelPermission = new ChannelPermission(channelAcl, "foo");
+
+        expect(channelPermission.canReadChannel(user)).toBe(false);
       });
     });
   });
