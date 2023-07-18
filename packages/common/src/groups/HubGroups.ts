@@ -90,10 +90,19 @@ export async function enrichGroupSearchResult(
   return result;
 }
 
+/**
+ * Create a new Hub Group
+ * we are fetching the IGroup so we need to convert
+ * the Hub Group to IGroup first, then convert them
+ * back to Hub Group and return them
+ * @param partialGroup
+ * @param requestOptions
+ */
 export async function createHubGroup(
   partialGroup: Partial<IHubGroup>,
   requestOptions: IUserRequestOptions
 ): Promise<IHubGroup> {
+  // merge the incoming and default groups
   const hubGroup = { ...DEFAULT_GROUP, ...partialGroup } as IHubGroup;
   const group = convertHubGroupToGroup(hubGroup);
   const opts = {
@@ -104,6 +113,12 @@ export async function createHubGroup(
   return convertGroupToHubGroup(result.group, requestOptions);
 }
 
+/**
+ * Get a Hub Group by id
+ * we need to convert the IGroup we get to Hub Group
+ * @param identifier
+ * @param requestOptions
+ */
 export async function fetchHubGroup(
   identifier: string,
   requestOptions: IUserRequestOptions
@@ -120,7 +135,9 @@ export async function fetchHubGroup(
 
 /**
  * @private
- * Update a Hub Group
+ * Update a Hub Group and return it
+ * we need to convert the incoming Hub Group to Igroup
+ * before sending it to the API
  * @param hubGroup
  * @param requestOptions
  */
@@ -148,6 +165,11 @@ export async function deleteHubGroup(
   await removeGroup(ro);
 }
 
+/**
+ * Convert an IGroup to a Hub Group
+ * @param group
+ * @param requestOptions
+ */
 function convertGroupToHubGroup(
   group: IGroup,
   requestOptions: IUserRequestOptions
@@ -159,6 +181,10 @@ function convertGroupToHubGroup(
   return computeProps(group, hubGroup, requestOptions);
 }
 
+/**
+ * Convert a Hub Group to an IGroup
+ * @param hubGroup
+ */
 function convertHubGroupToGroup(hubGroup: IHubGroup): IGroup {
   const mapper = new PropertyMapper<Partial<IHubGroup>, IGroup>(
     getPropertyMap()
