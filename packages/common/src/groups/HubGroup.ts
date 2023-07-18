@@ -24,6 +24,9 @@ import { cloneObject } from "../util";
 import { Capability, ICapabilityAccessResponse } from "../capabilities/types";
 import { checkCapability } from "../capabilities/checkCapability";
 
+/**
+ * Hub Group Class
+ */
 export class HubGroup
   implements
     IWithStoreBehavior<IHubGroup>,
@@ -39,6 +42,9 @@ export class HubGroup
     this.context = context;
   }
 
+  /**
+   * Whether the user can edit the group, only the managers can
+   */
   get canEdit(): boolean {
     const memberType = this.entity.userMembership?.memberType;
     const userName = this.entity.userMembership?.username;
@@ -48,6 +54,9 @@ export class HubGroup
     );
   }
 
+  /**
+   * Whether the user can delete the group, only the managers can
+   */
   get canDelete(): boolean {
     const memberType = this.entity.userMembership?.memberType;
     const userName = this.entity.userMembership?.username;
@@ -57,6 +66,19 @@ export class HubGroup
     );
   }
 
+  /**
+   * Whether the group is protected, if so, it can't be deleted
+   */
+  get isProtected(): boolean {
+    return this.entity.protected;
+  }
+
+  /**
+   * Create an instance from an IHubGroup object
+   * @param json - JSON object to create a HubGroup from
+   * @param context - ArcGIS context
+   * @returns
+   */
   static fromJson(json: Partial<IHubGroup>, context: IArcGISContext): HubGroup {
     // merge what we have with the default values
     const pojo = this.applyDefaults(json);
@@ -112,10 +134,12 @@ export class HubGroup
 
   private static applyDefaults(partialGroup: Partial<IHubGroup>): IHubGroup {
     // extend the partial over the defaults
-    const pojo = { ...DEFAULT_GROUP, ...partialGroup } as IHubGroup;
-    return pojo;
+    return { ...DEFAULT_GROUP, ...partialGroup } as IHubGroup;
   }
 
+  /**
+   * Return the backing entity as an object literal
+   */
   toJson(): IHubGroup {
     if (this.isDestroyed) {
       throw new Error("HubGroup is already destroyed.");
@@ -128,7 +152,6 @@ export class HubGroup
    * @param changes
    */
   update(changes: Partial<IHubGroup>): void {
-    // where is this defined??
     if (this.isDestroyed) {
       throw new Error("HubGroup is already destroyed.");
     }
@@ -137,7 +160,7 @@ export class HubGroup
   }
 
   /**
-   * Save the HubGroup to the backing store. Currently Groups are stored as Items in Portal
+   * Save the HubGroup to the backing store
    * @returns
    */
   async save(): Promise<void> {
