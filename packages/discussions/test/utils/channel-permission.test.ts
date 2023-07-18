@@ -831,7 +831,10 @@ describe("ChannelPermission class", () => {
               groups: [buildGroup(groupId1, memberType)], // member in groupId1
             });
 
-            const channelPermission = new ChannelPermission(channelAcl, "foo");
+            const channelPermission = new ChannelPermission(
+              channelAcl,
+              channelCreator
+            );
 
             expect(channelPermission.canModerateChannel(user)).toBe(true);
           });
@@ -911,7 +914,10 @@ describe("ChannelPermission class", () => {
               groups: [buildGroup(groupId1, memberType)], // admin or owner in groupId1
             });
 
-            const channelPermission = new ChannelPermission(channelAcl, "foo");
+            const channelPermission = new ChannelPermission(
+              channelAcl,
+              channelCreator
+            );
 
             expect(channelPermission.canModerateChannel(user)).toBe(true);
           });
