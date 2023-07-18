@@ -61,13 +61,7 @@ export function getPropertyMap(): IPropertyMap[] {
     entityKey: "location",
     storeKey: "item.properties.location",
   });
-
-  // Catalog mappings
-  // Since v1.x sites use data.catalog, which is really just `{groiups: []}`
-  // we can't overtly migrate data.catalog, but we can map the properties
-  // so they don't collide
-  map.push({ entityKey: "catalog", storeKey: "data.catalogv2" });
-  map.push({ entityKey: "legacyCatalog", storeKey: "data.catalog" });
+  map.push({ entityKey: "catalog", storeKey: "data.catalog" });
 
   return map;
 }
