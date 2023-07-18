@@ -1,5 +1,5 @@
-import { IArcGISContext } from "../..";
-import { IHubSearchResult } from "../../search";
+import { IArcGISContext } from "../../ArcGISContext";
+import { IHubSearchResult } from "../../search/types/IHubSearchResult";
 import { AccessLevel } from "./types";
 
 // structure the arcgis-hub-card expects to receive

@@ -1,9 +1,9 @@
-import { IArcGISContext } from "..";
+import { IArcGISContext } from "../ArcGISContext";
 import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
 import { getHubRelativeUrl } from "../content/_internal/internalContentUtils";
-import { HubEntity } from "../core";
+import { HubEntity } from "../core/types/HubEntity";
 import { CardViewModelTargets } from "../core/types/IHubCardViewModel";
-import { IHubSearchResult } from "../search";
+import { IHubSearchResult } from "../search/types/IHubSearchResult";
 import { getItemHomeUrl } from "./get-item-home-url";
 
 /**

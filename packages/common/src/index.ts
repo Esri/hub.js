@@ -39,6 +39,9 @@ export * from "./metrics";
 // Unclear _why_ this needs to be here vs in core/index.ts
 // but if it's not here, the function is not exported
 export * from "./core/updateHubEntity";
+// Unclear _why_ this needs to be here vs. in urls/index.ts
+// but if it's exported there, random tests start failing
+export * from "./urls/getCardViewModelTitleUrl";
 
 import OperationStack from "./OperationStack";
 import OperationError from "./OperationError";

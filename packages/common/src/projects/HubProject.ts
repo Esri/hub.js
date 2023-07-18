@@ -1,5 +1,4 @@
 import { DEFAULT_PROJECT } from "./defaults";
-
 import {
   IHubProject,
   IWithCatalogBehavior,

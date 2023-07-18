@@ -1,11 +1,11 @@
-import {
-  cloneObject,
-  convertProjectEntityToCardViewModel,
-  convertProjectSearchResultToCardViewModel,
-} from "../../src";
+import { cloneObject } from "../../src/util";
 import { CONTEXT, PROJECT_ENTITY, PROJECT_HUB_SEARCH_RESULT } from "./fixtures";
 import * as internalContentUtils from "../../src/content/_internal/internalContentUtils";
 import * as titleUrlModule from "../../src/urls/getCardViewModelTitleUrl";
+import {
+  convertProjectEntityToCardViewModel,
+  convertProjectSearchResultToCardViewModel,
+} from "../../src/projects/view";
 
 describe("project view module:", () => {
   let getShortenedCategoriesSpy: any;

@@ -1,8 +1,4 @@
-import {
-  cloneObject,
-  convertInitiativeEntityToCardViewModel,
-  convertInitiativeSearchResultToCardViewModel,
-} from "../../src";
+import { cloneObject } from "../../src/util";
 import {
   CONTEXT,
   INITIATIVE_ENTITY,
@@ -10,6 +6,10 @@ import {
 } from "./fixtures";
 import * as internalContentUtils from "../../src/content/_internal/internalContentUtils";
 import * as titleUrlModule from "../../src/urls/getCardViewModelTitleUrl";
+import {
+  convertInitiativeEntityToCardViewModel,
+  convertInitiativeSearchResultToCardViewModel,
+} from "../../src/initiatives/view";
 
 describe("initiative view module:", () => {
   let getShortenedCategoriesSpy: any;
