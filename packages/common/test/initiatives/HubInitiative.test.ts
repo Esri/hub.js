@@ -284,7 +284,7 @@ describe("HubInitiative Class:", () => {
       { name: "Test Initiative" },
       authdCtxMgr.context
     );
-    await chk.convertToCardViewModel("ago", [], "en-us");
+    await chk.convertToCardViewModel();
 
     expect(spy).toHaveBeenCalledTimes(1);
   });

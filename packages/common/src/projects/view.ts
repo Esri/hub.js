@@ -3,15 +3,15 @@ import { getFamily } from "../content";
 import { IHubProject } from "../core";
 import { getShortenedCategories } from "../content/_internal/internalContentUtils";
 import {
+  getCardViewModelTitleUrlFromEntity,
+  getCardViewModelTitleUrlFromSearchResult,
+} from "../urls/getCardViewModelTitleUrl";
+import {
   IHubCardViewModel,
   IConvertToCardViewModelOpts,
   ConvertSearchResultToCardViewModelFn,
   ConvertEntityToCardViewModelFn,
 } from "../core/types/IHubCardViewModel";
-import {
-  getCardViewModelTitleUrlFromEntity,
-  getCardViewModelTitleUrlFromSearchResult,
-} from "../urls/getCardViewModelTitleUrl";
 
 /**
  * Convert a project entity into a card view model that can

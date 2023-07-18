@@ -8,9 +8,8 @@ import {
   INITIATIVE_ENTITY,
   INITIATIVE_HUB_SEARCH_RESULT,
 } from "./fixtures";
-import * as getItemHomeUrlModule from "../../src/urls/get-item-home-url";
 import * as internalContentUtils from "../../src/content/_internal/internalContentUtils";
-import * as getRelativeWorkspaceUrlModule from "../../src/core/getRelativeWorkspaceUrl";
+import * as titleUrlModule from "../../src/urls/getCardViewModelTitleUrl";
 
 describe("initiative view module:", () => {
   let getShortenedCategoriesSpy: any;
@@ -23,23 +22,13 @@ describe("initiative view module:", () => {
   });
 
   describe("convertInitiativeEntityToCardViewModel:", () => {
-    let getItemHomeUrlSpy: any;
-    let getRelativeWorkspaceUrlSpy: any;
-    let getHubRelativeUrlSpy: any;
+    let getCardViewModelTitleUrlFromEntitySpy: any;
 
     beforeEach(() => {
-      getItemHomeUrlSpy = spyOn(
-        getItemHomeUrlModule,
-        "getItemHomeUrl"
-      ).and.returnValue("https://mock-home-url.com");
-      getRelativeWorkspaceUrlSpy = spyOn(
-        getRelativeWorkspaceUrlModule,
-        "getRelativeWorkspaceUrl"
-      ).and.returnValue("/mock-relative-workspace-url");
-      getHubRelativeUrlSpy = spyOn(
-        internalContentUtils,
-        "getHubRelativeUrl"
-      ).and.returnValue("/mock-hub-relative-url");
+      getCardViewModelTitleUrlFromEntitySpy = spyOn(
+        titleUrlModule,
+        "getCardViewModelTitleUrlFromEntity"
+      ).and.returnValue("https://mock-title-url.com");
     });
 
     it("returns the card view model from the intiative entity", () => {
@@ -48,20 +37,12 @@ describe("initiative view module:", () => {
         CONTEXT
       );
 
-      expect(getItemHomeUrlSpy).toHaveBeenCalledTimes(1);
-      expect(getItemHomeUrlSpy).toHaveBeenCalledWith(
-        INITIATIVE_ENTITY.id,
-        CONTEXT.hubRequestOptions
-      );
-      expect(getHubRelativeUrlSpy).toHaveBeenCalledTimes(1);
-      expect(getHubRelativeUrlSpy).toHaveBeenCalledWith(
-        INITIATIVE_ENTITY.type,
-        INITIATIVE_ENTITY.id
-      );
-      expect(getRelativeWorkspaceUrlSpy).toHaveBeenCalledTimes(1);
-      expect(getRelativeWorkspaceUrlSpy).toHaveBeenCalledWith(
-        INITIATIVE_ENTITY.type,
-        INITIATIVE_ENTITY.id
+      expect(getCardViewModelTitleUrlFromEntitySpy).toHaveBeenCalledTimes(1);
+      expect(getCardViewModelTitleUrlFromEntitySpy).toHaveBeenCalledWith(
+        INITIATIVE_ENTITY,
+        CONTEXT,
+        "self",
+        ""
       );
       expect(getShortenedCategoriesSpy).toHaveBeenCalledTimes(1);
       expect(getShortenedCategoriesSpy).toHaveBeenCalledWith(
@@ -77,7 +58,7 @@ describe("initiative view module:", () => {
         source: INITIATIVE_ENTITY.owner,
         summary: INITIATIVE_ENTITY.summary,
         title: INITIATIVE_ENTITY.name,
-        titleUrl: "https://mock-home-url.com",
+        titleUrl: "https://mock-title-url.com",
         thumbnailUrl: INITIATIVE_ENTITY.thumbnailUrl,
         type: INITIATIVE_ENTITY.type,
         additionalInfo: [
@@ -107,53 +88,64 @@ describe("initiative view module:", () => {
 
       expect(result.additionalInfo?.length).toBe(3);
     });
-    it('target = "view": returns the correct title url', () => {
-      const result = convertInitiativeEntityToCardViewModel(
-        INITIATIVE_ENTITY,
-        CONTEXT,
-        "view"
-      );
-      expect(result.titleUrl).toBe("/mock-hub-relative-url");
-    });
-    it('target = "workspace": returns the correct title url', () => {
-      const result = convertInitiativeEntityToCardViewModel(
-        INITIATIVE_ENTITY,
-        CONTEXT,
-        "workspace"
-      );
-      expect(result.titleUrl).toBe("/mock-relative-workspace-url");
-    });
   });
 
   describe("convertInitiativeSearchResultToCardViewModel", () => {
+    let getCardViewModelTitleUrlFromSearchResultSpy: any;
+
+    beforeEach(() => {
+      getCardViewModelTitleUrlFromSearchResultSpy = spyOn(
+        titleUrlModule,
+        "getCardViewModelTitleUrlFromSearchResult"
+      ).and.returnValue("https://mock-title-url.com");
+    });
+
     it("returns the card view model from the hub search result", () => {
       const result = convertInitiativeSearchResultToCardViewModel(
         INITIATIVE_HUB_SEARCH_RESULT
       );
 
+      expect(getCardViewModelTitleUrlFromSearchResultSpy).toHaveBeenCalledTimes(
+        1
+      );
+      expect(getCardViewModelTitleUrlFromSearchResultSpy).toHaveBeenCalledWith(
+        INITIATIVE_HUB_SEARCH_RESULT,
+        "self",
+        ""
+      );
+
       expect(result).toEqual({
-        access: INITIATIVE_ENTITY.access,
+        access: INITIATIVE_HUB_SEARCH_RESULT.access,
         actionLinks: [],
         badges: [],
-        id: INITIATIVE_ENTITY.id,
+        id: INITIATIVE_HUB_SEARCH_RESULT.id,
         family: "initiative",
-        source: INITIATIVE_ENTITY.owner,
-        summary: INITIATIVE_ENTITY.summary,
-        title: INITIATIVE_ENTITY.name,
-        titleUrl: "https://mock-home-url.com",
-        thumbnailUrl: INITIATIVE_ENTITY.thumbnailUrl,
-        type: INITIATIVE_ENTITY.type,
+        source: INITIATIVE_HUB_SEARCH_RESULT.owner,
+        summary: INITIATIVE_HUB_SEARCH_RESULT.summary,
+        title: INITIATIVE_HUB_SEARCH_RESULT.name,
+        titleUrl: "https://mock-title-url.com",
+        thumbnailUrl: INITIATIVE_HUB_SEARCH_RESULT.links?.thumbnail,
+        type: INITIATIVE_HUB_SEARCH_RESULT.type,
         additionalInfo: [
-          { i18nKey: "type", value: INITIATIVE_ENTITY.type },
+          { i18nKey: "type", value: INITIATIVE_HUB_SEARCH_RESULT.type },
           {
             i18nKey: "dateUpdated",
-            value: INITIATIVE_ENTITY.updatedDate.toLocaleDateString("en-US"),
+            value:
+              INITIATIVE_HUB_SEARCH_RESULT.updatedDate.toLocaleDateString(
+                "en-US"
+              ),
           },
-          { i18nKey: "tags", value: INITIATIVE_ENTITY.tags.join(", ") },
+          {
+            i18nKey: "tags",
+            value: INITIATIVE_HUB_SEARCH_RESULT.tags?.join(", ") as string,
+          },
           { i18nKey: "categories", value: "category1, category2" },
           {
             i18nKey: "dateCreated",
-            value: INITIATIVE_ENTITY.createdDate.toLocaleDateString("en-US"),
+            value:
+              INITIATIVE_HUB_SEARCH_RESULT.createdDate.toLocaleDateString(
+                "en-US"
+              ),
           },
         ],
       });
@@ -167,20 +159,6 @@ describe("initiative view module:", () => {
         convertInitiativeSearchResultToCardViewModel(modifiedSearchResult);
 
       expect(result.additionalInfo?.length).toBe(3);
-    });
-    it('target = "view": returns the correct title url', () => {
-      const result = convertInitiativeSearchResultToCardViewModel(
-        INITIATIVE_HUB_SEARCH_RESULT,
-        "view"
-      );
-      expect(result.titleUrl).toBe("/mock-hub-relative-url");
-    });
-    it('target = "workspace": returns the correct title url', () => {
-      const result = convertInitiativeSearchResultToCardViewModel(
-        INITIATIVE_HUB_SEARCH_RESULT,
-        "workspace"
-      );
-      expect(result.titleUrl).toBe("/mock-relative-workspace-url");
     });
   });
 });

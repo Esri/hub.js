@@ -1,15 +1,16 @@
 import { IArcGISContext, IHubSearchResult, getFamily } from "..";
-import {
-  getHubRelativeUrl,
-  getShortenedCategories,
-} from "../content/_internal/internalContentUtils";
+import { getShortenedCategories } from "../content/_internal/internalContentUtils";
 import { IHubInitiative } from "../core";
 import {
-  ICardActionLink,
+  getCardViewModelTitleUrlFromEntity,
+  getCardViewModelTitleUrlFromSearchResult,
+} from "../urls/getCardViewModelTitleUrl";
+import {
+  ConvertEntityToCardViewModelFn,
+  ConvertSearchResultToCardViewModelFn,
+  IConvertToCardViewModelOpts,
   IHubCardViewModel,
 } from "../core/types/IHubCardViewModel";
-import { getItemHomeUrl } from "../urls/get-item-home-url";
-import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
 
 /**
  * Convert an initiative entity in a card view model
@@ -17,26 +18,28 @@ import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
  *
  * @param initiative initiative entity
  * @param context auth & portal information
- * @param target card link contextual target
- * @param actionLinks card action links
- * @param locale internationalization locale
+ * @param opts view model options
  */
-export const convertInitiativeEntityToCardViewModel = (
+export const convertInitiativeEntityToCardViewModel: ConvertEntityToCardViewModelFn<
+  IHubInitiative
+> = (
   initiative: IHubInitiative,
   context: IArcGISContext,
-  target: "ago" | "view" | "workspace" = "ago",
-  actionLinks: ICardActionLink[] = [],
-  /**
-   * TODO: move transform logic to FE so we don't need to pass
-   * locale down (follow https://devtopia.esri.com/dc/hub/issues/7255)
-   */
-  locale: string = "en-US"
+  opts?: IConvertToCardViewModelOpts
 ): IHubCardViewModel => {
-  const titleUrl = {
-    ago: getItemHomeUrl(initiative.id, context.hubRequestOptions),
-    view: getHubRelativeUrl(initiative.type, initiative.id),
-    workspace: getRelativeWorkspaceUrl(initiative.type, initiative.id),
-  }[target];
+  const {
+    actionLinks = [],
+    baseUrl = "",
+    locale = "en-US",
+    target = "self",
+  } = opts || {};
+
+  const titleUrl = getCardViewModelTitleUrlFromEntity(
+    initiative,
+    context,
+    target,
+    baseUrl
+  );
 
   return {
     ...getSharedInitiativeCardViewModel(initiative, locale),
@@ -51,35 +54,35 @@ export const convertInitiativeEntityToCardViewModel = (
  * that can be consumed by the suite of hub gallery components
  *
  * @param searchResult hub initiative search result
- * @param target card link contextual target
- * @param actionLinks card action links
- * @param locale internationalization locale
+ * @param opts view model options
  */
-export const convertInitiativeSearchResultToCardViewModel = (
-  searchResult: IHubSearchResult,
-  target: "ago" | "view" | "workspace" = "ago",
-  actionLinks: ICardActionLink[] = [],
-  /**
-   * TODO: move transform logic to FE so we don't need to pass
-   * locale down (follow https://devtopia.esri.com/dc/hub/issues/7255)
-   */
-  locale: string = "en-US"
-): IHubCardViewModel => {
-  const titleUrl = {
-    ago: searchResult.links.self,
-    view: searchResult.links.siteRelative,
-    workspace: searchResult.links.workspaceRelative,
-  }[target];
+export const convertInitiativeSearchResultToCardViewModel: ConvertSearchResultToCardViewModelFn =
+  (
+    searchResult: IHubSearchResult,
+    opts?: IConvertToCardViewModelOpts
+  ): IHubCardViewModel => {
+    const {
+      actionLinks = [],
+      baseUrl = "",
+      locale = "en-US",
+      target = "self",
+    } = opts || {};
 
-  return {
-    ...getSharedInitiativeCardViewModel(searchResult, locale),
-    actionLinks,
-    titleUrl,
-    ...(searchResult.links.thumbnail && {
-      thumbnailUrl: searchResult.links.thumbnail,
-    }),
+    const titleUrl = getCardViewModelTitleUrlFromSearchResult(
+      searchResult,
+      target,
+      baseUrl
+    );
+
+    return {
+      ...getSharedInitiativeCardViewModel(searchResult, locale),
+      actionLinks,
+      titleUrl,
+      ...(searchResult.links.thumbnail && {
+        thumbnailUrl: searchResult.links.thumbnail,
+      }),
+    };
   };
-};
 
 /**
  * Given an initiative entiy OR hub search result, construct the
