@@ -65,7 +65,7 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:group:create",
     subsystems: ["groups"],
     authenticated: true,
-    privileges: ["portal:user:createItem"],
+    privileges: ["portal:user:createGroup"],
     licenses: ["hub-premium"],
   },
   {
