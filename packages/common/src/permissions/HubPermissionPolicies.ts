@@ -5,6 +5,7 @@ import { DiscussionPermissionPolicies } from "../discussions/_internal/Discussio
 import { ContentPermissionPolicies } from "../content/_internal/ContentBusinessRules";
 
 import { IPermissionPolicy, Permission } from "./types";
+import { PagePermissionPolicies } from "../pages/_internal/PageBusinessRules";
 
 // Examples of possible Permission Policies
 // const DiscussionPermissionPolicies: IPermissionPolicy[] = [
@@ -69,6 +70,7 @@ export const HubPermissionsPolicies: IPermissionPolicy[] = [
   ...InitiativePermissionPolicies,
   ...DiscussionPermissionPolicies,
   ...ContentPermissionPolicies,
+  ...PagePermissionPolicies,
 ];
 
 /**
