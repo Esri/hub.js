@@ -1,3 +1,5 @@
+import { IArcGISContext } from "../../ArcGISContext";
+import { IHubSearchResult } from "../../search/types/IHubSearchResult";
 import { AccessLevel } from "./types";
 
 // structure the arcgis-hub-card expects to receive
@@ -38,6 +40,44 @@ export interface ICardActionLink {
   href?: string;
   i18nKey?: string;
   label?: string;
+  showLabel?: boolean;
   icon?: string;
   buttonStyle?: "outline" | "outline-fill" | "solid" | "transparent";
+}
+
+export type CardModelTarget =
+  // link to the entity's canonical "self" - for most entities,
+  // this will be AGO; however, there are exceptions - for sites,
+  // "self" will be the site url itself
+  | "self"
+  // link to the entity's "view" url relative to the site
+  | "siteRelative"
+  // link to the entity's workspace url relative to the site
+  | "workspaceRelative"
+  // no link
+  | "none"
+  // only emit an event when the link is clicked - allows
+  // consumers to apply a custom redirect
+  | "event";
+
+export type EntityToCardModelFn<T> = (
+  entity: T,
+  context: IArcGISContext,
+  opts?: IConvertToCardModelOpts
+) => IHubCardViewModel;
+
+export type ResultToCardModelFn = (
+  result: IHubSearchResult,
+  opts?: IConvertToCardModelOpts
+) => IHubCardViewModel;
+
+export interface IConvertToCardModelOpts {
+  actionLinks?: ICardActionLink[];
+  baseUrl?: string;
+  /**
+   * TODO: move transform logic to FE so we don't need to pass
+   * locale down (follow https://devtopia.esri.com/dc/hub/issues/7255)
+   */
+  locale?: string;
+  target?: CardModelTarget;
 }
