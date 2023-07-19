@@ -115,6 +115,7 @@ describe("project view module:", () => {
         actionLinks: [],
         badges: [],
         id: PROJECT_HUB_SEARCH_RESULT.id,
+        index: PROJECT_HUB_SEARCH_RESULT.index,
         family: "project",
         source: PROJECT_HUB_SEARCH_RESULT.owner,
         summary: PROJECT_HUB_SEARCH_RESULT.summary,

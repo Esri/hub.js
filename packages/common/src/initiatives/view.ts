@@ -77,6 +77,7 @@ export const convertInitiativeSearchResultToCardViewModel: ConvertSearchResultTo
     return {
       ...getSharedInitiativeCardViewModel(searchResult, locale),
       actionLinks,
+      ...(searchResult.index && { index: searchResult.index }),
       titleUrl,
       ...(searchResult.links.thumbnail && {
         thumbnailUrl: searchResult.links.thumbnail,

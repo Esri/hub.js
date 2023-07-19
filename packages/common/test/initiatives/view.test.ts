@@ -119,6 +119,7 @@ describe("initiative view module:", () => {
         actionLinks: [],
         badges: [],
         id: INITIATIVE_HUB_SEARCH_RESULT.id,
+        index: INITIATIVE_HUB_SEARCH_RESULT.index,
         family: "initiative",
         source: INITIATIVE_HUB_SEARCH_RESULT.owner,
         summary: INITIATIVE_HUB_SEARCH_RESULT.summary,
