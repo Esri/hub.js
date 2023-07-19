@@ -125,14 +125,14 @@ describe("HubProject Class:", () => {
     });
   });
 
-  it("convertToCardViewModel: delegates to the convertProjectEntityToCardViewModel util", async () => {
-    const spy = spyOn(viewModule, "convertProjectEntityToCardViewModel");
+  it("convertToCardModel: delegates to the projectToCardModel util", async () => {
+    const spy = spyOn(viewModule, "projectToCardModel");
 
     const chk = await HubProject.fromJson(
       { name: "Test Project" },
       authdCtxMgr.context
     );
-    await chk.convertToCardViewModel();
+    await chk.convertToCardModel();
 
     expect(spy).toHaveBeenCalledTimes(1);
   });

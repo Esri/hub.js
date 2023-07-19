@@ -41,7 +41,7 @@ export * from "./metrics";
 export * from "./core/updateHubEntity";
 // Unclear _why_ this needs to be here vs. in urls/index.ts
 // but if it's exported there, random tests start failing
-export * from "./urls/getCardViewModelTitleUrl";
+export * from "./urls/getCardModelUrl";
 
 import OperationStack from "./OperationStack";
 import OperationError from "./OperationError";

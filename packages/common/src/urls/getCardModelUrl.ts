@@ -2,7 +2,7 @@ import { IArcGISContext } from "../ArcGISContext";
 import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
 import { getHubRelativeUrl } from "../content/_internal/internalContentUtils";
 import { HubEntity } from "../core/types/HubEntity";
-import { CardViewModelTargets } from "../core/types/IHubCardViewModel";
+import { CardModelTarget } from "../core/types/IHubCardViewModel";
 import { IHubSearchResult } from "../search/types/IHubSearchResult";
 import { getItemHomeUrl } from "./get-item-home-url";
 
@@ -13,9 +13,9 @@ import { getItemHomeUrl } from "./get-item-home-url";
  * @param target context the card should redirect to
  * @param baseUrl base url to work in conjunction with the target
  */
-export function getCardViewModelTitleUrlFromSearchResult(
+export function getCardModelUrlFromResult(
   result: IHubSearchResult,
-  target: CardViewModelTargets,
+  target: CardModelTarget,
   baseUrl?: string
 ): string {
   let titleUrl;
@@ -54,10 +54,10 @@ export function getCardViewModelTitleUrlFromSearchResult(
  * @param target context the card should redirect to
  * @param baseUrl base url to work in conjunction with the target
  */
-export function getCardViewModelTitleUrlFromEntity(
+export function getCardModelUrlFromEntity(
   entity: HubEntity,
   context: IArcGISContext,
-  target: CardViewModelTargets,
+  target: CardModelTarget,
   baseUrl?: string
 ): string {
   let titleUrl;

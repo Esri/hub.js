@@ -1,5 +1,5 @@
 import {
-  IConvertToCardViewModelOpts,
+  IConvertToCardModelOpts,
   IHubCardViewModel,
 } from "../types/IHubCardViewModel";
 
@@ -10,5 +10,5 @@ export interface IWithCardBehavior {
    *
    * @param opts view model options
    */
-  convertToCardViewModel(opts?: IConvertToCardViewModelOpts): IHubCardViewModel;
+  convertToCardModel(opts?: IConvertToCardModelOpts): IHubCardViewModel;
 }

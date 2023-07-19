@@ -277,14 +277,14 @@ describe("HubInitiative Class:", () => {
     expect(chk.catalog.schemaVersion).toEqual(2);
   });
 
-  it("convertToCardViewModel: delegates to the convertInitiativeEntityToCardViewModel util", async () => {
-    const spy = spyOn(viewModule, "convertInitiativeEntityToCardViewModel");
+  it("convertToCardModel: delegates to the initiativeToCardModel util", async () => {
+    const spy = spyOn(viewModule, "initiativeToCardModel");
 
     const chk = await HubInitiative.fromJson(
       { name: "Test Initiative" },
       authdCtxMgr.context
     );
-    await chk.convertToCardViewModel();
+    await chk.convertToCardModel();
 
     expect(spy).toHaveBeenCalledTimes(1);
   });

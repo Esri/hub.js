@@ -1,10 +1,10 @@
 import { cloneObject } from "../../src/util";
 import { CONTEXT, PROJECT_ENTITY, PROJECT_HUB_SEARCH_RESULT } from "./fixtures";
 import * as internalContentUtils from "../../src/content/_internal/internalContentUtils";
-import * as titleUrlModule from "../../src/urls/getCardViewModelTitleUrl";
+import * as titleUrlModule from "../../src/urls/getCardModelUrl";
 import {
-  convertProjectEntityToCardViewModel,
-  convertProjectSearchResultToCardViewModel,
+  projectToCardModel,
+  projectResultToCardModel,
 } from "../../src/projects/view";
 
 describe("project view module:", () => {
@@ -17,24 +17,21 @@ describe("project view module:", () => {
     ).and.returnValue(["category1", "category2"]);
   });
 
-  describe("convertProjectEntityToCardViewModel:", () => {
-    let getCardViewModelTitleUrlFromEntitySpy: any;
+  describe("projectToCardModel:", () => {
+    let getCardModelUrlFromEntitySpy: any;
 
     beforeEach(() => {
-      getCardViewModelTitleUrlFromEntitySpy = spyOn(
+      getCardModelUrlFromEntitySpy = spyOn(
         titleUrlModule,
-        "getCardViewModelTitleUrlFromEntity"
+        "getCardModelUrlFromEntity"
       ).and.returnValue("https://mock-title-url.com");
     });
 
     it("returns the card view model from the project entity", () => {
-      const result = convertProjectEntityToCardViewModel(
-        PROJECT_ENTITY,
-        CONTEXT
-      );
+      const result = projectToCardModel(PROJECT_ENTITY, CONTEXT);
 
-      expect(getCardViewModelTitleUrlFromEntitySpy).toHaveBeenCalledTimes(1);
-      expect(getCardViewModelTitleUrlFromEntitySpy).toHaveBeenCalledWith(
+      expect(getCardModelUrlFromEntitySpy).toHaveBeenCalledTimes(1);
+      expect(getCardModelUrlFromEntitySpy).toHaveBeenCalledWith(
         PROJECT_ENTITY,
         CONTEXT,
         "self",
@@ -77,34 +74,27 @@ describe("project view module:", () => {
       modifiedEntity.tags = [];
       modifiedEntity.categories = [];
 
-      const result = convertProjectEntityToCardViewModel(
-        modifiedEntity,
-        CONTEXT
-      );
+      const result = projectToCardModel(modifiedEntity, CONTEXT);
 
       expect(result.additionalInfo?.length).toBe(3);
     });
   });
 
-  describe("convertProjectSearchResultToCardViewModel", () => {
-    let getCardViewModelTitleUrlFromSearchResultSpy: any;
+  describe("projectResultToCardModel", () => {
+    let getCardModelUrlFromResultSpy: any;
 
     beforeEach(() => {
-      getCardViewModelTitleUrlFromSearchResultSpy = spyOn(
+      getCardModelUrlFromResultSpy = spyOn(
         titleUrlModule,
-        "getCardViewModelTitleUrlFromSearchResult"
+        "getCardModelUrlFromResult"
       ).and.returnValue("https://mock-title-url.com");
     });
 
     it("returns the card view model from the hub search result", () => {
-      const result = convertProjectSearchResultToCardViewModel(
-        PROJECT_HUB_SEARCH_RESULT
-      );
+      const result = projectResultToCardModel(PROJECT_HUB_SEARCH_RESULT);
 
-      expect(getCardViewModelTitleUrlFromSearchResultSpy).toHaveBeenCalledTimes(
-        1
-      );
-      expect(getCardViewModelTitleUrlFromSearchResultSpy).toHaveBeenCalledWith(
+      expect(getCardModelUrlFromResultSpy).toHaveBeenCalledTimes(1);
+      expect(getCardModelUrlFromResultSpy).toHaveBeenCalledWith(
         PROJECT_HUB_SEARCH_RESULT,
         "self",
         ""
@@ -148,8 +138,7 @@ describe("project view module:", () => {
       modifiedSearchResult.tags = undefined;
       modifiedSearchResult.categories = undefined;
 
-      const result =
-        convertProjectSearchResultToCardViewModel(modifiedSearchResult);
+      const result = projectResultToCardModel(modifiedSearchResult);
 
       expect(result.additionalInfo?.length).toBe(3);
     });

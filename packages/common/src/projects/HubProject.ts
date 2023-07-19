@@ -21,10 +21,10 @@ import { IWithMetricsBehavior } from "../core/behaviors/IWithMetricsBehavior";
 import { getEntityMetrics } from "../metrics/getEntityMetrics";
 import { resolveMetric } from "../metrics/resolveMetric";
 import {
-  IConvertToCardViewModelOpts,
+  IConvertToCardModelOpts,
   IHubCardViewModel,
 } from "../core/types/IHubCardViewModel";
-import { convertProjectEntityToCardViewModel } from "./view";
+import { projectToCardModel } from "./view";
 
 /**
  * Hub Project Class
@@ -158,10 +158,8 @@ export class HubProject
    *
    * @param opts view model options
    */
-  convertToCardViewModel(
-    opts?: IConvertToCardViewModelOpts
-  ): IHubCardViewModel {
-    return convertProjectEntityToCardViewModel(this.entity, this.context, opts);
+  convertToCardModel(opts?: IConvertToCardModelOpts): IHubCardViewModel {
+    return projectToCardModel(this.entity, this.context, opts);
   }
 
   /**

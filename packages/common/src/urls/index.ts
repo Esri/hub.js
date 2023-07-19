@@ -22,7 +22,7 @@ export * from "./get-campaign-url";
 export * from "./is-safe-redirect-url";
 // For some reason, if this is exported here, random tests
 // start failing. Resolved by moving to the root index
-// export * from "./getCardViewModelTitleUrl";
+// export * from "./getCardModelUrl";
 
 const MAP_OR_FEATURE_SERVER_URL_REGEX = /\/(map|feature)server/i;
 

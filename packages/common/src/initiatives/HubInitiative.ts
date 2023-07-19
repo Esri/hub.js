@@ -26,10 +26,10 @@ import { IWithMetricsBehavior } from "../core/behaviors/IWithMetricsBehavior";
 import { getEntityMetrics } from "../metrics/getEntityMetrics";
 import { resolveMetric } from "../metrics/resolveMetric";
 import {
-  IConvertToCardViewModelOpts,
+  IConvertToCardModelOpts,
   IHubCardViewModel,
 } from "../core/types/IHubCardViewModel";
-import { convertInitiativeEntityToCardViewModel } from "./view";
+import { initiativeToCardModel } from "./view";
 
 /**
  * Hub Initiative Class
@@ -245,13 +245,7 @@ export class HubInitiative
    *
    * @param opts view model options
    */
-  convertToCardViewModel(
-    opts?: IConvertToCardViewModelOpts
-  ): IHubCardViewModel {
-    return convertInitiativeEntityToCardViewModel(
-      this.entity,
-      this.context,
-      opts
-    );
+  convertToCardModel(opts?: IConvertToCardModelOpts): IHubCardViewModel {
+    return initiativeToCardModel(this.entity, this.context, opts);
   }
 }

@@ -3,14 +3,14 @@ import { getFamily } from "../content";
 import { IHubProject } from "../core";
 import { getShortenedCategories } from "../content/_internal/internalContentUtils";
 import {
-  getCardViewModelTitleUrlFromEntity,
-  getCardViewModelTitleUrlFromSearchResult,
-} from "../urls/getCardViewModelTitleUrl";
+  getCardModelUrlFromEntity,
+  getCardModelUrlFromResult,
+} from "../urls/getCardModelUrl";
 import {
   IHubCardViewModel,
-  IConvertToCardViewModelOpts,
-  ConvertSearchResultToCardViewModelFn,
-  ConvertEntityToCardViewModelFn,
+  IConvertToCardModelOpts,
+  ResultToCardModelFn,
+  EntityToCardModelFn,
 } from "../core/types/IHubCardViewModel";
 
 /**
@@ -21,12 +21,10 @@ import {
  * @param context auth & portal information
  * @param opts view model options
  */
-export const convertProjectEntityToCardViewModel: ConvertEntityToCardViewModelFn<
-  IHubProject
-> = (
+export const projectToCardModel: EntityToCardModelFn<IHubProject> = (
   project: IHubProject,
   context: IArcGISContext,
-  opts?: IConvertToCardViewModelOpts
+  opts?: IConvertToCardModelOpts
 ): IHubCardViewModel => {
   const {
     actionLinks = [],
@@ -35,15 +33,10 @@ export const convertProjectEntityToCardViewModel: ConvertEntityToCardViewModelFn
     target = "self",
   } = opts || {};
 
-  const titleUrl = getCardViewModelTitleUrlFromEntity(
-    project,
-    context,
-    target,
-    baseUrl
-  );
+  const titleUrl = getCardModelUrlFromEntity(project, context, target, baseUrl);
 
   return {
-    ...getSharedProjectCardViewModel(project, locale),
+    ...getSharedProjectCardModel(project, locale),
     actionLinks,
     titleUrl,
     ...(project.thumbnailUrl && { thumbnailUrl: project.thumbnailUrl }),
@@ -57,34 +50,29 @@ export const convertProjectEntityToCardViewModel: ConvertEntityToCardViewModelFn
  * @param searchResult hub project search result
  * @param opts view model options
  */
-export const convertProjectSearchResultToCardViewModel: ConvertSearchResultToCardViewModelFn =
-  (
-    searchResult: IHubSearchResult,
-    opts?: IConvertToCardViewModelOpts
-  ): IHubCardViewModel => {
-    const {
-      actionLinks = [],
-      baseUrl = "",
-      locale = "en-US",
-      target = "self",
-    } = opts || {};
+export const projectResultToCardModel: ResultToCardModelFn = (
+  searchResult: IHubSearchResult,
+  opts?: IConvertToCardModelOpts
+): IHubCardViewModel => {
+  const {
+    actionLinks = [],
+    baseUrl = "",
+    locale = "en-US",
+    target = "self",
+  } = opts || {};
 
-    const titleUrl = getCardViewModelTitleUrlFromSearchResult(
-      searchResult,
-      target,
-      baseUrl
-    );
+  const titleUrl = getCardModelUrlFromResult(searchResult, target, baseUrl);
 
-    return {
-      ...getSharedProjectCardViewModel(searchResult, locale),
-      actionLinks,
-      ...(searchResult.index && { index: searchResult.index }),
-      titleUrl,
-      ...(searchResult.links.thumbnail && {
-        thumbnailUrl: searchResult.links.thumbnail,
-      }),
-    };
+  return {
+    ...getSharedProjectCardModel(searchResult, locale),
+    actionLinks,
+    ...(searchResult.index && { index: searchResult.index }),
+    titleUrl,
+    ...(searchResult.links.thumbnail && {
+      thumbnailUrl: searchResult.links.thumbnail,
+    }),
   };
+};
 
 /**
  * Given a project entity OR hub serach result, construct the
@@ -93,7 +81,7 @@ export const convertProjectSearchResultToCardViewModel: ConvertSearchResultToCar
  * @param entityOrSearchResult project entity or hub search result
  * @param locale internationalization locale
  */
-const getSharedProjectCardViewModel = (
+const getSharedProjectCardModel = (
   entityOrSearchResult: IHubProject | IHubSearchResult,
   locale: string
 ): IHubCardViewModel => {

@@ -45,7 +45,7 @@ export interface ICardActionLink {
   buttonStyle?: "outline" | "outline-fill" | "solid" | "transparent";
 }
 
-export type CardViewModelTargets =
+export type CardModelTarget =
   // link to the entity's canonical "self" - for most entities,
   // this will be AGO; however, there are exceptions - for sites,
   // "self" will be the site url itself
@@ -60,18 +60,18 @@ export type CardViewModelTargets =
   // consumers to apply a custom redirect
   | "event";
 
-export type ConvertEntityToCardViewModelFn<T> = (
+export type EntityToCardModelFn<T> = (
   entity: T,
   context: IArcGISContext,
-  opts?: IConvertToCardViewModelOpts
+  opts?: IConvertToCardModelOpts
 ) => IHubCardViewModel;
 
-export type ConvertSearchResultToCardViewModelFn = (
+export type ResultToCardModelFn = (
   result: IHubSearchResult,
-  opts?: IConvertToCardViewModelOpts
+  opts?: IConvertToCardModelOpts
 ) => IHubCardViewModel;
 
-export interface IConvertToCardViewModelOpts {
+export interface IConvertToCardModelOpts {
   actionLinks?: ICardActionLink[];
   baseUrl?: string;
   /**
@@ -79,5 +79,5 @@ export interface IConvertToCardViewModelOpts {
    * locale down (follow https://devtopia.esri.com/dc/hub/issues/7255)
    */
   locale?: string;
-  target?: CardViewModelTargets;
+  target?: CardModelTarget;
 }

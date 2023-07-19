@@ -2,13 +2,13 @@ import { IArcGISContext, IHubSearchResult, getFamily } from "..";
 import { getShortenedCategories } from "../content/_internal/internalContentUtils";
 import { IHubInitiative } from "../core";
 import {
-  getCardViewModelTitleUrlFromEntity,
-  getCardViewModelTitleUrlFromSearchResult,
-} from "../urls/getCardViewModelTitleUrl";
+  getCardModelUrlFromEntity,
+  getCardModelUrlFromResult,
+} from "../urls/getCardModelUrl";
 import {
-  ConvertEntityToCardViewModelFn,
-  ConvertSearchResultToCardViewModelFn,
-  IConvertToCardViewModelOpts,
+  EntityToCardModelFn,
+  ResultToCardModelFn,
+  IConvertToCardModelOpts,
   IHubCardViewModel,
 } from "../core/types/IHubCardViewModel";
 
@@ -20,12 +20,10 @@ import {
  * @param context auth & portal information
  * @param opts view model options
  */
-export const convertInitiativeEntityToCardViewModel: ConvertEntityToCardViewModelFn<
-  IHubInitiative
-> = (
+export const initiativeToCardModel: EntityToCardModelFn<IHubInitiative> = (
   initiative: IHubInitiative,
   context: IArcGISContext,
-  opts?: IConvertToCardViewModelOpts
+  opts?: IConvertToCardModelOpts
 ): IHubCardViewModel => {
   const {
     actionLinks = [],
@@ -34,7 +32,7 @@ export const convertInitiativeEntityToCardViewModel: ConvertEntityToCardViewMode
     target = "self",
   } = opts || {};
 
-  const titleUrl = getCardViewModelTitleUrlFromEntity(
+  const titleUrl = getCardModelUrlFromEntity(
     initiative,
     context,
     target,
@@ -42,7 +40,7 @@ export const convertInitiativeEntityToCardViewModel: ConvertEntityToCardViewMode
   );
 
   return {
-    ...getSharedInitiativeCardViewModel(initiative, locale),
+    ...getSharedInitiativeCardModel(initiative, locale),
     actionLinks,
     titleUrl,
     ...(initiative.thumbnailUrl && { thumbnailUrl: initiative.thumbnailUrl }),
@@ -56,34 +54,29 @@ export const convertInitiativeEntityToCardViewModel: ConvertEntityToCardViewMode
  * @param searchResult hub initiative search result
  * @param opts view model options
  */
-export const convertInitiativeSearchResultToCardViewModel: ConvertSearchResultToCardViewModelFn =
-  (
-    searchResult: IHubSearchResult,
-    opts?: IConvertToCardViewModelOpts
-  ): IHubCardViewModel => {
-    const {
-      actionLinks = [],
-      baseUrl = "",
-      locale = "en-US",
-      target = "self",
-    } = opts || {};
+export const initiativeResultToCardModel: ResultToCardModelFn = (
+  searchResult: IHubSearchResult,
+  opts?: IConvertToCardModelOpts
+): IHubCardViewModel => {
+  const {
+    actionLinks = [],
+    baseUrl = "",
+    locale = "en-US",
+    target = "self",
+  } = opts || {};
 
-    const titleUrl = getCardViewModelTitleUrlFromSearchResult(
-      searchResult,
-      target,
-      baseUrl
-    );
+  const titleUrl = getCardModelUrlFromResult(searchResult, target, baseUrl);
 
-    return {
-      ...getSharedInitiativeCardViewModel(searchResult, locale),
-      actionLinks,
-      ...(searchResult.index && { index: searchResult.index }),
-      titleUrl,
-      ...(searchResult.links.thumbnail && {
-        thumbnailUrl: searchResult.links.thumbnail,
-      }),
-    };
+  return {
+    ...getSharedInitiativeCardModel(searchResult, locale),
+    actionLinks,
+    ...(searchResult.index && { index: searchResult.index }),
+    titleUrl,
+    ...(searchResult.links.thumbnail && {
+      thumbnailUrl: searchResult.links.thumbnail,
+    }),
   };
+};
 
 /**
  * Given an initiative entiy OR hub search result, construct the
@@ -92,7 +85,7 @@ export const convertInitiativeSearchResultToCardViewModel: ConvertSearchResultTo
  * @param entityOrSearchResult intiative entity or hub search result
  * @param locale internationalization locale
  */
-const getSharedInitiativeCardViewModel = (
+const getSharedInitiativeCardModel = (
   entityOrSearchResult: IHubInitiative | IHubSearchResult,
   locale: string
 ): IHubCardViewModel => {
