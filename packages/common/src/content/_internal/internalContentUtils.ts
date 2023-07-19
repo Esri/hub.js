@@ -624,3 +624,19 @@ export const getPublisherInfo = (
 
   return result;
 };
+
+/**
+ * returns the last section of each category path.
+ * Example: "/categories/parent/child" > "child"
+ *
+ * @param categories an item's categories
+ */
+export const getShortenedCategories = (categories: string[]) => {
+  return categories.reduce((acc: string[], category: string) => {
+    const segments = category.split("/");
+    const shortenedCategory = segments[segments.length - 1];
+
+    shortenedCategory && acc.push(shortenedCategory);
+    return acc;
+  }, []);
+};

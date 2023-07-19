@@ -46,4 +46,28 @@ describe("handleDomainChanges", () => {
     expect(addSpy.calls.count()).toBe(1);
     expect(removeSpy.calls.count()).toBe(1);
   });
+
+  it("does not attempt to update domains that have not changed", async () => {
+    const addSpy = spyOn(domainModule, "addDomain").and.returnValue(
+      Promise.resolve()
+    );
+    const removeSpy = spyOn(
+      domainModule,
+      "removeDomainByHostname"
+    ).and.returnValue(Promise.resolve());
+    const c = cloneObject(currentModel);
+    (c as any).data.values = {
+      customHostname: "site.city.gov",
+    };
+    const u = cloneObject(updatedModel);
+    (u as any).data.values = {
+      customHostname: "site.city.gov",
+      defaultHostname: "",
+    };
+
+    await handleDomainChanges(u, c, MOCK_HUB_REQOPTS);
+
+    expect(addSpy.calls.count()).toBe(0);
+    expect(removeSpy.calls.count()).toBe(0);
+  });
 });

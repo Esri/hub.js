@@ -34,14 +34,38 @@ export const ENTITY_CATEGORIES_SCHEMA = {
   },
 };
 
-export const ENTITY_EXTENT_SCHEMA = {
+export const ENTITY_IS_DISCUSSABLE_SCHEMA = {
+  type: "boolean",
+  enum: [true, false],
+  default: true,
+};
+
+export const ENTITY_FEATURED_CONTENT_SCHEMA = {
+  type: "array",
+  maxItems: 4,
+  items: {
+    type: "string",
+  },
+};
+
+export const ENTITY_LOCATION_SCHEMA = {
+  type: "object",
+  default: { type: "none" },
+};
+
+export const ENTITY_IMAGE_SCHEMA = {
   type: "object",
   properties: {
-    spatialReference: { type: "object" },
-    xmax: { type: ["number", "null"] },
-    xmin: { type: ["number", "null"] },
-    ymax: { type: ["number", "null"] },
-    ymin: { type: ["number", "null"] },
+    base64: { type: "string" },
+    format: { type: "string" },
+    fileName: { type: "string" },
+    blob: {
+      type: "object",
+      properties: {
+        type: { type: "string" },
+        size: { type: "number" },
+      },
+    },
   },
 };
 

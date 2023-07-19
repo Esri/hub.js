@@ -51,12 +51,12 @@ describe("Hub User search", () => {
               {
                 name: "e2e",
               },
+              {
+                group: "c08c260d3fbc4da384061b48652972e5",
+              },
             ],
           },
         ],
-        properties: {
-          groupId: "c08c260d3fbc4da384061b48652972e5",
-        },
       };
 
       const response = await hubSearch(qry, {
@@ -84,12 +84,12 @@ describe("Hub User search", () => {
               {
                 name: "e2e",
               },
+              {
+                group: ["e59cab1c38e14a79a4ee36389632106c"],
+              },
             ],
           },
         ],
-        properties: {
-          groupId: "e59cab1c38e14a79a4ee36389632106c",
-        },
       };
 
       const response = await hubSearch(qry, {

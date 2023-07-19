@@ -1,7 +1,12 @@
 import { Capability, ICapabilityAccessResponse, isCapability } from "./types";
 import { CapabilityPermissions } from "./getWorkspaceCapabilities";
 import { checkCapabilityAccess } from "./_internal";
-import { IArcGISContext, HubEntity, HubEntityType } from "../index";
+import {
+  IArcGISContext,
+  HubEntity,
+  IHubItemEntity,
+  HubEntityType,
+} from "../index";
 // Any of these causes checkCapability to not be defined in tests
 // import { getTypeFromEntity } from "../index";
 // import { getTypeFromEntity } from "../core";
@@ -19,7 +24,7 @@ import { getTypeFromEntity } from "../core/getTypeFromEntity";
 export function checkCapability(
   capability: Capability,
   context: IArcGISContext,
-  entity: HubEntity
+  entity: IHubItemEntity | HubEntity
 ): ICapabilityAccessResponse {
   const entityType: HubEntityType = getTypeFromEntity(entity);
   // Find the rule for the given entity type and capability

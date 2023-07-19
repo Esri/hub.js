@@ -61,6 +61,13 @@ describe("getFamily", () => {
       expect(types.includes("Hub Project")).toBeTruthy();
     });
 
+    it("can get 'initiative' types", () => {
+      const types = getFamilyTypes("initiative");
+      expect(Array.isArray(types)).toBeTruthy();
+      expect(types.length).toBe(1);
+      expect(types.includes("Hub Initiative")).toBeTruthy();
+    });
+
     it("can get types any other valid family", () => {
       const types = getFamilyTypes("site");
       expect(Array.isArray(types)).toBeTruthy();

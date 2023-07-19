@@ -1,15 +1,9 @@
 import { parseDatasetId } from "@esri/hub-common";
-import {
-  IChannel,
-  IDiscussionParams,
-  IDiscussionsUser,
-  IPost,
-} from "../../types";
-import { IUser } from "@esri/arcgis-rest-auth";
-import { canModifyChannel } from "../channels";
+import { IDiscussionParams } from "../../types";
 import { MENTION_ATTRIBUTE } from "../constants";
 
 export { canModifyPost } from "./can-modify-post";
+export { canDeletePost } from "./can-delete-post";
 export { canModifyPostStatus } from "./can-modify-post-status";
 export { isDiscussable } from "@esri/hub-common";
 
@@ -49,25 +43,6 @@ export function parseDiscussionURI(discussion: string): IDiscussionParams {
     features,
     attribute,
   };
-}
-
-/**
- * Determines if the given user has sufficient privileges to delete the given post
- * @param post An IPost object
- * @param channel An IChannel object
- * @param user An IUser object
- * @returns true if the user can delete the post
- */
-export function canDeletePost(
-  post: IPost,
-  channel: IChannel,
-  user: IUser | IDiscussionsUser = {}
-): boolean {
-  return isPostCreator(post, user) || canModifyChannel(channel, user);
-}
-
-function isPostCreator(post: IPost, user: IUser | IDiscussionsUser) {
-  return !!user.username && post.creator === user.username;
 }
 
 const MENTION_ATTRIBUTE_AND_VALUE_PATTERN = new RegExp(

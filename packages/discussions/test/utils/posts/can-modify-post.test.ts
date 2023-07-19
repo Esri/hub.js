@@ -7,6 +7,7 @@ import {
 } from "../../../src/types";
 import { CANNOT_DISCUSS } from "../../../src/utils/constants";
 import { canModifyPost } from "../../../src/utils/posts";
+import { ChannelPermission } from "../../../src/utils/channel-permission";
 
 describe("canModifyPost", () => {
   it("returns false if the user did not create the post", () => {
@@ -34,6 +35,32 @@ describe("canModifyPost", () => {
 
     const result = canModifyPost(post, user, channel);
     expect(result).toBe(false);
+  });
+
+  it("returns false if the user created the post but can longer write to channel", () => {
+    const canModerateChannelSpy = spyOn(
+      ChannelPermission.prototype,
+      "canPostToChannel"
+    ).and.returnValue(false);
+    const post = { id: "postId", creator: "john" } as IPost;
+    const user = { username: "john" } as IDiscussionsUser;
+    const channel = { channelAcl: [] } as unknown as IChannel;
+
+    const result = canModifyPost(post, user, channel);
+    expect(result).toBe(false);
+  });
+
+  it("returns true if the user created the post and can still write to channel", () => {
+    const canModerateChannelSpy = spyOn(
+      ChannelPermission.prototype,
+      "canPostToChannel"
+    ).and.returnValue(true);
+    const post = { id: "postId", creator: "john" } as IPost;
+    const user = { username: "john" } as IDiscussionsUser;
+    const channel = { channelAcl: [] } as unknown as IChannel;
+
+    const result = canModifyPost(post, user, channel);
+    expect(result).toBe(true);
   });
 
   describe("Legacy Permissions", () => {

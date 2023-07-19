@@ -1,6 +1,7 @@
 import { fetchDiscussion } from "../discussions/fetch";
 import { fetchHubContent } from "../content/fetch";
 import { fetchInitiative } from "../initiatives/HubInitiatives";
+import { fetchPage } from "../pages/HubPages";
 import { fetchProject } from "../projects/fetch";
 import { fetchSite } from "../sites/HubSites";
 import { HubEntity } from "./types/HubEntity";
@@ -34,7 +35,8 @@ export async function fetchHubEntity(
       result = await fetchDiscussion(identifier, context.hubRequestOptions);
       break;
     case "page":
-      throw new Error(`FetchPage not implemented`);
+      result = await fetchPage(identifier, context.hubRequestOptions);
+      break;
     case "content":
       result = await fetchHubContent(identifier, context.requestOptions);
   }

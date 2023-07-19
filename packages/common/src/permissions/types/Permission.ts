@@ -4,6 +4,7 @@ import { InitiativePermissions } from "../../initiatives/_internal/InitiativeBus
 import { DiscussionPermissions } from "../../discussions/_internal/DiscussionBusinessRules";
 import { ContentPermissions } from "../../content/_internal/ContentBusinessRules";
 import { GroupPermissions } from "../../groups/_internal/GroupBusinessRules";
+import { PagePermissions } from "../../pages/_internal/PageBusinessRules";
 
 /**
  * Defines the values for Permissions
@@ -17,6 +18,7 @@ const validPermissions = [
   ...DiscussionPermissions,
   ...ContentPermissions,
   ...GroupPermissions,
+  ...PagePermissions,
 ] as const;
 
 /**

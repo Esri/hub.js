@@ -30,8 +30,8 @@ export async function handleDomainChanges(
   };
 
   ["customHostname", "defaultHostname"].forEach((key) => {
-    const currentValue = getProp(currentModel, `data.values.${key}`);
-    const updatedValue = getProp(updatedModel, `data.values.${key}`);
+    const currentValue = getProp(currentModel, `data.values.${key}`) || "";
+    const updatedValue = getProp(updatedModel, `data.values.${key}`) || "";
     if (updatedValue !== currentValue) {
       domainChanges.remove.push(currentValue);
       domainChanges.add.push(updatedValue);

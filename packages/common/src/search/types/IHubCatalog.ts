@@ -53,6 +53,17 @@ export interface IHubCollection {
   targetEntity: EntityType;
 }
 
+/**
+ * @private
+ *
+ * This interface wraps IHubCollection and provides additional fields
+ * for collection configuration. It is the actual interface used when
+ * when storing an entity's catalog collections.
+ */
+export interface IHubCollectionPersistance extends IHubCollection {
+  hidden?: boolean;
+}
+
 export type EntityType = "item" | "group" | "user" | "groupMember" | "event";
 
 /**

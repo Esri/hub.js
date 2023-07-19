@@ -1,3 +1,66 @@
+# @esri/hub-common [13.20.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.19.0...@esri/hub-common@13.20.0) (2023-07-18)
+
+
+### Features
+
+* **hub-common:** add content capability and define default collections to entity catalogs ([#1120](https://github.com/Esri/hub.js/issues/1120)) ([7aa7f0e](https://github.com/Esri/hub.js/commit/7aa7f0ecd6cbd8e6b160a38ff9641eac88ca0a6d))
+
+# @esri/hub-common [13.19.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.18.0...@esri/hub-common@13.19.0) (2023-07-17)
+
+
+### Features
+
+* page entity ([#1112](https://github.com/Esri/hub.js/issues/1112)) ([50e7280](https://github.com/Esri/hub.js/commit/50e7280486cecc82d39170e8f625e702900b9f04))
+
+# @esri/hub-common [13.18.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.17.3...@esri/hub-common@13.18.0) (2023-07-17)
+
+
+### Features
+
+* 7162 initiative card funcs ([#1121](https://github.com/Esri/hub.js/issues/1121)) ([567cfc3](https://github.com/Esri/hub.js/commit/567cfc307fd127d04a29ce8cb2e85998b3ea728e))
+
+## @esri/hub-common [13.17.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.17.2...@esri/hub-common@13.17.3) (2023-07-11)
+
+
+### Bug Fixes
+
+* rename term to name for groupMember queries ([#1110](https://github.com/Esri/hub.js/issues/1110)) ([8fdeca4](https://github.com/Esri/hub.js/commit/8fdeca4f8dbe8fcdd50b9355781fc73149348d99))
+
+## @esri/hub-common [13.17.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.17.1...@esri/hub-common@13.17.2) (2023-07-11)
+
+
+### Bug Fixes
+
+* get group from predicate not query.properties ([#1107](https://github.com/Esri/hub.js/issues/1107)) ([138af9c](https://github.com/Esri/hub.js/commit/138af9c18c1c193c770f23c1f7991bc3b0e59a0c))
+
+## @esri/hub-common [13.17.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.17.0...@esri/hub-common@13.17.1) (2023-07-11)
+
+
+### Bug Fixes
+
+* add actionLinks arg to project view model functions ([#1109](https://github.com/Esri/hub.js/issues/1109)) ([cef335d](https://github.com/Esri/hub.js/commit/cef335d7eb2bf37fba6485bf1df137c17e90952a))
+
+# @esri/hub-common [13.17.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.16.0...@esri/hub-common@13.17.0) (2023-07-11)
+
+
+### Features
+
+* add a base item entity schema ([#1106](https://github.com/Esri/hub.js/issues/1106)) ([7b4606b](https://github.com/Esri/hub.js/commit/7b4606b4ad9db407e04501422679e7968b42ca65))
+
+# @esri/hub-common [13.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.15.1...@esri/hub-common@13.16.0) (2023-07-07)
+
+
+### Features
+
+* add project card view model functionality  ([#1101](https://github.com/Esri/hub.js/issues/1101)) ([85a8201](https://github.com/Esri/hub.js/commit/85a82015d15e0363aea631ca563742822794cb08))
+
+## @esri/hub-common [13.15.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.15.0...@esri/hub-common@13.15.1) (2023-07-05)
+
+
+### Bug Fixes
+
+* defaultHostname and customHostname editing on site entity ([#1102](https://github.com/Esri/hub.js/issues/1102)) ([9e1496d](https://github.com/Esri/hub.js/commit/9e1496d2c655e9410b7f8722565cec8efb2cdc42))
+
 # @esri/hub-common [13.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.14.0...@esri/hub-common@13.15.0) (2023-07-05)
 
 

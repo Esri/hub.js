@@ -4,6 +4,7 @@ import { updateDiscussion } from "../discussions/edit";
 import { updateInitiative } from "../initiatives/HubInitiatives";
 import { updateProject } from "../projects/edit";
 import { updateSite } from "../sites/HubSites";
+import { updatePage } from "../pages/HubPages";
 import {
   HubEntity,
   HubEntityType,
@@ -12,6 +13,7 @@ import {
   IHubInitiative,
   IHubProject,
   IHubSite,
+  IHubPage,
 } from "./types";
 
 /**
@@ -55,6 +57,10 @@ export const updateHubEntity = async (
         entity as IHubEditableContent,
         context.userRequestOptions
       );
+      break;
+    case "page":
+      result = await updatePage(entity as IHubPage, context.userRequestOptions);
+      break;
   }
   return result;
 };

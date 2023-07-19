@@ -370,14 +370,7 @@ describe("HubSite Class:", () => {
     let chk: HubSite;
     const model: any = {
       data: {
-        // Since this is not testing catalog, we don't need to
-        // we just need to pass in enough to make this work.
-        // Catalog v2 is the default now, so we'll use that
-        // and leave the older catalog out
-        // catalog: {
-        //   schemaVersion: 0,
-        // },
-        catalogv2: {
+        catalog: {
           schemaVersion: 0,
         },
         permissions: [],

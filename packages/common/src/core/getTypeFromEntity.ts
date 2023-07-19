@@ -2,14 +2,16 @@
 // import { HubEntityType } from "./types/HubEntityType";
 
 import { getFamily } from "../content/get-family";
-import { HubEntity, HubEntityType } from "./types";
+import { HubEntity, IHubItemEntity, HubEntityType } from "./types";
 
 /**
  * Given a HubEntity, return it's HubEntityType
  * @param entity
  * @returns
  */
-export function getTypeFromEntity(entity: HubEntity): HubEntityType {
+export function getTypeFromEntity(
+  entity: IHubItemEntity | HubEntity
+): HubEntityType {
   let type: HubEntityType;
   switch (entity.type) {
     case "Hub Site Application":
