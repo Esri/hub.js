@@ -131,7 +131,7 @@ describe("HubGroup class:", () => {
     });
   });
 
-  fdescribe("CRUD", () => {
+  describe("CRUD", () => {
     it("save call createHubGroup if object does not have an id", async () => {
       const createSpy = spyOn(HubGroupsModule, "createHubGroup").and.callFake(
         (group: IGroup) => {

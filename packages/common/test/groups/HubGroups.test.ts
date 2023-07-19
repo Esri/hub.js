@@ -84,7 +84,7 @@ describe("HubGroups Module:", () => {
       portalUrl: "https://myserver.com",
     });
   });
-  xdescribe("enrichments:", () => {
+  describe("enrichments:", () => {
     let enrichmentSpy: jasmine.Spy;
     let hubRo: IHubRequestOptions;
     beforeEach(() => {
