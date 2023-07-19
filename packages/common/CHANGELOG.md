@@ -1,3 +1,10 @@
+# @esri/hub-common [13.21.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.20.0...@esri/hub-common@13.21.0) (2023-07-19)
+
+
+### Features
+
+* page permission policy is included ([#1125](https://github.com/Esri/hub.js/issues/1125)) ([6d5c559](https://github.com/Esri/hub.js/commit/6d5c55961773e9fe1a059255abdc86cfbdcc5137))
+
 # @esri/hub-common [13.20.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.19.0...@esri/hub-common@13.20.0) (2023-07-18)
 
 
