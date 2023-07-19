@@ -140,17 +140,17 @@ describe("HubGroups Module:", () => {
     });
 
     it("handles missing capabilities array", async () => {
-      const itm = cloneObject(TEST_GROUP);
-      delete itm.capabilities;
-      const chk = await enrichGroupSearchResult(itm, [], hubRo);
+      const group = cloneObject(TEST_GROUP);
+      delete group.capabilities;
+      const chk = await enrichGroupSearchResult(group, [], hubRo);
       expect(chk.isSharedUpdate).toBe(false);
     });
 
     it("uses snippet if defined", async () => {
-      const itm = cloneObject(TEST_GROUP);
-      itm.snippet = "This should be used";
-      const chk = await enrichGroupSearchResult(itm, [], hubRo);
-      expect(chk.summary).toEqual(itm.snippet);
+      const group = cloneObject(TEST_GROUP);
+      group.snippet = "This should be used";
+      const chk = await enrichGroupSearchResult(group, [], hubRo);
+      expect(chk.summary).toEqual(group.snippet);
     });
 
     it("fetches enrichments", async () => {

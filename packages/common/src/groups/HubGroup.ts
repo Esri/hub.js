@@ -15,23 +15,15 @@ import {
   removePermissionPolicy,
 } from "../permissions";
 import { IWithStoreBehavior } from "../core/behaviors/IWithStoreBehavior";
-import {
-  IWithCapabilityBehavior,
-  IWithPermissionBehavior,
-} from "../core/behaviors/IWithPermissionBehavior";
+import { IWithPermissionBehavior } from "../core/behaviors/IWithPermissionBehavior";
 import { IArcGISContext } from "../ArcGISContext";
 import { cloneObject } from "../util";
-import { Capability, ICapabilityAccessResponse } from "../capabilities/types";
-import { checkCapability } from "../capabilities/checkCapability";
 
 /**
  * Hub Group Class
  */
 export class HubGroup
-  implements
-    IWithStoreBehavior<IHubGroup>,
-    IWithPermissionBehavior,
-    IWithCapabilityBehavior
+  implements IWithStoreBehavior<IHubGroup>, IWithPermissionBehavior
 {
   protected context: IArcGISContext;
   protected entity: IHubGroup;
@@ -243,9 +235,11 @@ export class HubGroup
 
   /**
    * Check if the current user can access a specific capability
+   * We do not use the group capabilities right now as we do not
+   * have a data store for it yet, leaving it here for the future
    * @param capability
    */
-  checkCapability(capability: Capability): ICapabilityAccessResponse {
-    return checkCapability(capability, this.context, this.entity);
-  }
+  // checkCapability(capability: Capability): ICapabilityAccessResponse {
+  //   return checkCapability(capability, this.context, this.entity);
+  // }
 }

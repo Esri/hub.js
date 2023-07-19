@@ -43,10 +43,12 @@ export function computeProps(
   hubGroup.isDiscussable = isDiscussable(group);
 
   // Handle capabilities
-  group.capabilities = processEntityCapabilities(
-    group.capabilities || {},
-    GroupDefaultCapabilities
-  );
+  // we do not have a data store for the group capabilities yet
+  // leaving it here for the future
+  // hubGroup.capabilities = processEntityCapabilities(
+  //   {},
+  //   GroupDefaultCapabilities
+  // );
 
   // cast b/c this takes a partial but returns a full group
   return hubGroup as IHubGroup;

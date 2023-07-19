@@ -6,49 +6,6 @@ import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import * as HubGroupsModule from "../../src/groups/HubGroups";
 import { IHubGroup } from "../../src/core/types/IHubGroup";
 
-const TEST_GROUP: IGroup = {
-  id: "23b988acd113446798b0db7a11d27a56",
-  title: "dev followers Content",
-  isInvitationOnly: false,
-  owner: "dev_pre_hub_admin",
-  description: "dev followers Content",
-  snippet: null,
-  tags: ["Hub Initiative Group", "Open Data"],
-  typeKeywords: [],
-  phone: null,
-  sortField: "title",
-  sortOrder: "asc",
-  isViewOnly: false,
-  isOpenData: true,
-  featuredItemsId: null,
-  thumbnail: "thumbnail/my-group.png",
-  created: 1563555829000,
-  modified: 1563555830000,
-  access: "public",
-  capabilities: ["updateitemcontrol"],
-  isFav: false,
-  isReadOnly: false,
-  protected: true,
-  autoJoin: false,
-  notificationsEnabled: false,
-  provider: null,
-  providerGroupName: null,
-  leavingDisallowed: false,
-  hiddenMembers: false,
-  membershipAccess: "org",
-  displaySettings: {
-    itemTypes: "",
-  },
-  orgId: "ATCRG96GAegBiycU",
-  properties: null,
-  userMembership: {
-    username: "dev_pre_hub_admin",
-    memberType: "owner",
-    applications: 0,
-  },
-  collaborationInfo: {},
-};
-
 describe("HubGroup class:", () => {
   let authdCtxMgr: ArcGISContextManager;
   let unauthdCtxMgr: ArcGISContextManager;
@@ -97,7 +54,7 @@ describe("HubGroup class:", () => {
       expect(chk.toJson().id).toBe("3ef");
       expect(chk.toJson().name).toBe("Test Group");
     });
-    // TODO: add more tests
+
     it("handle load missing groups", async () => {
       const fetchSpy = spyOn(HubGroupsModule, "fetchHubGroup").and.callFake(
         (id: string) => {
@@ -147,7 +104,6 @@ describe("HubGroup class:", () => {
       expect(chk.toJson().name).toEqual("Test Group");
     });
 
-    // TODO: not too sure about this one
     it("create saves the instance if passed true", async () => {
       const createSpy = spyOn(HubGroupsModule, "createHubGroup").and.callFake(
         (group: IGroup) => {

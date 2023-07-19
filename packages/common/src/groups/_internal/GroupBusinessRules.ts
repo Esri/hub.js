@@ -3,6 +3,8 @@ import { IPermissionPolicy } from "../../permissions";
 
 /**
  * Default capabilities for a Group. If not listed here, the capability will not be available
+ * We do not use the group capabilities right now as we do not
+ * have a data store for it yet, leaving them here for the future
  * @private
  */
 export const GroupDefaultCapabilities: EntityCapabilities = {
