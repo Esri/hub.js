@@ -186,7 +186,9 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
       (g) => g.id === groupId
     );
     // and see if it's an edit group b/c we need to send an additional param
-    const isEditGroup = group.capabilities.includes("updateitemcontrol");
+    const isEditGroup = (group.capabilities || []).includes(
+      "updateitemcontrol"
+    );
 
     await shareItemWithGroup({
       id: this.entity.id,

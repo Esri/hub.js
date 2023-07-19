@@ -120,7 +120,16 @@ export const getEntityEditorSchemas = async (
   // apply the options
   uiSchema = applyUiSchemaElementOptions(uiSchema, options);
   // interpolate the i18n scope into the uiSchema
-  uiSchema = interpolate(uiSchema, { i18nScope });
+  uiSchema = interpolate(
+    uiSchema,
+    { i18nScope },
+    // We don't have a real i18n object here, so just return the key
+    {
+      translate(i18nKey: string) {
+        return `{{${i18nKey}:translate}}`;
+      },
+    }
+  );
 
   return Promise.resolve({ schema, uiSchema });
 };

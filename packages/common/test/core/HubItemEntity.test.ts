@@ -36,6 +36,10 @@ describe("HubItemEntity Class: ", () => {
       authentication: MOCK_AUTH,
       currentUser: {
         username: "casey",
+        groups: [
+          { id: "efView", capabilities: [] },
+          { id: "efUpdate", capabilities: ["updateitemcontrol"] },
+        ],
       } as unknown as PortalModule.IUser,
       portal: {
         name: "DC R&D Center",
@@ -74,19 +78,37 @@ describe("HubItemEntity Class: ", () => {
         authdCtxMgr.context
       );
     });
-    it("shares to group", async () => {
+    it("shares to view group", async () => {
       const shareSpy = spyOn(PortalModule, "shareItemWithGroup").and.callFake(
         () => {
           return Promise.resolve();
         }
       );
-      await harness.shareWithGroup("3ef");
+      await harness.shareWithGroup("efView");
       expect(shareSpy).toHaveBeenCalledTimes(1);
       // verify args
       expect(shareSpy).toHaveBeenCalledWith({
         id: "00c",
-        groupId: "3ef",
+        groupId: "efView",
         owner: "deke",
+        confirmItemControl: false,
+        authentication: authdCtxMgr.context.session,
+      });
+    });
+    it("shares to update group", async () => {
+      const shareSpy = spyOn(PortalModule, "shareItemWithGroup").and.callFake(
+        () => {
+          return Promise.resolve();
+        }
+      );
+      await harness.shareWithGroup("efUpdate");
+      expect(shareSpy).toHaveBeenCalledTimes(1);
+      // verify args
+      expect(shareSpy).toHaveBeenCalledWith({
+        id: "00c",
+        groupId: "efUpdate",
+        owner: "deke",
+        confirmItemControl: true,
         authentication: authdCtxMgr.context.session,
       });
     });

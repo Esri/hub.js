@@ -21,11 +21,7 @@ export interface IWithEditorBehavior {
    * @param type
    * @param options
    */
-  getEditorConfig(
-    i18nScope: string,
-    type: EditorType,
-    options: UiSchemaElementOptions[]
-  ): Promise<IEditorConfig>;
+  getEditorConfig(i18nScope: string, type: EditorType): Promise<IEditorConfig>;
 
   /**
    * Convert the entity into it's "Editor" structure.

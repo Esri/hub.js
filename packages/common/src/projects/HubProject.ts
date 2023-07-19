@@ -36,6 +36,13 @@ import {
 import { projectToCardModel } from "./view";
 import { cloneObject } from "../util";
 import { createProject, editorToProject, updateProject } from "./edit";
+import { getTagItems } from "../core/schemas/internal/getTagItems";
+import { getLocationOptions } from "../core/schemas/internal/getLocationOptions";
+import { getLocationExtent } from "../core/schemas/internal/getLocationExtent";
+import { getCategoryItems } from "../core/schemas/internal/getCategoryItems";
+import { getFeaturedImageUrl } from "../core/schemas/internal/getFeaturedImageUrl";
+import { getFeaturedContentCatalogs } from "../core/schemas/internal/getFeaturedContentCatalogs";
+import { groupsToComboBoxItems } from "../core/schemas/internal/groupsToComboBoxItems";
 
 /**
  * Hub Project Class
@@ -169,10 +176,75 @@ export class HubProject
    */
   async getEditorConfig(
     i18nScope: string,
-    type: EditorType,
-    options: UiSchemaElementOptions[] = []
+    type: EditorType
   ): Promise<IEditorConfig> {
-    return getEntityEditorSchemas(i18nScope, type, options);
+    // get the options first...
+    // TODO: Move to util fn
+    const projectOptions = [
+      {
+        scope: "/properties/access",
+        options: {
+          orgName: this.context.portal.name,
+        },
+      },
+      {
+        scope: "/properties/location",
+        options: {
+          extent: await getLocationExtent(
+            this.entity,
+            this.context.hubRequestOptions
+          ),
+          options: await getLocationOptions(
+            this.entity,
+            this.context.portal.name,
+            this.context.hubRequestOptions
+          ),
+        },
+      },
+      {
+        scope: "/properties/tags",
+        options: {
+          items: await getTagItems(
+            this.entity,
+            this.context.portal.id,
+            this.context.hubRequestOptions
+          ),
+        },
+      },
+      {
+        scope: "/properties/categories",
+        options: {
+          items: await getCategoryItems(
+            this.context.portal.id,
+            this.context.hubRequestOptions
+          ),
+        },
+      },
+      {
+        scope: "/properties/view/properties/featuredImage",
+        options: {
+          imgSrc:
+            this.entity?.view?.featuredImageUrl &&
+            getFeaturedImageUrl(this.entity, this.context),
+        },
+      },
+      {
+        scope: "/properties/view/properties/featuredContentIds",
+        options: getFeaturedContentCatalogs(this.context.currentUser),
+      },
+      {
+        scope: "/properties/groups",
+        options: {
+          items: groupsToComboBoxItems(this.context.currentUser.groups),
+          // TODO: Change to permission!
+          disabled: !this.context?.currentUser?.privileges?.includes(
+            "portal:user:shareToGroup"
+          ),
+        },
+      },
+    ];
+
+    return getEntityEditorSchemas(i18nScope, type, projectOptions);
   }
 
   /**
@@ -211,8 +283,15 @@ export class HubProject
   async fromEditor(editor: IHubProjectEditor): Promise<IHubProject> {
     const autoShareGroups = editor.groups || [];
     const isProjectCreate = !editor.id;
+
+    // extract out things we don't want to persist directly
+    // b/c the first thing we do is create/update the project
+    const featuredImage = editor.view?.featuredImage;
+    delete editor.view.featuredImage;
+
     // convert back to an entity
     const entity = editorToProject(editor, this.context.portal);
+
     // create it if it does not yet exist...
     if (isProjectCreate) {
       // this allows the featured image functions to work
@@ -227,46 +306,13 @@ export class HubProject
     }
 
     // handle featured image
-    if (editor.view?.featuredImage) {
-      if (editor.view?.featuredImage?.blob) {
-        await this.setFeaturedImage(editor.view.featuredImage.blob);
+    if (featuredImage) {
+      if (featuredImage?.blob) {
+        await this.setFeaturedImage(featuredImage.blob);
       } else {
         await this.clearFeaturedImage();
       }
     }
-
-    // // ----------------------------
-    // // TODO: Delegate to this.setFeaturedImage / this.clearFeaturedImage
-    // // convert featuredImage blob to url and store as resource
-    // // on project item
-    // if (editor.view?.featuredImage) {
-    //   let featuredImageUrl;
-    //   const featuredImage = editor.view.featuredImage;
-    //   delete editor.view.featuredImage;
-
-    //   if (featuredImage.blob) {
-    //     featuredImageUrl = await upsertResource(
-    //       editor.id,
-    //       editor.owner,
-    //       featuredImage.blob,
-    //       "featuredImage.png",
-    //       this.context.userRequestOptions
-    //     );
-    //   } else {
-    //     featuredImageUrl = null;
-    //     await removeResource(
-    //       editor.id,
-    //       "featuredImage.png",
-    //       editor.owner,
-    //       this.context.userRequestOptions
-    //     );
-    //   }
-    //   editor.view.featuredImageUrl = featuredImageUrl;
-    // }
-    // ----------------------------
-
-    // now call save
-    // await this.save();
 
     /**
      * operations that are only relevant to the project create workflow.

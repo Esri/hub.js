@@ -33,12 +33,8 @@ export class EntityEditor {
     return new EntityEditor(editor);
   }
 
-  async getConfig(
-    i18nScope: string,
-    type: EditorType,
-    options: UiSchemaElementOptions[]
-  ): Promise<IEditorConfig> {
-    return this.instance.getEditorConfig(i18nScope, type, options);
+  async getConfig(i18nScope: string, type: EditorType): Promise<IEditorConfig> {
+    return this.instance.getEditorConfig(i18nScope, type);
   }
 
   toEditor(editorContext: IEntityEditorContext = {}): HubEntityEditor {
