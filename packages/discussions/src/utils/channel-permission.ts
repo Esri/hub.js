@@ -38,7 +38,7 @@ export class ChannelPermission {
     });
   }
 
-  canPostToChannel(user: IDiscussionsUser) {
+  canPostToChannel(user: IDiscussionsUser): boolean {
     if (this.canAnyUser(ChannelAction.WRITE_POSTS)) {
       return true;
     }
@@ -55,7 +55,7 @@ export class ChannelPermission {
     );
   }
 
-  canCreateChannel(user: IDiscussionsUser) {
+  canCreateChannel(user: IDiscussionsUser): boolean {
     if (this.isUserUnAuthenticated(user) || this.isChannelAclEmpty) {
       return false;
     }
@@ -69,7 +69,7 @@ export class ChannelPermission {
     );
   }
 
-  canModerateChannel(user: IDiscussionsUser) {
+  canModerateChannel(user: IDiscussionsUser): boolean {
     if (this.isUserUnAuthenticated(user)) {
       return false;
     }
@@ -82,7 +82,7 @@ export class ChannelPermission {
     );
   }
 
-  canReadChannel(user: IDiscussionsUser) {
+  canReadChannel(user: IDiscussionsUser): boolean {
     if (this.canAnyUser(ChannelAction.READ_POSTS)) {
       return true;
     }
@@ -153,7 +153,7 @@ export class ChannelPermission {
       }
 
       return (
-        permissionMatchesOrgRole(permission, user.role) &&
+        doesPermissionAllowOrgRole(permission, user.role) &&
         channelActionLookup(action).includes(permission.role)
       );
     });
@@ -252,7 +252,7 @@ function isGroupDiscussable(userGroup: IGroup): boolean {
 function doesPermissionAllowGroupMemberType(
   permission: IChannelAclPermission,
   group: IGroup
-) {
+): boolean {
   if (
     permission.category !== AclCategory.GROUP ||
     group.userMembership.memberType === "none"
@@ -268,10 +268,10 @@ function doesPermissionAllowGroupMemberType(
   );
 }
 
-function permissionMatchesOrgRole(
+function doesPermissionAllowOrgRole(
   permission: IChannelAclPermission,
   orgRole: string
-) {
+): boolean {
   return (
     permission.category === AclCategory.ORG &&
     (permission.subCategory === AclSubCategory.MEMBER ||
