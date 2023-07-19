@@ -8,6 +8,7 @@ import {
   UiSchemaElementOptions,
   IEditorConfig,
   IResolvedMetric,
+  IWithCardBehavior,
 } from "../core";
 import { getEntityEditorSchemas } from "../core/schemas/getEntityEditorSchemas";
 import {
@@ -24,6 +25,11 @@ import { InitiativeEditorType } from "./_internal/InitiativeSchema";
 import { IWithMetricsBehavior } from "../core/behaviors/IWithMetricsBehavior";
 import { getEntityMetrics } from "../metrics/getEntityMetrics";
 import { resolveMetric } from "../metrics/resolveMetric";
+import {
+  IConvertToCardModelOpts,
+  IHubCardViewModel,
+} from "../core/types/IHubCardViewModel";
+import { initiativeToCardModel } from "./view";
 
 /**
  * Hub Initiative Class
@@ -34,7 +40,8 @@ export class HubInitiative
     IWithStoreBehavior<IHubInitiative>,
     IWithCatalogBehavior,
     IWithMetricsBehavior,
-    IWithSharingBehavior
+    IWithSharingBehavior,
+    IWithCardBehavior
 {
   private _catalog: Catalog;
 
@@ -230,5 +237,15 @@ export class HubInitiative
     } else {
       throw new Error(`Metric ${metricId} not found.`);
     }
+  }
+
+  /**
+   * Convert the initiative entity into a card view model that
+   * can be consumed by the suite of hub gallery components
+   *
+   * @param opts view model options
+   */
+  convertToCardModel(opts?: IConvertToCardModelOpts): IHubCardViewModel {
+    return initiativeToCardModel(this.entity, this.context, opts);
   }
 }

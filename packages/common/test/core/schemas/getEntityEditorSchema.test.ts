@@ -4,6 +4,7 @@ import { InitiativeEditorTypes } from "../../../src/initiatives/_internal/Initia
 import { SiteEditorTypes } from "../../../src/sites/_internal/SiteSchema";
 import { DiscussionEditorTypes } from "../../../src/discussions/_internal/DiscussionSchema";
 import { ContentEditorTypes } from "../../../src/content/_internal/ContentSchema";
+import { PageEditorTypes } from "../../../src/pages/_internal/PageSchema";
 import * as applyOptionsModule from "../../../src/core/schemas/internal/applyUiSchemaElementOptions";
 import * as filterSchemaModule from "../../../src/core/schemas/internal/filterSchemaToUiSchema";
 import * as itemsModule from "../../../src/items";
@@ -16,6 +17,7 @@ describe("getEntityEditorSchemas", () => {
       ...SiteEditorTypes,
       ...DiscussionEditorTypes,
       ...ContentEditorTypes,
+      ...PageEditorTypes,
     ].forEach(async (type, idx) => {
       const { schema, uiSchema } = await getEntityEditorSchemas(
         "some.scope",

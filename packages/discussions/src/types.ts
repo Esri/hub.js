@@ -1080,6 +1080,18 @@ export interface ICreateDiscussionSettingParams
 }
 
 /**
+ * parameters for fetching a discussionSetting
+ *
+ * @export
+ * @interface IFetchDiscussionSettingParams
+ * @extends {IDiscussionsRequestOptions}
+ */
+export interface IFetchDiscussionSettingParams
+  extends IDiscussionsRequestOptions {
+  id: string;
+}
+
+/**
  * parameters for removing a discussionSetting
  *
  * @export

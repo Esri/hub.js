@@ -143,6 +143,7 @@ export const PROJECT_HUB_SEARCH_RESULT: IHubSearchResult = {
   updatedDate: new Date(1652819949000),
   updatedDateSource: "item.modified",
   family: "project",
+  index: 2,
   links: {
     self: "https://mock-home-url.com",
     siteRelative: "/mock-hub-relative-url",

@@ -295,6 +295,18 @@ describe("HubSites:", () => {
     it("updates the backing model", async () => {
       const updatedSite = commonModule.cloneObject(SITE);
       updatedSite.name = "Updated Name";
+      // We assume at this point that the site has gone through the structural catalog migration
+      updatedSite.catalog = {
+        schemaVersion: 1,
+        title: "Default Site Catalog",
+        scopes: {
+          item: {
+            targetEntity: "item",
+            filters: [],
+          },
+        },
+        collections: [],
+      };
       const chk = await commonModule.updateSite(updatedSite, MOCK_HUB_REQOPTS);
 
       expect(chk.id).toBe(GUID);
@@ -314,6 +326,19 @@ describe("HubSites:", () => {
       const updatedSite = commonModule.cloneObject(SITE);
       updatedSite.name = "Updated Name";
       updatedSite.slug = "some-new-slug";
+      // At this point, we assume that the site has gone through
+      // the migration process to use the new catalog structure
+      updatedSite.catalog = {
+        schemaVersion: 1,
+        title: "Default Site Catalog",
+        scopes: {
+          item: {
+            targetEntity: "item",
+            filters: [],
+          },
+        },
+        collections: [],
+      };
       const chk = await commonModule.updateSite(updatedSite, MOCK_HUB_REQOPTS);
 
       expect(chk.id).toBe(GUID);

@@ -25,7 +25,6 @@ import {
   getModel,
   updateModel,
 } from "../models";
-import { registerSiteAsApplication } from "./registerSiteAsApplication";
 import { addSiteDomains } from "./domains/addSiteDomains";
 import { IHubRequestOptions, IModel } from "../types";
 import { removeDomainsBySiteId } from "./domains/remove-domains-by-site-id";
@@ -33,10 +32,9 @@ import { IHubSearchResult } from "../search/types/IHubSearchResult";
 import { mapBy } from "../utils";
 import { getProp, setProp } from "../objects";
 import { getItemThumbnailUrl } from "../resources/get-item-thumbnail-url";
-import { upgradeCatalogSchema } from "../search/upgradeCatalogSchema";
-import { catalogMigration } from "./_internal/catalogMigration";
+import { applyCatalogStructureMigration } from "./_internal/applyCatalogStructureMigration";
 import { setDiscussableKeyword } from "../discussions";
-
+import { applyDefaultCollectionMigration } from "./_internal/applyDefaultCollectionMigration";
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
 
@@ -330,6 +328,13 @@ export async function updateSite(
     );
   }
 
+  // The following props are currently affected by in-memory migrations,
+  // so we replace them with their canonical values so as to not overwrite
+  // them. Eventually these changes will be persisted in AGO.
+  siteModel.data.catalog = currentModel.data.catalog;
+  siteModel.data.values.searchCategories =
+    currentModel.data.values.searchCategories;
+
   // send updates to the Portal API and get back the updated site model
   const updatedSiteModel = await updateModel(
     siteModel,
@@ -397,8 +402,11 @@ export function convertModelToSite(
   // we can do it here as there is no ux for managing permissions yet.
   let migrated = applyPermissionMigration(model);
 
-  // Ensure we have a Catalog structure
-  migrated = catalogMigration(migrated);
+  // Ensure we have the new Catalog structure
+  migrated = applyCatalogStructureMigration(migrated);
+
+  // Add default collections while preserving configuration from `data.values.searchCategories`
+  migrated = applyDefaultCollectionMigration(migrated);
 
   // convert to site
   const mapper = new PropertyMapper<Partial<IHubSite>, IModel>(
@@ -418,7 +426,7 @@ export function convertModelToSite(
  */
 export function convertSiteToModel(
   site: IHubSite,
-  requestOptions: IRequestOptions
+  _requestOptions: IRequestOptions
 ): IModel {
   // create the mapper
   const mapper = new PropertyMapper<IHubSite, IModel>(getPropertyMap());

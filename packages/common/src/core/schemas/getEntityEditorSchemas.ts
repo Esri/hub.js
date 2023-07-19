@@ -21,6 +21,10 @@ import {
   DiscussionEditorTypes,
 } from "../../discussions/_internal/DiscussionSchema";
 import {
+  PageEditorType,
+  PageEditorTypes,
+} from "../../pages/_internal/PageSchema";
+import {
   ContentEditorType,
   ContentEditorTypes,
 } from "../../content/_internal/ContentSchema";
@@ -36,6 +40,7 @@ export const validEditorTypes = [
   ...InitiativeEditorTypes,
   ...SiteEditorTypes,
   ...DiscussionEditorTypes,
+  ...PageEditorTypes,
 ] as const;
 
 /**
@@ -115,6 +120,14 @@ export const getEntityEditorSchemas = async (
         "hub:discussion:create": () =>
           import("../../discussions/_internal/DiscussionUiSchemaCreate"),
       }[type as DiscussionEditorType]());
+      break;
+    case "page":
+      const { PageSchema } = await import("../../pages/_internal/PageSchema");
+      schema = cloneObject(PageSchema);
+
+      ({ uiSchema } = await {
+        "hub:page:edit": () => import("../../pages/_internal/PageUiSchemaEdit"),
+      }[type as PageEditorType]());
       break;
   }
 

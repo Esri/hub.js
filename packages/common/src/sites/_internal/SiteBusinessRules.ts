@@ -11,6 +11,7 @@ export const SiteDefaultCapabilities: EntityCapabilities = {
   overview: true,
   details: true,
   settings: true,
+  content: true,
 };
 
 /**
@@ -32,6 +33,11 @@ export const SiteCapabilityPermissions: ICapabilityPermission[] = [
   {
     entity: "site",
     capability: "settings",
+    permissions: ["hub:site:edit"],
+  },
+  {
+    entity: "site",
+    capability: "content",
     permissions: ["hub:site:edit"],
   },
 ];

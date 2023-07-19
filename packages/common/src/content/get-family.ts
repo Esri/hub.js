@@ -43,6 +43,9 @@ export function getFamily(type: string) {
     case "hub project":
       family = "project";
       break;
+    case "hub initiative":
+      family = "initiative";
+      break;
     default:
       // by default derive from collection
       family = collectionToFamily(getCollection(type));
@@ -106,6 +109,9 @@ export function getFamilyTypes(family: HubFamily): string[] {
       break;
     case "project":
       types = ["Hub Project"];
+      break;
+    case "initiative":
+      types = ["Hub Initiative"];
       break;
     default:
       types = getCollectionTypes(family.toLowerCase());
