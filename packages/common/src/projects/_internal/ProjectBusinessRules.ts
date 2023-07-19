@@ -13,6 +13,7 @@ export const ProjectDefaultCapabilities: EntityCapabilities = {
   settings: true,
   metrics: true,
   content: true,
+  dashboard: true,
 };
 
 /**
@@ -45,6 +46,11 @@ export const ProjectCapabilityPermissions: ICapabilityPermission[] = [
   {
     entity: "project",
     capability: "content",
+    permissions: ["hub:project:edit"],
+  },
+  {
+    entity: "project",
+    capability: "dashboard",
     permissions: ["hub:project:edit"],
   },
 ];

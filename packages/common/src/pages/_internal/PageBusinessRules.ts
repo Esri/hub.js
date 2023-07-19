@@ -11,6 +11,7 @@ export const PageDefaultCapabilities: EntityCapabilities = {
   overview: true,
   details: true,
   settings: true,
+  dashboard: true,
 };
 
 /**
@@ -33,6 +34,11 @@ export const PageCapabilityPermissions: ICapabilityPermission[] = [
   {
     entity: "page",
     capability: "settings",
+    permissions: ["hub:page:edit"],
+  },
+  {
+    entity: "page",
+    capability: "dashboard",
     permissions: ["hub:page:edit"],
   },
 ];
