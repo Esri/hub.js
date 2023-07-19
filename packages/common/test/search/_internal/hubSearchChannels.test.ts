@@ -80,4 +80,34 @@ describe("discussionsSearchItems Module |", () => {
       expect(err.name).toBe("HubError");
     }
   });
+  it("handles undefined values", async () => {
+    const qry: IQuery = {
+      targetEntity: "channel",
+      filters: [
+        {
+          predicates: [
+            {
+              access: "private",
+              groups: ["cb0ddfc90f4f45b899c076c88d3fdc84"],
+            },
+          ],
+        },
+      ],
+    };
+    const opts: IHubSearchOptions = {
+      num: 10,
+      sortField: undefined,
+      sortOrder: undefined,
+      requestOptions: {
+        isPortal: false,
+        hubApiUrl: "https://hubqa.arcgis.com/api",
+        token: "my-secret-token",
+      } as IHubRequestOptions,
+    };
+    const result = await hubSearchChannels.hubSearchChannels(qry, opts);
+    expect(processSearchParamsSpy).toHaveBeenCalledTimes(1);
+    expect(toHubSearchResultSpy).toHaveBeenCalledTimes(1);
+    expect(searchChannelsSpy).toHaveBeenCalledTimes(1);
+    expect(result).toBeTruthy();
+  });
 });

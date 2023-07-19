@@ -52,7 +52,13 @@ export const processSearchParams = (
   const mapValue = (key: keyof ISearchChannels, value: any): string => {
     let _value = value;
     if (key === "sortOrder") {
-      _value = value.toUpperCase();
+      _value = value?.toUpperCase();
+    } else if (key === "sortBy") {
+      _value = {
+        created: "createdAt",
+        modified: "updatedAt",
+        title: null,
+      }[value as "created" | "modified" | "title"];
     }
     return _value;
   };
@@ -60,7 +66,9 @@ export const processSearchParams = (
     if (options.hasOwnProperty(prop)) {
       const key = mapKey(prop);
       const value = mapValue(key, options[prop]);
-      paginationProps[key] = value;
+      if (key && value) {
+        paginationProps[key] = value;
+      }
     }
   });
   // Acceptable fields to use as filters
@@ -107,9 +115,9 @@ export const toHubSearchResult = (
       ...channel,
       id: channel.id,
       name: channel.name,
-      createdDate: channel.createdAt,
+      createdDate: new Date(channel.createdAt),
       createdDateSource: "channel",
-      updatedDate: channel.updatedAt,
+      updatedDate: new Date(channel.updatedAt),
       updatedDateSource: "channel",
       type: "channel",
       access: channel.access,
