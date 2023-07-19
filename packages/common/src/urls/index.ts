@@ -20,7 +20,7 @@ export * from "./getGroupHomeUrl";
 export * from "./getUserHomeUrl";
 export * from "./get-campaign-url";
 export * from "./is-safe-redirect-url";
-// For sme reason, if this is exported here, random tests
+// For some reason, if this is exported here, random tests
 // start failing. Resolved by moving to the root index
 // export * from "./getCardViewModelTitleUrl";
 
