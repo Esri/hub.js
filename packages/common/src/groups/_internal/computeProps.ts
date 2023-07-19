@@ -43,8 +43,8 @@ export function computeProps(
   hubGroup.isDiscussable = isDiscussable(group);
 
   // Handle capabilities
-  // we do not have a data store for the group capabilities yet
-  // leaving it here for the future
+  // NOTE: We do not use the group capabilities right now as we do not
+  // have a data store for it yet, leaving them here for the future
   // hubGroup.capabilities = processEntityCapabilities(
   //   {},
   //   GroupDefaultCapabilities

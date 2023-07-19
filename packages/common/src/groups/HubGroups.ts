@@ -20,7 +20,6 @@ import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { DEFAULT_GROUP } from "./defaults";
-// import unprotectGroup as portalUnprotectGroup
 
 /**
  * Enrich a generic search result

@@ -2,7 +2,6 @@ import { IGroup } from "@esri/arcgis-rest-portal";
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import {
-  ArcGISContextManager,
   cloneObject,
   enrichGroupSearchResult,
   IHubRequestOptions,
@@ -10,8 +9,6 @@ import {
 import * as HubGroupsModule from "../../src/groups/HubGroups";
 import * as FetchEnrichments from "../../src/groups/_internal/enrichments";
 import { IHubGroup } from "../../src/core/types/IHubGroup";
-// import * as TEST_GROUP from "../mocks/groups/group.json";
-// import * as TEST_HUB_GROUP from "../mocks/groups/hub-group.json";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 const TEST_GROUP: IGroup = {
@@ -64,26 +61,6 @@ const TEST_HUB_GROUP = {
 };
 
 describe("HubGroups Module:", () => {
-  let authdCtxMgr: ArcGISContextManager;
-  let unauthdCtxMgr: ArcGISContextManager;
-  beforeEach(async () => {
-    unauthdCtxMgr = await ArcGISContextManager.create();
-    // When we pass in all this information, the context
-    // manager will not try to fetch anything, so no need
-    // to mock those calls
-    authdCtxMgr = await ArcGISContextManager.create({
-      authentication: MOCK_AUTH,
-      currentUser: {
-        username: "casey",
-      } as unknown as PortalModule.IUser,
-      portal: {
-        name: "DC R&D Center",
-        id: "BRXFAKE",
-        urlKey: "fake-org",
-      } as unknown as PortalModule.IPortal,
-      portalUrl: "https://myserver.com",
-    });
-  });
   describe("enrichments:", () => {
     let enrichmentSpy: jasmine.Spy;
     let hubRo: IHubRequestOptions;
