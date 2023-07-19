@@ -12,7 +12,6 @@ import { getItemHomeUrl } from "./get-item-home-url";
  * @param result hub search result
  * @param target context the card should redirect to
  * @param baseUrl base url to work in conjunction with the target
- * @returns
  */
 export function getCardViewModelTitleUrlFromSearchResult(
   result: IHubSearchResult,
@@ -21,25 +20,27 @@ export function getCardViewModelTitleUrlFromSearchResult(
 ): string {
   let titleUrl;
 
-  switch (result.type) {
-    default:
-      titleUrl = {
-        none: undefined,
-        event: undefined,
-        self: result.links?.self,
-        siteRelative: baseUrl
-          ? `${baseUrl}${result.links?.siteRelative || ""}`
-          : result.links?.siteRelative,
-        workspaceRelative: baseUrl
-          ? `${baseUrl}${result.links?.workspaceRelative || ""}`
-          : result.links?.workspaceRelative,
-      }[target];
-      break;
-    case "Hub Site Application":
-      titleUrl = result.links?.self;
-
-      ["none", "event"].includes(target) && (titleUrl = undefined);
-      break;
+  if (target === "event") {
+    titleUrl = "#";
+  } else if (target === "none") {
+    titleUrl = undefined;
+  } else {
+    switch (result.type) {
+      default:
+        titleUrl = {
+          self: result.links?.self,
+          siteRelative: baseUrl
+            ? `${baseUrl}${result.links?.siteRelative || ""}`
+            : result.links?.siteRelative,
+          workspaceRelative: baseUrl
+            ? `${baseUrl}${result.links?.workspaceRelative || ""}`
+            : result.links?.workspaceRelative,
+        }[target];
+        break;
+      case "Hub Site Application":
+        titleUrl = result.links?.self;
+        break;
+    }
   }
 
   return titleUrl;
@@ -61,25 +62,27 @@ export function getCardViewModelTitleUrlFromEntity(
 ): string {
   let titleUrl;
 
-  switch (entity.type) {
-    default:
-      titleUrl = {
-        none: undefined,
-        event: undefined,
-        self: getItemHomeUrl(entity.id, context.hubRequestOptions),
-        siteRelative: baseUrl
-          ? `${baseUrl}${getHubRelativeUrl(entity.type, entity.id)}`
-          : getHubRelativeUrl(entity.type, entity.id),
-        workspaceRelative: baseUrl
-          ? `${baseUrl}${getRelativeWorkspaceUrl(entity.type, entity.id)}`
-          : getRelativeWorkspaceUrl(entity.type, entity.id),
-      }[target];
-      break;
-    case "Hub Site Application":
-      titleUrl = getItemHomeUrl(entity.id, context.hubRequestOptions);
-
-      ["none", "event"].includes(target) && (titleUrl = undefined);
-      break;
+  if (target === "event") {
+    titleUrl = "#";
+  } else if (target === "none") {
+    titleUrl = undefined;
+  } else {
+    switch (entity.type) {
+      default:
+        titleUrl = {
+          self: getItemHomeUrl(entity.id, context.hubRequestOptions),
+          siteRelative: baseUrl
+            ? `${baseUrl}${getHubRelativeUrl(entity.type, entity.id)}`
+            : getHubRelativeUrl(entity.type, entity.id),
+          workspaceRelative: baseUrl
+            ? `${baseUrl}${getRelativeWorkspaceUrl(entity.type, entity.id)}`
+            : getRelativeWorkspaceUrl(entity.type, entity.id),
+        }[target];
+        break;
+      case "Hub Site Application":
+        titleUrl = getItemHomeUrl(entity.id, context.hubRequestOptions);
+        break;
+    }
   }
 
   return titleUrl;

@@ -77,12 +77,12 @@ describe("getCardViewModelTitleUrlFromSearchResult", () => {
       );
       expect(result).toBeUndefined();
     });
-    it('target = "event": returns undefined', () => {
+    it('target = "event": returns "#"', () => {
       const result = getCardViewModelTitleUrlFromSearchResult(
         MOCK_SEARCH_RESULT,
         "event"
       );
-      expect(result).toBeUndefined();
+      expect(result).toBe("#");
     });
 
     describe("links are undefined", () => {
@@ -126,12 +126,12 @@ describe("getCardViewModelTitleUrlFromSearchResult", () => {
       );
       expect(result).toBeUndefined();
     });
-    it('target = "event": returns undefined', () => {
+    it('target = "event": returns "#"', () => {
       const result = getCardViewModelTitleUrlFromSearchResult(
         MOCK_SEARCH_RESULT,
         "event"
       );
-      expect(result).toBeUndefined();
+      expect(result).toBe("#");
     });
     it("links are undefined: returns undefined", () => {
       MOCK_SEARCH_RESULT.links = undefined;
@@ -228,13 +228,13 @@ describe("getCardViewModelTitleUrlFromEntity", () => {
     );
     expect(result).toBeUndefined();
   });
-  it('target = "event": returns undefined', () => {
+  it('target = "event": returns "#', () => {
     const result = getCardViewModelTitleUrlFromEntity(
       MOCK_ENTITY,
       MOCK_CONTEXT,
       "event"
     );
-    expect(result).toBeUndefined();
+    expect(result).toBe("#");
   });
 
   describe('type = "Hub Site Application"', () => {
@@ -257,13 +257,13 @@ describe("getCardViewModelTitleUrlFromEntity", () => {
       );
       expect(result).toBeUndefined();
     });
-    it('target = "event": returns undefined', () => {
+    it('target = "event": returns "#"', () => {
       const result = getCardViewModelTitleUrlFromEntity(
         MOCK_ENTITY,
         MOCK_CONTEXT,
         "event"
       );
-      expect(result).toBeUndefined();
+      expect(result).toBe("#");
     });
   });
 });
