@@ -46,10 +46,18 @@ export interface ICardActionLink {
 }
 
 export type CardViewModelTargets =
+  // link to the entity's canonical "self" - for most entities,
+  // this will be AGO; however, there are exceptions - for sites,
+  // "self" will be the site url itself
   | "self"
+  // link to the entity's "view" url relative to the site
   | "siteRelative"
+  // link to the entity's workspace url relative to the site
   | "workspaceRelative"
+  // no link
   | "none"
+  // only emit an event when the link is clicked - allows
+  // consumers to apply a custom redirect
   | "event";
 
 export type ConvertEntityToCardViewModelFn<T> = (
