@@ -52,10 +52,10 @@ export const uiSchema: IUiSchema = {
             },
           },
         },
-        // featured image
+        // thumbnail image
         {
-          labelKey: "{{i18nScope}}.fields.featuredImage.label",
-          scope: "/properties/view/properties/featuredImage",
+          labelKey: "{{i18nScope}}.fields._thumbnail.label",
+          scope: "/properties/_thumbnail",
           type: "Control",
           options: {
             control: "hub-field-input-image-picker",
@@ -63,18 +63,7 @@ export const uiSchema: IUiSchema = {
             maxHeight: 484,
             aspectRatio: 1.5,
             helperText: {
-              labelKey: "{{i18nScope}}.fields.featuredImage.helperText",
-            },
-          },
-        },
-        // featured image alt text
-        {
-          labelKey: "{{i18nScope}}.fields.featuredImage.altText.label",
-          scope: "/properties/view/properties/featuredImageAltText",
-          type: "Control",
-          options: {
-            helperText: {
-              labelKey: "{{i18nScope}}.fields.featuredImage.altText.helperText",
+              labelKey: "{{i18nScope}}.fields._thumbnail.helperText",
             },
           },
         },
