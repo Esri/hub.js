@@ -60,6 +60,16 @@ export type EntityType =
   | "groupMember"
   | "event"
   | "channel";
+/**
+ * @private
+ *
+ * This interface wraps IHubCollection and provides additional fields
+ * for collection configuration. It is the actual interface used when
+ * when storing an entity's catalog collections.
+ */
+export interface IHubCollectionPersistance extends IHubCollection {
+  hidden?: boolean;
+}
 
 /**
  * IQuery is the fundamental unit used to execute a search. By composing

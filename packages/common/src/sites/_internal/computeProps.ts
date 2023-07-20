@@ -43,8 +43,8 @@ export function computeProps(
     SiteDefaultCapabilities
   );
 
-  // handle catalog
-  site.catalog = upgradeCatalogSchema(model.data.catalog || { groups: [] });
+  // Perform schema upgrades on the new catalog structure
+  site.catalog = upgradeCatalogSchema(site.catalog);
 
   // cast b/c this takes a partial but returns a full site
   return site as IHubSite;

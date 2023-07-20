@@ -1,12 +1,11 @@
-import {
-  cloneObject,
-  convertProjectEntityToCardViewModel,
-  convertProjectSearchResultToCardViewModel,
-} from "../../src";
+import { cloneObject } from "../../src/util";
 import { CONTEXT, PROJECT_ENTITY, PROJECT_HUB_SEARCH_RESULT } from "./fixtures";
-import * as getItemHomeUrlModule from "../../src/urls/get-item-home-url";
 import * as internalContentUtils from "../../src/content/_internal/internalContentUtils";
-import * as getRelativeWorkspaceUrlModule from "../../src/core/getRelativeWorkspaceUrl";
+import * as titleUrlModule from "../../src/urls/getCardModelUrl";
+import {
+  projectToCardModel,
+  projectResultToCardModel,
+} from "../../src/projects/view";
 
 describe("project view module:", () => {
   let getShortenedCategoriesSpy: any;
@@ -18,46 +17,25 @@ describe("project view module:", () => {
     ).and.returnValue(["category1", "category2"]);
   });
 
-  describe("convertProjectEntityToCardViewModel:", () => {
-    let getItemHomeUrlSpy: any;
-    let getRelativeWorkspaceUrlSpy: any;
-    let getHubRelativeUrlSpy: any;
+  describe("projectToCardModel:", () => {
+    let getCardModelUrlFromEntitySpy: any;
 
     beforeEach(() => {
-      getItemHomeUrlSpy = spyOn(
-        getItemHomeUrlModule,
-        "getItemHomeUrl"
-      ).and.returnValue("https://mock-home-url.com");
-      getRelativeWorkspaceUrlSpy = spyOn(
-        getRelativeWorkspaceUrlModule,
-        "getRelativeWorkspaceUrl"
-      ).and.returnValue("/mock-relative-workspace-url");
-      getHubRelativeUrlSpy = spyOn(
-        internalContentUtils,
-        "getHubRelativeUrl"
-      ).and.returnValue("/mock-hub-relative-url");
+      getCardModelUrlFromEntitySpy = spyOn(
+        titleUrlModule,
+        "getCardModelUrlFromEntity"
+      ).and.returnValue("https://mock-title-url.com");
     });
 
     it("returns the card view model from the project entity", () => {
-      const result = convertProjectEntityToCardViewModel(
-        PROJECT_ENTITY,
-        CONTEXT
-      );
+      const result = projectToCardModel(PROJECT_ENTITY, CONTEXT);
 
-      expect(getItemHomeUrlSpy).toHaveBeenCalledTimes(1);
-      expect(getItemHomeUrlSpy).toHaveBeenCalledWith(
-        PROJECT_ENTITY.id,
-        CONTEXT.hubRequestOptions
-      );
-      expect(getHubRelativeUrlSpy).toHaveBeenCalledTimes(1);
-      expect(getHubRelativeUrlSpy).toHaveBeenCalledWith(
-        PROJECT_ENTITY.type,
-        PROJECT_ENTITY.id
-      );
-      expect(getRelativeWorkspaceUrlSpy).toHaveBeenCalledTimes(1);
-      expect(getRelativeWorkspaceUrlSpy).toHaveBeenCalledWith(
-        PROJECT_ENTITY.type,
-        PROJECT_ENTITY.id
+      expect(getCardModelUrlFromEntitySpy).toHaveBeenCalledTimes(1);
+      expect(getCardModelUrlFromEntitySpy).toHaveBeenCalledWith(
+        PROJECT_ENTITY,
+        CONTEXT,
+        "self",
+        ""
       );
       expect(getShortenedCategoriesSpy).toHaveBeenCalledTimes(1);
       expect(getShortenedCategoriesSpy).toHaveBeenCalledWith(
@@ -73,7 +51,7 @@ describe("project view module:", () => {
         source: PROJECT_ENTITY.owner,
         summary: PROJECT_ENTITY.summary,
         title: PROJECT_ENTITY.name,
-        titleUrl: "https://mock-home-url.com",
+        titleUrl: "https://mock-title-url.com",
         thumbnailUrl: PROJECT_ENTITY.thumbnailUrl,
         type: PROJECT_ENTITY.type,
         additionalInfo: [
@@ -96,60 +74,61 @@ describe("project view module:", () => {
       modifiedEntity.tags = [];
       modifiedEntity.categories = [];
 
-      const result = convertProjectEntityToCardViewModel(
-        modifiedEntity,
-        CONTEXT
-      );
+      const result = projectToCardModel(modifiedEntity, CONTEXT);
 
       expect(result.additionalInfo?.length).toBe(3);
     });
-    it('target = "view": returns the correct title url', () => {
-      const result = convertProjectEntityToCardViewModel(
-        PROJECT_ENTITY,
-        CONTEXT,
-        "view"
-      );
-      expect(result.titleUrl).toBe("/mock-hub-relative-url");
-    });
-    it('target = "workspace": returns the correct title url', () => {
-      const result = convertProjectEntityToCardViewModel(
-        PROJECT_ENTITY,
-        CONTEXT,
-        "workspace"
-      );
-      expect(result.titleUrl).toBe("/mock-relative-workspace-url");
-    });
   });
 
-  describe("convertProjectSearchResultToCardViewModel", () => {
+  describe("projectResultToCardModel", () => {
+    let getCardModelUrlFromResultSpy: any;
+
+    beforeEach(() => {
+      getCardModelUrlFromResultSpy = spyOn(
+        titleUrlModule,
+        "getCardModelUrlFromResult"
+      ).and.returnValue("https://mock-title-url.com");
+    });
+
     it("returns the card view model from the hub search result", () => {
-      const result = convertProjectSearchResultToCardViewModel(
-        PROJECT_HUB_SEARCH_RESULT
+      const result = projectResultToCardModel(PROJECT_HUB_SEARCH_RESULT);
+
+      expect(getCardModelUrlFromResultSpy).toHaveBeenCalledTimes(1);
+      expect(getCardModelUrlFromResultSpy).toHaveBeenCalledWith(
+        PROJECT_HUB_SEARCH_RESULT,
+        "self",
+        ""
       );
 
       expect(result).toEqual({
-        access: PROJECT_ENTITY.access,
+        access: PROJECT_HUB_SEARCH_RESULT.access,
         actionLinks: [],
         badges: [],
-        id: PROJECT_ENTITY.id,
+        id: PROJECT_HUB_SEARCH_RESULT.id,
+        index: PROJECT_HUB_SEARCH_RESULT.index,
         family: "project",
-        source: PROJECT_ENTITY.owner,
-        summary: PROJECT_ENTITY.summary,
-        title: PROJECT_ENTITY.name,
-        titleUrl: "https://mock-home-url.com",
-        thumbnailUrl: PROJECT_ENTITY.thumbnailUrl,
-        type: PROJECT_ENTITY.type,
+        source: PROJECT_HUB_SEARCH_RESULT.owner,
+        summary: PROJECT_HUB_SEARCH_RESULT.summary,
+        title: PROJECT_HUB_SEARCH_RESULT.name,
+        titleUrl: "https://mock-title-url.com",
+        thumbnailUrl: PROJECT_HUB_SEARCH_RESULT.links?.thumbnail,
+        type: PROJECT_HUB_SEARCH_RESULT.type,
         additionalInfo: [
-          { i18nKey: "type", value: PROJECT_ENTITY.type },
+          { i18nKey: "type", value: PROJECT_HUB_SEARCH_RESULT.type },
           {
             i18nKey: "dateUpdated",
-            value: PROJECT_ENTITY.updatedDate.toLocaleDateString("en-US"),
+            value:
+              PROJECT_HUB_SEARCH_RESULT.updatedDate.toLocaleDateString("en-US"),
           },
-          { i18nKey: "tags", value: PROJECT_ENTITY.tags.join(", ") },
+          {
+            i18nKey: "tags",
+            value: PROJECT_HUB_SEARCH_RESULT.tags?.join(", ") as string,
+          },
           { i18nKey: "categories", value: "category1, category2" },
           {
             i18nKey: "dateCreated",
-            value: PROJECT_ENTITY.createdDate.toLocaleDateString("en-US"),
+            value:
+              PROJECT_HUB_SEARCH_RESULT.createdDate.toLocaleDateString("en-US"),
           },
         ],
       });
@@ -159,24 +138,9 @@ describe("project view module:", () => {
       modifiedSearchResult.tags = undefined;
       modifiedSearchResult.categories = undefined;
 
-      const result =
-        convertProjectSearchResultToCardViewModel(modifiedSearchResult);
+      const result = projectResultToCardModel(modifiedSearchResult);
 
       expect(result.additionalInfo?.length).toBe(3);
-    });
-    it('target = "view": returns the correct title url', () => {
-      const result = convertProjectSearchResultToCardViewModel(
-        PROJECT_HUB_SEARCH_RESULT,
-        "view"
-      );
-      expect(result.titleUrl).toBe("/mock-hub-relative-url");
-    });
-    it('target = "workspace": returns the correct title url', () => {
-      const result = convertProjectSearchResultToCardViewModel(
-        PROJECT_HUB_SEARCH_RESULT,
-        "workspace"
-      );
-      expect(result.titleUrl).toBe("/mock-relative-workspace-url");
     });
   });
 });

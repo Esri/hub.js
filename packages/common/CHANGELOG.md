@@ -1,3 +1,31 @@
+## @esri/hub-common [13.21.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.21.0...@esri/hub-common@13.21.1) (2023-07-19)
+
+
+### Bug Fixes
+
+* update hub search result to view model signature ([#1124](https://github.com/Esri/hub.js/issues/1124)) ([46290dc](https://github.com/Esri/hub.js/commit/46290dc131d14ce026e7a2e6be87412751220868))
+
+# @esri/hub-common [13.21.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.20.0...@esri/hub-common@13.21.0) (2023-07-19)
+
+
+### Features
+
+* page permission policy is included ([#1125](https://github.com/Esri/hub.js/issues/1125)) ([6d5c559](https://github.com/Esri/hub.js/commit/6d5c55961773e9fe1a059255abdc86cfbdcc5137))
+
+# @esri/hub-common [13.20.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.19.0...@esri/hub-common@13.20.0) (2023-07-18)
+
+
+### Features
+
+* **hub-common:** add content capability and define default collections to entity catalogs ([#1120](https://github.com/Esri/hub.js/issues/1120)) ([7aa7f0e](https://github.com/Esri/hub.js/commit/7aa7f0ecd6cbd8e6b160a38ff9641eac88ca0a6d))
+
+# @esri/hub-common [13.19.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.18.0...@esri/hub-common@13.19.0) (2023-07-17)
+
+
+### Features
+
+* page entity ([#1112](https://github.com/Esri/hub.js/issues/1112)) ([50e7280](https://github.com/Esri/hub.js/commit/50e7280486cecc82d39170e8f625e702900b9f04))
+
 # @esri/hub-common [13.18.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.17.3...@esri/hub-common@13.18.0) (2023-07-17)
 
 

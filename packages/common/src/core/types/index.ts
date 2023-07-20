@@ -24,3 +24,4 @@ export * from "./DynamicValues";
 export * from "./IReference";
 export * from "./Metrics";
 export * from "./MaybeTranslate";
+export * from "./IHubCardViewModel";
