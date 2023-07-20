@@ -16,7 +16,7 @@ export function checkCapabilityAccess(
   entity: IHubItemEntity | HubEntity
 ): ICapabilityAccessResponse {
   // check if the capability is disabled for the entity; we default to false
-  const value = entity.capabilities[rule.capability] || false;
+  const value = entity.capabilities[rule.capability] || (entity as any)?.legacyCapabilities.find((cap: string) => cap === rule.capability) || false;
   // if disabled, then access is denied
   if (!value) {
     return {

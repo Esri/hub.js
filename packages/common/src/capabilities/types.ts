@@ -22,10 +22,14 @@ const validCapabilities = [
   "content",
 ] as const;
 
+const legacyCapabilities = [
+  'disableActivityTracking'
+];
+
 /**
  * Defines the possible values for Capability
  */
-export type Capability = (typeof validCapabilities)[number];
+export type Capability = (typeof validCapabilities)[number] | (typeof legacyCapabilities)[number];
 
 /**
  * Validate a capability. This is used because the libary can be used outside of typescript and we want to be able to return a message is the string passed in is not a valid capability
@@ -33,7 +37,7 @@ export type Capability = (typeof validCapabilities)[number];
  * @returns
  */
 export function isCapability(maybeCapability: string): boolean {
-  return validCapabilities.includes(maybeCapability as Capability);
+  return [ ...validCapabilities, ...legacyCapabilities ].includes(maybeCapability as Capability);
 }
 
 /**

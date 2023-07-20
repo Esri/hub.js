@@ -26,6 +26,9 @@ export function checkCapability(
   context: IArcGISContext,
   entity: IHubItemEntity | HubEntity
 ): ICapabilityAccessResponse {
+  if (capability === "disableActivityTracking") {
+    debugger;
+  }
   const entityType: HubEntityType = getTypeFromEntity(entity);
   // Find the rule for the given entity type and capability
   const isValid = isCapability(capability);
