@@ -24,6 +24,7 @@ export function getFeaturedContentCatalogs(user: IUser) {
       "item",
       opts
     );
+    return catalog;
   });
 
   return { catalogs };

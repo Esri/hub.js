@@ -4,7 +4,6 @@ import {
   IWithCatalogBehavior,
   IWithStoreBehavior,
   IWithSharingBehavior,
-  UiSchemaElementOptions,
   IResolvedMetric,
   IWithCardBehavior,
   IHubProjectEditor,
@@ -34,15 +33,9 @@ import {
   IHubCardViewModel,
 } from "../core/types/IHubCardViewModel";
 import { projectToCardModel } from "./view";
-import { cloneObject } from "../util";
+import { cloneObject, maybePush } from "../util";
 import { createProject, editorToProject, updateProject } from "./edit";
-import { getTagItems } from "../core/schemas/internal/getTagItems";
-import { getLocationOptions } from "../core/schemas/internal/getLocationOptions";
-import { getLocationExtent } from "../core/schemas/internal/getLocationExtent";
-import { getCategoryItems } from "../core/schemas/internal/getCategoryItems";
-import { getFeaturedImageUrl } from "../core/schemas/internal/getFeaturedImageUrl";
-import { getFeaturedContentCatalogs } from "../core/schemas/internal/getFeaturedContentCatalogs";
-import { groupsToComboBoxItems } from "../core/schemas/internal/groupsToComboBoxItems";
+import { getProjectEditorConfigOptions } from "./_internal/getProjectEditorConfigOptions";
 
 /**
  * Hub Project Class
@@ -180,70 +173,11 @@ export class HubProject
   ): Promise<IEditorConfig> {
     // get the options first...
     // TODO: Move to util fn
-    const projectOptions = [
-      {
-        scope: "/properties/access",
-        options: {
-          orgName: this.context.portal.name,
-        },
-      },
-      {
-        scope: "/properties/location",
-        options: {
-          extent: await getLocationExtent(
-            this.entity,
-            this.context.hubRequestOptions
-          ),
-          options: await getLocationOptions(
-            this.entity,
-            this.context.portal.name,
-            this.context.hubRequestOptions
-          ),
-        },
-      },
-      {
-        scope: "/properties/tags",
-        options: {
-          items: await getTagItems(
-            this.entity,
-            this.context.portal.id,
-            this.context.hubRequestOptions
-          ),
-        },
-      },
-      {
-        scope: "/properties/categories",
-        options: {
-          items: await getCategoryItems(
-            this.context.portal.id,
-            this.context.hubRequestOptions
-          ),
-        },
-      },
-      {
-        scope: "/properties/view/properties/featuredImage",
-        options: {
-          imgSrc:
-            this.entity?.view?.featuredImageUrl &&
-            getFeaturedImageUrl(this.entity, this.context),
-        },
-      },
-      {
-        scope: "/properties/view/properties/featuredContentIds",
-        options: getFeaturedContentCatalogs(this.context.currentUser),
-      },
-      {
-        scope: "/properties/groups",
-        options: {
-          items: groupsToComboBoxItems(this.context.currentUser.groups),
-          // TODO: Change to permission!
-          disabled: !this.context?.currentUser?.privileges?.includes(
-            "portal:user:shareToGroup"
-          ),
-        },
-      },
-    ];
-
+    const projectOptions = await getProjectEditorConfigOptions(
+      this.entity,
+      this.context
+    );
+    // TODO: Decide if we should split up the logic in this next function
     return getEntityEditorSchemas(i18nScope, type, projectOptions);
   }
 
@@ -266,10 +200,11 @@ export class HubProject
     const { access: canShare } = this.checkPermission("hub:project:share");
     if (!editor.id && canShare) {
       // TODO: at what point can we remove this "auto-share" behavior?
-      editor.groups = [
+      editor.groups = maybePush(editorContext.contentGroupId, editor.groups);
+      editor.groups = maybePush(
         editorContext.collaborationGroupId,
-        editorContext.contentGroupId,
-      ];
+        editor.groups
+      );
     }
 
     return editor;
@@ -286,7 +221,7 @@ export class HubProject
 
     // extract out things we don't want to persist directly
     // b/c the first thing we do is create/update the project
-    const featuredImage = editor.view?.featuredImage;
+    const featuredImage = editor.view.featuredImage;
     delete editor.view.featuredImage;
 
     // convert back to an entity
@@ -307,7 +242,7 @@ export class HubProject
 
     // handle featured image
     if (featuredImage) {
-      if (featuredImage?.blob) {
+      if (featuredImage.blob) {
         await this.setFeaturedImage(featuredImage.blob);
       } else {
         await this.clearFeaturedImage();
@@ -321,29 +256,11 @@ export class HubProject
      */
     if (isProjectCreate) {
       await this.setAccess(editor.access as SettableAccessLevel);
-
-      // TODO: delegate to this.shareWithGroup
       // share the entity with the configured groups
-      if (autoShareGroups) {
-        // const failSafeShare = failSafe(shareItemWithGroup);
+      if (autoShareGroups.length) {
         await Promise.all(
           autoShareGroups.map((id: string) => {
             return this.shareWithGroup(id);
-            // // find the group in the user's groups
-            // const group = this.context.currentUser?.groups?.find(
-            //   (group) => group.id === id
-            // );
-            // // and see if it's an edit group b/c we need to send an additional param
-            // const isEditGroup =
-            //   group.capabilities.includes("updateitemcontrol");
-            // // fire off the share request
-            // return failSafeShare({
-            //   id: this.entity.id,
-            //   owner: this.entity.owner,
-            //   groupId: id,
-            //   confirmItemControl: isEditGroup,
-            //   ...this.context.userRequestOptions,
-            // });
           })
         );
       }

@@ -6,8 +6,9 @@ export function getFeaturedImageUrl(
   entity: HubEntity,
   context: IArcGISContext
 ) {
-  const queryParams = context?.isAuthenticated
+  const queryParams = context.isAuthenticated
     ? `?token=${context.session.token}`
     : "";
-  return cacheBustUrl(`${entity?.view?.featuredImageUrl}${queryParams}`);
+  // TODO: Decide if the url should be passed in or plucked out of this deep path here
+  return cacheBustUrl(`${entity.view.featuredImageUrl}${queryParams}`);
 }

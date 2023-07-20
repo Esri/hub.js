@@ -23,7 +23,7 @@ export async function getLocationOptions(
   hubRequestOptions: IHubRequestOptions
 ): Promise<IHubLocationOption[]> {
   const defaultExtent = await getGeographicOrgExtent(hubRequestOptions);
-  const location: IHubLocation = entity?.location;
+  const location: IHubLocation = entity.location;
 
   return (
     [
@@ -51,9 +51,11 @@ export async function getLocationOptions(
       },
     ] as IHubLocationOption[]
   ).map((option) => {
-    if (!entity && option.location.type === "custom") {
-      option.selected = true;
-    } else if (entity && !location && option.location.type === "none") {
+    // TODO: Verify logic with Ben as code ^^ fails if entity is null
+    // if (!entity && option.location.type === "custom") {
+    //   option.selected = true;
+    // } else
+    if (entity && !location && option.location.type === "none") {
       option.selected = true;
     } else if (location?.type === option.location.type) {
       option.location = location;

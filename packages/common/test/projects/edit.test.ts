@@ -1,10 +1,13 @@
 import {
   IHubProject,
+  IHubProjectEditor,
   IModel,
   PROJECT_STATUSES,
   cloneObject,
   createProject,
   deleteProject,
+  editorToProject,
+  getProp,
   updateProject,
 } from "../../src";
 import { GUID, PROJECT_LOCATION, PROJECT_MODEL } from "./fixtures";
@@ -187,6 +190,42 @@ describe("project edit module:", () => {
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.item.description).toBe(prj.description);
       expect(modelToUpdate.item.properties.slug).toBe("dcdev-wat-blarg-1");
+    });
+  });
+  describe("editor to project", () => {
+    it("basic transform", () => {
+      const editor: IHubProjectEditor = {
+        orgUrlKey: "bar",
+        groups: [],
+        location: {
+          extent: [
+            [-1, -1],
+            [1, 1],
+          ],
+        },
+      } as IHubProjectEditor;
+      const p = editorToProject(editor, {
+        urlKey: "foo",
+      } as unknown as portalModule.IPortal);
+      expect(p.orgUrlKey).toEqual("bar");
+      expect(p.extent).toEqual([
+        [-1, -1],
+        [1, 1],
+      ]);
+      expect(getProp(p, "groups")).toBeUndefined();
+    });
+
+    it("sparse transform", () => {
+      const editor: IHubProjectEditor = {
+        groups: [],
+        extent: [],
+      } as IHubProjectEditor;
+      const p = editorToProject(editor, {
+        urlKey: "foo",
+      } as unknown as portalModule.IPortal);
+      expect(p.orgUrlKey).toEqual("foo");
+      expect(p.extent).toBeUndefined();
+      expect(getProp(p, "groups")).toBeUndefined();
     });
   });
 });
