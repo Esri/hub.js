@@ -29,8 +29,11 @@ export class EntityEditor {
     // if (entity.type === "site") {
     //   editor = HubSite.fromJson(entity, context) as EntityEditor;
     // }
-
-    return new EntityEditor(editor);
+    if (editor) {
+      return new EntityEditor(editor);
+    } else {
+      throw new Error(`Unsupported entity type: ${entity.type}`);
+    }
   }
 
   async getConfig(i18nScope: string, type: EditorType): Promise<IEditorConfig> {
