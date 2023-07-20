@@ -1,3 +1,10 @@
+# @esri/hub-discussions [25.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@25.5.0...@esri/hub-discussions@25.6.0) (2023-07-20)
+
+
+### Features
+
+* add canReadChannel util ([#1123](https://github.com/Esri/hub.js/issues/1123)) ([5ec2c5a](https://github.com/Esri/hub.js/commit/5ec2c5aa0d92a61cce9867593d5bdd04ce320f74))
+
 # @esri/hub-discussions [25.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@25.4.1...@esri/hub-discussions@25.5.0) (2023-07-14)
 
 
