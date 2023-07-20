@@ -12,6 +12,7 @@ export const SiteDefaultCapabilities: EntityCapabilities = {
   details: true,
   settings: true,
   content: true,
+  disableActivityTracking: false
 };
 
 /**
@@ -40,6 +41,11 @@ export const SiteCapabilityPermissions: ICapabilityPermission[] = [
     capability: "content",
     permissions: ["hub:site:edit"],
   },
+  {
+    entity: "site",
+    capability: "disableActivityTracking",
+    permissions: ["hub:site:view"],
+  }
 ];
 
 /**

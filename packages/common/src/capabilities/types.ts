@@ -20,6 +20,7 @@ const validCapabilities = [
   "teams",
   "metrics",
   "content",
+  "disableActivityTracking",
 ] as const;
 
 /**

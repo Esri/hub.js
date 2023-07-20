@@ -38,8 +38,12 @@ export function computeProps(
 
   // Handle capabilities
   // NOTE: This does not currently contain the older "capabilities" values!
+  const legacyCapabilities = (model.data.values?.capabilities || []).reduce((acc: any, capability: string) => {
+    acc[capability] = true;
+    return acc;
+  }, {});
   site.capabilities = processEntityCapabilities(
-    model.data.settings?.capabilities || {},
+    { ...model.data.settings?.capabilities, ...legacyCapabilities } || {},
     SiteDefaultCapabilities
   );
 
