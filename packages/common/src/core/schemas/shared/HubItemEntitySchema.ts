@@ -29,6 +29,7 @@ export const HubItemEntitySchema: IConfigurationSchema = {
     tags: ENTITY_TAGS_SCHEMA,
     categories: ENTITY_CATEGORIES_SCHEMA,
     isDiscussable: ENTITY_IS_DISCUSSABLE_SCHEMA,
+    _thumbnail: ENTITY_IMAGE_SCHEMA,
     view: {
       type: "object",
       properties: {

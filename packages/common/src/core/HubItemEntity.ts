@@ -236,7 +236,8 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
         this.entity.id,
         this.thumbnailCache.file,
         this.thumbnailCache.filename,
-        this.context.userRequestOptions
+        this.context.userRequestOptions,
+        this.entity.owner
       );
 
       // Note: updating the thumbnail alone does not update the modified date of the item

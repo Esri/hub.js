@@ -1,4 +1,4 @@
-import { PROJECT_STATUSES, IConfigurationSchema } from "../../core";
+import { IConfigurationSchema } from "../../core";
 import { HubItemEntitySchema } from "../../core/schemas/shared/HubItemEntitySchema";
 
 export type ContentEditorType = (typeof ContentEditorTypes)[number];
@@ -9,7 +9,4 @@ export const ContentEditorTypes = ["hub:content:edit"] as const;
  */
 export const ContentSchema: IConfigurationSchema = {
   ...HubItemEntitySchema,
-  properties: {
-    ...HubItemEntitySchema.properties,
-  },
 } as IConfigurationSchema;
