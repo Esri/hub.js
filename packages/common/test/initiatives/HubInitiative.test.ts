@@ -82,7 +82,7 @@ describe("HubInitiative Class:", () => {
         await HubInitiative.fetch("3ef", authdCtxMgr.context);
       } catch (ex) {
         expect(fetchSpy).toHaveBeenCalledTimes(1);
-        expect(ex.message).toBe("Initiative not found.");
+        expect((ex as any).message).toBe("Initiative not found.");
       }
     });
 
@@ -98,7 +98,7 @@ describe("HubInitiative Class:", () => {
         await HubInitiative.fetch("3ef", authdCtxMgr.context);
       } catch (ex) {
         expect(fetchSpy).toHaveBeenCalledTimes(1);
-        expect(ex.message).toBe("ZOMG!");
+        expect((ex as any).message).toBe("ZOMG!");
       }
     });
 
@@ -248,13 +248,13 @@ describe("HubInitiative Class:", () => {
     try {
       await chk.delete();
     } catch (e) {
-      expect(e.message).toEqual("HubInitiative is already destroyed.");
+      expect((e as any).message).toEqual("HubInitiative is already destroyed.");
     }
 
     try {
       await chk.save();
     } catch (e) {
-      expect(e.message).toEqual("HubInitiative is already destroyed.");
+      expect((e as any).message).toEqual("HubInitiative is already destroyed.");
     }
   });
 
@@ -300,7 +300,9 @@ describe("HubInitiative Class:", () => {
       try {
         await chk.resolveMetric("initiativeBudget_00c");
       } catch (e) {
-        expect(e.message).toEqual("Metric initiativeBudget_00c not found.");
+        expect((e as any).message).toEqual(
+          "Metric initiativeBudget_00c not found."
+        );
       }
     });
 

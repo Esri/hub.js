@@ -5,6 +5,7 @@ import { HubGroup } from "../../src/groups/HubGroup";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import * as HubGroupsModule from "../../src/groups/HubGroups";
 import { IHubGroup } from "../../src/core/types/IHubGroup";
+import { IEntityPermissionPolicy } from "../../dist/types/permissions/types/IEntityPermissionPolicy";
 
 describe("HubGroup class:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -53,6 +54,57 @@ describe("HubGroup class:", () => {
       expect(fetchSpy).toHaveBeenCalledTimes(1);
       expect(chk.toJson().id).toBe("3ef");
       expect(chk.toJson().name).toBe("Test Group");
+    });
+
+    it("checks for edit and delete", async () => {
+      let chk = HubGroup.fromJson(
+        {
+          name: "Test Group",
+          protected: false,
+          userMembership: {
+            memberType: "member",
+            username: "paige",
+          },
+        },
+        authdCtxMgr.context
+      );
+      expect(chk.canEdit).toBeFalsy();
+      expect(chk.canDelete).toBeFalsy();
+      expect(chk.isProtected).toBeFalsy();
+      chk = HubGroup.fromJson(
+        {
+          name: "Test Group",
+          protected: false,
+          userMembership: {
+            memberType: "admin",
+            username: "paige",
+          },
+        },
+        authdCtxMgr.context
+      );
+      expect(chk.canEdit).toBeFalsy();
+      expect(chk.canDelete).toBeFalsy();
+      expect(chk.isProtected).toBeFalsy();
+      chk = HubGroup.fromJson(
+        {
+          name: "Test Group",
+          protected: true,
+          userMembership: {
+            memberType: "admin",
+            username: "casey",
+          },
+        },
+        authdCtxMgr.context
+      );
+      expect(chk.canEdit).toBeTruthy();
+      expect(chk.canDelete).toBeTruthy();
+      expect(chk.isProtected).toBeTruthy();
+      chk = HubGroup.fromJson(
+        { name: "Test Group", protected: true },
+        authdCtxMgr.context
+      );
+      expect(chk.canEdit).toBeFalsy();
+      expect(chk.canDelete).toBeFalsy();
     });
 
     it("handle load missing groups", async () => {
@@ -116,8 +168,22 @@ describe("HubGroup class:", () => {
         authdCtxMgr.context,
         true
       );
-
       expect(createSpy).toHaveBeenCalledTimes(1);
+      expect(chk.toJson().name).toEqual("Test Group");
+    });
+
+    it("create does not save by default", async () => {
+      const createSpy = spyOn(HubGroupsModule, "createHubGroup").and.callFake(
+        (group: IGroup) => {
+          group.id = "3ef";
+          return Promise.resolve(group);
+        }
+      );
+      const chk = await HubGroup.create(
+        { name: "Test Group" },
+        authdCtxMgr.context
+      );
+      expect(createSpy).not.toHaveBeenCalled();
       expect(chk.toJson().name).toEqual("Test Group");
     });
 
@@ -130,7 +196,6 @@ describe("HubGroup class:", () => {
         name: "Test Group 2",
       });
       expect(chk.toJson().name).toEqual("Test Group 2");
-
       chk.update({ tags: ["one", "two"] });
       expect(chk.toJson().tags).toEqual(["one", "two"]);
     });
@@ -185,6 +250,64 @@ describe("HubGroup class:", () => {
       } catch (e) {
         expect((e as any).message).toEqual("HubGroup is already destroyed.");
       }
+    });
+  });
+
+  describe("permission behavior:", () => {
+    it("should return empty array if entity has no polices", () => {
+      const instance = HubGroup.fromJson(
+        { name: "Test Group" },
+        authdCtxMgr.context
+      );
+      expect(instance.getPermissionPolicies("hub:group:create")).toEqual([]);
+    });
+    it("pass in, add and remove", () => {
+      const policy: IEntityPermissionPolicy = {
+        permission: "hub:group:create",
+        collaborationType: "user",
+        collaborationId: "deke",
+      };
+      const instance = HubGroup.fromJson(
+        {
+          id: "00c",
+          name: "Test group",
+          permissions: [policy],
+        },
+        authdCtxMgr.context
+      );
+      HubGroup.fromJson({ name: "Test Group" }, authdCtxMgr.context);
+      expect(instance.getPermissionPolicies("hub:group:create")).toEqual([
+        policy,
+      ]);
+      instance.removePermissionPolicy(
+        policy.permission,
+        policy.collaborationId
+      );
+      expect(instance.getPermissionPolicies("hub:group:create")).toEqual([]);
+      instance.addPermissionPolicy(policy);
+      expect(instance.getPermissionPolicies("hub:group:create")).toEqual([
+        policy,
+      ]);
+    });
+    it("checkPermission delegates to util", () => {
+      const policy: IEntityPermissionPolicy = {
+        permission: "hub:group:create",
+        collaborationType: "user",
+        collaborationId: "deke",
+      };
+      const entity = {
+        id: "00c",
+        name: "Test group",
+        permissions: [policy],
+      } as IHubGroup;
+      const instance = HubGroup.fromJson(entity, authdCtxMgr.context);
+      const checkPermissionSpy = spyOn(
+        require("../../src/permissions"),
+        "checkPermission"
+      ).and.returnValue({ access: true });
+      const chk = instance.checkPermission("hub:group:create");
+      expect(chk.access).toBeTruthy();
+      expect(checkPermissionSpy).toHaveBeenCalledTimes(1);
     });
   });
 });

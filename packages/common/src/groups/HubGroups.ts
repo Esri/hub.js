@@ -6,7 +6,7 @@ import { parseInclude } from "../search/_internal/parseInclude";
 import { IHubRequestOptions, IModel } from "../types";
 import { getGroupHomeUrl } from "../urls";
 import { unique } from "../util";
-import { isGuid, mapBy } from "../utils";
+import { mapBy } from "../utils";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import {
   getGroup,
@@ -122,10 +122,7 @@ export async function fetchHubGroup(
   identifier: string,
   requestOptions: IUserRequestOptions
 ): Promise<IHubGroup> {
-  let getPrms;
-  if (isGuid(identifier)) {
-    getPrms = getGroup(identifier, requestOptions);
-  }
+  const getPrms = getGroup(identifier, requestOptions);
   return getPrms.then((group: IGroup) => {
     if (!group) return null;
     return convertGroupToHubGroup(group, requestOptions);

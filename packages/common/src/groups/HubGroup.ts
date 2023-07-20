@@ -205,7 +205,7 @@ export class HubGroup
    * @returns
    */
   getPermissionPolicies(permission: Permission): IEntityPermissionPolicy[] {
-    const permissions = this.entity.permissions || [];
+    const permissions = this.entity.permissions;
     return permissions.filter((p) => p.permission === permission);
   }
 

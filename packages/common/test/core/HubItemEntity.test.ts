@@ -151,7 +151,7 @@ describe("HubItemEntity Class: ", () => {
         try {
           const chk = instance.toJson();
         } catch (err) {
-          expect(err.message === "Entity is already destroyed.");
+          expect((err as any).message === "Entity is already destroyed.");
         }
       });
 

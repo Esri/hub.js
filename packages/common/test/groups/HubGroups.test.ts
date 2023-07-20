@@ -180,6 +180,16 @@ describe("HubGroups Module:", () => {
       expect(chk.description).toBe("dev followers Content summary");
       expect(portalGetGroupSpy.calls.count()).toBe(1);
     });
+    it("returns null if no group", async () => {
+      const portalGetGroupSpy = spyOn(PortalModule, "getGroup").and.returnValue(
+        Promise.resolve(null)
+      );
+      const chk = await HubGroupsModule.fetchHubGroup(GUID, {
+        authentication: MOCK_AUTH,
+      });
+      expect(chk).toBeFalsy();
+      expect(portalGetGroupSpy.calls.count()).toBe(1);
+    });
   });
 
   describe("updateHubGroup", () => {
