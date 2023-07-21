@@ -10,7 +10,7 @@ export async function getLocationExtent(
   entity: HubEntity,
   hubRequestOptions: IHubRequestOptions
 ) {
-  return entity?.location?.extent?.length
+  return entity.location?.extent?.length
     ? bBoxToExtent(entity.location.extent)
     : await getGeographicOrgExtent(hubRequestOptions);
 }

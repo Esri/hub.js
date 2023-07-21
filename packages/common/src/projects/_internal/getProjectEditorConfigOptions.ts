@@ -1,4 +1,3 @@
-import { checkPermission } from "../..";
 import { IArcGISContext } from "../../ArcGISContext";
 
 import { getCategoryItems } from "../../core/schemas/internal/getCategoryItems";
@@ -8,7 +7,9 @@ import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { groupsToComboBoxItems } from "../../core/schemas/internal/groupsToComboBoxItems";
+import { UiSchemaElementOptions } from "../../core/schemas/types";
 import { IHubProject } from "../../core/types/IHubProject";
+import { checkPermission } from "../../permissions/checkPermission";
 
 /**
  * Construct the Project Editor configuration options
@@ -19,7 +20,7 @@ import { IHubProject } from "../../core/types/IHubProject";
 export async function getProjectEditorConfigOptions(
   entity: IHubProject,
   context: IArcGISContext
-) {
+): Promise<UiSchemaElementOptions[]> {
   const canShare = checkPermission("hub:project:share", context);
 
   return [
@@ -63,8 +64,7 @@ export async function getProjectEditorConfigOptions(
       scope: "/properties/view/properties/featuredImage",
       options: {
         imgSrc:
-          entity?.view?.featuredImageUrl &&
-          getFeaturedImageUrl(entity, context),
+          entity.view?.featuredImageUrl && getFeaturedImageUrl(entity, context),
       },
     },
     {

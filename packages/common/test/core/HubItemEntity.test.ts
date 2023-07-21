@@ -113,6 +113,76 @@ describe("HubItemEntity Class: ", () => {
       });
     });
 
+    it("uses user groups to check if group is update", async () => {
+      const shareSpy = spyOn(PortalModule, "shareItemWithGroup").and.callFake(
+        () => {
+          return Promise.resolve();
+        }
+      );
+      await harness.shareWithGroup("notMyGroup");
+      expect(shareSpy).toHaveBeenCalledTimes(1);
+      // verify args
+      expect(shareSpy).toHaveBeenCalledWith({
+        id: "00c",
+        groupId: "notMyGroup",
+        owner: "deke",
+        confirmItemControl: false,
+        authentication: authdCtxMgr.context.session,
+      });
+    });
+    it("throws if user is not authd", async () => {
+      const unauthdCtxMgr = await ArcGISContextManager.create();
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+        },
+        unauthdCtxMgr.context
+      );
+      try {
+        await instance.shareWithGroup("efUpdate");
+        fail("should have thrown");
+      } catch (err) {
+        expect(err.name).toBe("HubError");
+      }
+    });
+    it("user w/o groups", async () => {
+      const ctxMgr = await ArcGISContextManager.create({
+        authentication: MOCK_AUTH,
+        currentUser: {
+          username: "casey",
+        } as unknown as PortalModule.IUser,
+        portal: {
+          name: "DC R&D Center",
+          id: "BRXFAKE",
+          urlKey: "fake-org",
+          customBaseUrl: "fakemaps.arcgis.com",
+        } as unknown as PortalModule.IPortal,
+      });
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+        },
+        ctxMgr.context
+      );
+      const shareSpy = spyOn(PortalModule, "shareItemWithGroup").and.callFake(
+        () => {
+          return Promise.resolve();
+        }
+      );
+      await instance.shareWithGroup("notMyGroup");
+      expect(shareSpy).toHaveBeenCalledTimes(1);
+      // verify args
+      expect(shareSpy).toHaveBeenCalledWith({
+        id: "00c",
+        groupId: "notMyGroup",
+        owner: "deke",
+        confirmItemControl: false,
+        authentication: authdCtxMgr.context.session,
+      });
+    });
+
     it("unshared from group", async () => {
       const unshareSpy = spyOn(
         PortalModule,
