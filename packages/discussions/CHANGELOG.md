@@ -1,3 +1,10 @@
+# @esri/hub-discussions [25.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@25.6.0...@esri/hub-discussions@25.7.0) (2023-07-21)
+
+
+### Features
+
+* teach hubSearch channels ([#1111](https://github.com/Esri/hub.js/issues/1111)) ([82d0492](https://github.com/Esri/hub.js/commit/82d04927b644a7b9c219568887a83dd4cd1426d4))
+
 # @esri/hub-discussions [25.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@25.5.0...@esri/hub-discussions@25.6.0) (2023-07-20)
 
 
