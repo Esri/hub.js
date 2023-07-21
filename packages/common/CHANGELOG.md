@@ -1,3 +1,10 @@
+## @esri/hub-common [13.22.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.22.0...@esri/hub-common@13.22.1) (2023-07-21)
+
+
+### Bug Fixes
+
+* include owner with setAccess ([#1129](https://github.com/Esri/hub.js/issues/1129)) ([3c7ab72](https://github.com/Esri/hub.js/commit/3c7ab72b65543d6e23d4a530abab8dfe5888603a))
+
 # @esri/hub-common [13.22.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.21.1...@esri/hub-common@13.22.0) (2023-07-21)
 
 
