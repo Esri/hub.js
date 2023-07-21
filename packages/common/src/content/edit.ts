@@ -1,5 +1,9 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
+import {
+  IUserItemOptions,
+  getItem,
+  removeItem,
+} from "@esri/arcgis-rest-portal";
 import { IHubEditableContent } from "../core";
 
 // Note - we separate these imports so we can cleanly spy on things in tests
@@ -87,7 +91,8 @@ export async function updateContent(
   // let resources;
 
   // get the backing item & data
-  const model = await getModel(content.id, requestOptions);
+  const item = await getItem(content.id, requestOptions);
+  const model = { item };
   // create the PropertyMapper
   const mapper = new PropertyMapper<Partial<IHubEditableContent>, IModel>(
     getPropertyMap()

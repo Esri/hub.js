@@ -159,7 +159,9 @@ export function updateModel(
   return updateItem(opts as IUpdateItemOptions).then(() => {
     // To ensure we have the exact modified timestamp, we need to
     // get the item again
-    return getModel(item.id, requestOptions);
+    return item.data
+      ? getModel(item.id, requestOptions)
+      : getItem(item.id, requestOptions).then((i) => ({ item: i }));
     // // update the modified prop
     // // this won't be exact, but it will be very close
     // clone.item.modified = new Date().getTime();

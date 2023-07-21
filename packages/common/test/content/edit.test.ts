@@ -39,12 +39,19 @@ describe("content editing:", () => {
   });
   describe("update content:", () => {
     it("converts to a model and updates the item", async () => {
-      const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
+      // const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
+      //   Promise.resolve({
+      //     item: {
+      //       typeKeywords: [],
+      //     },
+      //     data: {},
+      //   })
+      // );
+      const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
         Promise.resolve({
           item: {
             typeKeywords: [],
           },
-          data: {},
         })
       );
       const updateModelSpy = spyOn(modelUtils, "updateModel").and.callFake(
@@ -76,7 +83,7 @@ describe("content editing:", () => {
       expect(chk.id).toBe(GUID);
       expect(chk.name).toBe("Hello World");
       expect(chk.description).toBe("Some longer description");
-      expect(getModelSpy.calls.count()).toBe(1);
+      expect(getItemSpy.calls.count()).toBe(1);
       expect(updateModelSpy.calls.count()).toBe(1);
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.item.description).toBe(content.description);
