@@ -90,6 +90,7 @@ describe("hubSearch Module:", () => {
       let portalSearchItemsSpy: jasmine.Spy;
       let portalSearchGroupsSpy: jasmine.Spy;
       let hubSearchItemsSpy: jasmine.Spy;
+      let hubSearchChannelsSpy: jasmine.Spy;
       beforeEach(() => {
         // we are only interested in verifying that the fn was called with specific args
         // so all the responses are fake
@@ -116,6 +117,16 @@ describe("hubSearch Module:", () => {
         hubSearchItemsSpy = spyOn(
           SearchFunctionModule,
           "hubSearchItems"
+        ).and.callFake(() => {
+          return Promise.resolve({
+            hasNext: false,
+            results: [],
+            total: 99,
+          });
+        });
+        hubSearchChannelsSpy = spyOn(
+          SearchFunctionModule,
+          "hubSearchChannels"
         ).and.callFake(() => {
           return Promise.resolve({
             hasNext: false,
@@ -245,6 +256,31 @@ describe("hubSearch Module:", () => {
         expect(options.include).toBeDefined();
         // Any cloning of auth can break downstream functions
         expect(options.requestOptions).toBe(opts.requestOptions);
+      });
+      it("channels + discussions: hubSearchChannels", async () => {
+        const qry: IQuery = {
+          targetEntity: "channel",
+          filters: [
+            {
+              predicates: [{ term: "water" }],
+            },
+          ],
+        };
+        const opts: IHubSearchOptions = {
+          requestOptions: {
+            hubApiUrl: "https://hubqa.arcgis.com/api",
+          },
+          api: {
+            type: "arcgis-hub",
+            url: null,
+          } as any,
+        };
+        const chk = await hubSearch(qry, opts);
+        expect(chk.total).toBe(99);
+        expect(hubSearchChannelsSpy.calls.count()).toBe(1);
+        const [query, options] = hubSearchChannelsSpy.calls.argsFor(0);
+        expect(query).toEqual(qry);
+        expect(options).toEqual(opts);
       });
     });
   });
