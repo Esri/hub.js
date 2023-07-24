@@ -159,6 +159,8 @@ export function updateModel(
   return updateItem(opts as IUpdateItemOptions).then(() => {
     // To ensure we have the exact modified timestamp, we need to
     // get the item again
+    // Also, we can't just call getModel because we need to be able
+    // to properly handle other types like PDFs that don't have JSON data
     return item.data
       ? getModel(item.id, requestOptions)
       : getItem(item.id, requestOptions).then((i) => ({ item: i }));
