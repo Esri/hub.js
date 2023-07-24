@@ -1,3 +1,17 @@
+## @esri/hub-common [13.22.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.22.0...@esri/hub-common@13.22.1) (2023-07-21)
+
+
+### Bug Fixes
+
+* include owner with setAccess ([#1129](https://github.com/Esri/hub.js/issues/1129)) ([3c7ab72](https://github.com/Esri/hub.js/commit/3c7ab72b65543d6e23d4a530abab8dfe5888603a))
+
+# @esri/hub-common [13.22.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.21.1...@esri/hub-common@13.22.0) (2023-07-21)
+
+
+### Features
+
+* teach hubSearch channels ([#1111](https://github.com/Esri/hub.js/issues/1111)) ([82d0492](https://github.com/Esri/hub.js/commit/82d04927b644a7b9c219568887a83dd4cd1426d4))
+
 ## @esri/hub-common [13.21.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.21.0...@esri/hub-common@13.21.1) (2023-07-19)
 
 

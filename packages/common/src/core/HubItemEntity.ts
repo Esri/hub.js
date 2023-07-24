@@ -207,6 +207,7 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     await setItemAccess({
       id: this.entity.id,
       access,
+      owner: this.entity.owner,
       authentication: this.context.session,
     });
     // if this succeeded, update the entity

@@ -119,6 +119,7 @@ describe("HubItemEntity Class: ", () => {
       expect(setAccessSpy).toHaveBeenCalledWith({
         id: "00c",
         access: "public",
+        owner: "deke",
         authentication: authdCtxMgr.context.session,
       });
       // verify update to access property
