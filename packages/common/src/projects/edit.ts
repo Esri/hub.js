@@ -83,18 +83,16 @@ export function editorToProject(
   editor: IHubProjectEditor,
   portal: IPortal
 ): IHubProject {
-  const project = cloneObject(editor);
+  // remove the ephemeral props we graft on for the editor
+  delete editor._groups;
+  // clone into a HubProject
+  const project = cloneObject(editor) as IHubProject;
   // ensure there's an org url key
   project.orgUrlKey = editor.orgUrlKey ? editor.orgUrlKey : portal.urlKey;
-
   // copy the location extent up one level
   project.extent = editor.location?.extent;
-
-  // remove the props we graft on for the editor
-  delete project.groups;
-
   // return with a cast
-  return project as IHubProject;
+  return project;
 }
 
 /**

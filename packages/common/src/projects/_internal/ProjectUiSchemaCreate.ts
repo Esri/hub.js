@@ -114,7 +114,7 @@ export const uiSchema: IUiSchema = {
             },
             {
               labelKey: "{{i18nScope}}.fields.groups.label",
-              scope: "/properties/groups",
+              scope: "/properties/_groups",
               type: "Control",
               options: {
                 control: "hub-field-input-combobox",

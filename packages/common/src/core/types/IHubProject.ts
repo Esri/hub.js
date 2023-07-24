@@ -33,10 +33,10 @@ export enum PROJECT_STATUSES {
  * that it can be consumed by the entity editor.
  */
 export type IHubProjectEditor = Omit<IHubProject, "extent"> & {
-  extent: IExtent | number[][];
-  // TODO: if this is an ephemeral property, we should prefix with _
-  groups: string[];
+  // extent: IExtent | number[][];
   view: {
     featuredImage?: any;
   };
+  // Groups is an ephemeral property, so we prefix with _
+  _groups?: string[];
 };

@@ -189,7 +189,7 @@ export class HubProject
     // cast the entity to it's editor
     const editor = cloneObject(this.entity) as IHubProjectEditor;
     // add the groups array that we'll use to auto-share on save
-    editor.groups = [];
+    editor._groups = [];
 
     /**
      * on project creation, we want to pre-populate the sharing
@@ -199,10 +199,10 @@ export class HubProject
     const { access: canShare } = this.checkPermission("hub:project:share");
     if (!editor.id && canShare) {
       // TODO: at what point can we remove this "auto-share" behavior?
-      editor.groups = maybePush(editorContext.contentGroupId, editor.groups);
-      editor.groups = maybePush(
+      editor._groups = maybePush(editorContext.contentGroupId, editor._groups);
+      editor._groups = maybePush(
         editorContext.collaborationGroupId,
-        editor.groups
+        editor._groups
       );
     }
 
@@ -215,7 +215,7 @@ export class HubProject
    * @returns
    */
   async fromEditor(editor: IHubProjectEditor): Promise<IHubProject> {
-    const autoShareGroups = editor.groups || [];
+    const autoShareGroups = editor._groups || [];
     const isProjectCreate = !editor.id;
 
     // extract out things we don't want to persist directly

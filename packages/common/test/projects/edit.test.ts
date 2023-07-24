@@ -196,7 +196,7 @@ describe("project edit module:", () => {
     it("basic transform", () => {
       const editor: IHubProjectEditor = {
         orgUrlKey: "bar",
-        groups: [],
+        _groups: [],
         location: {
           extent: [
             [-1, -1],
@@ -212,19 +212,19 @@ describe("project edit module:", () => {
       //   [-1, -1],
       //   [1, 1],
       // ]);
-      expect(getProp(p, "groups")).toBeUndefined();
+      expect(getProp(p, "_groups")).toBeUndefined();
     });
 
     it("sparse transform", () => {
       const editor: IHubProjectEditor = {
-        groups: [],
+        _groups: [],
       } as unknown as IHubProjectEditor;
       const p = editorToProject(editor, {
         urlKey: "foo",
       } as unknown as portalModule.IPortal);
       expect(p.orgUrlKey).toEqual("foo");
       expect(p.extent).toBeUndefined();
-      expect(getProp(p, "groups")).toBeUndefined();
+      expect(getProp(p, "_groups")).toBeUndefined();
     });
   });
 });

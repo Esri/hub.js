@@ -370,7 +370,7 @@ describe("HubProject Class:", () => {
       );
       const editor = chk.toEditor({ collaborationGroupId: "00c" });
       // adds groups prop
-      expect(editor.groups).toEqual(["00c"]);
+      expect(editor._groups).toEqual(["00c"]);
     });
     it("toEditor without context", () => {
       const chk = HubProject.fromJson(
@@ -383,7 +383,7 @@ describe("HubProject Class:", () => {
       );
       const editor = chk.toEditor();
       // adds groups prop
-      expect(editor.groups).toEqual([]);
+      expect(editor._groups).toEqual([]);
     });
     describe("fromEditor:", () => {
       it("simple changes", async () => {
@@ -423,7 +423,7 @@ describe("HubProject Class:", () => {
         editor.name = "new name";
         editor.access = "public";
         // remove props just to flex conditions
-        delete editor.groups;
+        delete editor._groups;
         const p = await chk.fromEditor(editor);
         expect(p.name).toEqual("new name");
         expect(createSpy).toHaveBeenCalledTimes(1);
@@ -450,7 +450,7 @@ describe("HubProject Class:", () => {
         const editor = chk.toEditor();
         editor.name = "new name";
         editor.access = "public";
-        editor.groups = ["00c"];
+        editor._groups = ["00c"];
         const p = await chk.fromEditor(editor);
         expect(p.name).toEqual("new name");
         expect(createSpy).toHaveBeenCalledTimes(1);
