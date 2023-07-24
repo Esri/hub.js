@@ -1,3 +1,15 @@
+# @esri/hub-common [13.23.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.22.1...@esri/hub-common@13.23.0) (2023-07-24)
+
+
+### Bug Fixes
+
+* **hub-common:** saving sites guarantees a unique slug and prevents field loss in site data ([#1130](https://github.com/Esri/hub.js/issues/1130)) ([16a25b6](https://github.com/Esri/hub.js/commit/16a25b6b4bd7161ad7bf59ef716c873011ad1f6c))
+
+
+### Features
+
+* EntityEditor class  ([#1127](https://github.com/Esri/hub.js/issues/1127)) ([3f3beac](https://github.com/Esri/hub.js/commit/3f3beac2ea380ee27700b348ac00e43172d1ee01))
+
 ## @esri/hub-common [13.22.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.22.0...@esri/hub-common@13.22.1) (2023-07-21)
 
 

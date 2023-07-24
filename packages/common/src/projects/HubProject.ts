@@ -4,19 +4,27 @@ import {
   IWithCatalogBehavior,
   IWithStoreBehavior,
   IWithSharingBehavior,
-  UiSchemaElementOptions,
   IResolvedMetric,
   IWithCardBehavior,
+  IHubProjectEditor,
+  IEntityEditorContext,
+  SettableAccessLevel,
 } from "../core";
-import { getEntityEditorSchemas } from "../core/schemas/getEntityEditorSchemas";
+import {
+  EditorType,
+  getEntityEditorSchemas,
+} from "../core/schemas/getEntityEditorSchemas";
 import { Catalog } from "../search";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
-import { IEditorConfig } from "../core/behaviors/IWithEditorBehavior";
+import {
+  IEditorConfig,
+  IWithEditorBehavior,
+} from "../core/behaviors/IWithEditorBehavior";
 
 // NOTE: this could be lazy-loaded just like the CUD functions
 import { fetchProject } from "./fetch";
-import { ProjectEditorType } from "./_internal/ProjectSchema";
+
 import { IWithMetricsBehavior } from "../core/behaviors/IWithMetricsBehavior";
 import { getEntityMetrics } from "../metrics/getEntityMetrics";
 import { resolveMetric } from "../metrics/resolveMetric";
@@ -25,6 +33,9 @@ import {
   IHubCardViewModel,
 } from "../core/types/IHubCardViewModel";
 import { projectToCardModel } from "./view";
+import { cloneObject, maybePush } from "../util";
+import { createProject, editorToProject, updateProject } from "./edit";
+import { getProjectEditorConfigOptions } from "./_internal/getProjectEditorConfigOptions";
 
 /**
  * Hub Project Class
@@ -36,7 +47,8 @@ export class HubProject
     IWithCatalogBehavior,
     IWithMetricsBehavior,
     IWithSharingBehavior,
-    IWithCardBehavior
+    IWithCardBehavior,
+    IWithEditorBehavior
 {
   private _catalog: Catalog;
 
@@ -122,23 +134,11 @@ export class HubProject
   }
 
   /**
-   * Static method to get the editor config for the HubProject entity.
-   * @param i18nScope translation scope to be interpolated into the uiSchema
-   * @param type editor type - corresonds to the returned uiSchema
-   * @param options optional hash of dynamic uiSchema element options
-   *
-   * Note: typescript does not have a means to specify static methods in interfaces
-   * so while this is the implementation of IWithEditorBehavior, it is not enforced
-   * by the compiler.
+   * Given a partial project, apply defaults to it to ensure that a baseline of properties are set
+   * @param partialProject
+   * @param context
+   * @returns
    */
-  static async getEditorConfig(
-    i18nScope: string,
-    type: ProjectEditorType,
-    options: UiSchemaElementOptions[] = []
-  ): Promise<IEditorConfig> {
-    return getEntityEditorSchemas(i18nScope, type, options);
-  }
-
   private static applyDefaults(
     partialProject: Partial<IHubProject>,
     context: IArcGISContext
@@ -160,6 +160,112 @@ export class HubProject
    */
   convertToCardModel(opts?: IConvertToCardModelOpts): IHubCardViewModel {
     return projectToCardModel(this.entity, this.context, opts);
+  }
+  /*
+   * Gt the editor config for the HubProject entity.
+   * @param i18nScope translation scope to be interpolated into the uiSchema
+   * @param type editor type - corresonds to the returned uiSchema
+   * @param options optional hash of dynamic uiSchema element options
+   */
+  async getEditorConfig(
+    i18nScope: string,
+    type: EditorType
+  ): Promise<IEditorConfig> {
+    // get the options first...
+    const projectOptions = await getProjectEditorConfigOptions(
+      this.entity,
+      this.context
+    );
+    // TODO: Decide if we should split up the logic in this next function
+    return getEntityEditorSchemas(i18nScope, type, projectOptions);
+  }
+
+  /**
+   * Return the project as an editor object
+   * @param editorContext
+   * @returns
+   */
+  toEditor(editorContext: IEntityEditorContext = {}): IHubProjectEditor {
+    // cast the entity to it's editor
+    const editor = cloneObject(this.entity) as IHubProjectEditor;
+    // add the groups array that we'll use to auto-share on save
+    editor._groups = [];
+
+    /**
+     * on project creation, we want to pre-populate the sharing
+     * field with the core and collaboration groups if the user
+     * has the appropriate shareToGroup portal privilege
+     */
+    const { access: canShare } = this.checkPermission("hub:project:share");
+    if (!editor.id && canShare) {
+      // TODO: at what point can we remove this "auto-share" behavior?
+      editor._groups = maybePush(editorContext.contentGroupId, editor._groups);
+      editor._groups = maybePush(
+        editorContext.collaborationGroupId,
+        editor._groups
+      );
+    }
+
+    return editor;
+  }
+
+  /**
+   * Load the project from the editor object
+   * @param editor
+   * @returns
+   */
+  async fromEditor(editor: IHubProjectEditor): Promise<IHubProject> {
+    const autoShareGroups = editor._groups || [];
+    const isProjectCreate = !editor.id;
+
+    // extract out things we don't want to persist directly
+    // b/c the first thing we do is create/update the project
+    const featuredImage = editor.view.featuredImage;
+    delete editor.view.featuredImage;
+
+    // convert back to an entity
+    const entity = editorToProject(editor, this.context.portal);
+
+    // create it if it does not yet exist...
+    if (isProjectCreate) {
+      // this allows the featured image functions to work
+      this.entity = await createProject(
+        entity,
+        this.context.userRequestOptions
+      );
+    } else {
+      // ...otherwise, update the in-memory entity and save it
+      this.entity = entity;
+      this.save();
+    }
+
+    // handle featured image
+    if (featuredImage) {
+      if (featuredImage.blob) {
+        await this.setFeaturedImage(featuredImage.blob);
+      } else {
+        await this.clearFeaturedImage();
+      }
+    }
+
+    /**
+     * operations that are only relevant to the project create workflow.
+     * if these ever become part of the edit experience, we can remove
+     * the conditional
+     */
+    if (isProjectCreate) {
+      await this.setAccess(editor.access as SettableAccessLevel);
+      // share the entity with the configured groups
+      if (autoShareGroups.length) {
+        await Promise.all(
+          autoShareGroups.map((id: string) => {
+            return this.shareWithGroup(id);
+          })
+        );
+      }
+    }
+
+    return this.entity;
   }
 
   /**
@@ -189,8 +295,6 @@ export class HubProject
     }
     // get the catalog, and permission configs
     this.entity.catalog = this._catalog.toJson();
-
-    const { createProject, updateProject } = await import("./edit");
 
     if (this.entity.id) {
       // update it
