@@ -5,6 +5,7 @@ export type ProjectEditorType = (typeof ProjectEditorTypes)[number];
 export const ProjectEditorTypes = [
   "hub:project:create",
   "hub:project:edit",
+  "hub:project:settings",
 ] as const;
 
 /**
