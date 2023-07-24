@@ -6,6 +6,7 @@ import {
   IWithCatalog,
 } from "../traits/index";
 import { IHubItemEntity } from "./IHubItemEntity";
+import { IExtent } from "@esri/arcgis-rest-feature-layer";
 
 /**
  * Defines the properties of a Hub Project object
@@ -26,3 +27,16 @@ export enum PROJECT_STATUSES {
   onHold = "onHold",
   complete = "complete",
 }
+
+/**
+ * This type redefines the IHubProject interface in such a way
+ * that it can be consumed by the entity editor.
+ */
+export type IHubProjectEditor = Omit<IHubProject, "extent"> & {
+  // extent: IExtent | number[][];
+  view: {
+    featuredImage?: any;
+  };
+  // Groups is an ephemeral property, so we prefix with _
+  _groups?: string[];
+};
