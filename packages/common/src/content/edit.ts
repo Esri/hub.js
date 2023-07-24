@@ -91,6 +91,8 @@ export async function updateContent(
   // let resources;
 
   // get the backing item & data
+  // We can't just call getModel because we need to be able
+  // to properly handle other types like PDFs that don't have JSON data
   const item = await getItem(content.id, requestOptions);
   const model = { item };
   // create the PropertyMapper
