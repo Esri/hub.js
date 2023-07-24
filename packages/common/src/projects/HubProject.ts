@@ -172,7 +172,6 @@ export class HubProject
     type: EditorType
   ): Promise<IEditorConfig> {
     // get the options first...
-    // TODO: Move to util fn
     const projectOptions = await getProjectEditorConfigOptions(
       this.entity,
       this.context

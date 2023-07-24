@@ -6,7 +6,7 @@ import { getFeaturedImageUrl } from "../../core/schemas/internal/getFeaturedImag
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
-import { groupsToComboBoxItems } from "../../core/schemas/internal/groupsToComboBoxItems";
+import { getSharableGroupsComboBoxItems } from "../../core/schemas/internal/getSharableGroupsComboBoxItems";
 import { UiSchemaElementOptions } from "../../core/schemas/types";
 import { IHubProject } from "../../core/types/IHubProject";
 import { checkPermission } from "../../permissions/checkPermission";
@@ -74,7 +74,7 @@ export async function getProjectEditorConfigOptions(
     {
       scope: "/properties/groups",
       options: {
-        items: groupsToComboBoxItems(context.currentUser.groups),
+        items: getSharableGroupsComboBoxItems(context.currentUser.groups),
         disabled: !canShare,
       },
     },

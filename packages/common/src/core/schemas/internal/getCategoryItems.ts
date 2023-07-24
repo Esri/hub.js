@@ -9,8 +9,6 @@ import { IUiSchemaComboboxItem } from "../types";
  * categories on the deepest level. Parse into a format that
  * can be consumed by the combobox field
  *
- * TODO: the request portion of this util should probably
- * be hoisted to hub.js
  * TODO: render nested categories in combobox
  */
 export async function getCategoryItems(

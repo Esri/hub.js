@@ -1,14 +1,14 @@
 import { IGroup } from "@esri/arcgis-rest-portal";
-import { groupsToComboBoxItems } from "../../../../src/core/schemas/internal/groupsToComboBoxItems";
+import { getSharableGroupsComboBoxItems } from "../../../../src/core/schemas/internal/getSharableGroupsComboBoxItems";
 
 describe("groupsToComboBoxItems:", () => {
   it("handles empty list of groups", () => {
-    const chk = groupsToComboBoxItems([]);
+    const chk = getSharableGroupsComboBoxItems([]);
     expect(chk).toEqual([]);
   });
 
   it("converts ", () => {
-    const chk = groupsToComboBoxItems(groups);
+    const chk = getSharableGroupsComboBoxItems(groups);
     expect(chk.length).toBe(2);
     expect(chk[0]).toEqual({
       value: "00c",

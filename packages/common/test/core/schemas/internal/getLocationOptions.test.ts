@@ -22,6 +22,7 @@ describe("getLocationOptions:", () => {
   });
   it("custom is selected", async () => {
     const entity: IHubProject = {
+      id: "00c",
       type: "Hub Project",
       location: {
         type: "custom",
@@ -39,6 +40,7 @@ describe("getLocationOptions:", () => {
   });
   it("none is selected", async () => {
     const entity: IHubProject = {
+      id: "00c",
       type: "Hub Project",
     } as IHubProject;
 
@@ -53,6 +55,7 @@ describe("getLocationOptions:", () => {
   });
   it("org is selected", async () => {
     const entity: IHubProject = {
+      id: "00c",
       type: "Hub Project",
       location: {
         type: "org",
@@ -68,21 +71,21 @@ describe("getLocationOptions:", () => {
     expect(chk.length).toBe(3);
     expect(chk[1].selected).toBe(true);
   });
-  // it("custom is selected if no entity", async () => {
-  //   const entity: IHubProject = {
-  //     type: "Hub Project",
-  //     location: {
-  //       type: "org",
-  //     },
-  //   } as IHubProject;
+  it("custom is selected if entity does not have an id", async () => {
+    const entity: IHubProject = {
+      type: "Hub Project",
+      location: {
+        type: "org",
+      },
+    } as IHubProject;
 
-  //   const chk = await getLocationOptions(
-  //     null,
-  //     "portalName",
-  //     {} as IHubRequestOptions
-  //   );
+    const chk = await getLocationOptions(
+      entity,
+      "portalName",
+      {} as IHubRequestOptions
+    );
 
-  //   expect(chk.length).toBe(3);
-  //   expect(chk[2].selected).toBe(true);
-  // });
+    expect(chk.length).toBe(3);
+    expect(chk[2].selected).toBe(true);
+  });
 });

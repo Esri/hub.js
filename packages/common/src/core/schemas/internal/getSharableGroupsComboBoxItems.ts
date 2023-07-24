@@ -2,9 +2,10 @@ import { IGroup } from "@esri/arcgis-rest-portal";
 import { IUiSchemaComboboxItem } from "../types";
 
 /**
- * Convert an array of groups into a UiSchemaComboboxItem array
+ * Filter an array of groups into the set the user has the rights to share content
+ * into, and then convert them to UiSchemaComboboxItem array for use in the Entity Editor component
  */
-export function groupsToComboBoxItems(
+export function getSharableGroupsComboBoxItems(
   groups: IGroup[]
 ): IUiSchemaComboboxItem[] {
   return groups.reduce((groupItems: IUiSchemaComboboxItem[], group: IGroup) => {
