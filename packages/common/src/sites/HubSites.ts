@@ -12,7 +12,7 @@ import { applyPermissionMigration } from "./_internal/applyPermissionMigration";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { IHubSite } from "../core/types/IHubSite";
-import { constructSlug, setSlugKeyword } from "../items/slugs";
+import { constructSlug, getUniqueSlug, setSlugKeyword } from "../items/slugs";
 import { slugify } from "../utils/slugify";
 import { ensureUniqueDomainName } from "./domains/ensure-unique-domain-name";
 import { stripProtocol } from "../urls/strip-protocol";
@@ -309,35 +309,38 @@ export async function updateSite(
   site: IHubSite,
   requestOptions: IHubRequestOptions
 ): Promise<IHubSite> {
+  // verify that the slug is unique, excluding the current site
+  site.slug = await getUniqueSlug(
+    { slug: site.slug, existingId: site.id },
+    requestOptions
+  );
   site.typeKeywords = setDiscussableKeyword(
     site.typeKeywords,
     site.isDiscussable
   );
-  // convert IHubSite to model
-  const siteModel = convertSiteToModel(site, requestOptions);
   // Fetch backing model from the portal
   const currentModel = await getModel(site.id, requestOptions);
-  // handle any domain changes
-  await handleDomainChanges(siteModel, currentModel, requestOptions);
+  // Note: Although we are fetching the model, and applying changes onto it,
+  // we are not attempting to handle "concurrent edit" conflict resolution
+  // but this is where we would apply that sort of logic
+  const mapper = new PropertyMapper<Partial<IHubSite>, IModel>(
+    getPropertyMap()
+  );
+  const modelToUpdate = mapper.entityToStore(site, currentModel);
 
-  if (siteModel.item.properties.slug !== currentModel.item.properties.slug) {
-    // ensure slug to keywords
-    siteModel.item.typeKeywords = setSlugKeyword(
-      siteModel.item.typeKeywords,
-      siteModel.item.properties.slug
-    );
-  }
+  // handle any domain changes
+  await handleDomainChanges(modelToUpdate, currentModel, requestOptions);
 
   // The following props are currently affected by in-memory migrations,
   // so we replace them with their canonical values so as to not overwrite
   // them. Eventually these changes will be persisted in AGO.
-  siteModel.data.catalog = currentModel.data.catalog;
-  siteModel.data.values.searchCategories =
+  modelToUpdate.data.catalog = currentModel.data.catalog;
+  modelToUpdate.data.values.searchCategories =
     currentModel.data.values.searchCategories;
 
   // send updates to the Portal API and get back the updated site model
   const updatedSiteModel = await updateModel(
-    siteModel,
+    modelToUpdate,
     requestOptions as unknown as IUserItemOptions
   );
   // convert that back into a IHubSite and return it
@@ -415,25 +418,6 @@ export function convertModelToSite(
   const site = mapper.storeToEntity(migrated, {}) as IHubSite;
   // compute additional properties
   return computeProps(model, site, requestOptions);
-}
-
-/**
- * @internal
- * Convert an IHubSite into an IModel
- * @param site
- * @param requestOptions
- * @returns
- */
-export function convertSiteToModel(
-  site: IHubSite,
-  _requestOptions: IRequestOptions
-): IModel {
-  // create the mapper
-  const mapper = new PropertyMapper<IHubSite, IModel>(getPropertyMap());
-  // applying the site onto the default model ensures that a minimum
-  // set of properties exist, regardless what may have been done to
-  // the IHubSite pojo
-  return mapper.entityToStore(site, cloneObject(DEFAULT_SITE_MODEL));
 }
 
 /**

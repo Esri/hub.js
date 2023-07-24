@@ -1,5 +1,6 @@
-import { PROJECT_STATUSES, IConfigurationSchema } from "../../core";
 import { HubItemEntitySchema } from "../../core/schemas/shared/HubItemEntitySchema";
+import { IConfigurationSchema } from "../../core/schemas/types";
+import { PROJECT_STATUSES } from "../../core/types/IHubProject";
 
 export type ProjectEditorType = (typeof ProjectEditorTypes)[number];
 export const ProjectEditorTypes = [
@@ -8,13 +9,13 @@ export const ProjectEditorTypes = [
 ] as const;
 
 /**
- * defines the JSON schema for a Hub Project's editable fields
+ * Defines the JSON schema for a Hub Project's editable fields
  */
 export const ProjectSchema: IConfigurationSchema = {
   ...HubItemEntitySchema,
   properties: {
     ...HubItemEntitySchema.properties,
-    groups: {
+    _groups: {
       type: "array",
       items: { type: "string" },
     },

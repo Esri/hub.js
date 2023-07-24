@@ -66,6 +66,7 @@ export const ProjectPermissions = [
   "hub:project:edit",
   "hub:project:view",
   "hub:project:owner",
+  "hub:project:share",
 ] as const;
 
 /**
@@ -104,5 +105,11 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
     subsystems: ["projects"],
     entityOwner: true,
     licenses: ["hub-premium"],
+  },
+  {
+    permission: "hub:project:share",
+    authenticated: true,
+    subsystems: ["projects"],
+    privileges: ["portal:user:shareToGroup"],
   },
 ];

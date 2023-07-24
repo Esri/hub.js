@@ -1,6 +1,5 @@
 import { request } from "../request";
 import {
-  ISearchChannelsParams,
   ICreateChannelParams,
   IFetchChannelParams,
   IUpdateChannelParams,
@@ -11,25 +10,12 @@ import {
   ICreateChannelNotificationOptOutParams,
   IRemoveChannelNotificationOptOutParams,
   IRemoveChannelActivityParams,
-  IPagedResponse,
   IRemoveChannelNotificationOptOutResult,
   IRemoveChannelActivityResult,
   IChannelNotificationOptOut,
 } from "../types";
 
-/**
- * search channels
- *
- * @export
- * @param {ISearchChannelsParams} options
- * @return {*}  {Promise<IPagedResponse<IChannel>>}
- */
-export function searchChannels(
-  options: ISearchChannelsParams
-): Promise<IPagedResponse<IChannel>> {
-  options.httpMethod = "GET";
-  return request(`/channels`, options);
-}
+export { searchChannels } from "@esri/hub-common";
 
 /**
  * create channel

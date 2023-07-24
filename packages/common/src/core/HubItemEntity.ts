@@ -180,9 +180,31 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * @param groupId
    */
   async shareWithGroup(groupId: string): Promise<void> {
+    if (!this.context.currentUser) {
+      throw new HubError(
+        "Share Item With Group",
+        "Cannot share item with group when no user is logged in."
+      );
+    }
+    // Group should be in current user's group collection,
+    // but we do not enforce that because they could have
+    // joined a group since the context was creatd.
+    // Get the group from user to check if it's an update group
+    // NOTE: If this becomes a problem, we can simply fetch the group
+    // and check user membership as well as capabilities.
+    const group = this.context.currentUser.groups?.find(
+      (g) => g.id === groupId
+    );
+
+    // and see if it's an edit group b/c we need to send an additional param
+    const isEditGroup = (group?.capabilities || []).includes(
+      "updateitemcontrol"
+    );
+
     await shareItemWithGroup({
       id: this.entity.id,
       groupId,
+      confirmItemControl: isEditGroup,
       owner: this.entity.owner,
       authentication: this.context.session,
     });
@@ -207,6 +229,7 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     await setItemAccess({
       id: this.entity.id,
       access,
+      owner: this.entity.owner,
       authentication: this.context.session,
     });
     // if this succeeded, update the entity
