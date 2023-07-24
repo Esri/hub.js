@@ -54,7 +54,7 @@ export async function getLocationOptions(
     // If this is a new entity, select the custom option by default
     if (!entity.id && option.location.type === "custom") {
       option.selected = true;
-    } else if (entity && !location && option.location.type === "none") {
+    } else if (entity.id && !location && option.location.type === "none") {
       option.selected = true;
     } else if (location?.type === option.location.type) {
       option.location = location;

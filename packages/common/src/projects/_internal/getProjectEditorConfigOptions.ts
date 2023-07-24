@@ -72,7 +72,7 @@ export async function getProjectEditorConfigOptions(
       options: getFeaturedContentCatalogs(context.currentUser),
     },
     {
-      scope: "/properties/groups",
+      scope: "/properties/_groups",
       options: {
         items: getSharableGroupsComboBoxItems(context.currentUser.groups),
         disabled: !canShare,

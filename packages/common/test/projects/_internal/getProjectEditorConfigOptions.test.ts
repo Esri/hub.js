@@ -105,8 +105,10 @@ describe("getProjectEditorConfigOptions", () => {
       (r) => r.scope === "/properties/location"
     );
 
-    expect(locationScope).toBeDefined();
-    expect(locationScope?.options).toBeDefined();
+    expect(locationScope).toBeDefined("Location should be defined");
+    expect(locationScope?.options).toBeDefined(
+      "Location options should be defined"
+    );
 
     const tagsScope = result.find((r) => r.scope === "/properties/tags");
 
@@ -143,7 +145,7 @@ describe("getProjectEditorConfigOptions", () => {
 
     expect(featuredContentIdsScope).toBeDefined();
 
-    const groupsScope = result.find((r) => r.scope === "/properties/groups");
+    const groupsScope = result.find((r) => r.scope === "/properties/_groups");
 
     expect(groupsScope).toBeDefined();
     expect(groupsScope?.options).toBeDefined();
