@@ -14,7 +14,7 @@ export async function setItemThumbnail(
   file: any,
   filename: string,
   requestOptions: IUserRequestOptions,
-  owner?: string
+  owner: string
 ): Promise<void> {
   const opts = {
     item: {

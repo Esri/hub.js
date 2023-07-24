@@ -41,7 +41,6 @@ export const validEditorTypes = [
   ...SiteEditorTypes,
   ...DiscussionEditorTypes,
   ...PageEditorTypes,
-  ...ContentEditorTypes,
 ] as const;
 
 /**

@@ -39,14 +39,6 @@ describe("content editing:", () => {
   });
   describe("update content:", () => {
     it("converts to a model and updates the item", async () => {
-      // const getModelSpy = spyOn(modelUtils, "getModel").and.returnValue(
-      //   Promise.resolve({
-      //     item: {
-      //       typeKeywords: [],
-      //     },
-      //     data: {},
-      //   })
-      // );
       const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
         Promise.resolve({
           item: {
