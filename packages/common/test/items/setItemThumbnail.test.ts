@@ -7,9 +7,15 @@ describe("setItemThumbnail:", () => {
     const updateSpy = spyOn(portalModule, "updateItem").and.returnValues(
       Promise.resolve({ success: true })
     );
-    await setItemThumbnail("3ef", "fakeFile", "mything.png", {
-      authentication: MOCK_AUTH,
-    });
+    await setItemThumbnail(
+      "3ef",
+      "fakeFile",
+      "mything.png",
+      {
+        authentication: MOCK_AUTH,
+      },
+      "fakeOwner"
+    );
     expect(updateSpy.calls.count()).toBe(1);
     const args = updateSpy.calls.argsFor(0)[0];
     expect(args.item.id).toBe("3ef");
@@ -22,9 +28,15 @@ describe("setItemThumbnail:", () => {
       Promise.resolve({ success: false })
     );
     try {
-      await setItemThumbnail("3ef", "fakeFile", "mything.png", {
-        authentication: MOCK_AUTH,
-      });
+      await setItemThumbnail(
+        "3ef",
+        "fakeFile",
+        "mything.png",
+        {
+          authentication: MOCK_AUTH,
+        },
+        "fakeOwner"
+      );
     } catch (err) {
       expect(err.name).toBe("HubError");
     }
@@ -34,9 +46,15 @@ describe("setItemThumbnail:", () => {
       Promise.reject(new Error("Fake Rejection"))
     );
     try {
-      await setItemThumbnail("3ef", "fakeFile", "mything.png", {
-        authentication: MOCK_AUTH,
-      });
+      await setItemThumbnail(
+        "3ef",
+        "fakeFile",
+        "mything.png",
+        {
+          authentication: MOCK_AUTH,
+        },
+        "fakeOwner"
+      );
     } catch (err) {
       expect(err.name).toBe("HubError");
     }
@@ -46,9 +64,15 @@ describe("setItemThumbnail:", () => {
       Promise.reject("something else")
     );
     try {
-      await setItemThumbnail("3ef", "fakeFile", "mything.png", {
-        authentication: MOCK_AUTH,
-      });
+      await setItemThumbnail(
+        "3ef",
+        "fakeFile",
+        "mything.png",
+        {
+          authentication: MOCK_AUTH,
+        },
+        "fakeOwner"
+      );
     } catch (err) {
       expect(err.name).toBe("HubError");
     }
