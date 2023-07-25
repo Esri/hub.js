@@ -73,7 +73,7 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
     subsystems: ["projects"],
     authenticated: true,
     privileges: ["portal:user:createItem"],
-    licenses: ["hub-basic", "hub-premium"],
+    licenses: ["hub-premium"],
   },
   {
     permission: "hub:project:view",
@@ -93,14 +93,14 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
     authenticated: true,
     subsystems: ["projects"],
     entityOwner: true,
-    licenses: ["hub-basic", "hub-premium"],
+    licenses: ["hub-premium"],
   },
   {
     permission: "hub:project:owner",
     authenticated: true,
     subsystems: ["projects"],
     entityOwner: true,
-    licenses: ["hub-basic", "hub-premium"],
+    licenses: ["hub-premium"],
   },
   {
     permission: "hub:project:share",
