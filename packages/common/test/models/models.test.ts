@@ -153,6 +153,7 @@ describe("model utils:", () => {
       expect(opts.item.extent).toBe("1, 2, 3, 4" as unknown as number[][]);
     });
   });
+  // longterm TODO: change these to spy on getModel rather than the implementations of it
   describe("updateModel: ", () => {
     it("updates a model", async () => {
       const updateItemSpy = spyOn(portalModule, "updateItem").and.returnValue(
@@ -207,6 +208,66 @@ describe("model utils:", () => {
       expect(opts.params).toBeDefined();
       expect(opts?.params?.clearEmptyFields).toBeTruthy();
       expect(opts.item.data).toBeDefined();
+      expect(opts.item.extent).toBe("1, 2, 3, 4" as unknown as number[][]);
+      expect(opts.item.description).toBe("");
+
+      m.item.description = "This is a description";
+      chk = await updateModel(m, {
+        authentication: MOCK_AUTH,
+      });
+      opts = updateItemSpy.calls.argsFor(
+        0
+      )[0] as unknown as portalModule.IUpdateItemOptions;
+      expect(opts?.params?.clearEmptyFields).toBeTruthy();
+      expect(opts.item.tags).toEqual([]);
+      expect(opts.item.categories).toEqual([]);
+    });
+    it("updates a model without data", async () => {
+      const updateItemSpy = spyOn(portalModule, "updateItem").and.returnValue(
+        Promise.resolve({ success: true, id: "00c" })
+      );
+      const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
+        Promise.resolve({
+          id: "00c",
+          created: 1643663750004,
+          modified: new Date().getTime(),
+        })
+      );
+
+      const m = {
+        item: {
+          description: "",
+          id: "00c",
+          title: "My New Thing",
+          type: "Hub Project",
+          created: 1643663750004,
+          modified: 1643663750007,
+          extent: [
+            [1, 2],
+            [3, 4],
+          ],
+          tags: [],
+          categories: [],
+        },
+      } as unknown as IModel;
+      // depending how fast tests run, the modified date we're faking may be a bit off
+      const ts = new Date().getTime() - 100;
+      let chk = await updateModel(m, {
+        authentication: MOCK_AUTH,
+      });
+      expect(chk.item.id).toBe("00c");
+      expect(chk.item.created).toBe(1643663750004);
+      expect(chk.item.modified).toBeGreaterThanOrEqual(ts);
+      expect(getItemSpy.calls.count()).toBe(1);
+      expect(updateItemSpy.calls.count()).toBe(1);
+      let opts = updateItemSpy.calls.argsFor(
+        0
+      )[0] as unknown as portalModule.IUpdateItemOptions;
+
+      expect(opts.authentication).toBe(MOCK_AUTH);
+      expect(opts.params).toBeDefined();
+      expect(opts?.params?.clearEmptyFields).toBeTruthy();
+      expect(opts.item.data).toBeUndefined();
       expect(opts.item.extent).toBe("1, 2, 3, 4" as unknown as number[][]);
       expect(opts.item.description).toBe("");
 
