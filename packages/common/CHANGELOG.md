@@ -1,3 +1,10 @@
+# @esri/hub-common [13.24.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.23.0...@esri/hub-common@13.24.0) (2023-07-25)
+
+
+### Features
+
+* add dashboard capability to site/project/page ([#1126](https://github.com/Esri/hub.js/issues/1126)) ([cada5d3](https://github.com/Esri/hub.js/commit/cada5d39b466b6f51663122cb377e9b1d84a2f41))
+
 # @esri/hub-common [13.23.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.22.1...@esri/hub-common@13.23.0) (2023-07-24)
 
 
