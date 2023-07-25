@@ -11,6 +11,7 @@ import { IAccessResponse } from "../core/types/IAccessResponse";
  */
 const validCapabilities = [
   "collaboration",
+  "dashboard",
   "details",
   "discussions",
   "events",
