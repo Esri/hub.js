@@ -1,36 +1,118 @@
 import { IWithPermissions } from "../traits";
 import { IHubEntityBase } from "./IHubEntityBase";
+import {
+  GroupSortField,
+  SettableAccessLevel,
+  SortOrder,
+  MemberType,
+  MembershipAccess,
+} from "./types";
 
 /**
  * Defines the properties of a Hub Group object
- * DRAFT: Under development and more properties will likely be added
  * @internal
  */
 export interface IHubGroup extends IHubEntityBase, IWithPermissions {
-  access: "private" | "org" | "public";
+  // TODO: indicate which ones are read only in comments
+  /**
+   * Access level of the group
+   * ("private" | "org" | "public")
+   */
+  access: SettableAccessLevel;
+
+  /**
+   * Whether members can auto join the group
+   */
   autoJoin?: boolean;
+
+  /**
+   * Description for the group
+   */
   description?: string;
-  isInvitationOnly?: boolean;
-  isDiscussable?: boolean;
-  isReadOnly?: boolean;
-  isViewOnly?: boolean;
-  membershipAccess?: string;
+
+  /**
+   * Whether the group is editable
+   * READ ONLY
+   */
+  isSharedUpdate: boolean;
+
+  /**
+   * Whether the group accepts members through invitations only
+   * READ ONLY???
+   */
+  isInvitationOnly: boolean;
+
+  /**
+   * Whether discussions are enabled or disabled
+   */
+  isDiscussable: boolean;
+
+  /**
+   * Whether the group is for read only or not
+   */
+  isReadOnly: boolean;
+
+  /**
+   * Whether the group is for view only or not
+   * do we need this prop??
+   */
+  isViewOnly: boolean;
+
+  /**
+   * Who can join the groups
+   * (organization, collaborators, anyone)
+   */
+  membershipAccess?: MembershipAccess;
+
+  /**
+   * Username of the owner of the group
+   */
   owner?: string;
-  protected?: boolean;
-  sortField?:
-    | "title"
-    | "owner"
-    | "avgrating"
-    | "numviews"
-    | "created"
-    | "modified";
-  sortOrder?: "asc" | "desc";
+
+  /**
+   * Whether the group is protect or not
+   * the group cannot be deleted if protected
+   */
+  protected: boolean;
+
+  /**
+   * Sort field for the Group
+   * READ ONLY
+   */
+  sortField?: GroupSortField;
+
+  /**
+   * Sort order for the Group
+   * READ ONLY
+   */
+  sortOrder?: SortOrder;
+
+  /**
+   * User configurable tags
+   */
   tags?: string[];
+
+  /**
+   * Group thumbnail url (read-only)
+   */
   thumbnail?: string;
+
+  /**
+   * Group thumbnail url (read-only)
+   */
   thumbnailUrl?: string;
-  userMembership?: {
-    username?: string;
-    memberType?: "owner" | "admin" | "member" | "none";
-    applications?: number;
-  };
+
+  /**
+   * Member types of the group
+   * ("owner" | "admin" | "member" | "none")
+   */
+  memberType?: MemberType;
+
+  /**
+   * Whether there is a field we are trying to clear,
+   * if true, we need to send clearEmptyFields: true
+   * to the updateGroup call
+   * READ ONLY
+   */
+  _clearEmptyFields?: boolean;
 }

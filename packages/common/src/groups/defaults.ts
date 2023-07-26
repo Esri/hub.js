@@ -1,5 +1,5 @@
+import { IGroup } from "@esri/arcgis-rest-types";
 import { IHubGroup } from "../core/types/IHubGroup";
-import { IModel } from "../types";
 
 export const HUB_GROUP_TYPE = "Hub Group";
 
@@ -15,11 +15,11 @@ export const DEFAULT_GROUP: Partial<IHubGroup> = {
 /**
  * Default values for a new HubGroup Model
  */
-export const DEFAULT_GROUP_MODEL: IModel = {
+export const DEFAULT_GROUP_MODEL: IGroup = {
   type: HUB_GROUP_TYPE,
   title: "No Title Provided",
   description: "",
   access: "",
   snippet: "",
   tags: [],
-} as unknown as IModel;
+} as unknown as IGroup;

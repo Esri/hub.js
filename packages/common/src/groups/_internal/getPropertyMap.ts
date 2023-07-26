@@ -17,6 +17,7 @@ export function getPropertyMap(): IPropertyMap[] {
    */
   map.push({ entityKey: "name", storeKey: "title" });
   map.push({ entityKey: "summary", storeKey: "snippet" });
+  map.push({ entityKey: "permissions", storeKey: "properties.permissions" });
 
   const groupProps = [
     "access",

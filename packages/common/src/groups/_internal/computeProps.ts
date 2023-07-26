@@ -26,7 +26,7 @@ export function computeProps(
     token = session.token;
   }
   // thumbnail url
-  hubGroup.thumbnail = getGroupThumbnailUrl(
+  hubGroup.thumbnailUrl = getGroupThumbnailUrl(
     requestOptions.portal,
     group,
     token
@@ -41,6 +41,18 @@ export function computeProps(
   hubGroup.type = "Group";
 
   hubGroup.isDiscussable = isDiscussable(group);
+
+  hubGroup.isSharedUpdate = (group.capabilities || []).includes(
+    "updateitemcontrol"
+  );
+
+  hubGroup.membershipAccess = "anyone";
+  if (group.membershipAccess === "org") {
+    hubGroup.membershipAccess = "organization";
+  }
+  if (group.membershipAccess === "collaboration") {
+    hubGroup.membershipAccess = "collaborators";
+  }
 
   // Handle capabilities
   // NOTE: We do not use the group capabilities right now as we do not

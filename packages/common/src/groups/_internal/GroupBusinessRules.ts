@@ -66,7 +66,6 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
     subsystems: ["groups"],
     authenticated: true,
     privileges: ["portal:user:createGroup"],
-    licenses: ["hub-premium"],
   },
   {
     permission: "hub:group:view",
@@ -84,13 +83,11 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
     authenticated: true,
     subsystems: ["groups"],
     entityOwner: true,
-    licenses: ["hub-premium"],
   },
   {
     permission: "hub:group:owner",
     authenticated: true,
     subsystems: ["groups"],
     entityOwner: true,
-    licenses: ["hub-premium"],
   },
 ];

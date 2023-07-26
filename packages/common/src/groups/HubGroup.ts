@@ -38,24 +38,23 @@ export class HubGroup
    * Whether the user can edit the group, only the managers can
    */
   get canEdit(): boolean {
-    const memberType = this.entity.userMembership?.memberType;
-    const userName = this.entity.userMembership?.username;
-    return (
-      userName === this.context.currentUser.username &&
-      (memberType === "owner" || memberType === "admin")
-    );
+    let value = false;
+    if (
+      (this.entity.memberType && this.entity.memberType === "owner") ||
+      "admin"
+    ) {
+      value = true;
+    } else if (this.entity.owner === this.context.currentUser.username) {
+      value = true;
+    }
+    return value;
   }
 
   /**
    * Whether the user can delete the group, only the managers can
    */
   get canDelete(): boolean {
-    const memberType = this.entity.userMembership?.memberType;
-    const userName = this.entity.userMembership?.username;
-    return (
-      userName === this.context.currentUser.username &&
-      (memberType === "owner" || memberType === "admin")
-    );
+    return this.canEdit;
   }
 
   /**

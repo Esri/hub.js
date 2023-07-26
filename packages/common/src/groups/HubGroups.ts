@@ -1,6 +1,6 @@
 import { IGroup } from "@esri/arcgis-rest-types";
 import { fetchGroupEnrichments } from "./_internal/enrichments";
-import { getProp } from "../objects";
+import { getProp, setProp } from "../objects";
 import { getGroupThumbnailUrl, IHubSearchResult } from "../search";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { IHubRequestOptions, IModel } from "../types";
@@ -122,11 +122,8 @@ export async function fetchHubGroup(
   identifier: string,
   requestOptions: IUserRequestOptions
 ): Promise<IHubGroup> {
-  const getPrms = getGroup(identifier, requestOptions);
-  return getPrms.then((group: IGroup) => {
-    if (!group) return null;
-    return convertGroupToHubGroup(group, requestOptions);
-  });
+  const group = await getGroup(identifier, requestOptions);
+  return convertGroupToHubGroup(group, requestOptions);
 }
 
 /**
@@ -143,7 +140,16 @@ export async function updateHubGroup(
 ): Promise<IHubGroup> {
   let group = await getGroup(hubGroup.id, requestOptions);
   group = convertHubGroupToGroup(hubGroup);
-  await updateGroup({ group, authentication: requestOptions.authentication });
+  const opts = {
+    group,
+    authentication: requestOptions.authentication,
+  };
+  // if we have a field we are trying to clear
+  // We need to send clearEmptyFields: true to the updateGroup call
+  if (group._clearEmptyFields) {
+    setProp("params.clearEmptyFields", true, opts);
+  }
+  await updateGroup(opts);
   return hubGroup;
 }
 
@@ -189,5 +195,19 @@ function convertHubGroupToGroup(hubGroup: IHubGroup): IGroup {
     hubGroup,
     {} as unknown as IGroup
   ) as IGroup;
+  // convert the values for membershipAccess back to
+  // the ones the API accepts
+  if (group.membershipAccess === "organization") {
+    group.membershipAccess = "org";
+  }
+  if (group.membershipAccess === "collaborators") {
+    group.membershipAccess = "collaboration";
+  }
+  // since we are setting null to a prop, we need to
+  // send clearEmptyFields: true to the updateGroup call
+  if (group.membershipAccess === "anyone") {
+    group.membershipAccess = null;
+    group._clearEmptyFields = true;
+  }
   return group;
 }
