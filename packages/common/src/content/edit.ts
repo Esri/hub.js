@@ -1,5 +1,9 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { IUserItemOptions, removeItem } from "@esri/arcgis-rest-portal";
+import {
+  IUserItemOptions,
+  getItem,
+  removeItem,
+} from "@esri/arcgis-rest-portal";
 import { IHubEditableContent } from "../core";
 
 // Note - we separate these imports so we can cleanly spy on things in tests
@@ -14,6 +18,7 @@ import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { cloneObject } from "../util";
 import { IModel } from "../types";
+import { computeProps } from "./_internal/computeProps";
 
 // TODO: move this to defaults?
 const DEFAULT_CONTENT_MODEL: IModel = {
@@ -86,7 +91,10 @@ export async function updateContent(
   // let resources;
 
   // get the backing item & data
-  const model = await getModel(content.id, requestOptions);
+  // We can't just call getModel because we need to be able
+  // to properly handle other types like PDFs that don't have JSON data
+  const item = await getItem(content.id, requestOptions);
+  const model = { item };
   // create the PropertyMapper
   const mapper = new PropertyMapper<Partial<IHubEditableContent>, IModel>(
     getPropertyMap()
@@ -114,8 +122,8 @@ export async function updateContent(
   //   );
   // }
   // now map back into a project and return that
-  const updatedContent = mapper.storeToEntity(updatedModel, content);
-  // updatedContent = computeProps(model, updatedContent, requestOptions);
+  let updatedContent = mapper.storeToEntity(updatedModel, content);
+  updatedContent = computeProps(model, updatedContent, requestOptions);
   // the casting is needed because modelToObject returns a `Partial<T>`
   // where as this function returns a `T`
   return updatedContent as IHubEditableContent;

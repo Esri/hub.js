@@ -3,10 +3,12 @@ import { ProjectEditorTypes } from "../../../src/projects/_internal/ProjectSchem
 import { InitiativeEditorTypes } from "../../../src/initiatives/_internal/InitiativeSchema";
 import { SiteEditorTypes } from "../../../src/sites/_internal/SiteSchema";
 import { DiscussionEditorTypes } from "../../../src/discussions/_internal/DiscussionSchema";
+import { ContentEditorTypes } from "../../../src/content/_internal/ContentSchema";
 import { PageEditorTypes } from "../../../src/pages/_internal/PageSchema";
 import * as applyOptionsModule from "../../../src/core/schemas/internal/applyUiSchemaElementOptions";
 import * as filterSchemaModule from "../../../src/core/schemas/internal/filterSchemaToUiSchema";
 import * as itemsModule from "../../../src/items";
+import { UiSchemaElementOptions } from "../../../src";
 
 describe("getEntityEditorSchemas", () => {
   it("returns a schema & uiSchema for a given entity and editor type", () => {
@@ -15,6 +17,7 @@ describe("getEntityEditorSchemas", () => {
       ...InitiativeEditorTypes,
       ...SiteEditorTypes,
       ...DiscussionEditorTypes,
+      ...ContentEditorTypes,
       ...PageEditorTypes,
     ].forEach(async (type, idx) => {
       const { schema, uiSchema } = await getEntityEditorSchemas(
@@ -30,14 +33,30 @@ describe("getEntityEditorSchemas", () => {
     const filterSchemaToUiSchemaSpy = spyOn(
       filterSchemaModule,
       "filterSchemaToUiSchema"
-    );
+    ).and.callThrough();
     const applyUiSchemaElementOptionsSpy = spyOn(
       applyOptionsModule,
       "applyUiSchemaElementOptions"
-    );
-    const interpolateSpy = spyOn(itemsModule, "interpolate");
+    ).and.callThrough();
+    const interpolateSpy = spyOn(itemsModule, "interpolate").and.callThrough();
 
-    await getEntityEditorSchemas("some.scope", "hub:project:create");
+    const opts: UiSchemaElementOptions[] = [
+      {
+        scope: "/properties/location",
+        options: {
+          extent: [],
+          options: [
+            {
+              selected: true,
+              label: "{{shared.fields.location.none:translate}}",
+              location: { type: "none" },
+            },
+          ],
+        },
+      },
+    ];
+
+    await getEntityEditorSchemas("project", "hub:project:edit", opts);
 
     expect(filterSchemaToUiSchemaSpy).toHaveBeenCalledTimes(1);
     expect(applyUiSchemaElementOptionsSpy).toHaveBeenCalledTimes(1);

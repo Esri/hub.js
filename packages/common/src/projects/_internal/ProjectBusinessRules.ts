@@ -13,6 +13,7 @@ export const ProjectDefaultCapabilities: EntityCapabilities = {
   settings: true,
   metrics: true,
   content: true,
+  dashboard: true,
 };
 
 /**
@@ -47,6 +48,11 @@ export const ProjectCapabilityPermissions: ICapabilityPermission[] = [
     capability: "content",
     permissions: ["hub:project:edit"],
   },
+  {
+    entity: "project",
+    capability: "dashboard",
+    permissions: ["hub:project:edit"],
+  },
 ];
 
 /**
@@ -60,6 +66,7 @@ export const ProjectPermissions = [
   "hub:project:edit",
   "hub:project:view",
   "hub:project:owner",
+  "hub:project:share",
 ] as const;
 
 /**
@@ -98,5 +105,11 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
     subsystems: ["projects"],
     entityOwner: true,
     licenses: ["hub-premium"],
+  },
+  {
+    permission: "hub:project:share",
+    authenticated: true,
+    subsystems: ["projects"],
+    privileges: ["portal:user:shareToGroup"],
   },
 ];

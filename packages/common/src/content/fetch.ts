@@ -29,6 +29,7 @@ import {
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
+import { computeProps } from "./_internal/computeProps";
 
 const hasFeatures = (contentType: string) =>
   ["Feature Layer", "Table"].includes(contentType);
@@ -252,5 +253,5 @@ export const fetchHubContent = async (
   );
   const content = mapper.storeToEntity(model, {}) as IHubEditableContent;
   // TODO: computeProps if we end up using fetchItemAndEnrichments()
-  return content;
+  return computeProps(model, content, requestOptions);
 };

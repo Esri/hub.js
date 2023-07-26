@@ -4,13 +4,7 @@ import {
   UiSchemaElementOptions,
   EditorType,
 } from "../schemas";
-
-/**
- * DEPRECATED: the following will be removed at next breaking version
- * we will be shifting towards the EditorType defined in the schemas
- * directory
- */
-export type EditorConfigType = "create" | "edit";
+import { HubEntity, HubEntityEditor, IEntityEditorContext } from "../types";
 
 export interface IEditorConfig {
   schema: IConfigurationSchema;
@@ -18,12 +12,29 @@ export interface IEditorConfig {
 }
 
 /**
- *
+ * Functions that are used by the arcgis-hub-entity-editor component
  */
 export interface IWithEditorBehavior {
-  getEditorConfig(
-    i18nScope: string,
-    type: EditorType,
-    options: UiSchemaElementOptions[]
-  ): Promise<IEditorConfig>;
+  /**
+   * Get the Entity's ui and schema for the editor
+   * @param i18nScope
+   * @param type
+   * @param options
+   */
+  getEditorConfig(i18nScope: string, type: EditorType): Promise<IEditorConfig>;
+
+  /**
+   * Convert the entity into it's "Editor" structure.
+   * This should only be used by the arcgis-hub-entity-editor component.
+   * For general use, see the `toJson():<T>` method
+   */
+  toEditor(editorContext: IEntityEditorContext): HubEntityEditor;
+
+  /**
+   * Update the internal Entity from the "Editor" structure.
+   * This should only be used by the arcgis-hub-entity-editor component.
+   * For general use, see the `update(Partial<T>)` method
+   * @param values
+   */
+  fromEditor(editor: HubEntityEditor): Promise<HubEntity>;
 }

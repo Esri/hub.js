@@ -72,3 +72,10 @@ export type UiSchemaElementOptions = Pick<
   IUiSchemaElement,
   "scope" | "options"
 >;
+
+export interface IUiSchemaComboboxItem {
+  value: string;
+  label?: string;
+  icon?: string;
+  selected?: boolean;
+}

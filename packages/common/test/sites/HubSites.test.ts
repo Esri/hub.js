@@ -13,6 +13,7 @@ import {
   fetchSite,
   IHubRequestOptions,
 } from "../../src";
+import * as slugUtils from "../../src/items/slugs";
 
 const GUID = "00c77674e43cf4bbd9ecad5189b3f1fdc";
 const SITE_ITEM: portalModule.IItem = {
@@ -275,11 +276,13 @@ describe("HubSites:", () => {
     let domainChangeSpy: jasmine.Spy;
     let updateModelSpy: jasmine.Spy;
     let getModelSpy: jasmine.Spy;
+    let getUniqueSlugSpy: jasmine.Spy;
     beforeEach(() => {
       domainChangeSpy = spyOn(
         require("../../src/sites/_internal"),
         "handleDomainChanges"
       ).and.returnValue(Promise.resolve());
+
       updateModelSpy = spyOn(
         require("../../src/models"),
         "updateModel"
@@ -291,6 +294,12 @@ describe("HubSites:", () => {
         require("../../src/models"),
         "getModel"
       ).and.returnValue(Promise.resolve(SITE_MODEL));
+
+      getUniqueSlugSpy = spyOn(slugUtils, "getUniqueSlug").and.callFake(
+        ({ slug }: any) => {
+          return Promise.resolve(slug as string);
+        }
+      );
     });
     it("updates the backing model", async () => {
       const updatedSite = commonModule.cloneObject(SITE);
@@ -316,6 +325,42 @@ describe("HubSites:", () => {
       expect(domainChangeSpy.calls.count()).toBe(1);
 
       expect(domainChangeSpy.calls.argsFor(0)[1]).toEqual(SITE_MODEL);
+
+      expect(getModelSpy.calls.count()).toBe(1);
+      expect(updateModelSpy.calls.count()).toBe(1);
+      const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+      expect(modelToUpdate.item.title).toBe(updatedSite.name);
+    });
+
+    it("updates domain configurations", async () => {
+      const updatedHostname = "my-cool-hostname.dev";
+      const updatedSite = commonModule.cloneObject(SITE);
+      updatedSite.customHostname = updatedHostname;
+      // We assume at this point that the site has gone through the structural catalog migration
+      updatedSite.catalog = {
+        schemaVersion: 1,
+        title: "Default Site Catalog",
+        scopes: {
+          item: {
+            targetEntity: "item",
+            filters: [],
+          },
+        },
+        collections: [],
+      };
+      const chk = await commonModule.updateSite(updatedSite, MOCK_HUB_REQOPTS);
+
+      expect(chk.id).toBe(GUID);
+      expect(chk.customHostname).toBe(updatedHostname);
+
+      expect(domainChangeSpy.calls.count()).toBe(1);
+
+      const domainChangeArg0 = domainChangeSpy.calls.argsFor(0)[0];
+      const domainChangeArg1 = domainChangeSpy.calls.argsFor(0)[1];
+      expect(domainChangeArg0.data.values.customHostname).toEqual(
+        updatedHostname
+      );
+      expect(domainChangeArg1).toEqual(SITE_MODEL);
 
       expect(getModelSpy.calls.count()).toBe(1);
       expect(updateModelSpy.calls.count()).toBe(1);

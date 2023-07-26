@@ -13,12 +13,14 @@ export async function setItemThumbnail(
   id: string,
   file: any,
   filename: string,
-  requestOptions: IUserRequestOptions
+  requestOptions: IUserRequestOptions,
+  owner: string
 ): Promise<void> {
   const opts = {
     item: {
       id,
     },
+    owner,
     params: {
       thumbnail: file,
       fileName: filename,

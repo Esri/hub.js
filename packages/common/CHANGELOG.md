@@ -1,3 +1,50 @@
+# @esri/hub-common [13.24.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.23.0...@esri/hub-common@13.24.0) (2023-07-25)
+
+
+### Features
+
+* add dashboard capability to site/project/page ([#1126](https://github.com/Esri/hub.js/issues/1126)) ([cada5d3](https://github.com/Esri/hub.js/commit/cada5d39b466b6f51663122cb377e9b1d84a2f41))
+
+# @esri/hub-common [13.23.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.22.1...@esri/hub-common@13.23.0) (2023-07-24)
+
+
+### Bug Fixes
+
+* **hub-common:** saving sites guarantees a unique slug and prevents field loss in site data ([#1130](https://github.com/Esri/hub.js/issues/1130)) ([16a25b6](https://github.com/Esri/hub.js/commit/16a25b6b4bd7161ad7bf59ef716c873011ad1f6c))
+
+
+### Features
+
+* EntityEditor class  ([#1127](https://github.com/Esri/hub.js/issues/1127)) ([3f3beac](https://github.com/Esri/hub.js/commit/3f3beac2ea380ee27700b348ac00e43172d1ee01))
+
+## @esri/hub-common [13.22.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.22.0...@esri/hub-common@13.22.1) (2023-07-21)
+
+
+### Bug Fixes
+
+* include owner with setAccess ([#1129](https://github.com/Esri/hub.js/issues/1129)) ([3c7ab72](https://github.com/Esri/hub.js/commit/3c7ab72b65543d6e23d4a530abab8dfe5888603a))
+
+# @esri/hub-common [13.22.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.21.1...@esri/hub-common@13.22.0) (2023-07-21)
+
+
+### Features
+
+* teach hubSearch channels ([#1111](https://github.com/Esri/hub.js/issues/1111)) ([82d0492](https://github.com/Esri/hub.js/commit/82d04927b644a7b9c219568887a83dd4cd1426d4))
+
+## @esri/hub-common [13.21.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.21.0...@esri/hub-common@13.21.1) (2023-07-19)
+
+
+### Bug Fixes
+
+* update hub search result to view model signature ([#1124](https://github.com/Esri/hub.js/issues/1124)) ([46290dc](https://github.com/Esri/hub.js/commit/46290dc131d14ce026e7a2e6be87412751220868))
+
+# @esri/hub-common [13.21.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.20.0...@esri/hub-common@13.21.0) (2023-07-19)
+
+
+### Features
+
+* page permission policy is included ([#1125](https://github.com/Esri/hub.js/issues/1125)) ([6d5c559](https://github.com/Esri/hub.js/commit/6d5c55961773e9fe1a059255abdc86cfbdcc5137))
+
 # @esri/hub-common [13.20.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.19.0...@esri/hub-common@13.20.0) (2023-07-18)
 
 

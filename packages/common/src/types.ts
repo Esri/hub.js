@@ -175,7 +175,8 @@ export type HubFamily =
   | "site"
   | "team"
   | "template"
-  | "project";
+  | "project"
+  | "channel";
 
 /**
  * Visibility levels of a Hub resource

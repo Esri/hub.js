@@ -1,7 +1,9 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import {
+  IEditorConfig,
   IHubProject,
   IResolvedMetric,
+  IUiSchema,
   UiSchemaElementOptions,
 } from "../../src";
 import { Catalog } from "../../src/search";
@@ -13,6 +15,8 @@ import * as fetchModule from "../../src/projects/fetch";
 import * as viewModule from "../../src/projects/view";
 import * as schemasModule from "../../src/core/schemas/getEntityEditorSchemas";
 import * as ResolveMetricModule from "../../src/metrics/resolveMetric";
+import * as EditorConfigModule from "../../src/projects/_internal/getProjectEditorConfigOptions";
+import * as EntityEditorSchemasModule from "../../src/core/schemas/getEntityEditorSchemas";
 describe("HubProject Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
   let unauthdCtxMgr: ArcGISContextManager;
@@ -25,6 +29,7 @@ describe("HubProject Class:", () => {
       authentication: MOCK_AUTH,
       currentUser: {
         username: "casey",
+        privileges: ["portal:user:shareToGroup"],
       } as unknown as PortalModule.IUser,
       portal: {
         name: "DC R&D Center",
@@ -98,41 +103,41 @@ describe("HubProject Class:", () => {
       }
     });
 
-    it("returns editorConfig", async () => {
-      const spy = spyOn(schemasModule, "getEntityEditorSchemas").and.callFake(
-        () => {
-          return Promise.resolve({ schema: {}, uiSchema: {} });
-        }
-      );
+    // it("returns editorConfig", async () => {
+    //   const spy = spyOn(schemasModule, "getEntityEditorSchemas").and.callFake(
+    //     () => {
+    //       return Promise.resolve({ schema: {}, uiSchema: {} });
+    //     }
+    //   );
 
-      await HubProject.getEditorConfig("test.scope", "hub:project:edit");
-      expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith("test.scope", "hub:project:edit", []);
-    });
+    //   await HubProject.getEditorConfig("test.scope", "hub:project:edit");
+    //   expect(spy).toHaveBeenCalledTimes(1);
+    //   expect(spy).toHaveBeenCalledWith("test.scope", "hub:project:edit", []);
+    // });
 
-    it("returns editorConfig integrating options", async () => {
-      const spy = spyOn(schemasModule, "getEntityEditorSchemas").and.callFake(
-        () => {
-          return Promise.resolve({ schema: {}, uiSchema: {} });
-        }
-      );
+    // it("returns editorConfig integrating options", async () => {
+    //   const spy = spyOn(schemasModule, "getEntityEditorSchemas").and.callFake(
+    //     () => {
+    //       return Promise.resolve({ schema: {}, uiSchema: {} });
+    //     }
+    //   );
 
-      const opts: UiSchemaElementOptions[] = [];
+    //   const opts: UiSchemaElementOptions[] = [];
 
-      await HubProject.getEditorConfig("test.scope", "hub:project:edit", opts);
-      expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith("test.scope", "hub:project:edit", opts);
-    });
+    //   await HubProject.getEditorConfig("test.scope", "hub:project:edit", opts);
+    //   expect(spy).toHaveBeenCalledTimes(1);
+    //   expect(spy).toHaveBeenCalledWith("test.scope", "hub:project:edit", opts);
+    // });
   });
 
-  it("convertToCardViewModel: delegates to the convertProjectEntityToCardViewModel util", async () => {
-    const spy = spyOn(viewModule, "convertProjectEntityToCardViewModel");
+  it("convertToCardModel: delegates to the projectToCardModel util", async () => {
+    const spy = spyOn(viewModule, "projectToCardModel");
 
     const chk = await HubProject.fromJson(
       { name: "Test Project" },
       authdCtxMgr.context
     );
-    await chk.convertToCardViewModel("ago", [], "en-US");
+    await chk.convertToCardModel();
 
     expect(spy).toHaveBeenCalledTimes(1);
   });
@@ -321,6 +326,190 @@ describe("HubProject Class:", () => {
       const result = await chk.resolveMetric("projectBudget_00c");
       expect(spy).toHaveBeenCalledTimes(1);
       expect(result).toEqual({ features: [], generatedAt: 1683060547818 });
+    });
+  });
+
+  describe("IWithEditorBehavior:", () => {
+    it("returns editor config", async () => {
+      // spy on getProjectEditorConfigOptions
+      const optionsSpy = spyOn(
+        EditorConfigModule,
+        "getProjectEditorConfigOptions"
+      ).and.callFake(() => Promise.resolve());
+      // spy on getEntityEditorSchemas
+      const schemaSpy = spyOn(
+        EntityEditorSchemasModule,
+        "getEntityEditorSchemas"
+      ).and.callFake(() => {
+        return Promise.resolve({ schema: {}, uiSchema: {} } as IEditorConfig);
+      });
+
+      const chk = HubProject.fromJson(
+        {
+          id: "bc3",
+          name: "Test Project",
+          catalog: { schemaVersion: 0 },
+        },
+        authdCtxMgr.context
+      );
+      const config = await chk.getEditorConfig(
+        "test.scope",
+        "hub:project:edit"
+      );
+      expect(optionsSpy).toHaveBeenCalledTimes(1);
+      expect(schemaSpy).toHaveBeenCalledTimes(1);
+      expect(config).toEqual({ schema: {}, uiSchema: {} as IUiSchema });
+    });
+    it("toEditor with context", () => {
+      const chk = HubProject.fromJson(
+        {
+          name: "Test Project",
+          catalog: { schemaVersion: 0 },
+        },
+        authdCtxMgr.context
+      );
+      const editor = chk.toEditor({ collaborationGroupId: "00c" });
+      // adds groups prop
+      expect(editor._groups).toEqual(["00c"]);
+    });
+    it("toEditor without context", () => {
+      const chk = HubProject.fromJson(
+        {
+          id: "bc3",
+          name: "Test Project",
+          catalog: { schemaVersion: 0 },
+        },
+        authdCtxMgr.context
+      );
+      const editor = chk.toEditor();
+      // adds groups prop
+      expect(editor._groups).toEqual([]);
+    });
+    describe("fromEditor:", () => {
+      it("simple changes", async () => {
+        // spy on HubProject.save
+        const saveSpy = spyOn(HubProject.prototype, "save").and.callFake(
+          (e: IHubProject) => Promise.resolve(e)
+        );
+        const chk = HubProject.fromJson(
+          {
+            id: "bc3",
+            name: "Test Project",
+            catalog: { schemaVersion: 0 },
+          },
+          authdCtxMgr.context
+        );
+        const editor = chk.toEditor();
+        editor.name = "new name";
+        const p = await chk.fromEditor(editor);
+        expect(p.name).toEqual("new name");
+        expect(saveSpy).toHaveBeenCalledTimes(1);
+      });
+      it("creation", async () => {
+        const createSpy = spyOn(editModule, "createProject").and.callFake(
+          (e: IHubProject) => Promise.resolve(e)
+        );
+        const accessSpy = spyOn(HubProject.prototype, "setAccess").and.callFake(
+          () => Promise.resolve()
+        );
+        const chk = HubProject.fromJson(
+          {
+            name: "Test Project",
+            catalog: { schemaVersion: 0 },
+          },
+          authdCtxMgr.context
+        );
+        const editor = chk.toEditor();
+        editor.name = "new name";
+        editor.access = "public";
+        // remove props just to flex conditions
+        delete editor._groups;
+        const p = await chk.fromEditor(editor);
+        expect(p.name).toEqual("new name");
+        expect(createSpy).toHaveBeenCalledTimes(1);
+        expect(accessSpy).toHaveBeenCalledTimes(1);
+      });
+      it("create and share to groups", async () => {
+        const createSpy = spyOn(editModule, "createProject").and.callFake(
+          (e: IHubProject) => Promise.resolve(e)
+        );
+        spyOn(HubProject.prototype, "setAccess").and.callFake(() =>
+          Promise.resolve()
+        );
+        const shareSpy = spyOn(
+          HubProject.prototype,
+          "shareWithGroup"
+        ).and.callFake(() => Promise.resolve());
+        const chk = HubProject.fromJson(
+          {
+            name: "Test Project",
+            catalog: { schemaVersion: 0 },
+          },
+          authdCtxMgr.context
+        );
+        const editor = chk.toEditor();
+        editor.name = "new name";
+        editor.access = "public";
+        editor._groups = ["00c"];
+        const p = await chk.fromEditor(editor);
+        expect(p.name).toEqual("new name");
+        expect(createSpy).toHaveBeenCalledTimes(1);
+        expect(shareSpy).toHaveBeenCalledTimes(1);
+        expect(shareSpy).toHaveBeenCalledWith("00c");
+      });
+      it("add featured image", async () => {
+        // spy on HubProject.save
+        const saveSpy = spyOn(HubProject.prototype, "save").and.callFake(
+          (e: IHubProject) => Promise.resolve(e)
+        );
+        const addFISpy = spyOn(
+          HubProject.prototype,
+          "setFeaturedImage"
+        ).and.callFake(() => Promise.resolve());
+        const chk = HubProject.fromJson(
+          {
+            id: "bc3",
+            name: "Test Project",
+            catalog: { schemaVersion: 0 },
+          },
+          authdCtxMgr.context
+        );
+        const editor = chk.toEditor();
+        editor.name = "new name";
+        editor.view.featuredImage = {
+          blob: "fake-for-test",
+        };
+        const p = await chk.fromEditor(editor);
+        expect(p.name).toEqual("new name");
+        expect(saveSpy).toHaveBeenCalledTimes(1);
+        expect(addFISpy).toHaveBeenCalledTimes(1);
+        expect(addFISpy).toHaveBeenCalledWith("fake-for-test");
+      });
+      it("clear featured image", async () => {
+        // spy on HubProject.save
+        const saveSpy = spyOn(HubProject.prototype, "save").and.callFake(
+          (e: IHubProject) => Promise.resolve(e)
+        );
+        const clearFISpy = spyOn(
+          HubProject.prototype,
+          "clearFeaturedImage"
+        ).and.callFake(() => Promise.resolve());
+        const chk = HubProject.fromJson(
+          {
+            id: "bc3",
+            name: "Test Project",
+            catalog: { schemaVersion: 0 },
+          },
+          authdCtxMgr.context
+        );
+        const editor = chk.toEditor();
+        editor.name = "new name";
+        editor.view.featuredImage = {};
+        const p = await chk.fromEditor(editor);
+        expect(p.name).toEqual("new name");
+        expect(saveSpy).toHaveBeenCalledTimes(1);
+        expect(clearFISpy).toHaveBeenCalledTimes(1);
+      });
     });
   });
 });

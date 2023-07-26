@@ -1,5 +1,6 @@
 import { ISpatialReference } from "@esri/arcgis-rest-types";
 import { IHubLocationType } from "./types";
+import { HubEntityType } from "./HubEntityType";
 
 /**
  * A location associated with an item and stored as a json resource.
@@ -25,4 +26,21 @@ export interface IHubLocation {
   orgSpatialReference?: ISpatialReference;
   graphic?: any;
   geoJson?: any;
+}
+
+/**
+ * Location options for the location picker
+ */
+export interface IHubLocationOption {
+  /** Whether or not this option is selected initially */
+  selected?: boolean;
+  // The label that appears in the calcite-list
+  label: string;
+  // The description that appears in the calcite-list
+  description?: string;
+  // The location
+  location: IHubLocation;
+  // What type of entity is it?
+  // used for alert box in the location picker
+  entityType?: HubEntityType;
 }

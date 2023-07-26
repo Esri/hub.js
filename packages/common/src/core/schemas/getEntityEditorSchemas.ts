@@ -24,6 +24,10 @@ import {
   PageEditorType,
   PageEditorTypes,
 } from "../../pages/_internal/PageSchema";
+import {
+  ContentEditorType,
+  ContentEditorTypes,
+} from "../../content/_internal/ContentSchema";
 
 /**
  * defines the possible editor type values - these correspond
@@ -32,6 +36,7 @@ import {
 export type EditorType = (typeof validEditorTypes)[number];
 export const validEditorTypes = [
   ...ProjectEditorTypes,
+  ...ContentEditorTypes,
   ...InitiativeEditorTypes,
   ...SiteEditorTypes,
   ...DiscussionEditorTypes,
@@ -113,6 +118,17 @@ export const getEntityEditorSchemas = async (
         "hub:page:edit": () => import("../../pages/_internal/PageUiSchemaEdit"),
       }[type as PageEditorType]());
       break;
+    case "content":
+      const { ContentSchema } = await import(
+        "../../content/_internal/ContentSchema"
+      );
+      schema = cloneObject(ContentSchema);
+
+      ({ uiSchema } = await {
+        "hub:content:edit": () =>
+          import("../../content/_internal/ContentUiSchemaEdit"),
+      }[type as ContentEditorType]());
+      break;
   }
 
   // filter out properties not used in the UI schema
@@ -120,7 +136,16 @@ export const getEntityEditorSchemas = async (
   // apply the options
   uiSchema = applyUiSchemaElementOptions(uiSchema, options);
   // interpolate the i18n scope into the uiSchema
-  uiSchema = interpolate(uiSchema, { i18nScope });
+  uiSchema = interpolate(
+    uiSchema,
+    { i18nScope },
+    // We don't have a real i18n object here, so just return the key
+    {
+      translate(i18nKey: string) {
+        return `{{${i18nKey}:translate}}`;
+      },
+    }
+  );
 
   return Promise.resolve({ schema, uiSchema });
 };

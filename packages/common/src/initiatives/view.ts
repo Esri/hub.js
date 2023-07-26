@@ -1,15 +1,16 @@
 import { IArcGISContext, IHubSearchResult, getFamily } from "..";
-import {
-  getHubRelativeUrl,
-  getShortenedCategories,
-} from "../content/_internal/internalContentUtils";
+import { getShortenedCategories } from "../content/_internal/internalContentUtils";
 import { IHubInitiative } from "../core";
 import {
-  ICardActionLink,
+  getCardModelUrlFromEntity,
+  getCardModelUrlFromResult,
+} from "../urls/getCardModelUrl";
+import {
+  EntityToCardModelFn,
+  ResultToCardModelFn,
+  IConvertToCardModelOpts,
   IHubCardViewModel,
 } from "../core/types/IHubCardViewModel";
-import { getItemHomeUrl } from "../urls/get-item-home-url";
-import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
 
 /**
  * Convert an initiative entity in a card view model
@@ -17,29 +18,29 @@ import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
  *
  * @param initiative initiative entity
  * @param context auth & portal information
- * @param target card link contextual target
- * @param actionLinks card action links
- * @param locale internationalization locale
+ * @param opts view model options
  */
-export const convertInitiativeEntityToCardViewModel = (
+export const initiativeToCardModel: EntityToCardModelFn<IHubInitiative> = (
   initiative: IHubInitiative,
   context: IArcGISContext,
-  target: "ago" | "view" | "workspace" = "ago",
-  actionLinks: ICardActionLink[] = [],
-  /**
-   * TODO: move transform logic to FE so we don't need to pass
-   * locale down (follow https://devtopia.esri.com/dc/hub/issues/7255)
-   */
-  locale: string = "en-US"
+  opts?: IConvertToCardModelOpts
 ): IHubCardViewModel => {
-  const titleUrl = {
-    ago: getItemHomeUrl(initiative.id, context.hubRequestOptions),
-    view: getHubRelativeUrl(initiative.type, initiative.id),
-    workspace: getRelativeWorkspaceUrl(initiative.type, initiative.id),
-  }[target];
+  const {
+    actionLinks = [],
+    baseUrl = "",
+    locale = "en-US",
+    target = "self",
+  } = opts || {};
+
+  const titleUrl = getCardModelUrlFromEntity(
+    initiative,
+    context,
+    target,
+    baseUrl
+  );
 
   return {
-    ...getSharedInitiativeCardViewModel(initiative, locale),
+    ...getSharedInitiativeCardModel(initiative, locale),
     actionLinks,
     titleUrl,
     ...(initiative.thumbnailUrl && { thumbnailUrl: initiative.thumbnailUrl }),
@@ -51,29 +52,25 @@ export const convertInitiativeEntityToCardViewModel = (
  * that can be consumed by the suite of hub gallery components
  *
  * @param searchResult hub initiative search result
- * @param target card link contextual target
- * @param actionLinks card action links
- * @param locale internationalization locale
+ * @param opts view model options
  */
-export const convertInitiativeSearchResultToCardViewModel = (
+export const initiativeResultToCardModel: ResultToCardModelFn = (
   searchResult: IHubSearchResult,
-  target: "ago" | "view" | "workspace" = "ago",
-  actionLinks: ICardActionLink[] = [],
-  /**
-   * TODO: move transform logic to FE so we don't need to pass
-   * locale down (follow https://devtopia.esri.com/dc/hub/issues/7255)
-   */
-  locale: string = "en-US"
+  opts?: IConvertToCardModelOpts
 ): IHubCardViewModel => {
-  const titleUrl = {
-    ago: searchResult.links.self,
-    view: searchResult.links.siteRelative,
-    workspace: searchResult.links.workspaceRelative,
-  }[target];
+  const {
+    actionLinks = [],
+    baseUrl = "",
+    locale = "en-US",
+    target = "self",
+  } = opts || {};
+
+  const titleUrl = getCardModelUrlFromResult(searchResult, target, baseUrl);
 
   return {
-    ...getSharedInitiativeCardViewModel(searchResult, locale),
+    ...getSharedInitiativeCardModel(searchResult, locale),
     actionLinks,
+    ...(searchResult.index && { index: searchResult.index }),
     titleUrl,
     ...(searchResult.links.thumbnail && {
       thumbnailUrl: searchResult.links.thumbnail,
@@ -88,7 +85,7 @@ export const convertInitiativeSearchResultToCardViewModel = (
  * @param entityOrSearchResult intiative entity or hub search result
  * @param locale internationalization locale
  */
-const getSharedInitiativeCardViewModel = (
+const getSharedInitiativeCardModel = (
   entityOrSearchResult: IHubInitiative | IHubSearchResult,
   locale: string
 ): IHubCardViewModel => {
