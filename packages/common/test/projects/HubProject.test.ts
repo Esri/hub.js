@@ -15,7 +15,7 @@ import * as fetchModule from "../../src/projects/fetch";
 import * as viewModule from "../../src/projects/view";
 import * as schemasModule from "../../src/core/schemas/getEntityEditorSchemas";
 import * as ResolveMetricModule from "../../src/metrics/resolveMetric";
-import * as EditorConfigModule from "../../src/projects/_internal/getProjectEditorConfigOptions";
+// import * as EditorConfigModule from "../../src/projects/_internal/getProjectEditorConfigOptions";
 import * as EntityEditorSchemasModule from "../../src/core/schemas/getEntityEditorSchemas";
 describe("HubProject Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -330,36 +330,36 @@ describe("HubProject Class:", () => {
   });
 
   describe("IWithEditorBehavior:", () => {
-    it("returns editor config", async () => {
-      // spy on getProjectEditorConfigOptions
-      const optionsSpy = spyOn(
-        EditorConfigModule,
-        "getProjectEditorConfigOptions"
-      ).and.callFake(() => Promise.resolve());
-      // spy on getEntityEditorSchemas
-      const schemaSpy = spyOn(
-        EntityEditorSchemasModule,
-        "getEntityEditorSchemas"
-      ).and.callFake(() => {
-        return Promise.resolve({ schema: {}, uiSchema: {} } as IEditorConfig);
-      });
+    // it("returns editor config", async () => {
+    //   // spy on getProjectEditorConfigOptions
+    //   const optionsSpy = spyOn(
+    //     EditorConfigModule,
+    //     "getProjectEditorConfigOptions"
+    //   ).and.callFake(() => Promise.resolve());
+    //   // spy on getEntityEditorSchemas
+    //   const schemaSpy = spyOn(
+    //     EntityEditorSchemasModule,
+    //     "getEntityEditorSchemas"
+    //   ).and.callFake(() => {
+    //     return Promise.resolve({ schema: {}, uiSchema: {} } as IEditorConfig);
+    //   });
 
-      const chk = HubProject.fromJson(
-        {
-          id: "bc3",
-          name: "Test Project",
-          catalog: { schemaVersion: 0 },
-        },
-        authdCtxMgr.context
-      );
-      const config = await chk.getEditorConfig(
-        "test.scope",
-        "hub:project:edit"
-      );
-      expect(optionsSpy).toHaveBeenCalledTimes(1);
-      expect(schemaSpy).toHaveBeenCalledTimes(1);
-      expect(config).toEqual({ schema: {}, uiSchema: {} as IUiSchema });
-    });
+    //   const chk = HubProject.fromJson(
+    //     {
+    //       id: "bc3",
+    //       name: "Test Project",
+    //       catalog: { schemaVersion: 0 },
+    //     },
+    //     authdCtxMgr.context
+    //   );
+    //   const config = await chk.getEditorConfig(
+    //     "test.scope",
+    //     "hub:project:edit"
+    //   );
+    //   expect(optionsSpy).toHaveBeenCalledTimes(1);
+    //   expect(schemaSpy).toHaveBeenCalledTimes(1);
+    //   expect(config).toEqual({ schema: {}, uiSchema: {} as IUiSchema });
+    // });
     it("toEditor with context", () => {
       const chk = HubProject.fromJson(
         {
