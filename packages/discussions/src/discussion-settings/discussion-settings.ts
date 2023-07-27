@@ -5,6 +5,7 @@ import {
   IFetchDiscussionSettingParams,
   IRemoveDiscussionSettingParams,
   IRemoveDiscussionSettingResponse,
+  IUpdateDiscussionSettingParams,
 } from "../types";
 
 /**
@@ -32,6 +33,20 @@ export function fetchDiscussionSetting(
   options: IFetchDiscussionSettingParams
 ): Promise<IDiscussionSetting> {
   options.httpMethod = "GET";
+  return request(`/discussion_settings/${options.id}`, options);
+}
+
+/**
+ * update discussion settings
+ *
+ * @export
+ * @param {IRemoveDiscussionSettingParams} options
+ * @return {*} {Promise<IDiscussionSetting>}
+ */
+export function updateDiscussionSetting(
+  options: IUpdateDiscussionSettingParams
+): Promise<IDiscussionSetting> {
+  options.httpMethod = "PATCH";
   return request(`/discussion_settings/${options.id}`, options);
 }
 
