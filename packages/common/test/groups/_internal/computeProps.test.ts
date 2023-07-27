@@ -35,6 +35,7 @@ describe("groups: computeProps:", () => {
         created: 123456789,
         modified: 123456789,
         thumbnail: "group.jpg",
+        membershipAccess: "collaboration",
       } as unknown as IGroup;
       const hubGroup: Partial<IHubGroup> = {
         id: "3ef",
@@ -53,6 +54,7 @@ describe("groups: computeProps:", () => {
       expect(chk.thumbnailUrl).toBe(
         "https://fake-org.undefined/sharing/rest/community/groups/3ef/info/group.jpg?token=fake-token"
       );
+      expect(chk.membershipAccess).toBe("collaborators");
       authdCtxMgr = await ArcGISContextManager.create({
         authentication: undefined,
         currentUser: {
