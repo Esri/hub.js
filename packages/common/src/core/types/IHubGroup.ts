@@ -13,7 +13,6 @@ import {
  * @internal
  */
 export interface IHubGroup extends IHubEntityBase, IWithPermissions {
-  // TODO: indicate which ones are read only in comments
   /**
    * Access level of the group
    * ("private" | "org" | "public")
@@ -32,13 +31,11 @@ export interface IHubGroup extends IHubEntityBase, IWithPermissions {
 
   /**
    * Whether the group is editable
-   * READ ONLY
    */
   isSharedUpdate: boolean;
 
   /**
    * Whether the group accepts members through invitations only
-   * READ ONLY???
    */
   isInvitationOnly: boolean;
 
@@ -54,7 +51,6 @@ export interface IHubGroup extends IHubEntityBase, IWithPermissions {
 
   /**
    * Whether the group is for view only or not
-   * do we need this prop??
    */
   isViewOnly: boolean;
 
@@ -101,7 +97,7 @@ export interface IHubGroup extends IHubEntityBase, IWithPermissions {
   thumbnailUrl?: string;
 
   /**
-   * Member types of the group (read-only)
+   * Member types of the group
    * ("owner" | "admin" | "member" | "none")
    */
   memberType?: MemberType;
@@ -110,7 +106,6 @@ export interface IHubGroup extends IHubEntityBase, IWithPermissions {
    * Whether there is a field we are trying to clear,
    * if true, we need to send clearEmptyFields: true
    * to the updateGroup call
-   * READ ONLY
    */
   _clearEmptyFields?: boolean;
 }

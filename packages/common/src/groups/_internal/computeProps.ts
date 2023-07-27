@@ -54,14 +54,6 @@ export function computeProps(
     hubGroup.membershipAccess = "collaborators";
   }
 
-  // Handle capabilities
-  // NOTE: We do not use the group capabilities right now as we do not
-  // have a data store for it yet, leaving them here for the future
-  // hubGroup.capabilities = processEntityCapabilities(
-  //   {},
-  //   GroupDefaultCapabilities
-  // );
-
   // cast b/c this takes a partial but returns a full group
   return hubGroup as IHubGroup;
 }

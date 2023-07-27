@@ -39,20 +39,20 @@ export class HubGroup
    * only the owner or admins of the group can
    */
   get canEdit(): boolean {
-    let value = false;
     if (
       (this.entity.memberType &&
         (this.entity.memberType === "owner" ||
           this.entity.memberType === "admin")) ||
       this.entity.owner === this.context.currentUser.username
     ) {
-      value = true;
+      return true;
     }
-    return value;
+    return false;
   }
 
   /**
-   * Whether the user can delete the group, only the managers can
+   * Whether the user can delete the group
+   * only the owner or admins of the group can
    */
   get canDelete(): boolean {
     return this.canEdit;

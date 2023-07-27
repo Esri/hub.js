@@ -9,7 +9,7 @@ import { IHubGroup } from "../src/core/types/IHubGroup";
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
 
-fdescribe("Hub Groups", () => {
+describe("Hub Groups", () => {
   let factory: Artifactory;
   beforeAll(() => {
     factory = new Artifactory(config);

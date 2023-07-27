@@ -129,7 +129,7 @@ export async function fetchHubGroup(
 /**
  * @private
  * Update a Hub Group and return it
- * we need to convert the incoming Hub Group to Igroup
+ * we need to convert the incoming Hub Group to IGroup
  * before sending it to the API
  * @param hubGroup
  * @param requestOptions
@@ -138,8 +138,7 @@ export async function updateHubGroup(
   hubGroup: IHubGroup,
   requestOptions: IRequestOptions
 ): Promise<IHubGroup> {
-  let group = await getGroup(hubGroup.id, requestOptions);
-  group = convertHubGroupToGroup(hubGroup);
+  const group = convertHubGroupToGroup(hubGroup);
   const opts = {
     group,
     authentication: requestOptions.authentication,

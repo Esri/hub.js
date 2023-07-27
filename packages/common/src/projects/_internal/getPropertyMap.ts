@@ -11,11 +11,7 @@ import { getBasePropertyMap } from "../../core/_internal/getBasePropertyMap";
 export function getPropertyMap(): IPropertyMap[] {
   const map = getBasePropertyMap();
 
-  /**
-   * project-specific mappings. Note: we do not need to explicitly map
-   * properties from the project item's data.view into the entity's view
-   * because that mapping is already defined in the base property map
-   */
+  // Type specific mappings
   map.push({ entityKey: "status", storeKey: "data.status" });
   map.push({ entityKey: "catalog", storeKey: "data.catalog" });
   map.push({ entityKey: "permissions", storeKey: "data.permissions" });

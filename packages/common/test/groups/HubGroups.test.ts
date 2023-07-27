@@ -184,9 +184,6 @@ describe("HubGroups Module:", () => {
 
   describe("updateHubGroup", () => {
     it("updates a HubGroup", async () => {
-      const portalGetGroupSpy = spyOn(PortalModule, "getGroup").and.returnValue(
-        Promise.resolve(TEST_GROUP)
-      );
       const portalUpdateGroupSpy = spyOn(
         PortalModule,
         "updateGroup"
@@ -196,8 +193,46 @@ describe("HubGroups Module:", () => {
         { authentication: MOCK_AUTH }
       );
       expect(chk.name).toBe("A new hub group");
-      expect(portalGetGroupSpy.calls.count()).toBe(1);
       expect(portalUpdateGroupSpy.calls.count()).toBe(1);
+    });
+    it("updates membershipAccess: anyone", async () => {
+      const portalUpdateGroupSpy = spyOn(PortalModule, "updateGroup");
+      const chk = await HubGroupsModule.updateHubGroup(
+        { ...TEST_HUB_GROUP, membershipAccess: "anyone" } as IHubGroup,
+        { authentication: MOCK_AUTH }
+      );
+      expect(chk.membershipAccess).toBe("anyone");
+      // If membershipAccess is "anyone", we will set
+      // membershipAccess: null and clearEmptyFields: true
+      // to the updateGroup call
+      expect(
+        portalUpdateGroupSpy.calls.argsFor(0)[0].group.membershipAccess
+      ).toBe(null);
+      expect(
+        portalUpdateGroupSpy.calls.argsFor(0)[0].params.clearEmptyFields
+      ).toBeTruthy();
+    });
+    it("updates membershipAccess: organization", async () => {
+      const portalUpdateGroupSpy = spyOn(PortalModule, "updateGroup");
+      const chk = await HubGroupsModule.updateHubGroup(
+        { ...TEST_HUB_GROUP, membershipAccess: "organization" } as IHubGroup,
+        { authentication: MOCK_AUTH }
+      );
+      expect(chk.membershipAccess).toBe("organization");
+      expect(
+        portalUpdateGroupSpy.calls.argsFor(0)[0].group.membershipAccess
+      ).toBe("org");
+    });
+    it("updates membershipAccess: collaborators", async () => {
+      const portalUpdateGroupSpy = spyOn(PortalModule, "updateGroup");
+      const chk = await HubGroupsModule.updateHubGroup(
+        { ...TEST_HUB_GROUP, membershipAccess: "collaborators" } as IHubGroup,
+        { authentication: MOCK_AUTH }
+      );
+      expect(chk.membershipAccess).toBe("collaborators");
+      expect(
+        portalUpdateGroupSpy.calls.argsFor(0)[0].group.membershipAccess
+      ).toBe("collaboration");
     });
   });
 
@@ -207,7 +242,7 @@ describe("HubGroups Module:", () => {
         PortalModule,
         "removeGroup"
       ).and.returnValue(Promise.resolve({ success: true }));
-      const chk = await HubGroupsModule.deleteHubGroup(TEST_HUB_GROUP.id, {
+      await HubGroupsModule.deleteHubGroup(TEST_HUB_GROUP.id, {
         authentication: MOCK_AUTH,
       });
       expect(portalRemoveGroupSpy.calls.count()).toBe(1);
