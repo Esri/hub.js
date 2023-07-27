@@ -1,3 +1,11 @@
+# @esri/hub-common [13.25.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.24.0...@esri/hub-common@13.25.0) (2023-07-27)
+
+
+### Features
+
+* add dashboard capability to content, discussions,initiatives ([#1132](https://github.com/Esri/hub.js/issues/1132)) ([c3e6a98](https://github.com/Esri/hub.js/commit/c3e6a98432601ea838bb80bd859b9e5bfd7186dd))
+* **hub-common:** workspace edit content details ([#1128](https://github.com/Esri/hub.js/issues/1128)) ([aa47afa](https://github.com/Esri/hub.js/commit/aa47afaa8909195d40af994f20807ad69c4da09a))
+
 # @esri/hub-common [13.24.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.23.0...@esri/hub-common@13.24.0) (2023-07-25)
 
 
