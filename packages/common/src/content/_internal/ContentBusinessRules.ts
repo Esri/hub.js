@@ -11,6 +11,7 @@ export const ContentDefaultCapabilities: EntityCapabilities = {
   overview: true,
   details: true,
   settings: true,
+  dashboard: true,
 };
 
 /**
@@ -24,6 +25,11 @@ export const ContentCapabilityPermissions: ICapabilityPermission[] = [
     entity: "content",
     capability: "overview",
     permissions: ["hub:content:view"],
+  },
+  {
+    entity: "content",
+    capability: "dashboard",
+    permissions: ["hub:content:edit"],
   },
   {
     entity: "content",

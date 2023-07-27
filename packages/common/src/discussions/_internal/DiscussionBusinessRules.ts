@@ -11,6 +11,7 @@ export const DiscussionDefaultCapabilities: EntityCapabilities = {
   overview: true,
   details: true,
   settings: true,
+  dashboard: true,
 };
 
 /**
@@ -24,6 +25,11 @@ export const DiscussionCapabilityPermissions: ICapabilityPermission[] = [
     entity: "discussion",
     capability: "overview",
     permissions: ["hub:discussion:view"],
+  },
+  {
+    entity: "discussion",
+    capability: "dashboard",
+    permissions: ["hub:discussion:edit"],
   },
   {
     entity: "discussion",
