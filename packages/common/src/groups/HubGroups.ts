@@ -91,9 +91,9 @@ export async function enrichGroupSearchResult(
 
 /**
  * Create a new Hub Group
- * we are fetching the IGroup so we need to convert
- * the Hub Group to IGroup first, then convert them
- * back to Hub Group and return them
+ * we are creating an IGroup with the createGroup call
+ * so we need to convert the Hub Group to IGroup first
+ * then convert it back to Hub Group and return it
  * @param partialGroup
  * @param requestOptions
  */

@@ -9,7 +9,7 @@ import { IHubGroup } from "../src/core/types/IHubGroup";
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
 
-describe("Hub Groups", () => {
+fdescribe("Hub Groups", () => {
   let factory: Artifactory;
   beforeAll(() => {
     factory = new Artifactory(config);
@@ -21,6 +21,7 @@ describe("Hub Groups", () => {
       const hubGroup: Partial<IHubGroup> = {
         name: `A new group ${new Date().getTime()}`,
         summary: "New group summary",
+        membershipAccess: "organization",
       };
       const newGroup = await createHubGroup(
         hubGroup,
@@ -28,6 +29,7 @@ describe("Hub Groups", () => {
       );
       expect(newGroup).toBeDefined();
       expect(newGroup.summary).toBe("New group summary");
+      expect(newGroup.membershipAccess).toBe("organization");
       const fetchedGroup = await fetchHubGroup(
         newGroup.id,
         ctxMgr.context.userRequestOptions
@@ -36,12 +38,14 @@ describe("Hub Groups", () => {
       const newHubGroup = {
         id: newGroup.id,
         summary: "Updated group summary",
+        membershipAccess: "anyone",
       } as IHubGroup;
       const updatedGroup = await updateHubGroup(
         newHubGroup,
         ctxMgr.context.userRequestOptions
       );
       expect(updatedGroup.summary).toBe("Updated group summary");
+      expect(updatedGroup.membershipAccess).toBe("anyone");
       await deleteHubGroup(newGroup.id, ctxMgr.context.userRequestOptions);
       try {
         await fetchHubGroup(newGroup.id, ctxMgr.context.userRequestOptions);
