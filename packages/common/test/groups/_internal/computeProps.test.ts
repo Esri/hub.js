@@ -50,7 +50,7 @@ describe("groups: computeProps:", () => {
       expect(chk.updatedDate).toBeDefined();
       expect(chk.updatedDateSource).toBe("group.modified");
       expect(chk.isDiscussable).toBeTruthy();
-      expect(chk.thumbnail).toBe(
+      expect(chk.thumbnailUrl).toBe(
         "https://fake-org.undefined/sharing/rest/community/groups/3ef/info/group.jpg?token=fake-token"
       );
       authdCtxMgr = await ArcGISContextManager.create({
@@ -72,7 +72,7 @@ describe("groups: computeProps:", () => {
         portalUrl: "https://org.maps.arcgis.com",
       });
       chk = computeProps(group, hubGroup, authdCtxMgr.context.requestOptions);
-      expect(chk.thumbnail).toBe(
+      expect(chk.thumbnailUrl).toBe(
         "https://org.maps.arcgis.com/sharing/rest/community/groups/3ef/info/group.jpg"
       );
     });

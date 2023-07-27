@@ -3,9 +3,9 @@ import { IHubEntityBase } from "./IHubEntityBase";
 import {
   GroupSortField,
   SettableAccessLevel,
-  SortOrder,
   MemberType,
   MembershipAccess,
+  PlatformSortOrder,
 } from "./types";
 
 /**
@@ -77,15 +77,13 @@ export interface IHubGroup extends IHubEntityBase, IWithPermissions {
 
   /**
    * Sort field for the Group
-   * READ ONLY
    */
   sortField?: GroupSortField;
 
   /**
    * Sort order for the Group
-   * READ ONLY
    */
-  sortOrder?: SortOrder;
+  sortOrder?: PlatformSortOrder;
 
   /**
    * User configurable tags
@@ -103,7 +101,7 @@ export interface IHubGroup extends IHubEntityBase, IWithPermissions {
   thumbnailUrl?: string;
 
   /**
-   * Member types of the group
+   * Member types of the group (read-only)
    * ("owner" | "admin" | "member" | "none")
    */
   memberType?: MemberType;

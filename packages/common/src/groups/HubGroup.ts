@@ -35,16 +35,17 @@ export class HubGroup
   }
 
   /**
-   * Whether the user can edit the group, only the managers can
+   * Whether the user can edit the group,
+   * only the owner or admins of the group can
    */
   get canEdit(): boolean {
     let value = false;
     if (
-      (this.entity.memberType && this.entity.memberType === "owner") ||
-      "admin"
+      (this.entity.memberType &&
+        (this.entity.memberType === "owner" ||
+          this.entity.memberType === "admin")) ||
+      this.entity.owner === this.context.currentUser.username
     ) {
-      value = true;
-    } else if (this.entity.owner === this.context.currentUser.username) {
       value = true;
     }
     return value;

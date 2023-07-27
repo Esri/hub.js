@@ -45,7 +45,7 @@ export type MemberType = "owner" | "admin" | "member" | "none";
 /**
  * ArcGIS sort orders
  */
-export type SortOrder = "asc" | "desc";
+export type PlatformSortOrder = "asc" | "desc";
 
 /**
  * Who can join the groups

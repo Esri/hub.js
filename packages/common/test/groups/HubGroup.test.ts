@@ -61,10 +61,7 @@ describe("HubGroup class:", () => {
         {
           name: "Test Group",
           protected: false,
-          userMembership: {
-            memberType: "member",
-            username: "paige",
-          },
+          memberType: "member",
         },
         authdCtxMgr.context
       );
@@ -75,24 +72,18 @@ describe("HubGroup class:", () => {
         {
           name: "Test Group",
           protected: false,
-          userMembership: {
-            memberType: "admin",
-            username: "paige",
-          },
+          memberType: "admin",
         },
         authdCtxMgr.context
       );
-      expect(chk.canEdit).toBeFalsy();
-      expect(chk.canDelete).toBeFalsy();
+      expect(chk.canEdit).toBeTruthy();
+      expect(chk.canDelete).toBeTruthy();
       expect(chk.isProtected).toBeFalsy();
       chk = HubGroup.fromJson(
         {
           name: "Test Group",
           protected: true,
-          userMembership: {
-            memberType: "admin",
-            username: "casey",
-          },
+          owner: "casey",
         },
         authdCtxMgr.context
       );
