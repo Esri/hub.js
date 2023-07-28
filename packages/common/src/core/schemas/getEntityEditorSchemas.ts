@@ -12,6 +12,7 @@ import { PageEditorType } from "../../pages/_internal/PageSchema";
 import { ContentEditorType } from "../../content/_internal/ContentSchema";
 
 /**
+ * DEPRECATED: please use getEditorConfig instead
  * get the editor schema and uiSchema defined for an entity.
  * The schema and uiSchema that are returned can be used to
  * render a form UI (using the configuration editor)
@@ -27,6 +28,12 @@ export const getEntityEditorSchemas = async (
   options: UiSchemaElementOptions[] = []
 ): Promise<IEditorConfig> => {
   const entityType = type.split(":")[1];
+
+  /* tslint:disable no-console */
+  // TODO: Remove at breaking change
+  console.warn(
+    `getEntityEditorSchemas is DEPRECATED. Please use getEditorConfig instead.`
+  );
 
   // schema and uiSchema are dynamically imported based on
   // the entity type and the provided editor type
@@ -55,6 +62,8 @@ export const getEntityEditorSchemas = async (
       ({ uiSchema } = await {
         "hub:initiative:edit": () =>
           import("../../initiatives/_internal/InitiativeUiSchemaEdit"),
+        "hub:initiative:create": () =>
+          import("../../initiatives/_internal/InitiativeUiSchemaCreate"),
       }[type as InitiativeEditorType]());
       break;
     case "site":
