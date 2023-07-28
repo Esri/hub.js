@@ -18,3 +18,11 @@ export interface IHubInitiative
     IWithCatalog,
     IWithMetrics,
     IWithPermissions {}
+
+export type IHubInitiativeEditor = Omit<IHubInitiative, "extent"> & {
+  /**
+   * Thumbnail image. This is only used on the Editor and is
+   * persisted in the fromEditor method on the Class
+   */
+  _thumbnail?: any;
+};

@@ -198,7 +198,9 @@ export class HubProject
      * field with the core and collaboration groups if the user
      * has the appropriate shareToGroup portal privilege
      */
-    const { access: canShare } = this.checkPermission("hub:project:share");
+    const { access: canShare } = this.checkPermission(
+      "platform:portal:user:shareToGroup"
+    );
     if (!editor.id && canShare) {
       // TODO: at what point can we remove this "auto-share" behavior?
       editor._groups = maybePush(editorContext.contentGroupId, editor._groups);
@@ -218,7 +220,25 @@ export class HubProject
    */
   async fromEditor(editor: IHubProjectEditor): Promise<IHubProject> {
     const autoShareGroups = editor._groups || [];
-    const isProjectCreate = !editor.id;
+    const isCreate = !editor.id;
+
+    // Setting the thumbnailCache will ensure that
+    // the thumbnail is updated on next save
+    if (editor._thumbnail) {
+      if (editor._thumbnail.blob) {
+        this.thumbnailCache = {
+          file: editor._thumbnail.blob,
+          filename: editor._thumbnail.fileName,
+          clear: false,
+        };
+      } else {
+        this.thumbnailCache = {
+          clear: true,
+        };
+      }
+    }
+
+    delete editor._thumbnail;
 
     // extract out things we don't want to persist directly
     // b/c the first thing we do is create/update the project
@@ -229,7 +249,7 @@ export class HubProject
     const entity = editorToProject(editor, this.context.portal);
 
     // create it if it does not yet exist...
-    if (isProjectCreate) {
+    if (isCreate) {
       // this allows the featured image functions to work
       this.entity = await createProject(
         entity,
@@ -255,7 +275,7 @@ export class HubProject
      * if these ever become part of the edit experience, we can remove
      * the conditional
      */
-    if (isProjectCreate) {
+    if (isCreate) {
       await this.setAccess(editor.access as SettableAccessLevel);
       // share the entity with the configured groups
       if (autoShareGroups.length) {

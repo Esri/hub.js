@@ -57,7 +57,8 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
   protected context: IArcGISContext;
   protected entity: T;
   protected isDestroyed: boolean = false;
-  protected thumbnailCache: { file: any; filename: string } = null;
+  protected thumbnailCache: { file?: any; filename?: string; clear?: boolean } =
+    null;
 
   constructor(entity: T, context: IArcGISContext) {
     this.context = context;
