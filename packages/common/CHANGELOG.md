@@ -1,3 +1,10 @@
+## @esri/hub-common [13.25.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.25.0...@esri/hub-common@13.25.1) (2023-07-28)
+
+
+### Bug Fixes
+
+* modify project permissions so it is excluded from enterprise ([#1131](https://github.com/Esri/hub.js/issues/1131)) ([5872d01](https://github.com/Esri/hub.js/commit/5872d0116e1afd4e868f561507d9b138b87eaf37))
+
 # @esri/hub-common [13.25.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.24.0...@esri/hub-common@13.25.0) (2023-07-27)
 
 
