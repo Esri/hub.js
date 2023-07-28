@@ -20,7 +20,5 @@ export async function getEditorConfig(
   context: IArcGISContext
 ): Promise<IEditorConfig> {
   const options = await getEditorConfigOptions(type, entity, context);
-  // return getEntityEditorSchemas(i18nScope, type, options);
-
-  return getEntityEditorSchemas(i18nScope, type, []);
+  return getEntityEditorSchemas(i18nScope, type, options);
 }

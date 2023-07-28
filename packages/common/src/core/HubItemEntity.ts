@@ -13,7 +13,7 @@ import {
   ICapabilityAccessResponse,
 } from "../capabilities";
 import HubError from "../HubError";
-import { uploadImageResource } from "../items";
+import { deleteItemThumbnail, uploadImageResource } from "../items";
 import { setItemThumbnail } from "../items/setItemThumbnail";
 import {
   addPermissionPolicy,
@@ -255,21 +255,32 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     // Handle Thumbnails
     // check if there is a thumbnail in the cache
     if (this.thumbnailCache) {
-      // save the thumbnail
-      await setItemThumbnail(
-        this.entity.id,
-        this.thumbnailCache.file,
-        this.thumbnailCache.filename,
-        this.context.userRequestOptions,
-        this.entity.owner
-      );
+      if (this.thumbnailCache.clear) {
+        await deleteItemThumbnail(
+          this.entity.id,
+          this.entity.owner,
+          this.context.userRequestOptions
+        );
+        this.thumbnailCache = null;
+        this.entity.thumbnail = null;
+        this.entity.thumbnailUrl = null;
+      } else {
+        // save the thumbnail
+        await setItemThumbnail(
+          this.entity.id,
+          this.thumbnailCache.file,
+          this.thumbnailCache.filename,
+          this.context.userRequestOptions,
+          this.entity.owner
+        );
 
-      // Note: updating the thumbnail alone does not update the modified date of the item
-      // thus we can just set props on the entity w/o re-fetching
-      this.entity.thumbnail = `thumbnail/${this.thumbnailCache.filename}`;
-      this.entity.thumbnailUrl = this.getThumbnailUrl();
-      // clear the thumbnail cache
-      this.thumbnailCache = null;
+        // Note: updating the thumbnail alone does not update the modified date of the item
+        // thus we can just set props on the entity w/o re-fetching
+        this.entity.thumbnail = `thumbnail/${this.thumbnailCache.filename}`;
+        this.entity.thumbnailUrl = this.getThumbnailUrl();
+        // clear the thumbnail cache
+        this.thumbnailCache = null;
+      }
     }
   }
 

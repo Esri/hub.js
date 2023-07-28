@@ -1,5 +1,8 @@
 import { IArcGISContext } from "../ArcGISContext";
+import { HubContent } from "../content/HubContent";
+import { HubDiscussion } from "../discussions/HubDiscussion";
 import { HubInitiative } from "../initiatives/HubInitiative";
+import { HubPage } from "../pages/HubPage";
 import { HubProject } from "../projects/HubProject";
 import { HubSite } from "../sites/HubSite";
 import { IEditorConfig, IWithEditorBehavior } from "./behaviors";
@@ -22,13 +25,24 @@ export class EntityEditor {
     if (entityType === "project") {
       editor = HubProject.fromJson(entity, context) as IWithEditorBehavior;
     }
-    // TODO: Uncomment as we support more entity types
-    // if (entityType === "initiative") {
-    //   editor = HubInitiative.fromJson(entity, context) as EntityEditor;
-    // }
-    // if (entity.type === "site") {
-    //   editor = HubSite.fromJson(entity, context) as EntityEditor;
-    // }
+    if (entityType === "project") {
+      editor = HubProject.fromJson(entity, context) as IWithEditorBehavior;
+    }
+    if (entityType === "initiative") {
+      editor = HubInitiative.fromJson(entity, context) as IWithEditorBehavior;
+    }
+    if (entityType === "content") {
+      editor = HubContent.fromJson(entity, context) as IWithEditorBehavior;
+    }
+    if (entityType === "site") {
+      editor = HubSite.fromJson(entity, context) as IWithEditorBehavior;
+    }
+    if (entityType === "page") {
+      editor = HubPage.fromJson(entity, context) as IWithEditorBehavior;
+    }
+    if (entityType === "discussion") {
+      editor = HubDiscussion.fromJson(entity, context) as IWithEditorBehavior;
+    }
     if (editor) {
       return new EntityEditor(editor);
     } else {

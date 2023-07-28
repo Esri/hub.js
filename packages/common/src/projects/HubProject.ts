@@ -171,15 +171,8 @@ export class HubProject
     i18nScope: string,
     type: EditorType
   ): Promise<IEditorConfig> {
-    // get the options first...
     // delegate to the schema subsystem
     return getEditorConfig(i18nScope, type, this.entity, this.context);
-    // const projectOptions = await getProjectEditorConfigOptions(
-    //   this.entity,
-    //   this.context
-    // );
-    // // TODO: Decide if we should split up the logic in this next function
-    // return getEntityEditorSchemas(i18nScope, type, projectOptions);
   }
 
   /**
