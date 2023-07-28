@@ -173,7 +173,7 @@ describe("HubSites:", () => {
       expect(fetchSpy.calls.argsFor(0)[0]).toBe(GUID);
     });
 
-    it("applies catalog migration if needed", async () => {
+    it("applies catalog migration", async () => {
       spyOn(
         require("../../src/sites/fetchSiteModel"),
         "fetchSiteModel"
@@ -186,6 +186,35 @@ describe("HubSites:", () => {
       expect(chk.owner).toBe("vader");
       expect(chk.catalog).toBeDefined();
       expect(chk.catalog.schemaVersion).toBeDefined();
+    });
+
+    it("applies catalog migration on sites with borked searchCategories", async () => {
+      const borkedSearchCategories = [
+        { key: "non-existant-search-category" },
+        { key: "components.search.category_tabs.data" },
+        { key: "components.search.category_tabs.sites" },
+        { key: "components.search.category_tabs.documents" },
+        { key: "components.search.category_tabs.apps_and_maps" },
+      ];
+      const borkedSite = cloneObject(SITE_MODEL);
+      borkedSite.data.values.searchCategories = borkedSearchCategories;
+      spyOn(
+        require("../../src/sites/fetchSiteModel"),
+        "fetchSiteModel"
+      ).and.returnValue(Promise.resolve(borkedSite));
+
+      const chk = await fetchSite(GUID, {
+        authentication: MOCK_AUTH,
+      });
+      expect(chk.id).toBe(GUID);
+      expect(chk.owner).toBe("vader");
+      expect(chk.catalog).toBeDefined();
+      expect(chk.catalog.schemaVersion).toBeDefined();
+      // The all collection is automatically prepended, remove it from our check
+      const collections = chk.catalog.collections.filter(
+        (c) => c.key !== "all"
+      );
+      expect(collections.length).toBe(4);
     });
 
     it("gets by domain, without auth", async () => {

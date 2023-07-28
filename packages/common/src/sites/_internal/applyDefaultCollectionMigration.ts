@@ -83,6 +83,11 @@ export function applyDefaultCollectionMigration(model: IModel): IModel {
       (searchCategory) =>
         searchCategory.key !== "components.search.category_tabs.events"
     )
+    // Some sites have a borked `data.values.searchCategories` that explicitly includes the `all`
+    // collection. We have this check to catch that and any other weird scenarios.
+    .filter(
+      (searchCategory) => !!searchCategoryToCollection[searchCategory.key]
+    )
     .map((searchCategory) => {
       const collectionKey = searchCategoryToCollection[searchCategory.key];
       const collection = baseCollectionMap[collectionKey];
