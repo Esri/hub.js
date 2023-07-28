@@ -44,6 +44,7 @@ export async function getEntityEditorSchemas(
           import("../../../sites/_internal/SiteUiSchemaEdit"),
       }[type as SiteEditorType]());
       break;
+    // ----------------------------------------------------
     case "discussion":
       const { DiscussionSchema } = await import(
         "../../../discussions/_internal/DiscussionSchema"
@@ -57,6 +58,7 @@ export async function getEntityEditorSchemas(
           import("../../../discussions/_internal/DiscussionUiSchemaCreate"),
       }[type as DiscussionEditorType]());
       break;
+    // ----------------------------------------------------
     case "project":
       const { ProjectSchema } = await import(
         "../../../projects/_internal/ProjectSchema"
@@ -70,6 +72,7 @@ export async function getEntityEditorSchemas(
           import("../../../projects/_internal/ProjectUiSchemaCreate"),
       }[type as ProjectEditorType]());
       break;
+    // ----------------------------------------------------
     case "initiative":
       const { InitiativeSchema } = await import(
         "../../../initiatives/_internal/InitiativeSchema"
@@ -83,6 +86,7 @@ export async function getEntityEditorSchemas(
           import("../../../initiatives/_internal/InitiativeUiSchemaCreate"),
       }[type as InitiativeEditorType]());
       break;
+    // ----------------------------------------------------
     case "page":
       const { PageSchema } = await import(
         "../../../pages/_internal/PageSchema"
@@ -94,6 +98,7 @@ export async function getEntityEditorSchemas(
           import("../../../pages/_internal/PageUiSchemaEdit"),
       }[type as PageEditorType]());
       break;
+    // ----------------------------------------------------
     case "content":
       const { ContentSchema } = await import(
         "../../../content/_internal/ContentSchema"

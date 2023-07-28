@@ -19,6 +19,7 @@ export async function getTagItems(
   orgId: string,
   hubRequestOptions: IHubRequestOptions
 ): Promise<IUiSchemaComboboxItem[]> {
+  // TODO: Once we resolve issues consuming hubSearch in Hub.js we can swap back to this approach
   // const query: IQuery = {
   //   targetEntity: "item",
   //   filters: [{ predicates: [{ orgid: orgId }] }],
@@ -29,6 +30,14 @@ export async function getTagItems(
   //   aggLimit: 200,
   //   requestOptions: hubRequestOptions,
   // };
+  // const {
+  //   aggregations: [tagsAgg],
+  // } = await hubSearch(query, opts);
+  // const {
+  //   aggregations: [tagsAgg],
+  // } = await Promise.resolve({
+  //   aggregations: [{ values: [{ value: "test" }] }],
+  // });
 
   try {
     const so: ISearchOptions = {
@@ -46,14 +55,6 @@ export async function getTagItems(
       };
     });
 
-    // const {
-    //   aggregations: [tagsAgg],
-    // } = await hubSearch(query, opts);
-    // const {
-    //   aggregations: [tagsAgg],
-    // } = await Promise.resolve({
-    //   aggregations: [{ values: [{ value: "test" }] }],
-    // });
     /**
      * Because we allow custom tags, we need to merge the existing entity tags
      * and the tags fetched from the orgs, then remove duplicates, filter out

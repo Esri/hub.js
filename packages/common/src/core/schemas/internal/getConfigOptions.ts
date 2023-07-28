@@ -10,7 +10,6 @@ import { ConfigOption, configHelpers } from "./configOptionHelpers";
  * @param context
  * @returns
  */
-
 export async function getConfigOptions(
   options: ConfigOption[],
   entity: ConfigurableEntity,

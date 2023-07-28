@@ -36,13 +36,6 @@ export const configHelpers: Record<ConfigOption, ConfigHelperFn> = {
   thumbnail: getThumbnailConfigOptions,
 };
 
-async function noOp(): Promise<UiSchemaElementOptions> {
-  return Promise.resolve({
-    scope: "",
-    options: {},
-  });
-}
-
 async function getFeaturedContentCatalogOptions(
   _entity: ConfigurableEntity,
   context: IArcGISContext
@@ -94,15 +87,17 @@ async function getLocationConfigOptions(
   entity: ConfigurableEntity,
   context: IArcGISContext
 ): Promise<UiSchemaElementOptions> {
+  const ext = await getLocationExtent(entity, context.hubRequestOptions);
+  const opts = await getLocationOptions(
+    entity,
+    context.portal.name,
+    context.hubRequestOptions
+  );
   return Promise.resolve({
     scope: "/properties/location",
     options: {
-      extent: await getLocationExtent(entity, context.hubRequestOptions),
-      options: await getLocationOptions(
-        entity,
-        context.portal.name,
-        context.hubRequestOptions
-      ),
+      extent: ext,
+      options: opts,
     },
   });
 }

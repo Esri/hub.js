@@ -3,12 +3,13 @@ import {
   EntityEditor,
   HubContent,
   HubDiscussion,
+  HubInitiative,
   HubPage,
   HubProject,
   HubSite,
-  IHubContent,
   IHubDiscussion,
   IHubEditableContent,
+  IHubInitiative,
   IHubPage,
   IHubProject,
   IHubSite,
@@ -17,7 +18,7 @@ import {
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as PortalModule from "@esri/arcgis-rest-portal";
 
-fdescribe("EntityEditor:", () => {
+describe("EntityEditor:", () => {
   let authdCtxMgr: ArcGISContextManager;
   beforeEach(async () => {
     // When we pass in all this information, the context
@@ -238,6 +239,50 @@ fdescribe("EntityEditor:", () => {
       expect(getConfigSpy).toHaveBeenCalledWith(
         "someScope",
         "hub:content:edit"
+      );
+      const chk = editor.toEditor();
+      expect(toEditorSpy).toHaveBeenCalled();
+      expect(chk.id).toBe("00c");
+      await editor.save(chk);
+      expect(fromEditorSpy).toHaveBeenCalledWith(chk);
+    });
+  });
+
+  describe("supports initiatives:", () => {
+    let fromJsonSpy: jasmine.Spy;
+    let getConfigSpy: jasmine.Spy;
+    let toEditorSpy: jasmine.Spy;
+    let fromEditorSpy: jasmine.Spy;
+    beforeEach(() => {
+      fromJsonSpy = spyOn(HubInitiative, "fromJson").and.callThrough();
+      getConfigSpy = spyOn(
+        HubInitiative.prototype,
+        "getEditorConfig"
+      ).and.callFake(() => {
+        return Promise.resolve({} as any);
+      });
+      toEditorSpy = spyOn(
+        HubInitiative.prototype,
+        "toEditor"
+      ).and.callThrough();
+      fromEditorSpy = spyOn(HubInitiative.prototype, "fromEditor").and.callFake(
+        () => {
+          return Promise.resolve({} as any);
+        }
+      );
+    });
+
+    it("verify EntityEditor with Initiative", async () => {
+      const p: IHubInitiative = {
+        id: "00c",
+        type: "Hub Initiative",
+      } as IHubInitiative;
+      const editor = EntityEditor.fromEntity(p, authdCtxMgr.context);
+      expect(fromJsonSpy).toHaveBeenCalled();
+      await editor.getConfig("someScope", "hub:initiative:edit");
+      expect(getConfigSpy).toHaveBeenCalledWith(
+        "someScope",
+        "hub:initiative:edit"
       );
       const chk = editor.toEditor();
       expect(toEditorSpy).toHaveBeenCalled();
