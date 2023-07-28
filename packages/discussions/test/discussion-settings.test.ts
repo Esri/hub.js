@@ -43,7 +43,7 @@ describe("discussion-settings", () => {
 
     expect(requestSpy.calls.count()).toEqual(1);
     const [url, opts] = requestSpy.calls.argsFor(0);
-    expect(url).toEqual(`/discussion_settings`);
+    expect(url).toEqual(`/discussion-settings`);
     expect(opts).toEqual({ ...options, httpMethod: "POST" });
   });
 
@@ -55,7 +55,7 @@ describe("discussion-settings", () => {
 
     expect(requestSpy.calls.count()).toEqual(1);
     const [url, opts] = requestSpy.calls.argsFor(0);
-    expect(url).toEqual(`/discussion_settings/${id}`);
+    expect(url).toEqual(`/discussion-settings/${id}`);
     expect(opts).toEqual({ ...options, httpMethod: "GET" });
   });
 
@@ -76,7 +76,7 @@ describe("discussion-settings", () => {
 
     expect(requestSpy.calls.count()).toEqual(1);
     const [url, opts] = requestSpy.calls.argsFor(0);
-    expect(url).toEqual(`/discussion_settings/${id}`);
+    expect(url).toEqual(`/discussion-settings/${id}`);
     expect(opts).toEqual({ ...options, httpMethod: "PATCH" });
   });
 
@@ -88,7 +88,7 @@ describe("discussion-settings", () => {
 
     expect(requestSpy.calls.count()).toEqual(1);
     const [url, opts] = requestSpy.calls.argsFor(0);
-    expect(url).toEqual(`/discussion_settings/${id}`);
+    expect(url).toEqual(`/discussion-settings/${id}`);
     expect(opts).toEqual({ ...options, httpMethod: "DELETE" });
   });
 });
