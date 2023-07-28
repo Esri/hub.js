@@ -1,11 +1,5 @@
 import * as PortalModule from "@esri/arcgis-rest-portal";
-import {
-  IEditorConfig,
-  IHubProject,
-  IResolvedMetric,
-  IUiSchema,
-  UiSchemaElementOptions,
-} from "../../src";
+import { IHubProject, IResolvedMetric, getProp } from "../../src";
 import { Catalog } from "../../src/search";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubProject } from "../../src/projects/HubProject";
@@ -13,10 +7,10 @@ import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as editModule from "../../src/projects/edit";
 import * as fetchModule from "../../src/projects/fetch";
 import * as viewModule from "../../src/projects/view";
-import * as schemasModule from "../../src/core/schemas/getEntityEditorSchemas";
+import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import * as ResolveMetricModule from "../../src/metrics/resolveMetric";
-// import * as EditorConfigModule from "../../src/projects/_internal/getProjectEditorConfigOptions";
-import * as EntityEditorSchemasModule from "../../src/core/schemas/getEntityEditorSchemas";
+import { HubItemEntity } from "../../src/core/HubItemEntity";
+
 describe("HubProject Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
   let unauthdCtxMgr: ArcGISContextManager;
@@ -330,185 +324,260 @@ describe("HubProject Class:", () => {
   });
 
   describe("IWithEditorBehavior:", () => {
-    // it("returns editor config", async () => {
-    //   // spy on getProjectEditorConfigOptions
-    //   const optionsSpy = spyOn(
-    //     EditorConfigModule,
-    //     "getProjectEditorConfigOptions"
-    //   ).and.callFake(() => Promise.resolve());
-    //   // spy on getEntityEditorSchemas
-    //   const schemaSpy = spyOn(
-    //     EntityEditorSchemasModule,
-    //     "getEntityEditorSchemas"
-    //   ).and.callFake(() => {
-    //     return Promise.resolve({ schema: {}, uiSchema: {} } as IEditorConfig);
-    //   });
-
-    //   const chk = HubProject.fromJson(
-    //     {
-    //       id: "bc3",
-    //       name: "Test Project",
-    //       catalog: { schemaVersion: 0 },
-    //     },
-    //     authdCtxMgr.context
-    //   );
-    //   const config = await chk.getEditorConfig(
-    //     "test.scope",
-    //     "hub:project:edit"
-    //   );
-    //   expect(optionsSpy).toHaveBeenCalledTimes(1);
-    //   expect(schemaSpy).toHaveBeenCalledTimes(1);
-    //   expect(config).toEqual({ schema: {}, uiSchema: {} as IUiSchema });
-    // });
-    it("toEditor with context", () => {
-      const chk = HubProject.fromJson(
-        {
-          name: "Test Project",
-          catalog: { schemaVersion: 0 },
-        },
-        authdCtxMgr.context
+    it("getEditorConfig delegates to helper", async () => {
+      const spy = spyOn(EditConfigModule, "getEditorConfig").and.callFake(
+        () => {
+          return Promise.resolve({ fake: "config" });
+        }
       );
-      const editor = chk.toEditor({ collaborationGroupId: "00c" });
-      // adds groups prop
-      expect(editor._groups).toEqual(["00c"]);
-    });
-    it("toEditor without context", () => {
       const chk = HubProject.fromJson(
         {
           id: "bc3",
-          name: "Test Project",
-          catalog: { schemaVersion: 0 },
+          name: "Test Entity",
         },
         authdCtxMgr.context
       );
-      const editor = chk.toEditor();
-      // adds groups prop
-      expect(editor._groups).toEqual([]);
+      const result = await chk.getEditorConfig(
+        "i18n.Scope",
+        "hub:content:edit"
+      );
+      expect(result).toEqual({ fake: "config" } as any);
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith(
+        "i18n.Scope",
+        "hub:content:edit",
+        chk.toJson(),
+        authdCtxMgr.context
+      );
     });
+
+    it("toEditor converst entity to correct structure", () => {
+      const chk = HubProject.fromJson(
+        {
+          id: "bc3",
+          name: "Test Entity",
+          thumbnailUrl: "https://myserver.com/thumbnail.png",
+        },
+        authdCtxMgr.context
+      );
+      const result = chk.toEditor();
+      // NOTE: If additional transforms are added in the class they should have tests here
+      expect(result.id).toEqual("bc3");
+      expect(result.name).toEqual("Test Entity");
+      expect(result.thumbnailUrl).toEqual("https://myserver.com/thumbnail.png");
+      expect(result._groups).toEqual([]);
+    });
+
     describe("fromEditor:", () => {
-      it("simple changes", async () => {
-        // spy on HubProject.save
-        const saveSpy = spyOn(HubProject.prototype, "save").and.callFake(
-          (e: IHubProject) => Promise.resolve(e)
-        );
+      it("handles setting featuredImage", async () => {
         const chk = HubProject.fromJson(
           {
             id: "bc3",
-            name: "Test Project",
-            catalog: { schemaVersion: 0 },
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
           },
           authdCtxMgr.context
         );
         const editor = chk.toEditor();
-        editor.name = "new name";
-        const p = await chk.fromEditor(editor);
-        expect(p.name).toEqual("new name");
-        expect(saveSpy).toHaveBeenCalledTimes(1);
-      });
-      it("creation", async () => {
-        const createSpy = spyOn(editModule, "createProject").and.callFake(
-          (e: IHubProject) => Promise.resolve(e)
-        );
-        const accessSpy = spyOn(HubProject.prototype, "setAccess").and.callFake(
-          () => Promise.resolve()
-        );
-        const chk = HubProject.fromJson(
-          {
-            name: "Test Project",
-            catalog: { schemaVersion: 0 },
+        editor.view = {
+          featuredImage: {
+            blob: "fake blob",
+            filename: "thumbnail.png",
           },
-          authdCtxMgr.context
-        );
-        const editor = chk.toEditor();
-        editor.name = "new name";
-        editor.access = "public";
-        // remove props just to flex conditions
-        delete editor._groups;
-        const p = await chk.fromEditor(editor);
-        expect(p.name).toEqual("new name");
-        expect(createSpy).toHaveBeenCalledTimes(1);
-        expect(accessSpy).toHaveBeenCalledTimes(1);
-      });
-      it("create and share to groups", async () => {
-        const createSpy = spyOn(editModule, "createProject").and.callFake(
-          (e: IHubProject) => Promise.resolve(e)
-        );
-        spyOn(HubProject.prototype, "setAccess").and.callFake(() =>
+        };
+        const spy = spyOn(chk, "setFeaturedImage").and.returnValue(
           Promise.resolve()
         );
-        const shareSpy = spyOn(
-          HubProject.prototype,
-          "shareWithGroup"
-        ).and.callFake(() => Promise.resolve());
-        const chk = HubProject.fromJson(
-          {
-            name: "Test Project",
-            catalog: { schemaVersion: 0 },
-          },
-          authdCtxMgr.context
-        );
-        const editor = chk.toEditor();
-        editor.name = "new name";
-        editor.access = "public";
-        editor._groups = ["00c"];
-        const p = await chk.fromEditor(editor);
-        expect(p.name).toEqual("new name");
-        expect(createSpy).toHaveBeenCalledTimes(1);
-        expect(shareSpy).toHaveBeenCalledTimes(1);
-        expect(shareSpy).toHaveBeenCalledWith("00c");
+        await chk.fromEditor(editor);
+
+        expect(spy).toHaveBeenCalledTimes(1);
+        expect(spy).toHaveBeenCalledWith("fake blob");
       });
-      it("add featured image", async () => {
-        // spy on HubProject.save
-        const saveSpy = spyOn(HubProject.prototype, "save").and.callFake(
-          (e: IHubProject) => Promise.resolve(e)
-        );
-        const addFISpy = spyOn(
-          HubProject.prototype,
-          "setFeaturedImage"
-        ).and.callFake(() => Promise.resolve());
+      it("handles clearing featuredImage", async () => {
         const chk = HubProject.fromJson(
           {
             id: "bc3",
-            name: "Test Project",
-            catalog: { schemaVersion: 0 },
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
           },
           authdCtxMgr.context
         );
         const editor = chk.toEditor();
-        editor.name = "new name";
-        editor.view.featuredImage = {
-          blob: "fake-for-test",
+        editor.view = {
+          featuredImage: {}, // Will clear b/c .blob is not defined
         };
-        const p = await chk.fromEditor(editor);
-        expect(p.name).toEqual("new name");
-        expect(saveSpy).toHaveBeenCalledTimes(1);
-        expect(addFISpy).toHaveBeenCalledTimes(1);
-        expect(addFISpy).toHaveBeenCalledWith("fake-for-test");
-      });
-      it("clear featured image", async () => {
-        // spy on HubProject.save
-        const saveSpy = spyOn(HubProject.prototype, "save").and.callFake(
-          (e: IHubProject) => Promise.resolve(e)
+        const spy = spyOn(chk, "clearFeaturedImage").and.returnValue(
+          Promise.resolve()
         );
-        const clearFISpy = spyOn(
-          HubProject.prototype,
-          "clearFeaturedImage"
-        ).and.callFake(() => Promise.resolve());
+        await chk.fromEditor(editor);
+
+        expect(spy).toHaveBeenCalledTimes(1);
+      });
+      it("sets access on create", async () => {
         const chk = HubProject.fromJson(
           {
-            id: "bc3",
-            name: "Test Project",
-            catalog: { schemaVersion: 0 },
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
           },
           authdCtxMgr.context
         );
         const editor = chk.toEditor();
+
+        editor.access = "org";
+        const createSpy = spyOn(editModule, "createProject").and.callFake(
+          (e: any) => {
+            e.id = "3ef";
+            return Promise.resolve(e);
+          }
+        );
+        const accessSpy = spyOn(
+          HubItemEntity.prototype,
+          "setAccess"
+        ).and.returnValue(Promise.resolve());
+
+        await chk.fromEditor(editor);
+        expect(createSpy).toHaveBeenCalledTimes(1);
+        expect(accessSpy).toHaveBeenCalledTimes(1);
+        expect(accessSpy).toHaveBeenCalledWith("org");
+      });
+      it("handles sharing on create", async () => {
+        const chk = HubProject.fromJson(
+          {
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        const editor = chk.toEditor();
+        editor._groups = ["3ef"];
+        editor.access = "org";
+        const createSpy = spyOn(editModule, "createProject").and.callFake(
+          (e: any) => {
+            e.id = "3ef";
+            return Promise.resolve(e);
+          }
+        );
+        const accessSpy = spyOn(
+          HubItemEntity.prototype,
+          "setAccess"
+        ).and.returnValue(Promise.resolve());
+
+        const shareSpy = spyOn(
+          HubItemEntity.prototype,
+          "shareWithGroup"
+        ).and.returnValue(Promise.resolve());
+        await chk.fromEditor(editor);
+        expect(createSpy).toHaveBeenCalledTimes(1);
+        expect(accessSpy).toHaveBeenCalledTimes(1);
+        expect(accessSpy).toHaveBeenCalledWith("org");
+        expect(shareSpy).toHaveBeenCalledTimes(1);
+        expect(shareSpy).toHaveBeenCalledWith("3ef");
+      });
+      it("handles simple prop change", async () => {
+        const chk = HubProject.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        // spy on the instance .save method and retrn void
+        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        // make changes to the editor
+        const editor = chk.toEditor();
         editor.name = "new name";
-        editor.view.featuredImage = {};
-        const p = await chk.fromEditor(editor);
-        expect(p.name).toEqual("new name");
+        delete editor._groups;
+        // call fromEditor
+        const result = await chk.fromEditor(editor);
+        // expect the save method to have been called
         expect(saveSpy).toHaveBeenCalledTimes(1);
-        expect(clearFISpy).toHaveBeenCalledTimes(1);
+        // expect the name to have been updated
+        expect(result.name).toEqual("new name");
+      });
+      it("handles thumbnail change", async () => {
+        const chk = HubProject.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        // spy on the instance .save method and retrn void
+        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        // make changes to the editor
+        const editor = chk.toEditor();
+        editor.name = "new name";
+        editor._thumbnail = {
+          blob: "fake blob",
+          filename: "thumbnail.png",
+        };
+        // call fromEditor
+        const result = await chk.fromEditor(editor);
+        // expect the save method to have been called
+        expect(saveSpy).toHaveBeenCalledTimes(1);
+        // since thumbnailCache is protected we can't really test that it's set
+        // other than via code-coverage
+        expect(getProp(result, "_thumbnail")).not.toBeDefined();
+      });
+
+      it("handles thumbnail clear", async () => {
+        const chk = HubProject.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        // spy on the instance .save method and retrn void
+        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        // make changes to the editor
+        const editor = chk.toEditor();
+        editor.name = "new name";
+        editor._thumbnail = {};
+        // call fromEditor
+        const result = await chk.fromEditor(editor);
+        // expect the save method to have been called
+        expect(saveSpy).toHaveBeenCalledTimes(1);
+        // since thumbnailCache is protected we can't really test that it's set
+        // other than via code-coverage
+        expect(getProp(result, "_thumbnail")).not.toBeDefined();
+      });
+      it("handles extent from location", async () => {
+        const chk = HubProject.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+            extent: [
+              [-1, -1],
+              [1, 1],
+            ],
+          },
+          authdCtxMgr.context
+        );
+        // spy on the instance .save method and retrn void
+        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        // make changes to the editor
+        const editor = chk.toEditor();
+        editor.name = "new name";
+        editor.location = {
+          extent: [
+            [-2, -2],
+            [2, 2],
+          ],
+          type: "custom",
+        };
+        // call fromEditor
+        const result = await chk.fromEditor(editor);
+        // expect the save method to have been called
+        expect(saveSpy).toHaveBeenCalledTimes(1);
+        expect(result.extent).toEqual([
+          [-2, -2],
+          [2, 2],
+        ]);
       });
     });
   });

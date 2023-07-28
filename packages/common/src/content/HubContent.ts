@@ -113,6 +113,7 @@ export class HubContent
     const editor = cloneObject(this.entity) as IHubContentEditor;
 
     // Add other transforms here...
+    // NOTE: Be sure to add tests for any transforms in the test suite
     return editor;
   }
 
