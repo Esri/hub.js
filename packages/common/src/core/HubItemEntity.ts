@@ -13,7 +13,8 @@ import {
   ICapabilityAccessResponse,
 } from "../capabilities";
 import HubError from "../HubError";
-import { deleteItemThumbnail, uploadImageResource } from "../items";
+import { uploadImageResource } from "../items";
+import { deleteItemThumbnail } from "../items/deleteItemThumbnail";
 import { setItemThumbnail } from "../items/setItemThumbnail";
 import {
   addPermissionPolicy,
@@ -295,6 +296,14 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     // subclass is responsible for handling the implementation during the `.save()` call
     this.thumbnailCache = { file, filename };
   }
+
+  /**
+   * Clear the thumbnail from the item, if one exists. Persisted on next `.save()` call
+   */
+  clearThumbnail(): void {
+    this.thumbnailCache = { clear: true };
+  }
+
   /**
    * Return the full url to the thumbnail, optionally with a width parameter
    * @param width

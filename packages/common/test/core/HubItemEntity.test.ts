@@ -4,6 +4,7 @@ import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import * as SharedWithModule from "../../src/core/_internal/sharedWith";
 import * as setItemThumbnailModule from "../../src/items/setItemThumbnail";
+import * as deleteItemThumbnailModule from "../../src/items/deleteItemThumbnail";
 import * as ItemsModule from "../../src/items";
 import { IEntityPermissionPolicy } from "../../src/permissions";
 import { CANNOT_DISCUSS, IHubItemEntity } from "../../src";
@@ -355,6 +356,24 @@ describe("HubItemEntity Class: ", () => {
       // save again, which should not call setItemThumbnail again b/c the cache should be cleared
       await instance.save();
       expect(spy).toHaveBeenCalledTimes(1);
+    });
+    it("can clear thumbnail", () => {
+      const deleteSpy = spyOn(
+        deleteItemThumbnailModule,
+        "deleteItemThumbnail"
+      ).and.callFake(() => {
+        return Promise.resolve();
+      });
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+        },
+        authdCtxMgr.context
+      );
+      instance.clearThumbnail();
+      instance.save();
+      expect(deleteSpy).toHaveBeenCalledTimes(1);
     });
   });
 

@@ -25,9 +25,6 @@ export class EntityEditor {
     if (entityType === "project") {
       editor = HubProject.fromJson(entity, context) as IWithEditorBehavior;
     }
-    if (entityType === "project") {
-      editor = HubProject.fromJson(entity, context) as IWithEditorBehavior;
-    }
     if (entityType === "initiative") {
       editor = HubInitiative.fromJson(entity, context) as IWithEditorBehavior;
     }
