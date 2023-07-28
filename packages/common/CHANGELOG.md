@@ -1,3 +1,10 @@
+## @esri/hub-common [13.25.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.25.1...@esri/hub-common@13.25.2) (2023-07-28)
+
+
+### Bug Fixes
+
+* **hub-common:** have convertModelToSite handle invalid search categories ([#1134](https://github.com/Esri/hub.js/issues/1134)) ([9dde16b](https://github.com/Esri/hub.js/commit/9dde16b74a38077a23797b648fac8b3d9349b8f8))
+
 ## @esri/hub-common [13.25.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.25.0...@esri/hub-common@13.25.1) (2023-07-28)
 
 
