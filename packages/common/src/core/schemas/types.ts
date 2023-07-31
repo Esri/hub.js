@@ -1,6 +1,27 @@
 import { JSONSchema } from "json-schema-typed";
 import Ajv from "ajv";
 
+import { ProjectEditorTypes } from "../../projects/_internal/ProjectSchema";
+import { InitiativeEditorTypes } from "../../initiatives/_internal/InitiativeSchema";
+import { SiteEditorTypes } from "../../sites/_internal/SiteSchema";
+import { DiscussionEditorTypes } from "../../discussions/_internal/DiscussionSchema";
+import { PageEditorTypes } from "../../pages/_internal/PageSchema";
+import { ContentEditorTypes } from "../../content/_internal/ContentSchema";
+
+/**
+ * Defines the possible editor type values - these correspond
+ * to the supported/defined uiSchema configurations
+ */
+export type EditorType = (typeof validEditorTypes)[number];
+export const validEditorTypes = [
+  ...ProjectEditorTypes,
+  ...ContentEditorTypes,
+  ...InitiativeEditorTypes,
+  ...SiteEditorTypes,
+  ...DiscussionEditorTypes,
+  ...PageEditorTypes,
+] as const;
+
 export enum UiSchemaRuleEffects {
   SHOW = "SHOW",
   HIDE = "HIDE",
@@ -17,15 +38,23 @@ export enum UiSchemaElementTypes {
 }
 
 export enum UiSchemaSectionTypes {
-  accordion = "accordion",
+  block = "block",
   stepper = "stepper",
+  subblock = "subblock",
 }
+
+export enum UiSchemaMessageTypes {
+  error = "ERROR",
+  success = "SUCCESS",
+  custom = "CUSTOM",
+}
+
 export interface IConfigurationSchema extends JSONSchema {
   type?: "object";
 }
 
 export interface IConfigurationValues {
-  [key: string]: unknown;
+  [key: string]: any;
 }
 
 export interface IChangeEventDetail {
@@ -62,7 +91,7 @@ export interface IUiSchemaElement {
 }
 
 export interface IUiSchema extends IUiSchemaElement {
-  elements?: IUiSchema[] | IUiSchemaElement[];
+  elements?: IUiSchemaElement[];
 }
 
 /**
@@ -78,4 +107,35 @@ export interface IUiSchemaComboboxItem {
   label?: string;
   icon?: string;
   selected?: boolean;
+}
+
+export interface IUiSchemaRule {
+  effect: UiSchemaRuleEffects;
+  condition: IUiSchemaCondition;
+}
+
+export interface IUiSchemaCondition {
+  scope?: string;
+  schema: IConfigurationSchema;
+}
+
+export interface IUiSchemaMessage {
+  type: UiSchemaMessageTypes;
+  keyword?: string;
+  label?: string;
+  labelKey?: string;
+  icon?: boolean | string;
+  hidden?: boolean;
+  condition?: IUiSchemaCondition;
+  allowShowBeforeInteract?: boolean;
+}
+
+export interface IUiSchemaRule {
+  effect: UiSchemaRuleEffects;
+  condition: IUiSchemaCondition;
+}
+
+export interface IUiSchemaCondition {
+  scope?: string;
+  schema: IConfigurationSchema;
 }

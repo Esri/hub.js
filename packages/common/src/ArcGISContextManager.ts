@@ -392,6 +392,7 @@ const ENTERPRISE_SITES_STATUS: HubSystemStatus = {
   search: "online",
   sites: "online",
   groups: "online",
+  platform: "online",
 };
 
 const HUB_STATUS: HubSystemStatus = {
@@ -407,4 +408,5 @@ const HUB_STATUS: HubSystemStatus = {
   search: "online",
   sites: "online",
   groups: "online",
+  platform: "online",
 };

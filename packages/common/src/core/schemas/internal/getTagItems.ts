@@ -1,10 +1,11 @@
-import { IHubSearchOptions } from "../../../search";
-import { hubSearch } from "../../../search/hubSearch";
-import { IQuery } from "../../../search/types/IHubCatalog";
-import { IHubRequestOptions } from "../../../types";
-import { HubEntity } from "../../types/HubEntity";
-import { IUiSchemaComboboxItem } from "../types";
+// import { IHubSearchOptions } from "../../../search/types/IHubSearchOptions";
 
+// import { IQuery } from "../../../search/types/IHubCatalog";
+import { ISearchOptions, searchItems } from "@esri/arcgis-rest-portal";
+
+import { IHubRequestOptions } from "../../../types";
+import { IUiSchemaComboboxItem } from "../types";
+import { ConfigurableEntity } from "./ConfigurableEntity";
 /**
  * Fetch the entity's org tags (limited to the top 200),
  * merge with any configured on the entity itself, and convert
@@ -14,25 +15,45 @@ import { IUiSchemaComboboxItem } from "../types";
  * be hoisted to hub.js
  */
 export async function getTagItems(
-  entity: HubEntity,
+  entity: ConfigurableEntity,
   orgId: string,
   hubRequestOptions: IHubRequestOptions
 ): Promise<IUiSchemaComboboxItem[]> {
-  const query: IQuery = {
-    targetEntity: "item",
-    filters: [{ predicates: [{ orgid: orgId }] }],
-  };
-  const opts: IHubSearchOptions = {
-    aggFields: ["tags"],
-    num: 0,
-    aggLimit: 200,
-    requestOptions: hubRequestOptions,
-  };
+  // const query: IQuery = {
+  //   targetEntity: "item",
+  //   filters: [{ predicates: [{ orgid: orgId }] }],
+  // };
+  // const opts: IHubSearchOptions = {
+  //   aggFields: ["tags"],
+  //   num: 0,
+  //   aggLimit: 200,
+  //   requestOptions: hubRequestOptions,
+  // };
 
   try {
-    const {
-      aggregations: [tagsAgg],
-    } = await hubSearch(query, opts);
+    const so: ISearchOptions = {
+      q: `orgid:${orgId}`,
+      countFields: "tags",
+      countSize: 200,
+      authentication: hubRequestOptions.authentication,
+    };
+    const response = await searchItems(so);
+    const [tagsAgg] = response.aggregations.counts.map((entry) => {
+      return {
+        mode: "terms",
+        field: entry.fieldName,
+        values: entry.fieldValues,
+      };
+    });
+
+    // const {
+    //   aggregations: [tagsAgg],
+    // } = await hubSearch(query, opts);
+    // const {
+    //   aggregations: [tagsAgg],
+    // } = await Promise.resolve({
+    //   aggregations: [{ values: [{ value: "test" }] }],
+    // });
     /**
      * Because we allow custom tags, we need to merge the existing entity tags
      * and the tags fetched from the orgs, then remove duplicates, filter out

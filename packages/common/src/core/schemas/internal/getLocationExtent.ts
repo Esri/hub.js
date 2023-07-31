@@ -1,13 +1,12 @@
 import { bBoxToExtent, getGeographicOrgExtent } from "../../../extent";
 import { IHubRequestOptions } from "../../../types";
-import { HubEntity } from "../../types/HubEntity";
-
+import { ConfigurableEntity } from "./ConfigurableEntity";
 /**
  * Get the extent from the entity's location, if it has one.
  * Otherwise, fall back to using the org extent.
  */
 export async function getLocationExtent(
-  entity: HubEntity,
+  entity: ConfigurableEntity,
   hubRequestOptions: IHubRequestOptions
 ) {
   return entity.location?.extent?.length

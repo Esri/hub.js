@@ -10,10 +10,8 @@ import {
   IEntityEditorContext,
   SettableAccessLevel,
 } from "../core";
-import {
-  EditorType,
-  getEntityEditorSchemas,
-} from "../core/schemas/getEntityEditorSchemas";
+import { EditorType } from "../core/schemas/types";
+import { getEntityEditorSchemas } from "../core/schemas/getEntityEditorSchemas";
 import { Catalog } from "../search";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";

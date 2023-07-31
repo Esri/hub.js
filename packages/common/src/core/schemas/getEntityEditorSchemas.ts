@@ -1,47 +1,15 @@
 import { interpolate } from "../../items";
 import { cloneObject } from "../../util";
 import { IEditorConfig } from "../behaviors";
-import { UiSchemaElementOptions } from "./types";
+import { EditorType, UiSchemaElementOptions } from "./types";
 import { applyUiSchemaElementOptions } from "./internal/applyUiSchemaElementOptions";
 import { filterSchemaToUiSchema } from "./internal/filterSchemaToUiSchema";
-import {
-  ProjectEditorType,
-  ProjectEditorTypes,
-} from "../../projects/_internal/ProjectSchema";
-import {
-  InitiativeEditorTypes,
-  InitiativeEditorType,
-} from "../../initiatives/_internal/InitiativeSchema";
-import {
-  SiteEditorType,
-  SiteEditorTypes,
-} from "../../sites/_internal/SiteSchema";
-import {
-  DiscussionEditorType,
-  DiscussionEditorTypes,
-} from "../../discussions/_internal/DiscussionSchema";
-import {
-  PageEditorType,
-  PageEditorTypes,
-} from "../../pages/_internal/PageSchema";
-import {
-  ContentEditorType,
-  ContentEditorTypes,
-} from "../../content/_internal/ContentSchema";
-
-/**
- * defines the possible editor type values - these correspond
- * to the supported/defined uiSchema configurations
- */
-export type EditorType = (typeof validEditorTypes)[number];
-export const validEditorTypes = [
-  ...ProjectEditorTypes,
-  ...ContentEditorTypes,
-  ...InitiativeEditorTypes,
-  ...SiteEditorTypes,
-  ...DiscussionEditorTypes,
-  ...PageEditorTypes,
-] as const;
+import { ProjectEditorType } from "../../projects/_internal/ProjectSchema";
+import { InitiativeEditorType } from "../../initiatives/_internal/InitiativeSchema";
+import { SiteEditorType } from "../../sites/_internal/SiteSchema";
+import { DiscussionEditorType } from "../../discussions/_internal/DiscussionSchema";
+import { PageEditorType } from "../../pages/_internal/PageSchema";
+import { ContentEditorType } from "../../content/_internal/ContentSchema";
 
 /**
  * get the editor schema and uiSchema defined for an entity.
