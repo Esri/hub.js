@@ -369,6 +369,21 @@ describe("HubProject Class:", () => {
     });
 
     describe("fromEditor:", () => {
+      let updateSpy: jasmine.Spy;
+      let createSpy: jasmine.Spy;
+      beforeEach(() => {
+        updateSpy = spyOn(editModule, "updateProject").and.callFake(
+          (p: IHubProject) => {
+            return Promise.resolve(p);
+          }
+        );
+        createSpy = spyOn(editModule, "createProject").and.callFake(
+          (e: any) => {
+            e.id = "3ef";
+            return Promise.resolve(e);
+          }
+        );
+      });
       it("handles setting featuredImage", async () => {
         const chk = HubProject.fromJson(
           {
@@ -389,7 +404,8 @@ describe("HubProject Class:", () => {
           Promise.resolve()
         );
         await chk.fromEditor(editor);
-
+        expect(updateSpy).toHaveBeenCalledTimes(1);
+        expect(createSpy).not.toHaveBeenCalled();
         expect(spy).toHaveBeenCalledTimes(1);
         expect(spy).toHaveBeenCalledWith("fake blob");
       });
@@ -410,7 +426,8 @@ describe("HubProject Class:", () => {
           Promise.resolve()
         );
         await chk.fromEditor(editor);
-
+        expect(updateSpy).toHaveBeenCalledTimes(1);
+        expect(createSpy).not.toHaveBeenCalled();
         expect(spy).toHaveBeenCalledTimes(1);
       });
       it("sets access on create", async () => {
@@ -424,12 +441,7 @@ describe("HubProject Class:", () => {
         const editor = chk.toEditor();
 
         editor.access = "org";
-        const createSpy = spyOn(editModule, "createProject").and.callFake(
-          (e: any) => {
-            e.id = "3ef";
-            return Promise.resolve(e);
-          }
-        );
+
         const accessSpy = spyOn(
           HubItemEntity.prototype,
           "setAccess"
@@ -451,12 +463,6 @@ describe("HubProject Class:", () => {
         const editor = chk.toEditor();
         editor._groups = ["3ef"];
         editor.access = "org";
-        const createSpy = spyOn(editModule, "createProject").and.callFake(
-          (e: any) => {
-            e.id = "3ef";
-            return Promise.resolve(e);
-          }
-        );
         const accessSpy = spyOn(
           HubItemEntity.prototype,
           "setAccess"
