@@ -1,3 +1,10 @@
+## @esri/hub-common [13.27.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.27.0...@esri/hub-common@13.27.1) (2023-07-31)
+
+
+### Bug Fixes
+
+* add page capability permissions to capability permissions list ([#1136](https://github.com/Esri/hub.js/issues/1136)) ([4ab99df](https://github.com/Esri/hub.js/commit/4ab99dfcf9e89f1120bb96cab80f5b4f54814440))
+
 # @esri/hub-common [13.27.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.26.0...@esri/hub-common@13.27.0) (2023-07-31)
 
 
