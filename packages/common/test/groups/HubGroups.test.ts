@@ -164,7 +164,7 @@ describe("HubGroups Module:", () => {
         { authentication: MOCK_AUTH }
       );
       expect(chk.name).toBe("dev followers Content");
-      expect(portalCreateGroupSpy.calls.count()).toBe(1);
+      expect(portalCreateGroupSpy).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -178,7 +178,7 @@ describe("HubGroups Module:", () => {
       });
       expect(chk.name).toBe("dev followers Content");
       expect(chk.description).toBe("dev followers Content summary");
-      expect(portalGetGroupSpy.calls.count()).toBe(1);
+      expect(portalGetGroupSpy).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -193,7 +193,7 @@ describe("HubGroups Module:", () => {
         { authentication: MOCK_AUTH }
       );
       expect(chk.name).toBe("A new hub group");
-      expect(portalUpdateGroupSpy.calls.count()).toBe(1);
+      expect(portalUpdateGroupSpy).toHaveBeenCalledTimes(1);
     });
     it("updates membershipAccess: anyone", async () => {
       const portalUpdateGroupSpy = spyOn(PortalModule, "updateGroup");
@@ -245,7 +245,7 @@ describe("HubGroups Module:", () => {
       await HubGroupsModule.deleteHubGroup(TEST_HUB_GROUP.id, {
         authentication: MOCK_AUTH,
       });
-      expect(portalRemoveGroupSpy.calls.count()).toBe(1);
+      expect(portalRemoveGroupSpy).toHaveBeenCalledTimes(1);
     });
   });
 });

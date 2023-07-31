@@ -101,7 +101,7 @@ describe("HubGroup Class", () => {
       // save group and verify that the permission is there
       await group.save();
       const json = group.toJson();
-      expect(json.permissions).toBeDefined();
+      expect(json.permissions[0].permission).toBe("hub:group:edit");
       const p = json.permissions || [];
       expect(p[0].collaborationId).toBe(pojo.id);
 

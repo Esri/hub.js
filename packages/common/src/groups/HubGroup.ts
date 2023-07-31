@@ -232,14 +232,4 @@ export class HubGroup
       id
     );
   }
-
-  /**
-   * Check if the current user can access a specific capability
-   * NOTE: We do not use the group capabilities right now as we do not
-   * have a data store for it yet, leaving them here for the future
-   * @param capability
-   */
-  // checkCapability(capability: Capability): ICapabilityAccessResponse {
-  //   return checkCapability(capability, this.context, this.entity);
-  // }
 }
