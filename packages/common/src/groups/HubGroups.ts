@@ -1,12 +1,25 @@
 import { IGroup } from "@esri/arcgis-rest-types";
 import { fetchGroupEnrichments } from "./_internal/enrichments";
-import { getProp } from "../objects";
+import { getProp, setProp } from "../objects";
 import { getGroupThumbnailUrl, IHubSearchResult } from "../search";
 import { parseInclude } from "../search/_internal/parseInclude";
-import { IHubRequestOptions } from "../types";
+import { IHubRequestOptions, IModel } from "../types";
 import { getGroupHomeUrl } from "../urls";
 import { unique } from "../util";
 import { mapBy } from "../utils";
+import { PropertyMapper } from "../core/_internal/PropertyMapper";
+import {
+  getGroup,
+  removeGroup,
+  createGroup,
+  updateGroup,
+} from "@esri/arcgis-rest-portal";
+import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { IHubGroup } from "../core/types/IHubGroup";
+import { computeProps } from "./_internal/computeProps";
+import { getPropertyMap } from "./_internal/getPropertyMap";
+import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { DEFAULT_GROUP } from "./defaults";
 
 /**
  * Enrich a generic search result
@@ -74,4 +87,126 @@ export async function enrichGroupSearchResult(
   result.links.siteRelative = `/teams/${result.id}`;
 
   return result;
+}
+
+/**
+ * Create a new Hub Group
+ * we are creating an IGroup with the createGroup call
+ * so we need to convert the Hub Group to IGroup first
+ * then convert it back to Hub Group and return it
+ * @param partialGroup
+ * @param requestOptions
+ */
+export async function createHubGroup(
+  partialGroup: Partial<IHubGroup>,
+  requestOptions: IUserRequestOptions
+): Promise<IHubGroup> {
+  // merge the incoming and default groups
+  const hubGroup = { ...DEFAULT_GROUP, ...partialGroup } as IHubGroup;
+  const group = convertHubGroupToGroup(hubGroup);
+  const opts = {
+    group,
+    authentication: requestOptions.authentication,
+  };
+  const result = await createGroup(opts);
+  return convertGroupToHubGroup(result.group, requestOptions);
+}
+
+/**
+ * Get a Hub Group by id
+ * we need to convert the IGroup we get to Hub Group
+ * @param identifier
+ * @param requestOptions
+ */
+export async function fetchHubGroup(
+  identifier: string,
+  requestOptions: IUserRequestOptions
+): Promise<IHubGroup> {
+  const group = await getGroup(identifier, requestOptions);
+  return convertGroupToHubGroup(group, requestOptions);
+}
+
+/**
+ * @private
+ * Update a Hub Group and return it
+ * we need to convert the incoming Hub Group to IGroup
+ * before sending it to the API
+ * @param hubGroup
+ * @param requestOptions
+ */
+export async function updateHubGroup(
+  hubGroup: IHubGroup,
+  requestOptions: IRequestOptions
+): Promise<IHubGroup> {
+  const group = convertHubGroupToGroup(hubGroup);
+  const opts = {
+    group,
+    authentication: requestOptions.authentication,
+  };
+  // if we have a field we are trying to clear
+  // We need to send clearEmptyFields: true to the updateGroup call
+  if (group._clearEmptyFields) {
+    setProp("params.clearEmptyFields", true, opts);
+  }
+  await updateGroup(opts);
+  return hubGroup;
+}
+
+/**
+ * @private
+ * Remove a Hub Group
+ * @param id
+ * @param requestOptions
+ */
+export async function deleteHubGroup(
+  id: string,
+  requestOptions: IUserRequestOptions
+): Promise<void> {
+  const ro = { ...requestOptions, ...{ id } };
+  await removeGroup(ro);
+}
+
+/**
+ * Convert an IGroup to a Hub Group
+ * @param group
+ * @param requestOptions
+ */
+function convertGroupToHubGroup(
+  group: IGroup,
+  requestOptions: IUserRequestOptions
+): IHubGroup {
+  const mapper = new PropertyMapper<Partial<IHubGroup>, IGroup>(
+    getPropertyMap()
+  );
+  const hubGroup = mapper.storeToEntity(group, {}) as IHubGroup;
+  return computeProps(group, hubGroup, requestOptions);
+}
+
+/**
+ * Convert a Hub Group to an IGroup
+ * @param hubGroup
+ */
+function convertHubGroupToGroup(hubGroup: IHubGroup): IGroup {
+  const mapper = new PropertyMapper<Partial<IHubGroup>, IGroup>(
+    getPropertyMap()
+  );
+  const group = mapper.entityToStore(
+    hubGroup,
+    {} as unknown as IGroup
+  ) as IGroup;
+  // convert the values for membershipAccess back to
+  // the ones the API accepts
+  if (group.membershipAccess === "organization") {
+    group.membershipAccess = "org";
+  }
+  if (group.membershipAccess === "collaborators") {
+    group.membershipAccess = "collaboration";
+  }
+  // since we are setting null to a prop, we need to
+  // send clearEmptyFields: true to the updateGroup call
+  if (group.membershipAccess === "anyone") {
+    group.membershipAccess = null;
+    group._clearEmptyFields = true;
+  }
+  return group;
 }

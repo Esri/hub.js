@@ -190,7 +190,6 @@ describe("HubProject Class", () => {
 
     // save the item and verify that the scope is there
     await project.save();
-    // debugger;
 
     // clean up
     await project.delete();

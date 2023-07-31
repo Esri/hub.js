@@ -1,18 +1,22 @@
 import { IGroup } from "@esri/arcgis-rest-portal";
-
+import * as PortalModule from "@esri/arcgis-rest-portal";
+import { MOCK_AUTH } from "../mocks/mock-auth";
 import {
   cloneObject,
   enrichGroupSearchResult,
   IHubRequestOptions,
 } from "../../src";
+import * as HubGroupsModule from "../../src/groups/HubGroups";
 import * as FetchEnrichments from "../../src/groups/_internal/enrichments";
+import { IHubGroup } from "../../src/core/types/IHubGroup";
 
+const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 const TEST_GROUP: IGroup = {
   id: "23b988acd113446798b0db7a11d27a56",
   title: "dev followers Content",
   isInvitationOnly: false,
   owner: "dev_pre_hub_admin",
-  description: "dev followers Content",
+  description: "dev followers Content summary",
   snippet: null,
   tags: ["Hub Initiative Group", "Open Data"],
   typeKeywords: [],
@@ -48,6 +52,12 @@ const TEST_GROUP: IGroup = {
     applications: 0,
   },
   collaborationInfo: {},
+};
+
+const TEST_HUB_GROUP = {
+  id: "3ef",
+  name: "A new hub group",
+  description: "New hub group summary",
 };
 
 describe("HubGroups Module:", () => {
@@ -107,17 +117,17 @@ describe("HubGroups Module:", () => {
     });
 
     it("handles missing capabilities array", async () => {
-      const itm = cloneObject(TEST_GROUP);
-      delete itm.capabilities;
-      const chk = await enrichGroupSearchResult(itm, [], hubRo);
+      const group = cloneObject(TEST_GROUP);
+      delete group.capabilities;
+      const chk = await enrichGroupSearchResult(group, [], hubRo);
       expect(chk.isSharedUpdate).toBe(false);
     });
 
     it("uses snippet if defined", async () => {
-      const itm = cloneObject(TEST_GROUP);
-      itm.snippet = "This should be used";
-      const chk = await enrichGroupSearchResult(itm, [], hubRo);
-      expect(chk.summary).toEqual(itm.snippet);
+      const group = cloneObject(TEST_GROUP);
+      group.snippet = "This should be used";
+      const chk = await enrichGroupSearchResult(group, [], hubRo);
+      expect(chk.summary).toEqual(group.snippet);
     });
 
     it("fetches enrichments", async () => {
@@ -136,6 +146,106 @@ describe("HubGroups Module:", () => {
       expect(item).toEqual(TEST_GROUP);
       expect(enrichments).toEqual(["contentCount"]);
       expect(ro).toBe(hubRo);
+    });
+  });
+
+  describe("createHubGroup", () => {
+    it("creates a HubGroup from an IGroup", async () => {
+      const portalCreateGroupSpy = spyOn(
+        PortalModule,
+        "createGroup"
+      ).and.callFake((group: IGroup) => {
+        group.id = TEST_GROUP.id;
+        group.description = TEST_GROUP.description;
+        return Promise.resolve(group);
+      });
+      const chk = await HubGroupsModule.createHubGroup(
+        { name: TEST_GROUP.title },
+        { authentication: MOCK_AUTH }
+      );
+      expect(chk.name).toBe("dev followers Content");
+      expect(portalCreateGroupSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("fetchHubGroup", () => {
+    it("fetches a HubGroup", async () => {
+      const portalGetGroupSpy = spyOn(PortalModule, "getGroup").and.returnValue(
+        Promise.resolve(TEST_GROUP)
+      );
+      const chk = await HubGroupsModule.fetchHubGroup(GUID, {
+        authentication: MOCK_AUTH,
+      });
+      expect(chk.name).toBe("dev followers Content");
+      expect(chk.description).toBe("dev followers Content summary");
+      expect(portalGetGroupSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("updateHubGroup", () => {
+    it("updates a HubGroup", async () => {
+      const portalUpdateGroupSpy = spyOn(
+        PortalModule,
+        "updateGroup"
+      ).and.returnValue(Promise.resolve(TEST_HUB_GROUP));
+      const chk = await HubGroupsModule.updateHubGroup(
+        TEST_HUB_GROUP as IHubGroup,
+        { authentication: MOCK_AUTH }
+      );
+      expect(chk.name).toBe("A new hub group");
+      expect(portalUpdateGroupSpy).toHaveBeenCalledTimes(1);
+    });
+    it("updates membershipAccess: anyone", async () => {
+      const portalUpdateGroupSpy = spyOn(PortalModule, "updateGroup");
+      const chk = await HubGroupsModule.updateHubGroup(
+        { ...TEST_HUB_GROUP, membershipAccess: "anyone" } as IHubGroup,
+        { authentication: MOCK_AUTH }
+      );
+      expect(chk.membershipAccess).toBe("anyone");
+      // If membershipAccess is "anyone", we will set
+      // membershipAccess: null and clearEmptyFields: true
+      // to the updateGroup call
+      expect(
+        portalUpdateGroupSpy.calls.argsFor(0)[0].group.membershipAccess
+      ).toBe(null);
+      expect(
+        portalUpdateGroupSpy.calls.argsFor(0)[0].params.clearEmptyFields
+      ).toBeTruthy();
+    });
+    it("updates membershipAccess: organization", async () => {
+      const portalUpdateGroupSpy = spyOn(PortalModule, "updateGroup");
+      const chk = await HubGroupsModule.updateHubGroup(
+        { ...TEST_HUB_GROUP, membershipAccess: "organization" } as IHubGroup,
+        { authentication: MOCK_AUTH }
+      );
+      expect(chk.membershipAccess).toBe("organization");
+      expect(
+        portalUpdateGroupSpy.calls.argsFor(0)[0].group.membershipAccess
+      ).toBe("org");
+    });
+    it("updates membershipAccess: collaborators", async () => {
+      const portalUpdateGroupSpy = spyOn(PortalModule, "updateGroup");
+      const chk = await HubGroupsModule.updateHubGroup(
+        { ...TEST_HUB_GROUP, membershipAccess: "collaborators" } as IHubGroup,
+        { authentication: MOCK_AUTH }
+      );
+      expect(chk.membershipAccess).toBe("collaborators");
+      expect(
+        portalUpdateGroupSpy.calls.argsFor(0)[0].group.membershipAccess
+      ).toBe("collaboration");
+    });
+  });
+
+  describe("deleteHubGroup", () => {
+    it("delete a HubGroup", async () => {
+      const portalRemoveGroupSpy = spyOn(
+        PortalModule,
+        "removeGroup"
+      ).and.returnValue(Promise.resolve({ success: true }));
+      await HubGroupsModule.deleteHubGroup(TEST_HUB_GROUP.id, {
+        authentication: MOCK_AUTH,
+      });
+      expect(portalRemoveGroupSpy).toHaveBeenCalledTimes(1);
     });
   });
 });

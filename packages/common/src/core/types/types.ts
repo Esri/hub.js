@@ -1,5 +1,5 @@
 /**
- * Access levels that can be set on an item
+ * Access levels that can be set on an entity
  */
 export type SettableAccessLevel = "public" | "org" | "private";
 
@@ -25,3 +25,32 @@ export const EntityResourceMap: {
  * Please note that adding more values will require changes in the location picker
  */
 export type IHubLocationType = "none" | "custom" | "org" | "item";
+
+/**
+ * Sort field for Hub Groups
+ */
+export type GroupSortField =
+  | "title"
+  | "owner"
+  | "avgrating"
+  | "numviews"
+  | "created"
+  | "modified";
+
+/**
+ * Member type for Hub Groups
+ */
+export type MemberType = "owner" | "admin" | "member" | "none";
+
+/**
+ * ArcGIS sort orders
+ */
+export type PlatformSortOrder = "asc" | "desc";
+
+/**
+ * Who can join the groups
+ * organization: members of the group's org only
+ * collaborators: members of the group's org and its partner orgs
+ * anyone: members of any orgs
+ */
+export type MembershipAccess = "organization" | "collaborators" | "anyone";

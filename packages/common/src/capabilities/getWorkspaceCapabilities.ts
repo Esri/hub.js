@@ -8,6 +8,7 @@ import { SiteCapabilityPermissions } from "../sites/_internal/SiteBusinessRules"
 import { ContentCapabilityPermissions } from "../content/_internal/ContentBusinessRules";
 import { HubEntity, HubEntityType } from "../core";
 import { IArcGISContext } from "../ArcGISContext";
+import { GroupCapabilityPermissions } from "../groups/_internal/GroupBusinessRules";
 
 /**
  * List of all the Capability Permissions in the Hub System
@@ -19,6 +20,7 @@ export const CapabilityPermissions: ICapabilityPermission[] = [
   ...SiteCapabilityPermissions,
   ...DiscussionCapabilityPermissions,
   ...ContentCapabilityPermissions,
+  ...GroupCapabilityPermissions,
 ];
 
 /**
