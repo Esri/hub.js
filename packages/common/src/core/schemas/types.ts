@@ -30,6 +30,7 @@ export enum UiSchemaRuleEffects {
 }
 
 export enum UiSchemaElementTypes {
+  accordionItem = "AccordionItem",
   section = "Section",
   step = "Step",
   control = "Control",
@@ -38,6 +39,7 @@ export enum UiSchemaElementTypes {
 }
 
 export enum UiSchemaSectionTypes {
+  accordion = "accordion",
   block = "block",
   stepper = "stepper",
   subblock = "subblock",
