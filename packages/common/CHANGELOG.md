@@ -1,3 +1,10 @@
+# @esri/hub-common [13.27.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.26.0...@esri/hub-common@13.27.0) (2023-07-31)
+
+
+### Features
+
+* 7109 scaffold new HubGroup entity ([#1113](https://github.com/Esri/hub.js/issues/1113)) ([ccf9ec6](https://github.com/Esri/hub.js/commit/ccf9ec6a8a1ca5e6d2a820031f3f35328c734c2d))
+
 # @esri/hub-common [13.26.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.25.2...@esri/hub-common@13.26.0) (2023-07-31)
 
 
