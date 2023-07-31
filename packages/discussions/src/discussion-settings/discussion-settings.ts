@@ -5,6 +5,7 @@ import {
   IFetchDiscussionSettingParams,
   IRemoveDiscussionSettingParams,
   IRemoveDiscussionSettingResponse,
+  IUpdateDiscussionSettingParams,
 } from "../types";
 
 /**
@@ -18,7 +19,7 @@ export function createDiscussionSetting(
   options: ICreateDiscussionSettingParams
 ): Promise<IDiscussionSetting> {
   options.httpMethod = "POST";
-  return request(`/discussion_settings`, options);
+  return request(`/discussion-settings`, options);
 }
 
 /**
@@ -32,7 +33,21 @@ export function fetchDiscussionSetting(
   options: IFetchDiscussionSettingParams
 ): Promise<IDiscussionSetting> {
   options.httpMethod = "GET";
-  return request(`/discussion_settings/${options.id}`, options);
+  return request(`/discussion-settings/${options.id}`, options);
+}
+
+/**
+ * update discussion settings
+ *
+ * @export
+ * @param {IRemoveDiscussionSettingParams} options
+ * @return {*} {Promise<IDiscussionSetting>}
+ */
+export function updateDiscussionSetting(
+  options: IUpdateDiscussionSettingParams
+): Promise<IDiscussionSetting> {
+  options.httpMethod = "PATCH";
+  return request(`/discussion-settings/${options.id}`, options);
 }
 
 /**
@@ -46,5 +61,5 @@ export function removeDiscussionSetting(
   options: IRemoveDiscussionSettingParams
 ): Promise<IRemoveDiscussionSettingResponse> {
   options.httpMethod = "DELETE";
-  return request(`/discussion_settings/${options.id}`, options);
+  return request(`/discussion-settings/${options.id}`, options);
 }

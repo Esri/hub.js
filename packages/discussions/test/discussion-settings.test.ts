@@ -3,6 +3,7 @@ import {
   createDiscussionSetting,
   fetchDiscussionSetting,
   removeDiscussionSetting,
+  updateDiscussionSetting,
 } from "../src/discussion-settings";
 import {
   DiscussionSettingType,
@@ -10,6 +11,8 @@ import {
   ICreateDiscussionSettingParams,
   IDiscussionsRequestOptions,
   IRemoveDiscussionSettingParams,
+  IUpdateDiscussionSetting,
+  IUpdateDiscussionSettingParams,
 } from "../src/types";
 
 describe("discussion-settings", () => {
@@ -40,7 +43,7 @@ describe("discussion-settings", () => {
 
     expect(requestSpy.calls.count()).toEqual(1);
     const [url, opts] = requestSpy.calls.argsFor(0);
-    expect(url).toEqual(`/discussion_settings`);
+    expect(url).toEqual(`/discussion-settings`);
     expect(opts).toEqual({ ...options, httpMethod: "POST" });
   });
 
@@ -52,8 +55,29 @@ describe("discussion-settings", () => {
 
     expect(requestSpy.calls.count()).toEqual(1);
     const [url, opts] = requestSpy.calls.argsFor(0);
-    expect(url).toEqual(`/discussion_settings/${id}`);
+    expect(url).toEqual(`/discussion-settings/${id}`);
     expect(opts).toEqual({ ...options, httpMethod: "GET" });
+  });
+
+  it("updateDiscussionSetting", async () => {
+    const id = "uuidv4";
+    const body: IUpdateDiscussionSetting = {
+      settings: {
+        allowedChannelIds: ["aaa"],
+      },
+    };
+    const options: IUpdateDiscussionSettingParams = {
+      ...baseOpts,
+      id,
+      data: body,
+    };
+
+    await updateDiscussionSetting(options);
+
+    expect(requestSpy.calls.count()).toEqual(1);
+    const [url, opts] = requestSpy.calls.argsFor(0);
+    expect(url).toEqual(`/discussion-settings/${id}`);
+    expect(opts).toEqual({ ...options, httpMethod: "PATCH" });
   });
 
   it("removeDiscussionSetting", async () => {
@@ -64,7 +88,7 @@ describe("discussion-settings", () => {
 
     expect(requestSpy.calls.count()).toEqual(1);
     const [url, opts] = requestSpy.calls.argsFor(0);
-    expect(url).toEqual(`/discussion_settings/${id}`);
+    expect(url).toEqual(`/discussion-settings/${id}`);
     expect(opts).toEqual({ ...options, httpMethod: "DELETE" });
   });
 });
