@@ -2,6 +2,7 @@ import { getSelf, getUser, IPortal } from "@esri/arcgis-rest-portal";
 import { IUser, UserSession } from "@esri/arcgis-rest-auth";
 import {
   ArcGISContext,
+  HubEnvironment,
   IArcGISContext,
   IArcGISContextOptions,
 } from "./ArcGISContext";
@@ -12,6 +13,7 @@ import { Level, Logger } from "./utils/logger";
 import { HubSystemStatus } from "./core";
 import { cloneObject } from "./util";
 import { base64ToUnicode, unicodeToBase64 } from "./utils/encoding";
+import { IHubFeatures } from "./permissions/_internal/checkFeature";
 
 /**
  * Options that can be passed into `ArcGISContextManager.create`
@@ -67,6 +69,10 @@ export interface IArcGISContextManagerOptions {
    * Option to pass in system status vs fetching it
    */
   systemStatus?: HubSystemStatus;
+
+  environment?: HubEnvironment;
+
+  features?: IHubFeatures;
 }
 
 /**
@@ -108,6 +114,10 @@ export class ArcGISContextManager {
   private _logLevel: Level = Level.error;
 
   private _systemStatus: HubSystemStatus;
+
+  private _environment: HubEnvironment;
+
+  private _features: IHubFeatures;
 
   /**
    * Private constructor. Use `ArcGISContextManager.create(...)` to
@@ -151,6 +161,14 @@ export class ArcGISContextManager {
 
     if (opts.systemStatus) {
       this._systemStatus = opts.systemStatus;
+    }
+
+    if (opts.environment) {
+      this._environment = opts.environment;
+    }
+
+    if (opts.features) {
+      this._features = opts.features;
     }
   }
 
@@ -356,6 +374,12 @@ export class ArcGISContextManager {
     }
     if (this._currentUser) {
       contextOpts.currentUser = this._currentUser;
+    }
+    if (this._environment) {
+      contextOpts.environment = this._environment;
+    }
+    if (this._features) {
+      contextOpts.features = this._features;
     }
     return contextOpts;
   }

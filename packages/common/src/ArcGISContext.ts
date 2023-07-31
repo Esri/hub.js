@@ -9,6 +9,8 @@ import { HubSystemStatus } from "./core";
 import { getProp, getWithDefault } from "./objects";
 import { HubLicense } from "./permissions/types";
 import { IHubRequestOptions } from "./types";
+import { _getLocation, getPortalBaseFromOrgUrl } from "./urls";
+import { IHubFeatures } from "./permissions/_internal/checkFeature";
 
 /**
  * Hash of Hub API end points so updates
@@ -169,7 +171,19 @@ export interface IArcGISContext {
    * Derived from properties.alphaOrgs
    */
   isAlphaOrg: boolean;
+
+  environment: HubEnvironment;
+
+  features: IHubFeatures;
 }
+
+export type HubEnvironment =
+  | "devext"
+  | "qaext"
+  | "production"
+  | "enterprise"
+  | "sandbox"
+  | "localdev";
 
 /**
  * Options for the ArcGISContext constructor
@@ -219,6 +233,10 @@ export interface IArcGISContextOptions {
    * Option to pass in system status vs fetching it
    */
   systemStatus?: HubSystemStatus;
+
+  environment?: HubEnvironment;
+
+  features?: IHubFeatures;
 }
 
 /**
@@ -256,6 +274,10 @@ export class ArcGISContext implements IArcGISContext {
 
   private _systemStatus: HubSystemStatus;
 
+  private _environment: HubEnvironment;
+
+  private _features: IHubFeatures;
+
   /**
    * Create a new instance of `ArcGISContext`.
    *
@@ -279,6 +301,47 @@ export class ArcGISContext implements IArcGISContext {
     }
     if (opts.properties) {
       this._properties = opts.properties;
+    }
+
+    if (opts.environment) {
+      this._environment = opts.environment;
+    } else {
+      let environment: HubEnvironment = "production";
+      const portalSubdomain =
+        this._portalSelf?.portalHostname.split(".")[0] ||
+        getPortalBaseFromOrgUrl(this._portalUrl);
+      const portalSubdomainHash = {
+        devext: "devext",
+        qaext: "qaext",
+        www: "production",
+        // enterprise: "enterprise",
+        // sandbox: "sandbox",
+        // localdev: "localdev"
+      };
+      environment = (portalSubdomainHash as any)[portalSubdomain];
+      if (this._portalSelf.isPortal) {
+        environment = "enterprise";
+      }
+      this._environment = environment;
+    }
+
+    const location = _getLocation();
+    if (opts.features) {
+      this._features = opts.features;
+    } else if (location) {
+      const params = new URLSearchParams(location.search);
+      const paramName = "hubFeatures";
+      if (params.has(paramName)) {
+        this._features = params
+          .getAll(paramName)
+          .reduce((hubFeatures, feature) => {
+            const [key, val] = feature.split(":");
+            if (key && val !== undefined) {
+              hubFeatures[key.trim()] = val.trim() === "true";
+            }
+            return hubFeatures;
+          }, {} as IHubFeatures);
+      }
     }
   }
 
@@ -566,5 +629,13 @@ export class ArcGISContext implements IArcGISContext {
    */
   public get properties(): Record<string, any> {
     return this._properties;
+  }
+
+  public get environment(): HubEnvironment {
+    return this._environment;
+  }
+
+  public get features(): IHubFeatures {
+    return this._features;
   }
 }

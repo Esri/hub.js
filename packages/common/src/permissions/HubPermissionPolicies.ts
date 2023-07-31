@@ -3,7 +3,6 @@ import { ProjectPermissionPolicies } from "../projects/_internal/ProjectBusiness
 import { SitesPermissionPolicies } from "../sites/_internal/SiteBusinessRules";
 import { DiscussionPermissionPolicies } from "../discussions/_internal/DiscussionBusinessRules";
 import { ContentPermissionPolicies } from "../content/_internal/ContentBusinessRules";
-
 import { IPermissionPolicy, Permission } from "./types";
 import { PagePermissionPolicies } from "../pages/_internal/PageBusinessRules";
 
@@ -61,6 +60,18 @@ import { PagePermissionPolicies } from "../pages/_internal/PageBusinessRules";
 //   },
 // ];
 
+const EnvironmentPermissionPolicies: IPermissionPolicy[] = [
+  {
+    // maybe we don't need features at all since they will map to environments - maybe we just need environment - but i think having features allows us to pass in overrides more easily
+    permission: "hub:workspaces:view",
+    subsystems: [],
+    features: ["workspaces"],
+    // authenticated: true,
+    // licenses: ["hub-basic", "hub-premium"],
+    // alpha: true,
+  },
+];
+
 /**
  * All the permission policies for the Hub
  */
@@ -71,6 +82,7 @@ export const HubPermissionsPolicies: IPermissionPolicy[] = [
   ...DiscussionPermissionPolicies,
   ...ContentPermissionPolicies,
   ...PagePermissionPolicies,
+  ...EnvironmentPermissionPolicies,
 ];
 
 /**

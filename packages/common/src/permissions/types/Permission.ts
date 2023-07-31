@@ -5,6 +5,8 @@ import { DiscussionPermissions } from "../../discussions/_internal/DiscussionBus
 import { ContentPermissions } from "../../content/_internal/ContentBusinessRules";
 import { PagePermissions } from "../../pages/_internal/PageBusinessRules";
 
+const EnvironmentPermissions = ["hub:workspaces:view"];
+
 /**
  * Defines the values for Permissions
  * It's critical that the arrays defined in the modules use `as const`
@@ -17,6 +19,7 @@ const validPermissions = [
   ...DiscussionPermissions,
   ...ContentPermissions,
   ...PagePermissions,
+  ...EnvironmentPermissions,
 ] as const;
 
 /**

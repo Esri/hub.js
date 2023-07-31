@@ -54,6 +54,8 @@ export interface IPermissionPolicy {
    * More complex policies can be defined with a set of assertions
    */
   assertions?: IPolicyAssertion[];
+
+  features?: string[];
 }
 
 export interface IPolicyAssertion {

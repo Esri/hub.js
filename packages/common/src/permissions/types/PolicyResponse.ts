@@ -36,4 +36,5 @@ export type PolicyResponse =
   | "assertion-property-not-found"
   | "assertion-failed" // assertion condition was not met
   | "assertion-requires-numeric-values" // assertion requires numeric values
-  | "property-match";
+  | "property-match"
+  | "feature-not-available";
