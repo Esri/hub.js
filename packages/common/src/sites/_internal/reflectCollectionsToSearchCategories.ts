@@ -6,7 +6,7 @@ import { SearchCategories } from "./types";
 
 /**
  * Reflects changes from a site model's collections to the `site.data.values.searchCategories`
- * legacy property. This is needed stop-gap since old search page will coexist for a time with
+ * legacy property. This is a needed stop-gap since old search page will coexist for a time with
  * the new workspaces UI and the old search page (among others) still rely on the `searchCategories`
  * construct.
  *
