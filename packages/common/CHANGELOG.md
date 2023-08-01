@@ -1,3 +1,10 @@
+# @esri/hub-common [13.28.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.27.1...@esri/hub-common@13.28.0) (2023-08-01)
+
+
+### Features
+
+* move and refactor entity editor abstractions into hub.js ([#1135](https://github.com/Esri/hub.js/issues/1135)) ([0ea3d92](https://github.com/Esri/hub.js/commit/0ea3d9229ef9f3f3a7ede7651244941f51265998))
+
 ## @esri/hub-common [13.27.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.27.0...@esri/hub-common@13.27.1) (2023-07-31)
 
 
