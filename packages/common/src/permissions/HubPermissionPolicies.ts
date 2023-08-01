@@ -62,7 +62,6 @@ import { PagePermissionPolicies } from "../pages/_internal/PageBusinessRules";
 
 const EnvironmentPermissionPolicies: IPermissionPolicy[] = [
   {
-    // maybe we don't need features at all since they will map to environments - maybe we just need environment - but i think having features allows us to pass in overrides more easily
     permission: "hub:workspaces:view",
     subsystems: [],
     features: ["workspaces"],
