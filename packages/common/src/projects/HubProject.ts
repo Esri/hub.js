@@ -35,7 +35,6 @@ import {
 import { projectToCardModel } from "./view";
 import { cloneObject, maybePush } from "../util";
 import { createProject, editorToProject, updateProject } from "./edit";
-// import { getProjectEditorConfigOptions } from "./_internal/getProjectEditorConfigOptions";
 
 /**
  * Hub Project Class

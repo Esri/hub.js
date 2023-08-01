@@ -5,6 +5,7 @@ import * as SearchModule from "@esri/arcgis-rest-portal";
 describe("getTagItems:", () => {
   it("aggregates tags:", async () => {
     const searchSpy = spyOn(SearchModule, "searchItems").and.callFake(() => {
+      // Leaving so we can quickly swap back to using hubSearch
       // return Promise.resolve({ aggregations: HubSearchAggs });
       return Promise.resolve(SearchItemsResponse);
     });
@@ -22,6 +23,7 @@ describe("getTagItems:", () => {
   });
   it("handles entity without tags:", async () => {
     const searchSpy = spyOn(SearchModule, "searchItems").and.callFake(() => {
+      // Leaving so we can quickly swap back to using hubSearch
       // return Promise.resolve({ aggregations: HubSearchAggs });
       return Promise.resolve(SearchItemsResponse);
     });

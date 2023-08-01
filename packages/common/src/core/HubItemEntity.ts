@@ -35,7 +35,7 @@ import {
 } from "./behaviors";
 
 import { IWithThumbnailBehavior } from "./behaviors/IWithThumbnailBehavior";
-import { HubEntity, IHubItemEntity, SettableAccessLevel } from "./types";
+import { IHubItemEntity, SettableAccessLevel } from "./types";
 import { sharedWith } from "./_internal/sharedWith";
 import { IWithDiscussionsBehavior } from "./behaviors/IWithDiscussionsBehavior";
 import { setDiscussableKeyword } from "../discussions";
@@ -255,6 +255,7 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
   async afterSave(): Promise<void> {
     // Handle Thumbnails
     // check if there is a thumbnail in the cache
+    // if we're not making changes to the thumbnail, this prop will not be defined
     if (this.thumbnailCache) {
       if (this.thumbnailCache.clear) {
         await deleteItemThumbnail(
