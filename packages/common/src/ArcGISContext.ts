@@ -335,9 +335,9 @@ export class ArcGISContext implements IArcGISContext {
         this._features = params
           .getAll(paramName)
           .reduce((hubFeatures, feature) => {
-            const [key, val] = feature.split(":");
-            if (key && val !== undefined) {
-              hubFeatures[key.trim()] = val.trim() === "true";
+            const [key, val] = feature.split(":").map((s) => s.trim());
+            if (key && val) {
+              hubFeatures[key] = val === "true";
             }
             return hubFeatures;
           }, {} as IHubFeatures);

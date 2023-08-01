@@ -16,7 +16,7 @@ import { checkEdit } from "./_internal/checkEdit";
 import { checkPrivileges } from "./_internal/checkPrivileges";
 import { checkEntityPolicy } from "./_internal/checkEntityPolicy";
 import { checkAssertions } from "./_internal/checkAssertions";
-import { checkFeature } from "./_internal/checkFeature";
+import { checkFeatures } from "./_internal/checkFeature";
 
 /**
  * Check a permission against the system policies, and possibly an entity policy
@@ -62,7 +62,7 @@ export function checkPermission(
     checkOwner,
     checkEdit,
     checkAssertions,
-    checkFeature,
+    checkFeatures,
   ].reduce((acc: IPolicyCheck[], fn) => {
     acc = [...acc, ...fn(systemPolicy, context, entity)];
     return acc;

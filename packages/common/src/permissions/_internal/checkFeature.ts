@@ -61,7 +61,7 @@ function getFeatures(context: IArcGISContext): IHubFeatures {
  * @param entity
  * @returns
  */
-export function checkFeature(
+export function checkFeatures(
   policy: IPermissionPolicy,
   context: IArcGISContext,
   entity?: Record<string, any>
