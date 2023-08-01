@@ -4,12 +4,14 @@ import { HubSite } from "../../src/sites/HubSite";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as HubSitesModule from "../../src/sites/HubSites";
 import * as HubVersioningModule from "../../src/versioning";
+import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import {
   IDeepCatalogInfo,
   IHubCatalog,
   IHubSite,
   IVersion,
   IVersionMetadata,
+  getProp,
 } from "../../src";
 import { Catalog } from "../../src/search";
 import * as ContainsModule from "../../src/core/_internal/deepContains";
@@ -523,6 +525,180 @@ describe("HubSite Class:", () => {
         "casey",
         authdCtxMgr.context.userRequestOptions
       );
+    });
+  });
+
+  describe("IWithEditorBehavior:", () => {
+    it("getEditorConfig delegates to helper", async () => {
+      const spy = spyOn(EditConfigModule, "getEditorConfig").and.callFake(
+        () => {
+          return Promise.resolve({ fake: "config" });
+        }
+      );
+      const chk = HubSite.fromJson(
+        {
+          id: "bc3",
+          name: "Test Entity",
+        },
+        authdCtxMgr.context
+      );
+      const result = await chk.getEditorConfig(
+        "i18n.Scope",
+        "hub:content:edit"
+      );
+      expect(result).toEqual({ fake: "config" } as any);
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith(
+        "i18n.Scope",
+        "hub:content:edit",
+        chk.toJson(),
+        authdCtxMgr.context
+      );
+    });
+
+    it("toEditor converst entity to correct structure", () => {
+      const chk = HubSite.fromJson(
+        {
+          id: "bc3",
+          name: "Test Entity",
+          thumbnailUrl: "https://myserver.com/thumbnail.png",
+        },
+        authdCtxMgr.context
+      );
+      const result = chk.toEditor();
+      // NOTE: If additional transforms are added in the class they should have tests here
+      expect(result.id).toEqual("bc3");
+      expect(result.name).toEqual("Test Entity");
+      expect(result.thumbnailUrl).toEqual("https://myserver.com/thumbnail.png");
+    });
+
+    describe("fromEditor:", () => {
+      it("handles simple prop change", async () => {
+        const chk = HubSite.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        // spy on the instance .save method and retrn void
+        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        // make changes to the editor
+        const editor = chk.toEditor();
+        editor.name = "new name";
+        // call fromEditor
+        const result = await chk.fromEditor(editor);
+        // expect the save method to have been called
+        expect(saveSpy).toHaveBeenCalledTimes(1);
+        // expect the name to have been updated
+        expect(result.name).toEqual("new name");
+      });
+      it("handles thumbnail change", async () => {
+        const chk = HubSite.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        // spy on the instance .save method and retrn void
+        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        // make changes to the editor
+        const editor = chk.toEditor();
+        editor.name = "new name";
+        editor._thumbnail = {
+          blob: "fake blob",
+          filename: "thumbnail.png",
+        };
+        // call fromEditor
+        const result = await chk.fromEditor(editor);
+        // expect the save method to have been called
+        expect(saveSpy).toHaveBeenCalledTimes(1);
+        // since thumbnailCache is protected we can't really test that it's set
+        // other than via code-coverage
+        expect(getProp(result, "_thumbnail")).not.toBeDefined();
+      });
+
+      it("handles thumbnail clear", async () => {
+        const chk = HubSite.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        // spy on the instance .save method and retrn void
+        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        // make changes to the editor
+        const editor = chk.toEditor();
+        editor.name = "new name";
+        editor._thumbnail = {};
+        // call fromEditor
+        const result = await chk.fromEditor(editor);
+        // expect the save method to have been called
+        expect(saveSpy).toHaveBeenCalledTimes(1);
+        // since thumbnailCache is protected we can't really test that it's set
+        // other than via code-coverage
+        expect(getProp(result, "_thumbnail")).not.toBeDefined();
+      });
+      it("handles extent from location", async () => {
+        const chk = HubSite.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+            extent: [
+              [-1, -1],
+              [1, 1],
+            ],
+          },
+          authdCtxMgr.context
+        );
+        // spy on the instance .save method and retrn void
+        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        // make changes to the editor
+        const editor = chk.toEditor();
+        editor.name = "new name";
+        editor.location = {
+          extent: [
+            [-2, -2],
+            [2, 2],
+          ],
+          type: "custom",
+        };
+        // call fromEditor
+        const result = await chk.fromEditor(editor);
+        // expect the save method to have been called
+        expect(saveSpy).toHaveBeenCalledTimes(1);
+        expect(result.extent).toEqual([
+          [-2, -2],
+          [2, 2],
+        ]);
+      });
+      it("throws if creating", async () => {
+        const chk = HubSite.fromJson(
+          {
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        // spy on the instance .save method and retrn void
+        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        // make changes to the editor
+        const editor = chk.toEditor();
+        editor.name = "new name";
+        // call fromEditor
+        try {
+          await chk.fromEditor(editor);
+        } catch (ex) {
+          expect(ex.message).toContain("Cannot create");
+          expect(saveSpy).toHaveBeenCalledTimes(0);
+        }
+      });
     });
   });
 });

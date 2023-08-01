@@ -27,6 +27,7 @@ const validSubsystems = [
   "search",
   "sites",
   "groups",
+  "platform",
 ] as const;
 /**
  * Defines values for HubSubsystem

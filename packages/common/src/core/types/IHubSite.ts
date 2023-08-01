@@ -77,3 +77,11 @@ export interface IHubSite
    */
   legacyCapabilities: string[];
 }
+
+export type IHubSiteEditor = Omit<IHubSite, "extent"> & {
+  /**
+   * Thumbnail image. This is only used on the Editor and is
+   * persisted in the fromEditor method on the Class
+   */
+  _thumbnail?: any;
+};

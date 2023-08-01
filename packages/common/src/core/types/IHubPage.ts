@@ -9,3 +9,11 @@ export interface IHubPage
     IWithLayout,
     IWithPermissions,
     IWithSlug {}
+
+export type IHubPageEditor = Omit<IHubPage, "extent"> & {
+  /**
+   * Thumbnail image. This is only used on the Editor and is
+   * persisted in the fromEditor method on the Class
+   */
+  _thumbnail?: any;
+};

@@ -1,49 +1,18 @@
 import { interpolate } from "../../items";
 import { cloneObject } from "../../util";
 import { IEditorConfig } from "../behaviors";
-import { UiSchemaElementOptions } from "./types";
+import { EditorType, UiSchemaElementOptions } from "./types";
 import { applyUiSchemaElementOptions } from "./internal/applyUiSchemaElementOptions";
 import { filterSchemaToUiSchema } from "./internal/filterSchemaToUiSchema";
-import {
-  ProjectEditorType,
-  ProjectEditorTypes,
-} from "../../projects/_internal/ProjectSchema";
-import {
-  InitiativeEditorTypes,
-  InitiativeEditorType,
-} from "../../initiatives/_internal/InitiativeSchema";
-import {
-  SiteEditorType,
-  SiteEditorTypes,
-} from "../../sites/_internal/SiteSchema";
-import {
-  DiscussionEditorType,
-  DiscussionEditorTypes,
-} from "../../discussions/_internal/DiscussionSchema";
-import {
-  PageEditorType,
-  PageEditorTypes,
-} from "../../pages/_internal/PageSchema";
-import {
-  ContentEditorType,
-  ContentEditorTypes,
-} from "../../content/_internal/ContentSchema";
+import { ProjectEditorType } from "../../projects/_internal/ProjectSchema";
+import { InitiativeEditorType } from "../../initiatives/_internal/InitiativeSchema";
+import { SiteEditorType } from "../../sites/_internal/SiteSchema";
+import { DiscussionEditorType } from "../../discussions/_internal/DiscussionSchema";
+import { PageEditorType } from "../../pages/_internal/PageSchema";
+import { ContentEditorType } from "../../content/_internal/ContentSchema";
 
 /**
- * defines the possible editor type values - these correspond
- * to the supported/defined uiSchema configurations
- */
-export type EditorType = (typeof validEditorTypes)[number];
-export const validEditorTypes = [
-  ...ProjectEditorTypes,
-  ...ContentEditorTypes,
-  ...InitiativeEditorTypes,
-  ...SiteEditorTypes,
-  ...DiscussionEditorTypes,
-  ...PageEditorTypes,
-] as const;
-
-/**
+ * DEPRECATED: please use getEditorConfig instead
  * get the editor schema and uiSchema defined for an entity.
  * The schema and uiSchema that are returned can be used to
  * render a form UI (using the configuration editor)
@@ -59,6 +28,12 @@ export const getEntityEditorSchemas = async (
   options: UiSchemaElementOptions[] = []
 ): Promise<IEditorConfig> => {
   const entityType = type.split(":")[1];
+
+  /* tslint:disable no-console */
+  // TODO: Remove at breaking change
+  console.warn(
+    `getEntityEditorSchemas is DEPRECATED. Please use getEditorConfig instead.`
+  );
 
   // schema and uiSchema are dynamically imported based on
   // the entity type and the provided editor type
@@ -87,6 +62,8 @@ export const getEntityEditorSchemas = async (
       ({ uiSchema } = await {
         "hub:initiative:edit": () =>
           import("../../initiatives/_internal/InitiativeUiSchemaEdit"),
+        "hub:initiative:create": () =>
+          import("../../initiatives/_internal/InitiativeUiSchemaCreate"),
       }[type as InitiativeEditorType]());
       break;
     case "site":

@@ -1,11 +1,13 @@
 import { IHubProject, IHubRequestOptions, getProp } from "../../../../src";
 import { getTagItems } from "../../../../src/core/schemas/internal/getTagItems";
-import * as SearchModule from "../../../../src/search/hubSearch";
+import * as SearchModule from "@esri/arcgis-rest-portal";
 
 describe("getTagItems:", () => {
   it("aggregates tags:", async () => {
-    const searchSpy = spyOn(SearchModule, "hubSearch").and.callFake(() => {
-      return Promise.resolve({ aggregations: aggs });
+    const searchSpy = spyOn(SearchModule, "searchItems").and.callFake(() => {
+      // Leaving so we can quickly swap back to using hubSearch
+      // return Promise.resolve({ aggregations: HubSearchAggs });
+      return Promise.resolve(SearchItemsResponse);
     });
     const entity = {
       tags: ["a", "b", "c"],
@@ -20,8 +22,10 @@ describe("getTagItems:", () => {
     expect(chk.find((e) => e.value === "test-tag")).toBeTruthy();
   });
   it("handles entity without tags:", async () => {
-    const searchSpy = spyOn(SearchModule, "hubSearch").and.callFake(() => {
-      return Promise.resolve({ aggregations: aggs });
+    const searchSpy = spyOn(SearchModule, "searchItems").and.callFake(() => {
+      // Leaving so we can quickly swap back to using hubSearch
+      // return Promise.resolve({ aggregations: HubSearchAggs });
+      return Promise.resolve(SearchItemsResponse);
     });
     const entity = {} as IHubProject;
     const orgId = "some-org-id";
@@ -34,7 +38,7 @@ describe("getTagItems:", () => {
     expect(chk.find((e) => e.value === "test-tag")).toBeTruthy();
   });
   it("swallows error from search", async () => {
-    spyOn(SearchModule, "hubSearch").and.callFake(() => {
+    spyOn(SearchModule, "searchItems").and.callFake(() => {
       return Promise.reject();
     });
     const entity = {} as IHubProject;
@@ -46,7 +50,34 @@ describe("getTagItems:", () => {
   });
 });
 
-const aggs = [
+const SearchItemsResponse: SearchModule.ISearchResult<SearchModule.IItem> = {
+  query: "",
+  total: 438,
+  start: 1,
+  num: 0,
+  nextStart: 1,
+  results: [],
+  aggregations: {
+    counts: [
+      {
+        fieldName: "tags",
+        fieldValues: [
+          {
+            value: "test-tag",
+            count: 169,
+          },
+          {
+            value: "hub site",
+            count: 60,
+          },
+        ],
+      },
+    ],
+  },
+};
+
+// TODO: Once we swap back to using hubSearch, we can use this response
+const HubSearchAggs = [
   {
     mode: "terms",
     field: "tags",

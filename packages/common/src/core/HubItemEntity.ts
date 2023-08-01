@@ -14,6 +14,7 @@ import {
 } from "../capabilities";
 import HubError from "../HubError";
 import { uploadImageResource } from "../items";
+import { deleteItemThumbnail } from "../items/deleteItemThumbnail";
 import { setItemThumbnail } from "../items/setItemThumbnail";
 import {
   addPermissionPolicy,
@@ -34,7 +35,7 @@ import {
 } from "./behaviors";
 
 import { IWithThumbnailBehavior } from "./behaviors/IWithThumbnailBehavior";
-import { HubEntity, IHubItemEntity, SettableAccessLevel } from "./types";
+import { IHubItemEntity, SettableAccessLevel } from "./types";
 import { sharedWith } from "./_internal/sharedWith";
 import { IWithDiscussionsBehavior } from "./behaviors/IWithDiscussionsBehavior";
 import { setDiscussableKeyword } from "../discussions";
@@ -57,7 +58,8 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
   protected context: IArcGISContext;
   protected entity: T;
   protected isDestroyed: boolean = false;
-  protected thumbnailCache: { file: any; filename: string } = null;
+  protected thumbnailCache: { file?: any; filename?: string; clear?: boolean } =
+    null;
 
   constructor(entity: T, context: IArcGISContext) {
     this.context = context;
@@ -253,22 +255,34 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
   async afterSave(): Promise<void> {
     // Handle Thumbnails
     // check if there is a thumbnail in the cache
+    // if we're not making changes to the thumbnail, this prop will not be defined
     if (this.thumbnailCache) {
-      // save the thumbnail
-      await setItemThumbnail(
-        this.entity.id,
-        this.thumbnailCache.file,
-        this.thumbnailCache.filename,
-        this.context.userRequestOptions,
-        this.entity.owner
-      );
+      if (this.thumbnailCache.clear) {
+        await deleteItemThumbnail(
+          this.entity.id,
+          this.entity.owner,
+          this.context.userRequestOptions
+        );
+        this.thumbnailCache = null;
+        this.entity.thumbnail = null;
+        this.entity.thumbnailUrl = null;
+      } else {
+        // save the thumbnail
+        await setItemThumbnail(
+          this.entity.id,
+          this.thumbnailCache.file,
+          this.thumbnailCache.filename,
+          this.context.userRequestOptions,
+          this.entity.owner
+        );
 
-      // Note: updating the thumbnail alone does not update the modified date of the item
-      // thus we can just set props on the entity w/o re-fetching
-      this.entity.thumbnail = `thumbnail/${this.thumbnailCache.filename}`;
-      this.entity.thumbnailUrl = this.getThumbnailUrl();
-      // clear the thumbnail cache
-      this.thumbnailCache = null;
+        // Note: updating the thumbnail alone does not update the modified date of the item
+        // thus we can just set props on the entity w/o re-fetching
+        this.entity.thumbnail = `thumbnail/${this.thumbnailCache.filename}`;
+        this.entity.thumbnailUrl = this.getThumbnailUrl();
+        // clear the thumbnail cache
+        this.thumbnailCache = null;
+      }
     }
   }
 
@@ -283,6 +297,14 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     // subclass is responsible for handling the implementation during the `.save()` call
     this.thumbnailCache = { file, filename };
   }
+
+  /**
+   * Clear the thumbnail from the item, if one exists. Persisted on next `.save()` call
+   */
+  clearThumbnail(): void {
+    this.thumbnailCache = { clear: true };
+  }
+
   /**
    * Return the full url to the thumbnail, optionally with a width parameter
    * @param width

@@ -1,9 +1,9 @@
 import { IArcGISContext } from "../../../ArcGISContext";
 import { cacheBustUrl } from "../../../urls/cacheBustUrl";
-import { HubEntity } from "../../types/HubEntity";
+import { ConfigurableEntity } from "./ConfigurableEntity";
 
 export function getFeaturedImageUrl(
-  entity: HubEntity,
+  entity: ConfigurableEntity,
   context: IArcGISContext
 ) {
   const queryParams = context.isAuthenticated

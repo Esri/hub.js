@@ -2,7 +2,10 @@ import { IConfigurationSchema } from "../../core";
 import { HubItemEntitySchema } from "../../core/schemas/shared/HubItemEntitySchema";
 
 export type InitiativeEditorType = (typeof InitiativeEditorTypes)[number];
-export const InitiativeEditorTypes = ["hub:initiative:edit"] as const;
+export const InitiativeEditorTypes = [
+  "hub:initiative:edit",
+  "hub:initiative:create",
+] as const;
 
 /**
  * defines the JSON schema for a Hub Initiative's editable fields

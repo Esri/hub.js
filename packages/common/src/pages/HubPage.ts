@@ -3,22 +3,29 @@ import {
   ENTERPRISE_PAGE_ITEM_TYPE,
   HUB_PAGE_ITEM_TYPE,
 } from "./defaults";
-
+import { EditorType } from "../core/schemas/types";
 import {
   IHubPage,
   IWithStoreBehavior,
   IWithSharingBehavior,
   UiSchemaElementOptions,
+  IHubPageEditor,
+  IEntityEditorContext,
 } from "../core";
 
+import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { getEntityEditorSchemas } from "../core/schemas/getEntityEditorSchemas";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
-import { IEditorConfig } from "../core/behaviors/IWithEditorBehavior";
+import {
+  IEditorConfig,
+  IWithEditorBehavior,
+} from "../core/behaviors/IWithEditorBehavior";
 
 import { createPage, deletePage, fetchPage, updatePage } from "./HubPages";
 
 import { PageEditorType } from "./_internal/PageSchema";
+import { cloneObject } from "../util";
 
 /*
   TODO:
@@ -34,7 +41,10 @@ import { PageEditorType } from "./_internal/PageSchema";
  */
 export class HubPage
   extends HubItemEntity<IHubPage>
-  implements IWithStoreBehavior<IHubPage>, IWithSharingBehavior
+  implements
+    IWithStoreBehavior<IHubPage>,
+    IWithSharingBehavior,
+    IWithEditorBehavior
 {
   /**
    * Private constructor so we don't have `new` all over the place. Allows for
@@ -183,5 +193,76 @@ export class HubPage
     this.isDestroyed = true;
     // Delegate to module fn
     await deletePage(this.entity.id, this.context.userRequestOptions);
+  }
+  /*
+   * Get the editor config for the HubProject entity.
+   * @param i18nScope translation scope to be interpolated into the uiSchema
+   * @param type editor type - corresonds to the returned uiSchema
+   * @param options optional hash of dynamic uiSchema element options
+   */
+  async getEditorConfig(
+    i18nScope: string,
+    type: EditorType
+  ): Promise<IEditorConfig> {
+    // delegate to the schema subsystem
+    return getEditorConfig(i18nScope, type, this.entity, this.context);
+  }
+
+  /**
+   * Return the project as an editor object
+   * @param editorContext
+   * @returns
+   */
+  toEditor(editorContext: IEntityEditorContext = {}): IHubPageEditor {
+    // Cast the entity to it's editor
+    const editor = cloneObject(this.entity) as IHubPageEditor;
+
+    // Add other transforms here...
+    return editor;
+  }
+
+  /**
+   * Load the project from the editor object
+   * @param editor
+   * @returns
+   */
+  async fromEditor(editor: IHubPageEditor): Promise<IHubPage> {
+    const isCreate = !editor.id;
+
+    // Setting the thumbnailCache will ensure that
+    // the thumbnail is updated on next save
+    if (editor._thumbnail) {
+      if (editor._thumbnail.blob) {
+        this.thumbnailCache = {
+          file: editor._thumbnail.blob,
+          filename: editor._thumbnail.fileName,
+          clear: false,
+        };
+      } else {
+        this.thumbnailCache = {
+          clear: true,
+        };
+      }
+    }
+
+    delete editor._thumbnail;
+
+    // convert back to an entity. Apply any reverse transforms used in
+    // of the toEditor method
+    const entity = cloneObject(editor) as IHubPage;
+
+    // copy the location extent up one level
+    entity.extent = editor.location?.extent;
+
+    // create it if it does not yet exist...
+    if (isCreate) {
+      throw new Error("Cannot create content using the Editor.");
+    } else {
+      // ...otherwise, update the in-memory entity and save it
+      this.entity = entity;
+      this.save();
+    }
+
+    return this.entity;
   }
 }

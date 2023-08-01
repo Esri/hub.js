@@ -10,7 +10,12 @@ import {
 import { Catalog } from "../search";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
-
+import { EditorType } from "../core/schemas/types";
+import { getEditorConfig } from "../core/schemas/getEditorConfig";
+import {
+  IEditorConfig,
+  IWithEditorBehavior,
+} from "../core/behaviors/IWithEditorBehavior";
 import { DEFAULT_SITE } from "./defaults";
 import {
   createSite,
@@ -20,6 +25,7 @@ import {
   HUB_SITE_ITEM_TYPE,
   updateSite,
 } from "./HubSites";
+import { IEntityEditorContext } from "../core/types/HubEntityEditor";
 import { IContainsResponse, IDeepCatalogInfo, IHubCatalog } from "../search";
 import { deepContains } from "../core/_internal/deepContains";
 
@@ -36,10 +42,12 @@ import {
   updateVersionMetadata,
 } from "../versioning";
 
+import { cloneObject } from "../util";
+
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 
-import { IModel } from "../index";
+import { IHubSiteEditor, IModel } from "../index";
 
 /**
  * Hub Site Class
@@ -52,7 +60,8 @@ export class HubSite
     IWithPermissionBehavior,
     IWithCatalogBehavior,
     IWithSharingBehavior,
-    IWithVersioningBehavior
+    IWithVersioningBehavior,
+    IWithEditorBehavior
 {
   private _catalog: Catalog;
 
@@ -373,4 +382,76 @@ export class HubSite
   }
 
   //#endregion IWithVersioningBehavior
+
+  /*
+   * Get the editor config for the HubProject entity.
+   * @param i18nScope translation scope to be interpolated into the uiSchema
+   * @param type editor type - corresonds to the returned uiSchema
+   * @param options optional hash of dynamic uiSchema element options
+   */
+  async getEditorConfig(
+    i18nScope: string,
+    type: EditorType
+  ): Promise<IEditorConfig> {
+    // delegate to the schema subsystem
+    return getEditorConfig(i18nScope, type, this.entity, this.context);
+  }
+
+  /**
+   * Return the project as an editor object
+   * @param editorContext
+   * @returns
+   */
+  toEditor(editorContext: IEntityEditorContext = {}): IHubSiteEditor {
+    // Cast the entity to it's editor
+    const editor = cloneObject(this.entity) as IHubSiteEditor;
+
+    // Add other transforms here...
+    return editor;
+  }
+
+  /**
+   * Load the project from the editor object
+   * @param editor
+   * @returns
+   */
+  async fromEditor(editor: IHubSiteEditor): Promise<IHubSite> {
+    const isCreate = !editor.id;
+
+    // Setting the thumbnailCache will ensure that
+    // the thumbnail is updated on next save
+    if (editor._thumbnail) {
+      if (editor._thumbnail.blob) {
+        this.thumbnailCache = {
+          file: editor._thumbnail.blob,
+          filename: editor._thumbnail.fileName,
+          clear: false,
+        };
+      } else {
+        this.thumbnailCache = {
+          clear: true,
+        };
+      }
+    }
+
+    delete editor._thumbnail;
+
+    // convert back to an entity. Apply any reverse transforms used in
+    // of the toEditor method
+    const entity = cloneObject(editor) as IHubSite;
+
+    // copy the location extent up one level
+    entity.extent = editor.location?.extent;
+
+    // create it if it does not yet exist...
+    if (isCreate) {
+      throw new Error("Cannot create content using the Editor.");
+    } else {
+      // ...otherwise, update the in-memory entity and save it
+      this.entity = entity;
+      this.save();
+    }
+
+    return this.entity;
+  }
 }

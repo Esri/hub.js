@@ -1,10 +1,23 @@
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
-import { IHubEditableContent, IWithStoreBehavior } from "../core";
+
+import { EditorType } from "../core/schemas/types";
+import {
+  IEditorConfig,
+  IWithEditorBehavior,
+} from "../core/behaviors/IWithEditorBehavior";
+import {
+  IHubContentEditor,
+  IHubEditableContent,
+} from "../core/types/IHubEditableContent";
+import { IWithStoreBehavior } from "../core/behaviors/IWithStoreBehavior";
+import { getEditorConfig } from "../core/schemas/getEditorConfig";
+import { IEntityEditorContext } from "../core/types/HubEntityEditor";
+import { cloneObject } from "../util";
 
 export class HubContent
   extends HubItemEntity<IHubEditableContent>
-  implements IWithStoreBehavior<IHubEditableContent>
+  implements IWithStoreBehavior<IHubEditableContent>, IWithEditorBehavior
 {
   private constructor(content: IHubEditableContent, context: IArcGISContext) {
     super(content, context);
@@ -74,6 +87,79 @@ export class HubContent
     const { deleteContent } = await import("./edit");
     // Delegate to module fn
     await deleteContent(this.entity.id, this.context.userRequestOptions);
+  }
+
+  /*
+   * Get the editor config for the HubProject entity.
+   * @param i18nScope translation scope to be interpolated into the uiSchema
+   * @param type editor type - corresonds to the returned uiSchema
+   * @param options optional hash of dynamic uiSchema element options
+   */
+  async getEditorConfig(
+    i18nScope: string,
+    type: EditorType
+  ): Promise<IEditorConfig> {
+    // delegate to the schema subsystem
+    return getEditorConfig(i18nScope, type, this.entity, this.context);
+  }
+
+  /**
+   * Return the project as an editor object
+   * @param editorContext
+   * @returns
+   */
+  toEditor(editorContext: IEntityEditorContext = {}): IHubContentEditor {
+    // Cast the entity to it's editor
+    const editor = cloneObject(this.entity) as IHubContentEditor;
+
+    // Add other transforms here...
+    // NOTE: Be sure to add tests for any transforms in the test suite
+    return editor;
+  }
+
+  /**
+   * Load the project from the editor object
+   * @param editor
+   * @returns
+   */
+  async fromEditor(editor: IHubContentEditor): Promise<IHubEditableContent> {
+    const isCreate = !editor.id;
+
+    // Setting the thumbnailCache will ensure that
+    // the thumbnail is updated on next save
+    if (editor._thumbnail) {
+      if (editor._thumbnail.blob) {
+        this.thumbnailCache = {
+          file: editor._thumbnail.blob,
+          filename: editor._thumbnail.fileName,
+          clear: false,
+        };
+      } else {
+        this.thumbnailCache = {
+          clear: true,
+        };
+      }
+    }
+
+    delete editor._thumbnail;
+
+    // convert back to an entity. Apply any reverse transforms used in
+    // of the toEditor method
+    const entity = cloneObject(editor) as IHubEditableContent;
+
+    // copy the location extent up one level
+    entity.extent = editor.location?.extent;
+
+    // create it if it does not yet exist...
+    if (isCreate) {
+      throw new Error("Cannot create content using the Editor.");
+    } else {
+      // ...otherwise, update the in-memory entity and save it
+      this.entity = entity;
+      this.save();
+    }
+
+    return this.entity;
   }
 
   // TODO: move this to HubItemEntity

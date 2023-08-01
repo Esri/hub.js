@@ -33,6 +33,11 @@ export enum PROJECT_STATUSES {
  * that it can be consumed by the entity editor.
  */
 export type IHubProjectEditor = Omit<IHubProject, "extent"> & {
+  /**
+   * Thumbnail image. This is only used on the Editor and is
+   * persisted in the fromEditor method on the Class
+   */
+  _thumbnail?: any;
   // extent: IExtent | number[][];
   view: {
     featuredImage?: any;

@@ -5,7 +5,7 @@ import { DiscussionPermissions } from "../../discussions/_internal/DiscussionBus
 import { ContentPermissions } from "../../content/_internal/ContentBusinessRules";
 import { GroupPermissions } from "../../groups/_internal/GroupBusinessRules";
 import { PagePermissions } from "../../pages/_internal/PageBusinessRules";
-
+import { PlatformPermissions } from "../PlatformPermissionPolicies";
 /**
  * Defines the values for Permissions
  * It's critical that the arrays defined in the modules use `as const`
@@ -19,6 +19,7 @@ const validPermissions = [
   ...ContentPermissions,
   ...GroupPermissions,
   ...PagePermissions,
+  ...PlatformPermissions,
 ] as const;
 
 /**
