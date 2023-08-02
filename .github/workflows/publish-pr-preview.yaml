@@ -55,9 +55,9 @@ jobs:
         env:
           WORK_DIR: packages/${{ matrix.package }}
         run: |
-          FILE_NAME="$(cd ${{ env.WORK_DIR }} && npm pack --json | jq ".[0].filename" -r)"
           PACKAGE_NAME="$(jq '.name' ${{ env.WORK_DIR }}/package.json -r)"
           VERSION=PR-${{ github.event.number }}
           S3_KEY="$PACKAGE_NAME/$VERSION/${{ github.event.pull_request.head.sha }}.tgz"
 
-          aws s3 cp ${{ env.WORK_DIR }}/$FILE_NAME s3://${{ secrets.PR_PREVIEW_BUCKET }}/$S3_KEY --only-show-errors
+          cd ${{ env.WORK_DIR }} && npm pack
+          aws s3 cp ${{ env.WORK_DIR }}/$(ls *.tgz) s3://${{ secrets.PR_PREVIEW_BUCKET }}/$S3_KEY --only-show-errors
