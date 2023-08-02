@@ -897,6 +897,7 @@ export interface ISearchChannels
   groups?: string[];
   access?: SharingAccess[];
   relations?: ChannelRelation[];
+  name?: string;
 }
 
 /**
