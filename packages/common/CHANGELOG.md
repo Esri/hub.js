@@ -1,3 +1,10 @@
+# @esri/hub-common [13.29.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.28.0...@esri/hub-common@13.29.0) (2023-08-02)
+
+
+### Features
+
+* **hub-common:** add name to interface ISearchChannels ([#1140](https://github.com/Esri/hub.js/issues/1140)) ([674dd12](https://github.com/Esri/hub.js/commit/674dd12e759e114b3acca69e87d2b0220c318e7c))
+
 # @esri/hub-common [13.28.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.27.1...@esri/hub-common@13.28.0) (2023-08-01)
 
 
