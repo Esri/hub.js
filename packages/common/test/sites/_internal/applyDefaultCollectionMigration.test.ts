@@ -44,6 +44,16 @@ describe("applyDefaultCollectionMigration", () => {
       (c: IHubCollectionPersistance) => c.label
     );
     expect(collectionLabels).toEqual([null, null, null, null, null]);
+    const hiddenStatuses = result.data.catalog.collections.map(
+      (c: IHubCollectionPersistance) => c.hidden
+    );
+    expect(hiddenStatuses).toEqual([
+      undefined,
+      true,
+      undefined,
+      undefined,
+      undefined,
+    ]);
   });
 
   it("Reorders, re-labels, and hides default collections when search categories are configured", () => {
@@ -58,7 +68,7 @@ describe("applyDefaultCollectionMigration", () => {
       {
         overrideText: "My Sites",
         key: SearchCategories.SITES,
-        hidden: true,
+        hidden: false,
       },
       {
         overrideText: "My Data",
@@ -87,7 +97,7 @@ describe("applyDefaultCollectionMigration", () => {
     const hiddenStatuses = result.data.catalog.collections.map(
       (c: IHubCollectionPersistance) => c.hidden
     );
-    expect(hiddenStatuses).toEqual([undefined, undefined, true, true, false]);
+    expect(hiddenStatuses).toEqual([undefined, undefined, true, false, false]);
   });
 
   it("Handles when a site has the 'initiatives' search category saved", () => {

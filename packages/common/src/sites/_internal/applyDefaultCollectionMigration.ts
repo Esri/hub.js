@@ -71,7 +71,7 @@ export function applyDefaultCollectionMigration(model: IModel): IModel {
   // NOTE: The `event` search category has been explicitly omitted. While the classic search view
   // allows for the searching of `events`, the new search view does not.
   const DEFAULT_SEARCH_CATEGORIES: any[] = [
-    { key: SearchCategories.SITES },
+    { key: SearchCategories.SITES, hidden: true },
     { key: SearchCategories.DATA },
     { key: SearchCategories.DOCUMENTS },
     { key: SearchCategories.APPS_AND_MAPS },
