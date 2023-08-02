@@ -59,5 +59,6 @@ jobs:
           VERSION=PR-${{ github.event.number }}
           S3_KEY="$PACKAGE_NAME/$VERSION/${{ github.event.pull_request.head.sha }}.tgz"
 
-          cd ${{ env.WORK_DIR }} && npm pack
-          cd ${{ env.WORK_DIR }} && aws s3 cp $(ls *.tgz) s3://${{ secrets.PR_PREVIEW_BUCKET }}/$S3_KEY --only-show-errors
+          cd ${{ env.WORK_DIR }} && \
+            npm pack && \
+            aws s3 cp $(ls *.tgz) s3://${{ secrets.PR_PREVIEW_BUCKET }}/$S3_KEY --only-show-errors
