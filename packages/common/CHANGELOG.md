@@ -1,3 +1,10 @@
+# @esri/hub-common [13.30.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.29.1...@esri/hub-common@13.30.0) (2023-08-02)
+
+
+### Features
+
+* add card section type ([#1142](https://github.com/Esri/hub.js/issues/1142)) ([41618a4](https://github.com/Esri/hub.js/commit/41618a415b5339cb64ab8909639bce213de46dd8))
+
 ## @esri/hub-common [13.29.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.29.0...@esri/hub-common@13.29.1) (2023-08-02)
 
 
