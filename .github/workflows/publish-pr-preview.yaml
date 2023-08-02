@@ -10,6 +10,7 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    # if: github.event.pull_request.draft == false
     strategy:
       matrix:
         package: ["common", "discussions", "downloads", "events", "initiatives", "search", "sites", "surveys", "teams"]
@@ -22,6 +23,8 @@ jobs:
         with:
           node-version: 16
           cache: npm
+      - name: Setup npm v7
+        run: npm i -g npm@7 --registry=https://registry.npmjs.org
       - name: Install dependencies
         run: npm ci
       - name: Build
