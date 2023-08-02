@@ -1,3 +1,10 @@
+## @esri/hub-common [13.29.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.29.0...@esri/hub-common@13.29.1) (2023-08-02)
+
+
+### Bug Fixes
+
+* gracefully handles cases where portal prop might not exist on ([#1137](https://github.com/Esri/hub.js/issues/1137)) ([fa09ecf](https://github.com/Esri/hub.js/commit/fa09ecf9890604f91a3eb118e4cf82598214acbb))
+
 # @esri/hub-common [13.29.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.28.0...@esri/hub-common@13.29.0) (2023-08-02)
 
 
