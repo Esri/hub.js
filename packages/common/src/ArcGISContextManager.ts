@@ -13,7 +13,7 @@ import { Level, Logger } from "./utils/logger";
 import { HubSystemStatus } from "./core";
 import { cloneObject } from "./util";
 import { base64ToUnicode, unicodeToBase64 } from "./utils/encoding";
-import { IHubFeatures } from "./permissions/_internal/checkFeature";
+import { HubFeatures } from "./permissions/_internal/checkFeature";
 
 /**
  * Options that can be passed into `ArcGISContextManager.create`
@@ -72,7 +72,7 @@ export interface IArcGISContextManagerOptions {
 
   environment?: HubEnvironment;
 
-  features?: IHubFeatures;
+  features?: HubFeatures;
 }
 
 /**
@@ -117,7 +117,7 @@ export class ArcGISContextManager {
 
   private _environment: HubEnvironment;
 
-  private _features: IHubFeatures;
+  private _features: HubFeatures;
 
   /**
    * Private constructor. Use `ArcGISContextManager.create(...)` to

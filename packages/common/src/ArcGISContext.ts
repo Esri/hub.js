@@ -10,7 +10,7 @@ import { getProp, getWithDefault } from "./objects";
 import { HubLicense } from "./permissions/types";
 import { IHubRequestOptions } from "./types";
 import { _getLocation, getPortalBaseFromOrgUrl } from "./urls";
-import { IHubFeatures } from "./permissions/_internal/checkFeature";
+import { HubFeatures } from "./permissions/_internal/checkFeature";
 
 /**
  * Hash of Hub API end points so updates
@@ -174,7 +174,7 @@ export interface IArcGISContext {
 
   environment: HubEnvironment;
 
-  features: IHubFeatures;
+  features: HubFeatures;
 }
 
 export type HubEnvironment =
@@ -236,7 +236,7 @@ export interface IArcGISContextOptions {
 
   environment?: HubEnvironment;
 
-  features?: IHubFeatures;
+  features?: HubFeatures;
 }
 
 /**
@@ -276,7 +276,7 @@ export class ArcGISContext implements IArcGISContext {
 
   private _environment: HubEnvironment;
 
-  private _features: IHubFeatures;
+  private _features: HubFeatures;
 
   /**
    * Create a new instance of `ArcGISContext`.
@@ -340,7 +340,7 @@ export class ArcGISContext implements IArcGISContext {
               hubFeatures[key] = val === "true";
             }
             return hubFeatures;
-          }, {} as IHubFeatures);
+          }, {} as HubFeatures);
       }
     }
   }
@@ -635,7 +635,7 @@ export class ArcGISContext implements IArcGISContext {
     return this._environment;
   }
 
-  public get features(): IHubFeatures {
+  public get features(): HubFeatures {
     return this._features;
   }
 }

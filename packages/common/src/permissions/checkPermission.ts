@@ -71,13 +71,12 @@ export function checkPermission(
   // For system policies, all conditions must be met, so we can
   // iterate through the checks and set the response to the first failure
   // while still returning all the checks for observability
-  checks.forEach((check) => {
-    if (check.response !== "granted" && response.response === "granted") {
-      response.response = check.response;
-      response.code = check.code;
-      response.access = false;
-    }
-  });
+  const firstFailure = checks.find((check) => check.response !== "granted");
+  if (firstFailure) {
+    response.response = firstFailure.response;
+    response.code = firstFailure.code;
+    response.access = false;
+  }
 
   response.checks = checks;
 

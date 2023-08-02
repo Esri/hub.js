@@ -2,32 +2,32 @@ import { IArcGISContext } from "../../ArcGISContext";
 import { IPermissionPolicy, PolicyResponse, IPolicyCheck } from "../types";
 import { getPolicyResponseCode } from "./getPolicyResponseCode";
 import { HubEnvironment } from "../../ArcGISContext";
-import { env } from "process";
 
-const HubFeatures = ["workspaces"];
+const validFeatures = ["workspaces"] as const;
 
-export type HubFeature = (typeof HubFeatures)[number];
+export type HubFeature = (typeof validFeatures)[number];
 
-// TODO: i don't think i have this right
-export type IHubFeatures = Record<HubFeature, boolean>;
+export type HubFeatures = {
+  [key in HubFeature]: boolean;
+};
 
-const QaExtFeatures: IHubFeatures = {
+const QaExtFeatures: HubFeatures = {
   workspaces: true,
 };
 
-const DevExtFeatures: IHubFeatures = { ...QaExtFeatures };
-const LocalDevFeatures: IHubFeatures = { ...QaExtFeatures };
-const SandboxDevFeatures: IHubFeatures = { ...QaExtFeatures };
+const DevExtFeatures: HubFeatures = { ...QaExtFeatures };
+const LocalDevFeatures: HubFeatures = { ...QaExtFeatures };
+const SandboxDevFeatures: HubFeatures = { ...QaExtFeatures };
 
-const ProductionFeatures: IHubFeatures = {
+const ProductionFeatures: HubFeatures = {
   workspaces: false,
 };
 
-const EnterpriseFeatures: IHubFeatures = {
+const EnterpriseFeatures: HubFeatures = {
   workspaces: false,
 };
 
-function getFeaturesForEnvironment(environment: HubEnvironment): IHubFeatures {
+function getFeaturesForEnvironment(environment: HubEnvironment): HubFeatures {
   switch (environment) {
     case "qaext":
       return QaExtFeatures;
@@ -45,7 +45,7 @@ function getFeaturesForEnvironment(environment: HubEnvironment): IHubFeatures {
   }
 }
 
-function getFeatures(context: IArcGISContext): IHubFeatures {
+function getFeatures(context: IArcGISContext): HubFeatures {
   const { environment } = context;
   const featuresForEnvironment = getFeaturesForEnvironment(environment);
   return {
