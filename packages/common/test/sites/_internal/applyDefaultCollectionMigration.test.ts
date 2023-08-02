@@ -35,8 +35,8 @@ describe("applyDefaultCollectionMigration", () => {
     );
     expect(collectionKeys).toEqual([
       "all",
-      "dataset",
       "site",
+      "dataset",
       "document",
       "appAndMap",
     ]);
