@@ -230,7 +230,7 @@ describe("HubSite Class:", () => {
   it("internal instance accessors", () => {
     const chk = HubSite.fromJson(
       { name: "Test Site", catalog: { schemaVersion: 0 } },
-      authdCtxMgr.context
+      unauthdCtxMgr.context
     );
 
     expect(chk.catalog instanceof Catalog).toBeTruthy();
