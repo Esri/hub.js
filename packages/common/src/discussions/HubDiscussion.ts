@@ -187,8 +187,6 @@ export class HubDiscussion
    * @returns
    */
   async fromEditor(editor: IHubDiscussionEditor): Promise<IHubDiscussion> {
-    const isCreate = !editor.id;
-
     // Setting the thumbnailCache will ensure that
     // the thumbnail is updated on next save
     if (editor._thumbnail) {
@@ -214,14 +212,9 @@ export class HubDiscussion
     // copy the location extent up one level
     entity.extent = editor.location?.extent;
 
-    // create it if it does not yet exist...
-    if (isCreate) {
-      throw new Error("Cannot create content using the Editor.");
-    } else {
-      // ...otherwise, update the in-memory entity and save it
-      this.entity = entity;
-      this.save();
-    }
+    // Save, which will also create new content if new
+    this.entity = entity;
+    await this.save();
 
     return this.entity;
   }
