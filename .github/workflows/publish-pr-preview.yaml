@@ -1,0 +1,64 @@
+name: Publish PR Preview
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review, synchronize]
+    branches:
+      - master
+      - next
+      - alpha
+      - beta
+    paths-ignore:
+      - "**.md"
+      - "docs/**"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: npm
+      - name: Setup npm v7
+        run: npm i -g npm@7 --registry=https://registry.npmjs.org
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
+        run : npm run build
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-region: us-east-1
+          role-to-assume: ${{ secrets.AWS_DEV_GITHUB_ACCESS_ROLE_ARN }}
+          role-skip-session-tagging: true
+      - name: Assume execution role
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-region: us-east-1
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
+          role-skip-session-tagging: true
+          role-to-assume: ${{ secrets.AWS_DEV_TERRAFORM_ROLE_ARN }}
+      - name: Publish
+        run: |
+          # list all packages in the /packages directory
+          package_dirs=( $(ls) )
+
+          # for each package, run the "npm pack" command and upload the .tgz package to S3
+          for dir in "${package_dirs[@]}"; do
+            package_name="$(jq '.name' $dir/package.json -r)"
+            s3_key="$package_name/PR-${{ github.event.number }}/${{ github.event.pull_request.head.sha }}.tgz"
+
+            cd $dir && \
+              npm pack && \
+              aws s3 cp $(ls *.tgz) s3://${{ secrets.PR_PREVIEW_BUCKET }}/$s3_key --only-show-errors
+            cd ..
+          done
+        working-directory: packages
