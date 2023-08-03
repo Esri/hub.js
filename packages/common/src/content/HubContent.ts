@@ -14,6 +14,7 @@ import { IWithStoreBehavior } from "../core/behaviors/IWithStoreBehavior";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { IEntityEditorContext } from "../core/types/HubEntityEditor";
 import { cloneObject } from "../util";
+import { editorToContent } from "./edit";
 
 export class HubContent
   extends HubItemEntity<IHubEditableContent>
@@ -145,7 +146,7 @@ export class HubContent
 
     // convert back to an entity. Apply any reverse transforms used in
     // of the toEditor method
-    const entity = cloneObject(editor) as IHubEditableContent;
+    const entity = editorToContent(editor, this.context.portal);
 
     // copy the location extent up one level
     entity.extent = editor.location?.extent;
