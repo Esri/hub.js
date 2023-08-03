@@ -18,9 +18,6 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     # if: github.event.pull_request.draft == false
-    strategy:
-      matrix:
-        package: ["common", "discussions", "downloads", "events", "initiatives", "search", "sites", "surveys", "teams"]
     permissions:
       id-token: write
       contents: read
@@ -51,14 +48,16 @@ jobs:
           aws-session-token: ${{ env.AWS_SESSION_TOKEN }}
           role-skip-session-tagging: true
           role-to-assume: ${{ secrets.AWS_DEV_TERRAFORM_ROLE_ARN }}
-      - name: Publish packages/${{ matrix.package }}
-        env:
-          WORK_DIR: packages/${{ matrix.package }}
+      - name: Publish
         run: |
-          PACKAGE_NAME="$(jq '.name' ${{ env.WORK_DIR }}/package.json -r)"
-          VERSION=PR-${{ github.event.number }}
-          S3_KEY="$PACKAGE_NAME/$VERSION/${{ github.event.pull_request.head.sha }}.tgz"
+          package_dirs=( $(ls) )
 
-          cd ${{ env.WORK_DIR }} && \
-            npm pack && \
-            aws s3 cp $(ls *.tgz) s3://${{ secrets.PR_PREVIEW_BUCKET }}/$S3_KEY --only-show-errors
+          for dir in "${package_dirs[@]}"; do
+            package_name="$(jq '.name' $dir/package.json -r)"
+            s3_key="$package_name/PR-${{ github.event.number }}/${{ github.event.pull_request.head.sha }}.tgz"
+
+            cd $dir && \
+              npm pack && \
+              aws s3 cp $(ls *.tgz) s3://${{ secrets.PR_PREVIEW_BUCKET }}/$s3_key --only-show-errors
+          done
+        working-directory: packages
