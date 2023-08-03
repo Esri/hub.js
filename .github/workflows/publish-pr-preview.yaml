@@ -15,7 +15,7 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    # if: github.event.pull_request.draft == false
+    if: github.event.pull_request.draft == false
     permissions:
       id-token: write
       contents: read
@@ -48,8 +48,10 @@ jobs:
           role-to-assume: ${{ secrets.AWS_DEV_TERRAFORM_ROLE_ARN }}
       - name: Publish
         run: |
+          # list all packages in the /packages directory
           package_dirs=( $(ls) )
 
+          # for each package, run the "npm pack" command and upload the .tgz package to S3
           for dir in "${package_dirs[@]}"; do
             package_name="$(jq '.name' $dir/package.json -r)"
             s3_key="$package_name/PR-${{ github.event.number }}/${{ github.event.pull_request.head.sha }}.tgz"
