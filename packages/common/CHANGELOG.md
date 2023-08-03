@@ -1,3 +1,10 @@
+# @esri/hub-common [13.31.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.30.0...@esri/hub-common@13.31.0) (2023-08-03)
+
+
+### Features
+
+* user card result to card ([#1144](https://github.com/Esri/hub.js/issues/1144)) ([866fbe7](https://github.com/Esri/hub.js/commit/866fbe7104bb7362b36265df32238219f2fc09ab))
+
 # @esri/hub-common [13.30.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.29.1...@esri/hub-common@13.30.0) (2023-08-02)
 
 
