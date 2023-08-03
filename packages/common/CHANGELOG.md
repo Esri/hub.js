@@ -1,3 +1,10 @@
+# @esri/hub-common [13.32.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.31.0...@esri/hub-common@13.32.0) (2023-08-03)
+
+
+### Features
+
+* **hub-common:** persist modifications to site collections via updateSite ([#1139](https://github.com/Esri/hub.js/issues/1139)) ([147b7fc](https://github.com/Esri/hub.js/commit/147b7fce1856aec3c6c830b6196d0856d8458626))
+
 # @esri/hub-common [13.31.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.30.0...@esri/hub-common@13.31.0) (2023-08-03)
 
 
