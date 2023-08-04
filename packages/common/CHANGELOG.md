@@ -1,3 +1,10 @@
+## @esri/hub-common [13.32.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.32.1...@esri/hub-common@13.32.2) (2023-08-04)
+
+
+### Bug Fixes
+
+* remove name/title string as it is not wanted ([#1148](https://github.com/Esri/hub.js/issues/1148)) ([01018c9](https://github.com/Esri/hub.js/commit/01018c9a621db305d1e899631f8b3290cfa9f886))
+
 ## @esri/hub-common [13.32.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.32.0...@esri/hub-common@13.32.1) (2023-08-04)
 
 
