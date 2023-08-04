@@ -1,3 +1,10 @@
+## @esri/hub-common [13.32.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.32.0...@esri/hub-common@13.32.1) (2023-08-04)
+
+
+### Bug Fixes
+
+* actually export new function from index ([#1147](https://github.com/Esri/hub.js/issues/1147)) ([5d515d4](https://github.com/Esri/hub.js/commit/5d515d451a84dbe2d86c6070a0c97fb4b7ecee9e))
+
 # @esri/hub-common [13.32.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.31.0...@esri/hub-common@13.32.0) (2023-08-03)
 
 
