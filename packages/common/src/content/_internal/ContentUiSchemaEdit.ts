@@ -97,23 +97,24 @@ export const uiSchema: IUiSchema = {
         },
       ],
     },
-    // { // TODO: in another PR
-    //   type: "Section",
-    //   labelKey: "{{i18nScope}}.sections.location.label",
-    //   options: {
-    //     helperText: {
-    //       labelKey: "{{i18nScope}}.sections.location.helperText",
-    //     },
-    //   },
-    //   elements: [
-    //     {
-    //       scope: "/properties/location",
-    //       type: "Control",
-    //       options: {
-    //         control: "hub-field-input-location-picker",
-    //       },
-    //     },
-    //   ],
-    // },
+    // location section
+    {
+      type: "Section",
+      labelKey: "{{i18nScope}}.sections.location.label",
+      options: {
+        helperText: {
+          labelKey: "{{i18nScope}}.sections.location.helperText",
+        },
+      },
+      elements: [
+        {
+          scope: "/properties/location",
+          type: "Control",
+          options: {
+            control: "hub-field-input-location-picker",
+          },
+        },
+      ],
+    },
   ],
 };

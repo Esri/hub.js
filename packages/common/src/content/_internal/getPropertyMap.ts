@@ -24,11 +24,10 @@ export function getPropertyMap(): IPropertyMap[] {
     storeKey: "data.settings.capabilities",
   });
 
-  // TODO: (Aaron) looking ahead for adding location, I'm pretty sure we'll want this in the next PR
-  // map.push({
-  //   entityKey: "location",
-  //   storeKey: "item.properties.location",
-  // });
+  map.push({
+    entityKey: "location",
+    storeKey: "item.properties.location",
+  });
 
   // TODO: look into composeContent() for what we can add here
 
