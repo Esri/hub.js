@@ -52,20 +52,6 @@ export const uiSchema: IUiSchema = {
           },
         },
         {
-          labelKey: "{{i18nScope}}.fields._thumbnail.label",
-          scope: "/properties/_thumbnail",
-          type: "Control",
-          options: {
-            control: "hub-field-input-image-picker",
-            maxWidth: 727,
-            maxHeight: 484,
-            aspectRatio: 1.5,
-            helperText: {
-              labelKey: "{{i18nScope}}.fields._thumbnail.helperText",
-            },
-          },
-        },
-        {
           labelKey: "{{i18nScope}}.fields.featuredImage.label",
           scope: "/properties/view/properties/featuredImage",
           type: "Control",
@@ -92,6 +78,30 @@ export const uiSchema: IUiSchema = {
             },
           },
         },
+      ],
+    },
+    {
+      type: "Section",
+      labelKey: "{{i18nScope}}.sections.location.label",
+      options: {
+        helperText: {
+          labelKey: "{{i18nScope}}.sections.location.helperText",
+        },
+      },
+      elements: [
+        {
+          scope: "/properties/location",
+          type: "Control",
+          options: {
+            control: "hub-field-input-location-picker",
+          },
+        },
+      ],
+    },
+    {
+      type: "Section",
+      labelKey: "{{i18nScope}}.sections.searchDiscoverability.label",
+      elements: [
         {
           labelKey: "{{i18nScope}}.fields.tags.label",
           scope: "/properties/tags",
@@ -118,22 +128,21 @@ export const uiSchema: IUiSchema = {
             },
           },
         },
-      ],
-    },
-    {
-      type: "Section",
-      labelKey: "{{i18nScope}}.sections.location.label",
-      options: {
-        helperText: {
-          labelKey: "{{i18nScope}}.sections.location.helperText",
-        },
-      },
-      elements: [
         {
-          scope: "/properties/location",
+          labelKey: "{{i18nScope}}.fields._thumbnail.label",
+          scope: "/properties/_thumbnail",
           type: "Control",
           options: {
-            control: "hub-field-input-location-picker",
+            control: "hub-field-input-image-picker",
+            maxWidth: 727,
+            maxHeight: 484,
+            aspectRatio: 1.5,
+            helperText: {
+              labelKey: "{{i18nScope}}.fields._thumbnail.helperText",
+            },
+            sizeDescription: {
+              labelKey: "{{i18nScope}}.fields._thumbnail.sizeDescription",
+            },
           },
         },
       ],
