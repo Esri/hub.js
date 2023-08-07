@@ -155,14 +155,11 @@ export function editorToContent(
   editor: IHubContentEditor,
   portal: IPortal
 ): IHubEditableContent {
-  // remove the ephemeral props we graft on for the editor
-  // delete editor._groups; // don't think we need this?
-  // clone into a HubProject
+  // clone into a IHubContentEditor
   const content = cloneObject(editor) as IHubEditableContent;
-  // ensure there's an org url key
-  // content.orgUrlKey = editor.orgUrlKey ? editor.orgUrlKey : portal.urlKey; // don't think we need this?
+
   // copy the location extent up one level
   content.extent = editor.location?.extent;
-  // return with a cast
+
   return content;
 }
