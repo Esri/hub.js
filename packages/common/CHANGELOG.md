@@ -1,3 +1,10 @@
+# @esri/hub-common [13.33.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.32.2...@esri/hub-common@13.33.0) (2023-08-07)
+
+
+### Features
+
+* add more support and props for Hub Group ([#1143](https://github.com/Esri/hub.js/issues/1143)) ([bbdc300](https://github.com/Esri/hub.js/commit/bbdc300a8c74641929d6e4e68869866ef2401ee8))
+
 ## @esri/hub-common [13.32.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.32.1...@esri/hub-common@13.32.2) (2023-08-04)
 
 
