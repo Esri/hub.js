@@ -52,7 +52,7 @@ describe("groups: computeProps:", () => {
   describe("computeProps:", () => {
     describe("computed props", () => {
       it("computes the correct props", async () => {
-        const chk = computeProps(
+        let chk = computeProps(
           group,
           hubGroup,
           authdCtxMgr.context.requestOptions
