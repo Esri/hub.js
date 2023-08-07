@@ -1,3 +1,10 @@
+# @esri/hub-common [13.34.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.33.2...@esri/hub-common@13.34.0) (2023-08-07)
+
+
+### Features
+
+* added location picker to content details ([#1150](https://github.com/Esri/hub.js/issues/1150)) ([f6317b4](https://github.com/Esri/hub.js/commit/f6317b4e788a6a9a2f4d3d38b5de1fac1ddbf7ab))
+
 ## @esri/hub-common [13.33.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.33.1...@esri/hub-common@13.33.2) (2023-08-07)
 
 
