@@ -1,3 +1,10 @@
+## @esri/hub-common [13.33.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.33.0...@esri/hub-common@13.33.1) (2023-08-07)
+
+
+### Bug Fixes
+
+* handle new discussion entity ([#1146](https://github.com/Esri/hub.js/issues/1146)) ([2f395bc](https://github.com/Esri/hub.js/commit/2f395bccd94ca5f26cb82b8cbcd766de5b8752b8))
+
 # @esri/hub-common [13.33.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.32.2...@esri/hub-common@13.33.0) (2023-08-07)
 
 
