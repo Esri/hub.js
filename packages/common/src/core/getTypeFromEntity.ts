@@ -32,6 +32,9 @@ export function getTypeFromEntity(
     case "Discussion":
       type = "discussion";
       break;
+    case "Group":
+      type = "group";
+      break;
     default:
       // TODO: other families go here? feedback? solution? template?
       const contentFamilies = ["app", "content", "dataset", "document", "map"];

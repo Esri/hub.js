@@ -54,6 +54,17 @@ export function computeProps(
     hubGroup.membershipAccess = "collaborators";
   }
 
+  hubGroup.canEdit =
+    group.userMembership.memberType === "owner" ||
+    group.userMembership.memberType === "admin";
+  hubGroup.canDelete = hubGroup.canEdit;
+
+  // Handle capabilities
+  hubGroup.capabilities = processEntityCapabilities(
+    group.data?.settings?.capabilities || {},
+    GroupDefaultCapabilities
+  );
+
   // cast b/c this takes a partial but returns a full group
   return hubGroup as IHubGroup;
 }

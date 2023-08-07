@@ -5,6 +5,7 @@ import {
   cloneObject,
   enrichGroupSearchResult,
   IHubRequestOptions,
+  setProp,
 } from "../../src";
 import * as HubGroupsModule from "../../src/groups/HubGroups";
 import * as FetchEnrichments from "../../src/groups/_internal/enrichments";
@@ -157,6 +158,9 @@ describe("HubGroups Module:", () => {
       ).and.callFake((group: IGroup) => {
         group.id = TEST_GROUP.id;
         group.description = TEST_GROUP.description;
+        group.group.userMembership = {
+          memberType: TEST_GROUP.userMembership?.memberType,
+        };
         return Promise.resolve(group);
       });
       const chk = await HubGroupsModule.createHubGroup(

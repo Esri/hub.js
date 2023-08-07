@@ -10,9 +10,5 @@ export type HubEntity =
   | IHubProject
   | IHubDiscussion
   | IHubInitiative
-  | IHubPage;
-// TODO: leave IHubGroup commented out for now
-// so the package can build w/o throwing.
-// uncomment when changes are made to the getLocationExtent
-// and getFeaturedImageUrl fns
-// | IHubGroup;
+  | IHubPage
+  | IHubGroup;

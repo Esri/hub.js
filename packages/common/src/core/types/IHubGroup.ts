@@ -25,6 +25,16 @@ export interface IHubGroup extends IHubEntityBase, IWithPermissions {
   autoJoin?: boolean;
 
   /**
+   * Whether the user can edit the group, only owners and admins can
+   */
+  canEdit: boolean;
+
+  /**
+   * Whether the user can delete the group, only owners and admins can
+   */
+  canDelete: boolean;
+
+  /**
    * Description for the group
    */
   description?: string;

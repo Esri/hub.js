@@ -260,6 +260,7 @@ export const getContentTypeIcon = (contentType: string) => {
     geoprocessingService: "file",
     globeLayer: "layers",
     globeService: "file",
+    group: "users",
     hubInitiative: "initiative",
     hubInitiativeTemplate: "initiative-template",
     hubPage: "browser",

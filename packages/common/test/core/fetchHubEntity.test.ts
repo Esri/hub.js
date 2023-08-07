@@ -74,4 +74,15 @@ describe("fetchHubEntity:", () => {
     await fetchHubEntity("page", "123", ctx);
     expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
   });
+  it("fetches group", async () => {
+    const ctx = {
+      userRequestOptions: "fakeRequestOptions",
+    } as unknown as IArcGISContext;
+    const spy = spyOn(
+      require("../../src/groups/HubGroups"),
+      "fetchHubGroup"
+    ).and.returnValue(Promise.resolve({}));
+    await fetchHubEntity("group", "123", ctx);
+    expect(spy).toHaveBeenCalledWith("123", "fakeRequestOptions");
+  });
 });
