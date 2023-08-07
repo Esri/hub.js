@@ -43,6 +43,7 @@ export enum UiSchemaSectionTypes {
   block = "block",
   stepper = "stepper",
   subblock = "subblock",
+  card = "card",
 }
 
 export enum UiSchemaMessageTypes {

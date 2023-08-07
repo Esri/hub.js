@@ -1,7 +1,7 @@
-import { getProp } from "../../objects/get-prop";
 import { IHubCollectionPersistance } from "../../search/types/IHubCatalog";
 import { WellKnownCollection } from "../../search/wellKnownCatalog";
 import { IModel } from "../../types";
+import { SearchCategories } from "./types";
 
 /**
  * In-Memory migration that adds default collections to site models that have the
@@ -55,41 +55,42 @@ export function applyDefaultCollectionMigration(model: IModel): IModel {
     };
     return map;
   }, {} as Record<string, IHubCollectionPersistance>);
-  const searchCategoryToCollection: Record<string, WellKnownCollection> = {
-    "components.search.category_tabs.data": "dataset",
+  const searchCategoryToCollection: Partial<
+    Record<SearchCategories, WellKnownCollection>
+  > = {
+    [SearchCategories.DATA]: "dataset",
     // Unfortunately, the "site" search category has different keys depending on if the catalog
     // was created for a hub basic or hub premium site. As such, we just account for both.
-    "components.search.category_tabs.initiatives": "site",
-    "components.search.category_tabs.sites": "site",
-    "components.search.category_tabs.documents": "document",
-    "components.search.category_tabs.apps_and_maps": "appAndMap",
+    [SearchCategories.INITIATIVES]: "site",
+    [SearchCategories.SITES]: "site",
+    [SearchCategories.DOCUMENTS]: "document",
+    [SearchCategories.APPS_AND_MAPS]: "appAndMap",
   };
   // Not every site has `data.values.searchCategories` saved, so we have to keep a bare-bones
   // copy of what the default objects are in opendata-ui.
   // NOTE: The `event` search category has been explicitly omitted. While the classic search view
   // allows for the searching of `events`, the new search view does not.
   const DEFAULT_SEARCH_CATEGORIES: any[] = [
-    { key: "components.search.category_tabs.data" },
-    { key: "components.search.category_tabs.sites" },
-    { key: "components.search.category_tabs.documents" },
-    { key: "components.search.category_tabs.apps_and_maps" },
+    { key: SearchCategories.SITES, hidden: true },
+    { key: SearchCategories.DATA },
+    { key: SearchCategories.DOCUMENTS },
+    { key: SearchCategories.APPS_AND_MAPS },
   ];
   const legacySearchCategories: any[] =
     model.data.values.searchCategories || DEFAULT_SEARCH_CATEGORIES;
 
   const configuredCollections = legacySearchCategories
     // The new search view doesn't currently allow for searching events
-    .filter(
-      (searchCategory) =>
-        searchCategory.key !== "components.search.category_tabs.events"
-    )
+    .filter((searchCategory) => searchCategory.key !== SearchCategories.EVENTS)
     // Some sites have a borked `data.values.searchCategories` that explicitly includes the `all`
     // collection. We have this check to catch that and any other weird scenarios.
     .filter(
-      (searchCategory) => !!searchCategoryToCollection[searchCategory.key]
+      (searchCategory) =>
+        !!searchCategoryToCollection[searchCategory.key as SearchCategories]
     )
     .map((searchCategory) => {
-      const collectionKey = searchCategoryToCollection[searchCategory.key];
+      const collectionKey =
+        searchCategoryToCollection[searchCategory.key as SearchCategories];
       const collection = baseCollectionMap[collectionKey];
       collection.label = searchCategory.overrideText || null;
       collection.hidden = searchCategory.hidden;

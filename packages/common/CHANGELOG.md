@@ -1,3 +1,52 @@
+## @esri/hub-common [13.32.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.32.1...@esri/hub-common@13.32.2) (2023-08-04)
+
+
+### Bug Fixes
+
+* remove name/title string as it is not wanted ([#1148](https://github.com/Esri/hub.js/issues/1148)) ([01018c9](https://github.com/Esri/hub.js/commit/01018c9a621db305d1e899631f8b3290cfa9f886))
+
+## @esri/hub-common [13.32.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.32.0...@esri/hub-common@13.32.1) (2023-08-04)
+
+
+### Bug Fixes
+
+* actually export new function from index ([#1147](https://github.com/Esri/hub.js/issues/1147)) ([5d515d4](https://github.com/Esri/hub.js/commit/5d515d451a84dbe2d86c6070a0c97fb4b7ecee9e))
+
+# @esri/hub-common [13.32.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.31.0...@esri/hub-common@13.32.0) (2023-08-03)
+
+
+### Features
+
+* **hub-common:** persist modifications to site collections via updateSite ([#1139](https://github.com/Esri/hub.js/issues/1139)) ([147b7fc](https://github.com/Esri/hub.js/commit/147b7fce1856aec3c6c830b6196d0856d8458626))
+
+# @esri/hub-common [13.31.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.30.0...@esri/hub-common@13.31.0) (2023-08-03)
+
+
+### Features
+
+* user card result to card ([#1144](https://github.com/Esri/hub.js/issues/1144)) ([866fbe7](https://github.com/Esri/hub.js/commit/866fbe7104bb7362b36265df32238219f2fc09ab))
+
+# @esri/hub-common [13.30.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.29.1...@esri/hub-common@13.30.0) (2023-08-02)
+
+
+### Features
+
+* add card section type ([#1142](https://github.com/Esri/hub.js/issues/1142)) ([41618a4](https://github.com/Esri/hub.js/commit/41618a415b5339cb64ab8909639bce213de46dd8))
+
+## @esri/hub-common [13.29.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.29.0...@esri/hub-common@13.29.1) (2023-08-02)
+
+
+### Bug Fixes
+
+* gracefully handles cases where portal prop might not exist on ([#1137](https://github.com/Esri/hub.js/issues/1137)) ([fa09ecf](https://github.com/Esri/hub.js/commit/fa09ecf9890604f91a3eb118e4cf82598214acbb))
+
+# @esri/hub-common [13.29.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.28.0...@esri/hub-common@13.29.0) (2023-08-02)
+
+
+### Features
+
+* **hub-common:** add name to interface ISearchChannels ([#1140](https://github.com/Esri/hub.js/issues/1140)) ([674dd12](https://github.com/Esri/hub.js/commit/674dd12e759e114b3acca69e87d2b0220c318e7c))
+
 # @esri/hub-common [13.28.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.27.1...@esri/hub-common@13.28.0) (2023-08-01)
 
 

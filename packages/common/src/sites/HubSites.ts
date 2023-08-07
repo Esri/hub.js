@@ -35,6 +35,7 @@ import { getItemThumbnailUrl } from "../resources/get-item-thumbnail-url";
 import { applyCatalogStructureMigration } from "./_internal/applyCatalogStructureMigration";
 import { setDiscussableKeyword } from "../discussions";
 import { applyDefaultCollectionMigration } from "./_internal/applyDefaultCollectionMigration";
+import { reflectCollectionsToSearchCategories } from "./_internal/reflectCollectionsToSearchCategories";
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
 
@@ -326,17 +327,22 @@ export async function updateSite(
   const mapper = new PropertyMapper<Partial<IHubSite>, IModel>(
     getPropertyMap()
   );
-  const modelToUpdate = mapper.entityToStore(site, currentModel);
+  let modelToUpdate = mapper.entityToStore(site, currentModel);
 
   // handle any domain changes
   await handleDomainChanges(modelToUpdate, currentModel, requestOptions);
 
-  // The following props are currently affected by in-memory migrations,
-  // so we replace them with their canonical values so as to not overwrite
-  // them. Eventually these changes will be persisted in AGO.
+  // Because some old (but critical) application code still uses `data.values.searchCategories`
+  // as the source of truth for collection display configuration, we port all display changes
+  // in `data.catalog.collections` to the search category format.
+  // TODO: Remove once the app no longer relies on `data.values.searchCategories`
+  modelToUpdate = reflectCollectionsToSearchCategories(modelToUpdate);
+  // At this point `data.catalog` has become a full IHubCatalog object due to an in-memory
+  // migration. However, we can't persist an IHubCatalog in `data.catalog` without breaking
+  // the application, since most of the app relies on the old catalog structure. As such,
+  // we just persist the old catalog structure from the most current model.
+  // TODO: Remove once the application is plumbed to work off an IHubCatalog
   modelToUpdate.data.catalog = currentModel.data.catalog;
-  modelToUpdate.data.values.searchCategories =
-    currentModel.data.values.searchCategories;
 
   // send updates to the Portal API and get back the updated site model
   const updatedSiteModel = await updateModel(

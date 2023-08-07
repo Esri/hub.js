@@ -11,9 +11,11 @@ import {
   cloneObject,
   enrichSiteSearchResult,
   fetchSite,
+  IHubCollectionPersistance,
   IHubRequestOptions,
 } from "../../src";
 import * as slugUtils from "../../src/items/slugs";
+import { SearchCategories } from "../../src/sites/_internal/types";
 
 const GUID = "00c77674e43cf4bbd9ecad5189b3f1fdc";
 const SITE_ITEM: portalModule.IItem = {
@@ -73,7 +75,17 @@ const SITE: commonModule.IHubSite = {
   theme: {},
   subdomain: "site-org",
   legacyCapabilities: [],
-  catalog: { schemaVersion: 0 },
+  catalog: {
+    schemaVersion: 1,
+    title: "Default Site Catalog",
+    scopes: {
+      item: {
+        targetEntity: "item",
+        filters: [],
+      },
+    },
+    collections: [],
+  },
   pages: [],
   defaultHostname: "site-org.hub.arcgis.com",
   customHostname: "",
@@ -333,18 +345,6 @@ describe("HubSites:", () => {
     it("updates the backing model", async () => {
       const updatedSite = commonModule.cloneObject(SITE);
       updatedSite.name = "Updated Name";
-      // We assume at this point that the site has gone through the structural catalog migration
-      updatedSite.catalog = {
-        schemaVersion: 1,
-        title: "Default Site Catalog",
-        scopes: {
-          item: {
-            targetEntity: "item",
-            filters: [],
-          },
-        },
-        collections: [],
-      };
       const chk = await commonModule.updateSite(updatedSite, MOCK_HUB_REQOPTS);
 
       expect(chk.id).toBe(GUID);
@@ -365,18 +365,6 @@ describe("HubSites:", () => {
       const updatedHostname = "my-cool-hostname.dev";
       const updatedSite = commonModule.cloneObject(SITE);
       updatedSite.customHostname = updatedHostname;
-      // We assume at this point that the site has gone through the structural catalog migration
-      updatedSite.catalog = {
-        schemaVersion: 1,
-        title: "Default Site Catalog",
-        scopes: {
-          item: {
-            targetEntity: "item",
-            filters: [],
-          },
-        },
-        collections: [],
-      };
       const chk = await commonModule.updateSite(updatedSite, MOCK_HUB_REQOPTS);
 
       expect(chk.id).toBe(GUID);
@@ -400,24 +388,41 @@ describe("HubSites:", () => {
       const updatedSite = commonModule.cloneObject(SITE);
       updatedSite.name = "Updated Name";
       updatedSite.slug = "some-new-slug";
-      // At this point, we assume that the site has gone through
-      // the migration process to use the new catalog structure
-      updatedSite.catalog = {
-        schemaVersion: 1,
-        title: "Default Site Catalog",
-        scopes: {
-          item: {
-            targetEntity: "item",
-            filters: [],
-          },
-        },
-        collections: [],
-      };
       const chk = await commonModule.updateSite(updatedSite, MOCK_HUB_REQOPTS);
 
       expect(chk.id).toBe(GUID);
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.item.properties.slug).toBe("some-new-slug");
+    });
+    it("reflects collection changes to searchCategories", async () => {
+      const updatedSite = commonModule.cloneObject(SITE);
+      updatedSite.catalog.collections = [
+        {
+          label: "My Datasets",
+          key: "dataset",
+          targetEntity: "item",
+          hidden: true,
+          scope: {
+            targetEntity: "item",
+            collection: "dataset",
+            filters: [],
+          },
+        } as IHubCollectionPersistance,
+      ];
+      const chk = await commonModule.updateSite(updatedSite, MOCK_HUB_REQOPTS);
+
+      expect(chk.id).toBe(GUID);
+      const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+      expect(modelToUpdate.data.values.searchCategories).toEqual([
+        {
+          overrideText: "My Datasets",
+          key: SearchCategories.DATA,
+          hidden: true,
+          queryParams: {
+            collection: "Dataset",
+          },
+        },
+      ]);
     });
   });
   describe("createSite:", () => {

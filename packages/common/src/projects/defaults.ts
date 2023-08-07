@@ -8,7 +8,7 @@ export const HUB_PROJECT_ITEM_TYPE = "Hub Project";
  */
 export const DEFAULT_PROJECT: Partial<IHubProject> = {
   catalog: { schemaVersion: 0 },
-  name: "No title provided",
+  name: "",
   permissions: [],
   schemaVersion: 1,
   status: PROJECT_STATUSES.notStarted,
@@ -27,7 +27,7 @@ export const DEFAULT_PROJECT: Partial<IHubProject> = {
 export const DEFAULT_PROJECT_MODEL: IModel = {
   item: {
     type: HUB_PROJECT_ITEM_TYPE,
-    title: "No Title Provided",
+    title: "",
     description: "",
     snippet: "",
     tags: [],
