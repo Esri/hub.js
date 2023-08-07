@@ -103,23 +103,6 @@ export const uiSchema: IUiSchema = {
       labelKey: "{{i18nScope}}.sections.searchDiscoverability.label",
       elements: [
         {
-          labelKey: "{{i18nScope}}.fields._thumbnail.label",
-          scope: "/properties/_thumbnail",
-          type: "Control",
-          options: {
-            control: "hub-field-input-image-picker",
-            maxWidth: 727,
-            maxHeight: 484,
-            aspectRatio: 1.5,
-            helperText: {
-              labelKey: "{{i18nScope}}.fields._thumbnail.helperText",
-            },
-            sizeDescription: {
-              labelKey: "{{i18nScope}}.fields._thumbnail.sizeDescription",
-            },
-          },
-        },
-        {
           labelKey: "{{i18nScope}}.fields.tags.label",
           scope: "/properties/tags",
           type: "Control",
@@ -142,6 +125,23 @@ export const uiSchema: IUiSchema = {
             placeholderIcon: "select-category",
             helperText: {
               labelKey: "{{i18nScope}}.fields.categories.helperText",
+            },
+          },
+        },
+        {
+          labelKey: "{{i18nScope}}.fields._thumbnail.label",
+          scope: "/properties/_thumbnail",
+          type: "Control",
+          options: {
+            control: "hub-field-input-image-picker",
+            maxWidth: 727,
+            maxHeight: 484,
+            aspectRatio: 1.5,
+            helperText: {
+              labelKey: "{{i18nScope}}.fields._thumbnail.helperText",
+            },
+            sizeDescription: {
+              labelKey: "{{i18nScope}}.fields._thumbnail.sizeDescription",
             },
           },
         },
