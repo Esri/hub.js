@@ -1,3 +1,10 @@
+## @esri/hub-common [13.33.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.33.1...@esri/hub-common@13.33.2) (2023-08-07)
+
+
+### Bug Fixes
+
+* reshuffle project edit schema ([#1149](https://github.com/Esri/hub.js/issues/1149)) ([13cb7ab](https://github.com/Esri/hub.js/commit/13cb7ab720eb495620f1f666e2f10d15c103a802))
+
 ## @esri/hub-common [13.33.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.33.0...@esri/hub-common@13.33.1) (2023-08-07)
 
 
