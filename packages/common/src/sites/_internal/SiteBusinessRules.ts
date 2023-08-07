@@ -34,12 +34,12 @@ export const SiteCapabilityPermissions: ICapabilityPermission[] = [
   {
     entity: "site",
     capability: "settings",
-    permissions: ["hub:site:edit"],
+    permissions: ["hub:site:edit", "hub:site:view", "hub:workspace:released"],
   },
   {
     entity: "site",
     capability: "content",
-    permissions: ["hub:site:edit"],
+    permissions: ["hub:site:edit", "hub:workspace:released"],
   },
   {
     entity: "site",

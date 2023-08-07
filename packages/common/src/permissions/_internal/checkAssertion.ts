@@ -48,6 +48,12 @@ export function checkAssertion(
       case "neq":
         response = equalityAssertions(assertion, propValue, val);
         break;
+      case "starts-with":
+      case "ends-with":
+      case "not-starts-with":
+      case "not-ends-with":
+        response = stringAssertions(assertion, propValue, val);
+        break;
       case "contains":
       case "without":
         response = arrayAssertions(assertion, propValue, val);
@@ -164,6 +170,34 @@ function equalityAssertions(
   if (assertion.type === "eq" && propValue !== val) {
     response = "assertion-failed";
   } else if (assertion.type === "neq" && propValue === val) {
+    response = "assertion-failed";
+  }
+  return response;
+}
+
+/**
+ * Does the propValue "starts-with" or "ends-with" the val?
+ * @param assertion
+ * @param propValue
+ * @param val
+ * @returns
+ */
+function stringAssertions(
+  assertion: IPolicyAssertion,
+  propValue: any, // what we found
+  val: any // what we're looking for
+): PolicyResponse {
+  let response: PolicyResponse = "granted";
+  if (assertion.type === "starts-with" && !propValue.startsWith(val)) {
+    response = "assertion-failed";
+  } else if (
+    assertion.type === "not-starts-with" &&
+    propValue.startsWith(val)
+  ) {
+    response = "assertion-failed";
+  } else if (assertion.type === "ends-with" && !propValue.endsWith(val)) {
+    response = "assertion-failed";
+  } else if (assertion.type === "not-ends-with" && propValue.endsWith(val)) {
     response = "assertion-failed";
   }
   return response;
