@@ -183,6 +183,130 @@ describe("checkAssertion:", () => {
       expect(chk.response).toBe("granted");
     });
   });
+
+  describe("string comparison checks: ", () => {
+    it("entity prop starts-with val: granted", () => {
+      const assertion: IPolicyAssertion = {
+        property: "color",
+        type: "starts-with",
+        value: "red",
+      };
+      const ctx = {
+        isAuthenticated: true,
+      } as unknown as IArcGISContext;
+      const entity = {
+        color: "reddish",
+      };
+      const chk = checkAssertion(assertion, entity, ctx);
+      expect(chk.response).toBe("granted");
+    });
+    it("entity prop starts-with val: failed", () => {
+      const assertion: IPolicyAssertion = {
+        property: "color",
+        type: "starts-with",
+        value: "red",
+      };
+      const ctx = {
+        isAuthenticated: true,
+      } as unknown as IArcGISContext;
+      const entity = {
+        color: "orangy-red",
+      };
+      const chk = checkAssertion(assertion, entity, ctx);
+      expect(chk.response).toBe("assertion-failed");
+    });
+    it("entity prop not-starts-with val: granted", () => {
+      const assertion: IPolicyAssertion = {
+        property: "color",
+        type: "not-starts-with",
+        value: "red",
+      };
+      const ctx = {
+        isAuthenticated: true,
+      } as unknown as IArcGISContext;
+      const entity = {
+        color: "green",
+      };
+      const chk = checkAssertion(assertion, entity, ctx);
+      expect(chk.response).toBe("granted");
+    });
+    it("entity prop not-starts-with val: failed", () => {
+      const assertion: IPolicyAssertion = {
+        property: "color",
+        type: "not-starts-with",
+        value: "red",
+      };
+      const ctx = {
+        isAuthenticated: true,
+      } as unknown as IArcGISContext;
+      const entity = {
+        color: "reddish",
+      };
+      const chk = checkAssertion(assertion, entity, ctx);
+      expect(chk.response).toBe("assertion-failed");
+    });
+    it("entity prop ends-with val: granted", () => {
+      const assertion: IPolicyAssertion = {
+        property: "color",
+        type: "ends-with",
+        value: "red",
+      };
+      const ctx = {
+        isAuthenticated: true,
+      } as unknown as IArcGISContext;
+      const entity = {
+        color: "orangey-red",
+      };
+      const chk = checkAssertion(assertion, entity, ctx);
+      expect(chk.response).toBe("granted");
+    });
+    it("entity prop ends-with val: failed", () => {
+      const assertion: IPolicyAssertion = {
+        property: "color",
+        type: "ends-with",
+        value: "red",
+      };
+      const ctx = {
+        isAuthenticated: true,
+      } as unknown as IArcGISContext;
+      const entity = {
+        color: "reddish",
+      };
+      const chk = checkAssertion(assertion, entity, ctx);
+      expect(chk.response).toBe("assertion-failed");
+    });
+    it("entity prop not-ends-with val: granted", () => {
+      const assertion: IPolicyAssertion = {
+        property: "color",
+        type: "not-ends-with",
+        value: "red",
+      };
+      const ctx = {
+        isAuthenticated: true,
+      } as unknown as IArcGISContext;
+      const entity = {
+        color: "reddish",
+      };
+      const chk = checkAssertion(assertion, entity, ctx);
+      expect(chk.response).toBe("granted");
+    });
+    it("entity prop not-ends-with val: failed", () => {
+      const assertion: IPolicyAssertion = {
+        property: "color",
+        type: "not-ends-with",
+        value: "red",
+      };
+      const ctx = {
+        isAuthenticated: true,
+      } as unknown as IArcGISContext;
+      const entity = {
+        color: "orangey-red",
+      };
+      const chk = checkAssertion(assertion, entity, ctx);
+      expect(chk.response).toBe("assertion-failed");
+    });
+  });
+
   describe("array checks:", () => {
     it("entity prop contains val", () => {
       const assertion: IPolicyAssertion = {
