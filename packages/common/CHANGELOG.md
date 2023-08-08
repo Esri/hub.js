@@ -1,3 +1,10 @@
+# @esri/hub-common [13.35.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.34.0...@esri/hub-common@13.35.0) (2023-08-08)
+
+
+### Features
+
+* workspace gating ([#1151](https://github.com/Esri/hub.js/issues/1151)) ([68fedd1](https://github.com/Esri/hub.js/commit/68fedd172fde53f11f49011acb8d132077ecd1e4))
+
 # @esri/hub-common [13.34.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.33.2...@esri/hub-common@13.34.0) (2023-08-07)
 
 
