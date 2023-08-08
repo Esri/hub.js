@@ -1,3 +1,10 @@
+# @esri/hub-common [13.36.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.35.0...@esri/hub-common@13.36.0) (2023-08-08)
+
+
+### Features
+
+* constrain temp:workspace:released permission to alpha orgs ([#1152](https://github.com/Esri/hub.js/issues/1152)) ([5500dcc](https://github.com/Esri/hub.js/commit/5500dcc75b495427c0ce50b255b9d0e30a2e97e4))
+
 # @esri/hub-common [13.35.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.34.0...@esri/hub-common@13.35.0) (2023-08-08)
 
 
