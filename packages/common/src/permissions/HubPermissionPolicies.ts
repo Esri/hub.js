@@ -64,11 +64,12 @@ import { PlatformPermissionPolicies } from "./PlatformPermissionPolicies";
 
 const TempPermissionPolicies: IPermissionPolicy[] = [
   {
+    // alpha orgs not on prod
     permission: "temp:workspace:released",
     subsystems: [],
+    alpha: true,
     assertions: [
       {
-        // not prod
         property: "context:hubUrl",
         type: "not-ends-with",
         value: "hub.arcgis.com",
