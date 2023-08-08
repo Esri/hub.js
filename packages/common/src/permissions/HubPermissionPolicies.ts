@@ -64,7 +64,7 @@ import { PlatformPermissionPolicies } from "./PlatformPermissionPolicies";
 
 const TempPermissionPolicies: IPermissionPolicy[] = [
   {
-    permission: "hub:workspace:released",
+    permission: "temp:workspace:released",
     subsystems: [],
     assertions: [
       {

@@ -13,7 +13,7 @@ import { PlatformPermissions } from "../PlatformPermissionPolicies";
  */
 // this is a temporary mechanism for gating workspaces or parts of workspaces
 // to be used until we release workspaces or it can be replaced with our new access control (permission/feature/capability) system
-const TempPermissions = ["hub:workspace:released"];
+const TempPermissions = ["temp:workspace:released"];
 
 const validPermissions = [
   ...SitePermissions,
