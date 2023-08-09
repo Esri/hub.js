@@ -11,6 +11,7 @@ import {
 } from "./types";
 import { getPolicyResponseCode } from "./_internal/getPolicyResponseCode";
 import { checkAuthentication } from "./_internal/checkAuthentication";
+import { checkAlphaGating } from "./_internal/checkAlphaGating";
 import { checkOwner } from "./_internal/checkOwner";
 import { checkEdit } from "./_internal/checkEdit";
 import { checkPrivileges } from "./_internal/checkPrivileges";
@@ -61,6 +62,7 @@ export function checkPermission(
     checkOwner,
     checkEdit,
     checkAssertions,
+    checkAlphaGating,
   ].reduce((acc: IPolicyCheck[], fn) => {
     acc = [...acc, ...fn(systemPolicy, context, entity)];
     return acc;
