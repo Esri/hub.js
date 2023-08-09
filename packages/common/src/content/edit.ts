@@ -104,6 +104,14 @@ export async function updateContent(
   // we are not attempting to handle "concurrent edit" conflict resolution
   // but this is where we would apply that sort of logic
   const modelToUpdate = mapper.entityToStore(content, model);
+
+  // prevent map from displaying when boundary is 'none'
+  const location = modelToUpdate.item.properties?.location;
+  if (location) {
+    modelToUpdate.item.properties.boundary =
+      location?.type === "none" ? "none" : "item";
+  }
+
   // TODO: if we have resources disconnect them from the model for now.
   // if (modelToUpdate.resources) {
   //   resources = configureBaseResources(
