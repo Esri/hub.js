@@ -62,6 +62,22 @@ import { PlatformPermissionPolicies } from "./PlatformPermissionPolicies";
 //   },
 // ];
 
+const TempPermissionPolicies: IPermissionPolicy[] = [
+  {
+    // alpha orgs not on prod
+    permission: "temp:workspace:released",
+    subsystems: [],
+    alpha: true,
+    assertions: [
+      {
+        property: "context:hubUrl",
+        type: "not-ends-with",
+        value: "hub.arcgis.com",
+      },
+    ],
+  },
+];
+
 /**
  * All the permission policies for the Hub
  */
@@ -74,6 +90,7 @@ export const HubPermissionsPolicies: IPermissionPolicy[] = [
   ...GroupPermissionPolicies,
   ...PagePermissionPolicies,
   ...PlatformPermissionPolicies,
+  ...TempPermissionPolicies,
 ];
 
 /**

@@ -1,3 +1,31 @@
+## @esri/hub-common [13.36.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.36.0...@esri/hub-common@13.36.1) (2023-08-09)
+
+
+### Bug Fixes
+
+* alpha permissions ([#1153](https://github.com/Esri/hub.js/issues/1153)) ([5f2df0c](https://github.com/Esri/hub.js/commit/5f2df0c73dc072eb76f1b407b321c774cea94ff0))
+
+# @esri/hub-common [13.36.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.35.0...@esri/hub-common@13.36.0) (2023-08-08)
+
+
+### Features
+
+* constrain temp:workspace:released permission to alpha orgs ([#1152](https://github.com/Esri/hub.js/issues/1152)) ([5500dcc](https://github.com/Esri/hub.js/commit/5500dcc75b495427c0ce50b255b9d0e30a2e97e4))
+
+# @esri/hub-common [13.35.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.34.0...@esri/hub-common@13.35.0) (2023-08-08)
+
+
+### Features
+
+* workspace gating ([#1151](https://github.com/Esri/hub.js/issues/1151)) ([68fedd1](https://github.com/Esri/hub.js/commit/68fedd172fde53f11f49011acb8d132077ecd1e4))
+
+# @esri/hub-common [13.34.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.33.2...@esri/hub-common@13.34.0) (2023-08-07)
+
+
+### Features
+
+* added location picker to content details ([#1150](https://github.com/Esri/hub.js/issues/1150)) ([f6317b4](https://github.com/Esri/hub.js/commit/f6317b4e788a6a9a2f4d3d38b5de1fac1ddbf7ab))
+
 ## @esri/hub-common [13.33.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.33.1...@esri/hub-common@13.33.2) (2023-08-07)
 
 

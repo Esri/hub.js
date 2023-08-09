@@ -1,10 +1,11 @@
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import {
+  IPortal,
   IUserItemOptions,
   getItem,
   removeItem,
 } from "@esri/arcgis-rest-portal";
-import { IHubEditableContent } from "../core";
+import { IHubContent, IHubContentEditor, IHubEditableContent } from "../core";
 
 // Note - we separate these imports so we can cleanly spy on things in tests
 import {
@@ -142,4 +143,23 @@ export async function deleteContent(
   const ro = { ...requestOptions, ...{ id } } as IUserItemOptions;
   await removeItem(ro);
   return;
+}
+
+/**
+ * Convert a IHubContentEditor back to an IHubContent
+ * @param editor
+ * @param portal
+ * @returns
+ */
+export function editorToContent(
+  editor: IHubContentEditor,
+  portal: IPortal
+): IHubEditableContent {
+  // clone into a IHubContentEditor
+  const content = cloneObject(editor) as IHubEditableContent;
+
+  // copy the location extent up one level
+  content.extent = editor.location?.extent;
+
+  return content;
 }

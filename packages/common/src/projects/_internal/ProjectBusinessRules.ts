@@ -46,7 +46,7 @@ export const ProjectCapabilityPermissions: ICapabilityPermission[] = [
   {
     entity: "project",
     capability: "content",
-    permissions: ["hub:project:edit"],
+    permissions: ["hub:project:edit", "temp:workspace:released"],
   },
   {
     entity: "project",
