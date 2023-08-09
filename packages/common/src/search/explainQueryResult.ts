@@ -4,11 +4,29 @@ import { expandQuery } from "./_internal/portalSearchItems";
 import { cloneObject } from "../util";
 import { explainFilter } from "./_internal/explainFilter";
 
+/**
+ * Explanation of why a result matched a query
+ */
 export interface IQueryExplanation {
+  /**
+   * Copy of result; Useful when doing bulk calls
+   */
   result: GenericResult;
+  /**
+   * Copy of query; Useful when doing bulk calls
+   */
   query: IQuery;
+  /**
+   * Whether the result matched the query
+   */
   matched: boolean;
+  /**
+   * Array of explanations for each filter
+   */
   reasons: IFilterExplanation[];
+  /**
+   * Summary of all reasons for the result matching the query
+   */
   summary: IMatchReason[];
 }
 
@@ -18,19 +36,50 @@ export interface IQueryExplanationDetails {
   details: [];
 }
 
+/**
+ * Explanation of why a filter matched a query
+ */
 export interface IFilterExplanation {
+  /**
+   * Copy of the Filter
+   */
   filter: IFilter;
+  /**
+   * Did the filter match the query?
+   */
   matched: boolean;
+  /**
+   * Array of explanations for each predicate in the Filter
+   */
   reasons: IPredicateExplanation[];
 }
 
+/**
+ * Explanation of why a predicate matched a query
+ */
 export interface IPredicateExplanation {
+  /**
+   * Copy of the Predicate
+   */
   predicate: IPredicate;
+  /**
+   * Did the predicate match the query?
+   */
   matched: boolean;
+  /**
+   * Array of reasons why the predicate matched the query
+   */
   reasons: IMatchReason[];
+  /**
+   * Additional information about the predicate which can be useful
+   * when preparing a UI to display the explanation
+   */
   meta?: Record<string, any>;
 }
 
+/**
+ * Match condition
+ */
 export type MatchCondition = "IN" | "NOT_IN" | "ALL";
 
 /**
@@ -56,10 +105,6 @@ export type GenericResult = Record<string, any>;
  *
  * NOTE: This only works for entityType: "item" queries and does not
  * cover all possible permutations.
- *
- * This will be exposed as functions that work with catalogs, or collections
- * but in either case, those will boild down to an IQuery, so this is the
- * actual implementation
  * @param queryResult
  * @param query
  * @param requestOptions
