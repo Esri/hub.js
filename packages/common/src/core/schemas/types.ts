@@ -7,6 +7,7 @@ import { SiteEditorTypes } from "../../sites/_internal/SiteSchema";
 import { DiscussionEditorTypes } from "../../discussions/_internal/DiscussionSchema";
 import { PageEditorTypes } from "../../pages/_internal/PageSchema";
 import { ContentEditorTypes } from "../../content/_internal/ContentSchema";
+import { GroupEditorTypes } from "../../groups/_internal/GroupSchema";
 
 /**
  * Defines the possible editor type values - these correspond
@@ -20,6 +21,7 @@ export const validEditorTypes = [
   ...SiteEditorTypes,
   ...DiscussionEditorTypes,
   ...PageEditorTypes,
+  ...GroupEditorTypes,
 ] as const;
 
 export enum UiSchemaRuleEffects {

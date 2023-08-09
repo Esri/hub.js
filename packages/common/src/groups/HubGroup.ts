@@ -4,7 +4,7 @@ import {
   fetchHubGroup,
   deleteHubGroup,
 } from "./HubGroups";
-import { IHubGroup } from "../core/types/IHubGroup";
+import { IHubGroup, IHubGroupEditor } from "../core/types/IHubGroup";
 import { DEFAULT_GROUP } from "./defaults";
 import {
   IEntityPermissionPolicy,
@@ -17,17 +17,30 @@ import {
 import { IWithStoreBehavior } from "../core/behaviors/IWithStoreBehavior";
 import { IWithPermissionBehavior } from "../core/behaviors/IWithPermissionBehavior";
 import { IArcGISContext } from "../ArcGISContext";
-import { cloneObject } from "../util";
+import { cloneObject, maybePush } from "../util";
+import {
+  IEditorConfig,
+  IWithEditorBehavior,
+} from "../core/behaviors/IWithEditorBehavior";
+import { EditorType } from "../core/schemas/types";
+import { getEditorConfig } from "../core/schemas/getEditorConfig";
+import { IEntityEditorContext } from "../core/types/HubEntityEditor";
+import { SettableAccessLevel } from "../core/types/types";
 
 /**
  * Hub Group Class
  */
 export class HubGroup
-  implements IWithStoreBehavior<IHubGroup>, IWithPermissionBehavior
+  implements
+    IWithStoreBehavior<IHubGroup>,
+    IWithPermissionBehavior,
+    IWithEditorBehavior
 {
   protected context: IArcGISContext;
   protected entity: IHubGroup;
   protected isDestroyed = false;
+  protected thumbnailCache: { file?: any; filename?: string; clear?: boolean } =
+    null;
 
   private constructor(group: IHubGroup, context: IArcGISContext) {
     this.entity = group;
@@ -231,5 +244,70 @@ export class HubGroup
       permission,
       id
     );
+  }
+
+  /*
+   * Get the editor config for the HubGroup entity.
+   * @param i18nScope translation scope to be interpolated into the uiSchema
+   * @param type editor type - corresonds to the returned uiSchema
+   * @param options optional hash of dynamic uiSchema element options
+   */
+  async getEditorConfig(
+    i18nScope: string,
+    type: EditorType
+  ): Promise<IEditorConfig> {
+    // delegate to the schema subsystem
+    return getEditorConfig(i18nScope, type, this.entity, this.context);
+  }
+
+  /**
+   * Return the group as an editor object
+   */
+  toEditor(): IHubGroupEditor {
+    // cast the entity to it's editor
+    const editor = cloneObject(this.entity) as IHubGroupEditor;
+    return editor;
+  }
+
+  /**
+   * Load the group from the editor object
+   * @param editor
+   * @returns
+   */
+  async fromEditor(editor: IHubGroupEditor): Promise<IHubGroup> {
+    const isCreate = !editor.id;
+
+    // Setting the thumbnailCache will ensure that
+    // the thumbnail is updated on next save
+    if (editor._thumbnail) {
+      if (editor._thumbnail.blob) {
+        this.thumbnailCache = {
+          file: editor._thumbnail.blob,
+          filename: editor._thumbnail.fileName,
+          clear: false,
+        };
+      } else {
+        this.thumbnailCache = {
+          clear: true,
+        };
+      }
+    }
+
+    delete editor._thumbnail;
+
+    // convert back to an entity. Apply any reverse transforms used in
+    // of the toEditor method
+    const entity = cloneObject(editor) as IHubGroup;
+
+    // create it if it does not yet exist...
+    if (isCreate) {
+      throw new Error("Cannot create group using the Editor.");
+    } else {
+      // ...otherwise, update the in-memory entity and save it
+      this.entity = entity;
+      this.save();
+    }
+
+    return this.entity;
   }
 }
