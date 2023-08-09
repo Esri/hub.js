@@ -1,15 +1,64 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IPredicate } from "../../../src";
-
-import { GenericResult } from "../../../src/search/explainResult";
+import * as PortalModule from "@esri/arcgis-rest-portal";
+import { GenericResult } from "../../../src/search/explainQueryResult";
 import {
   checkAll,
   checkAny,
   checkNot,
+  explainDatePredicate,
   explainMatchOptionPredicate,
+  explainPropPredicate,
 } from "../../../src/search/_internal/explainHelpers";
 
+const ITEM_GROUPS_RESPONSE = {
+  admin: [
+    { id: "ga01", title: "Admin Group 1" },
+    { id: "ga02", title: "Admin Group 2" },
+  ],
+  member: [
+    { id: "g01", title: "Member Group 1" },
+    { id: "g02", title: "Member Group 2" },
+  ],
+  other: [{ id: "o01", title: "Other Group 1" }],
+};
+
 describe("explainQuery helpers:", () => {
+  describe("explainDatePredicate:", () => {
+    it("throws because it is not implemented", async () => {
+      const predicate: IPredicate = {
+        created: {
+          type: "relative-date",
+          num: 10,
+          unit: "days",
+        },
+      };
+      const result: GenericResult = {
+        created: new Date().getTime(),
+      };
+      try {
+        await explainDatePredicate(predicate, result, {} as IRequestOptions);
+      } catch (err) {
+        expect(err.message).toBe("Not implemented");
+      }
+    });
+  });
+  describe("explainPropPredicate:", () => {
+    it("throws because it is not implemented", async () => {
+      const predicate: IPredicate = {
+        isopendata: true,
+      };
+      const result: GenericResult = {
+        type: "fake thing",
+      };
+      try {
+        await explainPropPredicate(predicate, result, {} as IRequestOptions);
+      } catch (err) {
+        expect(err.message).toBe("Not implemented");
+      }
+    });
+  });
+
   describe("explainMatchOptionPredicate:", () => {
     it("simple any", async () => {
       const predicate: IPredicate = {
@@ -88,6 +137,59 @@ describe("explainQuery helpers:", () => {
 
       expect(chk.matched).toBeTruthy();
     });
+    it("missing prop fails", async () => {
+      const predicate: IPredicate = {
+        tags: {
+          any: ["a", "b"],
+        },
+      };
+      const result: GenericResult = {
+        title: "No Tags!",
+      };
+
+      const chk = await explainMatchOptionPredicate(
+        predicate,
+        result,
+        {} as IRequestOptions
+      );
+
+      expect(chk.matched).toBeFalsy();
+      expect(chk.reasons.length).toEqual(1);
+    });
+    describe("handling groups:", () => {
+      it("fetches item groups and falls through to array in array checks", async () => {
+        const getGroupsSpy = spyOn(
+          PortalModule,
+          "getItemGroups"
+        ).and.returnValue(Promise.resolve(ITEM_GROUPS_RESPONSE));
+        const predicate: IPredicate = {
+          group: {
+            any: ["g01", "ga02"],
+          },
+        };
+        const result: GenericResult = {
+          id: "3ef",
+          title: "fake item",
+        };
+        const chk = await explainMatchOptionPredicate(
+          predicate,
+          result,
+          {} as IRequestOptions
+        );
+        expect(getGroupsSpy).toHaveBeenCalledWith("3ef", {});
+        expect(chk.matched).toBeTruthy();
+
+        expect(chk.reasons.length).toEqual(1);
+        expect(chk.reasons[0].attribute).toEqual("group");
+        expect(chk.reasons[0].values).toEqual("ga01,ga02,g01,g02,o01");
+        expect(chk.reasons[0].condition).toEqual("IN");
+        expect(chk.reasons[0].requirement).toEqual("g01,ga02");
+        expect(chk.reasons[0].message).toEqual(
+          "Value(s) ga01,ga02,g01,g02,o01 contained at least one of value from [g01,ga02]"
+        );
+        expect(chk.reasons[0].meta).toBeDefined();
+      });
+    });
   });
 
   describe("low-level checks:", () => {
@@ -125,7 +227,7 @@ describe("explainQuery helpers:", () => {
           requirement: "3ef,4ef",
           matched: true,
           message:
-            "Value(s) 3ef,4ef contained at least one of value from [3ef,4ef]",
+            "Value(s) 3ef,00c,4ef contained at least one of value from [3ef,4ef]",
         });
         const chk2 = checkAny("group", ["3ef", "4ef"], ["00c", "4ef"]);
         expect(chk2).toEqual({
@@ -135,7 +237,7 @@ describe("explainQuery helpers:", () => {
           requirement: "3ef,4ef",
           matched: true,
           message:
-            "Value(s) 4ef contained at least one of value from [3ef,4ef]",
+            "Value(s) 00c,4ef contained at least one of value from [3ef,4ef]",
         });
       });
       it("no match: string in string", () => {
@@ -146,7 +248,7 @@ describe("explainQuery helpers:", () => {
           condition: "IN",
           matched: false,
           requirement: "jsmith",
-          message: "No match",
+          message: "Value(s) vader did not contain any of value from [jsmith]",
         });
       });
       it("no match: string in array", () => {
@@ -157,7 +259,7 @@ describe("explainQuery helpers:", () => {
           condition: "IN",
           matched: false,
           requirement: "jsmith",
-          message: "No match",
+          message: "Value(s) vader did not contain any of value from [jsmith]",
         });
       });
     });
@@ -181,7 +283,7 @@ describe("explainQuery helpers:", () => {
           condition: "ALL",
           requirement: "3ef,4ef",
           matched: true,
-          message: "Value(s) 3ef,4ef contained all values from [3ef,4ef]",
+          message: "Value(s) 4ef,3ef,00c contained all values from [3ef,4ef]",
         });
       });
       it("string value in array", () => {
@@ -202,8 +304,8 @@ describe("explainQuery helpers:", () => {
           values: "vader",
           condition: "ALL",
           requirement: "jsmith",
-          matched: true,
-          message: "No match",
+          matched: false,
+          message: "Value(s) vader did not contain all values from [jsmith]",
         });
       });
       it("no match: string in array", () => {
@@ -213,8 +315,8 @@ describe("explainQuery helpers:", () => {
           values: "vader",
           condition: "ALL",
           requirement: "jsmith",
-          matched: true,
-          message: "No match",
+          matched: false,
+          message: "Value(s) vader did not contain all values from [jsmith]",
         });
       });
       it("no match: array in array", () => {
@@ -224,8 +326,8 @@ describe("explainQuery helpers:", () => {
           values: "3ef,4ef",
           condition: "ALL",
           requirement: "3ef,cc0",
-          matched: true,
-          message: "No match",
+          matched: false,
+          message: "Value(s) 3ef,4ef did not contain all values from [3ef,cc0]",
         });
       });
     });
@@ -270,8 +372,8 @@ describe("explainQuery helpers:", () => {
           values: "jsmith",
           condition: "NOT_IN",
           requirement: "jsmith",
-          matched: true,
-          message: "No match",
+          matched: false,
+          message: "Value(s) jsmith is contained in [jsmith]",
         });
       });
       it("no match: string in array", () => {
@@ -281,8 +383,8 @@ describe("explainQuery helpers:", () => {
           values: "jsmith",
           condition: "NOT_IN",
           requirement: "jsmith",
-          matched: true,
-          message: "No match",
+          matched: false,
+          message: "Value(s) jsmith is contained in [jsmith]",
         });
       });
       it("no match: array in array", () => {
@@ -292,8 +394,8 @@ describe("explainQuery helpers:", () => {
           values: "3ef,4ef",
           condition: "NOT_IN",
           requirement: "3ef,cc0",
-          matched: true,
-          message: "No match",
+          matched: false,
+          message: "Value(s) 3ef,4ef is contained in [3ef,cc0]",
         });
       });
     });

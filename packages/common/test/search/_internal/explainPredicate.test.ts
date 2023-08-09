@@ -1,12 +1,12 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IPredicate } from "../../../src";
 import { explainPredicate } from "../../../src/search/_internal/explainPredicate";
-import { GenericResult } from "../../../src/search/explainResult";
+import { GenericResult } from "../../../src";
 
 // Explain Predicate just delegates to more specific functions
 // so we'll just verify that it does that, not that the specific
 // functions work - those are tested elsewhere
-fdescribe("explainPredicate:", () => {
+describe("explainPredicate:", () => {
   it("matchOptionsPredicate", () => {
     const fn = spyOn(
       require("../../../src/search/_internal/explainHelpers"),

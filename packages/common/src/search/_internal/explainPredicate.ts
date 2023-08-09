@@ -1,5 +1,5 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { GenericResult, IPredicateExplanation } from "../explainResult";
+import { GenericResult, IPredicateExplanation } from "../explainQueryResult";
 import { cloneObject } from "../../util";
 import { IMatchOptions } from "../types";
 import {

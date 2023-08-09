@@ -3,7 +3,7 @@ import {
   GenericResult,
   IMatchReason,
   IPredicateExplanation,
-} from "../explainResult";
+} from "../explainQueryResult";
 import { cloneObject } from "../../util";
 import { IMatchOptions } from "../types";
 import { IGroup, getItemGroups } from "@esri/arcgis-rest-portal";
@@ -54,9 +54,10 @@ export async function explainMatchOptionPredicate(
   // Construct meta hash that will allow us to carry additional info about the match
   const meta = {} as Record<string, any>;
 
-  if (attribute === "orgid") {
-    // fetch org into and attach the id + name into the meta hash
-  }
+  // TODO Implement when needed
+  // if (attribute === "orgid") {
+  //   // fetch org into and attach the id + name into the meta hash
+  // }
 
   if (attribute === "group") {
     // fetch items groups and attach as `group` prop
@@ -90,7 +91,7 @@ export async function explainMatchOptionPredicate(
       if (conditionToCheck) {
         const fn = getProp(fns, prop);
         const r = fn(attribute, conditionToCheck, resultValue);
-        r.meta = meta || {};
+        r.meta = meta;
         explanation.reasons.push(r);
       }
     });

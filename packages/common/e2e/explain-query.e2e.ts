@@ -1,6 +1,5 @@
-import { IQuery, cloneObject } from "../src";
+import { IQuery, cloneObject, explainQueryResult } from "../src";
 import { hubSearch } from "../src/search";
-import { explainQueryResult } from "../src/search/explainResult";
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
 
