@@ -1,7 +1,7 @@
 import { IQuery, GenericResult, explainQueryResult } from "../../src";
 import * as ExplainFilterModule from "../../src/search/_internal/explainFilter";
 describe("explainQueryResult:", () => {
-  it("throws if not an item query", () => {
+  it("throws if not an item query", async () => {
     const query: IQuery = {
       targetEntity: "group",
       filters: [],
@@ -11,7 +11,7 @@ describe("explainQueryResult:", () => {
     };
     const requestOptions = {};
     try {
-      explainQueryResult(result, query, requestOptions);
+      await explainQueryResult(result, query, requestOptions);
     } catch (err) {
       expect(err.message).toContain(
         'Only queries with targetEntity: "item" are supported'
