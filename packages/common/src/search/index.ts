@@ -7,4 +7,3 @@ export * from "./hubSearch";
 export * from "./Catalog";
 export * from "./Collection";
 export * from "./wellKnownCatalog";
-export * from "./explainQueryResult";

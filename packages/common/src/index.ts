@@ -44,6 +44,8 @@ export * from "./core/updateHubEntity";
 export * from "./urls/getCardModelUrl";
 export * from "./core/EntityEditor";
 
+export * from "./search/explainQueryResult";
+
 import OperationStack from "./OperationStack";
 import OperationError from "./OperationError";
 import HubError from "./HubError";
