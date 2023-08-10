@@ -23,15 +23,11 @@ export async function getLocationOptions(
   portalName: string,
   hubRequestOptions: IHubRequestOptions
 ): Promise<IHubLocationOption[]> {
-  const defaultExtent: IExtent = await getGeographicOrgExtent(
-    hubRequestOptions
-  );
-  const location: IHubLocation = entity.location;
   const typeFromEntity: any = getTypeFromEntity(entity);
 
   switch (typeFromEntity) {
     case "content":
-      return getContentLocationOptions(entity, portalName, hubRequestOptions);
+      return getContentLocationOptions(entity, hubRequestOptions);
     default:
       return getDefaultLocationOptions(entity, portalName, hubRequestOptions);
   }
@@ -42,7 +38,6 @@ export async function getLocationOptions(
 
 export async function getContentLocationOptions(
   entity: ConfigurableEntity,
-  portalName: string,
   hubRequestOptions: IHubRequestOptions
 ): Promise<IHubLocationOption[]> {
   const defaultExtent: IExtent = await getGeographicOrgExtent(
@@ -68,7 +63,6 @@ export async function getContentLocationOptions(
       },
     ] as IHubLocationOption[]
   ).map((option) => {
-    // TODO: Might need to clean this up if it's just for content entities
     // If this is a new entity, select the custom option by default
     if (!entity.id && option.location.type === "custom") {
       option.selected = true;

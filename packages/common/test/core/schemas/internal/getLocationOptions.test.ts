@@ -1,8 +1,8 @@
-import { IHubProject, IHubRequestOptions } from "../../../../src";
+import { IHubContent, IHubProject, IHubRequestOptions } from "../../../../src";
 import { getLocationOptions } from "../../../../src/core/schemas/internal/getLocationOptions";
 import * as ExtentModule from "../../../../src/extent";
 
-describe("getLocationOptions:", () => {
+describe("getLocationOptions - default:", () => {
   let orgExtentSpy: jasmine.Spy;
   beforeEach(() => {
     orgExtentSpy = spyOn(
@@ -87,5 +87,75 @@ describe("getLocationOptions:", () => {
 
     expect(chk.length).toBe(3);
     expect(chk[2].selected).toBe(true);
+  });
+});
+
+describe("getLocationOptions - content:", () => {
+  let orgExtentSpy: jasmine.Spy;
+  beforeEach(() => {
+    orgExtentSpy = spyOn(
+      ExtentModule,
+      "getGeographicOrgExtent"
+    ).and.returnValue(
+      Promise.resolve({
+        xmin: -180,
+        ymin: -90,
+        xmax: 180,
+        ymax: 90,
+        spatialReference: {
+          wkid: 4326,
+        },
+      })
+    );
+  });
+  it("custom is selected", async () => {
+    const entity: IHubContent = {
+      id: "00c",
+      type: "Hub Content",
+      location: {
+        type: "custom",
+      },
+    } as IHubContent;
+
+    const chk = await getLocationOptions(
+      entity,
+      "portalName",
+      {} as IHubRequestOptions
+    );
+
+    expect(chk.length).toBe(2);
+    expect(chk[1].selected).toBe(true);
+  });
+  it("none is selected", async () => {
+    const entity: IHubContent = {
+      id: "00c",
+      type: "Hub Content",
+    } as IHubContent;
+
+    const chk = await getLocationOptions(
+      entity,
+      "portalName",
+      {} as IHubRequestOptions
+    );
+
+    expect(chk.length).toBe(2);
+    expect(chk[0].selected).toBe(true);
+  });
+  it("custom is selected if entity does not have an id", async () => {
+    const entity: IHubContent = {
+      type: "Hub Content",
+      location: {
+        type: "custom",
+      },
+    } as IHubContent;
+
+    const chk = await getLocationOptions(
+      entity,
+      "portalName",
+      {} as IHubRequestOptions
+    );
+
+    expect(chk.length).toBe(2);
+    expect(chk[1].selected).toBe(true);
   });
 });
