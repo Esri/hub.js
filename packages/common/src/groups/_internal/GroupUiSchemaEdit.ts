@@ -40,8 +40,8 @@ export const uiSchema: IUiSchema = {
           },
         },
         {
-          labelKey: "{{i18nScope}}.fields._thumbnail.label",
-          scope: "/properties/_thumbnail",
+          labelKey: "{{i18nScope}}.fields.thumbnail.label",
+          scope: "/properties/thumbnail",
           type: "Control",
           options: {
             control: "hub-field-input-image-picker",
@@ -49,7 +49,7 @@ export const uiSchema: IUiSchema = {
             maxHeight: 484,
             aspectRatio: 1.5,
             helperText: {
-              labelKey: "{{i18nScope}}.fields._thumbnail.helperText",
+              labelKey: "{{i18nScope}}.fields.thumbnail.helperText",
             },
           },
         },

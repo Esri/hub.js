@@ -186,7 +186,7 @@ function convertGroupToHubGroup(
  * Convert a Hub Group to an IGroup
  * @param hubGroup
  */
-function convertHubGroupToGroup(hubGroup: IHubGroup): IGroup {
+export function convertHubGroupToGroup(hubGroup: IHubGroup): IGroup {
   const mapper = new PropertyMapper<Partial<IHubGroup>, IGroup>(
     getPropertyMap()
   );

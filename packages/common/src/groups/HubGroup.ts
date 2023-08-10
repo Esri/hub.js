@@ -3,6 +3,7 @@ import {
   updateHubGroup,
   fetchHubGroup,
   deleteHubGroup,
+  convertHubGroupToGroup,
 } from "./HubGroups";
 import { IHubGroup, IHubGroupEditor } from "../core/types/IHubGroup";
 import { DEFAULT_GROUP } from "./defaults";
@@ -17,15 +18,16 @@ import {
 import { IWithStoreBehavior } from "../core/behaviors/IWithStoreBehavior";
 import { IWithPermissionBehavior } from "../core/behaviors/IWithPermissionBehavior";
 import { IArcGISContext } from "../ArcGISContext";
-import { cloneObject, maybePush } from "../util";
+import { cloneObject } from "../util";
 import {
   IEditorConfig,
   IWithEditorBehavior,
 } from "../core/behaviors/IWithEditorBehavior";
 import { EditorType } from "../core/schemas/types";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
-import { IEntityEditorContext } from "../core/types/HubEntityEditor";
-import { SettableAccessLevel } from "../core/types/types";
+import { setGroupThumbnail } from "./setGroupThumbnail";
+import { getGroupThumbnailUrl } from "../search/utils";
+import { deleteGroupThumbnail } from "./deleteGroupThumbnail";
 
 /**
  * Hub Group Class
@@ -246,6 +248,25 @@ export class HubGroup
     );
   }
 
+  /**
+   * Return the full url to the thumbnail, optionally with a width parameter
+   * @param width
+   */
+  // getThumbnailUrl(width: number = 200): string {
+  //   const minimalGroup = {
+  //     id: this.entity.id,
+  //     access: this.entity.access,
+  //     thumbnail: this.entity.thumbnail,
+  //   } as unknown as IGroup;
+
+  //   const opts: IThumbnailOptions = {
+  //     token: this.context.session.token,
+  //     width,
+  //   };
+
+  //   return getGroupThumbnailUrl(minimalGroup, this.context.requestOptions, opts);
+  // }
+
   /*
    * Get the editor config for the HubGroup entity.
    * @param i18nScope translation scope to be interpolated into the uiSchema
@@ -292,8 +313,36 @@ export class HubGroup
         };
       }
     }
-
     delete editor._thumbnail;
+
+    if (this.thumbnailCache) {
+      if (this.thumbnailCache.clear) {
+        await deleteGroupThumbnail(
+          this.entity.id,
+          this.context.userRequestOptions
+        );
+      } else {
+        await setGroupThumbnail(
+          this.entity.id,
+          this.thumbnailCache.file,
+          this.thumbnailCache.filename,
+          this.context.userRequestOptions,
+          this.entity.owner
+        );
+
+        // Note: updating the thumbnail alone does not update the modified date of the group
+        // thus we can just set props on the entity w/o re-fetching
+        this.entity.thumbnail = `thumbnail/${this.thumbnailCache.filename}`;
+        // Cover the Hub Group to an IGoup
+        const group = convertHubGroupToGroup(this.entity);
+        this.entity.thumbnailUrl = getGroupThumbnailUrl(
+          this.context.userRequestOptions.portal,
+          group
+        );
+        // clear the thumbnail cache
+        this.thumbnailCache = null;
+      }
+    }
 
     // convert back to an entity. Apply any reverse transforms used in
     // of the toEditor method
