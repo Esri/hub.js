@@ -70,6 +70,52 @@ describe("content editing:", () => {
         schemaVersion: 1,
         canEdit: false,
         canDelete: false,
+        location: { type: "none" },
+      };
+      const chk = await updateContent(content, { authentication: MOCK_AUTH });
+      expect(chk.id).toBe(GUID);
+      expect(chk.name).toBe("Hello World");
+      expect(chk.description).toBe("Some longer description");
+      expect(getItemSpy.calls.count()).toBe(1);
+      expect(updateModelSpy.calls.count()).toBe(1);
+      const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+      expect(modelToUpdate.item.description).toBe(content.description);
+    });
+  });
+  describe("update content with location:", () => {
+    it("converts to a model and updates the item", async () => {
+      const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
+        Promise.resolve({
+          item: {
+            typeKeywords: [],
+          },
+        })
+      );
+      const updateModelSpy = spyOn(modelUtils, "updateModel").and.callFake(
+        (m: IModel) => {
+          return Promise.resolve(m);
+        }
+      );
+      const content: IHubEditableContent = {
+        itemControl: "edit",
+        id: GUID,
+        name: "Hello World",
+        tags: ["Transportation"],
+        description: "Some longer description",
+        slug: "dcdev-wat-blarg",
+        orgUrlKey: "dcdev",
+        owner: "dcdev_dude",
+        type: "Hub Initiative",
+        createdDate: new Date(1595878748000),
+        createdDateSource: "item.created",
+        updatedDate: new Date(1595878750000),
+        updatedDateSource: "item.modified",
+        thumbnailUrl: "",
+        permissions: [],
+        schemaVersion: 1,
+        canEdit: false,
+        canDelete: false,
+        location: { type: "item" },
       };
       const chk = await updateContent(content, { authentication: MOCK_AUTH });
       expect(chk.id).toBe(GUID);

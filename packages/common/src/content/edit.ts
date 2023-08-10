@@ -20,6 +20,7 @@ import { getPropertyMap } from "./_internal/getPropertyMap";
 import { cloneObject } from "../util";
 import { IModel } from "../types";
 import { computeProps } from "./_internal/computeProps";
+import { getProp } from "..";
 
 // TODO: move this to defaults?
 const DEFAULT_CONTENT_MODEL: IModel = {
@@ -106,11 +107,9 @@ export async function updateContent(
   const modelToUpdate = mapper.entityToStore(content, model);
 
   // prevent map from displaying when boundary is 'none'
-  const location = modelToUpdate.item.properties?.location;
-  if (location) {
-    modelToUpdate.item.properties.boundary =
-      location?.type === "none" ? "none" : "item";
-  }
+  const itemType = getProp(modelToUpdate, "item.properties.location.type");
+  modelToUpdate.item.properties.boundary =
+    itemType === "none" ? "none" : "item";
 
   // TODO: if we have resources disconnect them from the model for now.
   // if (modelToUpdate.resources) {
