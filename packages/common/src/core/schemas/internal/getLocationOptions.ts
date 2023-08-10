@@ -31,14 +31,9 @@ export async function getLocationOptions(
 
   switch (typeFromEntity) {
     case "content":
-      return getContentLocationOptions(entity, defaultExtent, location);
+      return getContentLocationOptions(entity, portalName, hubRequestOptions);
     default:
-      return getDefaultLocationOptions(
-        entity,
-        portalName,
-        defaultExtent,
-        location
-      );
+      return getDefaultLocationOptions(entity, portalName, hubRequestOptions);
   }
 }
 
@@ -47,9 +42,13 @@ export async function getLocationOptions(
 
 export async function getContentLocationOptions(
   entity: ConfigurableEntity,
-  defaultExtent: IExtent,
-  location: IHubLocation
+  portalName: string,
+  hubRequestOptions: IHubRequestOptions
 ): Promise<IHubLocationOption[]> {
+  const defaultExtent: IExtent = await getGeographicOrgExtent(
+    hubRequestOptions
+  );
+  const location: IHubLocation = entity.location;
   return (
     [
       {
@@ -57,7 +56,7 @@ export async function getContentLocationOptions(
         location: { type: "none" },
       },
       {
-        label: "Item's Current Extent", // TODO: Translation
+        label: "{{shared.fields.location.itemExtent:translate}}",
         entityType: "content",
         location: {
           type: "custom",
@@ -87,9 +86,12 @@ export async function getContentLocationOptions(
 export async function getDefaultLocationOptions(
   entity: ConfigurableEntity,
   portalName: string,
-  defaultExtent: IExtent,
-  location: IHubLocation
+  hubRequestOptions: IHubRequestOptions
 ): Promise<IHubLocationOption[]> {
+  const defaultExtent: IExtent = await getGeographicOrgExtent(
+    hubRequestOptions
+  );
+  const location: IHubLocation = entity.location;
   return (
     [
       {
