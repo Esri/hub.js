@@ -80,6 +80,7 @@ describe("content editing:", () => {
       expect(updateModelSpy.calls.count()).toBe(1);
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.item.description).toBe(content.description);
+      expect(modelToUpdate.item.properties.boundary).toBe("none");
     });
   });
   describe("update content with location:", () => {
@@ -125,6 +126,7 @@ describe("content editing:", () => {
       expect(updateModelSpy.calls.count()).toBe(1);
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.item.description).toBe(content.description);
+      expect(modelToUpdate.item.properties.boundary).toBe("item");
     });
   });
   describe("delete content", () => {
