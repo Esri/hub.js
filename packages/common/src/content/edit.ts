@@ -107,9 +107,9 @@ export async function updateContent(
   const modelToUpdate = mapper.entityToStore(content, model);
 
   // prevent map from displaying when boundary is 'none'
-  const itemType = getProp(modelToUpdate, "item.properties.location.type");
+  const locationType = getProp(modelToUpdate, "item.properties.location.type");
   modelToUpdate.item.properties.boundary =
-    itemType === "none" ? "none" : "item";
+    locationType === "none" ? "none" : "item";
 
   // TODO: if we have resources disconnect them from the model for now.
   // if (modelToUpdate.resources) {
