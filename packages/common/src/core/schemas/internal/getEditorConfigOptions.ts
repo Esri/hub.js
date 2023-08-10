@@ -35,8 +35,16 @@ export async function getEditorConfigOptions(
     initiative: [...standardOptions, "featuredImage"],
     site: [...standardOptions],
     page: [...standardOptions],
+    group: ["access", "thumbnail"],
   };
 
+  if (!options[entityType]) {
+    // Adding this warning because this is very difficult to find
+    /* tslint:disable no-console */
+    console.warn(
+      `The entity type: ${entityType} does not have an editor config option defined.`
+    );
+  }
   const entityOptions = options[entityType] || [];
 
   return getConfigOptions(entityOptions, entity, context);

@@ -127,7 +127,7 @@ export interface IHubGroup extends IHubEntityBase, IWithPermissions {
  * This type redefines the IHubGroup interface in such a way
  * that it can be consumed by the entity editor.
  */
-export type IHubGroupEditor = Omit<IHubGroup, "extent"> & {
+export type IHubGroupEditor = IHubGroup & {
   /**
    * Thumbnail image. This is only used on the Editor and is
    * persisted in the fromEditor method on the Class

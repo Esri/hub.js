@@ -20,4 +20,4 @@ export const GroupSchema: IConfigurationSchema = {
     },
     _thumbnail: ENTITY_IMAGE_SCHEMA,
   },
-} as unknown as IConfigurationSchema;
+} as IConfigurationSchema;

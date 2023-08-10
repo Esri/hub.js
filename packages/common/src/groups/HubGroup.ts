@@ -248,25 +248,6 @@ export class HubGroup
     );
   }
 
-  /**
-   * Return the full url to the thumbnail, optionally with a width parameter
-   * @param width
-   */
-  // getThumbnailUrl(width: number = 200): string {
-  //   const minimalGroup = {
-  //     id: this.entity.id,
-  //     access: this.entity.access,
-  //     thumbnail: this.entity.thumbnail,
-  //   } as unknown as IGroup;
-
-  //   const opts: IThumbnailOptions = {
-  //     token: this.context.session.token,
-  //     width,
-  //   };
-
-  //   return getGroupThumbnailUrl(minimalGroup, this.context.requestOptions, opts);
-  // }
-
   /*
    * Get the editor config for the HubGroup entity.
    * @param i18nScope translation scope to be interpolated into the uiSchema

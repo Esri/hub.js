@@ -13,6 +13,6 @@ export async function deleteGroupThumbnail(
   requestOptions: IUserRequestOptions
 ) {
   const { portal } = requestOptions;
-  const urlPath = `${portal}/sharing/rest/community/groups/${id}/deleteThumbnail`;
+  const urlPath = `${portal}/community/groups/${id}/deleteThumbnail`;
   return request(urlPath, requestOptions);
 }
