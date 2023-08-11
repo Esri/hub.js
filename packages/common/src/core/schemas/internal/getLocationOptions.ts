@@ -1,10 +1,21 @@
-import { extentToBBox, getGeographicOrgExtent } from "../../../extent";
+import {
+  bBoxToExtent,
+  extentToBBox,
+  getGeographicOrgExtent,
+  isBBox,
+} from "../../../extent";
 import { IHubRequestOptions } from "../../../types";
 import { getTypeFromEntity } from "../../getTypeFromEntity";
 
 import { ConfigurableEntity } from "./ConfigurableEntity";
 import { IHubLocation, IHubLocationOption } from "../../types/IHubLocation";
 import { IExtent } from "@esri/arcgis-rest-types";
+
+const getItemExtent = (itemExtent: number[][]): IExtent => {
+  return isBBox(itemExtent)
+    ? ({ ...bBoxToExtent(itemExtent), type: "extent" } as unknown as IExtent)
+    : undefined;
+};
 
 /**
  * Construct the dynamic location picker options with the entity's
@@ -23,11 +34,11 @@ export async function getLocationOptions(
   portalName: string,
   hubRequestOptions: IHubRequestOptions
 ): Promise<IHubLocationOption[]> {
-  const typeFromEntity: any = getTypeFromEntity(entity);
+  const typeFromEntity = getTypeFromEntity(entity);
 
   switch (typeFromEntity) {
     case "content":
-      return getContentLocationOptions(entity, hubRequestOptions);
+      return getContentLocationOptions(entity);
     default:
       return getDefaultLocationOptions(entity, portalName, hubRequestOptions);
   }
@@ -37,50 +48,30 @@ export async function getLocationOptions(
 // TODO: Maybe move these to outside of core and into respective entities
 
 export async function getContentLocationOptions(
-  entity: ConfigurableEntity,
-  hubRequestOptions: IHubRequestOptions
+  entity: ConfigurableEntity
 ): Promise<IHubLocationOption[]> {
-  const defaultExtent: IExtent = await getGeographicOrgExtent(
-    hubRequestOptions
-  );
-  const location: IHubLocation = entity.location;
-  return (
-    [
-      {
-        label: "{{shared.fields.location.none:translate}}",
-        location: { type: "none" },
+  const defaultExtent: IExtent = getItemExtent(entity.extent);
+  const boundary = entity.boundary;
+  const isNone = boundary === "none";
+  return [
+    {
+      label: "{{shared.fields.location.none:translate}}",
+      location: { type: "none" },
+      selected: isNone,
+    },
+    {
+      label: "{{shared.fields.location.itemExtent:translate}}",
+      entityType: "content",
+      selected: !isNone,
+      location: {
+        type: "custom",
+        // TODO: Add custom bbox option here
+        // TODO: Remove "Add another location?" notification that appears when selecting a location
+        extent: extentToBBox(defaultExtent),
+        spatialReference: defaultExtent.spatialReference,
       },
-      {
-        label: "{{shared.fields.location.itemExtent:translate}}",
-        entityType: "content",
-        location: {
-          type: "custom",
-          // TODO: Add custom bbox option here
-          // TODO: Remove "Add another location?" notification that appears when selecting a location
-          extent: extentToBBox(defaultExtent),
-          spatialReference: defaultExtent.spatialReference,
-        },
-      },
-    ] as IHubLocationOption[]
-  ).map((option) => {
-    // new entity --> custom (with no location set)
-    // non-new entity, location type custom --> custom
-    // non-new entity, location type none --> none
-    if (
-      (entity.id && !location && option.location.type === "none") ||
-      (entity.id && location && option.location.type === "custom") ||
-      (!entity.id && option.location.type === "custom")
-    ) {
-      option.selected = true;
-    }
-
-    // location set? --> set option location
-    if (location?.type === option.location.type) {
-      option.location = location;
-    }
-
-    return option;
-  });
+    },
+  ] as IHubLocationOption[];
 }
 
 export async function getDefaultLocationOptions(
