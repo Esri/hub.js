@@ -63,14 +63,20 @@ export async function getContentLocationOptions(
       },
     ] as IHubLocationOption[]
   ).map((option) => {
-    // If this is a new entity, select the custom option by default
-    if (!entity.id && option.location.type === "custom") {
+    // new entity --> custom (with no location set)
+    // non-new entity, location type custom --> custom
+    // non-new entity, location type none --> none
+    if (
+      (entity.id && !location && option.location.type === "none") ||
+      (entity.id && location && option.location.type === "custom") ||
+      (!entity.id && option.location.type === "custom")
+    ) {
       option.selected = true;
-    } else if (entity.id && !location && option.location.type === "none") {
-      option.selected = true;
-    } else if (location?.type === option.location.type) {
+    }
+
+    // location set? --> set option location
+    if (location?.type === option.location.type) {
       option.location = location;
-      option.selected = true;
     }
 
     return option;

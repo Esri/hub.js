@@ -5,7 +5,7 @@ import {
   getItem,
   removeItem,
 } from "@esri/arcgis-rest-portal";
-import { IHubContent, IHubContentEditor, IHubEditableContent } from "../core";
+import { IHubContentEditor, IHubEditableContent } from "../core";
 
 // Note - we separate these imports so we can cleanly spy on things in tests
 import {
@@ -20,7 +20,7 @@ import { getPropertyMap } from "./_internal/getPropertyMap";
 import { cloneObject } from "../util";
 import { IModel } from "../types";
 import { computeProps } from "./_internal/computeProps";
-import { getProp } from "..";
+import { getProp } from "../objects/get-prop";
 
 // TODO: move this to defaults?
 const DEFAULT_CONTENT_MODEL: IModel = {
