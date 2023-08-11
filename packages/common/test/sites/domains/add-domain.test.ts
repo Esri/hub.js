@@ -67,7 +67,7 @@ describe("addDomain", function () {
     expect(res.success).toBeTruthy("json parsed and response returned");
   });
 
-  it("converts title to string", async function () {
+  it("converts title to string without client key", async function () {
     const entry = {
       domain: "zebra-dc.hubqa.arcgis.com",
       hostname: "zebra-dc.hubqa.arcgis.com",
