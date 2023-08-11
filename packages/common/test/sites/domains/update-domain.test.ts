@@ -84,4 +84,31 @@ describe("updateDomain", function () {
       "fetch should NOT have been called"
     );
   });
+
+  it("updates domain when no client key is passed in", async function () {
+    const ro = { isPortal: false } as IHubRequestOptions;
+
+    spyOn(
+      _checkStatusAndParseJsonModule,
+      "_checkStatusAndParseJson"
+    ).and.returnValue(Promise.resolve({ success: true }));
+
+    const entry = {
+      domain: "zebra-dc.hubqa.arcgis.com",
+      hostname: "zebra-dc.hubqa.arcgis.com",
+      id: "146663",
+      orgId: "97KLIFOSt5CxbiRI",
+      orgKey: "dc",
+      orgTitle: "Washington, DC R&D Center (QA)",
+      permanentRedirect: false,
+      siteId: "9697f67b6d6343fa823dcdbe2d172073",
+      siteTitle: "Zebra",
+      sslOnly: true,
+    };
+    fetchMock.put(`end:api/v3/domains/${entry.id}`, {});
+
+    const res = await updateDomain(entry, ro);
+    expect(fetchMock.done()).toBeTruthy("fetch should have been called once");
+    expect(res.success).toBeTruthy("json parsed and response returned");
+  });
 });
