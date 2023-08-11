@@ -70,11 +70,11 @@ describe("addDomain", function () {
       "1234",
       "should coerce numeric title to a string"
     );
-    expect(res.success).toBeTruthy("json parsed and response returned");
     expect(getProp(body, "clientKey")).toBe(
       "",
       "should update clientKey to empty string"
     );
+    expect(res.success).toBeTruthy("json parsed and response returned");
   });
 
   it("converts title to string without client key", async function () {
@@ -138,7 +138,10 @@ describe("addDomain", function () {
     expect(res.success).toBeTruthy("json parsed and response returned");
     const opts = fetchMock.lastOptions("end:api/v3/domains");
     const body = JSON.parse(opts.body as string);
-    expect(getProp(body, "clientKey")).toBe(null, "should not have clientKey");
+    expect(getProp(body, "clientKey")).toBe(
+      undefined,
+      "should not have clientKey"
+    );
   });
 
   it("throws error on portal", async function () {
