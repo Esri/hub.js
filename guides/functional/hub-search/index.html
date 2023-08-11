@@ -260,6 +260,116 @@
 </li>
 </ul>
 <p><em>Note</em> If you are searching for specific <a href="./hub-entities">Hub Entities</a>, the entity &quot;manager&quot; modules also have simplified search functions return fully populated entity objects.</p>
+<h2>Explaining Query Results</h2>
+<p>Sometimes we need a means to descibe why a particular item is included in a search result - in particular when users are managing the content catalog.
+To that end, the <code>explainQueryResult(result:GenericResult, query:IQuery, requestOptions)</code> function is built to help with this.</p>
+<p>To use this function, we pass in the <code>IQuery</code> that was send into <code>hubSearch(...)</code>, and you'll get a response that looks like this:</p>
+<pre><code class="json">{
+    <span class="hljs-comment">// Copy of the Result object</span>
+    <span class="hljs-attr">"result"</span>: {
+        <span class="hljs-attr">"id"</span>: <span class="hljs-string">"92ca9c12ee604b958303a52f3e0bbb6b"</span>,
+        <span class="hljs-attr">"group"</span>: [
+            <span class="hljs-string">"9985c3ce1f0c4c39b065fc40a4548780"</span>,
+            <span class="hljs-string">"9fef828e929d4f8e9fb5e5e3e174e9f6"</span>
+        ]
+    },
+    <span class="hljs-comment">// Copy of the Query</span>
+    <span class="hljs-attr">"query"</span>: {
+        <span class="hljs-attr">"targetEntity"</span>: <span class="hljs-string">"item"</span>,
+        <span class="hljs-attr">"filters"</span>: [
+            {
+                <span class="hljs-attr">"predicates"</span>: [
+                    {
+                        <span class="hljs-attr">"group"</span>: [
+                            <span class="hljs-string">"9fef828e929d4f8e9fb5e5e3e174e9f6"</span>,
+                            <span class="hljs-string">"9985c3ce1f0c4c39b065fc40a4548780"</span>
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    <span class="hljs-comment">// Did the Result match the Query's criteria?</span>
+    <span class="hljs-attr">"matched"</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-comment">// Array of reasons the Query matched or did not</span>
+    <span class="hljs-attr">"reasons"</span>: [
+        {
+            <span class="hljs-attr">"filter"</span>: {
+                <span class="hljs-attr">"predicates"</span>: [
+                    {
+                        <span class="hljs-attr">"group"</span>: {
+                            <span class="hljs-attr">"any"</span>: [
+                                <span class="hljs-string">"9fef828e929d4f8e9fb5e5e3e174e9f6"</span>,
+                                <span class="hljs-string">"9985c3ce1f0c4c39b065fc40a4548780"</span>
+                            ]
+                        }
+                    }
+                ]
+            },
+            <span class="hljs-attr">"matched"</span>: <span class="hljs-literal">true</span>,
+            <span class="hljs-attr">"reasons"</span>: [
+                {
+                    <span class="hljs-attr">"predicate"</span>: {
+                        <span class="hljs-attr">"group"</span>: {
+                            <span class="hljs-attr">"any"</span>: [
+                                <span class="hljs-string">"9fef828e929d4f8e9fb5e5e3e174e9f6"</span>,
+                                <span class="hljs-string">"9985c3ce1f0c4c39b065fc40a4548780"</span>
+                            ]
+                        }
+                    },
+                    <span class="hljs-attr">"matched"</span>: <span class="hljs-literal">true</span>,
+                    <span class="hljs-attr">"reasons"</span>: [
+                        {
+                            <span class="hljs-attr">"attribute"</span>: <span class="hljs-string">"group"</span>,
+                            <span class="hljs-attr">"values"</span>: <span class="hljs-string">"9985c3ce1f0c4c39b065fc40a4548780,9fef828e929d4f8e9fb5e5e3e174e9f6"</span>,
+                            <span class="hljs-attr">"condition"</span>: <span class="hljs-string">"IN"</span>,
+                            <span class="hljs-attr">"matched"</span>: <span class="hljs-literal">true</span>,
+                            <span class="hljs-attr">"requirement"</span>: <span class="hljs-string">"9fef828e929d4f8e9fb5e5e3e174e9f6,9985c3ce1f0c4c39b065fc40a4548780"</span>,
+                            <span class="hljs-attr">"message"</span>: <span class="hljs-string">"Value(s) 9985c3ce1f0c4c39b065fc40a4548780,9fef828e929d4f8e9fb5e5e3e174e9f6 contained at least one of value from [9fef828e929d4f8e9fb5e5e3e174e9f6,9985c3ce1f0c4c39b065fc40a4548780]"</span>,
+                            <span class="hljs-attr">"meta"</span>: {
+                                <span class="hljs-attr">"groups"</span>: [
+                                    {
+                                        <span class="hljs-attr">"id"</span>: <span class="hljs-string">"9985c3ce1f0c4c39b065fc40a4548780"</span>,
+                                        <span class="hljs-attr">"title"</span>: <span class="hljs-string">"Explain Group 2"</span>
+                                    },
+                                    {
+                                        <span class="hljs-attr">"id"</span>: <span class="hljs-string">"9fef828e929d4f8e9fb5e5e3e174e9f6"</span>,
+                                        <span class="hljs-attr">"title"</span>: <span class="hljs-string">"Explain Group 1"</span>
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    <span class="hljs-attr">"summary"</span>: [
+        {
+            <span class="hljs-attr">"attribute"</span>: <span class="hljs-string">"group"</span>,
+            <span class="hljs-attr">"values"</span>: <span class="hljs-string">"9985c3ce1f0c4c39b065fc40a4548780,9fef828e929d4f8e9fb5e5e3e174e9f6"</span>,
+            <span class="hljs-attr">"condition"</span>: <span class="hljs-string">"IN"</span>,
+            <span class="hljs-attr">"matched"</span>: <span class="hljs-literal">true</span>,
+            <span class="hljs-attr">"requirement"</span>: <span class="hljs-string">"9fef828e929d4f8e9fb5e5e3e174e9f6,9985c3ce1f0c4c39b065fc40a4548780"</span>,
+            <span class="hljs-attr">"message"</span>: <span class="hljs-string">"Value(s) 9985c3ce1f0c4c39b065fc40a4548780,9fef828e929d4f8e9fb5e5e3e174e9f6 contained at least one of value from [9fef828e929d4f8e9fb5e5e3e174e9f6,9985c3ce1f0c4c39b065fc40a4548780]"</span>,
+            <span class="hljs-comment">// Meta information that could be used when constructing a translated string</span>
+            <span class="hljs-attr">"meta"</span>: {
+                <span class="hljs-attr">"groups"</span>: [
+                    {
+                        <span class="hljs-attr">"id"</span>: <span class="hljs-string">"9985c3ce1f0c4c39b065fc40a4548780"</span>,
+                        <span class="hljs-attr">"title"</span>: <span class="hljs-string">"Explain Group 2"</span>
+                    },
+                    {
+                        <span class="hljs-attr">"id"</span>: <span class="hljs-string">"9fef828e929d4f8e9fb5e5e3e174e9f6"</span>,
+                        <span class="hljs-attr">"title"</span>: <span class="hljs-string">"Explain Group 1"</span>
+                    }
+                ]
+            }
+        }
+    ]
+}
+
+</code></pre>
       </div>
     </div>
   </div>
