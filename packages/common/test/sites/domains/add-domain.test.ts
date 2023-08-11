@@ -110,7 +110,7 @@ describe("addDomain", function () {
     expect(res.success).toBeTruthy("json parsed and response returned");
   });
 
-  it("handles not having a client key", async function () {
+  it("function runs as expected without a client key (code coverage)", async function () {
     const ro = { isPortal: false } as IHubRequestOptions;
 
     spyOn(
@@ -136,6 +136,9 @@ describe("addDomain", function () {
     const res = await addDomain(entry, ro);
     expect(fetchMock.done()).toBeTruthy("fetch should have been called once");
     expect(res.success).toBeTruthy("json parsed and response returned");
+    const opts = fetchMock.lastOptions("end:api/v3/domains");
+    const body = JSON.parse(opts.body as string);
+    expect(getProp(body, "clientKey")).toBe(null, "should not have clientKey");
   });
 
   it("throws error on portal", async function () {
