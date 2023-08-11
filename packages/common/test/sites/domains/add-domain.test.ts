@@ -31,6 +31,12 @@ describe("addDomain", function () {
     const res = await addDomain(domainEntry, ro);
     expect(fetchMock.done()).toBeTruthy("fetch should have been called once");
     expect(res.success).toBeTruthy("json parsed and response returned");
+    const opts = fetchMock.lastOptions("end:api/v3/domains");
+    const body = JSON.parse(opts.body as string);
+    expect(getProp(body, "clientKey")).toBe(
+      "",
+      "should update clientKey to empty string"
+    );
   });
 
   it("converts title to string", async function () {
@@ -65,6 +71,10 @@ describe("addDomain", function () {
       "should coerce numeric title to a string"
     );
     expect(res.success).toBeTruthy("json parsed and response returned");
+    expect(getProp(body, "clientKey")).toBe(
+      "",
+      "should update clientKey to empty string"
+    );
   });
 
   it("converts title to string without client key", async function () {
