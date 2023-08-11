@@ -1,3 +1,10 @@
+# @esri/hub-common [13.37.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.36.1...@esri/hub-common@13.37.0) (2023-08-11)
+
+
+### Features
+
+* explain search result ([#1156](https://github.com/Esri/hub.js/issues/1156)) ([d469907](https://github.com/Esri/hub.js/commit/d469907658a068d360ce30578a153223da2dc7f1))
+
 ## @esri/hub-common [13.36.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.36.0...@esri/hub-common@13.36.1) (2023-08-09)
 
 
