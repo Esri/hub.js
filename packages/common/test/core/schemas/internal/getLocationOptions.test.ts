@@ -1,4 +1,5 @@
 import { IHubContent, IHubProject, IHubRequestOptions } from "../../../../src";
+import { ConfigurableEntity } from "../../../../src/core/schemas/internal/ConfigurableEntity";
 import { getLocationOptions } from "../../../../src/core/schemas/internal/getLocationOptions";
 import * as ExtentModule from "../../../../src/extent";
 
@@ -91,31 +92,19 @@ describe("getLocationOptions - default:", () => {
 });
 
 describe("getLocationOptions - content:", () => {
-  let orgExtentSpy: jasmine.Spy;
-  beforeEach(() => {
-    orgExtentSpy = spyOn(
-      ExtentModule,
-      "getGeographicOrgExtent"
-    ).and.returnValue(
-      Promise.resolve({
-        xmin: -180,
-        ymin: -90,
-        xmax: 180,
-        ymax: 90,
-        spatialReference: {
-          wkid: 4326,
-        },
-      })
-    );
-  });
   it("custom is selected", async () => {
-    const entity: IHubContent = {
+    const entity: ConfigurableEntity = {
       id: "00c",
       type: "Hub Content",
       location: {
         type: "custom",
       },
-    } as IHubContent;
+      boundary: "item",
+      extent: [
+        [100, 100],
+        [120, 120],
+      ],
+    } as ConfigurableEntity;
 
     const chk = await getLocationOptions(
       entity,
@@ -127,10 +116,14 @@ describe("getLocationOptions - content:", () => {
     expect(chk[1].selected).toBe(true);
   });
   it("none is selected", async () => {
-    const entity: IHubContent = {
+    const entity: ConfigurableEntity = {
       id: "00c",
       type: "Hub Content",
-    } as IHubContent;
+      location: {
+        type: "none",
+      },
+      boundary: "none",
+    } as ConfigurableEntity;
 
     const chk = await getLocationOptions(
       entity,
@@ -142,12 +135,40 @@ describe("getLocationOptions - content:", () => {
     expect(chk[0].selected).toBe(true);
   });
   it("custom is selected if entity does not have an id", async () => {
-    const entity: IHubContent = {
+    const entity: ConfigurableEntity = {
       type: "Hub Content",
       location: {
         type: "custom",
       },
-    } as IHubContent;
+      boundary: "item",
+      extent: [
+        [100, 100],
+        [120, 120],
+      ],
+    } as ConfigurableEntity;
+
+    const chk = await getLocationOptions(
+      entity,
+      "portalName",
+      {} as IHubRequestOptions
+    );
+
+    expect(chk.length).toBe(2);
+    expect(chk[1].selected).toBe(true);
+  });
+  it("custom is selected & boundary is set", async () => {
+    const entity: ConfigurableEntity = {
+      id: "00c",
+      type: "Hub Content",
+      location: {
+        type: "custom",
+      },
+      boundary: "item",
+      extent: [
+        [100, 100],
+        [120, 120],
+      ],
+    } as ConfigurableEntity;
 
     const chk = await getLocationOptions(
       entity,

@@ -51,6 +51,7 @@ export async function getContentLocationOptions(
   entity: ConfigurableEntity
 ): Promise<IHubLocationOption[]> {
   const defaultExtent: IExtent = getItemExtent(entity.extent);
+  const defaultExtentIsBBox = isBBox(entity.extent);
   const boundary = entity.boundary;
   const isNone = boundary === "none";
   return [
@@ -67,8 +68,10 @@ export async function getContentLocationOptions(
         type: "custom",
         // TODO: Add custom bbox option here
         // TODO: Remove "Add another location?" notification that appears when selecting a location
-        extent: extentToBBox(defaultExtent),
-        spatialReference: defaultExtent.spatialReference,
+        extent: defaultExtentIsBBox ? extentToBBox(defaultExtent) : undefined,
+        spatialReference: defaultExtentIsBBox
+          ? defaultExtent.spatialReference
+          : undefined,
       },
     },
   ] as IHubLocationOption[];
