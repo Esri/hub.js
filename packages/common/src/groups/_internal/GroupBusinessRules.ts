@@ -1,4 +1,5 @@
 import { EntityCapabilities, ICapabilityPermission } from "../../capabilities";
+import { itemPropsNotInTemplates } from "../../items";
 import { IPermissionPolicy } from "../../permissions";
 
 /**

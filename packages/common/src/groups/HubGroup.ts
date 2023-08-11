@@ -3,8 +3,8 @@ import {
   updateHubGroup,
   fetchHubGroup,
   deleteHubGroup,
-  convertHubGroupToGroup,
 } from "./HubGroups";
+import { convertHubGroupToGroup } from "./_internal/convertHubGroupToGroup";
 import { IHubGroup, IHubGroupEditor } from "../core/types/IHubGroup";
 import { DEFAULT_GROUP } from "./defaults";
 import {

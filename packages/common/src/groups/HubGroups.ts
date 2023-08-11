@@ -7,7 +7,6 @@ import { IHubRequestOptions, IModel } from "../types";
 import { getGroupHomeUrl } from "../urls";
 import { unique } from "../util";
 import { mapBy } from "../utils";
-import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import {
   getGroup,
   removeGroup,
@@ -16,10 +15,10 @@ import {
 } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubGroup } from "../core/types/IHubGroup";
-import { computeProps } from "./_internal/computeProps";
-import { getPropertyMap } from "./_internal/getPropertyMap";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { DEFAULT_GROUP } from "./defaults";
+import { convertHubGroupToGroup } from "./_internal/convertHubGroupToGroup";
+import { convertGroupToHubGroup } from "./_internal/convertGroupToHubGroup";
 
 /**
  * Enrich a generic search result
@@ -164,49 +163,4 @@ export async function deleteHubGroup(
 ): Promise<void> {
   const ro = { ...requestOptions, ...{ id } };
   await removeGroup(ro);
-}
-
-/**
- * Convert an IGroup to a Hub Group
- * @param group
- * @param requestOptions
- */
-function convertGroupToHubGroup(
-  group: IGroup,
-  requestOptions: IUserRequestOptions
-): IHubGroup {
-  const mapper = new PropertyMapper<Partial<IHubGroup>, IGroup>(
-    getPropertyMap()
-  );
-  const hubGroup = mapper.storeToEntity(group, {}) as IHubGroup;
-  return computeProps(group, hubGroup, requestOptions);
-}
-
-/**
- * Convert a Hub Group to an IGroup
- * @param hubGroup
- */
-export function convertHubGroupToGroup(hubGroup: IHubGroup): IGroup {
-  const mapper = new PropertyMapper<Partial<IHubGroup>, IGroup>(
-    getPropertyMap()
-  );
-  const group = mapper.entityToStore(
-    hubGroup,
-    {} as unknown as IGroup
-  ) as IGroup;
-  // convert the values for membershipAccess back to
-  // the ones the API accepts
-  if (group.membershipAccess === "organization") {
-    group.membershipAccess = "org";
-  }
-  if (group.membershipAccess === "collaborators") {
-    group.membershipAccess = "collaboration";
-  }
-  // since we are setting null to a prop, we need to
-  // send clearEmptyFields: true to the updateGroup call
-  if (group.membershipAccess === "anyone") {
-    group.membershipAccess = null;
-    group._clearEmptyFields = true;
-  }
-  return group;
 }
