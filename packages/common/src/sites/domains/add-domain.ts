@@ -25,6 +25,9 @@ export function addDomain(
   if (typeof title === "number") {
     domainEntry.siteTitle = title.toString();
   }
+  if (domainEntry?.clientKey) {
+    domainEntry.clientKey = "";
+  }
   return fetch(url, {
     method: "POST",
     headers,
