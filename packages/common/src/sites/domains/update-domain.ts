@@ -29,7 +29,7 @@ export function updateDomain(
     domainEntry.siteTitle = title.toString();
   }
 
-  // delete client key if we have one, as it won't pass schema validation
+  // update client key to empty string if we have one, as it won't pass schema validation
   if (domainEntry.clientKey) {
     domainEntry.clientKey = "";
   }

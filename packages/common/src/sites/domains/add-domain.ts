@@ -25,6 +25,7 @@ export function addDomain(
   if (typeof title === "number") {
     domainEntry.siteTitle = title.toString();
   }
+  // update client key to empty string if we have one, as it won't pass schema validation
   if (domainEntry?.clientKey) {
     domainEntry.clientKey = "";
   }
