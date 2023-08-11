@@ -107,6 +107,10 @@ describe("updateDomain", function () {
       "1234",
       "should coerce numeric title to a string"
     );
+    expect(getProp(body, "clientKey")).toBe(
+      undefined,
+      "should not have client key"
+    );
     expect(res.success).toBeTruthy("json parsed and response returned");
   });
 
