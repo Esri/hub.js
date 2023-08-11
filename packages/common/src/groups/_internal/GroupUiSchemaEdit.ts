@@ -1,7 +1,7 @@
 import { IUiSchema } from "../../core";
 
 /**
- * complete edit uiSchema for Hub Groups - this defines
+ * Complete edit uiSchema for Hub Groups - this defines
  * how the schema properties should be rendered in the
  * group editing experience
  */

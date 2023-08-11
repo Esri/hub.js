@@ -369,6 +369,29 @@ describe("HubGroup class:", () => {
         expect(result.name).toEqual("new name");
       });
 
+      it("throws when is create", async () => {
+        const chk = HubGroup.fromJson(
+          {
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        // spy on the instance .save method and retrn void
+        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        // make changes to the editor
+        const editor = chk.toEditor();
+        // get the group loaded from the editor
+        try {
+          await await chk.fromEditor(editor);
+        } catch (e) {
+          expect(getProp(e, "message")).toBe(
+            "Cannot create group using the Editor."
+          );
+        }
+        expect(saveSpy).toHaveBeenCalledTimes(0);
+      });
+
       it("handles thumbnail change", async () => {
         const chk = HubGroup.fromJson(
           {

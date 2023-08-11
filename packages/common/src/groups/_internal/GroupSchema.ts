@@ -8,7 +8,7 @@ export type GroupEditorType = (typeof GroupEditorTypes)[number];
 export const GroupEditorTypes = ["hub:group:edit"] as const;
 
 /**
- * defines the JSON schema for a Hub Group's editable fields
+ * Defines the JSON schema for a Hub Group's editable fields
  */
 export const GroupSchema: IConfigurationSchema = {
   required: ["name"],
