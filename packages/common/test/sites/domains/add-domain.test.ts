@@ -67,6 +67,39 @@ describe("addDomain", function () {
     expect(res.success).toBeTruthy("json parsed and response returned");
   });
 
+  it("converts title to string", async function () {
+    const entry = {
+      domain: "zebra-dc.hubqa.arcgis.com",
+      hostname: "zebra-dc.hubqa.arcgis.com",
+      id: "146663",
+      orgId: "97KLIFOSt5CxbiRI",
+      orgKey: "dc",
+      orgTitle: "Washington, DC R&D Center (QA)",
+      permanentRedirect: false,
+      siteId: "9697f67b6d6343fa823dcdbe2d172073",
+      siteTitle: 1234,
+      sslOnly: true,
+    } as unknown as IDomainEntry;
+    const ro = { isPortal: false } as IHubRequestOptions;
+
+    spyOn(
+      _checkStatusAndParseJsonModule,
+      "_checkStatusAndParseJson"
+    ).and.returnValue(Promise.resolve({ success: true }));
+
+    fetchMock.post("end:api/v3/domains", {});
+
+    const res = await addDomain(entry, ro);
+    expect(fetchMock.done()).toBeTruthy("fetch should have been called once");
+    const opts = fetchMock.lastOptions("end:api/v3/domains");
+    const body = JSON.parse(opts.body as string);
+    expect(getProp(body, "siteTitle")).toBe(
+      "1234",
+      "should coerce numeric title to a string"
+    );
+    expect(res.success).toBeTruthy("json parsed and response returned");
+  });
+
   it("handles not having a client key", async function () {
     const ro = { isPortal: false } as IHubRequestOptions;
 
