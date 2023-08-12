@@ -7,8 +7,9 @@ import { IPortal } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { HubSystemStatus } from "./core";
 import { getProp, getWithDefault } from "./objects";
-import { HubLicense } from "./permissions/types";
+import { HubEnvironment, HubLicense } from "./permissions/types";
 import { IHubRequestOptions } from "./types";
+import { getEnvironmentFromPortalUrl } from "./utils/getEnvironmentFromPortalUrl";
 
 /**
  * Hash of Hub API end points so updates
@@ -169,6 +170,16 @@ export interface IArcGISContext {
    * Derived from properties.alphaOrgs
    */
   isAlphaOrg: boolean;
+  /**
+   * Is this user in a Hub Beta org?
+   * Derived from properties.betaOrgs
+   */
+  isBetaOrg: boolean;
+
+  /**
+   * What environment is this running in?
+   */
+  environment: HubEnvironment;
 }
 
 /**
@@ -308,6 +319,27 @@ export class ArcGISContext implements IArcGISContext {
       result = orgs.includes(orgId);
     }
     return result;
+  }
+
+  /**
+   * Is the users org in the beta orgs list?
+   * Beta orgs are passed in via properties.betaOrgs
+   */
+  public get isBetaOrg(): boolean {
+    let result = false;
+    const orgs = this._properties?.betaOrgs || [];
+    const orgId = this._portalSelf?.id;
+    if (orgs.length && orgId) {
+      result = orgs.includes(orgId);
+    }
+    return result;
+  }
+
+  /**
+   * Return the HubEnvironment of the current context
+   */
+  public get environment(): HubEnvironment {
+    return getEnvironmentFromPortalUrl(this._portalUrl);
   }
 
   /**

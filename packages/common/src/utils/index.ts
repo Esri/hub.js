@@ -21,3 +21,4 @@ export * from "./sessionLocalStorage";
 export * from "./dasherize";
 export * from "./titleize";
 export * from "./memoize";
+export * from "./getEnvironmentFromPortalUrl";

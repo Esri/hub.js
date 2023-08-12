@@ -26,7 +26,7 @@ export const CapabilityPermissions: ICapabilityPermission[] = [
 ];
 
 /**
- * Return the capabilities that are granted to the current user for a given entity
+ * DEPRECATED: Return the capabilities that are granted to the current user for a given entity
  * This is used by the Hub Components to determine which Workspace Navigation Links to show
  * @param entity
  * @param context
@@ -36,6 +36,10 @@ export function getWorkspaceCapabilities(
   entity: HubEntity,
   context: IArcGISContext
 ): IWorkspaceCapabilityResponse {
+  /* tslint:disable-next-line: no-console */
+  console.warn(
+    `DEPRECATION: Capabilities is deprecated. Use Permissions instead.`
+  );
   const entityType: HubEntityType = getTypeFromEntity(entity);
   // filter to the rules for the given entity type
   const capabilityAccessRules = CapabilityPermissions.filter(

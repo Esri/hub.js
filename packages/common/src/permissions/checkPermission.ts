@@ -17,6 +17,9 @@ import { checkEdit } from "./_internal/checkEdit";
 import { checkPrivileges } from "./_internal/checkPrivileges";
 import { checkEntityPolicy } from "./_internal/checkEntityPolicy";
 import { checkAssertions } from "./_internal/checkAssertions";
+import { checkParents } from "./_internal/checkParents";
+import { checkEnvironmentGating } from "./_internal/checkEnvironmentGating";
+import { checkAvailabilityGating } from "./_internal/checkAvailabilityGating";
 
 /**
  * Check a permission against the system policies, and possibly an entity policy
@@ -56,7 +59,10 @@ export function checkPermission(
   };
 
   const checks = [
+    checkParents,
     checkAuthentication,
+    checkEnvironmentGating,
+    checkAvailabilityGating,
     checkLicense,
     checkPrivileges,
     checkOwner,

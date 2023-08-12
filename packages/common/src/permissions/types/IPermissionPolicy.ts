@@ -2,7 +2,6 @@ import { HubLicense } from "./HubLicense";
 import { HubSubsystem } from "../../core/types/ISystemStatus";
 import { Permission } from "./Permission";
 import { PlatformPrivilege } from "./PlatformPrivilege";
-import { IEntityPermissionPolicy } from "./IEntityPermissionPolicy";
 
 /**
  * Defines a system level policy for a specific permission.
@@ -16,10 +15,15 @@ export interface IPermissionPolicy {
    * Permission being defined
    */
   permission: Permission;
+
+  /**
+   * Parent permissions this permission is dependent on
+   */
+  parents?: Permission[];
   /**
    * What subsystems are required to be online for this permission to be granted
    */
-  subsystems: HubSubsystem[];
+  subsystems?: HubSubsystem[];
   /**
    * Must the user authenticated?
    */
@@ -30,11 +34,29 @@ export interface IPermissionPolicy {
    * e.g. If a user is in a Partner "hub-basic" org, they can not create "premium" entities (e.g. Projects)
    */
   licenses?: HubLicense[];
+
+  /**
+   * Is this permission gated to a specific availability?
+   * This is used to limit access to features that are not yet available in production
+   */
+  gatedAvailability?: HubAvailability;
+
+  /**
+   * Is this permission gated to a specific environment? (e.g. devext, qaext)
+   * This is used to limit access to features that are not yet available in production
+   */
+  gatedEnvironment?: HubEnvironment;
+
   /**
    * Any platform level privileges required for this permission to be granted
    * e.g. "portal:user:createItem"
    */
   privileges?: PlatformPrivilege[];
+
+  /**
+   * Can an entity provide additional conditions to further limit access?
+   */
+  entityConfiguable?: boolean;
 
   /**
    * Is the user an owner of the entity being accessed?
@@ -47,14 +69,35 @@ export interface IPermissionPolicy {
   entityOwner?: boolean;
 
   /**
-   * Is this gated to alpha orgs?
+   * DEPRECATED: Use `gatedAvailability: "alpha"` instead
    */
   alpha?: boolean;
   /**
    * More complex policies can be defined with a set of assertions
    */
   assertions?: IPolicyAssertion[];
+
+  /**
+   * Value set by the feature flagging system to override the default permission behavior. This can be used to
+   * demo features to specific users or groups, during a specific user session.
+   * If `true`, the permission will be granted as long as the license and privilege requirements are met.
+   * If `fakse`, the permission will be denied for all users - typically as a means to check for graceful degradation
+   * if a system is offline.
+   */
+  overrideValue?: boolean;
 }
+
+export type HubAvailability = "alpha" | "beta" | "ga";
+
+/**
+ * Hub Run-time environments
+ */
+export type HubEnvironment =
+  | "devext"
+  | "qaext"
+  | "production"
+  | "enterprise"
+  | "enterprise-k8s";
 
 export interface IPolicyAssertion {
   property: string;

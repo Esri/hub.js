@@ -36,4 +36,7 @@ export type PolicyResponse =
   | "assertion-property-not-found"
   | "assertion-failed" // assertion condition was not met
   | "assertion-requires-numeric-values" // assertion requires numeric values
-  | "property-match";
+  | "property-match"
+  | "not-beta-org" // user is not in a beta org
+  | "not-qaext-org" // user not in a qaext org but permission requires it
+  | "not-devext-org"; // user not in a devext org but permission requires it

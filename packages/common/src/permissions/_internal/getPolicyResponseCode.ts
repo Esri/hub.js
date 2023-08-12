@@ -41,6 +41,9 @@ const policyResponseCodes: IPolicyLookup[] = [
   { response: "assertion-failed", code: "PC130" },
   { response: "assertion-requires-numeric-values", code: "PC131" },
   { response: "property-match", code: "PC132" },
+  { response: "not-beta-org", code: "PC133" },
+  { response: "not-qaext-org", code: "PC134" },
+  { response: "not-devext-org", code: "PC135" },
 ];
 
 /**

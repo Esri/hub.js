@@ -10,6 +10,10 @@ export function processEntityCapabilities(
   entityCapabilities: EntityCapabilities,
   defaultCapabilities: EntityCapabilities
 ): EntityCapabilities {
+  /* tslint:disable-next-line: no-console */
+  console.warn(
+    `DEPRECATION: Capabilities is deprecated. Use Permissions instead.`
+  );
   // Extend the default capabilities with the entity capabilities
   const capabilities = { ...defaultCapabilities, ...entityCapabilities };
 

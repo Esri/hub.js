@@ -12,11 +12,16 @@ import { getPolicyResponseCode } from "./getPolicyResponseCode";
 export function checkAlphaGating(
   policy: IPermissionPolicy,
   context: IArcGISContext,
-  entity?: Record<string, any>
+  _entity?: Record<string, any>
 ): IPolicyCheck[] {
   const checks = [] as IPolicyCheck[];
   // Only return a check if the policy is defined
   if (policy.alpha) {
+    /* tslint:disable-next-line: no-console */
+    console.log(
+      "DEPRECATED: alpha policy is deprecated, please use gatedAvailability: alpha instead"
+    );
+
     const result: PolicyResponse = context.isAlphaOrg
       ? "granted"
       : "not-alpha-org";

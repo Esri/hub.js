@@ -201,6 +201,8 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.helperServices).toBeUndefined();
       expect(mgr.context.hubEnabled).toBeFalsy();
       expect(mgr.context.isAlphaOrg).toBeFalsy();
+      expect(mgr.context.isBetaOrg).toBeFalsy();
+      expect(mgr.context.environment).toBe("production");
       // Hub Urls
       const base = mgr.context.hubUrl;
       expect(mgr.context.discussionsServiceUrl).toBe(
@@ -244,6 +246,7 @@ describe("ArcGISContext:", () => {
         properties: { site },
       });
       expect(mgr.context.id).toBeGreaterThanOrEqual(t);
+      expect(mgr.context.environment).toBe("enterprise");
       expect(mgr.context.properties.site).toEqual(site);
     });
     it("verify props when passed session", async () => {
@@ -339,6 +342,7 @@ describe("ArcGISContext:", () => {
         systemStatus: { discussions: "offline" } as HubSystemStatus,
         properties: {
           alphaOrgs: ["FAKEID", "FOTHERID"],
+          betaOrgs: ["FAKEID"],
         },
       });
       expect(selfSpy.calls.count()).toBe(0);
@@ -351,6 +355,7 @@ describe("ArcGISContext:", () => {
       } as HubSystemStatus);
       expect(mgr.context.properties.alphaOrgs).toEqual(["FAKEID", "FOTHERID"]);
       expect(mgr.context.isAlphaOrg).toBeTruthy();
+      expect(mgr.context.isBetaOrg).toBeTruthy();
     });
     it("verify props update setting session after", async () => {
       spyOn(portalModule, "getSelf").and.callFake(() => {

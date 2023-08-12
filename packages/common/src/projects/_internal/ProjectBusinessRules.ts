@@ -61,6 +61,7 @@ export const ProjectCapabilityPermissions: ICapabilityPermission[] = [
  * @private
  */
 export const ProjectPermissions = [
+  "hub:project", // "hub:project" is a parent permission that is required for all other project permissions
   "hub:project:create",
   "hub:project:delete",
   "hub:project:edit",
@@ -74,37 +75,37 @@ export const ProjectPermissions = [
  */
 export const ProjectPermissionPolicies: IPermissionPolicy[] = [
   {
-    permission: "hub:project:create",
-    subsystems: ["projects"],
-    authenticated: true,
-    privileges: ["portal:user:createItem"],
+    permission: "hub:project",
+    subsystems: ["platform"],
     licenses: ["hub-premium"],
   },
   {
+    permission: "hub:project:create",
+    authenticated: true,
+    parents: ["hub:project"],
+    privileges: ["portal:user:createItem"],
+  },
+  {
+    // Anyone can view a project
     permission: "hub:project:view",
-    subsystems: ["projects"],
-    authenticated: false,
-    licenses: ["hub-basic", "hub-premium"],
+    subsystems: ["platform"],
   },
   {
     permission: "hub:project:edit",
+    parents: ["hub:project"],
     authenticated: true,
-    subsystems: ["projects"],
     entityEdit: true,
-    licenses: ["hub-basic", "hub-premium"],
   },
   {
     permission: "hub:project:delete",
+    parents: ["hub:project"],
     authenticated: true,
-    subsystems: ["projects"],
     entityOwner: true,
-    licenses: ["hub-premium"],
   },
   {
     permission: "hub:project:owner",
+    parents: ["hub:project"],
     authenticated: true,
-    subsystems: ["projects"],
     entityOwner: true,
-    licenses: ["hub-premium"],
   },
 ];

@@ -36,6 +36,7 @@ export function computeProps(
   project.isDiscussable = isDiscussable(project);
 
   // Handle capabilities
+  // TODO: Remove capabilities
   project.capabilities = processEntityCapabilities(
     model.data.settings?.capabilities || {},
     ProjectDefaultCapabilities
