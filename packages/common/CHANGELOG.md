@@ -1,3 +1,10 @@
+## @esri/hub-common [13.37.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.37.2...@esri/hub-common@13.37.3) (2023-08-14)
+
+
+### Bug Fixes
+
+* add GroupSchema, GroupUiSchema and other support for groups details pane ([#1154](https://github.com/Esri/hub.js/issues/1154)) ([e82d49c](https://github.com/Esri/hub.js/commit/e82d49cbe75e1286407450d0f7b3aa6e5ec1e8cf))
+
 ## @esri/hub-common [13.37.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.37.1...@esri/hub-common@13.37.2) (2023-08-14)
 
 
