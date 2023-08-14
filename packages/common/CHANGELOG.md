@@ -1,3 +1,17 @@
+## @esri/hub-common [13.37.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.37.0...@esri/hub-common@13.37.1) (2023-08-11)
+
+
+### Bug Fixes
+
+* update clientKey to empty string in updateDomain/addDomain ([#1157](https://github.com/Esri/hub.js/issues/1157)) ([84ae619](https://github.com/Esri/hub.js/commit/84ae619b8d18941a9142d1edab5766be0413a213))
+
+# @esri/hub-common [13.37.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.36.1...@esri/hub-common@13.37.0) (2023-08-11)
+
+
+### Features
+
+* explain search result ([#1156](https://github.com/Esri/hub.js/issues/1156)) ([d469907](https://github.com/Esri/hub.js/commit/d469907658a068d360ce30578a153223da2dc7f1))
+
 ## @esri/hub-common [13.36.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.36.0...@esri/hub-common@13.36.1) (2023-08-09)
 
 
