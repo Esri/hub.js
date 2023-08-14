@@ -1,5 +1,5 @@
 import { EntityCapabilities, ICapabilityPermission } from "../../capabilities";
-import { IPermissionPolicy } from "../../permissions";
+import { IEntityFeatures, IPermissionPolicy } from "../../permissions";
 
 /**
  * Default capabilities for a Project. If not listed here, the capability will not be available
@@ -56,6 +56,15 @@ export const ProjectCapabilityPermissions: ICapabilityPermission[] = [
 ];
 
 /**
+ * Default features for a Project. These are the features that can be enabled / disabled by the entity owner
+ */
+export const ProjectDefaultFeatures: IEntityFeatures = {
+  "hub:project:events": false,
+  "hub:project:content": true,
+  "hub:project:discussions": false,
+};
+
+/**
  * Project Permission Policies
  * These define the requirements any user must meet to perform related actions
  * @private
@@ -67,6 +76,9 @@ export const ProjectPermissions = [
   "hub:project:edit",
   "hub:project:view",
   "hub:project:owner",
+  "hub:project:events",
+  "hub:project:content",
+  "hub:project:discussions",
 ] as const;
 
 /**
@@ -107,5 +119,17 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
     parents: ["hub:project"],
     authenticated: true,
     entityOwner: true,
+  },
+  {
+    permission: "hub:project:events",
+    parents: ["hub:project:view"],
+  },
+  {
+    permission: "hub:project:content",
+    parents: ["hub:project:edit"],
+  },
+  {
+    permission: "hub:project:discussions",
+    parents: ["hub:project:view"],
   },
 ];

@@ -87,6 +87,16 @@ export interface IPermissionPolicy {
   overrideValue?: boolean;
 }
 
+/**
+ * Hash of features for an entity which can be used to determine if a feature is enabled for the entity
+ * This can be applied to any permissin, enabling a lot of flexibility in how features are described and enabled
+ * If the value is set to false, then the permission will alway be set to false for all users.
+ */
+export interface IEntityFeatures extends Record<Permission, boolean> {}
+
+/**
+ * Hub Availability levels
+ */
 export type HubAvailability = "alpha" | "beta" | "ga";
 
 /**
@@ -99,12 +109,18 @@ export type HubEnvironment =
   | "enterprise"
   | "enterprise-k8s";
 
+/**
+ * Assertion used to define more complex permission policies
+ */
 export interface IPolicyAssertion {
   property: string;
   type: AssertionType;
   value: any;
 }
 
+/**
+ * Assertion types which define the comparison operation to be performed
+ */
 export type AssertionType =
   | "eq"
   | "neq"

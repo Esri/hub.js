@@ -3,7 +3,10 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { getItemThumbnailUrl } from "../../resources";
 import { IHubProject } from "../../core";
 import { IModel } from "../../types";
-import { ProjectDefaultCapabilities } from "./ProjectBusinessRules";
+import {
+  ProjectDefaultCapabilities,
+  ProjectDefaultFeatures,
+} from "./ProjectBusinessRules";
 import { processEntityCapabilities } from "../../capabilities";
 import { isDiscussable } from "../../discussions";
 
@@ -41,6 +44,11 @@ export function computeProps(
     model.data.settings?.capabilities || {},
     ProjectDefaultCapabilities
   );
+
+  /**
+   * Features that can be disabled by the entity owner
+   */
+  project.features = model.data.settings?.features || ProjectDefaultFeatures;
 
   // cast b/c this takes a partial but returns a full project
   return project as IHubProject;
