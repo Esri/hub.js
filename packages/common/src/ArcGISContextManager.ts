@@ -9,7 +9,7 @@ import {
 import { getHubApiFromPortalUrl } from "./urls/getHubApiFromPortalUrl";
 import { getPortalBaseFromOrgUrl } from "./urls/getPortalBaseFromOrgUrl";
 import { Level, Logger } from "./utils/logger";
-import { HubSystemStatus } from "./core";
+import { HubService, HubServiceStatus, HubSystemStatus } from "./core";
 import { cloneObject } from "./util";
 import { base64ToUnicode, unicodeToBase64 } from "./utils/encoding";
 
@@ -64,9 +64,15 @@ export interface IArcGISContextManagerOptions {
   logLevel?: Level;
 
   /**
-   * Option to pass in system status vs fetching it
+   * DEPRECATED: Option to pass in system status vs fetching it
+   * TODO: Remove with Capabilities
    */
   systemStatus?: HubSystemStatus;
+
+  /**
+   * Option to pass in service status vs fetching it
+   */
+  serviceStatus?: HubServiceStatus;
 }
 
 /**
@@ -109,6 +115,8 @@ export class ArcGISContextManager {
 
   private _systemStatus: HubSystemStatus;
 
+  private _serviceStatus: HubServiceStatus;
+
   /**
    * Private constructor. Use `ArcGISContextManager.create(...)` to
    * instantiate an instance
@@ -149,8 +157,13 @@ export class ArcGISContextManager {
       this._currentUser = cloneObject(opts.currentUser);
     }
 
+    // TODO: Remove with Capabilities
     if (opts.systemStatus) {
       this._systemStatus = opts.systemStatus;
+    }
+
+    if (opts.serviceStatus) {
+      this._serviceStatus = opts.serviceStatus;
     }
   }
 
@@ -216,7 +229,9 @@ export class ArcGISContextManager {
       opts.portalUrl = state.portalUrl;
     }
     // system status is safe to carry forward even if session is expired
+    // TODO: Remove with Capabilities
     opts.systemStatus = state.systemStatus;
+    opts.serviceStatus = state.serviceStatus;
 
     return ArcGISContextManager.create(opts);
   }
@@ -281,7 +296,9 @@ export class ArcGISContextManager {
       session?: string;
     } = {
       portalUrl: this._portalUrl,
+      // TODO: Remove with Capabilities
       systemStatus: this._systemStatus,
+      serviceStatus: this._serviceStatus,
     };
 
     if (this._authentication) {
@@ -329,8 +346,13 @@ export class ArcGISContextManager {
       }
     }
     // get system status
+    // TODO: Remove with Capabilities
     if (!this._systemStatus) {
       this._systemStatus = await getSystemStatus(this._portalUrl);
+    }
+    // get service status
+    if (!this._serviceStatus) {
+      this._serviceStatus = await getServiceStatus(this._portalUrl);
     }
     Logger.debug(`ArcGISContextManager-${this.id}: updating context`);
     // update the context
@@ -346,7 +368,9 @@ export class ArcGISContextManager {
       portalUrl: this._portalUrl,
       hubUrl: this._hubUrl,
       properties: this._properties,
+      // TODO: Remove with Capabilities
       systemStatus: this._systemStatus,
+      serviceStatus: this._serviceStatus,
     };
     if (this._authentication) {
       contextOpts.authentication = this._authentication;
@@ -409,4 +433,37 @@ const HUB_STATUS: HubSystemStatus = {
   sites: "online",
   groups: "online",
   platform: "online",
+};
+
+function getServiceStatus(portalUrl: string): Promise<HubServiceStatus> {
+  let status = HUB_SERVICE_STATUS;
+  const isPortal = portalUrl.indexOf("arcgis.com") === -1;
+  // When we move to fetching the system status from the API
+  // we can use
+  // const hubApiUrl = getHubApiFromPortalUrl(portalUrl);
+  if (isPortal) {
+    status = ENTERPRISE_SITES_SERVICE_STATUS;
+  }
+
+  return Promise.resolve(status);
+}
+
+const HUB_SERVICE_STATUS: HubServiceStatus = {
+  portal: "online",
+  discussions: "online",
+  events: "online",
+  metrics: "online",
+  notifications: "online",
+  "hub-search": "online",
+  domains: "online",
+};
+
+const ENTERPRISE_SITES_SERVICE_STATUS: HubServiceStatus = {
+  portal: "online",
+  discussions: "not-available",
+  events: "not-available",
+  metrics: "not-available",
+  notifications: "not-available",
+  "hub-search": "not-available",
+  domains: "not-available",
 };

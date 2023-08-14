@@ -9,6 +9,7 @@ import {
 } from "./ProjectBusinessRules";
 import { processEntityCapabilities } from "../../capabilities";
 import { isDiscussable } from "../../discussions";
+import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
 
 /**
  * Given a model and a project, set various computed properties that can't be directly mapped
@@ -48,7 +49,10 @@ export function computeProps(
   /**
    * Features that can be disabled by the entity owner
    */
-  project.features = model.data.settings?.features || ProjectDefaultFeatures;
+  project.features = processEntityFeatures(
+    model.data.settings?.features || {},
+    ProjectDefaultFeatures
+  );
 
   // cast b/c this takes a partial but returns a full project
   return project as IHubProject;

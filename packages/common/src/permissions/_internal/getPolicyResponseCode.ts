@@ -24,8 +24,12 @@ const policyResponseCodes: IPolicyLookup[] = [
   { response: "edit-access", code: "PC113" },
   { response: "invalid-permission", code: "PC114" },
   { response: "privilege-required", code: "PC115" },
+  // ----------- TODO Remove with Capabilities
   { response: "system-offline", code: "PC116" },
   { response: "system-maintenance", code: "PC117" },
+  // -------------------------------------------
+  { response: "service-offline", code: "PC116" },
+  { response: "service-maintenance", code: "PC117" },
   { response: "entity-required", code: "PC118" },
   { response: "not-authenticated", code: "PC119" },
   { response: "not-alpha-org", code: "PC120" },
@@ -42,8 +46,9 @@ const policyResponseCodes: IPolicyLookup[] = [
   { response: "assertion-requires-numeric-values", code: "PC131" },
   { response: "property-match", code: "PC132" },
   { response: "not-beta-org", code: "PC133" },
-  { response: "not-qaext-org", code: "PC134" },
-  { response: "not-devext-org", code: "PC135" },
+  { response: "not-in-environment", code: "PC134" },
+  { response: "feature-disabled", code: "PC135" },
+  { response: "feature-enabled", code: "PC136" },
 ];
 
 /**

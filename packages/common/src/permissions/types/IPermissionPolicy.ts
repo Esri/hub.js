@@ -1,5 +1,5 @@
 import { HubLicense } from "./HubLicense";
-import { HubSubsystem } from "../../core/types/ISystemStatus";
+import { HubService, HubSubsystem } from "../../core/types/ISystemStatus";
 import { Permission } from "./Permission";
 import { PlatformPrivilege } from "./PlatformPrivilege";
 
@@ -19,11 +19,18 @@ export interface IPermissionPolicy {
   /**
    * Parent permissions this permission is dependent on
    */
-  parents?: Permission[];
+  dependencies?: Permission[];
+
   /**
-   * What subsystems are required to be online for this permission to be granted
+   * DEPRECATED: What subsystems are required to be online for this permission to be granted
    */
   subsystems?: HubSubsystem[];
+
+  /**
+   * What services are required to be online for this permission to be granted
+   */
+  services?: HubService[];
+
   /**
    * Must the user authenticated?
    */
@@ -39,13 +46,13 @@ export interface IPermissionPolicy {
    * Is this permission gated to a specific availability?
    * This is used to limit access to features that are not yet available in production
    */
-  gatedAvailability?: HubAvailability;
+  availability?: HubAvailability[];
 
   /**
    * Is this permission gated to a specific environment? (e.g. devext, qaext)
    * This is used to limit access to features that are not yet available in production
    */
-  gatedEnvironment?: HubEnvironment;
+  environments?: HubEnvironment[];
 
   /**
    * Any platform level privileges required for this permission to be granted
@@ -56,7 +63,7 @@ export interface IPermissionPolicy {
   /**
    * Can an entity provide additional conditions to further limit access?
    */
-  entityConfiguable?: boolean;
+  entityConfigurable?: boolean;
 
   /**
    * Is the user an owner of the entity being accessed?
@@ -81,10 +88,10 @@ export interface IPermissionPolicy {
    * Value set by the feature flagging system to override the default permission behavior. This can be used to
    * demo features to specific users or groups, during a specific user session.
    * If `true`, the permission will be granted as long as the license and privilege requirements are met.
-   * If `fakse`, the permission will be denied for all users - typically as a means to check for graceful degradation
+   * If `false`, the permission will be denied for all users - typically as a means to check for graceful degradation
    * if a system is offline.
    */
-  overrideValue?: boolean;
+  flagValue?: boolean;
 }
 
 /**

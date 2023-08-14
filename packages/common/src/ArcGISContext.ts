@@ -5,7 +5,7 @@ import {
 } from "@esri/arcgis-rest-auth";
 import { IPortal } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { HubSystemStatus } from "./core";
+import { HubServiceStatus, HubSystemStatus } from "./core";
 import { getProp, getWithDefault } from "./objects";
 import { HubEnvironment, HubLicense } from "./permissions/types";
 import { IHubRequestOptions } from "./types";
@@ -161,9 +161,14 @@ export interface IArcGISContext {
    */
   properties: Record<string, any>;
   /**
-   * System status
+   * DEPRECATED: System status
    */
   systemStatus: HubSystemStatus;
+
+  /**
+   * Hub Service Status
+   */
+  serviceStatus: HubServiceStatus;
 
   /**
    * Is this user in a Hub Alpha org?
@@ -227,9 +232,15 @@ export interface IArcGISContextOptions {
    */
   properties?: Record<string, any>;
   /**
-   * Option to pass in system status vs fetching it
+   * DEPRECATED: Option to pass in system status vs fetching it
+   * TODO: Remove with Capabilities
    */
   systemStatus?: HubSystemStatus;
+
+  /**
+   * Option to pass in service status vs fetching it
+   */
+  serviceStatus?: HubServiceStatus;
 }
 
 /**
@@ -265,7 +276,10 @@ export class ArcGISContext implements IArcGISContext {
 
   private _properties: Record<string, any>;
 
+  // TODO: Remove with Capabilities
   private _systemStatus: HubSystemStatus;
+
+  private _serviceStatus: HubServiceStatus;
 
   /**
    * Create a new instance of `ArcGISContext`.
@@ -277,6 +291,7 @@ export class ArcGISContext implements IArcGISContext {
     this._portalUrl = opts.portalUrl;
     this._hubUrl = opts.hubUrl;
     this._systemStatus = opts.systemStatus;
+    this._serviceStatus = opts.serviceStatus;
     if (opts.authentication) {
       this._authentication = opts.authentication;
     }
@@ -448,9 +463,21 @@ export class ArcGISContext implements IArcGISContext {
 
   /**
    * Returns the current hub system status information
+   * TODO: Remove with Capabilities
    */
   get systemStatus(): HubSystemStatus {
+    // tslint:disable-next-line: no-console
+    console.warn(
+      `DEPRECATED: context.systemStatus is deprecated use context.serviceStatus instead`
+    );
     return this._systemStatus;
+  }
+
+  /**
+   * Returns the current hub service status information
+   */
+  get serviceStatus(): HubServiceStatus {
+    return this._serviceStatus;
   }
 
   /**

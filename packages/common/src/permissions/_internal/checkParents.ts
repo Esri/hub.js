@@ -17,9 +17,9 @@ export function checkParents(
   entity?: Record<string, any>
 ): IPolicyCheck[] {
   let checks = [] as IPolicyCheck[];
-  if (policy.parents?.length) {
+  if (policy.dependencies?.length) {
     // map over the parents array of permissions and check each one
-    checks = policy.parents.reduce((acc, parent) => {
+    checks = policy.dependencies.reduce((acc, parent) => {
       const result = checkPermission(parent, context, entity);
       acc = [...acc, ...result.checks];
       return acc;

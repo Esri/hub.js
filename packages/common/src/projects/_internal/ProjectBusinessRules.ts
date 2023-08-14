@@ -94,7 +94,7 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:project:create",
     authenticated: true,
-    parents: ["hub:project"],
+    dependencies: ["hub:project"],
     privileges: ["portal:user:createItem"],
   },
   {
@@ -104,32 +104,32 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:project:edit",
-    parents: ["hub:project"],
+    dependencies: ["hub:project"],
     authenticated: true,
     entityEdit: true,
   },
   {
     permission: "hub:project:delete",
-    parents: ["hub:project"],
+    dependencies: ["hub:project"],
     authenticated: true,
     entityOwner: true,
   },
   {
     permission: "hub:project:owner",
-    parents: ["hub:project"],
+    dependencies: ["hub:project"],
     authenticated: true,
     entityOwner: true,
   },
   {
     permission: "hub:project:events",
-    parents: ["hub:project:view"],
+    dependencies: ["hub:project:view"],
   },
   {
     permission: "hub:project:content",
-    parents: ["hub:project:edit"],
+    dependencies: ["hub:project:edit"],
   },
   {
     permission: "hub:project:discussions",
-    parents: ["hub:project:view"],
+    dependencies: ["hub:project:view"],
   },
 ];

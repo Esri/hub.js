@@ -21,7 +21,7 @@ describe("checkParents:", () => {
     } as unknown as IArcGISContext;
     const policy = {
       licenses: ["hub-premium"],
-      parents: [],
+      dependencies: [],
     } as unknown as IPermissionPolicy;
 
     const chks = checkParents(policy, ctx);
@@ -32,7 +32,7 @@ describe("checkParents:", () => {
       isAlphaOrg: true,
     } as unknown as IArcGISContext;
     const policy = {
-      parents: ["hub:project"],
+      dependencies: ["hub:project"],
     } as unknown as IPermissionPolicy;
 
     const spy = spyOn(CheckPermissionModule, "checkPermission").and.returnValue(
