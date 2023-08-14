@@ -1,3 +1,10 @@
+## @esri/hub-common [13.37.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.37.1...@esri/hub-common@13.37.2) (2023-08-14)
+
+
+### Bug Fixes
+
+* user selects none; location disappears correctly ([#1155](https://github.com/Esri/hub.js/issues/1155)) ([3a13434](https://github.com/Esri/hub.js/commit/3a13434ee28e1c524ea0213ac30ff83cf6b5f079))
+
 ## @esri/hub-common [13.37.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.37.0...@esri/hub-common@13.37.1) (2023-08-11)
 
 
