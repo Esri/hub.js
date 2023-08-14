@@ -3,6 +3,7 @@ import {
   EntityEditor,
   HubContent,
   HubDiscussion,
+  HubGroup,
   HubInitiative,
   HubPage,
   HubProject,
@@ -15,6 +16,7 @@ import {
   IHubSite,
   getProp,
 } from "../../src";
+import { IHubGroup } from "../../src/core/types/IHubGroup";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as PortalModule from "@esri/arcgis-rest-portal";
 
@@ -284,6 +286,43 @@ describe("EntityEditor:", () => {
         "someScope",
         "hub:initiative:edit"
       );
+      const chk = editor.toEditor();
+      expect(toEditorSpy).toHaveBeenCalled();
+      expect(chk.id).toBe("00c");
+      await editor.save(chk);
+      expect(fromEditorSpy).toHaveBeenCalledWith(chk);
+    });
+  });
+
+  describe("supports groups:", () => {
+    let fromJsonSpy: jasmine.Spy;
+    let getConfigSpy: jasmine.Spy;
+    let toEditorSpy: jasmine.Spy;
+    let fromEditorSpy: jasmine.Spy;
+    beforeEach(() => {
+      fromJsonSpy = spyOn(HubGroup, "fromJson").and.callThrough();
+      getConfigSpy = spyOn(HubGroup.prototype, "getEditorConfig").and.callFake(
+        () => {
+          return Promise.resolve({} as any);
+        }
+      );
+      toEditorSpy = spyOn(HubGroup.prototype, "toEditor").and.callThrough();
+      fromEditorSpy = spyOn(HubGroup.prototype, "fromEditor").and.callFake(
+        () => {
+          return Promise.resolve({} as any);
+        }
+      );
+    });
+
+    it("verify EntityEditor with Group", async () => {
+      const g: IHubGroup = {
+        id: "00c",
+        type: "Group",
+      } as IHubGroup;
+      const editor = EntityEditor.fromEntity(g, authdCtxMgr.context);
+      expect(fromJsonSpy).toHaveBeenCalled();
+      await editor.getConfig("someScope", "hub:group:edit");
+      expect(getConfigSpy).toHaveBeenCalledWith("someScope", "hub:group:edit");
       const chk = editor.toEditor();
       expect(toEditorSpy).toHaveBeenCalled();
       expect(chk.id).toBe("00c");

@@ -10,6 +10,7 @@ import { SiteEditorType } from "../../sites/_internal/SiteSchema";
 import { DiscussionEditorType } from "../../discussions/_internal/DiscussionSchema";
 import { PageEditorType } from "../../pages/_internal/PageSchema";
 import { ContentEditorType } from "../../content/_internal/ContentSchema";
+import { GroupEditorType } from "../../groups/_internal/GroupSchema";
 
 /**
  * DEPRECATED: please use getEditorConfig instead
@@ -105,6 +106,17 @@ export const getEntityEditorSchemas = async (
         "hub:content:edit": () =>
           import("../../content/_internal/ContentUiSchemaEdit"),
       }[type as ContentEditorType]());
+      break;
+    case "group":
+      const { GroupSchema } = await import(
+        "../../groups/_internal/GroupSchema"
+      );
+      schema = cloneObject(GroupSchema);
+
+      ({ uiSchema } = await {
+        "hub:group:edit": () =>
+          import("../../groups/_internal/GroupUiSchemaEdit"),
+      }[type as GroupEditorType]());
       break;
   }
 

@@ -1,6 +1,7 @@
 import { IArcGISContext } from "../ArcGISContext";
 import { HubContent } from "../content/HubContent";
 import { HubDiscussion } from "../discussions/HubDiscussion";
+import { HubGroup } from "../groups/HubGroup";
 import { HubInitiative } from "../initiatives/HubInitiative";
 import { HubPage } from "../pages/HubPage";
 import { HubProject } from "../projects/HubProject";
@@ -39,6 +40,12 @@ export class EntityEditor {
     }
     if (entityType === "discussion") {
       editor = HubDiscussion.fromJson(entity, context) as IWithEditorBehavior;
+    }
+    if (entityType === "group") {
+      editor = HubGroup.fromJson(
+        entity as unknown as HubGroup,
+        context
+      ) as IWithEditorBehavior;
     }
     if (editor) {
       return new EntityEditor(editor);

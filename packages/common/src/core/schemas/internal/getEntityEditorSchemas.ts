@@ -10,6 +10,7 @@ import { DiscussionEditorType } from "../../../discussions/_internal/DiscussionS
 import { PageEditorType } from "../../../pages/_internal/PageSchema";
 import { ContentEditorType } from "../../../content/_internal/ContentSchema";
 import { interpolate } from "../../../items/interpolate";
+import { GroupEditorType } from "../../../groups/_internal/GroupSchema";
 
 /**
  * get the editor schema and uiSchema defined for an entity.
@@ -109,6 +110,17 @@ export async function getEntityEditorSchemas(
         "hub:content:edit": () =>
           import("../../../content/_internal/ContentUiSchemaEdit"),
       }[type as ContentEditorType]());
+      break;
+    case "group":
+      const { GroupSchema } = await import(
+        "../../../groups/_internal/GroupSchema"
+      );
+      schema = cloneObject(GroupSchema);
+
+      ({ uiSchema } = await {
+        "hub:group:edit": () =>
+          import("../../../groups/_internal/GroupUiSchemaEdit"),
+      }[type as GroupEditorType]());
       break;
   }
 

@@ -2,10 +2,10 @@ import { IWithPermissions } from "../traits";
 import { IHubEntityBase } from "./IHubEntityBase";
 import {
   GroupSortField,
-  SettableAccessLevel,
   MemberType,
   MembershipAccess,
   PlatformSortOrder,
+  AccessLevel,
 } from "./types";
 
 /**
@@ -16,8 +16,11 @@ export interface IHubGroup extends IHubEntityBase, IWithPermissions {
   /**
    * Access level of the group
    * ("private" | "org" | "public")
+   * we are using AccessLevel instead of SettableAccessLevel
+   * intentionally due to the Portal API being inconsistent
+   * between .access on items vs groups
    */
-  access: SettableAccessLevel;
+  access: AccessLevel;
 
   /**
    * Whether members can auto join the group
@@ -119,3 +122,15 @@ export interface IHubGroup extends IHubEntityBase, IWithPermissions {
    */
   _clearEmptyFields?: boolean;
 }
+
+/**
+ * This type redefines the IHubGroup interface in such a way
+ * that it can be consumed by the entity editor.
+ */
+export type IHubGroupEditor = IHubGroup & {
+  /**
+   * Thumbnail image. This is only used on the Editor and is
+   * persisted in the fromEditor method on the Class
+   */
+  _thumbnail?: any;
+};

@@ -1,11 +1,14 @@
 import { IGroup } from "@esri/arcgis-rest-portal";
 import * as PortalModule from "@esri/arcgis-rest-portal";
 import { MOCK_AUTH } from "../mocks/mock-auth";
-import { HubGroup } from "../../src/groups/HubGroup";
+import { HubGroup } from "../../src";
 import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import * as HubGroupsModule from "../../src/groups/HubGroups";
 import { IHubGroup } from "../../src/core/types/IHubGroup";
 import { IEntityPermissionPolicy } from "../../dist/types/permissions/types/IEntityPermissionPolicy";
+import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
+import { getProp } from "../../src/objects/get-prop";
+import * as SearchUtils from "../../src/search/utils";
 
 describe("HubGroup class:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -299,6 +302,164 @@ describe("HubGroup class:", () => {
       const chk = instance.checkPermission("hub:group:create");
       expect(chk.access).toBeTruthy();
       expect(checkPermissionSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("IWithEditorBehavior:", () => {
+    it("getEditorConfig delegates to helper", async () => {
+      const spy = spyOn(EditConfigModule, "getEditorConfig").and.callFake(
+        () => {
+          return Promise.resolve({ fake: "config" });
+        }
+      );
+      const chk = HubGroup.fromJson(
+        {
+          id: "bc3",
+          name: "Test Entity",
+        },
+        authdCtxMgr.context
+      );
+      const result = await chk.getEditorConfig("i18n.Scope", "hub:group:edit");
+      expect(result).toEqual({ fake: "config" } as any);
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith(
+        "i18n.Scope",
+        "hub:group:edit",
+        chk.toJson(),
+        authdCtxMgr.context
+      );
+    });
+
+    it("toEditor converst entity to correct structure", () => {
+      const chk = HubGroup.fromJson(
+        {
+          id: "bc3",
+          name: "Test Entity",
+          thumbnailUrl: "https://myserver.com/thumbnail.png",
+        },
+        authdCtxMgr.context
+      );
+      const result = chk.toEditor();
+      // NOTE: If additional transforms are added in the class they should have tests here
+      expect(result.id).toEqual("bc3");
+      expect(result.name).toEqual("Test Entity");
+      expect(result.thumbnailUrl).toEqual("https://myserver.com/thumbnail.png");
+    });
+
+    describe("fromEditor:", () => {
+      it("handles simple prop change", async () => {
+        const chk = HubGroup.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        // spy on the instance .save method and retrn void
+        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        // make changes to the editor
+        const editor = chk.toEditor();
+        editor.name = "new name";
+        // get the group loaded from the editor
+        const result = await chk.fromEditor(editor);
+        // expect the save method to have been called
+        expect(saveSpy).toHaveBeenCalledTimes(1);
+        // expect the name to have been updated
+        expect(result.name).toEqual("new name");
+      });
+
+      it("throws when is create", async () => {
+        const chk = HubGroup.fromJson(
+          {
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        // spy on the instance .save method and retrn void
+        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        // make changes to the editor
+        const editor = chk.toEditor();
+        // get the group loaded from the editor
+        try {
+          await await chk.fromEditor(editor);
+        } catch (e) {
+          expect(getProp(e, "message")).toBe(
+            "Cannot create group using the Editor."
+          );
+        }
+        expect(saveSpy).toHaveBeenCalledTimes(0);
+      });
+
+      it("handles thumbnail change", async () => {
+        const chk = HubGroup.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        // spy on the instance .save method and retrn void
+        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        const getGroupThumbnailUrlSpy = spyOn(
+          SearchUtils,
+          "getGroupThumbnailUrl"
+        );
+        const setGroupThumbnailSpy = spyOn(
+          require("../../src/groups/setGroupThumbnail"),
+          "setGroupThumbnail"
+        ).and.returnValue(Promise.resolve({}));
+        // make changes to the editor
+        const editor = chk.toEditor();
+        editor.name = "new name";
+        editor._thumbnail = {
+          blob: "fake blob",
+          filename: "thumbnail.png",
+        };
+        // get the group loaded from the editor
+        const result = await chk.fromEditor(editor);
+        // expect the save method to have been called
+        expect(saveSpy).toHaveBeenCalledTimes(1);
+        // expect getGroupThumbnailUrl to have been called
+        expect(getGroupThumbnailUrlSpy).toHaveBeenCalledTimes(1);
+        // expect setGroupThumbnail to have been called
+        expect(setGroupThumbnailSpy).toHaveBeenCalledTimes(1);
+        expect(result.name).toBe("new name");
+        expect(result.thumbnailUrl).toBe("https://myserver.com/thumbnail.png");
+        expect(getProp(result, "_thumbnail")).not.toBeDefined();
+      });
+
+      it("handles thumbnail clear", async () => {
+        const chk = HubGroup.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        // spy on the instance .save method and retrn void
+        const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+        const deleteGroupThumbnailSpy = spyOn(
+          require("../../src/groups/deleteGroupThumbnail"),
+          "deleteGroupThumbnail"
+        ).and.returnValue(Promise.resolve({}));
+        // make changes to the editor
+        const editor = chk.toEditor();
+        editor.name = "new name";
+        editor._thumbnail = {};
+        // get the group loaded from the editor
+        const result = await chk.fromEditor(editor);
+        // expect the save method to have been called
+        expect(saveSpy).toHaveBeenCalledTimes(1);
+        // expect the deleteGroupThumbnail method to have been called
+        expect(deleteGroupThumbnailSpy).toHaveBeenCalledTimes(1);
+        // since thumbnailCache is protected we can't really test that it's set
+        // other than via code-coverage
+        expect(getProp(result, "_thumbnail")).not.toBeDefined();
+      });
     });
   });
 });
