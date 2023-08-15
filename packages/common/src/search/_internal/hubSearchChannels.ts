@@ -2,6 +2,7 @@ import {
   IHubSearchOptions,
   IHubSearchResponse,
   IHubSearchResult,
+  IPredicate,
   IQuery,
 } from "../types";
 import HubError from "../../HubError";
@@ -41,9 +42,13 @@ export const processSearchParams = (
     "sortOrder",
   ];
   // Map ISearchOptions key to ISearchChannels key
-  const mapKey = (key: keyof IHubSearchOptions): keyof ISearchChannels => {
+  const mapKey = (
+    key: keyof IHubSearchOptions | keyof IPredicate
+  ): keyof ISearchChannels => {
     if (key === "sortField") {
       return "sortBy";
+    } else if (key === "term") {
+      return "name";
     }
     return key as keyof ISearchChannels;
   };
@@ -72,14 +77,19 @@ export const processSearchParams = (
     }
   });
   // Acceptable fields to use as filters
-  const filterProps: Record<string, any> = {};
-  const allowedFilterProps: Array<keyof ISearchChannels> = ["access", "groups"];
+  const filterProps: Record<string, string[]> = {};
+  const allowedFilterProps: Array<keyof ISearchChannels> = [
+    "access",
+    "groups",
+    "name",
+  ];
   // Find predicates that match acceptable filter fields
   query.filters.forEach((filter) => {
     filter.predicates.forEach((predicate) => {
       Object.keys(predicate).forEach((key: any) => {
-        if (allowedFilterProps.includes(key)) {
-          filterProps[key] = predicate[key];
+        const _key = mapKey(key);
+        if (allowedFilterProps.includes(_key)) {
+          filterProps[_key] = [...(filterProps[_key] || []), predicate[key]];
         }
       });
     });
@@ -159,6 +169,6 @@ export const hubSearchChannels = async (
   const searchOptions = processSearchParams(options, query);
   // Call to searchChannels
   const channelsResponse = await searchChannels(searchOptions);
-  // Parse into <IHubSearchResponse<IChannel>>
+  // Parse into <IHubSearchResponse<IHubSearchResult>>
   return toHubSearchResult(channelsResponse, query, options);
 };
