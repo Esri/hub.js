@@ -31,7 +31,7 @@ export function checkAvailability(
     }
     // if we have no values in the array, then we push in "ga"
     if (!contextAvailability.length) {
-      contextAvailability.push("ga");
+      contextAvailability.push("general");
     }
 
     // reduce over the policy.availability array, adding a check for each

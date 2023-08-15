@@ -72,7 +72,7 @@ export const ProjectDefaultFeatures: IEntityFeatures = {
  * @private
  */
 export const ProjectPermissions = [
-  "hub:project", // "hub:project" is a parent permission that is required for all other project permissions
+  "hub:project",
   "hub:project:create",
   "hub:project:delete",
   "hub:project:edit",

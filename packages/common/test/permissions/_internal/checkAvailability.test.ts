@@ -14,7 +14,7 @@ describe("checkAvailability: ", () => {
 
   const policyGA: IPermissionPolicy = {
     permission: "hub:project",
-    availability: ["ga"],
+    availability: ["general"],
   };
 
   const contextAlpha: IArcGISContext = {
@@ -47,7 +47,7 @@ describe("checkAvailability: ", () => {
   it("if gating matches, should return granted - ga ", () => {
     const checks = checkAvailability(policyGA, contextGA);
     expect(checks.length).toBe(1);
-    expect(checks[0].name).toBe("user in ga org");
+    expect(checks[0].name).toBe("user in general org");
     expect(checks[0].response).toBe("granted");
   });
 

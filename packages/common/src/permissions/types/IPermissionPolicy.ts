@@ -104,7 +104,7 @@ export interface IEntityFeatures extends Record<Permission, boolean> {}
 /**
  * Hub Availability levels
  */
-export type HubAvailability = "alpha" | "beta" | "ga";
+export type HubAvailability = "alpha" | "beta" | "general";
 
 /**
  * Hub Run-time environments

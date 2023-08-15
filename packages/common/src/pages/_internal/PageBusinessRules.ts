@@ -73,7 +73,6 @@ export const PagePermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:page",
     services: ["portal"],
-    licenses: ["hub-basic", "hub-premium", "enterprise-sites"],
   },
   {
     permission: "hub:page:create",
@@ -83,9 +82,7 @@ export const PagePermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:page:view",
-    services: ["portal"],
-    authenticated: false,
-    licenses: ["hub-basic", "hub-premium", "enterprise-sites"],
+    dependencies: ["hub:page"],
   },
   {
     permission: "hub:page:edit",
