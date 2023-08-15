@@ -6,6 +6,7 @@ import { IPermissionPolicy } from "../../permissions";
  * This hash is combined with the capabilities hash stored in the item data. Regardless of what
  * properties are defined in the item data, only the capabilities defined here will be available
  * @private
+ * TODO: remove with Capabilities
  */
 export const ContentDefaultCapabilities: EntityCapabilities = {
   overview: true,
@@ -18,6 +19,7 @@ export const ContentDefaultCapabilities: EntityCapabilities = {
  * List of all the Content Capability Permissions
  * These are considered Hub Business Rules and are not intended
  * to be modified by consumers
+ * TODO: remove with Capabilities
  * @private
  */
 export const ContentCapabilityPermissions: ICapabilityPermission[] = [
@@ -58,28 +60,26 @@ export const ContentPermissions = [
 
 /**
  * Content permission policies
+ * No need to specify license for permissions that are available to all licenses
  * @private
  */
 export const ContentPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:content:create",
-    subsystems: ["content"],
+    services: ["portal"],
     authenticated: true,
     privileges: ["portal:user:createItem"],
-    licenses: ["hub-basic", "hub-premium", "enterprise-sites"],
   },
   {
     permission: "hub:content:view",
-    subsystems: ["content"],
+    services: ["portal"],
     authenticated: false,
-    licenses: ["hub-basic", "hub-premium", "enterprise-sites"],
   },
   {
     permission: "hub:content:edit",
     authenticated: true,
-    subsystems: ["content"],
+    services: ["portal"],
     entityEdit: true,
-    licenses: ["hub-basic", "hub-premium", "enterprise-sites"],
   },
   // TODO: verify if this is needed
   // {

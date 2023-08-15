@@ -108,10 +108,15 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
   }
 
   /**
+   * DEPRECATED: use checkPermission instead
    * Check if the current user can access a specific capability
    * @param capability
    */
   checkCapability(capability: Capability): ICapabilityAccessResponse {
+    /* tslint:disable-next-line: no-console */
+    console.warn(
+      `DEPRECATED: checkCapability is deprecated. Use checkPermission instead`
+    );
     return checkCapability(capability, this.context, this.entity);
   }
 

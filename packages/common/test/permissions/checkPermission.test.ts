@@ -43,13 +43,15 @@ describe("checkPermission:", () => {
     const chk = checkPermission("hub:site:create", authdCtxMgr.context);
     expect(chk.access).toBe(true);
     expect(chk.response).toBe("granted");
-    expect(chk.checks.length).toBe(3);
+    expect(chk.checks.length).toBe(4);
+    // verify that the service check is run
+    expect(chk.checks[0].name).toBe("service portal online");
   });
   it("runs system level permission checks fail", () => {
     const chk = checkPermission("hub:project:create", authdCtxMgr.context);
     expect(chk.access).toBe(false);
     expect(chk.response).toBe("not-licensed");
-    expect(chk.checks.length).toBe(3);
+    expect(chk.checks.length).toBe(4);
   });
   it("runs entity level permission checks passing", () => {
     const entity = {
@@ -65,7 +67,7 @@ describe("checkPermission:", () => {
     const chk = checkPermission("hub:site:edit", authdCtxMgr.context, entity);
     expect(chk.access).toBe(true);
     expect(chk.response).toBe("granted");
-    expect(chk.checks.length).toBe(4);
+    expect(chk.checks.length).toBe(5);
   });
   it("runs entity level checks on entity without permissions", () => {
     const entity = {
@@ -74,7 +76,7 @@ describe("checkPermission:", () => {
     const chk = checkPermission("hub:site:edit", authdCtxMgr.context, entity);
     expect(chk.access).toBe(true);
     expect(chk.response).toBe("granted");
-    expect(chk.checks.length).toBe(3);
+    expect(chk.checks.length).toBe(4);
   });
   it("runs entity level permission checks failing", () => {
     const entity = {
@@ -90,6 +92,6 @@ describe("checkPermission:", () => {
     const chk = checkPermission("hub:site:edit", authdCtxMgr.context, entity);
     expect(chk.access).toBe(false);
     expect(chk.response).toBe("not-granted");
-    expect(chk.checks.length).toBe(4);
+    expect(chk.checks.length).toBe(5);
   });
 });

@@ -15,6 +15,10 @@ export function checkCapabilityAccess(
   context: IArcGISContext,
   entity: IHubItemEntity | HubEntity
 ): ICapabilityAccessResponse {
+  // tslint:disable-next-line: no-console
+  console.warn(
+    `DEPRECATION: checkCapabilityAccess is deprecated. Use checkFeatureAccess instead.`
+  );
   // check if the capability is disabled for the entity; we default to false
   const value = entity.capabilities[rule.capability] || false;
   // if disabled, then access is denied

@@ -26,6 +26,10 @@ export function checkCapability(
   context: IArcGISContext,
   entity: IHubItemEntity | HubEntity
 ): ICapabilityAccessResponse {
+  /* tslint:disable-next-line: no-console */
+  console.warn(
+    `DEPRECATION: checkCapability is deprecated. Use checkPermission instead.`
+  );
   const entityType: HubEntityType = getTypeFromEntity(entity);
   // Find the rule for the given entity type and capability
   const isValid = isCapability(capability);

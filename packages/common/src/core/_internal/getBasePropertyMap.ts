@@ -24,6 +24,7 @@ export function getBasePropertyMap(): IPropertyMap[] {
     "thumbnail",
     "url",
     "orgId",
+    "protected",
   ];
   const dataProps = ["display", "geometry", "view"];
   const resourceProps = Object.keys(EntityResourceMap);

@@ -1,6 +1,7 @@
 import { ArcGISContextManager } from "../src/ArcGISContextManager";
 import {
   cloneObject,
+  HubServiceStatus,
   HubSystemStatus,
   IHubRequestOptionsPortalSelf,
   Level,
@@ -201,6 +202,8 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.helperServices).toBeUndefined();
       expect(mgr.context.hubEnabled).toBeFalsy();
       expect(mgr.context.isAlphaOrg).toBeFalsy();
+      expect(mgr.context.isBetaOrg).toBeFalsy();
+      expect(mgr.context.environment).toBe("production");
       // Hub Urls
       const base = mgr.context.hubUrl;
       expect(mgr.context.discussionsServiceUrl).toBe(
@@ -211,6 +214,7 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.hubRequestOptions).toBeDefined();
       expect(mgr.context.hubRequestOptions.authentication).toBeUndefined();
       expect(mgr.context.systemStatus).toBeDefined();
+      expect(mgr.context.serviceStatus).toBeDefined();
       expect(mgr.context.hubLicense).toBe("hub-basic");
     });
     it("verify props when passed portalUrl", async () => {
@@ -244,6 +248,7 @@ describe("ArcGISContext:", () => {
         properties: { site },
       });
       expect(mgr.context.id).toBeGreaterThanOrEqual(t);
+      expect(mgr.context.environment).toBe("enterprise");
       expect(mgr.context.properties.site).toEqual(site);
     });
     it("verify props when passed session", async () => {
@@ -324,7 +329,7 @@ describe("ArcGISContext:", () => {
         onlinePortalSelfResponse as unknown as IPortal
       );
     });
-    it("verify props when passed session, portalSelf, User and systemStatus", async () => {
+    it("verify props when passed session, portalSelf, User, and serviceStatus", async () => {
       const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {
         return Promise.resolve(cloneObject(onlinePortalSelfResponse));
       });
@@ -336,9 +341,12 @@ describe("ArcGISContext:", () => {
         authentication: MOCK_AUTH,
         portal: onlinePortalSelfResponse,
         currentUser: onlineUserResponse,
+        // TODO: Remove with Capabilities
         systemStatus: { discussions: "offline" } as HubSystemStatus,
+        serviceStatus: { domains: "online" } as HubServiceStatus,
         properties: {
           alphaOrgs: ["FAKEID", "FOTHERID"],
+          betaOrgs: ["FAKEID"],
         },
       });
       expect(selfSpy.calls.count()).toBe(0);
@@ -349,8 +357,12 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.systemStatus).toEqual({
         discussions: "offline",
       } as HubSystemStatus);
+      expect(mgr.context.serviceStatus).toEqual({
+        domains: "online",
+      } as HubServiceStatus);
       expect(mgr.context.properties.alphaOrgs).toEqual(["FAKEID", "FOTHERID"]);
       expect(mgr.context.isAlphaOrg).toBeTruthy();
+      expect(mgr.context.isBetaOrg).toBeTruthy();
     });
     it("verify props update setting session after", async () => {
       spyOn(portalModule, "getSelf").and.callFake(() => {

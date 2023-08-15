@@ -3,10 +3,14 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { getItemThumbnailUrl } from "../../resources";
 import { IHubSite } from "../../core";
 import { IModel } from "../../types";
-import { SiteDefaultCapabilities } from "./SiteBusinessRules";
+import {
+  SiteDefaultCapabilities,
+  SiteDefaultFeatures,
+} from "./SiteBusinessRules";
 import { processEntityCapabilities } from "../../capabilities";
 import { upgradeCatalogSchema } from "../../search/upgradeCatalogSchema";
 import { isDiscussable } from "../../discussions";
+import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
 
 /**
  * Given a model and a site, set various computed properties that can't be directly mapped
@@ -38,9 +42,18 @@ export function computeProps(
 
   // Handle capabilities
   // NOTE: This does not currently contain the older "capabilities" values!
+  // TODO: Remove capabilities
   site.capabilities = processEntityCapabilities(
     model.data.settings?.capabilities || {},
     SiteDefaultCapabilities
+  );
+
+  /**
+   * Features that can be disabled by the entity owner
+   */
+  site.features = processEntityFeatures(
+    model.data.settings?.features || {},
+    SiteDefaultFeatures
   );
 
   // Perform schema upgrades on the new catalog structure
