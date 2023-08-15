@@ -1,9 +1,4 @@
-import {
-  bBoxToExtent,
-  extentToBBox,
-  getGeographicOrgExtent,
-  isBBox,
-} from "../../../extent";
+import { extentToBBox, getGeographicOrgExtent } from "../../../extent";
 import { IHubRequestOptions } from "../../../types";
 import { getTypeFromEntity } from "../../getTypeFromEntity";
 
@@ -11,11 +6,11 @@ import { ConfigurableEntity } from "./ConfigurableEntity";
 import { IHubLocation, IHubLocationOption } from "../../types/IHubLocation";
 import { IExtent } from "@esri/arcgis-rest-types";
 
-const getItemExtent = (itemExtent: number[][]): IExtent => {
+/*const getItemExtent = (itemExtent: number[][]): IExtent => {
   return isBBox(itemExtent)
     ? ({ ...bBoxToExtent(itemExtent), type: "extent" } as unknown as IExtent)
     : undefined;
-};
+};*/
 
 /**
  * Construct the dynamic location picker options with the entity's
@@ -37,8 +32,8 @@ export async function getLocationOptions(
   const typeFromEntity = getTypeFromEntity(entity);
 
   switch (typeFromEntity) {
-    case "content":
-      return getContentLocationOptions(entity);
+    // case "content":
+    //   return getContentLocationOptions(entity);
     default:
       return getDefaultLocationOptions(entity, portalName, hubRequestOptions);
   }
@@ -47,7 +42,9 @@ export async function getLocationOptions(
 // TODO: Refactor parameters, they are icky gross
 // TODO: Maybe move these to outside of core and into respective entities
 
-export async function getContentLocationOptions(
+// Leaving this in for future work when we need
+// dynamic options set for different entities
+/*export async function getContentLocationOptions(
   entity: ConfigurableEntity
 ): Promise<IHubLocationOption[]> {
   const defaultExtent: IExtent = getItemExtent(entity.extent);
@@ -68,14 +65,15 @@ export async function getContentLocationOptions(
         type: "custom",
         // TODO: Add custom bbox option here
         // TODO: Remove "Add another location?" notification that appears when selecting a location
-        extent: defaultExtentIsBBox ? extentToBBox(defaultExtent) : undefined,
+        // TODO: The lines below are causing a bug where custom extents don't render after save+reload
+        extent: defaultExtentIsBBox ? extentToBBox(defaultExtent) : undefined, 
         spatialReference: defaultExtentIsBBox
           ? defaultExtent.spatialReference
           : undefined,
       },
     },
   ] as IHubLocationOption[];
-}
+}*/
 
 export async function getDefaultLocationOptions(
   entity: ConfigurableEntity,
