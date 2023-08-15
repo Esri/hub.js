@@ -1,11 +1,12 @@
 import { EntityCapabilities, ICapabilityPermission } from "../../capabilities";
-import { IPermissionPolicy } from "../../permissions";
+import { IEntityFeatures, IPermissionPolicy } from "../../permissions";
 
 /**
  * Default capabilities for a Page. If not listed here, the capability will not be available
  * This hash is combined with the capabilities hash stored in the item data. Regardless of what
  * properties are defined in the item data, only the capabilities defined here will be available
  * @private
+ * TODO: Remove capabilities
  */
 export const PageDefaultCapabilities: EntityCapabilities = {
   overview: true,
@@ -18,6 +19,7 @@ export const PageDefaultCapabilities: EntityCapabilities = {
  * List of all the Page Capability Permissions
  * These are considered Hub Business Rules and are not intended
  * to be modified by consumers
+ * TODO: Remove capabilities
  * @private
  */
 export const PageCapabilityPermissions: ICapabilityPermission[] = [
@@ -44,11 +46,19 @@ export const PageCapabilityPermissions: ICapabilityPermission[] = [
 ];
 
 /**
+ * Default features for a Project. These are the features that can be enabled / disabled by the entity owner
+ */
+export const PageDefaultFeatures: IEntityFeatures = {
+  // Intentally empty as this prevents overriding and adding features
+};
+
+/**
  * Page Permission Policies
  * These define the requirements any user must meet to perform related actions
  * @private
  */
 export const PagePermissions = [
+  "hub:page",
   "hub:page:create",
   "hub:page:delete",
   "hub:page:edit",
@@ -61,33 +71,33 @@ export const PagePermissions = [
  */
 export const PagePermissionPolicies: IPermissionPolicy[] = [
   {
-    permission: "hub:page:create",
-    subsystems: ["pages", "sites"],
-    authenticated: true,
-    privileges: ["portal:user:createItem"],
+    permission: "hub:page",
+    services: ["portal"],
     licenses: ["hub-basic", "hub-premium", "enterprise-sites"],
   },
   {
+    permission: "hub:page:create",
+    dependencies: ["hub:page"],
+    authenticated: true,
+    privileges: ["portal:user:createItem"],
+  },
+  {
     permission: "hub:page:view",
-    subsystems: ["pages", "sites"],
+    services: ["portal"],
     authenticated: false,
     licenses: ["hub-basic", "hub-premium", "enterprise-sites"],
   },
   {
     permission: "hub:page:edit",
+    dependencies: ["hub:page"],
     authenticated: true,
-    subsystems: ["pages", "sites"],
     entityEdit: true,
-    // privileges: ["portal:admin:updateItems"], // maybe this too?
-    licenses: ["hub-basic", "hub-premium", "enterprise-sites"],
   },
   {
     permission: "hub:page:delete",
+    dependencies: ["hub:page"],
     authenticated: true,
-    subsystems: ["pages", "sites"],
     entityOwner: true,
-    // privileges: ["portal:admin:deleteItems"], // maybe this too?
-    licenses: ["hub-basic", "hub-premium", "enterprise-sites"],
   },
 ];
 

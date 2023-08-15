@@ -6,6 +6,7 @@ import { IEntityFeatures, IPermissionPolicy } from "../../permissions";
  * This hash is combined with the capabilities hash stored in the item data. Regardless of what
  * properties are defined in the item data, only the capabilities defined here will be available
  * @private
+ * TODO: Remove capabilities
  */
 export const ProjectDefaultCapabilities: EntityCapabilities = {
   overview: true,
@@ -20,6 +21,7 @@ export const ProjectDefaultCapabilities: EntityCapabilities = {
  * List of all the Project Capability Permissions
  * These are considered Hub Business Rules and are not intended
  * to be modified by consumers
+ * TODO: Remove capabilities
  * @private
  */
 export const ProjectCapabilityPermissions: ICapabilityPermission[] = [
@@ -88,7 +90,7 @@ export const ProjectPermissions = [
 export const ProjectPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:project",
-    subsystems: ["platform"],
+    services: ["portal"],
     licenses: ["hub-premium"],
   },
   {

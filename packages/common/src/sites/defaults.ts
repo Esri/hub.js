@@ -1,5 +1,6 @@
 import { IHubSite } from "../core";
 import { IModel } from "../types";
+import { SiteDefaultFeatures } from "./_internal/SiteBusinessRules";
 
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 
@@ -13,6 +14,7 @@ export const DEFAULT_SITE: Partial<IHubSite> = {
   catalog: { schemaVersion: 0 },
   permissions: [],
   schemaVersion: 1,
+  features: SiteDefaultFeatures,
 };
 
 /**

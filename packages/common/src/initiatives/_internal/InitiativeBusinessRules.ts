@@ -1,5 +1,5 @@
 import { EntityCapabilities, ICapabilityPermission } from "../../capabilities";
-import { IPermissionPolicy } from "../../permissions";
+import { IEntityFeatures, IPermissionPolicy } from "../../permissions";
 
 /**
  * Default capabilities for a Initiative. If not listed here, the capability will not be available
@@ -7,6 +7,7 @@ import { IPermissionPolicy } from "../../permissions";
  * properties are defined in the item data, only the capabilities defined here will be available
  * @private
  */
+// TODO: Remove capabilities
 export const InitiativeDefaultCapabilities: EntityCapabilities = {
   overview: true,
   details: true,
@@ -21,6 +22,7 @@ export const InitiativeDefaultCapabilities: EntityCapabilities = {
  * to be modified by consumers
  * @private
  */
+// TODO: Remove capabilities
 export const InitiativeCapabilityPermissions: ICapabilityPermission[] = [
   {
     entity: "initiative",
@@ -50,15 +52,28 @@ export const InitiativeCapabilityPermissions: ICapabilityPermission[] = [
 ];
 
 /**
+ * Default features for a Initiative. These are the features that can be enabled / disabled by the entity owner
+ */
+export const InitiativeDefaultFeatures: IEntityFeatures = {
+  "hub:initiative:events": false,
+  "hub:initiative:content": true,
+  "hub:initiative:discussions": false,
+};
+
+/**
  * Initiative Permission Policies
  * These define the requirements any user must meet to perform related actions
  * @private
  */
 export const InitiativePermissions = [
+  "hub:initiative",
   "hub:initiative:create",
   "hub:initiative:delete",
   "hub:initiative:edit",
   "hub:initiative:view",
+  "hub:initiative:events",
+  "hub:initiative:content",
+  "hub:initiative:discussions",
 ] as const;
 
 /**
@@ -67,30 +82,45 @@ export const InitiativePermissions = [
  */
 export const InitiativePermissionPolicies: IPermissionPolicy[] = [
   {
+    permission: "hub:initiative",
+    services: ["portal"],
+    licenses: ["hub-premium"],
+  },
+  {
     permission: "hub:initiative:create",
-    subsystems: ["projects"],
+    dependencies: ["hub:initiative"],
     authenticated: true,
     privileges: ["portal:user:createItem"],
-    licenses: ["hub-premium"],
   },
   {
     permission: "hub:initiative:view",
-    subsystems: ["projects"],
+    services: ["portal"],
     authenticated: false,
-    licenses: ["hub-premium"],
+    licenses: ["hub-premium", "hub-basic"],
   },
   {
     permission: "hub:initiative:edit",
+    dependencies: ["hub:initiative"],
     authenticated: true,
-    subsystems: ["projects"],
     entityEdit: true,
-    licenses: ["hub-premium"],
   },
   {
     permission: "hub:initiative:delete",
+    dependencies: ["hub:initiative"],
     authenticated: true,
-    subsystems: ["projects"],
+
     entityOwner: true,
-    licenses: ["hub-premium"],
+  },
+  {
+    permission: "hub:initiative:events",
+    dependencies: ["hub:initiative:view"],
+  },
+  {
+    permission: "hub:initiative:content",
+    dependencies: ["hub:initiative:edit"],
+  },
+  {
+    permission: "hub:initiative:discussions",
+    dependencies: ["hub:initiative:view"],
   },
 ];

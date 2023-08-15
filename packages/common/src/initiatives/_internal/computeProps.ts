@@ -3,9 +3,13 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { getItemThumbnailUrl } from "../../resources";
 import { processEntityCapabilities } from "../../capabilities";
 import { IModel } from "../../types";
-import { InitiativeDefaultCapabilities } from "./InitiativeBusinessRules";
+import {
+  InitiativeDefaultCapabilities,
+  InitiativeDefaultFeatures,
+} from "./InitiativeBusinessRules";
 import { IHubInitiative } from "../../core";
 import { isDiscussable } from "../../discussions";
+import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
 
 /**
  * Given a model and an Initiative, set various computed properties that can't be directly mapped
@@ -40,9 +44,18 @@ export function computeProps(
   initiative.isDiscussable = isDiscussable(initiative);
 
   // Handle capabilities
+  // TODO: Remove capabilities
   initiative.capabilities = processEntityCapabilities(
     model.data.settings?.capabilities || {},
     InitiativeDefaultCapabilities
+  );
+
+  /**
+   * Features that can be disabled by the entity owner
+   */
+  initiative.features = processEntityFeatures(
+    model.data.settings?.features || {},
+    InitiativeDefaultFeatures
   );
 
   // cast b/c this takes a partial but returns a full object
