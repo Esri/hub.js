@@ -1,3 +1,15 @@
+# @esri/hub-common [13.38.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.37.3...@esri/hub-common@13.38.0) (2023-08-15)
+
+
+### Bug Fixes
+
+* export ihubgroup ([#1160](https://github.com/Esri/hub.js/issues/1160)) ([0d29518](https://github.com/Esri/hub.js/commit/0d2951875adc7331e2f93058b3fb2356a427a1eb))
+
+
+### Features
+
+* permission parents, deprecations for Capabilities ([#1158](https://github.com/Esri/hub.js/issues/1158)) ([83659b1](https://github.com/Esri/hub.js/commit/83659b1c42d73ebf4504d4b160b449565767161c))
+
 ## @esri/hub-common [13.37.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.37.2...@esri/hub-common@13.37.3) (2023-08-14)
 
 
