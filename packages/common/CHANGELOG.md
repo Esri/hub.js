@@ -1,3 +1,10 @@
+## @esri/hub-common [13.38.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.38.1...@esri/hub-common@13.38.2) (2023-08-16)
+
+
+### Bug Fixes
+
+* ensure requestOptions.authentication is UserSession instance in next() ([#1163](https://github.com/Esri/hub.js/issues/1163)) ([31b6143](https://github.com/Esri/hub.js/commit/31b61434305fe726a3f4939497db573a5b5f7f84))
+
 ## @esri/hub-common [13.38.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.38.0...@esri/hub-common@13.38.1) (2023-08-16)
 
 
