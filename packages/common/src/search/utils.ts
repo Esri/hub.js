@@ -188,6 +188,10 @@ export function getNextFunction<T>(
     clonedRequest.authentication = UserSession.deserialize(
       (request.authentication as UserSession).serialize()
     );
+    if (request.requestOptions) {
+      clonedRequest.requestOptions.authentication =
+        clonedRequest.authentication;
+    }
   }
 
   // figure out the start
@@ -196,6 +200,10 @@ export function getNextFunction<T>(
   return (authentication?: UserSession) => {
     if (authentication) {
       clonedRequest.authentication = authentication;
+      if (clonedRequest.requestOptions) {
+        clonedRequest.requestOptions.authentication =
+          clonedRequest.authentication;
+      }
     }
     return fn(clonedRequest);
   };
