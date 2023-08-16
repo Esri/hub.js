@@ -26,7 +26,7 @@ export const userResultToCardModel: ResultToCardModelFn = (
 
   const titleUrl = getCardModelUrlFromResult(searchResult, target, baseUrl);
   return {
-    ...getSharedUserCardModel(searchResult, locale),
+    ...getSharedUserCardModel(searchResult),
     actionLinks,
     ...(searchResult.index && { index: searchResult.index }),
     titleUrl,
@@ -43,33 +43,7 @@ export const userResultToCardModel: ResultToCardModelFn = (
  * @param user user search result
  * @param locale internationalization locale
  */
-const getSharedUserCardModel = (
-  user: IHubSearchResult,
-  locale: string
-): IHubCardViewModel => {
-  const additionalInfo = [
-    {
-      i18nKey: "org",
-      value: user.orgName,
-    },
-    {
-      i18nKey: "type",
-      value: user.type,
-    },
-    ...(user.tags?.length
-      ? [
-          {
-            i18nKey: "tags",
-            value: user.tags.join(", "),
-          },
-        ]
-      : []),
-    {
-      i18nKey: "dateUpdated",
-      value: user.updatedDate.toLocaleDateString(locale),
-    },
-  ];
-
+const getSharedUserCardModel = (user: IHubSearchResult): IHubCardViewModel => {
   return {
     access: user.access,
     badges: [],
@@ -79,6 +53,5 @@ const getSharedUserCardModel = (
     summary: user.summary,
     title: user.name || `@${user.id}`,
     type: user.type,
-    additionalInfo,
   };
 };
