@@ -1,3 +1,10 @@
+## @esri/hub-common [13.38.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.38.0...@esri/hub-common@13.38.1) (2023-08-16)
+
+
+### Bug Fixes
+
+* remove additionalInfo from userResultToCardModel ([#1162](https://github.com/Esri/hub.js/issues/1162)) ([c4c72c8](https://github.com/Esri/hub.js/commit/c4c72c8fd4a8f92fdd6e4400f0d4f923c06d0293))
+
 # @esri/hub-common [13.38.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.37.3...@esri/hub-common@13.38.0) (2023-08-15)
 
 
