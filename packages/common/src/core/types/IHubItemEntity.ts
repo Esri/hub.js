@@ -118,4 +118,9 @@ export interface IHubItemEntity
    * The orgId of the Entity, if available
    */
   orgId?: string;
+
+  /**
+   * Is the item protected?
+   */
+  protected?: boolean;
 }

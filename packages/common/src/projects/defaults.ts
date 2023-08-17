@@ -1,4 +1,5 @@
 import { IHubProject, PROJECT_STATUSES } from "../core";
+import { InitiativeDefaultFeatures } from "../initiatives/_internal/InitiativeBusinessRules";
 import { IModel } from "../types";
 
 export const HUB_PROJECT_ITEM_TYPE = "Hub Project";
@@ -19,6 +20,7 @@ export const DEFAULT_PROJECT: Partial<IHubProject> = {
     featuredContentIds: [],
     showMap: true,
   },
+  features: InitiativeDefaultFeatures,
 };
 
 /**

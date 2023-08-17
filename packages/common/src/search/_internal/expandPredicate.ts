@@ -4,6 +4,39 @@ import { IPredicate } from "../types";
 import { relativeDateToDateRange, valueToMatchOptions } from "../utils";
 
 /**
+ * @internal
+ * Predicate properties that are treated as dates
+ */
+export const PREDICATE_DATE_PROPS = ["created", "modified", "lastlogin"];
+
+/**
+ * @internal
+ * Predicate properties that are just copied forward
+ */
+export const PREDICATE_COPY_PROPS = [
+  "bbox",
+  "categoriesAsParam",
+  "categoryFilter",
+  "filterType",
+  "isopendata",
+  "isviewonly",
+  "memberType",
+  "name",
+  "searchUserAccess",
+  "searchUserName",
+  "term",
+];
+
+/**
+ * @internal
+ * Predicate properties that are not treated as match options
+ */
+export const PREDICATE_NON_MATCH_OPTIONS_PROPS = [
+  ...PREDICATE_DATE_PROPS,
+  ...PREDICATE_COPY_PROPS,
+];
+
+/**
  * @private
  * Expand a predicate
  * @param predicate
@@ -11,29 +44,15 @@ import { relativeDateToDateRange, valueToMatchOptions } from "../utils";
  */
 export function expandPredicate(predicate: IPredicate): IPredicate {
   const result: IPredicate = {};
-  const dateProps = ["created", "modified", "lastlogin"];
-  const copyProps = [
-    "bbox",
-    "categoriesAsParam",
-    "categoryFilter",
-    "filterType",
-    "isopendata",
-    "isviewonly",
-    "memberType",
-    "name",
-    "searchUserAccess",
-    "searchUserName",
-    "term",
-  ];
-  const nonMatchOptionsFields = [...dateProps, ...copyProps];
+
   // Do the conversion
   Object.entries(predicate).forEach(([key, value]) => {
     // Handle MatchOptions fields
-    if (!nonMatchOptionsFields.includes(key)) {
+    if (!PREDICATE_NON_MATCH_OPTIONS_PROPS.includes(key)) {
       setProp(key, valueToMatchOptions(value), result);
     }
     // Handle Date fields
-    if (dateProps.includes(key)) {
+    if (PREDICATE_DATE_PROPS.includes(key)) {
       const dateFieldValue = cloneObject(getProp(predicate, key));
       if (getProp(predicate, `${key}.type`) === "relative-date") {
         setProp(key, relativeDateToDateRange(dateFieldValue), result);
@@ -42,7 +61,7 @@ export function expandPredicate(predicate: IPredicate): IPredicate {
       }
     }
     // Handle fields that are just copied forward
-    if (copyProps.includes(key) && predicate.hasOwnProperty(key)) {
+    if (PREDICATE_COPY_PROPS.includes(key) && predicate.hasOwnProperty(key)) {
       setProp(key, value, result);
     }
   });

@@ -20,11 +20,17 @@ export type PolicyResponse =
   | "invalid-permission" // permission is invalid
   | "invalid-capability" // capability is invalid
   | "privilege-required" // user does not have required privilege
+  // ----------- TODO Remove with Capabilities
   | "system-offline" // subsystem is offline
   | "system-maintenance" // subsystem is in maintenance mode
+  // -------------------------------------------
+  | "service-offline" // service is offline
+  | "service-maintenance" // service is in maintenance mode
+  | "service-not-available" // service is not available in this environment
   | "entity-required" // entity is required but not passed
   | "not-authenticated" // user is not authenticated
   | "not-alpha-org" // user is not in an alpha org
+  | "not-beta-org" // user is not in a beta org
   | "property-missing" // assertion requires property but is missing from entity
   | "property-not-array" // assertion requires array property
   | "array-contains-invalid-value" // assertion specifies a value not be included
@@ -36,4 +42,7 @@ export type PolicyResponse =
   | "assertion-property-not-found"
   | "assertion-failed" // assertion condition was not met
   | "assertion-requires-numeric-values" // assertion requires numeric values
-  | "property-match";
+  | "property-match"
+  | "feature-disabled" // feature has been disabled for the entity
+  | "feature-enabled" // feature has been enabled for the entity
+  | "not-in-environment"; // user is not in an allowed environment

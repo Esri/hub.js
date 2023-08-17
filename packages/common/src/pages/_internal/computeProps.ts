@@ -3,8 +3,12 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { getItemThumbnailUrl } from "../../resources";
 import { IHubPage } from "../../core";
 import { IModel } from "../../types";
-import { PageDefaultCapabilities } from "./PageBusinessRules";
+import {
+  PageDefaultCapabilities,
+  PageDefaultFeatures,
+} from "./PageBusinessRules";
 import { processEntityCapabilities } from "../../capabilities";
+import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
 
 /**
  * Given a model and a page, set various computed properties that can't be directly mapped
@@ -34,9 +38,19 @@ export function computeProps(
   page.updatedDateSource = "item.modified";
 
   // // Handle capabilities
+  // TODO: Remove capabilities
   page.capabilities = processEntityCapabilities(
     model.data.settings?.capabilities || {},
     PageDefaultCapabilities
+  );
+
+  /**
+   * Features that can be disabled by the entity owner
+   * NOTE: Pages do not have any features that can be disabled
+   */
+  page.features = processEntityFeatures(
+    model.data.settings?.features || {},
+    PageDefaultFeatures
   );
 
   // cast b/c this takes a partial but returns a full page

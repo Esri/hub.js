@@ -4,6 +4,7 @@ import { IPermissionPolicy } from "../../permissions";
 /**
  * Default capabilities for a Group.
  * If not listed here, the capability will not be available
+ * TODO: Remove capabilities
  * @private
  */
 export const GroupDefaultCapabilities: EntityCapabilities = {
@@ -17,6 +18,7 @@ export const GroupDefaultCapabilities: EntityCapabilities = {
  * List of all the Group Capability Permissions
  * These are considered Hub Business Rules and are not intended
  * to be modified by consumers
+ * TODO: Remove capabilities
  * @private
  */
 export const GroupCapabilityPermissions: ICapabilityPermission[] = [
@@ -48,6 +50,7 @@ export const GroupCapabilityPermissions: ICapabilityPermission[] = [
  * @private
  */
 export const GroupPermissions = [
+  "hub:group",
   "hub:group:create",
   "hub:group:delete",
   "hub:group:edit",
@@ -61,32 +64,35 @@ export const GroupPermissions = [
  */
 export const GroupPermissionPolicies: IPermissionPolicy[] = [
   {
+    permission: "hub:group",
+    services: ["portal"],
+  },
+  {
     permission: "hub:group:create",
-    subsystems: ["groups"],
+    dependencies: ["hub:group"],
     authenticated: true,
     privileges: ["portal:user:createGroup"],
   },
   {
     permission: "hub:group:view",
-    subsystems: ["groups"],
-    authenticated: false,
+    dependencies: ["hub:group"],
   },
   {
     permission: "hub:group:edit",
+    dependencies: ["hub:group"],
     authenticated: true,
-    subsystems: ["groups"],
     entityEdit: true,
   },
   {
     permission: "hub:group:delete",
+    dependencies: ["hub:group"],
     authenticated: true,
-    subsystems: ["groups"],
     entityOwner: true,
   },
   {
     permission: "hub:group:owner",
+    dependencies: ["hub:group"],
     authenticated: true,
-    subsystems: ["groups"],
     entityOwner: true,
   },
 ];

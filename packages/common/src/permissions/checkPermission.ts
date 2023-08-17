@@ -17,6 +17,11 @@ import { checkEdit } from "./_internal/checkEdit";
 import { checkPrivileges } from "./_internal/checkPrivileges";
 import { checkEntityPolicy } from "./_internal/checkEntityPolicy";
 import { checkAssertions } from "./_internal/checkAssertions";
+import { checkParents } from "./_internal/checkParents";
+import { checkEnvironment } from "./_internal/checkEnvironment";
+import { checkAvailability } from "./_internal/checkAvailability";
+import { checkEntityFeature } from "./_internal/checkEntityFeature";
+import { checkServiceStatus } from "./_internal/checkServiceStatus";
 
 /**
  * Check a permission against the system policies, and possibly an entity policy
@@ -56,13 +61,18 @@ export function checkPermission(
   };
 
   const checks = [
+    checkParents,
+    checkServiceStatus,
+    checkEntityFeature,
     checkAuthentication,
+    checkEnvironment,
+    checkAvailability,
     checkLicense,
     checkPrivileges,
     checkOwner,
     checkEdit,
     checkAssertions,
-    checkAlphaGating,
+    checkAlphaGating, // TODO: Remove with Capability Refactor
   ].reduce((acc: IPolicyCheck[], fn) => {
     acc = [...acc, ...fn(systemPolicy, context, entity)];
     return acc;
@@ -88,6 +98,7 @@ export function checkPermission(
       "permissions",
       []
     );
+
     const entityPermissionPolicies = entityPolicies.filter(
       (e) => e.permission === permission
     );

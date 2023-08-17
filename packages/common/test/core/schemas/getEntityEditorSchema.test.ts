@@ -9,6 +9,7 @@ import * as applyOptionsModule from "../../../src/core/schemas/internal/applyUiS
 import * as filterSchemaModule from "../../../src/core/schemas/internal/filterSchemaToUiSchema";
 import * as itemsModule from "../../../src/items";
 import { UiSchemaElementOptions } from "../../../src";
+import { GroupEditorTypes } from "../../../src/groups/_internal/GroupSchema";
 
 describe("getEntityEditorSchemas", () => {
   it("returns a schema & uiSchema for a given entity and editor type", () => {
@@ -19,6 +20,7 @@ describe("getEntityEditorSchemas", () => {
       ...DiscussionEditorTypes,
       ...ContentEditorTypes,
       ...PageEditorTypes,
+      ...GroupEditorTypes,
     ].forEach(async (type, idx) => {
       const { schema, uiSchema } = await getEntityEditorSchemas(
         "some.scope",

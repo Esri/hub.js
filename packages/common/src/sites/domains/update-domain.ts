@@ -28,6 +28,12 @@ export function updateDomain(
   if (typeof title === "number") {
     domainEntry.siteTitle = title.toString();
   }
+
+  // update client key to empty string if we have one, as it won't pass schema validation
+  if (domainEntry.clientKey) {
+    domainEntry.clientKey = "";
+  }
+
   return fetch(url, {
     method: "PUT",
     headers,

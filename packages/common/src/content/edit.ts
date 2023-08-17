@@ -5,7 +5,7 @@ import {
   getItem,
   removeItem,
 } from "@esri/arcgis-rest-portal";
-import { IHubContent, IHubContentEditor, IHubEditableContent } from "../core";
+import { IHubContentEditor, IHubEditableContent } from "../core";
 
 // Note - we separate these imports so we can cleanly spy on things in tests
 import {
@@ -20,6 +20,7 @@ import { getPropertyMap } from "./_internal/getPropertyMap";
 import { cloneObject } from "../util";
 import { IModel } from "../types";
 import { computeProps } from "./_internal/computeProps";
+import { getProp } from "../objects/get-prop";
 
 // TODO: move this to defaults?
 const DEFAULT_CONTENT_MODEL: IModel = {
@@ -104,6 +105,12 @@ export async function updateContent(
   // we are not attempting to handle "concurrent edit" conflict resolution
   // but this is where we would apply that sort of logic
   const modelToUpdate = mapper.entityToStore(content, model);
+
+  // prevent map from displaying when boundary is 'none'
+  const locationType = getProp(modelToUpdate, "item.properties.location.type");
+  modelToUpdate.item.properties.boundary =
+    locationType === "none" ? "none" : "item";
+
   // TODO: if we have resources disconnect them from the model for now.
   // if (modelToUpdate.resources) {
   //   resources = configureBaseResources(

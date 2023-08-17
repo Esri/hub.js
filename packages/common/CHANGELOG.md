@@ -1,3 +1,64 @@
+# @esri/hub-common [13.39.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.38.2...@esri/hub-common@13.39.0) (2023-08-17)
+
+
+### Features
+
+* search by channel name and multi access ([#1161](https://github.com/Esri/hub.js/issues/1161)) ([fcd71ac](https://github.com/Esri/hub.js/commit/fcd71ac92117a495eb7372818ae250b038746d0c))
+
+## @esri/hub-common [13.38.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.38.1...@esri/hub-common@13.38.2) (2023-08-16)
+
+
+### Bug Fixes
+
+* ensure requestOptions.authentication is UserSession instance in next() ([#1163](https://github.com/Esri/hub.js/issues/1163)) ([31b6143](https://github.com/Esri/hub.js/commit/31b61434305fe726a3f4939497db573a5b5f7f84))
+
+## @esri/hub-common [13.38.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.38.0...@esri/hub-common@13.38.1) (2023-08-16)
+
+
+### Bug Fixes
+
+* remove additionalInfo from userResultToCardModel ([#1162](https://github.com/Esri/hub.js/issues/1162)) ([c4c72c8](https://github.com/Esri/hub.js/commit/c4c72c8fd4a8f92fdd6e4400f0d4f923c06d0293))
+
+# @esri/hub-common [13.38.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.37.3...@esri/hub-common@13.38.0) (2023-08-15)
+
+
+### Bug Fixes
+
+* export ihubgroup ([#1160](https://github.com/Esri/hub.js/issues/1160)) ([0d29518](https://github.com/Esri/hub.js/commit/0d2951875adc7331e2f93058b3fb2356a427a1eb))
+
+
+### Features
+
+* permission parents, deprecations for Capabilities ([#1158](https://github.com/Esri/hub.js/issues/1158)) ([83659b1](https://github.com/Esri/hub.js/commit/83659b1c42d73ebf4504d4b160b449565767161c))
+
+## @esri/hub-common [13.37.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.37.2...@esri/hub-common@13.37.3) (2023-08-14)
+
+
+### Bug Fixes
+
+* add GroupSchema, GroupUiSchema and other support for groups details pane ([#1154](https://github.com/Esri/hub.js/issues/1154)) ([e82d49c](https://github.com/Esri/hub.js/commit/e82d49cbe75e1286407450d0f7b3aa6e5ec1e8cf))
+
+## @esri/hub-common [13.37.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.37.1...@esri/hub-common@13.37.2) (2023-08-14)
+
+
+### Bug Fixes
+
+* user selects none; location disappears correctly ([#1155](https://github.com/Esri/hub.js/issues/1155)) ([3a13434](https://github.com/Esri/hub.js/commit/3a13434ee28e1c524ea0213ac30ff83cf6b5f079))
+
+## @esri/hub-common [13.37.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.37.0...@esri/hub-common@13.37.1) (2023-08-11)
+
+
+### Bug Fixes
+
+* update clientKey to empty string in updateDomain/addDomain ([#1157](https://github.com/Esri/hub.js/issues/1157)) ([84ae619](https://github.com/Esri/hub.js/commit/84ae619b8d18941a9142d1edab5766be0413a213))
+
+# @esri/hub-common [13.37.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.36.1...@esri/hub-common@13.37.0) (2023-08-11)
+
+
+### Features
+
+* explain search result ([#1156](https://github.com/Esri/hub.js/issues/1156)) ([d469907](https://github.com/Esri/hub.js/commit/d469907658a068d360ce30578a153223da2dc7f1))
+
 ## @esri/hub-common [13.36.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.36.0...@esri/hub-common@13.36.1) (2023-08-09)
 
 

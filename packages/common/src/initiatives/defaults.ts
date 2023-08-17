@@ -1,5 +1,6 @@
 import { IHubInitiative } from "../core/types";
 import { IModel } from "../types";
+import { InitiativeDefaultFeatures } from "./_internal/InitiativeBusinessRules";
 
 export const HUB_INITIATIVE_ITEM_TYPE = "Hub Initiative";
 
@@ -13,6 +14,7 @@ export const DEFAULT_INITIATIVE: Partial<IHubInitiative> = {
   catalog: { schemaVersion: 0 },
   permissions: [],
   schemaVersion: 2,
+  features: InitiativeDefaultFeatures,
 };
 
 /**

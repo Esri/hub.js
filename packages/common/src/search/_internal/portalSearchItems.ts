@@ -56,6 +56,26 @@ export function portalSearchItemsAsItems(
 }
 
 /**
+ * @internal
+ * Expand an IQuery by applying well-known filters and predicates,
+ * and then expanding all the predicates into IMatchOption objects.
+ * @param query `IQuery` to expand
+ * @returns IQuery
+ */
+export function expandQuery(query: IQuery): IQuery {
+  let updatedQuery = applyWellKnownCollectionFilters(query);
+  // Expand well-known filterGroups
+  // TODO: Should we remove this with the whole idea of collections?
+  updatedQuery = applyWellKnownItemPredicates(updatedQuery);
+  // Expand the individual predicates in each filter
+  updatedQuery.filters = updatedQuery.filters.map((filter) => {
+    filter.predicates = filter.predicates.map(expandPredicate);
+    return filter;
+  });
+  return updatedQuery;
+}
+
+/**
  * Common preprocessing for search options and the query
  * @param options
  * @param query
@@ -69,15 +89,7 @@ function processSearchParams(options: IHubSearchOptions, query: IQuery) {
     );
   }
 
-  let updatedQuery = applyWellKnownCollectionFilters(query);
-  // Expand well-known filterGroups
-  // TODO: Should we remove this with the whole idea of collections?
-  updatedQuery = applyWellKnownItemPredicates(updatedQuery);
-  // Expand the individual predicates in each filter
-  updatedQuery.filters = updatedQuery.filters.map((filter) => {
-    filter.predicates = filter.predicates.map(expandPredicate);
-    return filter;
-  });
+  const updatedQuery = expandQuery(query);
 
   // Serialize the all the groups for portal
   const so = serializeQueryForPortal(updatedQuery);

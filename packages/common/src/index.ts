@@ -43,6 +43,9 @@ export * from "./core/updateHubEntity";
 // but if it's exported there, random tests start failing
 export * from "./urls/getCardModelUrl";
 export * from "./core/EntityEditor";
+// Unclear _why_ this needs to be here vs. in search/index.ts
+// but if it's exported there, it's not actually exporeted
+export * from "./search/explainQueryResult";
 
 import OperationStack from "./OperationStack";
 import OperationError from "./OperationError";
