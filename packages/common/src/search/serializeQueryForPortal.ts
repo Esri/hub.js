@@ -174,9 +174,9 @@ function serializePredicate(predicate: IPredicate): ISearchOptions {
           so.q = `${key}:${value}`;
         }
         if (passThroughProps.includes(key)) {
-          // Because the API takes a specific format for `joined` (dates)
-          // for group members, we have to add a separate `joined` field
-          // with the specific format for the value
+          // Because the groups/:id/userlist API takes a specific format for
+          // `joined` (dates), therefore for group members, we have to
+          // add a separate `joined` field with the specific format for the value
           if (key === "joined") {
             so[key] = `${value.from},${value.to}`;
           } else {

@@ -326,6 +326,10 @@ describe("ifilter-utils:", () => {
       const p: IPredicate = {
         searchUserAccess: "groupMember",
         searchUserName: "dave",
+        joined: {
+          from: 1691478000000,
+          to: 1692255599999,
+        },
       };
 
       const query: IQuery = {
@@ -342,6 +346,7 @@ describe("ifilter-utils:", () => {
 
       expect(chk.searchUserAccess).toEqual("groupMember");
       expect(chk.searchUserName).toEqual("dave");
+      expect(chk.joined).toEqual("1691478000000,1692255599999");
     });
   });
 });
