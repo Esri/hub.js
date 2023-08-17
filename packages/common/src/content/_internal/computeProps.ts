@@ -5,16 +5,16 @@ import { IHubEditableContent, IHubLocation } from "../../core";
 import { IModel } from "../../types";
 import { bBoxToExtent, extentToPolygon, isBBox } from "../../extent";
 import { IExtent } from "@esri/arcgis-rest-types";
-import { Geometry } from "esri/geometry";
+import Geometry = __esri.Geometry;
 
 // if called and valid, set 3 things -- else just return type custom
-const getItemExtent = (itemExtent: number[][]): IExtent => {
+export const getItemExtent = (itemExtent: number[][]): IExtent => {
   return isBBox(itemExtent)
     ? ({ ...bBoxToExtent(itemExtent), type: "extent" } as unknown as IExtent)
     : undefined;
 };
 
-function deriveLocationFromItemExtent(itemExtent?: number[][]) {
+export function deriveLocationFromItemExtent(itemExtent?: number[][]) {
   const location: IHubLocation = { type: "custom" };
   const geometry: any = getItemExtent(itemExtent); // TODO: this needs to be fixed -tom
   if (geometry) {
