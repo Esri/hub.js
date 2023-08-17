@@ -28,6 +28,7 @@ export function upgradeDraftSchema(draft: IDraft) {
     migrated = _ensureTelemetry<IDraft>(draft);
     migrated = _migrateFeedConfig<IDraft>(draft);
     migrated = _migrateEventListCardConfigs<IDraft>(draft);
+    // TODO: add summary stat migration here once in hub-common
     return migrated;
   }
 }
