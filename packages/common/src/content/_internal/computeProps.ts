@@ -5,6 +5,7 @@ import { IHubEditableContent, IHubLocation } from "../../core";
 import { IModel } from "../../types";
 import { bBoxToExtent, extentToPolygon, isBBox } from "../../extent";
 import { IExtent } from "@esri/arcgis-rest-types";
+import { Geometry } from "esri/geometry";
 
 // if called and valid, set 3 things -- else just return type custom
 const getItemExtent = (itemExtent: number[][]): IExtent => {
@@ -17,9 +18,11 @@ function deriveLocationFromItemExtent(itemExtent?: number[][]) {
   const location: IHubLocation = { type: "custom" };
   const geometry: any = getItemExtent(itemExtent); // TODO: this needs to be fixed -tom
   if (geometry) {
-    geometry.type = "polgyon";
-    geometry.rings = extentToPolygon(geometry).rings;
-    location.geometries = [geometry];
+    const convertedPolygon = {
+      ...extentToPolygon(geometry),
+      type: "polygon",
+    } as unknown as Geometry;
+    location.geometries = [convertedPolygon];
     location.spatialReference = geometry.spatialReference;
     location.extent = itemExtent;
   }
