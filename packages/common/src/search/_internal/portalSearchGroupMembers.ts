@@ -66,8 +66,8 @@ export async function portalSearchGroupMembers(
 
   // Expand the individual predicates in each filter
   query.filters = query.filters.map((filter) => {
-    // only `name` and `memberType` are supported
-    const validPredicateKeys = ["name", "memberType"];
+    // only `name`, `memberType` and `joined` are supported
+    const validPredicateKeys = ["name", "memberType", "joined"];
     filter.predicates = filter.predicates
       .map((p) => {
         // convert `term` to `name`
