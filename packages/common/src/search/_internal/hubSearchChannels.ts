@@ -2,6 +2,7 @@ import {
   IHubSearchOptions,
   IHubSearchResponse,
   IHubSearchResult,
+  IPredicate,
   IQuery,
 } from "../types";
 import HubError from "../../HubError";
@@ -41,11 +42,12 @@ export const processSearchParams = (
     "sortOrder",
   ];
   // Map ISearchOptions key to ISearchChannels key
-  const mapKey = (key: keyof IHubSearchOptions): keyof ISearchChannels => {
-    if (key === "sortField") {
-      return "sortBy";
-    }
-    return key as keyof ISearchChannels;
+  const keyMappings: Record<
+    keyof IHubSearchOptions | keyof IPredicate,
+    keyof ISearchChannels
+  > = {
+    sortField: "sortBy",
+    term: "name",
   };
   // Map any values that originated from ISearchOptions
   // into a correct ISearchChannels value
@@ -64,22 +66,28 @@ export const processSearchParams = (
   };
   allowedPaginationProps.forEach((prop) => {
     if (options.hasOwnProperty(prop)) {
-      const key = mapKey(prop);
-      const value = mapValue(key, options[prop]);
+      const { [prop]: key = prop as any } = keyMappings;
+      const _key = key as keyof ISearchChannels;
+      const value = mapValue(_key, options[prop]);
       if (key && value) {
-        paginationProps[key] = value;
+        paginationProps[_key] = value;
       }
     }
   });
   // Acceptable fields to use as filters
-  const filterProps: Record<string, any> = {};
-  const allowedFilterProps: Array<keyof ISearchChannels> = ["access", "groups"];
+  const filterProps: Record<string, string[]> = {};
+  const allowedFilterProps: Array<keyof ISearchChannels> = [
+    "access",
+    "groups",
+    "name",
+  ];
   // Find predicates that match acceptable filter fields
   query.filters.forEach((filter) => {
     filter.predicates.forEach((predicate) => {
       Object.keys(predicate).forEach((key: any) => {
-        if (allowedFilterProps.includes(key)) {
-          filterProps[key] = predicate[key];
+        const { [key]: _key = key } = keyMappings;
+        if (allowedFilterProps.includes(_key)) {
+          filterProps[_key] = [...(filterProps[_key] || []), predicate[key]];
         }
       });
     });
@@ -159,6 +167,6 @@ export const hubSearchChannels = async (
   const searchOptions = processSearchParams(options, query);
   // Call to searchChannels
   const channelsResponse = await searchChannels(searchOptions);
-  // Parse into <IHubSearchResponse<IChannel>>
+  // Parse into <IHubSearchResponse<IHubSearchResult>>
   return toHubSearchResult(channelsResponse, query, options);
 };
