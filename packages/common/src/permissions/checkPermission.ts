@@ -124,6 +124,14 @@ export function checkPermission(
     // Merge in the entity checks...
     response.checks = [...response.checks, ...entityChecks];
   }
-  // return the response
+  // log denied access information
+  if (!response.access) {
+    // tslint:disable-next-line:no-console
+    console.info(`checkPermission: ${permission} : ${response.response}`);
+    // tslint:disable-next-line:no-console
+    console.dir(response);
+    // tslint:disable-next-line:no-console
+    console.info(`-----------------------------------------`);
+  }
   return response;
 }
