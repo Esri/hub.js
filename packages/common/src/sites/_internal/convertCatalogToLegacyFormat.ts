@@ -1,16 +1,7 @@
 import { getProp } from "../../objects";
-import { IPredicate, IQuery } from "../../search/types/IHubCatalog";
+import { getScopeGroupPredicate } from "../../search/utils";
 import { IModel } from "../../types";
 import { cloneObject } from "../../util";
-
-// TODO: consider exposing this so it can be used on the front end
-function getGroupPredicate(scope: IQuery): IPredicate {
-  const isGroupPredicate = (predicate: IPredicate) => !!predicate.group;
-  const groupFilter = scope.filters.find((f) =>
-    f.predicates.find(isGroupPredicate)
-  );
-  return groupFilter && groupFilter.predicates.find(isGroupPredicate);
-}
 
 export function convertCatalogToLegacyFormat(
   modelToUpdate: IModel,
@@ -18,7 +9,7 @@ export function convertCatalogToLegacyFormat(
 ): IModel {
   const updatedModel = cloneObject(modelToUpdate);
   const updatedItemScope = getProp(modelToUpdate, "data.catalog.scopes.item");
-  const updatedGroupPredicate = getGroupPredicate(updatedItemScope);
+  const updatedGroupPredicate = getScopeGroupPredicate(updatedItemScope);
   if (updatedGroupPredicate) {
     const updatedLegacyCatalog = cloneObject(currentModel.data.catalog);
     // TODO: Do we need to worry about whether predicate.group is an array or not? This applies here and in opendata-ui

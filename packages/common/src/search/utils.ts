@@ -11,6 +11,7 @@ import {
 } from "@esri/arcgis-rest-portal";
 import { ISearchResponse } from "../types";
 import { cloneObject } from "../util";
+import { IPredicate, IQuery } from "./types/IHubCatalog";
 import {
   IMatchOptions,
   IDateRange,
@@ -277,4 +278,19 @@ export function migrateToCollectionKey(
   return isLegacySearchCategory(collectionOrSearchCategory)
     ? toCollectionKey(collectionOrSearchCategory as LegacySearchCategory)
     : (collectionOrSearchCategory as WellKnownCollection);
+}
+
+/**
+ * Searches through a catalog scope and retrieves the predicate responsible
+ * for determining group sharing requirements.
+ *
+ * @param scope Catalog scope to search through
+ * @returns The first predicate with a `group` field (if present)
+ */
+export function getScopeGroupPredicate(scope: IQuery): IPredicate {
+  const isGroupPredicate = (predicate: IPredicate) => !!predicate.group;
+  const groupFilter = scope.filters.find((f) =>
+    f.predicates.find(isGroupPredicate)
+  );
+  return groupFilter && groupFilter.predicates.find(isGroupPredicate);
 }
