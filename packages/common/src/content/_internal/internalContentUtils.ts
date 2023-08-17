@@ -152,6 +152,7 @@ export const getHubRelativeUrl = (
       "map",
       "template",
       "project",
+      "discussion",
     ];
     // default to the catchall content route
     let path = "/content";
