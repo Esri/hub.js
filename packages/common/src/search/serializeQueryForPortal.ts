@@ -103,6 +103,7 @@ function serializePredicate(predicate: IPredicate): ISearchOptions {
     "categoriesAsParam",
     "categoryFilter",
     "bbox",
+    "joined",
   ];
   const specialProps = [
     "filterType",
@@ -173,7 +174,14 @@ function serializePredicate(predicate: IPredicate): ISearchOptions {
           so.q = `${key}:${value}`;
         }
         if (passThroughProps.includes(key)) {
-          so[key] = value;
+          // Because the API takes a specific format for `joined` (dates)
+          // for group members, we have to add a separate `joined` field
+          // with the specific format for the value
+          if (key === "joined") {
+            so[key] = `${value.from},${value.to}`;
+          } else {
+            so[key] = value;
+          }
         }
         if (key === "term") {
           so.q = value;
