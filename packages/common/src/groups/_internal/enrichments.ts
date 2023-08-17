@@ -2,10 +2,12 @@ import {
   searchGroupContent,
   searchGroupUsers,
   IGroup,
-  IUser,
+  getGroup,
+  GroupMembership,
 } from "@esri/arcgis-rest-portal";
 
 import { getEnrichmentErrors } from "../../items/_enrichments";
+import { getProp } from "../../objects/get-prop";
 import OperationStack from "../../OperationStack";
 import { IEnrichmentErrorInfo, IHubRequestOptions } from "../../types";
 import { createOperationPipeline, IPipeable } from "../../utils";
@@ -17,6 +19,19 @@ import { IGroupMembershipSummary } from "../types";
 export interface IGroupEnrichments {
   contentCount?: number;
   membershipSummary?: IGroupMembershipSummary;
+  userMembership?: GroupMembership;
+  /**
+   * Represents who can become _members_ of the group. This is separate from the `access`
+   * field, which represents who can _see_ the group.
+   *
+   * While technically not documented for the `getGroup` endpoint, the enrichment _does_ come
+   * back when requesting a specific group's information. As such, we're not totally sure
+   * that this enum is perfectly accurate. CONFIRM VALUES BEFORE USE!
+   *
+   * All information about this enum (and its values) was taken from this search documentation page:
+   * https://developers.arcgis.com/rest/users-groups-and-items/common-parameters.htm
+   */
+  membershipAccess?: "org" | "collaboration" | "none";
   /**
    * Any errors encountered when fetching enrichments
    * see https://github.com/ArcGIS/hub-indexer/blob/master/docs/errors.md#response-formatting-for-errors
@@ -83,7 +98,7 @@ const enrichGroupMembershipSummary = (
   input: IPipeable<IGroupAndEnrichments>
 ): Promise<IPipeable<IGroupAndEnrichments>> => {
   const { data, stack, requestOptions } = input;
-  const opId = stack.start("enrichGroupContentCount");
+  const opId = stack.start("enrichGroupMembershipSummary");
   // w/o the `: any` here, I get a compile error about
   // .authentication being incompatible w/ UserSession
   const options: any = {
@@ -98,6 +113,35 @@ const enrichGroupMembershipSummary = (
           ...data,
           ...{
             membershipSummary: { total: results.total, users: results.users },
+          },
+        },
+        stack,
+        requestOptions,
+      };
+    })
+    .catch((error) => handleEnrichmentError(error, input, opId));
+};
+
+/**
+ * Get the requesting user's membership in the target group, as well
+ * as the membership access requirements for the target group
+ * @param input
+ * @returns
+ */
+const enrichGroupUserMembership = (
+  input: IPipeable<IGroupAndEnrichments>
+): Promise<IPipeable<IGroupAndEnrichments>> => {
+  const { data, stack, requestOptions } = input;
+  const opId = stack.start("enrichGroupUserMembership");
+  return getGroup(data.group.id, requestOptions)
+    .then((result) => {
+      stack.finish(opId);
+      return {
+        data: {
+          ...data,
+          ...{
+            membershipAccess: result.membershipAccess,
+            userMembership: getProp(result, "userMembership.memberType"),
           },
         },
         stack,
@@ -130,9 +174,10 @@ const handleEnrichmentError = (
 /**
  * Available enrichments for Groups
  */
-const groupEnrichementOperations: IGroupEnrichmentOperations = {
+const groupEnrichmentOperations: IGroupEnrichmentOperations = {
   membershipSummary: enrichGroupMembershipSummary,
   contentCount: enrichGroupContentCount,
+  userMembership: enrichGroupUserMembership,
 };
 
 /**
@@ -149,7 +194,7 @@ export function fetchGroupEnrichments(
 ) {
   // create a pipeline of enrichment operations
   const operations = enrichments.reduce((ops, enrichment) => {
-    const operation = groupEnrichementOperations[enrichment];
+    const operation = groupEnrichmentOperations[enrichment];
     // only include the enrichments that we know how to fetch
     operation && ops.push(operation);
     return ops;

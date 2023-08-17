@@ -1,0 +1,36 @@
+{
+  "id": "2ecb37a8c8fb4051af9c086c25503bb0",
+  "title": "Street Maps",
+  "isInvitationOnly": false,
+  "orgId": "J423vH8fR9HV444l",
+  "owner": "jsmith",
+  "description": "The street maps group provides street maps for the city of Redlands.",
+  "snippet": null,
+  "tags": [
+    "Redlands",
+    "Street",
+    "Maps"
+  ],
+  "typeKeywords": [
+    "Transportation",
+    "Public"
+  ],
+  "phone": "jsmith@esri.com", 
+  "sortField": "title",
+  "sortOrder": "asc",
+  "isViewOnly": false,
+  "isFav": false,
+  "thumbnail": "streets.jpg",
+  "created": 1247082196000,
+  "modified": 1276793808000,
+  "access": "public",
+  "userMembership": {
+    "username": "jsmith",
+    "memberType": "owner",
+    "applications": 1
+  },
+  "protected": true,
+  "autoJoin": false,
+  "hasCategorySchema": true,
+  "membershipAccess": "org"
+}
