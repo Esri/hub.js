@@ -1,3 +1,10 @@
+## @esri/hub-common [13.39.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.39.0...@esri/hub-common@13.39.1) (2023-08-17)
+
+
+### Bug Fixes
+
+* add support for group members "joined" field ([#1167](https://github.com/Esri/hub.js/issues/1167)) ([fecea60](https://github.com/Esri/hub.js/commit/fecea606d67d919d06b3219f37777f3268c0bc51))
+
 # @esri/hub-common [13.39.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.38.2...@esri/hub-common@13.39.0) (2023-08-17)
 
 
