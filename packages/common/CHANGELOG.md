@@ -1,3 +1,10 @@
+# @esri/hub-common [13.39.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.38.2...@esri/hub-common@13.39.0) (2023-08-17)
+
+
+### Features
+
+* search by channel name and multi access ([#1161](https://github.com/Esri/hub.js/issues/1161)) ([fcd71ac](https://github.com/Esri/hub.js/commit/fcd71ac92117a495eb7372818ae250b038746d0c))
+
 ## @esri/hub-common [13.38.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.38.1...@esri/hub-common@13.38.2) (2023-08-16)
 
 
