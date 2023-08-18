@@ -189,11 +189,11 @@ export function getNextFunction<T>(
     clonedRequest.authentication = UserSession.deserialize(
       (request.authentication as UserSession).serialize()
     );
-    // ensure that if we have requestOptions, we have also update the authentication on it
-    if (request.requestOptions) {
-      clonedRequest.requestOptions.authentication =
-        clonedRequest.authentication;
-    }
+  }
+  // ensure that if we have requestOptions, we have also update the authentication on it
+  if (request.requestOptions?.authentication) {
+    clonedRequest.requestOptions.authentication =
+      request.requestOptions.authentication;
   }
 
   // figure out the start
