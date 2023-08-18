@@ -34,25 +34,6 @@ describe("content computeProps", () => {
       portalUrl: "https://org.maps.arcgis.com",
     });
   });
-  it("getItemExtent isBBox is true", () => {
-    const chk = getItemExtent([
-      [100, 100],
-      [120, 120],
-    ]);
-    expect(chk.xmin).toBe(100);
-    expect(chk.ymin).toBe(100);
-    expect(chk.xmax).toBe(120);
-    expect(chk.ymax).toBe(120);
-  });
-
-  it("deriveLocationFromItemExtent valid extent", () => {
-    const chk = deriveLocationFromItemExtent([
-      [100, 100],
-      [120, 120],
-    ]);
-    expect(chk.geometries?.length).toBe(1);
-    expect(chk.type).toBe("custom");
-  });
 
   it("computeProps model boundary undefined", () => {
     const model: IModel = {
@@ -102,5 +83,29 @@ describe("content computeProps", () => {
     );
 
     expect(chk.location?.type).toBe("none");
+  });
+});
+
+describe("getItemExtent", () => {
+  it("getItemExtent isBBox is true", () => {
+    const chk = getItemExtent([
+      [100, 100],
+      [120, 120],
+    ]);
+    expect(chk.xmin).toBe(100);
+    expect(chk.ymin).toBe(100);
+    expect(chk.xmax).toBe(120);
+    expect(chk.ymax).toBe(120);
+  });
+});
+
+describe("deriveLocationFromItemExtent", () => {
+  it("deriveLocationFromItemExtent valid extent", () => {
+    const chk = deriveLocationFromItemExtent([
+      [100, 100],
+      [120, 120],
+    ]);
+    expect(chk.geometries?.length).toBe(1);
+    expect(chk.type).toBe("custom");
   });
 });
