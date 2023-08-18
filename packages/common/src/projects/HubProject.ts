@@ -33,8 +33,10 @@ import {
   IHubCardViewModel,
 } from "../core/types/IHubCardViewModel";
 import { projectToCardModel } from "./view";
-import { cloneObject, maybePush } from "../util";
+import { camelize, cloneObject, createId, maybePush } from "../util";
 import { createProject, editorToProject, updateProject } from "./edit";
+import { editorToMetric } from "../core/schemas/metrics/editorToMetric";
+import { metricToEditor } from "../core/schemas/metrics/metricToEditor";
 
 /**
  * Hub Project Class
@@ -185,6 +187,12 @@ export class HubProject
     // add the groups array that we'll use to auto-share on save
     editor._groups = [];
 
+    const metric = this.entity.metrics.find(metric => metric.id === editorContext.metricId);
+    const cardConfig = this.entity.view.metricDisplays.find(display => display.metricId === editorContext.metricId);
+
+    editor._metric = metricToEditor(metric, cardConfig);
+    console.log('METRIC > EDITOR TRANSFORM', editor._metric);
+
     /**
      * on project creation, we want to pre-populate the sharing
      * field with the core and collaboration groups if the user
@@ -210,7 +218,7 @@ export class HubProject
    * @param editor
    * @returns
    */
-  async fromEditor(editor: IHubProjectEditor): Promise<IHubProject> {
+  async fromEditor(editor: IHubProjectEditor, editorContext?: IEntityEditorContext): Promise<IHubProject> {
     const autoShareGroups = editor._groups || [];
     const isCreate = !editor.id;
 
@@ -260,6 +268,21 @@ export class HubProject
       } else {
         await this.clearFeaturedImage();
       }
+    }
+
+    // handle metrics
+    const _metric = editor._metric;
+    if (_metric) {
+      let metricId = editorContext.metricId;
+
+      // if we're creating a new metric
+      if (!metricId) {
+        metricId = createId(camelize(editor._metric.cardTitle))
+      }
+
+      const { metric, cardConfig } = editorToMetric(editor._metric, metricId);
+      console.log('EDITOR > METRIC TRANSFORM | METRIC', metric);
+      console.log('EDITOR > METRIC TRANSFORM | CARD CONFIG', cardConfig);
     }
 
     /**

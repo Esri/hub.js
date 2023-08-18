@@ -13,4 +13,5 @@ export interface IEntityEditorContext {
   // the future, but we'll include for now
   collaborationGroupId?: string;
   contentGroupId?: string;
+  metricId?: string;
 }

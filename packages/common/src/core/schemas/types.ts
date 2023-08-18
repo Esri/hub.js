@@ -10,8 +10,9 @@ import { ContentEditorTypes } from "../../content/_internal/ContentSchema";
 import { GroupEditorTypes } from "../../groups/_internal/GroupSchema";
 
 /**
- * Defines the possible editor type values - these correspond
- * to the supported/defined uiSchema configurations
+ * Defines the possible ENTITY editor types - these
+ * correspond to the supported/defined entity uiSchema
+ * configurations
  */
 export type EditorType = (typeof validEditorTypes)[number];
 export const validEditorTypes = [
@@ -21,7 +22,18 @@ export const validEditorTypes = [
   ...SiteEditorTypes,
   ...DiscussionEditorTypes,
   ...PageEditorTypes,
-  ...GroupEditorTypes,
+  ...GroupEditorTypes
+] as const;
+
+/**
+ * Defines the possible layout CARD editor types - these
+ * correspond to the supported/defined layout editor
+ * uiSchema configurations
+ */
+export type CardType = (typeof validCardTypes)[number];
+export const validCardTypes = [
+  "hub:card:stat",
+  "hub:card:countdown"
 ] as const;
 
 export enum UiSchemaRuleEffects {

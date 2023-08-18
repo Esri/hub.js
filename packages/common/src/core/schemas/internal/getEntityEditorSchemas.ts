@@ -1,6 +1,6 @@
 import { cloneObject } from "../../../util";
 import { IEditorConfig } from "../../behaviors/IWithEditorBehavior";
-import { EditorType, UiSchemaElementOptions } from "../types";
+import { EditorType, IConfigurationSchema, UiSchemaElementOptions } from "../types";
 import { applyUiSchemaElementOptions } from "./applyUiSchemaElementOptions";
 import { filterSchemaToUiSchema } from "./filterSchemaToUiSchema";
 import { SiteEditorType } from "../../../sites/_internal/SiteSchema";
@@ -11,7 +11,6 @@ import { PageEditorType } from "../../../pages/_internal/PageSchema";
 import { ContentEditorType } from "../../../content/_internal/ContentSchema";
 import { interpolate } from "../../../items/interpolate";
 import { GroupEditorType } from "../../../groups/_internal/GroupSchema";
-
 /**
  * get the editor schema and uiSchema defined for an entity.
  * The schema and uiSchema that are returned can be used to
@@ -71,6 +70,8 @@ export async function getEntityEditorSchemas(
           import("../../../projects/_internal/ProjectUiSchemaEdit"),
         "hub:project:create": () =>
           import("../../../projects/_internal/ProjectUiSchemaCreate"),
+        "hub:project:metrics": () =>
+          import("../../../projects/_internal/ProjectUiSchemaMetrics"),
       }[type as ProjectEditorType]());
       break;
     // ----------------------------------------------------
@@ -125,7 +126,7 @@ export async function getEntityEditorSchemas(
   }
 
   // filter out properties not used in the UI schema
-  schema = filterSchemaToUiSchema(schema, uiSchema);
+  schema = filterSchemaToUiSchema(schema as IConfigurationSchema, uiSchema);
   // apply the options
   uiSchema = applyUiSchemaElementOptions(uiSchema, options);
   // interpolate the i18n scope into the uiSchema

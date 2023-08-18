@@ -7,6 +7,7 @@ import {
 } from "../traits/index";
 import { IHubItemEntity } from "./IHubItemEntity";
 import { IExtent } from "@esri/arcgis-rest-feature-layer";
+import { IMetric } from "./Metrics";
 
 /**
  * Defines the properties of a Hub Project object
@@ -38,6 +39,7 @@ export type IHubProjectEditor = Omit<IHubProject, "extent"> & {
    * persisted in the fromEditor method on the Class
    */
   _thumbnail?: any;
+  _metric?: any;
   // extent: IExtent | number[][];
   view: {
     featuredImage?: any;

@@ -33,4 +33,10 @@ export interface IWithViewSettings {
    * timeline associated with an entity
    */
   timeline?: IHubTimeline;
+
+  metricDisplays?: {
+    metricId: string,
+    displayType: string,
+    [key: string]: any
+  }[]
 }

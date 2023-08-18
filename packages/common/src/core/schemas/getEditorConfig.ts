@@ -6,12 +6,12 @@ import { getEntityEditorSchemas } from "./internal/getEntityEditorSchemas";
 import { EditorType } from "./types";
 
 /**
- * Construct the Editor Configuration for a given entity type
+ * Construct the editor configuration (schema + uiSchema)
+ * for a given entity editor
  * @param i18nScope
  * @param type
  * @param entity
  * @param context
- * @returns
  */
 export async function getEditorConfig(
   i18nScope: string,

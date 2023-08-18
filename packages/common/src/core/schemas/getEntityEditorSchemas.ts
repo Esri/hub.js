@@ -52,6 +52,8 @@ export const getEntityEditorSchemas = async (
           import("../../projects/_internal/ProjectUiSchemaEdit"),
         "hub:project:create": () =>
           import("../../projects/_internal/ProjectUiSchemaCreate"),
+        "hub:project:metrics": () =>
+          import("../../projects/_internal/ProjectUiSchemaMetrics"),
       }[type as ProjectEditorType]());
       break;
     case "initiative":
