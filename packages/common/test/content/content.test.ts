@@ -439,6 +439,9 @@ describe("get item family", () => {
   it("returns project for hub project", () => {
     expect(getFamily("Hub Project")).toBe("project");
   });
+  it("returns project for discussion board", () => {
+    expect(getFamily("Discussion")).toBe("discussion");
+  });
   it("returns content for other specific types", () => {
     expect(getFamily("CAD Drawing")).toBe("content");
     expect(getFamily("Feature Collection Template")).toBe("content");
@@ -859,6 +862,10 @@ describe("internal", () => {
     it("should handle feedback", () => {
       const result = getHubRelativeUrl("Form", identifier);
       expect(result).toBe(`/feedback/surveys/${identifier}`);
+    });
+    it("should handle discussion", () => {
+      const result = getHubRelativeUrl("Discussion", identifier);
+      expect(result).toBe(`/discussions/${identifier}`);
     });
   });
   describe("isSiteType", () => {

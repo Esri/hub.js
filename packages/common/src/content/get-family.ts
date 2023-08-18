@@ -43,6 +43,9 @@ export function getFamily(type: string) {
     case "hub project":
       family = "project";
       break;
+    case "discussion":
+      family = "discussion";
+      break;
     case "hub initiative":
       family = "initiative";
       break;
@@ -109,6 +112,9 @@ export function getFamilyTypes(family: HubFamily): string[] {
       break;
     case "project":
       types = ["Hub Project"];
+      break;
+    case "discussion":
+      types = ["Discussion"];
       break;
     case "initiative":
       types = ["Hub Initiative"];
