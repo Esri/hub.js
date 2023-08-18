@@ -1,3 +1,10 @@
+# @esri/hub-common [13.42.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.41.0...@esri/hub-common@13.42.0) (2023-08-18)
+
+
+### Features
+
+* **hub-common:** add user membership enrichment and have updateSite persist catalog changes ([#1166](https://github.com/Esri/hub.js/issues/1166)) ([607cfe9](https://github.com/Esri/hub.js/commit/607cfe938cc5f451b2086c676b138a8489ee7863))
+
 # @esri/hub-common [13.41.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.40.1...@esri/hub-common@13.41.0) (2023-08-18)
 
 
