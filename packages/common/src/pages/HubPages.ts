@@ -137,6 +137,24 @@ export async function fetchPage(
 }
 
 /**
+ * @internal
+ * Convert an IModel for a Hub Page Item into an IHubPage
+ * @param model
+ * @param requestOptions
+ * @returns
+ */
+export function convertModelToPage(
+  model: IModel,
+  requestOptions: IRequestOptions
+): IHubPage {
+  const mapper = new PropertyMapper<Partial<IHubPage>, IModel>(
+    getPropertyMap()
+  );
+  const prj = mapper.storeToEntity(model, {}) as IHubPage;
+  return computeProps(model, prj, requestOptions);
+}
+
+/**
  * @private
  * Convert an Hub Page Item into a Hub Page, fetching any additional
  * information that may be required
@@ -150,11 +168,7 @@ export async function convertItemToPage(
 ): Promise<IHubPage> {
   const model = await fetchModelFromItem(item, requestOptions);
   // TODO: In the future we will handle the boundary fetching from resource
-  const mapper = new PropertyMapper<Partial<IHubPage>, IModel>(
-    getPropertyMap()
-  );
-  const prj = mapper.storeToEntity(model, {}) as IHubPage;
-  return computeProps(model, prj, requestOptions);
+  return convertModelToPage(model, requestOptions);
 }
 
 /**
