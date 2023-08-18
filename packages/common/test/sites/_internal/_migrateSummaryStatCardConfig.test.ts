@@ -108,6 +108,7 @@ function getExpectedCardSettings(
     trailingText: "trailing text...",
     allowUnitFormatting: false,
     allowLink: false,
+    allowExpressionSet: !!expressionSet,
   };
 }
 

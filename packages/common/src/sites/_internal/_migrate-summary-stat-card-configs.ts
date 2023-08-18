@@ -56,6 +56,7 @@ function _migrateSummaryStatSchemaVersion1_7<T extends IModel | IDraft>(
                     values.url?.lastIndexOf("FeatureServer") + 13
                   ),
               expressionSet: whereToExpressionSet(values.where),
+              allowExpressionSet: !!values.where,
             },
             serverTimeout: values.timeout,
             textAlign: migrateTextAlign(values.statValueAlign),
