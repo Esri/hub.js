@@ -67,14 +67,8 @@ const TempPermissionPolicies: IPermissionPolicy[] = [
     // alpha orgs not on prod
     permission: "temp:workspace:released",
     subsystems: [],
-    alpha: true,
-    assertions: [
-      {
-        property: "context:hubUrl",
-        type: "not-ends-with",
-        value: "hub.arcgis.com",
-      },
-    ],
+    availability: ["alpha"],
+    environments: ["devext", "qaext"],
   },
 ];
 
