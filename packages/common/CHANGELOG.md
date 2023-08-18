@@ -1,3 +1,11 @@
+## @esri/hub-common [13.39.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.39.1...@esri/hub-common@13.39.2) (2023-08-18)
+
+
+### Bug Fixes
+
+* log checkPermission output if access not granted ([#1169](https://github.com/Esri/hub.js/issues/1169)) ([8c9f396](https://github.com/Esri/hub.js/commit/8c9f3966fd2b721f6d58fa7c2ac854326c3df612))
+* revert and update content location picker ([#1164](https://github.com/Esri/hub.js/issues/1164)) ([c11c019](https://github.com/Esri/hub.js/commit/c11c0195b06d3fa2b7ba18ea708652066fcfc600))
+
 ## @esri/hub-common [13.39.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.39.0...@esri/hub-common@13.39.1) (2023-08-17)
 
 
