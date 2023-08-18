@@ -34,9 +34,6 @@ export const uiSchema: IUiSchema = {
           options: {
             control: "hub-field-input-input",
             type: "textarea",
-            helperText: {
-              labelKey: "{{i18nScope}}.fields.summary.helperText",
-            },
           },
         },
         {
@@ -47,9 +44,12 @@ export const uiSchema: IUiSchema = {
             control: "hub-field-input-image-picker",
             maxWidth: 727,
             maxHeight: 484,
-            aspectRatio: 1.5,
+            aspectRatio: 1,
             helperText: {
               labelKey: "{{i18nScope}}.fields._thumbnail.helperText",
+            },
+            sizeDescription: {
+              labelKey: "{{i18nScope}}.fields._thumbnail.sizeDescription",
             },
           },
         },

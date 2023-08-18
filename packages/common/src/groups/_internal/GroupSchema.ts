@@ -2,6 +2,7 @@ import { IConfigurationSchema } from "../../core";
 import {
   ENTITY_IMAGE_SCHEMA,
   ENTITY_NAME_SCHEMA,
+  ENTITY_SUMMARY_SCHEMA,
 } from "../../core/schemas/shared";
 
 export type GroupEditorType = (typeof GroupEditorTypes)[number];
@@ -16,7 +17,10 @@ export const GroupSchema: IConfigurationSchema = {
   properties: {
     name: ENTITY_NAME_SCHEMA,
     summary: {
-      type: "string",
+      ...ENTITY_SUMMARY_SCHEMA,
+      // group snippets (mapped to summary on the entity) have
+      // a max char limit of 250
+      maxLength: 250,
     },
     _thumbnail: ENTITY_IMAGE_SCHEMA,
   },
