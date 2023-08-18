@@ -1,3 +1,10 @@
+# @esri/hub-common [13.41.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.40.1...@esri/hub-common@13.41.0) (2023-08-18)
+
+
+### Features
+
+* convertModelToPage and update temp:workspace:released permission ([#1173](https://github.com/Esri/hub.js/issues/1173)) ([0283ff3](https://github.com/Esri/hub.js/commit/0283ff3de3a084854f30dd0397ec6090e71cc00b))
+
 ## @esri/hub-common [13.40.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.40.0...@esri/hub-common@13.40.1) (2023-08-18)
 
 
