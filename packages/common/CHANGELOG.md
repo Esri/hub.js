@@ -1,3 +1,10 @@
+# @esri/hub-common [13.40.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.39.3...@esri/hub-common@13.40.0) (2023-08-18)
+
+
+### Features
+
+* add workspace pane permissions for all entities ([#1171](https://github.com/Esri/hub.js/issues/1171)) ([8cb94f6](https://github.com/Esri/hub.js/commit/8cb94f61c7fbe892c580f3b76551974495be5c52))
+
 ## @esri/hub-common [13.39.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.39.2...@esri/hub-common@13.39.3) (2023-08-18)
 
 
