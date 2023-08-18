@@ -134,4 +134,34 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:project:discussions",
     dependencies: ["hub:project:view"],
   },
+  {
+    permission: "hub:project:workspace:overview",
+    dependencies: ["hub:project:view"],
+  },
+  {
+    permission: "hub:project:workspace:dashboard",
+    dependencies: ["hub:project:view"],
+    environments: ["devext", "qaext"],
+  },
+  {
+    permission: "hub:project:workspace:details",
+    dependencies: ["hub:project:edit"],
+  },
+  {
+    permission: "hub:project:workspace:settings",
+    dependencies: ["hub:project:edit"],
+    entityOwner: true,
+  },
+  {
+    permission: "hub:project:workspace:collaborators",
+    dependencies: ["hub:project:edit"],
+  },
+  {
+    permission: "hub:project:workspace:content",
+    dependencies: ["hub:project:edit"],
+  },
+  {
+    permission: "hub:project:workspace:metrics",
+    dependencies: ["hub:project:edit"],
+  },
 ];

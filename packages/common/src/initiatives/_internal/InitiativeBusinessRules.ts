@@ -74,6 +74,13 @@ export const InitiativePermissions = [
   "hub:initiative:events",
   "hub:initiative:content",
   "hub:initiative:discussions",
+  "hub:initiative:workspace:overview",
+  "hub:initiative:workspace:dashboard",
+  "hub:initiative:workspace:details",
+  "hub:initiative:workspace:settings",
+  "hub:initiative:workspace:collaborators",
+  "hub:initiative:workspace:content",
+  "hub:initiative:workspace:metrics",
 ] as const;
 
 /**
@@ -122,5 +129,34 @@ export const InitiativePermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:initiative:discussions",
     dependencies: ["hub:initiative:view"],
+  },
+  {
+    permission: "hub:initiative:workspace:overview",
+    dependencies: ["hub:initiative:view"],
+  },
+  {
+    permission: "hub:initiative:workspace:dashboard",
+    dependencies: ["hub:initiative:view"],
+  },
+  {
+    permission: "hub:initiative:workspace:details",
+    dependencies: ["hub:initiative:edit"],
+  },
+  {
+    permission: "hub:initiative:workspace:settings",
+    dependencies: ["hub:initiative:edit"],
+    entityOwner: true,
+  },
+  {
+    permission: "hub:initiative:workspace:collaborators",
+    dependencies: ["hub:initiative:edit"],
+  },
+  {
+    permission: "hub:initiative:workspace:content",
+    dependencies: ["hub:initiative:edit"],
+  },
+  {
+    permission: "hub:initiative:workspace:metrics",
+    dependencies: ["hub:initiative:edit"],
   },
 ];

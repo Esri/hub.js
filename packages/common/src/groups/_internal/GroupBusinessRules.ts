@@ -56,6 +56,13 @@ export const GroupPermissions = [
   "hub:group:edit",
   "hub:group:view",
   "hub:group:owner",
+  "hub:group:workspace:overview",
+  "hub:group:workspace:dashboard",
+  "hub:group:workspace:details",
+  "hub:group:workspace:settings",
+  "hub:group:workspace:collaborators",
+  "hub:group:workspace:content",
+  "hub:group:workspace:members",
 ] as const;
 
 /**
@@ -94,5 +101,22 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:group"],
     authenticated: true,
     entityOwner: true,
+  },
+  {
+    permission: "hub:group:workspace:details",
+    dependencies: ["hub:group:edit"],
+  },
+  {
+    permission: "hub:group:workspace:settings",
+    dependencies: ["hub:group:edit"],
+    entityOwner: true,
+  },
+  {
+    permission: "hub:group:workspace:content",
+    dependencies: ["hub:group:edit"],
+  },
+  {
+    permission: "hub:group:workspace:members",
+    dependencies: ["hub:group:edit"],
   },
 ];
