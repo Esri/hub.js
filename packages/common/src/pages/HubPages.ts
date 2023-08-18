@@ -136,6 +136,13 @@ export async function fetchPage(
   });
 }
 
+/**
+ * @internal
+ * Convert an IModel for a Hub Page Item into an IHubPage
+ * @param model
+ * @param requestOptions
+ * @returns
+ */
 export function convertModelToPage(
   model: IModel,
   requestOptions: IRequestOptions
