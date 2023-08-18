@@ -1,3 +1,10 @@
+## @esri/hub-common [13.39.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.39.2...@esri/hub-common@13.39.3) (2023-08-18)
+
+
+### Bug Fixes
+
+* small updates to group details schemas ([#1170](https://github.com/Esri/hub.js/issues/1170)) ([17b19bd](https://github.com/Esri/hub.js/commit/17b19bdde95c73a09e00776002d91b2f8025a5b7))
+
 ## @esri/hub-common [13.39.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.39.1...@esri/hub-common@13.39.2) (2023-08-18)
 
 
