@@ -1,3 +1,24 @@
+## @esri/hub-common [13.39.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.39.0...@esri/hub-common@13.39.1) (2023-08-17)
+
+
+### Bug Fixes
+
+* add support for group members "joined" field ([#1167](https://github.com/Esri/hub.js/issues/1167)) ([fecea60](https://github.com/Esri/hub.js/commit/fecea606d67d919d06b3219f37777f3268c0bc51))
+
+# @esri/hub-common [13.39.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.38.2...@esri/hub-common@13.39.0) (2023-08-17)
+
+
+### Features
+
+* search by channel name and multi access ([#1161](https://github.com/Esri/hub.js/issues/1161)) ([fcd71ac](https://github.com/Esri/hub.js/commit/fcd71ac92117a495eb7372818ae250b038746d0c))
+
+## @esri/hub-common [13.38.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.38.1...@esri/hub-common@13.38.2) (2023-08-16)
+
+
+### Bug Fixes
+
+* ensure requestOptions.authentication is UserSession instance in next() ([#1163](https://github.com/Esri/hub.js/issues/1163)) ([31b6143](https://github.com/Esri/hub.js/commit/31b61434305fe726a3f4939497db573a5b5f7f84))
+
 ## @esri/hub-common [13.38.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.38.0...@esri/hub-common@13.38.1) (2023-08-16)
 
 

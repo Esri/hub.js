@@ -1,6 +1,11 @@
 import * as hubSearchChannels from "../../../src/search/_internal/hubSearchChannels";
 import * as API from "../../../src/discussions/api/channels";
-import { IQuery, IHubSearchOptions, IHubRequestOptions } from "../../../src";
+import {
+  IQuery,
+  IHubSearchOptions,
+  IHubRequestOptions,
+  ISearchChannels,
+} from "../../../src";
 import SEARCH_CHANNELS_RESPONSE from "./mocks/searchChannelsResponse";
 
 describe("discussionsSearchItems Module |", () => {
@@ -109,5 +114,47 @@ describe("discussionsSearchItems Module |", () => {
     expect(toHubSearchResultSpy).toHaveBeenCalledTimes(1);
     expect(searchChannelsSpy).toHaveBeenCalledTimes(1);
     expect(result).toBeTruthy();
+  });
+  it("processes an IQuery object", () => {
+    const qry: IQuery = {
+      targetEntity: "channel",
+      filters: [
+        {
+          operation: "OR",
+          predicates: [
+            {
+              access: "private",
+            },
+            {
+              access: "org",
+            },
+          ],
+        },
+        {
+          predicates: [
+            {
+              term: "Foo",
+            },
+          ],
+        },
+      ],
+    };
+    const opts: IHubSearchOptions = {
+      num: 10,
+      sortField: "createdAt",
+      sortOrder: "desc",
+      requestOptions: {
+        isPortal: false,
+        hubApiUrl: "https://hubqa.arcgis.com/api",
+        token: "my-secret-token",
+      } as IHubRequestOptions,
+    };
+    const result = hubSearchChannels.processSearchParams(opts, qry);
+    expect(result.data).toEqual({
+      num: 10,
+      sortOrder: "DESC",
+      access: ["private", "org"],
+      name: ["Foo"],
+    } as any as ISearchChannels);
   });
 });

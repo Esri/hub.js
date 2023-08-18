@@ -187,7 +187,7 @@ describe("Search Utils:", () => {
   });
 
   describe("get next function:", () => {
-    it("change change auth on subsequent calls", async () => {
+    it("uses auth on subsequent calls", async () => {
       const request = {
         authentication: MOCK_AUTH,
       } as unknown as ISearchOptions;
@@ -210,9 +210,63 @@ describe("Search Utils:", () => {
       // verify it's called with the MOCK_AUTH
       const opts = fnSpy.calls.mostRecent().args[0];
       expect(opts.authentication).toEqual(MOCK_AUTH);
+      expect(opts.requestOptions).not.toBeDefined();
+    });
+    it("updates requestOptions.authentication on subsequent calls", async () => {
+      const request = {
+        authentication: MOCK_AUTH,
+        requestOptions: {},
+      } as unknown as ISearchOptions;
+
+      const Module = {
+        fn: <T>(r: any) => {
+          return Promise.resolve({} as unknown as ISearchResponse<T>);
+        },
+      };
+      const fnSpy = spyOn(Module, "fn").and.callThrough();
+
+      const chk = await getNextFunction<IHubSearchResult>(
+        request,
+        10,
+        20,
+        fnSpy
+      );
+      await chk();
+      expect(fnSpy).toHaveBeenCalled();
+      // verify it's called with the MOCK_AUTH
+      const opts = fnSpy.calls.mostRecent().args[0];
+      expect(opts.authentication).toEqual(MOCK_AUTH);
+      expect(opts.requestOptions.authentication).toEqual(MOCK_AUTH);
+    });
+    it("can change auth on subsequent calls", async () => {
+      const request = {
+        authentication: MOCK_AUTH,
+        requestOptions: {},
+      } as unknown as ISearchOptions;
+
+      const Module = {
+        fn: <T>(r: any) => {
+          return Promise.resolve({} as unknown as ISearchResponse<T>);
+        },
+      };
+      const fnSpy = spyOn(Module, "fn").and.callThrough();
+
+      const chk = await getNextFunction<IHubSearchResult>(
+        request,
+        10,
+        20,
+        fnSpy
+      );
+      await chk();
+      expect(fnSpy).toHaveBeenCalled();
+      // verify it's called with the MOCK_AUTH
+      const opts = fnSpy.calls.mostRecent().args[0];
+      expect(opts.authentication).toEqual(MOCK_AUTH);
+      expect(opts.requestOptions.authentication).toEqual(MOCK_AUTH);
       await chk(mockUserSession);
       const opts2 = fnSpy.calls.mostRecent().args[0];
       expect(opts2.authentication).toEqual(mockUserSession);
+      expect(opts.requestOptions.authentication).toEqual(mockUserSession);
     });
     it("can pass auth on subsequent calls", async () => {
       const request = {} as unknown as ISearchOptions;
