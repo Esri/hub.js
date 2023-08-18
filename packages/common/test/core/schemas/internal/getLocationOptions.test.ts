@@ -91,92 +91,95 @@ describe("getLocationOptions - default:", () => {
   });
 });
 
-describe("getLocationOptions - content:", () => {
-  it("custom is selected", async () => {
-    const entity: ConfigurableEntity = {
-      id: "00c",
-      type: "Hub Content",
-      location: {
-        type: "custom",
-      },
-      boundary: "item",
-      extent: [
-        [100, 100],
-        [120, 120],
-      ],
-    } as ConfigurableEntity;
+// Leaving this in for future work when we need
+// dynamic options set for different entities
 
-    const chk = await getLocationOptions(
-      entity,
-      "portalName",
-      {} as IHubRequestOptions
-    );
+// describe("getLocationOptions - content:", () => {
+//   it("custom is selected", async () => {
+//     const entity: ConfigurableEntity = {
+//       id: "00c",
+//       type: "Hub Content",
+//       location: {
+//         type: "custom",
+//       },
+//       boundary: "item",
+//       extent: [
+//         [100, 100],
+//         [120, 120],
+//       ],
+//     } as ConfigurableEntity;
 
-    expect(chk.length).toBe(2);
-    expect(chk[1].selected).toBe(true);
-  });
-  it("none is selected", async () => {
-    const entity: ConfigurableEntity = {
-      id: "00c",
-      type: "Hub Content",
-      location: {
-        type: "none",
-      },
-      boundary: "none",
-    } as ConfigurableEntity;
+//     const chk = await getLocationOptions(
+//       entity,
+//       "portalName",
+//       {} as IHubRequestOptions
+//     );
 
-    const chk = await getLocationOptions(
-      entity,
-      "portalName",
-      {} as IHubRequestOptions
-    );
+//     expect(chk.length).toBe(2);
+//     expect(chk[1].selected).toBe(true);
+//   });
+//   it("none is selected", async () => {
+//     const entity: ConfigurableEntity = {
+//       id: "00c",
+//       type: "Hub Content",
+//       location: {
+//         type: "none",
+//       },
+//       boundary: "none",
+//     } as ConfigurableEntity;
 
-    expect(chk.length).toBe(2);
-    expect(chk[0].selected).toBe(true);
-  });
-  it("custom is selected if entity does not have an id", async () => {
-    const entity: ConfigurableEntity = {
-      type: "Hub Content",
-      location: {
-        type: "custom",
-      },
-      boundary: "item",
-      extent: [
-        [100, 100],
-        [120, 120],
-      ],
-    } as ConfigurableEntity;
+//     const chk = await getLocationOptions(
+//       entity,
+//       "portalName",
+//       {} as IHubRequestOptions
+//     );
 
-    const chk = await getLocationOptions(
-      entity,
-      "portalName",
-      {} as IHubRequestOptions
-    );
+//     expect(chk.length).toBe(2);
+//     expect(chk[0].selected).toBe(true);
+//   });
+//   it("custom is selected if entity does not have an id", async () => {
+//     const entity: ConfigurableEntity = {
+//       type: "Hub Content",
+//       location: {
+//         type: "custom",
+//       },
+//       boundary: "item",
+//       extent: [
+//         [100, 100],
+//         [120, 120],
+//       ],
+//     } as ConfigurableEntity;
 
-    expect(chk.length).toBe(2);
-    expect(chk[1].selected).toBe(true);
-  });
-  it("custom is selected & boundary is set", async () => {
-    const entity: ConfigurableEntity = {
-      id: "00c",
-      type: "Hub Content",
-      location: {
-        type: "custom",
-      },
-      boundary: "item",
-      extent: [
-        [100, 100],
-        [120, 120],
-      ],
-    } as ConfigurableEntity;
+//     const chk = await getLocationOptions(
+//       entity,
+//       "portalName",
+//       {} as IHubRequestOptions
+//     );
 
-    const chk = await getLocationOptions(
-      entity,
-      "portalName",
-      {} as IHubRequestOptions
-    );
+//     expect(chk.length).toBe(2);
+//     expect(chk[1].selected).toBe(true);
+//   });
+//   it("custom is selected & boundary is set", async () => {
+//     const entity: ConfigurableEntity = {
+//       id: "00c",
+//       type: "Hub Content",
+//       location: {
+//         type: "custom",
+//       },
+//       boundary: "item",
+//       extent: [
+//         [100, 100],
+//         [120, 120],
+//       ],
+//     } as ConfigurableEntity;
 
-    expect(chk.length).toBe(2);
-    expect(chk[1].selected).toBe(true);
-  });
-});
+//     const chk = await getLocationOptions(
+//       entity,
+//       "portalName",
+//       {} as IHubRequestOptions
+//     );
+
+//     expect(chk.length).toBe(2);
+//     expect(chk[1].selected).toBe(true);
+//   });
+// });

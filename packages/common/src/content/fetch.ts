@@ -252,6 +252,5 @@ export const fetchHubContent = async (
     getPropertyMap()
   );
   const content = mapper.storeToEntity(model, {}) as IHubEditableContent;
-  // TODO: computeProps if we end up using fetchItemAndEnrichments()
   return computeProps(model, content, requestOptions);
 };
