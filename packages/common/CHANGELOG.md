@@ -1,3 +1,10 @@
+## @esri/hub-common [13.40.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.40.0...@esri/hub-common@13.40.1) (2023-08-18)
+
+
+### Bug Fixes
+
+* await save in classes ([#1172](https://github.com/Esri/hub.js/issues/1172)) ([aa8299d](https://github.com/Esri/hub.js/commit/aa8299d30dbc75c75bc87943b39e2cff2c5ecfc1))
+
 # @esri/hub-common [13.40.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.39.3...@esri/hub-common@13.40.0) (2023-08-18)
 
 
