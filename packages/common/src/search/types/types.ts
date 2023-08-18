@@ -15,6 +15,17 @@ export interface ISortOption {
 }
 
 /**
+ * Sort options supported
+ */
+export type SortOption =
+  | "relavance"
+  | "title"
+  | "created"
+  | "modified"
+  | "username"
+  | "joined";
+
+/**
  * Defines a span of time by specifying a `from` and `to` Date
  * as either a number or a ISO string
  */
