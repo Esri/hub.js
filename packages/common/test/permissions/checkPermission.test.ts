@@ -6,7 +6,11 @@ import { MOCK_AUTH } from "../mocks/mock-auth";
 describe("checkPermission:", () => {
   let authdCtxMgr: ArcGISContextManager;
   let unauthdCtxMgr: ArcGISContextManager;
+  let consoleInfoSpy: jasmine.Spy;
+  let consoleDirSpy: jasmine.Spy;
   beforeEach(async () => {
+    consoleInfoSpy = spyOn(console, "info").and.callThrough();
+    consoleDirSpy = spyOn(console, "dir").and.callThrough();
     unauthdCtxMgr = await ArcGISContextManager.create();
     // When we pass in all this information, the context
     // manager will not try to fetch anything, so no need
@@ -38,6 +42,8 @@ describe("checkPermission:", () => {
     expect(chk.access).toBe(false);
     expect(chk.response).toBe("invalid-permission");
     expect(chk.checks.length).toBe(0);
+    expect(consoleDirSpy).toHaveBeenCalled();
+    expect(consoleInfoSpy).toHaveBeenCalled();
   });
   it("runs system level permission checks that all pass", () => {
     const chk = checkPermission("hub:site:create", authdCtxMgr.context);

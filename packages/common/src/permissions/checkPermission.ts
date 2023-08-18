@@ -35,95 +35,103 @@ export function checkPermission(
   context: IArcGISContext,
   entity?: Record<string, any>
 ): IPermissionAccessResponse {
-  // Early Exit: Is this even a valid permission?
-  if (!isPermission(permission)) {
-    return {
-      policy: permission,
-      access: false,
-      response: "invalid-permission",
-      code: getPolicyResponseCode("invalid-permission"),
-      checks: [],
-    } as IPermissionAccessResponse;
-  }
-
-  // Get the system policy for this permission
-  const systemPolicy = getPermissionPolicy(permission);
-
-  // TODO: handle null systemPolicy
-
   // Default to granted
-  const response: IPermissionAccessResponse = {
+  let response: IPermissionAccessResponse = {
     policy: permission,
     access: true,
     response: "granted",
     code: getPolicyResponseCode("granted"),
     checks: [],
   };
+  // Is this even a valid permission?
+  if (!isPermission(permission)) {
+    response = {
+      policy: permission,
+      access: false,
+      response: "invalid-permission",
+      code: getPolicyResponseCode("invalid-permission"),
+      checks: [],
+    } as IPermissionAccessResponse;
+  } else {
+    // Get the system policy for this permission
+    const systemPolicy = getPermissionPolicy(permission);
 
-  const checks = [
-    checkParents,
-    checkServiceStatus,
-    checkEntityFeature,
-    checkAuthentication,
-    checkEnvironment,
-    checkAvailability,
-    checkLicense,
-    checkPrivileges,
-    checkOwner,
-    checkEdit,
-    checkAssertions,
-    checkAlphaGating, // TODO: Remove with Capability Refactor
-  ].reduce((acc: IPolicyCheck[], fn) => {
-    acc = [...acc, ...fn(systemPolicy, context, entity)];
-    return acc;
-  }, []);
+    // TODO: handle null systemPolicy
 
-  // For system policies, all conditions must be met, so we can
-  // iterate through the checks and set the response to the first failure
-  // while still returning all the checks for observability
-  checks.forEach((check) => {
-    if (check.response !== "granted" && response.response === "granted") {
-      response.response = check.response;
-      response.code = check.code;
-      response.access = false;
-    }
-  });
+    const checks = [
+      checkParents,
+      checkServiceStatus,
+      checkEntityFeature,
+      checkAuthentication,
+      checkEnvironment,
+      checkAvailability,
+      checkLicense,
+      checkPrivileges,
+      checkOwner,
+      checkEdit,
+      checkAssertions,
+      checkAlphaGating, // TODO: Remove with Capability Refactor
+    ].reduce((acc: IPolicyCheck[], fn) => {
+      acc = [...acc, ...fn(systemPolicy, context, entity)];
+      return acc;
+    }, []);
 
-  response.checks = checks;
-
-  // Entity policies are treated as "grants" so we only need to pass one
-  if (entity) {
-    const entityPolicies: IEntityPermissionPolicy[] = getWithDefault(
-      entity,
-      "permissions",
-      []
-    );
-
-    const entityPermissionPolicies = entityPolicies.filter(
-      (e) => e.permission === permission
-    );
-    // Entity Policies are "grants" in that only one needs to pass
-    // but we still want each check returned so we can see why they
-    // got access or got denied
-    const entityChecks = entityPermissionPolicies.map((policy) => {
-      return checkEntityPolicy(policy, context);
+    // For system policies, all conditions must be met, so we can
+    // iterate through the checks and set the response to the first failure
+    // while still returning all the checks for observability
+    checks.forEach((check) => {
+      if (check.response !== "granted" && response.response === "granted") {
+        response.response = check.response;
+        response.code = check.code;
+        response.access = false;
+      }
     });
-    // Process them to see if any grant access
-    const grantedCheck = entityChecks.find((e) => e.response === "granted");
-    // If we did not find a check that grants access, AND we've passed
-    // all the system checks, then we set the response to "not-granted"
-    // and set the access to false
-    if (
-      entityChecks.length &&
-      !grantedCheck &&
-      response.response === "granted"
-    ) {
-      response.access = false;
-      response.response = "not-granted";
+
+    response.checks = checks;
+
+    // Entity policies are treated as "grants" so we only need to pass one
+    if (entity) {
+      const entityPolicies: IEntityPermissionPolicy[] = getWithDefault(
+        entity,
+        "permissions",
+        []
+      );
+
+      const entityPermissionPolicies = entityPolicies.filter(
+        (e) => e.permission === permission
+      );
+      // Entity Policies are "grants" in that only one needs to pass
+      // but we still want each check returned so we can see why they
+      // got access or got denied
+      const entityChecks = entityPermissionPolicies.map((policy) => {
+        return checkEntityPolicy(policy, context);
+      });
+      // Process them to see if any grant access
+      const grantedCheck = entityChecks.find((e) => e.response === "granted");
+      // If we did not find a check that grants access, AND we've passed
+      // all the system checks, then we set the response to "not-granted"
+      // and set the access to false
+      if (
+        entityChecks.length &&
+        !grantedCheck &&
+        response.response === "granted"
+      ) {
+        response.access = false;
+        response.response = "not-granted";
+      }
+      // Merge in the entity checks...
+      response.checks = [...response.checks, ...entityChecks];
     }
-    // Merge in the entity checks...
-    response.checks = [...response.checks, ...entityChecks];
   }
-  // return the response
+
+  // log denied access information
+  if (!response.access) {
+    // tslint:disable-next-line:no-console
+    console.info(`checkPermission: ${permission} : ${response.response}`);
+    // tslint:disable-next-line:no-console
+    console.dir(response);
+    // tslint:disable-next-line:no-console
+    console.info(`-----------------------------------------`);
+  }
   return response;
 }
