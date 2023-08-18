@@ -335,7 +335,7 @@ export class HubGroup
     } else {
       // ...otherwise, update the in-memory entity and save it
       this.entity = entity;
-      this.save();
+      await this.save();
     }
 
     return this.entity;
