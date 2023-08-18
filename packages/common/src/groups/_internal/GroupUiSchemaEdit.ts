@@ -48,6 +48,9 @@ export const uiSchema: IUiSchema = {
             helperText: {
               labelKey: "{{i18nScope}}.fields._thumbnail.helperText",
             },
+            sizeDescription: {
+              labelKey: "{{i18nScope}}.fields._thumbnail.sizeDescription",
+            },
           },
         },
       ],
