@@ -21,7 +21,7 @@ export function convertCatalogToLegacyFormat(
   const updatedGroupPredicate = getScopeGroupPredicate(updatedItemScope);
   if (updatedGroupPredicate) {
     const updatedLegacyCatalog = cloneObject(currentModel.data.catalog);
-    // TODO: Do we need to worry about whether predicate.group is an array or not? This applies here and in opendata-ui
+    // TODO: Do we need to worry about whether predicate.group is an IMatchOption?
     const updatedGroupIds = Array.isArray(updatedGroupPredicate.group)
       ? updatedGroupPredicate.group
       : [updatedGroupPredicate.group];
