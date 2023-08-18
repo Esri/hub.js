@@ -81,6 +81,13 @@ export const ProjectPermissions = [
   "hub:project:events",
   "hub:project:content",
   "hub:project:discussions",
+  "hub:project:workspace:overview",
+  "hub:project:workspace:dashboard",
+  "hub:project:workspace:details",
+  "hub:project:workspace:settings",
+  "hub:project:workspace:collaborators",
+  "hub:project:workspace:content",
+  "hub:project:workspace:metrics",
 ] as const;
 
 /**
