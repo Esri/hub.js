@@ -37,8 +37,8 @@ const SITE_ITEM: portalModule.IItem = {
   },
 };
 const SITE_DATA = {
+  catalog: { groups: ["00c"] },
   values: {
-    catalog: { groups: ["00c"] },
     customHostname: "site-org.hub.arcgis.com",
     defaultHostname: "",
   },
@@ -423,6 +423,24 @@ describe("HubSites:", () => {
           },
         },
       ]);
+    });
+    it("converts catalog group changes to the old catalog format", async () => {
+      const updatedSite = commonModule.cloneObject(SITE);
+      updatedSite.catalog.scopes.item.filters = [
+        {
+          predicates: [
+            {
+              group: ["9001"],
+            },
+          ],
+        },
+      ];
+      const chk = await commonModule.updateSite(updatedSite, MOCK_HUB_REQOPTS);
+
+      expect(chk.id).toBe(GUID);
+      expect(getModelSpy).toHaveBeenCalledTimes(1);
+      const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
+      expect(modelToUpdate.data.catalog).toEqual({ groups: ["9001"] });
     });
   });
   describe("createSite:", () => {
