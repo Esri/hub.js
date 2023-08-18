@@ -56,6 +56,10 @@ export const ContentPermissions = [
   // "hub:content:delete",
   "hub:content:edit",
   "hub:content:view",
+  "hub:content:workspace:overview",
+  "hub:content:workspace:dashboard",
+  "hub:content:workspace:details",
+  "hub:content:workspace:settings",
 ] as const;
 
 /**
@@ -89,4 +93,21 @@ export const ContentPermissionPolicies: IPermissionPolicy[] = [
   //   entityOwner: true,
   //   licenses: ["hub-basic", "hub-premium", "enterprise-sites"],
   // },
+  {
+    permission: "hub:content:workspace:overview",
+    dependencies: ["hub:content:view"],
+  },
+  {
+    permission: "hub:content:workspace:dashboard",
+    dependencies: ["hub:content:view"],
+  },
+  {
+    permission: "hub:content:workspace:details",
+    dependencies: ["hub:content:edit"],
+  },
+  {
+    permission: "hub:content:workspace:settings",
+    dependencies: ["hub:content:edit"],
+    entityOwner: true,
+  },
 ];

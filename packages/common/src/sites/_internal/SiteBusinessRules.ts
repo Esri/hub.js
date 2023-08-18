@@ -74,6 +74,13 @@ export const SitePermissions = [
   "hub:site:events",
   "hub:site:content",
   "hub:site:discussions",
+  "hub:site:workspace:overview",
+  "hub:site:workspace:dashboard",
+  "hub:site:workspace:details",
+  "hub:site:workspace:settings",
+  "hub:site:workspace:collaborators",
+  "hub:site:workspace:content",
+  "hub:site:workspace:metrics",
 ] as const;
 
 /**
@@ -120,6 +127,36 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:site:discussions",
     dependencies: ["hub:site:view"],
+  },
+  {
+    permission: "hub:site:workspace:overview",
+    dependencies: ["hub:site:view"],
+  },
+  {
+    permission: "hub:site:workspace:dashboard",
+    dependencies: ["hub:site:view"],
+  },
+  {
+    permission: "hub:site:workspace:details",
+    dependencies: ["hub:site:edit"],
+  },
+  {
+    permission: "hub:site:workspace:settings",
+    dependencies: ["hub:site:edit"],
+    entityOwner: true,
+  },
+  {
+    permission: "hub:site:workspace:collaborators",
+    dependencies: ["hub:site:edit"],
+  },
+  {
+    permission: "hub:site:workspace:content",
+    dependencies: ["hub:site:edit"],
+  },
+  {
+    permission: "hub:site:workspace:metrics",
+    dependencies: ["hub:site:edit"],
+    environments: ["devext", "qaext"],
   },
 ];
 

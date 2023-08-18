@@ -63,6 +63,10 @@ export const PagePermissions = [
   "hub:page:delete",
   "hub:page:edit",
   "hub:page:view",
+  "hub:page:workspace:overview",
+  "hub:page:workspace:dashboard",
+  "hub:page:workspace:details",
+  "hub:page:workspace:settings",
 ] as const;
 
 /**
@@ -94,6 +98,23 @@ export const PagePermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:page:delete",
     dependencies: ["hub:page"],
     authenticated: true,
+    entityOwner: true,
+  },
+  {
+    permission: "hub:page:workspace:overview",
+    dependencies: ["hub:page:view"],
+  },
+  {
+    permission: "hub:page:workspace:dashboard",
+    dependencies: ["hub:page:view"],
+  },
+  {
+    permission: "hub:page:workspace:details",
+    dependencies: ["hub:page:edit"],
+  },
+  {
+    permission: "hub:page:workspace:settings",
+    dependencies: ["hub:page:edit"],
     entityOwner: true,
   },
 ];
