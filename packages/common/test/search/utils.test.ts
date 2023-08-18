@@ -212,10 +212,37 @@ describe("Search Utils:", () => {
       expect(opts.authentication).toEqual(MOCK_AUTH);
       expect(opts.requestOptions).not.toBeDefined();
     });
+    it("uses ro.auth on subsequent calls", async () => {
+      const request = {
+        requestOptions: { authentication: MOCK_AUTH },
+      } as unknown as ISearchOptions;
+
+      const Module = {
+        fn: <T>(r: any) => {
+          return Promise.resolve({} as unknown as ISearchResponse<T>);
+        },
+      };
+      const fnSpy = spyOn(Module, "fn").and.callThrough();
+
+      const chk = await getNextFunction<IHubSearchResult>(
+        request,
+        10,
+        20,
+        fnSpy
+      );
+      await chk();
+      expect(fnSpy).toHaveBeenCalled();
+      // verify it's called with the MOCK_AUTH
+      const opts = fnSpy.calls.mostRecent().args[0];
+      expect(opts.requestOptions.authentication).toEqual(MOCK_AUTH);
+      expect(opts.authentication).not.toBeDefined();
+    });
     it("updates requestOptions.authentication on subsequent calls", async () => {
       const request = {
         authentication: MOCK_AUTH,
-        requestOptions: {},
+        requestOptions: {
+          authentication: MOCK_AUTH,
+        },
       } as unknown as ISearchOptions;
 
       const Module = {
@@ -241,7 +268,9 @@ describe("Search Utils:", () => {
     it("can change auth on subsequent calls", async () => {
       const request = {
         authentication: MOCK_AUTH,
-        requestOptions: {},
+        requestOptions: {
+          authentication: MOCK_AUTH,
+        },
       } as unknown as ISearchOptions;
 
       const Module = {
