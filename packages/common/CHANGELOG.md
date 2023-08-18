@@ -1,3 +1,11 @@
+## @esri/hub-common [13.43.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.43.0...@esri/hub-common@13.43.1) (2023-08-18)
+
+
+### Bug Fixes
+
+* add new SortOption type ([#1175](https://github.com/Esri/hub.js/issues/1175)) ([11a74b3](https://github.com/Esri/hub.js/commit/11a74b3fafbcbf06d9fa22876d1d9fd08f608fd7))
+* ensure getNextFunction handles requestOptions.authentication cleanly ([#1176](https://github.com/Esri/hub.js/issues/1176)) ([3c19e16](https://github.com/Esri/hub.js/commit/3c19e16e3ccf8ee13679454e2e0721de4e88a938))
+
 # @esri/hub-common [13.43.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.42.1...@esri/hub-common@13.43.0) (2023-08-18)
 
 
