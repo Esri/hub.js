@@ -1,3 +1,10 @@
+# @esri/hub-common [13.43.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.42.1...@esri/hub-common@13.43.0) (2023-08-18)
+
+
+### Features
+
+* **hub-common:** include discussion routes ([#1168](https://github.com/Esri/hub.js/issues/1168)) ([04feaaf](https://github.com/Esri/hub.js/commit/04feaaf258d7cc649f916ad17af1f4ea7dcaaabd))
+
 ## @esri/hub-common [13.42.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.42.0...@esri/hub-common@13.42.1) (2023-08-18)
 
 
