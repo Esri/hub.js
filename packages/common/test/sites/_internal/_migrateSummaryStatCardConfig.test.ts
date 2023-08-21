@@ -1,5 +1,5 @@
 import { _migrateSummaryStatCardConfigs } from "../../../src/sites/_internal/_migrate-summary-stat-card-configs";
-import { IModel, cloneObject, IDraft, setProp } from "../../../src";
+import { IModel, cloneObject, setProp } from "../../../src";
 
 function getSiteModel(cardSettings: Record<string, any>) {
   return {
@@ -143,6 +143,55 @@ const modelWithBadLayout = {
   },
 } as unknown as IModel;
 
+const modelWithNoProperties = {
+  item: {
+    id: "3ef",
+    title: "Some Site",
+    type: "Hub Site",
+    properties: {
+      schemaVersion: 1.6,
+    },
+  },
+  data: {
+    values: {
+      layout: {
+        sections: [
+          {
+            rows: [
+              {
+                cards: [
+                  {
+                    component: {
+                      name: "summary-statistic-card",
+                      settings: {},
+                    },
+                    width: 12,
+                  },
+                ],
+              },
+              {
+                cards: [
+                  {
+                    component: {
+                      name: "markdown-card",
+                      settings: {
+                        schemaVersion: 2.1,
+                        markdown:
+                          '<h4 style="color: rgb(0, 0, 0);"><b>Dataset Type Items</b></h4>',
+                      },
+                    },
+                    width: 12,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    },
+  },
+} as unknown as IModel;
+
 describe("_ensure-summary-stat-card", () => {
   describe("Site model", function () {
     let model: IModel;
@@ -162,6 +211,71 @@ describe("_ensure-summary-stat-card", () => {
       const results =
         _migrateSummaryStatCardConfigs<IModel>(modelWithBadLayout);
       expect(results).toEqual(expected);
+    });
+
+    it("handles an empty settings object", function () {
+      model = cloneObject(getSiteModel({}));
+      const expected: IModel = cloneObject(
+        getSiteModel({
+          type: "dynamic",
+          cardTitle: undefined,
+          dynamicMetric: {
+            allowExpressionSet: false,
+            itemId: [undefined],
+            layerId: undefined,
+            field: undefined,
+            fieldType: undefined,
+            statistic: undefined,
+            serviceUrl: undefined,
+            expressionSet: [],
+          },
+          textAlign: "start",
+          serverTimeout: undefined,
+          valueColor: undefined,
+          trailingText: undefined,
+          cardId: undefined,
+          allowUnitFormatting: false,
+          allowLink: false,
+        })
+      );
+      const result = _migrateSummaryStatCardConfigs<IModel>(model);
+      setProp("item.properties.schemaVersion", 1.7, expected);
+      expect(result).toEqual(expected);
+    });
+
+    it("handles formatting of url", function () {
+      model = cloneObject(
+        getSiteModel({
+          url: "https://servicesqa.arcgis.com/Xj56SBi2udA78cC9/arcgis/rest/services/Field_Type_Table/FeatureServer",
+        })
+      );
+      const expected: IModel = cloneObject(
+        getSiteModel({
+          type: "dynamic",
+          cardTitle: undefined,
+          dynamicMetric: {
+            allowExpressionSet: false,
+            itemId: [undefined],
+            layerId: undefined,
+            field: undefined,
+            fieldType: undefined,
+            statistic: undefined,
+            serviceUrl:
+              "https://servicesqa.arcgis.com/Xj56SBi2udA78cC9/arcgis/rest/services/Field_Type_Table/FeatureServer",
+            expressionSet: [],
+          },
+          textAlign: "start",
+          serverTimeout: undefined,
+          valueColor: undefined,
+          trailingText: undefined,
+          cardId: undefined,
+          allowUnitFormatting: false,
+          allowLink: false,
+        })
+      );
+      const result = _migrateSummaryStatCardConfigs<IModel>(model);
+      setProp("item.properties.schemaVersion", 1.7, expected);
+      expect(result).toEqual(expected);
     });
 
     describe("text align & color variations", function () {
@@ -286,7 +400,7 @@ describe("_ensure-summary-stat-card", () => {
       expect(results).toEqual(expected);
     });
 
-    it("handles a case of one clause", () => {
+    it("handles a case of one clause: float", () => {
       const where = "Float <= 4.55";
       const expressionSet = [
         {
@@ -321,6 +435,55 @@ describe("_ensure-summary-stat-card", () => {
     it("handles where 1=1", () => {
       const where = "1=1";
       const expressionSet: Array<Record<string, any>> = [];
+      model = cloneObject(getSiteModel(getCardSettings("left", where, null)));
+
+      const expected: IModel = cloneObject(
+        getSiteModel(getExpectedCardSettings("start", expressionSet, undefined))
+      );
+      setProp("item.properties.schemaVersion", 1.7, expected);
+      const results = _migrateSummaryStatCardConfigs<IModel>(model);
+      expect(results).toEqual(expected);
+    });
+
+    it("handles a malformatted clause", () => {
+      const where = "incorrect";
+      const expressionSet: Array<Record<string, any>> = [];
+      model = cloneObject(getSiteModel(getCardSettings("left", where, null)));
+
+      const expected: IModel = cloneObject(
+        getSiteModel(getExpectedCardSettings("start", expressionSet, undefined))
+      );
+      setProp("item.properties.schemaVersion", 1.7, expected);
+      const results = _migrateSummaryStatCardConfigs<IModel>(model);
+      expect(results).toEqual(expected);
+    });
+
+    it("handles a malformatted clause with a sign", () => {
+      const where = "incorrect =";
+      const expressionSet: Array<Record<string, any>> = [
+        {
+          field: { name: "incorrect", type: "esriFieldTypeString" },
+          values: [""],
+        },
+      ];
+      model = cloneObject(getSiteModel(getCardSettings("left", where, null)));
+
+      const expected: IModel = cloneObject(
+        getSiteModel(getExpectedCardSettings("start", expressionSet, undefined))
+      );
+      setProp("item.properties.schemaVersion", 1.7, expected);
+      const results = _migrateSummaryStatCardConfigs<IModel>(model);
+      expect(results).toEqual(expected);
+    });
+
+    it("handles a malformatted clause with an AND", () => {
+      const where = "incorrect = AND";
+      const expressionSet: Array<Record<string, any>> = [
+        {
+          field: { name: "incorrect", type: "esriFieldTypeString" },
+          values: [""],
+        },
+      ];
       model = cloneObject(getSiteModel(getCardSettings("left", where, null)));
 
       const expected: IModel = cloneObject(

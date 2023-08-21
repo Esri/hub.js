@@ -1,4 +1,4 @@
-import { setProp } from "../../objects";
+import { setProp, getProp } from "../../objects";
 import { IModel, IDraft } from "../../types";
 import { cloneObject } from "../../util";
 import { IField } from "@esri/arcgis-rest-feature-layer";
@@ -30,7 +30,7 @@ function _migrateSummaryStatSchemaVersion1_7<T extends IModel | IDraft>(
   model: T
 ): T {
   // do nothing if migration already applied
-  if (model.item.properties?.schemaVersion >= 1.7) return model;
+  if (getProp(model, "item.properties.schemaVersion") >= 1.7) return model;
 
   // apply migration
   const clone = cloneObject(model);
@@ -55,7 +55,7 @@ function _migrateSummaryStatSchemaVersion1_7<T extends IModel | IDraft>(
                 ? values.url
                 : values.url?.slice(
                     0,
-                    values.url?.lastIndexOf("FeatureServer") + 13
+                    values.url.lastIndexOf("FeatureServer") + 13
                   ),
               expressionSet,
               allowExpressionSet: !!expressionSet.length,
@@ -85,12 +85,13 @@ function _migrateSummaryStatSchemaVersion1_7<T extends IModel | IDraft>(
 
 function migrateTextAlign(align: string): string {
   switch (align) {
-    case "left":
-      return "start";
     case "center":
       return "center";
     case "right":
       return "end";
+    case "left":
+    default:
+      return "start";
   }
 }
 
@@ -106,7 +107,7 @@ function migrateTextAlign(align: string): string {
 export function whereToExpressionSet(where: string): IExpression[] {
   let expressionSet: IExpression[] = [];
   if (where) {
-    const whereClauses = where.split("AND");
+    const whereClauses = where.split("AND"); // what happens if a user puts "AND" as the matching value?
     expressionSet = whereClauses
       .map((clause) => {
         let expression: IExpression;
@@ -114,24 +115,30 @@ export function whereToExpressionSet(where: string): IExpression[] {
         // could be number or date
         if (clause.includes(">=")) {
           const { fieldName, value } = handleClauseSplit(clause, ">=");
-          const finalValue = value.includes("TIMESTAMP")
-            ? handleDateInClause(value)
-            : value;
-          const fieldType = value.includes("TIMESTAMP")
-            ? "esriFieldTypeDate"
-            : undefined;
+          let finalValue = value;
+          let fieldType: FieldType;
+
+          // handle date
+          if (value.includes("TIMESTAMP")) {
+            finalValue = handleDateInClause(value);
+            fieldType = "esriFieldTypeDate";
+          }
+
           expression = makeExpression(fieldName, fieldType, [finalValue]);
         }
 
         // could be number or date AND value is second in values array
         else if (clause.includes("<=")) {
           const { fieldName, value } = handleClauseSplit(clause, "<=");
-          const finalValue = value.includes("TIMESTAMP")
-            ? handleDateInClause(value)
-            : value;
-          const fieldType = value.includes("TIMESTAMP")
-            ? "esriFieldTypeDate"
-            : undefined;
+          let finalValue = value;
+          let fieldType: FieldType;
+
+          // handle date
+          if (value.includes("TIMESTAMP")) {
+            finalValue = handleDateInClause(value);
+            fieldType = "esriFieldTypeDate";
+          }
+
           expression = makeExpression(fieldName, fieldType, [
             undefined,
             finalValue,
@@ -162,18 +169,13 @@ export function whereToExpressionSet(where: string): IExpression[] {
  */
 function handleClauseSplit(
   clause: string,
-  splitBy: string = ""
+  splitBy: string
 ): { fieldName: string; value: string } {
-  let result = { fieldName: "", value: "" };
   const pieces = clause.split(splitBy);
 
-  if (pieces.length === 2) {
-    const fieldName = pieces[0].trim();
-    const value = pieces[1].trim();
-    result = { fieldName, value };
-  }
-
-  return result;
+  const fieldName = pieces[0].trim();
+  const value = pieces[1].trim();
+  return { fieldName, value };
 }
 
 /**
@@ -197,7 +199,7 @@ function handleDateInClause(value: string): string {
  */
 function makeExpression(
   fieldName: string,
-  fieldType: FieldType,
+  fieldType: FieldType | undefined,
   values: Array<string | number | Date>
 ): IExpression {
   const field = {
