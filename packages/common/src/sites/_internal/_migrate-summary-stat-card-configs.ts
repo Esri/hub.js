@@ -2,6 +2,7 @@ import { setProp } from "../../objects";
 import { IModel, IDraft } from "../../types";
 import { cloneObject } from "../../util";
 import { IField } from "@esri/arcgis-rest-feature-layer";
+import { FieldType } from "@esri/arcgis-rest-types";
 
 interface IExpression {
   field?: IField;
@@ -20,7 +21,7 @@ export function _migrateSummaryStatCardConfigs<T extends IModel | IDraft>(
   model: T
 ): T {
   // TODO: fill in
-  // attempt migration for _______ schema version
+  // attempt migration for 1.7 schema version
   const migratedModel = _migrateSummaryStatSchemaVersion1_7(model);
   return migratedModel;
 }
@@ -40,6 +41,7 @@ function _migrateSummaryStatSchemaVersion1_7<T extends IModel | IDraft>(
       cards: (row.cards || []).map((card: any) => {
         if (card.component.name === "summary-statistic-card") {
           const values = card.component.settings;
+          const expressionSet = whereToExpressionSet(values.where);
           card.component.settings = {
             type: "dynamic",
             cardTitle: values.title,
@@ -55,8 +57,8 @@ function _migrateSummaryStatSchemaVersion1_7<T extends IModel | IDraft>(
                     0,
                     values.url?.lastIndexOf("FeatureServer") + 13
                   ),
-              expressionSet: whereToExpressionSet(values.where),
-              allowExpressionSet: !!values.where,
+              expressionSet,
+              allowExpressionSet: !!expressionSet.length,
             },
             serverTimeout: values.timeout,
             textAlign: migrateTextAlign(values.statValueAlign),
@@ -105,47 +107,49 @@ export function whereToExpressionSet(where: string): IExpression[] {
   let expressionSet: IExpression[] = [];
   if (where) {
     const whereClauses = where.split("AND");
-    expressionSet = whereClauses.map((clause) => {
-      let expression: IExpression;
+    expressionSet = whereClauses
+      .map((clause) => {
+        let expression: IExpression;
 
-      // could be number or date
-      if (clause.includes(">=")) {
-        const { fieldName, value } = handleClauseSplit(clause, ">=");
-        const finalValue = value.includes("TIMESTAMP")
-          ? handleDateInClause(value)
-          : value;
-        const fieldType = value.includes("TIMESTAMP")
-          ? "esriFieldTypeDate"
-          : undefined;
-        expression = makeExpression(fieldName, fieldType, [finalValue]);
-      }
+        // could be number or date
+        if (clause.includes(">=")) {
+          const { fieldName, value } = handleClauseSplit(clause, ">=");
+          const finalValue = value.includes("TIMESTAMP")
+            ? handleDateInClause(value)
+            : value;
+          const fieldType = value.includes("TIMESTAMP")
+            ? "esriFieldTypeDate"
+            : undefined;
+          expression = makeExpression(fieldName, fieldType, [finalValue]);
+        }
 
-      // could be number or date AND value is second in values array
-      else if (clause.includes("<=")) {
-        const { fieldName, value } = handleClauseSplit(clause, "<=");
-        const finalValue = value.includes("TIMESTAMP")
-          ? handleDateInClause(value)
-          : value;
-        const fieldType = value.includes("TIMESTAMP")
-          ? "esriFieldTypeDate"
-          : undefined;
-        expression = makeExpression(fieldName, fieldType, [
-          undefined,
-          finalValue,
-        ]);
-      }
+        // could be number or date AND value is second in values array
+        else if (clause.includes("<=")) {
+          const { fieldName, value } = handleClauseSplit(clause, "<=");
+          const finalValue = value.includes("TIMESTAMP")
+            ? handleDateInClause(value)
+            : value;
+          const fieldType = value.includes("TIMESTAMP")
+            ? "esriFieldTypeDate"
+            : undefined;
+          expression = makeExpression(fieldName, fieldType, [
+            undefined,
+            finalValue,
+          ]);
+        }
 
-      // string match
-      else if (clause.includes("=")) {
-        const { fieldName, value } = handleClauseSplit(clause, "=");
-        const cleanedValue = removeQuotesAroundValue(value);
-        expression = makeExpression(fieldName, "esriFieldTypeString", [
-          cleanedValue,
-        ]);
-      }
+        // string match
+        else if (clause.includes("=") && clause !== "1=1") {
+          const { fieldName, value } = handleClauseSplit(clause, "=");
+          const cleanedValue = removeQuotesAroundValue(value);
+          expression = makeExpression(fieldName, "esriFieldTypeString", [
+            cleanedValue,
+          ]);
+        }
 
-      return expression;
-    });
+        return expression;
+      })
+      .filter((ex) => !!ex);
   }
   return expressionSet;
 }
@@ -193,14 +197,17 @@ function handleDateInClause(value: string): string {
  */
 function makeExpression(
   fieldName: string,
-  fieldType: string,
+  fieldType: FieldType,
   values: Array<string | number | Date>
 ): IExpression {
+  const field = {
+    name: fieldName,
+  } as IField;
+  if (fieldType) {
+    field.type = fieldType;
+  }
   const expression = {
-    field: {
-      name: fieldName,
-      type: fieldType,
-    } as IField,
+    field,
     values,
   };
   return expression;

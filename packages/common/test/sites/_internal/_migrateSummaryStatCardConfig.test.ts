@@ -99,6 +99,7 @@ function getExpectedCardSettings(
       serviceUrl:
         "https://servicesqa.arcgis.com/Xj56SBi2udA78cC9/arcgis/rest/services/Field_Type_Table/FeatureServer",
       expressionSet,
+      allowExpressionSet: !!expressionSet.length,
     },
     type: "dynamic",
     cardTitle: "Statistic Title",
@@ -108,7 +109,6 @@ function getExpectedCardSettings(
     trailingText: "trailing text...",
     allowUnitFormatting: false,
     allowLink: false,
-    allowExpressionSet: !!expressionSet,
   };
 }
 
@@ -148,7 +148,7 @@ describe("_ensure-summary-stat-card", () => {
     let model: IModel;
 
     it("does not apply changes if schemaVersion is already 1.7", function () {
-      model = cloneObject(getSiteModel(getCardSettings("left", "", null)));
+      model = cloneObject(getSiteModel(getCardSettings("left", "1=1", null)));
       setProp("item.properties.schemaVersion", 1.7, model);
       const expected: IModel = cloneObject(model);
       const results = _migrateSummaryStatCardConfigs<IModel>(model);
@@ -156,7 +156,7 @@ describe("_ensure-summary-stat-card", () => {
     });
 
     it("does not apply changes if invalid model", function () {
-      model = cloneObject(getSiteModel(getCardSettings("left", "", null)));
+      model = cloneObject(getSiteModel(getCardSettings("left", "1=1", null)));
       const expected: IModel = cloneObject(modelWithBadLayout);
       setProp("item.properties.schemaVersion", 1.7, expected);
       const results =
@@ -233,11 +233,11 @@ describe("_ensure-summary-stat-card", () => {
           values: [undefined, "2023-01-03"],
         },
         {
-          field: { name: "SmInteger", type: undefined },
+          field: { name: "SmInteger" },
           values: ["1"],
         },
         {
-          field: { name: "SmInteger", type: undefined },
+          field: { name: "SmInteger" },
           values: [undefined, "1"],
         },
       ];
@@ -256,7 +256,7 @@ describe("_ensure-summary-stat-card", () => {
         " Float <= 4.55 AND Field Name = 'This is a string' AND Date >= TIMESTAMP '2023-07-17 00:00:00' AND Float >= 3.99 AND Date <= TIMESTAMP '2023-07-17 23:59:59'";
       const expressionSet = [
         {
-          field: { name: "Float", type: undefined },
+          field: { name: "Float" },
           values: [undefined, "4.55"],
         },
         {
@@ -268,7 +268,7 @@ describe("_ensure-summary-stat-card", () => {
           values: ["2023-07-17"],
         },
         {
-          field: { name: "Float", type: undefined },
+          field: { name: "Float" },
           values: ["3.99"],
         },
         {
@@ -309,6 +309,19 @@ describe("_ensure-summary-stat-card", () => {
       model = cloneObject(
         getSiteModel(getCardSettings("left", undefined, null))
       );
+
+      const expected: IModel = cloneObject(
+        getSiteModel(getExpectedCardSettings("start", expressionSet, undefined))
+      );
+      setProp("item.properties.schemaVersion", 1.7, expected);
+      const results = _migrateSummaryStatCardConfigs<IModel>(model);
+      expect(results).toEqual(expected);
+    });
+
+    it("handles where 1=1", () => {
+      const where = "1=1";
+      const expressionSet: Array<Record<string, any>> = [];
+      model = cloneObject(getSiteModel(getCardSettings("left", where, null)));
 
       const expected: IModel = cloneObject(
         getSiteModel(getExpectedCardSettings("start", expressionSet, undefined))
