@@ -1,3 +1,10 @@
+## @esri/hub-common [13.43.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.43.2...@esri/hub-common@13.43.3) (2023-08-21)
+
+
+### Bug Fixes
+
+* group permissions ([#1179](https://github.com/Esri/hub.js/issues/1179)) ([7e4775f](https://github.com/Esri/hub.js/commit/7e4775f9571bd2b1de11f345fc7692366254967e))
+
 ## @esri/hub-common [13.43.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.43.1...@esri/hub-common@13.43.2) (2023-08-21)
 
 
