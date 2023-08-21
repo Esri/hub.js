@@ -7,11 +7,13 @@ import {
   ISearchChannels,
 } from "../../../src";
 import SEARCH_CHANNELS_RESPONSE from "./mocks/searchChannelsResponse";
+import * as arcgisRestPortal from "@esri/arcgis-rest-portal";
 
 describe("discussionsSearchItems Module |", () => {
   let processSearchParamsSpy: jasmine.Spy;
   let toHubSearchResultSpy: jasmine.Spy;
   let searchChannelsSpy: jasmine.Spy;
+  let getGroupSpy: jasmine.Spy;
 
   beforeEach(() => {
     processSearchParamsSpy = spyOn(
@@ -24,6 +26,9 @@ describe("discussionsSearchItems Module |", () => {
     ).and.callThrough();
     searchChannelsSpy = spyOn(API, "searchChannels").and.callFake(() => {
       return Promise.resolve(SEARCH_CHANNELS_RESPONSE);
+    });
+    getGroupSpy = spyOn(arcgisRestPortal, "getGroup").and.callFake(() => {
+      return Promise.resolve();
     });
   });
 
@@ -156,5 +161,62 @@ describe("discussionsSearchItems Module |", () => {
       access: ["private", "org"],
       name: ["Foo"],
     } as any as ISearchChannels);
+  });
+  it("exclodes group enrichment when include groups not requested", async () => {
+    const qry: IQuery = {
+      targetEntity: "channel",
+      filters: [
+        {
+          predicates: [
+            {
+              access: "private",
+              groups: ["cb0ddfc90f4f45b899c076c88d3fdc84"],
+              foo: "bar",
+            },
+          ],
+        },
+      ],
+    };
+    const opts: IHubSearchOptions = {
+      num: 10,
+      sortField: "createdAt",
+      sortOrder: "desc",
+      requestOptions: {
+        isPortal: false,
+        hubApiUrl: "https://hubqa.arcgis.com/api",
+        token: "my-secret-token",
+      } as IHubRequestOptions,
+    };
+    const result = await hubSearchChannels.hubSearchChannels(qry, opts);
+    expect(getGroupSpy).not.toHaveBeenCalled();
+  });
+  it("includes group enrichment when include groups requested", async () => {
+    const qry: IQuery = {
+      targetEntity: "channel",
+      filters: [
+        {
+          predicates: [
+            {
+              access: "private",
+              groups: ["cb0ddfc90f4f45b899c076c88d3fdc84"],
+              foo: "bar",
+            },
+          ],
+        },
+      ],
+    };
+    const opts: IHubSearchOptions = {
+      num: 10,
+      sortField: "createdAt",
+      sortOrder: "desc",
+      requestOptions: {
+        isPortal: false,
+        hubApiUrl: "https://hubqa.arcgis.com/api",
+        token: "my-secret-token",
+      } as IHubRequestOptions,
+      include: ["groups"],
+    };
+    const result = await hubSearchChannels.hubSearchChannels(qry, opts);
+    expect(getGroupSpy).toHaveBeenCalled();
   });
 });
