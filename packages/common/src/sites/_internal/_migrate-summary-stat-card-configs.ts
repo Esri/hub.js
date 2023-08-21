@@ -15,7 +15,6 @@ import { IExpression } from "../../core/types/Metrics";
 export function _migrateSummaryStatCardConfigs<T extends IModel | IDraft>(
   model: T
 ): T {
-  // TODO: fill in
   // attempt migration for 1.7 schema version
   const migratedModel = _migrateSummaryStatSchemaVersion1_7(model);
   return migratedModel;
