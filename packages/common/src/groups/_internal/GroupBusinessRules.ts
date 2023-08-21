@@ -113,10 +113,10 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:group:workspace:content",
-    dependencies: ["hub:group:edit"],
+    dependencies: ["hub:group:view"],
   },
   {
     permission: "hub:group:workspace:members",
-    dependencies: ["hub:group:edit"],
+    dependencies: ["hub:group:view"],
   },
 ];
