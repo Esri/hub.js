@@ -1,3 +1,10 @@
+# @esri/hub-common [13.44.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.43.3...@esri/hub-common@13.44.0) (2023-08-21)
+
+
+### Features
+
+* **hub-common:** enriches channel with groups via hub search includes ([#1178](https://github.com/Esri/hub.js/issues/1178)) ([f38271d](https://github.com/Esri/hub.js/commit/f38271dccdb38f6c7de1e0dbf5491166dc90bf72)), closes [#7405](https://github.com/Esri/hub.js/issues/7405)
+
 ## @esri/hub-common [13.43.3](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.43.2...@esri/hub-common@13.43.3) (2023-08-21)
 
 
