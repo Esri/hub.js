@@ -142,7 +142,7 @@ export const toHubSearchResult = async (
       },
       includes: {
         // when 'include' requests 'groups' enrichment, get group details
-        groups: options?.include?.includes("groups")
+        groups: options.include?.includes("groups")
           ? await Promise.all(
               channel.groups.map(async (groupId) => {
                 let group;

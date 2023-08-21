@@ -30,6 +30,7 @@ describe("discussionsSearchItems Module |", () => {
     getGroupSpy = spyOn(arcgisRestPortal, "getGroup").and.callFake(() => {
       return Promise.resolve();
     });
+    spyOn(console, "warn");
   });
 
   it("calls searchChannels", async () => {
@@ -187,7 +188,7 @@ describe("discussionsSearchItems Module |", () => {
         token: "my-secret-token",
       } as IHubRequestOptions,
     };
-    const result = await hubSearchChannels.hubSearchChannels(qry, opts);
+    await hubSearchChannels.hubSearchChannels(qry, opts);
     expect(getGroupSpy).not.toHaveBeenCalled();
   });
   it("includes group enrichment when include groups requested", async () => {
@@ -216,7 +217,39 @@ describe("discussionsSearchItems Module |", () => {
       } as IHubRequestOptions,
       include: ["groups"],
     };
+    await hubSearchChannels.hubSearchChannels(qry, opts);
+    expect(getGroupSpy).toHaveBeenCalled();
+  });
+  it("handes error when group is inacessible", async () => {
+    getGroupSpy.and.throwError("groups is inaccessible");
+    const qry: IQuery = {
+      targetEntity: "channel",
+      filters: [
+        {
+          predicates: [
+            {
+              access: "private",
+              groups: ["cb0ddfc90f4f45b899c076c88d3fdc84"],
+              foo: "bar",
+            },
+          ],
+        },
+      ],
+    };
+    const opts: IHubSearchOptions = {
+      num: 10,
+      sortField: "createdAt",
+      sortOrder: "desc",
+      requestOptions: {
+        isPortal: false,
+        hubApiUrl: "https://hubqa.arcgis.com/api",
+        token: "my-secret-token",
+      } as IHubRequestOptions,
+      include: ["groups"],
+    };
     const result = await hubSearchChannels.hubSearchChannels(qry, opts);
     expect(getGroupSpy).toHaveBeenCalled();
+    /* tslint:disable-next-line: no-console */
+    expect(console.warn).toHaveBeenCalled();
   });
 });
