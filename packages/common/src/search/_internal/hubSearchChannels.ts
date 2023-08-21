@@ -13,6 +13,7 @@ import {
   ISearchChannels,
   ISearchChannelsParams,
 } from "../../discussions";
+import { getGroup } from "@esri/arcgis-rest-portal";
 
 /**
  * @private
@@ -111,14 +112,16 @@ export const processSearchParams = (
  * @param {IHubSearchOptions} options
  * @returns IHubSearchResponse<IHubSearchResult>
  */
-export const toHubSearchResult = (
+export const toHubSearchResult = async (
   channelsResponse: IPagedResponse<IChannel>,
   query: IQuery,
   options: IHubSearchOptions
-): IHubSearchResponse<IHubSearchResult> => {
+): Promise<IHubSearchResponse<IHubSearchResult>> => {
   const { total, items, nextStart } = channelsResponse;
   // Convert IChannel to IHubSearchResult
-  const channelToSearchResult = (channel: IChannel): IHubSearchResult => {
+  const channelToSearchResult = async (
+    channel: IChannel
+  ): Promise<IHubSearchResult> => {
     return {
       ...channel,
       id: channel.id,
@@ -137,11 +140,32 @@ export const toHubSearchResult = (
         self: null,
         siteRelative: null,
       },
+      includes: {
+        // when 'include' requests 'groups' enrichment, get group details
+        groups: options.include?.includes("groups")
+          ? await Promise.all(
+              channel.groups.map(async (groupId) => {
+                let group;
+                try {
+                  group = await getGroup(groupId, options.requestOptions);
+                } catch (e) {
+                  group = null;
+                  /* tslint:disable-next-line: no-console */
+                  console.warn(
+                    `Cannot fetch group enhancement for id = ${groupId}`,
+                    e
+                  );
+                }
+                return group;
+              })
+            )
+          : [],
+      },
     };
   };
   return {
     total,
-    results: items.map(channelToSearchResult),
+    results: await Promise.all(items.map(channelToSearchResult)),
     hasNext: nextStart > -1,
     next: () => {
       return hubSearchChannels(query, {
