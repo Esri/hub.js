@@ -1,3 +1,10 @@
+## @esri/hub-common [13.43.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.43.1...@esri/hub-common@13.43.2) (2023-08-21)
+
+
+### Bug Fixes
+
+* add memberType to SortOption ([#1177](https://github.com/Esri/hub.js/issues/1177)) ([6480a8c](https://github.com/Esri/hub.js/commit/6480a8c3168c7877207261004afa7d09b2dba2db))
+
 ## @esri/hub-common [13.43.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.43.0...@esri/hub-common@13.43.1) (2023-08-18)
 
 
