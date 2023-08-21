@@ -3,12 +3,7 @@ import { IModel, IDraft } from "../../types";
 import { cloneObject } from "../../util";
 import { IField } from "@esri/arcgis-rest-feature-layer";
 import { FieldType } from "@esri/arcgis-rest-types";
-
-interface IExpression {
-  field?: IField;
-  values?: Array<string | number | Date>;
-  key?: string;
-}
+import { IExpression } from "../../core/types/Metrics";
 
 /**
  * Reconfigure summary stat card properties to align with the

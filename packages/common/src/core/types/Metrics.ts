@@ -1,4 +1,5 @@
 import { IQuery } from "../../search/types/IHubCatalog";
+import { IField } from "@esri/arcgis-rest-types";
 import { ServiceAggregation } from "./DynamicValues";
 import { IReference } from "./IReference";
 
@@ -176,4 +177,13 @@ export interface IMetricFeature {
 export interface IResolvedMetric {
   features: IMetricFeature[];
   generatedAt: number;
+}
+
+/**
+ * Expression by which a metric can be filtered before aggregation, i.e. a clause of a where statement
+ */
+export interface IExpression {
+  field?: IField;
+  values?: Array<string | number | Date>;
+  key?: string;
 }
