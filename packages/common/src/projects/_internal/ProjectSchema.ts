@@ -1,5 +1,5 @@
 import { HubItemEntitySchema } from "../../core/schemas/shared/HubItemEntitySchema";
-import { MetricSchema } from "../../core/schemas/metrics/MetricSchema";
+import { MetricSchema } from "../../core/schemas/internal/MetricSchema";
 import { IConfigurationSchema } from "../../core/schemas/types";
 import { PROJECT_STATUSES } from "../../core/types/IHubProject";
 
@@ -7,7 +7,7 @@ export type ProjectEditorType = (typeof ProjectEditorTypes)[number];
 export const ProjectEditorTypes = [
   "hub:project:create",
   "hub:project:edit",
-  "hub:project:metrics"
+  "hub:project:metrics",
 ] as const;
 
 /**

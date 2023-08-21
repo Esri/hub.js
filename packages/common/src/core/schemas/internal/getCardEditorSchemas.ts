@@ -1,6 +1,10 @@
 import { cloneObject } from "../../../util";
 import { IEditorConfig } from "../../behaviors/IWithEditorBehavior";
-import { CardType, IConfigurationSchema, UiSchemaElementOptions } from "../types";
+import {
+  CardType,
+  IConfigurationSchema,
+  UiSchemaElementOptions,
+} from "../types";
 import { applyUiSchemaElementOptions } from "./applyUiSchemaElementOptions";
 import { filterSchemaToUiSchema } from "./filterSchemaToUiSchema";
 import { interpolate } from "../../../items/interpolate";
@@ -26,14 +30,14 @@ export async function getCardEditorSchemas(
   let uiSchema;
   switch (cardType) {
     case "stat":
-      const { MetricSchema } = await import('../metrics/MetricSchema');
+      const { MetricSchema } = await import("./MetricSchema");
       schema = cloneObject(MetricSchema);
-      ({ uiSchema } = await import('./cards/StatCardUiSchema'));
+      ({ uiSchema } = await import("./cards/StatCardUiSchema"));
       break;
     case "countdown":
-      const { CountdownSchema } = await import('./cards/CountdownSchema');
+      const { CountdownSchema } = await import("./cards/CountdownSchema");
       schema = cloneObject(CountdownSchema);
-      ({ uiSchema } = await import('./cards/CountdownCardUiSchema'));
+      ({ uiSchema } = await import("./cards/CountdownCardUiSchema"));
       break;
   }
 

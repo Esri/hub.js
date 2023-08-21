@@ -6,109 +6,111 @@ import {
   SHARING,
   SOURCE,
   UNIT_POSITIONS,
-  VISUAL_INTEREST
-} from "../internal/cards/types";
+  VISUAL_INTEREST,
+} from "./cards/types";
 
-const ALTERNATE_VISUAL_INTEREST = Object.keys(VISUAL_INTEREST).filter(x => x !== VISUAL_INTEREST.sparkline);
+const ALTERNATE_VISUAL_INTEREST = Object.keys(VISUAL_INTEREST).filter(
+  (x) => x !== VISUAL_INTEREST.sparkline
+);
 
 export const MetricSchema = {
-  required: ['value'],
-  type: 'object',
+  required: ["value"],
+  type: "object",
   properties: {
     type: {
-      type: 'string',
+      type: "string",
       enum: Object.keys(SOURCE),
       default: SOURCE.dynamic,
     },
     cardTitle: {
-      type: 'string',
+      type: "string",
     },
     value: {
-      type: 'string',
+      type: "string",
     },
     dynamicMetric: {
-      type: 'object',
+      type: "object",
     },
     allowUnitFormatting: {
-      type: 'boolean',
+      type: "boolean",
       default: false,
     },
     unit: {
-      type: 'string',
+      type: "string",
     },
     unitPosition: {
-      type: 'string',
+      type: "string",
       default: UNIT_POSITIONS.after,
-      enum: Object.keys(UNIT_POSITIONS)
+      enum: Object.keys(UNIT_POSITIONS),
     },
     serverTimeout: {
-      type: ['number', 'null'],
+      type: ["number", "null"],
       maximum: 99,
       minimum: 0,
     },
     subtitle: {
-      type: 'string',
+      type: "string",
     },
     trailingText: {
-      type: 'string',
+      type: "string",
     },
     textAlign: {
-      type: 'string',
-      default: ALIGNMENTS.start
+      type: "string",
+      default: ALIGNMENTS.start,
     },
     allowLink: {
-      type: 'boolean',
+      type: "boolean",
       default: false,
     },
     sourceLink: {
-      type: 'string',
+      type: "string",
     },
     sourceTitle: {
-      type: 'string',
+      type: "string",
     },
     corners: {
-      type: 'string',
+      type: "string",
       default: CORNERS.square,
-      enum: Object.keys(CORNERS)
+      enum: Object.keys(CORNERS),
     },
     valueColor: {
-      type: 'string',
+      type: "string",
     },
     layout: {
-      type: 'string',
+      type: "string",
       default: LAYOUTS.simple,
-      enum: Object.keys(LAYOUTS)
+      enum: Object.keys(LAYOUTS),
     },
     dropShadow: {
-      type: 'string',
+      type: "string",
       default: DROP_SHADOWS.none,
-      enum: Object.keys(DROP_SHADOWS)
+      enum: Object.keys(DROP_SHADOWS),
     },
     visualInterest: {
-      type: 'string',
+      type: "string",
       default: VISUAL_INTEREST.none,
-      if: { properties: { layout: { const: 'simple' } } },
+      if: { properties: { layout: { const: "simple" } } },
       then: { enum: Object.keys(VISUAL_INTEREST) },
-      else: { enum: ALTERNATE_VISUAL_INTEREST }
+      else: { enum: ALTERNATE_VISUAL_INTEREST },
     },
     shareable: {
-      type: 'boolean',
-      default: false
+      type: "boolean",
+      default: false,
     },
     shareableByValue: {
-      type: 'boolean',
-      default: false
+      type: "boolean",
+      default: false,
     },
     shareableOnHover: {
-      type: 'string',
+      type: "string",
       default: SHARING.always,
-      enum: Object.keys(SHARING)
+      enum: Object.keys(SHARING),
     },
     popoverTitle: {
-      type: 'string',
+      type: "string",
     },
     popoverDescription: {
-      type: 'string',
+      type: "string",
     },
   },
   // allOf: [
