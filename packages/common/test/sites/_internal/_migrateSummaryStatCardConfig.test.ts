@@ -1,7 +1,7 @@
 import { _migrateSummaryStatCardConfigs } from "../../../src/sites/_internal/_migrate-summary-stat-card-configs";
 import { IModel, cloneObject, IDraft, setProp } from "../../../src";
 
-function getSiteModel(cardSettings) {
+function getSiteModel(cardSettings: Record<string, any>) {
   return {
     item: {
       id: "3ef",
@@ -85,7 +85,7 @@ function getCardSettings(
 
 function getExpectedCardSettings(
   textAlign: string,
-  expressionSet,
+  expressionSet: Record<string, any>,
   color: string | undefined
 ) {
   return {
@@ -290,7 +290,7 @@ describe("_ensure-summary-stat-card", () => {
       const where = "Float <= 4.55";
       const expressionSet = [
         {
-          field: { name: "Float", type: undefined },
+          field: { name: "Float" },
           values: [undefined, "4.55"],
         },
       ];
@@ -305,7 +305,7 @@ describe("_ensure-summary-stat-card", () => {
     });
 
     it("handles an empty where clause", () => {
-      const expressionSet = [];
+      const expressionSet: Array<Record<string, any>> = [];
       model = cloneObject(
         getSiteModel(getCardSettings("left", undefined, null))
       );
