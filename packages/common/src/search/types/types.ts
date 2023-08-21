@@ -18,7 +18,7 @@ export interface ISortOption {
  * Sort options supported
  */
 export type SortOption =
-  | "relavance"
+  | "relevance"
   | "title"
   | "created"
   | "modified"
