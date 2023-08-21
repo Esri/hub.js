@@ -149,6 +149,7 @@ export const toHubSearchResult = async (
                 try {
                   group = await getGroup(groupId, options.requestOptions);
                 } catch (e) {
+                  group = null;
                   /* tslint:disable-next-line: no-console */
                   console.warn(
                     `Cannot fetch group enhancement for id = ${groupId}`,

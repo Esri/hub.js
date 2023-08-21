@@ -28,7 +28,7 @@ describe("discussionsSearchItems Module |", () => {
       return Promise.resolve(SEARCH_CHANNELS_RESPONSE);
     });
     getGroupSpy = spyOn(arcgisRestPortal, "getGroup").and.callFake(() => {
-      return Promise.resolve();
+      return Promise.resolve({ title: "My Group Title" });
     });
     spyOn(console, "warn");
   });
@@ -163,7 +163,7 @@ describe("discussionsSearchItems Module |", () => {
       name: ["Foo"],
     } as any as ISearchChannels);
   });
-  it("exclodes group enrichment when include groups not requested", async () => {
+  it("excludes group enrichment when include groups not requested", async () => {
     const qry: IQuery = {
       targetEntity: "channel",
       filters: [
@@ -188,8 +188,9 @@ describe("discussionsSearchItems Module |", () => {
         token: "my-secret-token",
       } as IHubRequestOptions,
     };
-    await hubSearchChannels.hubSearchChannels(qry, opts);
+    const result = await hubSearchChannels.hubSearchChannels(qry, opts);
     expect(getGroupSpy).not.toHaveBeenCalled();
+    expect(result.results[0].includes).toEqual({ groups: [] });
   });
   it("includes group enrichment when include groups requested", async () => {
     const qry: IQuery = {
@@ -217,10 +218,13 @@ describe("discussionsSearchItems Module |", () => {
       } as IHubRequestOptions,
       include: ["groups"],
     };
-    await hubSearchChannels.hubSearchChannels(qry, opts);
+    const result = await hubSearchChannels.hubSearchChannels(qry, opts);
     expect(getGroupSpy).toHaveBeenCalled();
+    expect(result.results[0].includes).toEqual({
+      groups: [{ title: "My Group Title" }],
+    });
   });
-  it("handes error when group is inacessible", async () => {
+  it("handles error when group is inaccessible", async () => {
     getGroupSpy.and.throwError("groups is inaccessible");
     const qry: IQuery = {
       targetEntity: "channel",
@@ -251,5 +255,6 @@ describe("discussionsSearchItems Module |", () => {
     expect(getGroupSpy).toHaveBeenCalled();
     /* tslint:disable-next-line: no-console */
     expect(console.warn).toHaveBeenCalled();
+    expect(result.results[0].includes).toEqual({ groups: [null] });
   });
 });
