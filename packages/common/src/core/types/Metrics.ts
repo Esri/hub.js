@@ -183,7 +183,17 @@ export interface IResolvedMetric {
  * Expression by which a metric can be filtered before aggregation, i.e. a clause of a where statement
  */
 export interface IExpression {
+  /**
+   * Field that the expression filters on
+   */
   field?: IField;
+  /**
+   * The values that the where clause will be using on the right-hand side of the statement: this can be an array of strings, numbers, or dates.
+   * These values will be used in conjunction with the field to construct a where clause.
+   */
   values?: Array<string | number | Date>;
+  /**
+   * A special identifier given to the expression when it is created
+   */
   key?: string;
 }
