@@ -1,3 +1,10 @@
+# @esri/hub-common [13.46.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.45.0...@esri/hub-common@13.46.0) (2023-08-22)
+
+
+### Features
+
+* migrate summary stat function ([#1165](https://github.com/Esri/hub.js/issues/1165)) ([53e34de](https://github.com/Esri/hub.js/commit/53e34de0b903380538e3cee0e5f152121c30286e))
+
 # @esri/hub-common [13.45.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.44.0...@esri/hub-common@13.45.0) (2023-08-22)
 
 
