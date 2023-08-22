@@ -19,9 +19,9 @@ export const uiSchema: IUiSchema = {
           options: {
             control: "hub-field-input-radio",
             labels: [
-              "{{i18nScope}}.fields.membershipAccess.org.label",
-              "{{i18nScope}}.fields.membershipAccess.collab.label",
-              "{{i18nScope}}.fields.membershipAccess.any.label",
+              "{{{{i18nScope}}.fields.membershipAccess.org:translate}}",
+              "{{{{i18nScope}}.fields.membershipAccess.collab:translate}}",
+              "{{{{i18nScope}}.fields.membershipAccess.any:translate}}",
             ],
           },
         },
@@ -32,8 +32,8 @@ export const uiSchema: IUiSchema = {
           options: {
             control: "hub-field-input-radio",
             labels: [
-              "{{i18nScope}}.fields.contributeContent.all.label",
-              "{{i18nScope}}.fields.contributeContent.admins.label",
+              "{{{{i18nScope}}.fields.contributeContent.all:translate}}",
+              "{{{{i18nScope}}.fields.contributeContent.admins:translate}}",
             ],
           },
         },
