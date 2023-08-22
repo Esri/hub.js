@@ -1,3 +1,10 @@
+## @esri/hub-common [13.46.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.46.0...@esri/hub-common@13.46.1) (2023-08-22)
+
+
+### Bug Fixes
+
+* properly translate radio button labels ([#1181](https://github.com/Esri/hub.js/issues/1181)) ([54610c8](https://github.com/Esri/hub.js/commit/54610c8887411695ce56cee12e9d57ed763988c0))
+
 # @esri/hub-common [13.46.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.45.0...@esri/hub-common@13.46.0) (2023-08-22)
 
 
