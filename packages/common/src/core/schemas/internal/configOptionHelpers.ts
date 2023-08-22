@@ -160,7 +160,7 @@ async function getMembershipAccessConfigOptions(
   return Promise.resolve({
     scope: "/properties/membershipAccess",
     options: {
-      disabled: [true, true, isEditGroup],
+      disabled: [false, false, isEditGroup],
     },
   });
 }
