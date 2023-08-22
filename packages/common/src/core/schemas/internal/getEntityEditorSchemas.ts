@@ -120,6 +120,8 @@ export async function getEntityEditorSchemas(
       ({ uiSchema } = await {
         "hub:group:edit": () =>
           import("../../../groups/_internal/GroupUiSchemaEdit"),
+        "hub:group:settings": () =>
+          import("../../../groups/_internal/GroupUiSchemaSettings"),
       }[type as GroupEditorType]());
       break;
   }

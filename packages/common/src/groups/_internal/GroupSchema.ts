@@ -6,7 +6,10 @@ import {
 } from "../../core/schemas/shared";
 
 export type GroupEditorType = (typeof GroupEditorTypes)[number];
-export const GroupEditorTypes = ["hub:group:edit"] as const;
+export const GroupEditorTypes = [
+  "hub:group:edit",
+  "hub:group:settings",
+] as const;
 
 /**
  * Defines the JSON schema for a Hub Group's editable fields
@@ -23,5 +26,15 @@ export const GroupSchema: IConfigurationSchema = {
       maxLength: 250,
     },
     _thumbnail: ENTITY_IMAGE_SCHEMA,
+    membershipAccess: {
+      type: "string",
+      enum: ["organization", "collaborators", "anyone"],
+      default: "anyone",
+    },
+    isViewOnly: {
+      type: "boolean",
+      enum: [false, true],
+      default: false,
+    },
   },
 } as IConfigurationSchema;
