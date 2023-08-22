@@ -1,5 +1,6 @@
 import { _migrateSummaryStatCardConfigs } from "../../../src/sites/_internal/_migrate-summary-stat-card-configs";
 import { IModel, cloneObject, setProp } from "../../../src";
+import * as utils from "../../../src/util";
 
 function getSiteModel(cardSettings: Record<string, any>) {
   return {
@@ -215,6 +216,9 @@ describe("_ensure-summary-stat-card", () => {
 
     it("handles an empty settings object", function () {
       model = cloneObject(getSiteModel({}));
+      const createIdSpy: jasmine.Spy = spyOn(utils, "createId").and.returnValue(
+        "mockCardId"
+      );
       const expected: IModel = cloneObject(
         getSiteModel({
           type: "dynamic",
@@ -233,7 +237,7 @@ describe("_ensure-summary-stat-card", () => {
           serverTimeout: undefined,
           valueColor: undefined,
           trailingText: undefined,
-          cardId: undefined,
+          cardId: "mockCardId",
           allowUnitFormatting: false,
           allowLink: false,
         })
@@ -241,9 +245,13 @@ describe("_ensure-summary-stat-card", () => {
       const result = _migrateSummaryStatCardConfigs<IModel>(model);
       setProp("item.properties.schemaVersion", 1.7, expected);
       expect(result).toEqual(expected);
+      expect(createIdSpy).toHaveBeenCalledTimes(1);
     });
 
     it("handles formatting of url", function () {
+      const createIdSpy: jasmine.Spy = spyOn(utils, "createId").and.returnValue(
+        "mockCardId"
+      );
       model = cloneObject(
         getSiteModel({
           url: "https://servicesqa.arcgis.com/Xj56SBi2udA78cC9/arcgis/rest/services/Field_Type_Table/FeatureServer",
@@ -268,7 +276,7 @@ describe("_ensure-summary-stat-card", () => {
           serverTimeout: undefined,
           valueColor: undefined,
           trailingText: undefined,
-          cardId: undefined,
+          cardId: "mockCardId",
           allowUnitFormatting: false,
           allowLink: false,
         })
@@ -276,6 +284,44 @@ describe("_ensure-summary-stat-card", () => {
       const result = _migrateSummaryStatCardConfigs<IModel>(model);
       setProp("item.properties.schemaVersion", 1.7, expected);
       expect(result).toEqual(expected);
+      expect(createIdSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it("handles formatting of url with MapServer url", function () {
+      const createIdSpy: jasmine.Spy = spyOn(utils, "createId").and.returnValue(
+        "mockCardId"
+      );
+      model = getSiteModel({
+        url: "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Demographic_WebMercator/MapServer/40",
+      });
+      const expected: IModel = cloneObject(
+        getSiteModel({
+          type: "dynamic",
+          cardTitle: undefined,
+          dynamicMetric: {
+            allowExpressionSet: false,
+            itemId: [undefined],
+            layerId: undefined,
+            field: undefined,
+            fieldType: undefined,
+            statistic: undefined,
+            serviceUrl:
+              "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Demographic_WebMercator/MapServer",
+            expressionSet: [],
+          },
+          textAlign: "start",
+          serverTimeout: undefined,
+          valueColor: undefined,
+          trailingText: undefined,
+          cardId: "mockCardId",
+          allowUnitFormatting: false,
+          allowLink: false,
+        })
+      );
+      const result = _migrateSummaryStatCardConfigs<IModel>(model);
+      setProp("item.properties.schemaVersion", 1.7, expected);
+      expect(result).toEqual(expected);
+      expect(createIdSpy).toHaveBeenCalledTimes(1);
     });
 
     describe("text align & color variations", function () {

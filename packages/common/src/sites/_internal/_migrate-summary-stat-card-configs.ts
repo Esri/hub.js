@@ -1,6 +1,6 @@
 import { setProp, getProp } from "../../objects";
 import { IModel, IDraft } from "../../types";
-import { cloneObject } from "../../util";
+import { cloneObject, createId } from "../../util";
 import { IField } from "@esri/arcgis-rest-feature-layer";
 import { FieldType } from "@esri/arcgis-rest-types";
 import { IExpression } from "../../core/types/Metrics";
@@ -45,12 +45,7 @@ function _migrateSummaryStatSchemaVersion1_7<T extends IModel | IDraft>(
               field: values.statFieldName,
               fieldType: values.statFieldType,
               statistic: values.statType,
-              serviceUrl: values.url?.endsWith("FeatureServer")
-                ? values.url
-                : values.url?.slice(
-                    0,
-                    values.url.lastIndexOf("FeatureServer") + 13
-                  ),
+              serviceUrl: getServiceUrl(values.url),
               expressionSet,
               allowExpressionSet: !!expressionSet.length,
             },
@@ -61,7 +56,7 @@ function _migrateSummaryStatSchemaVersion1_7<T extends IModel | IDraft>(
                 ? undefined
                 : values.statValueColor,
             trailingText: values.trailingText,
-            cardId: values.cardId,
+            cardId: values.cardId || createId(),
 
             // did not exist on old stat card
             allowUnitFormatting: false,
@@ -75,6 +70,21 @@ function _migrateSummaryStatSchemaVersion1_7<T extends IModel | IDraft>(
 
   setProp("item.properties.schemaVersion", 1.7, clone);
   return clone;
+}
+
+function getServiceUrl(url: string) {
+  let serviceUrl: string = url;
+
+  // url has layer id at end
+  if (url?.lastIndexOf("FeatureServer") > -1) {
+    serviceUrl = url.slice(0, url.lastIndexOf("FeatureServer") + 13);
+
+    // url has layer id at end
+  } else if (url?.lastIndexOf("MapServer") > -1) {
+    serviceUrl = url.slice(0, url.lastIndexOf("MapServer") + 9);
+  }
+
+  return serviceUrl;
 }
 
 function migrateTextAlign(align: string): string {
@@ -98,7 +108,7 @@ function migrateTextAlign(align: string): string {
  * @param where A where clause as a string. Ex: "Category = 'abc' AND date <= TIMESTAMP '2023-01-01 00:00:00"
  * @returns IExpression[] expression set of the where clause, broken down into individual expressions
  */
-export function whereToExpressionSet(where: string): IExpression[] {
+function whereToExpressionSet(where: string): IExpression[] {
   let expressionSet: IExpression[] = [];
   if (where) {
     const whereClauses = where.split("AND"); // what happens if a user puts "AND" as the matching value?
