@@ -13,19 +13,6 @@ export const uiSchema: IUiSchema = {
       labelKey: "{{i18nScope}}.sections.membershipAccess.label",
       elements: [
         {
-          labelKey: "{{i18nScope}}.fields.viewAccess.label",
-          scope: "/properties/access",
-          type: "Control",
-          options: {
-            control: "hub-field-input-radio",
-            labels: [
-              "{{i18nScope}}.fields.viewAccess.private.label",
-              "{{i18nScope}}.fields.viewAccess.org.label",
-              "{{i18nScope}}.fields.viewAccess.public.label",
-            ],
-          },
-        },
-        {
           labelKey: "{{i18nScope}}.fields.membershipAccess.label",
           scope: "/properties/membershipAccess",
           type: "Control",
@@ -40,7 +27,7 @@ export const uiSchema: IUiSchema = {
         },
         {
           labelKey: "{{i18nScope}}.fields.contributeContent.label",
-          scope: "/properties/viewAccess",
+          scope: "/properties/isViewOnly",
           type: "Control",
           options: {
             control: "hub-field-input-radio",
