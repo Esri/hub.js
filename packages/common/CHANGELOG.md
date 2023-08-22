@@ -1,3 +1,10 @@
+# @esri/hub-common [13.45.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.44.0...@esri/hub-common@13.45.0) (2023-08-22)
+
+
+### Features
+
+* add group settings schema ([#1180](https://github.com/Esri/hub.js/issues/1180)) ([768f432](https://github.com/Esri/hub.js/commit/768f432cc0462a509538f44a1ad748832652a211))
+
 # @esri/hub-common [13.44.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.43.3...@esri/hub-common@13.44.0) (2023-08-21)
 
 
