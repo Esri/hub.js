@@ -179,4 +179,16 @@ describe("configHelpers:", () => {
     expect(chk.options?.items).toEqual([]);
     expect(chk.options?.disabled).toBe(false);
   });
+
+  it("membershipAccess", async () => {
+    const fakeEntity = { fake: "entity", isSharedUpdate: true };
+
+    const chk = await configHelpers.membershipAccess(
+      fakeEntity,
+      authdCtxMgr.context
+    );
+    expect(chk.scope).toEqual("/properties/membershipAccess");
+    expect(chk.options?.disabled.length).toBe(3);
+    expect(chk.options?.disabled[2]).toBe(true);
+  });
 });

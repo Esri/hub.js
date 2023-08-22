@@ -35,7 +35,7 @@ export async function getEditorConfigOptions(
     initiative: [...standardOptions, "featuredImage"],
     site: [...standardOptions],
     page: [...standardOptions],
-    group: ["access", "thumbnail"],
+    group: ["access", "thumbnail", "membershipAccess"],
   };
 
   if (!options[entityType]) {

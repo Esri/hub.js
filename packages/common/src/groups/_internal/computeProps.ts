@@ -42,6 +42,8 @@ export function computeProps(
 
   hubGroup.isDiscussable = isDiscussable(group);
 
+  // This tells us on if the group is an edit/view group.
+  // If it has the `updateitemcontrol` capability, it is an edit group
   hubGroup.isSharedUpdate = (group.capabilities || []).includes(
     "updateitemcontrol"
   );

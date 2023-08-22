@@ -18,7 +18,8 @@ export type ConfigOption =
   | "featuredImage"
   | "featuredContentCatalogs"
   | "thumbnail"
-  | "groupsToShareTo";
+  | "groupsToShareTo"
+  | "membershipAccess";
 
 export type ConfigHelperFn = (
   entity: ConfigurableEntity,
@@ -34,6 +35,7 @@ export const configHelpers: Record<ConfigOption, ConfigHelperFn> = {
   featuredContentCatalogs: getFeaturedContentCatalogOptions,
   featuredImage: getFeaturedImageConfigOptions,
   thumbnail: getThumbnailConfigOptions,
+  membershipAccess: getMembershipAccessConfigOptions,
 };
 
 async function getFeaturedContentCatalogOptions(
@@ -147,6 +149,18 @@ async function getGroupsToShareToConfigOptions(
     options: {
       items: getSharableGroupsComboBoxItems(context.currentUser.groups),
       disabled: !canShare,
+    },
+  });
+}
+
+async function getMembershipAccessConfigOptions(
+  _entity: ConfigurableEntity
+): Promise<UiSchemaElementOptions> {
+  const isEditGroup = _entity.isSharedUpdate;
+  return Promise.resolve({
+    scope: "/properties/membershipAccess",
+    options: {
+      disabled: [true, true, isEditGroup],
     },
   });
 }
