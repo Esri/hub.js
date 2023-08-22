@@ -330,6 +330,30 @@ describe("HubGroup class:", () => {
       );
     });
 
+    // it("getEditorConfig delegates to helper for settings", async () => {
+    //   const spy = spyOn(EditConfigModule, "getEditorConfig").and.callFake(
+    //     () => {
+    //       return Promise.resolve({ fake: "config" });
+    //     }
+    //   );
+    //   const chk = HubGroup.fromJson(
+    //     {
+    //       id: "bc3",
+    //       name: "Test Entity",
+    //     },
+    //     authdCtxMgr.context
+    //   );
+    //   const result = await chk.getEditorConfig("i18n.Scope", "hub:group:settings");
+    //   expect(result).toEqual({ fake: "config" } as any);
+    //   expect(spy).toHaveBeenCalledTimes(1);
+    //   expect(spy).toHaveBeenCalledWith(
+    //     "i18n.Scope",
+    //     "hub:group:edit",
+    //     chk.toJson(),
+    //     authdCtxMgr.context
+    //   );
+    // });
+
     it("toEditor converst entity to correct structure", () => {
       const chk = HubGroup.fromJson(
         {

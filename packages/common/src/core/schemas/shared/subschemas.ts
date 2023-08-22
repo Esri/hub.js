@@ -100,3 +100,21 @@ export const ENTITY_TIMELINE_SCHEMA = {
     },
   },
 };
+
+export const ENTITY_CONTRIBUTE_SCHEMA = {
+  type: "boolean",
+  enum: [false, true],
+  default: false,
+};
+
+export const ENTITY_VIEW_ACCESS_SCHEMA = {
+  type: "string",
+  enum: ["private", "org", "public"],
+  default: "private",
+};
+
+export const ENTITY_MEMBERSHIP_ACCESS_SCHEMA = {
+  type: "string",
+  enum: ["organization", "collaborators", "anyone"],
+  default: "anyone",
+};
