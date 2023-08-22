@@ -1,6 +1,7 @@
 import { _migrateSummaryStatCardConfigs } from "../../../src/sites/_internal/_migrate-summary-stat-card-configs";
-import { IModel, cloneObject, setProp } from "../../../src";
+import { IModel, cloneObject, setProp, IDraft } from "../../../src";
 import * as utils from "../../../src/util";
+import { draftModelOneThree } from "../../fixtures/historical-site-draft-schemas/1-3";
 
 function getSiteModel(cardSettings: Record<string, any>) {
   return {
@@ -144,58 +145,15 @@ const modelWithBadLayout = {
   },
 } as unknown as IModel;
 
-const modelWithNoProperties = {
-  item: {
-    id: "3ef",
-    title: "Some Site",
-    type: "Hub Site",
-    properties: {
-      schemaVersion: 1.6,
-    },
-  },
-  data: {
-    values: {
-      layout: {
-        sections: [
-          {
-            rows: [
-              {
-                cards: [
-                  {
-                    component: {
-                      name: "summary-statistic-card",
-                      settings: {},
-                    },
-                    width: 12,
-                  },
-                ],
-              },
-              {
-                cards: [
-                  {
-                    component: {
-                      name: "markdown-card",
-                      settings: {
-                        schemaVersion: 2.1,
-                        markdown:
-                          '<h4 style="color: rgb(0, 0, 0);"><b>Dataset Type Items</b></h4>',
-                      },
-                    },
-                    width: 12,
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    },
-  },
-} as unknown as IModel;
-
 describe("_ensure-summary-stat-card", () => {
   describe("Site model", function () {
     let model: IModel;
+
+    let createIdSpy: jasmine.Spy;
+
+    beforeEach(function () {
+      createIdSpy = spyOn(utils, "createId").and.returnValue("mockCardId");
+    });
 
     it("does not apply changes if schemaVersion is already 1.7", function () {
       model = cloneObject(getSiteModel(getCardSettings("left", "1=1", null)));
@@ -216,9 +174,6 @@ describe("_ensure-summary-stat-card", () => {
 
     it("handles an empty settings object", function () {
       model = cloneObject(getSiteModel({}));
-      const createIdSpy: jasmine.Spy = spyOn(utils, "createId").and.returnValue(
-        "mockCardId"
-      );
       const expected: IModel = cloneObject(
         getSiteModel({
           type: "dynamic",
@@ -249,9 +204,6 @@ describe("_ensure-summary-stat-card", () => {
     });
 
     it("handles formatting of url", function () {
-      const createIdSpy: jasmine.Spy = spyOn(utils, "createId").and.returnValue(
-        "mockCardId"
-      );
       model = cloneObject(
         getSiteModel({
           url: "https://servicesqa.arcgis.com/Xj56SBi2udA78cC9/arcgis/rest/services/Field_Type_Table/FeatureServer",
@@ -288,9 +240,6 @@ describe("_ensure-summary-stat-card", () => {
     });
 
     it("handles formatting of url with MapServer url", function () {
-      const createIdSpy: jasmine.Spy = spyOn(utils, "createId").and.returnValue(
-        "mockCardId"
-      );
       model = getSiteModel({
         url: "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Demographic_WebMercator/MapServer/40",
       });
@@ -370,7 +319,91 @@ describe("_ensure-summary-stat-card", () => {
   });
 
   describe("Site draft", function () {
-    // TODO: once site draft is implemented (two PRs needed), write these
+    let model: IDraft;
+    let createIdSpy: jasmine.Spy;
+    beforeEach(function () {
+      model = cloneObject(draftModelOneThree);
+      createIdSpy = spyOn(utils, "createId").and.returnValue("mockCardId");
+    });
+    it("correctly migrates a draft", function () {
+      const expected: IDraft = cloneObject(model);
+      expected.data.values.layout.sections[2].rows[1].cards[0].component.settings =
+        {
+          type: "dynamic",
+          cardTitle: "Statistic Title",
+          dynamicMetric: {
+            itemId: [undefined],
+            layerId: undefined,
+            field: "",
+            fieldType: "",
+            statistic: "",
+            serviceUrl: "",
+            expressionSet: [],
+            allowExpressionSet: false,
+          },
+          serverTimeout: undefined,
+          textAlign: "start",
+          valueColor: undefined,
+          trailingText: "...",
+          cardId: "mockCardId",
+          allowUnitFormatting: false,
+          allowLink: false,
+        };
+      expected.data.values.layout.sections[2].rows[1].cards[1].component.settings =
+        {
+          type: "dynamic",
+          cardTitle: "Statistic Title",
+          dynamicMetric: {
+            itemId: [undefined],
+            layerId: undefined,
+            field: "",
+            fieldType: "",
+            statistic: "",
+            serviceUrl: "",
+            expressionSet: [],
+            allowExpressionSet: false,
+          },
+          serverTimeout: undefined,
+          textAlign: "start",
+          valueColor: undefined,
+          trailingText: "...",
+          cardId: "mockCardId",
+          allowUnitFormatting: false,
+          allowLink: false,
+        };
+      expected.data.values.layout.sections[2].rows[1].cards[2].component.settings =
+        {
+          type: "dynamic",
+          cardTitle: "Statistic Title",
+          dynamicMetric: {
+            itemId: [undefined],
+            layerId: undefined,
+            field: "",
+            fieldType: "",
+            statistic: "",
+            serviceUrl: "",
+            expressionSet: [],
+            allowExpressionSet: false,
+          },
+          serverTimeout: undefined,
+          textAlign: "start",
+          valueColor: undefined,
+          trailingText: "...",
+          cardId: "mockCardId",
+          allowUnitFormatting: false,
+          allowLink: false,
+        };
+      setProp("item.properties.schemaVersion", 1.7, expected);
+      const results = _migrateSummaryStatCardConfigs<IDraft>(model);
+      expect(results).toEqual(expected);
+      expect(createIdSpy).toHaveBeenCalledTimes(3);
+    });
+    it("does not apply changes if schemaVersion is already 1.7", function () {
+      setProp("item.properties.schemaVersion", 1.7, model);
+      const expected: IDraft = cloneObject(model);
+      const results = _migrateSummaryStatCardConfigs<IDraft>(model);
+      expect(results).toEqual(expected);
+    });
   });
 
   describe("WhereToExpressionSet", function () {
