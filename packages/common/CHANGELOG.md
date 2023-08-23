@@ -1,3 +1,27 @@
+# @esri/hub-common [14.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.46.2...@esri/hub-common@14.0.0) (2023-08-23)
+
+
+### Features
+
+* remove capabilities, add featureFlags to Context ([#1184](https://github.com/Esri/hub.js/issues/1184)) ([394c60c](https://github.com/Esri/hub.js/commit/394c60c75d101ede29e1c1392c1ad50d4b7787bb))
+
+
+### BREAKING CHANGES
+
+* HubSubsystem, HubSystemStatus, isSubsystem removed
+
+* fix: remove capabilities
+* Remove all capability related functions, props, fix tests
+
+* feat: context holds feature flags
+
+* refactor: ensure .features persisted for S/I/P only
+
+* refactor: update version test to account for settings.features being included
+
+* fix: remove IEntityFeature type
+* IEntityFeature type replaced with IFeatureFlag
+
 ## @esri/hub-common [13.46.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.46.1...@esri/hub-common@13.46.2) (2023-08-23)
 
 
