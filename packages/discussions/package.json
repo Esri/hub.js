@@ -1,6 +1,6 @@
 {
   "name": "@esri/hub-discussions",
-  "version": "25.8.0",
+  "version": "26.0.0",
   "description": "Module to interact with ArcGIS Hub Discussions API in Node.js and modern browsers.",
   "main": "dist/node/index.js",
   "module": "dist/esm/index.js",
@@ -13,10 +13,10 @@
   "peerDependencies": {
     "@esri/arcgis-rest-auth": "^2.14.0 || 3",
     "@esri/arcgis-rest-request": "^2.14.0 || 3",
-    "@esri/hub-common": "^13.0.0"
+    "@esri/hub-common": "^14.0.0"
   },
   "devDependencies": {
-    "@esri/hub-common": "*",
+    "@esri/hub-common": "^14.0.0",
     "@types/geojson": "^7946.0.7",
     "typescript": "^3.8.1"
   },
