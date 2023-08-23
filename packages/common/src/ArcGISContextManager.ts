@@ -9,7 +9,7 @@ import {
 import { getHubApiFromPortalUrl } from "./urls/getHubApiFromPortalUrl";
 import { getPortalBaseFromOrgUrl } from "./urls/getPortalBaseFromOrgUrl";
 import { Level, Logger } from "./utils/logger";
-import { HubService, HubServiceStatus, HubSystemStatus } from "./core";
+import { HubService, HubServiceStatus } from "./core";
 import { cloneObject } from "./util";
 import { base64ToUnicode, unicodeToBase64 } from "./utils/encoding";
 
@@ -64,12 +64,6 @@ export interface IArcGISContextManagerOptions {
   logLevel?: Level;
 
   /**
-   * DEPRECATED: Option to pass in system status vs fetching it
-   * TODO: Remove with Capabilities
-   */
-  systemStatus?: HubSystemStatus;
-
-  /**
    * Option to pass in service status vs fetching it
    */
   serviceStatus?: HubServiceStatus;
@@ -113,8 +107,6 @@ export class ArcGISContextManager {
 
   private _logLevel: Level = Level.error;
 
-  private _systemStatus: HubSystemStatus;
-
   private _serviceStatus: HubServiceStatus;
 
   /**
@@ -155,11 +147,6 @@ export class ArcGISContextManager {
 
     if (opts.currentUser) {
       this._currentUser = cloneObject(opts.currentUser);
-    }
-
-    // TODO: Remove with Capabilities
-    if (opts.systemStatus) {
-      this._systemStatus = opts.systemStatus;
     }
 
     if (opts.serviceStatus) {
@@ -228,9 +215,7 @@ export class ArcGISContextManager {
       // of portalUrl
       opts.portalUrl = state.portalUrl;
     }
-    // system status is safe to carry forward even if session is expired
-    // TODO: Remove with Capabilities
-    opts.systemStatus = state.systemStatus;
+    // service status is safe to carry forward even if session is expired
     opts.serviceStatus = state.serviceStatus;
 
     return ArcGISContextManager.create(opts);
@@ -296,8 +281,6 @@ export class ArcGISContextManager {
       session?: string;
     } = {
       portalUrl: this._portalUrl,
-      // TODO: Remove with Capabilities
-      systemStatus: this._systemStatus,
       serviceStatus: this._serviceStatus,
     };
 
@@ -345,11 +328,6 @@ export class ArcGISContextManager {
         throw ex;
       }
     }
-    // get system status
-    // TODO: Remove with Capabilities
-    if (!this._systemStatus) {
-      this._systemStatus = await getSystemStatus(this._portalUrl);
-    }
     // get service status
     if (!this._serviceStatus) {
       this._serviceStatus = await getServiceStatus(this._portalUrl);
@@ -368,8 +346,6 @@ export class ArcGISContextManager {
       portalUrl: this._portalUrl,
       hubUrl: this._hubUrl,
       properties: this._properties,
-      // TODO: Remove with Capabilities
-      systemStatus: this._systemStatus,
       serviceStatus: this._serviceStatus,
     };
     if (this._authentication) {
@@ -384,56 +360,6 @@ export class ArcGISContextManager {
     return contextOpts;
   }
 }
-
-/**
- * Temporary fake implementation based on isPortal
- * which we have during the initialization
- * @param hubApiUrl
- */
-function getSystemStatus(portalUrl: string): Promise<HubSystemStatus> {
-  let status = HUB_STATUS;
-  const isPortal = portalUrl.indexOf("arcgis.com") === -1;
-  // When we move to fetching the system status from the API
-  // we can use
-  // const hubApiUrl = getHubApiFromPortalUrl(portalUrl);
-  if (isPortal) {
-    status = ENTERPRISE_SITES_STATUS;
-  }
-
-  return Promise.resolve(status);
-}
-
-const ENTERPRISE_SITES_STATUS: HubSystemStatus = {
-  content: "online",
-  discussions: "not-available",
-  events: "not-available",
-  initiatives: "not-available",
-  items: "online",
-  metrics: "not-available",
-  notifications: "not-available",
-  pages: "online",
-  projects: "not-available",
-  search: "online",
-  sites: "online",
-  groups: "online",
-  platform: "online",
-};
-
-const HUB_STATUS: HubSystemStatus = {
-  content: "online",
-  discussions: "online",
-  events: "online",
-  initiatives: "online",
-  items: "online",
-  metrics: "online",
-  notifications: "online",
-  pages: "online",
-  projects: "online",
-  search: "online",
-  sites: "online",
-  groups: "online",
-  platform: "online",
-};
 
 function getServiceStatus(portalUrl: string): Promise<HubServiceStatus> {
   let status = HUB_SERVICE_STATUS;

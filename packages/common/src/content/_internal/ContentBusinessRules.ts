@@ -89,7 +89,6 @@ export const ContentPermissionPolicies: IPermissionPolicy[] = [
   // {
   //   permission: "hub:content:delete",
   //   authenticated: true,
-  //   subsystems: ["content"],
   //   entityOwner: true,
   //   licenses: ["hub-basic", "hub-premium", "enterprise-sites"],
   // },

@@ -5,7 +5,7 @@ import {
 } from "@esri/arcgis-rest-auth";
 import { IPortal } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { HubServiceStatus, HubSystemStatus } from "./core";
+import { HubServiceStatus } from "./core";
 import { getProp, getWithDefault } from "./objects";
 import { HubEnvironment, HubLicense } from "./permissions/types";
 import { IHubRequestOptions } from "./types";
@@ -160,10 +160,6 @@ export interface IArcGISContext {
    * Additional app-specific context
    */
   properties: Record<string, any>;
-  /**
-   * DEPRECATED: System status
-   */
-  systemStatus: HubSystemStatus;
 
   /**
    * Hub Service Status
@@ -231,11 +227,6 @@ export interface IArcGISContextOptions {
    * Optional hash of additional context
    */
   properties?: Record<string, any>;
-  /**
-   * DEPRECATED: Option to pass in system status vs fetching it
-   * TODO: Remove with Capabilities
-   */
-  systemStatus?: HubSystemStatus;
 
   /**
    * Option to pass in service status vs fetching it
@@ -276,9 +267,6 @@ export class ArcGISContext implements IArcGISContext {
 
   private _properties: Record<string, any>;
 
-  // TODO: Remove with Capabilities
-  private _systemStatus: HubSystemStatus;
-
   private _serviceStatus: HubServiceStatus;
 
   /**
@@ -290,7 +278,6 @@ export class ArcGISContext implements IArcGISContext {
     this.id = opts.id;
     this._portalUrl = opts.portalUrl;
     this._hubUrl = opts.hubUrl;
-    this._systemStatus = opts.systemStatus;
     this._serviceStatus = opts.serviceStatus;
     if (opts.authentication) {
       this._authentication = opts.authentication;
@@ -459,18 +446,6 @@ export class ArcGISContext implements IArcGISContext {
         return "hub-basic";
       }
     }
-  }
-
-  /**
-   * Returns the current hub system status information
-   * TODO: Remove with Capabilities
-   */
-  get systemStatus(): HubSystemStatus {
-    // tslint:disable-next-line: no-console
-    console.warn(
-      `DEPRECATED: context.systemStatus is deprecated use context.serviceStatus instead`
-    );
-    return this._systemStatus;
   }
 
   /**

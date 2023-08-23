@@ -2,7 +2,6 @@ import { ArcGISContextManager } from "../src/ArcGISContextManager";
 import {
   cloneObject,
   HubServiceStatus,
-  HubSystemStatus,
   IHubRequestOptionsPortalSelf,
   Level,
 } from "../src";
@@ -213,7 +212,6 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.domainServiceUrl).toBe(`${base}/api/v3/domains`);
       expect(mgr.context.hubRequestOptions).toBeDefined();
       expect(mgr.context.hubRequestOptions.authentication).toBeUndefined();
-      expect(mgr.context.systemStatus).toBeDefined();
       expect(mgr.context.serviceStatus).toBeDefined();
       expect(mgr.context.hubLicense).toBe("hub-basic");
     });
@@ -341,8 +339,6 @@ describe("ArcGISContext:", () => {
         authentication: MOCK_AUTH,
         portal: onlinePortalSelfResponse,
         currentUser: onlineUserResponse,
-        // TODO: Remove with Capabilities
-        systemStatus: { discussions: "offline" } as HubSystemStatus,
         serviceStatus: { domains: "online" } as HubServiceStatus,
         properties: {
           alphaOrgs: ["FAKEID", "FOTHERID"],
@@ -354,9 +350,6 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.currentUser).toEqual(onlineUserResponse);
       expect(mgr.context.portal).toEqual(onlinePortalSelfResponse);
       expect(mgr.context.session).toBe(MOCK_AUTH);
-      expect(mgr.context.systemStatus).toEqual({
-        discussions: "offline",
-      } as HubSystemStatus);
       expect(mgr.context.serviceStatus).toEqual({
         domains: "online",
       } as HubServiceStatus);

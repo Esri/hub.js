@@ -1,5 +1,5 @@
 import { HubLicense } from "./HubLicense";
-import { HubService, HubSubsystem } from "../../core/types/ISystemStatus";
+import { HubService } from "../../core/types/ISystemStatus";
 import { Permission } from "./Permission";
 import { PlatformPrivilege } from "./PlatformPrivilege";
 
@@ -20,11 +20,6 @@ export interface IPermissionPolicy {
    * Parent permissions this permission is dependent on
    */
   dependencies?: Permission[];
-
-  /**
-   * DEPRECATED: What subsystems are required to be online for this permission to be granted
-   */
-  subsystems?: HubSubsystem[];
 
   /**
    * What services are required to be online for this permission to be granted

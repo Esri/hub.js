@@ -109,7 +109,7 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
   {
     // Anyone can view a project
     permission: "hub:project:view",
-    subsystems: ["platform"],
+    services: ["portal"],
   },
   {
     permission: "hub:project:edit",

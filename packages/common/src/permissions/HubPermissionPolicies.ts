@@ -13,12 +13,11 @@ import { PlatformPermissionPolicies } from "./PlatformPermissionPolicies";
 //   {
 //     permission: "discussions:channel:create",
 //     authenticated: true,
-//     subsystems: ["discussions"],
+//     services: ["discussions"],
 //     licenses: ["hub-basic", "hub-premium"],
 //   },
 //   {
 //     permission: "discussions:channel:createprivate",
-//     subsystems: ["discussions"],
 //     authenticated: true,
 //     licenses: ["hub-basic", "hub-premium"],
 //     assertions: [
@@ -36,7 +35,7 @@ import { PlatformPermissionPolicies } from "./PlatformPermissionPolicies";
 //   },
 //   {
 //     permission: "discussions:channel:create",
-//     subsystems: ["discussions"],
+//     services: ["discussions"],
 //     authenticated: true,
 //     licenses: ["hub-basic", "hub-premium"],
 //     assertions: [
@@ -49,7 +48,7 @@ import { PlatformPermissionPolicies } from "./PlatformPermissionPolicies";
 //   },
 //   {
 //     permission: "discussions:post:create",
-//     subsystems: ["discussions"],
+//     services: ["discussions"],
 //     authenticated: true,
 //     licenses: ["hub-basic", "hub-premium"],
 //     assertions: [
@@ -66,7 +65,6 @@ const TempPermissionPolicies: IPermissionPolicy[] = [
   {
     // alpha orgs not on prod
     permission: "temp:workspace:released",
-    subsystems: [],
     availability: ["alpha"],
     environments: ["devext", "qaext"],
   },
