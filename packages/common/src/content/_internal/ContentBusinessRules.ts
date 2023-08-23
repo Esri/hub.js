@@ -1,9 +1,9 @@
-import { IEntityFeatures, IPermissionPolicy } from "../../permissions";
+import { IFeatureFlags, IPermissionPolicy } from "../../permissions";
 
 /**
  * Default features for a Content item. Intentionally empty to prevent overriding and adding features
  */
-export const ContentDefaultFeatures: IEntityFeatures = {
+export const ContentDefaultFeatures: IFeatureFlags = {
   // Intentally empty as this prevents overriding and adding features
 };
 

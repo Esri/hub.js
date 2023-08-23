@@ -1,9 +1,9 @@
-import { IEntityFeatures, IPermissionPolicy } from "../../permissions";
+import { IFeatureFlags, IPermissionPolicy } from "../../permissions";
 
 /**
  * Default features for a Project. These are the features that can be enabled / disabled by the entity owner
  */
-export const ProjectDefaultFeatures: IEntityFeatures = {
+export const ProjectDefaultFeatures: IFeatureFlags = {
   "hub:project:events": false,
   "hub:project:content": true,
   "hub:project:discussions": false,

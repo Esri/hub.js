@@ -1,6 +1,6 @@
 import { IArcGISContext } from "../../ArcGISContext";
 import { getWithDefault } from "../../objects/get-with-default";
-import { IEntityFeatures, IPermissionPolicy } from "../types/IPermissionPolicy";
+import { IFeatureFlags, IPermissionPolicy } from "../types/IPermissionPolicy";
 import { IPolicyCheck } from "../types/IPolicyCheck";
 import { PolicyResponse } from "../types/PolicyResponse";
 import { getPolicyResponseCode } from "./getPolicyResponseCode";

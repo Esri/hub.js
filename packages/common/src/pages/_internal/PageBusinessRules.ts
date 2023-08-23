@@ -1,9 +1,9 @@
-import { IEntityFeatures, IPermissionPolicy } from "../../permissions";
+import { IFeatureFlags, IPermissionPolicy } from "../../permissions";
 
 /**
  * Default features for a Project. These are the features that can be enabled / disabled by the entity owner
  */
-export const PageDefaultFeatures: IEntityFeatures = {
+export const PageDefaultFeatures: IFeatureFlags = {
   // Intentally empty as this prevents overriding and adding features
 };
 

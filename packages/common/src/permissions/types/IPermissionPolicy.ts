@@ -90,15 +90,14 @@ export interface IPermissionPolicy {
 }
 
 /**
- * Hash of features for an entity which can be used to determine if a feature is enabled for the entity
- * This can be applied to any permissin, enabling a lot of flexibility in how features are described and enabled
- * If the value is set to false, then the permission will alway be set to false for all users.
- */
-export interface IEntityFeatures extends Record<Permission, boolean> {}
-
-/**
- * Feature Flag is the same as an Entity Feature, except it's stored on context
- * and can override the Entity level flag
+ * Hash of permission:boolean, which is used in two contexts.
+ * First, it is used to control access to "features" are enabled for a particular entity
+ * e.g. By default, Events are enabled for Sites, but a specific Site may disable events
+ * The second use of `IFeatureFlags` is in `ArcGISContext`, and it holds a hash of permissions
+ * which have been enabled or disabled via uri parameters. Parsing of the uri parameters is
+ * the responsibility of the host application. In this use, if the value is set to false, then
+ * access is denied under all conditions. If the value is set to true, licensing,
+ * privilege and services checks are run, and if those pass, access is granted.
  */
 export interface IFeatureFlags extends Record<Permission, boolean> {}
 
