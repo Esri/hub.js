@@ -15,6 +15,7 @@ import {
 } from "../../src";
 import { Catalog } from "../../src/search";
 import * as ContainsModule from "../../src/core/_internal/deepContains";
+
 describe("HubSite Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
   let portalCtxMgr: ArcGISContextManager;
@@ -376,6 +377,13 @@ describe("HubSite Class:", () => {
           schemaVersion: 0,
         },
         permissions: [],
+        settings: {
+          features: {
+            "hub:site:content": true,
+            "hub:site:discussions": false,
+            "hub:site:events": false,
+          },
+        },
       },
       item: {
         id: "bc3",
@@ -464,7 +472,15 @@ describe("HubSite Class:", () => {
       const version: IVersion = {
         created: 123456,
         creator: "paige_pa",
-        data: {},
+        data: {
+          settings: {
+            features: {
+              "hub:site:content": true,
+              "hub:site:discussions": false,
+              "hub:site:events": false,
+            },
+          },
+        },
         id: "abc123",
         path: "",
         updated: 123456,
