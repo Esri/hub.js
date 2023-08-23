@@ -109,7 +109,6 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:group:workspace:settings",
     dependencies: ["hub:group:edit"],
-    entityOwner: true,
   },
   {
     permission: "hub:group:workspace:content",
