@@ -7,7 +7,7 @@ import { IPortal } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { HubServiceStatus } from "./core";
 import { getProp, getWithDefault } from "./objects";
-import { HubEnvironment, HubLicense } from "./permissions/types";
+import { HubEnvironment, HubLicense, IFeatureFlags } from "./permissions/types";
 import { IHubRequestOptions } from "./types";
 import { getEnvironmentFromPortalUrl } from "./utils/getEnvironmentFromPortalUrl";
 
@@ -181,6 +181,11 @@ export interface IArcGISContext {
    * What environment is this running in?
    */
   environment: HubEnvironment;
+
+  /**
+   * Hash of feature flags
+   */
+  featureFlags?: IFeatureFlags;
 }
 
 /**
@@ -232,6 +237,11 @@ export interface IArcGISContextOptions {
    * Option to pass in service status vs fetching it
    */
   serviceStatus?: HubServiceStatus;
+
+  /**
+   * Hash of feature flags
+   */
+  featureFlags?: IFeatureFlags;
 }
 
 /**
@@ -269,6 +279,8 @@ export class ArcGISContext implements IArcGISContext {
 
   private _serviceStatus: HubServiceStatus;
 
+  private _featureFlags: IFeatureFlags;
+
   /**
    * Create a new instance of `ArcGISContext`.
    *
@@ -293,6 +305,8 @@ export class ArcGISContext implements IArcGISContext {
     if (opts.properties) {
       this._properties = opts.properties;
     }
+
+    this._featureFlags = opts.featureFlags || {};
   }
 
   /**
@@ -307,6 +321,14 @@ export class ArcGISContext implements IArcGISContext {
    */
   public get isAuthenticated(): boolean {
     return !!this._authentication;
+  }
+
+  /**
+   * Return hash of feature flags passed into constructor.
+   * Default is empty object.
+   */
+  public get featureFlags(): IFeatureFlags {
+    return this._featureFlags;
   }
 
   /**

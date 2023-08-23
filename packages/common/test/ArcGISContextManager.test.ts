@@ -2,6 +2,7 @@ import { ArcGISContextManager } from "../src/ArcGISContextManager";
 import {
   cloneObject,
   HubServiceStatus,
+  IFeatureFlags,
   IHubRequestOptionsPortalSelf,
   Level,
 } from "../src";
@@ -174,6 +175,11 @@ validSerializedContext.session = JSON.stringify(validSession);
 const expiredSerializedContext = cloneObject(serializedContext);
 expiredSerializedContext.session = JSON.stringify(expiredSession);
 
+const featureFlags: IFeatureFlags = {
+  "hub:project:create": true,
+  "hub:site:create": false,
+};
+
 /**
  * NOTE: Throughout these tests we pass in a second arg to ArcGISContextManager.create
  * which is a fake `window`. We do this so these same tests will work in node
@@ -214,6 +220,7 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.hubRequestOptions.authentication).toBeUndefined();
       expect(mgr.context.serviceStatus).toBeDefined();
       expect(mgr.context.hubLicense).toBe("hub-basic");
+      expect(mgr.context.featureFlags).toEqual({});
     });
     it("verify props when passed portalUrl", async () => {
       const t = new Date().getTime();
@@ -248,6 +255,17 @@ describe("ArcGISContext:", () => {
       expect(mgr.context.id).toBeGreaterThanOrEqual(t);
       expect(mgr.context.environment).toBe("enterprise");
       expect(mgr.context.properties.site).toEqual(site);
+    });
+    it("verify when passed featureFlags", async () => {
+      const t = new Date().getTime();
+      const mgr = await ArcGISContextManager.create({
+        portalUrl: "https://myserver.com/gis",
+        featureFlags,
+      });
+      expect(mgr.context.id).toBeGreaterThanOrEqual(t);
+      expect(mgr.context.environment).toBe("enterprise");
+      expect(mgr.context.featureFlags).not.toBe(featureFlags);
+      expect(mgr.context.featureFlags).toEqual(featureFlags);
     });
     it("verify props when passed session", async () => {
       const t = new Date().getTime();
@@ -445,6 +463,18 @@ describe("ArcGISContext:", () => {
       const mgr = await ArcGISContextManager.deserialize(serialized!);
       expect(mgr.context.portalUrl).toBe("https://www.arcgis.com");
       expect(mgr.context.isAuthenticated).toBeFalsy();
+    });
+    it("can deserialize featureFlags ", async () => {
+      const serialized = unicodeToBase64(
+        JSON.stringify({
+          portalUrl: "https://www.arcgis.com",
+          featureFlags: { "hub:project:create": false },
+        })
+      );
+      const mgr = await ArcGISContextManager.deserialize(serialized!);
+      expect(mgr.context.portalUrl).toBe("https://www.arcgis.com");
+      expect(mgr.context.isAuthenticated).toBeFalsy();
+      expect(mgr.context.featureFlags).toEqual({ "hub:project:create": false });
     });
     it("can deserialize full, valid context", async () => {
       const selfSpy = spyOn(portalModule, "getSelf").and.callFake(() => {

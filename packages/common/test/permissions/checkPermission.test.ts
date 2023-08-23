@@ -37,13 +37,19 @@ describe("checkPermission:", () => {
   it("returns invalid permission if its invalid", () => {
     const chk = checkPermission(
       "foo:site:create" as Permission,
-      authdCtxMgr.context
+      authdCtxMgr.context,
+      {
+        label: "YAMMER",
+      }
     );
     expect(chk.access).toBe(false);
     expect(chk.response).toBe("invalid-permission");
     expect(chk.checks.length).toBe(0);
     expect(consoleDirSpy).toHaveBeenCalled();
     expect(consoleInfoSpy).toHaveBeenCalled();
+    expect(consoleInfoSpy.calls.argsFor(0)[0]).toContain(
+      "checkPermission: YAMMER"
+    );
   });
   it("runs system level permission checks that all pass", () => {
     const chk = checkPermission("hub:site:create", authdCtxMgr.context);
@@ -52,6 +58,13 @@ describe("checkPermission:", () => {
     expect(chk.checks.length).toBe(4);
     // verify that the service check is run
     expect(chk.checks[0].name).toBe("service portal online");
+  });
+
+  it("runs system level permission checks fail", () => {
+    const chk = checkPermission("hub:project:create", authdCtxMgr.context);
+    expect(chk.access).toBe(false);
+    expect(chk.response).toBe("not-licensed");
+    expect(chk.checks.length).toBe(4);
   });
   it("runs system level permission checks fail", () => {
     const chk = checkPermission("hub:project:create", authdCtxMgr.context);
@@ -79,7 +92,10 @@ describe("checkPermission:", () => {
     const entity = {
       canEdit: true,
     } as unknown as IHubItemEntity;
-    const chk = checkPermission("hub:site:edit", authdCtxMgr.context, entity);
+    const chk = checkPermission("hub:site:edit", authdCtxMgr.context, {
+      entity,
+      label: "VADER",
+    });
     expect(chk.access).toBe(true);
     expect(chk.response).toBe("granted");
     expect(chk.checks.length).toBe(4);
@@ -95,9 +111,15 @@ describe("checkPermission:", () => {
         },
       ],
     } as unknown as IHubItemEntity;
-    const chk = checkPermission("hub:site:edit", authdCtxMgr.context, entity);
+    const chk = checkPermission("hub:site:edit", authdCtxMgr.context, {
+      entity,
+      label: "YODA",
+    });
     expect(chk.access).toBe(false);
     expect(chk.response).toBe("not-granted");
     expect(chk.checks.length).toBe(5);
+    expect(consoleInfoSpy.calls.argsFor(0)[0]).toContain(
+      "checkPermission: YODA"
+    );
   });
 });

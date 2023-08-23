@@ -9,9 +9,10 @@ import {
 import { getHubApiFromPortalUrl } from "./urls/getHubApiFromPortalUrl";
 import { getPortalBaseFromOrgUrl } from "./urls/getPortalBaseFromOrgUrl";
 import { Level, Logger } from "./utils/logger";
-import { HubService, HubServiceStatus } from "./core";
+import { HubServiceStatus } from "./core";
 import { cloneObject } from "./util";
 import { base64ToUnicode, unicodeToBase64 } from "./utils/encoding";
+import { IFeatureFlags } from "./permissions";
 
 /**
  * Options that can be passed into `ArcGISContextManager.create`
@@ -67,6 +68,11 @@ export interface IArcGISContextManagerOptions {
    * Option to pass in service status vs fetching it
    */
   serviceStatus?: HubServiceStatus;
+
+  /**
+   * Optional hash of feature flags
+   */
+  featureFlags?: IFeatureFlags;
 }
 
 /**
@@ -108,6 +114,8 @@ export class ArcGISContextManager {
   private _logLevel: Level = Level.error;
 
   private _serviceStatus: HubServiceStatus;
+
+  private _featureFlags: IFeatureFlags;
 
   /**
    * Private constructor. Use `ArcGISContextManager.create(...)` to
@@ -151,6 +159,10 @@ export class ArcGISContextManager {
 
     if (opts.serviceStatus) {
       this._serviceStatus = opts.serviceStatus;
+    }
+
+    if (opts.featureFlags) {
+      this._featureFlags = cloneObject(opts.featureFlags);
     }
   }
 
@@ -215,8 +227,9 @@ export class ArcGISContextManager {
       // of portalUrl
       opts.portalUrl = state.portalUrl;
     }
-    // service status is safe to carry forward even if session is expired
+    // service status and feature flags are safe to carry forward even if session is expired
     opts.serviceStatus = state.serviceStatus;
+    opts.featureFlags = state.featureFlags;
 
     return ArcGISContextManager.create(opts);
   }
@@ -282,6 +295,7 @@ export class ArcGISContextManager {
     } = {
       portalUrl: this._portalUrl,
       serviceStatus: this._serviceStatus,
+      featureFlags: this._featureFlags,
     };
 
     if (this._authentication) {
@@ -347,6 +361,7 @@ export class ArcGISContextManager {
       hubUrl: this._hubUrl,
       properties: this._properties,
       serviceStatus: this._serviceStatus,
+      featureFlags: this._featureFlags,
     };
     if (this._authentication) {
       contextOpts.authentication = this._authentication;
@@ -357,6 +372,8 @@ export class ArcGISContextManager {
     if (this._currentUser) {
       contextOpts.currentUser = this._currentUser;
     }
+
+    // TODO: Decide if featureFlags should be passed forward
     return contextOpts;
   }
 }
