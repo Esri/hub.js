@@ -112,5 +112,11 @@ describe("HubUsers Module:", () => {
       expect(ro).toBe(hubRo);
       expect(chk.orgName).toBe("Fake Org");
     });
+    it("handles private user with no description", async () => {
+      const USR = cloneObject(TEST_USER);
+      delete USR.description;
+      const chk = await enrichUserSearchResult(USR, [], hubRo);
+      expect(chk.summary).toEqual(undefined);
+    });
   });
 });

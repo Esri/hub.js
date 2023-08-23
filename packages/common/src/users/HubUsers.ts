@@ -28,7 +28,9 @@ export async function enrichUserSearchResult(
     type: "User",
     name: user.fullName,
     owner: user.username,
-    summary: user.description,
+    // A private user will not have a description prop at all
+    // thus we set it to undefined to differentiate from a empty description which would be null
+    summary: user.hasOwnProperty("description") ? user.description : undefined,
     createdDate: new Date(user.created),
     createdDateSource: "user.created",
     updatedDate: new Date(user.modified),
