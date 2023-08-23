@@ -1,3 +1,11 @@
+## @esri/hub-common [13.46.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.46.1...@esri/hub-common@13.46.2) (2023-08-23)
+
+
+### Bug Fixes
+
+* enrichUserSearchResult will return a summary of undefined if the search result had no desc ([#1182](https://github.com/Esri/hub.js/issues/1182)) ([8672d3c](https://github.com/Esri/hub.js/commit/8672d3cdec216a25c7d14f9f2a987a8fc113b307))
+* ungate group settings pane from being only owner ([#1183](https://github.com/Esri/hub.js/issues/1183)) ([68533c0](https://github.com/Esri/hub.js/commit/68533c0dfc2b224b085a35e373c604b14dfd0f2e))
+
 ## @esri/hub-common [13.46.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.46.0...@esri/hub-common@13.46.1) (2023-08-22)
 
 
