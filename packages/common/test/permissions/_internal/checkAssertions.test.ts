@@ -11,7 +11,7 @@ describe("checkAssertions:", () => {
   it("returns empty checks if no assertions present", () => {
     const policy: IPermissionPolicy = {
       permission: "hub:project:create",
-      subsystems: ["projects"],
+      services: ["portal"],
     };
     const ctx = {
       isAuthenticated: true,
@@ -23,7 +23,7 @@ describe("checkAssertions:", () => {
   it("maps over assertions", () => {
     const policy: IPermissionPolicy = {
       permission: "hub:project:create",
-      subsystems: ["projects"],
+      services: ["portal"],
       assertions: [
         {
           property: "context:currentUser",

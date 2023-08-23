@@ -14,10 +14,6 @@ export function getPropertyMap(): IPropertyMap[] {
   // Site specific mappings
   map.push({ entityKey: "feeds", storeKey: "data.feeds" });
   map.push({ entityKey: "permissions", storeKey: "data.permissions" });
-  map.push({
-    entityKey: "capabilities",
-    storeKey: "data.capabilities",
-  });
   // Props stored below `data.values`
   const valueProps = [
     "pages",
@@ -46,10 +42,6 @@ export function getPropertyMap(): IPropertyMap[] {
     storeKey: "data.values.capabilities",
   });
   map.push({
-    entityKey: "capabilities",
-    storeKey: "data.settings.capabilities",
-  });
-  map.push({
     entityKey: "orgUrlKey",
     storeKey: "item.properties.orgUrlKey",
   });
@@ -63,5 +55,9 @@ export function getPropertyMap(): IPropertyMap[] {
   });
   map.push({ entityKey: "catalog", storeKey: "data.catalog" });
 
+  map.push({
+    entityKey: "features",
+    storeKey: "data.settings.features",
+  });
   return map;
 }

@@ -17,6 +17,8 @@ export function getPropertyMap(): IPropertyMap[] {
   map.push({ entityKey: "summary", storeKey: "snippet" });
   map.push({ entityKey: "permissions", storeKey: "properties.permissions" });
 
+  // features is intentionally left out
+
   const groupProps = [
     "access",
     "autoJoin",

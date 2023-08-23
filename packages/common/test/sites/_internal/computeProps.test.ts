@@ -3,8 +3,8 @@ import { MOCK_AUTH } from "../../mocks/mock-auth";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import { computeProps } from "../../../src/sites/_internal/computeProps";
 import { IHubSite, IModel } from "../../../src";
-import { SiteDefaultCapabilities } from "../../../src/sites/_internal/SiteBusinessRules";
-import * as processEntitiesModule from "../../../src/capabilities";
+import { SiteDefaultFeatures } from "../../../src/sites/_internal/SiteBusinessRules";
+import * as processEntitiesModule from "../../../src/permissions/_internal/processEntityFeatures";
 describe("sites: computeProps:", () => {
   let authdCtxMgr: ArcGISContextManager;
   beforeEach(async () => {
@@ -30,12 +30,19 @@ describe("sites: computeProps:", () => {
       portalUrl: "https://org.maps.arcgis.com",
     });
   });
-  describe("capabilities:", () => {
-    it("handles missing settings hash", () => {
-      const spy = spyOn(
+  describe("features:", () => {
+    let spy: jasmine.Spy;
+    beforeEach(() => {
+      spy = spyOn(
         processEntitiesModule,
-        "processEntityCapabilities"
+        "processEntityFeatures"
       ).and.returnValue({ details: true, settings: false });
+    });
+    afterEach(() => {
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy.calls.argsFor(0)[1]).toEqual(SiteDefaultFeatures);
+    });
+    it("handles missing settings hash", () => {
       const model: IModel = {
         item: {
           created: new Date().getTime(),
@@ -45,20 +52,15 @@ describe("sites: computeProps:", () => {
       } as IModel;
       const init: Partial<IHubSite> = {};
       const chk = computeProps(model, init, authdCtxMgr.context.requestOptions);
-      expect(spy).toHaveBeenCalledTimes(1);
-      expect(chk.capabilities?.details).toBeTruthy();
-      expect(chk.capabilities?.settings).toBeFalsy();
-      expect(spy).toHaveBeenCalledWith({}, SiteDefaultCapabilities);
+      expect(chk.features?.details).toBeTruthy();
+      expect(chk.features?.settings).toBeFalsy();
+      expect(spy.calls.argsFor(0)[0]).toEqual({});
     });
     it("handles missing capabilities hash", () => {
-      const spy = spyOn(
-        processEntitiesModule,
-        "processEntityCapabilities"
-      ).and.returnValue({ details: true, settings: false });
       const model: IModel = {
         item: {
           id: "3ef",
-          type: "Hub Project",
+          type: "Hub Site Application",
           created: new Date().getTime(),
           modified: new Date().getTime(),
         },
@@ -68,26 +70,22 @@ describe("sites: computeProps:", () => {
       } as unknown as IModel;
       const init: Partial<IHubSite> = {};
       const chk = computeProps(model, init, authdCtxMgr.context.requestOptions);
-      expect(spy).toHaveBeenCalledTimes(1);
-      expect(chk.capabilities?.details).toBeTruthy();
-      expect(chk.capabilities?.settings).toBeFalsy();
-      expect(spy).toHaveBeenCalledWith({}, SiteDefaultCapabilities);
+
+      expect(chk.features?.details).toBeTruthy();
+      expect(chk.features?.settings).toBeFalsy();
+      expect(spy.calls.argsFor(0)[0]).toEqual({});
     });
-    it("passes capabilities hash", () => {
-      const spy = spyOn(
-        processEntitiesModule,
-        "processEntityCapabilities"
-      ).and.returnValue({ details: true, settings: false });
+    it("passes features hash", () => {
       const model: IModel = {
         item: {
           id: "3ef",
-          type: "Hub Project",
+          type: "Hub Site Application",
           created: new Date().getTime(),
           modified: new Date().getTime(),
         },
         data: {
           settings: {
-            capabilities: {
+            features: {
               details: true,
             },
           },
@@ -95,13 +93,10 @@ describe("sites: computeProps:", () => {
       } as unknown as IModel;
       const init: Partial<IHubSite> = {};
       const chk = computeProps(model, init, authdCtxMgr.context.requestOptions);
-      expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith(
-        model.data?.settings?.capabilities,
-        SiteDefaultCapabilities
-      );
-      expect(chk.capabilities?.details).toBeTruthy();
-      expect(chk.capabilities?.settings).toBeFalsy();
+
+      expect(chk.features?.details).toBeTruthy();
+      expect(chk.features?.settings).toBeFalsy();
+      expect(spy.calls.argsFor(0)[0]).toEqual({ details: true });
     });
   });
 });

@@ -24,17 +24,32 @@ import { checkEntityFeature } from "./_internal/checkEntityFeature";
 import { checkServiceStatus } from "./_internal/checkServiceStatus";
 
 /**
+ * Type to allow either an entity or and entity and label to be
+ * passed into `checkPermission`
+ */
+export type EntityOrOptions =
+  | Record<string, any>
+  | {
+      entity?: Record<string, any>;
+      label: string;
+    };
+
+/**
  * Check a permission against the system policies, and possibly an entity policy
+ * Note: Calls that fail will automatically be logged to the console. Additional
+ * context for the call can be passed via `.label` on the `entityOrOptions` argument.
  * @param permission
  * @param context
- * @param entity
+ * @param entityOrOptions
  * @returns
  */
 export function checkPermission(
   permission: Permission,
   context: IArcGISContext,
-  entity?: Record<string, any>
+  entityOrOptions?: EntityOrOptions
 ): IPermissionAccessResponse {
+  const label = entityOrOptions?.label || "";
+  const entity = entityOrOptions?.entity || entityOrOptions;
   // Default to granted
   let response: IPermissionAccessResponse = {
     policy: permission,
@@ -127,7 +142,9 @@ export function checkPermission(
   // log denied access information
   if (!response.access) {
     // tslint:disable-next-line:no-console
-    console.info(`checkPermission: ${permission} : ${response.response}`);
+    console.info(
+      `checkPermission: ${label} ${permission} : ${response.response}`
+    );
     // tslint:disable-next-line:no-console
     console.dir(response);
     // tslint:disable-next-line:no-console

@@ -1,48 +1,4 @@
-import { EntityCapabilities, ICapabilityPermission } from "../../capabilities";
 import { IPermissionPolicy } from "../../permissions";
-
-/**
- * Default capabilities for a Group.
- * If not listed here, the capability will not be available
- * TODO: Remove capabilities
- * @private
- */
-export const GroupDefaultCapabilities: EntityCapabilities = {
-  details: true,
-  settings: true,
-  members: true,
-  content: true,
-};
-
-/**
- * List of all the Group Capability Permissions
- * These are considered Hub Business Rules and are not intended
- * to be modified by consumers
- * TODO: Remove capabilities
- * @private
- */
-export const GroupCapabilityPermissions: ICapabilityPermission[] = [
-  {
-    entity: "group",
-    capability: "details",
-    permissions: ["hub:group:edit"],
-  },
-  {
-    entity: "group",
-    capability: "settings",
-    permissions: ["hub:group:owner"],
-  },
-  {
-    entity: "group",
-    capability: "members",
-    permissions: ["hub:group:view"],
-  },
-  {
-    entity: "group",
-    capability: "content",
-    permissions: ["hub:group:edit"],
-  },
-];
 
 /**
  * Group Permission Policies

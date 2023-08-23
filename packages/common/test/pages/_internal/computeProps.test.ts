@@ -3,8 +3,9 @@ import { MOCK_AUTH } from "../../mocks/mock-auth";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import { computeProps } from "../../../src/pages/_internal/computeProps";
 import { IHubPage, IModel } from "../../../src";
-import { PageDefaultCapabilities } from "../../../src/pages/_internal/PageBusinessRules";
-import * as processEntitiesModule from "../../../src/capabilities";
+import * as processEntitiesModule from "../../../src/permissions/_internal/processEntityFeatures";
+import { PageDefaultFeatures } from "../../../src/pages/_internal/PageBusinessRules";
+
 describe("Pages: computeProps:", () => {
   let authdCtxMgr: ArcGISContextManager;
   beforeEach(async () => {
@@ -30,12 +31,19 @@ describe("Pages: computeProps:", () => {
       portalUrl: "https://org.maps.arcgis.com",
     });
   });
-  describe("capabilities:", () => {
-    it("handles missing settings hash", () => {
-      const spy = spyOn(
+  describe("features:", () => {
+    let spy: jasmine.Spy;
+    beforeEach(() => {
+      spy = spyOn(
         processEntitiesModule,
-        "processEntityCapabilities"
+        "processEntityFeatures"
       ).and.returnValue({ details: true, settings: false });
+    });
+    afterEach(() => {
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy.calls.argsFor(0)[1]).toEqual(PageDefaultFeatures);
+    });
+    it("handles missing settings hash", () => {
       const model: IModel = {
         item: {
           created: new Date().getTime(),
@@ -45,20 +53,15 @@ describe("Pages: computeProps:", () => {
       } as IModel;
       const init: Partial<IHubPage> = {};
       const chk = computeProps(model, init, authdCtxMgr.context.requestOptions);
-      expect(spy).toHaveBeenCalledTimes(1);
-      expect(chk.capabilities?.details).toBeTruthy();
-      expect(chk.capabilities?.settings).toBeFalsy();
-      expect(spy).toHaveBeenCalledWith({}, PageDefaultCapabilities);
+      expect(chk.features?.details).toBeTruthy();
+      expect(chk.features?.settings).toBeFalsy();
+      expect(spy.calls.argsFor(0)[0]).toEqual({});
     });
     it("handles missing capabilities hash", () => {
-      const spy = spyOn(
-        processEntitiesModule,
-        "processEntityCapabilities"
-      ).and.returnValue({ details: true, settings: false });
       const model: IModel = {
         item: {
           id: "3ef",
-          type: "Hub Project",
+          type: "Hub Page",
           created: new Date().getTime(),
           modified: new Date().getTime(),
         },
@@ -68,16 +71,12 @@ describe("Pages: computeProps:", () => {
       } as unknown as IModel;
       const init: Partial<IHubPage> = {};
       const chk = computeProps(model, init, authdCtxMgr.context.requestOptions);
-      expect(spy).toHaveBeenCalledTimes(1);
-      expect(chk.capabilities?.details).toBeTruthy();
-      expect(chk.capabilities?.settings).toBeFalsy();
-      expect(spy).toHaveBeenCalledWith({}, PageDefaultCapabilities);
+
+      expect(chk.features?.details).toBeTruthy();
+      expect(chk.features?.settings).toBeFalsy();
+      expect(spy.calls.argsFor(0)[0]).toEqual({});
     });
-    it("passes capabilities hash", () => {
-      const spy = spyOn(
-        processEntitiesModule,
-        "processEntityCapabilities"
-      ).and.returnValue({ details: true, settings: false });
+    it("passes features hash", () => {
       const model: IModel = {
         item: {
           id: "3ef",
@@ -87,7 +86,7 @@ describe("Pages: computeProps:", () => {
         },
         data: {
           settings: {
-            capabilities: {
+            features: {
               details: true,
             },
           },
@@ -95,13 +94,10 @@ describe("Pages: computeProps:", () => {
       } as unknown as IModel;
       const init: Partial<IHubPage> = {};
       const chk = computeProps(model, init, authdCtxMgr.context.requestOptions);
-      expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith(
-        model.data?.settings?.capabilities,
-        PageDefaultCapabilities
-      );
-      expect(chk.capabilities?.details).toBeTruthy();
-      expect(chk.capabilities?.settings).toBeFalsy();
+
+      expect(chk.features?.details).toBeTruthy();
+      expect(chk.features?.settings).toBeFalsy();
+      expect(spy.calls.argsFor(0)[0]).toEqual({ details: true });
     });
   });
 });

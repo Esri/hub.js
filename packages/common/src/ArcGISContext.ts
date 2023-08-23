@@ -5,9 +5,9 @@ import {
 } from "@esri/arcgis-rest-auth";
 import { IPortal } from "@esri/arcgis-rest-portal";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { HubServiceStatus, HubSystemStatus } from "./core";
+import { HubServiceStatus } from "./core";
 import { getProp, getWithDefault } from "./objects";
-import { HubEnvironment, HubLicense } from "./permissions/types";
+import { HubEnvironment, HubLicense, IFeatureFlags } from "./permissions/types";
 import { IHubRequestOptions } from "./types";
 import { getEnvironmentFromPortalUrl } from "./utils/getEnvironmentFromPortalUrl";
 
@@ -160,10 +160,6 @@ export interface IArcGISContext {
    * Additional app-specific context
    */
   properties: Record<string, any>;
-  /**
-   * DEPRECATED: System status
-   */
-  systemStatus: HubSystemStatus;
 
   /**
    * Hub Service Status
@@ -185,6 +181,11 @@ export interface IArcGISContext {
    * What environment is this running in?
    */
   environment: HubEnvironment;
+
+  /**
+   * Hash of feature flags
+   */
+  featureFlags?: IFeatureFlags;
 }
 
 /**
@@ -231,16 +232,16 @@ export interface IArcGISContextOptions {
    * Optional hash of additional context
    */
   properties?: Record<string, any>;
-  /**
-   * DEPRECATED: Option to pass in system status vs fetching it
-   * TODO: Remove with Capabilities
-   */
-  systemStatus?: HubSystemStatus;
 
   /**
    * Option to pass in service status vs fetching it
    */
   serviceStatus?: HubServiceStatus;
+
+  /**
+   * Hash of feature flags
+   */
+  featureFlags?: IFeatureFlags;
 }
 
 /**
@@ -276,10 +277,9 @@ export class ArcGISContext implements IArcGISContext {
 
   private _properties: Record<string, any>;
 
-  // TODO: Remove with Capabilities
-  private _systemStatus: HubSystemStatus;
-
   private _serviceStatus: HubServiceStatus;
+
+  private _featureFlags: IFeatureFlags;
 
   /**
    * Create a new instance of `ArcGISContext`.
@@ -290,7 +290,6 @@ export class ArcGISContext implements IArcGISContext {
     this.id = opts.id;
     this._portalUrl = opts.portalUrl;
     this._hubUrl = opts.hubUrl;
-    this._systemStatus = opts.systemStatus;
     this._serviceStatus = opts.serviceStatus;
     if (opts.authentication) {
       this._authentication = opts.authentication;
@@ -306,6 +305,8 @@ export class ArcGISContext implements IArcGISContext {
     if (opts.properties) {
       this._properties = opts.properties;
     }
+
+    this._featureFlags = opts.featureFlags || {};
   }
 
   /**
@@ -320,6 +321,14 @@ export class ArcGISContext implements IArcGISContext {
    */
   public get isAuthenticated(): boolean {
     return !!this._authentication;
+  }
+
+  /**
+   * Return hash of feature flags passed into constructor.
+   * Default is empty object.
+   */
+  public get featureFlags(): IFeatureFlags {
+    return this._featureFlags;
   }
 
   /**
@@ -459,18 +468,6 @@ export class ArcGISContext implements IArcGISContext {
         return "hub-basic";
       }
     }
-  }
-
-  /**
-   * Returns the current hub system status information
-   * TODO: Remove with Capabilities
-   */
-  get systemStatus(): HubSystemStatus {
-    // tslint:disable-next-line: no-console
-    console.warn(
-      `DEPRECATED: context.systemStatus is deprecated use context.serviceStatus instead`
-    );
-    return this._systemStatus;
   }
 
   /**

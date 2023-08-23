@@ -132,7 +132,7 @@ Value can be a string, number or boolean. If it is a string, similarly to `prope
 ```js
 const permission: IPermissionPolicy = {
   permission: "discussions:channel:createprivate",
-  subsystems: ["discussions"],
+  services: ["discussions"],
   authenticated: true,
   licenses: ["hub-premium"],
   alpha: true,

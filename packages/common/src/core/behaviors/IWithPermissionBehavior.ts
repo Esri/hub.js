@@ -3,11 +3,6 @@ import {
   IEntityPermissionPolicy,
   Permission,
 } from "../../permissions";
-import {
-  Capability,
-  ICapabilityAccessResponse,
-  IWorkspaceCapabilityResponse,
-} from "../../capabilities";
 
 /**
  * Composable behavior that adds permissions to an entity
@@ -35,15 +30,4 @@ export interface IWithPermissionBehavior {
    * @param id
    */
   removePermissionPolicy(permission: Permission, id: string): void;
-}
-
-/**
- * DEPRECATED: Composable behavior that adds capabilities to an entity
- */
-export interface IWithCapabilityBehavior {
-  /**
-   * Is a specific capability available and enabled for the this entity?
-   * @param capability
-   */
-  checkCapability(capability: Capability): ICapabilityAccessResponse;
 }

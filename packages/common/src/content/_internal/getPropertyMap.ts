@@ -19,16 +19,13 @@ export function getPropertyMap(): IPropertyMap[] {
   // NOTE: we may want to move these into getBaseProprtyMap(), see:
   // https://github.com/Esri/hub.js/pull/993#discussion_r1134005511
   map.push({ entityKey: "permissions", storeKey: "data.permissions" });
-  // TODO: remove with Capabilities
-  map.push({
-    entityKey: "capabilities",
-    storeKey: "data.settings.capabilities",
-  });
 
   map.push({
     entityKey: "location",
     storeKey: "item.properties.location",
   });
+
+  // features is intentionally left out
 
   // TODO: look into composeContent() for what we can add here
 

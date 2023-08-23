@@ -1,4 +1,4 @@
-import { IEntityFeatures } from "../types/IPermissionPolicy";
+import { IFeatureFlags } from "../types/IPermissionPolicy";
 import { Permission } from "../types/Permission";
 
 /**
@@ -9,9 +9,9 @@ import { Permission } from "../types/Permission";
  * @returns
  */
 export function processEntityFeatures(
-  entityFeatures: IEntityFeatures,
-  defaultFeatures: IEntityFeatures
-): IEntityFeatures {
+  entityFeatures: IFeatureFlags,
+  defaultFeatures: IFeatureFlags
+): IFeatureFlags {
   // Extend the defaults with the entity values
   const features = { ...defaultFeatures, ...entityFeatures };
 

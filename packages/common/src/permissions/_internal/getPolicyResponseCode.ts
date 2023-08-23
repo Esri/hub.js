@@ -24,10 +24,6 @@ const policyResponseCodes: IPolicyLookup[] = [
   { response: "edit-access", code: "PC113" },
   { response: "invalid-permission", code: "PC114" },
   { response: "privilege-required", code: "PC115" },
-  // ----------- TODO Remove with Capabilities
-  { response: "system-offline", code: "PC116" },
-  { response: "system-maintenance", code: "PC117" },
-  // -------------------------------------------
   { response: "service-offline", code: "PC116" },
   { response: "service-maintenance", code: "PC117" },
   { response: "entity-required", code: "PC118" },

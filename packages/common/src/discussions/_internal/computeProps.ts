@@ -2,9 +2,9 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { getItemThumbnailUrl } from "../../resources";
 import { IModel } from "../../types";
-import { DiscussionDefaultCapabilities } from "./DiscussionBusinessRules";
+
 import { IHubDiscussion } from "../../core";
-import { processEntityCapabilities } from "../../capabilities";
+
 import { isDiscussable } from "../utils";
 
 /**
@@ -38,12 +38,6 @@ export function computeProps(
   discussion.updatedDate = new Date(model.item.modified);
   discussion.updatedDateSource = "item.modified";
   discussion.isDiscussable = isDiscussable(discussion);
-
-  // Handle capabilities
-  discussion.capabilities = processEntityCapabilities(
-    model.data?.settings?.capabilities || {},
-    DiscussionDefaultCapabilities
-  );
 
   // cast b/c this takes a partial but returns a full object
   return discussion as IHubDiscussion;

@@ -1,49 +1,4 @@
-import { EntityCapabilities, ICapabilityPermission } from "../../capabilities";
 import { IPermissionPolicy } from "../../permissions";
-
-/**
- * Default capabilities for a Discussion. If not listed here, the capability will not be available
- * This hash is combined with the capabilities hash stored in the item data. Regardless of what
- * properties are defined in the item data, only the capabilities defined here will be available
- * @private
- * TODO: Remove capabilities
- */
-export const DiscussionDefaultCapabilities: EntityCapabilities = {
-  overview: true,
-  details: true,
-  settings: true,
-  dashboard: true,
-};
-
-/**
- * List of all the Discussion Capability Permissions
- * These are considered Hub Business Rules and are not intended
- * to be modified by consumers
- * TODO: Remove capabilities
- * @private
- */
-export const DiscussionCapabilityPermissions: ICapabilityPermission[] = [
-  {
-    entity: "discussion",
-    capability: "overview",
-    permissions: ["hub:discussion:view"],
-  },
-  {
-    entity: "discussion",
-    capability: "dashboard",
-    permissions: ["hub:discussion:edit"],
-  },
-  {
-    entity: "discussion",
-    capability: "details",
-    permissions: ["hub:discussion:edit"],
-  },
-  {
-    entity: "discussion",
-    capability: "settings",
-    permissions: ["hub:discussion:edit"],
-  },
-];
 
 /**
  * Discussion Permission Policies
