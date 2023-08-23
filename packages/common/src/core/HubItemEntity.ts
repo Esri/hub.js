@@ -7,11 +7,6 @@ import {
   unshareItemWithGroup,
 } from "@esri/arcgis-rest-portal";
 import { IArcGISContext } from "../ArcGISContext";
-import {
-  Capability,
-  checkCapability,
-  ICapabilityAccessResponse,
-} from "../capabilities";
 import HubError from "../HubError";
 import { uploadImageResource } from "../items";
 import { deleteItemThumbnail } from "../items/deleteItemThumbnail";
@@ -31,7 +26,6 @@ import {
   IWithStoreBehavior,
   IWithFeaturedImageBehavior,
   IWithPermissionBehavior,
-  IWithCapabilityBehavior,
 } from "./behaviors";
 
 import { IWithThumbnailBehavior } from "./behaviors/IWithThumbnailBehavior";
@@ -52,7 +46,6 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     IWithThumbnailBehavior,
     IWithFeaturedImageBehavior,
     IWithPermissionBehavior,
-    IWithCapabilityBehavior,
     IWithDiscussionsBehavior
 {
   protected context: IArcGISContext;
@@ -106,20 +99,6 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
       id
     );
   }
-
-  /**
-   * DEPRECATED: use checkPermission instead
-   * Check if the current user can access a specific capability
-   * @param capability
-   */
-  checkCapability(capability: Capability): ICapabilityAccessResponse {
-    /* tslint:disable-next-line: no-console */
-    console.warn(
-      `DEPRECATED: checkCapability is deprecated. Use checkPermission instead`
-    );
-    return checkCapability(capability, this.context, this.entity);
-  }
-
   // Although we don't expose all the properties, we do expose a few for convenience
   /**
    * Return the entity id

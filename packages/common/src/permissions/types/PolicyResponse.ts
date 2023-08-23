@@ -20,10 +20,6 @@ export type PolicyResponse =
   | "invalid-permission" // permission is invalid
   | "invalid-capability" // capability is invalid
   | "privilege-required" // user does not have required privilege
-  // ----------- TODO Remove with Capabilities
-  | "system-offline" // subsystem is offline
-  | "system-maintenance" // subsystem is in maintenance mode
-  // -------------------------------------------
   | "service-offline" // service is offline
   | "service-maintenance" // service is in maintenance mode
   | "service-not-available" // service is not available in this environment

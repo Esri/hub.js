@@ -1,5 +1,4 @@
 import { IEntityFeatures, IEntityPermissionPolicy } from "../../permissions";
-import { EntityCapabilities } from "../../capabilities";
 
 /**
  * Adds permissions property to an entity
@@ -7,6 +6,7 @@ import { EntityCapabilities } from "../../capabilities";
 export interface IWithPermissions {
   /**
    * Array of permission policies that apply to the entity
+   * Only permissions with `entity
    */
   permissions?: IEntityPermissionPolicy[];
 
@@ -15,9 +15,4 @@ export interface IWithPermissions {
    * for an entity. e.g. we want to disable events for a site, so we have `hub:site:events`: false
    */
   features?: IEntityFeatures;
-
-  /**
-   * DEPRECATEDL use `features` instead
-   */
-  capabilities?: EntityCapabilities;
 }

@@ -31,18 +31,5 @@ describe("Check Permissions", () => {
       const results = checkPermission("hub:site:edit", context, entity);
       expect(results.access).toBe(true);
     });
-    it("default capabilities applied on load", async () => {
-      const entity: HubEntity = await fetchHubEntity(
-        "initiative",
-        TEST_INITIATIVE_ID,
-        context
-      );
-
-      const instance = HubInitiative.fromJson(
-        entity as IHubInitiative,
-        context
-      );
-      const chk = instance.checkCapability("details");
-    });
   });
 });

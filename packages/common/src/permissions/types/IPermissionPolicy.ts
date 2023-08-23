@@ -89,11 +89,11 @@ export interface IPermissionPolicy {
   flagValue?: boolean;
 }
 
-/**
- * Hash of features for an entity which can be used to determine if a feature is enabled for the entity
- * This can be applied to any permissin, enabling a lot of flexibility in how features are described and enabled
- * If the value is set to false, then the permission will alway be set to false for all users.
- */
+// /**
+//  * Hash of features for an entity which can be used to determine if a feature is enabled for the entity
+//  * This can be applied to any permissin, enabling a lot of flexibility in how features are described and enabled
+//  * If the value is set to false, then the permission will alway be set to false for all users.
+//  */
 export interface IEntityFeatures extends Record<Permission, boolean> {}
 
 /**

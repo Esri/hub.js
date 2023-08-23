@@ -1,49 +1,11 @@
-import { EntityCapabilities, ICapabilityPermission } from "../../capabilities";
-import { IPermissionPolicy } from "../../permissions";
+import { IEntityFeatures, IPermissionPolicy } from "../../permissions";
 
 /**
- * Default capabilities for a Content. If not listed here, the capability will not be available
- * This hash is combined with the capabilities hash stored in the item data. Regardless of what
- * properties are defined in the item data, only the capabilities defined here will be available
- * @private
- * TODO: remove with Capabilities
+ * Default features for a Content item. Intentionally empty to prevent overriding and adding features
  */
-export const ContentDefaultCapabilities: EntityCapabilities = {
-  overview: true,
-  details: true,
-  settings: true,
-  dashboard: true,
+export const ContentDefaultFeatures: IEntityFeatures = {
+  // Intentally empty as this prevents overriding and adding features
 };
-
-/**
- * List of all the Content Capability Permissions
- * These are considered Hub Business Rules and are not intended
- * to be modified by consumers
- * TODO: remove with Capabilities
- * @private
- */
-export const ContentCapabilityPermissions: ICapabilityPermission[] = [
-  {
-    entity: "content",
-    capability: "overview",
-    permissions: ["hub:content:view"],
-  },
-  {
-    entity: "content",
-    capability: "dashboard",
-    permissions: ["hub:content:edit"],
-  },
-  {
-    entity: "content",
-    capability: "details",
-    permissions: ["hub:content:edit"],
-  },
-  {
-    entity: "content",
-    capability: "settings",
-    permissions: ["hub:content:edit"],
-  },
-];
 
 /**
  * Content Permission Policies

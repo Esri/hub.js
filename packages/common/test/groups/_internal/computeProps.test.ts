@@ -3,9 +3,6 @@ import { MOCK_AUTH } from "../../mocks/mock-auth";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import { computeProps } from "../../../src/groups/_internal/computeProps";
 import { IHubGroup } from "../../../src/core/types/IHubGroup";
-import * as processEntitiesModule from "../../../src/capabilities";
-import { GroupDefaultCapabilities } from "../../../src/groups/_internal/GroupBusinessRules";
-import { setProp } from "../../../src";
 
 describe("groups: computeProps:", () => {
   let group: IGroup;
@@ -88,59 +85,6 @@ describe("groups: computeProps:", () => {
         expect(chk.thumbnailUrl).toBe(
           "https://org.maps.arcgis.com/sharing/rest/community/groups/3ef/info/group.jpg"
         );
-      });
-    });
-    describe("capabilities:", () => {
-      it("handles missing settings hash", () => {
-        const spy = spyOn(
-          processEntitiesModule,
-          "processEntityCapabilities"
-        ).and.returnValue({ details: true, settings: false });
-        group.data = {};
-        const chk = computeProps(
-          group,
-          hubGroup,
-          authdCtxMgr.context.requestOptions
-        );
-        expect(spy).toHaveBeenCalledTimes(1);
-        expect(chk.capabilities?.details).toBeTruthy();
-        expect(chk.capabilities?.settings).toBeFalsy();
-        expect(spy).toHaveBeenCalledWith({}, GroupDefaultCapabilities);
-      });
-      it("handles missing capabilities hash", () => {
-        const spy = spyOn(
-          processEntitiesModule,
-          "processEntityCapabilities"
-        ).and.returnValue({ details: true, settings: false });
-        setProp("data.settings", {}, group);
-        const chk = computeProps(
-          group,
-          hubGroup,
-          authdCtxMgr.context.requestOptions
-        );
-        expect(spy).toHaveBeenCalledTimes(1);
-        expect(chk.capabilities?.details).toBeTruthy();
-        expect(chk.capabilities?.settings).toBeFalsy();
-        expect(spy).toHaveBeenCalledWith({}, GroupDefaultCapabilities);
-      });
-      it("passes capabilities hash", () => {
-        const spy = spyOn(
-          processEntitiesModule,
-          "processEntityCapabilities"
-        ).and.returnValue({ details: true, settings: false });
-        setProp("data.settings.capabilities.details", true, group);
-        const chk = computeProps(
-          group,
-          hubGroup,
-          authdCtxMgr.context.requestOptions
-        );
-        expect(spy).toHaveBeenCalledTimes(1);
-        expect(spy).toHaveBeenCalledWith(
-          group.data?.settings?.capabilities,
-          GroupDefaultCapabilities
-        );
-        expect(chk.capabilities?.details).toBeTruthy();
-        expect(chk.capabilities?.settings).toBeFalsy();
       });
     });
   });

@@ -3,14 +3,10 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { getItemThumbnailUrl } from "../../resources";
 import { IHubSite } from "../../core";
 import { IModel } from "../../types";
-import {
-  SiteDefaultCapabilities,
-  SiteDefaultFeatures,
-} from "./SiteBusinessRules";
-import { processEntityCapabilities } from "../../capabilities";
 import { upgradeCatalogSchema } from "../../search/upgradeCatalogSchema";
 import { isDiscussable } from "../../discussions";
 import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
+import { SiteDefaultFeatures } from "./SiteBusinessRules";
 
 /**
  * Given a model and a site, set various computed properties that can't be directly mapped
@@ -39,15 +35,6 @@ export function computeProps(
   site.updatedDate = new Date(model.item.modified);
   site.updatedDateSource = "item.modified";
   site.isDiscussable = isDiscussable(site);
-
-  // Handle capabilities
-  // NOTE: This does not currently contain the older "capabilities" values!
-  // TODO: Remove capabilities
-  site.capabilities = processEntityCapabilities(
-    model.data.settings?.capabilities || {},
-    SiteDefaultCapabilities
-  );
-
   /**
    * Features that can be disabled by the entity owner
    */

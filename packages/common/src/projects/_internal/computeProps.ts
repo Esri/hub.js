@@ -3,13 +3,10 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { getItemThumbnailUrl } from "../../resources";
 import { IHubProject } from "../../core";
 import { IModel } from "../../types";
-import {
-  ProjectDefaultCapabilities,
-  ProjectDefaultFeatures,
-} from "./ProjectBusinessRules";
-import { processEntityCapabilities } from "../../capabilities";
+
 import { isDiscussable } from "../../discussions";
 import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
+import { ProjectDefaultFeatures } from "./ProjectBusinessRules";
 
 /**
  * Given a model and a project, set various computed properties that can't be directly mapped
@@ -38,13 +35,6 @@ export function computeProps(
   project.updatedDate = new Date(model.item.modified);
   project.updatedDateSource = "item.modified";
   project.isDiscussable = isDiscussable(project);
-
-  // Handle capabilities
-  // TODO: Remove capabilities
-  project.capabilities = processEntityCapabilities(
-    model.data.settings?.capabilities || {},
-    ProjectDefaultCapabilities
-  );
 
   /**
    * Features that can be disabled by the entity owner
