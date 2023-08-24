@@ -7,6 +7,7 @@ import {
   IWithSlug,
 } from "../traits/index";
 import { IHubItemEntity } from "./IHubItemEntity";
+import { IWithFollowers } from "../traits/IWithFollowers";
 
 /**
  * DRAFT: Under development and more properties will likely be added
@@ -18,7 +19,8 @@ export interface IHubSite
     IWithCatalog,
     IWithLayout,
     IWithPermissions,
-    IWithVersioningBehavior {
+    IWithVersioningBehavior,
+    IWithFollowers {
   /**
    * Array of minimal page objects
    */
