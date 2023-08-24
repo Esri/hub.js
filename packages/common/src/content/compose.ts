@@ -243,6 +243,7 @@ export const getContentTypeIcon = (contentType: string) => {
     cSVCollection: "file-csv",
     dashboard: "dashboard",
     desktopApplication: "desktop",
+    discussion: "speech-bubbles",
     documentLink: "link",
     excaliburImageryProject: "file",
     explorerMap: "file",
