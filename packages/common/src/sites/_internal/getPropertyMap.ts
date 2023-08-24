@@ -38,6 +38,10 @@ export function getPropertyMap(): IPropertyMap[] {
     storeKey: "item.properties.slug",
   });
   map.push({
+    entityKey: "followersGroupId",
+    storeKey: "item.properties.followersGroupId",
+  });
+  map.push({
     entityKey: "legacyCapabilities",
     storeKey: "data.values.capabilities",
   });
