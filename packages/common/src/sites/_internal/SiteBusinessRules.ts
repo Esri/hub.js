@@ -32,7 +32,7 @@ export const SitePermissions = [
   "hub:site:workspace:metrics",
   "hub:site:workspace:followers",
   "hub:site:workspace:followers:member",
-  "hub:site:workspace:followers:admin",
+  "hub:site:workspace:followers:manager",
 ] as const;
 
 /**
@@ -126,7 +126,7 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
     ],
   },
   {
-    permission: "hub:site:workspace:followers:admin",
+    permission: "hub:site:workspace:followers:manager",
     dependencies: ["hub:site:workspace:followers"],
     assertions: [
       {
