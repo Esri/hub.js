@@ -1,3 +1,11 @@
+# @esri/hub-common [14.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.0.0...@esri/hub-common@14.1.0) (2023-08-24)
+
+
+### Features
+
+* site's followers pane permissions ([#1186](https://github.com/Esri/hub.js/issues/1186)) ([90feec7](https://github.com/Esri/hub.js/commit/90feec7e32bdc69e6a03a0e4f2c82e661f50c937))
+* **hub-common:** add icon for Discussion content type ([#1185](https://github.com/Esri/hub.js/issues/1185)) ([7ae927a](https://github.com/Esri/hub.js/commit/7ae927ac9d1b7488c1f9357876fa0515997ca300))
+
 # @esri/hub-common [14.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.46.2...@esri/hub-common@14.0.0) (2023-08-23)
 
 
