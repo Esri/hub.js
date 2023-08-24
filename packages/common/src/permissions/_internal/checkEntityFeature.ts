@@ -1,10 +1,13 @@
 import { IArcGISContext } from "../../ArcGISContext";
 import { getWithDefault } from "../../objects/get-with-default";
-import { IFeatureFlags, IPermissionPolicy } from "../types/IPermissionPolicy";
+import { IPermissionPolicy } from "../types/IPermissionPolicy";
 import { IPolicyCheck } from "../types/IPolicyCheck";
 import { PolicyResponse } from "../types/PolicyResponse";
 import { getPolicyResponseCode } from "./getPolicyResponseCode";
 
+// NOTE: Entity Feature Flagging is handled in checkPermission directly
+// as it needs to interact with the feature flagging, and depending on
+// the outcome, possibly omit some of the checks
 export function checkEntityFeature(
   policy: IPermissionPolicy,
   _entitycontext: IArcGISContext,

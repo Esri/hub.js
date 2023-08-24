@@ -115,7 +115,7 @@ export class ArcGISContextManager {
 
   private _serviceStatus: HubServiceStatus;
 
-  private _featureFlags: IFeatureFlags;
+  private _featureFlags: IFeatureFlags = {};
 
   /**
    * Private constructor. Use `ArcGISContextManager.create(...)` to
@@ -373,7 +373,6 @@ export class ArcGISContextManager {
       contextOpts.currentUser = this._currentUser;
     }
 
-    // TODO: Decide if featureFlags should be passed forward
     return contextOpts;
   }
 }

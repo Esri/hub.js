@@ -6,25 +6,25 @@ import { getPolicyResponseCode } from "./getPolicyResponseCode";
  * Validate entityOwner policy
  * @param policy
  * @param context
- * @param entity
+ * @param _entity
  * @returns
  */
 export function checkOwner(
   policy: IPermissionPolicy,
   context: IArcGISContext,
-  entity?: Record<string, any>
+  _entity?: Record<string, any>
 ): IPolicyCheck[] {
   const checks = [] as IPolicyCheck[];
   // Only return a check if the policy is defined
   if (policy.entityOwner) {
     let response: PolicyResponse = "granted";
     let name = "entity owner required";
-    if (!entity) {
+    if (!_entity) {
       // fail b/c no entity
       response = "entity-required";
     } else {
-      name = `entity owner required: ${entity.owner}`;
-      if (entity.owner !== context.currentUser.username) {
+      name = `entity owner required: ${_entity.owner}`;
+      if (_entity.owner !== context.currentUser.username) {
         response = "not-owner";
       }
     }
