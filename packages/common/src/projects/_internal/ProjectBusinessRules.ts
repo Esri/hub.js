@@ -75,6 +75,7 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:project:events",
     dependencies: ["hub:project:view"],
+    entityConfigurable: true,
   },
   {
     permission: "hub:project:content",

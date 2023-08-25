@@ -12,7 +12,7 @@ import { getPolicyResponseCode } from "./getPolicyResponseCode";
 export function checkAuthentication(
   policy: IPermissionPolicy,
   context: IArcGISContext,
-  entity?: Record<string, any>
+  _entity?: Record<string, any>
 ): IPolicyCheck[] {
   const checks = [] as IPolicyCheck[];
 
