@@ -1,6 +1,7 @@
 import { IUiSchema } from "../../core";
 
 /**
+ * @private
  * Complete settings uiSchema for Hub Groups - this defines
  * how the schema properties should be rendered in the
  * group settings experience
