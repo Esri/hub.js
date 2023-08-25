@@ -1,3 +1,10 @@
+# @esri/hub-common [14.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.2.0...@esri/hub-common@14.3.0) (2023-08-25)
+
+
+### Features
+
+*  add feature and entity flagging into checkPermission ([#1187](https://github.com/Esri/hub.js/issues/1187)) ([b040283](https://github.com/Esri/hub.js/commit/b04028305a385bd9426edec71e4aaaef199bcc5a))
+
 # @esri/hub-common [14.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.1.0...@esri/hub-common@14.2.0) (2023-08-25)
 
 
