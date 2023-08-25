@@ -1,5 +1,8 @@
 import { IUiSchema } from "../../core";
 
+/**
+ * @private
+ */
 export const uiSchema: IUiSchema = {
   type: "Layout",
   elements: [

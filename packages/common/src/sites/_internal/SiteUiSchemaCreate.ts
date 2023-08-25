@@ -1,6 +1,7 @@
 import { IUiSchema, UiSchemaRuleEffects } from "../../core";
 
 /**
+ * @private
  * minimal create uiSchema for Hub Projects - this defines
  * how the schema properties should be rendered in the
  * project creation experience
