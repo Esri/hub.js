@@ -1,3 +1,10 @@
+# @esri/hub-common [14.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.1.0...@esri/hub-common@14.2.0) (2023-08-25)
+
+
+### Features
+
+* ungate dashboard from projects ([#1188](https://github.com/Esri/hub.js/issues/1188)) ([658b936](https://github.com/Esri/hub.js/commit/658b9366bbd3d48243b9be8aa66ba3d2c769a84a))
+
 # @esri/hub-common [14.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.0.0...@esri/hub-common@14.1.0) (2023-08-24)
 
 
