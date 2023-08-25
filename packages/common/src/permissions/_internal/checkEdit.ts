@@ -7,26 +7,26 @@ import { getPolicyResponseCode } from "./getPolicyResponseCode";
  * Validate entityEdit policy
  * @param policy
  * @param context
- * @param _entity
+ * @param entity
  * @returns
  */
 export function checkEdit(
   policy: IPermissionPolicy,
   context: IArcGISContext,
-  _entity?: Record<string, any>
+  entity?: Record<string, any>
 ): IPolicyCheck[] {
   const checks = [] as IPolicyCheck[];
 
   // Only return a check if the policy is defined
   if (policy.hasOwnProperty("entityEdit")) {
     let response: PolicyResponse = "granted";
-    if (!_entity) {
+    if (!entity) {
       // fail b/c no entity
       response = "entity-required";
     } else {
-      if (policy.entityEdit && !_entity.canEdit) {
+      if (policy.entityEdit && !entity.canEdit) {
         response = "no-edit-access";
-      } else if (!policy.entityEdit && _entity.canEdit) {
+      } else if (!policy.entityEdit && entity.canEdit) {
         response = "edit-access";
       }
     }
@@ -34,7 +34,7 @@ export function checkEdit(
     // create the check
     const check: IPolicyCheck = {
       name: "entity edit required",
-      value: `entity.canEdit: ${getWithDefault(_entity, "canEdit", false)}`,
+      value: `entity.canEdit: ${getWithDefault(entity, "canEdit", false)}`,
       code: getPolicyResponseCode(response),
       response,
     };

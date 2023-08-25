@@ -8,5 +8,5 @@ import { IPolicyCheck } from "../types/IPolicyCheck";
 export type PermissionCheckFunction = (
   policy: IPermissionPolicy,
   context: IArcGISContext,
-  _entity?: Record<string, any>
+  entity?: Record<string, any>
 ) => IPolicyCheck[];

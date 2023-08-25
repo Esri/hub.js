@@ -120,7 +120,7 @@ export function checkPermission(
   }
 
   // required checks - things feature flags can not override
-  const requiredChecks = [
+  const requiredChecks: PermissionCheckFunction[] = [
     checkParents,
     checkServiceStatus,
     checkAuthentication,
@@ -132,7 +132,10 @@ export function checkPermission(
   ];
 
   // checks that feature flags can override
-  const overridableChecks = [checkAvailability, checkEnvironment];
+  const overridableChecks: PermissionCheckFunction[] = [
+    checkAvailability,
+    checkEnvironment,
+  ];
 
   let checkFns: PermissionCheckFunction[] = [];
   // If there is a "feature" flag, set to true, for the policy
