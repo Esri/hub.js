@@ -114,11 +114,9 @@
             
               <li><a href="/hub.js/guides/advanced/access-control/" class="is-active">Access Control</a></li>
             
-              <li><a href="/hub.js/guides/advanced/capabilities/">Capabilities</a></li>
+              <li><a href="/hub.js/guides/advanced/permissions/">Permissions</a></li>
             
               <li><a href="/hub.js/guides/advanced/operation-stack/">OperationStack</a></li>
-            
-              <li><a href="/hub.js/guides/advanced/permissions/">Permissions</a></li>
             
               <li><a href="/hub.js/guides/advanced/metrics/">Metrics</a></li>
             
@@ -153,23 +151,95 @@
       <div class="panel">
         <h2>Access Control in ArcGIS Hub</h2>
 <p>ArcGIS Hub is a collaboration system, and thus determining what actions a user can take, within a specific context is a common task, commonly referred to as &quot;access control&quot;</p>
-<p>Hub.js provides two levels of access controls - Capabilities and Permissions.</p>
-<h3>Capabilities vs Permissions</h3>
-<p><a href="../capabilities">Capabilities</a> represent sets of functionality, such as “Events” or “Discussions”, that can be enabled or disabled on a per-entity basis. Capabilities are implemented as sets of Permission checks, which can be different for each entity type.</p>
-<p>The Workspace UX will utilize Capabilities to determine what Workspace Navigation links the current user can access, in the context of a specific entity.</p>
-<p><img src="/hub.js/img/workspace-capabilities.png" alt="Query Model"></p>
-<p>In contrast, <a href="../permissions">Permissions</a> are fine-grained access controls, which can be used to show/hide individual buttons or sections of a UI.</p>
-<p>Permissions check:</p>
+<p>In Hub, all this is handled via &quot;Permissions&quot;</p>
+<p>There are 5 elements to the Permission system:</p>
 <ul>
-<li>system status,</li>
-<li>licensing,</li>
-<li>platform access controls,</li>
-<li>ArcGIS Hub business rules</li>
-<li>entity level grant definitions</li>
+<li>Permission Policies - the business rules embedded in the system</li>
+<li>Entity Permission Policies - additional entity specific rules that further limit access</li>
+<li>Entity Feature Flags - entity specific means to disable a feature,</li>
+<li>System Feature Flags - globally override specific permissions</li>
+<li>System Service Flags - globally disable a service to test graceful degradation UX</li>
 </ul>
-<p>For more information on how to configure and check access, please see the <a href="../capabilities">Capabilities</a> and <a href="../permissions">Permissions</a> guides.</p>
+<p>For details, please read the <a href="../permissions">Permissions Guide</a></p>
+<h2>High Level Model</h2>
+<p>To determine if a user can take a specific action, in some context, the application calls <code>checkPermission(...): IPermissionAccessResponse</code>. The critical property on the response is <code>.access:boolean</code>, but the response also includes information on all the checks what we applied, as well as the reason access was denied, allowing a variety of different messages or behaviors to be implemented.</p>
+<p>The <code>checkPermission(...)</code> call takes the following into account:</p>
+<ul>
+<li>status of any services the permission depends on</li>
+<li>availability checks (<code>alpha</code>, <code>beta</code>, <code>general</code>)</li>
+<li>environment checks (<code>devext</code>, <code>qaext</code>, <code>production</code>, <code>enterprise-sites</code>)</li>
+<li>authentication status</li>
+<li>platform privileges</li>
+<li>if user is owner of the entity</li>
+<li>if user has edit access to the entity</li>
+<li>entity specific feature flags</li>
+<li>system feature flags</li>
+</ul>
+<h2>General Logic when not passed an entity</h2>
+<p><code>checkPermission(permission, context): IPermissionAccessResponse</code></p>
+<ul>
+<li>is this a valid permission?</li>
+<li>is there a system policy defined for this permission?</li>
+<li>is there a system feature flag set for this permission?
+<ul>
+<li>hold that flag value, overriding any set by the entity</li>
+</ul>
+</li>
+<li>if there is a flag value, and it's <code>false</code>
+<ul>
+<li>return <code>access:false, reason: &quot;disabled-by-&lt;entity|feature&gt;-flag&quot;</code></li>
+</ul>
+</li>
+<li>if there is a flag value, and it's <code>true</code>
+<ul>
+<li>run all checks other than <code>availability</code> and <code>environment</code></li>
+</ul>
+</li>
+<li>if there is no flag set, run all checks</li>
+<li>aggregate all policy checks, determine if access is granted</li>
+<li>return IPermissionAccessResponse</li>
+</ul>
+<h2>General Logic when passed an entity</h2>
+<p><code>checkPermission(permission, context, entity): IPermissionAccessResponse</code></p>
+<ul>
+<li>is this a valid permission?</li>
+<li>is there a system policy defined for this permission?</li>
+<li>is <code>.entityConfigurable:true</code> on the policy?
+<ul>
+<li>does the <code>entity.features</code> have a flag for this permission?
+<ul>
+<li>hold that flag value</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>is there a system feature flag set for this permission?
+<ul>
+<li>hold that flag value, overriding any set by the entity</li>
+</ul>
+</li>
+<li>if there is a flag value, and it's <code>false</code>
+<ul>
+<li>return <code>access:false, reason: &quot;disabled-by-&lt;entity|feature&gt;-flag&quot;</code></li>
+</ul>
+</li>
+<li>if there is a flag value, and it's <code>true</code>
+<ul>
+<li>run all checks other than <code>availability</code> and <code>environment</code></li>
+</ul>
+</li>
+<li>if there is no flag set, run all checks</li>
+<li>aggregate all policy checks, determine if access is granted</li>
+<li>is there an Entity Policy for this permission?
+<ul>
+<li>run all Entity Policy checks</li>
+<li>if no policy checks pass, access is denied</li>
+</ul>
+</li>
+<li>return IPermissionAccessResponse</li>
+</ul>
 <h3>Developer Guidance</h3>
-<p>As we build the next generation of the ArcGIS Hub system, want behavior to be “configurable by default” - meaning that we should design and build the UI layer by querying the Capabilities and Permissions subsystems, instead of implementing custom checks in-place. This will enable the system to adapt to different licensing, or packaging strategies, simply by changing the business rules, instead of making sweeping code changes.</p>
+<p>As we build the next generation of the ArcGIS Hub system, want behavior to be “configurable by default” - meaning that we should design and build the UI layer by querying the Permissions subsystem, instead of implementing custom checks in-place. This will enable the system to adapt to different licensing, or packaging strategies, simply by changing the business rules, instead of making sweeping code changes.</p>
       </div>
     </div>
   </div>

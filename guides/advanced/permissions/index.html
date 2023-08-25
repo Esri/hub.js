@@ -114,11 +114,9 @@
             
               <li><a href="/hub.js/guides/advanced/access-control/">Access Control</a></li>
             
-              <li><a href="/hub.js/guides/advanced/capabilities/">Capabilities</a></li>
+              <li><a href="/hub.js/guides/advanced/permissions/" class="is-active">Permissions</a></li>
             
               <li><a href="/hub.js/guides/advanced/operation-stack/">OperationStack</a></li>
-            
-              <li><a href="/hub.js/guides/advanced/permissions/" class="is-active">Permissions</a></li>
             
               <li><a href="/hub.js/guides/advanced/metrics/">Metrics</a></li>
             
@@ -152,25 +150,138 @@
     <div class="column-18">
       <div class="panel">
         <h2>Permissions</h2>
-<p>A Permission is a lower-level check than a <a href="../capabilities">Capability</a>. They can be system level, (checking if the user can create a new entity), or entity level, (checking if user can take some action related to the entity).</p>
-<p>Permissions are referenced by pre-defined string values such as <code>&quot;hub:site:create&quot;, &quot;hub:project:delete&quot;</code>etc. Please see the <code>Permission</code> type definition for the complete set of values</p>
-<p>A user is granted access if they:</p>
+<p>Permissions are defined by <code>IPermissionPolicy</code> objects, which are considered platform business rules. They are stored in the <code>&lt;Entity&gt;BusinessRules.ts</code> modules, and should not be exported from Hub.js.</p>
+<p>For an overview of how permissons work, see the <a href="../access-control">Access Control Guide</a></p>
+<h3>Permission Policy Properties</h3>
+<p><strong>Permission</strong>: Permission Identifier. e.g. <code>hub:projects:create</code></p>
+<p><strong>dependencies</strong>: Array of other permissions this permission depends on. This allows for the creation of hiearchies, with reduces duplication</p>
+<p><strong>services</strong>: What services must be online for this policy?</p>
+<p><strong>authenticated</strong>: must user be authenticated?</p>
+<p><strong>privileges</strong>: Any Platform level privileges that may be required. e.g. <code>portal:user:createItem</code>. User must have all specified privileges.</p>
+<p><strong>entityOwner</strong>: Does this policy require that the user be the owner of the entity?</p>
+<p><strong>entityEdit</strong>: Does this policy require that the user be able to edit the entity?</p>
+<p><strong>licenses</strong>: What Hub Licenses are required? Only specify this if the permission is limited to a subset of licenses.</p>
+<p><strong>availability</strong>: <code>alpha</code>, <code>beta</code> or <code>general</code> availability.</p>
+<p><strong>assertions</strong>: additional checks that can address custom scenarios not covered by the other properties. (example shown below)</p>
+<p><strong>entityConfigurable</strong>: can an entity enable/disable this?</p>
+<p>Please see the <a href="/hub.js/api/common/IPermissionPolicy/"><code>IPermissionPolicy</code> documentation</a> for list of all available properties and theur detailed definitions.</p>
+<h4>Example Annotated Policy</h4>
+<pre><code class="js"><span class="hljs-comment">// This is an example - there are many more Site permissions</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> SitesPermissionPolicies: IPermissionPolicy[] = [
+  {
+    <span class="hljs-comment">// Top level policy</span>
+    <span class="hljs-attr">permission</span>: <span class="hljs-string">"hub:site"</span>,
+    <span class="hljs-attr">services</span>: [<span class="hljs-string">"portal"</span>],
+    <span class="hljs-comment">// since sites are available for all license levels</span>
+    <span class="hljs-comment">// we don't need to specify any licenses</span>
+  },
+  {
+    <span class="hljs-attr">permission</span>: <span class="hljs-string">"hub:site:edit"</span>,
+    <span class="hljs-comment">// this permission depends on hub:site</span>
+    <span class="hljs-attr">dependencies</span>: [<span class="hljs-string">"hub:site"</span>],
+    <span class="hljs-comment">// and adds a requirement that the user be</span>
+    <span class="hljs-comment">// authenticated, and have edit access to the site</span>
+    <span class="hljs-attr">authenticated</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">entityEdit</span>: <span class="hljs-literal">true</span>,
+  },
+  {
+    <span class="hljs-comment">// this permission controls access to the domain editing UX</span>
+    <span class="hljs-attr">permission</span>: <span class="hljs-string">"hub:site:edit:domain"</span>,
+    <span class="hljs-comment">// by default, it's the same as hub:site:edit</span>
+    <span class="hljs-comment">// but by having a separate permission, the site can </span>
+    <span class="hljs-comment">// add more rules... see the next section</span>
+    <span class="hljs-attr">dependencies</span>: [<span class="hljs-string">"hub:site:edit"</span>],
+    <span class="hljs-comment">// we also stipulate that it depends on the domains service</span>
+    <span class="hljs-comment">// so if that's down, we can have a gracefully degraded UX</span>
+    <span class="hljs-attr">services</span>: [<span class="hljs-string">"domains"</span>],
+  },
+  {
+    <span class="hljs-attr">permission</span>: <span class="hljs-string">"hub:site:workspace:followers:manager"</span>,
+    <span class="hljs-attr">dependencies</span>: [<span class="hljs-string">"hub:site:edit"</span>],
+    <span class="hljs-comment">// example of an assertion used to implement an</span>
+    <span class="hljs-comment">// entity specific rule</span>
+    <span class="hljs-attr">assertions</span>: [
+      {
+        <span class="hljs-comment">// Access to this permission requires that the current user</span>
+        <span class="hljs-comment">// is an admin of the followers group. To do that we</span>
+        <span class="hljs-comment">// look up a property on the context</span>
+        <span class="hljs-attr">property</span>: <span class="hljs-string">"context:currentUser"</span>,
+        <span class="hljs-comment">// choose the type of assertion</span>
+        <span class="hljs-attr">type</span>: <span class="hljs-string">"is-group-admin"</span>,
+        <span class="hljs-comment">// look up a property from the entity</span>
+        <span class="hljs-attr">value</span>: <span class="hljs-string">"entity:followersGroupId"</span>,
+        <span class="hljs-comment">// see the IPolicyAssertion type for more information</span>
+      },
+    ],
+  },
+  {
+    <span class="hljs-comment">// Example of a new feature...</span>
+    <span class="hljs-attr">permission</span>: <span class="hljs-string">"hub:site:workspace:chat"</span>,
+    <span class="hljs-comment">// that requires edit access</span>
+    <span class="hljs-attr">dependencies</span>: [<span class="hljs-string">"hub:site:edit"</span>],
+    <span class="hljs-comment">// hub-premium license and is gated to alpha orgs in qaext</span>
+    <span class="hljs-attr">licenses</span>: [<span class="hljs-string">"hub-premium"</span>],
+    <span class="hljs-attr">availability</span>: [<span class="hljs-string">"alpha"</span>],
+    <span class="hljs-attr">environments</span>: [<span class="hljs-string">"qaext"</span>],
+    <span class="hljs-comment">// this allows a site entity to turn this off</span>
+    <span class="hljs-comment">// see Entity Feature Flags below</span>
+    <span class="hljs-attr">entityConfigurable</span>: <span class="hljs-literal">true</span>
+  },
+]
+</code></pre>
+<h3>Entity Permission Policies</h3>
+<p>Entities can add additional &quot;gating&quot; for specific permissions. For example, a Site owner (<code>jsmith</code>) may choose to limit domain editing to themselves. So on the site entity, an <code>IEntityPermissionPolicy</code> would be added to the <code>.permissions</code> array, adding that conditition to the existing <code>IPermissionPolicy</code></p>
+<pre><code class="js">site.permissions = [
+  {
+    <span class="hljs-attr">permission</span>: <span class="hljs-string">"hub:site:edit:domain"</span>,
+    <span class="hljs-attr">collaborationType</span>: <span class="hljs-string">"user"</span>,
+    <span class="hljs-attr">collaborationId</span>: <span class="hljs-string">"jsmith"</span>
+  }
+]
+</code></pre>
+<p>Entity Permission Policies are more limited than the full <code>IPermissionPolicy</code>, but they can cover a wide range of collaboration scenarios</p>
 <ul>
-<li>meet all the system-level requirements for the permission
-<ul>
-<li>is the required subsystem operational?</li>
-<li>are the license requirements met?</li>
-<li>are the platform access control requirements met?</li>
+<li>is the current user a member of a specified group?</li>
+<li>is the current user a member of a specified org?</li>
+<li>is the current user specifically granted access by name? (as shown above)</li>
 </ul>
-</li>
-<li>meet at least one of the entity-level requirements (if defined) for the permission
-<ul>
-<li>is the user a member of a specified group?</li>
-<li>is the user a member of a specified org?</li>
-<li>is the user specifically granted access by name?</li>
-</ul>
-</li>
-</ul>
+<p>Entities can define many policies for the same permission, and only one of those needs to pass.</p>
+<pre><code class="js">
+<span class="hljs-comment">// In this example jsmith or dvader will be granted access to hub:site:edit:domain</span>
+site.permissions = [
+  {
+    <span class="hljs-attr">permission</span>: <span class="hljs-string">"hub:site:edit:domain"</span>,
+    <span class="hljs-attr">collaborationType</span>: <span class="hljs-string">"user"</span>,
+    <span class="hljs-attr">collaborationId</span>: <span class="hljs-string">"jsmith"</span>
+  },
+  {
+    <span class="hljs-attr">permission</span>: <span class="hljs-string">"hub:site:edit:domain"</span>,
+    <span class="hljs-attr">collaborationType</span>: <span class="hljs-string">"user"</span>,
+    <span class="hljs-attr">collaborationId</span>: <span class="hljs-string">"dvader"</span>
+  }
+]
+</code></pre>
+<h3>Entity Features</h3>
+<p>Individual entities can disable &quot;features&quot; (which are represented by a permission). This is done by adding a key for the permission into the <code>entity.features</code> hash. Only permissions with <code>.entityConfigurable:true</code> will be read from this hash, ensuring general business rules can not be overridden.</p>
+<pre><code class="js">site.features = {
+  <span class="hljs-comment">// although the general business rules in the example above </span>
+  <span class="hljs-comment">// allow sites to have the chat "feature",</span>
+  <span class="hljs-comment">// by adding an entry for that permission, we can turn it off</span>
+  <span class="hljs-string">"hub:site:workspace:chat"</span>: <span class="hljs-literal">false</span>
+  <span class="hljs-comment">// <span class="hljs-doctag">NOTE:</span> these values are only read if the permission policy specifically</span>
+  <span class="hljs-comment">// allows the permission to be "configured" by the entity</span>
+  <span class="hljs-comment">// by specifying entityConfigurable:true</span>
+}
+</code></pre>
+<h3>System Feature Flags</h3>
+<p>Hub.js also supports system feature flags. These are passed into the <code>ArcGISContextManager.create(...)</code> as part of the options. The host application is responsible for parsing the values from the url.</p>
+<p>System Feature Flags will override any Entity Feature flags, as well as the <code>availability</code> and <code>environment</code> checks. They can not be used to override license level checks, nor any core platform level privileges.</p>
+<p>These are typically used to demonstrate upcoming features in customer Production orgs, despite the feature being gated to <code>qaext</code>.</p>
+<p>Feature Flags are reset when the user formally signs out of the running application.</p>
+<h3>System Service Flags</h3>
+<p>As noted, Permission policies can list the services they depend upon (see the <code>hub:site:edit:domains</code> definition). In order to test our graceful degradation UX, we need a means to simulate a service being offline.</p>
+<p>Similar to System Feature Flags, these are passed into <code>ArcGISContextManager.create(...)</code> as part of the options, and override the live status information.</p>
+<p>Service Flags are reset when the user formally signs out of the running application.</p>
 <h3>Checking Permission Access</h3>
 <p>Permissions can be checked directly on an Entity instance via the <code>instance.checkPermission(permission)</code> method. If you don’t have access to an Entity Instance, the <code>checkPermission(permission, context, entity?)</code> function is also available.</p>
 <pre><code class="jsx"><span class="hljs-comment">// Check individual permission</span>
@@ -180,107 +291,188 @@ checkPermission(<span class="hljs-string">"hub:events:create"</span>, entity, co
 site.checkPermission(<span class="hljs-string">"hub:pages:create"</span>);
 <span class="hljs-comment">//=&gt; {permission: "hub:pages:create", access: true, response: "group-member", checks: [{"hub:pages:create", value: "group:00c", response:"group-member"}]}</span>
 </code></pre>
+<p>If the check does not grant access, the entire check is logged to the console.</p>
 <p>Both return an <code>IPermissionAccessResponse</code> . The most important property is <code>.access</code> which indicates if the current user has access to the capability. The other properties are for debugging and observability into why the system is returning the <code>.access</code> value, and can be used to display different messages to the user.</p>
-<h3>Defining Permissions</h3>
-<p>Permissions are defined on a per-entity basis, in the <code>&lt;EntityType&gt;BusinessRules</code> modules.</p>
-<p>They are made up of two parts:</p>
-<ul>
-<li>a string identifier e.g. <code>hub:site:create</code>, following the general pattern <code>{namespace}:{entity-or-subsystem}:{action}:{sub-action}</code></li>
-<li>a <code>IPermissionPolicy</code> which defines the requirements for access</li>
-</ul>
-<p>To define a new permission, the permission string must be added to the <code>&lt;EntityType&gt;Permissions</code> array (e.g. <code>SitePermissions</code>) and then the associated <code>IPermissionPolicy</code> must be added to the <code>&lt;EntityType&gt;PermissionPolicies</code> array.</p>
-<h3>Permission Policies</h3>
-<p>An <code>IPermissionPolicy</code> defines the business rules that must be met in order for a user to be granted access. The current user must meet all these requirements, after which, entity level policies will be checked.</p>
-<pre><code class="jsx"><span class="hljs-comment">// Example definition</span>
-<span class="hljs-keyword">const</span> createSitePolicy: IPermissionPolicy = {
-  <span class="hljs-attr">permission</span>: <span class="hljs-string">"hub:site:create"</span>,
-  <span class="hljs-attr">subsystems</span>: [<span class="hljs-string">"sites"</span>],
-  <span class="hljs-attr">authenticated</span>: <span class="hljs-literal">true</span>,
-  <span class="hljs-attr">privileges</span>: [<span class="hljs-string">"portal:user:createItem"</span>],
-  <span class="hljs-attr">licenses</span>: [<span class="hljs-string">"hub-basic"</span>, <span class="hljs-string">"hub-premium"</span>, <span class="hljs-string">"enterprise-sites"</span>],
-};
-</code></pre>
-<img src="/hub.js/img/IPermissionPolicy.png" width="250px">
-<p><strong>Permission</strong>: Permission Identifier. e.g. <code>hub:projects:create</code></p>
-<p><strong>Subsystems</strong>: What subsystems must be online for this policy?</p>
-<p><strong>Authenticated</strong>: must user be authenticated?</p>
-<p><strong>Privileges</strong>: Any Platform level privileges that may be required. e.g. <code>portal:user:createItem</code></p>
-<p><strong>entityOwner</strong>: Does this policy require that the user be the owner of the entity?</p>
-<p><strong>entityEditor</strong>: Does this policy require that the user be able to edit the entity?</p>
-<p><strong>licenses</strong>: What Hub Licenses are required?</p>
-<p><strong>alpha</strong>: Is this restricted to alpha organizations?</p>
-<p><strong>assertions</strong>: additional checks that can address custom scenarios not covered by the other properties.</p>
-<p>Please see the <a href="/hub.js/api/common/IPermissionPolicy/"><code>IPermissionPolicy</code> documentation</a> for list of all available properties and theur detailed definitions.</p>
-<h3>Example Permission Policies</h3>
-<pre><code class="jsx">[
-  {
-    <span class="hljs-attr">permission</span>: <span class="hljs-string">"hub:projects:create"</span>,
-    <span class="hljs-attr">privileges</span>: [<span class="hljs-string">"portal:user:createItem"</span>],
-    <span class="hljs-attr">entityOwner</span>: <span class="hljs-literal">false</span>,
-    <span class="hljs-attr">entityEditor</span>: <span class="hljs-literal">false</span>,
-    <span class="hljs-attr">licenses</span>: [<span class="hljs-string">"hub-premium"</span>],
-  },
-  {
-    <span class="hljs-attr">permission</span>: <span class="hljs-string">"hub:projects:delete"</span>,
-    <span class="hljs-attr">privileges</span>: [],
-    <span class="hljs-attr">entityOwner</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-attr">entityEditor</span>: <span class="hljs-literal">false</span>,
-    <span class="hljs-attr">licenses</span>: [<span class="hljs-string">"hub-premium"</span>],
-  },
-  {
-    <span class="hljs-attr">permission</span>: <span class="hljs-string">"hub:projects:editCapabilities"</span>,
-    <span class="hljs-attr">privileges</span>: [],
-    <span class="hljs-attr">entityOwner</span>: <span class="hljs-literal">false</span>,
-    <span class="hljs-attr">entityEditor</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-attr">licenses</span>: [<span class="hljs-string">"hub-premium"</span>],
-  },
-];
-</code></pre>
-<p>For some application level permissions - i.e. <code>hub:create:site</code>, is all that’s needed because Sites are not created in the context of any other “entities”.</p>
-<h3>Entity Permission Policies</h3>
-<p>Most permissions are context specific - <code>hub:site:edit</code> only makes sense in the context of a specific site entity. The Entity Permission Policy defines additional checks.</p>
-<p>These policies are stored with the entity, and are checked after the system policies.</p>
-<p><strong>Entity Permission Policies</strong> are treated as “grants”, in that the user only needs to satisfy one of the conditions (in addition to the Permission Policies)</p>
-<img src="/hub.js/img/IEntityPermissionPolicy.png" width="250px">
-<h3>Entity Permission Structure</h3>
-<p><strong>Permission</strong>: What is being managed?</p>
-<p><strong>CollaborationType</strong>: Type of the context the grant is applied to - e.g. <code>user| group | org</code></p>
-<p><strong>CollaborationId:</strong> Identifier of what the grant applies to e.g. <code>jsmith</code> or <code>7deb8b7bdb4f4fab973513ebb55cd9a6</code></p>
-<h3>Example Entity Permission Policies</h3>
-<pre><code class="jsx">[
-  {
-    <span class="hljs-attr">id</span>: <span class="hljs-string">"hub:sites:create"</span>,
-    <span class="hljs-attr">collaborationType</span>: <span class="hljs-string">"org"</span>,
-    <span class="hljs-attr">collaborationId</span>: <span class="hljs-string">"BK0"</span>,
-  },
-  {
-    <span class="hljs-attr">id</span>: <span class="hljs-string">"hub:projects:create"</span>,
-    <span class="hljs-attr">collaborationType</span>: <span class="hljs-string">"item"</span>,
-    <span class="hljs-attr">collaborationId</span>: <span class="hljs-string">"00c"</span>,
-  },
-];
-</code></pre>
-<p>The entity permission policies are stored in <code>data.permissions</code> and are automatically merged with the ArcGIS Hub Permission business rules at run-time.</p>
-<p>In the future, the “Collaboration” UX will be used to define Entity Permission Policies. Until that is available, for Sites we are utilizing a run-time migration which generates an Entity Permission Policy, granting access to <code>hub:site:edit</code> permission to members of the collaboration group associated with the Site.</p>
-<h2>System Status</h2>
-<p>In addition to being granted a permission, and having the necessary platform privileges &amp; licensing, the underlying subsystem must be operational.</p>
-<p>For example, a permission like <code>hub:sites:manageDomains</code> needs to verify that the user has edit access to the Site item that’s the context, <strong><em>and</em></strong> that the System supports the domains service, <strong><em>and</em></strong> that it is operational.</p>
-<pre><code class="jsx">[
-  {
-    <span class="hljs-attr">subsystem</span>: <span class="hljs-string">"sites"</span>,
-    <span class="hljs-attr">status</span>: <span class="hljs-string">"online"</span>,
-  },
-  {
-    <span class="hljs-attr">subsystem</span>: <span class="hljs-string">"domains"</span>,
-    <span class="hljs-attr">status</span>: <span class="hljs-string">"online"</span>,
-  },
-  {
-    <span class="hljs-attr">subsystem</span>: <span class="hljs-string">"events"</span>,
-    <span class="hljs-attr">status</span>: <span class="hljs-string">"not-available"</span>,
-  },
-];
-</code></pre>
-<p>For the first release, the system status is constructed by the host application, but eventually it will be fetched from the Hub API.</p>
+<p>For example, the <code>.result</code> property will be <code>granted</code> if access is allowed, but if access is denied, it will be a more informative value.</p>
+<p>The table below lists all the values, but likely the two most important are:</p>
+<p><strong>not-licensed-available</strong> which means the feature is available, but user lacks a license. This is an opportunity to show an upgrade call-to-action</p>
+<p><strong>service-offline</strong> a required service is currently offline. Application can choose to show a general error message, or continue with a gracefully degraded experience.</p>
+<p><strong>service-not-available</strong> this means that the service is simply not available in the current environment. This is a good means to gate access to a feature that's not currently in Enterprise, but which we could add over time.</p>
+<p>Most of the rest of the values are specific to some policy check failing.</p>
+<table>
+<thead>
+<tr>
+<th><code>result</code> Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&quot;granted&quot;</td>
+<td>user has access</td>
+</tr>
+<tr>
+<td>&quot;disabled-by-feature-flag&quot;</td>
+<td>access denied due to a flag</td>
+</tr>
+<tr>
+<td>&quot;disabled-by-entity-flag&quot;</td>
+<td>access denied due to a flag</td>
+</tr>
+<tr>
+<td>&quot;org-member&quot;</td>
+<td>user is member of granted org</td>
+</tr>
+<tr>
+<td>&quot;not-org-member&quot;</td>
+<td>user is not member of granted org</td>
+</tr>
+<tr>
+<td>&quot;group-member&quot;</td>
+<td>user is member of granted org</td>
+</tr>
+<tr>
+<td>&quot;not-group-member&quot;</td>
+<td>user is not member of granted group</td>
+</tr>
+<tr>
+<td>&quot;not-group-admin&quot;</td>
+<td>user is not admin member of granted group</td>
+</tr>
+<tr>
+<td>&quot;is-user&quot;</td>
+<td>user is granted directly</td>
+</tr>
+<tr>
+<td>&quot;not-owner&quot;</td>
+<td>user is not the owner</td>
+</tr>
+<tr>
+<td>&quot;not-licensed&quot;</td>
+<td>user is not licensed</td>
+</tr>
+<tr>
+<td>&quot;not-licensed-available&quot;</td>
+<td>user is not licensed, but could be</td>
+</tr>
+<tr>
+<td>&quot;not-available&quot;</td>
+<td>permission not available in this context</td>
+</tr>
+<tr>
+<td>&quot;not-granted&quot;</td>
+<td>user does not have permission</td>
+</tr>
+<tr>
+<td>&quot;no-edit-access&quot;</td>
+<td>user does not have edit access</td>
+</tr>
+<tr>
+<td>&quot;edit-access&quot;</td>
+<td>user has edit access but policy is for non-editors</td>
+</tr>
+<tr>
+<td>&quot;invalid-permission&quot;</td>
+<td>permission is invalid</td>
+</tr>
+<tr>
+<td>&quot;invalid-capability&quot;</td>
+<td>capability is invalid</td>
+</tr>
+<tr>
+<td>&quot;privilege-required&quot;</td>
+<td>user does not have required privilege</td>
+</tr>
+<tr>
+<td>&quot;service-offline&quot;</td>
+<td>service is offline</td>
+</tr>
+<tr>
+<td>&quot;service-maintenance&quot;</td>
+<td>service is in maintenance mode</td>
+</tr>
+<tr>
+<td>&quot;service-not-available&quot;</td>
+<td>service is not available in this environment</td>
+</tr>
+<tr>
+<td>&quot;entity-required&quot;</td>
+<td>entity is required but not passed</td>
+</tr>
+<tr>
+<td>&quot;not-authenticated&quot;</td>
+<td>user is not authenticated</td>
+</tr>
+<tr>
+<td>&quot;not-alpha-org&quot;</td>
+<td>user is not in an alpha org</td>
+</tr>
+<tr>
+<td>&quot;not-beta-org&quot;</td>
+<td>user is not in a beta org</td>
+</tr>
+<tr>
+<td>&quot;property-missing&quot;</td>
+<td>assertion requires property but is missing from entity</td>
+</tr>
+<tr>
+<td>&quot;property-not-array&quot;</td>
+<td>assertion requires array property</td>
+</tr>
+<tr>
+<td>&quot;array-contains-invalid-value&quot;</td>
+<td>assertion specifies a value not be included</td>
+</tr>
+<tr>
+<td>&quot;array-missing-required-value&quot;</td>
+<td>assertion specifies a value not be included</td>
+</tr>
+<tr>
+<td>&quot;property-mismatch&quot;</td>
+<td>assertion values do not match</td>
+</tr>
+<tr>
+<td>&quot;user-not-group-member&quot;</td>
+<td>user is not a member of a specified group</td>
+</tr>
+<tr>
+<td>&quot;user-not-group-manager&quot;</td>
+<td>user is not a manager of a specified group</td>
+</tr>
+<tr>
+<td>&quot;user-not-group-owner&quot;</td>
+<td>user is not a owner of a specified group</td>
+</tr>
+<tr>
+<td>&quot;assertion-property-not-found&quot;</td>
+<td>assertion property was not found</td>
+</tr>
+<tr>
+<td>&quot;assertion-failed&quot;</td>
+<td>assertion condition was not met</td>
+</tr>
+<tr>
+<td>&quot;assertion-requires-numeric-values&quot;</td>
+<td>assertion requires numeric values</td>
+</tr>
+<tr>
+<td>&quot;feature-disabled&quot;</td>
+<td>feature has been disabled for the entity</td>
+</tr>
+<tr>
+<td>&quot;feature-enabled&quot;</td>
+<td>feature has been enabled for the entity</td>
+</tr>
+<tr>
+<td>&quot;not-in-environment&quot;</td>
+<td>user is not in an allowed environment</td>
+</tr>
+<tr>
+<td>&quot;no-policy-exists&quot;;</td>
+<td>policy is not defined for this permission</td>
+</tr>
+</tbody>
+</table>
       </div>
     </div>
   </div>
