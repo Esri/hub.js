@@ -4,7 +4,6 @@ import {
   _ensureTelemetry,
   _migrateFeedConfig,
   _migrateEventListCardConfigs,
-  _migrateSummaryStatCardConfigs,
 } from "@esri/hub-common";
 
 const schemaVersionPath = "item.properties.schemaVersion";
@@ -29,7 +28,6 @@ export function upgradeDraftSchema(draft: IDraft) {
     migrated = _ensureTelemetry<IDraft>(draft);
     migrated = _migrateFeedConfig<IDraft>(draft);
     migrated = _migrateEventListCardConfigs<IDraft>(draft);
-    // migrated = _migrateSummaryStatCardConfigs<IDraft>(draft);
     return migrated;
   }
 }

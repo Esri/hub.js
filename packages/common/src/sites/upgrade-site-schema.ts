@@ -8,7 +8,6 @@ import { _purgeNonGuidsFromCatalog } from "./_internal/_purge-non-guids-from-cat
 import { _ensureTelemetry } from "./_internal/_ensure-telemetry";
 import { _migrateFeedConfig } from "./_internal/_migrate-feed-config";
 import { _migrateEventListCardConfigs } from "./_internal/_migrate-event-list-card-configs";
-import { _migrateSummaryStatCardConfigs } from "./_internal/_migrate-summary-stat-card-configs";
 
 /**
  * Upgrades the schema upgrades
@@ -26,7 +25,6 @@ export function upgradeSiteSchema(model: IModel) {
     model = _ensureTelemetry<IModel>(model);
     model = _migrateFeedConfig(model);
     model = _migrateEventListCardConfigs(model);
-    // model = _migrateSummaryStatCardConfigs(model);
     // WARNING - If you are writing a site schema migration,
     // you probably need to apply it to site drafts as well!
     // See https://github.com/Esri/hub.js/issues/498 for more details.
