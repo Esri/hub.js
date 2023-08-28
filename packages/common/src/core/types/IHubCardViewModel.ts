@@ -23,8 +23,18 @@ export interface IHubCardViewModel {
 export interface IBadgeConfig {
   i18nKey?: string;
   label?: string;
+  /**
+   * whether the label or translated i18nKey
+   * should actually render or just be used
+   * for a11y purposes
+   */
+  showLabel?: boolean;
   icon?: string;
   color: string;
+  tooltip?: {
+    i18nKey?: string;
+    label?: string;
+  };
 }
 
 // structure defining the additional info for a hub card
@@ -40,6 +50,11 @@ export interface ICardActionLink {
   href?: string;
   i18nKey?: string;
   label?: string;
+  /**
+   * whether the label or translated i18nKey
+   * should actually render or just be used
+   * for a11y purposes
+   */
   showLabel?: boolean;
   icon?: string;
   buttonStyle?: "outline" | "outline-fill" | "solid" | "transparent";
