@@ -71,6 +71,7 @@ describe("content editing:", () => {
         canEdit: false,
         canDelete: false,
         location: { type: "none" },
+        urls: {}
       };
       const chk = await updateContent(content, { authentication: MOCK_AUTH });
       expect(chk.id).toBe(GUID);
@@ -117,6 +118,7 @@ describe("content editing:", () => {
         canEdit: false,
         canDelete: false,
         location: { type: "item" },
+        urls: {}
       };
       const chk = await updateContent(content, { authentication: MOCK_AUTH });
       expect(chk.id).toBe(GUID);

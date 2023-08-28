@@ -9,9 +9,16 @@ export interface IHubEditableContent
     IWithSlug,
     IWithPermissions {
   /**
-   * TODO: add additional props
-   * perhaps using Pick from IHubContent
+   * TODO: add additional props, perhaps using Pick from IHubContent
    */
+  urls: {
+    // TODO: Should these all be optional
+    relative?: string,
+    portalHome?: string,
+    portalApi?: string,
+    portalData?: string,
+    thumbnail?: string,
+  }
 }
 
 export type IHubContentEditor = Omit<IHubEditableContent, "extent"> & {
