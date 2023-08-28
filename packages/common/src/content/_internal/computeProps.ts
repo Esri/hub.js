@@ -41,7 +41,7 @@ export function computeProps(
   }
   // thumbnail url
   content.thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
-  content.licenseInfo = model.item.licenseInfo || "";
+  content.licenseInfo = model.item.licenseInfo;
 
   if (!content.location) {
     // build location if one does not exist based off of the boundary and the item's extent
