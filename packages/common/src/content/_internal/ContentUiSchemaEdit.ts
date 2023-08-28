@@ -98,7 +98,7 @@ export const uiSchema: IUiSchema = {
         // license
         {
           labelKey: "Terms of Use",
-          scope: "/properties/license",
+          scope: "/properties/licenseInfo",
           type: "Control",
           options: {
             control: "arcgis-hub-license-picker",
