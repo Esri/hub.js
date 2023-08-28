@@ -51,9 +51,5 @@ export function computeProps(
         : deriveLocationFromItemExtent(model.item.extent);
   }
 
-  // console.log(content);
-  // console.log("model");
-  // console.log(model);
-
   return content as IHubEditableContent;
 }
