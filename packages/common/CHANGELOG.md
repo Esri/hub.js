@@ -1,3 +1,10 @@
+## @esri/hub-common [14.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.3.0...@esri/hub-common@14.3.1) (2023-08-28)
+
+
+### Bug Fixes
+
+* rollback stat migration ([#1193](https://github.com/Esri/hub.js/issues/1193)) ([8465e15](https://github.com/Esri/hub.js/commit/8465e155903053b0f4078b2ecf24c42aff149cf9))
+
 # @esri/hub-common [14.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.2.0...@esri/hub-common@14.3.0) (2023-08-25)
 
 
