@@ -19,7 +19,7 @@ describe("upgradeSiteSchema", () => {
   let ensureTelemetrySpy: jasmine.Spy;
   let migrateFeedConfigSpy: jasmine.Spy;
   let migrateEventListCardConfigsSpy: jasmine.Spy;
-  let _migrateSummaryStatCardConfigsSpy: jasmine.Spy;
+  // let _migrateSummaryStatCardConfigsSpy: jasmine.Spy;
   beforeEach(() => {
     applySpy = spyOn(_applySiteSchemaModule, "_applySiteSchema").and.callFake(
       (model: IModel) => model
@@ -48,10 +48,10 @@ describe("upgradeSiteSchema", () => {
       _migrateEventListCardConfigs,
       "_migrateEventListCardConfigs"
     ).and.callFake((model: IModel) => model);
-    _migrateSummaryStatCardConfigsSpy = spyOn(
-      _migrateSummaryStatCardConfigs,
-      "_migrateSummaryStatCardConfigs"
-    ).and.callFake((model: IModel) => model);
+    // _migrateSummaryStatCardConfigsSpy = spyOn(
+    //   _migrateSummaryStatCardConfigs,
+    //   "_migrateSummaryStatCardConfigs"
+    // ).and.callFake((model: IModel) => model);
   });
 
   it("runs schema upgrades", async () => {

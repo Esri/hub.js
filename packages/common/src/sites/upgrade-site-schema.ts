@@ -26,7 +26,7 @@ export function upgradeSiteSchema(model: IModel) {
     model = _ensureTelemetry<IModel>(model);
     model = _migrateFeedConfig(model);
     model = _migrateEventListCardConfigs(model);
-    model = _migrateSummaryStatCardConfigs(model);
+    // model = _migrateSummaryStatCardConfigs(model);
     // WARNING - If you are writing a site schema migration,
     // you probably need to apply it to site drafts as well!
     // See https://github.com/Esri/hub.js/issues/498 for more details.
