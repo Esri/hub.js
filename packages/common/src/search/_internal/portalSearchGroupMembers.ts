@@ -133,7 +133,7 @@ async function searchGroupMembers(
   // over the includes and requestOptions
   const fn = (member: IGroupMember) => {
     return memberToSearchResult(
-      member,
+      { ...member, isOwner: resp.owner?.username === member.username },
       searchOptions.include,
       searchOptions.requestOptions
     );
@@ -179,7 +179,7 @@ interface IGroupMember {
  * @returns
  */
 async function memberToSearchResult(
-  member: IGroupMember,
+  member: IGroupMember & { isOwner: boolean },
   include: string[] = [],
   requestOptions?: IHubRequestOptions
 ): Promise<IHubSearchResult> {
@@ -199,6 +199,7 @@ async function memberToSearchResult(
     thumbnail: null,
     created: null,
     modified: null,
+    isOwner: member.isOwner,
   };
 
   const fsGetUser = failSafe(getUser, user);

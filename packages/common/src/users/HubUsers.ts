@@ -42,9 +42,10 @@ export async function enrichUserSearchResult(
       thumbnail: null,
     },
   };
-  // Group Memberships need this prop
+  // Group Memberships need these properties
   if (user.memberType) {
     result.memberType = user.memberType;
+    result.isOwner = user.isOwner;
   }
 
   // Informal Enrichments - basically adding type-specific props
