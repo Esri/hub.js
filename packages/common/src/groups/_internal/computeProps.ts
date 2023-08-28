@@ -47,6 +47,8 @@ export function computeProps(
     "updateitemcontrol"
   );
 
+  hubGroup.memberType = group.userMembership.memberType;
+
   hubGroup.membershipAccess = "anyone";
   if (group.membershipAccess === "org") {
     hubGroup.membershipAccess = "organization";

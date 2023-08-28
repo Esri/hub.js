@@ -79,7 +79,7 @@ export interface IHubGroup extends IHubEntityBase, IWithPermissions {
   owner?: string;
 
   /**
-   * Whether the group is protect or not
+   * Whether the group is protected or not
    * the group cannot be deleted if protected
    */
   protected: boolean;
