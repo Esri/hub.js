@@ -97,11 +97,14 @@ export const uiSchema: IUiSchema = {
         },
         // license
         {
-          labelKey: "Terms of Use",
+          labelKey: "{{i18nScope}}.fields.license.label",
           scope: "/properties/licenseInfo",
           type: "Control",
           options: {
             control: "arcgis-hub-license-picker",
+            helperText: {
+              labelKey: "{{i18nScope}}.fields.license.helperText",
+            },
           },
         },
       ],
