@@ -45,6 +45,9 @@ const policyResponseCodes: IPolicyLookup[] = [
   { response: "not-in-environment", code: "PC134" },
   { response: "feature-disabled", code: "PC135" },
   { response: "feature-enabled", code: "PC136" },
+  { response: "no-policy-exists", code: "PC137" },
+  { response: "disabled-by-entity-flag", code: "PC137" },
+  { response: "disabled-by-feature-flag", code: "PC137" },
 ];
 
 /**

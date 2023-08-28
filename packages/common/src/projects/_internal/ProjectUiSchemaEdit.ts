@@ -1,6 +1,7 @@
 import { IUiSchema } from "../../core";
 
 /**
+ * @private
  * complete edit uiSchema for Hub Projects - this defines
  * how the schema properties should be rendered in the
  * project editing experience

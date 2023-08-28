@@ -185,7 +185,7 @@ export interface IArcGISContext {
   /**
    * Hash of feature flags
    */
-  featureFlags?: IFeatureFlags;
+  featureFlags: IFeatureFlags;
 }
 
 /**
@@ -279,7 +279,7 @@ export class ArcGISContext implements IArcGISContext {
 
   private _serviceStatus: HubServiceStatus;
 
-  private _featureFlags: IFeatureFlags;
+  private _featureFlags: IFeatureFlags = {};
 
   /**
    * Create a new instance of `ArcGISContext`.

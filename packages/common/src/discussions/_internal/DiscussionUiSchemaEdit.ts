@@ -1,6 +1,7 @@
 import { IUiSchema } from "../../core";
 
 /**
+ * @private
  * complete edit uiSchema for Hub discussions - this defines
  * how the schema properties should be rendered in the
  * discussion editing experience

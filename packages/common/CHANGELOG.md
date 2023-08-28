@@ -1,3 +1,32 @@
+## @esri/hub-common [14.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.3.0...@esri/hub-common@14.3.1) (2023-08-28)
+
+
+### Bug Fixes
+
+* rollback stat migration ([#1193](https://github.com/Esri/hub.js/issues/1193)) ([8465e15](https://github.com/Esri/hub.js/commit/8465e155903053b0f4078b2ecf24c42aff149cf9))
+
+# @esri/hub-common [14.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.2.0...@esri/hub-common@14.3.0) (2023-08-25)
+
+
+### Features
+
+*  add feature and entity flagging into checkPermission ([#1187](https://github.com/Esri/hub.js/issues/1187)) ([b040283](https://github.com/Esri/hub.js/commit/b04028305a385bd9426edec71e4aaaef199bcc5a))
+
+# @esri/hub-common [14.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.1.0...@esri/hub-common@14.2.0) (2023-08-25)
+
+
+### Features
+
+* ungate dashboard from projects ([#1188](https://github.com/Esri/hub.js/issues/1188)) ([658b936](https://github.com/Esri/hub.js/commit/658b9366bbd3d48243b9be8aa66ba3d2c769a84a))
+
+# @esri/hub-common [14.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.0.0...@esri/hub-common@14.1.0) (2023-08-24)
+
+
+### Features
+
+* site's followers pane permissions ([#1186](https://github.com/Esri/hub.js/issues/1186)) ([90feec7](https://github.com/Esri/hub.js/commit/90feec7e32bdc69e6a03a0e4f2c82e661f50c937))
+* **hub-common:** add icon for Discussion content type ([#1185](https://github.com/Esri/hub.js/issues/1185)) ([7ae927a](https://github.com/Esri/hub.js/commit/7ae927ac9d1b7488c1f9357876fa0515997ca300))
+
 # @esri/hub-common [14.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@13.46.2...@esri/hub-common@14.0.0) (2023-08-23)
 
 

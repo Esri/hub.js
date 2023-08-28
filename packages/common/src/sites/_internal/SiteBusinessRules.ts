@@ -30,6 +30,9 @@ export const SitePermissions = [
   "hub:site:workspace:collaborators",
   "hub:site:workspace:content",
   "hub:site:workspace:metrics",
+  "hub:site:workspace:followers",
+  "hub:site:workspace:followers:member",
+  "hub:site:workspace:followers:manager",
 ] as const;
 
 /**
@@ -106,6 +109,32 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:site:workspace:metrics",
     dependencies: ["hub:site:edit"],
     environments: ["devext", "qaext"],
+  },
+  {
+    permission: "hub:site:workspace:followers",
+    dependencies: ["hub:site:edit"],
+  },
+  {
+    permission: "hub:site:workspace:followers:member",
+    dependencies: ["hub:site:workspace:followers"],
+    assertions: [
+      {
+        property: "context:currentUser",
+        type: "is-group-member",
+        value: "entity:followersGroupId",
+      },
+    ],
+  },
+  {
+    permission: "hub:site:workspace:followers:manager",
+    dependencies: ["hub:site:workspace:followers"],
+    assertions: [
+      {
+        property: "context:currentUser",
+        type: "is-group-admin",
+        value: "entity:followersGroupId",
+      },
+    ],
   },
 ];
 

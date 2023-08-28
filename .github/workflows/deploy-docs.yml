@@ -23,7 +23,8 @@ jobs:
       - name: Deploy GH Pages 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # This is supposed to work w/o specifying a token
+          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
           FOLDER: docs/build/hub.js
           CLEAN: false
