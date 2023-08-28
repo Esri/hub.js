@@ -70,8 +70,9 @@ describe("user view module:", () => {
           {
             icon: "user-key",
             color: "gray",
-            showLabel: false,
-            tooltip: { i18nKey: "memberBadges.owner" },
+            i18nKey: "badges.members.owner",
+            hideLabel: true,
+            tooltip: { i18nKey: "badges.members.owner" },
           },
         ]);
       });
@@ -85,8 +86,9 @@ describe("user view module:", () => {
           {
             icon: "user-up",
             color: "gray",
-            showLabel: false,
-            tooltip: { i18nKey: "memberBadges.admin" },
+            i18nKey: "badges.members.admin",
+            hideLabel: true,
+            tooltip: { i18nKey: "badges.members.admin" },
           },
         ]);
       });
@@ -100,8 +102,9 @@ describe("user view module:", () => {
           {
             icon: "user",
             color: "gray",
-            showLabel: false,
-            tooltip: { i18nKey: "memberBadges.member" },
+            i18nKey: "badges.members.member",
+            hideLabel: true,
+            tooltip: { i18nKey: "badges.members.member" },
           },
         ]);
       });

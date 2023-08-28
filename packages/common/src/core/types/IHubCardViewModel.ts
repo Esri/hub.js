@@ -26,9 +26,10 @@ export interface IBadgeConfig {
   /**
    * whether the label or translated i18nKey
    * should actually render or just be used
-   * for a11y purposes
+   * for a11y purposes. By default, the label
+   * IS rendered
    */
-  showLabel?: boolean;
+  hideLabel?: boolean;
   icon?: string;
   color: string;
   tooltip?: {

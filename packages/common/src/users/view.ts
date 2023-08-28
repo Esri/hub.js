@@ -1,6 +1,7 @@
 import { IHubSearchResult } from "..";
 import { ResultToCardModelFn } from "../core";
 import {
+  IBadgeConfig,
   IConvertToCardModelOpts,
   IHubCardViewModel,
 } from "../core/types/IHubCardViewModel";
@@ -44,7 +45,7 @@ export const userResultToCardModel: ResultToCardModelFn = (
  * @param locale internationalization locale
  */
 const getSharedUserCardModel = (user: IHubSearchResult): IHubCardViewModel => {
-  const badges = [];
+  const badges = [] as IBadgeConfig[];
   const memberType = user.memberType;
 
   /**
@@ -57,22 +58,25 @@ const getSharedUserCardModel = (user: IHubSearchResult): IHubCardViewModel => {
       badges.push({
         icon: "user-key",
         color: "gray",
-        showLabel: false,
-        tooltip: { i18nKey: "memberBadges.owner" },
+        i18nKey: "badges.members.owner",
+        hideLabel: true,
+        tooltip: { i18nKey: "badges.members.owner" },
       });
     } else if (memberType === "admin") {
       badges.push({
         icon: "user-up",
         color: "gray",
-        showLabel: false,
-        tooltip: { i18nKey: "memberBadges.admin" },
+        i18nKey: "badges.members.admin",
+        hideLabel: true,
+        tooltip: { i18nKey: "badges.members.admin" },
       });
     } else {
       badges.push({
         icon: "user",
         color: "gray",
-        showLabel: false,
-        tooltip: { i18nKey: "memberBadges.member" },
+        i18nKey: "badges.members.member",
+        hideLabel: true,
+        tooltip: { i18nKey: "badges.members.member" },
       });
     }
   }
