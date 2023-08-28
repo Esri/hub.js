@@ -95,6 +95,15 @@ export const uiSchema: IUiSchema = {
             },
           },
         },
+        // license
+        {
+          labelKey: "Terms of Use",
+          scope: "/properties/license",
+          type: "Control",
+          options: {
+            control: "arcgis-hub-license-picker",
+          },
+        },
       ],
     },
     // location section

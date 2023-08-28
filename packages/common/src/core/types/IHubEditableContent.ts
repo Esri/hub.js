@@ -12,6 +12,7 @@ export interface IHubEditableContent
    * TODO: add additional props
    * perhaps using Pick from IHubContent
    */
+  licenseInfo: string;
 }
 
 export type IHubContentEditor = Omit<IHubEditableContent, "extent"> & {
