@@ -133,7 +133,7 @@ async function searchGroupMembers(
   // over the includes and requestOptions
   const fn = (member: IGroupMember) => {
     return memberToSearchResult(
-      { ...member, isOwner: resp.owner?.username === member.username },
+      { ...member, isOwner: resp.owner.username === member.username },
       searchOptions.include,
       searchOptions.requestOptions
     );

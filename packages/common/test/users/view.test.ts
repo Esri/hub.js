@@ -58,5 +58,53 @@ describe("user view module:", () => {
       expect(result.title).toBe(`@${USER_HUB_SEARCH_RESULT.owner}`);
       expect(result.source).toBeFalsy();
     });
+    describe("membership badges", () => {
+      it("adds an owner badge if the user is the group owner", () => {
+        const GROUP_MEMBER_RESULT = cloneObject(USER_HUB_SEARCH_RESULT);
+        GROUP_MEMBER_RESULT.isOwner = true;
+        GROUP_MEMBER_RESULT.memberType = "admin";
+
+        const result = userResultToCardModel(GROUP_MEMBER_RESULT);
+
+        expect(result.badges).toEqual([
+          {
+            icon: "user-key",
+            color: "gray",
+            showLabel: false,
+            tooltip: { i18nKey: "memberBadges.owner" },
+          },
+        ]);
+      });
+      it("adds an amin badge if the user is a group admin", () => {
+        const GROUP_MEMBER_RESULT = cloneObject(USER_HUB_SEARCH_RESULT);
+        GROUP_MEMBER_RESULT.memberType = "admin";
+
+        const result = userResultToCardModel(GROUP_MEMBER_RESULT);
+
+        expect(result.badges).toEqual([
+          {
+            icon: "user-up",
+            color: "gray",
+            showLabel: false,
+            tooltip: { i18nKey: "memberBadges.admin" },
+          },
+        ]);
+      });
+      it("adds a member badge if the user is a group member", () => {
+        const GROUP_MEMBER_RESULT = cloneObject(USER_HUB_SEARCH_RESULT);
+        GROUP_MEMBER_RESULT.memberType = "member";
+
+        const result = userResultToCardModel(GROUP_MEMBER_RESULT);
+
+        expect(result.badges).toEqual([
+          {
+            icon: "user",
+            color: "gray",
+            showLabel: false,
+            tooltip: { i18nKey: "memberBadges.member" },
+          },
+        ]);
+      });
+    });
   });
 });
