@@ -1,3 +1,10 @@
+# @esri/hub-common [14.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.4.0...@esri/hub-common@14.5.0) (2023-08-29)
+
+
+### Features
+
+* adding license picker to content workspace ([#1192](https://github.com/Esri/hub.js/issues/1192)) ([312b333](https://github.com/Esri/hub.js/commit/312b3333a010022b34704b9a9480e0f153666858))
+
 # @esri/hub-common [14.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.3.1...@esri/hub-common@14.4.0) (2023-08-29)
 
 
