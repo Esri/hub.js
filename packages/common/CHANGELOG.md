@@ -1,3 +1,10 @@
+## @esri/hub-common [14.5.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.5.0...@esri/hub-common@14.5.1) (2023-08-29)
+
+
+### Bug Fixes
+
+* account for index values that are 0 in card view models ([#1196](https://github.com/Esri/hub.js/issues/1196)) ([bbc1928](https://github.com/Esri/hub.js/commit/bbc19285fd4aefeaef8e06a4c4788a5e90a07d8b))
+
 # @esri/hub-common [14.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.4.0...@esri/hub-common@14.5.0) (2023-08-29)
 
 
