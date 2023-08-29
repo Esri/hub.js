@@ -1,3 +1,10 @@
+# @esri/hub-common [14.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.3.1...@esri/hub-common@14.4.0) (2023-08-29)
+
+
+### Features
+
+* add member role badges to user card model ([#1195](https://github.com/Esri/hub.js/issues/1195)) ([e09608d](https://github.com/Esri/hub.js/commit/e09608d73921e6563f808ff3b8575304b3cd26b3))
+
 ## @esri/hub-common [14.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.3.0...@esri/hub-common@14.3.1) (2023-08-28)
 
 
