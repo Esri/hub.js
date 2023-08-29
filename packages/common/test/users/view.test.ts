@@ -61,7 +61,7 @@ describe("user view module:", () => {
     describe("membership badges", () => {
       it("adds an owner badge if the user is the group owner", () => {
         const GROUP_MEMBER_RESULT = cloneObject(USER_HUB_SEARCH_RESULT);
-        GROUP_MEMBER_RESULT.isOwner = true;
+        GROUP_MEMBER_RESULT.isGroupOwner = true;
         GROUP_MEMBER_RESULT.memberType = "admin";
 
         const result = userResultToCardModel(GROUP_MEMBER_RESULT);

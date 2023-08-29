@@ -26,6 +26,13 @@ export async function enrichUserSearchResult(
     access: user.access as AccessLevel,
     id: user.username,
     type: "User",
+    /**
+     * We need to return a valid IHubSearchResult, so we store
+     * IUser information where it makes the most sense - e.g.
+     * we store the user's full name under the "name" property,
+     * and since users don't have an owner, we fill that property
+     * with the user's username
+     */
     name: user.fullName,
     owner: user.username,
     // A private user will not have a description prop at all
@@ -42,10 +49,10 @@ export async function enrichUserSearchResult(
       thumbnail: null,
     },
   };
-  // Group Memberships need these properties
+  // Group Memberships need these additional properties
   if (user.memberType) {
     result.memberType = user.memberType;
-    result.isOwner = user.isOwner;
+    result.isGroupOwner = user.isGroupOwner;
   }
 
   // Informal Enrichments - basically adding type-specific props

@@ -54,7 +54,7 @@ const getSharedUserCardModel = (user: IHubSearchResult): IHubCardViewModel => {
    * card
    */
   if (memberType) {
-    if (user.isOwner) {
+    if (user.isGroupOwner) {
       badges.push({
         icon: "user-key",
         color: "gray",
