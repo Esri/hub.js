@@ -9,4 +9,10 @@ export const ContentEditorTypes = ["hub:content:edit"] as const;
  */
 export const ContentSchema: IConfigurationSchema = {
   ...HubItemEntitySchema,
+  properties: {
+    ...HubItemEntitySchema.properties,
+    licenseInfo: {
+      type: "string",
+    },
+  },
 } as IConfigurationSchema;
