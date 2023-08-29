@@ -70,7 +70,7 @@ export const initiativeResultToCardModel: ResultToCardModelFn = (
   return {
     ...getSharedInitiativeCardModel(searchResult, locale),
     actionLinks,
-    ...(searchResult.index && { index: searchResult.index }),
+    ...(!isNaN(searchResult.index) && { index: searchResult.index }),
     titleUrl,
     ...(searchResult.links.thumbnail && {
       thumbnailUrl: searchResult.links.thumbnail,
