@@ -2,10 +2,10 @@ import { IUser } from "@esri/arcgis-rest-auth";
 import {
   ICreateOrgNotificationResult,
   ICreateOrgNotificationOptions,
-  createOrgNotification
+  createOrgNotification,
 } from "@esri/arcgis-rest-portal";
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
-import { IEmail } from "../interfaces";
+import { IEmail } from "./types";
 
 /**
  * Attempts to email members of the requesting user's organization.
@@ -22,15 +22,16 @@ export function emailOrgUsers(
   email: IEmail,
   authentication: IAuthenticationManager,
   isOrgAdmin: boolean
-): Promise<ICreateOrgNotificationResult> {
-  let response: Promise<ICreateOrgNotificationResult> = Promise.resolve(null);
+): Promise<ICreateOrgNotificationResult | null> {
+  let response: Promise<ICreateOrgNotificationResult | null> =
+    Promise.resolve(null);
   if (users.length) {
     const args: ICreateOrgNotificationOptions = {
       authentication,
       message: email.body,
       subject: email.subject,
       notificationChannelType: "email",
-      users: users.map(u => u.username)
+      users: users.map((u) => u.username),
     };
     if (!isOrgAdmin) {
       args.batchSize = 1;

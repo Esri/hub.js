@@ -1,13 +1,13 @@
 import * as restPortalModule from "@esri/arcgis-rest-portal";
-import { autoAddUsers } from "../../../../src/groups/add-users-workflow/workflow-sections/auto-add-users";
-import { MOCK_AUTH } from "../fixtures";
+import { autoAddUsers } from "../../src/groups/autoAddUsers";
+import { MOCK_AUTH } from "./add-users-workflow/fixtures";
 
-describe("auto-add-users", function() {
+describe("auto-add-users", function () {
   let addSpy: jasmine.Spy;
   const users: restPortalModule.IUser[] = [
     { username: "luke" },
     { username: "leia" },
-    { username: "han" }
+    { username: "han" },
   ];
   const groupId = "rebel_alliance";
 
@@ -28,8 +28,8 @@ describe("auto-add-users", function() {
       {
         authentication: MOCK_AUTH,
         id: groupId,
-        users: users.map(u => u.username)
-      }
+        users: users.map((u) => u.username),
+      },
     ];
     expect(actualArgs).toEqual(expectedArgs);
   });

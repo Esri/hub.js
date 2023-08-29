@@ -1,7 +1,7 @@
 import { IAddGroupUsersResult } from "@esri/arcgis-rest-portal";
 import { cloneObject, IAddMemberContext } from "../../../../src";
 import * as formatResponseModule from "../../../../src/groups/add-users-workflow/output-processors/_format-auto-add-response";
-import * as autoAddModule from "../../../../src/groups/add-users-workflow/workflow-sections/auto-add-users";
+import * as autoAddModule from "../../../../src/groups/autoAddUsers";
 import { _processAutoAdd } from "../../../../src/groups/add-users-workflow/output-processors/_process-auto-add";
 
 describe("_process_auto_add", () => {
@@ -16,14 +16,14 @@ describe("_process_auto_add", () => {
       primaryRO: {
         authentication: null,
         isPortal: false,
-        hubApiUrl: ""
-      }
+        hubApiUrl: "",
+      },
     };
 
     const autoAddResult: IAddGroupUsersResult = { notAdded: [] };
     const formattedResult: IAddMemberContext = Object.assign(
       {
-        autoAddResult: { success: true }
+        autoAddResult: { success: true },
       },
       cloneObject(context)
     );

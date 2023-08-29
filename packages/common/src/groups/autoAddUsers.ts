@@ -2,7 +2,7 @@ import { IUser } from "@esri/arcgis-rest-auth";
 import {
   IAddGroupUsersResult,
   IAddGroupUsersOptions,
-  addGroupUsers
+  addGroupUsers,
 } from "@esri/arcgis-rest-portal";
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
 
@@ -20,13 +20,13 @@ export function autoAddUsers(
   id: string,
   users: IUser[],
   authentication: IAuthenticationManager
-): Promise<IAddGroupUsersResult> {
-  let response: Promise<IAddGroupUsersResult> = Promise.resolve(null);
+): Promise<IAddGroupUsersResult | null> {
+  let response: Promise<IAddGroupUsersResult | null> = Promise.resolve(null);
   if (users.length) {
     const args: IAddGroupUsersOptions = {
       id,
-      users: users.map(u => u.username),
-      authentication
+      users: users.map((u) => u.username),
+      authentication,
     };
     response = addGroupUsers(args);
   }

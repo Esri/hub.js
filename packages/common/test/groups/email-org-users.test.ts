@@ -1,17 +1,18 @@
 import * as restPortalModule from "@esri/arcgis-rest-portal";
-import { IEmail, emailOrgUsers } from "../../../../src";
-import { MOCK_AUTH } from "../fixtures";
+import { emailOrgUsers } from "../../src/groups/emailOrgUsers";
+import { IEmail } from "../../src/groups/types";
+import { MOCK_AUTH } from "./add-users-workflow/fixtures";
 
-describe("email-org-users", function() {
+describe("email-org-users", function () {
   let notificationSpy: jasmine.Spy;
   const users: restPortalModule.IUser[] = [
     { username: "huey" },
     { username: "dewey" },
-    { username: "louie" }
+    { username: "louie" },
   ];
   const email: IEmail = {
     subject: "subject",
-    body: "body"
+    body: "body",
   };
 
   beforeEach(() => {
@@ -33,8 +34,8 @@ describe("email-org-users", function() {
         message: email.body,
         subject: email.subject,
         notificationChannelType: "email",
-        users: users.map(u => u.username)
-      }
+        users: users.map((u) => u.username),
+      },
     ];
     expect(actualArgs).toEqual(expectedArgs);
   });
@@ -51,9 +52,9 @@ describe("email-org-users", function() {
         message: email.body,
         subject: email.subject,
         notificationChannelType: "email",
-        users: users.map(u => u.username),
-        batchSize: 1
-      }
+        users: users.map((u) => u.username),
+        batchSize: 1,
+      },
     ];
     expect(actualArgs).toEqual(expectedArgs);
   });

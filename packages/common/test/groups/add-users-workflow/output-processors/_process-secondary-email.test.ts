@@ -1,10 +1,10 @@
 import * as restPortalModule from "@esri/arcgis-rest-portal";
 import {
   IAddMemberContext,
-  IEmail
+  IEmail,
 } from "../../../../src/groups/add-users-workflow/interfaces";
 import { _processSecondaryEmail } from "../../../../src/groups/add-users-workflow/output-processors/_process-secondary-email";
-import * as emailModule from "../../../../src/groups/add-users-workflow/workflow-sections/email-org-users";
+import * as emailModule from "../../../../src/groups/emailOrgUsers";
 import * as isAdminModule from "../../../../src/groups/add-users-workflow/utils/_is-org-admin";
 import { IHubRequestOptions } from "../../../../src/types";
 import { cloneObject } from "../../../../src/util";
@@ -14,7 +14,7 @@ describe("_processSecondaryEmail", () => {
   const users: restPortalModule.IUser[] = [
     { username: "Ferris", orgId },
     { username: "Cameron", orgId },
-    { username: "Sloane", orgId }
+    { username: "Sloane", orgId },
   ];
 
   const baseContext: IAddMemberContext = {
@@ -24,7 +24,7 @@ describe("_processSecondaryEmail", () => {
     usersToEmail: [],
     usersToInvite: users,
     requestingUser: null,
-    primaryRO: null
+    primaryRO: null,
   };
 
   let emailSpy: jasmine.Spy;
@@ -53,14 +53,14 @@ describe("_processSecondaryEmail", () => {
   it("Doesn't modify context if no secondaryRO object provided", async () => {
     const email: IEmail = {
       subject: "subject",
-      body: "body"
+      body: "body",
     };
     const context = Object.assign(cloneObject(baseContext), {
-      email: cloneObject(email)
+      email: cloneObject(email),
     });
     const actual = await _processSecondaryEmail(context);
     const expected = Object.assign(cloneObject(baseContext), {
-      email: cloneObject(email)
+      email: cloneObject(email),
     });
     expect(emailSpy).not.toHaveBeenCalled();
     expect(actual).toEqual(expected);
@@ -69,7 +69,7 @@ describe("_processSecondaryEmail", () => {
   it("Doesn't modify context if inviteResult is unsuccessful/non-existent", async () => {
     const email: IEmail = {
       subject: "subject",
-      body: "body"
+      body: "body",
     };
 
     const secondaryRO: IHubRequestOptions = {
@@ -80,17 +80,17 @@ describe("_processSecondaryEmail", () => {
         isPortal: false,
         id: "portalId",
         name: "a name",
-        user: { username: "Mr. Rooney", orgId }
-      }
+        user: { username: "Mr. Rooney", orgId },
+      },
     };
     const context = Object.assign(cloneObject(baseContext), {
       email: cloneObject(email),
-      secondaryRO: cloneObject(secondaryRO)
+      secondaryRO: cloneObject(secondaryRO),
     });
     const actual = await _processSecondaryEmail(context);
     const expected = Object.assign(cloneObject(baseContext), {
       email: cloneObject(email),
-      secondaryRO: cloneObject(secondaryRO)
+      secondaryRO: cloneObject(secondaryRO),
     });
     expect(emailSpy).not.toHaveBeenCalled();
     expect(actual).toEqual(expected);
@@ -99,7 +99,7 @@ describe("_processSecondaryEmail", () => {
   it("Delegates to emailOrgUser and modifies the context object", async () => {
     const email: IEmail = {
       subject: "subject",
-      body: "body"
+      body: "body",
     };
 
     const secondaryRO: IHubRequestOptions = {
@@ -110,8 +110,8 @@ describe("_processSecondaryEmail", () => {
         isPortal: false,
         id: "portalId",
         name: "a name",
-        user: { username: "Mr. Rooney", orgId }
-      }
+        user: { username: "Mr. Rooney", orgId },
+      },
     };
 
     const inviteResult = { success: true };
@@ -120,14 +120,14 @@ describe("_processSecondaryEmail", () => {
     const context = Object.assign(cloneObject(baseContext), {
       email: cloneObject(email),
       secondaryRO: cloneObject(secondaryRO),
-      inviteResult: cloneObject(inviteResult)
+      inviteResult: cloneObject(inviteResult),
     });
 
     const expected = Object.assign(cloneObject(baseContext), {
       email: cloneObject(email),
       secondaryRO: cloneObject(secondaryRO),
       inviteResult: cloneObject(inviteResult),
-      secondaryEmailResult: cloneObject(secondaryEmailResult)
+      secondaryEmailResult: cloneObject(secondaryEmailResult),
     });
     const actual = await _processSecondaryEmail(context);
 
