@@ -1,3 +1,10 @@
+## @esri/hub-common [14.5.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.5.1...@esri/hub-common@14.5.2) (2023-08-30)
+
+
+### Bug Fixes
+
+* shouldClearEmptyFields now accounts for licenseInfo ([#1198](https://github.com/Esri/hub.js/issues/1198)) ([3f4eb47](https://github.com/Esri/hub.js/commit/3f4eb476e034d399274f7ffd410e8218c905b055))
+
 ## @esri/hub-common [14.5.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.5.0...@esri/hub-common@14.5.1) (2023-08-29)
 
 
