@@ -80,5 +80,12 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
     dependencies: ["hub:group"],
     authenticated: true,
     privileges: ["portal:user:shareToGroup"],
+    assertions: [
+      {
+        property: "context:currentUser",
+        type: "is-group-member",
+        value: "entity:id",
+      },
+    ],
   },
 ];
