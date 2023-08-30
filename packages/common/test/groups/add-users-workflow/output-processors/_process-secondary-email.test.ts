@@ -1,8 +1,6 @@
 import * as restPortalModule from "@esri/arcgis-rest-portal";
-import {
-  IAddMemberContext,
-  IEmail,
-} from "../../../../src/groups/add-users-workflow/interfaces";
+import { IAddMemberContext } from "../../../../src/groups/add-users-workflow/interfaces";
+import { IEmail } from "../../../../src/groups/types";
 import { _processSecondaryEmail } from "../../../../src/groups/add-users-workflow/output-processors/_process-secondary-email";
 import * as emailModule from "../../../../src/groups/emailOrgUsers";
 import * as isAdminModule from "../../../../src/groups/add-users-workflow/utils/_is-org-admin";

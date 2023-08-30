@@ -5,11 +5,11 @@ import {
   cloneObject,
   enrichGroupSearchResult,
   IHubRequestOptions,
-  setProp,
 } from "../../src";
 import * as HubGroupsModule from "../../src/groups/HubGroups";
 import * as FetchEnrichments from "../../src/groups/_internal/enrichments";
 import { IHubGroup } from "../../src/core/types/IHubGroup";
+import * as addOrInviteUsersToGroupsModule from "../../src/groups/_internal/addOrInviteUsersToGroups";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 const TEST_GROUP: IGroup = {
@@ -18,10 +18,10 @@ const TEST_GROUP: IGroup = {
   isInvitationOnly: false,
   owner: "dev_pre_hub_admin",
   description: "dev followers Content summary",
-  snippet: null,
+  snippet: undefined,
   tags: ["Hub Initiative Group", "Open Data"],
   typeKeywords: [],
-  phone: null,
+  phone: undefined,
   sortField: "title",
   sortOrder: "asc",
   isViewOnly: false,
@@ -104,11 +104,11 @@ describe("HubGroups Module:", () => {
       expect(chk.updatedDate).toEqual(new Date(GRP.modified));
       expect(chk.updatedDateSource).toEqual("group.modified");
       expect(chk.family).toEqual("team");
-      expect(chk.links.self).toEqual(
+      expect(chk.links?.self).toEqual(
         `https://some-server.com/gis/home/group.html?id=${GRP.id}`
       );
-      expect(chk.links.siteRelative).toEqual(`/teams/${GRP.id}`);
-      expect(chk.links.thumbnail).toEqual(
+      expect(chk.links?.siteRelative).toEqual(`/teams/${GRP.id}`);
+      expect(chk.links?.thumbnail).toEqual(
         `${hubRo.portal}/community/groups/${GRP.id}/info/${GRP.thumbnail}`
       );
       // Group Specific Props
@@ -250,6 +250,34 @@ describe("HubGroups Module:", () => {
         authentication: MOCK_AUTH,
       });
       expect(portalRemoveGroupSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("addOrInviteUsers", () => {
+    it("calls addOrInviteUsersToGroups w/ single group id", async () => {
+      const addOrInviteUsersToGroupsSpy = spyOn(
+        addOrInviteUsersToGroupsModule,
+        "addOrInviteUsersToGroups"
+      ).and.returnValue(Promise.resolve({}));
+      await HubGroupsModule.addOrInviteUsersToHubGroup(
+        "abc123",
+        [{ orgType: "org", username: "frank" }],
+        MOCK_AUTH
+      );
+      expect(addOrInviteUsersToGroupsSpy).toHaveBeenCalled();
+    });
+
+    it("calls addOrInviteUsersToGroups w/ array of group id", async () => {
+      const addOrInviteUsersToGroupsSpy = spyOn(
+        addOrInviteUsersToGroupsModule,
+        "addOrInviteUsersToGroups"
+      ).and.returnValue(Promise.resolve({}));
+      await HubGroupsModule.addOrInviteUsersToHubGroup(
+        ["abc123", "def456"],
+        [{ orgType: "org", username: "frank" }],
+        MOCK_AUTH
+      );
+      expect(addOrInviteUsersToGroupsSpy).toHaveBeenCalled();
     });
   });
 });
