@@ -3,7 +3,7 @@ import { _canEmailUser } from "../../add-users-workflow/utils/_can-email-user";
 import { _isOrgAdmin } from "../../add-users-workflow/utils/_is-org-admin";
 import { getProp, getWithDefault } from "../../../objects";
 import { IAddMemberContext } from "../interfaces";
-import { emailOrgUsers } from "../workflow-sections/email-org-users";
+import { emailOrgUsers } from "../../emailOrgUsers";
 
 /**
  * @private
@@ -31,7 +31,7 @@ export function _processSecondaryEmail(
       "secondaryRO.portalSelf.user",
       {}
     );
-    const secondaryOrgUsersToEmail = context.usersToInvite.filter(u =>
+    const secondaryOrgUsersToEmail = context.usersToInvite.filter((u) =>
       _canEmailUser(u, secondaryUser)
     );
     response = emailOrgUsers(
@@ -39,7 +39,7 @@ export function _processSecondaryEmail(
       context.email,
       context.secondaryRO.authentication,
       _isOrgAdmin(secondaryUser)
-    ).then(result => {
+    ).then((result) => {
       context.secondaryEmailResult = result;
       return context;
     });

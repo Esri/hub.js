@@ -1,6 +1,6 @@
 import { getProp } from "../../../objects/get-prop";
 import { IAddMemberContext } from "../interfaces";
-import { autoAddUsers } from "../workflow-sections/auto-add-users";
+import { autoAddUsers } from "../../autoAddUsers";
 import { _formatAutoAddResponse } from "./_format-auto-add-response";
 
 /**
@@ -13,5 +13,5 @@ export function _processAutoAdd(
     getProp(context, "groupId"),
     getProp(context, "usersToAutoAdd"),
     getProp(context, "primaryRO.authentication")
-  ).then(rawResponse => _formatAutoAddResponse(rawResponse, context));
+  ).then((rawResponse) => _formatAutoAddResponse(rawResponse, context));
 }

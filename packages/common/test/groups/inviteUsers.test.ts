@@ -1,13 +1,13 @@
 import * as restPortalModule from "@esri/arcgis-rest-portal";
-import { inviteUsers } from "../../../../src/groups/add-users-workflow/workflow-sections/invite-users";
-import { MOCK_AUTH } from "../fixtures";
+import { inviteUsers } from "../../src/groups/inviteUsers";
+import { MOCK_AUTH } from "./add-users-workflow/fixtures";
 
-describe("invite-users", function() {
+describe("invite-users", function () {
   let invitationSpy: jasmine.Spy;
   const users: restPortalModule.IUser[] = [
     { username: "harry" },
     { username: "ron" },
-    { username: "hermione" }
+    { username: "hermione" },
   ];
   const groupId = "gryffindor";
 
@@ -28,10 +28,10 @@ describe("invite-users", function() {
       {
         authentication: MOCK_AUTH,
         id: groupId,
-        users: users.map(u => u.username),
+        users: users.map((u) => u.username),
         role: "group_member",
-        expiration: 20160
-      }
+        expiration: 20160,
+      },
     ];
     expect(actualArgs).toEqual(expectedArgs);
   });
@@ -46,10 +46,10 @@ describe("invite-users", function() {
       {
         authentication: MOCK_AUTH,
         id: groupId,
-        users: users.map(u => u.username),
+        users: users.map((u) => u.username),
         role: "group_member",
-        expiration: 9001
-      }
+        expiration: 9001,
+      },
     ];
     expect(actualArgs).toEqual(expectedArgs);
   });

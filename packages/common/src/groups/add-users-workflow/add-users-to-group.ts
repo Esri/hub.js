@@ -3,7 +3,7 @@ import { getProp } from "../../objects/get-prop";
 import { getWithDefault } from "../../objects/get-with-default";
 import { IHubRequestOptions } from "../../types";
 import { cloneObject } from "../../util";
-import { IConsolidatedResult, IEmail } from "./interfaces";
+import { IConsolidatedResult } from "./interfaces";
 import { _consolidateResults } from "./output-processors/_consolidate-results";
 import { _processAutoAdd } from "./output-processors/_process-auto-add";
 import { _processInvite } from "./output-processors/_process-invite";
@@ -12,6 +12,7 @@ import { _processSecondaryEmail } from "./output-processors/_process-secondary-e
 import { _getAutoAddUsers } from "./utils/_get-auto-add-users";
 import { _getEmailUsers } from "./utils/_get-email-users";
 import { _getInviteUsers } from "./utils/_get-invite-users";
+import { IEmail } from "../types";
 
 /**
  * Adds, invites or emails users about joining a group
@@ -72,7 +73,7 @@ export function addUsersToGroup(
       allUsers,
       requestingUser,
       getProp(email, "copyMe")
-    )
+    ),
   };
 
   return _processAutoAdd(context)

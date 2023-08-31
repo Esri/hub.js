@@ -1,6 +1,6 @@
 import { getProp } from "../../../objects/get-prop";
 import { IAddMemberContext } from "../interfaces";
-import { inviteUsers } from "../workflow-sections/invite-users";
+import { inviteUsers } from "../../inviteUsers";
 
 /**
  * @private
@@ -12,7 +12,7 @@ export function _processInvite(
     getProp(context, "groupId"),
     getProp(context, "usersToInvite"),
     getProp(context, "primaryRO.authentication")
-  ).then(result => {
+  ).then((result) => {
     context.inviteResult = result;
     return context;
   });

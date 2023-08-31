@@ -1,9 +1,9 @@
 import {
   IAddGroupUsersResult,
-  IInviteGroupUsersResult
+  IInviteGroupUsersResult,
 } from "@esri/arcgis-rest-portal";
 import { IAddMemberContext, _processInvite } from "../../../../src";
-import * as inviteModule from "../../../../src/groups/add-users-workflow/workflow-sections/invite-users";
+import * as inviteModule from "../../../../src/groups/inviteUsers";
 
 describe("_process_auto_add", () => {
   it("Delegates properly to inviteUsers and modifies context", async () => {
@@ -17,8 +17,8 @@ describe("_process_auto_add", () => {
       primaryRO: {
         authentication: null,
         isPortal: false,
-        hubApiUrl: ""
-      }
+        hubApiUrl: "",
+      },
     };
 
     const inviteResult: IInviteGroupUsersResult = { success: true };
