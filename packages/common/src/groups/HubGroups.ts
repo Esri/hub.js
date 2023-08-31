@@ -13,11 +13,7 @@ import {
   createGroup,
   updateGroup,
 } from "@esri/arcgis-rest-portal";
-import {
-  ArcGISRequestError,
-  IAuthenticationManager,
-  IRequestOptions,
-} from "@esri/arcgis-rest-request";
+import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IHubGroup } from "../core/types/IHubGroup";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { DEFAULT_GROUP } from "./defaults";
