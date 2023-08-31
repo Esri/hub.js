@@ -1,3 +1,10 @@
+# @esri/hub-common [14.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.5.2...@esri/hub-common@14.6.0) (2023-08-31)
+
+
+### Features
+
+* add invite users to hub group ([#1197](https://github.com/Esri/hub.js/issues/1197)) ([014b2bd](https://github.com/Esri/hub.js/commit/014b2bdc1cb0ed081eb975e63129ed02fbdecc8b))
+
 ## @esri/hub-common [14.5.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.5.1...@esri/hub-common@14.5.2) (2023-08-30)
 
 
