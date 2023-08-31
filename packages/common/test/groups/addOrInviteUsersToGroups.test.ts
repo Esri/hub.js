@@ -2,10 +2,10 @@ import { ArcGISRequestError } from "@esri/arcgis-rest-request";
 import {
   IAddOrInviteToGroupResult,
   IUserWithOrgType,
-} from "../../../src/groups/types";
-import { MOCK_AUTH } from "../../mocks/mock-auth";
-import * as addOrInviteUsersToGroupModule from "../../../src/groups/_internal/addOrInviteUsersToGroup";
-import { addOrInviteUsersToGroups } from "../../../src/groups/_internal/addOrInviteUsersToGroups";
+} from "../../src/groups/types";
+import { MOCK_AUTH } from "../mocks/mock-auth";
+import * as addOrInviteUsersToGroupModule from "../../src/groups/addOrInviteUsersToGroup";
+import { addOrInviteUsersToGroups } from "../../src/groups/addOrInviteUsersToGroups";
 
 describe("addOrInviteUsersToGroups: ", () => {
   it("all works...", async () => {

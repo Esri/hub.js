@@ -6,7 +6,7 @@ import {
   IAddOrInviteEmail,
   IAddOrInviteToGroupResult,
   IUserWithOrgType,
-} from "../types";
+} from "./types";
 import { addOrInviteUsersToGroup } from "./addOrInviteUsersToGroup";
 
 /**

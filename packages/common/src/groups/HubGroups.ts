@@ -23,12 +23,6 @@ import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { DEFAULT_GROUP } from "./defaults";
 import { convertHubGroupToGroup } from "./_internal/convertHubGroupToGroup";
 import { convertGroupToHubGroup } from "./_internal/convertGroupToHubGroup";
-import {
-  IAddOrInviteEmail,
-  IAddOrInviteToGroupResult,
-  IUserWithOrgType,
-} from "./types";
-import { addOrInviteUsersToGroups } from "./_internal/addOrInviteUsersToGroups";
 
 /**
  * Enrich a generic search result
@@ -173,50 +167,4 @@ export async function deleteHubGroup(
 ): Promise<void> {
   const ro = { ...requestOptions, ...{ id } };
   await removeGroup(ro);
-}
-
-/**
- * addOrInviteUsersToHubGroup adds/invites N users to N groups
- * Initial entry point function for add/invite members flow
- * when dealing with multiple groups.
- * Responses from each group are then consolidated into the final returned object.
- *
- * @export
- * @param {string | string[]} groupIds array of groups we are adding users to
- * @param {IUserWithOrgType[]} users array of users to add to those groups
- * @param {IAuthenticationManager} primaryRO primary requestOptions
- * @param {boolean} [canAutoAddUser=false] Can we automatically add a user to the group?
- * @param {boolean} [addUserAsGroupAdmin=false] Can the user be added to a group as an administrator of that group?
- * @param {IAddOrInviteEmail} [email] Email object contains auth for the email && the email object itself
- * @return {*}  {Promise<{
- *   notAdded: string[];
- *   notInvited: string[];
- *   notEmailed: string[];
- *   errors: ArcGISRequestError[];
- *   responses: IAddOrInviteToGroupResult[];
- * }>} Results object
- */
-export async function addOrInviteUsersToHubGroup(
-  groupIds: string | string[],
-  users: IUserWithOrgType[],
-  primaryRO: IAuthenticationManager,
-  canAutoAddUser: boolean = false,
-  addUserAsGroupAdmin: boolean = false,
-  email?: IAddOrInviteEmail
-): Promise<{
-  notAdded: string[];
-  notInvited: string[];
-  notEmailed: string[];
-  errors: ArcGISRequestError[];
-  responses: IAddOrInviteToGroupResult[];
-}> {
-  groupIds = Array.isArray(groupIds) ? groupIds : [groupIds];
-  return addOrInviteUsersToGroups(
-    groupIds,
-    users,
-    primaryRO,
-    canAutoAddUser,
-    addUserAsGroupAdmin,
-    email
-  );
 }

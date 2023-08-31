@@ -3,10 +3,10 @@ import {
   IAddOrInviteEmail,
   IAddOrInviteResponse,
   IUserWithOrgType,
-} from "../../../src/groups/types";
-import { MOCK_AUTH } from "../../mocks/mock-auth";
-import { addOrInviteUsersToGroup } from "../../../src/groups/_internal/addOrInviteUsersToGroup";
-import * as utilsModule from "../../../src/groups/_internal/AddOrInviteUsersToGroupUtils";
+} from "../../src/groups/types";
+import { MOCK_AUTH } from "../mocks/mock-auth";
+import { addOrInviteUsersToGroup } from "../../src/groups/addOrInviteUsersToGroup";
+import * as utilsModule from "../../src/groups/_internal/AddOrInviteUsersToGroupUtils";
 
 describe("addOrInviteUsersToGroup: ", () => {
   let addOrInviteCommunityUsersSpy: jasmine.Spy;

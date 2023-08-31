@@ -9,7 +9,6 @@ import {
 import * as HubGroupsModule from "../../src/groups/HubGroups";
 import * as FetchEnrichments from "../../src/groups/_internal/enrichments";
 import { IHubGroup } from "../../src/core/types/IHubGroup";
-import * as addOrInviteUsersToGroupsModule from "../../src/groups/_internal/addOrInviteUsersToGroups";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 const TEST_GROUP: IGroup = {
@@ -250,34 +249,6 @@ describe("HubGroups Module:", () => {
         authentication: MOCK_AUTH,
       });
       expect(portalRemoveGroupSpy).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe("addOrInviteUsers", () => {
-    it("calls addOrInviteUsersToGroups w/ single group id", async () => {
-      const addOrInviteUsersToGroupsSpy = spyOn(
-        addOrInviteUsersToGroupsModule,
-        "addOrInviteUsersToGroups"
-      ).and.returnValue(Promise.resolve({}));
-      await HubGroupsModule.addOrInviteUsersToHubGroup(
-        "abc123",
-        [{ orgType: "org", username: "frank" }],
-        MOCK_AUTH
-      );
-      expect(addOrInviteUsersToGroupsSpy).toHaveBeenCalled();
-    });
-
-    it("calls addOrInviteUsersToGroups w/ array of group id", async () => {
-      const addOrInviteUsersToGroupsSpy = spyOn(
-        addOrInviteUsersToGroupsModule,
-        "addOrInviteUsersToGroups"
-      ).and.returnValue(Promise.resolve({}));
-      await HubGroupsModule.addOrInviteUsersToHubGroup(
-        ["abc123", "def456"],
-        [{ orgType: "org", username: "frank" }],
-        MOCK_AUTH
-      );
-      expect(addOrInviteUsersToGroupsSpy).toHaveBeenCalled();
     });
   });
 });

@@ -5,7 +5,7 @@ import {
   IAddOrInviteToGroupResult,
   IUserOrgRelationship,
   IUserWithOrgType,
-} from "../types";
+} from "./types";
 import {
   addOrInviteCollaborationCoordinators,
   addOrInviteCommunityUsers,
@@ -13,7 +13,7 @@ import {
   addOrInvitePartneredUsers,
   addOrInviteWorldUsers,
   groupUsersByOrgRelationship,
-} from "./AddOrInviteUsersToGroupUtils";
+} from "./_internal/AddOrInviteUsersToGroupUtils";
 
 /**
  * Add or invite N users to a single group
