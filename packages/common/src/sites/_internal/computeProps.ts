@@ -1,12 +1,14 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { getItemThumbnailUrl } from "../../resources";
-import { IHubSite } from "../../core";
 import { IModel } from "../../types";
 import { upgradeCatalogSchema } from "../../search/upgradeCatalogSchema";
 import { isDiscussable } from "../../discussions";
 import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
 import { SiteDefaultFeatures } from "./SiteBusinessRules";
+import { getItemHomeUrl } from "../../urls/get-item-home-url";
+import { IHubSite } from "../../core/types/IHubSite";
+import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
 
 /**
  * Given a model and a site, set various computed properties that can't be directly mapped
@@ -27,7 +29,16 @@ export function computeProps(
     token = session.token;
   }
   // thumbnail url
-  site.thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
+  const thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
+  // TODO: Remove this once opendata-ui starts using `links.thumbnail` instead
+  site.thumbnailUrl = thumbnailUrl;
+  site.links = {
+    self: getItemHomeUrl(site.id, requestOptions),
+    siteRelative: "/",
+    workspaceRelative: getRelativeWorkspaceUrl("site", site.id),
+    layoutRelative: "/edit",
+    thumbnail: thumbnailUrl,
+  };
 
   // Handle Dates
   site.createdDate = new Date(model.item.created);

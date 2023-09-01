@@ -1,35 +1,18 @@
-import { IPortal, IUser } from "@esri/arcgis-rest-portal";
-import { MOCK_AUTH } from "../../mocks/mock-auth";
-import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
+import { MOCK_HUB_REQOPTS } from "../../mocks/mock-auth";
 import { computeProps } from "../../../src/pages/_internal/computeProps";
-import { IHubPage, IModel } from "../../../src";
+import {
+  cloneObject,
+  IHubPage,
+  IHubRequestOptions,
+  IModel,
+} from "../../../src";
 import * as processEntitiesModule from "../../../src/permissions/_internal/processEntityFeatures";
 import { PageDefaultFeatures } from "../../../src/pages/_internal/PageBusinessRules";
 
 describe("Pages: computeProps:", () => {
-  let authdCtxMgr: ArcGISContextManager;
+  let requestOptions: IHubRequestOptions;
   beforeEach(async () => {
-    // When we pass in all this information, the context
-    // manager will not try to fetch anything, so no need
-    // to mock those calls
-    authdCtxMgr = await ArcGISContextManager.create({
-      authentication: MOCK_AUTH,
-      currentUser: {
-        username: "casey",
-        privileges: ["portal:user:createItem"],
-      } as unknown as IUser,
-      portal: {
-        name: "DC R&D Center",
-        id: "BRXFAKE",
-        urlKey: "fake-org",
-        properties: {
-          hub: {
-            enabled: true,
-          },
-        },
-      } as unknown as IPortal,
-      portalUrl: "https://org.maps.arcgis.com",
-    });
+    requestOptions = cloneObject(MOCK_HUB_REQOPTS);
   });
   describe("features:", () => {
     let spy: jasmine.Spy;
@@ -52,7 +35,7 @@ describe("Pages: computeProps:", () => {
         data: {},
       } as IModel;
       const init: Partial<IHubPage> = {};
-      const chk = computeProps(model, init, authdCtxMgr.context.requestOptions);
+      const chk = computeProps(model, init, requestOptions);
       expect(chk.features?.details).toBeTruthy();
       expect(chk.features?.settings).toBeFalsy();
       expect(spy.calls.argsFor(0)[0]).toEqual({});
@@ -70,7 +53,7 @@ describe("Pages: computeProps:", () => {
         },
       } as unknown as IModel;
       const init: Partial<IHubPage> = {};
-      const chk = computeProps(model, init, authdCtxMgr.context.requestOptions);
+      const chk = computeProps(model, init, requestOptions);
 
       expect(chk.features?.details).toBeTruthy();
       expect(chk.features?.settings).toBeFalsy();
@@ -93,11 +76,26 @@ describe("Pages: computeProps:", () => {
         },
       } as unknown as IModel;
       const init: Partial<IHubPage> = {};
-      const chk = computeProps(model, init, authdCtxMgr.context.requestOptions);
+      const chk = computeProps(model, init, requestOptions);
 
       expect(chk.features?.details).toBeTruthy();
       expect(chk.features?.settings).toBeFalsy();
       expect(spy.calls.argsFor(0)[0]).toEqual({ details: true });
     });
+  });
+  it("creates links", () => {
+    const model: IModel = {
+      item: {
+        id: "3ef",
+        type: "Hub Page",
+        created: new Date().getTime(),
+        modified: new Date().getTime(),
+      },
+      data: {},
+    } as unknown as IModel;
+    const init: Partial<IHubPage> = { id: "3ef" };
+    const chk = computeProps(model, init, requestOptions);
+    expect(chk.links.siteRelative).toBe("/pages/3ef");
+    expect(chk.links.layoutRelative).toBe("/pages/3ef/edit");
   });
 });

@@ -662,7 +662,10 @@ describe("fetchHubContent", () => {
       "fetchContent"
     ).and.returnValue(
       Promise.resolve({
-        item: {},
+        item: {
+          type: "Feature Service",
+          id: "9001",
+        },
       })
     );
     const fakeRequestOptions = {};

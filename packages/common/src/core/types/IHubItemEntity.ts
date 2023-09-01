@@ -60,6 +60,9 @@ export interface IHubItemEntity
   owner: string;
 
   /**
+   * TODO: change this property to store item.url. Store the
+   * canonical url in IHubEntityBase.links.self instead.
+   *
    * Canonical Url for the Entity
    */
   url?: string;
@@ -76,7 +79,8 @@ export interface IHubItemEntity
   tags: string[];
 
   /**
-   * Thumbnail Uril (read-only)
+   * TODO: Deprecate this in favor of IHubEntityBase.links.thumbnail
+   * Thumbnail Url (read-only)
    */
   thumbnailUrl?: string;
 
