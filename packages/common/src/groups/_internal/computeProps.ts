@@ -47,6 +47,8 @@ export function computeProps(
     "updateitemcontrol"
   );
 
+  hubGroup.memberType = group.userMembership?.memberType;
+
   hubGroup.membershipAccess = "anyone";
   if (group.membershipAccess === "org") {
     hubGroup.membershipAccess = "organization";
@@ -56,8 +58,8 @@ export function computeProps(
   }
 
   hubGroup.canEdit =
-    group.userMembership.memberType === "owner" ||
-    group.userMembership.memberType === "admin";
+    group.userMembership?.memberType === "owner" ||
+    group.userMembership?.memberType === "admin";
   hubGroup.canDelete = hubGroup.canEdit;
 
   // cast b/c this takes a partial but returns a full group

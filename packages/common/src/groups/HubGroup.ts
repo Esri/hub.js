@@ -54,15 +54,12 @@ export class HubGroup
    * only the owner or admins of the group can
    */
   get canEdit(): boolean {
-    if (
+    return (
       (this.entity.memberType &&
         (this.entity.memberType === "owner" ||
           this.entity.memberType === "admin")) ||
       this.entity.owner === this.context.currentUser.username
-    ) {
-      return true;
-    }
-    return false;
+    );
   }
 
   /**

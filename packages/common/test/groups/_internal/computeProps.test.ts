@@ -86,6 +86,20 @@ describe("groups: computeProps:", () => {
           "https://org.maps.arcgis.com/sharing/rest/community/groups/3ef/info/group.jpg"
         );
       });
+      it("computes the correct props when no userMembership", () => {
+        group = {
+          id: "3ef",
+          name: "Test group",
+        } as unknown as IGroup;
+        const chk = computeProps(
+          group,
+          hubGroup,
+          authdCtxMgr.context.requestOptions
+        );
+        expect(chk.memberType).toBeFalsy();
+        expect(chk.canEdit).toBeFalsy();
+        expect(chk.canDelete).toBeFalsy();
+      });
     });
   });
 });
