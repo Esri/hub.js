@@ -1,3 +1,10 @@
+## @esri/hub-common [14.7.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.7.0...@esri/hub-common@14.7.1) (2023-09-01)
+
+
+### Bug Fixes
+
+* add shareContent group permission and minor hub group clean up ([#1194](https://github.com/Esri/hub.js/issues/1194)) ([9a90b6d](https://github.com/Esri/hub.js/commit/9a90b6df4ff8da6c0a4de2a8f92bc1a8c63289dd))
+
 # @esri/hub-common [14.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.6.0...@esri/hub-common@14.7.0) (2023-09-01)
 
 
