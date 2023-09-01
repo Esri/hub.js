@@ -6,13 +6,13 @@ import { getPolicyResponseCode } from "./getPolicyResponseCode";
  * Validate privilege policy
  * @param policy
  * @param context
- * @param entity
+ * @param _entity
  * @returns
  */
 export function checkPrivileges(
   policy: IPermissionPolicy,
   context: IArcGISContext,
-  entity?: Record<string, any>
+  _entity?: Record<string, any>
 ): IPolicyCheck[] {
   let checks = [] as IPolicyCheck[];
   // Only return a check if the policy is defined

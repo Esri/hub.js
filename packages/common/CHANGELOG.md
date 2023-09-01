@@ -1,3 +1,66 @@
+# @esri/hub-common [14.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.6.0...@esri/hub-common@14.7.0) (2023-09-01)
+
+
+### Features
+
+* **hub-common:** add unified "links" hash as an optional property for all entities ([#1199](https://github.com/Esri/hub.js/issues/1199)) ([ba14502](https://github.com/Esri/hub.js/commit/ba145020400c940c42984389cb8dc3cfd4e5d50f))
+
+# @esri/hub-common [14.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.5.2...@esri/hub-common@14.6.0) (2023-08-31)
+
+
+### Features
+
+* add invite users to hub group ([#1197](https://github.com/Esri/hub.js/issues/1197)) ([014b2bd](https://github.com/Esri/hub.js/commit/014b2bdc1cb0ed081eb975e63129ed02fbdecc8b))
+
+## @esri/hub-common [14.5.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.5.1...@esri/hub-common@14.5.2) (2023-08-30)
+
+
+### Bug Fixes
+
+* shouldClearEmptyFields now accounts for licenseInfo ([#1198](https://github.com/Esri/hub.js/issues/1198)) ([3f4eb47](https://github.com/Esri/hub.js/commit/3f4eb476e034d399274f7ffd410e8218c905b055))
+
+## @esri/hub-common [14.5.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.5.0...@esri/hub-common@14.5.1) (2023-08-29)
+
+
+### Bug Fixes
+
+* account for index values that are 0 in card view models ([#1196](https://github.com/Esri/hub.js/issues/1196)) ([bbc1928](https://github.com/Esri/hub.js/commit/bbc19285fd4aefeaef8e06a4c4788a5e90a07d8b))
+
+# @esri/hub-common [14.5.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.4.0...@esri/hub-common@14.5.0) (2023-08-29)
+
+
+### Features
+
+* adding license picker to content workspace ([#1192](https://github.com/Esri/hub.js/issues/1192)) ([312b333](https://github.com/Esri/hub.js/commit/312b3333a010022b34704b9a9480e0f153666858))
+
+# @esri/hub-common [14.4.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.3.1...@esri/hub-common@14.4.0) (2023-08-29)
+
+
+### Features
+
+* add member role badges to user card model ([#1195](https://github.com/Esri/hub.js/issues/1195)) ([e09608d](https://github.com/Esri/hub.js/commit/e09608d73921e6563f808ff3b8575304b3cd26b3))
+
+## @esri/hub-common [14.3.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.3.0...@esri/hub-common@14.3.1) (2023-08-28)
+
+
+### Bug Fixes
+
+* rollback stat migration ([#1193](https://github.com/Esri/hub.js/issues/1193)) ([8465e15](https://github.com/Esri/hub.js/commit/8465e155903053b0f4078b2ecf24c42aff149cf9))
+
+# @esri/hub-common [14.3.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.2.0...@esri/hub-common@14.3.0) (2023-08-25)
+
+
+### Features
+
+*  add feature and entity flagging into checkPermission ([#1187](https://github.com/Esri/hub.js/issues/1187)) ([b040283](https://github.com/Esri/hub.js/commit/b04028305a385bd9426edec71e4aaaef199bcc5a))
+
+# @esri/hub-common [14.2.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.1.0...@esri/hub-common@14.2.0) (2023-08-25)
+
+
+### Features
+
+* ungate dashboard from projects ([#1188](https://github.com/Esri/hub.js/issues/1188)) ([658b936](https://github.com/Esri/hub.js/commit/658b9366bbd3d48243b9be8aa66ba3d2c769a84a))
+
 # @esri/hub-common [14.1.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.0.0...@esri/hub-common@14.1.0) (2023-08-24)
 
 

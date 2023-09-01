@@ -1,6 +1,7 @@
 import { IHubSearchResult } from "..";
 import { ResultToCardModelFn } from "../core";
 import {
+  IBadgeConfig,
   IConvertToCardModelOpts,
   IHubCardViewModel,
 } from "../core/types/IHubCardViewModel";
@@ -28,7 +29,7 @@ export const userResultToCardModel: ResultToCardModelFn = (
   return {
     ...getSharedUserCardModel(searchResult),
     actionLinks,
-    ...(searchResult.index && { index: searchResult.index }),
+    ...(!isNaN(searchResult.index) && { index: searchResult.index }),
     titleUrl,
     ...(searchResult.links.thumbnail && {
       thumbnailUrl: searchResult.links.thumbnail,
@@ -44,9 +45,45 @@ export const userResultToCardModel: ResultToCardModelFn = (
  * @param locale internationalization locale
  */
 const getSharedUserCardModel = (user: IHubSearchResult): IHubCardViewModel => {
+  const badges = [] as IBadgeConfig[];
+  const memberType = user.memberType;
+
+  /**
+   * for group members, we want to configure
+   * member type badges to render in the user
+   * card
+   */
+  if (memberType) {
+    if (user.isGroupOwner) {
+      badges.push({
+        icon: "user-key",
+        color: "gray",
+        i18nKey: "badges.members.owner",
+        hideLabel: true,
+        tooltip: { i18nKey: "badges.members.owner" },
+      });
+    } else if (memberType === "admin") {
+      badges.push({
+        icon: "user-up",
+        color: "gray",
+        i18nKey: "badges.members.admin",
+        hideLabel: true,
+        tooltip: { i18nKey: "badges.members.admin" },
+      });
+    } else {
+      badges.push({
+        icon: "user",
+        color: "gray",
+        i18nKey: "badges.members.member",
+        hideLabel: true,
+        tooltip: { i18nKey: "badges.members.member" },
+      });
+    }
+  }
+
   return {
     access: user.access,
-    badges: [],
+    badges,
     family: user.family,
     id: user.id,
     source: user.name ? `@${user.id}` : undefined,

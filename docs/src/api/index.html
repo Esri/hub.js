@@ -11,6 +11,6 @@ layout: "api/_layout:content"
   {% set declarations = package.declarations %}
   {% set url = package.pageUrl %}
   {% include "api/_package.html" %}
-
+  <small>v{{pkg.version}}</small>
 {% endfor %}
 </div>

@@ -158,17 +158,40 @@ const md = new MarkdownIt();
       });
     })
     .then(declarations => {
-      const excludeList = ['encodeAgoQuery', 'downloadableAgg', 'downloadableFilter', 'collectionAgg',
-      'collectionFilter', 'createAggs', 'format', 'hasApiAgg', 'buildFilter', 'createFilters',
-      'encodeFilters', 'groupIds', 'handleFilter', 'hasApiFilter', 'computeItemsFacets',
-      'formatItem', 'calcHighlights', 'getSortField', 'isFilterable', 'generateFilter',
-      'agoFormatItemCollection', 'encodeParams', 'getPaths', 'getItems'];
+      const excludeList = [
+        "encodeAgoQuery",
+        "downloadableAgg",
+        "downloadableFilter",
+        "collectionAgg",
+        "collectionFilter",
+        "createAggs",
+        "format",
+        "hasApiAgg",
+        "buildFilter",
+        "createFilters",
+        "encodeFilters",
+        "groupIds",
+        "handleFilter",
+        "hasApiFilter",
+        "computeItemsFacets",
+        "formatItem",
+        "calcHighlights",
+        "getSortField",
+        "isFilterable",
+        "generateFilter",
+        "agoFormatItemCollection",
+        "encodeParams",
+        "getPaths",
+        "getItems",
+      ];
       /**
        * Next we remove any declarations we want to excludeList from the API ref
+       * and anything with u/UiSchema in the name (these files cause issues with Acetate)
        */
-      return declarations.filter(
-        declaration => !excludeList.includes(declaration.name)
-      );
+      return declarations
+        .filter((declaration) => !excludeList.includes(declaration.name))
+        .filter((d) => !d.name.includes("uiSchema"))
+        .filter((d) => !d.name.includes("UiSchema"));
     })
     .then(declarations => {
       /**

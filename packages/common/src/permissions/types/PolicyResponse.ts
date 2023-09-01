@@ -4,6 +4,8 @@
 
 export type PolicyResponse =
   | "granted" // user has access
+  | "disabled-by-feature-flag" // access denied due to a flag
+  | "disabled-by-entity-flag" // access denied due to a flag
   | "org-member" // user is member of granted org
   | "not-org-member" // user is not member of granted org
   | "group-member" // user is member of granted org
@@ -41,4 +43,5 @@ export type PolicyResponse =
   | "property-match"
   | "feature-disabled" // feature has been disabled for the entity
   | "feature-enabled" // feature has been enabled for the entity
-  | "not-in-environment"; // user is not in an allowed environment
+  | "not-in-environment" // user is not in an allowed environment
+  | "no-policy-exists"; // policy is not defined for this permission

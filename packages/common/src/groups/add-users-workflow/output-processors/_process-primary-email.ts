@@ -1,7 +1,7 @@
 import { getProp } from "../../../objects/get-prop";
 import { IAddMemberContext } from "../interfaces";
 import { _isOrgAdmin } from "../utils/_is-org-admin";
-import { emailOrgUsers } from "../workflow-sections/email-org-users";
+import { emailOrgUsers } from "../../emailOrgUsers";
 
 /**
  * @private
@@ -20,7 +20,7 @@ export function _processPrimaryEmail(
       context.email,
       context.primaryRO.authentication,
       _isOrgAdmin(context.requestingUser)
-    ).then(result => {
+    ).then((result) => {
       context.primaryEmailResult = result;
       return context;
     });

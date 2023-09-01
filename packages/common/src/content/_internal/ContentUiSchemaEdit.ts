@@ -1,5 +1,8 @@
 import { IUiSchema } from "../../core";
 
+/**
+ * @private
+ */
 export const uiSchema: IUiSchema = {
   type: "Layout",
   elements: [
@@ -92,6 +95,18 @@ export const uiSchema: IUiSchema = {
             placeholderIcon: "select-category",
             helperText: {
               labelKey: "{{i18nScope}}.fields.categories.agolHint", // TODO: hint should describe whether it can be set on Enterprise or Online
+            },
+          },
+        },
+        // license
+        {
+          labelKey: "{{i18nScope}}.fields.license.label",
+          scope: "/properties/licenseInfo",
+          type: "Control",
+          options: {
+            control: "arcgis-hub-license-picker",
+            helperText: {
+              labelKey: "{{i18nScope}}.fields.license.helperText",
             },
           },
         },

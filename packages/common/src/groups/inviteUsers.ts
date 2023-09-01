@@ -24,8 +24,8 @@ export function inviteUsers(
   authentication: IAuthenticationManager,
   expiration = 20160, // default to 2 week expiration TODO: is this actually 2 weeks?
   role: "group_member" | "group_admin" = "group_member" // default to group member, but allow for team_admin as well
-): Promise<IInviteGroupUsersResult> {
-  let response: Promise<IInviteGroupUsersResult> = Promise.resolve(null);
+): Promise<IInviteGroupUsersResult | null> {
+  let response: Promise<IInviteGroupUsersResult | null> = Promise.resolve(null);
   if (users.length) {
     const args: IInviteGroupUsersOptions = {
       id,

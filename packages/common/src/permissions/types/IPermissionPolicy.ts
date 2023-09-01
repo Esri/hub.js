@@ -71,10 +71,6 @@ export interface IPermissionPolicy {
   entityOwner?: boolean;
 
   /**
-   * DEPRECATED: Use `gatedAvailability: "alpha"` instead
-   */
-  alpha?: boolean;
-  /**
    * More complex policies can be defined with a set of assertions
    */
   assertions?: IPolicyAssertion[];

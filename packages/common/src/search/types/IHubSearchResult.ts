@@ -2,20 +2,6 @@ import { AccessLevel, IHubEntityBase } from "../../core";
 import { HubFamily, IHubGeography } from "../../types";
 
 /**
- * Simple interface for Links
- */
-export interface ILink {
-  /**
-   * Link url
-   */
-  href: string;
-  /**
-   * Additional optional properties
-   */
-  [key: string]: string;
-}
-
-/**
  * Standardized light-weight search result structure, applicable to all
  * types of search results - users, groups, content, events etc
  */
@@ -49,34 +35,6 @@ export interface IHubSearchResult extends IHubEntityBase {
    * TypeKeywords; Applies to Items
    */
   typeKeywords?: string[];
-
-  /**
-   * Links to related things
-   */
-  links?: {
-    /**
-     * Url to Thumbnail. Will not include a token
-     */
-    thumbnail?: string;
-    /**
-     * Url to the entities canonical "self"
-     * For Items/Groups/Users, this will be the Home App url
-     * For other entities, it will be the canonical url
-     */
-    self: string;
-    /**
-     * Relative url of the entity, within a site
-     */
-    siteRelative: string;
-    /**
-     * Relative workspace url of the entity, within a site
-     */
-    workspaceRelative?: string;
-    /**
-     * Additional urls
-     */
-    [key: string]: string | ILink;
-  };
 
   /**
    * Geometry connected to this entity

@@ -75,6 +75,7 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:project:events",
     dependencies: ["hub:project:view"],
+    entityConfigurable: true,
   },
   {
     permission: "hub:project:content",
@@ -91,7 +92,6 @@ export const ProjectPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:project:workspace:dashboard",
     dependencies: ["hub:project:view"],
-    environments: ["devext", "qaext"],
   },
   {
     permission: "hub:project:workspace:details",

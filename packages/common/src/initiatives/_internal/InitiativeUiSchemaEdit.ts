@@ -1,6 +1,7 @@
 import { IUiSchema } from "../../core";
 
 /**
+ * @private
  * complete edit UI Schema for Hub Initiatives
  */
 export const uiSchema: IUiSchema = {

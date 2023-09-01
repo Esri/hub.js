@@ -11,8 +11,8 @@ import { addUsersToGroup } from "../../../src/groups/add-users-workflow/add-user
 import {
   IAddMemberContext,
   IConsolidatedResult,
-  IEmail
 } from "../../../src/groups/add-users-workflow/interfaces";
+import { IEmail } from "../../../src/groups/types";
 import { IUser } from "@esri/arcgis-rest-portal";
 import { IHubRequestOptions } from "../../../src/types";
 import { cloneObject } from "../../../src/util";
@@ -43,44 +43,44 @@ describe("add-users-to-group", () => {
   const requestingUser: IUser = {
     username: "Marcus",
     orgId: eOrgId,
-    privileges: []
+    privileges: [],
   };
   const communityAdmin: IUser = {
     username: "Adam",
-    orgId: cOrgId
+    orgId: cOrgId,
   };
   const users: IUser[] = [
     {
       username: "Baird",
-      orgId: eOrgId
+      orgId: eOrgId,
     },
     {
       username: "Dom",
-      orgId: eOrgId
+      orgId: eOrgId,
     },
     {
       username: "Cole",
-      orgId: eOrgId
+      orgId: eOrgId,
     },
     {
       username: "Anya",
-      orgId: cOrgId
+      orgId: cOrgId,
     },
     {
       username: "Myrrah",
-      orgId: otherOrgId
-    }
+      orgId: otherOrgId,
+    },
   ];
 
   const usersToAutoAdd: IUser[] = [];
   const usersToInvite: IUser[] = users;
   const usersToEmail: IUser[] = users.filter(
-    u => cOrgId === u.orgId || eOrgId === u.orgId
+    (u) => cOrgId === u.orgId || eOrgId === u.orgId
   );
 
   const email: IEmail = {
     subject: "Time's up",
-    body: "Let's do this"
+    body: "Let's do this",
   };
 
   const primaryRO: IHubRequestOptions = {
@@ -96,12 +96,12 @@ describe("add-users-to-group", () => {
         hub: {
           settings: {
             communityOrg: {
-              orgId: cOrgId
-            }
-          }
-        }
-      }
-    }
+              orgId: cOrgId,
+            },
+          },
+        },
+      },
+    },
   };
 
   const secondaryRO: IHubRequestOptions = {
@@ -112,8 +112,8 @@ describe("add-users-to-group", () => {
       isPortal: false,
       id: "a different portal id",
       name: "a different portal name",
-      user: communityAdmin
-    }
+      user: communityAdmin,
+    },
   };
 
   //////////////////////////////////
@@ -129,7 +129,7 @@ describe("add-users-to-group", () => {
     requestingUser: Object.assign(cloneObject(requestingUser), { cOrgId }),
     email,
     primaryRO,
-    secondaryRO
+    secondaryRO,
   };
 
   const autoAddResultContext: IAddMemberContext = cloneObject(baseContext);
@@ -150,11 +150,11 @@ describe("add-users-to-group", () => {
     success: true,
     autoAdd: undefined,
     invite: {
-      success: true
+      success: true,
     },
     email: {
-      success: true
-    }
+      success: true,
+    },
   };
 
   ////////////////////////////////////

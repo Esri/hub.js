@@ -1,6 +1,7 @@
 import { IUiSchema, UiSchemaRuleEffects } from "../../core";
 
 /**
+ * @private
  * create uiSchema for Hub Discussions - this
  * defines how the schema properties should be
  * rendered in the Discussions creation experience

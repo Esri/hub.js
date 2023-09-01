@@ -1,16 +1,11 @@
 import {
   ICreateOrgNotificationResult,
   IInviteGroupUsersResult,
-  IUser
+  IUser,
 } from "@esri/arcgis-rest-portal";
 import { ArcGISRequestError } from "@esri/arcgis-rest-request";
 import { IHubRequestOptions } from "../../types";
-
-export interface IEmail {
-  subject?: string;
-  body?: string;
-  copyMe?: boolean;
-}
+import { IEmail } from "../types";
 
 export interface IConsolidatedResult {
   success: boolean;
