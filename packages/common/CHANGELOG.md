@@ -1,3 +1,10 @@
+# @esri/hub-common [14.7.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.6.0...@esri/hub-common@14.7.0) (2023-09-01)
+
+
+### Features
+
+* **hub-common:** add unified "links" hash as an optional property for all entities ([#1199](https://github.com/Esri/hub.js/issues/1199)) ([ba14502](https://github.com/Esri/hub.js/commit/ba145020400c940c42984389cb8dc3cfd4e5d50f))
+
 # @esri/hub-common [14.6.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.5.2...@esri/hub-common@14.6.0) (2023-08-31)
 
 
