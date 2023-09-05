@@ -1,5 +1,5 @@
 import { IGroup, ISearchOptions, IUser } from "@esri/arcgis-rest-portal";
-import { ISearchResponse } from "../../src";
+import { IHubSite, ISearchResponse } from "../../src";
 import { IHubSearchResult, IRelativeDate } from "../../src/search";
 import {
   expandApis,
@@ -9,6 +9,7 @@ import {
   getGroupThumbnailUrl,
   getNextFunction,
   migrateToCollectionKey,
+  getResultSiteRelativeLink,
 } from "../../src/search/utils";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import { mockUserSession } from "../test-helpers/fake-user-session";
@@ -334,6 +335,87 @@ describe("Search Utils:", () => {
     it("returns a converted value if the key is a legacy search category", () => {
       const result = migrateToCollectionKey("App,Map");
       expect(result).toBe("appAndMap");
+    });
+  });
+
+  describe("getResultSiteRelativeLink", () => {
+    it("returns undefined if result.links isn't present", () => {
+      const searchResult = {
+        id: "9001",
+        type: "Feature Service",
+      } as IHubSearchResult;
+      const result = getResultSiteRelativeLink(searchResult, null);
+      expect(result).toBeUndefined();
+    });
+    it("returns undefined if result.links.siteRelative isn't present", () => {
+      const searchResult = {
+        id: "9001",
+        type: "Feature Service",
+        links: {},
+      } as IHubSearchResult;
+      const result = getResultSiteRelativeLink(searchResult, null);
+      expect(result).toBeUndefined();
+    });
+    it("returns an unmodified siteRelative link if result isn't a Hub Page", () => {
+      const searchResult = {
+        id: "9001",
+        type: "Feature Service",
+        links: {
+          siteRelative: "/foo/9001",
+        },
+      } as IHubSearchResult;
+      const result = getResultSiteRelativeLink(searchResult, null);
+      expect(result).toBe("/foo/9001");
+    });
+    it("returns a Hub Page result's unmodified siteRelative link if no site is included", () => {
+      const searchResult = {
+        id: "9001",
+        type: "Hub Page",
+        links: {
+          siteRelative: "/foo/9001",
+        },
+      } as IHubSearchResult;
+      const result = getResultSiteRelativeLink(searchResult, null);
+      expect(result).toBe("/foo/9001");
+    });
+    it("returns a Hub Page result's unmodified siteRelative link if site has no pages", () => {
+      const searchResult = {
+        id: "9001",
+        type: "Hub Page",
+        links: {
+          siteRelative: "/foo/9001",
+        },
+      } as IHubSearchResult;
+      const result = getResultSiteRelativeLink(searchResult, {} as IHubSite);
+      expect(result).toBe("/foo/9001");
+    });
+    it("returns a Hub Page result's unmodified siteRelative link if matching page doesn't have a slug", () => {
+      const searchResult = {
+        id: "9001",
+        type: "Hub Page",
+        links: {
+          siteRelative: "/foo/9001",
+        },
+      } as IHubSearchResult;
+      const site = {
+        pages: [{ id: "9001" }],
+      } as IHubSite;
+      const result = getResultSiteRelativeLink(searchResult, site);
+      expect(result).toBe("/foo/9001");
+    });
+    it("substitutes the id in the siteRelative link for the matching page's slug", () => {
+      const searchResult = {
+        id: "9001",
+        type: "Hub Page",
+        links: {
+          siteRelative: "/foo/9001",
+        },
+      } as IHubSearchResult;
+      const site = {
+        pages: [{ id: "9001", slug: "bar" }],
+      } as IHubSite;
+      const result = getResultSiteRelativeLink(searchResult, site);
+      expect(result).toBe("/foo/bar");
     });
   });
 });
