@@ -1,3 +1,10 @@
+# @esri/hub-common [14.8.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.7.1...@esri/hub-common@14.8.0) (2023-09-06)
+
+
+### Features
+
+* **hub-common:** add getResultSiteRelativeLink so Hub Page results can have slugs in siteRelative l ([#1200](https://github.com/Esri/hub.js/issues/1200)) ([27e0740](https://github.com/Esri/hub.js/commit/27e0740865a30879fa42f55996479275c6ff4892))
+
 ## @esri/hub-common [14.7.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.7.0...@esri/hub-common@14.7.1) (2023-09-01)
 
 
