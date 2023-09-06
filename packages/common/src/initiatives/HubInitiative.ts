@@ -1,7 +1,4 @@
 import { DEFAULT_INITIATIVE } from "./defaults";
-import { EditorType } from "../core/schemas/types";
-
-import { getEntityEditorSchemas } from "../core/schemas/getEntityEditorSchemas";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { IEntityEditorContext } from "../core/types/HubEntityEditor";
 import { cloneObject } from "../util";
@@ -29,7 +26,6 @@ import {
   IWithCatalogBehavior,
   IWithStoreBehavior,
   IWithSharingBehavior,
-  UiSchemaElementOptions,
   IEditorConfig,
   IResolvedMetric,
   IWithCardBehavior,
@@ -131,24 +127,6 @@ export class HubInitiative
         throw ex;
       }
     }
-  }
-
-  /**
-   * Static method to get the editor config for the HubInitiative entity.
-   * @param i18nScope translation scope to be interpolated into the uiSchema
-   * @param type editor type - corresonds to the returned uiSchema
-   * @param options optional hash of dynamic uiSchema element options
-   *
-   * Note: typescript does not have a means to specify static methods in interfaces
-   * so while this is the implementation of IWithEditorBehavior, it is not enforced
-   * by the compiler.
-   */
-  static async getEditorConfig(
-    i18nScope: string,
-    type: InitiativeEditorType,
-    options: UiSchemaElementOptions[] = []
-  ): Promise<IEditorConfig> {
-    return getEntityEditorSchemas(i18nScope, type, options);
   }
 
   private static applyDefaults(
@@ -257,14 +235,14 @@ export class HubInitiative
   }
 
   /*
-   * Get the editor config for the HubProject entity.
+   * Get a specifc editor config for the HubInitiative entity.
    * @param i18nScope translation scope to be interpolated into the uiSchema
    * @param type editor type - corresonds to the returned uiSchema
    * @param options optional hash of dynamic uiSchema element options
    */
   async getEditorConfig(
     i18nScope: string,
-    type: EditorType
+    type: InitiativeEditorType
   ): Promise<IEditorConfig> {
     // delegate to the schema subsystem
     return getEditorConfig(i18nScope, type, this.entity, this.context);
