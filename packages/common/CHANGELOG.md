@@ -1,3 +1,10 @@
+# @esri/hub-common [14.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.8.0...@esri/hub-common@14.9.0) (2023-09-07)
+
+
+### Features
+
+* **hub-common:** add hub:[entity]:manage permission for all entities ([#1202](https://github.com/Esri/hub.js/issues/1202)) ([71191b7](https://github.com/Esri/hub.js/commit/71191b7bece6f4dead7e36205e0558a4b9338a3b))
+
 # @esri/hub-common [14.8.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.7.1...@esri/hub-common@14.8.0) (2023-09-06)
 
 
