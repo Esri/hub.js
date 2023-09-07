@@ -1,3 +1,10 @@
+## @esri/hub-discussions [26.0.1](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@26.0.0...@esri/hub-discussions@26.0.1) (2023-09-07)
+
+
+### Bug Fixes
+
+* **hub-discussions:** user can read channel if group is non-discussable ([#1201](https://github.com/Esri/hub.js/issues/1201)) ([28d61f3](https://github.com/Esri/hub.js/commit/28d61f314c0948a12186045460b0d7397a7eb4e7))
+
 # @esri/hub-discussions [26.0.0](https://github.com/Esri/hub.js/compare/@esri/hub-discussions@25.8.0...@esri/hub-discussions@26.0.0) (2023-08-23)
 
 
