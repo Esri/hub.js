@@ -7,21 +7,27 @@
 import { getProp } from "../../src";
 
 let PWD;
+let USER_PWD;
 if (typeof window === "undefined" && process.env) {
-  if (!process.env.QACREDS_PSW) {
+  if (!process.env.QACREDS_PSW || !process.env.QACREDS_USER_PSW) {
     throw new Error(
-      "QACREDS_PSW Could not be read! Please ensure you have a .env file configured! Use the .env-example file and ask others on the team where to get the values!"
+      "QACREDS_PSW or QACREDS_USER_PSW Could not be read! Please ensure you have a .env file configured! Use the .env-example file and ask others on the team where to get the values!"
     );
   } else {
     PWD = process.env.QACREDS_PSW;
+    USER_PWD = process.env.QACREDS_USER_PSW;
   }
 } else {
-  if (!getProp(window, "__env__.QACREDS_PSW")) {
+  if (
+    !getProp(window, "__env__.QACREDS_PSW") ||
+    !getProp(window, "__env__.QACREDS_USER_PSW")
+  ) {
     throw new Error(
-      "QACREDS_PSW Could not be read! Please ensure you have a .env file configured! Use the .env-example file and ask others on the team where to get the values!"
+      "QACREDS_PSW or QACREDS_USER_PSW Could not be read! Please ensure you have a .env file configured! Use the .env-example file and ask others on the team where to get the values!"
     );
   } else {
     PWD = getProp(window, "__env__.QACREDS_PSW");
+    USER_PWD = getProp(window, "__env__.QACREDS_USER_PSW");
   }
 }
 
@@ -58,12 +64,16 @@ const config = {
           orgShort: "qa-pre-a-hub",
           orgUrl: "https://qa-pre-a-hub.mapsqa.arcgis.com",
           admin: {
-            username: "paige_pa",
+            username: "e2e_pre_a_pub_admin",
             password: PWD,
           },
           user: {
             username: "e2e_pre_a_pub_publisher",
             password: PWD,
+          },
+          paige: {
+            username: "paige_pa",
+            password: USER_PWD,
           },
           fixtures: {
             items: {

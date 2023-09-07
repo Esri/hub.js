@@ -8,8 +8,9 @@ import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getItemBySlug } from "../items/slugs";
 
 import { fetchItemEnrichments } from "../items/_enrichments";
-import { fetchModelFromItem, fetchModelResources } from "../models";
+import { fetchModelFromItem } from "../models";
 import { IHubSearchResult } from "../search";
+import { IQuery } from "../search/types/IHubCatalog";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { IHubRequestOptions, IModel } from "../types";
 import { isGuid, mapBy } from "../utils";
@@ -21,6 +22,7 @@ import { getItemThumbnailUrl } from "../resources/get-item-thumbnail-url";
 import { getItemHomeUrl } from "../urls/get-item-home-url";
 import { getItemIdentifier } from "../items";
 import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
+import { getAssociatedQuery, listAssociations } from "../associations";
 
 /**
  * @private
@@ -138,4 +140,15 @@ export async function enrichProjectSearchResult(
   );
 
   return result;
+}
+
+/**
+ * Get a query that will fetch all the initiatives which the project has
+ * chosen to associate with. If project has not defined any associations
+ * to any Initiatives, will return `null`
+ * @param project
+ * @returns
+ */
+export function getAssociatedInitiativesQuery(project: IHubProject): IQuery {
+  return getAssociatedQuery(project, "initiative");
 }

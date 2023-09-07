@@ -30,6 +30,7 @@ import {
   LegacySearchCategory,
 } from "./_internal/commonHelpers/isLegacySearchCategory";
 import { toCollectionKey } from "./_internal/commonHelpers/toCollectionKey";
+import { expandQuery } from "./_internal";
 
 /**
  * Well known APIs
@@ -285,6 +286,7 @@ export function migrateToCollectionKey(
 }
 
 /**
+ * DEPRECATED: Please use `getGroupPredicate`
  * Searches through a catalog scope and retrieves the predicate responsible
  * for determining group sharing requirements.
  *
@@ -292,8 +294,23 @@ export function migrateToCollectionKey(
  * @returns The first predicate with a `group` field (if present)
  */
 export function getScopeGroupPredicate(scope: IQuery): IPredicate {
+  /* tslint:disable no-console */
+  console.warn(
+    `"getScopeGroupPredicate(query)" is deprecated. Please use "getGroupPredicate(qyr)`
+  );
+  return getGroupPredicate(scope);
+}
+
+/**
+ * Searches through an `IQuery` and retrieves the predicate with a `group` definition.
+ * If there is no group predicate, returns `null`
+ * @param query IQuery to search
+ * @returns
+ */
+export function getGroupPredicate(query: IQuery): IPredicate {
+  const expandedQuery = expandQuery(query);
   const isGroupPredicate = (predicate: IPredicate) => !!predicate.group;
-  const groupFilter = scope.filters.find((f) =>
+  const groupFilter = expandedQuery.filters.find((f) =>
     f.predicates.find(isGroupPredicate)
   );
   return groupFilter && groupFilter.predicates.find(isGroupPredicate);

@@ -27,6 +27,8 @@ import {
   setDiscussableKeyword,
   IModel,
 } from "../index";
+import { Catalog } from "../search/Catalog";
+import { IHubCollection, IQuery } from "../search/types/IHubCatalog";
 import {
   IItem,
   IUserItemOptions,
@@ -36,7 +38,7 @@ import {
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
-import { IHubInitiative } from "../core/types";
+import { IEntityInfo, IHubInitiative } from "../core/types";
 import { IHubSearchResult } from "../search";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { fetchItemEnrichments } from "../items/_enrichments";
@@ -46,6 +48,8 @@ import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
 import { applyInitiativeMigrations } from "./_internal/applyInitiativeMigrations";
 import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
+import { combineQueries } from "../search/_internal/combineQueries";
+import { expandQuery, portalSearchItemsAsItems } from "../search/_internal";
 
 /**
  * @private
@@ -273,4 +277,171 @@ export async function enrichInitiativeSearchResult(
   );
 
   return result;
+}
+
+/**
+ * Fetch the Projects that are approved for an Initiative. This is a subset of the associated projects, limited
+ * to those that have the initiative typekeyword and are included in the Initiative's Projects collection
+ * @param initiative
+ * @param requestOptions
+ * @param query: Optional `IQuery` to further filter the results
+ * @returns
+ */
+export async function fetchAssociatedProjects(
+  initiative: IHubInitiative,
+  requestOptions: IHubRequestOptions,
+  query?: IQuery
+): Promise<IEntityInfo[]> {
+  let projectQuery = getAssociatedProjectsQuery(initiative);
+  if (query) {
+    projectQuery = combineQueries([projectQuery, query]);
+  }
+
+  const response = await portalSearchItemsAsItems(projectQuery, {
+    requestOptions,
+  });
+  // process into entityInfo objects
+  return response.results.map((r) => {
+    return {
+      id: r.id,
+      name: r.title,
+      type: r.type,
+    } as IEntityInfo;
+  });
+}
+
+export async function fetchRelatedProjects(
+  initiative: IHubInitiative,
+  requestOptions: IHubRequestOptions,
+  query?: IQuery
+): Promise<IEntityInfo[]> {
+  let projectQuery = getRelatedProjectsQuery(initiative);
+  if (query) {
+    projectQuery = combineQueries([projectQuery, query]);
+  }
+
+  const response = await portalSearchItemsAsItems(projectQuery, {
+    requestOptions,
+  });
+  // process into entityInfo objects
+  return response.results.map((r) => {
+    return {
+      id: r.id,
+      name: r.title,
+      type: r.type,
+    } as IEntityInfo;
+  });
+}
+
+export async function fetchUnRelatedProjects(
+  initiative: IHubInitiative,
+  requestOptions: IHubRequestOptions,
+  query?: IQuery
+): Promise<IEntityInfo[]> {
+  let projectQuery = getUnRelatedProjectsQuery(initiative);
+  if (query) {
+    projectQuery = combineQueries([projectQuery, query]);
+  }
+
+  const response = await portalSearchItemsAsItems(projectQuery, {
+    requestOptions,
+  });
+  // process into entityInfo objects
+  return response.results.map((r) => {
+    return {
+      id: r.id,
+      name: r.title,
+      type: r.type,
+    } as IEntityInfo;
+  });
+}
+
+/**
+ * Associated Projects are those that have the Initiative id in the typekeywords
+ * @param initiative
+ * @returns
+ */
+export function getRelatedProjectsQuery(initiative: IHubInitiative): IQuery {
+  return {
+    targetEntity: "item",
+    filters: [
+      {
+        operation: "AND",
+        predicates: [
+          {
+            type: "Hub Project",
+            typekeywords: `initiative|${initiative.id}`,
+          },
+        ],
+      },
+    ],
+  };
+}
+
+/**
+ * Approved projects are those with the Initiative id in the typekeywords
+ * and is included in the Projects collection in the Initiative's catalog.
+ * @param initiative
+ * @returns
+ */
+export function getAssociatedProjectsQuery(initiative: IHubInitiative): IQuery {
+  // get the associated projects query
+  let query = getRelatedProjectsQuery(initiative);
+  // create a catalog instance, get the projects collection from it if defined
+  const cat = Catalog.fromJson(initiative.catalog);
+  const projectCollection = cat.collections.find((c) => c.key === "projects");
+  let qry: IQuery;
+  if (projectCollection) {
+    // get it by name - this will merge in the base item scope
+    qry = cat.getCollectionJson("projects").scope;
+  } else {
+    // use the catalog's item scope
+    qry = cat.getScope("item");
+  }
+
+  if (qry) {
+    query = combineQueries([query, qry]);
+  }
+  return query;
+}
+
+/**
+ * Approved projects are those with the Initiative id in the typekeywords
+ * and is included in the Projects collection in the Initiative's catalog.
+ * @param initiative
+ * @returns
+ */
+export function getUnRelatedProjectsQuery(initiative: IHubInitiative): IQuery {
+  // get the associated projects query
+  let query = getRelatedProjectsQuery(initiative);
+  // create a catalog instance,
+  const cat = Catalog.fromJson(initiative.catalog);
+
+  // default to the catalog's item scope
+  let qry: IQuery = cat.getScope("item");
+  // Get the projects collection
+  // Using the instance ensures that the root scope is merged into the returned
+  // collection.scope
+  const projectCollection = cat.getCollectionJson("projects");
+  if (projectCollection) {
+    qry = projectCollection.scope;
+  }
+  // expand the query so we're working with a consistent IMatchOptions structure
+  const expanded = expandQuery(qry);
+  // negate the group predicate on the query
+  // we opted to be surgical about this vs attempting a `negateQuery(query)` function
+  expanded.filters.forEach((f) => {
+    f.predicates.forEach((p) => {
+      if (p.group) {
+        p.group.not = [...(p.group.any || []), ...(p.group.all || [])];
+        p.group.any = [];
+        p.group.all = [];
+      }
+    });
+  });
+
+  if (qry) {
+    query = combineQueries([expanded, query]);
+  }
+  return query;
 }
