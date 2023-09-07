@@ -72,7 +72,7 @@ export const buildUiSchema = async (
               imgSrc: entity.thumbnailUrl,
               maxWidth: 727,
               maxHeight: 484,
-              aspectRatio: 1,
+              aspectRatio: 1.5,
               helperText: {
                 labelKey: `${i18nScope}.fields._thumbnail.helperText`,
               },

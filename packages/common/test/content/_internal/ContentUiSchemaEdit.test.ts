@@ -83,7 +83,7 @@ describe("buildUiSchema: content edit", () => {
                 imgSrc: "https://some-thumbnail-url.com",
                 maxWidth: 727,
                 maxHeight: 484,
-                aspectRatio: 1,
+                aspectRatio: 1.5,
                 helperText: {
                   labelKey: "some.scope.fields._thumbnail.helperText",
                 },
