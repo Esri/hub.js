@@ -1,7 +1,6 @@
 import { IEditorConfig } from "../behaviors/IWithEditorBehavior";
 import { IArcGISContext } from "../../ArcGISContext";
 import { ConfigurableEntity } from "./internal/ConfigurableEntity";
-import { getEditorConfigOptions } from "./internal/getEditorConfigOptions";
 import { getEntityEditorSchemas } from "./internal/getEntityEditorSchemas";
 import { EditorType } from "./types";
 
