@@ -20,6 +20,7 @@ export const GroupPermissions = [
   "hub:group:workspace:content",
   "hub:group:workspace:members",
   "hub:group:shareContent",
+  "hub:group:manage",
 ] as const;
 
 /**
@@ -87,5 +88,9 @@ export const GroupPermissionPolicies: IPermissionPolicy[] = [
         value: "entity:id",
       },
     ],
+  },
+  {
+    permission: "hub:group:manage",
+    dependencies: ["hub:group:edit"],
   },
 ];
