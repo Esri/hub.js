@@ -103,9 +103,7 @@ export const buildUiSchema = async (
             type: "Control",
             options: {
               control: "hub-field-input-image-picker",
-              imgSrc:
-                entity.view?.featuredImageUrl &&
-                getFeaturedImageUrl(entity, context),
+              imgSrc: getFeaturedImageUrl(entity, context),
               maxWidth: 727,
               maxHeight: 484,
               aspectRatio: 1.5,

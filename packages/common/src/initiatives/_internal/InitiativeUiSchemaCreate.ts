@@ -1,5 +1,5 @@
 import { IArcGISContext } from "../../ArcGISContext";
-import { checkPermission } from "../../permissions";
+import { checkPermission } from "../../permissions/checkPermission";
 import { IHubInitiative } from "../../core/types";
 import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
@@ -11,6 +11,9 @@ import { getSharableGroupsComboBoxItems } from "../../core/schemas/internal/getS
  * constructs the minimal create uiSchema for Hub Initiatives.
  * This defines how the schema properties should be rendered
  * in the initiative creation experience
+ *
+ * TODO: this was copied from projects and is just a placeholder
+ * for now - it isn't being used anywhere in the application
  */
 export const buildUiSchema = async (
   i18nScope: string,

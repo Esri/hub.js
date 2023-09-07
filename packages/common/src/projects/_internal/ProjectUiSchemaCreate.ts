@@ -1,5 +1,5 @@
 import { IArcGISContext } from "../../ArcGISContext";
-import { checkPermission } from "../../permissions";
+import { checkPermission } from "../../permissions/checkPermission";
 import { IHubProject } from "../../core/types";
 import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";

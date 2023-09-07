@@ -57,4 +57,12 @@ describe("getFeaturedImageUrl:", () => {
     expect(url.includes("token=fake-token")).toBeFalsy();
     expect(url.includes("v=")).toBeTruthy();
   });
+  it("returns undefined if a featured image url is not defined on the entity", () => {
+    const entity = {} as IHubProject;
+    const url = getFeaturedImageUrl(entity, {
+      isAuthenticated: false,
+    } as IArcGISContext);
+
+    expect(url).toBeUndefined();
+  });
 });
