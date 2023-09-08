@@ -57,7 +57,10 @@ export function computeProps(
     workspaceRelative: getRelativeWorkspaceUrl("content", content.id),
     thumbnail: thumbnailUrl,
   };
-  content.licenseInfo = model.item.licenseInfo;
+
+  // cannot be null otherwise we'd get a validation
+  // error that doesn't let us save the form
+  content.licenseInfo = model.item.licenseInfo || "";
 
   if (!content.location) {
     // build location if one does not exist based off of the boundary and the item's extent
