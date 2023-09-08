@@ -1,3 +1,10 @@
+## @esri/hub-common [14.9.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.9.0...@esri/hub-common@14.9.1) (2023-09-08)
+
+
+### Bug Fixes
+
+* added default empty quotes for computeProps ([#1204](https://github.com/Esri/hub.js/issues/1204)) ([3c83e4a](https://github.com/Esri/hub.js/commit/3c83e4a35b0f8baff604aa27246d2ea21ab0530d))
+
 # @esri/hub-common [14.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.8.0...@esri/hub-common@14.9.0) (2023-09-07)
 
 
