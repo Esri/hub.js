@@ -13,6 +13,14 @@ export interface IHubEditableContent
    * perhaps using Pick from IHubContent
    */
   licenseInfo: string;
+  /**
+   * Indicates whether an item has opted into the hosted downloads experience
+   *
+   * NOTE: even if an item has opted into the hosted downloads experience, only items
+   * that meet specific criteria will actually see the hosted experience on the live view
+   * (i.e., the item is a Hosted Feature Service with the Extract capability enabled).
+   */
+  hostedDownloads?: boolean;
 }
 
 export type IHubContentEditor = Omit<IHubEditableContent, "extent"> & {
