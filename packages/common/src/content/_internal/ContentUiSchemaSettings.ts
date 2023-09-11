@@ -1,5 +1,6 @@
 import { IArcGISContext } from "../../ArcGISContext";
-import { IHubEditableContent, IUiSchema } from "../../core";
+import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
+import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 
 /**
  * @private
@@ -28,6 +29,17 @@ import { IHubEditableContent, IUiSchema } from "../../core";
       },
       elements: [
         {
+          labelKey: `${i18nScope}.fields.serverExtractCapability.label`,
+          scope: "/properties/serverExtractCapability",
+          type: "Control",
+          options: {
+            helperText: {
+              labelKey:
+                `${i18nScope}.fields.serverExtractCapability.helperText`,
+            },
+          },
+        },
+        {
           labelKey: `${i18nScope}.fields.hostedDownloads.label`,
           scope: "/properties/hostedDownloads",
           type: "Control",
@@ -37,9 +49,19 @@ import { IHubEditableContent, IUiSchema } from "../../core";
               placement: "bottom",
             },
           },
+          rule: {
+            effect: UiSchemaRuleEffects.DISABLE,
+            condition: {
+              schema: {
+                properties: {
+                  serverExtractCapability: { const: false },
+                },
+              },
+            },
+          },
         }
       ],
-    },)
+    })
   }
   return uiSchema;
 };

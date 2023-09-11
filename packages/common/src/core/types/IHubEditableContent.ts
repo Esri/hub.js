@@ -14,6 +14,11 @@ export interface IHubEditableContent
    */
   licenseInfo: string;
   /**
+   * If the item represents a service, shows whether the service has the "Extract"
+   * capability enabled. This is a pre-requisite for Hosted Downloads to work.
+   */
+  serverExtractCapability?: boolean;
+  /**
    * Indicates whether an item has opted into the hosted downloads experience
    *
    * NOTE: even if an item has opted into the hosted downloads experience, only items

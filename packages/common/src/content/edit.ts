@@ -19,8 +19,14 @@ import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { cloneObject } from "../util";
 import { IModel } from "../types";
-import { computeProps } from "./_internal/computeProps";
+import { hasCapability } from "./_internal/computeProps";
 import { getProp } from "../objects/get-prop";
+import { EnrichmentMap, modelToHubEditableContent } from "./fetch";
+import {
+  getService,
+  IFeatureServiceDefinition,
+} from "@esri/arcgis-rest-feature-layer";
+import { updateServiceDefinition } from "@esri/arcgis-rest-service-admin";
 
 // TODO: move this to defaults?
 const DEFAULT_CONTENT_MODEL: IModel = {
@@ -90,13 +96,11 @@ export async function updateContent(
   content: IHubEditableContent,
   requestOptions: IUserRequestOptions
 ): Promise<IHubEditableContent> {
-  // let resources;
-
-  // get the backing item & data
-  // We can't just call getModel because we need to be able
+  // Get the backing item
+  // NOTE: We can't just call `getMode`l because we need to be able
   // to properly handle other types like PDFs that don't have JSON data
   const item = await getItem(content.id, requestOptions);
-  const model = { item };
+  const model: IModel = { item };
   // create the PropertyMapper
   const mapper = new PropertyMapper<Partial<IHubEditableContent>, IModel>(
     getPropertyMap()
@@ -111,30 +115,92 @@ export async function updateContent(
   modelToUpdate.item.properties.boundary =
     locationType === "none" ? "none" : "item";
 
-  // TODO: if we have resources disconnect them from the model for now.
-  // if (modelToUpdate.resources) {
-  //   resources = configureBaseResources(
-  //     cloneObject(modelToUpdate.resources),
-  //     EntityResourceMap
-  //   );
-  //   delete modelToUpdate.resources;
-  // }
   // update the backing item
   const updatedModel = await updateModel(modelToUpdate, requestOptions);
-  // // if we have resources, create them, then re-attach them to the model
-  // if (resources) {
-  //   updatedModel = await upsertModelResources(
-  //     updatedModel,
-  //     resources,
-  //     requestOptions
-  //   );
-  // }
-  // now map back into a project and return that
-  let updatedContent = mapper.storeToEntity(updatedModel, content);
-  updatedContent = computeProps(model, updatedContent, requestOptions);
-  // the casting is needed because modelToObject returns a `Partial<T>`
-  // where as this function returns a `T`
-  return updatedContent as IHubEditableContent;
+
+  // update enrichment values
+  const enrichments: EnrichmentMap = {};
+  if (
+    isHostedFeatureService(content) &&
+    content.serverExtractCapability != null
+  ) {
+    const currentDefinition = await getService({
+      ...requestOptions,
+      url: content.url,
+    });
+    const currentServerExtractEnabled = hasCapability(
+      "Extract",
+      currentDefinition
+    );
+    if (currentServerExtractEnabled !== content.serverExtractCapability) {
+      const updatedDefinition = toggleFeatureServiceCapability(
+        "Extract",
+        currentDefinition
+      );
+      await updateServiceDefinition(content.url, {
+        authentication: requestOptions.authentication,
+        updateDefinition: updatedDefinition,
+      });
+      enrichments.server = updatedDefinition;
+    }
+  }
+
+  return modelToHubEditableContent(updatedModel, requestOptions, enrichments);
+}
+
+// TODO: Move this
+function isHostedFeatureService(content: IHubEditableContent): boolean {
+  return (
+    content.type === "Feature Service" &&
+    content.typeKeywords.includes("Hosted Service")
+  );
+}
+
+/**
+ * TODO: MOVE THIS
+ * Toggles a single capability on a given feature service.
+ * Returns a service definition object with updated capabilities
+ * @param {string} capability capability to toggle
+ * @param {string} serviceUrl url of service to modify
+ * @param {IServiceDefinition} serviceDefinition current definition of the service
+ *
+ * @returns {IServiceDefinition} updated definition
+ */
+export function toggleFeatureServiceCapability(
+  capability: string,
+  serviceDefinition: Partial<IFeatureServiceDefinition>
+): Partial<IFeatureServiceDefinition> {
+  const updatedDefinition = hasCapability(capability, serviceDefinition)
+    ? removeCapability(capability, serviceDefinition)
+    : addCapability(capability, serviceDefinition);
+
+  return updatedDefinition;
+}
+
+// TODO: Move this
+function addCapability(
+  capability: string,
+  serverDefinition: Partial<IFeatureServiceDefinition>
+): Partial<IFeatureServiceDefinition> {
+  const capabilities = (serverDefinition.capabilities || "")
+    .split(",")
+    .concat(capability)
+    .join(",");
+  const updated = { ...serverDefinition, capabilities };
+  return updated;
+}
+
+// TODO: Move this
+export function removeCapability(
+  capability: string,
+  serverDefinition: Partial<IFeatureServiceDefinition>
+): Partial<IFeatureServiceDefinition> {
+  const capabilities = (serverDefinition.capabilities || "")
+    .split(",")
+    .filter((c) => c !== capability)
+    .join(",");
+  const updated = { ...serverDefinition, capabilities };
+  return updated;
 }
 
 /**

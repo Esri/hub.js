@@ -17,6 +17,9 @@ export const ContentSchema: IConfigurationSchema = {
     licenseInfo: {
       type: "string",
     },
+    serverExtractCapability: {
+      type: "boolean",
+    },
     hostedDownloads: {
       type: "boolean",
     },

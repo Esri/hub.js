@@ -241,16 +241,29 @@ export const fetchHubContent = async (
   // TODO: fetch data? org? ownerUser? metadata?
   // could use getItemEnrichments() and remove server, layers, etc
   // but we'd have to do that _after_ fetching the item first
-  const enrichments = [] as ItemOrServerEnrichment[];
-  const options = { ...requestOptions, enrichments } as IFetchContentOptions;
+  const composeEnrichments = ["server"] as ItemOrServerEnrichment[];
+  const options = {
+    ...requestOptions,
+    enrichments: composeEnrichments,
+  } as IFetchContentOptions;
   // for now we call fetchContent(), which returns a superset of IHubEditableContent
   // in the long run we probably want to replace this w/ fetchItemAndEnrichments()
   // and then use the property mapper and computeProps() to compose the object
   const model = await fetchContent(identifier, options);
-  // for now we still need property mapper to get defaults not set by composeContent()
+  const enrichments: EnrichmentMap = { server: model.server };
+  return modelToHubEditableContent(model, requestOptions, enrichments);
+};
+
+// TODO: Move elsewhere
+export type EnrichmentMap = Partial<Record<ItemOrServerEnrichment, any>>;
+export function modelToHubEditableContent(
+  model: IModel,
+  requestOptions: IRequestOptions,
+  enrichments: EnrichmentMap = {}
+) {
   const mapper = new PropertyMapper<Partial<IHubEditableContent>, IModel>(
     getPropertyMap()
   );
   const content = mapper.storeToEntity(model, {}) as IHubEditableContent;
-  return computeProps(model, content, requestOptions);
-};
+  return computeProps(model, content, requestOptions, enrichments);
+}
