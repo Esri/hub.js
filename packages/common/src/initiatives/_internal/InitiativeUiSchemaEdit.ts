@@ -110,5 +110,45 @@ export const uiSchema: IUiSchema = {
         },
       ],
     },
+    {
+      type: "Section",
+      labelKey: "{{i18nScope}}.sections.featuredContent.label",
+      options: {
+        helperText: {
+          labelKey: "{{i18nScope}}.sections.featuredContent.helperText",
+        },
+      },
+      elements: [
+        {
+          scope: "/properties/view/properties/featuredContentIds",
+          type: "Control",
+          options: {
+            control: "hub-field-input-gallery-picker",
+            targetEntity: "item",
+            facets: [
+              {
+                label:
+                  "{{{{i18nScope}}.fields.featuredContent.facets.type:translate}}",
+                key: "type",
+                display: "multi-select",
+                field: "type",
+                options: [],
+                operation: "OR",
+                aggLimit: 100,
+              },
+              {
+                label:
+                  "{{{{i18nScope}}.fields.featuredContent.facets.sharing:translate}}",
+                key: "access",
+                display: "multi-select",
+                field: "access",
+                options: [],
+                operation: "OR",
+              },
+            ],
+          },
+        },
+      ],
+    },
   ],
 };

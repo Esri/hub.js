@@ -32,7 +32,11 @@ export async function getEditorConfigOptions(
     project: [...standardOptions, "featuredImage", "featuredContentCatalogs"],
     content: [...standardOptions],
     discussion: [...standardOptions],
-    initiative: [...standardOptions, "featuredImage"],
+    initiative: [
+      ...standardOptions,
+      "featuredImage",
+      "featuredContentCatalogs",
+    ],
     site: [...standardOptions],
     page: [...standardOptions],
     group: ["access", "thumbnail", "membershipAccess"],
