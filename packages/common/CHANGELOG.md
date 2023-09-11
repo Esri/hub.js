@@ -1,3 +1,10 @@
+# @esri/hub-common [14.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.10.0...@esri/hub-common@14.11.0) (2023-09-11)
+
+
+### Features
+
+* add supporting groups to sites property map ([#1205](https://github.com/Esri/hub.js/issues/1205)) ([2d473d6](https://github.com/Esri/hub.js/commit/2d473d6fc2cb9fa85d4d3bc2e26f869f187fe18c))
+
 # @esri/hub-common [14.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.9.1...@esri/hub-common@14.10.0) (2023-09-11)
 
 
