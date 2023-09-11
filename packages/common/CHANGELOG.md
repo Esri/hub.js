@@ -1,3 +1,10 @@
+# @esri/hub-common [14.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.11.0...@esri/hub-common@14.12.0) (2023-09-11)
+
+
+### Features
+
+* add workspaceRelative to enrichGroupSearchResult ([#1206](https://github.com/Esri/hub.js/issues/1206)) ([f6d2016](https://github.com/Esri/hub.js/commit/f6d2016699df1ef62ffbbc9e717bfecb5f2f0731))
+
 # @esri/hub-common [14.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.10.0...@esri/hub-common@14.11.0) (2023-09-11)
 
 
