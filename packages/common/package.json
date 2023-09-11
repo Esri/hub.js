@@ -25,6 +25,7 @@
     "@esri/arcgis-rest-feature-layer": "^3.2.0",
     "@esri/arcgis-rest-portal": "^2.18.0 || 3",
     "@esri/arcgis-rest-request": "^2.14.0 || 3",
+    "@esri/arcgis-rest-service-admin": "^3.2.0",
     "@esri/arcgis-rest-types": "^2.15.0 || 3"
   },
   "devDependencies": {
