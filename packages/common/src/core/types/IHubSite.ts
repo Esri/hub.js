@@ -78,6 +78,11 @@ export interface IHubSite
    * @internal
    */
   legacyCapabilities: string[];
+
+  /**
+   * Supporting Team ids - Note this will deprecated sometime in the future
+   */
+  supportingGroups: string[];
 }
 
 export type IHubSiteEditor = Omit<IHubSite, "extent"> & {
