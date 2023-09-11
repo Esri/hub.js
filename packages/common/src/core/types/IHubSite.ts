@@ -78,6 +78,9 @@ export interface IHubSite
    * @internal
    */
   legacyCapabilities: string[];
+
+  /** Legacy teams - list of ids */
+  legacyTeams: string[];
 }
 
 export type IHubSiteEditor = Omit<IHubSite, "extent"> & {
