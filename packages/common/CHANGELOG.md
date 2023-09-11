@@ -1,3 +1,10 @@
+# @esri/hub-common [14.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.9.1...@esri/hub-common@14.10.0) (2023-09-11)
+
+
+### Features
+
+* refactor entity schema implementation ([#1203](https://github.com/Esri/hub.js/issues/1203)) ([88cdd2b](https://github.com/Esri/hub.js/commit/88cdd2b482f2c5297e431ad977685c4e84ef6dfa))
+
 ## @esri/hub-common [14.9.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.9.0...@esri/hub-common@14.9.1) (2023-09-08)
 
 
