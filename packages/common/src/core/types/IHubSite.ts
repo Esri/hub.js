@@ -5,6 +5,7 @@ import {
   IWithLayout,
   IWithPermissions,
   IWithSlug,
+  IWithSupportingGroups,
 } from "../traits/index";
 import { IHubItemEntity } from "./IHubItemEntity";
 import { IWithFollowers } from "../traits/IWithFollowers";
@@ -20,7 +21,8 @@ export interface IHubSite
     IWithLayout,
     IWithPermissions,
     IWithVersioningBehavior,
-    IWithFollowers {
+    IWithFollowers,
+    IWithSupportingGroups {
   /**
    * Array of minimal page objects
    */
@@ -78,11 +80,6 @@ export interface IHubSite
    * @internal
    */
   legacyCapabilities: string[];
-
-  /**
-   * Supporting Team ids - Note this will deprecated sometime in the future
-   */
-  supportingGroups: string[];
 }
 
 export type IHubSiteEditor = Omit<IHubSite, "extent"> & {
