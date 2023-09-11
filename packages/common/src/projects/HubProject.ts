@@ -160,10 +160,10 @@ export class HubProject
   convertToCardModel(opts?: IConvertToCardModelOpts): IHubCardViewModel {
     return projectToCardModel(this.entity, this.context, opts);
   }
-  /*
-   * Gt the editor config for the HubProject entity.
+  /**
+   * Get the editor config for the HubProject entity.
    * @param i18nScope translation scope to be interpolated into the uiSchema
-   * @param type editor type - corresonds to the returned uiSchema
+   * @param type editor type - corresponds to the returned uiSchema
    * @param options optional hash of dynamic uiSchema element options
    */
   async getEditorConfig(
@@ -180,7 +180,7 @@ export class HubProject
    * @returns
    */
   toEditor(editorContext: IEntityEditorContext = {}): IHubProjectEditor {
-    // cast the entity to it's editor
+    // cast the entity to its editor
     const editor = cloneObject(this.entity) as IHubProjectEditor;
     // add the groups array that we'll use to auto-share on save
     editor._groups = [];

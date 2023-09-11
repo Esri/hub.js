@@ -11,6 +11,7 @@ export * from "./IHubEvent";
 export * from "./IHubGroup";
 export * from "./IHubImage";
 export * from "./IHubInitiative";
+export * from "./IHubInitiativeTemplate";
 export * from "./IHubItemEntity";
 export * from "./IHubLayout";
 export * from "./IHubLocation";

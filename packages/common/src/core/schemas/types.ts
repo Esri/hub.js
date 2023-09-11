@@ -8,6 +8,7 @@ import { DiscussionEditorTypes } from "../../discussions/_internal/DiscussionSch
 import { PageEditorTypes } from "../../pages/_internal/PageSchema";
 import { ContentEditorTypes } from "../../content/_internal/ContentSchema";
 import { GroupEditorTypes } from "../../groups/_internal/GroupSchema";
+import { InitiativeTemplateEditorTypes } from "../../initiativeTemplates/_internal/InitiativeTemplateSchema";
 
 /**
  * Defines the possible editor type values - these correspond
@@ -22,6 +23,7 @@ export const validEditorTypes = [
   ...DiscussionEditorTypes,
   ...PageEditorTypes,
   ...GroupEditorTypes,
+  ...InitiativeTemplateEditorTypes,
 ] as const;
 
 export enum UiSchemaRuleEffects {

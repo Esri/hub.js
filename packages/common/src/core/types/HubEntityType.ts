@@ -2,6 +2,7 @@ export const HUB_ENTITY_TYPES = [
   "site",
   "project",
   "initiative",
+  "initiativeTemplate",
   "page",
   "discussion",
   "content",

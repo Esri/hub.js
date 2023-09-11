@@ -1,17 +1,37 @@
-import { IHubInitiativeTemplate } from "../core/types/IHubInitiativeTemplate";
 import { HubItemEntity } from "../core/HubItemEntity";
 import {
+  IHubInitiativeTemplate,
   IWithStoreBehavior,
   IWithCatalogBehavior,
   IWithSharingBehavior,
   IWithCardBehavior,
   IConvertToCardModelOpts,
   IHubCardViewModel,
+  IEntityEditorContext,
+  IHubInitiativeTemplateEditor,
+  HubEntity,
+  HubEntityEditor,
 } from "../core";
+
+import {
+  IEditorConfig,
+  IWithEditorBehavior,
+} from "../core/behaviors/IWithEditorBehavior";
+import { getEditorConfig } from "../core/schemas/getEditorConfig";
+import { EditorType } from "../core/schemas/types";
 
 import { IArcGISContext } from "..";
 import { Catalog } from "../search";
 import { DEFAULT_INITIATIVE_TEMPLATE } from "./defaults";
+import { fetchInitiativeTemplate } from "./fetch";
+import { initiativeTemplateToCardModel } from "./view";
+import { cloneObject } from "../util";
+import {
+  createInitiativeTemplate,
+  editorToInitiativeTemplate,
+  updateInitiativeTemplate,
+  deleteInitiativeTemplate,
+} from "./edit";
 
 export class HubInitiativeTemplate
   extends HubItemEntity<IHubInitiativeTemplate>
@@ -19,6 +39,7 @@ export class HubInitiativeTemplate
     IWithStoreBehavior<IHubInitiativeTemplate>,
     IWithCatalogBehavior,
     IWithSharingBehavior,
+    IWithEditorBehavior,
     IWithCardBehavior
 {
   private _catalog: Catalog;
@@ -81,7 +102,24 @@ export class HubInitiativeTemplate
     identifier: string,
     context: IArcGISContext
   ): Promise<HubInitiativeTemplate> {
-    return;
+    // fetch the initiative template by id or slug
+    try {
+      const initiativeTemplate = await fetchInitiativeTemplate(
+        identifier,
+        context.requestOptions
+      );
+      // create an instance of HubInitiativeTemplate from the initiative template
+      return HubInitiativeTemplate.fromJson(initiativeTemplate, context);
+    } catch (ex) {
+      if (
+        (ex as Error).message ===
+        "CONT_0001: Item does not exist or is inaccessible."
+      ) {
+        throw new Error(`Initiative Template not found.`);
+      } else {
+        throw ex;
+      }
+    }
   }
 
   /**
@@ -108,27 +146,78 @@ export class HubInitiativeTemplate
    * @returns
    */
   convertToCardModel(opts?: IConvertToCardModelOpts): IHubCardViewModel {
-    // TODO
-    return;
+    return initiativeTemplateToCardModel(this.entity, this.context, opts);
   }
 
   /**
-   * Delete the HubInitiativeTemplate from the store
-   * set a flag to indicate that it is destroyed
-   * @returns
+   * Get the editor config for the HubInitiativeTemplate entity.
+   * @param i18nScope translation scope to be interpolated into the uiSchema
+   * @param type editor type -- corresponds to the returned uiSchema
    */
-  delete(): Promise<void> {
-    // TODO
-    return;
+  async getEditorConfig(
+    i18nScope: string,
+    type: EditorType
+  ): Promise<IEditorConfig> {
+    return getEditorConfig(i18nScope, type, this.entity, this.context);
   }
 
   /**
-   * Save the HubInitiativeTemplate to the backing store.
-   * @returns
+   * Return the initiative template as an editor object
+   * @param editorContext
    */
-  save(): Promise<void> {
-    // TODO
-    return;
+  toEditor(
+    editorContext: IEntityEditorContext = {}
+  ): IHubInitiativeTemplateEditor {
+    // cast the entity to its editor
+    const editor = cloneObject(this.entity) as IHubInitiativeTemplateEditor;
+
+    // TODO: determine if we need to do anything else here...i don't think so, but maybe....
+
+    // for now, just return
+    return editor;
+  }
+
+  /**
+   * Load the initiative template from the editor object
+   * @param editor
+   */
+  async fromEditor(editor: IHubInitiativeTemplateEditor): Promise<HubEntity> {
+    const isCreate = !editor.id;
+
+    // Setting the thumbnailCache will ensure that the thumbnail is updated on next save
+    if (editor._thumbnail) {
+      if (editor._thumbnail.blob) {
+        this.thumbnailCache = {
+          file: editor._thumbnail.blob,
+          filename: editor._thumbnail.filename,
+          clear: false,
+        };
+      } else {
+        this.thumbnailCache = {
+          clear: true,
+        };
+      }
+    }
+
+    delete editor._thumbnail;
+
+    // TODO: do we need featured image stuff here? i don't think so
+
+    const entity = editorToInitiativeTemplate(editor, this.context.portal);
+
+    // create initiative template if does not yet exist
+    if (isCreate) {
+      this.entity = await createInitiativeTemplate(
+        entity,
+        this.context.userRequestOptions
+      );
+    } else {
+      // ...otherwise, update in-memory entity and save it
+      this.entity = entity;
+      await this.save();
+    }
+
+    return this.entity;
   }
 
   /**
@@ -136,6 +225,59 @@ export class HubInitiativeTemplate
    * @param changes
    */
   update(changes: Partial<IHubInitiativeTemplate>): void {
-    // TODO
+    if (this.isDestroyed) {
+      throw new Error("HubInitiativeTemplate is already destroyed.");
+    }
+    // merge partial onto existing entity
+    this.entity = { ...this.entity, ...changes };
+
+    // update internal instances
+    if (changes.catalog) {
+      this._catalog = Catalog.fromJson(this.entity.catalog, this.context);
+    }
+  }
+
+  /**
+   * Save the HubInitiativeTemplate to the backing store.
+   * @returns
+   */
+  async save(): Promise<void> {
+    if (this.isDestroyed) {
+      throw new Error("HubInitiativeTemplate is already destroyed.");
+    }
+    // get the catalog and permission configs
+    this.entity.catalog = this._catalog.toJson();
+
+    if (this.entity.id) {
+      // update it
+      this.entity = await updateInitiativeTemplate(
+        this.entity,
+        this.context.userRequestOptions
+      );
+    } else {
+      // create it
+      this.entity = await createInitiativeTemplate(
+        this.entity,
+        this.context.userRequestOptions
+      );
+    }
+    // call the after save hook on superclass
+    await super.afterSave();
+  }
+
+  /**
+   * Delete the HubInitiativeTemplate from the store
+   * set a flag to indicate that it is destroyed
+   * @returns
+   */
+  async delete(): Promise<void> {
+    if (this.isDestroyed) {
+      throw new Error("HubInitiativeTemplate is already destroyed.");
+    }
+    this.isDestroyed = true;
+    await deleteInitiativeTemplate(
+      this.entity.id,
+      this.context.userRequestOptions
+    );
   }
 }
