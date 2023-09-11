@@ -58,7 +58,7 @@ export function getPropertyMap(): IPropertyMap[] {
     storeKey: "item.properties.location",
   });
   map.push({
-    entityKey: "supportingGroups",
+    entityKey: "legacyTeams",
     storeKey: "item.properties.teams",
   });
   map.push({ entityKey: "catalog", storeKey: "data.catalog" });
