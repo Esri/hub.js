@@ -85,10 +85,7 @@ export async function enrichGroupSearchResult(
   result.links.thumbnail = getGroupThumbnailUrl(requestOptions.portal, group);
   result.links.self = getGroupHomeUrl(result.id, requestOptions);
   result.links.siteRelative = `/teams/${result.id}`;
-  result.links.workspaceRelative = getRelativeWorkspaceUrl(
-    result.type,
-    result.id
-  );
+  result.links.workspaceRelative = getRelativeWorkspaceUrl("Group", result.id);
 
   return result;
 }
