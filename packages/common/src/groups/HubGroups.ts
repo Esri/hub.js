@@ -19,6 +19,7 @@ import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { DEFAULT_GROUP } from "./defaults";
 import { convertHubGroupToGroup } from "./_internal/convertHubGroupToGroup";
 import { convertGroupToHubGroup } from "./_internal/convertGroupToHubGroup";
+import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
 
 /**
  * Enrich a generic search result
@@ -84,6 +85,7 @@ export async function enrichGroupSearchResult(
   result.links.thumbnail = getGroupThumbnailUrl(requestOptions.portal, group);
   result.links.self = getGroupHomeUrl(result.id, requestOptions);
   result.links.siteRelative = `/teams/${result.id}`;
+  result.links.workspaceRelative = getRelativeWorkspaceUrl("Group", result.id);
 
   return result;
 }
