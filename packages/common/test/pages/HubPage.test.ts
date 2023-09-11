@@ -3,8 +3,7 @@ import { ArcGISContextManager } from "../../src/ArcGISContextManager";
 import { HubPage } from "../../src/pages/HubPage";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as HubPagesModule from "../../src/pages/HubPages";
-import { IHubPage, UiSchemaElementOptions, getProp } from "../../src";
-import * as schemasModule from "../../src/core/schemas/getEntityEditorSchemas";
+import { IHubPage, getProp } from "../../src";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 
 describe("HubPage Class:", () => {
@@ -100,31 +99,6 @@ describe("HubPage Class:", () => {
         expect(fetchSpy).toHaveBeenCalledTimes(1);
         expect((ex as any).message).toBe("ZOMG!");
       }
-    });
-    it("returns editorConfig", async () => {
-      const spy = spyOn(schemasModule, "getEntityEditorSchemas").and.callFake(
-        () => {
-          return Promise.resolve({ schema: {}, uiSchema: {} });
-        }
-      );
-
-      await HubPage.getEditorConfig("test.scope", "hub:page:edit");
-      expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith("test.scope", "hub:page:edit", []);
-    });
-
-    it("returns editorConfig integrating options", async () => {
-      const spy = spyOn(schemasModule, "getEntityEditorSchemas").and.callFake(
-        () => {
-          return Promise.resolve({ schema: {}, uiSchema: {} });
-        }
-      );
-
-      const opts: UiSchemaElementOptions[] = [];
-
-      await HubPage.getEditorConfig("test.scope", "hub:page:edit", opts);
-      expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith("test.scope", "hub:page:edit", opts);
     });
   });
 
@@ -244,15 +218,12 @@ describe("HubPage Class:", () => {
         },
         authdCtxMgr.context
       );
-      const result = await chk.getEditorConfig(
-        "i18n.Scope",
-        "hub:content:edit"
-      );
+      const result = await chk.getEditorConfig("i18n.Scope", "hub:page:edit");
       expect(result).toEqual({ fake: "config" } as any);
       expect(spy).toHaveBeenCalledTimes(1);
       expect(spy).toHaveBeenCalledWith(
         "i18n.Scope",
-        "hub:content:edit",
+        "hub:page:edit",
         chk.toJson(),
         authdCtxMgr.context
       );
