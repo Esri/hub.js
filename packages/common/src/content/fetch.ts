@@ -243,7 +243,7 @@ export const fetchHubContent = async (
   if (isHostedFeatureService(model.item)) {
     enrichments.server = await getService({
       ...requestOptions,
-      url: model.item.url,
+      url: parseServiceUrl(model.item.url),
     });
   }
 

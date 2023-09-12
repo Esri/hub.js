@@ -20,7 +20,7 @@ import { cloneObject } from "../util";
 import { IModel } from "../types";
 import { getProp } from "../objects/get-prop";
 import { modelToHubEditableContent } from "./fetch";
-import { getService } from "@esri/arcgis-rest-feature-layer";
+import { getService, parseServiceUrl } from "@esri/arcgis-rest-feature-layer";
 import { updateServiceDefinition } from "@esri/arcgis-rest-service-admin";
 import {
   hasCapability,
@@ -137,7 +137,7 @@ export async function updateContent(
         ServiceCapabilities.EXTRACT,
         currentDefinition
       );
-      await updateServiceDefinition(content.url, {
+      await updateServiceDefinition(parseServiceUrl(content.url), {
         authentication: requestOptions.authentication,
         updateDefinition: updatedDefinition,
       });
