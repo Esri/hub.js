@@ -158,6 +158,7 @@ export class HubInitiativeTemplate
     i18nScope: string,
     type: EditorType
   ): Promise<IEditorConfig> {
+    // delegate to the schema subsystem
     return getEditorConfig(i18nScope, type, this.entity, this.context);
   }
 

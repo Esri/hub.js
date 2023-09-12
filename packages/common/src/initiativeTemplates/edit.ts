@@ -166,17 +166,3 @@ export async function deleteInitiativeTemplate(
   await removeItem(ro);
   return;
 }
-
-/**
- * Get the editor config for the HubInitiativeTemplate entity.
- * @param i18nScope translation scope to be interpolated into the uiSchema
- * @param type editor type - corresponds to the returned uiSchema
- * @param options optional hash of dynamic uiSchema element options
- */
-export async function getHubInitiativeTemplateEditorConfig(
-  i18nScope: string,
-  type: InitiativeTemplateEditorType,
-  options: UiSchemaElementOptions[] = []
-): Promise<IEditorConfig> {
-  return getEntityEditorSchemas(i18nScope, type, options);
-}
