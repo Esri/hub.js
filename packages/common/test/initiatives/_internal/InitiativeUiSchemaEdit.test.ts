@@ -4,6 +4,7 @@ import * as getLocationExtentModule from "../../../src/core/schemas/internal/get
 import * as getLocationOptionsModule from "../../../src/core/schemas/internal/getLocationOptions";
 import * as getTagItemsModule from "../../../src/core/schemas/internal/getTagItems";
 import * as getCategoryItemsModule from "../../../src/core/schemas/internal/getCategoryItems";
+import * as getFeaturedContentCatalogsModule from "../../../src/core/schemas/internal/getFeaturedContentCatalogs";
 
 describe("buildUiSchema: initiative edit", () => {
   it("returns the full initiative edit uiSchema", async () => {
@@ -19,6 +20,10 @@ describe("buildUiSchema: initiative edit", () => {
     spyOn(getTagItemsModule, "getTagItems").and.returnValue(
       Promise.resolve([])
     );
+    spyOn(
+      getFeaturedContentCatalogsModule,
+      "getFeaturedContentCatalogs"
+    ).and.returnValue({});
 
     const uiSchema = await buildUiSchema(
       "some.scope",
@@ -132,6 +137,47 @@ describe("buildUiSchema: initiative edit", () => {
                 control: "hub-field-input-location-picker",
                 extent: [],
                 options: [],
+              },
+            },
+          ],
+        },
+        {
+          type: "Section",
+          labelKey: "some.scope.sections.featuredContent.label",
+          options: {
+            helperText: {
+              labelKey: "some.scope.sections.featuredContent.helperText",
+            },
+          },
+          elements: [
+            {
+              scope: "/properties/view/properties/featuredContentIds",
+              type: "Control",
+              options: {
+                control: "hub-field-input-gallery-picker",
+                targetEntity: "item",
+                catalogs: {},
+                facets: [
+                  {
+                    label:
+                      "{{some.scope.fields.featuredContent.facets.type:translate}",
+                    key: "type",
+                    display: "multi-select",
+                    field: "type",
+                    options: [],
+                    operation: "OR",
+                    aggLimit: 100,
+                  },
+                  {
+                    label:
+                      "{{some.scope.fields.featuredContent.facets.sharing:translate}",
+                    key: "access",
+                    display: "multi-select",
+                    field: "access",
+                    options: [],
+                    operation: "OR",
+                  },
+                ],
               },
             },
           ],
