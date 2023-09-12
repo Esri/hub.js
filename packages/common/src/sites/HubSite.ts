@@ -46,7 +46,7 @@ import { cloneObject } from "../util";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 
-import { IHubSiteEditor, IModel } from "../index";
+import { IHubSiteEditor, IModel, SettableAccessLevel } from "../index";
 import { SiteEditorType } from "./_internal/SiteSchema";
 
 /**
@@ -402,11 +402,23 @@ export class HubSite
    * @param editorContext
    * @returns
    */
-  toEditor(editorContext: IEntityEditorContext = {}): IHubSiteEditor {
-    // Cast the entity to it's editor
+  async toEditor(
+    editorContext: IEntityEditorContext = {}
+  ): Promise<IHubSiteEditor> {
+    // 1. Cast entity to editor
     const editor = cloneObject(this.entity) as IHubSiteEditor;
 
-    // Add other transforms here...
+    // 2. Apply transforms to relevant entity values so they
+    // can be consumed by the editor
+    const followersGroupAccess = await this.getFollowersGroupAccess(
+      this.entity.followersGroupId
+    );
+    editor._followers = {};
+    editor._followers.access =
+      followersGroupAccess === "shared" ? "private" : followersGroupAccess;
+    editor._followers.showFollowAction =
+      !this.entity.legacyCapabilities.includes("hideFollow");
+
     return editor;
   }
 
@@ -417,6 +429,9 @@ export class HubSite
    */
   async fromEditor(editor: IHubSiteEditor): Promise<IHubSite> {
     const isCreate = !editor.id;
+
+    // 1. Perform any pre-save operations e.g. storing
+    // image resources on the item, setting access, etc.
 
     // Setting the thumbnailCache will ensure that
     // the thumbnail is updated on next save
@@ -436,18 +451,41 @@ export class HubSite
 
     delete editor._thumbnail;
 
-    // convert back to an entity. Apply any reverse transforms used in
-    // of the toEditor method
+    // set the followers group access
+    if (editor._followers?.access) {
+      await this.setFollowersGroupAccess(
+        editor._followers.access as SettableAccessLevel
+      );
+    }
+
+    // 2. Convert editor values back to an entity e.g. apply
+    // any reverse transforms used in the toEditor method
     const entity = cloneObject(editor) as IHubSite;
+
+    // handle updating the legacy capabilities array
+    let legacyCapabilities: Record<string, boolean> = {};
+    entity.legacyCapabilities.forEach(
+      (capability) => (legacyCapabilities[capability] = true)
+    );
+    legacyCapabilities = {
+      ...legacyCapabilities,
+      hideFollow: !editor._followers.showFollowAction,
+    };
+    entity.legacyCapabilities = Object.entries(legacyCapabilities).reduce(
+      (acc, [key, value]) => {
+        value && acc.push(key);
+        return acc;
+      },
+      []
+    );
 
     // copy the location extent up one level
     entity.extent = editor.location?.extent;
 
-    // create it if it does not yet exist...
+    // 3. create or update the in-memory entity and save
     if (isCreate) {
       throw new Error("Cannot create content using the Editor.");
     } else {
-      // ...otherwise, update the in-memory entity and save it
       this.entity = entity;
       await this.save();
     }
