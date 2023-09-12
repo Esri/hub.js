@@ -15,6 +15,9 @@ export const DEFAULT_INITIATIVE: Partial<IHubInitiative> = {
   permissions: [],
   schemaVersion: 2,
   features: InitiativeDefaultFeatures,
+  view: {
+    featuredContentIds: [],
+  },
 };
 
 /**
@@ -33,5 +36,9 @@ export const DEFAULT_INITIATIVE_MODEL: IModel = {
       schemaVersion: 2,
     },
   },
-  data: {},
+  data: {
+    view: {
+      featuredContentIds: [],
+    },
+  },
 } as unknown as IModel;

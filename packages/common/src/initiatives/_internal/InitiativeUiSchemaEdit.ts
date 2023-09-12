@@ -5,6 +5,7 @@ import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { getCategoryItems } from "../../core/schemas/internal/getCategoryItems";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
+import { getFeaturedContentCatalogs } from "../../core/schemas/internal/getFeaturedContentCatalogs";
 
 /**
  * @private
@@ -138,6 +139,47 @@ export const buildUiSchema = async (
                 context.portal.name,
                 context.hubRequestOptions
               ),
+            },
+          },
+        ],
+      },
+      {
+        type: "Section",
+        labelKey: "{{i18nScope}}.sections.featuredContent.label",
+        options: {
+          helperText: {
+            labelKey: "{{i18nScope}}.sections.featuredContent.helperText",
+          },
+        },
+        elements: [
+          {
+            scope: "/properties/view/properties/featuredContentIds",
+            type: "Control",
+            options: {
+              control: "hub-field-input-gallery-picker",
+              targetEntity: "item",
+              catalogs: getFeaturedContentCatalogs(context.currentUser),
+              facets: [
+                {
+                  label:
+                    "{{{{i18nScope}}.fields.featuredContent.facets.type:translate}}",
+                  key: "type",
+                  display: "multi-select",
+                  field: "type",
+                  options: [],
+                  operation: "OR",
+                  aggLimit: 100,
+                },
+                {
+                  label:
+                    "{{{{i18nScope}}.fields.featuredContent.facets.sharing:translate}}",
+                  key: "access",
+                  display: "multi-select",
+                  field: "access",
+                  options: [],
+                  operation: "OR",
+                },
+              ],
             },
           },
         ],
