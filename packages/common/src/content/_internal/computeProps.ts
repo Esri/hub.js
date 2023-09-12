@@ -3,14 +3,15 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { getItemThumbnailUrl } from "../../resources";
 import { IModel } from "../../types";
 import { bBoxToExtent, extentToPolygon, isBBox } from "../../extent";
-import { IExtent, IFeatureServiceDefinition } from "@esri/arcgis-rest-types";
+import { IExtent } from "@esri/arcgis-rest-types";
 import Geometry = __esri.Geometry;
 import { getItemHomeUrl } from "../../urls/get-item-home-url";
 import { getHubRelativeUrl } from "./internalContentUtils";
 import { IHubLocation } from "../../core/types/IHubLocation";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
-import { EnrichmentMap } from "../fetch";
+import { hasCapability, ServiceCapabilities } from "./hostedServiceUtils";
+import { IItemAndIServerEnrichments } from "../../items/_enrichments";
 
 // if called and valid, set 3 things -- else just return type custom
 export const getItemExtent = (itemExtent: number[][]): IExtent => {
@@ -38,7 +39,7 @@ export function computeProps(
   model: IModel,
   content: Partial<IHubEditableContent>,
   requestOptions: IRequestOptions,
-  enrichments: EnrichmentMap = {}
+  enrichments: IItemAndIServerEnrichments = {}
 ): IHubEditableContent {
   let token: string;
   if (requestOptions.authentication) {
@@ -74,27 +75,10 @@ export function computeProps(
 
   if (enrichments.server) {
     content.serverExtractCapability = hasCapability(
-      "Extract",
+      ServiceCapabilities.EXTRACT,
       enrichments.server
     );
   }
 
   return content as IHubEditableContent;
-}
-
-// TODO: Move this util elsewhere
-
-/**
- * Returns a whether a service has a capability
- * @param {string} capability
- * @param {Partial<IServiceDefinition>} serviceDefinition
- *
- * @returns {boolean}
- */
-export function hasCapability(
-  capability: string,
-  serverDefinition: Partial<IFeatureServiceDefinition>
-) {
-  const capabilities = (serverDefinition.capabilities || "").split(",");
-  return capabilities.includes(capability);
 }

@@ -10,6 +10,7 @@ import {
   ItemOrServerEnrichment,
   fetchItemEnrichments,
   IItemAndEnrichments,
+  IItemAndIServerEnrichments,
 } from "../items/_enrichments";
 import { IHubRequestOptions, IModel } from "../types";
 import { isNil } from "../util";
@@ -27,7 +28,7 @@ import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
 import { getModel } from "../models";
-import { isHostedFeatureService } from "./edit";
+import { isHostedFeatureService } from "./_internal/hostedServiceUtils";
 
 const hasFeatures = (contentType: string) =>
   ["Feature Layer", "Table"].includes(contentType);
@@ -238,7 +239,7 @@ export const fetchHubContent = async (
 ): Promise<IHubEditableContent> => {
   const model = await getModel(identifier, requestOptions);
 
-  const enrichments: EnrichmentMap = {};
+  const enrichments: IItemAndIServerEnrichments = {};
   if (isHostedFeatureService(model.item)) {
     enrichments.server = await getService({
       ...requestOptions,
@@ -249,12 +250,10 @@ export const fetchHubContent = async (
   return modelToHubEditableContent(model, requestOptions, enrichments);
 };
 
-// TODO: Move elsewhere
-export type EnrichmentMap = Partial<Record<ItemOrServerEnrichment, any>>;
 export function modelToHubEditableContent(
   model: IModel,
   requestOptions: IRequestOptions,
-  enrichments: EnrichmentMap = {}
+  enrichments: IItemAndIServerEnrichments = {}
 ) {
   const mapper = new PropertyMapper<Partial<IHubEditableContent>, IModel>(
     getPropertyMap()
