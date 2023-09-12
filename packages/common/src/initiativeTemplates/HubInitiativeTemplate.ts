@@ -33,6 +33,9 @@ import {
   deleteInitiativeTemplate,
 } from "./edit";
 
+/**
+ * Hub Initiative Template Class
+ */
 export class HubInitiativeTemplate
   extends HubItemEntity<IHubInitiativeTemplate>
   implements
