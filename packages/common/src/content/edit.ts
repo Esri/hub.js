@@ -4,6 +4,7 @@ import {
   IUserItemOptions,
   getItem,
   removeItem,
+  IItem,
 } from "@esri/arcgis-rest-portal";
 import { IHubContentEditor, IHubEditableContent } from "../core";
 
@@ -120,10 +121,7 @@ export async function updateContent(
 
   // update enrichment values
   const enrichments: EnrichmentMap = {};
-  if (
-    isHostedFeatureService(content) &&
-    content.serverExtractCapability != null
-  ) {
+  if (isHostedFeatureService(content)) {
     const currentDefinition = await getService({
       ...requestOptions,
       url: content.url,
@@ -132,6 +130,7 @@ export async function updateContent(
       "Extract",
       currentDefinition
     );
+    // To avoid over-updating the service, we only fire an update call if Extract has changed
     if (currentServerExtractEnabled !== content.serverExtractCapability) {
       const updatedDefinition = toggleFeatureServiceCapability(
         "Extract",
@@ -142,6 +141,8 @@ export async function updateContent(
         updateDefinition: updatedDefinition,
       });
       enrichments.server = updatedDefinition;
+    } else {
+      enrichments.server = currentDefinition;
     }
   }
 
@@ -149,7 +150,9 @@ export async function updateContent(
 }
 
 // TODO: Move this
-function isHostedFeatureService(content: IHubEditableContent): boolean {
+export function isHostedFeatureService(
+  content: IHubEditableContent | IItem
+): boolean {
   return (
     content.type === "Feature Service" &&
     content.typeKeywords.includes("Hosted Service")

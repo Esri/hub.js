@@ -1,5 +1,6 @@
 import {
   getLayer,
+  getService,
   parseServiceUrl,
   queryFeatures,
 } from "@esri/arcgis-rest-feature-layer";
@@ -20,16 +21,13 @@ import {
   getContentEnrichments,
 } from "./_fetch";
 import { canUseHubApiForItem } from "./_internal/internalContentUtils";
-import {
-  composeContent,
-  getItemLayer,
-  getProxyUrl,
-  isLayerView,
-} from "./compose";
+import { composeContent, getItemLayer, getProxyUrl } from "./compose";
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
+import { getModel } from "../models";
+import { isHostedFeatureService } from "./edit";
 
 const hasFeatures = (contentType: string) =>
   ["Feature Layer", "Table"].includes(contentType);
@@ -238,19 +236,16 @@ export const fetchHubContent = async (
   identifier: string,
   requestOptions: IRequestOptions
 ): Promise<IHubEditableContent> => {
-  // TODO: fetch data? org? ownerUser? metadata?
-  // could use getItemEnrichments() and remove server, layers, etc
-  // but we'd have to do that _after_ fetching the item first
-  const composeEnrichments = ["server"] as ItemOrServerEnrichment[];
-  const options = {
-    ...requestOptions,
-    enrichments: composeEnrichments,
-  } as IFetchContentOptions;
-  // for now we call fetchContent(), which returns a superset of IHubEditableContent
-  // in the long run we probably want to replace this w/ fetchItemAndEnrichments()
-  // and then use the property mapper and computeProps() to compose the object
-  const model = await fetchContent(identifier, options);
-  const enrichments: EnrichmentMap = { server: model.server };
+  const model = await getModel(identifier, requestOptions);
+
+  const enrichments: EnrichmentMap = {};
+  if (isHostedFeatureService(model.item)) {
+    enrichments.server = await getService({
+      ...requestOptions,
+      url: model.item.url,
+    });
+  }
+
   return modelToHubEditableContent(model, requestOptions, enrichments);
 };
 

@@ -1,6 +1,7 @@
 import { IArcGISContext } from "../../ArcGISContext";
 import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
+import { isHostedFeatureService } from "../edit";
 
 /**
  * @private
@@ -8,7 +9,7 @@ import { IHubEditableContent } from "../../core/types/IHubEditableContent";
  * This defines how the schema properties should be
  * rendered in the content settings editing experience
  */
- export const buildUiSchema = async (
+export const buildUiSchema = async (
   i18nScope: string,
   entity: IHubEditableContent,
   _context: IArcGISContext
@@ -16,9 +17,8 @@ import { IHubEditableContent } from "../../core/types/IHubEditableContent";
   const uiSchema: IUiSchema = {
     type: "Layout",
     elements: [],
-  }
-  // TODO: Use helper
-  if (entity.type === 'Feature Service' && entity.typeKeywords?.includes('Hosted Service')) {
+  };
+  if (isHostedFeatureService(entity)) {
     uiSchema.elements.push({
       type: "Section",
       labelKey: `${i18nScope}.sections.downloads.label`,
@@ -34,8 +34,7 @@ import { IHubEditableContent } from "../../core/types/IHubEditableContent";
           type: "Control",
           options: {
             helperText: {
-              labelKey:
-                `${i18nScope}.fields.serverExtractCapability.helperText`,
+              labelKey: `${i18nScope}.fields.serverExtractCapability.helperText`,
             },
           },
         },
@@ -46,7 +45,6 @@ import { IHubEditableContent } from "../../core/types/IHubEditableContent";
           options: {
             helperText: {
               labelKey: `${i18nScope}.fields.hostedDownloads.helperText`,
-              placement: "bottom",
             },
           },
           rule: {
@@ -59,9 +57,9 @@ import { IHubEditableContent } from "../../core/types/IHubEditableContent";
               },
             },
           },
-        }
+        },
       ],
-    })
+    });
   }
   return uiSchema;
 };
