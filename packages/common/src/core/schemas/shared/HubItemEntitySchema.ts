@@ -30,6 +30,19 @@ export const HubItemEntitySchema: IConfigurationSchema = {
     categories: ENTITY_CATEGORIES_SCHEMA,
     isDiscussable: ENTITY_IS_DISCUSSABLE_SCHEMA,
     _thumbnail: ENTITY_IMAGE_SCHEMA,
+    _followers: {
+      type: "object",
+      properties: {
+        access: {
+          ...ENTITY_ACCESS_SCHEMA,
+          enum: ["private", "org", "public"],
+        },
+        showFollowAction: {
+          type: "boolean",
+          default: true,
+        },
+      },
+    },
     view: {
       type: "object",
       properties: {
