@@ -417,7 +417,7 @@ export class HubSite
     editor._followers.access =
       followersGroupAccess === "shared" ? "private" : followersGroupAccess;
     editor._followers.showFollowAction =
-      !this.entity.legacyCapabilities.includes("hideFollow");
+      this.entity.features["hub:site:followers:action"];
 
     return editor;
   }
@@ -462,22 +462,10 @@ export class HubSite
     // any reverse transforms used in the toEditor method
     const entity = cloneObject(editor) as IHubSite;
 
-    // handle updating the legacy capabilities array
-    let legacyCapabilities: Record<string, boolean> = {};
-    entity.legacyCapabilities.forEach(
-      (capability) => (legacyCapabilities[capability] = true)
-    );
-    legacyCapabilities = {
-      ...legacyCapabilities,
-      hideFollow: !editor._followers.showFollowAction,
+    entity.features = {
+      ...entity.features,
+      "hub:site:followers:action": editor._followers.showFollowAction,
     };
-    entity.legacyCapabilities = Object.entries(legacyCapabilities).reduce(
-      (acc, [key, value]) => {
-        value && acc.push(key);
-        return acc;
-      },
-      []
-    );
 
     // copy the location extent up one level
     entity.extent = editor.location?.extent;
