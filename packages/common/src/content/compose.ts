@@ -856,5 +856,15 @@ export const composeContent = (
     get itemControl() {
       return item.itemControl || "view";
     },
+    /**
+     * TODO: currently only sites have a followers group, but
+     * the intent is that any item-backed entity could have a
+     * followers group. As such, followersGroupId has been added
+     * to the IHubItemEntity, and we add this as a placeholder
+     * for now to satisfy ts.
+     */
+    get followersGroupId() {
+      return "";
+    },
   } as IHubContent;
 };
