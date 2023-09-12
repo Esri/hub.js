@@ -24,7 +24,7 @@ import { getService, parseServiceUrl } from "@esri/arcgis-rest-feature-layer";
 import { updateServiceDefinition } from "@esri/arcgis-rest-service-admin";
 import {
   hasCapability,
-  isHostedFeatureService,
+  isHostedFeatureServiceEntity,
   ServiceCapabilities,
   toggleCapability,
 } from "./_internal/hostedServiceUtils";
@@ -122,7 +122,7 @@ export async function updateContent(
 
   // update enrichment values
   const enrichments: IItemAndIServerEnrichments = {};
-  if (isHostedFeatureService(content)) {
+  if (isHostedFeatureServiceEntity(content)) {
     const currentDefinition = await getService({
       ...requestOptions,
       url: content.url,

@@ -2,13 +2,21 @@ import { IFeatureServiceDefinition } from "@esri/arcgis-rest-feature-layer";
 import { IItem } from "@esri/arcgis-rest-portal";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 
-export function isHostedFeatureService(
-  content: IHubEditableContent | IItem
+export function isHostedFeatureServiceItem(item: IItem): boolean {
+  return isHostedFeatureService(item.type, item.typeKeywords);
+}
+
+export function isHostedFeatureServiceEntity(
+  content: IHubEditableContent
 ): boolean {
-  return (
-    content.type === "Feature Service" &&
-    content.typeKeywords.includes("Hosted Service")
-  );
+  return isHostedFeatureService(content.type, content.typeKeywords);
+}
+
+function isHostedFeatureService(
+  type: string,
+  typeKeywords: string[] = []
+): boolean {
+  return type === "Feature Service" && typeKeywords.includes("Hosted Service");
 }
 
 export enum ServiceCapabilities {

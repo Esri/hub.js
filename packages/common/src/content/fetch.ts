@@ -27,8 +27,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
-import { getModel } from "../models";
-import { isHostedFeatureService } from "./_internal/hostedServiceUtils";
+import { isHostedFeatureServiceItem } from "./_internal/hostedServiceUtils";
 
 const hasFeatures = (contentType: string) =>
   ["Feature Layer", "Table"].includes(contentType);
@@ -237,16 +236,17 @@ export const fetchHubContent = async (
   identifier: string,
   requestOptions: IRequestOptions
 ): Promise<IHubEditableContent> => {
-  const model = await getModel(identifier, requestOptions);
-
+  // NOTE: We can't just call `getModel` because we need to be able
+  // to properly handle other types like PDFs that don't have JSON data
+  const item = await getItem(identifier, requestOptions);
   const enrichments: IItemAndIServerEnrichments = {};
-  if (isHostedFeatureService(model.item)) {
+  if (isHostedFeatureServiceItem(item)) {
     enrichments.server = await getService({
       ...requestOptions,
-      url: parseServiceUrl(model.item.url),
+      url: parseServiceUrl(item.url),
     });
   }
-
+  const model: IModel = { item };
   return modelToHubEditableContent(model, requestOptions, enrichments);
 };
 

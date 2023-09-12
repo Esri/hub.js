@@ -1,7 +1,7 @@
 import { IArcGISContext } from "../../ArcGISContext";
 import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
-import { isHostedFeatureService } from "../edit";
+import { isHostedFeatureServiceEntity } from "./hostedServiceUtils";
 
 /**
  * @private
@@ -18,7 +18,7 @@ export const buildUiSchema = async (
     type: "Layout",
     elements: [],
   };
-  if (isHostedFeatureService(entity)) {
+  if (isHostedFeatureServiceEntity(entity)) {
     uiSchema.elements.push({
       type: "Section",
       labelKey: `${i18nScope}.sections.downloads.label`,
