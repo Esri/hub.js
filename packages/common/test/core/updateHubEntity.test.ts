@@ -77,4 +77,15 @@ describe("updateHubEntity:", () => {
     await updateHubEntity("page", {} as HubEntity, ctx);
     expect(spy).toHaveBeenCalledWith({}, "fakeRequestOptions");
   });
+  it("updates initiative template", async () => {
+    const ctx = {
+      userRequestOptions: "fakeRequestOptions",
+    } as unknown as IArcGISContext;
+    const spy = spyOn(
+      require("../../src/initiativeTemplates/edit"),
+      "updateInitiativeTemplate"
+    ).and.returnValue(Promise.resolve({}));
+    await updateHubEntity("initiativeTemplate", {} as HubEntity, ctx);
+    expect(spy).toHaveBeenCalledWith({}, "fakeRequestOptions");
+  });
 });
