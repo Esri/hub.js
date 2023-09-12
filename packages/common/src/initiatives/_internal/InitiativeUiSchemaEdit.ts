@@ -145,10 +145,10 @@ export const buildUiSchema = async (
       },
       {
         type: "Section",
-        labelKey: "{{i18nScope}}.sections.featuredContent.label",
+        labelKey: `${i18nScope}.sections.featuredContent.label`,
         options: {
           helperText: {
-            labelKey: "{{i18nScope}}.sections.featuredContent.helperText",
+            labelKey: `${i18nScope}.sections.featuredContent.helperText`,
           },
         },
         elements: [
@@ -161,8 +161,7 @@ export const buildUiSchema = async (
               catalogs: getFeaturedContentCatalogs(context.currentUser),
               facets: [
                 {
-                  label:
-                    "{{{{i18nScope}}.fields.featuredContent.facets.type:translate}}",
+                  label: `{{${i18nScope}.fields.featuredContent.facets.type:translate}`,
                   key: "type",
                   display: "multi-select",
                   field: "type",
@@ -171,8 +170,7 @@ export const buildUiSchema = async (
                   aggLimit: 100,
                 },
                 {
-                  label:
-                    "{{{{i18nScope}}.fields.featuredContent.facets.sharing:translate}}",
+                  label: `{{${i18nScope}.fields.featuredContent.facets.sharing:translate}`,
                   key: "access",
                   display: "multi-select",
                   field: "access",
