@@ -9,22 +9,12 @@ import {
   removeItem,
 } from "@esri/arcgis-rest-portal";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
-import {
-  EntityResourceMap,
-  IHubProject,
-  IHubProjectEditor,
-} from "../core/types";
+import { IHubProject, IHubProjectEditor } from "../core/types";
 import { DEFAULT_PROJECT, DEFAULT_PROJECT_MODEL } from "./defaults";
 import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
-import { ProjectEditorType } from "./_internal/ProjectSchema";
 import { setStatusKeyword } from "./_internal/setStatusKeyword";
 import { cloneObject } from "../util";
-import {
-  getEntityEditorSchemas,
-  UiSchemaElementOptions,
-} from "../core/schemas";
-import { IEditorConfig } from "../core/behaviors/IWithEditorBehavior";
 import { setDiscussableKeyword } from "../discussions";
 import { IModel } from "../types";
 
@@ -149,21 +139,4 @@ export async function deleteProject(
   const ro = { ...requestOptions, ...{ id } } as IUserItemOptions;
   await removeItem(ro);
   return;
-}
-
-/**
- * Get the editor config for for the HubProject entity.
- * @param i18nScope translation scope to be interpolated into the uiSchema
- * @param type editor type - corresonds to the returned uiSchema
- * @param options optional hash of dynamic uiSchema element options
- */
-/* istanbul ignore next deprecated */
-export async function getHubProjectEditorConfig(
-  i18nScope: string,
-  type: ProjectEditorType,
-  options: UiSchemaElementOptions[] = []
-): Promise<IEditorConfig> {
-  // Still mulling if we should call out to this, or
-  // just pull that code in here...
-  return getEntityEditorSchemas(i18nScope, type, options);
 }

@@ -10,7 +10,6 @@ import {
 import { Catalog } from "../search";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
-import { EditorType } from "../core/schemas/types";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import {
   IEditorConfig,
@@ -48,6 +47,7 @@ import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 
 import { IHubSiteEditor, IModel } from "../index";
+import { SiteEditorType } from "./_internal/SiteSchema";
 
 /**
  * Hub Site Class
@@ -391,7 +391,7 @@ export class HubSite
    */
   async getEditorConfig(
     i18nScope: string,
-    type: EditorType
+    type: SiteEditorType
   ): Promise<IEditorConfig> {
     // delegate to the schema subsystem
     return getEditorConfig(i18nScope, type, this.entity, this.context);

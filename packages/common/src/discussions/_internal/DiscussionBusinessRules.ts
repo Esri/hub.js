@@ -18,6 +18,7 @@ export const DiscussionPermissions = [
   "hub:discussion:workspace:collaborators",
   "hub:discussion:workspace:discussion",
   "hub:discussion:workspace:metrics",
+  "hub:discussion:manage",
 ] as const;
 
 /**
@@ -84,6 +85,10 @@ export const DiscussionPermissionPolicies: IPermissionPolicy[] = [
   },
   {
     permission: "hub:discussion:workspace:metrics",
+    dependencies: ["hub:discussion:edit"],
+  },
+  {
+    permission: "hub:discussion:manage",
     dependencies: ["hub:discussion:edit"],
   },
 ];

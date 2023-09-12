@@ -1,5 +1,5 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { IHubRequestOptions } from "../../src";
+import { ArcGISContext, IArcGISContext, IHubRequestOptions } from "../../src";
 
 const TOMORROW = (function () {
   const now = new Date();
@@ -68,3 +68,28 @@ export const MOCK_ENTERPRISE_REQOPTS = {
   },
   isPortal: true,
 } as unknown as IHubRequestOptions;
+
+export const MOCK_CONTEXT = new ArcGISContext({
+  id: 123,
+  currentUser: {
+    username: "mock_user",
+  },
+  portalUrl: "https://qaext.arcgis.com",
+  hubUrl: "https://hubqa.arcgis.com",
+  authentication: MOCK_AUTH,
+  portalSelf: {
+    id: "123",
+    name: "My org",
+    isPortal: false,
+    urlKey: "www",
+  },
+  serviceStatus: {
+    portal: "online",
+    discussions: "online",
+    events: "online",
+    metrics: "online",
+    notifications: "online",
+    "hub-search": "online",
+    domains: "online",
+  },
+}) as IArcGISContext;

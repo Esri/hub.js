@@ -1,3 +1,38 @@
+# @esri/hub-common [14.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.11.0...@esri/hub-common@14.12.0) (2023-09-11)
+
+
+### Features
+
+* add workspaceRelative to enrichGroupSearchResult ([#1206](https://github.com/Esri/hub.js/issues/1206)) ([f6d2016](https://github.com/Esri/hub.js/commit/f6d2016699df1ef62ffbbc9e717bfecb5f2f0731))
+
+# @esri/hub-common [14.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.10.0...@esri/hub-common@14.11.0) (2023-09-11)
+
+
+### Features
+
+* add supporting groups to sites property map ([#1205](https://github.com/Esri/hub.js/issues/1205)) ([2d473d6](https://github.com/Esri/hub.js/commit/2d473d6fc2cb9fa85d4d3bc2e26f869f187fe18c))
+
+# @esri/hub-common [14.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.9.1...@esri/hub-common@14.10.0) (2023-09-11)
+
+
+### Features
+
+* refactor entity schema implementation ([#1203](https://github.com/Esri/hub.js/issues/1203)) ([88cdd2b](https://github.com/Esri/hub.js/commit/88cdd2b482f2c5297e431ad977685c4e84ef6dfa))
+
+## @esri/hub-common [14.9.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.9.0...@esri/hub-common@14.9.1) (2023-09-08)
+
+
+### Bug Fixes
+
+* added default empty quotes for computeProps ([#1204](https://github.com/Esri/hub.js/issues/1204)) ([3c83e4a](https://github.com/Esri/hub.js/commit/3c83e4a35b0f8baff604aa27246d2ea21ab0530d))
+
+# @esri/hub-common [14.9.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.8.0...@esri/hub-common@14.9.0) (2023-09-07)
+
+
+### Features
+
+* **hub-common:** add hub:[entity]:manage permission for all entities ([#1202](https://github.com/Esri/hub.js/issues/1202)) ([71191b7](https://github.com/Esri/hub.js/commit/71191b7bece6f4dead7e36205e0558a4b9338a3b))
+
 # @esri/hub-common [14.8.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.7.1...@esri/hub-common@14.8.0) (2023-09-06)
 
 

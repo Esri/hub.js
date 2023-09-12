@@ -10,7 +10,6 @@ import {
   IEntityEditorContext,
   SettableAccessLevel,
 } from "../core";
-import { EditorType } from "../core/schemas/types";
 
 import { Catalog } from "../search";
 import { IArcGISContext } from "../ArcGISContext";
@@ -35,6 +34,7 @@ import {
 import { projectToCardModel } from "./view";
 import { cloneObject, maybePush } from "../util";
 import { createProject, editorToProject, updateProject } from "./edit";
+import { ProjectEditorType } from "./_internal/ProjectSchema";
 
 /**
  * Hub Project Class
@@ -160,15 +160,15 @@ export class HubProject
   convertToCardModel(opts?: IConvertToCardModelOpts): IHubCardViewModel {
     return projectToCardModel(this.entity, this.context, opts);
   }
-  /**
-   * Get the editor config for the HubProject entity.
+  /*
+   * Get a specific editor config for the HubProject entity.
    * @param i18nScope translation scope to be interpolated into the uiSchema
    * @param type editor type - corresponds to the returned uiSchema
    * @param options optional hash of dynamic uiSchema element options
    */
   async getEditorConfig(
     i18nScope: string,
-    type: EditorType
+    type: ProjectEditorType
   ): Promise<IEditorConfig> {
     // delegate to the schema subsystem
     return getEditorConfig(i18nScope, type, this.entity, this.context);

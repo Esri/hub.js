@@ -1,7 +1,6 @@
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
 
-import { EditorType } from "../core/schemas/types";
 import {
   IEditorConfig,
   IWithEditorBehavior,
@@ -15,6 +14,7 @@ import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { IEntityEditorContext } from "../core/types/HubEntityEditor";
 import { cloneObject } from "../util";
 import { editorToContent } from "./edit";
+import { ContentEditorType } from "./_internal/ContentSchema";
 
 export class HubContent
   extends HubItemEntity<IHubEditableContent>
@@ -98,7 +98,7 @@ export class HubContent
    */
   async getEditorConfig(
     i18nScope: string,
-    type: EditorType
+    type: ContentEditorType
   ): Promise<IEditorConfig> {
     // delegate to the schema subsystem
     return getEditorConfig(i18nScope, type, this.entity, this.context);

@@ -23,6 +23,7 @@ export const PagePermissions = [
   "hub:page:workspace:details",
   "hub:page:workspace:settings",
   "hub:page:workspace:collaborators",
+  "hub:page:manage",
 ] as const;
 
 /**
@@ -76,6 +77,10 @@ export const PagePermissionPolicies: IPermissionPolicy[] = [
     permission: "hub:page:workspace:settings",
     dependencies: ["hub:page:edit"],
     entityOwner: true,
+  },
+  {
+    permission: "hub:page:manage",
+    dependencies: ["hub:page:edit"],
   },
 ];
 

@@ -339,13 +339,13 @@ describe("HubProject Class:", () => {
       );
       const result = await chk.getEditorConfig(
         "i18n.Scope",
-        "hub:content:edit"
+        "hub:project:edit"
       );
       expect(result).toEqual({ fake: "config" } as any);
       expect(spy).toHaveBeenCalledTimes(1);
       expect(spy).toHaveBeenCalledWith(
         "i18n.Scope",
-        "hub:content:edit",
+        "hub:project:edit",
         chk.toJson(),
         authdCtxMgr.context
       );

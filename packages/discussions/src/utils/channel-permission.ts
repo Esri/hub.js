@@ -132,8 +132,14 @@ export class ChannelPermission {
     return groupAccessControls.some((permission) => {
       const group = userGroupsById[permission.key];
 
-      if (!group || !isGroupDiscussable(group)) {
-        return false;
+      if (action === ChannelAction.READ_POSTS) {
+        if (!group) {
+          return false;
+        }
+      } else {
+        if (!group || !isGroupDiscussable(group)) {
+          return false;
+        }
       }
 
       return (

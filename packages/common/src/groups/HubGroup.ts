@@ -23,11 +23,11 @@ import {
   IEditorConfig,
   IWithEditorBehavior,
 } from "../core/behaviors/IWithEditorBehavior";
-import { EditorType } from "../core/schemas/types";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import { setGroupThumbnail } from "./setGroupThumbnail";
 import { getGroupThumbnailUrl } from "../search/utils";
 import { deleteGroupThumbnail } from "./deleteGroupThumbnail";
+import { GroupEditorType } from "./_internal/GroupSchema";
 
 /**
  * Hub Group Class
@@ -253,7 +253,7 @@ export class HubGroup
    */
   async getEditorConfig(
     i18nScope: string,
-    type: EditorType
+    type: GroupEditorType
   ): Promise<IEditorConfig> {
     // delegate to the schema subsystem
     return getEditorConfig(i18nScope, type, this.entity, this.context);
