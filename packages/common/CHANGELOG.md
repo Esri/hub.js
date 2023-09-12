@@ -1,3 +1,11 @@
+## @esri/hub-common [14.12.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.12.0...@esri/hub-common@14.12.1) (2023-09-12)
+
+
+### Bug Fixes
+
+* add featured content to initiatives edit ([#1208](https://github.com/Esri/hub.js/issues/1208)) ([a3f0361](https://github.com/Esri/hub.js/commit/a3f0361423793e326f8d6ea2ef502c4d207e124a))
+* ensure featured content catalogs are returned as an array ([#1207](https://github.com/Esri/hub.js/issues/1207)) ([d28b56f](https://github.com/Esri/hub.js/commit/d28b56fd466d8b8f36beecd1594ed1a448a27bfe))
+
 # @esri/hub-common [14.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.11.0...@esri/hub-common@14.12.0) (2023-09-11)
 
 
