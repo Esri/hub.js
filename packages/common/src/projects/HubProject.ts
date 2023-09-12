@@ -179,7 +179,9 @@ export class HubProject
    * @param editorContext
    * @returns
    */
-  toEditor(editorContext: IEntityEditorContext = {}): IHubProjectEditor {
+  async toEditor(
+    editorContext: IEntityEditorContext = {}
+  ): Promise<IHubProjectEditor> {
     // cast the entity to it's editor
     const editor = cloneObject(this.entity) as IHubProjectEditor;
     // add the groups array that we'll use to auto-share on save

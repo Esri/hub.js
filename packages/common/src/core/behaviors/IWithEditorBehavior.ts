@@ -1,9 +1,4 @@
-import {
-  IConfigurationSchema,
-  IUiSchema,
-  UiSchemaElementOptions,
-  EditorType,
-} from "../schemas";
+import { IConfigurationSchema, IUiSchema, EditorType } from "../schemas";
 import { HubEntity, HubEntityEditor, IEntityEditorContext } from "../types";
 
 export interface IEditorConfig {
@@ -28,7 +23,7 @@ export interface IWithEditorBehavior {
    * This should only be used by the arcgis-hub-entity-editor component.
    * For general use, see the `toJson():<T>` method
    */
-  toEditor(editorContext: IEntityEditorContext): HubEntityEditor;
+  toEditor(editorContext: IEntityEditorContext): Promise<HubEntityEditor>;
 
   /**
    * Update the internal Entity from the "Editor" structure.
