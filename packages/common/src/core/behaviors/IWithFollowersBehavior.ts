@@ -8,7 +8,7 @@ export interface IWithFollowersBehavior {
   /**
    * Get the access level of the followers group
    */
-  getFollowers(id: string): Promise<IGroup>;
+  getFollowers(): Promise<IGroup>;
   /**
    * Set the access level of the followers group
    */

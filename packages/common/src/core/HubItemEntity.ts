@@ -227,15 +227,17 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
   }
 
   /**
-   * get the access level of the followers group
-   * @param id
+   * Returns the followers group
    */
-  async getFollowers(id: string): Promise<IGroup> {
-    return getGroup(id, this.context.userRequestOptions);
+  async getFollowers(): Promise<IGroup> {
+    return getGroup(
+      this.entity.followersGroupId,
+      this.context.userRequestOptions
+    );
   }
 
   /**
-   * set the access level of the followers group
+   * Sets the access level of the followers group
    * @param access
    */
   async setFollowersAccess(access: SettableAccessLevel): Promise<void> {
