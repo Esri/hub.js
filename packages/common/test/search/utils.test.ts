@@ -1,5 +1,10 @@
 import { IGroup, ISearchOptions, IUser } from "@esri/arcgis-rest-portal";
-import { IHubSite, ISearchResponse } from "../../src";
+import {
+  IHubSite,
+  IQuery,
+  ISearchResponse,
+  getGroupPredicate,
+} from "../../src";
 import { IHubSearchResult, IRelativeDate } from "../../src/search";
 import {
   expandApis,
@@ -344,7 +349,10 @@ describe("Search Utils:", () => {
         id: "9001",
         type: "Feature Service",
       } as IHubSearchResult;
-      const result = getResultSiteRelativeLink(searchResult, null);
+      const result = getResultSiteRelativeLink(
+        searchResult,
+        null as unknown as IHubSite
+      );
       expect(result).toBeUndefined();
     });
     it("returns undefined if result.links.siteRelative isn't present", () => {
@@ -353,7 +361,10 @@ describe("Search Utils:", () => {
         type: "Feature Service",
         links: {},
       } as IHubSearchResult;
-      const result = getResultSiteRelativeLink(searchResult, null);
+      const result = getResultSiteRelativeLink(
+        searchResult,
+        null as unknown as IHubSite
+      );
       expect(result).toBeUndefined();
     });
     it("returns an unmodified siteRelative link if result isn't a Hub Page", () => {
@@ -364,7 +375,10 @@ describe("Search Utils:", () => {
           siteRelative: "/foo/9001",
         },
       } as IHubSearchResult;
-      const result = getResultSiteRelativeLink(searchResult, null);
+      const result = getResultSiteRelativeLink(
+        searchResult,
+        null as unknown as IHubSite
+      );
       expect(result).toBe("/foo/9001");
     });
     it("returns a Hub Page result's unmodified siteRelative link if no site is included", () => {
@@ -375,7 +389,10 @@ describe("Search Utils:", () => {
           siteRelative: "/foo/9001",
         },
       } as IHubSearchResult;
-      const result = getResultSiteRelativeLink(searchResult, null);
+      const result = getResultSiteRelativeLink(
+        searchResult,
+        null as unknown as IHubSite
+      );
       expect(result).toBe("/foo/9001");
     });
     it("returns a Hub Page result's unmodified siteRelative link if site has no pages", () => {
@@ -416,6 +433,51 @@ describe("Search Utils:", () => {
       } as IHubSite;
       const result = getResultSiteRelativeLink(searchResult, site);
       expect(result).toBe("/foo/bar");
+    });
+  });
+
+  describe("getGroupPredicate:", () => {
+    it("returns undefined if no predicate with group found", () => {
+      const qry: IQuery = {
+        targetEntity: "item",
+        filters: [
+          {
+            predicates: [
+              {
+                id: "00c",
+              },
+            ],
+          },
+        ],
+      };
+      const chk = getGroupPredicate(qry);
+      expect(chk).toBeUndefined();
+    });
+
+    it("returns expanded group predicate", () => {
+      const qry: IQuery = {
+        targetEntity: "item",
+        filters: [
+          {
+            predicates: [
+              {
+                type: "Funnel Cake",
+                group: "00c",
+              },
+            ],
+          },
+        ],
+      };
+      const chk = getGroupPredicate(qry);
+
+      expect(chk).toEqual({
+        type: {
+          any: ["Funnel Cake"],
+        },
+        group: {
+          any: ["00c"],
+        },
+      });
     });
   });
 });

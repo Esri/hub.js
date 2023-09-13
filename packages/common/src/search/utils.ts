@@ -298,7 +298,11 @@ export function getScopeGroupPredicate(scope: IQuery): IPredicate {
   console.warn(
     `"getScopeGroupPredicate(query)" is deprecated. Please use "getGroupPredicate(qyr)`
   );
-  return getGroupPredicate(scope);
+  const isGroupPredicate = (predicate: IPredicate) => !!predicate.group;
+  const groupFilter = scope.filters.find((f) =>
+    f.predicates.find(isGroupPredicate)
+  );
+  return groupFilter && groupFilter.predicates.find(isGroupPredicate);
 }
 
 /**

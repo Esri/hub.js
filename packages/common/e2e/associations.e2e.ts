@@ -1,9 +1,9 @@
 import {
   IHubInitiative,
-  fetchRelatedProjects,
+  fetchConnectedProjects,
   fetchAssociatedProjects,
   fetchHubEntity,
-  fetchUnRelatedProjects,
+  fetchUnConnectedProjects,
 } from "../src";
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
@@ -122,7 +122,7 @@ fdescribe("associations development harness:", () => {
         context
       )) as IHubInitiative;
       // debugger;
-      const projects = await fetchUnRelatedProjects(
+      const projects = await fetchUnConnectedProjects(
         entity,
         context.hubRequestOptions
       );
@@ -138,7 +138,7 @@ fdescribe("associations development harness:", () => {
         TEST_ITEMS.initiative,
         context
       )) as IHubInitiative;
-      const projects = await fetchRelatedProjects(
+      const projects = await fetchConnectedProjects(
         entity,
         context.hubRequestOptions
       );

@@ -12,9 +12,16 @@ import {
   fetchInitiative,
   deleteInitiative,
   updateInitiative,
+  getAssociatedProjectsQuery,
+  getConnectedProjectsQuery,
+  getUnConnectedProjectsQuery,
+  fetchAssociatedProjects,
+  fetchConnectedProjects,
+  fetchUnConnectedProjects,
 } from "../../src/initiatives/HubInitiatives";
 import { IHubInitiative } from "../../src/core/types/IHubInitiative";
 import { cloneObject } from "../../src/util";
+import { IPredicate, IQuery } from "../../src";
 
 const GUID = "9b77674e43cf4bbd9ecad5189b3f1fdc";
 const INITIATIVE_ITEM: portalModule.IItem = {
@@ -396,4 +403,229 @@ describe("HubInitiatives:", () => {
       expect(ro).toBe(hubRo);
     });
   });
+
+  describe("query getters", () => {
+    let fixture: IHubInitiative;
+    beforeEach(() => {
+      // Minimal structure needed for these tests
+      fixture = {
+        name: "Fixture Initiative",
+        id: "00f",
+        catalog: {
+          schemaVersion: 1,
+          scopes: {
+            item: {
+              targetEntity: "item",
+              filters: [
+                {
+                  predicates: [
+                    {
+                      group: ["00c", "aa1"],
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      } as unknown as IHubInitiative;
+    });
+    it("getAssociatedProjectsQuery", () => {
+      const chk = getAssociatedProjectsQuery(fixture);
+      expect(chk.targetEntity).toBe("item");
+      // ensure we have type and keyword in predicate
+      expect(verifyPredicate(chk, { type: "Hub Project" })).toBeTruthy();
+      expect(
+        verifyPredicate(chk, { typekeywords: "initiative|00f" })
+      ).toBeTruthy("should have keyword");
+      expect(getPredicateValue(chk, { group: null })).toEqual(["00c", "aa1"]);
+    });
+    it("getConnectedProjectsQuery", () => {
+      const chk = getConnectedProjectsQuery(fixture);
+      expect(chk.targetEntity).toBe("item");
+      // ensure we have type and keyword in predicate
+      expect(verifyPredicate(chk, { type: "Hub Project" })).toBeTruthy();
+      expect(
+        verifyPredicate(chk, { typekeywords: "initiative|00f" })
+      ).toBeTruthy("should have keyword");
+      expect(getPredicateValue(chk, { group: null })).toEqual({
+        any: [],
+        all: [],
+        not: ["00c", "aa1"],
+      });
+    });
+    it("getUnConnectedProjectsQuery", () => {
+      const chk = getUnConnectedProjectsQuery(fixture);
+      expect(chk.targetEntity).toBe("item");
+      // ensure we have type and keyword in predicate
+      expect(verifyPredicate(chk, { type: "Hub Project" })).toBeTruthy();
+
+      expect(getPredicateValue(chk, { typekeywords: null })).toEqual(
+        {
+          not: ["initiative|00f"],
+        },
+        "should have negated keyword"
+      );
+      expect(getPredicateValue(chk, { group: null })).toEqual({
+        any: [],
+        all: [],
+        not: ["00c", "aa1"],
+      });
+    });
+  });
+
+  describe("fetchAssociated:", () => {
+    let searchSpy: jasmine.Spy;
+    let fixture: IHubInitiative;
+    beforeEach(() => {
+      searchSpy = spyOn(
+        require("../../src/search/_internal/portalSearchItems"),
+        "portalSearchItemsAsItems"
+      ).and.callFake(() =>
+        Promise.resolve({
+          results: [
+            {
+              id: "3ef",
+              title: "fake result",
+              type: "Hub Project",
+              tags: ["fake"],
+            },
+          ],
+        })
+      );
+      // Minimal structure needed for these tests
+      fixture = {
+        name: "Fixture Initiative",
+        id: "00f",
+        catalog: {
+          schemaVersion: 1,
+          scopes: {
+            item: {
+              targetEntity: "item",
+              filters: [
+                {
+                  predicates: [
+                    {
+                      group: ["00c", "aa1"],
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      } as unknown as IHubInitiative;
+    });
+    it("fetches associated projects", async () => {
+      const chk = await fetchAssociatedProjects(fixture, MOCK_AUTH);
+      expect(searchSpy).toHaveBeenCalled();
+      // get the query
+      const qry = searchSpy.calls.argsFor(0)[0];
+      // this should have the groups in the predicate
+      expect(getPredicateValue(qry, { group: null })).toEqual(["00c", "aa1"]);
+      expect(chk.length).toBe(1);
+      // verify conversion
+      expect(chk[0]).toEqual({
+        id: "3ef",
+        name: "fake result",
+        type: "Hub Project",
+      });
+    });
+    it("fetches connected projects", async () => {
+      const chk = await fetchConnectedProjects(fixture, MOCK_AUTH);
+      expect(searchSpy).toHaveBeenCalled();
+      // get the query
+      const qry = searchSpy.calls.argsFor(0)[0];
+      // this should have the negated groups in the predicate
+      expect(getPredicateValue(qry, { group: null })).toEqual({
+        any: [],
+        all: [],
+        not: ["00c", "aa1"],
+      });
+      expect(chk.length).toBe(1);
+      // verify conversion
+      expect(chk[0]).toEqual({
+        id: "3ef",
+        name: "fake result",
+        type: "Hub Project",
+      });
+    });
+    it("fetches unconnected projects", async () => {
+      const chk = await fetchUnConnectedProjects(fixture, MOCK_AUTH);
+      expect(searchSpy).toHaveBeenCalled();
+      // get the query
+      const qry = searchSpy.calls.argsFor(0)[0];
+      // this should have the negated groups in the predicate
+      expect(getPredicateValue(qry, { group: null })).toEqual({
+        any: [],
+        all: [],
+        not: ["00c", "aa1"],
+      });
+      expect(getPredicateValue(qry, { typekeywords: null })).toEqual(
+        {
+          not: ["initiative|00f"],
+        },
+        "should have negated keyword"
+      );
+      expect(chk.length).toBe(1);
+      // verify conversion
+      expect(chk[0]).toEqual({
+        id: "3ef",
+        name: "fake result",
+        type: "Hub Project",
+      });
+    });
+  });
 });
+
+/**
+ * Helper to verify that a predicate exists in a query
+ * NOTE: This is NOT comprehensive!
+ * @param query
+ * @param expectedPredicate
+ */
+function verifyPredicate(query: IQuery, expectedPredicate: IPredicate) {
+  if (Object.keys(expectedPredicate).length > 1) {
+    throw new Error(
+      `verifyPredicate helper expects to check a single prop on the predicate.`
+    );
+  }
+  // iterate the filtes in the query, looking for a predicate that has the prop + value
+  let present = false;
+  query.filters.forEach((filter) => {
+    filter.predicates.forEach((predicate) => {
+      // iterate the props on expected, and check if this predicate has the prop + value
+      Object.keys(expectedPredicate).forEach((key) => {
+        if (Array.isArray(predicate[key])) {
+          present = compareArrays(predicate[key], expectedPredicate[key]);
+          // compare arrays
+        } else {
+          // tslint:disable-next-line
+          if (predicate[key] == expectedPredicate[key]) {
+            present = true;
+          }
+        }
+      });
+    });
+  });
+  return present;
+}
+
+function getPredicateValue(query: IQuery, expectedPredicate: IPredicate): any {
+  let result: any;
+  query.filters.forEach((filter) => {
+    filter.predicates.forEach((predicate) => {
+      // iterate the props on expected, and check if this predicate has the prop + value
+      Object.keys(expectedPredicate).forEach((key) => {
+        if (predicate[key]) {
+          result = predicate[key];
+        }
+      });
+    });
+  });
+  return result;
+}
+
+const compareArrays = (a: any[], b: any[]) =>
+  // tslint:disable-next-line
+  a.length === b.length && a.every((element, index) => element == b[index]);

@@ -22,7 +22,8 @@ import { getItemThumbnailUrl } from "../resources/get-item-thumbnail-url";
 import { getItemHomeUrl } from "../urls/get-item-home-url";
 import { getItemIdentifier } from "../items";
 import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
-import { getAssociatedQuery, listAssociations } from "../associations";
+import { listAssociations } from "../associations";
+import { getTypeByIdsQuery } from "../associations/internal/getTypeByIdsQuery";
 
 /**
  * @private
@@ -144,11 +145,24 @@ export async function enrichProjectSearchResult(
 
 /**
  * Get a query that will fetch all the initiatives which the project has
- * chosen to associate with. If project has not defined any associations
- * to any Initiatives, will return `null`
+ * chosen to connect to. If project has not defined any associations
+ * to any Initiatives, will return `null`.
+ * Currently, we have not implemented a means to get the list of initiatives that have
+ * "Approved" the Project via inclusion in it's catalog.
+ *
+ * If needed, this could be done by getting all the groups the project is shared into
+ * then cross-walking that into the catalogs of all the Connected Initiatives
  * @param project
  * @returns
  */
-export function getAssociatedInitiativesQuery(project: IHubProject): IQuery {
-  return getAssociatedQuery(project, "initiative");
+export function getConnectedInitiativesQuery(project: IHubProject): IQuery {
+  // get the list of ids from the keywords
+  const ids = listAssociations(project, "initiative").map((a) => a.id);
+  if (ids.length) {
+    // get the query
+    return getTypeByIdsQuery("Hub Initiative", ids);
+  } else {
+    // if there are no
+    return null;
+  }
 }
