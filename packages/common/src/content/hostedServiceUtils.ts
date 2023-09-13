@@ -78,9 +78,9 @@ function removeServiceCapability(
   capability: ServiceCapabilities,
   serviceDefinition: Partial<IFeatureServiceDefinition>
 ): Partial<IFeatureServiceDefinition> {
-  const capabilities = (serviceDefinition.capabilities || "")
+  const capabilities = serviceDefinition.capabilities
     .split(",")
-    .filter((c) => !!c && c !== capability)
+    .filter((c) => c !== capability)
     .join(",");
   const updated = { ...serviceDefinition, capabilities };
   return updated;

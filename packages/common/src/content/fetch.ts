@@ -253,7 +253,7 @@ export const fetchHubContent = async (
 export function modelToHubEditableContent(
   model: IModel,
   requestOptions: IRequestOptions,
-  enrichments: IItemAndIServerEnrichments = {}
+  enrichments: IItemAndIServerEnrichments
 ) {
   const mapper = new PropertyMapper<Partial<IHubEditableContent>, IModel>(
     getPropertyMap()
