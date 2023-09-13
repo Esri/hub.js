@@ -410,12 +410,7 @@ export class HubSite
 
     // 2. Apply transforms to relevant entity values so they
     // can be consumed by the editor
-    const followersGroupAccess = await this.getFollowersGroupAccess(
-      this.entity.followersGroupId
-    );
     editor._followers = {};
-    editor._followers.access =
-      followersGroupAccess === "shared" ? "private" : followersGroupAccess;
     editor._followers.showFollowAction =
       this.entity.features["hub:site:followers:action"];
 
@@ -453,7 +448,7 @@ export class HubSite
 
     // set the followers group access
     if (editor._followers?.access) {
-      await this.setFollowersGroupAccess(
+      await this.setFollowersAccess(
         editor._followers.access as SettableAccessLevel
       );
     }

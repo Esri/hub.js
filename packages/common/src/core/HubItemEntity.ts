@@ -230,16 +230,15 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * get the access level of the followers group
    * @param id
    */
-  async getFollowersGroupAccess(id: string): Promise<AccessLevel> {
-    const followersGroup = await getGroup(id, this.context.userRequestOptions);
-    return followersGroup.access;
+  async getFollowers(id: string): Promise<IGroup> {
+    return getGroup(id, this.context.userRequestOptions);
   }
 
   /**
    * set the access level of the followers group
    * @param access
    */
-  async setFollowersGroupAccess(access: SettableAccessLevel): Promise<void> {
+  async setFollowersAccess(access: SettableAccessLevel): Promise<void> {
     await updateGroup({
       group: {
         id: this.entity.followersGroupId,
