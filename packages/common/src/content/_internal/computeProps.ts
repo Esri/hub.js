@@ -74,7 +74,7 @@ export async function computeProps(
   // 2. then saved their content with the item's extent in the old view
 
   const modelBoundary = model.item.properties?.boundary;
-  const modelLocationType = model.item.properties?.location.type;
+  const modelLocationType = model.item.properties?.location?.type;
   const modelBoundaryIsItem = modelBoundary === "item";
   const forLoadedSelection =
     (modelLocationType === "org" || modelLocationType === "custom") &&
