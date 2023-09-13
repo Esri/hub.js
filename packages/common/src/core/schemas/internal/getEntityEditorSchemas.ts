@@ -12,8 +12,8 @@ import { GroupEditorType } from "../../../groups/_internal/GroupSchema";
 import { ConfigurableEntity } from "./ConfigurableEntity";
 import { IArcGISContext } from "../../../ArcGISContext";
 import {
-  IHubContent,
   IHubDiscussion,
+  IHubEditableContent,
   IHubGroup,
   IHubInitiative,
   IHubPage,
@@ -151,10 +151,12 @@ export async function getEntityEditorSchemas(
       const contentModule = await {
         "hub:content:edit": () =>
           import("../../../content/_internal/ContentUiSchemaEdit"),
+        "hub:content:settings": () =>
+          import("../../../content/_internal/ContentUiSchemaSettings"),
       }[type as ContentEditorType]();
       uiSchema = await contentModule.buildUiSchema(
         i18nScope,
-        entity as IHubContent,
+        entity as IHubEditableContent,
         context
       );
 
