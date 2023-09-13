@@ -278,6 +278,49 @@ describe("HubItemEntity Class: ", () => {
     });
   });
 
+  describe("Follower Behavior", () => {
+    let harness: TestHarness;
+    beforeEach(() => {
+      harness = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+          followersGroupId: "followers00c",
+        },
+        authdCtxMgr.context
+      );
+    });
+    it("gets the followers group", async () => {
+      const getGroupSpy = spyOn(PortalModule, "getGroup").and.callFake(() => {
+        return Promise.resolve();
+      });
+
+      await harness.getFollowers();
+      expect(getGroupSpy).toHaveBeenCalledTimes(1);
+      expect(getGroupSpy).toHaveBeenCalledWith(
+        "followers00c",
+        authdCtxMgr.context.userRequestOptions
+      );
+    });
+    it("sets the followers group access", async () => {
+      const updateGroupSpy = spyOn(PortalModule, "updateGroup").and.callFake(
+        () => {
+          return Promise.resolve();
+        }
+      );
+
+      await harness.setFollowersAccess("public");
+      expect(updateGroupSpy).toHaveBeenCalledTimes(1);
+      expect(updateGroupSpy).toHaveBeenCalledWith({
+        group: {
+          id: "followers00c",
+          access: "public",
+        },
+        authentication: authdCtxMgr.context.session,
+      });
+    });
+  });
+
   describe("thumbnail behavior:", () => {
     it("should return a thumbnail if one is available", () => {
       const instance = new TestHarness(

@@ -457,7 +457,7 @@ export class HubSite
 
     entity.features = {
       ...entity.features,
-      "hub:site:followers:action": editor._followers.showFollowAction,
+      "hub:site:followers:action": editor._followers?.showFollowAction,
     };
 
     // copy the location extent up one level

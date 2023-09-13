@@ -9,6 +9,7 @@ import {
   IDeepCatalogInfo,
   IHubCatalog,
   IHubSite,
+  IHubSiteEditor,
   IVersion,
   IVersionMetadata,
   getProp,
@@ -382,6 +383,7 @@ describe("HubSite Class:", () => {
             "hub:site:content": true,
             "hub:site:discussions": false,
             "hub:site:events": false,
+            "hub:site:followers:action": true,
           },
         },
       },
@@ -478,6 +480,7 @@ describe("HubSite Class:", () => {
               "hub:site:content": true,
               "hub:site:discussions": false,
               "hub:site:events": false,
+              "hub:site:followers:action": true,
             },
           },
         },
@@ -656,6 +659,43 @@ describe("HubSite Class:", () => {
         // since thumbnailCache is protected we can't really test that it's set
         // other than via code-coverage
         expect(getProp(result, "_thumbnail")).not.toBeDefined();
+      });
+      describe("followers", () => {
+        let chk: HubSite;
+        let saveSpy: any;
+        let setFollowersAccessSpy: any;
+        let editor: IHubSiteEditor;
+
+        beforeEach(() => {
+          chk = HubSite.fromJson(
+            {
+              id: "bc3",
+              name: "Test Entity",
+            },
+            authdCtxMgr.context
+          );
+          saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+          setFollowersAccessSpy = spyOn(
+            chk,
+            "setFollowersAccess"
+          ).and.returnValue(Promise.resolve());
+          editor = chk.toEditor();
+        });
+        it("does nothing if followers information is not present on the editor values", async () => {
+          editor._followers = undefined;
+          await chk.fromEditor(editor);
+
+          expect(saveSpy).toHaveBeenCalledTimes(1);
+          expect(setFollowersAccessSpy).not.toHaveBeenCalled();
+        });
+        it("handles setting the followers group access", async () => {
+          editor._followers = { access: "public" };
+          await chk.fromEditor(editor);
+
+          expect(saveSpy).toHaveBeenCalledTimes(1);
+          expect(setFollowersAccessSpy).toHaveBeenCalledTimes(1);
+          expect(setFollowersAccessSpy).toHaveBeenCalledWith("public");
+        });
       });
       it("handles extent from location", async () => {
         const chk = HubSite.fromJson(
