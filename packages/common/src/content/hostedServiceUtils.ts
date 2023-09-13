@@ -2,16 +2,33 @@ import { IFeatureServiceDefinition } from "@esri/arcgis-rest-feature-layer";
 import { IItem } from "@esri/arcgis-rest-portal";
 import { IHubEditableContent } from "../core/types/IHubEditableContent";
 
+/**
+ * Determines whether an item represents a hosted feature service
+ * @param item item to check
+ * @returns whether the item represents a hosted feature service
+ */
 export function isHostedFeatureServiceItem(item: IItem): boolean {
   return isHostedFeatureService(item.type, item.typeKeywords);
 }
 
+/**
+ * Determines whether an entity represents a hosted feature service
+ * @param item item to check
+ * @returns whether the item represents a hosted feature service
+ */
 export function isHostedFeatureServiceEntity(
   content: IHubEditableContent
 ): boolean {
   return isHostedFeatureService(content.type, content.typeKeywords);
 }
 
+/**
+ * @private
+ * base helper to determine whether the arguments correspond to a hosted feature service
+ * @param type an item type
+ * @param typeKeywords an item typeKeywords array
+ * @returns whether the arguments correspond to a hosted feature service
+ */
 function isHostedFeatureService(
   type: string,
   typeKeywords: string[] = []
@@ -61,6 +78,13 @@ export function toggleServiceCapability(
   return updatedDefinition;
 }
 
+/**
+ * @private
+ * adds a capability onto a service definition
+ * @param capability capability to add
+ * @param serviceDefinition the definition to modify
+ * @returns a copy of the modified definition
+ */
 function addServiceCapability(
   capability: ServiceCapabilities,
   serviceDefinition: Partial<IFeatureServiceDefinition>
@@ -74,6 +98,13 @@ function addServiceCapability(
   return updated;
 }
 
+/**
+ * @private
+ * removes a capability from a service definition
+ * @param capability capability to remove
+ * @param serviceDefinition the definition to modify
+ * @returns a copy of the modified definition
+ */
 function removeServiceCapability(
   capability: ServiceCapabilities,
   serviceDefinition: Partial<IFeatureServiceDefinition>
