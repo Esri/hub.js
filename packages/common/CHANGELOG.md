@@ -1,3 +1,10 @@
+# @esri/hub-common [14.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.12.1...@esri/hub-common@14.13.0) (2023-09-13)
+
+
+### Features
+
+* **hub-common:** add content settings schemas and derive props from server definitions ([#1209](https://github.com/Esri/hub.js/issues/1209)) ([1721285](https://github.com/Esri/hub.js/commit/17212858812dce3453c3e879fc4d1f3606c9644a))
+
 ## @esri/hub-common [14.12.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.12.0...@esri/hub-common@14.12.1) (2023-09-12)
 
 
