@@ -10,7 +10,10 @@ import { getHubRelativeUrl } from "./internalContentUtils";
 import { IHubLocation } from "../../core/types/IHubLocation";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
-import { hasCapability, ServiceCapabilities } from "./hostedServiceUtils";
+import {
+  hasServiceCapability,
+  ServiceCapabilities,
+} from "./hostedServiceUtils";
 import { IItemAndIServerEnrichments } from "../../items/_enrichments";
 
 // if called and valid, set 3 things -- else just return type custom
@@ -74,7 +77,7 @@ export function computeProps(
   }
 
   if (enrichments.server) {
-    content.serverExtractCapability = hasCapability(
+    content.serverExtractCapability = hasServiceCapability(
       ServiceCapabilities.EXTRACT,
       enrichments.server
     );

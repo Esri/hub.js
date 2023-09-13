@@ -16,6 +16,10 @@ function isHostedFeatureService(
   type: string,
   typeKeywords: string[] = []
 ): boolean {
+  // This logic was given to us by the ArcGIS Online home app team. Apparently this is
+  // part of the check they internally do when deciding whether to show the "Export Data"
+  // button on the item settings page. See the "Tech" section of this issue for more details:
+  // https://devtopia.esri.com/dc/hub/issues/7210
   return type === "Feature Service" && typeKeywords.includes("Hosted Service");
 }
 
@@ -30,7 +34,7 @@ export enum ServiceCapabilities {
  *
  * @returns {boolean}
  */
-export function hasCapability(
+export function hasServiceCapability(
   capability: ServiceCapabilities,
   serviceDefinition: Partial<IFeatureServiceDefinition>
 ) {
@@ -47,18 +51,18 @@ export function hasCapability(
  *
  * @returns updated definition
  */
-export function toggleCapability(
+export function toggleServiceCapability(
   capability: ServiceCapabilities,
   serviceDefinition: Partial<IFeatureServiceDefinition>
 ): Partial<IFeatureServiceDefinition> {
-  const updatedDefinition = hasCapability(capability, serviceDefinition)
-    ? removeCapability(capability, serviceDefinition)
-    : addCapability(capability, serviceDefinition);
+  const updatedDefinition = hasServiceCapability(capability, serviceDefinition)
+    ? removeServiceCapability(capability, serviceDefinition)
+    : addServiceCapability(capability, serviceDefinition);
 
   return updatedDefinition;
 }
 
-function addCapability(
+function addServiceCapability(
   capability: ServiceCapabilities,
   serviceDefinition: Partial<IFeatureServiceDefinition>
 ): Partial<IFeatureServiceDefinition> {
@@ -70,7 +74,7 @@ function addCapability(
   return updated;
 }
 
-export function removeCapability(
+export function removeServiceCapability(
   capability: ServiceCapabilities,
   serviceDefinition: Partial<IFeatureServiceDefinition>
 ): Partial<IFeatureServiceDefinition> {

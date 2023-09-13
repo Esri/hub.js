@@ -23,10 +23,10 @@ import { modelToHubEditableContent } from "./fetch";
 import { getService, parseServiceUrl } from "@esri/arcgis-rest-feature-layer";
 import { updateServiceDefinition } from "@esri/arcgis-rest-service-admin";
 import {
-  hasCapability,
+  hasServiceCapability,
   isHostedFeatureServiceEntity,
   ServiceCapabilities,
-  toggleCapability,
+  toggleServiceCapability,
 } from "./_internal/hostedServiceUtils";
 import { IItemAndIServerEnrichments } from "../items/_enrichments";
 
@@ -127,13 +127,13 @@ export async function updateContent(
       ...requestOptions,
       url: content.url,
     });
-    const currentServerExtractEnabled = hasCapability(
+    const currentServerExtractEnabled = hasServiceCapability(
       ServiceCapabilities.EXTRACT,
       currentDefinition
     );
     // To avoid over-updating the service, we only fire an update call if Extract has changed
     if (currentServerExtractEnabled !== content.serverExtractCapability) {
-      const updatedDefinition = toggleCapability(
+      const updatedDefinition = toggleServiceCapability(
         ServiceCapabilities.EXTRACT,
         currentDefinition
       );
