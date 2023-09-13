@@ -74,7 +74,7 @@
               <path d="M7 4h5l12 12-12 12H7l12-12L7 4z" />
             </svg>
           </button>
-          <a href="/hub.js/api/common/" class="is-active tsd-kind-icon">common</a>&nbsp;<small>v14.12.0</small>
+          <a href="/hub.js/api/common/" class="is-active tsd-kind-icon">common</a>&nbsp;<small>v14.12.1</small>
           <ul id="list1" class="api-package-content-list">
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -1110,6 +1110,10 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/hasServiceCapability/" class="tsd-kind-icon padding-right-1">hasServiceCapability</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/hubApiRequest/" class="tsd-kind-icon padding-right-1">hubApiRequest</a>
             </li>
             
@@ -1183,6 +1187,14 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/isGuid/" class="tsd-kind-icon padding-right-1">isGuid</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/isHostedFeatureServiceEntity/" class="tsd-kind-icon padding-right-1">isHostedFeatureServiceEntity</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/isHostedFeatureServiceItem/" class="tsd-kind-icon padding-right-1">isHostedFeatureServiceItem</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -1295,6 +1307,10 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/migrateToCollectionKey/" class="tsd-kind-icon padding-right-1">migrateToCollectionKey</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/modelToHubEditableContent/" class="tsd-kind-icon padding-right-1">modelToHubEditableContent</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -1531,6 +1547,10 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/titleize/" class="tsd-kind-icon padding-right-1">titleize</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/toggleServiceCapability/" class="tsd-kind-icon padding-right-1">toggleServiceCapability</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -2130,6 +2150,10 @@
             </li>
             
             <li class="tsd-kind-enumeration padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/ServiceCapabilities/" class="tsd-kind-icon padding-right-1">ServiceCapabilities</a>
+            </li>
+            
+            <li class="tsd-kind-enumeration padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/SharingAccess/" class="tsd-kind-icon padding-right-1">SharingAccess</a>
             </li>
             
@@ -2335,6 +2359,10 @@
             
             <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/IHubSiteEditor/" class="tsd-kind-icon padding-right-1">IHubSiteEditor</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/IItemAndIServerEnrichments/" class="tsd-kind-icon padding-right-1">IItemAndIServerEnrichments</a>
             </li>
             
             <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
@@ -4465,13 +4493,13 @@
 
   <div class="column-18">
     <div class="panel panel-white padding-left-1 padding-right-1 padding-trailer-1 padding-leader-half">
-      <small class="label right">Version 14.12.0</small>
+      <small class="label right">Version 14.12.1</small>
 <h1 class="tsd-kind-module font-size-3 trailer-half code-face">
   <a href="/hub.js/api/common/" class="is-active">@esri/hub-common</a>
 </h1>
 <p class="font-size--1 trailer-1 avenir-regular">Common TypeScript types and utility functions for @esri/hub.js.</p>
 <h2 class="font-size-0 trailer-quarter">npm install:</h2>
-<pre><code>npm install @esri/hub-common @esri/arcgis-rest-auth@^2.14.0 || 3  @esri/arcgis-rest-feature-layer@^3.2.0  @esri/arcgis-rest-portal@^2.18.0 || 3  @esri/arcgis-rest-request@^2.14.0 || 3  @esri/arcgis-rest-types@^2.15.0 || 3 </code></pre>
+<pre><code>npm install @esri/hub-common @esri/arcgis-rest-auth@^2.14.0 || 3  @esri/arcgis-rest-feature-layer@^3.2.0  @esri/arcgis-rest-portal@^2.18.0 || 3  @esri/arcgis-rest-request@^2.14.0 || 3  @esri/arcgis-rest-service-admin@^3.6.0  @esri/arcgis-rest-types@^2.15.0 || 3 </code></pre>
 <h2 class="font-size-0 trailer-quarter">Module Import:</h2>
 
 <pre><code class="js"><span class="hljs-keyword">import</span> {
@@ -4733,6 +4761,7 @@
   getWellknownCollections,
   getWithDefault,
   hasBasePriv,
+  hasServiceCapability,
   hubApiRequest,
   hubSearch,
   includes,
@@ -4752,6 +4781,8 @@
   isFeatureService,
   isFieldworkerView,
   isGuid,
+  isHostedFeatureServiceEntity,
+  isHostedFeatureServiceItem,
   isHubService,
   isMapOrFeatureServerUrl,
   isNil,
@@ -4780,6 +4811,7 @@
   memoize,
   mergeObjects,
   migrateToCollectionKey,
+  modelToHubEditableContent,
   normalizeItemType,
   normalizeSolutionTemplateItem,
   objectToArray,
@@ -4839,6 +4871,7 @@
   stripProtocol,
   subsetSchema,
   titleize,
+  toggleServiceCapability,
   unicodeToBase64,
   unique,
   uniqueBy,
@@ -5920,6 +5953,10 @@
   </li>
   
   <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/hasServiceCapability/" class="tsd-kind-icon">hasServiceCapability</a>
+  </li>
+  
+  <li class="tsd-kind-function">
     <a href="/hub.js/api/common/hubApiRequest/" class="tsd-kind-icon">hubApiRequest</a>
   </li>
   
@@ -5993,6 +6030,14 @@
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/common/isGuid/" class="tsd-kind-icon">isGuid</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/isHostedFeatureServiceEntity/" class="tsd-kind-icon">isHostedFeatureServiceEntity</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/isHostedFeatureServiceItem/" class="tsd-kind-icon">isHostedFeatureServiceItem</a>
   </li>
   
   <li class="tsd-kind-function">
@@ -6105,6 +6150,10 @@
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/common/migrateToCollectionKey/" class="tsd-kind-icon">migrateToCollectionKey</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/modelToHubEditableContent/" class="tsd-kind-icon">modelToHubEditableContent</a>
   </li>
   
   <li class="tsd-kind-function">
@@ -6341,6 +6390,10 @@
   
   <li class="tsd-kind-function">
     <a href="/hub.js/api/common/titleize/" class="tsd-kind-icon">titleize</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/toggleServiceCapability/" class="tsd-kind-icon">toggleServiceCapability</a>
   </li>
   
   <li class="tsd-kind-function">
@@ -6940,6 +6993,10 @@
   </li>
   
   <li class="tsd-kind-enumeration">
+    <a href="/hub.js/api/common/ServiceCapabilities/" class="tsd-kind-icon">ServiceCapabilities</a>
+  </li>
+  
+  <li class="tsd-kind-enumeration">
     <a href="/hub.js/api/common/SharingAccess/" class="tsd-kind-icon">SharingAccess</a>
   </li>
   
@@ -7145,6 +7202,10 @@
   
   <li class="tsd-kind-type-alias">
     <a href="/hub.js/api/common/IHubSiteEditor/" class="tsd-kind-icon">IHubSiteEditor</a>
+  </li>
+  
+  <li class="tsd-kind-type-alias">
+    <a href="/hub.js/api/common/IItemAndIServerEnrichments/" class="tsd-kind-icon">IItemAndIServerEnrichments</a>
   </li>
   
   <li class="tsd-kind-type-alias">
