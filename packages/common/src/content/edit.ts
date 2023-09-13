@@ -27,7 +27,7 @@ import {
   isHostedFeatureServiceEntity,
   ServiceCapabilities,
   toggleServiceCapability,
-} from "./_internal/hostedServiceUtils";
+} from "./hostedServiceUtils";
 import { IItemAndIServerEnrichments } from "../items/_enrichments";
 
 // TODO: move this to defaults?

@@ -1,6 +1,6 @@
 import { IFeatureServiceDefinition } from "@esri/arcgis-rest-feature-layer";
 import { IItem } from "@esri/arcgis-rest-portal";
-import { IHubEditableContent } from "../../core/types/IHubEditableContent";
+import { IHubEditableContent } from "../core/types/IHubEditableContent";
 
 export function isHostedFeatureServiceItem(item: IItem): boolean {
   return isHostedFeatureService(item.type, item.typeKeywords);
@@ -46,7 +46,6 @@ export function hasServiceCapability(
  * Toggles a single capability on a given feature service.
  * Returns a service definition object with updated capabilities
  * @param capability capability to toggle
- * @param serviceUrl url of service to modify
  * @param serviceDefinition current definition of the service
  *
  * @returns updated definition
@@ -68,19 +67,20 @@ function addServiceCapability(
 ): Partial<IFeatureServiceDefinition> {
   const capabilities = (serviceDefinition.capabilities || "")
     .split(",")
+    .filter((c) => !!c)
     .concat(capability)
     .join(",");
   const updated = { ...serviceDefinition, capabilities };
   return updated;
 }
 
-export function removeServiceCapability(
+function removeServiceCapability(
   capability: ServiceCapabilities,
   serviceDefinition: Partial<IFeatureServiceDefinition>
 ): Partial<IFeatureServiceDefinition> {
   const capabilities = (serviceDefinition.capabilities || "")
     .split(",")
-    .filter((c) => c !== capability)
+    .filter((c) => !!c && c !== capability)
     .join(",");
   const updated = { ...serviceDefinition, capabilities };
   return updated;

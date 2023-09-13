@@ -27,7 +27,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { computeProps } from "./_internal/computeProps";
-import { isHostedFeatureServiceItem } from "./_internal/hostedServiceUtils";
+import { isHostedFeatureServiceItem } from "./hostedServiceUtils";
 
 const hasFeatures = (contentType: string) =>
   ["Feature Layer", "Table"].includes(contentType);

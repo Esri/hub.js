@@ -1,7 +1,7 @@
 import { IArcGISContext } from "../../ArcGISContext";
 import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
-import { isHostedFeatureServiceEntity } from "./hostedServiceUtils";
+import { isHostedFeatureServiceEntity } from "../hostedServiceUtils";
 
 /**
  * @private

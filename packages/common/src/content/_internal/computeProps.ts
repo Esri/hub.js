@@ -13,7 +13,7 @@ import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
 import {
   hasServiceCapability,
   ServiceCapabilities,
-} from "./hostedServiceUtils";
+} from "../hostedServiceUtils";
 import { IItemAndIServerEnrichments } from "../../items/_enrichments";
 
 // if called and valid, set 3 things -- else just return type custom
