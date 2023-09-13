@@ -6,10 +6,11 @@ export const convertFeaturesToLegacyCapabilities = (
   currentModel: IModel
 ): IModel => {
   let legacyCapabilities: Record<string, boolean> = {};
-  const updatedFeatures = getProp(modelToUpdate, "data.settings.features");
+  const updatedFeatures =
+    getProp(modelToUpdate, "data.settings.features") || {};
 
   // 1. convert legacy capabilities to a boolean hash
-  getProp(currentModel, "data.values.capabilities").forEach(
+  (getProp(currentModel, "data.values.capabilities") || []).forEach(
     (capability: string) => {
       legacyCapabilities[capability] = true;
     }
