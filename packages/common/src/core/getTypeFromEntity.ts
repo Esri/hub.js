@@ -1,6 +1,3 @@
-// import { HubEntity } from "./types/HubEntity";
-// import { HubEntityType } from "./types/HubEntityType";
-
 import { getFamily } from "../content/get-family";
 import { ConfigurableEntity } from "./schemas/internal/ConfigurableEntity";
 import { HubEntity, IHubItemEntity, HubEntityType } from "./types";
@@ -35,9 +32,9 @@ export function getTypeFromEntity(
     case "Group":
       type = "group";
       break;
-    // case "Hub Content": // needed for future ticket in getLocationOptions
-    //   type = "content";
-    //   break;
+    case "Hub Content":
+      type = "content";
+      break;
     default:
       // TODO: other families go here? feedback? solution? template?
       const contentFamilies = ["app", "content", "dataset", "document", "map"];

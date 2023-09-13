@@ -1,4 +1,9 @@
-import { extentToBBox, getGeographicOrgExtent } from "../../../extent";
+import {
+  bBoxToExtent,
+  extentToBBox,
+  getGeographicOrgExtent,
+  isBBox,
+} from "../../../extent";
 import { IHubRequestOptions } from "../../../types";
 import { getTypeFromEntity } from "../../getTypeFromEntity";
 
@@ -6,11 +11,11 @@ import { ConfigurableEntity } from "./ConfigurableEntity";
 import { IHubLocation, IHubLocationOption } from "../../types/IHubLocation";
 import { IExtent } from "@esri/arcgis-rest-types";
 
-/*const getItemExtent = (itemExtent: number[][]): IExtent => {
+const getItemExtent = (itemExtent: number[][]): IExtent => {
   return isBBox(itemExtent)
     ? ({ ...bBoxToExtent(itemExtent), type: "extent" } as unknown as IExtent)
     : undefined;
-};*/
+};
 
 /**
  * Construct the dynamic location picker options with the entity's
@@ -32,8 +37,8 @@ export async function getLocationOptions(
   const typeFromEntity = getTypeFromEntity(entity);
 
   switch (typeFromEntity) {
-    // case "content":
-    //   return getContentLocationOptions(entity);
+    case "content":
+      return getContentLocationOptions(entity, portalName, hubRequestOptions);
     default:
       return getDefaultLocationOptions(entity, portalName, hubRequestOptions);
   }
@@ -42,38 +47,67 @@ export async function getLocationOptions(
 // TODO: Refactor parameters, they are icky gross
 // TODO: Maybe move these to outside of core and into respective entities
 
-// Leaving this in for future work when we need
-// dynamic options set for different entities
-/*export async function getContentLocationOptions(
-  entity: ConfigurableEntity
+export async function getContentLocationOptions(
+  entity: ConfigurableEntity,
+  portalName: string,
+  hubRequestOptions: IHubRequestOptions
 ): Promise<IHubLocationOption[]> {
-  const defaultExtent: IExtent = getItemExtent(entity.extent);
-  const defaultExtentIsBBox = isBBox(entity.extent);
-  const boundary = entity.boundary;
-  const isNone = boundary === "none";
-  return [
-    {
-      label: "{{shared.fields.location.none:translate}}",
-      location: { type: "none" },
-      selected: isNone,
-    },
-    {
-      label: "{{shared.fields.location.itemExtent:translate}}",
-      entityType: "content",
-      selected: !isNone,
-      location: {
-        type: "custom",
-        // TODO: Add custom bbox option here
-        // TODO: Remove "Add another location?" notification that appears when selecting a location
-        // TODO: The lines below are causing a bug where custom extents don't render after save+reload
-        extent: defaultExtentIsBBox ? extentToBBox(defaultExtent) : undefined, 
-        spatialReference: defaultExtentIsBBox
-          ? defaultExtent.spatialReference
-          : undefined,
+  const orgExtent: IExtent = await getGeographicOrgExtent(hubRequestOptions);
+  const itemExtent: IExtent = getItemExtent(entity.extent);
+  const type = "content";
+  const location: IHubLocation = entity.location;
+  return (
+    [
+      // No location
+      {
+        label: "{{shared.fields.location.none:translate}}",
+        location: { type: "none" },
       },
-    },
-  ] as IHubLocationOption[];
-}*/
+      // Organization's extent
+      {
+        label: "{{shared.fields.location.org:translate}}",
+        description: portalName,
+        location: {
+          type: "org",
+          extent: extentToBBox(orgExtent),
+          spatialReference: orgExtent.spatialReference,
+        },
+      },
+      // Item's extent
+      {
+        label: "{{shared.fields.location.itemExtent:translate}}",
+        entityType: type,
+        location: {
+          type: "item",
+          extent: extentToBBox(itemExtent),
+          spatialReference: itemExtent.spatialReference,
+        },
+      },
+      // Custom location
+      {
+        label: "{{shared.fields.location.custom:translate}}",
+        description: "{{shared.fields.location.customDescription:translate}}",
+        entityType: type,
+        location: {
+          type: "custom",
+          spatialReference: orgExtent.spatialReference,
+        },
+      },
+    ] as IHubLocationOption[]
+  ).map((option) => {
+    // If this is a new entity, select the custom option by default
+    if (!entity.id && option.location.type === "custom") {
+      option.selected = true;
+    } else if (entity.id && !location && option.location.type === "none") {
+      option.selected = true;
+    } else if (location?.type === option.location.type) {
+      option.location = location;
+      option.selected = true;
+    }
+
+    return option;
+  });
+}
 
 export async function getDefaultLocationOptions(
   entity: ConfigurableEntity,
