@@ -9,6 +9,10 @@ describe("subsetSchema util:", () => {
     const chk = subsetSchema(schema, ["name", "summary"]);
     expect(chk.properties?.description).not.toBeDefined();
   });
+  it('returns schema with filtered "required" array', () => {
+    const chk = subsetSchema(schema, ["summary"]);
+    expect(chk.required?.length).toBe(0);
+  });
 });
 
 const schema: IConfigurationSchema = {
