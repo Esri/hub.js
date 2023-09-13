@@ -446,7 +446,7 @@ export class HubSite
 
     // set the followers group access
     if (editor._followers?.access) {
-      await this.setFollowersAccess(
+      await this.setFollowersGroupAccess(
         editor._followers.access as SettableAccessLevel
       );
     }

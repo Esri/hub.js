@@ -6,11 +6,11 @@ import { SettableAccessLevel } from "../types";
  */
 export interface IWithFollowersBehavior {
   /**
-   * Get the access level of the followers group
+   * Get the followers group
    */
-  getFollowers(): Promise<IGroup>;
+  getFollowersGroup(): Promise<IGroup>;
   /**
    * Set the access level of the followers group
    */
-  setFollowersAccess(access: SettableAccessLevel): Promise<void>;
+  setFollowersGroupAccess(access: SettableAccessLevel): Promise<void>;
 }

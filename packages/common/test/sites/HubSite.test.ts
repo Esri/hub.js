@@ -663,7 +663,7 @@ describe("HubSite Class:", () => {
       describe("followers", () => {
         let chk: HubSite;
         let saveSpy: any;
-        let setFollowersAccessSpy: any;
+        let setFollowersGroupAccessSpy: any;
         let editor: IHubSiteEditor;
 
         beforeEach(() => {
@@ -675,9 +675,9 @@ describe("HubSite Class:", () => {
             authdCtxMgr.context
           );
           saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
-          setFollowersAccessSpy = spyOn(
+          setFollowersGroupAccessSpy = spyOn(
             chk,
-            "setFollowersAccess"
+            "setFollowersGroupAccess"
           ).and.returnValue(Promise.resolve());
           editor = chk.toEditor();
         });
@@ -686,15 +686,15 @@ describe("HubSite Class:", () => {
           await chk.fromEditor(editor);
 
           expect(saveSpy).toHaveBeenCalledTimes(1);
-          expect(setFollowersAccessSpy).not.toHaveBeenCalled();
+          expect(setFollowersGroupAccessSpy).not.toHaveBeenCalled();
         });
         it("handles setting the followers group access", async () => {
           editor._followers = { access: "public" };
           await chk.fromEditor(editor);
 
           expect(saveSpy).toHaveBeenCalledTimes(1);
-          expect(setFollowersAccessSpy).toHaveBeenCalledTimes(1);
-          expect(setFollowersAccessSpy).toHaveBeenCalledWith("public");
+          expect(setFollowersGroupAccessSpy).toHaveBeenCalledTimes(1);
+          expect(setFollowersGroupAccessSpy).toHaveBeenCalledWith("public");
         });
       });
       it("handles extent from location", async () => {

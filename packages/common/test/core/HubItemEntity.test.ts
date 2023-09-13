@@ -295,7 +295,7 @@ describe("HubItemEntity Class: ", () => {
         return Promise.resolve();
       });
 
-      await harness.getFollowers();
+      await harness.getFollowersGroup();
       expect(getGroupSpy).toHaveBeenCalledTimes(1);
       expect(getGroupSpy).toHaveBeenCalledWith(
         "followers00c",
@@ -309,7 +309,7 @@ describe("HubItemEntity Class: ", () => {
         }
       );
 
-      await harness.setFollowersAccess("public");
+      await harness.setFollowersGroupAccess("public");
       expect(updateGroupSpy).toHaveBeenCalledTimes(1);
       expect(updateGroupSpy).toHaveBeenCalledWith({
         group: {
