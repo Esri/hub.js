@@ -218,5 +218,9 @@ async function memberToSearchResult(
     }
   });
 
-  return enrichUserSearchResult(user, include, requestOptions);
+  return enrichUserSearchResult(
+    user,
+    ["org.name as OrgName", ...include],
+    requestOptions
+  );
 }

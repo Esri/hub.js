@@ -68,9 +68,39 @@ describe("HubUsers Module:", () => {
         hubRo
       );
       expect(enrichmentSpy.calls.count()).toBe(
-        1,
-        "should fetch default enrichment"
+        0,
+        "should not fetch enrichments"
       );
+
+      const USR = cloneObject(TEST_USER);
+      expect(chk.access).toEqual(USR.access);
+      expect(chk.id).toEqual(USR.username);
+      expect(chk.type).toEqual("User");
+      expect(chk.name).toEqual(USR.fullName);
+      expect(chk.owner).toEqual(USR.username);
+      expect(chk.summary).toEqual(USR.description);
+      expect(chk.createdDate).toEqual(new Date(USR.created));
+      expect(chk.createdDateSource).toEqual("user.created");
+      expect(chk.updatedDate).toEqual(new Date(USR.modified));
+      expect(chk.updatedDateSource).toEqual("user.modified");
+      expect(chk.family).toEqual("people");
+
+      expect(chk.links.self).toEqual(
+        `https://some-server.com/gis/home/user.html?user=${USR.username}`
+      );
+      expect(chk.links.siteRelative).toEqual(`/people/${USR.username}`);
+      expect(chk.links.thumbnail).toEqual(
+        `${hubRo.portal}/community/users/${USR.username}/info/${USR.thumbnail}?token=fake-token`
+      );
+    });
+
+    it("converts user to search result and fetches enrichments", async () => {
+      const chk = await enrichUserSearchResult(
+        cloneObject(TEST_USER),
+        ["org.name as OrgName"],
+        hubRo
+      );
+      expect(enrichmentSpy.calls.count()).toBe(1, "should fetch enrichments");
 
       const USR = cloneObject(TEST_USER);
       expect(chk.access).toEqual(USR.access);

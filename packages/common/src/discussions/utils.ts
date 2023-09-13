@@ -1,9 +1,16 @@
 import { IGroup, IItem } from "@esri/arcgis-rest-types";
 import { IHubContent, IHubItemEntity } from "../core";
 import { CANNOT_DISCUSS } from "./constants";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { updateItem, updateGroup } from "@esri/arcgis-rest-portal";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { IChannel, SharingAccess } from "./api/types";
+import {
+  IFilter,
+  IHubSearchOptions,
+  IHubSearchResponse,
+  IHubSearchResult,
+  IPredicate,
+  IQuery,
+  hubSearch,
+} from "../search";
 
 /**
  * Utility to determine if a given IGroup, IItem, IHubContent, or IHubItemEntity
@@ -34,4 +41,74 @@ export function setDiscussableKeyword(
     updatedTypeKeywords.push(CANNOT_DISCUSS);
   }
   return updatedTypeKeywords;
+}
+
+/**
+ * A utility method used to search for users that are permitted to be at-mentioned by the currently authenticated user
+ * for the given channel access configuration.
+ * @param data An object of query-related values
+ * @param data.users An array of strings to search for. Each string is mapped to `username` and `fullname` filters as an OR condition
+ * @param data.access The channel sharing access
+ * @param data.orgs The channel org ids
+ * @param data.groups The channel group ids
+ * @param data.currentUsername The currently authenticated user's username
+ * @param options An IHubSearchOptions object
+ * @returns a promise that resolves an IHubSearchResponse<IHubSearchResult>
+ */
+export function searchChannelUsers(
+  data: {
+    users: string[];
+    access: SharingAccess;
+    orgs: string[];
+    groups: string[];
+    currentUsername?: string;
+  },
+  options: IHubSearchOptions
+): Promise<IHubSearchResponse<IHubSearchResult>> {
+  const { users, currentUsername, groups, access, orgs } = data;
+  const groupsPredicate = { group: groups };
+  const groupsOrEmptyNull = groups.length ? groupsPredicate : null;
+  let filters: IFilter[];
+  if (access === SharingAccess.PRIVATE) {
+    filters = [
+      {
+        operation: "AND",
+        predicates: [groupsPredicate],
+      },
+    ];
+  } else if (access === SharingAccess.ORG) {
+    filters = [
+      {
+        operation: "OR",
+        predicates: [{ orgid: orgs }, groupsOrEmptyNull],
+      },
+    ];
+  } else {
+    filters = [
+      {
+        operation: "OR",
+        predicates: [{ orgid: { from: "0", to: "{" } }, groupsOrEmptyNull],
+      },
+    ];
+  }
+  if (currentUsername) {
+    filters.push({
+      operation: "AND",
+      predicates: [{ username: { not: currentUsername } }],
+    });
+  }
+  const query: IQuery = {
+    targetEntity: "communityUser",
+    filters: [
+      {
+        operation: "OR",
+        predicates: users.reduce(
+          (acc, user) => [...acc, { username: user }, { fullname: user }],
+          [] as IPredicate[]
+        ),
+      },
+      ...filters,
+    ],
+  };
+  return hubSearch(query, options);
 }
