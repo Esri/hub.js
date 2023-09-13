@@ -262,7 +262,7 @@ export class HubGroup
   /**
    * Return the group as an editor object
    */
-  async toEditor(): Promise<IHubGroupEditor> {
+  toEditor(): IHubGroupEditor {
     // cast the entity to it's editor
     const editor = cloneObject(this.entity) as IHubGroupEditor;
     return editor;

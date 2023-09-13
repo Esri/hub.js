@@ -109,9 +109,7 @@ export class HubContent
    * @param editorContext
    * @returns
    */
-  async toEditor(
-    editorContext: IEntityEditorContext = {}
-  ): Promise<IHubContentEditor> {
+  toEditor(editorContext: IEntityEditorContext = {}): IHubContentEditor {
     // Cast the entity to it's editor
     const editor = cloneObject(this.entity) as IHubContentEditor;
 

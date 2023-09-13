@@ -253,9 +253,7 @@ export class HubInitiative
    * @param editorContext
    * @returns
    */
-  async toEditor(
-    editorContext: IEntityEditorContext = {}
-  ): Promise<IHubInitiativeEditor> {
+  toEditor(editorContext: IEntityEditorContext = {}): IHubInitiativeEditor {
     // Cast the entity to it's editor
     const editor = cloneObject(this.entity) as IHubInitiativeEditor;
 
