@@ -13,24 +13,21 @@ import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
 import { IHubLocationType } from "../../core/types/types";
 
 // if called and valid, set 3 things -- else just return type custom
-export const getItemExtent = (itemExtent: number[][]): IExtent => {
+export const getExtentObject = (itemExtent: number[][]): IExtent => {
   return isBBox(itemExtent)
     ? ({ ...bBoxToExtent(itemExtent), type: "extent" } as unknown as IExtent)
     : undefined;
 };
 
-export function deriveLocationFromItemExtent(
-  locationType: IHubLocationType,
-  itemExtent?: number[][]
-) {
-  const location: IHubLocation = { type: locationType };
-  const geometry: any = getItemExtent(itemExtent); // TODO: this needs to be fixed -tom
+export function deriveLocationFromItemExtent(itemExtent?: number[][]) {
+  const location: IHubLocation = { type: "item" };
+  const geometry: any = getExtentObject(itemExtent); // TODO: this needs to be fixed -tom
   if (geometry) {
-    const convertedPolygon = {
+    const convertedExtent = {
       ...extentToPolygon(geometry),
-      type: "polygon",
+      type: "extent",
     } as unknown as Geometry;
-    location.geometries = [convertedPolygon];
+    location.geometries = [convertedExtent];
     location.spatialReference = geometry.spatialReference;
     location.extent = itemExtent;
   }
@@ -71,7 +68,7 @@ export function computeProps(
     content.location =
       model.item.properties?.boundary === "none"
         ? { type: "none" }
-        : deriveLocationFromItemExtent("item", model.item.extent);
+        : deriveLocationFromItemExtent(model.item.extent);
   }
 
   return content as IHubEditableContent;

@@ -4,7 +4,7 @@ import { getTypeFromEntity } from "../../getTypeFromEntity";
 import { ConfigurableEntity } from "./ConfigurableEntity";
 import { IHubLocation, IHubLocationOption } from "../../types/IHubLocation";
 import { IExtent } from "@esri/arcgis-rest-types";
-import { getItemExtent } from "../../../content/_internal/computeProps";
+import { getExtentObject } from "../../../content/_internal/computeProps";
 
 export async function getLocationOptions(
   entity: ConfigurableEntity,
@@ -72,7 +72,7 @@ export async function getOptions(
 
   // Item's extent
   if (includeItemExtentOption) {
-    const itemExtent: IExtent = getItemExtent(entity.extent);
+    const itemExtent: IExtent = getExtentObject(entity.extent);
     const itemExtentOption: IHubLocationOption = {
       label: "{{shared.fields.location.itemExtent:translate}}",
       entityType: getTypeFromEntity(entity),
