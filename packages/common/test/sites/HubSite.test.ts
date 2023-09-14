@@ -572,7 +572,7 @@ describe("HubSite Class:", () => {
       );
     });
 
-    it("toEditor converst entity to correct structure", () => {
+    it("toEditor converst entity to correct structure", async () => {
       const chk = HubSite.fromJson(
         {
           id: "bc3",
@@ -581,7 +581,7 @@ describe("HubSite Class:", () => {
         },
         authdCtxMgr.context
       );
-      const result = chk.toEditor();
+      const result = await chk.toEditor();
       // NOTE: If additional transforms are added in the class they should have tests here
       expect(result.id).toEqual("bc3");
       expect(result.name).toEqual("Test Entity");
@@ -601,7 +601,7 @@ describe("HubSite Class:", () => {
         // spy on the instance .save method and retrn void
         const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
         // make changes to the editor
-        const editor = chk.toEditor();
+        const editor = await chk.toEditor();
         editor.name = "new name";
         // call fromEditor
         const result = await chk.fromEditor(editor);
@@ -622,7 +622,7 @@ describe("HubSite Class:", () => {
         // spy on the instance .save method and retrn void
         const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
         // make changes to the editor
-        const editor = chk.toEditor();
+        const editor = await chk.toEditor();
         editor.name = "new name";
         editor._thumbnail = {
           blob: "fake blob",
@@ -649,7 +649,7 @@ describe("HubSite Class:", () => {
         // spy on the instance .save method and retrn void
         const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
         // make changes to the editor
-        const editor = chk.toEditor();
+        const editor = await chk.toEditor();
         editor.name = "new name";
         editor._thumbnail = {};
         // call fromEditor
@@ -666,7 +666,7 @@ describe("HubSite Class:", () => {
         let setFollowersGroupAccessSpy: any;
         let editor: IHubSiteEditor;
 
-        beforeEach(() => {
+        beforeEach(async () => {
           chk = HubSite.fromJson(
             {
               id: "bc3",
@@ -679,7 +679,7 @@ describe("HubSite Class:", () => {
             chk,
             "setFollowersGroupAccess"
           ).and.returnValue(Promise.resolve());
-          editor = chk.toEditor();
+          editor = await chk.toEditor();
         });
         it("does nothing if followers information is not present on the editor values", async () => {
           editor._followers = undefined;
@@ -713,7 +713,7 @@ describe("HubSite Class:", () => {
         // spy on the instance .save method and retrn void
         const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
         // make changes to the editor
-        const editor = chk.toEditor();
+        const editor = await chk.toEditor();
         editor.name = "new name";
         editor.location = {
           extent: [
@@ -742,7 +742,7 @@ describe("HubSite Class:", () => {
         // spy on the instance .save method and retrn void
         const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
         // make changes to the editor
-        const editor = chk.toEditor();
+        const editor = await chk.toEditor();
         editor.name = "new name";
         // call fromEditor
         try {

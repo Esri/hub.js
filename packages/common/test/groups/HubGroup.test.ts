@@ -330,7 +330,7 @@ describe("HubGroup class:", () => {
       );
     });
 
-    it("toEditor converst entity to correct structure", () => {
+    it("toEditor converst entity to correct structure", async () => {
       const chk = HubGroup.fromJson(
         {
           id: "bc3",
@@ -339,7 +339,7 @@ describe("HubGroup class:", () => {
         },
         authdCtxMgr.context
       );
-      const result = chk.toEditor();
+      const result = await chk.toEditor();
       // NOTE: If additional transforms are added in the class they should have tests here
       expect(result.id).toEqual("bc3");
       expect(result.name).toEqual("Test Entity");
@@ -359,7 +359,7 @@ describe("HubGroup class:", () => {
         // spy on the instance .save method and retrn void
         const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
         // make changes to the editor
-        const editor = chk.toEditor();
+        const editor = await chk.toEditor();
         editor.name = "new name";
         // get the group loaded from the editor
         const result = await chk.fromEditor(editor);
@@ -380,7 +380,7 @@ describe("HubGroup class:", () => {
         // spy on the instance .save method and retrn void
         const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
         // make changes to the editor
-        const editor = chk.toEditor();
+        const editor = await chk.toEditor();
         // get the group loaded from the editor
         try {
           await await chk.fromEditor(editor);
@@ -412,7 +412,7 @@ describe("HubGroup class:", () => {
           "setGroupThumbnail"
         ).and.returnValue(Promise.resolve({}));
         // make changes to the editor
-        const editor = chk.toEditor();
+        const editor = await chk.toEditor();
         editor.name = "new name";
         editor._thumbnail = {
           blob: "fake blob",
@@ -447,7 +447,7 @@ describe("HubGroup class:", () => {
           "deleteGroupThumbnail"
         ).and.returnValue(Promise.resolve({}));
         // make changes to the editor
-        const editor = chk.toEditor();
+        const editor = await chk.toEditor();
         editor.name = "new name";
         editor._thumbnail = {};
         // get the group loaded from the editor

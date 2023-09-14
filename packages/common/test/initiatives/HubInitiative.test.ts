@@ -338,7 +338,7 @@ describe("HubInitiative Class:", () => {
       );
     });
 
-    it("toEditor converst entity to correct structure", () => {
+    it("toEditor converst entity to correct structure", async () => {
       const chk = HubInitiative.fromJson(
         {
           id: "bc3",
@@ -347,7 +347,7 @@ describe("HubInitiative Class:", () => {
         },
         authdCtxMgr.context
       );
-      const result = chk.toEditor();
+      const result = await chk.toEditor();
       // NOTE: If additional transforms are added in the class they should have tests here
       expect(result.id).toEqual("bc3");
       expect(result.name).toEqual("Test Entity");
@@ -367,7 +367,7 @@ describe("HubInitiative Class:", () => {
         // spy on the instance .save method and retrn void
         const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
         // make changes to the editor
-        const editor = chk.toEditor();
+        const editor = await chk.toEditor();
         editor.name = "new name";
         // call fromEditor
         const result = await chk.fromEditor(editor);
@@ -388,7 +388,7 @@ describe("HubInitiative Class:", () => {
         // spy on the instance .save method and retrn void
         const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
         // make changes to the editor
-        const editor = chk.toEditor();
+        const editor = await chk.toEditor();
         editor.name = "new name";
         editor._thumbnail = {
           blob: "fake blob",
@@ -415,7 +415,7 @@ describe("HubInitiative Class:", () => {
         // spy on the instance .save method and retrn void
         const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
         // make changes to the editor
-        const editor = chk.toEditor();
+        const editor = await chk.toEditor();
         editor.name = "new name";
         editor._thumbnail = {};
         // call fromEditor
@@ -442,7 +442,7 @@ describe("HubInitiative Class:", () => {
         // spy on the instance .save method and retrn void
         const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
         // make changes to the editor
-        const editor = chk.toEditor();
+        const editor = await chk.toEditor();
         editor.name = "new name";
         editor.location = {
           extent: [
@@ -471,7 +471,7 @@ describe("HubInitiative Class:", () => {
         // spy on the instance .save method and retrn void
         const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
         // make changes to the editor
-        const editor = chk.toEditor();
+        const editor = await chk.toEditor();
         editor.name = "new name";
         // call fromEditor
         try {

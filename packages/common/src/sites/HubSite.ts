@@ -402,7 +402,9 @@ export class HubSite
    * @param editorContext
    * @returns
    */
-  toEditor(editorContext: IEntityEditorContext = {}): IHubSiteEditor {
+  async toEditor(
+    editorContext: IEntityEditorContext = {}
+  ): Promise<IHubSiteEditor> {
     // 1. Cast entity to editor
     const editor = cloneObject(this.entity) as IHubSiteEditor;
 
