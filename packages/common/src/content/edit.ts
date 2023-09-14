@@ -21,6 +21,7 @@ import { cloneObject } from "../util";
 import { IModel } from "../types";
 import { computeProps } from "./_internal/computeProps";
 import { getProp } from "../objects/get-prop";
+import { setDiscussableKeyword } from "../discussions";
 
 // TODO: move this to defaults?
 const DEFAULT_CONTENT_MODEL: IModel = {
@@ -49,6 +50,11 @@ export async function createContent(
   // merge incoming with the default
   // this expansion solves the typing somehow
   const content = { /* ...DEFAULT_PROJECT, */ ...partialContent };
+
+  content.typeKeywords = setDiscussableKeyword(
+    content.typeKeywords,
+    content.isDiscussable
+  );
 
   // Map project object onto a default project Model
   const mapper = new PropertyMapper<Partial<IHubEditableContent>, IModel>(
@@ -97,6 +103,11 @@ export async function updateContent(
   // to properly handle other types like PDFs that don't have JSON data
   const item = await getItem(content.id, requestOptions);
   const model = { item };
+
+  content.typeKeywords = setDiscussableKeyword(
+    content.typeKeywords,
+    content.isDiscussable
+  );
   // create the PropertyMapper
   const mapper = new PropertyMapper<Partial<IHubEditableContent>, IModel>(
     getPropertyMap()

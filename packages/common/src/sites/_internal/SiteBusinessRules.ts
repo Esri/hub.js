@@ -33,6 +33,7 @@ export const SitePermissions = [
   "hub:site:workspace:followers",
   "hub:site:workspace:followers:member",
   "hub:site:workspace:followers:manager",
+  "hub:site:workspace:discussion",
   "hub:site:manage",
 ] as const;
 
@@ -136,6 +137,10 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
         value: "entity:followersGroupId",
       },
     ],
+  },
+  {
+    permission: "hub:site:workspace:discussion",
+    dependencies: ["hub:site:edit"],
   },
   {
     permission: "hub:site:manage",

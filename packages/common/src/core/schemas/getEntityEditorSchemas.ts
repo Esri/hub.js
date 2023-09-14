@@ -73,6 +73,8 @@ export const getEntityEditorSchemas = async (
 
       ({ uiSchema } = await {
         "hub:site:edit": () => import("../../sites/_internal/SiteUiSchemaEdit"),
+        "hub:site:discussions": () =>
+          import("../../sites/_internal/SiteUiSchemaDiscussions"),
       }[type as SiteEditorType]());
       break;
     case "discussion":
@@ -86,6 +88,8 @@ export const getEntityEditorSchemas = async (
           import("../../discussions/_internal/DiscussionUiSchemaEdit"),
         "hub:discussion:create": () =>
           import("../../discussions/_internal/DiscussionUiSchemaCreate"),
+        "hub:discussion:settings": () =>
+          import("../../discussions/_internal/DiscussionUiSchemaSettings"),
       }[type as DiscussionEditorType]());
       break;
     case "page":
@@ -105,6 +109,8 @@ export const getEntityEditorSchemas = async (
       ({ uiSchema } = await {
         "hub:content:edit": () =>
           import("../../content/_internal/ContentUiSchemaEdit"),
+        "hub:content:discussions": () =>
+          import("../../content/_internal/ContentUiSchemaDiscussions"),
       }[type as ContentEditorType]());
       break;
     case "group":
@@ -118,6 +124,8 @@ export const getEntityEditorSchemas = async (
           import("../../groups/_internal/GroupUiSchemaEdit"),
         "hub:group:settings": () =>
           import("../../groups/_internal/GroupUiSchemaSettings"),
+        "hub:group:discussions": () =>
+          import("../../groups/_internal/GroupUiSchemaDiscussions"),
       }[type as GroupEditorType]());
       break;
   }

@@ -19,6 +19,7 @@ import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { DEFAULT_GROUP } from "./defaults";
 import { convertHubGroupToGroup } from "./_internal/convertHubGroupToGroup";
 import { convertGroupToHubGroup } from "./_internal/convertGroupToHubGroup";
+import { setDiscussableKeyword } from "../discussions";
 
 /**
  * Enrich a generic search result
@@ -102,6 +103,10 @@ export async function createHubGroup(
 ): Promise<IHubGroup> {
   // merge the incoming and default groups
   const hubGroup = { ...DEFAULT_GROUP, ...partialGroup } as IHubGroup;
+  hubGroup.typeKeywords = setDiscussableKeyword(
+    hubGroup.typeKeywords,
+    hubGroup.isDiscussable
+  );
   const group = convertHubGroupToGroup(hubGroup);
   const opts = {
     group,
@@ -137,6 +142,10 @@ export async function updateHubGroup(
   hubGroup: IHubGroup,
   requestOptions: IRequestOptions
 ): Promise<IHubGroup> {
+  hubGroup.typeKeywords = setDiscussableKeyword(
+    hubGroup.typeKeywords,
+    hubGroup.isDiscussable
+  );
   const group = convertHubGroupToGroup(hubGroup);
   const opts = {
     group,

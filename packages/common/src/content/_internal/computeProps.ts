@@ -10,6 +10,7 @@ import { getHubRelativeUrl } from "./internalContentUtils";
 import { IHubLocation } from "../../core/types/IHubLocation";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
+import { isDiscussable } from "../../discussions";
 
 // if called and valid, set 3 things -- else just return type custom
 export const getItemExtent = (itemExtent: number[][]): IExtent => {
@@ -69,6 +70,8 @@ export function computeProps(
         ? { type: "none" }
         : deriveLocationFromItemExtent(model.item.extent);
   }
+
+  content.isDiscussable = isDiscussable(content);
 
   return content as IHubEditableContent;
 }
