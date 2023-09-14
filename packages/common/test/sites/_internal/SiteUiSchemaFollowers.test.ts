@@ -27,24 +27,25 @@ describe("buildUiSchema: site followers", () => {
           type: "Section",
           elements: [
             {
-              labelKey: "some.scope.fields.followers.access.label",
-              scope: "/properties/_followers/properties/access",
+              labelKey: "some.scope.fields.followers.groupAccess.label",
+              scope: "/properties/_followers/properties/groupAccess",
               type: "Control",
               options: {
                 control: "hub-field-input-tile-select",
                 layout: "horizontal",
                 helperText: {
-                  labelKey: "some.scope.fields.followers.access.helperText",
+                  labelKey:
+                    "some.scope.fields.followers.groupAccess.helperText",
                 },
                 labels: [
-                  "{{some.scope.fields.followers.access.private.label:translate}}",
-                  "{{some.scope.fields.followers.access.org.label:translate}}",
-                  "{{some.scope.fields.followers.access.public.label:translate}}",
+                  "{{some.scope.fields.followers.groupAccess.private.label:translate}}",
+                  "{{some.scope.fields.followers.groupAccess.org.label:translate}}",
+                  "{{some.scope.fields.followers.groupAccess.public.label:translate}}",
                 ],
                 descriptions: [
-                  "{{some.scope.fields.followers.access.private.description:translate}}",
-                  "{{some.scope.fields.followers.access.org.description:translate}}",
-                  "{{some.scope.fields.followers.access.public.description:translate}}",
+                  "{{some.scope.fields.followers.groupAccess.private.description:translate}}",
+                  "{{some.scope.fields.followers.groupAccess.org.description:translate}}",
+                  "{{some.scope.fields.followers.groupAccess.public.description:translate}}",
                 ],
                 icons: ["users", "organization", "globe"],
                 styles: { "max-width": "45rem" },
