@@ -410,7 +410,7 @@ export class HubSite
     // can be consumed by the editor
     editor._followers = {};
     editor._followers.showFollowAction =
-      this.entity.features["hub:site:followers:action"];
+      this.entity.features["hub:site:feature:follow"];
 
     return editor;
   }
@@ -457,7 +457,7 @@ export class HubSite
 
     entity.features = {
       ...entity.features,
-      "hub:site:followers:action": editor._followers?.showFollowAction,
+      "hub:site:feature:follow": editor._followers?.showFollowAction,
     };
 
     // copy the location extent up one level
