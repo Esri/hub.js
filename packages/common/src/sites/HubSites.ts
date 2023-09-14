@@ -37,7 +37,8 @@ import { setDiscussableKeyword } from "../discussions";
 import { applyDefaultCollectionMigration } from "./_internal/applyDefaultCollectionMigration";
 import { reflectCollectionsToSearchCategories } from "./_internal/reflectCollectionsToSearchCategories";
 import { convertCatalogToLegacyFormat } from "./_internal/convertCatalogToLegacyFormat";
-import { convertFeaturesToLegacyCapabilities } from "./_internal/convertFeaturesToLegacyCapabilities";
+import { convertFeaturesToLegacyCapabilities } from "./_internal/capabilities/convertFeaturesToLegacyCapabilities";
+import { migrateLegacyCapabilitiesToFeatures } from "./_internal/capabilities/migrateLegacyCapabilitiesToFeatures";
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
 
@@ -433,6 +434,8 @@ export function convertModelToSite(
 
   // Add default collections while preserving configuration from `data.values.searchCategories`
   migrated = applyDefaultCollectionMigration(migrated);
+
+  migrated = migrateLegacyCapabilitiesToFeatures(migrated);
 
   // convert to site
   const mapper = new PropertyMapper<Partial<IHubSite>, IModel>(
