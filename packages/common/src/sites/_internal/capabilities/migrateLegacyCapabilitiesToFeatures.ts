@@ -49,6 +49,5 @@ export const migrateLegacyCapabilitiesToFeatures = (model: IModel): IModel => {
   );
 
   setProp("data.settings.features", updatedFeatures, model);
-
   return model;
 };

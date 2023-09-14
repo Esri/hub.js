@@ -6,6 +6,7 @@ import {
   ILegacyCapabilityFeatureFlags,
   LegacyCapability,
 } from "./types";
+import { setProp } from "../../../objects";
 
 /**
  * Site capabilities are currently saved as an array on the
@@ -60,12 +61,13 @@ export const convertFeaturesToLegacyCapabilities = (
   );
 
   // 3. convert legacy capabilities back to an array and persist on model
-  modelToUpdate.data.values.capabilities = Object.entries(
+  const updatedCapabilities = Object.entries(
     legacyCapabilityFeatureFlags
   ).reduce((acc, [key, value]) => {
     value && acc.push(key);
     return acc;
   }, []);
 
+  setProp("data.values.capabilities", updatedCapabilities, modelToUpdate);
   return modelToUpdate;
 };

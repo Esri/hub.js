@@ -445,9 +445,9 @@ export class HubSite
     delete editor._thumbnail;
 
     // set the followers group access
-    if (editor._followers?.access) {
+    if (editor._followers?.groupAccess) {
       await this.setFollowersGroupAccess(
-        editor._followers.access as SettableAccessLevel
+        editor._followers.groupAccess as SettableAccessLevel
       );
     }
 

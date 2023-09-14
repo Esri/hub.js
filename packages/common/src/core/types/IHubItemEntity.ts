@@ -143,7 +143,7 @@ export type IHubItemEntityEditor<T> = Omit<T, "extent"> & {
    * method on the Class
    */
   _followers?: {
-    access?: AccessLevel;
+    groupAccess?: AccessLevel;
     showFollowAction?: boolean;
   };
 };

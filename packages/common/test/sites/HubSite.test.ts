@@ -689,7 +689,7 @@ describe("HubSite Class:", () => {
           expect(setFollowersGroupAccessSpy).not.toHaveBeenCalled();
         });
         it("handles setting the followers group access", async () => {
-          editor._followers = { access: "public" };
+          editor._followers = { groupAccess: "public" };
           await chk.fromEditor(editor);
 
           expect(saveSpy).toHaveBeenCalledTimes(1);
