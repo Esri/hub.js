@@ -66,39 +66,13 @@ export function computeProps(
   // error that doesn't let us save the form
   content.licenseInfo = model.item.licenseInfo || "";
 
-  // If modelLocationType === "custom" and modelBoundaryIsItem is true
-  // BUT THE EXTENTS AS BBOX'S DO NOT MATCH
-  // use item rather than custom
-  // this is a weird edge case where someone has:
-  // 1. saved their content with a custom location in the new view
-  // 2. then saved their content with the item's extent in the old view
-
-  const modelBoundary = model.item.properties?.boundary;
-  const modelLocationType = model.item.properties?.location?.type;
-  const modelBoundaryIsItem = modelBoundary === "item";
-  const forLoadedSelection =
-    (modelLocationType === "org" || modelLocationType === "custom") &&
-    modelBoundaryIsItem
-      ? modelLocationType
-      : modelBoundary;
-
-  if (forLoadedSelection === "none") {
-    content.location = { type: "none" };
-  } else if (
-    (modelLocationType === "custom" || modelLocationType === "org") &&
-    modelBoundaryIsItem &&
-    !(model.item.extent === model.item.properties?.location.extent)
-  ) {
-    // if the two extents do not match, then that signifies it was saved
-    //   in the old view after being saved in the new
-    content.location = deriveLocationFromItemExtent("item", model.extent);
-  } else if (forLoadedSelection === "item" || forLoadedSelection === "org") {
-    content.location = deriveLocationFromItemExtent(
-      forLoadedSelection,
-      model.item.extent
-    );
+  if (!content.location) {
+    // build location if one does not exist based off of the boundary and the item's extent
+    content.location =
+      model.item.properties?.boundary === "none"
+        ? { type: "none" }
+        : deriveLocationFromItemExtent("item", model.item.extent);
   }
-  // custom has already been through the ropes and doesn't need any adjustments
 
   return content as IHubEditableContent;
 }
