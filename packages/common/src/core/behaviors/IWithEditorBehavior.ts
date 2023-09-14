@@ -28,7 +28,10 @@ export interface IWithEditorBehavior {
    * This should only be used by the arcgis-hub-entity-editor component.
    * For general use, see the `toJson():<T>` method
    */
-  toEditor(editorContext: IEntityEditorContext): Promise<HubEntityEditor>;
+  toEditor(
+    editorContext: IEntityEditorContext,
+    include?: string[]
+  ): Promise<HubEntityEditor>;
 
   /**
    * Update the internal Entity from the "Editor" structure.

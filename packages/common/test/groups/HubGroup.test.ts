@@ -9,6 +9,7 @@ import { IEntityPermissionPolicy } from "../../dist/types/permissions/types/IEnt
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import { getProp } from "../../src/objects/get-prop";
 import * as SearchUtils from "../../src/search/utils";
+import * as EnrichEntityModule from "../../src/core/schemas/internal/enrichEntity";
 
 describe("HubGroup class:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -330,20 +331,34 @@ describe("HubGroup class:", () => {
       );
     });
 
-    it("toEditor converst entity to correct structure", async () => {
-      const chk = HubGroup.fromJson(
-        {
-          id: "bc3",
-          name: "Test Entity",
-          thumbnailUrl: "https://myserver.com/thumbnail.png",
-        },
-        authdCtxMgr.context
-      );
-      const result = await chk.toEditor();
-      // NOTE: If additional transforms are added in the class they should have tests here
-      expect(result.id).toEqual("bc3");
-      expect(result.name).toEqual("Test Entity");
-      expect(result.thumbnailUrl).toEqual("https://myserver.com/thumbnail.png");
+    describe("toEditor:", () => {
+      it("optionally enriches the entity", async () => {
+        const enrichEntitySpy = spyOn(
+          EnrichEntityModule,
+          "enrichEntity"
+        ).and.returnValue(Promise.resolve({}));
+        const chk = HubGroup.fromJson({ id: "bc3" }, authdCtxMgr.context);
+        await chk.toEditor({}, ["someEnrichment AS _someEnrichment"]);
+
+        expect(enrichEntitySpy).toHaveBeenCalledTimes(1);
+      });
+      it("converts entity to correct structure", async () => {
+        const chk = HubGroup.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        const result = await chk.toEditor();
+        // NOTE: If additional transforms are added in the class they should have tests here
+        expect(result.id).toEqual("bc3");
+        expect(result.name).toEqual("Test Entity");
+        expect(result.thumbnailUrl).toEqual(
+          "https://myserver.com/thumbnail.png"
+        );
+      });
     });
 
     describe("fromEditor:", () => {

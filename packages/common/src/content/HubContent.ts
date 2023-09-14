@@ -15,6 +15,7 @@ import { IEntityEditorContext } from "../core/types/HubEntityEditor";
 import { cloneObject } from "../util";
 import { editorToContent } from "./edit";
 import { ContentEditorType } from "./_internal/ContentSchema";
+import { enrichEntity } from "../core/schemas/internal/enrichEntity";
 
 export class HubContent
   extends HubItemEntity<IHubEditableContent>
@@ -110,13 +111,20 @@ export class HubContent
    * @returns
    */
   async toEditor(
-    editorContext: IEntityEditorContext = {}
+    editorContext: IEntityEditorContext = {},
+    include: string[] = []
   ): Promise<IHubContentEditor> {
-    // Cast the entity to it's editor
-    const editor = cloneObject(this.entity) as IHubContentEditor;
+    // 1. optionally enrich entity and cast to editor
+    const editor = include.length
+      ? ((await enrichEntity(
+          cloneObject(this.entity),
+          include,
+          this.context.hubRequestOptions
+        )) as IHubContentEditor)
+      : (cloneObject(this.entity) as IHubContentEditor);
 
-    // Add other transforms here...
-    // NOTE: Be sure to add tests for any transforms in the test suite
+    // 2. Apply transforms to relevant entity values so they
+    // can be consumed by the editor
     return editor;
   }
 

@@ -32,6 +32,7 @@ import {
   IWithEditorBehavior,
   IHubInitiativeEditor,
 } from "../core";
+import { enrichEntity } from "../core/schemas/internal/enrichEntity";
 
 /**
  * Hub Initiative Class
@@ -254,12 +255,21 @@ export class HubInitiative
    * @returns
    */
   async toEditor(
-    editorContext: IEntityEditorContext = {}
+    editorContext: IEntityEditorContext = {},
+    include: string[] = []
   ): Promise<IHubInitiativeEditor> {
-    // Cast the entity to it's editor
-    const editor = cloneObject(this.entity) as IHubInitiativeEditor;
+    // 1. optionally enrich entity and cast to editor
+    const editor = include.length
+      ? ((await enrichEntity(
+          cloneObject(this.entity),
+          include,
+          this.context.hubRequestOptions
+        )) as IHubInitiativeEditor)
+      : (cloneObject(this.entity) as IHubInitiativeEditor);
 
-    // Add other transforms here...
+    // 2. Apply transforms to relevant entity values so they
+    // can be consumed by the editor
+
     return editor;
   }
 

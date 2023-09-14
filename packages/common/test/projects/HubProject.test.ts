@@ -10,6 +10,7 @@ import * as viewModule from "../../src/projects/view";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import * as ResolveMetricModule from "../../src/metrics/resolveMetric";
 import { HubItemEntity } from "../../src/core/HubItemEntity";
+import * as EnrichEntityModule from "../../src/core/schemas/internal/enrichEntity";
 
 describe("HubProject Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -351,21 +352,35 @@ describe("HubProject Class:", () => {
       );
     });
 
-    it("toEditor converst entity to correct structure", async () => {
-      const chk = HubProject.fromJson(
-        {
-          id: "bc3",
-          name: "Test Entity",
-          thumbnailUrl: "https://myserver.com/thumbnail.png",
-        },
-        authdCtxMgr.context
-      );
-      const result = await chk.toEditor();
-      // NOTE: If additional transforms are added in the class they should have tests here
-      expect(result.id).toEqual("bc3");
-      expect(result.name).toEqual("Test Entity");
-      expect(result.thumbnailUrl).toEqual("https://myserver.com/thumbnail.png");
-      expect(result._groups).toEqual([]);
+    describe("toEditor:", () => {
+      it("optionally enriches the entity", async () => {
+        const enrichEntitySpy = spyOn(
+          EnrichEntityModule,
+          "enrichEntity"
+        ).and.returnValue(Promise.resolve({}));
+        const chk = HubProject.fromJson({ id: "bc3" }, authdCtxMgr.context);
+        await chk.toEditor({}, ["someEnrichment AS _someEnrichment"]);
+
+        expect(enrichEntitySpy).toHaveBeenCalledTimes(1);
+      });
+      it("toEditor converst entity to correct structure", async () => {
+        const chk = HubProject.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        const result = await chk.toEditor();
+        // NOTE: If additional transforms are added in the class they should have tests here
+        expect(result.id).toEqual("bc3");
+        expect(result.name).toEqual("Test Entity");
+        expect(result.thumbnailUrl).toEqual(
+          "https://myserver.com/thumbnail.png"
+        );
+        expect(result._groups).toEqual([]);
+      });
     });
 
     describe("fromEditor:", () => {

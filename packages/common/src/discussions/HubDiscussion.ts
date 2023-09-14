@@ -15,6 +15,7 @@ import {
 } from "../core/behaviors/IWithEditorBehavior";
 import { cloneObject } from "../util";
 import { DiscussionEditorType } from "./_internal/DiscussionSchema";
+import { enrichEntity } from "../core/schemas/internal/enrichEntity";
 /**
  * Hub Discussion Class
  */
@@ -174,12 +175,20 @@ export class HubDiscussion
    * @returns
    */
   async toEditor(
-    editorContext: IEntityEditorContext = {}
+    editorContext: IEntityEditorContext = {},
+    include: string[] = []
   ): Promise<IHubDiscussionEditor> {
-    // Cast the entity to it's editor
-    const editor = cloneObject(this.entity) as IHubDiscussionEditor;
+    // 1. optionally enrich entity and cast to editor
+    const editor = include.length
+      ? ((await enrichEntity(
+          cloneObject(this.entity),
+          include,
+          this.context.hubRequestOptions
+        )) as IHubDiscussionEditor)
+      : (cloneObject(this.entity) as IHubDiscussionEditor);
 
-    // Add other transforms here...
+    // 2. Apply transforms to relevant entity values so they
+    // can be consumed by the editor
     return editor;
   }
 

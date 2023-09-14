@@ -28,6 +28,8 @@ import { setGroupThumbnail } from "./setGroupThumbnail";
 import { getGroupThumbnailUrl } from "../search/utils";
 import { deleteGroupThumbnail } from "./deleteGroupThumbnail";
 import { GroupEditorType } from "./_internal/GroupSchema";
+import { IEntityEditorContext } from "../core";
+import { enrichEntity } from "../core/schemas/internal/enrichEntity";
 
 /**
  * Hub Group Class
@@ -262,9 +264,22 @@ export class HubGroup
   /**
    * Return the group as an editor object
    */
-  async toEditor(): Promise<IHubGroupEditor> {
-    // cast the entity to it's editor
-    const editor = cloneObject(this.entity) as IHubGroupEditor;
+  async toEditor(
+    editorContext: IEntityEditorContext = {},
+    include: string[] = []
+  ): Promise<IHubGroupEditor> {
+    // 1. optionally enrich entity and cast to editor
+    const editor = include.length
+      ? ((await enrichEntity(
+          cloneObject(this.entity),
+          include,
+          this.context.hubRequestOptions
+        )) as IHubGroupEditor)
+      : (cloneObject(this.entity) as IHubGroupEditor);
+
+    // 2. Apply transforms to relevant entity values so they
+    // can be consumed by the editor
+
     return editor;
   }
 

@@ -35,6 +35,7 @@ import { projectToCardModel } from "./view";
 import { cloneObject, maybePush } from "../util";
 import { createProject, editorToProject, updateProject } from "./edit";
 import { ProjectEditorType } from "./_internal/ProjectSchema";
+import { enrichEntity } from "../core/schemas/internal/enrichEntity";
 
 /**
  * Hub Project Class
@@ -180,13 +181,23 @@ export class HubProject
    * @returns
    */
   async toEditor(
-    editorContext: IEntityEditorContext = {}
+    editorContext: IEntityEditorContext = {},
+    include: string[] = []
   ): Promise<IHubProjectEditor> {
-    // cast the entity to it's editor
-    const editor = cloneObject(this.entity) as IHubProjectEditor;
+    // 1. optionally enrich entity and cast to editor
+    const editor = include.length
+      ? ((await enrichEntity(
+          cloneObject(this.entity),
+          include,
+          this.context.hubRequestOptions
+        )) as IHubProjectEditor)
+      : (cloneObject(this.entity) as IHubProjectEditor);
+
     // add the groups array that we'll use to auto-share on save
     editor._groups = [];
 
+    // 2. Apply transforms to relevant entity values so they
+    // can be consumed by the editor
     /**
      * on project creation, we want to pre-populate the sharing
      * field with the core and collaboration groups if the user

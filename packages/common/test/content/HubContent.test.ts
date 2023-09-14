@@ -6,7 +6,7 @@ import { HubContent } from "../../src/content/HubContent";
 import * as editModule from "../../src/content/edit";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import { getProp } from "../../src/objects/get-prop";
-import { spy } from "fetch-mock";
+import * as EnrichEntityModule from "../../src/core/schemas/internal/enrichEntity";
 
 describe("HubContent class", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -142,20 +142,34 @@ describe("HubContent class", () => {
       );
     });
 
-    it("toEditor converst entity to correct structure", async () => {
-      const chk = HubContent.fromJson(
-        {
-          id: "bc3",
-          name: "Test Content",
-          thumbnailUrl: "https://myserver.com/thumbnail.png",
-        },
-        authdCtxMgr.context
-      );
-      const result = await chk.toEditor();
-      // NOTE: If additional transforms are added in the class they should have tests here
-      expect(result.id).toEqual("bc3");
-      expect(result.name).toEqual("Test Content");
-      expect(result.thumbnailUrl).toEqual("https://myserver.com/thumbnail.png");
+    describe("toEditor:", () => {
+      it("optionally enriches the entity", async () => {
+        const enrichEntitySpy = spyOn(
+          EnrichEntityModule,
+          "enrichEntity"
+        ).and.returnValue(Promise.resolve({}));
+        const chk = HubContent.fromJson({ id: "bc3" }, authdCtxMgr.context);
+        await chk.toEditor({}, ["someEnrichment AS _someEnrichment"]);
+
+        expect(enrichEntitySpy).toHaveBeenCalledTimes(1);
+      });
+      it("converts entity to correct structure", async () => {
+        const chk = HubContent.fromJson(
+          {
+            id: "bc3",
+            name: "Test Content",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        const result = await chk.toEditor();
+        // NOTE: If additional transforms are added in the class they should have tests here
+        expect(result.id).toEqual("bc3");
+        expect(result.name).toEqual("Test Content");
+        expect(result.thumbnailUrl).toEqual(
+          "https://myserver.com/thumbnail.png"
+        );
+      });
     });
 
     describe("fromEditor:", () => {
