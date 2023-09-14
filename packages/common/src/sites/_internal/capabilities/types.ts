@@ -1,4 +1,3 @@
-import { IFeatureFlags } from "../../../permissions";
 import { SitePermissions } from "../SiteBusinessRules";
 
 export type LegacyCapability = "hideFollow";
@@ -9,5 +8,9 @@ export interface ILegacyCapabilityFeatureFlags
 export interface ICapabilityToFeatureMap {
   capability: LegacyCapability;
   feature: (typeof SitePermissions)[number];
+  /**
+   * whether to apply a ! when converting between the
+   * capability and feature
+   */
   negate?: boolean;
 }
