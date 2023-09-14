@@ -16,6 +16,7 @@ import {
 } from "../../src";
 import { Catalog } from "../../src/search";
 import * as ContainsModule from "../../src/core/_internal/deepContains";
+import * as EnrichEntityModule from "../../src/core/schemas/internal/enrichEntity";
 
 describe("HubSite Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -572,20 +573,34 @@ describe("HubSite Class:", () => {
       );
     });
 
-    it("toEditor converst entity to correct structure", async () => {
-      const chk = HubSite.fromJson(
-        {
-          id: "bc3",
-          name: "Test Entity",
-          thumbnailUrl: "https://myserver.com/thumbnail.png",
-        },
-        authdCtxMgr.context
-      );
-      const result = await chk.toEditor();
-      // NOTE: If additional transforms are added in the class they should have tests here
-      expect(result.id).toEqual("bc3");
-      expect(result.name).toEqual("Test Entity");
-      expect(result.thumbnailUrl).toEqual("https://myserver.com/thumbnail.png");
+    describe("toEditor:", () => {
+      it("optionally enriches the entity", async () => {
+        const enrichEntitySpy = spyOn(
+          EnrichEntityModule,
+          "enrichEntity"
+        ).and.returnValue(Promise.resolve({}));
+        const chk = HubSite.fromJson({ id: "bc3" }, authdCtxMgr.context);
+        await chk.toEditor({}, ["someEnrichment AS _someEnrichment"]);
+
+        expect(enrichEntitySpy).toHaveBeenCalledTimes(1);
+      });
+      it("converts entity to correct structure", async () => {
+        const chk = HubSite.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        const result = await chk.toEditor();
+        // NOTE: If additional transforms are added in the class they should have tests here
+        expect(result.id).toEqual("bc3");
+        expect(result.name).toEqual("Test Entity");
+        expect(result.thumbnailUrl).toEqual(
+          "https://myserver.com/thumbnail.png"
+        );
+      });
     });
 
     describe("fromEditor:", () => {
