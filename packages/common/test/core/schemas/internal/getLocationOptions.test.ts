@@ -3,7 +3,7 @@ import { ConfigurableEntity } from "../../../../src/core/schemas/internal/Config
 import { getLocationOptions } from "../../../../src/core/schemas/internal/getLocationOptions";
 import * as ExtentModule from "../../../../src/extent";
 
-describe("getLocationOptions - default:", () => {
+describe("getLocationOptions:", () => {
   let orgExtentSpy: jasmine.Spy;
   beforeEach(() => {
     orgExtentSpy = spyOn(
@@ -87,6 +87,30 @@ describe("getLocationOptions - default:", () => {
     );
 
     expect(chk.length).toBe(3);
+    expect(chk[2].selected).toBe(true);
+  });
+  it("content entity should include item extent option", async () => {
+    const entity: ConfigurableEntity = {
+      id: "00c",
+      type: "Hub Content",
+      location: {
+        type: "item",
+      },
+      boundary: "item",
+      extent: [
+        [100, 100],
+        [120, 120],
+      ],
+    } as ConfigurableEntity;
+
+    const chk = await getLocationOptions(
+      entity,
+      "portalName",
+      {} as IHubRequestOptions
+    );
+
+    expect(chk.length).toBe(4);
+    expect(chk[2].location.type).toBe("item");
     expect(chk[2].selected).toBe(true);
   });
 });
