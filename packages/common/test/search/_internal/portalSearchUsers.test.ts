@@ -1,16 +1,16 @@
 import { cloneObject, IHubSearchOptions, IQuery } from "../../../src";
 import {
-  portalSearchUsers,
-  communitySearchUsers,
-  portalSearchUsersLegacy,
+  searchPortalUsers,
+  searchCommunityUsers,
+  searchPortalUsersLegacy,
 } from "../../../src/search/_internal/portalSearchUsers";
 import * as Portal from "@esri/arcgis-rest-portal";
 import * as users from "../../../src/users";
 import { MOCK_AUTH } from "../../mocks/mock-auth";
 import * as SimpleResponse from "../../mocks/user-search/simple-response.json";
 
-describe("portalSearchUsersLegacy module:", () => {
-  describe("portalSearchUsersLegacy:", () => {
+describe("searchPortalUsersLegacy module:", () => {
+  describe("searchPortalUsersLegacy:", () => {
     it("throws if requestOptions not passed in IHubSearchOptions", async () => {
       const qry: IQuery = {
         targetEntity: "user",
@@ -27,7 +27,7 @@ describe("portalSearchUsersLegacy module:", () => {
       const opts: IHubSearchOptions = {};
 
       try {
-        await portalSearchUsersLegacy(qry, opts);
+        await searchPortalUsersLegacy(qry, opts);
       } catch (err) {
         expect(err.name).toBe("HubError");
         expect(err.message).toBe(
@@ -55,7 +55,7 @@ describe("portalSearchUsersLegacy module:", () => {
       };
 
       try {
-        await portalSearchUsersLegacy(qry, opts);
+        await searchPortalUsersLegacy(qry, opts);
       } catch (err) {
         expect(err.name).toBe("HubError");
         expect(err.message).toBe("requestOptions must pass authentication.");
@@ -89,7 +89,7 @@ describe("portalSearchUsersLegacy module:", () => {
         },
       };
 
-      await portalSearchUsersLegacy(qry, opts);
+      await searchPortalUsersLegacy(qry, opts);
 
       expect(searchUsersSpy.calls.count()).toBe(1, "should call searchItems");
       const [expectedParams] = searchUsersSpy.calls.argsFor(0);
@@ -105,7 +105,7 @@ describe("portalSearchUsersLegacy module:", () => {
       );
     });
   });
-  describe("portalSearchUsers:", () => {
+  describe("searchPortalUsers:", () => {
     it("throws if requestOptions not passed in IHubSearchOptions", async () => {
       const qry: IQuery = {
         targetEntity: "user",
@@ -122,7 +122,7 @@ describe("portalSearchUsersLegacy module:", () => {
       const opts: IHubSearchOptions = {};
 
       try {
-        await portalSearchUsers(qry, opts);
+        await searchPortalUsers(qry, opts);
       } catch (err) {
         expect(err.name).toBe("HubError");
         expect(err.message).toBe(
@@ -150,7 +150,7 @@ describe("portalSearchUsersLegacy module:", () => {
       };
 
       try {
-        await portalSearchUsers(qry, opts);
+        await searchPortalUsers(qry, opts);
       } catch (err) {
         expect(err.name).toBe("HubError");
         expect(err.message).toBe("requestOptions must pass authentication.");
@@ -184,7 +184,7 @@ describe("portalSearchUsersLegacy module:", () => {
         },
       };
 
-      await portalSearchUsers(qry, opts);
+      await searchPortalUsers(qry, opts);
 
       expect(searchUsersSpy.calls.count()).toBe(1, "should call searchItems");
       const [expectedParams] = searchUsersSpy.calls.argsFor(0);
@@ -200,7 +200,7 @@ describe("portalSearchUsersLegacy module:", () => {
       );
     });
   });
-  describe("communitySearchUsers:", () => {
+  describe("searchCommunityUsers:", () => {
     it("throws if requestOptions not passed in IHubSearchOptions", async () => {
       const qry: IQuery = {
         targetEntity: "user",
@@ -217,7 +217,7 @@ describe("portalSearchUsersLegacy module:", () => {
       const opts: IHubSearchOptions = {};
 
       try {
-        await communitySearchUsers(qry, opts);
+        await searchCommunityUsers(qry, opts);
       } catch (err) {
         expect(err.name).toBe("HubError");
         expect(err.message).toBe(
@@ -245,7 +245,7 @@ describe("portalSearchUsersLegacy module:", () => {
       };
 
       try {
-        await communitySearchUsers(qry, opts);
+        await searchCommunityUsers(qry, opts);
       } catch (err) {
         expect(err.name).toBe("HubError");
         expect(err.message).toBe("requestOptions must pass authentication.");
@@ -282,7 +282,7 @@ describe("portalSearchUsersLegacy module:", () => {
         },
       };
 
-      await communitySearchUsers(qry, opts);
+      await searchCommunityUsers(qry, opts);
 
       expect(searchCommunityUsersSpy.calls.count()).toBe(
         1,

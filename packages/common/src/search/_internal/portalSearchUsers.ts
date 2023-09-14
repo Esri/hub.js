@@ -3,7 +3,7 @@ import {
   ISearchResult,
   IUserSearchOptions,
   searchUsers,
-  searchCommunityUsers,
+  searchCommunityUsers as _searchCommunityUsers,
 } from "@esri/arcgis-rest-portal";
 import { IUser } from "@esri/arcgis-rest-types";
 import { enrichUserSearchResult } from "../../users";
@@ -75,20 +75,37 @@ function buildSearchOptions(
  * Portal Search Implementation for Users within the currently authenticated user's organization.
  * Automatically adds "org.name as OrgName" enrichment
  *
- * DEPRECATED: This method will be deprecated in a future release, as it's no ideal to impose enrichments for all cases.
+ * DEPRECATED: This method will be deprecated in a future release, as it's not ideal to impose default enrichments in all
+ * cases. When this method is depreated, all places that currently call `hubSearch` with a `targetEntity` of `user` will
+ * need to be updated to use the `portalUser` `targetEntity` and explicitly pass `"org.name as OrgName"` in `inclues` to
+ * preserve that enrichment, if needed. E.g.
+ *
+ * ```js
+ * // before
+ * await hubSearch(
+ *   { targetEntity: "user", ... },
+ *   { start: 1, ... },
+ * );
+ *
+ * // after
+ * await hubSearch(
+ *   { targetEntity: "portalUser", ... },
+ *   { start: 1, include: ["org.name as OrgName", ...], ... },
+ * );
+ * ```
  *
  * @param query An IQuery object representing the query to serialize
  * @param options An IHubSearchOptions of search options
  * @returns a promise that resolves an IHubSearchResponse<IHubSearchResult> of users results
  */
-export function portalSearchUsersLegacy(
+export function searchPortalUsersLegacy(
   query: IQuery,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
   const searchOptions = buildSearchOptions(
     query,
     options,
-    "portalSearchUsersLegacy"
+    "searchPortalUsersLegacy"
   );
   // Execute search
   return searchPortal({
@@ -107,15 +124,11 @@ export function portalSearchUsersLegacy(
  * @param options An IHubSearchOptions of search options
  * @returns a promise that resolves an IHubSearchResponse<IHubSearchResult> of users results
  */
-export function portalSearchUsers(
+export function searchPortalUsers(
   query: IQuery,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
-  const searchOptions = buildSearchOptions(
-    query,
-    options,
-    "portalSearchUsersLegacy"
-  );
+  const searchOptions = buildSearchOptions(query, options, "searchPortalUsers");
   // Execute search
   return searchPortal(searchOptions);
 }
@@ -130,14 +143,14 @@ export function portalSearchUsers(
  * @param options An IHubSearchOptions of search options
  * @returns a promise that resolves an IHubSearchResponse<IHubSearchResult> of users results
  */
-export function communitySearchUsers(
+export function searchCommunityUsers(
   query: IQuery,
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
   const searchOptions = buildSearchOptions(
     query,
     options,
-    "communitySearchUsers"
+    "searchCommunityUsers"
   );
   // Execute search
   return searchCommunity(searchOptions);
@@ -204,7 +217,7 @@ async function searchCommunity(
   searchOptions: IUserSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
   // Execute portal search
-  const resp = await searchCommunityUsers(searchOptions);
+  const resp = await _searchCommunityUsers(searchOptions);
   // map over results
   const results = await mapUsersToSearchResults(searchOptions, resp);
   // Group Search does not support aggregations

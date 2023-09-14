@@ -11,7 +11,7 @@ import { getApi } from "./_internal/commonHelpers/getApi";
 import { portalSearchGroupMembers } from "./_internal/portalSearchGroupMembers";
 import { portalSearchItems } from "./_internal/portalSearchItems";
 import { portalSearchGroups } from "./_internal/portalSearchGroups";
-import { portalSearchUsers, portalSearchUsersLegacy, communitySearchUsers } from "./_internal/portalSearchUsers";
+import { searchPortalUsersLegacy, searchPortalUsers, searchCommunityUsers } from "./_internal/portalSearchUsers";
 import { hubSearchItems } from "./_internal/hubSearchItems";
 import { hubSearchChannels } from "./_internal/hubSearchChannels";
 
@@ -73,9 +73,9 @@ export async function hubSearch(
     arcgis: {
       item: portalSearchItems,
       group: portalSearchGroups,
-      user: portalSearchUsersLegacy,
-      portalUser: portalSearchUsers,
-      communityUser: communitySearchUsers,
+      user: searchPortalUsersLegacy,
+      portalUser: searchPortalUsers,
+      communityUser: searchCommunityUsers,
       groupMember: portalSearchGroupMembers,
     },
     "arcgis-hub": {
