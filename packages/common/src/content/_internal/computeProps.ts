@@ -37,11 +37,11 @@ export function deriveLocationFromItemExtent(
   return location;
 }
 
-export async function computeProps(
+export function computeProps(
   model: IModel,
   content: Partial<IHubEditableContent>,
   requestOptions: IRequestOptions
-): Promise<IHubEditableContent> {
+): IHubEditableContent {
   let token: string;
   if (requestOptions.authentication) {
     const session: UserSession = requestOptions.authentication as UserSession;
