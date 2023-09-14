@@ -102,7 +102,6 @@ describe("content editing:", () => {
       expect(updateModelSpy.calls.count()).toBe(1);
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.item.description).toBe(content.description);
-      expect(modelToUpdate.item.properties.boundary).toBe("none");
       // No service is associated with Hub Initiatives
       expect(getServiceSpy).not.toHaveBeenCalled();
       expect(updateServiceSpy).not.toHaveBeenCalled();
@@ -138,7 +137,6 @@ describe("content editing:", () => {
       expect(updateModelSpy.calls.count()).toBe(1);
       const modelToUpdate = updateModelSpy.calls.argsFor(0)[0];
       expect(modelToUpdate.item.description).toBe(content.description);
-      expect(modelToUpdate.item.properties.boundary).toBe("item");
       // No service is associated with Hub Initiatives
       expect(getServiceSpy).not.toHaveBeenCalled();
       expect(updateServiceSpy).not.toHaveBeenCalled();

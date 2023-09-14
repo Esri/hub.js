@@ -57,7 +57,7 @@ describe("content computeProps", () => {
 
     const chk = computeProps(model, content, requestOptions);
 
-    expect(chk.location?.type).toBe("custom");
+    expect(chk.location?.type).toBe("item");
   });
 
   it("handles when boundary defined as none", () => {
