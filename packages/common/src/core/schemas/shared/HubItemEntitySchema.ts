@@ -33,7 +33,7 @@ export const HubItemEntitySchema: IConfigurationSchema = {
     _followers: {
       type: "object",
       properties: {
-        access: {
+        groupAccess: {
           ...ENTITY_ACCESS_SCHEMA,
           enum: ["private", "org", "public"],
         },

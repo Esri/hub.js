@@ -1,7 +1,6 @@
 import { IArcGISContext } from "../../ArcGISContext";
 import { IUiSchema } from "../../core/schemas/types";
 import { IHubSite } from "../../core/types";
-import { getProp } from "../../objects";
 
 /**
  * @private
@@ -22,24 +21,24 @@ export const buildUiSchema = async (
         type: "Section",
         elements: [
           {
-            labelKey: `${i18nScope}.fields.followers.access.label`,
-            scope: "/properties/_followers/properties/access",
+            labelKey: `${i18nScope}.fields.followers.groupAccess.label`,
+            scope: "/properties/_followers/properties/groupAccess",
             type: "Control",
             options: {
               control: "hub-field-input-tile-select",
               layout: "horizontal",
               helperText: {
-                labelKey: `${i18nScope}.fields.followers.access.helperText`,
+                labelKey: `${i18nScope}.fields.followers.groupAccess.helperText`,
               },
               labels: [
-                `{{${i18nScope}.fields.followers.access.private.label:translate}}`,
-                `{{${i18nScope}.fields.followers.access.org.label:translate}}`,
-                `{{${i18nScope}.fields.followers.access.public.label:translate}}`,
+                `{{${i18nScope}.fields.followers.groupAccess.private.label:translate}}`,
+                `{{${i18nScope}.fields.followers.groupAccess.org.label:translate}}`,
+                `{{${i18nScope}.fields.followers.groupAccess.public.label:translate}}`,
               ],
               descriptions: [
-                `{{${i18nScope}.fields.followers.access.private.description:translate}}`,
-                `{{${i18nScope}.fields.followers.access.org.description:translate}}`,
-                `{{${i18nScope}.fields.followers.access.public.description:translate}}`,
+                `{{${i18nScope}.fields.followers.groupAccess.private.description:translate}}`,
+                `{{${i18nScope}.fields.followers.groupAccess.org.description:translate}}`,
+                `{{${i18nScope}.fields.followers.groupAccess.public.description:translate}}`,
               ],
               icons: ["users", "organization", "globe"],
               styles: { "max-width": "45rem" },
