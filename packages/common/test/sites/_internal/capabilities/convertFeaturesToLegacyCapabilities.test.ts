@@ -1,6 +1,6 @@
 import { IItem } from "@esri/arcgis-rest-types";
-import { IModel } from "../../../src";
-import { convertFeaturesToLegacyCapabilities } from "../../../src/sites/_internal/convertFeaturesToLegacyCapabilities";
+import { IModel } from "../../../../src";
+import { convertFeaturesToLegacyCapabilities } from "../../../../src/sites/_internal/capabilities/convertFeaturesToLegacyCapabilities";
 
 describe("convertFeaturesToLegacyCapabilities", () => {
   it("adds relevant features to the site's legacy capabilities array", () => {
@@ -10,7 +10,7 @@ describe("convertFeaturesToLegacyCapabilities", () => {
         settings: {
           features: {
             "hub:site:content": true,
-            "hub:site:followers:action": false,
+            "hub:site:feature:follow": false,
           },
         },
         values: {
@@ -47,7 +47,7 @@ describe("convertFeaturesToLegacyCapabilities", () => {
         settings: {
           features: {
             "hub:site:content": true,
-            "hub:site:followers:action": true,
+            "hub:site:feature:follow": true,
           },
         },
         values: {

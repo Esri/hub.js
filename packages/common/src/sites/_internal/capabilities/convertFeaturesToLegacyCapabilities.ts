@@ -44,10 +44,16 @@ export const convertFeaturesToLegacyCapabilities = (
       capabilities: ILegacyCapabilityFeatureFlags,
       map: ICapabilityToFeatureMap
     ) => {
-      const featureFlag = features[map.feature];
+      // TODO: remove istanbul exception once we include a
+      // legacy capability that satisfies the second condition
+      /* istanbul ignore next */
+      const featureFlag = map.negate
+        ? !features[map.feature]
+        : features[map.feature];
+
       return {
         ...capabilities,
-        [map.capability]: map.negate ? !featureFlag : featureFlag,
+        [map.capability]: featureFlag,
       };
     },
     legacyCapabilityFeatureFlags
