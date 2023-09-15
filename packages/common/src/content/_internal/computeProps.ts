@@ -10,11 +10,6 @@ import { getHubRelativeUrl } from "./internalContentUtils";
 import { IHubLocation } from "../../core/types/IHubLocation";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
-import {
-  hasServiceCapability,
-  ServiceCapabilities,
-} from "../hostedServiceUtils";
-import { IItemAndIServerEnrichments } from "../../items/_enrichments";
 
 // if called and valid, set 3 things -- else just return type custom
 export const getItemExtent = (itemExtent: number[][]): IExtent => {
@@ -41,8 +36,7 @@ export function deriveLocationFromItemExtent(itemExtent?: number[][]) {
 export function computeProps(
   model: IModel,
   content: Partial<IHubEditableContent>,
-  requestOptions: IRequestOptions,
-  enrichments: IItemAndIServerEnrichments = {}
+  requestOptions: IRequestOptions
 ): IHubEditableContent {
   let token: string;
   if (requestOptions.authentication) {
@@ -74,13 +68,6 @@ export function computeProps(
       model.item.properties?.boundary === "none"
         ? { type: "none" }
         : deriveLocationFromItemExtent(model.item.extent);
-  }
-
-  if (enrichments.server) {
-    content.serverExtractCapability = hasServiceCapability(
-      ServiceCapabilities.EXTRACT,
-      enrichments.server
-    );
   }
 
   return content as IHubEditableContent;

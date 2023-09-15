@@ -13,17 +13,6 @@ import * as _enrichmentsModule from "../../src/items/_enrichments";
 import * as _fetchModule from "../../src/content/_fetch";
 import * as documentItem from "../mocks/items/document.json";
 import * as multiLayerFeatureServiceItem from "../mocks/items/multi-layer-feature-service.json";
-import {
-  HOSTED_FEATURE_SERVICE_DEFINITION,
-  HOSTED_FEATURE_SERVICE_GUID,
-  HOSTED_FEATURE_SERVICE_ITEM,
-  HOSTED_FEATURE_SERVICE_URL,
-  NON_HOSTED_FEATURE_SERVICE_GUID,
-  NON_HOSTED_FEATURE_SERVICE_ITEM,
-  PDF_GUID,
-  PDF_ITEM,
-} from "./fixtures";
-import { MOCK_AUTH } from "../mocks/mock-auth";
 
 // mock the item enrichments that would be returned for a multi-layer service
 const getMultiLayerItemEnrichments = () => {
@@ -667,70 +656,20 @@ describe("fetchContent", () => {
 });
 
 describe("fetchHubContent", () => {
-  it("gets hosted feature service", async () => {
-    const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
-      Promise.resolve(HOSTED_FEATURE_SERVICE_ITEM)
+  it("defers to fetchContent", async () => {
+    const spy = spyOn(
+      require("../../src/content/fetch"),
+      "fetchContent"
+    ).and.returnValue(
+      Promise.resolve({
+        item: {
+          type: "Feature Service",
+          id: "9001",
+        },
+      })
     );
-    const getServiceSpy = spyOn(
-      featureLayerModule,
-      "getService"
-    ).and.returnValue(HOSTED_FEATURE_SERVICE_DEFINITION);
-
-    const chk = await fetchHubContent(HOSTED_FEATURE_SERVICE_GUID, {
-      authentication: MOCK_AUTH,
-    });
-    expect(chk.id).toBe(HOSTED_FEATURE_SERVICE_GUID);
-    expect(chk.owner).toBe(HOSTED_FEATURE_SERVICE_ITEM.owner);
-    expect(chk.serverExtractCapability).toBeTruthy();
-    expect(chk.hostedDownloads).toBeFalsy();
-
-    expect(getItemSpy.calls.count()).toBe(1);
-    expect(getItemSpy.calls.argsFor(0)[0]).toBe(HOSTED_FEATURE_SERVICE_GUID);
-    expect(getServiceSpy.calls.count()).toBe(1);
-    expect(getServiceSpy.calls.argsFor(0)[0].url).toBe(
-      HOSTED_FEATURE_SERVICE_URL
-    );
-  });
-
-  it("gets non-hosted feature service", async () => {
-    const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
-      Promise.resolve(NON_HOSTED_FEATURE_SERVICE_ITEM)
-    );
-    const getServiceSpy = spyOn(featureLayerModule, "getService");
-
-    const chk = await fetchHubContent(NON_HOSTED_FEATURE_SERVICE_GUID, {
-      authentication: MOCK_AUTH,
-    });
-    expect(chk.id).toBe(NON_HOSTED_FEATURE_SERVICE_GUID);
-    expect(chk.owner).toBe(NON_HOSTED_FEATURE_SERVICE_ITEM.owner);
-    expect(chk.serverExtractCapability).toBeFalsy();
-    expect(chk.hostedDownloads).toBeFalsy();
-
-    expect(getItemSpy.calls.count()).toBe(1);
-    expect(getItemSpy.calls.argsFor(0)[0]).toBe(
-      NON_HOSTED_FEATURE_SERVICE_GUID
-    );
-    // Service definition isn't fetched for non-hosted feature services
-    expect(getServiceSpy.calls.count()).toBe(0);
-  });
-
-  it("gets non-service content", async () => {
-    const getItemSpy = spyOn(portalModule, "getItem").and.returnValue(
-      Promise.resolve(PDF_ITEM)
-    );
-    const getServiceSpy = spyOn(featureLayerModule, "getService");
-
-    const chk = await fetchHubContent(PDF_GUID, {
-      authentication: MOCK_AUTH,
-    });
-    expect(chk.id).toBe(PDF_GUID);
-    expect(chk.owner).toBe(PDF_ITEM.owner);
-    expect(chk.serverExtractCapability).toBeFalsy();
-    expect(chk.hostedDownloads).toBeFalsy();
-
-    expect(getItemSpy.calls.count()).toBe(1);
-    expect(getItemSpy.calls.argsFor(0)[0]).toBe(PDF_GUID);
-    // Service definition isn't fetched items that aren't hosted feature services
-    expect(getServiceSpy.calls.count()).toBe(0);
+    const fakeRequestOptions = {};
+    await fetchHubContent("123", fakeRequestOptions);
+    expect(spy).toHaveBeenCalled();
   });
 });

@@ -10,6 +10,7 @@ import { IHubContentEditor, IHubEditableContent } from "../core";
 // Note - we separate these imports so we can cleanly spy on things in tests
 import {
   createModel,
+  getModel,
   updateModel,
   // upsertModelResources,
 } from "../models";
@@ -18,17 +19,8 @@ import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { cloneObject } from "../util";
 import { IModel } from "../types";
+import { computeProps } from "./_internal/computeProps";
 import { getProp } from "../objects/get-prop";
-import { modelToHubEditableContent } from "./fetch";
-import { getService, parseServiceUrl } from "@esri/arcgis-rest-feature-layer";
-import { updateServiceDefinition } from "@esri/arcgis-rest-service-admin";
-import {
-  hasServiceCapability,
-  isHostedFeatureServiceEntity,
-  ServiceCapabilities,
-  toggleServiceCapability,
-} from "./hostedServiceUtils";
-import { IItemAndIServerEnrichments } from "../items/_enrichments";
 
 // TODO: move this to defaults?
 const DEFAULT_CONTENT_MODEL: IModel = {
@@ -98,11 +90,13 @@ export async function updateContent(
   content: IHubEditableContent,
   requestOptions: IUserRequestOptions
 ): Promise<IHubEditableContent> {
-  // Get the backing item
-  // NOTE: We can't just call `getModel` because we need to be able
+  // let resources;
+
+  // get the backing item & data
+  // We can't just call getModel because we need to be able
   // to properly handle other types like PDFs that don't have JSON data
   const item = await getItem(content.id, requestOptions);
-  const model: IModel = { item };
+  const model = { item };
   // create the PropertyMapper
   const mapper = new PropertyMapper<Partial<IHubEditableContent>, IModel>(
     getPropertyMap()
@@ -117,37 +111,30 @@ export async function updateContent(
   modelToUpdate.item.properties.boundary =
     locationType === "none" ? "none" : "item";
 
+  // TODO: if we have resources disconnect them from the model for now.
+  // if (modelToUpdate.resources) {
+  //   resources = configureBaseResources(
+  //     cloneObject(modelToUpdate.resources),
+  //     EntityResourceMap
+  //   );
+  //   delete modelToUpdate.resources;
+  // }
   // update the backing item
   const updatedModel = await updateModel(modelToUpdate, requestOptions);
-
-  // update enrichment values
-  const enrichments: IItemAndIServerEnrichments = {};
-  if (isHostedFeatureServiceEntity(content)) {
-    const currentDefinition = await getService({
-      ...requestOptions,
-      url: content.url,
-    });
-    const currentServerExtractEnabled = hasServiceCapability(
-      ServiceCapabilities.EXTRACT,
-      currentDefinition
-    );
-    // To avoid over-updating the service, we only fire an update call if Extract has changed
-    if (currentServerExtractEnabled !== content.serverExtractCapability) {
-      const updatedDefinition = toggleServiceCapability(
-        ServiceCapabilities.EXTRACT,
-        currentDefinition
-      );
-      await updateServiceDefinition(parseServiceUrl(content.url), {
-        authentication: requestOptions.authentication,
-        updateDefinition: updatedDefinition,
-      });
-      enrichments.server = updatedDefinition;
-    } else {
-      enrichments.server = currentDefinition;
-    }
-  }
-
-  return modelToHubEditableContent(updatedModel, requestOptions, enrichments);
+  // // if we have resources, create them, then re-attach them to the model
+  // if (resources) {
+  //   updatedModel = await upsertModelResources(
+  //     updatedModel,
+  //     resources,
+  //     requestOptions
+  //   );
+  // }
+  // now map back into a project and return that
+  let updatedContent = mapper.storeToEntity(updatedModel, content);
+  updatedContent = computeProps(model, updatedContent, requestOptions);
+  // the casting is needed because modelToObject returns a `Partial<T>`
+  // where as this function returns a `T`
+  return updatedContent as IHubEditableContent;
 }
 
 /**

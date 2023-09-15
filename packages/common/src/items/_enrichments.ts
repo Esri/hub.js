@@ -37,8 +37,6 @@ export type ItemOrServerEnrichment =
   | keyof IItemEnrichments
   | keyof IServerEnrichments;
 
-export type IItemAndIServerEnrichments = IItemEnrichments & IServerEnrichments;
-
 /**
  * Lazy load XML parsing library and parse metadata XML into JSON
  * @param metadataXml

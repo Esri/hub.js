@@ -19,7 +19,6 @@ import * as DiscussionBuildCreateUiSchema from "../../../../src/discussions/_int
 
 import { ContentEditorTypes } from "../../../../src/content/_internal/ContentSchema";
 import * as ContentBuildEditUiSchema from "../../../../src/content/_internal/ContentUiSchemaEdit";
-import * as ContentBuildSettingsUiSchema from "../../../../src/content/_internal/ContentUiSchemaSettings";
 
 import { PageEditorTypes } from "../../../../src/pages/_internal/PageSchema";
 import * as PageBuildEditUiSchema from "../../../../src/pages/_internal/PageUiSchemaEdit";
@@ -43,7 +42,6 @@ describe("getEntityEditorSchemas: ", () => {
     { type: DiscussionEditorTypes[0], buildFn: DiscussionBuildEditUiSchema },
     { type: DiscussionEditorTypes[1], buildFn: DiscussionBuildCreateUiSchema },
     { type: ContentEditorTypes[0], buildFn: ContentBuildEditUiSchema },
-    { type: ContentEditorTypes[1], buildFn: ContentBuildSettingsUiSchema },
     { type: PageEditorTypes[0], buildFn: PageBuildEditUiSchema },
     { type: GroupEditorTypes[0], buildFn: GroupBuildEditUiSchema },
     { type: GroupEditorTypes[1], buildFn: GroupBuildSettingsUiSchema },

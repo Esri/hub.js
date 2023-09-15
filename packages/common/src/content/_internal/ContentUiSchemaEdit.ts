@@ -1,10 +1,10 @@
+import { IUiSchema } from "../../core";
 import { IArcGISContext } from "../../ArcGISContext";
+import { IHubContent } from "../../core/types";
 import { getTagItems } from "../../core/schemas/internal/getTagItems";
 import { getCategoryItems } from "../../core/schemas/internal/getCategoryItems";
 import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
 import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
-import { IHubEditableContent } from "../../core/types/IHubEditableContent";
-import { IUiSchema } from "../../core/schemas/types";
 
 /**
  * @private
@@ -14,7 +14,7 @@ import { IUiSchema } from "../../core/schemas/types";
  */
 export const buildUiSchema = async (
   i18nScope: string,
-  entity: IHubEditableContent,
+  entity: IHubContent,
   context: IArcGISContext
 ): Promise<IUiSchema> => {
   return {
