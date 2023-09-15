@@ -232,13 +232,25 @@ export const fetchContent = async (
   return content;
 };
 
+/**
+ * fetch a content entity by identifier
+ * @param identifier
+ * @param requestOptions
+ * @returns content entity
+ */
 export const fetchHubContent = async (
   identifier: string,
   requestOptions: IRequestOptions
 ): Promise<IHubEditableContent> => {
-  // NOTE: We can't just call `getModel` because we need to be able
-  // to properly handle other types like PDFs that don't have JSON data
-  const item = await getItem(identifier, requestOptions);
+  // NOTE: b/c we have to support slugs we use fetchContent() to get the item
+  // by telling it to not fetch any enrichments
+  // which we then fetch as needed after we have the item
+  const options = {
+    ...requestOptions,
+    enrichments: [],
+  } as IFetchContentOptions;
+  const { item } = await fetchContent(identifier, options);
+  const model = { item };
   const enrichments: IItemAndIServerEnrichments = {};
   if (isHostedFeatureServiceItem(item)) {
     enrichments.server = await getService({
@@ -246,7 +258,6 @@ export const fetchHubContent = async (
       url: parseServiceUrl(item.url),
     });
   }
-  const model: IModel = { item };
   return modelToHubEditableContent(model, requestOptions, enrichments);
 };
 

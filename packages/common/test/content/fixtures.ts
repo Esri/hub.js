@@ -1,7 +1,7 @@
 import { IItem } from "@esri/arcgis-rest-portal";
 import { IFeatureServiceDefinition } from "@esri/arcgis-rest-types";
 
-export const HOSTED_FEATURE_SERVICE_GUID = "9001";
+export const HOSTED_FEATURE_SERVICE_GUID = "A1295DEF67814571B99EDDEA65748143";
 export const HOSTED_FEATURE_SERVICE_URL =
   "https://services.arcgis.com/:orgId/arcgis/rest/services/:serviceName/FeatureServer";
 export const HOSTED_FEATURE_SERVICE_ITEM: IItem = {
@@ -32,14 +32,15 @@ export const HOSTED_FEATURE_SERVICE_DEFINITION = {
   capabilities: "Extract,Query",
 } as IFeatureServiceDefinition;
 
-export const NON_HOSTED_FEATURE_SERVICE_GUID = "9002";
+export const NON_HOSTED_FEATURE_SERVICE_GUID =
+  "A1295DEF67814571B99EDDEA65748142";
 export const NON_HOSTED_FEATURE_SERVICE_ITEM: IItem = {
   ...HOSTED_FEATURE_SERVICE_ITEM,
   id: NON_HOSTED_FEATURE_SERVICE_GUID,
   typeKeywords: [],
 };
 
-export const PDF_GUID = "9003";
+export const PDF_GUID = "A1295DEF67814571B99EDDEA65748148";
 export const PDF_ITEM: IItem = {
   id: PDF_GUID,
   access: "public",
