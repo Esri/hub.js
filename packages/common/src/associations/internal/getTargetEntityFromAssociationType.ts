@@ -2,7 +2,7 @@ import { EntityType } from "../../search/types/IHubCatalog";
 import { AssociationType } from "../types";
 
 /**
- * Get the item type for an association type
+ * Get the entity item type for an association type
  * @param type
  * @returns
  */
