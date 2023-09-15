@@ -1,3 +1,10 @@
+## @esri/hub-common [14.13.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.13.0...@esri/hub-common@14.13.1) (2023-09-15)
+
+
+### Bug Fixes
+
+* **hub-common:** fix fetchHubContent does not support slugs ([#1216](https://github.com/Esri/hub.js/issues/1216)) ([d3a4eba](https://github.com/Esri/hub.js/commit/d3a4ebafcc04994a3a8b0ca670024195e12721bf))
+
 # @esri/hub-common [14.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.12.1...@esri/hub-common@14.13.0) (2023-09-13)
 
 
