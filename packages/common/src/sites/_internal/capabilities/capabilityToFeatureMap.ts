@@ -14,6 +14,17 @@ import { ICapabilityToFeatureMap } from "./types";
  */
 export const capabilityToFeatureMap: ICapabilityToFeatureMap[] = [
   {
+    /**
+     * Currently if the hideFollow capability is present
+     * on the site capabilities, the app interprets this
+     * to mean following is disabled for the site, and
+     * thus, in-page action "Follow" buttons are not
+     * displayed. Permissions, however, are structured
+     * in the positive, meaning that hub:site:feature:follow
+     * should return true if following is enabled, and
+     * false if it's disabled. We set "negate" to true
+     * to handle this forward/backward discrepancy
+     */
     capability: "hideFollow",
     feature: "hub:site:feature:follow",
     negate: true,
