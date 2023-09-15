@@ -30,7 +30,7 @@ import {
   LegacySearchCategory,
 } from "./_internal/commonHelpers/isLegacySearchCategory";
 import { toCollectionKey } from "./_internal/commonHelpers/toCollectionKey";
-import { expandQuery } from "./_internal";
+import { expandQuery } from "./_internal/portalSearchItems";
 
 /**
  * Well known APIs

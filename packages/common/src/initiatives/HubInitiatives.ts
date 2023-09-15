@@ -282,21 +282,20 @@ export async function enrichInitiativeSearchResult(
 }
 
 /**
- * Fetch the Projects that are "Associated" with an Initiative.
- * This is a subset of the "Connected" projects, limited
- * are included in the Initiative's Catalog.
- * This is how we can get the "Approved" Projects
+ * Fetch the Projects that are "Accepted" with an Initiative.
+ * This is a subset of the "Associated" projects, limited
+ * to those included in the Initiative's Catalog.
  * @param initiative
  * @param requestOptions
  * @param query: Optional `IQuery` to further filter the results
  * @returns
  */
-export async function fetchAssociatedProjects(
+export async function fetchAcceptedProjects(
   initiative: IHubInitiative,
   requestOptions: IHubRequestOptions,
   query?: IQuery
 ): Promise<IEntityInfo[]> {
-  let projectQuery = getAssociatedProjectsQuery(initiative);
+  let projectQuery = getAcceptedProjectsQuery(initiative);
   // combineQueries will purge undefined/null entries
   projectQuery = combineQueries([projectQuery, query]);
 
@@ -304,40 +303,20 @@ export async function fetchAssociatedProjects(
 }
 
 /**
- * Fetch the Projects that are "Connected" to the Initiative but are not
- * "Associated", meaning they are not in the Initiative's Catalog.
- * This is how we can get the list of Projects awaiting Approval
+ * Fetch the Projects that are "Associated" to the Initiative but are not
+ * "Accepted", meaning they have the keyword but are not included in the Initiative's Catalog.
+ * This is how we can get the list of Projects awaiting Acceptance
  * @param initiative
  * @param requestOptions
  * @param query
  * @returns
  */
-export async function fetchConnectedProjects(
+export async function fetchPendingProjects(
   initiative: IHubInitiative,
   requestOptions: IHubRequestOptions,
   query?: IQuery
 ): Promise<IEntityInfo[]> {
-  let projectQuery = getConnectedProjectsQuery(initiative);
-  // combineQueries will purge undefined/null entries
-  projectQuery = combineQueries([projectQuery, query]);
-
-  return queryAsEntityInfo(projectQuery, requestOptions);
-}
-
-/**
- * Fetch Projects which are not "Connected" and are not in the
- * Initiative's Catalog.
- * @param initiative
- * @param requestOptions
- * @param query
- * @returns
- */
-export async function fetchUnConnectedProjects(
-  initiative: IHubInitiative,
-  requestOptions: IHubRequestOptions,
-  query?: IQuery
-): Promise<IEntityInfo[]> {
-  let projectQuery = getUnConnectedProjectsQuery(initiative);
+  let projectQuery = getPendingProjectsQuery(initiative);
   // combineQueries will purge undefined/null entries
   projectQuery = combineQueries([projectQuery, query]);
 
@@ -374,7 +353,7 @@ async function queryAsEntityInfo(
  * @param initiative
  * @returns
  */
-export function getAssociatedProjectsQuery(initiative: IHubInitiative): IQuery {
+export function getAcceptedProjectsQuery(initiative: IHubInitiative): IQuery {
   // get query that returns Hub Projects with the initiative keyword
   let query = getTypeWithKeywordQuery(
     "Hub Project",
@@ -397,7 +376,7 @@ export function getAssociatedProjectsQuery(initiative: IHubInitiative): IQuery {
  * @param initiative
  * @returns
  */
-export function getConnectedProjectsQuery(initiative: IHubInitiative): IQuery {
+export function getPendingProjectsQuery(initiative: IHubInitiative): IQuery {
   // get query that returns Hub Projects with the initiative keyword
   let query = getTypeWithKeywordQuery(
     "Hub Project",
@@ -412,25 +391,47 @@ export function getConnectedProjectsQuery(initiative: IHubInitiative): IQuery {
   return query;
 }
 
-/**
- * Un-connected projects are those without Initiative id in the typekeywords
- * and is NOT included in the Initiative's catalog.
- * This can be used to locate "Other" Projects
- * @param initiative
- * @returns
- */
-export function getUnConnectedProjectsQuery(
-  initiative: IHubInitiative
-): IQuery {
-  // get query that returns Hub Projects with the initiative keyword
-  let query = getTypeWithoutKeywordQuery(
-    "Hub Project",
-    `initiative|${initiative.id}`
-  );
-  // The the item scope from the catalog...
-  const qry = getProp(initiative, "catalog.scopes.item");
+// ALTHOUGH WE DON"T CURRENTLY HAVE A UX THAT NEEDS THIS
+// THERE IS SOME DISCUSSION ABOUT IT BEING USEFUL SO I'M LEAVING
+// THE CODE HERE, COMMENTED. SAME FOR TESTS
+// /**
+//  * Fetch Projects which are not "Connected" and are not in the
+//  * Initiative's Catalog.
+//  * @param initiative
+//  * @param requestOptions
+//  * @param query
+//  * @returns
+//  */
+// export async function fetchUnConnectedProjects(
+//   initiative: IHubInitiative,
+//   requestOptions: IHubRequestOptions,
+//   query?: IQuery
+// ): Promise<IEntityInfo[]> {
+//   let projectQuery = getUnConnectedProjectsQuery(initiative);
+//   // combineQueries will purge undefined/null entries
+//   projectQuery = combineQueries([projectQuery, query]);
 
-  // negate the scope, combine that with the base query
-  query = combineQueries([query, negateGroupPredicates(qry)]);
-  return query;
-}
+//   return queryAsEntityInfo(projectQuery, requestOptions);
+// }
+// /**
+//  * Un-connected projects are those without Initiative id in the typekeywords
+//  * and is NOT included in the Initiative's catalog.
+//  * This can be used to locate "Other" Projects
+//  * @param initiative
+//  * @returns
+//  */
+// export function getUnConnectedProjectsQuery(
+//   initiative: IHubInitiative
+// ): IQuery {
+//   // get query that returns Hub Projects with the initiative keyword
+//   let query = getTypeWithoutKeywordQuery(
+//     "Hub Project",
+//     `initiative|${initiative.id}`
+//   );
+//   // The the item scope from the catalog...
+//   const qry = getProp(initiative, "catalog.scopes.item");
+
+//   // negate the scope, combine that with the base query
+//   query = combineQueries([query, negateGroupPredicates(qry)]);
+//   return query;
+// }

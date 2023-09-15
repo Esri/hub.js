@@ -1,9 +1,8 @@
 import {
   IHubInitiative,
-  fetchConnectedProjects,
-  fetchAssociatedProjects,
+  fetchAcceptedProjects,
   fetchHubEntity,
-  fetchUnConnectedProjects,
+  fetchPendingProjects,
 } from "../src";
 import Artifactory from "./helpers/Artifactory";
 import config from "./helpers/config";
@@ -98,7 +97,7 @@ fdescribe("associations development harness:", () => {
     });
   });
   describe("flex the functions:", () => {
-    it("search for associated projects", async () => {
+    it("search for accepted projects", async () => {
       const ctxMgr = await factory.getContextManager(orgName, "admin");
       const context = ctxMgr.context;
       const entity = (await fetchHubEntity(
@@ -107,30 +106,14 @@ fdescribe("associations development harness:", () => {
         context
       )) as IHubInitiative;
       // debugger;
-      const projects = await fetchAssociatedProjects(
+      const projects = await fetchAcceptedProjects(
         entity,
         context.hubRequestOptions
       );
       expect(projects.length).toBe(6);
     });
-    it("search for un-related projects", async () => {
-      const ctxMgr = await factory.getContextManager(orgName, "admin");
-      const context = ctxMgr.context;
-      const entity = (await fetchHubEntity(
-        "initiative",
-        TEST_ITEMS.initiative,
-        context
-      )) as IHubInitiative;
-      // debugger;
-      const projects = await fetchUnConnectedProjects(
-        entity,
-        context.hubRequestOptions
-      );
-      // need to update this so we fetch all pages
-      expect(projects.length).toBe(10);
-    });
 
-    it("search for related projects", async () => {
+    it("search for pending projects", async () => {
       const ctxMgr = await factory.getContextManager(orgName, "admin");
       const context = ctxMgr.context;
       const entity = (await fetchHubEntity(
@@ -138,7 +121,7 @@ fdescribe("associations development harness:", () => {
         TEST_ITEMS.initiative,
         context
       )) as IHubInitiative;
-      const projects = await fetchConnectedProjects(
+      const projects = await fetchPendingProjects(
         entity,
         context.hubRequestOptions
       );

@@ -148,14 +148,14 @@ export async function enrichProjectSearchResult(
  * chosen to connect to. If project has not defined any associations
  * to any Initiatives, will return `null`.
  * Currently, we have not implemented a means to get the list of initiatives that have
- * "Approved" the Project via inclusion in it's catalog.
+ * "Accepted" the Project via inclusion in it's catalog.
  *
  * If needed, this could be done by getting all the groups the project is shared into
- * then cross-walking that into the catalogs of all the Connected Initiatives
+ * then cross-walking that into the catalogs of all the Associated Initiatives
  * @param project
  * @returns
  */
-export function getConnectedInitiativesQuery(project: IHubProject): IQuery {
+export function getAssociatedInitiativesQuery(project: IHubProject): IQuery {
   // get the list of ids from the keywords
   const ids = listAssociations(project, "initiative").map((a) => a.id);
   if (ids.length) {

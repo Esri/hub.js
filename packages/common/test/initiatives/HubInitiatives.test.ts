@@ -12,12 +12,10 @@ import {
   fetchInitiative,
   deleteInitiative,
   updateInitiative,
-  getAssociatedProjectsQuery,
-  getConnectedProjectsQuery,
-  getUnConnectedProjectsQuery,
-  fetchAssociatedProjects,
-  fetchConnectedProjects,
-  fetchUnConnectedProjects,
+  getPendingProjectsQuery,
+  getAcceptedProjectsQuery,
+  fetchAcceptedProjects,
+  fetchPendingProjects,
 } from "../../src/initiatives/HubInitiatives";
 import { IHubInitiative } from "../../src/core/types/IHubInitiative";
 import { cloneObject } from "../../src/util";
@@ -431,7 +429,7 @@ describe("HubInitiatives:", () => {
       } as unknown as IHubInitiative;
     });
     it("getAssociatedProjectsQuery", () => {
-      const chk = getAssociatedProjectsQuery(fixture);
+      const chk = getAcceptedProjectsQuery(fixture);
       expect(chk.targetEntity).toBe("item");
       // ensure we have type and keyword in predicate
       expect(verifyPredicate(chk, { type: "Hub Project" })).toBeTruthy();
@@ -441,7 +439,7 @@ describe("HubInitiatives:", () => {
       expect(getPredicateValue(chk, { group: null })).toEqual(["00c", "aa1"]);
     });
     it("getConnectedProjectsQuery", () => {
-      const chk = getConnectedProjectsQuery(fixture);
+      const chk = getPendingProjectsQuery(fixture);
       expect(chk.targetEntity).toBe("item");
       // ensure we have type and keyword in predicate
       expect(verifyPredicate(chk, { type: "Hub Project" })).toBeTruthy();
@@ -454,27 +452,27 @@ describe("HubInitiatives:", () => {
         not: ["00c", "aa1"],
       });
     });
-    it("getUnConnectedProjectsQuery", () => {
-      const chk = getUnConnectedProjectsQuery(fixture);
-      expect(chk.targetEntity).toBe("item");
-      // ensure we have type and keyword in predicate
-      expect(verifyPredicate(chk, { type: "Hub Project" })).toBeTruthy();
+    // it("getUnConnectedProjectsQuery", () => {
+    //   const chk = getUnConnectedProjectsQuery(fixture);
+    //   expect(chk.targetEntity).toBe("item");
+    //   // ensure we have type and keyword in predicate
+    //   expect(verifyPredicate(chk, { type: "Hub Project" })).toBeTruthy();
 
-      expect(getPredicateValue(chk, { typekeywords: null })).toEqual(
-        {
-          not: ["initiative|00f"],
-        },
-        "should have negated keyword"
-      );
-      expect(getPredicateValue(chk, { group: null })).toEqual({
-        any: [],
-        all: [],
-        not: ["00c", "aa1"],
-      });
-    });
+    //   expect(getPredicateValue(chk, { typekeywords: null })).toEqual(
+    //     {
+    //       not: ["initiative|00f"],
+    //     },
+    //     "should have negated keyword"
+    //   );
+    //   expect(getPredicateValue(chk, { group: null })).toEqual({
+    //     any: [],
+    //     all: [],
+    //     not: ["00c", "aa1"],
+    //   });
+    // });
   });
 
-  describe("fetchAssociated:", () => {
+  describe("fetchAccepted:", () => {
     let searchSpy: jasmine.Spy;
     let fixture: IHubInitiative;
     beforeEach(() => {
@@ -517,7 +515,7 @@ describe("HubInitiatives:", () => {
       } as unknown as IHubInitiative;
     });
     it("fetches associated projects", async () => {
-      const chk = await fetchAssociatedProjects(fixture, MOCK_AUTH);
+      const chk = await fetchAcceptedProjects(fixture, MOCK_AUTH);
       expect(searchSpy).toHaveBeenCalled();
       // get the query
       const qry = searchSpy.calls.argsFor(0)[0];
@@ -531,8 +529,8 @@ describe("HubInitiatives:", () => {
         type: "Hub Project",
       });
     });
-    it("fetches connected projects", async () => {
-      const chk = await fetchConnectedProjects(fixture, MOCK_AUTH);
+    it("fetches pending projects", async () => {
+      const chk = await fetchPendingProjects(fixture, MOCK_AUTH);
       expect(searchSpy).toHaveBeenCalled();
       // get the query
       const qry = searchSpy.calls.argsFor(0)[0];
@@ -550,31 +548,34 @@ describe("HubInitiatives:", () => {
         type: "Hub Project",
       });
     });
-    it("fetches unconnected projects", async () => {
-      const chk = await fetchUnConnectedProjects(fixture, MOCK_AUTH);
-      expect(searchSpy).toHaveBeenCalled();
-      // get the query
-      const qry = searchSpy.calls.argsFor(0)[0];
-      // this should have the negated groups in the predicate
-      expect(getPredicateValue(qry, { group: null })).toEqual({
-        any: [],
-        all: [],
-        not: ["00c", "aa1"],
-      });
-      expect(getPredicateValue(qry, { typekeywords: null })).toEqual(
-        {
-          not: ["initiative|00f"],
-        },
-        "should have negated keyword"
-      );
-      expect(chk.length).toBe(1);
-      // verify conversion
-      expect(chk[0]).toEqual({
-        id: "3ef",
-        name: "fake result",
-        type: "Hub Project",
-      });
-    });
+    // ALTHOUGH WE DON"T CURRENTLY HAVE A UX THAT NEEDS THIS
+    // THERE IS SOME DISCUSSION ABOUT IT BEING USEFUL SO I'M LEAVING
+    // THE CODE HERE, COMMENTED.
+    // it("fetches unconnected projects", async () => {
+    //   const chk = await fetchUnConnectedProjects(fixture, MOCK_AUTH);
+    //   expect(searchSpy).toHaveBeenCalled();
+    //   // get the query
+    //   const qry = searchSpy.calls.argsFor(0)[0];
+    //   // this should have the negated groups in the predicate
+    //   expect(getPredicateValue(qry, { group: null })).toEqual({
+    //     any: [],
+    //     all: [],
+    //     not: ["00c", "aa1"],
+    //   });
+    //   expect(getPredicateValue(qry, { typekeywords: null })).toEqual(
+    //     {
+    //       not: ["initiative|00f"],
+    //     },
+    //     "should have negated keyword"
+    //   );
+    //   expect(chk.length).toBe(1);
+    //   // verify conversion
+    //   expect(chk[0]).toEqual({
+    //     id: "3ef",
+    //     name: "fake result",
+    //     type: "Hub Project",
+    //   });
+    // });
   });
 });
 

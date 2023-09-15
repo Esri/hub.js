@@ -1,10 +1,5 @@
 import { IGroup, ISearchOptions, IUser } from "@esri/arcgis-rest-portal";
-import {
-  IHubSite,
-  IQuery,
-  ISearchResponse,
-  getGroupPredicate,
-} from "../../src";
+import { IHubSite, IQuery, ISearchResponse } from "../../src";
 import { IHubSearchResult, IRelativeDate } from "../../src/search";
 import {
   expandApis,
@@ -15,6 +10,7 @@ import {
   getNextFunction,
   migrateToCollectionKey,
   getResultSiteRelativeLink,
+  getGroupPredicate,
 } from "../../src/search/utils";
 import { MOCK_AUTH } from "../mocks/mock-auth";
 import { mockUserSession } from "../test-helpers/fake-user-session";
