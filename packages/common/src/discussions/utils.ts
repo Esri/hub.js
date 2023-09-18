@@ -1,7 +1,13 @@
 import { IGroup, IItem } from "@esri/arcgis-rest-types";
 import { IHubContent, IHubItemEntity } from "../core";
 import { CANNOT_DISCUSS } from "./constants";
-import { IChannel, SharingAccess } from "./api/types";
+import {
+  AclCategory,
+  AclSubCategory,
+  IChannel,
+  IChannelAclPermission,
+  SharingAccess,
+} from "./api/types";
 import {
   IFilter,
   IHubSearchOptions,
@@ -44,12 +50,100 @@ export function setDiscussableKeyword(
 }
 
 /**
+ * Determines if the given channel is considered to be a `public` channel, supporting both
+ * legacy permissions and V2 ACL model.
+ * @param channel An IChannel record
+ * @returns true if the channel is considered `public`
+ */
+export function isPublicChannel(channel: IChannel): boolean {
+  return channel.channelAcl
+    ? channel.channelAcl.some(
+        ({ category }) => category === AclCategory.AUTHENTICATED_USER
+      )
+    : channel.access === SharingAccess.PUBLIC;
+}
+
+/**
+ * Determines if the given channel is considered to be an `org` channel, supporting both
+ * legacy permissions and V2 ACL model.
+ * @param channel An IChannel record
+ * @returns true if the channel is considered `org`
+ */
+export function isOrgChannel(channel: IChannel): boolean {
+  return channel.channelAcl
+    ? channel.channelAcl.some(({ category }) => category === AclCategory.ORG)
+    : channel.access === SharingAccess.ORG;
+}
+
+/**
+ * Determines if the given channel is considered to be a `private` channel, supporting both
+ * legacy permissions and V2 ACL model.
+ * @param channel An IChannel record
+ * @returns true if the channel is considered `private`
+ */
+export function isPrivateChannel(channel: IChannel): boolean {
+  return !isPublicChannel(channel) && !isOrgChannel(channel);
+}
+
+/**
+ * Determines the given channel's access, supporting both legacy permissions and V2 ACL
+ * model.
+ * @param channel An IChannel record
+ * @returns `public`, `org` or `private`
+ */
+export function getChannelAccess(channel: IChannel): SharingAccess {
+  let access = SharingAccess.PRIVATE;
+  if (isPublicChannel(channel)) {
+    access = SharingAccess.PUBLIC;
+  } else if (isOrgChannel(channel)) {
+    access = SharingAccess.ORG;
+  }
+  return access;
+}
+
+/**
+ * Returns an array of org ids configured for the channel, supporting both legacy permissions
+ * and V2 ACL model.
+ * @param channel An IChannel record
+ * @returns an array of org ids for the given channel
+ */
+export function getChannelOrgIds(channel: IChannel): string[] {
+  return channel.channelAcl
+    ? channel.channelAcl.reduce(
+        (acc, permission) =>
+          permission.category === AclCategory.ORG &&
+          permission.subCategory === AclSubCategory.MEMBER
+            ? [...acc, permission.key]
+            : acc,
+        []
+      )
+    : channel.orgs;
+}
+
+/**
+ * Returns an array of group ids configured for the channel, supporting both legacy permissions
+ * and V2 ACL model.
+ * @param channel An IChannel record
+ * @returns an array of group ids for the given channel
+ */
+export function getChannelGroupIds(channel: IChannel): string[] {
+  return channel.channelAcl
+    ? channel.channelAcl.reduce(
+        (acc, permission) =>
+          permission.category === AclCategory.GROUP &&
+          permission.subCategory === AclSubCategory.MEMBER
+            ? [...acc, permission.key]
+            : acc,
+        []
+      )
+    : channel.groups;
+}
+
+/**
  * A utility method used to search for users that are permitted to be at-mentioned by the currently authenticated user
- * for the given channel access configuration.
+ * for the given channel.
  * @param data An object of query-related values
- * @param data.users An array of strings to search for. Each string is mapped to `username` and `fullname` filters as an OR condition
- * @param data.access The channel sharing access
- * @param data.orgs The channel org ids
+ * @param data.channel An IChannel record
  * @param data.groups The channel group ids
  * @param data.currentUsername The currently authenticated user's username
  * @param options An IHubSearchOptions object
@@ -58,36 +152,38 @@ export function setDiscussableKeyword(
 export function searchChannelUsers(
   data: {
     users: string[];
-    access: SharingAccess;
-    orgs: string[];
-    groups: string[];
+    channel: IChannel;
     currentUsername?: string;
   },
   options: IHubSearchOptions
 ): Promise<IHubSearchResponse<IHubSearchResult>> {
-  const { users, currentUsername, groups, access, orgs } = data;
-  const groupsPredicate = { group: groups };
-  const groupsOrEmptyNull = groups.length ? groupsPredicate : null;
+  const { users, currentUsername, channel } = data;
+  const groupIds = getChannelGroupIds(channel);
+  const orgIds = getChannelOrgIds(channel);
+  const groupsPredicate = { group: groupIds };
   let filters: IFilter[];
-  if (access === SharingAccess.PRIVATE) {
-    filters = [
-      {
-        operation: "AND",
-        predicates: [groupsPredicate],
-      },
-    ];
-  } else if (access === SharingAccess.ORG) {
+  if (isPublicChannel(channel)) {
     filters = [
       {
         operation: "OR",
-        predicates: [{ orgid: orgs }, groupsOrEmptyNull],
+        predicates: [{ orgid: { from: "0", to: "{" } }],
+      },
+    ];
+  } else if (isOrgChannel(channel)) {
+    filters = [
+      {
+        operation: "OR",
+        predicates: [
+          { orgid: orgIds },
+          groupIds.length ? groupsPredicate : null,
+        ],
       },
     ];
   } else {
     filters = [
       {
-        operation: "OR",
-        predicates: [{ orgid: { from: "0", to: "{" } }, groupsOrEmptyNull],
+        operation: "AND",
+        predicates: [groupsPredicate],
       },
     ];
   }
