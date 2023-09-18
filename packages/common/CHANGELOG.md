@@ -1,3 +1,10 @@
+# @esri/hub-common [14.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.14.0...@esri/hub-common@14.15.0) (2023-09-18)
+
+
+### Features
+
+* followers settings schema and behavior ([#1211](https://github.com/Esri/hub.js/issues/1211)) ([a8be73b](https://github.com/Esri/hub.js/commit/a8be73b444c84ac3547d3259d88666a5d92b6d89))
+
 # @esri/hub-common [14.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.13.1...@esri/hub-common@14.14.0) (2023-09-18)
 
 
