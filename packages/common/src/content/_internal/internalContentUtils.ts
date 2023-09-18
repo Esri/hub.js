@@ -31,6 +31,11 @@ import {
 import { getFamily } from "../get-family";
 import { getProp } from "../../objects";
 import { IHubAdditionalResource } from "../../core/types/IHubAdditionalResource";
+import { getItemHomeUrl, getPortalUrl } from "../../urls";
+import { getEnvironmentFromPortalUrl } from "../../utils";
+import { HubEnvironment } from "../../permissions";
+import { _getHubUrlFromPortalHostname } from "../../urls/_get-hub-url-from-portal-hostname";
+import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 /**
  * Create a new content with updated boundary properties
@@ -640,4 +645,231 @@ export const getShortenedCategories = (categories: string[]) => {
     shortenedCategory && acc.push(shortenedCategory);
     return acc;
   }, []);
+};
+
+/**
+ * returns URL to edit content of application type
+ *
+ * @param item
+ * @param requestOptions
+ */
+export const getContentEditUrl = (
+  item: IItem,
+  requestOptions: IRequestOptions
+) => {
+  let contentEditUrl: string;
+  switch (getNormalizedAppItemType(item)) {
+    case "Dashboard":
+      contentEditUrl = getDashboardEditUrl(item, requestOptions);
+      break;
+    case "Insights":
+    case "Insights Page":
+    case "Insights Workbook":
+      contentEditUrl = getInsightsEditUrl(item, requestOptions);
+      break;
+    case "Experience":
+      contentEditUrl = getExperienceBuilderEditUrl(item, requestOptions);
+      break;
+    case "Web AppBuilder":
+      contentEditUrl = getWebAppBuilderEditUrl(item, requestOptions);
+      break;
+    case "Form":
+      contentEditUrl = getSurvey123EditUrl(item, requestOptions);
+      break;
+    case "StoryMap":
+      contentEditUrl = getStoryMapEditUrl(item, requestOptions);
+      break;
+    case "Urban Model":
+      contentEditUrl = getUrbanModelEditUrl(item, requestOptions);
+      break;
+  }
+  return contentEditUrl;
+};
+
+/**
+ * returns normalized application item type
+ *
+ * @param item
+ */
+export const getNormalizedAppItemType = (item: IItem) => {
+  const typeKeywords = item.typeKeywords || [];
+  let result = item.type || "";
+
+  if (
+    item.type === "StoryMap" ||
+    (item.type === "Web Mapping Application" &&
+      typeKeywords.includes("Story Map"))
+  ) {
+    result = "StoryMap";
+  } else if (item.type === "Insights Page") {
+    result = "Insights Page";
+  } else if (item.type === "Insights Workbook") {
+    result = "Insights Workbook";
+  } else if (item.type && item.type.includes("Insights")) {
+    result = "Insights";
+  } else if (
+    item.type === "Web Experience" ||
+    (item.type === "Web Mapping Experience" &&
+      typeKeywords.includes("EXB Experience"))
+  ) {
+    result = "Experience";
+  } else if (typeKeywords.includes("Web AppBuilder")) {
+    result = "Web AppBuilder";
+  }
+  return result;
+};
+
+/**
+ * returns url to edit Story map application
+ *
+ * @param item
+ * @param requestOptions
+ */
+export const getStoryMapEditUrl = (
+  item: IItem,
+  requestOptions: IRequestOptions
+) => {
+  const storyMapsBases: Partial<Record<HubEnvironment, string>> = {
+    devext: "storymapsdev",
+    qaext: "storymapsqa",
+    production: "storymaps",
+  };
+  const portalUrl = getPortalUrl(requestOptions);
+  const env = getEnvironmentFromPortalUrl(portalUrl);
+  const storyMapUrl = `https://${storyMapsBases[env]}.arcgis.com`;
+
+  return `${storyMapUrl}/stories/${item.id}/edit`;
+};
+
+/**
+ * returns URL to edit Experience builder application
+ *
+ * @param item
+ * @param requestOptions
+ */
+export const getExperienceBuilderEditUrl = (
+  item: IItem,
+  requestOptions: IRequestOptions
+) => {
+  const envBases: Partial<Record<HubEnvironment, string>> = {
+    devext: "dev",
+    qaext: "qa",
+    production: "",
+  };
+  const portalUrl = getPortalUrl(requestOptions);
+  const env = getEnvironmentFromPortalUrl(portalUrl);
+  const experienceBuilderUrl = `https://experience${envBases[env]}.arcgis.com`;
+
+  return `${experienceBuilderUrl}/builder/?id=${item.id}`;
+};
+
+/**
+ * returns URL to edit Dashboard application
+ *
+ * @param item
+ * @param requestOptions
+ */
+export const getDashboardEditUrl = (
+  item: IItem,
+  requestOptions: IRequestOptions
+) => {
+  const portalUrl = getPortalUrl(requestOptions);
+  let url = `${portalUrl}/apps/opsdashboard/index.html#/${item.id}?mode=edit`;
+  if (item.typeKeywords && item.typeKeywords.includes("ArcGIS Dashboards")) {
+    url = `${portalUrl}/apps/dashboards/${item.id}#mode=edit`;
+  }
+  return url;
+};
+
+/**
+ * returns URL to edit Web application builder
+ *
+ * @param item
+ * @param requestOptions
+ */
+export const getWebAppBuilderEditUrl = (
+  item: IItem,
+  requestOptions: IRequestOptions
+) => {
+  const portalUrl = getPortalUrl(requestOptions);
+  return `${portalUrl}/apps/webappbuilder/index.html?id=${item.id}`;
+};
+
+/**
+ * returns URL to edit Survey123 application
+ *
+ * @param item
+ * @param requestOptions
+ */
+export const getSurvey123EditUrl = (
+  item: IItem,
+  requestOptions: IRequestOptions
+) => {
+  const envBases: Partial<Record<HubEnvironment, string>> = {
+    devext: "dev",
+    qaext: "qa",
+    production: "",
+  };
+  const portalUrl = getPortalUrl(requestOptions);
+  const env = getEnvironmentFromPortalUrl(portalUrl);
+
+  const survey123Url = `https://survey123${envBases[env]}.arcgis.com`;
+
+  let surver123EditUrl;
+  if (item.typeKeywords.includes("Survey123 Connect")) {
+    surver123EditUrl = getItemHomeUrl(item.id, portalUrl);
+  } else {
+    surver123EditUrl = `${survey123Url}/surveys/${item.id}/design?portalUrl=${portalUrl}`;
+  }
+
+  return surver123EditUrl;
+};
+
+/**
+ * returns URL to edit Insights application
+ *
+ * @param item
+ * @param requestOptions
+ */
+export const getInsightsEditUrl = (
+  item: IItem,
+  requestOptions: IRequestOptions
+) => {
+  const envBases: Partial<Record<HubEnvironment, string>> = {
+    devext: "dev",
+    qaext: "qa",
+    production: "",
+  };
+  const portalUrl = getPortalUrl(requestOptions);
+  const env = getEnvironmentFromPortalUrl(portalUrl);
+
+  const insightsUrl = `https://insights${envBases[env]}.arcgis.com`;
+  const itemHomeUrl = getItemHomeUrl(item.id, portalUrl);
+  return portalUrl.indexOf("arcgis.com") === -1
+    ? itemHomeUrl
+    : `${insightsUrl}/#/edit/${item.id}`;
+};
+
+/**
+ * returns URL to edit Urban Model application
+ *
+ * @param item
+ * @param requestOptions
+ */
+export const getUrbanModelEditUrl = (
+  item: IItem,
+  requestOptions: IRequestOptions
+) => {
+  const envBases: Partial<Record<HubEnvironment, string>> = {
+    devext: "dev",
+    qaext: "qa",
+    production: "",
+  };
+  const portalUrl = getPortalUrl(requestOptions);
+  const env = getEnvironmentFromPortalUrl(portalUrl);
+  const urbanModelUrl = `https://urban${envBases[env]}.arcgis.com`;
+  const itemHomeUrl = getItemHomeUrl(item.id, portalUrl);
+  return portalUrl.indexOf("arcgis.com") === -1
+    ? itemHomeUrl
+    : `${urbanModelUrl}/?id=${item.id}`;
 };

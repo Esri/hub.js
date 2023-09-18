@@ -3,10 +3,10 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { getItemThumbnailUrl } from "../../resources";
 import { IModel } from "../../types";
 import { bBoxToExtent, extentToPolygon, isBBox } from "../../extent";
-import { IExtent } from "@esri/arcgis-rest-types";
+import { IExtent, IItem } from "@esri/arcgis-rest-types";
 import Geometry = __esri.Geometry;
 import { getItemHomeUrl } from "../../urls/get-item-home-url";
-import { getHubRelativeUrl } from "./internalContentUtils";
+import { getContentEditUrl, getHubRelativeUrl } from "./internalContentUtils";
 import { IHubLocation } from "../../core/types/IHubLocation";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
@@ -56,8 +56,8 @@ export function computeProps(
     ),
     workspaceRelative: getRelativeWorkspaceUrl("content", content.id),
     thumbnail: thumbnailUrl,
+    contentEditUrl: getContentEditUrl(model.item, requestOptions),
   };
-
   // cannot be null otherwise we'd get a validation
   // error that doesn't let us save the form
   content.licenseInfo = model.item.licenseInfo || "";
