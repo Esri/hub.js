@@ -11,7 +11,7 @@ import {
   SettableAccessLevel,
 } from "../core";
 
-import { Catalog } from "../search";
+import { Catalog } from "../search/Catalog";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
 import {

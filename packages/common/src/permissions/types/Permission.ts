@@ -19,7 +19,6 @@ const validPermissions = [
   ...SitePermissions,
   ...ProjectPermissions,
   ...InitiativePermissions,
-  ...DiscussionPermissions,
   ...ContentPermissions,
   ...GroupPermissions,
   ...PagePermissions,
@@ -30,7 +29,15 @@ const validPermissions = [
 /**
  * Defines the possible values for Permissions
  */
-export type Permission = (typeof validPermissions)[number];
+export type Permission =
+  | (typeof SitePermissions)[number]
+  | (typeof ProjectPermissions)[number]
+  | (typeof InitiativePermissions)[number]
+  | (typeof ContentPermissions)[number]
+  | (typeof GroupPermissions)[number]
+  | (typeof PagePermissions)[number]
+  | (typeof PlatformPermissions)[number]
+  | (typeof TempPermissions)[number];
 
 /**
  * Validate a Permission

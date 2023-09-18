@@ -36,7 +36,6 @@ describe("memoize:", () => {
     // new call, calls the underlying function
     expect(memoizedFn(9, 1)).toEqual(10);
     expect(callCount).toBe(3);
-
     // End test - nuke the entire cache
     clearMemoizedCache();
   });

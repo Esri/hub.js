@@ -1,13 +1,14 @@
 import { IUser } from "@esri/arcgis-rest-types";
 import { fetchUserEnrichments } from "./_internal/enrichments";
 import { getProp } from "../objects";
-import { getUserThumbnailUrl, IHubSearchResult } from "../search";
+import { getUserThumbnailUrl } from "../search/utils";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { IHubRequestOptions } from "../types";
 import { getUserHomeUrl } from "../urls";
 import { unique } from "../util";
 import { mapBy } from "../utils";
 import { AccessLevel } from "../core";
+import { IHubSearchResult } from "../search/types/IHubSearchResult";
 
 /**
  * Enrich a User object

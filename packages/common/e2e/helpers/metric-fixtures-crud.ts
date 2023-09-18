@@ -29,7 +29,8 @@ export async function createScopeGroup(
 
 export async function createInitiative(
   config: { key: string; count: number; groupId: string },
-  context: IArcGISContext
+  context: IArcGISContext,
+  skipMetrics: boolean = false
 ): Promise<HubInitiative> {
   const init: Partial<IHubInitiative> = {
     name: `Test ${config.key} Initiative with ${config.count} Projects`,
@@ -42,63 +43,65 @@ export async function createInitiative(
   const initiativeId = instance.id;
   // construct metrics
   const metrics: IMetric[] = [];
-  // add metrics to the initiative
+  if (!skipMetrics) {
+    // add metrics to the initiative
 
-  // Simple Static Metric
-  metrics.push({
-    id: "budget",
-    name: "Initiative Budget",
-    description: "Total budget for the initiative",
-    units: "$",
-    source: {
-      type: "static-value",
-      value: 203000,
-    },
-  });
-  // Item Query Metric that will be resolved with static values
-  metrics.push({
-    id: "countyFunding",
-    name: "County Funding",
-    description: "Total funding from Larimer County",
-    units: "USD",
-    source: {
-      type: "item-query",
-      propertyPath: `properties.metrics[findBy(id,countyFunding_${initiativeId})]`,
-      keywords: [`initiative|${initiativeId}`],
-      itemTypes: ["Hub Project"],
-      collectionKey: "projects",
-    },
-  });
-  // Item Query Metric that will be resolved with dynamic values
-  metrics.push({
-    id: "surveysCompleted",
-    name: "Surveys Completed",
-    description: "Total number of surveys completed",
-    source: {
-      type: "item-query",
-      propertyPath: `properties.metrics[findBy(id,surveysCompleted_${initiativeId})]`,
-      keywords: [`initiative|${initiativeId}`],
-      itemTypes: ["Hub Project"],
-      collectionKey: "projects",
-    },
-  });
+    // Simple Static Metric
+    metrics.push({
+      id: "budget",
+      name: "Initiative Budget",
+      description: "Total budget for the initiative",
+      units: "$",
+      source: {
+        type: "static-value",
+        value: 203000,
+      },
+    });
+    // Item Query Metric that will be resolved with static values
+    metrics.push({
+      id: "countyFunding",
+      name: "County Funding",
+      description: "Total funding from Larimer County",
+      units: "USD",
+      source: {
+        type: "item-query",
+        propertyPath: `properties.metrics[findBy(id,countyFunding_${initiativeId})]`,
+        keywords: [`initiative|${initiativeId}`],
+        itemTypes: ["Hub Project"],
+        collectionKey: "projects",
+      },
+    });
+    // Item Query Metric that will be resolved with dynamic values
+    metrics.push({
+      id: "surveysCompleted",
+      name: "Surveys Completed",
+      description: "Total number of surveys completed",
+      source: {
+        type: "item-query",
+        propertyPath: `properties.metrics[findBy(id,surveysCompleted_${initiativeId})]`,
+        keywords: [`initiative|${initiativeId}`],
+        itemTypes: ["Hub Project"],
+        collectionKey: "projects",
+      },
+    });
 
-  metrics.push({
-    id: "contractor",
-    name: "Project Constractor",
-    description: "Contractor for the project",
-    source: {
-      type: "item-query",
-      propertyPath: `properties.metrics[findBy(id,contractor_${initiativeId})]`,
-      keywords: [`initiative|${initiativeId}`],
-      itemTypes: ["Hub Project"],
-      collectionKey: "projects",
-    },
-  });
-
+    metrics.push({
+      id: "contractor",
+      name: "Project Constractor",
+      description: "Contractor for the project",
+      source: {
+        type: "item-query",
+        propertyPath: `properties.metrics[findBy(id,contractor_${initiativeId})]`,
+        keywords: [`initiative|${initiativeId}`],
+        itemTypes: ["Hub Project"],
+        collectionKey: "projects",
+      },
+    });
+  }
   // add metrics to the initiative
   const json = instance.toJson();
   json.metrics = metrics;
+
   // cfreate the projects collection with the scope pointing to the group
   const projectCollection: IHubCollection = {
     key: "projects",
@@ -125,16 +128,22 @@ export async function createInitiative(
 export async function createProjects(
   config: { key: string; count: number; groupId: string },
   parentId: string,
-  context: IArcGISContext
+  context: IArcGISContext,
+  skipMetrics: boolean = false
 ): Promise<HubProject[]> {
   const projects: HubProject[] = [];
   for (let i = 0; i < config.count; i++) {
+    // share every other project so we have some
+    // that are associated but no approved
+    const shouldShare: boolean = !!(i % 2);
     const project = await createChildProject(
       config.key,
       i,
       parentId,
       config.groupId,
-      context
+      context,
+      shouldShare,
+      skipMetrics
     );
 
     projects.push(project);
@@ -147,7 +156,9 @@ export async function createChildProject(
   num: number,
   parentId: string,
   groupId: string,
-  context: IArcGISContext
+  context: IArcGISContext,
+  shareToGroup: boolean,
+  skipMetrics: boolean = false
 ): Promise<HubProject> {
   const project: Partial<IHubProject> = {
     name: `Test ${key} Project ${num}`,
@@ -158,6 +169,23 @@ export async function createChildProject(
   const instance = await HubProject.create(project, context, true);
 
   // construct metrics
+  if (!skipMetrics) {
+    const metrics = getMetrics(parentId);
+    const json = instance.toJson();
+    json.metrics = metrics;
+    instance.update(json);
+  }
+
+  await instance.save();
+  await instance.setAccess("public");
+  if (shareToGroup) {
+    await instance.shareWithGroup(groupId);
+  }
+
+  return instance;
+}
+
+function getMetrics(parentId: string): IMetric[] {
   const metrics: IMetric[] = [];
 
   /**
@@ -209,15 +237,7 @@ export async function createChildProject(
       statistic: "count",
     },
   });
-
-  const json = instance.toJson();
-  json.metrics = metrics;
-  instance.update(json);
-  await instance.save();
-  await instance.setAccess("public");
-  await instance.shareWithGroup(groupId);
-
-  return instance;
+  return metrics;
 }
 
 export interface ICreateOutput {

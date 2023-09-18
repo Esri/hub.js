@@ -1,3 +1,4 @@
+export * from "./IWithAssociations";
 export * from "./IWithBannerImage";
 export * from "./IWithLayout";
 export * from "./IWithSlug";

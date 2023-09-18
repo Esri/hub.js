@@ -5,6 +5,7 @@ import {
   cloneObject,
   enrichProjectSearchResult,
   fetchProject,
+  getAssociatedInitiativesQuery,
 } from "../../src";
 import { GUID, PROJECT_DATA, PROJECT_ITEM, PROJECT_LOCATION } from "./fixtures";
 import { MOCK_AUTH } from "../mocks/mock-auth";
@@ -178,6 +179,26 @@ describe("project fetch module:", () => {
       expect(item).toEqual(PROJECT_ITEM);
       expect(enrichments).toEqual(["data"]);
       expect(ro).toBe(hubRo);
+    });
+  });
+
+  describe("getAssociatedInitiativesQuery:", () => {
+    it("returns query if project is associated", () => {
+      const p: IHubProject = {
+        typeKeywords: ["initiative|00c", "initiative|00d"],
+      } as unknown as IHubProject;
+      const chk = getAssociatedInitiativesQuery(p);
+      expect(chk.targetEntity).toEqual("item");
+      expect(chk.filters[0].predicates[0].type).toBe("Hub Initiative");
+      expect(chk.filters[0].predicates[0].id).toEqual(["00c", "00d"]);
+    });
+
+    it("returns null if project is not connected to any initatives", () => {
+      const p: IHubProject = {
+        typeKeywords: [],
+      } as unknown as IHubProject;
+      const chk = getAssociatedInitiativesQuery(p);
+      expect(chk).toBeNull();
     });
   });
 });

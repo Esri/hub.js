@@ -8,6 +8,7 @@ import {
 } from "../traits";
 import { IHubLocation } from "./IHubLocation";
 import { IWithFollowers } from "../traits/IWithFollowers";
+import { IWithAssociations } from "../traits/IWithAssociations";
 
 /**
  * Properties exposed by Entities that are backed by Items
@@ -16,7 +17,8 @@ export interface IHubItemEntity
   extends IHubEntityBase,
     IWithPermissions,
     IWithDiscussions,
-    IWithFollowers {
+    IWithFollowers,
+    IWithAssociations {
   /**
    * Access level of the item ("private" | "org" | "public")
    */

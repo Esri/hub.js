@@ -75,8 +75,15 @@ const TestPermissionPolicies: IPermissionPolicy[] = [
   // },
 ];
 
+/**
+ * FAKE IMPLEMENTATION SO WE DON'T TIE TESTS TO REAL PERMISSIONS
+ * @param permission
+ * @returns
+ */
 function getPermissionPolicy(permission: Permission): IPermissionPolicy {
-  return TestPermissionPolicies.find((p) => p.permission === permission);
+  return TestPermissionPolicies.find(
+    (p) => p.permission === permission
+  ) as unknown as IPermissionPolicy;
 }
 
 describe("checkPermission:", () => {

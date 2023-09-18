@@ -4,7 +4,7 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { IHubGroup } from "../../core/types/IHubGroup";
 import { IGroup } from "@esri/arcgis-rest-types";
 import { isDiscussable } from "../../discussions";
-import { getGroupThumbnailUrl } from "../../search";
+import { getGroupThumbnailUrl } from "../../search/utils";
 
 /**
  * Given a model and a group, set various computed properties that can't be directly mapped
