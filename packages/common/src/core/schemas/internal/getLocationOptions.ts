@@ -4,22 +4,6 @@ import { getTypeFromEntity } from "../../getTypeFromEntity";
 import { ConfigurableEntity } from "./ConfigurableEntity";
 import { IHubLocation, IHubLocationOption } from "../../types/IHubLocation";
 import { IExtent } from "@esri/arcgis-rest-types";
-import { getExtentObject } from "../../../content/_internal/computeProps";
-
-export async function getLocationOptions(
-  entity: ConfigurableEntity,
-  portalName: string,
-  hubRequestOptions: IHubRequestOptions
-): Promise<IHubLocationOption[]> {
-  const typeFromEntity = getTypeFromEntity(entity);
-
-  switch (typeFromEntity) {
-    case "content":
-      return getOptions(entity, portalName, hubRequestOptions, true);
-    default:
-      return getOptions(entity, portalName, hubRequestOptions);
-  }
-}
 
 /**
  * Construct the dynamic location picker options with the entity's
@@ -33,11 +17,10 @@ export async function getLocationOptions(
  * current option, select it and update the option with the entity's
  * location
  */
-export async function getOptions(
+export async function getLocationOptions(
   entity: ConfigurableEntity,
   portalName: string,
-  hubRequestOptions: IHubRequestOptions,
-  includeItemExtentOption: boolean = false
+  hubRequestOptions: IHubRequestOptions
 ): Promise<IHubLocationOption[]> {
   const defaultExtent: IExtent = await getGeographicOrgExtent(
     hubRequestOptions
@@ -70,21 +53,12 @@ export async function getOptions(
     },
   ] as IHubLocationOption[];
 
-  // Item's extent
-  if (includeItemExtentOption) {
-    const itemExtent: IExtent = getExtentObject(entity.extent);
-    const itemExtentOption: IHubLocationOption = {
-      label: "{{shared.fields.location.itemExtent:translate}}",
-      entityType: getTypeFromEntity(entity),
-      location: {
-        type: "item",
-        extent: extentToBBox(itemExtent),
-        spatialReference: itemExtent.spatialReference,
-      },
-    };
-
-    optionsArray.splice(2, 0, itemExtentOption);
-  }
+  // In the future, if we want to include other options
+  // on a per entity basis, they can be added right here
+  // with an optional parameter and splicing the extra option
+  // into the options array. This function was changed into
+  // this format when we were considering adding an
+  // "Item's extent" option for content entities.
 
   return optionsArray.map((option) => {
     // If this is a new entity, select the custom option by default
@@ -100,5 +74,3 @@ export async function getOptions(
     return option;
   });
 }
-
-// TODO: Add other location options here

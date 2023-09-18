@@ -24,12 +24,12 @@ export const getExtentObject = (itemExtent: number[][]): IExtent => {
 };
 
 export function deriveLocationFromItemExtent(itemExtent?: number[][]) {
-  const location: IHubLocation = { type: "item" };
+  const location: IHubLocation = { type: "custom" };
   const geometry: any = getExtentObject(itemExtent); // TODO: this needs to be fixed -tom
   if (geometry) {
     const convertedExtent = {
       ...extentToPolygon(geometry),
-      type: "extent",
+      type: "polygon",
     } as unknown as Geometry;
     location.geometries = [convertedExtent];
     location.spatialReference = geometry.spatialReference;
