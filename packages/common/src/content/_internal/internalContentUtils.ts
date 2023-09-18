@@ -693,7 +693,7 @@ export const getContentEditUrl = (
  */
 export const getNormalizedAppItemType = (item: IItem) => {
   const typeKeywords = item.typeKeywords || [];
-  let result = item.type || "";
+  let result = item.type;
 
   if (
     item.type === "StoryMap" ||

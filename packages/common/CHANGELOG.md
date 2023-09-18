@@ -1,3 +1,46 @@
+# @esri/hub-common [14.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.13.1...@esri/hub-common@14.14.0) (2023-09-18)
+
+
+### Features
+
+* partnered orgs added to context ([#1214](https://github.com/Esri/hub.js/issues/1214)) ([7979571](https://github.com/Esri/hub.js/commit/7979571074cac9a196537b0ffb5950a58a925e79))
+
+## @esri/hub-common [14.13.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.13.0...@esri/hub-common@14.13.1) (2023-09-15)
+
+
+### Bug Fixes
+
+* **hub-common:** fix fetchHubContent does not support slugs ([#1216](https://github.com/Esri/hub.js/issues/1216)) ([d3a4eba](https://github.com/Esri/hub.js/commit/d3a4ebafcc04994a3a8b0ca670024195e12721bf))
+
+# @esri/hub-common [14.13.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.12.1...@esri/hub-common@14.13.0) (2023-09-13)
+
+
+### Features
+
+* **hub-common:** add content settings schemas and derive props from server definitions ([#1209](https://github.com/Esri/hub.js/issues/1209)) ([1721285](https://github.com/Esri/hub.js/commit/17212858812dce3453c3e879fc4d1f3606c9644a))
+
+## @esri/hub-common [14.12.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.12.0...@esri/hub-common@14.12.1) (2023-09-12)
+
+
+### Bug Fixes
+
+* add featured content to initiatives edit ([#1208](https://github.com/Esri/hub.js/issues/1208)) ([a3f0361](https://github.com/Esri/hub.js/commit/a3f0361423793e326f8d6ea2ef502c4d207e124a))
+* ensure featured content catalogs are returned as an array ([#1207](https://github.com/Esri/hub.js/issues/1207)) ([d28b56f](https://github.com/Esri/hub.js/commit/d28b56fd466d8b8f36beecd1594ed1a448a27bfe))
+
+# @esri/hub-common [14.12.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.11.0...@esri/hub-common@14.12.0) (2023-09-11)
+
+
+### Features
+
+* add workspaceRelative to enrichGroupSearchResult ([#1206](https://github.com/Esri/hub.js/issues/1206)) ([f6d2016](https://github.com/Esri/hub.js/commit/f6d2016699df1ef62ffbbc9e717bfecb5f2f0731))
+
+# @esri/hub-common [14.11.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.10.0...@esri/hub-common@14.11.0) (2023-09-11)
+
+
+### Features
+
+* add supporting groups to sites property map ([#1205](https://github.com/Esri/hub.js/issues/1205)) ([2d473d6](https://github.com/Esri/hub.js/commit/2d473d6fc2cb9fa85d4d3bc2e26f869f187fe18c))
+
 # @esri/hub-common [14.10.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.9.1...@esri/hub-common@14.10.0) (2023-09-11)
 
 
