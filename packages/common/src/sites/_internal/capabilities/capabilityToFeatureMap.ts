@@ -29,4 +29,9 @@ export const capabilityToFeatureMap: ICapabilityToFeatureMap[] = [
     feature: "hub:site:feature:follow",
     negate: true,
   },
+  {
+    capability: "disableDiscussions",
+    feature: "hub:site:feature:discussions",
+    negate: true,
+  },
 ];

@@ -8,6 +8,7 @@ export const SiteDefaultFeatures: IFeatureFlags = {
   "hub:site:content": true,
   "hub:site:discussions": false,
   "hub:site:feature:follow": true,
+  "hub:site:feature:discussions": true,
 };
 
 /**
@@ -25,6 +26,7 @@ export const SitePermissions = [
   "hub:site:content",
   "hub:site:discussions",
   "hub:site:feature:follow",
+  "hub:site:feature:discussions",
   "hub:site:workspace:overview",
   "hub:site:workspace:dashboard",
   "hub:site:workspace:details",
@@ -83,6 +85,11 @@ export const SitesPermissionPolicies: IPermissionPolicy[] = [
   {
     permission: "hub:site:discussions",
     dependencies: ["hub:site:view"],
+  },
+  {
+    permission: "hub:site:feature:discussions",
+    dependencies: ["hub:site:view"],
+    entityConfigurable: true,
   },
   {
     permission: "hub:site:feature:follow",

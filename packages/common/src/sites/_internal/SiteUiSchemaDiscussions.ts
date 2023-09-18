@@ -22,7 +22,7 @@ export const buildUiSchema = async (
         elements: [
           {
             labelKey: `${i18nScope}.fields.discussable.label`,
-            scope: "/properties/isDiscussable",
+            scope: "/properties/_discussions",
             type: "Control",
             options: {
               control: "hub-field-input-radio",

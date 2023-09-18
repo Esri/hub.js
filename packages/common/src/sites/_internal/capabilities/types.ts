@@ -3,7 +3,7 @@ import { SitePermissions } from "../SiteBusinessRules";
 /**
  * legacy site capabilities
  */
-export type LegacyCapability = "hideFollow";
+export type LegacyCapability = "hideFollow" | "disableDiscussions";
 
 /**
  * representation of legacy site capabilities as
