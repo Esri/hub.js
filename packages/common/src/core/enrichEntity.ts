@@ -55,6 +55,9 @@ const fetchEntityEnrichments = async (
   enrichments: EntityEnrichment[],
   requestOptions?: IHubRequestOptions
 ): Promise<IEntityEnrichments> => {
+  // Note: we chose to keep this simple for now and not create
+  // an operation pipeline - if this becomes more widely used
+  // or we run into issues debugging, we can implement
   const operations = enrichments.reduce((ops, enrichment) => {
     const operation = {
       followersGroup: fetchFollowersGroupEnrichment,
@@ -81,6 +84,15 @@ const fetchFollowersGroupEnrichment = async (
   entity: HubEntity,
   requestOptions: IHubRequestOptions
 ): Promise<IGroup> => {
-  const followersGroupId = getProp(entity, "followersGroupId");
-  return getGroup(followersGroupId, requestOptions);
+  let group = {} as IGroup;
+  try {
+    const followersGroupId = getProp(entity, "followersGroupId");
+    if (followersGroupId) {
+      group = await getGroup(followersGroupId, requestOptions);
+    }
+  } catch (error) {
+    return {} as IGroup;
+  }
+
+  return group;
 };

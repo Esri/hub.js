@@ -48,16 +48,18 @@ describe("enrichEntity", () => {
 
   describe("followersGroup enrichment", () => {
     let getGroupSpy: any;
-    const mockFollowersGroup = {
-      id: "00c",
-      access: "public",
-    };
-    beforeEach(() => {
+    afterEach(() => {
+      getGroupSpy.calls.reset();
+    });
+    it("enriches the entity with the followers group", async () => {
+      const mockFollowersGroup = {
+        id: "00c",
+        access: "public",
+      };
       getGroupSpy = spyOn(PortalModule, "getGroup").and.returnValue(
         Promise.resolve(mockFollowersGroup)
       );
-    });
-    it("enriches the entity with the followers group", async () => {
+
       const chk = await enrichEntity(
         { followersGroupId: "followers_00c" } as HubEntity,
         ["followersGroup AS _followersGroup"],
@@ -70,6 +72,34 @@ describe("enrichEntity", () => {
         authdCtxMgr.context.hubRequestOptions
       );
       expect(getProp(chk, "_followersGroup")).toBe(mockFollowersGroup);
+    });
+    it("returns an empty object if there isn't a followersGroupId defined on the entity", async () => {
+      getGroupSpy = spyOn(PortalModule, "getGroup");
+      const chk = await enrichEntity(
+        {} as HubEntity,
+        ["followersGroup AS _followersGroup"],
+        authdCtxMgr.context.hubRequestOptions
+      );
+      expect(getGroupSpy).not.toHaveBeenCalled();
+      expect(getProp(chk, "_followersGroup")).toEqual({});
+    });
+    it("returns an empty object and handles the error if there's an issue fetching the followers group", async () => {
+      getGroupSpy = spyOn(PortalModule, "getGroup").and.returnValue(
+        Promise.reject()
+      );
+
+      const chk = await enrichEntity(
+        { followersGroupId: "followers_00c" } as HubEntity,
+        ["followersGroup AS _followersGroup"],
+        authdCtxMgr.context.hubRequestOptions
+      );
+
+      expect(getGroupSpy).toHaveBeenCalledTimes(1);
+      expect(getGroupSpy).toHaveBeenCalledWith(
+        "followers_00c",
+        authdCtxMgr.context.hubRequestOptions
+      );
+      expect(getProp(chk, "_followersGroup")).toEqual({});
     });
   });
 });
