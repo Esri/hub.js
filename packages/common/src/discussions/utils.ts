@@ -143,8 +143,8 @@ export function getChannelGroupIds(channel: IChannel): string[] {
  * A utility method used to search for users that are permitted to be at-mentioned by the currently authenticated user
  * for the given channel.
  * @param data An object of query-related values
+ * @param data.users An array of strings to search for. Each string is mapped to `username` and `fullname`, filters as an OR condition
  * @param data.channel An IChannel record
- * @param data.groups The channel group ids
  * @param data.currentUsername The currently authenticated user's username
  * @param options An IHubSearchOptions object
  * @returns a promise that resolves an IHubSearchResponse<IHubSearchResult>
