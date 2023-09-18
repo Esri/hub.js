@@ -8,8 +8,8 @@ import { IAssociationInfo } from "./types";
  * @returns
  */
 export function removeAssociation(
-  info: IAssociationInfo,
-  entity: IWithAssociations
+  entity: IWithAssociations,
+  info: IAssociationInfo
 ): void {
   if (!entity.typeKeywords) {
     return;

@@ -5,7 +5,7 @@ describe("addAssociation:", () => {
     const entity = {
       typeKeywords: [],
     } as unknown as IWithAssociations;
-    addAssociation({ type: "initiative", id: "123" }, entity);
+    addAssociation(entity, { type: "initiative", id: "123" });
     expect(entity.typeKeywords).toEqual(["initiative|123"]);
   });
 
@@ -13,13 +13,13 @@ describe("addAssociation:", () => {
     const entity = {
       typeKeywords: ["initiative|123"],
     } as unknown as IWithAssociations;
-    addAssociation({ type: "initiative", id: "123" }, entity);
+    addAssociation(entity, { type: "initiative", id: "123" });
     expect(entity.typeKeywords).toEqual(["initiative|123"]);
   });
 
   it("adds the typekeywords if not present", () => {
     const entity = {} as unknown as IWithAssociations;
-    addAssociation({ type: "initiative", id: "123" }, entity);
+    addAssociation(entity, { type: "initiative", id: "123" });
     expect(entity.typeKeywords).toEqual(["initiative|123"]);
   });
 });

@@ -437,7 +437,7 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * @returns
    */
   addAssociation(info: IAssociationInfo): void {
-    return addAssociation(info, this.entity);
+    return addAssociation(this.entity, info);
   }
 
   /**
@@ -446,6 +446,6 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
    * @returns
    */
   removeAssociation(info: IAssociationInfo): void {
-    return removeAssociation(info, this.entity);
+    return removeAssociation(this.entity, info);
   }
 }

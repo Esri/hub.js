@@ -8,8 +8,8 @@ import { IAssociationInfo } from "./types";
  * @param entity
  */
 export function addAssociation(
-  info: IAssociationInfo,
-  entity: IWithAssociations
+  entity: IWithAssociations,
+  info: IAssociationInfo
 ): void {
   if (!entity.typeKeywords) {
     entity.typeKeywords = [];
