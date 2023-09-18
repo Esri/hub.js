@@ -8,13 +8,13 @@ import {
 } from "../core/types";
 import { HubItemEntity } from "../core/HubItemEntity";
 import { fetchDiscussion } from "./fetch";
-import { EditorType } from "../core/schemas/types";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
 import {
   IEditorConfig,
   IWithEditorBehavior,
 } from "../core/behaviors/IWithEditorBehavior";
 import { cloneObject } from "../util";
+import { DiscussionEditorType } from "./_internal/DiscussionSchema";
 /**
  * Hub Discussion Class
  */
@@ -162,7 +162,7 @@ export class HubDiscussion
    */
   async getEditorConfig(
     i18nScope: string,
-    type: EditorType
+    type: DiscussionEditorType
   ): Promise<IEditorConfig> {
     // delegate to the schema subsystem
     return getEditorConfig(i18nScope, type, this.entity, this.context);

@@ -6,6 +6,7 @@ import * as _purgeNonGuidsFromCatalogModule from "../../src/sites/_internal/_pur
 import * as _ensureTelemetryModule from "../../src/sites/_internal/_ensure-telemetry";
 import * as _migrateFeedConfigModule from "../../src/sites/_internal/_migrate-feed-config";
 import * as _migrateEventListCardConfigs from "../../src/sites/_internal/_migrate-event-list-card-configs";
+import * as migrateLegacyCapabilitiesToFeatures from "../../src/sites/_internal/capabilities/migrateLegacyCapabilitiesToFeatures";
 import { IModel } from "../../src";
 import { SITE_SCHEMA_VERSION } from "../../src/sites/site-schema-version";
 import { expectAllCalled, expectAll } from "./test-helpers.test";
@@ -18,6 +19,7 @@ describe("upgradeSiteSchema", () => {
   let ensureTelemetrySpy: jasmine.Spy;
   let migrateFeedConfigSpy: jasmine.Spy;
   let migrateEventListCardConfigsSpy: jasmine.Spy;
+  let migrateLegacyCapabilitiesToFeaturesSpy: jasmine.Spy;
   beforeEach(() => {
     applySpy = spyOn(_applySiteSchemaModule, "_applySiteSchema").and.callFake(
       (model: IModel) => model
@@ -46,6 +48,10 @@ describe("upgradeSiteSchema", () => {
       _migrateEventListCardConfigs,
       "_migrateEventListCardConfigs"
     ).and.callFake((model: IModel) => model);
+    migrateLegacyCapabilitiesToFeaturesSpy = spyOn(
+      migrateLegacyCapabilitiesToFeatures,
+      "migrateLegacyCapabilitiesToFeatures"
+    ).and.callFake((model: IModel) => model);
   });
 
   it("runs schema upgrades", async () => {
@@ -68,6 +74,7 @@ describe("upgradeSiteSchema", () => {
         ensureTelemetrySpy,
         migrateFeedConfigSpy,
         migrateEventListCardConfigsSpy,
+        migrateLegacyCapabilitiesToFeaturesSpy,
       ],
       expect
     );
@@ -93,6 +100,7 @@ describe("upgradeSiteSchema", () => {
         ensureTelemetrySpy,
         migrateFeedConfigSpy,
         migrateEventListCardConfigsSpy,
+        migrateLegacyCapabilitiesToFeaturesSpy,
       ],
       "toHaveBeenCalled",
       false,

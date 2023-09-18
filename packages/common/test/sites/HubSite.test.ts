@@ -9,6 +9,7 @@ import {
   IDeepCatalogInfo,
   IHubCatalog,
   IHubSite,
+  IHubSiteEditor,
   IVersion,
   IVersionMetadata,
   getProp,
@@ -382,6 +383,7 @@ describe("HubSite Class:", () => {
             "hub:site:content": true,
             "hub:site:discussions": false,
             "hub:site:events": false,
+            "hub:site:feature:follow": true,
           },
         },
       },
@@ -478,6 +480,7 @@ describe("HubSite Class:", () => {
               "hub:site:content": true,
               "hub:site:discussions": false,
               "hub:site:events": false,
+              "hub:site:feature:follow": true,
             },
           },
         },
@@ -558,15 +561,12 @@ describe("HubSite Class:", () => {
         },
         authdCtxMgr.context
       );
-      const result = await chk.getEditorConfig(
-        "i18n.Scope",
-        "hub:content:edit"
-      );
+      const result = await chk.getEditorConfig("i18n.Scope", "hub:site:edit");
       expect(result).toEqual({ fake: "config" } as any);
       expect(spy).toHaveBeenCalledTimes(1);
       expect(spy).toHaveBeenCalledWith(
         "i18n.Scope",
-        "hub:content:edit",
+        "hub:site:edit",
         chk.toJson(),
         authdCtxMgr.context
       );
@@ -659,6 +659,43 @@ describe("HubSite Class:", () => {
         // since thumbnailCache is protected we can't really test that it's set
         // other than via code-coverage
         expect(getProp(result, "_thumbnail")).not.toBeDefined();
+      });
+      describe("followers", () => {
+        let chk: HubSite;
+        let saveSpy: any;
+        let setFollowersGroupAccessSpy: any;
+        let editor: IHubSiteEditor;
+
+        beforeEach(() => {
+          chk = HubSite.fromJson(
+            {
+              id: "bc3",
+              name: "Test Entity",
+            },
+            authdCtxMgr.context
+          );
+          saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
+          setFollowersGroupAccessSpy = spyOn(
+            chk,
+            "setFollowersGroupAccess"
+          ).and.returnValue(Promise.resolve());
+          editor = chk.toEditor();
+        });
+        it("does nothing if followers information is not present on the editor values", async () => {
+          editor._followers = undefined;
+          await chk.fromEditor(editor);
+
+          expect(saveSpy).toHaveBeenCalledTimes(1);
+          expect(setFollowersGroupAccessSpy).not.toHaveBeenCalled();
+        });
+        it("handles setting the followers group access", async () => {
+          editor._followers = { groupAccess: "public" };
+          await chk.fromEditor(editor);
+
+          expect(saveSpy).toHaveBeenCalledTimes(1);
+          expect(setFollowersGroupAccessSpy).toHaveBeenCalledTimes(1);
+          expect(setFollowersGroupAccessSpy).toHaveBeenCalledWith("public");
+        });
       });
       it("handles extent from location", async () => {
         const chk = HubSite.fromJson(

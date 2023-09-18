@@ -1,120 +1,152 @@
-import { IUiSchema, UiSchemaRuleEffects } from "../../core";
+import { IArcGISContext } from "../../ArcGISContext";
+import { checkPermission } from "../../permissions/checkPermission";
+import { IHubInitiative } from "../../core/types";
+import { IUiSchema, UiSchemaRuleEffects } from "../../core/schemas/types";
+import { getLocationExtent } from "../../core/schemas/internal/getLocationExtent";
+import { getLocationOptions } from "../../core/schemas/internal/getLocationOptions";
+import { getSharableGroupsComboBoxItems } from "../../core/schemas/internal/getSharableGroupsComboBoxItems";
 
 /**
  * @private
- * minimal create uiSchema for Hub Projects - this defines
- * how the schema properties should be rendered in the
- * project creation experience
+ * constructs the minimal create uiSchema for Hub Initiatives.
+ * This defines how the schema properties should be rendered
+ * in the initiative creation experience
+ *
+ * TODO: this was copied from projects and is just a placeholder
+ * for now - it isn't being used anywhere in the application
  */
-export const uiSchema: IUiSchema = {
-  type: "Layout",
-  elements: [
-    {
-      type: "Section",
-      options: { section: "stepper", scale: "l" },
-      elements: [
-        {
-          type: "Step",
-          labelKey: "{{i18nScope}}.sections.details.label",
-          elements: [
-            {
-              type: "Section",
-              labelKey: "{{i18nScope}}.sections.basicInfo.label",
-              elements: [
-                {
-                  labelKey: "{{i18nScope}}.fields.name.label",
-                  scope: "/properties/name",
-                  type: "Control",
-                  options: {
-                    messages: [
-                      {
-                        type: "ERROR",
-                        keyword: "required",
-                        icon: true,
-                        labelKey: "{{i18nScope}}.fields.name.requiredError",
-                      },
-                    ],
-                  },
-                },
-                {
-                  labelKey: "{{i18nScope}}.fields.summary.label",
-                  scope: "/properties/summary",
-                  type: "Control",
-                  options: {
-                    control: "hub-field-input-input",
-                    type: "textarea",
-                    helperText: {
-                      labelKey: "{{i18nScope}}.fields.summary.helperText",
+export const buildUiSchema = async (
+  i18nScope: string,
+  entity: IHubInitiative,
+  context: IArcGISContext
+): Promise<IUiSchema> => {
+  return {
+    type: "Layout",
+    elements: [
+      {
+        type: "Section",
+        options: { section: "stepper", scale: "l" },
+        elements: [
+          {
+            type: "Step",
+            labelKey: `${i18nScope}.sections.details.label`,
+            elements: [
+              {
+                type: "Section",
+                labelKey: `${i18nScope}.sections.basicInfo.label`,
+                elements: [
+                  {
+                    labelKey: `${i18nScope}.fields.name.label`,
+                    scope: "/properties/name",
+                    type: "Control",
+                    options: {
+                      messages: [
+                        {
+                          type: "ERROR",
+                          keyword: "required",
+                          icon: true,
+                          labelKey: `${i18nScope}.fields.name.requiredError`,
+                        },
+                      ],
                     },
                   },
-                },
-              ],
-            },
-          ],
-        },
-        {
-          type: "Step",
-          labelKey: "{{i18nScope}}.sections.location.label",
-          rule: {
-            effect: UiSchemaRuleEffects.DISABLE,
-            condition: {
-              scope: "/properties/name",
-              schema: { const: "" },
-            },
-          },
-          elements: [
-            {
-              type: "Section",
-              labelKey: "{{i18nScope}}.sections.location.label",
-              options: {
-                helperText: {
-                  labelKey: "{{i18nScope}}.sections.location.helperText",
-                },
+                  {
+                    labelKey: `${i18nScope}.fields.summary.label`,
+                    scope: "/properties/summary",
+                    type: "Control",
+                    options: {
+                      control: "hub-field-input-input",
+                      type: "textarea",
+                      helperText: {
+                        labelKey: `${i18nScope}.fields.summary.helperText`,
+                      },
+                    },
+                  },
+                ],
               },
-              elements: [
-                {
-                  scope: "/properties/location",
-                  type: "Control",
-                  options: {
-                    control: "hub-field-input-location-picker",
+            ],
+          },
+          {
+            type: "Step",
+            labelKey: `${i18nScope}.sections.location.label`,
+            rule: {
+              effect: UiSchemaRuleEffects.DISABLE,
+              condition: {
+                scope: "/properties/name",
+                schema: { const: "" },
+              },
+            },
+            elements: [
+              {
+                type: "Section",
+                labelKey: `${i18nScope}.sections.location.label`,
+                options: {
+                  helperText: {
+                    labelKey: `${i18nScope}.sections.location.helperText`,
                   },
                 },
-              ],
-            },
-          ],
-        },
-        {
-          type: "Step",
-          labelKey: "{{i18nScope}}.sections.sharing.label",
-          rule: {
-            effect: UiSchemaRuleEffects.DISABLE,
-            condition: {
-              scope: "/properties/name",
-              schema: { const: "" },
-            },
+                elements: [
+                  {
+                    scope: "/properties/location",
+                    type: "Control",
+                    options: {
+                      control: "hub-field-input-location-picker",
+                      extent: await getLocationExtent(
+                        entity,
+                        context.hubRequestOptions
+                      ),
+                      options: await getLocationOptions(
+                        entity,
+                        context.portal.name,
+                        context.hubRequestOptions
+                      ),
+                    },
+                  },
+                ],
+              },
+            ],
           },
-          elements: [
-            {
-              scope: "/properties/access",
-              type: "Control",
-              options: {
-                control: "arcgis-hub-access-level-controls",
-                itemType: "{{{{i18nScope}}.fields.access.itemType:translate}}",
+          {
+            type: "Step",
+            labelKey: `${i18nScope}.sections.sharing.label`,
+            rule: {
+              effect: UiSchemaRuleEffects.DISABLE,
+              condition: {
+                scope: "/properties/name",
+                schema: { const: "" },
               },
             },
-            {
-              labelKey: "{{i18nScope}}.fields.groups.label",
-              scope: "/properties/_groups",
-              type: "Control",
-              options: {
-                control: "hub-field-input-combobox",
-                allowCustomValues: false,
-                selectionMode: "multiple",
+            elements: [
+              {
+                scope: "/properties/access",
+                type: "Control",
+                options: {
+                  control: "arcgis-hub-access-level-controls",
+                  orgName: context.portal.name,
+                  itemType: `{{${i18nScope}.fields.access.itemType:translate}`,
+                },
               },
-            },
-          ],
-        },
-      ],
-    },
-  ],
+              {
+                labelKey: `${i18nScope}.fields.groups.label`,
+                scope: "/properties/_groups",
+                type: "Control",
+                options: {
+                  control: "hub-field-input-combobox",
+                  items: getSharableGroupsComboBoxItems(
+                    context.currentUser.groups
+                  ),
+                  disabled: !checkPermission(
+                    "platform:portal:user:shareToGroup",
+                    context
+                  ),
+                  allowCustomValues: false,
+                  selectionMode: "multiple",
+                },
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  };
 };

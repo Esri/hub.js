@@ -5,6 +5,7 @@ export type ContentEditorType = (typeof ContentEditorTypes)[number];
 export const ContentEditorTypes = [
   "hub:content:edit",
   "hub:content:discussions",
+  "hub:content:settings",
 ] as const;
 
 /**
@@ -16,6 +17,12 @@ export const ContentSchema: IConfigurationSchema = {
     ...HubItemEntitySchema.properties,
     licenseInfo: {
       type: "string",
+    },
+    serverExtractCapability: {
+      type: "boolean",
+    },
+    hostedDownloads: {
+      type: "boolean",
     },
   },
 } as IConfigurationSchema;

@@ -1,7 +1,6 @@
 import { cloneObject } from "../../../util";
 import { IEditorConfig } from "../../behaviors/IWithEditorBehavior";
-import { EditorType, UiSchemaElementOptions } from "../types";
-import { applyUiSchemaElementOptions } from "./applyUiSchemaElementOptions";
+import { EditorType, IConfigurationSchema, IUiSchema } from "../types";
 import { filterSchemaToUiSchema } from "./filterSchemaToUiSchema";
 import { SiteEditorType } from "../../../sites/_internal/SiteSchema";
 import { ProjectEditorType } from "../../../projects/_internal/ProjectSchema";
@@ -9,8 +8,18 @@ import { InitiativeEditorType } from "../../../initiatives/_internal/InitiativeS
 import { DiscussionEditorType } from "../../../discussions/_internal/DiscussionSchema";
 import { PageEditorType } from "../../../pages/_internal/PageSchema";
 import { ContentEditorType } from "../../../content/_internal/ContentSchema";
-import { interpolate } from "../../../items/interpolate";
 import { GroupEditorType } from "../../../groups/_internal/GroupSchema";
+import { ConfigurableEntity } from "./ConfigurableEntity";
+import { IArcGISContext } from "../../../ArcGISContext";
+import {
+  IHubDiscussion,
+  IHubEditableContent,
+  IHubGroup,
+  IHubInitiative,
+  IHubPage,
+  IHubProject,
+  IHubSite,
+} from "../../../core/types";
 
 /**
  * get the editor schema and uiSchema defined for an entity.
@@ -25,14 +34,15 @@ import { GroupEditorType } from "../../../groups/_internal/GroupSchema";
 export async function getEntityEditorSchemas(
   i18nScope: string,
   type: EditorType,
-  options: UiSchemaElementOptions[] = []
+  entity: ConfigurableEntity,
+  context: IArcGISContext
 ): Promise<IEditorConfig> {
   const entityType = type.split(":")[1];
 
   // schema and uiSchema are dynamically imported based on
   // the entity type and the provided editor type
-  let schema;
-  let uiSchema;
+  let schema: IConfigurationSchema;
+  let uiSchema: IUiSchema;
   switch (entityType) {
     case "site":
       const { SiteSchema } = await import(
@@ -40,12 +50,22 @@ export async function getEntityEditorSchemas(
       );
       schema = cloneObject(SiteSchema);
 
-      ({ uiSchema } = await {
+      const siteModule = await {
         "hub:site:edit": () =>
           import("../../../sites/_internal/SiteUiSchemaEdit"),
         "hub:site:discussions": () =>
           import("../../../sites/_internal/SiteUiSchemaDiscussions"),
-      }[type as SiteEditorType]());
+        "hub:site:create": () =>
+          import("../../../sites/_internal/SiteUiSchemaCreate"),
+        "hub:site:followers": () =>
+          import("../../../sites/_internal/SiteUiSchemaFollowers"),
+      }[type as SiteEditorType]();
+      uiSchema = await siteModule.buildUiSchema(
+        i18nScope,
+        entity as IHubSite,
+        context
+      );
+
       break;
     // ----------------------------------------------------
     case "discussion":
@@ -54,14 +74,20 @@ export async function getEntityEditorSchemas(
       );
       schema = cloneObject(DiscussionSchema);
 
-      ({ uiSchema } = await {
+      const discussionModule = await {
         "hub:discussion:edit": () =>
           import("../../../discussions/_internal/DiscussionUiSchemaEdit"),
         "hub:discussion:create": () =>
           import("../../../discussions/_internal/DiscussionUiSchemaCreate"),
         "hub:discussion:settings": () =>
           import("../../../discussions/_internal/DiscussionUiSchemaSettings"),
-      }[type as DiscussionEditorType]());
+      }[type as DiscussionEditorType]();
+      uiSchema = await discussionModule.buildUiSchema(
+        i18nScope,
+        entity as IHubDiscussion,
+        context
+      );
+
       break;
     // ----------------------------------------------------
     case "project":
@@ -70,12 +96,18 @@ export async function getEntityEditorSchemas(
       );
       schema = cloneObject(ProjectSchema);
 
-      ({ uiSchema } = await {
+      const projectModule = await {
         "hub:project:edit": () =>
           import("../../../projects/_internal/ProjectUiSchemaEdit"),
         "hub:project:create": () =>
           import("../../../projects/_internal/ProjectUiSchemaCreate"),
-      }[type as ProjectEditorType]());
+      }[type as ProjectEditorType]();
+      uiSchema = await projectModule.buildUiSchema(
+        i18nScope,
+        entity as IHubProject,
+        context
+      );
+
       break;
     // ----------------------------------------------------
     case "initiative":
@@ -84,12 +116,18 @@ export async function getEntityEditorSchemas(
       );
       schema = cloneObject(InitiativeSchema);
 
-      ({ uiSchema } = await {
+      const initiativeModule = await {
         "hub:initiative:edit": () =>
           import("../../../initiatives/_internal/InitiativeUiSchemaEdit"),
         "hub:initiative:create": () =>
           import("../../../initiatives/_internal/InitiativeUiSchemaCreate"),
-      }[type as InitiativeEditorType]());
+      }[type as InitiativeEditorType]();
+      uiSchema = await initiativeModule.buildUiSchema(
+        i18nScope,
+        entity as IHubInitiative,
+        context
+      );
+
       break;
     // ----------------------------------------------------
     case "page":
@@ -98,10 +136,16 @@ export async function getEntityEditorSchemas(
       );
       schema = cloneObject(PageSchema);
 
-      ({ uiSchema } = await {
+      const pageModule = await {
         "hub:page:edit": () =>
           import("../../../pages/_internal/PageUiSchemaEdit"),
-      }[type as PageEditorType]());
+      }[type as PageEditorType]();
+      uiSchema = await pageModule.buildUiSchema(
+        i18nScope,
+        entity as IHubPage,
+        context
+      );
+
       break;
     // ----------------------------------------------------
     case "content":
@@ -110,12 +154,20 @@ export async function getEntityEditorSchemas(
       );
       schema = cloneObject(ContentSchema);
 
-      ({ uiSchema } = await {
+      const contentModule = await {
         "hub:content:edit": () =>
           import("../../../content/_internal/ContentUiSchemaEdit"),
         "hub:content:discussions": () =>
           import("../../../content/_internal/ContentUiSchemaDiscussions"),
-      }[type as ContentEditorType]());
+        "hub:content:settings": () =>
+          import("../../../content/_internal/ContentUiSchemaSettings"),
+      }[type as ContentEditorType]();
+      uiSchema = await contentModule.buildUiSchema(
+        i18nScope,
+        entity as IHubEditableContent,
+        context
+      );
+
       break;
     case "group":
       const { GroupSchema } = await import(
@@ -123,32 +175,25 @@ export async function getEntityEditorSchemas(
       );
       schema = cloneObject(GroupSchema);
 
-      ({ uiSchema } = await {
+      const groupModule = await {
         "hub:group:edit": () =>
           import("../../../groups/_internal/GroupUiSchemaEdit"),
         "hub:group:settings": () =>
           import("../../../groups/_internal/GroupUiSchemaSettings"),
         "hub:group:discussions": () =>
           import("../../../groups/_internal/GroupUiSchemaDiscussions"),
-      }[type as GroupEditorType]());
+      }[type as GroupEditorType]();
+      uiSchema = await groupModule.buildUiSchema(
+        i18nScope,
+        entity as IHubGroup,
+        context
+      );
+
       break;
   }
 
   // filter out properties not used in the UI schema
   schema = filterSchemaToUiSchema(schema, uiSchema);
-  // apply the options
-  uiSchema = applyUiSchemaElementOptions(uiSchema, options);
-  // interpolate the i18n scope into the uiSchema
-  uiSchema = interpolate(
-    uiSchema,
-    { i18nScope },
-    // We don't have a real i18n object here, so just return the key
-    {
-      translate(i18nKey: string) {
-        return `{{${i18nKey}:translate}}`;
-      },
-    }
-  );
 
   return Promise.resolve({ schema, uiSchema });
 }
