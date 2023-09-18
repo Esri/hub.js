@@ -1,3 +1,10 @@
+# @esri/hub-common [14.14.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.13.1...@esri/hub-common@14.14.0) (2023-09-18)
+
+
+### Features
+
+* partnered orgs added to context ([#1214](https://github.com/Esri/hub.js/issues/1214)) ([7979571](https://github.com/Esri/hub.js/commit/7979571074cac9a196537b0ffb5950a58a925e79))
+
 ## @esri/hub-common [14.13.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.13.0...@esri/hub-common@14.13.1) (2023-09-15)
 
 
