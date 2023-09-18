@@ -198,9 +198,9 @@ export function searchChannelUsers(
     filters: [
       {
         operation: "OR",
-        predicates: users.reduce(
+        predicates: users.reduce<IPredicate[]>(
           (acc, user) => [...acc, { username: user }, { fullname: user }],
-          [] as IPredicate[]
+          []
         ),
       },
       ...filters,
