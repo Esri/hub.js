@@ -3,7 +3,7 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { getItemThumbnailUrl } from "../../resources";
 import { IModel } from "../../types";
 import { bBoxToExtent, extentToPolygon, isBBox } from "../../extent";
-import { IExtent, IItem } from "@esri/arcgis-rest-types";
+import { IExtent } from "@esri/arcgis-rest-types";
 import Geometry = __esri.Geometry;
 import { getItemHomeUrl } from "../../urls/get-item-home-url";
 import { getContentEditUrl, getHubRelativeUrl } from "./internalContentUtils";
