@@ -1,4 +1,4 @@
-import { extentToBBox, getGeographicOrgExtent } from "../../../extent";
+import { extentToBBox, orgExtent as orgExtent } from "../../../extent";
 import { IHubRequestOptions } from "../../../types";
 import { getTypeFromEntity } from "../../getTypeFromEntity";
 import { ConfigurableEntity } from "./ConfigurableEntity";
@@ -22,9 +22,7 @@ export async function getLocationOptions(
   portalName: string,
   hubRequestOptions: IHubRequestOptions
 ): Promise<IHubLocationOption[]> {
-  const defaultExtent: IExtent = await getGeographicOrgExtent(
-    hubRequestOptions
-  );
+  const defaultExtent: IExtent = await orgExtent(hubRequestOptions);
   const location: IHubLocation = entity.location;
 
   // Base options
