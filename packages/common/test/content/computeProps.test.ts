@@ -33,7 +33,7 @@ describe("content computeProps", () => {
 
     const chk = computeProps(model, content, requestOptions);
 
-    expect(chk.location?.type).toBe("item");
+    expect(chk.location?.type).toBe("custom");
   });
 
   it("handles when boundary is undefined", () => {
@@ -57,7 +57,7 @@ describe("content computeProps", () => {
 
     const chk = computeProps(model, content, requestOptions);
 
-    expect(chk.location?.type).toBe("item");
+    expect(chk.location?.type).toBe("custom");
   });
 
   it("handles when boundary defined as none", () => {
@@ -197,6 +197,6 @@ describe("deriveLocationFromItemExtent", () => {
       [120, 120],
     ]);
     expect(chk.geometries?.length).toBe(1);
-    expect(chk.type).toBe("item");
+    expect(chk.type).toBe("custom");
   });
 });
