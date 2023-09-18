@@ -17,7 +17,7 @@ import {
 import { IItemAndIServerEnrichments } from "../../items/_enrichments";
 
 // if called and valid, set 3 things -- else just return type custom
-export const getItemExtent = (itemExtent: number[][]): IExtent => {
+export const getExtentObject = (itemExtent: number[][]): IExtent => {
   return isBBox(itemExtent)
     ? ({ ...bBoxToExtent(itemExtent), type: "extent" } as unknown as IExtent)
     : undefined;
@@ -25,13 +25,13 @@ export const getItemExtent = (itemExtent: number[][]): IExtent => {
 
 export function deriveLocationFromItemExtent(itemExtent?: number[][]) {
   const location: IHubLocation = { type: "custom" };
-  const geometry: any = getItemExtent(itemExtent); // TODO: this needs to be fixed -tom
+  const geometry: any = getExtentObject(itemExtent); // TODO: this needs to be fixed -tom
   if (geometry) {
-    const convertedPolygon = {
+    const convertedExtent = {
       ...extentToPolygon(geometry),
       type: "polygon",
     } as unknown as Geometry;
-    location.geometries = [convertedPolygon];
+    location.geometries = [convertedExtent];
     location.spatialReference = geometry.spatialReference;
     location.extent = itemExtent;
   }
