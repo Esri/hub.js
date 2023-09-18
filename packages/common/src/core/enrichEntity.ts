@@ -1,21 +1,20 @@
 import { IGroup } from "@esri/arcgis-rest-types";
-import { HubEntity } from "../../types";
-import { IHubRequestOptions } from "../../../types";
-import { mapBy } from "../../../utils";
-import { getProp, setProp } from "../../../objects";
+import { HubEntity } from "./types";
+import { IHubRequestOptions } from "../types";
+import { mapBy } from "../utils";
+import { getProp, setProp } from "../objects";
 import { getGroup } from "@esri/arcgis-rest-portal";
-import { parseInclude } from "../../../search/_internal/parseInclude";
-import { unique } from "../../../util";
+import { parseInclude } from "../search/_internal/parseInclude";
+import { unique } from "../util";
 
-type EntityEditorEnrichment = keyof IEntityEditorEnrichments;
-interface IEntityEditorEnrichments {
+type EntityEnrichment = keyof IEntityEnrichments;
+interface IEntityEnrichments {
   followersGroup?: IGroup;
 }
 
 /**
- * Function to enrich an entity. This is used within
- * the toEditor functionlity to enrich an entity with
- * additional information that the editor may need.
+ * Function to enrich an entity with information that
+ * requires an additional XHR
  *
  * @param entity Hub entity
  * @param include Array of enrichment strings
@@ -25,14 +24,14 @@ export const enrichEntity = async (
   entity: HubEntity,
   include: string[],
   requestOptions: IHubRequestOptions
-): Promise<HubEntity & IEntityEditorEnrichments> => {
+): Promise<HubEntity & IEntityEnrichments> => {
   const specs = include.map(parseInclude);
   const enrichments = mapBy("enrichment", specs).filter(unique);
 
   // delegate to fetch enrichments if any have been defined
-  let enrichmentResults: IEntityEditorEnrichments = {};
+  let enrichmentResults: IEntityEnrichments = {};
   if (enrichments.length) {
-    enrichmentResults = await fetchEnrichments(
+    enrichmentResults = await fetchEntityEnrichments(
       entity,
       enrichments,
       requestOptions
@@ -51,11 +50,11 @@ export const enrichEntity = async (
  * This function delegates out to other helper functions
  * to fetch the entity enrichments.
  */
-const fetchEnrichments = async (
+const fetchEntityEnrichments = async (
   entity: HubEntity,
-  enrichments: EntityEditorEnrichment[],
+  enrichments: EntityEnrichment[],
   requestOptions?: IHubRequestOptions
-): Promise<IEntityEditorEnrichments> => {
+): Promise<IEntityEnrichments> => {
   const operations = enrichments.reduce((ops, enrichment) => {
     const operation = {
       followersGroup: fetchFollowersGroupEnrichment,

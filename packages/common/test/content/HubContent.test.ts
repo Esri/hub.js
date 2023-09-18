@@ -6,7 +6,7 @@ import { HubContent } from "../../src/content/HubContent";
 import * as editModule from "../../src/content/edit";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import { getProp } from "../../src/objects/get-prop";
-import * as EnrichEntityModule from "../../src/core/schemas/internal/enrichEntity";
+import * as EnrichEntityModule from "../../src/core/enrichEntity";
 
 describe("HubContent class", () => {
   let authdCtxMgr: ArcGISContextManager;

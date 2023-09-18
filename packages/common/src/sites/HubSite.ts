@@ -11,7 +11,7 @@ import { Catalog } from "../search";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
-import { enrichEntity } from "../core/schemas/internal/enrichEntity";
+import { enrichEntity } from "../core/enrichEntity";
 import {
   IEditorConfig,
   IWithEditorBehavior,

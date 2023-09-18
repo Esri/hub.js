@@ -14,7 +14,7 @@ import * as HubInitiativesModule from "../../src/initiatives/HubInitiatives";
 import * as ResolveMetricModule from "../../src/metrics/resolveMetric";
 import * as viewModule from "../../src/initiatives/view";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
-import * as EnrichEntityModule from "../../src/core/schemas/internal/enrichEntity";
+import * as EnrichEntityModule from "../../src/core/enrichEntity";
 
 describe("HubInitiative Class:", () => {
   let authdCtxMgr: ArcGISContextManager;

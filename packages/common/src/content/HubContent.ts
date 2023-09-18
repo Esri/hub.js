@@ -15,7 +15,7 @@ import { IEntityEditorContext } from "../core/types/HubEntityEditor";
 import { cloneObject } from "../util";
 import { editorToContent } from "./edit";
 import { ContentEditorType } from "./_internal/ContentSchema";
-import { enrichEntity } from "../core/schemas/internal/enrichEntity";
+import { enrichEntity } from "../core/enrichEntity";
 
 export class HubContent
   extends HubItemEntity<IHubEditableContent>

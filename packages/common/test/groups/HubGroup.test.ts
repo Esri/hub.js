@@ -9,7 +9,7 @@ import { IEntityPermissionPolicy } from "../../dist/types/permissions/types/IEnt
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import { getProp } from "../../src/objects/get-prop";
 import * as SearchUtils from "../../src/search/utils";
-import * as EnrichEntityModule from "../../src/core/schemas/internal/enrichEntity";
+import * as EnrichEntityModule from "../../src/core/enrichEntity";
 
 describe("HubGroup class:", () => {
   let authdCtxMgr: ArcGISContextManager;

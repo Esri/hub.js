@@ -32,7 +32,7 @@ import {
   IWithEditorBehavior,
   IHubInitiativeEditor,
 } from "../core";
-import { enrichEntity } from "../core/schemas/internal/enrichEntity";
+import { enrichEntity } from "../core/enrichEntity";
 
 /**
  * Hub Initiative Class

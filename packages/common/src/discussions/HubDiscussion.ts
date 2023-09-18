@@ -15,7 +15,7 @@ import {
 } from "../core/behaviors/IWithEditorBehavior";
 import { cloneObject } from "../util";
 import { DiscussionEditorType } from "./_internal/DiscussionSchema";
-import { enrichEntity } from "../core/schemas/internal/enrichEntity";
+import { enrichEntity } from "../core/enrichEntity";
 /**
  * Hub Discussion Class
  */

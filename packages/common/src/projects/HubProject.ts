@@ -35,7 +35,7 @@ import { projectToCardModel } from "./view";
 import { cloneObject, maybePush } from "../util";
 import { createProject, editorToProject, updateProject } from "./edit";
 import { ProjectEditorType } from "./_internal/ProjectSchema";
-import { enrichEntity } from "../core/schemas/internal/enrichEntity";
+import { enrichEntity } from "../core/enrichEntity";
 
 /**
  * Hub Project Class

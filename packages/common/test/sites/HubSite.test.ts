@@ -16,7 +16,7 @@ import {
 } from "../../src";
 import { Catalog } from "../../src/search";
 import * as ContainsModule from "../../src/core/_internal/deepContains";
-import * as EnrichEntityModule from "../../src/core/schemas/internal/enrichEntity";
+import * as EnrichEntityModule from "../../src/core/enrichEntity";
 
 describe("HubSite Class:", () => {
   let authdCtxMgr: ArcGISContextManager;

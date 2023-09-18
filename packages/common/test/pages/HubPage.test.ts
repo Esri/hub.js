@@ -5,7 +5,7 @@ import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as HubPagesModule from "../../src/pages/HubPages";
 import { IHubPage, getProp } from "../../src";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
-import * as EnrichEntityModule from "../../src/core/schemas/internal/enrichEntity";
+import * as EnrichEntityModule from "../../src/core/enrichEntity";
 
 describe("HubPage Class:", () => {
   let authdCtxMgr: ArcGISContextManager;

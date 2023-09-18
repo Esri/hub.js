@@ -10,7 +10,7 @@ import * as viewModule from "../../src/projects/view";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import * as ResolveMetricModule from "../../src/metrics/resolveMetric";
 import { HubItemEntity } from "../../src/core/HubItemEntity";
-import * as EnrichEntityModule from "../../src/core/schemas/internal/enrichEntity";
+import * as EnrichEntityModule from "../../src/core/enrichEntity";
 
 describe("HubProject Class:", () => {
   let authdCtxMgr: ArcGISContextManager;

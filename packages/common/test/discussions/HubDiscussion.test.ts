@@ -6,7 +6,7 @@ import { MOCK_AUTH } from "../mocks/mock-auth";
 import * as discussionsFetchModule from "../../src/discussions/fetch";
 import * as discussionsEditModule from "../../src/discussions/edit";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
-import * as EnrichEntityModule from "../../src/core/schemas/internal/enrichEntity";
+import * as EnrichEntityModule from "../../src/core/enrichEntity";
 
 describe("HubDiscussion Class:", () => {
   let authdCtxMgr: ArcGISContextManager;

@@ -29,7 +29,7 @@ import { getGroupThumbnailUrl } from "../search/utils";
 import { deleteGroupThumbnail } from "./deleteGroupThumbnail";
 import { GroupEditorType } from "./_internal/GroupSchema";
 import { IEntityEditorContext } from "../core";
-import { enrichEntity } from "../core/schemas/internal/enrichEntity";
+import { enrichEntity } from "../core/enrichEntity";
 
 /**
  * Hub Group Class

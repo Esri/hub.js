@@ -23,7 +23,7 @@ import { createPage, deletePage, fetchPage, updatePage } from "./HubPages";
 
 import { PageEditorType } from "./_internal/PageSchema";
 import { cloneObject } from "../util";
-import { enrichEntity } from "../core/schemas/internal/enrichEntity";
+import { enrichEntity } from "../core/enrichEntity";
 
 /*
   TODO:
