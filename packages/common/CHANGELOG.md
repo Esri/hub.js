@@ -1,3 +1,11 @@
+# @esri/hub-common [14.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.15.0...@esri/hub-common@14.16.0) (2023-09-18)
+
+
+### Features
+
+* Add Initiative and Project Associations ([#1213](https://github.com/Esri/hub.js/issues/1213)) ([7cb0298](https://github.com/Esri/hub.js/commit/7cb0298ab668efd3e1ffaab82946c16a837beb30))
+* item extent now selectable, savable, and reflects in old and new view ([#1212](https://github.com/Esri/hub.js/issues/1212)) ([5dbe3bb](https://github.com/Esri/hub.js/commit/5dbe3bb78bd3e5f6fa66f4ef4ca14c25170eb208))
+
 # @esri/hub-common [14.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.14.0...@esri/hub-common@14.15.0) (2023-09-18)
 
 
