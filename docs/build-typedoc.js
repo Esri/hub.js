@@ -429,10 +429,12 @@ const md = new MarkdownIt();
       return api;
     })
     .then(api => {
+      api.generatedAt = new Date().toISOString();
       /**
        * Our final object looks like this:
        *
        * {
+       *   generated: '2023-09-18T19:46:07.314Z'
        *   packages: [Array of packages.],
        *   declarations: [Array of each exported declaration accross all source files.]
        *   index: { Object mapping each declaration.id as a key with the declaration as its value}
@@ -441,7 +443,7 @@ const md = new MarkdownIt();
        * We now export this to the Acetate source directory.
        */
       return new Promise((resolve, reject) => {
-        writeFile(OUTPUT, JSON.stringify(api, null, 2), e => {
+        writeFile(OUTPUT, JSON.stringify(api, null, 2), (e) => {
           if (e) {
             reject(e);
             return;
