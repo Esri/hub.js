@@ -55,6 +55,8 @@ export async function getEntityEditorSchemas(
           import("../../../sites/_internal/SiteUiSchemaEdit"),
         "hub:site:create": () =>
           import("../../../sites/_internal/SiteUiSchemaCreate"),
+        "hub:site:followers": () =>
+          import("../../../sites/_internal/SiteUiSchemaFollowers"),
       }[type as SiteEditorType]();
       uiSchema = await siteModule.buildUiSchema(
         i18nScope,

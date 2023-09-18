@@ -8,9 +8,9 @@ import { IHubSite } from "../../core/types";
 
 /**
  * @private
- * construct edit uiSchema for Hub Projects - this defines
- * how the schema properties should be rendered in the
- * project editing experience
+ * constructs the edit uiSchema for Hub Sites.
+ * This defines how the schema properties should
+ * be rendered in the site editing experience
  */
 export const buildUiSchema = async (
   i18nScope: string,

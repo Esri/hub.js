@@ -1,10 +1,12 @@
 import {
   IGroup,
   IItem,
+  getGroup,
   removeItemResource,
   setItemAccess,
   shareItemWithGroup,
   unshareItemWithGroup,
+  updateGroup,
 } from "@esri/arcgis-rest-portal";
 import { IArcGISContext } from "../ArcGISContext";
 import HubError from "../HubError";
@@ -29,10 +31,11 @@ import {
 } from "./behaviors";
 
 import { IWithThumbnailBehavior } from "./behaviors/IWithThumbnailBehavior";
-import { IHubItemEntity, SettableAccessLevel } from "./types";
+import { AccessLevel, IHubItemEntity, SettableAccessLevel } from "./types";
 import { sharedWith } from "./_internal/sharedWith";
 import { IWithDiscussionsBehavior } from "./behaviors/IWithDiscussionsBehavior";
 import { setDiscussableKeyword } from "../discussions";
+import { IWithFollowersBehavior } from "./behaviors/IWithFollowersBehavior";
 
 const FEATURED_IMAGE_FILENAME = "featuredImage.png";
 
@@ -46,7 +49,8 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     IWithThumbnailBehavior,
     IWithFeaturedImageBehavior,
     IWithPermissionBehavior,
-    IWithDiscussionsBehavior
+    IWithDiscussionsBehavior,
+    IWithFollowersBehavior
 {
   protected context: IArcGISContext;
   protected entity: T;
@@ -220,6 +224,30 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     });
     // if this succeeded, update the entity
     this.entity.access = access;
+  }
+
+  /**
+   * Returns the followers group
+   */
+  async getFollowersGroup(): Promise<IGroup> {
+    return getGroup(
+      this.entity.followersGroupId,
+      this.context.userRequestOptions
+    );
+  }
+
+  /**
+   * Sets the access level of the followers group
+   * @param access
+   */
+  async setFollowersGroupAccess(access: SettableAccessLevel): Promise<void> {
+    await updateGroup({
+      group: {
+        id: this.entity.followersGroupId,
+        access,
+      },
+      authentication: this.context.session,
+    });
   }
 
   /**

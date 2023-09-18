@@ -37,6 +37,7 @@ import { setDiscussableKeyword } from "../discussions";
 import { applyDefaultCollectionMigration } from "./_internal/applyDefaultCollectionMigration";
 import { reflectCollectionsToSearchCategories } from "./_internal/reflectCollectionsToSearchCategories";
 import { convertCatalogToLegacyFormat } from "./_internal/convertCatalogToLegacyFormat";
+import { convertFeaturesToLegacyCapabilities } from "./_internal/capabilities/convertFeaturesToLegacyCapabilities";
 export const HUB_SITE_ITEM_TYPE = "Hub Site Application";
 export const ENTERPRISE_SITE_ITEM_TYPE = "Site Application";
 
@@ -345,6 +346,20 @@ export async function updateSite(
   // with the existing structure on the most current model.
   // TODO: Remove once the application is plumbed to work off an IHubCatalog
   modelToUpdate = convertCatalogToLegacyFormat(modelToUpdate, currentModel);
+  /**
+   * Site capabilities are currently saved as an array on the
+   * site.data.values.capabilities. We want to migragte these
+   * legacy capabilities over to features in the new permissions
+   * system; however, we must continue persisting updates to
+   * these features in the legacy capabilities array until the
+   * existing site capabilities in our application are plumbed
+   * to work off of permissions
+   * TODO: Remove once site capabilities use permissions
+   */
+  modelToUpdate = convertFeaturesToLegacyCapabilities(
+    modelToUpdate,
+    currentModel
+  );
 
   // send updates to the Portal API and get back the updated site model
   const updatedSiteModel = await updateModel(

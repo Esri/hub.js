@@ -6,8 +6,7 @@ import {
   IWithPermissions,
   IWithSlug,
 } from "../traits/index";
-import { IHubItemEntity } from "./IHubItemEntity";
-import { IWithFollowers } from "../traits/IWithFollowers";
+import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
 
 /**
  * DRAFT: Under development and more properties will likely be added
@@ -19,8 +18,7 @@ export interface IHubSite
     IWithCatalog,
     IWithLayout,
     IWithPermissions,
-    IWithVersioningBehavior,
-    IWithFollowers {
+    IWithVersioningBehavior {
   /**
    * Array of minimal page objects
    */
@@ -83,10 +81,4 @@ export interface IHubSite
   legacyTeams: string[];
 }
 
-export type IHubSiteEditor = Omit<IHubSite, "extent"> & {
-  /**
-   * Thumbnail image. This is only used on the Editor and is
-   * persisted in the fromEditor method on the Class
-   */
-  _thumbnail?: any;
-};
+export type IHubSiteEditor = IHubItemEntityEditor<IHubSite> & {};
