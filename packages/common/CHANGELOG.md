@@ -1,3 +1,10 @@
+# @esri/hub-common [14.17.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.16.0...@esri/hub-common@14.17.0) (2023-09-18)
+
+
+### Features
+
+* **hub-discussions:** adding ability to update the groups of a channel ([#1218](https://github.com/Esri/hub.js/issues/1218)) ([7bc2117](https://github.com/Esri/hub.js/commit/7bc21178be864b38be25e5bb5ec6f37e370af5c6))
+
 # @esri/hub-common [14.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.15.0...@esri/hub-common@14.16.0) (2023-09-18)
 
 
