@@ -71,7 +71,12 @@ export function isPublicChannel(channel: IChannel): boolean {
  */
 export function isOrgChannel(channel: IChannel): boolean {
   return channel.channelAcl
-    ? channel.channelAcl.some(({ category }) => category === AclCategory.ORG)
+    ? !isPublicChannel(channel) &&
+        channel.channelAcl.some(
+          ({ category, subCategory }) =>
+            category === AclCategory.ORG &&
+            subCategory === AclSubCategory.MEMBER
+        )
     : channel.access === SharingAccess.ORG;
 }
 
@@ -82,7 +87,9 @@ export function isOrgChannel(channel: IChannel): boolean {
  * @returns true if the channel is considered `private`
  */
 export function isPrivateChannel(channel: IChannel): boolean {
-  return !isPublicChannel(channel) && !isOrgChannel(channel);
+  return channel.channelAcl
+    ? channel.channelAcl.every(({ category }) => category === AclCategory.GROUP)
+    : channel.access === SharingAccess.PRIVATE;
 }
 
 /**

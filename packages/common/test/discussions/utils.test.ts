@@ -4,7 +4,6 @@ import {
   setDiscussableKeyword,
   searchChannelUsers,
   SharingAccess,
-  IHubRequestOptions,
   isPublicChannel,
   isOrgChannel,
   isPrivateChannel,
@@ -89,14 +88,18 @@ describe("discussions utils", () => {
     it("should return true for acl", () => {
       expect(
         isOrgChannel({
-          channelAcl: [{ category: AclCategory.ORG }],
+          channelAcl: [
+            { category: AclCategory.ORG, subCategory: AclSubCategory.MEMBER },
+          ],
         } as IChannel)
       ).toBe(true);
     });
     it("should return false for acl", () => {
       expect(
         isOrgChannel({
-          channelAcl: [{ category: AclCategory.GROUP }],
+          channelAcl: [
+            { category: AclCategory.GROUP, subCategory: AclSubCategory.MEMBER },
+          ],
         } as IChannel)
       ).toBe(false);
     });
@@ -148,7 +151,9 @@ describe("discussions utils", () => {
     it("should return org for acl", () => {
       expect(
         getChannelAccess({
-          channelAcl: [{ category: AclCategory.ORG }],
+          channelAcl: [
+            { category: AclCategory.ORG, subCategory: AclSubCategory.MEMBER },
+          ],
         } as IChannel)
       ).toBe(SharingAccess.ORG);
     });
