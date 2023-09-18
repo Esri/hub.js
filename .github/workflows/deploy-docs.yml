@@ -1,8 +1,12 @@
 name: Deploy Documentation
-# After a push to master, redeploy the docs
+# This is called from the release workflow so that the
+# docs are updated and stamped with the version numbers 
+# from the current release instead of the previous release
 on:
-  push:
-    branches: [master]
+  workflow_call:
+   
+  # push:
+  #   branches: [master]
 
 jobs:
   build-and-deploy:
