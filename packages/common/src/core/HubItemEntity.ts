@@ -55,11 +55,8 @@ export abstract class HubItemEntity<T extends IHubItemEntity>
     IWithFeaturedImageBehavior,
     IWithPermissionBehavior,
     IWithDiscussionsBehavior,
-<<<<<<< HEAD
-    IWithFollowersBehavior
-=======
+    IWithFollowersBehavior,
     IWithAssociationBehavior
->>>>>>> 8a26008e6 (feat: associated, connected and unconnected queries and functions)
 {
   protected context: IArcGISContext;
   protected entity: T;
