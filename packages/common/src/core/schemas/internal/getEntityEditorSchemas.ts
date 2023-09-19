@@ -53,12 +53,12 @@ export async function getEntityEditorSchemas(
       const siteModule = await {
         "hub:site:edit": () =>
           import("../../../sites/_internal/SiteUiSchemaEdit"),
-        "hub:site:discussions": () =>
-          import("../../../sites/_internal/SiteUiSchemaDiscussions"),
         "hub:site:create": () =>
           import("../../../sites/_internal/SiteUiSchemaCreate"),
         "hub:site:followers": () =>
           import("../../../sites/_internal/SiteUiSchemaFollowers"),
+        "hub:site:discussions": () =>
+          import("../../../sites/_internal/SiteUiSchemaDiscussions"),
       }[type as SiteEditorType]();
       uiSchema = await siteModule.buildUiSchema(
         i18nScope,

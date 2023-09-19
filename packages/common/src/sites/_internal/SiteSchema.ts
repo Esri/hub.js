@@ -5,9 +5,9 @@ import { HubItemEntitySchema } from "../../core/schemas/shared/HubItemEntitySche
 export type SiteEditorType = (typeof SiteEditorTypes)[number];
 export const SiteEditorTypes = [
   "hub:site:edit",
-  "hub:site:discussions",
   "hub:site:create",
   "hub:site:followers",
+  "hub:site:discussions",
 ] as const;
 
 /**

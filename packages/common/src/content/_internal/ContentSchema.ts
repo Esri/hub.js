@@ -4,8 +4,8 @@ import { HubItemEntitySchema } from "../../core/schemas/shared/HubItemEntitySche
 export type ContentEditorType = (typeof ContentEditorTypes)[number];
 export const ContentEditorTypes = [
   "hub:content:edit",
-  "hub:content:discussions",
   "hub:content:settings",
+  "hub:content:discussions",
 ] as const;
 
 /**
