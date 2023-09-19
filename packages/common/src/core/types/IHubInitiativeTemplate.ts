@@ -14,7 +14,11 @@ export interface IHubInitiativeTemplate
     IWithCatalog,
     IWithLayout,
     IWithMetrics,
-    IWithPermissions {}
+    IWithPermissions {
+  previewUrl: string;
+  recommendedTemplates: string[];
+  siteSolutionId: string;
+}
 
 /**
  * This type redefines the IHubInitiativeTemplate interface in such a way
