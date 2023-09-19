@@ -1,3 +1,10 @@
+# @esri/hub-common [14.19.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.18.0...@esri/hub-common@14.19.0) (2023-09-19)
+
+
+### Features
+
+* add option to enrich an entity  ([#1220](https://github.com/Esri/hub.js/issues/1220)) ([0b57ff5](https://github.com/Esri/hub.js/commit/0b57ff50d8672bdbe1447676b83e82deee74d9ff))
+
 # @esri/hub-common [14.18.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.17.0...@esri/hub-common@14.18.0) (2023-09-19)
 
 
