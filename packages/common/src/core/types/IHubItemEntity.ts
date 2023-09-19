@@ -134,6 +134,9 @@ export interface IHubItemEntity
 }
 
 export type IHubItemEntityEditor<T> = Omit<T, "extent"> & {
+  view: {
+    featuredImage?: any;
+  };
   /**
    * Thumbnail image. This is only used on the Editor and is
    * persisted in the fromEditor method on the Class

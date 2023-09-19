@@ -1,5 +1,5 @@
 import { IWithPermissions, IWithSlug } from "../traits/index";
-import { IHubItemEntity } from "./IHubItemEntity";
+import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
 
 /**
  * Defines the properties of an editable Hub Content object
@@ -28,10 +28,4 @@ export interface IHubEditableContent
   hostedDownloads?: boolean;
 }
 
-export type IHubContentEditor = Omit<IHubEditableContent, "extent"> & {
-  /**
-   * Thumbnail image. This is only used on the Editor and is
-   * persisted in the fromEditor method on the Class
-   */
-  _thumbnail?: any;
-};
+export type IHubContentEditor = IHubItemEntityEditor<IHubEditableContent> & {};

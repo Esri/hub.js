@@ -10,6 +10,7 @@ import * as viewModule from "../../src/projects/view";
 import * as EditConfigModule from "../../src/core/schemas/getEditorConfig";
 import * as ResolveMetricModule from "../../src/metrics/resolveMetric";
 import { HubItemEntity } from "../../src/core/HubItemEntity";
+import * as EnrichEntityModule from "../../src/core/enrichEntity";
 
 describe("HubProject Class:", () => {
   let authdCtxMgr: ArcGISContextManager;
@@ -351,21 +352,35 @@ describe("HubProject Class:", () => {
       );
     });
 
-    it("toEditor converst entity to correct structure", () => {
-      const chk = HubProject.fromJson(
-        {
-          id: "bc3",
-          name: "Test Entity",
-          thumbnailUrl: "https://myserver.com/thumbnail.png",
-        },
-        authdCtxMgr.context
-      );
-      const result = chk.toEditor();
-      // NOTE: If additional transforms are added in the class they should have tests here
-      expect(result.id).toEqual("bc3");
-      expect(result.name).toEqual("Test Entity");
-      expect(result.thumbnailUrl).toEqual("https://myserver.com/thumbnail.png");
-      expect(result._groups).toEqual([]);
+    describe("toEditor:", () => {
+      it("optionally enriches the entity", async () => {
+        const enrichEntitySpy = spyOn(
+          EnrichEntityModule,
+          "enrichEntity"
+        ).and.returnValue(Promise.resolve({}));
+        const chk = HubProject.fromJson({ id: "bc3" }, authdCtxMgr.context);
+        await chk.toEditor({}, ["someEnrichment AS _someEnrichment"]);
+
+        expect(enrichEntitySpy).toHaveBeenCalledTimes(1);
+      });
+      it("toEditor converst entity to correct structure", async () => {
+        const chk = HubProject.fromJson(
+          {
+            id: "bc3",
+            name: "Test Entity",
+            thumbnailUrl: "https://myserver.com/thumbnail.png",
+          },
+          authdCtxMgr.context
+        );
+        const result = await chk.toEditor();
+        // NOTE: If additional transforms are added in the class they should have tests here
+        expect(result.id).toEqual("bc3");
+        expect(result.name).toEqual("Test Entity");
+        expect(result.thumbnailUrl).toEqual(
+          "https://myserver.com/thumbnail.png"
+        );
+        expect(result._groups).toEqual([]);
+      });
     });
 
     describe("fromEditor:", () => {
@@ -393,7 +408,7 @@ describe("HubProject Class:", () => {
           },
           authdCtxMgr.context
         );
-        const editor = chk.toEditor();
+        const editor = await chk.toEditor();
         editor.view = {
           featuredImage: {
             blob: "fake blob",
@@ -418,7 +433,7 @@ describe("HubProject Class:", () => {
           },
           authdCtxMgr.context
         );
-        const editor = chk.toEditor();
+        const editor = await chk.toEditor();
         editor.view = {
           featuredImage: {}, // Will clear b/c .blob is not defined
         };
@@ -438,7 +453,7 @@ describe("HubProject Class:", () => {
           },
           authdCtxMgr.context
         );
-        const editor = chk.toEditor();
+        const editor = await chk.toEditor();
 
         editor.access = "org";
 
@@ -460,7 +475,7 @@ describe("HubProject Class:", () => {
           },
           authdCtxMgr.context
         );
-        const editor = chk.toEditor();
+        const editor = await chk.toEditor();
         editor._groups = ["3ef"];
         editor.access = "org";
         const accessSpy = spyOn(
@@ -491,7 +506,7 @@ describe("HubProject Class:", () => {
         // spy on the instance .save method and retrn void
         const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
         // make changes to the editor
-        const editor = chk.toEditor();
+        const editor = await chk.toEditor();
         editor.name = "new name";
         delete editor._groups;
         // call fromEditor
@@ -513,7 +528,7 @@ describe("HubProject Class:", () => {
         // spy on the instance .save method and retrn void
         const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
         // make changes to the editor
-        const editor = chk.toEditor();
+        const editor = await chk.toEditor();
         editor.name = "new name";
         editor._thumbnail = {
           blob: "fake blob",
@@ -540,7 +555,7 @@ describe("HubProject Class:", () => {
         // spy on the instance .save method and retrn void
         const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
         // make changes to the editor
-        const editor = chk.toEditor();
+        const editor = await chk.toEditor();
         editor.name = "new name";
         editor._thumbnail = {};
         // call fromEditor
@@ -567,7 +582,7 @@ describe("HubProject Class:", () => {
         // spy on the instance .save method and retrn void
         const saveSpy = spyOn(chk, "save").and.returnValue(Promise.resolve());
         // make changes to the editor
-        const editor = chk.toEditor();
+        const editor = await chk.toEditor();
         editor.name = "new name";
         editor.location = {
           extent: [
