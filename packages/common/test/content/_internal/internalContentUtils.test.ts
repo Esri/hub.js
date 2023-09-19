@@ -39,7 +39,7 @@ describe("getContentEditUrl", () => {
 
     const chk = getContentEditUrl(item, requestOptions);
 
-    expect(chk).toBe("https://insights.arcgis.com/#/edit/9001");
+    expect(chk).toBe("https://myorg.maps.arcgis.com/home/item.html?id=9001");
   });
 
   it("adds Insights content edit link for Insights item type", () => {
@@ -55,7 +55,7 @@ describe("getContentEditUrl", () => {
 
     const chk = getContentEditUrl(item, requestOptions);
 
-    expect(chk).toBe("https://insights.arcgis.com/#/edit/9001");
+    expect(chk).toBe("https://myorg.maps.arcgis.com/home/item.html?id=9001");
   });
 
   it("adds Insights content edit link for Insights Workbook item type", () => {

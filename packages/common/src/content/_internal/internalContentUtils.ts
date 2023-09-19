@@ -657,7 +657,10 @@ export const getShortenedCategories = (categories: string[]) => {
 };
 
 /**
- * returns URL to edit content of application type
+ * Returns URL to edit content of application type
+ *
+ * TODO: implement logic to compute edit URL for
+ * Dataset, project, document, templates
  *
  * Logic copied from getEditUrl()
  * https://github.com/ArcGIS/opendata-ui/blob/9442a7a26ddde117bdaa747f60e2ef61f5163896/packages/ember-arcgis-opendata-components/addon/services/solutions-service.js#L1340
@@ -670,12 +673,11 @@ export const getContentEditUrl = (
   requestOptions: IRequestOptions
 ) => {
   let contentEditUrl: string;
+  // TODO: edit URL for Dataset, project, document, templates
   switch (getNormalizedAppItemType(item)) {
     case "Dashboard":
       contentEditUrl = getDashboardEditUrl(item, requestOptions);
       break;
-    case "Insights":
-    case "Insights Page":
     case "Insights Workbook":
       contentEditUrl = getInsightsEditUrl(item, requestOptions);
       break;
@@ -694,6 +696,8 @@ export const getContentEditUrl = (
     case "Urban Model":
       contentEditUrl = getUrbanModelEditUrl(item, requestOptions);
       break;
+    default:
+      contentEditUrl = getItemHomeUrl(item.id, requestOptions);
   }
   return contentEditUrl;
 };
