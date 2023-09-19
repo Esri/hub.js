@@ -87,9 +87,7 @@ export function isOrgChannel(channel: IChannel): boolean {
  * @returns true if the channel is considered `private`
  */
 export function isPrivateChannel(channel: IChannel): boolean {
-  return channel.channelAcl
-    ? channel.channelAcl.every(({ category }) => category === AclCategory.GROUP)
-    : channel.access === SharingAccess.PRIVATE;
+  return !isPublicChannel(channel) && !isOrgChannel(channel);
 }
 
 /**

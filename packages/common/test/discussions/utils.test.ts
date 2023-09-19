@@ -125,7 +125,9 @@ describe("discussions utils", () => {
     it("should return false for acl", () => {
       expect(
         isPrivateChannel({
-          channelAcl: [{ category: AclCategory.ORG }],
+          channelAcl: [
+            { category: AclCategory.ORG, subCategory: AclSubCategory.MEMBER },
+          ],
         } as IChannel)
       ).toBe(false);
     });
