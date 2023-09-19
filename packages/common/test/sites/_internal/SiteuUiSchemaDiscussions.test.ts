@@ -2,7 +2,7 @@ import { buildUiSchema } from "../../../src/sites/_internal/SiteUiSchemaDiscussi
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
 
 describe("buildUiSchema: site discussions", () => {
-  it("returns the full site create uiSchema", async () => {
+  it("returns the full site discussions uiSchema", async () => {
     const uiSchema = await buildUiSchema("some.scope", {} as any, MOCK_CONTEXT);
     expect(uiSchema).toEqual({
       type: "Layout",

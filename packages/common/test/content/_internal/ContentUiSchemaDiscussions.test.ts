@@ -2,7 +2,7 @@ import { buildUiSchema } from "../../../src/content/_internal/ContentUiSchemaDis
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
 
 describe("buildUiSchema: content discussions", () => {
-  it("returns the full content create uiSchema", async () => {
+  it("returns the full content discussions uiSchema", async () => {
     const uiSchema = await buildUiSchema("some.scope", {} as any, MOCK_CONTEXT);
     expect(uiSchema).toEqual({
       type: "Layout",

@@ -2,7 +2,7 @@ import { buildUiSchema } from "../../../src/groups/_internal/GroupUiSchemaDiscus
 import { MOCK_CONTEXT } from "../../mocks/mock-auth";
 
 describe("buildUiSchema: group discussions", () => {
-  it("returns the full group create uiSchema", async () => {
+  it("returns the full group discussions uiSchema", async () => {
     const uiSchema = await buildUiSchema("some.scope", {} as any, MOCK_CONTEXT);
     expect(uiSchema).toEqual({
       type: "Layout",
