@@ -1,3 +1,10 @@
+# @esri/hub-common [14.18.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.17.0...@esri/hub-common@14.18.0) (2023-09-19)
+
+
+### Features
+
+* **hub-common:** add application type content edit link ([#1217](https://github.com/Esri/hub.js/issues/1217)) ([82ceec4](https://github.com/Esri/hub.js/commit/82ceec4acc2040e483b2a4d422152fd02a62384c))
+
 # @esri/hub-common [14.17.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.16.0...@esri/hub-common@14.17.0) (2023-09-18)
 
 
