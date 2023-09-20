@@ -1,3 +1,10 @@
+## @esri/hub-common [14.19.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.19.1...@esri/hub-common@14.19.2) (2023-09-20)
+
+
+### Bug Fixes
+
+* uiSchema translation keys ([#1224](https://github.com/Esri/hub.js/issues/1224)) ([a55292f](https://github.com/Esri/hub.js/commit/a55292f0d11d993c4f1edf00d9e621beb44459b6))
+
 ## @esri/hub-common [14.19.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.19.0...@esri/hub-common@14.19.1) (2023-09-20)
 
 
