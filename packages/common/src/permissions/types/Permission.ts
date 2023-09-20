@@ -24,6 +24,7 @@ const validPermissions = [
   ...PagePermissions,
   ...PlatformPermissions,
   ...TempPermissions,
+  ...DiscussionPermissions,
 ] as const;
 
 /**
@@ -37,7 +38,8 @@ export type Permission =
   | (typeof GroupPermissions)[number]
   | (typeof PagePermissions)[number]
   | (typeof PlatformPermissions)[number]
-  | (typeof TempPermissions)[number];
+  | (typeof TempPermissions)[number]
+  | (typeof DiscussionPermissions)[number];
 
 /**
  * Validate a Permission
