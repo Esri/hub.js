@@ -233,7 +233,7 @@ describe("buildUiSchema: project edit", () => {
                 facets: [
                   {
                     label:
-                      "{{some.scope.fields.featuredContent.facets.type:translate}",
+                      "{{some.scope.fields.featuredContent.facets.type:translate}}",
                     key: "type",
                     display: "multi-select",
                     field: "type",
@@ -243,7 +243,7 @@ describe("buildUiSchema: project edit", () => {
                   },
                   {
                     label:
-                      "{{some.scope.fields.featuredContent.facets.sharing:translate}",
+                      "{{some.scope.fields.featuredContent.facets.sharing:translate}}",
                     key: "access",
                     display: "multi-select",
                     field: "access",
