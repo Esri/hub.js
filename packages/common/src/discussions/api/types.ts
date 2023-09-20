@@ -814,6 +814,7 @@ export interface ICreateChannelPermissions {
 export interface IUpdateChannelPermissions {
   access?: SharingAccess;
   allowAnonymous?: boolean;
+  groups?: string[];
 }
 
 /**

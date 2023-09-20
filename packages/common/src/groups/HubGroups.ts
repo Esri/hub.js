@@ -1,7 +1,7 @@
 import { IGroup } from "@esri/arcgis-rest-types";
 import { fetchGroupEnrichments } from "./_internal/enrichments";
 import { getProp, setProp } from "../objects";
-import { getGroupThumbnailUrl, IHubSearchResult } from "../search";
+import { getGroupThumbnailUrl } from "../search/utils";
 import { parseInclude } from "../search/_internal/parseInclude";
 import { IHubRequestOptions } from "../types";
 import { getGroupHomeUrl } from "../urls";
@@ -21,6 +21,7 @@ import { convertHubGroupToGroup } from "./_internal/convertHubGroupToGroup";
 import { convertGroupToHubGroup } from "./_internal/convertGroupToHubGroup";
 import { setDiscussableKeyword } from "../discussions";
 import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
+import { IHubSearchResult } from "../search/types/IHubSearchResult";
 
 /**
  * Enrich a generic search result

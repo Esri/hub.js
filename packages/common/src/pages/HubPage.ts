@@ -23,6 +23,7 @@ import { createPage, deletePage, fetchPage, updatePage } from "./HubPages";
 
 import { PageEditorType } from "./_internal/PageSchema";
 import { cloneObject } from "../util";
+import { enrichEntity } from "../core/enrichEntity";
 
 /*
   TODO:
@@ -202,11 +203,22 @@ export class HubPage
    * @param editorContext
    * @returns
    */
-  toEditor(editorContext: IEntityEditorContext = {}): IHubPageEditor {
-    // Cast the entity to it's editor
-    const editor = cloneObject(this.entity) as IHubPageEditor;
+  async toEditor(
+    editorContext: IEntityEditorContext = {},
+    include: string[] = []
+  ): Promise<IHubPageEditor> {
+    // 1. optionally enrich entity and cast to editor
+    const editor = include.length
+      ? ((await enrichEntity(
+          cloneObject(this.entity),
+          include,
+          this.context.hubRequestOptions
+        )) as IHubPageEditor)
+      : (cloneObject(this.entity) as IHubPageEditor);
 
-    // Add other transforms here...
+    // 2. Apply transforms to relevant entity values so they
+    // can be consumed by the editor
+
     return editor;
   }
 

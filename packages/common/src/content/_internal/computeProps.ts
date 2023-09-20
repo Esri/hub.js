@@ -6,7 +6,7 @@ import { bBoxToExtent, extentToPolygon, isBBox } from "../../extent";
 import { IExtent } from "@esri/arcgis-rest-types";
 import Geometry = __esri.Geometry;
 import { getItemHomeUrl } from "../../urls/get-item-home-url";
-import { getHubRelativeUrl } from "./internalContentUtils";
+import { getContentEditUrl, getHubRelativeUrl } from "./internalContentUtils";
 import { IHubLocation } from "../../core/types/IHubLocation";
 import { IHubEditableContent } from "../../core/types/IHubEditableContent";
 import { getRelativeWorkspaceUrl } from "../../core/getRelativeWorkspaceUrl";
@@ -18,7 +18,7 @@ import {
 import { IItemAndIServerEnrichments } from "../../items/_enrichments";
 
 // if called and valid, set 3 things -- else just return type custom
-export const getItemExtent = (itemExtent: number[][]): IExtent => {
+export const getExtentObject = (itemExtent: number[][]): IExtent => {
   return isBBox(itemExtent)
     ? ({ ...bBoxToExtent(itemExtent), type: "extent" } as unknown as IExtent)
     : undefined;
@@ -26,13 +26,13 @@ export const getItemExtent = (itemExtent: number[][]): IExtent => {
 
 export function deriveLocationFromItemExtent(itemExtent?: number[][]) {
   const location: IHubLocation = { type: "custom" };
-  const geometry: any = getItemExtent(itemExtent); // TODO: this needs to be fixed -tom
+  const geometry: any = getExtentObject(itemExtent); // TODO: this needs to be fixed -tom
   if (geometry) {
-    const convertedPolygon = {
+    const convertedExtent = {
       ...extentToPolygon(geometry),
       type: "polygon",
     } as unknown as Geometry;
-    location.geometries = [convertedPolygon];
+    location.geometries = [convertedExtent];
     location.spatialReference = geometry.spatialReference;
     location.extent = itemExtent;
   }
@@ -63,8 +63,8 @@ export function computeProps(
     ),
     workspaceRelative: getRelativeWorkspaceUrl("content", content.id),
     thumbnail: thumbnailUrl,
+    contentEditUrl: getContentEditUrl(model.item, requestOptions),
   };
-
   // cannot be null otherwise we'd get a validation
   // error that doesn't let us save the form
   content.licenseInfo = model.item.licenseInfo || "";

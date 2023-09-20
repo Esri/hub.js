@@ -12,7 +12,7 @@ const createCacheKeyFromArgs = (args: any[]) =>
     ""
   );
 
-const memoizedFnCache: Record<string, any> = {};
+let memoizedFnCache: Record<string, any> = {};
 /**
  * Wrap a function into a memoized version of itself. Multiple calls for the same function
  * will return the same memoized function - thus enabling a shared cache of results.
@@ -49,9 +49,7 @@ export const memoize = <ARGS extends unknown[], RET>(
  */
 export const clearMemoizedCache = (fnName?: string) => {
   if (!fnName) {
-    Object.keys(memoizedFnCache).forEach((key) => {
-      delete memoizedFnCache[key];
-    });
+    memoizedFnCache = {};
     return;
   } else {
     delete memoizedFnCache[`_${fnName}`];

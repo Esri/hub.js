@@ -6,7 +6,7 @@ import {
 } from "../traits";
 import {} from "../traits/IWithCatalog";
 import { IWithMetrics } from "../traits/IWithMetrics";
-import { IHubItemEntity } from "./IHubItemEntity";
+import { IHubItemEntity, IHubItemEntityEditor } from "./IHubItemEntity";
 
 /**
  * DRAFT: Under development and more properties will likely be added
@@ -19,10 +19,4 @@ export interface IHubInitiative
     IWithMetrics,
     IWithPermissions {}
 
-export type IHubInitiativeEditor = Omit<IHubInitiative, "extent"> & {
-  /**
-   * Thumbnail image. This is only used on the Editor and is
-   * persisted in the fromEditor method on the Class
-   */
-  _thumbnail?: any;
-};
+export type IHubInitiativeEditor = IHubItemEntityEditor<IHubInitiative> & {};

@@ -1,7 +1,7 @@
 import {
   computeProps,
   deriveLocationFromItemExtent,
-  getItemExtent,
+  getExtentObject,
 } from "../../src/content/_internal/computeProps";
 import { IHubEditableContent } from "../../src/core/types/IHubEditableContent";
 import { IItemAndIServerEnrichments } from "../../src/items/_enrichments";
@@ -179,7 +179,7 @@ describe("content computeProps", () => {
 
 describe("getItemExtent", () => {
   it("getItemExtent isBBox is true", () => {
-    const chk = getItemExtent([
+    const chk = getExtentObject([
       [100, 100],
       [120, 120],
     ]);

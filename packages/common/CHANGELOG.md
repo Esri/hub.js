@@ -1,3 +1,39 @@
+## @esri/hub-common [14.19.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.19.0...@esri/hub-common@14.19.1) (2023-09-20)
+
+
+### Bug Fixes
+
+* **hub-common:** re-adds the discussion permissions to validPermissions array ([#1223](https://github.com/Esri/hub.js/issues/1223)) ([9db7245](https://github.com/Esri/hub.js/commit/9db7245fcfdc78db2700ae21a491e6b91b9e85a2))
+
+# @esri/hub-common [14.19.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.18.0...@esri/hub-common@14.19.0) (2023-09-19)
+
+
+### Features
+
+* add option to enrich an entity  ([#1220](https://github.com/Esri/hub.js/issues/1220)) ([0b57ff5](https://github.com/Esri/hub.js/commit/0b57ff50d8672bdbe1447676b83e82deee74d9ff))
+
+# @esri/hub-common [14.18.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.17.0...@esri/hub-common@14.18.0) (2023-09-19)
+
+
+### Features
+
+* **hub-common:** add application type content edit link ([#1217](https://github.com/Esri/hub.js/issues/1217)) ([82ceec4](https://github.com/Esri/hub.js/commit/82ceec4acc2040e483b2a4d422152fd02a62384c))
+
+# @esri/hub-common [14.17.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.16.0...@esri/hub-common@14.17.0) (2023-09-18)
+
+
+### Features
+
+* **hub-discussions:** adding ability to update the groups of a channel ([#1218](https://github.com/Esri/hub.js/issues/1218)) ([7bc2117](https://github.com/Esri/hub.js/commit/7bc21178be864b38be25e5bb5ec6f37e370af5c6))
+
+# @esri/hub-common [14.16.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.15.0...@esri/hub-common@14.16.0) (2023-09-18)
+
+
+### Features
+
+* Add Initiative and Project Associations ([#1213](https://github.com/Esri/hub.js/issues/1213)) ([7cb0298](https://github.com/Esri/hub.js/commit/7cb0298ab668efd3e1ffaab82946c16a837beb30))
+* item extent now selectable, savable, and reflects in old and new view ([#1212](https://github.com/Esri/hub.js/issues/1212)) ([5dbe3bb](https://github.com/Esri/hub.js/commit/5dbe3bb78bd3e5f6fa66f4ef4ca14c25170eb208))
+
 # @esri/hub-common [14.15.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.14.0...@esri/hub-common@14.15.0) (2023-09-18)
 
 

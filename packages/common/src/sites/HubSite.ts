@@ -11,6 +11,7 @@ import { Catalog } from "../search";
 import { IArcGISContext } from "../ArcGISContext";
 import { HubItemEntity } from "../core/HubItemEntity";
 import { getEditorConfig } from "../core/schemas/getEditorConfig";
+import { enrichEntity } from "../core/enrichEntity";
 import {
   IEditorConfig,
   IWithEditorBehavior,
@@ -46,7 +47,7 @@ import { cloneObject } from "../util";
 import { PropertyMapper } from "../core/_internal/PropertyMapper";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 
-import { IHubSiteEditor, IModel, SettableAccessLevel } from "../index";
+import { IHubSiteEditor, IModel, setProp, SettableAccessLevel } from "../index";
 import { SiteEditorType } from "./_internal/SiteSchema";
 
 /**
@@ -402,15 +403,26 @@ export class HubSite
    * @param editorContext
    * @returns
    */
-  toEditor(editorContext: IEntityEditorContext = {}): IHubSiteEditor {
-    // 1. Cast entity to editor
-    const editor = cloneObject(this.entity) as IHubSiteEditor;
+  async toEditor(
+    editorContext: IEntityEditorContext = {},
+    include: string[] = []
+  ): Promise<IHubSiteEditor> {
+    // 1. optionally enrich entity and cast to editor
+    const editor = include.length
+      ? ((await enrichEntity(
+          cloneObject(this.entity),
+          include,
+          this.context.hubRequestOptions
+        )) as IHubSiteEditor)
+      : (cloneObject(this.entity) as IHubSiteEditor);
 
     // 2. Apply transforms to relevant entity values so they
     // can be consumed by the editor
-    editor._followers = {};
-    editor._followers.showFollowAction =
-      this.entity.features["hub:site:feature:follow"];
+    setProp(
+      "_followers.showFollowAction",
+      this.entity.features["hub:site:feature:follow"],
+      editor
+    );
 
     editor._discussions = this.entity.features["hub:site:feature:discussions"];
 

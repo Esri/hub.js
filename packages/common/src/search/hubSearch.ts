@@ -8,14 +8,13 @@ import {
   IQuery,
 } from "./types";
 import { getApi } from "./_internal/commonHelpers/getApi";
-import {
-  hubSearchItems,
-  portalSearchItems,
-  portalSearchGroups,
-  portalSearchUsers,
-  hubSearchChannels,
-} from "./_internal";
+
 import { portalSearchGroupMembers } from "./_internal/portalSearchGroupMembers";
+import { portalSearchItems } from "./_internal/portalSearchItems";
+import { portalSearchGroups } from "./_internal/portalSearchGroups";
+import { portalSearchUsers } from "./_internal/portalSearchUsers";
+import { hubSearchItems } from "./_internal/hubSearchItems";
+import { hubSearchChannels } from "./_internal/hubSearchChannels";
 
 /**
  * Main entrypoint for searching via Hub

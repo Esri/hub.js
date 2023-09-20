@@ -686,4 +686,71 @@ describe("HubItemEntity Class: ", () => {
       });
     });
   });
+
+  describe("with associations behavior", () => {
+    it("listAssociations delegates", () => {
+      const spy = spyOn(
+        require("../../src/associations/listAssociations"),
+        "listAssociations"
+      ).and.callThrough();
+
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+          isDiscussable: false,
+          typeKeywords: ["initiative|00c", "initiative|00b"],
+        },
+        authdCtxMgr.context
+      );
+      const chk = instance.listAssociations("initiative");
+      expect(chk.length).toBe(2);
+      // no need to check the response, as listAssociations is tested elsewhere
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it("addAssociation delegates", () => {
+      const spy = spyOn(
+        require("../../src/associations/addAssociation"),
+        "addAssociation"
+      ).and.callThrough();
+
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+          isDiscussable: false,
+          typeKeywords: ["initiative|00c", "initiative|00b"],
+        },
+        authdCtxMgr.context
+      );
+      instance.addAssociation({ type: "initiative", id: "00f" });
+      const chk = instance.toJson();
+      expect(chk.typeKeywords.includes("initiative|00f")).toBeTruthy();
+      // no need to check the response, as addAssociations is tested elsewhere
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it("removeAssociation delegates", () => {
+      const spy = spyOn(
+        require("../../src/associations/removeAssociation"),
+        "removeAssociation"
+      ).and.callThrough();
+
+      const instance = new TestHarness(
+        {
+          id: "00c",
+          owner: "deke",
+          isDiscussable: false,
+          typeKeywords: ["initiative|00c", "initiative|00b"],
+        },
+        authdCtxMgr.context
+      );
+      instance.removeAssociation({ type: "initiative", id: "00c" });
+      const chk = instance.toJson();
+      expect(chk.typeKeywords.includes("initiative|00c")).toBeFalsy();
+      // no need to check the response, as addAssociations is tested elsewhere
+      expect(spy).toHaveBeenCalled();
+    });
+  });
 });

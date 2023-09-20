@@ -1,8 +1,6 @@
 import { IHubSearchOptions, IQuery } from "../../src";
 import { hubSearch } from "../../src/search/hubSearch";
 
-import * as SearchFunctionModule from "../../src/search/_internal";
-
 describe("hubSearch Module:", () => {
   describe("hubSearch:", () => {
     describe("guards:", () => {
@@ -95,7 +93,7 @@ describe("hubSearch Module:", () => {
         // we are only interested in verifying that the fn was called with specific args
         // so all the responses are fake
         portalSearchItemsSpy = spyOn(
-          SearchFunctionModule,
+          require("../../src/search/_internal/portalSearchItems"),
           "portalSearchItems"
         ).and.callFake(() => {
           return Promise.resolve({
@@ -105,7 +103,7 @@ describe("hubSearch Module:", () => {
           });
         });
         portalSearchGroupsSpy = spyOn(
-          SearchFunctionModule,
+          require("../../src/search/_internal/portalSearchGroups"),
           "portalSearchGroups"
         ).and.callFake(() => {
           return Promise.resolve({
@@ -115,7 +113,7 @@ describe("hubSearch Module:", () => {
           });
         });
         hubSearchItemsSpy = spyOn(
-          SearchFunctionModule,
+          require("../../src/search/_internal/hubSearchItems"),
           "hubSearchItems"
         ).and.callFake(() => {
           return Promise.resolve({
@@ -125,7 +123,7 @@ describe("hubSearch Module:", () => {
           });
         });
         hubSearchChannelsSpy = spyOn(
-          SearchFunctionModule,
+          require("../../src/search/_internal/hubSearchChannels"),
           "hubSearchChannels"
         ).and.callFake(() => {
           return Promise.resolve({

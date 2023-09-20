@@ -8,6 +8,7 @@ import {
 } from "../traits";
 import { IHubLocation } from "./IHubLocation";
 import { IWithFollowers } from "../traits/IWithFollowers";
+import { IWithAssociations } from "../traits/IWithAssociations";
 
 /**
  * Properties exposed by Entities that are backed by Items
@@ -16,7 +17,8 @@ export interface IHubItemEntity
   extends IHubEntityBase,
     IWithPermissions,
     IWithDiscussions,
-    IWithFollowers {
+    IWithFollowers,
+    IWithAssociations {
   /**
    * Access level of the item ("private" | "org" | "public")
    */
@@ -132,6 +134,9 @@ export interface IHubItemEntity
 }
 
 export type IHubItemEntityEditor<T> = Omit<T, "extent"> & {
+  view: {
+    featuredImage?: any;
+  };
   /**
    * Thumbnail image. This is only used on the Editor and is
    * persisted in the fromEditor method on the Class

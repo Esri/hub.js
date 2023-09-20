@@ -12,6 +12,8 @@ import { IQuery } from "../types/IHubCatalog";
  */
 
 export const combineQueries = (queries: IQuery[]): IQuery => {
+  // remove any entries that are null or undefined
+  queries = queries.filter((e) => e);
   // check tht all queries are for the same entity type
   const targetEntity = queries[0].targetEntity;
   if (queries.some((q) => q.targetEntity !== targetEntity)) {

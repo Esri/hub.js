@@ -122,10 +122,14 @@ export async function updateContent(
   // but this is where we would apply that sort of logic
   const modelToUpdate = mapper.entityToStore(content, model);
 
-  // prevent map from displaying when boundary is 'none'
-  const locationType = getProp(modelToUpdate, "item.properties.location.type");
-  modelToUpdate.item.properties.boundary =
-    locationType === "none" ? "none" : "item";
+  // TODO: if we have resources disconnect them from the model for now.
+  // if (modelToUpdate.resources) {
+  //   resources = configureBaseResources(
+  //     cloneObject(modelToUpdate.resources),
+  //     EntityResourceMap
+  //   );
+  //   delete modelToUpdate.resources;
+  // }
 
   // update the backing item
   const updatedModel = await updateModel(modelToUpdate, requestOptions);

@@ -58,9 +58,15 @@ export class EntityEditor {
     return this.instance.getEditorConfig(i18nScope, type);
   }
 
-  toEditor(editorContext: IEntityEditorContext = {}): HubEntityEditor {
+  toEditor(
+    editorContext: IEntityEditorContext = {},
+    include: string[] = []
+  ): HubEntityEditor {
     // This is ugly but it's the only way to get the type to be correct
-    return this.instance.toEditor(editorContext) as unknown as HubEntityEditor;
+    return this.instance.toEditor(
+      editorContext,
+      include
+    ) as unknown as HubEntityEditor;
   }
 
   async save(editor: HubEntityEditor): Promise<HubEntity> {
