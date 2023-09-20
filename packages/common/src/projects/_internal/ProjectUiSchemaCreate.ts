@@ -131,7 +131,7 @@ export const buildUiSchema = async (
                 options: {
                   control: "arcgis-hub-access-level-controls",
                   orgName: context.portal.name,
-                  itemType: `{{${i18nScope}.fields.access.itemType:translate}`,
+                  itemType: `{{${i18nScope}.fields.access.itemType:translate}}`,
                 },
               },
               {
