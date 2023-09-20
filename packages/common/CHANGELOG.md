@@ -1,3 +1,10 @@
+## @esri/hub-common [14.19.1](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.19.0...@esri/hub-common@14.19.1) (2023-09-20)
+
+
+### Bug Fixes
+
+* **hub-common:** re-adds the discussion permissions to validPermissions array ([#1223](https://github.com/Esri/hub.js/issues/1223)) ([9db7245](https://github.com/Esri/hub.js/commit/9db7245fcfdc78db2700ae21a491e6b91b9e85a2))
+
 # @esri/hub-common [14.19.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.18.0...@esri/hub-common@14.19.0) (2023-09-19)
 
 
