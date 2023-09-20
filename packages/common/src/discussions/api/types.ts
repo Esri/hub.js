@@ -87,6 +87,7 @@ export enum PostStatus {
   REJECTED = "rejected",
   DELETED = "deleted",
   HIDDEN = "hidden",
+  BLOCKED = "blocked",
 }
 
 /**
