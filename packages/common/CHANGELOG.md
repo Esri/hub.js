@@ -1,3 +1,15 @@
+# @esri/hub-common [14.20.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.19.2...@esri/hub-common@14.20.0) (2023-09-21)
+
+
+### Bug Fixes
+
+* auto-populating groups in project creation ([#1225](https://github.com/Esri/hub.js/issues/1225)) ([0b9465f](https://github.com/Esri/hub.js/commit/0b9465ff73f6f0e9c0cdbb5f3e06d8a06b47d74f))
+
+
+### Features
+
+* **hub-common:** add blocked as a possible PostStatus ([#1222](https://github.com/Esri/hub.js/issues/1222)) ([11c8a58](https://github.com/Esri/hub.js/commit/11c8a589569036baa68f9722c503092f3c7e42ec))
+
 ## @esri/hub-common [14.19.2](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.19.1...@esri/hub-common@14.19.2) (2023-09-20)
 
 
