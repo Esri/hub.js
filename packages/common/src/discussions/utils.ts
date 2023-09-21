@@ -145,24 +145,18 @@ export function getChannelGroupIds(channel: IChannel): string[] {
 }
 
 /**
- * A utility method used to search for users that are permitted to be at-mentioned by the currently authenticated user
- * for the given channel.
- * @param data An object of query-related values
- * @param data.users An array of strings to search for. Each string is mapped to `username` and `fullname`, filters as an OR condition
- * @param data.channel An IChannel record
- * @param data.currentUsername The currently authenticated user's username
+ * A utility method used to build an IQuery to search for users that are permitted to be at-mentioned for the given channel.
+ * @param input An array of strings to search for. Each string is mapped to `username` and `fullname`, filters as an OR condition
+ * @param channel An IChannel record
+ * @param currentUsername The currently authenticated user's username
  * @param options An IHubSearchOptions object
  * @returns a promise that resolves an IHubSearchResponse<IHubSearchResult>
  */
-export function searchChannelUsers(
-  data: {
-    users: string[];
-    channel: IChannel;
-    currentUsername?: string;
-  },
-  options: IHubSearchOptions
-): Promise<IHubSearchResponse<IHubSearchResult>> {
-  const { users, currentUsername, channel } = data;
+export function getChannelUsersQuery(
+  inputs: string[],
+  channel: IChannel,
+  currentUsername?: string
+): IQuery {
   const groupIds = getChannelGroupIds(channel);
   const orgIds = getChannelOrgIds(channel);
   const groupsPredicate = { group: groupIds };
@@ -175,13 +169,11 @@ export function searchChannelUsers(
       },
     ];
   } else if (isOrgChannel(channel)) {
+    const additional = groupIds.length ? [groupsPredicate] : [];
     filters = [
       {
         operation: "OR",
-        predicates: [
-          { orgid: orgIds },
-          groupIds.length ? groupsPredicate : null,
-        ],
+        predicates: [{ orgid: orgIds }, ...additional],
       },
     ];
   } else {
@@ -203,13 +195,13 @@ export function searchChannelUsers(
     filters: [
       {
         operation: "OR",
-        predicates: users.reduce<IPredicate[]>(
-          (acc, user) => [...acc, { username: user }, { fullname: user }],
+        predicates: inputs.reduce<IPredicate[]>(
+          (acc, input) => [...acc, { username: input }, { fullname: input }],
           []
         ),
       },
       ...filters,
     ],
   };
-  return hubSearch(query, options);
+  return query;
 }

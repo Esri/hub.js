@@ -2,7 +2,7 @@ import {
   CANNOT_DISCUSS,
   isDiscussable,
   setDiscussableKeyword,
-  searchChannelUsers,
+  getChannelUsersQuery,
   SharingAccess,
   isPublicChannel,
   isOrgChannel,
@@ -14,7 +14,6 @@ import {
   AclCategory,
   AclSubCategory,
 } from "../../src";
-import * as hubSearchModule from "../../src/search";
 
 describe("discussions utils", () => {
   describe("isDiscussable", () => {
@@ -210,474 +209,362 @@ describe("discussions utils", () => {
       ).toEqual(["31c"]);
     });
   });
-  describe("searchChannelUsers", () => {
-    const results: hubSearchModule.IHubSearchResponse<hubSearchModule.IHubSearchResult> =
-      {
-        total: 0,
-        results: [],
-        hasNext: false,
-        next: () => Promise.resolve(results),
-      };
-    const searchOptions: hubSearchModule.IHubSearchOptions = {
-      num: 10,
-      start: 1,
-      sortField: "fullName",
-      sortOrder: "desc",
-      requestOptions: { isPortal: false },
-    };
-    let hubSearchSpy: jasmine.Spy;
-
-    beforeEach(() => {
-      hubSearchSpy = spyOn(hubSearchModule, "hubSearch").and.returnValue(
-        Promise.resolve(results)
-      );
-    });
-
-    afterEach(() => {
-      hubSearchSpy.calls.reset();
-    });
-
+  describe("getChannelUsersQuery", () => {
     describe("legacy permissions", () => {
-      it("should search for users for a private channel", async () => {
-        const res = await searchChannelUsers(
+      it("should return a query for users in a private channel", () => {
+        const res = getChannelUsersQuery(
+          ["user1", "user2"],
           {
-            users: ["user1", "user2"],
-            channel: {
-              access: SharingAccess.PRIVATE,
-              orgs: ["org1", "org2"],
-              groups: ["group1", "group2"],
-            } as IChannel,
-            currentUsername: "currentUser",
-          },
-          searchOptions
+            access: SharingAccess.PRIVATE,
+            orgs: ["org1", "org2"],
+            groups: ["group1", "group2"],
+          } as IChannel,
+          "currentUser"
         );
-        expect(hubSearchSpy).toHaveBeenCalledTimes(1);
-        expect(hubSearchSpy).toHaveBeenCalledWith(
-          {
-            targetEntity: "communityUser",
-            filters: [
-              {
-                operation: "OR",
-                predicates: [
-                  { username: "user1" },
-                  { fullname: "user1" },
-                  { username: "user2" },
-                  { fullname: "user2" },
-                ],
-              },
-              {
-                operation: "AND",
-                predicates: [{ group: ["group1", "group2"] }],
-              },
-              {
-                operation: "AND",
-                predicates: [{ username: { not: "currentUser" } }],
-              },
-            ],
-          },
-          searchOptions
-        );
-        expect(res).toEqual(results);
+        expect(res).toEqual({
+          targetEntity: "communityUser",
+          filters: [
+            {
+              operation: "OR",
+              predicates: [
+                { username: "user1" },
+                { fullname: "user1" },
+                { username: "user2" },
+                { fullname: "user2" },
+              ],
+            },
+            {
+              operation: "AND",
+              predicates: [{ group: ["group1", "group2"] }],
+            },
+            {
+              operation: "AND",
+              predicates: [{ username: { not: "currentUser" } }],
+            },
+          ],
+        });
       });
-      it("should search for users for an org-only channel", async () => {
-        const res = await searchChannelUsers(
+      it("should return a query for users in an org-only channel", () => {
+        const res = getChannelUsersQuery(
+          ["user1", "user2"],
           {
-            users: ["user1", "user2"],
-            channel: {
-              access: SharingAccess.ORG,
-              orgs: ["org1", "org2"],
-              groups: [] as string[],
-            } as IChannel,
-            currentUsername: "currentUser",
-          },
-          searchOptions
+            access: SharingAccess.ORG,
+            orgs: ["org1", "org2"],
+            groups: [] as string[],
+          } as IChannel,
+          "currentUser"
         );
-        expect(hubSearchSpy).toHaveBeenCalledTimes(1);
-        expect(hubSearchSpy).toHaveBeenCalledWith(
-          {
-            targetEntity: "communityUser",
-            filters: [
-              {
-                operation: "OR",
-                predicates: [
-                  { username: "user1" },
-                  { fullname: "user1" },
-                  { username: "user2" },
-                  { fullname: "user2" },
-                ],
-              },
-              {
-                operation: "OR",
-                predicates: [{ orgid: ["org1", "org2"] }, null],
-              },
-              {
-                operation: "AND",
-                predicates: [{ username: { not: "currentUser" } }],
-              },
-            ],
-          },
-          searchOptions
-        );
-        expect(res).toEqual(results);
+        expect(res).toEqual({
+          targetEntity: "communityUser",
+          filters: [
+            {
+              operation: "OR",
+              predicates: [
+                { username: "user1" },
+                { fullname: "user1" },
+                { username: "user2" },
+                { fullname: "user2" },
+              ],
+            },
+            {
+              operation: "OR",
+              predicates: [{ orgid: ["org1", "org2"] }],
+            },
+            {
+              operation: "AND",
+              predicates: [{ username: { not: "currentUser" } }],
+            },
+          ],
+        });
       });
-      it("should search for users for an org channel with groups", async () => {
-        const res = await searchChannelUsers(
+      it("should return a query for users in an org channel with groups", () => {
+        const res = getChannelUsersQuery(
+          ["user1", "user2"],
           {
-            users: ["user1", "user2"],
-            channel: {
-              access: SharingAccess.ORG,
-              orgs: ["org1", "org2"],
-              groups: ["group1", "group2"],
-            } as IChannel,
-            currentUsername: "currentUser",
-          },
-          searchOptions
+            access: SharingAccess.ORG,
+            orgs: ["org1", "org2"],
+            groups: ["group1", "group2"],
+          } as IChannel,
+          "currentUser"
         );
-        expect(hubSearchSpy).toHaveBeenCalledTimes(1);
-        expect(hubSearchSpy).toHaveBeenCalledWith(
-          {
-            targetEntity: "communityUser",
-            filters: [
-              {
-                operation: "OR",
-                predicates: [
-                  { username: "user1" },
-                  { fullname: "user1" },
-                  { username: "user2" },
-                  { fullname: "user2" },
-                ],
-              },
-              {
-                operation: "OR",
-                predicates: [
-                  { orgid: ["org1", "org2"] },
-                  { group: ["group1", "group2"] },
-                ],
-              },
-              {
-                operation: "AND",
-                predicates: [{ username: { not: "currentUser" } }],
-              },
-            ],
-          },
-          searchOptions
-        );
-        expect(res).toEqual(results);
+        expect(res).toEqual({
+          targetEntity: "communityUser",
+          filters: [
+            {
+              operation: "OR",
+              predicates: [
+                { username: "user1" },
+                { fullname: "user1" },
+                { username: "user2" },
+                { fullname: "user2" },
+              ],
+            },
+            {
+              operation: "OR",
+              predicates: [
+                { orgid: ["org1", "org2"] },
+                { group: ["group1", "group2"] },
+              ],
+            },
+            {
+              operation: "AND",
+              predicates: [{ username: { not: "currentUser" } }],
+            },
+          ],
+        });
       });
-      it("should search for users for an public channel", async () => {
-        const res = await searchChannelUsers(
+      it("should return a query for users in a public channel", () => {
+        const res = getChannelUsersQuery(
+          ["user1", "user2"],
           {
-            users: ["user1", "user2"],
-            channel: {
-              access: SharingAccess.PUBLIC,
-              orgs: ["org1", "org2"],
-              groups: [] as string[],
-            } as IChannel,
-            currentUsername: "currentUser",
-          },
-          searchOptions
+            access: SharingAccess.PUBLIC,
+            orgs: ["org1", "org2"],
+            groups: [] as string[],
+          } as IChannel,
+          "currentUser"
         );
-        expect(hubSearchSpy).toHaveBeenCalledTimes(1);
-        expect(hubSearchSpy).toHaveBeenCalledWith(
-          {
-            targetEntity: "communityUser",
-            filters: [
-              {
-                operation: "OR",
-                predicates: [
-                  { username: "user1" },
-                  { fullname: "user1" },
-                  { username: "user2" },
-                  { fullname: "user2" },
-                ],
-              },
-              {
-                operation: "OR",
-                predicates: [{ orgid: { from: "0", to: "{" } }],
-              },
-              {
-                operation: "AND",
-                predicates: [{ username: { not: "currentUser" } }],
-              },
-            ],
-          },
-          searchOptions
-        );
-        expect(res).toEqual(results);
+        expect(res).toEqual({
+          targetEntity: "communityUser",
+          filters: [
+            {
+              operation: "OR",
+              predicates: [
+                { username: "user1" },
+                { fullname: "user1" },
+                { username: "user2" },
+                { fullname: "user2" },
+              ],
+            },
+            {
+              operation: "OR",
+              predicates: [{ orgid: { from: "0", to: "{" } }],
+            },
+            {
+              operation: "AND",
+              predicates: [{ username: { not: "currentUser" } }],
+            },
+          ],
+        });
       });
-      it("should search for users and not filter out the authenticated user", async () => {
-        const res = await searchChannelUsers(
-          {
-            users: ["user1", "user2"],
-            channel: {
-              access: SharingAccess.PUBLIC,
-              orgs: ["org1", "org2"],
-              groups: ["group1", "group2"],
-            } as IChannel,
-          },
-          searchOptions
-        );
-        expect(hubSearchSpy).toHaveBeenCalledTimes(1);
-        expect(hubSearchSpy).toHaveBeenCalledWith(
-          {
-            targetEntity: "communityUser",
-            filters: [
-              {
-                operation: "OR",
-                predicates: [
-                  { username: "user1" },
-                  { fullname: "user1" },
-                  { username: "user2" },
-                  { fullname: "user2" },
-                ],
-              },
-              {
-                operation: "OR",
-                predicates: [{ orgid: { from: "0", to: "{" } }],
-              },
-            ],
-          },
-          searchOptions
-        );
-        expect(res).toEqual(results);
+      it("should not filter out the authenticated user", () => {
+        const res = getChannelUsersQuery(["user1", "user2"], {
+          access: SharingAccess.PUBLIC,
+          orgs: ["org1", "org2"],
+          groups: ["group1", "group2"],
+        } as IChannel);
+        expect(res).toEqual({
+          targetEntity: "communityUser",
+          filters: [
+            {
+              operation: "OR",
+              predicates: [
+                { username: "user1" },
+                { fullname: "user1" },
+                { username: "user2" },
+                { fullname: "user2" },
+              ],
+            },
+            {
+              operation: "OR",
+              predicates: [{ orgid: { from: "0", to: "{" } }],
+            },
+          ],
+        });
       });
     });
     describe("acl", () => {
-      it("should search for users for a private channel", async () => {
-        const res = await searchChannelUsers(
+      it("should return a query for users in a private channel", () => {
+        const res = getChannelUsersQuery(
+          ["user1", "user2"],
           {
-            users: ["user1", "user2"],
-            channel: {
-              channelAcl: [
-                {
-                  category: AclCategory.GROUP,
-                  subCategory: AclSubCategory.MEMBER,
-                  key: "group1",
-                },
-                {
-                  category: AclCategory.GROUP,
-                  subCategory: AclSubCategory.MEMBER,
-                  key: "group2",
-                },
+            channelAcl: [
+              {
+                category: AclCategory.GROUP,
+                subCategory: AclSubCategory.MEMBER,
+                key: "group1",
+              },
+              {
+                category: AclCategory.GROUP,
+                subCategory: AclSubCategory.MEMBER,
+                key: "group2",
+              },
+            ],
+          } as IChannel,
+          "currentUser"
+        );
+        expect(res).toEqual({
+          targetEntity: "communityUser",
+          filters: [
+            {
+              operation: "OR",
+              predicates: [
+                { username: "user1" },
+                { fullname: "user1" },
+                { username: "user2" },
+                { fullname: "user2" },
               ],
-            } as IChannel,
-            currentUsername: "currentUser",
-          },
-          searchOptions
-        );
-        expect(hubSearchSpy).toHaveBeenCalledTimes(1);
-        expect(hubSearchSpy).toHaveBeenCalledWith(
+            },
+            {
+              operation: "AND",
+              predicates: [{ group: ["group1", "group2"] }],
+            },
+            {
+              operation: "AND",
+              predicates: [{ username: { not: "currentUser" } }],
+            },
+          ],
+        });
+      });
+      it("should return a query for users in an org-only channel", () => {
+        const res = getChannelUsersQuery(
+          ["user1", "user2"],
           {
-            targetEntity: "communityUser",
-            filters: [
+            channelAcl: [
               {
-                operation: "OR",
-                predicates: [
-                  { username: "user1" },
-                  { fullname: "user1" },
-                  { username: "user2" },
-                  { fullname: "user2" },
-                ],
+                category: AclCategory.ORG,
+                subCategory: AclSubCategory.MEMBER,
+                key: "org1",
               },
               {
-                operation: "AND",
-                predicates: [{ group: ["group1", "group2"] }],
-              },
-              {
-                operation: "AND",
-                predicates: [{ username: { not: "currentUser" } }],
+                category: AclCategory.ORG,
+                subCategory: AclSubCategory.MEMBER,
+                key: "org2",
               },
             ],
-          },
-          searchOptions
+          } as IChannel,
+          "currentUser"
         );
-        expect(res).toEqual(results);
-      });
-      it("should search for users for an org-only channel", async () => {
-        const res = await searchChannelUsers(
-          {
-            users: ["user1", "user2"],
-            channel: {
-              channelAcl: [
-                {
-                  category: AclCategory.ORG,
-                  subCategory: AclSubCategory.MEMBER,
-                  key: "org1",
-                },
-                {
-                  category: AclCategory.ORG,
-                  subCategory: AclSubCategory.MEMBER,
-                  key: "org2",
-                },
+        expect(res).toEqual({
+          targetEntity: "communityUser",
+          filters: [
+            {
+              operation: "OR",
+              predicates: [
+                { username: "user1" },
+                { fullname: "user1" },
+                { username: "user2" },
+                { fullname: "user2" },
               ],
-            } as IChannel,
-            currentUsername: "currentUser",
-          },
-          searchOptions
-        );
-        expect(hubSearchSpy).toHaveBeenCalledTimes(1);
-        expect(hubSearchSpy).toHaveBeenCalledWith(
+            },
+            {
+              operation: "OR",
+              predicates: [{ orgid: ["org1", "org2"] }],
+            },
+            {
+              operation: "AND",
+              predicates: [{ username: { not: "currentUser" } }],
+            },
+          ],
+        });
+      });
+      it("should return a query for users in an org channel with groups", () => {
+        const res = getChannelUsersQuery(
+          ["user1", "user2"],
           {
-            targetEntity: "communityUser",
-            filters: [
+            channelAcl: [
               {
-                operation: "OR",
-                predicates: [
-                  { username: "user1" },
-                  { fullname: "user1" },
-                  { username: "user2" },
-                  { fullname: "user2" },
-                ],
+                category: AclCategory.ORG,
+                subCategory: AclSubCategory.MEMBER,
+                key: "org1",
               },
               {
-                operation: "OR",
-                predicates: [{ orgid: ["org1", "org2"] }, null],
+                category: AclCategory.ORG,
+                subCategory: AclSubCategory.MEMBER,
+                key: "org2",
               },
               {
-                operation: "AND",
-                predicates: [{ username: { not: "currentUser" } }],
+                category: AclCategory.GROUP,
+                subCategory: AclSubCategory.MEMBER,
+                key: "group1",
+              },
+              {
+                category: AclCategory.GROUP,
+                subCategory: AclSubCategory.MEMBER,
+                key: "group2",
               },
             ],
-          },
-          searchOptions
+          } as IChannel,
+          "currentUser"
         );
-        expect(res).toEqual(results);
-      });
-      it("should search for users for an org channel with groups", async () => {
-        const res = await searchChannelUsers(
-          {
-            users: ["user1", "user2"],
-            channel: {
-              channelAcl: [
-                {
-                  category: AclCategory.ORG,
-                  subCategory: AclSubCategory.MEMBER,
-                  key: "org1",
-                },
-                {
-                  category: AclCategory.ORG,
-                  subCategory: AclSubCategory.MEMBER,
-                  key: "org2",
-                },
-                {
-                  category: AclCategory.GROUP,
-                  subCategory: AclSubCategory.MEMBER,
-                  key: "group1",
-                },
-                {
-                  category: AclCategory.GROUP,
-                  subCategory: AclSubCategory.MEMBER,
-                  key: "group2",
-                },
+        expect(res).toEqual({
+          targetEntity: "communityUser",
+          filters: [
+            {
+              operation: "OR",
+              predicates: [
+                { username: "user1" },
+                { fullname: "user1" },
+                { username: "user2" },
+                { fullname: "user2" },
               ],
-            } as IChannel,
-            currentUsername: "currentUser",
-          },
-          searchOptions
-        );
-        expect(hubSearchSpy).toHaveBeenCalledTimes(1);
-        expect(hubSearchSpy).toHaveBeenCalledWith(
-          {
-            targetEntity: "communityUser",
-            filters: [
-              {
-                operation: "OR",
-                predicates: [
-                  { username: "user1" },
-                  { fullname: "user1" },
-                  { username: "user2" },
-                  { fullname: "user2" },
-                ],
-              },
-              {
-                operation: "OR",
-                predicates: [
-                  { orgid: ["org1", "org2"] },
-                  { group: ["group1", "group2"] },
-                ],
-              },
-              {
-                operation: "AND",
-                predicates: [{ username: { not: "currentUser" } }],
-              },
-            ],
-          },
-          searchOptions
-        );
-        expect(res).toEqual(results);
+            },
+            {
+              operation: "OR",
+              predicates: [
+                { orgid: ["org1", "org2"] },
+                { group: ["group1", "group2"] },
+              ],
+            },
+            {
+              operation: "AND",
+              predicates: [{ username: { not: "currentUser" } }],
+            },
+          ],
+        });
       });
-      it("should search for users for an public channel", async () => {
-        const res = await searchChannelUsers(
+      it("should return a query for users in a public channel", () => {
+        const res = getChannelUsersQuery(
+          ["user1", "user2"],
           {
-            users: ["user1", "user2"],
-            channel: {
-              channelAcl: [{ category: AclCategory.AUTHENTICATED_USER }],
-            } as IChannel,
-            currentUsername: "currentUser",
-          },
-          searchOptions
+            channelAcl: [{ category: AclCategory.AUTHENTICATED_USER }],
+          } as IChannel,
+          "currentUser"
         );
-        expect(hubSearchSpy).toHaveBeenCalledTimes(1);
-        expect(hubSearchSpy).toHaveBeenCalledWith(
-          {
-            targetEntity: "communityUser",
-            filters: [
-              {
-                operation: "OR",
-                predicates: [
-                  { username: "user1" },
-                  { fullname: "user1" },
-                  { username: "user2" },
-                  { fullname: "user2" },
-                ],
-              },
-              {
-                operation: "OR",
-                predicates: [{ orgid: { from: "0", to: "{" } }],
-              },
-              {
-                operation: "AND",
-                predicates: [{ username: { not: "currentUser" } }],
-              },
-            ],
-          },
-          searchOptions
-        );
-        expect(res).toEqual(results);
+        expect(res).toEqual({
+          targetEntity: "communityUser",
+          filters: [
+            {
+              operation: "OR",
+              predicates: [
+                { username: "user1" },
+                { fullname: "user1" },
+                { username: "user2" },
+                { fullname: "user2" },
+              ],
+            },
+            {
+              operation: "OR",
+              predicates: [{ orgid: { from: "0", to: "{" } }],
+            },
+            {
+              operation: "AND",
+              predicates: [{ username: { not: "currentUser" } }],
+            },
+          ],
+        });
       });
-      it("should search for users and not filter out the authenticated user", async () => {
-        const res = await searchChannelUsers(
-          {
-            users: ["user1", "user2"],
-            channel: {
-              channelAcl: [{ category: AclCategory.AUTHENTICATED_USER }],
-            } as IChannel,
-          },
-          searchOptions
-        );
-        expect(hubSearchSpy).toHaveBeenCalledTimes(1);
-        expect(hubSearchSpy).toHaveBeenCalledWith(
-          {
-            targetEntity: "communityUser",
-            filters: [
-              {
-                operation: "OR",
-                predicates: [
-                  { username: "user1" },
-                  { fullname: "user1" },
-                  { username: "user2" },
-                  { fullname: "user2" },
-                ],
-              },
-              {
-                operation: "OR",
-                predicates: [{ orgid: { from: "0", to: "{" } }],
-              },
-            ],
-          },
-          searchOptions
-        );
-        expect(res).toEqual(results);
+      it("should not filter out the authenticated user", () => {
+        const res = getChannelUsersQuery(["user1", "user2"], {
+          channelAcl: [{ category: AclCategory.AUTHENTICATED_USER }],
+        } as IChannel);
+        expect(res).toEqual({
+          targetEntity: "communityUser",
+          filters: [
+            {
+              operation: "OR",
+              predicates: [
+                { username: "user1" },
+                { fullname: "user1" },
+                { username: "user2" },
+                { fullname: "user2" },
+              ],
+            },
+            {
+              operation: "OR",
+              predicates: [{ orgid: { from: "0", to: "{" } }],
+            },
+          ],
+        });
       });
     });
   });
