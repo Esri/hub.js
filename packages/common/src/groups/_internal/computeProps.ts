@@ -27,11 +27,12 @@ export function computeProps(
     token = session.token;
   }
   // thumbnail url
-  hubGroup.thumbnailUrl = getGroupThumbnailUrl(
+  const thumbnailUrl = getGroupThumbnailUrl(
     requestOptions.portal,
     group,
     token
   );
+  hubGroup.thumbnailUrl = thumbnailUrl;
 
   // Handle Dates
   hubGroup.createdDate = new Date(group.created);
@@ -68,7 +69,7 @@ export function computeProps(
     self: getGroupHomeUrl(group.id, requestOptions),
     siteRelative: `/teams/${group.id}`,
     workspaceRelative: getRelativeWorkspaceUrl("Group", group.id),
-    thumbnail: getGroupThumbnailUrl(requestOptions.portal, group),
+    thumbnail: thumbnailUrl,
   };
   // cast b/c this takes a partial but returns a full group
   return hubGroup as IHubGroup;
