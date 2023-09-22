@@ -31,6 +31,7 @@ export function computeProps(
   }
   // thumbnail url
   const thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
+  // TODO: Remove this once opendata-ui starts using `links.thumbnail` instead
   initiative.thumbnailUrl = thumbnailUrl;
 
   // Handle Dates

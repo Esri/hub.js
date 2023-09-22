@@ -32,6 +32,7 @@ export function computeProps(
     group,
     token
   );
+  // TODO: Remove this once opendata-ui starts using `links.thumbnail` instead
   hubGroup.thumbnailUrl = thumbnailUrl;
 
   // Handle Dates
