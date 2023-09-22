@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <meta name="date" content="2023-09-21T18:52:41.425Z">
+    <meta name="date" content="2023-09-22T01:55:35.912Z">
     <title>@esri/hub.js</title>
     
     <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css">
@@ -73,7 +73,7 @@
               <path d="M7 4h5l12 12-12 12H7l12-12L7 4z" />
             </svg>
           </button>
-          <a href="/hub.js/api/common/" class="tsd-kind-icon">common</a>&nbsp;<small>v14.19.2</small>
+          <a href="/hub.js/api/common/" class="tsd-kind-icon">common</a>&nbsp;<small>v14.20.0</small>
           <ul id="list1" class="api-package-content-list">
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -753,6 +753,22 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/getChannelAccess/" class="tsd-kind-icon padding-right-1">getChannelAccess</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/getChannelGroupIds/" class="tsd-kind-icon padding-right-1">getChannelGroupIds</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/getChannelOrgIds/" class="tsd-kind-icon padding-right-1">getChannelOrgIds</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/getChannelUsersQuery/" class="tsd-kind-icon padding-right-1">getChannelUsersQuery</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/getContentEditUrl/" class="tsd-kind-icon padding-right-1">getContentEditUrl</a>
             </li>
             
@@ -1253,7 +1269,19 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/isOrgChannel/" class="tsd-kind-icon padding-right-1">isOrgChannel</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/hub.js/api/common/isPermission/" class="tsd-kind-icon padding-right-1">isPermission</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/isPrivateChannel/" class="tsd-kind-icon padding-right-1">isPrivateChannel</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/hub.js/api/common/isPublicChannel/" class="tsd-kind-icon padding-right-1">isPublicChannel</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -4606,7 +4634,7 @@
   
   
   
-  <small class="label right">Version 14.19.2</small>
+  <small class="label right">Version 14.20.0</small>
 <h1 class=" font-size-3 trailer-half code-face">
   <a href="/hub.js/api/common/">@esri/hub-common</a>
 </h1>
@@ -4785,6 +4813,10 @@
   getCardModelUrlFromResult,
   getCategory,
   getCategoryItems,
+  getChannelAccess,
+  getChannelGroupIds,
+  getChannelOrgIds,
+  getChannelUsersQuery,
   getContentEditUrl,
   getContentIdentifier,
   getContentTypeIcon,
@@ -4910,7 +4942,10 @@
   isHubService,
   isMapOrFeatureServerUrl,
   isNil,
+  isOrgChannel,
   isPermission,
+  isPrivateChannel,
+  isPublicChannel,
   isSafeRedirectUrl,
   isService,
   isServicesDirectoryDisabled,
@@ -5725,6 +5760,22 @@
   </li>
   
   <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/getChannelAccess/" class="tsd-kind-icon">getChannelAccess</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/getChannelGroupIds/" class="tsd-kind-icon">getChannelGroupIds</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/getChannelOrgIds/" class="tsd-kind-icon">getChannelOrgIds</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/getChannelUsersQuery/" class="tsd-kind-icon">getChannelUsersQuery</a>
+  </li>
+  
+  <li class="tsd-kind-function">
     <a href="/hub.js/api/common/getContentEditUrl/" class="tsd-kind-icon">getContentEditUrl</a>
   </li>
   
@@ -6225,7 +6276,19 @@
   </li>
   
   <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/isOrgChannel/" class="tsd-kind-icon">isOrgChannel</a>
+  </li>
+  
+  <li class="tsd-kind-function">
     <a href="/hub.js/api/common/isPermission/" class="tsd-kind-icon">isPermission</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/isPrivateChannel/" class="tsd-kind-icon">isPrivateChannel</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/hub.js/api/common/isPublicChannel/" class="tsd-kind-icon">isPublicChannel</a>
   </li>
   
   <li class="tsd-kind-function">
@@ -8565,7 +8628,7 @@
   </li>
   
 </ul>
-  <small>v14.19.2</small>
+  <small>v14.20.0</small>
 
   
   <hr>
@@ -8802,7 +8865,7 @@
 </h1>
 <p class="font-size--1 trailer-1 avenir-regular">Service for Hub downloads</p>
 <h2 class="font-size-0 trailer-quarter">npm install:</h2>
-<pre><code>npm install @esri/hub-downloads @esri/arcgis-rest-auth@^3.1.0  @esri/arcgis-rest-feature-layer@^3.1.0  @esri/arcgis-rest-portal@^3.5.0  @esri/arcgis-rest-request@^3.1.0  @esri/hub-common@^14.0.0 </code></pre>
+<pre><code>npm install @esri/hub-downloads @esri/arcgis-rest-auth@^3.1.0  @esri/arcgis-rest-feature-layer@^3.1.0  @esri/arcgis-rest-portal@^3.7.0  @esri/arcgis-rest-request@^3.1.0  @esri/hub-common@^14.0.0 </code></pre>
 <h2 class="font-size-0 trailer-quarter">Module Import:</h2>
 
 <pre><code class="js"><span class="hljs-keyword">import</span> {
