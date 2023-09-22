@@ -1,3 +1,10 @@
+# @esri/hub-common [14.21.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.20.0...@esri/hub-common@14.21.0) (2023-09-22)
+
+
+### Features
+
+* adds getChannelUsersQuery method, bumps to @esri/arcgis-rest-port… ([#1210](https://github.com/Esri/hub.js/issues/1210)) ([320d6d8](https://github.com/Esri/hub.js/commit/320d6d8e4b336955df1d55373b216de3238952b6))
+
 # @esri/hub-common [14.20.0](https://github.com/Esri/hub.js/compare/@esri/hub-common@14.19.2...@esri/hub-common@14.20.0) (2023-09-21)
 
 
