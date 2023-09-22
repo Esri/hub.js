@@ -7,6 +7,7 @@ import { isDiscussable } from "../../discussions";
 import { getGroupThumbnailUrl } from "../../search/utils";
 import { getRelativeWorkspaceUrl } from "../../core";
 import { getGroupHomeUrl } from "../../urls";
+import { computeLinks } from "./computeLinks";
 
 /**
  * Given a model and a group, set various computed properties that can't be directly mapped
@@ -26,14 +27,13 @@ export function computeProps(
     const session: UserSession = requestOptions.authentication as UserSession;
     token = session.token;
   }
-  // thumbnail url
-  const thumbnailUrl = getGroupThumbnailUrl(
+
+  // TODO: Remove this once opendata-ui starts using `links.thumbnail` instead
+  hubGroup.thumbnailUrl = getGroupThumbnailUrl(
     requestOptions.portal,
     group,
     token
   );
-  // TODO: Remove this once opendata-ui starts using `links.thumbnail` instead
-  hubGroup.thumbnailUrl = thumbnailUrl;
 
   // Handle Dates
   hubGroup.createdDate = new Date(group.created);
@@ -66,12 +66,8 @@ export function computeProps(
     group.userMembership?.memberType === "admin";
   hubGroup.canDelete = hubGroup.canEdit;
 
-  hubGroup.links = {
-    self: getGroupHomeUrl(group.id, requestOptions),
-    siteRelative: `/teams/${group.id}`,
-    workspaceRelative: getRelativeWorkspaceUrl("Group", group.id),
-    thumbnail: thumbnailUrl,
-  };
+  hubGroup.links = computeLinks(group, requestOptions);
+
   // cast b/c this takes a partial but returns a full group
   return hubGroup as IHubGroup;
 }

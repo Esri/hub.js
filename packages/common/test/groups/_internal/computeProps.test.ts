@@ -3,6 +3,7 @@ import { MOCK_AUTH } from "../../mocks/mock-auth";
 import { ArcGISContextManager } from "../../../src/ArcGISContextManager";
 import { computeProps } from "../../../src/groups/_internal/computeProps";
 import { IHubGroup } from "../../../src/core/types/IHubGroup";
+import * as computeLinksModule from "../../../src/groups/_internal/computeLinks";
 
 describe("groups: computeProps:", () => {
   let group: IGroup;
@@ -86,15 +87,18 @@ describe("groups: computeProps:", () => {
           "https://org.maps.arcgis.com/sharing/rest/community/groups/3ef/info/group.jpg"
         );
       });
-      it("computes a links hash for the group", () => {
+      it("generates a links hash", () => {
+        const computeLinksSpy = spyOn(
+          computeLinksModule,
+          "computeLinks"
+        ).and.returnValue({ self: "some-link" });
         const chk = computeProps(
           group,
           hubGroup,
           authdCtxMgr.context.requestOptions
         );
-
-        expect(chk.links?.siteRelative).toBe("/teams/3ef");
-        expect(chk.links?.workspaceRelative).toBe("/workspace/groups/3ef");
+        expect(computeLinksSpy).toHaveBeenCalledTimes(1);
+        expect(chk.links).toEqual({ self: "some-link" });
       });
       it("computes the correct props when no userMembership", () => {
         group = {
