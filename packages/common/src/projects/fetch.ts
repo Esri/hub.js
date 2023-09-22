@@ -18,12 +18,9 @@ import { computeProps } from "./_internal/computeProps";
 import { getPropertyMap } from "./_internal/getPropertyMap";
 import { unique } from "../util";
 import { getProp } from "../objects/get-prop";
-import { getItemThumbnailUrl } from "../resources/get-item-thumbnail-url";
-import { getItemHomeUrl } from "../urls/get-item-home-url";
-import { getItemIdentifier } from "../items";
-import { getRelativeWorkspaceUrl } from "../core/getRelativeWorkspaceUrl";
 import { listAssociations } from "../associations";
 import { getTypeByIdsQuery } from "../associations/internal/getTypeByIdsQuery";
+import { computeLinks } from "./_internal/computeLinks";
 
 /**
  * @private
@@ -125,20 +122,9 @@ export async function enrichProjectSearchResult(
     result[spec.prop] = getProp(enriched, spec.path);
   });
 
-  // Handle links
+  // Add links to search result
   // TODO: Link handling should be an enrichment
-  result.links.thumbnail = getItemThumbnailUrl(item, requestOptions);
-  result.links.self = getItemHomeUrl(result.id, requestOptions);
-  const identifier = getItemIdentifier(item);
-  result.links.siteRelative = getHubRelativeUrl(
-    result.type,
-    identifier,
-    item.typeKeywords
-  );
-  result.links.workspaceRelative = getRelativeWorkspaceUrl(
-    result.type,
-    identifier
-  );
+  result.links = { ...computeLinks(item, requestOptions) };
 
   return result;
 }

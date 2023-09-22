@@ -1,14 +1,12 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { getItemThumbnailUrl } from "../../resources";
-import { IHubProject, getRelativeWorkspaceUrl } from "../../core";
+import { IHubProject } from "../../core";
 import { IModel } from "../../types";
-
 import { isDiscussable } from "../../discussions";
 import { processEntityFeatures } from "../../permissions/_internal/processEntityFeatures";
 import { ProjectDefaultFeatures } from "./ProjectBusinessRules";
-import { getItemHomeUrl } from "../../urls";
-import { getHubRelativeUrl } from "../../content/_internal/internalContentUtils";
+import { computeLinks } from "./computeLinks";
 
 /**
  * Given a model and a project, set various computed properties that can't be directly mapped
@@ -28,10 +26,8 @@ export function computeProps(
     const session: UserSession = requestOptions.authentication as UserSession;
     token = session.token;
   }
-  // thumbnail url
-  const thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
   // TODO: Remove this once opendata-ui starts using `links.thumbnail` instead
-  project.thumbnailUrl = thumbnailUrl;
+  project.thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
 
   // Handle Dates
   project.createdDate = new Date(model.item.created);
@@ -48,15 +44,7 @@ export function computeProps(
     ProjectDefaultFeatures
   );
 
-  project.links = {
-    self: getItemHomeUrl(project.id, requestOptions),
-    siteRelative: getHubRelativeUrl(project.type, project.slug || project.id),
-    workspaceRelative: getRelativeWorkspaceUrl(
-      project.type,
-      project.slug || project.id
-    ),
-    thumbnail: thumbnailUrl,
-  };
+  project.links = computeLinks(model.item, requestOptions);
 
   // cast b/c this takes a partial but returns a full project
   return project as IHubProject;

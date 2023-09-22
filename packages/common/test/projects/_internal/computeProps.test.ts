@@ -5,6 +5,8 @@ import { computeProps } from "../../../src/projects/_internal/computeProps";
 import { IHubProject, IModel } from "../../../src";
 import * as processEntitiesModule from "../../../src/permissions/_internal/processEntityFeatures";
 import { ProjectDefaultFeatures } from "../../../src/projects/_internal/ProjectBusinessRules";
+import * as computeLinksModule from "../../../src/projects/_internal/computeLinks";
+
 describe("projects: computeProps:", () => {
   let authdCtxMgr: ArcGISContextManager;
   let model: IModel;
@@ -96,30 +98,18 @@ describe("projects: computeProps:", () => {
       expect(chk.features?.settings).toBeFalsy();
       expect(spy.calls.argsFor(0)[0]).toEqual({ details: true });
     });
-    describe("links hash", () => {
-      it("generates a links hash using the project's slug", () => {
-        const chk = computeProps(
-          model,
-          project,
-          authdCtxMgr.context.requestOptions
-        );
-
-        expect(chk.links?.siteRelative).toBe("/projects/mock-slug");
-        expect(chk.links?.workspaceRelative).toBe(
-          "/workspace/projects/mock-slug"
-        );
-      });
-      it("generates a links hash using the project's id when no slug is available", () => {
-        project.slug = undefined;
-        const chk = computeProps(
-          model,
-          project,
-          authdCtxMgr.context.requestOptions
-        );
-
-        expect(chk.links?.siteRelative).toBe("/projects/00c");
-        expect(chk.links?.workspaceRelative).toBe("/workspace/projects/00c");
-      });
+    it("generates a links hash", () => {
+      const computeLinksSpy = spyOn(
+        computeLinksModule,
+        "computeLinks"
+      ).and.returnValue({ self: "some-link" });
+      const chk = computeProps(
+        model,
+        project,
+        authdCtxMgr.context.requestOptions
+      );
+      expect(computeLinksSpy).toHaveBeenCalledTimes(1);
+      expect(chk.links).toEqual({ self: "some-link" });
     });
   });
 });
