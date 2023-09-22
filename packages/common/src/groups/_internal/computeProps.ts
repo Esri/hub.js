@@ -5,8 +5,6 @@ import { IHubGroup } from "../../core/types/IHubGroup";
 import { IGroup } from "@esri/arcgis-rest-types";
 import { isDiscussable } from "../../discussions";
 import { getGroupThumbnailUrl } from "../../search/utils";
-import { getRelativeWorkspaceUrl } from "../../core";
-import { getGroupHomeUrl } from "../../urls";
 import { computeLinks } from "./computeLinks";
 
 /**
