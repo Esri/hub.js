@@ -27,8 +27,7 @@ export function computeProps(
     const session: UserSession = requestOptions.authentication as UserSession;
     token = session.token;
   }
-
-  // TODO: Remove this once opendata-ui starts using `links.thumbnail` instead
+  // thumbnail url
   hubGroup.thumbnailUrl = getGroupThumbnailUrl(
     requestOptions.portal,
     group,

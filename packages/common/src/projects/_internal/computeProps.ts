@@ -26,7 +26,7 @@ export function computeProps(
     const session: UserSession = requestOptions.authentication as UserSession;
     token = session.token;
   }
-  // TODO: Remove this once opendata-ui starts using `links.thumbnail` instead
+  // thumbnail url
   project.thumbnailUrl = getItemThumbnailUrl(model.item, requestOptions, token);
 
   // Handle Dates

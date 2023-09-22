@@ -261,7 +261,7 @@ export async function enrichInitiativeSearchResult(
   // TODO: remove once sites are separated from initiatives and
   // the initiatives view route is released
   result.links.siteRelative = getHubRelativeUrl(result.type, result.id);
-  // result.links.siteRelative = ;
+
   return result;
 }
 
