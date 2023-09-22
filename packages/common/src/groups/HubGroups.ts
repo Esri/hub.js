@@ -80,8 +80,7 @@ export async function enrichGroupSearchResult(
     result[spec.prop] = getProp(enriched, spec.path);
   });
 
-  // Add links to search result
-  // TODO: Link handling should be an enrichment
+  // Handle links
   result.links = { ...computeLinks(group, requestOptions) };
 
   return result;

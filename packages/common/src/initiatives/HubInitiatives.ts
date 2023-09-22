@@ -255,7 +255,7 @@ export async function enrichInitiativeSearchResult(
     result[spec.prop] = getProp(enriched, spec.path);
   });
 
-  // Add links to search result
+  // Handle links
   // TODO: Link handling should be an enrichment
   result.links = { ...computeLinks(item, requestOptions) };
   // TODO: remove once sites are separated from initiatives and
